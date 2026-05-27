@@ -25,10 +25,10 @@ android {
 
     signingConfigs {
         create("release") {
-            storeFile = file("${rootProject.projectDir}/keystore/nebians-release.jks")
-            storePassword = "nebians2024"
+            storeFile = file("${rootProject.projectDir}/nebians-release.keystore")
+            storePassword = "***REMOVED***"
             keyAlias = "nebians"
-            keyPassword = "nebians2024"
+            keyPassword = "***REMOVED***"
         }
     }
 
