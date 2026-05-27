@@ -1,0 +1,114 @@
+name: Build Release APKs
+
+on:
+  push:
+    branches: [ main, "tembo/**" ]
+    tags: [ "v*" ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.workers.max=4 -Dorg.gradle.jvmargs=-Xmx4g"
+
+jobs:
+  build:
+    name: Build signed APKs
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Setup Gradle (with cache)
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-home-cache-cleanup: true
+          cache-read-only: ${{ github.event_name == 'pull_request' }}
+
+      - name: Cache Konan and Kotlin compiler
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.konan
+            ~/.gradle/caches/transforms-*
+            ~/.gradle/caches/build-cache-*
+          key: ${{ runner.os }}-kotlin-${{ hashFiles('gradle/libs.versions.toml') }}
+          restore-keys: |
+            ${{ runner.os }}-kotlin-
+
+      - name: Cache Android SDK
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.android/build-cache
+            ~/.android/cache
+          key: ${{ runner.os }}-android-sdk-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-android-sdk-
+
+      - name: Capture metadata
+        id: meta
+        run: |
+          SHORT=$(git rev-parse --short HEAD)
+          VERSION=$(grep -E 'versionName = "' app/build.gradle.kts | head -1 | sed -E 's/.*"([^"]+)".*/\1/')
+          echo "short=$SHORT" >> "$GITHUB_OUTPUT"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
+      - name: Build release APKs
+        env:
+          GIT_COMMIT_SHORT: ${{ steps.meta.outputs.short }}
+        run: |
+          ./gradlew \
+            :app:assembleLegacyRelease \
+            :app:assembleModernRelease \
+            --build-cache \
+            --parallel \
+            --configuration-cache \
+            -PcommitHash=${{ steps.meta.outputs.short }} \
+            --no-daemon
+
+      - name: Collect APKs
+        id: collect
+        run: |
+          mkdir -p dist
+          shopt -s nullglob
+          for f in app/build/outputs/apk/legacy/release/*.apk app/build/outputs/apk/modern/release/*.apk; do
+            cp "$f" dist/
+          done
+          ls -la dist/
+          echo "files=$(ls dist/ | xargs)" >> "$GITHUB_OUTPUT"
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: NEBians-apks-${{ steps.meta.outputs.short }}
+          path: dist/*.apk
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Create release (on tag)
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*.apk
+          generate_release_notes: true
