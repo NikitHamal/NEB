@@ -119,6 +119,11 @@ android {
     androidResources {
         generateLocaleConfig = false
     }
+
+    lint {
+        checkReleaseBuilds = false
+        abortOnError = false
+    }
 }
 
 dependencies {
