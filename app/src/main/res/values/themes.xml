@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--
+        Base Material3 DayNight theme for NEBians.
+        Compose theming handles most of the visual styling;
+        this XML theme is only needed for the splash/activity window.
+    -->
     <style name="Theme.NEBians" parent="android:Theme.Material.Light.NoActionBar">
-        <item name="android:windowBackground">@color/neb_bg</item>
+        <!-- Minimal overrides - Compose theming is primary -->
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
-        <item name="android:windowLightStatusBar">true</item>
-    </style>
-
-    <style name="Theme.NEBians.Starting" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">@color/neb_bg</item>
-        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_round</item>
-        <item name="postSplashScreenTheme">@style/Theme.NEBians</item>
     </style>
 </resources>
