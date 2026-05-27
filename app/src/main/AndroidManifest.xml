@@ -20,7 +20,7 @@
         android:supportsRtl="true"
         android:largeHeap="true"
         android:enableOnBackInvokedCallback="true"
-        android:theme="@style/Theme.NEBians.Starting"
+        android:theme="@style/Theme.NEBians"
         tools:targetApi="33">
 
         <activity
@@ -28,7 +28,7 @@
             android:exported="true"
             android:configChanges="uiMode|orientation|screenSize|screenLayout|keyboardHidden|smallestScreenSize|locale|layoutDirection|fontScale"
             android:windowSoftInputMode="adjustResize"
-            android:theme="@style/Theme.NEBians.Starting">
+            android:theme="@style/Theme.NEBians">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
