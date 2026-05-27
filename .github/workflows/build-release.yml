@@ -2,16 +2,13 @@ name: Build Release APKs
 
 on:
   push:
-    branches: [ main, master, develop ]
-  pull_request:
-    branches: [ main, master ]
-  workflow_dispatch:
+    branches:
+      - '**'
 
 jobs:
   build:
-    name: Build Signed APKs
+    name: Build Signed Release APKs
     runs-on: ubuntu-latest
-    timeout-minutes: 30
 
     steps:
       - name: Checkout code
@@ -23,61 +20,94 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
+      - name: Cache Gradle wrapper
+        uses: actions/cache@v4
         with:
-          cache-read-only: false
-          gradle-home-cache-cleanup: true
+          path: ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-wrapper-
 
-      - name: Grant execute permission for gradlew
+      - name: Cache Gradle dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-caches-${{ hashFiles('**/*.gradle.kts', '**/gradle.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-caches-
+
+      - name: Cache Gradle build cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.gradle/build-cache
+          key: ${{ runner.os }}-gradle-build-cache-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-build-cache-
+
+      - name: Grant execute permission on gradlew
         run: chmod +x gradlew
 
-      - name: Get version and commit info
-        id: info
+      - name: Build Modern and Legacy Release APKs
+        run: ./gradlew assembleModernRelease assembleLegacyRelease --no-daemon
+        env:
+          GRADLE_OPTS: >-
+            -Dorg.gradle.daemon=true
+            -Dorg.gradle.caching=true
+            -Dorg.gradle.parallel=true
+            -Dorg.gradle.jvmargs=-Xmx4g
+
+      - name: Get version name and commit hash
+        id: app-info
         run: |
-          VERSION_NAME=$(grep 'versionName' app/build.gradle.kts | head -1 | sed 's/.*"\(.*\)".*/\1/')
-          COMMIT_HASH=$(git rev-parse --short HEAD)
-          echo "version_name=${VERSION_NAME}" >> $GITHUB_OUTPUT
-          echo "commit_hash=${COMMIT_HASH}" >> $GITHUB_OUTPUT
+          VERSION_NAME=$(grep 'versionName' app/build.gradle.kts | head -1 | sed 's/.*versionName\s*=\s*"\(.*\)"/\1/')
+          COMMIT_HASH=$(echo "${{ github.sha }}" | cut -c1-7)
+          echo "version_name=$VERSION_NAME" >> "$GITHUB_OUTPUT"
+          echo "commit_hash=$COMMIT_HASH" >> "$GITHUB_OUTPUT"
+          echo "Version: $VERSION_NAME | Commit: $COMMIT_HASH"
 
-      - name: Build API 24 Release APK
-        run: ./gradlew assembleApi24Release --no-daemon --parallel --build-cache -Dorg.gradle.workers.max=2
-
-      - name: Build API 31 Release APK
-        run: ./gradlew assembleApi31Release --no-daemon --parallel --build-cache -Dorg.gradle.workers.max=2
-
-      - name: Rename APKs
+      - name: Rename APKs with version and commit hash
         run: |
-          VERSION="${{ steps.info.outputs.version_name }}"
-          COMMIT="${{ steps.info.outputs.commit_hash }}"
+          VERSION="${{ steps.app-info.outputs.version_name }}"
+          HASH="${{ steps.app-info.outputs.commit_hash }}"
 
-          mkdir -p release-apks
+          MODERN_SRC=$(find app/build/outputs/apk/modern/release -name "*.apk" | head -1)
+          LEGACY_SRC=$(find app/build/outputs/apk/legacy/release -name "*.apk" | head -1)
 
-          find app/build/outputs/apk/api24/release -name "*.apk" -exec cp {} "release-apks/NEBians-v${VERSION}-api24-${COMMIT}.apk" \;
-          find app/build/outputs/apk/api31/release -name "*.apk" -exec cp {} "release-apks/NEBians-v${VERSION}-api31-${COMMIT}.apk" \;
+          MODERN_DEST="app/build/outputs/apk/modern/release/NEBians-modern-v${VERSION}-${HASH}.apk"
+          LEGACY_DEST="app/build/outputs/apk/legacy/release/NEBians-legacy-v${VERSION}-${HASH}.apk"
 
-      - name: Upload API 24 APK
+          mv "$MODERN_SRC" "$MODERN_DEST"
+          mv "$LEGACY_SRC" "$LEGACY_DEST"
+
+          echo "MODERN_APK=$MODERN_DEST" >> "$GITHUB_ENV"
+          echo "LEGACY_APK=$LEGACY_DEST" >> "$GITHUB_ENV"
+
+      - name: Display APK info and sizes
+        run: |
+          echo "============================================"
+          echo "  NEBians Release APK Build Summary"
+          echo "============================================"
+          echo ""
+          echo "Modern APK (minSdk 28):"
+          echo "  Path: $MODERN_APK"
+          echo "  Size: $(du -h "$MODERN_APK" | cut -f1)"
+          echo ""
+          echo "Legacy APK (minSdk 24):"
+          echo "  Path: $LEGACY_APK"
+          echo "  Size: $(du -h "$LEGACY_APK" | cut -f1)"
+          echo ""
+          echo "============================================"
+
+      - name: Upload Modern Release APK
         uses: actions/upload-artifact@v4
         with:
-          name: NEBians-api24-${{ steps.info.outputs.commit_hash }}
-          path: release-apks/NEBians-*-api24-*.apk
+          name: NEBians-modern-v${{ steps.app-info.outputs.version_name }}-${{ steps.app-info.outputs.commit_hash }}
+          path: ${{ env.MODERN_APK }}
           retention-days: 30
 
-      - name: Upload API 31 APK
+      - name: Upload Legacy Release APK
         uses: actions/upload-artifact@v4
         with:
-          name: NEBians-api31-${{ steps.info.outputs.commit_hash }}
-          path: release-apks/NEBians-*-api31-*.apk
+          name: NEBians-legacy-v${{ steps.app-info.outputs.version_name }}-${{ steps.app-info.outputs.commit_hash }}
+          path: ${{ env.LEGACY_APK }}
           retention-days: 30
-
-      - name: Build Summary
-        run: |
-          echo "## Build Summary" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "| Property | Value |" >> $GITHUB_STEP_SUMMARY
-          echo "|----------|-------|" >> $GITHUB_STEP_SUMMARY
-          echo "| Version | ${{ steps.info.outputs.version_name }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| Commit | ${{ steps.info.outputs.commit_hash }} |" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "### APKs Generated" >> $GITHUB_STEP_SUMMARY
-          ls -lh release-apks/ | tail -n +2 | awk '{print "- " $NF " (" $5 ")" }' >> $GITHUB_STEP_SUMMARY
