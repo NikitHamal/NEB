@@ -100,20 +100,7 @@ android {
         }
     }
 
-    androidComponents {
-        onVariants { variant ->
-            val commitHash = providers.environmentVariable("GIT_COMMIT_SHORT")
-                .orElse(providers.gradleProperty("commitHash").map { it.toString() })
-                .orElse("local")
-                .get()
-            val baseVersion = defaultConfig.versionName ?: "1.0.0"
-            val flavor = variant.flavorName.orEmpty()
-            val version = if (flavor.isNotEmpty()) "$baseVersion-$flavor" else baseVersion
-            variant.outputs.forEach { output ->
-                output.outputFileName.set("NEBians-$version-$commitHash.apk")
-            }
-        }
-    }
+
 }
 
 dependencies {
