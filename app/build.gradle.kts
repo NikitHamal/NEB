@@ -30,14 +30,10 @@ android {
 
     signingConfigs {
         create("release") {
-            storeFile = rootProject.file(keystoreProps.getProperty("storeFile", "release.keystore"))
-            storePassword = keystoreProps.getProperty("storePassword", "nebians")
-            keyAlias = keystoreProps.getProperty("keyAlias", "nebians")
-            keyPassword = keystoreProps.getProperty("keyPassword", "nebians")
-            enableV1Signing = true
-            enableV2Signing = true
-            enableV3Signing = true
-            enableV4Signing = true
+            storeFile = file("${rootProject.projectDir}/keystore/nebians-release.jks")
+            storePassword = "nebians2024"
+            keyAlias = "nebians"
+            keyPassword = "nebians2024"
         }
     }
 
