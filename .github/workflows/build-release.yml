@@ -2,23 +2,17 @@ name: Build Release APKs
 
 on:
   push:
-    branches: [main, master]
-  pull_request:
-    branches: [main, master]
-  workflow_dispatch:
+    branches:
+      - '**'
 
 jobs:
   build:
+    name: Build Signed Release APKs
     runs-on: ubuntu-latest
-    env:
-      KEYSTORE_PASSWORD: nebians123
-      KEY_PASSWORD: nebians123
-      KEY_ALIAS: nebians
+
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Set up JDK 17
         uses: actions/setup-java@v4
@@ -26,44 +20,94 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v3
+      - name: Cache Gradle wrapper
+        uses: actions/cache@v4
         with:
-          gradle-version: 8.6
-          cache-read-only: ${{ github.event_name == 'pull_request' }}
+          path: ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-wrapper-
 
-      - name: Build minApi24 Release APK
+      - name: Cache Gradle dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-caches-${{ hashFiles('**/*.gradle.kts', '**/gradle.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-caches-
+
+      - name: Cache Gradle build cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.gradle/build-cache
+          key: ${{ runner.os }}-gradle-build-cache-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-build-cache-
+
+      - name: Grant execute permission on gradlew
+        run: chmod +x gradlew
+
+      - name: Build Modern and Legacy Release APKs
+        run: ./gradlew assembleModernRelease assembleLegacyRelease --no-daemon
+        env:
+          GRADLE_OPTS: >-
+            -Dorg.gradle.daemon=true
+            -Dorg.gradle.caching=true
+            -Dorg.gradle.parallel=true
+            -Dorg.gradle.jvmargs=-Xmx4g
+
+      - name: Get version name and commit hash
+        id: app-info
         run: |
-          gradle :app:assembleMinApi24Release \
-            --no-daemon \
-            --build-cache \
-            --configure-on-demand \
-            -Dorg.gradle.jvmargs="-Xmx8192m -XX:MaxMetaspaceSize=512m"
+          VERSION_NAME=$(grep 'versionName' app/build.gradle.kts | head -1 | sed 's/.*versionName\s*=\s*"\(.*\)"/\1/')
+          COMMIT_HASH=$(echo "${{ github.sha }}" | cut -c1-7)
+          echo "version_name=$VERSION_NAME" >> "$GITHUB_OUTPUT"
+          echo "commit_hash=$COMMIT_HASH" >> "$GITHUB_OUTPUT"
+          echo "Version: $VERSION_NAME | Commit: $COMMIT_HASH"
 
-      - name: Build minApi26 Release APK
+      - name: Rename APKs with version and commit hash
         run: |
-          gradle :app:assembleMinApi26Release \
-            --no-daemon \
-            --build-cache \
-            --configure-on-demand \
-            -Dorg.gradle.jvmargs="-Xmx8192m -XX:MaxMetaspaceSize=512m"
+          VERSION="${{ steps.app-info.outputs.version_name }}"
+          HASH="${{ steps.app-info.outputs.commit_hash }}"
 
-      - name: Rename and collect APKs
+          MODERN_SRC=$(find app/build/outputs/apk/modern/release -name "*.apk" | head -1)
+          LEGACY_SRC=$(find app/build/outputs/apk/legacy/release -name "*.apk" | head -1)
+
+          MODERN_DEST="app/build/outputs/apk/modern/release/NEBians-modern-v${VERSION}-${HASH}.apk"
+          LEGACY_DEST="app/build/outputs/apk/legacy/release/NEBians-legacy-v${VERSION}-${HASH}.apk"
+
+          mv "$MODERN_SRC" "$MODERN_DEST"
+          mv "$LEGACY_SRC" "$LEGACY_DEST"
+
+          echo "MODERN_APK=$MODERN_DEST" >> "$GITHUB_ENV"
+          echo "LEGACY_APK=$LEGACY_DEST" >> "$GITHUB_ENV"
+
+      - name: Display APK info and sizes
         run: |
-          COMMIT_HASH=$(git rev-parse --short HEAD)
-          VERSION=$(grep "versionName" app/build.gradle.kts | head -n1 | sed 's/.*"\(.*\)".*/\1/')
-          mkdir -p outputs
-          for apk in app/build/outputs/apk/minApi24/release/*.apk; do
-            cp "$apk" "outputs/NEBians-${COMMIT_HASH}-${VERSION}-minApi24.apk"
-          done
-          for apk in app/build/outputs/apk/minApi26/release/*.apk; do
-            cp "$apk" "outputs/NEBians-${COMMIT_HASH}-${VERSION}-minApi26.apk"
-          done
-          ls -la outputs/
+          echo "============================================"
+          echo "  NEBians Release APK Build Summary"
+          echo "============================================"
+          echo ""
+          echo "Modern APK (minSdk 28):"
+          echo "  Path: $MODERN_APK"
+          echo "  Size: $(du -h "$MODERN_APK" | cut -f1)"
+          echo ""
+          echo "Legacy APK (minSdk 24):"
+          echo "  Path: $LEGACY_APK"
+          echo "  Size: $(du -h "$LEGACY_APK" | cut -f1)"
+          echo ""
+          echo "============================================"
 
-      - name: Upload APK artifacts
+      - name: Upload Modern Release APK
         uses: actions/upload-artifact@v4
         with:
-          name: nebians-release-apks
-          path: outputs/*.apk
-          if-no-files-found: error
+          name: NEBians-modern-v${{ steps.app-info.outputs.version_name }}-${{ steps.app-info.outputs.commit_hash }}
+          path: ${{ env.MODERN_APK }}
+          retention-days: 30
+
+      - name: Upload Legacy Release APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: NEBians-legacy-v${{ steps.app-info.outputs.version_name }}-${{ steps.app-info.outputs.commit_hash }}
+          path: ${{ env.LEGACY_APK }}
+          retention-days: 30
