@@ -2,11 +2,8 @@ name: Build Release APKs
 
 on:
   push:
-    branches: [ main, "tembo/**" ]
-    tags: [ "v*" ]
-  pull_request:
-    branches: [ main ]
-  workflow_dispatch:
+    branches:
+      - '**'
 
 permissions:
   contents: write
