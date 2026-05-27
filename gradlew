@@ -6,7 +6,6 @@
 
 # Attempt to set APP_HOME
 app_path=$0
-
 while
     APP_HOME=${app_path%"${app_path##*/}"}
     [ -h "$app_path" ]
@@ -20,7 +19,7 @@ do
 done
 
 APP_BASE_NAME=${0##*/}
-APP_HOME=$( cd -P "${APP_HOME:-./}" > /dev/null && printf '%s\n' "$PWD" ) || exit
+APP_HOME=$( cd "${APP_HOME:-./}" > /dev/null && pwd -P ) || exit
 
 MAX_FD=maximum
 
@@ -43,7 +42,7 @@ case "$( uname )" in
   CYGWIN* )         cygwin=true  ;;
   Darwin* )         darwin=true  ;;
   MSYS* | MINGW* )  msys=true   ;;
-  NonStop*)         nonstop=true ;;
+  NonStop* )        nonstop=true ;;
 esac
 
 CLASSPATH=$APP_HOME/gradle/wrapper/gradle-wrapper.jar
@@ -59,8 +58,7 @@ if [ -n "$JAVA_HOME" ] ; then
     fi
 else
     JAVACMD=java
-    if ! command -v java >/dev/null 2>&1
-    then
+    if ! command -v java >/dev/null 2>&1 ; then
         die "ERROR: JAVA_HOME is not set and no 'java' command could be found in your PATH."
     fi
 fi
@@ -77,11 +75,20 @@ if ! "$cygwin" && ! "$darwin" && ! "$nonstop" ; then
       *)
         ulimit -n "$MAX_FD" ||
             warn "Could not set maximum file descriptor limit to $MAX_FD"
+      ;;
     esac
 fi
 
-DEFAULT_JVM_OPTS='"-Xmx64m" "-Xms64m"'
+if "$cygwin" || "$msys" ; then
+    APP_HOME=$( cygpath --path --mixed "$APP_HOME" )
+    CLASSPATH=$( cygpath --path --mixed "$CLASSPATH" )
+    JAVACMD=$( cygpath --unix "$JAVACMD" )
+fi
 
-eval set -- $DEFAULT_JVM_OPTS $JAVA_OPTS $GRADLE_OPTS "\"-Dorg.gradle.appname=$APP_BASE_NAME\"" -classpath "\"$CLASSPATH\"" org.gradle.wrapper.GradleWrapperMain "$@"
+set -- \
+        "-Dorg.gradle.appname=$APP_BASE_NAME" \
+        -classpath "$CLASSPATH" \
+        org.gradle.wrapper.GradleWrapperMain \
+        "$@"
 
 exec "$JAVACMD" "$@"
