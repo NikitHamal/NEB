@@ -1,0 +1,79 @@
+name: Build signed release APKs
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - master
+    tags:
+      - "v*"
+  pull_request:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-apks-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-release-apks:
+    name: Build legacy and modern APKs
+    runs-on: ubuntu-latest
+    env:
+      GRADLE_OPTS: -Dorg.gradle.daemon=false -Dorg.gradle.parallel=true -Dorg.gradle.caching=true -Dorg.gradle.configuration-cache=true
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Accept Android licenses and install platform
+        run: |
+          yes | sdkmanager --licenses >/dev/null
+          sdkmanager "platforms;android-36" "platform-tools"
+
+      - name: Set up Gradle cache
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          cache-read-only: ${{ github.event_name == 'pull_request' }}
+
+      - name: Prepare wrapper
+        run: chmod +x ./gradlew
+
+      - name: Build signed release APKs
+        run: ./gradlew --build-cache --configuration-cache assembleLegacyRelease assembleModernRelease
+
+      - name: Rename APKs
+        shell: bash
+        run: |
+          set -euo pipefail
+          VERSION="$(./gradlew -q printVersionName | tail -n 1)"
+          SHORT_SHA="${GITHUB_SHA::7}"
+          mkdir -p release-apks
+          cp app/build/outputs/apk/legacy/release/app-legacy-release.apk "release-apks/NEBians-legacy-${SHORT_SHA}-v${VERSION}.apk"
+          cp app/build/outputs/apk/modern/release/app-modern-release.apk "release-apks/NEBians-modern-${SHORT_SHA}-v${VERSION}.apk"
+          (cd release-apks && sha256sum *.apk > SHA256SUMS.txt)
+
+      - name: Upload APK artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: NEBians-release-apks
+          path: release-apks/*
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Attach APKs to GitHub Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: release-apks/*

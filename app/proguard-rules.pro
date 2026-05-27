@@ -1,0 +1,3 @@
+-keep class com.neb.ians.NebFirebaseMessagingService { *; }
+-keep class com.google.firebase.messaging.FirebaseMessagingService { *; }
+-keepattributes *Annotation*
