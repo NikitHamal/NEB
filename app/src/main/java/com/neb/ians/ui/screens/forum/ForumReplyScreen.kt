@@ -36,8 +36,9 @@ fun ForumReplyScreen(
     postId: Long,
     onBack: () -> Unit
 ) {
+    val context = androidx.compose.ui.platform.LocalContext.current
     val vm: ForumViewModel = viewModel(key = "reply_vm") {
-        ForumViewModel(AppModule.provideForumRepository(androidx.compose.ui.platform.LocalContext.current))
+        ForumViewModel(AppModule.provideForumRepository(context))
     }
     var body by remember { mutableStateOf("") }
     var author by remember { mutableStateOf("") }

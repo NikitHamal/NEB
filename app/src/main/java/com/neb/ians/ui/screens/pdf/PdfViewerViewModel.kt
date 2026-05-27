@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.neb.ians.data.model.AnnotationType
 import com.neb.ians.data.model.PdfAnnotation
+import com.neb.ians.data.repository.AnnotationRepository
 import com.neb.ians.data.repository.ContentRepository
 import com.neb.ians.util.PdfCacheManager
 import kotlinx.coroutines.Dispatchers
@@ -128,7 +129,7 @@ class PdfViewerViewModel(
 
     private fun loadAnnotations() {
         viewModelScope.launch {
-            annotationRepository.getAnnotations(pdfUri).collect { list ->
+            annotationRepository.getAnnotations(pdfUri).collect { list: List<PdfAnnotation> ->
                 annotations.clear()
                 annotations.addAll(list)
             }

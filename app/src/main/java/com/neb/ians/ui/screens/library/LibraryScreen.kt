@@ -56,8 +56,9 @@ fun LibraryScreen(
     onBack: () -> Unit,
     onOpenPdf: (String) -> Unit
 ) {
+    val context = androidx.compose.ui.platform.LocalContext.current
     val vm: LibraryViewModel = viewModel {
-        LibraryViewModel(AppModule.provideContentRepository(androidx.compose.ui.platform.LocalContext.current))
+        LibraryViewModel(AppModule.provideContentRepository(context))
     }
     val items by vm.items.collectAsState()
     val query by vm.query.collectAsState()

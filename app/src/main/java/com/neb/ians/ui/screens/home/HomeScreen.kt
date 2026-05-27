@@ -51,8 +51,9 @@ fun HomeScreen(
     onNavigate: (String) -> Unit,
     onOpenPdf: (String) -> Unit
 ) {
+    val context = androidx.compose.ui.platform.LocalContext.current
     val vm: HomeViewModel = viewModel {
-        HomeViewModel(AppModule.provideContentRepository(androidx.compose.ui.platform.LocalContext.current))
+        HomeViewModel(AppModule.provideContentRepository(context))
     }
     val items by vm.recentItems.collectAsState()
     LaunchedEffect(Unit) { vm.seedDataIfEmpty() }
@@ -89,7 +90,7 @@ fun HomeScreen(
                     horizontalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
                   QuickAccessCard(
-                        icon = Icons.AutoMirrored.Filled.LibraryBooks,
+                        icon = Icons.Filled.LibraryBooks,
                         label = stringResource(R.string.library),
                         modifier = Modifier.weight(1f)
                   ) { onNavigate(Screen.Library.route) }
