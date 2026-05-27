@@ -1,4 +1,4 @@
-name: Build Release APKs
+name: Build Release APKs (Legacy/Modern)
 
 on:
   push:
