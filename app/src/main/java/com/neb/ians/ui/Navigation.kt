@@ -1,0 +1,214 @@
+package com.neb.ians.ui
+
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.LibraryBooks
+import androidx.compose.material.icons.filled.Forum
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.LibraryBooks
+import androidx.compose.material.icons.outlined.Forum
+import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material3.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.font.FontWeight
+import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavHostController
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.neb.ians.ui.screens.home.HomeScreen
+import com.neb.ians.ui.screens.library.LibraryScreen
+import com.neb.ians.ui.screens.forum.ForumScreen
+import com.neb.ians.ui.screens.forum.ForumPostDetailScreen
+import com.neb.ians.ui.screens.forum.CreatePostScreen
+import com.neb.ians.ui.screens.forum.ReplyScreen
+import com.neb.ians.ui.screens.settings.SettingsScreen
+import com.neb.ians.ui.screens.settings.SettingsViewModel
+import com.neb.ians.ui.screens.reader.PdfReaderScreen
+import com.neb.ians.ui.screens.search.SearchScreen
+
+sealed class Screen(val route: String) {
+    data object Home : Screen("home")
+    data object Library : Screen("library")
+    data object Forum : Screen("forum")
+    data object Settings : Screen("settings")
+    data object PdfReader : Screen("reader/{resourceId}") {
+        fun createRoute(resourceId: String) = "reader/$resourceId"
+    }
+    data object Search : Screen("search")
+    data object ForumPostDetail : Screen("forum/post/{postId}") {
+        fun createRoute(postId: String) = "forum/post/$postId"
+    }
+    data object CreatePost : Screen("forum/create")
+    data object Reply : Screen("forum/reply/{postId}/{replyToId}") {
+        fun createRoute(postId: String, replyToId: String? = null) = "forum/reply/$postId/${replyToId ?: "none"}"
+    }
+}
+
+data class BottomNavItem(
+    val screen: Screen,
+    val label: String,
+    val selectedIcon: ImageVector,
+    val unselectedIcon: ImageVector
+)
+
+val bottomNavItems = listOf(
+    BottomNavItem(Screen.Home, "Home", Icons.Filled.Home, Icons.Outlined.Home),
+    BottomNavItem(Screen.Library, "Library", Icons.Filled.LibraryBooks, Icons.Outlined.LibraryBooks),
+    BottomNavItem(Screen.Forum, "Forum", Icons.Filled.Forum, Icons.Outlined.Forum),
+    BottomNavItem(Screen.Settings, "Settings", Icons.Filled.Settings, Icons.Outlined.Settings),
+)
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun NEBiansNavHost(
+    settingsViewModel: SettingsViewModel,
+    navController: NavHostController = rememberNavController()
+) {
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentDestination = navBackStackEntry?.destination
+
+    val showBottomBar = currentDestination?.route in bottomNavItems.map { it.screen.route }
+
+    Scaffold(
+        bottomBar = {
+            if (showBottomBar) {
+                NavigationBar(
+                    tonalElevation = NavigationBarDefaults.Elevation,
+                ) {
+                    bottomNavItems.forEach { item ->
+                        val selected = currentDestination?.hierarchy?.any { it.route == item.screen.route } == true
+                        NavigationBarItem(
+                            icon = {
+                                Icon(
+                                    imageVector = if (selected) item.selectedIcon else item.unselectedIcon,
+                                    contentDescription = item.label
+                                )
+                            },
+                            label = {
+                                Text(
+                                    text = item.label,
+                                    fontWeight = if (selected) FontWeight.SemiBold else FontWeight.Normal
+                                )
+                            },
+                            selected = selected,
+                            onClick = {
+                                navController.navigate(item.screen.route) {
+                                    popUpTo(navController.graph.findStartDestination().id) {
+                                        saveState = true
+                                    }
+                                    launchSingleTop = true
+                                    restoreState = true
+                                }
+                            }
+                        )
+                    }
+                }
+            }
+        }
+    ) { innerPadding ->
+        NavHost(
+            navController = navController,
+            startDestination = Screen.Home.route,
+            modifier = Modifier.padding(innerPadding),
+            enterTransition = { fadeIn(animationSpec = tween(200)) },
+            exitTransition = { fadeOut(animationSpec = tween(200)) },
+        ) {
+            composable(Screen.Home.route) {
+                HomeScreen(
+                    onResourceClick = { resourceId ->
+                        navController.navigate(Screen.PdfReader.createRoute(resourceId))
+                    },
+                    onSearchClick = { navController.navigate(Screen.Search.route) },
+                    onViewAllClick = { navController.navigate(Screen.Library.route) }
+                )
+            }
+            composable(Screen.Library.route) {
+                LibraryScreen(
+                    onResourceClick = { resourceId ->
+                        navController.navigate(Screen.PdfReader.createRoute(resourceId))
+                    },
+                    onSearchClick = { navController.navigate(Screen.Search.route) }
+                )
+            }
+            composable(Screen.Forum.route) {
+                ForumScreen(
+                    onPostClick = { postId ->
+                        navController.navigate(Screen.ForumPostDetail.createRoute(postId))
+                    },
+                    onCreatePostClick = {
+                        navController.navigate(Screen.CreatePost.route)
+                    }
+                )
+            }
+            composable(Screen.Settings.route) {
+                SettingsScreen(settingsViewModel = settingsViewModel)
+            }
+            composable(
+                route = Screen.PdfReader.route,
+                arguments = listOf(navArgument("resourceId") { type = NavType.StringType })
+            ) { backStackEntry ->
+                val resourceId = backStackEntry.arguments?.getString("resourceId") ?: return@composable
+                PdfReaderScreen(
+                    resourceId = resourceId,
+                    onNavigateBack = { navController.popBackStack() }
+                )
+            }
+            composable(Screen.Search.route) {
+                SearchScreen(
+                    onResourceClick = { resourceId ->
+                        navController.navigate(Screen.PdfReader.createRoute(resourceId))
+                    },
+                    onNavigateBack = { navController.popBackStack() }
+                )
+            }
+            composable(
+                route = Screen.ForumPostDetail.route,
+                arguments = listOf(navArgument("postId") { type = NavType.StringType })
+            ) { backStackEntry ->
+                val postId = backStackEntry.arguments?.getString("postId") ?: return@composable
+                ForumPostDetailScreen(
+                    postId = postId,
+                    onNavigateBack = { navController.popBackStack() },
+                    onReplyClick = { replyToId ->
+                        navController.navigate(Screen.Reply.createRoute(postId, replyToId))
+                    }
+                )
+            }
+            composable(Screen.CreatePost.route) {
+                CreatePostScreen(
+                    onNavigateBack = { navController.popBackStack() },
+                    onPostCreated = { navController.popBackStack() }
+                )
+            }
+            composable(
+                route = Screen.Reply.route,
+                arguments = listOf(
+                    navArgument("postId") { type = NavType.StringType },
+                    navArgument("replyToId") { type = NavType.StringType }
+                )
+            ) { backStackEntry ->
+                val postId = backStackEntry.arguments?.getString("postId") ?: return@composable
+                val replyToId = backStackEntry.arguments?.getString("replyToId")?.takeIf { it != "none" }
+                ReplyScreen(
+                    postId = postId,
+                    replyToId = replyToId,
+                    onNavigateBack = { navController.popBackStack() },
+                    onReplySubmitted = { navController.popBackStack() }
+                )
+            }
+        }
+    }
+}
