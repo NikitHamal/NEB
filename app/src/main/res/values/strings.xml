@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">NEBians</string>
+    <string name="default_notification_channel_id">neb_announcements</string>
+    <string name="default_notification_channel_name">Announcements</string>
+    <string name="default_notification_channel_desc">Important announcements and updates</string>
+
+    <string name="tab_home">Home</string>
+    <string name="tab_library">Library</string>
+    <string name="tab_forum">Forum</string>
+    <string name="tab_settings">Settings</string>
+</resources>

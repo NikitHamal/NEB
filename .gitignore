@@ -1,0 +1,18 @@
+.gradle/
+build/
+app/build/
+.idea/
+*.iml
+local.properties
+captures/
+.externalNativeBuild/
+.cxx/
+.kotlin/
+.gradle-cache/
+gradle.properties.local
+
+# Keep the bundled keystore committed (per project requirement).
+!app/keystore/
+
+# Per-task scratch
+/tmp/
