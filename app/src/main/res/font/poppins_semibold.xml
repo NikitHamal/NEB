@@ -4,8 +4,8 @@
     <font
         android:fontStyle="normal"
         android:fontWeight="600"
-        android:font="@font/Poppins_SemiBold"
+        android:font="@font/poppins_semibold_font"
         app:fontStyle="normal"
         app:fontWeight="600"
-        app:font="@font/Poppins_SemiBold" />
+        app:font="@font/poppins_semibold_font" />
 </font-family>
