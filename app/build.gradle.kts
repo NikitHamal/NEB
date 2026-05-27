@@ -45,15 +45,15 @@ android {
 
     flavorDimensions += "api"
     productFlavors {
-        create("minApi24") {
+        create("legacy") {
             dimension = "api"
             minSdk = 24
-            versionNameSuffix = "-api24"
+            versionNameSuffix = "-legacy"
         }
-        create("minApi26") {
+        create("modern") {
             dimension = "api"
             minSdk = 26
-            versionNameSuffix = "-api26"
+            versionNameSuffix = "-modern"
         }
     }
 
