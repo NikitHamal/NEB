@@ -1,0 +1,5 @@
+-keepattributes SourceFile,LineNumberTable
+-renamesourcefileattribute SourceFile
+-keep class com.neb.ians.data.model.** { *; }
+-keep class com.neb.ians.data.db.** { *; }
+-keepclassmembers class * extends androidx.lifecycle.ViewModel { *; }

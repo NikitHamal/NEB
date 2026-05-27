@@ -1,0 +1,71 @@
+name: Build Release APKs
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Cache Gradle packages
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Generate keystore if missing
+        run: |
+          if [ ! -f keystore.p12 ]; then
+            openssl genrsa -out /tmp/key.pem 2048
+            openssl req -new -x509 -key /tmp/key.pem -out /tmp/cert.pem -days 10000 -subj "/CN=NEBians/OU=App/O=NEB/L=Kathmandu/ST=Bagmati/C=NP"
+            openssl pkcs12 -export -in /tmp/cert.pem -inkey /tmp/key.pem -out keystore.p12 -name nebians -passout pass:nebians123
+          fi
+          ls -la keystore.p12
+
+      - name: Build release APKs
+        run: |
+          ./gradlew :app:assembleApi24Release :app:assembleApi29Release --no-daemon --build-cache --configure-on-demand --parallel
+        env:
+          GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx8192m -Dorg.gradle.parallel=true -Dorg.gradle.caching=true"
+
+      - name: Rename APKs with commit hash and version
+        run: |
+          COMMIT_HASH=$(git rev-parse --short HEAD)
+          VERSION=$(grep 'versionName' app/build.gradle.kts | sed 's/.*"\(.*\)".*/\1/')
+          mkdir -p artifacts
+          for apk in app/build/outputs/apk/api24/release/*.apk; do
+            cp "$apk" "artifacts/NEBians-${VERSION}-api24-${COMMIT_HASH}.apk"
+          done
+          for apk in app/build/outputs/apk/api29/release/*.apk; do
+            cp "$apk" "artifacts/NEBians-${VERSION}-api29-${COMMIT_HASH}.apk"
+          done
+          ls -la artifacts/
+
+      - name: Upload APK artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: NEBians-release-apks
+          path: artifacts/*.apk
+          retention-days: 30
