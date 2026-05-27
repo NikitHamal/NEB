@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App name -->
+    <string name="app_name">NEBians</string>
+
+    <!-- Subjects -->
+    <string name="subject_physics">Physics</string>
+    <string name="subject_chemistry">Chemistry</string>
+    <string name="subject_mathematics">Mathematics</string>
+    <string name="subject_biology">Biology</string>
+    <string name="subject_english">English</string>
+    <string name="subject_nepali">Nepali</string>
+    <string name="subject_computer_science">Computer Science</string>
+    <string name="subject_economics">Economics</string>
+    <string name="subject_accountancy">Accountancy</string>
+
+    <!-- Grade levels -->
+    <string name="grade_11">Grade 11</string>
+    <string name="grade_12">Grade 12</string>
+
+    <!-- Resource types -->
+    <string name="resource_type_textbook">Textbook</string>
+    <string name="resource_type_notes">Notes</string>
+    <string name="resource_type_past_papers">Past Papers</string>
+    <string name="resource_type_guide">Guide</string>
+    <string name="resource_type_solution">Solution</string>
+
+    <!-- Bottom navigation tab names -->
+    <string name="tab_home">Home</string>
+    <string name="tab_library">Library</string>
+    <string name="tab_forum">Forum</string>
+    <string name="tab_settings">Settings</string>
+
+    <!-- Content descriptions -->
+    <string name="cd_app_logo">NEBians app logo</string>
+    <string name="cd_navigate_back">Navigate back</string>
+    <string name="cd_search">Search</string>
+    <string name="cd_notifications">Notifications</string>
+</resources>

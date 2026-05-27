@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+        Base Material3 DayNight theme for NEBians.
+        Compose theming handles most of the visual styling;
+        this XML theme is only needed for the splash/activity window.
+    -->
+    <style name="Theme.NEBians" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Minimal overrides - Compose theming is primary -->
+    </style>
+</resources>
