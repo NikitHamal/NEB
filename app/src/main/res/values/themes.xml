@@ -5,7 +5,9 @@
         Compose theming handles most of the visual styling;
         this XML theme is only needed for the splash/activity window.
     -->
-    <style name="Theme.NEBians" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Theme.NEBians" parent="android:Theme.Material.Light.NoActionBar">
         <!-- Minimal overrides - Compose theming is primary -->
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
     </style>
 </resources>
