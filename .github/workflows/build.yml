@@ -2,10 +2,8 @@ name: Build signed release APKs
 
 on:
   push:
-    branches: [ '**' ]
-  pull_request:
-    branches: [ main ]
-  workflow_dispatch:
+    branches:
+      - '**'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
