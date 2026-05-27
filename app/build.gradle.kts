@@ -30,14 +30,10 @@ android {
 
     signingConfigs {
         create("release") {
-            storeFile = file("keystore/nebians.keystore")
-            storePassword = "nebians123"
+            storeFile = file("${rootProject.projectDir}/keystore/nebians-release.jks")
+            storePassword = "nebians2024"
             keyAlias = "nebians"
-            keyPassword = "nebians123"
-            enableV1Signing = true
-            enableV2Signing = true
-            enableV3Signing = true
-            enableV4Signing = true
+            keyPassword = "nebians2024"
         }
     }
 
