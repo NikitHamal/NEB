@@ -1,14 +1,9 @@
 name: Build signed release APKs
 
 on:
-  workflow_dispatch:
   push:
     branches:
-      - main
-      - master
-    tags:
-      - "v*"
-  pull_request:
+      - '**'
 
 permissions:
   contents: write
