@@ -129,6 +129,7 @@ fun CompleteProfileScreen(
                     )
                 )
             )
+            .statusBarsPadding()
             .padding(16.dp)
     ) {
         Column(
