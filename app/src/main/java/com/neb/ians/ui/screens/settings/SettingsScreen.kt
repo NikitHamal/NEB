@@ -1,13 +1,14 @@
 package com.neb.ians.ui.screens.settings
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.DarkMode
-import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material.icons.outlined.School
@@ -15,11 +16,14 @@ import androidx.compose.material.icons.outlined.Wifi
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.outlined.LockOpen
 import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.outlined.ArrowForwardIos
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -31,20 +35,28 @@ fun SettingsScreen(
     settingsViewModel: SettingsViewModel
 ) {
     val isDarkMode by settingsViewModel.isDarkMode.collectAsStateWithLifecycle()
-    val userName by settingsViewModel.userName.collectAsStateWithLifecycle()
     val notificationsEnabled by settingsViewModel.notificationsEnabled.collectAsStateWithLifecycle()
     val downloadWifiOnly by settingsViewModel.downloadWifiOnly.collectAsStateWithLifecycle()
     val userProfile by settingsViewModel.userProfile.collectAsStateWithLifecycle()
 
-    var showEditNameDialog by remember { mutableStateOf(false) }
-    var editNameText by remember { mutableStateOf("") }
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+    val isGuest = userProfile == null || userProfile?.id == "guest_user"
 
     Scaffold(
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
-            TopAppBar(
+            LargeTopAppBar(
                 title = {
-                    Text(text = "Settings")
-                }
+                    Text(
+                        text = "Settings",
+                        fontWeight = FontWeight.Bold
+                    )
+                },
+                scrollBehavior = scrollBehavior,
+                colors = TopAppBarDefaults.largeTopAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.background,
+                    scrolledContainerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
+                )
             )
         }
     ) { innerPadding ->
@@ -53,235 +65,281 @@ fun SettingsScreen(
                 .fillMaxSize()
                 .padding(innerPadding)
                 .verticalScroll(rememberScrollState())
+                .padding(horizontal = 16.dp, vertical = 8.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            // Profile Section
-            SectionHeader(title = "Profile")
-
-            if (userProfile != null && userProfile?.id != "guest_user") {
-                val profile = userProfile!!
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 12.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .size(56.dp)
-                            .clip(CircleShape)
-                            .background(MaterialTheme.colorScheme.primaryContainer),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(
-                            text = profile.username.firstOrNull()?.uppercase() ?: "?",
-                            style = MaterialTheme.typography.titleLarge,
-                            fontWeight = FontWeight.SemiBold,
-                            color = MaterialTheme.colorScheme.onPrimaryContainer
-                        )
-                    }
-
-                    Spacer(modifier = Modifier.width(16.dp))
-
-                    Column(modifier = Modifier.weight(1f)) {
-                        Text(
-                            text = profile.displayName?.takeIf { it.isNotEmpty() } ?: profile.username,
-                            style = MaterialTheme.typography.titleMedium,
-                            fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.colorScheme.onSurface
-                        )
-                        Text(
-                            text = "@${profile.username}",
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                        if (!profile.classLevel.isNullOrEmpty()) {
-                            Text(
-                                text = "${profile.classLevel} • ${profile.pradesh ?: ""}, ${profile.district ?: ""}",
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                        }
-                    }
-                }
-
-                ListItem(
-                    headlineContent = { Text("Profile Lock") },
-                    supportingContent = { Text("When locked, other users can only see your username.") },
-                    leadingContent = {
-                        Icon(
-                            imageVector = if (profile.isLocked) Icons.Outlined.Lock else Icons.Outlined.LockOpen,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    },
-                    trailingContent = {
-                        Switch(
-                            checked = profile.isLocked,
-                            onCheckedChange = { settingsViewModel.toggleProfileLock(it) }
-                        )
-                    }
+            // Profile Card Group
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(20.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.surface
+                ),
+                border = androidx.compose.foundation.BorderStroke(
+                    width = 1.dp,
+                    color = MaterialTheme.colorScheme.outlineVariant
                 )
-            } else {
-                // Guest / Unauthenticated mode
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 12.dp),
-                    verticalAlignment = Alignment.CenterVertically
+            ) {
+                Column(
+                    modifier = Modifier.padding(16.dp)
                 ) {
-                    Box(
-                        modifier = Modifier
-                            .size(48.dp)
-                            .clip(CircleShape)
-                            .background(MaterialTheme.colorScheme.surfaceVariant),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Icon(
-                            imageVector = Icons.Outlined.Person,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
+                    Text(
+                        text = "Account",
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.padding(bottom = 12.dp)
+                    )
 
-                    Spacer(modifier = Modifier.width(16.dp))
+                    if (!isGuest && userProfile != null) {
+                        val profile = userProfile!!
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 8.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .size(60.dp)
+                                    .clip(CircleShape)
+                                    .background(MaterialTheme.colorScheme.primaryContainer),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(
+                                    text = profile.username.firstOrNull()?.uppercase() ?: "?",
+                                    style = MaterialTheme.typography.headlineSmall,
+                                    fontWeight = FontWeight.Bold,
+                                    color = MaterialTheme.colorScheme.onPrimaryContainer
+                                )
+                            }
 
-                    Column(modifier = Modifier.weight(1f)) {
-                        Text(
-                            text = "Guest User",
-                            style = MaterialTheme.typography.bodyLarge,
-                            fontWeight = FontWeight.SemiBold,
-                            color = MaterialTheme.colorScheme.onSurface
+                            Spacer(modifier = Modifier.width(16.dp))
+
+                            Column(modifier = Modifier.weight(1f)) {
+                                Text(
+                                    text = profile.displayName?.takeIf { it.isNotEmpty() } ?: profile.username,
+                                    style = MaterialTheme.typography.titleMedium,
+                                    fontWeight = FontWeight.Bold,
+                                    color = MaterialTheme.colorScheme.onSurface
+                                )
+                                Text(
+                                    text = "@${profile.username}",
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                                if (!profile.classLevel.isNullOrEmpty()) {
+                                    Text(
+                                        text = "${profile.classLevel} • ${profile.pradesh ?: ""}, ${profile.district ?: ""}",
+                                        style = MaterialTheme.typography.bodySmall,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                                    )
+                                }
+                            }
+                        }
+
+                        HorizontalDivider(
+                            modifier = Modifier.padding(vertical = 12.dp),
+                            color = MaterialTheme.colorScheme.outlineVariant
                         )
-                        Text(
-                            text = "Log in to join discussions and sync resources.",
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
+
+                        ListItem(
+                            headlineContent = { Text("Profile Visibility", fontWeight = FontWeight.Medium) },
+                            supportingContent = { Text("When private/locked, others see only your username.") },
+                            leadingContent = {
+                                Icon(
+                                    imageVector = if (profile.isLocked) Icons.Outlined.Lock else Icons.Outlined.LockOpen,
+                                    contentDescription = null,
+                                    tint = MaterialTheme.colorScheme.primary
+                                )
+                            },
+                            trailingContent = {
+                                Switch(
+                                    checked = profile.isLocked,
+                                    onCheckedChange = { settingsViewModel.toggleProfileLock(it) }
+                                )
+                            },
+                            colors = ListItemDefaults.colors(containerColor = Color.Transparent)
                         )
+                    } else {
+                        // Premium Guest Welcome Card
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 8.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .size(52.dp)
+                                    .clip(CircleShape)
+                                    .background(MaterialTheme.colorScheme.surfaceVariant),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Outlined.Person,
+                                    contentDescription = null,
+                                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                                    modifier = Modifier.size(28.dp)
+                                )
+                            }
+
+                            Spacer(modifier = Modifier.width(16.dp))
+
+                            Column(modifier = Modifier.weight(1f)) {
+                                Text(
+                                    text = "Guest Mode",
+                                    style = MaterialTheme.typography.titleMedium,
+                                    fontWeight = FontWeight.Bold,
+                                    color = MaterialTheme.colorScheme.onSurface
+                                )
+                                Text(
+                                    text = "Login to back up annotations, join discussion forums, and vote.",
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            }
+                        }
                     }
                 }
             }
 
-            HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
-
-            // Appearance Section
-            SectionHeader(title = "Appearance")
-
-            ListItem(
-                headlineContent = {
-                    Text(text = "Dark Mode")
-                },
-                supportingContent = {
-                    Text(text = if (isDarkMode) "On" else "Off")
-                },
-                leadingContent = {
-                    Icon(
-                        imageVector = Icons.Outlined.DarkMode,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant
+            // Preferences Card Group
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(20.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.surface
+                ),
+                border = androidx.compose.foundation.BorderStroke(
+                    width = 1.dp,
+                    color = MaterialTheme.colorScheme.outlineVariant
+                )
+            ) {
+                Column(
+                    modifier = Modifier.padding(16.dp)
+                ) {
+                    Text(
+                        text = "Preferences",
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.padding(bottom = 8.dp)
                     )
-                },
-                trailingContent = {
-                    Switch(
-                        checked = isDarkMode,
-                        onCheckedChange = { settingsViewModel.setDarkMode(it) }
+
+                    ListItem(
+                        headlineContent = { Text("Dark Theme", fontWeight = FontWeight.Medium) },
+                        supportingContent = { Text(if (isDarkMode) "Enabled" else "Disabled") },
+                        leadingContent = {
+                            Icon(
+                                imageVector = Icons.Outlined.DarkMode,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.primary
+                            )
+                        },
+                        trailingContent = {
+                            Switch(
+                                checked = isDarkMode,
+                                onCheckedChange = { settingsViewModel.setDarkMode(it) }
+                            )
+                        },
+                        colors = ListItemDefaults.colors(containerColor = Color.Transparent)
                     )
-                }
-            )
 
-            HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
-
-            // Notifications Section
-            SectionHeader(title = "Notifications")
-
-            ListItem(
-                headlineContent = {
-                    Text(text = "Push Notifications")
-                },
-                supportingContent = {
-                    Text(text = if (notificationsEnabled) "Enabled" else "Disabled")
-                },
-                leadingContent = {
-                    Icon(
-                        imageVector = Icons.Outlined.Notifications,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant
+                    ListItem(
+                        headlineContent = { Text("Push Notifications", fontWeight = FontWeight.Medium) },
+                        supportingContent = { Text(if (notificationsEnabled) "On" else "Off") },
+                        leadingContent = {
+                            Icon(
+                                imageVector = Icons.Outlined.Notifications,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.primary
+                            )
+                        },
+                        trailingContent = {
+                            Switch(
+                                checked = notificationsEnabled,
+                                onCheckedChange = { settingsViewModel.setNotificationsEnabled(it) }
+                            )
+                        },
+                        colors = ListItemDefaults.colors(containerColor = Color.Transparent)
                     )
-                },
-                trailingContent = {
-                    Switch(
-                        checked = notificationsEnabled,
-                        onCheckedChange = { settingsViewModel.setNotificationsEnabled(it) }
-                    )
-                }
-            )
 
-            HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
-
-            // Downloads Section
-            SectionHeader(title = "Downloads")
-
-            ListItem(
-                headlineContent = {
-                    Text(text = "Wi-Fi Only Downloads")
-                },
-                supportingContent = {
-                    Text(text = if (downloadWifiOnly) "Enabled" else "Disabled")
-                },
-                leadingContent = {
-                    Icon(
-                        imageVector = Icons.Outlined.Wifi,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                },
-                trailingContent = {
-                    Switch(
-                        checked = downloadWifiOnly,
-                        onCheckedChange = { settingsViewModel.setDownloadWifiOnly(it) }
-                    )
-                }
-            )
-
-            HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
-
-            // About Section
-            SectionHeader(title = "About")
-
-            ListItem(
-                headlineContent = {
-                    Text(text = "Version")
-                },
-                supportingContent = {
-                    Text(text = "1.0.0")
-                },
-                leadingContent = {
-                    Icon(
-                        imageVector = Icons.Outlined.Info,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant
+                    ListItem(
+                        headlineContent = { Text("Wi-Fi Only Downloads", fontWeight = FontWeight.Medium) },
+                        supportingContent = { Text(if (downloadWifiOnly) "Active" else "Inactive") },
+                        leadingContent = {
+                            Icon(
+                                imageVector = Icons.Outlined.Wifi,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.primary
+                            )
+                        },
+                        trailingContent = {
+                            Switch(
+                                checked = downloadWifiOnly,
+                                onCheckedChange = { settingsViewModel.setDownloadWifiOnly(it) }
+                            )
+                        },
+                        colors = ListItemDefaults.colors(containerColor = Color.Transparent)
                     )
                 }
-            )
+            }
 
-            ListItem(
-                headlineContent = {
-                    Text(text = "NEBians")
-                },
-                supportingContent = {
-                    Text(text = "Study resources for Nepali students")
-                },
-                leadingContent = {
-                    Icon(
-                        imageVector = Icons.Outlined.School,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant
+            // About Card Group
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(20.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.surface
+                ),
+                border = androidx.compose.foundation.BorderStroke(
+                    width = 1.dp,
+                    color = MaterialTheme.colorScheme.outlineVariant
+                )
+            ) {
+                Column(
+                    modifier = Modifier.padding(16.dp)
+                ) {
+                    Text(
+                        text = "About",
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.padding(bottom = 8.dp)
+                    )
+
+                    ListItem(
+                        headlineContent = { Text("Version", fontWeight = FontWeight.Medium) },
+                        supportingContent = { Text("1.0.0 (Stable Release)") },
+                        leadingContent = {
+                            Icon(
+                                imageVector = Icons.Outlined.Info,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.primary
+                            )
+                        },
+                        colors = ListItemDefaults.colors(containerColor = Color.Transparent)
+                    )
+
+                    ListItem(
+                        headlineContent = { Text("NEBians Network", fontWeight = FontWeight.Medium) },
+                        supportingContent = { Text("Collaborative resources for Nepali students") },
+                        leadingContent = {
+                            Icon(
+                                imageVector = Icons.Outlined.School,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.primary
+                            )
+                        },
+                        colors = ListItemDefaults.colors(containerColor = Color.Transparent)
                     )
                 }
-            )
+            }
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(8.dp))
 
-            val isGuest = userProfile == null || userProfile?.id == "guest_user"
+            // Premium Sign Out / Sign In Action button
             Button(
                 onClick = {
                     settingsViewModel.logout()
@@ -292,62 +350,23 @@ fun SettingsScreen(
                 ),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
-                    .height(48.dp),
-                shape = androidx.compose.foundation.shape.RoundedCornerShape(12.dp)
+                    .height(52.dp),
+                shape = RoundedCornerShape(16.dp),
+                border = if (isGuest) null else androidx.compose.foundation.BorderStroke(
+                    width = 1.dp,
+                    color = MaterialTheme.colorScheme.error.copy(alpha = 0.4f)
+                ),
+                elevation = ButtonDefaults.buttonElevation(defaultElevation = 2.dp)
             ) {
                 Text(
                     text = if (isGuest) "Sign In with Google" else "Sign Out",
                     fontWeight = FontWeight.Bold,
-                    fontSize = 15.sp
+                    fontSize = 15.sp,
+                    letterSpacing = 0.5.sp
                 )
             }
 
-            Spacer(modifier = Modifier.height(48.dp))
+            Spacer(modifier = Modifier.height(32.dp))
         }
     }
-
-    // Edit Name Dialog
-    if (showEditNameDialog) {
-        AlertDialog(
-            onDismissRequest = { showEditNameDialog = false },
-            title = {
-                Text(text = "Edit Name")
-            },
-            text = {
-                OutlinedTextField(
-                    value = editNameText,
-                    onValueChange = { editNameText = it },
-                    label = { Text(text = "Name") },
-                    singleLine = true,
-                    modifier = Modifier.fillMaxWidth()
-                )
-            },
-            confirmButton = {
-                TextButton(
-                    onClick = {
-                        settingsViewModel.setUserName(editNameText.trim())
-                        showEditNameDialog = false
-                    }
-                ) {
-                    Text(text = "Save")
-                }
-            },
-            dismissButton = {
-                TextButton(onClick = { showEditNameDialog = false }) {
-                    Text(text = "Cancel")
-                }
-            }
-        )
-    }
-}
-
-@Composable
-private fun SectionHeader(title: String) {
-    Text(
-        text = title.uppercase(),
-        style = MaterialTheme.typography.labelLarge,
-        color = MaterialTheme.colorScheme.primary,
-        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
-    )
 }
