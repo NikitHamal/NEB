@@ -22,6 +22,9 @@ interface ResourceDao {
     @Query("SELECT * FROM resources WHERE id = :id")
     fun getById(id: String): Flow<ResourceEntity?>
 
+    @Query("SELECT * FROM resources WHERE id = :id")
+    suspend fun getByIdSync(id: String): ResourceEntity?
+
     @Query("SELECT * FROM resources WHERE subject = :subject ORDER BY addedAt DESC")
     fun getBySubject(subject: String): Flow<List<ResourceEntity>>
 

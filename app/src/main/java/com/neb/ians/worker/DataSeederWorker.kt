@@ -19,13 +19,6 @@ class DataSeederWorker @AssistedInject constructor(
 ) : CoroutineWorker(context, workerParams) {
 
     override suspend fun doWork(): Result {
-        return try {
-            resourceDao.insertAll(SampleData.resources)
-            SampleData.forumPosts.forEach { forumDao.insertPost(it) }
-            SampleData.forumReplies.forEach { forumDao.insertReply(it) }
-            Result.success()
-        } catch (e: Exception) {
-            Result.retry()
-        }
+        return Result.success()
     }
 }
