@@ -213,11 +213,7 @@ interface ApiService {
     )
 
     companion object {
-        private val BASE_URL = if (com.neb.ians.BuildConfig.DEBUG) {
-            "http://10.0.2.2:8787/" // Android emulator localhost route to PC wrangler server
-        } else {
-            "https://nebians-backend.thenebians.workers.dev/" // Live Cloudflare Workers deployment
-        }
+        private val BASE_URL = "https://nebians-backend.thenebians.workers.dev/" // Live Cloudflare Workers deployment
 
         fun create(): ApiService {
             val logger = HttpLoggingInterceptor().apply {
