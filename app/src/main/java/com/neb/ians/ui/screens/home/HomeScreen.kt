@@ -78,6 +78,7 @@ fun HomeScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .statusBarsPadding()
             .verticalScroll(scrollState)
     ) {
         // Greeting section

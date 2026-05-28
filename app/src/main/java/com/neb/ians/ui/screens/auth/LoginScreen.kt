@@ -42,7 +42,8 @@ fun LoginScreen(
                         MaterialTheme.colorScheme.surface
                     )
                 )
-            ),
+            )
+            .statusBarsPadding(),
         contentAlignment = Alignment.Center
     ) {
         Column(
