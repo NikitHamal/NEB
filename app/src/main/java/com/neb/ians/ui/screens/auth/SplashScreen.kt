@@ -70,7 +70,8 @@ fun SplashScreen(
                         MaterialTheme.colorScheme.surface
                     )
                 )
-            ),
+            )
+            .statusBarsPadding(),
         contentAlignment = Alignment.Center
     ) {
         Column(
