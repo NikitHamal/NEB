@@ -37,6 +37,15 @@
             </intent-filter>
         </activity>
 
+        <!-- Firebase Cloud Messaging Service -->
+        <service
+            android:name=".util.NEBiansFCMService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
         <!--
             Remove the default WorkManager initializer so that Hilt can
             provide its own configuration via HiltWorkerFactory.
