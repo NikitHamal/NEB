@@ -1,10 +1,11 @@
 name = "nebians-backend"
 main = "src/index.ts"
 compatibility_date = "2024-05-24"
+workers_dev = true
 
 # D1 Database binding
 [[d1_databases]]
 binding = "DB"
 database_name = "nebians-db"
-database_id = "local-nebians-db" # Overridden in production, keeps wrangler local-dev running smoothly
+database_id = "6bc77ba7-22e3-4207-a244-6357ecdd377a" # Cloudflare production D1 ID
 migrations_dir = "./migrations"
