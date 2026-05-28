@@ -108,7 +108,9 @@ fun SearchScreen(
                         placeholder = {
                             Text(
                                 text = "Search resources, notes, papers...",
-                                style = MaterialTheme.typography.bodyMedium
+                                style = MaterialTheme.typography.bodyMedium,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
                             )
                         },
                         leadingIcon = {
