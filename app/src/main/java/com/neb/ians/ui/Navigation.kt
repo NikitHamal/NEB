@@ -16,9 +16,13 @@ import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -28,6 +32,13 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import dagger.hilt.EntryPoint
+import dagger.hilt.InstallIn
+import dagger.hilt.android.EntryPointAccessors
+import dagger.hilt.components.SingletonComponent
+import com.neb.ians.data.repository.AuthRepository
+import com.neb.ians.data.api.ApiService
+
 import com.neb.ians.ui.screens.home.HomeScreen
 import com.neb.ians.ui.screens.library.LibraryScreen
 import com.neb.ians.ui.screens.forum.ForumScreen
@@ -39,7 +50,17 @@ import com.neb.ians.ui.screens.settings.SettingsViewModel
 import com.neb.ians.ui.screens.reader.PdfReaderScreen
 import com.neb.ians.ui.screens.search.SearchScreen
 
+@EntryPoint
+@InstallIn(SingletonComponent::class)
+interface AuthEntryPoint {
+    fun authRepository(): AuthRepository
+    fun apiService(): ApiService
+}
+
 sealed class Screen(val route: String) {
+    data object Splash : Screen("splash")
+    data object Login : Screen("login")
+    data object CompleteProfile : Screen("complete_profile")
     data object Home : Screen("home")
     data object Library : Screen("library")
     data object Forum : Screen("forum")
@@ -77,6 +98,27 @@ fun NEBiansNavHost(
     settingsViewModel: SettingsViewModel,
     navController: NavHostController = rememberNavController()
 ) {
+    val context = LocalContext.current
+    val authEntryPoint = remember(context) {
+        EntryPointAccessors.fromApplication(
+            context.applicationContext,
+            AuthEntryPoint::class.java
+        )
+    }
+    val authRepository = authEntryPoint.authRepository()
+    val apiService = authEntryPoint.apiService()
+
+    val authState by settingsViewModel.authState.collectAsStateWithLifecycle()
+    LaunchedEffect(authState) {
+        if (authState is com.neb.ians.data.repository.AuthState.Unauthenticated) {
+            navController.navigate(Screen.Login.route) {
+                popUpTo(navController.graph.findStartDestination().id) {
+                    inclusive = true
+                }
+            }
+        }
+    }
+
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
@@ -121,11 +163,57 @@ fun NEBiansNavHost(
     ) { innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = Screen.Home.route,
+            startDestination = Screen.Splash.route,
             modifier = Modifier.padding(innerPadding),
             enterTransition = { fadeIn(animationSpec = tween(200)) },
             exitTransition = { fadeOut(animationSpec = tween(200)) },
         ) {
+            composable(Screen.Splash.route) {
+                com.neb.ians.ui.screens.auth.SplashScreen(
+                    authRepository = authRepository,
+                    onNavigateToHome = {
+                        navController.navigate(Screen.Home.route) {
+                            popUpTo(Screen.Splash.route) { inclusive = true }
+                        }
+                    },
+                    onNavigateToLogin = {
+                        navController.navigate(Screen.Login.route) {
+                            popUpTo(Screen.Splash.route) { inclusive = true }
+                        }
+                    },
+                    onNavigateToCompleteProfile = {
+                        navController.navigate(Screen.CompleteProfile.route) {
+                            popUpTo(Screen.Splash.route) { inclusive = true }
+                        }
+                    }
+                )
+            }
+            composable(Screen.Login.route) {
+                com.neb.ians.ui.screens.auth.LoginScreen(
+                    authRepository = authRepository,
+                    onNavigateToHome = {
+                        navController.navigate(Screen.Home.route) {
+                            popUpTo(Screen.Login.route) { inclusive = true }
+                        }
+                    },
+                    onNavigateToCompleteProfile = {
+                        navController.navigate(Screen.CompleteProfile.route) {
+                            popUpTo(Screen.Login.route) { inclusive = true }
+                        }
+                    }
+                )
+            }
+            composable(Screen.CompleteProfile.route) {
+                com.neb.ians.ui.screens.auth.CompleteProfileScreen(
+                    authRepository = authRepository,
+                    apiService = apiService,
+                    onNavigateToHome = {
+                        navController.navigate(Screen.Home.route) {
+                            popUpTo(Screen.CompleteProfile.route) { inclusive = true }
+                        }
+                    }
+                )
+            }
             composable(Screen.Home.route) {
                 HomeScreen(
                     onResourceClick = { resourceId ->

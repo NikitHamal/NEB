@@ -22,4 +22,10 @@ object AppModule {
     fun provideDataStore(@ApplicationContext context: Context): DataStore<Preferences> {
         return context.dataStore
     }
+
+    @Provides
+    @Singleton
+    fun provideApiService(): com.neb.ians.data.api.ApiService {
+        return com.neb.ians.data.api.ApiService.create()
+    }
 }

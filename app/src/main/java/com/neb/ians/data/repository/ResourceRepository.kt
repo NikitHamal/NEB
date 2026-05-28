@@ -8,8 +8,36 @@ import javax.inject.Singleton
 
 @Singleton
 class ResourceRepository @Inject constructor(
-    private val resourceDao: ResourceDao
+    private val resourceDao: ResourceDao,
+    private val apiService: com.neb.ians.data.api.ApiService
 ) {
+    suspend fun syncResources() {
+        try {
+            val apiRes = apiService.getResources()
+            val entities = apiRes.map { res ->
+                ResourceEntity(
+                    id = res.id,
+                    title = res.title,
+                    description = res.description,
+                    subject = res.subject,
+                    gradeLevel = res.gradeLevel,
+                    type = res.type,
+                    fileUrl = res.fileUrl,
+                    thumbnailUrl = res.thumbnailUrl,
+                    fileSize = res.fileSize,
+                    addedAt = res.addedAt,
+                    viewCount = res.viewCount,
+                    // keep download local status if it exists in DB
+                    isDownloaded = resourceDao.getByIdSync(res.id)?.isDownloaded ?: false,
+                    localPath = resourceDao.getByIdSync(res.id)?.localPath
+                )
+            }
+            resourceDao.insertAll(entities)
+        } catch (e: Exception) {
+            // Offline fallback
+        }
+    }
+
     fun getAllResources(): Flow<List<ResourceEntity>> = resourceDao.getAll()
 
     fun getResourceById(id: String): Flow<ResourceEntity?> = resourceDao.getById(id)
