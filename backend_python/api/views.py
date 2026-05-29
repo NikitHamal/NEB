@@ -5,6 +5,13 @@ Endpoints:
   GET    /api/users/check-username?username=
   POST   /api/users/profile
   GET    /api/users/profile/<username>
+  GET    /api/users/profile/<username>/stats
+  POST   /api/users/<userId>/follow           (toggle follow/unfollow)
+  GET    /api/users/<userId>/followers
+  GET    /api/users/<userId>/following
+  GET    /api/users/me/photos
+  POST   /api/users/me/photos
+  POST   /api/users/me/photos/<photoId>/activate
   GET    /api/resources
   GET    /api/posts          (via posts_endpoint dispatcher)
   POST   /api/posts          (via posts_endpoint dispatcher)
@@ -27,10 +34,11 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from .authentication import verify_google_token
-from .models import User, Resource, Post, PostLike, Reply, ReplyLike, FCMToken
+from .models import User, Resource, Post, PostLike, Reply, ReplyLike, FCMToken, Follow, UserPhoto
 from .serializers import (
     UserSerializer, UserPublicSerializer,
-    ResourceSerializer, PostSerializer, ReplySerializer
+    ResourceSerializer, PostSerializer, ReplySerializer,
+    UserPhotoSerializer, UserStatsSerializer, FollowSerializer,
 )
 
 logger = logging.getLogger(__name__)
@@ -651,3 +659,223 @@ def replies_endpoint(request, post_id):
 
     logger.info("replies_endpoint: created reply on post %s by user %s", post_id, user.username)
     return Response(ReplySerializer(reply, context={'request': request}).data, status=201)
+
+
+# ---------------------------------------------------------------------------
+# COMMUNITY — USER STATS
+# ---------------------------------------------------------------------------
+
+def _build_stats(user):
+    """
+    Build the stats dict for a given User instance.
+    contribution_score: posts*3 + replies*2 + likes_given*1
+    Designed to be extended (resources submitted, etc.) in future.
+    """
+    from django.db.models import Sum
+    post_count = Post.objects.filter(user=user).count()
+    reply_count = Reply.objects.filter(user=user).count()
+    follower_count = Follow.objects.filter(following=user).count()
+    following_count = Follow.objects.filter(follower=user).count()
+
+    post_likes = Post.objects.filter(user=user).aggregate(t=Sum('thumbs_up_count'))['t'] or 0
+    reply_likes = Reply.objects.filter(user=user).aggregate(t=Sum('thumbs_up_count'))['t'] or 0
+    likes_received = post_likes + reply_likes
+
+    likes_given = (PostLike.objects.filter(user=user).count() +
+                   ReplyLike.objects.filter(user=user).count())
+
+    contribution_score = (post_count * 3) + (reply_count * 2) + likes_given
+
+    return {
+        'username': user.username,
+        'post_count': post_count,
+        'reply_count': reply_count,
+        'follower_count': follower_count,
+        'following_count': following_count,
+        'likes_received': likes_received,
+        'likes_given': likes_given,
+        'contribution_score': contribution_score,
+    }
+
+
+@api_view(['GET'])
+@authentication_classes([])
+def user_profile_stats(request, username):
+    """
+    GET /api/users/profile/<username>/stats
+    Returns aggregated community stats. Public endpoint.
+    Android app: call this alongside user_profile_get to populate the profile screen.
+    """
+    try:
+        user = User.objects.get(username=username)
+    except User.DoesNotExist:
+        return Response({'error': 'User not found'}, status=404)
+
+    stats = _build_stats(user)
+    requesting_user = _get_user_from_request(request)
+    is_following = False
+    if requesting_user and requesting_user.pk != user.pk:
+        is_following = Follow.objects.filter(follower=requesting_user, following=user).exists()
+
+    stats['is_following'] = is_following
+    stats['is_self'] = bool(requesting_user and requesting_user.pk == user.pk)
+    return Response(stats)
+
+
+# ---------------------------------------------------------------------------
+# COMMUNITY — FOLLOW / UNFOLLOW
+# ---------------------------------------------------------------------------
+
+@api_view(['POST'])
+def user_follow_toggle(request, user_id):
+    """
+    POST /api/users/<userId>/follow
+    Instagram-style toggle: follow if not following, unfollow if already following.
+    Returns: { is_following: bool, follower_count: int }
+    Android app: call after Follow/Unfollow button tap and update UI from response.
+    """
+    current_user, err = _require_user(request)
+    if err:
+        return err
+
+    if current_user.id == user_id:
+        return Response({'error': 'You cannot follow yourself'}, status=400)
+
+    try:
+        target_user = User.objects.get(pk=user_id)
+    except User.DoesNotExist:
+        return Response({'error': 'User not found'}, status=404)
+
+    with transaction.atomic():
+        existing = Follow.objects.filter(follower=current_user, following=target_user).first()
+        if existing:
+            existing.delete()
+            is_following = False
+        else:
+            Follow.objects.create(
+                follower=current_user,
+                following=target_user,
+                created_at=_now_ms()
+            )
+            is_following = True
+
+    follower_count = Follow.objects.filter(following=target_user).count()
+    return Response({'is_following': is_following, 'follower_count': follower_count})
+
+
+@api_view(['GET'])
+@authentication_classes([])
+def user_followers_list(request, user_id):
+    """
+    GET /api/users/<userId>/followers
+    Lists all Follow records where following=user_id (i.e. users who follow this user).
+    """
+    try:
+        target_user = User.objects.get(pk=user_id)
+    except User.DoesNotExist:
+        return Response({'error': 'User not found'}, status=404)
+
+    follows = Follow.objects.filter(following=target_user).select_related('follower')
+    return Response(FollowSerializer(follows, many=True).data)
+
+
+@api_view(['GET'])
+@authentication_classes([])
+def user_following_list(request, user_id):
+    """
+    GET /api/users/<userId>/following
+    Lists all Follow records where follower=user_id (i.e. users this person follows).
+    """
+    try:
+        target_user = User.objects.get(pk=user_id)
+    except User.DoesNotExist:
+        return Response({'error': 'User not found'}, status=404)
+
+    follows = Follow.objects.filter(follower=target_user).select_related('following')
+    return Response(FollowSerializer(follows, many=True).data)
+
+
+# ---------------------------------------------------------------------------
+# COMMUNITY — PROFILE PHOTO HISTORY
+# ---------------------------------------------------------------------------
+
+@api_view(['GET', 'POST'])
+def user_photos(request):
+    """
+    GET  /api/users/me/photos — list current user's saved photo URLs (newest first)
+    POST /api/users/me/photos — save a new photo URL or upload an image file, and set active
+                                Body: { "url": "https://..." } OR multipart file "file"
+    """
+    current_user, err = _require_user(request)
+    if err:
+        return err
+
+    if request.method == 'GET':
+        photos = UserPhoto.objects.filter(user=current_user)
+        return Response(UserPhotoSerializer(photos, many=True).data)
+
+    # POST — add new photo URL or upload file
+    url = request.data.get('url', '').strip()
+    file_obj = request.FILES.get('file')
+
+    if not url and not file_obj:
+        return Response({'error': 'Either an uploaded image file or web URL is required'}, status=400)
+
+    if file_obj:
+        import os
+        from django.conf import settings
+        from django.core.files.storage import default_storage
+        from django.core.files.base import ContentFile
+        
+        ext = os.path.splitext(file_obj.name)[1].lower()
+        if ext not in ['.jpg', '.jpeg', '.png', '.gif', '.webp']:
+            return Response({'error': 'Invalid image format. Only JPG, PNG, GIF, and WEBP are allowed.'}, status=400)
+            
+        filename = f"{current_user.id}_{_now_ms()}{ext}"
+        path = default_storage.save(os.path.join('profile_photos', filename), ContentFile(file_obj.read()))
+        url = request.build_absolute_uri(settings.MEDIA_URL + path)
+
+    with transaction.atomic():
+        # Mark all existing photos as not current
+        UserPhoto.objects.filter(user=current_user).update(is_current=False)
+        # Save new photo
+        photo = UserPhoto.objects.create(
+            user=current_user,
+            url=url,
+            uploaded_at=_now_ms(),
+            is_current=True,
+        )
+        # Update the user's main photo_url
+        current_user.photo_url = url
+        current_user.save(update_fields=['photo_url'])
+
+    logger.info("user_photos: user %s set new photo %s", current_user.username, url)
+    return Response(UserPhotoSerializer(photo).data, status=201)
+
+
+
+@api_view(['POST'])
+def user_photo_activate(request, photo_id):
+    """
+    POST /api/users/me/photos/<photoId>/activate
+    Switch to a previously saved photo from history.
+    Android app: call when user taps a photo in the history grid.
+    """
+    current_user, err = _require_user(request)
+    if err:
+        return err
+
+    try:
+        photo = UserPhoto.objects.get(pk=photo_id, user=current_user)
+    except UserPhoto.DoesNotExist:
+        return Response({'error': 'Photo not found'}, status=404)
+
+    with transaction.atomic():
+        UserPhoto.objects.filter(user=current_user).update(is_current=False)
+        photo.is_current = True
+        photo.save(update_fields=['is_current'])
+        current_user.photo_url = photo.url
+        current_user.save(update_fields=['photo_url'])
+
+    logger.info("user_photo_activate: user %s switched to photo %s", current_user.username, photo_id)
+    return Response({'success': True, 'photo_url': photo.url, 'photo': UserPhotoSerializer(photo).data})

@@ -1,77 +1,92 @@
 :root {
-  --md-primary: #1B6EF3;
+  --md-primary: #004AC6;
   --md-on-primary: #FFFFFF;
-  --md-primary-container: #D6E3FF;
-  --md-on-primary-container: #001B3E;
-  --md-secondary: #565F71;
+  --md-primary-container: #2563EB;
+  --md-on-primary-container: #EEEFFF;
+  --md-secondary: #565E74;
   --md-on-secondary: #FFFFFF;
-  --md-secondary-container: #DAE2F9;
-  --md-on-secondary-container: #131C2B;
-  --md-tertiary: #6F5677;
+  --md-secondary-container: #DAE2FD;
+  --md-on-secondary-container: #5C647A;
+  --md-tertiary: #525657;
   --md-on-tertiary: #FFFFFF;
-  --md-tertiary-container: #F8D8FE;
-  --md-on-tertiary-container: #281430;
+  --md-tertiary-container: #6B6E70;
+  --md-on-tertiary-container: #EFF1F3;
   --md-error: #BA1A1A;
   --md-on-error: #FFFFFF;
   --md-error-container: #FFDAD6;
-  --md-background: #FEF7FF;
-  --md-on-background: #1B1B1F;
-  --md-surface: #FEF7FF;
-  --md-on-surface: #1B1B1F;
-  --md-surface-variant: #E1E2EC;
-  --md-on-surface-variant: #44474F;
-  --md-outline: #74777F;
-  --md-outline-variant: #C4C6D0;
-  --md-surface-container: #F1F0F4;
-  --md-surface-container-low: #F6F2F7;
-  --md-surface-container-high: #ECEBF0;
-  --md-surface-container-highest: #E6E1E5;
-  --md-inverse-surface: #303034;
-  --md-inverse-on-surface: #F3EFF4;
-  --md-shadow: rgba(0,0,0,0.15);
-  --md-radius-sm: 8px;
+  --md-on-error-container: #93000A;
+  --md-background: #F8F9FF;
+  --md-on-background: #0B1C30;
+  --md-surface: #F8F9FF;
+  --md-on-surface: #0B1C30;
+  --md-surface-variant: #D3E4FE;
+  --md-on-surface-variant: #434655;
+  --md-outline: #737686;
+  --md-outline-variant: #C3C6D7;
+  --md-surface-dim: #CBDBF5;
+  --md-surface-bright: #F8F9FF;
+  --md-surface-container-lowest: #FFFFFF;
+  --md-surface-container-low: #EFF4FF;
+  --md-surface-container: #E5EEFF;
+  --md-surface-container-high: #DCE9FF;
+  --md-surface-container-highest: #D3E4FE;
+  --md-inverse-surface: #213145;
+  --md-inverse-on-surface: #EAF1FF;
+  --md-inverse-primary: #B4C5FF;
+  --md-surface-tint: #0053DB;
+  --md-shadow: rgba(0,0,0,0.05);
+  --md-shadow-lg: rgba(0,0,0,0.10);
+  --md-radius-sm: 4px;
+  --md-radius: 8px;
   --md-radius-md: 12px;
   --md-radius-lg: 16px;
-  --md-radius-xl: 28px;
+  --md-radius-xl: 24px;
   --md-radius-full: 9999px;
-  --md-elevation-1: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.08);
-  --md-elevation-2: 0 3px 6px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.08);
-  --md-elevation-3: 0 6px 12px rgba(0,0,0,0.12), 0 4px 8px rgba(0,0,0,0.08);
+  --md-elevation-1: 0 1px 4px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.03);
+  --md-elevation-2: 0 4px 12px rgba(0,0,0,0.10);
+  --md-elevation-3: 0 8px 24px rgba(0,0,0,0.12);
   --md-font: 'Poppins', 'Segoe UI', system-ui, -apple-system, sans-serif;
   --md-transition: 200ms cubic-bezier(0.2, 0, 0, 1);
 }
 
 [data-theme="dark"] {
-  --md-primary: #A9C7FF;
-  --md-on-primary: #003062;
-  --md-primary-container: #004787;
-  --md-on-primary-container: #D6E3FF;
-  --md-secondary: #BFC6DC;
+  --md-primary: #B4C5FF;
+  --md-on-primary: #002D78;
+  --md-primary-container: #003EA8;
+  --md-on-primary-container: #DBE1FF;
+  --md-secondary: #BEC6E0;
   --md-on-secondary: #283041;
-  --md-secondary-container: #3F4759;
-  --md-on-secondary-container: #DAE2F9;
-  --md-tertiary: #DBBCE3;
-  --md-on-tertiary: #3E2846;
-  --md-tertiary-container: #563E5D;
-  --md-on-tertiary-container: #F8D8FE;
+  --md-secondary-container: #3F465C;
+  --md-on-secondary-container: #DAE2FD;
+  --md-tertiary: #C4C7C9;
+  --md-on-tertiary: #2E3133;
+  --md-tertiary-container: #444749;
+  --md-on-tertiary-container: #E0E3E5;
   --md-error: #FFB4AB;
   --md-on-error: #690005;
   --md-error-container: #93000A;
-  --md-background: #1B1B1F;
-  --md-on-background: #E6E1E5;
-  --md-surface: #1B1B1F;
-  --md-on-surface: #E6E1E5;
-  --md-surface-variant: #44474F;
-  --md-on-surface-variant: #C4C6D0;
-  --md-outline: #8E9099;
-  --md-outline-variant: #44474F;
-  --md-surface-container: #25252A;
-  --md-surface-container-low: #201F24;
-  --md-surface-container-high: #2B2B30;
-  --md-surface-container-highest: #363539;
-  --md-inverse-surface: #E6E1E5;
-  --md-inverse-on-surface: #303034;
+  --md-on-error-container: #FFDAD6;
+  --md-background: #0B1C30;
+  --md-on-background: #E5EEFF;
+  --md-surface: #0B1C30;
+  --md-on-surface: #E5EEFF;
+  --md-surface-variant: #434655;
+  --md-on-surface-variant: #C3C6D7;
+  --md-outline: #8D90A1;
+  --md-outline-variant: #434655;
+  --md-surface-dim: #0B1C30;
+  --md-surface-bright: #313442;
+  --md-surface-container-lowest: #060F1B;
+  --md-surface-container-low: #131B2E;
+  --md-surface-container: #1A2133;
+  --md-surface-container-high: #252B3E;
+  --md-surface-container-highest: #30364A;
+  --md-inverse-surface: #E5EEFF;
+  --md-inverse-on-surface: #0B1C30;
+  --md-inverse-primary: #2563EB;
+  --md-surface-tint: #B4C5FF;
   --md-shadow: rgba(0,0,0,0.3);
+  --md-shadow-lg: rgba(0,0,0,0.4);
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -87,22 +102,22 @@ a { color: var(--md-primary); text-decoration: none; }
 a:hover { text-decoration: underline; }
 img { max-width: 100%; height: auto; }
 
-/* Material 3 Typography */
-.md-display-large { font-size: 3.5625rem; font-weight: 400; line-height: 1.12; letter-spacing: -0.02em; }
-.md-display-medium { font-size: 2.8125rem; font-weight: 400; line-height: 1.16; }
-.md-display-small { font-size: 2.25rem; font-weight: 400; line-height: 1.22; }
-.md-headline-large { font-size: 2rem; font-weight: 400; line-height: 1.25; }
-.md-headline-medium { font-size: 1.75rem; font-weight: 400; line-height: 1.29; }
-.md-headline-small { font-size: 1.5rem; font-weight: 400; line-height: 1.33; }
+/* Material 3 Typography — NEBians Vibe */
+.md-display-large { font-size: 2.5rem; font-weight: 800; line-height: 1.2; letter-spacing: -0.02em; }
+.md-display-medium { font-size: 2rem; font-weight: 700; line-height: 1.2; }
+.md-display-small { font-size: 1.5rem; font-weight: 700; line-height: 1.3; }
+.md-headline-large { font-size: 2.5rem; font-weight: 800; line-height: 1.2; letter-spacing: -0.02em; }
+.md-headline-medium { font-size: 2rem; font-weight: 700; line-height: 1.2; }
+.md-headline-small { font-size: 1.5rem; font-weight: 700; line-height: 1.3; }
 .md-title-large { font-size: 1.375rem; font-weight: 700; line-height: 1.27; }
-.md-title-medium { font-size: 1rem; font-weight: 600; line-height: 1.5; }
-.md-title-small { font-size: 0.875rem; font-weight: 600; line-height: 1.43; }
-.md-body-large { font-size: 1rem; font-weight: 400; line-height: 1.5; }
-.md-body-medium { font-size: 0.875rem; font-weight: 400; line-height: 1.43; }
-.md-body-small { font-size: 0.75rem; font-weight: 400; line-height: 1.33; }
-.md-label-large { font-size: 0.875rem; font-weight: 600; line-height: 1.43; }
-.md-label-medium { font-size: 0.75rem; font-weight: 600; line-height: 1.33; }
-.md-label-small { font-size: 0.6875rem; font-weight: 600; line-height: 1.45; }
+.md-title-medium { font-size: 1rem; font-weight: 600; line-height: 1.5; letter-spacing: 0.01em; }
+.md-title-small { font-size: 0.875rem; font-weight: 600; line-height: 1.43; letter-spacing: 0.04em; }
+.md-body-large { font-size: 1.125rem; font-weight: 400; line-height: 1.6; }
+.md-body-medium { font-size: 1rem; font-weight: 400; line-height: 1.6; }
+.md-body-small { font-size: 0.875rem; font-weight: 400; line-height: 1.6; }
+.md-label-large { font-size: 0.875rem; font-weight: 600; line-height: 1.4; letter-spacing: 0.01em; }
+.md-label-medium { font-size: 0.75rem; font-weight: 600; line-height: 1.4; letter-spacing: 0.04em; }
+.md-label-small { font-size: 0.75rem; font-weight: 600; line-height: 1.4; letter-spacing: 0.04em; }
 
 /* Material 3 Buttons */
 .md-btn {
@@ -115,7 +130,7 @@ img { max-width: 100%; height: auto; }
 .md-btn:hover { text-decoration: none; }
 .md-btn-filled {
   background: var(--md-primary); color: var(--md-on-primary);
-  box-shadow: var(--md-elevation-1);
+  box-shadow: 0 2px 0 rgba(0,0,0,0.15);
 }
 .md-btn-filled:hover { box-shadow: var(--md-elevation-2); filter: brightness(1.08); }
 .md-btn-outlined {
@@ -140,26 +155,28 @@ img { max-width: 100%; height: auto; }
 
 /* Material 3 Cards */
 .md-card {
-  background: var(--md-surface-container-low);
+  background: var(--md-surface-container-lowest);
+  border: 1px solid var(--md-outline-variant);
   border-radius: var(--md-radius-lg);
   overflow: hidden;
-  transition: box-shadow var(--md-transition), transform var(--md-transition);
 }
-.md-card:hover { box-shadow: var(--md-elevation-1); }
+.md-card:hover { }
 .md-card-outlined {
-  background: var(--md-surface);
+  background: var(--md-surface-container-lowest);
   border: 1px solid var(--md-outline-variant);
   border-radius: var(--md-radius-lg);
   overflow: hidden;
 }
 .md-card-elevated {
-  background: var(--md-surface-container-low);
+  background: var(--md-surface-container-lowest);
+  border: 1px solid var(--md-outline-variant);
   border-radius: var(--md-radius-lg);
   box-shadow: var(--md-elevation-1);
   overflow: hidden;
 }
 .md-card-filled {
   background: var(--md-surface-container-highest);
+  border: 1px solid var(--md-outline-variant);
   border-radius: var(--md-radius-lg);
   overflow: hidden;
 }
@@ -554,7 +571,7 @@ img { max-width: 100%; height: auto; }
 }
 
 /* Subject colors */
-.subject-physics { --subject-color: #1B6EF3; }
+.subject-physics { --subject-color: #2563EB; }
 .subject-chemistry { --subject-color: #006E1C; }
 .subject-mathematics, .subject-math { --subject-color: #E8710A; }
 .subject-biology { --subject-color: #9334E6; }

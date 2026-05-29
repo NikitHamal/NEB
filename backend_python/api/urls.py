@@ -9,10 +9,20 @@ urlpatterns = [
     # Auth
     path('auth/google', views.auth_google, name='auth-google'),
 
-    # Users
+    # Users — profile
     path('users/check-username', views.check_username, name='check-username'),
     path('users/profile', views.user_profile_create_or_update, name='profile-create-update'),
     path('users/profile/<str:username>', views.user_profile_get, name='profile-get'),
+    path('users/profile/<str:username>/stats', views.user_profile_stats, name='profile-stats'),
+
+    # Users — photo history (auth required)
+    path('users/me/photos', views.user_photos, name='user-photos'),
+    path('users/me/photos/<int:photo_id>/activate', views.user_photo_activate, name='user-photo-activate'),
+
+    # Users — follow system
+    path('users/<str:user_id>/follow', views.user_follow_toggle, name='user-follow'),
+    path('users/<str:user_id>/followers', views.user_followers_list, name='user-followers'),
+    path('users/<str:user_id>/following', views.user_following_list, name='user-following'),
 
     # Resources
     path('resources', views.resources_list, name='resources-list'),
