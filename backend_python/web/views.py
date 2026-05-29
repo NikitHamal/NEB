@@ -1,6 +1,7 @@
 import json
 import logging
 
+from django.conf import settings
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_GET, require_POST
@@ -10,7 +11,9 @@ from . import api_client as api
 
 logger = logging.getLogger(__name__)
 
-ADMIN_TOKEN = 'nebians-admin-2024-secure-token'
+ADMIN_TOKEN = getattr(settings, 'ADMIN_TOKEN', 'nebians-admin-2024-secure-token')
+ADMIN_USERNAME = getattr(settings, 'ADMIN_USERNAME', 'admin')
+ADMIN_PASSWORD = getattr(settings, 'ADMIN_PASSWORD', 'admin123')
 
 
 def _ctx(request, **extra):
@@ -61,22 +64,25 @@ def home(request):
 
 def library(request):
     token = api.get_session_token(request)
-    resources = api.get_resources(token=token) or []
-    if not isinstance(resources, list):
-        resources = []
     subject = request.GET.get('subject', '')
     grade = request.GET.get('grade', '')
     rtype = request.GET.get('type', '')
-    filtered = resources
+    params = {}
     if subject:
-        filtered = [r for r in filtered if r.get('subject', '').lower() == subject.lower()]
+        params['subject'] = subject
     if grade:
-        filtered = [r for r in filtered if r.get('grade_level', '').lower() == grade.lower()]
+        params['grade'] = grade
     if rtype:
-        filtered = [r for r in filtered if r.get('type', '').lower() == rtype.lower()]
-    all_subjects = sorted(set(r.get('subject', '') for r in resources if r.get('subject')))
-    all_grades = sorted(set(r.get('grade_level', '') for r in resources if r.get('grade_level')))
-    all_types = sorted(set(r.get('type', '') for r in resources if r.get('type')))
+        params['type'] = rtype
+    filtered = api.get_resources(token=token, params=params) or []
+    if not isinstance(filtered, list):
+        filtered = []
+    all_resources = api.get_resources(token=token) or []
+    if not isinstance(all_resources, list):
+        all_resources = []
+    all_subjects = sorted(set(r.get('subject', '') for r in all_resources if r.get('subject')))
+    all_grades = sorted(set(r.get('grade_level', '') for r in all_resources if r.get('grade_level')))
+    all_types = sorted(set(r.get('type', '') for r in all_resources if r.get('type')))
     return render(request, 'web/library.html', _ctx(request,
         resources=filtered,
         all_subjects=all_subjects,
@@ -90,26 +96,33 @@ def library(request):
 
 def search(request):
     token = api.get_session_token(request)
-    resources = api.get_resources(token=token) or []
-    if not isinstance(resources, list):
-        resources = []
     query = request.GET.get('q', '').strip()
     results = []
     if query:
-        ql = query.lower()
-        results = [r for r in resources if ql in r.get('title', '').lower() or ql in r.get('description', '').lower() or ql in r.get('subject', '').lower()]
+        search_data = api.search_all(token=token, query=query)
+        if search_data and isinstance(search_data, dict):
+            results = search_data.get('resources', [])
+        elif not search_data:
+            resources = api.get_resources(token=token) or []
+            if isinstance(resources, list):
+                ql = query.lower()
+                results = [r for r in resources if ql in r.get('title', '').lower() or ql in r.get('description', '').lower() or ql in r.get('subject', '').lower()]
     return render(request, 'web/search.html', _ctx(request, query=query, results=results))
 
 
 def forum(request):
     token = api.get_session_token(request)
-    posts = api.get_posts(token=token) or []
+    category = request.GET.get('category', '')
+    params = {}
+    if category:
+        params['category'] = category
+    posts = api.get_posts(token=token, params=params) or []
     if not isinstance(posts, list):
         posts = []
-    category = request.GET.get('category', '')
-    if category:
-        posts = [p for p in posts if p.get('category', '').lower() == category.lower()]
-    categories = sorted(set(p.get('category', '') for p in posts if p.get('category')))
+    all_posts = api.get_posts(token=token) or []
+    if not isinstance(all_posts, list):
+        all_posts = []
+    categories = sorted(set(p.get('category', '') for p in all_posts if p.get('category')))
     return render(request, 'web/forum.html', _ctx(request,
         posts=posts,
         categories=categories,
@@ -348,7 +361,7 @@ def admin_login(request):
     if request.method == 'POST':
         username = request.POST.get('username', '').strip()
         password = request.POST.get('password', '').strip()
-        if username == 'admin' and password == 'admin123':
+        if username == ADMIN_USERNAME and password == ADMIN_PASSWORD:
             request.session['is_admin'] = True
             request.session['admin_user'] = 'admin'
             return redirect('web:admin_dashboard')
@@ -576,3 +589,11 @@ def sitemap_xml(request):
     xml_content += '</urlset>\n'
 
     return HttpResponse(xml_content, content_type='application/xml')
+
+
+def custom_404(request, exception):
+    return render(request, '404.html', _ctx(request), status=404)
+
+
+def custom_500(request):
+    return render(request, '500.html', _ctx(request), status=500)

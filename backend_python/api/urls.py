@@ -19,6 +19,9 @@ urlpatterns = [
     path('resources/<str:resource_id>', views.resource_detail, name='resource-detail'),
     path('resources/<str:resource_id>/view', views.resource_view, name='resource-view'),
 
+    # Search
+    path('search', views.search_all, name='search-all'),
+
     # Posts — GET list + POST create handled by posts_endpoint dispatcher
     path('posts', views.posts_endpoint, name='posts'),
     path('posts/<str:post_id>', views.post_detail, name='post-detail'),
@@ -28,6 +31,7 @@ urlpatterns = [
     path('posts/<str:post_id>/replies', views.replies_endpoint, name='replies'),
 
     # Replies
+    path('replies/<str:reply_id>', views.reply_detail, name='reply-detail'),
     path('replies/<str:reply_id>/like', views.reply_like, name='reply-like'),
 
     # FCM
