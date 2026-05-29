@@ -99,6 +99,8 @@ def truncate_chars(value, max_length):
     s = str(value)
     if len(s) <= max_length:
         return s
+    if max_length <= 3:
+        return s[:max_length]
     return s[:max_length - 3] + '...'
 
 
