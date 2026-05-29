@@ -566,6 +566,7 @@ def posts_endpoint(request):
     POST /api/posts  → create post
 
     GET query params:
+      username — filter by author username (case-insensitive)
       category — filter by category (case-insensitive)
       search   — search in title + content (case-insensitive)
       page     — page number for pagination (optional; if absent, returns all)
@@ -573,9 +574,12 @@ def posts_endpoint(request):
     if request.method == 'GET':
         posts = Post.objects.select_related('user').all()
 
+        username = request.query_params.get('username')
         category = request.query_params.get('category')
         search = request.query_params.get('search')
 
+        if username:
+            posts = posts.filter(user__username__iexact=username)
         if category:
             posts = posts.filter(category__iexact=category)
         if search:
