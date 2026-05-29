@@ -1,6 +1,8 @@
 import logging
+import os
 import time
 
+from django.conf import settings
 from django.db.models import Count, Sum, Q
 from rest_framework.decorators import api_view, authentication_classes
 from rest_framework.response import Response
@@ -12,7 +14,7 @@ from .serializers import UserSerializer, ResourceSerializer, PostSerializer, Rep
 
 logger = logging.getLogger(__name__)
 
-ADMIN_TOKEN = 'nebians-admin-2024-secure-token'
+ADMIN_TOKEN = getattr(settings, 'ADMIN_TOKEN', 'nebians-admin-2024-secure-token')
 
 
 def _check_admin(request):

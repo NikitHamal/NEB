@@ -38,6 +38,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.neb.ians.data.local.entity.ResourceEntity
+import com.neb.ians.ui.components.ErrorCard
+import com.neb.ians.ui.components.ShimmerSearchList
 
 private val subjectColors = mapOf(
     "Physics" to Color(0xFF1B6EF3),
@@ -154,14 +156,14 @@ fun SearchScreen(
         ) {
             when {
                 uiState.isSearching -> {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .weight(1f),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        CircularProgressIndicator()
-                    }
+                    ShimmerSearchList()
+                }
+
+                uiState.error != null && uiState.query.length >= 2 -> {
+                    ErrorCard(
+                        message = uiState.error ?: "Search failed",
+                        onRetry = { viewModel.onQueryChange(uiState.query) }
+                    )
                 }
 
                 uiState.query.isEmpty() -> {

@@ -7,7 +7,9 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Article
 import androidx.compose.material.icons.outlined.AutoStories
@@ -24,8 +26,13 @@ import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.Terminal
 import androidx.compose.material.icons.outlined.Translate
 import androidx.compose.material3.*
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -37,6 +44,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.neb.ians.data.local.entity.ResourceEntity
+import com.neb.ians.ui.components.ErrorCard
+import com.neb.ians.ui.components.ShimmerLibraryGrid
 
 private val subjectColors = mapOf(
     "Physics" to Color(0xFF1B6EF3),
@@ -89,6 +98,7 @@ fun LibraryScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+    var isRefreshing by remember { mutableStateOf(false) }
 
     val hasActiveFilters = uiState.selectedSubject != null ||
             uiState.selectedGradeLevel != null ||
@@ -121,90 +131,151 @@ fun LibraryScreen(
         },
         containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
     ) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
+        val pullToRefreshState = rememberPullToRefreshState()
+
+        PullToRefreshBox(
+            state = pullToRefreshState,
+            isRefreshing = isRefreshing,
+            onRefresh = {
+                isRefreshing = true
+                viewModel.refresh()
+                isRefreshing = false
+            },
+            modifier = Modifier.padding(paddingValues)
         ) {
-            // Filter section
-            Column(
-                modifier = Modifier.padding(bottom = 8.dp)
-            ) {
-                FilterChipRow(
-                    label = "Subject",
-                    items = LibraryUiState.SUBJECTS,
-                    selectedItem = uiState.selectedSubject,
-                    onItemSelected = viewModel::selectSubject
-                )
+            if (uiState.isLoading) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .verticalScroll(rememberScrollState())
+                ) {
+                    FilterSection(
+                        hasActiveFilters = hasActiveFilters,
+                        uiState = uiState,
+                        viewModel = viewModel
+                    )
+                    ShimmerLibraryGrid()
+                }
+            } else if (uiState.error != null && uiState.resources.isEmpty()) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .verticalScroll(rememberScrollState()),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    FilterSection(
+                        hasActiveFilters = hasActiveFilters,
+                        uiState = uiState,
+                        viewModel = viewModel
+                    )
+                    ErrorCard(
+                        message = uiState.error ?: "Something went wrong",
+                        onRetry = { viewModel.refresh() }
+                    )
+                }
+            } else {
+                Column(
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    FilterSection(
+                        hasActiveFilters = hasActiveFilters,
+                        uiState = uiState,
+                        viewModel = viewModel
+                    )
 
-                FilterChipRow(
-                    label = "Grade",
-                    items = LibraryUiState.GRADE_LEVELS,
-                    selectedItem = uiState.selectedGradeLevel,
-                    onItemSelected = viewModel::selectGradeLevel
-                )
+                    if (uiState.error != null) {
+                        ErrorCard(
+                            message = uiState.error ?: "Something went wrong",
+                            onRetry = { viewModel.refresh() }
+                        )
+                    }
 
-                FilterChipRow(
-                    label = "Type",
-                    items = LibraryUiState.TYPES,
-                    selectedItem = uiState.selectedType,
-                    onItemSelected = viewModel::selectType
-                )
-
-                if (hasActiveFilters) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp),
-                        horizontalArrangement = Arrangement.End
-                    ) {
-                        TextButton(onClick = viewModel::clearFilters) {
-                            Text(
-                                text = "Clear Filters",
-                                style = MaterialTheme.typography.labelLarge,
-                                color = MaterialTheme.colorScheme.primary
-                            )
+                    if (uiState.resources.isEmpty()) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(32.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                Text(
+                                    text = "No resources found",
+                                    style = MaterialTheme.typography.titleMedium,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                                Spacer(modifier = Modifier.height(8.dp))
+                                Text(
+                                    text = if (hasActiveFilters) "Try adjusting your filters."
+                                    else "Resources will appear here once available.",
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            }
+                        }
+                    } else {
+                        LazyVerticalGrid(
+                            columns = GridCells.Fixed(2),
+                            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+                            horizontalArrangement = Arrangement.spacedBy(12.dp),
+                            verticalArrangement = Arrangement.spacedBy(12.dp)
+                        ) {
+                            items(uiState.resources, key = { it.id }) { resource ->
+                                LibraryResourceCard(
+                                    resource = resource,
+                                    onClick = { onResourceClick(resource.id) }
+                                )
+                            }
                         }
                     }
                 }
             }
+        }
+    }
+}
 
-            // Resource grid or empty state
-            if (uiState.resources.isEmpty()) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(32.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Text(
-                            text = "No resources found",
-                            style = MaterialTheme.typography.titleMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Text(
-                            text = if (hasActiveFilters) "Try adjusting your filters."
-                            else "Resources will appear here once available.",
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
-                }
-            } else {
-                LazyVerticalGrid(
-                    columns = GridCells.Fixed(2),
-                    contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
-                    horizontalArrangement = Arrangement.spacedBy(12.dp),
-                    verticalArrangement = Arrangement.spacedBy(12.dp)
-                ) {
-                    items(uiState.resources, key = { it.id }) { resource ->
-                        LibraryResourceCard(
-                            resource = resource,
-                            onClick = { onResourceClick(resource.id) }
-                        )
-                    }
+@Composable
+private fun FilterSection(
+    hasActiveFilters: Boolean,
+    uiState: LibraryUiState,
+    viewModel: LibraryViewModel
+) {
+    Column(
+        modifier = Modifier.padding(bottom = 8.dp)
+    ) {
+        FilterChipRow(
+            label = "Subject",
+            items = LibraryUiState.SUBJECTS,
+            selectedItem = uiState.selectedSubject,
+            onItemSelected = viewModel::selectSubject
+        )
+
+        FilterChipRow(
+            label = "Grade",
+            items = LibraryUiState.GRADE_LEVELS,
+            selectedItem = uiState.selectedGradeLevel,
+            onItemSelected = viewModel::selectGradeLevel
+        )
+
+        FilterChipRow(
+            label = "Type",
+            items = LibraryUiState.TYPES,
+            selectedItem = uiState.selectedType,
+            onItemSelected = viewModel::selectType
+        )
+
+        if (hasActiveFilters) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+                horizontalArrangement = Arrangement.End
+            ) {
+                TextButton(onClick = viewModel::clearFilters) {
+                    Text(
+                        text = "Clear Filters",
+                        style = MaterialTheme.typography.labelLarge,
+                        color = MaterialTheme.colorScheme.primary
+                    )
                 }
             }
         }
