@@ -9,7 +9,11 @@
 <div class="md-container">
   <!-- Hero -->
   <div class="hero">
-    <h1>Hello, {{ user.display_name|default:user.username|default:"Student" }}!</h1>
+    {% if user %}
+      <h1>Hello, {{ user.display_name|default:user.username }}!</h1>
+    {% else %}
+      <h1>Hello, Student!</h1>
+    {% endif %}
     <p>What would you like to study today? Access NEB resources, join discussions, and more.</p>
     <div class="hero-actions">
       <a href="{% url 'web:library' %}" class="md-btn md-btn-filled">
