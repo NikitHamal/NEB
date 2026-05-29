@@ -182,3 +182,52 @@ def admin_delete_reply(token, reply_id):
 
 def admin_get_stats(token):
     return _api_call('GET', '/admin/stats', token=token)
+
+
+def get_profile_stats(token, username):
+    return _api_call('GET', f'/users/profile/{username}/stats', token=token)
+
+
+def follow_user(token, user_id):
+    return _api_call('POST', f'/users/{user_id}/follow', token=token)
+
+
+def get_followers(token, user_id):
+    return _api_call('GET', f'/users/{user_id}/followers', token=token)
+
+
+def get_following(token, user_id):
+    return _api_call('GET', f'/users/{user_id}/following', token=token)
+
+
+def get_user_photos(token):
+    return _api_call('GET', '/users/me/photos', token=token)
+
+
+def add_photo_url(token, url):
+    return _api_call('POST', '/users/me/photos', token=token, data={'url': url})
+
+
+def add_photo_file(token, file_obj):
+    headers = {}
+    if token:
+        headers['Authorization'] = f'Bearer {token}'
+    url = f'{API_BASE}/users/me/photos'
+    # Seek to the beginning of the file stream to ensure bytes are read successfully
+    try:
+        file_obj.seek(0)
+    except Exception:
+        pass
+    files = {'file': (file_obj.name, file_obj.read(), file_obj.content_type)}
+    try:
+        resp = requests.post(url, headers=headers, files=files, timeout=15)
+        return resp.json() if resp.content else None
+    except Exception as e:
+        logger.error('API multipart photo upload failed: %s', e)
+        return None
+
+
+
+
+def set_active_photo(token, photo_id):
+    return _api_call('POST', f'/users/me/photos/{photo_id}/activate', token=token)

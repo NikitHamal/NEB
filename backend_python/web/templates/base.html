@@ -65,9 +65,9 @@
               </div>
             </div>
             <div class="menu-divider"></div>
-            <a href="{% url 'web:edit_profile' %}">
-              <span class="material-symbols-outlined">manage_accounts</span>
-              <span>Edit Profile</span>
+            <a href="{% url 'web:profile' username=user.username %}">
+              <span class="material-symbols-outlined">account_circle</span>
+              <span>View Profile</span>
             </a>
             <a href="{% url 'web:logout' %}" class="menu-logout">
               <span class="material-symbols-outlined">logout</span>

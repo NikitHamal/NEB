@@ -11,6 +11,29 @@
       {% csrf_token %}
 
       <div class="form-group">
+        <label class="md-label">Profile Picture</label>
+        <div style="display:flex;align-items:center;gap:16px;margin-top:8px;margin-bottom:16px;">
+          <div style="width:80px;height:80px;border-radius:50%;overflow:hidden;border:1px solid var(--md-outline-variant);background:var(--md-surface-container-high);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            {% if user.photo_url %}
+              <img id="edit-avatar-preview" src="{{ user.photo_url }}" alt="Avatar" style="width:100%;height:100%;object-fit:cover;">
+            {% else %}
+              <div id="edit-avatar-preview-initial" style="font-size:2rem;font-weight:700;color:var(--md-primary);text-transform:uppercase;">
+                {{ user.username|slice:":1" }}
+              </div>
+            {% endif %}
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <input type="file" id="photo_file" accept="image/*" style="display:none;" onchange="handleEditPhotoUpload(event)">
+            <button type="button" class="md-btn md-btn-outlined" onclick="document.getElementById('photo_file').click()" style="padding: 6px 16px; font-size: 0.875rem;">
+              <span class="material-symbols-outlined" style="font-size: 18px; margin-right: 6px;">upload</span>
+              Upload Photo
+            </button>
+            <span style="font-size:0.75rem;color:var(--md-on-surface-variant);">JPG, PNG or WebP. Max 5MB.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
         <label class="md-label" for="username">Username *</label>
         <input type="text" id="username" name="username" class="md-input" value="{{ user.username|default:'' }}" required minlength="3" pattern="[a-zA-Z0-9_]+">
         <div id="username-status" class="form-error" style="display:none;"></div>
@@ -104,6 +127,49 @@
 
 {% block extra_js %}
 <script>
+async function handleEditPhotoUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  
+  const formData = new FormData();
+  formData.append('file', file);
+  
+  showSnackbar('Uploading profile picture...');
+  
+  try {
+    const resp = await fetch('/ajax/photos/', {
+      method: 'POST',
+      headers: {
+        'X-CSRFToken': CSRF_TOKEN
+      },
+      body: formData
+    });
+    
+    const data = await resp.json();
+    if (data && data.url) {
+      // Update the local preview circular image
+      const img = document.getElementById('edit-avatar-preview');
+      const initial = document.getElementById('edit-avatar-preview-initial');
+      if (img) {
+        img.src = data.url;
+      } else if (initial) {
+        const parent = initial.parentNode;
+        parent.innerHTML = `<img id="edit-avatar-preview" src="${data.url}" alt="Avatar" style="width:100%;height:100%;object-fit:cover;">`;
+      }
+      
+      // Update topbar drop-down avatars instantly
+      const navAvatars = document.querySelectorAll('.profile-dropdown-trigger img, .profile-dropdown-avatar img');
+      navAvatars.forEach(el => el.src = data.url);
+      
+      showSnackbar('Profile picture uploaded successfully.');
+    } else {
+      showSnackbar(data.error || 'Failed to upload image.');
+    }
+  } catch(e) {
+    showSnackbar('Error uploading image.');
+  }
+}
+
 let usernameTimeout;
 const usernameInput = document.getElementById('username');
 const usernameStatus = document.getElementById('username-status');

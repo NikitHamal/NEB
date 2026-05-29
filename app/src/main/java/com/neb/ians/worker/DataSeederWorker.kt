@@ -268,6 +268,7 @@ class DataSeederWorker @AssistedInject constructor(
             ),
             ForumReplyEntity(
                 id = "reply-1-2",
+                postId = "post-1",
                 content = "Remember that horizontal and vertical motions are independent. Split the initial velocity into components first.",
                 authorName = "Sita Basnet",
                 authorId = "user-8",
@@ -277,6 +278,7 @@ class DataSeederWorker @AssistedInject constructor(
             ),
             ForumReplyEntity(
                 id = "reply-1-3",
+                postId = "post-1",
                 content = "Practice with past NEB questions - they usually follow a pattern. The angle of 45° gives maximum range.",
                 authorName = "Hari Magar",
                 authorId = "user-9",
@@ -286,6 +288,7 @@ class DataSeederWorker @AssistedInject constructor(
             ),
             ForumReplyEntity(
                 id = "reply-2-1",
+                postId = "post-2",
                 content = "I recommend 'A Textbook of Chemistry' by Stha and 'Fundamentals of Chemistry' for Grade 12. Both have excellent numerical problems.",
                 authorName = "Krishna Rai",
                 authorId = "user-10",
@@ -295,6 +298,7 @@ class DataSeederWorker @AssistedInject constructor(
             ),
             ForumReplyEntity(
                 id = "reply-3-1",
+                postId = "post-3",
                 content = "Start with the hardest subject first when your mind is fresh. Take 10-minute breaks every hour. Make flashcards for formulas.",
                 authorName = "Nabin Shrestha",
                 authorId = "user-11",
