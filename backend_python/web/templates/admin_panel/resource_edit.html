@@ -1,0 +1,89 @@
+{% extends "admin_panel/base.html" %}
+
+{% block title %}Edit Resource{% endblock %}
+
+{% block content %}
+<div style="margin-bottom:24px;">
+  <a href="{% url 'web:admin_resources' %}" class="md-btn md-btn-text" style="padding-left:0;">
+    <span class="material-symbols-outlined" style="font-size:18px;">arrow_back</span>
+    Back to Resources
+  </a>
+</div>
+
+{% if resource %}
+<div class="md-card-elevated p-3" style="max-width:600px;">
+  <h2 class="md-title-large mb-2">Edit Resource</h2>
+  <form method="post">
+    {% csrf_token %}
+    <div class="form-group">
+      <label class="md-label" for="title">Title</label>
+      <input type="text" id="title" name="title" class="md-input" value="{{ resource.title }}">
+    </div>
+    <div class="form-group">
+      <label class="md-label" for="description">Description</label>
+      <textarea id="description" name="description" class="md-textarea" rows="3">{{ resource.description|default:'' }}</textarea>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="md-label" for="subject">Subject</label>
+        <select id="subject" name="subject" class="md-select">
+          <option value="Physics" {% if resource.subject == 'Physics' %}selected{% endif %}>Physics</option>
+          <option value="Chemistry" {% if resource.subject == 'Chemistry' %}selected{% endif %}>Chemistry</option>
+          <option value="Mathematics" {% if resource.subject == 'Mathematics' %}selected{% endif %}>Mathematics</option>
+          <option value="Biology" {% if resource.subject == 'Biology' %}selected{% endif %}>Biology</option>
+          <option value="English" {% if resource.subject == 'English' %}selected{% endif %}>English</option>
+          <option value="Nepali" {% if resource.subject == 'Nepali' %}selected{% endif %}>Nepali</option>
+          <option value="Computer Science" {% if resource.subject == 'Computer Science' %}selected{% endif %}>Computer Science</option>
+          <option value="Economics" {% if resource.subject == 'Economics' %}selected{% endif %}>Economics</option>
+          <option value="Accountancy" {% if resource.subject == 'Accountancy' %}selected{% endif %}>Accountancy</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="md-label" for="grade_level">Grade Level</label>
+        <select id="grade_level" name="grade_level" class="md-select">
+          <option value="Grade 11" {% if resource.grade_level == 'Grade 11' %}selected{% endif %}>Grade 11</option>
+          <option value="Grade 12" {% if resource.grade_level == 'Grade 12' %}selected{% endif %}>Grade 12</option>
+          <option value="Both" {% if resource.grade_level == 'Both' %}selected{% endif %}>Both</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="md-label" for="type">Type</label>
+        <select id="type" name="type" class="md-select">
+          <option value="PDF" {% if resource.type == 'PDF' %}selected{% endif %}>PDF</option>
+          <option value="Note" {% if resource.type == 'Note' %}selected{% endif %}>Note</option>
+          <option value="Video" {% if resource.type == 'Video' %}selected{% endif %}>Video</option>
+          <option value="Textbook" {% if resource.type == 'Textbook' %}selected{% endif %}>Textbook</option>
+          <option value="Past Paper" {% if resource.type == 'Past Paper' %}selected{% endif %}>Past Paper</option>
+          <option value="Guide" {% if resource.type == 'Guide' %}selected{% endif %}>Guide</option>
+          <option value="Solution" {% if resource.type == 'Solution' %}selected{% endif %}>Solution</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="md-label" for="view_count">View Count</label>
+        <input type="number" id="view_count" name="view_count" class="md-input" value="{{ resource.view_count|default:'0' }}">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="md-label" for="file_url">File URL</label>
+      <input type="url" id="file_url" name="file_url" class="md-input" value="{{ resource.file_url }}">
+    </div>
+    <div class="form-group">
+      <label class="md-label" for="thumbnail_url">Thumbnail URL</label>
+      <input type="url" id="thumbnail_url" name="thumbnail_url" class="md-input" value="{{ resource.thumbnail_url|default:'' }}">
+    </div>
+    <div class="form-actions">
+      <button type="submit" class="md-btn md-btn-filled">Save Changes</button>
+      <a href="{% url 'web:admin_resources' %}" class="md-btn md-btn-text">Cancel</a>
+    </div>
+  </form>
+</div>
+{% else %}
+<div class="empty-state">
+  <span class="material-symbols-outlined">error_outline</span>
+  <h3>Resource not found</h3>
+  <a href="{% url 'web:admin_resources' %}" class="md-btn md-btn-filled mt-2">Back to Resources</a>
+</div>
+{% endif %}
+{% endblock %}

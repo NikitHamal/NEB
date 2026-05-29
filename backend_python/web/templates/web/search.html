@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}Search{% endblock %}
+{% block nav_search %}md-nav-active{% endblock %}
+{% block bnav_search %}md-nav-active{% endblock %}
+
+{% block content %}
+<div class="md-container-narrow" style="padding-top:24px;">
+  <div class="search-bar" style="margin-bottom:24px;">
+    <span class="material-symbols-outlined">search</span>
+    <form method="get" action="{% url 'web:search' %}" style="flex:1;display:flex;">
+      <input type="text" name="q" value="{{ query }}" placeholder="Search resources..." autofocus style="border:none;background:transparent;outline:none;color:var(--md-on-surface);font-family:var(--md-font);font-size:1rem;padding:12px 0;width:100%;">
+    </form>
+    {% if query %}
+    <a href="{% url 'web:search' %}" class="md-btn-icon" style="width:32px;height:32px;">
+      <span class="material-symbols-outlined" style="font-size:20px">close</span>
+    </a>
+    {% endif %}
+  </div>
+
+  {% if not query %}
+  <div class="section">
+    <h3 class="md-title-medium mb-2">Popular Searches</h3>
+    <div class="chip-group">
+      <a href="{% url 'web:search' %}?q=physics" class="md-chip">Physics</a>
+      <a href="{% url 'web:search' %}?q=chemistry" class="md-chip">Chemistry</a>
+      <a href="{% url 'web:search' %}?q=mathematics" class="md-chip">Mathematics</a>
+      <a href="{% url 'web:search' %}?q=biology" class="md-chip">Biology</a>
+      <a href="{% url 'web:search' %}?q=english" class="md-chip">English</a>
+      <a href="{% url 'web:search' %}?q=notes" class="md-chip">Notes</a>
+      <a href="{% url 'web:search' %}?q=textbook" class="md-chip">Textbook</a>
+      <a href="{% url 'web:search' %}?q=past+papers" class="md-chip">Past Papers</a>
+    </div>
+  </div>
+  {% elif results %}
+  <div class="section">
+    <h3 class="md-title-medium mb-2">{{ results|length }} result{{ results|length|pluralize }}</h3>
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      {% for r in results %}
+      <a href="{% url 'web:reader' resource_id=r.id %}" class="md-card" style="padding:16px;display:flex;align-items:center;gap:16px;text-decoration:none;color:inherit;">
+        <div class="subject-icon subject-{{ r.subject|lower|cut:' ' }}">
+          <span class="material-symbols-outlined">{{ r.subject|subject_icon }}</span>
+        </div>
+        <div style="flex:1;min-width:0;">
+          <div class="md-title-small">{{ r.title }}</div>
+          <div class="md-body-small" style="color:var(--md-on-surface-variant)">{{ r.subject }} · {{ r.grade_level }} · {{ r.type }}</div>
+        </div>
+        <span class="material-symbols-outlined" style="color:var(--md-on-surface-variant);">chevron_right</span>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+  {% else %}
+  <div class="empty-state">
+    <span class="material-symbols-outlined">search_off</span>
+    <h3>No results found</h3>
+    <p>Try different keywords or browse the library.</p>
+    <a href="{% url 'web:library' %}" class="md-btn md-btn-filled mt-2">Browse Library</a>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

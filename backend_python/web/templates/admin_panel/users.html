@@ -1,0 +1,71 @@
+{% extends "admin_panel/base.html" %}
+
+{% block title %}Users{% endblock %}
+
+{% block content %}
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;">
+  <h1 class="md-headline-medium">Users</h1>
+  <form method="get" style="display:flex;gap:8px;">
+    <div class="search-bar" style="margin-bottom:0;">
+      <span class="material-symbols-outlined">search</span>
+      <input type="text" name="q" value="{{ search }}" placeholder="Search users..." style="border:none;background:transparent;outline:none;color:var(--md-on-surface);font-family:var(--md-font);font-size:0.875rem;padding:8px 0;">
+    </div>
+    <button type="submit" class="md-btn md-btn-filled" style="padding:8px 16px;">Search</button>
+  </form>
+</div>
+
+{% if users %}
+<div class="md-table-responsive">
+  <table class="md-table">
+    <thead>
+      <tr>
+        <th>User</th>
+        <th>Email</th>
+        <th>Class</th>
+        <th>Province</th>
+        <th>Locked</th>
+        <th>Joined</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for u in users %}
+      <tr>
+        <td>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div class="profile-avatar" style="width:32px;height:32px;font-size:0.75rem;">
+              {{ u.display_name|default:u.username|truncate_chars:1|default:"?" }}
+            </div>
+            <div>
+              <div style="font-weight:600;">{{ u.display_name|default:"-" }}</div>
+              <div style="font-size:0.75rem;color:var(--md-on-surface-variant);">@{{ u.username }}</div>
+            </div>
+          </div>
+        </td>
+        <td>{{ u.email|default:"-" }}</td>
+        <td>{{ u.class_level|default:"-" }}</td>
+        <td>{{ u.pradesh|default:"-" }}</td>
+        <td>
+          {% if u.is_locked %}
+          <span style="color:var(--md-error);font-size:0.75rem;font-weight:600;">Locked</span>
+          {% else %}
+          <span style="color:var(--md-primary);font-size:0.75rem;">Active</span>
+          {% endif %}
+        </td>
+        <td style="font-size:0.75rem;">{{ u.created_at|time_ago|default:"-" }}</td>
+        <td>
+          <a href="{% url 'web:admin_user_detail' user_id=u.id %}" class="md-btn md-btn-text" style="padding:4px 8px;font-size:0.75rem;">Edit</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<div class="empty-state">
+  <span class="material-symbols-outlined">people</span>
+  <h3>No users found</h3>
+  <p>Users will appear here once they sign up.</p>
+</div>
+{% endif %}
+{% endblock %}

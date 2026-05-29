@@ -1,0 +1,38 @@
+from django.urls import path
+from . import views
+
+app_name = 'web'
+
+urlpatterns = [
+    path('', views.home, name='home'),
+    path('library/', views.library, name='library'),
+    path('search/', views.search, name='search'),
+    path('forum/', views.forum, name='forum'),
+    path('forum/post/<str:post_id>/', views.forum_post, name='forum_post'),
+    path('forum/create/', views.create_post, name='create_post'),
+    path('forum/reply/<str:post_id>/', views.reply_post, name='reply_post'),
+    path('reader/<str:resource_id>/', views.reader, name='reader'),
+    path('profile/<str:username>/', views.profile, name='profile'),
+    path('profile/edit/', views.edit_profile, name='edit_profile'),
+    path('login/', views.login_page, name='login'),
+    path('auth/google/', views.google_auth, name='google_auth'),
+    path('logout/', views.logout, name='logout'),
+    path('ajax/like/post/<str:post_id>/', views.ajax_like_post, name='ajax_like_post'),
+    path('ajax/like/reply/<str:reply_id>/', views.ajax_like_reply, name='ajax_like_reply'),
+    path('ajax/reply/<str:post_id>/', views.ajax_create_reply, name='ajax_create_reply'),
+    path('ajax/post/', views.ajax_create_post, name='ajax_create_post'),
+    path('ajax/delete/post/<str:post_id>/', views.ajax_delete_post, name='ajax_delete_post'),
+    path('ajax/check-username/', views.ajax_check_username, name='ajax_check_username'),
+    path('admin/', views.admin_login, name='admin_login'),
+    path('admin/dashboard/', views.admin_dashboard, name='admin_dashboard'),
+    path('admin/logout/', views.admin_logout, name='admin_logout'),
+    path('admin/users/', views.admin_users, name='admin_users'),
+    path('admin/users/<str:user_id>/', views.admin_user_detail, name='admin_user_detail'),
+    path('admin/resources/', views.admin_resources, name='admin_resources'),
+    path('admin/resources/<str:resource_id>/', views.admin_resource_edit, name='admin_resource_edit'),
+    path('admin/resources/<str:resource_id>/delete/', views.admin_resource_delete, name='admin_resource_delete'),
+    path('admin/posts/', views.admin_posts, name='admin_posts'),
+    path('admin/posts/<str:post_id>/', views.admin_post_detail, name='admin_post_detail'),
+    path('admin/posts/<str:post_id>/delete/', views.admin_post_delete, name='admin_post_delete'),
+    path('admin/replies/<str:reply_id>/delete/', views.admin_reply_delete, name='admin_reply_delete'),
+]
