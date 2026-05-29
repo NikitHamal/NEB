@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - '**'
+    paths-ignore:
+      - 'backend_python/**'
+      - '.github/workflows/deploy-backend.yml'
+      - 'README.md'
   workflow_dispatch:
 
 jobs:
