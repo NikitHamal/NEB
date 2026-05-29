@@ -101,7 +101,7 @@
   padding: 4px 16px; border: 1px solid var(--md-outline-variant);
   transition: border-color var(--md-transition);
 }
-.search-bar:focus-within { border-color: var(--md-primary); }
+.search-bar:focus-within { border-color: var(--md-primary); border-width: 2px; }
 .search-bar input {
   flex: 1; border: none; background: transparent; outline: none;
   color: var(--md-on-surface); font-family: var(--md-font); font-size: 1rem;
@@ -127,7 +127,6 @@
 .md-input:hover { border-color: var(--md-outline); }
 .md-input:focus {
   border-color: var(--md-primary);
-  box-shadow: 0 0 0 2px rgba(27, 110, 243, 0.12);
   outline: none;
 }
 .md-input::placeholder { color: var(--md-on-surface-variant); }
@@ -150,7 +149,6 @@
 .md-textarea:hover { border-color: var(--md-outline); }
 .md-textarea:focus {
   border-color: var(--md-primary);
-  box-shadow: 0 0 0 2px rgba(27, 110, 243, 0.12);
   outline: none;
 }
 .md-textarea::placeholder { color: var(--md-on-surface-variant); }
@@ -178,7 +176,6 @@
 .md-select:hover { border-color: var(--md-outline); }
 .md-select:focus {
   border-color: var(--md-primary);
-  box-shadow: 0 0 0 2px rgba(27, 110, 243, 0.12);
   outline: none;
 }
 

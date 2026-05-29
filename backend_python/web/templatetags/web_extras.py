@@ -124,3 +124,10 @@ def to_json(value):
     json_str = json.dumps(value, ensure_ascii=True)
     json_str = json_str.replace('<', '\\u003c').replace('>', '\\u003e').replace('&', '\\u0026')
     return mark_safe(json_str)
+
+
+@register.filter
+def split(value, key):
+    if not value:
+        return []
+    return [s.strip() for s in str(value).split(key) if s.strip()]

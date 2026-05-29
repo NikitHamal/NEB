@@ -3,7 +3,7 @@ Register models with Django Admin for easy content management.
 Accessible at /admin/ after creating a superuser.
 """
 from django.contrib import admin
-from .models import User, Resource, Post, Reply, PostLike, ReplyLike, FCMToken
+from .models import User, Resource, Post, Reply, PostLike, ReplyLike, FCMToken, UserPhoto, Follow
 
 
 @admin.register(User)
@@ -36,3 +36,16 @@ class ReplyAdmin(admin.ModelAdmin):
 @admin.register(FCMToken)
 class FCMTokenAdmin(admin.ModelAdmin):
     list_display = ['token', 'user', 'created_at']
+
+
+@admin.register(UserPhoto)
+class UserPhotoAdmin(admin.ModelAdmin):
+    list_display = ['id', 'user', 'is_current', 'uploaded_at']
+    list_filter = ['is_current']
+    search_fields = ['user__username']
+
+
+@admin.register(Follow)
+class FollowAdmin(admin.ModelAdmin):
+    list_display = ['follower', 'following', 'created_at']
+    search_fields = ['follower__username', 'following__username']

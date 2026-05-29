@@ -178,9 +178,24 @@ def reader(request, resource_id):
 def profile(request, username):
     token = api.get_session_token(request)
     profile_data = api.get_profile(token, username)
-    if not profile_data:
+    if not profile_data or 'error' in profile_data:
         raise Http404("User not found")
-    return render(request, 'web/profile.html', _ctx(request, profile_user=profile_data, username=username))
+    
+    # Get profile stats (followers, following, contributions, is_following, is_self)
+    stats = api.get_profile_stats(token, username) or {}
+    
+    # Get user photo history if the profile belongs to the signed-in user
+    user_photos = []
+    if token and stats.get('is_self'):
+        user_photos = api.get_user_photos(token) or []
+        
+    return render(request, 'web/profile.html', _ctx(request, 
+        profile_user=profile_data, 
+        username=username,
+        stats=stats,
+        user_photos=user_photos
+    ))
+
 
 
 def edit_profile(request):
@@ -253,7 +268,15 @@ def _normalize_user_data(user):
     for old_key, new_key in mapping.items():
         if old_key in user and new_key not in user:
             user[new_key] = user[old_key]
+    
+    # Ensure avatar_url is populated for base.html navbar compatibility
+    if 'photo_url' in user:
+        user['avatar_url'] = user['photo_url']
+    elif 'photoUrl' in user:
+        user['avatar_url'] = user['photoUrl']
+        
     return user
+
 
 
 def logout(request):
@@ -351,6 +374,88 @@ def ajax_set_theme(request):
     except (json.JSONDecodeError, KeyError):
         pass
     return JsonResponse({'status': 'ok'})
+
+
+@require_POST
+def ajax_follow_user(request, user_id):
+    token = api.get_session_token(request)
+    if not token:
+        return JsonResponse({'error': 'Unauthorized'}, status=401)
+    result = api.follow_user(token, user_id)
+    if result:
+        return JsonResponse(result)
+    return JsonResponse({'error': 'Failed'}, status=500)
+
+
+@csrf_exempt
+def ajax_user_photos(request):
+    token = api.get_session_token(request)
+    if not token:
+        return JsonResponse({'error': 'Unauthorized'}, status=401)
+    if request.method == 'GET':
+        result = api.get_user_photos(token)
+        if result is not None:
+            return JsonResponse({'photos': result})
+        return JsonResponse({'error': 'Failed'}, status=500)
+    elif request.method == 'POST':
+        # Check for uploaded file
+        file_obj = request.FILES.get('file')
+        if file_obj:
+            result = api.add_photo_file(token, file_obj)
+            if result and not result.get('error'):
+                user_data = api.get_session_user(request)
+                if user_data and result.get('url'):
+                    user_data['photo_url'] = result['url']
+                    user_data['photoUrl'] = result['url']
+                    api.set_session_auth(request, token, user_data)
+                return JsonResponse(result, status=201)
+            return JsonResponse({'error': result.get('error') if result else 'Upload failed'}, status=400)
+
+        # Safe fallback to URL: read from request.POST if form-data, or request.body if application/json
+        url = ''
+        if request.content_type == 'application/json':
+            try:
+                data = json.loads(request.body)
+                url = data.get('url', '').strip()
+            except json.JSONDecodeError:
+                return JsonResponse({'error': 'Invalid JSON request'}, status=400)
+        else:
+            url = request.POST.get('url', '').strip()
+
+        if not url:
+            return JsonResponse({'error': 'Either URL or file is required'}, status=400)
+
+        result = api.add_photo_url(token, url)
+        if result and not result.get('error'):
+            user_data = api.get_session_user(request)
+            if user_data:
+                user_data['photo_url'] = url
+                user_data['photoUrl'] = url
+                api.set_session_auth(request, token, user_data)
+            return JsonResponse(result, status=201)
+        return JsonResponse({'error': result.get('error') if result else 'Failed'}, status=400)
+    return JsonResponse({'error': 'Method not allowed'}, status=405)
+
+
+
+
+@require_POST
+def ajax_activate_photo(request, photo_id):
+    token = api.get_session_token(request)
+    if not token:
+        return JsonResponse({'error': 'Unauthorized'}, status=401)
+    result = api.set_active_photo(token, photo_id)
+    if result and result.get('success'):
+        new_url = result.get('photo_url')
+        if new_url:
+            user_data = api.get_session_user(request)
+            if user_data:
+                user_data['photo_url'] = new_url
+                user_data['photoUrl'] = new_url
+                api.set_session_auth(request, token, user_data)
+        return JsonResponse(result)
+    return JsonResponse({'error': 'Failed'}, status=500)
+
 
 
 # ---------------------------------------------------------------------------

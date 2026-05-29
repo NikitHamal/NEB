@@ -18,8 +18,6 @@ import androidx.compose.material.icons.outlined.ChatBubbleOutline
 import androidx.compose.material.icons.outlined.Forum
 import androidx.compose.material.icons.outlined.ThumbUp
 import androidx.compose.material3.*
-import androidx.compose.material3.pulltorefresh.PullToRefreshBox
-import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -47,7 +45,6 @@ fun ForumScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     var isSearchVisible by remember { mutableStateOf(false) }
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
-    var isRefreshing by remember { mutableStateOf(false) }
 
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -129,20 +126,10 @@ fun ForumScreen(
         },
         containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
     ) { paddingValues ->
-        val pullToRefreshState = rememberPullToRefreshState()
-
-        PullToRefreshBox(
-            state = pullToRefreshState,
-            isRefreshing = isRefreshing,
-            onRefresh = {
-                isRefreshing = true
-                viewModel.refresh()
-                isRefreshing = false
-            },
-            modifier = Modifier.padding(paddingValues)
-        ) {
             Column(
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues)
             ) {
                 Row(
                     modifier = Modifier
@@ -233,7 +220,6 @@ fun ForumScreen(
                     }
                 }
             }
-        }
     }
 }
 
