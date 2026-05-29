@@ -14,7 +14,8 @@ import javax.inject.Inject
 data class SearchUiState(
     val query: String = "",
     val results: List<ResourceEntity> = emptyList(),
-    val isSearching: Boolean = false
+    val isSearching: Boolean = false,
+    val error: String? = null
 ) {
     companion object {
         val SUGGESTIONS = listOf(
@@ -44,17 +45,17 @@ class SearchViewModel @Inject constructor(
                 .distinctUntilChanged()
                 .collect { query ->
                     if (query.length >= 2) {
-                        _uiState.update { it.copy(isSearching = true) }
+                        _uiState.update { it.copy(isSearching = true, error = null) }
                         try {
                             resourceRepository.searchResources(query).first { results ->
                                 _uiState.update { it.copy(results = results, isSearching = false) }
                                 true
                             }
                         } catch (e: Exception) {
-                            _uiState.update { it.copy(isSearching = false) }
+                            _uiState.update { it.copy(isSearching = false, error = e.message ?: "Search failed") }
                         }
                     } else {
-                        _uiState.update { it.copy(results = emptyList(), isSearching = false) }
+                        _uiState.update { it.copy(results = emptyList(), isSearching = false, error = null) }
                     }
                 }
         }

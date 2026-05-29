@@ -20,8 +20,13 @@ import androidx.compose.material.icons.outlined.School
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.ThumbUp
 import androidx.compose.material3.*
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -35,6 +40,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.neb.ians.data.local.entity.ForumPostEntity
 import com.neb.ians.data.local.entity.ResourceEntity
+import com.neb.ians.ui.components.ErrorCard
+import com.neb.ians.ui.components.ShimmerHomeScreen
 
 private val subjectColors = mapOf(
     "Physics" to Color(0xFF1B6EF3),
@@ -74,6 +81,7 @@ fun HomeScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+    var isRefreshing by remember { mutableStateOf(false) }
 
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -110,109 +118,141 @@ fun HomeScreen(
         },
         containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
     ) { innerPadding ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
-                .verticalScroll(rememberScrollState())
+        val pullToRefreshState = rememberPullToRefreshState()
+
+        PullToRefreshBox(
+            state = pullToRefreshState,
+            isRefreshing = isRefreshing,
+            onRefresh = {
+                isRefreshing = true
+                viewModel.refresh()
+                isRefreshing = false
+            },
+            modifier = Modifier.padding(innerPadding)
         ) {
-            // Subject chips
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .horizontalScroll(rememberScrollState())
-                    .padding(horizontal = 16.dp, vertical = 8.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-HomeUiState.SUBJECTS.forEach { subject ->
-                     SuggestionChip(
-                         onClick = { onSubjectClick(subject) },
-                        label = {
-                            Text(
-                                text = subject,
-                                style = MaterialTheme.typography.labelLarge,
-                                maxLines = 1,
-                                overflow = TextOverflow.Ellipsis
-                            )
-                        },
-                        shape = RoundedCornerShape(50),
-                        colors = SuggestionChipDefaults.suggestionChipColors(
-                            containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
-                            labelColor = MaterialTheme.colorScheme.onSurface
-                        ),
-                        border = SuggestionChipDefaults.suggestionChipBorder(
-                            borderColor = MaterialTheme.colorScheme.outlineVariant,
-                            enabled = true
-                        )
+            if (uiState.isLoading) {
+                ShimmerHomeScreen()
+            } else if (uiState.error != null && uiState.recentResources.isEmpty() && uiState.popularResources.isEmpty()) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .verticalScroll(rememberScrollState()),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    ErrorCard(
+                        message = uiState.error ?: "Something went wrong",
+                        onRetry = { viewModel.refresh() }
                     )
                 }
-            }
-
-            // Recent Resources section
-            SectionHeader(
-                title = "Recent Resources",
-                onViewAllClick = onViewAllClick
-            )
-
-            if (uiState.recentResources.isEmpty()) {
-                EmptyResourceRow(message = "No resources yet. Check the Library to explore.")
-            } else {
-                LazyRow(
-                    contentPadding = PaddingValues(horizontal = 16.dp),
-                    horizontalArrangement = Arrangement.spacedBy(12.dp)
-                ) {
-                    items(uiState.recentResources, key = { it.id }) { resource ->
-                        ResourceCard(
-                            resource = resource,
-                            onClick = { onResourceClick(resource.id) }
-                        )
-                    }
-                }
-            }
-
-            // Popular Resources section
-            Spacer(modifier = Modifier.height(24.dp))
-            SectionHeader(
-                title = "Popular Resources",
-                onViewAllClick = onViewAllClick
-            )
-
-            if (uiState.popularResources.isEmpty()) {
-                EmptyResourceRow(message = "Popular resources will appear here.")
-            } else {
-                LazyRow(
-                    contentPadding = PaddingValues(horizontal = 16.dp),
-                    horizontalArrangement = Arrangement.spacedBy(12.dp)
-                ) {
-                    items(uiState.popularResources, key = { it.id }) { resource ->
-                        ResourceCard(
-                            resource = resource,
-                            onClick = { onResourceClick(resource.id) }
-                        )
-                    }
-                }
-            }
-
-            // Forum Activity section
-            Spacer(modifier = Modifier.height(24.dp))
-            SectionHeader(
-                title = "Forum Activity",
-                onViewAllClick = null
-            )
-
-            if (uiState.recentPosts.isEmpty()) {
-                EmptyForumSection()
             } else {
                 Column(
-                    modifier = Modifier.padding(horizontal = 16.dp)
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .verticalScroll(rememberScrollState())
                 ) {
-                    uiState.recentPosts.forEach { post ->
-                        ForumPostItem(post = post)
+                    if (uiState.error != null) {
+                        ErrorCard(
+                            message = uiState.error ?: "Something went wrong",
+                            onRetry = { viewModel.refresh() },
+                            modifier = Modifier.padding(horizontal = 16.dp)
+                        )
                     }
+
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .horizontalScroll(rememberScrollState())
+                            .padding(horizontal = 16.dp, vertical = 8.dp),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        HomeUiState.SUBJECTS.forEach { subject ->
+                            SuggestionChip(
+                                onClick = { onSubjectClick(subject) },
+                                label = {
+                                    Text(
+                                        text = subject,
+                                        style = MaterialTheme.typography.labelLarge,
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis
+                                    )
+                                },
+                                shape = RoundedCornerShape(50),
+                                colors = SuggestionChipDefaults.suggestionChipColors(
+                                    containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                                    labelColor = MaterialTheme.colorScheme.onSurface
+                                ),
+                                border = SuggestionChipDefaults.suggestionChipBorder(
+                                    borderColor = MaterialTheme.colorScheme.outlineVariant,
+                                    enabled = true
+                                )
+                            )
+                        }
+                    }
+
+                    SectionHeader(
+                        title = "Recent Resources",
+                        onViewAllClick = onViewAllClick
+                    )
+
+                    if (uiState.recentResources.isEmpty()) {
+                        EmptyResourceRow(message = "No resources yet. Check the Library to explore.")
+                    } else {
+                        LazyRow(
+                            contentPadding = PaddingValues(horizontal = 16.dp),
+                            horizontalArrangement = Arrangement.spacedBy(12.dp)
+                        ) {
+                            items(uiState.recentResources, key = { it.id }) { resource ->
+                                ResourceCard(
+                                    resource = resource,
+                                    onClick = { onResourceClick(resource.id) }
+                                )
+                            }
+                        }
+                    }
+
+                    Spacer(modifier = Modifier.height(24.dp))
+                    SectionHeader(
+                        title = "Popular Resources",
+                        onViewAllClick = onViewAllClick
+                    )
+
+                    if (uiState.popularResources.isEmpty()) {
+                        EmptyResourceRow(message = "Popular resources will appear here.")
+                    } else {
+                        LazyRow(
+                            contentPadding = PaddingValues(horizontal = 16.dp),
+                            horizontalArrangement = Arrangement.spacedBy(12.dp)
+                        ) {
+                            items(uiState.popularResources, key = { it.id }) { resource ->
+                                ResourceCard(
+                                    resource = resource,
+                                    onClick = { onResourceClick(resource.id) }
+                                )
+                            }
+                        }
+                    }
+
+                    Spacer(modifier = Modifier.height(24.dp))
+                    SectionHeader(
+                        title = "Forum Activity",
+                        onViewAllClick = null
+                    )
+
+                    if (uiState.recentPosts.isEmpty()) {
+                        EmptyForumSection()
+                    } else {
+                        Column(
+                            modifier = Modifier.padding(horizontal = 16.dp)
+                        ) {
+                            uiState.recentPosts.forEach { post ->
+                                ForumPostItem(post = post)
+                            }
+                        }
+                    }
+
+                    Spacer(modifier = Modifier.height(24.dp))
                 }
             }
-
-            Spacer(modifier = Modifier.height(24.dp))
         }
     }
 }

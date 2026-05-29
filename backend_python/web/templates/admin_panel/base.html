@@ -14,8 +14,49 @@
   {% block extra_css %}{% endblock %}
 </head>
 <body>
+  <!-- Mobile Nav Overlay -->
+  <div class="admin-mobile-overlay" id="mobileOverlay" onclick="closeMobileNav()"></div>
+  <nav class="admin-mobile-nav" id="mobileNav">
+    <div class="mobile-header">
+      <a href="{% url 'web:admin_dashboard' %}">
+        <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" width="24" height="24">
+          <rect width="32" height="32" rx="8" fill="var(--md-primary)"/>
+          <path d="M8 8h3v16H8V8zm5 0h3v16h-3V8zm5 0v16l8-8-8-8z" fill="var(--md-on-primary)"/>
+        </svg>
+        NEBians Admin
+      </a>
+      <button class="md-btn-icon" onclick="closeMobileNav()" aria-label="Close menu">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+    <a href="{% url 'web:admin_dashboard' %}" class="{% if active_page == 'dashboard' %}active{% endif %}" onclick="closeMobileNav()">
+      <span class="material-symbols-outlined">dashboard</span>
+      Dashboard
+    </a>
+    <a href="{% url 'web:admin_users' %}" class="{% if active_page == 'users' %}active{% endif %}" onclick="closeMobileNav()">
+      <span class="material-symbols-outlined">people</span>
+      Users
+    </a>
+    <a href="{% url 'web:admin_resources' %}" class="{% if active_page == 'resources' %}active{% endif %}" onclick="closeMobileNav()">
+      <span class="material-symbols-outlined">auto_stories</span>
+      Resources
+    </a>
+    <a href="{% url 'web:admin_posts' %}" class="{% if active_page == 'posts' %}active{% endif %}" onclick="closeMobileNav()">
+      <span class="material-symbols-outlined">forum</span>
+      Forum Posts
+    </a>
+    <div class="md-divider" style="margin:8px 16px;"></div>
+    <a href="{% url 'web:home' %}" style="color:var(--md-on-surface-variant);" onclick="closeMobileNav()">
+      <span class="material-symbols-outlined">open_in_new</span>
+      View Site
+    </a>
+  </nav>
+
   <!-- Top Bar -->
   <header class="md-topbar" style="background:var(--md-surface-container);">
+    <button class="admin-hamburger" onclick="openMobileNav()" aria-label="Open menu">
+      <span class="material-symbols-outlined">menu</span>
+    </button>
     <a href="{% url 'web:admin_dashboard' %}" class="md-topbar-brand" style="color:var(--md-primary);">
       <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" width="28" height="28">
         <rect width="32" height="32" rx="8" fill="var(--md-primary)"/>
@@ -75,6 +116,14 @@
       el.textContent = msg;
       container.appendChild(el);
       setTimeout(() => el.remove(), duration);
+    }
+    function openMobileNav() {
+      document.getElementById('mobileNav').classList.add('active');
+      document.getElementById('mobileOverlay').classList.add('active');
+    }
+    function closeMobileNav() {
+      document.getElementById('mobileNav').classList.remove('active');
+      document.getElementById('mobileOverlay').classList.remove('active');
     }
   </script>
   {% block extra_js %}{% endblock %}

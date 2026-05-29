@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Close
@@ -17,6 +18,8 @@ import androidx.compose.material.icons.outlined.ChatBubbleOutline
 import androidx.compose.material.icons.outlined.Forum
 import androidx.compose.material.icons.outlined.ThumbUp
 import androidx.compose.material3.*
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,6 +32,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.neb.ians.data.local.entity.ForumPostEntity
+import com.neb.ians.ui.components.ErrorCard
+import com.neb.ians.ui.components.ShimmerForumList
 import com.neb.ians.util.formatTimeAgo
 import com.neb.ians.util.getSubjectColor
 
@@ -42,6 +47,7 @@ fun ForumScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     var isSearchVisible by remember { mutableStateOf(false) }
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+    var isRefreshing by remember { mutableStateOf(false) }
 
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -123,71 +129,107 @@ fun ForumScreen(
         },
         containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
     ) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
+        val pullToRefreshState = rememberPullToRefreshState()
+
+        PullToRefreshBox(
+            state = pullToRefreshState,
+            isRefreshing = isRefreshing,
+            onRefresh = {
+                isRefreshing = true
+                viewModel.refresh()
+                isRefreshing = false
+            },
+            modifier = Modifier.padding(paddingValues)
         ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .horizontalScroll(rememberScrollState())
-                    .padding(horizontal = 16.dp, vertical = 8.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            Column(
+                modifier = Modifier.fillMaxSize()
             ) {
-                ForumUiState.CATEGORIES.forEach { category ->
-                    val isSelected = uiState.selectedCategory == category
-                    val categoryColor = Color(getSubjectColor(category))
-
-                    FilterChip(
-                        selected = isSelected,
-                        onClick = { viewModel.selectCategory(category) },
-                        label = {
-                            Text(
-                                text = category,
-                                style = MaterialTheme.typography.labelLarge,
-                                maxLines = 1,
-                                overflow = TextOverflow.Ellipsis
-                            )
-                        },
-                        shape = CircleShape,
-                        colors = FilterChipDefaults.filterChipColors(
-                            containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
-                            labelColor = MaterialTheme.colorScheme.onSurface,
-                            selectedContainerColor = categoryColor.copy(alpha = 0.12f),
-                            selectedLabelColor = categoryColor
-                        ),
-                        border = FilterChipDefaults.filterChipBorder(
-                            borderColor = MaterialTheme.colorScheme.outlineVariant,
-                            selectedBorderColor = categoryColor,
-                            enabled = true,
-                            selected = isSelected
-                        )
-                    )
-                }
-            }
-
-            if (uiState.posts.isEmpty()) {
-                EmptyForumState(
+                Row(
                     modifier = Modifier
-                        .fillMaxSize()
-                        .weight(1f)
-                )
-            } else {
-                LazyColumn(
-                    modifier = Modifier.fillMaxSize(),
-                    contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                        .fillMaxWidth()
+                        .horizontalScroll(rememberScrollState())
+                        .padding(horizontal = 16.dp, vertical = 8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    items(uiState.posts, key = { it.id }) { post ->
-                        ForumPostCard(
-                            post = post,
-                            onClick = { onPostClick(post.id) },
-                            onThumbsUpClick = { viewModel.toggleThumbsUp(post.id) }
+                    ForumUiState.CATEGORIES.forEach { category ->
+                        val isSelected = uiState.selectedCategory == category
+                        val categoryColor = Color(getSubjectColor(category))
+
+                        FilterChip(
+                            selected = isSelected,
+                            onClick = { viewModel.selectCategory(category) },
+                            label = {
+                                Text(
+                                    text = category,
+                                    style = MaterialTheme.typography.labelLarge,
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis
+                                )
+                            },
+                            shape = CircleShape,
+                            colors = FilterChipDefaults.filterChipColors(
+                                containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                                labelColor = MaterialTheme.colorScheme.onSurface,
+                                selectedContainerColor = categoryColor.copy(alpha = 0.12f),
+                                selectedLabelColor = categoryColor
+                            ),
+                            border = FilterChipDefaults.filterChipBorder(
+                                borderColor = MaterialTheme.colorScheme.outlineVariant,
+                                selectedBorderColor = categoryColor,
+                                enabled = true,
+                                selected = isSelected
+                            )
                         )
                     }
-                    item {
-                        Spacer(modifier = Modifier.height(72.dp))
+                }
+
+                when {
+                    uiState.isLoading -> {
+                        ShimmerForumList()
+                    }
+                    uiState.error != null && uiState.posts.isEmpty() -> {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .verticalScroll(rememberScrollState()),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            ErrorCard(
+                                message = uiState.error ?: "Something went wrong",
+                                onRetry = { viewModel.refresh() }
+                            )
+                        }
+                    }
+                    uiState.posts.isEmpty() -> {
+                        EmptyForumState(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .weight(1f)
+                        )
+                    }
+                    else -> {
+                        if (uiState.error != null) {
+                            ErrorCard(
+                                message = uiState.error ?: "Something went wrong",
+                                onRetry = { viewModel.refresh() }
+                            )
+                        }
+                        LazyColumn(
+                            modifier = Modifier.fillMaxSize(),
+                            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+                            verticalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            items(uiState.posts, key = { it.id }) { post ->
+                                ForumPostCard(
+                                    post = post,
+                                    onClick = { onPostClick(post.id) },
+                                    onThumbsUpClick = { viewModel.toggleThumbsUp(post.id) }
+                                )
+                            }
+                            item {
+                                Spacer(modifier = Modifier.height(72.dp))
+                            }
+                        }
                     }
                 }
             }

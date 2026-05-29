@@ -15,6 +15,7 @@ import com.neb.ians.data.local.entity.ResourceEntity
 import com.neb.ians.data.repository.AnnotationRepository
 import com.neb.ians.data.repository.BookmarkRepository
 import com.neb.ians.data.repository.ResourceRepository
+import com.neb.ians.util.ResourceDownloadManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
@@ -40,7 +41,10 @@ data class ReaderPageState(
     val totalPages: Int = 0,
     val pageBitmap: Bitmap? = null,
     val isLoading: Boolean = true,
-    val error: String? = null
+    val error: String? = null,
+    val needsDownload: Boolean = false,
+    val isDownloading: Boolean = false,
+    val downloadProgress: Int = 0
 )
 
 data class ReaderAnnotationState(
@@ -67,7 +71,8 @@ class ReaderViewModel @Inject constructor(
     private val application: Application,
     private val resourceRepository: ResourceRepository,
     private val annotationRepository: AnnotationRepository,
-    private val bookmarkRepository: BookmarkRepository
+    private val bookmarkRepository: BookmarkRepository,
+    private val downloadManager: ResourceDownloadManager
 ) : ViewModel() {
 
     private val resourceId: String = savedStateHandle.get<String>("resourceId") ?: ""
@@ -92,6 +97,25 @@ class ReaderViewModel @Inject constructor(
         loadResource()
         loadAnnotations()
         loadBookmarks()
+        observeDownloadProgress()
+    }
+
+    private fun observeDownloadProgress() {
+        viewModelScope.launch {
+            downloadManager.downloadProgress.collect { progressMap ->
+                val progress = progressMap[resourceId] ?: 0
+                val downloading = downloadManager.isDownloading(resourceId)
+                _pageState.update {
+                    it.copy(
+                        downloadProgress = progress,
+                        isDownloading = downloading
+                    )
+                }
+                if (progress == 100 && downloading) {
+                    _pageState.update { it.copy(isDownloading = false) }
+                }
+            }
+        }
     }
 
     private fun loadResource() {
@@ -102,14 +126,44 @@ class ReaderViewModel @Inject constructor(
                     _pageState.update { it.copy(resource = resource) }
                     if (resource != null) {
                         resourceRepository.incrementViewCount(resource.id)
-                    }
-                    if (resource?.localPath != null) {
-                        openPdf(resource.localPath)
-                    } else {
-                        loadSamplePdf()
+                        val localFile = downloadManager.getLocalFile(resource)
+                        if (localFile != null && localFile.exists()) {
+                            _pageState.update { it.copy(needsDownload = false) }
+                            openPdf(localFile.absolutePath)
+                        } else if (resource.fileUrl.isNotBlank()) {
+                            _pageState.update { it.copy(needsDownload = true, isLoading = false) }
+                        } else {
+                            loadSamplePdf()
+                        }
                     }
                 }
         }
+    }
+
+    fun downloadResource() {
+        val resource = _pageState.value.resource ?: return
+        if (downloadManager.isDownloading(resource.id)) return
+        _pageState.update { it.copy(isDownloading = true, downloadProgress = 0) }
+        downloadManager.downloadResource(resource)
+        viewModelScope.launch {
+            resourceRepository.getResourceById(resource.id)
+                .distinctUntilChanged()
+                .collect { updated ->
+                    if (updated != null && updated.isDownloaded && !updated.localPath.isNullOrBlank()) {
+                        val file = File(updated.localPath)
+                        if (file.exists()) {
+                            _pageState.update { it.copy(needsDownload = false) }
+                            openPdf(updated.localPath)
+                            return@collect
+                        }
+                    }
+                }
+        }
+    }
+
+    fun cancelDownload() {
+        downloadManager.cancelDownload(resourceId)
+        _pageState.update { it.copy(isDownloading = false, downloadProgress = 0) }
     }
 
     private fun loadAnnotations() {
@@ -342,6 +396,7 @@ class ReaderViewModel @Inject constructor(
 
     override fun onCleared() {
         super.onCleared()
+        downloadManager.cancelDownload(resourceId)
         currentBitmap?.recycle()
         currentBitmap = null
         pdfRenderer?.close()

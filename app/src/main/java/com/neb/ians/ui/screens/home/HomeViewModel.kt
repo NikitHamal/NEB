@@ -16,7 +16,9 @@ data class HomeUiState(
     val userName: String = "Student",
     val recentResources: List<ResourceEntity> = emptyList(),
     val popularResources: List<ResourceEntity> = emptyList(),
-    val recentPosts: List<ForumPostEntity> = emptyList()
+    val recentPosts: List<ForumPostEntity> = emptyList(),
+    val isLoading: Boolean = true,
+    val error: String? = null
 ) {
     companion object {
         val SUBJECTS = listOf(
@@ -33,28 +35,51 @@ class HomeViewModel @Inject constructor(
     private val settingsRepository: SettingsRepository
 ) : ViewModel() {
 
-    private var synced = false
+    private val _isLoading = MutableStateFlow(true)
+    private val _error = MutableStateFlow<String?>(null)
 
     init {
-        if (!synced) {
-            synced = true
-            viewModelScope.launch {
+        syncData()
+    }
+
+    private fun syncData() {
+        viewModelScope.launch {
+            _isLoading.value = true
+            _error.value = null
+            try {
                 resourceRepository.syncResources()
-                forumRepository.syncPosts()
+            } catch (e: Exception) {
+                _error.value = e.message ?: "Failed to load resources"
             }
+            try {
+                forumRepository.syncPosts()
+            } catch (e: Exception) {
+                if (_error.value == null) {
+                    _error.value = e.message ?: "Failed to load forum posts"
+                }
+            }
+            _isLoading.value = false
         }
+    }
+
+    fun refresh() {
+        syncData()
     }
 
     val uiState: StateFlow<HomeUiState> = combine(
         settingsRepository.userName,
         resourceRepository.getAllResources().distinctUntilChanged(),
-        forumRepository.getAllPosts().distinctUntilChanged()
-    ) { userName, resources, posts ->
+        forumRepository.getAllPosts().distinctUntilChanged(),
+        _isLoading,
+        _error
+    ) { userName, resources, posts, isLoading, error ->
         HomeUiState(
             userName = userName,
             recentResources = resources.sortedByDescending { it.addedAt }.take(6),
             popularResources = resources.sortedByDescending { it.viewCount }.take(6),
-            recentPosts = posts.sortedByDescending { it.createdAt }.take(3)
+            recentPosts = posts.sortedByDescending { it.createdAt }.take(3),
+            isLoading = isLoading,
+            error = error
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), HomeUiState())
 }

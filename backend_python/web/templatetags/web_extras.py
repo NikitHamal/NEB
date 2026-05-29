@@ -121,4 +121,6 @@ def format_count(value):
 def to_json(value):
     if value is None:
         return mark_safe('null')
-    return mark_safe(json.dumps(value))
+    json_str = json.dumps(value, ensure_ascii=True)
+    json_str = json_str.replace('<', '\\u003c').replace('>', '\\u003e').replace('&', '\\u0026')
+    return mark_safe(json_str)

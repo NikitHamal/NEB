@@ -12,7 +12,9 @@ import javax.inject.Inject
 data class ForumUiState(
     val posts: List<ForumPostEntity> = emptyList(),
     val selectedCategory: String? = null,
-    val searchQuery: String = ""
+    val searchQuery: String = "",
+    val isLoading: Boolean = true,
+    val error: String? = null
 ) {
     companion object {
         val CATEGORIES = listOf(
@@ -27,10 +29,28 @@ class ForumViewModel @Inject constructor(
     private val forumRepository: ForumRepository
 ) : ViewModel() {
 
+    private val _isLoading = MutableStateFlow(true)
+    private val _error = MutableStateFlow<String?>(null)
+
     init {
+        syncData()
+    }
+
+    private fun syncData() {
         viewModelScope.launch {
-            forumRepository.syncPosts()
+            _isLoading.value = true
+            _error.value = null
+            try {
+                forumRepository.syncPosts()
+            } catch (e: Exception) {
+                _error.value = e.message ?: "Failed to load forum posts"
+            }
+            _isLoading.value = false
         }
+    }
+
+    fun refresh() {
+        syncData()
     }
 
     private val _selectedCategory = MutableStateFlow<String?>(null)
@@ -40,8 +60,10 @@ class ForumViewModel @Inject constructor(
     val uiState: StateFlow<ForumUiState> = combine(
         _selectedCategory,
         _searchQuery.debounce(300),
-        forumRepository.getAllPosts().distinctUntilChanged()
-    ) { category, query, posts ->
+        forumRepository.getAllPosts().distinctUntilChanged(),
+        _isLoading,
+        _error
+    ) { category, query, posts, isLoading, error ->
         val filtered = posts.filter { post ->
             (category == null || post.category == category) &&
             (query.isEmpty() || post.title.contains(query, ignoreCase = true) || post.content.contains(query, ignoreCase = true))
@@ -49,7 +71,9 @@ class ForumViewModel @Inject constructor(
         ForumUiState(
             posts = filtered,
             selectedCategory = category,
-            searchQuery = query
+            searchQuery = query,
+            isLoading = isLoading,
+            error = error
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), ForumUiState())
 

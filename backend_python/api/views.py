@@ -20,7 +20,9 @@ import time
 import uuid
 
 from django.db import transaction
+from django.db.models import Q
 from rest_framework.decorators import api_view, authentication_classes
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework import status
 
@@ -226,8 +228,41 @@ def user_profile_get(request, username):
 
 @api_view(['GET'])
 def resources_list(request):
-    """GET /api/resources — public endpoint, no auth needed."""
+    """GET /api/resources — public endpoint, no auth needed.
+
+    Query params:
+      subject — filter by subject (case-insensitive)
+      grade   — filter by grade_level (case-insensitive)
+      type    — filter by type (case-insensitive)
+      search  — search in title + description (case-insensitive)
+      page    — page number for pagination (optional; if absent, returns all)
+    """
     resources = Resource.objects.all()
+
+    subject = request.query_params.get('subject')
+    grade = request.query_params.get('grade')
+    rtype = request.query_params.get('type')
+    search = request.query_params.get('search')
+
+    if subject:
+        resources = resources.filter(subject__iexact=subject)
+    if grade:
+        resources = resources.filter(grade_level__iexact=grade)
+    if rtype:
+        resources = resources.filter(type__iexact=rtype)
+    if search:
+        resources = resources.filter(
+            Q(title__icontains=search) | Q(description__icontains=search)
+        )
+
+    page_param = request.query_params.get('page')
+    if page_param is not None:
+        paginator = PageNumberPagination()
+        paginator.page_size = 50
+        page = paginator.paginate_queryset(resources, request)
+        serializer = ResourceSerializer(page, many=True)
+        return paginator.get_paginated_response(serializer.data)
+
     return Response(ResourceSerializer(resources, many=True).data)
 
 
@@ -295,9 +330,9 @@ def posts_create(request):
     return Response(PostSerializer(post, context={'request': request}).data, status=201)
 
 
-@api_view(['GET', 'DELETE'])
+@api_view(['GET', 'DELETE', 'PATCH'])
 def post_detail(request, post_id):
-    """GET /api/posts/<postId> — get a single post. DELETE /api/posts/<postId> — delete a post."""
+    """GET/PATCH/DELETE /api/posts/<postId>"""
     try:
         post = Post.objects.select_related('user').get(pk=post_id)
     except Post.DoesNotExist:
@@ -312,6 +347,22 @@ def post_detail(request, post_id):
         post.delete()
         logger.info("post_detail DELETE: deleted post %s by user %s", post_id, user.username)
         return Response({'success': True})
+
+    if request.method == 'PATCH':
+        user, err = _require_user(request)
+        if err:
+            return err
+        if post.user_id != user.id:
+            return Response({'error': 'Forbidden'}, status=403)
+        data = request.data
+        if 'title' in data:
+            post.title = data['title'].strip()
+        if 'content' in data:
+            post.content = data['content'].strip()
+        if 'category' in data:
+            post.category = data['category'].strip()
+        post.save()
+        return Response(PostSerializer(post, context={'request': request}).data)
 
     return Response(PostSerializer(post, context={'request': request}).data)
 
@@ -391,6 +442,35 @@ def replies_create(request, post_id):
     return Response(ReplySerializer(reply, context={'request': request}).data, status=201)
 
 
+@api_view(['DELETE', 'PATCH'])
+def reply_detail(request, reply_id):
+    """DELETE /api/replies/<replyId> — delete a reply. PATCH /api/replies/<replyId> — edit a reply."""
+    user, err = _require_user(request)
+    if err:
+        return err
+    try:
+        reply = Reply.objects.get(pk=reply_id)
+    except Reply.DoesNotExist:
+        return Response({'error': 'Reply not found'}, status=404)
+
+    if reply.user_id != user.id:
+        return Response({'error': 'Forbidden'}, status=403)
+
+    if request.method == 'DELETE':
+        with transaction.atomic():
+            post = reply.post
+            reply.delete()
+            post.reply_count = max(0, post.reply_count - 1)
+            post.save(update_fields=['reply_count'])
+        return Response({'success': True})
+
+    content = request.data.get('content', '').strip()
+    if content:
+        reply.content = content
+        reply.save()
+    return Response(ReplySerializer(reply, context={'request': request}).data)
+
+
 @api_view(['POST'])
 def reply_like(request, reply_id):
     """POST /api/replies/<replyId>/like — toggle thumbs up."""
@@ -441,17 +521,65 @@ def fcm_register(request):
 
 
 # ---------------------------------------------------------------------------
+# SEARCH
+# ---------------------------------------------------------------------------
+
+@api_view(['GET'])
+def search_all(request):
+    """GET /api/search?q=query — unified search across resources and posts."""
+    query = request.query_params.get('q', '').strip()
+    if not query:
+        return Response({'resources': [], 'posts': []})
+
+    resources = Resource.objects.filter(
+        Q(title__icontains=query) | Q(description__icontains=query) | Q(subject__icontains=query)
+    )
+    posts = Post.objects.select_related('user').filter(
+        Q(title__icontains=query) | Q(content__icontains=query)
+    )
+
+    return Response({
+        'resources': ResourceSerializer(resources, many=True).data,
+        'posts': PostSerializer(posts, many=True, context={'request': request}).data,
+    })
+
+
+# ---------------------------------------------------------------------------
 # DISPATCHERS — combine GET+POST on the same URL into one Django view
 # ---------------------------------------------------------------------------
 
 @api_view(['GET', 'POST'])
 def posts_endpoint(request):
     """
-    GET  /api/posts  → list posts
+    GET  /api/posts  → list posts (with optional filtering/pagination)
     POST /api/posts  → create post
+
+    GET query params:
+      category — filter by category (case-insensitive)
+      search   — search in title + content (case-insensitive)
+      page     — page number for pagination (optional; if absent, returns all)
     """
     if request.method == 'GET':
         posts = Post.objects.select_related('user').all()
+
+        category = request.query_params.get('category')
+        search = request.query_params.get('search')
+
+        if category:
+            posts = posts.filter(category__iexact=category)
+        if search:
+            posts = posts.filter(
+                Q(title__icontains=search) | Q(content__icontains=search)
+            )
+
+        page_param = request.query_params.get('page')
+        if page_param is not None:
+            paginator = PageNumberPagination()
+            paginator.page_size = 50
+            page = paginator.paginate_queryset(posts, request)
+            serializer = PostSerializer(page, many=True, context={'request': request})
+            return paginator.get_paginated_response(serializer.data)
+
         serializer = PostSerializer(posts, many=True, context={'request': request})
         return Response(serializer.data)
 

@@ -80,14 +80,18 @@ def get_resource(token=None, resource_id=None):
     return _api_call('GET', f'/resources/{resource_id}', token=token)
 
 
-def get_posts(token=None):
-    return _api_call('GET', '/posts', token=token)
+def get_posts(token=None, params=None):
+    return _api_call('GET', '/posts', token=token, params=params)
 
 
 def get_post(token=None, post_id=None):
     if not post_id:
         return None
     return _api_call('GET', f'/posts/{post_id}', token=token)
+
+
+def search_all(token=None, query=''):
+    return _api_call('GET', '/search', token=token, params={'q': query})
 
 
 def create_post(token, title, content, category):

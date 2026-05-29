@@ -15,7 +15,8 @@ data class LibraryUiState(
     val selectedSubject: String? = null,
     val selectedGradeLevel: String? = null,
     val selectedType: String? = null,
-    val isLoading: Boolean = false
+    val isLoading: Boolean = true,
+    val error: String? = null
 ) {
     companion object {
         val SUBJECTS = listOf(
@@ -33,19 +34,32 @@ class LibraryViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private var synced = false
+    private val _isLoading = MutableStateFlow(true)
+    private val _error = MutableStateFlow<String?>(null)
 
     init {
-        if (!synced) {
-            synced = true
-            viewModelScope.launch {
-                resourceRepository.syncResources()
-            }
-        }
+        syncData()
         val initialSubject = savedStateHandle.get<String>("subject")
         if (!initialSubject.isNullOrBlank()) {
             _selectedSubject.value = initialSubject
         }
+    }
+
+    private fun syncData() {
+        viewModelScope.launch {
+            _isLoading.value = true
+            _error.value = null
+            try {
+                resourceRepository.syncResources()
+            } catch (e: Exception) {
+                _error.value = e.message ?: "Failed to load resources"
+            }
+            _isLoading.value = false
+        }
+    }
+
+    fun refresh() {
+        syncData()
     }
 
     private val _selectedSubject = MutableStateFlow<String?>(null)
@@ -56,8 +70,10 @@ class LibraryViewModel @Inject constructor(
         _selectedSubject,
         _selectedGradeLevel,
         _selectedType,
-        resourceRepository.getAllResources().distinctUntilChanged()
-    ) { subject, grade, type, allResources ->
+        resourceRepository.getAllResources().distinctUntilChanged(),
+        _isLoading,
+        _error
+    ) { subject, grade, type, allResources, isLoading, error ->
         val filtered = allResources.filter { resource ->
             (subject == null || resource.subject == subject) &&
             (grade == null || resource.gradeLevel == grade) &&
@@ -67,7 +83,9 @@ class LibraryViewModel @Inject constructor(
             resources = filtered,
             selectedSubject = subject,
             selectedGradeLevel = grade,
-            selectedType = type
+            selectedType = type,
+            isLoading = isLoading,
+            error = error
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), LibraryUiState())
 
