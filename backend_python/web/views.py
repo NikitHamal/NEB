@@ -4,7 +4,7 @@ import logging
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_GET, require_POST
-from django.http import JsonResponse
+from django.http import JsonResponse, Http404
 
 from . import api_client as api
 
@@ -180,6 +180,8 @@ def reader(request, resource_id):
 def profile(request, username):
     token = api.get_session_token(request)
     profile_data = api.get_profile(token, username)
+    if not profile_data:
+        raise Http404("User not found")
     return render(request, 'web/profile.html', _ctx(request, profile_user=profile_data, username=username))
 
 
