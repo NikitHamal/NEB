@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}New Discussion{% endblock %}
+{% block nav_forum %}md-nav-active{% endblock %}
+
+{% block content %}
+<div class="md-container-narrow" style="padding-top:24px;">
+  <a href="{% url 'web:forum' %}" class="md-btn md-btn-text mb-2" style="padding-left:0;">
+    <span class="material-symbols-outlined" style="font-size:18px">arrow_back</span>
+    Back to Forum
+  </a>
+
+  <h1 class="md-headline-small mb-3">New Discussion</h1>
+
+  <div class="md-card p-3">
+    <form method="post">
+      {% csrf_token %}
+      <div class="form-group">
+        <label class="md-label" for="title">Title</label>
+        <input type="text" id="title" name="title" class="md-input" placeholder="What's your discussion about?" required>
+      </div>
+
+      <div class="form-group">
+        <label class="md-label" for="category">Category</label>
+        <select id="category" name="category" class="md-select" required>
+          <option value="" disabled selected>Select a category</option>
+          {% for c in categories %}
+          <option value="{{ c }}">{{ c }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="md-label" for="content">Content</label>
+        <textarea id="content" name="content" class="md-textarea" placeholder="Share your thoughts..." rows="6" required></textarea>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="md-btn md-btn-filled">
+          <span class="material-symbols-outlined" style="font-size:18px">send</span>
+          Post Discussion
+        </button>
+        <a href="{% url 'web:forum' %}" class="md-btn md-btn-text">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

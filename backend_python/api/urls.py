@@ -2,7 +2,7 @@
 URL patterns for the NEBians API.
 All paths are relative to /api/ (prefix added in nebians/urls.py).
 """
-from django.urls import path
+from django.urls import path, include
 from . import views
 
 urlpatterns = [
@@ -30,4 +30,7 @@ urlpatterns = [
 
     # FCM
     path('fcm/register', views.fcm_register, name='fcm-register'),
+
+    # Admin API
+    path('', include('api.admin_urls')),
 ]

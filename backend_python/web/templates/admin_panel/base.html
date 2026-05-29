@@ -1,0 +1,82 @@
+{% load static %}
+{% load web_extras %}
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Admin{% endblock %} | NEBians Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap">
+  <link rel="stylesheet" href="{% static 'web/css/material3.css' %}">
+  <link rel="stylesheet" href="{% static 'web/css/app.css' %}">
+  {% block extra_css %}{% endblock %}
+</head>
+<body>
+  <!-- Top Bar -->
+  <header class="md-topbar" style="background:var(--md-surface-container);">
+    <a href="{% url 'web:admin_dashboard' %}" class="md-topbar-brand" style="color:var(--md-primary);">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" width="28" height="28">
+        <rect width="32" height="32" rx="8" fill="var(--md-primary)"/>
+        <path d="M8 8h3v16H8V8zm5 0h3v16h-3V8zm5 0v16l8-8-8-8z" fill="var(--md-on-primary)"/>
+      </svg>
+      NEBians Admin
+    </a>
+    <div style="margin-left:auto;display:flex;align-items:center;gap:8px;">
+      <span class="md-body-small" style="color:var(--md-on-surface-variant);">Admin</span>
+      <a href="{% url 'web:admin_logout' %}" class="md-btn md-btn-text" style="font-size:0.8125rem;">Logout</a>
+    </div>
+  </header>
+
+  <div class="admin-layout">
+    <!-- Sidebar -->
+    <nav class="admin-sidebar">
+      <a href="{% url 'web:admin_dashboard' %}" class="{% if active_page == 'dashboard' %}active{% endif %}">
+        <span class="material-symbols-outlined">dashboard</span>
+        Dashboard
+      </a>
+      <a href="{% url 'web:admin_users' %}" class="{% if active_page == 'users' %}active{% endif %}">
+        <span class="material-symbols-outlined">people</span>
+        Users
+      </a>
+      <a href="{% url 'web:admin_resources' %}" class="{% if active_page == 'resources' %}active{% endif %}">
+        <span class="material-symbols-outlined">auto_stories</span>
+        Resources
+      </a>
+      <a href="{% url 'web:admin_posts' %}" class="{% if active_page == 'posts' %}active{% endif %}">
+        <span class="material-symbols-outlined">forum</span>
+        Forum Posts
+      </a>
+      <div class="md-divider"></div>
+      <a href="{% url 'web:home' %}" style="color:var(--md-on-surface-variant);">
+        <span class="material-symbols-outlined">open_in_new</span>
+        View Site
+      </a>
+    </nav>
+
+    <!-- Content -->
+    <div class="admin-content">
+      {% block content %}{% endblock %}
+    </div>
+  </div>
+
+  <script>
+    const CSRF_TOKEN = '{{ csrf_token }}';
+    function toggleTheme() {
+      const html = document.documentElement;
+      const isDark = html.getAttribute('data-theme') === 'dark';
+      html.setAttribute('data-theme', isDark ? '' : 'dark');
+    }
+    function showSnackbar(msg, duration = 3000) {
+      const container = document.getElementById('snackbar-container') || document.body;
+      const el = document.createElement('div');
+      el.className = 'md-snackbar';
+      el.textContent = msg;
+      container.appendChild(el);
+      setTimeout(() => el.remove(), duration);
+    }
+  </script>
+  {% block extra_js %}{% endblock %}
+</body>
+</html>
