@@ -17,9 +17,9 @@ class UserSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         ret = super().to_representation(instance)
-        # Rename class_level to class for Kotlin expectations
+        # Rename class_level to class for Kotlin expectations, keep both
         if 'class_level' in ret:
-            ret['class'] = ret.pop('class_level')
+            ret['class'] = ret['class_level']
         # Convert is_locked to 0 or 1 integer for Kotlin expectations
         if 'is_locked' in ret:
             ret['is_locked'] = 1 if ret['is_locked'] else 0

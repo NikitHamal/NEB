@@ -118,12 +118,7 @@ def auth_google(request):
             'status': 'success',
             'isNewUser': True,
             'authToken': auth_token,
-            'user': {
-                'id': user_id,
-                'email': email,
-                'displayName': display_name,
-                'photoUrl': photo_url,
-            }
+            'user': UserSerializer(user).data
         })
 
 
@@ -250,7 +245,6 @@ def posts_list(request):
 
 
 @api_view(['POST'])
-@authentication_classes([])
 def posts_create(request):
     """POST /api/posts"""
     user, err = _require_user(request)
@@ -280,7 +274,6 @@ def posts_create(request):
 
 
 @api_view(['DELETE'])
-@authentication_classes([])
 def post_delete(request, post_id):
     """DELETE /api/posts/<postId>"""
     user, err = _require_user(request)
@@ -301,7 +294,6 @@ def post_delete(request, post_id):
 
 
 @api_view(['POST'])
-@authentication_classes([])
 def post_like(request, post_id):
     """POST /api/posts/<postId>/like — toggle thumbs up."""
     user, err = _require_user(request)
@@ -342,7 +334,6 @@ def replies_list(request, post_id):
 
 
 @api_view(['POST'])
-@authentication_classes([])
 def replies_create(request, post_id):
     """POST /api/posts/<postId>/replies"""
     user, err = _require_user(request)
@@ -378,7 +369,6 @@ def replies_create(request, post_id):
 
 
 @api_view(['POST'])
-@authentication_classes([])
 def reply_like(request, reply_id):
     """POST /api/replies/<replyId>/like — toggle thumbs up."""
     user, err = _require_user(request)
@@ -432,7 +422,6 @@ def fcm_register(request):
 # ---------------------------------------------------------------------------
 
 @api_view(['GET', 'POST'])
-@authentication_classes([])
 def posts_endpoint(request):
     """
     GET  /api/posts  → list posts
@@ -470,7 +459,6 @@ def posts_endpoint(request):
 
 
 @api_view(['GET', 'POST'])
-@authentication_classes([])
 def replies_endpoint(request, post_id):
     """
     GET  /api/posts/<postId>/replies  → list replies
