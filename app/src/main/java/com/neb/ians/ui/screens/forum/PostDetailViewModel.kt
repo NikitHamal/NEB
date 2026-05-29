@@ -25,9 +25,15 @@ class PostDetailViewModel @Inject constructor(
 
     private val postId: String = savedStateHandle.get<String>("postId") ?: ""
 
+    init {
+        viewModelScope.launch {
+            forumRepository.syncRepliesForPost(postId)
+        }
+    }
+
     val uiState: StateFlow<PostDetailUiState> = combine(
-        forumRepository.getPostById(postId),
-        forumRepository.getRepliesForPost(postId)
+        forumRepository.getPostById(postId).distinctUntilChanged(),
+        forumRepository.getRepliesForPost(postId).distinctUntilChanged()
     ) { post, replies ->
         PostDetailUiState(
             post = post,

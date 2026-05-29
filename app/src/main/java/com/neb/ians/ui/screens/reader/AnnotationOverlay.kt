@@ -25,6 +25,8 @@ fun AnnotationOverlay(
     var dragEnd by remember { mutableStateOf<Offset?>(null) }
     var isDragging by remember { mutableStateOf(false) }
 
+    val cachedAnnotations = remember(annotations) { annotations }
+
     Canvas(
         modifier = modifier
             .fillMaxSize()
@@ -46,6 +48,7 @@ fun AnnotationOverlay(
                                 isDragging = true
                             },
                             onDrag = { change, _ ->
+                                change.consume()
                                 dragEnd = change.position
                             },
                             onDragEnd = {
@@ -62,6 +65,11 @@ fun AnnotationOverlay(
                                 dragStart = null
                                 dragEnd = null
                                 isDragging = false
+                            },
+                            onDragCancel = {
+                                dragStart = null
+                                dragEnd = null
+                                isDragging = false
                             }
                         )
                     }
@@ -70,24 +78,24 @@ fun AnnotationOverlay(
             .pointerInput(annotationMode) {
                 if (annotationMode == AnnotationMode.NONE) {
                     detectTapGestures { offset ->
-                        annotations.forEach { annotation ->
+                        for (annotation in cachedAnnotations) {
                             val inBoundsX = offset.x in annotation.startX..annotation.endX
                             val inBoundsY = offset.y in annotation.startY..annotation.endY
                             if (inBoundsX && inBoundsY) {
                                 onAnnotationTapped(annotation)
+                                break
                             }
                         }
                     }
                 }
             }
     ) {
-        // Draw existing annotations
-        annotations.forEach { annotation ->
-            val color = Color(annotation.color).copy(alpha = 0.35f)
+        cachedAnnotations.forEach { annotation ->
+            val color = Color(annotation.color)
             when (annotation.type) {
                 "HIGHLIGHT" -> {
                     drawRect(
-                        color = color,
+                        color = color.copy(alpha = 0.35f),
                         topLeft = Offset(annotation.startX, annotation.startY),
                         size = Size(
                             annotation.endX - annotation.startX,
@@ -97,29 +105,26 @@ fun AnnotationOverlay(
                 }
                 "UNDERLINE" -> {
                     drawLine(
-                        color = Color(annotation.color),
+                        color = color,
                         start = Offset(annotation.startX, annotation.endY),
                         end = Offset(annotation.endX, annotation.endY),
                         strokeWidth = 3f
                     )
                 }
                 "STICKY_NOTE" -> {
-                    // Draw note background
                     drawRect(
-                        color = Color(annotation.color).copy(alpha = 0.8f),
+                        color = color.copy(alpha = 0.8f),
                         topLeft = Offset(annotation.startX, annotation.startY),
                         size = Size(80f, 80f)
                     )
-                    // Draw note border
                     drawRect(
-                        color = Color(annotation.color),
+                        color = color,
                         topLeft = Offset(annotation.startX, annotation.startY),
                         size = Size(80f, 80f),
                         style = Stroke(width = 2f)
                     )
-                    // Draw fold corner
                     drawLine(
-                        color = Color(annotation.color).copy(alpha = 0.6f),
+                        color = color.copy(alpha = 0.6f),
                         start = Offset(annotation.startX + 60f, annotation.startY),
                         end = Offset(annotation.startX + 80f, annotation.startY + 20f),
                         strokeWidth = 1.5f
@@ -128,7 +133,6 @@ fun AnnotationOverlay(
             }
         }
 
-        // Draw active drag preview
         if (isDragging && dragStart != null && dragEnd != null) {
             val start = dragStart!!
             val end = dragEnd!!

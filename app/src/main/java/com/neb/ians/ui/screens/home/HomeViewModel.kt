@@ -9,18 +9,22 @@ import com.neb.ians.data.repository.ForumRepository
 import com.neb.ians.data.repository.SettingsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 data class HomeUiState(
     val userName: String = "Student",
     val recentResources: List<ResourceEntity> = emptyList(),
     val popularResources: List<ResourceEntity> = emptyList(),
-    val recentPosts: List<ForumPostEntity> = emptyList(),
-    val subjects: List<String> = listOf(
-        "Physics", "Chemistry", "Mathematics", "Biology",
-        "English", "Nepali", "Computer Science", "Economics", "Accountancy"
-    )
-)
+    val recentPosts: List<ForumPostEntity> = emptyList()
+) {
+    companion object {
+        val SUBJECTS = listOf(
+            "Physics", "Chemistry", "Mathematics", "Biology",
+            "English", "Nepali", "Computer Science", "Economics", "Accountancy"
+        )
+    }
+}
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
@@ -29,10 +33,22 @@ class HomeViewModel @Inject constructor(
     private val settingsRepository: SettingsRepository
 ) : ViewModel() {
 
+    private var synced = false
+
+    init {
+        if (!synced) {
+            synced = true
+            viewModelScope.launch {
+                resourceRepository.syncResources()
+                forumRepository.syncPosts()
+            }
+        }
+    }
+
     val uiState: StateFlow<HomeUiState> = combine(
         settingsRepository.userName,
-        resourceRepository.getAllResources(),
-        forumRepository.getAllPosts()
+        resourceRepository.getAllResources().distinctUntilChanged(),
+        forumRepository.getAllPosts().distinctUntilChanged()
     ) { userName, resources, posts ->
         HomeUiState(
             userName = userName,

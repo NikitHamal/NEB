@@ -1,6 +1,7 @@
 package com.neb.ians.ui.screens.forum
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.*
@@ -39,7 +40,8 @@ fun ReplyScreen(
                     containerColor = MaterialTheme.colorScheme.surface
                 )
             )
-        }
+        },
+        containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
     ) { paddingValues ->
         Column(
             modifier = Modifier
@@ -48,12 +50,11 @@ fun ReplyScreen(
                 .padding(horizontal = 16.dp, vertical = 8.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            // Post title context card
             if (uiState.postTitle.isNotEmpty()) {
                 Surface(
                     modifier = Modifier.fillMaxWidth(),
-                    shape = MaterialTheme.shapes.medium,
-                    color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
+                    shape = RoundedCornerShape(16.dp),
+                    color = MaterialTheme.colorScheme.surfaceContainerHigh,
                     tonalElevation = 0.dp
                 ) {
                     Column(
@@ -75,7 +76,6 @@ fun ReplyScreen(
                 }
             }
 
-            // Reply content field
             OutlinedTextField(
                 value = uiState.content,
                 onValueChange = viewModel::onContentChange,
@@ -85,15 +85,17 @@ fun ReplyScreen(
                     .fillMaxWidth()
                     .heightIn(min = 200.dp)
                     .weight(1f),
+                shape = RoundedCornerShape(12.dp),
                 enabled = !uiState.isSubmitting
             )
 
-            // Submit button
             Button(
                 onClick = { viewModel.submitReply(onSuccess = onReplySubmitted) },
                 modifier = Modifier
                     .fillMaxWidth()
+                    .height(56.dp)
                     .padding(bottom = 16.dp),
+                shape = RoundedCornerShape(50),
                 enabled = uiState.content.isNotBlank() && !uiState.isSubmitting
             ) {
                 if (uiState.isSubmitting) {

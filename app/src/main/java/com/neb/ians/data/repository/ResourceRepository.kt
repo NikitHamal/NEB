@@ -14,7 +14,10 @@ class ResourceRepository @Inject constructor(
     suspend fun syncResources() {
         try {
             val apiRes = apiService.getResources()
+            val serverIds = apiRes.map { it.id }
+            val existingMap = resourceDao.getByIdsSync(serverIds).associateBy { it.id }
             val entities = apiRes.map { res ->
+                val existing = existingMap[res.id]
                 ResourceEntity(
                     id = res.id,
                     title = res.title,
@@ -27,10 +30,14 @@ class ResourceRepository @Inject constructor(
                     fileSize = res.fileSize,
                     addedAt = res.addedAt,
                     viewCount = res.viewCount,
-                    // keep download local status if it exists in DB
-                    isDownloaded = resourceDao.getByIdSync(res.id)?.isDownloaded ?: false,
-                    localPath = resourceDao.getByIdSync(res.id)?.localPath
+                    isDownloaded = existing?.isDownloaded ?: false,
+                    localPath = existing?.localPath
                 )
+            }
+            if (serverIds.isEmpty()) {
+                resourceDao.deleteAll()
+            } else {
+                resourceDao.deleteExceptWithIds(serverIds)
             }
             resourceDao.insertAll(entities)
         } catch (e: Exception) {

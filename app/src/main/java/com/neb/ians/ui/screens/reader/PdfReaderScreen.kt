@@ -41,7 +41,10 @@ fun PdfReaderScreen(
     onNavigateBack: () -> Unit,
     viewModel: ReaderViewModel = hiltViewModel()
 ) {
-    val uiState by viewModel.uiState.collectAsState()
+    val pageState by viewModel.pageState.collectAsState()
+    val annotationState by viewModel.annotationState.collectAsState()
+    val dialogState by viewModel.dialogState.collectAsState()
+    val bookmarksState by viewModel.bookmarksState.collectAsState()
 
     var showOverflowMenu by remember { mutableStateOf(false) }
     var showPageJumpDialog by remember { mutableStateOf(false) }
@@ -50,8 +53,8 @@ fun PdfReaderScreen(
     var bookmarkTitle by remember { mutableStateOf("") }
     var annotationsExpanded by remember { mutableStateOf(false) }
 
-    val currentPageAnnotations = remember(uiState.annotations, uiState.currentPage) {
-        uiState.annotations.filter { it.page == uiState.currentPage }
+    val currentPageAnnotations = remember(annotationState.annotations, pageState.currentPage) {
+        annotationState.annotations.filter { it.page == pageState.currentPage }
     }
 
     Scaffold(
@@ -59,7 +62,7 @@ fun PdfReaderScreen(
             TopAppBar(
                 title = {
                     Text(
-                        text = uiState.resource?.title ?: "PDF Reader",
+                        text = pageState.resource?.title ?: "PDF Reader",
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
@@ -94,7 +97,7 @@ fun PdfReaderScreen(
                                 },
                                 onClick = {
                                     showOverflowMenu = false
-                                    bookmarkTitle = "Page ${uiState.currentPage + 1}"
+                                    bookmarkTitle = "Page ${pageState.currentPage + 1}"
                                     viewModel.showBookmarkDialog(true)
                                 }
                             )
@@ -128,7 +131,7 @@ fun PdfReaderScreen(
                             DropdownMenuItem(
                                 text = {
                                     Text(
-                                        if (uiState.showAnnotationTools) "Hide Annotations"
+                                        if (annotationState.showAnnotationTools) "Hide Annotations"
                                         else "Show Annotations"
                                     )
                                 },
@@ -145,26 +148,29 @@ fun PdfReaderScreen(
                             )
                         }
                     }
-                }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.surface
+                )
             )
-        }
+        },
+        containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
     ) { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            // Main content area
             Box(
                 modifier = Modifier
                     .weight(1f)
                     .fillMaxWidth()
             ) {
-                if (uiState.isLoading) {
+                if (pageState.isLoading) {
                     CircularProgressIndicator(
                         modifier = Modifier.align(Alignment.Center)
                     )
-                } else if (uiState.error != null) {
+                } else if (pageState.error != null) {
                     Column(
                         modifier = Modifier
                             .align(Alignment.Center)
@@ -179,25 +185,24 @@ fun PdfReaderScreen(
                         )
                         Spacer(modifier = Modifier.height(16.dp))
                         Text(
-                            text = uiState.error ?: "Unknown error",
+                            text = pageState.error ?: "Unknown error",
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                             textAlign = TextAlign.Center
                         )
                     }
-                } else if (uiState.pageBitmap != null) {
+                } else if (pageState.pageBitmap != null) {
                     Image(
-                        bitmap = uiState.pageBitmap!!.asImageBitmap(),
-                        contentDescription = "Page ${uiState.currentPage + 1}",
+                        bitmap = pageState.pageBitmap!!.asImageBitmap(),
+                        contentDescription = "Page ${pageState.currentPage + 1}",
                         modifier = Modifier.fillMaxSize(),
                         contentScale = ContentScale.Fit
                     )
                 } else {
-                    // Placeholder for current page
                     Box(
                         modifier = Modifier
                             .fillMaxSize()
-                            .background(MaterialTheme.colorScheme.surfaceVariant),
+                            .background(MaterialTheme.colorScheme.surfaceContainerHigh),
                         contentAlignment = Alignment.Center
                     ) {
                         Card(
@@ -208,7 +213,7 @@ fun PdfReaderScreen(
                             colors = CardDefaults.cardColors(
                                 containerColor = MaterialTheme.colorScheme.surface
                             ),
-                            shape = RoundedCornerShape(4.dp)
+                            shape = RoundedCornerShape(12.dp)
                         ) {
                             Column(
                                 modifier = Modifier
@@ -221,18 +226,18 @@ fun PdfReaderScreen(
                                     imageVector = Icons.Filled.PictureAsPdf,
                                     contentDescription = null,
                                     modifier = Modifier.size(72.dp),
-                                    tint = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f)
+                                    tint = MaterialTheme.colorScheme.primary
                                 )
                                 Spacer(modifier = Modifier.height(24.dp))
                                 Text(
-                                    text = uiState.resource?.title ?: "Document",
+                                    text = pageState.resource?.title ?: "Document",
                                     style = MaterialTheme.typography.titleLarge,
                                     textAlign = TextAlign.Center,
                                     color = MaterialTheme.colorScheme.onSurface
                                 )
                                 Spacer(modifier = Modifier.height(12.dp))
                                 Text(
-                                    text = "Page ${uiState.currentPage + 1}",
+                                    text = "Page ${pageState.currentPage + 1}",
                                     style = MaterialTheme.typography.bodyLarge,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
@@ -241,30 +246,29 @@ fun PdfReaderScreen(
                     }
                 }
 
-                // Annotation overlay
-                if (!uiState.isLoading && uiState.error == null) {
+                if (!pageState.isLoading && pageState.error == null) {
                     AnnotationOverlay(
                         annotations = currentPageAnnotations,
-                        annotationMode = uiState.annotationMode,
+                        annotationMode = annotationState.annotationMode,
                         onAnnotationCreated = { startX, startY, endX, endY ->
-                            if (uiState.annotationMode == AnnotationMode.STICKY_NOTE) {
+                            if (annotationState.annotationMode == AnnotationMode.STICKY_NOTE) {
                                 viewModel.addAnnotation(startX, startY, endX, endY)
                                 viewModel.showStickyNoteDialog(true)
                             } else {
                                 viewModel.addAnnotation(startX, startY, endX, endY)
                             }
                         },
-                        onAnnotationTapped = { /* handled via annotation list */ },
+                        onAnnotationTapped = { },
                         modifier = Modifier.fillMaxSize()
                     )
                 }
             }
 
-            // Annotation list section
             if (currentPageAnnotations.isNotEmpty()) {
                 Surface(
                     tonalElevation = 1.dp,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
+                    color = MaterialTheme.colorScheme.surfaceContainer
                 ) {
                     Column {
                         Row(
@@ -311,28 +315,26 @@ fun PdfReaderScreen(
                 }
             }
 
-            // Bottom annotation toolbar
             AnimatedVisibility(
-                visible = uiState.showAnnotationTools,
+                visible = annotationState.showAnnotationTools,
                 enter = expandVertically(),
                 exit = shrinkVertically()
             ) {
                 Surface(
                     tonalElevation = 2.dp,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
+                    color = MaterialTheme.colorScheme.surfaceContainer
                 ) {
                     Column(
                         modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
                     ) {
-                        // Tool buttons row
                         Row(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceEvenly,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            // Highlight button
                             IconToggleButton(
-                                checked = uiState.annotationMode == AnnotationMode.HIGHLIGHT,
+                                checked = annotationState.annotationMode == AnnotationMode.HIGHLIGHT,
                                 onCheckedChange = {
                                     viewModel.setAnnotationMode(AnnotationMode.HIGHLIGHT)
                                 }
@@ -340,15 +342,14 @@ fun PdfReaderScreen(
                                 Icon(
                                     imageVector = Icons.Outlined.Highlight,
                                     contentDescription = "Highlight",
-                                    tint = if (uiState.annotationMode == AnnotationMode.HIGHLIGHT)
+                                    tint = if (annotationState.annotationMode == AnnotationMode.HIGHLIGHT)
                                         MaterialTheme.colorScheme.primary
                                     else MaterialTheme.colorScheme.onSurfaceVariant
                                 )
                             }
 
-                            // Underline button
                             IconToggleButton(
-                                checked = uiState.annotationMode == AnnotationMode.UNDERLINE,
+                                checked = annotationState.annotationMode == AnnotationMode.UNDERLINE,
                                 onCheckedChange = {
                                     viewModel.setAnnotationMode(AnnotationMode.UNDERLINE)
                                 }
@@ -356,15 +357,14 @@ fun PdfReaderScreen(
                                 Icon(
                                     imageVector = Icons.Outlined.FormatUnderlined,
                                     contentDescription = "Underline",
-                                    tint = if (uiState.annotationMode == AnnotationMode.UNDERLINE)
+                                    tint = if (annotationState.annotationMode == AnnotationMode.UNDERLINE)
                                         MaterialTheme.colorScheme.primary
                                     else MaterialTheme.colorScheme.onSurfaceVariant
                                 )
                             }
 
-                            // Sticky Note button
                             IconToggleButton(
-                                checked = uiState.annotationMode == AnnotationMode.STICKY_NOTE,
+                                checked = annotationState.annotationMode == AnnotationMode.STICKY_NOTE,
                                 onCheckedChange = {
                                     viewModel.setAnnotationMode(AnnotationMode.STICKY_NOTE)
                                 }
@@ -372,7 +372,7 @@ fun PdfReaderScreen(
                                 Icon(
                                     imageVector = Icons.Outlined.StickyNote2,
                                     contentDescription = "Sticky Note",
-                                    tint = if (uiState.annotationMode == AnnotationMode.STICKY_NOTE)
+                                    tint = if (annotationState.annotationMode == AnnotationMode.STICKY_NOTE)
                                         MaterialTheme.colorScheme.primary
                                     else MaterialTheme.colorScheme.onSurfaceVariant
                                 )
@@ -381,21 +381,20 @@ fun PdfReaderScreen(
 
                         Spacer(modifier = Modifier.height(8.dp))
 
-                        // Color picker row
                         Row(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceEvenly,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             val colors = listOf(
-                                0xFFFFEB3B.toInt(), // Yellow
-                                0xFF4CAF50.toInt(), // Green
-                                0xFF2196F3.toInt(), // Blue
-                                0xFFE91E63.toInt(), // Pink
-                                0xFFFF9800.toInt()  // Orange
+                                0xFFFFEB3B.toInt(),
+                                0xFF4CAF50.toInt(),
+                                0xFF2196F3.toInt(),
+                                0xFFE91E63.toInt(),
+                                0xFFFF9800.toInt()
                             )
                             colors.forEach { color ->
-                                val isSelected = uiState.selectedColor == color
+                                val isSelected = annotationState.selectedColor == color
                                 Box(
                                     modifier = Modifier
                                         .size(28.dp)
@@ -425,10 +424,10 @@ fun PdfReaderScreen(
                 }
             }
 
-            // Page navigation bar
             Surface(
                 tonalElevation = 1.dp,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                color = MaterialTheme.colorScheme.surfaceContainer
             ) {
                 Row(
                     modifier = Modifier
@@ -439,7 +438,7 @@ fun PdfReaderScreen(
                 ) {
                     IconButton(
                         onClick = { viewModel.previousPage() },
-                        enabled = uiState.currentPage > 0
+                        enabled = pageState.currentPage > 0
                     ) {
                         Icon(
                             imageVector = Icons.Filled.ChevronLeft,
@@ -448,8 +447,8 @@ fun PdfReaderScreen(
                     }
 
                     Text(
-                        text = if (uiState.totalPages > 0) {
-                            "Page ${uiState.currentPage + 1} of ${uiState.totalPages}"
+                        text = if (pageState.totalPages > 0) {
+                            "Page ${pageState.currentPage + 1} of ${pageState.totalPages}"
                         } else {
                             "No pages"
                         },
@@ -458,7 +457,7 @@ fun PdfReaderScreen(
 
                     IconButton(
                         onClick = { viewModel.nextPage() },
-                        enabled = uiState.currentPage < uiState.totalPages - 1
+                        enabled = pageState.currentPage < pageState.totalPages - 1
                     ) {
                         Icon(
                             imageVector = Icons.Filled.ChevronRight,
@@ -470,20 +469,20 @@ fun PdfReaderScreen(
         }
     }
 
-    // Sticky note creation dialog
-    if (uiState.showStickyNoteDialog) {
+    if (dialogState.showStickyNoteDialog) {
         AlertDialog(
             onDismissRequest = { viewModel.showStickyNoteDialog(false) },
             title = { Text("Add Sticky Note") },
             text = {
                 OutlinedTextField(
-                    value = uiState.stickyNoteText,
+                    value = dialogState.stickyNoteText,
                     onValueChange = { viewModel.onStickyNoteTextChange(it) },
                     label = { Text("Note") },
                     modifier = Modifier
                         .fillMaxWidth()
                         .heightIn(min = 120.dp),
                     placeholder = { Text("Enter your note...") },
+                    shape = RoundedCornerShape(12.dp),
                     maxLines = 6
                 )
             },
@@ -510,8 +509,7 @@ fun PdfReaderScreen(
         )
     }
 
-    // Bookmark creation dialog
-    if (uiState.showBookmarkDialog) {
+    if (dialogState.showBookmarkDialog) {
         AlertDialog(
             onDismissRequest = { viewModel.showBookmarkDialog(false) },
             title = { Text("Add Bookmark") },
@@ -521,7 +519,8 @@ fun PdfReaderScreen(
                     onValueChange = { bookmarkTitle = it },
                     label = { Text("Bookmark title") },
                     modifier = Modifier.fillMaxWidth(),
-                    singleLine = true
+                    singleLine = true,
+                    shape = RoundedCornerShape(12.dp)
                 )
             },
             confirmButton = {
@@ -550,7 +549,6 @@ fun PdfReaderScreen(
         )
     }
 
-    // Page jump dialog
     if (showPageJumpDialog) {
         AlertDialog(
             onDismissRequest = { showPageJumpDialog = false },
@@ -559,9 +557,10 @@ fun PdfReaderScreen(
                 OutlinedTextField(
                     value = pageJumpText,
                     onValueChange = { pageJumpText = it.filter { c -> c.isDigit() } },
-                    label = { Text("Page number (1-${uiState.totalPages})") },
+                    label = { Text("Page number (1-${pageState.totalPages})") },
                     modifier = Modifier.fillMaxWidth(),
                     singleLine = true,
+                    shape = RoundedCornerShape(12.dp),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
                 )
             },
@@ -569,7 +568,7 @@ fun PdfReaderScreen(
                 TextButton(
                     onClick = {
                         val page = pageJumpText.toIntOrNull()
-                        if (page != null && page in 1..uiState.totalPages) {
+                        if (page != null && page in 1..pageState.totalPages) {
                             viewModel.goToPage(page - 1)
                         }
                         showPageJumpDialog = false
@@ -586,13 +585,12 @@ fun PdfReaderScreen(
         )
     }
 
-    // Bookmark list dialog
     if (showBookmarkListDialog) {
         AlertDialog(
             onDismissRequest = { showBookmarkListDialog = false },
             title = { Text("Bookmarks") },
             text = {
-                if (uiState.bookmarks.isEmpty()) {
+                if (bookmarksState.bookmarks.isEmpty()) {
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -620,7 +618,7 @@ fun PdfReaderScreen(
                         modifier = Modifier.heightIn(max = 300.dp)
                     ) {
                         items(
-                            items = uiState.bookmarks,
+                            items = bookmarksState.bookmarks,
                             key = { it.id }
                         ) { bookmark ->
                             Row(

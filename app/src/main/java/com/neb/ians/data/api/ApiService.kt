@@ -22,7 +22,8 @@ data class GoogleAuthRequest(
 @Serializable
 data class GoogleAuthResponse(
     val status: String,
-    val isNewUser: Boolean,
+    val isNewUser: Boolean = false,
+    @SerialName("authToken") val authToken: String? = null,
     val user: UserProfileResponse
 )
 
@@ -58,7 +59,7 @@ data class UserProfileRequest(
     val displayName: String?,
     val dob: String,
     val gender: String?,
-    @SerialName("class") val classLevel: String?,
+    val classLevel: String?,
     val subjects: String?,
     val pradesh: String?,
     val district: String?,
@@ -213,15 +214,29 @@ interface ApiService {
     )
 
     companion object {
-        private val BASE_URL = "https://nebians-backend.thenebians.workers.dev/" // Live Cloudflare Workers deployment
+        private val BASE_URL = "https://nebians.consica.com.np/"
 
         fun create(): ApiService {
             val logger = HttpLoggingInterceptor().apply {
                 level = HttpLoggingInterceptor.Level.BODY
             }
 
+            val trustAllCerts = arrayOf<javax.net.ssl.TrustManager>(
+                object : javax.net.ssl.X509TrustManager {
+                    override fun checkClientTrusted(chain: Array<out java.security.cert.X509Certificate>?, authType: String?) {}
+                    override fun checkServerTrusted(chain: Array<out java.security.cert.X509Certificate>?, authType: String?) {}
+                    override fun getAcceptedIssuers(): Array<java.security.cert.X509Certificate> = arrayOf()
+                }
+            )
+
+            val sslContext = javax.net.ssl.SSLContext.getInstance("SSL")
+            sslContext.init(null, trustAllCerts, java.security.SecureRandom())
+            val sslSocketFactory = sslContext.socketFactory
+
             val client = OkHttpClient.Builder()
                 .addInterceptor(logger)
+                .sslSocketFactory(sslSocketFactory, trustAllCerts[0] as javax.net.ssl.X509TrustManager)
+                .hostnameVerifier { _, _ -> true }
                 .build()
 
             val json = Json {

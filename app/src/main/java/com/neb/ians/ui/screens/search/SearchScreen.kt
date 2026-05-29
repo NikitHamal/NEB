@@ -1,5 +1,8 @@
 package com.neb.ians.ui.screens.search
 
+import androidx.activity.compose.BackHandler
+
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -37,17 +40,17 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.neb.ians.data.local.entity.ResourceEntity
 
 private val subjectColors = mapOf(
-    "Physics" to Color(0xFF1A73E8),
-    "Chemistry" to Color(0xFF188038),
-    "Mathematics" to Color(0xFFE8710A),
-    "Biology" to Color(0xFF9334E6),
-    "English" to Color(0xFFD93025),
-    "Nepali" to Color(0xFF1967D2),
-    "Computer Science" to Color(0xFF185ABC)
+    "Physics" to Color(0xFF1B6EF3),
+    "Chemistry" to Color(0xFF006E1C),
+    "Mathematics" to Color(0xFFBA1A1A),
+    "Biology" to Color(0xFF006E1C),
+    "English" to Color(0xFF6F5677),
+    "Nepali" to Color(0xFFBA1A1A),
+    "Computer Science" to Color(0xFF0061A4)
 )
 
 private fun getSubjectColor(subject: String): Color {
-    return subjectColors[subject] ?: Color(0xFF5F6368)
+    return subjectColors[subject] ?: Color(0xFF565F71)
 }
 
 private fun getSubjectIcon(subject: String): ImageVector {
@@ -73,50 +76,32 @@ fun SearchScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val focusRequester = remember { FocusRequester() }
 
+    BackHandler {
+        onNavigateBack()
+    }
+
     LaunchedEffect(Unit) {
         focusRequester.requestFocus()
     }
 
     Scaffold(
         topBar = {
-            Surface(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .statusBarsPadding(),
-                color = MaterialTheme.colorScheme.background,
-                tonalElevation = 0.dp
-            ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 4.dp, end = 12.dp, top = 8.dp, bottom = 8.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    IconButton(onClick = onNavigateBack) {
-                        Icon(
-                            imageVector = Icons.Outlined.ArrowBack,
-                            contentDescription = "Back",
-                            tint = MaterialTheme.colorScheme.onBackground
-                        )
-                    }
+            TopAppBar(
+                title = {
                     OutlinedTextField(
                         value = uiState.query,
                         onValueChange = { viewModel.onQueryChange(it) },
-                        modifier = Modifier
-                            .weight(1f)
-                            .focusRequester(focusRequester),
                         placeholder = {
                             Text(
                                 text = "Search resources, notes, papers...",
                                 style = MaterialTheme.typography.bodyMedium,
-                                maxLines = 1,
-                                overflow = TextOverflow.Ellipsis
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
                         },
                         leadingIcon = {
                             Icon(
                                 imageVector = Icons.Outlined.Search,
-                                contentDescription = "Search",
+                                contentDescription = null,
                                 tint = MaterialTheme.colorScheme.onSurfaceVariant
                             )
                         },
@@ -125,32 +110,49 @@ fun SearchScreen(
                                 IconButton(onClick = { viewModel.clearSearch() }) {
                                     Icon(
                                         imageVector = Icons.Outlined.Clear,
-                                        contentDescription = "Clear search"
+                                        contentDescription = "Clear",
+                                        tint = MaterialTheme.colorScheme.onSurfaceVariant
                                     )
                                 }
                             }
                         },
                         singleLine = true,
-                        shape = RoundedCornerShape(24.dp),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(end = 12.dp)
+                            .focusRequester(focusRequester),
+                        shape = CircleShape,
                         colors = OutlinedTextFieldDefaults.colors(
-                            focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
-                            unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
                             focusedBorderColor = Color.Transparent,
-                            unfocusedBorderColor = Color.Transparent
+                            unfocusedBorderColor = Color.Transparent,
+                            disabledBorderColor = Color.Transparent,
+                            focusedContainerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                            unfocusedContainerColor = MaterialTheme.colorScheme.surfaceContainerHigh
                         )
                     )
-                }
-            }
-        }
+                },
+                navigationIcon = {
+                    IconButton(onClick = onNavigateBack) {
+                        Icon(
+                            imageVector = Icons.Outlined.ArrowBack,
+                            contentDescription = "Back",
+                            tint = MaterialTheme.colorScheme.onSurface
+                        )
+                    }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.surface
+                )
+            )
+        },
+        containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
     ) { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-
             when {
-                // Loading state
                 uiState.isSearching -> {
                     Box(
                         modifier = Modifier
@@ -162,7 +164,6 @@ fun SearchScreen(
                     }
                 }
 
-                // Query is empty - show suggestions
                 uiState.query.isEmpty() -> {
                     Column(
                         modifier = Modifier
@@ -173,7 +174,7 @@ fun SearchScreen(
                             text = "Suggestions",
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.SemiBold,
-                            color = MaterialTheme.colorScheme.onBackground
+                            color = MaterialTheme.colorScheme.onSurface
                         )
 
                         Spacer(modifier = Modifier.height(12.dp))
@@ -182,18 +183,21 @@ fun SearchScreen(
                             horizontalArrangement = Arrangement.spacedBy(8.dp),
                             verticalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
-                            uiState.suggestions.forEach { suggestion ->
+                            SearchUiState.SUGGESTIONS.forEach { suggestion ->
                                 SuggestionChip(
                                     onClick = { viewModel.onQueryChange(suggestion) },
                                     label = {
                                         Text(
                                             text = suggestion,
-                                            style = MaterialTheme.typography.labelLarge
+                                            style = MaterialTheme.typography.labelLarge,
+                                            maxLines = 1,
+                                            overflow = TextOverflow.Ellipsis
                                         )
                                     },
+                                    shape = CircleShape,
                                     colors = SuggestionChipDefaults.suggestionChipColors(
-                                        containerColor = MaterialTheme.colorScheme.surfaceVariant,
-                                        labelColor = MaterialTheme.colorScheme.onSurfaceVariant
+                                        containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                                        labelColor = MaterialTheme.colorScheme.onSurface
                                     ),
                                     border = SuggestionChipDefaults.suggestionChipBorder(
                                         borderColor = MaterialTheme.colorScheme.outlineVariant,
@@ -205,7 +209,6 @@ fun SearchScreen(
                     }
                 }
 
-                // Has query but no results (and not searching)
                 uiState.results.isEmpty() && uiState.query.length >= 2 -> {
                     Box(
                         modifier = Modifier
@@ -221,7 +224,6 @@ fun SearchScreen(
                     }
                 }
 
-                // Show results
                 uiState.results.isNotEmpty() -> {
                     LazyColumn(
                         modifier = Modifier.fillMaxSize(),
@@ -297,7 +299,6 @@ private fun SearchResultItem(
             .clickable { onClick() },
         colors = ListItemDefaults.colors(
             containerColor = Color.Transparent
-        ),
-        tonalElevation = 0.dp
+        )
     )
 }

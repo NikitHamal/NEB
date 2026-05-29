@@ -6,7 +6,6 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.neb.ians.data.local.dao.ForumDao
 import com.neb.ians.data.local.dao.ResourceDao
-import com.neb.ians.data.model.SampleData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 

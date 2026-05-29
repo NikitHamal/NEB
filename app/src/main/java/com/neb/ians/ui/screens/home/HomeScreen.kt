@@ -13,7 +13,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Article
 import androidx.compose.material.icons.outlined.AutoStories
-import androidx.compose.material.icons.outlined.ChevronRight
 import androidx.compose.material.icons.outlined.Description
 import androidx.compose.material.icons.outlined.MenuBook
 import androidx.compose.material.icons.outlined.QuestionAnswer
@@ -28,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -37,19 +37,19 @@ import com.neb.ians.data.local.entity.ForumPostEntity
 import com.neb.ians.data.local.entity.ResourceEntity
 
 private val subjectColors = mapOf(
-    "Physics" to Color(0xFF1A73E8),
-    "Chemistry" to Color(0xFF188038),
-    "Mathematics" to Color(0xFFE8710A),
-    "Biology" to Color(0xFF137333),
-    "English" to Color(0xFF9334E6),
-    "Nepali" to Color(0xFFD93025),
-    "Computer Science" to Color(0xFF185ABC),
-    "Economics" to Color(0xFFC5221F),
-    "Accountancy" to Color(0xFF1967D2)
+    "Physics" to Color(0xFF1B6EF3),
+    "Chemistry" to Color(0xFF006E1C),
+    "Mathematics" to Color(0xFFBA1A1A),
+    "Biology" to Color(0xFF006E1C),
+    "English" to Color(0xFF6F5677),
+    "Nepali" to Color(0xFFBA1A1A),
+    "Computer Science" to Color(0xFF0061A4),
+    "Economics" to Color(0xFFBA1A1A),
+    "Accountancy" to Color(0xFF0061A4)
 )
 
 private fun getSubjectColor(subject: String): Color {
-    return subjectColors[subject] ?: Color(0xFF5F6368)
+    return subjectColors[subject] ?: Color(0xFF565F71)
 }
 
 private fun getTypeIcon(type: String): ImageVector {
@@ -72,156 +72,147 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
-    val scrollState = rememberScrollState()
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .statusBarsPadding()
-            .verticalScroll(scrollState)
-    ) {
-        // Greeting & Search Header Row (One-liner layout)
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 20.dp, end = 16.dp, top = 24.dp, bottom = 8.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Column(
-                modifier = Modifier.weight(1f)
-            ) {
-                Text(
-                    text = "Hello, ${uiState.userName}",
-                    style = MaterialTheme.typography.headlineMedium,
-                    fontWeight = FontWeight.SemiBold,
-                    color = MaterialTheme.colorScheme.onBackground
-                )
-                Spacer(modifier = Modifier.height(2.dp))
-                Text(
-                    text = "What would you like to study today?",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            }
-            IconButton(
-                onClick = { onSearchClick() },
-                colors = IconButtonDefaults.iconButtonColors(
-                    containerColor = MaterialTheme.colorScheme.surfaceVariant,
-                    contentColor = MaterialTheme.colorScheme.onSurfaceVariant
-                ),
-                modifier = Modifier.size(48.dp)
-            ) {
-                Icon(
-                    imageVector = Icons.Outlined.Search,
-                    contentDescription = "Search",
-                    modifier = Modifier.size(24.dp)
-                )
-            }
-        }
-
-        // Subject chips
-        Spacer(modifier = Modifier.height(4.dp))
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .horizontalScroll(rememberScrollState())
-                .padding(horizontal = 20.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            uiState.subjects.forEach { subject ->
-                FilterChip(
-                    selected = false,
-                    onClick = { /* Subject filter - future feature */ },
-                    label = {
+    Scaffold(
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+            LargeTopAppBar(
+                title = {
+                    Column {
                         Text(
-                            text = subject,
-                            style = MaterialTheme.typography.labelLarge
+                            text = "Hello, ${uiState.userName}",
+                            style = MaterialTheme.typography.headlineSmall,
+                            fontWeight = FontWeight.Bold
                         )
-                    },
-                    colors = FilterChipDefaults.filterChipColors(
-                        containerColor = MaterialTheme.colorScheme.surface,
-                        labelColor = MaterialTheme.colorScheme.onSurfaceVariant
-                    ),
-                    border = FilterChipDefaults.filterChipBorder(
-                        borderColor = MaterialTheme.colorScheme.outlineVariant,
-                        enabled = true,
-                        selected = false
-                    )
+                        Text(
+                            text = "What would you like to study today?",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                },
+                actions = {
+                    FilledTonalIconButton(onClick = onSearchClick) {
+                        Icon(
+                            imageVector = Icons.Outlined.Search,
+                            contentDescription = "Search"
+                        )
+                    }
+                },
+                scrollBehavior = scrollBehavior,
+                colors = TopAppBarDefaults.largeTopAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.surface,
+                    scrolledContainerColor = MaterialTheme.colorScheme.surfaceContainer
                 )
-            }
-        }
-
-        // Recent Resources section
-        Spacer(modifier = Modifier.height(20.dp))
-        SectionHeader(
-            title = "Recent Resources",
-            onViewAllClick = onViewAllClick
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-
-        if (uiState.recentResources.isEmpty()) {
-            EmptyResourceRow(message = "No resources yet. Check the Library to explore.")
-        } else {
-            LazyRow(
-                contentPadding = PaddingValues(horizontal = 20.dp),
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
+            )
+        },
+        containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+                .verticalScroll(rememberScrollState())
+        ) {
+            // Subject chips
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .horizontalScroll(rememberScrollState())
+                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                items(uiState.recentResources, key = { it.id }) { resource ->
-                    ResourceCard(
-                        resource = resource,
-                        onClick = { onResourceClick(resource.id) }
+                HomeUiState.SUBJECTS.forEach { subject ->
+                    SuggestionChip(
+                        onClick = { },
+                        label = {
+                            Text(
+                                text = subject,
+                                style = MaterialTheme.typography.labelLarge,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
+                            )
+                        },
+                        shape = RoundedCornerShape(50),
+                        colors = SuggestionChipDefaults.suggestionChipColors(
+                            containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                            labelColor = MaterialTheme.colorScheme.onSurface
+                        ),
+                        border = SuggestionChipDefaults.suggestionChipBorder(
+                            borderColor = MaterialTheme.colorScheme.outlineVariant,
+                            enabled = true
+                        )
                     )
                 }
             }
-        }
 
-        // Popular Resources section
-        Spacer(modifier = Modifier.height(24.dp))
-        SectionHeader(
-            title = "Popular Resources",
-            onViewAllClick = onViewAllClick
-        )
-        Spacer(modifier = Modifier.height(8.dp))
+            // Recent Resources section
+            SectionHeader(
+                title = "Recent Resources",
+                onViewAllClick = onViewAllClick
+            )
 
-        if (uiState.popularResources.isEmpty()) {
-            EmptyResourceRow(message = "Popular resources will appear here.")
-        } else {
-            LazyRow(
-                contentPadding = PaddingValues(horizontal = 20.dp),
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                items(uiState.popularResources, key = { it.id }) { resource ->
-                    ResourceCard(
-                        resource = resource,
-                        onClick = { onResourceClick(resource.id) }
-                    )
+            if (uiState.recentResources.isEmpty()) {
+                EmptyResourceRow(message = "No resources yet. Check the Library to explore.")
+            } else {
+                LazyRow(
+                    contentPadding = PaddingValues(horizontal = 16.dp),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    items(uiState.recentResources, key = { it.id }) { resource ->
+                        ResourceCard(
+                            resource = resource,
+                            onClick = { onResourceClick(resource.id) }
+                        )
+                    }
                 }
             }
-        }
 
-        // Forum Activity section
-        Spacer(modifier = Modifier.height(24.dp))
-        SectionHeader(
-            title = "Forum Activity",
-            onViewAllClick = null
-        )
-        Spacer(modifier = Modifier.height(4.dp))
+            // Popular Resources section
+            Spacer(modifier = Modifier.height(24.dp))
+            SectionHeader(
+                title = "Popular Resources",
+                onViewAllClick = onViewAllClick
+            )
 
-        if (uiState.recentPosts.isEmpty()) {
-            EmptyForumSection()
-        } else {
-            Column(
-                modifier = Modifier.padding(horizontal = 20.dp)
-            ) {
-                uiState.recentPosts.forEach { post ->
-                    ForumPostItem(post = post)
+            if (uiState.popularResources.isEmpty()) {
+                EmptyResourceRow(message = "Popular resources will appear here.")
+            } else {
+                LazyRow(
+                    contentPadding = PaddingValues(horizontal = 16.dp),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    items(uiState.popularResources, key = { it.id }) { resource ->
+                        ResourceCard(
+                            resource = resource,
+                            onClick = { onResourceClick(resource.id) }
+                        )
+                    }
                 }
             }
-        }
 
-        Spacer(modifier = Modifier.height(24.dp))
+            // Forum Activity section
+            Spacer(modifier = Modifier.height(24.dp))
+            SectionHeader(
+                title = "Forum Activity",
+                onViewAllClick = null
+            )
+
+            if (uiState.recentPosts.isEmpty()) {
+                EmptyForumSection()
+            } else {
+                Column(
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                ) {
+                    uiState.recentPosts.forEach { post ->
+                        ForumPostItem(post = post)
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(24.dp))
+        }
     }
 }
 
@@ -233,7 +224,7 @@ private fun SectionHeader(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 20.dp),
+            .padding(horizontal = 16.dp, vertical = 4.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -241,7 +232,7 @@ private fun SectionHeader(
             text = title,
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.SemiBold,
-            color = MaterialTheme.colorScheme.onBackground
+            color = MaterialTheme.colorScheme.onSurface
         )
         if (onViewAllClick != null) {
             TextButton(onClick = onViewAllClick) {
@@ -249,13 +240,6 @@ private fun SectionHeader(
                     text = "View all",
                     style = MaterialTheme.typography.labelLarge,
                     color = MaterialTheme.colorScheme.primary
-                )
-                Spacer(modifier = Modifier.width(2.dp))
-                Icon(
-                    imageVector = Icons.Outlined.ChevronRight,
-                    contentDescription = null,
-                    modifier = Modifier.size(18.dp),
-                    tint = MaterialTheme.colorScheme.primary
                 )
             }
         }
@@ -270,40 +254,31 @@ private fun ResourceCard(
     val subjectColor = getSubjectColor(resource.subject)
 
     Card(
-        modifier = Modifier
-            .width(160.dp)
-            .clickable { onClick() },
-        shape = RoundedCornerShape(12.dp),
+        onClick = onClick,
+        modifier = Modifier.width(168.dp),
+        shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface
-        ),
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = 0.dp
-        ),
-        border = androidx.compose.foundation.BorderStroke(
-            width = 1.dp,
-            color = MaterialTheme.colorScheme.outlineVariant
+            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
         )
     ) {
         Column {
-            // Thumbnail placeholder
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(100.dp)
-                    .background(subjectColor.copy(alpha = 0.1f)),
+                    .height(96.dp)
+                    .background(subjectColor.copy(alpha = 0.12f)),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
                     imageVector = getTypeIcon(resource.type),
                     contentDescription = null,
                     modifier = Modifier.size(36.dp),
-                    tint = subjectColor.copy(alpha = 0.6f)
+                    tint = subjectColor
                 )
             }
 
             Column(
-                modifier = Modifier.padding(12.dp)
+                modifier = Modifier.padding(horizontal = 12.dp, vertical = 10.dp)
             ) {
                 Text(
                     text = resource.title,
@@ -316,32 +291,34 @@ private fun ResourceCard(
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                // Subject badge
-                Surface(
-                    shape = RoundedCornerShape(4.dp),
-                    color = subjectColor.copy(alpha = 0.1f)
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(6.dp),
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(
-                        text = resource.subject,
-                        modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp),
-                        style = MaterialTheme.typography.labelSmall,
-                        color = subjectColor
-                    )
-                }
+                    Surface(
+                        shape = RoundedCornerShape(8.dp),
+                        color = subjectColor.copy(alpha = 0.12f)
+                    ) {
+                        Text(
+                            text = resource.subject,
+                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 3.dp),
+                            style = MaterialTheme.typography.labelSmall,
+                            fontWeight = FontWeight.Medium,
+                            color = subjectColor
+                        )
+                    }
 
-                Spacer(modifier = Modifier.height(4.dp))
-
-                // Type badge
-                Surface(
-                    shape = RoundedCornerShape(4.dp),
-                    color = MaterialTheme.colorScheme.surfaceVariant
-                ) {
-                    Text(
-                        text = resource.type,
-                        modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp),
-                        style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
+                    Surface(
+                        shape = RoundedCornerShape(8.dp),
+                        color = MaterialTheme.colorScheme.surfaceContainerHighest
+                    ) {
+                        Text(
+                            text = resource.type,
+                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 3.dp),
+                            style = MaterialTheme.typography.labelSmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
                 }
             }
         }
@@ -350,109 +327,75 @@ private fun ResourceCard(
 
 @Composable
 private fun ForumPostItem(post: ForumPostEntity) {
-    Surface(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 4.dp),
-        shape = RoundedCornerShape(8.dp),
-        color = MaterialTheme.colorScheme.surface,
-        tonalElevation = 0.dp
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(12.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            // Author avatar placeholder
+    ListItem(
+        headlineContent = {
+            Text(
+                text = post.title,
+                style = MaterialTheme.typography.bodyLarge,
+                fontWeight = FontWeight.Medium,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+        },
+        supportingContent = {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Text(
+                    text = post.authorName,
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Text(
+                    text = post.category,
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.primary
+                )
+            }
+        },
+        leadingContent = {
             Box(
                 modifier = Modifier
-                    .size(36.dp)
+                    .size(40.dp)
                     .clip(CircleShape)
                     .background(MaterialTheme.colorScheme.primaryContainer),
                 contentAlignment = Alignment.Center
             ) {
                 Text(
                     text = post.authorName.firstOrNull()?.uppercase() ?: "?",
-                    style = MaterialTheme.typography.labelMedium,
-                    fontWeight = FontWeight.SemiBold,
+                    style = MaterialTheme.typography.labelLarge,
+                    fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onPrimaryContainer
                 )
             }
-
-            Spacer(modifier = Modifier.width(12.dp))
-
-            Column(
-                modifier = Modifier.weight(1f)
+        },
+        trailingContent = {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(4.dp)
             ) {
-                Text(
-                    text = post.title,
-                    style = MaterialTheme.typography.bodyMedium,
-                    fontWeight = FontWeight.Medium,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    color = MaterialTheme.colorScheme.onSurface
+                Icon(
+                    imageVector = Icons.Outlined.ThumbUp,
+                    contentDescription = "Likes",
+                    modifier = Modifier.size(16.dp),
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant
                 )
-                Spacer(modifier = Modifier.height(2.dp))
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    Text(
-                        text = post.authorName,
-                        style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                    Text(
-                        text = post.category,
-                        style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.primary
-                    )
-                }
+                Text(
+                    text = "${post.thumbsUpCount}",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
             }
-
-            Spacer(modifier = Modifier.width(8.dp))
-
-            // Thumbs up and reply counts
-            Column(
-                horizontalAlignment = Alignment.End
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(4.dp)
-                ) {
-                    Icon(
-                        imageVector = Icons.Outlined.ThumbUp,
-                        contentDescription = "Likes",
-                        modifier = Modifier.size(14.dp),
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                    Text(
-                        text = "${post.thumbsUpCount}",
-                        style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-                Spacer(modifier = Modifier.height(2.dp))
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(4.dp)
-                ) {
-                    Icon(
-                        imageVector = Icons.Outlined.QuestionAnswer,
-                        contentDescription = "Replies",
-                        modifier = Modifier.size(14.dp),
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                    Text(
-                        text = "${post.replyCount}",
-                        style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-            }
-        }
-    }
+        },
+        colors = ListItemDefaults.colors(
+            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
+        ),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 2.dp)
+            .clip(RoundedCornerShape(12.dp))
+    )
 }
 
 @Composable
@@ -460,7 +403,7 @@ private fun EmptyResourceRow(message: String) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 20.dp, vertical = 24.dp),
+            .padding(horizontal = 16.dp, vertical = 24.dp),
         contentAlignment = Alignment.Center
     ) {
         Text(
@@ -476,7 +419,7 @@ private fun EmptyForumSection() {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 20.dp, vertical = 24.dp),
+            .padding(horizontal = 16.dp, vertical = 24.dp),
         contentAlignment = Alignment.Center
     ) {
         Text(
