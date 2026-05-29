@@ -392,49 +392,81 @@ def ajax_user_photos(request):
     token = api.get_session_token(request)
     if not token:
         return JsonResponse({'error': 'Unauthorized'}, status=401)
+
+    from api.models import User, UserPhoto
+    try:
+        current_user = User.objects.get(auth_token=token)
+    except User.DoesNotExist:
+        return JsonResponse({'error': 'Unauthorized'}, status=401)
+
     if request.method == 'GET':
-        result = api.get_user_photos(token)
-        if result is not None:
-            return JsonResponse({'photos': result})
-        return JsonResponse({'error': 'Failed'}, status=500)
+        photos = UserPhoto.objects.filter(user=current_user)
+        from api.serializers import UserPhotoSerializer
+        return JsonResponse({'photos': UserPhotoSerializer(photos, many=True).data})
+
     elif request.method == 'POST':
-        # Check for uploaded file
+        import os
+        import time
+        from django.conf import settings
+        from django.core.files.storage import default_storage
+        from django.core.files.base import ContentFile
+        from django.db import transaction
+
         file_obj = request.FILES.get('file')
         if file_obj:
-            result = api.add_photo_file(token, file_obj)
-            if result and not result.get('error'):
-                user_data = api.get_session_user(request)
-                if user_data and result.get('url'):
-                    user_data['photo_url'] = result['url']
-                    user_data['photoUrl'] = result['url']
-                    api.set_session_auth(request, token, user_data)
-                return JsonResponse(result, status=201)
-            return JsonResponse({'error': result.get('error') if result else 'Upload failed'}, status=400)
+            ext = os.path.splitext(file_obj.name)[1].lower()
+            if ext not in ['.jpg', '.jpeg', '.png', '.gif', '.webp']:
+                return JsonResponse({'error': 'Invalid image format. Only JPG, PNG, GIF, and WEBP are allowed.'}, status=400)
 
-        # Safe fallback to URL: read from request.POST if form-data, or request.body if application/json
-        url = ''
-        if request.content_type == 'application/json':
+            filename = f"{current_user.id}_{int(time.time() * 1000)}{ext}"
             try:
-                data = json.loads(request.body)
-                url = data.get('url', '').strip()
-            except json.JSONDecodeError:
-                return JsonResponse({'error': 'Invalid JSON request'}, status=400)
+                file_obj.seek(0)
+            except Exception:
+                pass
+            path = default_storage.save(os.path.join('profile_photos', filename), ContentFile(file_obj.read()))
+            url = request.build_absolute_uri(settings.MEDIA_URL + path)
         else:
-            url = request.POST.get('url', '').strip()
+            # Fallback to URL
+            url = ''
+            if request.content_type == 'application/json':
+                try:
+                    data = json.loads(request.body)
+                    url = data.get('url', '').strip()
+                except json.JSONDecodeError:
+                    return JsonResponse({'error': 'Invalid JSON request'}, status=400)
+            else:
+                url = request.POST.get('url', '').strip()
 
-        if not url:
-            return JsonResponse({'error': 'Either URL or file is required'}, status=400)
+            if not url:
+                return JsonResponse({'error': 'Either URL or file is required'}, status=400)
 
-        result = api.add_photo_url(token, url)
-        if result and not result.get('error'):
-            user_data = api.get_session_user(request)
-            if user_data:
-                user_data['photo_url'] = url
-                user_data['photoUrl'] = url
-                api.set_session_auth(request, token, user_data)
-            return JsonResponse(result, status=201)
-        return JsonResponse({'error': result.get('error') if result else 'Failed'}, status=400)
+        with transaction.atomic():
+            UserPhoto.objects.filter(user=current_user).update(is_current=False)
+            photo = UserPhoto.objects.create(
+                user=current_user,
+                url=url,
+                uploaded_at=int(time.time() * 1000),
+                is_current=True,
+            )
+            current_user.photo_url = url
+            current_user.save(update_fields=['photo_url'])
+
+        # Update user in session
+        user_data = api.get_session_user(request)
+        if user_data:
+            user_data['photo_url'] = url
+            user_data['photoUrl'] = url
+            api.set_session_auth(request, token, user_data)
+
+        return JsonResponse({
+            'id': photo.id,
+            'url': url,
+            'uploaded_at': photo.uploaded_at,
+            'is_current': True
+        }, status=201)
+
     return JsonResponse({'error': 'Method not allowed'}, status=405)
+
 
 
 
