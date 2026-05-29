@@ -19,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -63,17 +64,22 @@ fun ForumPostDetailScreen(
             )
         },
         floatingActionButton = {
-            FloatingActionButton(
+            ExtendedFloatingActionButton(
                 onClick = { onReplyClick(null) },
                 containerColor = MaterialTheme.colorScheme.primaryContainer,
-                contentColor = MaterialTheme.colorScheme.onPrimaryContainer
-            ) {
-                Icon(
-                    imageVector = Icons.Outlined.Reply,
-                    contentDescription = "Add Reply"
-                )
-            }
-        }
+                contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                icon = {
+                    Icon(
+                        imageVector = Icons.Outlined.Reply,
+                        contentDescription = "Add Reply"
+                    )
+                },
+                text = {
+                    Text("Reply")
+                }
+            )
+        },
+        containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
     ) { paddingValues ->
         if (uiState.isLoading) {
             Box(
@@ -108,7 +114,6 @@ fun ForumPostDetailScreen(
                 contentPadding = PaddingValues(16.dp),
                 verticalArrangement = Arrangement.spacedBy(0.dp)
             ) {
-                // Post content card
                 item(key = "post_header") {
                     PostContentSection(
                         post = post,
@@ -116,7 +121,6 @@ fun ForumPostDetailScreen(
                     )
                 }
 
-                // Divider
                 item(key = "divider") {
                     HorizontalDivider(
                         modifier = Modifier.padding(vertical = 16.dp),
@@ -124,18 +128,16 @@ fun ForumPostDetailScreen(
                     )
                 }
 
-                // Replies header
                 item(key = "replies_header") {
                     Text(
                         text = "Replies (${replies.size})",
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.SemiBold,
-                        color = MaterialTheme.colorScheme.onBackground,
+                        color = MaterialTheme.colorScheme.onSurface,
                         modifier = Modifier.padding(bottom = 12.dp)
                     )
                 }
 
-                // Empty state
                 if (replies.isEmpty()) {
                     item(key = "no_replies") {
                         Box(
@@ -153,7 +155,6 @@ fun ForumPostDetailScreen(
                     }
                 }
 
-                // Reply items
                 items(replies, key = { it.id }) { reply ->
                     ReplyItem(
                         reply = reply,
@@ -163,7 +164,6 @@ fun ForumPostDetailScreen(
                     Spacer(modifier = Modifier.height(8.dp))
                 }
 
-                // Bottom spacer for FAB clearance
                 item(key = "bottom_spacer") {
                     Spacer(modifier = Modifier.height(72.dp))
                 }
@@ -180,22 +180,19 @@ private fun PostContentSection(
     val categoryColor = Color(getSubjectColor(post.category))
 
     Column {
-        // Title
         Text(
             text = post.title,
             style = MaterialTheme.typography.headlineSmall,
-            fontWeight = FontWeight.SemiBold,
-            color = MaterialTheme.colorScheme.onBackground
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.onSurface
         )
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        // Author row with avatar, name, time, and category badge
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            // Author avatar circle
             Box(
                 modifier = Modifier
                     .size(32.dp)
@@ -206,7 +203,7 @@ private fun PostContentSection(
                 Text(
                     text = post.authorName.firstOrNull()?.uppercase() ?: "?",
                     style = MaterialTheme.typography.labelMedium,
-                    fontWeight = FontWeight.SemiBold,
+                    fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onPrimaryContainer
                 )
             }
@@ -232,10 +229,9 @@ private fun PostContentSection(
 
             Spacer(modifier = Modifier.weight(1f))
 
-            // Category badge
             Surface(
-                shape = RoundedCornerShape(4.dp),
-                color = categoryColor.copy(alpha = 0.1f)
+                shape = RoundedCornerShape(8.dp),
+                color = categoryColor.copy(alpha = 0.12f)
             ) {
                 Text(
                     text = post.category,
@@ -249,7 +245,6 @@ private fun PostContentSection(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Full post content
         Text(
             text = post.content,
             style = MaterialTheme.typography.bodyLarge,
@@ -258,29 +253,28 @@ private fun PostContentSection(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Thumb up button row
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(4.dp)
         ) {
-            IconButton(
+            FilledTonalIconButton(
                 onClick = onThumbsUpClick,
                 modifier = Modifier.size(36.dp)
             ) {
                 Icon(
                     imageVector = if (post.isThumbedUp) Icons.Filled.ThumbUp
-                        else Icons.Outlined.ThumbUp,
+                    else Icons.Outlined.ThumbUp,
                     contentDescription = if (post.isThumbedUp) "Remove thumbs up" else "Thumbs up",
-                    modifier = Modifier.size(20.dp),
+                    modifier = Modifier.size(18.dp),
                     tint = if (post.isThumbedUp) MaterialTheme.colorScheme.primary
-                        else MaterialTheme.colorScheme.onSurfaceVariant
+                    else MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
             Text(
                 text = "${post.thumbsUpCount}",
                 style = MaterialTheme.typography.labelLarge,
                 color = if (post.isThumbedUp) MaterialTheme.colorScheme.primary
-                    else MaterialTheme.colorScheme.onSurfaceVariant
+                else MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
     }
@@ -294,20 +288,17 @@ private fun ReplyItem(
 ) {
     Card(
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f)
+            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
         ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
-        shape = RoundedCornerShape(12.dp)
+        shape = RoundedCornerShape(16.dp)
     ) {
         Column(
             modifier = Modifier.padding(12.dp)
         ) {
-            // Author row
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                // Avatar placeholder circle with initial
                 Box(
                     modifier = Modifier
                         .size(28.dp)
@@ -318,7 +309,7 @@ private fun ReplyItem(
                     Text(
                         text = reply.authorName.firstOrNull()?.uppercase() ?: "?",
                         style = MaterialTheme.typography.labelSmall,
-                        fontWeight = FontWeight.SemiBold,
+                        fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.onSecondaryContainer
                     )
                 }
@@ -341,7 +332,6 @@ private fun ReplyItem(
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Reply content
             Text(
                 text = reply.content,
                 style = MaterialTheme.typography.bodyMedium,
@@ -350,15 +340,13 @@ private fun ReplyItem(
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Actions row: thumb up + reply
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                // Thumb up
                 Row(
                     modifier = Modifier
-                        .clip(RoundedCornerShape(16.dp))
+                        .clip(RoundedCornerShape(20.dp))
                         .clickable { onThumbsUpClick() }
                         .padding(horizontal = 8.dp, vertical = 4.dp),
                     verticalAlignment = Alignment.CenterVertically,
@@ -366,24 +354,23 @@ private fun ReplyItem(
                 ) {
                     Icon(
                         imageVector = if (reply.isThumbedUp) Icons.Filled.ThumbUp
-                            else Icons.Outlined.ThumbUp,
+                        else Icons.Outlined.ThumbUp,
                         contentDescription = if (reply.isThumbedUp) "Remove thumbs up" else "Thumbs up",
                         modifier = Modifier.size(14.dp),
                         tint = if (reply.isThumbedUp) MaterialTheme.colorScheme.primary
-                            else MaterialTheme.colorScheme.onSurfaceVariant
+                        else MaterialTheme.colorScheme.onSurfaceVariant
                     )
                     Text(
                         text = "${reply.thumbsUpCount}",
                         style = MaterialTheme.typography.labelSmall,
                         color = if (reply.isThumbedUp) MaterialTheme.colorScheme.primary
-                            else MaterialTheme.colorScheme.onSurfaceVariant
+                        else MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
 
-                // Reply button
                 Row(
                     modifier = Modifier
-                        .clip(RoundedCornerShape(16.dp))
+                        .clip(RoundedCornerShape(20.dp))
                         .clickable { onReplyClick() }
                         .padding(horizontal = 8.dp, vertical = 4.dp),
                     verticalAlignment = Alignment.CenterVertically,

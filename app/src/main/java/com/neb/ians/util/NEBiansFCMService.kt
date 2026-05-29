@@ -23,7 +23,7 @@ class NEBiansFCMService : FirebaseMessagingService() {
 
     override fun onNewToken(token: String) {
         super.onNewToken(token)
-        // Register token with the Cloudflare Worker API in the background
+        // Register token with the backend API in the background
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val userToken = authRepository.tokenFlow.first()

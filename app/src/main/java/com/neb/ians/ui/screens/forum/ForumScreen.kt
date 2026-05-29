@@ -22,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -40,78 +41,93 @@ fun ForumScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     var isSearchVisible by remember { mutableStateOf(false) }
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
     Scaffold(
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
-            TopAppBar(
-                title = {
-                    if (isSearchVisible) {
+            if (isSearchVisible) {
+                TopAppBar(
+                    title = {
                         OutlinedTextField(
                             value = uiState.searchQuery,
                             onValueChange = viewModel::onSearchQueryChange,
                             placeholder = {
                                 Text(
                                     text = "Search posts...",
-                                    style = MaterialTheme.typography.bodyLarge
+                                    style = MaterialTheme.typography.bodyMedium
                                 )
                             },
                             singleLine = true,
                             modifier = Modifier.fillMaxWidth(),
-                            textStyle = MaterialTheme.typography.bodyLarge,
+                            shape = RoundedCornerShape(24.dp),
                             colors = OutlinedTextFieldDefaults.colors(
                                 focusedBorderColor = Color.Transparent,
-                                unfocusedBorderColor = Color.Transparent
+                                unfocusedBorderColor = Color.Transparent,
+                                focusedContainerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                                unfocusedContainerColor = MaterialTheme.colorScheme.surfaceContainerHigh
                             )
                         )
-                    } else {
+                    },
+                    navigationIcon = {
+                        IconButton(onClick = {
+                            isSearchVisible = false
+                            viewModel.onSearchQueryChange("")
+                        }) {
+                            Icon(Icons.Filled.Close, contentDescription = "Close search")
+                        }
+                    },
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.surface
+                    )
+                )
+            } else {
+                LargeTopAppBar(
+                    title = {
                         Text(
                             text = "Forum",
-                            style = MaterialTheme.typography.titleLarge,
-                            fontWeight = FontWeight.SemiBold
+                            fontWeight = FontWeight.Bold
                         )
-                    }
-                },
-                actions = {
-                    IconButton(
-                        onClick = {
-                            if (isSearchVisible) {
-                                isSearchVisible = false
-                                viewModel.onSearchQueryChange("")
-                            } else {
-                                isSearchVisible = true
-                            }
+                    },
+                    actions = {
+                        IconButton(onClick = { isSearchVisible = true }) {
+                            Icon(
+                                imageVector = Icons.Filled.Search,
+                                contentDescription = "Search"
+                            )
                         }
-                    ) {
-                        Icon(
-                            imageVector = if (isSearchVisible) Icons.Filled.Close else Icons.Filled.Search,
-                            contentDescription = if (isSearchVisible) "Close search" else "Search"
-                        )
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.surface
-                )
-            )
-        },
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = onCreatePostClick,
-                containerColor = MaterialTheme.colorScheme.primaryContainer,
-                contentColor = MaterialTheme.colorScheme.onPrimaryContainer
-            ) {
-                Icon(
-                    imageVector = Icons.Filled.Add,
-                    contentDescription = "Create post"
+                    },
+                    scrollBehavior = scrollBehavior,
+                    colors = TopAppBarDefaults.largeTopAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.surface,
+                        scrolledContainerColor = MaterialTheme.colorScheme.surfaceContainer
+                    )
                 )
             }
-        }
+        },
+        floatingActionButton = {
+            ExtendedFloatingActionButton(
+                onClick = onCreatePostClick,
+                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                icon = {
+                    Icon(
+                        imageVector = Icons.Filled.Add,
+                        contentDescription = "Create post"
+                    )
+                },
+                text = {
+                    Text("New Post")
+                }
+            )
+        },
+        containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
     ) { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            // Horizontal scrollable category filter chips
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -119,7 +135,7 @@ fun ForumScreen(
                     .padding(horizontal = 16.dp, vertical = 8.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                uiState.categories.forEach { category ->
+                ForumUiState.CATEGORIES.forEach { category ->
                     val isSelected = uiState.selectedCategory == category
                     val categoryColor = Color(getSubjectColor(category))
 
@@ -129,12 +145,15 @@ fun ForumScreen(
                         label = {
                             Text(
                                 text = category,
-                                style = MaterialTheme.typography.labelLarge
+                                style = MaterialTheme.typography.labelLarge,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
                             )
                         },
+                        shape = CircleShape,
                         colors = FilterChipDefaults.filterChipColors(
-                            containerColor = MaterialTheme.colorScheme.surface,
-                            labelColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                            containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                            labelColor = MaterialTheme.colorScheme.onSurface,
                             selectedContainerColor = categoryColor.copy(alpha = 0.12f),
                             selectedLabelColor = categoryColor
                         ),
@@ -148,7 +167,6 @@ fun ForumScreen(
                 }
             }
 
-            // Post list or empty state
             if (uiState.posts.isEmpty()) {
                 EmptyForumState(
                     modifier = Modifier
@@ -168,7 +186,6 @@ fun ForumScreen(
                             onThumbsUpClick = { viewModel.toggleThumbsUp(post.id) }
                         )
                     }
-                    // Bottom spacer for FAB clearance
                     item {
                         Spacer(modifier = Modifier.height(72.dp))
                     }
@@ -187,17 +204,10 @@ private fun ForumPostCard(
     val categoryColor = Color(getSubjectColor(post.category))
 
     Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable { onClick() },
-        shape = RoundedCornerShape(12.dp),
+        onClick = onClick,
+        shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface
-        ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
-        border = androidx.compose.foundation.BorderStroke(
-            width = 1.dp,
-            color = MaterialTheme.colorScheme.outlineVariant
+            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
         )
     ) {
         Column(
@@ -205,7 +215,6 @@ private fun ForumPostCard(
                 .fillMaxWidth()
                 .padding(16.dp)
         ) {
-            // Title
             Text(
                 text = post.title,
                 style = MaterialTheme.typography.titleMedium,
@@ -217,7 +226,6 @@ private fun ForumPostCard(
 
             Spacer(modifier = Modifier.height(4.dp))
 
-            // Content preview
             Text(
                 text = post.content,
                 style = MaterialTheme.typography.bodySmall,
@@ -228,15 +236,13 @@ private fun ForumPostCard(
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            // Author info row: avatar, name, time ago, category chip
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                // Author avatar placeholder circle
                 Box(
                     modifier = Modifier
-                        .size(24.dp)
+                        .size(28.dp)
                         .clip(CircleShape)
                         .background(MaterialTheme.colorScheme.primaryContainer),
                     contentAlignment = Alignment.Center
@@ -244,7 +250,7 @@ private fun ForumPostCard(
                     Text(
                         text = post.authorName.firstOrNull()?.uppercase() ?: "?",
                         style = MaterialTheme.typography.labelSmall,
-                        fontWeight = FontWeight.SemiBold,
+                        fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                 }
@@ -257,15 +263,11 @@ private fun ForumPostCard(
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
 
-                Spacer(modifier = Modifier.width(8.dp))
-
                 Text(
-                    text = "·",
+                    text = " · ",
                     style = MaterialTheme.typography.labelMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
-
-                Spacer(modifier = Modifier.width(8.dp))
 
                 Text(
                     text = formatTimeAgo(post.createdAt),
@@ -275,15 +277,15 @@ private fun ForumPostCard(
 
                 Spacer(modifier = Modifier.weight(1f))
 
-                // Category chip
                 Surface(
-                    shape = RoundedCornerShape(4.dp),
-                    color = categoryColor.copy(alpha = 0.1f)
+                    shape = RoundedCornerShape(8.dp),
+                    color = categoryColor.copy(alpha = 0.12f)
                 ) {
                     Text(
                         text = post.category,
-                        modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp),
+                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 3.dp),
                         style = MaterialTheme.typography.labelSmall,
+                        fontWeight = FontWeight.Medium,
                         color = categoryColor
                     )
                 }
@@ -291,16 +293,15 @@ private fun ForumPostCard(
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            // Engagement row: thumbs up + count, replies + count
             Row(
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                // Thumbs up
                 Row(
                     modifier = Modifier
-                        .clip(RoundedCornerShape(8.dp))
+                        .clip(RoundedCornerShape(20.dp))
                         .clickable { onThumbsUpClick() }
-                        .padding(4.dp),
+                        .padding(horizontal = 8.dp, vertical = 4.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
@@ -319,11 +320,8 @@ private fun ForumPostCard(
                     )
                 }
 
-                Spacer(modifier = Modifier.width(16.dp))
-
-                // Replies
                 Row(
-                    modifier = Modifier.padding(4.dp),
+                    modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(4.dp)
                 ) {

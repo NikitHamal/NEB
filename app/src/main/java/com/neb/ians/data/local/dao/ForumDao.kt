@@ -52,4 +52,16 @@ interface ForumDao {
 
     @Query("UPDATE forum_replies SET thumbsUpCount = :count, isThumbedUp = :isThumbedUp WHERE id = :id")
     suspend fun updateReplyThumbsUp(id: String, count: Int, isThumbedUp: Boolean)
+
+    @Query("DELETE FROM forum_posts WHERE id NOT IN (:ids)")
+    suspend fun deletePostsExceptWithIds(ids: List<String>)
+
+    @Query("DELETE FROM forum_posts")
+    suspend fun deleteAllPosts()
+
+    @Query("DELETE FROM forum_replies WHERE postId = :postId AND id NOT IN (:ids)")
+    suspend fun deleteRepliesForPostExceptWithIds(postId: String, ids: List<String>)
+
+    @Query("DELETE FROM forum_replies WHERE postId = :postId")
+    suspend fun deleteAllRepliesForPost(postId: String)
 }

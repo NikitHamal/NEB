@@ -23,6 +23,12 @@ class ForumRepository @Inject constructor(
         try {
             val bearer = getBearerToken()
             val apiPosts = apiService.getPosts(bearer)
+            val serverIds = apiPosts.map { it.id }
+            if (serverIds.isEmpty()) {
+                forumDao.deleteAllPosts()
+            } else {
+                forumDao.deletePostsExceptWithIds(serverIds)
+            }
             val entities = apiPosts.map { p ->
                 ForumPostEntity(
                     id = p.id,
@@ -49,6 +55,12 @@ class ForumRepository @Inject constructor(
         try {
             val bearer = getBearerToken()
             val apiReplies = apiService.getReplies(bearer, postId)
+            val serverIds = apiReplies.map { r -> r.id }
+            if (serverIds.isEmpty()) {
+                forumDao.deleteAllRepliesForPost(postId)
+            } else {
+                forumDao.deleteRepliesForPostExceptWithIds(postId, serverIds)
+            }
             val entities = apiReplies.map { r ->
                 ForumReplyEntity(
                     id = r.id,

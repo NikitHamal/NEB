@@ -24,7 +24,6 @@ class NEBiansApp : Application(), Configuration.Provider {
     override fun onCreate() {
         super.onCreate()
         createNotificationChannels()
-        NotificationHelper.seedInitialData(this)
         NotificationHelper.schedulePeriodicNotificationCheck(this)
     }
 

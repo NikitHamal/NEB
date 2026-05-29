@@ -30,6 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -38,19 +39,19 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.neb.ians.data.local.entity.ResourceEntity
 
 private val subjectColors = mapOf(
-    "Physics" to Color(0xFF1A73E8),
-    "Chemistry" to Color(0xFF188038),
-    "Mathematics" to Color(0xFFE8710A),
-    "Biology" to Color(0xFF9334E6),
-    "English" to Color(0xFFD93025),
-    "Nepali" to Color(0xFF1967D2),
-    "Computer Science" to Color(0xFF185ABC),
-    "Economics" to Color(0xFFE37400),
-    "Accountancy" to Color(0xFF0D652D)
+    "Physics" to Color(0xFF1B6EF3),
+    "Chemistry" to Color(0xFF006E1C),
+    "Mathematics" to Color(0xFFBA1A1A),
+    "Biology" to Color(0xFF006E1C),
+    "English" to Color(0xFF6F5677),
+    "Nepali" to Color(0xFFBA1A1A),
+    "Computer Science" to Color(0xFF0061A4),
+    "Economics" to Color(0xFFBA1A1A),
+    "Accountancy" to Color(0xFF0061A4)
 )
 
 private fun getSubjectColor(subject: String): Color {
-    return subjectColors[subject] ?: Color(0xFF5F6368)
+    return subjectColors[subject] ?: Color(0xFF565F71)
 }
 
 private fun getSubjectIcon(subject: String): ImageVector {
@@ -87,28 +88,38 @@ fun LibraryScreen(
     viewModel: LibraryViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
     val hasActiveFilters = uiState.selectedSubject != null ||
             uiState.selectedGradeLevel != null ||
             uiState.selectedType != null
 
     Scaffold(
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
-            TopAppBar(
-                title = { Text("Library") },
+            LargeTopAppBar(
+                title = {
+                    Text(
+                        text = "Library",
+                        fontWeight = FontWeight.Bold
+                    )
+                },
                 actions = {
-                    IconButton(onClick = onSearchClick) {
+                    FilledTonalIconButton(onClick = onSearchClick) {
                         Icon(
                             imageVector = Icons.Outlined.Search,
                             contentDescription = "Search"
                         )
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.surface
+                scrollBehavior = scrollBehavior,
+                colors = TopAppBarDefaults.largeTopAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.surface,
+                    scrolledContainerColor = MaterialTheme.colorScheme.surfaceContainer
                 )
             )
-        }
+        },
+        containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
     ) { paddingValues ->
         Column(
             modifier = Modifier
@@ -119,31 +130,27 @@ fun LibraryScreen(
             Column(
                 modifier = Modifier.padding(bottom = 8.dp)
             ) {
-                // Subject filter chips
                 FilterChipRow(
                     label = "Subject",
-                    items = uiState.subjects,
+                    items = LibraryUiState.SUBJECTS,
                     selectedItem = uiState.selectedSubject,
                     onItemSelected = viewModel::selectSubject
                 )
 
-                // Grade filter chips
                 FilterChipRow(
                     label = "Grade",
-                    items = uiState.gradeLevels,
+                    items = LibraryUiState.GRADE_LEVELS,
                     selectedItem = uiState.selectedGradeLevel,
                     onItemSelected = viewModel::selectGradeLevel
                 )
 
-                // Type filter chips
                 FilterChipRow(
                     label = "Type",
-                    items = uiState.types,
+                    items = LibraryUiState.TYPES,
                     selectedItem = uiState.selectedType,
                     onItemSelected = viewModel::selectType
                 )
 
-                // Clear filters button
                 if (hasActiveFilters) {
                     Row(
                         modifier = Modifier
@@ -235,18 +242,21 @@ private fun FilterChipRow(
                     label = {
                         Text(
                             text = item,
-                            style = MaterialTheme.typography.labelMedium
+                            style = MaterialTheme.typography.labelMedium,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
                         )
                     },
+                    shape = RoundedCornerShape(50),
                     colors = FilterChipDefaults.filterChipColors(
-                        containerColor = MaterialTheme.colorScheme.surface,
-                        labelColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                        selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
-                        selectedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer
+                        containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                        labelColor = MaterialTheme.colorScheme.onSurface,
+                        selectedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+                        selectedLabelColor = MaterialTheme.colorScheme.onSecondaryContainer
                     ),
                     border = FilterChipDefaults.filterChipBorder(
                         borderColor = MaterialTheme.colorScheme.outlineVariant,
-                        selectedBorderColor = MaterialTheme.colorScheme.primaryContainer,
+                        selectedBorderColor = MaterialTheme.colorScheme.secondaryContainer,
                         enabled = true,
                         selected = isSelected
                     )
@@ -256,7 +266,6 @@ private fun FilterChipRow(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun LibraryResourceCard(
     resource: ResourceEntity,
@@ -264,38 +273,32 @@ private fun LibraryResourceCard(
 ) {
     val subjectColor = getSubjectColor(resource.subject)
 
-    OutlinedCard(
+    Card(
         onClick = onClick,
-        shape = RoundedCornerShape(12.dp),
-        colors = CardDefaults.outlinedCardColors(
-            containerColor = MaterialTheme.colorScheme.surface
-        ),
-        elevation = CardDefaults.outlinedCardElevation(
-            defaultElevation = 0.dp
-        ),
-        border = CardDefaults.outlinedCardBorder()
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
+        )
     ) {
         Column {
-            // Colored header area
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(88.dp)
-                    .background(subjectColor.copy(alpha = 0.1f)),
+                    .background(subjectColor.copy(alpha = 0.12f)),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
                     imageVector = getSubjectIcon(resource.subject),
                     contentDescription = null,
                     modifier = Modifier.size(36.dp),
-                    tint = subjectColor.copy(alpha = 0.6f)
+                    tint = subjectColor
                 )
             }
 
             Column(
                 modifier = Modifier.padding(12.dp)
             ) {
-                // Title
                 Text(
                     text = resource.title,
                     style = MaterialTheme.typography.bodyMedium,
@@ -307,33 +310,31 @@ private fun LibraryResourceCard(
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                // Subject and type badges row
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(6.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    // Subject badge
                     Surface(
-                        shape = RoundedCornerShape(4.dp),
-                        color = subjectColor.copy(alpha = 0.1f)
+                        shape = RoundedCornerShape(8.dp),
+                        color = subjectColor.copy(alpha = 0.12f)
                     ) {
                         Text(
                             text = resource.subject,
-                            modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp),
+                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 3.dp),
                             style = MaterialTheme.typography.labelSmall,
+                            fontWeight = FontWeight.Medium,
                             color = subjectColor,
                             maxLines = 1
                         )
                     }
 
-                    // Type badge
                     Surface(
-                        shape = RoundedCornerShape(4.dp),
-                        color = MaterialTheme.colorScheme.surfaceVariant
+                        shape = RoundedCornerShape(8.dp),
+                        color = MaterialTheme.colorScheme.surfaceContainerHighest
                     ) {
                         Text(
                             text = resource.type,
-                            modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp),
+                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 3.dp),
                             style = MaterialTheme.typography.labelSmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                             maxLines = 1
@@ -343,7 +344,6 @@ private fun LibraryResourceCard(
 
                 Spacer(modifier = Modifier.height(6.dp))
 
-                // Grade level and download indicator row
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
