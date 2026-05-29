@@ -37,6 +37,18 @@ class User(models.Model):
     def generate_token():
         return uuid.uuid4().hex + uuid.uuid4().hex
 
+    @property
+    def is_authenticated(self):
+        return True
+
+    @property
+    def is_anonymous(self):
+        return False
+
+    @property
+    def is_active(self):
+        return not self.is_locked
+
 
 class Resource(models.Model):
     """Study resources — ebooks, PDFs, notes."""
