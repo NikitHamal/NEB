@@ -16,6 +16,8 @@ ADMIN_TOKEN = 'nebians-admin-2024-secure-token'
 def _ctx(request, **extra):
     token = api.get_session_token(request)
     user = api.get_session_user(request)
+    if user:
+        user = _normalize_user_data(user)
     ctx = {
         'is_authenticated': bool(token),
         'user': user,
@@ -26,8 +28,7 @@ def _ctx(request, **extra):
 
 
 def _admin_token(request):
-    token = api.get_session_token(request)
-    return token if token else ADMIN_TOKEN
+    return ADMIN_TOKEN
 
 
 # ---------------------------------------------------------------------------
@@ -239,8 +240,23 @@ def google_auth(request):
     token = result.get('authToken', '')
     user = result.get('user', {})
     user['isNewUser'] = result.get('isNewUser', False)
+    user = _normalize_user_data(user)
     api.set_session_auth(request, token, user)
     return JsonResponse({'status': 'success', 'user': user, 'isNewUser': result.get('isNewUser', False)})
+
+
+def _normalize_user_data(user):
+    if not isinstance(user, dict):
+        return user
+    mapping = {
+        'displayName': 'display_name',
+        'photoUrl': 'photo_url',
+        'isNewUser': 'is_new_user',
+    }
+    for old_key, new_key in mapping.items():
+        if old_key in user and new_key not in user:
+            user[new_key] = user[old_key]
+    return user)
 
 
 def logout(request):

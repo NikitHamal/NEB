@@ -18,6 +18,8 @@ def _api_call(method, path, token=None, data=None, params=None):
             resp = requests.get(url, headers=headers, params=params, timeout=15)
         elif method == 'POST':
             resp = requests.post(url, headers=headers, json=data, timeout=15)
+        elif method == 'PATCH':
+            resp = requests.patch(url, headers=headers, json=data, timeout=15)
         elif method == 'DELETE':
             resp = requests.delete(url, headers=headers, timeout=15)
         else:
