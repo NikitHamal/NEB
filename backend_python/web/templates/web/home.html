@@ -129,10 +129,19 @@
     {% for post in recent_posts %}
     <a href="{% url 'web:forum_post' post_id=post.id %}" class="post-card md-card" style="display:block;margin-bottom:12px;text-decoration:none;color:inherit;">
       <div class="post-card-header">
-        <div class="profile-avatar">{{ post.authorName|truncate_chars:1|default:"?" }}</div>
+        <div class="post-card-avatar">
+          {% if post.authorPhotoUrl %}
+            <img src="{{ post.authorPhotoUrl }}" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';">
+            <span class="contributor-avatar-letter" style="display:none;">{{ post.authorName|truncate_chars:1|default:"?" }}</span>
+          {% else %}
+            <span class="contributor-avatar-letter">{{ post.authorName|truncate_chars:1|default:"?" }}</span>
+          {% endif %}
+        </div>
         <div class="post-card-meta">
-          <div class="author">{{ post.authorName }}</div>
-          <div class="time">{{ post.createdAt|time_ago }} · <span class="post-card-category">{{ post.category }}</span></div>
+          <div class="post-card-meta-line">
+            <strong onclick="event.preventDefault(); event.stopPropagation(); window.location.href='{% url 'web:profile' username=post.authorName %}'">{{ post.authorName }}</strong> started a discussion in <span class="post-card-category">{{ post.category }}</span>
+          </div>
+          <div class="post-card-time">{{ post.createdAt|time_ago }}</div>
         </div>
       </div>
       <h3>{{ post.title }}</h3>
@@ -143,7 +152,7 @@
         </button>
         <button type="button" onclick="event.preventDefault();event.stopPropagation();">
           <span class="material-symbols-outlined" style="font-size:18px">chat_bubble_outline</span>
-          {{ post.replyCount }}
+          {{ post.replyCount }} Replies
         </button>
       </div>
     </a>
