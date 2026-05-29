@@ -303,8 +303,11 @@ def resource_view(request, resource_id):
 @api_view(['GET'])
 @authentication_classes([])
 def posts_list(request):
-    """GET /api/posts"""
+    """GET /api/posts?username=<username>"""
     posts = Post.objects.select_related('user').all()
+    username = request.query_params.get('username')
+    if username:
+        posts = posts.filter(user__username=username)
     serializer = PostSerializer(posts, many=True, context={'request': request})
     return Response(serializer.data)
 
