@@ -1,0 +1,142 @@
+{% extends "admin_panel/base.html" %}
+
+{% block title %}Resources{% endblock %}
+
+{% block content %}
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;">
+  <h1 class="md-headline-medium">Resources</h1>
+  <a href="#" onclick="document.getElementById('add-resource-form').style.display=document.getElementById('add-resource-form').style.display==='none'?'block':'none';return false;" class="md-btn md-btn-filled">
+    <span class="material-symbols-outlined" style="font-size:18px">add</span>
+    Add Resource
+  </a>
+</div>
+
+<!-- Add Resource Form (hidden by default) -->
+<div id="add-resource-form" class="md-card-elevated p-3 mb-3" style="display:none;">
+  <h3 class="md-title-medium mb-2">Add New Resource</h3>
+  <form method="post" action="{% url 'web:admin_resources' %}" id="resource-create-form">
+    {% csrf_token %}
+    <div class="form-row">
+      <div class="form-group">
+        <label class="md-label" for="title">Title *</label>
+        <input type="text" id="title" name="title" class="md-input" required>
+      </div>
+      <div class="form-group">
+        <label class="md-label" for="subject">Subject *</label>
+        <select id="subject" name="subject" class="md-select" required>
+          <option value="">Select subject</option>
+          <option value="Physics">Physics</option>
+          <option value="Chemistry">Chemistry</option>
+          <option value="Mathematics">Mathematics</option>
+          <option value="Biology">Biology</option>
+          <option value="English">English</option>
+          <option value="Nepali">Nepali</option>
+          <option value="Computer Science">Computer Science</option>
+          <option value="Economics">Economics</option>
+          <option value="Accountancy">Accountancy</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="md-label" for="description">Description</label>
+      <textarea id="description" name="description" class="md-textarea" rows="3"></textarea>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="md-label" for="grade_level">Grade Level *</label>
+        <select id="grade_level" name="grade_level" class="md-select" required>
+          <option value="">Select grade</option>
+          <option value="Grade 11">Grade 11</option>
+          <option value="Grade 12">Grade 12</option>
+          <option value="Both">Both</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="md-label" for="type">Type *</label>
+        <select id="type" name="type" class="md-select" required>
+          <option value="">Select type</option>
+          <option value="PDF">PDF</option>
+          <option value="Note">Note</option>
+          <option value="Video">Video</option>
+          <option value="Textbook">Textbook</option>
+          <option value="Past Paper">Past Paper</option>
+          <option value="Guide">Guide</option>
+          <option value="Solution">Solution</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="md-label" for="file_url">File URL *</label>
+      <input type="url" id="file_url" name="file_url" class="md-input" placeholder="https://example.com/file.pdf" required>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="md-label" for="thumbnail_url">Thumbnail URL</label>
+        <input type="url" id="thumbnail_url" name="thumbnail_url" class="md-input" placeholder="https://example.com/thumb.jpg">
+      </div>
+      <div class="form-group">
+        <label class="md-label" for="file_size">File Size (bytes)</label>
+        <input type="number" id="file_size" name="file_size" class="md-input" value="0">
+      </div>
+    </div>
+    <div class="form-actions">
+      <button type="submit" class="md-btn md-btn-filled">Create Resource</button>
+      <button type="button" class="md-btn md-btn-text" onclick="document.getElementById('add-resource-form').style.display='none'">Cancel</button>
+    </div>
+  </form>
+</div>
+
+<!-- Search -->
+<form method="get" style="margin-bottom:16px;">
+  <div class="search-bar">
+    <span class="material-symbols-outlined">search</span>
+    <input type="text" name="q" value="{{ search }}" placeholder="Search resources...">
+  </div>
+</form>
+
+{% if resources %}
+<div class="md-table-responsive">
+  <table class="md-table">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Subject</th>
+        <th>Grade</th>
+        <th>Type</th>
+        <th>Views</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for r in resources %}
+      <tr>
+        <td style="max-width:300px;">
+          <div style="font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ r.title }}</div>
+          <div style="font-size:0.75rem;color:var(--md-on-surface-variant);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ r.description|default:"" }}</div>
+        </td>
+        <td><span class="md-chip" style="font-size:0.75rem;">{{ r.subject }}</span></td>
+        <td>{{ r.grade_level }}</td>
+        <td>{{ r.type }}</td>
+        <td>{{ r.view_count }}</td>
+        <td>
+          <div style="display:flex;gap:4px;">
+            <a href="{% url 'web:admin_resource_edit' resource_id=r.id %}" class="md-btn md-btn-text" style="padding:4px 8px;font-size:0.75rem;">Edit</a>
+            <form method="post" action="{% url 'web:admin_resource_delete' resource_id=r.id %}" onsubmit="return confirm('Delete this resource?');" style="display:inline;">
+              {% csrf_token %}
+              <button type="submit" class="md-btn md-btn-text" style="padding:4px 8px;font-size:0.75rem;color:var(--md-error);">Delete</button>
+            </form>
+          </div>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<div class="empty-state">
+  <span class="material-symbols-outlined">auto_stories</span>
+  <h3>No resources found</h3>
+  <p>Add resources to get started.</p>
+</div>
+{% endif %}
+{% endblock %}

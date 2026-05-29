@@ -1,0 +1,122 @@
+{% load static %}
+{% load web_extras %}
+<!DOCTYPE html>
+<html lang="en" {% if dark_mode %}data-theme="dark"{% endif %}>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="{% block description %}NEBians - NEB Students Network. Study resources, discussion forum, and more for Nepali students.{% endblock %}">
+  <title>{% block title %}NEBians{% endblock %} | NEB Students Network</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap">
+  <link rel="stylesheet" href="{% static 'web/css/material3.css' %}">
+  <link rel="stylesheet" href="{% static 'web/css/app.css' %}">
+  {% block extra_css %}{% endblock %}
+</head>
+<body>
+  <!-- Top Navigation Bar -->
+  <header class="md-topbar">
+    <a href="{% url 'web:home' %}" class="md-topbar-brand">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="32" height="32" rx="8" fill="var(--md-primary)"/>
+        <path d="M8 8h3v16H8V8zm5 0h3v16h-3V8zm5 0v16l8-8-8-8z" fill="var(--md-on-primary)"/>
+      </svg>
+      NEBians
+    </a>
+    <nav class="md-topbar-nav">
+      <a href="{% url 'web:home' %}" class="{% block nav_home %}{% endblock %}">Home</a>
+      <a href="{% url 'web:library' %}" class="{% block nav_library %}{% endblock %}">Library</a>
+      <a href="{% url 'web:forum' %}" class="{% block nav_forum %}{% endblock %}">Forum</a>
+      <a href="{% url 'web:search' %}" class="{% block nav_search %}{% endblock %}">Search</a>
+    </nav>
+    <div class="md-topbar-actions">
+      {% if is_authenticated %}
+        <a href="{% url 'web:edit_profile' %}" class="md-btn-icon" title="Profile">
+          <span class="material-symbols-outlined">account_circle</span>
+        </a>
+        <a href="{% url 'web:logout' %}" class="md-btn md-btn-text">Sign Out</a>
+      {% else %}
+        <a href="{% url 'web:login' %}" class="md-btn md-btn-filled">Sign In</a>
+      {% endif %}
+      <button class="md-btn-icon" onclick="toggleTheme()" title="Toggle dark mode">
+        <span class="material-symbols-outlined" id="theme-icon">dark_mode</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main style="min-height: calc(100vh - 64px - 72px); padding-top: 16px; padding-bottom: 24px;">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- Bottom Navigation (Mobile) -->
+  <nav class="md-bottomnav">
+    <a href="{% url 'web:home' %}" class="md-bottomnav-item {% block bnav_home %}{% endblock %}">
+      <span class="material-symbols-outlined">home</span>
+      <span>Home</span>
+    </a>
+    <a href="{% url 'web:library' %}" class="md-bottomnav-item {% block bnav_library %}{% endblock %}">
+      <span class="material-symbols-outlined">auto_stories</span>
+      <span>Library</span>
+    </a>
+    <a href="{% url 'web:forum' %}" class="md-bottomnav-item {% block bnav_forum %}{% endblock %}">
+      <span class="material-symbols-outlined">forum</span>
+      <span>Forum</span>
+    </a>
+    <a href="{% url 'web:search' %}" class="md-bottomnav-item {% block bnav_search %}{% endblock %}">
+      <span class="material-symbols-outlined">search</span>
+      <span>Search</span>
+    </a>
+  </nav>
+
+  <!-- Snackbar container -->
+  <div id="snackbar-container"></div>
+
+  <!-- Google Auth -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+  <script>
+    const AUTH_TOKEN = '{{ auth_token|default:"" }}';
+    const USER_DATA = {{ user|default:"null"|safe }};
+    const CSRF_TOKEN = '{{ csrf_token }}';
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      const isDark = html.getAttribute('data-theme') === 'dark';
+      html.setAttribute('data-theme', isDark ? '' : 'dark');
+      document.getElementById('theme-icon').textContent = isDark ? 'dark_mode' : 'light_mode';
+      localStorage.setItem('theme', isDark ? 'light' : 'dark');
+    }
+
+    (function() {
+      const saved = localStorage.getItem('theme');
+      if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        document.getElementById('theme-icon').textContent = 'light_mode';
+      }
+    })();
+
+    function showSnackbar(msg, duration = 3000) {
+      const container = document.getElementById('snackbar-container');
+      const el = document.createElement('div');
+      el.className = 'md-snackbar';
+      el.textContent = msg;
+      container.appendChild(el);
+      setTimeout(() => el.remove(), duration);
+    }
+
+    async function apiCall(method, path, data = null) {
+      const headers = { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN };
+      if (AUTH_TOKEN) headers['Authorization'] = 'Bearer ' + AUTH_TOKEN;
+      const opts = { method, headers };
+      if (data) opts.body = JSON.stringify(data);
+      const resp = await fetch('/api' + path, opts);
+      return resp.json();
+    }
+  </script>
+
+  {% block extra_js %}{% endblock %}
+</body>
+</html>

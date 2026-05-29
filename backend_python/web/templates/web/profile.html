@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block title %}{{ profile_user.username|default:"Profile" }}{% endblock %}
+
+{% block content %}
+<div class="md-container-narrow" style="padding-top:24px;">
+  {% if profile_user %}
+  <div class="md-card p-3" style="text-align:center;padding-top:32px;">
+    <div class="profile-avatar profile-avatar-lg" style="margin:0 auto 16px;">
+      {% if profile_user.photo_url %}
+      <img src="{{ profile_user.photo_url }}" alt="{{ profile_user.display_name|default:profile_user.username }}">
+      {% else %}
+      {{ profile_user.display_name|default:profile_user.username|truncate_chars:1|default:"?" }}
+      {% endif %}
+    </div>
+    <h2 class="md-title-large">{{ profile_user.display_name|default:profile_user.username }}</h2>
+    <p class="md-body-medium" style="color:var(--md-on-surface-variant);">@{{ profile_user.username }}</p>
+
+    <div class="md-divider" style="margin:20px 0;"></div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;text-align:left;">
+      {% if profile_user.email %}
+      <div>
+        <div class="md-label-small" style="color:var(--md-on-surface-variant);">Email</div>
+        <div class="md-body-medium">{{ profile_user.email }}</div>
+      </div>
+      {% endif %}
+      {% if profile_user.class_level %}
+      <div>
+        <div class="md-label-small" style="color:var(--md-on-surface-variant);">Class</div>
+        <div class="md-body-medium">{{ profile_user.class_level }}</div>
+      </div>
+      {% endif %}
+      {% if profile_user.gender %}
+      <div>
+        <div class="md-label-small" style="color:var(--md-on-surface-variant);">Gender</div>
+        <div class="md-body-medium">{{ profile_user.gender }}</div>
+      </div>
+      {% endif %}
+      {% if profile_user.pradesh %}
+      <div>
+        <div class="md-label-small" style="color:var(--md-on-surface-variant);">Province</div>
+        <div class="md-body-medium">{{ profile_user.pradesh }}</div>
+      </div>
+      {% endif %}
+      {% if profile_user.district %}
+      <div>
+        <div class="md-label-small" style="color:var(--md-on-surface-variant);">District</div>
+        <div class="md-body-medium">{{ profile_user.district }}</div>
+      </div>
+      {% endif %}
+      {% if profile_user.school %}
+      <div>
+        <div class="md-label-small" style="color:var(--md-on-surface-variant);">School</div>
+        <div class="md-body-medium">{{ profile_user.school }}</div>
+      </div>
+      {% endif %}
+      {% if profile_user.subjects %}
+      <div style="grid-column:1/-1;">
+        <div class="md-label-small" style="color:var(--md-on-surface-variant);">Subjects</div>
+        <div class="chip-group mt-1">
+          {% for subject in profile_user.subjects.split:',' %}
+          <span class="md-chip">{{ subject }}</span>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+    </div>
+
+    {% if profile_user.is_locked %}
+    <div style="margin-top:16px;display:flex;align-items:center;justify-content:center;gap:8px;color:var(--md-on-surface-variant);">
+      <span class="material-symbols-outlined" style="font-size:18px;">lock</span>
+      <span class="md-body-small">This profile is private</span>
+    </div>
+    {% endif %}
+  </div>
+  {% else %}
+  <div class="empty-state">
+    <span class="material-symbols-outlined">person_off</span>
+    <h3>User not found</h3>
+    <a href="{% url 'web:home' %}" class="md-btn md-btn-filled mt-2">Go Home</a>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

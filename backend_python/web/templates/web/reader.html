@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}{{ resource.title|default:"PDF Reader" }}{% endblock %}
+
+{% block content %}
+<div class="md-container" style="padding-top:0;">
+  {% if resource %}
+  <div class="flex items-center gap-1 mb-2" style="padding-top:16px;">
+    <a href="{% url 'web:library' %}" class="md-btn md-btn-text" style="padding-left:0;">
+      <span class="material-symbols-outlined" style="font-size:18px">arrow_back</span>
+      Library
+    </a>
+    <span style="color:var(--md-on-surface-variant);">/</span>
+    <span class="md-body-medium" style="color:var(--md-on-surface-variant);">{{ resource.title }}</span>
+  </div>
+
+  <div class="md-card" style="overflow:hidden;">
+    {% if resource.file_url %}
+    <iframe src="{{ resource.file_url }}" class="pdf-viewer" style="width:100%;min-height:80vh;border:none;"></iframe>
+    {% else %}
+    <div class="empty-state">
+      <span class="material-symbols-outlined">picture_as_pdf</span>
+      <h3>{{ resource.title }}</h3>
+      <p>{{ resource.description|default:"No description available.") }}</p>
+      <div class="chip-group mt-2" style="justify-content:center;">
+        <span class="md-chip">{{ resource.subject }}</span>
+        <span class="md-chip">{{ resource.grade_level }}</span>
+        <span class="md-chip">{{ resource.type }}</span>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+  {% else %}
+  <div class="empty-state" style="padding-top:64px;">
+    <span class="material-symbols-outlined">error_outline</span>
+    <h3>Resource not found</h3>
+    <a href="{% url 'web:library' %}" class="md-btn md-btn-filled mt-2">Back to Library</a>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

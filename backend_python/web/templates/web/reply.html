@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Reply{% endblock %}
+{% block nav_forum %}md-nav-active{% endblock %}
+
+{% block content %}
+<div class="md-container-narrow" style="padding-top:24px;">
+  <a href="{% url 'web:forum_post' post_id=post_id %}" class="md-btn md-btn-text mb-2" style="padding-left:0;">
+    <span class="material-symbols-outlined" style="font-size:18px">arrow_back</span>
+    Back to Post
+  </a>
+
+  <h1 class="md-headline-small mb-3">Reply</h1>
+
+  {% if post %}
+  <div class="md-card p-2 mb-3" style="background:var(--md-surface-container-high);">
+    <div class="md-label-medium" style="color:var(--md-on-surface-variant);margin-bottom:4px;">Replying to:</div>
+    <div class="md-title-small">{{ post.title }}</div>
+  </div>
+  {% endif %}
+
+  <div class="md-card p-3">
+    <form method="post">
+      {% csrf_token %}
+      <div class="form-group">
+        <label class="md-label" for="content">Your Reply</label>
+        <textarea id="content" name="content" class="md-textarea" placeholder="Write your reply..." rows="6" required></textarea>
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="md-btn md-btn-filled">
+          <span class="material-symbols-outlined" style="font-size:18px">send</span>
+          Submit Reply
+        </button>
+        <a href="{% url 'web:forum_post' post_id=post_id %}" class="md-btn md-btn-text">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'corsheaders',
     'api',
+    'web',
 ]
 
 MIDDLEWARE = [
@@ -58,6 +59,8 @@ TEMPLATES = [
         },
     },
 ]
+
+LOGIN_URL = '/login/'
 
 WSGI_APPLICATION = 'nebians.wsgi.application'
 
@@ -114,6 +117,9 @@ CORS_ALLOW_ALL_ORIGINS = True  # Safe for mobile API; restrict if adding web fro
 
 # Google OAuth
 GOOGLE_CLIENT_ID = os.environ.get('GOOGLE_CLIENT_ID', '478709074228-cu0b0t75ghhsvqp2jotj75g6utj84nre.apps.googleusercontent.com')
+
+# Web app API base URL (for server-side calls from web views)
+WEB_API_BASE_URL = os.environ.get('WEB_API_BASE_URL', 'http://127.0.0.1:8000/api')
 
 # Logging — file + console
 LOG_DIR = BASE_DIR / 'logs'

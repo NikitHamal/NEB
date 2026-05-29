@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+{% block nav_home %}md-nav-active{% endblock %}
+{% block bnav_home %}md-nav-active{% endblock %}
+
+{% block content %}
+<div class="md-container">
+  <!-- Hero -->
+  <div class="hero">
+    <h1>Hello, {{ user.display_name|default:user.username|default:"Student" }}!</h1>
+    <p>What would you like to study today? Access NEB resources, join discussions, and more.</p>
+    <div class="hero-actions">
+      <a href="{% url 'web:library' %}" class="md-btn md-btn-filled">
+        <span class="material-symbols-outlined" style="font-size:18px">auto_stories</span>
+        Browse Library
+      </a>
+      <a href="{% url 'web:forum' %}" class="md-btn md-btn-outlined">
+        <span class="material-symbols-outlined" style="font-size:18px">forum</span>
+        Join Forum
+      </a>
+    </div>
+  </div>
+
+  <!-- Subject Chips -->
+  {% if subjects %}
+  <div class="section">
+    <div class="section-header">
+      <h2>Subjects</h2>
+    </div>
+    <div class="chip-group">
+      {% for s in subjects %}
+      <a href="{% url 'web:library' %}?subject={{ s }}" class="md-chip">{{ s }}</a>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- Recent Resources -->
+  {% if recent_resources %}
+  <div class="section">
+    <div class="section-header">
+      <h2>Recent Resources</h2>
+      <a href="{% url 'web:library' %}" class="md-btn md-btn-text">View all</a>
+    </div>
+    <div class="hscroll">
+      {% for r in recent_resources %}
+      <a href="{% url 'web:reader' resource_id=r.id %}" class="resource-card md-card subject-{{ r.subject|lower|cut:' ' }}">
+        <div class="resource-card-header">
+          <div class="subject-icon">
+            <span class="material-symbols-outlined">{{ r.subject|subject_icon }}</span>
+          </div>
+          <span>{{ r.subject }}</span>
+        </div>
+        <div class="resource-card-body">
+          <h3>{{ r.title }}</h3>
+          <p>{{ r.grade_level }} · {{ r.type }}</p>
+        </div>
+        <div class="resource-card-footer">
+          <span><span class="material-symbols-outlined" style="font-size:14px">visibility</span> {{ r.view_count|format_count }}</span>
+          {% if r.file_size %}
+          <span><span class="material-symbols-outlined" style="font-size:14px">download</span> {{ r.file_size|file_size_human }}</span>
+          {% endif %}
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- Popular Resources -->
+  {% if popular_resources %}
+  <div class="section">
+    <div class="section-header">
+      <h2>Popular Resources</h2>
+      <a href="{% url 'web:library' %}" class="md-btn md-btn-text">View all</a>
+    </div>
+    <div class="hscroll">
+      {% for r in popular_resources %}
+      <a href="{% url 'web:reader' resource_id=r.id %}" class="resource-card md-card subject-{{ r.subject|lower|cut:' ' }}">
+        <div class="resource-card-header">
+          <div class="subject-icon">
+            <span class="material-symbols-outlined">{{ r.subject|subject_icon }}</span>
+          </div>
+          <span>{{ r.subject }}</span>
+        </div>
+        <div class="resource-card-body">
+          <h3>{{ r.title }}</h3>
+          <p>{{ r.grade_level }} · {{ r.type }}</p>
+        </div>
+        <div class="resource-card-footer">
+          <span><span class="material-symbols-outlined" style="font-size:14px">visibility</span> {{ r.view_count|format_count }}</span>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- Forum Activity -->
+  {% if recent_posts %}
+  <div class="section">
+    <div class="section-header">
+      <h2>Forum Activity</h2>
+      <a href="{% url 'web:forum' %}" class="md-btn md-btn-text">View all</a>
+    </div>
+    {% for post in recent_posts %}
+    <a href="{% url 'web:forum_post' post_id=post.id %}" class="post-card md-card" style="display:block;margin-bottom:12px;text-decoration:none;color:inherit;">
+      <div class="post-card-header">
+        <div class="profile-avatar">{{ post.authorName|truncate_chars:1|default:"?" }}</div>
+        <div class="post-card-meta">
+          <div class="author">{{ post.authorName }}</div>
+          <div class="time">{{ post.createdAt|time_ago }} · <span class="post-card-category">{{ post.category }}</span></div>
+        </div>
+      </div>
+      <h3>{{ post.title }}</h3>
+      <div class="post-card-actions">
+        <button type="button" onclick="event.preventDefault();event.stopPropagation();" class="{% if post.isThumbedUp %}liked{% endif %}">
+          <span class="material-symbols-outlined" style="font-size:18px">{% if post.isThumbedUp %}thumb_up{% else %}thumb_up{% endif %}</span>
+          {{ post.thumbsUpCount }}
+        </button>
+        <button type="button" onclick="event.preventDefault();event.stopPropagation();">
+          <span class="material-symbols-outlined" style="font-size:18px">chat_bubble_outline</span>
+          {{ post.replyCount }}
+        </button>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  {% if not recent_resources and not popular_resources and not recent_posts %}
+  <div class="empty-state">
+    <span class="material-symbols-outlined">school</span>
+    <h3>Welcome to NEBians</h3>
+    <p>Resources and discussions will appear here once they're available.</p>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

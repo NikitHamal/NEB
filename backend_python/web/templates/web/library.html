@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block title %}Library{% endblock %}
+{% block nav_library %}md-nav-active{% endblock %}
+{% block bnav_library %}md-nav-active{% endblock %}
+
+{% block content %}
+<div class="md-container">
+  <div class="section-header mt-2">
+    <h1 class="md-headline-medium">Library</h1>
+  </div>
+
+  <!-- Filters -->
+  <div class="section">
+    {% if all_subjects %}
+    <div class="filter-bar">
+      <a href="{% url 'web:library' %}{% if current_grade %}?grade={{ current_grade }}{% endif %}{% if current_type %}&type={{ current_type }}{% endif %}" class="md-chip {% if not current_subject %}md-chip-active{% endif %}">All</a>
+      {% for s in all_subjects %}
+      <a href="{% url 'web:library' %}?subject={{ s }}{% if current_grade %}&grade={{ current_grade }}{% endif %}{% if current_type %}&type={{ current_type }}{% endif %}" class="md-chip {% if current_subject == s %}md-chip-active{% endif %}">{{ s }}</a>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if all_grades %}
+    <div class="filter-bar">
+      <a href="{% url 'web:library' %}{% if current_subject %}?subject={{ current_subject }}{% endif %}{% if current_type %}&type={{ current_type }}{% endif %}" class="md-chip {% if not current_grade %}md-chip-active{% endif %}">All Grades</a>
+      {% for g in all_grades %}
+      <a href="{% url 'web:library' %}?{% if current_subject %}subject={{ current_subject }}&{% endif %}grade={{ g }}{% if current_type %}&type={{ current_type }}{% endif %}" class="md-chip {% if current_grade == g %}md-chip-active{% endif %}">{{ g }}</a>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if all_types %}
+    <div class="filter-bar">
+      <a href="{% url 'web:library' %}{% if current_subject %}?subject={{ current_subject }}{% endif %}{% if current_grade %}&grade={{ current_grade }}{% endif %}" class="md-chip {% if not current_type %}md-chip-active{% endif %}">All Types</a>
+      {% for t in all_types %}
+      <a href="{% url 'web:library' %}?{% if current_subject %}subject={{ current_subject }}&{% endif %}{% if current_grade %}grade={{ current_grade }}&{% endif %}type={{ t }}" class="md-chip {% if current_type == t %}md-chip-active{% endif %}">{{ t }}</a>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if current_subject or current_grade or current_type %}
+    <a href="{% url 'web:library' %}" class="md-btn md-btn-text" style="margin-top:8px">
+      <span class="material-symbols-outlined" style="font-size:18px">filter_list_off</span>
+      Clear Filters
+    </a>
+    {% endif %}
+  </div>
+
+  <!-- Resource Grid -->
+  {% if resources %}
+  <div class="resource-grid">
+    {% for r in resources %}
+    <a href="{% url 'web:reader' resource_id=r.id %}" class="resource-card md-card subject-{{ r.subject|lower|cut:' ' }}">
+      <div class="resource-card-header">
+        <div class="subject-icon">
+          <span class="material-symbols-outlined">{{ r.subject|subject_icon }}</span>
+        </div>
+        <span>{{ r.subject }}</span>
+      </div>
+      <div class="resource-card-body">
+        <h3>{{ r.title }}</h3>
+        <p>{{ r.grade_level }} · {{ r.type }}</p>
+        {% if r.description %}
+        <p style="margin-top:4px;opacity:0.7">{{ r.description|truncate_chars:80 }}</p>
+        {% endif %}
+      </div>
+      <div class="resource-card-footer">
+        <span><span class="material-symbols-outlined" style="font-size:14px">visibility</span> {{ r.view_count|format_count }}</span>
+        {% if r.file_size %}
+        <span><span class="material-symbols-outlined" style="font-size:14px">download</span> {{ r.file_size|file_size_human }}</span>
+        {% endif %}
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="empty-state">
+    <span class="material-symbols-outlined">auto_stories</span>
+    <h3>No resources found</h3>
+    <p>Try adjusting your filters or check back later.</p>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}
