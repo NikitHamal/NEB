@@ -252,13 +252,14 @@ fun PdfReaderScreen(
                         annotationMode = annotationState.annotationMode,
                         onAnnotationCreated = { startX, startY, endX, endY ->
                             if (annotationState.annotationMode == AnnotationMode.STICKY_NOTE) {
-                                viewModel.addAnnotation(startX, startY, endX, endY)
-                                viewModel.showStickyNoteDialog(true)
+                                viewModel.prepareStickyNote(startX, startY, endX, endY)
                             } else {
                                 viewModel.addAnnotation(startX, startY, endX, endY)
                             }
                         },
-                        onAnnotationTapped = { },
+                        onAnnotationTapped = { annotation ->
+                            viewModel.deleteAnnotation(annotation.id)
+                        },
                         modifier = Modifier.fillMaxSize()
                     )
                 }
@@ -489,8 +490,7 @@ fun PdfReaderScreen(
             confirmButton = {
                 TextButton(
                     onClick = {
-                        viewModel.showStickyNoteDialog(false)
-                        viewModel.onStickyNoteTextChange("")
+                        viewModel.savePendingStickyNote()
                     }
                 ) {
                     Text("Save")
@@ -499,8 +499,7 @@ fun PdfReaderScreen(
             dismissButton = {
                 TextButton(
                     onClick = {
-                        viewModel.onStickyNoteTextChange("")
-                        viewModel.showStickyNoteDialog(false)
+                        viewModel.cancelStickyNote()
                     }
                 ) {
                     Text("Cancel")

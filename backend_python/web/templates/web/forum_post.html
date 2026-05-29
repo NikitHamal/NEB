@@ -28,7 +28,7 @@
     <div class="md-divider"></div>
     <div class="post-card-actions">
       <button onclick="togglePostLike('{{ post.id }}')" class="{% if post.isThumbedUp %}liked{% endif %}" id="post-like-btn-{{ post.id }}">
-        <span class="material-symbols-outlined" style="font-size:18px">{% if post.isThumbedUp %}thumb_up{% else %}thumb_up{% endif %}</span>
+        <span class="material-symbols-outlined" style="font-size:18px">{% if post.isThumbedUp %}thumb_up{% else %}thumb_up_off_alt{% endif %}</span>
         <span id="post-like-count-{{ post.id }}">{{ post.thumbsUpCount }}</span>
       </button>
       <button>
@@ -57,7 +57,7 @@
       <div class="md-body-medium" style="white-space:pre-wrap;">{{ reply.content }}</div>
       <div class="post-card-actions" style="margin-top:8px;">
         <button onclick="toggleReplyLike('{{ reply.id }}')" class="{% if reply.isThumbedUp %}liked{% endif %}" id="reply-like-btn-{{ reply.id }}">
-          <span class="material-symbols-outlined" style="font-size:16px">thumb_up</span>
+          <span class="material-symbols-outlined" style="font-size:16px">{% if reply.isThumbedUp %}thumb_up{% else %}thumb_up_off_alt{% endif %}</span>
           <span id="reply-like-count-{{ reply.id }}">{{ reply.thumbsUpCount }}</span>
         </button>
       </div>
@@ -108,6 +108,8 @@ async function togglePostLike(postId) {
     document.getElementById('post-like-count-' + postId).textContent = result.thumbsUpCount;
     const btn = document.getElementById('post-like-btn-' + postId);
     btn.classList.toggle('liked', result.isThumbedUp);
+    const icon = btn.querySelector('.material-symbols-outlined');
+    if (icon) icon.textContent = result.isThumbedUp ? 'thumb_up' : 'thumb_up_off_alt';
   }
 }
 
@@ -118,6 +120,8 @@ async function toggleReplyLike(replyId) {
     document.getElementById('reply-like-count-' + replyId).textContent = result.thumbsUpCount;
     const btn = document.getElementById('reply-like-btn-' + replyId);
     btn.classList.toggle('liked', result.isThumbedUp);
+    const icon = btn.querySelector('.material-symbols-outlined');
+    if (icon) icon.textContent = result.isThumbedUp ? 'thumb_up' : 'thumb_up_off_alt';
   }
 }
 </script>

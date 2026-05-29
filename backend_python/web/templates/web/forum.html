@@ -41,11 +41,11 @@
         <span class="post-card-category">{{ post.category }}</span>
       </div>
       <h3>{{ post.title }}</h3>
-      <div class="post-card-content">{{ post.content }}</div>
+      <div class="post-card-content">{{ post.content|truncatewords:50 }}</div>
       <div class="post-card-actions">
-        <button type="button" onclick="event.preventDefault();event.stopPropagation();" class="{% if post.isThumbedUp %}liked{% endif %}">
-          <span class="material-symbols-outlined" style="font-size:18px">thumb_up{% if post.isThumbedUp %}{% endif %}</span>
-          {{ post.thumbsUpCount }}
+        <button type="button" onclick="event.preventDefault();event.stopPropagation();toggleForumPostLike('{{ post.id }}', this);" class="{% if post.isThumbedUp %}liked{% endif %}" id="forum-post-like-btn-{{ post.id }}">
+          <span class="material-symbols-outlined" style="font-size:18px">{% if post.isThumbedUp %}thumb_up{% else %}thumb_up_off_alt{% endif %}</span>
+          <span id="forum-post-like-count-{{ post.id }}">{{ post.thumbsUpCount }}</span>
         </button>
         <button type="button" onclick="event.preventDefault();event.stopPropagation();">
           <span class="material-symbols-outlined" style="font-size:18px">chat_bubble_outline</span>
@@ -69,4 +69,24 @@
 <a href="{% url 'web:create_post' %}" class="md-fab md-hide-desktop" title="New Discussion">
   <span class="material-symbols-outlined">add</span>
 </a>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+async function toggleForumPostLike(postId, btn) {
+  if (!AUTH_TOKEN) { window.location.href = '{% url "web:login" %}'; return; }
+  try {
+    const result = await apiCall('POST', '/posts/' + postId + '/like');
+    if (result && result.thumbsUpCount !== undefined) {
+      const countEl = document.getElementById('forum-post-like-count-' + postId);
+      if (countEl) countEl.textContent = result.thumbsUpCount;
+      const iconEl = btn.querySelector('.material-symbols-outlined');
+      if (iconEl) iconEl.textContent = result.isThumbedUp ? 'thumb_up' : 'thumb_up_off_alt';
+      btn.classList.toggle('liked', result.isThumbedUp);
+    }
+  } catch (e) {
+    showSnackbar('Failed to like post');
+  }
+}
+</script>
 {% endblock %}

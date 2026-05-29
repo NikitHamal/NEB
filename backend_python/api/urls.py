@@ -16,10 +16,12 @@ urlpatterns = [
 
     # Resources
     path('resources', views.resources_list, name='resources-list'),
+    path('resources/<str:resource_id>', views.resource_detail, name='resource-detail'),
+    path('resources/<str:resource_id>/view', views.resource_view, name='resource-view'),
 
     # Posts — GET list + POST create handled by posts_endpoint dispatcher
     path('posts', views.posts_endpoint, name='posts'),
-    path('posts/<str:post_id>', views.post_delete, name='post-delete'),
+    path('posts/<str:post_id>', views.post_detail, name='post-detail'),
     path('posts/<str:post_id>/like', views.post_like, name='post-like'),
 
     # Replies — GET list + POST create handled by replies_endpoint dispatcher

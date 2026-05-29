@@ -24,6 +24,7 @@ urlpatterns = [
     path('ajax/post/', views.ajax_create_post, name='ajax_create_post'),
     path('ajax/delete/post/<str:post_id>/', views.ajax_delete_post, name='ajax_delete_post'),
     path('ajax/check-username/', views.ajax_check_username, name='ajax_check_username'),
+    path('ajax/theme/', views.ajax_set_theme, name='ajax_set_theme'),
     path('admin/', views.admin_login, name='admin_login'),
     path('admin/dashboard/', views.admin_dashboard, name='admin_dashboard'),
     path('admin/logout/', views.admin_logout, name='admin_logout'),

@@ -58,6 +58,9 @@ interface ResourceDao {
     @Query("UPDATE resources SET downloadProgress = :progress WHERE id = :id")
     suspend fun updateDownloadProgress(id: String, progress: Int)
 
+    @Query("UPDATE resources SET viewCount = viewCount + 1, lastAccessedAt = :timestamp WHERE id = :id")
+    suspend fun incrementViewCount(id: String, timestamp: Long = System.currentTimeMillis())
+
     @Query("DELETE FROM resources WHERE id = :id")
     suspend fun delete(id: String)
 

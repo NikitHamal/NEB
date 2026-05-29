@@ -1,5 +1,6 @@
 package com.neb.ians.ui.screens.library
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.neb.ians.data.local.entity.ResourceEntity
@@ -28,7 +29,8 @@ data class LibraryUiState(
 
 @HiltViewModel
 class LibraryViewModel @Inject constructor(
-    private val resourceRepository: ResourceRepository
+    private val resourceRepository: ResourceRepository,
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
     private var synced = false
@@ -39,6 +41,10 @@ class LibraryViewModel @Inject constructor(
             viewModelScope.launch {
                 resourceRepository.syncResources()
             }
+        }
+        val initialSubject = savedStateHandle.get<String>("subject")
+        if (!initialSubject.isNullOrBlank()) {
+            _selectedSubject.value = initialSubject
         }
     }
 
