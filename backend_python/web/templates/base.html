@@ -79,7 +79,7 @@
 
   <script>
     const AUTH_TOKEN = '{{ auth_token|default:"" }}';
-    const USER_DATA = {{ user|default:"null"|safe }};
+    const USER_DATA = {{ user|to_json }};
     const CSRF_TOKEN = '{{ csrf_token }}';
 
     function toggleTheme() {

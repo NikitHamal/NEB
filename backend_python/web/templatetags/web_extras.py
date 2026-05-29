@@ -1,4 +1,6 @@
+import json
 from django import template
+from django.utils.safestring import mark_safe
 
 register = template.Library()
 
@@ -111,3 +113,10 @@ def format_count(value):
     if n >= 1000:
         return f'{n / 1000:.1f}K'
     return str(n)
+
+
+@register.filter
+def to_json(value):
+    if value is None:
+        return mark_safe('null')
+    return mark_safe(json.dumps(value))
