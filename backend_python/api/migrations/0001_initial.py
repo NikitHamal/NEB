@@ -63,7 +63,7 @@ class Migration(migrations.Migration):
                 ('thumbs_up_count', models.IntegerField(default=0)),
                 ('reply_count', models.IntegerField(default=0)),
                 ('created_at', models.BigIntegerField()),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='posts', to='api.user')),
+                ('user', models.ForeignKey(on_delete=models.CASCADE, related_name='posts', to='api.user')),
             ],
             options={
                 'db_table': 'posts',
@@ -74,8 +74,8 @@ class Migration(migrations.Migration):
             name='PostLike',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('post', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='likes', to='api.post')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='post_likes', to='api.user')),
+                ('post', models.ForeignKey(on_delete=models.CASCADE, related_name='likes', to='api.post')),
+                ('user', models.ForeignKey(on_delete=models.CASCADE, related_name='post_likes', to='api.user')),
             ],
             options={
                 'db_table': 'post_likes',
@@ -89,9 +89,9 @@ class Migration(migrations.Migration):
                 ('content', models.TextField()),
                 ('thumbs_up_count', models.IntegerField(default=0)),
                 ('created_at', models.BigIntegerField()),
-                ('parent_reply', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='children', to='api.reply')),
-                ('post', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='replies', to='api.post')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='replies', to='api.user')),
+                ('parent_reply', models.ForeignKey(blank=True, null=True, on_delete=models.CASCADE, related_name='children', to='api.reply')),
+                ('post', models.ForeignKey(on_delete=models.CASCADE, related_name='replies', to='api.post')),
+                ('user', models.ForeignKey(on_delete=models.CASCADE, related_name='replies', to='api.user')),
             ],
             options={
                 'db_table': 'replies',
@@ -102,8 +102,8 @@ class Migration(migrations.Migration):
             name='ReplyLike',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('reply', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='likes', to='api.reply')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='reply_likes', to='api.user')),
+                ('reply', models.ForeignKey(on_delete=models.CASCADE, related_name='likes', to='api.reply')),
+                ('user', models.ForeignKey(on_delete=models.CASCADE, related_name='reply_likes', to='api.user')),
             ],
             options={
                 'db_table': 'reply_likes',
@@ -115,7 +115,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('token', models.CharField(max_length=512, primary_key=True, serialize=False)),
                 ('created_at', models.BigIntegerField()),
-                ('user', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='fcm_tokens', to='api.user')),
+                ('user', models.ForeignKey(blank=True, null=True, on_delete=models.SET_NULL, related_name='fcm_tokens', to='api.user')),
             ],
             options={
                 'db_table': 'fcm_tokens',
