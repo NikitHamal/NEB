@@ -717,28 +717,32 @@ def sitemap_xml(request):
     and all public resources and forum posts dynamically from the database.
     """
     from api.models import Resource, Post
+    from django.utils import timezone
 
+    now = timezone.now().isoformat()
     urls = [
-        {'loc': 'https://nebians.consica.com.np/', 'changefreq': 'daily', 'priority': '1.0'},
-        {'loc': 'https://nebians.consica.com.np/library/', 'changefreq': 'daily', 'priority': '0.8'},
-        {'loc': 'https://nebians.consica.com.np/forum/', 'changefreq': 'daily', 'priority': '0.8'},
-        {'loc': 'https://nebians.consica.com.np/login/', 'changefreq': 'monthly', 'priority': '0.3'},
+        {'loc': 'https://nebians.consica.com.np/', 'changefreq': 'daily', 'priority': '1.0', 'lastmod': now},
+        {'loc': 'https://nebians.consica.com.np/library/', 'changefreq': 'daily', 'priority': '0.8', 'lastmod': now},
+        {'loc': 'https://nebians.consica.com.np/forum/', 'changefreq': 'daily', 'priority': '0.8', 'lastmod': now},
+        {'loc': 'https://nebians.consica.com.np/search/', 'changefreq': 'weekly', 'priority': '0.5', 'lastmod': now},
     ]
 
-    # Add resources
     for r in Resource.objects.all():
+        lastmod = r.updated_at.isoformat() if hasattr(r, 'updated_at') and r.updated_at else now
         urls.append({
             'loc': f'https://nebians.consica.com.np/reader/{r.id}/',
             'changefreq': 'weekly',
-            'priority': '0.6'
+            'priority': '0.6',
+            'lastmod': lastmod,
         })
 
-    # Add posts
     for p in Post.objects.all():
+        lastmod = p.created_at.isoformat() if hasattr(p, 'created_at') and p.created_at else now
         urls.append({
             'loc': f'https://nebians.consica.com.np/forum/post/{p.id}/',
             'changefreq': 'daily',
-            'priority': '0.6'
+            'priority': '0.6',
+            'lastmod': lastmod,
         })
 
     xml_content = '<?xml version="1.0" encoding="UTF-8"?>\n'
@@ -746,12 +750,27 @@ def sitemap_xml(request):
     for u in urls:
         xml_content += '  <url>\n'
         xml_content += f"    <loc>{u['loc']}</loc>\n"
+        xml_content += f"    <lastmod>{u['lastmod']}</lastmod>\n"
         xml_content += f"    <changefreq>{u['changefreq']}</changefreq>\n"
         xml_content += f"    <priority>{u['priority']}</priority>\n"
         xml_content += '  </url>\n'
     xml_content += '</urlset>\n'
 
     return HttpResponse(xml_content, content_type='application/xml')
+
+
+def robots_txt(request):
+    lines = [
+        'User-agent: *',
+        'Allow: /',
+        'Disallow: /admin/',
+        'Disallow: /admin-django/',
+        'Disallow: /api/',
+        'Disallow: /ajax/',
+        '',
+        'Sitemap: https://nebians.consica.com.np/sitemap.xml',
+    ]
+    return HttpResponse('\n'.join(lines), content_type='text/plain')
 
 
 def custom_404(request, exception):
