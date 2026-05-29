@@ -10,7 +10,319 @@
 {% block bnav_forum %}md-nav-active{% endblock %}
 
 {% block content %}
-<div class="md-container">
+<style>
+  /* 2-Column Responsive Forum Layout */
+  .forum-container {
+    max-width: 1024px;
+    margin: 0 auto;
+    padding: 0 16px;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  .forum-layout {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 32px;
+    align-items: start;
+    margin-top: 16px;
+  }
+
+  @media (max-width: 900px) {
+    .forum-layout {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+    .forum-sidebar {
+      display: none; /* Mobile uses chips row at the top */
+    }
+  }
+
+  /* Sleek Flat M3 Cards for Sidebar */
+  .forum-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    position: sticky;
+    top: 88px;
+  }
+
+  .forum-card {
+    background: var(--md-surface-container-low, var(--md-surface));
+    border: 1px solid var(--md-outline-variant);
+    border-radius: 24px;
+    padding: 24px;
+  }
+
+  .forum-card-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--md-on-surface);
+    margin-bottom: 20px;
+    line-height: 1.2;
+  }
+
+  .forum-card-title span.material-symbols-outlined {
+    font-size: 24px;
+    color: var(--md-primary);
+  }
+
+  /* Categories Sidebar List */
+  .sidebar-category-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .sidebar-category-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    border-radius: 16px;
+    text-decoration: none;
+    color: var(--md-on-surface);
+    font-weight: 500;
+    font-size: 0.9375rem;
+    transition: background-color 0.2s ease;
+  }
+
+  .sidebar-category-row:hover {
+    background-color: var(--md-surface-container-high);
+    text-decoration: none;
+  }
+
+  .sidebar-category-row.active {
+    background-color: rgba(37, 99, 235, 0.08);
+    color: var(--md-primary);
+    font-weight: 600;
+  }
+
+  .category-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 2px 10px;
+    border-radius: 100px;
+    background: var(--md-surface-container-highest);
+    color: var(--md-on-surface-variant);
+    transition: background-color 0.2s ease;
+  }
+
+  .sidebar-category-row.active .category-badge {
+    background: var(--md-primary);
+    color: var(--md-on-primary);
+  }
+
+  /* Top Contributors Sidebar List */
+  .sidebar-contributor-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .sidebar-contributor-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .contributor-profile-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .contributor-avatar-container {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: var(--md-primary-container);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border: 1px solid var(--md-outline-variant);
+  }
+
+  .contributor-avatar-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .contributor-avatar-letter {
+    font-size: 1.0625rem;
+    font-weight: 700;
+    color: var(--md-primary);
+    text-transform: uppercase;
+  }
+
+  .contributor-meta-data {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .contributor-username-text {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--md-on-surface);
+  }
+
+  .contributor-level-text {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--md-primary);
+  }
+
+  .contributor-score-text {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--md-on-surface-variant);
+    white-space: nowrap;
+  }
+
+  .btn-leaderboard-link {
+    display: block;
+    text-align: center;
+    color: var(--md-primary);
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 10px 0;
+    margin-top: 12px;
+    border-radius: 100px;
+    transition: background-color 0.2s ease;
+    cursor: pointer;
+  }
+
+  .btn-leaderboard-link:hover {
+    background-color: rgba(27, 110, 243, 0.08);
+    text-decoration: none;
+  }
+
+  /* Modal Style (Leaderboard) */
+  .m3-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+
+  .m3-modal-overlay.open {
+    display: flex;
+    opacity: 1;
+  }
+
+  .m3-modal-box {
+    background-color: var(--md-surface-container-high, var(--md-surface));
+    border: 1px solid var(--md-outline-variant);
+    border-radius: 28px;
+    width: 90%;
+    max-width: 500px;
+    padding: 32px;
+    transform: scale(0.95);
+    transition: transform 0.2s ease;
+  }
+
+  .m3-modal-overlay.open .m3-modal-box {
+    transform: scale(1);
+  }
+
+  .m3-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+
+  .m3-modal-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--md-on-surface);
+  }
+
+  .m3-modal-close-btn {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    color: var(--md-on-surface-variant);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    transition: background-color 0.2s ease;
+  }
+
+  .m3-modal-close-btn:hover {
+    background-color: var(--md-surface-container-highest);
+  }
+
+  /* Leaderboard Table Styles */
+  .leaderboard-table-container {
+    max-height: 400px;
+    overflow-y: auto;
+  }
+
+  .leaderboard-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 8px;
+    border-bottom: 1px solid var(--md-outline-variant);
+  }
+
+  .leaderboard-row:last-child {
+    border-bottom: none;
+  }
+
+  .leaderboard-rank-profile {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .leaderboard-rank-number {
+    font-size: 1.0625rem;
+    font-weight: 700;
+    width: 24px;
+    color: var(--md-on-surface-variant);
+    text-align: center;
+  }
+
+  .leaderboard-rank-number.rank-1 {
+    color: #FFB300;
+  }
+  .leaderboard-rank-number.rank-2 {
+    color: #9E9E9E;
+  }
+  .leaderboard-rank-number.rank-3 {
+    color: #CD7F32;
+  }
+</style>
+
+<div class="forum-container">
   <div class="section-header mt-2">
     <h1 class="md-headline-medium">Forum</h1>
     <div style="display:flex;gap:8px;align-items:center;">
@@ -21,58 +333,175 @@
     </div>
   </div>
 
-  <!-- Category Filters -->
-  {% if categories %}
-  <div class="filter-bar">
+  <!-- Mobile Category Filters (chips row) -->
+  {% if categories_data %}
+  <div class="filter-bar md-hide-desktop">
     <a href="{% url 'web:forum' %}" class="md-chip {% if not current_category %}md-chip-active{% endif %}">All</a>
-    {% for c in categories %}
-    <a href="{% url 'web:forum' %}?category={{ c }}" class="md-chip {% if current_category == c %}md-chip-active{% endif %}">{{ c }}</a>
+    {% for c in categories_data %}
+    <a href="{% url 'web:forum' %}?category={{ c.name }}" class="md-chip {% if current_category == c.name %}md-chip-active{% endif %}">{{ c.name }}</a>
     {% endfor %}
   </div>
   {% endif %}
 
-  <!-- Posts -->
-  {% if posts %}
-  <div style="display:flex;flex-direction:column;gap:12px;">
-    {% for post in posts %}
-    <a href="{% url 'web:forum_post' post_id=post.id %}" class="post-card md-card" style="text-decoration:none;color:inherit;">
-      <div class="post-card-header">
-        <div class="profile-avatar">{{ post.authorName|truncate_chars:1|default:"?" }}</div>
-        <div class="post-card-meta">
-          <div class="author">{{ post.authorName }}</div>
-          <div class="time">{{ post.createdAt|time_ago }}</div>
+  <!-- Dual-Column Responsive Grid Layout -->
+  <div class="forum-layout">
+    <!-- Left Column: Posts List -->
+    <div class="forum-main-content">
+      {% if posts %}
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        {% for post in posts %}
+        <a href="{% url 'web:forum_post' post_id=post.id %}" class="post-card md-card" style="text-decoration:none;color:inherit;">
+          <div class="post-card-header">
+            <div class="post-card-avatar">
+              {% if post.authorPhotoUrl %}
+                <img src="{{ post.authorPhotoUrl }}" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';">
+                <span class="contributor-avatar-letter" style="display:none;">{{ post.authorName|truncate_chars:1|default:"?" }}</span>
+              {% else %}
+                <span class="contributor-avatar-letter">{{ post.authorName|truncate_chars:1|default:"?" }}</span>
+              {% endif %}
+            </div>
+            <div class="post-card-meta">
+              <div class="post-card-meta-line">
+                <strong onclick="event.preventDefault(); event.stopPropagation(); window.location.href='{% url 'web:profile' username=post.authorName %}'">{{ post.authorName }}</strong> started a discussion in <span class="post-card-category">{{ post.category }}</span>
+              </div>
+              <div class="post-card-time">{{ post.createdAt|time_ago }}</div>
+            </div>
+          </div>
+          <h3>{{ post.title }}</h3>
+          <div class="post-card-content">{{ post.content|truncatewords:50 }}</div>
+          <div class="post-card-actions">
+            <button type="button" onclick="event.preventDefault();event.stopPropagation();toggleForumPostLike('{{ post.id }}', this);" class="{% if post.isThumbedUp %}liked{% endif %}" id="forum-post-like-btn-{{ post.id }}">
+              <span class="material-symbols-outlined" style="font-size:18px">{% if post.isThumbedUp %}thumb_up{% else %}thumb_up_off_alt{% endif %}</span>
+              <span id="forum-post-like-count-{{ post.id }}">{{ post.thumbsUpCount }}</span>
+            </button>
+            <button type="button" onclick="event.preventDefault();event.stopPropagation();">
+              <span class="material-symbols-outlined" style="font-size:18px">chat_bubble_outline</span>
+              {{ post.replyCount }} Replies
+            </button>
+          </div>
+        </a>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="empty-state">
+        <span class="material-symbols-outlined">forum</span>
+        <h3>No discussions yet</h3>
+        <p>Be the first to start a discussion!</p>
+        <a href="{% url 'web:create_post' %}" class="md-btn md-btn-filled mt-2">Start Discussion</a>
+      </div>
+      {% endif %}
+    </div>
+
+    <!-- Right Column: Sidebar (Desktop only) -->
+    <div class="forum-sidebar">
+      <!-- 1. Categories Sidebar Card -->
+      <div class="forum-card">
+        <div class="forum-card-title">
+          <span class="material-symbols-outlined">category</span>
+          Categories
         </div>
-        <span class="post-card-category">{{ post.category }}</span>
+        <div class="sidebar-category-list">
+          <a href="{% url 'web:forum' %}" class="sidebar-category-row {% if not current_category %}active{% endif %}">
+            <span>All Discussions</span>
+          </a>
+          {% for cat in categories_data %}
+          <a href="{% url 'web:forum' %}?category={{ cat.name }}" class="sidebar-category-row {% if current_category == cat.name %}active{% endif %}">
+            <span>{{ cat.name }}</span>
+            <span class="category-badge">{{ cat.formatted_count }}</span>
+          </a>
+          {% endfor %}
+        </div>
+        {% if has_more_categories %}
+        <a href="{% url 'web:forum_categories' %}" class="btn-leaderboard-link" style="margin-top: 8px;">
+          See All Categories
+        </a>
+        {% endif %}
       </div>
-      <h3>{{ post.title }}</h3>
-      <div class="post-card-content">{{ post.content|truncatewords:50 }}</div>
-      <div class="post-card-actions">
-        <button type="button" onclick="event.preventDefault();event.stopPropagation();toggleForumPostLike('{{ post.id }}', this);" class="{% if post.isThumbedUp %}liked{% endif %}" id="forum-post-like-btn-{{ post.id }}">
-          <span class="material-symbols-outlined" style="font-size:18px">{% if post.isThumbedUp %}thumb_up{% else %}thumb_up_off_alt{% endif %}</span>
-          <span id="forum-post-like-count-{{ post.id }}">{{ post.thumbsUpCount }}</span>
-        </button>
-        <button type="button" onclick="event.preventDefault();event.stopPropagation();">
-          <span class="material-symbols-outlined" style="font-size:18px">chat_bubble_outline</span>
-          {{ post.replyCount }}
-        </button>
+
+      <!-- 2. Top Contributors Sidebar Card -->
+      <div class="forum-card">
+        <div class="forum-card-title">
+          <span class="material-symbols-outlined" style="color: #FFB300;">trophy</span>
+          Top Contributors
+        </div>
+        <div class="sidebar-contributor-list">
+          {% for contributor in top_contributors %}
+          <div class="sidebar-contributor-row">
+            <div class="contributor-profile-wrapper">
+              <div class="contributor-avatar-container">
+                {% if contributor.photo_url %}
+                <img src="{{ contributor.photo_url }}" alt="{{ contributor.display_name }}" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';">
+                <span class="contributor-avatar-letter" style="display:none;">{{ contributor.display_name|truncate_chars:1 }}</span>
+                {% else %}
+                <span class="contributor-avatar-letter">{{ contributor.display_name|truncate_chars:1 }}</span>
+                {% endif %}
+              </div>
+              <div class="contributor-meta-data">
+                <span class="contributor-username-text">{{ contributor.username }}</span>
+                <span class="contributor-level-text">{{ contributor.level }}</span>
+              </div>
+            </div>
+            <span class="contributor-score-text">{{ contributor.formatted_score }}</span>
+          </div>
+          {% empty %}
+          <div style="text-align:center; color:var(--md-on-surface-variant); font-size:0.875rem;">No contributors yet.</div>
+          {% endfor %}
+        </div>
+        {% if top_contributors %}
+        <div class="btn-leaderboard-link" onclick="openLeaderboardModal()">
+          View Leaderboard
+        </div>
+        {% endif %}
       </div>
-    </a>
-    {% endfor %}
+    </div>
   </div>
-  {% else %}
-  <div class="empty-state">
-    <span class="material-symbols-outlined">forum</span>
-    <h3>No discussions yet</h3>
-    <p>Be the first to start a discussion!</p>
-    <a href="{% url 'web:create_post' %}" class="md-btn md-btn-filled mt-2">Start Discussion</a>
-  </div>
-  {% endif %}
 </div>
 
 <!-- Mobile FAB -->
 <a href="{% url 'web:create_post' %}" class="md-fab md-hide-desktop" title="New Discussion">
   <span class="material-symbols-outlined">add</span>
 </a>
+
+<!-- M3 Leaderboard Modal -->
+<div class="m3-modal-overlay" id="leaderboardModal" onclick="closeLeaderboardModal(event)">
+  <div class="m3-modal-box" onclick="event.stopPropagation()">
+    <div class="m3-modal-header">
+      <div class="m3-modal-title">
+        <span class="material-symbols-outlined" style="color: #FFB300; font-size: 28px;">trophy</span>
+        Leaderboard
+      </div>
+      <button class="m3-modal-close-btn" onclick="closeLeaderboardModal()">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+    <div class="leaderboard-table-container">
+      {% for contributor in all_contributors %}
+      <div class="leaderboard-row">
+        <div class="leaderboard-rank-profile">
+          <span class="leaderboard-rank-number {% if forloop.counter == 1 %}rank-1{% elif forloop.counter == 2 %}rank-2{% elif forloop.counter == 3 %}rank-3{% endif %}">
+            {{ forloop.counter }}
+          </span>
+          <div class="contributor-profile-wrapper">
+            <div class="contributor-avatar-container" style="width: 36px; height: 36px;">
+              {% if contributor.photo_url %}
+              <img src="{{ contributor.photo_url }}" alt="{{ contributor.display_name }}" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';">
+              <span class="contributor-avatar-letter" style="font-size: 0.9375rem; display:none;">{{ contributor.display_name|truncate_chars:1 }}</span>
+              {% else %}
+              <span class="contributor-avatar-letter" style="font-size: 0.9375rem;">{{ contributor.display_name|truncate_chars:1 }}</span>
+              {% endif %}
+            </div>
+            <div class="contributor-meta-data">
+              <span class="contributor-username-text" style="font-size: 0.875rem;">{{ contributor.username }}</span>
+              <span class="contributor-level-text" style="font-size: 0.7188rem;">{{ contributor.level }}</span>
+            </div>
+          </div>
+        </div>
+        <span class="contributor-score-text" style="font-size: 0.875rem;">{{ contributor.formatted_score }}</span>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
 {% endblock %}
 
 {% block extra_js %}
@@ -90,6 +519,23 @@ async function toggleForumPostLike(postId, btn) {
     }
   } catch (e) {
     showSnackbar('Failed to like post');
+  }
+}
+
+function openLeaderboardModal() {
+  const modal = document.getElementById('leaderboardModal');
+  if (modal) {
+    modal.classList.add('open');
+  }
+}
+
+function closeLeaderboardModal(event) {
+  if (event) {
+    event.stopPropagation();
+  }
+  const modal = document.getElementById('leaderboardModal');
+  if (modal) {
+    modal.classList.remove('open');
   }
 }
 </script>

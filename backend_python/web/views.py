@@ -2,11 +2,14 @@ import json
 import logging
 
 from django.conf import settings
+from django.core.cache import cache
+from django.db.models import Q, Count
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_GET, require_POST
 from django.http import JsonResponse, Http404, HttpResponse
 
+from api.models import User, Resource, Post, PostLike, Reply, ReplyLike, Follow, UserPhoto
 from . import api_client as api
 
 logger = logging.getLogger(__name__)
@@ -14,6 +17,98 @@ logger = logging.getLogger(__name__)
 ADMIN_TOKEN = getattr(settings, 'ADMIN_TOKEN', 'nebians-admin-2024-secure-token')
 ADMIN_USERNAME = getattr(settings, 'ADMIN_USERNAME', 'admin')
 ADMIN_PASSWORD = getattr(settings, 'ADMIN_PASSWORD', 'admin123')
+
+
+def _serialize_resource(r):
+    return {
+        'id': r.id, 'title': r.title, 'description': r.description or '',
+        'subject': r.subject, 'gradeLevel': r.grade_level, 'grade_level': r.grade_level,
+        'type': r.type, 'fileUrl': r.file_url, 'file_url': r.file_url,
+        'thumbnailUrl': r.thumbnail_url, 'thumbnail_url': r.thumbnail_url,
+        'fileSize': r.file_size, 'file_size': r.file_size,
+        'addedAt': r.added_at, 'added_at': r.added_at, 'viewCount': r.view_count, 'view_count': r.view_count,
+    }
+
+
+def _serialize_posts(posts_qs, user_id=None):
+    posts = list(posts_qs)
+    liked_ids = set()
+    if user_id and posts:
+        liked_ids = set(PostLike.objects.filter(
+            post_id__in=[p.id for p in posts], user_id=user_id
+        ).values_list('post_id', flat=True))
+    result = []
+    for p in posts:
+        result.append({
+            'id': p.id, 'title': p.title, 'content': p.content, 'category': p.category,
+            'authorName': p.user.username, 'authorPhotoUrl': p.user.photo_url,
+            'authorId': p.user_id, 'thumbsUpCount': p.thumbs_up_count, 'thumbs_up_count': p.thumbs_up_count,
+            'replyCount': p.reply_count, 'reply_count': p.reply_count,
+            'createdAt': p.created_at, 'updatedAt': p.created_at,
+            'isThumbedUp': p.id in liked_ids,
+        })
+    return result
+
+
+def _serialize_post(p, user_id=None):
+    is_thumbed_up = False
+    if user_id:
+        is_thumbed_up = PostLike.objects.filter(post_id=p.id, user_id=user_id).exists()
+    return {
+        'id': p.id, 'title': p.title, 'content': p.content, 'category': p.category,
+        'authorName': p.user.username, 'authorPhotoUrl': p.user.photo_url,
+        'authorId': p.user_id, 'thumbsUpCount': p.thumbs_up_count, 'thumbs_up_count': p.thumbs_up_count,
+        'replyCount': p.reply_count, 'reply_count': p.reply_count,
+        'createdAt': p.created_at, 'updatedAt': p.created_at,
+        'isThumbedUp': is_thumbed_up,
+    }
+
+
+def _serialize_replies(replies_qs, user_id=None):
+    replies = list(replies_qs)
+    liked_ids = set()
+    if user_id and replies:
+        liked_ids = set(ReplyLike.objects.filter(
+            reply_id__in=[r.id for r in replies], user_id=user_id
+        ).values_list('reply_id', flat=True))
+    result = []
+    for r in replies:
+        result.append({
+            'id': r.id, 'postId': r.post_id, 'parentReplyId': r.parent_reply_id,
+            'content': r.content, 'authorName': r.user.username,
+            'authorPhotoUrl': r.user.photo_url, 'authorId': r.user_id,
+            'thumbsUpCount': r.thumbs_up_count, 'createdAt': r.created_at,
+            'isThumbedUp': r.id in liked_ids,
+        })
+    return result
+
+
+def _serialize_reply(r, user_id=None):
+    is_thumbed_up = False
+    if user_id:
+        is_thumbed_up = ReplyLike.objects.filter(reply_id=r.id, user_id=user_id).exists()
+    return {
+        'id': r.id, 'postId': r.post_id, 'parentReplyId': r.parent_reply_id,
+        'content': r.content, 'authorName': r.user.username,
+        'authorPhotoUrl': r.user.photo_url, 'authorId': r.user_id,
+        'thumbsUpCount': r.thumbs_up_count, 'createdAt': r.created_at,
+        'isThumbedUp': is_thumbed_up,
+    }
+
+
+def _get_user_id(request):
+    token = api.get_session_token(request)
+    if not token:
+        return None
+    cache_key = f'user_id_{token}'
+    user_id = cache.get(cache_key)
+    if user_id is None:
+        try:
+            user_id = User.objects.get(auth_token=token).id
+            cache.set(cache_key, user_id, 300)
+        except User.DoesNotExist:
+            user_id = None
+    return user_id
 
 
 def _ctx(request, **extra):
@@ -41,15 +136,28 @@ def _admin_token(request):
 # ---------------------------------------------------------------------------
 
 def home(request):
-    token = api.get_session_token(request)
-    resources = api.get_resources(token=token) or []
-    posts = api.get_posts(token=token) or []
-    recent = resources[:10] if isinstance(resources, list) else []
-    popular = sorted(resources, key=lambda r: r.get('view_count', 0), reverse=True)[:10] if isinstance(resources, list) else []
-    recent_posts = posts[:5] if isinstance(posts, list) else []
+    user_id = _get_user_id(request)
+    resources = cache.get('home_resources')
+    if resources is None:
+        resources = [_serialize_resource(r) for r in Resource.objects.all()[:50]]
+        cache.set('home_resources', resources, 120)
+    posts = cache.get('home_posts')
+    if posts is None:
+        posts_qs = Post.objects.select_related('user').order_by('-created_at')[:10]
+        posts = _serialize_posts(posts_qs, user_id)
+        cache.set('home_posts', posts, 60)
+    elif user_id:
+        liked_ids = set(PostLike.objects.filter(
+            post_id__in=[p['id'] for p in posts], user_id=user_id
+        ).values_list('post_id', flat=True))
+        for p in posts:
+            p['isThumbedUp'] = p['id'] in liked_ids
+    recent = resources[:10]
+    popular = sorted(resources, key=lambda r: r.get('view_count', 0), reverse=True)[:10]
+    recent_posts = posts[:5]
     subjects = []
     seen = set()
-    for r in (resources if isinstance(resources, list) else []):
+    for r in resources:
         s = r.get('subject', '')
         if s and s not in seen:
             subjects.append(s)
@@ -63,23 +171,22 @@ def home(request):
 
 
 def library(request):
-    token = api.get_session_token(request)
+    user_id = _get_user_id(request)
     subject = request.GET.get('subject', '')
     grade = request.GET.get('grade', '')
     rtype = request.GET.get('type', '')
-    params = {}
+    qs = Resource.objects.all()
     if subject:
-        params['subject'] = subject
+        qs = qs.filter(subject=subject)
     if grade:
-        params['grade'] = grade
+        qs = qs.filter(grade_level=grade)
     if rtype:
-        params['type'] = rtype
-    filtered = api.get_resources(token=token, params=params) or []
-    if not isinstance(filtered, list):
-        filtered = []
-    all_resources = api.get_resources(token=token) or []
-    if not isinstance(all_resources, list):
-        all_resources = []
+        qs = qs.filter(type=rtype)
+    filtered = [_serialize_resource(r) for r in qs]
+    all_resources = cache.get('library_all_resources')
+    if all_resources is None:
+        all_resources = [_serialize_resource(r) for r in Resource.objects.all()]
+        cache.set('library_all_resources', all_resources, 180)
     all_subjects = sorted(set(r.get('subject', '') for r in all_resources if r.get('subject')))
     all_grades = sorted(set(r.get('grade_level', '') for r in all_resources if r.get('grade_level')))
     all_types = sorted(set(r.get('type', '') for r in all_resources if r.get('type')))
@@ -95,47 +202,151 @@ def library(request):
 
 
 def search(request):
-    token = api.get_session_token(request)
+    user_id = _get_user_id(request)
     query = request.GET.get('q', '').strip()
     results = []
     if query:
-        search_data = api.search_all(token=token, query=query)
-        if search_data and isinstance(search_data, dict):
-            results = search_data.get('resources', [])
-        elif not search_data:
-            resources = api.get_resources(token=token) or []
-            if isinstance(resources, list):
-                ql = query.lower()
-                results = [r for r in resources if ql in r.get('title', '').lower() or ql in r.get('description', '').lower() or ql in r.get('subject', '').lower()]
+        qs = Resource.objects.filter(
+            Q(title__icontains=query) | Q(description__icontains=query) | Q(subject__icontains=query)
+        )[:50]
+        results = [_serialize_resource(r) for r in qs]
     return render(request, 'web/search.html', _ctx(request, query=query, results=results))
 
 
+def format_score(score):
+    if score >= 1000:
+        return f"{score/1000:.1f}k".replace(".0k", "k")
+    return str(score)
+
+def get_user_level_title(score):
+    if score >= 2000:
+        return "Level 5 Scholar"
+    elif score >= 1000:
+        return "Level 4 Tutor"
+    elif score >= 500:
+        return "Level 3 Helper"
+    elif score >= 100:
+        return "Level 2 Guide"
+    else:
+        return "Level 1 Novice"
+
+def _build_local_stats(user):
+    post_count = Post.objects.filter(user=user).count()
+    reply_count = Reply.objects.filter(user=user).count()
+    likes_given = (PostLike.objects.filter(user=user).count() +
+                   ReplyLike.objects.filter(user=user).count())
+    contribution_score = (post_count * 3) + (reply_count * 2) + likes_given
+    return {
+        'contribution_score': contribution_score,
+    }
+
 def forum(request):
-    token = api.get_session_token(request)
+    user_id = _get_user_id(request)
     category = request.GET.get('category', '')
-    params = {}
+    qs = Post.objects.select_related('user').order_by('-created_at')
     if category:
-        params['category'] = category
-    posts = api.get_posts(token=token, params=params) or []
-    if not isinstance(posts, list):
-        posts = []
-    all_posts = api.get_posts(token=token) or []
-    if not isinstance(all_posts, list):
-        all_posts = []
-    categories = sorted(set(p.get('category', '') for p in all_posts if p.get('category')))
+        qs = qs.filter(category=category)
+    posts = _serialize_posts(qs, user_id)
+
+    all_posts = cache.get('forum_all_posts')
+    if all_posts is None:
+        all_posts_qs = Post.objects.select_related('user').order_by('-created_at')
+        all_posts = _serialize_posts(all_posts_qs)
+        cache.set('forum_all_posts', all_posts, 120)
+
+    category_counts = dict(
+        Post.objects.values('category').annotate(cnt=Count('id')).values_list('category', 'cnt')
+    )
+    standard_categories = ['General', 'Science', 'Math', 'Exam Prep', 'Entrance Exams']
+    categories_data = []
+    for name in standard_categories:
+        count = category_counts.get(name, 0)
+        categories_data.append({
+            'name': name,
+            'count': count,
+            'formatted_count': format_score(count),
+        })
+    for cat, cnt in category_counts.items():
+        if cat not in standard_categories:
+            categories_data.append({
+                'name': cat,
+                'count': cnt,
+                'formatted_count': format_score(cnt),
+            })
+    categories_data = sorted(categories_data, key=lambda c: (-c['count'], c['name']))
+
+    contributor_data = cache.get('forum_contributors')
+    if contributor_data is None:
+        all_users = User.objects.all()
+        contributors = []
+        for u in all_users:
+            stats = _build_local_stats(u)
+            score = stats.get('contribution_score', 0)
+            contributors.append({
+                'username': u.username,
+                'display_name': u.display_name or u.username,
+                'photo_url': u.photo_url,
+                'score': score,
+                'formatted_score': format_score(score),
+                'level': get_user_level_title(score),
+            })
+        contributors = sorted(contributors, key=lambda c: c['score'], reverse=True)
+        contributor_data = contributors[:10]
+        cache.set('forum_contributors', contributor_data, 120)
+
+    top_contributors = contributor_data[:3]
+
+    sidebar_categories = categories_data[:5]
+    has_more_categories = len(categories_data) > 5
+
     return render(request, 'web/forum.html', _ctx(request,
         posts=posts,
-        categories=categories,
+        categories_data=sidebar_categories,
+        has_more_categories=has_more_categories,
+        top_contributors=top_contributors,
+        all_contributors=contributor_data,
         current_category=category,
     ))
 
 
+def forum_categories(request):
+    category_counts = dict(
+        Post.objects.values('category').annotate(cnt=Count('id')).values_list('category', 'cnt')
+    )
+    standard_categories = ['General', 'Science', 'Math', 'Exam Prep', 'Entrance Exams']
+    categories_data = []
+    for name in standard_categories:
+        count = category_counts.get(name, 0)
+        categories_data.append({
+            'name': name,
+            'count': count,
+            'formatted_count': format_score(count),
+        })
+    for cat, cnt in category_counts.items():
+        if cat not in standard_categories:
+            categories_data.append({
+                'name': cat,
+                'count': cnt,
+                'formatted_count': format_score(cnt),
+            })
+    categories_data = sorted(categories_data, key=lambda c: (-c['count'], c['name']))
+    return render(request, 'web/forum_categories.html', _ctx(request,
+        categories_data=categories_data
+    ))
+
+
+
+
+
 def forum_post(request, post_id):
-    token = api.get_session_token(request)
-    post = api.get_post(token, post_id)
-    replies = api.get_replies(token, post_id) or []
-    if not isinstance(replies, list):
-        replies = []
+    user_id = _get_user_id(request)
+    try:
+        post_obj = Post.objects.select_related('user').get(id=post_id)
+    except Post.DoesNotExist:
+        raise Http404("Post not found")
+    post = _serialize_post(post_obj, user_id)
+    replies_qs = Reply.objects.select_related('user').filter(post_id=post_id).order_by('created_at')
+    replies = _serialize_replies(replies_qs, user_id)
     return render(request, 'web/forum_post.html', _ctx(request, post=post, replies=replies, post_id=post_id))
 
 
@@ -150,6 +361,7 @@ def create_post(request):
         if title and content and category:
             result = api.create_post(token, title, content, category)
             if result and result.get('id'):
+                _clear_page_cache()
                 return redirect('web:forum_post', post_id=result['id'])
     categories = ['General', 'Physics', 'Chemistry', 'Mathematics', 'Biology', 'English', 'Computer Science', 'Exam Tips']
     return render(request, 'web/create_post.html', _ctx(request, categories=categories))
@@ -165,35 +377,70 @@ def reply_post(request, post_id):
         parent_reply_id = request.POST.get('parent_reply_id', '') or None
         if content:
             api.create_reply(token, post_id, content, parent_reply_id)
+            _clear_page_cache()
             return redirect('web:forum_post', post_id=post_id)
     return render(request, 'web/reply.html', _ctx(request, post=post, post_id=post_id))
 
 
 def reader(request, resource_id):
-    token = api.get_session_token(request)
-    resource = api.get_resource(token, resource_id)
+    try:
+        resource_obj = Resource.objects.get(id=resource_id)
+    except Resource.DoesNotExist:
+        raise Http404("Resource not found")
+    resource = _serialize_resource(resource_obj)
     return render(request, 'web/reader.html', _ctx(request, resource=resource, resource_id=resource_id))
 
 
 def profile(request, username):
-    token = api.get_session_token(request)
-    profile_data = api.get_profile(token, username)
-    if not profile_data or 'error' in profile_data:
+    user_id = _get_user_id(request)
+    try:
+        profile_user = User.objects.get(username=username)
+    except User.DoesNotExist:
         raise Http404("User not found")
-    
-    # Get profile stats (followers, following, contributions, is_following, is_self)
-    stats = api.get_profile_stats(token, username) or {}
-    
-    # Get user photo history if the profile belongs to the signed-in user
+
+    profile_data = {
+        'id': profile_user.id,
+        'username': profile_user.username,
+        'email': profile_user.email,
+        'photo_url': profile_user.photo_url,
+        'display_name': profile_user.display_name,
+        'dob': profile_user.dob,
+        'gender': profile_user.gender,
+        'class_level': profile_user.class_level,
+        'class': profile_user.class_level,
+        'subjects': profile_user.subjects,
+        'pradesh': profile_user.pradesh,
+        'district': profile_user.district,
+        'school': profile_user.school,
+        'is_locked': 1 if profile_user.is_locked else 0,
+        'created_at': profile_user.created_at,
+    }
+
+    stats = _build_local_stats(profile_user)
+    follower_count = Follow.objects.filter(following_id=profile_user.id).count()
+    following_count = Follow.objects.filter(follower_id=profile_user.id).count()
+    stats['follower_count'] = follower_count
+    stats['following_count'] = following_count
+    stats['is_following'] = False
+    stats['is_self'] = False
+    if user_id:
+        stats['is_self'] = (user_id == profile_user.id)
+        if not stats['is_self']:
+            stats['is_following'] = Follow.objects.filter(follower_id=user_id, following_id=profile_user.id).exists()
+
+    user_posts_qs = Post.objects.select_related('user').filter(user_id=profile_user.id).order_by('-created_at')[:10]
+    user_posts = _serialize_posts(user_posts_qs, user_id)
+
     user_photos = []
-    if token and stats.get('is_self'):
-        user_photos = api.get_user_photos(token) or []
-        
-    return render(request, 'web/profile.html', _ctx(request, 
-        profile_user=profile_data, 
+    if user_id and user_id == profile_user.id:
+        user_photos = list(UserPhoto.objects.filter(user_id=profile_user.id).values('id', 'url', 'uploaded_at', 'is_current'))
+
+    return render(request, 'web/profile.html', _ctx(request,
+        profile_user=profile_data,
         username=username,
         stats=stats,
-        user_photos=user_photos
+        user_photos=user_photos,
+        user_posts=user_posts,
     ))
 
 
@@ -288,6 +535,13 @@ def logout(request):
 # AJAX ENDPOINTS
 # ---------------------------------------------------------------------------
 
+def _clear_page_cache():
+    cache.delete_many([
+        'home_resources', 'home_posts', 'library_all_resources',
+        'forum_all_posts', 'forum_contributors',
+    ])
+
+
 @require_POST
 def ajax_like_post(request, post_id):
     token = api.get_session_token(request)
@@ -295,6 +549,7 @@ def ajax_like_post(request, post_id):
         return JsonResponse({'error': 'Unauthorized'}, status=401)
     result = api.like_post(token, post_id)
     if result:
+        cache.delete_many(['home_posts', 'forum_all_posts'])
         return JsonResponse(result)
     return JsonResponse({'error': 'Failed'}, status=500)
 
@@ -325,6 +580,7 @@ def ajax_create_reply(request, post_id):
         return JsonResponse({'error': 'Content required'}, status=400)
     result = api.create_reply(token, post_id, content, parent_id)
     if result:
+        _clear_page_cache()
         return JsonResponse(result, status=201)
     return JsonResponse({'error': 'Failed'}, status=500)
 
@@ -340,6 +596,7 @@ def ajax_create_post(request):
         return JsonResponse({'error': 'Invalid request'}, status=400)
     result = api.create_post(token, data.get('title', ''), data.get('content', ''), data.get('category', ''))
     if result:
+        _clear_page_cache()
         return JsonResponse(result, status=201)
     return JsonResponse({'error': 'Failed'}, status=500)
 
@@ -351,6 +608,7 @@ def ajax_delete_post(request, post_id):
         return JsonResponse({'error': 'Unauthorized'}, status=401)
     result = api.delete_post(token, post_id)
     if result:
+        _clear_page_cache()
         return JsonResponse(result)
     return JsonResponse({'error': 'Failed'}, status=500)
 

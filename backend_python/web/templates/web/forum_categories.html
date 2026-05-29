@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% load web_extras %}
+
+{% block title %}All Categories - Forum{% endblock %}
+{% block description %}Browse all discussion categories on the NEBians Forum.{% endblock %}
+{% block nav_forum %}md-nav-active{% endblock %}
+{% block bnav_forum %}md-nav-active{% endblock %}
+
+{% block content %}
+<style>
+  .categories-container {
+    max-width: 800px;
+    margin: 32px auto;
+    padding: 0 24px;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  .categories-header {
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+  }
+
+  .category-card {
+    background: var(--md-surface-container-low, var(--md-surface));
+    border: 1px solid var(--md-outline-variant);
+    border-radius: 20px;
+    padding: 20px;
+    text-decoration: none;
+    color: var(--md-on-surface);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 120px;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+  }
+
+  .category-card:hover {
+    border-color: var(--md-primary);
+    background-color: var(--md-surface-container-high);
+    text-decoration: none;
+  }
+
+  .category-name {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .category-stat {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 16px;
+  }
+
+  .category-stat-badge {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 2px 10px;
+    border-radius: 100px;
+    background: var(--md-primary-container);
+    color: var(--md-primary);
+  }
+
+  .category-stat-text {
+    font-size: 0.8125rem;
+    color: var(--md-on-surface-variant);
+  }
+</style>
+
+<div class="categories-container">
+  <div class="categories-header">
+    <a href="{% url 'web:forum' %}" class="md-btn-icon" title="Back to Forum">
+      <span class="material-symbols-outlined">arrow_back</span>
+    </a>
+    <h1 class="md-headline-medium" style="margin:0;">All Categories</h1>
+  </div>
+
+  <div class="categories-grid">
+    {% for cat in categories_data %}
+    <a href="{% url 'web:forum' %}?category={{ cat.name }}" class="category-card">
+      <h3 class="category-name">{{ cat.name }}</h3>
+      <div class="category-stat">
+        <span class="category-stat-text">Discussions</span>
+        <span class="category-stat-badge">{{ cat.count }}</span>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
