@@ -41,9 +41,17 @@
       <a href="{% url 'web:home' %}" class="{% block nav_home %}{% endblock %}">Home</a>
       <a href="{% url 'web:library' %}" class="{% block nav_library %}{% endblock %}">Library</a>
       <a href="{% url 'web:forum' %}" class="{% block nav_forum %}{% endblock %}">Forum</a>
-      <a href="{% url 'web:search' %}" class="{% block nav_search %}{% endblock %}">Search</a>
     </nav>
     <div class="md-topbar-actions">
+      <div class="md-search-bar" id="topbarSearch">
+        <a href="{% url 'web:search' %}" class="md-search-bar-mobile-link" aria-label="Search">
+          <span class="material-symbols-outlined md-search-bar-icon">search</span>
+        </a>
+        <input type="search" placeholder="Search resources, posts..." id="topbarSearchInput" aria-label="Search" onkeydown="if(event.key==='Enter'){window.location.href='{% url 'web:search' %}?q='+encodeURIComponent(this.value);}">
+      </div>
+      <button class="md-btn-icon" onclick="toggleTheme()" title="Toggle dark mode" aria-label="Toggle dark mode">
+        <span class="material-symbols-outlined" id="theme-icon">dark_mode</span>
+      </button>
       {% if is_authenticated %}
         <div class="profile-dropdown-container" id="profileDropdown">
           <button class="profile-dropdown-trigger" onclick="toggleProfileDropdown(event)" aria-label="Open user menu">
@@ -83,9 +91,6 @@
       {% else %}
         <a href="{% url 'web:login' %}" class="md-btn md-btn-filled" aria-label="Sign in">Sign In</a>
       {% endif %}
-      <button class="md-btn-icon" onclick="toggleTheme()" title="Toggle dark mode" aria-label="Toggle dark mode">
-        <span class="material-symbols-outlined" id="theme-icon">dark_mode</span>
-      </button>
     </div>
   </header>
 

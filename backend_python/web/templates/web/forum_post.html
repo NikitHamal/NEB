@@ -16,12 +16,20 @@
   <!-- Post Content -->
   <div class="md-card p-3 mb-3">
     <div class="post-card-header mb-2">
-      <div class="profile-avatar">{{ post.authorName|truncate_chars:1|default:"?" }}</div>
-      <div class="post-card-meta">
-        <div class="author">{{ post.authorName }}</div>
-        <div class="time">{{ post.createdAt|time_ago }}</div>
+      <div class="post-card-avatar">
+        {% if post.authorPhotoUrl %}
+          <img src="{{ post.authorPhotoUrl }}" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';">
+          <span class="contributor-avatar-letter" style="display:none;">{{ post.authorName|truncate_chars:1|default:"?" }}</span>
+        {% else %}
+          <span class="contributor-avatar-letter">{{ post.authorName|truncate_chars:1|default:"?" }}</span>
+        {% endif %}
       </div>
-      <span class="post-card-category">{{ post.category }}</span>
+      <div class="post-card-meta">
+        <div class="post-card-meta-line">
+          <strong onclick="window.location.href='{% url 'web:profile' username=post.authorName %}'" style="cursor:pointer;">{{ post.authorName }}</strong> started a discussion in <span class="post-card-category">{{ post.category }}</span>
+        </div>
+        <div class="post-card-time">{{ post.createdAt|time_ago }}</div>
+      </div>
     </div>
     <h2 class="md-headline-small mb-1">{{ post.title }}</h2>
     <div class="md-body-medium" style="color:var(--md-on-surface-variant);white-space:pre-wrap;">{{ post.content }}</div>
@@ -48,9 +56,16 @@
     {% for reply in replies %}
     <div class="md-card p-2">
       <div class="post-card-header" style="margin-bottom:8px;">
-        <div class="profile-avatar" style="width:36px;height:36px;font-size:0.875rem;">{{ reply.authorName|truncate_chars:1|default:"?" }}</div>
+        <div class="post-card-avatar" style="width:36px;height:36px;font-size:0.875rem;overflow:hidden; display:flex; align-items:center; justify-content:center; background: var(--md-primary-container); border-radius: 50%;">
+          {% if reply.authorPhotoUrl %}
+            <img src="{{ reply.authorPhotoUrl }}" alt="" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';">
+            <span class="contributor-avatar-letter" style="display:none; font-size:0.875rem; font-weight:700; color:var(--md-primary);">{{ reply.authorName|truncate_chars:1|default:"?" }}</span>
+          {% else %}
+            <span class="contributor-avatar-letter" style="font-size:0.875rem; font-weight:700; color:var(--md-primary);">{{ reply.authorName|truncate_chars:1|default:"?" }}</span>
+          {% endif %}
+        </div>
         <div class="post-card-meta">
-          <div class="author" style="font-size:0.8125rem;">{{ reply.authorName }}</div>
+          <div class="author" style="font-size:0.8125rem;"><a href="{% url 'web:profile' username=reply.authorName %}" style="color:inherit;text-decoration:none;">{{ reply.authorName }}</a></div>
           <div class="time" style="font-size:0.6875rem;">{{ reply.createdAt|time_ago }}</div>
         </div>
       </div>
