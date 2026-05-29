@@ -65,7 +65,9 @@ sealed class Screen(val route: String) {
     data object Login : Screen("login")
     data object CompleteProfile : Screen("complete_profile")
     data object Home : Screen("home")
-    data object Library : Screen("library")
+    data object Library : Screen("library?subject={subject}") {
+        fun createRoute(subject: String? = null) = if (subject != null) "library?subject=$subject" else "library"
+    }
     data object Forum : Screen("forum")
     data object Settings : Screen("settings")
     data object PdfReader : Screen("reader/{resourceId}") {
@@ -234,10 +236,16 @@ fun NEBiansNavHost(
                         navController.navigate(Screen.PdfReader.createRoute(resourceId))
                     },
                     onSearchClick = { navController.navigate(Screen.Search.route) },
-                    onViewAllClick = { navController.navigate(Screen.Library.route) }
+                    onViewAllClick = { navController.navigate(Screen.Library.route) },
+                    onSubjectClick = { subject ->
+                        navController.navigate(Screen.Library.createRoute(subject))
+                    }
                 )
             }
-            composable(Screen.Library.route) {
+            composable(
+                route = Screen.Library.route,
+                arguments = listOf(navArgument("subject") { type = NavType.StringType; nullable = true; defaultValue = null })
+            ) { backStackEntry ->
                 LibraryScreen(
                     onResourceClick = { resourceId ->
                         navController.navigate(Screen.PdfReader.createRoute(resourceId))

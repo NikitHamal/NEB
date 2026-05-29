@@ -2,6 +2,8 @@ package com.neb.ians.ui.screens.reader
 
 import android.app.Application
 import android.graphics.Bitmap
+import android.graphics.Paint
+import android.graphics.pdf.PdfDocument
 import android.graphics.pdf.PdfRenderer
 import android.os.ParcelFileDescriptor
 import androidx.lifecycle.SavedStateHandle
@@ -98,6 +100,9 @@ class ReaderViewModel @Inject constructor(
                 .distinctUntilChanged()
                 .collect { resource ->
                     _pageState.update { it.copy(resource = resource) }
+                    if (resource != null) {
+                        resourceRepository.incrementViewCount(resource.id)
+                    }
                     if (resource?.localPath != null) {
                         openPdf(resource.localPath)
                     } else {
@@ -171,26 +176,25 @@ class ReaderViewModel @Inject constructor(
     }
 
     private fun createSamplePdf(file: File) {
-        val content = buildString {
-            append("%PDF-1.4\n")
-            append("1 0 obj<</Type/Catalog/Pages 2 0 R>>endobj\n")
-            append("2 0 obj<</Type/Pages/Kids[3 0 R]/Count 1>>endobj\n")
-            append("3 0 obj<</Type/Page/Parent 2 0 R/MediaBox[0 0 612 792]")
-            append("/Contents 4 0 R/Resources<</Font<</F1 5 0 R>>>>>>endobj\n")
-            append("4 0 obj<</Length 44>>stream\n")
-            append("BT /F1 24 Tf 100 700 Td (NEBians Reader) Tj ET\n")
-            append("endstream\nendobj\n")
-            append("5 0 obj<</Type/Font/Subtype/Type1/BaseFont/Helvetica>>endobj\n")
-            append("xref\n0 6\n")
-            append("0000000000 65535 f \n")
-            append("0000000009 00000 n \n")
-            append("0000000058 00000 n \n")
-            append("0000000115 00000 n \n")
-            append("0000000266 00000 n \n")
-            append("0000000360 00000 n \n")
-            append("trailer<</Size 6/Root 1 0 R>>\nstartxref\n424\n%%EOF")
+        val document = android.graphics.pdf.PdfDocument()
+        val title = _pageState.value.resource?.title ?: "NEBians"
+        val pages = listOf(
+            title,
+            "This is a sample document.\nOpen a real PDF to use the full reader.",
+            "Features:\n- Highlight\n- Underline\n- Sticky Notes\n- Bookmarks"
+        )
+        val paint = android.graphics.Paint(android.graphics.Paint.ANTI_ALIAS_FLAG).apply {
+            textSize = 24f
+            color = android.graphics.Color.BLACK
         }
-        file.writeText(content)
+        for (pageText in pages) {
+            val pageInfo = PdfDocument.PageInfo.Builder(612, 792, 1).create()
+            val page = document.startPage(pageInfo)
+            page.canvas.drawText(pageText, 72f, 700f, paint)
+            document.finishPage(page)
+        }
+        file.outputStream().use { out -> document.writeTo(out) }
+        document.close()
     }
 
     private suspend fun renderPage(page: Int) {

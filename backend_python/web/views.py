@@ -18,10 +18,12 @@ def _ctx(request, **extra):
     user = api.get_session_user(request)
     if user:
         user = _normalize_user_data(user)
+    dark_mode = request.session.get('theme') == 'dark'
     ctx = {
         'is_authenticated': bool(token),
         'user': user,
         'auth_token': token,
+        'dark_mode': dark_mode,
     }
     ctx.update(extra)
     return ctx
@@ -117,13 +119,7 @@ def forum(request):
 
 def forum_post(request, post_id):
     token = api.get_session_token(request)
-    posts = api.get_posts(token=token) or []
-    post = None
-    if isinstance(posts, list):
-        for p in posts:
-            if p.get('id') == post_id:
-                post = p
-                break
+    post = api.get_post(token, post_id)
     replies = api.get_replies(token, post_id) or []
     if not isinstance(replies, list):
         replies = []
@@ -150,13 +146,7 @@ def reply_post(request, post_id):
     token = api.get_session_token(request)
     if not token:
         return redirect('web:login')
-    posts = api.get_posts(token=token) or []
-    post = None
-    if isinstance(posts, list):
-        for p in posts:
-            if p.get('id') == post_id:
-                post = p
-                break
+    post = api.get_post(token, post_id)
     if request.method == 'POST':
         content = request.POST.get('content', '').strip()
         parent_reply_id = request.POST.get('parent_reply_id', '') or None
@@ -168,13 +158,7 @@ def reply_post(request, post_id):
 
 def reader(request, resource_id):
     token = api.get_session_token(request)
-    resources = api.get_resources(token=token) or []
-    resource = None
-    if isinstance(resources, list):
-        for r in resources:
-            if r.get('id') == resource_id:
-                resource = r
-                break
+    resource = api.get_resource(token, resource_id)
     return render(request, 'web/reader.html', _ctx(request, resource=resource, resource_id=resource_id))
 
 
@@ -345,6 +329,17 @@ def ajax_check_username(request):
     return JsonResponse({'available': False})
 
 
+@require_POST
+def ajax_set_theme(request):
+    try:
+        data = json.loads(request.body)
+        theme = data.get('theme', 'light')
+        request.session['theme'] = 'dark' if theme == 'dark' else 'light'
+    except (json.JSONDecodeError, KeyError):
+        pass
+    return JsonResponse({'status': 'ok'})
+
+
 # ---------------------------------------------------------------------------
 # ADMIN PANEL
 # ---------------------------------------------------------------------------
@@ -471,13 +466,7 @@ def admin_resource_edit(request, resource_id):
         result = api.admin_update_resource(token, resource_id, data)
         if result:
             return redirect('web:admin_resources')
-    resources = api.admin_get_resources(token) or []
-    resource = None
-    if isinstance(resources, list):
-        for r in resources:
-            if r.get('id') == resource_id:
-                resource = r
-                break
+    resource = api.admin_get_resource(token, resource_id) or {}
     return render(request, 'admin_panel/resource_edit.html', {
         'is_admin': True,
         'resource': resource,
@@ -485,6 +474,7 @@ def admin_resource_edit(request, resource_id):
     })
 
 
+@require_POST
 def admin_resource_delete(request, resource_id):
     if not request.session.get('is_admin'):
         return redirect('web:admin_login')
@@ -515,13 +505,7 @@ def admin_post_detail(request, post_id):
     if not request.session.get('is_admin'):
         return redirect('web:admin_login')
     token = _admin_token(request)
-    posts = api.admin_get_posts(token) or []
-    post = None
-    if isinstance(posts, list):
-        for p in posts:
-            if p.get('id') == post_id:
-                post = p
-                break
+    post = api.admin_get_post(token, post_id)
     replies = api.admin_get_replies(token, post_id) or []
     if not isinstance(replies, list):
         replies = []
@@ -533,6 +517,7 @@ def admin_post_detail(request, post_id):
     })
 
 
+@require_POST
 def admin_post_delete(request, post_id):
     if not request.session.get('is_admin'):
         return redirect('web:admin_login')
@@ -541,6 +526,7 @@ def admin_post_delete(request, post_id):
     return redirect('web:admin_posts')
 
 
+@require_POST
 def admin_reply_delete(request, reply_id):
     if not request.session.get('is_admin'):
         return redirect('web:admin_login')

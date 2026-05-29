@@ -231,6 +231,28 @@ def resources_list(request):
     return Response(ResourceSerializer(resources, many=True).data)
 
 
+@api_view(['GET'])
+def resource_detail(request, resource_id):
+    """GET /api/resources/<resourceId> — get a single resource."""
+    try:
+        resource = Resource.objects.get(pk=resource_id)
+    except Resource.DoesNotExist:
+        return Response({'error': 'Resource not found'}, status=404)
+    return Response(ResourceSerializer(resource).data)
+
+
+@api_view(['POST'])
+def resource_view(request, resource_id):
+    """POST /api/resources/<resourceId>/view — increment view_count."""
+    try:
+        resource = Resource.objects.get(pk=resource_id)
+    except Resource.DoesNotExist:
+        return Response({'error': 'Resource not found'}, status=404)
+    resource.view_count += 1
+    resource.save(update_fields=['view_count'])
+    return Response({'view_count': resource.view_count})
+
+
 # ---------------------------------------------------------------------------
 # FORUM — POSTS
 # ---------------------------------------------------------------------------
@@ -273,24 +295,25 @@ def posts_create(request):
     return Response(PostSerializer(post, context={'request': request}).data, status=201)
 
 
-@api_view(['DELETE'])
-def post_delete(request, post_id):
-    """DELETE /api/posts/<postId>"""
-    user, err = _require_user(request)
-    if err:
-        return err
-
+@api_view(['GET', 'DELETE'])
+def post_detail(request, post_id):
+    """GET /api/posts/<postId> — get a single post. DELETE /api/posts/<postId> — delete a post."""
     try:
-        post = Post.objects.get(pk=post_id)
+        post = Post.objects.select_related('user').get(pk=post_id)
     except Post.DoesNotExist:
         return Response({'error': 'Post not found'}, status=404)
 
-    if post.user_id != user.id:
-        return Response({'error': 'Forbidden'}, status=403)
+    if request.method == 'DELETE':
+        user, err = _require_user(request)
+        if err:
+            return err
+        if post.user_id != user.id:
+            return Response({'error': 'Forbidden'}, status=403)
+        post.delete()
+        logger.info("post_detail DELETE: deleted post %s by user %s", post_id, user.username)
+        return Response({'success': True})
 
-    post.delete()
-    logger.info("post_delete: deleted post %s by user %s", post_id, user.username)
-    return Response({'success': True})
+    return Response(PostSerializer(post, context={'request': request}).data)
 
 
 @api_view(['POST'])
