@@ -115,15 +115,15 @@ fun HomeScreen(
         },
         containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
     ) { innerPadding ->
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .verticalScroll(rememberScrollState())
-                    .padding(innerPadding)
-            ) {
-                if (uiState.isLoading) {
-                    ShimmerHomeScreen()
-                } else if (uiState.error != null && uiState.recentResources.isEmpty() && uiState.popularResources.isEmpty()) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+                .padding(innerPadding)
+        ) {
+            if (uiState.isLoading) {
+                ShimmerHomeScreen()
+            } else if (uiState.error != null && uiState.recentResources.isEmpty() && uiState.popularResources.isEmpty()) {
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
@@ -244,6 +244,7 @@ fun HomeScreen(
                     Spacer(modifier = Modifier.height(24.dp))
                 }
             }
+        }
     }
 }
 

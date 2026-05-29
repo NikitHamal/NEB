@@ -128,12 +128,12 @@ fun LibraryScreen(
         },
         containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
     ) { paddingValues ->
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues)
-            ) {
-                if (uiState.isLoading) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+        ) {
+            if (uiState.isLoading) {
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
@@ -214,11 +214,12 @@ fun LibraryScreen(
                                     resource = resource,
                                     onClick = { onResourceClick(resource.id) }
                                 )
-}
+                            }
+                        }
+                    }
                 }
             }
-    }
-}
+        }
     }
 }
 
