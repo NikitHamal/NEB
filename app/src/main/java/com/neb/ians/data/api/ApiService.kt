@@ -134,6 +134,17 @@ data class FcmTokenRequest(
     val token: String
 )
 
+@Serializable
+data class ApiReplyUpdateRequest(
+    val content: String
+)
+
+@Serializable
+data class ApiSearchResponse(
+    val resources: List<ApiResource> = emptyList(),
+    val posts: List<ApiPost> = emptyList()
+)
+
 // -------------------------------------------------------------
 // RETROFIT API INTERFACE
 // -------------------------------------------------------------
@@ -165,10 +176,33 @@ interface ApiService {
     @GET("api/resources")
     suspend fun getResources(): List<ApiResource>
 
+    @GET("api/resources/{resourceId}")
+    suspend fun getResource(
+        @Path("resourceId") resourceId: String
+    ): ApiResource
+
+    @POST("api/resources/{resourceId}/view")
+    suspend fun viewResource(
+        @Path("resourceId") resourceId: String
+    )
+
     @GET("api/posts")
     suspend fun getPosts(
         @Header("Authorization") bearerToken: String?
     ): List<ApiPost>
+
+    @GET("api/posts/{postId}")
+    suspend fun getPost(
+        @Header("Authorization") bearerToken: String?,
+        @Path("postId") postId: String
+    ): ApiPost
+
+    @PATCH("api/posts/{postId}")
+    suspend fun updatePost(
+        @Header("Authorization") bearerToken: String,
+        @Path("postId") postId: String,
+        @Body request: ApiPostCreateRequest
+    ): ApiPost
 
     @POST("api/posts")
     suspend fun createPost(
@@ -207,6 +241,24 @@ interface ApiService {
         @Path("replyId") replyId: String
     ): LikeResponse
 
+    @DELETE("api/replies/{replyId}")
+    suspend fun deleteReply(
+        @Header("Authorization") bearerToken: String,
+        @Path("replyId") replyId: String
+    )
+
+    @PATCH("api/replies/{replyId}")
+    suspend fun updateReply(
+        @Header("Authorization") bearerToken: String,
+        @Path("replyId") replyId: String,
+        @Body request: ApiReplyUpdateRequest
+    ): ApiReply
+
+    @GET("api/search")
+    suspend fun search(
+        @Query("q") query: String
+    ): ApiSearchResponse
+
     @POST("api/fcm/register")
     suspend fun registerFcmToken(
         @Header("Authorization") bearerToken: String?,
@@ -221,22 +273,11 @@ interface ApiService {
                 level = HttpLoggingInterceptor.Level.BODY
             }
 
-            val trustAllCerts = arrayOf<javax.net.ssl.TrustManager>(
-                object : javax.net.ssl.X509TrustManager {
-                    override fun checkClientTrusted(chain: Array<out java.security.cert.X509Certificate>?, authType: String?) {}
-                    override fun checkServerTrusted(chain: Array<out java.security.cert.X509Certificate>?, authType: String?) {}
-                    override fun getAcceptedIssuers(): Array<java.security.cert.X509Certificate> = arrayOf()
-                }
-            )
-
-            val sslContext = javax.net.ssl.SSLContext.getInstance("SSL")
-            sslContext.init(null, trustAllCerts, java.security.SecureRandom())
-            val sslSocketFactory = sslContext.socketFactory
-
             val client = OkHttpClient.Builder()
                 .addInterceptor(logger)
-                .sslSocketFactory(sslSocketFactory, trustAllCerts[0] as javax.net.ssl.X509TrustManager)
-                .hostnameVerifier { _, _ -> true }
+                .connectTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
+                .readTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
+                .writeTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
                 .build()
 
             val json = Json {
