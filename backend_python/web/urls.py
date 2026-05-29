@@ -6,6 +6,7 @@ app_name = 'web'
 urlpatterns = [
     path('', views.home, name='home'),
     path('sitemap.xml', views.sitemap_xml, name='sitemap_xml'),
+    path('robots.txt', views.robots_txt, name='robots_txt'),
     path('library/', views.library, name='library'),
     path('search/', views.search, name='search'),
     path('forum/', views.forum, name='forum'),
