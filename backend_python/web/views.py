@@ -400,9 +400,21 @@ def ajax_user_photos(request):
         return JsonResponse({'error': 'Unauthorized'}, status=401)
 
     if request.method == 'GET':
-        photos = UserPhoto.objects.filter(user=current_user)
-        from api.serializers import UserPhotoSerializer
-        return JsonResponse({'photos': UserPhotoSerializer(photos, many=True).data})
+        try:
+            photos = UserPhoto.objects.filter(user=current_user)
+            # Manual serialization to avoid DRF serializer context issues in vanilla Django views
+            photos_data = []
+            for photo in photos:
+                photos_data.append({
+                    'id': photo.id,
+                    'url': photo.url,
+                    'uploaded_at': photo.uploaded_at,
+                    'is_current': photo.is_current,
+                })
+            return JsonResponse({'photos': photos_data})
+        except Exception as e:
+            logger.error("Failed to retrieve user photos: %s", e)
+            return JsonResponse({'error': f"Failed to retrieve photos: {str(e)}"}, status=500)
 
     elif request.method == 'POST':
         import os
@@ -423,12 +435,18 @@ def ajax_user_photos(request):
                 file_obj.seek(0)
             except Exception:
                 pass
-            path = default_storage.save(os.path.join('profile_photos', filename), ContentFile(file_obj.read()))
-            url = request.build_absolute_uri(settings.MEDIA_URL + path)
+            
+            try:
+                path = default_storage.save(os.path.join('profile_photos', filename), ContentFile(file_obj.read()))
+                url = request.build_absolute_uri(settings.MEDIA_URL + path)
+            except Exception as e:
+                logger.error("Failed to save uploaded file locally: %s", e)
+                return JsonResponse({'error': f"Failed to save file on server (check write permissions): {str(e)}"}, status=500)
         else:
             # Fallback to URL
             url = ''
-            if request.content_type == 'application/json':
+            content_type = request.META.get('CONTENT_TYPE', '')
+            if 'application/json' in content_type:
                 try:
                     data = json.loads(request.body)
                     url = data.get('url', '').strip()
@@ -440,23 +458,30 @@ def ajax_user_photos(request):
             if not url:
                 return JsonResponse({'error': 'Either URL or file is required'}, status=400)
 
-        with transaction.atomic():
-            UserPhoto.objects.filter(user=current_user).update(is_current=False)
-            photo = UserPhoto.objects.create(
-                user=current_user,
-                url=url,
-                uploaded_at=int(time.time() * 1000),
-                is_current=True,
-            )
-            current_user.photo_url = url
-            current_user.save(update_fields=['photo_url'])
+        try:
+            with transaction.atomic():
+                UserPhoto.objects.filter(user=current_user).update(is_current=False)
+                photo = UserPhoto.objects.create(
+                    user=current_user,
+                    url=url,
+                    uploaded_at=int(time.time() * 1000),
+                    is_current=True,
+                )
+                current_user.photo_url = url
+                current_user.save(update_fields=['photo_url'])
+        except Exception as e:
+            logger.error("Failed to save user photo database record: %s", e)
+            return JsonResponse({'error': f"Database error (run migrations on live server): {str(e)}"}, status=500)
 
         # Update user in session
-        user_data = api.get_session_user(request)
-        if user_data:
-            user_data['photo_url'] = url
-            user_data['photoUrl'] = url
-            api.set_session_auth(request, token, user_data)
+        try:
+            user_data = api.get_session_user(request)
+            if user_data:
+                user_data['photo_url'] = url
+                user_data['photoUrl'] = url
+                api.set_session_auth(request, token, user_data)
+        except Exception as e:
+            logger.error("Failed to update user session avatar: %s", e)
 
         return JsonResponse({
             'id': photo.id,
@@ -466,6 +491,7 @@ def ajax_user_photos(request):
         }, status=201)
 
     return JsonResponse({'error': 'Method not allowed'}, status=405)
+
 
 
 
