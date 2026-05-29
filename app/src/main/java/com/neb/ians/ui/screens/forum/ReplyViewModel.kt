@@ -13,7 +13,8 @@ import javax.inject.Inject
 data class ReplyUiState(
     val content: String = "",
     val isSubmitting: Boolean = false,
-    val postTitle: String = ""
+    val postTitle: String = "",
+    val error: String? = null
 )
 
 @HiltViewModel
@@ -31,9 +32,8 @@ class ReplyViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            forumRepository.getPostById(postId).collect { post ->
-                _uiState.update { it.copy(postTitle = post?.title ?: "") }
-            }
+            val post = forumRepository.getPostById(postId).first()
+            _uiState.update { it.copy(postTitle = post?.title ?: "") }
         }
     }
 
@@ -46,16 +46,24 @@ class ReplyViewModel @Inject constructor(
         if (content.isBlank()) return
 
         viewModelScope.launch {
-            _uiState.update { it.copy(isSubmitting = true) }
-            val userName = settingsRepository.userName.first()
-            forumRepository.createReply(
-                postId = postId,
-                content = content,
-                authorName = userName,
-                parentReplyId = replyToId
-            )
-            _uiState.update { it.copy(isSubmitting = false) }
-            onSuccess()
+            _uiState.update { it.copy(isSubmitting = true, error = null) }
+            try {
+                val userName = settingsRepository.userName.first()
+                forumRepository.createReply(
+                    postId = postId,
+                    content = content,
+                    authorName = userName,
+                    parentReplyId = replyToId
+                )
+                _uiState.update { it.copy(isSubmitting = false) }
+                onSuccess()
+            } catch (e: Exception) {
+                _uiState.update { it.copy(isSubmitting = false, error = e.message ?: "Failed to submit reply") }
+            }
         }
+    }
+
+    fun clearError() {
+        _uiState.update { it.copy(error = null) }
     }
 }

@@ -12,25 +12,35 @@ import javax.inject.Inject
 data class ForumUiState(
     val posts: List<ForumPostEntity> = emptyList(),
     val selectedCategory: String? = null,
-    val searchQuery: String = "",
-    val categories: List<String> = listOf(
-        "General", "Physics", "Chemistry", "Mathematics",
-        "Biology", "English", "Computer Science", "Exam Tips"
-    )
-)
+    val searchQuery: String = ""
+) {
+    companion object {
+        val CATEGORIES = listOf(
+            "General", "Physics", "Chemistry", "Mathematics",
+            "Biology", "English", "Computer Science", "Exam Tips"
+        )
+    }
+}
 
 @HiltViewModel
 class ForumViewModel @Inject constructor(
     private val forumRepository: ForumRepository
 ) : ViewModel() {
 
+    init {
+        viewModelScope.launch {
+            forumRepository.syncPosts()
+        }
+    }
+
     private val _selectedCategory = MutableStateFlow<String?>(null)
     private val _searchQuery = MutableStateFlow("")
 
+    @OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
     val uiState: StateFlow<ForumUiState> = combine(
         _selectedCategory,
-        _searchQuery,
-        forumRepository.getAllPosts()
+        _searchQuery.debounce(300),
+        forumRepository.getAllPosts().distinctUntilChanged()
     ) { category, query, posts ->
         val filtered = posts.filter { post ->
             (category == null || post.category == category) &&

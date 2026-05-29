@@ -12,9 +12,10 @@ import com.neb.ians.data.api.ApiService
 import com.neb.ians.data.api.GoogleAuthRequest
 import com.neb.ians.data.api.UserProfileRequest
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.io.IOException
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -35,7 +36,7 @@ class AuthRepository @Inject constructor(
         private val AUTH_TOKEN = stringPreferencesKey("auth_token")
         private val AUTH_STATUS = stringPreferencesKey("auth_status") // "unauthenticated", "guest", "authenticated"
         private val PROFILE_COMPLETED = booleanPreferencesKey("profile_completed")
-        
+
         // User metadata keys cached locally
         val USER_ID = stringPreferencesKey("user_id")
         val USER_NAME = stringPreferencesKey("user_name")
@@ -56,7 +57,7 @@ class AuthRepository @Inject constructor(
         val status = preferences[AUTH_STATUS] ?: "unauthenticated"
         val token = preferences[AUTH_TOKEN]
         val completed = preferences[PROFILE_COMPLETED] ?: false
-        
+
         when (status) {
             "guest" -> AuthState.Guest
             "authenticated" -> {
@@ -74,7 +75,7 @@ class AuthRepository @Inject constructor(
     val isProfileCompletedFlow: Flow<Boolean> = dataStore.data.map { it[PROFILE_COMPLETED] ?: false }
     val currentUserNameFlow: Flow<String> = dataStore.data.map { it[USER_NAME] ?: "Student" }
     val currentUserIdFlow: Flow<String?> = dataStore.data.map { it[USER_ID] }
-    
+
     val userProfileFlow: Flow<UserProfileCache?> = dataStore.data.map { preferences ->
         val userId = preferences[USER_ID] ?: return@map null
         UserProfileCache(
@@ -98,55 +99,59 @@ class AuthRepository @Inject constructor(
     suspend fun signInWithGoogle(context: Context): GoogleSignInResult {
         try {
             val credentialManager = CredentialManager.create(context)
-            
-            // Build the modern Google One Tap / Google ID request
+
             val googleIdOption = GetGoogleIdOption.Builder()
                 .setFilterByAuthorizedAccounts(false)
                 .setServerClientId("478709074228-cu0b0t75ghhsvqp2jotj75g6utj84nre.apps.googleusercontent.com")
                 .setAutoSelectEnabled(false)
                 .build()
-                
+
             val request = GetCredentialRequest.Builder()
                 .addCredentialOption(googleIdOption)
                 .build()
-                
+
             val result = credentialManager.getCredential(context, request)
             val credential = result.credential
-            
+
             if (credential is CustomCredential && credential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL) {
                 val googleIdTokenCredential = GoogleIdTokenCredential.createFrom(credential.data)
                 val idToken = googleIdTokenCredential.idToken
-                
-                // Authenticate with server
-                val response = apiService.authenticateGoogle(GoogleAuthRequest(idToken))
-                
-                // Cache user info in Datastore
+
+                // Authenticate with server on IO dispatcher
+                val response = withContext(Dispatchers.IO) {
+                    apiService.authenticateGoogle(GoogleAuthRequest(idToken))
+                }
+
+                // Cache user info in DataStore on IO dispatcher
                 val user = response.user
-                dataStore.edit { prefs ->
-                    prefs[AUTH_TOKEN] = user.id
-                    prefs[AUTH_STATUS] = "authenticated"
-                    prefs[USER_ID] = user.id
-                    prefs[USER_EMAIL] = user.email ?: ""
-                    prefs[USER_PHOTO_URL] = user.photoUrl ?: ""
-                    prefs[USER_DISPLAY_NAME] = user.displayName ?: ""
-                    
-                    if (response.isNewUser) {
-                        prefs[PROFILE_COMPLETED] = false
-                        prefs[USER_NAME] = ""
-                    } else {
-                        prefs[PROFILE_COMPLETED] = true
-                        prefs[USER_NAME] = user.username
-                        prefs[USER_DOB] = user.dob
-                        prefs[USER_GENDER] = user.gender ?: ""
-                        prefs[USER_CLASS] = user.classLevel ?: ""
-                        prefs[USER_SUBJECTS] = user.subjects ?: ""
-                        prefs[USER_PRADESH] = user.pradesh ?: ""
-                        prefs[USER_DISTRICT] = user.district ?: ""
-                        prefs[USER_SCHOOL] = user.school ?: ""
-                        prefs[USER_LOCKED] = user.isLocked == 1
+                val authToken = response.authToken ?: user.id
+                withContext(Dispatchers.IO) {
+                    dataStore.edit { prefs ->
+                        prefs[AUTH_TOKEN] = authToken
+                        prefs[AUTH_STATUS] = "authenticated"
+                        prefs[USER_ID] = user.id
+                        prefs[USER_EMAIL] = user.email ?: ""
+                        prefs[USER_PHOTO_URL] = user.photoUrl ?: ""
+                        prefs[USER_DISPLAY_NAME] = user.displayName ?: ""
+
+                        if (response.isNewUser) {
+                            prefs[PROFILE_COMPLETED] = false
+                            prefs[USER_NAME] = ""
+                        } else {
+                            prefs[PROFILE_COMPLETED] = true
+                            prefs[USER_NAME] = user.username
+                            prefs[USER_DOB] = user.dob
+                            prefs[USER_GENDER] = user.gender ?: ""
+                            prefs[USER_CLASS] = user.classLevel ?: ""
+                            prefs[USER_SUBJECTS] = user.subjects ?: ""
+                            prefs[USER_PRADESH] = user.pradesh ?: ""
+                            prefs[USER_DISTRICT] = user.district ?: ""
+                            prefs[USER_SCHOOL] = user.school ?: ""
+                            prefs[USER_LOCKED] = user.isLocked == 1
+                        }
                     }
                 }
-                
+
                 return GoogleSignInResult.Success(response.isNewUser)
             } else {
                 return GoogleSignInResult.Failure("Unsupported credential type")
@@ -160,21 +165,25 @@ class AuthRepository @Inject constructor(
         return try {
             val token = tokenFlow.first() ?: return false
             val bearer = "Bearer $token"
-            val response = apiService.updateProfile(bearer, profile)
-            
+            val response = withContext(Dispatchers.IO) {
+                apiService.updateProfile(bearer, profile)
+            }
+
             // Success, save details
             val user = response.user
-            dataStore.edit { prefs ->
-                prefs[PROFILE_COMPLETED] = true
-                prefs[USER_NAME] = user.username
-                prefs[USER_DOB] = user.dob
-                prefs[USER_GENDER] = user.gender ?: ""
-                prefs[USER_CLASS] = user.classLevel ?: ""
-                prefs[USER_SUBJECTS] = user.subjects ?: ""
-                prefs[USER_PRADESH] = user.pradesh ?: ""
-                prefs[USER_DISTRICT] = user.district ?: ""
-                prefs[USER_SCHOOL] = user.school ?: ""
-                prefs[USER_LOCKED] = user.isLocked == 1
+            withContext(Dispatchers.IO) {
+                dataStore.edit { prefs ->
+                    prefs[PROFILE_COMPLETED] = true
+                    prefs[USER_NAME] = user.username
+                    prefs[USER_DOB] = user.dob
+                    prefs[USER_GENDER] = user.gender ?: ""
+                    prefs[USER_CLASS] = user.classLevel ?: ""
+                    prefs[USER_SUBJECTS] = user.subjects ?: ""
+                    prefs[USER_PRADESH] = user.pradesh ?: ""
+                    prefs[USER_DISTRICT] = user.district ?: ""
+                    prefs[USER_SCHOOL] = user.school ?: ""
+                    prefs[USER_LOCKED] = user.isLocked == 1
+                }
             }
             true
         } catch (e: Exception) {
@@ -183,33 +192,37 @@ class AuthRepository @Inject constructor(
     }
 
     suspend fun continueAsGuest() {
-        dataStore.edit { prefs ->
-            prefs[AUTH_STATUS] = "guest"
-            prefs[AUTH_TOKEN] = ""
-            prefs[PROFILE_COMPLETED] = false
-            prefs[USER_ID] = "guest_user"
-            prefs[USER_NAME] = "Guest"
+        withContext(Dispatchers.IO) {
+            dataStore.edit { prefs ->
+                prefs[AUTH_STATUS] = "guest"
+                prefs[AUTH_TOKEN] = ""
+                prefs[PROFILE_COMPLETED] = false
+                prefs[USER_ID] = "guest_user"
+                prefs[USER_NAME] = "Guest"
+            }
         }
     }
 
     suspend fun logout() {
-        dataStore.edit { prefs ->
-            prefs[AUTH_STATUS] = "unauthenticated"
-            prefs[AUTH_TOKEN] = ""
-            prefs[PROFILE_COMPLETED] = false
-            prefs[USER_ID] = ""
-            prefs[USER_NAME] = "Student"
-            prefs[USER_EMAIL] = ""
-            prefs[USER_PHOTO_URL] = ""
-            prefs[USER_DISPLAY_NAME] = ""
-            prefs[USER_DOB] = ""
-            prefs[USER_GENDER] = ""
-            prefs[USER_CLASS] = ""
-            prefs[USER_SUBJECTS] = ""
-            prefs[USER_PRADESH] = ""
-            prefs[USER_DISTRICT] = ""
-            prefs[USER_SCHOOL] = ""
-            prefs[USER_LOCKED] = false
+        withContext(Dispatchers.IO) {
+            dataStore.edit { prefs ->
+                prefs[AUTH_STATUS] = "unauthenticated"
+                prefs[AUTH_TOKEN] = ""
+                prefs[PROFILE_COMPLETED] = false
+                prefs[USER_ID] = ""
+                prefs[USER_NAME] = "Student"
+                prefs[USER_EMAIL] = ""
+                prefs[USER_PHOTO_URL] = ""
+                prefs[USER_DISPLAY_NAME] = ""
+                prefs[USER_DOB] = ""
+                prefs[USER_GENDER] = ""
+                prefs[USER_CLASS] = ""
+                prefs[USER_SUBJECTS] = ""
+                prefs[USER_PRADESH] = ""
+                prefs[USER_DISTRICT] = ""
+                prefs[USER_SCHOOL] = ""
+                prefs[USER_LOCKED] = false
+            }
         }
     }
 }

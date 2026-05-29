@@ -14,11 +14,15 @@ data class CreatePostUiState(
     val content: String = "",
     val selectedCategory: String = "General",
     val isSubmitting: Boolean = false,
-    val categories: List<String> = listOf(
-        "General", "Physics", "Chemistry", "Mathematics",
-        "Biology", "English", "Computer Science", "Exam Tips"
-    )
-)
+    val error: String? = null
+) {
+    companion object {
+        val CATEGORIES = listOf(
+            "General", "Physics", "Chemistry", "Mathematics",
+            "Biology", "English", "Computer Science", "Exam Tips"
+        )
+    }
+}
 
 @HiltViewModel
 class CreatePostViewModel @Inject constructor(
@@ -46,16 +50,24 @@ class CreatePostViewModel @Inject constructor(
         if (state.title.isBlank() || state.content.isBlank()) return
 
         viewModelScope.launch {
-            _uiState.update { it.copy(isSubmitting = true) }
-            val userName = settingsRepository.userName.first()
-            forumRepository.createPost(
-                title = state.title,
-                content = state.content,
-                authorName = userName,
-                category = state.selectedCategory
-            )
-            _uiState.update { it.copy(isSubmitting = false) }
-            onSuccess()
+            _uiState.update { it.copy(isSubmitting = true, error = null) }
+            try {
+                val userName = settingsRepository.userName.first()
+                forumRepository.createPost(
+                    title = state.title,
+                    content = state.content,
+                    authorName = userName,
+                    category = state.selectedCategory
+                )
+                _uiState.update { it.copy(isSubmitting = false) }
+                onSuccess()
+            } catch (e: Exception) {
+                _uiState.update { it.copy(isSubmitting = false, error = e.message ?: "Failed to post") }
+            }
         }
+    }
+
+    fun clearError() {
+        _uiState.update { it.copy(error = null) }
     }
 }

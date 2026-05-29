@@ -25,21 +25,38 @@ enum class AnnotationMode {
     NONE, HIGHLIGHT, UNDERLINE, STICKY_NOTE
 }
 
-data class ReaderUiState(
+data class PendingAnnotationCoords(
+    val startX: Float,
+    val startY: Float,
+    val endX: Float,
+    val endY: Float
+)
+
+data class ReaderPageState(
     val resource: ResourceEntity? = null,
     val currentPage: Int = 0,
     val totalPages: Int = 0,
     val pageBitmap: Bitmap? = null,
-    val annotations: List<AnnotationEntity> = emptyList(),
-    val bookmarks: List<BookmarkEntity> = emptyList(),
-    val annotationMode: AnnotationMode = AnnotationMode.NONE,
     val isLoading: Boolean = true,
+    val error: String? = null
+)
+
+data class ReaderAnnotationState(
+    val annotations: List<AnnotationEntity> = emptyList(),
+    val annotationMode: AnnotationMode = AnnotationMode.NONE,
     val showAnnotationTools: Boolean = false,
-    val selectedColor: Int = 0xFFFFEB3B.toInt(),
+    val selectedColor: Int = 0xFFFFEB3B.toInt()
+)
+
+data class ReaderDialogState(
     val stickyNoteText: String = "",
     val showStickyNoteDialog: Boolean = false,
     val showBookmarkDialog: Boolean = false,
-    val error: String? = null
+    val pendingAnnotationCoords: PendingAnnotationCoords? = null
+)
+
+data class ReaderBookmarksState(
+    val bookmarks: List<BookmarkEntity> = emptyList()
 )
 
 @HiltViewModel
@@ -52,11 +69,22 @@ class ReaderViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val resourceId: String = savedStateHandle.get<String>("resourceId") ?: ""
-    private val _uiState = MutableStateFlow(ReaderUiState())
-    val uiState: StateFlow<ReaderUiState> = _uiState.asStateFlow()
+
+    private val _pageState = MutableStateFlow(ReaderPageState())
+    val pageState: StateFlow<ReaderPageState> = _pageState.asStateFlow()
+
+    private val _annotationState = MutableStateFlow(ReaderAnnotationState())
+    val annotationState: StateFlow<ReaderAnnotationState> = _annotationState.asStateFlow()
+
+    private val _dialogState = MutableStateFlow(ReaderDialogState())
+    val dialogState: StateFlow<ReaderDialogState> = _dialogState.asStateFlow()
+
+    private val _bookmarksState = MutableStateFlow(ReaderBookmarksState())
+    val bookmarksState: StateFlow<ReaderBookmarksState> = _bookmarksState.asStateFlow()
 
     private var pdfRenderer: PdfRenderer? = null
     private var fileDescriptor: ParcelFileDescriptor? = null
+    private var currentBitmap: Bitmap? = null
 
     init {
         loadResource()
@@ -66,30 +94,36 @@ class ReaderViewModel @Inject constructor(
 
     private fun loadResource() {
         viewModelScope.launch {
-            resourceRepository.getResourceById(resourceId).collect { resource ->
-                _uiState.update { it.copy(resource = resource) }
-                if (resource?.localPath != null) {
-                    openPdf(resource.localPath)
-                } else {
-                    loadSamplePdf()
+            resourceRepository.getResourceById(resourceId)
+                .distinctUntilChanged()
+                .collect { resource ->
+                    _pageState.update { it.copy(resource = resource) }
+                    if (resource?.localPath != null) {
+                        openPdf(resource.localPath)
+                    } else {
+                        loadSamplePdf()
+                    }
                 }
-            }
         }
     }
 
     private fun loadAnnotations() {
         viewModelScope.launch {
-            annotationRepository.getAnnotationsForResource(resourceId).collect { annotations ->
-                _uiState.update { it.copy(annotations = annotations) }
-            }
+            annotationRepository.getAnnotationsForResource(resourceId)
+                .distinctUntilChanged()
+                .collect { annotations ->
+                    _annotationState.update { it.copy(annotations = annotations) }
+                }
         }
     }
 
     private fun loadBookmarks() {
         viewModelScope.launch {
-            bookmarkRepository.getBookmarksForResource(resourceId).collect { bookmarks ->
-                _uiState.update { it.copy(bookmarks = bookmarks) }
-            }
+            bookmarkRepository.getBookmarksForResource(resourceId)
+                .distinctUntilChanged()
+                .collect { bookmarks ->
+                    _bookmarksState.update { it.copy(bookmarks = bookmarks) }
+                }
         }
     }
 
@@ -104,11 +138,11 @@ class ReaderViewModel @Inject constructor(
                     )
                     pdfRenderer = PdfRenderer(fileDescriptor!!)
                     val totalPages = pdfRenderer!!.pageCount
-                    _uiState.update { it.copy(totalPages = totalPages, isLoading = false) }
+                    _pageState.update { it.copy(totalPages = totalPages, isLoading = false) }
                     renderPage(0)
                 }
             } catch (e: Exception) {
-                _uiState.update { it.copy(error = e.message, isLoading = false) }
+                _pageState.update { it.copy(error = e.message, isLoading = false) }
             }
         }
     }
@@ -127,10 +161,10 @@ class ReaderViewModel @Inject constructor(
                     )
                     pdfRenderer = PdfRenderer(fileDescriptor!!)
                     val totalPages = pdfRenderer!!.pageCount
-                    _uiState.update { it.copy(totalPages = totalPages, isLoading = false) }
+                    _pageState.update { it.copy(totalPages = totalPages, isLoading = false) }
                     renderPage(0)
                 } catch (e: Exception) {
-                    _uiState.update { it.copy(isLoading = false, totalPages = 5) }
+                    _pageState.update { it.copy(isLoading = false, totalPages = 5) }
                 }
             }
         }
@@ -164,6 +198,7 @@ class ReaderViewModel @Inject constructor(
             try {
                 pdfRenderer?.let { renderer ->
                     if (page < renderer.pageCount) {
+                        val oldBitmap = currentBitmap
                         val pdfPage = renderer.openPage(page)
                         val bitmap = Bitmap.createBitmap(
                             pdfPage.width * 2,
@@ -177,27 +212,28 @@ class ReaderViewModel @Inject constructor(
                             PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY
                         )
                         pdfPage.close()
-                        _uiState.update { it.copy(pageBitmap = bitmap, currentPage = page) }
+                        currentBitmap = bitmap
+                        oldBitmap?.recycle()
+                        _pageState.update { it.copy(pageBitmap = bitmap, currentPage = page) }
                     }
                 }
             } catch (e: Exception) {
-                _uiState.update { it.copy(error = e.message) }
+                _pageState.update { it.copy(error = e.message) }
             }
         }
     }
 
     fun goToPage(page: Int) {
-        if (page in 0 until _uiState.value.totalPages) {
+        if (page in 0 until _pageState.value.totalPages) {
             viewModelScope.launch { renderPage(page) }
         }
     }
 
-    fun nextPage() = goToPage(_uiState.value.currentPage + 1)
-
-    fun previousPage() = goToPage(_uiState.value.currentPage - 1)
+    fun nextPage() = goToPage(_pageState.value.currentPage + 1)
+    fun previousPage() = goToPage(_pageState.value.currentPage - 1)
 
     fun setAnnotationMode(mode: AnnotationMode) {
-        _uiState.update {
+        _annotationState.update {
             it.copy(
                 annotationMode = if (it.annotationMode == mode) AnnotationMode.NONE else mode
             )
@@ -205,55 +241,78 @@ class ReaderViewModel @Inject constructor(
     }
 
     fun toggleAnnotationTools() {
-        _uiState.update { it.copy(showAnnotationTools = !it.showAnnotationTools) }
+        _annotationState.update { it.copy(showAnnotationTools = !it.showAnnotationTools) }
     }
 
     fun setSelectedColor(color: Int) {
-        _uiState.update { it.copy(selectedColor = color) }
+        _annotationState.update { it.copy(selectedColor = color) }
     }
 
     fun addAnnotation(
-        startX: Float,
-        startY: Float,
-        endX: Float,
-        endY: Float,
-        text: String = ""
+        startX: Float, startY: Float, endX: Float, endY: Float, text: String = ""
     ) {
-        val state = _uiState.value
+        val state = _annotationState.value
+        val pageState = _pageState.value
         val annotation = AnnotationEntity(
             resourceId = resourceId,
-            page = state.currentPage,
+            page = pageState.currentPage,
             type = state.annotationMode.name,
-            content = if (state.annotationMode == AnnotationMode.STICKY_NOTE) {
-                state.stickyNoteText
-            } else {
-                ""
-            },
-            startX = startX,
-            startY = startY,
-            endX = endX,
-            endY = endY,
+            content = if (state.annotationMode == AnnotationMode.STICKY_NOTE) _dialogState.value.stickyNoteText else "",
+            startX = startX, startY = startY, endX = endX, endY = endY,
             color = state.selectedColor,
             createdAt = System.currentTimeMillis(),
             text = text
         )
-        viewModelScope.launch {
-            annotationRepository.addAnnotation(annotation)
+        viewModelScope.launch { annotationRepository.addAnnotation(annotation) }
+    }
+
+    fun prepareStickyNote(startX: Float, startY: Float, endX: Float, endY: Float) {
+        _dialogState.update {
+            it.copy(
+                pendingAnnotationCoords = PendingAnnotationCoords(startX, startY, endX, endY),
+                stickyNoteText = "",
+                showStickyNoteDialog = true
+            )
+        }
+    }
+
+    fun savePendingStickyNote() {
+        val dialogState = _dialogState.value
+        val annotationState = _annotationState.value
+        val pageState = _pageState.value
+        val coords = dialogState.pendingAnnotationCoords ?: return
+        val annotation = AnnotationEntity(
+            resourceId = resourceId,
+            page = pageState.currentPage,
+            type = AnnotationMode.STICKY_NOTE.name,
+            content = dialogState.stickyNoteText,
+            startX = coords.startX, startY = coords.startY, endX = coords.endX, endY = coords.endY,
+            color = annotationState.selectedColor,
+            createdAt = System.currentTimeMillis(),
+            text = ""
+        )
+        viewModelScope.launch { annotationRepository.addAnnotation(annotation) }
+        _dialogState.update {
+            it.copy(pendingAnnotationCoords = null, stickyNoteText = "", showStickyNoteDialog = false)
+        }
+    }
+
+    fun cancelStickyNote() {
+        _dialogState.update {
+            it.copy(pendingAnnotationCoords = null, stickyNoteText = "", showStickyNoteDialog = false)
         }
     }
 
     fun deleteAnnotation(id: Long) {
-        viewModelScope.launch {
-            annotationRepository.deleteAnnotation(id)
-        }
+        viewModelScope.launch { annotationRepository.deleteAnnotation(id) }
     }
 
     fun showStickyNoteDialog(show: Boolean) {
-        _uiState.update { it.copy(showStickyNoteDialog = show) }
+        _dialogState.update { it.copy(showStickyNoteDialog = show) }
     }
 
     fun onStickyNoteTextChange(text: String) {
-        _uiState.update { it.copy(stickyNoteText = text) }
+        _dialogState.update { it.copy(stickyNoteText = text) }
     }
 
     fun addBookmark(title: String) {
@@ -261,7 +320,7 @@ class ReaderViewModel @Inject constructor(
             bookmarkRepository.addBookmark(
                 BookmarkEntity(
                     resourceId = resourceId,
-                    page = _uiState.value.currentPage,
+                    page = _pageState.value.currentPage,
                     title = title,
                     createdAt = System.currentTimeMillis()
                 )
@@ -270,17 +329,17 @@ class ReaderViewModel @Inject constructor(
     }
 
     fun showBookmarkDialog(show: Boolean) {
-        _uiState.update { it.copy(showBookmarkDialog = show) }
+        _dialogState.update { it.copy(showBookmarkDialog = show) }
     }
 
     fun deleteBookmark(id: Long) {
-        viewModelScope.launch {
-            bookmarkRepository.deleteBookmark(id)
-        }
+        viewModelScope.launch { bookmarkRepository.deleteBookmark(id) }
     }
 
     override fun onCleared() {
         super.onCleared()
+        currentBitmap?.recycle()
+        currentBitmap = null
         pdfRenderer?.close()
         fileDescriptor?.close()
     }

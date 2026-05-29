@@ -14,19 +14,33 @@ data class LibraryUiState(
     val selectedSubject: String? = null,
     val selectedGradeLevel: String? = null,
     val selectedType: String? = null,
-    val isLoading: Boolean = false,
-    val subjects: List<String> = listOf(
-        "Physics", "Chemistry", "Mathematics", "Biology",
-        "English", "Nepali", "Computer Science", "Economics", "Accountancy"
-    ),
-    val gradeLevels: List<String> = listOf("Grade 11", "Grade 12"),
-    val types: List<String> = listOf("Textbook", "Notes", "Past Papers", "Guide", "Solution")
-)
+    val isLoading: Boolean = false
+) {
+    companion object {
+        val SUBJECTS = listOf(
+            "Physics", "Chemistry", "Mathematics", "Biology",
+            "English", "Nepali", "Computer Science", "Economics", "Accountancy"
+        )
+        val GRADE_LEVELS = listOf("Grade 11", "Grade 12")
+        val TYPES = listOf("Textbook", "Notes", "Past Papers", "Guide", "Solution")
+    }
+}
 
 @HiltViewModel
 class LibraryViewModel @Inject constructor(
     private val resourceRepository: ResourceRepository
 ) : ViewModel() {
+
+    private var synced = false
+
+    init {
+        if (!synced) {
+            synced = true
+            viewModelScope.launch {
+                resourceRepository.syncResources()
+            }
+        }
+    }
 
     private val _selectedSubject = MutableStateFlow<String?>(null)
     private val _selectedGradeLevel = MutableStateFlow<String?>(null)
@@ -36,7 +50,7 @@ class LibraryViewModel @Inject constructor(
         _selectedSubject,
         _selectedGradeLevel,
         _selectedType,
-        resourceRepository.getAllResources()
+        resourceRepository.getAllResources().distinctUntilChanged()
     ) { subject, grade, type, allResources ->
         val filtered = allResources.filter { resource ->
             (subject == null || resource.subject == subject) &&

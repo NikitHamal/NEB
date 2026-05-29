@@ -1,6 +1,7 @@
 package com.neb.ians.ui.screens.forum
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.*
@@ -36,7 +37,8 @@ fun CreatePostScreen(
                     containerColor = MaterialTheme.colorScheme.surface
                 )
             )
-        }
+        },
+        containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
     ) { paddingValues ->
         Column(
             modifier = Modifier
@@ -45,7 +47,6 @@ fun CreatePostScreen(
                 .padding(horizontal = 16.dp, vertical = 8.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            // Title field
             OutlinedTextField(
                 value = uiState.title,
                 onValueChange = viewModel::onTitleChange,
@@ -53,10 +54,10 @@ fun CreatePostScreen(
                 placeholder = { Text("Enter a descriptive title") },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(12.dp),
                 enabled = !uiState.isSubmitting
             )
 
-            // Category dropdown
             ExposedDropdownMenuBox(
                 expanded = categoryExpanded,
                 onExpandedChange = { categoryExpanded = !categoryExpanded }
@@ -72,13 +73,14 @@ fun CreatePostScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .menuAnchor(),
+                    shape = RoundedCornerShape(12.dp),
                     enabled = !uiState.isSubmitting
                 )
                 ExposedDropdownMenu(
                     expanded = categoryExpanded,
                     onDismissRequest = { categoryExpanded = false }
                 ) {
-                    uiState.categories.forEach { category ->
+                    CreatePostUiState.CATEGORIES.forEach { category ->
                         DropdownMenuItem(
                             text = { Text(category) },
                             onClick = {
@@ -91,7 +93,6 @@ fun CreatePostScreen(
                 }
             }
 
-            // Content field
             OutlinedTextField(
                 value = uiState.content,
                 onValueChange = viewModel::onContentChange,
@@ -101,15 +102,17 @@ fun CreatePostScreen(
                     .fillMaxWidth()
                     .heightIn(min = 200.dp)
                     .weight(1f),
+                shape = RoundedCornerShape(12.dp),
                 enabled = !uiState.isSubmitting
             )
 
-            // Submit button
             Button(
                 onClick = { viewModel.submitPost(onSuccess = onPostCreated) },
                 modifier = Modifier
                     .fillMaxWidth()
+                    .height(56.dp)
                     .padding(bottom = 16.dp),
+                shape = RoundedCornerShape(50),
                 enabled = uiState.title.isNotBlank() && uiState.content.isNotBlank() && !uiState.isSubmitting
             ) {
                 if (uiState.isSubmitting) {

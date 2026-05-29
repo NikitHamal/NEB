@@ -1,9 +1,11 @@
 package com.neb.ians.ui.screens.settings
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.DarkMode
@@ -27,7 +29,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(
-    settingsViewModel: SettingsViewModel
+    settingsViewModel: SettingsViewModel,
+    onNavigateToEditProfile: () -> Unit,
+    onNavigateToLogin: () -> Unit = {}
 ) {
     val isDarkMode by settingsViewModel.isDarkMode.collectAsStateWithLifecycle()
     val notificationsEnabled by settingsViewModel.notificationsEnabled.collectAsStateWithLifecycle()
@@ -49,11 +53,12 @@ fun SettingsScreen(
                 },
                 scrollBehavior = scrollBehavior,
                 colors = TopAppBarDefaults.largeTopAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.background,
-                    scrolledContainerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
+                    containerColor = MaterialTheme.colorScheme.surface,
+                    scrolledContainerColor = MaterialTheme.colorScheme.surfaceContainer
                 )
             )
-        }
+        },
+        containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
     ) { innerPadding ->
         Column(
             modifier = Modifier
@@ -61,14 +66,13 @@ fun SettingsScreen(
                 .padding(innerPadding)
                 .verticalScroll(rememberScrollState())
         ) {
-            // ─── Account section ───────────────────────────────────────────
             SettingsSectionLabel(label = "Account")
 
             if (!isGuest && userProfile != null) {
                 val profile = userProfile!!
 
-                // Profile info row
                 ListItem(
+                    modifier = Modifier.clickable { onNavigateToEditProfile() },
                     headlineContent = {
                         Text(
                             text = profile.displayName?.takeIf { it.isNotEmpty() } ?: profile.username,
@@ -95,7 +99,7 @@ fun SettingsScreen(
                         }
                     },
                     colors = ListItemDefaults.colors(
-                        containerColor = MaterialTheme.colorScheme.background
+                        containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
                     )
                 )
 
@@ -123,11 +127,10 @@ fun SettingsScreen(
                         )
                     },
                     colors = ListItemDefaults.colors(
-                        containerColor = MaterialTheme.colorScheme.background
+                        containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
                     )
                 )
             } else {
-                // Guest state
                 ListItem(
                     headlineContent = {
                         Text("Guest Mode", fontWeight = FontWeight.SemiBold)
@@ -140,7 +143,7 @@ fun SettingsScreen(
                             modifier = Modifier
                                 .size(48.dp)
                                 .clip(CircleShape)
-                                .background(MaterialTheme.colorScheme.surfaceVariant),
+                                .background(MaterialTheme.colorScheme.surfaceContainerHigh),
                             contentAlignment = Alignment.Center
                         ) {
                             Icon(
@@ -152,14 +155,13 @@ fun SettingsScreen(
                         }
                     },
                     colors = ListItemDefaults.colors(
-                        containerColor = MaterialTheme.colorScheme.background
+                        containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
                     )
                 )
             }
 
             HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f))
 
-            // ─── Preferences section ───────────────────────────────────────
             SettingsSectionLabel(label = "Preferences")
 
             ListItem(
@@ -178,7 +180,7 @@ fun SettingsScreen(
                         onCheckedChange = { settingsViewModel.setDarkMode(it) }
                     )
                 },
-                colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.background)
+                colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest)
             )
 
             HorizontalDivider(
@@ -202,7 +204,7 @@ fun SettingsScreen(
                         onCheckedChange = { settingsViewModel.setNotificationsEnabled(it) }
                     )
                 },
-                colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.background)
+                colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest)
             )
 
             HorizontalDivider(
@@ -226,12 +228,11 @@ fun SettingsScreen(
                         onCheckedChange = { settingsViewModel.setDownloadWifiOnly(it) }
                     )
                 },
-                colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.background)
+                colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest)
             )
 
             HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f))
 
-            // ─── About section ─────────────────────────────────────────────
             SettingsSectionLabel(label = "About")
 
             ListItem(
@@ -244,7 +245,7 @@ fun SettingsScreen(
                         tint = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 },
-                colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.background)
+                colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest)
             )
 
             HorizontalDivider(
@@ -262,22 +263,21 @@ fun SettingsScreen(
                         tint = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 },
-                colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.background)
+                colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest)
             )
 
             HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f))
 
-            // ─── Sign in / Sign out ────────────────────────────────────────
             Spacer(modifier = Modifier.height(16.dp))
 
             if (isGuest) {
                 Button(
-                    onClick = { settingsViewModel.logout() },
+                    onClick = { onNavigateToLogin() },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(52.dp)
+                        .height(56.dp)
                         .padding(horizontal = 16.dp),
-                    shape = MaterialTheme.shapes.medium
+                    shape = CircleShape
                 ) {
                     Text("Sign In with Google", fontWeight = FontWeight.SemiBold)
                 }
@@ -286,9 +286,9 @@ fun SettingsScreen(
                     onClick = { settingsViewModel.logout() },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(52.dp)
+                        .height(56.dp)
                         .padding(horizontal = 16.dp),
-                    shape = MaterialTheme.shapes.medium,
+                    shape = CircleShape,
                     colors = ButtonDefaults.outlinedButtonColors(
                         contentColor = MaterialTheme.colorScheme.error
                     ),

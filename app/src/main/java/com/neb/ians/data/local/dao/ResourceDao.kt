@@ -25,6 +25,9 @@ interface ResourceDao {
     @Query("SELECT * FROM resources WHERE id = :id")
     suspend fun getByIdSync(id: String): ResourceEntity?
 
+    @Query("SELECT * FROM resources WHERE id IN (:ids)")
+    suspend fun getByIdsSync(ids: List<String>): List<ResourceEntity>
+
     @Query("SELECT * FROM resources WHERE subject = :subject ORDER BY addedAt DESC")
     fun getBySubject(subject: String): Flow<List<ResourceEntity>>
 
@@ -57,4 +60,10 @@ interface ResourceDao {
 
     @Query("DELETE FROM resources WHERE id = :id")
     suspend fun delete(id: String)
+
+    @Query("DELETE FROM resources WHERE id NOT IN (:ids)")
+    suspend fun deleteExceptWithIds(ids: List<String>)
+
+    @Query("DELETE FROM resources")
+    suspend fun deleteAll()
 }

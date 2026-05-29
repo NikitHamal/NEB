@@ -1,8 +1,13 @@
 package com.neb.ians.ui
 
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
@@ -20,7 +25,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -38,7 +42,6 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.components.SingletonComponent
 import com.neb.ians.data.repository.AuthRepository
-import com.neb.ians.data.api.ApiService
 
 import com.neb.ians.ui.screens.home.HomeScreen
 import com.neb.ians.ui.screens.library.LibraryScreen
@@ -55,7 +58,6 @@ import com.neb.ians.ui.screens.search.SearchScreen
 @InstallIn(SingletonComponent::class)
 interface AuthEntryPoint {
     fun authRepository(): AuthRepository
-    fun apiService(): ApiService
 }
 
 sealed class Screen(val route: String) {
@@ -93,7 +95,6 @@ val bottomNavItems = listOf(
     BottomNavItem(Screen.Settings, "Settings", Icons.Filled.Settings, Icons.Outlined.Settings),
 )
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NEBiansNavHost(
     settingsViewModel: SettingsViewModel,
@@ -107,7 +108,6 @@ fun NEBiansNavHost(
         )
     }
     val authRepository = authEntryPoint.authRepository()
-    val apiService = authEntryPoint.apiService()
 
     val authState by settingsViewModel.authState.collectAsStateWithLifecycle()
     LaunchedEffect(authState) {
@@ -126,10 +126,12 @@ fun NEBiansNavHost(
     val showBottomBar = currentDestination?.route in bottomNavItems.map { it.screen.route }
 
     Scaffold(
+        containerColor = MaterialTheme.colorScheme.surface,
         bottomBar = {
             if (showBottomBar) {
                 NavigationBar(
-                    tonalElevation = NavigationBarDefaults.Elevation,
+                    tonalElevation = 0.dp,
+                    containerColor = MaterialTheme.colorScheme.surfaceContainer,
                 ) {
                     bottomNavItems.forEach { item ->
                         val selected = currentDestination?.hierarchy?.any { it.route == item.screen.route } == true
@@ -143,10 +145,18 @@ fun NEBiansNavHost(
                             label = {
                                 Text(
                                     text = item.label,
-                                    fontWeight = if (selected) FontWeight.SemiBold else FontWeight.Normal
+                                    style = if (selected) MaterialTheme.typography.labelMedium
+                                    else MaterialTheme.typography.labelSmall
                                 )
                             },
                             selected = selected,
+                            colors = NavigationBarItemDefaults.colors(
+                                selectedIconColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                                selectedTextColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                                indicatorColor = MaterialTheme.colorScheme.secondaryContainer,
+                                unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                                unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant
+                            ),
                             onClick = {
                                 navController.navigate(item.screen.route) {
                                     popUpTo(navController.graph.findStartDestination().id) {
@@ -168,8 +178,8 @@ fun NEBiansNavHost(
             modifier = Modifier.padding(
                 bottom = if (showBottomBar) innerPadding.calculateBottomPadding() else 0.dp
             ),
-            enterTransition = { fadeIn(animationSpec = tween(200)) },
-            exitTransition = { fadeOut(animationSpec = tween(200)) },
+            enterTransition = { fadeIn(animationSpec = tween(220)) },
+            exitTransition = { fadeOut(animationSpec = tween(90)) },
         ) {
             composable(Screen.Splash.route) {
                 com.neb.ians.ui.screens.auth.SplashScreen(
@@ -208,12 +218,13 @@ fun NEBiansNavHost(
             }
             composable(Screen.CompleteProfile.route) {
                 com.neb.ians.ui.screens.auth.CompleteProfileScreen(
-                    authRepository = authRepository,
-                    apiService = apiService,
                     onNavigateToHome = {
                         navController.navigate(Screen.Home.route) {
                             popUpTo(Screen.CompleteProfile.route) { inclusive = true }
                         }
+                    },
+                    onNavigateBack = {
+                        navController.popBackStack()
                     }
                 )
             }
@@ -245,7 +256,19 @@ fun NEBiansNavHost(
                 )
             }
             composable(Screen.Settings.route) {
-                SettingsScreen(settingsViewModel = settingsViewModel)
+                SettingsScreen(
+                    settingsViewModel = settingsViewModel,
+                    onNavigateToEditProfile = {
+                        navController.navigate(Screen.CompleteProfile.route)
+                    },
+                    onNavigateToLogin = {
+                        navController.navigate(Screen.Login.route) {
+                            popUpTo(navController.graph.findStartDestination().id) {
+                                inclusive = true
+                            }
+                        }
+                    }
+                )
             }
             composable(
                 route = Screen.PdfReader.route,
