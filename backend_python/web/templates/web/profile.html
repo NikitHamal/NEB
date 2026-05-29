@@ -915,101 +915,62 @@
         </div>
 
         <!-- Progress -->
+        {% if profile_user.subjects %}
         <div class="p-card">
           <h3 class="p-card-title">
             <span class="material-symbols-outlined">trending_up</span>
             Progress
           </h3>
           <div class="progress-list">
-            {% if profile_user.subjects %}
-              {% for subject in profile_user.subjects|split:',' %}
-                <div class="progress-item">
-                  <div class="progress-item-header">
-                    <span class="progress-item-name">{{ subject }}</span>
-                    <span class="progress-item-pct">{{ forloop.counter|multiply:25|add:60 }}%</span>
-                  </div>
-                  <div class="progress-bar-track">
-                    <div class="progress-bar-fill" style="width: {{ forloop.counter|multiply:25|add:60 }}%"></div>
-                  </div>
-                </div>
-              {% endfor %}
-            {% else %}
+            {% for subject in profile_user.subjects|split:',' %}
               <div class="progress-item">
                 <div class="progress-item-header">
-                  <span class="progress-item-name">Physics</span>
-                  <span class="progress-item-pct">85%</span>
+                  <span class="progress-item-name">{{ subject }}</span>
                 </div>
                 <div class="progress-bar-track">
-                  <div class="progress-bar-fill" style="width: 85%"></div>
+                  <div class="progress-bar-fill" style="width: 0%"></div>
                 </div>
               </div>
-              <div class="progress-item">
-                <div class="progress-item-header">
-                  <span class="progress-item-name">Chemistry</span>
-                  <span class="progress-item-pct">72%</span>
-                </div>
-                <div class="progress-bar-track">
-                  <div class="progress-bar-fill" style="width: 72%"></div>
-                </div>
-              </div>
-              <div class="progress-item">
-                <div class="progress-item-header">
-                  <span class="progress-item-name">Mathematics</span>
-                  <span class="progress-item-pct">94%</span>
-                </div>
-                <div class="progress-bar-track">
-                  <div class="progress-bar-fill" style="width: 94%"></div>
-                </div>
-              </div>
-            {% endif %}
+            {% endfor %}
           </div>
         </div>
+        {% endif %}
 
         <!-- Achievements -->
+        {% if stats.post_count or stats.reply_count or stats.likes_received or stats.follower_count %}
         <div class="p-card">
           <h3 class="p-card-title">
             <span class="material-symbols-outlined">emoji_events</span>
             Achievements
           </h3>
           <div class="achievements-grid">
-            {% if stats.post_count|default:0 >= 5 %}
+            {% if stats.post_count %}
               <span class="achievement-badge blue">
-                <span class="material-symbols-outlined">local_fire_department</span>
-                7 Day Streak
+                <span class="material-symbols-outlined">edit_note</span>
+                {{ stats.post_count }} Post{{ stats.post_count|pluralize }}
               </span>
             {% endif %}
-            {% if stats.contribution_score|default:0 >= 20 %}
+            {% if stats.reply_count %}
               <span class="achievement-badge green">
-                <span class="material-symbols-outlined">star</span>
-                Top Contributor
+                <span class="material-symbols-outlined">chat</span>
+                {{ stats.reply_count }} Repl{{ stats.reply_count|pluralize:"y,ies" }}
               </span>
             {% endif %}
-            {% if stats.reply_count|default:0 >= 10 %}
-              <span class="achievement-badge purple">
-                <span class="material-symbols-outlined">science</span>
-                Physics Genius
-              </span>
-            {% endif %}
-            {% if stats.likes_received|default:0 >= 5 %}
+            {% if stats.likes_received %}
               <span class="achievement-badge gold">
                 <span class="material-symbols-outlined">thumb_up</span>
-                Popular Student
+                {{ stats.likes_received }} Like{{ stats.likes_received|pluralize }} Received
               </span>
             {% endif %}
-            {% if stats.follower_count|default:0 >= 3 %}
-              <span class="achievement-badge blue">
-                <span class="material-symbols-outlined">groups</span>
-                Followed
-              </span>
-            {% endif %}
-            {% if stats.post_count|default:0 == 0 and stats.reply_count|default:0 == 0 %}
-              <span class="achievement-badge">
-                <span class="material-symbols-outlined">rocket_launch</span>
-                New Member
+            {% if stats.follower_count %}
+              <span class="achievement-badge purple">
+                <span class="material-symbols-outlined">group</span>
+                {{ stats.follower_count }} Follower{{ stats.follower_count|pluralize }}
               </span>
             {% endif %}
           </div>
         </div>
+        {% endif %}
       </div>
 
       <!-- RIGHT COLUMN -->
@@ -1133,7 +1094,7 @@ async function openFollowModal(type) {
   document.getElementById('followModalBody').innerHTML = '<div style="text-align:center;padding:24px 0;color:var(--md-on-surface-variant);">Loading...</div>';
   modal.classList.add('active');
   try {
-    const resp = await fetch(`/api/users/{{ profile_user.id }}/${type}`);
+    const resp = await fetch(`/api/users/{{ profile_user.id }}/${type}/`);
     const data = await resp.json();
     const body = document.getElementById('followModalBody');
     if (data && data.length > 0) {
@@ -1241,7 +1202,7 @@ async function loadActivityFeed() {
   if (!container) return;
 
   try {
-    const resp = await fetch(`/api/posts/?username={{ profile_user.username }}&page_size=10`);
+    const resp = await fetch(`/api/posts/?username={{ profile_user.username }}`);
     if (!resp.ok) throw new Error('Failed');
     const data = await resp.json();
     const posts = data.results || data;
