@@ -54,3 +54,6 @@ node_modules/
 google-services.json
 app/google-services.json
 
+# Local SSH deployment secrets
+.ssh_deploy_info.json
+
