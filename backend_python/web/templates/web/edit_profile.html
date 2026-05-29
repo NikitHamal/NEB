@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Profile{% endblock %}
+
+{% block content %}
+<div class="md-container-narrow" style="padding-top:24px;">
+  <h1 class="md-headline-small mb-3">Edit Profile</h1>
+
+  <div class="md-card p-3">
+    <form method="post">
+      {% csrf_token %}
+
+      <div class="form-group">
+        <label class="md-label" for="username">Username *</label>
+        <input type="text" id="username" name="username" class="md-input" value="{{ user.username|default:'' }}" required minlength="3" pattern="[a-zA-Z0-9_]+">
+        <div id="username-status" class="form-error" style="display:none;"></div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="md-label" for="display_name">Display Name</label>
+          <input type="text" id="display_name" name="display_name" class="md-input" value="{{ user.display_name|default:'' }}">
+        </div>
+        <div class="form-group">
+          <label class="md-label" for="email">Email</label>
+          <input type="email" id="email" name="email" class="md-input" value="{{ user.email|default:'' }}">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="md-label" for="dob">Date of Birth *</label>
+          <input type="date" id="dob" name="dob" class="md-input" value="{{ user.dob|default:'' }}" required>
+        </div>
+        <div class="form-group">
+          <label class="md-label" for="gender">Gender</label>
+          <select id="gender" name="gender" class="md-select">
+            <option value="">Prefer not to say</option>
+            <option value="Male" {% if user.gender == 'Male' %}selected{% endif %}>Male</option>
+            <option value="Female" {% if user.gender == 'Female' %}selected{% endif %}>Female</option>
+            <option value="Other" {% if user.gender == 'Other' %}selected{% endif %}>Other</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="md-label" for="class_level">Class</label>
+          <select id="class_level" name="class_level" class="md-select">
+            <option value="">Select</option>
+            <option value="11" {% if user.class_level == '11' %}selected{% endif %}>Class 11</option>
+            <option value="12" {% if user.class_level == '12' %}selected{% endif %}>Class 12</option>
+            <option value="Both" {% if user.class_level == 'Both' %}selected{% endif %}>Both</option>
+            <option value="Passout" {% if user.class_level == 'Passout' %}selected{% endif %}>Passout</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="md-label" for="subjects">Subjects</label>
+          <input type="text" id="subjects" name="subjects" class="md-input" value="{{ user.subjects|default:'' }}" placeholder="Physics, Chemistry, Math">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="md-label" for="pradesh">Province</label>
+          <select id="pradesh" name="pradesh" class="md-select">
+            <option value="">Select</option>
+            <option value="1" {% if user.pradesh == '1' %}selected{% endif %}>Province 1</option>
+            <option value="2" {% if user.pradesh == '2' %}selected{% endif %}>Madhesh Province</option>
+            <option value="3" {% if user.pradesh == '3' %}selected{% endif %}>Bagmati Province</option>
+            <option value="4" {% if user.pradesh == '4' %}selected{% endif %}>Gandaki Province</option>
+            <option value="5" {% if user.pradesh == '5' %}selected{% endif %}>Lumbini Province</option>
+            <option value="6" {% if user.pradesh == '6' %}selected{% endif %}>Karnali Province</option>
+            <option value="7" {% if user.pradesh == '7' %}selected{% endif %}>Sudurpashchim Province</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="md-label" for="district">District</label>
+          <input type="text" id="district" name="district" class="md-input" value="{{ user.district|default:'' }}" placeholder="Your district">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="md-label" for="school">School/College</label>
+        <input type="text" id="school" name="school" class="md-input" value="{{ user.school|default:'' }}" placeholder="Your school or college name">
+      </div>
+
+      <div class="form-group" style="display:flex;align-items:center;gap:12px;">
+        <label class="md-switch">
+          <input type="checkbox" name="is_locked" id="is_locked" {% if user.is_locked %}checked{% endif %}>
+          <span class="slider"></span>
+        </label>
+        <label for="is_locked" class="md-label" style="margin-bottom:0;">Lock Profile (private)</label>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="md-btn md-btn-filled">Save Profile</button>
+        <a href="{% url 'web:home' %}" class="md-btn md-btn-text">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+let usernameTimeout;
+const usernameInput = document.getElementById('username');
+const usernameStatus = document.getElementById('username-status');
+if (usernameInput) {
+  usernameInput.addEventListener('input', function() {
+    clearTimeout(usernameTimeout);
+    const val = this.value.trim();
+    if (val.length < 3) {
+      usernameStatus.style.display = 'none';
+      return;
+    }
+    usernameTimeout = setTimeout(async () => {
+      try {
+        const res = await fetch('/ajax/check-username/?username=' + encodeURIComponent(val));
+        const data = await res.json();
+        usernameStatus.style.display = 'block';
+        if (data.available) {
+          usernameStatus.textContent = 'Username is available';
+          usernameStatus.style.color = 'var(--md-primary)';
+        } else {
+          usernameStatus.textContent = 'Username is taken';
+          usernameStatus.style.color = 'var(--md-error)';
+        }
+      } catch(e) {}
+    }, 500);
+  });
+}
+</script>
+{% endblock %}

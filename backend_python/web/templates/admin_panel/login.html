@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login | NEBians</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap">
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'web/css/material3.css' %}">
+  <link rel="stylesheet" href="{% static 'web/css/app.css' %}">
+  <style>
+    body { display:flex;align-items:center;justify-content:center;min-height:100vh; }
+  </style>
+</head>
+<body>
+  <div class="md-card-elevated" style="width:100%;max-width:400px;padding:40px 32px;text-align:center;">
+    <div style="display:flex;justify-content:center;margin-bottom:24px;">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" width="64" height="64">
+        <rect width="32" height="32" rx="8" fill="var(--md-primary)"/>
+        <path d="M8 8h3v16H8V8zm5 0h3v16h-3V8zm5 0v16l8-8-8-8z" fill="var(--md-on-primary)"/>
+      </svg>
+    </div>
+    <h1 class="md-headline-small" style="margin-bottom:8px;">Admin Panel</h1>
+    <p class="md-body-medium" style="color:var(--md-on-surface-variant);margin-bottom:32px;">Sign in to manage NEBians</p>
+
+    {% if error %}
+    <div style="background:var(--md-error-container);color:var(--md-on-error-container);padding:12px 16px;border-radius:var(--md-radius-sm);margin-bottom:16px;font-size:0.875rem;">
+      {{ error }}
+    </div>
+    {% endif %}
+
+    <form method="post">
+      {% csrf_token %}
+      <div class="form-group">
+        <label class="md-label" for="username">Username</label>
+        <input type="text" id="username" name="username" class="md-input" placeholder="Admin username" required autofocus>
+      </div>
+      <div class="form-group">
+        <label class="md-label" for="password">Password</label>
+        <input type="password" id="password" name="password" class="md-input" placeholder="Password" required>
+      </div>
+      <button type="submit" class="md-btn md-btn-filled" style="width:100%;margin-top:8px;">
+        <span class="material-symbols-outlined" style="font-size:18px">login</span>
+        Sign In
+      </button>
+    </form>
+  </div>
+</body>
+</html>

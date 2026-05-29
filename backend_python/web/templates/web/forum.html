@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block title %}Forum{% endblock %}
+{% block nav_forum %}md-nav-active{% endblock %}
+{% block bnav_forum %}md-nav-active{% endblock %}
+
+{% block content %}
+<div class="md-container">
+  <div class="section-header mt-2">
+    <h1 class="md-headline-medium">Forum</h1>
+    <div style="display:flex;gap:8px;align-items:center;">
+      <a href="{% url 'web:create_post' %}" class="md-btn md-btn-filled md-hide-mobile">
+        <span class="material-symbols-outlined" style="font-size:18px">add</span>
+        New Discussion
+      </a>
+    </div>
+  </div>
+
+  <!-- Category Filters -->
+  {% if categories %}
+  <div class="filter-bar">
+    <a href="{% url 'web:forum' %}" class="md-chip {% if not current_category %}md-chip-active{% endif %}">All</a>
+    {% for c in categories %}
+    <a href="{% url 'web:forum' %}?category={{ c }}" class="md-chip {% if current_category == c %}md-chip-active{% endif %}">{{ c }}</a>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <!-- Posts -->
+  {% if posts %}
+  <div style="display:flex;flex-direction:column;gap:12px;">
+    {% for post in posts %}
+    <a href="{% url 'web:forum_post' post_id=post.id %}" class="post-card md-card" style="text-decoration:none;color:inherit;">
+      <div class="post-card-header">
+        <div class="profile-avatar">{{ post.authorName|truncate_chars:1|default:"?" }}</div>
+        <div class="post-card-meta">
+          <div class="author">{{ post.authorName }}</div>
+          <div class="time">{{ post.createdAt|time_ago }}</div>
+        </div>
+        <span class="post-card-category">{{ post.category }}</span>
+      </div>
+      <h3>{{ post.title }}</h3>
+      <div class="post-card-content">{{ post.content }}</div>
+      <div class="post-card-actions">
+        <button type="button" onclick="event.preventDefault();event.stopPropagation();" class="{% if post.isThumbedUp %}liked{% endif %}">
+          <span class="material-symbols-outlined" style="font-size:18px">thumb_up{% if post.isThumbedUp %}{% endif %}</span>
+          {{ post.thumbsUpCount }}
+        </button>
+        <button type="button" onclick="event.preventDefault();event.stopPropagation();">
+          <span class="material-symbols-outlined" style="font-size:18px">chat_bubble_outline</span>
+          {{ post.replyCount }}
+        </button>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="empty-state">
+    <span class="material-symbols-outlined">forum</span>
+    <h3>No discussions yet</h3>
+    <p>Be the first to start a discussion!</p>
+    <a href="{% url 'web:create_post' %}" class="md-btn md-btn-filled mt-2">Start Discussion</a>
+  </div>
+  {% endif %}
+</div>
+
+<!-- Mobile FAB -->
+<a href="{% url 'web:create_post' %}" class="md-fab md-hide-desktop" title="New Discussion">
+  <span class="material-symbols-outlined">add</span>
+</a>
+{% endblock %}

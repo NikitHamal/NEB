@@ -1,0 +1,63 @@
+{% extends "admin_panel/base.html" %}
+
+{% block title %}Forum Posts{% endblock %}
+
+{% block content %}
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;">
+  <h1 class="md-headline-medium">Forum Posts</h1>
+  <form method="get" style="display:flex;gap:8px;">
+    <div class="search-bar" style="margin-bottom:0;">
+      <span class="material-symbols-outlined">search</span>
+      <input type="text" name="q" value="{{ search }}" placeholder="Search posts..." style="border:none;background:transparent;outline:none;color:var(--md-on-surface);font-family:var(--md-font);font-size:0.875rem;padding:8px 0;">
+    </div>
+    <button type="submit" class="md-btn md-btn-filled" style="padding:8px 16px;">Search</button>
+  </form>
+</div>
+
+{% if posts %}
+<div class="md-table-responsive">
+  <table class="md-table">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Category</th>
+        <th>Likes</th>
+        <th>Replies</th>
+        <th>Created</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for p in posts %}
+      <tr>
+        <td style="max-width:300px;">
+          <a href="{% url 'web:admin_post_detail' post_id=p.id %}" style="font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block;">{{ p.title }}</a>
+        </td>
+        <td>{{ p.authorName }}</td>
+        <td><span class="md-chip" style="font-size:0.75rem;">{{ p.category }}</span></td>
+        <td>{{ p.thumbsUpCount }}</td>
+        <td>{{ p.replyCount }}</td>
+        <td style="font-size:0.75rem;">{{ p.createdAt|time_ago }}</td>
+        <td>
+          <div style="display:flex;gap:4px;">
+            <a href="{% url 'web:admin_post_detail' post_id=p.id %}" class="md-btn md-btn-text" style="padding:4px 8px;font-size:0.75rem;">View</a>
+            <form method="post" action="{% url 'web:admin_post_delete' post_id=p.id %}" onsubmit="return confirm('Delete this post?');" style="display:inline;">
+              {% csrf_token %}
+              <button type="submit" class="md-btn md-btn-text" style="padding:4px 8px;font-size:0.75rem;color:var(--md-error);">Delete</button>
+            </form>
+          </div>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<div class="empty-state">
+  <span class="material-symbols-outlined">forum</span>
+  <h3>No posts found</h3>
+  <p>Forum posts will appear here as users create them.</p>
+</div>
+{% endif %}
+{% endblock %}
