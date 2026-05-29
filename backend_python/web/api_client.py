@@ -74,8 +74,20 @@ def get_resources(token=None, params=None):
     return _api_call('GET', '/resources', token=token, params=params)
 
 
+def get_resource(token=None, resource_id=None):
+    if not resource_id:
+        return None
+    return _api_call('GET', f'/resources/{resource_id}', token=token)
+
+
 def get_posts(token=None):
     return _api_call('GET', '/posts', token=token)
+
+
+def get_post(token=None, post_id=None):
+    if not post_id:
+        return None
+    return _api_call('GET', f'/posts/{post_id}', token=token)
 
 
 def create_post(token, title, content, category):
@@ -128,6 +140,10 @@ def admin_get_resources(token, params=None):
     return _api_call('GET', '/admin/resources', token=token, params=params)
 
 
+def admin_get_resource(token, resource_id):
+    return _api_call('GET', f'/admin/resources/{resource_id}', token=token)
+
+
 def admin_create_resource(token, data):
     return _api_call('POST', '/admin/resources', token=token, data=data)
 
@@ -142,6 +158,10 @@ def admin_delete_resource(token, resource_id):
 
 def admin_get_posts(token, params=None):
     return _api_call('GET', '/admin/posts', token=token, params=params)
+
+
+def admin_get_post(token, post_id):
+    return _api_call('GET', f'/admin/posts/{post_id}', token=token)
 
 
 def admin_delete_post(token, post_id):

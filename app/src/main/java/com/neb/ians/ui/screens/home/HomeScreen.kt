@@ -69,6 +69,7 @@ fun HomeScreen(
     onResourceClick: (String) -> Unit,
     onSearchClick: () -> Unit,
     onViewAllClick: () -> Unit,
+    onSubjectClick: (String) -> Unit = {},
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -123,9 +124,9 @@ fun HomeScreen(
                     .padding(horizontal = 16.dp, vertical = 8.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                HomeUiState.SUBJECTS.forEach { subject ->
-                    SuggestionChip(
-                        onClick = { },
+HomeUiState.SUBJECTS.forEach { subject ->
+                     SuggestionChip(
+                         onClick = { onSubjectClick(subject) },
                         label = {
                             Text(
                                 text = subject,

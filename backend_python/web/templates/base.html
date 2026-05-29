@@ -1,7 +1,7 @@
 {% load static %}
 {% load web_extras %}
 <!DOCTYPE html>
-<html lang="en" {% if dark_mode %}data-theme="dark"{% endif %}>
+<html lang="en"{% if dark_mode %} data-theme="dark"{% endif %}>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -88,6 +88,7 @@
       html.setAttribute('data-theme', isDark ? '' : 'dark');
       document.getElementById('theme-icon').textContent = isDark ? 'dark_mode' : 'light_mode';
       localStorage.setItem('theme', isDark ? 'light' : 'dark');
+      fetch('/ajax/theme/', {method: 'POST', headers: {'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN}});
     }
 
     (function() {
