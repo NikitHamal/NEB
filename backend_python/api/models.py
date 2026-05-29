@@ -1,5 +1,6 @@
 """
-Django models for NEBians — mirrors the D1 schema exactly.
+Django models for NEBians.
+Schema is the source of truth — keep in sync with the Kotlin app's ApiService.
 """
 import uuid
 from django.db import models
@@ -140,3 +141,44 @@ class FCMToken(models.Model):
 
     class Meta:
         db_table = 'fcm_tokens'
+
+
+class UserPhoto(models.Model):
+    """
+    Profile picture history for a user.
+    Stores previously used photo URLs so users can switch back.
+    is_current=True marks the active photo (should match user.photo_url).
+    """
+    id = models.AutoField(primary_key=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='photos')
+    url = models.TextField()
+    uploaded_at = models.BigIntegerField()  # Unix ms timestamp
+    is_current = models.BooleanField(default=False)
+
+    class Meta:
+        db_table = 'user_photos'
+        ordering = ['-uploaded_at']
+
+    def __str__(self):
+        return f"Photo for {self.user_id} ({'active' if self.is_current else 'past'})"
+
+
+class Follow(models.Model):
+    """
+    Instagram-style one-way follow relationship.
+    follower  = the user who pressed Follow.
+    following = the user being followed.
+    Follower count of X  = Follow.objects.filter(following=X).count()
+    Following count of X = Follow.objects.filter(follower=X).count()
+    """
+    follower = models.ForeignKey(User, on_delete=models.CASCADE, related_name='following_set')
+    following = models.ForeignKey(User, on_delete=models.CASCADE, related_name='followers_set')
+    created_at = models.BigIntegerField()
+
+    class Meta:
+        db_table = 'follows'
+        ordering = ['-created_at']
+        unique_together = ('follower', 'following')
+
+    def __str__(self):
+        return f"{self.follower_id} → {self.following_id}"

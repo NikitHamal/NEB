@@ -36,6 +36,9 @@ class LibraryViewModel @Inject constructor(
 
     private val _isLoading = MutableStateFlow(true)
     private val _error = MutableStateFlow<String?>(null)
+    private val _selectedSubject = MutableStateFlow<String?>(null)
+    private val _selectedGradeLevel = MutableStateFlow<String?>(null)
+    private val _selectedType = MutableStateFlow<String?>(null)
 
     init {
         syncData()
@@ -62,10 +65,6 @@ class LibraryViewModel @Inject constructor(
         syncData()
     }
 
-    private val _selectedSubject = MutableStateFlow<String?>(null)
-    private val _selectedGradeLevel = MutableStateFlow<String?>(null)
-    private val _selectedType = MutableStateFlow<String?>(null)
-
     val uiState: StateFlow<LibraryUiState> = combine(
         _selectedSubject,
         _selectedGradeLevel,
@@ -73,7 +72,15 @@ class LibraryViewModel @Inject constructor(
         resourceRepository.getAllResources().distinctUntilChanged(),
         _isLoading,
         _error
-    ) { subject, grade, type, allResources, isLoading, error ->
+    ) { args: Array<Any?> ->
+        val subject = args[0] as? String?
+        val grade = args[1] as? String?
+        val type = args[2] as? String?
+        @Suppress("UNCHECKED_CAST")
+        val allResources = args[3] as? List<ResourceEntity> ?: emptyList()
+        val isLoading = args[4] as? Boolean ?: false
+        val error = args[5] as? String?
+
         val filtered = allResources.filter { resource ->
             (subject == null || resource.subject == subject) &&
             (grade == null || resource.gradeLevel == grade) &&

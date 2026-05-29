@@ -2,7 +2,7 @@
 DRF serializers for all NEBians API resources.
 """
 from rest_framework import serializers
-from .models import User, Resource, Post, Reply, FCMToken
+from .models import User, Resource, Post, Reply, FCMToken, UserPhoto, Follow
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -129,3 +129,47 @@ class ReplySerializer(serializers.ModelSerializer):
         if not isinstance(user, User):
             return False
         return obj.likes.filter(user=user).exists()
+
+
+class UserPhotoSerializer(serializers.ModelSerializer):
+    """
+    Serializes a saved profile photo entry.
+    Used by web profile page and Android app photo history grid.
+    """
+    class Meta:
+        model = UserPhoto
+        fields = ['id', 'url', 'uploaded_at', 'is_current']
+
+
+class UserStatsSerializer(serializers.Serializer):
+    """
+    Aggregated public stats for a user profile.
+    Consumed by both the web UI and the Android app.
+    contribution_score = posts*3 + replies*2 + likes_given*1 (expandable)
+    """
+    username = serializers.CharField()
+    post_count = serializers.IntegerField()
+    reply_count = serializers.IntegerField()
+    follower_count = serializers.IntegerField()
+    following_count = serializers.IntegerField()
+    likes_received = serializers.IntegerField()      # total thumbs_up on posts + replies
+    likes_given = serializers.IntegerField()         # total likes this user has given
+    contribution_score = serializers.IntegerField()  # weighted composite score
+
+
+class FollowSerializer(serializers.ModelSerializer):
+    """Used when listing followers / following for a user (web + Android)."""
+    follower_username = serializers.CharField(source='follower.username', read_only=True)
+    follower_photo_url = serializers.CharField(source='follower.photo_url', read_only=True)
+    follower_display_name = serializers.CharField(source='follower.display_name', read_only=True)
+    following_username = serializers.CharField(source='following.username', read_only=True)
+    following_photo_url = serializers.CharField(source='following.photo_url', read_only=True)
+    following_display_name = serializers.CharField(source='following.display_name', read_only=True)
+
+    class Meta:
+        model = Follow
+        fields = [
+            'id', 'created_at',
+            'follower_username', 'follower_photo_url', 'follower_display_name',
+            'following_username', 'following_photo_url', 'following_display_name',
+        ]

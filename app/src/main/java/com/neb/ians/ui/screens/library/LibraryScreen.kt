@@ -26,8 +26,6 @@ import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.Terminal
 import androidx.compose.material.icons.outlined.Translate
 import androidx.compose.material3.*
-import androidx.compose.material3.pulltorefresh.PullToRefreshBox
-import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -98,7 +96,6 @@ fun LibraryScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
-    var isRefreshing by remember { mutableStateOf(false) }
 
     val hasActiveFilters = uiState.selectedSubject != null ||
             uiState.selectedGradeLevel != null ||
@@ -131,19 +128,12 @@ fun LibraryScreen(
         },
         containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
     ) { paddingValues ->
-        val pullToRefreshState = rememberPullToRefreshState()
-
-        PullToRefreshBox(
-            state = pullToRefreshState,
-            isRefreshing = isRefreshing,
-            onRefresh = {
-                isRefreshing = true
-                viewModel.refresh()
-                isRefreshing = false
-            },
-            modifier = Modifier.padding(paddingValues)
-        ) {
-            if (uiState.isLoading) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues)
+            ) {
+                if (uiState.isLoading) {
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
@@ -224,12 +214,11 @@ fun LibraryScreen(
                                     resource = resource,
                                     onClick = { onResourceClick(resource.id) }
                                 )
-                            }
-                        }
-                    }
+}
                 }
             }
-        }
+    }
+}
     }
 }
 
