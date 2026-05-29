@@ -4,7 +4,7 @@ import logging
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_GET, require_POST
-from django.http import JsonResponse, Http404
+from django.http import JsonResponse, Http404, HttpResponse
 
 from . import api_client as api
 
@@ -256,7 +256,7 @@ def _normalize_user_data(user):
     for old_key, new_key in mapping.items():
         if old_key in user and new_key not in user:
             user[new_key] = user[old_key]
-    return user)
+    return user
 
 
 def logout(request):
@@ -547,3 +547,46 @@ def admin_reply_delete(request, reply_id):
     token = _admin_token(request)
     api.admin_delete_reply(token, reply_id)
     return redirect('web:admin_posts')
+
+
+def sitemap_xml(request):
+    """
+    Generates a dynamic XML sitemap listing the homepage, library, forum,
+    and all public resources and forum posts dynamically from the database.
+    """
+    from api.models import Resource, Post
+
+    urls = [
+        {'loc': 'https://nebians.consica.com.np/', 'changefreq': 'daily', 'priority': '1.0'},
+        {'loc': 'https://nebians.consica.com.np/library/', 'changefreq': 'daily', 'priority': '0.8'},
+        {'loc': 'https://nebians.consica.com.np/forum/', 'changefreq': 'daily', 'priority': '0.8'},
+        {'loc': 'https://nebians.consica.com.np/login/', 'changefreq': 'monthly', 'priority': '0.3'},
+    ]
+
+    # Add resources
+    for r in Resource.objects.all():
+        urls.append({
+            'loc': f'https://nebians.consica.com.np/reader/{r.id}/',
+            'changefreq': 'weekly',
+            'priority': '0.6'
+        })
+
+    # Add posts
+    for p in Post.objects.all():
+        urls.append({
+            'loc': f'https://nebians.consica.com.np/forum/post/{p.id}/',
+            'changefreq': 'daily',
+            'priority': '0.6'
+        })
+
+    xml_content = '<?xml version="1.0" encoding="UTF-8"?>\n'
+    xml_content += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+    for u in urls:
+        xml_content += '  <url>\n'
+        xml_content += f"    <loc>{u['loc']}</loc>\n"
+        xml_content += f"    <changefreq>{u['changefreq']}</changefreq>\n"
+        xml_content += f"    <priority>{u['priority']}</priority>\n"
+        xml_content += '  </url>\n'
+    xml_content += '</urlset>\n'
+
+    return HttpResponse(xml_content, content_type='application/xml')
