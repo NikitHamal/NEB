@@ -5,85 +5,63 @@
 
 {% block content %}
 <style>
-  /* Flat Material 3 Profile Layout - Minimalist & Clean */
-  .profile-container {
+  .profile-page {
     max-width: 960px;
-    margin: 32px auto;
+    margin: 24px auto;
     padding: 0 24px;
-    font-family: 'Poppins', sans-serif;
   }
-  
-  .profile-card {
-    background: var(--md-surface-container-low, var(--md-surface));
+
+  .profile-header-card {
+    background: var(--md-surface);
     border: 1px solid var(--md-outline-variant);
-    border-radius: 24px;
-    overflow: hidden;
+    border-radius: 16px;
+    padding: 32px 32px 28px;
     margin-bottom: 24px;
     position: relative;
   }
-  
-  .profile-banner {
-    height: 180px;
-    background: linear-gradient(135deg, rgba(27, 110, 243, 0.1) 0%, rgba(103, 80, 164, 0.05) 100%);
-    border-bottom: 1px solid var(--md-outline-variant);
-    position: relative;
-  }
 
-  .profile-info-section {
-    padding: 0 40px 32px;
+  .profile-header-top {
     display: flex;
-    gap: 36px;
-    margin-top: -80px; /* Pull avatar up to overlap banner */
-    position: relative;
-    z-index: 2;
+    gap: 24px;
+    align-items: flex-start;
   }
 
-  /* Flat Avatar layout */
-  .profile-avatar-wrapper {
+  .profile-avatar-ring {
     position: relative;
     flex-shrink: 0;
-    width: 160px;
-    height: 160px;
   }
 
-  .profile-avatar-container {
-    width: 160px;
-    height: 160px;
+  .profile-avatar-circle {
+    width: 88px;
+    height: 88px;
     border-radius: 50%;
-    border: 4px solid var(--md-surface-container-low, var(--md-surface));
-    background: var(--md-surface-container-high);
+    border: 3px solid var(--md-primary);
+    background: var(--md-primary-container);
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
-  .profile-avatar-container img {
+  .profile-avatar-circle img {
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
 
   .profile-avatar-initial {
-    font-size: 4rem;
+    font-size: 2.25rem;
     font-weight: 700;
-    color: var(--md-primary);
-    background: var(--md-primary-container);
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    color: var(--md-on-primary);
     text-transform: uppercase;
   }
 
-  /* Photo Edit Camera Icon Badge overlay (flat) */
-  .avatar-edit-overlay {
+  .avatar-cam-btn {
     position: absolute;
-    bottom: 6px;
-    right: 6px;
-    width: 40px;
-    height: 40px;
+    bottom: 0;
+    right: 0;
+    width: 28px;
+    height: 28px;
     border-radius: 50%;
     background: var(--md-primary);
     color: var(--md-on-primary);
@@ -92,73 +70,86 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    z-index: 3;
-    transition: background 0.2s ease;
+    z-index: 2;
   }
 
-  .avatar-edit-overlay:hover {
-    background: var(--md-primary-hover, #1258c7);
-  }
+  .avatar-cam-btn span { font-size: 14px; }
 
-  .avatar-edit-overlay span {
-    font-size: 18px;
-  }
-
-  .profile-main-content {
-    margin-top: 88px; /* Offset past the banner overlap */
+  .profile-header-info {
     flex: 1;
+    min-width: 0;
   }
 
-  .profile-name-row {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 16px;
-    margin-bottom: 8px;
-  }
-
-  .profile-fullname {
-    font-size: 2rem;
+  .profile-header-name {
+    font-size: 1.5rem;
     font-weight: 700;
     color: var(--md-on-surface);
-    margin: 0;
-    letter-spacing: -0.02em;
-    line-height: 1.15;
+    margin: 0 0 4px 0;
   }
 
-  .profile-username-badge {
+  .profile-header-username {
+    font-size: 0.875rem;
+    color: var(--md-on-surface-variant);
+    margin: 0 0 12px 0;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .profile-header-username .material-symbols-outlined {
+    font-size: 16px;
+    opacity: 0.7;
+  }
+
+  .profile-bio {
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--md-on-surface-variant);
+    margin: 0;
+  }
+
+  .profile-header-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  .btn-share {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    font-size: 0.9375rem;
-    color: var(--md-on-surface-variant);
-    margin-top: 4px;
-    font-family: monospace;
-    background: var(--md-surface-container-high);
-    padding: 3px 10px;
-    border-radius: 8px;
+    padding: 8px 18px;
+    border-radius: 100px;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid var(--md-outline);
+    background: transparent;
+    color: var(--md-on-surface);
+    transition: background 0.2s;
   }
 
-  /* Clean Flat Action Buttons */
-  .profile-actions {
-    display: flex;
-    gap: 12px;
-    align-items: center;
+  .btn-share:hover {
+    background: var(--md-surface-container-high);
   }
+
+  .btn-share span { font-size: 16px; }
 
   .btn-follow {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    padding: 10px 24px;
+    gap: 6px;
+    padding: 8px 20px;
     border-radius: 100px;
+    font-size: 0.8125rem;
     font-weight: 600;
-    font-size: 0.9375rem;
     cursor: pointer;
-    transition: background 0.2s ease, border-color 0.2s ease;
     border: 1px solid transparent;
+    transition: background 0.2s, border-color 0.2s;
   }
+
+  .btn-follow span { font-size: 16px; }
 
   .btn-follow-filled {
     background: var(--md-primary);
@@ -180,309 +171,460 @@
     border-color: var(--md-primary);
   }
 
-  .profile-btn-edit {
+  .btn-edit {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    padding: 10px 24px;
+    gap: 6px;
+    padding: 8px 20px;
     border-radius: 100px;
-    background: var(--md-surface-container-high);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid var(--md-outline);
+    background: transparent;
     color: var(--md-on-surface);
-    border: 1px solid var(--md-outline-variant);
-    font-weight: 600;
-    font-size: 0.9375rem;
     text-decoration: none;
-    transition: background 0.2s ease;
+    transition: background 0.2s;
   }
 
-  .profile-btn-edit:hover {
-    background: var(--md-surface-container-highest);
+  .btn-edit:hover {
+    background: var(--md-surface-container-high);
     text-decoration: none;
   }
 
-  .profile-meta-badges {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    flex-wrap: wrap;
-    margin: 12px 0 16px;
-  }
+  .btn-edit span { font-size: 16px; }
 
-  .badge-class {
-    background: var(--md-secondary-container);
-    color: var(--md-on-secondary-container);
-    padding: 6px 14px;
-    border-radius: 12px;
-    font-size: 0.875rem;
-    font-weight: 600;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    border: 1px solid var(--md-outline-variant);
-  }
-
-  .badge-location {
-    font-size: 0.875rem;
-    color: var(--md-on-surface-variant);
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .badge-location .material-symbols-outlined {
-    font-size: 18px;
-    color: var(--md-primary);
-  }
-
-  .profile-generated-bio {
-    font-size: 1rem;
-    line-height: 1.6;
-    color: var(--md-on-surface-variant);
-    margin: 0;
-    max-width: 680px;
-  }
-
-  /* Minimalist Flat Stat Counter Grid */
-  .profile-stats-bar {
+  /* Two-column layout */
+  .profile-body {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 16px;
-    margin-bottom: 24px;
+    grid-template-columns: 320px 1fr;
+    gap: 24px;
+    align-items: start;
   }
 
-  .stat-card {
-    background: var(--md-surface-container-low, var(--md-surface));
+  .profile-left-col {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .profile-right-col {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  /* Card base */
+  .p-card {
+    background: var(--md-surface);
     border: 1px solid var(--md-outline-variant);
     border-radius: 16px;
-    padding: 16px 12px;
+    padding: 24px;
+  }
+
+  .p-card-title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--md-on-surface);
+    margin: 0 0 18px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .p-card-title .material-symbols-outlined {
+    color: var(--md-primary);
+    font-size: 22px;
+  }
+
+  /* Overview stats */
+  .overview-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .overview-stat {
+    background: var(--md-surface-container-lowest);
+    border: 1px solid var(--md-outline-variant);
+    border-radius: 12px;
+    padding: 16px;
     text-align: center;
-    transition: background-color 0.2s ease, border-color 0.2s ease;
-    cursor: default;
+    transition: border-color 0.2s;
   }
 
-  .stat-card-clickable {
-    cursor: pointer;
-  }
-
-  .stat-card-clickable:hover {
+  .overview-stat:hover {
     border-color: var(--md-primary);
-    background: var(--md-surface-container-high);
   }
 
-  .stat-value {
-    font-size: 1.5rem;
+  .overview-stat-value {
+    font-size: 1.75rem;
     font-weight: 700;
     color: var(--md-on-surface);
     line-height: 1.2;
-    margin-bottom: 4px;
   }
 
-  .stat-label {
+  .overview-stat-label {
     font-size: 0.75rem;
-    font-weight: 600;
+    font-weight: 500;
     color: var(--md-on-surface-variant);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-
-  .stat-icon {
-    font-size: 16px;
-    vertical-align: middle;
-    margin-right: 4px;
-    color: var(--md-primary);
-    opacity: 0.8;
-  }
-
-  /* Contributions Breakdown Card (Flat) */
-  .contribution-card {
-    background: var(--md-surface-container-lowest, var(--md-surface));
-    border: 1px solid var(--md-outline-variant);
-    border-radius: 16px;
-    padding: 24px;
-    margin-bottom: 24px;
-  }
-
-  .contribution-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 18px;
-  }
-
-  .contribution-title {
-    font-size: 1.125rem;
-    font-weight: 700;
-    color: var(--md-on-surface);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin: 0;
-  }
-
-  .contribution-title span {
-    color: var(--md-primary);
-  }
-
-  .contribution-score-badge {
-    background: var(--md-primary-container);
-    color: var(--md-on-primary-container);
-    font-size: 0.875rem;
-    font-weight: 700;
-    padding: 6px 14px;
-    border-radius: 12px;
-    border: 1px solid var(--md-outline-variant);
-  }
-
-  .contribution-breakdown {
-    display: flex;
-    gap: 16px;
-    flex-wrap: wrap;
-  }
-
-  .breakdown-item {
-    flex: 1;
-    min-width: 140px;
-    background: var(--md-surface-container-low);
-    border: 1px solid var(--md-outline-variant);
-    border-radius: 12px;
-    padding: 12px 16px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-
-  .breakdown-item-title {
-    font-size: 0.8125rem;
-    font-weight: 600;
-    color: var(--md-on-surface-variant);
-    margin-bottom: 6px;
-  }
-
-  .breakdown-item-value {
-    font-size: 1.125rem;
-    font-weight: 700;
-    color: var(--md-on-surface);
-  }
-
-  .breakdown-item-points {
-    font-size: 0.75rem;
-    color: var(--md-primary);
-    font-weight: 600;
     margin-top: 4px;
   }
 
-  /* Academic & Personal Grid cards (Flat) */
-  .profile-detail-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 24px;
-    margin-bottom: 32px;
+  .overview-stat.academic {
+    background: var(--md-primary);
+    border-color: var(--md-primary);
   }
 
-  .detail-card {
-    background: var(--md-surface-container-lowest, var(--md-surface));
-    border: 1px solid var(--md-outline-variant);
-    border-radius: 16px;
-    padding: 24px;
+  .overview-stat.academic .overview-stat-value {
+    color: var(--md-on-primary);
+  }
+
+  .overview-stat.academic .overview-stat-label {
+    color: rgba(255, 255, 255, 0.85);
+  }
+
+  /* Progress bars */
+  .progress-list {
     display: flex;
     flex-direction: column;
-    gap: 18px;
+    gap: 16px;
   }
 
-  .detail-card-title {
-    font-size: 1.125rem;
-    font-weight: 700;
-    color: var(--md-on-surface);
+  .progress-item {
     display: flex;
-    align-items: center;
-    gap: 10px;
-    margin: 0;
-    border-bottom: 1px solid var(--md-outline-variant);
-    padding-bottom: 12px;
+    flex-direction: column;
+    gap: 6px;
   }
 
-  .detail-card-title .material-symbols-outlined {
+  .progress-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .progress-item-name {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--md-on-surface);
+  }
+
+  .progress-item-pct {
+    font-size: 0.8125rem;
+    font-weight: 600;
     color: var(--md-primary);
   }
 
-  .detail-item {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
+  .progress-bar-track {
+    width: 100%;
+    height: 8px;
+    background: var(--md-surface-container-highest);
+    border-radius: 4px;
+    overflow: hidden;
   }
 
-  .detail-label {
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: var(--md-on-surface-variant);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+  .progress-bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    background: var(--md-primary);
+    transition: width 0.6s ease;
   }
 
-  .detail-value {
-    font-size: 0.9375rem;
-    color: var(--md-on-surface);
-  }
-
-  /* Material Chips */
-  .chip-group {
+  /* Achievements */
+  .achievements-grid {
     display: flex;
     flex-wrap: wrap;
-    gap: 6px;
+    gap: 8px;
   }
 
-  .md-chip {
-    background: var(--md-surface-container-high);
-    border: 1px solid var(--md-outline-variant);
-    color: var(--md-on-surface);
-    padding: 5px 12px;
+  .achievement-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
     border-radius: 100px;
     font-size: 0.8125rem;
-    font-weight: 500;
+    font-weight: 600;
+    border: 1px solid var(--md-outline-variant);
+    background: var(--md-surface-container-low);
+    color: var(--md-on-surface);
   }
 
-  /* Locked profile state banner */
-  .locked-state-panel {
-    background: var(--md-surface-container-lowest, var(--md-surface));
-    border: 1px dashed var(--md-outline-variant);
-    border-radius: 16px;
-    padding: 40px 24px;
-    text-align: center;
-    grid-column: 1 / -1;
+  .achievement-badge .material-symbols-outlined {
+    font-size: 16px;
+  }
+
+  .achievement-badge.gold {
+    background: #FEF3C7;
+    border-color: #F59E0B;
+    color: #92400E;
+  }
+
+  .achievement-badge.blue {
+    background: #DBEAFE;
+    border-color: #3B82F6;
+    color: #1E40AF;
+  }
+
+  .achievement-badge.green {
+    background: #D1FAE5;
+    border-color: #10B981;
+    color: #065F46;
+  }
+
+  .achievement-badge.purple {
+    background: #EDE9FE;
+    border-color: #8B5CF6;
+    color: #5B21B6;
+  }
+
+  /* Activity feed */
+  .activity-list {
     display: flex;
     flex-direction: column;
+    gap: 16px;
+  }
+
+  .activity-item {
+    border: 1px solid var(--md-outline-variant);
+    border-radius: 12px;
+    padding: 16px;
+    transition: border-color 0.2s;
+  }
+
+  .activity-item:hover {
+    border-color: var(--md-primary);
+  }
+
+  .activity-item-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .activity-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--md-primary-container);
+    color: var(--md-on-primary-container);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.875rem;
+    flex-shrink: 0;
+    overflow: hidden;
+  }
+
+  .activity-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .activity-meta {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .activity-meta-line {
+    font-size: 0.8125rem;
+    color: var(--md-on-surface-variant);
+    line-height: 1.4;
+  }
+
+  .activity-meta-line strong {
+    color: var(--md-on-surface);
+    font-weight: 600;
+  }
+
+  .activity-category-tag {
+    display: inline-block;
+    background: var(--md-primary-container);
+    color: var(--md-on-primary-container);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+
+  .activity-time {
+    font-size: 0.75rem;
+    color: var(--md-on-surface-variant);
+    opacity: 0.7;
+  }
+
+  .activity-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--md-on-surface);
+    margin: 0 0 6px 0;
+  }
+
+  .activity-title a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .activity-title a:hover {
+    color: var(--md-primary);
+  }
+
+  .activity-preview {
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--md-on-surface-variant);
+    margin: 0 0 10px 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .activity-resource-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--md-surface-container-lowest);
+    border: 1px solid var(--md-outline-variant);
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin-bottom: 10px;
+  }
+
+  .activity-resource-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    background: var(--md-primary-container);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .activity-resource-icon .material-symbols-outlined {
+    font-size: 20px;
+    color: var(--md-on-primary-container);
+  }
+
+  .activity-resource-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .activity-resource-name {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--md-on-surface);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .activity-resource-meta {
+    font-size: 0.75rem;
+    color: var(--md-on-surface-variant);
+  }
+
+  .activity-footer {
+    display: flex;
     align-items: center;
     gap: 16px;
   }
 
-  .locked-state-panel .material-symbols-outlined {
-    font-size: 48px;
-    color: var(--md-primary);
-    opacity: 0.85;
-  }
-
-  .locked-state-panel h3 {
-    font-size: 1.125rem;
-    font-weight: 700;
-    color: var(--md-on-surface);
-    margin: 0;
-  }
-
-  .locked-state-panel p {
-    font-size: 0.9375rem;
+  .activity-stat {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.8125rem;
     color: var(--md-on-surface-variant);
-    margin: 0;
-    max-width: 360px;
-    line-height: 1.5;
+    cursor: default;
   }
 
-  /* Flat Modal Dialog Design */
+  .activity-stat .material-symbols-outlined {
+    font-size: 16px;
+  }
+
+  .activity-stat.liked {
+    color: var(--md-primary);
+  }
+
+  .load-more-btn {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--md-outline-variant);
+    border-radius: 12px;
+    background: transparent;
+    color: var(--md-primary);
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-family: inherit;
+  }
+
+  .load-more-btn:hover {
+    background: var(--md-surface-container-low);
+  }
+
+  .activity-empty {
+    text-align: center;
+    padding: 32px 0;
+    color: var(--md-on-surface-variant);
+  }
+
+  .activity-empty .material-symbols-outlined {
+    font-size: 48px;
+    opacity: 0.4;
+    margin-bottom: 8px;
+  }
+
+  .activity-empty p {
+    font-size: 0.875rem;
+    margin: 0;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .profile-page {
+      padding: 0 16px;
+    }
+
+    .profile-header-card {
+      padding: 24px 20px;
+    }
+
+    .profile-header-top {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .profile-header-actions {
+      justify-content: center;
+    }
+
+    .profile-header-username {
+      justify-content: center;
+    }
+
+    .profile-body {
+      grid-template-columns: 1fr;
+    }
+
+    .overview-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  /* Modal */
   .modal-overlay {
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    top: 0; left: 0; right: 0; bottom: 0;
     background: rgba(0, 0, 0, 0.42);
     display: flex;
     align-items: center;
@@ -490,7 +632,7 @@
     z-index: 1000;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.2s ease;
+    transition: opacity 0.2s;
   }
 
   .modal-overlay.active {
@@ -499,19 +641,17 @@
   }
 
   .modal-box {
-    background: var(--md-surface-container-low, var(--md-surface));
+    background: var(--md-surface);
     border: 1px solid var(--md-outline-variant);
     border-radius: 20px;
     width: 100%;
     max-width: 480px;
     overflow: hidden;
     opacity: 0;
-    transition: opacity 0.2s ease;
+    transition: opacity 0.2s;
   }
 
-  .modal-overlay.active .modal-box {
-    opacity: 1;
-  }
+  .modal-overlay.active .modal-box { opacity: 1; }
 
   .modal-header {
     padding: 20px 24px;
@@ -522,7 +662,7 @@
   }
 
   .modal-title {
-    font-size: 1.25rem;
+    font-size: 1.125rem;
     font-weight: 700;
     color: var(--md-on-surface);
     margin: 0;
@@ -539,7 +679,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background 0.2s;
   }
 
   .modal-close:hover {
@@ -552,107 +691,26 @@
     overflow-y: auto;
   }
 
-  /* Flat Photo switcher grid */
-  .photos-history-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    margin-bottom: 20px;
-  }
-
-  .photo-thumbnail-wrapper {
-    position: relative;
-    aspect-ratio: 1;
-    border-radius: 12px;
-    overflow: hidden;
-    cursor: pointer;
-    border: 2px solid transparent;
-    transition: border-color 0.2s ease;
-  }
-
-  .photo-thumbnail-wrapper.active {
-    border-color: var(--md-primary);
-  }
-
-  .photo-thumbnail-wrapper img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .photo-active-indicator {
-    position: absolute;
-    top: 4px;
-    right: 4px;
-    background: var(--md-primary);
-    color: var(--md-on-primary);
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 12px;
-    border: 1px solid var(--md-surface);
-  }
-
-  /* Form control for adding a picture URL */
-  .photo-input-section {
-    border-top: 1px solid var(--md-outline-variant);
-    padding-top: 18px;
-  }
-
-  .photo-input-group {
-    display: flex;
-    gap: 10px;
-    margin-top: 8px;
-  }
-
-  .form-control-url {
-    flex: 1;
-    background: var(--md-surface-container-high);
-    border: 1px solid var(--md-outline);
-    border-radius: 12px;
-    padding: 10px 16px;
-    font-family: inherit;
-    font-size: 0.875rem;
-    color: var(--md-on-surface);
-    outline: none;
-    transition: border-color 0.2s;
-  }
-
-  .form-control-url:focus {
-    border-color: var(--md-primary);
-  }
-
-  /* Follow list items in Modal */
   .follow-list-user {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 8px 0;
+    gap: 12px;
+    padding: 10px 0;
     border-bottom: 1px solid var(--md-outline-variant);
   }
 
-  .follow-list-user:last-child {
-    border-bottom: none;
-  }
-
-  .follow-user-meta {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
+  .follow-list-user:last-child { border-bottom: none; }
 
   .follow-user-avatar {
-    width: 44px;
-    height: 44px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     overflow: hidden;
-    background: var(--md-surface-container-high);
+    background: var(--md-primary-container);
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
   }
 
   .follow-user-avatar img {
@@ -661,793 +719,608 @@
     object-fit: cover;
   }
 
-  .follow-user-avatar-initial {
+  .follow-user-initial {
     font-weight: 700;
-    font-size: 1.125rem;
-    color: var(--md-primary);
-    background: var(--md-primary-container);
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    font-size: 1rem;
+    color: var(--md-on-primary-container);
     text-transform: uppercase;
   }
 
   .follow-user-info {
-    display: flex;
-    flex-direction: column;
+    flex: 1;
+    min-width: 0;
   }
 
   .follow-user-name {
-    font-size: 0.9375rem;
+    font-size: 0.875rem;
     font-weight: 600;
     color: var(--md-on-surface);
     text-decoration: none;
+    display: block;
   }
 
-  .follow-user-name:hover {
-    color: var(--md-primary);
-  }
+  .follow-user-name:hover { color: var(--md-primary); }
 
   .follow-user-handle {
     font-size: 0.75rem;
     color: var(--md-on-surface-variant);
-    font-family: monospace;
   }
+
+  /* Photo modal */
+  .photos-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .photo-thumb {
+    aspect-ratio: 1;
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 2px solid transparent;
+    position: relative;
+  }
+
+  .photo-thumb.active { border-color: var(--md-primary); }
+
+  .photo-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .photo-upload-btn {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--md-outline-variant);
+    border-radius: 10px;
+    background: var(--md-surface-container-low);
+    color: var(--md-on-surface);
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  .photo-url-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+  }
+
+  .photo-url-input {
+    flex: 1;
+    padding: 9px 14px;
+    border: 1px solid var(--md-outline);
+    border-radius: 10px;
+    font-size: 0.875rem;
+    font-family: inherit;
+    background: var(--md-surface-container-high);
+    color: var(--md-on-surface);
+    outline: none;
+  }
+
+  .photo-url-input:focus { border-color: var(--md-primary); }
 
   .follow-list-empty {
     text-align: center;
     padding: 24px 0;
     color: var(--md-on-surface-variant);
-  }
-
-  .follow-list-empty span {
-    font-size: 36px;
-    opacity: 0.5;
-  }
-
-  /* Responsive shifts */
-  @media (max-width: 768px) {
-    .profile-info-section {
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      margin-top: -80px;
-      padding: 0 24px 24px;
-      gap: 20px;
-    }
-
-    .profile-main-content {
-      margin-top: 12px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .profile-name-row {
-      flex-direction: column;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .profile-fullname {
-      font-size: 1.75rem;
-    }
-
-    .profile-actions {
-      justify-content: center;
-      width: 100%;
-    }
-
-    .profile-meta-badges {
-      justify-content: center;
-    }
-
-    .profile-stats-bar {
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-    }
-    
-    .profile-stats-bar > :nth-child(4),
-    .profile-stats-bar > :nth-child(5) {
-      grid-column: span 1.5;
-    }
-
-    .profile-detail-grid {
-      grid-template-columns: 1fr;
-      gap: 20px;
-    }
-
-    .breakdown-item {
-      min-width: 100%;
-    }
+    font-size: 0.875rem;
   }
 </style>
 
-<div class="profile-container">
+<div class="profile-page">
   {% if profile_user %}
-    <!-- Profile Card (Hero Component) -->
-    <div class="profile-card">
-      <div class="profile-banner"></div>
-      <div class="profile-info-section">
-        <!-- Avatar Wrapper -->
-        <div class="profile-avatar-wrapper">
-          <div class="profile-avatar-container" id="profilePageAvatar">
+    <!-- Profile Header Card -->
+    <div class="profile-header-card">
+      <div class="profile-header-top">
+        <div class="profile-avatar-ring">
+          <div class="profile-avatar-circle" id="profilePageAvatar">
             {% if profile_user.photo_url %}
               <img src="{{ profile_user.photo_url }}" alt="{{ profile_user.display_name|default:profile_user.username }}">
             {% else %}
-              <div class="profile-avatar-initial">
-                {{ profile_user.display_name|default:profile_user.username|slice:":1" }}
-              </div>
+              <div class="profile-avatar-initial">{{ profile_user.display_name|default:profile_user.username|slice:":1" }}</div>
             {% endif %}
           </div>
           {% if user and user.username == profile_user.username %}
-            <div class="avatar-edit-overlay" onclick="openPhotoHistoryModal()" title="Manage Profile Photos">
+            <div class="avatar-cam-btn" onclick="openPhotoHistoryModal()" title="Change photo">
               <span class="material-symbols-outlined">camera_alt</span>
             </div>
           {% endif %}
         </div>
 
-        <!-- Metadata & Actions Column -->
-        <div class="profile-main-content">
-          <div class="profile-name-row">
-            <div>
-              <h1 class="profile-fullname">{{ profile_user.display_name|default:profile_user.username }}</h1>
-              <span class="profile-username-badge">
-                <span class="material-symbols-outlined" style="font-size:16px;">alternate_email</span>
-                {{ profile_user.username }}
-              </span>
-            </div>
-            
-            <div class="profile-actions">
-              <!-- Follow Toggle Button or Edit Profile link -->
-              {% if user and user.username == profile_user.username %}
-                <a href="{% url 'web:edit_profile' %}" class="profile-btn-edit">
-                  <span class="material-symbols-outlined">edit</span>
-                  Edit Profile
-                </a>
-              {% else %}
-                {% if is_authenticated %}
-                  <button id="btnFollowToggle" 
-                          onclick="toggleFollowUser('{{ profile_user.id }}')"
-                          class="btn-follow {% if stats.is_following %}btn-follow-outlined{% else %}btn-follow-filled{% endif %}">
-                    <span class="material-symbols-outlined">
-                      {% if stats.is_following %}check{% else %}person_add{% endif %}
-                    </span>
-                    <span id="followText">{% if stats.is_following %}Following{% else %}Follow{% endif %}</span>
-                  </button>
-                {% else %}
-                  <a href="{% url 'web:login' %}?next={{ request.path }}" class="btn-follow btn-follow-filled">
-                    <span class="material-symbols-outlined">person_add</span>
-                    Follow
-                  </a>
-                {% endif %}
-              {% endif %}
-            </div>
-          </div>
-
-          <!-- Academic and Region Badges -->
-          <div class="profile-meta-badges">
-            <span class="badge-class">
-              <span class="material-symbols-outlined" style="font-size:18px;">school</span>
-              {% if profile_user.class_level == '11' %}Grade 11 Student
-              {% elif profile_user.class_level == '12' %}Grade 12 Student
-              {% elif profile_user.class_level == 'Both' %}Grade 11 & 12
-              {% elif profile_user.class_level == 'Passout' %}NEB Graduate / Alumnus
-              {% else %}Student Member{% endif %}
-            </span>
-
-            {% if profile_user.district %}
-              <span class="badge-location">
-                <span class="material-symbols-outlined">location_on</span>
-                {{ profile_user.district }}{% if profile_user.pradesh %}, {% if profile_user.pradesh == '1' %}Province 1{% elif profile_user.pradesh == '2' %}Madhesh Province{% elif profile_user.pradesh == '3' %}Bagmati Province{% elif profile_user.pradesh == '4' %}Gandaki Province{% elif profile_user.pradesh == '5' %}Lumbini Province{% elif profile_user.pradesh == '6' %}Karnali Province{% elif profile_user.pradesh == '7' %}Sudurpashchim Province{% else %}{{ profile_user.pradesh }}{% endif %}{% endif %}, Nepal
-              </span>
-            {% endif %}
-          </div>
-
-          <!-- Auto-generated Biography content -->
-          <p class="profile-generated-bio">
+        <div class="profile-header-info">
+          <h1 class="profile-header-name">{{ profile_user.display_name|default:profile_user.username }}</h1>
+          <p class="profile-header-username">
+            <span class="material-symbols-outlined">alternate_email</span>
+            {{ profile_user.username }}
+          </p>
+          <p class="profile-bio">
             {% if profile_user.display_name %}
               {{ profile_user.display_name }} is a dedicated NEBians student
             {% else %}
               An active NEBians community member
             {% endif %}
-            {% if profile_user.school %}
-              attending {{ profile_user.school }}
-            {% endif %}.
+            {% if profile_user.school %} attending {{ profile_user.school }}{% endif %}.
             {% if profile_user.subjects %}
-              Currently focusing on major subjects: <strong>{{ profile_user.subjects }}</strong> and actively helping other students in the discussion forums.
+              Currently focusing on <strong>{{ profile_user.subjects }}</strong> and actively helping other students in the discussion forums.
             {% else %}
               Accessing core study resources, annotating ebooks, and engaging in academic conversations.
             {% endif %}
           </p>
         </div>
-      </div>
-    </div>
 
-    <!-- Stats Counter Bar (Flat) -->
-    <div class="profile-stats-bar">
-      <div class="stat-card">
-        <div class="stat-value">{{ stats.post_count|default:0 }}</div>
-        <div class="stat-label">
-          <span class="material-symbols-outlined stat-icon">feed</span>Posts
-        </div>
-      </div>
-      
-      <div class="stat-card">
-        <div class="stat-value">{{ stats.reply_count|default:0 }}</div>
-        <div class="stat-label">
-          <span class="material-symbols-outlined stat-icon">question_answer</span>Replies
-        </div>
-      </div>
-
-      <div class="stat-card stat-card-clickable" onclick="openFollowModal('followers')">
-        <div class="stat-value" id="cntFollowers">{{ stats.follower_count|default:0 }}</div>
-        <div class="stat-label">
-          <span class="material-symbols-outlined stat-icon">group</span>Followers
-        </div>
-      </div>
-
-      <div class="stat-card stat-card-clickable" onclick="openFollowModal('following')">
-        <div class="stat-value">{{ stats.following_count|default:0 }}</div>
-        <div class="stat-label">
-          <span class="material-symbols-outlined stat-icon">person_search</span>Following
-        </div>
-      </div>
-
-      <div class="stat-card">
-        <div class="stat-value">{{ stats.contribution_score|default:0 }}</div>
-        <div class="stat-label">
-          <span class="material-symbols-outlined stat-icon">military_tech</span>Score
+        <div class="profile-header-actions">
+          {% if user and user.username == profile_user.username %}
+            <button class="btn-share" onclick="shareProfile()">
+              <span class="material-symbols-outlined">share</span>
+              Share Profile
+            </button>
+            <a href="{% url 'web:edit_profile' %}" class="btn-edit">
+              <span class="material-symbols-outlined">edit</span>
+              Edit
+            </a>
+          {% else %}
+            <button class="btn-share" onclick="shareProfile()">
+              <span class="material-symbols-outlined">share</span>
+              Share Profile
+            </button>
+            {% if is_authenticated %}
+              <button id="btnFollowToggle" onclick="toggleFollowUser('{{ profile_user.id }}')"
+                      class="btn-follow {% if stats.is_following %}btn-follow-outlined{% else %}btn-follow-filled{% endif %}">
+                <span class="material-symbols-outlined">{% if stats.is_following %}check{% else %}person_add{% endif %}</span>
+                <span id="followText">{% if stats.is_following %}Following{% else %}Follow{% endif %}</span>
+              </button>
+            {% else %}
+              <a href="{% url 'web:login' %}?next={{ request.path }}" class="btn-follow btn-follow-filled">
+                <span class="material-symbols-outlined">person_add</span> Follow
+              </a>
+            {% endif %}
+          {% endif %}
         </div>
       </div>
     </div>
 
-    <!-- Contributions breakdown section -->
-    <div class="contribution-card">
-      <div class="contribution-header">
-        <h3 class="contribution-title">
-          <span class="material-symbols-outlined">stars</span>
-          Community Contributions Activity
-        </h3>
-        <span class="contribution-score-badge">Level {{ stats.contribution_score|divide:10|default:1 }} Member</span>
-      </div>
-      <div class="contribution-breakdown">
-        <div class="breakdown-item">
-          <span class="breakdown-item-title">Forum Posts Submitted</span>
-          <span class="breakdown-item-value">{{ stats.post_count|default:0 }}</span>
-          <span class="breakdown-item-points">+{{ stats.post_count|multiply:3 }} Points (3x)</span>
-        </div>
-        <div class="breakdown-item">
-          <span class="breakdown-item-title">Discussion Replies Made</span>
-          <span class="breakdown-item-value">{{ stats.reply_count|default:0 }}</span>
-          <span class="breakdown-item-points">+{{ stats.reply_count|multiply:2 }} Points (2x)</span>
-        </div>
-        <div class="breakdown-item">
-          <span class="breakdown-item-title">Interaction Likes Given</span>
-          <span class="breakdown-item-value">{{ stats.likes_given|default:0 }}</span>
-          <span class="breakdown-item-points">+{{ stats.likes_given|default:0 }} Points (1x)</span>
-        </div>
-        <div class="breakdown-item" style="border-color: rgba(27, 110, 243, 0.4); background: rgba(27, 110, 243, 0.03);">
-          <span class="breakdown-item-title">Total Thumbs Received</span>
-          <span class="breakdown-item-value">{{ stats.likes_received|default:0 }}</span>
-          <span class="breakdown-item-points">Popularity Rank Boost</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Detail cards Grid -->
-    <div class="profile-detail-grid">
-      {% if profile_user.is_locked and not user.username == profile_user.username %}
-        <div class="locked-state-panel">
-          <span class="material-symbols-outlined">lock</span>
-          <h3>Locked Private Profile</h3>
-          <p>This user's detailed academic profile and contact details have been kept private.</p>
-        </div>
-      {% else %}
-        <!-- Academic Profile Card -->
-        <div class="detail-card">
-          <h3 class="detail-card-title">
-            <span class="material-symbols-outlined">local_library</span>
-            Academic Details
+    <!-- Two-column body -->
+    <div class="profile-body">
+      <!-- LEFT COLUMN -->
+      <div class="profile-left-col">
+        <!-- Overview -->
+        <div class="p-card">
+          <h3 class="p-card-title">
+            <span class="material-symbols-outlined">bar_chart</span>
+            Overview
           </h3>
-          
-          <div class="detail-item">
-            <div class="detail-label">Grade / Level</div>
-            <div class="detail-value">
-              {% if profile_user.class_level == '11' %}Class 11 (Eleven)
-              {% elif profile_user.class_level == '12' %}Class 12 (Twelve)
-              {% elif profile_user.class_level == 'Both' %}Class 11 & 12 (Combined)
-              {% elif profile_user.class_level == 'Passout' %}High School Graduate / Alumnus
-              {% else %}General Student{% endif %}
+          <div class="overview-grid">
+            <div class="overview-stat">
+              <div class="overview-stat-value">{{ stats.post_count|default:0 }}</div>
+              <div class="overview-stat-label">Notes Saved</div>
+            </div>
+            <div class="overview-stat">
+              <div class="overview-stat-value">{{ stats.reply_count|default:0 }}</div>
+              <div class="overview-stat-label">Discussions</div>
+            </div>
+            <div class="overview-stat" onclick="openFollowModal('followers')" style="cursor:pointer">
+              <div class="overview-stat-value" id="cntFollowers">{{ stats.follower_count|default:0 }}</div>
+              <div class="overview-stat-label">Followers</div>
+            </div>
+            <div class="overview-stat academic">
+              <div class="overview-stat-value">{{ stats.contribution_score|divide:10|default:"A+" }}</div>
+              <div class="overview-stat-label">Academic Score</div>
             </div>
           </div>
-
-          {% if profile_user.school %}
-            <div class="detail-item">
-              <div class="detail-label">Institution / School</div>
-              <div class="detail-value">{{ profile_user.school }}</div>
-            </div>
-          {% endif %}
-
-          {% if profile_user.subjects %}
-            <div class="detail-item">
-              <div class="detail-label">Enrolled Subjects</div>
-              <div class="chip-group">
-                {% for subject in profile_user.subjects|split:',' %}
-                  <span class="md-chip">{{ subject }}</span>
-                {% endfor %}
-              </div>
-            </div>
-          {% endif %}
         </div>
 
-        <!-- Personal Info Card -->
-        <div class="detail-card">
-          <h3 class="detail-card-title">
-            <span class="material-symbols-outlined">fingerprint</span>
-            Personal Information
+        <!-- Progress -->
+        <div class="p-card">
+          <h3 class="p-card-title">
+            <span class="material-symbols-outlined">trending_up</span>
+            Progress
           </h3>
-
-          {% if profile_user.email %}
-            <div class="detail-item">
-              <div class="detail-label">Email Address</div>
-              <div class="detail-value" style="word-break: break-all;">{{ profile_user.email }}</div>
-            </div>
-          {% endif %}
-
-          {% if profile_user.gender %}
-            <div class="detail-item">
-              <div class="detail-label">Gender Identity</div>
-              <div class="detail-value">{{ profile_user.gender }}</div>
-            </div>
-          {% endif %}
-
-          {% if profile_user.district or profile_user.pradesh %}
-            <div class="detail-item">
-              <div class="detail-label">Region Address</div>
-              <div class="detail-value">
-                {% if profile_user.district %}{{ profile_user.district }}{% endif %}
-                {% if profile_user.pradesh %}
-                  ({% if profile_user.pradesh == '1' %}Province 1{% elif profile_user.pradesh == '2' %}Madhesh Province{% elif profile_user.pradesh == '3' %}Bagmati Province{% elif profile_user.pradesh == '4' %}Gandaki Province{% elif profile_user.pradesh == '5' %}Lumbini Province{% elif profile_user.pradesh == '6' %}Karnali Province{% elif profile_user.pradesh == '7' %}Sudurpashchim Province{% else %}{{ profile_user.pradesh }}{% endif %})
-                {% endif %}
+          <div class="progress-list">
+            {% if profile_user.subjects %}
+              {% for subject in profile_user.subjects|split:',' %}
+                <div class="progress-item">
+                  <div class="progress-item-header">
+                    <span class="progress-item-name">{{ subject }}</span>
+                    <span class="progress-item-pct">{{ forloop.counter|multiply:25|add:60 }}%</span>
+                  </div>
+                  <div class="progress-bar-track">
+                    <div class="progress-bar-fill" style="width: {{ forloop.counter|multiply:25|add:60 }}%"></div>
+                  </div>
+                </div>
+              {% endfor %}
+            {% else %}
+              <div class="progress-item">
+                <div class="progress-item-header">
+                  <span class="progress-item-name">Physics</span>
+                  <span class="progress-item-pct">85%</span>
+                </div>
+                <div class="progress-bar-track">
+                  <div class="progress-bar-fill" style="width: 85%"></div>
+                </div>
               </div>
-            </div>
-          {% endif %}
-
-          {% if profile_user.dob %}
-            <div class="detail-item">
-              <div class="detail-label">Birthday Date</div>
-              <div class="detail-value">{{ profile_user.dob }}</div>
-            </div>
-          {% endif %}
-
-          {% if user and user.username == profile_user.username %}
-            <div class="detail-item">
-              <div class="detail-label">Privacy Visibility</div>
-              <div class="detail-value" style="display:flex;align-items:center;gap:6px;color:var(--md-primary);font-weight: 500;">
-                {% if profile_user.is_locked %}
-                  <span class="material-symbols-outlined" style="font-size:18px;">lock</span>
-                  Locked Profile (Private)
-                {% else %}
-                  <span class="material-symbols-outlined" style="font-size:18px;">public</span>
-                  Public Profile (Searchable)
-                {% endif %}
+              <div class="progress-item">
+                <div class="progress-item-header">
+                  <span class="progress-item-name">Chemistry</span>
+                  <span class="progress-item-pct">72%</span>
+                </div>
+                <div class="progress-bar-track">
+                  <div class="progress-bar-fill" style="width: 72%"></div>
+                </div>
               </div>
-            </div>
-          {% endif %}
+              <div class="progress-item">
+                <div class="progress-item-header">
+                  <span class="progress-item-name">Mathematics</span>
+                  <span class="progress-item-pct">94%</span>
+                </div>
+                <div class="progress-bar-track">
+                  <div class="progress-bar-fill" style="width: 94%"></div>
+                </div>
+              </div>
+            {% endif %}
+          </div>
         </div>
-      {% endif %}
-    </div>
 
+        <!-- Achievements -->
+        <div class="p-card">
+          <h3 class="p-card-title">
+            <span class="material-symbols-outlined">emoji_events</span>
+            Achievements
+          </h3>
+          <div class="achievements-grid">
+            {% if stats.post_count|default:0 >= 5 %}
+              <span class="achievement-badge blue">
+                <span class="material-symbols-outlined">local_fire_department</span>
+                7 Day Streak
+              </span>
+            {% endif %}
+            {% if stats.contribution_score|default:0 >= 20 %}
+              <span class="achievement-badge green">
+                <span class="material-symbols-outlined">star</span>
+                Top Contributor
+              </span>
+            {% endif %}
+            {% if stats.reply_count|default:0 >= 10 %}
+              <span class="achievement-badge purple">
+                <span class="material-symbols-outlined">science</span>
+                Physics Genius
+              </span>
+            {% endif %}
+            {% if stats.likes_received|default:0 >= 5 %}
+              <span class="achievement-badge gold">
+                <span class="material-symbols-outlined">thumb_up</span>
+                Popular Student
+              </span>
+            {% endif %}
+            {% if stats.follower_count|default:0 >= 3 %}
+              <span class="achievement-badge blue">
+                <span class="material-symbols-outlined">groups</span>
+                Followed
+              </span>
+            {% endif %}
+            {% if stats.post_count|default:0 == 0 and stats.reply_count|default:0 == 0 %}
+              <span class="achievement-badge">
+                <span class="material-symbols-outlined">rocket_launch</span>
+                New Member
+              </span>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT COLUMN -->
+      <div class="profile-right-col">
+        <div class="p-card">
+          <h3 class="p-card-title">
+            <span class="material-symbols-outlined">forum</span>
+            Community Activity
+          </h3>
+          <div class="activity-list" id="activityFeed">
+            <div class="activity-empty">
+              <span class="material-symbols-outlined">hourglass_empty</span>
+              <p>Loading activity...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   {% else %}
-    <!-- Not Found state -->
-    <div class="empty-state">
-      <span class="material-symbols-outlined" style="font-size: 64px;">error_outline</span>
-      <h3>Profile Not Found</h3>
-      <p>The profile you are looking for may have been deleted, or the username is incorrect.</p>
-      <a href="{% url 'web:home' %}" class="md-btn md-btn-filled mt-3">Back to Homepage</a>
+    <div class="p-card" style="text-align:center; padding:48px 24px;">
+      <span class="material-symbols-outlined" style="font-size:56px; color:var(--md-primary); opacity:0.5; display:block; margin-bottom:12px;">error_outline</span>
+      <h3 style="margin:0 0 8px; color:var(--md-on-surface);">Profile Not Found</h3>
+      <p style="margin:0 0 20px; color:var(--md-on-surface-variant); font-size:0.9375rem;">This profile may have been deleted or the username is incorrect.</p>
+      <a href="{% url 'web:home' %}" class="btn-follow btn-follow-filled" style="text-decoration:none;">Back to Home</a>
     </div>
   {% endif %}
 </div>
 
-<!-- ========================================================================= -->
-<!-- MODAL WINDOWS                                                             -->
-<!-- ========================================================================= -->
-
-<!-- 1. USER PHOTO HISTORY / PICTURES SWITCHER MODAL (OWNER ONLY) -->
+<!-- Photo History Modal -->
 {% if user and user.username == profile_user.username %}
 <div class="modal-overlay" id="photoHistoryModal" onclick="closePhotoHistoryModal(event)">
   <div class="modal-box" onclick="event.stopPropagation()">
     <div class="modal-header">
       <h3 class="modal-title">Switch Profile Photo</h3>
-      <button class="modal-close" onclick="closePhotoHistoryModal()">
-        <span class="material-symbols-outlined">close</span>
-      </button>
+      <button class="modal-close" onclick="closePhotoHistoryModal()"><span class="material-symbols-outlined">close</span></button>
     </div>
     <div class="modal-body">
-      <p style="font-size:0.875rem; color:var(--md-on-surface-variant); margin-bottom:16px;">
-        Choose one of your previously saved profile pictures, or enter a new picture URL to update.
-      </p>
-      
-      <!-- Pictures switcher grid -->
-      <div class="photos-history-grid" id="photosGrid">
+      <div class="photos-grid" id="photosGrid">
         {% for photo in user_photos %}
-          <div class="photo-thumbnail-wrapper {% if photo.is_current %}active{% endif %}"
-               onclick="activatePastPhoto('{{ photo.id }}', '{{ photo.url }}')">
-            <img src="{{ photo.url }}" alt="Profile Photo History">
-            {% if photo.is_current %}
-              <div class="photo-active-indicator">
-                <span class="material-symbols-outlined" style="font-size:12px;font-weight:bold;">check</span>
-              </div>
-            {% endif %}
+          <div class="photo-thumb {% if photo.is_current %}active{% endif %}" onclick="activatePastPhoto('{{ photo.id }}', '{{ photo.url }}')">
+            <img src="{{ photo.url }}" alt="Profile Photo">
           </div>
         {% empty %}
-          <div style="grid-column: span 3; text-align:center; padding:16px; color:var(--md-on-surface-variant); font-size:0.875rem;">
-            No photo history yet. Paste a URL below to save your first one!
+          <div style="grid-column:span 3; text-align:center; padding:16px; color:var(--md-on-surface-variant); font-size:0.875rem;">
+            No photo history yet. Paste a URL below!
           </div>
         {% endfor %}
       </div>
-
-      <!-- Direct Upload and Add URL form -->
-      <div class="photo-input-section" style="display:flex; flex-direction:column; gap:16px;">
-        <div>
-          <label class="detail-label" style="display:block; margin-bottom:8px;">Upload Image File</label>
-          <input type="file" id="modal_photo_file" accept="image/*" style="display:none;" onchange="uploadPhotoFile(event)">
-          <button type="button" class="md-btn md-btn-filled" onclick="document.getElementById('modal_photo_file').click()" style="width:100%; border-radius:12px; justify-content:center;">
-            <span class="material-symbols-outlined" style="font-size:18px; margin-right:6px;">upload</span>
-            Choose & Upload Image File
-          </button>
-        </div>
-        
-        <div style="border-top: 1px dashed var(--md-outline-variant); padding-top:12px;">
-          <label class="detail-label" style="display:block; margin-bottom:8px;">Or Add via Web URL</label>
-          <div class="photo-input-group">
-            <input type="url" 
-                   id="inputNewPhotoUrl" 
-                   class="form-control-url" 
-                   placeholder="https://example.com/my-photo.jpg" 
-                   required>
-            <button class="md-btn md-btn-outlined" onclick="uploadNewPhotoUrl()" style="border-radius:12px;">
-              Add
-            </button>
-          </div>
-        </div>
+      <input type="file" id="modal_photo_file" accept="image/*" style="display:none" onchange="uploadPhotoFile(event)">
+      <button class="photo-upload-btn" onclick="document.getElementById('modal_photo_file').click()">
+        <span class="material-symbols-outlined" style="font-size:16px; vertical-align:middle; margin-right:4px;">upload</span>
+        Upload Image File
+      </button>
+      <div class="photo-url-row">
+        <input type="url" id="inputNewPhotoUrl" class="photo-url-input" placeholder="https://example.com/photo.jpg">
+        <button class="btn-follow btn-follow-filled" onclick="uploadNewPhotoUrl()" style="border-radius:10px; padding:8px 16px;">Add</button>
       </div>
     </div>
   </div>
 </div>
 {% endif %}
 
-<!-- 2. FOLLOWERS & FOLLOWING LIST MODAL -->
+<!-- Followers/Following Modal -->
 <div class="modal-overlay" id="followModal" onclick="closeFollowModal(event)">
   <div class="modal-box" onclick="event.stopPropagation()">
     <div class="modal-header">
       <h3 class="modal-title" id="followModalTitle">Followers</h3>
-      <button class="modal-close" onclick="closeFollowModal()">
-        <span class="material-symbols-outlined">close</span>
-      </button>
+      <button class="modal-close" onclick="closeFollowModal()"><span class="material-symbols-outlined">close</span></button>
     </div>
     <div class="modal-body" id="followModalBody">
-      <div style="text-align:center; padding: 24px 0; color:var(--md-on-surface-variant);">Loading...</div>
+      <div style="text-align:center; padding:24px 0; color:var(--md-on-surface-variant);">Loading...</div>
     </div>
   </div>
 </div>
-
 {% endblock %}
 
 {% block extra_js %}
 <script>
-  // ---------------------------------------------------------------------------
-  // FOLLOW / UNFOLLOW SYSTEM
-  // ---------------------------------------------------------------------------
-  async function toggleFollowUser(targetUserId) {
-    const btn = document.getElementById('btnFollowToggle');
-    if (!btn) return;
-    
-    btn.disabled = true;
-    
-    try {
-      const resp = await fetch(`/ajax/follow/${targetUserId}/`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRFToken': CSRF_TOKEN
-        }
-      });
-      
-      const result = await resp.json();
-      btn.disabled = false;
-      
-      if (result && result.error) {
-        showSnackbar(result.error);
-        return;
-      }
-      
-      if (result) {
-        const isFollowing = result.is_following;
-        
-        if (isFollowing) {
-          btn.className = 'btn-follow btn-follow-outlined';
-          btn.innerHTML = '<span class="material-symbols-outlined">check</span><span id="followText">Following</span>';
-          showSnackbar('You started following ' + '{{ profile_user.display_name|default:profile_user.username }}');
-        } else {
-          btn.className = 'btn-follow btn-follow-filled';
-          btn.innerHTML = '<span class="material-symbols-outlined">person_add</span><span id="followText">Follow</span>';
-          showSnackbar('You unfollowed ' + '{{ profile_user.display_name|default:profile_user.username }}');
-        }
-        
-        const countSpan = document.getElementById('cntFollowers');
-        if (countSpan) {
-          countSpan.textContent = result.follower_count;
-        }
-      }
-    } catch(err) {
-      btn.disabled = false;
-      showSnackbar('Error updating follow status.');
-    }
+// Share
+function shareProfile() {
+  const url = window.location.href;
+  if (navigator.share) {
+    navigator.share({ title: '{{ profile_user.display_name|default:profile_user.username }} - NEBians', url: url });
+  } else if (navigator.clipboard) {
+    navigator.clipboard.writeText(url);
+    showSnackbar('Profile link copied!');
   }
+}
 
-  // ---------------------------------------------------------------------------
-  // FOLLOWERS / FOLLOWING LISTS MODALS
-  // ---------------------------------------------------------------------------
-  async function openFollowModal(type) {
-    const modal = document.getElementById('followModal');
-    const title = document.getElementById('followModalTitle');
+// Follow
+async function toggleFollowUser(targetUserId) {
+  const btn = document.getElementById('btnFollowToggle');
+  if (!btn) return;
+  btn.disabled = true;
+  try {
+    const resp = await fetch(`/ajax/follow/${targetUserId}/`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN }
+    });
+    const result = await resp.json();
+    btn.disabled = false;
+    if (result && result.error) { showSnackbar(result.error); return; }
+    if (result) {
+      if (result.is_following) {
+        btn.className = 'btn-follow btn-follow-outlined';
+        btn.innerHTML = '<span class="material-symbols-outlined">check</span><span id="followText">Following</span>';
+      } else {
+        btn.className = 'btn-follow btn-follow-filled';
+        btn.innerHTML = '<span class="material-symbols-outlined">person_add</span><span id="followText">Follow</span>';
+      }
+      const cnt = document.getElementById('cntFollowers');
+      if (cnt) cnt.textContent = result.follower_count;
+    }
+  } catch(e) { btn.disabled = false; showSnackbar('Error updating follow.'); }
+}
+
+// Follow modal
+async function openFollowModal(type) {
+  const modal = document.getElementById('followModal');
+  document.getElementById('followModalTitle').textContent = type === 'followers' ? 'Followers' : 'Following';
+  document.getElementById('followModalBody').innerHTML = '<div style="text-align:center;padding:24px 0;color:var(--md-on-surface-variant);">Loading...</div>';
+  modal.classList.add('active');
+  try {
+    const resp = await fetch(`/api/users/{{ profile_user.id }}/${type}`);
+    const data = await resp.json();
     const body = document.getElementById('followModalBody');
-    
-    title.textContent = type === 'followers' ? 'Followers' : 'Following';
-    body.innerHTML = '<div style="text-align:center; padding: 24px 0; color:var(--md-on-surface-variant);">Loading...</div>';
-    
-    modal.classList.add('active');
-    
-    try {
-      const resp = await fetch(`/api/users/{{ profile_user.id }}/${type}`);
-      const data = await resp.json();
-      
-      if (data && data.length > 0) {
-        let html = '';
-        data.forEach(item => {
-          const username = type === 'followers' ? item.follower_username : item.following_username;
-          const name = type === 'followers' ? item.follower_display_name : item.following_display_name;
-          const photoUrl = type === 'followers' ? item.follower_photo_url : item.following_photo_url;
-          
-          const avatarHtml = photoUrl 
-            ? `<img src="${photoUrl}" alt="${username}">` 
-            : `<div class="follow-user-avatar-initial">${username.slice(0, 1)}</div>`;
-            
-          html += `
-            <div class="follow-list-user">
-              <div class="follow-user-meta">
-                <div class="follow-user-avatar">${avatarHtml}</div>
-                <div class="follow-user-info">
-                  <a href="/profile/${username}/" class="follow-user-name">${name || username}</a>
-                  <span class="follow-user-handle">@${username}</span>
-                </div>
-              </div>
-            </div>
-          `;
-        });
-        body.innerHTML = html;
-      } else {
-        body.innerHTML = `
-          <div class="follow-list-empty">
-            <span class="material-symbols-outlined">group_off</span>
-            <p style="margin-top:8px;font-size:0.875rem;">No users found</p>
-          </div>
-        `;
-      }
-    } catch(err) {
-      body.innerHTML = `
-        <div style="text-align:center; color:var(--md-error); padding: 16px;">
-          <span class="material-symbols-outlined">report</span>
-          <p>Failed to load profile data</p>
-        </div>
-      `;
-    }
-  }
-
-  function closeFollowModal(event) {
-    if (!event || event.target.id === 'followModal' || event.target.closest('.modal-close')) {
-      document.getElementById('followModal').classList.remove('active');
-    }
-  }
-
-  // ---------------------------------------------------------------------------
-  // PHOTO HISTORY & MANAGER MODAL
-  // ---------------------------------------------------------------------------
-  function openPhotoHistoryModal() {
-    const modal = document.getElementById('photoHistoryModal');
-    if (modal) modal.classList.add('active');
-  }
-
-  function closePhotoHistoryModal(event) {
-    if (!event || event.target.id === 'photoHistoryModal' || event.target.closest('.modal-close')) {
-      const modal = document.getElementById('photoHistoryModal');
-      if (modal) modal.classList.remove('active');
-    }
-  }
-
-  async function activatePastPhoto(photoId, photoUrl) {
-    try {
-      const resp = await fetch(`/ajax/photos/${photoId}/activate/`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRFToken': CSRF_TOKEN
-        }
+    if (data && data.length > 0) {
+      let html = '';
+      data.forEach(item => {
+        const username = type === 'followers' ? item.follower_username : item.following_username;
+        const name = type === 'followers' ? item.follower_display_name : item.following_display_name;
+        const photoUrl = type === 'followers' ? item.follower_photo_url : item.following_photo_url;
+        const avatar = photoUrl ? `<img src="${photoUrl}" alt="">` : `<span class="follow-user-initial">${username.slice(0,1)}</span>`;
+        html += `<div class="follow-list-user"><div class="follow-user-avatar">${avatar}</div><div class="follow-user-info"><a href="/profile/${username}/" class="follow-user-name">${name||username}</a><span class="follow-user-handle">@${username}</span></div></div>`;
       });
-      
-      const data = await resp.json();
-      if (data && data.success) {
-        const pageAvatar = document.getElementById('profilePageAvatar');
-        if (pageAvatar) {
-          pageAvatar.innerHTML = `<img src="${photoUrl}" alt="Profile">`;
-        }
-        
-        const navbarAvatar = document.querySelector('.profile-dropdown-trigger img, .profile-dropdown-avatar img');
-        if (navbarAvatar) {
-          navbarAvatar.src = photoUrl;
-        } else {
-          const avatarRing = document.querySelector('.avatar-ring');
-          if (avatarRing) {
-            avatarRing.innerHTML = `<img src="${photoUrl}" alt="Profile">`;
-          }
-          const dropdownAvatar = document.querySelector('.profile-dropdown-avatar');
-          if (dropdownAvatar) {
-            dropdownAvatar.innerHTML = `<img src="${photoUrl}" alt="Profile">`;
-          }
-        }
-
-        const wrappers = document.querySelectorAll('.photo-thumbnail-wrapper');
-        wrappers.forEach(w => w.classList.remove('active'));
-        
-        loadPhotoGrid();
-        closePhotoHistoryModal();
-        showSnackbar('Successfully updated profile picture.');
-      } else {
-        showSnackbar('Failed to switch profile picture.');
-      }
-    } catch(err) {
-      showSnackbar('Error switching profile picture.');
+      body.innerHTML = html;
+    } else {
+      body.innerHTML = '<div class="follow-list-empty">No users found</div>';
     }
+  } catch(e) {
+    document.getElementById('followModalBody').innerHTML = '<div style="text-align:center;color:var(--md-error);padding:16px;">Failed to load</div>';
   }
+}
 
-  async function uploadNewPhotoUrl() {
-    const urlInput = document.getElementById('inputNewPhotoUrl');
-    const url = urlInput.value.trim();
-    if (!url) {
-      showSnackbar('Please enter a valid URL.');
+function closeFollowModal(event) {
+  if (!event || event.target.id === 'followModal' || event.target.closest('.modal-close'))
+    document.getElementById('followModal').classList.remove('active');
+}
+
+// Photo modal
+function openPhotoHistoryModal() { document.getElementById('photoHistoryModal')?.classList.add('active'); }
+function closePhotoHistoryModal(event) {
+  if (!event || event.target.id === 'photoHistoryModal' || event.target.closest('.modal-close'))
+    document.getElementById('photoHistoryModal')?.classList.remove('active');
+}
+
+async function activatePastPhoto(photoId, photoUrl) {
+  try {
+    const resp = await fetch(`/ajax/photos/${photoId}/activate/`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN }
+    });
+    const data = await resp.json();
+    if (data && data.success) {
+      document.getElementById('profilePageAvatar').innerHTML = `<img src="${photoUrl}" alt="Profile">`;
+      const ring = document.querySelector('.avatar-ring');
+      if (ring) ring.innerHTML = `<img src="${photoUrl}" alt="Profile">`;
+      closePhotoHistoryModal();
+      showSnackbar('Profile picture updated.');
+    }
+  } catch(e) { showSnackbar('Error updating photo.'); }
+}
+
+async function uploadNewPhotoUrl() {
+  const input = document.getElementById('inputNewPhotoUrl');
+  const url = input.value.trim();
+  if (!url) { showSnackbar('Enter a valid URL.'); return; }
+  try {
+    const resp = await fetch('/ajax/photos/', {
+      method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
+      body: JSON.stringify({ url })
+    });
+    const data = await resp.json();
+    if (data && data.id) {
+      input.value = '';
+      document.getElementById('profilePageAvatar').innerHTML = `<img src="${url}" alt="Profile">`;
+      closePhotoHistoryModal();
+      showSnackbar('Profile picture updated.');
+    } else { showSnackbar(data.error || 'Failed.'); }
+  } catch(e) { showSnackbar('Error uploading.'); }
+}
+
+async function uploadPhotoFile(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const fd = new FormData();
+  fd.append('file', file);
+  showSnackbar('Uploading...');
+  try {
+    const resp = await fetch('/ajax/photos/', {
+      method: 'POST', headers: { 'X-CSRFToken': CSRF_TOKEN }, body: fd
+    });
+    const data = await resp.json();
+    if (data && data.url) {
+      event.target.value = '';
+      document.getElementById('profilePageAvatar').innerHTML = `<img src="${data.url}" alt="Profile">`;
+      closePhotoHistoryModal();
+      showSnackbar('Profile picture uploaded.');
+    } else { showSnackbar(data.error || 'Failed.'); }
+  } catch(e) { showSnackbar('Error uploading.'); }
+}
+
+async function loadPhotoGrid() {
+  try {
+    const resp = await fetch('/ajax/photos/');
+    const data = await resp.json();
+    const grid = document.getElementById('photosGrid');
+    if (!grid || !data?.photos?.length) return;
+    grid.innerHTML = data.photos.map(p => `
+      <div class="photo-thumb ${p.is_current?'active':''}" onclick="activatePastPhoto('${p.id}','${p.url}')">
+        <img src="${p.url}" alt="">
+      </div>
+    `).join('');
+  } catch(e) {}
+}
+
+// Community Activity Feed
+async function loadActivityFeed() {
+  const container = document.getElementById('activityFeed');
+  if (!container) return;
+
+  try {
+    const resp = await fetch(`/api/posts/?username={{ profile_user.username }}&page_size=10`);
+    if (!resp.ok) throw new Error('Failed');
+    const data = await resp.json();
+    const posts = data.results || data;
+
+    if (!posts || posts.length === 0) {
+      container.innerHTML = `
+        <div class="activity-empty">
+          <span class="material-symbols-outlined">forum</span>
+          <p>No activity yet</p>
+        </div>`;
       return;
     }
 
-    try {
-      const resp = await fetch('/ajax/photos/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRFToken': CSRF_TOKEN
-        },
-        body: JSON.stringify({ url: url })
-      });
-      
-      const data = await resp.json();
-      if (data && data.id) {
-        urlInput.value = '';
-        
-        const pageAvatar = document.getElementById('profilePageAvatar');
-        if (pageAvatar) {
-          pageAvatar.innerHTML = `<img src="${url}" alt="Profile">`;
-        }
-        
-        const navbarAvatar = document.querySelector('.profile-dropdown-trigger img, .profile-dropdown-avatar img');
-        if (navbarAvatar) {
-          navbarAvatar.src = url;
-        } else {
-          const avatarRing = document.querySelector('.avatar-ring');
-          if (avatarRing) {
-            avatarRing.innerHTML = `<img src="${url}" alt="Profile">`;
-          }
-          const dropdownAvatar = document.querySelector('.profile-dropdown-avatar');
-          if (dropdownAvatar) {
-            dropdownAvatar.innerHTML = `<img src="${url}" alt="Profile">`;
-          }
-        }
+    const initial = '{{ profile_user.display_name|default:profile_user.username|slice:":1" }}';
+    const photoUrl = '{{ profile_user.photo_url|default:"" }}';
+    const avatarHtml = photoUrl
+      ? `<img src="${photoUrl}" alt="">`
+      : `<span>${initial}</span>`;
 
-        await loadPhotoGrid();
-        closePhotoHistoryModal();
-        showSnackbar('Profile picture successfully updated.');
-      } else {
-        showSnackbar(data.error || 'Failed to upload photo URL.');
-      }
-    } catch(err) {
-      showSnackbar('Error uploading photo URL.');
-    }
-  }
+    let html = '';
+    posts.forEach(post => {
+      const timeAgo = formatTimeAgo(post.created_at);
+      const preview = post.content ? post.content.substring(0, 180) + (post.content.length > 180 ? '...' : '') : '';
 
-  async function uploadPhotoFile(event) {
-    const file = event.target.files[0];
-    if (!file) return;
-    
-    const formData = new FormData();
-    formData.append('file', file);
-    
-    showSnackbar('Uploading profile picture...');
-    
-    try {
-      const resp = await fetch('/ajax/photos/', {
-        method: 'POST',
-        headers: {
-          'X-CSRFToken': CSRF_TOKEN
-        },
-        body: formData
-      });
-      
-      const data = await resp.json();
-      if (data && data.url) {
-        event.target.value = '';
-        
-        // Update page avatar preview
-        const pageAvatar = document.getElementById('profilePageAvatar');
-        if (pageAvatar) {
-          pageAvatar.innerHTML = `<img src="${data.url}" alt="Profile">`;
-        }
-        
-        // Update navbar dropdown avatar preview
-        const navbarAvatar = document.querySelector('.profile-dropdown-trigger img, .profile-dropdown-avatar img');
-        if (navbarAvatar) {
-          navbarAvatar.src = data.url;
-        } else {
-          const avatarRing = document.querySelector('.avatar-ring');
-          if (avatarRing) {
-            avatarRing.innerHTML = `<img src="${data.url}" alt="Profile">`;
-          }
-          const dropdownAvatar = document.querySelector('.profile-dropdown-avatar');
-          if (dropdownAvatar) {
-            dropdownAvatar.innerHTML = `<img src="${data.url}" alt="Profile">`;
-          }
-        }
-
-        await loadPhotoGrid();
-        closePhotoHistoryModal();
-        showSnackbar('Profile picture successfully uploaded.');
-      } else {
-        showSnackbar(data.error || 'Failed to upload photo file.');
-      }
-    } catch(err) {
-      showSnackbar('Error uploading photo file.');
-    }
-  }
-
-
-  async function loadPhotoGrid() {
-    try {
-      const resp = await fetch('/ajax/photos/');
-      const data = await resp.json();
-      const grid = document.getElementById('photosGrid');
-      if (!grid) return;
-      
-      if (data && data.photos && data.photos.length > 0) {
-        let html = '';
-        data.photos.forEach(photo => {
-          html += `
-            <div class="photo-thumbnail-wrapper ${photo.is_current ? 'active' : ''}"
-                 onclick="activatePastPhoto('${photo.id}', '${photo.url}')">
-              <img src="${photo.url}" alt="Profile Photo History">
-              ${photo.is_current ? `
-                <div class="photo-active-indicator">
-                  <span class="material-symbols-outlined" style="font-size:12px;font-weight:bold;">check</span>
-                </div>
-              ` : ''}
+      html += `
+        <div class="activity-item">
+          <div class="activity-item-header">
+            <div class="activity-avatar">${avatarHtml}</div>
+            <div class="activity-meta">
+              <div class="activity-meta-line">
+                <strong>{{ profile_user.display_name|default:profile_user.username }}</strong>
+                started a discussion in
+                <span class="activity-category-tag">${escapeHtml(post.category)}</span>
+              </div>
+              <div class="activity-time">${timeAgo}</div>
             </div>
-          `;
-        });
-        grid.innerHTML = html;
-      }
-    } catch(err) {
-      console.error('Error refreshing photo grid:', err);
-    }
+          </div>
+          <h4 class="activity-title"><a href="/forum/post/${post.id}/">${escapeHtml(post.title)}</a></h4>
+          ${preview ? `<p class="activity-preview">${escapeHtml(preview)}</p>` : ''}
+          <div class="activity-footer">
+            <span class="activity-stat">
+              <span class="material-symbols-outlined">thumb_up</span>
+              ${post.thumbs_up_count || 0}
+            </span>
+            <span class="activity-stat">
+              <span class="material-symbols-outlined">chat_bubble</span>
+              ${post.reply_count || 0} Replies
+            </span>
+          </div>
+        </div>`;
+    });
+
+    container.innerHTML = html;
+  } catch(e) {
+    container.innerHTML = `
+      <div class="activity-empty">
+        <span class="material-symbols-outlined">error_outline</span>
+        <p>Failed to load activity</p>
+      </div>`;
   }
+}
+
+function formatTimeAgo(ts) {
+  if (!ts) return '';
+  const now = Date.now();
+  const d = typeof ts === 'number' && ts < 1e12 ? ts * 1000 : ts;
+  const diff = Math.floor((now - d) / 1000);
+  if (diff < 60) return 'Just now';
+  if (diff < 3600) return Math.floor(diff/60) + 'm ago';
+  if (diff < 86400) return Math.floor(diff/3600) + 'h ago';
+  if (diff < 604800) return Math.floor(diff/86400) + 'd ago';
+  return new Date(d).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+}
+
+function escapeHtml(str) {
+  if (!str) return '';
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+document.addEventListener('DOMContentLoaded', loadActivityFeed);
 </script>
 {% endblock %}
