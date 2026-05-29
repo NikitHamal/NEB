@@ -55,7 +55,7 @@ class ResourceRepository @Inject constructor(
 
     fun getByType(type: String): Flow<List<ResourceEntity>> = resourceDao.getByType(type)
 
-    fun searchResources(query: String): Flow<List<ResourceEntity>> = resourceDao.search("%$query%")
+    fun searchResources(query: String): Flow<List<ResourceEntity>> = resourceDao.search(query)
 
     fun getDownloadedResources(): Flow<List<ResourceEntity>> = resourceDao.getDownloaded()
 
@@ -76,4 +76,6 @@ class ResourceRepository @Inject constructor(
         resourceDao.updateDownloadProgress(id, progress)
 
     suspend fun deleteResource(id: String) = resourceDao.delete(id)
+
+    suspend fun incrementViewCount(id: String) = resourceDao.incrementViewCount(id)
 }
