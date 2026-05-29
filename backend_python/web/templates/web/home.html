@@ -5,6 +5,23 @@
 {% block nav_home %}md-nav-active{% endblock %}
 {% block bnav_home %}md-nav-active{% endblock %}
 
+{% block head_extra %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "NEBians",
+  "url": "https://nebians.consica.com.np/",
+  "description": "NEB Students Network - Study resources, discussion forum, and more for Nepali students.",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://nebians.consica.com.np/search/?q={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+{% endblock %}
+
 {% block content %}
 <div class="md-container">
   <!-- Hero -->
