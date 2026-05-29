@@ -42,16 +42,8 @@ captures/
 ehthumbs.db
 Thumbs.db
 
-# Cloudflare Wrangler & Local State
-.wrangler/
-
 # Dependency folders
 node_modules/
-/backend/node_modules/
-
-# Bundling and output files
-dist/
-/backend/dist/
 
 # Local Environment secrets
 .env
