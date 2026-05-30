@@ -126,9 +126,6 @@
   <!-- Snackbar container -->
   <div id="snackbar-container"></div>
 
-  <!-- Google Auth -->
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
-
   <script>
     const AUTH_TOKEN = '{{ auth_token|default:"" }}';
     const USER_DATA = {{ user|to_json }};

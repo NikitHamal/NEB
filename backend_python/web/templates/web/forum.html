@@ -383,6 +383,9 @@
                 {% if post.authorBadge %}
                   <span class="user-badge">{{ post.authorBadge }}</span>
                 {% endif %}
+                {% if is_authenticated and post.authorId != user.id %}
+                <button class="follow-btn-small" data-user-id="{{ post.authorId }}" onclick="toggleFollowBtn(this, '{{ post.authorId }}')" style="display:inline-flex;align-items:center;padding:2px 10px;border-radius:100px;font-size:0.6875rem;font-weight:600;border:1px solid var(--md-outline-variant);background:transparent;color:var(--md-primary);cursor:pointer;">Follow</button>
+                {% endif %}
               </div>
               <div class="post-card-meta-bottom" style="display:flex; align-items:center; flex-wrap:wrap; gap:6px; margin-top:2px; font-size:0.8125rem; color:var(--md-on-surface-variant);">
                 <span class="act-action-text">started a discussion</span>
@@ -544,6 +547,30 @@ async function toggleForumPostLike(postId, btn) {
   } catch (e) {
     showSnackbar('Failed to like post');
   }
+}
+
+async function toggleFollowBtn(btn, userId) {
+  if (!AUTH_TOKEN) { window.location.href = '{% url "web:login" %}'; return; }
+  btn.disabled = true;
+  try {
+    const r = await fetch('/ajax/follow/' + userId + '/', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN } });
+    const d = await r.json();
+    btn.disabled = false;
+    if (d && d.error) { showSnackbar(d.error); return; }
+    if (d) {
+      if (d.is_following) {
+        btn.textContent = 'Following';
+        btn.style.background = 'var(--md-primary)';
+        btn.style.color = '#fff';
+        btn.style.borderColor = 'var(--md-primary)';
+      } else {
+        btn.textContent = 'Follow';
+        btn.style.background = 'transparent';
+        btn.style.color = 'var(--md-primary)';
+        btn.style.borderColor = 'var(--md-outline-variant)';
+      }
+    }
+  } catch(e) { btn.disabled = false; showSnackbar('Error updating follow.'); }
 }
 </script>
 {% endblock %}

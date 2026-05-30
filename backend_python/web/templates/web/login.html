@@ -15,7 +15,7 @@
     <p class="md-body-medium">Sign in with your Google account to access all features, join discussions, and track your progress.</p>
 
     <div style="margin-bottom:24px;">
-      <button onclick="handleGoogleSignIn()" class="google-btn" id="google-signin-btn">
+      <button onclick="nebSignIn()" class="google-btn" id="signin-btn">
         <svg viewBox="0 0 24 24" width="20" height="20">
           <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/>
           <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
@@ -24,6 +24,7 @@
         </svg>
         Sign in with Google
       </button>
+      <p id="signin-status" style="font-size:0.8125rem;color:var(--md-on-surface-variant);margin-top:8px;text-align:center;min-height:1.2em;"></p>
     </div>
 
     <div class="md-divider"></div>
@@ -41,69 +42,106 @@
 {% endblock %}
 
 {% block extra_js %}
-<script>
-let isGoogleInitialized = false;
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js';
+import { getAuth, GoogleAuthProvider, signInWithRedirect, getRedirectResult, browserLocalPersistence, setPersistence, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js';
 
-// Safe double-check initializer
-function initializeGoogle() {
-  if (isGoogleInitialized) return true;
-  if (typeof google !== 'undefined' && google.accounts) {
-    google.accounts.id.initialize({
-      client_id: '478709074228-cu0b0t75ghhsvqp2jotj75g6utj84nre.apps.googleusercontent.com',
-      use_fedcm: false,
-      callback: handleGoogleCredentialResponse
-    });
-    isGoogleInitialized = true;
-    return true;
-  }
-  return false;
+const firebaseConfig = {
+  apiKey: '{{ firebase_api_key }}',
+  authDomain: '{{ firebase_auth_domain }}',
+  projectId: '{{ firebase_project_id }}',
+  storageBucket: '{{ firebase_storage_bucket }}',
+  messagingSenderId: '{{ firebase_sender_id }}',
+  appId: '{{ firebase_app_id }}'
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
+provider.setCustomParameters({ prompt: 'select_account' });
+
+setPersistence(auth, browserLocalPersistence).catch(() => {});
+
+async function sendTokenToBackend(idToken) {
+  const res = await fetch('{% url "web:google_auth" %}', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
+    body: JSON.stringify({ idToken: idToken })
+  });
+  return await res.json();
 }
 
-// Attempt to pre-initialize as soon as the page and all scripts are fully loaded
-window.addEventListener('load', () => {
-  initializeGoogle();
-});
-
-// Trigger the prompt instantly on click (initializing first if it has not happened yet)
-function handleGoogleSignIn() {
-  if (initializeGoogle()) {
-    google.accounts.id.prompt();
-  } else {
-    showSnackbar('Google Sign-In library is loading. Please wait.');
-  }
+function setStatus(text) {
+  const s = document.getElementById('signin-status');
+  if (s) s.textContent = text;
 }
 
-// Handle the ID Token returned by Google
-async function handleGoogleCredentialResponse(response) {
-  const btn = document.getElementById('google-signin-btn');
-  btn.textContent = 'Signing in...';
-  btn.disabled = true;
+async function handleAuthResult(result) {
+  setStatus('Signing in to NEBians...');
   try {
-    const res = await fetch('{% url "web:google_auth" %}', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
-      body: JSON.stringify({ idToken: response.credential })
-    });
-    const data = await res.json();
+    const idToken = await result.user.getIdToken();
+    const data = await sendTokenToBackend(idToken);
     if (data.status === 'success') {
-      if (data.isNewUser) {
-        window.location.href = '{% url "web:edit_profile" %}';
-      } else {
-        window.location.href = '{% url "web:home" %}';
-      }
+      setStatus('Success! Redirecting...');
+      window.location.href = data.isNewUser ? '{% url "web:edit_profile" %}' : '{% url "web:home" %}';
     } else {
+      console.error('Backend auth error:', data);
+      setStatus(data.error || 'Authentication failed');
       showSnackbar(data.error || 'Authentication failed');
-      resetButton(btn);
+      resetBtn();
     }
   } catch (e) {
+    console.error('Backend fetch error:', e);
+    setStatus('Network error. Please try again.');
     showSnackbar('Network error. Please try again.');
-    resetButton(btn);
+    resetBtn();
   }
 }
 
-function resetButton(btn) {
+function resetBtn() {
+  const btn = document.getElementById('signin-btn');
   btn.innerHTML = '<svg viewBox="0 0 24 24" width="20" height="20"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg> Sign in with Google';
   btn.disabled = false;
 }
+
+// Check 1: Already signed in from persistence (localStorage)
+onAuthStateChanged(auth, async (user) => {
+  if (user) {
+    console.log('Firebase: user already signed in', user.uid);
+    await handleAuthResult({ user: user });
+    return;
+  }
+});
+
+// Check 2: Coming back from redirect
+getRedirectResult(auth).then(async (result) => {
+  if (result) {
+    console.log('Firebase: redirect result received', result.user.uid);
+    await handleAuthResult(result);
+  }
+}).catch((error) => {
+  console.error('Firebase: redirect result error', error.code, error.message);
+  setStatus(error.message || 'Sign-in failed');
+  showSnackbar(error.message || 'Sign-in failed');
+  resetBtn();
+});
+
+// Button click: start redirect sign-in
+async function nebSignIn() {
+  const btn = document.getElementById('signin-btn');
+  btn.disabled = true;
+  btn.textContent = 'Redirecting to Google...';
+  setStatus('Redirecting to Google...');
+  try {
+    await signInWithRedirect(auth, provider);
+  } catch (e) {
+    console.error('Firebase: redirect sign-in error', e);
+    setStatus(e.message || 'Failed to start sign-in');
+    showSnackbar(e.message || 'Failed to start sign-in');
+    resetBtn();
+  }
+}
+
+window.nebSignIn = nebSignIn;
 </script>
 {% endblock %}

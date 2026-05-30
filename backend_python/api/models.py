@@ -83,6 +83,9 @@ class Post(models.Model):
     category = models.CharField(max_length=100)
     thumbs_up_count = models.IntegerField(default=0)
     reply_count = models.IntegerField(default=0)
+    is_edited = models.BooleanField(default=False)
+    edited_at = models.BigIntegerField(default=0)
+    is_archived = models.BooleanField(default=False)
     created_at = models.BigIntegerField()
 
     class Meta:
@@ -114,6 +117,8 @@ class Reply(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='replies')
     content = models.TextField()
     thumbs_up_count = models.IntegerField(default=0)
+    is_edited = models.BooleanField(default=False)
+    edited_at = models.BigIntegerField(default=0)
     created_at = models.BigIntegerField()
 
     class Meta:
@@ -183,3 +188,19 @@ class Follow(models.Model):
 
     def __str__(self):
         return f"{self.follower_id} → {self.following_id}"
+
+
+class EditHistory(models.Model):
+    """Tracks edit history for posts and replies."""
+    id = models.CharField(max_length=36, primary_key=True)
+    target_type = models.CharField(max_length=10)
+    target_id = models.CharField(max_length=36)
+    field = models.CharField(max_length=50)
+    old_value = models.TextField(blank=True, default='')
+    new_value = models.TextField(blank=True, default='')
+    edited_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='edits_made')
+    edited_at = models.BigIntegerField()
+
+    class Meta:
+        db_table = 'edit_history'
+        ordering = ['edited_at']

@@ -34,11 +34,12 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from .authentication import verify_google_token
-from .models import User, Resource, Post, PostLike, Reply, ReplyLike, FCMToken, Follow, UserPhoto
+from .models import User, Resource, Post, PostLike, Reply, ReplyLike, FCMToken, Follow, UserPhoto, EditHistory
 from .serializers import (
     UserSerializer, UserPublicSerializer,
     ResourceSerializer, PostSerializer, ReplySerializer,
     UserPhotoSerializer, UserStatsSerializer, FollowSerializer,
+    EditHistorySerializer,
 )
 
 logger = logging.getLogger(__name__)
@@ -368,12 +369,30 @@ def post_detail(request, post_id):
         if post.user_id != user.id:
             return Response({'error': 'Forbidden'}, status=403)
         data = request.data
+        now = _now_ms()
         if 'title' in data:
+            EditHistory.objects.create(
+                id=str(uuid.uuid4()), target_type='post', target_id=post.id,
+                field='title', old_value=post.title, new_value=data['title'].strip(),
+                edited_by=user, edited_at=now
+            )
             post.title = data['title'].strip()
         if 'content' in data:
+            EditHistory.objects.create(
+                id=str(uuid.uuid4()), target_type='post', target_id=post.id,
+                field='content', old_value=post.content, new_value=data['content'].strip(),
+                edited_by=user, edited_at=now
+            )
             post.content = data['content'].strip()
         if 'category' in data:
+            EditHistory.objects.create(
+                id=str(uuid.uuid4()), target_type='post', target_id=post.id,
+                field='category', old_value=post.category, new_value=data['category'].strip(),
+                edited_by=user, edited_at=now
+            )
             post.category = data['category'].strip()
+        post.is_edited = True
+        post.edited_at = now
         post.save()
         return Response(PostSerializer(post, context={'request': request}).data)
 
@@ -479,7 +498,15 @@ def reply_detail(request, reply_id):
 
     content = request.data.get('content', '').strip()
     if content:
+        now = _now_ms()
+        EditHistory.objects.create(
+            id=str(uuid.uuid4()), target_type='reply', target_id=reply.id,
+            field='content', old_value=reply.content, new_value=content,
+            edited_by=user, edited_at=now
+        )
         reply.content = content
+        reply.is_edited = True
+        reply.edited_at = now
         reply.save()
     return Response(ReplySerializer(reply, context={'request': request}).data)
 
@@ -509,6 +536,16 @@ def reply_like(request, reply_id):
         reply.save(update_fields=['thumbs_up_count'])
 
     return Response({'thumbsUpCount': reply.thumbs_up_count, 'isThumbedUp': is_thumbed_up})
+
+
+@api_view(['GET'])
+@authentication_classes([])
+def edit_history(request, target_type, target_id):
+    """GET /api/edit-history/<target_type>/<target_id>/ — edit history for a post or reply."""
+    if target_type not in ('post', 'reply'):
+        return Response({'error': 'Invalid target_type'}, status=400)
+    entries = EditHistory.objects.filter(target_type=target_type, target_id=target_id).select_related('edited_by')
+    return Response(EditHistorySerializer(entries, many=True).data)
 
 
 # ---------------------------------------------------------------------------
