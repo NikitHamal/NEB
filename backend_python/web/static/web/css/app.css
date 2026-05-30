@@ -633,4 +633,32 @@ a:focus-visible, button:focus-visible {
   .hero h1 { font-size: 1.75rem; }
   .resource-grid { grid-template-columns: 1fr; }
   .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  
+  /* Topbar Mobile Alignment & Spacing Overrides */
+  .md-topbar {
+    padding: 0 8px !important;
+    gap: 6px !important;
+  }
+  .md-topbar-actions {
+    gap: 6px !important;
+  }
+  .md-topbar-brand {
+    font-size: 1.125rem !important;
+    gap: 6px !important;
+  }
+  .md-topbar-brand svg {
+    width: 24px !important;
+    height: 24px !important;
+  }
+  .md-topbar .md-btn {
+    padding: 6px 12px !important;
+    min-height: 32px !important;
+    font-size: 0.75rem !important;
+    white-space: nowrap !important;
+  }
+  .md-topbar-actions .md-btn-icon {
+    width: 32px !important;
+    height: 32px !important;
+    padding: 4px !important;
+  }
 }

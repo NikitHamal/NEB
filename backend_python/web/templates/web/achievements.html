@@ -1,0 +1,449 @@
+{% extends "base.html" %}
+{% load web_extras %}
+
+{% block title %}{{ profile_user.display_name|default:profile_user.username }}'s Achievements{% endblock %}
+
+{% block content %}
+<style>
+  .achieve-page {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 16px 48px;
+  }
+
+  .achieve-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 16px 0 24px;
+  }
+
+  .achieve-header h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--md-on-surface);
+    margin: 0;
+  }
+
+  .achieve-subtitle {
+    font-size: 0.9375rem;
+    color: var(--md-on-surface-variant);
+    margin-bottom: 24px;
+    line-height: 1.5;
+  }
+
+  /* ── Stats Summary Row ── */
+  .achieve-stats-summary {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  .achieve-stat-card {
+    background: var(--md-surface-container-low, #f8f9fc);
+    border: 1px solid var(--md-outline-variant, #e2e8f0);
+    border-radius: 16px;
+    padding: 16px;
+    text-align: center;
+  }
+  .achieve-stat-num {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--md-primary);
+  }
+  .achieve-stat-name {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--md-on-surface-variant);
+    margin-top: 4px;
+  }
+
+  /* ── List Layout ── */
+  .achieve-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .achieve-item-card {
+    background: var(--md-surface, #fff);
+    border: 1px solid var(--md-outline-variant, #e2e8f0);
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    transition: all 0.2s ease;
+  }
+
+  .achieve-item-card.unlocked {
+    border-color: var(--md-primary, #004ac6);
+    background: rgba(27, 110, 243, 0.02);
+  }
+
+  .achieve-item-card.locked {
+    opacity: 0.8;
+  }
+
+  .achieve-icon-wrap {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .achieve-item-card.unlocked .achieve-icon-wrap {
+    background: #e9f2ff;
+    color: #004ac6;
+    border: 1px solid #c3dafc;
+  }
+
+  .achieve-item-card.locked .achieve-icon-wrap {
+    background: #f4f4f5;
+    color: #a1a1aa;
+    border: 1px solid #e4e4e7;
+  }
+
+  .achieve-icon-wrap .material-symbols-outlined {
+    font-size: 26px;
+  }
+
+  .achieve-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .achieve-name-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+  }
+
+  .achieve-name {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--md-on-surface);
+  }
+
+  .achieve-status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .achieve-status-badge.unlocked {
+    background: rgba(0, 110, 28, 0.08);
+    color: #006E1C;
+  }
+
+  .achieve-status-badge.locked {
+    background: rgba(0, 0, 0, 0.05);
+    color: var(--md-on-surface-variant);
+  }
+
+  .achieve-desc {
+    font-size: 0.875rem;
+    color: var(--md-on-surface-variant);
+    margin: 0 0 10px;
+    line-height: 1.45;
+  }
+
+  /* Progress Indicators */
+  .achieve-progress-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .achieve-progress-track {
+    flex: 1;
+    height: 6px;
+    background: var(--md-surface-container-highest, #e2e8f0);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .achieve-progress-fill {
+    height: 100%;
+    border-radius: 3px;
+    background: var(--md-primary);
+    transition: width 0.4s ease;
+  }
+  .achieve-progress-text {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--md-on-surface-variant);
+    width: 64px;
+    text-align: right;
+  }
+
+  @media (max-width: 600px) {
+    .achieve-stats-summary {
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+    .achieve-item-card {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 16px;
+    }
+    .achieve-icon-wrap {
+      width: 48px;
+      height: 48px;
+    }
+    .achieve-icon-wrap .material-symbols-outlined {
+      font-size: 22px;
+    }
+  }
+</style>
+
+<div class="achieve-page">
+  <div class="achieve-header">
+    <a href="{% url 'web:profile' username=profile_user.username %}" class="md-btn-icon" style="color: var(--md-on-surface); text-decoration: none; display: inline-flex; align-items: center; justify-content: center;" title="Back to Profile">
+      <span class="material-symbols-outlined">arrow_back</span>
+    </a>
+    <h1>Achievements</h1>
+  </div>
+
+  <p class="achieve-subtitle">
+    Unlock premium milestone badges by contributing useful questions, replying to classmates, and earning helpful feedback inside the NEBians network.
+  </p>
+
+  <!-- Stats summary -->
+  <div class="achieve-stats-summary">
+    <div class="achieve-stat-card">
+      <div class="achieve-stat-num">{{ stats.post_count|default:0 }}</div>
+      <div class="achieve-stat-name">Discussions Started</div>
+    </div>
+    <div class="achieve-stat-card">
+      <div class="achieve-stat-num">{{ stats.reply_count|default:0 }}</div>
+      <div class="achieve-stat-name">Replies Made</div>
+    </div>
+    <div class="achieve-stat-card">
+      <div class="achieve-stat-num">{{ stats.contribution_score|default:0 }}</div>
+      <div class="achieve-stat-name">NEBian Score</div>
+    </div>
+  </div>
+
+  <!-- Achievements List -->
+  <div class="achieve-list">
+    
+    <!-- 1. First Discussion -->
+    {% with unlocked=stats.post_count|default:0|add:"0" %}
+    <div class="achieve-item-card {% if unlocked >= 1 %}unlocked{% else %}locked{% endif %}">
+      <div class="achieve-icon-wrap">
+        <span class="material-symbols-outlined">chat</span>
+      </div>
+      <div class="achieve-info">
+        <div class="achieve-name-row">
+          <span class="achieve-name">First Discussion</span>
+          {% if unlocked >= 1 %}
+            <span class="achieve-status-badge unlocked">Unlocked</span>
+          {% else %}
+            <span class="achieve-status-badge locked">Locked</span>
+          {% endif %}
+        </div>
+        <p class="achieve-desc">Start your first discussion in the NEB forum.</p>
+        <div class="achieve-progress-row">
+          <div class="achieve-progress-track">
+            <div class="achieve-progress-fill" style="width: {% if unlocked >= 1 %}100{% else %}0{% endif %}%"></div>
+          </div>
+          <span class="achieve-progress-text">{% if unlocked >= 1 %}1 / 1{% else %}0 / 1{% endif %}</span>
+        </div>
+      </div>
+    </div>
+    {% endwith %}
+
+    <!-- 2. Discussion Starter -->
+    {% with count=stats.post_count|default:0|add:"0" %}
+    <div class="achieve-item-card {% if count >= 5 %}unlocked{% else %}locked{% endif %}">
+      <div class="achieve-icon-wrap">
+        <span class="material-symbols-outlined">forum</span>
+      </div>
+      <div class="achieve-info">
+        <div class="achieve-name-row">
+          <span class="achieve-name">Discussion Starter</span>
+          {% if count >= 5 %}
+            <span class="achieve-status-badge unlocked">Unlocked</span>
+          {% else %}
+            <span class="achieve-status-badge locked">Locked</span>
+          {% endif %}
+        </div>
+        <p class="achieve-desc">Create 5 or more discussion topics in the forum.</p>
+        <div class="achieve-progress-row">
+          <div class="achieve-progress-track">
+            <div class="achieve-progress-fill" style="width: {% if count >= 5 %}100{% else %}{{ count|multiply:20 }}{% endif %}%"></div>
+          </div>
+          <span class="achieve-progress-text">{% if count >= 5 %}5{% else %}{{ count }}{% endif %} / 5</span>
+        </div>
+      </div>
+    </div>
+    {% endwith %}
+
+    <!-- 3. First Reply -->
+    {% with count=stats.reply_count|default:0|add:"0" %}
+    <div class="achieve-item-card {% if count >= 1 %}unlocked{% else %}locked{% endif %}">
+      <div class="achieve-icon-wrap">
+        <span class="material-symbols-outlined">chat_bubble</span>
+      </div>
+      <div class="achieve-info">
+        <div class="achieve-name-row">
+          <span class="achieve-name">First Reply</span>
+          {% if count >= 1 %}
+            <span class="achieve-status-badge unlocked">Unlocked</span>
+          {% else %}
+            <span class="achieve-status-badge locked">Locked</span>
+          {% endif %}
+        </div>
+        <p class="achieve-desc">Post your first reply helping someone else in a discussion.</p>
+        <div class="achieve-progress-row">
+          <div class="achieve-progress-track">
+            <div class="achieve-progress-fill" style="width: {% if count >= 1 %}100{% else %}0{% endif %}%"></div>
+          </div>
+          <span class="achieve-progress-text">{% if count >= 1 %}1 / 1{% else %}0 / 1{% endif %}</span>
+        </div>
+      </div>
+    </div>
+    {% endwith %}
+
+    <!-- 4. Active Responder -->
+    {% with count=stats.reply_count|default:0|add:"0" %}
+    <div class="achieve-item-card {% if count >= 5 %}unlocked{% else %}locked{% endif %}">
+      <div class="achieve-icon-wrap">
+        <span class="material-symbols-outlined">comment_bank</span>
+      </div>
+      <div class="achieve-info">
+        <div class="achieve-name-row">
+          <span class="achieve-name">Active Responder</span>
+          {% if count >= 5 %}
+            <span class="achieve-status-badge unlocked">Unlocked</span>
+          {% else %}
+            <span class="achieve-status-badge locked">Locked</span>
+          {% endif %}
+        </div>
+        <p class="achieve-desc">Submit 5 or more replies in the discussions forum.</p>
+        <div class="achieve-progress-row">
+          <div class="achieve-progress-track">
+            <div class="achieve-progress-fill" style="width: {% if count >= 5 %}100{% else %}{{ count|multiply:20 }}{% endif %}%"></div>
+          </div>
+          <span class="achieve-progress-text">{% if count >= 5 %}5{% else %}{{ count }}{% endif %} / 5</span>
+        </div>
+      </div>
+    </div>
+    {% endwith %}
+
+    <!-- 5. First Thumb Received -->
+    {% with count=stats.likes_received|default:0|add:"0" %}
+    <div class="achieve-item-card {% if count >= 1 %}unlocked{% else %}locked{% endif %}">
+      <div class="achieve-icon-wrap">
+        <span class="material-symbols-outlined">thumb_up</span>
+      </div>
+      <div class="achieve-info">
+        <div class="achieve-name-row">
+          <span class="achieve-name">First Thumb Received</span>
+          {% if count >= 1 %}
+            <span class="achieve-status-badge unlocked">Unlocked</span>
+          {% else %}
+            <span class="achieve-status-badge locked">Locked</span>
+          {% endif %}
+        </div>
+        <p class="achieve-desc">Receive a thumb up rating from another student.</p>
+        <div class="achieve-progress-row">
+          <div class="achieve-progress-track">
+            <div class="achieve-progress-fill" style="width: {% if count >= 1 %}100{% else %}0{% endif %}%"></div>
+          </div>
+          <span class="achieve-progress-text">{% if count >= 1 %}1 / 1{% else %}0 / 1{% endif %}</span>
+        </div>
+      </div>
+    </div>
+    {% endwith %}
+
+    <!-- 6. Community Champion -->
+    {% with count=stats.likes_received|default:0|add:"0" %}
+    <div class="achieve-item-card {% if count >= 5 %}unlocked{% else %}locked{% endif %}">
+      <div class="achieve-icon-wrap">
+        <span class="material-symbols-outlined">recommend</span>
+      </div>
+      <div class="achieve-info">
+        <div class="achieve-name-row">
+          <span class="achieve-name">Community Champion</span>
+          {% if count >= 5 %}
+            <span class="achieve-status-badge unlocked">Unlocked</span>
+          {% else %}
+            <span class="achieve-status-badge locked">Locked</span>
+          {% endif %}
+        </div>
+        <p class="achieve-desc">Get a total of 5 thumbs up ratings across your posts and replies.</p>
+        <div class="achieve-progress-row">
+          <div class="achieve-progress-track">
+            <div class="achieve-progress-fill" style="width: {% if count >= 5 %}100{% else %}{{ count|multiply:20 }}{% endif %}%"></div>
+          </div>
+          <span class="achieve-progress-text">{% if count >= 5 %}5{% else %}{{ count }}{% endif %} / 5</span>
+        </div>
+      </div>
+    </div>
+    {% endwith %}
+
+    <!-- 7. Rising Scholar -->
+    {% with count=stats.contribution_score|default:0|add:"0" %}
+    <div class="achieve-item-card {% if count >= 10 %}unlocked{% else %}locked{% endif %}">
+      <div class="achieve-icon-wrap">
+        <span class="material-symbols-outlined">school</span>
+      </div>
+      <div class="achieve-info">
+        <div class="achieve-name-row">
+          <span class="achieve-name">Rising Scholar</span>
+          {% if count >= 10 %}
+            <span class="achieve-status-badge unlocked">Unlocked</span>
+          {% else %}
+            <span class="achieve-status-badge locked">Locked</span>
+          {% endif %}
+        </div>
+        <p class="achieve-desc">Reach a total contribution score of 10 points.</p>
+        <div class="achieve-progress-row">
+          <div class="achieve-progress-track">
+            <div class="achieve-progress-fill" style="width: {% if count >= 10 %}100{% else %}{{ count|multiply:10 }}{% endif %}%"></div>
+          </div>
+          <span class="achieve-progress-text">{% if count >= 10 %}10{% else %}{{ count }}{% endif %} / 10</span>
+        </div>
+      </div>
+    </div>
+    {% endwith %}
+
+    <!-- 8. Elite Contributor -->
+    {% with count=stats.contribution_score|default:0|add:"0" %}
+    <div class="achieve-item-card {% if count >= 50 %}unlocked{% else %}locked{% endif %}">
+      <div class="achieve-icon-wrap">
+        <span class="material-symbols-outlined">workspace_premium</span>
+      </div>
+      <div class="achieve-info">
+        <div class="achieve-name-row">
+          <span class="achieve-name">Elite Contributor</span>
+          {% if count >= 50 %}
+            <span class="achieve-status-badge unlocked">Unlocked</span>
+          {% else %}
+            <span class="achieve-status-badge locked">Locked</span>
+          {% endif %}
+        </div>
+        <p class="achieve-desc">Reach a total contribution score of 50 points.</p>
+        <div class="achieve-progress-row">
+          <div class="achieve-progress-track">
+            <div class="achieve-progress-fill" style="width: {% if count >= 50 %}100{% else %}{{ count|multiply:2 }}{% endif %}%"></div>
+          </div>
+          <span class="achieve-progress-text">{% if count >= 50 %}50{% else %}{{ count }}{% endif %} / 50</span>
+        </div>
+      </div>
+    </div>
+    {% endwith %}
+
+  </div>
+</div>
+{% endblock %}

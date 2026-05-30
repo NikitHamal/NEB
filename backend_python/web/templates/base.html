@@ -29,6 +29,7 @@
 </head>
 <body>
   <!-- Top Navigation Bar -->
+  {% block topbar %}
   <header class="md-topbar">
     <a href="{% url 'web:home' %}" class="md-topbar-brand">
       <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -93,6 +94,7 @@
       {% endif %}
     </div>
   </header>
+  {% endblock %}
 
   <!-- Main Content -->
   <main style="min-height: calc(100vh - 64px - 72px); padding-top: 16px; padding-bottom: 24px;">
@@ -100,6 +102,7 @@
   </main>
 
   <!-- Bottom Navigation (Mobile) -->
+  {% block bottomnav %}
   <nav class="md-bottomnav">
     <a href="{% url 'web:home' %}" class="md-bottomnav-item {% block bnav_home %}{% endblock %}" aria-label="Home">
       <span class="material-symbols-outlined">home</span>
@@ -118,6 +121,7 @@
       <span>Search</span>
     </a>
   </nav>
+  {% endblock %}
 
   <!-- Snackbar container -->
   <div id="snackbar-container"></div>
