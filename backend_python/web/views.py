@@ -17,9 +17,9 @@ from . import api_client as api
 
 logger = logging.getLogger(__name__)
 
-ADMIN_TOKEN = getattr(settings, 'ADMIN_TOKEN', 'nebians-admin-2024-secure-token')
-ADMIN_USERNAME = getattr(settings, 'ADMIN_USERNAME', 'admin')
-ADMIN_PASSWORD = getattr(settings, 'ADMIN_PASSWORD', 'admin123')
+ADMIN_TOKEN = settings.ADMIN_TOKEN
+ADMIN_USERNAME = settings.ADMIN_USERNAME
+ADMIN_PASSWORD = settings.ADMIN_PASSWORD
 
 
 def _serialize_resource(r):
