@@ -179,7 +179,7 @@ com.neb.ians/
 ### CRITICAL: How to Deploy
 ```bash
 # 1. Save SSH key to temp file (Windows)
-$sshKeyPath = "$env:TEMP\nebians_deploy_key.pem"
+$sshKeyPath = "$env:TEMP\nebians_deploy_key2.pem"
 # ... load from .ssh_deploy_info.json
 
 # 2. Fix permissions (Windows SSH requires this)
@@ -200,7 +200,7 @@ The `.env` file at `/home/consicac/nebians_api/.env` is loaded by `dotenv` in `s
 ssh ... consicac@192.250.235.158 "cat /home/consicac/nebians_api/.env"
 ```
 
-**The `load_dotenv()` call uses `override=True`** (as of the latest fix) so `.env` values will override system env vars. But if a system-level env var is set (e.g., in cPanel), it still takes precedence. When in doubt, update both `.env` AND `settings.py`.
+**The `load_dotenv()` call uses `override=True`** so `.env` values will override system env vars. But if a system-level env var is set (e.g., in cPanel), it still takes precedence. When in doubt, update both `.env` AND `settings.py`.
 
 ### CRITICAL: Passenger vs Gunicorn
 The server uses **Phusion Passenger** (cPanel Python app), NOT gunicorn. Do NOT try to start/stop gunicorn. To restart:
@@ -209,6 +209,9 @@ rm -rf /home/consicac/nebians_api/tmp/*
 touch /home/consicac/nebians_api/tmp/restart.txt
 ```
 Passenger picks up changes after this. If env vars don't update, you may need to wait 30-60 seconds for Passenger to fully respawn workers.
+
+### CRITICAL: SSL/Cookie Settings
+`SECURE_SSL_REDIRECT`, `SESSION_COOKIE_SECURE`, and `CSRF_COOKIE_SECURE` are all set to `False` by default. This is intentional — Passenger terminates SSL at the proxy level, so Django sees HTTP connections. Setting these to `True` causes infinite redirects or dropped cookies. Only enable them if you configure Passenger to forward the `X-Forwarded-Proto` header correctly.
 
 ### Checking Logs
 ```bash
@@ -235,24 +238,32 @@ The `.github/workflows/deploy-backend.yml` workflow auto-deploys on push to `mai
 ### Django Project Structure
 ```
 backend_python/
-├── nebians/           # Django project settings
-│   ├── settings.py   # Main settings (loads .env with dotenv override=True)
-│   ├── urls.py       # Root URL config
-│   └── wsgi.py       # WSGI entry point
-├── api/              # REST API app
-│   ├── models.py     # User, Resource, Post, Reply, etc.
-│   ├── views.py      # API endpoints
+├── nebians/               # Django project settings
+│   ├── settings.py        # Main settings (loads .env with dotenv override=True)
+│   ├── middleware.py       # SecurityHeadersMiddleware (CSP, Permissions-Policy, COOP)
+│   ├── urls.py            # Root URL config (admin at /admin/, Django admin at /admin-django/)
+│   └── wsgi.py            # WSGI entry point
+├── api/                   # REST API app
+│   ├── models.py          # User, Resource, Post, Reply, Follow, Report, etc.
+│   ├── views.py           # API endpoints (paginated, rate-limited)
 │   ├── authentication.py  # Token auth + Google token verification
-│   └── serializers.py
-├── web/              # Web frontend app (Django templates)
-│   ├── views.py      # Page views + AJAX endpoints
-│   ├── urls.py       # URL routing
-│   ├── api_client.py # Internal API client (calls api/ endpoints)
-│   ├── templates/     # HTML templates (base.html, web/*.html)
+│   ├── security.py        # Password hashing, verification code hashing, URL validation, image upload validation
+│   ├── throttles.py       # AuthRateThrottle, VerificationRateThrottle
+│   ├── admin.py           # Django admin registrations (at /admin-django/)
+│   ├── admin_views.py     # Custom admin API views (staff auth + signed internal headers)
+│   ├── serializers.py     # DRF serializers
+│   └── management/
+│       └── commands/
+│           └── cleanup_stale_data.py  # Expired codes, stale FCM tokens, old sessions
+├── web/                   # Web frontend app (Django templates)
+│   ├── views.py           # Page views + AJAX endpoints
+│   ├── api_client.py      # Internal API client (uses signed internal headers for admin calls)
+│   ├── urls.py             # URL routing
+│   ├── templates/          # HTML templates (base.html, web/*.html)
 │   └── static/web/css/
-│       ├── material3.css  # M3 design system (CSS custom properties)
+│       ├── material3.css   # M3 design system (CSS custom properties)
 │       └── app.css         # App-specific styles
-├── .env              # Environment variables (DEPLOYED TO SERVER)
+├── .env                   # Environment variables (DEPLOYED TO SERVER)
 └── manage.py
 ```
 
@@ -263,10 +274,29 @@ backend_python/
    - Frontend POSTs the credential to `/auth/google/` as `{ idToken: credential }`
    - Backend verifies via `google.oauth2.id_token.verify_oauth2_token()` against both `GOOGLE_CLIENT_ID` and `FIREBASE_PROJECT_ID`
    - On success, creates/updates User in DB and sets session cookie
+   - **Auth tokens are NOT regenerated on each login** — only created on first signup. This prevents session invalidation.
 
 2. **Email Auth:** Direct email/password signup with verification codes
    - POSTs to `/api/auth/email/signup/`, `/api/auth/email/verify/`, `/api/auth/email/login/`
-   - Email auth sessions created via `/auth/google/` with `emailAuthToken` field
+   - Verification codes are hashed with Django's password hasher (not stored as plaintext)
+   - Rate-limited: 6 verification attempts per hour, 20 auth requests per minute
+   - Passwords hashed with Django's `make_password` (bcrypt/argon2), not raw SHA-256
+   - Legacy SHA-256 passwords are transparently migrated on successful login
+
+### CRITICAL: Session-Based Auth (NOT Bearer Tokens in JS)
+- Auth tokens are **no longer exposed in page HTML**. The template context does NOT include `auth_token`.
+- Frontend JS uses `IS_AUTHENTICATED` (boolean) instead of `AUTH_TOKEN` (secret string).
+- All authenticated AJAX calls use `credentials: 'same-origin'` to send the session cookie.
+- The `_get_valid_token()` helper in `web/views.py` reads from the session first, falls back to `Authorization: Bearer` header, and validates against the DB. If the token is stale, it clears the session and returns 401.
+- Admin API calls use a short-lived signed `X-Internal-Admin-Signature` header (Django `TimestampSigner`), NOT the old shared `ADMIN_TOKEN` bearer.
+
+### CRITICAL: Admin Panel Auth
+- The custom admin panel at `/admin/` now uses **Django's built-in staff user authentication** (login/logout sessions).
+- The old shared `ADMIN_TOKEN`/`ADMIN_PASSWORD` system is removed.
+- Server-side admin API calls use `X-Internal-Admin-Signature` headers generated by `api.security.make_internal_admin_signature()`.
+- Django's built-in admin is at `/admin-django/` (for database management).
+- **Admin superuser credentials:** username=`admin`, password=`-0IQkyTlzLCAJdlyNdHrvA`
+- Create new superusers with: `python manage.py createsuperuser`
 
 ### CRITICAL: Google Auth Configuration
 - **OAuth Client ID:** `68143624035-que25r0vmrke4agasr715j5u9p8gic2s.apps.googleusercontent.com`
@@ -289,6 +319,18 @@ backend_python/
 - The GIS script must be loaded BEFORE calling `initialize()` — use the `window.addEventListener('load', ...)` + polling pattern
 - **Never call `initialize()` more than once** — it causes "called multiple times" warnings
 
+### Security Model
+- **Passwords:** Django's `make_password` (bcrypt/argon2). Legacy SHA-256 hashes are transparently migrated on login.
+- **Verification codes:** Hashed with Django's password hasher. Not stored as plaintext. Includes purpose field, attempt tracking (max 5), and resend cooldown (60s).
+- **Auth tokens:** Not regenerated on each login (only on signup). Prevents session invalidation.
+- **Rate limiting:** Auth endpoints: 20/min. Verification endpoints: 6/hour. Post creation, follow toggle, FCM registration: 20/min. General: 100/hour anon, 1000/hour authenticated.
+- **Profile photos:** Uploaded images validated with PIL (format check, size limit 5MB, metadata stripped). URLs validated for HTTPS-only, no private/local hosts.
+- **Resource URLs:** Must be HTTPS, no private/local hosts.
+- **XSS protection:** `escapeHtml()` and `safeClientUrl()` helpers in base.html for all user-submitted content in JS templates.
+- **Security headers:** CSP, Permissions-Policy, COOP, X-Content-Type-Options, X-Frame-Options, Referrer-Policy set via `SecurityHeadersMiddleware`.
+- **Admin auth:** Django staff sessions + signed internal API headers. No shared bearer tokens.
+- **Locked profiles:** When `is_locked=True`, personal data (email, DOB, school, etc.), stats, posts, and follower lists are hidden from non-owners.
+
 ### CSS Hover Fix (Light Mode)
 In light mode, text buttons and outlined buttons had solid blue (`var(--md-primary-container)` = `#2563EB`) hover backgrounds. Fixed by using subtle transparent overlays:
 - `.md-btn-text:hover` → `rgba(0, 74, 198, 0.08)` (was `var(--md-primary-container)`)
@@ -301,24 +343,52 @@ In light mode, text buttons and outlined buttons had solid blue (`var(--md-prima
 ## Continuity Notes
 
 ### What Was Being Worked On (Last Session)
-Google Sign-In was being migrated from Firebase Auth to Google Identity Services (GIS). The GIS button now renders correctly on the login page. The **"origin not allowed"** error from Google is a server-side configuration issue — the OAuth client ID was just created (May 30, 2026) and may take up to a few hours to propagate across Google's servers.
+Improvement pass addressing 10+ edge cases and technical debt:
+- Added `banner_url` field to User model with HTTPS URL validation (same as `photo_url`)
+- Added `Report` model for content/user moderation (spam, abuse, inappropriate, misinformation, other)
+- Added `POST /api/reports/` endpoint for authenticated users to submit reports
+- Added admin report management: `GET /api/admin/reports/` and `GET/PATCH /api/admin/reports/<id>/`
+- Fixed `user_profile_create_or_update` to use DRF authentication instead of manual Bearer header parsing
+- Added rate limiting (`AuthRateThrottle`) to post creation, follow toggle, and FCM registration
+- Added FCM token format validation (length 10-512)
+- Filtered archived posts (`is_archived=True`) from public listings
+- Added pagination to `search_all` endpoint (was hard-limited to 25 results)
+- Removed dead code: `posts_list` and `replies_list` standalone endpoints (dispatchers handle both)
+- Created `cleanup_stale_data` management command for expired verification codes, stale FCM tokens, old sessions, abandoned unverified accounts
+- Migration 0008 adds `banner_url` field and `Report` model
+- Improved test coverage: profile, posts, replies, follow, FCM, search, reports, email auth
+- Registered `Report` model in Django admin
 
-### Pending Issues
-1. **Google "origin not allowed" error** — The OAuth 2.0 client ID (`68143624035-...`) was created on May 30, 2026. Google needs time to propagate new client IDs. The authorized JavaScript origins are correctly configured in Google Cloud Console. If the error persists after 24 hours, verify:
-   - You're in the correct Google Cloud project (`nebiansnepal`)
-   - The OAuth consent screen is in **Production** mode
-   - The authorized origins list includes exact protocol matches (`http://localhost:8000`, not `https://localhost:8000`)
-   - The client ID in the `.env` file on the server matches the one in Google Cloud Console
+### Resolved Issues
+1. **Auth token regeneration bug** — Every Google sign-in was regenerating the auth token, invalidating existing sessions. Fixed by only generating tokens on signup, not on each login.
+2. **Stale session 401 errors** — Follow/like/edit calls returned "Unauthorized" because session tokens didn't match DB. Fixed with `_get_valid_token()` helper that validates against DB and clears stale sessions.
+3. **Duplicate `{% block description %}`** — forum.html, search.html, library.html had duplicate template blocks causing TemplateSyntaxError. Fixed.
+4. **Admin API URL mismatch** — `admin_urls.py` had paths without trailing slashes but `api_client.py` called with trailing slashes. Fixed all to use trailing slashes.
+5. **Sitemap crash** — `created_at` is a BigIntegerField (ms timestamp), not DateTimeField. Fixed `.isoformat()` calls to convert from ms timestamps.
+6. **PostLike/ReplyLike admin** — Referenced non-existent `created_at` field. Removed from `list_display`.
+7. **SECURE_SSL_REDIRECT breaking site** — Set to `True` in production would cause infinite redirects behind Passenger (SSL terminates at proxy). All SSL/cookie secure settings set to `False` by default.
 
-2. **Backend token verification** — The `authentication.py` now tries verification against both `GOOGLE_CLIENT_ID` and `FIREBASE_PROJECT_ID` as audiences. Debug logging is enabled to trace verification failures in the server logs.
-
-3. **Dark mode hover states on Android** — The `surfaceTint` color for light mode was briefly changed but reverted. The web CSS hover fix is complete.
+### Admin Credentials
+- **Custom admin panel** (`/admin/`): Login with Django staff superuser account
+  - Username: `admin`
+  - Password: `-0IQkyTlzLCAJdlyNdHrvA`
+- **Django admin** (`/admin-django/`): Same credentials
+- Create new superusers: `python manage.py createsuperuser`
 
 ### Key Files That Were Recently Modified
-- `backend_python/web/templates/web/login.html` — Replaced Firebase Auth with GIS
-- `backend_python/web/views.py` — Changed `login_page()` to pass `google_client_id` instead of 6 Firebase vars
-- `backend_python/api/authentication.py` — Now verifies against both GIS and Firebase audiences with debug logging
-- `backend_python/nebians/settings.py` — `load_dotenv(override=True)` to ensure `.env` overrides take effect; `GOOGLE_CLIENT_ID` updated
-- `backend_python/.env` — Local copy updated with new `GOOGLE_CLIENT_ID`
-- `backend_python/web/static/web/css/material3.css` — Hover state fixes for light mode
-- `backend_python/web/static/web/css/app.css` — Hover state fixes for auth buttons
+- `backend_python/api/models.py` — Added `banner_url` field to User, `Report` model, verification_code CharField(128)
+- `backend_python/api/views.py` — Fixed auth on profile update, added Report endpoint, pagination on search, filtered archived posts, rate limiting on posts/follow/FCM, FCM token validation, removed dead endpoints
+- `backend_python/api/serializers.py` — Added `banner_url` to UserSerializer/UserPublicSerializer, ReportSerializer
+- `backend_python/api/admin_views.py` — Added admin report management endpoints, `banner_url` in user PATCH
+- `backend_python/api/admin_urls.py` — Added report admin URL patterns
+- `backend_python/api/admin.py` — Registered Report model in Django admin
+- `backend_python/api/security.py` — Password hashing, verification code hashing, URL validation, image upload validation, admin signature signing
+- `backend_python/api/throttles.py` — AuthRateThrottle, VerificationRateThrottle
+- `backend_python/api/migrations/0008_banner_url_and_reports.py` — NEW: Adds banner_url field and Report model
+- `backend_python/api/management/commands/cleanup_stale_data.py` — NEW: Management command for data cleanup
+- `backend_python/api/test_security_hardening.py` — Expanded tests: profile, posts, replies, follow, FCM, search, reports, email auth
+- `backend_python/nebians/settings.py` — Django 5.2, env_bool/env_list helpers, security settings, throttling config
+- `backend_python/nebians/middleware.py` — SecurityHeadersMiddleware (CSP, Permissions-Policy, COOP)
+- `backend_python/web/views.py` — `_get_valid_token()`, locked profile support, Django auth for admin
+- `backend_python/web/api_client.py` — Admin calls use `internal_admin=True` for signed headers
+- `backend_python/web/templates/base.html` — `IS_AUTHENTICATED` replaces `AUTH_TOKEN`, XSS helpers

@@ -9,8 +9,8 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from .security import verify_internal_admin_signature, validate_resource_file_url
-from .models import User, Resource, Post, Reply, FCMToken
-from .serializers import UserSerializer, ResourceSerializer, PostSerializer, ReplySerializer
+from .models import User, Resource, Post, Reply, FCMToken, Report
+from .serializers import UserSerializer, ResourceSerializer, PostSerializer, ReplySerializer, ReportSerializer
 
 logger = logging.getLogger(__name__)
 
@@ -129,7 +129,7 @@ def admin_user_detail(request, user_id):
 
     if request.method == 'PATCH':
         data = request.data
-        for field in ['username', 'email', 'display_name', 'gender', 'class_level', 'subjects', 'pradesh', 'district', 'school', 'photo_url', 'dob']:
+        for field in ['username', 'email', 'display_name', 'gender', 'class_level', 'subjects', 'pradesh', 'district', 'school', 'photo_url', 'banner_url', 'dob']:
             if field in data:
                 setattr(user, field, data[field])
         if 'isLocked' in data:
@@ -277,3 +277,41 @@ def admin_reply_detail(request, reply_id):
         reply.delete()
         Post.objects.filter(pk=post_id, reply_count__gt=0).update(reply_count=F('reply_count') - 1)
     return Response({'success': True})
+
+
+@api_view(['GET'])
+def admin_reports_list(request):
+    if not _check_admin(request):
+        return _admin_error()
+    reports = Report.objects.select_related('reporter').all().order_by('-created_at')
+    status_filter = request.query_params.get('status', '').strip()
+    if status_filter in ('open', 'reviewing', 'resolved', 'dismissed'):
+        reports = reports.filter(status=status_filter)
+    if request.query_params.get('page'):
+        return _paginate(request, reports, ReportSerializer)
+    return Response(ReportSerializer(reports[:100], many=True).data)
+
+
+@api_view(['GET', 'PATCH'])
+def admin_report_detail(request, report_id):
+    if not _check_admin(request):
+        return _admin_error()
+    try:
+        report = Report.objects.get(pk=report_id)
+    except Report.DoesNotExist:
+        return Response({'error': 'Report not found'}, status=404)
+
+    if request.method == 'GET':
+        return Response(ReportSerializer(report).data)
+
+    data = request.data
+    new_status = None
+    if 'status' in data:
+        new_status = str(data['status']).strip()
+        if new_status not in ('open', 'reviewing', 'resolved', 'dismissed'):
+            return Response({'error': 'Invalid status'}, status=400)
+        report.status = new_status
+        if new_status in ('resolved', 'dismissed'):
+            report.resolved_at = int(time.time() * 1000)
+    report.save()
+    return Response(ReportSerializer(report).data)
