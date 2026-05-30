@@ -53,53 +53,242 @@
   display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px;
 }
 
-/* Post Card */
+/* Unified Premium Post & Activity Card Styles */
 .post-card {
-  padding: 24px; display: flex; flex-direction: column; gap: 12px;
+  padding: 24px;
   background: var(--md-surface-container-lowest, #ffffff);
-  border: 1px solid var(--md-outline-variant);
+  border: 1px solid var(--md-outline-variant, #e2e8f0);
   border-radius: 24px;
-  cursor: pointer; text-decoration: none; color: inherit;
+  transition: all 0.2s ease;
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: column;
 }
-.post-card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 4px; }
-.post-card-avatar {
-  width: 36px; height: 36px; border-radius: 50%;
-  background: var(--md-primary-container); color: var(--md-on-primary-container);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 0.8125rem; font-weight: 700; flex-shrink: 0;
+.post-card:hover {
+  border-color: var(--md-outline, #cbd5e1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+.activity-item {
+  padding: 24px 0;
+  display: flex;
+  flex-direction: column;
+  background: transparent;
+  border-bottom: 1px solid var(--md-outline-variant, #e2e8f0);
+}
+.activity-item:first-child { padding-top: 8px; }
+.activity-item:last-child { border-bottom: none; padding-bottom: 8px; }
+
+.post-card-header, .activity-item-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.post-card-avatar, .act-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--md-primary-container, #dbeafe);
+  color: var(--md-on-primary-container, #004ac6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+  border: none;
+}
+.post-card-avatar img, .act-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.post-card-avatar .contributor-avatar-letter, .act-avatar span {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--md-primary);
+  text-transform: uppercase;
+}
+
+.post-card-meta, .act-meta {
+  flex: 1;
+  min-width: 0;
+}
+
+.post-card-meta-line, .act-meta-line {
+  font-size: 0.9375rem;
+  color: var(--md-on-surface-variant, #434655);
+  line-height: 1.5;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.post-card-meta-line strong, .act-username {
+  color: var(--md-on-surface, #0b1c30);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* User badge style */
+.user-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 1.5px 6px;
+  border-radius: 4px;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  background: var(--md-primary-container, #dbeafe);
+  color: var(--md-on-primary-container, #004ac6);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  vertical-align: middle;
+}
+
+.act-action-text {
+  color: var(--md-on-surface-variant, #5f6368);
+}
+
+.post-card-category, .post-card-category-link, .act-category {
+  display: inline-block;
+  padding: 2.5px 10px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.25;
+  text-transform: capitalize;
+  text-decoration: none;
+  background-color: rgba(27, 110, 243, 0.08);
+  color: #004ac6;
+  border: 1px solid rgba(27, 110, 243, 0.15);
+  transition: all 0.2s ease;
+}
+.post-card-category-link:hover {
+  background-color: rgba(27, 110, 243, 0.15);
+  text-decoration: none;
+}
+
+.post-card-time, .act-time {
+  font-size: 0.8125rem;
+  color: var(--md-on-surface-variant, #64748b);
+  opacity: 0.85;
+  margin-top: 3px;
+}
+
+.post-card h3, .act-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--md-on-surface, #0b1c30);
+  margin: 0 0 8px;
+  line-height: 1.45;
+}
+.post-card h3 a, .act-title a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.post-card h3 a:hover, .act-title a:hover {
+  color: var(--md-primary, #004ac6);
+}
+
+.post-card-content, .act-preview {
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--md-on-surface-variant, #475569);
+  margin: 0 0 16px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
   overflow: hidden;
 }
-.post-card-avatar img { width: 100%; height: 100%; object-fit: cover; }
-.post-card-avatar .contributor-avatar-letter {
-  font-size: 0.875rem; font-weight: 700; color: var(--md-primary); text-transform: uppercase;
+
+/* Shared Resource visual layout */
+.act-resource-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: var(--md-surface-container-low, #f8f9fc);
+  border: 1px solid var(--md-outline-variant, #e2e8f0);
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin: 12px 0 16px;
+  transition: all 0.2s ease;
 }
-.post-card-meta { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
-.post-card-meta-line {
-  font-size: 0.8125rem; color: var(--md-on-surface-variant); line-height: 1.4;
+.act-resource-card:hover {
+  background: var(--md-surface-container-high, #f1f5f9);
+  border-color: var(--md-primary, #1B6EF3);
 }
-.post-card-meta-line strong { color: var(--md-on-surface); font-weight: 600; }
-.post-card-time {
-  font-size: 0.75rem; color: var(--md-on-surface-variant); opacity: 0.7;
+.act-resource-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: rgba(27, 110, 243, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
-.post-card h3 { font-size: 1.125rem; font-weight: 600; line-height: 1.4; color: var(--md-on-surface); margin: 0; }
-.post-card-content {
-  font-size: 0.875rem; line-height: 1.55; color: var(--md-on-surface-variant);
-  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+.act-resource-icon .material-symbols-outlined {
+  font-size: 22px;
+  color: var(--md-primary, #1B6EF3);
 }
-.post-card-actions { display: flex; align-items: center; gap: 16px; margin-top: 4px; }
-.post-card-actions button {
-  display: inline-flex; align-items: center; gap: 6px; background: none; border: none;
-  color: var(--md-on-surface-variant); cursor: pointer; font-size: 0.8125rem;
-  font-family: var(--md-font); padding: 4px 8px; border-radius: var(--md-radius-full);
-  transition: background var(--md-transition);
+.act-resource-info { flex: 1; min-width: 0; }
+.act-resource-name {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--md-on-surface, #0b1c30);
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-.post-card-actions button:hover { background: var(--md-surface-variant); }
-.post-card-actions button.liked { color: var(--md-primary); }
-.post-card-category {
-  display: inline-block; padding: 2px 8px; border-radius: 4px;
-  font-size: 0.6875rem; font-weight: 600;
-  background: var(--md-primary-container); color: var(--md-on-primary-container);
-  vertical-align: middle; margin-left: 4px;
+.act-resource-name a {
+  color: inherit;
+  text-decoration: none;
+}
+.act-resource-name a:hover {
+  color: var(--md-primary, #004ac6);
+}
+.act-resource-meta {
+  font-size: 0.8125rem;
+  color: var(--md-on-surface-variant, #64748b);
+}
+
+.post-card-actions, .act-footer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.post-card-actions button, .post-card-actions a, .act-btn-stat {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.875rem;
+  color: var(--md-on-surface-variant, #64748b);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 6px 12px;
+  border-radius: 8px;
+  margin-left: -8px;
+  transition: all 0.2s ease;
+  text-decoration: none !important;
+  font-family: inherit;
+  outline: none;
+}
+.post-card-actions button:hover, .post-card-actions a:hover, .act-btn-stat:hover {
+  background: var(--md-surface-container-high, rgba(0, 0, 0, 0.04));
+  color: var(--md-primary, #004ac6);
+  text-decoration: none !important;
+}
+.post-card-actions button.liked, .act-btn-stat[data-liked="true"] {
+  color: var(--md-primary, #004ac6);
+}
+.post-card-actions button .material-symbols-outlined, .post-card-actions a .material-symbols-outlined, .act-btn-stat .material-symbols-outlined {
+  font-size: 18px;
 }
 
 /* Filter Bar */

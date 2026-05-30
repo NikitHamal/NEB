@@ -17,8 +17,13 @@ REM Install dependencies
 echo Installing requirements
 pip install -r requirements.txt
 
-REM Run database migrations on local SQLite
-echo Migrating database local db
+REM Start SSH tunnel for MySQL (port 3307 -> remote 3306)
+echo Starting SSH tunnel for MySQL...
+start /B ssh -i "%TEMP%\nebians_deploy_key" -o StrictHostKeyChecking=no -o UserKnownHostsFile=NUL -L 3307:localhost:3306 -N consicac@192.250.235.158
+timeout /t 3 /nobreak >nul
+
+REM Run database migrations
+echo Migrating database
 python manage.py migrate
 
 REM Start Django development server with auto-reload
