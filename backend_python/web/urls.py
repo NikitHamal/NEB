@@ -42,6 +42,7 @@ urlpatterns = [
     path('ajax/edit/reply/<str:reply_id>/', views.ajax_edit_reply, name='ajax_edit_reply'),
     path('ajax/delete/reply/<str:reply_id>/', views.ajax_delete_reply, name='ajax_delete_reply'),
     path('ajax/edit-history/<str:target_type>/<str:target_id>/', views.ajax_edit_history, name='ajax_edit_history'),
+    path('ajax/reply-thread/<str:reply_id>/', views.ajax_reply_thread, name='ajax_reply_thread'),
     path('ajax/check-username/', views.ajax_check_username, name='ajax_check_username'),
     path('ajax/theme/', views.ajax_set_theme, name='ajax_set_theme'),
     path('ajax/follow/<str:user_id>/', views.ajax_follow_user, name='ajax_follow_user'),
