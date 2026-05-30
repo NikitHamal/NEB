@@ -53,13 +53,13 @@ class FollowAdmin(admin.ModelAdmin):
 
 @admin.register(PostLike)
 class PostLikeAdmin(admin.ModelAdmin):
-    list_display = ['user', 'post', 'created_at']
+    list_display = ['user', 'post']
     search_fields = ['user__username', 'post__title']
 
 
 @admin.register(ReplyLike)
 class ReplyLikeAdmin(admin.ModelAdmin):
-    list_display = ['user', 'reply', 'created_at']
+    list_display = ['user', 'reply']
     search_fields = ['user__username', 'reply__content']
 
 
