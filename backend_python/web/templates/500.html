@@ -3,13 +3,20 @@
 {% block title %}Server Error{% endblock %}
 
 {% block content %}
-<div class="error-state" style="min-height:60vh;display:flex;flex-direction:column;align-items:center;justify-content:center;">
-  <span class="material-symbols-outlined" style="font-size:80px;color:var(--md-error);">error_outline</span>
-  <h1 class="md-headline-medium" style="margin-top:16px;">Server Error</h1>
-  <p class="md-body-large" style="color:var(--md-on-surface-variant);margin-top:8px;">Something went wrong on our end. Please try again later.</p>
-  <a href="{% url 'web:home' %}" class="md-btn md-btn-filled" style="margin-top:24px;">
-    <span class="material-symbols-outlined" style="font-size:18px">home</span>
-    Go Home
-  </a>
+<div class="error-state">
+  <div class="error-bg-glow error-bg-glow-1"></div>
+  <div class="error-bg-glow error-bg-glow-2"></div>
+  
+  <div class="error-state-card">
+    <div class="error-state-icon-container">
+      <span class="material-symbols-outlined">error</span>
+    </div>
+    <h1 class="error-state-title">Server Error</h1>
+    <p class="error-state-desc">Something went wrong on our end. Please try again later.</p>
+    <a href="{% url 'web:home' %}" class="error-state-btn">
+      <span class="material-symbols-outlined">home</span>
+      Go Home
+    </a>
+  </div>
 </div>
 {% endblock %}

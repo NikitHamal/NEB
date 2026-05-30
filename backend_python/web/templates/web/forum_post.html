@@ -83,6 +83,39 @@
   .fp-reply-action .material-symbols-outlined{font-size:16px}
   .fp-reply-owner{display:inline-flex;gap:4px;margin-left:auto}
 
+  /* @mention highlight */
+  .fp-mention{color:var(--md-primary);font-weight:500;text-decoration:none;cursor:pointer;border-radius:3px;padding:0 1px}
+  .fp-mention:hover{text-decoration:underline}
+
+  /* User popup card */
+  .fp-user-popup{position:fixed;z-index:950;width:280px;background:var(--md-surface-container-lowest,#fff);border:1px solid var(--md-outline-variant);border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,.12);padding:16px;pointer-events:auto;opacity:0;transform:translateY(4px);transition:opacity .15s,transform .15s}
+  .fp-user-popup.visible{opacity:1;transform:translateY(0)}
+  .fp-user-popup-header{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+  .fp-user-popup-avatar{width:44px;height:44px;border-radius:50%;overflow:hidden;background:var(--md-primary-container);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .fp-user-popup-avatar img{width:100%;height:100%;object-fit:cover}
+  .fp-user-popup-avatar-letter{font-size:1rem;font-weight:700;color:var(--md-primary)}
+  .fp-user-popup-info{flex:1;min-width:0}
+  .fp-user-popup-name{font-weight:600;font-size:.9375rem;color:var(--md-on-surface);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .fp-user-popup-username{font-size:.75rem;color:var(--md-on-surface-variant)}
+  .fp-user-popup-bio{font-size:.8125rem;color:var(--md-on-surface-variant);line-height:1.4;margin-bottom:10px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .fp-user-popup-stats{display:flex;gap:16px;margin-bottom:10px}
+  .fp-user-popup-stat{text-align:center}
+  .fp-user-popup-stat-value{font-size:.9375rem;font-weight:700;color:var(--md-on-surface)}
+  .fp-user-popup-stat-label{font-size:.6875rem;color:var(--md-on-surface-variant)}
+  .fp-user-popup-actions{display:flex;gap:8px}
+  .fp-user-popup-actions a{flex:1}
+
+  /* @mention dropdown */
+  .fp-mention-dropdown{position:absolute;z-index:960;width:240px;max-height:200px;overflow-y:auto;background:var(--md-surface-container-lowest,#fff);border:1px solid var(--md-outline-variant);border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.12);display:none;padding:4px}
+  .fp-mention-dropdown.open{display:block}
+  .fp-mention-item{display:flex;align-items:center;gap:8px;padding:8px;border-radius:6px;cursor:pointer;transition:background .1s}
+  .fp-mention-item:hover,.fp-mention-item.selected{background:var(--md-surface-container-high)}
+  .fp-mention-item-avatar{width:28px;height:28px;border-radius:50%;overflow:hidden;background:var(--md-primary-container);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .fp-mention-item-avatar img{width:100%;height:100%;object-fit:cover}
+  .fp-mention-item-letter{font-size:.7rem;font-weight:700;color:var(--md-primary)}
+  .fp-mention-item-name{font-size:.8125rem;font-weight:500;color:var(--md-on-surface);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .fp-mention-item-username{font-size:.6875rem;color:var(--md-on-surface-variant)}
+
   .fp-thread-indicator{display:flex;align-items:center;gap:8px;padding:6px 10px;margin-top:6px;border-radius:8px;cursor:pointer;transition:background .15s;border:none;background:transparent;width:100%;text-align:left;color:var(--md-on-surface-variant);font-family:inherit}
   .fp-thread-indicator:hover{background:var(--md-surface-container)}
   .fp-thread-avatars{display:flex;gap:0}
@@ -126,36 +159,41 @@
   .history-meta{font-size:.6875rem;color:var(--md-on-surface-variant);margin-top:4px}
 
   /* Thread sidebar (desktop) */
-  .fp-thread-sidebar{position:fixed;top:0;right:0;width:420px;height:100vh;background:var(--md-surface);border-left:1px solid var(--md-outline-variant);z-index:900;transform:translateX(100%);transition:transform .25s ease;display:flex;flex-direction:column}
+  .fp-thread-sidebar{position:fixed;top:0;right:0;width:440px;height:100vh;background:var(--md-surface);border-left:1px solid var(--md-outline-variant);z-index:900;transform:translateX(100%);transition:transform .25s ease;display:flex;flex-direction:column}
   .fp-thread-sidebar.open{transform:translateX(0)}
   .fp-thread-sidebar-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--md-outline-variant);flex-shrink:0}
-  .fp-thread-sidebar-header h3{font-size:1rem;font-weight:600;margin:0;color:var(--md-on-surface)}
-  .fp-thread-sidebar-close{width:32px;height:32px;border:none;background:transparent;color:var(--md-on-surface-variant);cursor:pointer;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:background .15s}
+  .fp-thread-sidebar-header h3{font-size:1rem;font-weight:600;margin:0;color:var(--md-on-surface);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .fp-thread-sidebar-close{width:32px;height:32px;border:none;background:transparent;color:var(--md-on-surface-variant);cursor:pointer;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:background .15s;flex-shrink:0}
   .fp-thread-sidebar-close:hover{background:var(--md-surface-container-high)}
-  .fp-thread-sidebar-body{flex:1;overflow-y:auto;padding:16px 20px}
+  .fp-thread-sidebar-scroll{flex:1;overflow-y:auto;padding:16px 20px}
   .fp-thread-sidebar-overlay{position:fixed;inset:0;background:rgba(0,0,0,.32);z-index:899;opacity:0;pointer-events:none;transition:opacity .25s}
   .fp-thread-sidebar-overlay.open{opacity:1;pointer-events:auto}
+  .fp-thread-sidebar-compose{padding:12px 20px 16px;border-top:1px solid var(--md-outline-variant);flex-shrink:0}
+  .fp-thread-sidebar-compose textarea{width:100%;padding:10px 12px;border:1px solid var(--md-outline-variant);border-radius:8px;font-family:inherit;font-size:.8125rem;background:var(--md-surface-container-high);color:var(--md-on-surface);outline:none;resize:none;min-height:56px;max-height:120px;transition:border-color .15s}
+  .fp-thread-sidebar-compose textarea:focus{border-color:var(--md-primary)}
+  .fp-thread-sidebar-compose-actions{display:flex;justify-content:flex-end;margin-top:8px}
 
   /* Thread bottom sheet (mobile) */
   .fp-thread-sheet{position:fixed;bottom:0;left:0;right:0;max-height:85vh;background:var(--md-surface);border-radius:20px 20px 0 0;z-index:900;transform:translateY(100%);transition:transform .25s ease;display:flex;flex-direction:column;box-shadow:0 -4px 24px rgba(0,0,0,.12)}
   .fp-thread-sheet.open{transform:translateY(0)}
   .fp-thread-sheet-handle{width:32px;height:4px;border-radius:2px;background:var(--md-outline-variant);margin:8px auto 0;flex-shrink:0}
   .fp-thread-sheet-header{display:flex;align-items:center;justify-content:space-between;padding:12px 20px 8px;flex-shrink:0}
-  .fp-thread-sheet-header h3{font-size:1rem;font-weight:600;margin:0;color:var(--md-on-surface)}
-  .fp-thread-sheet-close{width:32px;height:32px;border:none;background:transparent;color:var(--md-on-surface-variant);cursor:pointer;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:background .15s}
+  .fp-thread-sheet-header h3{font-size:1rem;font-weight:600;margin:0;color:var(--md-on-surface);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .fp-thread-sheet-close{width:32px;height:32px;border:none;background:transparent;color:var(--md-on-surface-variant);cursor:pointer;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:background .15s;flex-shrink:0}
   .fp-thread-sheet-close:hover{background:var(--md-surface-container-high)}
-  .fp-thread-sheet-body{flex:1;overflow-y:auto;padding:0 20px 20px}
+  .fp-thread-sheet-scroll{flex:1;overflow-y:auto;padding:0 20px}
   .fp-thread-sheet-overlay{position:fixed;inset:0;background:rgba(0,0,0,.32);z-index:899;opacity:0;pointer-events:none;transition:opacity .25s}
   .fp-thread-sheet-overlay.open{opacity:1;pointer-events:auto}
+  .fp-thread-sheet-compose{padding:12px 20px 16px;border-top:1px solid var(--md-outline-variant);flex-shrink:0}
+  .fp-thread-sheet-compose textarea{width:100%;padding:10px 12px;border:1px solid var(--md-outline-variant);border-radius:8px;font-family:inherit;font-size:.8125rem;background:var(--md-surface-container-high);color:var(--md-on-surface);outline:none;resize:none;min-height:56px;max-height:120px;transition:border-color .15s}
+  .fp-thread-sheet-compose textarea:focus{border-color:var(--md-primary)}
+  .fp-thread-sheet-compose-actions{display:flex;justify-content:flex-end;margin-top:8px}
 
-  /* Thread reply compose inside sidebar/sheet */
-  .fp-thread-compose{margin-top:12px;padding-top:12px;border-top:1px solid var(--md-outline-variant)}
-  .fp-thread-compose textarea{width:100%;padding:10px;border:1px solid var(--md-outline-variant);border-radius:8px;font-family:inherit;font-size:.8125rem;background:var(--md-surface-container-high);color:var(--md-on-surface);outline:none;resize:none;min-height:60px;transition:border-color .15s}
-  .fp-thread-compose textarea:focus{border-color:var(--md-primary)}
-
-  .fp-reply-in-thread{padding:12px 0;border-bottom:1px solid var(--md-outline-variant)}
-  .fp-reply-in-thread:last-child{border-bottom:none}
-  .fp-reply-in-thread .fp-reply-header{margin-bottom:6px}
+  /* Thread reply items */
+  .fp-thread-reply{padding:12px 0;border-bottom:1px solid var(--md-outline-variant)}
+  .fp-thread-reply:last-child{border-bottom:none}
+  .fp-thread-reply .fp-reply-header{margin-bottom:6px}
+  .fp-replying-to{font-size:.75rem;color:var(--md-primary);font-weight:500;margin-bottom:2px}
 
   @media(max-width:768px){
     .fp-post{padding:16px;border-radius:12px}
@@ -206,7 +244,7 @@
       </div>
     </div>
     <h2 class="fp-post-title">{{ post.title }}</h2>
-    <div class="fp-post-body" id="post-content-{{ post.id }}">{{ post.content }}</div>
+    <div class="fp-post-body" id="post-content-{{ post.id }}">{{ post.content|mention_links:all_usernames }}</div>
 
     {% if is_owner %}
     <div class="fp-owner-actions">
@@ -293,7 +331,7 @@
           <div class="fp-reply-time">{{ reply.createdAt|time_ago }}</div>
         </div>
       </div>
-      <div class="fp-reply-body" id="reply-content-{{ reply.id }}">{{ reply.content }}</div>
+      <div class="fp-reply-body" id="reply-content-{{ reply.id }}">{{ reply.content|mention_links:all_usernames }}</div>
       <div class="fp-reply-actions">
         <button onclick="toggleReplyLike('{{ reply.id }}')" class="fp-reply-action {% if reply.isThumbedUp %}liked{% endif %}" id="reply-like-btn-{{ reply.id }}">
           <span class="material-symbols-outlined">{% if reply.isThumbedUp %}thumb_up{% else %}thumb_up_off_alt{% endif %}</span>
@@ -395,8 +433,12 @@
     <h3 id="threadSidebarTitle">Thread</h3>
     <button class="fp-thread-sidebar-close" onclick="closeThread()"><span class="material-symbols-outlined">close</span></button>
   </div>
-  <div class="fp-thread-sidebar-body" id="threadSidebarBody">
-    <div style="text-align:center;padding:32px;color:var(--md-on-surface-variant);">Loading...</div>
+  <div class="fp-thread-sidebar-scroll" id="threadSidebarScroll"></div>
+  <div class="fp-thread-sidebar-compose" id="threadSidebarCompose" style="display:none;">
+    <textarea id="threadSidebarTextarea" placeholder="Write a reply..." onkeydown="handleThreadReplyKey(event)"></textarea>
+    <div class="fp-thread-sidebar-compose-actions">
+      <button class="md-btn md-btn-filled" style="font-size:.8125rem;padding:6px 16px;" onclick="submitThreadReply()">Reply</button>
+    </div>
   </div>
 </div>
 
@@ -408,10 +450,17 @@
     <h3 id="threadSheetTitle">Thread</h3>
     <button class="fp-thread-sheet-close" onclick="closeThread()"><span class="material-symbols-outlined">close</span></button>
   </div>
-  <div class="fp-thread-sheet-body" id="threadSheetBody">
-    <div style="text-align:center;padding:32px;color:var(--md-on-surface-variant);">Loading...</div>
+  <div class="fp-thread-sheet-scroll" id="threadSheetScroll"></div>
+  <div class="fp-thread-sheet-compose" id="threadSheetCompose" style="display:none;">
+    <textarea id="threadSheetTextarea" placeholder="Write a reply..." onkeydown="handleThreadReplyKey(event)"></textarea>
+    <div class="fp-thread-sheet-compose-actions" style="display:flex;justify-content:flex-end;margin-top:8px;">
+      <button class="md-btn md-btn-filled" style="font-size:.8125rem;padding:6px 16px;" onclick="submitThreadReply()">Reply</button>
+    </div>
   </div>
 </div>
+
+<!-- User Popup -->
+<div class="fp-user-popup" id="userPopup"></div>
 {% endblock %}
 
 {% block extra_js %}
@@ -421,10 +470,26 @@ const POST_AUTHOR_ID = '{{ post_author_id }}';
 const IS_OWNER = {{ is_owner|yesno:"true,false" }};
 const IS_AUTH = {{ is_authenticated|yesno:"true,false" }};
 const USER_ID = '{{ user.id|default:"" }}';
+const ALL_USERNAMES = [{% for r in replies %}'{{ r.authorName|escapejs }}'{% if not forloop.last %},{% endif %}{% endfor %}];
 let deleteTarget = { type: '', id: '' };
 let activeThreadId = null;
+let threadParentAuthor = null;
 
 function isMobile() { return window.innerWidth <= 768; }
+
+function renderMentions(text) {
+  if (!text) return '';
+  let html = escapeHtml(text);
+  html = html.replace(/@(\w+)/g, function(match, username) {
+    const lower = username.toLowerCase();
+    const found = ALL_USERNAMES.find(function(u) { return u.toLowerCase() === lower; });
+    if (found) {
+      return '<a href="/profile/' + encodeURIComponent(found) + '/" class="fp-mention">@' + escapeHtml(found) + '</a>';
+    }
+    return match;
+  });
+  return html;
+}
 
 async function togglePostLike(postId) {
   if (!IS_AUTHENTICATED) { window.location.href = '{% url "web:login" %}'; return; }
@@ -442,11 +507,14 @@ async function toggleReplyLike(replyId) {
   if (!IS_AUTHENTICATED) { window.location.href = '{% url "web:login" %}'; return; }
   const result = await (await fetch('/ajax/like/reply/' + replyId + '/', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN }, credentials: 'same-origin' })).json();
   if (result && result.thumbsUpCount !== undefined) {
-    document.getElementById('reply-like-count-' + replyId).textContent = result.thumbsUpCount;
+    const el = document.getElementById('reply-like-count-' + replyId);
+    if (el) el.textContent = result.thumbsUpCount;
     const btn = document.getElementById('reply-like-btn-' + replyId);
-    btn.classList.toggle('liked', result.isThumbedUp);
-    const icon = btn.querySelector('.material-symbols-outlined');
-    if (icon) icon.textContent = result.isThumbedUp ? 'thumb_up' : 'thumb_up_off_alt';
+    if (btn) {
+      btn.classList.toggle('liked', result.isThumbedUp);
+      const icon = btn.querySelector('.material-symbols-outlined');
+      if (icon) icon.textContent = result.isThumbedUp ? 'thumb_up' : 'thumb_up_off_alt';
+    }
   }
 }
 
@@ -455,7 +523,7 @@ async function toggleFollowPost() {
   const btn = document.getElementById('followBtn');
   btn.disabled = true;
   try {
-    const r = await fetch('/ajax/follow/' + POST_AUTHOR_ID + '/', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN } });
+    const r = await fetch('/ajax/follow/' + POST_AUTHOR_ID + '/', { method:'POST', headers:{'Content-Type':'application/json','X-CSRFToken':CSRF_TOKEN} });
     if (r.status === 401) { window.location.href = '{% url "web:login" %}'; return; }
     const d = await r.json();
     btn.disabled = false;
@@ -471,7 +539,7 @@ async function toggleFollowBtn(btn, userId) {
   if (!IS_AUTHENTICATED) { window.location.href = '{% url "web:login" %}'; return; }
   btn.disabled = true;
   try {
-    const r = await fetch('/ajax/follow/' + userId + '/', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN } });
+    const r = await fetch('/ajax/follow/' + userId + '/', { method:'POST', headers:{'Content-Type':'application/json','X-CSRFToken':CSRF_TOKEN} });
     if (r.status === 401) { window.location.href = '{% url "web:login" %}'; return; }
     const d = await r.json();
     btn.disabled = false;
@@ -496,10 +564,8 @@ async function submitEditPost() {
   if (!title || !content) { showSnackbar('Title and content are required.'); return; }
   try {
     const r = await fetch('/ajax/edit/post/' + POST_ID + '/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
-      credentials: 'same-origin',
-      body: JSON.stringify({ title, content })
+      method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN,  },
+      credentials: 'same-origin', body: JSON.stringify({ title, content })
     });
     const d = await r.json();
     if (d && d.id) { closeEditPostModal(); location.reload(); }
@@ -509,10 +575,7 @@ async function submitEditPost() {
 
 async function archivePost() {
   try {
-    const r = await fetch('/ajax/archive/post/' + POST_ID + '/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN }
-    });
+    const r = await fetch('/ajax/archive/post/' + POST_ID + '/', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN } });
     const d = await r.json();
     if (d && d.success) { showSnackbar(d.isArchived ? 'Post archived' : 'Post unarchived'); location.reload(); }
     else { showSnackbar(d.error || 'Failed'); }
@@ -538,10 +601,8 @@ async function submitEditReply() {
   if (!content) { showSnackbar('Content is required.'); return; }
   try {
     const r = await fetch('/ajax/edit/reply/' + replyId + '/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
-      credentials: 'same-origin',
-      body: JSON.stringify({ content })
+      method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN,  },
+      credentials: 'same-origin', body: JSON.stringify({ content })
     });
     const d = await r.json();
     if (d && d.id) { closeEditReplyModal(); location.reload(); }
@@ -605,10 +666,8 @@ async function submitMainReply(e) {
   if (!content) { showSnackbar('Content is required.'); return; }
   try {
     const r = await fetch('/ajax/reply/' + POST_ID + '/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
-      credentials: 'same-origin',
-      body: JSON.stringify({ content })
+      method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
+      credentials: 'same-origin', body: JSON.stringify({ content })
     });
     const d = await r.json();
     if (d && d.id) { location.reload(); }
@@ -618,19 +677,37 @@ async function submitMainReply(e) {
 
 function openThread(replyId) {
   activeThreadId = replyId;
-  const title = 'Thread';
   if (isMobile()) {
-    document.getElementById('threadSheetTitle').textContent = title;
-    document.getElementById('threadSheetBody').innerHTML = '<div style="text-align:center;padding:32px;color:var(--md-on-surface-variant);">Loading...</div>';
+    document.getElementById('threadSheetTitle').textContent = 'Thread';
+    document.getElementById('threadSheetScroll').innerHTML = '<div style="text-align:center;padding:32px;color:var(--md-on-surface-variant);">Loading...</div>';
+    document.getElementById('threadSheetCompose').style.display = 'none';
     document.getElementById('threadSheetOverlay').classList.add('open');
     document.getElementById('threadSheet').classList.add('open');
   } else {
-    document.getElementById('threadSidebarTitle').textContent = title;
-    document.getElementById('threadSidebarBody').innerHTML = '<div style="text-align:center;padding:32px;color:var(--md-on-surface-variant);">Loading...</div>';
+    document.getElementById('threadSidebarTitle').textContent = 'Thread';
+    document.getElementById('threadSidebarScroll').innerHTML = '<div style="text-align:center;padding:32px;color:var(--md-on-surface-variant);">Loading...</div>';
+    document.getElementById('threadSidebarCompose').style.display = 'none';
     document.getElementById('threadSidebarOverlay').classList.add('open');
     document.getElementById('threadSidebar').classList.add('open');
   }
   loadThreadReplies(replyId);
+}
+
+let pendingThreadReplyContent = null;
+
+function openThreadReply(parentId, authorName) {
+  pendingThreadReplyContent = '@' + authorName + ' ';
+  openThread(parentId);
+}
+
+function focusThreadCompose(authorName) {
+  const textareaId = isMobile() ? 'threadSheetTextarea' : 'threadSidebarTextarea';
+  const textarea = document.getElementById(textareaId);
+  if (textarea) {
+    textarea.value = '@' + authorName + ' ';
+    textarea.focus();
+    textarea.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
 }
 
 function closeThread() {
@@ -639,44 +716,58 @@ function closeThread() {
   document.getElementById('threadSheetOverlay').classList.remove('open');
   document.getElementById('threadSheet').classList.remove('open');
   activeThreadId = null;
+  threadParentAuthor = null;
 }
 
 async function loadThreadReplies(replyId) {
   try {
     const r = await fetch('/ajax/reply-thread/' + replyId + '/');
-    const replies = await r.json();
+    const data = await r.json();
     if (r.status !== 200) {
-      const body = isMobile() ? document.getElementById('threadSheetBody') : document.getElementById('threadSidebarBody');
-      body.innerHTML = '<div style="text-align:center;padding:32px;color:var(--md-error);">Failed to load replies.</div>';
+      const scrollEl = isMobile() ? document.getElementById('threadSheetScroll') : document.getElementById('threadSidebarScroll');
+      scrollEl.innerHTML = '<div style="text-align:center;padding:32px;color:var(--md-error);">Failed to load replies.</div>';
       return;
     }
+    const replies = data.replies || data;
+    const parentAuthor = data.parentAuthor || '';
+    threadParentAuthor = parentAuthor;
+    const title = parentAuthor ? 'Replying to @' + parentAuthor : 'Thread';
     let html = '';
     if (!replies.length) {
       html = '<div style="text-align:center;padding:32px;color:var(--md-on-surface-variant);">No replies in this thread yet.</div>';
     } else {
       replies.forEach(reply => {
-        html += renderThreadReply(reply);
+        html += renderThreadReply(reply, parentAuthor);
       });
     }
-    if (IS_AUTHENTICATED) {
-      html += '<div class="fp-thread-compose">';
-      html += '<textarea id="threadReplyContent" placeholder="Write a reply..." onkeydown="handleThreadReplyKey(event)"></textarea>';
-      html += '<div style="display:flex;justify-content:flex-end;margin-top:8px;">';
-      html += '<button class="md-btn md-btn-filled" style="font-size:.8125rem;padding:6px 16px;" onclick="submitThreadReply(\'' + replyId + '\')">Reply</button>';
-      html += '</div></div>';
-    }
     if (isMobile()) {
-      document.getElementById('threadSheetBody').innerHTML = html;
+      document.getElementById('threadSheetTitle').textContent = title;
+      document.getElementById('threadSheetScroll').innerHTML = html;
+      document.getElementById('threadSheetCompose').style.display = IS_AUTHENTICATED ? '' : 'none';
     } else {
-      document.getElementById('threadSidebarBody').innerHTML = html;
+      document.getElementById('threadSidebarTitle').textContent = title;
+      document.getElementById('threadSidebarScroll').innerHTML = html;
+      document.getElementById('threadSidebarCompose').style.display = IS_AUTHENTICATED ? '' : 'none';
+    }
+    if (IS_AUTHENTICATED) {
+      const sidebarTA = document.getElementById('threadSidebarTextarea');
+      const sheetTA = document.getElementById('threadSheetTextarea');
+      if (sidebarTA) initMentionAutocomplete(sidebarTA);
+      if (sheetTA) initMentionAutocomplete(sheetTA);
+    }
+    if (pendingThreadReplyContent) {
+      const textareaId = isMobile() ? 'threadSheetTextarea' : 'threadSidebarTextarea';
+      const textarea = document.getElementById(textareaId);
+      if (textarea) { textarea.value = pendingThreadReplyContent; textarea.focus(); }
+      pendingThreadReplyContent = null;
     }
   } catch(e) {
-    const body = isMobile() ? document.getElementById('threadSheetBody') : document.getElementById('threadSidebarBody');
-    body.innerHTML = '<div style="text-align:center;padding:32px;color:var(--md-error);">Failed to load replies.</div>';
+    const scrollEl = isMobile() ? document.getElementById('threadSheetScroll') : document.getElementById('threadSidebarScroll');
+    scrollEl.innerHTML = '<div style="text-align:center;padding:32px;color:var(--md-error);">Failed to load replies.</div>';
   }
 }
 
-function renderThreadReply(reply) {
+function renderThreadReply(reply, parentAuthor) {
   const avatarHtml = reply.authorPhotoUrl
     ? '<img src="' + escapeHtml(reply.authorPhotoUrl) + '" alt="" onerror="this.style.display=\'none\'; this.nextElementSibling.style.display=\'flex\';"><span class="fp-reply-avatar-letter" style="display:none;">' + escapeHtml(reply.authorName.charAt(0)) + '</span>'
     : '<span class="fp-reply-avatar-letter">' + escapeHtml(reply.authorName.charAt(0)) + '</span>';
@@ -690,10 +781,14 @@ function renderThreadReply(reply) {
     ? '<button class="follow-btn-inline not-following" data-user-id="' + reply.authorId + '" onclick="toggleFollowBtn(this, \'' + reply.authorId + '\')">Follow</button>'
     : '';
   const replyBtn = IS_AUTH
-    ? '<button class="fp-reply-action" onclick="openThreadReply(\'' + reply.id + '\', \'' + escapeHtml(reply.authorName).replace(/'/g, "\\'") + '\')"><span class="material-symbols-outlined">reply</span> Reply</button>'
+    ? '<button class="fp-reply-action" onclick="focusThreadCompose(\'' + escapeHtml(reply.authorName).replace(/'/g, "\\'") + '\')"><span class="material-symbols-outlined">reply</span> Reply</button>'
+    : '';
+  const mentionContent = renderMentions(reply.content);
+  const replyingLine = (parentAuthor && reply.authorName !== parentAuthor)
+    ? '<div class="fp-replying-to">replying to @' + escapeHtml(parentAuthor) + '</div>'
     : '';
 
-  return '<div class="fp-reply-in-thread">' +
+  return '<div class="fp-thread-reply">' +
     '<div class="fp-reply-header">' +
       '<div class="fp-reply-avatar">' + avatarHtml + '</div>' +
       '<div class="fp-reply-meta">' +
@@ -704,7 +799,8 @@ function renderThreadReply(reply) {
         '<div class="fp-reply-time">' + formatTimeAgo(reply.createdAt) + '</div>' +
       '</div>' +
     '</div>' +
-    '<div class="fp-reply-body">' + escapeHtml(reply.content) + '</div>' +
+    replyingLine +
+    '<div class="fp-reply-body">' + mentionContent + '</div>' +
     '<div class="fp-reply-actions">' +
       '<button onclick="toggleReplyLike(\'' + reply.id + '\')" class="fp-reply-action ' + likedClass + '" id="reply-like-btn-' + reply.id + '">' +
         '<span class="material-symbols-outlined">' + likeIcon + '</span>' +
@@ -730,26 +826,17 @@ function formatTimeAgo(ts) {
   return Math.floor(months / 12) + 'y ago';
 }
 
-function openThreadReply(parentId, authorName) {
-  const content = '@' + authorName + ' ';
-  if (isMobile()) {
-    const textarea = document.getElementById('threadSheetBody').querySelector('textarea');
-    if (textarea) { textarea.value = content; textarea.focus(); }
-  } else {
-    const textarea = document.getElementById('threadSidebarBody').querySelector('textarea');
-    if (textarea) { textarea.value = content; textarea.focus(); }
-  }
-}
-
 function handleThreadReplyKey(e) {
   if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
-    const parentId = activeThreadId;
-    if (parentId) submitThreadReply(parentId);
+    e.preventDefault();
+    submitThreadReply();
   }
 }
 
-async function submitThreadReply(parentId) {
-  const textarea = (isMobile() ? document.getElementById('threadSheetBody') : document.getElementById('threadSidebarBody')).querySelector('textarea');
+async function submitThreadReply() {
+  if (!activeThreadId) return;
+  const textareaId = isMobile() ? 'threadSheetTextarea' : 'threadSidebarTextarea';
+  const textarea = document.getElementById(textareaId);
   if (!textarea) return;
   const content = textarea.value.trim();
   if (!content) { showSnackbar('Content is required.'); return; }
@@ -758,12 +845,12 @@ async function submitThreadReply(parentId) {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
       credentials: 'same-origin',
-      body: JSON.stringify({ content, parentReplyId: parentId })
+      body: JSON.stringify({ content: content, parentReplyId: activeThreadId })
     });
     const d = await r.json();
     if (d && d.id) {
       textarea.value = '';
-      loadThreadReplies(parentId);
+      loadThreadReplies(activeThreadId);
       showSnackbar('Reply posted!');
     } else {
       showSnackbar(d.error || 'Failed to submit reply.');
@@ -775,6 +862,224 @@ document.querySelectorAll('.modal-overlay').forEach(overlay => {
   overlay.addEventListener('click', function(e) {
     if (e.target === overlay) overlay.classList.remove('active');
   });
+});
+
+// User popup on hover for username links
+let popupTimeout = null;
+let popupCache = {};
+const userPopup = document.getElementById('userPopup');
+
+function showUserPopup(username, anchorEl) {
+  clearTimeout(popupTimeout);
+  if (popupCache[username]) {
+    renderUserPopup(popupCache[username], anchorEl);
+    return;
+  }
+  popupTimeout = setTimeout(function() {
+    fetch('/ajax/user-popup/' + encodeURIComponent(username) + '/')
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        if (data && data.username) {
+          popupCache[username] = data;
+          renderUserPopup(data, anchorEl);
+        }
+      })
+      .catch(function() {});
+  }, 300);
+}
+
+function renderUserPopup(data, anchorEl) {
+  const avatarHtml = data.photoUrl
+    ? '<img src="' + escapeHtml(data.photoUrl) + '" alt="" onerror="this.style.display=\'none\'; this.nextElementSibling.style.display=\'flex\';"><span class="fp-user-popup-avatar-letter" style="display:none;">' + escapeHtml(data.displayName.charAt(0)) + '</span>'
+    : '<span class="fp-user-popup-avatar-letter">' + escapeHtml(data.displayName.charAt(0)) + '</span>';
+  const followBtn = (!data.isSelf && IS_AUTHENTICATED)
+    ? '<button class="follow-btn-inline ' + (data.isFollowing ? 'following' : 'not-following') + '" onclick="toggleFollowBtn(this, \'' + data.id + '\')" style="font-size:.75rem;padding:4px 14px;">' + (data.isFollowing ? 'Following' : 'Follow') + '</button>'
+    : '';
+  const profileBtn = '<a href="/profile/' + encodeURIComponent(data.username) + '/" class="md-btn md-btn-text" style="font-size:.75rem;padding:4px 14px;flex:1;text-align:center;">View Profile</a>';
+
+  let html = '<div class="fp-user-popup-header">' +
+    '<div class="fp-user-popup-avatar">' + avatarHtml + '</div>' +
+    '<div class="fp-user-popup-info">' +
+      '<div class="fp-user-popup-name">' + escapeHtml(data.displayName) + '</div>' +
+      '<div class="fp-user-popup-username">@' + escapeHtml(data.username) + '</div>' +
+    '</div>' +
+  '</div>';
+  if (data.bio) {
+    html += '<div class="fp-user-popup-bio">' + escapeHtml(data.bio) + '</div>';
+  }
+  if (!data.isLocked) {
+    html += '<div class="fp-user-popup-stats">' +
+      '<div class="fp-user-popup-stat"><div class="fp-user-popup-stat-value">' + data.postCount + '</div><div class="fp-user-popup-stat-label">Posts</div></div>' +
+      '<div class="fp-user-popup-stat"><div class="fp-user-popup-stat-value">' + data.replyCount + '</div><div class="fp-user-popup-stat-label">Replies</div></div>' +
+      '<div class="fp-user-popup-stat"><div class="fp-user-popup-stat-value">' + data.followerCount + '</div><div class="fp-user-popup-stat-label">Followers</div></div>' +
+    '</div>';
+  }
+  html += '<div class="fp-user-popup-actions">' + profileBtn + followBtn + '</div>';
+
+  userPopup.innerHTML = html;
+  userPopup.classList.add('visible');
+
+  const rect = anchorEl.getBoundingClientRect();
+  let top = rect.bottom + 8;
+  let left = rect.left;
+  if (left + 280 > window.innerWidth) left = window.innerWidth - 290;
+  if (left < 8) left = 8;
+  if (top + 220 > window.innerHeight) top = rect.top - 220;
+  userPopup.style.top = top + 'px';
+  userPopup.style.left = left + 'px';
+}
+
+function hideUserPopup() {
+  clearTimeout(popupTimeout);
+  popupTimeout = setTimeout(function() {
+    userPopup.classList.remove('visible');
+  }, 200);
+}
+
+// Attach hover events to all username links
+document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('mouseover', function(e) {
+    const link = e.target.closest('a[href*="/profile/"]');
+    if (link) {
+      const match = link.getAttribute('href').match(/\/profile\/([^/]+)\//);
+      if (match) showUserPopup(decodeURIComponent(match[1]), link);
+    }
+  });
+  document.addEventListener('mouseout', function(e) {
+    const link = e.target.closest('a[href*="/profile/"]');
+    if (link) {
+      if (!userPopup.contains(e.relatedTarget)) hideUserPopup();
+    }
+  });
+  userPopup.addEventListener('mouseenter', function() { clearTimeout(popupTimeout); });
+  userPopup.addEventListener('mouseleave', hideUserPopup);
+});
+
+// @mention autocomplete
+let mentionSearchTimer = null;
+let mentionDropdown = null;
+let mentionItems = [];
+let mentionSelectedIndex = -1;
+let mentionActiveTextarea = null;
+
+function initMentionAutocomplete(textarea) {
+  if (!textarea || textarea.dataset.mentionInit === '1') return;
+  textarea.dataset.mentionInit = '1';
+  textarea.addEventListener('input', handleMentionInput);
+  textarea.addEventListener('keydown', handleMentionKeydown);
+  textarea.addEventListener('blur', function() {
+    setTimeout(function() { closeMentionDropdown(); }, 200);
+  });
+}
+
+function handleMentionInput(e) {
+  mentionActiveTextarea = e.target;
+  clearTimeout(mentionSearchTimer);
+  const val = e.target.value;
+  const pos = e.target.selectionStart;
+  const textBefore = val.substring(0, pos);
+  const atMatch = textBefore.match(/@(\w{2,})$/);
+  if (!atMatch) {
+    closeMentionDropdown();
+    return;
+  }
+  const query = atMatch[1];
+  mentionSearchTimer = setTimeout(function() {
+    fetch('/ajax/user-search/?q=' + encodeURIComponent(query))
+      .then(function(r) { return r.json(); })
+      .then(function(users) {
+        if (!users.length) { closeMentionDropdown(); return; }
+        showMentionDropdown(users, e.target);
+      })
+      .catch(function() { closeMentionDropdown(); });
+  }, 150);
+}
+
+function handleMentionKeydown(e) {
+  if (!mentionDropdown || !mentionDropdown.classList.contains('open')) return;
+  if (e.key === 'ArrowDown') {
+    e.preventDefault();
+    mentionSelectedIndex = Math.min(mentionSelectedIndex + 1, mentionItems.length - 1);
+    highlightMentionItem();
+  } else if (e.key === 'ArrowUp') {
+    e.preventDefault();
+    mentionSelectedIndex = Math.max(mentionSelectedIndex - 1, 0);
+    highlightMentionItem();
+  } else if (e.key === 'Enter' || e.key === 'Tab') {
+    e.preventDefault();
+    selectMentionItem(mentionSelectedIndex);
+  } else if (e.key === 'Escape') {
+    e.preventDefault();
+    closeMentionDropdown();
+  }
+}
+
+function showMentionDropdown(users, textarea) {
+  if (!mentionDropdown) {
+    mentionDropdown = document.createElement('div');
+    mentionDropdown.className = 'fp-mention-dropdown';
+    document.body.appendChild(mentionDropdown);
+  }
+  mentionItems = users;
+  mentionSelectedIndex = 0;
+  let html = '';
+  users.forEach(function(u, i) {
+    const avatarHtml = u.photoUrl
+      ? '<img src="' + escapeHtml(u.photoUrl) + '" alt="" onerror="this.style.display=\'none\'; this.nextElementSibling.style.display=\'flex\';"><span class="fp-mention-item-letter" style="display:none;">' + escapeHtml(u.displayName.charAt(0)) + '</span>'
+      : '<span class="fp-mention-item-letter">' + escapeHtml(u.displayName.charAt(0)) + '</span>';
+    html += '<div class="fp-mention-item' + (i === 0 ? ' selected' : '') + '" data-index="' + i + '" data-username="' + escapeHtml(u.username) + '" data-displayname="' + escapeHtml(u.displayName) + '" onmousedown="selectMentionItem(' + i + ')" onmouseover="mentionSelectedIndex=' + i + ';highlightMentionItem()">';
+    html += '<div class="fp-mention-item-avatar">' + avatarHtml + '</div>';
+    html += '<div><div class="fp-mention-item-name">' + escapeHtml(u.displayName) + '</div>';
+    html += '<div class="fp-mention-item-username">@' + escapeHtml(u.username) + '</div></div>';
+    html += '</div>';
+  });
+  mentionDropdown.innerHTML = html;
+  mentionDropdown.classList.add('open');
+  const rect = textarea.getBoundingClientRect();
+  const dropdownHeight = mentionDropdown.scrollHeight || 200;
+  mentionDropdown.style.top = (rect.top + window.scrollY - dropdownHeight - 4) + 'px';
+  mentionDropdown.style.left = (rect.left + window.scrollX) + 'px';
+  mentionDropdown.style.width = Math.min(280, rect.width) + 'px';
+}
+
+function highlightMentionItem() {
+  if (!mentionDropdown) return;
+  const items = mentionDropdown.querySelectorAll('.fp-mention-item');
+  items.forEach(function(item, i) {
+    item.classList.toggle('selected', i === mentionSelectedIndex);
+  });
+}
+
+function selectMentionItem(index) {
+  if (!mentionDropdown || !mentionItems[index] || !mentionActiveTextarea) return;
+  const username = mentionItems[index].username;
+  const textarea = mentionActiveTextarea;
+  const val = textarea.value;
+  const pos = textarea.selectionStart;
+  const textBefore = val.substring(0, pos);
+  const atMatch = textBefore.match(/@(\w*)$/);
+  if (!atMatch) { closeMentionDropdown(); return; }
+  const atStart = pos - atMatch[0].length;
+  textarea.value = val.substring(0, atStart) + '@' + username + ' ' + val.substring(pos);
+  const newPos = atStart + username.length + 2;
+  textarea.setSelectionRange(newPos, newPos);
+  textarea.focus();
+  textarea.dispatchEvent(new Event('input'));
+  closeMentionDropdown();
+}
+
+function closeMentionDropdown() {
+  if (mentionDropdown) {
+    mentionDropdown.classList.remove('open');
+    mentionItems = [];
+    mentionSelectedIndex = -1;
+  }
+}
+
+// Init on page load
+document.addEventListener('DOMContentLoaded', function() {
+  const mainTextarea = document.getElementById('mainReplyContent');
+  if (mainTextarea) initMentionAutocomplete(mainTextarea);
 });
 </script>
 {% endblock %}

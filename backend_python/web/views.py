@@ -488,7 +488,10 @@ def forum_post(request, post_id):
         is_owner = (user_id == post_obj.user_id)
         if not is_owner:
             is_following = Follow.objects.filter(follower_id=user_id, following_id=post_obj.user_id).exists()
-    return render(request, 'web/forum_post.html', _ctx(request, post=post, replies=all_replies, top_level_replies=top_level, children_map=children_map, post_id=post_id, is_owner=is_owner, is_following=is_following, post_author_id=post_obj.user_id))
+    all_usernames = list(set(
+        [post_obj.user.username] + [r['authorName'] for r in all_replies]
+    ))
+    return render(request, 'web/forum_post.html', _ctx(request, post=post, replies=all_replies, top_level_replies=top_level, children_map=children_map, post_id=post_id, is_owner=is_owner, is_following=is_following, post_author_id=post_obj.user_id, all_usernames=all_usernames))
 
 
 def create_post(request):
@@ -1111,11 +1114,63 @@ def ajax_reply_thread(request, reply_id):
         parent = Reply.objects.get(pk=reply_id)
     except Reply.DoesNotExist:
         return JsonResponse({'error': 'Reply not found'}, status=404)
+    parent_author = parent.user.username
     children_qs = Reply.objects.select_related('user').filter(
         parent_reply_id=reply_id
     ).order_by('created_at')
     children = _serialize_replies(children_qs, user_id)
-    return JsonResponse(children, safe=False)
+    return JsonResponse({'parentAuthor': parent_author, 'parentId': str(parent.id), 'replies': children}, safe=False)
+
+
+def ajax_user_popup(request, username):
+    try:
+        u = User.objects.get(username=username)
+    except User.DoesNotExist:
+        return JsonResponse({'error': 'User not found'}, status=404)
+    is_private = bool(u.is_locked)
+    data = {
+        'id': u.id,
+        'username': u.username,
+        'displayName': u.display_name or u.username,
+        'photoUrl': u.photo_url or '',
+        'bio': '' if is_private else (u.bio or ''),
+        'classLevel': '' if is_private else (u.class_level or ''),
+        'isLocked': u.is_locked,
+    }
+    if not is_private:
+        data['postCount'] = Post.objects.filter(user=u).count()
+        data['replyCount'] = Reply.objects.filter(user=u).count()
+        data['followerCount'] = Follow.objects.filter(following=u).count()
+    else:
+        data['postCount'] = 0
+        data['replyCount'] = 0
+        data['followerCount'] = 0
+    user_id = _get_user_id(request)
+    if user_id:
+        data['isFollowing'] = Follow.objects.filter(follower_id=user_id, following_id=u.id).exists()
+        data['isSelf'] = (user_id == u.id)
+    else:
+        data['isFollowing'] = False
+        data['isSelf'] = False
+    return JsonResponse(data)
+
+
+def ajax_user_search(request):
+    q = request.GET.get('q', '').strip()
+    if len(q) < 2:
+        return JsonResponse([], safe=False)
+    users = User.objects.filter(
+        username__icontains=q
+    ).values('id', 'username', 'display_name', 'photo_url')[:8]
+    results = []
+    for u in users:
+        results.append({
+            'id': u['id'],
+            'username': u['username'],
+            'displayName': u['display_name'] or u['username'],
+            'photoUrl': u['photo_url'] or '',
+        })
+    return JsonResponse(results, safe=False)
 
 
 def ajax_check_username(request):
