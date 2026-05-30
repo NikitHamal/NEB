@@ -446,6 +446,7 @@ def profile(request, username):
         'pradesh': profile_user.pradesh,
         'district': profile_user.district,
         'school': profile_user.school,
+        'bio': profile_user.bio,
         'is_locked': 1 if profile_user.is_locked else 0,
         'created_at': profile_user.created_at,
     }
@@ -475,6 +476,51 @@ def profile(request, username):
         stats=stats,
         user_photos=user_photos,
         user_posts=user_posts,
+    ))
+
+
+def profile_achievements(request, username):
+    user_id = _get_user_id(request)
+    try:
+        profile_user = User.objects.get(username=username)
+    except User.DoesNotExist:
+        raise Http404("User not found")
+
+    profile_data = {
+        'id': profile_user.id,
+        'username': profile_user.username,
+        'email': profile_user.email,
+        'photo_url': profile_user.photo_url,
+        'display_name': profile_user.display_name,
+        'dob': profile_user.dob,
+        'gender': profile_user.gender,
+        'class_level': profile_user.class_level,
+        'class': profile_user.class_level,
+        'subjects': profile_user.subjects,
+        'pradesh': profile_user.pradesh,
+        'district': profile_user.district,
+        'school': profile_user.school,
+        'bio': profile_user.bio,
+        'is_locked': 1 if profile_user.is_locked else 0,
+        'created_at': profile_user.created_at,
+    }
+
+    stats = _build_local_stats(profile_user)
+    follower_count = Follow.objects.filter(following_id=profile_user.id).count()
+    following_count = Follow.objects.filter(follower_id=profile_user.id).count()
+    stats['follower_count'] = follower_count
+    stats['following_count'] = following_count
+    stats['is_following'] = False
+    stats['is_self'] = False
+    if user_id:
+        stats['is_self'] = (user_id == profile_user.id)
+        if not stats['is_self']:
+            stats['is_following'] = Follow.objects.filter(follower_id=user_id, following_id=profile_user.id).exists()
+
+    return render(request, 'web/achievements.html', _ctx(request,
+        profile_user=profile_data,
+        username=username,
+        stats=stats,
     ))
 
 
@@ -522,6 +568,7 @@ def edit_profile(request):
             'pradesh': request.POST.get('pradesh', ''),
             'district': request.POST.get('district', ''),
             'school': request.POST.get('school', ''),
+            'bio': request.POST.get('bio', ''),
             'isLocked': request.POST.get('is_locked') == 'on',
         }
         email = request.POST.get('email', '').strip()

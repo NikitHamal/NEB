@@ -11,7 +11,7 @@ class UserSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'username', 'email', 'photo_url', 'display_name',
             'dob', 'gender', 'class_level', 'subjects',
-            'pradesh', 'district', 'school', 'is_locked', 'created_at'
+            'pradesh', 'district', 'school', 'bio', 'is_locked', 'created_at'
         ]
         read_only_fields = ['id', 'created_at']
 
@@ -30,7 +30,7 @@ class UserPublicSerializer(serializers.ModelSerializer):
     """Restricted view for locked/private profiles."""
     class Meta:
         model = User
-        fields = ['username', 'display_name', 'photo_url', 'is_locked']
+        fields = ['username', 'display_name', 'photo_url', 'bio', 'is_locked']
 
     def to_representation(self, instance):
         ret = super().to_representation(instance)
