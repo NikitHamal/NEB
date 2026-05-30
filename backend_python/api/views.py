@@ -721,7 +721,13 @@ def auth_email_login(request):
         return Response({'error': 'Multiple accounts found. Please use your email address.'}, status=400)
 
     if not user.email_verified:
-        return Response({'error': 'Please verify your email first'}, status=403)
+        code = User.generate_verification_code()
+        expires = _now_ms() + (10 * 60 * 1000)
+        user.verification_code = code
+        user.verification_code_expires = expires
+        user.save(update_fields=['verification_code', 'verification_code_expires'])
+        send_verification_email(user.email, code, user.username)
+        return Response({'error': 'Please verify your email first', 'needsVerification': True, 'email': user.email}, status=403)
 
     if not user.password_hash:
         return Response({'error': 'This account uses Google sign-in. Please sign in with Google, or set a password from Settings.'}, status=400)

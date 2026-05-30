@@ -137,7 +137,7 @@
     <!-- STEP 3: Verification Code -->
     <div id="panel-verify" style="display:none;" class="auth-panel">
       <div style="text-align:left;margin-bottom:24px;">
-        <button onclick="window.showPanel('email-signup')" class="auth-text-btn" style="padding:4px 8px;margin:-4px -8px;">
+        <button onclick="window.showPanel(window._verifyFrom || 'email-signup')" class="auth-text-btn" style="padding:4px 8px;margin:-4px -8px;">
           <span class="material-symbols-outlined" style="font-size:20px;">arrow_back</span> Back
         </button>
       </div>
@@ -169,7 +169,7 @@
         </button>
       </div>
       <div style="display:flex;justify-content:center;margin-bottom:16px;">
-        <div style="width:48px;height:48px;border-radius:var(---radius-lg);background:var(--md-error-container);display:flex;align-items:center;justify-content:center;">
+        <div style="width:48px;height:48px;border-radius:var(--md-radius-lg);background:var(--md-error-container);display:flex;align-items:center;justify-content:center;">
           <span class="material-symbols-outlined" style="color:var(--md-on-error-container);font-size:24px;">lock_reset</span>
         </div>
       </div>
@@ -213,22 +213,25 @@
 {% block extra_js %}
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script>
-const GOOGLE_CLIENT_ID = '{{ google_client_id }}';
+var GOOGLE_CLIENT_ID = '{{ google_client_id }}';
 
 function setStatus(text) {
-  const s = document.getElementById('signin-status');
+  var s = document.getElementById('signin-status');
   if (s) s.textContent = text;
 }
 
-async function sendTokenToBackend(credential) {
+function handleCredentialResponse(response) {
+  if (!response || !response.credential) {
+    console.error('GIS response missing credential:', response);
+    setStatus('Sign-in failed. Please try again.');
+    return;
+  }
   setStatus('Signing in...');
-  try {
-    const res = await fetch('{% url "web:google_auth" %}', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
-      body: JSON.stringify({ idToken: credential })
-    });
-    const data = await res.json();
+  fetch('{% url "web:google_auth" %}', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
+    body: JSON.stringify({ idToken: response.credential })
+  }).then(function(res) { return res.json(); }).then(function(data) {
     if (data.status === 'success') {
       setStatus('Success! Redirecting...');
       window.location.href = data.isNewUser ? '{% url "web:edit_profile" %}' : '{% url "web:home" %}';
@@ -237,20 +240,11 @@ async function sendTokenToBackend(credential) {
       setStatus(data.error || 'Authentication failed');
       showSnackbar(data.error || 'Authentication failed');
     }
-  } catch (e) {
+  }).catch(function(e) {
     console.error('Backend request error:', e);
     setStatus('Network error. Please try again.');
     showSnackbar('Network error during sign-in.');
-  }
-}
-
-function handleCredentialResponse(response) {
-  if (response.credential) {
-    sendTokenToBackend(response.credential);
-  } else {
-    console.error('GIS response missing credential:', response);
-    setStatus('Sign-in failed. Please try again.');
-  }
+  });
 }
 
 function initGoogleSignIn() {
@@ -261,7 +255,7 @@ function initGoogleSignIn() {
     });
     google.accounts.id.renderButton(
       document.getElementById('google-btn-container'),
-      { theme: 'outline', size: 'large', text: 'continue_with', width: '400' }
+      { theme: 'outline', size: 'large', text: 'continue_with', width: 400 }
     );
   } catch (e) {
     console.error('GIS init error:', e);
@@ -273,8 +267,8 @@ window.addEventListener('load', function() {
   if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
     initGoogleSignIn();
   } else {
-    let tries = 0;
-    const interval = setInterval(function() {
+    var tries = 0;
+    var interval = setInterval(function() {
       tries++;
       if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
         clearInterval(interval);
@@ -289,21 +283,22 @@ window.addEventListener('load', function() {
 
 // ── Panel navigation ──
 window.showPanel = function(panel) {
-  document.querySelectorAll('[id^="panel-"], #auth-main').forEach(el => el.style.display = 'none');
-  const target = panel === 'main' ? document.getElementById('auth-main') : document.getElementById('panel-' + panel);
+  document.querySelectorAll('[id^="panel-"], #auth-main').forEach(function(el) { el.style.display = 'none'; });
+  var target = panel === 'main' ? document.getElementById('auth-main') : document.getElementById('panel-' + panel);
   if (target) {
     target.style.display = '';
     target.classList.remove('auth-panel');
     void target.offsetWidth;
     target.classList.add('auth-panel');
   }
-  document.querySelectorAll('.auth-error').forEach(el => el.textContent = '');
+  document.querySelectorAll('.auth-error').forEach(function(el) { el.textContent = ''; });
+  window._verifyFrom = (panel === 'verify') ? (window._verifyFrom || 'email-signup') : window._verifyFrom;
 };
 
 // ── Password visibility toggle ──
 window.togglePassword = function(inputId, btn) {
-  const input = document.getElementById(inputId);
-  const icon = btn.querySelector('.material-symbols-outlined');
+  var input = document.getElementById(inputId);
+  var icon = btn.querySelector('.material-symbols-outlined');
   if (input.type === 'password') {
     input.type = 'text';
     icon.textContent = 'visibility_off';
@@ -314,151 +309,171 @@ window.togglePassword = function(inputId, btn) {
 };
 
 // ── Email Login ──
-window.handleEmailLogin = async function(e) {
+window.handleEmailLogin = function(e) {
   e.preventDefault();
-  const email = document.getElementById('login-email').value.trim();
-  const password = document.getElementById('login-password').value;
-  const errorEl = document.getElementById('login-error');
-  const btn = document.getElementById('login-btn');
+  var email = document.getElementById('login-email').value.trim();
+  var password = document.getElementById('login-password').value;
+  var errorEl = document.getElementById('login-error');
+  var btn = document.getElementById('login-btn');
   errorEl.textContent = '';
   btn.disabled = true;
   btn.textContent = 'Signing in...';
-  try {
-    const res = await fetch('/api/auth/email/login/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, password }) });
-    const data = await res.json();
-    if (data.status === 'success' && data.authToken) {
-      await window.nebEmailLoginSuccess(data);
-    } else {
-      errorEl.textContent = data.error || 'Login failed';
-    }
-  } catch (err) {
-    errorEl.textContent = 'Network error. Please try again.';
-  }
-  btn.disabled = false;
-  btn.textContent = 'Sign In';
+  fetch('/api/auth/email/login/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email, password: password }) })
+    .then(function(res) { return res.json(); })
+    .then(function(data) {
+      if (data.status === 'success' && data.authToken) {
+        window.nebEmailLoginSuccess(data);
+      } else if (data.needsVerification && data.email) {
+        document.getElementById('verify-email-display').textContent = data.email;
+        var hiddenEmail = document.createElement('input');
+        hiddenEmail.type = 'hidden';
+        hiddenEmail.id = 'verify-email-hidden';
+        hiddenEmail.value = data.email;
+        document.getElementById('panel-verify').appendChild(hiddenEmail);
+        window._verifyFrom = 'email-login';
+        window.startResendCooldown();
+        window.showPanel('verify');
+      } else {
+        errorEl.textContent = data.error || 'Login failed';
+      }
+    })
+    .catch(function() { errorEl.textContent = 'Network error. Please try again.'; })
+    .finally(function() { btn.disabled = false; btn.textContent = 'Sign In'; });
 };
 
 // ── Email Signup ──
-window.handleEmailSignup = async function(e) {
+window.handleEmailSignup = function(e) {
   e.preventDefault();
-  const username = document.getElementById('signup-username').value.trim();
-  const email = document.getElementById('signup-email').value.trim();
-  const password = document.getElementById('signup-password').value;
-  const errorEl = document.getElementById('signup-error');
-  const btn = document.getElementById('signup-btn');
+  var username = document.getElementById('signup-username').value.trim();
+  var email = document.getElementById('signup-email').value.trim();
+  var password = document.getElementById('signup-password').value;
+  var errorEl = document.getElementById('signup-error');
+  var btn = document.getElementById('signup-btn');
   errorEl.textContent = '';
   btn.disabled = true;
   btn.textContent = 'Creating account...';
-  try {
-    const res = await fetch('/api/auth/email/signup/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, password, username }) });
-    const data = await res.json();
-    if (data.status === 'success') {
-      document.getElementById('verify-email-display').textContent = email;
-      window.showPanel('verify');
-    } else {
-      errorEl.textContent = data.error || 'Signup failed';
-    }
-  } catch (err) {
-    errorEl.textContent = 'Network error. Please try again.';
-  }
-  btn.disabled = false;
-  btn.textContent = 'Create Account';
+  fetch('/api/auth/email/signup/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email, password: password, username: username }) })
+    .then(function(res) { return res.json(); })
+    .then(function(data) {
+      if (data.status === 'success') {
+        document.getElementById('verify-email-display').textContent = email;
+        window.showPanel('verify');
+      } else {
+        errorEl.textContent = data.error || 'Signup failed';
+      }
+    })
+    .catch(function() { errorEl.textContent = 'Network error. Please try again.'; })
+    .finally(function() { btn.disabled = false; btn.textContent = 'Create Account'; });
 };
 
 // ── Verification Code ──
-window.handleVerifyCode = async function(e) {
+window.handleVerifyCode = function(e) {
   e.preventDefault();
-  const email = document.getElementById('signup-email').value.trim();
-  const code = document.getElementById('verify-code').value.trim();
-  const errorEl = document.getElementById('verify-error');
-  const btn = document.getElementById('verify-btn');
+  var email = document.getElementById('verify-email-hidden') ? document.getElementById('verify-email-hidden').value : document.getElementById('signup-email').value.trim();
+  email = email || document.getElementById('signup-email').value.trim();
+  var code = document.getElementById('verify-code').value.trim();
+  var errorEl = document.getElementById('verify-error');
+  var btn = document.getElementById('verify-btn');
   errorEl.textContent = '';
   btn.disabled = true;
   btn.textContent = 'Verifying...';
-  try {
-    const res = await fetch('/api/auth/email/verify/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, code }) });
-    const data = await res.json();
-    if (data.status === 'success') {
-      await window.nebEmailLoginSuccess(data);
-    } else {
-      errorEl.textContent = data.error || 'Verification failed';
-    }
-  } catch (err) {
-    errorEl.textContent = 'Network error. Please try again.';
-  }
-  btn.disabled = false;
-  btn.textContent = 'Verify';
+  fetch('/api/auth/email/verify/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email, code: code }) })
+    .then(function(res) { return res.json(); })
+    .then(function(data) {
+      if (data.status === 'success') {
+        window.nebEmailLoginSuccess(data);
+      } else {
+        errorEl.textContent = data.error || 'Verification failed';
+      }
+    })
+    .catch(function() { errorEl.textContent = 'Network error. Please try again.'; })
+    .finally(function() { btn.disabled = false; btn.textContent = 'Verify'; });
 };
 
 // ── Resend Code ──
-window.handleResend = async function() {
-  const email = document.getElementById('signup-email').value.trim();
-  const btn = document.getElementById('resend-btn');
+window.handleResend = function() {
+  var email = document.getElementById('verify-email-hidden') ? document.getElementById('verify-email-hidden').value : document.getElementById('signup-email').value.trim();
+  email = email || document.getElementById('signup-email').value.trim();
+  var btn = document.getElementById('resend-btn');
   btn.disabled = true;
   btn.textContent = 'Sending...';
-  try {
-    await fetch('/api/auth/email/resend/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email }) });
-    btn.textContent = 'Code sent!';
-    setTimeout(() => { btn.textContent = 'Resend Code'; btn.disabled = false; }, 30000);
-  } catch (err) {
-    btn.textContent = 'Resend Code';
-    btn.disabled = false;
-  }
+  fetch('/api/auth/email/resend/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email }) })
+    .then(function(res) { return res.json(); })
+    .then(function(data) {
+      if (data.status === 'success') {
+        window.startResendCooldown();
+      } else {
+        document.getElementById('verify-error').textContent = data.error || 'Failed to resend';
+        btn.textContent = 'Resend Code';
+        btn.disabled = false;
+      }
+    })
+    .catch(function() { btn.textContent = 'Resend Code'; btn.disabled = false; });
+};
+
+window.startResendCooldown = function() {
+  var btn = document.getElementById('resend-btn');
+  var seconds = 60;
+  btn.disabled = true;
+  btn.textContent = 'Resend in ' + seconds + 's';
+  var timer = setInterval(function() {
+    seconds--;
+    if (seconds <= 0) {
+      clearInterval(timer);
+      btn.textContent = 'Resend Code';
+      btn.disabled = false;
+    } else {
+      btn.textContent = 'Resend in ' + seconds + 's';
+    }
+  }, 1000);
 };
 
 // ── Forgot Password ──
-window.handleForgot = async function(e) {
+window.handleForgot = function(e) {
   e.preventDefault();
-  const email = document.getElementById('forgot-email').value.trim();
-  const errorEl = document.getElementById('forgot-error');
-  const btn = document.getElementById('forgot-btn');
+  var email = document.getElementById('forgot-email').value.trim();
+  var errorEl = document.getElementById('forgot-error');
+  var btn = document.getElementById('forgot-btn');
   errorEl.textContent = '';
   btn.disabled = true;
   btn.textContent = 'Sending...';
-  try {
-    await fetch('/api/auth/email/forgot/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email }) });
-    document.getElementById('reset-section').style.display = 'block';
-    btn.textContent = 'Code Sent!';
-    btn.disabled = true;
-  } catch (err) {
-    errorEl.textContent = 'Network error';
-    btn.disabled = false;
-    btn.textContent = 'Send Code';
-  }
+  fetch('/api/auth/email/forgot/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email }) })
+    .then(function() { document.getElementById('reset-section').style.display = 'block'; btn.textContent = 'Code Sent!'; btn.disabled = true; })
+    .catch(function() { errorEl.textContent = 'Network error'; btn.disabled = false; btn.textContent = 'Send Code'; });
 };
 
 // ── Reset Password ──
-window.handleReset = async function(e) {
+window.handleReset = function(e) {
   e.preventDefault();
-  const email = document.getElementById('forgot-email').value.trim();
-  const code = document.getElementById('reset-code').value.trim();
-  const newPassword = document.getElementById('reset-password').value;
-  const errorEl = document.getElementById('reset-error');
+  var email = document.getElementById('forgot-email').value.trim();
+  var code = document.getElementById('reset-code').value.trim();
+  var newPassword = document.getElementById('reset-password').value;
+  var errorEl = document.getElementById('reset-error');
   errorEl.textContent = '';
-  try {
-    const res = await fetch('/api/auth/email/reset-password/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, code, newPassword }) });
-    const data = await res.json();
-    if (data.status === 'success') {
-      await window.nebEmailLoginSuccess(data);
-    } else {
-      errorEl.textContent = data.error || 'Reset failed';
-    }
-  } catch (err) {
-    errorEl.textContent = 'Network error';
-  }
+  fetch('/api/auth/email/reset-password/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email, code: code, newPassword: newPassword }) })
+    .then(function(res) { return res.json(); })
+    .then(function(data) {
+      if (data.status === 'success') {
+        window.nebEmailLoginSuccess(data);
+      } else {
+        errorEl.textContent = data.error || 'Reset failed';
+      }
+    })
+    .catch(function() { errorEl.textContent = 'Network error'; });
 };
 
 // ── Session creation for email auth ──
-window.nebEmailLoginSuccess = async function(data) {
+window.nebEmailLoginSuccess = function(data) {
   if (data.authToken && data.user) {
-    try {
-      await fetch('{% url "web:google_auth" %}', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
-        body: JSON.stringify({ emailAuthToken: data.authToken, emailUser: data.user })
-      });
-    } catch (e) { /* ignore session errors, redirect anyway */ }
-    window.location.href = data.isNewUser ? '{% url "web:edit_profile" %}' : '{% url "web:home" %}';
+    fetch('{% url "web:google_auth" %}', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
+      body: JSON.stringify({ emailAuthToken: data.authToken, emailUser: data.user })
+    }).then(function() {
+      window.location.href = data.isNewUser ? '{% url "web:edit_profile" %}' : '{% url "web:home" %}';
+    }).catch(function() {
+      window.location.href = data.isNewUser ? '{% url "web:edit_profile" %}' : '{% url "web:home" %}';
+    });
   } else {
     window.location.href = '{% url "web:home" %}';
   }
