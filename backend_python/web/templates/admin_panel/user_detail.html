@@ -5,8 +5,8 @@
 
 {% block content %}
 <div style="margin-bottom:24px;">
-  <a href="{% url 'web:admin_users' %}" class="md-btn md-btn-text" style="padding-left:0;">
-    <span class="material-symbols-outlined" style="font-size:18px;">arrow_back</span>
+  <a href="{% url 'web:admin_users' %}" class="md-btn md-btn-text btn-left-flush">
+    <span class="material-symbols-outlined icon-md">arrow_back</span>
     Back to Users
   </a>
 </div>
@@ -71,7 +71,7 @@
         <label class="md-label" for="school">School</label>
         <input type="text" id="school" name="school" class="md-input" value="{{ user_detail.school|default:'' }}">
       </div>
-      <div class="form-group" style="display:flex;align-items:center;gap:12px;">
+      <div class="form-group inline-cluster-md">
         <label class="md-switch">
           <input type="checkbox" name="is_locked" id="is_locked" {% if user_detail.is_locked %}checked{% endif %}>
           <span class="slider"></span>
@@ -87,17 +87,17 @@
   <div>
     <div class="md-card-elevated p-3 mb-3">
       <h3 class="md-title-medium mb-2">User Info</h3>
-      <div style="display:flex;flex-direction:column;gap:12px;">
+      <div class="stack stack-md">
         <div>
-          <div class="md-label-small" style="color:var(--md-on-surface-variant);">Auth Token</div>
+          <div class="md-label-small muted">Auth Token</div>
           <div class="md-body-small" style="opacity:0.7;">Hidden for security</div>
         </div>
         <div>
-          <div class="md-label-small" style="color:var(--md-on-surface-variant);">Date of Birth</div>
+          <div class="md-label-small muted">Date of Birth</div>
           <div class="md-body-small">{{ user_detail.dob|default:"-" }}</div>
         </div>
         <div>
-          <div class="md-label-small" style="color:var(--md-on-surface-variant);">Joined</div>
+          <div class="md-label-small muted">Joined</div>
           <div class="md-body-small">{{ user_detail.created_at|time_ago|default:"-" }}</div>
         </div>
       </div>

@@ -137,11 +137,27 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CACHES = {
     'default': {
-        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-        'LOCATION': 'nebians-default-cache',
-        'OPTIONS': {'MAX_ENTRIES': 10000},
+        'BACKEND': os.environ.get('CACHE_BACKEND', 'django.core.cache.backends.locmem.LocMemCache'),
+        'LOCATION': os.environ.get('CACHE_LOCATION', 'nebians-default-cache'),
     },
 }
+
+# Redis cache configuration (set CACHE_BACKEND=django.core.cache.backends.redis.RedisCache
+# and CACHE_LOCATION=redis://localhost:6379/0 in .env to enable)
+if os.environ.get('CACHE_BACKEND') == 'django.core.cache.backends.redis.RedisCache':
+    CACHES['default'] = {
+        'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+        'LOCATION': os.environ.get('CACHE_LOCATION', 'redis://127.0.0.1:6379/0'),
+    }
+
+# Session backend — cached_db writes to both DB and cache, so existing sessions
+# survive cache clears and Redis restarts. Falls back to DB-only when no Redis.
+SESSION_ENGINE = os.environ.get(
+    'SESSION_ENGINE',
+    'django.contrib.sessions.backends.cached_db' if os.environ.get('CACHE_BACKEND') == 'django.core.cache.backends.redis.RedisCache'
+    else 'django.contrib.sessions.backends.db'
+)
+SESSION_CACHE_ALIAS = 'default'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [

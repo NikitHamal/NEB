@@ -88,8 +88,8 @@
   .fp-mention:hover{text-decoration:underline}
 
   /* User popup card */
-  .fp-user-popup{position:fixed;z-index:950;width:280px;background:var(--md-surface-container-lowest,#fff);border:1px solid var(--md-outline-variant);border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,.12);padding:16px;pointer-events:auto;opacity:0;transform:translateY(4px);transition:opacity .15s,transform .15s}
-  .fp-user-popup.visible{opacity:1;transform:translateY(0)}
+  .fp-user-popup{position:fixed;z-index:950;width:280px;background:var(--md-surface-container-lowest,#fff);border:1px solid var(--md-outline-variant);border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,.12);padding:16px;pointer-events:none;opacity:0;visibility:hidden;transform:translateY(4px);transition:opacity .18s,transform .18s,visibility .18s}
+  .fp-user-popup.visible{opacity:1;visibility:visible;pointer-events:auto;transform:translateY(0)}
   .fp-user-popup-header{display:flex;align-items:center;gap:12px;margin-bottom:10px}
   .fp-user-popup-avatar{width:44px;height:44px;border-radius:50%;overflow:hidden;background:var(--md-primary-container);display:flex;align-items:center;justify-content:center;flex-shrink:0}
   .fp-user-popup-avatar img{width:100%;height:100%;object-fit:cover}
@@ -137,10 +137,6 @@
 
   .fp-empty{text-align:center;padding:48px 24px;color:var(--md-on-surface-variant)}
   .fp-empty .material-symbols-outlined{font-size:48px;opacity:.4;margin-bottom:8px}
-
-  .follow-btn-inline{display:inline-flex;align-items:center;padding:2px 10px;border-radius:100px;font-size:.6875rem;font-weight:600;cursor:pointer;transition:all .15s}
-  .follow-btn-inline.following{background:var(--md-primary);color:#fff;border:1px solid var(--md-primary)}
-  .follow-btn-inline.not-following{background:transparent;color:var(--md-primary);border:1px solid var(--md-outline-variant)}
 
   .modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:1000}
   .modal-overlay.active{display:flex}
@@ -207,10 +203,10 @@
   }
 </style>
 
-<div class="md-container-narrow" style="padding-top:24px;">
+<div class="md-container-narrow page-pad-top">
   {% if post %}
   <a href="{% url 'web:forum' %}" class="fp-back">
-    <span class="material-symbols-outlined" style="font-size:18px">arrow_back</span>
+    <span class="material-symbols-outlined icon-md">arrow_back</span>
     Back to Forum
   </a>
 
@@ -248,9 +244,9 @@
 
     {% if is_owner %}
     <div class="fp-owner-actions">
-      <button class="fp-owner-btn" onclick="startEditPost()"><span class="material-symbols-outlined" style="font-size:14px;">edit</span> Edit</button>
-      <button class="fp-owner-btn" onclick="archivePost()"><span class="material-symbols-outlined" style="font-size:14px;">{{ post.isArchived|yesno:"unarchive,archive" }}</span> {% if post.isArchived %}Unarchive{% else %}Archive{% endif %}</button>
-      <button class="fp-owner-btn danger" onclick="deletePost()"><span class="material-symbols-outlined" style="font-size:14px;">delete</span> Delete</button>
+      <button class="fp-owner-btn" onclick="startEditPost()"><span class="material-symbols-outlined icon-sm">edit</span> Edit</button>
+      <button class="fp-owner-btn" onclick="archivePost()"><span class="material-symbols-outlined icon-sm">{{ post.isArchived|yesno:"unarchive,archive" }}</span> {% if post.isArchived %}Unarchive{% else %}Archive{% endif %}</button>
+      <button class="fp-owner-btn danger" onclick="deletePost()"><span class="material-symbols-outlined icon-sm">delete</span> Delete</button>
     </div>
     {% endif %}
 
@@ -287,7 +283,7 @@
   <div class="modal-overlay" id="editHistoryModal">
     <div class="modal-box">
       <h3>Edit History</h3>
-      <div id="editHistoryContent"><p style="color:var(--md-on-surface-variant);">Loading...</p></div>
+      <div id="editHistoryContent"><p class="muted">Loading...</p></div>
       <div style="text-align:right;margin-top:16px;">
         <button class="md-btn md-btn-text" onclick="closeEditHistoryModal()">Close</button>
       </div>
@@ -635,12 +631,12 @@ async function confirmDelete() {
 
 async function showEditHistory(targetType, targetId) {
   document.getElementById('editHistoryModal').classList.add('active');
-  document.getElementById('editHistoryContent').innerHTML = '<p style="color:var(--md-on-surface-variant);">Loading...</p>';
+  document.getElementById('editHistoryContent').innerHTML = '<p class="muted">Loading...</p>';
   try {
     const r = await fetch('/ajax/edit-history/' + targetType + '/' + targetId + '/');
     const entries = await r.json();
     if (!entries.length) {
-      document.getElementById('editHistoryContent').innerHTML = '<p style="color:var(--md-on-surface-variant);">No edit history.</p>';
+      document.getElementById('editHistoryContent').innerHTML = '<p class="muted">No edit history.</p>';
       return;
     }
     let html = '';
@@ -802,7 +798,7 @@ function renderThreadReply(reply, parentAuthor) {
     replyingLine +
     '<div class="fp-reply-body">' + mentionContent + '</div>' +
     '<div class="fp-reply-actions">' +
-      '<button onclick="toggleReplyLike(\'' + reply.id + '\')" class="fp-reply-action ' + likedClass + '" id="reply-like-btn-' + reply.id + '">' +
+      '<button onclick="toggleReplyLike(\'' + reply.id + '\')" class="fp-reply-action ' + likedClass" id="reply-like-btn-' + reply.id + '">' +
         '<span class="material-symbols-outlined">' + likeIcon + '</span>' +
         '<span id="reply-like-count-' + reply.id + '">' + reply.thumbsUpCount + '</span>' +
       '</button>' +
@@ -865,27 +861,35 @@ document.querySelectorAll('.modal-overlay').forEach(overlay => {
 });
 
 // User popup on hover for username links
-let popupTimeout = null;
+let popupShowTimer = null;
+let popupHideTimer = null;
 let popupCache = {};
+let popupCurrentAnchor = null;
 const userPopup = document.getElementById('userPopup');
 
 function showUserPopup(username, anchorEl) {
-  clearTimeout(popupTimeout);
-  if (popupCache[username]) {
-    renderUserPopup(popupCache[username], anchorEl);
+  clearTimeout(popupHideTimer);
+  if (popupCurrentAnchor === anchorEl && userPopup.classList.contains('visible')) {
     return;
   }
-  popupTimeout = setTimeout(function() {
-    fetch('/ajax/user-popup/' + encodeURIComponent(username) + '/')
-      .then(function(r) { return r.json(); })
-      .then(function(data) {
-        if (data && data.username) {
-          popupCache[username] = data;
-          renderUserPopup(data, anchorEl);
-        }
-      })
-      .catch(function() {});
-  }, 300);
+  clearTimeout(popupShowTimer);
+  popupShowTimer = setTimeout(function() {
+    if (popupCache[username]) {
+      renderUserPopup(popupCache[username], anchorEl);
+    } else {
+      fetch('/ajax/user-popup/' + encodeURIComponent(username) + '/')
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          if (data && data.username) {
+            popupCache[username] = data;
+            if (popupCurrentAnchor === anchorEl) {
+              renderUserPopup(data, anchorEl);
+            }
+          }
+        })
+        .catch(function() {});
+    }
+  }, 400);
 }
 
 function renderUserPopup(data, anchorEl) {
@@ -893,7 +897,7 @@ function renderUserPopup(data, anchorEl) {
     ? '<img src="' + escapeHtml(data.photoUrl) + '" alt="" onerror="this.style.display=\'none\'; this.nextElementSibling.style.display=\'flex\';"><span class="fp-user-popup-avatar-letter" style="display:none;">' + escapeHtml(data.displayName.charAt(0)) + '</span>'
     : '<span class="fp-user-popup-avatar-letter">' + escapeHtml(data.displayName.charAt(0)) + '</span>';
   const followBtn = (!data.isSelf && IS_AUTHENTICATED)
-    ? '<button class="follow-btn-inline ' + (data.isFollowing ? 'following' : 'not-following') + '" onclick="toggleFollowBtn(this, \'' + data.id + '\')" style="font-size:.75rem;padding:4px 14px;">' + (data.isFollowing ? 'Following' : 'Follow') + '</button>'
+    ? '<button class="follow-btn-inline ' + (data.isFollowing ? 'following' : 'not-following')" onclick="toggleFollowBtn(this, \'' + data.id + '\')" style="font-size:.75rem;padding:4px 14px;">' + (data.isFollowing ? 'Following' : 'Follow') + '</button>'
     : '';
   const profileBtn = '<a href="/profile/' + encodeURIComponent(data.username) + '/" class="md-btn md-btn-text" style="font-size:.75rem;padding:4px 14px;flex:1;text-align:center;">View Profile</a>';
 
@@ -918,22 +922,36 @@ function renderUserPopup(data, anchorEl) {
 
   userPopup.innerHTML = html;
   userPopup.classList.add('visible');
+  popupCurrentAnchor = anchorEl;
 
+  positionUserPopup(anchorEl);
+}
+
+function positionUserPopup(anchorEl) {
+  if (!anchorEl || !userPopup.classList.contains('visible')) return;
   const rect = anchorEl.getBoundingClientRect();
+  const popH = userPopup.offsetHeight || 220;
+  const popW = 280;
   let top = rect.bottom + 8;
-  let left = rect.left;
-  if (left + 280 > window.innerWidth) left = window.innerWidth - 290;
+  let left = rect.left + rect.width / 2 - popW / 2;
+  if (left + popW > window.innerWidth - 8) left = window.innerWidth - popW - 8;
   if (left < 8) left = 8;
-  if (top + 220 > window.innerHeight) top = rect.top - 220;
+  if (top + popH > window.innerHeight - 8) top = rect.top - popH - 8;
+  if (top < 8) top = 8;
   userPopup.style.top = top + 'px';
   userPopup.style.left = left + 'px';
 }
 
 function hideUserPopup() {
-  clearTimeout(popupTimeout);
-  popupTimeout = setTimeout(function() {
+  clearTimeout(popupShowTimer);
+  popupHideTimer = setTimeout(function() {
     userPopup.classList.remove('visible');
-  }, 200);
+    popupCurrentAnchor = null;
+  }, 250);
+}
+
+function cancelHideUserPopup() {
+  clearTimeout(popupHideTimer);
 }
 
 // Attach hover events to all username links
@@ -951,8 +969,11 @@ document.addEventListener('DOMContentLoaded', function() {
       if (!userPopup.contains(e.relatedTarget)) hideUserPopup();
     }
   });
-  userPopup.addEventListener('mouseenter', function() { clearTimeout(popupTimeout); });
+  userPopup.addEventListener('mouseenter', cancelHideUserPopup);
   userPopup.addEventListener('mouseleave', hideUserPopup);
+  // Reposition popup on scroll/resize
+  window.addEventListener('scroll', function() { positionUserPopup(popupCurrentAnchor); }, {passive: true});
+  window.addEventListener('resize', function() { positionUserPopup(popupCurrentAnchor); }, {passive: true});
 });
 
 // @mention autocomplete
@@ -1027,7 +1048,7 @@ function showMentionDropdown(users, textarea) {
     const avatarHtml = u.photoUrl
       ? '<img src="' + escapeHtml(u.photoUrl) + '" alt="" onerror="this.style.display=\'none\'; this.nextElementSibling.style.display=\'flex\';"><span class="fp-mention-item-letter" style="display:none;">' + escapeHtml(u.displayName.charAt(0)) + '</span>'
       : '<span class="fp-mention-item-letter">' + escapeHtml(u.displayName.charAt(0)) + '</span>';
-    html += '<div class="fp-mention-item' + (i === 0 ? ' selected' : '') + '" data-index="' + i + '" data-username="' + escapeHtml(u.username) + '" data-displayname="' + escapeHtml(u.displayName) + '" onmousedown="selectMentionItem(' + i + ')" onmouseover="mentionSelectedIndex=' + i + ';highlightMentionItem()">';
+    html += '<div class="fp-mention-item' + (i === 0 ? ' selected' : '')" data-index="' + i + '" data-username="' + escapeHtml(u.username) + '" data-displayname="' + escapeHtml(u.displayName) + '" onmousedown="selectMentionItem(' + i + ')" onmouseover="mentionSelectedIndex=' + i + ';highlightMentionItem()">';
     html += '<div class="fp-mention-item-avatar">' + avatarHtml + '</div>';
     html += '<div><div class="fp-mention-item-name">' + escapeHtml(u.displayName) + '</div>';
     html += '<div class="fp-mention-item-username">@' + escapeHtml(u.username) + '</div></div>';

@@ -51,6 +51,7 @@ from .serializers import (
     UserPhotoSerializer, UserStatsSerializer, FollowSerializer,
     EditHistorySerializer, ReportSerializer,
 )
+from . import counters as _counters
 
 logger = logging.getLogger(__name__)
 
@@ -408,6 +409,7 @@ def posts_create(request):
     )
 
     logger.info("posts_create: created post %s by user %s", post.id, user.username)
+    _counters.increment_user_post_count(user.id)
     return Response(PostSerializer(post, context={'request': request}).data, status=201)
 
 
@@ -425,7 +427,9 @@ def post_detail(request, post_id):
             return err
         if post.user_id != user.id:
             return Response({'error': 'Forbidden'}, status=403)
+        user_id = post.user_id
         post.delete()
+        _counters.decrement_user_post_count(user_id)
         logger.info("post_detail DELETE: deleted post %s by user %s", post_id, user.username)
         return Response({'success': True})
 
@@ -483,11 +487,17 @@ def post_like(request, post_id):
             Post.objects.filter(pk=post.pk).update(thumbs_up_count=F('thumbs_up_count') + 1)
             is_thumbed_up = True
             current_count = post.thumbs_up_count + 1
+            _counters.increment_user_likes_given(user.id)
+            if post.user_id != user.id:
+                _counters.increment_user_likes_received(post.user_id)
         else:
             like.delete()
             Post.objects.filter(pk=post.pk, thumbs_up_count__gt=0).update(thumbs_up_count=F('thumbs_up_count') - 1)
             is_thumbed_up = False
             current_count = max(post.thumbs_up_count - 1, 0)
+            _counters.decrement_user_likes_given(user.id)
+            if post.user_id != user.id:
+                _counters.decrement_user_likes_received(post.user_id)
 
     return Response({'thumbsUpCount': current_count, 'isThumbedUp': is_thumbed_up})
 
@@ -529,6 +539,7 @@ def replies_create(request, post_id):
             Reply.objects.filter(pk=parent_reply_id).update(reply_count=F('reply_count') + 1)
 
     logger.info("replies_create: created reply on post %s by user %s", post_id, user.username)
+    _counters.increment_user_reply_count(user.id)
     return Response(ReplySerializer(reply, context={'request': request}).data, status=201)
 
 
@@ -550,10 +561,12 @@ def reply_detail(request, reply_id):
         with transaction.atomic():
             post_id = reply.post_id
             parent_id = reply.parent_reply_id
+            reply_user_id = reply.user_id
             reply.delete()
             Post.objects.filter(pk=post_id, reply_count__gt=0).update(reply_count=F('reply_count') - 1)
             if parent_id:
                 Reply.objects.filter(pk=parent_id, reply_count__gt=0).update(reply_count=F('reply_count') - 1)
+        _counters.decrement_user_reply_count(reply_user_id)
         return Response({'success': True})
 
     content = request.data.get('content', '').strip()
@@ -588,11 +601,17 @@ def reply_like(request, reply_id):
             Reply.objects.filter(pk=reply.pk).update(thumbs_up_count=F('thumbs_up_count') + 1)
             is_thumbed_up = True
             current_count = reply.thumbs_up_count + 1
+            _counters.increment_user_likes_given(user.id)
+            if reply.user_id != user.id:
+                _counters.increment_user_likes_received(reply.user_id)
         else:
             like.delete()
             Reply.objects.filter(pk=reply.pk, thumbs_up_count__gt=0).update(thumbs_up_count=F('thumbs_up_count') - 1)
             is_thumbed_up = False
             current_count = max(reply.thumbs_up_count - 1, 0)
+            _counters.decrement_user_likes_given(user.id)
+            if reply.user_id != user.id:
+                _counters.decrement_user_likes_received(reply.user_id)
 
     return Response({'thumbsUpCount': current_count, 'isThumbedUp': is_thumbed_up})
 
@@ -1115,24 +1134,23 @@ def replies_endpoint(request, post_id):
 def _build_stats(user):
     """
     Build the stats dict for a given User instance.
-    Uses a single aggregation query instead of 6 separate COUNT queries.
+    Uses denormalized counters on the User model when available,
+    falls back to aggregate queries for legacy rows.
     """
-    from django.db.models import Count, Q
-    post_count = Post.objects.filter(user=user).count()
-    reply_count = Reply.objects.filter(user=user).count()
-    follower_count = Follow.objects.filter(following=user).count()
-    following_count = Follow.objects.filter(follower=user).count()
-
-    likes_received = (
-        PostLike.objects.filter(post__user=user).count() +
-        ReplyLike.objects.filter(reply__user=user).count()
+    post_count = user.post_count if hasattr(user, 'post_count') and user.post_count > 0 else Post.objects.filter(user=user).count()
+    reply_count = user.reply_count if hasattr(user, 'reply_count') and user.reply_count > 0 else Reply.objects.filter(user=user).count()
+    follower_count = user.follower_count if hasattr(user, 'follower_count') and user.follower_count > 0 else Follow.objects.filter(following=user).count()
+    following_count = user.following_count if hasattr(user, 'following_count') and user.following_count > 0 else Follow.objects.filter(follower=user).count()
+    likes_given = user.likes_given_count if hasattr(user, 'likes_given_count') and user.likes_given_count > 0 else (
+        PostLike.objects.filter(user=user).count() + ReplyLike.objects.filter(user=user).count()
     )
-    likes_given = (
-        PostLike.objects.filter(user=user).count() +
-        ReplyLike.objects.filter(user=user).count()
+    likes_received = user.likes_received_count if hasattr(user, 'likes_received_count') and user.likes_received_count > 0 else (
+        PostLike.objects.filter(post__user=user).count() + ReplyLike.objects.filter(reply__user=user).count()
     )
 
-    contribution_score = (post_count * 3) + (reply_count * 2) + likes_given + (likes_received * 2)
+    contribution_score = user.contribution_score if hasattr(user, 'contribution_score') and user.contribution_score > 0 else (
+        (post_count * 3) + (reply_count * 2) + likes_given + (likes_received * 2)
+    )
 
     return {
         'username': user.username,
@@ -1253,6 +1271,8 @@ def user_follow_toggle(request, user_id):
         if existing:
             existing.delete()
             is_following = False
+            _counters.decrement_user_follower_count(target_user.id)
+            _counters.decrement_user_following_count(current_user.id)
         else:
             Follow.objects.create(
                 follower=current_user,
@@ -1260,8 +1280,10 @@ def user_follow_toggle(request, user_id):
                 created_at=_now_ms()
             )
             is_following = True
+            _counters.increment_user_follower_count(target_user.id)
+            _counters.increment_user_following_count(current_user.id)
 
-    follower_count = Follow.objects.filter(following=target_user).count()
+    follower_count = target_user.follower_count if hasattr(target_user, 'follower_count') else Follow.objects.filter(following=target_user).count()
     return Response({'is_following': is_following, 'follower_count': follower_count})
 
 
