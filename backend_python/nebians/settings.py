@@ -9,11 +9,16 @@ from dotenv import load_dotenv
 BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(BASE_DIR / '.env', override=True)
 
-SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-change-me-in-production')
+SECRET_KEY = os.environ.get('SECRET_KEY')
+if not SECRET_KEY:
+    if os.environ.get('DJANGO_SETTINGS_MODULE') == 'nebians.settings':
+        raise ValueError('SECRET_KEY environment variable is required in production')
 
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1,nebians.consica.com.np,www.nebians.consica.com.np').split(',')
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(',')
+if not ALLOWED_HOSTS or ALLOWED_HOSTS == ['']:
+    ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -74,8 +79,8 @@ else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
-            'NAME': os.environ.get('DB_NAME', 'nebians_db'),
-            'USER': os.environ.get('DB_USER', 'nebians_user'),
+            'NAME': os.environ.get('DB_NAME'),
+            'USER': os.environ.get('DB_USER'),
             'PASSWORD': os.environ.get('DB_PASSWORD', ''),
             'HOST': os.environ.get('DB_HOST', 'localhost'),
             'PORT': os.environ.get('DB_PORT', '3306'),
@@ -148,29 +153,29 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 # Google OAuth
-GOOGLE_CLIENT_ID = os.environ.get('GOOGLE_CLIENT_ID', '68143624035-que25r0vmrke4agasr715j5u9p8gic2s.apps.googleusercontent.com')
+GOOGLE_CLIENT_ID = os.environ.get('GOOGLE_CLIENT_ID', '')
 
-# Firebase config (for web client-side auth)
-FIREBASE_API_KEY = os.environ.get('FIREBASE_API_KEY', 'AIzaSyAZUCVc7NdpAFeXgojurqiOqrkGqPtklW0')
-FIREBASE_AUTH_DOMAIN = os.environ.get('FIREBASE_AUTH_DOMAIN', 'nebiansnepal.firebaseapp.com')
-FIREBASE_PROJECT_ID = os.environ.get('FIREBASE_PROJECT_ID', 'nebiansnepal')
-FIREBASE_STORAGE_BUCKET = os.environ.get('FIREBASE_STORAGE_BUCKET', 'nebiansnepal.firebasestorage.app')
-FIREBASE_SENDER_ID = os.environ.get('FIREBASE_SENDER_ID', '68143624035')
-FIREBASE_APP_ID = os.environ.get('FIREBASE_APP_ID', '1:68143624035:web:f04129d04b128b92e4ed56')
+FIREBASE_PROJECT_ID = os.environ.get('FIREBASE_PROJECT_ID', '')
 
-ADMIN_TOKEN = os.environ.get('ADMIN_TOKEN', 'nebians-admin-2024-secure-token')
+ADMIN_TOKEN = os.environ.get('ADMIN_TOKEN')
+if not ADMIN_TOKEN:
+    if os.environ.get('DJANGO_SETTINGS_MODULE') == 'nebians.settings':
+        raise ValueError('ADMIN_TOKEN environment variable is required in production')
 ADMIN_USERNAME = os.environ.get('ADMIN_USERNAME', 'admin')
-ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD', 'admin123')
+ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD')
+if not ADMIN_PASSWORD:
+    if os.environ.get('DJANGO_SETTINGS_MODULE') == 'nebians.settings':
+        raise ValueError('ADMIN_PASSWORD environment variable is required in production')
 
 # Email configuration
 EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND', 'django.core.mail.backends.smtp.EmailBackend')
-EMAIL_HOST = os.environ.get('EMAIL_HOST', 'nebians.consica.com.np')
+EMAIL_HOST = os.environ.get('EMAIL_HOST', '')
 EMAIL_PORT = int(os.environ.get('EMAIL_PORT', '465'))
 EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS', 'False') == 'True'
 EMAIL_USE_SSL = os.environ.get('EMAIL_USE_SSL', 'True') == 'True'
-EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', 'noreply@nebians.consica.com.np')
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', '')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
-DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', 'NEBians <noreply@nebians.consica.com.np>')
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', '')
 
 # Web app API base URL (for server-side calls from web views)
 WEB_API_BASE_URL = os.environ.get('WEB_API_BASE_URL', 'http://127.0.0.1:8000/api')
