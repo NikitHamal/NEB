@@ -6,6 +6,12 @@
 <div class="md-container-narrow" style="padding-top:24px;">
   <h1 class="md-headline-small mb-3">Edit Profile</h1>
 
+  {% if error %}
+  <div style="background:var(--md-error-container, #fce4ec);color:var(--md-on-error-container, #b71c1c);padding:12px 16px;border-radius:12px;margin-bottom:16px;font-size:0.875rem;font-weight:500;">
+    {{ error }}
+  </div>
+  {% endif %}
+
   <div class="md-card p-3">
     <form method="post">
       {% csrf_token %}
