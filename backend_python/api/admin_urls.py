@@ -11,4 +11,6 @@ urlpatterns = [
     path('admin/posts/<str:post_id>/', admin_views.admin_post_detail, name='admin-post-detail'),
     path('admin/posts/<str:post_id>/replies/', admin_views.admin_post_replies, name='admin-post-replies'),
     path('admin/replies/<str:reply_id>/', admin_views.admin_reply_detail, name='admin-reply-detail'),
+    path('admin/reports/', admin_views.admin_reports_list, name='admin-reports-list'),
+    path('admin/reports/<str:report_id>/', admin_views.admin_report_detail, name='admin-report-detail'),
 ]
