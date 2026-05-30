@@ -4,23 +4,21 @@ import time
 import uuid
 
 from django.conf import settings
+from django.contrib import messages
+from django.contrib.auth import authenticate, login as django_login, logout as django_logout
 from django.core.cache import cache
-from django.db.models import Q, Count
+from django.core.exceptions import ValidationError
+from django.db.models import Q, Count, F
 from django.shortcuts import render, redirect
-from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_GET, require_POST
 from django.http import JsonResponse, Http404, HttpResponse
 
 from api.models import User, Resource, Post, PostLike, Reply, ReplyLike, Follow, UserPhoto, EditHistory
 from api.serializers import UserSerializer
+from api.security import save_profile_image_upload, validate_profile_photo_url, validate_resource_file_url
 from . import api_client as api
 
 logger = logging.getLogger(__name__)
-
-ADMIN_TOKEN = settings.ADMIN_TOKEN
-ADMIN_USERNAME = settings.ADMIN_USERNAME
-ADMIN_PASSWORD = settings.ADMIN_PASSWORD
-
 
 def _serialize_resource(r):
     return {
@@ -157,14 +155,12 @@ def _get_valid_token(request):
 def _ctx(request, **extra):
     token = api.get_session_token(request)
     user = api.get_session_user(request)
-    logger.info("Session _ctx: token=%s, user=%s, session_keys=%s", token, user, list(request.session.keys()) if hasattr(request, 'session') else [])
     if user:
         user = _normalize_user_data(user)
     dark_mode = request.session.get('theme') == 'dark'
     ctx = {
         'is_authenticated': bool(token),
         'user': user,
-        'auth_token': token,
         'dark_mode': dark_mode,
     }
     ctx.update(extra)
@@ -172,7 +168,18 @@ def _ctx(request, **extra):
 
 
 def _admin_token(request):
-    return ADMIN_TOKEN
+    # Custom admin pages authenticate through Django's staff session. Server-side
+    # admin API calls are additionally protected with a short-lived signed header
+    # generated in web.api_client, so no shared bearer token is exposed.
+    return None
+
+
+def _is_staff_admin(request):
+    return bool(getattr(request, 'user', None) and request.user.is_authenticated and request.user.is_staff)
+
+
+def _require_staff_admin(request):
+    return None if _is_staff_admin(request) else redirect('web:admin_login')
 
 
 # ---------------------------------------------------------------------------
@@ -231,10 +238,10 @@ def library(request):
         qs = qs.filter(grade_level=grade)
     if rtype:
         qs = qs.filter(type=rtype)
-    filtered = [_serialize_resource(r) for r in qs]
+    filtered = [_serialize_resource(r) for r in qs[:100]]
     all_resources = cache.get('library_all_resources')
     if all_resources is None:
-        all_resources = [_serialize_resource(r) for r in Resource.objects.all()]
+        all_resources = [_serialize_resource(r) for r in Resource.objects.all()[:500]]
         cache.set('library_all_resources', all_resources, 180)
     all_subjects = sorted(set(r.get('subject', '') for r in all_resources if r.get('subject')))
     all_grades = sorted(set(r.get('grade_level', '') for r in all_resources if r.get('grade_level')))
@@ -303,11 +310,11 @@ def forum(request):
     qs = Post.objects.select_related('user').order_by('-created_at')
     if category:
         qs = qs.filter(category__iexact=category)
-    posts = _serialize_posts(qs, user_id)
+    posts = _serialize_posts(qs[:50], user_id)
 
     all_posts = cache.get('forum_all_posts')
     if all_posts is None:
-        all_posts_qs = Post.objects.select_related('user').order_by('-created_at')
+        all_posts_qs = Post.objects.select_related('user').order_by('-created_at')[:100]
         all_posts = _serialize_posts(all_posts_qs)
         cache.set('forum_all_posts', all_posts, 120)
 
@@ -475,6 +482,17 @@ def reader(request, resource_id):
     except Resource.DoesNotExist:
         raise Http404("Resource not found")
     resource = _serialize_resource(resource_obj)
+    raw_file_url = resource.get('file_url') or resource.get('fileUrl') or ''
+    if raw_file_url:
+        try:
+            resource['safe_file_url'] = validate_resource_file_url(raw_file_url)
+            resource['file_url_error'] = ''
+        except ValidationError as exc:
+            resource['safe_file_url'] = ''
+            resource['file_url_error'] = ' '.join(exc.messages)
+    else:
+        resource['safe_file_url'] = ''
+        resource['file_url_error'] = ''
     return render(request, 'web/reader.html', _ctx(request, resource=resource, resource_id=resource_id))
 
 
@@ -484,6 +502,9 @@ def profile(request, username):
         profile_user = User.objects.get(username=username)
     except User.DoesNotExist:
         raise Http404("User not found")
+
+    is_self = bool(user_id and user_id == profile_user.id)
+    profile_private = bool(profile_user.is_locked and not is_self)
 
     profile_data = {
         'id': profile_user.id,
@@ -504,19 +525,27 @@ def profile(request, username):
         'created_at': profile_user.created_at,
     }
 
-    stats = _build_local_stats(profile_user)
-    follower_count = Follow.objects.filter(following_id=profile_user.id).count()
-    following_count = Follow.objects.filter(follower_id=profile_user.id).count()
+    if profile_private:
+        profile_data.update({
+            'email': '', 'dob': '', 'gender': '', 'class_level': '', 'class': '',
+            'subjects': '', 'pradesh': '', 'district': '', 'school': '',
+        })
+
+    stats = _build_local_stats(profile_user) if not profile_private else {
+        'post_count': 0, 'reply_count': 0, 'likes_given': 0, 'likes_received': 0, 'contribution_score': 0,
+    }
+    follower_count = Follow.objects.filter(following_id=profile_user.id).count() if not profile_private else 0
+    following_count = Follow.objects.filter(follower_id=profile_user.id).count() if not profile_private else 0
     stats['follower_count'] = follower_count
     stats['following_count'] = following_count
     stats['is_following'] = False
     stats['is_self'] = False
     if user_id:
-        stats['is_self'] = (user_id == profile_user.id)
-        if not stats['is_self']:
+        stats['is_self'] = is_self
+        if not stats['is_self'] and not profile_private:
             stats['is_following'] = Follow.objects.filter(follower_id=user_id, following_id=profile_user.id).exists()
 
-    user_posts_qs = Post.objects.select_related('user').filter(user_id=profile_user.id).order_by('-created_at')[:10]
+    user_posts_qs = Post.objects.none() if profile_private else Post.objects.select_related('user').filter(user_id=profile_user.id).order_by('-created_at')[:10]
     user_posts = _serialize_posts(user_posts_qs, user_id)
 
     user_photos = []
@@ -529,6 +558,7 @@ def profile(request, username):
         stats=stats,
         user_photos=user_photos,
         user_posts=user_posts,
+        profile_private=profile_private,
     ))
 
 
@@ -538,6 +568,9 @@ def profile_achievements(request, username):
         profile_user = User.objects.get(username=username)
     except User.DoesNotExist:
         raise Http404("User not found")
+
+    if profile_user.is_locked and user_id != profile_user.id:
+        return redirect('web:profile', username=username)
 
     profile_data = {
         'id': profile_user.id,
@@ -584,9 +617,12 @@ def ajax_profile_activity(request, username):
     except User.DoesNotExist:
         return JsonResponse({'error': 'User not found'}, status=404)
 
+    if profile_user.is_locked and user_id != profile_user.id:
+        return JsonResponse({'error': 'This profile is private'}, status=403)
+
     try:
-        offset = int(request.GET.get('offset', 0))
-        limit = int(request.GET.get('limit', 10))
+        offset = max(0, int(request.GET.get('offset', 0)))
+        limit = min(25, max(1, int(request.GET.get('limit', 10))))
     except ValueError:
         offset = 0
         limit = 10
@@ -714,7 +750,7 @@ def google_auth(request):
         logger.warning('google_auth: no idToken in request body. Keys: %s', list(data.keys()))
         return JsonResponse({'error': 'idToken is required'}, status=400)
 
-    logger.info('google_auth: verifying token (length=%d, prefix=%s)', len(id_token), id_token[:20] if id_token else 'empty')
+    logger.info('google_auth: verifying token (length=%d)', len(id_token))
     result = api.auth_google(id_token)
     if not result or result.get('status') != 'success':
         logger.warning('google_auth: token verification failed. Result: %s', result)
@@ -998,10 +1034,9 @@ def ajax_delete_reply(request, reply_id):
         return JsonResponse({'error': 'Reply not found'}, status=404)
     if reply.user_id != user_id:
         return JsonResponse({'error': 'Forbidden'}, status=403)
-    post = reply.post
+    post_id = reply.post_id
     reply.delete()
-    post.reply_count = max(0, post.reply_count - 1)
-    post.save(update_fields=['reply_count'])
+    Post.objects.filter(pk=post_id, reply_count__gt=0).update(reply_count=F('reply_count') - 1)
     _clear_page_cache()
     return JsonResponse({'success': True})
 
@@ -1052,7 +1087,6 @@ def ajax_follow_user(request, user_id):
     return JsonResponse({'error': 'Failed'}, status=500)
 
 
-@csrf_exempt
 def ajax_user_photos(request):
     token = _get_valid_token(request)
     if not token:
@@ -1083,31 +1117,14 @@ def ajax_user_photos(request):
             return JsonResponse({'error': f"Failed to retrieve photos: {str(e)}"}, status=500)
 
     elif request.method == 'POST':
-        import os
-        import time
-        from django.conf import settings
-        from django.core.files.storage import default_storage
-        from django.core.files.base import ContentFile
         from django.db import transaction
 
         file_obj = request.FILES.get('file')
         if file_obj:
-            ext = os.path.splitext(file_obj.name)[1].lower()
-            if ext not in ['.jpg', '.jpeg', '.png', '.gif', '.webp']:
-                return JsonResponse({'error': 'Invalid image format. Only JPG, PNG, GIF, and WEBP are allowed.'}, status=400)
-
-            filename = f"{current_user.id}_{int(time.time() * 1000)}{ext}"
             try:
-                file_obj.seek(0)
-            except Exception:
-                pass
-            
-            try:
-                path = default_storage.save(os.path.join('profile_photos', filename), ContentFile(file_obj.read()))
-                url = request.build_absolute_uri(settings.MEDIA_URL + path)
-            except Exception as e:
-                logger.error("Failed to save uploaded file locally: %s", e)
-                return JsonResponse({'error': f"Failed to save file on server (check write permissions): {str(e)}"}, status=500)
+                url = save_profile_image_upload(request, current_user, file_obj)
+            except ValidationError as exc:
+                return JsonResponse({'error': ' '.join(exc.messages)}, status=400)
         else:
             # Fallback to URL
             url = ''
@@ -1123,6 +1140,10 @@ def ajax_user_photos(request):
 
             if not url:
                 return JsonResponse({'error': 'Either URL or file is required'}, status=400)
+            try:
+                url = validate_profile_photo_url(url)
+            except ValidationError as exc:
+                return JsonResponse({'error': ' '.join(exc.messages)}, status=400)
 
         try:
             with transaction.atomic():
@@ -1234,26 +1255,28 @@ def ajax_activate_photo(request, photo_id):
 # ---------------------------------------------------------------------------
 
 def admin_login(request):
+    if _is_staff_admin(request):
+        return redirect('web:admin_dashboard')
     if request.method == 'POST':
         username = request.POST.get('username', '').strip()
-        password = request.POST.get('password', '').strip()
-        if username == ADMIN_USERNAME and password == ADMIN_PASSWORD:
-            request.session['is_admin'] = True
-            request.session['admin_user'] = 'admin'
+        password = request.POST.get('password', '')
+        user = authenticate(request, username=username, password=password)
+        if user and user.is_active and user.is_staff:
+            django_login(request, user)
             return redirect('web:admin_dashboard')
-        return render(request, 'admin_panel/login.html', {'error': 'Invalid credentials'})
+        return render(request, 'admin_panel/login.html', {'error': 'Invalid staff credentials'})
     return render(request, 'admin_panel/login.html')
 
 
 def admin_logout(request):
-    request.session.pop('is_admin', None)
-    request.session.pop('admin_user', None)
+    django_logout(request)
     return redirect('web:admin_login')
 
 
 def admin_dashboard(request):
-    if not request.session.get('is_admin'):
-        return redirect('web:admin_login')
+    redirect_response = _require_staff_admin(request)
+    if redirect_response:
+        return redirect_response
     token = _admin_token(request)
     stats = api.admin_get_stats(token) or {}
     return render(request, 'admin_panel/dashboard.html', {
@@ -1264,8 +1287,9 @@ def admin_dashboard(request):
 
 
 def admin_users(request):
-    if not request.session.get('is_admin'):
-        return redirect('web:admin_login')
+    redirect_response = _require_staff_admin(request)
+    if redirect_response:
+        return redirect_response
     token = _admin_token(request)
     users = api.admin_get_users(token) or []
     if not isinstance(users, list):
@@ -1282,8 +1306,9 @@ def admin_users(request):
 
 
 def admin_user_detail(request, user_id):
-    if not request.session.get('is_admin'):
-        return redirect('web:admin_login')
+    redirect_response = _require_staff_admin(request)
+    if redirect_response:
+        return redirect_response
     token = _admin_token(request)
     if request.method == 'POST':
         if request.POST.get('_method') == 'delete':
@@ -1310,8 +1335,9 @@ def admin_user_detail(request, user_id):
 
 
 def admin_resources(request):
-    if not request.session.get('is_admin'):
-        return redirect('web:admin_login')
+    redirect_response = _require_staff_admin(request)
+    if redirect_response:
+        return redirect_response
     token = _admin_token(request)
     if request.method == 'POST':
         data = {
@@ -1342,8 +1368,9 @@ def admin_resources(request):
 
 
 def admin_resource_edit(request, resource_id):
-    if not request.session.get('is_admin'):
-        return redirect('web:admin_login')
+    redirect_response = _require_staff_admin(request)
+    if redirect_response:
+        return redirect_response
     token = _admin_token(request)
     if request.method == 'POST':
         data = {}
@@ -1365,16 +1392,18 @@ def admin_resource_edit(request, resource_id):
 
 @require_POST
 def admin_resource_delete(request, resource_id):
-    if not request.session.get('is_admin'):
-        return redirect('web:admin_login')
+    redirect_response = _require_staff_admin(request)
+    if redirect_response:
+        return redirect_response
     token = _admin_token(request)
     api.admin_delete_resource(token, resource_id)
     return redirect('web:admin_resources')
 
 
 def admin_posts(request):
-    if not request.session.get('is_admin'):
-        return redirect('web:admin_login')
+    redirect_response = _require_staff_admin(request)
+    if redirect_response:
+        return redirect_response
     token = _admin_token(request)
     posts = api.admin_get_posts(token) or []
     if not isinstance(posts, list):
@@ -1391,8 +1420,9 @@ def admin_posts(request):
 
 
 def admin_post_detail(request, post_id):
-    if not request.session.get('is_admin'):
-        return redirect('web:admin_login')
+    redirect_response = _require_staff_admin(request)
+    if redirect_response:
+        return redirect_response
     token = _admin_token(request)
     post = api.admin_get_post(token, post_id)
     replies = api.admin_get_replies(token, post_id) or []
@@ -1408,8 +1438,9 @@ def admin_post_detail(request, post_id):
 
 @require_POST
 def admin_post_delete(request, post_id):
-    if not request.session.get('is_admin'):
-        return redirect('web:admin_login')
+    redirect_response = _require_staff_admin(request)
+    if redirect_response:
+        return redirect_response
     token = _admin_token(request)
     api.admin_delete_post(token, post_id)
     return redirect('web:admin_posts')
@@ -1417,8 +1448,9 @@ def admin_post_delete(request, post_id):
 
 @require_POST
 def admin_reply_delete(request, reply_id):
-    if not request.session.get('is_admin'):
-        return redirect('web:admin_login')
+    redirect_response = _require_staff_admin(request)
+    if redirect_response:
+        return redirect_response
     token = _admin_token(request)
     api.admin_delete_reply(token, reply_id)
     return redirect('web:admin_posts')

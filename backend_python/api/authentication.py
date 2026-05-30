@@ -98,7 +98,7 @@ class AuthTokenAuthentication(BaseAuthentication):
             user = User.objects.get(auth_token=token)
             return (user, token)
         except User.DoesNotExist:
-            logger.warning("Auth token not found: %s...", token[:8])
+            logger.warning("Auth token not found")
             return None
 
     def authenticate_header(self, request):

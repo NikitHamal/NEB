@@ -1,24 +1,45 @@
 """
 Django settings for NEBians backend.
+Production defaults are intentionally strict. Use .env.example as the only
+committed template; never deploy with DEBUG=True or fallback secrets.
 """
 import os
 import sys
+import logging
 from pathlib import Path
+from logging.handlers import RotatingFileHandler  # noqa: F401 - referenced by dotted path below
+
+from django.core.exceptions import ImproperlyConfigured
 from dotenv import load_dotenv
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(BASE_DIR / '.env', override=True)
 
-SECRET_KEY = os.environ.get('SECRET_KEY')
-if not SECRET_KEY:
-    if os.environ.get('DJANGO_SETTINGS_MODULE') == 'nebians.settings':
-        raise ValueError('SECRET_KEY environment variable is required in production')
 
-DEBUG = os.environ.get('DEBUG', 'False') == 'True'
+def env_bool(name, default=False):
+    value = os.environ.get(name)
+    if value is None:
+        return default
+    return str(value).strip().lower() in {'1', 'true', 'yes', 'on'}
 
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(',')
-if not ALLOWED_HOSTS or ALLOWED_HOSTS == ['']:
-    ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+
+def env_list(name, default=''):
+    value = os.environ.get(name, default)
+    return [item.strip() for item in value.split(',') if item.strip()]
+
+
+DEBUG = env_bool('DEBUG', False)
+SECRET_KEY = os.environ.get('SECRET_KEY', '')
+if not SECRET_KEY or SECRET_KEY == 'django-insecure-change-me-in-production':
+    if DEBUG:
+        SECRET_KEY = 'django-insecure-local-development-only-change-me'
+    else:
+        raise ImproperlyConfigured('SECRET_KEY must be set to a strong unique value when DEBUG=False')
+
+ALLOWED_HOSTS = env_list(
+    'ALLOWED_HOSTS',
+    'localhost,127.0.0.1,nebians.consica.com.np,www.nebians.consica.com.np',
+)
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -43,6 +64,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'nebians.middleware.SecurityHeadersMiddleware',
 ]
 
 ROOT_URLCONF = 'nebians.urls'
@@ -63,11 +85,10 @@ TEMPLATES = [
     },
 ]
 
-LOGIN_URL = '/login/'
-
+LOGIN_URL = '/admin/'
 WSGI_APPLICATION = 'nebians.wsgi.application'
 
-# Database — MySQL with local SQLite fallback
+# Database - MySQL in production, SQLite only when explicitly requested.
 if os.environ.get('DB_ENGINE') == 'sqlite':
     DATABASES = {
         'default': {
@@ -79,21 +100,19 @@ else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
-            'NAME': os.environ.get('DB_NAME'),
-            'USER': os.environ.get('DB_USER'),
+            'NAME': os.environ.get('DB_NAME', 'nebians_db'),
+            'USER': os.environ.get('DB_USER', 'nebians_user'),
             'PASSWORD': os.environ.get('DB_PASSWORD', ''),
             'HOST': os.environ.get('DB_HOST', 'localhost'),
             'PORT': os.environ.get('DB_PORT', '3306'),
-            'OPTIONS': {
-                'charset': 'utf8mb4',
-            },
+            'OPTIONS': {'charset': 'utf8mb4'},
         }
     }
 
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
-    {'NAME': 'django.contrib.password_validation.CommonPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator', 'OPTIONS': {'min_length': 8}},
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
@@ -107,11 +126,10 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 MEDIA_URL = '/media/'
-if (BASE_DIR / 'public').exists():
-    MEDIA_ROOT = BASE_DIR / 'public' / 'media'
-else:
-    MEDIA_ROOT = BASE_DIR / 'media'
-
+MEDIA_ROOT = (BASE_DIR / 'public' / 'media') if (BASE_DIR / 'public').exists() else (BASE_DIR / 'media')
+PROFILE_PHOTO_MAX_BYTES = int(os.environ.get('PROFILE_PHOTO_MAX_BYTES', str(5 * 1024 * 1024)))
+FILE_UPLOAD_MAX_MEMORY_SIZE = PROFILE_PHOTO_MAX_BYTES
+DATA_UPLOAD_MAX_MEMORY_SIZE = int(os.environ.get('DATA_UPLOAD_MAX_MEMORY_SIZE', str(10 * 1024 * 1024)))
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
@@ -120,13 +138,10 @@ CACHES = {
         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
         'LOCATION': BASE_DIR / 'cache',
         'TIMEOUT': 300,
-        'OPTIONS': {
-            'MAX_ENTRIES': 1000,
-        },
+        'OPTIONS': {'MAX_ENTRIES': 1000},
     },
 }
 
-# Django REST Framework
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'api.authentication.AuthTokenAuthentication',
@@ -139,90 +154,105 @@ REST_FRAMEWORK = {
         'rest_framework.throttling.UserRateThrottle',
     ],
     'DEFAULT_THROTTLE_RATES': {
-        'anon': '100/hour',
-        'user': '1000/hour',
+        'anon': os.environ.get('DRF_ANON_THROTTLE', '100/hour'),
+        'user': os.environ.get('DRF_USER_THROTTLE', '1000/hour'),
+        'auth': os.environ.get('DRF_AUTH_THROTTLE', '20/minute'),
+        'verification': os.environ.get('DRF_VERIFICATION_THROTTLE', '6/hour'),
     },
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 50,
+    'PAGE_SIZE': int(os.environ.get('API_PAGE_SIZE', '50')),
 }
 
-CORS_ALLOWED_ORIGINS = [
-    'https://nebians.consica.com.np',
-    'http://localhost:8000',
-    'http://127.0.0.1:8000',
-]
+CORS_ALLOWED_ORIGINS = env_list(
+    'CORS_ALLOWED_ORIGINS',
+    'https://nebians.consica.com.np,http://localhost:8000,http://127.0.0.1:8000',
+)
+CSRF_TRUSTED_ORIGINS = env_list(
+    'CSRF_TRUSTED_ORIGINS',
+    'https://nebians.consica.com.np,https://www.nebians.consica.com.np',
+)
 
-# Google OAuth
+# HTTPS, cookies, browser hardening.
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_SSL_REDIRECT = env_bool('SECURE_SSL_REDIRECT', False)
+SESSION_COOKIE_SECURE = env_bool('SESSION_COOKIE_SECURE', False)
+CSRF_COOKIE_SECURE = env_bool('CSRF_COOKIE_SECURE', False)
+SESSION_COOKIE_HTTPONLY = True
+CSRF_COOKIE_HTTPONLY = False
+SESSION_COOKIE_SAMESITE = 'Lax'
+CSRF_COOKIE_SAMESITE = 'Lax'
+SECURE_HSTS_SECONDS = int(os.environ.get('SECURE_HSTS_SECONDS', '0'))
+SECURE_HSTS_INCLUDE_SUBDOMAINS = env_bool('SECURE_HSTS_INCLUDE_SUBDOMAINS', False)
+SECURE_HSTS_PRELOAD = env_bool('SECURE_HSTS_PRELOAD', False)
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_REFERRER_POLICY = 'strict-origin-when-cross-origin'
+X_FRAME_OPTIONS = 'DENY'
+
+# Google OAuth / Firebase config.
 GOOGLE_CLIENT_ID = os.environ.get('GOOGLE_CLIENT_ID', '')
-
+FIREBASE_API_KEY = os.environ.get('FIREBASE_API_KEY', '')
+FIREBASE_AUTH_DOMAIN = os.environ.get('FIREBASE_AUTH_DOMAIN', '')
 FIREBASE_PROJECT_ID = os.environ.get('FIREBASE_PROJECT_ID', '')
+FIREBASE_STORAGE_BUCKET = os.environ.get('FIREBASE_STORAGE_BUCKET', '')
+FIREBASE_SENDER_ID = os.environ.get('FIREBASE_SENDER_ID', '')
+FIREBASE_APP_ID = os.environ.get('FIREBASE_APP_ID', '')
 
-ADMIN_TOKEN = os.environ.get('ADMIN_TOKEN')
-if not ADMIN_TOKEN:
-    if os.environ.get('DJANGO_SETTINGS_MODULE') == 'nebians.settings':
-        raise ValueError('ADMIN_TOKEN environment variable is required in production')
-ADMIN_USERNAME = os.environ.get('ADMIN_USERNAME', 'admin')
-ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD')
-if not ADMIN_PASSWORD:
-    if os.environ.get('DJANGO_SETTINGS_MODULE') == 'nebians.settings':
-        raise ValueError('ADMIN_PASSWORD environment variable is required in production')
-
-# Email configuration
+# Email configuration.
 EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND', 'django.core.mail.backends.smtp.EmailBackend')
-EMAIL_HOST = os.environ.get('EMAIL_HOST', '')
+EMAIL_HOST = os.environ.get('EMAIL_HOST', 'nebians.consica.com.np')
 EMAIL_PORT = int(os.environ.get('EMAIL_PORT', '465'))
-EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS', 'False') == 'True'
-EMAIL_USE_SSL = os.environ.get('EMAIL_USE_SSL', 'True') == 'True'
-EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', '')
+EMAIL_USE_TLS = env_bool('EMAIL_USE_TLS', False)
+EMAIL_USE_SSL = env_bool('EMAIL_USE_SSL', not EMAIL_USE_TLS)
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', 'noreply@nebians.consica.com.np')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
-DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', '')
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', 'NEBians <noreply@nebians.consica.com.np>')
 
-# Web app API base URL (for server-side calls from web views)
 WEB_API_BASE_URL = os.environ.get('WEB_API_BASE_URL', 'http://127.0.0.1:8000/api')
 
-# Logging — file + console
-LOG_DIR = BASE_DIR / 'logs'
+LOG_DIR = Path(os.environ.get('LOG_DIR', BASE_DIR / 'logs'))
 LOG_DIR.mkdir(exist_ok=True)
+
+class SensitiveDataFilter(logging.Filter):
+    REDACT_KEYS = ('token', 'auth', 'password', 'secret', 'credential', 'code')
+
+    def filter(self, record):
+        message = record.getMessage()
+        for key in self.REDACT_KEYS:
+            message = __import__('re').sub(rf'({key}\s*[=:]\s*)([^\s,;]+)', rf'\1[REDACTED]', message, flags=__import__('re').IGNORECASE)
+        record.msg = message
+        record.args = ()
+        return True
 
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
+    'filters': {
+        'redact_sensitive': {'()': 'nebians.settings.SensitiveDataFilter'},
+    },
     'formatters': {
-        'verbose': {
-            'format': '[{asctime}] {levelname} {name} {message}',
-            'style': '{',
-        },
-        'simple': {
-            'format': '{levelname} {message}',
-            'style': '{',
-        },
+        'verbose': {'format': '[{asctime}] {levelname} {name} {message}', 'style': '{'},
+        'simple': {'format': '{levelname} {message}', 'style': '{'},
     },
     'handlers': {
         'console': {
             'class': 'logging.StreamHandler',
             'stream': sys.stdout,
             'formatter': 'verbose',
+            'filters': ['redact_sensitive'],
         },
         'file': {
-            'class': 'logging.FileHandler',
+            'class': 'logging.handlers.RotatingFileHandler',
             'filename': LOG_DIR / 'nebians.log',
+            'maxBytes': int(os.environ.get('LOG_MAX_BYTES', '10485760')),
+            'backupCount': int(os.environ.get('LOG_BACKUP_COUNT', '5')),
             'formatter': 'verbose',
+            'filters': ['redact_sensitive'],
         },
     },
     'loggers': {
-        'api': {
-            'handlers': ['console', 'file'],
-            'level': 'INFO',
-            'propagate': True,
-        },
-        'django.request': {
-            'handlers': ['console', 'file'],
-            'level': 'INFO',
-            'propagate': False,
-        },
+        'api': {'handlers': ['console', 'file'], 'level': os.environ.get('LOG_LEVEL', 'INFO'), 'propagate': False},
+        'web': {'handlers': ['console', 'file'], 'level': os.environ.get('LOG_LEVEL', 'INFO'), 'propagate': False},
+        'django.request': {'handlers': ['console', 'file'], 'level': 'WARNING', 'propagate': False},
     },
-    'root': {
-        'handlers': ['console', 'file'],
-        'level': 'INFO',
-    },
+    'root': {'handlers': ['console', 'file'], 'level': os.environ.get('LOG_LEVEL', 'INFO')},
 }

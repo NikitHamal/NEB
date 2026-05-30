@@ -15,8 +15,14 @@
   </div>
 
   <div class="md-card" style="overflow:hidden;">
-    {% if resource.file_url %}
-    <iframe src="{{ resource.file_url }}" class="pdf-viewer" style="width:100%;min-height:80vh;border:none;"></iframe>
+    {% if resource.safe_file_url %}
+    <iframe src="{{ resource.safe_file_url }}" class="pdf-viewer" style="width:100%;min-height:80vh;border:none;" sandbox="allow-scripts allow-same-origin" referrerpolicy="no-referrer"></iframe>
+    {% elif resource.file_url_error %}
+    <div class="empty-state">
+      <span class="material-symbols-outlined">lock</span>
+      <h3>Preview unavailable</h3>
+      <p>{{ resource.file_url_error }}</p>
+    </div>
     {% else %}
     <div class="empty-state">
       <span class="material-symbols-outlined">picture_as_pdf</span>

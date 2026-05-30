@@ -2,16 +2,19 @@ import json
 import logging
 import requests
 from django.conf import settings
+from api.security import make_internal_admin_signature
 
 logger = logging.getLogger(__name__)
 
 API_BASE = getattr(settings, 'WEB_API_BASE_URL', 'http://127.0.0.1:8000/api')
 
 
-def _api_call(method, path, token=None, data=None, params=None):
+def _api_call(method, path, token=None, data=None, params=None, internal_admin=False):
     headers = {'Content-Type': 'application/json'}
     if token:
         headers['Authorization'] = f'Bearer {token}'
+    if internal_admin:
+        headers['X-Internal-Admin-Signature'] = make_internal_admin_signature()
     url = f'{API_BASE}{path}'
     try:
         if method == 'GET':
@@ -133,63 +136,63 @@ def like_reply(token, reply_id):
 
 # Admin API calls
 def admin_get_users(token, params=None):
-    return _api_call('GET', '/admin/users/', token=token, params=params)
+    return _api_call('GET', '/admin/users/', token=token, params=params, internal_admin=True)
 
 
 def admin_get_user(token, user_id):
-    return _api_call('GET', f'/admin/users/{user_id}/', token=token)
+    return _api_call('GET', f'/admin/users/{user_id}/', token=token, internal_admin=True)
 
 
 def admin_update_user(token, user_id, data):
-    return _api_call('PATCH', f'/admin/users/{user_id}/', token=token, data=data)
+    return _api_call('PATCH', f'/admin/users/{user_id}/', token=token, data=data, internal_admin=True)
 
 
 def admin_delete_user(token, user_id):
-    return _api_call('DELETE', f'/admin/users/{user_id}/', token=token)
+    return _api_call('DELETE', f'/admin/users/{user_id}/', token=token, internal_admin=True)
 
 
 def admin_get_resources(token, params=None):
-    return _api_call('GET', '/admin/resources/', token=token, params=params)
+    return _api_call('GET', '/admin/resources/', token=token, params=params, internal_admin=True)
 
 
 def admin_get_resource(token, resource_id):
-    return _api_call('GET', f'/admin/resources/{resource_id}/', token=token)
+    return _api_call('GET', f'/admin/resources/{resource_id}/', token=token, internal_admin=True)
 
 
 def admin_create_resource(token, data):
-    return _api_call('POST', '/admin/resources/', token=token, data=data)
+    return _api_call('POST', '/admin/resources/', token=token, data=data, internal_admin=True)
 
 
 def admin_update_resource(token, resource_id, data):
-    return _api_call('PATCH', f'/admin/resources/{resource_id}/', token=token, data=data)
+    return _api_call('PATCH', f'/admin/resources/{resource_id}/', token=token, data=data, internal_admin=True)
 
 
 def admin_delete_resource(token, resource_id):
-    return _api_call('DELETE', f'/admin/resources/{resource_id}/', token=token)
+    return _api_call('DELETE', f'/admin/resources/{resource_id}/', token=token, internal_admin=True)
 
 
 def admin_get_posts(token, params=None):
-    return _api_call('GET', '/admin/posts/', token=token, params=params)
+    return _api_call('GET', '/admin/posts/', token=token, params=params, internal_admin=True)
 
 
 def admin_get_post(token, post_id):
-    return _api_call('GET', f'/admin/posts/{post_id}/', token=token)
+    return _api_call('GET', f'/admin/posts/{post_id}/', token=token, internal_admin=True)
 
 
 def admin_delete_post(token, post_id):
-    return _api_call('DELETE', f'/admin/posts/{post_id}/', token=token)
+    return _api_call('DELETE', f'/admin/posts/{post_id}/', token=token, internal_admin=True)
 
 
 def admin_get_replies(token, post_id):
-    return _api_call('GET', f'/admin/posts/{post_id}/replies/', token=token)
+    return _api_call('GET', f'/admin/posts/{post_id}/replies/', token=token, internal_admin=True)
 
 
 def admin_delete_reply(token, reply_id):
-    return _api_call('DELETE', f'/admin/replies/{reply_id}/', token=token)
+    return _api_call('DELETE', f'/admin/replies/{reply_id}/', token=token, internal_admin=True)
 
 
 def admin_get_stats(token):
-    return _api_call('GET', '/admin/stats/', token=token)
+    return _api_call('GET', '/admin/stats/', token=token, internal_admin=True)
 
 
 def get_profile_stats(token, username):

@@ -847,7 +847,7 @@ async function toggleLikePost(postId, btnEl) {
 // Activity AJAX Pagination
 let activityOffset = 10;
 const activityLimit = 10;
-const profileUsername = '{{ profile_user.username }}';
+const profileUsername = '{{ profile_user.username|escapejs }}';
 
 async function loadMoreActivity() {
   const btn = document.getElementById('loadMoreBtn');
@@ -867,19 +867,22 @@ async function loadMoreActivity() {
         const item = document.createElement('div');
         item.className = 'activity-item';
         
-        const photoUrl = '{{ profile_user.photo_url }}';
-        const displayName = '{{ profile_user.display_name|default:profile_user.username }}';
-        const username = '{{ profile_user.username }}';
-        const avatarHtml = photoUrl ? `<img src="${photoUrl}" alt="${displayName}">` : `<span>${displayName.slice(0, 1)}</span>`;
+        const photoUrl = safeClientUrl('{{ profile_user.photo_url|default:""|escapejs }}');
+        const displayName = '{{ profile_user.display_name|default:profile_user.username|escapejs }}';
+        const username = '{{ profile_user.username|escapejs }}';
+        const displayNameHtml = escapeHtml(displayName);
+        const avatarHtml = photoUrl ? `<img src="${photoUrl}" alt="${displayNameHtml}">` : `<span>${escapeHtml(displayName.slice(0, 1))}</span>`;
         
         let badgeHtml = '';
-        const hasBadge = '{{ profile_user.badge|default:"" }}';
+        const hasBadge = '{{ profile_user.badge|default:""|escapejs }}';
         if (hasBadge) {
-          badgeHtml = `<span class="user-badge">${hasBadge}</span>`;
+          badgeHtml = `<span class="user-badge">${escapeHtml(hasBadge)}</span>`;
         }
         
-        const actionText = post.is_resource ? 'shared a resource in' : 'started a discussion in';
         const subjectColorVal = getSubjectColor(post.category);
+        const categoryHtml = escapeHtml(post.category || 'General');
+        const postIdUrl = encodeURIComponent(post.id || '');
+        const resourceIdUrl = encodeURIComponent(post.resource_id || '');
         
         let contentHtml = '';
         if (post.is_resource) {
@@ -892,17 +895,17 @@ async function loadMoreActivity() {
               </div>
               <div class="act-resource-info">
                 <div class="act-resource-name">
-                  <a href="/reader/${post.resource_id}/">${post.title}</a>
+                  <a href="/reader/${resourceIdUrl}/">${escapeHtml(post.title || '')}</a>
                 </div>
-                <div class="act-resource-meta">${sizeStr} &bull; ${typeStr}</div>
+                <div class="act-resource-meta">${escapeHtml(sizeStr)} &bull; ${escapeHtml(typeStr)}</div>
               </div>
             </div>
           `;
         } else {
           const previewText = post.content ? (post.content.length > 180 ? post.content.substring(0, 177) + '...' : post.content) : '';
           contentHtml = `
-            <h4 class="act-title"><a href="/forum/post/${post.id}/">${post.title}</a></h4>
-            ${previewText ? `<p class="act-preview">${previewText}</p>` : ''}
+            <h4 class="act-title"><a href="/forum/post/${postIdUrl}/">${escapeHtml(post.title || '')}</a></h4>
+            ${previewText ? `<p class="act-preview">${escapeHtml(previewText)}</p>` : ''}
           `;
         }
         
@@ -912,16 +915,16 @@ async function loadMoreActivity() {
         let footerSecondStat = '';
         if (post.is_resource) {
           footerSecondStat = `
-            <a href="/reader/${post.resource_id}/" class="act-btn-stat">
+            <a href="/reader/${resourceIdUrl}/" class="act-btn-stat">
               <span class="material-symbols-outlined">download</span>
-              <span>${post.downloadCount || 89} Downloads</span>
+              <span>${Number(post.downloadCount || 0)} Downloads</span>
             </a>
           `;
         } else {
           footerSecondStat = `
-            <a href="/forum/post/${post.id}/" class="act-btn-stat">
+            <a href="/forum/post/${postIdUrl}/" class="act-btn-stat">
               <span class="material-symbols-outlined">chat_bubble</span>
-              <span>${post.replyCount || 0} Replies</span>
+              <span>${Number(post.replyCount || 0)} Replies</span>
             </a>
           `;
         }
@@ -931,17 +934,17 @@ async function loadMoreActivity() {
             <div class="act-avatar">${avatarHtml}</div>
             <div class="act-meta">
               <div class="act-meta-top" style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
-                <strong class="act-username">${displayName}</strong>
+                <strong class="act-username">${displayNameHtml}</strong>
                 ${badgeHtml}
               </div>
               <div class="act-meta-bottom" style="display:flex; align-items:center; flex-wrap:wrap; gap:6px; margin-top:2px; font-size:0.8125rem; color:var(--md-on-surface-variant);">
                 <span class="act-action-text">${post.is_resource ? 'shared a resource' : 'started a discussion'}</span>
                 <span style="opacity:0.4;">&middot;</span>
                 <span class="act-category" style="background-color: ${subjectColorVal}18; color: ${subjectColorVal};">
-                  ${post.category}
+                  ${categoryHtml}
                 </span>
                 <span style="opacity:0.4;">&middot;</span>
-                <span class="act-time">${timeAgo(post.createdAt)}</span>
+                <span class="act-time">${escapeHtml(timeAgo(post.createdAt))}</span>
               </div>
             </div>
           </div>
@@ -949,7 +952,7 @@ async function loadMoreActivity() {
           ${contentHtml}
           
           <div class="act-footer">
-            <button class="act-btn-stat" onclick="toggleLikePost('${post.id}', this)" ${likedAttr} ${likedStyle}>
+            <button class="act-btn-stat" onclick="toggleLikePost('${postIdUrl}', this)" ${likedAttr} ${likedStyle}>
               <span class="material-symbols-outlined">thumb_up</span>
               <span class="like-count">${post.thumbsUpCount || 0}</span>
             </button>
@@ -982,7 +985,7 @@ async function toggleFollowUser(uid) {
   if (!btn) return;
   btn.disabled = true;
   try {
-    const r = await fetch(`/api/users/${uid}/follow/`, { method:'POST', headers:{'Content-Type':'application/json','X-CSRFToken':CSRF_TOKEN,'Authorization':'Bearer '+AUTH_TOKEN} });
+    const r = await fetch(`/ajax/follow/${encodeURIComponent(uid)}/`, { method:'POST', headers:{'Content-Type':'application/json','X-CSRFToken':CSRF_TOKEN}, credentials:'same-origin' });
     const d = await r.json();
     btn.disabled = false;
     if (d && d.error) { showSnackbar(d.error); return; }
@@ -1002,16 +1005,21 @@ async function openFollowModal(type) {
   document.getElementById('followModalBody').innerHTML = '<div style="text-align:center;padding:24px 0;color:var(--md-on-surface-variant);">Loading...</div>';
   modal.classList.add('active');
   try {
-    const r = await fetch(`/api/users/{{ profile_user.id }}/${type}/`, { headers: AUTH_TOKEN ? {'Authorization': 'Bearer ' + AUTH_TOKEN} : {} });
+    const r = await fetch(`/api/users/{{ profile_user.id }}/${type}/`, { credentials:'same-origin' });
     const d = await r.json();
     const body = document.getElementById('followModalBody');
-    if (d && d.length > 0) {
-      body.innerHTML = d.map(item => {
-        const uname = type==='followers' ? item.follower_username : item.following_username;
-        const name = type==='followers' ? item.follower_display_name : item.following_display_name;
-        const photo = type==='followers' ? item.follower_photo_url : item.following_photo_url;
-        const av = photo ? `<img src="${photo}" alt="">` : `<span class="follow-user-initial">${uname.slice(0,1)}</span>`;
-        return `<div class="follow-list-user"><div class="follow-user-avatar">${av}</div><div class="follow-user-info"><a href="/profile/${uname}/" class="follow-user-name">${name||uname}</a><span class="follow-user-handle">@${uname}</span></div></div>`;
+    const users = Array.isArray(d) ? d : (d.results || []);
+    if (users.length > 0) {
+      body.innerHTML = users.map(item => {
+        const unameRaw = type==='followers' ? item.follower_username : item.following_username;
+        const nameRaw = type==='followers' ? item.follower_display_name : item.following_display_name;
+        const photoRaw = type==='followers' ? item.follower_photo_url : item.following_photo_url;
+        const uname = escapeHtml(unameRaw || 'user');
+        const name = escapeHtml(nameRaw || unameRaw || 'User');
+        const photo = safeClientUrl(photoRaw || '');
+        const usernamePath = encodeURIComponent(unameRaw || '');
+        const av = photo ? `<img src="${photo}" alt="">` : `<span class="follow-user-initial">${escapeHtml((unameRaw || 'U').slice(0,1))}</span>`;
+        return `<div class="follow-list-user"><div class="follow-user-avatar">${av}</div><div class="follow-user-info"><a href="/profile/${usernamePath}/" class="follow-user-name">${name}</a><span class="follow-user-handle">@${uname}</span></div></div>`;
       }).join('');
     } else {
       body.innerHTML = '<div class="follow-list-empty">No users found</div>';
@@ -1032,7 +1040,7 @@ async function activatePastPhoto(photoId, photoUrl) {
     const r = await fetch(`/ajax/photos/${photoId}/activate/`, { method:'POST', headers:{'Content-Type':'application/json','X-CSRFToken':CSRF_TOKEN} });
     const d = await r.json();
     if (d && d.success) {
-      document.getElementById('profilePageAvatar').innerHTML = `<img src="${photoUrl}" alt="Profile">`;
+      document.getElementById('profilePageAvatar').innerHTML = `<img src="${safeClientUrl(photoUrl)}" alt="Profile">`;
       closePhotoHistoryModal();
       showSnackbar('Profile picture updated.');
     }
@@ -1043,9 +1051,9 @@ async function uploadNewPhotoUrl() {
   const url = input.value.trim();
   if (!url) { showSnackbar('Enter a valid URL.'); return; }
   try {
-    const r = await fetch('/ajax/photos/', { method:'POST', headers:{'Content-Type':'application/json','X-CSRFToken':CSRF_TOKEN}, body:JSON.stringify({url}) });
+    const r = await fetch('/ajax/photos/', { method:'POST', headers:{'Content-Type':'application/json','X-CSRFToken':CSRF_TOKEN}, body:JSON.stringify({url}), credentials:'same-origin' });
     const d = await r.json();
-    if (d && d.id) { input.value=''; document.getElementById('profilePageAvatar').innerHTML=`<img src="${url}" alt="Profile">`; closePhotoHistoryModal(); showSnackbar('Profile picture updated.'); }
+    if (d && d.id) { input.value=''; document.getElementById('profilePageAvatar').innerHTML=`<img src="${safeClientUrl(url)}" alt="Profile">`; closePhotoHistoryModal(); showSnackbar('Profile picture updated.'); }
     else showSnackbar(d.error || 'Failed.');
   } catch(e) { showSnackbar('Error uploading.'); }
 }
@@ -1053,9 +1061,9 @@ async function uploadPhotoFile(ev) {
   const file = ev.target.files[0]; if (!file) return;
   const fd = new FormData(); fd.append('file', file);
   try {
-    const r = await fetch('/ajax/photos/', { method:'POST', headers:{'X-CSRFToken':CSRF_TOKEN}, body:fd });
+    const r = await fetch('/ajax/photos/', { method:'POST', headers:{'X-CSRFToken':CSRF_TOKEN}, body:fd, credentials:'same-origin' });
     const d = await r.json();
-    if (d && d.url) { ev.target.value=''; document.getElementById('profilePageAvatar').innerHTML=`<img src="${d.url}" alt="Profile">`; closePhotoHistoryModal(); showSnackbar('Profile picture uploaded.'); }
+    if (d && d.url) { ev.target.value=''; document.getElementById('profilePageAvatar').innerHTML=`<img src="${safeClientUrl(d.url)}" alt="Profile">`; closePhotoHistoryModal(); showSnackbar('Profile picture uploaded.'); }
     else showSnackbar(d.error || 'Failed.');
   } catch(e) { showSnackbar('Error uploading.'); }
 }
