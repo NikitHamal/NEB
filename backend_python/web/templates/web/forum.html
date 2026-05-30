@@ -344,7 +344,7 @@
     <h1 class="md-headline-medium">Forum</h1>
     <div style="display:flex;gap:8px;align-items:center;">
       <a href="{% url 'web:create_post' %}" class="md-btn md-btn-filled md-hide-mobile">
-        <span class="material-symbols-outlined" style="font-size:18px">add</span>
+        <span class="material-symbols-outlined icon-md">add</span>
         New Discussion
       </a>
     </div>
@@ -365,7 +365,7 @@
     <!-- Left Column: Posts List -->
     <div class="forum-main-content">
       {% if posts %}
-      <div style="display:flex;flex-direction:column;gap:12px;">
+      <div class="stack stack-md">
         {% for post in posts %}
         <div class="post-card">
           <div class="post-card-header">
@@ -505,7 +505,7 @@
       {% for contributor in all_contributors %}
       <a href="{% url 'web:profile' username=contributor.username %}" class="leaderboard-row" style="text-decoration:none;color:inherit;">
         <div class="leaderboard-rank-profile">
-          <span class="leaderboard-rank-number {% if forloop.counter == 1 %}rank-1{% elif forloop.counter == 2 %}rank-2{% elif forloop.counter == 3 %}rank-3{% endif %}">
+          <span class="leaderboard-rank-number {% if forloop.counter == 1 %}rank-1{% elif 2 %}rank-2{% 3 %}rank-3{% endif %}">
             {{ forloop.counter }}
           </span>
           <div class="contributor-profile-wrapper">

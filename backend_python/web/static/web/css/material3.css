@@ -47,7 +47,31 @@
   --md-elevation-3: 0 8px 24px rgba(0,0,0,0.12);
   --md-font: 'Poppins', 'Segoe UI', system-ui, -apple-system, sans-serif;
   --md-transition: 200ms cubic-bezier(0.2, 0, 0, 1);
+
+  /* NEBians application-level design tokens */
+  --app-gutter: clamp(16px, 3vw, 32px);
+  --app-section-gap: 32px;
+  --app-main-min-height: calc(100vh - 64px - 72px);
+  --app-main-padding-y: 24px;
+  --app-card-radius: var(--md-radius-xl);
+  --app-card-padding: 24px;
+  --app-control-height: 40px;
+  --app-success: #006E1C;
+  --app-on-success: #FFFFFF;
+  --app-success-container: #C7F7CF;
+  --app-on-success-container: #00390A;
+  --app-warning: #A45C00;
+  --app-on-warning: #FFFFFF;
+  --app-warning-container: #FFE0B2;
+  --app-on-warning-container: #5A3000;
+  --app-info-container: #E9F2FF;
+  --app-on-info-container: #004AC6;
+  --app-scrim: rgba(0, 0, 0, 0.48);
+  --app-subtle-primary: color-mix(in srgb, var(--md-primary) 10%, transparent);
+  --app-subtle-error: color-mix(in srgb, var(--md-error) 10%, transparent);
+  --app-subtle-success: color-mix(in srgb, var(--app-success) 10%, transparent);
 }
+
 
 [data-theme="dark"] {
   --md-primary: #B4C5FF;
@@ -87,7 +111,19 @@
   --md-surface-tint: #B4C5FF;
   --md-shadow: rgba(0,0,0,0.3);
   --md-shadow-lg: rgba(0,0,0,0.4);
+  --app-success: #8EDB94;
+  --app-on-success: #00390A;
+  --app-success-container: #12491D;
+  --app-on-success-container: #C7F7CF;
+  --app-warning: #FFB95C;
+  --app-on-warning: #5A3000;
+  --app-warning-container: #6B3C00;
+  --app-on-warning-container: #FFE0B2;
+  --app-info-container: #12335F;
+  --app-on-info-container: #D8E7FF;
+  --app-scrim: rgba(0, 0, 0, 0.64);
 }
+
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; }
@@ -128,6 +164,7 @@ img { max-width: 100%; height: auto; }
   min-height: 40px; line-height: 1.43;
 }
 .md-btn:hover { text-decoration: none; }
+.md-btn .material-symbols-outlined { font-size: 18px; }
 .md-btn-filled {
   background: var(--md-primary); color: var(--md-on-primary);
   box-shadow: 0 2px 0 rgba(0,0,0,0.15);
@@ -137,9 +174,9 @@ img { max-width: 100%; height: auto; }
   background: transparent; color: var(--md-primary);
   border: 1px solid var(--md-outline);
 }
-.md-btn-outlined:hover { background: rgba(0, 74, 198, 0.08); }
+.md-btn-outlined:hover { background: var(--app-subtle-primary); }
 .md-btn-text { background: transparent; color: var(--md-primary); }
-.md-btn-text:hover { background: rgba(0, 74, 198, 0.08); }
+.md-btn-text:hover { background: var(--app-subtle-primary); }
 .md-btn-tonal {
   background: var(--md-secondary-container); color: var(--md-on-secondary-container);
 }
@@ -152,33 +189,37 @@ img { max-width: 100%; height: auto; }
   transition: background var(--md-transition);
 }
 .md-btn-icon:hover { background: var(--md-surface-variant); }
+.md-btn-icon .material-symbols-outlined { font-size: 22px; }
 
 /* Material 3 Cards */
-.md-card {
-  background: var(--md-surface-container-lowest);
+.md-card,
+.md-card-outlined,
+.md-card-elevated,
+.md-card-filled {
   border: 1px solid var(--md-outline-variant);
   border-radius: var(--md-radius-lg);
   overflow: hidden;
+  color: var(--md-on-surface);
 }
-.md-card:hover { }
-.md-card-outlined {
-  background: var(--md-surface-container-lowest);
-  border: 1px solid var(--md-outline-variant);
-  border-radius: var(--md-radius-lg);
-  overflow: hidden;
-}
+.md-card,
+.md-card-outlined,
 .md-card-elevated {
   background: var(--md-surface-container-lowest);
-  border: 1px solid var(--md-outline-variant);
-  border-radius: var(--md-radius-lg);
+}
+.md-card-elevated {
   box-shadow: var(--md-elevation-1);
-  overflow: hidden;
 }
 .md-card-filled {
   background: var(--md-surface-container-highest);
-  border: 1px solid var(--md-outline-variant);
-  border-radius: var(--md-radius-lg);
-  overflow: hidden;
+}
+.md-card-interactive {
+  transition: border-color var(--md-transition), box-shadow var(--md-transition), transform var(--md-transition), background var(--md-transition);
+}
+.md-card-interactive:hover {
+  border-color: var(--md-outline);
+  box-shadow: var(--md-elevation-2);
+  transform: translateY(-2px);
+  text-decoration: none;
 }
 
 /* Material 3 Chips */
@@ -214,8 +255,9 @@ img { max-width: 100%; height: auto; }
   position: sticky;
   top: 0;
   z-index: 100;
-  background: var(--md-surface);
+  background: color-mix(in srgb, var(--md-surface) 92%, transparent);
   border-bottom: 1px solid var(--md-outline-variant);
+  backdrop-filter: blur(14px);
   padding: 0 16px;
   height: 64px;
   display: flex;
@@ -528,7 +570,7 @@ img { max-width: 100%; height: auto; }
 
 /* Dialog / Modal */
 .md-overlay {
-  position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+  position: fixed; inset: 0; background: var(--app-scrim);
   z-index: 150; display: flex; align-items: center; justify-content: center;
   animation: md-fade-in 200ms ease;
 }
