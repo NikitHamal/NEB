@@ -981,7 +981,7 @@ async function toggleFollowUser(uid) {
   if (!btn) return;
   btn.disabled = true;
   try {
-    const r = await fetch(`/api/users/${uid}/follow/`, { method:'POST', headers:{'Content-Type':'application/json','X-CSRFToken':CSRF_TOKEN} });
+    const r = await fetch(`/api/users/${uid}/follow/`, { method:'POST', headers:{'Content-Type':'application/json','X-CSRFToken':CSRF_TOKEN,'Authorization':'Bearer '+AUTH_TOKEN} });
     const d = await r.json();
     btn.disabled = false;
     if (d && d.error) { showSnackbar(d.error); return; }
@@ -1001,7 +1001,7 @@ async function openFollowModal(type) {
   document.getElementById('followModalBody').innerHTML = '<div style="text-align:center;padding:24px 0;color:var(--md-on-surface-variant);">Loading...</div>';
   modal.classList.add('active');
   try {
-    const r = await fetch(`/api/users/{{ profile_user.id }}/${type}/`);
+    const r = await fetch(`/api/users/{{ profile_user.id }}/${type}/`, { headers: AUTH_TOKEN ? {'Authorization': 'Bearer ' + AUTH_TOKEN} : {} });
     const d = await r.json();
     const body = document.getElementById('followModalBody');
     if (d && d.length > 0) {

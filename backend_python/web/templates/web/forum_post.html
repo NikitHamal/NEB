@@ -173,7 +173,7 @@
           <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
             <div class="author" style="font-size:0.8125rem;"><a href="{% url 'web:profile' username=reply.authorName %}" style="color:inherit;text-decoration:none;">{{ reply.authorName }}</a></div>
             {% if is_authenticated and reply.authorId != user.id %}
-              <button class="follow-btn-inline {% if reply.isFollowed %}following{% else %}not-following{% endif %}" data-user-id="{{ reply.authorId }}" onclick="toggleFollowBtn(this, '{{ reply.authorId }}')">Follow</button>
+              <button class="follow-btn-inline {% if reply.isFollowed %}following{% else %}not-following{% endif %}" data-user-id="{{ reply.authorId }}" onclick="toggleFollowBtn(this, '{{ reply.authorId }}')">{% if reply.isFollowed %}Following{% else %}Follow{% endif %}</button>
             {% endif %}
             {% if reply.isEdited %}
               <span class="edited-badge" onclick="showEditHistory('reply', '{{ reply.id }}')">
@@ -275,7 +275,7 @@ let deleteTarget = { type: '', id: '' };
 
 async function togglePostLike(postId) {
   if (!AUTH_TOKEN) { window.location.href = '{% url "web:login" %}'; return; }
-  const result = await apiCall('POST', '/posts/' + postId + '/like');
+  const result = await apiCall('POST', '/posts/' + postId + '/like/');
   if (result && result.thumbsUpCount !== undefined) {
     document.getElementById('post-like-count-' + postId).textContent = result.thumbsUpCount;
     const btn = document.getElementById('post-like-btn-' + postId);
@@ -287,7 +287,7 @@ async function togglePostLike(postId) {
 
 async function toggleReplyLike(replyId) {
   if (!AUTH_TOKEN) { window.location.href = '{% url "web:login" %}'; return; }
-  const result = await apiCall('POST', '/replies/' + replyId + '/like');
+  const result = await apiCall('POST', '/replies/' + replyId + '/like/');
   if (result && result.thumbsUpCount !== undefined) {
     document.getElementById('reply-like-count-' + replyId).textContent = result.thumbsUpCount;
     const btn = document.getElementById('reply-like-btn-' + replyId);

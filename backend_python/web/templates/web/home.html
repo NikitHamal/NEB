@@ -143,6 +143,9 @@
             {% if post.authorBadge %}
               <span class="user-badge">{{ post.authorBadge }}</span>
             {% endif %}
+            {% if is_authenticated and post.authorId != user.id %}
+              <button class="follow-btn-inline {% if post.isFollowingAuthor %}following{% else %}not-following{% endif %}" data-user-id="{{ post.authorId }}" onclick="toggleFollowBtn(this, '{{ post.authorId }}')">{% if post.isFollowingAuthor %}Following{% else %}Follow{% endif %}</button>
+            {% endif %}
           </div>
           <div class="post-card-meta-bottom" style="display:flex; align-items:center; flex-wrap:wrap; gap:6px; margin-top:2px; font-size:0.8125rem; color:var(--md-on-surface-variant);">
             <span class="act-action-text">started a discussion</span>
@@ -184,7 +187,7 @@
 async function toggleHomePostLike(postId, btn) {
   if (!AUTH_TOKEN) { window.location.href = '{% url "web:login" %}'; return; }
   try {
-    const result = await apiCall('POST', '/posts/' + postId + '/like');
+    const result = await apiCall('POST', '/posts/' + postId + '/like/');
     if (result && result.thumbsUpCount !== undefined) {
       const countEl = document.getElementById('home-post-like-count-' + postId);
       if (countEl) countEl.textContent = result.thumbsUpCount;
@@ -195,6 +198,26 @@ async function toggleHomePostLike(postId, btn) {
   } catch (e) {
     showSnackbar('Failed to like post');
   }
+}
+
+async function toggleFollowBtn(btn, userId) {
+  if (!AUTH_TOKEN) { window.location.href = '{% url "web:login" %}'; return; }
+  btn.disabled = true;
+  try {
+    const r = await fetch('/ajax/follow/' + userId + '/', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN } });
+    const d = await r.json();
+    btn.disabled = false;
+    if (d && d.error) { showSnackbar(d.error); return; }
+    if (d) {
+      if (d.is_following) {
+        btn.textContent = 'Following';
+        btn.className = btn.className.replace('not-following', 'following');
+      } else {
+        btn.textContent = 'Follow';
+        btn.className = btn.className.replace('following', 'not-following');
+      }
+    }
+  } catch(e) { btn.disabled = false; showSnackbar('Error updating follow.'); }
 }
 </script>
 {% endblock %}

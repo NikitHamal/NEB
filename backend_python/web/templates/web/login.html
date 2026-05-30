@@ -438,7 +438,18 @@ window.handleForgot = function(e) {
   btn.disabled = true;
   btn.textContent = 'Sending...';
   fetch('/api/auth/email/forgot/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email }) })
-    .then(function() { document.getElementById('reset-section').style.display = 'block'; btn.textContent = 'Code Sent!'; btn.disabled = true; })
+    .then(function(res) { return res.json(); })
+    .then(function(data) {
+      if (data.status === 'success' || !data.error) {
+        document.getElementById('reset-section').style.display = 'block';
+        btn.textContent = 'Code Sent!';
+        btn.disabled = true;
+      } else {
+        errorEl.textContent = data.error || 'Failed to send code';
+        btn.textContent = 'Send Code';
+        btn.disabled = false;
+      }
+    })
     .catch(function() { errorEl.textContent = 'Network error'; btn.disabled = false; btn.textContent = 'Send Code'; });
 };
 
@@ -465,14 +476,19 @@ window.handleReset = function(e) {
 // ── Session creation for email auth ──
 window.nebEmailLoginSuccess = function(data) {
   if (data.authToken && data.user) {
+    var redirectUrl = (data.profileIncomplete || data.isNewUser) ? '{% url "web:edit_profile" %}' : '{% url "web:home" %}';
     fetch('{% url "web:google_auth" %}', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
-      body: JSON.stringify({ emailAuthToken: data.authToken, emailUser: data.user })
-    }).then(function() {
-      window.location.href = data.isNewUser ? '{% url "web:edit_profile" %}' : '{% url "web:home" %}';
+      body: JSON.stringify({ emailAuthToken: data.authToken, emailUser: data })
+    }).then(function(res) { return res.json(); }).then(function(sessionData) {
+      if (sessionData.profileIncomplete || sessionData.isNewUser) {
+        window.location.href = '{% url "web:edit_profile" %}';
+      } else {
+        window.location.href = '{% url "web:home" %}';
+      }
     }).catch(function() {
-      window.location.href = data.isNewUser ? '{% url "web:edit_profile" %}' : '{% url "web:home" %}';
+      window.location.href = redirectUrl;
     });
   } else {
     window.location.href = '{% url "web:home" %}';
