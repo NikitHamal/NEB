@@ -13,6 +13,7 @@ for backward compatibility.
 """
 import logging
 from django.conf import settings
+from django.core.cache import cache
 from rest_framework.authentication import BaseAuthentication
 from rest_framework.exceptions import AuthenticationFailed
 from .models import User
@@ -20,6 +21,9 @@ from .models import User
 logger = logging.getLogger(__name__)
 
 FIREBASE_ISSUER_PREFIX = 'https://securetoken.google.com/'
+
+_AUTH_TOKEN_CACHE_SECONDS = 300
+
 
 def verify_google_token(id_token: str):
     """
@@ -34,8 +38,6 @@ def verify_google_token(id_token: str):
         firebase_project_id = settings.FIREBASE_PROJECT_ID
         google_client_id = settings.GOOGLE_CLIENT_ID
 
-        # GIS tokens use the web client ID as audience
-        # Firebase tokens use the project ID as audience
         audiences = [google_client_id, firebase_project_id]
 
         last_error = None
@@ -82,6 +84,7 @@ class AuthTokenAuthentication(BaseAuthentication):
     DRF authentication backend.
     Reads Authorization: Bearer <auth_token> header and resolves it
     to a User via the server-issued auth_token stored in the User model.
+    Results are cached for 5 minutes to avoid per-request DB lookups.
     Does NOT raise an error for missing/invalid tokens — views handle that.
     """
 
@@ -94,8 +97,17 @@ class AuthTokenAuthentication(BaseAuthentication):
         if not token:
             return None
 
+        cache_key = f'auth_user:{token}'
+        user_id = cache.get(cache_key)
+        if user_id is not None:
+            try:
+                return (User.objects.get(pk=user_id), token)
+            except User.DoesNotExist:
+                cache.delete(cache_key)
+
         try:
             user = User.objects.get(auth_token=token)
+            cache.set(cache_key, user.id, _AUTH_TOKEN_CACHE_SECONDS)
             return (user, token)
         except User.DoesNotExist:
             logger.warning("Auth token not found")

@@ -99,6 +99,9 @@ class PostSerializer(serializers.ModelSerializer):
         user = request.user
         if not isinstance(user, User):
             return False
+        liked_ids = self.context.get('liked_post_ids')
+        if liked_ids is not None:
+            return obj.id in liked_ids
         return obj.likes.filter(user=user).exists()
 
 
@@ -141,6 +144,9 @@ class ReplySerializer(serializers.ModelSerializer):
         user = request.user
         if not isinstance(user, User):
             return False
+        liked_ids = self.context.get('liked_reply_ids')
+        if liked_ids is not None:
+            return obj.id in liked_ids
         return obj.likes.filter(user=user).exists()
 
 

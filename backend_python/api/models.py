@@ -84,6 +84,11 @@ class Resource(models.Model):
     class Meta:
         db_table = 'resources'
         ordering = ['-added_at']
+        indexes = [
+            models.Index(fields=['subject']),
+            models.Index(fields=['grade_level']),
+            models.Index(fields=['type']),
+        ]
 
     def __str__(self):
         return self.title
@@ -106,6 +111,12 @@ class Post(models.Model):
     class Meta:
         db_table = 'posts'
         ordering = ['-created_at']
+        indexes = [
+            models.Index(fields=['user_id', '-created_at']),
+            models.Index(fields=['category']),
+            models.Index(fields=['is_archived', '-created_at']),
+            models.Index(fields=['-thumbs_up_count']),
+        ]
 
     def __str__(self):
         return self.title
@@ -139,6 +150,9 @@ class Reply(models.Model):
     class Meta:
         db_table = 'replies'
         ordering = ['created_at']
+        indexes = [
+            models.Index(fields=['post_id', 'created_at']),
+        ]
 
     def __str__(self):
         return f"Reply by {self.user_id} on {self.post_id}"
@@ -162,6 +176,9 @@ class FCMToken(models.Model):
 
     class Meta:
         db_table = 'fcm_tokens'
+        indexes = [
+            models.Index(fields=['user_id']),
+        ]
 
 
 class UserPhoto(models.Model):
@@ -179,6 +196,9 @@ class UserPhoto(models.Model):
     class Meta:
         db_table = 'user_photos'
         ordering = ['-uploaded_at']
+        indexes = [
+            models.Index(fields=['user_id']),
+        ]
 
     def __str__(self):
         return f"Photo for {self.user_id} ({'active' if self.is_current else 'past'})"
@@ -200,6 +220,10 @@ class Follow(models.Model):
         db_table = 'follows'
         ordering = ['-created_at']
         unique_together = ('follower', 'following')
+        indexes = [
+            models.Index(fields=['following_id']),
+            models.Index(fields=['follower_id']),
+        ]
 
     def __str__(self):
         return f"{self.follower_id} → {self.following_id}"
@@ -219,6 +243,9 @@ class EditHistory(models.Model):
     class Meta:
         db_table = 'edit_history'
         ordering = ['edited_at']
+        indexes = [
+            models.Index(fields=['target_type', 'target_id']),
+        ]
 
 
 class Report(models.Model):
@@ -250,3 +277,7 @@ class Report(models.Model):
     class Meta:
         db_table = 'reports'
         ordering = ['-created_at']
+        indexes = [
+            models.Index(fields=['status', '-created_at']),
+            models.Index(fields=['target_type', 'target_id']),
+        ]

@@ -153,7 +153,20 @@ def _paginated_response(request, queryset, serializer_class, *, context=None, de
         page_size = default_page_size
     paginator.page_size = max(1, min(page_size, max_page_size))
     page = paginator.paginate_queryset(queryset, request)
-    serializer = serializer_class(page, many=True, context=context or {})
+
+    ctx = context or {}
+    user = _get_user_from_request(request)
+    if user and page:
+        if serializer_class == PostSerializer:
+            ctx['liked_post_ids'] = set(PostLike.objects.filter(
+                user=user, post_id__in=[p.id for p in page]
+            ).values_list('post_id', flat=True))
+        elif serializer_class == ReplySerializer:
+            ctx['liked_reply_ids'] = set(ReplyLike.objects.filter(
+                user=user, reply_id__in=[r.id for r in page]
+            ).values_list('reply_id', flat=True))
+
+    serializer = serializer_class(page, many=True, context=ctx)
     return paginator.get_paginated_response(serializer.data)
 
 
@@ -356,11 +369,12 @@ def resource_detail(request, resource_id):
 @api_view(['POST'])
 def resource_view(request, resource_id):
     """POST /api/resources/<resourceId>/view — increment view_count."""
-    updated = Resource.objects.filter(pk=resource_id).update(view_count=F('view_count') + 1)
-    if not updated:
+    try:
+        resource = Resource.objects.get(pk=resource_id)
+    except Resource.DoesNotExist:
         return Response({'error': 'Resource not found'}, status=404)
-    resource = Resource.objects.get(pk=resource_id)
-    return Response({'view_count': resource.view_count})
+    Resource.objects.filter(pk=resource_id).update(view_count=F('view_count') + 1)
+    return Response({'view_count': resource.view_count + 1})
 
 
 # ---------------------------------------------------------------------------
@@ -464,18 +478,18 @@ def post_like(request, post_id):
             post = Post.objects.select_for_update().get(pk=post_id)
         except Post.DoesNotExist:
             return Response({'error': 'Post not found'}, status=404)
-        existing = PostLike.objects.filter(post=post, user=user).first()
-        if existing:
-            existing.delete()
-            Post.objects.filter(pk=post.pk, thumbs_up_count__gt=0).update(thumbs_up_count=F('thumbs_up_count') - 1)
-            is_thumbed_up = False
-        else:
-            PostLike.objects.create(post=post, user=user)
+        like, created = PostLike.objects.get_or_create(post=post, user=user)
+        if created:
             Post.objects.filter(pk=post.pk).update(thumbs_up_count=F('thumbs_up_count') + 1)
             is_thumbed_up = True
-        post.refresh_from_db(fields=['thumbs_up_count'])
+            current_count = post.thumbs_up_count + 1
+        else:
+            like.delete()
+            Post.objects.filter(pk=post.pk, thumbs_up_count__gt=0).update(thumbs_up_count=F('thumbs_up_count') - 1)
+            is_thumbed_up = False
+            current_count = max(post.thumbs_up_count - 1, 0)
 
-    return Response({'thumbsUpCount': post.thumbs_up_count, 'isThumbedUp': is_thumbed_up})
+    return Response({'thumbsUpCount': current_count, 'isThumbedUp': is_thumbed_up})
 
 
 # ---------------------------------------------------------------------------
@@ -564,18 +578,18 @@ def reply_like(request, reply_id):
             reply = Reply.objects.select_for_update().get(pk=reply_id)
         except Reply.DoesNotExist:
             return Response({'error': 'Reply not found'}, status=404)
-        existing = ReplyLike.objects.filter(reply=reply, user=user).first()
-        if existing:
-            existing.delete()
-            Reply.objects.filter(pk=reply.pk, thumbs_up_count__gt=0).update(thumbs_up_count=F('thumbs_up_count') - 1)
-            is_thumbed_up = False
-        else:
-            ReplyLike.objects.create(reply=reply, user=user)
+        like, created = ReplyLike.objects.get_or_create(reply=reply, user=user)
+        if created:
             Reply.objects.filter(pk=reply.pk).update(thumbs_up_count=F('thumbs_up_count') + 1)
             is_thumbed_up = True
-        reply.refresh_from_db(fields=['thumbs_up_count'])
+            current_count = reply.thumbs_up_count + 1
+        else:
+            like.delete()
+            Reply.objects.filter(pk=reply.pk, thumbs_up_count__gt=0).update(thumbs_up_count=F('thumbs_up_count') - 1)
+            is_thumbed_up = False
+            current_count = max(reply.thumbs_up_count - 1, 0)
 
-    return Response({'thumbsUpCount': reply.thumbs_up_count, 'isThumbedUp': is_thumbed_up})
+    return Response({'thumbsUpCount': current_count, 'isThumbedUp': is_thumbed_up})
 
 
 @api_view(['GET'])
@@ -1094,18 +1108,22 @@ def replies_endpoint(request, post_id):
 def _build_stats(user):
     """
     Build the stats dict for a given User instance.
-    contribution_score: posts*3 + replies*2 + likes_given + likes_received*2
-    Mirrors the web leaderboard scoring formula.
+    Uses a single aggregation query instead of 6 separate COUNT queries.
     """
+    from django.db.models import Count, Q
     post_count = Post.objects.filter(user=user).count()
     reply_count = Reply.objects.filter(user=user).count()
     follower_count = Follow.objects.filter(following=user).count()
     following_count = Follow.objects.filter(follower=user).count()
 
-    likes_received = (PostLike.objects.filter(post__user=user).count() +
-                      ReplyLike.objects.filter(reply__user=user).count())
-    likes_given = (PostLike.objects.filter(user=user).count() +
-                   ReplyLike.objects.filter(user=user).count())
+    likes_received = (
+        PostLike.objects.filter(post__user=user).count() +
+        ReplyLike.objects.filter(reply__user=user).count()
+    )
+    likes_given = (
+        PostLike.objects.filter(user=user).count() +
+        ReplyLike.objects.filter(user=user).count()
+    )
 
     contribution_score = (post_count * 3) + (reply_count * 2) + likes_given + (likes_received * 2)
 
@@ -1119,6 +1137,56 @@ def _build_stats(user):
         'likes_given': likes_given,
         'contribution_score': contribution_score,
     }
+
+
+def _build_stats_batch(user_qs):
+    """
+    Build stats for a queryset of users in a single aggregation pass.
+    Returns a dict mapping user_id -> stats dict.
+    """
+    from django.db.models import Count, Q, Sum, Case, When, IntegerField
+
+    user_ids = list(user_qs.values_list('id', flat=True))
+
+    post_counts = dict(Post.objects.filter(user_id__in=user_ids).values('user_id').annotate(c=Count('id')).values_list('user_id', 'c'))
+    reply_counts = dict(Reply.objects.filter(user_id__in=user_ids).values('user_id').annotate(c=Count('id')).values_list('user_id', 'c'))
+    follower_counts = dict(Follow.objects.filter(following_id__in=user_ids).values('following_id').annotate(c=Count('id')).values_list('following_id', 'c'))
+    following_counts = dict(Follow.objects.filter(follower_id__in=user_ids).values('follower_id').annotate(c=Count('id')).values_list('follower_id', 'c'))
+
+    likes_given = {}
+    for model, like_field in [(PostLike, 'user_id'), (ReplyLike, 'user_id')]:
+        for uid, cnt in model.objects.filter(user_id__in=user_ids).values('user_id').annotate(c=Count('id')).values_list('user_id', 'c'):
+            likes_given[uid] = likes_given.get(uid, 0) + cnt
+
+    likes_received = {}
+    for model, owner_field in [(PostLike, 'post__user_id'), (ReplyLike, 'reply__user_id')]:
+        for uid, cnt in model.objects.filter(**{owner_field + '__in': user_ids}).values(owner_field).annotate(c=Count('id')).values_list(owner_field, 'c'):
+            likes_received[uid] = likes_received.get(uid, 0) + cnt
+
+    users_map = {u.id: u for u in user_qs if hasattr(u, 'id')}
+    result = {}
+    for uid in user_ids:
+        u = users_map.get(uid)
+        pc = post_counts.get(uid, 0)
+        rc = reply_counts.get(uid, 0)
+        fc = follower_counts.get(uid, 0)
+        fwc = following_counts.get(uid, 0)
+        lg = likes_given.get(uid, 0)
+        lr = likes_received.get(uid, 0)
+        score = (pc * 3) + (rc * 2) + lg + (lr * 2)
+        result[uid] = {
+            'username': u.username if u else '',
+            'display_name': (u.display_name or u.username) if u else '',
+            'photo_url': u.photo_url if u else '',
+            'post_count': pc,
+            'reply_count': rc,
+            'follower_count': fc,
+            'following_count': fwc,
+            'likes_given': lg,
+            'likes_received': lr,
+            'contribution_score': score,
+        }
+    return result
 
 
 @api_view(['GET'])
