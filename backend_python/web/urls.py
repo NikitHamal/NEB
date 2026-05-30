@@ -19,6 +19,7 @@ urlpatterns = [
 
     path('profile/edit/', views.edit_profile, name='edit_profile'),
     path('profile/<str:username>/', views.profile, name='profile'),
+    path('profile/<str:username>/achievements/', views.profile_achievements, name='profile_achievements'),
     path('ajax/profile/<str:username>/activity/', views.ajax_profile_activity, name='ajax_profile_activity'),
     path('login/', views.login_page, name='login'),
     path('auth/google/', views.google_auth, name='google_auth'),

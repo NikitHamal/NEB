@@ -25,6 +25,7 @@ class User(models.Model):
     pradesh = models.CharField(max_length=100, blank=True, null=True)
     district = models.CharField(max_length=100, blank=True, null=True)
     school = models.CharField(max_length=200, blank=True, null=True)
+    bio = models.TextField(blank=True, default='')
     is_locked = models.BooleanField(default=False)
     created_at = models.BigIntegerField(default=0)
 

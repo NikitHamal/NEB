@@ -192,6 +192,7 @@ def user_profile_create_or_update(request):
     pradesh = data.get('pradesh', '')
     district = data.get('district', '')
     school = data.get('school', '')
+    bio = data.get('bio', '')
     is_locked = bool(data.get('isLocked', False))
 
     user.username = username
@@ -205,6 +206,7 @@ def user_profile_create_or_update(request):
     user.pradesh = pradesh
     user.district = district
     user.school = school
+    user.bio = bio
     user.is_locked = is_locked
     user.save()
 

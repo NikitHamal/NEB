@@ -50,6 +50,11 @@
         </div>
       </div>
 
+      <div class="form-group">
+        <label class="md-label" for="bio">Bio</label>
+        <textarea id="bio" name="bio" class="md-textarea" rows="3" placeholder="Tell others about yourself...">{{ user.bio|default:'' }}</textarea>
+      </div>
+
       <div class="form-row">
         <div class="form-group">
           <label class="md-label" for="dob">Date of Birth *</label>
@@ -88,13 +93,13 @@
           <label class="md-label" for="pradesh">Province</label>
           <select id="pradesh" name="pradesh" class="md-select">
             <option value="">Select</option>
-            <option value="1" {% if user.pradesh == '1' %}selected{% endif %}>Province 1</option>
-            <option value="2" {% if user.pradesh == '2' %}selected{% endif %}>Madhesh Province</option>
-            <option value="3" {% if user.pradesh == '3' %}selected{% endif %}>Bagmati Province</option>
-            <option value="4" {% if user.pradesh == '4' %}selected{% endif %}>Gandaki Province</option>
-            <option value="5" {% if user.pradesh == '5' %}selected{% endif %}>Lumbini Province</option>
-            <option value="6" {% if user.pradesh == '6' %}selected{% endif %}>Karnali Province</option>
-            <option value="7" {% if user.pradesh == '7' %}selected{% endif %}>Sudurpashchim Province</option>
+            <option value="1" {% if user.pradesh == '1' %}selected{% endif %}>Koshi</option>
+            <option value="2" {% if user.pradesh == '2' %}selected{% endif %}>Madhesh</option>
+            <option value="3" {% if user.pradesh == '3' %}selected{% endif %}>Bagmati</option>
+            <option value="4" {% if user.pradesh == '4' %}selected{% endif %}>Gandaki</option>
+            <option value="5" {% if user.pradesh == '5' %}selected{% endif %}>Lumbini</option>
+            <option value="6" {% if user.pradesh == '6' %}selected{% endif %}>Karnali</option>
+            <option value="7" {% if user.pradesh == '7' %}selected{% endif %}>Sudurpashchim</option>
           </select>
         </div>
         <div class="form-group">
