@@ -39,6 +39,14 @@ class User(models.Model):
     verification_code_attempts = models.PositiveSmallIntegerField(default=0)
     verification_code_last_sent_at = models.BigIntegerField(default=0)
     created_at = models.BigIntegerField(default=0)
+    # Denormalized counters — kept in sync by signals/helpers
+    post_count = models.PositiveIntegerField(default=0)
+    reply_count = models.PositiveIntegerField(default=0)
+    follower_count = models.PositiveIntegerField(default=0)
+    following_count = models.PositiveIntegerField(default=0)
+    likes_given_count = models.PositiveIntegerField(default=0)
+    likes_received_count = models.PositiveIntegerField(default=0)
+    contribution_score = models.PositiveIntegerField(default=0)
 
     class Meta:
         db_table = 'users'
