@@ -109,9 +109,9 @@ def auth_google(request):
 
     try:
         user = User.objects.get(pk=user_id)
-        # Generate a new auth token on each sign-in for security
-        user.auth_token = User.generate_token()
-        user.save(update_fields=['auth_token'])
+        if not user.auth_token:
+            user.auth_token = User.generate_token()
+            user.save(update_fields=['auth_token'])
         logger.info("auth_google: existing user signed in: %s", user.username or user.id)
         return Response({
             'status': 'success',

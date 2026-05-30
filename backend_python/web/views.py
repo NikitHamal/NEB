@@ -123,7 +123,7 @@ def _serialize_reply(r, user_id=None):
 
 
 def _get_user_id(request):
-    token = api.get_session_token(request)
+    token = _get_valid_token(request)
     if not token:
         return None
     cache_key = f'user_id_{token}'
@@ -133,8 +133,25 @@ def _get_user_id(request):
             user_id = User.objects.get(auth_token=token).id
             cache.set(cache_key, user_id, 300)
         except User.DoesNotExist:
-            user_id = None
+            api.clear_session_auth(request)
+            return None
     return user_id
+
+
+def _get_valid_token(request):
+    token = api.get_session_token(request)
+    if not token:
+        auth_header = request.headers.get('Authorization', '')
+        if auth_header.startswith('Bearer '):
+            token = auth_header[7:].strip()
+    if not token:
+        return None
+    try:
+        User.objects.get(auth_token=token)
+    except User.DoesNotExist:
+        api.clear_session_auth(request)
+        return None
+    return token
 
 
 def _ctx(request, **extra):
@@ -801,9 +818,9 @@ def _clear_page_cache():
 
 @require_POST
 def ajax_like_post(request, post_id):
-    token = api.get_session_token(request)
+    token = _get_valid_token(request)
     if not token:
-        return JsonResponse({'error': 'Unauthorized'}, status=401)
+        return JsonResponse({'error': 'Please log in again.'}, status=401)
     result = api.like_post(token, post_id)
     if result:
         cache.delete_many(['home_posts', 'forum_all_posts'])
@@ -813,9 +830,9 @@ def ajax_like_post(request, post_id):
 
 @require_POST
 def ajax_like_reply(request, reply_id):
-    token = api.get_session_token(request)
+    token = _get_valid_token(request)
     if not token:
-        return JsonResponse({'error': 'Unauthorized'}, status=401)
+        return JsonResponse({'error': 'Please log in again.'}, status=401)
     result = api.like_reply(token, reply_id)
     if result:
         return JsonResponse(result)
@@ -824,9 +841,9 @@ def ajax_like_reply(request, reply_id):
 
 @require_POST
 def ajax_create_reply(request, post_id):
-    token = api.get_session_token(request)
+    token = _get_valid_token(request)
     if not token:
-        return JsonResponse({'error': 'Unauthorized'}, status=401)
+        return JsonResponse({'error': 'Please log in again.'}, status=401)
     try:
         data = json.loads(request.body)
         content = data.get('content', '').strip()
@@ -844,9 +861,9 @@ def ajax_create_reply(request, post_id):
 
 @require_POST
 def ajax_create_post(request):
-    token = api.get_session_token(request)
+    token = _get_valid_token(request)
     if not token:
-        return JsonResponse({'error': 'Unauthorized'}, status=401)
+        return JsonResponse({'error': 'Please log in again.'}, status=401)
     try:
         data = json.loads(request.body)
     except json.JSONDecodeError:
@@ -860,9 +877,9 @@ def ajax_create_post(request):
 
 @require_POST
 def ajax_delete_post(request, post_id):
-    token = api.get_session_token(request)
+    token = _get_valid_token(request)
     if not token:
-        return JsonResponse({'error': 'Unauthorized'}, status=401)
+        return JsonResponse({'error': 'Please log in again.'}, status=401)
     user_id = _get_user_id(request)
     if not user_id:
         return JsonResponse({'error': 'Unauthorized'}, status=401)
@@ -1026,9 +1043,9 @@ def ajax_set_theme(request):
 
 @require_POST
 def ajax_follow_user(request, user_id):
-    token = api.get_session_token(request)
+    token = _get_valid_token(request)
     if not token:
-        return JsonResponse({'error': 'Unauthorized'}, status=401)
+        return JsonResponse({'error': 'Please log in again.'}, status=401)
     result = api.follow_user(token, user_id)
     if result:
         return JsonResponse(result)
@@ -1037,15 +1054,16 @@ def ajax_follow_user(request, user_id):
 
 @csrf_exempt
 def ajax_user_photos(request):
-    token = api.get_session_token(request)
+    token = _get_valid_token(request)
     if not token:
-        return JsonResponse({'error': 'Unauthorized'}, status=401)
+        return JsonResponse({'error': 'Please log in again.'}, status=401)
 
-    from api.models import User, UserPhoto
+    from api.models import UserPhoto
     try:
         current_user = User.objects.get(auth_token=token)
     except User.DoesNotExist:
-        return JsonResponse({'error': 'Unauthorized'}, status=401)
+        api.clear_session_auth(request)
+        return JsonResponse({'error': 'Please log in again.'}, status=401)
 
     if request.method == 'GET':
         try:
@@ -1143,9 +1161,9 @@ def ajax_user_photos(request):
 
 @require_POST
 def ajax_set_password(request):
-    token = api.get_session_token(request)
+    token = _get_valid_token(request)
     if not token:
-        return JsonResponse({'error': 'Unauthorized'}, status=401)
+        return JsonResponse({'error': 'Please log in again.'}, status=401)
     try:
         data = json.loads(request.body)
     except json.JSONDecodeError:
@@ -1166,9 +1184,9 @@ def ajax_set_password(request):
 
 @require_POST
 def ajax_change_password(request):
-    token = api.get_session_token(request)
+    token = _get_valid_token(request)
     if not token:
-        return JsonResponse({'error': 'Unauthorized'}, status=401)
+        return JsonResponse({'error': 'Please log in again.'}, status=401)
     try:
         data = json.loads(request.body)
     except json.JSONDecodeError:
@@ -1194,9 +1212,9 @@ def ajax_change_password(request):
 
 @require_POST
 def ajax_activate_photo(request, photo_id):
-    token = api.get_session_token(request)
+    token = _get_valid_token(request)
     if not token:
-        return JsonResponse({'error': 'Unauthorized'}, status=401)
+        return JsonResponse({'error': 'Please log in again.'}, status=401)
     result = api.set_active_photo(token, photo_id)
     if result and result.get('success'):
         new_url = result.get('photo_url')
