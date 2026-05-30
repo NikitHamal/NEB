@@ -136,7 +136,7 @@
   <div id="snackbar-container"></div>
 
   <script>
-    const AUTH_TOKEN = '{{ auth_token|default:"" }}';
+    const IS_AUTHENTICATED = {{ is_authenticated|yesno:"true,false" }};
     const USER_DATA = {{ user|to_json }};
     const CSRF_TOKEN = '{{ csrf_token }}';
 
@@ -190,10 +190,25 @@
       setTimeout(() => el.remove(), duration);
     }
 
+    function escapeHtml(value) {
+      return String(value ?? '').replace(/[&<>"']/g, ch => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+      }[ch]));
+    }
+
+    function safeClientUrl(value) {
+      const raw = String(value || '').trim();
+      if (!raw) return '';
+      if (raw.startsWith('/media/') || raw.startsWith('/static/')) return raw;
+      try {
+        const parsed = new URL(raw, window.location.origin);
+        return parsed.protocol === 'https:' ? parsed.href : '';
+      } catch (e) { return ''; }
+    }
+
     async function apiCall(method, path, data = null) {
       const headers = { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN };
-      if (AUTH_TOKEN) headers['Authorization'] = 'Bearer ' + AUTH_TOKEN;
-      const opts = { method, headers };
+      const opts = { method, headers, credentials: 'same-origin' };
       if (data) opts.body = JSON.stringify(data);
       const resp = await fetch('/api' + path, opts);
       return resp.json();
@@ -210,7 +225,9 @@
       const container = document.getElementById(containerId);
       if (!container) return;
       if (error) {
-        container.innerHTML = '<div class="error-state"><span class="material-symbols-outlined">error_outline</span><h3>Something went wrong</h3><p>' + error + '</p><button class="md-btn md-btn-filled" onclick="location.reload()">Retry</button></div>';
+        container.innerHTML = '<div class="error-state"><span class="material-symbols-outlined">error_outline</span><h3>Something went wrong</h3><p></p><button class="md-btn md-btn-filled" onclick="location.reload()">Retry</button></div>';
+        const errorText = container.querySelector('.error-state p');
+        if (errorText) errorText.textContent = error;
       } else {
         container.innerHTML = container.dataset.originalContent || '';
       }

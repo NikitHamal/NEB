@@ -26,18 +26,23 @@ import logging
 import time
 import uuid
 
+from django.core.cache import cache
+from django.core.exceptions import ValidationError
+from django.contrib.auth.password_validation import validate_password
 from django.db import transaction
-from django.db.models import Q
-from rest_framework.decorators import api_view, authentication_classes
+from django.db.models import Q, F
+from rest_framework.decorators import api_view, authentication_classes, throttle_classes
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework import status
 
-import hashlib
-import secrets
-
 from .authentication import verify_google_token
+from .security import (
+    hash_password, verify_password, hash_verification_code, verify_verification_code,
+    validate_profile_photo_url, save_profile_image_upload,
+)
 from .email_utils import send_verification_email
+from .throttles import AuthRateThrottle, VerificationRateThrottle
 from .models import User, Resource, Post, PostLike, Reply, ReplyLike, FCMToken, Follow, UserPhoto, EditHistory
 from .serializers import (
     UserSerializer, UserPublicSerializer,
@@ -79,6 +84,76 @@ def _require_user(request):
     if user is None:
         return None, Response({'error': 'Unauthorized — please sign in again'}, status=401)
     return user, None
+
+
+CODE_TTL_MS = 10 * 60 * 1000
+CODE_RESEND_COOLDOWN_MS = 60 * 1000
+MAX_CODE_ATTEMPTS = 5
+
+
+def _validate_password_strength(password):
+    try:
+        validate_password(password)
+    except ValidationError as exc:
+        return Response({'error': ' '.join(exc.messages)}, status=400)
+    return None
+
+
+def _issue_verification_code(user, purpose):
+    code = User.generate_verification_code()
+    now = _now_ms()
+    user.verification_code = hash_verification_code(code)
+    user.verification_code_expires = now + CODE_TTL_MS
+    user.verification_code_purpose = purpose
+    user.verification_code_attempts = 0
+    user.verification_code_last_sent_at = now
+    user.save(update_fields=[
+        'verification_code', 'verification_code_expires', 'verification_code_purpose',
+        'verification_code_attempts', 'verification_code_last_sent_at'
+    ])
+    return code
+
+
+def _verification_resend_blocked(user):
+    last_sent = user.verification_code_last_sent_at or 0
+    if not last_sent:
+        # Legacy rows only had an expiry. Do not infer last-send time from expiry.
+        return False
+    return (_now_ms() - last_sent) < CODE_RESEND_COOLDOWN_MS
+
+
+def _verify_user_code(user, code, purpose):
+    now = _now_ms()
+    if user.verification_code_expires < now:
+        return False, Response({'error': 'Invalid or expired verification code'}, status=400)
+    if user.verification_code_purpose and user.verification_code_purpose != purpose:
+        return False, Response({'error': 'Invalid or expired verification code'}, status=400)
+    if user.verification_code_attempts >= MAX_CODE_ATTEMPTS:
+        return False, Response({'error': 'Too many invalid attempts. Please request a new code.'}, status=429)
+    if not verify_verification_code(code, user.verification_code or ''):
+        User.objects.filter(pk=user.pk).update(verification_code_attempts=F('verification_code_attempts') + 1)
+        return False, Response({'error': 'Invalid or expired verification code'}, status=400)
+    return True, None
+
+
+def _clear_verification_code(user):
+    user.verification_code = None
+    user.verification_code_expires = 0
+    user.verification_code_purpose = ''
+    user.verification_code_attempts = 0
+    user.verification_code_last_sent_at = 0
+
+
+def _paginated_response(request, queryset, serializer_class, *, context=None, default_page_size=50, max_page_size=100):
+    paginator = PageNumberPagination()
+    try:
+        page_size = int(request.query_params.get('page_size', default_page_size))
+    except (TypeError, ValueError):
+        page_size = default_page_size
+    paginator.page_size = max(1, min(page_size, max_page_size))
+    page = paginator.paginate_queryset(queryset, request)
+    serializer = serializer_class(page, many=True, context=context or {})
+    return paginator.get_paginated_response(serializer.data)
 
 
 # ---------------------------------------------------------------------------
@@ -175,7 +250,7 @@ def user_profile_create_or_update(request):
     try:
         user = User.objects.get(auth_token=token)
     except User.DoesNotExist:
-        logger.warning("user_profile: no user found for auth token %s...", token[:8])
+        logger.warning("user_profile: no user found for provided auth token")
         return Response({'error': 'Unauthorized — please sign in again'}, status=401)
 
     data = request.data
@@ -195,6 +270,11 @@ def user_profile_create_or_update(request):
 
     email = data.get('email', '') or user.email or ''
     photo_url = data.get('photoUrl', '') or user.photo_url or ''
+    if photo_url and not str(photo_url).startswith(request.build_absolute_uri('/media/')):
+        try:
+            photo_url = validate_profile_photo_url(photo_url)
+        except ValidationError as exc:
+            return Response({'error': ' '.join(exc.messages)}, status=400)
     display_name = data.get('displayName', '') or user.display_name or ''
     gender = data.get('gender', '')
     class_level = data.get('classLevel', '')
@@ -225,7 +305,6 @@ def user_profile_create_or_update(request):
 
 
 @api_view(['GET'])
-@authentication_classes([])
 def user_profile_get(request, username):
     """GET /api/users/profile/<username>"""
     try:
@@ -248,15 +327,7 @@ def user_profile_get(request, username):
 
 @api_view(['GET'])
 def resources_list(request):
-    """GET /api/resources — public endpoint, no auth needed.
-
-    Query params:
-      subject — filter by subject (case-insensitive)
-      grade   — filter by grade_level (case-insensitive)
-      type    — filter by type (case-insensitive)
-      search  — search in title + description (case-insensitive)
-      page    — page number for pagination (optional; if absent, returns all)
-    """
+    """GET /api/resources — public endpoint with enforced pagination."""
     resources = Resource.objects.all()
 
     subject = request.query_params.get('subject')
@@ -275,15 +346,7 @@ def resources_list(request):
             Q(title__icontains=search) | Q(description__icontains=search)
         )
 
-    page_param = request.query_params.get('page')
-    if page_param is not None:
-        paginator = PageNumberPagination()
-        paginator.page_size = 50
-        page = paginator.paginate_queryset(resources, request)
-        serializer = ResourceSerializer(page, many=True)
-        return paginator.get_paginated_response(serializer.data)
-
-    return Response(ResourceSerializer(resources, many=True).data)
+    return _paginated_response(request, resources, ResourceSerializer)
 
 
 @api_view(['GET'])
@@ -299,12 +362,10 @@ def resource_detail(request, resource_id):
 @api_view(['POST'])
 def resource_view(request, resource_id):
     """POST /api/resources/<resourceId>/view — increment view_count."""
-    try:
-        resource = Resource.objects.get(pk=resource_id)
-    except Resource.DoesNotExist:
+    updated = Resource.objects.filter(pk=resource_id).update(view_count=F('view_count') + 1)
+    if not updated:
         return Response({'error': 'Resource not found'}, status=404)
-    resource.view_count += 1
-    resource.save(update_fields=['view_count'])
+    resource = Resource.objects.get(pk=resource_id)
     return Response({'view_count': resource.view_count})
 
 
@@ -313,15 +374,13 @@ def resource_view(request, resource_id):
 # ---------------------------------------------------------------------------
 
 @api_view(['GET'])
-@authentication_classes([])
 def posts_list(request):
     """GET /api/posts?username=<username>"""
     posts = Post.objects.select_related('user').all()
     username = request.query_params.get('username')
     if username:
         posts = posts.filter(user__username=username)
-    serializer = PostSerializer(posts, many=True, context={'request': request})
-    return Response(serializer.data)
+    return _paginated_response(request, posts, PostSerializer, context={'request': request})
 
 
 @api_view(['POST'])
@@ -415,22 +474,21 @@ def post_like(request, post_id):
     if err:
         return err
 
-    try:
-        post = Post.objects.get(pk=post_id)
-    except Post.DoesNotExist:
-        return Response({'error': 'Post not found'}, status=404)
-
     with transaction.atomic():
+        try:
+            post = Post.objects.select_for_update().get(pk=post_id)
+        except Post.DoesNotExist:
+            return Response({'error': 'Post not found'}, status=404)
         existing = PostLike.objects.filter(post=post, user=user).first()
         if existing:
             existing.delete()
-            post.thumbs_up_count = max(0, post.thumbs_up_count - 1)
+            Post.objects.filter(pk=post.pk, thumbs_up_count__gt=0).update(thumbs_up_count=F('thumbs_up_count') - 1)
             is_thumbed_up = False
         else:
             PostLike.objects.create(post=post, user=user)
-            post.thumbs_up_count += 1
+            Post.objects.filter(pk=post.pk).update(thumbs_up_count=F('thumbs_up_count') + 1)
             is_thumbed_up = True
-        post.save(update_fields=['thumbs_up_count'])
+        post.refresh_from_db(fields=['thumbs_up_count'])
 
     return Response({'thumbsUpCount': post.thumbs_up_count, 'isThumbedUp': is_thumbed_up})
 
@@ -440,12 +498,10 @@ def post_like(request, post_id):
 # ---------------------------------------------------------------------------
 
 @api_view(['GET'])
-@authentication_classes([])
 def replies_list(request, post_id):
     """GET /api/posts/<postId>/replies"""
     replies = Reply.objects.filter(post_id=post_id).select_related('user')
-    serializer = ReplySerializer(replies, many=True, context={'request': request})
-    return Response(serializer.data)
+    return _paginated_response(request, replies, ReplySerializer, context={'request': request})
 
 
 @api_view(['POST'])
@@ -476,8 +532,7 @@ def replies_create(request, post_id):
             thumbs_up_count=0,
             created_at=now,
         )
-        post.reply_count += 1
-        post.save(update_fields=['reply_count'])
+        Post.objects.filter(pk=post.pk).update(reply_count=F('reply_count') + 1)
 
     logger.info("replies_create: created reply on post %s by user %s", post_id, user.username)
     return Response(ReplySerializer(reply, context={'request': request}).data, status=201)
@@ -499,10 +554,9 @@ def reply_detail(request, reply_id):
 
     if request.method == 'DELETE':
         with transaction.atomic():
-            post = reply.post
+            post_id = reply.post_id
             reply.delete()
-            post.reply_count = max(0, post.reply_count - 1)
-            post.save(update_fields=['reply_count'])
+            Post.objects.filter(pk=post_id, reply_count__gt=0).update(reply_count=F('reply_count') - 1)
         return Response({'success': True})
 
     content = request.data.get('content', '').strip()
@@ -527,28 +581,26 @@ def reply_like(request, reply_id):
     if err:
         return err
 
-    try:
-        reply = Reply.objects.get(pk=reply_id)
-    except Reply.DoesNotExist:
-        return Response({'error': 'Reply not found'}, status=404)
-
     with transaction.atomic():
+        try:
+            reply = Reply.objects.select_for_update().get(pk=reply_id)
+        except Reply.DoesNotExist:
+            return Response({'error': 'Reply not found'}, status=404)
         existing = ReplyLike.objects.filter(reply=reply, user=user).first()
         if existing:
             existing.delete()
-            reply.thumbs_up_count = max(0, reply.thumbs_up_count - 1)
+            Reply.objects.filter(pk=reply.pk, thumbs_up_count__gt=0).update(thumbs_up_count=F('thumbs_up_count') - 1)
             is_thumbed_up = False
         else:
             ReplyLike.objects.create(reply=reply, user=user)
-            reply.thumbs_up_count += 1
+            Reply.objects.filter(pk=reply.pk).update(thumbs_up_count=F('thumbs_up_count') + 1)
             is_thumbed_up = True
-        reply.save(update_fields=['thumbs_up_count'])
+        reply.refresh_from_db(fields=['thumbs_up_count'])
 
     return Response({'thumbsUpCount': reply.thumbs_up_count, 'isThumbedUp': is_thumbed_up})
 
 
 @api_view(['GET'])
-@authentication_classes([])
 def edit_history(request, target_type, target_id):
     """GET /api/edit-history/<target_type>/<target_id>/ — edit history for a post or reply."""
     if target_type not in ('post', 'reply'):
@@ -563,6 +615,7 @@ def edit_history(request, target_type, target_id):
 
 @api_view(['POST'])
 @authentication_classes([])
+@throttle_classes([AuthRateThrottle])
 def auth_email_signup(request):
     """
     POST /api/auth/email/signup
@@ -576,8 +629,9 @@ def auth_email_signup(request):
     if not email or not password or not username:
         return Response({'error': 'Email, password, and username are required'}, status=400)
 
-    if len(password) < 8:
-        return Response({'error': 'Password must be at least 8 characters'}, status=400)
+    password_error = _validate_password_strength(password)
+    if password_error:
+        return password_error
 
     if len(username) < 3:
         return Response({'error': 'Username must be at least 3 characters'}, status=400)
@@ -591,22 +645,17 @@ def auth_email_signup(request):
     if User.objects.filter(username__iexact=username).exists():
         return Response({'error': 'This username is already taken'}, status=409)
 
-    password_hash = hashlib.sha256(password.encode('utf-8')).hexdigest()
-    code = User.generate_verification_code()
-    expires = _now_ms() + (10 * 60 * 1000)
-
     user = User(
         pk=str(uuid.uuid4()),
         auth_token=User.generate_token(),
         username=username,
         email=email,
-        password_hash=password_hash,
+        password_hash=hash_password(password),
         email_verified=False,
-        verification_code=code,
-        verification_code_expires=expires,
         created_at=_now_ms()
     )
     user.save()
+    code = _issue_verification_code(user, 'signup')
 
     send_verification_email(email, code, username)
 
@@ -621,6 +670,7 @@ def auth_email_signup(request):
 
 @api_view(['POST'])
 @authentication_classes([])
+@throttle_classes([VerificationRateThrottle])
 def auth_email_verify(request):
     """
     POST /api/auth/email/verify
@@ -641,16 +691,12 @@ def auth_email_verify(request):
     if user.email_verified:
         return Response({'error': 'Email is already verified. Please log in.'}, status=400)
 
-    now = _now_ms()
-    if user.verification_code != code:
-        return Response({'error': 'Invalid verification code'}, status=400)
-
-    if user.verification_code_expires < now:
-        return Response({'error': 'Verification code has expired. Please request a new one.'}, status=400)
+    ok, error_response = _verify_user_code(user, code, 'signup')
+    if not ok:
+        return error_response
 
     user.email_verified = True
-    user.verification_code = None
-    user.verification_code_expires = 0
+    _clear_verification_code(user)
     user.auth_token = User.generate_token()
     user.save()
 
@@ -666,6 +712,7 @@ def auth_email_verify(request):
 
 @api_view(['POST'])
 @authentication_classes([])
+@throttle_classes([VerificationRateThrottle])
 def auth_email_resend(request):
     """
     POST /api/auth/email/resend
@@ -685,14 +732,10 @@ def auth_email_resend(request):
     if user.email_verified:
         return Response({'error': 'Email is already verified. Please log in.'}, status=400)
 
-    now = _now_ms()
-    if user.verification_code_expires > (now - 60 * 1000):
+    if _verification_resend_blocked(user):
         return Response({'error': 'Please wait 60 seconds before requesting a new code'}, status=429)
 
-    code = User.generate_verification_code()
-    user.verification_code = code
-    user.verification_code_expires = now + (10 * 60 * 1000)
-    user.save(update_fields=['verification_code', 'verification_code_expires'])
+    code = _issue_verification_code(user, 'signup')
 
     send_verification_email(email, code, user.username)
 
@@ -702,6 +745,7 @@ def auth_email_resend(request):
 
 @api_view(['POST'])
 @authentication_classes([])
+@throttle_classes([AuthRateThrottle])
 def auth_email_login(request):
     """
     POST /api/auth/email/login
@@ -727,23 +771,24 @@ def auth_email_login(request):
         return Response({'error': 'Multiple accounts found. Please use your email address.'}, status=400)
 
     if not user.email_verified:
-        code = User.generate_verification_code()
-        expires = _now_ms() + (10 * 60 * 1000)
-        user.verification_code = code
-        user.verification_code_expires = expires
-        user.save(update_fields=['verification_code', 'verification_code_expires'])
-        send_verification_email(user.email, code, user.username)
+        if not _verification_resend_blocked(user):
+            code = _issue_verification_code(user, 'signup')
+            send_verification_email(user.email, code, user.username)
         return Response({'error': 'Please verify your email first', 'needsVerification': True, 'email': user.email}, status=403)
 
     if not user.password_hash:
         return Response({'error': 'This account uses Google sign-in. Please sign in with Google, or set a password from Settings.'}, status=400)
 
-    password_hash = hashlib.sha256(password.encode('utf-8')).hexdigest()
-    if not secrets.compare_digest(user.password_hash, password_hash):
+    password_ok, needs_rehash = verify_password(password, user.password_hash)
+    if not password_ok:
         return Response({'error': 'Invalid email/username or password'}, status=401)
 
     user.auth_token = User.generate_token()
-    user.save(update_fields=['auth_token'])
+    update_fields = ['auth_token']
+    if needs_rehash:
+        user.password_hash = hash_password(password)
+        update_fields.append('password_hash')
+    user.save(update_fields=update_fields)
 
     logger.info("auth_email_login: user %s logged in", user.username)
     return Response({
@@ -757,6 +802,7 @@ def auth_email_login(request):
 
 @api_view(['POST'])
 @authentication_classes([])
+@throttle_classes([VerificationRateThrottle])
 def auth_email_forgot(request):
     """
     POST /api/auth/email/forgot
@@ -776,10 +822,9 @@ def auth_email_forgot(request):
     if not user.password_hash:
         return Response({'error': 'If an account exists with this email, a verification code has been sent'}, status=200)
 
-    code = User.generate_verification_code()
-    user.verification_code = code
-    user.verification_code_expires = _now_ms() + (10 * 60 * 1000)
-    user.save(update_fields=['verification_code', 'verification_code_expires'])
+    if _verification_resend_blocked(user):
+        return Response({'status': 'success', 'message': 'If an account exists with this email, a verification code has been sent'})
+    code = _issue_verification_code(user, 'password_reset')
 
     send_verification_email(email, code, user.username)
 
@@ -789,6 +834,7 @@ def auth_email_forgot(request):
 
 @api_view(['POST'])
 @authentication_classes([])
+@throttle_classes([VerificationRateThrottle])
 def auth_email_reset_password(request):
     """
     POST /api/auth/email/reset-password
@@ -802,21 +848,21 @@ def auth_email_reset_password(request):
     if not email or not code or not new_password:
         return Response({'error': 'Email, code, and new password are required'}, status=400)
 
-    if len(new_password) < 8:
-        return Response({'error': 'Password must be at least 8 characters'}, status=400)
+    password_error = _validate_password_strength(new_password)
+    if password_error:
+        return password_error
 
     try:
         user = User.objects.get(email__iexact=email)
     except User.DoesNotExist:
         return Response({'error': 'Invalid or expired verification code'}, status=400)
 
-    now = _now_ms()
-    if user.verification_code != code or user.verification_code_expires < now:
-        return Response({'error': 'Invalid or expired verification code'}, status=400)
+    ok, error_response = _verify_user_code(user, code, 'password_reset')
+    if not ok:
+        return error_response
 
-    user.password_hash = hashlib.sha256(new_password.encode('utf-8')).hexdigest()
-    user.verification_code = None
-    user.verification_code_expires = 0
+    user.password_hash = hash_password(new_password)
+    _clear_verification_code(user)
     user.auth_token = User.generate_token()
     user.save()
 
@@ -830,6 +876,7 @@ def auth_email_reset_password(request):
 
 
 @api_view(['POST'])
+@throttle_classes([AuthRateThrottle])
 def auth_set_password(request):
     """
     POST /api/auth/set-password
@@ -845,13 +892,14 @@ def auth_set_password(request):
     if not password:
         return Response({'error': 'Password is required'}, status=400)
 
-    if len(password) < 8:
-        return Response({'error': 'Password must be at least 8 characters'}, status=400)
+    password_error = _validate_password_strength(password)
+    if password_error:
+        return password_error
 
     if user.password_hash:
         return Response({'error': 'Password already set. Use change-password instead.'}, status=400)
 
-    user.password_hash = hashlib.sha256(password.encode('utf-8')).hexdigest()
+    user.password_hash = hash_password(password)
     user.email_verified = True
     user.save(update_fields=['password_hash', 'email_verified'])
 
@@ -864,6 +912,7 @@ def auth_set_password(request):
 
 
 @api_view(['POST'])
+@throttle_classes([AuthRateThrottle])
 def auth_change_password(request):
     """
     POST /api/auth/change-password
@@ -881,17 +930,18 @@ def auth_change_password(request):
     if not current_password or not new_password:
         return Response({'error': 'Current password and new password are required'}, status=400)
 
-    if len(new_password) < 8:
-        return Response({'error': 'New password must be at least 8 characters'}, status=400)
+    password_error = _validate_password_strength(new_password)
+    if password_error:
+        return password_error
 
     if not user.password_hash:
         return Response({'error': 'No password set. Use set-password instead.'}, status=400)
 
-    current_hash = hashlib.sha256(current_password.encode('utf-8')).hexdigest()
-    if not secrets.compare_digest(user.password_hash, current_hash):
+    password_ok, _needs_rehash = verify_password(current_password, user.password_hash)
+    if not password_ok:
         return Response({'error': 'Current password is incorrect'}, status=401)
 
-    user.password_hash = hashlib.sha256(new_password.encode('utf-8')).hexdigest()
+    user.password_hash = hash_password(new_password)
     user.auth_token = User.generate_token()
     user.save(update_fields=['password_hash', 'auth_token'])
 
@@ -939,10 +989,10 @@ def search_all(request):
 
     resources = Resource.objects.filter(
         Q(title__icontains=query) | Q(description__icontains=query) | Q(subject__icontains=query)
-    )
+    )[:25]
     posts = Post.objects.select_related('user').filter(
         Q(title__icontains=query) | Q(content__icontains=query)
-    )
+    )[:25]
 
     return Response({
         'resources': ResourceSerializer(resources, many=True).data,
@@ -964,7 +1014,7 @@ def posts_endpoint(request):
       username — filter by author username (case-insensitive)
       category — filter by category (case-insensitive)
       search   — search in title + content (case-insensitive)
-      page     — page number for pagination (optional; if absent, returns all)
+      page     — page number for pagination (endpoint is always paginated)
     """
     if request.method == 'GET':
         posts = Post.objects.select_related('user').all()
@@ -982,16 +1032,7 @@ def posts_endpoint(request):
                 Q(title__icontains=search) | Q(content__icontains=search)
             )
 
-        page_param = request.query_params.get('page')
-        if page_param is not None:
-            paginator = PageNumberPagination()
-            paginator.page_size = 50
-            page = paginator.paginate_queryset(posts, request)
-            serializer = PostSerializer(page, many=True, context={'request': request})
-            return paginator.get_paginated_response(serializer.data)
-
-        serializer = PostSerializer(posts, many=True, context={'request': request})
-        return Response(serializer.data)
+        return _paginated_response(request, posts, PostSerializer, context={'request': request})
 
     # POST — create
     user, err = _require_user(request)
@@ -1027,8 +1068,7 @@ def replies_endpoint(request, post_id):
     """
     if request.method == 'GET':
         replies = Reply.objects.filter(post_id=post_id).select_related('user')
-        serializer = ReplySerializer(replies, many=True, context={'request': request})
-        return Response(serializer.data)
+        return _paginated_response(request, replies, ReplySerializer, context={'request': request})
 
     # POST — create reply
     user, err = _require_user(request)
@@ -1056,8 +1096,7 @@ def replies_endpoint(request, post_id):
             thumbs_up_count=0,
             created_at=now,
         )
-        post.reply_count += 1
-        post.save(update_fields=['reply_count'])
+        Post.objects.filter(pk=post.pk).update(reply_count=F('reply_count') + 1)
 
     logger.info("replies_endpoint: created reply on post %s by user %s", post_id, user.username)
     return Response(ReplySerializer(reply, context={'request': request}).data, status=201)
@@ -1070,23 +1109,20 @@ def replies_endpoint(request, post_id):
 def _build_stats(user):
     """
     Build the stats dict for a given User instance.
-    contribution_score: posts*3 + replies*2 + likes_given*1
-    Designed to be extended (resources submitted, etc.) in future.
+    contribution_score: posts*3 + replies*2 + likes_given + likes_received*2
+    Mirrors the web leaderboard scoring formula.
     """
-    from django.db.models import Sum
     post_count = Post.objects.filter(user=user).count()
     reply_count = Reply.objects.filter(user=user).count()
     follower_count = Follow.objects.filter(following=user).count()
     following_count = Follow.objects.filter(follower=user).count()
 
-    post_likes = Post.objects.filter(user=user).aggregate(t=Sum('thumbs_up_count'))['t'] or 0
-    reply_likes = Reply.objects.filter(user=user).aggregate(t=Sum('thumbs_up_count'))['t'] or 0
-    likes_received = post_likes + reply_likes
-
+    likes_received = (PostLike.objects.filter(post__user=user).count() +
+                      ReplyLike.objects.filter(reply__user=user).count())
     likes_given = (PostLike.objects.filter(user=user).count() +
                    ReplyLike.objects.filter(user=user).count())
 
-    contribution_score = (post_count * 3) + (reply_count * 2) + likes_given
+    contribution_score = (post_count * 3) + (reply_count * 2) + likes_given + (likes_received * 2)
 
     return {
         'username': user.username,
@@ -1101,7 +1137,6 @@ def _build_stats(user):
 
 
 @api_view(['GET'])
-@authentication_classes([])
 def user_profile_stats(request, username):
     """
     GET /api/users/profile/<username>/stats
@@ -1113,14 +1148,18 @@ def user_profile_stats(request, username):
     except User.DoesNotExist:
         return Response({'error': 'User not found'}, status=404)
 
-    stats = _build_stats(user)
     requesting_user = _get_user_from_request(request)
+    is_owner = bool(requesting_user and requesting_user.pk == user.pk)
+    if user.is_locked and not is_owner:
+        return Response({'error': 'This profile is private'}, status=403)
+
+    stats = _build_stats(user)
     is_following = False
     if requesting_user and requesting_user.pk != user.pk:
         is_following = Follow.objects.filter(follower=requesting_user, following=user).exists()
 
     stats['is_following'] = is_following
-    stats['is_self'] = bool(requesting_user and requesting_user.pk == user.pk)
+    stats['is_self'] = is_owner
     return Response(stats)
 
 
@@ -1166,7 +1205,6 @@ def user_follow_toggle(request, user_id):
 
 
 @api_view(['GET'])
-@authentication_classes([])
 def user_followers_list(request, user_id):
     """
     GET /api/users/<userId>/followers
@@ -1177,12 +1215,13 @@ def user_followers_list(request, user_id):
     except User.DoesNotExist:
         return Response({'error': 'User not found'}, status=404)
 
+    if target_user.is_locked and not (_get_user_from_request(request) and _get_user_from_request(request).pk == target_user.pk):
+        return Response({'error': 'This profile is private'}, status=403)
     follows = Follow.objects.filter(following=target_user).select_related('follower')
-    return Response(FollowSerializer(follows, many=True).data)
+    return _paginated_response(request, follows, FollowSerializer, default_page_size=50)
 
 
 @api_view(['GET'])
-@authentication_classes([])
 def user_following_list(request, user_id):
     """
     GET /api/users/<userId>/following
@@ -1193,8 +1232,10 @@ def user_following_list(request, user_id):
     except User.DoesNotExist:
         return Response({'error': 'User not found'}, status=404)
 
+    if target_user.is_locked and not (_get_user_from_request(request) and _get_user_from_request(request).pk == target_user.pk):
+        return Response({'error': 'This profile is private'}, status=403)
     follows = Follow.objects.filter(follower=target_user).select_related('following')
-    return Response(FollowSerializer(follows, many=True).data)
+    return _paginated_response(request, follows, FollowSerializer, default_page_size=50)
 
 
 # ---------------------------------------------------------------------------
@@ -1224,18 +1265,15 @@ def user_photos(request):
         return Response({'error': 'Either an uploaded image file or web URL is required'}, status=400)
 
     if file_obj:
-        import os
-        from django.conf import settings
-        from django.core.files.storage import default_storage
-        from django.core.files.base import ContentFile
-        
-        ext = os.path.splitext(file_obj.name)[1].lower()
-        if ext not in ['.jpg', '.jpeg', '.png', '.gif', '.webp']:
-            return Response({'error': 'Invalid image format. Only JPG, PNG, GIF, and WEBP are allowed.'}, status=400)
-            
-        filename = f"{current_user.id}_{_now_ms()}{ext}"
-        path = default_storage.save(os.path.join('profile_photos', filename), ContentFile(file_obj.read()))
-        url = request.build_absolute_uri(settings.MEDIA_URL + path)
+        try:
+            url = save_profile_image_upload(request, current_user, file_obj)
+        except ValidationError as exc:
+            return Response({'error': ' '.join(exc.messages)}, status=400)
+    else:
+        try:
+            url = validate_profile_photo_url(url)
+        except ValidationError as exc:
+            return Response({'error': ' '.join(exc.messages)}, status=400)
 
     with transaction.atomic():
         # Mark all existing photos as not current

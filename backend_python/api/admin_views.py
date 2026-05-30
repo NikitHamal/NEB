@@ -1,39 +1,66 @@
 import logging
-import os
 import time
 
-from django.conf import settings
+from django.core.paginator import Paginator, EmptyPage
 from django.db.models import Count, Sum, Q
-from rest_framework.decorators import api_view, authentication_classes
+from django.db.models import F
+from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 
-from .authentication import AuthTokenAuthentication
+from .security import verify_internal_admin_signature, validate_resource_file_url
 from .models import User, Resource, Post, Reply, FCMToken
 from .serializers import UserSerializer, ResourceSerializer, PostSerializer, ReplySerializer
 
 logger = logging.getLogger(__name__)
 
-ADMIN_TOKEN = settings.ADMIN_TOKEN
+
+def _django_user_from_request(request):
+    raw_request = getattr(request, '_request', request)
+    return getattr(raw_request, 'user', None)
 
 
 def _check_admin(request):
-    auth_header = request.headers.get('Authorization', '')
-    if auth_header.startswith('Bearer '):
-        token = auth_header[7:].strip()
-        if token == ADMIN_TOKEN:
-            return True
-        try:
-            user = User.objects.get(auth_token=token)
-            if user.username == 'admin':
-                return True
-        except User.DoesNotExist:
-            pass
-    return False
+    """Allow only Django staff/superusers or signed internal server calls.
+
+    The old shared-token and username == 'admin' bypasses were removed.
+    Custom admin pages authenticate with Django's built-in staff user session;
+    their server-side API client uses a short-lived signed internal header.
+    """
+    django_user = _django_user_from_request(request)
+    if getattr(django_user, 'is_authenticated', False) and getattr(django_user, 'is_staff', False):
+        return True
+    signature = request.headers.get('X-Internal-Admin-Signature', '')
+    return verify_internal_admin_signature(signature, max_age=60)
 
 
 def _admin_error():
     return Response({'error': 'Admin access required'}, status=403)
+
+
+def _paginate(request, queryset, serializer_class, *, context=None, default_page_size=50, max_page_size=100):
+    try:
+        page_number = int(request.query_params.get('page', '1'))
+    except (TypeError, ValueError):
+        page_number = 1
+    try:
+        page_size = int(request.query_params.get('page_size', default_page_size))
+    except (TypeError, ValueError):
+        page_size = default_page_size
+    page_size = max(1, min(page_size, max_page_size))
+    paginator = Paginator(queryset, page_size)
+    try:
+        page = paginator.page(page_number)
+    except EmptyPage:
+        page = paginator.page(paginator.num_pages or 1)
+    serializer = serializer_class(page.object_list, many=True, context=context or {})
+    return Response({
+        'count': paginator.count,
+        'page': page.number,
+        'page_size': page_size,
+        'num_pages': paginator.num_pages,
+        'results': serializer.data,
+    })
 
 
 @api_view(['GET'])
@@ -52,10 +79,7 @@ def admin_stats(request):
     top_posts_data = PostSerializer(top_posts, many=True, context={'request': request}).data
     recent_users = User.objects.order_by('-created_at')[:5]
     recent_users_data = UserSerializer(recent_users, many=True).data
-    subject_counts = {}
-    for r in Resource.objects.all():
-        s = r.subject
-        subject_counts[s] = subject_counts.get(s, 0) + 1
+    subject_counts = dict(Resource.objects.values('subject').annotate(cnt=Count('id')).values_list('subject', 'cnt'))
     return Response({
         'total_users': total_users,
         'total_resources': total_resources,
@@ -82,8 +106,9 @@ def admin_users_list(request):
             Q(email__icontains=search) |
             Q(display_name__icontains=search)
         )
-    data = UserSerializer(users, many=True).data
-    return Response(data)
+    if request.query_params.get('page'):
+        return _paginate(request, users, UserSerializer)
+    return Response(UserSerializer(users[:100], many=True).data)
 
 
 @api_view(['GET', 'PATCH', 'DELETE'])
@@ -125,22 +150,38 @@ def admin_resources_list(request):
             resources = resources.filter(
                 Q(title__icontains=search) | Q(description__icontains=search)
             )
-        return Response(ResourceSerializer(resources, many=True).data)
+        if request.query_params.get('page'):
+            return _paginate(request, resources, ResourceSerializer)
+        return Response(ResourceSerializer(resources[:100], many=True).data)
 
     import uuid
     data = request.data
+    title = data.get('title', '').strip()
+    subject = data.get('subject', '').strip()
+    grade_level = data.get('grade_level', '').strip()
+    file_url = data.get('file_url', '').strip()
+    if not title or not subject or not grade_level or not file_url:
+        return Response({'error': 'title, subject, grade_level, and file_url are required'}, status=400)
+    try:
+        safe_file_url = validate_resource_file_url(file_url)
+        thumbnail_url = data.get('thumbnail_url', '').strip()
+        if thumbnail_url:
+            thumbnail_url = validate_resource_file_url(thumbnail_url)
+    except Exception as exc:
+        messages = getattr(exc, 'messages', [str(exc)])
+        return Response({'error': ' '.join(messages)}, status=400)
     resource = Resource(
         id=data.get('id', str(uuid.uuid4())),
-        title=data.get('title', ''),
-        description=data.get('description', ''),
-        subject=data.get('subject', ''),
-        grade_level=data.get('grade_level', ''),
-        type=data.get('type', 'PDF'),
-        file_url=data.get('file_url', ''),
-        thumbnail_url=data.get('thumbnail_url', ''),
-        file_size=data.get('file_size', 0),
+        title=title,
+        description=data.get('description', '').strip(),
+        subject=subject,
+        grade_level=grade_level,
+        type=data.get('type', 'PDF').strip() or 'PDF',
+        file_url=safe_file_url,
+        thumbnail_url=thumbnail_url,
+        file_size=int(data.get('file_size') or 0),
         added_at=data.get('added_at', int(time.time() * 1000)),
-        view_count=data.get('view_count', 0),
+        view_count=int(data.get('view_count') or 0),
     )
     resource.save()
     return Response(ResourceSerializer(resource).data, status=201)
@@ -163,9 +204,19 @@ def admin_resource_detail(request, resource_id):
         return Response({'success': True})
 
     data = request.data
-    for field in ['title', 'description', 'subject', 'grade_level', 'type', 'file_url', 'thumbnail_url']:
+    for field in ['title', 'description', 'subject', 'grade_level', 'type']:
         if field in data:
-            setattr(resource, field, data[field])
+            setattr(resource, field, str(data[field]).strip())
+    for field in ['file_url', 'thumbnail_url']:
+        if field in data:
+            value = str(data[field]).strip()
+            if value:
+                try:
+                    value = validate_resource_file_url(value)
+                except Exception as exc:
+                    messages = getattr(exc, 'messages', [str(exc)])
+                    return Response({'error': ' '.join(messages)}, status=400)
+            setattr(resource, field, value)
     if 'file_size' in data:
         resource.file_size = int(data['file_size'])
     if 'view_count' in data:
@@ -183,7 +234,9 @@ def admin_posts_list(request):
     if search:
         from django.db.models import Q
         posts = posts.filter(Q(title__icontains=search) | Q(content__icontains=search))
-    return Response(PostSerializer(posts, many=True, context={'request': request}).data)
+    if request.query_params.get('page'):
+        return _paginate(request, posts, PostSerializer, context={'request': request})
+    return Response(PostSerializer(posts[:100], many=True, context={'request': request}).data)
 
 
 @api_view(['GET', 'DELETE'])
@@ -220,8 +273,7 @@ def admin_reply_detail(request, reply_id):
         return Response({'error': 'Reply not found'}, status=404)
     from django.db import transaction
     with transaction.atomic():
-        post = reply.post
+        post_id = reply.post_id
         reply.delete()
-        post.reply_count = max(0, post.reply_count - 1)
-        post.save(update_fields=['reply_count'])
+        Post.objects.filter(pk=post_id, reply_count__gt=0).update(reply_count=F('reply_count') - 1)
     return Response({'success': True})

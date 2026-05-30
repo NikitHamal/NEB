@@ -4,6 +4,7 @@ Schema is the source of truth — keep in sync with the Kotlin app's ApiService.
 """
 import uuid
 from django.db import models
+from .security import generate_numeric_code
 
 
 class User(models.Model):
@@ -29,8 +30,13 @@ class User(models.Model):
     is_locked = models.BooleanField(default=False)
     password_hash = models.CharField(max_length=255, blank=True, null=True)
     email_verified = models.BooleanField(default=False)
-    verification_code = models.CharField(max_length=6, blank=True, null=True)
+    # Stores a Django password-hash of the short email verification/reset code.
+    # Legacy rows may still contain a six-digit plain code until first rotation.
+    verification_code = models.CharField(max_length=128, blank=True, null=True)
     verification_code_expires = models.BigIntegerField(default=0)
+    verification_code_purpose = models.CharField(max_length=32, blank=True, default='')
+    verification_code_attempts = models.PositiveSmallIntegerField(default=0)
+    verification_code_last_sent_at = models.BigIntegerField(default=0)
     created_at = models.BigIntegerField(default=0)
 
     class Meta:
@@ -45,8 +51,7 @@ class User(models.Model):
 
     @staticmethod
     def generate_verification_code():
-        import random
-        return f"{random.randint(100000, 999999)}"
+        return generate_numeric_code(6)
 
     @property
     def is_authenticated(self):

@@ -165,7 +165,8 @@ async function handleEditPhotoUpload(event) {
       headers: {
         'X-CSRFToken': CSRF_TOKEN
       },
-      body: formData
+      body: formData,
+      credentials: 'same-origin'
     });
     
     const data = await resp.json();
@@ -174,15 +175,15 @@ async function handleEditPhotoUpload(event) {
       const img = document.getElementById('edit-avatar-preview');
       const initial = document.getElementById('edit-avatar-preview-initial');
       if (img) {
-        img.src = data.url;
+        img.src = safeClientUrl(data.url);
       } else if (initial) {
         const parent = initial.parentNode;
-        parent.innerHTML = `<img id="edit-avatar-preview" src="${data.url}" alt="Avatar" style="width:100%;height:100%;object-fit:cover;">`;
+        parent.innerHTML = `<img id="edit-avatar-preview" src="${safeClientUrl(data.url)}" alt="Avatar" style="width:100%;height:100%;object-fit:cover;">`;
       }
       
       // Update topbar drop-down avatars instantly
       const navAvatars = document.querySelectorAll('.profile-dropdown-trigger img, .profile-dropdown-avatar img');
-      navAvatars.forEach(el => el.src = data.url);
+      navAvatars.forEach(el => el.src = safeClientUrl(data.url));
       
       showSnackbar('Profile picture uploaded successfully.');
     } else {
