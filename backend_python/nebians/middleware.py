@@ -1,4 +1,4 @@
-"""Small security-header middleware without adding another dependency."""
+from django.conf import settings
 
 class SecurityHeadersMiddleware:
     def __init__(self, get_response):
@@ -9,15 +9,23 @@ class SecurityHeadersMiddleware:
         response.setdefault('Permissions-Policy', 'geolocation=(), microphone=(), camera=(), payment=()')
         response.setdefault('Cross-Origin-Opener-Policy', 'same-origin-allow-popups')
         response.setdefault('X-Permitted-Cross-Domain-Policies', 'none')
-        response.setdefault(
-            'Content-Security-Policy',
+        
+        img_sources = "img-src 'self' data: https:;"
+        connect_sources = "connect-src 'self' https://accounts.google.com;"
+        
+        if settings.DEBUG:
+            img_sources = "img-src 'self' data: http: https:;"
+            connect_sources = "connect-src 'self' http: https:;"
+            
+        csp = (
             "default-src 'self'; "
             "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://accounts.google.com https://www.gstatic.com; "
             "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://accounts.google.com; "
             "font-src 'self' https://fonts.gstatic.com; "
-            "img-src 'self' data: https:; "
+            f"{img_sources} "
             "frame-src 'self' https:; "
-            "connect-src 'self' https://accounts.google.com; "
+            f"{connect_sources} "
             "base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
         )
+        response.setdefault('Content-Security-Policy', csp)
         return response

@@ -112,6 +112,7 @@ class ReplySerializer(serializers.ModelSerializer):
     postId = serializers.CharField(source='post_id', read_only=True)
     parentReplyId = serializers.CharField(source='parent_reply_id', read_only=True, allow_null=True)
     thumbsUpCount = serializers.IntegerField(source='thumbs_up_count', read_only=True)
+    childCount = serializers.IntegerField(source='reply_count', read_only=True)
     createdAt = serializers.IntegerField(source='created_at', read_only=True)
     isEdited = serializers.BooleanField(source='is_edited', read_only=True)
     editedAt = serializers.IntegerField(source='edited_at', read_only=True)
@@ -122,7 +123,7 @@ class ReplySerializer(serializers.ModelSerializer):
         fields = [
             'id', 'postId', 'parentReplyId', 'content',
             'authorName', 'authorPhotoUrl', 'authorId',
-            'thumbsUpCount', 'createdAt', 'isEdited', 'editedAt', 'isThumbedUp'
+            'thumbsUpCount', 'childCount', 'createdAt', 'isEdited', 'editedAt', 'isThumbedUp'
         ]
 
     def get_authorName(self, obj):

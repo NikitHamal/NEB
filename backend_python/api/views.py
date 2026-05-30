@@ -525,6 +525,8 @@ def replies_create(request, post_id):
             created_at=now,
         )
         Post.objects.filter(pk=post.pk).update(reply_count=F('reply_count') + 1)
+        if parent_reply_id:
+            Reply.objects.filter(pk=parent_reply_id).update(reply_count=F('reply_count') + 1)
 
     logger.info("replies_create: created reply on post %s by user %s", post_id, user.username)
     return Response(ReplySerializer(reply, context={'request': request}).data, status=201)
@@ -547,8 +549,11 @@ def reply_detail(request, reply_id):
     if request.method == 'DELETE':
         with transaction.atomic():
             post_id = reply.post_id
+            parent_id = reply.parent_reply_id
             reply.delete()
             Post.objects.filter(pk=post_id, reply_count__gt=0).update(reply_count=F('reply_count') - 1)
+            if parent_id:
+                Reply.objects.filter(pk=parent_id, reply_count__gt=0).update(reply_count=F('reply_count') - 1)
         return Response({'success': True})
 
     content = request.data.get('content', '').strip()
@@ -1096,6 +1101,8 @@ def replies_endpoint(request, post_id):
             created_at=now,
         )
         Post.objects.filter(pk=post.pk).update(reply_count=F('reply_count') + 1)
+        if parent_reply_id:
+            Reply.objects.filter(pk=parent_reply_id).update(reply_count=F('reply_count') + 1)
 
     logger.info("replies_endpoint: created reply on post %s by user %s", post_id, user.username)
     return Response(ReplySerializer(reply, context={'request': request}).data, status=201)

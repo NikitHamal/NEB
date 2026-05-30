@@ -30,118 +30,199 @@
   ]
 }
 </script>
+
 <style>
-  .post-owner-actions { display:flex; gap:8px; margin-top:8px; flex-wrap:wrap; }
-  .post-owner-actions button, .post-owner-actions a {
-    display:inline-flex; align-items:center; gap:4px; padding:4px 12px; border-radius:100px;
-    font-size:0.75rem; font-weight:500; cursor:pointer; border:1px solid var(--md-outline-variant);
-    background:transparent; color:var(--md-on-surface-variant); text-decoration:none; transition:background 0.2s;
-  }
-  .post-owner-actions button:hover, .post-owner-actions a:hover { background:var(--md-surface-container-high); }
-  .post-owner-actions .btn-danger { color:var(--md-error); border-color:var(--md-error); }
-  .post-owner-actions .btn-danger:hover { background:var(--md-error-container); }
-  .post-owner-actions .btn-archive { color:var(--md-on-surface-variant); }
+  .fp-back{display:inline-flex;align-items:center;gap:6px;padding:4px 0;color:var(--md-on-surface-variant);font-size:0.875rem;font-weight:500;text-decoration:none;transition:color .15s;margin-bottom:16px}
+  .fp-back:hover{color:var(--md-primary)}
 
-  .edited-badge {
-    display:inline-flex; align-items:center; gap:2px; font-size:0.6875rem; color:var(--md-on-surface-variant);
-    cursor:pointer; padding:2px 6px; border-radius:4px; transition:background 0.2s;
-  }
-  .edited-badge:hover { background:var(--md-surface-container-high); }
-  .edited-badge .material-symbols-outlined { font-size:12px; }
+  .fp-post{background:var(--md-surface-container-lowest,#fff);border:1px solid var(--md-outline-variant);border-radius:16px;padding:24px;margin-bottom:24px}
+  .fp-post-header{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+  .fp-avatar{width:40px;height:40px;border-radius:50%;overflow:hidden;background:var(--md-primary-container);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .fp-avatar img{width:100%;height:100%;object-fit:cover}
+  .fp-avatar-letter{font-size:.875rem;font-weight:700;color:var(--md-primary)}
+  .fp-meta{flex:1;min-width:0}
+  .fp-meta-top{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+  .fp-meta-top .author{font-weight:600;color:var(--md-on-surface);cursor:pointer;text-decoration:none}
+  .fp-meta-top .author:hover{color:var(--md-primary)}
+  .fp-meta-time{display:flex;align-items:center;gap:6px;margin-top:2px;font-size:.8125rem;color:var(--md-on-surface-variant)}
+  .fp-category{display:inline-block;padding:2px 8px;border-radius:6px;font-size:.75rem;font-weight:600;background:rgba(27,110,243,.08);color:var(--md-primary);text-decoration:none;border:1px solid rgba(27,110,243,.12);transition:background .15s}
+  .fp-category:hover{background:rgba(27,110,243,.15);text-decoration:none}
+  .fp-post-title{font-size:1.25rem;font-weight:700;color:var(--md-on-surface);margin:0 0 8px;line-height:1.4}
+  .fp-post-body{font-size:.9375rem;color:var(--md-on-surface-variant);white-space:pre-wrap;line-height:1.6;margin-bottom:0}
+  .fp-post-actions{display:flex;align-items:center;gap:4px;padding-top:16px;border-top:1px solid var(--md-outline-variant);margin-top:16px}
+  .fp-action-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border:none;background:transparent;color:var(--md-on-surface-variant);cursor:pointer;border-radius:8px;font-size:.8125rem;font-family:inherit;transition:background .15s,color .15s}
+  .fp-action-btn:hover{background:var(--md-surface-container-high);color:var(--md-primary)}
+  .fp-action-btn.liked{color:var(--md-primary)}
+  .fp-action-btn .material-symbols-outlined{font-size:18px}
+  .fp-owner-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+  .fp-owner-btn{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:100px;font-size:.75rem;font-weight:500;cursor:pointer;border:1px solid var(--md-outline-variant);background:transparent;color:var(--md-on-surface-variant);transition:background .15s}
+  .fp-owner-btn:hover{background:var(--md-surface-container-high)}
+  .fp-owner-btn.danger{color:var(--md-error);border-color:var(--md-error)}
+  .fp-owner-btn.danger:hover{background:var(--md-error-container)}
+  .fp-edited{display:inline-flex;align-items:center;gap:2px;font-size:.6875rem;color:var(--md-on-surface-variant);cursor:pointer;padding:2px 6px;border-radius:4px;transition:background .15s}
+  .fp-edited:hover{background:var(--md-surface-container-high)}
+  .fp-edited .material-symbols-outlined{font-size:12px}
 
-  .reply-owner-actions { display:inline-flex; gap:4px; margin-left:8px; }
-  .reply-owner-actions button {
-    display:inline-flex; align-items:center; gap:2px; padding:2px 8px; border-radius:100px;
-    font-size:0.6875rem; font-weight:500; cursor:pointer; border:1px solid var(--md-outline-variant);
-    background:transparent; color:var(--md-on-surface-variant); transition:background 0.2s;
-  }
-  .reply-owner-actions button:hover { background:var(--md-surface-container-high); }
-  .reply-owner-actions .btn-danger { color:var(--md-error); border-color:var(--md-error); }
-  .reply-owner-actions .btn-danger:hover { background:var(--md-error-container); }
+  .fp-section-title{font-size:1.125rem;font-weight:700;color:var(--md-on-surface);margin-bottom:16px}
 
-  .follow-btn-inline {
-    display:inline-flex; align-items:center; padding:2px 10px; border-radius:100px;
-    font-size:0.6875rem; font-weight:600; cursor:pointer; transition:all 0.2s;
-  }
-  .follow-btn-inline.following {
-    background:var(--md-primary); color:#fff; border:1px solid var(--md-primary);
-  }
-  .follow-btn-inline.not-following {
-    background:transparent; color:var(--md-primary); border:1px solid var(--md-outline-variant);
-  }
+  .fp-reply{background:var(--md-surface-container-lowest,#fff);border:1px solid var(--md-outline-variant);border-radius:12px;padding:16px;margin-bottom:10px;transition:border-color .15s}
+  .fp-reply:hover{border-color:var(--md-outline)}
+  .fp-reply-header{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+  .fp-reply-avatar{width:32px;height:32px;border-radius:50%;overflow:hidden;background:var(--md-primary-container);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .fp-reply-avatar img{width:100%;height:100%;object-fit:cover}
+  .fp-reply-avatar-letter{font-size:.75rem;font-weight:700;color:var(--md-primary)}
+  .fp-reply-meta{flex:1;min-width:0}
+  .fp-reply-author{font-weight:600;font-size:.8125rem;color:var(--md-on-surface);text-decoration:none}
+  .fp-reply-author:hover{color:var(--md-primary)}
+  .fp-reply-time{font-size:.6875rem;color:var(--md-on-surface-variant)}
+  .fp-reply-body{font-size:.875rem;color:var(--md-on-surface-variant);white-space:pre-wrap;line-height:1.55;margin-bottom:8px}
+  .fp-reply-actions{display:flex;align-items:center;gap:2px}
+  .fp-reply-action{display:inline-flex;align-items:center;gap:4px;padding:4px 8px;border:none;background:transparent;color:var(--md-on-surface-variant);cursor:pointer;border-radius:6px;font-size:.75rem;font-family:inherit;transition:background .15s,color .15s}
+  .fp-reply-action:hover{background:var(--md-surface-container-high);color:var(--md-primary)}
+  .fp-reply-action.liked{color:var(--md-primary)}
+  .fp-reply-action .material-symbols-outlined{font-size:16px}
+  .fp-reply-owner{display:inline-flex;gap:4px;margin-left:auto}
 
-  .modal-overlay { position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);display:none;align-items:center;justify-content:center;z-index:1000; }
-  .modal-overlay.active { display:flex; }
-  .modal-box { background:var(--md-surface);border:1px solid var(--md-outline-variant);border-radius:20px;width:90%;max-width:520px;max-height:80vh;overflow-y:auto;padding:24px; }
-  .modal-box h3 { margin:0 0 16px; }
-  .edit-form textarea, .edit-form input[type="text"] { width:100%;padding:10px 14px;border:1px solid var(--md-outline);border-radius:12px;font-family:inherit;font-size:0.9375rem;background:var(--md-surface-container-high);color:var(--md-on-surface);outline:none;margin-bottom:12px; }
-  .edit-form textarea:focus, .edit-form input[type="text"]:focus { border-color:var(--md-primary); }
-  .edit-form label { display:block;font-size:0.8125rem;font-weight:600;color:var(--md-on-surface-variant);margin-bottom:4px; }
-  .edit-form .form-actions { display:flex;gap:8px;justify-content:flex-end; }
-  .history-entry { padding:12px 0;border-bottom:1px solid var(--md-outline-variant); }
-  .history-entry:last-child { border-bottom:none; }
-  .history-field { font-size:0.75rem;font-weight:600;color:var(--md-primary);text-transform:uppercase;margin-bottom:4px; }
-  .history-diff { font-size:0.8125rem;color:var(--md-on-surface-variant); }
-  .history-diff del { color:var(--md-error);opacity:0.7; }
-  .history-diff ins { color:var(--md-primary);text-decoration:none; }
-  .history-meta { font-size:0.6875rem;color:var(--md-on-surface-variant);margin-top:4px; }
+  .fp-thread-indicator{display:flex;align-items:center;gap:8px;padding:6px 10px;margin-top:6px;border-radius:8px;cursor:pointer;transition:background .15s;border:none;background:transparent;width:100%;text-align:left;color:var(--md-on-surface-variant);font-family:inherit}
+  .fp-thread-indicator:hover{background:var(--md-surface-container)}
+  .fp-thread-avatars{display:flex;gap:0}
+  .fp-thread-avatars .fp-thread-avatar{width:20px;height:20px;border-radius:50%;overflow:hidden;background:var(--md-primary-container);display:flex;align-items:center;justify-content:center;border:2px solid var(--md-surface-container-lowest,#fff);margin-left:-6px}
+  .fp-thread-avatars .fp-thread-avatar:first-child{margin-left:0}
+  .fp-thread-avatars .fp-thread-avatar img{width:100%;height:100%;object-fit:cover}
+  .fp-thread-avatars .fp-thread-avatar-letter{font-size:.5rem;font-weight:700;color:var(--md-primary)}
+  .fp-thread-label{font-size:.75rem;font-weight:500;color:var(--md-primary)}
+
+  .fp-compose{background:var(--md-surface-container-lowest,#fff);border:1px solid var(--md-outline-variant);border-radius:12px;padding:16px;margin-bottom:24px}
+  .fp-compose-title{font-size:.9375rem;font-weight:600;color:var(--md-on-surface);margin-bottom:12px}
+  .fp-compose textarea{width:100%;padding:12px;border:1px solid var(--md-outline-variant);border-radius:8px;font-family:inherit;font-size:.875rem;background:var(--md-surface-container-high);color:var(--md-on-surface);outline:none;resize:vertical;min-height:80px;transition:border-color .15s}
+  .fp-compose textarea:focus{border-color:var(--md-primary)}
+  .fp-compose textarea::placeholder{color:var(--md-on-surface-variant)}
+  .fp-compose-actions{display:flex;justify-content:flex-end;margin-top:10px}
+
+  .fp-login-prompt{text-align:center;padding:32px;border:1px solid var(--md-outline-variant);border-radius:12px;margin-bottom:24px}
+  .fp-login-prompt p{color:var(--md-on-surface-variant);margin-bottom:12px}
+
+  .fp-empty{text-align:center;padding:48px 24px;color:var(--md-on-surface-variant)}
+  .fp-empty .material-symbols-outlined{font-size:48px;opacity:.4;margin-bottom:8px}
+
+  .follow-btn-inline{display:inline-flex;align-items:center;padding:2px 10px;border-radius:100px;font-size:.6875rem;font-weight:600;cursor:pointer;transition:all .15s}
+  .follow-btn-inline.following{background:var(--md-primary);color:#fff;border:1px solid var(--md-primary)}
+  .follow-btn-inline.not-following{background:transparent;color:var(--md-primary);border:1px solid var(--md-outline-variant)}
+
+  .modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:1000}
+  .modal-overlay.active{display:flex}
+  .modal-box{background:var(--md-surface);border:1px solid var(--md-outline-variant);border-radius:20px;width:90%;max-width:520px;max-height:80vh;overflow-y:auto;padding:24px}
+  .modal-box h3{margin:0 0 16px}
+  .edit-form textarea,.edit-form input[type="text"]{width:100%;padding:10px 14px;border:1px solid var(--md-outline);border-radius:12px;font-family:inherit;font-size:.9375rem;background:var(--md-surface-container-high);color:var(--md-on-surface);outline:none;margin-bottom:12px}
+  .edit-form textarea:focus,.edit-form input[type="text"]:focus{border-color:var(--md-primary)}
+  .edit-form label{display:block;font-size:.8125rem;font-weight:600;color:var(--md-on-surface-variant);margin-bottom:4px}
+  .edit-form .form-actions{display:flex;gap:8px;justify-content:flex-end}
+  .history-entry{padding:12px 0;border-bottom:1px solid var(--md-outline-variant)}
+  .history-entry:last-child{border-bottom:none}
+  .history-field{font-size:.75rem;font-weight:600;color:var(--md-primary);text-transform:uppercase;margin-bottom:4px}
+  .history-diff{font-size:.8125rem;color:var(--md-on-surface-variant)}
+  .history-diff del{color:var(--md-error);opacity:.7}
+  .history-diff ins{color:var(--md-primary);text-decoration:none}
+  .history-meta{font-size:.6875rem;color:var(--md-on-surface-variant);margin-top:4px}
+
+  /* Thread sidebar (desktop) */
+  .fp-thread-sidebar{position:fixed;top:0;right:0;width:420px;height:100vh;background:var(--md-surface);border-left:1px solid var(--md-outline-variant);z-index:900;transform:translateX(100%);transition:transform .25s ease;display:flex;flex-direction:column}
+  .fp-thread-sidebar.open{transform:translateX(0)}
+  .fp-thread-sidebar-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--md-outline-variant);flex-shrink:0}
+  .fp-thread-sidebar-header h3{font-size:1rem;font-weight:600;margin:0;color:var(--md-on-surface)}
+  .fp-thread-sidebar-close{width:32px;height:32px;border:none;background:transparent;color:var(--md-on-surface-variant);cursor:pointer;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:background .15s}
+  .fp-thread-sidebar-close:hover{background:var(--md-surface-container-high)}
+  .fp-thread-sidebar-body{flex:1;overflow-y:auto;padding:16px 20px}
+  .fp-thread-sidebar-overlay{position:fixed;inset:0;background:rgba(0,0,0,.32);z-index:899;opacity:0;pointer-events:none;transition:opacity .25s}
+  .fp-thread-sidebar-overlay.open{opacity:1;pointer-events:auto}
+
+  /* Thread bottom sheet (mobile) */
+  .fp-thread-sheet{position:fixed;bottom:0;left:0;right:0;max-height:85vh;background:var(--md-surface);border-radius:20px 20px 0 0;z-index:900;transform:translateY(100%);transition:transform .25s ease;display:flex;flex-direction:column;box-shadow:0 -4px 24px rgba(0,0,0,.12)}
+  .fp-thread-sheet.open{transform:translateY(0)}
+  .fp-thread-sheet-handle{width:32px;height:4px;border-radius:2px;background:var(--md-outline-variant);margin:8px auto 0;flex-shrink:0}
+  .fp-thread-sheet-header{display:flex;align-items:center;justify-content:space-between;padding:12px 20px 8px;flex-shrink:0}
+  .fp-thread-sheet-header h3{font-size:1rem;font-weight:600;margin:0;color:var(--md-on-surface)}
+  .fp-thread-sheet-close{width:32px;height:32px;border:none;background:transparent;color:var(--md-on-surface-variant);cursor:pointer;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:background .15s}
+  .fp-thread-sheet-close:hover{background:var(--md-surface-container-high)}
+  .fp-thread-sheet-body{flex:1;overflow-y:auto;padding:0 20px 20px}
+  .fp-thread-sheet-overlay{position:fixed;inset:0;background:rgba(0,0,0,.32);z-index:899;opacity:0;pointer-events:none;transition:opacity .25s}
+  .fp-thread-sheet-overlay.open{opacity:1;pointer-events:auto}
+
+  /* Thread reply compose inside sidebar/sheet */
+  .fp-thread-compose{margin-top:12px;padding-top:12px;border-top:1px solid var(--md-outline-variant)}
+  .fp-thread-compose textarea{width:100%;padding:10px;border:1px solid var(--md-outline-variant);border-radius:8px;font-family:inherit;font-size:.8125rem;background:var(--md-surface-container-high);color:var(--md-on-surface);outline:none;resize:none;min-height:60px;transition:border-color .15s}
+  .fp-thread-compose textarea:focus{border-color:var(--md-primary)}
+
+  .fp-reply-in-thread{padding:12px 0;border-bottom:1px solid var(--md-outline-variant)}
+  .fp-reply-in-thread:last-child{border-bottom:none}
+  .fp-reply-in-thread .fp-reply-header{margin-bottom:6px}
+
+  @media(max-width:768px){
+    .fp-post{padding:16px;border-radius:12px}
+    .fp-post-title{font-size:1.0625rem}
+    .fp-thread-sidebar{display:none!important}
+    .fp-thread-sidebar-overlay{display:none!important}
+  }
+  @media(min-width:769px){
+    .fp-thread-sheet{display:none!important}
+    .fp-thread-sheet-overlay{display:none!important}
+  }
 </style>
 
 <div class="md-container-narrow" style="padding-top:24px;">
   {% if post %}
-  <a href="{% url 'web:forum' %}" class="md-btn md-btn-text mb-2" style="padding-left:0;">
+  <a href="{% url 'web:forum' %}" class="fp-back">
     <span class="material-symbols-outlined" style="font-size:18px">arrow_back</span>
     Back to Forum
   </a>
 
   <!-- Post Content -->
-  <div class="md-card p-3 mb-3">
-    <div class="post-card-header mb-2">
-      <div class="post-card-avatar">
+  <div class="fp-post">
+    <div class="fp-post-header">
+      <div class="fp-avatar">
         {% if post.authorPhotoUrl %}
-          <img src="{{ post.authorPhotoUrl }}" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';">
-          <span class="contributor-avatar-letter" style="display:none;">{{ post.authorName|truncate_chars:1|default:"?" }}</span>
+          <img src="{{ post.authorPhotoUrl }}" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <span class="fp-avatar-letter" style="display:none;">{{ post.authorName|truncate_chars:1|default:"?" }}</span>
         {% else %}
-          <span class="contributor-avatar-letter">{{ post.authorName|truncate_chars:1|default:"?" }}</span>
+          <span class="fp-avatar-letter">{{ post.authorName|truncate_chars:1|default:"?" }}</span>
         {% endif %}
       </div>
-      <div class="post-card-meta">
-        <div class="post-card-meta-line" style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
-          <strong onclick="window.location.href='{% url 'web:profile' username=post.authorName %}'" style="cursor:pointer;">{{ post.authorName }}</strong>
+      <div class="fp-meta">
+        <div class="fp-meta-top">
+          <a href="{% url 'web:profile' username=post.authorName %}" class="author">{{ post.authorName }}</a>
           {% if is_authenticated and not is_owner %}
             <button class="follow-btn-inline {% if is_following %}following{% else %}not-following{% endif %}" id="followBtn" onclick="toggleFollowPost()">{% if is_following %}Following{% else %}Follow{% endif %}</button>
           {% endif %}
-          started a discussion in <a href="{% url 'web:forum' %}?category={{ post.category }}" class="post-card-category-link">{{ post.category }}</a>
+          <a href="{% url 'web:forum' %}?category={{ post.category }}" class="fp-category">{{ post.category }}</a>
         </div>
-        <div style="display:flex;align-items:center;gap:6px;margin-top:2px;">
-          <span class="post-card-time">{{ post.createdAt|time_ago }}</span>
+        <div class="fp-meta-time">
+          <span>{{ post.createdAt|time_ago }}</span>
           {% if post.isEdited %}
-            <span class="edited-badge" onclick="showEditHistory('post', '{{ post.id }}')">
+            <span class="fp-edited" onclick="showEditHistory('post', '{{ post.id }}')">
               <span class="material-symbols-outlined">edit</span> edited
             </span>
           {% endif %}
         </div>
       </div>
     </div>
-    <h2 class="md-headline-small mb-1">{{ post.title }}</h2>
-    <div class="md-body-medium" style="color:var(--md-on-surface-variant);white-space:pre-wrap;" id="post-content-{{ post.id }}">{{ post.content }}</div>
+    <h2 class="fp-post-title">{{ post.title }}</h2>
+    <div class="fp-post-body" id="post-content-{{ post.id }}">{{ post.content }}</div>
 
     {% if is_owner %}
-    <div class="post-owner-actions">
-      <button onclick="startEditPost()"><span class="material-symbols-outlined" style="font-size:14px;">edit</span> Edit</button>
-      <button class="btn-archive" onclick="archivePost()"><span class="material-symbols-outlined" style="font-size:14px;">{{ post.isArchived|yesno:"unarchive,archive" }}</span> {% if post.isArchived %}Unarchive{% else %}Archive{% endif %}</button>
-      <button class="btn-danger" onclick="deletePost()"><span class="material-symbols-outlined" style="font-size:14px;">delete</span> Delete</button>
+    <div class="fp-owner-actions">
+      <button class="fp-owner-btn" onclick="startEditPost()"><span class="material-symbols-outlined" style="font-size:14px;">edit</span> Edit</button>
+      <button class="fp-owner-btn" onclick="archivePost()"><span class="material-symbols-outlined" style="font-size:14px;">{{ post.isArchived|yesno:"unarchive,archive" }}</span> {% if post.isArchived %}Unarchive{% else %}Archive{% endif %}</button>
+      <button class="fp-owner-btn danger" onclick="deletePost()"><span class="material-symbols-outlined" style="font-size:14px;">delete</span> Delete</button>
     </div>
     {% endif %}
 
-    <div class="md-divider"></div>
-    <div class="post-card-actions">
-      <button onclick="togglePostLike('{{ post.id }}')" class="{% if post.isThumbedUp %}liked{% endif %}" id="post-like-btn-{{ post.id }}">
-        <span class="material-symbols-outlined" style="font-size:18px">{% if post.isThumbedUp %}thumb_up{% else %}thumb_up_off_alt{% endif %}</span>
+    <div class="fp-post-actions">
+      <button onclick="togglePostLike('{{ post.id }}')" class="fp-action-btn {% if post.isThumbedUp %}liked{% endif %}" id="post-like-btn-{{ post.id }}">
+        <span class="material-symbols-outlined">{% if post.isThumbedUp %}thumb_up{% else %}thumb_up_off_alt{% endif %}</span>
         <span id="post-like-count-{{ post.id }}">{{ post.thumbsUpCount }}</span>
       </button>
-      <button>
-        <span class="material-symbols-outlined" style="font-size:18px">chat_bubble_outline</span>
+      <button class="fp-action-btn">
+        <span class="material-symbols-outlined">chat_bubble_outline</span>
         {{ post.replyCount }} replies
       </button>
     </div>
@@ -176,84 +257,104 @@
   </div>
 
   <!-- Replies -->
-  <div class="section-header">
-    <h3 class="md-title-large">Replies ({{ replies|length }})</h3>
-  </div>
+  <div class="fp-section-title">Replies ({{ top_level_replies|length }})</div>
 
-  {% if replies %}
-  <div style="display:flex;flex-direction:column;gap:12px;">
-    {% for reply in replies %}
-    <div class="md-card p-2" id="reply-card-{{ reply.id }}">
-      <div class="post-card-header" style="margin-bottom:8px;">
-        <div class="post-card-avatar" style="width:36px;height:36px;font-size:0.875rem;overflow:hidden; display:flex; align-items:center; justify-content:center; background: var(--md-primary-container); border-radius: 50%;">
+  {% if top_level_replies %}
+  <div style="display:flex;flex-direction:column;gap:10px;">
+    {% for reply in top_level_replies %}
+    <div class="fp-reply" id="reply-card-{{ reply.id }}">
+      <div class="fp-reply-header">
+        <div class="fp-reply-avatar">
           {% if reply.authorPhotoUrl %}
-            <img src="{{ reply.authorPhotoUrl }}" alt="" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';">
-            <span class="contributor-avatar-letter" style="display:none; font-size:0.875rem; font-weight:700; color:var(--md-primary);">{{ reply.authorName|truncate_chars:1|default:"?" }}</span>
+            <img src="{{ reply.authorPhotoUrl }}" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <span class="fp-reply-avatar-letter" style="display:none;">{{ reply.authorName|truncate_chars:1|default:"?" }}</span>
           {% else %}
-            <span class="contributor-avatar-letter" style="font-size:0.875rem; font-weight:700; color:var(--md-primary);">{{ reply.authorName|truncate_chars:1|default:"?" }}</span>
+            <span class="fp-reply-avatar-letter">{{ reply.authorName|truncate_chars:1|default:"?" }}</span>
           {% endif %}
         </div>
-        <div class="post-card-meta">
+        <div class="fp-reply-meta">
           <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
-            <div class="author" style="font-size:0.8125rem;"><a href="{% url 'web:profile' username=reply.authorName %}" style="color:inherit;text-decoration:none;">{{ reply.authorName }}</a></div>
+            <a href="{% url 'web:profile' username=reply.authorName %}" class="fp-reply-author">{{ reply.authorName }}</a>
             {% if is_authenticated and reply.authorId != user.id %}
               <button class="follow-btn-inline {% if reply.isFollowed %}following{% else %}not-following{% endif %}" data-user-id="{{ reply.authorId }}" onclick="toggleFollowBtn(this, '{{ reply.authorId }}')">{% if reply.isFollowed %}Following{% else %}Follow{% endif %}</button>
             {% endif %}
             {% if reply.isEdited %}
-              <span class="edited-badge" onclick="showEditHistory('reply', '{{ reply.id }}')">
+              <span class="fp-edited" onclick="showEditHistory('reply', '{{ reply.id }}')">
                 <span class="material-symbols-outlined">edit</span> edited
               </span>
             {% endif %}
             {% if is_authenticated and reply.authorId == user.id %}
-              <span class="reply-owner-actions">
-                <button onclick="startEditReply('{{ reply.id }}', '{{ reply.content|escapejs }}')"><span class="material-symbols-outlined" style="font-size:12px;">edit</span></button>
-                <button class="btn-danger" onclick="deleteReply('{{ reply.id }}')"><span class="material-symbols-outlined" style="font-size:12px;">delete</span></button>
+              <span class="fp-reply-owner">
+                <button class="fp-owner-btn" onclick="startEditReply('{{ reply.id }}', '{{ reply.content|escapejs }}')"><span class="material-symbols-outlined" style="font-size:12px;">edit</span></button>
+                <button class="fp-owner-btn danger" onclick="deleteReply('{{ reply.id }}')"><span class="material-symbols-outlined" style="font-size:12px;">delete</span></button>
               </span>
             {% endif %}
           </div>
-          <div class="time" style="font-size:0.6875rem;">{{ reply.createdAt|time_ago }}</div>
+          <div class="fp-reply-time">{{ reply.createdAt|time_ago }}</div>
         </div>
       </div>
-      <div class="md-body-medium" style="white-space:pre-wrap;" id="reply-content-{{ reply.id }}">{{ reply.content }}</div>
-      <div class="post-card-actions" style="margin-top:8px;">
-        <button onclick="toggleReplyLike('{{ reply.id }}')" class="{% if reply.isThumbedUp %}liked{% endif %}" id="reply-like-btn-{{ reply.id }}">
-          <span class="material-symbols-outlined" style="font-size:16px">{% if reply.isThumbedUp %}thumb_up{% else %}thumb_up_off_alt{% endif %}</span>
+      <div class="fp-reply-body" id="reply-content-{{ reply.id }}">{{ reply.content }}</div>
+      <div class="fp-reply-actions">
+        <button onclick="toggleReplyLike('{{ reply.id }}')" class="fp-reply-action {% if reply.isThumbedUp %}liked{% endif %}" id="reply-like-btn-{{ reply.id }}">
+          <span class="material-symbols-outlined">{% if reply.isThumbedUp %}thumb_up{% else %}thumb_up_off_alt{% endif %}</span>
           <span id="reply-like-count-{{ reply.id }}">{{ reply.thumbsUpCount }}</span>
         </button>
+        {% if is_authenticated %}
+        <button class="fp-reply-action" onclick="openThreadReply('{{ reply.id }}', '{{ reply.authorName|escapejs }}')">
+          <span class="material-symbols-outlined">reply</span> Reply
+        </button>
+        {% endif %}
       </div>
+      {% if reply.childCount > 0 %}
+      <button class="fp-thread-indicator" onclick="openThread('{{ reply.id }}')">
+        <div class="fp-thread-avatars">
+          {% for author in reply.childAuthors %}
+          <div class="fp-thread-avatar">
+            {% if author.photoUrl %}
+              <img src="{{ author.photoUrl }}" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+              <span class="fp-thread-avatar-letter" style="display:none;">{{ author.username|truncate_chars:1|default:"?" }}</span>
+            {% else %}
+              <span class="fp-thread-avatar-letter">{{ author.username|truncate_chars:1|default:"?" }}</span>
+            {% endif %}
+          </div>
+          {% endfor %}
+        </div>
+        <span class="fp-thread-label">{{ reply.childCount }} repl{{ reply.childCount|pluralize:"y,ies" }}</span>
+        <span class="material-symbols-outlined" style="font-size:16px;margin-left:auto;">chevron_right</span>
+      </button>
+      {% endif %}
     </div>
     {% endfor %}
   </div>
   {% else %}
-  <div class="empty-state" style="padding:32px;">
-    <span class="material-symbols-outlined" style="font-size:40px;">chat_bubble_outline</span>
+  <div class="fp-empty">
+    <span class="material-symbols-outlined">chat_bubble_outline</span>
     <p>No replies yet. Be the first!</p>
   </div>
   {% endif %}
 
   <!-- Reply Form -->
   {% if is_authenticated %}
-  <div class="md-card p-3 mt-3">
-    <h4 class="md-title-medium mb-2">Add a Reply</h4>
-    <form method="post" action="{% url 'web:reply_post' post_id=post.id %}">
-      {% csrf_token %}
-      <div class="form-group">
-        <textarea name="content" class="md-textarea" placeholder="Write your reply..." required></textarea>
+  <div class="fp-compose">
+    <div class="fp-compose-title">Add a Reply</div>
+    <form id="mainReplyForm" onsubmit="submitMainReply(event)">
+      <textarea name="content" id="mainReplyContent" placeholder="Write your reply..." required></textarea>
+      <div class="fp-compose-actions">
+        <button type="submit" class="md-btn md-btn-filled">Submit Reply</button>
       </div>
-      <button type="submit" class="md-btn md-btn-filled">Submit Reply</button>
     </form>
   </div>
   {% else %}
-  <div class="md-card p-3 mt-3" style="text-align:center;">
-    <p class="md-body-medium" style="color:var(--md-on-surface-variant);margin-bottom:12px;">Sign in to reply to this discussion.</p>
+  <div class="fp-login-prompt">
+    <p style="color:var(--md-on-surface-variant);margin-bottom:12px;">Sign in to reply to this discussion.</p>
     <a href="{% url 'web:login' %}" class="md-btn md-btn-filled">Sign In</a>
   </div>
   {% endif %}
   {% else %}
-  <div class="empty-state">
+  <div class="fp-empty">
     <span class="material-symbols-outlined">error_outline</span>
     <h3>Post not found</h3>
-    <a href="{% url 'web:forum' %}" class="md-btn md-btn-filled mt-2">Back to Forum</a>
+    <a href="{% url 'web:forum' %}" class="md-btn md-btn-filled" style="margin-top:12px;">Back to Forum</a>
   </div>
   {% endif %}
 </div>
@@ -286,6 +387,31 @@
     </div>
   </div>
 </div>
+
+<!-- Thread Sidebar (Desktop) -->
+<div class="fp-thread-sidebar-overlay" id="threadSidebarOverlay" onclick="closeThread()"></div>
+<div class="fp-thread-sidebar" id="threadSidebar">
+  <div class="fp-thread-sidebar-header">
+    <h3 id="threadSidebarTitle">Thread</h3>
+    <button class="fp-thread-sidebar-close" onclick="closeThread()"><span class="material-symbols-outlined">close</span></button>
+  </div>
+  <div class="fp-thread-sidebar-body" id="threadSidebarBody">
+    <div style="text-align:center;padding:32px;color:var(--md-on-surface-variant);">Loading...</div>
+  </div>
+</div>
+
+<!-- Thread Bottom Sheet (Mobile) -->
+<div class="fp-thread-sheet-overlay" id="threadSheetOverlay" onclick="closeThread()"></div>
+<div class="fp-thread-sheet" id="threadSheet">
+  <div class="fp-thread-sheet-handle"></div>
+  <div class="fp-thread-sheet-header">
+    <h3 id="threadSheetTitle">Thread</h3>
+    <button class="fp-thread-sheet-close" onclick="closeThread()"><span class="material-symbols-outlined">close</span></button>
+  </div>
+  <div class="fp-thread-sheet-body" id="threadSheetBody">
+    <div style="text-align:center;padding:32px;color:var(--md-on-surface-variant);">Loading...</div>
+  </div>
+</div>
 {% endblock %}
 
 {% block extra_js %}
@@ -296,6 +422,9 @@ const IS_OWNER = {{ is_owner|yesno:"true,false" }};
 const IS_AUTH = {{ is_authenticated|yesno:"true,false" }};
 const USER_ID = '{{ user.id|default:"" }}';
 let deleteTarget = { type: '', id: '' };
+let activeThreadId = null;
+
+function isMobile() { return window.innerWidth <= 768; }
 
 async function togglePostLike(postId) {
   if (!IS_AUTHENTICATED) { window.location.href = '{% url "web:login" %}'; return; }
@@ -321,13 +450,12 @@ async function toggleReplyLike(replyId) {
   }
 }
 
-// Follow toggle for post author
 async function toggleFollowPost() {
   if (!IS_AUTHENTICATED) { window.location.href = '{% url "web:login" %}'; return; }
   const btn = document.getElementById('followBtn');
   btn.disabled = true;
   try {
-    const r = await fetch('/ajax/follow/' + POST_AUTHOR_ID + '/', { method:'POST', headers:{'Content-Type':'application/json','X-CSRFToken':CSRF_TOKEN} });
+    const r = await fetch('/ajax/follow/' + POST_AUTHOR_ID + '/', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN } });
     if (r.status === 401) { window.location.href = '{% url "web:login" %}'; return; }
     const d = await r.json();
     btn.disabled = false;
@@ -339,12 +467,11 @@ async function toggleFollowPost() {
   } catch(e) { btn.disabled = false; showSnackbar('Error updating follow.'); }
 }
 
-// Follow toggle for reply authors
 async function toggleFollowBtn(btn, userId) {
   if (!IS_AUTHENTICATED) { window.location.href = '{% url "web:login" %}'; return; }
   btn.disabled = true;
   try {
-    const r = await fetch('/ajax/follow/' + userId + '/', { method:'POST', headers:{'Content-Type':'application/json','X-CSRFToken':CSRF_TOKEN} });
+    const r = await fetch('/ajax/follow/' + userId + '/', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN } });
     if (r.status === 401) { window.location.href = '{% url "web:login" %}'; return; }
     const d = await r.json();
     btn.disabled = false;
@@ -356,7 +483,6 @@ async function toggleFollowBtn(btn, userId) {
   } catch(e) { btn.disabled = false; showSnackbar('Error updating follow.'); }
 }
 
-// Edit Post
 function startEditPost() {
   document.getElementById('editPostTitle').value = document.getElementById('editPostTitle').dataset.value;
   document.getElementById('editPostContent').value = document.getElementById('editPostContent').dataset.value;
@@ -371,43 +497,34 @@ async function submitEditPost() {
   try {
     const r = await fetch('/ajax/edit/post/' + POST_ID + '/', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN,  },
+      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
       credentials: 'same-origin',
       body: JSON.stringify({ title, content })
     });
     const d = await r.json();
-    if (d && d.id) {
-      closeEditPostModal();
-      location.reload();
-    } else {
-      showSnackbar(d.error || 'Failed to edit post.');
-    }
+    if (d && d.id) { closeEditPostModal(); location.reload(); }
+    else { showSnackbar(d.error || 'Failed to edit post.'); }
   } catch(e) { showSnackbar('Error editing post.'); }
 }
 
-// Archive Post
 async function archivePost() {
   try {
     const r = await fetch('/ajax/archive/post/' + POST_ID + '/', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN,  }
+      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN }
     });
     const d = await r.json();
-    if (d && d.success) {
-      showSnackbar(d.isArchived ? 'Post archived' : 'Post unarchived');
-      location.reload();
-    } else { showSnackbar(d.error || 'Failed'); }
+    if (d && d.success) { showSnackbar(d.isArchived ? 'Post archived' : 'Post unarchived'); location.reload(); }
+    else { showSnackbar(d.error || 'Failed'); }
   } catch(e) { showSnackbar('Error archiving post.'); }
 }
 
-// Delete Post
 function deletePost() {
   deleteTarget = { type: 'post', id: POST_ID };
   document.getElementById('deleteConfirmText').textContent = 'Are you sure you want to delete this post? This cannot be undone.';
   document.getElementById('deleteConfirmModal').classList.add('active');
 }
 
-// Edit Reply
 function startEditReply(replyId, currentContent) {
   document.getElementById('editReplyId').value = replyId;
   document.getElementById('editReplyContent').value = currentContent;
@@ -422,19 +539,16 @@ async function submitEditReply() {
   try {
     const r = await fetch('/ajax/edit/reply/' + replyId + '/', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN,  },
+      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
       credentials: 'same-origin',
       body: JSON.stringify({ content })
     });
     const d = await r.json();
-    if (d && d.id) {
-      closeEditReplyModal();
-      location.reload();
-    } else { showSnackbar(d.error || 'Failed to edit reply.'); }
+    if (d && d.id) { closeEditReplyModal(); location.reload(); }
+    else { showSnackbar(d.error || 'Failed to edit reply.'); }
   } catch(e) { showSnackbar('Error editing reply.'); }
 }
 
-// Delete Reply
 function deleteReply(replyId) {
   deleteTarget = { type: 'reply', id: replyId };
   document.getElementById('deleteConfirmText').textContent = 'Are you sure you want to delete this reply? This cannot be undone.';
@@ -458,7 +572,6 @@ async function confirmDelete() {
   } catch(e) { showSnackbar('Error deleting.'); }
 }
 
-// Edit History
 async function showEditHistory(targetType, targetId) {
   document.getElementById('editHistoryModal').classList.add('active');
   document.getElementById('editHistoryContent').innerHTML = '<p style="color:var(--md-on-surface-variant);">Loading...</p>';
@@ -475,8 +588,8 @@ async function showEditHistory(targetType, targetId) {
       const timeStr = date.toLocaleString();
       html += '<div class="history-entry">';
       html += '<div class="history-field">' + e.field + '</div>';
-      html += '<div class="history-diff"><del>' + e.oldValue + '</del> &rarr; <ins>' + e.newValue + '</ins></div>';
-      html += '<div class="history-meta">Edited by ' + e.editedByUsername + ' &middot; ' + timeStr + '</div>';
+      html += '<div class="history-diff"><del>' + escapeHtml(e.oldValue) + '</del> &rarr; <ins>' + escapeHtml(e.newValue) + '</ins></div>';
+      html += '<div class="history-meta">Edited by ' + escapeHtml(e.editedByUsername) + ' &middot; ' + timeStr + '</div>';
       html += '</div>';
     });
     document.getElementById('editHistoryContent').innerHTML = html;
@@ -486,7 +599,178 @@ async function showEditHistory(targetType, targetId) {
 }
 function closeEditHistoryModal() { document.getElementById('editHistoryModal').classList.remove('active'); }
 
-// Close modals on overlay click
+async function submitMainReply(e) {
+  e.preventDefault();
+  const content = document.getElementById('mainReplyContent').value.trim();
+  if (!content) { showSnackbar('Content is required.'); return; }
+  try {
+    const r = await fetch('/ajax/reply/' + POST_ID + '/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
+      credentials: 'same-origin',
+      body: JSON.stringify({ content })
+    });
+    const d = await r.json();
+    if (d && d.id) { location.reload(); }
+    else { showSnackbar(d.error || 'Failed to submit reply.'); }
+  } catch(e) { showSnackbar('Error submitting reply.'); }
+}
+
+function openThread(replyId) {
+  activeThreadId = replyId;
+  const title = 'Thread';
+  if (isMobile()) {
+    document.getElementById('threadSheetTitle').textContent = title;
+    document.getElementById('threadSheetBody').innerHTML = '<div style="text-align:center;padding:32px;color:var(--md-on-surface-variant);">Loading...</div>';
+    document.getElementById('threadSheetOverlay').classList.add('open');
+    document.getElementById('threadSheet').classList.add('open');
+  } else {
+    document.getElementById('threadSidebarTitle').textContent = title;
+    document.getElementById('threadSidebarBody').innerHTML = '<div style="text-align:center;padding:32px;color:var(--md-on-surface-variant);">Loading...</div>';
+    document.getElementById('threadSidebarOverlay').classList.add('open');
+    document.getElementById('threadSidebar').classList.add('open');
+  }
+  loadThreadReplies(replyId);
+}
+
+function closeThread() {
+  document.getElementById('threadSidebarOverlay').classList.remove('open');
+  document.getElementById('threadSidebar').classList.remove('open');
+  document.getElementById('threadSheetOverlay').classList.remove('open');
+  document.getElementById('threadSheet').classList.remove('open');
+  activeThreadId = null;
+}
+
+async function loadThreadReplies(replyId) {
+  try {
+    const r = await fetch('/ajax/reply-thread/' + replyId + '/');
+    const replies = await r.json();
+    if (r.status !== 200) {
+      const body = isMobile() ? document.getElementById('threadSheetBody') : document.getElementById('threadSidebarBody');
+      body.innerHTML = '<div style="text-align:center;padding:32px;color:var(--md-error);">Failed to load replies.</div>';
+      return;
+    }
+    let html = '';
+    if (!replies.length) {
+      html = '<div style="text-align:center;padding:32px;color:var(--md-on-surface-variant);">No replies in this thread yet.</div>';
+    } else {
+      replies.forEach(reply => {
+        html += renderThreadReply(reply);
+      });
+    }
+    if (IS_AUTHENTICATED) {
+      html += '<div class="fp-thread-compose">';
+      html += '<textarea id="threadReplyContent" placeholder="Write a reply..." onkeydown="handleThreadReplyKey(event)"></textarea>';
+      html += '<div style="display:flex;justify-content:flex-end;margin-top:8px;">';
+      html += '<button class="md-btn md-btn-filled" style="font-size:.8125rem;padding:6px 16px;" onclick="submitThreadReply(\'' + replyId + '\')">Reply</button>';
+      html += '</div></div>';
+    }
+    if (isMobile()) {
+      document.getElementById('threadSheetBody').innerHTML = html;
+    } else {
+      document.getElementById('threadSidebarBody').innerHTML = html;
+    }
+  } catch(e) {
+    const body = isMobile() ? document.getElementById('threadSheetBody') : document.getElementById('threadSidebarBody');
+    body.innerHTML = '<div style="text-align:center;padding:32px;color:var(--md-error);">Failed to load replies.</div>';
+  }
+}
+
+function renderThreadReply(reply) {
+  const avatarHtml = reply.authorPhotoUrl
+    ? '<img src="' + escapeHtml(reply.authorPhotoUrl) + '" alt="" onerror="this.style.display=\'none\'; this.nextElementSibling.style.display=\'flex\';"><span class="fp-reply-avatar-letter" style="display:none;">' + escapeHtml(reply.authorName.charAt(0)) + '</span>'
+    : '<span class="fp-reply-avatar-letter">' + escapeHtml(reply.authorName.charAt(0)) + '</span>';
+  const likedClass = reply.isThumbedUp ? 'liked' : '';
+  const likeIcon = reply.isThumbedUp ? 'thumb_up' : 'thumb_up_off_alt';
+  const editedBadge = reply.isEdited ? ' <span class="fp-edited" onclick="showEditHistory(\'reply\', \'' + reply.id + '\')"><span class="material-symbols-outlined">edit</span> edited</span>' : '';
+  const ownerBtns = (IS_AUTH && reply.authorId === USER_ID)
+    ? '<span class="fp-reply-owner"><button class="fp-owner-btn" onclick="startEditReply(\'' + reply.id + '\', \'' + escapeHtml(reply.content).replace(/'/g, "\\'") + '\')"><span class="material-symbols-outlined" style="font-size:12px;">edit</span></button><button class="fp-owner-btn danger" onclick="deleteReply(\'' + reply.id + '\')"><span class="material-symbols-outlined" style="font-size:12px;">delete</span></button></span>'
+    : '';
+  const followBtn = (IS_AUTH && reply.authorId !== USER_ID)
+    ? '<button class="follow-btn-inline not-following" data-user-id="' + reply.authorId + '" onclick="toggleFollowBtn(this, \'' + reply.authorId + '\')">Follow</button>'
+    : '';
+  const replyBtn = IS_AUTH
+    ? '<button class="fp-reply-action" onclick="openThreadReply(\'' + reply.id + '\', \'' + escapeHtml(reply.authorName).replace(/'/g, "\\'") + '\')"><span class="material-symbols-outlined">reply</span> Reply</button>'
+    : '';
+
+  return '<div class="fp-reply-in-thread">' +
+    '<div class="fp-reply-header">' +
+      '<div class="fp-reply-avatar">' + avatarHtml + '</div>' +
+      '<div class="fp-reply-meta">' +
+        '<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">' +
+          '<a href="/profile/' + encodeURIComponent(reply.authorName) + '/" class="fp-reply-author">' + escapeHtml(reply.authorName) + '</a>' +
+          followBtn + editedBadge + ownerBtns +
+        '</div>' +
+        '<div class="fp-reply-time">' + formatTimeAgo(reply.createdAt) + '</div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="fp-reply-body">' + escapeHtml(reply.content) + '</div>' +
+    '<div class="fp-reply-actions">' +
+      '<button onclick="toggleReplyLike(\'' + reply.id + '\')" class="fp-reply-action ' + likedClass + '" id="reply-like-btn-' + reply.id + '">' +
+        '<span class="material-symbols-outlined">' + likeIcon + '</span>' +
+        '<span id="reply-like-count-' + reply.id + '">' + reply.thumbsUpCount + '</span>' +
+      '</button>' +
+      replyBtn +
+    '</div>' +
+  '</div>';
+}
+
+function formatTimeAgo(ts) {
+  const now = Date.now();
+  const diff = now - ts;
+  const mins = Math.floor(diff / 60000);
+  if (mins < 1) return 'just now';
+  if (mins < 60) return mins + 'm ago';
+  const hrs = Math.floor(mins / 60);
+  if (hrs < 24) return hrs + 'h ago';
+  const days = Math.floor(hrs / 24);
+  if (days < 30) return days + 'd ago';
+  const months = Math.floor(days / 30);
+  if (months < 12) return months + 'mo ago';
+  return Math.floor(months / 12) + 'y ago';
+}
+
+function openThreadReply(parentId, authorName) {
+  const content = '@' + authorName + ' ';
+  if (isMobile()) {
+    const textarea = document.getElementById('threadSheetBody').querySelector('textarea');
+    if (textarea) { textarea.value = content; textarea.focus(); }
+  } else {
+    const textarea = document.getElementById('threadSidebarBody').querySelector('textarea');
+    if (textarea) { textarea.value = content; textarea.focus(); }
+  }
+}
+
+function handleThreadReplyKey(e) {
+  if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+    const parentId = activeThreadId;
+    if (parentId) submitThreadReply(parentId);
+  }
+}
+
+async function submitThreadReply(parentId) {
+  const textarea = (isMobile() ? document.getElementById('threadSheetBody') : document.getElementById('threadSidebarBody')).querySelector('textarea');
+  if (!textarea) return;
+  const content = textarea.value.trim();
+  if (!content) { showSnackbar('Content is required.'); return; }
+  try {
+    const r = await fetch('/ajax/reply/' + POST_ID + '/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
+      credentials: 'same-origin',
+      body: JSON.stringify({ content, parentReplyId: parentId })
+    });
+    const d = await r.json();
+    if (d && d.id) {
+      textarea.value = '';
+      loadThreadReplies(parentId);
+      showSnackbar('Reply posted!');
+    } else {
+      showSnackbar(d.error || 'Failed to submit reply.');
+    }
+  } catch(e) { showSnackbar('Error submitting reply.'); }
+}
+
 document.querySelectorAll('.modal-overlay').forEach(overlay => {
   overlay.addEventListener('click', function(e) {
     if (e.target === overlay) overlay.classList.remove('active');
