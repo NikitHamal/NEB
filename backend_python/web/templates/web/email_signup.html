@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}Create Account{% endblock %}
+
+{% block content %}
+<div class="login-container">
+  <div class="login-card md-card-elevated">
+    <div class="logo" style="display:flex;justify-content:center;">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" width="80" height="80">
+        <rect width="32" height="32" rx="8" fill="var(--md-primary)"/>
+        <path d="M8 8h3v16H8V8zm5 0h3v16h-3V8zm5 0v16l8-8-8-8z" fill="var(--md-on-primary)"/>
+      </svg>
+    </div>
+    <h1 class="md-headline-small">Create Account</h1>
+    <p class="md-body-medium">Sign up with your email address.</p>
+
+    <div style="margin-top:20px;">
+      <div class="md-text-field-wrapper">
+        <input type="text" id="signup-username" class="md-text-field" placeholder=" " required minlength="3">
+        <label class="md-text-field-label">Username</label>
+      </div>
+      <div class="md-text-field-wrapper" style="margin-top:12px;">
+        <input type="email" id="signup-email" class="md-text-field" placeholder=" " required>
+        <label class="md-text-field-label">Email</label>
+      </div>
+      <div class="md-text-field-wrapper" style="margin-top:12px;">
+        <input type="password" id="signup-password" class="md-text-field" placeholder=" " required minlength="8">
+        <label class="md-text-field-label">Password (8+ characters)</label>
+      </div>
+      <p id="signup-error" style="color:var(--md-error);font-size:0.8125rem;min-height:1.2em;margin:4px 0;"></p>
+      <button onclick="handleSignup()" id="signup-btn" class="md-btn md-btn-filled" style="width:100%;margin-top:8px;">Create Account</button>
+    </div>
+
+    <div class="md-divider" style="margin-top:20px;"></div>
+
+    <div style="text-align:center;margin-top:12px;">
+      <a href="{% url 'web:email_login' %}" class="md-btn md-btn-text">Already have an account? Sign in</a>
+    </div>
+    <div style="text-align:center;margin-top:4px;">
+      <a href="{% url 'web:login' %}" class="md-btn md-btn-text">← Back to Google sign-in</a>
+    </div>
+  </div>
+</div>
+
+{% block extra_js %}
+<script>
+async function handleSignup() {
+  const username = document.getElementById('signup-username').value.trim();
+  const email = document.getElementById('signup-email').value.trim();
+  const password = document.getElementById('signup-password').value;
+  const errorEl = document.getElementById('signup-error');
+  const btn = document.getElementById('signup-btn');
+  errorEl.textContent = '';
+  btn.disabled = true;
+  btn.textContent = 'Creating account...';
+
+  try {
+    const res = await fetch('/api/auth/email/signup/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password, username })
+    });
+    const data = await res.json();
+    if (data.status === 'success') {
+      window.location.href = '{% url "web:email_verify" %}?email=' + encodeURIComponent(email);
+    } else {
+      errorEl.textContent = data.error || 'Signup failed';
+      btn.disabled = false;
+      btn.textContent = 'Create Account';
+    }
+  } catch (e) {
+    errorEl.textContent = 'Network error. Please try again.';
+    btn.disabled = false;
+    btn.textContent = 'Create Account';
+  }
+}
+</script>
+{% endblock %}
+{% endblock %}

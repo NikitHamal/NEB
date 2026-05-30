@@ -148,19 +148,28 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 # Google OAuth
-GOOGLE_CLIENT_ID = os.environ.get('GOOGLE_CLIENT_ID', '478709074228-cu0b0t75ghhsvqp2jotj75g6utj84nre.apps.googleusercontent.com')
+GOOGLE_CLIENT_ID = os.environ.get('GOOGLE_CLIENT_ID', '68143624035-que25r0vmrke4agasr715j5u9p8gic2s.apps.googleusercontent.com')
 
 # Firebase config (for web client-side auth)
-FIREBASE_API_KEY = os.environ.get('FIREBASE_API_KEY', 'AIzaSyAE-_m3HxdDmN963YxorNep1O8pVTiA4eg')
-FIREBASE_AUTH_DOMAIN = os.environ.get('FIREBASE_AUTH_DOMAIN', 'nebians.firebaseapp.com')
-FIREBASE_PROJECT_ID = os.environ.get('FIREBASE_PROJECT_ID', 'nebians')
-FIREBASE_STORAGE_BUCKET = os.environ.get('FIREBASE_STORAGE_BUCKET', 'nebians.firebasestorage.app')
-FIREBASE_SENDER_ID = os.environ.get('FIREBASE_SENDER_ID', '478709074228')
-FIREBASE_APP_ID = os.environ.get('FIREBASE_APP_ID', '1:478709074228:web:185dce36aefe3b31417d61')
+FIREBASE_API_KEY = os.environ.get('FIREBASE_API_KEY', 'AIzaSyAZUCVc7NdpAFeXgojurqiOqrkGqPtklW0')
+FIREBASE_AUTH_DOMAIN = os.environ.get('FIREBASE_AUTH_DOMAIN', 'nebiansnepal.firebaseapp.com')
+FIREBASE_PROJECT_ID = os.environ.get('FIREBASE_PROJECT_ID', 'nebiansnepal')
+FIREBASE_STORAGE_BUCKET = os.environ.get('FIREBASE_STORAGE_BUCKET', 'nebiansnepal.firebasestorage.app')
+FIREBASE_SENDER_ID = os.environ.get('FIREBASE_SENDER_ID', '68143624035')
+FIREBASE_APP_ID = os.environ.get('FIREBASE_APP_ID', '1:68143624035:web:f04129d04b128b92e4ed56')
 
 ADMIN_TOKEN = os.environ.get('ADMIN_TOKEN', 'nebians-admin-2024-secure-token')
 ADMIN_USERNAME = os.environ.get('ADMIN_USERNAME', 'admin')
 ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD', 'admin123')
+
+# Email configuration
+EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND', 'django.core.mail.backends.console.EmailBackend')
+EMAIL_HOST = os.environ.get('EMAIL_HOST', 'smtp.gmail.com')
+EMAIL_PORT = int(os.environ.get('EMAIL_PORT', '587'))
+EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS', 'True') == 'True'
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', '')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', 'NEBians <noreply@nebians.consica.com.np>')
 
 # Web app API base URL (for server-side calls from web views)
 WEB_API_BASE_URL = os.environ.get('WEB_API_BASE_URL', 'http://127.0.0.1:8000/api')
