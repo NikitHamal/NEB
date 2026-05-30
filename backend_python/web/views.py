@@ -42,6 +42,7 @@ def _serialize_posts(posts_qs, user_id=None):
         result.append({
             'id': p.id, 'title': p.title, 'content': p.content, 'category': p.category,
             'authorName': p.user.username, 'authorPhotoUrl': p.user.photo_url,
+            'authorBadge': getattr(p.user, 'badge', None),
             'authorId': p.user_id, 'thumbsUpCount': p.thumbs_up_count, 'thumbs_up_count': p.thumbs_up_count,
             'replyCount': p.reply_count, 'reply_count': p.reply_count,
             'createdAt': p.created_at, 'updatedAt': p.created_at,
@@ -57,6 +58,7 @@ def _serialize_post(p, user_id=None):
     return {
         'id': p.id, 'title': p.title, 'content': p.content, 'category': p.category,
         'authorName': p.user.username, 'authorPhotoUrl': p.user.photo_url,
+        'authorBadge': getattr(p.user, 'badge', None),
         'authorId': p.user_id, 'thumbsUpCount': p.thumbs_up_count, 'thumbs_up_count': p.thumbs_up_count,
         'replyCount': p.reply_count, 'reply_count': p.reply_count,
         'createdAt': p.created_at, 'updatedAt': p.created_at,
@@ -235,8 +237,16 @@ def _build_local_stats(user):
     reply_count = Reply.objects.filter(user=user).count()
     likes_given = (PostLike.objects.filter(user=user).count() +
                    ReplyLike.objects.filter(user=user).count())
-    contribution_score = (post_count * 3) + (reply_count * 2) + likes_given
+    likes_received_posts = PostLike.objects.filter(post__user=user).count()
+    likes_received_replies = ReplyLike.objects.filter(reply__user=user).count()
+    likes_received = likes_received_posts + likes_received_replies
+    
+    contribution_score = (post_count * 3) + (reply_count * 2) + likes_given + (likes_received * 2)
     return {
+        'post_count': post_count,
+        'reply_count': reply_count,
+        'likes_given': likes_given,
+        'likes_received': likes_received,
         'contribution_score': contribution_score,
     }
 
@@ -245,7 +255,7 @@ def forum(request):
     category = request.GET.get('category', '')
     qs = Post.objects.select_related('user').order_by('-created_at')
     if category:
-        qs = qs.filter(category=category)
+        qs = qs.filter(category__iexact=category)
     posts = _serialize_posts(qs, user_id)
 
     all_posts = cache.get('forum_all_posts')
@@ -332,6 +342,30 @@ def forum_categories(request):
     categories_data = sorted(categories_data, key=lambda c: (-c['count'], c['name']))
     return render(request, 'web/forum_categories.html', _ctx(request,
         categories_data=categories_data
+    ))
+
+
+def leaderboard(request):
+    contributor_data = cache.get('forum_contributors')
+    if contributor_data is None:
+        all_users = User.objects.all()
+        contributors = []
+        for u in all_users:
+            stats = _build_local_stats(u)
+            score = stats.get('contribution_score', 0)
+            contributors.append({
+                'username': u.username,
+                'display_name': u.display_name or u.username,
+                'photo_url': u.photo_url,
+                'score': score,
+                'formatted_score': format_score(score),
+                'level': get_user_level_title(score),
+            })
+        contributors = sorted(contributors, key=lambda c: c['score'], reverse=True)
+        contributor_data = contributors[:50]
+        cache.set('forum_contributors', contributor_data, 120)
+    return render(request, 'web/leaderboard.html', _ctx(request,
+        contributors=contributor_data,
     ))
 
 
@@ -442,6 +476,34 @@ def profile(request, username):
         user_photos=user_photos,
         user_posts=user_posts,
     ))
+
+
+def ajax_profile_activity(request, username):
+    user_id = _get_user_id(request)
+    try:
+        profile_user = User.objects.get(username=username)
+    except User.DoesNotExist:
+        return JsonResponse({'error': 'User not found'}, status=404)
+
+    try:
+        offset = int(request.GET.get('offset', 0))
+        limit = int(request.GET.get('limit', 10))
+    except ValueError:
+        offset = 0
+        limit = 10
+
+    user_posts_qs = Post.objects.select_related('user').filter(user_id=profile_user.id).order_by('-created_at')[offset:offset+limit]
+    user_posts = _serialize_posts(user_posts_qs, user_id)
+
+    total_count = Post.objects.filter(user_id=profile_user.id).count()
+    has_more = (offset + len(user_posts)) < total_count
+
+    return JsonResponse({
+        'posts': user_posts,
+        'has_more': has_more,
+        'total_count': total_count
+    })
+
 
 
 

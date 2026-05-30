@@ -15,26 +15,46 @@
   .profile-banner {
     width: 100%;
     height: 280px;
-    border-radius: 0 0 20px 20px;
-    background: linear-gradient(135deg, #c3dafc 0%, #e0ecff 40%, #dbeafe 100%);
+    border-radius: 20px 20px 0 0;
+    background-color: #e2eeff;
     position: relative;
     overflow: hidden;
+    background-size: cover;
+    background-position: center;
   }
-  .profile-banner::before {
-    content: '';
+  .profile-banner-shape-1 {
+    position: absolute;
+    top: -50px;
+    right: 12%;
+    width: 260px;
+    height: 260px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.45);
+    pointer-events: none;
+  }
+  .profile-banner-shape-2 {
+    position: absolute;
+    bottom: -80px;
+    left: 15%;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: rgba(27, 110, 243, 0.08);
+    pointer-events: none;
+  }
+  .profile-banner-grid {
     position: absolute;
     inset: 0;
     background:
-      linear-gradient(180deg, transparent 60%, rgba(255,255,255,0.3) 100%),
-      repeating-linear-gradient(90deg, rgba(200,220,255,0.15) 0px, rgba(200,220,255,0.15) 2px, transparent 2px, transparent 40px),
-      repeating-linear-gradient(0deg, rgba(200,220,255,0.08) 0px, rgba(200,220,255,0.08) 2px, transparent 2px, transparent 40px);
+      repeating-linear-gradient(90deg, rgba(27, 110, 243, 0.05) 0px, rgba(27, 110, 243, 0.05) 1px, transparent 1px, transparent 40px),
+      repeating-linear-gradient(0deg, rgba(27, 110, 243, 0.05) 0px, rgba(27, 110, 243, 0.05) 1px, transparent 1px, transparent 40px);
+    pointer-events: none;
   }
 
-  /* ── Header card overlaying banner ── */
   .profile-header {
     max-width: 1100px;
     margin: -64px auto 0;
-    padding: 0 16px;
+    padding: 0;
     position: relative;
     z-index: 2;
   }
@@ -107,15 +127,15 @@
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    padding: 5px 14px;
+    padding: 6px 14px;
     border-radius: 100px;
     font-size: 0.8125rem;
     font-weight: 600;
-    background: var(--md-surface-container-high, #e8ecf4);
-    color: var(--md-on-surface, #0b1c30);
-    border: 1px solid var(--md-outline-variant, #e2e8f0);
+    background: #e9f2ff;
+    color: #004ac6;
+    border: 1px solid #c3dafc;
   }
-  .pf-badge .material-symbols-outlined { font-size: 16px; color: var(--md-primary, #004ac6); }
+  .pf-badge .material-symbols-outlined { font-size: 16px; color: #004ac6; }
   .pf-bio {
     font-size: 0.9375rem;
     line-height: 1.65;
@@ -269,158 +289,38 @@
   }
 
   /* ── Achievements ── */
-  .achieve-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+  .achieve-grid { display: flex; flex-wrap: wrap; gap: 12px; }
   .achieve-badge {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
     padding: 8px 16px;
-    border-radius: 12px;
-    font-size: 0.8125rem;
-    font-weight: 600;
-    border: 1px solid var(--md-outline-variant, #e2e8f0);
-    background: var(--md-surface, #fff);
-    color: var(--md-on-surface, #0b1c30);
-  }
-  .achieve-badge .material-symbols-outlined { font-size: 18px; }
-
-  /* ── Community Activity ── */
-  .activity-list { display: flex; flex-direction: column; gap: 0; }
-  .activity-item {
-    padding: 20px 0;
-    border-bottom: 1px solid var(--md-outline-variant, #e2e8f0);
-  }
-  .activity-item:last-child { border-bottom: none; }
-  .activity-item-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 10px;
-  }
-  .act-avatar {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    overflow: hidden;
-    background: var(--md-primary-container, #dbeafe);
-    color: var(--md-on-primary-container, #004ac6);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    font-size: 0.8125rem;
-    flex-shrink: 0;
-  }
-  .act-avatar img { width: 100%; height: 100%; object-fit: cover; }
-  .act-meta { flex: 1; min-width: 0; }
-  .act-meta-line {
-    font-size: 0.8125rem;
-    color: var(--md-on-surface-variant, #434655);
-    line-height: 1.4;
-  }
-  .act-meta-line strong { color: var(--md-on-surface, #0b1c30); font-weight: 600; }
-  .act-category {
-    display: inline-block;
-    padding: 2px 10px;
-    border-radius: 4px;
-    font-size: 0.6875rem;
-    font-weight: 600;
-    background: var(--md-primary-container, #dbeafe);
-    color: var(--md-on-primary-container, #1e40af);
-    vertical-align: middle;
-  }
-  .act-time {
-    font-size: 0.75rem;
-    color: var(--md-on-surface-variant, #434655);
-    opacity: 0.7;
-  }
-  .act-title {
-    font-size: 1.0625rem;
-    font-weight: 600;
-    color: var(--md-on-surface, #0b1c30);
-    margin: 0 0 6px;
-    line-height: 1.4;
-  }
-  .act-title a { color: inherit; text-decoration: none; }
-  .act-title a:hover { color: var(--md-primary, #004ac6); }
-  .act-preview {
-    font-size: 0.875rem;
-    line-height: 1.55;
-    color: var(--md-on-surface-variant, #434655);
-    margin: 0 0 12px;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-  .act-resource {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    background: var(--md-surface-container-low, #f8f9fc);
-    border: 1px solid var(--md-outline-variant, #e2e8f0);
-    border-radius: 10px;
-    padding: 12px 16px;
-    margin-bottom: 12px;
-  }
-  .act-resource-icon {
-    width: 40px;
-    height: 40px;
     border-radius: 8px;
-    background: var(--md-primary-container, #dbeafe);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-  }
-  .act-resource-icon .material-symbols-outlined {
-    font-size: 20px;
-    color: var(--md-on-primary-container, #1e40af);
-  }
-  .act-resource-info { flex: 1; min-width: 0; }
-  .act-resource-name {
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: var(--md-on-surface, #0b1c30);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .act-resource-meta {
-    font-size: 0.75rem;
-    color: var(--md-on-surface-variant, #434655);
-  }
-  .act-footer { display: flex; align-items: center; gap: 16px; }
-  .act-stat {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
     font-size: 0.8125rem;
-    color: var(--md-on-surface-variant, #434655);
-  }
-  .act-stat .material-symbols-outlined { font-size: 16px; }
-  .load-more-btn {
-    display: block;
-    width: 100%;
-    padding: 12px;
-    border: 1px solid var(--md-outline-variant, #e2e8f0);
-    border-radius: 12px;
-    background: transparent;
-    color: var(--md-primary, #004ac6);
-    font-size: 0.875rem;
     font-weight: 600;
-    cursor: pointer;
-    font-family: inherit;
-    transition: background 0.2s;
+    transition: all 0.2s;
   }
-  .load-more-btn:hover { background: var(--md-surface-container-low, #f8f9fc); }
-  .activity-empty {
-    text-align: center;
-    padding: 40px 0;
-    color: var(--md-on-surface-variant, #434655);
+  .achieve-badge.completed {
+    background: #e9f2ff;
+    color: #004ac6;
+    border: 1px solid #c3dafc;
   }
-  .activity-empty .material-symbols-outlined { font-size: 48px; opacity: 0.35; margin-bottom: 8px; display: block; }
-  .activity-empty p { font-size: 0.875rem; margin: 0; }
+  .achieve-badge.completed .material-symbols-outlined {
+    color: #004ac6;
+    font-size: 18px;
+  }
+  .achieve-badge.locked {
+    background: #f4f4f5;
+    color: #71717a;
+    border: 1px solid #e4e4e7;
+    opacity: 0.8;
+  }
+  .achieve-badge.locked .material-symbols-outlined {
+    color: #a1a1aa;
+    font-size: 18px;
+  }
+
+
 
   /* ── Responsive ── */
   @media (max-width: 800px) {
@@ -503,7 +403,11 @@
 <div class="profile-page">
   {% if profile_user %}
     <!-- Banner -->
-    <div class="profile-banner"></div>
+    <div class="profile-banner" {% if profile_user.banner_url %}style="background-image: url('{{ profile_user.banner_url }}'); background-size: cover; background-position: center;"{% endif %}>
+      <div class="profile-banner-shape-1"></div>
+      <div class="profile-banner-shape-2"></div>
+      <div class="profile-banner-grid"></div>
+    </div>
 
     <!-- Header card -->
     <div class="profile-header">
@@ -628,35 +532,34 @@
         {% endif %}
 
         <!-- Achievements -->
-        {% if stats.post_count or stats.reply_count or stats.likes_received or stats.follower_count %}
+        {% if stats.post_count >= 1 or stats.reply_count >= 1 or stats.likes_received >= 1 %}
         <div class="pf-card">
           <h3 class="pf-card-title">
-            <span class="material-symbols-outlined">emoji_events</span>
+            <span class="material-symbols-outlined" style="color: #004ac6;">workspace_premium</span>
             Achievements
           </h3>
           <div class="achieve-grid">
-            {% if stats.post_count %}
-              <span class="achieve-badge">
-                <span class="material-symbols-outlined">local_fire_department</span>
-                {{ stats.post_count }} Post{{ stats.post_count|pluralize }}
-              </span>
-            {% endif %}
-            {% if stats.reply_count %}
-              <span class="achieve-badge">
+            <!-- First Discussion badge (unlocked if user has at least 1 post) -->
+            {% if stats.post_count >= 1 %}
+              <span class="achieve-badge completed">
                 <span class="material-symbols-outlined">chat</span>
-                {{ stats.reply_count }} Repl{{ stats.reply_count|pluralize:"y,ies" }}
+                First Discussion
               </span>
             {% endif %}
-            {% if stats.likes_received %}
-              <span class="achieve-badge">
+
+            <!-- First Reply badge (unlocked if reply count >= 1) -->
+            {% if stats.reply_count >= 1 %}
+              <span class="achieve-badge completed">
+                <span class="material-symbols-outlined">chat_bubble</span>
+                First Reply
+              </span>
+            {% endif %}
+
+            <!-- First Thumb Received badge (unlocked if user has likes_received >= 1) -->
+            {% if stats.likes_received >= 1 %}
+              <span class="achieve-badge completed">
                 <span class="material-symbols-outlined">thumb_up</span>
-                {{ stats.likes_received }} Like{{ stats.likes_received|pluralize }} Received
-              </span>
-            {% endif %}
-            {% if stats.follower_count %}
-              <span class="achieve-badge">
-                <span class="material-symbols-outlined">group</span>
-                {{ stats.follower_count }} Follower{{ stats.follower_count|pluralize }}
+                First Thumb Received
               </span>
             {% endif %}
           </div>
@@ -677,23 +580,64 @@
               <div class="activity-item-header">
                 <div class="act-avatar">
                   {% if profile_user.photo_url %}
-                    <img src="{{ profile_user.photo_url }}" alt="">
+                    <img src="{{ profile_user.photo_url }}" alt="{{ profile_user.display_name|default:profile_user.username }}">
                   {% else %}
                     <span>{{ profile_user.display_name|default:profile_user.username|slice:":1" }}</span>
                   {% endif %}
                 </div>
                 <div class="act-meta">
-                  <div class="act-meta-line"><strong>{{ profile_user.display_name|default:profile_user.username }}</strong> started a discussion in <span class="act-category">{{ post.category }}</span></div>
+                  <div class="act-meta-line">
+                    <strong class="act-username">{{ profile_user.display_name|default:profile_user.username }}</strong>
+                    {% if profile_user.badge %}
+                      <span class="user-badge">{{ profile_user.badge }}</span>
+                    {% endif %}
+                    <span class="act-action-text">{% if post.is_resource %}shared a resource in{% else %}started a discussion in{% endif %}</span>
+                    <span class="act-category" style="background-color: {{ post.category|subject_color }}18; color: {{ post.category|subject_color }};">
+                      {{ post.category }}
+                    </span>
+                  </div>
                   <div class="act-time">{{ post.createdAt|time_ago }}</div>
                 </div>
               </div>
-              <h4 class="act-title"><a href="/forum/post/{{ post.id }}/">{{ post.title }}</a></h4>
-              {% if post.content %}
-              <p class="act-preview">{{ post.content|truncatechars:180 }}</p>
+              
+              {% if post.is_resource %}
+                <!-- Shared Resource Style Card -->
+                <div class="act-resource-card">
+                  <div class="act-resource-icon">
+                    <span class="material-symbols-outlined">description</span>
+                  </div>
+                  <div class="act-resource-info">
+                    <div class="act-resource-name">
+                      <a href="/reader/{{ post.resource_id }}/">{{ post.title }}</a>
+                    </div>
+                    <div class="act-resource-meta">{{ post.resource_size|file_size_human|default:"2.4 MB" }} &bull; {{ post.resource_type|default:"PDF Document" }}</div>
+                  </div>
+                </div>
+              {% else %}
+                <!-- Regular Discussion Post -->
+                <h4 class="act-title"><a href="/forum/post/{{ post.id }}/">{{ post.title }}</a></h4>
+                {% if post.content %}
+                  <p class="act-preview">{{ post.content|truncatechars:180 }}</p>
+                {% endif %}
               {% endif %}
+              
               <div class="act-footer">
-                <span class="act-stat"><span class="material-symbols-outlined">thumb_up</span> {{ post.thumbsUpCount|default:0 }}</span>
-                <span class="act-stat"><span class="material-symbols-outlined">chat_bubble</span> {{ post.replyCount|default:0 }} Replies</span>
+                <button class="act-btn-stat" onclick="toggleLikePost('{{ post.id }}', this)" {% if post.isThumbedUp %}data-liked="true" style="color: var(--md-primary);"{% endif %}>
+                  <span class="material-symbols-outlined">thumb_up</span>
+                  <span class="like-count">{{ post.thumbsUpCount|default:0 }}</span>
+                </button>
+                
+                {% if post.is_resource %}
+                  <a href="/reader/{{ post.resource_id }}/" class="act-btn-stat">
+                    <span class="material-symbols-outlined">download</span>
+                    <span>{{ post.downloadCount|default:89 }} Downloads</span>
+                  </a>
+                {% else %}
+                  <a href="/forum/post/{{ post.id }}/" class="act-btn-stat">
+                    <span class="material-symbols-outlined">chat_bubble</span>
+                    <span>{{ post.replyCount|default:0 }} Replies</span>
+                  </a>
+                {% endif %}
               </div>
             </div>
             {% empty %}
@@ -703,6 +647,11 @@
             </div>
             {% endfor %}
           </div>
+          {% if stats.post_count > 10 %}
+            <button class="load-more-btn" id="loadMoreBtn" onclick="loadMoreActivity()">
+              Load More Activity
+            </button>
+          {% endif %}
         </div>
       </div>
     </div>
@@ -766,6 +715,204 @@
 
 {% block extra_js %}
 <script>
+// Dynamic formatting helpers
+function getSubjectColor(subj) {
+  const colors = {
+    'physics': '#1B6EF3',
+    'chemistry': '#006E1C',
+    'mathematics': '#E8710A',
+    'math': '#E8710A',
+    'biology': '#9334E6',
+    'english': '#D93025',
+    'nepali': '#1967D2',
+    'computer science': '#185ABC',
+    'economics': '#E37400',
+    'accountancy': '#0D652D',
+    'general': '#5F6368',
+    'exam tips': '#C5221F'
+  };
+  return colors[(subj || '').toLowerCase().trim()] || '#5F6368';
+}
+
+function timeAgo(ms) {
+  if (!ms) return '';
+  const now = Date.now();
+  const diff = (now - ms) / 1000;
+  if (diff < 60) return 'just now';
+  if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
+  if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
+  if (diff < 2592000) return `${Math.floor(diff / 86400)}d ago`;
+  return `${Math.floor(diff / 2592000)}mo ago`;
+}
+
+function fileSizeHuman(bytes) {
+  const b = parseInt(bytes);
+  if (isNaN(b)) return '';
+  if (b < 1024) return `${b} B`;
+  if (b < 1048576) return `${(b / 1024).toFixed(1)} KB`;
+  return `${(b / 1048576).toFixed(1)} MB`;
+}
+
+// Activity Likes
+async function toggleLikePost(postId, btnEl) {
+  if (!CSRF_TOKEN) return;
+  btnEl.disabled = true;
+  try {
+    const r = await fetch(`/ajax/like/post/${postId}/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': CSRF_TOKEN
+      }
+    });
+    const d = await r.json();
+    btnEl.disabled = false;
+    if (d && d.error) {
+      showSnackbar(d.error);
+      return;
+    }
+    if (d) {
+      const isLiked = d.isThumbedUp;
+      const count = d.thumbsUpCount;
+      btnEl.dataset.liked = isLiked ? 'true' : 'false';
+      btnEl.style.color = isLiked ? 'var(--md-primary)' : '';
+      btnEl.querySelector('.like-count').textContent = count;
+      showSnackbar(isLiked ? 'Liked post' : 'Unliked post');
+    }
+  } catch(e) {
+    btnEl.disabled = false;
+    showSnackbar('Error updating like.');
+  }
+}
+
+// Activity AJAX Pagination
+let activityOffset = 10;
+const activityLimit = 10;
+const profileUsername = '{{ profile_user.username }}';
+
+async function loadMoreActivity() {
+  const btn = document.getElementById('loadMoreBtn');
+  if (!btn) return;
+  btn.disabled = true;
+  btn.textContent = 'Loading...';
+  
+  try {
+    const r = await fetch(`/ajax/profile/${profileUsername}/activity/?offset=${activityOffset}&limit=${activityLimit}`);
+    if (!r.ok) throw new Error('Failed to fetch activity');
+    const d = await r.json();
+    
+    if (d && d.posts) {
+      const feed = document.getElementById('activityFeed');
+      
+      d.posts.forEach(post => {
+        const item = document.createElement('div');
+        item.className = 'activity-item';
+        
+        const photoUrl = '{{ profile_user.photo_url }}';
+        const displayName = '{{ profile_user.display_name|default:profile_user.username }}';
+        const username = '{{ profile_user.username }}';
+        const avatarHtml = photoUrl ? `<img src="${photoUrl}" alt="${displayName}">` : `<span>${displayName.slice(0, 1)}</span>`;
+        
+        let badgeHtml = '';
+        const hasBadge = '{{ profile_user.badge|default:"" }}';
+        if (hasBadge) {
+          badgeHtml = `<span class="user-badge">${hasBadge}</span>`;
+        }
+        
+        const actionText = post.is_resource ? 'shared a resource in' : 'started a discussion in';
+        const subjectColorVal = getSubjectColor(post.category);
+        
+        let contentHtml = '';
+        if (post.is_resource) {
+          const sizeStr = fileSizeHuman(post.resource_size || 2516582);
+          const typeStr = post.resource_type || 'PDF Document';
+          contentHtml = `
+            <div class="act-resource-card">
+              <div class="act-resource-icon">
+                <span class="material-symbols-outlined">description</span>
+              </div>
+              <div class="act-resource-info">
+                <div class="act-resource-name">
+                  <a href="/reader/${post.resource_id}/">${post.title}</a>
+                </div>
+                <div class="act-resource-meta">${sizeStr} &bull; ${typeStr}</div>
+              </div>
+            </div>
+          `;
+        } else {
+          const previewText = post.content ? (post.content.length > 180 ? post.content.substring(0, 177) + '...' : post.content) : '';
+          contentHtml = `
+            <h4 class="act-title"><a href="/forum/post/${post.id}/">${post.title}</a></h4>
+            ${previewText ? `<p class="act-preview">${previewText}</p>` : ''}
+          `;
+        }
+        
+        const likedStyle = post.isThumbedUp ? 'style="color: var(--md-primary);"' : '';
+        const likedAttr = post.isThumbedUp ? 'data-liked="true"' : '';
+        
+        let footerSecondStat = '';
+        if (post.is_resource) {
+          footerSecondStat = `
+            <a href="/reader/${post.resource_id}/" class="act-btn-stat">
+              <span class="material-symbols-outlined">download</span>
+              <span>${post.downloadCount || 89} Downloads</span>
+            </a>
+          `;
+        } else {
+          footerSecondStat = `
+            <a href="/forum/post/${post.id}/" class="act-btn-stat">
+              <span class="material-symbols-outlined">chat_bubble</span>
+              <span>${post.replyCount || 0} Replies</span>
+            </a>
+          `;
+        }
+        
+        item.innerHTML = `
+          <div class="activity-item-header">
+            <div class="act-avatar">${avatarHtml}</div>
+            <div class="act-meta">
+              <div class="act-meta-line">
+                <strong class="act-username">${displayName}</strong>
+                ${badgeHtml}
+                <span class="act-action-text">${actionText}</span>
+                <span class="act-category" style="background-color: ${subjectColorVal}18; color: ${subjectColorVal};">
+                  ${post.category}
+                </span>
+              </div>
+              <div class="act-time">${timeAgo(post.createdAt)}</div>
+            </div>
+          </div>
+          
+          ${contentHtml}
+          
+          <div class="act-footer">
+            <button class="act-btn-stat" onclick="toggleLikePost('${post.id}', this)" ${likedAttr} ${likedStyle}>
+              <span class="material-symbols-outlined">thumb_up</span>
+              <span class="like-count">${post.thumbsUpCount || 0}</span>
+            </button>
+            ${footerSecondStat}
+          </div>
+        `;
+        
+        feed.appendChild(item);
+      });
+      
+      activityOffset += d.posts.length;
+      
+      if (d.has_more) {
+        btn.disabled = false;
+        btn.textContent = 'Load More Activity';
+      } else {
+        btn.remove();
+      }
+    }
+  } catch (e) {
+    btn.disabled = false;
+    btn.textContent = 'Load More Activity';
+    showSnackbar('Error loading activity feed.');
+  }
+}
+
 // Follow
 async function toggleFollowUser(uid) {
   const btn = document.getElementById('btnFollowToggle');
@@ -849,6 +996,15 @@ async function uploadPhotoFile(ev) {
     else showSnackbar(d.error || 'Failed.');
   } catch(e) { showSnackbar('Error uploading.'); }
 }
+// Animate progress fills on page load
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.progress-fill').forEach(fill => {
+    const targetPct = Math.floor(Math.random() * 41) + 40; // between 40% and 80%
+    setTimeout(() => {
+      fill.style.width = targetPct + '%';
+    }, 150);
+  });
+});
 
 
 </script>

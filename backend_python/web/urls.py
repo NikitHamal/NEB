@@ -11,6 +11,7 @@ urlpatterns = [
     path('search/', views.search, name='search'),
     path('forum/', views.forum, name='forum'),
     path('forum/categories/', views.forum_categories, name='forum_categories'),
+    path('forum/leaderboard/', views.leaderboard, name='leaderboard'),
     path('forum/post/<str:post_id>/', views.forum_post, name='forum_post'),
     path('forum/create/', views.create_post, name='create_post'),
     path('forum/reply/<str:post_id>/', views.reply_post, name='reply_post'),
@@ -18,6 +19,7 @@ urlpatterns = [
 
     path('profile/edit/', views.edit_profile, name='edit_profile'),
     path('profile/<str:username>/', views.profile, name='profile'),
+    path('ajax/profile/<str:username>/activity/', views.ajax_profile_activity, name='ajax_profile_activity'),
     path('login/', views.login_page, name='login'),
     path('auth/google/', views.google_auth, name='google_auth'),
     path('logout/', views.logout, name='logout'),

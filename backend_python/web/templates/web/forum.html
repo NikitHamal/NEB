@@ -130,6 +130,13 @@
     align-items: center;
     justify-content: space-between;
     gap: 12px;
+    padding: 8px;
+    border-radius: 12px;
+    transition: background-color 0.2s ease;
+  }
+
+  .sidebar-contributor-row:hover {
+    background-color: var(--md-surface-container-high);
   }
 
   .contributor-profile-wrapper {
@@ -312,13 +319,23 @@
   }
 
   .leaderboard-rank-number.rank-1 {
-    color: #FFB300;
+    color: #F9A825;
   }
   .leaderboard-rank-number.rank-2 {
-    color: #9E9E9E;
+    color: #78909C;
   }
   .leaderboard-rank-number.rank-3 {
-    color: #CD7F32;
+    color: #E64A19;
+  }
+
+  [data-theme="dark"] .leaderboard-rank-number.rank-1 {
+    color: #FFD54F;
+  }
+  [data-theme="dark"] .leaderboard-rank-number.rank-2 {
+    color: #B0BEC5;
+  }
+  [data-theme="dark"] .leaderboard-rank-number.rank-3 {
+    color: #FF8A65;
   }
 </style>
 
@@ -350,7 +367,7 @@
       {% if posts %}
       <div style="display:flex;flex-direction:column;gap:12px;">
         {% for post in posts %}
-        <a href="{% url 'web:forum_post' post_id=post.id %}" class="post-card md-card" style="text-decoration:none;color:inherit;">
+        <div class="post-card">
           <div class="post-card-header">
             <div class="post-card-avatar">
               {% if post.authorPhotoUrl %}
@@ -362,24 +379,29 @@
             </div>
             <div class="post-card-meta">
               <div class="post-card-meta-line">
-                <strong onclick="event.preventDefault(); event.stopPropagation(); window.location.href='{% url 'web:profile' username=post.authorName %}'">{{ post.authorName }}</strong> started a discussion in <span class="post-card-category">{{ post.category }}</span>
+                <strong onclick="window.location.href='{% url 'web:profile' username=post.authorName %}'" style="cursor:pointer;">{{ post.authorName }}</strong>
+                {% if post.authorBadge %}
+                  <span class="user-badge">{{ post.authorBadge }}</span>
+                {% endif %}
+                <span class="act-action-text">started a discussion in</span>
+                <a href="{% url 'web:forum' %}?category={{ post.category }}" class="post-card-category-link">{{ post.category }}</a>
               </div>
               <div class="post-card-time">{{ post.createdAt|time_ago }}</div>
             </div>
           </div>
-          <h3>{{ post.title }}</h3>
+          <h3 style="margin-top:4px; margin-bottom:8px;"><a href="{% url 'web:forum_post' post_id=post.id %}" style="color: inherit; text-decoration: none;">{{ post.title }}</a></h3>
           <div class="post-card-content">{{ post.content|truncatewords:50 }}</div>
           <div class="post-card-actions">
-            <button type="button" onclick="event.preventDefault();event.stopPropagation();toggleForumPostLike('{{ post.id }}', this);" class="{% if post.isThumbedUp %}liked{% endif %}" id="forum-post-like-btn-{{ post.id }}">
-              <span class="material-symbols-outlined" style="font-size:18px">{% if post.isThumbedUp %}thumb_up{% else %}thumb_up_off_alt{% endif %}</span>
+            <button type="button" onclick="toggleForumPostLike('{{ post.id }}', this);" class="{% if post.isThumbedUp %}liked{% endif %}" id="forum-post-like-btn-{{ post.id }}">
+              <span class="material-symbols-outlined">{% if post.isThumbedUp %}thumb_up{% else %}thumb_up_off_alt{% endif %}</span>
               <span id="forum-post-like-count-{{ post.id }}">{{ post.thumbsUpCount }}</span>
             </button>
-            <button type="button" onclick="event.preventDefault();event.stopPropagation();">
-              <span class="material-symbols-outlined" style="font-size:18px">chat_bubble_outline</span>
-              {{ post.replyCount }} Replies
-            </button>
+            <a href="{% url 'web:forum_post' post_id=post.id %}" class="act-btn-stat">
+              <span class="material-symbols-outlined">chat_bubble_outline</span>
+              <span>{{ post.replyCount }} Replies</span>
+            </a>
           </div>
-        </a>
+        </div>
         {% endfor %}
       </div>
       {% else %}
@@ -411,22 +433,20 @@
           </a>
           {% endfor %}
         </div>
-        {% if has_more_categories %}
         <a href="{% url 'web:forum_categories' %}" class="btn-leaderboard-link" style="margin-top: 8px;">
           See All Categories
         </a>
-        {% endif %}
       </div>
 
       <!-- 2. Top Contributors Sidebar Card -->
       <div class="forum-card">
         <div class="forum-card-title">
-          <span class="material-symbols-outlined" style="color: #FFB300;">trophy</span>
+          <span class="material-symbols-outlined" style="color: var(--md-primary);">emoji_events</span>
           Top Contributors
         </div>
         <div class="sidebar-contributor-list">
           {% for contributor in top_contributors %}
-          <div class="sidebar-contributor-row">
+          <a href="{% url 'web:profile' username=contributor.username %}" class="sidebar-contributor-row" style="text-decoration:none;color:inherit;">
             <div class="contributor-profile-wrapper">
               <div class="contributor-avatar-container">
                 {% if contributor.photo_url %}
@@ -442,15 +462,15 @@
               </div>
             </div>
             <span class="contributor-score-text">{{ contributor.formatted_score }}</span>
-          </div>
+          </a>
           {% empty %}
           <div style="text-align:center; color:var(--md-on-surface-variant); font-size:0.875rem;">No contributors yet.</div>
           {% endfor %}
         </div>
         {% if top_contributors %}
-        <div class="btn-leaderboard-link" onclick="openLeaderboardModal()">
+        <a href="{% url 'web:leaderboard' %}" class="btn-leaderboard-link">
           View Leaderboard
-        </div>
+        </a>
         {% endif %}
       </div>
     </div>
@@ -467,7 +487,7 @@
   <div class="m3-modal-box" onclick="event.stopPropagation()">
     <div class="m3-modal-header">
       <div class="m3-modal-title">
-        <span class="material-symbols-outlined" style="color: #FFB300; font-size: 28px;">trophy</span>
+        <span class="material-symbols-outlined" style="color: var(--md-primary); font-size: 28px;">emoji_events</span>
         Leaderboard
       </div>
       <button class="m3-modal-close-btn" onclick="closeLeaderboardModal()">
@@ -476,7 +496,7 @@
     </div>
     <div class="leaderboard-table-container">
       {% for contributor in all_contributors %}
-      <div class="leaderboard-row">
+      <a href="{% url 'web:profile' username=contributor.username %}" class="leaderboard-row" style="text-decoration:none;color:inherit;">
         <div class="leaderboard-rank-profile">
           <span class="leaderboard-rank-number {% if forloop.counter == 1 %}rank-1{% elif forloop.counter == 2 %}rank-2{% elif forloop.counter == 3 %}rank-3{% endif %}">
             {{ forloop.counter }}
@@ -497,7 +517,7 @@
           </div>
         </div>
         <span class="contributor-score-text" style="font-size: 0.875rem;">{{ contributor.formatted_score }}</span>
-      </div>
+      </a>
       {% endfor %}
     </div>
   </div>
@@ -519,23 +539,6 @@ async function toggleForumPostLike(postId, btn) {
     }
   } catch (e) {
     showSnackbar('Failed to like post');
-  }
-}
-
-function openLeaderboardModal() {
-  const modal = document.getElementById('leaderboardModal');
-  if (modal) {
-    modal.classList.add('open');
-  }
-}
-
-function closeLeaderboardModal(event) {
-  if (event) {
-    event.stopPropagation();
-  }
-  const modal = document.getElementById('leaderboardModal');
-  if (modal) {
-    modal.classList.remove('open');
   }
 }
 </script>

@@ -99,7 +99,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 a { color: var(--md-primary); text-decoration: none; }
-a:hover { text-decoration: underline; }
+a:hover { text-decoration: none; }
 img { max-width: 100%; height: auto; }
 
 /* Material 3 Typography — NEBians Vibe */
