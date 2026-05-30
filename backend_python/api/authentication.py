@@ -1,15 +1,15 @@
 """
-Firebase Authentication for NEBians.
+Google Identity Services authentication for NEBians.
 
-Uses Firebase Auth on the frontend (signInWithPopup) to get an ID token,
+Uses GIS on the frontend (popup-based) to get an ID token,
 then verifies it on the backend using the google-auth library.
 
-Firebase ID tokens have:
-- Issuer: https://securetoken.google.com/<project_id>
-- Audience: <project_id> (NOT the OAuth web client ID)
+GIS ID tokens have:
+- Issuer: accounts.google.com / https://accounts.google.com
+- Audience: the OAuth 2.0 web client ID
 
-So we use verify_oauth2_token with the Firebase project ID as audience,
-and accept the Firebase issuer in addition to the Google OAuth issuer.
+We also accept Firebase ID tokens (issuer: securetoken.google.com/<project>)
+for backward compatibility.
 """
 import logging
 from django.conf import settings
@@ -23,8 +23,7 @@ FIREBASE_ISSUER_PREFIX = 'https://securetoken.google.com/'
 
 def verify_google_token(id_token: str):
     """
-    Verifies a Firebase ID Token using the google-auth library.
-    Accepts tokens from both Google OAuth and Firebase Auth flows.
+    Verifies a Google ID Token from GIS or Firebase Auth.
 
     Returns a dict with {userId, email, displayName, photoUrl} or None.
     """
@@ -35,30 +34,35 @@ def verify_google_token(id_token: str):
         firebase_project_id = settings.FIREBASE_PROJECT_ID
         google_client_id = settings.GOOGLE_CLIENT_ID
 
-        idinfo = google_id_token.verify_oauth2_token(
-            id_token,
-            google_requests.Request(),
-            firebase_project_id,
-        )
+        # Try verification with the Google Client ID first (GIS tokens)
+        # and fall back to Firebase project ID (Firebase tokens)
+        for audience in [google_client_id, firebase_project_id]:
+            try:
+                idinfo = google_id_token.verify_oauth2_token(
+                    id_token,
+                    google_requests.Request(),
+                    audience,
+                )
 
-        issuer = idinfo.get('iss', '')
-        valid_issuers = (
-            'accounts.google.com',
-            'https://accounts.google.com',
-            f'{FIREBASE_ISSUER_PREFIX}{firebase_project_id}',
-        )
-        if issuer not in valid_issuers:
-            logger.warning("Token issuer mismatch: %s (expected one of: %s)", issuer, valid_issuers)
-            return None
+                issuer = idinfo.get('iss', '')
+                valid_issuers = (
+                    'accounts.google.com',
+                    'https://accounts.google.com',
+                    f'{FIREBASE_ISSUER_PREFIX}{firebase_project_id}',
+                )
+                if issuer not in valid_issuers:
+                    continue
 
-        return {
-            'userId': idinfo.get('sub'),
-            'email': idinfo.get('email'),
-            'displayName': idinfo.get('name'),
-            'photoUrl': idinfo.get('picture'),
-        }
-    except ValueError as e:
-        logger.warning("Token verification failed (ValueError): %s", e)
+                return {
+                    'userId': idinfo.get('sub'),
+                    'email': idinfo.get('email'),
+                    'displayName': idinfo.get('name'),
+                    'photoUrl': idinfo.get('picture'),
+                }
+            except ValueError:
+                continue
+
+        logger.warning("Token verification failed: no valid audience found")
         return None
     except Exception as e:
         logger.error("Token verification error: %s", e)

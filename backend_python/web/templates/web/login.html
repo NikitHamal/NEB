@@ -17,7 +17,7 @@
       <h1>Welcome to NEBians</h1>
       <p class="login-subtitle">Your study companion for notes, resources, and student forums.</p>
 
-      <button onclick="window.nebSignIn && window.nebSignIn()" class="google-btn" id="signin-btn">
+      <button onclick="window.nebGoogleSignIn()" class="google-btn" id="signin-btn">
         <svg viewBox="0 0 24 24" width="20" height="20">
           <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/>
           <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
@@ -69,11 +69,11 @@
       <p class="login-subtitle">Enter your email and password to continue.</p>
 
       <form id="login-form" onsubmit="window.handleEmailLogin(event)">
-<div class="auth-field-group">
-        <span class="material-symbols-outlined auth-field-icon">person</span>
-        <input type="text" id="login-email" class="md-text-field" placeholder=" " required autocomplete="username">
-        <label>Email or Username</label>
-      </div>
+        <div class="auth-field-group">
+          <span class="material-symbols-outlined auth-field-icon">person</span>
+          <input type="text" id="login-email" class="md-text-field" placeholder=" " required autocomplete="username">
+          <label>Email or Username</label>
+        </div>
         <div class="auth-field-group">
           <span class="material-symbols-outlined auth-field-icon">lock</span>
           <input type="password" id="login-password" placeholder=" " required minlength="8" autocomplete="current-password">
@@ -177,7 +177,7 @@
         </button>
       </div>
       <div style="display:flex;justify-content:center;margin-bottom:16px;">
-        <div style="width:48px;height:48px;border-radius:var(--md-radius-lg);background:var(--md-error-container);display:flex;align-items:center;justify-content:center;">
+        <div style="width:48px;height:48px;border-radius:var(---radius-lg);background:var(--md-error-container);display:flex;align-items:center;justify-content:center;">
           <span class="material-symbols-outlined" style="color:var(--md-on-error-container);font-size:24px;">lock_reset</span>
         </div>
       </div>
@@ -219,21 +219,9 @@
 {% endblock %}
 
 {% block extra_js %}
-<script type="module">
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js';
-import { getAuth, GoogleAuthProvider, signInWithRedirect, getRedirectResult, browserLocalPersistence, setPersistence } from 'https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js';
-
-const app = initializeApp({
-  apiKey: '{{ firebase_api_key }}',
-  authDomain: '{{ firebase_auth_domain }}',
-  projectId: '{{ firebase_project_id }}',
-  storageBucket: '{{ firebase_storage_bucket }}',
-  messagingSenderId: '{{ firebase_sender_id }}',
-  appId: '{{ firebase_app_id }}'
-});
-
-const auth = getAuth(app);
-setPersistence(auth, browserLocalPersistence).catch(() => {});
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script>
+const GOOGLE_CLIENT_ID = '{{ google_client_id }}';
 
 function setStatus(text) {
   const s = document.getElementById('signin-status');
@@ -271,24 +259,40 @@ async function sendTokenToBackend(idToken) {
   }
 }
 
-async function nebSignIn() {
+window.nebGoogleSignIn = function() {
   const btn = document.getElementById('signin-btn');
   btn.disabled = true;
-  btn.textContent = 'Redirecting to Google...';
-  setStatus('Please complete sign-in on the Google page...');
-  const provider = new GoogleAuthProvider();
-  provider.setCustomParameters({ prompt: 'select_account' });
+  btn.textContent = 'Signing in...';
+  setStatus('Opening Google sign-in...');
+
   try {
-    await signInWithRedirect(auth, provider);
+    const tokenClient = google.accounts.oauth2.initTokenClient({
+      client_id: GOOGLE_CLIENT_ID,
+      scope: 'email profile openid',
+      callback: async (tokenResponse) => {
+        if (tokenResponse.error) {
+          setStatus(tokenResponse.error_description || tokenResponse.error || 'Sign-in failed');
+          showSnackbar('Google sign-in failed.');
+          resetBtn();
+          return;
+        }
+        await sendTokenToBackend(tokenResponse.id_token || tokenResponse.access_token);
+      },
+      error_callback: (error) => {
+        console.error('GIS error:', error);
+        setStatus(error.message || 'Sign-in was cancelled or failed.');
+        showSnackbar('Google sign-in failed.');
+        resetBtn();
+      }
+    });
+    tokenClient.requestAccessToken({ prompt: '' });
   } catch (e) {
-    console.error('Firebase: signInWithRedirect error', e.code, e.message);
-    setStatus(e.message || 'Sign-in failed');
-    showSnackbar(e.message || 'Sign-in failed');
+    console.error('GIS init error:', e);
+    setStatus('Google sign-in unavailable. Try email login.');
+    showSnackbar('Google sign-in unavailable.');
     resetBtn();
   }
-}
-
-window.nebSignIn = nebSignIn;
+};
 
 // ── Panel navigation ──
 window.showPanel = function(panel) {
@@ -300,7 +304,6 @@ window.showPanel = function(panel) {
     void target.offsetWidth;
     target.classList.add('auth-panel');
   }
-  // Clear errors
   document.querySelectorAll('.auth-error').forEach(el => el.textContent = '');
 };
 
@@ -464,26 +467,8 @@ window.nebEmailLoginSuccess = async function(data) {
     } catch (e) { /* ignore session errors, redirect anyway */ }
     window.location.href = data.isNewUser ? '{% url "web:edit_profile" %}' : '{% url "web:home" %}';
   } else {
-    window.location.href = '{% url "web:home" %}';
+    window.location.href = '{% url "web:home' %}';
   }
 };
-
-// ── Handle Google redirect result ──
-getRedirectResult(auth).then(async (result) => {
-  if (result && result.user) {
-    setStatus('Signing in...');
-    const idToken = await result.user.getIdToken();
-    await sendTokenToBackend(idToken);
-  }
-}).catch((e) => {
-  console.error('Firebase: redirect result error', e.code, e.message);
-  if (e.code === 'auth/unauthorized-domain') {
-    setStatus('This domain is not authorized for sign-in.');
-    showSnackbar('Add this domain in Firebase Console.');
-  } else {
-    setStatus(e.message || 'Sign-in failed');
-  }
-  resetBtn();
-});
 </script>
 {% endblock %}
