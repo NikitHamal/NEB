@@ -61,166 +61,166 @@ def clear_session_auth(request):
 
 
 def auth_google(id_token):
-    return _api_call('POST', '/auth/google', data={'idToken': id_token})
+    return _api_call('POST', '/auth/google/', data={'idToken': id_token})
 
 
 def check_username(username):
-    return _api_call('GET', '/users/check-username', params={'username': username})
+    return _api_call('GET', '/users/check-username/', params={'username': username})
 
 
 def update_profile(token, profile_data):
-    return _api_call('POST', '/users/profile', token=token, data=profile_data)
+    return _api_call('POST', '/users/profile/', token=token, data=profile_data)
 
 
 def get_profile(token, username=None):
     if username:
-        return _api_call('GET', f'/users/profile/{username}', token=token)
+        return _api_call('GET', f'/users/profile/{username}/', token=token)
     return None
 
 
 def get_resources(token=None, params=None):
-    return _api_call('GET', '/resources', token=token, params=params)
+    return _api_call('GET', '/resources/', token=token, params=params)
 
 
 def get_resource(token=None, resource_id=None):
     if not resource_id:
         return None
-    return _api_call('GET', f'/resources/{resource_id}', token=token)
+    return _api_call('GET', f'/resources/{resource_id}/', token=token)
 
 
 def get_posts(token=None, params=None):
-    return _api_call('GET', '/posts', token=token, params=params)
+    return _api_call('GET', '/posts/', token=token, params=params)
 
 
 def get_post(token=None, post_id=None):
     if not post_id:
         return None
-    return _api_call('GET', f'/posts/{post_id}', token=token)
+    return _api_call('GET', f'/posts/{post_id}/', token=token)
 
 
 def search_all(token=None, query=''):
-    return _api_call('GET', '/search', token=token, params={'q': query})
+    return _api_call('GET', '/search/', token=token, params={'q': query})
 
 
 def create_post(token, title, content, category):
-    return _api_call('POST', '/posts', token=token, data={
+    return _api_call('POST', '/posts/', token=token, data={
         'title': title, 'content': content, 'category': category
     })
 
 
 def delete_post(token, post_id):
-    return _api_call('DELETE', f'/posts/{post_id}', token=token)
+    return _api_call('DELETE', f'/posts/{post_id}/', token=token)
 
 
 def like_post(token, post_id):
-    return _api_call('POST', f'/posts/{post_id}/like', token=token)
+    return _api_call('POST', f'/posts/{post_id}/like/', token=token)
 
 
 def get_replies(token, post_id):
-    return _api_call('GET', f'/posts/{post_id}/replies', token=token)
+    return _api_call('GET', f'/posts/{post_id}/replies/', token=token)
 
 
 def create_reply(token, post_id, content, parent_reply_id=None):
     data = {'content': content}
     if parent_reply_id:
         data['parentReplyId'] = parent_reply_id
-    return _api_call('POST', f'/posts/{post_id}/replies', token=token, data=data)
+    return _api_call('POST', f'/posts/{post_id}/replies/', token=token, data=data)
 
 
 def like_reply(token, reply_id):
-    return _api_call('POST', f'/replies/{reply_id}/like', token=token)
+    return _api_call('POST', f'/replies/{reply_id}/like/', token=token)
 
 
 # Admin API calls
 def admin_get_users(token, params=None):
-    return _api_call('GET', '/admin/users', token=token, params=params)
+    return _api_call('GET', '/admin/users/', token=token, params=params)
 
 
 def admin_get_user(token, user_id):
-    return _api_call('GET', f'/admin/users/{user_id}', token=token)
+    return _api_call('GET', f'/admin/users/{user_id}/', token=token)
 
 
 def admin_update_user(token, user_id, data):
-    return _api_call('PATCH', f'/admin/users/{user_id}', token=token, data=data)
+    return _api_call('PATCH', f'/admin/users/{user_id}/', token=token, data=data)
 
 
 def admin_delete_user(token, user_id):
-    return _api_call('DELETE', f'/admin/users/{user_id}', token=token)
+    return _api_call('DELETE', f'/admin/users/{user_id}/', token=token)
 
 
 def admin_get_resources(token, params=None):
-    return _api_call('GET', '/admin/resources', token=token, params=params)
+    return _api_call('GET', '/admin/resources/', token=token, params=params)
 
 
 def admin_get_resource(token, resource_id):
-    return _api_call('GET', f'/admin/resources/{resource_id}', token=token)
+    return _api_call('GET', f'/admin/resources/{resource_id}/', token=token)
 
 
 def admin_create_resource(token, data):
-    return _api_call('POST', '/admin/resources', token=token, data=data)
+    return _api_call('POST', '/admin/resources/', token=token, data=data)
 
 
 def admin_update_resource(token, resource_id, data):
-    return _api_call('PATCH', f'/admin/resources/{resource_id}', token=token, data=data)
+    return _api_call('PATCH', f'/admin/resources/{resource_id}/', token=token, data=data)
 
 
 def admin_delete_resource(token, resource_id):
-    return _api_call('DELETE', f'/admin/resources/{resource_id}', token=token)
+    return _api_call('DELETE', f'/admin/resources/{resource_id}/', token=token)
 
 
 def admin_get_posts(token, params=None):
-    return _api_call('GET', '/admin/posts', token=token, params=params)
+    return _api_call('GET', '/admin/posts/', token=token, params=params)
 
 
 def admin_get_post(token, post_id):
-    return _api_call('GET', f'/admin/posts/{post_id}', token=token)
+    return _api_call('GET', f'/admin/posts/{post_id}/', token=token)
 
 
 def admin_delete_post(token, post_id):
-    return _api_call('DELETE', f'/admin/posts/{post_id}', token=token)
+    return _api_call('DELETE', f'/admin/posts/{post_id}/', token=token)
 
 
 def admin_get_replies(token, post_id):
-    return _api_call('GET', f'/admin/posts/{post_id}/replies', token=token)
+    return _api_call('GET', f'/admin/posts/{post_id}/replies/', token=token)
 
 
 def admin_delete_reply(token, reply_id):
-    return _api_call('DELETE', f'/admin/replies/{reply_id}', token=token)
+    return _api_call('DELETE', f'/admin/replies/{reply_id}/', token=token)
 
 
 def admin_get_stats(token):
-    return _api_call('GET', '/admin/stats', token=token)
+    return _api_call('GET', '/admin/stats/', token=token)
 
 
 def get_profile_stats(token, username):
-    return _api_call('GET', f'/users/profile/{username}/stats', token=token)
+    return _api_call('GET', f'/users/profile/{username}/stats/', token=token)
 
 
 def follow_user(token, user_id):
-    return _api_call('POST', f'/users/{user_id}/follow', token=token)
+    return _api_call('POST', f'/users/{user_id}/follow/', token=token)
 
 
 def get_followers(token, user_id):
-    return _api_call('GET', f'/users/{user_id}/followers', token=token)
+    return _api_call('GET', f'/users/{user_id}/followers/', token=token)
 
 
 def get_following(token, user_id):
-    return _api_call('GET', f'/users/{user_id}/following', token=token)
+    return _api_call('GET', f'/users/{user_id}/following/', token=token)
 
 
 def get_user_photos(token):
-    return _api_call('GET', '/users/me/photos', token=token)
+    return _api_call('GET', '/users/me/photos/', token=token)
 
 
 def add_photo_url(token, url):
-    return _api_call('POST', '/users/me/photos', token=token, data={'url': url})
+    return _api_call('POST', '/users/me/photos/', token=token, data={'url': url})
 
 
 def add_photo_file(token, file_obj):
     headers = {}
     if token:
         headers['Authorization'] = f'Bearer {token}'
-    url = f'{API_BASE}/users/me/photos'
+    url = f'{API_BASE}/users/me/photos/'
     # Seek to the beginning of the file stream to ensure bytes are read successfully
     try:
         file_obj.seek(0)
@@ -238,4 +238,4 @@ def add_photo_file(token, file_obj):
 
 
 def set_active_photo(token, photo_id):
-    return _api_call('POST', f'/users/me/photos/{photo_id}/activate', token=token)
+    return _api_call('POST', f'/users/me/photos/{photo_id}/activate/', token=token)
