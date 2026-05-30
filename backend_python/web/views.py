@@ -659,15 +659,20 @@ def google_auth(request):
 
     id_token = data.get('idToken', '')
     if not id_token:
+        logger.warning('google_auth: no idToken in request body. Keys: %s', list(data.keys()))
         return JsonResponse({'error': 'idToken is required'}, status=400)
+
+    logger.info('google_auth: verifying token (length=%d, prefix=%s)', len(id_token), id_token[:20] if id_token else 'empty')
     result = api.auth_google(id_token)
     if not result or result.get('status') != 'success':
-        return JsonResponse({'error': 'Authentication failed'}, status=401)
+        logger.warning('google_auth: token verification failed. Result: %s', result)
+        return JsonResponse({'error': result.get('error', 'Authentication failed') if result else 'Authentication failed'}, status=401)
     token = result.get('authToken', '')
     user = result.get('user', {})
     user['isNewUser'] = result.get('isNewUser', False)
     user = _normalize_user_data(user)
     api.set_session_auth(request, token, user)
+    logger.info('google_auth: success for user=%s', user.get('username', user.get('email', 'unknown')))
     return JsonResponse({'status': 'success', 'user': user, 'isNewUser': result.get('isNewUser', False)})
 
 

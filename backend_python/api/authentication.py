@@ -1,10 +1,10 @@
 """
 Google Identity Services authentication for NEBians.
 
-Uses GIS on the frontend (popup-based) to get an ID token,
+Uses GIS on the frontend (One Tap / popup) to get a credential (JWT),
 then verifies it on the backend using the google-auth library.
 
-GIS ID tokens have:
+GIS credential tokens have:
 - Issuer: accounts.google.com / https://accounts.google.com
 - Audience: the OAuth 2.0 web client ID
 
@@ -34,9 +34,12 @@ def verify_google_token(id_token: str):
         firebase_project_id = settings.FIREBASE_PROJECT_ID
         google_client_id = settings.GOOGLE_CLIENT_ID
 
-        # Try verification with the Google Client ID first (GIS tokens)
-        # and fall back to Firebase project ID (Firebase tokens)
-        for audience in [google_client_id, firebase_project_id]:
+        # GIS tokens use the web client ID as audience
+        # Firebase tokens use the project ID as audience
+        audiences = [google_client_id, firebase_project_id]
+
+        last_error = None
+        for audience in audiences:
             try:
                 idinfo = google_id_token.verify_oauth2_token(
                     id_token,
@@ -51,18 +54,23 @@ def verify_google_token(id_token: str):
                     f'{FIREBASE_ISSUER_PREFIX}{firebase_project_id}',
                 )
                 if issuer not in valid_issuers:
+                    last_error = f"Invalid issuer: {issuer}"
                     continue
 
+                logger.info("Google token verified (audience=%s, issuer=%s, email=%s)",
+                            audience, issuer, idinfo.get('email'))
                 return {
                     'userId': idinfo.get('sub'),
                     'email': idinfo.get('email'),
                     'displayName': idinfo.get('name'),
                     'photoUrl': idinfo.get('picture'),
                 }
-            except ValueError:
+            except ValueError as e:
+                last_error = str(e)
+                logger.debug("Token verification failed for audience %s: %s", audience, e)
                 continue
 
-        logger.warning("Token verification failed: no valid audience found")
+        logger.warning("Token verification failed for all audiences: %s", last_error)
         return None
     except Exception as e:
         logger.error("Token verification error: %s", e)
