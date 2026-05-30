@@ -123,6 +123,15 @@
   </nav>
   {% endblock %}
 
+  <!-- Footer -->
+  <footer style="text-align:center;padding:24px 16px 16px;color:var(--md-on-surface-variant);font-size:0.75rem;border-top:1px solid var(--md-outline-variant);">
+    <div style="display:flex;justify-content:center;gap:16px;flex-wrap:wrap;">
+      <a href="{% url 'web:privacy_policy' %}" style="color:var(--md-on-surface-variant);text-decoration:none;">Privacy Policy</a>
+      <a href="{% url 'web:terms_of_service' %}" style="color:var(--md-on-surface-variant);text-decoration:none;">Terms of Service</a>
+    </div>
+    <p style="margin:8px 0 0;">&copy; 2026 NEBians. All rights reserved.</p>
+  </footer>
+
   <!-- Snackbar container -->
   <div id="snackbar-container"></div>
 
