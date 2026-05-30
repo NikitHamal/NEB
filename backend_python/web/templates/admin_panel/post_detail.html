@@ -5,15 +5,15 @@
 
 {% block content %}
 <div style="margin-bottom:24px;">
-  <a href="{% url 'web:admin_posts' %}" class="md-btn md-btn-text btn-left-flush">
-    <span class="material-symbols-outlined icon-md">arrow_back</span>
+  <a href="{% url 'web:admin_posts' %}" class="md-btn md-btn-text" style="padding-left:0;">
+    <span class="material-symbols-outlined" style="font-size:18px;">arrow_back</span>
     Back to Posts
   </a>
 </div>
 
 {% if post %}
 <div class="md-card-elevated p-3 mb-3">
-  <div class="toolbar-row">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
     <h2 class="md-title-large">{{ post.title }}</h2>
     <form method="post" action="{% url 'web:admin_post_delete' post_id=post.id %}" onsubmit="return confirm('Delete this post and all its replies?');">
       {% csrf_token %}
@@ -23,8 +23,8 @@
   <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
     <div class="profile-avatar" style="width:36px;height:36px;font-size:0.875rem;">{{ post.authorName|truncate_chars:1|default:"?" }}</div>
     <div>
-      <div class="md-title-small">{{ post.authorName }}</div>
-      <div class="md-body-small muted">{{ post.createdAt|time_ago }} · {{ post.category }}</div>
+      <div style="font-weight:600;">{{ post.authorName }}</div>
+      <div class="md-body-small" style="color:var(--md-on-surface-variant);">{{ post.createdAt|time_ago }} · {{ post.category }}</div>
     </div>
   </div>
   <div class="md-body-medium" style="white-space:pre-wrap;margin-bottom:16px;">{{ post.content }}</div>
@@ -35,16 +35,16 @@
 </div>
 
 <!-- Replies -->
-<div class="toolbar-row">
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
   <h3 class="md-title-medium">Replies ({{ replies|length }})</h3>
 </div>
 
 {% if replies %}
-<div class="stack stack-md">
+<div style="display:flex;flex-direction:column;gap:12px;">
   {% for reply in replies %}
   <div class="md-card-elevated p-2" style="display:flex;align-items:flex-start;gap:12px;">
     <div class="profile-avatar" style="width:32px;height:32px;font-size:0.75rem;flex-shrink:0;">{{ reply.authorName|truncate_chars:1|default:"?" }}</div>
-    <div class="flex-1">
+    <div style="flex:1;min-width:0;">
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
         <span style="font-weight:600;font-size:0.875rem;">{{ reply.authorName }}</span>
         <span style="font-size:0.75rem;color:var(--md-on-surface-variant);">{{ reply.createdAt|time_ago }}</span>
@@ -55,7 +55,7 @@
     <form method="post" action="{% url 'web:admin_reply_delete' reply_id=reply.id %}" onsubmit="return confirm('Delete this reply?');">
       {% csrf_token %}
       <button type="submit" class="md-btn-icon" style="color:var(--md-error);" title="Delete reply">
-        <span class="material-symbols-outlined icon-md">delete</span>
+        <span class="material-symbols-outlined" style="font-size:18px;">delete</span>
       </button>
     </form>
   </div>
