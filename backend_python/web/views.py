@@ -633,12 +633,7 @@ def login_page(request):
     if api.get_session_token(request):
         return redirect('web:home')
     return render(request, 'web/login.html', _ctx(request,
-        firebase_api_key=settings.FIREBASE_API_KEY,
-        firebase_auth_domain=settings.FIREBASE_AUTH_DOMAIN,
-        firebase_project_id=settings.FIREBASE_PROJECT_ID,
-        firebase_storage_bucket=settings.FIREBASE_STORAGE_BUCKET,
-        firebase_sender_id=settings.FIREBASE_SENDER_ID,
-        firebase_app_id=settings.FIREBASE_APP_ID,
+        google_client_id=settings.GOOGLE_CLIENT_ID,
     ))
 
 
