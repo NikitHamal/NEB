@@ -44,12 +44,20 @@ def set_session_auth(request, token, user_data):
     request.session['auth_token'] = token
     request.session['user_data'] = user_data
     request.session.modified = True
+    try:
+        request.session.save()
+    except Exception as e:
+        logger.error("Failed to explicitly save session: %s", e)
 
 
 def clear_session_auth(request):
     request.session.pop('auth_token', None)
     request.session.pop('user_data', None)
     request.session.modified = True
+    try:
+        request.session.save()
+    except Exception as e:
+        logger.error("Failed to explicitly clear session: %s", e)
 
 
 def auth_google(id_token):

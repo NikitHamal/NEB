@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}Privacy Policy{% endblock %}
+{% block description %}NEBians Privacy Policy - How we collect, use, and protect your personal information.{% endblock %}
+
+{% block content %}
+<div class="md-container-narrow" style="padding:48px 16px;">
+  <h1 class="md-headline-large" style="margin-bottom:8px;">Privacy Policy</h1>
+  <p style="color:var(--md-on-surface-variant);margin-bottom:32px;">Last updated: May 2026</p>
+
+  <section style="margin-bottom:28px;">
+    <h2 class="md-title-large" style="margin-bottom:8px;">1. Information We Collect</h2>
+    <p class="md-body-medium" style="color:var(--md-on-surface-variant);">When you sign in with Google, we collect your Google account ID, display name, email address, and profile photo. You may optionally provide additional information such as your date of birth, gender, class level, subjects, province, district, school, and a bio.</p>
+  </section>
+
+  <section style="margin-bottom:28px;">
+    <h2 class="md-title-large" style="margin-bottom:8px;">2. How We Use Your Information</h2>
+    <p class="md-body-medium" style="color:var(--md-on-surface-variant);">We use your information to provide and improve NEBians services: displaying your profile, enabling forum discussions, personalizing content, and communicating with you about your account or our services.</p>
+  </section>
+
+  <section style="margin-bottom:28px;">
+    <h2 class="md-title-large" style="margin-bottom:8px;">3. Information Sharing</h2>
+    <p class="md-body-medium" style="color:var(--md-on-surface-variant);">We do not sell your personal information. Your profile information (display name, photo, bio, class level, subjects) is visible to other users on NEBians. Your email address and account ID are never shared publicly. We may share information if required by law or to protect our rights.</p>
+  </section>
+
+  <section style="margin-bottom:28px;">
+    <h2 class="md-title-large" style="margin-bottom:8px;">4. Data Security</h2>
+    <p class="md-body-medium" style="color:var(--md-on-surface-variant);">We implement industry-standard security measures to protect your data. All data is transmitted over HTTPS. Authentication tokens are securely generated and stored. However, no method of electronic storage is 100% secure.</p>
+  </section>
+
+  <section style="margin-bottom:28px;">
+    <h2 class="md-title-large" style="margin-bottom:8px;">5. Your Choices</h2>
+    <p class="md-body-medium" style="color:var(--md-on-surface-variant);">You can edit or delete your profile information at any time through the Edit Profile page. You can lock your profile to make it private. You can delete your account by contacting us.</p>
+  </section>
+
+  <section style="margin-bottom:28px;">
+    <h2 class="md-title-large" style="margin-bottom:8px;">6. Data Retention</h2>
+    <p class="md-body-medium" style="color:var(--md-on-surface-variant);">We retain your account data for as long as your account is active. If you delete your account, we will remove your personal data within 30 days, except where we are required to retain it by law.</p>
+  </section>
+
+  <section style="margin-bottom:28px;">
+    <h2 class="md-title-large" style="margin-bottom:8px;">7. Children's Privacy</h2>
+    <p class="md-body-medium" style="color:var(--md-on-surface-variant);">NEBians is designed for students aged 13 and above. We do not knowingly collect personal information from children under 13. If we learn that we have collected data from a child under 13, we will delete it promptly.</p>
+  </section>
+
+  <section style="margin-bottom:28px;">
+    <h2 class="md-title-large" style="margin-bottom:8px;">8. Changes to This Policy</h2>
+    <p class="md-body-medium" style="color:var(--md-on-surface-variant);">We may update this privacy policy from time to time. We will notify you of significant changes by posting the updated policy on this page with a new "Last updated" date.</p>
+  </section>
+
+  <section style="margin-bottom:28px;">
+    <h2 class="md-title-large" style="margin-bottom:8px;">9. Contact Us</h2>
+    <p class="md-body-medium" style="color:var(--md-on-surface-variant);">If you have questions about this privacy policy or your data, please contact us at <a href="mailto:support@nebians.consica.com.np" style="color:var(--md-primary);">support@nebians.consica.com.np</a>.</p>
+  </section>
+
+  <div style="margin-top:40px;text-align:center;">
+    <a href="{% url 'web:terms_of_service' %}" class="md-btn md-btn-text">Terms of Service</a>
+    <a href="{% url 'web:home' %}" class="md-btn md-btn-text">Back to Home</a>
+  </div>
+</div>
+{% endblock %}

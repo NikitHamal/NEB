@@ -122,6 +122,7 @@ def _get_user_id(request):
 def _ctx(request, **extra):
     token = api.get_session_token(request)
     user = api.get_session_user(request)
+    logger.info("Session _ctx: token=%s, user=%s, session_keys=%s", token, user, list(request.session.keys()) if hasattr(request, 'session') else [])
     if user:
         user = _normalize_user_data(user)
     dark_mode = request.session.get('theme') == 'dark'
@@ -683,6 +684,14 @@ def _normalize_user_data(user):
 def logout(request):
     api.clear_session_auth(request)
     return redirect('web:home')
+
+
+def privacy_policy(request):
+    return render(request, 'web/legal/privacy.html', _ctx(request))
+
+
+def terms_of_service(request):
+    return render(request, 'web/legal/terms.html', _ctx(request))
 
 
 # ---------------------------------------------------------------------------
