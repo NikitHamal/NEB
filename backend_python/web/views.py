@@ -92,13 +92,30 @@ def _serialize_replies(replies_qs, user_id=None):
             followed_author_ids = set(Follow.objects.filter(
                 follower_id=user_id, following_id__in=author_ids
             ).values_list('following_id', flat=True))
+    child_reply_ids = {}
+    for r in replies:
+        if r.parent_reply_id:
+            child_reply_ids.setdefault(r.parent_reply_id, []).append(r)
     result = []
     for r in replies:
+        children = child_reply_ids.get(r.id, [])
+        child_authors = []
+        seen = set()
+        for c in children[:3]:
+            if c.user_id not in seen:
+                seen.add(c.user_id)
+                child_authors.append({
+                    'id': c.user_id,
+                    'username': c.user.username,
+                    'photoUrl': c.user.photo_url,
+                })
         result.append({
             'id': r.id, 'postId': r.post_id, 'parentReplyId': r.parent_reply_id,
             'content': r.content, 'authorName': r.user.username,
             'authorPhotoUrl': r.user.photo_url, 'authorId': r.user_id,
-            'thumbsUpCount': r.thumbs_up_count, 'createdAt': r.created_at,
+            'thumbsUpCount': r.thumbs_up_count, 'childCount': len(children),
+            'childAuthors': child_authors,
+            'createdAt': r.created_at,
             'isEdited': r.is_edited, 'editedAt': r.edited_at,
             'isThumbedUp': r.id in liked_ids,
             'isFollowed': r.user_id in followed_author_ids,
@@ -114,7 +131,8 @@ def _serialize_reply(r, user_id=None):
         'id': r.id, 'postId': r.post_id, 'parentReplyId': r.parent_reply_id,
         'content': r.content, 'authorName': r.user.username,
         'authorPhotoUrl': r.user.photo_url, 'authorId': r.user_id,
-        'thumbsUpCount': r.thumbs_up_count, 'createdAt': r.created_at,
+        'thumbsUpCount': r.thumbs_up_count, 'childCount': r.reply_count,
+        'createdAt': r.created_at,
         'isEdited': r.is_edited, 'editedAt': r.edited_at,
         'isThumbedUp': is_thumbed_up,
     }
@@ -456,14 +474,21 @@ def forum_post(request, post_id):
         raise Http404("Post not found")
     post = _serialize_post(post_obj, user_id)
     replies_qs = Reply.objects.select_related('user').filter(post_id=post_id).order_by('created_at')
-    replies = _serialize_replies(replies_qs, user_id)
+    all_replies = _serialize_replies(replies_qs, user_id)
+    top_level = []
+    children_map = {}
+    for r in all_replies:
+        if not r['parentReplyId']:
+            top_level.append(r)
+        else:
+            children_map.setdefault(r['parentReplyId'], []).append(r)
     is_following = False
     is_owner = False
     if user_id:
         is_owner = (user_id == post_obj.user_id)
         if not is_owner:
             is_following = Follow.objects.filter(follower_id=user_id, following_id=post_obj.user_id).exists()
-    return render(request, 'web/forum_post.html', _ctx(request, post=post, replies=replies, post_id=post_id, is_owner=is_owner, is_following=is_following, post_author_id=post_obj.user_id))
+    return render(request, 'web/forum_post.html', _ctx(request, post=post, replies=all_replies, top_level_replies=top_level, children_map=children_map, post_id=post_id, is_owner=is_owner, is_following=is_following, post_author_id=post_obj.user_id))
 
 
 def create_post(request):
@@ -1057,8 +1082,11 @@ def ajax_delete_reply(request, reply_id):
     if reply.user_id != user_id:
         return JsonResponse({'error': 'Forbidden'}, status=403)
     post_id = reply.post_id
+    parent_id = reply.parent_reply_id
     reply.delete()
     Post.objects.filter(pk=post_id, reply_count__gt=0).update(reply_count=F('reply_count') - 1)
+    if parent_id:
+        Reply.objects.filter(pk=parent_id, reply_count__gt=0).update(reply_count=F('reply_count') - 1)
     _clear_page_cache()
     return JsonResponse({'success': True})
 
@@ -1075,6 +1103,19 @@ def ajax_edit_history(request, target_type, target_id):
             'editedAt': e.edited_at,
         })
     return JsonResponse(data, safe=False)
+
+
+def ajax_reply_thread(request, reply_id):
+    user_id = _get_user_id(request)
+    try:
+        parent = Reply.objects.get(pk=reply_id)
+    except Reply.DoesNotExist:
+        return JsonResponse({'error': 'Reply not found'}, status=404)
+    children_qs = Reply.objects.select_related('user').filter(
+        parent_reply_id=reply_id
+    ).order_by('created_at')
+    children = _serialize_replies(children_qs, user_id)
+    return JsonResponse(children, safe=False)
 
 
 def ajax_check_username(request):

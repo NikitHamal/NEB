@@ -143,6 +143,7 @@ class Reply(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='replies')
     content = models.TextField()
     thumbs_up_count = models.IntegerField(default=0)
+    reply_count = models.IntegerField(default=0)
     is_edited = models.BooleanField(default=False)
     edited_at = models.BigIntegerField(default=0)
     created_at = models.BigIntegerField()
@@ -152,6 +153,7 @@ class Reply(models.Model):
         ordering = ['created_at']
         indexes = [
             models.Index(fields=['post_id', 'created_at']),
+            models.Index(fields=['parent_reply_id', 'created_at']),
         ]
 
     def __str__(self):
