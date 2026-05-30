@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block title %}Sign In{% endblock %}
+
+{% block content %}
+<div class="login-container">
+  <div class="login-card md-card-elevated">
+    <div class="logo" style="display:flex;justify-content:center;">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" width="80" height="80">
+        <rect width="32" height="32" rx="8" fill="var(--md-primary)"/>
+        <path d="M8 8h3v16H8V8zm5 0h3v16h-3V8zm5 0v16l8-8-8-8z" fill="var(--md-on-primary)"/>
+      </svg>
+    </div>
+    <h1 class="md-headline-small">Sign In with Email</h1>
+    <p class="md-body-medium">Enter your email and password to continue.</p>
+
+    <div style="margin-top:20px;">
+      <div class="md-text-field-wrapper">
+        <input type="email" id="login-email" class="md-text-field" placeholder=" " required>
+        <label class="md-text-field-label">Email</label>
+      </div>
+      <div class="md-text-field-wrapper" style="margin-top:12px;">
+        <input type="password" id="login-password" class="md-text-field" placeholder=" " required>
+        <label class="md-text-field-label">Password</label>
+      </div>
+      <p id="login-error" style="color:var(--md-error);font-size:0.8125rem;min-height:1.2em;margin:4px 0;"></p>
+      <button onclick="handleLogin()" id="login-btn" class="md-btn md-btn-filled" style="width:100%;margin-top:8px;">Sign In</button>
+    </div>
+
+    <div style="text-align:center;margin-top:8px;">
+      <a href="{% url 'web:email_forgot' %}" class="md-btn md-btn-text" style="font-size:0.875rem;">Forgot password?</a>
+    </div>
+
+    <div class="md-divider" style="margin-top:16px;"></div>
+
+    <div style="text-align:center;margin-top:12px;">
+      <a href="{% url 'web:email_signup' %}" class="md-btn md-btn-text">Create new account</a>
+    </div>
+    <div style="text-align:center;margin-top:4px;">
+      <a href="{% url 'web:login' %}" class="md-btn md-btn-text">← Back to Google sign-in</a>
+    </div>
+  </div>
+</div>
+
+{% block extra_js %}
+<script>
+async function handleLogin() {
+  const email = document.getElementById('login-email').value.trim();
+  const password = document.getElementById('login-password').value;
+  const errorEl = document.getElementById('login-error');
+  const btn = document.getElementById('login-btn');
+  errorEl.textContent = '';
+  btn.disabled = true;
+  btn.textContent = 'Signing in...';
+
+  try {
+    const res = await fetch('/api/auth/email/login/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password })
+    });
+    const data = await res.json();
+    if (data.status === 'success' && data.authToken) {
+      // Set session via the backend
+      const sessionRes = await fetch('{% url "web:google_auth" %}', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
+        body: JSON.stringify({ emailAuthToken: data.authToken, emailUser: data.user })
+      });
+      window.location.href = data.isNewUser ? '{% url "web:edit_profile" %}' : '{% url "web:home" %}';
+    } else {
+      errorEl.textContent = data.error || 'Login failed';
+      btn.disabled = false;
+      btn.textContent = 'Sign In';
+    }
+  } catch (e) {
+    errorEl.textContent = 'Network error. Please try again.';
+    btn.disabled = false;
+    btn.textContent = 'Sign In';
+  }
+}
+</script>
+{% endblock %}
+{% endblock %}

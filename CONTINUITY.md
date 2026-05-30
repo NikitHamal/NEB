@@ -7,6 +7,9 @@ Build a full modern minimalist M3-themed Android app called NEBians (com.neb.ian
 - Poppins fonts, Google-style M3 UI/UX
 - GitHub Actions workflow for 2 signed release APKs
 - Keystore committed to repo
+- Email signup with verification (6-digit code)
+- Email login and password reset
+- Google sign-in (existing)
 
 ## Constraints/Assumptions:
 - Package name: com.neb.ians
@@ -25,6 +28,9 @@ Build a full modern minimalist M3-themed Android app called NEBians (com.neb.ian
 - Two product flavors: modern (minSdk 28) and legacy (minSdk 24)
 - DataStore for preferences (dark mode, username, notifications)
 - Sample data seeded via WorkManager on first launch
+- Email auth: 6-digit verification code sent via Django email backend
+- Password hashing: SHA-256 (simple, matches existing pattern)
+- Email verification required before email login
 
 ## State:
 - Done:
@@ -42,16 +48,22 @@ Build a full modern minimalist M3-themed Android app called NEBians (com.neb.ian
   - Poppins font files downloaded
   - Notification workers (DataSeeder + NotificationWorker)
   - AGENTS.md and CONTINUITY.md documentation
-- Now: Final verification and cleanup
-- Next: N/A - all tasks complete
+  - Email signup with verification (backend + Android + web)
+  - Email login (backend + Android + web)
+  - Password reset with verification code (backend + Android + web)
+  - Email auth data models, API endpoints, repository methods
+  - New screens: EmailSignupScreen, EmailLoginScreen, EmailVerificationScreen, ForgotPasswordScreen
+  - Web templates: email_signup, email_login, email_verify, email_forgot
+- Now: Email auth feature complete
+- Next: Testing and deployment
 
 ## Open Questions (UNCONFIRMED if needed):
-- None
+- Email SMTP configuration needed for production (currently defaults to console backend)
+- SHA-256 password hashing — consider upgrading to bcrypt in future
 
 ## Working Set (files/ids/commands):
-- 47 Kotlin source files (5,651 lines total)
-- 9 resource/config XML files
-- 2 GitHub Actions workflows
-- 5 Poppins TTF font files
-- 1 release keystore
-- Gradle wrapper (8.5) + build configs
+- 51+ Kotlin source files
+- Django backend with email auth endpoints
+- 4 new web templates for email auth
+- 1 new migration for email auth fields
+- email_utils.py for sending verification emails

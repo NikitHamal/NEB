@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block title %}Verify Email{% endblock %}
+
+{% block content %}
+<div class="login-container">
+  <div class="login-card md-card-elevated">
+    <div class="logo" style="display:flex;justify-content:center;">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" width="80" height="80">
+        <rect width="32" height="32" rx="8" fill="var(--md-primary)"/>
+        <path d="M8 8h3v16H8V8zm5 0h3v16h-3V8zm5 0v16l8-8-8-8z" fill="var(--md-on-primary)"/>
+      </svg>
+    </div>
+    <h1 class="md-headline-small">Verify Your Email</h1>
+    <p class="md-body-medium">We sent a 6-digit code to <strong id="verify-email-display"></strong></p>
+
+    <div style="margin-top:20px;">
+      <div class="md-text-field-wrapper">
+        <input type="text" id="verify-code" class="md-text-field" placeholder=" " required maxlength="6" pattern="[0-9]{6}" inputmode="numeric">
+        <label class="md-text-field-label">6-digit Code</label>
+      </div>
+      <p id="verify-error" style="color:var(--md-error);font-size:0.8125rem;min-height:1.2em;margin:4px 0;"></p>
+      <button onclick="handleVerify()" id="verify-btn" class="md-btn md-btn-filled" style="width:100%;margin-top:8px;">Verify</button>
+      <button onclick="handleResend()" id="resend-btn" class="md-btn md-btn-text" style="width:100%;margin-top:4px;">Resend Code</button>
+    </div>
+
+    <div style="text-align:center;margin-top:16px;">
+      <a href="{% url 'web:email_login' %}" class="md-btn md-btn-text">← Back to sign in</a>
+    </div>
+  </div>
+</div>
+
+{% block extra_js %}
+<script>
+const params = new URLSearchParams(window.location.search);
+const email = params.get('email') || '';
+document.getElementById('verify-email-display').textContent = email || 'your email';
+
+async function handleVerify() {
+  const code = document.getElementById('verify-code').value.trim();
+  const errorEl = document.getElementById('verify-error');
+  const btn = document.getElementById('verify-btn');
+  errorEl.textContent = '';
+  btn.disabled = true;
+  btn.textContent = 'Verifying...';
+
+  try {
+    const res = await fetch('/api/auth/email/verify/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, code })
+    });
+    const data = await res.json();
+    if (data.status === 'success' && data.authToken) {
+      const sessionRes = await fetch('{% url "web:google_auth" %}', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
+        body: JSON.stringify({ emailAuthToken: data.authToken, emailUser: data.user })
+      });
+      window.location.href = data.isNewUser ? '{% url "web:edit_profile" %}' : '{% url "web:home" %}';
+    } else {
+      errorEl.textContent = data.error || 'Verification failed';
+      btn.disabled = false;
+      btn.textContent = 'Verify';
+    }
+  } catch (e) {
+    errorEl.textContent = 'Network error. Please try again.';
+    btn.disabled = false;
+    btn.textContent = 'Verify';
+  }
+}
+
+async function handleResend() {
+  const btn = document.getElementById('resend-btn');
+  btn.disabled = true;
+  btn.textContent = 'Sending...';
+  try {
+    await fetch('/api/auth/email/resend/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email })
+    });
+    btn.textContent = 'Code sent!';
+    setTimeout(() => { btn.textContent = 'Resend Code'; btn.disabled = false; }, 30000);
+  } catch (e) {
+    btn.textContent = 'Resend Code';
+    btn.disabled = false;
+  }
+}
+</script>
+{% endblock %}
+{% endblock %}

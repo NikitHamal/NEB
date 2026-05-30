@@ -16,6 +16,9 @@ import androidx.compose.material.icons.outlined.Wifi
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.outlined.LockOpen
 import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.outlined.Password
+import androidx.compose.material.icons.outlined.Visibility
+import androidx.compose.material.icons.outlined.VisibilityOff
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -23,6 +26,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
@@ -107,6 +112,10 @@ fun SettingsScreen(
                     modifier = Modifier.padding(horizontal = 16.dp),
                     color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
                 )
+
+                if (!isGuest && userProfile != null) {
+                    PasswordSection(settingsViewModel = settingsViewModel, hasPassword = userProfile!!.hasPassword)
+                }
 
                 ListItem(
                     headlineContent = { Text("Profile Visibility", fontWeight = FontWeight.Medium) },
@@ -279,7 +288,7 @@ fun SettingsScreen(
                         .padding(horizontal = 16.dp),
                     shape = CircleShape
                 ) {
-                    Text("Sign In with Google", fontWeight = FontWeight.SemiBold)
+                    Text("Sign In", fontWeight = FontWeight.SemiBold)
                 }
             } else {
                 OutlinedButton(
@@ -314,5 +323,211 @@ private fun SettingsSectionLabel(label: String) {
         color = MaterialTheme.colorScheme.primary,
         fontWeight = FontWeight.SemiBold,
         modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 20.dp, bottom = 4.dp)
+    )
+}
+
+@Composable
+private fun PasswordSection(settingsViewModel: SettingsViewModel, hasPassword: Boolean) {
+    var showSetDialog by remember { mutableStateOf(false) }
+    var showChangeDialog by remember { mutableStateOf(false) }
+
+    ListItem(
+        headlineContent = {
+            Text(
+                if (hasPassword) "Change Password" else "Set Password",
+                fontWeight = FontWeight.Medium
+            )
+        },
+        supportingContent = {
+            Text(if (hasPassword) "Update your account password" else "Add a password to sign in with email/username")
+        },
+        leadingContent = {
+            Icon(
+                imageVector = Icons.Outlined.Password,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        },
+        modifier = Modifier.clickable {
+            if (hasPassword) showChangeDialog = true else showSetDialog = true
+        },
+        colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest)
+    )
+
+    if (showSetDialog) {
+        SetPasswordDialog(
+            onDismiss = { showSetDialog = false },
+            onSetPassword = { settingsViewModel.setPassword(it) }
+        )
+    }
+
+    if (showChangeDialog) {
+        ChangePasswordDialog(
+            onDismiss = { showChangeDialog = false },
+            onChangePassword = { current, new -> settingsViewModel.changePassword(current, new) }
+        )
+    }
+
+    val passwordState by settingsViewModel.passwordState.collectAsStateWithLifecycle()
+    LaunchedEffect(passwordState) {
+        if (passwordState is PasswordUiState.Success) {
+            showSetDialog = false
+            showChangeDialog = false
+            settingsViewModel.resetPasswordState()
+        }
+    }
+}
+
+@Composable
+private fun SetPasswordDialog(
+    onDismiss: () -> Unit,
+    onSetPassword: (String) -> Unit
+) {
+    var password by remember { mutableStateOf("") }
+    var confirmPassword by remember { mutableStateOf("") }
+    var passwordVisible by remember { mutableStateOf(false) }
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text("Set Password") },
+        text = {
+            Column {
+                Text(
+                    "Add a password so you can also sign in with your email or username.",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                OutlinedTextField(
+                    value = password,
+                    onValueChange = { password = it },
+                    label = { Text("Password") },
+                    singleLine = true,
+                    visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                    trailingIcon = {
+                        IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                            Icon(
+                                imageVector = if (passwordVisible) Icons.Outlined.VisibilityOff else Icons.Outlined.Visibility,
+                                contentDescription = null
+                            )
+                        }
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(12.dp),
+                    supportingText = { Text("At least 8 characters") }
+                )
+                Spacer(modifier = Modifier.height(12.dp))
+                OutlinedTextField(
+                    value = confirmPassword,
+                    onValueChange = { confirmPassword = it },
+                    label = { Text("Confirm Password") },
+                    singleLine = true,
+                    visualTransformation = PasswordVisualTransformation(),
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(12.dp),
+                    isError = confirmPassword.isNotBlank() && password != confirmPassword,
+                    supportingText = {
+                        if (confirmPassword.isNotBlank() && password != confirmPassword) {
+                            Text("Passwords don't match", color = MaterialTheme.colorScheme.error)
+                        }
+                    }
+                )
+            }
+        },
+        confirmButton = {
+            TextButton(
+                onClick = { onSetPassword(password) },
+                enabled = password.length >= 8 && password == confirmPassword
+            ) {
+                Text("Set Password")
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) { Text("Cancel") }
+        }
+    )
+}
+
+@Composable
+private fun ChangePasswordDialog(
+    onDismiss: () -> Unit,
+    onChangePassword: (String, String) -> Unit
+) {
+    var currentPassword by remember { mutableStateOf("") }
+    var newPassword by remember { mutableStateOf("") }
+    var confirmPassword by remember { mutableStateOf("") }
+    var currentVisible by remember { mutableStateOf(false) }
+    var newVisible by remember { mutableStateOf(false) }
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text("Change Password") },
+        text = {
+            Column {
+                OutlinedTextField(
+                    value = currentPassword,
+                    onValueChange = { currentPassword = it },
+                    label = { Text("Current Password") },
+                    singleLine = true,
+                    visualTransformation = if (currentVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                    trailingIcon = {
+                        IconButton(onClick = { currentVisible = !currentVisible }) {
+                            Icon(
+                                imageVector = if (currentVisible) Icons.Outlined.VisibilityOff else Icons.Outlined.Visibility,
+                                contentDescription = null
+                            )
+                        }
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(12.dp)
+                )
+                Spacer(modifier = Modifier.height(12.dp))
+                OutlinedTextField(
+                    value = newPassword,
+                    onValueChange = { newPassword = it },
+                    label = { Text("New Password") },
+                    singleLine = true,
+                    visualTransformation = if (newVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                    trailingIcon = {
+                        IconButton(onClick = { newVisible = !newVisible }) {
+                            Icon(
+                                imageVector = if (newVisible) Icons.Outlined.VisibilityOff else Icons.Outlined.Visibility,
+                                contentDescription = null
+                            )
+                        }
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(12.dp),
+                    supportingText = { Text("At least 8 characters") }
+                )
+                Spacer(modifier = Modifier.height(12.dp))
+                OutlinedTextField(
+                    value = confirmPassword,
+                    onValueChange = { confirmPassword = it },
+                    label = { Text("Confirm New Password") },
+                    singleLine = true,
+                    visualTransformation = PasswordVisualTransformation(),
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(12.dp),
+                    isError = confirmPassword.isNotBlank() && newPassword != confirmPassword,
+                    supportingText = {
+                        if (confirmPassword.isNotBlank() && newPassword != confirmPassword) {
+                            Text("Passwords don't match", color = MaterialTheme.colorScheme.error)
+                        }
+                    }
+                )
+            }
+        },
+        confirmButton = {
+            TextButton(
+                onClick = { onChangePassword(currentPassword, newPassword) },
+                enabled = currentPassword.isNotBlank() && newPassword.length >= 8 && newPassword == confirmPassword
+            ) {
+                Text("Change Password")
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) { Text("Cancel") }
+        }
     )
 }
