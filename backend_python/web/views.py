@@ -1411,34 +1411,44 @@ def sitemap_xml(request):
     Generates a dynamic XML sitemap listing the homepage, library, forum,
     and all public resources and forum posts dynamically from the database.
     """
-    from api.models import Resource, Post
+    from api.models import Resource, Post, User
     from django.utils import timezone
 
+    base = 'https://nebians.consica.com.np'
     now = timezone.now().isoformat()
     urls = [
-        {'loc': 'https://nebians.consica.com.np/', 'changefreq': 'daily', 'priority': '1.0', 'lastmod': now},
-        {'loc': 'https://nebians.consica.com.np/library/', 'changefreq': 'daily', 'priority': '0.8', 'lastmod': now},
-        {'loc': 'https://nebians.consica.com.np/forum/', 'changefreq': 'daily', 'priority': '0.8', 'lastmod': now},
-        {'loc': 'https://nebians.consica.com.np/search/', 'changefreq': 'weekly', 'priority': '0.5', 'lastmod': now},
+        {'loc': f'{base}/', 'changefreq': 'daily', 'priority': '1.0', 'lastmod': now},
+        {'loc': f'{base}/library/', 'changefreq': 'daily', 'priority': '0.8', 'lastmod': now},
+        {'loc': f'{base}/forum/', 'changefreq': 'daily', 'priority': '0.8', 'lastmod': now},
+        {'loc': f'{base}/search/', 'changefreq': 'weekly', 'priority': '0.5', 'lastmod': now},
     ]
 
     for r in Resource.objects.all():
         lastmod = r.updated_at.isoformat() if hasattr(r, 'updated_at') and r.updated_at else now
         urls.append({
-            'loc': f'https://nebians.consica.com.np/reader/{r.id}/',
+            'loc': f'{base}/reader/{r.id}/',
             'changefreq': 'weekly',
             'priority': '0.6',
             'lastmod': lastmod,
         })
 
-    for p in Post.objects.all():
+    for p in Post.objects.filter(is_archived=False).select_related('user')[:500]:
         lastmod = p.created_at.isoformat() if hasattr(p, 'created_at') and p.created_at else now
         urls.append({
-            'loc': f'https://nebians.consica.com.np/forum/post/{p.id}/',
+            'loc': f'{base}/forum/post/{p.id}/',
             'changefreq': 'daily',
-            'priority': '0.6',
+            'priority': '0.7',
             'lastmod': lastmod,
         })
+
+    for u in User.objects.filter(is_locked=False)[:500]:
+        if u.username:
+            urls.append({
+                'loc': f'{base}/profile/{u.username}/',
+                'changefreq': 'weekly',
+                'priority': '0.4',
+                'lastmod': now,
+            })
 
     xml_content = '<?xml version="1.0" encoding="UTF-8"?>\n'
     xml_content += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
@@ -1462,6 +1472,9 @@ def robots_txt(request):
         'Disallow: /admin-django/',
         'Disallow: /api/',
         'Disallow: /ajax/',
+        'Disallow: /auth/',
+        'Disallow: /login/',
+        'Disallow: /profile/edit/',
         '',
         'Sitemap: https://nebians.consica.com.np/sitemap.xml',
     ]

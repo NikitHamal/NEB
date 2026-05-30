@@ -1,7 +1,8 @@
 {% extends "base.html" %}
 {% load web_extras %}
 
-{% block title %}{{ profile_user.display_name|default:profile_user.username }} | Profile{% endblock %}
+{% block title %}{{ profile_user.display_name|default:profile_user.username }} - NEBians Profile{% endblock %}
+{% block description %}{{ profile_user.display_name|default:profile_user.username }} on NEBians - NEB student profile, discussions, and achievements.{% endblock %}
 
 {% block bottomnav %}{% endblock %}
 
