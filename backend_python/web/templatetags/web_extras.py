@@ -131,3 +131,42 @@ def split(value, key):
     if not value:
         return []
     return [s.strip() for s in str(value).split(key) if s.strip()]
+
+
+@register.filter
+def clean_province(value):
+    if not value:
+        return ''
+    s = str(value).strip()
+    mapping = {
+        '1': 'Koshi',
+        '2': 'Madhesh',
+        '3': 'Bagmati',
+        '4': 'Gandaki',
+        '5': 'Lumbini',
+        '6': 'Karnali',
+        '7': 'Sudurpashchim',
+    }
+    if s in mapping:
+        return mapping[s]
+    
+    import re
+    s_lower = s.lower()
+    if 'province 1' in s_lower or 'koshi' in s_lower:
+        return 'Koshi'
+    if 'province 2' in s_lower or 'madhesh' in s_lower:
+        return 'Madhesh'
+    if 'province 3' in s_lower or 'bagmati' in s_lower:
+        return 'Bagmati'
+    if 'province 4' in s_lower or 'gandaki' in s_lower:
+        return 'Gandaki'
+    if 'province 5' in s_lower or 'lumbini' in s_lower:
+        return 'Lumbini'
+    if 'province 6' in s_lower or 'karnali' in s_lower:
+        return 'Karnali'
+    if 'province 7' in s_lower or 'sudurpashchim' in s_lower:
+        return 'Sudurpashchim'
+    
+    s_clean = re.sub(r'(?i)\bprovience\b|\bprovince\b', '', s)
+    s_clean = re.sub(r'\s+', ' ', s_clean).strip(' ,')
+    return s_clean
