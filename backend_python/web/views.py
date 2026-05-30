@@ -126,14 +126,9 @@ def _get_user_id(request):
         return None
     cache_key = f'user_id_{token}'
     user_id = cache.get(cache_key)
-    if user_id is None:
-        try:
-            user_id = User.objects.get(auth_token=token).id
-            cache.set(cache_key, user_id, 300)
-        except User.DoesNotExist:
-            api.clear_session_auth(request)
-            return None
-    return user_id
+    if user_id is not None:
+        return user_id
+    return None
 
 
 def _get_valid_token(request):
@@ -144,12 +139,17 @@ def _get_valid_token(request):
             token = auth_header[7:].strip()
     if not token:
         return None
+    cache_key = f'valid_token:{token}'
+    if cache.get(cache_key):
+        return token
     try:
-        User.objects.get(auth_token=token)
+        user = User.objects.get(auth_token=token)
+        cache.set(cache_key, True, 300)
+        cache.set(f'user_id_{token}', user.id, 300)
+        return token
     except User.DoesNotExist:
         api.clear_session_auth(request)
         return None
-    return token
 
 
 def _ctx(request, **extra):
@@ -289,11 +289,12 @@ def get_user_level_title(score):
 def _build_local_stats(user):
     post_count = Post.objects.filter(user=user).count()
     reply_count = Reply.objects.filter(user=user).count()
+    follower_count = Follow.objects.filter(following=user).count()
+    following_count = Follow.objects.filter(follower=user).count()
     likes_given = (PostLike.objects.filter(user=user).count() +
                    ReplyLike.objects.filter(user=user).count())
-    likes_received_posts = PostLike.objects.filter(post__user=user).count()
-    likes_received_replies = ReplyLike.objects.filter(reply__user=user).count()
-    likes_received = likes_received_posts + likes_received_replies
+    likes_received = (PostLike.objects.filter(post__user=user).count() +
+                     ReplyLike.objects.filter(reply__user=user).count())
     
     contribution_score = (post_count * 3) + (reply_count * 2) + likes_given + (likes_received * 2)
     return {
@@ -303,6 +304,55 @@ def _build_local_stats(user):
         'likes_received': likes_received,
         'contribution_score': contribution_score,
     }
+
+
+def _build_contributors_batch():
+    """
+    Build leaderboard stats for ALL users in ~10 queries instead of N*6.
+    Returns a sorted list of contributor dicts.
+    """
+    from django.db.models import Count
+
+    user_ids = list(User.objects.values_list('id', flat=True))
+
+    post_counts = dict(Post.objects.filter(user_id__in=user_ids).values('user_id').annotate(c=Count('id')).values_list('user_id', 'c'))
+    reply_counts = dict(Reply.objects.filter(user_id__in=user_ids).values('user_id').annotate(c=Count('id')).values_list('user_id', 'c'))
+    follower_counts = dict(Follow.objects.filter(following_id__in=user_ids).values('following_id').annotate(c=Count('id')).values_list('following_id', 'c'))
+    following_counts = dict(Follow.objects.filter(follower_id__in=user_ids).values('follower_id').annotate(c=Count('id')).values_list('follower_id', 'c'))
+
+    likes_given = {}
+    for model in [PostLike, ReplyLike]:
+        for uid, cnt in model.objects.filter(user_id__in=user_ids).values('user_id').annotate(c=Count('id')).values_list('user_id', 'c'):
+            likes_given[uid] = likes_given.get(uid, 0) + cnt
+
+    likes_received = {}
+    for model, owner_field in [(PostLike, 'post__user_id'), (ReplyLike, 'reply__user_id')]:
+        for uid, cnt in model.objects.filter(**{owner_field + '__in': user_ids}).values(owner_field).annotate(c=Count('id')).values_list(owner_field, 'c'):
+            likes_received[uid] = likes_received.get(uid, 0) + cnt
+
+    user_map = {u.id: u for u in User.objects.filter(id__in=user_ids)}
+    contributors = []
+    for uid in user_ids:
+        u = user_map.get(uid)
+        if not u:
+            continue
+        pc = post_counts.get(uid, 0)
+        rc = reply_counts.get(uid, 0)
+        fc = follower_counts.get(uid, 0)
+        fwc = following_counts.get(uid, 0)
+        lg = likes_given.get(uid, 0)
+        lr = likes_received.get(uid, 0)
+        score = (pc * 3) + (rc * 2) + lg + (lr * 2)
+        contributors.append({
+            'username': u.username,
+            'display_name': u.display_name or u.username,
+            'photo_url': u.photo_url,
+            'score': score,
+            'formatted_score': format_score(score),
+            'level': get_user_level_title(score),
+        })
+    contributors.sort(key=lambda c: c['score'], reverse=True)
+    return contributors
 
 def forum(request):
     user_id = _get_user_id(request)
@@ -341,21 +391,7 @@ def forum(request):
 
     contributor_data = cache.get('forum_contributors')
     if contributor_data is None:
-        all_users = User.objects.all()
-        contributors = []
-        for u in all_users:
-            stats = _build_local_stats(u)
-            score = stats.get('contribution_score', 0)
-            contributors.append({
-                'username': u.username,
-                'display_name': u.display_name or u.username,
-                'photo_url': u.photo_url,
-                'score': score,
-                'formatted_score': format_score(score),
-                'level': get_user_level_title(score),
-            })
-        contributors = sorted(contributors, key=lambda c: c['score'], reverse=True)
-        contributor_data = contributors[:10]
+        contributor_data = _build_contributors_batch()[:10]
         cache.set('forum_contributors', contributor_data, 120)
 
     top_contributors = contributor_data[:3]
@@ -402,21 +438,7 @@ def forum_categories(request):
 def leaderboard(request):
     contributor_data = cache.get('forum_contributors')
     if contributor_data is None:
-        all_users = User.objects.all()
-        contributors = []
-        for u in all_users:
-            stats = _build_local_stats(u)
-            score = stats.get('contribution_score', 0)
-            contributors.append({
-                'username': u.username,
-                'display_name': u.display_name or u.username,
-                'photo_url': u.photo_url,
-                'score': score,
-                'formatted_score': format_score(score),
-                'level': get_user_level_title(score),
-            })
-        contributors = sorted(contributors, key=lambda c: c['score'], reverse=True)
-        contributor_data = contributors[:50]
+        contributor_data = _build_contributors_batch()[:50]
         cache.set('forum_contributors', contributor_data, 120)
     return render(request, 'web/leaderboard.html', _ctx(request,
         contributors=contributor_data,
@@ -1278,7 +1300,10 @@ def admin_dashboard(request):
     if redirect_response:
         return redirect_response
     token = _admin_token(request)
-    stats = api.admin_get_stats(token) or {}
+    stats = cache.get('admin_stats')
+    if stats is None:
+        stats = api.admin_get_stats(token) or {}
+        cache.set('admin_stats', stats, 60)
     return render(request, 'admin_panel/dashboard.html', {
         'is_admin': True,
         'stats': stats,
@@ -1460,7 +1485,12 @@ def sitemap_xml(request):
     """
     Generates a dynamic XML sitemap listing the homepage, library, forum,
     and all public resources and forum posts dynamically from the database.
+    Cached for 1 hour.
     """
+    sitemap_content = cache.get('sitemap_xml')
+    if sitemap_content is not None:
+        return HttpResponse(sitemap_content, content_type='application/xml')
+
     from api.models import Resource, Post, User
     from django.utils import timezone
 
@@ -1523,6 +1553,7 @@ def sitemap_xml(request):
         xml_content += '  </url>\n'
     xml_content += '</urlset>\n'
 
+    cache.set('sitemap_xml', xml_content, 3600)
     return HttpResponse(xml_content, content_type='application/xml')
 
 
