@@ -4,7 +4,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('api', '0009_performance_indexes'),
+        ('api', '0010_rename_api_edithistory_target_idx_edit_histor_target__ea3ea5_idx_and_more'),
     ]
 
     operations = [
