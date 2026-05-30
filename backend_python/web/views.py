@@ -1474,7 +1474,13 @@ def sitemap_xml(request):
     ]
 
     for r in Resource.objects.all():
-        lastmod = r.updated_at.isoformat() if hasattr(r, 'updated_at') and r.updated_at else now
+        ts = r.updated_at if hasattr(r, 'updated_at') and r.updated_at else r.added_at
+        if isinstance(ts, int) and ts:
+            lastmod = timezone.datetime.fromtimestamp(ts / 1000, tz=timezone.get_current_timezone()).isoformat()
+        elif hasattr(ts, 'isoformat') and ts:
+            lastmod = ts.isoformat()
+        else:
+            lastmod = now
         urls.append({
             'loc': f'{base}/reader/{r.id}/',
             'changefreq': 'weekly',
@@ -1483,7 +1489,13 @@ def sitemap_xml(request):
         })
 
     for p in Post.objects.filter(is_archived=False).select_related('user')[:500]:
-        lastmod = p.created_at.isoformat() if hasattr(p, 'created_at') and p.created_at else now
+        ts = p.created_at
+        if isinstance(ts, int) and ts:
+            lastmod = timezone.datetime.fromtimestamp(ts / 1000, tz=timezone.get_current_timezone()).isoformat()
+        elif hasattr(ts, 'isoformat') and ts:
+            lastmod = ts.isoformat()
+        else:
+            lastmod = now
         urls.append({
             'loc': f'{base}/forum/post/{p.id}/',
             'changefreq': 'daily',
