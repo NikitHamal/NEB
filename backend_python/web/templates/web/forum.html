@@ -553,7 +553,8 @@ async function toggleFollowBtn(btn, userId) {
   if (!AUTH_TOKEN) { window.location.href = '{% url "web:login" %}'; return; }
   btn.disabled = true;
   try {
-    const r = await fetch('/ajax/follow/' + userId + '/', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN } });
+    const r = await fetch('/ajax/follow/' + userId + '/', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN, 'Authorization': 'Bearer ' + AUTH_TOKEN } });
+    if (r.status === 401) { window.location.href = '{% url "web:login" %}'; return; }
     const d = await r.json();
     btn.disabled = false;
     if (d && d.error) { showSnackbar(d.error); return; }
