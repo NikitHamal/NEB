@@ -1,11 +1,35 @@
 {% extends "base.html" %}
 {% load web_extras %}
 
-{% block title %}{{ post.title|default:"Post" }}{% endblock %}
+{% block title %}{{ post.title|default:"Discussion" }} - NEBians{% endblock %}
+{% block description %}{{ post.content|truncatechars:160|default:"Discussion on NEBians forum" }}{% endblock %}
+{% block keywords %}NEBians, NEB, Nepal, discussion, forum, {{ post.category }}, {{ post.authorName }}{% endblock %}
+{% block og_title %}{{ post.title|default:"Discussion" }} - NEBians Forum{% endblock %}
+{% block og_description %}{{ post.content|truncatechars:200|default:"Discussion on NEBians forum" }}{% endblock %}
+{% block og_type %}article{% endblock %}
+{% block tw_title %}{{ post.title|default:"Discussion" }} - NEBians{% endblock %}
+{% block tw_description %}{{ post.content|truncatechars:200|default:"Discussion on NEBians forum" }}{% endblock %}
 {% block nav_forum %}md-nav-active{% endblock %}
 {% block bnav_forum %}md-nav-active{% endblock %}
 
 {% block content %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "DiscussionForumPosting",
+  "headline": "{{ post.title|escapejs }}",
+  "description": "{{ post.content|truncatechars:200|escapejs }}",
+  "datePublished": "{{ post.createdAt|timestamp_to_iso }}",
+  "author": {
+    "@type": "Person",
+    "name": "{{ post.authorName|escapejs }}"
+  },
+  "interactionStatistic": [
+    { "@type": "InteractionCounter", "interactionType": "LikeAction", "userInteractionCount": {{ post.thumbsUpCount|default:0 }} },
+    { "@type": "InteractionCounter", "interactionType": "CommentAction", "userInteractionCount": {{ post.replyCount|default:0 }} }
+  ]
+}
+</script>
 <style>
   .post-owner-actions { display:flex; gap:8px; margin-top:8px; flex-wrap:wrap; }
   .post-owner-actions button, .post-owner-actions a {

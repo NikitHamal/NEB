@@ -1,4 +1,6 @@
 import json
+import time
+from datetime import datetime, timezone
 from django import template
 from django.utils.safestring import mark_safe
 
@@ -20,6 +22,16 @@ def divide(value, arg):
     except (ValueError, TypeError, ZeroDivisionError):
         return 0
 
+
+@register.filter
+def timestamp_to_iso(value):
+    """Convert millisecond timestamp to ISO 8601 format for JSON-LD."""
+    try:
+        ts = int(value) / 1000
+        dt = datetime.fromtimestamp(ts, tz=timezone.utc)
+        return dt.isoformat()
+    except (ValueError, TypeError):
+        return ''
 
 @register.filter
 def time_ago(value):
