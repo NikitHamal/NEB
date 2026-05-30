@@ -1,14 +1,15 @@
 """
-Custom authentication: verifies server-issued auth tokens.
-The client sends:  Authorization: Bearer <auth_token>
+Google Identity Services authentication for NEBians.
 
-On /api/auth/google, the Google ID Token is verified once, and a
-server-issued auth_token is returned. Subsequent authenticated
-endpoints use this auth_token to identify the user — no repeated
-Google verification needed.
+Uses the official Google OAuth 2.0 flow:
+1. Frontend uses google.accounts.oauth2.initTokenClient (GIS) to get an ID token
+2. Backend verifies the ID token using google-auth library (verify_oauth2_token)
+3. A server-issued auth_token is returned for subsequent API calls
+
+This replaces the old tokeninfo endpoint approach with proper cryptographic
+verification using Google's public keys.
 """
 import logging
-import requests
 from django.conf import settings
 from rest_framework.authentication import BaseAuthentication
 from rest_framework.exceptions import AuthenticationFailed
@@ -19,31 +20,39 @@ logger = logging.getLogger(__name__)
 
 def verify_google_token(id_token: str):
     """
-    Validates a Google ID Token via Google's tokeninfo endpoint.
+    Verifies a Google ID Token using the official google-auth library.
+    Uses Google's public keys (JWKS) for cryptographic verification —
+    no network call to tokeninfo endpoint needed.
+
     Returns a dict with {userId, email, displayName, photoUrl} or None.
     """
     try:
-        resp = requests.get(
-            'https://oauth2.googleapis.com/tokeninfo',
-            params={'id_token': id_token},
-            timeout=10
+        from google.oauth2 import id_token as google_id_token
+        from google.auth.transport import requests as google_requests
+
+        client_id = settings.GOOGLE_CLIENT_ID
+
+        idinfo = google_id_token.verify_oauth2_token(
+            id_token,
+            google_requests.Request(),
+            client_id,
         )
-        if not resp.ok:
-            logger.warning("Google tokeninfo returned %s: %s", resp.status_code, resp.text[:200])
+
+        if idinfo.get('iss') not in ('accounts.google.com', 'https://accounts.google.com'):
+            logger.warning("Google token issuer mismatch: %s", idinfo.get('iss'))
             return None
-        payload = resp.json()
-        expected_aud = settings.GOOGLE_CLIENT_ID
-        if payload.get('aud') != expected_aud:
-            logger.warning("Google token aud mismatch: expected=%s got=%s", expected_aud, payload.get('aud'))
-            return None
+
         return {
-            'userId': payload.get('sub'),
-            'email': payload.get('email'),
-            'displayName': payload.get('name'),
-            'photoUrl': payload.get('picture'),
+            'userId': idinfo.get('sub'),
+            'email': idinfo.get('email'),
+            'displayName': idinfo.get('name'),
+            'photoUrl': idinfo.get('picture'),
         }
+    except ValueError as e:
+        logger.warning("Google token verification failed (ValueError): %s", e)
+        return None
     except Exception as e:
-        logger.error("Google token verification failed: %s", e)
+        logger.error("Google token verification error: %s", e)
         return None
 
 
@@ -75,6 +84,4 @@ class AuthTokenAuthentication(BaseAuthentication):
         return 'Bearer'
 
 
-# Legacy import alias — views that referenced GoogleTokenAuthentication
-# will still work, but it now uses auth_token-based lookup.
 GoogleTokenAuthentication = AuthTokenAuthentication

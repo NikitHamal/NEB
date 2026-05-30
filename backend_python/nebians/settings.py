@@ -150,6 +150,14 @@ CORS_ALLOWED_ORIGINS = [
 # Google OAuth
 GOOGLE_CLIENT_ID = os.environ.get('GOOGLE_CLIENT_ID', '478709074228-cu0b0t75ghhsvqp2jotj75g6utj84nre.apps.googleusercontent.com')
 
+# Firebase config (for web client-side auth)
+FIREBASE_API_KEY = os.environ.get('FIREBASE_API_KEY', 'GOOGLE_API_KEY_REMOVED')
+FIREBASE_AUTH_DOMAIN = os.environ.get('FIREBASE_AUTH_DOMAIN', 'nebians.firebaseapp.com')
+FIREBASE_PROJECT_ID = os.environ.get('FIREBASE_PROJECT_ID', 'nebians')
+FIREBASE_STORAGE_BUCKET = os.environ.get('FIREBASE_STORAGE_BUCKET', 'nebians.firebasestorage.app')
+FIREBASE_SENDER_ID = os.environ.get('FIREBASE_SENDER_ID', '478709074228')
+FIREBASE_APP_ID = os.environ.get('FIREBASE_APP_ID', '1:478709074228:web:185dce36aefe3b31417d61')
+
 ADMIN_TOKEN = os.environ.get('ADMIN_TOKEN', 'nebians-admin-2024-secure-token')
 ADMIN_USERNAME = os.environ.get('ADMIN_USERNAME', 'admin')
 ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD', 'admin123')

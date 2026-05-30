@@ -1,5 +1,7 @@
 import json
 import logging
+import time
+import uuid
 
 from django.conf import settings
 from django.core.cache import cache
@@ -9,7 +11,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_GET, require_POST
 from django.http import JsonResponse, Http404, HttpResponse
 
-from api.models import User, Resource, Post, PostLike, Reply, ReplyLike, Follow, UserPhoto
+from api.models import User, Resource, Post, PostLike, Reply, ReplyLike, Follow, UserPhoto, EditHistory
 from . import api_client as api
 
 logger = logging.getLogger(__name__)
@@ -45,7 +47,8 @@ def _serialize_posts(posts_qs, user_id=None):
             'authorBadge': getattr(p.user, 'badge', None),
             'authorId': p.user_id, 'thumbsUpCount': p.thumbs_up_count, 'thumbs_up_count': p.thumbs_up_count,
             'replyCount': p.reply_count, 'reply_count': p.reply_count,
-            'createdAt': p.created_at, 'updatedAt': p.created_at,
+            'createdAt': p.created_at, 'updatedAt': p.edited_at or p.created_at,
+            'isEdited': p.is_edited, 'editedAt': p.edited_at, 'isArchived': p.is_archived,
             'isThumbedUp': p.id in liked_ids,
         })
     return result
@@ -61,7 +64,8 @@ def _serialize_post(p, user_id=None):
         'authorBadge': getattr(p.user, 'badge', None),
         'authorId': p.user_id, 'thumbsUpCount': p.thumbs_up_count, 'thumbs_up_count': p.thumbs_up_count,
         'replyCount': p.reply_count, 'reply_count': p.reply_count,
-        'createdAt': p.created_at, 'updatedAt': p.created_at,
+        'createdAt': p.created_at, 'updatedAt': p.edited_at or p.created_at,
+        'isEdited': p.is_edited, 'editedAt': p.edited_at, 'isArchived': p.is_archived,
         'isThumbedUp': is_thumbed_up,
     }
 
@@ -80,6 +84,7 @@ def _serialize_replies(replies_qs, user_id=None):
             'content': r.content, 'authorName': r.user.username,
             'authorPhotoUrl': r.user.photo_url, 'authorId': r.user_id,
             'thumbsUpCount': r.thumbs_up_count, 'createdAt': r.created_at,
+            'isEdited': r.is_edited, 'editedAt': r.edited_at,
             'isThumbedUp': r.id in liked_ids,
         })
     return result
@@ -94,6 +99,7 @@ def _serialize_reply(r, user_id=None):
         'content': r.content, 'authorName': r.user.username,
         'authorPhotoUrl': r.user.photo_url, 'authorId': r.user_id,
         'thumbsUpCount': r.thumbs_up_count, 'createdAt': r.created_at,
+        'isEdited': r.is_edited, 'editedAt': r.edited_at,
         'isThumbedUp': is_thumbed_up,
     }
 
@@ -381,7 +387,13 @@ def forum_post(request, post_id):
     post = _serialize_post(post_obj, user_id)
     replies_qs = Reply.objects.select_related('user').filter(post_id=post_id).order_by('created_at')
     replies = _serialize_replies(replies_qs, user_id)
-    return render(request, 'web/forum_post.html', _ctx(request, post=post, replies=replies, post_id=post_id))
+    is_following = False
+    is_owner = False
+    if user_id:
+        is_owner = (user_id == post_obj.user_id)
+        if not is_owner:
+            is_following = Follow.objects.filter(follower_id=user_id, following_id=post_obj.user_id).exists()
+    return render(request, 'web/forum_post.html', _ctx(request, post=post, replies=replies, post_id=post_id, is_owner=is_owner, is_following=is_following, post_author_id=post_obj.user_id))
 
 
 def create_post(request):
@@ -618,7 +630,14 @@ def edit_profile(request):
 def login_page(request):
     if api.get_session_token(request):
         return redirect('web:home')
-    return render(request, 'web/login.html', _ctx(request))
+    return render(request, 'web/login.html', _ctx(request,
+        firebase_api_key=settings.FIREBASE_API_KEY,
+        firebase_auth_domain=settings.FIREBASE_AUTH_DOMAIN,
+        firebase_project_id=settings.FIREBASE_PROJECT_ID,
+        firebase_storage_bucket=settings.FIREBASE_STORAGE_BUCKET,
+        firebase_sender_id=settings.FIREBASE_SENDER_ID,
+        firebase_app_id=settings.FIREBASE_APP_ID,
+    ))
 
 
 @require_POST
@@ -741,11 +760,144 @@ def ajax_delete_post(request, post_id):
     token = api.get_session_token(request)
     if not token:
         return JsonResponse({'error': 'Unauthorized'}, status=401)
-    result = api.delete_post(token, post_id)
-    if result:
+    user_id = _get_user_id(request)
+    if not user_id:
+        return JsonResponse({'error': 'Unauthorized'}, status=401)
+    try:
+        post = Post.objects.get(pk=post_id)
+        if post.user_id != user_id:
+            return JsonResponse({'error': 'Forbidden'}, status=403)
+        post.delete()
         _clear_page_cache()
-        return JsonResponse(result)
-    return JsonResponse({'error': 'Failed'}, status=500)
+        return JsonResponse({'success': True})
+    except Post.DoesNotExist:
+        return JsonResponse({'error': 'Post not found'}, status=404)
+
+
+@require_POST
+def ajax_edit_post(request, post_id):
+    user_id = _get_user_id(request)
+    if not user_id:
+        return JsonResponse({'error': 'Unauthorized'}, status=401)
+    try:
+        data = json.loads(request.body)
+    except json.JSONDecodeError:
+        return JsonResponse({'error': 'Invalid request'}, status=400)
+    try:
+        post = Post.objects.get(pk=post_id)
+    except Post.DoesNotExist:
+        return JsonResponse({'error': 'Post not found'}, status=404)
+    if post.user_id != user_id:
+        return JsonResponse({'error': 'Forbidden'}, status=403)
+    now = int(time.time() * 1000)
+    if 'title' in data:
+        EditHistory.objects.create(
+            id=str(uuid.uuid4()), target_type='post', target_id=post.id,
+            field='title', old_value=post.title, new_value=data['title'].strip(),
+            edited_by_id=user_id, edited_at=now
+        )
+        post.title = data['title'].strip()
+    if 'content' in data:
+        EditHistory.objects.create(
+            id=str(uuid.uuid4()), target_type='post', target_id=post.id,
+            field='content', old_value=post.content, new_value=data['content'].strip(),
+            edited_by_id=user_id, edited_at=now
+        )
+        post.content = data['content'].strip()
+    if 'category' in data:
+        EditHistory.objects.create(
+            id=str(uuid.uuid4()), target_type='post', target_id=post.id,
+            field='category', old_value=post.category, new_value=data['category'].strip(),
+            edited_by_id=user_id, edited_at=now
+        )
+        post.category = data['category'].strip()
+    post.is_edited = True
+    post.edited_at = now
+    post.save()
+    _clear_page_cache()
+    return JsonResponse(_serialize_post(post, user_id))
+
+
+@require_POST
+def ajax_archive_post(request, post_id):
+    user_id = _get_user_id(request)
+    if not user_id:
+        return JsonResponse({'error': 'Unauthorized'}, status=401)
+    try:
+        post = Post.objects.get(pk=post_id)
+    except Post.DoesNotExist:
+        return JsonResponse({'error': 'Post not found'}, status=404)
+    if post.user_id != user_id:
+        return JsonResponse({'error': 'Forbidden'}, status=403)
+    post.is_archived = not post.is_archived
+    post.save(update_fields=['is_archived'])
+    _clear_page_cache()
+    return JsonResponse({'success': True, 'isArchived': post.is_archived})
+
+
+@require_POST
+def ajax_edit_reply(request, reply_id):
+    user_id = _get_user_id(request)
+    if not user_id:
+        return JsonResponse({'error': 'Unauthorized'}, status=401)
+    try:
+        data = json.loads(request.body)
+    except json.JSONDecodeError:
+        return JsonResponse({'error': 'Invalid request'}, status=400)
+    try:
+        reply = Reply.objects.get(pk=reply_id)
+    except Reply.DoesNotExist:
+        return JsonResponse({'error': 'Reply not found'}, status=404)
+    if reply.user_id != user_id:
+        return JsonResponse({'error': 'Forbidden'}, status=403)
+    content = data.get('content', '').strip()
+    if not content:
+        return JsonResponse({'error': 'Content required'}, status=400)
+    now = int(time.time() * 1000)
+    EditHistory.objects.create(
+        id=str(uuid.uuid4()), target_type='reply', target_id=reply.id,
+        field='content', old_value=reply.content, new_value=content,
+        edited_by_id=user_id, edited_at=now
+    )
+    reply.content = content
+    reply.is_edited = True
+    reply.edited_at = now
+    reply.save()
+    _clear_page_cache()
+    return JsonResponse(_serialize_reply(reply, user_id))
+
+
+@require_POST
+def ajax_delete_reply(request, reply_id):
+    user_id = _get_user_id(request)
+    if not user_id:
+        return JsonResponse({'error': 'Unauthorized'}, status=401)
+    try:
+        reply = Reply.objects.get(pk=reply_id)
+    except Reply.DoesNotExist:
+        return JsonResponse({'error': 'Reply not found'}, status=404)
+    if reply.user_id != user_id:
+        return JsonResponse({'error': 'Forbidden'}, status=403)
+    post = reply.post
+    reply.delete()
+    post.reply_count = max(0, post.reply_count - 1)
+    post.save(update_fields=['reply_count'])
+    _clear_page_cache()
+    return JsonResponse({'success': True})
+
+
+def ajax_edit_history(request, target_type, target_id):
+    if target_type not in ('post', 'reply'):
+        return JsonResponse({'error': 'Invalid target type'}, status=400)
+    entries = EditHistory.objects.filter(target_type=target_type, target_id=target_id).select_related('edited_by')
+    data = []
+    for e in entries:
+        data.append({
+            'id': e.id, 'field': e.field, 'oldValue': e.old_value, 'newValue': e.new_value,
+            'editedByUsername': e.edited_by.username, 'editedByPhotoUrl': e.edited_by.photo_url or '',
+            'editedAt': e.edited_at,
+        })
+    return JsonResponse(data, safe=False)
 
 
 def ajax_check_username(request):
