@@ -40,15 +40,16 @@ from .authentication import verify_google_token
 from .security import (
     hash_password, verify_password, hash_verification_code, verify_verification_code,
     validate_profile_photo_url, save_profile_image_upload,
+    validate_external_https_url,
 )
 from .email_utils import send_verification_email
 from .throttles import AuthRateThrottle, VerificationRateThrottle
-from .models import User, Resource, Post, PostLike, Reply, ReplyLike, FCMToken, Follow, UserPhoto, EditHistory
+from .models import User, Resource, Post, PostLike, Reply, ReplyLike, FCMToken, Follow, UserPhoto, EditHistory, Report
 from .serializers import (
     UserSerializer, UserPublicSerializer,
     ResourceSerializer, PostSerializer, ReplySerializer,
     UserPhotoSerializer, UserStatsSerializer, FollowSerializer,
-    EditHistorySerializer,
+    EditHistorySerializer, ReportSerializer,
 )
 
 logger = logging.getLogger(__name__)
@@ -233,25 +234,11 @@ def check_username(request):
 
 
 @api_view(['POST'])
-@authentication_classes([])
 def user_profile_create_or_update(request):
     """POST /api/users/profile — create or update the authenticated user's profile."""
-    auth_header = request.headers.get('Authorization', '')
-    if not auth_header.startswith('Bearer '):
-        logger.warning("user_profile: missing Bearer header")
-        return Response({'error': 'Unauthorized — please sign in again'}, status=401)
-
-    token = auth_header[7:].strip()
-    if not token:
-        logger.warning("user_profile: empty Bearer token")
-        return Response({'error': 'Unauthorized — please sign in again'}, status=401)
-
-    # Look up user by auth_token
-    try:
-        user = User.objects.get(auth_token=token)
-    except User.DoesNotExist:
-        logger.warning("user_profile: no user found for provided auth token")
-        return Response({'error': 'Unauthorized — please sign in again'}, status=401)
+    user, err = _require_user(request)
+    if err:
+        return err
 
     data = request.data
     logger.info("user_profile: updating profile for user %s, data keys: %s", user.id, list(data.keys()))
@@ -275,6 +262,12 @@ def user_profile_create_or_update(request):
             photo_url = validate_profile_photo_url(photo_url)
         except ValidationError as exc:
             return Response({'error': ' '.join(exc.messages)}, status=400)
+    banner_url = data.get('bannerUrl', '') or user.banner_url or ''
+    if banner_url and not str(banner_url).startswith(request.build_absolute_uri('/media/')):
+        try:
+            banner_url = validate_external_https_url(banner_url)
+        except ValidationError as exc:
+            return Response({'error': ' '.join(exc.messages)}, status=400)
     display_name = data.get('displayName', '') or user.display_name or ''
     gender = data.get('gender', '')
     class_level = data.get('classLevel', '')
@@ -288,6 +281,7 @@ def user_profile_create_or_update(request):
     user.username = username
     user.email = email
     user.photo_url = photo_url
+    user.banner_url = banner_url
     user.display_name = display_name
     user.dob = dob
     user.gender = gender
@@ -373,17 +367,8 @@ def resource_view(request, resource_id):
 # FORUM — POSTS
 # ---------------------------------------------------------------------------
 
-@api_view(['GET'])
-def posts_list(request):
-    """GET /api/posts?username=<username>"""
-    posts = Post.objects.select_related('user').all()
-    username = request.query_params.get('username')
-    if username:
-        posts = posts.filter(user__username=username)
-    return _paginated_response(request, posts, PostSerializer, context={'request': request})
-
-
 @api_view(['POST'])
+@throttle_classes([AuthRateThrottle])
 def posts_create(request):
     """POST /api/posts"""
     user, err = _require_user(request)
@@ -496,13 +481,6 @@ def post_like(request, post_id):
 # ---------------------------------------------------------------------------
 # FORUM — REPLIES
 # ---------------------------------------------------------------------------
-
-@api_view(['GET'])
-def replies_list(request, post_id):
-    """GET /api/posts/<postId>/replies"""
-    replies = Reply.objects.filter(post_id=post_id).select_related('user')
-    return _paginated_response(request, replies, ReplySerializer, context={'request': request})
-
 
 @api_view(['POST'])
 def replies_create(request, post_id):
@@ -959,11 +937,14 @@ def auth_change_password(request):
 # ---------------------------------------------------------------------------
 
 @api_view(['POST'])
+@throttle_classes([AuthRateThrottle])
 def fcm_register(request):
     """POST /api/fcm/register"""
     token = request.data.get('token', '').strip()
     if not token:
         return Response({'error': 'FCM token is required'}, status=400)
+    if len(token) < 10 or len(token) > 512:
+        return Response({'error': 'Invalid FCM token format'}, status=400)
 
     user = _get_user_from_request(request)
     now = _now_ms()
@@ -989,14 +970,18 @@ def search_all(request):
 
     resources = Resource.objects.filter(
         Q(title__icontains=query) | Q(description__icontains=query) | Q(subject__icontains=query)
-    )[:25]
+    )
     posts = Post.objects.select_related('user').filter(
-        Q(title__icontains=query) | Q(content__icontains=query)
-    )[:25]
+        Q(title__icontains=query) | Q(content__icontains=query),
+        is_archived=False,
+    )
+
+    resource_page = _paginated_response(request, resources, ResourceSerializer, default_page_size=25, max_page_size=50)
+    post_page = _paginated_response(request, posts, PostSerializer, context={'request': request}, default_page_size=25, max_page_size=50)
 
     return Response({
-        'resources': ResourceSerializer(resources, many=True).data,
-        'posts': PostSerializer(posts, many=True, context={'request': request}).data,
+        'resources': resource_page.data.get('results', []),
+        'posts': post_page.data.get('results', []),
     })
 
 
@@ -1017,7 +1002,7 @@ def posts_endpoint(request):
       page     — page number for pagination (endpoint is always paginated)
     """
     if request.method == 'GET':
-        posts = Post.objects.select_related('user').all()
+        posts = Post.objects.select_related('user').filter(is_archived=False)
 
         username = request.query_params.get('username')
         category = request.query_params.get('category')
@@ -1168,6 +1153,7 @@ def user_profile_stats(request, username):
 # ---------------------------------------------------------------------------
 
 @api_view(['POST'])
+@throttle_classes([AuthRateThrottle])
 def user_follow_toggle(request, user_id):
     """
     POST /api/users/<userId>/follow
@@ -1319,3 +1305,41 @@ def user_photo_activate(request, photo_id):
 
     logger.info("user_photo_activate: user %s switched to photo %s", current_user.username, photo_id)
     return Response({'success': True, 'photo_url': photo.url, 'photo': UserPhotoSerializer(photo).data})
+
+
+# ---------------------------------------------------------------------------
+# REPORTS
+# ---------------------------------------------------------------------------
+
+@api_view(['POST'])
+def report_create(request):
+    """POST /api/reports — submit a content/user report."""
+    user, err = _require_user(request)
+    if err:
+        return err
+
+    target_type = request.data.get('target_type', '').strip()
+    target_id = request.data.get('target_id', '').strip()
+    reason = request.data.get('reason', 'other').strip()
+    description = request.data.get('description', '').strip()
+
+    valid_types = {'post', 'reply', 'user', 'resource'}
+    if target_type not in valid_types:
+        return Response({'error': f'target_type must be one of: {", ".join(sorted(valid_types))}'}, status=400)
+    if not target_id:
+        return Response({'error': 'target_id is required'}, status=400)
+    if reason not in dict(Report.REASON_CHOICES):
+        return Response({'error': 'Invalid reason'}, status=400)
+
+    report = Report.objects.create(
+        id=str(uuid.uuid4()),
+        reporter=user,
+        target_type=target_type,
+        target_id=target_id,
+        reason=reason,
+        description=description,
+        status='open',
+        created_at=_now_ms(),
+    )
+    logger.info("report_create: user %s reported %s/%s (reason=%s)", user.username, target_type, target_id, reason)
+    return Response(ReportSerializer(report).data, status=201)

@@ -18,6 +18,7 @@ class User(models.Model):
     username = models.CharField(max_length=50, unique=True)
     email = models.EmailField(blank=True, null=True)
     photo_url = models.TextField(blank=True, null=True)
+    banner_url = models.TextField(blank=True, null=True)
     display_name = models.CharField(max_length=150, blank=True, null=True)
     dob = models.CharField(max_length=20, default='')
     gender = models.CharField(max_length=20, blank=True, null=True)
@@ -218,3 +219,34 @@ class EditHistory(models.Model):
     class Meta:
         db_table = 'edit_history'
         ordering = ['edited_at']
+
+
+class Report(models.Model):
+    """Content / user reports for moderation."""
+    REASON_CHOICES = [
+        ('spam', 'Spam'),
+        ('abuse', 'Abuse / Harassment'),
+        ('inappropriate', 'Inappropriate Content'),
+        ('misinformation', 'Misinformation'),
+        ('other', 'Other'),
+    ]
+    STATUS_CHOICES = [
+        ('open', 'Open'),
+        ('reviewing', 'Reviewing'),
+        ('resolved', 'Resolved'),
+        ('dismissed', 'Dismissed'),
+    ]
+    id = models.CharField(max_length=36, primary_key=True)
+    reporter = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='reports_made')
+    target_type = models.CharField(max_length=10)
+    target_id = models.CharField(max_length=36)
+    reason = models.CharField(max_length=20, choices=REASON_CHOICES, default='other')
+    description = models.TextField(blank=True, default='')
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='open')
+    created_at = models.BigIntegerField()
+    resolved_at = models.BigIntegerField(default=0)
+    resolved_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='reports_resolved')
+
+    class Meta:
+        db_table = 'reports'
+        ordering = ['-created_at']

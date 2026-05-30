@@ -2,7 +2,7 @@
 DRF serializers for all NEBians API resources.
 """
 from rest_framework import serializers
-from .models import User, Resource, Post, Reply, FCMToken, UserPhoto, Follow, EditHistory
+from .models import User, Resource, Post, Reply, FCMToken, UserPhoto, Follow, EditHistory, Report
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -11,7 +11,7 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = [
-            'id', 'username', 'email', 'photo_url', 'display_name',
+            'id', 'username', 'email', 'photo_url', 'banner_url', 'display_name',
             'dob', 'gender', 'class_level', 'subjects',
             'pradesh', 'district', 'school', 'bio', 'is_locked', 'created_at',
             'email_verified', 'hasPassword',
@@ -36,7 +36,7 @@ class UserPublicSerializer(serializers.ModelSerializer):
     """Restricted view for locked/private profiles."""
     class Meta:
         model = User
-        fields = ['username', 'display_name', 'photo_url', 'bio', 'is_locked']
+        fields = ['username', 'display_name', 'photo_url', 'banner_url', 'bio', 'is_locked']
 
     def to_representation(self, instance):
         ret = super().to_representation(instance)
@@ -195,3 +195,16 @@ class EditHistorySerializer(serializers.ModelSerializer):
     class Meta:
         model = EditHistory
         fields = ['id', 'target_type', 'target_id', 'field', 'old_value', 'new_value', 'editedByUsername', 'editedByPhotoUrl', 'edited_at']
+
+
+class ReportSerializer(serializers.ModelSerializer):
+    reporter_username = serializers.CharField(source='reporter.username', read_only=True, allow_null=True)
+
+    class Meta:
+        model = Report
+        fields = [
+            'id', 'reporter', 'reporter_username', 'target_type', 'target_id',
+            'reason', 'description', 'status', 'created_at', 'resolved_at',
+            'resolved_by',
+        ]
+        read_only_fields = ['id', 'reporter', 'status', 'created_at', 'resolved_at', 'resolved_by']

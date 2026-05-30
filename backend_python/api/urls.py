@@ -58,6 +58,9 @@ urlpatterns = [
     # FCM
     path('fcm/register/', views.fcm_register, name='fcm-register'),
 
+    # Reports
+    path('reports/', views.report_create, name='report-create'),
+
     # Admin API
     path('', include('api.admin_urls')),
 ]

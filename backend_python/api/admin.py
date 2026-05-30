@@ -3,7 +3,7 @@ Register models with Django Admin for easy content management.
 Accessible at /admin-django/ after creating a superuser. The public custom admin UI is /admin/ and now uses the same Django staff/superuser credentials.
 """
 from django.contrib import admin
-from .models import User, Resource, Post, Reply, PostLike, ReplyLike, FCMToken, UserPhoto, Follow, EditHistory
+from .models import User, Resource, Post, Reply, PostLike, ReplyLike, FCMToken, UserPhoto, Follow, EditHistory, Report
 
 
 @admin.register(User)
@@ -68,3 +68,11 @@ class EditHistoryAdmin(admin.ModelAdmin):
     list_display = ['target_type', 'target_id', 'field', 'edited_by', 'edited_at']
     search_fields = ['target_id', 'field', 'edited_by__username']
     list_filter = ['target_type', 'field']
+
+
+@admin.register(Report)
+class ReportAdmin(admin.ModelAdmin):
+    list_display = ['id', 'reporter', 'target_type', 'target_id', 'reason', 'status', 'created_at']
+    search_fields = ['target_id', 'description']
+    list_filter = ['status', 'reason', 'target_type']
+    raw_id_fields = ['reporter', 'resolved_by']
