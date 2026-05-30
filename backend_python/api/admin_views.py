@@ -14,7 +14,7 @@ from .serializers import UserSerializer, ResourceSerializer, PostSerializer, Rep
 
 logger = logging.getLogger(__name__)
 
-ADMIN_TOKEN = getattr(settings, 'ADMIN_TOKEN', 'REDACTED-LEGACY-ADMIN-TOKEN')
+ADMIN_TOKEN = settings.ADMIN_TOKEN
 
 
 def _check_admin(request):
