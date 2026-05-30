@@ -54,6 +54,11 @@ def _now_ms():
     return int(time.time() * 1000)
 
 
+def _profile_incomplete(user):
+    """Check if user profile is missing mandatory fields."""
+    return not user.display_name or not user.gender or not user.class_level
+
+
 def _get_user_from_request(request):
     """
     Returns the authenticated User object if the request is authenticated,
@@ -653,6 +658,7 @@ def auth_email_verify(request):
     return Response({
         'status': 'success',
         'isNewUser': True,
+        'profileIncomplete': _profile_incomplete(user),
         'authToken': user.auth_token,
         'user': UserSerializer(user).data,
     })
@@ -743,6 +749,7 @@ def auth_email_login(request):
     return Response({
         'status': 'success',
         'isNewUser': False,
+        'profileIncomplete': _profile_incomplete(user),
         'authToken': user.auth_token,
         'user': UserSerializer(user).data,
     })
@@ -816,6 +823,7 @@ def auth_email_reset_password(request):
     logger.info("auth_email_reset_password: password reset for %s", user.username)
     return Response({
         'status': 'success',
+        'profileIncomplete': _profile_incomplete(user),
         'authToken': user.auth_token,
         'user': UserSerializer(user).data,
     })

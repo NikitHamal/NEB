@@ -12,6 +12,7 @@ from django.views.decorators.http import require_GET, require_POST
 from django.http import JsonResponse, Http404, HttpResponse
 
 from api.models import User, Resource, Post, PostLike, Reply, ReplyLike, Follow, UserPhoto, EditHistory
+from api.serializers import UserSerializer
 from . import api_client as api
 
 logger = logging.getLogger(__name__)
@@ -35,10 +36,16 @@ def _serialize_resource(r):
 def _serialize_posts(posts_qs, user_id=None):
     posts = list(posts_qs)
     liked_ids = set()
+    followed_author_ids = set()
     if user_id and posts:
         liked_ids = set(PostLike.objects.filter(
             post_id__in=[p.id for p in posts], user_id=user_id
         ).values_list('post_id', flat=True))
+        author_ids = set(p.user_id for p in posts if p.user_id != user_id)
+        if author_ids:
+            followed_author_ids = set(Follow.objects.filter(
+                follower_id=user_id, following_id__in=author_ids
+            ).values_list('following_id', flat=True))
     result = []
     for p in posts:
         result.append({
@@ -50,14 +57,18 @@ def _serialize_posts(posts_qs, user_id=None):
             'createdAt': p.created_at, 'updatedAt': p.edited_at or p.created_at,
             'isEdited': p.is_edited, 'editedAt': p.edited_at, 'isArchived': p.is_archived,
             'isThumbedUp': p.id in liked_ids,
+            'isFollowingAuthor': p.user_id in followed_author_ids,
         })
     return result
 
 
 def _serialize_post(p, user_id=None):
     is_thumbed_up = False
+    is_following_author = False
     if user_id:
         is_thumbed_up = PostLike.objects.filter(post_id=p.id, user_id=user_id).exists()
+        if user_id != p.user_id:
+            is_following_author = Follow.objects.filter(follower_id=user_id, following_id=p.user_id).exists()
     return {
         'id': p.id, 'title': p.title, 'content': p.content, 'category': p.category,
         'authorName': p.user.username, 'authorPhotoUrl': p.user.photo_url,
@@ -66,17 +77,23 @@ def _serialize_post(p, user_id=None):
         'replyCount': p.reply_count, 'reply_count': p.reply_count,
         'createdAt': p.created_at, 'updatedAt': p.edited_at or p.created_at,
         'isEdited': p.is_edited, 'editedAt': p.edited_at, 'isArchived': p.is_archived,
-        'isThumbedUp': is_thumbed_up,
+        'isThumbedUp': is_thumbed_up, 'isFollowingAuthor': is_following_author,
     }
 
 
 def _serialize_replies(replies_qs, user_id=None):
     replies = list(replies_qs)
     liked_ids = set()
+    followed_author_ids = set()
     if user_id and replies:
         liked_ids = set(ReplyLike.objects.filter(
             reply_id__in=[r.id for r in replies], user_id=user_id
         ).values_list('reply_id', flat=True))
+        author_ids = set(r.user_id for r in replies if r.user_id != user_id)
+        if author_ids:
+            followed_author_ids = set(Follow.objects.filter(
+                follower_id=user_id, following_id__in=author_ids
+            ).values_list('following_id', flat=True))
     result = []
     for r in replies:
         result.append({
@@ -86,6 +103,7 @@ def _serialize_replies(replies_qs, user_id=None):
             'thumbsUpCount': r.thumbs_up_count, 'createdAt': r.created_at,
             'isEdited': r.is_edited, 'editedAt': r.edited_at,
             'isThumbedUp': r.id in liked_ids,
+            'isFollowed': r.user_id in followed_author_ids,
         })
     return result
 
@@ -145,6 +163,11 @@ def _admin_token(request):
 # ---------------------------------------------------------------------------
 
 def home(request):
+    token = api.get_session_token(request)
+    if token:
+        user_data = api.get_session_user(request)
+        if user_data and (not user_data.get('display_name') or not user_data.get('gender') or not user_data.get('class_level')):
+            return redirect('web:edit_profile')
     user_id = _get_user_id(request)
     resources = cache.get('home_resources')
     if resources is None:
@@ -581,17 +604,26 @@ def edit_profile(request):
     if request.method == 'POST':
         username = request.POST.get('username', '').strip()
         dob = request.POST.get('dob', '').strip()
+        display_name = request.POST.get('display_name', '').strip()
+        gender = request.POST.get('gender', '').strip()
+        class_level = request.POST.get('class_level', '').strip()
         if not username or not dob:
             return render(request, 'web/edit_profile.html', _ctx(request, error='Username and Date of Birth are required.'))
+        if not display_name:
+            return render(request, 'web/edit_profile.html', _ctx(request, error='Display Name is required.'))
+        if not gender:
+            return render(request, 'web/edit_profile.html', _ctx(request, error='Gender is required.'))
+        if not class_level:
+            return render(request, 'web/edit_profile.html', _ctx(request, error='Class is required.'))
         conflict = User.objects.filter(username__iexact=username).exclude(pk=db_user.id).exists()
         if conflict:
             return render(request, 'web/edit_profile.html', _ctx(request, error='Username already taken.'))
         db_user.username = username
         db_user.email = request.POST.get('email', '').strip() or db_user.email or ''
-        db_user.display_name = request.POST.get('display_name', '').strip() or db_user.display_name or ''
+        db_user.display_name = display_name or db_user.display_name or ''
         db_user.dob = dob
-        db_user.gender = request.POST.get('gender', '') or db_user.gender or ''
-        db_user.class_level = request.POST.get('class_level', '') or db_user.class_level or ''
+        db_user.gender = gender or db_user.gender or ''
+        db_user.class_level = class_level or db_user.class_level or ''
         db_user.subjects = request.POST.get('subjects', '') or db_user.subjects or ''
         db_user.pradesh = request.POST.get('pradesh', '') or db_user.pradesh or ''
         db_user.district = request.POST.get('district', '').strip() or db_user.district or ''
@@ -622,7 +654,8 @@ def edit_profile(request):
         return redirect('web:home')
     ctx = _ctx(request)
     ctx['error'] = ctx.get('error', None)
-    return render(request, 'web/edit_profile.html', _ctx(request, error=ctx.get('error', None), has_password=has_password))
+    profile_incomplete = not db_user.display_name or not db_user.gender or not db_user.class_level
+    return render(request, 'web/edit_profile.html', _ctx(request, error=ctx.get('error', None), has_password=has_password, profile_incomplete=profile_incomplete))
 
 
 # ---------------------------------------------------------------------------
@@ -652,8 +685,10 @@ def google_auth(request):
             token = user.auth_token
             user_data = _normalize_user_data(UserSerializer(user).data)
             user_data['isNewUser'] = data.get('emailUser', {}).get('isNewUser', False)
+            profile_incomplete = not user.display_name or not user.gender or not user.class_level
+            user_data['profileIncomplete'] = data.get('emailUser', {}).get('profileIncomplete', profile_incomplete)
             api.set_session_auth(request, token, user_data)
-            return JsonResponse({'status': 'success', 'user': user_data, 'isNewUser': user_data.get('isNewUser', False)})
+            return JsonResponse({'status': 'success', 'user': user_data, 'isNewUser': user_data.get('isNewUser', False), 'profileIncomplete': user_data.get('profileIncomplete', False)})
         except User.DoesNotExist:
             return JsonResponse({'error': 'Invalid auth token'}, status=401)
 
