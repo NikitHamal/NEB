@@ -4,14 +4,14 @@
 {% block title %}Forum Posts{% endblock %}
 
 {% block content %}
-<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;">
+<div class="page-title-row">
   <h1 class="md-headline-medium">Forum Posts</h1>
-  <form method="get" style="display:flex;gap:8px;">
+  <form method="get" class="inline-cluster">
     <div class="search-bar" style="margin-bottom:0;">
       <span class="material-symbols-outlined">search</span>
       <input type="text" name="q" value="{{ search }}" placeholder="Search posts..." style="border:none;background:transparent;outline:none;color:var(--md-on-surface);font-family:var(--md-font);font-size:0.875rem;padding:8px 0;">
     </div>
-    <button type="submit" class="md-btn md-btn-filled" style="padding:8px 16px;">Search</button>
+    <button type="submit" class="md-btn md-btn-filled btn-sm">Search</button>
   </form>
 </div>
 
@@ -36,13 +36,13 @@
           <a href="{% url 'web:admin_post_detail' post_id=p.id %}" style="font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block;">{{ p.title }}</a>
         </td>
         <td>{{ p.authorName }}</td>
-        <td><span class="md-chip" style="font-size:0.75rem;">{{ p.category }}</span></td>
+        <td><span class="md-chip md-label-small">{{ p.category }}</span></td>
         <td>{{ p.thumbsUpCount }}</td>
         <td>{{ p.replyCount }}</td>
-        <td style="font-size:0.75rem;">{{ p.createdAt|time_ago }}</td>
+        <td class="md-label-small">{{ p.createdAt|time_ago }}</td>
         <td>
-          <div style="display:flex;gap:4px;">
-            <a href="{% url 'web:admin_post_detail' post_id=p.id %}" class="md-btn md-btn-text" style="padding:4px 8px;font-size:0.75rem;">View</a>
+          <div class="admin-actions-inline">
+            <a href="{% url 'web:admin_post_detail' post_id=p.id %}" class="md-btn md-btn-text compact-btn">View</a>
             <form method="post" action="{% url 'web:admin_post_delete' post_id=p.id %}" onsubmit="return confirm('Delete this post?');" style="display:inline;">
               {% csrf_token %}
               <button type="submit" class="md-btn md-btn-text" style="padding:4px 8px;font-size:0.75rem;color:var(--md-error);">Delete</button>

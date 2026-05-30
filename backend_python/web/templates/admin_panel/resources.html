@@ -3,10 +3,10 @@
 {% block title %}Resources{% endblock %}
 
 {% block content %}
-<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;">
+<div class="page-title-row">
   <h1 class="md-headline-medium">Resources</h1>
   <a href="#" onclick="document.getElementById('add-resource-form').style.display=document.getElementById('add-resource-form').style.display==='none'?'block':'none';return false;" class="md-btn md-btn-filled">
-    <span class="material-symbols-outlined" style="font-size:18px">add</span>
+    <span class="material-symbols-outlined icon-md">add</span>
     Add Resource
   </a>
 </div>
@@ -114,13 +114,13 @@
           <div style="font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ r.title }}</div>
           <div style="font-size:0.75rem;color:var(--md-on-surface-variant);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ r.description|default:"" }}</div>
         </td>
-        <td><span class="md-chip" style="font-size:0.75rem;">{{ r.subject }}</span></td>
+        <td><span class="md-chip md-label-small">{{ r.subject }}</span></td>
         <td>{{ r.grade_level }}</td>
         <td>{{ r.type }}</td>
         <td>{{ r.view_count }}</td>
         <td>
-          <div style="display:flex;gap:4px;">
-            <a href="{% url 'web:admin_resource_edit' resource_id=r.id %}" class="md-btn md-btn-text" style="padding:4px 8px;font-size:0.75rem;">Edit</a>
+          <div class="admin-actions-inline">
+            <a href="{% url 'web:admin_resource_edit' resource_id=r.id %}" class="md-btn md-btn-text compact-btn">Edit</a>
             <form method="post" action="{% url 'web:admin_resource_delete' resource_id=r.id %}" onsubmit="return confirm('Delete this resource?');" style="display:inline;">
               {% csrf_token %}
               <button type="submit" class="md-btn md-btn-text" style="padding:4px 8px;font-size:0.75rem;color:var(--md-error);">Delete</button>

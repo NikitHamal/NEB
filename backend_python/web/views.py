@@ -16,6 +16,9 @@ from django.http import JsonResponse, Http404, HttpResponse
 from api.models import User, Resource, Post, PostLike, Reply, ReplyLike, Follow, UserPhoto, EditHistory
 from api.serializers import UserSerializer
 from api.security import save_profile_image_upload, validate_profile_photo_url, validate_resource_file_url
+from api.authentication import verify_google_token
+from api import services
+from api import counters as _counters
 from . import api_client as api
 
 logger = logging.getLogger(__name__)
@@ -214,12 +217,12 @@ def home(request):
     resources = cache.get('home_resources')
     if resources is None:
         resources = [_serialize_resource(r) for r in Resource.objects.all()[:50]]
-        cache.set('home_resources', resources, 120)
+        cache.set('home_resources', resources, 300)
     posts = cache.get('home_posts')
     if posts is None:
         posts_qs = Post.objects.select_related('user').order_by('-created_at')[:10]
         posts = _serialize_posts(posts_qs, user_id)
-        cache.set('home_posts', posts, 60)
+        cache.set('home_posts', posts, 120)
     elif user_id:
         liked_ids = set(PostLike.objects.filter(
             post_id__in=[p['id'] for p in posts], user_id=user_id
@@ -305,16 +308,19 @@ def get_user_level_title(score):
         return "Level 1 Novice"
 
 def _build_local_stats(user):
-    post_count = Post.objects.filter(user=user).count()
-    reply_count = Reply.objects.filter(user=user).count()
-    follower_count = Follow.objects.filter(following=user).count()
-    following_count = Follow.objects.filter(follower=user).count()
-    likes_given = (PostLike.objects.filter(user=user).count() +
-                   ReplyLike.objects.filter(user=user).count())
-    likes_received = (PostLike.objects.filter(post__user=user).count() +
-                     ReplyLike.objects.filter(reply__user=user).count())
-    
-    contribution_score = (post_count * 3) + (reply_count * 2) + likes_given + (likes_received * 2)
+    post_count = user.post_count if hasattr(user, 'post_count') and user.post_count > 0 else Post.objects.filter(user=user).count()
+    reply_count = user.reply_count if hasattr(user, 'reply_count') and user.reply_count > 0 else Reply.objects.filter(user=user).count()
+    follower_count = user.follower_count if hasattr(user, 'follower_count') and user.follower_count > 0 else Follow.objects.filter(following=user).count()
+    following_count = user.following_count if hasattr(user, 'following_count') and user.following_count > 0 else Follow.objects.filter(follower=user).count()
+    likes_given = user.likes_given_count if hasattr(user, 'likes_given_count') and user.likes_given_count > 0 else (
+        PostLike.objects.filter(user=user).count() + ReplyLike.objects.filter(user=user).count()
+    )
+    likes_received = user.likes_received_count if hasattr(user, 'likes_received_count') and user.likes_received_count > 0 else (
+        PostLike.objects.filter(post__user=user).count() + ReplyLike.objects.filter(reply__user=user).count()
+    )
+    contribution_score = user.contribution_score if hasattr(user, 'contribution_score') and user.contribution_score > 0 else (
+        (post_count * 3) + (reply_count * 2) + likes_given + (likes_received * 2)
+    )
     return {
         'post_count': post_count,
         'reply_count': reply_count,
@@ -326,41 +332,20 @@ def _build_local_stats(user):
 
 def _build_contributors_batch():
     """
-    Build leaderboard stats for ALL users in ~10 queries instead of N*6.
-    Returns a sorted list of contributor dicts.
+    Build leaderboard stats for ALL users.
+    Uses denormalized counters when available, falls back to aggregate queries.
     """
-    from django.db.models import Count
-
     user_ids = list(User.objects.values_list('id', flat=True))
-
-    post_counts = dict(Post.objects.filter(user_id__in=user_ids).values('user_id').annotate(c=Count('id')).values_list('user_id', 'c'))
-    reply_counts = dict(Reply.objects.filter(user_id__in=user_ids).values('user_id').annotate(c=Count('id')).values_list('user_id', 'c'))
-    follower_counts = dict(Follow.objects.filter(following_id__in=user_ids).values('following_id').annotate(c=Count('id')).values_list('following_id', 'c'))
-    following_counts = dict(Follow.objects.filter(follower_id__in=user_ids).values('follower_id').annotate(c=Count('id')).values_list('follower_id', 'c'))
-
-    likes_given = {}
-    for model in [PostLike, ReplyLike]:
-        for uid, cnt in model.objects.filter(user_id__in=user_ids).values('user_id').annotate(c=Count('id')).values_list('user_id', 'c'):
-            likes_given[uid] = likes_given.get(uid, 0) + cnt
-
-    likes_received = {}
-    for model, owner_field in [(PostLike, 'post__user_id'), (ReplyLike, 'reply__user_id')]:
-        for uid, cnt in model.objects.filter(**{owner_field + '__in': user_ids}).values(owner_field).annotate(c=Count('id')).values_list(owner_field, 'c'):
-            likes_received[uid] = likes_received.get(uid, 0) + cnt
-
-    user_map = {u.id: u for u in User.objects.filter(id__in=user_ids)}
+    users = User.objects.filter(id__in=user_ids)
     contributors = []
-    for uid in user_ids:
-        u = user_map.get(uid)
-        if not u:
-            continue
-        pc = post_counts.get(uid, 0)
-        rc = reply_counts.get(uid, 0)
-        fc = follower_counts.get(uid, 0)
-        fwc = following_counts.get(uid, 0)
-        lg = likes_given.get(uid, 0)
-        lr = likes_received.get(uid, 0)
-        score = (pc * 3) + (rc * 2) + lg + (lr * 2)
+    for u in users:
+        pc = u.post_count if hasattr(u, 'post_count') and u.post_count > 0 else Post.objects.filter(user=u).count()
+        rc = u.reply_count if hasattr(u, 'reply_count') and u.reply_count > 0 else Reply.objects.filter(user=u).count()
+        fc = u.follower_count if hasattr(u, 'follower_count') and u.follower_count > 0 else Follow.objects.filter(following=u).count()
+        fwc = u.following_count if hasattr(u, 'following_count') and u.following_count > 0 else Follow.objects.filter(follower=u).count()
+        lg = u.likes_given_count if hasattr(u, 'likes_given_count') and u.likes_given_count > 0 else 0
+        lr = u.likes_received_count if hasattr(u, 'likes_received_count') and u.likes_received_count > 0 else 0
+        score = u.contribution_score if hasattr(u, 'contribution_score') and u.contribution_score > 0 else ((pc * 3) + (rc * 2) + lg + (lr * 2))
         contributors.append({
             'username': u.username,
             'display_name': u.display_name or u.username,
@@ -410,7 +395,7 @@ def forum(request):
     contributor_data = cache.get('forum_contributors')
     if contributor_data is None:
         contributor_data = _build_contributors_batch()[:10]
-        cache.set('forum_contributors', contributor_data, 120)
+        cache.set('forum_contributors', contributor_data, 300)
 
     top_contributors = contributor_data[:3]
 
@@ -457,7 +442,7 @@ def leaderboard(request):
     contributor_data = cache.get('forum_contributors')
     if contributor_data is None:
         contributor_data = _build_contributors_batch()[:50]
-        cache.set('forum_contributors', contributor_data, 120)
+        cache.set('forum_contributors', contributor_data, 300)
     return render(request, 'web/leaderboard.html', _ctx(request,
         contributors=contributor_data,
     ))
@@ -495,15 +480,19 @@ def forum_post(request, post_id):
 
 
 def create_post(request):
-    token = api.get_session_token(request)
-    if not token:
+    user_id = _get_user_id(request)
+    if not user_id:
+        return redirect('web:login')
+    try:
+        user = User.objects.get(pk=user_id)
+    except User.DoesNotExist:
         return redirect('web:login')
     if request.method == 'POST':
         title = request.POST.get('title', '').strip()
         content = request.POST.get('content', '').strip()
         category = request.POST.get('category', '').strip()
         if title and content and category:
-            result = api.create_post(token, title, content, category)
+            result = services.create_post(user, title, content, category)
             if result and result.get('id'):
                 _clear_page_cache()
                 return redirect('web:forum_post', post_id=result['id'])
@@ -512,15 +501,23 @@ def create_post(request):
 
 
 def reply_post(request, post_id):
-    token = api.get_session_token(request)
-    if not token:
+    user_id = _get_user_id(request)
+    if not user_id:
         return redirect('web:login')
-    post = api.get_post(token, post_id)
+    try:
+        user = User.objects.get(pk=user_id)
+    except User.DoesNotExist:
+        return redirect('web:login')
+    try:
+        post_obj = Post.objects.select_related('user').get(pk=post_id)
+    except Post.DoesNotExist:
+        raise Http404("Post not found")
+    post = _serialize_post(post_obj, user_id)
     if request.method == 'POST':
         content = request.POST.get('content', '').strip()
         parent_reply_id = request.POST.get('parent_reply_id', '') or None
         if content:
-            api.create_reply(token, post_id, content, parent_reply_id)
+            services.create_reply(user, post_id, content, parent_reply_id)
             _clear_page_cache()
             return redirect('web:forum_post', post_id=post_id)
     return render(request, 'web/reply.html', _ctx(request, post=post, post_id=post_id))
@@ -584,8 +581,8 @@ def profile(request, username):
     stats = _build_local_stats(profile_user) if not profile_private else {
         'post_count': 0, 'reply_count': 0, 'likes_given': 0, 'likes_received': 0, 'contribution_score': 0,
     }
-    follower_count = Follow.objects.filter(following_id=profile_user.id).count() if not profile_private else 0
-    following_count = Follow.objects.filter(follower_id=profile_user.id).count() if not profile_private else 0
+    follower_count = profile_user.follower_count if (not profile_private and hasattr(profile_user, 'follower_count') and profile_user.follower_count > 0) else (Follow.objects.filter(following_id=profile_user.id).count() if not profile_private else 0)
+    following_count = profile_user.following_count if (not profile_private and hasattr(profile_user, 'following_count') and profile_user.following_count > 0) else (Follow.objects.filter(follower_id=profile_user.id).count() if not profile_private else 0)
     stats['follower_count'] = follower_count
     stats['following_count'] = following_count
     stats['is_following'] = False
@@ -642,8 +639,8 @@ def profile_achievements(request, username):
     }
 
     stats = _build_local_stats(profile_user)
-    follower_count = Follow.objects.filter(following_id=profile_user.id).count()
-    following_count = Follow.objects.filter(follower_id=profile_user.id).count()
+    follower_count = profile_user.follower_count if hasattr(profile_user, 'follower_count') and profile_user.follower_count > 0 else Follow.objects.filter(following_id=profile_user.id).count()
+    following_count = profile_user.following_count if hasattr(profile_user, 'following_count') and profile_user.following_count > 0 else Follow.objects.filter(follower_id=profile_user.id).count()
     stats['follower_count'] = follower_count
     stats['following_count'] = following_count
     stats['is_following'] = False
@@ -801,17 +798,44 @@ def google_auth(request):
         return JsonResponse({'error': 'idToken is required'}, status=400)
 
     logger.info('google_auth: verifying token (length=%d)', len(id_token))
-    result = api.auth_google(id_token)
-    if not result or result.get('status') != 'success':
-        logger.warning('google_auth: token verification failed. Result: %s', result)
-        return JsonResponse({'error': result.get('error', 'Authentication failed') if result else 'Authentication failed'}, status=401)
-    token = result.get('authToken', '')
-    user = result.get('user', {})
-    user['isNewUser'] = result.get('isNewUser', False)
-    user = _normalize_user_data(user)
-    api.set_session_auth(request, token, user)
-    logger.info('google_auth: success for user=%s', user.get('username', user.get('email', 'unknown')))
-    return JsonResponse({'status': 'success', 'user': user, 'isNewUser': result.get('isNewUser', False)})
+    google_info = verify_google_token(id_token)
+    if not google_info:
+        logger.warning('google_auth: Google token verification failed')
+        return JsonResponse({'error': 'Invalid Google ID Token'}, status=401)
+    user_id = google_info['userId']
+    email = google_info.get('email') or ''
+    display_name = google_info.get('displayName') or ''
+    photo_url = google_info.get('photoUrl') or ''
+    try:
+        db_user = User.objects.get(pk=user_id)
+        if not db_user.auth_token:
+            db_user.auth_token = User.generate_token()
+            db_user.save(update_fields=['auth_token'])
+        token = db_user.auth_token
+        user_data = _normalize_user_data(UserSerializer(db_user).data)
+        user_data['isNewUser'] = False
+        api.set_session_auth(request, token, user_data)
+        logger.info('google_auth: existing user signed in: %s', db_user.username or db_user.id)
+        return JsonResponse({'status': 'success', 'user': user_data, 'isNewUser': False})
+    except User.DoesNotExist:
+        auth_token = User.generate_token()
+        temp_username = f"user_{user_id[:8]}"
+        db_user = User(
+            pk=user_id,
+            auth_token=auth_token,
+            username=temp_username,
+            email=email,
+            display_name=display_name,
+            photo_url=photo_url,
+            created_at=int(time.time() * 1000)
+        )
+        db_user.save()
+        token = auth_token
+        user_data = _normalize_user_data(UserSerializer(db_user).data)
+        user_data['isNewUser'] = True
+        api.set_session_auth(request, token, user_data)
+        logger.info('google_auth: new user created: %s (temp_username=%s)', user_id, temp_username)
+        return JsonResponse({'status': 'success', 'user': user_data, 'isNewUser': True})
 
 
 def _normalize_user_data(user):
@@ -898,37 +922,51 @@ def terms_of_service(request):
 def _clear_page_cache():
     cache.delete_many([
         'home_resources', 'home_posts', 'library_all_resources',
-        'forum_all_posts', 'forum_contributors',
+        'forum_all_posts', 'forum_contributors', 'admin_stats', 'sitemap_xml',
     ])
 
 
 @require_POST
 def ajax_like_post(request, post_id):
-    token = _get_valid_token(request)
-    if not token:
+    user_id = _get_user_id(request)
+    if not user_id:
         return JsonResponse({'error': 'Please log in again.'}, status=401)
-    result = api.like_post(token, post_id)
-    if result:
-        cache.delete_many(['home_posts', 'forum_all_posts'])
-        return JsonResponse(result)
-    return JsonResponse({'error': 'Failed'}, status=500)
+    try:
+        user = User.objects.get(pk=user_id)
+    except User.DoesNotExist:
+        return JsonResponse({'error': 'Please log in again.'}, status=401)
+    try:
+        result = services.toggle_post_like(user, post_id)
+    except Post.DoesNotExist:
+        return JsonResponse({'error': 'Post not found'}, status=404)
+    cache.delete_many(['home_posts', 'forum_all_posts'])
+    return JsonResponse(result)
 
 
 @require_POST
 def ajax_like_reply(request, reply_id):
-    token = _get_valid_token(request)
-    if not token:
+    user_id = _get_user_id(request)
+    if not user_id:
         return JsonResponse({'error': 'Please log in again.'}, status=401)
-    result = api.like_reply(token, reply_id)
-    if result:
-        return JsonResponse(result)
-    return JsonResponse({'error': 'Failed'}, status=500)
+    try:
+        user = User.objects.get(pk=user_id)
+    except User.DoesNotExist:
+        return JsonResponse({'error': 'Please log in again.'}, status=401)
+    try:
+        result = services.toggle_reply_like(user, reply_id)
+    except Reply.DoesNotExist:
+        return JsonResponse({'error': 'Reply not found'}, status=404)
+    return JsonResponse(result)
 
 
 @require_POST
 def ajax_create_reply(request, post_id):
-    token = _get_valid_token(request)
-    if not token:
+    user_id = _get_user_id(request)
+    if not user_id:
+        return JsonResponse({'error': 'Please log in again.'}, status=401)
+    try:
+        user = User.objects.get(pk=user_id)
+    except User.DoesNotExist:
         return JsonResponse({'error': 'Please log in again.'}, status=401)
     try:
         data = json.loads(request.body)
@@ -938,7 +976,7 @@ def ajax_create_reply(request, post_id):
         return JsonResponse({'error': 'Invalid request'}, status=400)
     if not content:
         return JsonResponse({'error': 'Content required'}, status=400)
-    result = api.create_reply(token, post_id, content, parent_id)
+    result = services.create_reply(user, post_id, content, parent_id)
     if result:
         _clear_page_cache()
         return JsonResponse(result, status=201)
@@ -947,18 +985,22 @@ def ajax_create_reply(request, post_id):
 
 @require_POST
 def ajax_create_post(request):
-    token = _get_valid_token(request)
-    if not token:
+    user_id = _get_user_id(request)
+    if not user_id:
+        return JsonResponse({'error': 'Please log in again.'}, status=401)
+    try:
+        user = User.objects.get(pk=user_id)
+    except User.DoesNotExist:
         return JsonResponse({'error': 'Please log in again.'}, status=401)
     try:
         data = json.loads(request.body)
     except json.JSONDecodeError:
         return JsonResponse({'error': 'Invalid request'}, status=400)
-    result = api.create_post(token, data.get('title', ''), data.get('content', ''), data.get('category', ''))
+    result = services.create_post(user, data.get('title', ''), data.get('content', ''), data.get('category', ''))
     if result:
         _clear_page_cache()
         return JsonResponse(result, status=201)
-    return JsonResponse({'error': 'Failed'}, status=500)
+    return JsonResponse({'error': 'Missing fields'}, status=400)
 
 
 @require_POST
@@ -973,7 +1015,9 @@ def ajax_delete_post(request, post_id):
         post = Post.objects.get(pk=post_id)
         if post.user_id != user_id:
             return JsonResponse({'error': 'Forbidden'}, status=403)
+        user_id_str = post.user_id
         post.delete()
+        _counters.decrement_user_post_count(user_id_str)
         _clear_page_cache()
         return JsonResponse({'success': True})
     except Post.DoesNotExist:
@@ -1084,12 +1128,14 @@ def ajax_delete_reply(request, reply_id):
         return JsonResponse({'error': 'Reply not found'}, status=404)
     if reply.user_id != user_id:
         return JsonResponse({'error': 'Forbidden'}, status=403)
+    reply_user_id = reply.user_id
     post_id = reply.post_id
     parent_id = reply.parent_reply_id
     reply.delete()
     Post.objects.filter(pk=post_id, reply_count__gt=0).update(reply_count=F('reply_count') - 1)
     if parent_id:
         Reply.objects.filter(pk=parent_id, reply_count__gt=0).update(reply_count=F('reply_count') - 1)
+    _counters.decrement_user_reply_count(reply_user_id)
     _clear_page_cache()
     return JsonResponse({'success': True})
 
@@ -1177,10 +1223,8 @@ def ajax_check_username(request):
     username = request.GET.get('username', '').strip()
     if not username:
         return JsonResponse({'available': False})
-    result = api.check_username(username)
-    if result:
-        return JsonResponse(result)
-    return JsonResponse({'available': False})
+    result = services.check_username_available(username)
+    return JsonResponse(result)
 
 
 @require_POST
@@ -1196,13 +1240,17 @@ def ajax_set_theme(request):
 
 @require_POST
 def ajax_follow_user(request, user_id):
-    token = _get_valid_token(request)
-    if not token:
+    user_id_obj = _get_user_id(request)
+    if not user_id_obj:
         return JsonResponse({'error': 'Please log in again.'}, status=401)
-    result = api.follow_user(token, user_id)
-    if result:
-        return JsonResponse(result)
-    return JsonResponse({'error': 'Failed'}, status=500)
+    try:
+        user = User.objects.get(pk=user_id_obj)
+    except User.DoesNotExist:
+        return JsonResponse({'error': 'Please log in again.'}, status=401)
+    result = services.toggle_follow(user, user_id)
+    if isinstance(result, tuple):
+        return JsonResponse(result[0], status=result[1])
+    return JsonResponse(result)
 
 
 def ajax_user_photos(request):
@@ -1300,8 +1348,12 @@ def ajax_user_photos(request):
 
 @require_POST
 def ajax_set_password(request):
-    token = _get_valid_token(request)
-    if not token:
+    user_id = _get_user_id(request)
+    if not user_id:
+        return JsonResponse({'error': 'Please log in again.'}, status=401)
+    try:
+        user = User.objects.get(pk=user_id)
+    except User.DoesNotExist:
         return JsonResponse({'error': 'Please log in again.'}, status=401)
     try:
         data = json.loads(request.body)
@@ -1310,21 +1362,24 @@ def ajax_set_password(request):
     password = data.get('password', '')
     if not password or len(password) < 8:
         return JsonResponse({'error': 'Password must be at least 8 characters'}, status=400)
-    result = api._api_call('POST', '/auth/set-password/', token=token, data={'password': password})
-    if result and result.get('status') == 'success':
+    result, status_code = services.set_password(user, password)
+    if result.get('status') == 'success':
         _clear_page_cache()
-        user_data = api.get_session_user(request)
-        if user_data:
-            user_data['hasPassword'] = True
-            api.set_session_auth(request, token, user_data)
+        user_data = _normalize_user_data(UserSerializer(user).data)
+        user_data['hasPassword'] = True
+        api.set_session_auth(request, user.auth_token, user_data)
         return JsonResponse({'status': 'success', 'message': 'Password set successfully'})
-    return JsonResponse({'error': (result or {}).get('error', 'Failed to set password')}, status=400)
+    return JsonResponse({'error': result.get('error', 'Failed to set password')}, status=status_code or 400)
 
 
 @require_POST
 def ajax_change_password(request):
-    token = _get_valid_token(request)
-    if not token:
+    user_id = _get_user_id(request)
+    if not user_id:
+        return JsonResponse({'error': 'Please log in again.'}, status=401)
+    try:
+        user = User.objects.get(pk=user_id)
+    except User.DoesNotExist:
         return JsonResponse({'error': 'Please log in again.'}, status=401)
     try:
         data = json.loads(request.body)
@@ -1334,15 +1389,14 @@ def ajax_change_password(request):
     new_password = data.get('newPassword', '')
     if not current_password or not new_password:
         return JsonResponse({'error': 'Current password and new password are required'}, status=400)
-    result = api._api_call('POST', '/auth/change-password/', token=token, data={'currentPassword': current_password, 'newPassword': new_password})
-    if result and result.get('status') == 'success':
+    result, status_code = services.change_password(user, current_password, new_password)
+    if result.get('status') == 'success':
         _clear_page_cache()
-        new_token = result.get('authToken', token)
-        user_data = api.get_session_user(request)
-        if user_data:
-            api.set_session_auth(request, new_token, user_data)
+        new_token = result.get('authToken', user.auth_token)
+        user_data = _normalize_user_data(UserSerializer(user).data)
+        api.set_session_auth(request, new_token, user_data)
         return JsonResponse({'status': 'success', 'message': 'Password changed successfully'})
-    return JsonResponse({'error': (result or {}).get('error', 'Failed to change password')}, status=400)
+    return JsonResponse({'error': result.get('error', 'Failed to change password')}, status=status_code or 400)
 
 
 
@@ -1351,18 +1405,24 @@ def ajax_change_password(request):
 
 @require_POST
 def ajax_activate_photo(request, photo_id):
-    token = _get_valid_token(request)
-    if not token:
+    user_id = _get_user_id(request)
+    if not user_id:
         return JsonResponse({'error': 'Please log in again.'}, status=401)
-    result = api.set_active_photo(token, photo_id)
-    if result and result.get('success'):
-        new_url = result.get('photo_url')
+    try:
+        user = User.objects.get(pk=user_id)
+    except User.DoesNotExist:
+        return JsonResponse({'error': 'Please log in again.'}, status=401)
+    result = services.activate_photo(user, photo_id)
+    if result:
+        new_url = result.get('photo_url') or result.get('url')
         if new_url:
             user_data = api.get_session_user(request)
             if user_data:
                 user_data['photo_url'] = new_url
                 user_data['photoUrl'] = new_url
-                api.set_session_auth(request, token, user_data)
+                token = api.get_session_token(request)
+                if token:
+                    api.set_session_auth(request, token, user_data)
         return JsonResponse(result)
     return JsonResponse({'error': 'Failed'}, status=500)
 
@@ -1395,10 +1455,26 @@ def admin_dashboard(request):
     redirect_response = _require_staff_admin(request)
     if redirect_response:
         return redirect_response
-    token = _admin_token(request)
     stats = cache.get('admin_stats')
     if stats is None:
-        stats = api.admin_get_stats(token) or {}
+        from django.db.models import Sum
+        total_users = User.objects.count()
+        total_resources = Resource.objects.count()
+        total_posts = Post.objects.count()
+        total_replies = Reply.objects.count()
+        total_likes = Post.objects.aggregate(total=Sum('thumbs_up_count'))['total'] or 0
+        seven_days_ago = int((time.time() - 7 * 86400) * 1000)
+        new_users_week = User.objects.filter(created_at__gte=seven_days_ago).count()
+        new_posts_week = Post.objects.filter(created_at__gte=seven_days_ago).count()
+        stats = {
+            'total_users': total_users,
+            'total_resources': total_resources,
+            'total_posts': total_posts,
+            'total_replies': total_replies,
+            'total_likes': total_likes,
+            'new_users_week': new_users_week,
+            'new_posts_week': new_posts_week,
+        }
         cache.set('admin_stats', stats, 60)
     return render(request, 'admin_panel/dashboard.html', {
         'is_admin': True,
@@ -1411,16 +1487,16 @@ def admin_users(request):
     redirect_response = _require_staff_admin(request)
     if redirect_response:
         return redirect_response
-    token = _admin_token(request)
-    users = api.admin_get_users(token) or []
-    if not isinstance(users, list):
-        users = []
+    users_qs = User.objects.all().order_by('-created_at')
     search = request.GET.get('q', '').strip()
     if search:
-        users = [u for u in users if search.lower() in (u.get('username', '') + u.get('email', '') + u.get('display_name', '')).lower()]
+        users_qs = users_qs.filter(
+            Q(username__icontains=search) | Q(email__icontains=search) | Q(display_name__icontains=search)
+        )
+    users_data = [UserSerializer(u).data for u in users_qs[:100]]
     return render(request, 'admin_panel/users.html', {
         'is_admin': True,
-        'users': users,
+        'users': users_data,
         'search': search,
         'active_page': 'users',
     })
@@ -1430,24 +1506,21 @@ def admin_user_detail(request, user_id):
     redirect_response = _require_staff_admin(request)
     if redirect_response:
         return redirect_response
-    token = _admin_token(request)
+    try:
+        user_obj = User.objects.get(pk=user_id)
+    except User.DoesNotExist:
+        return redirect('web:admin_users')
     if request.method == 'POST':
         if request.POST.get('_method') == 'delete':
-            api.admin_delete_user(token, user_id)
+            user_obj.delete()
             return redirect('web:admin_users')
-        data = {}
         for field in ['username', 'email', 'display_name', 'gender', 'class_level', 'subjects', 'pradesh', 'district', 'school']:
             val = request.POST.get(field, '').strip()
             if val:
-                data[field] = val
-        data['isLocked'] = request.POST.get('is_locked') == 'on'
-        result = api.admin_update_user(token, user_id, data)
-        if result:
-            user_data = result
-        else:
-            user_data = api.admin_get_user(token, user_id) or {}
-    else:
-        user_data = api.admin_get_user(token, user_id) or {}
+                setattr(user_obj, field, val)
+        user_obj.is_locked = request.POST.get('is_locked') == 'on'
+        user_obj.save()
+    user_data = UserSerializer(user_obj).data
     return render(request, 'admin_panel/user_detail.html', {
         'is_admin': True,
         'user_detail': user_data,
@@ -1459,7 +1532,6 @@ def admin_resources(request):
     redirect_response = _require_staff_admin(request)
     if redirect_response:
         return redirect_response
-    token = _admin_token(request)
     if request.method == 'POST':
         data = {
             'title': request.POST.get('title', '').strip(),
@@ -1471,18 +1543,36 @@ def admin_resources(request):
             'thumbnail_url': request.POST.get('thumbnail_url', '').strip(),
             'file_size': int(request.POST.get('file_size', '0')),
         }
-        result = api.admin_create_resource(token, data)
-        if not result:
+        try:
+            from api.security import validate_resource_file_url as _validate
+            safe_url = _validate(data['file_url'])
+            data['file_url'] = safe_url
+            if data['thumbnail_url']:
+                data['thumbnail_url'] = _validate(data['thumbnail_url'])
+            Resource.objects.create(
+                id=str(uuid.uuid4()),
+                title=data['title'],
+                description=data['description'],
+                subject=data['subject'],
+                grade_level=data['grade_level'],
+                type=data['type'] or 'PDF',
+                file_url=data['file_url'],
+                thumbnail_url=data.get('thumbnail_url', ''),
+                file_size=data['file_size'],
+                added_at=int(time.time() * 1000),
+                view_count=0,
+            )
+        except Exception:
             pass
-    resources = api.admin_get_resources(token) or []
-    if not isinstance(resources, list):
-        resources = []
+    resources_qs = Resource.objects.all().order_by('-added_at')
     search = request.GET.get('q', '').strip()
     if search:
-        resources = [r for r in resources if search.lower() in r.get('title', '').lower()]
+        resources_qs = resources_qs.filter(Q(title__icontains=search) | Q(description__icontains=search))
+    from api.serializers import ResourceSerializer
+    resources_data = [ResourceSerializer(r).data for r in resources_qs[:100]]
     return render(request, 'admin_panel/resources.html', {
         'is_admin': True,
-        'resources': resources,
+        'resources': resources_data,
         'search': search,
         'active_page': 'resources',
     })
@@ -1492,21 +1582,24 @@ def admin_resource_edit(request, resource_id):
     redirect_response = _require_staff_admin(request)
     if redirect_response:
         return redirect_response
-    token = _admin_token(request)
+    try:
+        resource_obj = Resource.objects.get(pk=resource_id)
+    except Resource.DoesNotExist:
+        return redirect('web:admin_resources')
     if request.method == 'POST':
-        data = {}
         for field in ['title', 'description', 'subject', 'grade_level', 'type', 'file_url', 'thumbnail_url']:
             val = request.POST.get(field, '').strip()
             if val:
-                data[field] = val
-        data['view_count'] = int(request.POST.get('view_count', '0'))
-        result = api.admin_update_resource(token, resource_id, data)
-        if result:
-            return redirect('web:admin_resources')
-    resource = api.admin_get_resource(token, resource_id) or {}
+                setattr(resource_obj, field, val)
+        if request.POST.get('view_count', '').strip():
+            resource_obj.view_count = int(request.POST.get('view_count', '0'))
+        resource_obj.save()
+        return redirect('web:admin_resources')
+    from api.serializers import ResourceSerializer
+    resource_data = ResourceSerializer(resource_obj).data
     return render(request, 'admin_panel/resource_edit.html', {
         'is_admin': True,
-        'resource': resource,
+        'resource': resource_data,
         'active_page': 'resources',
     })
 
@@ -1516,8 +1609,10 @@ def admin_resource_delete(request, resource_id):
     redirect_response = _require_staff_admin(request)
     if redirect_response:
         return redirect_response
-    token = _admin_token(request)
-    api.admin_delete_resource(token, resource_id)
+    try:
+        Resource.objects.get(pk=resource_id).delete()
+    except Resource.DoesNotExist:
+        pass
     return redirect('web:admin_resources')
 
 
@@ -1525,16 +1620,15 @@ def admin_posts(request):
     redirect_response = _require_staff_admin(request)
     if redirect_response:
         return redirect_response
-    token = _admin_token(request)
-    posts = api.admin_get_posts(token) or []
-    if not isinstance(posts, list):
-        posts = []
+    posts_qs = Post.objects.select_related('user').all().order_by('-created_at')
     search = request.GET.get('q', '').strip()
     if search:
-        posts = [p for p in posts if search.lower() in p.get('title', '').lower() or search.lower() in p.get('content', '').lower()]
+        posts_qs = posts_qs.filter(Q(title__icontains=search) | Q(content__icontains=search))
+    from api.serializers import PostSerializer
+    posts_data = [PostSerializer(p, context={}).data for p in posts_qs[:100]]
     return render(request, 'admin_panel/posts.html', {
         'is_admin': True,
-        'posts': posts,
+        'posts': posts_data,
         'search': search,
         'active_page': 'posts',
     })
@@ -1544,15 +1638,18 @@ def admin_post_detail(request, post_id):
     redirect_response = _require_staff_admin(request)
     if redirect_response:
         return redirect_response
-    token = _admin_token(request)
-    post = api.admin_get_post(token, post_id)
-    replies = api.admin_get_replies(token, post_id) or []
-    if not isinstance(replies, list):
-        replies = []
+    try:
+        post_obj = Post.objects.select_related('user').get(pk=post_id)
+    except Post.DoesNotExist:
+        return redirect('web:admin_posts')
+    from api.serializers import PostSerializer, ReplySerializer
+    post_data = PostSerializer(post_obj, context={}).data
+    replies_qs = Reply.objects.filter(post_id=post_id).select_related('user')
+    replies_data = [ReplySerializer(r, context={}).data for r in replies_qs]
     return render(request, 'admin_panel/post_detail.html', {
         'is_admin': True,
-        'post': post,
-        'replies': replies,
+        'post': post_data,
+        'replies': replies_data,
         'active_page': 'posts',
     })
 
@@ -1562,8 +1659,10 @@ def admin_post_delete(request, post_id):
     redirect_response = _require_staff_admin(request)
     if redirect_response:
         return redirect_response
-    token = _admin_token(request)
-    api.admin_delete_post(token, post_id)
+    try:
+        Post.objects.get(pk=post_id).delete()
+    except Post.DoesNotExist:
+        pass
     return redirect('web:admin_posts')
 
 
@@ -1572,8 +1671,13 @@ def admin_reply_delete(request, reply_id):
     redirect_response = _require_staff_admin(request)
     if redirect_response:
         return redirect_response
-    token = _admin_token(request)
-    api.admin_delete_reply(token, reply_id)
+    try:
+        reply = Reply.objects.get(pk=reply_id)
+        post_id = reply.post_id
+        reply.delete()
+        Post.objects.filter(pk=post_id, reply_count__gt=0).update(reply_count=F('reply_count') - 1)
+    except Reply.DoesNotExist:
+        pass
     return redirect('web:admin_posts')
 
 

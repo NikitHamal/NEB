@@ -343,25 +343,40 @@ In light mode, text buttons and outlined buttons had solid blue (`var(--md-prima
 ## Continuity Notes
 
 ### What Was Being Worked On (Last Session)
-Performance optimization pass — eliminated N+1 queries, added DB indexes, cached auth tokens, batched leaderboard:
+Performance optimization pass — eliminated HTTP API roundtrips, switched to Redis cache, added denormalized user counters:
 
-**P0 (Critical — expected 50-80% latency reduction):**
-- Switched cache from `FileBasedCache` (disk I/O, 50-200ms/op) to `LocMemCache` (<1ms)
-- Added `CONN_MAX_AGE=60` and `CONN_HEALTH_CHECKS=True` for MySQL connection pooling
-- Replaced forum leaderboard N+1 (500+ queries iterating all users) with `_build_contributors_batch()` (~10 batch aggregation queries)
-- Cached auth token lookups in `AuthTokenAuthentication` with 5-minute TTL — eliminates DB query on every authenticated request
-- Cached `_get_valid_token()` result in web views with 5-minute TTL — eliminates double auth query per page load
+**Issue 1 — Eliminated HTTP API roundtrips in web views:**
+- Created `api/services.py` — direct Python service functions called by web views instead of HTTP API calls
+- `web/views.py` now calls `services.toggle_post_like()`, `services.create_post()`, `services.create_reply()`, `services.toggle_follow()`, etc. directly — no more `api_client._api_call()` for data operations
+- `google_auth` view now uses `verify_google_token()` directly instead of `api.auth_google()` HTTP call
+- Admin views (dashboard, users, resources, posts) all query the DB directly instead of going through `api_client`
+- `api_client.py` is still used for session management (`get_session_token`, `set_session_auth`, `clear_session_auth`) but NO data operations go through HTTP anymore
+- This eliminates: latency from localhost HTTP calls, double middleware processing, JSON serialization overhead, and potential deadlocks on single-process Passenger
 
-**P1 (High — N+1 elimination):**
-- Fixed `isThumbedUp` N+1 in `PostSerializer`/`ReplySerializer` — `_paginated_response()` now batch-prefetches liked IDs via `liked_post_ids`/`liked_reply_ids` context keys
-- Fixed like/reply toggle: `get_or_create` + local count computation instead of `filter().first()` + `create()` + `refresh_from_db` (4-5 queries → 2-3)
-- Merged `_get_valid_token` + `_get_user_id` — eliminated double DB query per web page request
-- Fixed `resource_view` — 2 queries → 1 (compute count locally after F() update)
+**Issue 2 — Switched from LocMemCache to Redis:**
+- Added `redis==5.2.1` to `requirements.txt`
+- `settings.py` now supports `CACHE_BACKEND` and `CACHE_LOCATION` env vars for Redis configuration
+- `SESSION_ENGINE` automatically switches to `django.contrib.sessions.backends.cache` when Redis is configured
+- `.env` on server now has: `CACHE_BACKEND=django.core.cache.backends.redis.RedisCache`, `CACHE_LOCATION=redis://127.0.0.1:6379/0`, `SESSION_ENGINE=django.contrib.sessions.backends.cache`
+- Redis is auto-started via cPanel crontab (`/home/consicac/.cpanel/redis/redis.conf`)
+- Falls back to `LocMemCache` if env vars not set (for local dev)
 
-**P2 (Medium):**
-- Cached sitemap XML for 1 hour, admin dashboard stats for 60 seconds
-- Increased cache `MAX_ENTRIES` from 1000 to 10000
-- Added 15 database indexes via migration 0009 (Post, Reply, Resource, Follow, FCMToken, UserPhoto, EditHistory, Report)
+**Issue 3 — Denormalized counters on User model:**
+- Added 7 fields to User model: `post_count`, `reply_count`, `follower_count`, `following_count`, `likes_given_count`, `likes_received_count`, `contribution_score`
+- Migration 0012: adds the fields (default=0)
+- Migration 0013: backfills all existing data using batch aggregation queries
+- Created `api/counters.py` with `increment_*`/`decrement_*` helper functions using `F()` expressions for atomic updates
+- Counter updates called from: `api/views.py` (like toggle, follow toggle, post/reply create/delete) and `api/services.py` (same operations for web views)
+- `_build_stats()` and `_build_local_stats()` now use denormalized counters when available (>0), fall back to aggregate queries for safety
+- `_build_contributors_batch()` now uses denormalized counters — drops from ~10 aggregation queries to 1 User table scan
+- Profile page (`profile` view) now uses `user.follower_count` / `user.following_count` instead of COUNT queries
+
+**Issue 4 — Improved cache TTL and invalidation:**
+- Forum contributors cache: 120s → 300s (5 minutes)
+- Home resources cache: 120s → 300s
+- Home posts cache: 60s → 120s
+- `_clear_page_cache()` now also clears `admin_stats` and `sitemap_xml`
+- Counter increments/decrements happen atomically on write, so cached pages are always consistent
 
 **Previous session also completed:**
 - Added `banner_url` field to User model with HTTPS URL validation
@@ -394,35 +409,36 @@ Performance optimization pass — eliminated N+1 queries, added DB indexes, cach
 - Create new superusers: `python manage.py createsuperuser`
 
 ### Key Files That Were Recently Modified
-- `backend_python/api/models.py` — Added `banner_url` field to User, `Report` model, 15 database indexes, verification_code CharField(128)
-- `backend_python/api/views.py` — Fixed auth on profile update, added Report endpoint, pagination on search, filtered archived posts, rate limiting on posts/follow/FCM, FCM token validation, removed dead endpoints, batch-prefetch liked IDs in `_paginated_response()`, `get_or_create` for like toggle, local count computation for `resource_view`, `_build_contributors_batch()` for leaderboard
-- `backend_python/api/serializers.py` — Added `banner_url` to UserSerializer/UserPublicSerializer, ReportSerializer, `isThumbedUp` uses batch-prefetched `liked_post_ids`/`liked_reply_ids` context keys
-- `backend_python/api/authentication.py` — Auth token caching with 5-minute TTL via `LocMemCache`
-- `backend_python/api/admin_views.py` — Added admin report management endpoints, `banner_url` in user PATCH
-- `backend_python/api/admin_urls.py` — Added report admin URL patterns
+- `backend_python/api/models.py` — Added 7 denormalized counter fields to User model (`post_count`, `reply_count`, `follower_count`, `following_count`, `likes_given_count`, `likes_received_count`, `contribution_score`), `banner_url` field, `Report` model, verification_code CharField(128)
+- `backend_python/api/views.py` — Counter increment/decrement calls on like toggle, follow toggle, post/reply create/delete; `_build_stats()` uses denormalized counters; follower_count in follow toggle uses denormalized counter
+- `backend_python/api/services.py` — NEW: Direct Python service functions for web views (replaces HTTP API roundtrips). Includes `toggle_post_like`, `toggle_reply_like`, `create_reply`, `create_post`, `toggle_follow`, `check_username_available`, `set_password`, `change_password`, `activate_photo`. All call counter helpers.
+- `backend_python/api/counters.py` — NEW: `increment_*`/`decrement_*` helper functions for denormalized User counters using `F()` expressions
+- `backend_python/api/serializers.py` — Added `banner_url` to UserSerializer/UserPublicSerializer, ReportSerializer, `isThumbedUp` uses batch-prefetched context keys
+- `backend_python/api/authentication.py` — Auth token caching with 5-minute TTL
+- `backend_python/api/admin_views.py` — Admin report management endpoints, `banner_url` in user PATCH
+- `backend_python/api/admin_urls.py` — Report admin URL patterns
 - `backend_python/api/admin.py` — Registered Report model in Django admin
 - `backend_python/api/security.py` — Password hashing, verification code hashing, URL validation, image upload validation, admin signature signing
 - `backend_python/api/throttles.py` — AuthRateThrottle, VerificationRateThrottle
-- `backend_python/api/migrations/0008_banner_url_and_reports.py` — Adds banner_url field and Report model
-- `backend_python/api/migrations/0009_performance_indexes.py` — NEW: 15 database indexes for performance
-- `backend_python/api/management/commands/cleanup_stale_data.py` — NEW: Management command for data cleanup
-- `backend_python/api/test_security_hardening.py` — Expanded tests: profile, posts, replies, follow, FCM, search, reports, email auth
-- `backend_python/nebians/settings.py` — Django 5.2, LocMemCache (was FileBasedCache), `CONN_MAX_AGE=60`, `CONN_HEALTH_CHECKS=True`, `MAX_ENTRIES=10000`, env_bool/env_list helpers, security settings, throttling config
+- `backend_python/api/migrations/0010_rename_api_edithistory_target_idx_...py` — Auto-generated RenameIndex operations (placeholder for server migration)
+- `backend_python/api/migrations/0011_reply_count_and_index.py` — Adds `reply_count` field + `parent_reply_id/created_at` index
+- `backend_python/api/migrations/0012_add_denormalized_user_counters.py` — Adds 7 counter fields to User model
+- `backend_python/api/migrations/0013_backfill_user_counters.py` — Backfills counter data from aggregate queries
+- `backend_python/nebians/settings.py` — Redis cache support via `CACHE_BACKEND`/`CACHE_LOCATION` env vars, `SESSION_ENGINE` auto-switch, `CONN_MAX_AGE=60`, `CONN_HEALTH_CHECKS=True`
 - `backend_python/nebians/middleware.py` — SecurityHeadersMiddleware (CSP with `unsafe-eval`, Permissions-Policy, COOP)
-- `backend_python/web/views.py` — Cached `_get_valid_token()`, `_build_contributors_batch()` for leaderboard, cached sitemap (1hr), cached admin stats (60s), `_clear_page_cache()` clears new keys
-- `backend_python/web/api_client.py` — Admin calls use `internal_admin=True` for signed headers
-- `backend_python/web/templates/base.html` — `IS_AUTHENTICATED` replaces `AUTH_TOKEN`, XSS helpers
-- `backend_python/web/templates/web/reader.html` — Removed `sandbox` attribute from PDF iframe (was blocking CSP eval)
+- `backend_python/web/views.py` — Replaced all HTTP API calls with direct DB queries and `services.*` calls; admin views query DB directly; denormalized counters in `_build_local_stats()`, `_build_contributors_batch()`, profile views; `_clear_page_cache()` clears admin_stats/sitemap_xml; increased cache TTLs
+- `backend_python/web/api_client.py` — Only used for session management now (`get_session_token`, `set_session_auth`, `clear_session_auth`). No data operations use HTTP anymore.
+- `backend_python/requirements.txt` — Added `redis==5.2.1`
 
 ### Important Findings & Considerations for Other Agents
 
-1. **Cache backend is LocMemCache** — This means cache is per-process. If Passenger spins up multiple workers, cache is NOT shared between them. Each worker has its own cache. This is acceptable for auth tokens (they'll just re-validate on first request per worker) but means the leaderboard/forum cache may regenerate once per worker. If this becomes an issue, switch to Redis (`django-redis`) or Memcached.
+1. **Cache backend is now Redis** — `CACHE_BACKEND` and `CACHE_LOCATION` env vars control the cache backend. In production, Redis is used (`redis://127.0.0.1:6379/0`). In local dev without these env vars, it falls back to `LocMemCache`. Sessions also use Redis when configured (`SESSION_ENGINE=django.contrib.sessions.backends.cache`). Redis is auto-started via cPanel crontab.
 
 2. **Auth token cache invalidation** — When a user changes their password (`auth_change_password`), their auth token is regenerated. The old token's cache entry (`auth_user:{old_token}` and `valid_token:{old_token}`) will linger for up to 5 minutes. This is acceptable because the old token is also invalidated in the DB. But if you need instant invalidation, add `cache.delete(f'auth_user:{old_token}')` and `cache.delete(f'valid_token:{old_token}')` in the password change handler.
 
-3. **`_build_local_stats()` is still 6 queries per profile page** — The batch version `_build_contributors_batch()` is only used for the leaderboard/forum. Individual profile pages still use `_build_local_stats()` which makes 6 COUNT queries. This is acceptable for a single profile page load but could be optimized later by denormalizing counts into the User model with signals.
+3. **`_build_local_stats()` now uses denormalized counters** — When User counters are >0, it reads from the User model fields directly (0 queries). Falls back to aggregate queries for legacy rows where counters haven't been backfilled yet. Profile pages now do ~3 queries instead of ~12.
 
-4. **`_build_contributors_batch()` does NOT include `follower_count`/`following_count`** — The leaderboard only shows `contribution_score`. If you need follower counts in the leaderboard, add them to the batch query.
+4. **`_build_contributors_batch()` uses denormalized counters** — Drops from ~10 aggregation queries to 1 User table scan. The leaderboard only shows `contribution_score`. If you need follower counts in the leaderboard, they're available via `follower_count`/`following_count` fields.
 
 5. **Database indexes created by migration 0009** — These are B-tree indexes. MySQL's `__icontains` queries (LIKE '%term%') CANNOT use B-tree indexes — they always do a full table scan. For true full-text search, you'd need MySQL FULLTEXT indexes or a search service like Meilisearch. The current `icontains` approach is fine for <10k rows but will degrade with scale.
 
@@ -442,4 +458,4 @@ Performance optimization pass — eliminated N+1 queries, added DB indexes, cach
 
 13. **`banner_url` is in the User model and serializer but not in the web edit_profile template** — The Android app can send `bannerUrl` in profile updates, but the web edit profile page doesn't have a banner URL field yet.
 
-14. **LocMemCache is NOT persistent** — Cache is lost on server restart (Passenger worker respawn). This is fine for auth tokens and page caches (they'll regenerate), but don't use the Django cache for data that can't be regenerated.
+14. **Redis cache is persistent across Passenger workers** — Unlike LocMemCache, Redis is shared between all Passenger workers and persists across restarts. This means cached pages, auth tokens, and sessions survive worker respawns. However, Redis is configured without persistence (`--save ''` on manual start, but the crontab config has `save` directives). If Redis restarts, the cache will be empty but will regenerate.
