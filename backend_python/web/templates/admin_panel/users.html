@@ -4,14 +4,14 @@
 {% block title %}Users{% endblock %}
 
 {% block content %}
-<div class="page-title-row">
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;">
   <h1 class="md-headline-medium">Users</h1>
-  <form method="get" class="inline-cluster">
+  <form method="get" style="display:flex;gap:8px;">
     <div class="search-bar" style="margin-bottom:0;">
       <span class="material-symbols-outlined">search</span>
       <input type="text" name="q" value="{{ search }}" placeholder="Search users..." style="border:none;background:transparent;outline:none;color:var(--md-on-surface);font-family:var(--md-font);font-size:0.875rem;padding:8px 0;">
     </div>
-    <button type="submit" class="md-btn md-btn-filled btn-sm">Search</button>
+    <button type="submit" class="md-btn md-btn-filled" style="padding:8px 16px;">Search</button>
   </form>
 </div>
 
@@ -38,7 +38,7 @@
               {{ u.display_name|default:u.username|truncate_chars:1|default:"?" }}
             </div>
             <div>
-              <div class="md-title-small">{{ u.display_name|default:"-" }}</div>
+              <div style="font-weight:600;">{{ u.display_name|default:"-" }}</div>
               <div style="font-size:0.75rem;color:var(--md-on-surface-variant);">@{{ u.username }}</div>
             </div>
           </div>
@@ -53,9 +53,9 @@
           <span style="color:var(--md-primary);font-size:0.75rem;">Active</span>
           {% endif %}
         </td>
-        <td class="md-label-small">{{ u.created_at|time_ago|default:"-" }}</td>
+        <td style="font-size:0.75rem;">{{ u.created_at|time_ago|default:"-" }}</td>
         <td>
-          <a href="{% url 'web:admin_user_detail' user_id=u.id %}" class="md-btn md-btn-text compact-btn">Edit</a>
+          <a href="{% url 'web:admin_user_detail' user_id=u.id %}" class="md-btn md-btn-text" style="padding:4px 8px;font-size:0.75rem;">Edit</a>
         </td>
       </tr>
       {% endfor %}

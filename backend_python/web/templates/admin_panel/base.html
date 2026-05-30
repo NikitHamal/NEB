@@ -45,28 +45,28 @@
       <span class="material-symbols-outlined">forum</span>
       Forum Posts
     </a>
-    <div class="md-divider admin-mobile-divider"></div>
-    <a href="{% url 'web:home' %}" class="muted" onclick="closeMobileNav()">
+    <div class="md-divider" style="margin:8px 16px;"></div>
+    <a href="{% url 'web:home' %}" style="color:var(--md-on-surface-variant);" onclick="closeMobileNav()">
       <span class="material-symbols-outlined">open_in_new</span>
       View Site
     </a>
   </nav>
 
   <!-- Top Bar -->
-  <header class="md-topbar admin-topbar">
+  <header class="md-topbar" style="background:var(--md-surface-container);">
     <button class="admin-hamburger" onclick="openMobileNav()" aria-label="Open menu">
       <span class="material-symbols-outlined">menu</span>
     </button>
-    <a href="{% url 'web:admin_dashboard' %}" class="md-topbar-brand">
+    <a href="{% url 'web:admin_dashboard' %}" class="md-topbar-brand" style="color:var(--md-primary);">
       <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" width="28" height="28">
         <rect width="32" height="32" rx="8" fill="var(--md-primary)"/>
         <path d="M8 8h3v16H8V8zm5 0h3v16h-3V8zm5 0v16l8-8-8-8z" fill="var(--md-on-primary)"/>
       </svg>
       NEBians Admin
     </a>
-    <div class="admin-topbar-meta">
-      <span class="md-body-small muted">Admin</span>
-      <a href="{% url 'web:admin_logout' %}" class="md-btn md-btn-text compact-btn">Logout</a>
+    <div style="margin-left:auto;display:flex;align-items:center;gap:8px;">
+      <span class="md-body-small" style="color:var(--md-on-surface-variant);">Admin</span>
+      <a href="{% url 'web:admin_logout' %}" class="md-btn md-btn-text" style="font-size:0.8125rem;">Logout</a>
     </div>
   </header>
 
@@ -90,7 +90,7 @@
         Forum Posts
       </a>
       <div class="md-divider"></div>
-      <a href="{% url 'web:home' %}" class="muted">
+      <a href="{% url 'web:home' %}" style="color:var(--md-on-surface-variant);">
         <span class="material-symbols-outlined">open_in_new</span>
         View Site
       </a>

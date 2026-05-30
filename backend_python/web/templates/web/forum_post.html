@@ -138,6 +138,10 @@
   .fp-empty{text-align:center;padding:48px 24px;color:var(--md-on-surface-variant)}
   .fp-empty .material-symbols-outlined{font-size:48px;opacity:.4;margin-bottom:8px}
 
+  .follow-btn-inline{display:inline-flex;align-items:center;padding:2px 10px;border-radius:100px;font-size:.6875rem;font-weight:600;cursor:pointer;transition:all .15s}
+  .follow-btn-inline.following{background:var(--md-primary);color:#fff;border:1px solid var(--md-primary)}
+  .follow-btn-inline.not-following{background:transparent;color:var(--md-primary);border:1px solid var(--md-outline-variant)}
+
   .modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:1000}
   .modal-overlay.active{display:flex}
   .modal-box{background:var(--md-surface);border:1px solid var(--md-outline-variant);border-radius:20px;width:90%;max-width:520px;max-height:80vh;overflow-y:auto;padding:24px}
@@ -203,10 +207,10 @@
   }
 </style>
 
-<div class="md-container-narrow page-pad-top">
+<div class="md-container-narrow" style="padding-top:24px;">
   {% if post %}
   <a href="{% url 'web:forum' %}" class="fp-back">
-    <span class="material-symbols-outlined icon-md">arrow_back</span>
+    <span class="material-symbols-outlined" style="font-size:18px">arrow_back</span>
     Back to Forum
   </a>
 
@@ -244,9 +248,9 @@
 
     {% if is_owner %}
     <div class="fp-owner-actions">
-      <button class="fp-owner-btn" onclick="startEditPost()"><span class="material-symbols-outlined icon-sm">edit</span> Edit</button>
-      <button class="fp-owner-btn" onclick="archivePost()"><span class="material-symbols-outlined icon-sm">{{ post.isArchived|yesno:"unarchive,archive" }}</span> {% if post.isArchived %}Unarchive{% else %}Archive{% endif %}</button>
-      <button class="fp-owner-btn danger" onclick="deletePost()"><span class="material-symbols-outlined icon-sm">delete</span> Delete</button>
+      <button class="fp-owner-btn" onclick="startEditPost()"><span class="material-symbols-outlined" style="font-size:14px;">edit</span> Edit</button>
+      <button class="fp-owner-btn" onclick="archivePost()"><span class="material-symbols-outlined" style="font-size:14px;">{{ post.isArchived|yesno:"unarchive,archive" }}</span> {% if post.isArchived %}Unarchive{% else %}Archive{% endif %}</button>
+      <button class="fp-owner-btn danger" onclick="deletePost()"><span class="material-symbols-outlined" style="font-size:14px;">delete</span> Delete</button>
     </div>
     {% endif %}
 
@@ -283,7 +287,7 @@
   <div class="modal-overlay" id="editHistoryModal">
     <div class="modal-box">
       <h3>Edit History</h3>
-      <div id="editHistoryContent"><p class="muted">Loading...</p></div>
+      <div id="editHistoryContent"><p style="color:var(--md-on-surface-variant);">Loading...</p></div>
       <div style="text-align:right;margin-top:16px;">
         <button class="md-btn md-btn-text" onclick="closeEditHistoryModal()">Close</button>
       </div>
@@ -631,12 +635,12 @@ async function confirmDelete() {
 
 async function showEditHistory(targetType, targetId) {
   document.getElementById('editHistoryModal').classList.add('active');
-  document.getElementById('editHistoryContent').innerHTML = '<p class="muted">Loading...</p>';
+  document.getElementById('editHistoryContent').innerHTML = '<p style="color:var(--md-on-surface-variant);">Loading...</p>';
   try {
     const r = await fetch('/ajax/edit-history/' + targetType + '/' + targetId + '/');
     const entries = await r.json();
     if (!entries.length) {
-      document.getElementById('editHistoryContent').innerHTML = '<p class="muted">No edit history.</p>';
+      document.getElementById('editHistoryContent').innerHTML = '<p style="color:var(--md-on-surface-variant);">No edit history.</p>';
       return;
     }
     let html = '';
@@ -771,20 +775,20 @@ function renderThreadReply(reply, parentAuthor) {
   const likeIcon = reply.isThumbedUp ? 'thumb_up' : 'thumb_up_off_alt';
   const editedBadge = reply.isEdited ? ' <span class="fp-edited" onclick="showEditHistory(\'reply\', \'' + reply.id + '\')"><span class="material-symbols-outlined">edit</span> edited</span>' : '';
   const ownerBtns = (IS_AUTH && reply.authorId === USER_ID)
-    ? '<span class="fp-reply-owner"><button class="fp-owner-btn" onclick="startEditReply(\'' + reply.id + '\', \'' + escapeHtml(reply.content).replace(/'/g, "\\'") + '\')"><span class="material-symbols-outlined" style="font-size:12px;">edit</span></button><button class="fp-owner-btn danger" onclick="deleteReply(\'' + reply.id + '\')"><span class="material-symbols-outlined" style="font-size:12px;">delete</span></button></span>'
+    ? '<span class="fp-reply-owner"><button class="fp-owner-btn" data-action="edit-reply" data-reply-id="' + escapeHtml(reply.id) + '"><span class="material-symbols-outlined" style="font-size:12px;">edit</span></button><button class="fp-owner-btn danger" data-action="delete-reply" data-reply-id="' + escapeHtml(reply.id) + '"><span class="material-symbols-outlined" style="font-size:12px;">delete</span></button></span>'
     : '';
   const followBtn = (IS_AUTH && reply.authorId !== USER_ID)
     ? '<button class="follow-btn-inline not-following" data-user-id="' + reply.authorId + '" onclick="toggleFollowBtn(this, \'' + reply.authorId + '\')">Follow</button>'
     : '';
   const replyBtn = IS_AUTH
-    ? '<button class="fp-reply-action" onclick="focusThreadCompose(\'' + escapeHtml(reply.authorName).replace(/'/g, "\\'") + '\')"><span class="material-symbols-outlined">reply</span> Reply</button>'
+    ? '<button class="fp-reply-action" data-action="reply-to-author" data-author="' + escapeHtml(reply.authorName) + '"><span class="material-symbols-outlined">reply</span> Reply</button>'
     : '';
   const mentionContent = renderMentions(reply.content);
   const replyingLine = (parentAuthor && reply.authorName !== parentAuthor)
     ? '<div class="fp-replying-to">replying to @' + escapeHtml(parentAuthor) + '</div>'
     : '';
 
-  return '<div class="fp-thread-reply">' +
+  return '<div class="fp-thread-reply" data-reply-content="' + escapeHtml(reply.content).replace(/"/g, '&quot;') + '">' +
     '<div class="fp-reply-header">' +
       '<div class="fp-reply-avatar">' + avatarHtml + '</div>' +
       '<div class="fp-reply-meta">' +
@@ -798,7 +802,7 @@ function renderThreadReply(reply, parentAuthor) {
     replyingLine +
     '<div class="fp-reply-body">' + mentionContent + '</div>' +
     '<div class="fp-reply-actions">' +
-      '<button onclick="toggleReplyLike(\'' + reply.id + '\')" class="fp-reply-action ' + likedClass" id="reply-like-btn-' + reply.id + '">' +
+      '<button onclick="toggleReplyLike(\'' + reply.id + '\')" class="fp-reply-action ' + likedClass + '" id="reply-like-btn-' + reply.id + '">' +
         '<span class="material-symbols-outlined">' + likeIcon + '</span>' +
         '<span id="reply-like-count-' + reply.id + '">' + reply.thumbsUpCount + '</span>' +
       '</button>' +
@@ -897,7 +901,7 @@ function renderUserPopup(data, anchorEl) {
     ? '<img src="' + escapeHtml(data.photoUrl) + '" alt="" onerror="this.style.display=\'none\'; this.nextElementSibling.style.display=\'flex\';"><span class="fp-user-popup-avatar-letter" style="display:none;">' + escapeHtml(data.displayName.charAt(0)) + '</span>'
     : '<span class="fp-user-popup-avatar-letter">' + escapeHtml(data.displayName.charAt(0)) + '</span>';
   const followBtn = (!data.isSelf && IS_AUTHENTICATED)
-    ? '<button class="follow-btn-inline ' + (data.isFollowing ? 'following' : 'not-following')" onclick="toggleFollowBtn(this, \'' + data.id + '\')" style="font-size:.75rem;padding:4px 14px;">' + (data.isFollowing ? 'Following' : 'Follow') + '</button>'
+    ? '<button class="follow-btn-inline ' + (data.isFollowing ? 'following' : 'not-following') + '" onclick="toggleFollowBtn(this, \'' + data.id + '\')" style="font-size:.75rem;padding:4px 14px;">' + (data.isFollowing ? 'Following' : 'Follow') + '</button>'
     : '';
   const profileBtn = '<a href="/profile/' + encodeURIComponent(data.username) + '/" class="md-btn md-btn-text" style="font-size:.75rem;padding:4px 14px;flex:1;text-align:center;">View Profile</a>';
 
@@ -971,9 +975,25 @@ document.addEventListener('DOMContentLoaded', function() {
   });
   userPopup.addEventListener('mouseenter', cancelHideUserPopup);
   userPopup.addEventListener('mouseleave', hideUserPopup);
-  // Reposition popup on scroll/resize
   window.addEventListener('scroll', function() { positionUserPopup(popupCurrentAnchor); }, {passive: true});
   window.addEventListener('resize', function() { positionUserPopup(popupCurrentAnchor); }, {passive: true});
+
+  // Event delegation for dynamic thread reply action buttons
+  document.addEventListener('click', function(e) {
+    var btn = e.target.closest('[data-action]');
+    if (!btn) return;
+    var action = btn.getAttribute('data-action');
+    if (action === 'edit-reply') {
+      var replyId = btn.getAttribute('data-reply-id');
+      var threadReply = btn.closest('.fp-thread-reply');
+      var content = threadReply ? (threadReply.getAttribute('data-reply-content') || '') : '';
+      startEditReply(replyId, content);
+    } else if (action === 'delete-reply') {
+      deleteReply(btn.getAttribute('data-reply-id'));
+    } else if (action === 'reply-to-author') {
+      focusThreadCompose(btn.getAttribute('data-author'));
+    }
+  });
 });
 
 // @mention autocomplete
@@ -1048,7 +1068,7 @@ function showMentionDropdown(users, textarea) {
     const avatarHtml = u.photoUrl
       ? '<img src="' + escapeHtml(u.photoUrl) + '" alt="" onerror="this.style.display=\'none\'; this.nextElementSibling.style.display=\'flex\';"><span class="fp-mention-item-letter" style="display:none;">' + escapeHtml(u.displayName.charAt(0)) + '</span>'
       : '<span class="fp-mention-item-letter">' + escapeHtml(u.displayName.charAt(0)) + '</span>';
-    html += '<div class="fp-mention-item' + (i === 0 ? ' selected' : '')" data-index="' + i + '" data-username="' + escapeHtml(u.username) + '" data-displayname="' + escapeHtml(u.displayName) + '" onmousedown="selectMentionItem(' + i + ')" onmouseover="mentionSelectedIndex=' + i + ';highlightMentionItem()">';
+    html += '<div class="fp-mention-item' + (i === 0 ? ' selected' : '') + '" data-index="' + i + '" data-username="' + escapeHtml(u.username) + '" data-displayname="' + escapeHtml(u.displayName) + '" onmousedown="selectMentionItem(' + i + ')" onmouseover="mentionSelectedIndex=' + i + ';highlightMentionItem()">';
     html += '<div class="fp-mention-item-avatar">' + avatarHtml + '</div>';
     html += '<div><div class="fp-mention-item-name">' + escapeHtml(u.displayName) + '</div>';
     html += '<div class="fp-mention-item-username">@' + escapeHtml(u.username) + '</div></div>';

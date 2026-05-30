@@ -4,9 +4,9 @@
 {% block nav_forum %}md-nav-active{% endblock %}
 
 {% block content %}
-<div class="md-container-narrow page-pad-top">
-  <a href="{% url 'web:forum' %}" class="md-btn md-btn-text mb-2 btn-left-flush">
-    <span class="material-symbols-outlined icon-md">arrow_back</span>
+<div class="md-container-narrow" style="padding-top:24px;">
+  <a href="{% url 'web:forum' %}" class="md-btn md-btn-text mb-2" style="padding-left:0;">
+    <span class="material-symbols-outlined" style="font-size:18px">arrow_back</span>
     Back to Forum
   </a>
 
@@ -37,7 +37,7 @@
 
       <div class="form-actions">
         <button type="submit" class="md-btn md-btn-filled">
-          <span class="material-symbols-outlined icon-md">send</span>
+          <span class="material-symbols-outlined" style="font-size:18px">send</span>
           Post Discussion
         </button>
         <a href="{% url 'web:forum' %}" class="md-btn md-btn-text">Cancel</a>

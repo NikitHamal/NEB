@@ -2,7 +2,95 @@
 
 {% block title %}Page Not Found{% endblock %}
 
-
+{% block extra_css %}
+<style>
+  .error-container {
+    max-width: 600px;
+    margin: 80px auto;
+    padding: 0 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-family: var(--md-font);
+  }
+  .error-code {
+    font-size: 8.5rem;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: var(--md-primary);
+    opacity: 0.9;
+    margin: 0 0 16px 0;
+    user-select: none;
+  }
+  .error-code-digit {
+    color: var(--md-on-surface);
+    opacity: 0.15;
+  }
+  .error-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--md-on-surface);
+    margin: 0 0 12px 0;
+    letter-spacing: -0.02em;
+  }
+  .error-text {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--md-on-surface-variant);
+    margin: 0 0 32px 0;
+    max-width: 380px;
+  }
+  .error-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+  }
+  .error-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 28px;
+    border-radius: var(--md-radius-full);
+    font-weight: 600;
+    font-size: 0.875rem;
+    text-decoration: none !important;
+    cursor: pointer;
+    transition: background var(--md-transition), border-color var(--md-transition);
+    border: none;
+    font-family: inherit;
+  }
+  .error-btn-primary {
+    background: var(--md-primary);
+    color: var(--md-on-primary) !important;
+  }
+  .error-btn-primary:hover {
+    background: color-mix(in srgb, var(--md-primary) 88%, white);
+  }
+  .error-btn-secondary {
+    background: transparent;
+    color: var(--md-primary) !important;
+    border: 1px solid var(--md-outline-variant);
+  }
+  .error-btn-secondary:hover {
+    background: rgba(0, 74, 198, 0.04);
+    border-color: var(--md-primary);
+  }
+  .error-btn .material-symbols-outlined {
+    font-size: 18px !important;
+    color: inherit !important;
+    margin-bottom: 0 !important;
+  }
+  [data-theme="dark"] .error-btn-secondary:hover {
+    background: rgba(180, 197, 255, 0.08);
+    border-color: var(--md-primary);
+  }
+</style>
+{% endblock %}
 
 {% block content %}
 <div class="error-container">
@@ -12,11 +100,11 @@
   <h1 class="error-title">Page Not Found</h1>
   <p class="error-text">The page you're looking for doesn't exist, has been removed, or was moved to another URL.</p>
   <div class="error-actions">
-    <a href="{% url 'web:home' %}" class="md-btn md-btn-filled error-btn">
+    <a href="{% url 'web:home' %}" class="error-btn error-btn-primary">
       <span class="material-symbols-outlined">home</span>
       Go Home
     </a>
-    <button onclick="history.back()" class="md-btn md-btn-outlined error-btn">
+    <button onclick="history.back()" class="error-btn error-btn-secondary">
       <span class="material-symbols-outlined">arrow_back</span>
       Go Back
     </button>
