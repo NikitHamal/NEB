@@ -53,6 +53,10 @@ import com.neb.ians.ui.screens.settings.SettingsScreen
 import com.neb.ians.ui.screens.settings.SettingsViewModel
 import com.neb.ians.ui.screens.reader.PdfReaderScreen
 import com.neb.ians.ui.screens.search.SearchScreen
+import com.neb.ians.ui.screens.auth.EmailSignupScreen
+import com.neb.ians.ui.screens.auth.EmailLoginScreen
+import com.neb.ians.ui.screens.auth.EmailVerificationScreen
+import com.neb.ians.ui.screens.auth.ForgotPasswordScreen
 
 @EntryPoint
 @InstallIn(SingletonComponent::class)
@@ -63,6 +67,14 @@ interface AuthEntryPoint {
 sealed class Screen(val route: String) {
     data object Splash : Screen("splash")
     data object Login : Screen("login")
+    data object EmailSignup : Screen("email_signup")
+    data object EmailLogin : Screen("email_login")
+    data object EmailVerification : Screen("email_verification/{email}") {
+        fun createRoute(email: String) = "email_verification/${java.net.URLEncoder.encode(email, "UTF-8")}"
+    }
+    data object ForgotPassword : Screen("forgot_password/{email}") {
+        fun createRoute(email: String) = "forgot_password/${java.net.URLEncoder.encode(email, "UTF-8")}"
+    }
     data object CompleteProfile : Screen("complete_profile")
     data object Home : Screen("home")
     data object Library : Screen("library?subject={subject}") {
@@ -215,7 +227,83 @@ fun NEBiansNavHost(
                         navController.navigate(Screen.CompleteProfile.route) {
                             popUpTo(Screen.Login.route) { inclusive = true }
                         }
+                    },
+                    onNavigateToEmailSignup = {
+                        navController.navigate(Screen.EmailSignup.route)
+                    },
+                    onNavigateToEmailLogin = {
+                        navController.navigate(Screen.EmailLogin.route)
                     }
+                )
+            }
+            composable(Screen.EmailSignup.route) {
+                EmailSignupScreen(
+                    authRepository = authRepository,
+                    onNavigateToVerification = { email ->
+                        navController.navigate(Screen.EmailVerification.createRoute(email))
+                    },
+                    onNavigateBack = { navController.popBackStack() }
+                )
+            }
+            composable(Screen.EmailLogin.route) {
+                EmailLoginScreen(
+                    authRepository = authRepository,
+                    onNavigateToHome = {
+                        navController.navigate(Screen.Home.route) {
+                            popUpTo(Screen.EmailLogin.route) { inclusive = true }
+                        }
+                    },
+                    onNavigateToCompleteProfile = {
+                        navController.navigate(Screen.CompleteProfile.route) {
+                            popUpTo(Screen.EmailLogin.route) { inclusive = true }
+                        }
+                    },
+                    onNavigateToForgotPassword = { email ->
+                        navController.navigate(Screen.ForgotPassword.createRoute(email))
+                    },
+                    onNavigateBack = { navController.popBackStack() }
+                )
+            }
+            composable(
+                route = Screen.EmailVerification.route,
+                arguments = listOf(navArgument("email") { type = NavType.StringType })
+            ) { backStackEntry ->
+                val email = java.net.URLDecoder.decode(backStackEntry.arguments?.getString("email") ?: "", "UTF-8")
+                EmailVerificationScreen(
+                    email = email,
+                    authRepository = authRepository,
+                    onNavigateToHome = {
+                        navController.navigate(Screen.Home.route) {
+                            popUpTo(Screen.EmailVerification.route) { inclusive = true }
+                        }
+                    },
+                    onNavigateToCompleteProfile = {
+                        navController.navigate(Screen.CompleteProfile.route) {
+                            popUpTo(Screen.EmailVerification.route) { inclusive = true }
+                        }
+                    },
+                    onNavigateBack = { navController.popBackStack() }
+                )
+            }
+            composable(
+                route = Screen.ForgotPassword.route,
+                arguments = listOf(navArgument("email") { type = NavType.StringType })
+            ) { backStackEntry ->
+                val email = java.net.URLDecoder.decode(backStackEntry.arguments?.getString("email") ?: "", "UTF-8")
+                ForgotPasswordScreen(
+                    initialEmail = email,
+                    authRepository = authRepository,
+                    onNavigateToHome = {
+                        navController.navigate(Screen.Home.route) {
+                            popUpTo(Screen.ForgotPassword.route) { inclusive = true }
+                        }
+                    },
+                    onNavigateToCompleteProfile = {
+                        navController.navigate(Screen.CompleteProfile.route) {
+                            popUpTo(Screen.ForgotPassword.route) { inclusive = true }
+                        }
+                    },
+                    onNavigateBack = { navController.popBackStack() }
                 )
             }
             composable(Screen.CompleteProfile.route) {

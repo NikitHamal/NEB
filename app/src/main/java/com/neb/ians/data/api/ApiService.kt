@@ -20,6 +20,77 @@ data class GoogleAuthRequest(
 )
 
 @Serializable
+data class EmailSignupRequest(
+    val email: String,
+    val password: String,
+    val username: String
+)
+
+@Serializable
+data class EmailLoginRequest(
+    val email: String,
+    val password: String
+)
+
+@Serializable
+data class SetPasswordRequest(
+    val password: String
+)
+
+@Serializable
+data class ChangePasswordRequest(
+    val currentPassword: String,
+    val newPassword: String
+)
+
+@Serializable
+data class EmailVerifyRequest(
+    val email: String,
+    val code: String
+)
+
+@Serializable
+data class EmailResendRequest(
+    val email: String
+)
+
+@Serializable
+data class EmailForgotRequest(
+    val email: String
+)
+
+@Serializable
+data class EmailResetPasswordRequest(
+    val email: String,
+    val code: String,
+    val newPassword: String
+)
+
+@Serializable
+data class EmailSignupResponse(
+    val status: String = "",
+    val message: String = "",
+    val userId: String = "",
+    val email: String = ""
+)
+
+@Serializable
+data class GenericMessageResponse(
+    val status: String = "",
+    val message: String = "",
+    val error: String? = null
+)
+
+@Serializable
+data class ChangePasswordResponse(
+    val status: String = "",
+    val message: String = "",
+    @SerialName("authToken") val authToken: String? = null,
+    val user: UserProfileResponse? = null,
+    val error: String? = null
+)
+
+@Serializable
 data class GoogleAuthResponse(
     val status: String,
     val isNewUser: Boolean = false,
@@ -43,7 +114,9 @@ data class UserProfileResponse(
     val school: String? = null,
     @SerialName("is_locked") val isLocked: Int = 0,
     @SerialName("created_at") val createdAt: Long = 0,
-    val is_private: Boolean = false // Set if profile is locked and we are not the owner
+    val is_private: Boolean = false, // Set if profile is locked and we are not the owner
+    @SerialName("email_verified") val emailVerified: Boolean = false,
+    val hasPassword: Boolean = false
 )
 
 @Serializable
@@ -155,6 +228,48 @@ interface ApiService {
     suspend fun authenticateGoogle(
         @Body request: GoogleAuthRequest
     ): GoogleAuthResponse
+
+    @POST("api/auth/email/signup")
+    suspend fun emailSignup(
+        @Body request: EmailSignupRequest
+    ): EmailSignupResponse
+
+    @POST("api/auth/email/verify")
+    suspend fun emailVerify(
+        @Body request: EmailVerifyRequest
+    ): GoogleAuthResponse
+
+    @POST("api/auth/email/resend")
+    suspend fun emailResendCode(
+        @Body request: EmailResendRequest
+    ): EmailSignupResponse
+
+    @POST("api/auth/email/login")
+    suspend fun emailLogin(
+        @Body request: EmailLoginRequest
+    ): GoogleAuthResponse
+
+    @POST("api/auth/email/forgot")
+    suspend fun emailForgotPassword(
+        @Body request: EmailForgotRequest
+    ): EmailSignupResponse
+
+    @POST("api/auth/email/reset-password")
+    suspend fun emailResetPassword(
+        @Body request: EmailResetPasswordRequest
+    ): GoogleAuthResponse
+
+    @POST("api/auth/set-password")
+    suspend fun setPassword(
+        @Header("Authorization") bearerToken: String,
+        @Body request: SetPasswordRequest
+    ): GenericMessageResponse
+
+    @POST("api/auth/change-password")
+    suspend fun changePassword(
+        @Header("Authorization") bearerToken: String,
+        @Body request: ChangePasswordRequest
+    ): ChangePasswordResponse
 
     @GET("api/users/check-username")
     suspend fun checkUsername(

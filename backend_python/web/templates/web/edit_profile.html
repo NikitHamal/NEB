@@ -133,6 +133,43 @@
       </div>
     </form>
   </div>
+
+  <div class="md-card p-3" style="margin-top:16px;">
+    <h3 style="margin-bottom:12px;font-size:1rem;font-weight:600;">Password</h3>
+    {% if has_password %}
+      <p style="color:var(--md-on-surface-variant);font-size:0.875rem;margin-bottom:16px;">Change your account password. You can also sign in with your email or username.</p>
+      <div id="change-password-section">
+        <div class="form-group">
+          <label class="md-label" for="current-password">Current Password</label>
+          <input type="password" id="current-password" class="md-text-field" placeholder=" " style="padding:12px 16px;border-radius:12px;border:1px solid var(--md-outline);width:100%;font-family:var(--md-font);font-size:0.9375rem;">
+        </div>
+        <div class="form-group">
+          <label class="md-label" for="new-password">New Password</label>
+          <input type="password" id="new-password" class="md-text-field" placeholder=" " style="padding:12px 16px;border-radius:12px;border:1px solid var(--md-outline);width:100%;font-family:var(--md-font);font-size:0.9375rem;">
+        </div>
+        <div class="form-group">
+          <label class="md-label" for="confirm-new-password">Confirm New Password</label>
+          <input type="password" id="confirm-new-password" class="md-text-field" placeholder=" " style="padding:12px 16px;border-radius:12px;border:1px solid var(--md-outline);width:100%;font-family:var(--md-font);font-size:0.9375rem;">
+        </div>
+        <p id="change-password-error" style="color:var(--md-error);font-size:0.8125rem;min-height:1.2em;margin:4px 0;"></p>
+        <button type="button" onclick="handleChangePassword()" class="md-btn md-btn-filled" id="change-password-btn">Change Password</button>
+      </div>
+    {% else %}
+      <p style="color:var(--md-on-surface-variant);font-size:0.875rem;margin-bottom:16px;">You signed in with Google. Set a password to also sign in with your email or username.</p>
+      <div id="set-password-section">
+        <div class="form-group">
+          <label class="md-label" for="new-password-set">New Password</label>
+          <input type="password" id="new-password-set" class="md-text-field" placeholder=" " style="padding:12px 16px;border-radius:12px;border:1px solid var(--md-outline);width:100%;font-family:var(--md-font);font-size:0.9375rem;">
+        </div>
+        <div class="form-group">
+          <label class="md-label" for="confirm-password-set">Confirm Password</label>
+          <input type="password" id="confirm-password-set" class="md-text-field" placeholder=" " style="padding:12px 16px;border-radius:12px;border:1px solid var(--md-outline);width:100%;font-family:var(--md-font);font-size:0.9375rem;">
+        </div>
+        <p id="set-password-error" style="color:var(--md-error);font-size:0.8125rem;min-height:1.2em;margin:4px 0;"></p>
+        <button type="button" onclick="handleSetPassword()" class="md-btn md-btn-filled" id="set-password-btn">Set Password</button>
+      </div>
+    {% endif %}
+  </div>
 </div>
 {% endblock %}
 
@@ -207,6 +244,76 @@ if (usernameInput) {
       } catch(e) {}
     }, 500);
   });
+}
+
+async function handleSetPassword() {
+  const password = document.getElementById('new-password-set').value;
+  const confirm = document.getElementById('confirm-password-set').value;
+  const errorEl = document.getElementById('set-password-error');
+  const btn = document.getElementById('set-password-btn');
+  errorEl.textContent = '';
+  if (password.length < 8) { errorEl.textContent = 'Password must be at least 8 characters'; return; }
+  if (password !== confirm) { errorEl.textContent = 'Passwords do not match'; return; }
+  btn.disabled = true;
+  btn.textContent = 'Setting...';
+  try {
+    const res = await fetch('/ajax/set-password/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
+      body: JSON.stringify({ password })
+    });
+    const data = await res.json();
+    if (data.status === 'success') {
+      showSnackbar('Password set successfully!');
+      setTimeout(() => location.reload(), 1000);
+    } else {
+      errorEl.textContent = data.error || 'Failed to set password';
+      btn.disabled = false;
+      btn.textContent = 'Set Password';
+    }
+  } catch (e) {
+    errorEl.textContent = 'Network error';
+    btn.disabled = false;
+    btn.textContent = 'Set Password';
+  }
+}
+
+async function handleChangePassword() {
+  const currentPassword = document.getElementById('current-password').value;
+  const newPassword = document.getElementById('new-password').value;
+  const confirm = document.getElementById('confirm-new-password').value;
+  const errorEl = document.getElementById('change-password-error');
+  const btn = document.getElementById('change-password-btn');
+  errorEl.textContent = '';
+  if (!currentPassword) { errorEl.textContent = 'Current password is required'; return; }
+  if (newPassword.length < 8) { errorEl.textContent = 'New password must be at least 8 characters'; return; }
+  if (newPassword !== confirm) { errorEl.textContent = 'Passwords do not match'; return; }
+  btn.disabled = true;
+  btn.textContent = 'Changing...';
+  try {
+    const res = await fetch('/ajax/change-password/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
+      body: JSON.stringify({ currentPassword, newPassword })
+    });
+    const data = await res.json();
+    if (data.status === 'success') {
+      showSnackbar('Password changed successfully!');
+      document.getElementById('current-password').value = '';
+      document.getElementById('new-password').value = '';
+      document.getElementById('confirm-new-password').value = '';
+      btn.disabled = false;
+      btn.textContent = 'Change Password';
+    } else {
+      errorEl.textContent = data.error || 'Failed to change password';
+      btn.disabled = false;
+      btn.textContent = 'Change Password';
+    }
+  } catch (e) {
+    errorEl.textContent = 'Network error';
+    btn.disabled = false;
+    btn.textContent = 'Change Password';
+  }
 }
 </script>
 {% endblock %}

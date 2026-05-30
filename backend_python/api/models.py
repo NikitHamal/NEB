@@ -27,6 +27,10 @@ class User(models.Model):
     school = models.CharField(max_length=200, blank=True, null=True)
     bio = models.TextField(blank=True, default='')
     is_locked = models.BooleanField(default=False)
+    password_hash = models.CharField(max_length=255, blank=True, null=True)
+    email_verified = models.BooleanField(default=False)
+    verification_code = models.CharField(max_length=6, blank=True, null=True)
+    verification_code_expires = models.BigIntegerField(default=0)
     created_at = models.BigIntegerField(default=0)
 
     class Meta:
@@ -38,6 +42,11 @@ class User(models.Model):
     @staticmethod
     def generate_token():
         return uuid.uuid4().hex + uuid.uuid4().hex
+
+    @staticmethod
+    def generate_verification_code():
+        import random
+        return f"{random.randint(100000, 999999)}"
 
     @property
     def is_authenticated(self):

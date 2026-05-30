@@ -6,14 +6,20 @@ from .models import User, Resource, Post, Reply, FCMToken, UserPhoto, Follow, Ed
 
 
 class UserSerializer(serializers.ModelSerializer):
+    hasPassword = serializers.SerializerMethodField()
+
     class Meta:
         model = User
         fields = [
             'id', 'username', 'email', 'photo_url', 'display_name',
             'dob', 'gender', 'class_level', 'subjects',
-            'pradesh', 'district', 'school', 'bio', 'is_locked', 'created_at'
+            'pradesh', 'district', 'school', 'bio', 'is_locked', 'created_at',
+            'email_verified', 'hasPassword',
         ]
-        read_only_fields = ['id', 'created_at']
+        read_only_fields = ['id', 'created_at', 'email_verified', 'hasPassword']
+
+    def get_hasPassword(self, obj):
+        return bool(obj.password_hash)
 
     def to_representation(self, instance):
         ret = super().to_representation(instance)
