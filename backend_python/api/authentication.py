@@ -1,13 +1,15 @@
 """
-Google Identity Services authentication for NEBians.
+Firebase Authentication for NEBians.
 
-Uses the official Google OAuth 2.0 flow:
-1. Frontend uses google.accounts.oauth2.initTokenClient (GIS) to get an ID token
-2. Backend verifies the ID token using google-auth library (verify_oauth2_token)
-3. A server-issued auth_token is returned for subsequent API calls
+Uses Firebase Auth on the frontend (signInWithPopup) to get an ID token,
+then verifies it on the backend using the google-auth library.
 
-This replaces the old tokeninfo endpoint approach with proper cryptographic
-verification using Google's public keys.
+Firebase ID tokens have:
+- Issuer: https://securetoken.google.com/<project_id>
+- Audience: <project_id> (NOT the OAuth web client ID)
+
+So we use verify_oauth2_token with the Firebase project ID as audience,
+and accept the Firebase issuer in addition to the Google OAuth issuer.
 """
 import logging
 from django.conf import settings
@@ -17,12 +19,12 @@ from .models import User
 
 logger = logging.getLogger(__name__)
 
+FIREBASE_ISSUER_PREFIX = 'https://securetoken.google.com/'
 
 def verify_google_token(id_token: str):
     """
-    Verifies a Google ID Token using the official google-auth library.
-    Uses Google's public keys (JWKS) for cryptographic verification —
-    no network call to tokeninfo endpoint needed.
+    Verifies a Firebase ID Token using the google-auth library.
+    Accepts tokens from both Google OAuth and Firebase Auth flows.
 
     Returns a dict with {userId, email, displayName, photoUrl} or None.
     """
@@ -30,16 +32,23 @@ def verify_google_token(id_token: str):
         from google.oauth2 import id_token as google_id_token
         from google.auth.transport import requests as google_requests
 
-        client_id = settings.GOOGLE_CLIENT_ID
+        firebase_project_id = settings.FIREBASE_PROJECT_ID
+        google_client_id = settings.GOOGLE_CLIENT_ID
 
         idinfo = google_id_token.verify_oauth2_token(
             id_token,
             google_requests.Request(),
-            client_id,
+            firebase_project_id,
         )
 
-        if idinfo.get('iss') not in ('accounts.google.com', 'https://accounts.google.com'):
-            logger.warning("Google token issuer mismatch: %s", idinfo.get('iss'))
+        issuer = idinfo.get('iss', '')
+        valid_issuers = (
+            'accounts.google.com',
+            'https://accounts.google.com',
+            f'{FIREBASE_ISSUER_PREFIX}{firebase_project_id}',
+        )
+        if issuer not in valid_issuers:
+            logger.warning("Token issuer mismatch: %s (expected one of: %s)", issuer, valid_issuers)
             return None
 
         return {
@@ -49,10 +58,10 @@ def verify_google_token(id_token: str):
             'photoUrl': idinfo.get('picture'),
         }
     except ValueError as e:
-        logger.warning("Google token verification failed (ValueError): %s", e)
+        logger.warning("Token verification failed (ValueError): %s", e)
         return None
     except Exception as e:
-        logger.error("Google token verification error: %s", e)
+        logger.error("Token verification error: %s", e)
         return None
 
 
