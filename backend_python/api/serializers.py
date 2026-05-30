@@ -158,7 +158,7 @@ class UserStatsSerializer(serializers.Serializer):
     """
     Aggregated public stats for a user profile.
     Consumed by both the web UI and the Android app.
-    contribution_score = posts*3 + replies*2 + likes_given*1 (expandable)
+    contribution_score = posts*3 + replies*2 + likes_given + likes_received*2
     """
     username = serializers.CharField()
     post_count = serializers.IntegerField()

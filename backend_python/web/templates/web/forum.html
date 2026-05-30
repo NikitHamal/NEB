@@ -534,9 +534,9 @@
 {% block extra_js %}
 <script>
 async function toggleForumPostLike(postId, btn) {
-  if (!AUTH_TOKEN) { window.location.href = '{% url "web:login" %}'; return; }
+  if (!IS_AUTHENTICATED) { window.location.href = '{% url "web:login" %}'; return; }
   try {
-    const result = await apiCall('POST', '/posts/' + postId + '/like/');
+    const result = await (await fetch('/ajax/like/post/' + postId + '/', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN }, credentials: 'same-origin' })).json();
     if (result && result.thumbsUpCount !== undefined) {
       const countEl = document.getElementById('forum-post-like-count-' + postId);
       if (countEl) countEl.textContent = result.thumbsUpCount;
@@ -550,10 +550,10 @@ async function toggleForumPostLike(postId, btn) {
 }
 
 async function toggleFollowBtn(btn, userId) {
-  if (!AUTH_TOKEN) { window.location.href = '{% url "web:login" %}'; return; }
+  if (!IS_AUTHENTICATED) { window.location.href = '{% url "web:login" %}'; return; }
   btn.disabled = true;
   try {
-    const r = await fetch('/ajax/follow/' + userId + '/', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN, 'Authorization': 'Bearer ' + AUTH_TOKEN } });
+    const r = await fetch('/ajax/follow/' + userId + '/', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN }, credentials: 'same-origin' });
     if (r.status === 401) { window.location.href = '{% url "web:login" %}'; return; }
     const d = await r.json();
     btn.disabled = false;
