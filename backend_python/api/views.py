@@ -33,7 +33,11 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework import status
 
+import hashlib
+import secrets
+
 from .authentication import verify_google_token
+from .email_utils import send_verification_email
 from .models import User, Resource, Post, PostLike, Reply, ReplyLike, FCMToken, Follow, UserPhoto, EditHistory
 from .serializers import (
     UserSerializer, UserPublicSerializer,
@@ -546,6 +550,344 @@ def edit_history(request, target_type, target_id):
         return Response({'error': 'Invalid target_type'}, status=400)
     entries = EditHistory.objects.filter(target_type=target_type, target_id=target_id).select_related('edited_by')
     return Response(EditHistorySerializer(entries, many=True).data)
+
+
+# ---------------------------------------------------------------------------
+# AUTH — EMAIL SIGNUP / LOGIN / VERIFICATION
+# ---------------------------------------------------------------------------
+
+@api_view(['POST'])
+@authentication_classes([])
+def auth_email_signup(request):
+    """
+    POST /api/auth/email/signup
+    Body: { "email": "...", "password": "...", "username": "..." }
+    Creates user with email, sends 6-digit verification code.
+    """
+    email = request.data.get('email', '').strip().lower()
+    password = request.data.get('password', '')
+    username = request.data.get('username', '').strip()
+
+    if not email or not password or not username:
+        return Response({'error': 'Email, password, and username are required'}, status=400)
+
+    if len(password) < 8:
+        return Response({'error': 'Password must be at least 8 characters'}, status=400)
+
+    if len(username) < 3:
+        return Response({'error': 'Username must be at least 3 characters'}, status=400)
+
+    if not username.replace('_', '').isalnum():
+        return Response({'error': 'Username can only contain letters, numbers, and underscores'}, status=400)
+
+    if User.objects.filter(email__iexact=email).exists():
+        return Response({'error': 'An account with this email already exists'}, status=409)
+
+    if User.objects.filter(username__iexact=username).exists():
+        return Response({'error': 'This username is already taken'}, status=409)
+
+    password_hash = hashlib.sha256(password.encode('utf-8')).hexdigest()
+    code = User.generate_verification_code()
+    expires = _now_ms() + (10 * 60 * 1000)
+
+    user = User(
+        pk=str(uuid.uuid4()),
+        auth_token=User.generate_token(),
+        username=username,
+        email=email,
+        password_hash=password_hash,
+        email_verified=False,
+        verification_code=code,
+        verification_code_expires=expires,
+        created_at=_now_ms()
+    )
+    user.save()
+
+    send_verification_email(email, code, username)
+
+    logger.info("auth_email_signup: new user %s (email=%s), verification code sent", username, email)
+    return Response({
+        'status': 'success',
+        'message': 'Verification code sent to your email',
+        'userId': user.id,
+        'email': email,
+    })
+
+
+@api_view(['POST'])
+@authentication_classes([])
+def auth_email_verify(request):
+    """
+    POST /api/auth/email/verify
+    Body: { "email": "...", "code": "123456" }
+    Verifies the 6-digit code. On success, returns auth token + user.
+    """
+    email = request.data.get('email', '').strip().lower()
+    code = request.data.get('code', '').strip()
+
+    if not email or not code:
+        return Response({'error': 'Email and verification code are required'}, status=400)
+
+    try:
+        user = User.objects.get(email__iexact=email)
+    except User.DoesNotExist:
+        return Response({'error': 'No account found with this email'}, status=404)
+
+    if user.email_verified:
+        return Response({'error': 'Email is already verified. Please log in.'}, status=400)
+
+    now = _now_ms()
+    if user.verification_code != code:
+        return Response({'error': 'Invalid verification code'}, status=400)
+
+    if user.verification_code_expires < now:
+        return Response({'error': 'Verification code has expired. Please request a new one.'}, status=400)
+
+    user.email_verified = True
+    user.verification_code = None
+    user.verification_code_expires = 0
+    user.auth_token = User.generate_token()
+    user.save()
+
+    logger.info("auth_email_verify: email verified for user %s", user.username)
+    return Response({
+        'status': 'success',
+        'isNewUser': True,
+        'authToken': user.auth_token,
+        'user': UserSerializer(user).data,
+    })
+
+
+@api_view(['POST'])
+@authentication_classes([])
+def auth_email_resend(request):
+    """
+    POST /api/auth/email/resend
+    Body: { "email": "..." }
+    Resends verification code. Rate-limited to prevent abuse.
+    """
+    email = request.data.get('email', '').strip().lower()
+
+    if not email:
+        return Response({'error': 'Email is required'}, status=400)
+
+    try:
+        user = User.objects.get(email__iexact=email)
+    except User.DoesNotExist:
+        return Response({'error': 'No account found with this email'}, status=404)
+
+    if user.email_verified:
+        return Response({'error': 'Email is already verified. Please log in.'}, status=400)
+
+    now = _now_ms()
+    if user.verification_code_expires > (now - 60 * 1000):
+        return Response({'error': 'Please wait 60 seconds before requesting a new code'}, status=429)
+
+    code = User.generate_verification_code()
+    user.verification_code = code
+    user.verification_code_expires = now + (10 * 60 * 1000)
+    user.save(update_fields=['verification_code', 'verification_code_expires'])
+
+    send_verification_email(email, code, user.username)
+
+    logger.info("auth_email_resend: new code sent to %s", email)
+    return Response({'status': 'success', 'message': 'New verification code sent'})
+
+
+@api_view(['POST'])
+@authentication_classes([])
+def auth_email_login(request):
+    """
+    POST /api/auth/email/login
+    Body: { "email": "...", "password": "..." }
+    The email field accepts either an email or a username.
+    Logs in with email/username + password. Requires email_verified=True.
+    """
+    login_id = request.data.get('email', '').strip()
+    password = request.data.get('password', '')
+
+    if not login_id or not password:
+        return Response({'error': 'Email/username and password are required'}, status=400)
+
+    # Look up by email or username
+    try:
+        if '@' in login_id:
+            user = User.objects.get(email__iexact=login_id)
+        else:
+            user = User.objects.get(username__iexact=login_id)
+    except User.DoesNotExist:
+        return Response({'error': 'Invalid email/username or password'}, status=401)
+    except User.MultipleObjectsReturned:
+        return Response({'error': 'Multiple accounts found. Please use your email address.'}, status=400)
+
+    if not user.email_verified:
+        return Response({'error': 'Please verify your email first'}, status=403)
+
+    if not user.password_hash:
+        return Response({'error': 'This account uses Google sign-in. Please sign in with Google, or set a password from Settings.'}, status=400)
+
+    password_hash = hashlib.sha256(password.encode('utf-8')).hexdigest()
+    if not secrets.compare_digest(user.password_hash, password_hash):
+        return Response({'error': 'Invalid email/username or password'}, status=401)
+
+    user.auth_token = User.generate_token()
+    user.save(update_fields=['auth_token'])
+
+    logger.info("auth_email_login: user %s logged in", user.username)
+    return Response({
+        'status': 'success',
+        'isNewUser': False,
+        'authToken': user.auth_token,
+        'user': UserSerializer(user).data,
+    })
+
+
+@api_view(['POST'])
+@authentication_classes([])
+def auth_email_forgot(request):
+    """
+    POST /api/auth/email/forgot
+    Body: { "email": "..." }
+    Sends a verification code to reset password (reuses the same code mechanism).
+    """
+    email = request.data.get('email', '').strip().lower()
+
+    if not email:
+        return Response({'error': 'Email is required'}, status=400)
+
+    try:
+        user = User.objects.get(email__iexact=email)
+    except User.DoesNotExist:
+        return Response({'error': 'If an account exists with this email, a verification code has been sent'}, status=200)
+
+    if not user.password_hash:
+        return Response({'error': 'If an account exists with this email, a verification code has been sent'}, status=200)
+
+    code = User.generate_verification_code()
+    user.verification_code = code
+    user.verification_code_expires = _now_ms() + (10 * 60 * 1000)
+    user.save(update_fields=['verification_code', 'verification_code_expires'])
+
+    send_verification_email(email, code, user.username)
+
+    logger.info("auth_email_forgot: password reset code sent to %s", email)
+    return Response({'status': 'success', 'message': 'If an account exists with this email, a verification code has been sent'})
+
+
+@api_view(['POST'])
+@authentication_classes([])
+def auth_email_reset_password(request):
+    """
+    POST /api/auth/email/reset-password
+    Body: { "email": "...", "code": "123456", "newPassword": "..." }
+    Resets password using verification code.
+    """
+    email = request.data.get('email', '').strip().lower()
+    code = request.data.get('code', '').strip()
+    new_password = request.data.get('newPassword', '')
+
+    if not email or not code or not new_password:
+        return Response({'error': 'Email, code, and new password are required'}, status=400)
+
+    if len(new_password) < 8:
+        return Response({'error': 'Password must be at least 8 characters'}, status=400)
+
+    try:
+        user = User.objects.get(email__iexact=email)
+    except User.DoesNotExist:
+        return Response({'error': 'Invalid or expired verification code'}, status=400)
+
+    now = _now_ms()
+    if user.verification_code != code or user.verification_code_expires < now:
+        return Response({'error': 'Invalid or expired verification code'}, status=400)
+
+    user.password_hash = hashlib.sha256(new_password.encode('utf-8')).hexdigest()
+    user.verification_code = None
+    user.verification_code_expires = 0
+    user.auth_token = User.generate_token()
+    user.save()
+
+    logger.info("auth_email_reset_password: password reset for %s", user.username)
+    return Response({
+        'status': 'success',
+        'authToken': user.auth_token,
+        'user': UserSerializer(user).data,
+    })
+
+
+@api_view(['POST'])
+def auth_set_password(request):
+    """
+    POST /api/auth/set-password
+    Body: { "password": "..." }
+    Sets a password for a Google-only account so they can also log in with email/username.
+    Requires authentication. Also sets email_verified=True since Google already verified it.
+    """
+    user, err = _require_user(request)
+    if err:
+        return err
+
+    password = request.data.get('password', '')
+    if not password:
+        return Response({'error': 'Password is required'}, status=400)
+
+    if len(password) < 8:
+        return Response({'error': 'Password must be at least 8 characters'}, status=400)
+
+    if user.password_hash:
+        return Response({'error': 'Password already set. Use change-password instead.'}, status=400)
+
+    user.password_hash = hashlib.sha256(password.encode('utf-8')).hexdigest()
+    user.email_verified = True
+    user.save(update_fields=['password_hash', 'email_verified'])
+
+    logger.info("auth_set_password: password set for user %s", user.username)
+    return Response({
+        'status': 'success',
+        'message': 'Password set successfully',
+        'user': UserSerializer(user).data,
+    })
+
+
+@api_view(['POST'])
+def auth_change_password(request):
+    """
+    POST /api/auth/change-password
+    Body: { "currentPassword": "...", "newPassword": "..." }
+    Changes password for an account that already has one.
+    Requires authentication.
+    """
+    user, err = _require_user(request)
+    if err:
+        return err
+
+    current_password = request.data.get('currentPassword', '')
+    new_password = request.data.get('newPassword', '')
+
+    if not current_password or not new_password:
+        return Response({'error': 'Current password and new password are required'}, status=400)
+
+    if len(new_password) < 8:
+        return Response({'error': 'New password must be at least 8 characters'}, status=400)
+
+    if not user.password_hash:
+        return Response({'error': 'No password set. Use set-password instead.'}, status=400)
+
+    current_hash = hashlib.sha256(current_password.encode('utf-8')).hexdigest()
+    if not secrets.compare_digest(user.password_hash, current_hash):
+        return Response({'error': 'Current password is incorrect'}, status=401)
+
+    user.password_hash = hashlib.sha256(new_password.encode('utf-8')).hexdigest()
+    user.auth_token = User.generate_token()
+    user.save(update_fields=['password_hash', 'auth_token'])
+
+    logger.info("auth_change_password: password changed for user %s", user.username)
+    return Response({
+        'status': 'success',
+        'message': 'Password changed successfully',
+        'authToken': user.auth_token,
+        'user': UserSerializer(user).data,
+    })
 
 
 # ---------------------------------------------------------------------------

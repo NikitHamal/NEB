@@ -4,17 +4,19 @@
 
 {% block content %}
 <div class="login-container">
-  <div class="login-card md-card-elevated">
-    <div class="logo" style="display:flex;justify-content:center;">
-      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" width="80" height="80">
-        <rect width="32" height="32" rx="8" fill="var(--md-primary)"/>
-        <path d="M8 8h3v16H8V8zm5 0h3v16h-3V8zm5 0v16l8-8-8-8z" fill="var(--md-on-primary)"/>
-      </svg>
-    </div>
-    <h1 class="md-headline-small">Welcome to NEBians</h1>
-    <p class="md-body-medium">Sign in with your Google account to access all features, join discussions, and track your progress.</p>
+  <div class="login-card">
 
-    <div style="margin-bottom:24px;">
+    <!-- STEP 0: Default view — Google + Email options -->
+    <div id="auth-main" class="auth-panel">
+      <div class="login-logo" style="display:flex;justify-content:center;">
+        <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" width="64" height="64">
+          <rect width="32" height="32" rx="8" fill="var(--md-primary)"/>
+          <path d="M8 8h3v16H8V8zm5 0h3v16h-3V8zm5 0v16l8-8-8-8z" fill="var(--md-on-primary)"/>
+        </svg>
+      </div>
+      <h1>Welcome to NEBians</h1>
+      <p class="login-subtitle">Your study companion for notes, resources, and student forums.</p>
+
       <button onclick="window.nebSignIn && window.nebSignIn()" class="google-btn" id="signin-btn">
         <svg viewBox="0 0 24 24" width="20" height="20">
           <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/>
@@ -22,21 +24,196 @@
           <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
           <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
         </svg>
-        Sign in with Google
+        Continue with Google
       </button>
       <p id="signin-status" style="font-size:0.8125rem;color:var(--md-on-surface-variant);margin-top:8px;text-align:center;min-height:1.2em;"></p>
+
+      <div class="auth-divider">or</div>
+
+      <button onclick="window.showPanel('email-login')" class="auth-link-btn">
+        <span class="material-symbols-outlined" style="font-size:20px;">mail</span>
+        Sign in with Email
+      </button>
+
+      <div style="margin-top:12px;">
+        <button onclick="window.showPanel('email-signup')" class="auth-text-btn" style="width:100%;">
+          Create new account
+        </button>
+      </div>
+
+      <div class="auth-divider">or</div>
+
+      <a href="{% url 'web:home' %}" class="auth-text-btn" style="width:100%;color:var(--md-on-surface-variant);">
+        Continue as Guest
+      </a>
+
+      <div style="margin-top:24px;display:flex;align-items:center;justify-content:center;gap:6px;color:var(--md-on-surface-variant);font-size:0.75rem;">
+        <span class="material-symbols-outlined" style="font-size:16px;">lock</span>
+        Secure authentication
+      </div>
     </div>
 
-    <div class="md-divider"></div>
+    <!-- STEP 1: Email Login -->
+    <div id="panel-email-login" style="display:none;" class="auth-panel">
+      <div style="text-align:left;margin-bottom:24px;">
+        <button onclick="window.showPanel('main')" class="auth-text-btn" style="padding:4px 8px;margin:-4px -8px;">
+          <span class="material-symbols-outlined" style="font-size:20px;">arrow_back</span> Back
+        </button>
+      </div>
+      <div style="display:flex;justify-content:center;margin-bottom:16px;">
+        <div style="width:48px;height:48px;border-radius:var(--md-radius-lg);background:var(--md-primary-container);display:flex;align-items:center;justify-content:center;">
+          <span class="material-symbols-outlined" style="color:var(--md-on-primary-container);font-size:24px;">mail</span>
+        </div>
+      </div>
+      <h1 style="font-size:1.5rem;">Sign In</h1>
+      <p class="login-subtitle">Enter your email and password to continue.</p>
 
-    <div style="text-align:center;">
-      <a href="{% url 'web:home' %}" class="md-btn md-btn-text">Continue as Guest</a>
+      <form id="login-form" onsubmit="window.handleEmailLogin(event)">
+<div class="auth-field-group">
+        <span class="material-symbols-outlined auth-field-icon">person</span>
+        <input type="text" id="login-email" class="md-text-field" placeholder=" " required autocomplete="username">
+        <label>Email or Username</label>
+      </div>
+        <div class="auth-field-group">
+          <span class="material-symbols-outlined auth-field-icon">lock</span>
+          <input type="password" id="login-password" placeholder=" " required minlength="8" autocomplete="current-password">
+          <label>Password</label>
+          <button type="button" onclick="window.togglePassword('login-password', this)" class="auth-field-toggle">
+            <span class="material-symbols-outlined" style="font-size:20px;">visibility</span>
+          </button>
+        </div>
+        <div id="login-error" class="auth-error"></div>
+        <button type="submit" id="login-btn" class="auth-submit">Sign In</button>
+      </form>
+
+      <div style="margin-top:16px;text-align:center;">
+        <button onclick="window.showPanel('forgot')" class="auth-text-btn">Forgot password?</button>
+      </div>
+
+      <div class="auth-divider">or</div>
+
+      <button onclick="window.showPanel('email-signup')" class="auth-text-btn" style="width:100%;font-weight:600;">
+        Create new account
+      </button>
     </div>
 
-    <div style="text-align:center;margin-top:16px;display:flex;align-items:center;justify-content:center;gap:8px;color:var(--md-on-surface-variant);font-size:0.75rem;">
-      <span class="material-symbols-outlined" style="font-size:16px;">lock</span>
-      Secure Google Authentication
+    <!-- STEP 2: Email Signup -->
+    <div id="panel-email-signup" style="display:none;" class="auth-panel">
+      <div style="text-align:left;margin-bottom:24px;">
+        <button onclick="window.showPanel('main')" class="auth-text-btn" style="padding:4px 8px;margin:-4px -8px;">
+          <span class="material-symbols-outlined" style="font-size:20px;">arrow_back</span> Back
+        </button>
+      </div>
+      <div style="display:flex;justify-content:center;margin-bottom:16px;">
+        <div style="width:48px;height:48px;border-radius:var(--md-radius-lg);background:var(--md-primary-container);display:flex;align-items:center;justify-content:center;">
+          <span class="material-symbols-outlined" style="color:var(--md-on-primary-container);font-size:24px;">person_add</span>
+        </div>
+      </div>
+      <h1 style="font-size:1.5rem;">Create Account</h1>
+      <p class="login-subtitle">Sign up with your email. We'll send a verification code.</p>
+
+      <form id="signup-form" onsubmit="window.handleEmailSignup(event)">
+        <div class="auth-field-group">
+          <span class="material-symbols-outlined auth-field-icon">alternate_email</span>
+          <input type="text" id="signup-username" placeholder=" " required minlength="3" pattern="[a-zA-Z0-9_]+" autocomplete="username">
+          <label>Username</label>
+        </div>
+        <div class="auth-field-group">
+          <span class="material-symbols-outlined auth-field-icon">mail</span>
+          <input type="email" id="signup-email" placeholder=" " required autocomplete="email">
+          <label>Email</label>
+        </div>
+        <div class="auth-field-group">
+          <span class="material-symbols-outlined auth-field-icon">lock</span>
+          <input type="password" id="signup-password" placeholder=" " required minlength="8" autocomplete="new-password">
+          <label>Password</label>
+          <button type="button" onclick="window.togglePassword('signup-password', this)" class="auth-field-toggle">
+            <span class="material-symbols-outlined" style="font-size:20px;">visibility</span>
+          </button>
+        </div>
+        <div id="signup-error" class="auth-error"></div>
+        <button type="submit" id="signup-btn" class="auth-submit">Create Account</button>
+      </form>
+
+      <div class="auth-divider">or</div>
+
+      <button onclick="window.showPanel('email-login')" class="auth-text-btn" style="width:100%;font-weight:600;">
+        Already have an account? Sign in
+      </button>
     </div>
+
+    <!-- STEP 3: Verification Code -->
+    <div id="panel-verify" style="display:none;" class="auth-panel">
+      <div style="text-align:left;margin-bottom:24px;">
+        <button onclick="window.showPanel('email-signup')" class="auth-text-btn" style="padding:4px 8px;margin:-4px -8px;">
+          <span class="material-symbols-outlined" style="font-size:20px;">arrow_back</span> Back
+        </button>
+      </div>
+      <div style="display:flex;justify-content:center;margin-bottom:16px;">
+        <div style="width:48px;height:48px;border-radius:var(--md-radius-lg);background:var(--md-primary-container);display:flex;align-items:center;justify-content:center;">
+          <span class="material-symbols-outlined" style="color:var(--md-on-primary-container);font-size:24px;">mark_email_unread</span>
+        </div>
+      </div>
+      <h1 style="font-size:1.5rem;">Verify Email</h1>
+      <p class="login-subtitle">We sent a 6-digit code to <strong id="verify-email-display"></strong></p>
+
+      <form onsubmit="window.handleVerifyCode(event)">
+        <div style="margin-bottom:16px;">
+          <input type="text" id="verify-code" class="auth-code-input" placeholder="000000" required maxlength="6" inputmode="numeric" autocomplete="one-time-code">
+        </div>
+        <div id="verify-error" class="auth-error"></div>
+        <button type="submit" id="verify-btn" class="auth-submit">Verify</button>
+        <div style="margin-top:8px;text-align:center;">
+          <button type="button" onclick="window.handleResend()" id="resend-btn" class="auth-text-btn">Resend Code</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- STEP 4: Forgot Password -->
+    <div id="panel-forgot" style="display:none;" class="auth-panel">
+      <div style="text-align:left;margin-bottom:24px;">
+        <button onclick="window.showPanel('email-login')" class="auth-text-btn" style="padding:4px 8px;margin:-4px -8px;">
+          <span class="material-symbols-outlined" style="font-size:20px;">arrow_back</span> Back
+        </button>
+      </div>
+      <div style="display:flex;justify-content:center;margin-bottom:16px;">
+        <div style="width:48px;height:48px;border-radius:var(--md-radius-lg);background:var(--md-error-container);display:flex;align-items:center;justify-content:center;">
+          <span class="material-symbols-outlined" style="color:var(--md-on-error-container);font-size:24px;">lock_reset</span>
+        </div>
+      </div>
+      <h1 style="font-size:1.5rem;">Reset Password</h1>
+      <p class="login-subtitle">Enter your email and we'll send a verification code.</p>
+
+      <form id="forgot-form" onsubmit="window.handleForgot(event)">
+        <div class="auth-field-group">
+          <span class="material-symbols-outlined auth-field-icon">mail</span>
+          <input type="email" id="forgot-email" placeholder=" " required autocomplete="email">
+          <label>Email</label>
+        </div>
+        <div id="forgot-error" class="auth-error"></div>
+        <button type="submit" id="forgot-btn" class="auth-submit">Send Code</button>
+      </form>
+
+      <div id="reset-section" style="display:none;margin-top:24px;">
+        <p style="font-size:0.875rem;color:var(--md-on-surface-variant);margin-bottom:12px;">Enter the code and your new password.</p>
+        <form onsubmit="window.handleReset(event)">
+          <div style="margin-bottom:16px;">
+            <input type="text" id="reset-code" class="auth-code-input" placeholder="000000" required maxlength="6" inputmode="numeric">
+          </div>
+          <div class="auth-field-group">
+            <span class="material-symbols-outlined auth-field-icon">lock</span>
+            <input type="password" id="reset-password" placeholder=" " required minlength="8" autocomplete="new-password">
+            <label>New Password</label>
+            <button type="button" onclick="window.togglePassword('reset-password', this)" class="auth-field-toggle">
+              <span class="material-symbols-outlined" style="font-size:20px;">visibility</span>
+            </button>
+          </div>
+          <div id="reset-error" class="auth-error"></div>
+          <button type="submit" class="auth-submit">Reset Password</button>
+        </form>
+      </div>
+    </div>
+
   </div>
 </div>
 {% endblock %}
@@ -65,12 +242,12 @@ function setStatus(text) {
 
 function resetBtn() {
   const btn = document.getElementById('signin-btn');
-  btn.innerHTML = '<svg viewBox="0 0 24 24" width="20" height="20"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg> Sign in with Google';
+  btn.innerHTML = '<svg viewBox="0 0 24 24" width="20" height="20"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg> Continue with Google';
   btn.disabled = false;
 }
 
 async function sendTokenToBackend(idToken) {
-  setStatus('Signing in to NEBians...');
+  setStatus('Signing in...');
   try {
     const res = await fetch('{% url "web:google_auth" %}', {
       method: 'POST',
@@ -99,10 +276,8 @@ async function nebSignIn() {
   btn.disabled = true;
   btn.textContent = 'Redirecting to Google...';
   setStatus('Please complete sign-in on the Google page...');
-
   const provider = new GoogleAuthProvider();
   provider.setCustomParameters({ prompt: 'select_account' });
-
   try {
     await signInWithRedirect(auth, provider);
   } catch (e) {
@@ -115,10 +290,187 @@ async function nebSignIn() {
 
 window.nebSignIn = nebSignIn;
 
-// Handle redirect result on page load
+// ── Panel navigation ──
+window.showPanel = function(panel) {
+  document.querySelectorAll('[id^="panel-"], #auth-main').forEach(el => el.style.display = 'none');
+  const target = panel === 'main' ? document.getElementById('auth-main') : document.getElementById('panel-' + panel);
+  if (target) {
+    target.style.display = '';
+    target.classList.remove('auth-panel');
+    void target.offsetWidth;
+    target.classList.add('auth-panel');
+  }
+  // Clear errors
+  document.querySelectorAll('.auth-error').forEach(el => el.textContent = '');
+};
+
+// ── Password visibility toggle ──
+window.togglePassword = function(inputId, btn) {
+  const input = document.getElementById(inputId);
+  const icon = btn.querySelector('.material-symbols-outlined');
+  if (input.type === 'password') {
+    input.type = 'text';
+    icon.textContent = 'visibility_off';
+  } else {
+    input.type = 'password';
+    icon.textContent = 'visibility';
+  }
+};
+
+// ── Email Login ──
+window.handleEmailLogin = async function(e) {
+  e.preventDefault();
+  const email = document.getElementById('login-email').value.trim();
+  const password = document.getElementById('login-password').value;
+  const errorEl = document.getElementById('login-error');
+  const btn = document.getElementById('login-btn');
+  errorEl.textContent = '';
+  btn.disabled = true;
+  btn.textContent = 'Signing in...';
+  try {
+    const res = await fetch('/api/auth/email/login/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, password }) });
+    const data = await res.json();
+    if (data.status === 'success' && data.authToken) {
+      await window.nebEmailLoginSuccess(data);
+    } else {
+      errorEl.textContent = data.error || 'Login failed';
+    }
+  } catch (err) {
+    errorEl.textContent = 'Network error. Please try again.';
+  }
+  btn.disabled = false;
+  btn.textContent = 'Sign In';
+};
+
+// ── Email Signup ──
+window.handleEmailSignup = async function(e) {
+  e.preventDefault();
+  const username = document.getElementById('signup-username').value.trim();
+  const email = document.getElementById('signup-email').value.trim();
+  const password = document.getElementById('signup-password').value;
+  const errorEl = document.getElementById('signup-error');
+  const btn = document.getElementById('signup-btn');
+  errorEl.textContent = '';
+  btn.disabled = true;
+  btn.textContent = 'Creating account...';
+  try {
+    const res = await fetch('/api/auth/email/signup/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, password, username }) });
+    const data = await res.json();
+    if (data.status === 'success') {
+      document.getElementById('verify-email-display').textContent = email;
+      window.showPanel('verify');
+    } else {
+      errorEl.textContent = data.error || 'Signup failed';
+    }
+  } catch (err) {
+    errorEl.textContent = 'Network error. Please try again.';
+  }
+  btn.disabled = false;
+  btn.textContent = 'Create Account';
+};
+
+// ── Verification Code ──
+window.handleVerifyCode = async function(e) {
+  e.preventDefault();
+  const email = document.getElementById('signup-email').value.trim();
+  const code = document.getElementById('verify-code').value.trim();
+  const errorEl = document.getElementById('verify-error');
+  const btn = document.getElementById('verify-btn');
+  errorEl.textContent = '';
+  btn.disabled = true;
+  btn.textContent = 'Verifying...';
+  try {
+    const res = await fetch('/api/auth/email/verify/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, code }) });
+    const data = await res.json();
+    if (data.status === 'success') {
+      await window.nebEmailLoginSuccess(data);
+    } else {
+      errorEl.textContent = data.error || 'Verification failed';
+    }
+  } catch (err) {
+    errorEl.textContent = 'Network error. Please try again.';
+  }
+  btn.disabled = false;
+  btn.textContent = 'Verify';
+};
+
+// ── Resend Code ──
+window.handleResend = async function() {
+  const email = document.getElementById('signup-email').value.trim();
+  const btn = document.getElementById('resend-btn');
+  btn.disabled = true;
+  btn.textContent = 'Sending...';
+  try {
+    await fetch('/api/auth/email/resend/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email }) });
+    btn.textContent = 'Code sent!';
+    setTimeout(() => { btn.textContent = 'Resend Code'; btn.disabled = false; }, 30000);
+  } catch (err) {
+    btn.textContent = 'Resend Code';
+    btn.disabled = false;
+  }
+};
+
+// ── Forgot Password ──
+window.handleForgot = async function(e) {
+  e.preventDefault();
+  const email = document.getElementById('forgot-email').value.trim();
+  const errorEl = document.getElementById('forgot-error');
+  const btn = document.getElementById('forgot-btn');
+  errorEl.textContent = '';
+  btn.disabled = true;
+  btn.textContent = 'Sending...';
+  try {
+    await fetch('/api/auth/email/forgot/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email }) });
+    document.getElementById('reset-section').style.display = 'block';
+    btn.textContent = 'Code Sent!';
+    btn.disabled = true;
+  } catch (err) {
+    errorEl.textContent = 'Network error';
+    btn.disabled = false;
+    btn.textContent = 'Send Code';
+  }
+};
+
+// ── Reset Password ──
+window.handleReset = async function(e) {
+  e.preventDefault();
+  const email = document.getElementById('forgot-email').value.trim();
+  const code = document.getElementById('reset-code').value.trim();
+  const newPassword = document.getElementById('reset-password').value;
+  const errorEl = document.getElementById('reset-error');
+  errorEl.textContent = '';
+  try {
+    const res = await fetch('/api/auth/email/reset-password/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, code, newPassword }) });
+    const data = await res.json();
+    if (data.status === 'success') {
+      await window.nebEmailLoginSuccess(data);
+    } else {
+      errorEl.textContent = data.error || 'Reset failed';
+    }
+  } catch (err) {
+    errorEl.textContent = 'Network error';
+  }
+};
+
+// ── Session creation for email auth ──
+window.nebEmailLoginSuccess = async function(data) {
+  if (data.authToken && data.user) {
+    try {
+      await fetch('{% url "web:google_auth" %}', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
+        body: JSON.stringify({ emailAuthToken: data.authToken, emailUser: data.user })
+      });
+    } catch (e) { /* ignore session errors, redirect anyway */ }
+    window.location.href = data.isNewUser ? '{% url "web:edit_profile" %}' : '{% url "web:home" %}';
+  } else {
+    window.location.href = '{% url "web:home" %}';
+  }
+};
+
+// ── Handle Google redirect result ──
 getRedirectResult(auth).then(async (result) => {
   if (result && result.user) {
-    console.log('Firebase: redirect result success', result.user.uid);
     setStatus('Signing in...');
     const idToken = await result.user.getIdToken();
     await sendTokenToBackend(idToken);

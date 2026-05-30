@@ -137,9 +137,9 @@ img { max-width: 100%; height: auto; }
   background: transparent; color: var(--md-primary);
   border: 1px solid var(--md-outline);
 }
-.md-btn-outlined:hover { background: var(--md-primary-container); color: var(--md-on-primary-container); }
+.md-btn-outlined:hover { background: rgba(0, 74, 198, 0.08); }
 .md-btn-text { background: transparent; color: var(--md-primary); }
-.md-btn-text:hover { background: var(--md-primary-container); }
+.md-btn-text:hover { background: rgba(0, 74, 198, 0.08); }
 .md-btn-tonal {
   background: var(--md-secondary-container); color: var(--md-on-secondary-container);
 }

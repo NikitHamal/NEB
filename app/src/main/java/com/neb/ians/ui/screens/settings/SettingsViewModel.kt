@@ -5,8 +5,10 @@ import androidx.lifecycle.viewModelScope
 import com.neb.ians.data.repository.SettingsRepository
 import com.neb.ians.data.repository.AuthRepository
 import com.neb.ians.data.repository.UserProfileCache
+import com.neb.ians.data.repository.PasswordResult
 import com.neb.ians.data.api.UserProfileRequest
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
@@ -82,4 +84,40 @@ class SettingsViewModel @Inject constructor(
             authRepository.logout()
         }
     }
+
+    private val _passwordState = MutableStateFlow<PasswordUiState>(PasswordUiState.Idle)
+    val passwordState: StateFlow<PasswordUiState> = _passwordState.asStateFlow()
+
+    fun setPassword(password: String) {
+        viewModelScope.launch {
+            _passwordState.value = PasswordUiState.Loading
+            val result = authRepository.setPassword(password)
+            _passwordState.value = when (result) {
+                is PasswordResult.Success -> PasswordUiState.Success
+                is PasswordResult.Failure -> PasswordUiState.Error(result.message)
+            }
+        }
+    }
+
+    fun changePassword(currentPassword: String, newPassword: String) {
+        viewModelScope.launch {
+            _passwordState.value = PasswordUiState.Loading
+            val result = authRepository.changePassword(currentPassword, newPassword)
+            _passwordState.value = when (result) {
+                is PasswordResult.Success -> PasswordUiState.Success
+                is PasswordResult.Failure -> PasswordUiState.Error(result.message)
+            }
+        }
+    }
+
+    fun resetPasswordState() {
+        _passwordState.value = PasswordUiState.Idle
+    }
+}
+
+sealed class PasswordUiState {
+    object Idle : PasswordUiState()
+    object Loading : PasswordUiState()
+    object Success : PasswordUiState()
+    data class Error(val message: String) : PasswordUiState()
 }

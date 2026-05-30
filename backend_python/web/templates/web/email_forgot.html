@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block title %}Reset Password{% endblock %}
+
+{% block content %}
+<div class="login-container">
+  <div class="login-card md-card-elevated">
+    <div class="logo" style="display:flex;justify-content:center;">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" width="80" height="80">
+        <rect width="32" height="32" rx="8" fill="var(--md-primary)"/>
+        <path d="M8 8h3v16H8V8zm5 0h3v16h-3V8zm5 0v16l8-8-8-8z" fill="var(--md-on-primary)"/>
+      </svg>
+    </div>
+    <h1 class="md-headline-small">Reset Password</h1>
+    <p class="md-body-medium">Enter your email to receive a verification code.</p>
+
+    <div style="margin-top:20px;">
+      <div class="md-text-field-wrapper">
+        <input type="email" id="forgot-email" class="md-text-field" placeholder=" " required>
+        <label class="md-text-field-label">Email</label>
+      </div>
+      <p id="forgot-error" style="color:var(--md-error);font-size:0.8125rem;min-height:1.2em;margin:4px 0;"></p>
+      <button onclick="handleForgot()" id="forgot-btn" class="md-btn md-btn-filled" style="width:100%;margin-top:8px;">Send Code</button>
+    </div>
+
+    <div id="reset-section" style="display:none;margin-top:20px;">
+      <div class="md-text-field-wrapper">
+        <input type="text" id="reset-code" class="md-text-field" placeholder=" " required maxlength="6" inputmode="numeric">
+        <label class="md-text-field-label">6-digit Code</label>
+      </div>
+      <div class="md-text-field-wrapper" style="margin-top:12px;">
+        <input type="password" id="reset-password" class="md-text-field" placeholder=" " required minlength="8">
+        <label class="md-text-field-label">New Password</label>
+      </div>
+      <p id="reset-error" style="color:var(--md-error);font-size:0.8125rem;min-height:1.2em;margin:4px 0;"></p>
+      <button onclick="handleReset()" class="md-btn md-btn-filled" style="width:100%;margin-top:8px;">Reset Password</button>
+    </div>
+
+    <div style="text-align:center;margin-top:16px;">
+      <a href="{% url 'web:email_login' %}" class="md-btn md-btn-text">← Back to sign in</a>
+    </div>
+  </div>
+</div>
+
+{% block extra_js %}
+<script>
+async function handleForgot() {
+  const email = document.getElementById('forgot-email').value.trim();
+  const errorEl = document.getElementById('forgot-error');
+  const btn = document.getElementById('forgot-btn');
+  errorEl.textContent = '';
+  btn.disabled = true;
+  btn.textContent = 'Sending...';
+
+  try {
+    await fetch('/api/auth/email/forgot/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email })
+    });
+    document.getElementById('reset-section').style.display = 'block';
+    btn.textContent = 'Code Sent!';
+  } catch (e) {
+    errorEl.textContent = 'Network error. Please try again.';
+    btn.disabled = false;
+    btn.textContent = 'Send Code';
+  }
+}
+
+async function handleReset() {
+  const email = document.getElementById('forgot-email').value.trim();
+  const code = document.getElementById('reset-code').value.trim();
+  const newPassword = document.getElementById('reset-password').value;
+  const errorEl = document.getElementById('reset-error');
+  errorEl.textContent = '';
+
+  try {
+    const res = await fetch('/api/auth/email/reset-password/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, code, newPassword })
+    });
+    const data = await res.json();
+    if (data.status === 'success' && data.authToken) {
+      const sessionRes = await fetch('{% url "web:google_auth" %}', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
+        body: JSON.stringify({ emailAuthToken: data.authToken, emailUser: data.user })
+      });
+      window.location.href = '{% url "web:home" %}';
+    } else {
+      errorEl.textContent = data.error || 'Reset failed';
+    }
+  } catch (e) {
+    errorEl.textContent = 'Network error. Please try again.';
+  }
+}
+</script>
+{% endblock %}
+{% endblock %}

@@ -577,6 +577,7 @@ def edit_profile(request):
         db_user = User.objects.get(id=user.get('id'))
     except User.DoesNotExist:
         return redirect('web:login')
+    has_password = bool(db_user.password_hash)
     if request.method == 'POST':
         username = request.POST.get('username', '').strip()
         dob = request.POST.get('dob', '').strip()
@@ -621,7 +622,7 @@ def edit_profile(request):
         return redirect('web:home')
     ctx = _ctx(request)
     ctx['error'] = ctx.get('error', None)
-    return render(request, 'web/edit_profile.html', ctx)
+    return render(request, 'web/edit_profile.html', _ctx(request, error=ctx.get('error', None), has_password=has_password))
 
 
 # ---------------------------------------------------------------------------
@@ -645,9 +646,25 @@ def login_page(request):
 def google_auth(request):
     try:
         data = json.loads(request.body)
-        id_token = data.get('idToken', '')
     except (json.JSONDecodeError, KeyError):
         return JsonResponse({'error': 'Invalid request'}, status=400)
+
+    # Check for email auth token (from email login flow)
+    email_auth_token = data.get('emailAuthToken')
+    if email_auth_token:
+        try:
+            user = User.objects.get(auth_token=email_auth_token)
+            token = user.auth_token
+            user_data = _normalize_user_data(UserSerializer(user).data)
+            user_data['isNewUser'] = data.get('emailUser', {}).get('isNewUser', False)
+            api.set_session_auth(request, token, user_data)
+            return JsonResponse({'status': 'success', 'user': user_data, 'isNewUser': user_data.get('isNewUser', False)})
+        except User.DoesNotExist:
+            return JsonResponse({'error': 'Invalid auth token'}, status=401)
+
+    id_token = data.get('idToken', '')
+    if not id_token:
+        return JsonResponse({'error': 'idToken is required'}, status=400)
     result = api.auth_google(id_token)
     if not result or result.get('status') != 'success':
         return JsonResponse({'error': 'Authentication failed'}, status=401)
@@ -684,6 +701,48 @@ def _normalize_user_data(user):
 def logout(request):
     api.clear_session_auth(request)
     return redirect('web:home')
+
+
+def email_signup_page(request):
+    if api.get_session_token(request):
+        return redirect('web:home')
+    return render(request, 'web/email_signup.html', _ctx(request))
+
+
+def email_login_page(request):
+    if api.get_session_token(request):
+        return redirect('web:home')
+    return render(request, 'web/email_login.html', _ctx(request))
+
+
+def email_verify_page(request):
+    return render(request, 'web/email_verify.html', _ctx(request))
+
+
+def email_forgot_page(request):
+    return render(request, 'web/email_forgot.html', _ctx(request))
+
+
+def password_page(request):
+    token = api.get_session_token(request)
+    if not token:
+        return redirect('web:login')
+    user = api.get_session_user(request)
+    has_password = False
+    if user:
+        try:
+            db_user = User.objects.get(id=user.get('id'))
+            has_password = bool(db_user.password_hash)
+        except User.DoesNotExist:
+            pass
+    return render(request, 'web/password_set.html', _ctx(request, has_password=has_password))
+
+
+def change_password_page(request):
+    token = api.get_session_token(request)
+    if not token:
+        return redirect('web:login')
+    return render(request, 'web/password_change.html', _ctx(request))
 
 
 def privacy_policy(request):
@@ -1045,6 +1104,53 @@ def ajax_user_photos(request):
         }, status=201)
 
     return JsonResponse({'error': 'Method not allowed'}, status=405)
+
+
+@require_POST
+def ajax_set_password(request):
+    token = api.get_session_token(request)
+    if not token:
+        return JsonResponse({'error': 'Unauthorized'}, status=401)
+    try:
+        data = json.loads(request.body)
+    except json.JSONDecodeError:
+        return JsonResponse({'error': 'Invalid request'}, status=400)
+    password = data.get('password', '')
+    if not password or len(password) < 8:
+        return JsonResponse({'error': 'Password must be at least 8 characters'}, status=400)
+    result = api._api_call('POST', '/auth/set-password/', token=token, data={'password': password})
+    if result and result.get('status') == 'success':
+        _clear_page_cache()
+        user_data = api.get_session_user(request)
+        if user_data:
+            user_data['hasPassword'] = True
+            api.set_session_auth(request, token, user_data)
+        return JsonResponse({'status': 'success', 'message': 'Password set successfully'})
+    return JsonResponse({'error': (result or {}).get('error', 'Failed to set password')}, status=400)
+
+
+@require_POST
+def ajax_change_password(request):
+    token = api.get_session_token(request)
+    if not token:
+        return JsonResponse({'error': 'Unauthorized'}, status=401)
+    try:
+        data = json.loads(request.body)
+    except json.JSONDecodeError:
+        return JsonResponse({'error': 'Invalid request'}, status=400)
+    current_password = data.get('currentPassword', '')
+    new_password = data.get('newPassword', '')
+    if not current_password or not new_password:
+        return JsonResponse({'error': 'Current password and new password are required'}, status=400)
+    result = api._api_call('POST', '/auth/change-password/', token=token, data={'currentPassword': current_password, 'newPassword': new_password})
+    if result and result.get('status') == 'success':
+        _clear_page_cache()
+        new_token = result.get('authToken', token)
+        user_data = api.get_session_user(request)
+        if user_data:
+            api.set_session_auth(request, new_token, user_data)
+        return JsonResponse({'status': 'success', 'message': 'Password changed successfully'})
+    return JsonResponse({'error': (result or {}).get('error', 'Failed to change password')}, status=400)
 
 
 
