@@ -127,7 +127,7 @@
       <a href="{% url 'web:forum' %}" class="md-btn md-btn-text">View all</a>
     </div>
     {% for post in recent_posts %}
-    <a href="{% url 'web:forum_post' post_id=post.id %}" class="post-card md-card" style="display:block;margin-bottom:12px;text-decoration:none;color:inherit;">
+    <div class="post-card">
       <div class="post-card-header">
         <div class="post-card-avatar">
           {% if post.authorPhotoUrl %}
@@ -139,23 +139,28 @@
         </div>
         <div class="post-card-meta">
           <div class="post-card-meta-line">
-            <strong onclick="event.preventDefault(); event.stopPropagation(); window.location.href='{% url 'web:profile' username=post.authorName %}'">{{ post.authorName }}</strong> started a discussion in <span class="post-card-category">{{ post.category }}</span>
+            <strong onclick="window.location.href='{% url 'web:profile' username=post.authorName %}'" style="cursor:pointer;">{{ post.authorName }}</strong>
+            {% if post.authorBadge %}
+              <span class="user-badge">{{ post.authorBadge }}</span>
+            {% endif %}
+            <span class="act-action-text">started a discussion in</span>
+            <a href="{% url 'web:forum' %}?category={{ post.category }}" class="post-card-category-link">{{ post.category }}</a>
           </div>
           <div class="post-card-time">{{ post.createdAt|time_ago }}</div>
         </div>
       </div>
-      <h3>{{ post.title }}</h3>
+      <h3 style="margin-top:4px; margin-bottom:8px;"><a href="{% url 'web:forum_post' post_id=post.id %}" style="color: inherit; text-decoration: none;">{{ post.title }}</a></h3>
       <div class="post-card-actions">
-        <button type="button" onclick="event.preventDefault();event.stopPropagation();toggleHomePostLike('{{ post.id }}', this);" class="{% if post.isThumbedUp %}liked{% endif %}" id="home-post-like-btn-{{ post.id }}">
-          <span class="material-symbols-outlined" style="font-size:18px">{% if post.isThumbedUp %}thumb_up{% else %}thumb_up_off_alt{% endif %}</span>
+        <button type="button" onclick="toggleHomePostLike('{{ post.id }}', this);" class="{% if post.isThumbedUp %}liked{% endif %}" id="home-post-like-btn-{{ post.id }}">
+          <span class="material-symbols-outlined">{% if post.isThumbedUp %}thumb_up{% else %}thumb_up_off_alt{% endif %}</span>
           <span id="home-post-like-count-{{ post.id }}">{{ post.thumbsUpCount }}</span>
         </button>
-        <button type="button" onclick="event.preventDefault();event.stopPropagation();">
-          <span class="material-symbols-outlined" style="font-size:18px">chat_bubble_outline</span>
-          {{ post.replyCount }} Replies
-        </button>
+        <a href="{% url 'web:forum_post' post_id=post.id %}" class="act-btn-stat">
+          <span class="material-symbols-outlined">chat_bubble_outline</span>
+          <span>{{ post.replyCount }} Replies</span>
+        </a>
       </div>
-    </a>
+    </div>
     {% endfor %}
   </div>
   {% endif %}

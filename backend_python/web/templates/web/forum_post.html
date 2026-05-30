@@ -26,7 +26,7 @@
       </div>
       <div class="post-card-meta">
         <div class="post-card-meta-line">
-          <strong onclick="window.location.href='{% url 'web:profile' username=post.authorName %}'" style="cursor:pointer;">{{ post.authorName }}</strong> started a discussion in <span class="post-card-category">{{ post.category }}</span>
+          <strong onclick="window.location.href='{% url 'web:profile' username=post.authorName %}'" style="cursor:pointer;">{{ post.authorName }}</strong> started a discussion in <a href="{% url 'web:forum' %}?category={{ post.category }}" class="post-card-category-link">{{ post.category }}</a>
         </div>
         <div class="post-card-time">{{ post.createdAt|time_ago }}</div>
       </div>
