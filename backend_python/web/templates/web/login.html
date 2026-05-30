@@ -44,7 +44,7 @@
 {% block extra_js %}
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js';
-import { getAuth, GoogleAuthProvider, signInWithRedirect, getRedirectResult, browserLocalPersistence, setPersistence, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js';
+import { getAuth, GoogleAuthProvider, signInWithPopup, browserLocalPersistence, setPersistence, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js';
 
 const firebaseConfig = {
   apiKey: '{{ firebase_api_key }}',
@@ -58,44 +58,15 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
-provider.setCustomParameters({ prompt: 'select_account' });
+provider.addScope('email');
+provider.addScope('profile');
+provider.setCustomParameters({ prompt: 'consent' });
 
 setPersistence(auth, browserLocalPersistence).catch(() => {});
-
-async function sendTokenToBackend(idToken) {
-  const res = await fetch('{% url "web:google_auth" %}', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
-    body: JSON.stringify({ idToken: idToken })
-  });
-  return await res.json();
-}
 
 function setStatus(text) {
   const s = document.getElementById('signin-status');
   if (s) s.textContent = text;
-}
-
-async function handleAuthResult(result) {
-  setStatus('Signing in to NEBians...');
-  try {
-    const idToken = await result.user.getIdToken();
-    const data = await sendTokenToBackend(idToken);
-    if (data.status === 'success') {
-      setStatus('Success! Redirecting...');
-      window.location.href = data.isNewUser ? '{% url "web:edit_profile" %}' : '{% url "web:home" %}';
-    } else {
-      console.error('Backend auth error:', data);
-      setStatus(data.error || 'Authentication failed');
-      showSnackbar(data.error || 'Authentication failed');
-      resetBtn();
-    }
-  } catch (e) {
-    console.error('Backend fetch error:', e);
-    setStatus('Network error. Please try again.');
-    showSnackbar('Network error. Please try again.');
-    resetBtn();
-  }
 }
 
 function resetBtn() {
@@ -104,41 +75,69 @@ function resetBtn() {
   btn.disabled = false;
 }
 
-// Check 1: Already signed in from persistence (localStorage)
+async function sendTokenToBackend(idToken) {
+  setStatus('Signing in to NEBians...');
+  const res = await fetch('{% url "web:google_auth" %}', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
+    body: JSON.stringify({ idToken: idToken })
+  });
+  const data = await res.json();
+  console.log('Backend auth response:', data);
+  if (data.status === 'success') {
+    setStatus('Success! Redirecting...');
+    window.location.href = data.isNewUser ? '{% url "web:edit_profile" %}' : '{% url "web:home" %}';
+  } else {
+    setStatus(data.error || 'Authentication failed');
+    showSnackbar(data.error || 'Authentication failed');
+    resetBtn();
+  }
+}
+
+// If already signed in from persistence, auto-login
 onAuthStateChanged(auth, async (user) => {
   if (user) {
-    console.log('Firebase: user already signed in', user.uid);
-    await handleAuthResult({ user: user });
-    return;
+    console.log('Firebase: user already signed in, auto-logging in');
+    try {
+      const idToken = await user.getIdToken();
+      await sendTokenToBackend(idToken);
+    } catch (e) {
+      console.error('Auto-login error:', e);
+    }
   }
 });
 
-// Check 2: Coming back from redirect
-getRedirectResult(auth).then(async (result) => {
-  if (result) {
-    console.log('Firebase: redirect result received', result.user.uid);
-    await handleAuthResult(result);
-  }
-}).catch((error) => {
-  console.error('Firebase: redirect result error', error.code, error.message);
-  setStatus(error.message || 'Sign-in failed');
-  showSnackbar(error.message || 'Sign-in failed');
-  resetBtn();
-});
-
-// Button click: start redirect sign-in
 async function nebSignIn() {
   const btn = document.getElementById('signin-btn');
   btn.disabled = true;
-  btn.textContent = 'Redirecting to Google...';
-  setStatus('Redirecting to Google...');
+  btn.textContent = 'Signing in...';
+  setStatus('Opening Google...');
   try {
-    await signInWithRedirect(auth, provider);
+    const result = await signInWithPopup(auth, provider);
+    console.log('Firebase: signInWithPopup success', result.user.uid);
+    const idToken = await result.user.getIdToken();
+    await sendTokenToBackend(idToken);
   } catch (e) {
-    console.error('Firebase: redirect sign-in error', e);
-    setStatus(e.message || 'Failed to start sign-in');
-    showSnackbar(e.message || 'Failed to start sign-in');
-    resetBtn();
+    console.error('Firebase: signInWithPopup error', e.code, e.message, e.customData);
+    if (e.code === 'auth/popup-closed-by-user') {
+      setStatus('Sign-in was cancelled. Please try again.');
+      resetBtn();
+    } else if (e.code === 'auth/unauthorized-domain') {
+      setStatus('This domain is not authorized. Add it in Firebase Console → Authentication → Settings → Authorized domains.');
+      showSnackbar('Domain not authorized for Google Sign-In.');
+      resetBtn();
+    } else if (e.code === 'auth/popup-blocked') {
+      setStatus('Popup was blocked by your browser. Please allow popups and try again.');
+      showSnackbar('Popup blocked. Allow popups for this site.');
+      resetBtn();
+    } else if (e.code === 'auth/cancelled-by-user') {
+      setStatus('');
+      resetBtn();
+    } else {
+      setStatus(e.message || 'Sign-in failed');
+      showSnackbar(e.message || 'Sign-in failed');
+      resetBtn();
+    }
   }
 }
 
