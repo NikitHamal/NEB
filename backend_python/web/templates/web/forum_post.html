@@ -6,6 +6,63 @@
 {% block bnav_forum %}md-nav-active{% endblock %}
 
 {% block content %}
+<style>
+  .post-owner-actions { display:flex; gap:8px; margin-top:8px; flex-wrap:wrap; }
+  .post-owner-actions button, .post-owner-actions a {
+    display:inline-flex; align-items:center; gap:4px; padding:4px 12px; border-radius:100px;
+    font-size:0.75rem; font-weight:500; cursor:pointer; border:1px solid var(--md-outline-variant);
+    background:transparent; color:var(--md-on-surface-variant); text-decoration:none; transition:background 0.2s;
+  }
+  .post-owner-actions button:hover, .post-owner-actions a:hover { background:var(--md-surface-container-high); }
+  .post-owner-actions .btn-danger { color:var(--md-error); border-color:var(--md-error); }
+  .post-owner-actions .btn-danger:hover { background:var(--md-error-container); }
+  .post-owner-actions .btn-archive { color:var(--md-on-surface-variant); }
+
+  .edited-badge {
+    display:inline-flex; align-items:center; gap:2px; font-size:0.6875rem; color:var(--md-on-surface-variant);
+    cursor:pointer; padding:2px 6px; border-radius:4px; transition:background 0.2s;
+  }
+  .edited-badge:hover { background:var(--md-surface-container-high); }
+  .edited-badge .material-symbols-outlined { font-size:12px; }
+
+  .reply-owner-actions { display:inline-flex; gap:4px; margin-left:8px; }
+  .reply-owner-actions button {
+    display:inline-flex; align-items:center; gap:2px; padding:2px 8px; border-radius:100px;
+    font-size:0.6875rem; font-weight:500; cursor:pointer; border:1px solid var(--md-outline-variant);
+    background:transparent; color:var(--md-on-surface-variant); transition:background 0.2s;
+  }
+  .reply-owner-actions button:hover { background:var(--md-surface-container-high); }
+  .reply-owner-actions .btn-danger { color:var(--md-error); border-color:var(--md-error); }
+  .reply-owner-actions .btn-danger:hover { background:var(--md-error-container); }
+
+  .follow-btn-inline {
+    display:inline-flex; align-items:center; padding:2px 10px; border-radius:100px;
+    font-size:0.6875rem; font-weight:600; cursor:pointer; transition:all 0.2s;
+  }
+  .follow-btn-inline.following {
+    background:var(--md-primary); color:#fff; border:1px solid var(--md-primary);
+  }
+  .follow-btn-inline.not-following {
+    background:transparent; color:var(--md-primary); border:1px solid var(--md-outline-variant);
+  }
+
+  .modal-overlay { position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);display:none;align-items:center;justify-content:center;z-index:1000; }
+  .modal-overlay.active { display:flex; }
+  .modal-box { background:var(--md-surface);border:1px solid var(--md-outline-variant);border-radius:20px;width:90%;max-width:520px;max-height:80vh;overflow-y:auto;padding:24px; }
+  .modal-box h3 { margin:0 0 16px; }
+  .edit-form textarea, .edit-form input[type="text"] { width:100%;padding:10px 14px;border:1px solid var(--md-outline);border-radius:12px;font-family:inherit;font-size:0.9375rem;background:var(--md-surface-container-high);color:var(--md-on-surface);outline:none;margin-bottom:12px; }
+  .edit-form textarea:focus, .edit-form input[type="text"]:focus { border-color:var(--md-primary); }
+  .edit-form label { display:block;font-size:0.8125rem;font-weight:600;color:var(--md-on-surface-variant);margin-bottom:4px; }
+  .edit-form .form-actions { display:flex;gap:8px;justify-content:flex-end; }
+  .history-entry { padding:12px 0;border-bottom:1px solid var(--md-outline-variant); }
+  .history-entry:last-child { border-bottom:none; }
+  .history-field { font-size:0.75rem;font-weight:600;color:var(--md-primary);text-transform:uppercase;margin-bottom:4px; }
+  .history-diff { font-size:0.8125rem;color:var(--md-on-surface-variant); }
+  .history-diff del { color:var(--md-error);opacity:0.7; }
+  .history-diff ins { color:var(--md-primary);text-decoration:none; }
+  .history-meta { font-size:0.6875rem;color:var(--md-on-surface-variant);margin-top:4px; }
+</style>
+
 <div class="md-container-narrow" style="padding-top:24px;">
   {% if post %}
   <a href="{% url 'web:forum' %}" class="md-btn md-btn-text mb-2" style="padding-left:0;">
@@ -25,14 +82,34 @@
         {% endif %}
       </div>
       <div class="post-card-meta">
-        <div class="post-card-meta-line">
-          <strong onclick="window.location.href='{% url 'web:profile' username=post.authorName %}'" style="cursor:pointer;">{{ post.authorName }}</strong> started a discussion in <a href="{% url 'web:forum' %}?category={{ post.category }}" class="post-card-category-link">{{ post.category }}</a>
+        <div class="post-card-meta-line" style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+          <strong onclick="window.location.href='{% url 'web:profile' username=post.authorName %}'" style="cursor:pointer;">{{ post.authorName }}</strong>
+          {% if is_authenticated and not is_owner %}
+            <button class="follow-btn-inline {% if is_following %}following{% else %}not-following{% endif %}" id="followBtn" onclick="toggleFollowPost()">{% if is_following %}Following{% else %}Follow{% endif %}</button>
+          {% endif %}
+          started a discussion in <a href="{% url 'web:forum' %}?category={{ post.category }}" class="post-card-category-link">{{ post.category }}</a>
         </div>
-        <div class="post-card-time">{{ post.createdAt|time_ago }}</div>
+        <div style="display:flex;align-items:center;gap:6px;margin-top:2px;">
+          <span class="post-card-time">{{ post.createdAt|time_ago }}</span>
+          {% if post.isEdited %}
+            <span class="edited-badge" onclick="showEditHistory('post', '{{ post.id }}')">
+              <span class="material-symbols-outlined">edit</span> edited
+            </span>
+          {% endif %}
+        </div>
       </div>
     </div>
     <h2 class="md-headline-small mb-1">{{ post.title }}</h2>
-    <div class="md-body-medium" style="color:var(--md-on-surface-variant);white-space:pre-wrap;">{{ post.content }}</div>
+    <div class="md-body-medium" style="color:var(--md-on-surface-variant);white-space:pre-wrap;" id="post-content-{{ post.id }}">{{ post.content }}</div>
+
+    {% if is_owner %}
+    <div class="post-owner-actions">
+      <button onclick="startEditPost()"><span class="material-symbols-outlined" style="font-size:14px;">edit</span> Edit</button>
+      <button class="btn-archive" onclick="archivePost()"><span class="material-symbols-outlined" style="font-size:14px;">{{ post.isArchived|yesno:"unarchive,archive" }}</span> {% if post.isArchived %}Unarchive{% else %}Archive{% endif %}</button>
+      <button class="btn-danger" onclick="deletePost()"><span class="material-symbols-outlined" style="font-size:14px;">delete</span> Delete</button>
+    </div>
+    {% endif %}
+
     <div class="md-divider"></div>
     <div class="post-card-actions">
       <button onclick="togglePostLike('{{ post.id }}')" class="{% if post.isThumbedUp %}liked{% endif %}" id="post-like-btn-{{ post.id }}">
@@ -46,6 +123,34 @@
     </div>
   </div>
 
+  <!-- Edit Post Modal -->
+  <div class="modal-overlay" id="editPostModal">
+    <div class="modal-box">
+      <h3>Edit Post</h3>
+      <div class="edit-form">
+        <label for="editPostTitle">Title</label>
+        <input type="text" id="editPostTitle" data-value="{{ post.title|escapejs }}">
+        <label for="editPostContent">Content</label>
+        <textarea id="editPostContent" rows="6" data-value="{{ post.content|escapejs }}"></textarea>
+        <div class="form-actions">
+          <button class="md-btn md-btn-text" onclick="closeEditPostModal()">Cancel</button>
+          <button class="md-btn md-btn-filled" onclick="submitEditPost()">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit History Modal -->
+  <div class="modal-overlay" id="editHistoryModal">
+    <div class="modal-box">
+      <h3>Edit History</h3>
+      <div id="editHistoryContent"><p style="color:var(--md-on-surface-variant);">Loading...</p></div>
+      <div style="text-align:right;margin-top:16px;">
+        <button class="md-btn md-btn-text" onclick="closeEditHistoryModal()">Close</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Replies -->
   <div class="section-header">
     <h3 class="md-title-large">Replies ({{ replies|length }})</h3>
@@ -54,7 +159,7 @@
   {% if replies %}
   <div style="display:flex;flex-direction:column;gap:12px;">
     {% for reply in replies %}
-    <div class="md-card p-2">
+    <div class="md-card p-2" id="reply-card-{{ reply.id }}">
       <div class="post-card-header" style="margin-bottom:8px;">
         <div class="post-card-avatar" style="width:36px;height:36px;font-size:0.875rem;overflow:hidden; display:flex; align-items:center; justify-content:center; background: var(--md-primary-container); border-radius: 50%;">
           {% if reply.authorPhotoUrl %}
@@ -65,11 +170,27 @@
           {% endif %}
         </div>
         <div class="post-card-meta">
-          <div class="author" style="font-size:0.8125rem;"><a href="{% url 'web:profile' username=reply.authorName %}" style="color:inherit;text-decoration:none;">{{ reply.authorName }}</a></div>
+          <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+            <div class="author" style="font-size:0.8125rem;"><a href="{% url 'web:profile' username=reply.authorName %}" style="color:inherit;text-decoration:none;">{{ reply.authorName }}</a></div>
+            {% if is_authenticated and reply.authorId != user.id %}
+              <button class="follow-btn-inline {% if reply.isFollowed %}following{% else %}not-following{% endif %}" data-user-id="{{ reply.authorId }}" onclick="toggleFollowBtn(this, '{{ reply.authorId }}')">Follow</button>
+            {% endif %}
+            {% if reply.isEdited %}
+              <span class="edited-badge" onclick="showEditHistory('reply', '{{ reply.id }}')">
+                <span class="material-symbols-outlined">edit</span> edited
+              </span>
+            {% endif %}
+            {% if is_authenticated and reply.authorId == user.id %}
+              <span class="reply-owner-actions">
+                <button onclick="startEditReply('{{ reply.id }}', '{{ reply.content|escapejs }}')"><span class="material-symbols-outlined" style="font-size:12px;">edit</span></button>
+                <button class="btn-danger" onclick="deleteReply('{{ reply.id }}')"><span class="material-symbols-outlined" style="font-size:12px;">delete</span></button>
+              </span>
+            {% endif %}
+          </div>
           <div class="time" style="font-size:0.6875rem;">{{ reply.createdAt|time_ago }}</div>
         </div>
       </div>
-      <div class="md-body-medium" style="white-space:pre-wrap;">{{ reply.content }}</div>
+      <div class="md-body-medium" style="white-space:pre-wrap;" id="reply-content-{{ reply.id }}">{{ reply.content }}</div>
       <div class="post-card-actions" style="margin-top:8px;">
         <button onclick="toggleReplyLike('{{ reply.id }}')" class="{% if reply.isThumbedUp %}liked{% endif %}" id="reply-like-btn-{{ reply.id }}">
           <span class="material-symbols-outlined" style="font-size:16px">{% if reply.isThumbedUp %}thumb_up{% else %}thumb_up_off_alt{% endif %}</span>
@@ -112,10 +233,46 @@
   </div>
   {% endif %}
 </div>
+
+<!-- Edit Reply Modal -->
+<div class="modal-overlay" id="editReplyModal">
+  <div class="modal-box">
+    <h3>Edit Reply</h3>
+    <div class="edit-form">
+      <input type="hidden" id="editReplyId">
+      <label for="editReplyContent">Content</label>
+      <textarea id="editReplyContent" rows="4"></textarea>
+      <div class="form-actions">
+        <button class="md-btn md-btn-text" onclick="closeEditReplyModal()">Cancel</button>
+        <button class="md-btn md-btn-filled" onclick="submitEditReply()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Confirm Modal -->
+<div class="modal-overlay" id="deleteConfirmModal">
+  <div class="modal-box" style="text-align:center;">
+    <span class="material-symbols-outlined" style="font-size:48px;color:var(--md-error);display:block;margin-bottom:12px;">warning</span>
+    <h3 style="margin-bottom:8px;">Delete Confirmation</h3>
+    <p style="color:var(--md-on-surface-variant);margin-bottom:20px;" id="deleteConfirmText">Are you sure?</p>
+    <div style="display:flex;gap:8px;justify-content:center;">
+      <button class="md-btn md-btn-text" onclick="closeDeleteConfirmModal()">Cancel</button>
+      <button class="md-btn md-btn-filled" style="background:var(--md-error);" id="deleteConfirmBtn" onclick="confirmDelete()">Delete</button>
+    </div>
+  </div>
+</div>
 {% endblock %}
 
 {% block extra_js %}
 <script>
+const POST_ID = '{{ post.id }}';
+const POST_AUTHOR_ID = '{{ post_author_id }}';
+const IS_OWNER = {{ is_owner|yesno:"true,false" }};
+const IS_AUTH = {{ is_authenticated|yesno:"true,false" }};
+const USER_ID = '{{ user.id|default:"" }}';
+let deleteTarget = { type: '', id: '' };
+
 async function togglePostLike(postId) {
   if (!AUTH_TOKEN) { window.location.href = '{% url "web:login" %}'; return; }
   const result = await apiCall('POST', '/posts/' + postId + '/like');
@@ -139,5 +296,173 @@ async function toggleReplyLike(replyId) {
     if (icon) icon.textContent = result.isThumbedUp ? 'thumb_up' : 'thumb_up_off_alt';
   }
 }
+
+// Follow toggle for post author
+async function toggleFollowPost() {
+  if (!AUTH_TOKEN) { window.location.href = '{% url "web:login" %}'; return; }
+  const btn = document.getElementById('followBtn');
+  btn.disabled = true;
+  try {
+    const r = await fetch('/ajax/follow/' + POST_AUTHOR_ID + '/', { method:'POST', headers:{'Content-Type':'application/json','X-CSRFToken':CSRF_TOKEN} });
+    const d = await r.json();
+    btn.disabled = false;
+    if (d && d.error) { showSnackbar(d.error); return; }
+    if (d) {
+      btn.textContent = d.is_following ? 'Following' : 'Follow';
+      btn.className = 'follow-btn-inline ' + (d.is_following ? 'following' : 'not-following');
+    }
+  } catch(e) { btn.disabled = false; showSnackbar('Error updating follow.'); }
+}
+
+// Follow toggle for reply authors
+async function toggleFollowBtn(btn, userId) {
+  if (!AUTH_TOKEN) { window.location.href = '{% url "web:login" %}'; return; }
+  btn.disabled = true;
+  try {
+    const r = await fetch('/ajax/follow/' + userId + '/', { method:'POST', headers:{'Content-Type':'application/json','X-CSRFToken':CSRF_TOKEN} });
+    const d = await r.json();
+    btn.disabled = false;
+    if (d && d.error) { showSnackbar(d.error); return; }
+    if (d) {
+      btn.textContent = d.is_following ? 'Following' : 'Follow';
+      btn.className = 'follow-btn-inline ' + (d.is_following ? 'following' : 'not-following');
+    }
+  } catch(e) { btn.disabled = false; showSnackbar('Error updating follow.'); }
+}
+
+// Edit Post
+function startEditPost() {
+  document.getElementById('editPostTitle').value = document.getElementById('editPostTitle').dataset.value;
+  document.getElementById('editPostContent').value = document.getElementById('editPostContent').dataset.value;
+  document.getElementById('editPostModal').classList.add('active');
+}
+function closeEditPostModal() { document.getElementById('editPostModal').classList.remove('active'); }
+
+async function submitEditPost() {
+  const title = document.getElementById('editPostTitle').value.trim();
+  const content = document.getElementById('editPostContent').value.trim();
+  if (!title || !content) { showSnackbar('Title and content are required.'); return; }
+  try {
+    const r = await fetch('/ajax/edit/post/' + POST_ID + '/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
+      body: JSON.stringify({ title, content })
+    });
+    const d = await r.json();
+    if (d && d.id) {
+      closeEditPostModal();
+      location.reload();
+    } else {
+      showSnackbar(d.error || 'Failed to edit post.');
+    }
+  } catch(e) { showSnackbar('Error editing post.'); }
+}
+
+// Archive Post
+async function archivePost() {
+  try {
+    const r = await fetch('/ajax/archive/post/' + POST_ID + '/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN }
+    });
+    const d = await r.json();
+    if (d && d.success) {
+      showSnackbar(d.isArchived ? 'Post archived' : 'Post unarchived');
+      location.reload();
+    } else { showSnackbar(d.error || 'Failed'); }
+  } catch(e) { showSnackbar('Error archiving post.'); }
+}
+
+// Delete Post
+function deletePost() {
+  deleteTarget = { type: 'post', id: POST_ID };
+  document.getElementById('deleteConfirmText').textContent = 'Are you sure you want to delete this post? This cannot be undone.';
+  document.getElementById('deleteConfirmModal').classList.add('active');
+}
+
+// Edit Reply
+function startEditReply(replyId, currentContent) {
+  document.getElementById('editReplyId').value = replyId;
+  document.getElementById('editReplyContent').value = currentContent;
+  document.getElementById('editReplyModal').classList.add('active');
+}
+function closeEditReplyModal() { document.getElementById('editReplyModal').classList.remove('active'); }
+
+async function submitEditReply() {
+  const replyId = document.getElementById('editReplyId').value;
+  const content = document.getElementById('editReplyContent').value.trim();
+  if (!content) { showSnackbar('Content is required.'); return; }
+  try {
+    const r = await fetch('/ajax/edit/reply/' + replyId + '/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
+      body: JSON.stringify({ content })
+    });
+    const d = await r.json();
+    if (d && d.id) {
+      closeEditReplyModal();
+      location.reload();
+    } else { showSnackbar(d.error || 'Failed to edit reply.'); }
+  } catch(e) { showSnackbar('Error editing reply.'); }
+}
+
+// Delete Reply
+function deleteReply(replyId) {
+  deleteTarget = { type: 'reply', id: replyId };
+  document.getElementById('deleteConfirmText').textContent = 'Are you sure you want to delete this reply? This cannot be undone.';
+  document.getElementById('deleteConfirmModal').classList.add('active');
+}
+
+function closeDeleteConfirmModal() { document.getElementById('deleteConfirmModal').classList.remove('active'); }
+
+async function confirmDelete() {
+  if (!deleteTarget.type) return;
+  try {
+    let url;
+    if (deleteTarget.type === 'post') url = '/ajax/delete/post/' + deleteTarget.id + '/';
+    else url = '/ajax/delete/reply/' + deleteTarget.id + '/';
+    const r = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN } });
+    const d = await r.json();
+    if (d.success) {
+      if (deleteTarget.type === 'post') { window.location.href = '/forum/'; }
+      else { location.reload(); }
+    } else { showSnackbar(d.error || 'Failed to delete.'); }
+  } catch(e) { showSnackbar('Error deleting.'); }
+}
+
+// Edit History
+async function showEditHistory(targetType, targetId) {
+  document.getElementById('editHistoryModal').classList.add('active');
+  document.getElementById('editHistoryContent').innerHTML = '<p style="color:var(--md-on-surface-variant);">Loading...</p>';
+  try {
+    const r = await fetch('/ajax/edit-history/' + targetType + '/' + targetId + '/');
+    const entries = await r.json();
+    if (!entries.length) {
+      document.getElementById('editHistoryContent').innerHTML = '<p style="color:var(--md-on-surface-variant);">No edit history.</p>';
+      return;
+    }
+    let html = '';
+    entries.forEach(e => {
+      const date = new Date(e.editedAt);
+      const timeStr = date.toLocaleString();
+      html += '<div class="history-entry">';
+      html += '<div class="history-field">' + e.field + '</div>';
+      html += '<div class="history-diff"><del>' + e.oldValue + '</del> &rarr; <ins>' + e.newValue + '</ins></div>';
+      html += '<div class="history-meta">Edited by ' + e.editedByUsername + ' &middot; ' + timeStr + '</div>';
+      html += '</div>';
+    });
+    document.getElementById('editHistoryContent').innerHTML = html;
+  } catch(e) {
+    document.getElementById('editHistoryContent').innerHTML = '<p style="color:var(--md-error);">Failed to load edit history.</p>';
+  }
+}
+function closeEditHistoryModal() { document.getElementById('editHistoryModal').classList.remove('active'); }
+
+// Close modals on overlay click
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+  overlay.addEventListener('click', function(e) {
+    if (e.target === overlay) overlay.classList.remove('active');
+  });
+});
 </script>
 {% endblock %}

@@ -2,7 +2,7 @@
 DRF serializers for all NEBians API resources.
 """
 from rest_framework import serializers
-from .models import User, Resource, Post, Reply, FCMToken, UserPhoto, Follow
+from .models import User, Resource, Post, Reply, FCMToken, UserPhoto, Follow, EditHistory
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -57,7 +57,9 @@ class PostSerializer(serializers.ModelSerializer):
     thumbsUpCount = serializers.IntegerField(source='thumbs_up_count', read_only=True)
     replyCount = serializers.IntegerField(source='reply_count', read_only=True)
     createdAt = serializers.IntegerField(source='created_at', read_only=True)
-    updatedAt = serializers.IntegerField(source='created_at', read_only=True)
+    updatedAt = serializers.SerializerMethodField()
+    isEdited = serializers.BooleanField(source='is_edited', read_only=True)
+    isArchived = serializers.BooleanField(source='is_archived', read_only=True)
     isThumbedUp = serializers.SerializerMethodField()
 
     class Meta:
@@ -66,7 +68,7 @@ class PostSerializer(serializers.ModelSerializer):
             'id', 'title', 'content', 'category',
             'authorName', 'authorPhotoUrl', 'authorId',
             'thumbsUpCount', 'replyCount', 'createdAt', 'updatedAt',
-            'isThumbedUp'
+            'isEdited', 'isArchived', 'isThumbedUp'
         ]
 
     def get_authorName(self, obj):
@@ -80,6 +82,9 @@ class PostSerializer(serializers.ModelSerializer):
             return obj.user.photo_url
         except Exception:
             return None
+
+    def get_updatedAt(self, obj):
+        return obj.edited_at if obj.edited_at else obj.created_at
 
     def get_isThumbedUp(self, obj):
         request = self.context.get('request')
@@ -99,6 +104,8 @@ class ReplySerializer(serializers.ModelSerializer):
     parentReplyId = serializers.CharField(source='parent_reply_id', read_only=True, allow_null=True)
     thumbsUpCount = serializers.IntegerField(source='thumbs_up_count', read_only=True)
     createdAt = serializers.IntegerField(source='created_at', read_only=True)
+    isEdited = serializers.BooleanField(source='is_edited', read_only=True)
+    editedAt = serializers.IntegerField(source='edited_at', read_only=True)
     isThumbedUp = serializers.SerializerMethodField()
 
     class Meta:
@@ -106,7 +113,7 @@ class ReplySerializer(serializers.ModelSerializer):
         fields = [
             'id', 'postId', 'parentReplyId', 'content',
             'authorName', 'authorPhotoUrl', 'authorId',
-            'thumbsUpCount', 'createdAt', 'isThumbedUp'
+            'thumbsUpCount', 'createdAt', 'isEdited', 'editedAt', 'isThumbedUp'
         ]
 
     def get_authorName(self, obj):
@@ -173,3 +180,12 @@ class FollowSerializer(serializers.ModelSerializer):
             'follower_username', 'follower_photo_url', 'follower_display_name',
             'following_username', 'following_photo_url', 'following_display_name',
         ]
+
+
+class EditHistorySerializer(serializers.ModelSerializer):
+    editedByUsername = serializers.CharField(source='edited_by.username', read_only=True)
+    editedByPhotoUrl = serializers.CharField(source='edited_by.photo_url', read_only=True)
+
+    class Meta:
+        model = EditHistory
+        fields = ['id', 'target_type', 'target_id', 'field', 'old_value', 'new_value', 'editedByUsername', 'editedByPhotoUrl', 'edited_at']
