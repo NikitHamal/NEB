@@ -97,7 +97,7 @@
   {% endblock %}
 
   <!-- Main Content -->
-  <main class="app-main">
+  <main style="min-height: calc(100vh - 64px - 72px); padding-top: 16px; padding-bottom: 24px;">
     {% block content %}{% endblock %}
   </main>
 
@@ -124,12 +124,12 @@
   {% endblock %}
 
   <!-- Footer -->
-  <footer class="app-footer">
-    <div class="app-footer-links">
-      <a href="{% url 'web:privacy_policy' %}">Privacy Policy</a>
-      <a href="{% url 'web:terms_of_service' %}">Terms of Service</a>
+  <footer style="text-align:center;padding:24px 16px 16px;color:var(--md-on-surface-variant);font-size:0.75rem;border-top:1px solid var(--md-outline-variant);">
+    <div style="display:flex;justify-content:center;gap:16px;flex-wrap:wrap;">
+      <a href="{% url 'web:privacy_policy' %}" style="color:var(--md-on-surface-variant);text-decoration:none;">Privacy Policy</a>
+      <a href="{% url 'web:terms_of_service' %}" style="color:var(--md-on-surface-variant);text-decoration:none;">Terms of Service</a>
     </div>
-    <p>&copy; 2026 NEBians. All rights reserved.</p>
+    <p style="margin:8px 0 0;">&copy; 2026 NEBians. All rights reserved.</p>
   </footer>
 
   <!-- Snackbar container -->
@@ -143,10 +143,10 @@
     function toggleTheme() {
       const html = document.documentElement;
       const isDark = html.getAttribute('data-theme') === 'dark';
-      if (isDark) { html.removeAttribute('data-theme'); } else { html.setAttribute('data-theme', 'dark'); }
+      html.setAttribute('data-theme', isDark ? '' : 'dark');
       
       const themeIcon = document.getElementById('theme-icon');
-      if (themeIcon) themeIcon.textContent = isDark ? 'dark_mode' : 'light_mode';
+      themeIcon.textContent = isDark ? 'dark_mode' : 'light_mode';
       
       localStorage.setItem('theme', isDark ? 'light' : 'dark');
       fetch('/ajax/theme/', {method: 'POST', headers: {'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN}});
