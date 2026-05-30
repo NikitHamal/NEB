@@ -558,31 +558,57 @@ def edit_profile(request):
     if not token:
         return redirect('web:login')
     user = api.get_session_user(request)
+    if not user:
+        return redirect('web:login')
+    try:
+        db_user = User.objects.get(id=user.get('id'))
+    except User.DoesNotExist:
+        return redirect('web:login')
     if request.method == 'POST':
-        data = {
-            'username': request.POST.get('username', '').strip(),
-            'dob': request.POST.get('dob', '').strip(),
-            'gender': request.POST.get('gender', ''),
-            'classLevel': request.POST.get('class_level', ''),
-            'subjects': request.POST.get('subjects', ''),
-            'pradesh': request.POST.get('pradesh', ''),
-            'district': request.POST.get('district', ''),
-            'school': request.POST.get('school', ''),
-            'bio': request.POST.get('bio', ''),
-            'isLocked': request.POST.get('is_locked') == 'on',
+        username = request.POST.get('username', '').strip()
+        dob = request.POST.get('dob', '').strip()
+        if not username or not dob:
+            return render(request, 'web/edit_profile.html', _ctx(request, error='Username and Date of Birth are required.'))
+        conflict = User.objects.filter(username__iexact=username).exclude(pk=db_user.id).exists()
+        if conflict:
+            return render(request, 'web/edit_profile.html', _ctx(request, error='Username already taken.'))
+        db_user.username = username
+        db_user.email = request.POST.get('email', '').strip() or db_user.email or ''
+        db_user.display_name = request.POST.get('display_name', '').strip() or db_user.display_name or ''
+        db_user.dob = dob
+        db_user.gender = request.POST.get('gender', '') or db_user.gender or ''
+        db_user.class_level = request.POST.get('class_level', '') or db_user.class_level or ''
+        db_user.subjects = request.POST.get('subjects', '') or db_user.subjects or ''
+        db_user.pradesh = request.POST.get('pradesh', '') or db_user.pradesh or ''
+        db_user.district = request.POST.get('district', '').strip() or db_user.district or ''
+        db_user.school = request.POST.get('school', '').strip() or db_user.school or ''
+        db_user.bio = request.POST.get('bio', '').strip()
+        db_user.is_locked = request.POST.get('is_locked') == 'on'
+        db_user.save()
+        _clear_page_cache()
+        updated_data = {
+            'id': db_user.id,
+            'username': db_user.username,
+            'email': db_user.email,
+            'photo_url': db_user.photo_url,
+            'display_name': db_user.display_name,
+            'dob': db_user.dob,
+            'gender': db_user.gender,
+            'class_level': db_user.class_level,
+            'class': db_user.class_level,
+            'subjects': db_user.subjects,
+            'pradesh': db_user.pradesh,
+            'district': db_user.district,
+            'school': db_user.school,
+            'bio': db_user.bio,
+            'is_locked': 1 if db_user.is_locked else 0,
+            'created_at': db_user.created_at,
         }
-        email = request.POST.get('email', '').strip()
-        display_name = request.POST.get('display_name', '').strip()
-        if email:
-            data['email'] = email
-        if display_name:
-            data['displayName'] = display_name
-        result = api.update_profile(token, data)
-        if result and result.get('status') == 'success':
-            new_user = result.get('user', {})
-            api.set_session_auth(request, token, new_user)
-            return redirect('web:home')
-    return render(request, 'web/edit_profile.html', _ctx(request))
+        api.set_session_auth(request, token, updated_data)
+        return redirect('web:home')
+    ctx = _ctx(request)
+    ctx['error'] = ctx.get('error', None)
+    return render(request, 'web/edit_profile.html', ctx)
 
 
 # ---------------------------------------------------------------------------
