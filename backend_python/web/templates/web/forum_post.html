@@ -298,8 +298,8 @@ const USER_ID = '{{ user.id|default:"" }}';
 let deleteTarget = { type: '', id: '' };
 
 async function togglePostLike(postId) {
-  if (!AUTH_TOKEN) { window.location.href = '{% url "web:login" %}'; return; }
-  const result = await apiCall('POST', '/posts/' + postId + '/like/');
+  if (!IS_AUTHENTICATED) { window.location.href = '{% url "web:login" %}'; return; }
+  const result = await (await fetch('/ajax/like/post/' + postId + '/', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN }, credentials: 'same-origin' })).json();
   if (result && result.thumbsUpCount !== undefined) {
     document.getElementById('post-like-count-' + postId).textContent = result.thumbsUpCount;
     const btn = document.getElementById('post-like-btn-' + postId);
@@ -310,8 +310,8 @@ async function togglePostLike(postId) {
 }
 
 async function toggleReplyLike(replyId) {
-  if (!AUTH_TOKEN) { window.location.href = '{% url "web:login" %}'; return; }
-  const result = await apiCall('POST', '/replies/' + replyId + '/like/');
+  if (!IS_AUTHENTICATED) { window.location.href = '{% url "web:login" %}'; return; }
+  const result = await (await fetch('/ajax/like/reply/' + replyId + '/', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN }, credentials: 'same-origin' })).json();
   if (result && result.thumbsUpCount !== undefined) {
     document.getElementById('reply-like-count-' + replyId).textContent = result.thumbsUpCount;
     const btn = document.getElementById('reply-like-btn-' + replyId);
@@ -323,11 +323,11 @@ async function toggleReplyLike(replyId) {
 
 // Follow toggle for post author
 async function toggleFollowPost() {
-  if (!AUTH_TOKEN) { window.location.href = '{% url "web:login" %}'; return; }
+  if (!IS_AUTHENTICATED) { window.location.href = '{% url "web:login" %}'; return; }
   const btn = document.getElementById('followBtn');
   btn.disabled = true;
   try {
-    const r = await fetch('/ajax/follow/' + POST_AUTHOR_ID + '/', { method:'POST', headers:{'Content-Type':'application/json','X-CSRFToken':CSRF_TOKEN,'Authorization':'Bearer '+AUTH_TOKEN} });
+    const r = await fetch('/ajax/follow/' + POST_AUTHOR_ID + '/', { method:'POST', headers:{'Content-Type':'application/json','X-CSRFToken':CSRF_TOKEN} });
     if (r.status === 401) { window.location.href = '{% url "web:login" %}'; return; }
     const d = await r.json();
     btn.disabled = false;
@@ -341,10 +341,10 @@ async function toggleFollowPost() {
 
 // Follow toggle for reply authors
 async function toggleFollowBtn(btn, userId) {
-  if (!AUTH_TOKEN) { window.location.href = '{% url "web:login" %}'; return; }
+  if (!IS_AUTHENTICATED) { window.location.href = '{% url "web:login" %}'; return; }
   btn.disabled = true;
   try {
-    const r = await fetch('/ajax/follow/' + userId + '/', { method:'POST', headers:{'Content-Type':'application/json','X-CSRFToken':CSRF_TOKEN,'Authorization':'Bearer '+AUTH_TOKEN} });
+    const r = await fetch('/ajax/follow/' + userId + '/', { method:'POST', headers:{'Content-Type':'application/json','X-CSRFToken':CSRF_TOKEN} });
     if (r.status === 401) { window.location.href = '{% url "web:login" %}'; return; }
     const d = await r.json();
     btn.disabled = false;
@@ -371,7 +371,8 @@ async function submitEditPost() {
   try {
     const r = await fetch('/ajax/edit/post/' + POST_ID + '/', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN, 'Authorization': 'Bearer ' + AUTH_TOKEN },
+      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN,  },
+      credentials: 'same-origin',
       body: JSON.stringify({ title, content })
     });
     const d = await r.json();
@@ -389,7 +390,7 @@ async function archivePost() {
   try {
     const r = await fetch('/ajax/archive/post/' + POST_ID + '/', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN, 'Authorization': 'Bearer ' + AUTH_TOKEN }
+      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN,  }
     });
     const d = await r.json();
     if (d && d.success) {
@@ -421,7 +422,8 @@ async function submitEditReply() {
   try {
     const r = await fetch('/ajax/edit/reply/' + replyId + '/', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN, 'Authorization': 'Bearer ' + AUTH_TOKEN },
+      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN,  },
+      credentials: 'same-origin',
       body: JSON.stringify({ content })
     });
     const d = await r.json();
@@ -447,7 +449,7 @@ async function confirmDelete() {
     let url;
     if (deleteTarget.type === 'post') url = '/ajax/delete/post/' + deleteTarget.id + '/';
     else url = '/ajax/delete/reply/' + deleteTarget.id + '/';
-    const r = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN, 'Authorization': 'Bearer ' + AUTH_TOKEN } });
+    const r = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN }, credentials: 'same-origin' });
     const d = await r.json();
     if (d.success) {
       if (deleteTarget.type === 'post') { window.location.href = '/forum/'; }
