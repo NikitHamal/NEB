@@ -112,7 +112,7 @@
   display: inline-flex;
   align-items: center;
   padding: 2px 8px;
-  border-radius: 6px;
+  border-radius: var(--md-radius-full);
   font-size: 0.625rem;
   font-weight: 700;
   letter-spacing: 0.06em;
@@ -402,7 +402,7 @@
   display: inline-flex;
   align-items: center;
   padding: 1.5px 6px;
-  border-radius: 4px;
+  border-radius: var(--md-radius-full);
   font-size: 0.6875rem;
   font-weight: 700;
   background: var(--md-primary-container, #dbeafe);
@@ -421,7 +421,7 @@
 .act-category {
   display: inline-block;
   padding: 2.5px 10px;
-  border-radius: 6px;
+  border-radius: var(--md-radius-full);
   font-size: 0.75rem;
   font-weight: 600;
   line-height: 1.25;
