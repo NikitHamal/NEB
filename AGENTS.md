@@ -343,7 +343,72 @@ In light mode, text buttons and outlined buttons had solid blue (`var(--md-prima
 ## Continuity Notes
 
 ### What Was Being Worked On (Last Session)
-Performance optimization pass — eliminated HTTP API roundtrips, switched to Redis cache, added denormalized user counters:
+UI/UX revamp — home page, library, search, and design system consistency pass:
+
+**Home page revamp:**
+- Hero section: gradient background (`surface-container → transparent`), rounded corners, tighter heading (800 weight, -0.02em tracking), "Hello, Student!" → "Welcome to NEBians" for guests, "Join Forum" button changed from `md-btn-outlined` to `md-btn-tonal`
+- Forum post meta: simplified "started a discussion" → "posted", removed class wrappers (`post-card-meta-top`/`post-card-meta-bottom`), standardized dot separator opacity to 0.3
+- Resource cards: colored header strip (`background: color-mix(8%, subject-color, transparent)`), subject label colored with `var(--subject-color)`, tighter padding, `overflow: hidden`
+- Section headers: `align-items: center` → `align-items: baseline`
+
+**Library page revamp (concept UI implementation):**
+- Sidebar filter layout on desktop (260px sticky sidebar with collapsible sections for Grade/Subject/Type)
+- Mobile: filter button opens modal dialog (same as before)
+- Sort bar: "Showing X–Y of Z resources" + sort dropdown (Most Relevant/Newest/Oldest)
+- Featured card: first resource on page 1 with no filters gets a landscape card with subject icon, type badge, author, date, and stats
+- Standard resource cards: same `.resource-card` component with colored subject header
+- "More coming soon" dashed card at end of grid
+- Pagination controls at bottom (page numbers, prev/next arrows)
+- Badge colors by type: `.badge-notes` (primary), `.badge-paper` (pink), `.badge-model` (teal), `.badge-textbook` (purple)
+- View function now supports `sort` param (`relevant`/`newest`/`oldest`) and pagination (`page` param, 12 per page)
+- `page_obj` passed to template for pagination rendering
+
+**Search page revamp (complete rewrite):**
+- Search bar is a proper M3 pill-shaped bar with search icon, input, close button, and `tune` filter icon inside the bar (right side)
+- Filter icon turns blue when filters are active (`.has-filters`)
+- Active filter chips appear below the search bar as removable pills
+- Filter dialog (modal) replaces collapsible panel — same pattern as library
+- Tab switcher: All / Resources / Posts — only visible after a query
+- "All" tab shows combined results: resources in grid cards, posts in post cards
+- Search view now queries both `Resource` and `Post` models
+- Subject filter applies to `Post.category` when searching posts
+- Grade and Type filters hidden on Posts tab (not applicable)
+
+**Search view (`views.py`) changes:**
+- Accepts `tab` param: `all` (default), `resources`, `posts`
+- Accepts `subject`, `grade`, `type` filter params
+- Returns `resource_results`, `post_results`, `all_subjects`, `all_grades`, `all_types`, `current_subject/grade/type`
+- `all_subjects/grades/types` always populated (even without query) for filter panel on landing page
+
+**Design system consistency pass:**
+- **Horizontal scrollbar**: Hidden (`scrollbar-width: none` + `::-webkit-scrollbar { display: none }`) — was a visible thin bar that looked bad. Added `padding-bottom: 16px` for swipe room.
+- **Shared CSS utility classes added to `app.css`:**
+  - `.post-meta-line` — flex row for post author/badge/follow (replaces 6+ inline style instances across templates)
+  - `.post-meta-sub` — flex row for post metadata line (replaces 6+ inline style instances)
+  - `.dot-sep` — `opacity: 0.3` for `·` separators (standardized from mixed 0.3/0.4)
+  - `.icon-sm` / `.material-symbols-outlined.icon-sm` — 14px icon size (replaces `style="font-size:14px"`)
+  - `.md-btn .material-symbols-outlined` — 18px icon size in buttons (replaces `style="font-size:18px"`)
+  - `.md-tab .material-symbols-outlined` — 18px icon size in tabs
+  - `.back-link` — shared back button style
+  - `.site-main` / `.site-footer` / `.site-footer-links` — replaced inline styles on `<main>` and `<footer>` in base.html
+  - `.filter-overlay` / `.filter-dialog` / `.filter-section` / `.filter-section-label` / `.filter-dialog-actions` / `.search-filter-chip` — extracted from template `extra_css` blocks into shared `app.css`
+  - `.md-btn-icon.has-filters` — blue tint on filter icon when filters active
+- **Hardcoded colors fixed in `app.css`:**
+  - `.follow-btn-inline.following` and `.follow-btn-small.following`: `#fff` → `var(--md-on-primary)`
+  - `.post-card-category-link`: `rgba(27,110,243,0.08)` → `var(--md-secondary-container)`, `#004ac6` → `var(--md-on-secondary-container)`, `rgba(27,110,243,0.15)` → `var(--md-outline-variant)`
+  - `.post-card-category-link:hover`: `rgba(27,110,243,0.15)` → `var(--md-primary-container)`
+  - `.post-card`: removed `#ffffff` and `#e2e8f0` fallbacks, using plain `var()` values
+  - `.post-card-avatar`, `.act-avatar`: removed `#dbeafe` and `#004ac6` fallbacks
+- **Inline styles cleaned up across templates:**
+  - `home.html`: Removed `style="font-size:18px"` on button icons, `style="font-size:14px"` on footer icons, replaced inline post-meta flex styles with `.post-meta-line`/`.post-meta-sub`, replaced `opacity:0.3` dots with `.dot-sep`
+  - `search.html`: Same cleanup — removed all inline font-size/icon styles, replaced inline post-meta styles with classes
+  - `library.html`: Removed duplicated filter dialog CSS from `extra_css` block (now in `app.css`), replaced `style="font-size:14px"` with `.icon-sm`
+  - `base.html`: Replaced inline styles on `<main>` and `<footer>` with `.site-main` and `.site-footer` classes
+- **Removed duplicated CSS:**
+  - Filter dialog CSS removed from both `library.html` and `search.html` `extra_css` blocks (now shared in `app.css`)
+  - `.search-filter-pill` class removed from `app.css` (replaced by `.search-filter-chip`)
+  - `#filter-panel` / `#search-filter-panel` collapsible panel styles removed
+  - `.filter-active-dot` style removed
 
 **Issue 1 — Eliminated HTTP API roundtrips in web views:**
 - Created `api/services.py` — direct Python service functions called by web views instead of HTTP API calls
@@ -392,6 +457,12 @@ Performance optimization pass — eliminated HTTP API roundtrips, switched to Re
 - Created `cleanup_stale_data` management command
 - Migration 0008 (banner_url + Report model), Migration 0009 (performance indexes)
 
+**Reverted broken frontend production pass:**
+- Another AI agent made CSS/template refactoring changes (design tokens, utility classes, inline style extraction) that broke UI/UX and introduced JS syntax errors
+- Reverted 30+ template/CSS files to pre-agent state via `git checkout b91a5a8 --`
+- Committed as `f7d390f`
+- All performance backend changes (services.py, Redis, counters) were preserved
+
 ### Resolved Issues
 1. **Auth token regeneration bug** — Every Google sign-in was regenerating the auth token, invalidating existing sessions. Fixed by only generating tokens on signup, not on each login.
 2. **Stale session 401 errors** — Follow/like/edit calls returned "Unauthorized" because session tokens didn't match DB. Fixed with `_get_valid_token()` helper that validates against DB and clears stale sessions.
@@ -409,6 +480,14 @@ Performance optimization pass — eliminated HTTP API roundtrips, switched to Re
 - Create new superusers: `python manage.py createsuperuser`
 
 ### Key Files That Were Recently Modified
+- `backend_python/web/templates/web/home.html` — Hero gradient, "Welcome to NEBians" for guests, `md-btn-tonal` for Join Forum, `.post-meta-line`/`.post-meta-sub`/`.dot-sep`/`.icon-sm` classes, removed inline styles
+- `backend_python/web/templates/web/library.html` — Complete redesign: sidebar filter layout on desktop (260px sticky sidebar with collapsible Grade/Subject/Type sections), mobile filter dialog, sort bar with pagination (Most Relevant/Newest/Oldest, page numbers), featured card for first resource, standard resource cards, "More coming soon" dashed card, badge colors by type, pagination controls at bottom
+- `backend_python/web/views.py` — Library view now supports `sort` param (relevant/newest/oldest) and pagination (`page` param, 12 per page) via Django Paginator; search view queries both Resource and Post models with filters and tabs
+- `backend_python/web/templates/web/search.html` — Complete rewrite: search bar with filter icon, filter dialog modal, tab switcher (All/Resources/Posts), combined resource+post search, `.post-meta-line`/`.post-meta-sub`/`.dot-sep` classes
+- `backend_python/web/templates/base.html` — `.site-main` and `.site-footer` classes replacing inline styles
+- `backend_python/web/static/web/css/app.css` — Hero gradient, resource card colored header (`color-mix`), post-card tighter padding/radius, hscroll hidden scrollbar, `.post-meta-line`/`.post-meta-sub`/`.dot-sep`/`.icon-sm`/`.back-link`/`.site-main`/`.site-footer`/`.site-footer-links`/`.filter-overlay`/`.filter-dialog`/`.filter-section`/`.filter-section-label`/`.filter-dialog-actions`/`.search-filter-chip`/`.md-btn-icon.has-filters` utility classes, hardcoded color fixes, removed duplicated CSS
+- `backend_python/web/static/web/css/material3.css` — `.subject-icon` size 48→40px, lighter background tint (12% vs 15%), `.md-tab .material-symbols-outlined` 18px rule
+- `backend_python/web/views.py` — Search view now accepts `tab` param, `subject/grade/type` filter params, queries both Resource and Post models, returns `all_subjects/grades/types` even without query
 - `backend_python/api/models.py` — Added 7 denormalized counter fields to User model (`post_count`, `reply_count`, `follower_count`, `following_count`, `likes_given_count`, `likes_received_count`, `contribution_score`), `banner_url` field, `Report` model, verification_code CharField(128)
 - `backend_python/api/views.py` — Counter increment/decrement calls on like toggle, follow toggle, post/reply create/delete; `_build_stats()` uses denormalized counters; follower_count in follow toggle uses denormalized counter
 - `backend_python/api/services.py` — NEW: Direct Python service functions for web views (replaces HTTP API roundtrips). Includes `toggle_post_like`, `toggle_reply_like`, `create_reply`, `create_post`, `toggle_follow`, `check_username_available`, `set_password`, `change_password`, `activate_photo`. All call counter helpers.
