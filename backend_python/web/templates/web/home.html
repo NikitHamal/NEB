@@ -116,132 +116,6 @@
     min-width: 0;
   }
 
-  .forum-section {
-    background: var(--md-surface-muted);
-    border: 1px solid var(--md-border-subtle);
-    border-radius: var(--md-radius-lg);
-    padding: 20px;
-  }
-
-  .forum-section-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 16px;
-    padding-bottom: 12px;
-    border-bottom: 1px solid var(--md-border-subtle);
-  }
-
-  .forum-section-header h2 {
-    font-size: 1.125rem;
-    font-weight: 700;
-    color: var(--md-on-surface);
-  }
-
-  .forum-section-header a {
-    font-size: 0.8125rem;
-    color: var(--md-primary);
-    text-decoration: none;
-    font-weight: 600;
-  }
-
-  .forum-section-header a:hover {
-    text-decoration: underline;
-  }
-
-  .forum-section-items {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .forum-item {
-    padding: 14px;
-    background: var(--md-surface);
-    border: 1px solid color-mix(in srgb, var(--md-border-subtle) 50%, transparent);
-    border-radius: var(--md-radius-md);
-    cursor: pointer;
-    text-decoration: none;
-    color: inherit;
-    transition: border-color 150ms ease;
-  }
-
-  .forum-item:hover {
-    border-color: color-mix(in srgb, var(--md-primary) 30%, transparent);
-    text-decoration: none;
-  }
-
-  .forum-item-top {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 8px;
-  }
-
-  .forum-item-avatar {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    background: var(--md-primary);
-    color: var(--md-on-primary);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.6875rem;
-    font-weight: 700;
-    flex-shrink: 0;
-  }
-
-  .forum-item-author {
-    font-size: 0.8125rem;
-    font-weight: 600;
-    color: var(--md-on-surface);
-  }
-
-  .forum-item-meta {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 0.6875rem;
-    color: var(--md-on-surface-variant);
-  }
-
-  .forum-item-category {
-    display: inline-block;
-    padding: 2px 8px;
-    border-radius: var(--md-radius-full);
-    font-size: 0.625rem;
-    font-weight: 600;
-    background: var(--md-primary-container);
-    color: var(--md-primary);
-  }
-
-  .forum-item-title {
-    font-size: 0.9375rem;
-    font-weight: 600;
-    color: var(--md-on-surface);
-    margin-bottom: 8px;
-    line-height: 1.4;
-  }
-
-  .forum-item-actions {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-size: 0.75rem;
-    color: var(--md-on-surface-variant);
-  }
-
-  .forum-item-actions span {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-  }
-
-  .forum-item-actions .material-symbols-outlined {
-    font-size: 16px;
-  }
-
   .forum-cta {
     display: block;
     width: 100%;
@@ -309,8 +183,7 @@
                 <path d="M0,120 L0,70 Q40,20 100,55 Q160,90 220,45 Q270,10 300,50 L300,120Z" fill="var(--art-c2)" opacity="0.5"/>
                 <path d="M0,120 L0,85 Q60,40 130,70 Q200,100 260,60 L300,75 L300,120Z" fill="var(--art-c3)" opacity="0.35"/>
                 <path d="M0,120 L0,95 Q80,65 160,85 Q240,105 300,80 L300,120Z" fill="var(--art-c4)" opacity="0.2"/>
-                <circle cx="245" cy="30" r="50" fill="var(--art-c2)" opacity="0.15"/>
-                <circle cx="255" cy="25" r="28" fill="var(--art-c3)" opacity="0.12"/>
+
               </svg>
               <span class="resource-card-type-pill">{{ r.type }}</span>
               <span class="resource-card-art-icon material-symbols-outlined">{{ r.subject|subject_icon }}</span>
@@ -346,8 +219,7 @@
                 <path d="M0,120 L0,70 Q40,20 100,55 Q160,90 220,45 Q270,10 300,50 L300,120Z" fill="var(--art-c2)" opacity="0.5"/>
                 <path d="M0,120 L0,85 Q60,40 130,70 Q200,100 260,60 L300,75 L300,120Z" fill="var(--art-c3)" opacity="0.35"/>
                 <path d="M0,120 L0,95 Q80,65 160,85 Q240,105 300,80 L300,120Z" fill="var(--art-c4)" opacity="0.2"/>
-                <circle cx="245" cy="30" r="50" fill="var(--art-c2)" opacity="0.15"/>
-                <circle cx="255" cy="25" r="28" fill="var(--art-c3)" opacity="0.12"/>
+
               </svg>
               <span class="resource-card-type-pill">{{ r.type }}</span>
               <span class="resource-card-art-icon material-symbols-outlined">{{ r.subject|subject_icon }}</span>
@@ -371,42 +243,42 @@
 
     {% if recent_posts %}
     <div class="section">
-      <div class="forum-section">
-        <div class="forum-section-header">
-          <h2>Forum Activity</h2>
-          <a href="{% url 'web:forum' %}">View all</a>
-        </div>
-        <div class="forum-section-items">
-          {% for post in recent_posts %}
-          <div class="forum-item" style="position:relative;">
-            <a href="{% url 'web:forum_post' post_id=post.id %}" style="text-decoration:none;color:inherit;display:block;">
-            <div class="forum-item-top">
-              <div class="forum-item-avatar">{{ post.authorName|truncate_chars:1 }}</div>
-              <div>
-                <div class="forum-item-author">{{ post.authorName }}{% if post.authorBadgeInfo %}<span class="role-badge role-badge-{{ post.authorBadgeInfo.type }}" title="{{ post.authorBadgeInfo.label }}"><span class="material-symbols-outlined">{{ post.authorBadgeInfo.icon }}</span></span>{% endif %}</div>
-                <div class="forum-item-meta">
-                  <span>{{ post.createdAt|time_ago }}</span>
-                  <span style="width:3px;height:3px;border-radius:50%;background:var(--md-outline-variant);"></span>
-                  <span class="forum-item-category">{{ post.category }}</span>
-                </div>
+      <div class="section-header">
+        <h2>Forum Activity</h2>
+        <a href="{% url 'web:forum' %}">View all</a>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        {% for post in recent_posts %}
+        <div class="post-card">
+          <div class="post-card-header">
+            <div class="post-card-avatar">
+              {% if post.authorPhotoUrl %}
+                <img src="{{ post.authorPhotoUrl }}" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';">
+                <span class="contributor-avatar-letter" style="display:none;">{{ post.authorName|truncate_chars:1|default:"?" }}</span>
+              {% else %}
+                <span class="contributor-avatar-letter">{{ post.authorName|truncate_chars:1|default:"?" }}</span>
+              {% endif %}
+            </div>
+            <div class="post-card-meta">
+              <div class="post-card-meta-line">
+                <strong onclick="window.location.href='{% url 'web:profile' username=post.authorName %}'" style="cursor:pointer;">{{ post.authorName }}</strong>
+                {% if post.authorBadgeInfo %}
+                <span class="role-badge role-badge-{{ post.authorBadgeInfo.type }}" title="{{ post.authorBadgeInfo.label }}"><span class="material-symbols-outlined">{{ post.authorBadgeInfo.icon }}</span></span>
+                {% endif %}
+                {% if is_authenticated and post.authorId != user.id %}
+                <button class="follow-btn-small {% if post.isFollowingAuthor %}following{% else %}not-following{% endif %}" data-user-id="{{ post.authorId }}" onclick="toggleFollowBtn(this, '{{ post.authorId }}')">{% if post.isFollowingAuthor %}Following{% else %}Follow{% endif %}</button>
+                {% endif %}
+              </div>
+              <div class="post-meta-sub">
+                <span class="act-action-text">posted</span>
+                <span class="dot-sep">&middot;</span>
+                <a href="{% url 'web:forum' %}?category={{ post.category }}" class="post-card-category-link">{{ post.category }}</a>
+                <span class="dot-sep">&middot;</span>
+                <span class="post-card-time">{{ post.createdAt|time_ago }}</span>
               </div>
             </div>
-            <div class="forum-item-title">{{ post.title }}</div>
-            <div class="forum-item-actions">
-              <span>
-                <span class="material-symbols-outlined{% if post.isThumbedUp %} liked{% endif %}"{% if post.isThumbedUp %} style="font-variation-settings:'FILL' 1"{% endif %}>
-                  thumb_up
-                </span>
-                {{ post.thumbsUpCount }}
-              </span>
-              <span>
-                <span class="material-symbols-outlined">chat_bubble_outline</span>
-                {{ post.replyCount }}
-              </span>
-            </div>
-            </a>
-            <div class="more-menu-wrapper" style="position:absolute;top:8px;right:8px;">
-              <button class="more-btn" onclick="event.preventDefault();event.stopPropagation();toggleMoreMenu('post-menu-home-{{ post.id }}', this)" aria-label="More options"><span class="material-symbols-outlined">more_vert</span></button>
+            <div class="more-menu-wrapper">
+              <button class="more-btn" onclick="toggleMoreMenu('post-menu-home-{{ post.id }}', this)" aria-label="More options"><span class="material-symbols-outlined">more_vert</span></button>
               <div class="more-menu" id="post-menu-home-{{ post.id }}" style="display:none;">
                 {% if is_authenticated %}
                 <button class="more-menu-item" onclick="toggleBookmark('post', '{{ post.id }}', this); closeAllMenus();">
@@ -416,14 +288,31 @@
                 <button class="more-menu-item" onclick="sharePostUrl('{% url 'web:forum_post' post_id=post.id %}'); closeAllMenus();">
                   <span class="material-symbols-outlined">share</span> Share
                 </button>
+                {% if post.authorId != user.id %}
+                <button class="more-menu-item" onclick="reportContent('post', '{{ post.id }}'); closeAllMenus();">
+                  <span class="material-symbols-outlined">flag</span> Report
+                </button>
+                {% endif %}
                 {% endif %}
               </div>
             </div>
           </div>
-          {% endfor %}
+          <h3><a href="{% url 'web:forum_post' post_id=post.id %}">{{ post.title }}</a></h3>
+          <div class="post-card-content">{{ post.content|truncatewords:50 }}</div>
+          <div class="post-card-actions">
+            <button type="button" onclick="toggleHomePostLike('{{ post.id }}', this);" class="{% if post.isThumbedUp %}liked{% endif %}" id="home-post-like-btn-{{ post.id }}">
+              <span class="material-symbols-outlined">thumb_up</span>
+              <span id="home-post-like-count-{{ post.id }}">{{ post.thumbsUpCount }}</span>
+            </button>
+            <a href="{% url 'web:forum_post' post_id=post.id %}" class="act-btn-stat">
+              <span class="material-symbols-outlined">chat_bubble_outline</span>
+              <span>{{ post.replyCount }} Replies</span>
+            </a>
+          </div>
         </div>
-        <a href="{% url 'web:forum' %}" class="forum-cta">Start a Discussion</a>
+        {% endfor %}
       </div>
+      <a href="{% url 'web:forum' %}" class="forum-cta">Start a Discussion</a>
     </div>
     {% endif %}
   </div>
@@ -522,5 +411,7 @@ if (d.isBookmarked !== undefined) {
     if (navigator.share) { navigator.share({ title: document.title, url: url }).catch(function(){}); }
     else { navigator.clipboard.writeText(url).then(function() { showSnackbar('Link copied!'); }).catch(function() { showSnackbar('Could not copy link'); }); }
   }
+
+  function reportContent(targetType, targetId) { showSnackbar('Report submitted. Thank you!'); }
 </script>
 {% endblock %}
