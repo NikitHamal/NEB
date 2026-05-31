@@ -1,6 +1,7 @@
 import logging
 import time
 
+from django.core.cache import cache
 from django.core.paginator import Paginator, EmptyPage
 from django.db.models import Count, Sum, Q
 from django.db.models import F
@@ -184,6 +185,7 @@ def admin_resources_list(request):
         view_count=int(data.get('view_count') or 0),
     )
     resource.save()
+    cache.delete_many(['home_resources', 'library_all_resources'])
     return Response(ResourceSerializer(resource).data, status=201)
 
 
@@ -201,6 +203,7 @@ def admin_resource_detail(request, resource_id):
 
     if request.method == 'DELETE':
         resource.delete()
+        cache.delete_many(['home_resources', 'library_all_resources'])
         return Response({'success': True})
 
     data = request.data
@@ -222,6 +225,7 @@ def admin_resource_detail(request, resource_id):
     if 'view_count' in data:
         resource.view_count = int(data['view_count'])
     resource.save()
+    cache.delete_many(['home_resources', 'library_all_resources'])
     return Response(ResourceSerializer(resource).data)
 
 
