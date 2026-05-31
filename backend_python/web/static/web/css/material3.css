@@ -188,7 +188,7 @@ img { max-width: 100%; height: auto; }
 /* Material 3 Chips */
 .md-chip {
   display: inline-flex; align-items: center; gap: 6px;
-  padding: 6px 16px; border-radius: var(--md-radius-sm);
+  padding: 6px 16px; border-radius: var(--md-radius-full);
   font-size: 0.8125rem; font-weight: 500; cursor: pointer;
   transition: all var(--md-transition); border: 1px solid var(--md-outline);
   background: transparent; color: var(--md-on-surface-variant);
