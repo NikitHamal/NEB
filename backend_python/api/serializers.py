@@ -2,7 +2,7 @@
 DRF serializers for all NEBians API resources.
 """
 from rest_framework import serializers
-from .models import User, Resource, Post, Reply, FCMToken, UserPhoto, Follow, EditHistory, Report, Bookmark
+from .models import User, Resource, Post, Reply, FCMToken, UserPhoto, Follow, EditHistory, Report, Bookmark, Notification
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -221,3 +221,25 @@ class ReportSerializer(serializers.ModelSerializer):
             'resolved_by',
         ]
         read_only_fields = ['id', 'reporter', 'status', 'created_at', 'resolved_at', 'resolved_by']
+
+
+class NotificationSerializer(serializers.ModelSerializer):
+    actorName = serializers.SerializerMethodField()
+    actorPhotoUrl = serializers.SerializerMethodField()
+    actorId = serializers.CharField(source='actor_id', read_only=True, allow_null=True)
+    createdAt = serializers.IntegerField(source='created_at', read_only=True)
+    isRead = serializers.BooleanField(source='is_read', read_only=True)
+
+    class Meta:
+        model = Notification
+        fields = [
+            'id', 'recipient', 'actorId', 'actorName', 'actorPhotoUrl',
+            'verb', 'targetType', 'targetId', 'referenceType', 'referenceId',
+            'message', 'isRead', 'createdAt',
+        ]
+
+    def get_actorName(self, obj):
+        return obj.actor.username if obj.actor else None
+
+    def get_actorPhotoUrl(self, obj):
+        return obj.actor.photo_url if obj.actor else None
