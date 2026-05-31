@@ -61,6 +61,11 @@ urlpatterns = [
     # Reports
     path('reports/', views.report_create, name='report-create'),
 
+    # Bookmarks
+    path('bookmarks/toggle/', views.bookmark_toggle, name='bookmark-toggle'),
+    path('bookmarks/', views.bookmark_list, name='bookmark-list'),
+    path('bookmarks/check/', views.bookmark_check, name='bookmark-check'),
+
     # Admin API
     path('', include('api.admin_urls')),
 ]
