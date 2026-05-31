@@ -163,6 +163,7 @@ class Reply(models.Model):
     reply_count = models.IntegerField(default=0)
     is_edited = models.BooleanField(default=False)
     edited_at = models.BigIntegerField(default=0)
+    is_archived = models.BooleanField(default=False)
     created_at = models.BigIntegerField()
 
     class Meta:
@@ -265,6 +266,32 @@ class EditHistory(models.Model):
         indexes = [
             models.Index(fields=['target_type', 'target_id']),
         ]
+
+
+class Bookmark(models.Model):
+    """User bookmarks for posts, replies, and resources."""
+    TARGET_TYPES = [
+        ('post', 'Post'),
+        ('reply', 'Reply'),
+        ('resource', 'Resource'),
+    ]
+    id = models.CharField(max_length=36, primary_key=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='bookmarks')
+    target_type = models.CharField(max_length=10, choices=TARGET_TYPES)
+    target_id = models.CharField(max_length=36)
+    created_at = models.BigIntegerField()
+
+    class Meta:
+        db_table = 'bookmarks'
+        ordering = ['-created_at']
+        unique_together = ('user', 'target_type', 'target_id')
+        indexes = [
+            models.Index(fields=['user_id', 'target_type']),
+            models.Index(fields=['target_type', 'target_id']),
+        ]
+
+    def __str__(self):
+        return f"{self.user_id} bookmarked {self.target_type}:{self.target_id}"
 
 
 class Report(models.Model):

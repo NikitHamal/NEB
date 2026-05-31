@@ -2,7 +2,7 @@
 DRF serializers for all NEBians API resources.
 """
 from rest_framework import serializers
-from .models import User, Resource, Post, Reply, FCMToken, UserPhoto, Follow, EditHistory, Report
+from .models import User, Resource, Post, Reply, FCMToken, UserPhoto, Follow, EditHistory, Report, Bookmark
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -202,6 +202,12 @@ class EditHistorySerializer(serializers.ModelSerializer):
     class Meta:
         model = EditHistory
         fields = ['id', 'target_type', 'target_id', 'field', 'old_value', 'new_value', 'editedByUsername', 'editedByPhotoUrl', 'edited_at']
+
+
+class BookmarkSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Bookmark
+        fields = ['id', 'target_type', 'target_id', 'created_at']
 
 
 class ReportSerializer(serializers.ModelSerializer):

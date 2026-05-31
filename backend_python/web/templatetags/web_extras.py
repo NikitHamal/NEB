@@ -149,7 +149,7 @@ def to_json(value):
 
 @register.filter
 def mention_links(value, usernames=None):
-    """Convert @username mentions in text to clickable profile links."""
+    """Convert @username mentions in text to clickable profile links, then render basic markdown."""
     if not value:
         return mark_safe('')
     import re
@@ -165,6 +165,12 @@ def mention_links(value, usernames=None):
         s = re.sub(r'@(\w+)', replacer, s)
     else:
         s = re.sub(r'@(\w+)', r'<a href="/profile/\1/" class="fp-mention">@\1</a>', s)
+    # Basic markdown: bold, italic, line breaks
+    s = re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', s)
+    s = re.sub(r'(?<!\w)__(.+?)__(?!\w)', r'<strong>\1</strong>', s)
+    s = re.sub(r'(?<!\w)\*(.+?)\*(?!\w)', r'<em>\1</em>', s)
+    s = re.sub(r'(?<!\w)_(.+?)_(?!\w)', r'<em>\1</em>', s)
+    s = s.replace('\n', '<br>')
     return mark_safe(s)
 
 

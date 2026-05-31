@@ -44,12 +44,12 @@ from .security import (
 )
 from .email_utils import send_verification_email
 from .throttles import AuthRateThrottle, VerificationRateThrottle
-from .models import User, Resource, Post, PostLike, Reply, ReplyLike, FCMToken, Follow, UserPhoto, EditHistory, Report
+from .models import User, Resource, Post, PostLike, Reply, ReplyLike, FCMToken, Follow, UserPhoto, EditHistory, Report, Bookmark
 from .serializers import (
     UserSerializer, UserPublicSerializer,
     ResourceSerializer, PostSerializer, ReplySerializer,
     UserPhotoSerializer, UserStatsSerializer, FollowSerializer,
-    EditHistorySerializer, ReportSerializer,
+    EditHistorySerializer, ReportSerializer, BookmarkSerializer,
 )
 from . import counters as _counters
 
@@ -968,6 +968,68 @@ def auth_change_password(request):
         'authToken': user.auth_token,
         'user': UserSerializer(user).data,
     })
+
+
+@api_view(['POST'])
+def bookmark_toggle(request):
+    """POST /api/bookmarks/toggle — toggle bookmark on a post, reply, or resource."""
+    user, err = _require_user(request)
+    if err:
+        return err
+    target_type = request.data.get('target_type', '').strip()
+    target_id = request.data.get('target_id', '').strip()
+    if target_type not in ('post', 'reply', 'resource'):
+        return Response({'error': 'target_type must be post, reply, or resource'}, status=400)
+    if not target_id:
+        return Response({'error': 'target_id is required'}, status=400)
+    if target_type == 'post':
+        if not Post.objects.filter(pk=target_id).exists():
+            return Response({'error': 'Post not found'}, status=404)
+    elif target_type == 'reply':
+        if not Reply.objects.filter(pk=target_id).exists():
+            return Response({'error': 'Reply not found'}, status=404)
+    elif target_type == 'resource':
+        if not Resource.objects.filter(pk=target_id).exists():
+            return Response({'error': 'Resource not found'}, status=404)
+    existing = Bookmark.objects.filter(user=user, target_type=target_type, target_id=target_id).first()
+    if existing:
+        existing.delete()
+        return Response({'isBookmarked': False})
+    Bookmark.objects.create(
+        id=str(uuid.uuid4()),
+        user=user,
+        target_type=target_type,
+        target_id=target_id,
+        created_at=_now_ms(),
+    )
+    return Response({'isBookmarked': True})
+
+
+@api_view(['GET'])
+def bookmark_list(request):
+    """GET /api/bookmarks?target_type=post — list user's bookmarks, optionally filtered by type."""
+    user, err = _require_user(request)
+    if err:
+        return err
+    target_type = request.query_params.get('target_type', '').strip()
+    qs = Bookmark.objects.filter(user=user).select_related('user')
+    if target_type:
+        qs = qs.filter(target_type=target_type)
+    return _paginated_response(request, qs, BookmarkSerializer, default_page_size=50)
+
+
+@api_view(['GET'])
+def bookmark_check(request):
+    """GET /api/bookmarks/check?target_type=post&target_id=xxx — check if bookmarked."""
+    user, err = _require_user(request)
+    if err:
+        return err
+    target_type = request.query_params.get('target_type', '').strip()
+    target_id = request.query_params.get('target_id', '').strip()
+    is_bookmarked = Bookmark.objects.filter(
+        user=user, target_type=target_type, target_id=target_id
+    ).exists()
+    return Response({'isBookmarked': is_bookmarked})
 
 
 # ---------------------------------------------------------------------------
