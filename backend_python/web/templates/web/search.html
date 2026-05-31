@@ -40,6 +40,19 @@
   .search-page-bar .bar-actions button.has-filters { color: var(--md-primary); }
   .search-page-bar .bar-actions .clear-btn { width: 32px; height: 32px; }
   .search-page-bar .bar-actions .clear-btn .material-symbols-outlined { font-size: 20px; }
+
+  /* Filter chip select (matching library) */
+  .filter-chip-select {
+    display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px;
+    border-radius: var(--md-radius-full); font-size: 0.8125rem; font-weight: 500;
+    background: transparent; color: var(--md-on-surface-variant);
+    border: 1px solid var(--md-outline); cursor: pointer; transition: all 150ms ease;
+    user-select: none;
+  }
+  .filter-chip-select:hover { background: var(--md-surface-variant); }
+  .filter-chip-select.selected { background: var(--md-secondary-container); color: var(--md-on-secondary-container); border-color: transparent; }
+  .filter-chip-select .check-icon { display: none; font-size: 16px; }
+  .filter-chip-select.selected .check-icon { display: inline; }
 </style>
 {% endblock %}
 
@@ -97,10 +110,9 @@
       {% if all_subjects %}
       <div class="filter-section">
         <div class="filter-section-label">Subject</div>
-        <div class="chip-group">
-          <a href="{% url 'web:search' %}?q={{ query }}{% if current_grade %}&grade={{ current_grade }}{% endif %}{% if current_type %}&type={{ current_type }}{% endif %}{% if tab and tab != 'all' %}&tab={{ tab }}{% endif %}" class="md-chip {% if not current_subject %}md-chip-active{% endif %}">All</a>
+        <div class="chip-group" id="filter-subjects">
           {% for s in all_subjects %}
-          <a href="{% url 'web:search' %}?q={{ query }}&subject={{ s }}{% if current_grade %}&grade={{ current_grade }}{% endif %}{% if current_type %}&type={{ current_type }}{% endif %}{% if tab and tab != 'all' %}&tab={{ tab }}{% endif %}" class="md-chip {% if current_subject == s %}md-chip-active{% endif %}">{{ s }}</a>
+          <button type="button" class="filter-chip-select {% if s == current_subject %}selected{% endif %}" data-value="{{ s }}" onclick="toggleSearchFilter(this)">{{ s }}</button>
           {% endfor %}
         </div>
       </div>
@@ -109,10 +121,9 @@
       {% if all_grades %}
       <div class="filter-section">
         <div class="filter-section-label">Grade</div>
-        <div class="chip-group">
-          <a href="{% url 'web:search' %}?q={{ query }}{% if current_subject %}&subject={{ current_subject }}{% endif %}{% if current_type %}&type={{ current_type }}{% endif %}{% if tab and tab != 'all' %}&tab={{ tab }}{% endif %}" class="md-chip {% if not current_grade %}md-chip-active{% endif %}">All Grades</a>
+        <div class="chip-group" id="filter-grades">
           {% for g in all_grades %}
-          <a href="{% url 'web:search' %}?q={{ query }}{% if current_subject %}&subject={{ current_subject }}{% endif %}&grade={{ g }}{% if current_type %}&type={{ current_type }}{% endif %}{% if tab and tab != 'all' %}&tab={{ tab }}{% endif %}" class="md-chip {% if current_grade == g %}md-chip-active{% endif %}">{{ g }}</a>
+          <button type="button" class="filter-chip-select {% if g == current_grade %}selected{% endif %}" data-value="{{ g }}" onclick="toggleSearchFilter(this)">{{ g }}</button>
           {% endfor %}
         </div>
       </div>
@@ -121,20 +132,17 @@
       {% if all_types %}
       <div class="filter-section">
         <div class="filter-section-label">Type</div>
-        <div class="chip-group">
-          <a href="{% url 'web:search' %}?q={{ query }}{% if current_subject %}&subject={{ current_subject }}{% endif %}{% if current_grade %}&grade={{ current_grade }}{% endif %}{% if tab and tab != 'all' %}&tab={{ tab }}{% endif %}" class="md-chip {% if not current_type %}md-chip-active{% endif %}">All Types</a>
+        <div class="chip-group" id="filter-types">
           {% for t in all_types %}
-          <a href="{% url 'web:search' %}?q={{ query }}{% if current_subject %}&subject={{ current_subject }}{% endif %}{% if current_grade %}&grade={{ current_grade }}{% endif %}&type={{ t }}{% if tab and tab != 'all' %}&tab={{ tab }}{% endif %}" class="md-chip {% if current_type == t %}md-chip-active{% endif %}">{{ t }}</a>
+          <button type="button" class="filter-chip-select {% if t == current_type %}selected{% endif %}" data-value="{{ t }}" onclick="toggleSearchFilter(this)">{{ t }}</button>
           {% endfor %}
         </div>
       </div>
       {% endif %}
 
       <div class="filter-dialog-actions">
-        {% if current_subject or current_grade or current_type %}
         <a href="{% url 'web:search' %}?q={{ query }}{% if tab and tab != 'all' %}&tab={{ tab }}{% endif %}" class="md-btn md-btn-text" style="min-height:36px;">Clear all</a>
-        {% endif %}
-        <button class="md-btn md-btn-filled" onclick="document.getElementById('filter-dialog').style.display='none'" style="min-height:36px;">Done</button>
+        <button class="md-btn md-btn-filled" onclick="applySearchFilters()" style="min-height:36px;">Apply</button>
       </div>
     </div>
   </div>
@@ -359,4 +367,29 @@
   </div>
   {% endif %}
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function toggleSearchFilter(el) {
+  el.classList.toggle('selected');
+}
+
+function applySearchFilters() {
+  var params = new URLSearchParams();
+  var q = '{{ query|escapejs }}';
+  if (q) params.set('q', q);
+  {% if tab and tab != 'all' %}params.set('tab', '{{ tab|escapejs }}');{% endif %}
+
+  var subjectEls = document.querySelectorAll('#filter-subjects .filter-chip-select.selected');
+  if (subjectEls.length === 1) params.set('subject', subjectEls[0].dataset.value);
+  var gradeEls = document.querySelectorAll('#filter-grades .filter-chip-select.selected');
+  if (gradeEls.length === 1) params.set('grade', gradeEls[0].dataset.value);
+  var typeEls = document.querySelectorAll('#filter-types .filter-chip-select.selected');
+  if (typeEls.length === 1) params.set('type', typeEls[0].dataset.value);
+
+  var qs = params.toString();
+  window.location.href = '{% url "web:search" %}' + (qs ? '?' + qs : '');
+}
+</script>
 {% endblock %}
