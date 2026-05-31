@@ -160,22 +160,28 @@
       <h3 class="md-title-medium" style="margin-bottom:16px;">{{ resource_results|length }} resource{{ resource_results|length|pluralize }}</h3>
       <div class="resource-grid">
         {% for r in resource_results %}
-        <a href="{% url 'web:reader' resource_id=r.id %}" class="resource-card md-card subject-{{ r.subject|subject_slug }}">
-          <div class="resource-card-header">
-            <div class="subject-icon">
-              <span class="material-symbols-outlined">{{ r.subject|subject_icon }}</span>
+        <a href="{% url 'web:reader' resource_id=r.id %}" class="resource-card subject-{{ r.subject|subject_slug }}">
+          <div class="resource-card-art">
+            <svg viewBox="0 0 300 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="300" height="120" fill="var(--art-c1)"/>
+              <path d="M0,120 L0,70 Q40,20 100,55 Q160,90 220,45 Q270,10 300,50 L300,120Z" fill="var(--art-c2)" opacity="0.5"/>
+              <path d="M0,120 L0,85 Q60,40 130,70 Q200,100 260,60 L300,75 L300,120Z" fill="var(--art-c3)" opacity="0.35"/>
+              <path d="M0,120 L0,95 Q80,65 160,85 Q240,105 300,80 L300,120Z" fill="var(--art-c4)" opacity="0.2"/>
+              <circle cx="245" cy="30" r="50" fill="var(--art-c2)" opacity="0.15"/>
+              <circle cx="255" cy="25" r="28" fill="var(--art-c3)" opacity="0.12"/>
+            </svg>
+            <span class="resource-card-type-pill">{{ r.type }}</span>
+            <span class="resource-card-art-icon material-symbols-outlined">{{ r.subject|subject_icon }}</span>
+          </div>
+          <div class="resource-card-info">
+            <div class="resource-card-subject-chip">{{ r.subject }}</div>
+            <div class="resource-card-title">{{ r.title }}</div>
+            <div class="resource-card-meta">
+              {{ r.grade_level }}{% if r.file_size %} &middot; {{ r.file_size|file_size_human }}{% endif %}
             </div>
-            <span>{{ r.subject }}</span>
-          </div>
-          <div class="resource-card-body">
-            <h3>{{ r.title }}</h3>
-            <p>{{ r.grade_level }} &middot; {{ r.type }}</p>
-          </div>
-          <div class="resource-card-footer">
-            <span><span class="material-symbols-outlined icon-sm">visibility</span> {{ r.view_count|format_count }}</span>
-            {% if r.file_size %}
-            <span><span class="material-symbols-outlined icon-sm">download</span> {{ r.file_size|file_size_human }}</span>
-            {% endif %}
+            <div class="resource-card-download">
+              <span class="material-symbols-outlined">download</span> Download
+            </div>
           </div>
         </a>
         {% endfor %}
@@ -251,19 +257,28 @@
         </div>
         <div class="resource-grid">
           {% for r in resource_results|slice:":6" %}
-          <a href="{% url 'web:reader' resource_id=r.id %}" class="resource-card md-card subject-{{ r.subject|subject_slug }}">
-            <div class="resource-card-header">
-              <div class="subject-icon">
-                <span class="material-symbols-outlined">{{ r.subject|subject_icon }}</span>
+          <a href="{% url 'web:reader' resource_id=r.id %}" class="resource-card subject-{{ r.subject|subject_slug }}">
+            <div class="resource-card-art">
+              <svg viewBox="0 0 300 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="300" height="120" fill="var(--art-c1)"/>
+                <path d="M0,120 L0,70 Q40,20 100,55 Q160,90 220,45 Q270,10 300,50 L300,120Z" fill="var(--art-c2)" opacity="0.5"/>
+                <path d="M0,120 L0,85 Q60,40 130,70 Q200,100 260,60 L300,75 L300,120Z" fill="var(--art-c3)" opacity="0.35"/>
+                <path d="M0,120 L0,95 Q80,65 160,85 Q240,105 300,80 L300,120Z" fill="var(--art-c4)" opacity="0.2"/>
+                <circle cx="245" cy="30" r="50" fill="var(--art-c2)" opacity="0.15"/>
+                <circle cx="255" cy="25" r="28" fill="var(--art-c3)" opacity="0.12"/>
+              </svg>
+              <span class="resource-card-type-pill">{{ r.type }}</span>
+              <span class="resource-card-art-icon material-symbols-outlined">{{ r.subject|subject_icon }}</span>
+            </div>
+            <div class="resource-card-info">
+              <div class="resource-card-subject-chip">{{ r.subject }}</div>
+              <div class="resource-card-title">{{ r.title }}</div>
+              <div class="resource-card-meta">
+                {{ r.grade_level }}{% if r.file_size %} &middot; {{ r.file_size|file_size_human }}{% endif %}
               </div>
-              <span>{{ r.subject }}</span>
-            </div>
-            <div class="resource-card-body">
-              <h3>{{ r.title }}</h3>
-              <p>{{ r.grade_level }} &middot; {{ r.type }}</p>
-            </div>
-            <div class="resource-card-footer">
-              <span><span class="material-symbols-outlined icon-sm">visibility</span> {{ r.view_count|format_count }}</span>
+              <div class="resource-card-download">
+                <span class="material-symbols-outlined">download</span> Download
+              </div>
             </div>
           </a>
           {% endfor %}
