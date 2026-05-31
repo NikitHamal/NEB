@@ -22,6 +22,112 @@
 </script>
 {% endblock %}
 
+{% block extra_css %}
+<style>
+  /* Hero */
+  .hero { text-align: center; padding: 48px 0 40px; }
+  .hero h1 { font-size: 2rem; font-weight: 800; color: var(--md-on-surface); margin-bottom: 12px; letter-spacing: -0.02em; }
+  .hero p { font-size: 1.125rem; color: var(--md-on-surface-variant); max-width: 520px; margin: 0 auto 28px; line-height: 1.6; }
+  .hero-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .hero-btn-primary {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 14px 32px; border-radius: var(--md-radius-full);
+    background: var(--md-primary); color: var(--md-on-primary);
+    font-family: var(--md-font); font-size: 0.9375rem; font-weight: 600;
+    border: none; cursor: pointer; text-decoration: none;
+    box-shadow: 0 2px 0 rgba(0,0,0,0.15);
+    transition: box-shadow 150ms ease, filter 150ms ease;
+  }
+  .hero-btn-primary:hover { box-shadow: var(--md-elevation-2); filter: brightness(1.08); text-decoration: none; }
+  .hero-btn-secondary {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 14px 32px; border-radius: var(--md-radius-full);
+    background: var(--md-surface); color: var(--md-primary);
+    font-family: var(--md-font); font-size: 0.9375rem; font-weight: 600;
+    border: 1px solid var(--md-border-subtle); cursor: pointer; text-decoration: none;
+    transition: background 150ms ease;
+  }
+  .hero-btn-secondary:hover { background: var(--md-surface-container-low); text-decoration: none; }
+  @media (max-width: 768px) {
+    .hero h1 { font-size: 1.625rem; }
+    .hero p { font-size: 0.9375rem; }
+  }
+
+  /* Bento grid */
+  .home-bento { display: grid; grid-template-columns: 1fr; gap: 24px; }
+  .home-bento > * { min-width: 0; }
+  @media (min-width: 900px) {
+    .home-bento { grid-template-columns: 1fr 340px; }
+    .home-sidebar { position: sticky; top: 80px; align-self: start; }
+  }
+
+  /* Forum sidebar card */
+  .forum-sidebar {
+    background: var(--md-surface-muted);
+    border: 1px solid var(--md-border-subtle);
+    border-radius: var(--md-radius-lg);
+    padding: 20px;
+  }
+  .forum-sidebar-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 16px; padding-bottom: 12px;
+    border-bottom: 1px solid var(--md-border-subtle);
+  }
+  .forum-sidebar-header h2 { font-size: 1.125rem; font-weight: 700; color: var(--md-on-surface); }
+  .forum-sidebar-header a { font-size: 0.8125rem; color: var(--md-primary); text-decoration: none; font-weight: 600; }
+  .forum-sidebar-header a:hover { text-decoration: underline; }
+  .forum-sidebar-items { display: flex; flex-direction: column; gap: 12px; max-height: 420px; overflow-y: auto; scrollbar-width: none; }
+  .forum-sidebar-items::-webkit-scrollbar { display: none; }
+  .forum-sidebar-item {
+    padding: 14px; background: var(--md-surface);
+    border: 1px solid color-mix(in srgb, var(--md-border-subtle) 50%, transparent);
+    border-radius: var(--md-radius-md);
+    cursor: pointer; text-decoration: none; color: inherit;
+    transition: border-color 150ms ease;
+  }
+  .forum-sidebar-item:hover { border-color: color-mix(in srgb, var(--md-primary) 30%, transparent); text-decoration: none; }
+  .forum-sidebar-item-meta {
+    display: flex; align-items: center; gap: 8px; margin-bottom: 8px;
+  }
+  .forum-sidebar-item-avatar {
+    width: 28px; height: 28px; border-radius: 50%; background: var(--md-primary);
+    color: var(--md-on-primary); display: flex; align-items: center; justify-content: center;
+    font-size: 0.6875rem; font-weight: 700; flex-shrink: 0;
+  }
+  .forum-sidebar-item-info { flex: 1; min-width: 0; }
+  .forum-sidebar-item-name { font-size: 0.8125rem; font-weight: 600; color: var(--md-on-surface); }
+  .forum-sidebar-item-time { font-size: 0.6875rem; color: var(--md-on-surface-variant); display: flex; align-items: center; gap: 6px; }
+  .forum-sidebar-item-category {
+    display: inline-block; padding: 2px 8px; border-radius: var(--md-radius-full);
+    font-size: 0.625rem; font-weight: 600; background: var(--md-primary-container);
+    color: var(--md-primary);
+  }
+  .forum-sidebar-item-title {
+    font-size: 0.875rem; font-weight: 600; color: var(--md-on-surface); margin-bottom: 8px;
+    line-height: 1.4;
+  }
+  .forum-sidebar-item-actions {
+    display: flex; align-items: center; gap: 12px; font-size: 0.75rem; color: var(--md-on-surface-variant);
+  }
+  .forum-sidebar-item-actions span { display: flex; align-items: center; gap: 4px; }
+  .forum-sidebar-item-actions .material-symbols-outlined { font-size: 16px; }
+  .forum-sidebar-cta {
+    display: block; width: 100%; padding: 10px; text-align: center;
+    border: 1px solid var(--md-border-subtle); border-radius: var(--md-radius-md);
+    background: transparent; color: var(--md-primary); font-family: var(--md-font);
+    font-size: 0.8125rem; font-weight: 600; cursor: pointer; text-decoration: none;
+    margin-top: 12px; transition: background 150ms ease;
+  }
+  .forum-sidebar-cta:hover { background: var(--md-surface-container-low); text-decoration: none; }
+
+  /* Section */
+  .section { margin-bottom: 32px; }
+  .section-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 16px; }
+  .section-header h2 { font-size: 1.25rem; font-weight: 700; color: var(--md-on-surface); }
+  .section-header a { font-size: 0.875rem; font-weight: 600; }
+</style>
+{% endblock %}
+
 {% block content %}
 <div class="md-container">
   <!-- Hero -->
@@ -33,144 +139,122 @@
     {% endif %}
     <p>What would you like to study today? Access NEB resources, join discussions, and more.</p>
     <div class="hero-actions">
-      <a href="{% url 'web:library' %}" class="md-btn md-btn-filled">
-        <span class="material-symbols-outlined" style="font-size:18px">auto_stories</span>
+      <a href="{% url 'web:library' %}" class="hero-btn-primary">
+        <span class="material-symbols-outlined" style="font-size:20px">menu_book</span>
         Browse Library
       </a>
-      <a href="{% url 'web:forum' %}" class="md-btn md-btn-outlined">
-        <span class="material-symbols-outlined" style="font-size:18px">forum</span>
+      <a href="{% url 'web:forum' %}" class="hero-btn-secondary">
+        <span class="material-symbols-outlined" style="font-size:20px">forum</span>
         Join Forum
       </a>
     </div>
   </div>
 
-  <!-- Subject Chips -->
-  {% if subjects %}
-  <div class="section">
-    <div class="section-header">
-      <h2>Subjects</h2>
-    </div>
-    <div class="chip-group">
-      {% for s in subjects %}
-      <a href="{% url 'web:library' %}?subject={{ s }}" class="md-chip">{{ s }}</a>
-      {% endfor %}
-    </div>
-  </div>
-  {% endif %}
-
-  <!-- Recent Resources -->
-  {% if recent_resources %}
-  <div class="section">
-    <div class="section-header">
-      <h2>Recent Resources</h2>
-      <a href="{% url 'web:library' %}" class="md-btn md-btn-text">View all</a>
-    </div>
-    <div class="hscroll">
-      {% for r in recent_resources %}
-      <a href="{% url 'web:reader' resource_id=r.id %}" class="resource-card md-card subject-{{ r.subject|lower|cut:' ' }}">
-        <div class="resource-card-header">
-          <div class="subject-icon">
-            <span class="material-symbols-outlined">{{ r.subject|subject_icon }}</span>
-          </div>
-          <span>{{ r.subject }}</span>
+  <!-- Bento Grid: Resources + Forum Sidebar -->
+  <div class="home-bento">
+    <!-- Left: Resources -->
+    <div>
+      {% if recent_resources %}
+      <div class="section">
+        <div class="section-header">
+          <h2>Recent Resources</h2>
+          <a href="{% url 'web:library' %}">View all</a>
         </div>
-        <div class="resource-card-body">
-          <h3>{{ r.title }}</h3>
-          <p>{{ r.grade_level }} · {{ r.type }}</p>
-        </div>
-        <div class="resource-card-footer">
-          <span><span class="material-symbols-outlined" style="font-size:14px">visibility</span> {{ r.view_count|format_count }}</span>
-          {% if r.file_size %}
-          <span><span class="material-symbols-outlined" style="font-size:14px">download</span> {{ r.file_size|file_size_human }}</span>
-          {% endif %}
-        </div>
-      </a>
-      {% endfor %}
-    </div>
-  </div>
-  {% endif %}
-
-  <!-- Popular Resources -->
-  {% if popular_resources %}
-  <div class="section">
-    <div class="section-header">
-      <h2>Popular Resources</h2>
-      <a href="{% url 'web:library' %}" class="md-btn md-btn-text">View all</a>
-    </div>
-    <div class="hscroll">
-      {% for r in popular_resources %}
-      <a href="{% url 'web:reader' resource_id=r.id %}" class="resource-card md-card subject-{{ r.subject|lower|cut:' ' }}">
-        <div class="resource-card-header">
-          <div class="subject-icon">
-            <span class="material-symbols-outlined">{{ r.subject|subject_icon }}</span>
-          </div>
-          <span>{{ r.subject }}</span>
-        </div>
-        <div class="resource-card-body">
-          <h3>{{ r.title }}</h3>
-          <p>{{ r.grade_level }} · {{ r.type }}</p>
-        </div>
-        <div class="resource-card-footer">
-          <span><span class="material-symbols-outlined" style="font-size:14px">visibility</span> {{ r.view_count|format_count }}</span>
-        </div>
-      </a>
-      {% endfor %}
-    </div>
-  </div>
-  {% endif %}
-
-  <!-- Forum Activity -->
-  {% if recent_posts %}
-  <div class="section">
-    <div class="section-header">
-      <h2>Forum Activity</h2>
-      <a href="{% url 'web:forum' %}" class="md-btn md-btn-text">View all</a>
-    </div>
-    {% for post in recent_posts %}
-    <div class="post-card">
-      <div class="post-card-header">
-        <div class="post-card-avatar">
-          {% if post.authorPhotoUrl %}
-            <img src="{{ post.authorPhotoUrl }}" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';">
-            <span class="contributor-avatar-letter" style="display:none;">{{ post.authorName|truncate_chars:1|default:"?" }}</span>
-          {% else %}
-            <span class="contributor-avatar-letter">{{ post.authorName|truncate_chars:1|default:"?" }}</span>
-          {% endif %}
-        </div>
-        <div class="post-card-meta">
-          <div class="post-card-meta-top" style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
-            <strong onclick="window.location.href='{% url 'web:profile' username=post.authorName %}'" style="cursor:pointer;">{{ post.authorName }}</strong>
-            {% if post.authorBadge %}
-              <span class="user-badge">{{ post.authorBadge }}</span>
-            {% endif %}
-            {% if is_authenticated and post.authorId != user.id %}
-              <button class="follow-btn-inline {% if post.isFollowingAuthor %}following{% else %}not-following{% endif %}" data-user-id="{{ post.authorId }}" onclick="toggleFollowBtn(this, '{{ post.authorId }}')">{% if post.isFollowingAuthor %}Following{% else %}Follow{% endif %}</button>
-            {% endif %}
-          </div>
-          <div class="post-card-meta-bottom" style="display:flex; align-items:center; flex-wrap:wrap; gap:6px; margin-top:2px; font-size:0.8125rem; color:var(--md-on-surface-variant);">
-            <span class="act-action-text">started a discussion</span>
-            <span style="opacity:0.4;">&middot;</span>
-            <a href="{% url 'web:forum' %}?category={{ post.category }}" class="post-card-category-link">{{ post.category }}</a>
-            <span style="opacity:0.4;">&middot;</span>
-            <span class="post-card-time">{{ post.createdAt|time_ago }}</span>
-          </div>
+        <div class="hscroll">
+          {% for r in recent_resources %}
+          <a href="{% url 'web:reader' resource_id=r.id %}" class="resource-card md-card subject-{{ r.subject|lower|cut:' ' }}">
+            <div class="resource-card-header">
+              <div class="subject-icon">
+                <span class="material-symbols-outlined">{{ r.subject|subject_icon }}</span>
+              </div>
+              <span>{{ r.subject }}</span>
+            </div>
+            <div class="resource-card-body">
+              <h3>{{ r.title }}</h3>
+              <p>{{ r.grade_level }} &middot; {{ r.type }}</p>
+            </div>
+            <div class="resource-card-footer">
+              <span><span class="material-symbols-outlined icon-sm">visibility</span> {{ r.view_count|format_count }}</span>
+              {% if r.file_size %}
+              <span><span class="material-symbols-outlined icon-sm">download</span> {{ r.file_size|file_size_human }}</span>
+              {% endif %}
+            </div>
+          </a>
+          {% endfor %}
         </div>
       </div>
-      <h3 style="margin-top:4px; margin-bottom:8px;"><a href="{% url 'web:forum_post' post_id=post.id %}" style="color: inherit; text-decoration: none;">{{ post.title }}</a></h3>
-      <div class="post-card-actions">
-        <button type="button" onclick="toggleHomePostLike('{{ post.id }}', this);" class="{% if post.isThumbedUp %}liked{% endif %}" id="home-post-like-btn-{{ post.id }}">
-          <span class="material-symbols-outlined">{% if post.isThumbedUp %}thumb_up{% else %}thumb_up_off_alt{% endif %}</span>
-          <span id="home-post-like-count-{{ post.id }}">{{ post.thumbsUpCount }}</span>
-        </button>
-        <a href="{% url 'web:forum_post' post_id=post.id %}" class="act-btn-stat">
-          <span class="material-symbols-outlined">chat_bubble_outline</span>
-          <span>{{ post.replyCount }} Replies</span>
-        </a>
+      {% endif %}
+
+      {% if popular_resources %}
+      <div class="section">
+        <div class="section-header">
+          <h2>Popular Resources</h2>
+          <a href="{% url 'web:library' %}">View all</a>
+        </div>
+        <div class="hscroll">
+          {% for r in popular_resources %}
+          <a href="{% url 'web:reader' resource_id=r.id %}" class="resource-card md-card subject-{{ r.subject|lower|cut:' ' }}">
+            <div class="resource-card-header">
+              <div class="subject-icon">
+                <span class="material-symbols-outlined">{{ r.subject|subject_icon }}</span>
+              </div>
+              <span>{{ r.subject }}</span>
+            </div>
+            <div class="resource-card-body">
+              <h3>{{ r.title }}</h3>
+              <p>{{ r.grade_level }} &middot; {{ r.type }}</p>
+            </div>
+            <div class="resource-card-footer">
+              <span><span class="material-symbols-outlined icon-sm">visibility</span> {{ r.view_count|format_count }}</span>
+            </div>
+          </a>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+    </div>
+
+    <!-- Right: Forum Activity Sidebar -->
+    {% if recent_posts %}
+    <div class="home-sidebar">
+      <div class="forum-sidebar">
+        <div class="forum-sidebar-header">
+          <h2>Forum Activity</h2>
+          <a href="{% url 'web:forum' %}">View all</a>
+        </div>
+        <div class="forum-sidebar-items">
+          {% for post in recent_posts %}
+          <a href="{% url 'web:forum_post' post_id=post.id %}" class="forum-sidebar-item">
+            <div class="forum-sidebar-item-meta">
+              <div class="forum-sidebar-item-avatar">{{ post.authorName|truncate_chars:1 }}</div>
+              <div class="forum-sidebar-item-info">
+                <div class="forum-sidebar-item-name">{{ post.authorName }}</div>
+                <div class="forum-sidebar-item-time">
+                  <span>{{ post.createdAt|time_ago }}</span>
+                  <span style="width:3px;height:3px;border-radius:50%;background:var(--md-outline-variant);"></span>
+                  <span class="forum-sidebar-item-category">{{ post.category }}</span>
+                </div>
+              </div>
+            </div>
+            <div class="forum-sidebar-item-title">{{ post.title }}</div>
+            <div class="forum-sidebar-item-actions">
+              <span>
+                <span class="material-symbols-outlined">{% if post.isThumbedUp %}thumb_up{% else %}thumb_up_off_alt{% endif %}</span>
+                {{ post.thumbsUpCount }}
+              </span>
+              <span>
+                <span class="material-symbols-outlined">chat_bubble_outline</span>
+                {{ post.replyCount }}
+              </span>
+            </div>
+          </a>
+          {% endfor %}
+        </div>
+        <a href="{% url 'web:forum' %}" class="forum-sidebar-cta">Start a Discussion</a>
       </div>
     </div>
-    {% endfor %}
+    {% endif %}
   </div>
-  {% endif %}
 
   {% if not recent_resources and not popular_resources and not recent_posts %}
   <div class="empty-state">
