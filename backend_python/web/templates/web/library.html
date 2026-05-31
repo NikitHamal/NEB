@@ -28,41 +28,7 @@
     background-repeat: no-repeat; background-position: right center; padding-right: 24px;
   }
 
-  /* Resource cards — no hover bounce */
-  .resource-card { cursor: pointer; text-decoration: none; color: inherit; }
-  .resource-card:hover { text-decoration: none; }
-  .resource-card-header {
-    padding: 14px 16px 10px;
-    background: color-mix(in srgb, var(--subject-color, #5F6368) 8%, transparent);
-    border-radius: var(--md-radius-lg) var(--md-radius-lg) 0 0;
-    display: flex; align-items: center; gap: 10px;
-  }
-  .resource-card-header .subject-icon { width: 40px; height: 40px; border-radius: var(--md-radius-sm); }
-  .resource-card-header .subject-icon .material-symbols-outlined { font-size: 22px; }
-  .resource-card-header span:last-child { font-size: 0.6875rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--subject-color, var(--md-on-surface-variant)); }
-  .resource-card-body { padding: 4px 16px 12px; flex: 1; }
-  .resource-card-body h3 { font-size: 0.9375rem; font-weight: 600; margin-bottom: 2px; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-  .resource-card-body p { font-size: 0.75rem; color: var(--md-on-surface-variant); }
-  .resource-card-footer {
-    display: flex; align-items: center; gap: 12px; padding: 6px 16px 14px;
-    font-size: 0.6875rem; color: var(--md-on-surface-variant);
-  }
-  .resource-card-footer span { display: flex; align-items: center; gap: 3px; }
-  .resource-card-footer .material-symbols-outlined { font-size: 16px; }
-
-  /* Resource type badge */
-  .resource-type-badge {
-    display: inline-flex; align-items: center; gap: 4px;
-    padding: 2px 8px; border-radius: var(--md-radius-full);
-    font-size: 0.6875rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em;
-    margin-bottom: 6px;
-  }
-  .resource-type-badge .material-symbols-outlined { font-size: 14px; }
-  .type-text { background: color-mix(in srgb, var(--md-primary) 10%, transparent); color: var(--md-primary); }
-  .type-pdf { background: color-mix(in srgb, #DB2777 10%, transparent); color: #DB2777; }
-  .type-image { background: color-mix(in srgb, #0F766E 10%, transparent); color: #0F766E; }
-  .type-video { background: color-mix(in srgb, #7C3AED 10%, transparent); color: #7C3AED; }
-  .type-other { background: color-mix(in srgb, #5F6368 10%, transparent); color: #5F6368; }
+  
 
   /* Filter dialog multi-select */
   .filter-chip-select {
@@ -160,29 +126,28 @@
   {% if resources %}
   <div class="resource-grid">
     {% for r in resources %}
-    <a href="{% url 'web:reader' resource_id=r.id %}" class="resource-card md-card subject-{{ r.subject|lower|cut:' ' }}">
-      <div class="resource-card-header">
-        <div class="subject-icon">
-          <span class="material-symbols-outlined">{{ r.subject|subject_icon }}</span>
-        </div>
-        <span>{{ r.subject }}</span>
+    <a href="{% url 'web:reader' resource_id=r.id %}" class="resource-card subject-{{ r.subject|subject_slug }}">
+      <div class="resource-card-art">
+        <svg viewBox="0 0 300 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="300" height="120" fill="var(--art-c1)"/>
+          <path d="M0,120 L0,70 Q40,20 100,55 Q160,90 220,45 Q270,10 300,50 L300,120Z" fill="var(--art-c2)" opacity="0.5"/>
+          <path d="M0,120 L0,85 Q60,40 130,70 Q200,100 260,60 L300,75 L300,120Z" fill="var(--art-c3)" opacity="0.35"/>
+          <path d="M0,120 L0,95 Q80,65 160,85 Q240,105 300,80 L300,120Z" fill="var(--art-c4)" opacity="0.2"/>
+          <circle cx="245" cy="30" r="50" fill="var(--art-c2)" opacity="0.15"/>
+          <circle cx="255" cy="25" r="28" fill="var(--art-c3)" opacity="0.12"/>
+        </svg>
+        <span class="resource-card-type-pill">{{ r.type }}</span>
+        <span class="resource-card-art-icon material-symbols-outlined">{{ r.subject|subject_icon }}</span>
       </div>
-      <div class="resource-card-body">
-        <div class="resource-type-badge type-{% if 'pdf' in r.type|lower %}pdf{% elif 'note' in r.type|lower or 'text' in r.type|lower %}text{% elif 'image' in r.type|lower or 'photo' in r.type|lower %}image{% elif 'video' in r.type|lower %}video{% else %}other{% endif %}">
-          <span class="material-symbols-outlined">{% if 'pdf' in r.type|lower %}picture_as_pdf{% elif 'note' in r.type|lower %}description{% elif 'model' in r.type|lower %}quiz{% elif 'paper' in r.type|lower or 'past' in r.type|lower %}history_edu{% elif 'syllabus' in r.type|lower %}menu_book{% elif 'textbook' in r.type|lower %}auto_stories{% else %}article{% endif %}</span>
-          {{ r.type }}
+      <div class="resource-card-info">
+        <div class="resource-card-subject-chip">{{ r.subject }}</div>
+        <div class="resource-card-title">{{ r.title }}</div>
+        <div class="resource-card-meta">
+          {{ r.grade_level }}{% if r.file_size %} &middot; {{ r.file_size|file_size_human }}{% endif %}
         </div>
-        <h3>{{ r.title }}</h3>
-        <p>{{ r.grade_level }}</p>
-        {% if r.description %}
-        <p style="margin-top:4px;opacity:0.6;font-size:0.75rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">{{ r.description|truncate_chars:80 }}</p>
-        {% endif %}
-      </div>
-      <div class="resource-card-footer">
-        <span><span class="material-symbols-outlined">visibility</span> {{ r.view_count|format_count }}</span>
-        {% if r.file_size %}
-        <span><span class="material-symbols-outlined">download</span> {{ r.file_size|file_size_human }}</span>
-        {% endif %}
+        <div class="resource-card-download">
+          <span class="material-symbols-outlined">download</span> Download
+        </div>
       </div>
     </a>
     {% endfor %}
