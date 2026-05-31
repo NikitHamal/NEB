@@ -36,7 +36,7 @@
   .fp-back:hover{color:var(--md-primary)}
 
   .fp-post{background:var(--md-surface-container-lowest,#fff);border:1px solid var(--md-outline-variant);border-radius:16px;padding:24px;margin-bottom:24px}
-  .fp-post-header{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+  .fp-post-header{display:flex;align-items:center;gap:12px;margin-bottom:16px;position:relative}
   .fp-avatar{width:40px;height:40px;border-radius:50%;overflow:hidden;background:var(--md-primary);display:flex;align-items:center;justify-content:center;flex-shrink:0}
   .fp-avatar img{width:100%;height:100%;object-fit:cover}
   .fp-avatar-letter{font-size:.875rem;font-weight:700;color:var(--md-on-primary)}
@@ -67,7 +67,7 @@
 
   .fp-reply{background:var(--md-surface-container-lowest,#fff);border:1px solid var(--md-outline-variant);border-radius:12px;padding:16px;margin-bottom:10px;transition:border-color .15s}
   .fp-reply:hover{border-color:var(--md-outline)}
-  .fp-reply-header{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+  .fp-reply-header{display:flex;align-items:center;gap:10px;margin-bottom:8px;position:relative}
   .fp-reply-avatar{width:32px;height:32px;border-radius:50%;overflow:hidden;background:var(--md-primary);display:flex;align-items:center;justify-content:center;flex-shrink:0}
   .fp-reply-avatar img{width:100%;height:100%;object-fit:cover}
   .fp-reply-avatar-letter{font-size:.75rem;font-weight:700;color:var(--md-on-primary)}
@@ -274,26 +274,55 @@
           {% endif %}
         </div>
       </div>
+      <div class="more-menu-wrapper">
+        <button class="more-btn" onclick="toggleMoreMenu('post-menu-{{ post.id }}', this)" aria-label="More options"><span class="material-symbols-outlined">more_vert</span></button>
+        <div class="more-menu" id="post-menu-{{ post.id }}" style="display:none;">
+          {% if is_authenticated %}
+          <button class="more-menu-item" onclick="toggleBookmark('post', '{{ post.id }}', this); closeAllMenus();">
+            <span class="material-symbols-outlined" id="bookmark-icon-post-{{ post.id }}"{% if post.isBookmarked %} style="font-variation-settings:'FILL' 1"{% endif %}>bookmark</span>
+            <span id="bookmark-label-post-{{ post.id }}">{% if post.isBookmarked %}Remove bookmark{% else %}Bookmark{% endif %}</span>
+          </button>
+          <button class="more-menu-item" onclick="sharePost('{{ post.id }}'); closeAllMenus();">
+            <span class="material-symbols-outlined">share</span> Share
+          </button>
+          {% if not is_owner %}
+          <button class="more-menu-item" onclick="reportContent('post', '{{ post.id }}'); closeAllMenus();">
+            <span class="material-symbols-outlined">flag</span> Report
+          </button>
+          {% endif %}
+          {% endif %}
+          {% if is_owner %}
+          <div class="more-menu-divider"></div>
+          <button class="more-menu-item" onclick="startEditPost(); closeAllMenus();">
+            <span class="material-symbols-outlined">edit</span> Edit post
+          </button>
+          <button class="more-menu-item" onclick="archivePost(); closeAllMenus();">
+            <span class="material-symbols-outlined">{{ post.isArchived|yesno:"unarchive,archive" }}</span> {% if post.isArchived %}Unarchive{% else %}Archive{% endif %}
+          </button>
+          <button class="more-menu-item danger" onclick="deletePost(); closeAllMenus();">
+            <span class="material-symbols-outlined">delete</span> Delete post
+          </button>
+          {% endif %}
+        </div>
+      </div>
     </div>
     <h2 class="fp-post-title">{{ post.title }}</h2>
     <div class="fp-post-body" id="post-content-{{ post.id }}">{{ post.content|mention_links:all_usernames }}</div>
 
-    {% if is_owner %}
-    <div class="fp-owner-actions">
-      <button class="fp-owner-btn" onclick="startEditPost()"><span class="material-symbols-outlined" style="font-size:14px;">edit</span> Edit</button>
-      <button class="fp-owner-btn" onclick="archivePost()"><span class="material-symbols-outlined" style="font-size:14px;">{{ post.isArchived|yesno:"unarchive,archive" }}</span> {% if post.isArchived %}Unarchive{% else %}Archive{% endif %}</button>
-      <button class="fp-owner-btn danger" onclick="deletePost()"><span class="material-symbols-outlined" style="font-size:14px;">delete</span> Delete</button>
-    </div>
-    {% endif %}
-
     <div class="fp-post-actions">
       <button onclick="togglePostLike('{{ post.id }}')" class="fp-action-btn {% if post.isThumbedUp %}liked{% endif %}" id="post-like-btn-{{ post.id }}">
-        <span class="material-symbols-outlined">{% if post.isThumbedUp %}thumb_up{% else %}thumb_up_off_alt{% endif %}</span>
+        <span class="material-symbols-outlined">thumb_up</span>
         <span id="post-like-count-{{ post.id }}">{{ post.thumbsUpCount }}</span>
+      </button>
+      <button class="fp-action-btn {% if post.isBookmarked %}bookmark-active{% endif %}" onclick="toggleBookmark('post', '{{ post.id }}', this)" id="post-bookmark-btn-{{ post.id }}">
+        <span class="material-symbols-outlined">bookmark</span>
       </button>
       <button class="fp-action-btn">
         <span class="material-symbols-outlined">chat_bubble_outline</span>
         {{ post.replyCount }} replies
+      </button>
+      <button class="fp-action-btn" onclick="sharePost('{{ post.id }}')">
+        <span class="material-symbols-outlined">share</span>
       </button>
     </div>
   </div>
@@ -356,25 +385,56 @@
                 <span class="material-symbols-outlined">edit</span> edited
               </span>
             {% endif %}
-            {% if is_authenticated and reply.authorId == user.id %}
-              <span class="fp-reply-owner">
-                <button class="fp-owner-btn" onclick="startEditReply('{{ reply.id }}', '{{ reply.content|escapejs }}')"><span class="material-symbols-outlined" style="font-size:12px;">edit</span></button>
-                <button class="fp-owner-btn danger" onclick="deleteReply('{{ reply.id }}')"><span class="material-symbols-outlined" style="font-size:12px;">delete</span></button>
-              </span>
-            {% endif %}
           </div>
           <div class="fp-reply-time">{{ reply.createdAt|time_ago }}</div>
+        </div>
+        <div class="more-menu-wrapper">
+          <button class="more-btn" style="margin-left:auto;align-self:flex-start;" onclick="toggleMoreMenu('reply-menu-{{ reply.id }}', this)" aria-label="More options"><span class="material-symbols-outlined">more_vert</span></button>
+          <div class="more-menu" id="reply-menu-{{ reply.id }}" style="display:none;">
+            {% if is_authenticated %}
+            <button class="more-menu-item" onclick="toggleBookmark('reply', '{{ reply.id }}', this); closeAllMenus();">
+              <span class="material-symbols-outlined" id="bookmark-icon-reply-{{ reply.id }}"{% if reply.isBookmarked %} style="font-variation-settings:'FILL' 1"{% endif %}>bookmark</span>
+              <span id="bookmark-label-reply-{{ reply.id }}">{% if reply.isBookmarked %}Remove bookmark{% else %}Bookmark{% endif %}</span>
+            </button>
+            <button class="more-menu-item" onclick="shareReply('{{ reply.id }}'); closeAllMenus();">
+              <span class="material-symbols-outlined">share</span> Share
+            </button>
+            {% if reply.authorId != user.id %}
+            <button class="more-menu-item" onclick="reportContent('reply', '{{ reply.id }}'); closeAllMenus();">
+              <span class="material-symbols-outlined">flag</span> Report
+            </button>
+            {% endif %}
+            {% endif %}
+            {% if is_authenticated and reply.authorId == user.id %}
+            <div class="more-menu-divider"></div>
+            <button class="more-menu-item" onclick="startEditReply('{{ reply.id }}', '{{ reply.content|escapejs }}'); closeAllMenus();">
+              <span class="material-symbols-outlined">edit</span> Edit reply
+            </button>
+            <button class="more-menu-item" onclick="archiveReply('{{ reply.id }}'); closeAllMenus();">
+              <span class="material-symbols-outlined">{{ reply.isArchived|yesno:"unarchive,archive" }}</span> {% if reply.isArchived %}Unarchive{% else %}Archive{% endif %}
+            </button>
+            <button class="more-menu-item danger" onclick="deleteReply('{{ reply.id }}'); closeAllMenus();">
+              <span class="material-symbols-outlined">delete</span> Delete reply
+            </button>
+            {% endif %}
+          </div>
         </div>
       </div>
       <div class="fp-reply-body" id="reply-content-{{ reply.id }}">{{ reply.content|mention_links:all_usernames }}</div>
       <div class="fp-reply-actions">
         <button onclick="toggleReplyLike('{{ reply.id }}')" class="fp-reply-action {% if reply.isThumbedUp %}liked{% endif %}" id="reply-like-btn-{{ reply.id }}">
-          <span class="material-symbols-outlined">{% if reply.isThumbedUp %}thumb_up{% else %}thumb_up_off_alt{% endif %}</span>
+          <span class="material-symbols-outlined">thumb_up</span>
           <span id="reply-like-count-{{ reply.id }}">{{ reply.thumbsUpCount }}</span>
         </button>
         {% if is_authenticated %}
+        <button class="fp-reply-action {% if reply.isBookmarked %}bookmark-active{% endif %}" onclick="toggleBookmark('reply', '{{ reply.id }}', this)" id="reply-bookmark-btn-{{ reply.id }}">
+          <span class="material-symbols-outlined">bookmark</span>
+        </button>
         <button class="fp-reply-action" onclick="openThreadReply('{{ reply.id }}', '{{ reply.authorName|escapejs }}')">
           <span class="material-symbols-outlined">reply</span> Reply
+        </button>
+        <button class="fp-reply-action" onclick="shareReply('{{ reply.id }}')">
+          <span class="material-symbols-outlined">share</span>
         </button>
         {% endif %}
       </div>
@@ -528,6 +588,18 @@ function renderMentions(text) {
     }
     return match;
   });
+  return renderMarkdown(html);
+}
+
+function renderMarkdown(html) {
+  // Bold: **text** or __text__
+  html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  html = html.replace(/__(.+?)__/g, '<strong>$1</strong>');
+  // Italic: *text* or _text_ (but not inside tags or URLs)
+  html = html.replace(/(?<!\w)\*(.+?)\*(?!\w)/g, '<em>$1</em>');
+  html = html.replace(/(?<!\w)_(.+?)_(?!\w)/g, '<em>$1</em>');
+  // Line breaks: \n → <br> (preserving whitespace)
+  html = html.replace(/\n/g, '<br>');
   return html;
 }
 
@@ -539,7 +611,7 @@ async function togglePostLike(postId) {
     const btn = document.getElementById('post-like-btn-' + postId);
     btn.classList.toggle('liked', result.isThumbedUp);
     const icon = btn.querySelector('.material-symbols-outlined');
-    if (icon) icon.textContent = result.isThumbedUp ? 'thumb_up' : 'thumb_up_off_alt';
+    if (icon) { icon.textContent = 'thumb_up'; icon.style.fontVariationSettings = result.isThumbedUp ? "'FILL' 1" : ''; }
   }
 }
 
@@ -553,7 +625,7 @@ async function toggleReplyLike(replyId) {
     if (btn) {
       btn.classList.toggle('liked', result.isThumbedUp);
       const icon = btn.querySelector('.material-symbols-outlined');
-      if (icon) icon.textContent = result.isThumbedUp ? 'thumb_up' : 'thumb_up_off_alt';
+      if (icon) { icon.textContent = 'thumb_up'; icon.style.fontVariationSettings = result.isThumbedUp ? "'FILL' 1" : ''; }
     }
   }
 }
@@ -863,7 +935,8 @@ function renderThreadParent(parent) {
     ? '<img src="' + escapeHtml(parent.authorPhotoUrl) + '" alt="" onerror="this.style.display=\'none\'; this.nextElementSibling.style.display=\'flex\';"><span class="fp-reply-avatar-letter" style="display:none;">' + escapeHtml(parent.authorName ? parent.authorName.charAt(0) : '?') + '</span>'
     : '<span class="fp-reply-avatar-letter">' + escapeHtml(parent.authorName ? parent.authorName.charAt(0) : '?') + '</span>';
   const likedClass = parent.isThumbedUp ? 'liked' : '';
-  const likeIcon = parent.isThumbedUp ? 'thumb_up' : 'thumb_up_off_alt';
+  const likedFill = parent.isThumbedUp ? " style=\"font-variation-settings:'FILL' 1\"" : '';
+  const likeIcon = 'thumb_up';
   const editedBadge = parent.isEdited ? ' <span class="fp-edited" onclick="showEditHistory(\'reply\', \'' + escapeHtml(parent.id) + '\')"><span class="material-symbols-outlined">edit</span> edited</span>' : '';
   const ownerBtns = (IS_AUTH && parent.authorId === USER_ID)
     ? '<span class="fp-reply-owner"><button class="fp-owner-btn" data-action="edit-reply" data-reply-id="' + escapeHtml(parent.id) + '"><span class="material-symbols-outlined" style="font-size:12px;">edit</span></button><button class="fp-owner-btn danger" data-action="delete-reply" data-reply-id="' + escapeHtml(parent.id) + '"><span class="material-symbols-outlined" style="font-size:12px;">delete</span></button></span>'
@@ -888,7 +961,7 @@ function renderThreadParent(parent) {
     '<div class="fp-reply-body">' + mentionContent + '</div>' +
     '<div class="fp-thread-parent-actions">' +
       '<button onclick="toggleReplyLike(\'' + escapeHtml(parent.id) + '\')" class="fp-reply-action ' + likedClass + '" id="reply-like-btn-' + escapeHtml(parent.id) + '">' +
-        '<span class="material-symbols-outlined">' + likeIcon + '</span>' +
+        '<span class="material-symbols-outlined"' + likedFill + '>' + likeIcon + '</span>' +
         '<span id="reply-like-count-' + escapeHtml(parent.id) + '">' + (parent.thumbsUpCount || 0) + '</span>' +
       '</button>' +
     '</div>' +
@@ -913,7 +986,8 @@ function renderThreadReply(reply, parentAuthor, depth) {
     ? '<img src="' + escapeHtml(reply.authorPhotoUrl) + '" alt="" onerror="this.style.display=\'none\'; this.nextElementSibling.style.display=\'flex\';"><span class="fp-reply-avatar-letter" style="display:none;">' + escapeHtml(reply.authorName.charAt(0)) + '</span>'
     : '<span class="fp-reply-avatar-letter">' + escapeHtml(reply.authorName.charAt(0)) + '</span>';
   const likedClass = reply.isThumbedUp ? 'liked' : '';
-  const likeIcon = reply.isThumbedUp ? 'thumb_up' : 'thumb_up_off_alt';
+  const likedFill = reply.isThumbedUp ? " style=\"font-variation-settings:'FILL' 1\"" : '';
+  const likeIcon = 'thumb_up';
   const editedBadge = reply.isEdited ? ' <span class="fp-edited" onclick="showEditHistory(\'reply\', \'' + escapeHtml(reply.id) + '\')"><span class="material-symbols-outlined">edit</span> edited</span>' : '';
   const ownerBtns = (IS_AUTH && reply.authorId === USER_ID)
     ? '<span class="fp-reply-owner"><button class="fp-owner-btn" data-action="edit-reply" data-reply-id="' + escapeHtml(reply.id) + '"><span class="material-symbols-outlined" style="font-size:12px;">edit</span></button><button class="fp-owner-btn danger" data-action="delete-reply" data-reply-id="' + escapeHtml(reply.id) + '"><span class="material-symbols-outlined" style="font-size:12px;">delete</span></button></span>'
@@ -953,7 +1027,7 @@ function renderThreadReply(reply, parentAuthor, depth) {
     '<div class="fp-reply-body">' + mentionContent + '</div>' +
     '<div class="fp-reply-actions">' +
       '<button onclick="toggleReplyLike(\'' + reply.id + '\')" class="fp-reply-action ' + likedClass + '" id="reply-like-btn-' + reply.id + '">' +
-        '<span class="material-symbols-outlined">' + likeIcon + '</span>' +
+        '<span class="material-symbols-outlined"' + likedFill + '>' + likeIcon + '</span>' +
         '<span id="reply-like-count-' + reply.id + '">' + reply.thumbsUpCount + '</span>' +
       '</button>' +
       replyBtn +
@@ -1323,6 +1397,93 @@ function closeMentionDropdown() {
     mentionItems = [];
     mentionSelectedIndex = -1;
   }
+}
+
+// ---- Three-dot menu ----
+function toggleMoreMenu(menuId, btn) {
+  var menu = document.getElementById(menuId);
+  if (!menu) return;
+  var isOpen = menu.style.display !== 'none';
+  closeAllMenus();
+  if (!isOpen) {
+    menu.style.display = 'block';
+    var handler = function(e) {
+      if (!menu.contains(e.target) && e.target !== btn && !btn.contains(e.target)) {
+        closeAllMenus();
+        document.removeEventListener('click', handler, true);
+      }
+    };
+    setTimeout(function() { document.addEventListener('click', handler, true); }, 0);
+  }
+}
+
+function closeAllMenus() {
+  document.querySelectorAll('.more-menu').forEach(function(m) { m.style.display = 'none'; });
+}
+
+// ---- Bookmark toggle ----
+async function toggleBookmark(targetType, targetId, btnEl) {
+  try {
+    const r = await fetch('/ajax/bookmark/toggle/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
+      credentials: 'same-origin',
+      body: JSON.stringify({ target_type: targetType, target_id: targetId })
+    });
+    const d = await r.json();
+    if (r.status === 401) { window.location.href = '/login/'; return; }
+    if (d.isBookmarked !== undefined) {
+      var iconEl = document.getElementById('bookmark-icon-' + targetType + '-' + targetId);
+      var labelEl = document.getElementById('bookmark-label-' + targetType + '-' + targetId);
+      var btnIcon = document.getElementById(targetType + '-bookmark-btn-' + targetId);
+      if (iconEl) { iconEl.textContent = 'bookmark'; iconEl.style.fontVariationSettings = d.isBookmarked ? "'FILL' 1" : ''; }
+      if (labelEl) labelEl.textContent = d.isBookmarked ? 'Remove bookmark' : 'Bookmark';
+      if (btnIcon) {
+        var span = btnIcon.querySelector('.material-symbols-outlined');
+        if (span) { span.textContent = 'bookmark'; if (d.isBookmarked) { btnIcon.classList.add('bookmark-active'); span.style.fontVariationSettings = "'FILL' 1"; } else { btnIcon.classList.remove('bookmark-active'); span.style.fontVariationSettings = ''; } }
+      }
+      showSnackbar(d.isBookmarked ? 'Bookmarked!' : 'Bookmark removed');
+    } else {
+      showSnackbar(d.error || 'Failed to toggle bookmark');
+    }
+  } catch(e) { showSnackbar('Error toggling bookmark'); }
+}
+
+// ---- Share ----
+function sharePost(postId) {
+  var url = window.location.origin + '/forum/post/' + postId + '/';
+  if (navigator.share) {
+    navigator.share({ title: document.title, url: url }).catch(function(){});
+  } else {
+    navigator.clipboard.writeText(url).then(function() { showSnackbar('Link copied!'); }).catch(function() { showSnackbar('Could not copy link'); });
+  }
+}
+
+function shareReply(replyId) {
+  var url = window.location.origin + window.location.pathname + '#reply-' + replyId;
+  if (navigator.share) {
+    navigator.share({ title: document.title, url: url }).catch(function(){});
+  } else {
+    navigator.clipboard.writeText(url).then(function() { showSnackbar('Link copied!'); }).catch(function() { showSnackbar('Could not copy link'); });
+  }
+}
+
+// ---- Report (placeholder) ----
+function reportContent(targetType, targetId) {
+  showSnackbar('Report submitted. Thank you!');
+}
+
+// ---- Archive reply ----
+async function archiveReply(replyId) {
+  try {
+    const r = await fetch('/ajax/archive/reply/' + replyId + '/', {
+      method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
+      credentials: 'same-origin'
+    });
+    const d = await r.json();
+    if (d.success) { location.reload(); }
+    else { showSnackbar(d.error || 'Failed to archive'); }
+  } catch(e) { showSnackbar('Error archiving reply'); }
 }
 
 // Init on page load
