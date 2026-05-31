@@ -249,17 +249,40 @@ def home(request):
 
 def library(request):
     user_id = _get_user_id(request)
-    subject = request.GET.get('subject', '')
-    grade = request.GET.get('grade', '')
-    rtype = request.GET.get('type', '')
+    subjects = [s.strip() for s in request.GET.getlist('subject') if s.strip()]
+    grades = [g.strip() for g in request.GET.getlist('grade') if g.strip()]
+    types = [t.strip() for t in request.GET.getlist('type') if t.strip()]
+    sort_by = request.GET.get('sort', 'relevant')
     qs = Resource.objects.all()
-    if subject:
-        qs = qs.filter(subject=subject)
-    if grade:
-        qs = qs.filter(grade_level=grade)
-    if rtype:
-        qs = qs.filter(type=rtype)
-    filtered = [_serialize_resource(r) for r in qs[:100]]
+    if subjects:
+        q = Q()
+        for s in subjects:
+            q |= Q(subject__iexact=s)
+        qs = qs.filter(q)
+    if grades:
+        q = Q()
+        for g in grades:
+            q |= Q(grade_level__iexact=g)
+        qs = qs.filter(q)
+    if types:
+        q = Q()
+        for t in types:
+            q |= Q(type__iexact=t)
+        qs = qs.filter(q)
+    if sort_by == 'newest':
+        qs = qs.order_by('-added_at')
+    elif sort_by == 'oldest':
+        qs = qs.order_by('added_at')
+    else:
+        qs = qs.order_by('-view_count', '-added_at')
+    from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+    page_num = request.GET.get('page', 1)
+    paginator = Paginator(qs, 12)
+    try:
+        page_obj = paginator.page(page_num)
+    except (EmptyPage, PageNotAnInteger):
+        page_obj = paginator.page(1)
+    filtered = [_serialize_resource(r) for r in page_obj.object_list]
     all_resources = cache.get('library_all_resources')
     if all_resources is None:
         all_resources = [_serialize_resource(r) for r in Resource.objects.all()[:500]]
@@ -272,22 +295,63 @@ def library(request):
         all_subjects=all_subjects,
         all_grades=all_grades,
         all_types=all_types,
-        current_subject=subject,
-        current_grade=grade,
-        current_type=rtype,
+        current_subjects=subjects,
+        current_grades=grades,
+        current_types=types,
+        current_sort=sort_by,
+        page_obj=page_obj,
     ))
 
 
 def search(request):
     user_id = _get_user_id(request)
     query = request.GET.get('q', '').strip()
-    results = []
+    tab = request.GET.get('tab', 'all')
+    subject = request.GET.get('subject', '')
+    grade = request.GET.get('grade', '')
+    rtype = request.GET.get('type', '')
+    resource_results = []
+    post_results = []
+    all_subjects = []
+    all_grades = []
+    all_types = []
     if query:
-        qs = Resource.objects.filter(
+        resource_qs = Resource.objects.filter(
             Q(title__icontains=query) | Q(description__icontains=query) | Q(subject__icontains=query)
-        )[:50]
-        results = [_serialize_resource(r) for r in qs]
-    return render(request, 'web/search.html', _ctx(request, query=query, results=results))
+        )
+        post_qs = Post.objects.select_related('user').filter(
+            Q(title__icontains=query) | Q(content__icontains=query)
+        ).filter(is_archived=False)
+        if subject:
+            resource_qs = resource_qs.filter(subject=subject)
+            post_qs = post_qs.filter(category__iexact=subject)
+        if grade:
+            resource_qs = resource_qs.filter(grade_level=grade)
+        if rtype:
+            resource_qs = resource_qs.filter(type=rtype)
+        if tab in ('all', 'resources'):
+            resource_results = [_serialize_resource(r) for r in resource_qs[:30]]
+        if tab in ('all', 'posts'):
+            post_results = _serialize_posts(post_qs[:20], user_id)
+    all_resources = cache.get('library_all_resources')
+    if all_resources is None:
+        all_resources = [_serialize_resource(r) for r in Resource.objects.all()[:500]]
+        cache.set('library_all_resources', all_resources, 180)
+    all_subjects = sorted(set(r.get('subject', '') for r in all_resources if r.get('subject')))
+    all_grades = sorted(set(r.get('grade_level', '') for r in all_resources if r.get('grade_level')))
+    all_types = sorted(set(r.get('type', '') for r in all_resources if r.get('type')))
+    return render(request, 'web/search.html', _ctx(request,
+        query=query,
+        tab=tab,
+        resource_results=resource_results,
+        post_results=post_results,
+        all_subjects=all_subjects,
+        all_grades=all_grades,
+        all_types=all_types,
+        current_subject=subject,
+        current_grade=grade,
+        current_type=rtype,
+    ))
 
 
 def format_score(score):

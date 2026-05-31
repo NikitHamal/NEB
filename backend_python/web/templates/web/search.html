@@ -7,22 +7,329 @@
 {% block nav_search %}md-nav-active{% endblock %}
 {% block bnav_search %}md-nav-active{% endblock %}
 
+{% block extra_css %}
+<style>
+  .search-page-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--md-surface-container);
+    border-radius: 28px;
+    padding: 0 16px;
+    border: 1px solid var(--md-outline-variant);
+    transition: border-color var(--md-transition), box-shadow var(--md-transition);
+    min-height: 56px;
+  }
+  .search-page-bar:focus-within {
+    border-color: var(--md-primary);
+    box-shadow: 0 0 0 1px var(--md-primary);
+  }
+  .search-page-bar .search-icon { color: var(--md-on-surface-variant); font-size: 22px; flex-shrink: 0; }
+  .search-page-bar input {
+    flex: 1; min-width: 120px; border: none; background: transparent; outline: none;
+    color: var(--md-on-surface); font-family: var(--md-font); font-size: 1rem; padding: 8px 0;
+  }
+  .search-page-bar input::placeholder { color: var(--md-on-surface-variant); }
+  .search-page-bar .bar-actions { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+  .search-page-bar .bar-actions button {
+    width: 40px; height: 40px; border-radius: 50%; border: none; background: transparent;
+    display: flex; align-items: center; justify-content: center; cursor: pointer;
+    color: var(--md-on-surface-variant); transition: background 150ms ease;
+  }
+  .search-page-bar .bar-actions button:hover { background: var(--md-surface-container-high); }
+  .search-page-bar .bar-actions button.has-filters { color: var(--md-primary); }
+  .search-page-bar .bar-actions .clear-btn { width: 32px; height: 32px; }
+  .search-page-bar .bar-actions .clear-btn .material-symbols-outlined { font-size: 20px; }
+</style>
+{% endblock %}
+
 {% block content %}
 <div class="md-container-narrow" style="padding-top:24px;">
-  <div class="search-bar" style="margin-bottom:24px;">
-    <span class="material-symbols-outlined">search</span>
-    <form method="get" action="{% url 'web:search' %}" style="flex:1;display:flex;">
-      <input type="text" name="q" value="{{ query }}" placeholder="Search resources..." autofocus style="border:none;background:transparent;outline:none;color:var(--md-on-surface);font-family:var(--md-font);font-size:1rem;padding:12px 0;width:100%;">
+  <!-- Search bar with filter chips inside -->
+  <div class="search-page-bar">
+    <span class="material-symbols-outlined search-icon">search</span>
+    <form method="get" action="{% url 'web:search' %}" id="search-form" style="display:flex;flex:1;flex-wrap:wrap;align-items:center;gap:6px;">
+      <input type="text" name="q" value="{{ query }}" placeholder="Search resources and posts..." autofocus>
+      {% if current_subject %}<input type="hidden" name="subject" value="{{ current_subject }}">{% endif %}
+      {% if current_grade %}<input type="hidden" name="grade" value="{{ current_grade }}">{% endif %}
+      {% if current_type %}<input type="hidden" name="type" value="{{ current_type }}">{% endif %}
+      {% if tab and tab != 'all' %}<input type="hidden" name="tab" value="{{ tab }}">{% endif %}
     </form>
-    {% if query %}
-    <a href="{% url 'web:search' %}" class="md-btn-icon" style="width:32px;height:32px;">
-      <span class="material-symbols-outlined" style="font-size:20px">close</span>
-    </a>
-    {% endif %}
+    <div class="bar-actions">
+      {% if query %}
+      <a href="{% url 'web:search' %}" class="clear-btn" title="Clear search" style="display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;color:var(--md-on-surface-variant);">
+        <span class="material-symbols-outlined" style="font-size:20px">close</span>
+      </a>
+      {% endif %}
+      <button onclick="document.getElementById('filter-dialog').style.display='flex'" class="{% if current_subject or current_grade or current_type %}has-filters{% endif %}" title="Filters">
+        <span class="material-symbols-outlined" style="font-size:22px">tune</span>
+      </button>
+    </div>
   </div>
 
-  {% if not query %}
-  <div class="section">
+  <!-- Active filter chips inside the search bar -->
+  {% if current_subject or current_grade or current_type %}
+  <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;">
+    {% if current_subject %}
+    <a href="{% url 'web:search' %}?q={{ query }}{% if current_grade %}&grade={{ current_grade }}{% endif %}{% if current_type %}&type={{ current_type }}{% endif %}{% if tab and tab != 'all' %}&tab={{ tab }}{% endif %}" class="search-filter-chip">
+      {{ current_subject }} <span class="material-symbols-outlined">close</span>
+    </a>
+    {% endif %}
+    {% if current_grade %}
+    <a href="{% url 'web:search' %}?q={{ query }}{% if current_subject %}&subject={{ current_subject }}{% endif %}{% if current_type %}&type={{ current_type }}{% endif %}{% if tab and tab != 'all' %}&tab={{ tab }}{% endif %}" class="search-filter-chip">
+      {{ current_grade }} <span class="material-symbols-outlined">close</span>
+    </a>
+    {% endif %}
+    {% if current_type %}
+    <a href="{% url 'web:search' %}?q={{ query }}{% if current_subject %}&subject={{ current_subject }}{% endif %}{% if current_grade %}&grade={{ current_grade }}{% endif %}{% if tab and tab != 'all' %}&tab={{ tab }}{% endif %}" class="search-filter-chip">
+      {{ current_type }} <span class="material-symbols-outlined">close</span>
+    </a>
+    {% endif %}
+    <a href="{% url 'web:search' %}?q={{ query }}{% if tab and tab != 'all' %}&tab={{ tab }}{% endif %}" style="font-size:0.75rem;color:var(--md-primary);text-decoration:none;align-self:center;">Clear all</a>
+  </div>
+  {% endif %}
+
+  <!-- Filter dialog -->
+  <div id="filter-dialog" class="filter-overlay" style="display:none;" onclick="if(event.target===this){this.style.display='none'}">
+    <div class="filter-dialog">
+      <h3>Filters</h3>
+
+      {% if all_subjects %}
+      <div class="filter-section">
+        <div class="filter-section-label">Subject</div>
+        <div class="chip-group">
+          <a href="{% url 'web:search' %}?q={{ query }}{% if current_grade %}&grade={{ current_grade }}{% endif %}{% if current_type %}&type={{ current_type }}{% endif %}{% if tab and tab != 'all' %}&tab={{ tab }}{% endif %}" class="md-chip {% if not current_subject %}md-chip-active{% endif %}">All</a>
+          {% for s in all_subjects %}
+          <a href="{% url 'web:search' %}?q={{ query }}&subject={{ s }}{% if current_grade %}&grade={{ current_grade }}{% endif %}{% if current_type %}&type={{ current_type }}{% endif %}{% if tab and tab != 'all' %}&tab={{ tab }}{% endif %}" class="md-chip {% if current_subject == s %}md-chip-active{% endif %}">{{ s }}</a>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+
+      {% if all_grades %}
+      <div class="filter-section">
+        <div class="filter-section-label">Grade</div>
+        <div class="chip-group">
+          <a href="{% url 'web:search' %}?q={{ query }}{% if current_subject %}&subject={{ current_subject }}{% endif %}{% if current_type %}&type={{ current_type }}{% endif %}{% if tab and tab != 'all' %}&tab={{ tab }}{% endif %}" class="md-chip {% if not current_grade %}md-chip-active{% endif %}">All Grades</a>
+          {% for g in all_grades %}
+          <a href="{% url 'web:search' %}?q={{ query }}{% if current_subject %}&subject={{ current_subject }}{% endif %}&grade={{ g }}{% if current_type %}&type={{ current_type }}{% endif %}{% if tab and tab != 'all' %}&tab={{ tab }}{% endif %}" class="md-chip {% if current_grade == g %}md-chip-active{% endif %}">{{ g }}</a>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+
+      {% if all_types %}
+      <div class="filter-section">
+        <div class="filter-section-label">Type</div>
+        <div class="chip-group">
+          <a href="{% url 'web:search' %}?q={{ query }}{% if current_subject %}&subject={{ current_subject }}{% endif %}{% if current_grade %}&grade={{ current_grade }}{% endif %}{% if tab and tab != 'all' %}&tab={{ tab }}{% endif %}" class="md-chip {% if not current_type %}md-chip-active{% endif %}">All Types</a>
+          {% for t in all_types %}
+          <a href="{% url 'web:search' %}?q={{ query }}{% if current_subject %}&subject={{ current_subject }}{% endif %}{% if current_grade %}&grade={{ current_grade }}{% endif %}&type={{ t }}{% if tab and tab != 'all' %}&tab={{ tab }}{% endif %}" class="md-chip {% if current_type == t %}md-chip-active{% endif %}">{{ t }}</a>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+
+      <div class="filter-dialog-actions">
+        {% if current_subject or current_grade or current_type %}
+        <a href="{% url 'web:search' %}?q={{ query }}{% if tab and tab != 'all' %}&tab={{ tab }}{% endif %}" class="md-btn md-btn-text" style="min-height:36px;">Clear all</a>
+        {% endif %}
+        <button class="md-btn md-btn-filled" onclick="document.getElementById('filter-dialog').style.display='none'" style="min-height:36px;">Done</button>
+      </div>
+    </div>
+  </div>
+
+  {% if query %}
+  <!-- Tab switcher -->
+  <div class="search-tabs" style="margin-top:16px;">
+    <a href="{% url 'web:search' %}?q={{ query }}{% if current_subject %}&subject={{ current_subject }}{% endif %}{% if current_grade %}&grade={{ current_grade }}{% endif %}{% if current_type %}&type={{ current_type }}{% endif %}" class="md-tab {% if tab == 'all' %}md-tab-active{% endif %}">All</a>
+    <a href="{% url 'web:search' %}?q={{ query }}{% if current_subject %}&subject={{ current_subject }}{% endif %}{% if current_grade %}&grade={{ current_grade }}{% endif %}{% if current_type %}&type={{ current_type }}{% endif %}&tab=resources" class="md-tab {% if tab == 'resources' %}md-tab-active{% endif %}">
+      <span class="material-symbols-outlined">auto_stories</span>
+      Resources
+    </a>
+    <a href="{% url 'web:search' %}?q={{ query }}{% if current_subject %}&subject={{ current_subject }}{% endif %}{% if current_grade %}&grade={{ current_grade }}{% endif %}{% if current_type %}&type={{ current_type }}{% endif %}&tab=posts" class="md-tab {% if tab == 'posts' %}md-tab-active{% endif %}">
+      <span class="material-symbols-outlined">forum</span>
+      Posts
+    </a>
+  </div>
+
+  <!-- Results -->
+  {% if tab == 'resources' %}
+    {% if resource_results %}
+    <div class="section">
+      <h3 class="md-title-medium" style="margin-bottom:16px;">{{ resource_results|length }} resource{{ resource_results|length|pluralize }}</h3>
+      <div class="resource-grid">
+        {% for r in resource_results %}
+        <a href="{% url 'web:reader' resource_id=r.id %}" class="resource-card md-card subject-{{ r.subject|lower|cut:' ' }}">
+          <div class="resource-card-header">
+            <div class="subject-icon">
+              <span class="material-symbols-outlined">{{ r.subject|subject_icon }}</span>
+            </div>
+            <span>{{ r.subject }}</span>
+          </div>
+          <div class="resource-card-body">
+            <h3>{{ r.title }}</h3>
+            <p>{{ r.grade_level }} &middot; {{ r.type }}</p>
+          </div>
+          <div class="resource-card-footer">
+            <span><span class="material-symbols-outlined icon-sm">visibility</span> {{ r.view_count|format_count }}</span>
+            {% if r.file_size %}
+            <span><span class="material-symbols-outlined icon-sm">download</span> {{ r.file_size|file_size_human }}</span>
+            {% endif %}
+          </div>
+        </a>
+        {% endfor %}
+      </div>
+    </div>
+    {% else %}
+    <div class="empty-state">
+      <span class="material-symbols-outlined">search_off</span>
+      <h3>No resources found</h3>
+      <p>Try different keywords or filters.</p>
+    </div>
+    {% endif %}
+
+  {% elif tab == 'posts' %}
+    {% if post_results %}
+    <div class="section">
+      <h3 class="md-title-medium" style="margin-bottom:16px;">{{ post_results|length }} post{{ post_results|length|pluralize }}</h3>
+      {% for post in post_results %}
+      <div class="post-card">
+        <div class="post-card-header">
+          <div class="post-card-avatar">
+            {% if post.authorPhotoUrl %}
+            <img src="{{ post.authorPhotoUrl }}" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';">
+            <span class="contributor-avatar-letter" style="display:none;">{{ post.authorName|truncate_chars:1|default:"?" }}</span>
+            {% else %}
+            <span class="contributor-avatar-letter">{{ post.authorName|truncate_chars:1|default:"?" }}</span>
+            {% endif %}
+          </div>
+          <div class="post-card-meta">
+            <div class="post-meta-line">
+              <strong onclick="window.location.href='{% url 'web:profile' username=post.authorName %}'" style="cursor:pointer;">{{ post.authorName }}</strong>
+              {% if post.authorBadge %}
+              <span class="user-badge">{{ post.authorBadge }}</span>
+              {% endif %}
+            </div>
+            <div class="post-meta-sub">
+              <a href="{% url 'web:forum' %}?category={{ post.category }}" class="post-card-category-link">{{ post.category }}</a>
+              <span class="dot-sep">&middot;</span>
+              <span class="post-card-time">{{ post.createdAt|time_ago }}</span>
+            </div>
+          </div>
+        </div>
+        <h3><a href="{% url 'web:forum_post' post_id=post.id %}">{{ post.title }}</a></h3>
+        <div class="post-card-actions">
+          <button type="button" onclick="toggleHomePostLike('{{ post.id }}', this);" class="{% if post.isThumbedUp %}liked{% endif %}" id="home-post-like-btn-{{ post.id }}">
+            <span class="material-symbols-outlined">{% if post.isThumbedUp %}thumb_up{% else %}thumb_up_off_alt{% endif %}</span>
+            <span id="home-post-like-count-{{ post.id }}">{{ post.thumbsUpCount }}</span>
+          </button>
+          <a href="{% url 'web:forum_post' post_id=post.id %}" class="act-btn-stat">
+            <span class="material-symbols-outlined">chat_bubble_outline</span>
+            <span>{{ post.replyCount }}</span>
+          </a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state">
+      <span class="material-symbols-outlined">search_off</span>
+      <h3>No posts found</h3>
+      <p>Try different keywords or filters.</p>
+    </div>
+    {% endif %}
+
+  {% else %}
+  {# tab == 'all' #}
+    {% if resource_results or post_results %}
+      {% if resource_results %}
+      <div class="section">
+        <div class="section-header">
+          <h2>Resources</h2>
+          <a href="{% url 'web:search' %}?q={{ query }}{% if current_subject %}&subject={{ current_subject }}{% endif %}{% if current_grade %}&grade={{ current_grade }}{% endif %}{% if current_type %}&type={{ current_type }}{% endif %}&tab=resources" class="md-btn md-btn-text">View all</a>
+        </div>
+        <div class="resource-grid">
+          {% for r in resource_results|slice:":6" %}
+          <a href="{% url 'web:reader' resource_id=r.id %}" class="resource-card md-card subject-{{ r.subject|lower|cut:' ' }}">
+            <div class="resource-card-header">
+              <div class="subject-icon">
+                <span class="material-symbols-outlined">{{ r.subject|subject_icon }}</span>
+              </div>
+              <span>{{ r.subject }}</span>
+            </div>
+            <div class="resource-card-body">
+              <h3>{{ r.title }}</h3>
+              <p>{{ r.grade_level }} &middot; {{ r.type }}</p>
+            </div>
+            <div class="resource-card-footer">
+              <span><span class="material-symbols-outlined icon-sm">visibility</span> {{ r.view_count|format_count }}</span>
+            </div>
+          </a>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+
+      {% if post_results %}
+      <div class="section">
+        <div class="section-header">
+          <h2>Posts</h2>
+          <a href="{% url 'web:search' %}?q={{ query }}{% if current_subject %}&subject={{ current_subject }}{% endif %}{% if current_grade %}&grade={{ current_grade }}{% endif %}{% if current_type %}&type={{ current_type }}{% endif %}&tab=posts" class="md-btn md-btn-text">View all</a>
+        </div>
+        {% for post in post_results|slice:":3" %}
+        <div class="post-card">
+          <div class="post-card-header">
+            <div class="post-card-avatar">
+              {% if post.authorPhotoUrl %}
+              <img src="{{ post.authorPhotoUrl }}" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';">
+              <span class="contributor-avatar-letter" style="display:none;">{{ post.authorName|truncate_chars:1|default:"?" }}</span>
+              {% else %}
+              <span class="contributor-avatar-letter">{{ post.authorName|truncate_chars:1|default:"?" }}</span>
+              {% endif %}
+            </div>
+            <div class="post-card-meta">
+              <div class="post-meta-line">
+                <strong onclick="window.location.href='{% url 'web:profile' username=post.authorName %}'" style="cursor:pointer;">{{ post.authorName }}</strong>
+                {% if post.authorBadge %}
+                <span class="user-badge">{{ post.authorBadge }}</span>
+                {% endif %}
+              </div>
+              <div class="post-meta-sub">
+                <a href="{% url 'web:forum' %}?category={{ post.category }}" class="post-card-category-link">{{ post.category }}</a>
+                <span class="dot-sep">&middot;</span>
+                <span class="post-card-time">{{ post.createdAt|time_ago }}</span>
+              </div>
+            </div>
+          </div>
+          <h3><a href="{% url 'web:forum_post' post_id=post.id %}">{{ post.title }}</a></h3>
+          <div class="post-card-actions">
+            <button type="button" onclick="toggleHomePostLike('{{ post.id }}', this);" class="{% if post.isThumbedUp %}liked{% endif %}" id="home-post-like-btn-{{ post.id }}">
+              <span class="material-symbols-outlined">{% if post.isThumbedUp %}thumb_up{% else %}thumb_up_off_alt{% endif %}</span>
+              <span id="home-post-like-count-{{ post.id }}">{{ post.thumbsUpCount }}</span>
+            </button>
+            <a href="{% url 'web:forum_post' post_id=post.id %}" class="act-btn-stat">
+              <span class="material-symbols-outlined">chat_bubble_outline</span>
+              <span>{{ post.replyCount }}</span>
+            </a>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+    {% else %}
+    <div class="empty-state">
+      <span class="material-symbols-outlined">search_off</span>
+      <h3>No results found</h3>
+      <p>Try different keywords or filters.</p>
+      <a href="{% url 'web:library' %}" class="md-btn md-btn-filled mt-2">Browse Library</a>
+    </div>
+    {% endif %}
+  {% endif %}
+
+  {% else %}
+  {# No query — landing page #}
+  <div class="section" style="margin-top:8px;">
     <h3 class="md-title-medium mb-2">Popular Searches</h3>
     <div class="chip-group">
       <a href="{% url 'web:search' %}?q=physics" class="md-chip">Physics</a>
@@ -34,31 +341,6 @@
       <a href="{% url 'web:search' %}?q=textbook" class="md-chip">Textbook</a>
       <a href="{% url 'web:search' %}?q=past+papers" class="md-chip">Past Papers</a>
     </div>
-  </div>
-  {% elif results %}
-  <div class="section">
-    <h3 class="md-title-medium mb-2">{{ results|length }} result{{ results|length|pluralize }}</h3>
-    <div style="display:flex;flex-direction:column;gap:12px;">
-      {% for r in results %}
-      <a href="{% url 'web:reader' resource_id=r.id %}" class="md-card" style="padding:16px;display:flex;align-items:center;gap:16px;text-decoration:none;color:inherit;">
-        <div class="subject-icon subject-{{ r.subject|lower|cut:' ' }}">
-          <span class="material-symbols-outlined">{{ r.subject|subject_icon }}</span>
-        </div>
-        <div style="flex:1;min-width:0;">
-          <div class="md-title-small">{{ r.title }}</div>
-          <div class="md-body-small" style="color:var(--md-on-surface-variant)">{{ r.subject }} · {{ r.grade_level }} · {{ r.type }}</div>
-        </div>
-        <span class="material-symbols-outlined" style="color:var(--md-on-surface-variant);">chevron_right</span>
-      </a>
-      {% endfor %}
-    </div>
-  </div>
-  {% else %}
-  <div class="empty-state">
-    <span class="material-symbols-outlined">search_off</span>
-    <h3>No results found</h3>
-    <p>Try different keywords or browse the library.</p>
-    <a href="{% url 'web:library' %}" class="md-btn md-btn-filled mt-2">Browse Library</a>
   </div>
   {% endif %}
 </div>
