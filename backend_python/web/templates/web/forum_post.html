@@ -54,6 +54,7 @@
   .fp-action-btn:hover{background:var(--md-surface-container-high);color:var(--md-primary)}
   .fp-action-btn.liked{color:var(--md-primary)}
   .fp-action-btn .material-symbols-outlined{font-size:18px}
+  .fp-post-actions .fp-action-spacer{flex:1}
   .fp-owner-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
   .fp-owner-btn{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:100px;font-size:.75rem;font-weight:500;cursor:pointer;border:1px solid var(--md-outline-variant);background:transparent;color:var(--md-on-surface-variant);transition:background .15s}
   .fp-owner-btn:hover{background:var(--md-surface-container-high)}
@@ -77,6 +78,7 @@
   .fp-reply-time{font-size:.6875rem;color:var(--md-on-surface-variant)}
   .fp-reply-body{font-size:.875rem;color:var(--md-on-surface-variant);white-space:pre-wrap;line-height:1.55;margin-bottom:8px}
   .fp-reply-actions{display:flex;align-items:center;gap:2px}
+  .fp-action-spacer{flex:1}
   .fp-reply-action{display:inline-flex;align-items:center;gap:4px;padding:4px 8px;border:none;background:transparent;color:var(--md-on-surface-variant);cursor:pointer;border-radius:6px;font-size:.75rem;font-family:inherit;transition:background .15s,color .15s}
   .fp-reply-action:hover{background:var(--md-surface-container-high);color:var(--md-primary)}
   .fp-reply-action.liked{color:var(--md-primary)}
@@ -280,7 +282,7 @@
           {% if is_authenticated %}
           <button class="more-menu-item" onclick="toggleBookmark('post', '{{ post.id }}', this); closeAllMenus();">
             <span class="material-symbols-outlined" id="bookmark-icon-post-{{ post.id }}"{% if post.isBookmarked %} style="font-variation-settings:'FILL' 1"{% endif %}>bookmark</span>
-            <span id="bookmark-label-post-{{ post.id }}">{% if post.isBookmarked %}Remove bookmark{% else %}Bookmark{% endif %}</span>
+            <span id="bookmark-label-post-{{ post.id }}">{% if post.isBookmarked %}Remove{% else %}Bookmark{% endif %}</span>
           </button>
           <button class="more-menu-item" onclick="sharePost('{{ post.id }}'); closeAllMenus();">
             <span class="material-symbols-outlined">share</span> Share
@@ -314,12 +316,13 @@
         <span class="material-symbols-outlined">thumb_up</span>
         <span id="post-like-count-{{ post.id }}">{{ post.thumbsUpCount }}</span>
       </button>
-      <button class="fp-action-btn {% if post.isBookmarked %}bookmark-active{% endif %}" onclick="toggleBookmark('post', '{{ post.id }}', this)" id="post-bookmark-btn-{{ post.id }}">
-        <span class="material-symbols-outlined">bookmark</span>
-      </button>
       <button class="fp-action-btn">
         <span class="material-symbols-outlined">chat_bubble_outline</span>
         {{ post.replyCount }} replies
+      </button>
+      <span class="fp-action-spacer"></span>
+      <button class="fp-action-btn {% if post.isBookmarked %}bookmark-active{% endif %}" onclick="toggleBookmark('post', '{{ post.id }}', this)" id="post-bookmark-btn-{{ post.id }}">
+        <span class="material-symbols-outlined">bookmark</span>
       </button>
       <button class="fp-action-btn" onclick="sharePost('{{ post.id }}')">
         <span class="material-symbols-outlined">share</span>
@@ -328,14 +331,16 @@
   </div>
 
   <!-- Edit Post Modal -->
+  <script type="text/plain" id="post-original-title">{{ post.title }}</script>
+  <script type="text/plain" id="post-original-content">{{ post.content }}</script>
   <div class="modal-overlay" id="editPostModal">
     <div class="modal-box">
       <h3>Edit Post</h3>
       <div class="edit-form">
         <label for="editPostTitle">Title</label>
-        <input type="text" id="editPostTitle" data-value="{{ post.title|escapejs }}">
+        <input type="text" id="editPostTitle">
         <label for="editPostContent">Content</label>
-        <textarea id="editPostContent" rows="6" data-value="{{ post.content|escapejs }}"></textarea>
+        <textarea id="editPostContent" rows="6"></textarea>
         <div class="form-actions">
           <button class="md-btn md-btn-text" onclick="closeEditPostModal()">Cancel</button>
           <button class="md-btn md-btn-filled" onclick="submitEditPost()">Save</button>
@@ -380,7 +385,7 @@
             {% if is_authenticated and reply.authorId != user.id %}
               <button class="follow-btn-inline {% if reply.isFollowed %}following{% else %}not-following{% endif %}" data-user-id="{{ reply.authorId }}" onclick="toggleFollowBtn(this, '{{ reply.authorId }}')">{% if reply.isFollowed %}Following{% else %}Follow{% endif %}</button>
             {% endif %}
-            {% if reply.isEdited %}
+{% if reply.isEdited %}
               <span class="fp-edited" onclick="showEditHistory('reply', '{{ reply.id }}')">
                 <span class="material-symbols-outlined">edit</span> edited
               </span>
@@ -394,7 +399,7 @@
             {% if is_authenticated %}
             <button class="more-menu-item" onclick="toggleBookmark('reply', '{{ reply.id }}', this); closeAllMenus();">
               <span class="material-symbols-outlined" id="bookmark-icon-reply-{{ reply.id }}"{% if reply.isBookmarked %} style="font-variation-settings:'FILL' 1"{% endif %}>bookmark</span>
-              <span id="bookmark-label-reply-{{ reply.id }}">{% if reply.isBookmarked %}Remove bookmark{% else %}Bookmark{% endif %}</span>
+              <span id="bookmark-label-reply-{{ reply.id }}">{% if reply.isBookmarked %}Remove{% else %}Bookmark{% endif %}</span>
             </button>
             <button class="more-menu-item" onclick="shareReply('{{ reply.id }}'); closeAllMenus();">
               <span class="material-symbols-outlined">share</span> Share
@@ -407,7 +412,7 @@
             {% endif %}
             {% if is_authenticated and reply.authorId == user.id %}
             <div class="more-menu-divider"></div>
-            <button class="more-menu-item" onclick="startEditReply('{{ reply.id }}', '{{ reply.content|escapejs }}'); closeAllMenus();">
+            <button class="more-menu-item" onclick="startEditReply('{{ reply.id }}'); closeAllMenus();">
               <span class="material-symbols-outlined">edit</span> Edit reply
             </button>
             <button class="more-menu-item" onclick="archiveReply('{{ reply.id }}'); closeAllMenus();">
@@ -427,11 +432,12 @@
           <span id="reply-like-count-{{ reply.id }}">{{ reply.thumbsUpCount }}</span>
         </button>
         {% if is_authenticated %}
-        <button class="fp-reply-action {% if reply.isBookmarked %}bookmark-active{% endif %}" onclick="toggleBookmark('reply', '{{ reply.id }}', this)" id="reply-bookmark-btn-{{ reply.id }}">
-          <span class="material-symbols-outlined">bookmark</span>
-        </button>
         <button class="fp-reply-action" onclick="openThreadReply('{{ reply.id }}', '{{ reply.authorName|escapejs }}')">
           <span class="material-symbols-outlined">reply</span> Reply
+        </button>
+        <span class="fp-action-spacer"></span>
+        <button class="fp-reply-action {% if reply.isBookmarked %}bookmark-active{% endif %}" onclick="toggleBookmark('reply', '{{ reply.id }}', this)" id="reply-bookmark-btn-{{ reply.id }}">
+          <span class="material-symbols-outlined">bookmark</span>
         </button>
         <button class="fp-reply-action" onclick="shareReply('{{ reply.id }}')">
           <span class="material-symbols-outlined">share</span>
@@ -457,6 +463,7 @@
       </button>
       {% endif %}
     </div>
+    <script type="text/plain" id="reply-content-{{ reply.id }}">{{ reply.content }}</script>
     {% endfor %}
   </div>
   {% else %}
@@ -675,8 +682,8 @@ async function toggleFollowBtn(btn, userId) {
 }
 
 function startEditPost() {
-  document.getElementById('editPostTitle').value = document.getElementById('editPostTitle').dataset.value;
-  document.getElementById('editPostContent').value = document.getElementById('editPostContent').dataset.value;
+  document.getElementById('editPostTitle').value = document.getElementById('post-original-title').textContent;
+  document.getElementById('editPostContent').value = document.getElementById('post-original-content').textContent;
   document.getElementById('editPostModal').classList.add('active');
 }
 function closeEditPostModal() { document.getElementById('editPostModal').classList.remove('active'); }
@@ -711,9 +718,10 @@ function deletePost() {
   document.getElementById('deleteConfirmModal').classList.add('active');
 }
 
-function startEditReply(replyId, currentContent) {
+function startEditReply(replyId) {
+  var contentEl = document.getElementById('reply-content-' + replyId);
   document.getElementById('editReplyId').value = replyId;
-  document.getElementById('editReplyContent').value = currentContent;
+  document.getElementById('editReplyContent').value = contentEl ? contentEl.textContent : '';
   document.getElementById('editReplyModal').classList.add('active');
 }
 function closeEditReplyModal() { document.getElementById('editReplyModal').classList.remove('active'); }
@@ -1267,7 +1275,7 @@ window.addEventListener('scroll', function() {
       var replyId = btn.getAttribute('data-reply-id');
       var threadReply = btn.closest('.fp-thread-reply');
       var content = threadReply ? (threadReply.getAttribute('data-reply-content') || '') : '';
-      startEditReply(replyId, content);
+      startEditReply(replyId);
     } else if (action === 'delete-reply') {
       deleteReply(btn.getAttribute('data-reply-id'));
     } else if (action === 'reply-to-author') {
@@ -1437,7 +1445,7 @@ async function toggleBookmark(targetType, targetId, btnEl) {
       var labelEl = document.getElementById('bookmark-label-' + targetType + '-' + targetId);
       var btnIcon = document.getElementById(targetType + '-bookmark-btn-' + targetId);
       if (iconEl) { iconEl.textContent = 'bookmark'; iconEl.style.fontVariationSettings = d.isBookmarked ? "'FILL' 1" : ''; }
-      if (labelEl) labelEl.textContent = d.isBookmarked ? 'Remove bookmark' : 'Bookmark';
+      if (labelEl) labelEl.textContent = d.isBookmarked ? 'Remove' : 'Bookmark';
       if (btnIcon) {
         var span = btnIcon.querySelector('.material-symbols-outlined');
         if (span) { span.textContent = 'bookmark'; if (d.isBookmarked) { btnIcon.classList.add('bookmark-active'); span.style.fontVariationSettings = "'FILL' 1"; } else { btnIcon.classList.remove('bookmark-active'); span.style.fontVariationSettings = ''; } }

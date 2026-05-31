@@ -411,7 +411,7 @@
                 {% if is_authenticated %}
                 <button class="more-menu-item" onclick="toggleBookmark('post', '{{ post.id }}', this); closeAllMenus();">
                   <span class="material-symbols-outlined" id="bookmark-icon-post-{{ post.id }}"{% if post.isBookmarked %} style="font-variation-settings:'FILL' 1"{% endif %}>bookmark</span>
-                  <span id="bookmark-label-post-{{ post.id }}">{% if post.isBookmarked %}Remove bookmark{% else %}Bookmark{% endif %}</span>
+                  <span id="bookmark-label-post-{{ post.id }}">{% if post.isBookmarked %}Remove{% else %}Bookmark{% endif %}</span>
                 </button>
                 <button class="more-menu-item" onclick="sharePostUrl('{% url 'web:forum_post' post_id=post.id %}'); closeAllMenus();">
                   <span class="material-symbols-outlined">share</span> Share
@@ -511,7 +511,7 @@ if (d.isBookmarked !== undefined) {
       var iconEl = document.getElementById('bookmark-icon-' + targetType + '-' + targetId);
       var labelEl = document.getElementById('bookmark-label-' + targetType + '-' + targetId);
       if (iconEl) { iconEl.textContent = 'bookmark'; iconEl.style.fontVariationSettings = d.isBookmarked ? "'FILL' 1" : ''; }
-      if (labelEl) labelEl.textContent = d.isBookmarked ? 'Remove bookmark' : 'Bookmark';
+      if (labelEl) labelEl.textContent = d.isBookmarked ? 'Remove' : 'Bookmark';
         showSnackbar(d.isBookmarked ? 'Bookmarked!' : 'Bookmark removed');
       } else { showSnackbar(d.error || 'Failed to toggle bookmark'); }
     } catch(e) { showSnackbar('Error toggling bookmark'); }
