@@ -62,6 +62,11 @@
               {% else %}
                 <span>{{ user.username|first|upper }}</span>
               {% endif %}
+              {% if unread_notifications > 0 %}
+                <span class="notif-dot" id="profile-notif-dot"></span>
+              {% else %}
+                <span class="notif-dot" id="profile-notif-dot" style="display:none;"></span>
+              {% endif %}
             </span>
           </button>
           <div class="profile-dropdown-menu" id="profileMenu">
@@ -83,6 +88,15 @@
               <span class="material-symbols-outlined">account_circle</span>
               <span>View Profile</span>
             </a>
+            <a href="{% url 'web:notifications' %}" class="profile-dropdown-notif-link">
+              <span class="material-symbols-outlined">notifications</span>
+              <span>Notifications</span>
+              {% if unread_notifications > 0 %}
+                <span class="notif-popup-badge" id="notif-popup-badge">{% if unread_notifications > 9 %}9+{% else %}{{ unread_notifications }}{% endif %}</span>
+              {% else %}
+                <span class="notif-popup-badge" id="notif-popup-badge" style="display:none;"></span>
+              {% endif %}
+            </a>
             <a href="{% url 'web:logout' %}" class="menu-logout">
               <span class="material-symbols-outlined">logout</span>
               <span>Sign Out</span>
@@ -101,16 +115,8 @@
     {% block content %}{% endblock %}
   </main>
 
-  <!-- Bottom Navigation (Mobile) -->
-  {% block bottomnav %}
-  <nav class="md-bottomnav">
-    <div class="md-bottomnav-pill">
-      <a href="{% url 'web:home' %}" class="md-bottomnav-item {% block bnav_home %}{% endblock %}" aria-label="Home">Home</a>
-      <a href="{% url 'web:library' %}" class="md-bottomnav-item {% block bnav_library %}{% endblock %}" aria-label="Library">Library</a>
-      <a href="{% url 'web:forum' %}" class="md-bottomnav-item {% block bnav_forum %}{% endblock %}" aria-label="Forum">Forum</a>
-    </div>
-  </nav>
-  {% endblock %}
+  <!-- Bottom Navigation (Mobile) — only shown on Home, Library, Forum -->
+  {% block bottomnav %}{% endblock %}
 
   <!-- Footer -->
   <footer class="site-footer">
@@ -221,6 +227,31 @@
         container.innerHTML = container.dataset.originalContent || '';
       }
     }
+
+    function updateNotifBadge(count) {
+      const badge = document.getElementById('notif-popup-badge');
+      const dot = document.getElementById('profile-notif-dot');
+      if (badge) {
+        if (count > 0) {
+          badge.textContent = count > 9 ? '9+' : count;
+          badge.style.display = '';
+        } else {
+          badge.style.display = 'none';
+        }
+      }
+      if (dot) {
+        dot.style.display = count > 0 ? '' : 'none';
+      }
+    }
+
+    {% if is_authenticated %}
+    setInterval(function() {
+      fetch('/ajax/notifications/unread-count/', { credentials: 'same-origin' })
+        .then(function(r) { return r.json(); })
+        .then(function(data) { updateNotifBadge(data.count || 0); })
+        .catch(function() {});
+    }, 60000);
+    {% endif %}
   </script>
 
   {% block extra_js %}{% endblock %}

@@ -1,0 +1,379 @@
+{% extends "base.html" %}
+{% load web_extras %}
+
+{% block title %}Notifications{% endblock %}
+{% block description %}View your notifications on NEBians - likes, replies, follows, and system updates.{% endblock %}
+{% block og_title %}Notifications - NEBians{% endblock %}
+{% block og_description %}View your notifications on NEBians.{% endblock %}
+
+{% block content %}
+<style>
+  .notif-container {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 0 16px;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  .notif-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 24px 0 16px;
+  }
+
+  .notif-header h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--md-on-surface);
+    margin: 0;
+  }
+
+  .notif-mark-all {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--md-primary);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px 12px;
+    border-radius: 20px;
+    transition: background 0.15s;
+  }
+
+  .notif-mark-all:hover {
+    background: rgba(27, 110, 243, 0.08);
+  }
+
+  .notif-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .notif-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 16px;
+    border-radius: 16px;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    transition: background 0.15s;
+    position: relative;
+  }
+
+  .notif-item:hover {
+    background: var(--md-surface-variant);
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .notif-item.unread {
+    background: rgba(27, 110, 243, 0.06);
+  }
+
+  .notif-item.unread:hover {
+    background: rgba(27, 110, 243, 0.12);
+  }
+
+  [data-theme="dark"] .notif-item.unread {
+    background: rgba(100, 180, 255, 0.08);
+  }
+
+  [data-theme="dark"] .notif-item.unread:hover {
+    background: rgba(100, 180, 255, 0.14);
+  }
+
+  .notif-item.unread::before {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--md-primary);
+  }
+
+  .notif-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--md-primary-container);
+    color: var(--md-on-primary-container);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    font-weight: 700;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .notif-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .notif-icon-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--md-surface-container);
+    color: var(--md-on-surface-variant);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .notif-icon-avatar .material-symbols-outlined {
+    font-size: 22px;
+  }
+
+  .notif-body {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .notif-text {
+    font-size: 0.875rem;
+    color: var(--md-on-surface);
+    line-height: 1.45;
+  }
+
+  .notif-text strong {
+    font-weight: 600;
+  }
+
+  .notif-text .notif-verb {
+    color: var(--md-on-surface-variant);
+  }
+
+  .notif-time {
+    font-size: 0.75rem;
+    color: var(--md-on-surface-variant);
+    margin-top: 2px;
+  }
+
+  .notif-empty {
+    text-align: center;
+    padding: 80px 24px;
+    color: var(--md-on-surface-variant);
+  }
+
+  .notif-empty .material-symbols-outlined {
+    font-size: 56px;
+    color: var(--md-outline);
+    margin-bottom: 16px;
+  }
+
+  .notif-empty h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--md-on-surface);
+    margin: 0 0 8px;
+  }
+
+  .notif-empty p {
+    font-size: 0.875rem;
+    margin: 0;
+  }
+
+  .notif-badge-inline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 18px;
+    height: 18px;
+    border-radius: 9px;
+    background: var(--md-primary);
+    color: var(--md-on-primary);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    padding: 0 5px;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+</style>
+
+<div class="notif-container">
+  <div class="notif-header">
+    <h1>Notifications</h1>
+    <button class="notif-mark-all" id="markAllBtn" onclick="markAllRead()" style="display:none;">Mark all as read</button>
+  </div>
+
+  <div class="notif-list" id="notifList">
+    {% if notifications %}
+      {% for n in notifications %}
+        <a class="notif-item {% if not n.isRead %}unread{% endif %}" href="{{ n.url }}" data-id="{{ n.id }}" data-read="{{ n.isRead|yesno:'true,false' }}">
+          {% if n.verb == 'system' %}
+            <div class="notif-icon-avatar">
+              <span class="material-symbols-outlined">campaign</span>
+            </div>
+          {% else %}
+            <div class="notif-avatar">
+              {% if n.actorPhotoUrl %}
+                <img src="{{ n.actorPhotoUrl }}" alt="{{ n.actorName }}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                <span style="display:none;align-items:center;justify-content:center;width:100%;height:100%;">{{ n.actorName|first|upper }}</span>
+              {% else %}
+                {{ n.actorName|first|upper }}
+              {% endif %}
+            </div>
+          {% endif %}
+          <div class="notif-body">
+            <div class="notif-text">{{ n.text|safe }}</div>
+            <div class="notif-time">{{ n.createdAt|time_ago }}</div>
+          </div>
+        </a>
+      {% endfor %}
+    {% else %}
+      <div class="notif-empty">
+        <span class="material-symbols-outlined">notifications_off</span>
+        <h3>No notifications yet</h3>
+        <p>When someone likes your post, replies to you, or follows you, you'll see it here.</p>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+<script>
+  const UNREAD_COUNT = {{ unread_notifications|default:"0" }};
+  const VERB_LABELS = {
+    'like_post': 'liked your post',
+    'like_reply': 'liked your reply',
+    'reply': 'replied to your post',
+    'reply_reply': 'replied to your comment',
+    'follow': 'started following you',
+    'mention': 'mentioned you',
+    'system': '',
+  };
+
+  const VERB_ICONS = {
+    'like_post': 'thumb_up',
+    'like_reply': 'thumb_up',
+    'reply': 'chat_bubble',
+    'reply_reply': 'reply',
+    'follow': 'person_add',
+    'mention': 'alternate_email',
+    'system': 'campaign',
+  };
+
+  function formatNotifText(n) {
+    const label = VERB_LABELS[n.verb] || n.verb;
+    if (n.verb === 'system') {
+      return escapeHtml(n.message || 'System notification');
+    }
+    const name = escapeHtml(n.actorName || 'Someone');
+    return '<strong>' + name + '</strong> <span class="notif-verb">' + label + '</span>';
+  }
+
+  function formatNotifUrl(n) {
+    if (n.verb === 'follow') {
+      return '/profile/' + encodeURIComponent(n.actorName || '') + '/';
+    }
+    if (n.verb === 'system') {
+      return '#';
+    }
+    if (n.targetType === 'post' || n.referenceType === 'post') {
+      const postId = n.targetType === 'post' ? n.targetId : n.referenceId;
+      return '/forum/post/' + postId + '/';
+    }
+    if (n.targetType === 'reply') {
+      if (n.referenceType === 'post' && n.referenceId) {
+        return '/forum/post/' + n.referenceId + '/';
+      }
+      return '/forum/post/' + (n.referenceId || '') + '/';
+    }
+    return '#';
+  }
+
+  function timeAgo(ms) {
+    if (!ms) return '';
+    const seconds = Math.floor((Date.now() - ms) / 1000);
+    if (seconds < 60) return 'just now';
+    const minutes = Math.floor(seconds / 60);
+    if (minutes < 60) return minutes + 'm ago';
+    const hours = Math.floor(minutes / 60);
+    if (hours < 24) return hours + 'h ago';
+    const days = Math.floor(hours / 24);
+    if (days < 30) return days + 'd ago';
+    const months = Math.floor(days / 30);
+    if (months < 12) return months + 'mo ago';
+    return Math.floor(months / 12) + 'y ago';
+  }
+
+  // Transform server-side notifications to add URL and text
+  document.querySelectorAll('.notif-item').forEach(el => {
+    const id = el.dataset.id;
+    const read = el.dataset.read === 'true';
+    // Already rendered server-side, just make clickable
+    el.addEventListener('click', function(e) {
+      if (!read) {
+        markRead(id);
+      }
+    });
+  });
+
+  // Show "Mark all as read" button if there are unread
+  if (UNREAD_COUNT > 0) {
+    document.getElementById('markAllBtn').style.display = '';
+  }
+
+  async function markRead(notifId) {
+    await fetch('/ajax/notifications/mark-read/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
+      body: JSON.stringify({ notification_ids: [notifId] }),
+      credentials: 'same-origin',
+    });
+    // Update parent badge
+    updateUnreadBadge();
+  }
+
+  async function markAllRead() {
+    const btn = document.getElementById('markAllBtn');
+    btn.textContent = 'Marking...';
+    btn.disabled = true;
+    await fetch('/ajax/notifications/mark-read/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
+      body: JSON.stringify({ mark_all: true }),
+      credentials: 'same-origin',
+    });
+    document.querySelectorAll('.notif-item.unread').forEach(el => {
+      el.classList.remove('unread');
+    });
+    btn.style.display = 'none';
+    updateUnreadBadge();
+  }
+
+  function updateUnreadBadge() {
+    fetch('/ajax/notifications/unread-count/', { credentials: 'same-origin' })
+      .then(r => r.json())
+      .then(data => {
+        const count = data.count || 0;
+        // Update topbar badge
+        const badge = document.getElementById('notif-badge');
+        const popupBadge = document.getElementById('notif-popup-badge');
+        if (badge) {
+          badge.textContent = count > 9 ? '9+' : count;
+          badge.style.display = count > 0 ? '' : 'none';
+        }
+        if (popupBadge) {
+          popupBadge.textContent = count > 9 ? '9+' : count;
+          popupBadge.style.display = count > 0 ? '' : 'none';
+        }
+        // Update profile dot indicator
+        const dot = document.getElementById('profile-notif-dot');
+        if (dot) {
+          dot.style.display = count > 0 ? '' : 'none';
+        }
+      });
+  }
+</script>
+{% endblock %}
