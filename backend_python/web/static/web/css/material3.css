@@ -89,6 +89,8 @@
   --md-surface-tint: #B4C5FF;
   --md-shadow: rgba(0,0,0,0.3);
   --md-shadow-lg: rgba(0,0,0,0.4);
+  --md-surface-muted: #131B2E;
+  --md-border-subtle: #252B3E;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -133,20 +135,19 @@ img { max-width: 100%; height: auto; }
 .md-btn:hover { text-decoration: none; }
 .md-btn-filled {
   background: var(--md-primary); color: var(--md-on-primary);
-  box-shadow: 0 2px 0 rgba(0,0,0,0.15);
 }
-.md-btn-filled:hover { box-shadow: var(--md-elevation-2); filter: brightness(1.08); }
+.md-btn-filled:hover { filter: brightness(1.08); }
 .md-btn-outlined {
   background: transparent; color: var(--md-primary);
   border: 1px solid var(--md-outline);
 }
-.md-btn-outlined:hover { background: rgba(0, 74, 198, 0.08); }
+.md-btn-outlined:hover { background: color-mix(in srgb, var(--md-primary) 8%, transparent); }
 .md-btn-text { background: transparent; color: var(--md-primary); }
-.md-btn-text:hover { background: rgba(0, 74, 198, 0.08); }
+.md-btn-text:hover { background: color-mix(in srgb, var(--md-primary) 8%, transparent); }
 .md-btn-tonal {
   background: var(--md-secondary-container); color: var(--md-on-secondary-container);
 }
-.md-btn-tonal:hover { box-shadow: var(--md-elevation-1); }
+.md-btn-tonal:hover { filter: brightness(1.04); }
 .md-btn-error { background: var(--md-error); color: var(--md-on-error); }
 .md-btn-icon {
   width: 40px; height: 40px; padding: 8px; border-radius: var(--md-radius-full);
@@ -218,7 +219,7 @@ img { max-width: 100%; height: auto; }
   top: 0;
   z-index: 100;
   background: var(--md-surface);
-  border-bottom: 1px solid var(--md-outline-variant);
+  border-bottom: none;
   padding: 0 16px;
   height: 64px;
   display: flex;
@@ -228,7 +229,7 @@ img { max-width: 100%; height: auto; }
 }
 .md-topbar-brand {
   font-size: 1.375rem;
-  font-weight: 700;
+  font-weight: 600;
   color: var(--md-primary);
   text-decoration: none;
   display: flex;
@@ -238,7 +239,11 @@ img { max-width: 100%; height: auto; }
 }
 .md-topbar-brand:hover { text-decoration: none; }
 .md-topbar-brand svg { width: 32px; height: 32px; }
-.md-topbar-nav { margin-left: auto; margin-right: auto; }
+.md-topbar-nav {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
 .md-topbar-actions { margin-left: auto; display: flex; gap: 12px; align-items: center; }
 
 /* M3 Search Bar */
