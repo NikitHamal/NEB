@@ -212,3 +212,59 @@ def clean_province(value):
     s_clean = re.sub(r'(?i)\bprovience\b|\bprovince\b', '', s)
     s_clean = re.sub(r'\s+', ' ', s_clean).strip(' ,')
     return s_clean
+
+
+@register.simple_tag
+def role_badge(verification_level, moderator_level, is_admin):
+    """Render role badge HTML (admin crown, mod shield, or verified tick)."""
+    if is_admin:
+        return mark_safe('<span class="role-badge role-badge-admin" title="Admin"><span class="material-symbols-outlined">crown</span></span>')
+    if moderator_level and int(moderator_level) > 0:
+        ml = int(moderator_level)
+        if ml == 3:
+            return mark_safe('<span class="role-badge role-badge-mod-3" title="Community Lead"><span class="material-symbols-outlined">shield_with_heart</span></span>')
+        elif ml == 2:
+            return mark_safe('<span class="role-badge role-badge-mod-2" title="Senior Mod"><span class="material-symbols-outlined">shield</span></span>')
+        else:
+            return mark_safe('<span class="role-badge role-badge-mod-1" title="Community Mod"><span class="material-symbols-outlined">local_police</span></span>')
+    if verification_level and int(verification_level) > 0:
+        vl = int(verification_level)
+        if vl == 4:
+            return mark_safe('<span class="role-badge role-badge-verified-4" title="Elite Verified"><span class="material-symbols-outlined">verified</span></span>')
+        elif vl == 3:
+            return mark_safe('<span class="role-badge role-badge-verified-3" title="Premium Verified"><span class="material-symbols-outlined">verified</span></span>')
+        elif vl == 2:
+            return mark_safe('<span class="role-badge role-badge-verified-2" title="Expert Verified"><span class="material-symbols-outlined">verified</span></span>')
+        else:
+            return mark_safe('<span class="role-badge role-badge-verified-1" title="Verified"><span class="material-symbols-outlined">verified</span></span>')
+    return mark_safe('')
+
+
+ACHIEVEMENT_MAP = {
+    'top_contributor': {'icon': 'emoji_events', 'label': 'Top Contributor'},
+    'helpful': {'icon': 'volunteer_activism', 'label': 'Helpful'},
+    'scholar': {'icon': 'school', 'label': 'Scholar'},
+    'streak': {'icon': 'local_fire_department', 'label': 'Streak'},
+    'first_post': {'icon': 'rocket_launch', 'label': 'First Post'},
+    '100_likes': {'icon': 'favorite', 'label': '100 Likes'},
+    'bookworm': {'icon': 'auto_stories', 'label': 'Bookworm'},
+    'problem_solver': {'icon': 'lightbulb', 'label': 'Problem Solver'},
+}
+
+
+@register.filter
+def achievement_badges(badges_str):
+    """Render achievement badges HTML from comma-separated keys."""
+    if not badges_str:
+        return mark_safe('')
+    parts = [s.strip() for s in str(badges_str).split(',') if s.strip()]
+    html_parts = []
+    for key in parts:
+        info = ACHIEVEMENT_MAP.get(key)
+        if info:
+            html_parts.append(
+                f'<span class="achievement-badge {key}" title="{info["label"]}">'
+                f'<span class="material-symbols-outlined">{info["icon"]}</span>'
+                f'{info["label"]}</span>'
+            )
+    return mark_safe(' '.join(html_parts))

@@ -412,6 +412,69 @@
   vertical-align: middle;
 }
 
+/* Role badge icons — verified ticks, moderator shields, admin crown */
+.role-badge {
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+  margin-left: 3px;
+  line-height: 1;
+}
+.role-badge .material-symbols-outlined {
+  font-size: 16px;
+}
+.role-badge-admin { background: rgba(245,158,11,0.15); border-radius: 100px; padding: 1px 4px 1px 2px; }
+.role-badge-admin .material-symbols-outlined { color: #D97706; }
+.role-badge-mod-1 { background: rgba(27,154,240,0.12); border-radius: 100px; padding: 1px 4px 1px 2px; }
+.role-badge-mod-1 .material-symbols-outlined { color: #1B9AF0; }
+.role-badge-mod-2 { background: rgba(0,137,123,0.12); border-radius: 100px; padding: 1px 4px 1px 2px; }
+.role-badge-mod-2 .material-symbols-outlined { color: #00897B; }
+.role-badge-mod-3 { background: rgba(123,31,162,0.12); border-radius: 100px; padding: 1px 4px 1px 2px; }
+.role-badge-mod-3 .material-symbols-outlined { color: #7B1FA2; }
+.role-badge-verified-1 .material-symbols-outlined { color: #1B9AF0; }
+.role-badge-verified-2 .material-symbols-outlined { color: #2E7D32; }
+.role-badge-verified-3 .material-symbols-outlined { color: #D97706; }
+.role-badge-verified-4 .material-symbols-outlined { color: #1a1a1a; }
+[data-theme="dark"] .role-badge-admin { background: rgba(245,158,11,0.25); }
+[data-theme="dark"] .role-badge-admin .material-symbols-outlined { color: #FBBF24; }
+[data-theme="dark"] .role-badge-mod-1 { background: rgba(27,154,240,0.2); }
+[data-theme="dark"] .role-badge-mod-2 { background: rgba(0,137,123,0.2); }
+[data-theme="dark"] .role-badge-mod-3 { background: rgba(123,31,162,0.2); }
+[data-theme="dark"] .role-badge-verified-3 .material-symbols-outlined { color: #FBBF24; }
+[data-theme="dark"] .role-badge-verified-4 .material-symbols-outlined { color: #e0e0e0; }
+
+/* Achievement badges — small pill with icon */
+.achievement-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 2px 7px;
+  border-radius: var(--md-radius-full);
+  font-size: 0.625rem;
+  font-weight: 600;
+  line-height: 1;
+  vertical-align: middle;
+}
+.achievement-badge .material-symbols-outlined {
+  font-size: 12px;
+}
+.achievement-badge.top_contributor { background: rgba(245,158,11,0.12); color: #F59E0B; }
+.achievement-badge.helpful { background: rgba(236,64,122,0.12); color: #EC407A; }
+.achievement-badge.scholar { background: rgba(27,154,240,0.12); color: #1B9AF0; }
+.achievement-badge.streak { background: rgba(255,109,0,0.12); color: #FF6D00; }
+.achievement-badge.first_post { background: rgba(46,125,50,0.12); color: #2E7D32; }
+.achievement-badge.100_likes { background: rgba(229,57,53,0.12); color: #E53935; }
+.achievement-badge.bookworm { background: rgba(0,137,123,0.12); color: #00897B; }
+.achievement-badge.problem_solver { background: rgba(249,168,37,0.12); color: #F9A825; }
+[data-theme="dark"] .achievement-badge.top_contributor { background: rgba(245,158,11,0.2); }
+[data-theme="dark"] .achievement-badge.helpful { background: rgba(236,64,122,0.2); }
+[data-theme="dark"] .achievement-badge.scholar { background: rgba(27,154,240,0.2); }
+[data-theme="dark"] .achievement-badge.streak { background: rgba(255,109,0,0.2); }
+[data-theme="dark"] .achievement-badge.first_post { background: rgba(46,125,50,0.2); }
+[data-theme="dark"] .achievement-badge.100_likes { background: rgba(229,57,53,0.2); }
+[data-theme="dark"] .achievement-badge.bookworm { background: rgba(0,137,123,0.2); }
+[data-theme="dark"] .achievement-badge.problem_solver { background: rgba(249,168,37,0.2); }
+
 .act-action-text {
   color: var(--md-on-surface-variant);
 }

@@ -233,6 +233,24 @@
     </div>
   </div>
 
+  <!-- Admin-assigned achievement badges -->
+  {% if achievement_info %}
+  <div style="margin-bottom: 24px;">
+    <h2 style="font-size: 1.125rem; font-weight: 700; color: var(--md-on-surface); margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+      <span class="material-symbols-outlined" style="color: var(--md-primary);">military_tech</span>
+      Special Badges
+    </h2>
+    <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+      {% for ach in achievement_info %}
+      <span class="achievement-badge {{ ach.key }}" style="font-size: 0.8125rem; padding: 6px 14px;" title="{{ ach.label }}">
+        <span class="material-symbols-outlined" style="font-size: 16px;">{{ ach.icon }}</span>
+        {{ ach.label }}
+      </span>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
   <!-- Achievements List -->
   <div class="achieve-list">
     

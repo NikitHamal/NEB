@@ -34,6 +34,66 @@ def _serialize_resource(r):
     }
 
 
+def _user_badge_info(user):
+    """Build badge dict for a user (verification, moderator, admin, achievements)."""
+    badge = {}
+    if user.is_admin:
+        badge['type'] = 'admin'
+        badge['icon'] = 'crown'
+        badge['color'] = '#F59E0B'
+        badge['label'] = 'Admin'
+        return badge
+    if user.moderator_level and user.moderator_level > 0:
+        mod_levels = {
+            1: {'icon': 'local_police', 'color': '#1B9AF0', 'label': 'Community Mod'},
+            2: {'icon': 'shield', 'color': '#00897B', 'label': 'Senior Mod'},
+            3: {'icon': 'shield_with_heart', 'color': '#7B1FA2', 'label': 'Community Lead'},
+        }
+        info = mod_levels.get(user.moderator_level, mod_levels[1])
+        badge['type'] = 'moderator'
+        badge['icon'] = info['icon']
+        badge['color'] = info['color']
+        badge['label'] = info['label']
+        return badge
+    if user.verification_level and user.verification_level > 0:
+        ver_levels = {
+            1: {'icon': 'verified', 'color': '#1B9AF0', 'label': 'Verified'},
+            2: {'icon': 'verified', 'color': '#2E7D32', 'label': 'Expert Verified'},
+            3: {'icon': 'verified', 'color': '#F59E0B', 'label': 'Premium Verified'},
+            4: {'icon': 'verified', 'color': '#1a1a1a', 'label': 'Elite Verified'},
+        }
+        info = ver_levels.get(user.verification_level, ver_levels[1])
+        badge['type'] = 'verified'
+        badge['icon'] = info['icon']
+        badge['color'] = info['color']
+        badge['label'] = info['label']
+        return badge
+    return None
+
+
+def _user_achievement_badges(user):
+    """Parse comma-separated achievement badge keys into a list of dicts."""
+    if not user.achievement_badges:
+        return []
+    ACHIEVEMENT_MAP = {
+        'top_contributor': {'icon': 'emoji_events', 'color': '#F59E0B', 'label': 'Top Contributor'},
+        'helpful': {'icon': 'volunteer_activism', 'color': '#EC407A', 'label': 'Helpful'},
+        'scholar': {'icon': 'school', 'color': '#1B9AF0', 'label': 'Scholar'},
+        'streak': {'icon': 'local_fire_department', 'color': '#FF6D00', 'label': 'Streak'},
+        'first_post': {'icon': 'rocket_launch', 'color': '#2E7D32', 'label': 'First Post'},
+        '100_likes': {'icon': 'favorite', 'color': '#E53935', 'label': '100 Likes'},
+        'bookworm': {'icon': 'auto_stories', 'color': '#00897B', 'label': 'Bookworm'},
+        'problem_solver': {'icon': 'lightbulb', 'color': '#F9A825', 'label': 'Problem Solver'},
+    }
+    result = []
+    for key in user.achievement_badges.split(','):
+        key = key.strip()
+        if key in ACHIEVEMENT_MAP:
+            info = ACHIEVEMENT_MAP[key]
+            result.append({'key': key, 'icon': info['icon'], 'color': info['color'], 'label': info['label']})
+    return result
+
+
 def _serialize_posts(posts_qs, user_id=None):
     posts = list(posts_qs)
     liked_ids = set()
@@ -52,7 +112,8 @@ def _serialize_posts(posts_qs, user_id=None):
         result.append({
             'id': p.id, 'title': p.title, 'content': p.content, 'category': p.category,
             'authorName': p.user.username, 'authorPhotoUrl': p.user.photo_url,
-            'authorBadge': getattr(p.user, 'badge', None),
+            'authorBadgeInfo': _user_badge_info(p.user),
+            'authorAchievements': _user_achievement_badges(p.user),
             'authorId': p.user_id, 'thumbsUpCount': p.thumbs_up_count, 'thumbs_up_count': p.thumbs_up_count,
             'replyCount': p.reply_count, 'reply_count': p.reply_count,
             'createdAt': p.created_at, 'updatedAt': p.edited_at or p.created_at,
@@ -73,7 +134,8 @@ def _serialize_post(p, user_id=None):
     return {
         'id': p.id, 'title': p.title, 'content': p.content, 'category': p.category,
         'authorName': p.user.username, 'authorPhotoUrl': p.user.photo_url,
-        'authorBadge': getattr(p.user, 'badge', None),
+        'authorBadgeInfo': _user_badge_info(p.user),
+        'authorAchievements': _user_achievement_badges(p.user),
         'authorId': p.user_id, 'thumbsUpCount': p.thumbs_up_count, 'thumbs_up_count': p.thumbs_up_count,
         'replyCount': p.reply_count, 'reply_count': p.reply_count,
         'createdAt': p.created_at, 'updatedAt': p.edited_at or p.created_at,
@@ -135,6 +197,8 @@ def _serialize_replies(replies_qs, user_id=None):
             'id': r.id, 'postId': r.post_id, 'parentReplyId': r.parent_reply_id,
             'content': r.content, 'authorName': r.user.username,
             'authorPhotoUrl': r.user.photo_url, 'authorId': r.user_id,
+            'authorBadgeInfo': _user_badge_info(r.user),
+            'authorAchievements': _user_achievement_badges(r.user),
             'thumbsUpCount': r.thumbs_up_count, 'childCount': total_descendants.get(r.id, len(children)),
             'childAuthors': child_authors,
             'createdAt': r.created_at,
@@ -153,6 +217,8 @@ def _serialize_reply(r, user_id=None):
         'id': r.id, 'postId': r.post_id, 'parentReplyId': r.parent_reply_id,
         'content': r.content, 'authorName': r.user.username,
         'authorPhotoUrl': r.user.photo_url, 'authorId': r.user_id,
+        'authorBadgeInfo': _user_badge_info(r.user),
+        'authorAchievements': _user_achievement_badges(r.user),
         'thumbsUpCount': r.thumbs_up_count, 'childCount': r.reply_count,
         'createdAt': r.created_at,
         'isEdited': r.is_edited, 'editedAt': r.edited_at,
@@ -436,6 +502,7 @@ def _build_contributors_batch():
             'score': score,
             'formatted_score': format_score(score),
             'level': get_user_level_title(score),
+            'badgeInfo': _user_badge_info(u),
         })
     contributors.sort(key=lambda c: c['score'], reverse=True)
     return contributors
@@ -653,6 +720,12 @@ def profile(request, username):
         'bio': profile_user.bio,
         'is_locked': 1 if profile_user.is_locked else 0,
         'created_at': profile_user.created_at,
+        'verification_level': profile_user.verification_level,
+        'moderator_level': profile_user.moderator_level,
+        'is_admin': profile_user.is_admin,
+        'achievement_badges': profile_user.achievement_badges,
+        'badge_info': _user_badge_info(profile_user),
+        'achievement_info': _user_achievement_badges(profile_user),
     }
 
     if profile_private:
@@ -689,6 +762,9 @@ def profile(request, username):
         user_photos=user_photos,
         user_posts=user_posts,
         profile_private=profile_private,
+        badge_info=profile_data.get('badge_info'),
+        badge_info_json=json.dumps(profile_data.get('badge_info')),
+        achievement_info_json=json.dumps(profile_data.get('achievement_info', [])),
     ))
 
 
@@ -719,6 +795,12 @@ def profile_achievements(request, username):
         'bio': profile_user.bio,
         'is_locked': 1 if profile_user.is_locked else 0,
         'created_at': profile_user.created_at,
+        'verification_level': profile_user.verification_level,
+        'moderator_level': profile_user.moderator_level,
+        'is_admin': profile_user.is_admin,
+        'achievement_badges': profile_user.achievement_badges,
+        'badge_info': _user_badge_info(profile_user),
+        'achievement_info': _user_achievement_badges(profile_user),
     }
 
     stats = _build_local_stats(profile_user)
@@ -737,6 +819,7 @@ def profile_achievements(request, username):
         profile_user=profile_data,
         username=username,
         stats=stats,
+        achievement_info=_user_achievement_badges(profile_user),
     ))
 
 
@@ -1284,6 +1367,7 @@ def ajax_user_popup(request, username):
         'bio': '' if is_private else (u.bio or ''),
         'classLevel': '' if is_private else (u.class_level or ''),
         'isLocked': u.is_locked,
+        'badgeInfo': _user_badge_info(u),
     }
     if not is_private:
         data['postCount'] = Post.objects.filter(user=u).count()
@@ -1621,11 +1705,17 @@ def admin_user_detail(request, user_id):
             if val:
                 setattr(user_obj, field, val)
         user_obj.is_locked = request.POST.get('is_locked') == 'on'
+        user_obj.verification_level = int(request.POST.get('verification_level', '0'))
+        user_obj.moderator_level = int(request.POST.get('moderator_level', '0'))
+        user_obj.is_admin = request.POST.get('is_admin') == 'on'
+        user_obj.achievement_badges = request.POST.get('achievement_badges', '')
         user_obj.save()
     user_data = UserSerializer(user_obj).data
+    achievement_badges_list = _user_achievement_badges(user_obj)
     return render(request, 'admin_panel/user_detail.html', {
         'is_admin': True,
         'user_detail': user_data,
+        'achievement_badges_list': achievement_badges_list,
         'active_page': 'users',
     })
 

@@ -380,8 +380,8 @@
             <div class="post-card-meta">
               <div class="post-card-meta-top" style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
                 <strong onclick="window.location.href='{% url 'web:profile' username=post.authorName %}'" style="cursor:pointer;">{{ post.authorName }}</strong>
-                {% if post.authorBadge %}
-                  <span class="user-badge">{{ post.authorBadge }}</span>
+                {% if post.authorBadgeInfo %}
+                <span class="role-badge role-badge-{{ post.authorBadgeInfo.type }}" title="{{ post.authorBadgeInfo.label }}"><span class="material-symbols-outlined">{{ post.authorBadgeInfo.icon }}</span></span>
                 {% endif %}
                 {% if is_authenticated and post.authorId != user.id %}
                 <button class="follow-btn-small {% if post.isFollowingAuthor %}following{% else %}not-following{% endif %}" data-user-id="{{ post.authorId }}" onclick="toggleFollowBtn(this, '{{ post.authorId }}')" style="display:inline-flex;align-items:center;padding:2px 10px;border-radius:100px;font-size:0.6875rem;font-weight:600;border:1px solid var(--md-outline-variant);background:transparent;color:var(--md-primary);cursor:pointer;">{% if post.isFollowingAuthor %}Following{% else %}Follow{% endif %}</button>
@@ -464,7 +464,7 @@
                 {% endif %}
               </div>
               <div class="contributor-meta-data">
-                <span class="contributor-username-text">{{ contributor.username }}</span>
+                <span class="contributor-username-text">{{ contributor.username }}{% if contributor.badgeInfo %}<span class="role-badge role-badge-{{ contributor.badgeInfo.type }}" title="{{ contributor.badgeInfo.label }}"><span class="material-symbols-outlined">{{ contributor.badgeInfo.icon }}</span></span>{% endif %}</span>
                 <span class="contributor-level-text">{{ contributor.level }}</span>
               </div>
             </div>
@@ -518,7 +518,7 @@
               {% endif %}
             </div>
             <div class="contributor-meta-data">
-              <span class="contributor-username-text" style="font-size: 0.875rem;">{{ contributor.username }}</span>
+              <span class="contributor-username-text" style="font-size: 0.875rem;">{{ contributor.username }}{% if contributor.badgeInfo %}<span class="role-badge role-badge-{{ contributor.badgeInfo.type }}" title="{{ contributor.badgeInfo.label }}"><span class="material-symbols-outlined">{{ contributor.badgeInfo.icon }}</span></span>{% endif %}</span>
               <span class="contributor-level-text" style="font-size: 0.7188rem;">{{ contributor.level }}</span>
             </div>
           </div>

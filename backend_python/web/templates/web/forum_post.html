@@ -257,6 +257,9 @@
       <div class="fp-meta">
         <div class="fp-meta-top">
           <a href="{% url 'web:profile' username=post.authorName %}" class="author">{{ post.authorName }}</a>
+          {% if post.authorBadgeInfo %}
+          <span class="role-badge role-badge-{{ post.authorBadgeInfo.type }}" title="{{ post.authorBadgeInfo.label }}"><span class="material-symbols-outlined">{{ post.authorBadgeInfo.icon }}</span></span>
+          {% endif %}
           {% if is_authenticated and not is_owner %}
             <button class="follow-btn-inline {% if is_following %}following{% else %}not-following{% endif %}" id="followBtn" onclick="toggleFollowPost()">{% if is_following %}Following{% else %}Follow{% endif %}</button>
           {% endif %}
@@ -342,6 +345,9 @@
         <div class="fp-reply-meta">
           <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
             <a href="{% url 'web:profile' username=reply.authorName %}" class="fp-reply-author">{{ reply.authorName }}</a>
+            {% if reply.authorBadgeInfo %}
+            <span class="role-badge role-badge-{{ reply.authorBadgeInfo.type }}" title="{{ reply.authorBadgeInfo.label }}"><span class="material-symbols-outlined">{{ reply.authorBadgeInfo.icon }}</span></span>
+            {% endif %}
             {% if is_authenticated and reply.authorId != user.id %}
               <button class="follow-btn-inline {% if reply.isFollowed %}following{% else %}not-following{% endif %}" data-user-id="{{ reply.authorId }}" onclick="toggleFollowBtn(this, '{{ reply.authorId }}')">{% if reply.isFollowed %}Following{% else %}Follow{% endif %}</button>
             {% endif %}
@@ -873,6 +879,7 @@ function renderThreadParent(parent) {
       '<div class="fp-reply-meta">' +
         '<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">' +
           '<a href="/profile/' + encodeURIComponent(parent.authorName || '') + '/" class="fp-reply-author">' + escapeHtml(parent.authorName || 'Unknown') + '</a>' +
+          (parent.authorBadgeInfo ? '<span class="role-badge role-badge-' + escapeHtml(parent.authorBadgeInfo.type) + '" title="' + escapeHtml(parent.authorBadgeInfo.label) + '"><span class="material-symbols-outlined">' + escapeHtml(parent.authorBadgeInfo.icon) + '</span></span>' : '') +
           followBtn + editedBadge + ownerBtns +
         '</div>' +
         '<div class="fp-reply-time">' + (parent.createdAt ? formatTimeAgo(parent.createdAt) : '') + '</div>' +
@@ -936,6 +943,7 @@ function renderThreadReply(reply, parentAuthor, depth) {
       '<div class="fp-reply-meta">' +
         '<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">' +
           '<a href="/profile/' + encodeURIComponent(reply.authorName) + '/" class="fp-reply-author">' + escapeHtml(reply.authorName) + '</a>' +
+          (reply.authorBadgeInfo ? '<span class="role-badge role-badge-' + escapeHtml(reply.authorBadgeInfo.type) + '" title="' + escapeHtml(reply.authorBadgeInfo.label) + '"><span class="material-symbols-outlined">' + escapeHtml(reply.authorBadgeInfo.icon) + '</span></span>' : '') +
           followBtn + editedBadge + ownerBtns +
         '</div>' +
         '<div class="fp-reply-time">' + formatTimeAgo(reply.createdAt) + '</div>' +
@@ -1061,7 +1069,7 @@ function renderUserPopup(data, anchorEl) {
   let html = '<div class="fp-user-popup-header">' +
     '<div class="fp-user-popup-avatar">' + avatarHtml + '</div>' +
     '<div class="fp-user-popup-info">' +
-      '<div class="fp-user-popup-name">' + escapeHtml(data.displayName) + '</div>' +
+      '<div class="fp-user-popup-name">' + escapeHtml(data.displayName) + (data.badgeInfo ? '<span class="role-badge role-badge-' + escapeHtml(data.badgeInfo.type) + '" title="' + escapeHtml(data.badgeInfo.label) + '"><span class="material-symbols-outlined">' + escapeHtml(data.badgeInfo.icon) + '</span></span>' : '') + '</div>' +
       '<div class="fp-user-popup-username">@' + escapeHtml(data.username) + '</div>' +
     '</div>' +
   '</div>';

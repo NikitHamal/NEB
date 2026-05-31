@@ -15,18 +15,18 @@ class UserSerializer(serializers.ModelSerializer):
             'dob', 'gender', 'class_level', 'subjects',
             'pradesh', 'district', 'school', 'bio', 'is_locked', 'created_at',
             'email_verified', 'hasPassword',
+            'verification_level', 'moderator_level', 'is_admin', 'achievement_badges',
         ]
-        read_only_fields = ['id', 'created_at', 'email_verified', 'hasPassword']
+        read_only_fields = ['id', 'created_at', 'email_verified', 'hasPassword',
+                            'verification_level', 'moderator_level', 'is_admin', 'achievement_badges']
 
     def get_hasPassword(self, obj):
         return bool(obj.password_hash)
 
     def to_representation(self, instance):
         ret = super().to_representation(instance)
-        # Rename class_level to class for Kotlin expectations, keep both
         if 'class_level' in ret:
             ret['class'] = ret['class_level']
-        # Convert is_locked to 0 or 1 integer for Kotlin expectations
         if 'is_locked' in ret:
             ret['is_locked'] = 1 if ret['is_locked'] else 0
         return ret
@@ -36,11 +36,11 @@ class UserPublicSerializer(serializers.ModelSerializer):
     """Restricted view for locked/private profiles."""
     class Meta:
         model = User
-        fields = ['username', 'display_name', 'photo_url', 'banner_url', 'bio', 'is_locked']
+        fields = ['username', 'display_name', 'photo_url', 'banner_url', 'bio', 'is_locked',
+                  'verification_level', 'moderator_level', 'is_admin', 'achievement_badges']
 
     def to_representation(self, instance):
         ret = super().to_representation(instance)
-        # Convert is_locked to 0 or 1 integer for Kotlin expectations
         if 'is_locked' in ret:
             ret['is_locked'] = 1 if ret['is_locked'] else 0
         return ret
