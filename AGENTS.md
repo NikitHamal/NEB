@@ -231,6 +231,27 @@ The `.github/workflows/deploy-backend.yml` workflow auto-deploys on push to `mai
 
 **BUT** it does NOT update the `.env` file. If you change env-dependent settings, manually update `.env` on the server.
 
+### CRITICAL: Static Files Deployment (Two-Location Problem)
+Phusion Passenger serves static files from `public/static/`, but Django's `STATIC_ROOT` points to `staticfiles/`. These are **DIFFERENT directories**. After editing CSS/JS in `web/static/`, you MUST update BOTH:
+
+```bash
+# 1. Run collectstatic (writes to staticfiles/)
+cd /home/consicac/nebians_api
+source /home/consicac/virtualenv/nebians_api/3.13/bin/activate
+python manage.py collectstatic --noinput
+
+# 2. Manually copy to public/static/ (where Passenger serves from)
+cp /home/consicac/nebians_api/web/static/web/css/app.css /home/consicac/nebians_api/public/static/web/css/app.css
+cp /home/consicac/nebians_api/web/static/web/css/material3.css /home/consicac/nebians_api/public/static/web/css/material3.css
+# ... repeat for any other changed static files
+```
+
+**NEVER do these:**
+- Do NOT change `STATICFILES_STORAGE` from `CompressedManifestStaticFilesStorage` to `StaticFilesStorage` — it breaks the manifest and corrupts cached hashed files
+- Do NOT delete `.gz` files from `public/static/` — the web server uses them for compression
+- Do NOT delete hashed files (e.g., `app.7d01927028c0.css`) from `public/static/` — they are part of the WhiteNoise manifest
+- Do NOT change `STATIC_ROOT` — it must stay as `BASE_DIR / 'staticfiles'`
+
 ---
 
 ## Web Backend — Architecture
@@ -508,6 +529,18 @@ UI/UX revamp — home page, library, search, and design system consistency pass:
 - `backend_python/web/views.py` — Replaced all HTTP API calls with direct DB queries and `services.*` calls; admin views query DB directly; denormalized counters in `_build_local_stats()`, `_build_contributors_batch()`, profile views; `_clear_page_cache()` clears admin_stats/sitemap_xml; increased cache TTLs
 - `backend_python/web/api_client.py` — Only used for session management now (`get_session_token`, `set_session_auth`, `clear_session_auth`). No data operations use HTTP anymore.
 - `backend_python/requirements.txt` — Added `redis==5.2.1`
+- `backend_python/web/templates/web/forum_post.html` — Three-dot menu on post/reply headers, bookmark/share buttons in action bars, `renderMarkdown()` JS for bold/italic/line-break rendering, `mention_links` template filter with markdown support
+- `backend_python/web/templates/web/forum.html` — Three-dot menu on post cards (bookmark/share/report)
+- `backend_python/web/templates/web/home.html` — Three-dot menu on forum activity items (bookmark/share)
+- `backend_python/web/templates/web/search.html` — Three-dot menu on search result post cards
+- `backend_python/api/models.py` — Added `Bookmark` model (user, target_type, target_id), `Reply.is_archived` field
+- `backend_python/api/migrations/0016_bookmarks_and_reply_archive.py` — Creates `bookmarks` table (manual creation via mariadb CLI needed due to charset mismatch), adds `is_archived` to `replies`
+- `backend_python/api/views.py` — Added `bookmark_toggle`, `bookmark_list`, `bookmark_check` API endpoints
+- `backend_python/web/views.py` — Added `ajax_bookmark_toggle`, `ajax_bookmark_check`, `ajax_archive_reply`; `ajax_delete_post`/`ajax_delete_reply` now cascade-delete bookmarks, likes, edit history, reports, child replies; all serializers include `isBookmarked` field
+- `backend_python/web/urls.py` — Added `/ajax/bookmark/toggle/`, `/ajax/bookmark/check/`, `/ajax/archive/reply/<id>/`
+- `backend_python/api/urls.py` — Added `/api/bookmarks/toggle/`, `/api/bookmarks/`, `/api/bookmarks/check/`
+- `backend_python/web/static/web/css/app.css` — Added `.more-btn`, `.more-menu`, `.more-menu-wrapper`, `.more-menu-item`, `.more-menu-divider`, `.bookmark-active` CSS components
+- `backend_python/web/templatetags/web_extras.py` — `mention_links` filter now renders **bold**, *italic*, and line breaks
 
 ### Important Findings & Considerations for Other Agents
 
@@ -538,3 +571,25 @@ UI/UX revamp — home page, library, search, and design system consistency pass:
 13. **`banner_url` is in the User model and serializer but not in the web edit_profile template** — The Android app can send `bannerUrl` in profile updates, but the web edit profile page doesn't have a banner URL field yet.
 
 14. **Redis cache is persistent across Passenger workers** — Unlike LocMemCache, Redis is shared between all Passenger workers and persists across restarts. This means cached pages, auth tokens, and sessions survive worker respawns. However, Redis is configured without persistence (`--save ''` on manual start, but the crontab config has `save` directives). If Redis restarts, the cache will be empty but will regenerate.
+
+15. **CRITICAL: Static files are served from TWO locations — do NOT change STATICFILES_STORAGE** — Phusion Passenger serves static files from `public/static/`, but Django's `STATIC_ROOT` points to `staticfiles/`. These are DIFFERENT directories. The `CompressedManifestStaticFilesStorage` (WhiteNoise) generates hashed filenames (e.g., `app.7d01927028c0.css`) and a `staticfiles.json` manifest. **Never switch to `StaticFilesStorage`** — it will break the manifest, delete hashed files, and cause UI corruption.
+
+16. **CRITICAL: How to deploy CSS/JS changes correctly** — After editing files in `web/static/`, you MUST do BOTH of these:
+    - Run `python manage.py collectstatic --noinput` (writes to `staticfiles/`)
+    - Manually copy changed files to `public/static/web/css/` and `public/static/web/js/`:
+      ```bash
+      cp /home/consicac/nebians_api/web/static/web/css/app.css /home/consicac/nebians_api/public/static/web/css/app.css
+      cp /home/consicac/nebians_api/web/static/web/css/material3.css /home/consicac/nebians_api/public/static/web/css/material3.css
+      ```
+    - **Do NOT delete `.gz` files or hashed files from `public/static/`** — they are needed by the web server for compression and manifest-based serving.
+
+17. **MySQL charset mismatch blocks FK creation** — The `users` table uses `latin1_swedish_ci` charset but new Django tables default to `utf8mb4`. FK constraints fail because charset/collation must match. To create a table referencing `users`, either use `SET FOREIGN_KEY_CHECKS=0` and create the table manually with `DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci`, or convert the `users` table to `utf8mb4` first. The `bookmarks` table (Migration 0016) was created manually via mariadb CLI for this reason.
+
+18. **Unicode escapes in post content** — When updating post content via `manage.py shell` piped from PowerShell, Python unicode escapes (`\\u000A`, `\\u0027`) get stored as literal strings instead of actual characters. Always verify post content after shell-based updates. If literal escapes appear, fix with:
+    ```python
+    content = content.replace('\\u000A', '\n').replace('\\u0027', "'")
+    ```
+
+19. **Three-dot menu + Bookmark system (Migration 0016)** — Added `Bookmark` model (user, target_type, target_id) and `Reply.is_archived` field. All post/reply cards across home, forum, search, and forum_post pages now have a three-dot `more-btn` → `more-menu` dropdown. The menu is wrapped in `.more-menu-wrapper` for proper `position: absolute` containment. Menu options: Bookmark, Share, Report (non-author), Edit/Archive/Delete (author only). Bookmark toggle hits `/ajax/bookmark/toggle/`. Post/reply delete now cascades to bookmarks, likes, edit history, and child replies.
+
+20. **Post delete cascade is thorough** — `ajax_delete_post` deletes: bookmarks for the post, bookmarks for all replies, PostLikes, ReplyLikes, EditHistory for post and replies, all replies, and the post itself. `ajax_delete_reply` deletes: bookmarks for the reply and its children, ReplyLikes, EditHistory, child replies, and the reply. Both use `transaction.atomic()`.
