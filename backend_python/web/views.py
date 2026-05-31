@@ -217,7 +217,7 @@ def home(request):
     resources = cache.get('home_resources')
     if resources is None:
         resources = [_serialize_resource(r) for r in Resource.objects.all()[:50]]
-        cache.set('home_resources', resources, 300)
+        cache.set('home_resources', resources, 60)
     posts = cache.get('home_posts')
     if posts is None:
         posts_qs = Post.objects.select_related('user').order_by('-created_at')[:10]
