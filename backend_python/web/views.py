@@ -13,7 +13,7 @@ from django.shortcuts import render, redirect
 from django.views.decorators.http import require_GET, require_POST
 from django.http import JsonResponse, Http404, HttpResponse
 
-from api.models import User, Resource, Post, PostLike, Reply, ReplyLike, Follow, UserPhoto, EditHistory
+from api.models import User, Resource, Post, PostLike, Reply, ReplyLike, Follow, UserPhoto, EditHistory, Bookmark
 from api.serializers import UserSerializer
 from api.security import save_profile_image_upload, validate_profile_photo_url, validate_resource_file_url
 from api.authentication import verify_google_token
@@ -98,6 +98,7 @@ def _serialize_posts(posts_qs, user_id=None):
     posts = list(posts_qs)
     liked_ids = set()
     followed_author_ids = set()
+    bookmarked_ids = set()
     if user_id and posts:
         liked_ids = set(PostLike.objects.filter(
             post_id__in=[p.id for p in posts], user_id=user_id
@@ -107,6 +108,10 @@ def _serialize_posts(posts_qs, user_id=None):
             followed_author_ids = set(Follow.objects.filter(
                 follower_id=user_id, following_id__in=author_ids
             ).values_list('following_id', flat=True))
+        bookmarked_ids = set(Bookmark.objects.filter(
+            user_id=user_id, target_type='post',
+            target_id__in=[p.id for p in posts]
+        ).values_list('target_id', flat=True))
     result = []
     for p in posts:
         result.append({
@@ -120,6 +125,7 @@ def _serialize_posts(posts_qs, user_id=None):
             'isEdited': p.is_edited, 'editedAt': p.edited_at, 'isArchived': p.is_archived,
             'isThumbedUp': p.id in liked_ids,
             'isFollowingAuthor': p.user_id in followed_author_ids,
+            'isBookmarked': p.id in bookmarked_ids,
         })
     return result
 
@@ -127,10 +133,12 @@ def _serialize_posts(posts_qs, user_id=None):
 def _serialize_post(p, user_id=None):
     is_thumbed_up = False
     is_following_author = False
+    is_bookmarked = False
     if user_id:
         is_thumbed_up = PostLike.objects.filter(post_id=p.id, user_id=user_id).exists()
         if user_id != p.user_id:
             is_following_author = Follow.objects.filter(follower_id=user_id, following_id=p.user_id).exists()
+        is_bookmarked = Bookmark.objects.filter(user_id=user_id, target_type='post', target_id=p.id).exists()
     return {
         'id': p.id, 'title': p.title, 'content': p.content, 'category': p.category,
         'authorName': p.user.username, 'authorPhotoUrl': p.user.photo_url,
@@ -141,6 +149,7 @@ def _serialize_post(p, user_id=None):
         'createdAt': p.created_at, 'updatedAt': p.edited_at or p.created_at,
         'isEdited': p.is_edited, 'editedAt': p.edited_at, 'isArchived': p.is_archived,
         'isThumbedUp': is_thumbed_up, 'isFollowingAuthor': is_following_author,
+        'isBookmarked': is_bookmarked,
     }
 
 
@@ -148,6 +157,7 @@ def _serialize_replies(replies_qs, user_id=None):
     replies = list(replies_qs)
     liked_ids = set()
     followed_author_ids = set()
+    bookmarked_ids = set()
     if user_id and replies:
         liked_ids = set(ReplyLike.objects.filter(
             reply_id__in=[r.id for r in replies], user_id=user_id
@@ -157,6 +167,10 @@ def _serialize_replies(replies_qs, user_id=None):
             followed_author_ids = set(Follow.objects.filter(
                 follower_id=user_id, following_id__in=author_ids
             ).values_list('following_id', flat=True))
+        bookmarked_ids = set(Bookmark.objects.filter(
+            user_id=user_id, target_type='reply',
+            target_id__in=[r.id for r in replies]
+        ).values_list('target_id', flat=True))
     child_reply_ids = {}
     for r in replies:
         if r.parent_reply_id:
@@ -203,16 +217,20 @@ def _serialize_replies(replies_qs, user_id=None):
             'childAuthors': child_authors,
             'createdAt': r.created_at,
             'isEdited': r.is_edited, 'editedAt': r.edited_at,
+            'isArchived': r.is_archived,
             'isThumbedUp': r.id in liked_ids,
             'isFollowed': r.user_id in followed_author_ids,
+            'isBookmarked': r.id in bookmarked_ids,
         })
     return result
 
 
 def _serialize_reply(r, user_id=None):
     is_thumbed_up = False
+    is_bookmarked = False
     if user_id:
         is_thumbed_up = ReplyLike.objects.filter(reply_id=r.id, user_id=user_id).exists()
+        is_bookmarked = Bookmark.objects.filter(user_id=user_id, target_type='reply', target_id=r.id).exists()
     return {
         'id': r.id, 'postId': r.post_id, 'parentReplyId': r.parent_reply_id,
         'content': r.content, 'authorName': r.user.username,
@@ -221,8 +239,9 @@ def _serialize_reply(r, user_id=None):
         'authorAchievements': _user_achievement_badges(r.user),
         'thumbsUpCount': r.thumbs_up_count, 'childCount': r.reply_count,
         'createdAt': r.created_at,
-        'isEdited': r.is_edited, 'editedAt': r.edited_at,
+        'isEdited': r.is_edited, 'editedAt': r.edited_at, 'isArchived': r.is_archived,
         'isThumbedUp': is_thumbed_up,
+        'isBookmarked': is_bookmarked,
     }
 
 
@@ -1170,6 +1189,78 @@ def ajax_create_post(request):
 
 
 @require_POST
+def ajax_bookmark_toggle(request):
+    user_id = _get_user_id(request)
+    if not user_id:
+        return JsonResponse({'error': 'Please log in again.'}, status=401)
+    try:
+        user = User.objects.get(pk=user_id)
+    except User.DoesNotExist:
+        return JsonResponse({'error': 'Please log in again.'}, status=401)
+    try:
+        data = json.loads(request.body)
+    except json.JSONDecodeError:
+        return JsonResponse({'error': 'Invalid request'}, status=400)
+    target_type = data.get('target_type', '').strip()
+    target_id = data.get('target_id', '').strip()
+    if target_type not in ('post', 'reply', 'resource'):
+        return JsonResponse({'error': 'Invalid target type'}, status=400)
+    if not target_id:
+        return JsonResponse({'error': 'target_id required'}, status=400)
+    if target_type == 'post':
+        if not Post.objects.filter(pk=target_id).exists():
+            return JsonResponse({'error': 'Post not found'}, status=404)
+    elif target_type == 'reply':
+        if not Reply.objects.filter(pk=target_id).exists():
+            return JsonResponse({'error': 'Reply not found'}, status=404)
+    elif target_type == 'resource':
+        if not Resource.objects.filter(pk=target_id).exists():
+            return JsonResponse({'error': 'Resource not found'}, status=404)
+    existing = Bookmark.objects.filter(user=user, target_type=target_type, target_id=target_id).first()
+    if existing:
+        existing.delete()
+        return JsonResponse({'isBookmarked': False})
+    Bookmark.objects.create(
+        id=str(uuid.uuid4()),
+        user=user,
+        target_type=target_type,
+        target_id=target_id,
+        created_at=int(time.time() * 1000),
+    )
+    return JsonResponse({'isBookmarked': True})
+
+
+@require_POST
+def ajax_bookmark_check(request):
+    user_id = _get_user_id(request)
+    if not user_id:
+        return JsonResponse({'isBookmarked': False})
+    target_type = request.GET.get('target_type', '').strip()
+    target_id = request.GET.get('target_id', '').strip()
+    is_bookmarked = Bookmark.objects.filter(
+        user_id=user_id, target_type=target_type, target_id=target_id
+    ).exists()
+    return JsonResponse({'isBookmarked': is_bookmarked})
+
+
+@require_POST
+def ajax_archive_reply(request, reply_id):
+    user_id = _get_user_id(request)
+    if not user_id:
+        return JsonResponse({'error': 'Unauthorized'}, status=401)
+    try:
+        reply = Reply.objects.get(pk=reply_id)
+    except Reply.DoesNotExist:
+        return JsonResponse({'error': 'Reply not found'}, status=404)
+    if reply.user_id != user_id:
+        return JsonResponse({'error': 'Forbidden'}, status=403)
+    reply.is_archived = not reply.is_archived
+    reply.save(update_fields=['is_archived'])
+    _clear_page_cache()
+    return JsonResponse({'success': True, 'isArchived': reply.is_archived})
+
+
+@require_POST
 def ajax_delete_post(request, post_id):
     token = _get_valid_token(request)
     if not token:
@@ -1182,7 +1273,17 @@ def ajax_delete_post(request, post_id):
         if post.user_id != user_id:
             return JsonResponse({'error': 'Forbidden'}, status=403)
         user_id_str = post.user_id
-        post.delete()
+        with transaction.atomic():
+            reply_ids = list(Reply.objects.filter(post_id=post_id).values_list('id', flat=True))
+            Bookmark.objects.filter(target_type='post', target_id=post_id).delete()
+            Bookmark.objects.filter(target_type='reply', target_id__in=reply_ids).delete()
+            PostLike.objects.filter(post_id=post_id).delete()
+            ReplyLike.objects.filter(reply_id__in=reply_ids).delete()
+            EditHistory.objects.filter(target_type='post', target_id=post_id).delete()
+            EditHistory.objects.filter(target_type='reply', target_id__in=reply_ids).delete()
+            Reply.objects.filter(post_id=post_id).delete()
+            Report.objects.filter(target_type='post', target_id=post_id).delete()
+            post.delete()
         _counters.decrement_user_post_count(user_id_str)
         _clear_page_cache()
         return JsonResponse({'success': True})
@@ -1297,10 +1398,16 @@ def ajax_delete_reply(request, reply_id):
     reply_user_id = reply.user_id
     post_id = reply.post_id
     parent_id = reply.parent_reply_id
-    reply.delete()
-    Post.objects.filter(pk=post_id, reply_count__gt=0).update(reply_count=F('reply_count') - 1)
-    if parent_id:
-        Reply.objects.filter(pk=parent_id, reply_count__gt=0).update(reply_count=F('reply_count') - 1)
+    with transaction.atomic():
+        child_ids = list(Reply.objects.filter(parent_reply_id=reply_id).values_list('id', flat=True))
+        Bookmark.objects.filter(target_type='reply', target_id__in=[reply_id] + child_ids).delete()
+        ReplyLike.objects.filter(reply_id__in=[reply_id] + child_ids).delete()
+        EditHistory.objects.filter(target_type='reply', target_id__in=[reply_id] + child_ids).delete()
+        Reply.objects.filter(parent_reply_id=reply_id).delete()
+        reply.delete()
+        Post.objects.filter(pk=post_id, reply_count__gt=0).update(reply_count=F('reply_count') - 1)
+        if parent_id:
+            Reply.objects.filter(pk=parent_id, reply_count__gt=0).update(reply_count=F('reply_count') - 1)
     _counters.decrement_user_reply_count(reply_user_id)
     _clear_page_cache()
     return JsonResponse({'success': True})
