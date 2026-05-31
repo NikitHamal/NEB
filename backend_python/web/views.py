@@ -99,12 +99,31 @@ def _serialize_replies(replies_qs, user_id=None):
     for r in replies:
         if r.parent_reply_id:
             child_reply_ids.setdefault(r.parent_reply_id, []).append(r)
+    total_descendants = {}
+    def _count_descendants(rid):
+        if rid in total_descendants:
+            return total_descendants[rid]
+        children = child_reply_ids.get(rid, [])
+        count = len(children)
+        for c in children:
+            count += _count_descendants(c.id)
+        total_descendants[rid] = count
+        return count
+    for r in replies:
+        if r.id not in total_descendants:
+            _count_descendants(r.id)
     result = []
     for r in replies:
         children = child_reply_ids.get(r.id, [])
         child_authors = []
         seen = set()
-        for c in children[:3]:
+        all_descendants = []
+        stack = list(children)
+        while stack:
+            c = stack.pop()
+            all_descendants.append(c)
+            stack.extend(child_reply_ids.get(c.id, []))
+        for c in all_descendants[:3]:
             if c.user_id not in seen:
                 seen.add(c.user_id)
                 child_authors.append({
@@ -116,7 +135,7 @@ def _serialize_replies(replies_qs, user_id=None):
             'id': r.id, 'postId': r.post_id, 'parentReplyId': r.parent_reply_id,
             'content': r.content, 'authorName': r.user.username,
             'authorPhotoUrl': r.user.photo_url, 'authorId': r.user_id,
-            'thumbsUpCount': r.thumbs_up_count, 'childCount': len(children),
+            'thumbsUpCount': r.thumbs_up_count, 'childCount': total_descendants.get(r.id, len(children)),
             'childAuthors': child_authors,
             'createdAt': r.created_at,
             'isEdited': r.is_edited, 'editedAt': r.edited_at,
@@ -1224,12 +1243,31 @@ def ajax_reply_thread(request, reply_id):
         parent = Reply.objects.get(pk=reply_id)
     except Reply.DoesNotExist:
         return JsonResponse({'error': 'Reply not found'}, status=404)
-    parent_author = parent.user.username
-    children_qs = Reply.objects.select_related('user').filter(
-        parent_reply_id=reply_id
+    parent_data = _serialize_reply(parent, user_id)
+    parent_data['authorFollowed'] = False
+    if user_id and parent.user_id != user_id:
+        parent_data['authorFollowed'] = Follow.objects.filter(
+            follower_id=user_id, following_id=parent.user_id
+        ).exists()
+    all_descendants = Reply.objects.select_related('user').filter(
+        post_id=parent.post_id, parent_reply__isnull=False
     ).order_by('created_at')
-    children = _serialize_replies(children_qs, user_id)
-    return JsonResponse({'parentAuthor': parent_author, 'parentId': str(parent.id), 'replies': children}, safe=False)
+    all_replies = _serialize_replies(all_descendants, user_id)
+    id_to_reply = {r['id']: r for r in all_replies}
+    children_map = {}
+    for r in all_replies:
+        pid = r['parentReplyId']
+        children_map.setdefault(pid, []).append(r)
+    def build_tree(parent_id):
+        children = children_map.get(parent_id, [])
+        for child in children:
+            child['children'] = build_tree(child['id'])
+        return children
+    thread_replies = build_tree(reply_id)
+    return JsonResponse({
+        'parent': parent_data,
+        'replies': thread_replies,
+    }, safe=False)
 
 
 def ajax_user_popup(request, username):
