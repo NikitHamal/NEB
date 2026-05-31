@@ -247,7 +247,7 @@
           {% endif %}
         </div>
         <div class="leaderboard-meta">
-          <span class="leaderboard-username">{{ contributor.username }}</span>
+          <span class="leaderboard-username">{{ contributor.username }}{% if contributor.badgeInfo %}<span class="role-badge role-badge-{{ contributor.badgeInfo.type }}" title="{{ contributor.badgeInfo.label }}"><span class="material-symbols-outlined">{{ contributor.badgeInfo.icon }}</span></span>{% endif %}</span>
           <span class="leaderboard-level">{{ contributor.level }}</span>
         </div>
       </div>

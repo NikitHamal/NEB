@@ -382,7 +382,7 @@
             <div class="forum-item-top">
               <div class="forum-item-avatar">{{ post.authorName|truncate_chars:1 }}</div>
               <div>
-                <div class="forum-item-author">{{ post.authorName }}</div>
+                <div class="forum-item-author">{{ post.authorName }}{% if post.authorBadgeInfo %}<span class="role-badge role-badge-{{ post.authorBadgeInfo.type }}" title="{{ post.authorBadgeInfo.label }}"><span class="material-symbols-outlined">{{ post.authorBadgeInfo.icon }}</span></span>{% endif %}</div>
                 <div class="forum-item-meta">
                   <span>{{ post.createdAt|time_ago }}</span>
                   <span style="width:3px;height:3px;border-radius:50%;background:var(--md-outline-variant);"></span>

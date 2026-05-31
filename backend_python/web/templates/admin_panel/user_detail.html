@@ -71,6 +71,62 @@
         <label class="md-label" for="school">School</label>
         <input type="text" id="school" name="school" class="md-input" value="{{ user_detail.school|default:'' }}">
       </div>
+
+      <div class="admin-badge-section">
+        <h3 class="md-title-medium" style="margin-bottom:12px;">Badges & Roles</h3>
+
+        <div class="form-group" style="display:flex;align-items:center;gap:12px;">
+          <label class="md-switch">
+            <input type="checkbox" name="is_admin" id="is_admin" {% if user_detail.is_admin %}checked{% endif %}>
+            <span class="slider"></span>
+          </label>
+          <div>
+            <label for="is_admin" class="md-label" style="margin-bottom:0;">Admin</label>
+            <div class="md-body-small" style="color:var(--md-on-surface-variant);">
+              <span class="material-symbols-outlined" style="font-size:14px;color:#F59E0B;vertical-align:middle;">crown</span>
+              Gold crown badge
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="md-label" for="verification_level">Verification Level</label>
+          <select id="verification_level" name="verification_level" class="md-select">
+            <option value="0" {% if user_detail.verification_level == 0 %}selected{% endif %}>None</option>
+            <option value="1" {% if user_detail.verification_level == 1 %}selected{% endif %}>1 — Blue Verified (Standard)</option>
+            <option value="2" {% if user_detail.verification_level == 2 %}selected{% endif %}>2 — Green Verified (Expert)</option>
+            <option value="3" {% if user_detail.verification_level == 3 %}selected{% endif %}>3 — Gold Verified (Premium)</option>
+            <option value="4" {% if user_detail.verification_level == 4 %}selected{% endif %}>4 — Black Verified (Elite)</option>
+          </select>
+          <div class="md-body-small" style="color:var(--md-on-surface-variant);margin-top:4px;">
+            <span class="material-symbols-outlined" style="font-size:14px;vertical-align:middle;">verified</span>
+            Verified tick shown next to username
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="md-label" for="moderator_level">Moderator Level</label>
+          <select id="moderator_level" name="moderator_level" class="md-select">
+            <option value="0" {% if user_detail.moderator_level == 0 %}selected{% endif %}>None</option>
+            <option value="1" {% if user_detail.moderator_level == 1 %}selected{% endif %}>1 — Community Mod</option>
+            <option value="2" {% if user_detail.moderator_level == 2 %}selected{% endif %}>2 — Senior Mod</option>
+            <option value="3" {% if user_detail.moderator_level == 3 %}selected{% endif %}>3 — Community Lead</option>
+          </select>
+          <div class="md-body-small" style="color:var(--md-on-surface-variant);margin-top:4px;">
+            <span class="material-symbols-outlined" style="font-size:14px;vertical-align:middle;">local_police</span>
+            Shield icon shown next to username. Overrides verification badge.
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="md-label" for="achievement_badges">Achievement Badges</label>
+          <input type="text" id="achievement_badges" name="achievement_badges" class="md-input" value="{{ user_detail.achievement_badges|default:'' }}" placeholder="e.g. top_contributor,scholar,first_post">
+          <div class="md-body-small" style="color:var(--md-on-surface-variant);margin-top:4px;">
+            Comma-separated keys. Available: top_contributor, helpful, scholar, streak, first_post, 100_likes, bookworm, problem_solver
+          </div>
+        </div>
+      </div>
+
       <div class="form-group" style="display:flex;align-items:center;gap:12px;">
         <label class="md-switch">
           <input type="checkbox" name="is_locked" id="is_locked" {% if user_detail.is_locked %}checked{% endif %}>
@@ -103,6 +159,60 @@
       </div>
     </div>
 
+    <div class="md-card-elevated p-3 mb-3">
+      <h3 class="md-title-medium mb-2">Current Badges</h3>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;">
+        {% if user_detail.is_admin %}
+        <span class="badge-preview badge-admin">
+          <span class="material-symbols-outlined">crown</span> Admin
+        </span>
+        {% endif %}
+        {% if user_detail.moderator_level and user_detail.moderator_level > 0 %}
+          {% if user_detail.moderator_level == 1 %}
+          <span class="badge-preview badge-mod-1">
+            <span class="material-symbols-outlined">local_police</span> Community Mod
+          </span>
+          {% elif user_detail.moderator_level == 2 %}
+          <span class="badge-preview badge-mod-2">
+            <span class="material-symbols-outlined">shield</span> Senior Mod
+          </span>
+          {% elif user_detail.moderator_level == 3 %}
+          <span class="badge-preview badge-mod-3">
+            <span class="material-symbols-outlined">shield_with_heart</span> Community Lead
+          </span>
+          {% endif %}
+        {% elif user_detail.verification_level and user_detail.verification_level > 0 %}
+          {% if user_detail.verification_level == 1 %}
+          <span class="badge-preview badge-verified-1">
+            <span class="material-symbols-outlined">verified</span> Verified
+          </span>
+          {% elif user_detail.verification_level == 2 %}
+          <span class="badge-preview badge-verified-2">
+            <span class="material-symbols-outlined">verified</span> Expert
+          </span>
+          {% elif user_detail.verification_level == 3 %}
+          <span class="badge-preview badge-verified-3">
+            <span class="material-symbols-outlined">verified</span> Premium
+          </span>
+          {% elif user_detail.verification_level == 4 %}
+          <span class="badge-preview badge-verified-4">
+            <span class="material-symbols-outlined">verified</span> Elite
+          </span>
+          {% endif %}
+        {% endif %}
+        {% if user_detail.achievement_badges %}
+          {% for ab in achievement_badges_list %}
+          <span class="badge-preview badge-achievement">
+            <span class="material-symbols-outlined">{{ ab.icon }}</span> {{ ab.label }}
+          </span>
+          {% endfor %}
+        {% endif %}
+        {% if not user_detail.is_admin and not user_detail.moderator_level and not user_detail.verification_level and not user_detail.achievement_badges %}
+        <span class="md-body-small" style="color:var(--md-on-surface-variant);">No badges assigned</span>
+        {% endif %}
+      </div>
+    </div>
+
     <div class="md-card-elevated p-3" style="border:1px solid var(--md-error);border-radius:var(--md-radius-lg);">
       <h3 class="md-title-medium mb-2" style="color:var(--md-error);">Danger Zone</h3>
       <p class="md-body-small" style="color:var(--md-on-surface-variant);margin-bottom:16px;">Permanently delete this user. This action cannot be undone.</p>
@@ -119,5 +229,38 @@
   @media (max-width: 768px) {
     .user-detail-grid { grid-template-columns: 1fr !important; }
   }
+  .admin-badge-section {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--md-outline-variant);
+  }
+  .badge-preview {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    border-radius: 100px;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+  .badge-preview .material-symbols-outlined { font-size: 16px; }
+  .badge-admin { background: rgba(245,158,11,0.15); color: #D97706; }
+  .badge-mod-1 { background: rgba(27,154,240,0.12); color: #1B9AF0; }
+  .badge-mod-2 { background: rgba(0,137,123,0.12); color: #00897B; }
+  .badge-mod-3 { background: rgba(123,31,162,0.12); color: #7B1FA2; }
+  .badge-verified-1 { background: rgba(27,154,240,0.12); color: #1B9AF0; }
+  .badge-verified-2 { background: rgba(46,125,50,0.12); color: #2E7D32; }
+  .badge-verified-3 { background: rgba(245,158,11,0.15); color: #D97706; }
+  .badge-verified-4 { background: rgba(26,26,26,0.12); color: #1a1a1a; }
+  .badge-achievement { background: rgba(27,154,240,0.08); color: var(--md-primary); }
+  [data-theme="dark"] .badge-verified-4 { background: rgba(255,255,255,0.12); color: #e0e0e0; }
+  [data-theme="dark"] .badge-admin { background: rgba(245,158,11,0.25); color: #FBBF24; }
+  [data-theme="dark"] .badge-mod-1 { background: rgba(27,154,240,0.2); }
+  [data-theme="dark"] .badge-mod-2 { background: rgba(0,137,123,0.2); }
+  [data-theme="dark"] .badge-mod-3 { background: rgba(123,31,162,0.2); }
+  [data-theme="dark"] .badge-verified-1 { background: rgba(27,154,240,0.2); }
+  [data-theme="dark"] .badge-verified-2 { background: rgba(46,125,50,0.2); }
+  [data-theme="dark"] .badge-verified-3 { background: rgba(245,158,11,0.25); color: #FBBF24; }
+  [data-theme="dark"] .badge-achievement { background: rgba(27,154,240,0.15); }
 </style>
 {% endblock %}

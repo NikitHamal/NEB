@@ -48,6 +48,15 @@ class User(models.Model):
     likes_received_count = models.PositiveIntegerField(default=0)
     contribution_score = models.PositiveIntegerField(default=0)
 
+    # Badge / role fields
+    # verification_level: 0=none, 1=blue (standard), 2=green (expert), 3=gold (premium), 4=black (elite)
+    verification_level = models.PositiveSmallIntegerField(default=0)
+    # moderator_level: 0=none, 1=blue (community mod), 2=teal (senior mod), 3=purple (community lead)
+    moderator_level = models.PositiveSmallIntegerField(default=0)
+    is_admin = models.BooleanField(default=False)
+    # achievement_badges: comma-separated badge keys (e.g. "top_contributor,scholar,first_post")
+    achievement_badges = models.TextField(blank=True, default='')
+
     class Meta:
         db_table = 'users'
 

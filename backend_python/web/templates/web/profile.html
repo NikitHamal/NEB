@@ -253,6 +253,35 @@
     color: var(--md-primary);
   }
 
+  .activity-empty {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 20px 16px;
+    border: 1px dashed var(--md-outline-variant);
+    border-radius: 12px;
+    background: var(--md-surface-container);
+  }
+  .activity-empty-icon {
+    font-size: 28px;
+    color: var(--md-on-surface-variant);
+    opacity: 0.5;
+  }
+  .activity-empty-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .activity-empty-text strong {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--md-on-surface);
+  }
+  .activity-empty-text span {
+    font-size: 0.8125rem;
+    color: var(--md-on-surface-variant);
+  }
+
   /* ── Overview grid ── */
   .overview-grid {
     display: grid;
@@ -463,7 +492,7 @@
         </div>
 
         <div class="pf-info">
-          <h1 class="pf-name">{{ profile_user.display_name|default:profile_user.username }}</h1>
+          <h1 class="pf-name">{{ profile_user.display_name|default:profile_user.username }}{% if badge_info %}<span class="role-badge role-badge-{{ badge_info.type }}" title="{{ badge_info.label }}"><span class="material-symbols-outlined">{{ badge_info.icon }}</span></span>{% endif %}</h1>
           <div class="pf-badges">
             {% if profile_user.class_level %}
               <span class="pf-badge">
@@ -585,7 +614,14 @@
             </a>
           </h3>
           <div class="achieve-grid">
-            <!-- First Discussion badge (unlocked if user has at least 1 post) -->
+            {% if achievement_info %}
+              {% for ach in achievement_info %}
+              <span class="achievement-badge {{ ach.key }}" title="{{ ach.label }}">
+                <span class="material-symbols-outlined">{{ ach.icon }}</span>
+                {{ ach.label }}
+              </span>
+              {% endfor %}
+            {% endif %}
             {% if stats.post_count >= 1 %}
               <span class="achieve-badge completed">
                 <span class="material-symbols-outlined">chat</span>
@@ -593,7 +629,6 @@
               </span>
             {% endif %}
 
-            <!-- First Reply badge (unlocked if reply count >= 1) -->
             {% if stats.reply_count >= 1 %}
               <span class="achieve-badge completed">
                 <span class="material-symbols-outlined">chat_bubble</span>
@@ -601,7 +636,6 @@
               </span>
             {% endif %}
 
-            <!-- First Thumb Received badge (unlocked if user has likes_received >= 1) -->
             {% if stats.likes_received >= 1 %}
               <span class="achieve-badge completed">
                 <span class="material-symbols-outlined">thumb_up</span>
@@ -609,7 +643,7 @@
               </span>
             {% endif %}
             
-            {% if stats.post_count < 1 and stats.reply_count < 1 and stats.likes_received < 1 %}
+            {% if not achievement_info and stats.post_count < 1 and stats.reply_count < 1 and stats.likes_received < 1 %}
               <div style="font-size: 0.8125rem; color: var(--md-on-surface-variant); padding: 4px 0; line-height: 1.5;">
                 No achievements unlocked yet. Post or reply in the forum to begin!
               </div>
@@ -639,8 +673,8 @@
                 <div class="act-meta">
                   <div class="act-meta-top" style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
                     <strong class="act-username">{{ profile_user.display_name|default:profile_user.username }}</strong>
-                    {% if profile_user.badge %}
-                      <span class="user-badge">{{ profile_user.badge }}</span>
+                    {% if badge_info %}
+                    <span class="role-badge role-badge-{{ badge_info.type }}" title="{{ badge_info.label }}"><span class="material-symbols-outlined">{{ badge_info.icon }}</span></span>
                     {% endif %}
                   </div>
                   <div class="act-meta-bottom" style="display:flex; align-items:center; flex-wrap:wrap; gap:6px; margin-top:2px; font-size:0.8125rem; color:var(--md-on-surface-variant);">
@@ -697,8 +731,11 @@
             </div>
             {% empty %}
             <div class="activity-empty">
-              <span class="material-symbols-outlined">forum</span>
-              <p>No activity yet</p>
+              <span class="activity-empty-icon material-symbols-outlined">edit_note</span>
+              <div class="activity-empty-text">
+                <strong>No activity yet</strong>
+                <span>Posts and replies will appear here</span>
+              </div>
             </div>
             {% endfor %}
           </div>
@@ -870,9 +907,9 @@ async function loadMoreActivity() {
         const avatarHtml = photoUrl ? `<img src="${photoUrl}" alt="${displayNameHtml}">` : `<span>${escapeHtml(displayName.slice(0, 1))}</span>`;
         
         let badgeHtml = '';
-        const hasBadge = '{{ profile_user.badge|default:""|escapejs }}';
-        if (hasBadge) {
-          badgeHtml = `<span class="user-badge">${escapeHtml(hasBadge)}</span>`;
+        const badgeInfo = {{ badge_info_json|default:'null'|safe }};
+        if (badgeInfo) {
+          badgeHtml = '<span class="role-badge role-badge-' + escapeHtml(badgeInfo.type) + '" title="' + escapeHtml(badgeInfo.label) + '"><span class="material-symbols-outlined">' + escapeHtml(badgeInfo.icon) + '</span></span>';
         }
         
         const subjectColorVal = getSubjectColor(post.category);

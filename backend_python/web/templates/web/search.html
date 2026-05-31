@@ -221,8 +221,8 @@
           <div class="post-card-meta">
             <div class="post-meta-line">
               <strong onclick="window.location.href='{% url 'web:profile' username=post.authorName %}'" style="cursor:pointer;">{{ post.authorName }}</strong>
-              {% if post.authorBadge %}
-              <span class="user-badge">{{ post.authorBadge }}</span>
+              {% if post.authorBadgeInfo %}
+              <span class="role-badge role-badge-{{ post.authorBadgeInfo.type }}" title="{{ post.authorBadgeInfo.label }}"><span class="material-symbols-outlined">{{ post.authorBadgeInfo.icon }}</span></span>
               {% endif %}
             </div>
             <div class="post-meta-sub">
@@ -314,8 +314,8 @@
             <div class="post-card-meta">
               <div class="post-meta-line">
                 <strong onclick="window.location.href='{% url 'web:profile' username=post.authorName %}'" style="cursor:pointer;">{{ post.authorName }}</strong>
-                {% if post.authorBadge %}
-                <span class="user-badge">{{ post.authorBadge }}</span>
+                {% if post.authorBadgeInfo %}
+                <span class="role-badge role-badge-{{ post.authorBadgeInfo.type }}" title="{{ post.authorBadgeInfo.label }}"><span class="material-symbols-outlined">{{ post.authorBadgeInfo.icon }}</span></span>
                 {% endif %}
               </div>
               <div class="post-meta-sub">
