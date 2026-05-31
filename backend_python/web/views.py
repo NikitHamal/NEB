@@ -229,8 +229,8 @@ def home(request):
         ).values_list('post_id', flat=True))
         for p in posts:
             p['isThumbedUp'] = p['id'] in liked_ids
-    recent = resources[:10]
-    popular = sorted(resources, key=lambda r: r.get('view_count', 0), reverse=True)[:10]
+    recent = resources[:5]
+    popular = sorted(resources, key=lambda r: r.get('view_count', 0), reverse=True)[:5]
     recent_posts = posts[:5]
     subjects = []
     seen = set()

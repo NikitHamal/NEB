@@ -24,118 +24,271 @@
 
 {% block extra_css %}
 <style>
-  /* Hero */
-  .hero { text-align: center; padding: 48px 0 40px; }
-  .hero h1 { font-size: 2rem; font-weight: 800; color: var(--md-on-surface); margin-bottom: 12px; letter-spacing: -0.02em; }
-  .hero p { font-size: 1.125rem; color: var(--md-on-surface-variant); max-width: 520px; margin: 0 auto 28px; line-height: 1.6; }
-  .hero-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-  .hero-btn-primary {
-    display: inline-flex; align-items: center; gap: 8px;
-    padding: 14px 32px; border-radius: var(--md-radius-full);
-    background: var(--md-primary); color: var(--md-on-primary);
-    font-family: var(--md-font); font-size: 0.9375rem; font-weight: 600;
-    border: none; cursor: pointer; text-decoration: none;
-    box-shadow: 0 2px 0 rgba(0,0,0,0.15);
-    transition: box-shadow 150ms ease, filter 150ms ease;
+  .hero {
+    text-align: center;
+    padding: 48px 0 40px;
   }
-  .hero-btn-primary:hover { box-shadow: var(--md-elevation-2); filter: brightness(1.08); text-decoration: none; }
+
+  .hero h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--md-on-surface);
+    margin-bottom: 12px;
+    letter-spacing: -0.02em;
+  }
+
+  .hero p {
+    font-size: 1.125rem;
+    color: var(--md-on-surface-variant);
+    max-width: 520px;
+    margin: 0 auto 28px;
+    line-height: 1.6;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .hero-btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 32px;
+    border-radius: var(--md-radius-full);
+    background: var(--md-primary);
+    color: var(--md-on-primary);
+    font-family: var(--md-font);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: filter 150ms ease;
+  }
+
+  .hero-btn-primary:hover {
+    filter: brightness(1.08);
+    text-decoration: none;
+  }
+
   .hero-btn-secondary {
-    display: inline-flex; align-items: center; gap: 8px;
-    padding: 14px 32px; border-radius: var(--md-radius-full);
-    background: var(--md-surface); color: var(--md-primary);
-    font-family: var(--md-font); font-size: 0.9375rem; font-weight: 600;
-    border: 1px solid var(--md-border-subtle); cursor: pointer; text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 32px;
+    border-radius: var(--md-radius-full);
+    background: var(--md-surface);
+    color: var(--md-primary);
+    font-family: var(--md-font);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    border: 1px solid var(--md-border-subtle);
+    cursor: pointer;
+    text-decoration: none;
     transition: background 150ms ease;
   }
-  .hero-btn-secondary:hover { background: var(--md-surface-container-low); text-decoration: none; }
+
+  .hero-btn-secondary:hover {
+    background: var(--md-surface-container-low);
+    text-decoration: none;
+  }
+
   @media (max-width: 768px) {
-    .hero h1 { font-size: 1.625rem; }
-    .hero p { font-size: 0.9375rem; }
+    .hero h1 {
+      font-size: 1.625rem;
+    }
+
+    .hero p {
+      font-size: 0.9375rem;
+    }
   }
 
-  /* Bento grid */
-  .home-bento { display: grid; grid-template-columns: 1fr; gap: 24px; }
-  .home-bento > * { min-width: 0; }
-  @media (min-width: 900px) {
-    .home-bento { grid-template-columns: 1fr 340px; }
-    .home-sidebar { position: sticky; top: 80px; align-self: start; }
+  .home-bento {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
   }
 
-  /* Forum sidebar card */
-  .forum-sidebar {
+  .home-bento > * {
+    min-width: 0;
+  }
+
+  .forum-section {
     background: var(--md-surface-muted);
     border: 1px solid var(--md-border-subtle);
     border-radius: var(--md-radius-lg);
     padding: 20px;
   }
-  .forum-sidebar-header {
-    display: flex; justify-content: space-between; align-items: center;
-    margin-bottom: 16px; padding-bottom: 12px;
+
+  .forum-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
     border-bottom: 1px solid var(--md-border-subtle);
   }
-  .forum-sidebar-header h2 { font-size: 1.125rem; font-weight: 700; color: var(--md-on-surface); }
-  .forum-sidebar-header a { font-size: 0.8125rem; color: var(--md-primary); text-decoration: none; font-weight: 600; }
-  .forum-sidebar-header a:hover { text-decoration: underline; }
-  .forum-sidebar-items { display: flex; flex-direction: column; gap: 12px; max-height: 420px; overflow-y: auto; scrollbar-width: none; }
-  .forum-sidebar-items::-webkit-scrollbar { display: none; }
-  .forum-sidebar-item {
-    padding: 14px; background: var(--md-surface);
+
+  .forum-section-header h2 {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--md-on-surface);
+  }
+
+  .forum-section-header a {
+    font-size: 0.8125rem;
+    color: var(--md-primary);
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .forum-section-header a:hover {
+    text-decoration: underline;
+  }
+
+  .forum-section-items {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .forum-item {
+    padding: 14px;
+    background: var(--md-surface);
     border: 1px solid color-mix(in srgb, var(--md-border-subtle) 50%, transparent);
     border-radius: var(--md-radius-md);
-    cursor: pointer; text-decoration: none; color: inherit;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
     transition: border-color 150ms ease;
   }
-  .forum-sidebar-item:hover { border-color: color-mix(in srgb, var(--md-primary) 30%, transparent); text-decoration: none; }
-  .forum-sidebar-item-meta {
-    display: flex; align-items: center; gap: 8px; margin-bottom: 8px;
+
+  .forum-item:hover {
+    border-color: color-mix(in srgb, var(--md-primary) 30%, transparent);
+    text-decoration: none;
   }
-  .forum-sidebar-item-avatar {
-    width: 28px; height: 28px; border-radius: 50%; background: var(--md-primary);
-    color: var(--md-on-primary); display: flex; align-items: center; justify-content: center;
-    font-size: 0.6875rem; font-weight: 700; flex-shrink: 0;
+
+  .forum-item-top {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
   }
-  .forum-sidebar-item-info { flex: 1; min-width: 0; }
-  .forum-sidebar-item-name { font-size: 0.8125rem; font-weight: 600; color: var(--md-on-surface); }
-  .forum-sidebar-item-time { font-size: 0.6875rem; color: var(--md-on-surface-variant); display: flex; align-items: center; gap: 6px; }
-  .forum-sidebar-item-category {
-    display: inline-block; padding: 2px 8px; border-radius: var(--md-radius-full);
-    font-size: 0.625rem; font-weight: 600; background: var(--md-primary-container);
+
+  .forum-item-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--md-primary);
+    color: var(--md-on-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .forum-item-author {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--md-on-surface);
+  }
+
+  .forum-item-meta {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.6875rem;
+    color: var(--md-on-surface-variant);
+  }
+
+  .forum-item-category {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: var(--md-radius-full);
+    font-size: 0.625rem;
+    font-weight: 600;
+    background: var(--md-primary-container);
     color: var(--md-primary);
   }
-  .forum-sidebar-item-title {
-    font-size: 0.875rem; font-weight: 600; color: var(--md-on-surface); margin-bottom: 8px;
+
+  .forum-item-title {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--md-on-surface);
+    margin-bottom: 8px;
     line-height: 1.4;
   }
-  .forum-sidebar-item-actions {
-    display: flex; align-items: center; gap: 12px; font-size: 0.75rem; color: var(--md-on-surface-variant);
-  }
-  .forum-sidebar-item-actions span { display: flex; align-items: center; gap: 4px; }
-  .forum-sidebar-item-actions .material-symbols-outlined { font-size: 16px; }
-  .forum-sidebar-cta {
-    display: block; width: 100%; padding: 10px; text-align: center;
-    border: 1px solid var(--md-border-subtle); border-radius: var(--md-radius-md);
-    background: transparent; color: var(--md-primary); font-family: var(--md-font);
-    font-size: 0.8125rem; font-weight: 600; cursor: pointer; text-decoration: none;
-    margin-top: 12px; transition: background 150ms ease;
-  }
-  .forum-sidebar-cta:hover { background: var(--md-surface-container-low); text-decoration: none; }
 
-  /* Section */
-  .section { margin-bottom: 32px; }
-  .section-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 16px; }
-  .section-header h2 { font-size: 1.25rem; font-weight: 700; color: var(--md-on-surface); }
-  .section-header a { font-size: 0.875rem; font-weight: 600; }
+  .forum-item-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.75rem;
+    color: var(--md-on-surface-variant);
+  }
+
+  .forum-item-actions span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .forum-item-actions .material-symbols-outlined {
+    font-size: 16px;
+  }
+
+  .forum-cta {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    text-align: center;
+    border: 1px solid var(--md-border-subtle);
+    border-radius: var(--md-radius-md);
+    background: transparent;
+    color: var(--md-primary);
+    font-family: var(--md-font);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    margin-top: 12px;
+    transition: background 150ms ease;
+  }
+
+  .forum-cta:hover {
+    background: var(--md-surface-container-low);
+    text-decoration: none;
+  }
+
+  .resource-card-art {
+    height: 110px;
+  }
+
+  .resource-card-art-icon {
+    font-size: 28px !important;
+    opacity: 0.25;
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    width: auto !important;
+    height: auto !important;
+    border-radius: 0 !important;
+  }
 </style>
 {% endblock %}
 
 {% block content %}
 <div class="md-container">
-  <!-- Hero -->
   <div class="hero">
     {% if user %}
-      <h1>Hello, {{ user.display_name|default:user.username }}!</h1>
+    <h1>Hello, {{ user.display_name|default:user.username }}!</h1>
     {% else %}
-      <h1>Hello, Student!</h1>
+    <h1>Hello, Student!</h1>
     {% endif %}
     <p>What would you like to study today? Access NEB resources, join discussions, and more.</p>
     <div class="hero-actions">
@@ -150,9 +303,7 @@
     </div>
   </div>
 
-  <!-- Bento Grid: Resources + Forum Sidebar -->
   <div class="home-bento">
-    <!-- Left: Resources -->
     <div>
       {% if recent_resources %}
       <div class="section">
@@ -162,22 +313,28 @@
         </div>
         <div class="hscroll">
           {% for r in recent_resources %}
-          <a href="{% url 'web:reader' resource_id=r.id %}" class="resource-card md-card subject-{{ r.subject|lower|cut:' ' }}">
-            <div class="resource-card-header">
-              <div class="subject-icon">
-                <span class="material-symbols-outlined">{{ r.subject|subject_icon }}</span>
+          <a href="{% url 'web:reader' resource_id=r.id %}" class="resource-card subject-{{ r.subject|subject_slug }}">
+            <div class="resource-card-art">
+              <svg viewBox="0 0 300 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="300" height="120" fill="var(--art-c1)"/>
+                <path d="M0,120 L0,70 Q40,20 100,55 Q160,90 220,45 Q270,10 300,50 L300,120Z" fill="var(--art-c2)" opacity="0.5"/>
+                <path d="M0,120 L0,85 Q60,40 130,70 Q200,100 260,60 L300,75 L300,120Z" fill="var(--art-c3)" opacity="0.35"/>
+                <path d="M0,120 L0,95 Q80,65 160,85 Q240,105 300,80 L300,120Z" fill="var(--art-c4)" opacity="0.2"/>
+                <circle cx="245" cy="30" r="50" fill="var(--art-c2)" opacity="0.15"/>
+                <circle cx="255" cy="25" r="28" fill="var(--art-c3)" opacity="0.12"/>
+              </svg>
+              <span class="resource-card-type-pill">{{ r.type }}</span>
+              <span class="resource-card-art-icon material-symbols-outlined">{{ r.subject|subject_icon }}</span>
+            </div>
+            <div class="resource-card-info">
+              <div class="resource-card-subject-chip">{{ r.subject }}</div>
+              <div class="resource-card-title">{{ r.title }}</div>
+              <div class="resource-card-meta">
+                {{ r.grade_level }} &middot; {{ r.type }}{% if r.file_size %} &middot; {{ r.file_size|file_size_human }}{% endif %}
               </div>
-              <span>{{ r.subject }}</span>
-            </div>
-            <div class="resource-card-body">
-              <h3>{{ r.title }}</h3>
-              <p>{{ r.grade_level }} &middot; {{ r.type }}</p>
-            </div>
-            <div class="resource-card-footer">
-              <span><span class="material-symbols-outlined icon-sm">visibility</span> {{ r.view_count|format_count }}</span>
-              {% if r.file_size %}
-              <span><span class="material-symbols-outlined icon-sm">download</span> {{ r.file_size|file_size_human }}</span>
-              {% endif %}
+              <div class="resource-card-download">
+                <span class="material-symbols-outlined">download</span> Download
+              </div>
             </div>
           </a>
           {% endfor %}
@@ -193,19 +350,28 @@
         </div>
         <div class="hscroll">
           {% for r in popular_resources %}
-          <a href="{% url 'web:reader' resource_id=r.id %}" class="resource-card md-card subject-{{ r.subject|lower|cut:' ' }}">
-            <div class="resource-card-header">
-              <div class="subject-icon">
-                <span class="material-symbols-outlined">{{ r.subject|subject_icon }}</span>
+          <a href="{% url 'web:reader' resource_id=r.id %}" class="resource-card subject-{{ r.subject|subject_slug }}">
+            <div class="resource-card-art">
+              <svg viewBox="0 0 300 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="300" height="120" fill="var(--art-c1)"/>
+                <path d="M0,120 L0,70 Q40,20 100,55 Q160,90 220,45 Q270,10 300,50 L300,120Z" fill="var(--art-c2)" opacity="0.5"/>
+                <path d="M0,120 L0,85 Q60,40 130,70 Q200,100 260,60 L300,75 L300,120Z" fill="var(--art-c3)" opacity="0.35"/>
+                <path d="M0,120 L0,95 Q80,65 160,85 Q240,105 300,80 L300,120Z" fill="var(--art-c4)" opacity="0.2"/>
+                <circle cx="245" cy="30" r="50" fill="var(--art-c2)" opacity="0.15"/>
+                <circle cx="255" cy="25" r="28" fill="var(--art-c3)" opacity="0.12"/>
+              </svg>
+              <span class="resource-card-type-pill">{{ r.type }}</span>
+              <span class="resource-card-art-icon material-symbols-outlined">{{ r.subject|subject_icon }}</span>
+            </div>
+            <div class="resource-card-info">
+              <div class="resource-card-subject-chip">{{ r.subject }}</div>
+              <div class="resource-card-title">{{ r.title }}</div>
+              <div class="resource-card-meta">
+                {{ r.grade_level }} &middot; {{ r.type }}
               </div>
-              <span>{{ r.subject }}</span>
-            </div>
-            <div class="resource-card-body">
-              <h3>{{ r.title }}</h3>
-              <p>{{ r.grade_level }} &middot; {{ r.type }}</p>
-            </div>
-            <div class="resource-card-footer">
-              <span><span class="material-symbols-outlined icon-sm">visibility</span> {{ r.view_count|format_count }}</span>
+              <div class="resource-card-download">
+                <span class="material-symbols-outlined">download</span> Download
+              </div>
             </div>
           </a>
           {% endfor %}
@@ -214,32 +380,33 @@
       {% endif %}
     </div>
 
-    <!-- Right: Forum Activity Sidebar -->
     {% if recent_posts %}
-    <div class="home-sidebar">
-      <div class="forum-sidebar">
-        <div class="forum-sidebar-header">
+    <div class="section">
+      <div class="forum-section">
+        <div class="forum-section-header">
           <h2>Forum Activity</h2>
           <a href="{% url 'web:forum' %}">View all</a>
         </div>
-        <div class="forum-sidebar-items">
+        <div class="forum-section-items">
           {% for post in recent_posts %}
-          <a href="{% url 'web:forum_post' post_id=post.id %}" class="forum-sidebar-item">
-            <div class="forum-sidebar-item-meta">
-              <div class="forum-sidebar-item-avatar">{{ post.authorName|truncate_chars:1 }}</div>
-              <div class="forum-sidebar-item-info">
-                <div class="forum-sidebar-item-name">{{ post.authorName }}</div>
-                <div class="forum-sidebar-item-time">
+          <a href="{% url 'web:forum_post' post_id=post.id %}" class="forum-item">
+            <div class="forum-item-top">
+              <div class="forum-item-avatar">{{ post.authorName|truncate_chars:1 }}</div>
+              <div>
+                <div class="forum-item-author">{{ post.authorName }}</div>
+                <div class="forum-item-meta">
                   <span>{{ post.createdAt|time_ago }}</span>
                   <span style="width:3px;height:3px;border-radius:50%;background:var(--md-outline-variant);"></span>
-                  <span class="forum-sidebar-item-category">{{ post.category }}</span>
+                  <span class="forum-item-category">{{ post.category }}</span>
                 </div>
               </div>
             </div>
-            <div class="forum-sidebar-item-title">{{ post.title }}</div>
-            <div class="forum-sidebar-item-actions">
+            <div class="forum-item-title">{{ post.title }}</div>
+            <div class="forum-item-actions">
               <span>
-                <span class="material-symbols-outlined">{% if post.isThumbedUp %}thumb_up{% else %}thumb_up_off_alt{% endif %}</span>
+                <span class="material-symbols-outlined">
+                  {% if post.isThumbedUp %}thumb_up{% else %}thumb_up_off_alt{% endif %}
+                </span>
                 {{ post.thumbsUpCount }}
               </span>
               <span>
@@ -250,7 +417,7 @@
           </a>
           {% endfor %}
         </div>
-        <a href="{% url 'web:forum' %}" class="forum-sidebar-cta">Start a Discussion</a>
+        <a href="{% url 'web:forum' %}" class="forum-cta">Start a Discussion</a>
       </div>
     </div>
     {% endif %}
@@ -268,41 +435,41 @@
 
 {% block extra_js %}
 <script>
-async function toggleHomePostLike(postId, btn) {
-  if (!IS_AUTHENTICATED) { window.location.href = '{% url "web:login" %}'; return; }
-  try {
-    const result = await (await fetch('/ajax/like/post/' + postId + '/', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN }, credentials: 'same-origin' })).json();
-    if (result && result.thumbsUpCount !== undefined) {
-      const countEl = document.getElementById('home-post-like-count-' + postId);
-      if (countEl) countEl.textContent = result.thumbsUpCount;
-      const iconEl = btn.querySelector('.material-symbols-outlined');
-      if (iconEl) iconEl.textContent = result.isThumbedUp ? 'thumb_up' : 'thumb_up_off_alt';
-      btn.classList.toggle('liked', result.isThumbedUp);
-    }
-  } catch (e) {
-    showSnackbar('Failed to like post');
-  }
-}
-
-async function toggleFollowBtn(btn, userId) {
-  if (!IS_AUTHENTICATED) { window.location.href = '{% url "web:login" %}'; return; }
-  btn.disabled = true;
-  try {
-    const r = await fetch('/ajax/follow/' + userId + '/', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN }, credentials: 'same-origin' });
-    if (r.status === 401) { window.location.href = '{% url "web:login" %}'; return; }
-    const d = await r.json();
-    btn.disabled = false;
-    if (d && d.error) { showSnackbar(d.error); return; }
-    if (d) {
-      if (d.is_following) {
-        btn.textContent = 'Following';
-        btn.className = btn.className.replace('not-following', 'following');
-      } else {
-        btn.textContent = 'Follow';
-        btn.className = btn.className.replace('following', 'not-following');
+  async function toggleHomePostLike(postId, btn) {
+    if (!IS_AUTHENTICATED) { window.location.href = '{% url "web:login" %}'; return; }
+    try {
+      const result = await (await fetch('/ajax/like/post/' + postId + '/', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN }, credentials: 'same-origin' })).json();
+      if (result && result.thumbsUpCount !== undefined) {
+        const countEl = document.getElementById('home-post-like-count-' + postId);
+        if (countEl) countEl.textContent = result.thumbsUpCount;
+        const iconEl = btn.querySelector('.material-symbols-outlined');
+        if (iconEl) iconEl.textContent = result.isThumbedUp ? 'thumb_up' : 'thumb_up_off_alt';
+        btn.classList.toggle('liked', result.isThumbedUp);
       }
+    } catch (e) {
+      showSnackbar('Failed to like post');
     }
-  } catch(e) { btn.disabled = false; showSnackbar('Error updating follow.'); }
-}
+  }
+
+  async function toggleFollowBtn(btn, userId) {
+    if (!IS_AUTHENTICATED) { window.location.href = '{% url "web:login" %}'; return; }
+    btn.disabled = true;
+    try {
+      const r = await fetch('/ajax/follow/' + userId + '/', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN }, credentials: 'same-origin' });
+      if (r.status === 401) { window.location.href = '{% url "web:login" %}'; return; }
+      const d = await r.json();
+      btn.disabled = false;
+      if (d && d.error) { showSnackbar(d.error); return; }
+      if (d) {
+        if (d.is_following) {
+          btn.textContent = 'Following';
+          btn.className = btn.className.replace('not-following', 'following');
+        } else {
+          btn.textContent = 'Follow';
+          btn.className = btn.className.replace('following', 'not-following');
+        }
+      }
+    } catch (e) { btn.disabled = false; showSnackbar('Error updating follow.'); }
+  }
 </script>
 {% endblock %}

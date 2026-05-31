@@ -73,6 +73,15 @@ def subject_color(subject):
 
 
 @register.filter
+def subject_slug(subject):
+    import re
+    s = (subject or '').lower().strip()
+    s = re.sub(r'[^a-z0-9]+', '-', s)
+    s = s.strip('-')
+    return s
+
+
+@register.filter
 def subject_icon(subject):
     icons = {
         'physics': 'science',
