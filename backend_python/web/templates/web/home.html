@@ -378,7 +378,8 @@
         </div>
         <div class="forum-section-items">
           {% for post in recent_posts %}
-          <a href="{% url 'web:forum_post' post_id=post.id %}" class="forum-item">
+          <div class="forum-item" style="position:relative;">
+            <a href="{% url 'web:forum_post' post_id=post.id %}" style="text-decoration:none;color:inherit;display:block;">
             <div class="forum-item-top">
               <div class="forum-item-avatar">{{ post.authorName|truncate_chars:1 }}</div>
               <div>
@@ -393,8 +394,8 @@
             <div class="forum-item-title">{{ post.title }}</div>
             <div class="forum-item-actions">
               <span>
-                <span class="material-symbols-outlined">
-                  {% if post.isThumbedUp %}thumb_up{% else %}thumb_up_off_alt{% endif %}
+                <span class="material-symbols-outlined{% if post.isThumbedUp %} liked{% endif %}"{% if post.isThumbedUp %} style="font-variation-settings:'FILL' 1"{% endif %}>
+                  thumb_up
                 </span>
                 {{ post.thumbsUpCount }}
               </span>
@@ -403,7 +404,22 @@
                 {{ post.replyCount }}
               </span>
             </div>
-          </a>
+            </a>
+            <div class="more-menu-wrapper" style="position:absolute;top:8px;right:8px;">
+              <button class="more-btn" onclick="event.preventDefault();event.stopPropagation();toggleMoreMenu('post-menu-home-{{ post.id }}', this)" aria-label="More options"><span class="material-symbols-outlined">more_vert</span></button>
+              <div class="more-menu" id="post-menu-home-{{ post.id }}" style="display:none;">
+                {% if is_authenticated %}
+                <button class="more-menu-item" onclick="toggleBookmark('post', '{{ post.id }}', this); closeAllMenus();">
+                  <span class="material-symbols-outlined" id="bookmark-icon-post-{{ post.id }}"{% if post.isBookmarked %} style="font-variation-settings:'FILL' 1"{% endif %}>bookmark</span>
+                  <span id="bookmark-label-post-{{ post.id }}">{% if post.isBookmarked %}Remove bookmark{% else %}Bookmark{% endif %}</span>
+                </button>
+                <button class="more-menu-item" onclick="sharePostUrl('{% url 'web:forum_post' post_id=post.id %}'); closeAllMenus();">
+                  <span class="material-symbols-outlined">share</span> Share
+                </button>
+                {% endif %}
+              </div>
+            </div>
+          </div>
           {% endfor %}
         </div>
         <a href="{% url 'web:forum' %}" class="forum-cta">Start a Discussion</a>
@@ -432,7 +448,7 @@
         const countEl = document.getElementById('home-post-like-count-' + postId);
         if (countEl) countEl.textContent = result.thumbsUpCount;
         const iconEl = btn.querySelector('.material-symbols-outlined');
-        if (iconEl) iconEl.textContent = result.isThumbedUp ? 'thumb_up' : 'thumb_up_off_alt';
+        if (iconEl) { iconEl.textContent = 'thumb_up'; iconEl.style.fontVariationSettings = result.isThumbedUp ? "'FILL' 1" : ''; }
         btn.classList.toggle('liked', result.isThumbedUp);
       }
     } catch (e) {
@@ -459,6 +475,52 @@
         }
       }
     } catch (e) { btn.disabled = false; showSnackbar('Error updating follow.'); }
+  }
+
+  function toggleMoreMenu(menuId, btn) {
+    var menu = document.getElementById(menuId);
+    if (!menu) return;
+    var isOpen = menu.style.display !== 'none';
+    closeAllMenus();
+    if (!isOpen) {
+      menu.style.display = 'block';
+      var handler = function(e) {
+        if (!menu.contains(e.target) && e.target !== btn && !btn.contains(e.target)) {
+          closeAllMenus();
+          document.removeEventListener('click', handler, true);
+        }
+      };
+      setTimeout(function() { document.addEventListener('click', handler, true); }, 0);
+    }
+  }
+
+  function closeAllMenus() {
+    document.querySelectorAll('.more-menu').forEach(function(m) { m.style.display = 'none'; });
+  }
+
+  async function toggleBookmark(targetType, targetId, btnEl) {
+    if (!IS_AUTHENTICATED) { window.location.href = '{% url "web:login" %}'; return; }
+    try {
+      const r = await fetch('/ajax/bookmark/toggle/', {
+        method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
+        credentials: 'same-origin', body: JSON.stringify({ target_type: targetType, target_id: targetId })
+      });
+      const d = await r.json();
+      if (r.status === 401) { window.location.href = '{% url "web:login" %}'; return; }
+if (d.isBookmarked !== undefined) {
+      var iconEl = document.getElementById('bookmark-icon-' + targetType + '-' + targetId);
+      var labelEl = document.getElementById('bookmark-label-' + targetType + '-' + targetId);
+      if (iconEl) { iconEl.textContent = 'bookmark'; iconEl.style.fontVariationSettings = d.isBookmarked ? "'FILL' 1" : ''; }
+      if (labelEl) labelEl.textContent = d.isBookmarked ? 'Remove bookmark' : 'Bookmark';
+        showSnackbar(d.isBookmarked ? 'Bookmarked!' : 'Bookmark removed');
+      } else { showSnackbar(d.error || 'Failed to toggle bookmark'); }
+    } catch(e) { showSnackbar('Error toggling bookmark'); }
+  }
+
+  function sharePostUrl(path) {
+    var url = window.location.origin + path;
+    if (navigator.share) { navigator.share({ title: document.title, url: url }).catch(function(){}); }
+    else { navigator.clipboard.writeText(url).then(function() { showSnackbar('Link copied!'); }).catch(function() { showSnackbar('Could not copy link'); }); }
   }
 </script>
 {% endblock %}
