@@ -160,7 +160,7 @@
       <h3 class="md-title-medium" style="margin-bottom:16px;">{{ resource_results|length }} resource{{ resource_results|length|pluralize }}</h3>
       <div class="resource-grid">
         {% for r in resource_results %}
-        <a href="{% url 'web:reader' resource_id=r.id %}" class="resource-card md-card subject-{{ r.subject|lower|cut:' ' }}">
+        <a href="{% url 'web:reader' resource_id=r.id %}" class="resource-card md-card subject-{{ r.subject|subject_slug }}">
           <div class="resource-card-header">
             <div class="subject-icon">
               <span class="material-symbols-outlined">{{ r.subject|subject_icon }}</span>
@@ -251,7 +251,7 @@
         </div>
         <div class="resource-grid">
           {% for r in resource_results|slice:":6" %}
-          <a href="{% url 'web:reader' resource_id=r.id %}" class="resource-card md-card subject-{{ r.subject|lower|cut:' ' }}">
+          <a href="{% url 'web:reader' resource_id=r.id %}" class="resource-card md-card subject-{{ r.subject|subject_slug }}">
             <div class="resource-card-header">
               <div class="subject-icon">
                 <span class="material-symbols-outlined">{{ r.subject|subject_icon }}</span>
