@@ -135,6 +135,20 @@ def admin_user_detail(request, user_id):
                 setattr(user, field, data[field])
         if 'isLocked' in data:
             user.is_locked = bool(data['isLocked'])
+        if 'verification_level' in data:
+            try:
+                user.verification_level = max(0, min(4, int(data['verification_level'])))
+            except (TypeError, ValueError):
+                pass
+        if 'moderator_level' in data:
+            try:
+                user.moderator_level = max(0, min(3, int(data['moderator_level'])))
+            except (TypeError, ValueError):
+                pass
+        if 'is_admin' in data:
+            user.is_admin = bool(data['is_admin'])
+        if 'achievement_badges' in data:
+            user.achievement_badges = str(data['achievement_badges'])
         user.save()
         return Response(UserSerializer(user).data)
 
