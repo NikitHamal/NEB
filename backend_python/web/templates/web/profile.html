@@ -18,12 +18,11 @@
   .profile-banner {
     width: 100%;
     aspect-ratio: 11 / 2.8;
+    min-height: 130px;
     border-radius: var(--md-radius-lg) var(--md-radius-lg) 0 0;
-    background: linear-gradient(135deg, var(--md-primary-container) 0%, color-mix(in srgb, var(--md-primary) 20%, var(--md-surface-container)) 100%);
+    background: var(--md-primary-container);
     position: relative;
     overflow: hidden;
-    background-size: cover;
-    background-position: center;
   }
   .profile-banner-back-btn {
     position: absolute;
@@ -61,24 +60,11 @@
     background: rgba(30, 30, 40, 1);
   }
 
-  .profile-banner-shape-1 {
+  .profile-banner-art {
     position: absolute;
-    top: -20%;
-    right: 8%;
-    width: 55%;
-    aspect-ratio: 1 / 1;
-    border-radius: 50%;
-    background: color-mix(in srgb, var(--md-primary) 12%, transparent);
-    pointer-events: none;
-  }
-  .profile-banner-shape-2 {
-    position: absolute;
-    bottom: -30%;
-    left: 5%;
-    width: 50%;
-    aspect-ratio: 1 / 1;
-    border-radius: 50%;
-    background: color-mix(in srgb, var(--md-primary) 8%, transparent);
+    inset: 0;
+    width: 100%;
+    height: 100%;
     pointer-events: none;
   }
 
@@ -159,15 +145,19 @@
     display: inline-flex;
     align-items: center;
     gap: 4px;
-    padding: 4px 10px;
-    border-radius: 100px;
+    padding: 4px 12px;
+    border-radius: var(--md-radius-full);
     font-size: 0.75rem;
     font-weight: 600;
-    background: var(--md-primary-container);
-    color: var(--md-on-primary-container);
+    background: rgba(0, 74, 198, 0.08);
+    color: #1565C0;
     border: none;
   }
   .pf-badge .material-symbols-outlined { font-size: 14px; }
+  [data-theme="dark"] .pf-badge {
+    background: rgba(180, 197, 255, 0.12);
+    color: #B4C5FF;
+  }
   .pf-bio {
     font-size: 0.875rem;
     line-height: 1.6;
@@ -316,6 +306,12 @@
   }
   .ov-stat.academic .ov-stat-value { color: var(--md-on-primary); }
   .ov-stat.academic .ov-stat-label { color: rgba(255,255,255,0.85); }
+  [data-theme="dark"] .ov-stat.academic {
+    background: rgba(180, 197, 255, 0.12);
+    border-color: rgba(180, 197, 255, 0.25);
+  }
+  [data-theme="dark"] .ov-stat.academic .ov-stat-value { color: #B4C5FF; }
+  [data-theme="dark"] .ov-stat.academic .ov-stat-label { color: rgba(180, 197, 255, 0.7); }
 
   /* ── Progress ── */
   .progress-list { display: flex; flex-direction: column; gap: 14px; }
@@ -355,15 +351,13 @@
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    padding: 6px 12px;
-    border-radius: var(--md-radius-sm);
+    padding: 6px 14px;
+    border-radius: var(--md-radius-full);
     font-size: 0.75rem;
     font-weight: 600;
     transition: all 0.2s;
   }
   .achieve-badge.completed {
-    background: var(--md-primary-container);
-    color: var(--md-on-primary-container);
     border: none;
   }
   .achieve-badge.completed .material-symbols-outlined {
@@ -377,6 +371,30 @@
   }
   .achieve-badge.locked .material-symbols-outlined {
     font-size: 16px;
+  }
+  .achieve-badge.ach-discussion {
+    background: rgba(0, 74, 198, 0.10);
+    color: #1565C0;
+  }
+  .achieve-badge.ach-reply {
+    background: rgba(86, 84, 90, 0.10);
+    color: #56545A;
+  }
+  .achieve-badge.ach-like {
+    background: rgba(46, 125, 50, 0.10);
+    color: #2E7D32;
+  }
+  [data-theme="dark"] .achieve-badge.ach-discussion {
+    background: rgba(180, 197, 255, 0.15);
+    color: #B4C5FF;
+  }
+  [data-theme="dark"] .achieve-badge.ach-reply {
+    background: rgba(196, 199, 201, 0.15);
+    color: #C4C7C9;
+  }
+  [data-theme="dark"] .achieve-badge.ach-like {
+    background: rgba(165, 214, 167, 0.15);
+    color: #A5D6A7;
   }
 
   /* ── Responsive ── */
@@ -466,11 +484,17 @@
   {% if profile_user %}
     <!-- Banner -->
     <div class="profile-banner" {% if profile_user.banner_url %}style="background-image: url('{{ profile_user.banner_url }}'); background-size: cover; background-position: center;"{% endif %}>
+      {% if not profile_user.banner_url %}
+      <svg class="profile-banner-art" viewBox="0 0 600 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="600" height="120" fill="var(--md-primary-container)"/>
+        <path d="M0,120 L0,70 Q60,20 150,55 Q240,90 360,45 Q450,10 600,50 L600,120Z" fill="var(--md-primary)" opacity="0.15"/>
+        <path d="M0,120 L0,85 Q90,40 200,70 Q320,100 420,60 L600,75 L600,120Z" fill="var(--md-primary)" opacity="0.1"/>
+        <path d="M0,120 L0,95 Q120,65 260,85 Q400,105 600,80 L600,120Z" fill="var(--md-primary)" opacity="0.06"/>
+      </svg>
+      {% endif %}
       <a href="javascript:history.back()" class="profile-banner-back-btn" title="Go Back">
         <span class="material-symbols-outlined">arrow_back</span>
       </a>
-      <div class="profile-banner-shape-1"></div>
-      <div class="profile-banner-shape-2"></div>
     </div>
 
     <!-- Header card -->
@@ -623,21 +647,21 @@
               {% endfor %}
             {% endif %}
             {% if stats.post_count >= 1 %}
-              <span class="achieve-badge completed">
+              <span class="achieve-badge completed ach-discussion">
                 <span class="material-symbols-outlined">chat</span>
                 First Discussion
               </span>
             {% endif %}
 
             {% if stats.reply_count >= 1 %}
-              <span class="achieve-badge completed">
+              <span class="achieve-badge completed ach-reply">
                 <span class="material-symbols-outlined">chat_bubble</span>
                 First Reply
               </span>
             {% endif %}
 
             {% if stats.likes_received >= 1 %}
-              <span class="achieve-badge completed">
+              <span class="achieve-badge completed ach-like">
                 <span class="material-symbols-outlined">thumb_up</span>
                 First Thumb Received
               </span>
@@ -661,71 +685,67 @@
           </h3>
           <div class="activity-list" id="activityFeed">
             {% for post in user_posts %}
-            <div class="activity-item">
-              <div class="activity-item-header">
-                <div class="act-avatar">
+            <div class="post-card">
+              <div class="post-card-header">
+                <div class="post-card-avatar">
                   {% if profile_user.photo_url %}
-                    <img src="{{ profile_user.photo_url }}" alt="{{ profile_user.display_name|default:profile_user.username }}">
+                    <img src="{{ profile_user.photo_url }}" alt="{{ profile_user.display_name|default:profile_user.username }}" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';">
+                    <span class="contributor-avatar-letter" style="display:none;">{{ profile_user.display_name|default:profile_user.username|truncate_chars:1 }}</span>
                   {% else %}
-                    <span>{{ profile_user.display_name|default:profile_user.username|slice:":1" }}</span>
+                    <span class="contributor-avatar-letter">{{ profile_user.display_name|default:profile_user.username|truncate_chars:1 }}</span>
                   {% endif %}
                 </div>
-                <div class="act-meta">
-                  <div class="act-meta-top" style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
-                    <strong class="act-username">{{ profile_user.display_name|default:profile_user.username }}</strong>
+                <div class="post-card-meta">
+                  <div class="post-card-meta-line">
+                    <strong onclick="window.location.href='{% url 'web:profile' username=profile_user.username %}'" style="cursor:pointer;">{{ profile_user.display_name|default:profile_user.username }}</strong>
                     {% if badge_info %}
                     <span class="role-badge role-badge-{{ badge_info.type }}" title="{{ badge_info.label }}"><span class="material-symbols-outlined">{{ badge_info.icon }}</span></span>
                     {% endif %}
                   </div>
-                  <div class="act-meta-bottom" style="display:flex; align-items:center; flex-wrap:wrap; gap:6px; margin-top:2px; font-size:0.8125rem; color:var(--md-on-surface-variant);">
-                    <span class="act-action-text">{% if post.is_resource %}shared a resource{% else %}started a discussion{% endif %}</span>
-                    <span style="opacity:0.4;">&middot;</span>
-                    <span class="act-category" style="background-color: {{ post.category|subject_color }}18; color: {{ post.category|subject_color }};">
-                      {{ post.category }}
-                    </span>
-                    <span style="opacity:0.4;">&middot;</span>
-                    <span class="act-time">{{ post.createdAt|time_ago }}</span>
+                  <div class="post-meta-sub">
+                    <span class="act-action-text">{% if post.is_resource %}shared a resource{% else %}posted{% endif %}</span>
+                    <span class="dot-sep">&middot;</span>
+                    <a href="{% url 'web:forum' %}?category={{ post.category }}" class="post-card-category-link">{{ post.category }}</a>
+                    <span class="dot-sep">&middot;</span>
+                    <span class="post-card-time">{{ post.createdAt|time_ago }}</span>
                   </div>
                 </div>
               </div>
-              
+
               {% if post.is_resource %}
-                <!-- Shared Resource Style Card -->
-                <div class="act-resource-card">
-                  <div class="act-resource-icon">
-                    <span class="material-symbols-outlined">description</span>
-                  </div>
-                  <div class="act-resource-info">
-                    <div class="act-resource-name">
-                      <a href="/reader/{{ post.resource_id }}/">{{ post.title }}</a>
-                    </div>
-                    <div class="act-resource-meta">{{ post.resource_size|file_size_human|default:"2.4 MB" }} &bull; {{ post.resource_type|default:"PDF Document" }}</div>
-                  </div>
+              <div class="act-resource-card">
+                <div class="act-resource-icon">
+                  <span class="material-symbols-outlined">description</span>
                 </div>
+                <div class="act-resource-info">
+                  <div class="act-resource-name">
+                    <a href="/reader/{{ post.resource_id }}/">{{ post.title }}</a>
+                  </div>
+                  <div class="act-resource-meta">{{ post.resource_size|file_size_human|default:"2.4 MB" }} &bull; {{ post.resource_type|default:"PDF Document" }}</div>
+                </div>
+              </div>
               {% else %}
-                <!-- Regular Discussion Post -->
-                <h4 class="act-title"><a href="/forum/post/{{ post.id }}/">{{ post.title }}</a></h4>
-                {% if post.content %}
-                  <p class="act-preview">{{ post.content|truncatechars:180 }}</p>
-                {% endif %}
+              <h3><a href="{% url 'web:forum_post' post_id=post.id %}">{{ post.title }}</a></h3>
+              {% if post.content %}
+              <div class="post-card-content">{{ post.content|truncatewords:50 }}</div>
               {% endif %}
-              
-              <div class="act-footer">
-                <button class="act-btn-stat" onclick="toggleLikePost('{{ post.id }}', this)" {% if post.isThumbedUp %}data-liked="true" style="color: var(--md-primary);"{% endif %}>
+              {% endif %}
+
+              <div class="post-card-actions">
+                <button type="button" onclick="toggleLikePost('{{ post.id }}', this);" class="{% if post.isThumbedUp %}liked{% endif %}" id="profile-post-like-btn-{{ post.id }}">
                   <span class="material-symbols-outlined">thumb_up</span>
-                  <span class="like-count">{{ post.thumbsUpCount|default:0 }}</span>
+                  <span id="profile-post-like-count-{{ post.id }}">{{ post.thumbsUpCount|default:0 }}</span>
                 </button>
-                
                 {% if post.is_resource %}
-                  <a href="/reader/{{ post.resource_id }}/" class="act-btn-stat">
-                    <span class="material-symbols-outlined">download</span>
-                    <span>{{ post.downloadCount|default:89 }} Downloads</span>
-                  </a>
+                <a href="/reader/{{ post.resource_id }}/" class="act-btn-stat">
+                  <span class="material-symbols-outlined">download</span>
+                  <span>{{ post.downloadCount|default:89 }} Downloads</span>
+                </a>
                 {% else %}
-                  <a href="/forum/post/{{ post.id }}/" class="act-btn-stat">
-                    <span class="material-symbols-outlined">chat_bubble</span>
-                    <span>{{ post.replyCount|default:0 }} Replies</span>
-                  </a>
+                <a href="{% url 'web:forum_post' post_id=post.id %}" class="act-btn-stat">
+                  <span class="material-symbols-outlined">chat_bubble_outline</span>
+                  <span>{{ post.replyCount|default:0 }} Replies</span>
+                </a>
                 {% endif %}
               </div>
             </div>
@@ -847,32 +867,20 @@ function fileSizeHuman(bytes) {
 
 // Activity Likes
 async function toggleLikePost(postId, btnEl) {
-  if (!CSRF_TOKEN) return;
-  btnEl.disabled = true;
+  if (!IS_AUTHENTICATED) { window.location.href = '{% url "web:login" %}'; return; }
   try {
-    const r = await fetch(`/ajax/like/post/${postId}/`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-CSRFToken': CSRF_TOKEN
-      }
-    });
+    const r = await fetch('/ajax/like/post/' + postId + '/', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN }, credentials: 'same-origin' });
     const d = await r.json();
-    btnEl.disabled = false;
-    if (d && d.error) {
+    if (d && d.thumbsUpCount !== undefined) {
+      const countEl = btnEl.querySelector('span:last-child') || document.getElementById('profile-post-like-count-' + postId);
+      if (countEl) countEl.textContent = d.thumbsUpCount;
+      const iconEl = btnEl.querySelector('.material-symbols-outlined');
+      if (iconEl) { iconEl.textContent = 'thumb_up'; iconEl.style.fontVariationSettings = d.isThumbedUp ? "'FILL' 1" : ''; }
+      btnEl.classList.toggle('liked', d.isThumbedUp);
+    } else if (d && d.error) {
       showSnackbar(d.error);
-      return;
-    }
-    if (d) {
-      const isLiked = d.isThumbedUp;
-      const count = d.thumbsUpCount;
-      btnEl.dataset.liked = isLiked ? 'true' : 'false';
-      btnEl.style.color = isLiked ? 'var(--md-primary)' : '';
-      btnEl.querySelector('.like-count').textContent = count;
-      showSnackbar(isLiked ? 'Liked post' : 'Unliked post');
     }
   } catch(e) {
-    btnEl.disabled = false;
     showSnackbar('Error updating like.');
   }
 }
@@ -898,13 +906,12 @@ async function loadMoreActivity() {
       
       d.posts.forEach(post => {
         const item = document.createElement('div');
-        item.className = 'activity-item';
+        item.className = 'post-card';
         
         const photoUrl = safeClientUrl('{{ profile_user.photo_url|default:""|escapejs }}');
         const displayName = '{{ profile_user.display_name|default:profile_user.username|escapejs }}';
-        const username = '{{ profile_user.username|escapejs }}';
         const displayNameHtml = escapeHtml(displayName);
-        const avatarHtml = photoUrl ? `<img src="${photoUrl}" alt="${displayNameHtml}">` : `<span>${escapeHtml(displayName.slice(0, 1))}</span>`;
+        const avatarHtml = photoUrl ? `<img src="${photoUrl}" alt="${displayNameHtml}" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';"><span class="contributor-avatar-letter" style="display:none;">${escapeHtml(displayName.slice(0, 1))}</span>` : `<span class="contributor-avatar-letter">${escapeHtml(displayName.slice(0, 1))}</span>`;
         
         let badgeHtml = '';
         const badgeInfo = {{ badge_info_json|default:'null'|safe }};
@@ -912,10 +919,10 @@ async function loadMoreActivity() {
           badgeHtml = '<span class="role-badge role-badge-' + escapeHtml(badgeInfo.type) + '" title="' + escapeHtml(badgeInfo.label) + '"><span class="material-symbols-outlined">' + escapeHtml(badgeInfo.icon) + '</span></span>';
         }
         
-        const subjectColorVal = getSubjectColor(post.category);
         const categoryHtml = escapeHtml(post.category || 'General');
         const postIdUrl = encodeURIComponent(post.id || '');
         const resourceIdUrl = encodeURIComponent(post.resource_id || '');
+        const actionText = post.is_resource ? 'shared a resource' : 'posted';
         
         let contentHtml = '';
         if (post.is_resource) {
@@ -935,15 +942,15 @@ async function loadMoreActivity() {
             </div>
           `;
         } else {
-          const previewText = post.content ? (post.content.length > 180 ? post.content.substring(0, 177) + '...' : post.content) : '';
+          const previewText = post.content ? (post.content.length > 300 ? post.content.substring(0, 297) + '...' : post.content) : '';
           contentHtml = `
-            <h4 class="act-title"><a href="/forum/post/${postIdUrl}/">${escapeHtml(post.title || '')}</a></h4>
-            ${previewText ? `<p class="act-preview">${escapeHtml(previewText)}</p>` : ''}
+            <h3><a href="/forum/post/${postIdUrl}/">${escapeHtml(post.title || '')}</a></h3>
+            ${previewText ? `<div class="post-card-content">${escapeHtml(previewText)}</div>` : ''}
           `;
         }
         
-        const likedStyle = post.isThumbedUp ? 'style="color: var(--md-primary);"' : '';
-        const likedAttr = post.isThumbedUp ? 'data-liked="true"' : '';
+        const likedClass = post.isThumbedUp ? ' liked' : '';
+        const likedFill = post.isThumbedUp ? " style=\"font-variation-settings:'FILL' 1\"" : '';
         
         let footerSecondStat = '';
         if (post.is_resource) {
@@ -956,38 +963,36 @@ async function loadMoreActivity() {
         } else {
           footerSecondStat = `
             <a href="/forum/post/${postIdUrl}/" class="act-btn-stat">
-              <span class="material-symbols-outlined">chat_bubble</span>
+              <span class="material-symbols-outlined">chat_bubble_outline</span>
               <span>${Number(post.replyCount || 0)} Replies</span>
             </a>
           `;
         }
         
         item.innerHTML = `
-          <div class="activity-item-header">
-            <div class="act-avatar">${avatarHtml}</div>
-            <div class="act-meta">
-              <div class="act-meta-top" style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
-                <strong class="act-username">${displayNameHtml}</strong>
+          <div class="post-card-header">
+            <div class="post-card-avatar">${avatarHtml}</div>
+            <div class="post-card-meta">
+              <div class="post-card-meta-line">
+                <strong>${displayNameHtml}</strong>
                 ${badgeHtml}
               </div>
-              <div class="act-meta-bottom" style="display:flex; align-items:center; flex-wrap:wrap; gap:6px; margin-top:2px; font-size:0.8125rem; color:var(--md-on-surface-variant);">
-                <span class="act-action-text">${post.is_resource ? 'shared a resource' : 'started a discussion'}</span>
-                <span style="opacity:0.4;">&middot;</span>
-                <span class="act-category" style="background-color: ${subjectColorVal}18; color: ${subjectColorVal};">
-                  ${categoryHtml}
-                </span>
-                <span style="opacity:0.4;">&middot;</span>
-                <span class="act-time">${escapeHtml(timeAgo(post.createdAt))}</span>
+              <div class="post-meta-sub">
+                <span class="act-action-text">${actionText}</span>
+                <span class="dot-sep">&middot;</span>
+                <a href="/forum/?category=${encodeURIComponent(post.category || '')}" class="post-card-category-link">${categoryHtml}</a>
+                <span class="dot-sep">&middot;</span>
+                <span class="post-card-time">${escapeHtml(timeAgo(post.createdAt))}</span>
               </div>
             </div>
           </div>
           
           ${contentHtml}
           
-          <div class="act-footer">
-            <button class="act-btn-stat" onclick="toggleLikePost('${postIdUrl}', this)" ${likedAttr} ${likedStyle}>
+          <div class="post-card-actions">
+            <button type="button" onclick="toggleLikePost('${postIdUrl}', this);" class="${likedClass}"${likedFill ? " style=\"font-variation-settings:'FILL' 1\"" : ''}>
               <span class="material-symbols-outlined">thumb_up</span>
-              <span class="like-count">${post.thumbsUpCount || 0}</span>
+              <span>${post.thumbsUpCount || 0}</span>
             </button>
             ${footerSecondStat}
           </div>

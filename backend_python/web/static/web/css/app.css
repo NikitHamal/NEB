@@ -448,10 +448,10 @@
 .achievement-badge {
   display: inline-flex;
   align-items: center;
-  gap: 3px;
-  padding: 2px 7px;
+  gap: 5px;
+  padding: 5px 12px;
   border-radius: var(--md-radius-full);
-  font-size: 0.625rem;
+  font-size: 0.75rem;
   font-weight: 600;
   line-height: 1;
   vertical-align: middle;
