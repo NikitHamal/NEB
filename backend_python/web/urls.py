@@ -56,6 +56,11 @@ urlpatterns = [
     path('ajax/set-password/', views.ajax_set_password, name='ajax_set_password'),
     path('ajax/change-password/', views.ajax_change_password, name='ajax_change_password'),
 
+    path('notifications/', views.notifications, name='notifications'),
+    path('ajax/notifications/', views.ajax_notifications, name='ajax_notifications'),
+    path('ajax/notifications/mark-read/', views.ajax_notifications_mark_read, name='ajax_notifications_mark_read'),
+    path('ajax/notifications/unread-count/', views.ajax_notifications_unread_count, name='ajax_notifications_unread_count'),
+
     path('admin/', views.admin_login, name='admin_login'),
     path('admin/dashboard/', views.admin_dashboard, name='admin_dashboard'),
     path('admin/logout/', views.admin_logout, name='admin_logout'),
