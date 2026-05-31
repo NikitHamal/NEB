@@ -44,14 +44,16 @@ from .security import (
 )
 from .email_utils import send_verification_email
 from .throttles import AuthRateThrottle, VerificationRateThrottle
-from .models import User, Resource, Post, PostLike, Reply, ReplyLike, FCMToken, Follow, UserPhoto, EditHistory, Report, Bookmark
+from .models import User, Resource, Post, PostLike, Reply, ReplyLike, FCMToken, Follow, UserPhoto, EditHistory, Report, Bookmark, Notification
 from .serializers import (
     UserSerializer, UserPublicSerializer,
     ResourceSerializer, PostSerializer, ReplySerializer,
     UserPhotoSerializer, UserStatsSerializer, FollowSerializer,
     EditHistorySerializer, ReportSerializer, BookmarkSerializer,
+    NotificationSerializer,
 )
 from . import counters as _counters
+from . import notifications as _notif
 
 logger = logging.getLogger(__name__)
 
@@ -490,6 +492,7 @@ def post_like(request, post_id):
             _counters.increment_user_likes_given(user.id)
             if post.user_id != user.id:
                 _counters.increment_user_likes_received(post.user_id)
+            _notif.notify_post_liked(user.id, post_id)
         else:
             like.delete()
             Post.objects.filter(pk=post.pk, thumbs_up_count__gt=0).update(thumbs_up_count=F('thumbs_up_count') - 1)
@@ -498,6 +501,7 @@ def post_like(request, post_id):
             _counters.decrement_user_likes_given(user.id)
             if post.user_id != user.id:
                 _counters.decrement_user_likes_received(post.user_id)
+            _notif.notify_post_unliked(user.id, post_id)
 
     return Response({'thumbsUpCount': current_count, 'isThumbedUp': is_thumbed_up})
 
@@ -540,6 +544,9 @@ def replies_create(request, post_id):
 
     logger.info("replies_create: created reply on post %s by user %s", post_id, user.username)
     _counters.increment_user_reply_count(user.id)
+    _notif.notify_new_reply(user.id, post_id, reply.id)
+    if parent_reply_id:
+        _notif.notify_reply_to_reply(user.id, parent_reply_id, post_id, reply.id)
     return Response(ReplySerializer(reply, context={'request': request}).data, status=201)
 
 
@@ -604,6 +611,7 @@ def reply_like(request, reply_id):
             _counters.increment_user_likes_given(user.id)
             if reply.user_id != user.id:
                 _counters.increment_user_likes_received(reply.user_id)
+            _notif.notify_reply_liked(user.id, reply_id)
         else:
             like.delete()
             Reply.objects.filter(pk=reply.pk, thumbs_up_count__gt=0).update(thumbs_up_count=F('thumbs_up_count') - 1)
@@ -612,6 +620,7 @@ def reply_like(request, reply_id):
             _counters.decrement_user_likes_given(user.id)
             if reply.user_id != user.id:
                 _counters.decrement_user_likes_received(reply.user_id)
+            _notif.notify_reply_unliked(user.id, reply_id)
 
     return Response({'thumbsUpCount': current_count, 'isThumbedUp': is_thumbed_up})
 
@@ -1186,6 +1195,9 @@ def replies_endpoint(request, post_id):
             Reply.objects.filter(pk=parent_reply_id).update(reply_count=F('reply_count') + 1)
 
     logger.info("replies_endpoint: created reply on post %s by user %s", post_id, user.username)
+    _notif.notify_new_reply(user.id, post_id, reply.id)
+    if parent_reply_id:
+        _notif.notify_reply_to_reply(user.id, parent_reply_id, post_id, reply.id)
     return Response(ReplySerializer(reply, context={'request': request}).data, status=201)
 
 
@@ -1335,6 +1347,7 @@ def user_follow_toggle(request, user_id):
             is_following = False
             _counters.decrement_user_follower_count(target_user.id)
             _counters.decrement_user_following_count(current_user.id)
+            _notif.notify_unfollow(current_user.id, target_user.id)
         else:
             Follow.objects.create(
                 follower=current_user,
@@ -1344,6 +1357,7 @@ def user_follow_toggle(request, user_id):
             is_following = True
             _counters.increment_user_follower_count(target_user.id)
             _counters.increment_user_following_count(current_user.id)
+            _notif.notify_new_follow(current_user.id, target_user.id)
 
     follower_count = target_user.follower_count if hasattr(target_user, 'follower_count') else Follow.objects.filter(following=target_user).count()
     return Response({'is_following': is_following, 'follower_count': follower_count})
@@ -1502,3 +1516,71 @@ def report_create(request):
     )
     logger.info("report_create: user %s reported %s/%s (reason=%s)", user.username, target_type, target_id, reason)
     return Response(ReportSerializer(report).data, status=201)
+
+
+# ---------------------------------------------------------------------------
+# NOTIFICATIONS
+# ---------------------------------------------------------------------------
+
+@api_view(['GET'])
+def notifications_list(request):
+    """
+    GET /api/notifications — list current user's notifications.
+    Query params: page, page_size, unread_only (bool)
+    """
+    user, err = _require_user(request)
+    if err:
+        return err
+
+    qs = Notification.objects.filter(recipient=user).select_related('actor')
+
+    unread_only = request.query_params.get('unread_only', '').lower() in ('1', 'true', 'yes')
+    if unread_only:
+        qs = qs.filter(is_read=False)
+
+    return _paginated_response(request, qs, NotificationSerializer, default_page_size=30, max_page_size=100)
+
+
+@api_view(['POST'])
+def notifications_mark_read(request):
+    """
+    POST /api/notifications/mark-read
+    Body: { "notification_ids": ["id1", "id2", ...] }  OR  { "mark_all": true }
+    Marks specific or all notifications as read.
+    """
+    user, err = _require_user(request)
+    if err:
+        return err
+
+    mark_all = request.data.get('mark_all', False)
+    notification_ids = request.data.get('notification_ids', [])
+
+    if mark_all:
+        count = Notification.objects.filter(recipient=user, is_read=False).update(is_read=True)
+        _counters.reset_user_unread_notification_count(user.id)
+        logger.info("notifications_mark_read: user %s marked all %d notifications as read", user.username, count)
+        return Response({'success': True, 'marked_count': count})
+
+    if not notification_ids:
+        return Response({'error': 'Provide notification_ids or mark_all=true'}, status=400)
+
+    notifs = Notification.objects.filter(recipient=user, pk__in=notification_ids, is_read=False)
+    count = notifs.update(is_read=True)
+    # Recalculate unread count from DB
+    unread = Notification.objects.filter(recipient=user, is_read=False).count()
+    User.objects.filter(pk=user.id).update(unread_notification_count=unread)
+    logger.info("notifications_mark_read: user %s marked %d notifications as read", user.username, count)
+    return Response({'success': True, 'marked_count': count})
+
+
+@api_view(['GET'])
+def notifications_unread_count(request):
+    """
+    GET /api/notifications/unread-count — returns { "count": N }
+    Uses the denormalized counter for speed.
+    """
+    user, err = _require_user(request)
+    if err:
+        return err
+    count = getattr(user, 'unread_notification_count', 0) or 0
+    return Response({'count': count})

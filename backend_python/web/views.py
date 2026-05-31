@@ -13,12 +13,13 @@ from django.shortcuts import render, redirect
 from django.views.decorators.http import require_GET, require_POST
 from django.http import JsonResponse, Http404, HttpResponse
 
-from api.models import User, Resource, Post, PostLike, Reply, ReplyLike, Follow, UserPhoto, EditHistory, Bookmark
+from api.models import User, Resource, Post, PostLike, Reply, ReplyLike, Follow, UserPhoto, EditHistory, Bookmark, Notification
 from api.serializers import UserSerializer
 from api.security import save_profile_image_upload, validate_profile_photo_url, validate_resource_file_url
 from api.authentication import verify_google_token
 from api import services
 from api import counters as _counters
+from api import notifications as _notif
 from . import api_client as api
 
 logger = logging.getLogger(__name__)
@@ -283,10 +284,18 @@ def _ctx(request, **extra):
     if user:
         user = _normalize_user_data(user)
     dark_mode = request.session.get('theme') == 'dark'
+    unread_notifications = 0
+    if user and user.get('id'):
+        try:
+            db_user = User.objects.get(pk=user['id'])
+            unread_notifications = getattr(db_user, 'unread_notification_count', 0) or 0
+        except User.DoesNotExist:
+            pass
     ctx = {
         'is_authenticated': bool(token),
         'user': user,
         'dark_mode': dark_mode,
+        'unread_notifications': unread_notifications,
     }
     ctx.update(extra)
     return ctx
@@ -1283,6 +1292,9 @@ def ajax_delete_post(request, post_id):
             EditHistory.objects.filter(target_type='reply', target_id__in=reply_ids).delete()
             Reply.objects.filter(post_id=post_id).delete()
             Report.objects.filter(target_type='post', target_id=post_id).delete()
+            _notif.delete_notifications_for_target('post', post_id)
+            for rid in reply_ids:
+                _notif.delete_notifications_for_target('reply', rid)
             post.delete()
         _counters.decrement_user_post_count(user_id_str)
         _clear_page_cache()
@@ -1403,6 +1415,9 @@ def ajax_delete_reply(request, reply_id):
         Bookmark.objects.filter(target_type='reply', target_id__in=[reply_id] + child_ids).delete()
         ReplyLike.objects.filter(reply_id__in=[reply_id] + child_ids).delete()
         EditHistory.objects.filter(target_type='reply', target_id__in=[reply_id] + child_ids).delete()
+        _notif.delete_notifications_for_target('reply', reply_id)
+        for cid in child_ids:
+            _notif.delete_notifications_for_target('reply', cid)
         Reply.objects.filter(parent_reply_id=reply_id).delete()
         reply.delete()
         Post.objects.filter(pk=post_id, reply_count__gt=0).update(reply_count=F('reply_count') - 1)
@@ -1978,6 +1993,143 @@ def admin_reply_delete(request, reply_id):
     except Reply.DoesNotExist:
         pass
     return redirect('web:admin_posts')
+
+
+# ---------------------------------------------------------------------------
+# NOTIFICATIONS (web views)
+# ---------------------------------------------------------------------------
+
+def notifications(request):
+    """Full-page notification center."""
+    user_id = _get_user_id(request)
+    if not user_id:
+        return redirect('web:login')
+    notifs = Notification.objects.filter(recipient_id=user_id).select_related('actor')[:50]
+    VERB_LABELS = {
+        'like_post': 'liked your post',
+        'like_reply': 'liked your reply',
+        'reply': 'replied to your post',
+        'reply_reply': 'replied to your comment',
+        'follow': 'started following you',
+        'mention': 'mentioned you',
+        'system': '',
+    }
+    notif_data = []
+    for n in notifs:
+        actor_name = n.actor.username if n.actor else None
+        actor_photo = n.actor.photo_url if n.actor else None
+        actor_id_val = n.actor_id if n.actor else None
+        actor_badge = _user_badge_info(n.actor) if n.actor else None
+        verb_label = VERB_LABELS.get(n.verb, n.verb)
+        if n.verb == 'system':
+            text = n.message or 'System notification'
+        elif actor_name:
+            text = f'<strong>{actor_name}</strong> <span class="notif-verb">{verb_label}</span>'
+        else:
+            text = f'<span class="notif-verb">{verb_label}</span>'
+        url = '#'
+        if n.verb == 'follow' and actor_name:
+            url = f'/profile/{actor_name}/'
+        elif n.target_type == 'post' or n.reference_type == 'post':
+            post_id = n.target_id if n.target_type == 'post' else n.reference_id
+            url = f'/forum/post/{post_id}/'
+        elif n.target_type == 'reply':
+            post_id = n.reference_id if n.reference_type == 'post' else ''
+            if post_id:
+                url = f'/forum/post/{post_id}/'
+        notif_data.append({
+            'id': n.id,
+            'verb': n.verb,
+            'targetType': n.target_type,
+            'targetId': n.target_id,
+            'referenceType': n.reference_type,
+            'referenceId': n.reference_id,
+            'message': n.message,
+            'isRead': n.is_read,
+            'createdAt': n.created_at,
+            'actorName': actor_name,
+            'actorPhotoUrl': actor_photo,
+            'actorId': actor_id_val,
+            'actorBadgeInfo': actor_badge,
+            'text': text,
+            'url': url,
+        })
+    return render(request, 'web/notifications.html', _ctx(request, notifications=notif_data))
+
+
+def ajax_notifications(request):
+    """AJAX: list notifications for current user."""
+    user_id = _get_user_id(request)
+    if not user_id:
+        return JsonResponse({'error': 'Unauthorized'}, status=401)
+    page = int(request.GET.get('page', 1))
+    page_size = int(request.GET.get('page_size', 20))
+    offset = (page - 1) * page_size
+    notifs = Notification.objects.filter(recipient_id=user_id).select_related('actor').order_by('-created_at')
+    total = notifs.count()
+    notifs_page = notifs[offset:offset + page_size]
+    results = []
+    for n in notifs_page:
+        actor_badge = _user_badge_info(n.actor) if n.actor else None
+        results.append({
+            'id': n.id,
+            'verb': n.verb,
+            'targetType': n.target_type,
+            'targetId': n.target_id,
+            'referenceType': n.reference_type,
+            'referenceId': n.reference_id,
+            'message': n.message,
+            'isRead': n.is_read,
+            'createdAt': n.created_at,
+            'actorName': n.actor.username if n.actor else None,
+            'actorPhotoUrl': n.actor.photo_url if n.actor else None,
+            'actorId': n.actor_id if n.actor else None,
+            'actorBadgeInfo': actor_badge,
+        })
+    return JsonResponse({
+        'results': results,
+        'total': total,
+        'page': page,
+        'hasMore': (offset + page_size) < total,
+    })
+
+
+@require_POST
+def ajax_notifications_mark_read(request):
+    """AJAX: mark specific or all notifications as read."""
+    user_id = _get_user_id(request)
+    if not user_id:
+        return JsonResponse({'error': 'Unauthorized'}, status=401)
+    try:
+        data = json.loads(request.body)
+    except json.JSONDecodeError:
+        data = {}
+    mark_all = data.get('mark_all', False)
+    notification_ids = data.get('notification_ids', [])
+    if mark_all:
+        count = Notification.objects.filter(recipient_id=user_id, is_read=False).update(is_read=True)
+        _counters.reset_user_unread_notification_count(user_id)
+        return JsonResponse({'success': True, 'marked_count': count})
+    if notification_ids:
+        notifs = Notification.objects.filter(recipient_id=user_id, pk__in=notification_ids, is_read=False)
+        count = notifs.update(is_read=True)
+        unread = Notification.objects.filter(recipient_id=user_id, is_read=False).count()
+        User.objects.filter(pk=user_id).update(unread_notification_count=unread)
+        return JsonResponse({'success': True, 'marked_count': count})
+    return JsonResponse({'error': 'Provide notification_ids or mark_all=true'}, status=400)
+
+
+def ajax_notifications_unread_count(request):
+    """AJAX: get unread notification count for current user."""
+    user_id = _get_user_id(request)
+    if not user_id:
+        return JsonResponse({'count': 0})
+    try:
+        user = User.objects.get(pk=user_id)
+        count = getattr(user, 'unread_notification_count', 0) or 0
+    except User.DoesNotExist:
+        count = 0
+    return JsonResponse({'count': count})
 
 
 def sitemap_xml(request):

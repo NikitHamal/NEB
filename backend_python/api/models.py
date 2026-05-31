@@ -57,6 +57,9 @@ class User(models.Model):
     # achievement_badges: comma-separated badge keys (e.g. "top_contributor,scholar,first_post")
     achievement_badges = models.TextField(blank=True, default='')
 
+    # Denormalized notification counter
+    unread_notification_count = models.PositiveIntegerField(default=0)
+
     class Meta:
         db_table = 'users'
 
@@ -326,4 +329,50 @@ class Report(models.Model):
         indexes = [
             models.Index(fields=['status', '-created_at']),
             models.Index(fields=['target_type', 'target_id']),
+        ]
+
+
+class Notification(models.Model):
+    """
+    In-app notification for a user.
+    verb examples: like_post, like_reply, reply, reply_reply, follow, mention, system
+    target_type: post, reply, user, system
+    target_id: PK of the target object
+    reference_type/reference_id: optional link to related object (e.g. post where reply was made)
+    """
+    VERB_CHOICES = [
+        ('like_post', 'Liked your post'),
+        ('like_reply', 'Liked your reply'),
+        ('reply', 'Replied to your post'),
+        ('reply_reply', 'Replied to your comment'),
+        ('follow', 'Started following you'),
+        ('mention', 'Mentioned you'),
+        ('system', 'System notification'),
+    ]
+    TARGET_TYPES = [
+        ('post', 'Post'),
+        ('reply', 'Reply'),
+        ('user', 'User'),
+        ('system', 'System'),
+    ]
+    id = models.CharField(max_length=36, primary_key=True)
+    recipient = models.ForeignKey(User, on_delete=models.CASCADE, related_name='notifications')
+    actor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='notifications_sent', null=True, blank=True)
+    verb = models.CharField(max_length=20, choices=VERB_CHOICES)
+    target_type = models.CharField(max_length=10, choices=TARGET_TYPES)
+    target_id = models.CharField(max_length=36)
+    reference_type = models.CharField(max_length=10, blank=True, default='')
+    reference_id = models.CharField(max_length=36, blank=True, default='')
+    message = models.TextField(blank=True, default='')
+    is_read = models.BooleanField(default=False, db_index=True)
+    created_at = models.BigIntegerField()
+
+    class Meta:
+        db_table = 'notifications'
+        ordering = ['-created_at']
+        indexes = [
+            models.Index(fields=['recipient_id', '-created_at']),
+            models.Index(fields=['recipient_id', 'is_read', '-created_at']),
+            models.Index(fields=['target_type', 'target_id']),
+            models.Index(fields=['recipient_id', 'actor_id', 'verb', 'target_type', 'target_id'], name='notif_dedup_idx'),
         ]

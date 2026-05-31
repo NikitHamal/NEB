@@ -9,6 +9,16 @@
 {% block nav_library %}md-nav-active{% endblock %}
 {% block bnav_library %}md-nav-active{% endblock %}
 
+{% block bottomnav %}
+<nav class="md-bottomnav">
+  <div class="md-bottomnav-pill">
+    <a href="{% url 'web:home' %}" class="md-bottomnav-item" aria-label="Home">Home</a>
+    <a href="{% url 'web:library' %}" class="md-bottomnav-item md-nav-active" aria-label="Library">Library</a>
+    <a href="{% url 'web:forum' %}" class="md-bottomnav-item" aria-label="Forum">Forum</a>
+  </div>
+</nav>
+{% endblock %}
+
 {% block extra_css %}
 <style>
   /* Sort bar */

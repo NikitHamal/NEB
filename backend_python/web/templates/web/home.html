@@ -5,6 +5,16 @@
 {% block nav_home %}md-nav-active{% endblock %}
 {% block bnav_home %}md-nav-active{% endblock %}
 
+{% block bottomnav %}
+<nav class="md-bottomnav">
+  <div class="md-bottomnav-pill">
+    <a href="{% url 'web:home' %}" class="md-bottomnav-item md-nav-active" aria-label="Home">Home</a>
+    <a href="{% url 'web:library' %}" class="md-bottomnav-item" aria-label="Library">Library</a>
+    <a href="{% url 'web:forum' %}" class="md-bottomnav-item" aria-label="Forum">Forum</a>
+  </div>
+</nav>
+{% endblock %}
+
 {% block head_extra %}
 <script type="application/ld+json">
 {

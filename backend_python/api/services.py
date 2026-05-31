@@ -14,6 +14,7 @@ from django.core.exceptions import ValidationError as DjangoValidationError
 from .models import User, Post, PostLike, Reply, ReplyLike, Follow, UserPhoto, EditHistory
 from .security import hash_password, verify_password, validate_profile_photo_url, validate_external_https_url
 from . import counters as _counters
+from . import notifications as _notif
 
 logger = logging.getLogger(__name__)
 
@@ -36,6 +37,7 @@ def toggle_post_like(user, post_id):
             _counters.increment_user_likes_given(user.id)
             if post.user_id != user.id:
                 _counters.increment_user_likes_received(post.user_id)
+            _notif.notify_post_liked(user.id, post_id)
         else:
             like.delete()
             Post.objects.filter(pk=post_id, thumbs_up_count__gt=0).update(thumbs_up_count=F('thumbs_up_count') - 1)
@@ -44,6 +46,7 @@ def toggle_post_like(user, post_id):
             _counters.decrement_user_likes_given(user.id)
             if post.user_id != user.id:
                 _counters.decrement_user_likes_received(post.user_id)
+            _notif.notify_post_unliked(user.id, post_id)
     return {'thumbsUpCount': current_count, 'isThumbedUp': is_thumbed_up}
 
 
@@ -61,6 +64,7 @@ def toggle_reply_like(user, reply_id):
             _counters.increment_user_likes_given(user.id)
             if reply.user_id != user.id:
                 _counters.increment_user_likes_received(reply.user_id)
+            _notif.notify_reply_liked(user.id, reply_id)
         else:
             like.delete()
             Reply.objects.filter(pk=reply_id, thumbs_up_count__gt=0).update(thumbs_up_count=F('thumbs_up_count') - 1)
@@ -69,6 +73,7 @@ def toggle_reply_like(user, reply_id):
             _counters.decrement_user_likes_given(user.id)
             if reply.user_id != user.id:
                 _counters.decrement_user_likes_received(reply.user_id)
+            _notif.notify_reply_unliked(user.id, reply_id)
     return {'thumbsUpCount': current_count, 'isThumbedUp': is_thumbed_up}
 
 
@@ -96,6 +101,9 @@ def create_reply(user, post_id, content, parent_reply_id=None):
         if parent_reply_id:
             Reply.objects.filter(pk=parent_reply_id).update(reply_count=F('reply_count') + 1)
     _counters.increment_user_reply_count(user.id)
+    _notif.notify_new_reply(user.id, post_id, reply.id)
+    if parent_reply_id:
+        _notif.notify_reply_to_reply(user.id, parent_reply_id, post_id, reply.id)
     from .serializers import ReplySerializer
     return ReplySerializer(reply).data
 
@@ -136,11 +144,13 @@ def toggle_follow(user, target_user_id):
             is_following = False
             _counters.decrement_user_follower_count(target_user.id)
             _counters.decrement_user_following_count(user.id)
+            _notif.notify_unfollow(user.id, target_user.id)
         else:
             Follow.objects.create(follower=user, following=target_user, created_at=_now_ms())
             is_following = True
             _counters.increment_user_follower_count(target_user.id)
             _counters.increment_user_following_count(user.id)
+            _notif.notify_new_follow(user.id, target_user.id)
     follower_count = target_user.follower_count if hasattr(target_user, 'follower_count') and target_user.follower_count > 0 else Follow.objects.filter(following=target_user).count()
     return {'is_following': is_following, 'follower_count': follower_count}
 
