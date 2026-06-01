@@ -8,24 +8,12 @@ import androidx.credentials.GetCredentialRequest
 import androidx.credentials.CustomCredential
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
-import com.neb.ians.data.api.ApiService
-import com.neb.ians.data.api.GoogleAuthRequest
-import com.neb.ians.data.api.EmailSignupRequest
-import com.neb.ians.data.api.EmailLoginRequest
-import com.neb.ians.data.api.EmailVerifyRequest
-import com.neb.ians.data.api.EmailResendRequest
-import com.neb.ians.data.api.EmailForgotRequest
-import com.neb.ians.data.api.EmailResetPasswordRequest
-import com.neb.ians.data.api.SetPasswordRequest
-import com.neb.ians.data.api.ChangePasswordRequest
-import com.neb.ians.data.api.UserProfileRequest
-import com.neb.ians.data.api.UserProfileResponse
+import com.neb.ians.data.api.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.io.IOException
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -43,15 +31,15 @@ class AuthRepository @Inject constructor(
 ) {
     companion object {
         private val AUTH_TOKEN = stringPreferencesKey("auth_token")
-        private val AUTH_STATUS = stringPreferencesKey("auth_status") // "unauthenticated", "guest", "authenticated"
+        private val AUTH_STATUS = stringPreferencesKey("auth_status")
         private val PROFILE_COMPLETED = booleanPreferencesKey("profile_completed")
 
-        // User metadata keys cached locally
         val USER_ID = stringPreferencesKey("user_id")
         val USER_NAME = stringPreferencesKey("user_name")
         val USER_EMAIL = stringPreferencesKey("user_email")
         val USER_PHOTO_URL = stringPreferencesKey("user_photo_url")
         val USER_DISPLAY_NAME = stringPreferencesKey("user_display_name")
+        val USER_BANNER_URL = stringPreferencesKey("user_banner_url")
         val USER_DOB = stringPreferencesKey("user_dob")
         val USER_GENDER = stringPreferencesKey("user_gender")
         val USER_CLASS = stringPreferencesKey("user_class")
@@ -59,8 +47,18 @@ class AuthRepository @Inject constructor(
         val USER_PRADESH = stringPreferencesKey("user_pradesh")
         val USER_DISTRICT = stringPreferencesKey("user_district")
         val USER_SCHOOL = stringPreferencesKey("user_school")
+        val USER_BIO = stringPreferencesKey("user_bio")
         val USER_LOCKED = booleanPreferencesKey("user_locked")
         val USER_HAS_PASSWORD = booleanPreferencesKey("user_has_password")
+        val USER_IS_ADMIN = booleanPreferencesKey("user_is_admin")
+        val USER_VERIFICATION_LEVEL = intPreferencesKey("user_verification_level")
+        val USER_MODERATOR_LEVEL = intPreferencesKey("user_moderator_level")
+        val USER_POST_COUNT = intPreferencesKey("user_post_count")
+        val USER_REPLY_COUNT = intPreferencesKey("user_reply_count")
+        val USER_FOLLOWER_COUNT = intPreferencesKey("user_follower_count")
+        val USER_FOLLOWING_COUNT = intPreferencesKey("user_following_count")
+        val USER_CONTRIBUTION_SCORE = intPreferencesKey("user_contribution_score")
+        val USER_ACHIEVEMENT_BADGES = stringPreferencesKey("user_achievement_badges")
     }
 
     val authState: Flow<AuthState> = dataStore.data.map { preferences ->
@@ -71,11 +69,8 @@ class AuthRepository @Inject constructor(
         when (status) {
             "guest" -> AuthState.Guest
             "authenticated" -> {
-                if (token != null) {
-                    AuthState.Authenticated(token, completed)
-                } else {
-                    AuthState.Unauthenticated
-                }
+                if (token != null) AuthState.Authenticated(token, completed)
+                else AuthState.Unauthenticated
             }
             else -> AuthState.Unauthenticated
         }
@@ -93,6 +88,7 @@ class AuthRepository @Inject constructor(
             username = preferences[USER_NAME] ?: "",
             email = preferences[USER_EMAIL],
             photoUrl = preferences[USER_PHOTO_URL],
+            bannerUrl = preferences[USER_BANNER_URL],
             displayName = preferences[USER_DISPLAY_NAME],
             dob = preferences[USER_DOB] ?: "",
             gender = preferences[USER_GENDER],
@@ -101,16 +97,75 @@ class AuthRepository @Inject constructor(
             pradesh = preferences[USER_PRADESH],
             district = preferences[USER_DISTRICT],
             school = preferences[USER_SCHOOL],
+            bio = preferences[USER_BIO],
             isLocked = preferences[USER_LOCKED] ?: false,
-            hasPassword = preferences[USER_HAS_PASSWORD] ?: false
+            hasPassword = preferences[USER_HAS_PASSWORD] ?: false,
+            isAdmin = preferences[USER_IS_ADMIN] ?: false,
+            verificationLevel = preferences[USER_VERIFICATION_LEVEL] ?: 0,
+            moderatorLevel = preferences[USER_MODERATOR_LEVEL] ?: 0,
+            postCount = preferences[USER_POST_COUNT] ?: 0,
+            replyCount = preferences[USER_REPLY_COUNT] ?: 0,
+            followerCount = preferences[USER_FOLLOWER_COUNT] ?: 0,
+            followingCount = preferences[USER_FOLLOWING_COUNT] ?: 0,
+            contributionScore = preferences[USER_CONTRIBUTION_SCORE] ?: 0,
+            achievementBadges = preferences[USER_ACHIEVEMENT_BADGES]
         )
     }
 
-    // Modern Google One Tap login via Credential Manager
-    suspend fun signInWithGoogle(context: Context): GoogleSignInResult {
-        try {
-            val credentialManager = CredentialManager.create(context)
+    suspend fun getToken(): String? = tokenFlow.first()
 
+    fun getTokenSync(): String? {
+        return try {
+            kotlinx.coroutines.runBlocking { tokenFlow.first() }
+        } catch (_: Exception) { null }
+    }
+
+    suspend fun getBearerToken(): String? {
+        val token = getToken() ?: return null
+        return "Bearer $token"
+    }
+
+    private suspend fun cacheUser(user: UserProfileResponse, authToken: String, isNewUser: Boolean) {
+        dataStore.edit { prefs ->
+            prefs[AUTH_TOKEN] = authToken
+            prefs[AUTH_STATUS] = "authenticated"
+            prefs[USER_ID] = user.id
+            prefs[USER_EMAIL] = user.email ?: ""
+            prefs[USER_PHOTO_URL] = user.photoUrl ?: ""
+            prefs[USER_DISPLAY_NAME] = user.displayName ?: ""
+            prefs[USER_BANNER_URL] = user.bannerUrl ?: ""
+            prefs[USER_BIO] = user.bio ?: ""
+            if (isNewUser) {
+                prefs[PROFILE_COMPLETED] = false
+                prefs[USER_NAME] = ""
+            } else {
+                prefs[PROFILE_COMPLETED] = true
+                prefs[USER_NAME] = user.username
+                prefs[USER_DOB] = user.dob
+                prefs[USER_GENDER] = user.gender ?: ""
+                prefs[USER_CLASS] = user.classLevel ?: ""
+                prefs[USER_SUBJECTS] = user.subjects ?: ""
+                prefs[USER_PRADESH] = user.pradesh ?: ""
+                prefs[USER_DISTRICT] = user.district ?: ""
+                prefs[USER_SCHOOL] = user.school ?: ""
+                prefs[USER_LOCKED] = user.isLocked == 1
+                prefs[USER_HAS_PASSWORD] = user.hasPassword
+                prefs[USER_IS_ADMIN] = user.isAdmin
+                prefs[USER_VERIFICATION_LEVEL] = user.verificationLevel
+                prefs[USER_MODERATOR_LEVEL] = user.moderatorLevel
+                prefs[USER_POST_COUNT] = user.postCount
+                prefs[USER_REPLY_COUNT] = user.replyCount
+                prefs[USER_FOLLOWER_COUNT] = user.followerCount
+                prefs[USER_FOLLOWING_COUNT] = user.followingCount
+                prefs[USER_CONTRIBUTION_SCORE] = user.contributionScore
+                prefs[USER_ACHIEVEMENT_BADGES] = user.achievementBadges ?: ""
+            }
+        }
+    }
+
+    suspend fun signInWithGoogle(context: Context): GoogleSignInResult {
+        return try {
+            val credentialManager = CredentialManager.create(context)
             val googleIdOption = GetGoogleIdOption.Builder()
                 .setFilterByAuthorizedAccounts(false)
                 .setServerClientId("478709074228-cu0b0t75ghhsvqp2jotj75g6utj84nre.apps.googleusercontent.com")
@@ -128,60 +183,30 @@ class AuthRepository @Inject constructor(
                 val googleIdTokenCredential = GoogleIdTokenCredential.createFrom(credential.data)
                 val idToken = googleIdTokenCredential.idToken
 
-                // Authenticate with server on IO dispatcher
                 val response = withContext(Dispatchers.IO) {
                     apiService.authenticateGoogle(GoogleAuthRequest(idToken))
                 }
 
-                // Cache user info in DataStore on IO dispatcher
                 val user = response.user
                 val authToken = response.authToken ?: user.id
                 withContext(Dispatchers.IO) {
-                    dataStore.edit { prefs ->
-                        prefs[AUTH_TOKEN] = authToken
-                        prefs[AUTH_STATUS] = "authenticated"
-                        prefs[USER_ID] = user.id
-                        prefs[USER_EMAIL] = user.email ?: ""
-                        prefs[USER_PHOTO_URL] = user.photoUrl ?: ""
-                        prefs[USER_DISPLAY_NAME] = user.displayName ?: ""
-
-                        if (response.isNewUser) {
-                            prefs[PROFILE_COMPLETED] = false
-                            prefs[USER_NAME] = ""
-                        } else {
-                            prefs[PROFILE_COMPLETED] = true
-                            prefs[USER_NAME] = user.username
-                            prefs[USER_DOB] = user.dob
-                            prefs[USER_GENDER] = user.gender ?: ""
-                            prefs[USER_CLASS] = user.classLevel ?: ""
-                            prefs[USER_SUBJECTS] = user.subjects ?: ""
-                            prefs[USER_PRADESH] = user.pradesh ?: ""
-                            prefs[USER_DISTRICT] = user.district ?: ""
-                            prefs[USER_SCHOOL] = user.school ?: ""
-                            prefs[USER_LOCKED] = user.isLocked == 1
-                        prefs[USER_HAS_PASSWORD] = user.hasPassword
-                        }
-                    }
+                    cacheUser(user, authToken, response.isNewUser)
                 }
-
-                return GoogleSignInResult.Success(response.isNewUser)
+                GoogleSignInResult.Success(response.isNewUser)
             } else {
-                return GoogleSignInResult.Failure("Unsupported credential type")
+                GoogleSignInResult.Failure("Unsupported credential type")
             }
         } catch (e: Exception) {
-            return GoogleSignInResult.Failure(e.localizedMessage ?: "Google Sign-In failed")
+            GoogleSignInResult.Failure(e.localizedMessage ?: "Google Sign-In failed")
         }
     }
 
     suspend fun completeProfile(profile: UserProfileRequest): Boolean {
         return try {
-            val token = tokenFlow.first() ?: return false
-            val bearer = "Bearer $token"
+            val bearer = getBearerToken() ?: return false
             val response = withContext(Dispatchers.IO) {
                 apiService.updateProfile(bearer, profile)
             }
-
-            // Success, save details
             val user = response.user
             withContext(Dispatchers.IO) {
                 dataStore.edit { prefs ->
@@ -195,24 +220,20 @@ class AuthRepository @Inject constructor(
                     prefs[USER_DISTRICT] = user.district ?: ""
                     prefs[USER_SCHOOL] = user.school ?: ""
                     prefs[USER_LOCKED] = user.isLocked == 1
-                        prefs[USER_HAS_PASSWORD] = user.hasPassword
+                    prefs[USER_HAS_PASSWORD] = user.hasPassword
                 }
             }
             true
-        } catch (e: Exception) {
-            false
-        }
+        } catch (_: Exception) { false }
     }
 
     suspend fun continueAsGuest() {
-        withContext(Dispatchers.IO) {
-            dataStore.edit { prefs ->
-                prefs[AUTH_STATUS] = "guest"
-                prefs[AUTH_TOKEN] = ""
-                prefs[PROFILE_COMPLETED] = false
-                prefs[USER_ID] = "guest_user"
-                prefs[USER_NAME] = "Guest"
-            }
+        dataStore.edit { prefs ->
+            prefs[AUTH_STATUS] = "guest"
+            prefs[AUTH_TOKEN] = ""
+            prefs[PROFILE_COMPLETED] = false
+            prefs[USER_ID] = "guest_user"
+            prefs[USER_NAME] = "Guest"
         }
     }
 
@@ -239,18 +260,7 @@ class AuthRepository @Inject constructor(
             if (response.status == "success" && response.authToken != null) {
                 val user = response.user
                 val authToken = response.authToken!!
-                withContext(Dispatchers.IO) {
-                    dataStore.edit { prefs ->
-                        prefs[AUTH_TOKEN] = authToken
-                        prefs[AUTH_STATUS] = "authenticated"
-                        prefs[USER_ID] = user.id
-                        prefs[USER_EMAIL] = user.email ?: ""
-                        prefs[USER_PHOTO_URL] = user.photoUrl ?: ""
-                        prefs[USER_DISPLAY_NAME] = user.displayName ?: ""
-                        prefs[PROFILE_COMPLETED] = false
-                        prefs[USER_NAME] = ""
-                    }
-                }
+                withContext(Dispatchers.IO) { cacheUser(user, authToken, response.isNewUser) }
                 EmailAuthResult.VerifySuccess(response.isNewUser, authToken, user)
             } else {
                 EmailAuthResult.Failure("Verification failed")
@@ -262,14 +272,8 @@ class AuthRepository @Inject constructor(
 
     suspend fun emailResendCode(email: String): EmailAuthResult {
         return try {
-            val response = withContext(Dispatchers.IO) {
-                apiService.emailResendCode(EmailResendRequest(email))
-            }
-            if (response.status == "success") {
-                EmailAuthResult.Message(response.message.ifEmpty { "Code resent" })
-            } else {
-                EmailAuthResult.Failure("Failed to resend code")
-            }
+            val response = withContext(Dispatchers.IO) { apiService.emailResendCode(EmailResendRequest(email)) }
+            EmailAuthResult.Message(response.message.ifEmpty { "Code resent" })
         } catch (e: Exception) {
             EmailAuthResult.Failure(e.localizedMessage ?: "Failed to resend code")
         }
@@ -283,32 +287,7 @@ class AuthRepository @Inject constructor(
             if (response.status == "success" && response.authToken != null) {
                 val user = response.user
                 val authToken = response.authToken!!
-                withContext(Dispatchers.IO) {
-                    dataStore.edit { prefs ->
-                        prefs[AUTH_TOKEN] = authToken
-                        prefs[AUTH_STATUS] = "authenticated"
-                        prefs[USER_ID] = user.id
-                        prefs[USER_EMAIL] = user.email ?: ""
-                        prefs[USER_PHOTO_URL] = user.photoUrl ?: ""
-                        prefs[USER_DISPLAY_NAME] = user.displayName ?: ""
-                        if (response.isNewUser) {
-                            prefs[PROFILE_COMPLETED] = false
-                            prefs[USER_NAME] = ""
-                        } else {
-                            prefs[PROFILE_COMPLETED] = true
-                            prefs[USER_NAME] = user.username
-                            prefs[USER_DOB] = user.dob
-                            prefs[USER_GENDER] = user.gender ?: ""
-                            prefs[USER_CLASS] = user.classLevel ?: ""
-                            prefs[USER_SUBJECTS] = user.subjects ?: ""
-                            prefs[USER_PRADESH] = user.pradesh ?: ""
-                            prefs[USER_DISTRICT] = user.district ?: ""
-                            prefs[USER_SCHOOL] = user.school ?: ""
-                            prefs[USER_LOCKED] = user.isLocked == 1
-                        prefs[USER_HAS_PASSWORD] = user.hasPassword
-                        }
-                    }
-                }
+                withContext(Dispatchers.IO) { cacheUser(user, authToken, response.isNewUser) }
                 EmailAuthResult.LoginSuccess(response.isNewUser, authToken, user)
             } else {
                 EmailAuthResult.Failure("Login failed")
@@ -320,9 +299,7 @@ class AuthRepository @Inject constructor(
 
     suspend fun emailForgotPassword(email: String): EmailAuthResult {
         return try {
-            val response = withContext(Dispatchers.IO) {
-                apiService.emailForgotPassword(EmailForgotRequest(email))
-            }
+            val response = withContext(Dispatchers.IO) { apiService.emailForgotPassword(EmailForgotRequest(email)) }
             EmailAuthResult.Message(response.message.ifEmpty { "If an account exists, a code has been sent" })
         } catch (e: Exception) {
             EmailAuthResult.Failure(e.localizedMessage ?: "Failed to send reset code")
@@ -337,28 +314,7 @@ class AuthRepository @Inject constructor(
             if (response.status == "success" && response.authToken != null) {
                 val user = response.user
                 val authToken = response.authToken!!
-                withContext(Dispatchers.IO) {
-                    dataStore.edit { prefs ->
-                        prefs[AUTH_TOKEN] = authToken
-                        prefs[AUTH_STATUS] = "authenticated"
-                        prefs[USER_ID] = user.id
-                        prefs[USER_EMAIL] = user.email ?: ""
-                        prefs[USER_PHOTO_URL] = user.photoUrl ?: ""
-                        prefs[USER_DISPLAY_NAME] = user.displayName ?: ""
-                        prefs[PROFILE_COMPLETED] = true
-                        prefs[USER_NAME] = user.username
-                        prefs[USER_DOB] = user.dob
-                        prefs[USER_GENDER] = user.gender ?: ""
-                        prefs[USER_CLASS] = user.classLevel ?: ""
-                        prefs[USER_SUBJECTS] = user.subjects ?: ""
-                        prefs[USER_PRADESH] = user.pradesh ?: ""
-                        prefs[USER_DISTRICT] = user.district ?: ""
-                        prefs[USER_SCHOOL] = user.school ?: ""
-                        prefs[USER_LOCKED] = user.isLocked == 1
-                        prefs[USER_HAS_PASSWORD] = user.hasPassword
-                        prefs[USER_HAS_PASSWORD] = user.hasPassword
-                    }
-                }
+                withContext(Dispatchers.IO) { cacheUser(user, authToken, false) }
                 EmailAuthResult.ResetSuccess(authToken, user)
             } else {
                 EmailAuthResult.Failure("Password reset failed")
@@ -370,16 +326,10 @@ class AuthRepository @Inject constructor(
 
     suspend fun setPassword(password: String): PasswordResult {
         return try {
-            val token = tokenFlow.first() ?: return PasswordResult.Failure("Not authenticated")
-            val response = withContext(Dispatchers.IO) {
-                apiService.setPassword("Bearer $token", SetPasswordRequest(password))
-            }
+            val bearer = getBearerToken() ?: return PasswordResult.Failure("Not authenticated")
+            val response = withContext(Dispatchers.IO) { apiService.setPassword(bearer, SetPasswordRequest(password)) }
             if (response.status == "success") {
-                withContext(Dispatchers.IO) {
-                    dataStore.edit { prefs ->
-                        prefs[USER_HAS_PASSWORD] = true
-                    }
-                }
+                dataStore.edit { prefs -> prefs[USER_HAS_PASSWORD] = true }
                 PasswordResult.Success
             } else {
                 PasswordResult.Failure(response.error ?: "Failed to set password")
@@ -391,18 +341,13 @@ class AuthRepository @Inject constructor(
 
     suspend fun changePassword(currentPassword: String, newPassword: String): PasswordResult {
         return try {
-            val token = tokenFlow.first() ?: return PasswordResult.Failure("Not authenticated")
+            val bearer = getBearerToken() ?: return PasswordResult.Failure("Not authenticated")
             val response = withContext(Dispatchers.IO) {
-                apiService.changePassword("Bearer $token", ChangePasswordRequest(currentPassword, newPassword))
+                apiService.changePassword(bearer, ChangePasswordRequest(currentPassword, newPassword))
             }
             if (response.status == "success") {
-                val newToken = response.authToken
-                if (newToken != null) {
-                    withContext(Dispatchers.IO) {
-                        dataStore.edit { prefs ->
-                            prefs[AUTH_TOKEN] = newToken
-                        }
-                    }
+                response.authToken?.let { newToken ->
+                    dataStore.edit { prefs -> prefs[AUTH_TOKEN] = newToken }
                 }
                 PasswordResult.Success
             } else {
@@ -413,27 +358,61 @@ class AuthRepository @Inject constructor(
         }
     }
 
-    suspend fun logout() {
-        withContext(Dispatchers.IO) {
-            dataStore.edit { prefs ->
-                prefs[AUTH_STATUS] = "unauthenticated"
-                prefs[AUTH_TOKEN] = ""
-                prefs[PROFILE_COMPLETED] = false
-                prefs[USER_ID] = ""
-                prefs[USER_NAME] = "Student"
-                prefs[USER_EMAIL] = ""
-                prefs[USER_PHOTO_URL] = ""
-                prefs[USER_DISPLAY_NAME] = ""
-                prefs[USER_DOB] = ""
-                prefs[USER_GENDER] = ""
-                prefs[USER_CLASS] = ""
-                prefs[USER_SUBJECTS] = ""
-                prefs[USER_PRADESH] = ""
-                prefs[USER_DISTRICT] = ""
-                prefs[USER_SCHOOL] = ""
-                prefs[USER_LOCKED] = false
-                prefs[USER_HAS_PASSWORD] = false
+    suspend fun refreshProfile() {
+        try {
+            val bearer = getBearerToken() ?: return
+            val username = dataStore.data.first()[USER_NAME] ?: return
+            val response = withContext(Dispatchers.IO) { apiService.getProfile(bearer, username) }
+            withContext(Dispatchers.IO) {
+                dataStore.edit { prefs ->
+                    prefs[USER_PHOTO_URL] = response.photoUrl ?: ""
+                    prefs[USER_DISPLAY_NAME] = response.displayName ?: ""
+                    prefs[USER_BANNER_URL] = response.bannerUrl ?: ""
+                    prefs[USER_BIO] = response.bio ?: ""
+                    prefs[USER_FOLLOWER_COUNT] = response.followerCount
+                    prefs[USER_FOLLOWING_COUNT] = response.followingCount
+                    prefs[USER_POST_COUNT] = response.postCount
+                    prefs[USER_REPLY_COUNT] = response.replyCount
+                    prefs[USER_CONTRIBUTION_SCORE] = response.contributionScore
+                    prefs[USER_VERIFICATION_LEVEL] = response.verificationLevel
+                    prefs[USER_MODERATOR_LEVEL] = response.moderatorLevel
+                    prefs[USER_IS_ADMIN] = response.isAdmin
+                    prefs[USER_ACHIEVEMENT_BADGES] = response.achievementBadges ?: ""
+                }
             }
+        } catch (_: Exception) { }
+    }
+
+    suspend fun logout() {
+        dataStore.edit { prefs ->
+            prefs[AUTH_STATUS] = "unauthenticated"
+            prefs[AUTH_TOKEN] = ""
+            prefs[PROFILE_COMPLETED] = false
+            prefs[USER_ID] = ""
+            prefs[USER_NAME] = "Student"
+            prefs[USER_EMAIL] = ""
+            prefs[USER_PHOTO_URL] = ""
+            prefs[USER_DISPLAY_NAME] = ""
+            prefs[USER_BANNER_URL] = ""
+            prefs[USER_DOB] = ""
+            prefs[USER_GENDER] = ""
+            prefs[USER_CLASS] = ""
+            prefs[USER_SUBJECTS] = ""
+            prefs[USER_PRADESH] = ""
+            prefs[USER_DISTRICT] = ""
+            prefs[USER_SCHOOL] = ""
+            prefs[USER_BIO] = ""
+            prefs[USER_LOCKED] = false
+            prefs[USER_HAS_PASSWORD] = false
+            prefs[USER_IS_ADMIN] = false
+            prefs[USER_VERIFICATION_LEVEL] = 0
+            prefs[USER_MODERATOR_LEVEL] = 0
+            prefs[USER_POST_COUNT] = 0
+            prefs[USER_REPLY_COUNT] = 0
+            prefs[USER_FOLLOWER_COUNT] = 0
+            prefs[USER_FOLLOWING_COUNT] = 0
+            prefs[USER_CONTRIBUTION_SCORE] = 0
+            prefs[USER_ACHIEVEMENT_BADGES] = ""
         }
     }
 }
@@ -462,6 +441,7 @@ data class UserProfileCache(
     val username: String,
     val email: String?,
     val photoUrl: String?,
+    val bannerUrl: String?,
     val displayName: String?,
     val dob: String,
     val gender: String?,
@@ -470,6 +450,16 @@ data class UserProfileCache(
     val pradesh: String?,
     val district: String?,
     val school: String?,
+    val bio: String?,
     val isLocked: Boolean,
-    val hasPassword: Boolean = false
+    val hasPassword: Boolean = false,
+    val isAdmin: Boolean = false,
+    val verificationLevel: Int = 0,
+    val moderatorLevel: Int = 0,
+    val postCount: Int = 0,
+    val replyCount: Int = 0,
+    val followerCount: Int = 0,
+    val followingCount: Int = 0,
+    val contributionScore: Int = 0,
+    val achievementBadges: String? = null
 )

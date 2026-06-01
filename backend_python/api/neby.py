@@ -156,6 +156,8 @@ def trigger_neby_reply_post(post):
                 Post.objects.filter(pk=post.pk).update(reply_count=F('reply_count') + 1)
             from . import counters as _counters
             _counters.increment_user_reply_count(bot_user.id)
+            from . import notifications as _notif
+            _notif.notify_new_reply(bot_user.id, post.id, reply.id)
             logger.info(f'Neby replied to post {post.id}')
         except Exception as e:
             logger.error(f'Neby async reply to post failed: {e}', exc_info=True)
@@ -216,6 +218,11 @@ def trigger_neby_reply_reply(reply):
                 Reply.objects.filter(pk=reply_id).update(reply_count=F('reply_count') + 1)
             from . import counters as _counters
             _counters.increment_user_reply_count(bot_user.id)
+            from . import notifications as _notif
+            if parent_reply_id:
+                _notif.notify_reply_to_reply(bot_user.id, parent_reply_id, post_id, neby_reply.id)
+            else:
+                _notif.notify_new_reply(bot_user.id, post_id, neby_reply.id)
             logger.info(f'Neby replied to reply {reply_id}')
         except Exception as e:
             logger.error(f'Neby async reply to reply failed: {e}', exc_info=True)
