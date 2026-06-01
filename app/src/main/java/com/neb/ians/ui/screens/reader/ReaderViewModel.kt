@@ -9,9 +9,9 @@ import android.os.ParcelFileDescriptor
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.neb.ians.data.api.ApiResource
 import com.neb.ians.data.local.entity.AnnotationEntity
 import com.neb.ians.data.local.entity.BookmarkEntity
-import com.neb.ians.data.local.entity.ResourceEntity
 import com.neb.ians.data.repository.AnnotationRepository
 import com.neb.ians.data.repository.BookmarkRepository
 import com.neb.ians.data.repository.ResourceRepository
@@ -36,7 +36,7 @@ data class PendingAnnotationCoords(
 )
 
 data class ReaderPageState(
-    val resource: ResourceEntity? = null,
+    val resource: ApiResource? = null,
     val currentPage: Int = 0,
     val totalPages: Int = 0,
     val pageBitmap: Bitmap? = null,
@@ -120,22 +120,22 @@ class ReaderViewModel @Inject constructor(
 
     private fun loadResource() {
         viewModelScope.launch {
-            resourceRepository.getResourceById(resourceId)
-                .distinctUntilChanged()
-                .collect { resource ->
+            resourceRepository.getResource(resourceId)
+                .onSuccess { resource ->
                     _pageState.update { it.copy(resource = resource) }
-                    if (resource != null) {
-                        resourceRepository.incrementViewCount(resource.id)
-                        val localFile = downloadManager.getLocalFile(resource)
-                        if (localFile != null && localFile.exists()) {
-                            _pageState.update { it.copy(needsDownload = false) }
-                            openPdf(localFile.absolutePath)
-                        } else if (resource.fileUrl.isNotBlank()) {
-                            _pageState.update { it.copy(needsDownload = true, isLoading = false) }
-                        } else {
-                            loadSamplePdf()
-                        }
+                    resourceRepository.viewResource(resourceId)
+                    val localFile = downloadManager.getLocalFile(resource.id, resource.fileUrl)
+                    if (localFile != null && localFile.exists()) {
+                        _pageState.update { it.copy(needsDownload = false) }
+                        openPdf(localFile.absolutePath)
+                    } else if (resource.fileUrl.isNotBlank()) {
+                        _pageState.update { it.copy(needsDownload = true, isLoading = false) }
+                    } else {
+                        loadSamplePdf()
                     }
+                }
+                .onFailure { e ->
+                    _pageState.update { it.copy(error = e.message, isLoading = false) }
                 }
         }
     }
@@ -144,20 +144,19 @@ class ReaderViewModel @Inject constructor(
         val resource = _pageState.value.resource ?: return
         if (downloadManager.isDownloading(resource.id)) return
         _pageState.update { it.copy(isDownloading = true, downloadProgress = 0) }
-        downloadManager.downloadResource(resource)
+        downloadManager.downloadResourceFromApi(resource)
         viewModelScope.launch {
-            resourceRepository.getResourceById(resource.id)
-                .distinctUntilChanged()
-                .collect { updated ->
-                    if (updated != null && updated.isDownloaded && !updated.localPath.isNullOrBlank()) {
-                        val file = File(updated.localPath)
-                        if (file.exists()) {
-                            _pageState.update { it.copy(needsDownload = false) }
-                            openPdf(updated.localPath)
-                            return@collect
-                        }
+            downloadManager.downloadProgress.collect { progressMap ->
+                val progress = progressMap[resource.id] ?: 0
+                if (progress == 100) {
+                    val localFile = downloadManager.getLocalFile(resource.id, resource.fileUrl)
+                    if (localFile != null && localFile.exists()) {
+                        _pageState.update { it.copy(needsDownload = false, isDownloading = false) }
+                        openPdf(localFile.absolutePath)
+                        return@collect
                     }
                 }
+            }
         }
     }
 

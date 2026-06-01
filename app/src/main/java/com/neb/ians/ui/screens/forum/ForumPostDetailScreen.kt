@@ -25,8 +25,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.neb.ians.data.local.entity.ForumPostEntity
-import com.neb.ians.data.local.entity.ForumReplyEntity
+import com.neb.ians.data.api.ApiPost
+import com.neb.ians.data.api.ApiReply
 import com.neb.ians.util.formatTimeAgo
 import com.neb.ians.util.getSubjectColor
 
@@ -174,7 +174,7 @@ fun ForumPostDetailScreen(
 
 @Composable
 private fun PostContentSection(
-    post: ForumPostEntity,
+    post: ApiPost,
     onThumbsUpClick: () -> Unit
 ) {
     val categoryColor = Color(getSubjectColor(post.category))
@@ -282,7 +282,7 @@ private fun PostContentSection(
 
 @Composable
 private fun ReplyItem(
-    reply: ForumReplyEntity,
+    reply: ApiReply,
     onThumbsUpClick: () -> Unit,
     onReplyClick: () -> Unit
 ) {

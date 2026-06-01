@@ -2,10 +2,11 @@ package com.neb.ians.ui.screens.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.neb.ians.data.local.entity.ResourceEntity
-import com.neb.ians.data.local.entity.ForumPostEntity
-import com.neb.ians.data.repository.ResourceRepository
-import com.neb.ians.data.repository.ForumRepository
+import com.neb.ians.data.api.ApiResource
+import com.neb.ians.data.api.ApiPost
+import com.neb.ians.data.api.ApiService
+import com.neb.ians.data.api.ApiHomeResponse
+import com.neb.ians.data.repository.AuthRepository
 import com.neb.ians.data.repository.SettingsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -14,9 +15,9 @@ import javax.inject.Inject
 
 data class HomeUiState(
     val userName: String = "Student",
-    val recentResources: List<ResourceEntity> = emptyList(),
-    val popularResources: List<ResourceEntity> = emptyList(),
-    val recentPosts: List<ForumPostEntity> = emptyList(),
+    val recentResources: List<ApiResource> = emptyList(),
+    val popularResources: List<ApiResource> = emptyList(),
+    val recentPosts: List<ApiPost> = emptyList(),
     val isLoading: Boolean = true,
     val error: String? = null
 ) {
@@ -30,54 +31,55 @@ data class HomeUiState(
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val resourceRepository: ResourceRepository,
-    private val forumRepository: ForumRepository,
+    private val apiService: ApiService,
+    private val authRepository: AuthRepository,
     private val settingsRepository: SettingsRepository
 ) : ViewModel() {
 
     private val _isLoading = MutableStateFlow(true)
     private val _error = MutableStateFlow<String?>(null)
+    private val _recentResources = MutableStateFlow<List<ApiResource>>(emptyList())
+    private val _popularResources = MutableStateFlow<List<ApiResource>>(emptyList())
+    private val _recentPosts = MutableStateFlow<List<ApiPost>>(emptyList())
 
     init {
-        syncData()
+        loadData()
     }
 
-    private fun syncData() {
+    private fun loadData() {
         viewModelScope.launch {
             _isLoading.value = true
             _error.value = null
             try {
-                resourceRepository.syncResources()
+                val token = authRepository.getBearerToken()
+                val homeData = apiService.getHomeData(token)
+                _recentResources.value = homeData.recentResources
+                _popularResources.value = homeData.popularResources
+                _recentPosts.value = homeData.recentPosts
             } catch (e: Exception) {
-                _error.value = e.message ?: "Failed to load resources"
-            }
-            try {
-                forumRepository.syncPosts()
-            } catch (e: Exception) {
-                if (_error.value == null) {
-                    _error.value = e.message ?: "Failed to load forum posts"
-                }
+                _error.value = e.message ?: "Failed to load data"
             }
             _isLoading.value = false
         }
     }
 
     fun refresh() {
-        syncData()
+        loadData()
     }
 
     val uiState: StateFlow<HomeUiState> = combine(
         settingsRepository.userName,
-        resourceRepository.getAllResources().distinctUntilChanged(),
-        forumRepository.getAllPosts().distinctUntilChanged(),
+        _recentResources,
+        _popularResources,
+        _recentPosts,
         _isLoading,
         _error
-    ) { userName, resources, posts, isLoading, error ->
+    ) { userName, recent, popular, posts, isLoading, error ->
         HomeUiState(
             userName = userName,
-            recentResources = resources.sortedByDescending { it.addedAt }.take(6),
-            popularResources = resources.sortedByDescending { it.viewCount }.take(6),
-            recentPosts = posts.sortedByDescending { it.createdAt }.take(3),
+            recentResources = recent,
+            popularResources = popular,
+            recentPosts = posts,
             isLoading = isLoading,
             error = error
         )
