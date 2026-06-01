@@ -14,7 +14,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 import com.neb.ians.data.api.ApiService
 import com.neb.ians.data.api.UserProfileResponse
@@ -39,7 +39,7 @@ class EditProfileViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val token = authRepository.getBearerToken()
-                val username = authRepository.userProfileFlow.value?.username ?: return@launch
+                val username = authRepository.userProfileFlow.first()?.username ?: return@launch
                 val profile = apiService.getProfile(token, username)
                 _uiState.value = _uiState.value.copy(profile = profile, isLoading = false)
             } catch (e: Exception) {

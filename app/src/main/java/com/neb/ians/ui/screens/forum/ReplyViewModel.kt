@@ -4,7 +4,6 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.neb.ians.data.repository.ForumRepository
-import com.neb.ians.data.repository.SettingsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -20,8 +19,7 @@ data class ReplyUiState(
 @HiltViewModel
 class ReplyViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val forumRepository: ForumRepository,
-    private val settingsRepository: SettingsRepository
+    private val forumRepository: ForumRepository
 ) : ViewModel() {
 
     private val postId: String = savedStateHandle.get<String>("postId") ?: ""
@@ -32,8 +30,10 @@ class ReplyViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            val post = forumRepository.getPostById(postId).first()
-            _uiState.update { it.copy(postTitle = post?.title ?: "") }
+            forumRepository.getPost(postId)
+                .onSuccess { post ->
+                    _uiState.update { it.copy(postTitle = post.title) }
+                }
         }
     }
 
@@ -47,17 +47,14 @@ class ReplyViewModel @Inject constructor(
 
         viewModelScope.launch {
             _uiState.update { it.copy(isSubmitting = true, error = null) }
-            try {
-                val userName = settingsRepository.userName.first()
-                forumRepository.createReply(
-                    postId = postId,
-                    content = content,
-                    authorName = userName,
-                    parentReplyId = replyToId
-                )
+            forumRepository.createReply(
+                postId = postId,
+                content = content,
+                parentReplyId = replyToId
+            ).onSuccess {
                 _uiState.update { it.copy(isSubmitting = false) }
                 onSuccess()
-            } catch (e: Exception) {
+            }.onFailure { e ->
                 _uiState.update { it.copy(isSubmitting = false, error = e.message ?: "Failed to submit reply") }
             }
         }

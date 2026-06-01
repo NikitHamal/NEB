@@ -1,8 +1,7 @@
 package com.neb.ians.util
 
 import android.content.Context
-import com.neb.ians.data.local.dao.ResourceDao
-import com.neb.ians.data.local.entity.ResourceEntity
+import com.neb.ians.data.api.ApiResource
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -20,8 +19,7 @@ import javax.inject.Singleton
 
 @Singleton
 class ResourceDownloadManager @Inject constructor(
-    @ApplicationContext private val context: Context,
-    private val resourceDao: ResourceDao
+    @ApplicationContext private val context: Context
 ) {
     private val client = OkHttpClient.Builder()
         .connectTimeout(30, TimeUnit.SECONDS)
@@ -34,19 +32,19 @@ class ResourceDownloadManager @Inject constructor(
     private val _downloadProgress = MutableStateFlow<Map<String, Int>>(emptyMap())
     val downloadProgress: StateFlow<Map<String, Int>> = _downloadProgress
 
-    fun downloadResource(resource: ResourceEntity) {
+    private val downloadedFiles = mutableMapOf<String, String>()
+
+    fun downloadResourceFromApi(resource: ApiResource) {
         if (activeDownloads.containsKey(resource.id)) return
-        if (resource.isDownloaded && !resource.localPath.isNullOrEmpty()) {
-            val file = File(resource.localPath)
-            if (file.exists()) return
-        }
+
+        val localFile = getLocalFile(resource.id, resource.fileUrl)
+        if (localFile != null && localFile.exists()) return
 
         val job = scope.launch {
             try {
                 _downloadProgress.value = _downloadProgress.value.toMutableMap().apply {
                     this[resource.id] = 0
                 }
-                resourceDao.updateDownloadProgress(resource.id, 0)
 
                 val url = resource.fileUrl
                 if (url.isBlank()) {
@@ -93,16 +91,12 @@ class ResourceDownloadManager @Inject constructor(
                                 _downloadProgress.value = _downloadProgress.value.toMutableMap().apply {
                                     this[resource.id] = progress
                                 }
-                                if (progress % 10 == 0) {
-                                    resourceDao.updateDownloadProgress(resource.id, progress)
-                                }
                             }
                         }
                     }
                 }
 
-                resourceDao.updateDownloadStatus(resource.id, true, file.absolutePath)
-                resourceDao.updateDownloadProgress(resource.id, 100)
+                downloadedFiles[resource.id] = file.absolutePath
                 _downloadProgress.value = _downloadProgress.value.toMutableMap().apply {
                     this[resource.id] = 100
                 }
@@ -110,7 +104,6 @@ class ResourceDownloadManager @Inject constructor(
                 _downloadProgress.value = _downloadProgress.value.toMutableMap().apply {
                     this[resource.id] = -1
                 }
-                resourceDao.updateDownloadProgress(resource.id, -1)
             } finally {
                 activeDownloads.remove(resource.id)
             }
@@ -124,29 +117,21 @@ class ResourceDownloadManager @Inject constructor(
         _downloadProgress.value = _downloadProgress.value.toMutableMap().apply {
             remove(resourceId)
         }
-        scope.launch {
-            resourceDao.updateDownloadProgress(resourceId, 0)
-        }
     }
 
     fun isDownloading(resourceId: String): Boolean = activeDownloads.containsKey(resourceId)
 
-    fun getLocalFile(resource: ResourceEntity): File? {
-        if (!resource.isDownloaded) return null
-        val path = resource.localPath ?: return null
-        val file = File(path)
-        return if (file.exists()) file else null
-    }
-
-    suspend fun deleteDownload(resourceId: String) {
-        cancelDownload(resourceId)
-        val resource = resourceDao.getByIdSync(resourceId) ?: return
-        val path = resource.localPath
-        if (!path.isNullOrEmpty()) {
+    fun getLocalFile(resourceId: String, fileUrl: String): File? {
+        downloadedFiles[resourceId]?.let { path ->
             val file = File(path)
-            if (file.exists()) file.delete()
+            if (file.exists()) return file
         }
-        resourceDao.updateDownloadStatus(resourceId, false, null)
-        resourceDao.updateDownloadProgress(resourceId, 0)
+        val dir = File(context.filesDir, "resources")
+        val file = File(dir, "${resourceId}.pdf")
+        if (file.exists()) {
+            downloadedFiles[resourceId] = file.absolutePath
+            return file
+        }
+        return null
     }
 }

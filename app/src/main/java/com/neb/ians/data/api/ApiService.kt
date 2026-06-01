@@ -742,7 +742,7 @@ interface ApiService {
                 .addInterceptor { chain ->
                     val request = chain.request().newBuilder()
                     tokenProvider?.invoke()?.let { token ->
-                        request.addHeader("Authorization", "Bearer $token")
+                        request.header("Authorization", "Bearer $token")
                     }
                     chain.proceed(request.build())
                 }

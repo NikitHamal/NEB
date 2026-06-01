@@ -1,170 +1,143 @@
 package com.neb.ians.data.repository
 
-import com.neb.ians.data.local.dao.ForumDao
-import com.neb.ians.data.local.entity.ForumPostEntity
-import com.neb.ians.data.local.entity.ForumReplyEntity
+import com.neb.ians.data.api.ApiPost
+import com.neb.ians.data.api.ApiReply
+import com.neb.ians.data.api.ApiService
+import com.neb.ians.data.api.ApiPaginatedPosts
+import com.neb.ians.data.api.LikeResponse
+import com.neb.ians.data.api.PostCreateRequest
+import com.neb.ians.data.api.ReplyCreateRequest
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
-import java.util.UUID
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 import javax.inject.Singleton
 
+data class ForumPostsResult(
+    val posts: List<ApiPost>,
+    val totalCount: Int,
+    val page: Int,
+    val totalPages: Int
+)
+
 @Singleton
 class ForumRepository @Inject constructor(
-    private val forumDao: ForumDao,
-    private val apiService: com.neb.ians.data.api.ApiService,
+    private val apiService: ApiService,
     private val authRepository: AuthRepository
 ) {
-    private suspend fun getBearerToken(): String? {
-        return authRepository.tokenFlow.first()?.let { "Bearer $it" }
-    }
+    private val _cachedPosts = MutableStateFlow<List<ApiPost>>(emptyList())
+    val cachedPosts: Flow<List<ApiPost>> = _cachedPosts.asStateFlow()
 
-    suspend fun syncPosts() {
-        try {
-            val bearer = getBearerToken()
-            val apiPosts = apiService.getPosts(bearer)
-            val serverIds = apiPosts.map { it.id }
-            if (serverIds.isEmpty()) {
-                forumDao.deleteAllPosts()
-            } else {
-                forumDao.deletePostsExceptWithIds(serverIds)
-            }
-            val entities = apiPosts.map { p ->
-                ForumPostEntity(
-                    id = p.id,
-                    title = p.title,
-                    content = p.content,
-                    authorName = p.authorName,
-                    authorId = p.authorId,
-                    category = p.category,
-                    thumbsUpCount = p.thumbsUpCount,
-                    replyCount = p.replyCount,
-                    createdAt = p.createdAt,
-                    updatedAt = p.updatedAt,
-                    isThumbedUp = p.isThumbedUp
-                )
-            }
-            // Clear current post cache and save latest synced posts
-            entities.forEach { forumDao.insertPost(it) }
+    private suspend fun getBearerToken(): String? = authRepository.getBearerToken()
+
+    suspend fun getPosts(category: String? = null, page: Int? = null): Result<ForumPostsResult> {
+        return try {
+            val token = getBearerToken()
+            val response = apiService.getPosts(token, category, page)
+            _cachedPosts.value = response.posts
+            Result.success(ForumPostsResult(response.posts, response.totalCount, response.page, response.totalPages))
         } catch (e: Exception) {
-            // Offline fallback
+            Result.failure(e)
         }
     }
 
-    suspend fun syncRepliesForPost(postId: String) {
-        try {
-            val bearer = getBearerToken()
-            val apiReplies = apiService.getReplies(bearer, postId)
-            val serverIds = apiReplies.map { r -> r.id }
-            if (serverIds.isEmpty()) {
-                forumDao.deleteAllRepliesForPost(postId)
-            } else {
-                forumDao.deleteRepliesForPostExceptWithIds(postId, serverIds)
-            }
-            val entities = apiReplies.map { r ->
-                ForumReplyEntity(
-                    id = r.id,
-                    postId = r.postId,
-                    parentReplyId = r.parentReplyId,
-                    content = r.content,
-                    authorName = r.authorName,
-                    authorId = r.authorId,
-                    thumbsUpCount = r.thumbsUpCount,
-                    createdAt = r.createdAt,
-                    isThumbedUp = r.isThumbedUp
-                )
-            }
-            entities.forEach { forumDao.insertReply(it) }
+    suspend fun getPost(postId: String): Result<ApiPost> {
+        return try {
+            val token = getBearerToken()
+            val post = apiService.getPost(token, postId)
+            Result.success(post)
         } catch (e: Exception) {
-            // Offline fallback
+            Result.failure(e)
         }
     }
 
-    fun getAllPosts(): Flow<List<ForumPostEntity>> = forumDao.getAllPosts()
-
-    fun getPostById(id: String): Flow<ForumPostEntity?> = forumDao.getPostById(id)
-
-    fun getPostsByCategory(category: String): Flow<List<ForumPostEntity>> = forumDao.getPostsByCategory(category)
-
-    fun searchPosts(query: String): Flow<List<ForumPostEntity>> = forumDao.searchPosts("%$query%")
-
-    fun getRepliesForPost(postId: String): Flow<List<ForumReplyEntity>> = forumDao.getRepliesForPost(postId)
-
-    suspend fun createPost(title: String, content: String, authorName: String, category: String): ForumPostEntity {
-        val bearer = getBearerToken() ?: throw IllegalStateException("User not authenticated")
-        val apiPost = apiService.createPost(bearer, com.neb.ians.data.api.ApiPostCreateRequest(title, content, category))
-        
-        val post = ForumPostEntity(
-            id = apiPost.id,
-            title = apiPost.title,
-            content = apiPost.content,
-            authorName = apiPost.authorName,
-            authorId = apiPost.authorId,
-            category = apiPost.category,
-            thumbsUpCount = apiPost.thumbsUpCount,
-            replyCount = apiPost.replyCount,
-            createdAt = apiPost.createdAt,
-            updatedAt = apiPost.updatedAt,
-            isThumbedUp = apiPost.isThumbedUp
-        )
-        forumDao.insertPost(post)
-        return post
-    }
-
-    suspend fun createReply(postId: String, content: String, authorName: String, parentReplyId: String? = null): ForumReplyEntity {
-        val bearer = getBearerToken() ?: throw IllegalStateException("User not authenticated")
-        val apiReply = apiService.createReply(bearer, postId, com.neb.ians.data.api.ApiReplyCreateRequest(content, parentReplyId))
-        
-        val reply = ForumReplyEntity(
-            id = apiReply.id,
-            postId = apiReply.postId,
-            parentReplyId = apiReply.parentReplyId,
-            content = apiReply.content,
-            authorName = apiReply.authorName,
-            authorId = apiReply.authorId,
-            thumbsUpCount = apiReply.thumbsUpCount,
-            createdAt = apiReply.createdAt,
-            isThumbedUp = apiReply.isThumbedUp
-        )
-        forumDao.insertReply(reply)
-        
-        // Sync post local reply count
-        val post = forumDao.getPostByIdSync(postId)
-        if (post != null) {
-            forumDao.updateReplyCount(postId, post.replyCount + 1)
-        }
-        return reply
-    }
-
-    suspend fun toggleThumbsUp(postId: String) {
-        val bearer = getBearerToken() ?: return
-        try {
-            val response = apiService.toggleLikePost(bearer, postId)
-            forumDao.updateThumbsUp(postId, response.thumbsUpCount, response.isThumbedUp)
+    suspend fun getReplies(postId: String): Result<List<ApiReply>> {
+        return try {
+            val token = getBearerToken()
+            val replies = apiService.getReplies(token, postId)
+            Result.success(replies)
         } catch (e: Exception) {
-            // Offline local fallback or fail silently
+            Result.failure(e)
         }
     }
 
-    suspend fun toggleReplyThumbsUp(replyId: String) {
-        val bearer = getBearerToken() ?: return
-        try {
-            val response = apiService.toggleLikeReply(bearer, replyId)
-            forumDao.updateReplyThumbsUp(replyId, response.thumbsUpCount, response.isThumbedUp)
+    suspend fun createPost(title: String, content: String, category: String): Result<ApiPost> {
+        return try {
+            val token = getBearerToken() ?: return Result.failure(IllegalStateException("Not authenticated"))
+            val post = apiService.createPost(token, PostCreateRequest(title, content, category))
+            Result.success(post)
         } catch (e: Exception) {
-            // Offline local fallback or fail silently
+            Result.failure(e)
         }
     }
 
-    suspend fun deletePost(id: String) {
-        val bearer = getBearerToken() ?: return
-        try {
-            apiService.deletePost(bearer, id)
-            forumDao.deletePost(id)
+    suspend fun createReply(postId: String, content: String, parentReplyId: String? = null): Result<ApiReply> {
+        return try {
+            val token = getBearerToken() ?: return Result.failure(IllegalStateException("Not authenticated"))
+            val reply = apiService.createReply(token, postId, ReplyCreateRequest(content, parentReplyId))
+            Result.success(reply)
         } catch (e: Exception) {
-            // Offline local delete or fail
+            Result.failure(e)
         }
     }
 
-    suspend fun deleteReply(id: String) = forumDao.deleteReply(id)
+    suspend fun toggleLikePost(postId: String): Result<LikeResponse> {
+        return try {
+            val token = getBearerToken() ?: return Result.failure(IllegalStateException("Not authenticated"))
+            val response = apiService.toggleLikePost(token, postId)
+            Result.success(response)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun toggleLikeReply(replyId: String): Result<LikeResponse> {
+        return try {
+            val token = getBearerToken() ?: return Result.failure(IllegalStateException("Not authenticated"))
+            val response = apiService.toggleLikeReply(token, replyId)
+            Result.success(response)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun deletePost(postId: String): Result<Unit> {
+        return try {
+            val token = getBearerToken() ?: return Result.failure(IllegalStateException("Not authenticated"))
+            apiService.deletePost(token, postId)
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun deleteReply(replyId: String): Result<Unit> {
+        return try {
+            val token = getBearerToken() ?: return Result.failure(IllegalStateException("Not authenticated"))
+            apiService.deleteReply(token, replyId)
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun archivePost(postId: String): Result<Unit> {
+        return try {
+            val token = getBearerToken() ?: return Result.failure(IllegalStateException("Not authenticated"))
+            apiService.archivePost(token, postId)
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun archiveReply(replyId: String): Result<Unit> {
+        return try {
+            val token = getBearerToken() ?: return Result.failure(IllegalStateException("Not authenticated"))
+            apiService.archiveReply(token, replyId)
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
 }

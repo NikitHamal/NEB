@@ -29,7 +29,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.neb.ians.data.local.entity.ForumPostEntity
+import com.neb.ians.data.api.ApiPost
 import com.neb.ians.ui.components.ErrorCard
 import com.neb.ians.ui.components.ShimmerForumList
 import com.neb.ians.util.formatTimeAgo
@@ -225,7 +225,7 @@ fun ForumScreen(
 
 @Composable
 private fun ForumPostCard(
-    post: ForumPostEntity,
+    post: ApiPost,
     onClick: () -> Unit,
     onThumbsUpClick: () -> Unit
 ) {

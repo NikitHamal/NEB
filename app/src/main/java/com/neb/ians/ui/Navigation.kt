@@ -20,6 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
@@ -334,12 +335,6 @@ fun NEBiansNavHost(
                     onViewAllClick = { navController.navigate(Screen.Library.route) },
                     onSubjectClick = { subject ->
                         navController.navigate(Screen.Library.createRoute(subject))
-                    },
-                    onPostClick = { postId ->
-                        navController.navigate(Screen.ForumPostDetail.createRoute(postId))
-                    },
-                    onProfileClick = { username ->
-                        navController.navigate(Screen.Profile.createRoute(username))
                     }
                 )
             }
@@ -366,12 +361,6 @@ fun NEBiansNavHost(
                 SearchScreen(
                     onResourceClick = { resourceId ->
                         navController.navigate(Screen.PdfReader.createRoute(resourceId))
-                    },
-                    onPostClick = { postId ->
-                        navController.navigate(Screen.ForumPostDetail.createRoute(postId))
-                    },
-                    onUserClick = { username ->
-                        navController.navigate(Screen.Profile.createRoute(username))
                     },
                     onNavigateBack = { navController.popBackStack() }
                 )
