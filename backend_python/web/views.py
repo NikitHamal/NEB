@@ -14,6 +14,7 @@ from django.views.decorators.http import require_GET, require_POST
 from django.http import JsonResponse, Http404, HttpResponse
 
 from api.models import User, Resource, Post, PostLike, Reply, ReplyLike, Follow, UserPhoto, EditHistory, Bookmark, Notification
+from api.models import ResourceLike, ResourceComment, ResourceCommentLike
 from api.serializers import UserSerializer
 from api.security import save_profile_image_upload, validate_profile_photo_url, validate_resource_file_url
 from api.authentication import verify_google_token
@@ -25,19 +26,49 @@ from . import api_client as api
 logger = logging.getLogger(__name__)
 
 def _serialize_resource(r):
+    # Determine source attribution
+    source_type = r.source_type or 'admin'
+    source_label = r.source_label or ''
+    uploaded_by_name = ''
+    uploaded_by_photo = ''
+    uploaded_by_username = ''
+    if r.uploaded_by_id and source_type == 'user':
+        try:
+            ub = r.uploaded_by if hasattr(r, 'uploaded_by') and r.uploaded_by else User.objects.get(pk=r.uploaded_by_id)
+            uploaded_by_name = ub.display_name or ub.username
+            uploaded_by_photo = ub.photo_url or ''
+            uploaded_by_username = ub.username
+        except User.DoesNotExist:
+            pass
     return {
         'id': r.id, 'title': r.title, 'description': r.description or '',
         'subject': r.subject, 'gradeLevel': r.grade_level, 'grade_level': r.grade_level,
         'type': r.type, 'fileUrl': r.file_url, 'file_url': r.file_url,
         'thumbnailUrl': r.thumbnail_url, 'thumbnail_url': r.thumbnail_url,
         'fileSize': r.file_size, 'file_size': r.file_size,
-        'addedAt': r.added_at, 'added_at': r.added_at, 'viewCount': r.view_count, 'view_count': r.view_count,
+        'addedAt': r.added_at, 'added_at': r.added_at,
+        'viewCount': r.view_count, 'view_count': r.view_count,
+        'likeCount': r.like_count, 'like_count': r.like_count,
+        'commentCount': r.comment_count, 'comment_count': r.comment_count,
+        'authorName': r.author_name, 'author_name': r.author_name,
+        'sourceType': source_type, 'source_type': source_type,
+        'sourceUrl': r.source_url, 'source_url': r.source_url,
+        'sourceLabel': source_label, 'source_label': source_label,
+        'uploadedByName': uploaded_by_name, 'uploaded_by_name': uploaded_by_name,
+        'uploadedByPhoto': uploaded_by_photo, 'uploaded_by_photo': uploaded_by_photo,
+        'uploadedByUsername': uploaded_by_username,
     }
 
 
 def _user_badge_info(user):
-    """Build badge dict for a user (verification, moderator, admin, achievements)."""
+    """Build badge dict for a user (verification, moderator, admin, bot, achievements)."""
     badge = {}
+    if user.is_bot:
+        badge['type'] = 'bot'
+        badge['icon'] = 'smart_toy'
+        badge['color'] = '#7C4DFF'
+        badge['label'] = 'AI'
+        return badge
     if user.is_admin:
         badge['type'] = 'admin'
         badge['icon'] = 'crown'
@@ -120,6 +151,7 @@ def _serialize_posts(posts_qs, user_id=None):
             'authorName': p.user.username, 'authorPhotoUrl': p.user.photo_url,
             'authorBadgeInfo': _user_badge_info(p.user),
             'authorAchievements': _user_achievement_badges(p.user),
+            'authorIsBot': p.user.is_bot,
             'authorId': p.user_id, 'thumbsUpCount': p.thumbs_up_count, 'thumbs_up_count': p.thumbs_up_count,
             'replyCount': p.reply_count, 'reply_count': p.reply_count,
             'createdAt': p.created_at, 'updatedAt': p.edited_at or p.created_at,
@@ -145,6 +177,7 @@ def _serialize_post(p, user_id=None):
         'authorName': p.user.username, 'authorPhotoUrl': p.user.photo_url,
         'authorBadgeInfo': _user_badge_info(p.user),
         'authorAchievements': _user_achievement_badges(p.user),
+        'authorIsBot': p.user.is_bot,
         'authorId': p.user_id, 'thumbsUpCount': p.thumbs_up_count, 'thumbs_up_count': p.thumbs_up_count,
         'replyCount': p.reply_count, 'reply_count': p.reply_count,
         'createdAt': p.created_at, 'updatedAt': p.edited_at or p.created_at,
@@ -214,6 +247,7 @@ def _serialize_replies(replies_qs, user_id=None):
             'authorPhotoUrl': r.user.photo_url, 'authorId': r.user_id,
             'authorBadgeInfo': _user_badge_info(r.user),
             'authorAchievements': _user_achievement_badges(r.user),
+            'authorIsBot': r.user.is_bot,
             'thumbsUpCount': r.thumbs_up_count, 'childCount': total_descendants.get(r.id, len(children)),
             'childAuthors': child_authors,
             'createdAt': r.created_at,
@@ -238,6 +272,7 @@ def _serialize_reply(r, user_id=None):
         'authorPhotoUrl': r.user.photo_url, 'authorId': r.user_id,
         'authorBadgeInfo': _user_badge_info(r.user),
         'authorAchievements': _user_achievement_badges(r.user),
+        'authorIsBot': r.user.is_bot,
         'thumbsUpCount': r.thumbs_up_count, 'childCount': r.reply_count,
         'createdAt': r.created_at,
         'isEdited': r.is_edited, 'editedAt': r.edited_at, 'isArchived': r.is_archived,
@@ -357,6 +392,7 @@ def home(request):
         popular_resources=popular,
         recent_posts=recent_posts,
         subjects=subjects[:12],
+        hide_footer_links=True,
     ))
 
 
@@ -416,6 +452,31 @@ def library(request):
     ))
 
 
+def _serialize_user_search(u, viewer_id=None):
+    is_self = bool(viewer_id and str(viewer_id) == str(u.id))
+    is_following = False
+    if viewer_id and not is_self:
+        is_following = Follow.objects.filter(
+            follower_id=viewer_id, following_id=u.id
+        ).exists()
+    return {
+        'id': u.id,
+        'username': u.username,
+        'displayName': u.display_name or u.username,
+        'photoUrl': u.photo_url,
+        'bio': u.bio or '',
+        'classLevel': u.class_level or '',
+        'school': u.school or '',
+        'isAdmin': bool(u.is_admin),
+        'moderatorLevel': u.moderator_level or 0,
+        'verificationLevel': u.verification_level or 0,
+        'badgeInfo': _user_badge_info(u),
+        'followerCount': getattr(u, 'follower_count', 0) or 0,
+        'isFollowing': is_following,
+        'isSelf': is_self,
+    }
+
+
 def search(request):
     user_id = _get_user_id(request)
     query = request.GET.get('q', '').strip()
@@ -425,6 +486,7 @@ def search(request):
     rtype = request.GET.get('type', '')
     resource_results = []
     post_results = []
+    user_results = []
     all_subjects = []
     all_grades = []
     all_types = []
@@ -446,6 +508,11 @@ def search(request):
             resource_results = [_serialize_resource(r) for r in resource_qs[:30]]
         if tab in ('all', 'posts'):
             post_results = _serialize_posts(post_qs[:20], user_id)
+        if tab in ('all', 'users'):
+            user_qs = User.objects.filter(
+                Q(username__icontains=query) | Q(display_name__icontains=query)
+            ).filter(is_locked=False).order_by('-follower_count', 'username')[:30]
+            user_results = [_serialize_user_search(u, user_id) for u in user_qs]
     all_resources = cache.get('library_all_resources')
     if all_resources is None:
         all_resources = [_serialize_resource(r) for r in Resource.objects.all()[:500]]
@@ -458,6 +525,7 @@ def search(request):
         tab=tab,
         resource_results=resource_results,
         post_results=post_results,
+        user_results=user_results,
         all_subjects=all_subjects,
         all_grades=all_grades,
         all_types=all_types,
@@ -702,23 +770,109 @@ def reply_post(request, post_id):
 
 
 def reader(request, resource_id):
+    """Resource detail page — shows title, description, view/download/like actions, and comments."""
+    user_id = _get_user_id(request)
     try:
-        resource_obj = Resource.objects.get(id=resource_id)
+        resource_obj = Resource.objects.select_related('uploaded_by').get(id=resource_id)
     except Resource.DoesNotExist:
         raise Http404("Resource not found")
+
+    # Increment view count once per session
+    view_key = f'resource_viewed_{resource_id}'
+    if not request.session.get(view_key):
+        Resource.objects.filter(pk=resource_id).update(view_count=F('view_count') + 1)
+        request.session[view_key] = True
+        resource_obj.view_count += 1  # update in-memory
+
     resource = _serialize_resource(resource_obj)
-    raw_file_url = resource.get('file_url') or resource.get('fileUrl') or ''
+
+    # Validate file URL for "open in new tab" / download links
+    raw_file_url = resource.get('file_url') or ''
+    safe_file_url = ''
+    file_url_error = ''
     if raw_file_url:
         try:
-            resource['safe_file_url'] = validate_resource_file_url(raw_file_url)
-            resource['file_url_error'] = ''
+            safe_file_url = validate_resource_file_url(raw_file_url)
         except ValidationError as exc:
-            resource['safe_file_url'] = ''
-            resource['file_url_error'] = ' '.join(exc.messages)
+            file_url_error = ' '.join(exc.messages)
+    resource['safe_file_url'] = safe_file_url
+    resource['file_url_error'] = file_url_error
+
+    # Classify media type for template
+    rtype_lower = (resource.get('type') or '').lower().strip()
+    if rtype_lower == 'pdf':
+        media_type = 'pdf'
+    elif rtype_lower == 'video':
+        media_type = 'video'
+    elif rtype_lower == 'audio':
+        media_type = 'audio'
+    elif rtype_lower == 'image':
+        media_type = 'image'
     else:
-        resource['safe_file_url'] = ''
-        resource['file_url_error'] = ''
-    return render(request, 'web/reader.html', _ctx(request, resource=resource, resource_id=resource_id))
+        media_type = 'document'
+    resource['media_type'] = media_type
+
+    # User-specific state: liked, bookmarked
+    is_liked = False
+    is_bookmarked = False
+    if user_id:
+        is_liked = ResourceLike.objects.filter(resource_id=resource_id, user_id=user_id).exists()
+        is_bookmarked = Bookmark.objects.filter(
+            user_id=user_id, target_type='resource', target_id=resource_id
+        ).exists()
+
+    # Load comments
+    comments_qs = ResourceComment.objects.select_related('user').filter(
+        resource_id=resource_id
+    ).order_by('created_at')
+    all_comments = []
+    for c in comments_qs:
+        c_data = {
+            'id': c.id,
+            'resourceId': c.resource_id,
+            'authorId': c.user_id,
+            'authorName': c.user.username if c.user else '',
+            'authorPhoto': c.user.photo_url if c.user else '',
+            'parentCommentId': c.parent_comment_id or '',
+            'content': c.content,
+            'likeCount': c.like_count,
+            'replyCount': c.reply_count,
+            'isEdited': c.is_edited,
+            'createdAt': c.created_at,
+        }
+        if user_id:
+            c_data['isLiked'] = ResourceCommentLike.objects.filter(
+                comment_id=c.id, user_id=user_id
+            ).exists()
+        else:
+            c_data['isLiked'] = False
+        c_data['isOwner'] = (user_id and user_id == c.user_id)
+        all_comments.append(c_data)
+
+    # Build tree: top-level and children
+    top_level_comments = [c for c in all_comments if not c['parentCommentId']]
+    children_map = {}
+    for c in all_comments:
+        if c['parentCommentId']:
+            children_map.setdefault(c['parentCommentId'], []).append(c)
+
+    # Related resources (same subject, excluding this one)
+    related = Resource.objects.filter(
+        subject__iexact=resource_obj.subject
+    ).exclude(pk=resource_id).order_by('-view_count', '-added_at')[:4]
+    related_resources = [_serialize_resource(r) for r in related]
+
+    return render(request, 'web/resource_detail.html', _ctx(request,
+        resource=resource,
+        resource_id=resource_id,
+        is_liked=is_liked,
+        is_bookmarked=is_bookmarked,
+        comments=all_comments,
+        top_level_comments=top_level_comments,
+        children_map=children_map,
+        comment_count=resource_obj.comment_count,
+        related_resources=related_resources,
+    ))
 
 
 def profile(request, username):
@@ -737,7 +891,11 @@ def profile(request, username):
     banner_deco_text = 'nebian'
     banner_text_color = ''
     if not profile_user.banner_url:
-        if profile_user.is_admin:
+        if profile_user.is_bot:
+            banner_type = 'gradient-bot'
+            banner_deco_text = 'neby ai'
+            banner_text_color = 'rgba(255,255,255,0.25)'
+        elif profile_user.is_admin:
             banner_type = 'gradient-admin'
             banner_deco_text = 'admin'
             banner_text_color = 'rgba(255,255,255,0.25)'
@@ -774,6 +932,7 @@ def profile(request, username):
         'verification_level': profile_user.verification_level,
         'moderator_level': profile_user.moderator_level,
         'is_admin': profile_user.is_admin,
+        'is_bot': profile_user.is_bot,
         'achievement_badges': profile_user.achievement_badges,
         'badge_info': badge_info,
         'achievement_info': _user_achievement_badges(profile_user),
@@ -1461,6 +1620,77 @@ def ajax_create_reply(request, post_id):
 
 
 @require_POST
+def ajax_like_resource(request, resource_id):
+    user_id = _get_user_id(request)
+    if not user_id:
+        return JsonResponse({'error': 'Please log in again.'}, status=401)
+    try:
+        user = User.objects.get(pk=user_id)
+    except User.DoesNotExist:
+        return JsonResponse({'error': 'Please log in again.'}, status=401)
+    try:
+        result = services.toggle_resource_like(user, resource_id)
+    except Resource.DoesNotExist:
+        return JsonResponse({'error': 'Resource not found'}, status=404)
+    return JsonResponse(result)
+
+
+@require_POST
+def ajax_like_resource_comment(request, comment_id):
+    user_id = _get_user_id(request)
+    if not user_id:
+        return JsonResponse({'error': 'Please log in again.'}, status=401)
+    try:
+        user = User.objects.get(pk=user_id)
+    except User.DoesNotExist:
+        return JsonResponse({'error': 'Please log in again.'}, status=401)
+    try:
+        result = services.toggle_resource_comment_like(user, comment_id)
+    except ResourceComment.DoesNotExist:
+        return JsonResponse({'error': 'Comment not found'}, status=404)
+    return JsonResponse(result)
+
+
+@require_POST
+def ajax_resource_comment(request, resource_id):
+    user_id = _get_user_id(request)
+    if not user_id:
+        return JsonResponse({'error': 'Please log in again.'}, status=401)
+    try:
+        user = User.objects.get(pk=user_id)
+    except User.DoesNotExist:
+        return JsonResponse({'error': 'Please log in again.'}, status=401)
+    try:
+        data = json.loads(request.body)
+        content = data.get('content', '').strip()
+        parent_id = data.get('parentCommentId')
+    except json.JSONDecodeError:
+        return JsonResponse({'error': 'Invalid request'}, status=400)
+    if not content:
+        return JsonResponse({'error': 'Content required'}, status=400)
+    result = services.create_resource_comment(user, resource_id, content, parent_id)
+    if result:
+        return JsonResponse(result, status=201)
+    return JsonResponse({'error': 'Failed'}, status=500)
+
+
+@require_POST
+def ajax_delete_resource_comment(request, comment_id):
+    user_id = _get_user_id(request)
+    if not user_id:
+        return JsonResponse({'error': 'Please log in again.'}, status=401)
+    try:
+        user = User.objects.get(pk=user_id)
+    except User.DoesNotExist:
+        return JsonResponse({'error': 'Please log in again.'}, status=401)
+    is_admin = bool(user.is_admin)
+    ok = services.delete_resource_comment(user, comment_id, is_admin=is_admin)
+    if ok:
+        return JsonResponse({'success': True})
+    return JsonResponse({'error': 'Permission denied or comment not found'}, status=403)
+
+
+@require_POST
 def ajax_create_post(request):
     user_id = _get_user_id(request)
     if not user_id:
@@ -2118,6 +2348,7 @@ def admin_user_detail(request, user_id):
         user_obj.verification_level = int(request.POST.get('verification_level', '0'))
         user_obj.moderator_level = int(request.POST.get('moderator_level', '0'))
         user_obj.is_admin = request.POST.get('is_admin') == 'on'
+        user_obj.is_bot = request.POST.get('is_bot') == 'on'
         user_obj.achievement_badges = request.POST.get('achievement_badges', '')
         user_obj.save()
     user_data = UserSerializer(user_obj).data
@@ -2189,10 +2420,14 @@ def admin_resource_edit(request, resource_id):
     except Resource.DoesNotExist:
         return redirect('web:admin_resources')
     if request.method == 'POST':
-        for field in ['title', 'description', 'subject', 'grade_level', 'type', 'file_url', 'thumbnail_url']:
+        for field in ['title', 'description', 'subject', 'grade_level', 'type', 'file_url', 'thumbnail_url', 'author_name', 'source_url', 'source_label']:
             val = request.POST.get(field, '').strip()
             if val:
                 setattr(resource_obj, field, val)
+        # source_type: allow clearing to admin default
+        st = request.POST.get('source_type', '').strip()
+        if st in ('admin', 'user', 'anonymous', 'external'):
+            resource_obj.source_type = st
         if request.POST.get('view_count', '').strip():
             resource_obj.view_count = int(request.POST.get('view_count', '0'))
         resource_obj.save()
@@ -2203,6 +2438,7 @@ def admin_resource_edit(request, resource_id):
         'is_admin': True,
         'resource': resource_data,
         'active_page': 'resources',
+        'source_types': Resource.SOURCE_TYPES,
     })
 
 
@@ -2519,3 +2755,38 @@ def custom_404(request, exception):
 
 def custom_500(request):
     return render(request, '500.html', _ctx(request), status=500)
+
+
+def admin_bot_config(request):
+    redirect_response = _require_staff_admin(request)
+    if redirect_response:
+        return redirect_response
+    from api.models import BotConfig
+    config = BotConfig.get_config()
+    if request.method == 'POST':
+        config.enabled = request.POST.get('enabled') == 'on'
+        config.bot_username = request.POST.get('bot_username', config.bot_username).strip() or 'neby'
+        config.api_url = request.POST.get('api_url', config.api_url).strip()
+        config.api_key = request.POST.get('api_key', config.api_key).strip()
+        config.model = request.POST.get('model', config.model).strip() or 'qwen3.6-plus'
+        config.system_prompt = request.POST.get('system_prompt', config.system_prompt).strip()
+        try:
+            config.max_context_posts = int(request.POST.get('max_context_posts', config.max_context_posts))
+        except (TypeError, ValueError):
+            pass
+        try:
+            config.max_context_replies = int(request.POST.get('max_context_replies', config.max_context_replies))
+        except (TypeError, ValueError):
+            pass
+        try:
+            config.response_max_length = int(request.POST.get('response_max_length', config.response_max_length))
+        except (TypeError, ValueError):
+            pass
+        config.save()
+        from django.core.cache import cache
+        cache.delete('neby_enabled')
+        messages.success(request, 'Bot configuration updated.')
+        return redirect('/admin/bot/')
+    bot_user = BotConfig.get_bot_user()
+    ctx = _ctx(request, active_page='bot', config=config, bot_user=bot_user)
+    return render(request, 'admin_panel/bot_config.html', ctx)

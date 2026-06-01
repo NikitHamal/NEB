@@ -426,6 +426,10 @@
 }
 .role-badge-admin { background: rgba(245,158,11,0.15); border-radius: 100px; padding: 1px 4px 1px 2px; }
 .role-badge-admin .material-symbols-outlined { color: #D97706; }
+.role-badge-bot { background: rgba(124,77,255,0.15); border-radius: 100px; padding: 1px 4px 1px 2px; }
+.role-badge-bot .material-symbols-outlined { color: #7C4DFF; }
+[data-theme="dark"] .role-badge-bot { background: rgba(124,77,255,0.25); }
+[data-theme="dark"] .role-badge-bot .material-symbols-outlined { color: #B388FF; }
 .role-badge-mod-1 { background: rgba(27,154,240,0.12); border-radius: 100px; padding: 1px 4px 1px 2px; }
 .role-badge-mod-1 .material-symbols-outlined { color: #1B9AF0; }
 .role-badge-mod-2 { background: rgba(0,137,123,0.12); border-radius: 100px; padding: 1px 4px 1px 2px; }
@@ -2555,6 +2559,35 @@ button:focus-visible {
 [data-theme="dark"] .pf-card-banner[data-banner-type="gradient-verified"] .pf-banner-deco-text {
   color: rgba(125, 211, 252, 0.18);
   text-shadow: 0 2px 20px rgba(56, 189, 248, 0.22), 0 0 40px rgba(14, 165, 233, 0.08);
+}
+
+/* ── Role-based banner: AI Bot (deep purple, futuristic) ── */
+.pf-card-banner[data-banner-type="gradient-bot"] .pf-banner-holo-metallic {
+  background:
+    radial-gradient(ellipse 80% 120% at 10% 90%, rgba(124, 77, 255, 0.60) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 100% at 85% 20%, rgba(149, 117, 255, 0.50) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 80% at 50% 50%, rgba(179, 136, 255, 0.35) 0%, transparent 70%),
+    radial-gradient(ellipse 90% 90% at 95% 80%, rgba(98, 0, 234, 0.45) 0%, transparent 50%),
+    linear-gradient(160deg, #4a148c 0%, #6200ea 25%, #7c4dff 50%, #b388ff 75%, #4a148c 100%);
+  background-size: 200% 200%;
+  animation: bannerGradientDrift 18s linear infinite;
+}
+[data-theme="dark"] .pf-card-banner[data-banner-type="gradient-bot"] .pf-banner-holo-metallic {
+  background:
+    radial-gradient(ellipse 80% 120% at 10% 90%, rgba(74, 20, 140, 0.75) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 100% at 85% 20%, rgba(98, 0, 234, 0.60) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 80% at 50% 50%, rgba(124, 77, 255, 0.30) 0%, transparent 70%),
+    radial-gradient(ellipse 90% 90% at 95% 80%, rgba(149, 117, 255, 0.50) 0%, transparent 50%),
+    linear-gradient(160deg, #1a0033 0%, #311b92 25%, #4527a0 50%, #311b92 75%, #1a0033 100%);
+  background-size: 200% 200%;
+}
+.pf-card-banner[data-banner-type="gradient-bot"] .pf-banner-deco-text {
+  color: var(--banner-text-color, rgba(255, 255, 255, 0.25));
+  text-shadow: 0 2px 20px rgba(124, 77, 255, 0.30), 0 0 40px rgba(179, 136, 255, 0.15);
+}
+[data-theme="dark"] .pf-card-banner[data-banner-type="gradient-bot"] .pf-banner-deco-text {
+  color: rgba(179, 136, 255, 0.22);
+  text-shadow: 0 2px 20px rgba(124, 77, 255, 0.35), 0 0 40px rgba(98, 0, 234, 0.10);
 }
 
 /* ── Dark mode variant (default brand) ── */

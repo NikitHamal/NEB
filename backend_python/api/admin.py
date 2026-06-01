@@ -3,7 +3,8 @@ Register models with Django Admin for easy content management.
 Accessible at /admin-django/ after creating a superuser. The public custom admin UI is /admin/ and now uses the same Django staff/superuser credentials.
 """
 from django.contrib import admin
-from .models import User, Resource, Post, Reply, PostLike, ReplyLike, FCMToken, UserPhoto, Follow, EditHistory, Report
+from .models import User, Resource, Post, Reply, PostLike, ReplyLike, FCMToken, UserPhoto, Follow, EditHistory, Report, BotConfig
+from .models import ResourceComment, ResourceLike, ResourceCommentLike
 
 
 @admin.register(User)
@@ -15,9 +16,10 @@ class UserAdmin(admin.ModelAdmin):
 
 @admin.register(Resource)
 class ResourceAdmin(admin.ModelAdmin):
-    list_display = ['title', 'subject', 'grade_level', 'type', 'view_count', 'added_at']
-    search_fields = ['title', 'description']
-    list_filter = ['subject', 'grade_level', 'type']
+    list_display = ['title', 'subject', 'grade_level', 'type', 'source_type', 'view_count', 'like_count', 'added_at']
+    search_fields = ['title', 'description', 'author_name']
+    list_filter = ['subject', 'grade_level', 'type', 'source_type']
+    raw_id_fields = ['uploaded_by']
 
 
 @admin.register(Post)
@@ -76,3 +78,28 @@ class ReportAdmin(admin.ModelAdmin):
     search_fields = ['target_id', 'description']
     list_filter = ['status', 'reason', 'target_type']
     raw_id_fields = ['reporter', 'resolved_by']
+
+
+@admin.register(BotConfig)
+class BotConfigAdmin(admin.ModelAdmin):
+    list_display = ['id', 'enabled', 'bot_username', 'model', 'updated_at']
+
+
+@admin.register(ResourceComment)
+class ResourceCommentAdmin(admin.ModelAdmin):
+    list_display = ['id', 'user', 'resource', 'content', 'like_count', 'created_at']
+    search_fields = ['content', 'user__username', 'resource__title']
+    list_filter = ['resource__subject']
+    raw_id_fields = ['user', 'resource', 'parent_comment']
+
+
+@admin.register(ResourceLike)
+class ResourceLikeAdmin(admin.ModelAdmin):
+    list_display = ['user', 'resource']
+    search_fields = ['user__username', 'resource__title']
+
+
+@admin.register(ResourceCommentLike)
+class ResourceCommentLikeAdmin(admin.ModelAdmin):
+    list_display = ['user', 'comment']
+    search_fields = ['user__username']
