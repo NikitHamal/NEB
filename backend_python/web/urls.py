@@ -38,6 +38,10 @@ urlpatterns = [
     path('terms/', views.terms_of_service, name='terms_of_service'),
     path('ajax/like/post/<str:post_id>/', views.ajax_like_post, name='ajax_like_post'),
     path('ajax/like/reply/<str:reply_id>/', views.ajax_like_reply, name='ajax_like_reply'),
+    path('ajax/like/resource/<str:resource_id>/', views.ajax_like_resource, name='ajax_like_resource'),
+    path('ajax/like/resource-comment/<str:comment_id>/', views.ajax_like_resource_comment, name='ajax_like_resource_comment'),
+    path('ajax/resource-comment/<str:resource_id>/', views.ajax_resource_comment, name='ajax_resource_comment'),
+    path('ajax/resource-comment/<str:comment_id>/delete/', views.ajax_delete_resource_comment, name='ajax_delete_resource_comment'),
     path('ajax/reply/<str:post_id>/', views.ajax_create_reply, name='ajax_create_reply'),
     path('ajax/post/', views.ajax_create_post, name='ajax_create_post'),
     path('ajax/delete/post/<str:post_id>/', views.ajax_delete_post, name='ajax_delete_post'),
@@ -77,4 +81,5 @@ urlpatterns = [
     path('admin/posts/<str:post_id>/', views.admin_post_detail, name='admin_post_detail'),
     path('admin/posts/<str:post_id>/delete/', views.admin_post_delete, name='admin_post_delete'),
     path('admin/replies/<str:reply_id>/delete/', views.admin_reply_delete, name='admin_reply_delete'),
+    path('admin/bot/', views.admin_bot_config, name='admin_bot_config'),
 ]
