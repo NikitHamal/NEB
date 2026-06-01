@@ -20,7 +20,7 @@ import javax.inject.Inject
 import com.neb.ians.data.api.ApiService
 import com.neb.ians.data.api.ApiNotification
 import com.neb.ians.data.repository.AuthRepository
-import com.neb.ians.util.TimeUtils
+import com.neb.ians.util.formatTimeAgo
 
 data class NotificationsUiState(
     val notifications: List<ApiNotification> = emptyList(),
@@ -117,7 +117,7 @@ fun NotificationItem(
             Text(notification.message, style = MaterialTheme.typography.bodyMedium)
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                TimeUtils.formatTimeAgo(notification.createdAt),
+                formatTimeAgo(notification.createdAt),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )

@@ -15,7 +15,7 @@ import androidx.compose.material.icons.outlined.Article
 import androidx.compose.material.icons.outlined.AutoStories
 import androidx.compose.material.icons.outlined.Calculate
 import androidx.compose.material.icons.outlined.Description
-import androidx.compose.material.icons.outlined.DownloadDone
+
 import androidx.compose.material.icons.outlined.Eco
 import androidx.compose.material.icons.outlined.Language
 import androidx.compose.material.icons.outlined.MenuBook
@@ -41,7 +41,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.neb.ians.data.local.entity.ResourceEntity
+import com.neb.ians.data.api.ApiResource
 import com.neb.ians.ui.components.ErrorCard
 import com.neb.ians.ui.components.ShimmerLibraryGrid
 
@@ -329,7 +329,7 @@ private fun FilterChipRow(
 
 @Composable
 private fun LibraryResourceCard(
-    resource: ResourceEntity,
+    resource: ApiResource,
     onClick: () -> Unit
 ) {
     val subjectColor = getSubjectColor(resource.subject)
@@ -416,13 +416,6 @@ private fun LibraryResourceCard(
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
 
-                    if (resource.isDownloaded) {
-                        Icon(
-                            imageVector = Icons.Outlined.DownloadDone,
-                            contentDescription = "Downloaded",
-                            modifier = Modifier.size(16.dp),
-                            tint = MaterialTheme.colorScheme.primary
-                        )
                     }
                 }
             }
