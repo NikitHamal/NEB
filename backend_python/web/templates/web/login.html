@@ -1,208 +1,271 @@
 {% extends "base.html" %}
 
-{% block title %}Sign In{% endblock %}
+{% block title %}Sign In — NEBians{% endblock %}
 
 {% block content %}
-<div class="login-container">
-  <div class="login-card">
+<style>
+  html, body {
+    background: linear-gradient(135deg, #f5f6fa 0%, #ebeef5 100%) !important;
+    background-attachment: fixed !important;
+  }
+  html[data-theme="dark"], html[data-theme="dark"] body {
+    background: linear-gradient(135deg, #0a0a0c 0%, #16161a 100%) !important;
+    background-attachment: fixed !important;
+  }
+  main, .site-main { padding: 0 !important; max-width: none !important; }
+  /* Hide the redundant "Sign in" button in the global topbar since the user is already on the login page */
+  .md-topbar-actions .md-btn[aria-label="Sign in"] { display: none !important; }
+</style>
 
-    <!-- STEP 0: Default view — Google + Email options -->
-    <div id="auth-main" class="auth-panel">
-      <div class="login-logo" style="display:flex;justify-content:center;">
-        <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" width="64" height="64">
-          <rect width="32" height="32" rx="8" fill="var(--md-primary)"/>
-          <path d="M8 8h3v16H8V8zm5 0h3v16h-3V8zm5 0v16l8-8-8-8z" fill="var(--md-on-primary)"/>
-        </svg>
-      </div>
-      <h1>Welcome to NEBians</h1>
-      <p class="login-subtitle">Your study companion for notes, resources, and student forums.</p>
+<div class="auth-shell">
+  <div class="auth-card-outer">
 
-      <div id="google-btn-container" style="display:flex;justify-content:center;margin-bottom:16px;"></div>
-      <p id="signin-status" style="font-size:0.8125rem;color:var(--md-on-surface-variant);margin-top:8px;text-align:center;min-height:1.2em;"></p>
+    <!-- ── Left: Form Panel ── -->
+    <div class="auth-form-panel">
 
-      <div class="auth-divider">or</div>
 
-      <button onclick="window.showPanel('email-login')" class="auth-link-btn">
-        <span class="material-symbols-outlined" style="font-size:20px;">mail</span>
-        Sign in with Email
-      </button>
 
-      <div style="margin-top:12px;">
-        <button onclick="window.showPanel('email-signup')" class="auth-text-btn" style="width:100%;">
-          Create new account
-        </button>
-      </div>
+      <div class="auth-form-content">
 
-      <div class="auth-divider">or</div>
-
-      <a href="{% url 'web:home' %}" class="auth-text-btn" style="width:100%;color:var(--md-on-surface-variant);">
-        Continue as Guest
-      </a>
-
-      <div style="margin-top:24px;display:flex;align-items:center;justify-content:center;gap:6px;color:var(--md-on-surface-variant);font-size:0.75rem;">
-        <span class="material-symbols-outlined" style="font-size:16px;">lock</span>
-        Secure authentication
-      </div>
-    </div>
-
-    <!-- STEP 1: Email Login -->
-    <div id="panel-email-login" style="display:none;" class="auth-panel">
-      <div style="text-align:left;margin-bottom:24px;">
-        <button onclick="window.showPanel('main')" class="auth-text-btn" style="padding:4px 8px;margin:-4px -8px;">
-          <span class="material-symbols-outlined" style="font-size:20px;">arrow_back</span> Back
-        </button>
-      </div>
-      <div style="display:flex;justify-content:center;margin-bottom:16px;">
-        <div style="width:48px;height:48px;border-radius:var(--md-radius-lg);background:var(--md-primary-container);display:flex;align-items:center;justify-content:center;">
-          <span class="material-symbols-outlined" style="color:var(--md-on-primary-container);font-size:24px;">mail</span>
-        </div>
-      </div>
-      <h1 style="font-size:1.5rem;">Sign In</h1>
-      <p class="login-subtitle">Enter your email and password to continue.</p>
-
-      <form id="login-form" onsubmit="window.handleEmailLogin(event)">
-        <div class="auth-field-group">
-          <span class="material-symbols-outlined auth-field-icon">person</span>
-          <input type="text" id="login-email" class="md-text-field" placeholder=" " required autocomplete="username">
-          <label>Email or Username</label>
-        </div>
-        <div class="auth-field-group">
-          <span class="material-symbols-outlined auth-field-icon">lock</span>
-          <input type="password" id="login-password" placeholder=" " required minlength="8" autocomplete="current-password">
-          <label>Password</label>
-          <button type="button" onclick="window.togglePassword('login-password', this)" class="auth-field-toggle">
-            <span class="material-symbols-outlined" style="font-size:20px;">visibility</span>
-          </button>
-        </div>
-        <div id="login-error" class="auth-error"></div>
-        <button type="submit" id="login-btn" class="auth-submit">Sign In</button>
-      </form>
-
-      <div style="margin-top:16px;text-align:center;">
-        <button onclick="window.showPanel('forgot')" class="auth-text-btn">Forgot password?</button>
-      </div>
-
-      <div class="auth-divider">or</div>
-
-      <button onclick="window.showPanel('email-signup')" class="auth-text-btn" style="width:100%;font-weight:600;">
-        Create new account
-      </button>
-    </div>
-
-    <!-- STEP 2: Email Signup -->
-    <div id="panel-email-signup" style="display:none;" class="auth-panel">
-      <div style="text-align:left;margin-bottom:24px;">
-        <button onclick="window.showPanel('main')" class="auth-text-btn" style="padding:4px 8px;margin:-4px -8px;">
-          <span class="material-symbols-outlined" style="font-size:20px;">arrow_back</span> Back
-        </button>
-      </div>
-      <div style="display:flex;justify-content:center;margin-bottom:16px;">
-        <div style="width:48px;height:48px;border-radius:var(--md-radius-lg);background:var(--md-primary-container);display:flex;align-items:center;justify-content:center;">
-          <span class="material-symbols-outlined" style="color:var(--md-on-primary-container);font-size:24px;">person_add</span>
-        </div>
-      </div>
-      <h1 style="font-size:1.5rem;">Create Account</h1>
-      <p class="login-subtitle">Sign up with your email. We'll send a verification code.</p>
-
-      <form id="signup-form" onsubmit="window.handleEmailSignup(event)">
-        <div class="auth-field-group">
-          <span class="material-symbols-outlined auth-field-icon">alternate_email</span>
-          <input type="text" id="signup-username" placeholder=" " required minlength="3" pattern="[a-zA-Z0-9_]+" autocomplete="username">
-          <label>Username</label>
-        </div>
-        <div class="auth-field-group">
-          <span class="material-symbols-outlined auth-field-icon">mail</span>
-          <input type="email" id="signup-email" placeholder=" " required autocomplete="email">
-          <label>Email</label>
-        </div>
-        <div class="auth-field-group">
-          <span class="material-symbols-outlined auth-field-icon">lock</span>
-          <input type="password" id="signup-password" placeholder=" " required minlength="8" autocomplete="new-password">
-          <label>Password</label>
-          <button type="button" onclick="window.togglePassword('signup-password', this)" class="auth-field-toggle">
-            <span class="material-symbols-outlined" style="font-size:20px;">visibility</span>
-          </button>
-        </div>
-        <div id="signup-error" class="auth-error"></div>
-        <button type="submit" id="signup-btn" class="auth-submit">Create Account</button>
-      </form>
-
-      <div class="auth-divider">or</div>
-
-      <button onclick="window.showPanel('email-login')" class="auth-text-btn" style="width:100%;font-weight:600;">
-        Already have an account? Sign in
-      </button>
-    </div>
-
-    <!-- STEP 3: Verification Code -->
-    <div id="panel-verify" style="display:none;" class="auth-panel">
-      <div style="text-align:left;margin-bottom:24px;">
-        <button onclick="window.showPanel(window._verifyFrom || 'email-signup')" class="auth-text-btn" style="padding:4px 8px;margin:-4px -8px;">
-          <span class="material-symbols-outlined" style="font-size:20px;">arrow_back</span> Back
-        </button>
-      </div>
-      <div style="display:flex;justify-content:center;margin-bottom:16px;">
-        <div style="width:48px;height:48px;border-radius:var(--md-radius-lg);background:var(--md-primary-container);display:flex;align-items:center;justify-content:center;">
-          <span class="material-symbols-outlined" style="color:var(--md-on-primary-container);font-size:24px;">mark_email_unread</span>
-        </div>
-      </div>
-      <h1 style="font-size:1.5rem;">Verify Email</h1>
-      <p class="login-subtitle">We sent a 6-digit code to <strong id="verify-email-display"></strong></p>
-
-      <form onsubmit="window.handleVerifyCode(event)">
-        <div style="margin-bottom:16px;">
-          <input type="text" id="verify-code" class="auth-code-input" placeholder="000000" required maxlength="6" inputmode="numeric" autocomplete="one-time-code">
-        </div>
-        <div id="verify-error" class="auth-error"></div>
-        <button type="submit" id="verify-btn" class="auth-submit">Verify</button>
-        <div style="margin-top:8px;text-align:center;">
-          <button type="button" onclick="window.handleResend()" id="resend-btn" class="auth-text-btn">Resend Code</button>
-        </div>
-      </form>
-    </div>
-
-    <!-- STEP 4: Forgot Password -->
-    <div id="panel-forgot" style="display:none;" class="auth-panel">
-      <div style="text-align:left;margin-bottom:24px;">
-        <button onclick="window.showPanel('email-login')" class="auth-text-btn" style="padding:4px 8px;margin:-4px -8px;">
-          <span class="material-symbols-outlined" style="font-size:20px;">arrow_back</span> Back
-        </button>
-      </div>
-      <div style="display:flex;justify-content:center;margin-bottom:16px;">
-        <div style="width:48px;height:48px;border-radius:var(--md-radius-lg);background:var(--md-error-container);display:flex;align-items:center;justify-content:center;">
-          <span class="material-symbols-outlined" style="color:var(--md-on-error-container);font-size:24px;">lock_reset</span>
-        </div>
-      </div>
-      <h1 style="font-size:1.5rem;">Reset Password</h1>
-      <p class="login-subtitle">Enter your email and we'll send a verification code.</p>
-
-      <form id="forgot-form" onsubmit="window.handleForgot(event)">
-        <div class="auth-field-group">
-          <span class="material-symbols-outlined auth-field-icon">mail</span>
-          <input type="email" id="forgot-email" placeholder=" " required autocomplete="email">
-          <label>Email</label>
-        </div>
-        <div id="forgot-error" class="auth-error"></div>
-        <button type="submit" id="forgot-btn" class="auth-submit">Send Code</button>
-      </form>
-
-      <div id="reset-section" style="display:none;margin-top:24px;">
-        <p style="font-size:0.875rem;color:var(--md-on-surface-variant);margin-bottom:12px;">Enter the code and your new password.</p>
-        <form onsubmit="window.handleReset(event)">
-          <div style="margin-bottom:16px;">
-            <input type="text" id="reset-code" class="auth-code-input" placeholder="000000" required maxlength="6" inputmode="numeric">
+        <div id="auth-main" class="auth-panel">
+          <div class="auth-form-head">
+            <h1>Welcome Back</h1>
+            <p>Enter your email and password to access your account.</p>
           </div>
-          <div class="auth-field-group">
-            <span class="material-symbols-outlined auth-field-icon">lock</span>
-            <input type="password" id="reset-password" placeholder=" " required minlength="8" autocomplete="new-password">
-            <label>New Password</label>
-            <button type="button" onclick="window.togglePassword('reset-password', this)" class="auth-field-toggle">
-              <span class="material-symbols-outlined" style="font-size:20px;">visibility</span>
-            </button>
+
+          <form id="login-form" onsubmit="window.handleEmailLogin(event)" class="auth-form" novalidate>
+            <div class="auth-field">
+              <label for="login-email">Email</label>
+              <input type="text" id="login-email" placeholder="hello@example.com" required autocomplete="username">
+            </div>
+            <div class="auth-field">
+              <label for="login-password">Password</label>
+              <div class="auth-input-wrap">
+                <input type="password" id="login-password" placeholder="••••••••" required minlength="8" autocomplete="current-password">
+                <button type="button" onclick="window.togglePassword('login-password', this)" class="auth-input-toggle" aria-label="Toggle password visibility">
+                  <span class="material-symbols-outlined">visibility_off</span>
+                </button>
+              </div>
+            </div>
+            <div id="login-error" class="auth-error"></div>
+            <button type="submit" id="login-btn" class="auth-btn-primary">Log In</button>
+          </form>
+
+          <div class="auth-divider-text"><span>Or login with</span></div>
+
+          <div class="auth-social-row">
+            <a href="{% url 'web:google_login' %}" class="auth-btn-social" aria-label="Sign in with Google">
+              <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" width="20" height="20" aria-hidden="true">
+                <path fill="#FFC107" d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 12.955 4 4 12.955 4 24s8.955 20 20 20 20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z"/>
+                <path fill="#FF3D00" d="M6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 16.318 4 9.656 8.337 6.306 14.691z"/>
+                <path fill="#4CAF50" d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238C29.211 35.091 26.715 36 24 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z"/>
+                <path fill="#1976D2" d="M43.611 20.083H42V20H24v8h11.303c-.792 2.237-2.231 4.166-4.087 5.571.001-.001.002-.001.003-.002l6.19 5.238C36.971 39.205 44 34 44 24c0-1.341-.138-2.65-.389-3.917z"/>
+              </svg>
+              <span>Google</span>
+            </a>
+            <a href="{% url 'web:github_login' %}" class="auth-btn-social">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="20" height="20" aria-hidden="true" fill="currentColor">
+                <path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
+              </svg>
+              <span>GitHub</span>
+            </a>
           </div>
-          <div id="reset-error" class="auth-error"></div>
-          <button type="submit" class="auth-submit">Reset Password</button>
-        </form>
+
+          <p class="auth-form-foot">
+            Don't have an account? <button type="button" onclick="window.showPanel('email-signup')" class="auth-form-link">Register now.</button>
+          </p>
+        </div>
+
+        <div id="panel-email-signup" class="auth-panel" style="display:none;">
+          <button onclick="window.showPanel('main')" class="auth-back">
+            <span class="material-symbols-outlined">arrow_back</span>
+            <span>Back</span>
+          </button>
+          <div class="auth-form-head">
+            <h1>Create account</h1>
+            <p>Sign up with email — we'll send a verification code.</p>
+          </div>
+
+          <form id="signup-form" onsubmit="window.handleEmailSignup(event)" class="auth-form" novalidate>
+            <div class="auth-field">
+              <label for="signup-username">Username</label>
+              <input type="text" id="signup-username" placeholder="nikit_07" required minlength="3" pattern="[a-zA-Z0-9_]+" autocomplete="username">
+            </div>
+            <div class="auth-field">
+              <label for="signup-email">Email</label>
+              <input type="email" id="signup-email" placeholder="hello@example.com" required autocomplete="email">
+            </div>
+            <div class="auth-field">
+              <label for="signup-password">Password</label>
+              <div class="auth-input-wrap">
+                <input type="password" id="signup-password" placeholder="At least 8 characters" required minlength="8" autocomplete="new-password">
+                <button type="button" onclick="window.togglePassword('signup-password', this)" class="auth-input-toggle" aria-label="Toggle password visibility">
+                  <span class="material-symbols-outlined">visibility_off</span>
+                </button>
+              </div>
+            </div>
+            <div id="signup-error" class="auth-error"></div>
+            <button type="submit" id="signup-btn" class="auth-btn-primary">Create account</button>
+          </form>
+
+          <div class="auth-divider-text"><span>or</span></div>
+
+          <button onclick="window.showPanel('main')" class="auth-btn-secondary-full">Already have an account? Sign in</button>
+        </div>
+
+        <div id="panel-verify" class="auth-panel" style="display:none;">
+          <button onclick="window.showPanel(window._verifyFrom || 'email-signup')" class="auth-back">
+            <span class="material-symbols-outlined">arrow_back</span>
+            <span>Back</span>
+          </button>
+          <div class="auth-form-head">
+            <h1>Verify your email</h1>
+            <p>We sent a 6-digit code to <strong id="verify-email-display"></strong></p>
+          </div>
+
+          <form onsubmit="window.handleVerifyCode(event)" class="auth-form" novalidate>
+            <div class="auth-field">
+              <label for="verify-code">Verification code</label>
+              <input type="text" id="verify-code" placeholder="000000" required maxlength="6" inputmode="numeric" autocomplete="one-time-code" class="auth-code-input">
+            </div>
+            <div id="verify-error" class="auth-error"></div>
+            <button type="submit" id="verify-btn" class="auth-btn-primary">Verify &amp; continue</button>
+            <p class="auth-form-foot">
+              Didn't get a code? <button type="button" onclick="window.handleResend()" id="resend-btn" class="auth-form-link">Resend</button>
+            </p>
+          </form>
+        </div>
+
+        <div id="panel-forgot" class="auth-panel" style="display:none;">
+          <button onclick="window.showPanel('email-signup')" class="auth-back">
+            <span class="material-symbols-outlined">arrow_back</span>
+            <span>Back</span>
+          </button>
+          <div class="auth-form-head">
+            <h1 id="forgot-title">Reset password</h1>
+            <p id="forgot-subtitle">Enter your email and we'll send a verification code.</p>
+          </div>
+
+          <form id="forgot-form" onsubmit="window.handleForgot(event)" class="auth-form" novalidate>
+            <div class="auth-field">
+              <label for="forgot-email">Email</label>
+              <input type="email" id="forgot-email" placeholder="hello@example.com" required autocomplete="email">
+            </div>
+            <div id="forgot-error" class="auth-error"></div>
+            <button type="submit" id="forgot-btn" class="auth-btn-primary">Send code</button>
+          </form>
+
+          <div id="reset-section" style="display:none;margin-top:24px;">
+            <div class="auth-form-head" style="margin-bottom:20px;">
+              <p id="reset-instruction" style="font-size:0.875rem;color:var(--md-on-surface-variant);">Enter the code and your new password.</p>
+            </div>
+            <form onsubmit="window.handleReset(event)" class="auth-form" novalidate>
+              <div class="auth-field">
+                <label for="reset-code">Code</label>
+                <input type="text" id="reset-code" placeholder="000000" required maxlength="6" inputmode="numeric" class="auth-code-input">
+              </div>
+              <div class="auth-field">
+                <label for="reset-password">New password</label>
+                <div class="auth-input-wrap">
+                  <input type="password" id="reset-password" placeholder="At least 8 characters" required minlength="8" autocomplete="new-password">
+                  <button type="button" onclick="window.togglePassword('reset-password', this)" class="auth-input-toggle" aria-label="Toggle password visibility">
+                    <span class="material-symbols-outlined">visibility_off</span>
+                  </button>
+                </div>
+              </div>
+              <div class="auth-field">
+                <label for="reset-confirm-password">Confirm password</label>
+                <div class="auth-input-wrap">
+                  <input type="password" id="reset-confirm-password" placeholder="Repeat new password" required minlength="8" autocomplete="new-password">
+                  <button type="button" onclick="window.togglePassword('reset-confirm-password', this)" class="auth-input-toggle" aria-label="Toggle password visibility">
+                    <span class="material-symbols-outlined">visibility_off</span>
+                  </button>
+                </div>
+              </div>
+              <div id="reset-error" class="auth-error"></div>
+              <button type="submit" id="reset-submit-btn" class="auth-btn-primary">Reset password</button>
+              <p class="auth-form-foot" style="display:none;" id="forgot-resend-wrap">
+                Didn't get a code? <button type="button" onclick="window.handleForgotResend()" id="forgot-resend-btn" class="auth-form-link">Resend</button>
+              </p>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── Right: Brand Panel ── -->
+    <div class="auth-brand-panel">
+      <div class="auth-brand-decor"></div>
+
+      <div class="auth-brand-content">
+        <h1 class="auth-brand-title">Effortlessly manage your study resources and community.</h1>
+        <p class="auth-brand-sub">Notes, model questions, past papers, and an active student forum — all in one place.</p>
+
+        <div class="auth-dashboard-mock">
+          <div class="adm-grid">
+            <div class="adm-tile adm-tile--blue">
+              <div class="adm-tile-label">Total Resources</div>
+              <div class="adm-tile-num">524</div>
+              <div class="adm-tile-delta adm-tile-delta--up">+ 12% from last month</div>
+            </div>
+            <div class="adm-tile adm-tile--green">
+              <div class="adm-tile-label">Active Students</div>
+              <div class="adm-tile-num">10.2k</div>
+              <div class="adm-tile-delta adm-tile-delta--up">+ 8% from last month</div>
+            </div>
+            <div class="adm-tile adm-tile--purple adm-tile--chart">
+              <div class="adm-tile-label">Forum Activity</div>
+              <svg class="adm-spark" viewBox="0 0 120 36" preserveAspectRatio="none">
+                <defs>
+                  <linearGradient id="sparkFill" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#8b5cf6" stop-opacity="0.35"/>
+                    <stop offset="100%" stop-color="#8b5cf6" stop-opacity="0"/>
+                  </linearGradient>
+                </defs>
+                <path d="M0,28 L15,22 L30,26 L45,14 L60,18 L75,8 L90,16 L105,6 L120,12 L120,36 L0,36 Z" fill="url(#sparkFill)"/>
+                <path d="M0,28 L15,22 L30,26 L45,14 L60,18 L75,8 L90,16 L105,6 L120,12" fill="none" stroke="#8b5cf6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </div>
+
+          <div class="adm-list">
+            <div class="adm-list-head">
+              <span>Recent Resources</span>
+              <span class="material-symbols-outlined">more_horiz</span>
+            </div>
+            <div class="adm-row">
+              <div class="adm-row-icon adm-row-icon--physics">
+                <span class="material-symbols-outlined">science</span>
+              </div>
+              <div class="adm-row-text">
+                <div class="adm-row-title">Physics — Class 12 Notes</div>
+                <div class="adm-row-sub">Added 2 days ago</div>
+              </div>
+              <span class="adm-row-pill">PDF</span>
+            </div>
+            <div class="adm-row">
+              <div class="adm-row-icon adm-row-icon--math">
+                <span class="material-symbols-outlined">calculate</span>
+              </div>
+              <div class="adm-row-text">
+                <div class="adm-row-title">Mathematics Model Set</div>
+                <div class="adm-row-sub">Added 4 days ago</div>
+              </div>
+              <span class="adm-row-pill">PDF</span>
+            </div>
+            <div class="adm-row">
+              <div class="adm-row-icon adm-row-icon--forum">
+                <span class="material-symbols-outlined">forum</span>
+              </div>
+              <div class="adm-row-text">
+                <div class="adm-row-title">Best books for NEB prep?</div>
+                <div class="adm-row-sub">Forum discussion · 23 replies</div>
+              </div>
+              <span class="adm-row-pill adm-row-pill--forum">POST</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -211,77 +274,12 @@
 {% endblock %}
 
 {% block extra_js %}
-<script src="https://accounts.google.com/gsi/client" async defer></script>
 <script>
-var GOOGLE_CLIENT_ID = '{{ google_client_id }}';
-
 function setStatus(text) {
   var s = document.getElementById('signin-status');
   if (s) s.textContent = text;
 }
 
-function handleCredentialResponse(response) {
-  if (!response || !response.credential) {
-    console.error('GIS response missing credential:', response);
-    setStatus('Sign-in failed. Please try again.');
-    return;
-  }
-  setStatus('Signing in...');
-  fetch('{% url "web:google_auth" %}', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
-    body: JSON.stringify({ idToken: response.credential })
-  }).then(function(res) { return res.json(); }).then(function(data) {
-    if (data.status === 'success') {
-      setStatus('Success! Redirecting...');
-      window.location.href = data.isNewUser ? '{% url "web:edit_profile" %}' : '{% url "web:home" %}';
-    } else {
-      console.error('Auth failed:', data);
-      setStatus(data.error || 'Authentication failed');
-      showSnackbar(data.error || 'Authentication failed');
-    }
-  }).catch(function(e) {
-    console.error('Backend request error:', e);
-    setStatus('Network error. Please try again.');
-    showSnackbar('Network error during sign-in.');
-  });
-}
-
-function initGoogleSignIn() {
-  try {
-    google.accounts.id.initialize({
-      client_id: GOOGLE_CLIENT_ID,
-      callback: handleCredentialResponse,
-    });
-    google.accounts.id.renderButton(
-      document.getElementById('google-btn-container'),
-      { theme: 'outline', size: 'large', text: 'continue_with', width: 400 }
-    );
-  } catch (e) {
-    console.error('GIS init error:', e);
-    setStatus('Google sign-in unavailable. Try email login.');
-  }
-}
-
-window.addEventListener('load', function() {
-  if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
-    initGoogleSignIn();
-  } else {
-    var tries = 0;
-    var interval = setInterval(function() {
-      tries++;
-      if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
-        clearInterval(interval);
-        initGoogleSignIn();
-      } else if (tries > 30) {
-        clearInterval(interval);
-        console.warn('Google Identity Services failed to load.');
-      }
-    }, 100);
-  }
-});
-
-// ── Panel navigation ──
 window.showPanel = function(panel) {
   document.querySelectorAll('[id^="panel-"], #auth-main').forEach(function(el) { el.style.display = 'none'; });
   var target = panel === 'main' ? document.getElementById('auth-main') : document.getElementById('panel-' + panel);
@@ -295,20 +293,18 @@ window.showPanel = function(panel) {
   window._verifyFrom = (panel === 'verify') ? (window._verifyFrom || 'email-signup') : window._verifyFrom;
 };
 
-// ── Password visibility toggle ──
 window.togglePassword = function(inputId, btn) {
   var input = document.getElementById(inputId);
   var icon = btn.querySelector('.material-symbols-outlined');
   if (input.type === 'password') {
     input.type = 'text';
-    icon.textContent = 'visibility_off';
+    icon.textContent = 'visibility';
   } else {
     input.type = 'password';
-    icon.textContent = 'visibility';
+    icon.textContent = 'visibility_off';
   }
 };
 
-// ── Email Login ──
 window.handleEmailLogin = function(e) {
   e.preventDefault();
   var email = document.getElementById('login-email').value.trim();
@@ -317,7 +313,7 @@ window.handleEmailLogin = function(e) {
   var btn = document.getElementById('login-btn');
   errorEl.textContent = '';
   btn.disabled = true;
-  btn.textContent = 'Signing in...';
+  btn.innerHTML = '<span class="auth-spinner"></span><span>Signing in...</span>';
   fetch('/api/auth/email/login/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email, password: password }) })
     .then(function(res) { return res.json(); })
     .then(function(data) {
@@ -330,18 +326,21 @@ window.handleEmailLogin = function(e) {
         hiddenEmail.id = 'verify-email-hidden';
         hiddenEmail.value = data.email;
         document.getElementById('panel-verify').appendChild(hiddenEmail);
-        window._verifyFrom = 'email-login';
+        window._verifyFrom = 'email-signup';
         window.startResendCooldown();
         window.showPanel('verify');
+      } else if (data.needsSetPassword && data.email) {
+        document.getElementById('forgot-email').value = data.email || email;
+        window.showPanel('forgot');
+        window.handleForgot(new Event('submit'));
       } else {
         errorEl.textContent = data.error || 'Login failed';
       }
     })
     .catch(function() { errorEl.textContent = 'Network error. Please try again.'; })
-    .finally(function() { btn.disabled = false; btn.textContent = 'Sign In'; });
+    .finally(function() { btn.disabled = false; btn.innerHTML = '<span>Log In</span>'; });
 };
 
-// ── Email Signup ──
 window.handleEmailSignup = function(e) {
   e.preventDefault();
   var username = document.getElementById('signup-username').value.trim();
@@ -351,22 +350,22 @@ window.handleEmailSignup = function(e) {
   var btn = document.getElementById('signup-btn');
   errorEl.textContent = '';
   btn.disabled = true;
-  btn.textContent = 'Creating account...';
+  btn.innerHTML = '<span class="auth-spinner"></span><span>Creating account...</span>';
   fetch('/api/auth/email/signup/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email, password: password, username: username }) })
     .then(function(res) { return res.json(); })
     .then(function(data) {
       if (data.status === 'success') {
         document.getElementById('verify-email-display').textContent = email;
+        window.startResendCooldown();
         window.showPanel('verify');
       } else {
         errorEl.textContent = data.error || 'Signup failed';
       }
     })
     .catch(function() { errorEl.textContent = 'Network error. Please try again.'; })
-    .finally(function() { btn.disabled = false; btn.textContent = 'Create Account'; });
+    .finally(function() { btn.disabled = false; btn.innerHTML = '<span>Create account</span>'; });
 };
 
-// ── Verification Code ──
 window.handleVerifyCode = function(e) {
   e.preventDefault();
   var email = document.getElementById('verify-email-hidden') ? document.getElementById('verify-email-hidden').value : document.getElementById('signup-email').value.trim();
@@ -376,7 +375,7 @@ window.handleVerifyCode = function(e) {
   var btn = document.getElementById('verify-btn');
   errorEl.textContent = '';
   btn.disabled = true;
-  btn.textContent = 'Verifying...';
+  btn.innerHTML = '<span class="auth-spinner"></span><span>Verifying...</span>';
   fetch('/api/auth/email/verify/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email, code: code }) })
     .then(function(res) { return res.json(); })
     .then(function(data) {
@@ -387,10 +386,9 @@ window.handleVerifyCode = function(e) {
       }
     })
     .catch(function() { errorEl.textContent = 'Network error. Please try again.'; })
-    .finally(function() { btn.disabled = false; btn.textContent = 'Verify'; });
+    .finally(function() { btn.disabled = false; btn.innerHTML = '<span>Verify &amp; continue</span>'; });
 };
 
-// ── Resend Code ──
 window.handleResend = function() {
   var email = document.getElementById('verify-email-hidden') ? document.getElementById('verify-email-hidden').value : document.getElementById('signup-email').value.trim();
   email = email || document.getElementById('signup-email').value.trim();
@@ -403,12 +401,12 @@ window.handleResend = function() {
       if (data.status === 'success') {
         window.startResendCooldown();
       } else {
-        document.getElementById('verify-error').textContent = data.error || 'Failed to resend';
-        btn.textContent = 'Resend Code';
+        showSnackbar(data.error || 'Failed to resend');
+        btn.textContent = 'Resend';
         btn.disabled = false;
       }
     })
-    .catch(function() { btn.textContent = 'Resend Code'; btn.disabled = false; });
+    .catch(function() { btn.textContent = 'Resend'; btn.disabled = false; });
 };
 
 window.startResendCooldown = function() {
@@ -420,7 +418,7 @@ window.startResendCooldown = function() {
     seconds--;
     if (seconds <= 0) {
       clearInterval(timer);
-      btn.textContent = 'Resend Code';
+      btn.textContent = 'Resend';
       btn.disabled = false;
     } else {
       btn.textContent = 'Resend in ' + seconds + 's';
@@ -428,7 +426,7 @@ window.startResendCooldown = function() {
   }, 1000);
 };
 
-// ── Forgot Password ──
+window._forgotNeedsSetPassword = false;
 window.handleForgot = function(e) {
   e.preventDefault();
   var email = document.getElementById('forgot-email').value.trim();
@@ -436,32 +434,67 @@ window.handleForgot = function(e) {
   var btn = document.getElementById('forgot-btn');
   errorEl.textContent = '';
   btn.disabled = true;
-  btn.textContent = 'Sending...';
+  btn.innerHTML = '<span class="auth-spinner"></span><span>Sending...</span>';
   fetch('/api/auth/email/forgot/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email }) })
     .then(function(res) { return res.json(); })
     .then(function(data) {
       if (data.status === 'success' || !data.error) {
+        window._forgotNeedsSetPassword = !!data.needsSetPassword;
+        if (window._forgotNeedsSetPassword) {
+          document.getElementById('forgot-title').textContent = 'Set password';
+          document.getElementById('forgot-subtitle').textContent = 'This account uses Google sign-in. Set a password to also sign in with email.';
+          document.getElementById('reset-instruction').textContent = 'Enter the code and choose a password.';
+          document.getElementById('reset-submit-btn').innerHTML = '<span>Set password</span>';
+        } else {
+          document.getElementById('forgot-title').textContent = 'Reset password';
+          document.getElementById('forgot-subtitle').textContent = 'Enter your email and we\'ll send a verification code.';
+          document.getElementById('reset-instruction').textContent = 'Enter the code and your new password.';
+          document.getElementById('reset-submit-btn').innerHTML = '<span>Reset password</span>';
+        }
         document.getElementById('reset-section').style.display = 'block';
-        btn.textContent = 'Code Sent!';
-        btn.disabled = true;
+        document.getElementById('forgot-resend-wrap').style.display = '';
+        window.startForgotResendCooldown();
+        btn.innerHTML = '<span>Code sent</span><span class="material-symbols-outlined">check</span>';
       } else {
         errorEl.textContent = data.error || 'Failed to send code';
-        btn.textContent = 'Send Code';
+        btn.innerHTML = '<span>Send code</span>';
         btn.disabled = false;
       }
     })
-    .catch(function() { errorEl.textContent = 'Network error'; btn.disabled = false; btn.textContent = 'Send Code'; });
+    .catch(function() { errorEl.textContent = 'Network error'; btn.disabled = false; btn.innerHTML = '<span>Send code</span>'; });
 };
 
-// ── Reset Password ──
+window.startForgotResendCooldown = function() {
+  var btn = document.getElementById('forgot-resend-btn');
+  if (!btn) return;
+  var seconds = 60;
+  btn.disabled = true;
+  btn.textContent = 'Resend in ' + seconds + 's';
+  var timer = setInterval(function() {
+    seconds--;
+    if (seconds <= 0) {
+      clearInterval(timer);
+      btn.textContent = 'Resend';
+      btn.disabled = false;
+    } else {
+      btn.textContent = 'Resend in ' + seconds + 's';
+    }
+  }, 1000);
+};
+
 window.handleReset = function(e) {
   e.preventDefault();
   var email = document.getElementById('forgot-email').value.trim();
   var code = document.getElementById('reset-code').value.trim();
   var newPassword = document.getElementById('reset-password').value;
+  var confirmPassword = document.getElementById('reset-confirm-password').value;
   var errorEl = document.getElementById('reset-error');
   errorEl.textContent = '';
-  fetch('/api/auth/email/reset-password/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email, code: code, newPassword: newPassword }) })
+  if (newPassword !== confirmPassword) {
+    errorEl.textContent = 'Passwords do not match';
+    return;
+  }
+  fetch('/api/auth/email/reset-password/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email, code: code, newPassword: newPassword, confirmPassword: confirmPassword }) })
     .then(function(res) { return res.json(); })
     .then(function(data) {
       if (data.status === 'success') {
@@ -473,7 +506,24 @@ window.handleReset = function(e) {
     .catch(function() { errorEl.textContent = 'Network error'; });
 };
 
-// ── Session creation for email auth ──
+window.handleForgotResend = function() {
+  var email = document.getElementById('forgot-email').value.trim();
+  var btn = document.getElementById('forgot-resend-btn');
+  btn.disabled = true;
+  btn.textContent = 'Sending...';
+  fetch('/api/auth/email/forgot/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email }) })
+    .then(function(res) { return res.json(); })
+    .then(function(data) {
+      if (data.status === 'success' || !data.error) {
+        window.startForgotResendCooldown();
+      } else {
+        btn.textContent = 'Resend';
+        btn.disabled = false;
+      }
+    })
+    .catch(function() { btn.textContent = 'Resend'; btn.disabled = false; });
+};
+
 window.nebEmailLoginSuccess = function(data) {
   if (data.authToken && data.user) {
     var redirectUrl = (data.profileIncomplete || data.isNewUser) ? '{% url "web:edit_profile" %}' : '{% url "web:home" %}';

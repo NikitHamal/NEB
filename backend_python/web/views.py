@@ -961,9 +961,7 @@ def edit_profile(request):
 def login_page(request):
     if api.get_session_token(request):
         return redirect('web:home')
-    return render(request, 'web/login.html', _ctx(request,
-        google_client_id=settings.GOOGLE_CLIENT_ID,
-    ))
+    return render(request, 'web/login.html', _ctx(request))
 
 
 @require_POST
@@ -1032,6 +1030,208 @@ def google_auth(request):
         api.set_session_auth(request, token, user_data)
         logger.info('google_auth: new user created: %s (temp_username=%s)', user_id, temp_username)
         return JsonResponse({'status': 'success', 'user': user_data, 'isNewUser': True})
+
+
+@require_GET
+def google_login(request):
+    """Kick off Google OAuth2 redirect flow — fully custom button, no GIS chrome."""
+    client_id = settings.GOOGLE_CLIENT_ID
+    if not client_id:
+        return HttpResponse('Google OAuth is not configured.', status=501)
+    redirect_uri = request.build_absolute_uri('/auth/google/callback/')
+    authorize_url = (
+        f'https://accounts.google.com/o/oauth2/v2/auth'
+        f'?client_id={client_id}'
+        f'&redirect_uri={redirect_uri}'
+        f'&response_type=code'
+        f'&scope=openid+email+profile'
+        f'&prompt=select_account'
+        f'&access_type=online'
+    )
+    return redirect(authorize_url)
+
+
+def google_oauth_callback(request):
+    """Handle Google OAuth2 code → exchange for tokens → verify id_token → login/signup."""
+    import requests as _req
+    code = request.GET.get('code')
+    if not code:
+        messages.error(request, 'Google sign-in was cancelled.')
+        return redirect('web:login')
+    redirect_uri = request.build_absolute_uri('/auth/google/callback/')
+    try:
+        token_resp = _req.post(
+            'https://oauth2.googleapis.com/token',
+            data={
+                'code': code,
+                'client_id': settings.GOOGLE_CLIENT_ID,
+                'client_secret': settings.GOOGLE_CLIENT_SECRET,
+                'redirect_uri': redirect_uri,
+                'grant_type': 'authorization_code',
+            },
+            timeout=10,
+        )
+        token_data = token_resp.json()
+    except Exception as e:
+        logger.error('google_oauth_callback: token exchange failed: %s', e)
+        messages.error(request, 'Google sign-in failed. Please try again.')
+        return redirect('web:login')
+    id_token = token_data.get('id_token')
+    if not id_token:
+        logger.error('google_oauth_callback: no id_token in response: %s', token_data)
+        messages.error(request, 'Google sign-in failed. Please try again.')
+        return redirect('web:login')
+    google_info = verify_google_token(id_token)
+    if not google_info:
+        messages.error(request, 'Google token verification failed.')
+        return redirect('web:login')
+    user_id = google_info['userId']
+    email = google_info.get('email') or ''
+    display_name = google_info.get('displayName') or ''
+    photo_url = google_info.get('photoUrl') or ''
+    try:
+        db_user = User.objects.get(pk=user_id)
+        if not db_user.auth_token:
+            db_user.auth_token = User.generate_token()
+            db_user.save(update_fields=['auth_token'])
+        token = db_user.auth_token
+        user_data = _normalize_user_data(UserSerializer(db_user).data)
+        user_data['isNewUser'] = False
+        api.set_session_auth(request, token, user_data)
+        logger.info('google_oauth_callback: existing user signed in: %s', db_user.username or db_user.id)
+        return redirect('web:home')
+    except User.DoesNotExist:
+        auth_token = User.generate_token()
+        temp_username = f"user_{user_id[:8]}"
+        db_user = User(
+            pk=user_id,
+            auth_token=auth_token,
+            username=temp_username,
+            email=email,
+            display_name=display_name,
+            photo_url=photo_url,
+            created_at=int(time.time() * 1000)
+        )
+        db_user.save()
+        token = auth_token
+        user_data = _normalize_user_data(UserSerializer(db_user).data)
+        user_data['isNewUser'] = True
+        api.set_session_auth(request, token, user_data)
+        logger.info('google_oauth_callback: new user created: %s (temp_username=%s)', user_id, temp_username)
+        return redirect('web:edit_profile')
+
+
+def github_login(request):
+    """Redirect user to GitHub OAuth authorization page."""
+    client_id = settings.GITHUB_CLIENT_ID
+    if not client_id:
+        return HttpResponse('GitHub OAuth is not configured.', status=501)
+    redirect_uri = request.build_absolute_uri('/auth/github/callback/')
+    authorize_url = (
+        f'https://github.com/login/oauth/authorize'
+        f'?client_id={client_id}'
+        f'&redirect_uri={redirect_uri}'
+        f'&scope=read:user,user:email'
+    )
+    return redirect(authorize_url)
+
+
+@require_GET
+def github_callback(request):
+    """Handle GitHub OAuth callback — exchange code for token, fetch user, create/login."""
+    code = request.GET.get('code')
+    if not code:
+        return HttpResponse('Missing authorization code.', status=400)
+    redirect_uri = request.build_absolute_uri('/auth/github/callback/')
+    token_url = 'https://github.com/login/oauth/access_token'
+    headers = {'Accept': 'application/json'}
+    data = {
+        'client_id': settings.GITHUB_CLIENT_ID,
+        'client_secret': settings.GITHUB_CLIENT_SECRET,
+        'code': code,
+        'redirect_uri': redirect_uri,
+    }
+    try:
+        import requests as _req
+        resp = _req.post(token_url, json=data, headers=headers, timeout=10)
+        token_data = resp.json()
+    except Exception as e:
+        logger.error('github_callback: token exchange failed: %s', e)
+        return HttpResponse('Failed to exchange authorization code.', status=502)
+    access_token = token_data.get('access_token')
+    if not access_token:
+        return HttpResponse('Failed to get access token from GitHub.', status=502)
+    try:
+        user_resp = _req.get(
+            'https://api.github.com/user',
+            headers={'Authorization': f'Bearer {access_token}', 'Accept': 'application/json'},
+            timeout=10,
+        )
+        github_user = user_resp.json()
+    except Exception as e:
+        logger.error('github_callback: user fetch failed: %s', e)
+        return HttpResponse('Failed to fetch GitHub user info.', status=502)
+    github_id = str(github_user.get('id', ''))
+    if not github_id:
+        return HttpResponse('Could not retrieve GitHub user ID.', status=502)
+    email = github_user.get('email') or ''
+    if not email:
+        try:
+            emails_resp = _req.get(
+                'https://api.github.com/user/emails',
+                headers={'Authorization': f'Bearer {access_token}', 'Accept': 'application/json'},
+                timeout=10,
+            )
+            emails = emails_resp.json()
+            for e in emails:
+                if e.get('primary') and e.get('verified'):
+                    email = e['email']
+                    break
+            if not email:
+                for e in emails:
+                    if e.get('verified'):
+                        email = e['email']
+                        break
+        except Exception:
+            pass
+    display_name = github_user.get('name') or github_user.get('login', '')
+    photo_url = github_user.get('avatar_url') or ''
+    user_pk = f'github_{github_id}'
+    try:
+        db_user = User.objects.get(pk=user_pk)
+        if not db_user.auth_token:
+            db_user.auth_token = User.generate_token()
+            db_user.save(update_fields=['auth_token'])
+        token = db_user.auth_token
+        user_data = _normalize_user_data(UserSerializer(db_user).data)
+        user_data['isNewUser'] = False
+        api.set_session_auth(request, token, user_data)
+        logger.info('github_callback: existing user signed in: %s', db_user.username or db_user.id)
+        return redirect('web:home')
+    except User.DoesNotExist:
+        auth_token = User.generate_token()
+        temp_username = f"github_{github_id[:8]}"
+        base_username = temp_username
+        suffix = 1
+        while User.objects.filter(username=temp_username).exists():
+            temp_username = f"{base_username}_{suffix}"
+            suffix += 1
+        db_user = User(
+            pk=user_pk,
+            auth_token=auth_token,
+            username=temp_username,
+            email=email,
+            display_name=display_name,
+            photo_url=photo_url,
+            created_at=int(time.time() * 1000),
+        )
+        db_user.save()
+        token = auth_token
+        user_data = _normalize_user_data(UserSerializer(db_user).data)
+        user_data['isNewUser'] = True
+        api.set_session_auth(request, token, user_data)
+        logger.info('github_callback: new user created: %s', user_pk)
+        return redirect('web:edit_profile')
 
 
 def _normalize_user_data(user):
@@ -1824,7 +2024,12 @@ def admin_user_detail(request, user_id):
         if request.POST.get('_method') == 'delete':
             user_obj.delete()
             return redirect('web:admin_users')
-        for field in ['username', 'email', 'display_name', 'gender', 'class_level', 'subjects', 'pradesh', 'district', 'school']:
+        new_username = request.POST.get('username', '').strip()
+        if new_username and new_username != user_obj.username:
+            if User.objects.filter(username=new_username).exclude(pk=user_obj.pk).exists():
+                return HttpResponse('Username already taken by another user.', status=409)
+            user_obj.username = new_username
+        for field in ['email', 'display_name', 'gender', 'class_level', 'subjects', 'pradesh', 'district', 'school']:
             val = request.POST.get(field, '').strip()
             if val:
                 setattr(user_obj, field, val)
