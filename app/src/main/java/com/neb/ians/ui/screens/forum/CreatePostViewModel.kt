@@ -3,7 +3,6 @@ package com.neb.ians.ui.screens.forum
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.neb.ians.data.repository.ForumRepository
-import com.neb.ians.data.repository.SettingsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -26,8 +25,7 @@ data class CreatePostUiState(
 
 @HiltViewModel
 class CreatePostViewModel @Inject constructor(
-    private val forumRepository: ForumRepository,
-    private val settingsRepository: SettingsRepository
+    private val forumRepository: ForumRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(CreatePostUiState())
@@ -51,17 +49,14 @@ class CreatePostViewModel @Inject constructor(
 
         viewModelScope.launch {
             _uiState.update { it.copy(isSubmitting = true, error = null) }
-            try {
-                val userName = settingsRepository.userName.first()
-                forumRepository.createPost(
-                    title = state.title,
-                    content = state.content,
-                    authorName = userName,
-                    category = state.selectedCategory
-                )
+            forumRepository.createPost(
+                title = state.title,
+                content = state.content,
+                category = state.selectedCategory
+            ).onSuccess {
                 _uiState.update { it.copy(isSubmitting = false) }
                 onSuccess()
-            } catch (e: Exception) {
+            }.onFailure { e ->
                 _uiState.update { it.copy(isSubmitting = false, error = e.message ?: "Failed to post") }
             }
         }

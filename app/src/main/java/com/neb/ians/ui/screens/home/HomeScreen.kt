@@ -36,8 +36,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.neb.ians.data.local.entity.ForumPostEntity
-import com.neb.ians.data.local.entity.ResourceEntity
+import com.neb.ians.data.api.ApiPost
+import com.neb.ians.data.api.ApiResource
 import com.neb.ians.ui.components.ErrorCard
 import com.neb.ians.ui.components.ShimmerHomeScreen
 
@@ -280,7 +280,7 @@ private fun SectionHeader(
 
 @Composable
 private fun ResourceCard(
-    resource: ResourceEntity,
+    resource: ApiResource,
     onClick: () -> Unit
 ) {
     val subjectColor = getSubjectColor(resource.subject)
@@ -358,7 +358,7 @@ private fun ResourceCard(
 }
 
 @Composable
-private fun ForumPostItem(post: ForumPostEntity) {
+private fun ForumPostItem(post: ApiPost) {
     ListItem(
         headlineContent = {
             Text(

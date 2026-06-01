@@ -3,7 +3,9 @@ package com.neb.ians.ui.screens.library
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.neb.ians.data.local.entity.ResourceEntity
+import com.neb.ians.data.api.ApiResource
+import com.neb.ians.data.api.ApiService
+import com.neb.ians.data.repository.AuthRepository
 import com.neb.ians.data.repository.ResourceRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -11,7 +13,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 data class LibraryUiState(
-    val resources: List<ResourceEntity> = emptyList(),
+    val resources: List<ApiResource> = emptyList(),
+    val totalCount: Int = 0,
+    val currentPage: Int = 1,
+    val totalPages: Int = 1,
     val selectedSubject: String? = null,
     val selectedGradeLevel: String? = null,
     val selectedType: String? = null,
@@ -34,83 +39,72 @@ class LibraryViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val _isLoading = MutableStateFlow(true)
-    private val _error = MutableStateFlow<String?>(null)
-    private val _selectedSubject = MutableStateFlow<String?>(null)
-    private val _selectedGradeLevel = MutableStateFlow<String?>(null)
-    private val _selectedType = MutableStateFlow<String?>(null)
+    private val _uiState = MutableStateFlow(LibraryUiState())
+
+    val uiState: StateFlow<LibraryUiState> = _uiState.asStateFlow()
 
     init {
-        syncData()
         val initialSubject = savedStateHandle.get<String>("subject")
         if (!initialSubject.isNullOrBlank()) {
-            _selectedSubject.value = initialSubject
+            _uiState.update { it.copy(selectedSubject = initialSubject) }
         }
+        loadResources()
     }
 
-    private fun syncData() {
+    private fun loadResources() {
         viewModelScope.launch {
-            _isLoading.value = true
-            _error.value = null
-            try {
-                resourceRepository.syncResources()
-            } catch (e: Exception) {
-                _error.value = e.message ?: "Failed to load resources"
+            _uiState.update { it.copy(isLoading = true, error = null) }
+            val state = _uiState.value
+            resourceRepository.getResources(
+                subject = state.selectedSubject,
+                grade = state.selectedGradeLevel,
+                type = state.selectedType,
+                page = state.currentPage
+            ).onSuccess { result ->
+                _uiState.update {
+                    it.copy(
+                        resources = result.resources,
+                        totalCount = result.totalCount,
+                        currentPage = result.page,
+                        totalPages = result.totalPages,
+                        isLoading = false
+                    )
+                }
+            }.onFailure { e ->
+                _uiState.update { it.copy(isLoading = false, error = e.message ?: "Failed to load resources") }
             }
-            _isLoading.value = false
         }
     }
 
     fun refresh() {
-        syncData()
+        loadResources()
     }
 
-    val uiState: StateFlow<LibraryUiState> = combine(
-        _selectedSubject,
-        _selectedGradeLevel,
-        _selectedType,
-        resourceRepository.getAllResources().distinctUntilChanged(),
-        _isLoading,
-        _error
-    ) { args: Array<Any?> ->
-        val subject = args[0] as? String?
-        val grade = args[1] as? String?
-        val type = args[2] as? String?
-        @Suppress("UNCHECKED_CAST")
-        val allResources = args[3] as? List<ResourceEntity> ?: emptyList()
-        val isLoading = args[4] as? Boolean ?: false
-        val error = args[5] as? String?
-
-        val filtered = allResources.filter { resource ->
-            (subject == null || resource.subject == subject) &&
-            (grade == null || resource.gradeLevel == grade) &&
-            (type == null || resource.type == type)
-        }
-        LibraryUiState(
-            resources = filtered,
-            selectedSubject = subject,
-            selectedGradeLevel = grade,
-            selectedType = type,
-            isLoading = isLoading,
-            error = error
-        )
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), LibraryUiState())
-
     fun selectSubject(subject: String?) {
-        _selectedSubject.value = if (_selectedSubject.value == subject) null else subject
+        val newSubject = if (_uiState.value.selectedSubject == subject) null else subject
+        _uiState.update { it.copy(selectedSubject = newSubject, currentPage = 1) }
+        loadResources()
     }
 
     fun selectGradeLevel(gradeLevel: String?) {
-        _selectedGradeLevel.value = if (_selectedGradeLevel.value == gradeLevel) null else gradeLevel
+        val newGrade = if (_uiState.value.selectedGradeLevel == gradeLevel) null else gradeLevel
+        _uiState.update { it.copy(selectedGradeLevel = newGrade, currentPage = 1) }
+        loadResources()
     }
 
     fun selectType(type: String?) {
-        _selectedType.value = if (_selectedType.value == type) null else type
+        val newType = if (_uiState.value.selectedType == type) null else type
+        _uiState.update { it.copy(selectedType = newType, currentPage = 1) }
+        loadResources()
     }
 
     fun clearFilters() {
-        _selectedSubject.value = null
-        _selectedGradeLevel.value = null
-        _selectedType.value = null
+        _uiState.update { it.copy(selectedSubject = null, selectedGradeLevel = null, selectedType = null, currentPage = 1) }
+        loadResources()
+    }
+
+    fun loadPage(page: Int) {
+        _uiState.update { it.copy(currentPage = page) }
+        loadResources()
     }
 }
