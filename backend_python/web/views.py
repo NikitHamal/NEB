@@ -1012,33 +1012,84 @@ def google_auth(request):
         logger.info('google_auth: existing user signed in: %s', db_user.username or db_user.id)
         return JsonResponse({'status': 'success', 'user': user_data, 'isNewUser': False})
     except User.DoesNotExist:
-        auth_token = User.generate_token()
-        temp_username = f"user_{user_id[:8]}"
-        db_user = User(
-            pk=user_id,
-            auth_token=auth_token,
-            username=temp_username,
-            email=email,
-            display_name=display_name,
-            photo_url=photo_url,
-            created_at=int(time.time() * 1000)
-        )
-        db_user.save()
-        token = auth_token
-        user_data = _normalize_user_data(UserSerializer(db_user).data)
-        user_data['isNewUser'] = True
-        api.set_session_auth(request, token, user_data)
-        logger.info('google_auth: new user created: %s (temp_username=%s)', user_id, temp_username)
-        return JsonResponse({'status': 'success', 'user': user_data, 'isNewUser': True})
+        pass
+    if email:
+        try:
+            existing = User.objects.get(email__iexact=email)
+            if existing.auth_token:
+                token = existing.auth_token
+            else:
+                existing.auth_token = User.generate_token()
+                existing.save(update_fields=['auth_token'])
+                token = existing.auth_token
+            user_data = _normalize_user_data(UserSerializer(existing).data)
+            user_data['isNewUser'] = False
+            api.set_session_auth(request, token, user_data)
+            logger.info('google_auth: linked %s to existing user %s (email=%s)', user_id, existing.id, email)
+            return JsonResponse({'status': 'success', 'user': user_data, 'isNewUser': False})
+        except User.DoesNotExist:
+            pass
+    auth_token = User.generate_token()
+    temp_username = f"user_{user_id[:8]}"
+    db_user = User(
+        pk=user_id,
+        auth_token=auth_token,
+        username=temp_username,
+        email=email,
+        display_name=display_name,
+        photo_url=photo_url,
+        created_at=int(time.time() * 1000)
+    )
+    db_user.save()
+    token = auth_token
+    user_data = _normalize_user_data(UserSerializer(db_user).data)
+    user_data['isNewUser'] = True
+    api.set_session_auth(request, token, user_data)
+    logger.info('google_auth: new user created: %s (temp_username=%s)', user_id, temp_username)
+    return JsonResponse({'status': 'success', 'user': user_data, 'isNewUser': True})
+
+
+def _link_oauth_user(request, email, user_pk, display_name, photo_url, provider_name):
+    """Auto-link OAuth accounts by verified email.
+
+    If a user with the same verified email already exists, log them into that
+    account instead of creating a new one. This prevents duplicate accounts
+    when the same person signs in via different providers.
+
+    Returns (HttpResponseRedirect, linked: bool).
+    """
+    if email:
+        try:
+            existing = User.objects.get(email__iexact=email)
+            if existing.auth_token:
+                token = existing.auth_token
+            else:
+                existing.auth_token = User.generate_token()
+                existing.save(update_fields=['auth_token'])
+                token = existing.auth_token
+            user_data = _normalize_user_data(UserSerializer(existing).data)
+            user_data['isNewUser'] = False
+            api.set_session_auth(request, token, user_data)
+            logger.info('%s: linked %s to existing user %s (email=%s)', provider_name, user_pk, existing.id, email)
+            return redirect('web:home'), True
+        except User.DoesNotExist:
+            pass
+    return None, False
 
 
 @require_GET
+def _https_redirect_uri(request, path):
+    """Build an HTTPS redirect URI, even when behind a proxy that terminates SSL."""
+    host = request.get_host()
+    return f'https://{host}{path}'
+
+
 def google_login(request):
     """Kick off Google OAuth2 redirect flow — fully custom button, no GIS chrome."""
     client_id = settings.GOOGLE_CLIENT_ID
     if not client_id:
         return HttpResponse('Google OAuth is not configured.', status=501)
-    redirect_uri = request.build_absolute_uri('/auth/google/callback/')
+    redirect_uri = _https_redirect_uri(request, '/auth/google/callback/')
     authorize_url = (
         f'https://accounts.google.com/o/oauth2/v2/auth'
         f'?client_id={client_id}'
@@ -1058,7 +1109,7 @@ def google_oauth_callback(request):
     if not code:
         messages.error(request, 'Google sign-in was cancelled.')
         return redirect('web:login')
-    redirect_uri = request.build_absolute_uri('/auth/google/callback/')
+    redirect_uri = _https_redirect_uri(request, '/auth/google/callback/')
     try:
         token_resp = _req.post(
             'https://oauth2.googleapis.com/token',
@@ -1101,24 +1152,28 @@ def google_oauth_callback(request):
         logger.info('google_oauth_callback: existing user signed in: %s', db_user.username or db_user.id)
         return redirect('web:home')
     except User.DoesNotExist:
-        auth_token = User.generate_token()
-        temp_username = f"user_{user_id[:8]}"
-        db_user = User(
-            pk=user_id,
-            auth_token=auth_token,
-            username=temp_username,
-            email=email,
-            display_name=display_name,
-            photo_url=photo_url,
-            created_at=int(time.time() * 1000)
-        )
-        db_user.save()
-        token = auth_token
-        user_data = _normalize_user_data(UserSerializer(db_user).data)
-        user_data['isNewUser'] = True
-        api.set_session_auth(request, token, user_data)
-        logger.info('google_oauth_callback: new user created: %s (temp_username=%s)', user_id, temp_username)
-        return redirect('web:edit_profile')
+        pass
+    redirect_result, linked = _link_oauth_user(request, email, user_id, display_name, photo_url, 'google_oauth_callback')
+    if linked:
+        return redirect_result
+    auth_token = User.generate_token()
+    temp_username = f"user_{user_id[:8]}"
+    db_user = User(
+        pk=user_id,
+        auth_token=auth_token,
+        username=temp_username,
+        email=email,
+        display_name=display_name,
+        photo_url=photo_url,
+        created_at=int(time.time() * 1000)
+    )
+    db_user.save()
+    token = auth_token
+    user_data = _normalize_user_data(UserSerializer(db_user).data)
+    user_data['isNewUser'] = True
+    api.set_session_auth(request, token, user_data)
+    logger.info('google_oauth_callback: new user created: %s (temp_username=%s)', user_id, temp_username)
+    return redirect('web:edit_profile')
 
 
 def github_login(request):
@@ -1126,7 +1181,7 @@ def github_login(request):
     client_id = settings.GITHUB_CLIENT_ID
     if not client_id:
         return HttpResponse('GitHub OAuth is not configured.', status=501)
-    redirect_uri = request.build_absolute_uri('/auth/github/callback/')
+    redirect_uri = _https_redirect_uri(request, '/auth/github/callback/')
     authorize_url = (
         f'https://github.com/login/oauth/authorize'
         f'?client_id={client_id}'
@@ -1142,7 +1197,7 @@ def github_callback(request):
     code = request.GET.get('code')
     if not code:
         return HttpResponse('Missing authorization code.', status=400)
-    redirect_uri = request.build_absolute_uri('/auth/github/callback/')
+    redirect_uri = _https_redirect_uri(request, '/auth/github/callback/')
     token_url = 'https://github.com/login/oauth/access_token'
     headers = {'Accept': 'application/json'}
     data = {
@@ -1209,29 +1264,33 @@ def github_callback(request):
         logger.info('github_callback: existing user signed in: %s', db_user.username or db_user.id)
         return redirect('web:home')
     except User.DoesNotExist:
-        auth_token = User.generate_token()
-        temp_username = f"github_{github_id[:8]}"
-        base_username = temp_username
-        suffix = 1
-        while User.objects.filter(username=temp_username).exists():
-            temp_username = f"{base_username}_{suffix}"
-            suffix += 1
-        db_user = User(
-            pk=user_pk,
-            auth_token=auth_token,
-            username=temp_username,
-            email=email,
-            display_name=display_name,
-            photo_url=photo_url,
-            created_at=int(time.time() * 1000),
-        )
-        db_user.save()
-        token = auth_token
-        user_data = _normalize_user_data(UserSerializer(db_user).data)
-        user_data['isNewUser'] = True
-        api.set_session_auth(request, token, user_data)
-        logger.info('github_callback: new user created: %s', user_pk)
-        return redirect('web:edit_profile')
+        pass
+    redirect_result, linked = _link_oauth_user(request, email, user_pk, display_name, photo_url, 'github_callback')
+    if linked:
+        return redirect_result
+    auth_token = User.generate_token()
+    temp_username = f"github_{github_id[:8]}"
+    base_username = temp_username
+    suffix = 1
+    while User.objects.filter(username=temp_username).exists():
+        temp_username = f"{base_username}_{suffix}"
+        suffix += 1
+    db_user = User(
+        pk=user_pk,
+        auth_token=auth_token,
+        username=temp_username,
+        email=email,
+        display_name=display_name,
+        photo_url=photo_url,
+        created_at=int(time.time() * 1000),
+    )
+    db_user.save()
+    token = auth_token
+    user_data = _normalize_user_data(UserSerializer(db_user).data)
+    user_data['isNewUser'] = True
+    api.set_session_auth(request, token, user_data)
+    logger.info('github_callback: new user created: %s', user_pk)
+    return redirect('web:edit_profile')
 
 
 def _normalize_user_data(user):
