@@ -2341,10 +2341,28 @@ def admin_user_detail(request, user_id):
             if User.objects.filter(username=new_username).exclude(pk=user_obj.pk).exists():
                 return HttpResponse('Username already taken by another user.', status=409)
             user_obj.username = new_username
-        for field in ['email', 'display_name', 'gender', 'class_level', 'subjects', 'pradesh', 'district', 'school']:
+        for field in ['email', 'display_name', 'gender', 'class_level', 'subjects', 'pradesh', 'district', 'school', 'bio', 'photo_url', 'banner_url']:
             val = request.POST.get(field, '').strip()
             if val:
                 setattr(user_obj, field, val)
+        # Allow clearing these explicit-clear fields (e.g. to remove a photo)
+        for clearable in ['bio', 'photo_url', 'banner_url']:
+            if clearable in request.POST and not request.POST.get(clearable, '').strip():
+                setattr(user_obj, clearable, None)
+        # Handle direct image uploads (override URL field if a file is provided)
+        from api.security import save_profile_image_upload, save_banner_image_upload
+        photo_upload = request.FILES.get('photo_upload')
+        if photo_upload:
+            try:
+                user_obj.photo_url = save_profile_image_upload(request, user_obj, photo_upload)
+            except Exception as upload_err:
+                return HttpResponse(f'Photo upload failed: {upload_err}', status=400)
+        banner_upload = request.FILES.get('banner_upload')
+        if banner_upload:
+            try:
+                user_obj.banner_url = save_banner_image_upload(request, user_obj, banner_upload)
+            except Exception as upload_err:
+                return HttpResponse(f'Banner upload failed: {upload_err}', status=400)
         user_obj.is_locked = request.POST.get('is_locked') == 'on'
         user_obj.verification_level = int(request.POST.get('verification_level', '0'))
         user_obj.moderator_level = int(request.POST.get('moderator_level', '0'))

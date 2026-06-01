@@ -180,6 +180,64 @@ def save_profile_image_upload(request, user, file_obj) -> str:
     return request.build_absolute_uri(settings.MEDIA_URL + path)
 
 
+def save_banner_image_upload(request, user, file_obj) -> str:
+    """Validate and save an uploaded banner image, returning an absolute URL.
+
+    Banners are wider than profile photos (typically 11:2.8 aspect) and have a
+    larger size allowance. Reuses the same image validation as profile photos
+    but stores under a separate subdir and tolerates wider aspect ratios.
+    """
+    if not file_obj:
+        raise ValidationError('Banner file is required')
+    if getattr(file_obj, 'size', 0) > PROFILE_PHOTO_MAX_BYTES * 2:
+        raise ValidationError('Banner is too large. Maximum size is 10 MB.')
+
+    original_name = get_valid_filename(getattr(file_obj, 'name', 'banner'))
+    ext = os.path.splitext(original_name)[1].lower()
+    if ext not in PROFILE_PHOTO_ALLOWED_EXTENSIONS:
+        raise ValidationError('Invalid image format. Only JPG, PNG, and WEBP are allowed.')
+    content_type = getattr(file_obj, 'content_type', '')
+    if content_type and content_type not in PROFILE_PHOTO_CONTENT_TYPES:
+        raise ValidationError('Invalid image MIME type.')
+
+    data = file_obj.read((PROFILE_PHOTO_MAX_BYTES * 2) + 1)
+    if len(data) > PROFILE_PHOTO_MAX_BYTES * 2:
+        raise ValidationError('Banner is too large. Maximum size is 10 MB.')
+
+    try:
+        image = Image.open(BytesIO(data))
+        image.verify()
+    except (UnidentifiedImageError, OSError):
+        raise ValidationError('Uploaded file is not a valid image.')
+
+    image = Image.open(BytesIO(data))
+    image_format = image.format
+    if image_format not in PROFILE_PHOTO_ALLOWED_FORMATS:
+        raise ValidationError('Invalid image format. Only JPG, PNG, and WEBP are allowed.')
+
+    # Banners keep their original color profile (no alpha) and stay as PNG/JPG/WEBP.
+    output = BytesIO()
+    if image_format == 'PNG':
+        safe_ext = '.png'
+        if image.mode not in ('RGB', 'RGBA'):
+            image = image.convert('RGBA')
+        image.save(output, format='PNG', optimize=True)
+    elif image_format == 'WEBP':
+        safe_ext = '.webp'
+        if image.mode not in ('RGB', 'RGBA'):
+            image = image.convert('RGBA')
+        image.save(output, format='WEBP', quality=88, method=6)
+    else:
+        safe_ext = '.jpg'
+        if image.mode != 'RGB':
+            image = image.convert('RGB')
+        image.save(output, format='JPEG', quality=85, optimize=True)
+
+    filename = f"{user.id}_banner_{secrets.token_urlsafe(16)}{safe_ext}"
+    path = default_storage.save(os.path.join('banner_photos', filename), ContentFile(output.getvalue()))
+    return request.build_absolute_uri(settings.MEDIA_URL + path)
+
+
 def make_internal_admin_signature() -> str:
     return TimestampSigner(salt=ADMIN_API_SALT).sign('admin-api')
 
