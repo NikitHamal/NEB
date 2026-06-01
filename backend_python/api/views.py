@@ -130,8 +130,13 @@ def _verify_user_code(user, code, purpose):
     now = _now_ms()
     if user.verification_code_expires < now:
         return False, Response({'error': 'Invalid or expired verification code'}, status=400)
-    if user.verification_code_purpose and user.verification_code_purpose != purpose:
-        return False, Response({'error': 'Invalid or expired verification code'}, status=400)
+    if purpose is not None and user.verification_code_purpose and user.verification_code_purpose != purpose:
+        if purpose == 'password_reset' and user.verification_code_purpose == 'set_password':
+            pass
+        elif purpose == 'set_password' and user.verification_code_purpose == 'password_reset':
+            pass
+        else:
+            return False, Response({'error': 'Invalid or expired verification code'}, status=400)
     if user.verification_code_attempts >= MAX_CODE_ATTEMPTS:
         return False, Response({'error': 'Too many invalid attempts. Please request a new code.'}, status=429)
     if not verify_verification_code(code, user.verification_code or ''):
@@ -802,7 +807,7 @@ def auth_email_login(request):
         return Response({'error': 'Please verify your email first', 'needsVerification': True, 'email': user.email}, status=403)
 
     if not user.password_hash:
-        return Response({'error': 'This account uses Google sign-in. Please sign in with Google, or set a password from Settings.'}, status=400)
+        return Response({'error': 'This account uses Google sign-in. Use "Forgot password?" to set a password for email login.', 'needsSetPassword': True, 'email': user.email}, status=400)
 
     password_ok, needs_rehash = verify_password(password, user.password_hash)
     if not password_ok:
@@ -832,7 +837,9 @@ def auth_email_forgot(request):
     """
     POST /api/auth/email/forgot
     Body: { "email": "..." }
-    Sends a verification code to reset password (reuses the same code mechanism).
+    Sends a verification code to reset or set a password.
+    For Google-only accounts (no password), returns needsSetPassword: true
+    so the frontend can show an appropriate UI.
     """
     email = request.data.get('email', '').strip().lower()
 
@@ -842,19 +849,27 @@ def auth_email_forgot(request):
     try:
         user = User.objects.get(email__iexact=email)
     except User.DoesNotExist:
-        return Response({'error': 'If an account exists with this email, a verification code has been sent'}, status=200)
+        return Response({'status': 'success', 'message': 'If an account exists with this email, a verification code has been sent'})
 
-    if not user.password_hash:
-        return Response({'error': 'If an account exists with this email, a verification code has been sent'}, status=200)
+    needs_set_password = not bool(user.password_hash)
+    purpose = 'set_password' if needs_set_password else 'password_reset'
 
     if _verification_resend_blocked(user):
-        return Response({'status': 'success', 'message': 'If an account exists with this email, a verification code has been sent'})
-    code = _issue_verification_code(user, 'password_reset')
+        return Response({
+            'status': 'success',
+            'message': 'If an account exists with this email, a verification code has been sent',
+            'needsSetPassword': needs_set_password,
+        })
 
+    code = _issue_verification_code(user, purpose)
     send_verification_email(email, code, user.username)
 
-    logger.info("auth_email_forgot: password reset code sent to %s", email)
-    return Response({'status': 'success', 'message': 'If an account exists with this email, a verification code has been sent'})
+    logger.info("auth_email_forgot: %s code sent to %s", purpose, email)
+    return Response({
+        'status': 'success',
+        'message': 'If an account exists with this email, a verification code has been sent',
+        'needsSetPassword': needs_set_password,
+    })
 
 
 @api_view(['POST'])
@@ -863,15 +878,20 @@ def auth_email_forgot(request):
 def auth_email_reset_password(request):
     """
     POST /api/auth/email/reset-password
-    Body: { "email": "...", "code": "123456", "newPassword": "..." }
-    Resets password using verification code.
+    Body: { "email": "...", "code": "123456", "newPassword": "...", "confirmPassword": "..." }
+    Resets or sets a password using verification code.
+    Works for both password_reset and set_password purposes.
     """
     email = request.data.get('email', '').strip().lower()
     code = request.data.get('code', '').strip()
     new_password = request.data.get('newPassword', '')
+    confirm_password = request.data.get('confirmPassword', '')
 
     if not email or not code or not new_password:
         return Response({'error': 'Email, code, and new password are required'}, status=400)
+
+    if confirm_password and new_password != confirm_password:
+        return Response({'error': 'Passwords do not match'}, status=400)
 
     password_error = _validate_password_strength(new_password)
     if password_error:
@@ -882,16 +902,17 @@ def auth_email_reset_password(request):
     except User.DoesNotExist:
         return Response({'error': 'Invalid or expired verification code'}, status=400)
 
-    ok, error_response = _verify_user_code(user, code, 'password_reset')
+    ok, error_response = _verify_user_code(user, code, None)
     if not ok:
         return error_response
 
     user.password_hash = hash_password(new_password)
+    user.email_verified = True
     _clear_verification_code(user)
     user.auth_token = User.generate_token()
     user.save()
 
-    logger.info("auth_email_reset_password: password reset for %s", user.username)
+    logger.info("auth_email_reset_password: password set/reset for %s", user.username)
     return Response({
         'status': 'success',
         'profileIncomplete': _profile_incomplete(user),

@@ -207,6 +207,11 @@ X_FRAME_OPTIONS = 'DENY'
 
 # Google OAuth / Firebase config.
 GOOGLE_CLIENT_ID = os.environ.get('GOOGLE_CLIENT_ID', '')
+GOOGLE_CLIENT_SECRET = os.environ.get('GOOGLE_CLIENT_SECRET', '')
+
+# GitHub OAuth.
+GITHUB_CLIENT_ID = os.environ.get('GITHUB_CLIENT_ID', '')
+GITHUB_CLIENT_SECRET = os.environ.get('GITHUB_CLIENT_SECRET', '')
 FIREBASE_API_KEY = os.environ.get('FIREBASE_API_KEY', '')
 FIREBASE_AUTH_DOMAIN = os.environ.get('FIREBASE_AUTH_DOMAIN', '')
 FIREBASE_PROJECT_ID = os.environ.get('FIREBASE_PROJECT_ID', '')
