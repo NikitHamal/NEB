@@ -122,7 +122,7 @@ fun EmailLoginScreen(
             Spacer(modifier = Modifier.height(4.dp))
 
             TextButton(
-                onClick = { onNavigateToForgotPassword(email) },
+                onClick = { onNavigateToForgotPassword(emailOrUsername) },
                 modifier = Modifier.align(Alignment.End)
             ) {
                 Text("Forgot password?", style = MaterialTheme.typography.bodySmall)
