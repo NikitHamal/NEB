@@ -54,8 +54,13 @@
           <option value="PDF" {% if resource.type == 'PDF' %}selected{% endif %}>PDF</option>
           <option value="Note" {% if resource.type == 'Note' %}selected{% endif %}>Note</option>
           <option value="Video" {% if resource.type == 'Video' %}selected{% endif %}>Video</option>
+          <option value="Audio" {% if resource.type == 'Audio' %}selected{% endif %}>Audio</option>
+          <option value="Image" {% if resource.type == 'Image' %}selected{% endif %}>Image</option>
+          <option value="Link" {% if resource.type == 'Link' %}selected{% endif %}>Link</option>
           <option value="Textbook" {% if resource.type == 'Textbook' %}selected{% endif %}>Textbook</option>
           <option value="Past Paper" {% if resource.type == 'Past Paper' %}selected{% endif %}>Past Paper</option>
+          <option value="Model Paper" {% if resource.type == 'Model Paper' %}selected{% endif %}>Model Paper</option>
+          <option value="Presentation" {% if resource.type == 'Presentation' %}selected{% endif %}>Presentation</option>
           <option value="Guide" {% if resource.type == 'Guide' %}selected{% endif %}>Guide</option>
           <option value="Solution" {% if resource.type == 'Solution' %}selected{% endif %}>Solution</option>
         </select>
@@ -72,6 +77,32 @@
     <div class="form-group">
       <label class="md-label" for="thumbnail_url">Thumbnail URL</label>
       <input type="url" id="thumbnail_url" name="thumbnail_url" class="md-input" value="{{ resource.thumbnail_url|default:'' }}">
+    </div>
+
+    <hr style="margin:16px 0;border:none;border-top:1px solid var(--md-outline-variant);">
+    <h3 class="md-title-small mb-1" style="color:var(--md-on-surface-variant);">Source & Attribution</h3>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="md-label" for="source_type">Source Type</label>
+        <select id="source_type" name="source_type" class="md-select">
+          {% for val, label in source_types %}
+          <option value="{{ val }}" {% if resource.source_type == val %}selected{% endif %}>{{ label }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="md-label" for="author_name">Author / Credit</label>
+        <input type="text" id="author_name" name="author_name" class="md-input" value="{{ resource.author_name|default:'' }}" placeholder="e.g. Prof. Sharma">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="md-label" for="source_label">Source Label</label>
+      <input type="text" id="source_label" name="source_label" class="md-input" value="{{ resource.source_label|default:'' }}" placeholder="e.g. NEB Official, Contributed by students">
+    </div>
+    <div class="form-group">
+      <label class="md-label" for="source_url">Source URL (external)</label>
+      <input type="url" id="source_url" name="source_url" class="md-input" value="{{ resource.source_url|default:'' }}" placeholder="https://...">
     </div>
     <div class="form-actions">
       <button type="submit" class="md-btn md-btn-filled">Save Changes</button>

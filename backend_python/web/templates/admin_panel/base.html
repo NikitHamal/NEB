@@ -45,6 +45,10 @@
       <span class="material-symbols-outlined">forum</span>
       Forum Posts
     </a>
+    <a href="{% url 'web:admin_bot_config' %}" class="{% if active_page == 'bot' %}active{% endif %}" onclick="closeMobileNav()">
+      <span class="material-symbols-outlined">smart_toy</span>
+      Neby AI Bot
+    </a>
     <div class="md-divider" style="margin:8px 16px;"></div>
     <a href="{% url 'web:home' %}" style="color:var(--md-on-surface-variant);" onclick="closeMobileNav()">
       <span class="material-symbols-outlined">open_in_new</span>
@@ -88,6 +92,10 @@
       <a href="{% url 'web:admin_posts' %}" class="{% if active_page == 'posts' %}active{% endif %}">
         <span class="material-symbols-outlined">forum</span>
         Forum Posts
+      </a>
+      <a href="{% url 'web:admin_bot_config' %}" class="{% if active_page == 'bot' %}active{% endif %}">
+        <span class="material-symbols-outlined">smart_toy</span>
+        Neby AI Bot
       </a>
       <div class="md-divider"></div>
       <a href="{% url 'web:home' %}" style="color:var(--md-on-surface-variant);">

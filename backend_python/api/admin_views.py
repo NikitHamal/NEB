@@ -147,6 +147,8 @@ def admin_user_detail(request, user_id):
                 pass
         if 'is_admin' in data:
             user.is_admin = bool(data['is_admin'])
+        if 'is_bot' in data:
+            user.is_bot = bool(data['is_bot'])
         if 'achievement_badges' in data:
             user.achievement_badges = str(data['achievement_badges'])
         user.save()

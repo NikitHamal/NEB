@@ -57,6 +57,9 @@ class User(models.Model):
     # achievement_badges: comma-separated badge keys (e.g. "top_contributor,scholar,first_post")
     achievement_badges = models.TextField(blank=True, default='')
 
+    # Bot / AI account flag
+    is_bot = models.BooleanField(default=False)
+
     # Denormalized notification counter
     unread_notification_count = models.PositiveIntegerField(default=0)
 
@@ -88,18 +91,32 @@ class User(models.Model):
 
 
 class Resource(models.Model):
-    """Study resources — ebooks, PDFs, notes."""
+    """Study resources — ebooks, PDFs, notes, videos, audio, images, etc."""
+    SOURCE_TYPES = [
+        ('admin', 'Added by Admin'),
+        ('user', 'User Upload'),
+        ('anonymous', 'Anonymous Upload'),
+        ('external', 'External Source'),
+    ]
     id = models.CharField(max_length=36, primary_key=True)  # UUID
     title = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
     subject = models.CharField(max_length=100)
     grade_level = models.CharField(max_length=20)
-    type = models.CharField(max_length=50)  # e.g. "PDF", "Note", "Video"
+    type = models.CharField(max_length=50)  # e.g. "PDF", "Note", "Video", "Audio", "Image", "Link"
     file_url = models.TextField()
     thumbnail_url = models.TextField(blank=True, null=True)
     file_size = models.BigIntegerField(default=0)
     added_at = models.BigIntegerField()  # Unix ms timestamp
     view_count = models.IntegerField(default=0)
+    like_count = models.PositiveIntegerField(default=0)
+    comment_count = models.PositiveIntegerField(default=0)
+    author_name = models.CharField(max_length=100, blank=True, default='')  # credit/attribution
+    # Source tracking
+    source_type = models.CharField(max_length=20, choices=SOURCE_TYPES, default='admin')
+    uploaded_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='uploaded_resources')
+    source_url = models.TextField(blank=True, default='')  # external source URL
+    source_label = models.CharField(max_length=200, blank=True, default='')  # e.g. "NEB Official", "Contributed by students"
 
     class Meta:
         db_table = 'resources'
@@ -108,6 +125,7 @@ class Resource(models.Model):
             models.Index(fields=['subject']),
             models.Index(fields=['grade_level']),
             models.Index(fields=['type']),
+            models.Index(fields=['-like_count']),
         ]
 
     def __str__(self):
@@ -376,3 +394,96 @@ class Notification(models.Model):
             models.Index(fields=['target_type', 'target_id']),
             models.Index(fields=['recipient_id', 'actor_id', 'verb', 'target_type', 'target_id'], name='notif_dedup_idx'),
         ]
+
+
+class ResourceComment(models.Model):
+    """Comment on a resource — supports nested replies via parent_comment."""
+    id = models.CharField(max_length=36, primary_key=True)
+    resource = models.ForeignKey(Resource, on_delete=models.CASCADE, related_name='comments')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='resource_comments')
+    parent_comment = models.ForeignKey(
+        'self', on_delete=models.CASCADE,
+        null=True, blank=True, related_name='children'
+    )
+    content = models.TextField()
+    like_count = models.PositiveIntegerField(default=0)
+    reply_count = models.PositiveIntegerField(default=0)
+    is_edited = models.BooleanField(default=False)
+    edited_at = models.BigIntegerField(default=0)
+    created_at = models.BigIntegerField()
+
+    class Meta:
+        db_table = 'resource_comments'
+        ordering = ['created_at']
+        indexes = [
+            models.Index(fields=['resource_id', 'created_at']),
+            models.Index(fields=['parent_comment_id', 'created_at']),
+        ]
+
+    def __str__(self):
+        return f"Comment by {self.user_id} on resource {self.resource_id}"
+
+
+class ResourceLike(models.Model):
+    """Tracks which users liked which resources."""
+    resource = models.ForeignKey(Resource, on_delete=models.CASCADE, related_name='likes')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='resource_likes')
+
+    class Meta:
+        db_table = 'resource_likes'
+        unique_together = ('resource', 'user')
+
+
+class ResourceCommentLike(models.Model):
+    """Tracks which users liked which resource comments."""
+    comment = models.ForeignKey(ResourceComment, on_delete=models.CASCADE, related_name='likes')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='resource_comment_likes')
+
+    class Meta:
+        db_table = 'resource_comment_likes'
+        unique_together = ('comment', 'user')
+
+
+class BotConfig(models.Model):
+    """Singleton configuration for the Neby AI bot.
+    Only one row should exist. The enabled flag acts as a global kill switch.
+    """
+    id = models.PositiveIntegerField(primary_key=True, default=1)
+    enabled = models.BooleanField(default=False)
+    bot_username = models.CharField(max_length=50, default='neby')
+    api_url = models.TextField(default='https://astroweb-ai-proxy.astroweb3.workers.dev/v1/qwen/chat')
+    api_key = models.TextField(blank=True, default='')
+    model = models.CharField(max_length=100, default='qwen3.6-plus')
+    system_prompt = models.TextField(
+        default='You are Neby, a friendly and helpful AI assistant for Nepali students using the NEBians app. '
+                'You help with NEB curriculum questions, study tips, and forum discussions. '
+                'Keep responses concise and helpful. Use simple language. '
+                'If asked about something outside your scope, politely redirect. '
+                'You can use basic markdown formatting (**bold**, *italic*). '
+                'Never reveal that you are an AI language model — you are Neby, the NEBians assistant.'
+    )
+    max_context_posts = models.PositiveIntegerField(default=5)
+    max_context_replies = models.PositiveIntegerField(default=10)
+    response_max_length = models.PositiveIntegerField(default=500)
+    updated_at = models.BigIntegerField(default=0)
+
+    class Meta:
+        db_table = 'bot_config'
+
+    def save(self, *args, **kwargs):
+        import time
+        self.updated_at = int(time.time() * 1000)
+        super().save(*args, **kwargs)
+
+    @classmethod
+    def get_config(cls):
+        config, _ = cls.objects.get_or_create(pk=1)
+        return config
+
+    @classmethod
+    def get_bot_user(cls):
+        config = cls.get_config()
+        try:
+            return User.objects.get(username__iexact=config.bot_username, is_bot=True)
+        except User.DoesNotExist:
+            return None
