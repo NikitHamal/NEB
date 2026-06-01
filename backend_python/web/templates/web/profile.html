@@ -408,6 +408,245 @@
     background: var(--md-surface-container-high); color: var(--md-on-surface); outline: none;
   }
   .photo-url-input:focus { border-color: var(--md-primary); }
+
+  /* ── Bot profile (Neby) ── */
+  .pf-compact-card-bot {
+    border: 1px solid rgba(124, 77, 255, 0.18);
+    background:
+      radial-gradient(ellipse 100% 60% at 50% 0%, rgba(124, 77, 255, 0.04) 0%, transparent 70%),
+      var(--md-surface-container-lowest);
+  }
+  [data-theme="dark"] .pf-compact-card-bot {
+    border-color: rgba(179, 136, 255, 0.25);
+    background:
+      radial-gradient(ellipse 100% 60% at 50% 0%, rgba(124, 77, 255, 0.08) 0%, transparent 70%),
+      var(--md-surface-container-lowest);
+  }
+
+  .pf-bot-tagline {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #7C4DFF;
+    font-weight: 600;
+    font-size: 0.875rem;
+  }
+  .pf-bot-tagline .material-symbols-outlined {
+    font-size: 18px;
+    animation: pfBotSpin 6s linear infinite;
+  }
+  [data-theme="dark"] .pf-bot-tagline { color: #B388FF; }
+  @keyframes pfBotSpin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+
+  .pf-btn-bot-cta {
+    background: linear-gradient(135deg, #7C4DFF 0%, #B388FF 100%) !important;
+    color: #fff !important;
+    box-shadow: 0 4px 14px rgba(124, 77, 255, 0.30);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .pf-btn-bot-cta:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(124, 77, 255, 0.45);
+  }
+  .pf-btn-bot-cta .material-symbols-outlined { color: #fff !important; }
+
+  /* Capabilities section */
+  .pf-capabilities {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--md-outline-variant);
+  }
+  .pf-capabilities-title {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--md-on-surface);
+    margin: 0 0 12px;
+  }
+  .pf-capabilities-title .material-symbols-outlined {
+    font-size: 18px;
+    color: #7C4DFF;
+  }
+  .pf-capabilities-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .pf-capabilities-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 12px;
+    background: var(--md-surface-container);
+    border: 1px solid var(--md-outline-variant);
+    border-radius: 12px;
+  }
+  .pf-capabilities-list li strong {
+    display: block;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: var(--md-on-surface);
+    margin-bottom: 2px;
+  }
+  .pf-capabilities-list li span {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--md-on-surface-variant);
+    line-height: 1.4;
+  }
+  .pf-cap-icon {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+  }
+  .pf-cap-icon-purple { background: rgba(124, 77, 255, 0.12); color: #7C4DFF; }
+  .pf-cap-icon-blue   { background: rgba(27, 110, 243, 0.12); color: #1B6EF3; }
+  .pf-cap-icon-green  { background: rgba(0, 110, 28, 0.12);   color: #006E1C; }
+  .pf-cap-icon-orange { background: rgba(232, 113, 10, 0.12); color: #E8710A; }
+  [data-theme="dark"] .pf-cap-icon-purple { background: rgba(179, 136, 255, 0.18); color: #B388FF; }
+  [data-theme="dark"] .pf-cap-icon-blue   { background: rgba(99, 153, 244, 0.18); color: #82B6FF; }
+  [data-theme="dark"] .pf-cap-icon-green  { background: rgba(110, 200, 130, 0.18); color: #6EC882; }
+  [data-theme="dark"] .pf-cap-icon-orange { background: rgba(255, 165, 80, 0.18);  color: #FFA550; }
+
+  /* Bot CTA card (right column) */
+  .pf-bot-cta-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--md-radius-lg);
+    border: 1px solid rgba(124, 77, 255, 0.25);
+    background: var(--md-surface-container-lowest);
+    padding: 22px;
+    margin-bottom: 16px;
+  }
+  .pf-bot-cta-glow {
+    position: absolute;
+    inset: -50%;
+    background: conic-gradient(from 0deg, rgba(124, 77, 255, 0.20), rgba(179, 136, 255, 0.10), rgba(124, 77, 255, 0.20));
+    filter: blur(40px);
+    opacity: 0.55;
+    animation: pfBotCtaSpin 14s linear infinite;
+    pointer-events: none;
+  }
+  @keyframes pfBotCtaSpin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+  .pf-bot-cta-content { position: relative; z-index: 1; }
+  .pf-bot-cta-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: #7C4DFF;
+    background: rgba(124, 77, 255, 0.10);
+    padding: 4px 10px;
+    border-radius: 100px;
+    margin-bottom: 10px;
+  }
+  .pf-bot-cta-eyebrow .material-symbols-outlined { font-size: 14px; }
+  .pf-bot-cta-title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--md-on-surface);
+    margin: 0 0 8px;
+  }
+  .pf-bot-cta-desc {
+    font-size: 0.875rem;
+    color: var(--md-on-surface-variant);
+    margin: 0 0 16px;
+    line-height: 1.5;
+  }
+  .pf-bot-cta-desc code {
+    background: rgba(124, 77, 255, 0.10);
+    color: #7C4DFF;
+    padding: 1px 6px;
+    border-radius: 6px;
+    font-size: 0.8125rem;
+    font-weight: 600;
+  }
+  .pf-bot-cta-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  /* Bot footer line */
+  .pf-bot-footer {
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid var(--md-outline-variant);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.75rem;
+    color: var(--md-on-surface-variant);
+  }
+  .pf-bot-footer .material-symbols-outlined {
+    font-size: 14px;
+    color: #7C4DFF;
+  }
+
+  /* Bot avatar — pulsing AI ring + corner badge */
+  .pf-avatar-bot .pf-avatar-circle {
+    position: relative;
+    border: 3px solid #7C4DFF;
+    box-shadow:
+      0 0 0 4px rgba(124, 77, 255, 0.18),
+      0 0 24px rgba(124, 77, 255, 0.40);
+    animation: pfBotAvatarPulse 3.4s ease-in-out infinite;
+  }
+  [data-theme="dark"] .pf-avatar-bot .pf-avatar-circle {
+    border-color: #B388FF;
+    box-shadow:
+      0 0 0 4px rgba(179, 136, 255, 0.22),
+      0 0 32px rgba(179, 136, 255, 0.55);
+  }
+  @keyframes pfBotAvatarPulse {
+    0%, 100% {
+      box-shadow:
+        0 0 0 4px rgba(124, 77, 255, 0.18),
+        0 0 24px rgba(124, 77, 255, 0.40);
+    }
+    50% {
+      box-shadow:
+        0 0 0 6px rgba(124, 77, 255, 0.10),
+        0 0 32px rgba(124, 77, 255, 0.55);
+    }
+  }
+  .pf-avatar-ai-pill {
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #7C4DFF 0%, #B388FF 100%);
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
+    border: 2px solid var(--md-surface-container-lowest);
+  }
+  .pf-avatar-ai-pill .material-symbols-outlined {
+    font-size: 16px;
+    color: #fff;
+  }
 </style>
 
 <div class="profile-page">
@@ -416,7 +655,7 @@
       
       <!-- Left Column: Compact Profile Card (Mockup Inspired) -->
       <div class="profile-left-col">
-        <div class="pf-compact-card">
+        <div class="pf-compact-card{% if profile_user.is_bot %} pf-compact-card-bot{% endif %}">
           <!-- Card Banner Area -->
           <div class="pf-card-banner" {% if profile_user.banner_url %}style="background-image: url('{{ profile_user.banner_url }}'); background-size: cover; background-position: center;"{% endif %}{% if profile_user.banner_type %} data-banner-type="{{ profile_user.banner_type }}"{% endif %}>
             {% if not profile_user.banner_url %}
@@ -439,15 +678,20 @@
           </div>
 
           <!-- Overlapping Circular Avatar -->
-          <div class="pf-avatar-overlap-wrap">
+          <div class="pf-avatar-overlap-wrap{% if profile_user.is_bot %} pf-avatar-bot{% endif %}">
             <div class="pf-avatar-circle" id="profilePageAvatar">
               {% if profile_user.photo_url %}
                 <img src="{{ profile_user.photo_url }}" alt="{{ profile_user.display_name|default:profile_user.username }}">
               {% else %}
                 <div class="pf-avatar-initial">{{ profile_user.display_name|default:profile_user.username|slice:":1" }}</div>
               {% endif %}
+              {% if profile_user.is_bot %}
+                <span class="pf-avatar-ai-pill" title="AI Assistant">
+                  <span class="material-symbols-outlined">smart_toy</span>
+                </span>
+              {% endif %}
             </div>
-            {% if user and user.username == profile_user.username %}
+            {% if user and user.username == profile_user.username and not profile_user.is_bot %}
               <div class="pf-avatar-cam" onclick="openPhotoHistoryModal()" title="Change photo">
                 <span class="material-symbols-outlined">camera_alt</span>
               </div>
@@ -485,34 +729,56 @@
 
             <!-- Student Subtitle / Role Headline -->
             <p class="pf-card-headline">
-              {% if profile_user.class_level %}
-                {% if profile_user.class_level == '11' %}Grade 11 Student
-                {% elif profile_user.class_level == '12' %}Grade 12 Student
-                {% elif profile_user.class_level == 'Both' %}Grade 11 & 12 Student
-                {% elif profile_user.class_level == 'Passout' %}NEB Graduate
-                {% else %}{{ profile_user.class_level }} Student{% endif %}
+              {% if profile_user.is_bot %}
+                <span class="pf-bot-tagline">
+                  <span class="material-symbols-outlined">auto_awesome</span>
+                  AI Study Companion
+                </span>
               {% else %}
-                NEBians Member
-              {% endif %}
-              {% if profile_user.subjects %}
-                | {{ profile_user.subjects|comma_space }}
+                {% if profile_user.class_level %}
+                  {% if profile_user.class_level == '11' %}Grade 11 Student
+                  {% elif profile_user.class_level == '12' %}Grade 12 Student
+                  {% elif profile_user.class_level == 'Both' %}Grade 11 & 12 Student
+                  {% elif profile_user.class_level == 'Passout' %}NEB Graduate
+                  {% else %}{{ profile_user.class_level }} Student{% endif %}
+                {% else %}
+                  NEBians Member
+                {% endif %}
+                {% if profile_user.subjects %}
+                  | {{ profile_user.subjects|comma_space }}
+                {% endif %}
               {% endif %}
             </p>
 
             <!-- Stats Rows (Followers, Following, Posts) -->
             <div class="pf-stats-row">
-              <div class="pf-stat-col" onclick="openFollowModal('followers')">
-                <span class="pf-stat-label">Followers</span>
-                <span class="pf-stat-num" id="cntFollowers">{{ stats.follower_count|default:0 }}</span>
-              </div>
-              <div class="pf-stat-col" onclick="openFollowModal('following')">
-                <span class="pf-stat-label">Following</span>
-                <span class="pf-stat-num">{{ stats.following_count|default:0 }}</span>
-              </div>
-              <div class="pf-stat-col">
-                <span class="pf-stat-label">Posts</span>
-                <span class="pf-stat-num">{{ stats.post_count|default:0 }}</span>
-              </div>
+              {% if profile_user.is_bot %}
+                <div class="pf-stat-col">
+                  <span class="pf-stat-label">Replies</span>
+                  <span class="pf-stat-num">{{ stats.reply_count|default:0 }}</span>
+                </div>
+                <div class="pf-stat-col">
+                  <span class="pf-stat-label">Threads</span>
+                  <span class="pf-stat-num">{{ stats.post_count|default:0 }}</span>
+                </div>
+                <div class="pf-stat-col">
+                  <span class="pf-stat-label">Likes</span>
+                  <span class="pf-stat-num">{{ stats.likes_received|default:0 }}</span>
+                </div>
+              {% else %}
+                <div class="pf-stat-col" onclick="openFollowModal('followers')">
+                  <span class="pf-stat-label">Followers</span>
+                  <span class="pf-stat-num" id="cntFollowers">{{ stats.follower_count|default:0 }}</span>
+                </div>
+                <div class="pf-stat-col" onclick="openFollowModal('following')">
+                  <span class="pf-stat-label">Following</span>
+                  <span class="pf-stat-num">{{ stats.following_count|default:0 }}</span>
+                </div>
+                <div class="pf-stat-col">
+                  <span class="pf-stat-label">Posts</span>
+                  <span class="pf-stat-num">{{ stats.post_count|default:0 }}</span>
+                </div>
+              {% endif %}
             </div>
 
             <!-- Outlined Action Buttons Row -->
@@ -527,23 +793,33 @@
                   Share
                 </button>
               {% else %}
-                {% if is_authenticated %}
-                  <button id="btnFollowToggle" onclick="toggleFollowUser('{{ profile_user.id }}')"
-                          class="pf-btn {% if stats.is_following %}pf-btn-outlined{% else %}pf-btn-filled{% endif %}">
-                    <span class="material-symbols-outlined">{% if stats.is_following %}remove{% else %}add{% endif %}</span>
-                    <span id="followText">{% if stats.is_following %}Following{% else %}Follow{% endif %}</span>
+                {% if profile_user.is_bot %}
+                  <a href="{% url 'web:create_post' %}" class="pf-btn pf-btn-filled pf-btn-bot-cta">
+                    <span class="material-symbols-outlined">alternate_email</span>
+                    Try @neby
+                  </a>
+                  <button class="pf-btn pf-btn-outlined" onclick="navigator.clipboard.writeText('@neby'); showSnackbar('Copied! Now mention @neby in any post to chat with me.');">
+                    <span class="material-symbols-outlined">content_copy</span>
+                    Copy Mention
                   </button>
                 {% else %}
-                  <a href="{% url 'web:login' %}?next={{ request.path }}" class="pf-btn pf-btn-filled" style="text-decoration:none;">
-                    <span class="material-symbols-outlined">add</span>
-                    Follow
-                  </a>
+                  {% if is_authenticated %}
+                    <button id="btnFollowToggle" onclick="toggleFollowUser('{{ profile_user.id }}')"
+                            class="pf-btn {% if stats.is_following %}pf-btn-outlined{% else %}pf-btn-filled{% endif %}">
+                      <span class="material-symbols-outlined">{% if stats.is_following %}remove{% else %}add{% endif %}</span>
+                      <span id="followText">{% if stats.is_following %}Following{% else %}Follow{% endif %}</span>
+                    </button>
+                  {% else %}
+                    <a href="{% url 'web:login' %}?next={{ request.path }}" class="pf-btn pf-btn-filled" style="text-decoration:none;">
+                      <span class="material-symbols-outlined">add</span>
+                      Follow
+                    </a>
+                  {% endif %}
+                  <button class="pf-btn pf-btn-outlined" onclick="navigator.clipboard.writeText('@{{ profile_user.username }}'); showSnackbar('Copied username handle! Mention them in the forum.');">
+                    <span class="material-symbols-outlined">alternate_email</span>
+                    Mention
+                  </button>
                 {% endif %}
-                
-                <button class="pf-btn pf-btn-outlined" onclick="navigator.clipboard.writeText('@{{ profile_user.username }}'); showSnackbar('Copied username handle! Mention them in the forum.');">
-                  <span class="material-symbols-outlined">alternate_email</span>
-                  Mention
-                </button>
               {% endif %}
             </div>
 
@@ -552,47 +828,102 @@
 
             <!-- About Section -->
             <div class="pf-about-section">
-              <h2 class="pf-about-title">About</h2>
+              <h2 class="pf-about-title">{% if profile_user.is_bot %}About Neby{% else %}About{% endif %}</h2>
               <p class="pf-about-bio">
                 {% if profile_user.bio %}
                   {{ profile_user.bio }}
                 {% else %}
-                  {% if profile_user.display_name %}{{ profile_user.display_name }}{% else %}A NEBians member{% endif %}
-                  {% if profile_user.school %} studying at <strong>{{ profile_user.school }}</strong>{% endif %}.
-                  {% if profile_user.subjects %}Focusing on <strong>{{ profile_user.subjects|comma_space }}</strong>.{% endif %}
+                  {% if profile_user.is_bot %}
+                    Your friendly AI study buddy. Always learning, always here to help.
+                  {% else %}
+                    {% if profile_user.display_name %}{{ profile_user.display_name }}{% else %}A NEBians member{% endif %}
+                    {% if profile_user.school %} studying at <strong>{{ profile_user.school }}</strong>{% endif %}.
+                    {% if profile_user.subjects %}Focusing on <strong>{{ profile_user.subjects|comma_space }}</strong>.{% endif %}
+                  {% endif %}
                 {% endif %}
               </p>
             </div>
 
-            <!-- Meta details (Location, School) with clean outline icons -->
-            <div class="pf-meta-details">
-              {% if profile_user.district or profile_user.pradesh %}
-                <div class="pf-meta-row">
-                  <span class="material-symbols-outlined">location_on</span>
-                  <span>
-                    {% if profile_user.district and profile_user.pradesh %}
-                      {{ profile_user.district }}, {{ profile_user.pradesh|clean_province }}
-                    {% elif profile_user.district %}
-                      {{ profile_user.district }}
-                    {% else %}
-                      {{ profile_user.pradesh|clean_province }}
-                    {% endif %}
-                  </span>
-                </div>
-              {% endif %}
-              
-              {% if profile_user.school %}
-                <div class="pf-meta-row">
-                  <span class="material-symbols-outlined">school</span>
-                  <span>{{ profile_user.school }}</span>
-                </div>
-              {% endif %}
-            </div>
+            {% if profile_user.is_bot %}
+              <!-- What I can do (bot only) -->
+              <div class="pf-capabilities">
+                <h2 class="pf-capabilities-title">
+                  <span class="material-symbols-outlined">bolt</span>
+                  What I can help with
+                </h2>
+                <ul class="pf-capabilities-list">
+                  <li>
+                    <span class="material-symbols-outlined pf-cap-icon pf-cap-icon-purple">menu_book</span>
+                    <div>
+                      <strong>Explain concepts</strong>
+                      <span>Break down tricky topics from Physics, Math, Chemistry, Biology and more.</span>
+                    </div>
+                  </li>
+                  <li>
+                    <span class="material-symbols-outlined pf-cap-icon pf-cap-icon-blue">lightbulb</span>
+                    <div>
+                      <strong>Homework help</strong>
+                      <span>Stuck on a problem? Mention me with @neby and I'll walk you through it.</span>
+                    </div>
+                  </li>
+                  <li>
+                    <span class="material-symbols-outlined pf-cap-icon pf-cap-icon-green">edit_note</span>
+                    <div>
+                      <strong>Summarise notes</strong>
+                      <span>Long chapter? I can pull out the key points so you can study faster.</span>
+                    </div>
+                  </li>
+                  <li>
+                    <span class="material-symbols-outlined pf-cap-icon pf-cap-icon-orange">translate</span>
+                    <div>
+                      <strong>Translate &amp; explain</strong>
+                      <span>Nepali ⇄ English, and I can rephrase dense academic language into plain words.</span>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            {% else %}
+              <!-- Meta details (Location, School) with clean outline icons -->
+              <div class="pf-meta-details">
+                {% if profile_user.district or profile_user.pradesh %}
+                  <div class="pf-meta-row">
+                    <span class="material-symbols-outlined">location_on</span>
+                    <span>
+                      {% if profile_user.district and profile_user.pradesh %}
+                        {{ profile_user.district }}, {{ profile_user.pradesh|clean_province }}
+                      {% elif profile_user.district %}
+                        {{ profile_user.district }}
+                      {% else %}
+                        {{ profile_user.pradesh|clean_province }}
+                      {% endif %}
+                    </span>
+                  </div>
+                {% endif %}
+
+                {% if profile_user.school %}
+                  <div class="pf-meta-row">
+                    <span class="material-symbols-outlined">school</span>
+                    <span>{{ profile_user.school }}</span>
+                  </div>
+                {% endif %}
+              </div>
+            {% endif %}
 
             <div class="pf-info-joined">
               <span class="material-symbols-outlined">calendar_month</span>
-              Joined {{ profile_user.created_at|join_date }}
+              {% if profile_user.is_bot %}
+                Online since {{ profile_user.created_at|join_date }}
+              {% else %}
+                Joined {{ profile_user.created_at|join_date }}
+              {% endif %}
             </div>
+
+            {% if profile_user.is_bot %}
+              <div class="pf-bot-footer">
+                <span class="material-symbols-outlined">auto_awesome</span>
+                Powered by AI &middot; Always-on study companion
+              </div>
+            {% endif %}
 
           </div>
         </div>
@@ -600,10 +931,38 @@
 
       <!-- Right Column: Tabs and Interactive Feeds -->
       <div class="profile-right-col">
+        {% if profile_user.is_bot %}
+          <!-- Bot: Try @neby CTA card -->
+          <div class="pf-bot-cta-card">
+            <div class="pf-bot-cta-glow"></div>
+            <div class="pf-bot-cta-content">
+              <div class="pf-bot-cta-eyebrow">
+                <span class="material-symbols-outlined">auto_awesome</span>
+                AI ASSISTANT
+              </div>
+              <h3 class="pf-bot-cta-title">Try @neby in your next post</h3>
+              <p class="pf-bot-cta-desc">
+                I read every post that mentions me. Drop <code>@neby</code> into a question
+                and I'll join the thread with an answer, an explanation, or a study tip.
+              </p>
+              <div class="pf-bot-cta-actions">
+                <a href="{% url 'web:create_post' %}" class="pf-btn pf-btn-filled pf-btn-bot-cta">
+                  <span class="material-symbols-outlined">edit</span>
+                  Start a discussion
+                </a>
+                <a href="{% url 'web:forum' %}" class="pf-btn pf-btn-outlined">
+                  <span class="material-symbols-outlined">forum</span>
+                  Browse forum
+                </a>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+
         <!-- Tabs -->
         <div class="profile-tabs" style="margin-top: 0;">
           <button class="profile-tab active" data-tab="posts" onclick="switchProfileTab('posts')">
-            Posts
+            {% if profile_user.is_bot %}Conversations{% else %}Posts{% endif %}
             <span class="tab-count">{{ stats.post_count|default:0 }}</span>
           </button>
           <button class="profile-tab" data-tab="about" onclick="switchProfileTab('about')">
@@ -730,78 +1089,114 @@
           </div>
 
           <!-- Info details -->
-          <div class="pf-card">
-            <h3 class="pf-card-title">
-              <span class="material-symbols-outlined">info</span>
-              Details
-            </h3>
-            <div class="about-details">
-              {% if profile_user.class_level %}
-              <div class="about-detail-row">
-                <span class="material-symbols-outlined">school</span>
-                <span class="about-detail-label">Class</span>
-                <span class="about-detail-value">
-                  {% if profile_user.class_level == '11' %}Grade 11
-                  {% elif profile_user.class_level == '12' %}Grade 12
-                  {% elif profile_user.class_level == 'Both' %}Grade 11 & 12
-                  {% elif profile_user.class_level == 'Passout' %}NEB Graduate
-                  {% else %}{{ profile_user.class_level }}{% endif %}
-                </span>
+          {% if profile_user.is_bot %}
+            <div class="pf-card">
+              <h3 class="pf-card-title">
+                <span class="material-symbols-outlined">info</span>
+                About this bot
+              </h3>
+              <div class="about-details">
+                <div class="about-detail-row">
+                  <span class="material-symbols-outlined">smart_toy</span>
+                  <span class="about-detail-label">Type</span>
+                  <span class="about-detail-value">AI Assistant</span>
+                </div>
+                <div class="about-detail-row">
+                  <span class="material-symbols-outlined">alternate_email</span>
+                  <span class="about-detail-label">Trigger</span>
+                  <span class="about-detail-value">Mention <code>@neby</code> in a post</span>
+                </div>
+                <div class="about-detail-row">
+                  <span class="material-symbols-outlined">bolt</span>
+                  <span class="about-detail-label">Response time</span>
+                  <span class="about-detail-value">Usually under a minute</span>
+                </div>
+                <div class="about-detail-row">
+                  <span class="material-symbols-outlined">schedule</span>
+                  <span class="about-detail-label">Online since</span>
+                  <span class="about-detail-value">{{ profile_user.created_at|join_date }}</span>
+                </div>
+                <div class="about-detail-row">
+                  <span class="material-symbols-outlined">visibility</span>
+                  <span class="about-detail-label">Visibility</span>
+                  <span class="about-detail-value">Reads every mention, replies in-thread</span>
+                </div>
               </div>
-              {% endif %}
-              {% if profile_user.subjects %}
-              <div class="about-detail-row">
-                <span class="material-symbols-outlined">menu_book</span>
-                <span class="about-detail-label">Subjects</span>
-                <span class="about-detail-value">{{ profile_user.subjects|comma_space }}</span>
-              </div>
-              {% endif %}
-              {% if profile_user.school %}
-              <div class="about-detail-row">
-                <span class="material-symbols-outlined">apartment</span>
-                <span class="about-detail-label">School</span>
-                <span class="about-detail-value">{{ profile_user.school }}</span>
-              </div>
-              {% endif %}
-              {% if profile_user.district or profile_user.pradesh %}
-              <div class="about-detail-row">
-                <span class="material-symbols-outlined">location_on</span>
-                <span class="about-detail-label">Location</span>
-                <span class="about-detail-value">
-                  {% if profile_user.district and profile_user.pradesh %}
-                    {{ profile_user.district }}, {{ profile_user.pradesh|clean_province }}
-                  {% elif profile_user.district %}
-                    {{ profile_user.district }}
-                  {% else %}
-                    {{ profile_user.pradesh|clean_province }}
-                  {% endif %}
-                </span>
-              </div>
-              {% endif %}
-              {% if profile_user.created_at %}
-              <div class="about-detail-row">
-                <span class="material-symbols-outlined">calendar_month</span>
-                <span class="about-detail-label">Joined</span>
-                <span class="about-detail-value">{{ profile_user.created_at|join_date }}</span>
-              </div>
-              {% endif %}
-              {% if profile_user.gender %}
-              <div class="about-detail-row">
-                <span class="material-symbols-outlined">person</span>
-                <span class="about-detail-label">Gender</span>
-                <span class="about-detail-value">{{ profile_user.gender }}</span>
-              </div>
-              {% endif %}
-              {% if not profile_user.class_level and not profile_user.subjects and not profile_user.school and not profile_user.district and not profile_user.pradesh and not profile_user.gender %}
-              <div style="color: var(--md-on-surface-variant); font-size: 0.875rem; padding: 8px 0;">
-                No details shared yet.
-              </div>
-              {% endif %}
             </div>
-          </div>
+          {% else %}
+            <div class="pf-card">
+              <h3 class="pf-card-title">
+                <span class="material-symbols-outlined">info</span>
+                Details
+              </h3>
+              <div class="about-details">
+                {% if profile_user.class_level %}
+                <div class="about-detail-row">
+                  <span class="material-symbols-outlined">school</span>
+                  <span class="about-detail-label">Class</span>
+                  <span class="about-detail-value">
+                    {% if profile_user.class_level == '11' %}Grade 11
+                    {% elif profile_user.class_level == '12' %}Grade 12
+                    {% elif profile_user.class_level == 'Both' %}Grade 11 & 12
+                    {% elif profile_user.class_level == 'Passout' %}NEB Graduate
+                    {% else %}{{ profile_user.class_level }}{% endif %}
+                  </span>
+                </div>
+                {% endif %}
+                {% if profile_user.subjects %}
+                <div class="about-detail-row">
+                  <span class="material-symbols-outlined">menu_book</span>
+                  <span class="about-detail-label">Subjects</span>
+                  <span class="about-detail-value">{{ profile_user.subjects|comma_space }}</span>
+                </div>
+                {% endif %}
+                {% if profile_user.school %}
+                <div class="about-detail-row">
+                  <span class="material-symbols-outlined">apartment</span>
+                  <span class="about-detail-label">School</span>
+                  <span class="about-detail-value">{{ profile_user.school }}</span>
+                </div>
+                {% endif %}
+                {% if profile_user.district or profile_user.pradesh %}
+                <div class="about-detail-row">
+                  <span class="material-symbols-outlined">location_on</span>
+                  <span class="about-detail-label">Location</span>
+                  <span class="about-detail-value">
+                    {% if profile_user.district and profile_user.pradesh %}
+                      {{ profile_user.district }}, {{ profile_user.pradesh|clean_province }}
+                    {% elif profile_user.district %}
+                      {{ profile_user.district }}
+                    {% else %}
+                      {{ profile_user.pradesh|clean_province }}
+                    {% endif %}
+                  </span>
+                </div>
+                {% endif %}
+                {% if profile_user.created_at %}
+                <div class="about-detail-row">
+                  <span class="material-symbols-outlined">calendar_month</span>
+                  <span class="about-detail-label">Joined</span>
+                  <span class="about-detail-value">{{ profile_user.created_at|join_date }}</span>
+                </div>
+                {% endif %}
+                {% if profile_user.gender %}
+                <div class="about-detail-row">
+                  <span class="material-symbols-outlined">person</span>
+                  <span class="about-detail-label">Gender</span>
+                  <span class="about-detail-value">{{ profile_user.gender }}</span>
+                </div>
+                {% endif %}
+                {% if not profile_user.class_level and not profile_user.subjects and not profile_user.school and not profile_user.district and not profile_user.pradesh and not profile_user.gender %}
+                <div style="color: var(--md-on-surface-variant); font-size: 0.875rem; padding: 8px 0;">
+                  No details shared yet.
+                </div>
+                {% endif %}
+              </div>
+            </div>
+          {% endif %}
 
           <!-- Progress -->
-          {% if profile_user.subjects %}
+          {% if profile_user.subjects and not profile_user.is_bot %}
           <div class="pf-card">
             <h3 class="pf-card-title">
               <span class="material-symbols-outlined">trending_up</span>

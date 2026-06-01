@@ -3,18 +3,21 @@ package com.neb.ians.di
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.room.Room
 import com.neb.ians.data.api.ApiService
 import com.neb.ians.data.local.dao.AnnotationDao
 import com.neb.ians.data.local.dao.BookmarkDao
 import com.neb.ians.data.local.database.NEBiansDatabase
-import com.neb.ians.data.repository.AuthRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.runBlocking
 import javax.inject.Singleton
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
@@ -31,8 +34,14 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideApiService(authRepository: AuthRepository): ApiService {
-        return ApiService.create(tokenProvider = { authRepository.getTokenSync() })
+    fun provideApiService(dataStore: DataStore<Preferences>): ApiService {
+        return ApiService.create(tokenProvider = {
+            try {
+                runBlocking {
+                    dataStore.data.map { it[stringPreferencesKey("auth_token")] }.first()
+                }
+            } catch (_: Exception) { null }
+        })
     }
 
     @Provides
