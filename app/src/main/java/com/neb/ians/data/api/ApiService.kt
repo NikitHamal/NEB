@@ -11,13 +11,14 @@ import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 
 // -------------------------------------------------------------
-// REQUEST/RESPONSE DATA MODELS
+// REQUEST MODELS
 // -------------------------------------------------------------
 
 @Serializable
-data class GoogleAuthRequest(
-    val idToken: String
-)
+data class GoogleAuthRequest(val idToken: String)
+
+@Serializable
+data class GithubAuthRequest(val code: String)
 
 @Serializable
 data class EmailSignupRequest(
@@ -33,14 +34,12 @@ data class EmailLoginRequest(
 )
 
 @Serializable
-data class SetPasswordRequest(
-    val password: String
-)
+data class SetPasswordRequest(val password: String)
 
 @Serializable
 data class ChangePasswordRequest(
-    val currentPassword: String,
-    val newPassword: String
+    @SerialName("current_password") val currentPassword: String,
+    @SerialName("new_password") val newPassword: String
 )
 
 @Serializable
@@ -50,29 +49,84 @@ data class EmailVerifyRequest(
 )
 
 @Serializable
-data class EmailResendRequest(
-    val email: String
-)
+data class EmailResendRequest(val email: String)
 
 @Serializable
-data class EmailForgotRequest(
-    val email: String
-)
+data class EmailForgotRequest(val email: String)
 
 @Serializable
 data class EmailResetPasswordRequest(
     val email: String,
     val code: String,
-    val newPassword: String
+    @SerialName("new_password") val newPassword: String
 )
 
 @Serializable
-data class EmailSignupResponse(
-    val status: String = "",
-    val message: String = "",
-    val userId: String = "",
-    val email: String = ""
+data class UserProfileRequest(
+    val username: String,
+    val email: String? = null,
+    @SerialName("photo_url") val photoUrl: String? = null,
+    @SerialName("display_name") val displayName: String? = null,
+    val dob: String? = null,
+    val gender: String? = null,
+    @SerialName("class_level") val classLevel: String? = null,
+    val subjects: String? = null,
+    val pradesh: String? = null,
+    val district: String? = null,
+    val school: String? = null,
+    @SerialName("is_locked") val isLocked: Boolean? = null,
+    @SerialName("banner_url") val bannerUrl: String? = null,
+    val bio: String? = null
 )
+
+@Serializable
+data class PostCreateRequest(
+    val title: String,
+    val content: String,
+    val category: String
+)
+
+@Serializable
+data class PostUpdateRequest(
+    val title: String? = null,
+    val content: String? = null,
+    val category: String? = null
+)
+
+@Serializable
+data class ReplyCreateRequest(
+    val content: String,
+    @SerialName("parent_reply_id") val parentReplyId: String? = null
+)
+
+@Serializable
+data class ReplyUpdateRequest(val content: String)
+
+@Serializable
+data class FollowToggleRequest(
+    @SerialName("user_id") val userId: String
+)
+
+@Serializable
+data class BookmarkToggleRequest(
+    @SerialName("target_type") val targetType: String,
+    @SerialName("target_id") val targetId: String
+)
+
+@Serializable
+data class ReportRequest(
+    @SerialName("target_type") val targetType: String,
+    @SerialName("target_id") val targetId: String,
+    val reason: String,
+    val description: String? = null
+)
+
+@Serializable
+data class FcmTokenRequest(val token: String)
+
+// -------------------------------------------------------------
+// RESPONSE MODELS
+// -------------------------------------------------------------
 
 @Serializable
 data class GenericMessageResponse(
@@ -93,10 +147,21 @@ data class ChangePasswordResponse(
 @Serializable
 data class GoogleAuthResponse(
     val status: String,
-    val isNewUser: Boolean = false,
+    @SerialName("isNewUser") val isNewUser: Boolean = false,
     @SerialName("authToken") val authToken: String? = null,
     val user: UserProfileResponse
 )
+
+@Serializable
+data class EmailSignupResponse(
+    val status: String = "",
+    val message: String = "",
+    @SerialName("user_id") val userId: String = "",
+    val email: String = ""
+)
+
+@Serializable
+data class UsernameCheckResponse(val available: Boolean)
 
 @Serializable
 data class UserProfileResponse(
@@ -104,40 +169,35 @@ data class UserProfileResponse(
     val username: String = "",
     val email: String? = null,
     @SerialName("photo_url") val photoUrl: String? = null,
+    @SerialName("banner_url") val bannerUrl: String? = null,
     @SerialName("display_name") val displayName: String? = null,
     val dob: String = "",
     val gender: String? = null,
     @SerialName("class") val classLevel: String? = null,
-    val subjects: String? = null, // Comma separated list of subjects
+    val subjects: String? = null,
     val pradesh: String? = null,
     val district: String? = null,
     val school: String? = null,
+    val bio: String? = null,
     @SerialName("is_locked") val isLocked: Int = 0,
     @SerialName("created_at") val createdAt: Long = 0,
-    val is_private: Boolean = false, // Set if profile is locked and we are not the owner
+    @SerialName("is_private") val isPrivate: Boolean = false,
     @SerialName("email_verified") val emailVerified: Boolean = false,
-    val hasPassword: Boolean = false
-)
-
-@Serializable
-data class UsernameCheckResponse(
-    val available: Boolean
-)
-
-@Serializable
-data class UserProfileRequest(
-    val username: String,
-    val email: String?,
-    val photoUrl: String?,
-    val displayName: String?,
-    val dob: String,
-    val gender: String?,
-    val classLevel: String?,
-    val subjects: String?,
-    val pradesh: String?,
-    val district: String?,
-    val school: String?,
-    val isLocked: Boolean
+    @SerialName("has_password") val hasPassword: Boolean = false,
+    @SerialName("verification_level") val verificationLevel: Int = 0,
+    @SerialName("moderator_level") val moderatorLevel: Int = 0,
+    @SerialName("is_admin") val isAdmin: Boolean = false,
+    @SerialName("is_bot") val isBot: Boolean = false,
+    @SerialName("post_count") val postCount: Int = 0,
+    @SerialName("reply_count") val replyCount: Int = 0,
+    @SerialName("follower_count") val followerCount: Int = 0,
+    @SerialName("following_count") val followingCount: Int = 0,
+    @SerialName("likes_given_count") val likesGivenCount: Int = 0,
+    @SerialName("likes_received_count") val likesReceivedCount: Int = 0,
+    @SerialName("contribution_score") val contributionScore: Int = 0,
+    @SerialName("is_following") val isFollowing: Boolean? = null,
+    @SerialName("is_self") val isSelf: Boolean? = null,
+    @SerialName("achievement_badges") val achievementBadges: String? = null
 )
 
 @Serializable
@@ -148,11 +208,19 @@ data class ApiResource(
     val subject: String,
     @SerialName("grade_level") val gradeLevel: String,
     val type: String,
-    @SerialName("file_url") val fileUrl: String,
+    @SerialName("file_url") val fileUrl: String = "",
     @SerialName("thumbnail_url") val thumbnailUrl: String = "",
     @SerialName("file_size") val fileSize: Long = 0,
     @SerialName("added_at") val addedAt: Long = 0,
-    @SerialName("view_count") val viewCount: Int = 0
+    @SerialName("view_count") val viewCount: Int = 0,
+    @SerialName("like_count") val likeCount: Int = 0,
+    @SerialName("comment_count") val commentCount: Int = 0,
+    @SerialName("author_name") val authorName: String? = null,
+    @SerialName("source_type") val sourceType: String? = null,
+    @SerialName("source_url") val sourceUrl: String? = null,
+    @SerialName("source_label") val sourceLabel: String? = null,
+    @SerialName("is_liked") val isLiked: Boolean? = null,
+    @SerialName("is_bookmarked") val isBookmarked: Boolean? = null
 )
 
 @Serializable
@@ -160,62 +228,204 @@ data class ApiPost(
     val id: String,
     val title: String,
     val content: String,
-    val authorName: String,
-    val authorId: String,
+    @SerialName("author_name") val authorName: String,
+    @SerialName("author_id") val authorId: String,
+    @SerialName("author_photo_url") val authorPhotoUrl: String? = null,
+    @SerialName("author_badge") val authorBadge: String? = null,
     val category: String,
-    val thumbsUpCount: Int,
-    val replyCount: Int,
-    val createdAt: Long,
-    val updatedAt: Long,
-    val isThumbedUp: Boolean
-)
-
-@Serializable
-data class ApiPostCreateRequest(
-    val title: String,
-    val content: String,
-    val category: String
+    @SerialName("thumbs_up_count") val thumbsUpCount: Int,
+    @SerialName("reply_count") val replyCount: Int,
+    @SerialName("is_thumbed_up") val isThumbedUp: Boolean,
+    @SerialName("is_bookmarked") val isBookmarked: Boolean? = null,
+    @SerialName("is_edited") val isEdited: Boolean? = null,
+    @SerialName("is_archived") val isArchived: Boolean? = null,
+    @SerialName("created_at") val createdAt: Long,
+    @SerialName("updated_at") val updatedAt: Long? = null
 )
 
 @Serializable
 data class ApiReply(
     val id: String,
-    val postId: String,
-    val parentReplyId: String?,
+    @SerialName("post_id") val postId: String,
+    @SerialName("parent_reply_id") val parentReplyId: String? = null,
     val content: String,
-    val authorName: String,
-    val authorId: String,
-    val thumbsUpCount: Int,
-    val createdAt: Long,
-    val isThumbedUp: Boolean
-)
-
-@Serializable
-data class ApiReplyCreateRequest(
-    val content: String,
-    val parentReplyId: String? = null
+    @SerialName("author_name") val authorName: String,
+    @SerialName("author_id") val authorId: String,
+    @SerialName("author_photo_url") val authorPhotoUrl: String? = null,
+    @SerialName("author_badge") val authorBadge: String? = null,
+    @SerialName("thumbs_up_count") val thumbsUpCount: Int,
+    @SerialName("reply_count") val replyCount: Int = 0,
+    @SerialName("is_thumbed_up") val isThumbedUp: Boolean,
+    @SerialName("is_bookmarked") val isBookmarked: Boolean? = null,
+    @SerialName("is_edited") val isEdited: Boolean? = null,
+    @SerialName("is_archived") val isArchived: Boolean? = null,
+    @SerialName("created_at") val createdAt: Long,
+    @SerialName("updated_at") val updatedAt: Long? = null
 )
 
 @Serializable
 data class LikeResponse(
-    val thumbsUpCount: Int,
-    val isThumbedUp: Boolean
+    @SerialName("thumbs_up_count") val thumbsUpCount: Int,
+    @SerialName("is_thumbed_up") val isThumbedUp: Boolean
 )
 
 @Serializable
-data class FcmTokenRequest(
-    val token: String
+data class ResourceLikeResponse(
+    @SerialName("like_count") val likeCount: Int,
+    @SerialName("is_liked") val isLiked: Boolean
 )
 
 @Serializable
-data class ApiReplyUpdateRequest(
-    val content: String
+data class BookmarkResponse(
+    @SerialName("is_bookmarked") val isBookmarked: Boolean
+)
+
+@Serializable
+data class FollowResponse(
+    @SerialName("is_following") val isFollowing: Boolean,
+    @SerialName("follower_count") val followerCount: Int? = null
 )
 
 @Serializable
 data class ApiSearchResponse(
     val resources: List<ApiResource> = emptyList(),
-    val posts: List<ApiPost> = emptyList()
+    val posts: List<ApiPost> = emptyList(),
+    val users: List<ApiUserSearchResult> = emptyList()
+)
+
+@Serializable
+data class ApiUserSearchResult(
+    val id: String,
+    val username: String,
+    @SerialName("display_name") val displayName: String? = null,
+    @SerialName("photo_url") val photoUrl: String? = null,
+    val bio: String? = null,
+    val school: String? = null,
+    @SerialName("class_level") val classLevel: String? = null,
+    @SerialName("follower_count") val followerCount: Int = 0,
+    @SerialName("is_following") val isFollowing: Boolean? = null,
+    @SerialName("is_self") val isSelf: Boolean? = null,
+    @SerialName("badge_info") val badgeInfo: ApiBadgeInfo? = null
+)
+
+@Serializable
+data class ApiBadgeInfo(
+    val type: String,
+    val label: String,
+    val icon: String? = null
+)
+
+@Serializable
+data class ApiNotification(
+    val id: String,
+    @SerialName("actor_id") val actorId: String? = null,
+    @SerialName("actor_name") val actorName: String? = null,
+    @SerialName("actor_photo_url") val actorPhotoUrl: String? = null,
+    @SerialName("actor_badge") val actorBadge: String? = null,
+    val verb: String,
+    @SerialName("target_type") val targetType: String? = null,
+    @SerialName("target_id") val targetId: String? = null,
+    @SerialName("reference_type") val referenceType: String? = null,
+    @SerialName("reference_id") val referenceId: String? = null,
+    val message: String,
+    @SerialName("is_read") val isRead: Boolean,
+    @SerialName("created_at") val createdAt: Long
+)
+
+@Serializable
+data class ApiNotificationListResponse(
+    val notifications: List<ApiNotification>,
+    @SerialName("has_more") val hasMore: Boolean = false
+)
+
+@Serializable
+data class ApiNotificationMarkReadResponse(
+    val status: String = "",
+    val message: String = ""
+)
+
+@Serializable
+data class ApiNotificationUnreadCountResponse(
+    val count: Int
+)
+
+@Serializable
+data class ApiEditHistory(
+    val id: String,
+    @SerialName("target_type") val targetType: String,
+    @SerialName("target_id") val targetId: String,
+    val field: String,
+    @SerialName("old_value") val oldValue: String,
+    @SerialName("new_value") val newValue: String,
+    @SerialName("edited_by") val editedBy: String,
+    @SerialName("editor_name") val editorName: String? = null,
+    @SerialName("edited_at") val editedAt: Long
+)
+
+@Serializable
+data class ApiResourceComment(
+    val id: String,
+    @SerialName("resource_id") val resourceId: String,
+    @SerialName("user_id") val userId: String,
+    @SerialName("user_name") val userName: String,
+    @SerialName("user_photo_url") val userPhotoUrl: String? = null,
+    val content: String,
+    @SerialName("like_count") val likeCount: Int = 0,
+    @SerialName("reply_count") val replyCount: Int = 0,
+    @SerialName("is_liked") val isLiked: Boolean? = null,
+    @SerialName("parent_comment_id") val parentCommentId: String? = null,
+    @SerialName("is_edited") val isEdited: Boolean? = null,
+    @SerialName("created_at") val createdAt: Long
+)
+
+@Serializable
+data class ApiResourceCommentCreateRequest(
+    val content: String,
+    @SerialName("parent_comment_id") val parentCommentId: String? = null
+)
+
+@Serializable
+data class ApiStatsResponse(
+    @SerialName("total_users") val totalUsers: Int = 0,
+    @SerialName("total_posts") val totalPosts: Int = 0,
+    @SerialName("total_replies") val totalReplies: Int = 0,
+    @SerialName("total_resources") val totalResources: Int = 0
+)
+
+@Serializable
+data class ApiLeaderboardEntry(
+    @SerialName("user_id") val userId: String,
+    val username: String,
+    @SerialName("display_name") val displayName: String? = null,
+    @SerialName("photo_url") val photoUrl: String? = null,
+    @SerialName("contribution_score") val contributionScore: Int = 0,
+    @SerialName("follower_count") val followerCount: Int = 0,
+    @SerialName("post_count") val postCount: Int = 0,
+    @SerialName("reply_count") val replyCount: Int = 0,
+    @SerialName("badge_info") val badgeInfo: ApiBadgeInfo? = null
+)
+
+@Serializable
+data class ApiHomeResponse(
+    @SerialName("recent_resources") val recentResources: List<ApiResource> = emptyList(),
+    @SerialName("popular_resources") val popularResources: List<ApiResource> = emptyList(),
+    @SerialName("recent_posts") val recentPosts: List<ApiPost> = emptyList()
+)
+
+@Serializable
+data class ApiPaginatedResources(
+    val resources: List<ApiResource> = emptyList(),
+    @SerialName("total_count") val totalCount: Int = 0,
+    val page: Int = 1,
+    @SerialName("total_pages") val totalPages: Int = 1
+)
+
+@Serializable
+data class ApiPaginatedPosts(
+    val posts: List<ApiPost> = emptyList(),
+    @SerialName("total_count") val totalCount: Int = 0,
+    val page: Int = 1,
+    @SerialName("total_pages") val totalPages: Int = 1
 )
 
 // -------------------------------------------------------------
@@ -224,40 +434,30 @@ data class ApiSearchResponse(
 
 interface ApiService {
 
+    // --- Auth ---
     @POST("api/auth/google")
-    suspend fun authenticateGoogle(
-        @Body request: GoogleAuthRequest
-    ): GoogleAuthResponse
+    suspend fun authenticateGoogle(@Body request: GoogleAuthRequest): GoogleAuthResponse
+
+    @POST("api/auth/github")
+    suspend fun authenticateGithub(@Body request: GithubAuthRequest): GoogleAuthResponse
 
     @POST("api/auth/email/signup")
-    suspend fun emailSignup(
-        @Body request: EmailSignupRequest
-    ): EmailSignupResponse
+    suspend fun emailSignup(@Body request: EmailSignupRequest): EmailSignupResponse
 
     @POST("api/auth/email/verify")
-    suspend fun emailVerify(
-        @Body request: EmailVerifyRequest
-    ): GoogleAuthResponse
+    suspend fun emailVerify(@Body request: EmailVerifyRequest): GoogleAuthResponse
 
     @POST("api/auth/email/resend")
-    suspend fun emailResendCode(
-        @Body request: EmailResendRequest
-    ): EmailSignupResponse
+    suspend fun emailResendCode(@Body request: EmailResendRequest): EmailSignupResponse
 
     @POST("api/auth/email/login")
-    suspend fun emailLogin(
-        @Body request: EmailLoginRequest
-    ): GoogleAuthResponse
+    suspend fun emailLogin(@Body request: EmailLoginRequest): GoogleAuthResponse
 
     @POST("api/auth/email/forgot")
-    suspend fun emailForgotPassword(
-        @Body request: EmailForgotRequest
-    ): EmailSignupResponse
+    suspend fun emailForgotPassword(@Body request: EmailForgotRequest): EmailSignupResponse
 
     @POST("api/auth/email/reset-password")
-    suspend fun emailResetPassword(
-        @Body request: EmailResetPasswordRequest
-    ): GoogleAuthResponse
+    suspend fun emailResetPassword(@Body request: EmailResetPasswordRequest): GoogleAuthResponse
 
     @POST("api/auth/set-password")
     suspend fun setPassword(
@@ -271,10 +471,9 @@ interface ApiService {
         @Body request: ChangePasswordRequest
     ): ChangePasswordResponse
 
+    // --- Users ---
     @GET("api/users/check-username")
-    suspend fun checkUsername(
-        @Query("username") username: String
-    ): UsernameCheckResponse
+    suspend fun checkUsername(@Query("username") username: String): UsernameCheckResponse
 
     @POST("api/users/profile")
     suspend fun updateProfile(
@@ -288,23 +487,82 @@ interface ApiService {
         @Path("username") username: String
     ): UserProfileResponse
 
+    @POST("api/users/{userId}/follow")
+    suspend fun toggleFollow(
+        @Header("Authorization") bearerToken: String,
+        @Path("userId") userId: String
+    ): FollowResponse
+
+    @GET("api/users/{userId}/followers")
+    suspend fun getFollowers(
+        @Header("Authorization") bearerToken: String?,
+        @Path("userId") userId: String
+    ): List<UserProfileResponse>
+
+    @GET("api/users/{userId}/following")
+    suspend fun getFollowing(
+        @Header("Authorization") bearerToken: String?,
+        @Path("userId") userId: String
+    ): List<UserProfileResponse>
+
+    @GET("api/users/me/photos")
+    suspend fun getUserPhotos(
+        @Header("Authorization") bearerToken: String
+    ): List<ApiUserPhoto>
+
+    @POST("api/users/me/photos/{photoId}/activate")
+    suspend fun activatePhoto(
+        @Header("Authorization") bearerToken: String,
+        @Path("photoId") photoId: Int
+    ): GenericMessageResponse
+
+    // --- Resources ---
     @GET("api/resources")
-    suspend fun getResources(): List<ApiResource>
+    suspend fun getResources(
+        @Header("Authorization") bearerToken: String?,
+        @Query("subject") subject: String? = null,
+        @Query("grade") grade: String? = null,
+        @Query("type") type: String? = null,
+        @Query("sort") sort: String? = null,
+        @Query("page") page: Int? = null
+    ): ApiPaginatedResources
 
     @GET("api/resources/{resourceId}")
     suspend fun getResource(
+        @Header("Authorization") bearerToken: String?,
         @Path("resourceId") resourceId: String
     ): ApiResource
 
     @POST("api/resources/{resourceId}/view")
-    suspend fun viewResource(
+    suspend fun viewResource(@Path("resourceId") resourceId: String)
+
+    @POST("api/resources/{resourceId}/like")
+    suspend fun toggleLikeResource(
+        @Header("Authorization") bearerToken: String,
         @Path("resourceId") resourceId: String
+    ): ResourceLikeResponse
+
+    @POST("api/resources/{resourceId}/comments")
+    suspend fun createResourceComment(
+        @Header("Authorization") bearerToken: String,
+        @Path("resourceId") resourceId: String,
+        @Body request: ApiResourceCommentCreateRequest
+    ): ApiResourceComment
+
+    @DELETE("api/resources/{resourceId}/comments/{commentId}")
+    suspend fun deleteResourceComment(
+        @Header("Authorization") bearerToken: String,
+        @Path("resourceId") resourceId: String,
+        @Path("commentId") commentId: String
     )
 
+    // --- Posts ---
     @GET("api/posts")
     suspend fun getPosts(
-        @Header("Authorization") bearerToken: String?
-    ): List<ApiPost>
+        @Header("Authorization") bearerToken: String?,
+        @Query("category") category: String? = null,
+        @Query("page") page: Int? = null
+    ): ApiPaginatedPosts
 
     @GET("api/posts/{postId}")
     suspend fun getPost(
@@ -312,17 +570,17 @@ interface ApiService {
         @Path("postId") postId: String
     ): ApiPost
 
+    @POST("api/posts")
+    suspend fun createPost(
+        @Header("Authorization") bearerToken: String,
+        @Body request: PostCreateRequest
+    ): ApiPost
+
     @PATCH("api/posts/{postId}")
     suspend fun updatePost(
         @Header("Authorization") bearerToken: String,
         @Path("postId") postId: String,
-        @Body request: ApiPostCreateRequest
-    ): ApiPost
-
-    @POST("api/posts")
-    suspend fun createPost(
-        @Header("Authorization") bearerToken: String,
-        @Body request: ApiPostCreateRequest
+        @Body request: PostUpdateRequest
     ): ApiPost
 
     @DELETE("api/posts/{postId}")
@@ -337,6 +595,13 @@ interface ApiService {
         @Path("postId") postId: String
     ): LikeResponse
 
+    @POST("api/posts/{postId}/archive")
+    suspend fun archivePost(
+        @Header("Authorization") bearerToken: String,
+        @Path("postId") postId: String
+    ): GenericMessageResponse
+
+    // --- Replies ---
     @GET("api/posts/{postId}/replies")
     suspend fun getReplies(
         @Header("Authorization") bearerToken: String?,
@@ -347,14 +612,15 @@ interface ApiService {
     suspend fun createReply(
         @Header("Authorization") bearerToken: String,
         @Path("postId") postId: String,
-        @Body request: ApiReplyCreateRequest
+        @Body request: ReplyCreateRequest
     ): ApiReply
 
-    @POST("api/replies/{replyId}/like")
-    suspend fun toggleLikeReply(
+    @PATCH("api/replies/{replyId}")
+    suspend fun updateReply(
         @Header("Authorization") bearerToken: String,
-        @Path("replyId") replyId: String
-    ): LikeResponse
+        @Path("replyId") replyId: String,
+        @Body request: ReplyUpdateRequest
+    ): ApiReply
 
     @DELETE("api/replies/{replyId}")
     suspend fun deleteReply(
@@ -362,34 +628,124 @@ interface ApiService {
         @Path("replyId") replyId: String
     )
 
-    @PATCH("api/replies/{replyId}")
-    suspend fun updateReply(
+    @POST("api/replies/{replyId}/like")
+    suspend fun toggleLikeReply(
         @Header("Authorization") bearerToken: String,
-        @Path("replyId") replyId: String,
-        @Body request: ApiReplyUpdateRequest
-    ): ApiReply
+        @Path("replyId") replyId: String
+    ): LikeResponse
 
+    @POST("api/replies/{replyId}/archive")
+    suspend fun archiveReply(
+        @Header("Authorization") bearerToken: String,
+        @Path("replyId") replyId: String
+    ): GenericMessageResponse
+
+    // --- Edit History ---
+    @GET("api/edit-history/{targetType}/{targetId}")
+    suspend fun getEditHistory(
+        @Header("Authorization") bearerToken: String?,
+        @Path("targetType") targetType: String,
+        @Path("targetId") targetId: String
+    ): List<ApiEditHistory>
+
+    // --- Search ---
     @GET("api/search")
     suspend fun search(
-        @Query("q") query: String
+        @Header("Authorization") bearerToken: String?,
+        @Query("q") query: String,
+        @Query("tab") tab: String? = null,
+        @Query("subject") subject: String? = null,
+        @Query("grade") grade: String? = null,
+        @Query("type") type: String? = null
     ): ApiSearchResponse
 
+    // --- Bookmarks ---
+    @POST("api/bookmarks/toggle")
+    suspend fun toggleBookmark(
+        @Header("Authorization") bearerToken: String,
+        @Body request: BookmarkToggleRequest
+    ): BookmarkResponse
+
+    @POST("api/bookmarks/check")
+    suspend fun checkBookmark(
+        @Header("Authorization") bearerToken: String,
+        @Body request: BookmarkToggleRequest
+    ): BookmarkResponse
+
+    @GET("api/bookmarks")
+    suspend fun getBookmarks(
+        @Header("Authorization") bearerToken: String,
+        @Query("target_type") targetType: String? = null
+    ): List<ApiBookmark>
+
+    // --- Notifications ---
+    @GET("api/notifications")
+    suspend fun getNotifications(
+        @Header("Authorization") bearerToken: String,
+        @Query("page") page: Int? = null
+    ): ApiNotificationListResponse
+
+    @POST("api/notifications/mark-read")
+    suspend fun markNotificationsRead(
+        @Header("Authorization") bearerToken: String
+    ): ApiNotificationMarkReadResponse
+
+    @GET("api/notifications/unread-count")
+    suspend fun getUnreadNotificationCount(
+        @Header("Authorization") bearerToken: String
+    ): ApiNotificationUnreadCountResponse
+
+    // --- FCM ---
     @POST("api/fcm/register")
     suspend fun registerFcmToken(
         @Header("Authorization") bearerToken: String?,
         @Body request: FcmTokenRequest
     )
 
-    companion object {
-        private val BASE_URL = "https://nebians.consica.com.np/"
+    // --- Reports ---
+    @POST("api/reports")
+    suspend fun createReport(
+        @Header("Authorization") bearerToken: String,
+        @Body request: ReportRequest
+    ): GenericMessageResponse
 
-        fun create(): ApiService {
+    // --- Home data ---
+    @GET("api/home")
+    suspend fun getHomeData(
+        @Header("Authorization") bearerToken: String?
+    ): ApiHomeResponse
+
+    // --- Forum categories & leaderboard ---
+    @GET("api/forum/categories")
+    suspend fun getForumCategories(): List<ApiForumCategory>
+
+    @GET("api/forum/leaderboard")
+    suspend fun getLeaderboard(): List<ApiLeaderboardEntry>
+
+    // --- User search (for @mentions) ---
+    @GET("api/users/search")
+    suspend fun searchUsers(
+        @Header("Authorization") bearerToken: String?,
+        @Query("q") query: String
+    ): List<ApiUserSearchResult>
+
+    companion object {
+        private const val BASE_URL = "https://nebians.consica.com.np/"
+
+        fun create(tokenProvider: (() -> String?)? = null): ApiService {
             val logger = HttpLoggingInterceptor().apply {
                 level = HttpLoggingInterceptor.Level.BODY
             }
 
             val client = OkHttpClient.Builder()
                 .addInterceptor(logger)
+                .addInterceptor { chain ->
+                    val request = chain.request().newBuilder()
+                    tokenProvider?.invoke()?.let { token ->
+                        request.addHeader("Authorization", "Bearer $token")
+                    }
+                    chain.proceed(request.build())
+                }
                 .connectTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
                 .readTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
                 .writeTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
@@ -409,3 +765,25 @@ interface ApiService {
         }
     }
 }
+
+@Serializable
+data class ApiUserPhoto(
+    val id: Int,
+    val url: String,
+    @SerialName("uploaded_at") val uploadedAt: Long,
+    @SerialName("is_current") val isCurrent: Boolean
+)
+
+@Serializable
+data class ApiBookmark(
+    val id: String,
+    @SerialName("target_type") val targetType: String,
+    @SerialName("target_id") val targetId: String,
+    @SerialName("created_at") val createdAt: Long
+)
+
+@Serializable
+data class ApiForumCategory(
+    val name: String,
+    @SerialName("post_count") val postCount: Int = 0
+)

@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
+import com.neb.ians.data.api.ApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,7 +26,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideApiService(): com.neb.ians.data.api.ApiService {
-        return com.neb.ians.data.api.ApiService.create()
+    fun provideApiService(): ApiService {
+        return ApiService.create(tokenProvider = null)
     }
 }

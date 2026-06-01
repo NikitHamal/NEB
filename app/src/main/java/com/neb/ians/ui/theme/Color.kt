@@ -2,6 +2,7 @@ package com.neb.ians.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
+// Light theme colors (matching website material3.css exactly)
 val md_theme_light_primary = Color(0xFF004AC6)
 val md_theme_light_onPrimary = Color(0xFFFFFFFF)
 val md_theme_light_primaryContainer = Color(0xFF2563EB)
@@ -50,6 +51,7 @@ val md_theme_light_tertiaryFixedDim = Color(0xFFC4C7C9)
 val md_theme_light_onTertiaryFixed = Color(0xFF191C1E)
 val md_theme_light_onTertiaryFixedVariant = Color(0xFF444749)
 
+// Dark theme colors (matching website [data-theme="dark"])
 val md_theme_dark_primary = Color(0xFFB4C5FF)
 val md_theme_dark_onPrimary = Color(0xFF002D78)
 val md_theme_dark_primaryContainer = Color(0xFF003EA8)
@@ -97,3 +99,67 @@ val md_theme_dark_tertiaryFixed = Color(0xFFE0E3E5)
 val md_theme_dark_tertiaryFixedDim = Color(0xFFC4C7C9)
 val md_theme_dark_onTertiaryFixed = Color(0xFF191C1E)
 val md_theme_dark_onTertiaryFixedVariant = Color(0xFF444749)
+
+// Subject colors (matching website .subject-* CSS classes)
+data class SubjectTheme(
+    val color: Color,
+    val container: Color,
+    val onContainer: Color
+)
+
+val SubjectColors = mapOf(
+    "Physics" to SubjectTheme(Color(0xFF2563EB), Color(0xFFDBEAFE), Color(0xFF1E40AF)),
+    "Chemistry" to SubjectTheme(Color(0xFF16A34A), Color(0xFFDCFCE7), Color(0xFF15803D)),
+    "Mathematics" to SubjectTheme(Color(0xFFDC2626), Color(0xFFFEE2E2), Color(0xFFB91C1C)),
+    "Biology" to SubjectTheme(Color(0xFF0D9488), Color(0xFFCCFBF1), Color(0xFF0F766E)),
+    "English" to SubjectTheme(Color(0xFF9333EA), Color(0xFFF3E8FF), Color(0xFF7E22CE)),
+    "Nepali" to SubjectTheme(Color(0xFFCA8A04), Color(0xFFFEF9C3), Color(0xFFA16207)),
+    "Computer Science" to SubjectTheme(Color(0xFF0891B2), Color(0xFFCFFAFE), Color(0xFF0E7490)),
+    "Economics" to SubjectTheme(Color(0xFFEA580C), Color(0xFFFFEDD5), Color(0xFFC2410C)),
+    "Accountancy" to SubjectTheme(Color(0xFFBE185D), Color(0xFFFCE7F3), Color(0xFF9D174D)),
+    "Exam Tips" to SubjectTheme(Color(0xFF7C3AED), Color(0xFFEDE9FE), Color(0xFF6D28D9)),
+    "General" to SubjectTheme(Color(0xFF525657), Color(0xFFF1F5F9), Color(0xFF334155)),
+)
+
+fun getSubjectTheme(subject: String): SubjectTheme {
+    return SubjectColors[subject] ?: SubjectColors["General"]!!
+}
+
+fun getSubjectColor(subject: String): Color = getSubjectTheme(subject).color
+
+// Badge colors (matching website .role-badge-* CSS)
+data class BadgeTheme(
+    val background: Color,
+    val text: Color,
+    val icon: String
+)
+
+val BadgeThemes = mapOf(
+    "admin" to BadgeTheme(Color(0xFFFFF7ED), Color(0xFF92400E), "crown"),
+    "moderator-blue" to BadgeTheme(Color(0xFFDBEAFE), Color(0xFF1E40AF), "shield"),
+    "moderator-teal" to BadgeTheme(Color(0xFFCCFBF1), Color(0xFF0F766E), "shield"),
+    "moderator-purple" to BadgeTheme(Color(0xFFF3E8FF), Color(0xFF7E22CE), "shield"),
+    "verified-blue" to BadgeTheme(Color(0xFFDBEAFE), Color(0xFF1E40AF), "verified"),
+    "verified-green" to BadgeTheme(Color(0xFFDCFCE7), Color(0xFF15803D), "verified"),
+    "verified-gold" to BadgeTheme(Color(0xFFFEF9C3), Color(0xFFA16207), "verified"),
+    "verified-black" to BadgeTheme(Color(0xFFF1F5F9), Color(0xFF1E293B), "verified"),
+)
+
+fun getBadgeTheme(badgeInfo: com.neb.ians.data.api.ApiBadgeInfo?): BadgeTheme? {
+    if (badgeInfo == null) return null
+    return BadgeThemes[badgeInfo.type]
+}
+
+fun getBadgeKey(user: com.neb.ians.data.api.UserProfileResponse): String? {
+    return when {
+        user.isAdmin -> "admin"
+        user.moderatorLevel == 1 -> "moderator-blue"
+        user.moderatorLevel == 2 -> "moderator-teal"
+        user.moderatorLevel == 3 -> "moderator-purple"
+        user.verificationLevel == 1 -> "verified-blue"
+        user.verificationLevel == 2 -> "verified-green"
+        user.verificationLevel == 3 -> "verified-gold"
+        user.verificationLevel >= 4 -> "verified-black"
+        else -> null
+    }
+}

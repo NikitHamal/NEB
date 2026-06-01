@@ -31,13 +31,17 @@ def _create_notification(*, recipient_id, actor_id, verb, target_type, target_id
                          reference_type='', reference_id='', message=''):
     """
     Core notification creation. Handles deduplication and counter updates.
-    Returns the created Notification, or None if skipped (self-notification or duplicate).
+    Returns the created Notification, or None if skipped (self-notification, bot recipient, or duplicate).
+    Note: bots are allowed to be actors (so bot replies can notify post authors),
+    but bot accounts never receive notifications.
     """
     if str(recipient_id) == str(actor_id):
         return None
     try:
         recipient = User.objects.get(pk=recipient_id)
     except User.DoesNotExist:
+        return None
+    if recipient.is_bot:
         return None
     existing = Notification.objects.filter(
         recipient_id=recipient_id,
@@ -215,6 +219,12 @@ def notify_system(recipient_id, message, target_type='system', target_id=''):
     Create a system notification (no actor).
     target_id defaults to empty string for general announcements.
     """
+    try:
+        recipient = User.objects.get(pk=recipient_id)
+    except User.DoesNotExist:
+        return None
+    if recipient.is_bot:
+        return None
     notif = Notification.objects.create(
         id=str(uuid.uuid4()),
         recipient_id=recipient_id,
@@ -233,8 +243,8 @@ def notify_system(recipient_id, message, target_type='system', target_id=''):
 
 
 def notify_system_broadcast(message, target_type='system', target_id=''):
-    """Send a system notification to all users."""
-    user_ids = list(User.objects.values_list('id', flat=True))
+    """Send a system notification to all users (skip bots)."""
+    user_ids = list(User.objects.filter(is_bot=False).values_list('id', flat=True))
     now = _now_ms()
     objs = []
     for uid in user_ids:
