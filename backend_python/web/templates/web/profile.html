@@ -481,10 +481,14 @@
               {% endif %}
             </div>
 
-            <!-- User Name with Yellow Star -->
+            <!-- User Name with Dynamic Badge -->
             <h1 class="pf-card-name">
               {{ profile_user.display_name|default:profile_user.username }}
-              <span class="pf-card-star" title="Active NEBian">⭐</span>
+              {% if badge_info %}
+                <span class="role-badge role-badge-{{ badge_info.type }}" title="{{ badge_info.label }}">
+                  <span class="material-symbols-outlined">{{ badge_info.icon }}</span>
+                </span>
+              {% endif %}
             </h1>
 
             <!-- Student Subtitle / Role Headline -->

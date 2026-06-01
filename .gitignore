@@ -57,3 +57,8 @@ app/google-services.json
 # Local SSH deployment secrets
 .ssh_deploy_info.json
 
+# Google OAuth client secret JSONs (downloaded from Google Cloud Console)
+client_secret_*.json
+*_oauth_client_secret*.json
+google_oauth_client_*.json
+
