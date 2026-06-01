@@ -74,14 +74,14 @@ class HomeViewModel @Inject constructor(
         _recentPosts,
         _isLoading,
         _error
-    ) { userName, recent, popular, posts, isLoading, error ->
+    ) { args: Array<Any?> ->
         HomeUiState(
-            userName = userName,
-            recentResources = recent,
-            popularResources = popular,
-            recentPosts = posts,
-            isLoading = isLoading,
-            error = error
+            userName = args[0] as String,
+            recentResources = args[1] as List<ApiResource>,
+            popularResources = args[2] as List<ApiResource>,
+            recentPosts = args[3] as List<ApiPost>,
+            isLoading = args[4] as Boolean,
+            error = args[5] as String?
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), HomeUiState())
 }

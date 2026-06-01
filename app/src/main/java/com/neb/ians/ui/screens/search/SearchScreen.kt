@@ -211,7 +211,7 @@ fun SearchScreen(
                     }
                 }
 
-                uiState.results.isEmpty() && uiState.query.length >= 2 -> {
+                uiState.resources.isEmpty() && uiState.query.length >= 2 -> {
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -226,12 +226,12 @@ fun SearchScreen(
                     }
                 }
 
-                uiState.results.isNotEmpty() -> {
+                uiState.resources.isNotEmpty() -> {
                     LazyColumn(
                         modifier = Modifier.fillMaxSize(),
                         contentPadding = PaddingValues(vertical = 4.dp)
                     ) {
-                        items(uiState.results, key = { it.id }) { resource ->
+                        items(uiState.resources, key = { it.id }) { resource ->
                             SearchResultItem(
                                 resource = resource,
                                 onClick = { onResourceClick(resource.id) }
