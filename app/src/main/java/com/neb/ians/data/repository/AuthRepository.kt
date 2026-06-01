@@ -19,6 +19,7 @@ import com.neb.ians.data.api.EmailResetPasswordRequest
 import com.neb.ians.data.api.SetPasswordRequest
 import com.neb.ians.data.api.ChangePasswordRequest
 import com.neb.ians.data.api.UserProfileRequest
+import com.neb.ians.data.api.UserProfileResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.first
