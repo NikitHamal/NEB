@@ -1,0 +1,169 @@
+{% extends "admin_panel/base.html" %}
+{% load static %}
+
+{% block title %}Neby AI Bot{% endblock %}
+
+{% block content %}
+<div style="max-width:720px;margin:0 auto;">
+  <h1 style="font-size:1.5rem;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:8px;">
+    <span class="material-symbols-outlined" style="font-size:28px;color:#7C4DFF;">smart_toy</span>
+    Neby AI Bot
+  </h1>
+  <p style="color:var(--md-on-surface-variant);margin-bottom:24px;">
+    Configure the Neby AI bot. When enabled, Neby will reply to @neby mentions in posts and replies.
+  </p>
+
+  {% if messages %}
+  {% for msg in messages %}
+  <div class="md-snackbar" style="position:relative;margin-bottom:16px;opacity:1;">{{ msg }}</div>
+  {% endfor %}
+  {% endif %}
+
+  <form method="post" action="{% url 'web:admin_bot_config' %}">
+    {% csrf_token %}
+
+    <div style="background:var(--md-surface-container);border-radius:16px;padding:24px;margin-bottom:16px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+        <div>
+          <h2 style="font-size:1rem;font-weight:600;margin:0;">Enabled</h2>
+          <p style="color:var(--md-on-surface-variant);font-size:0.8125rem;margin:4px 0 0;">
+            Master switch. When off, Neby will not respond to any mentions.
+          </p>
+        </div>
+        <label style="position:relative;display:inline-block;width:52px;height:28px;">
+          <input type="checkbox" name="enabled" id="id_enabled" {% if config.enabled %}checked{% endif %} style="opacity:0;width:0;height:0;">
+          <span style="position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;background:var(--md-outline);border-radius:14px;transition:.3s;"></span>
+          <span style="position:absolute;content:'';height:20px;width:20px;left:4px;bottom:4px;background:white;border-radius:50%;transition:.3s;"></span>
+        </label>
+      </div>
+
+      {% if bot_user %}
+      <div style="background:var(--md-surface-container-high);border-radius:12px;padding:16px;display:flex;align-items:center;gap:12px;">
+        {% if bot_user.photo_url %}
+        <img src="{{ bot_user.photo_url }}" alt="" style="width:40px;height:40px;border-radius:50%;object-fit:cover;">
+        {% else %}
+        <div style="width:40px;height:40px;border-radius:50%;background:#7C4DFF;display:flex;align-items:center;justify-content:center;">
+          <span class="material-symbols-outlined" style="color:white;font-size:20px;">smart_toy</span>
+        </div>
+        {% endif %}
+        <div>
+          <div style="font-weight:600;display:flex;align-items:center;gap:6px;">
+            {{ bot_user.display_name|default:bot_user.username }}
+            <span style="background:#7C4DFF;color:white;font-size:0.6875rem;padding:1px 6px;border-radius:4px;font-weight:600;">AI</span>
+          </div>
+          <div style="color:var(--md-on-surface-variant);font-size:0.8125rem;">@{{ bot_user.username }} &middot; {{ bot_user.reply_count }} replies</div>
+        </div>
+      </div>
+      {% else %}
+      <div style="background:var(--md-error-container);border-radius:12px;padding:16px;color:var(--md-on-error-container);">
+        <span class="material-symbols-outlined" style="font-size:18px;vertical-align:middle;">warning</span>
+        Bot user not found. Create a user with username "<strong>{{ config.bot_username }}</strong>" and set <code>is_bot=True</code> to enable Neby.
+      </div>
+      {% endif %}
+    </div>
+
+    <div style="background:var(--md-surface-container);border-radius:16px;padding:24px;margin-bottom:16px;">
+      <h2 style="font-size:1rem;font-weight:600;margin:0 0 16px;">API Configuration</h2>
+
+      <div style="margin-bottom:16px;">
+        <label for="id_bot_username" style="display:block;font-size:0.8125rem;font-weight:500;margin-bottom:4px;color:var(--md-on-surface-variant);">Bot Username</label>
+        <input type="text" name="bot_username" id="id_bot_username" value="{{ config.bot_username }}" style="width:100%;padding:10px 12px;border-radius:8px;border:1px solid var(--md-outline);background:var(--md-surface);color:var(--md-on-surface);font-family:var(--md-font);font-size:0.875rem;">
+        <p style="font-size:0.75rem;color:var(--md-on-surface-variant);margin:4px 0 0;">The @username that triggers Neby. Must match a user with is_bot=True.</p>
+      </div>
+
+      <div style="margin-bottom:16px;">
+        <label for="id_api_url" style="display:block;font-size:0.8125rem;font-weight:500;margin-bottom:4px;color:var(--md-on-surface-variant);">API URL</label>
+        <input type="url" name="api_url" id="id_api_url" value="{{ config.api_url }}" style="width:100%;padding:10px 12px;border-radius:8px;border:1px solid var(--md-outline);background:var(--md-surface);color:var(--md-on-surface);font-family:var(--md-font);font-size:0.875rem;">
+      </div>
+
+      <div style="margin-bottom:16px;">
+        <label for="id_api_key" style="display:block;font-size:0.8125rem;font-weight:500;margin-bottom:4px;color:var(--md-on-surface-variant);">API Key <span style="font-weight:400;">(optional — leave blank if proxy doesn't require auth)</span></label>
+        <input type="password" name="api_key" id="id_api_key" value="{{ config.api_key }}" placeholder="Leave blank if not needed" style="width:100%;padding:10px 12px;border-radius:8px;border:1px solid var(--md-outline);background:var(--md-surface);color:var(--md-on-surface);font-family:var(--md-font);font-size:0.875rem;">
+      </div>
+
+      <div style="margin-bottom:16px;">
+        <label for="id_model" style="display:block;font-size:0.8125rem;font-weight:500;margin-bottom:4px;color:var(--md-on-surface-variant);">Model</label>
+        <select name="model" id="id_model" style="width:100%;padding:10px 12px;border-radius:8px;border:1px solid var(--md-outline);background:var(--md-surface);color:var(--md-on-surface);font-family:var(--md-font);font-size:0.875rem;">
+          <option value="qwen3.6-plus" {% if config.model == 'qwen3.6-plus' %}selected{% endif %}>Qwen 3.6 Plus (default)</option>
+          <option value="qwen3.7-max" {% if config.model == 'qwen3.7-max' %}selected{% endif %}>Qwen 3.7 Max</option>
+          <option value="qwen3.7-plus" {% if config.model == 'qwen3.7-plus' %}selected{% endif %}>Qwen 3.7 Plus</option>
+          <option value="qwen3.6-max-preview" {% if config.model == 'qwen3.6-max-preview' %}selected{% endif %}>Qwen 3.6 Max Preview</option>
+          <option value="qwen3.5-plus" {% if config.model == 'qwen3.5-plus' %}selected{% endif %}>Qwen 3.5 Plus</option>
+          <option value="qwen2.5-coder-32b" {% if config.model == 'qwen2.5-coder-32b' %}selected{% endif %}>Qwen 2.5 Coder 32B</option>
+          <option value="qwq-32b" {% if config.model == 'qwq-32b' %}selected{% endif %}>Qwq 32B</option>
+        </select>
+      </div>
+    </div>
+
+    <div style="background:var(--md-surface-container);border-radius:16px;padding:24px;margin-bottom:16px;">
+      <h2 style="font-size:1rem;font-weight:600;margin:0 0 16px;">Behavior</h2>
+
+      <div style="margin-bottom:16px;">
+        <label for="id_system_prompt" style="display:block;font-size:0.8125rem;font-weight:500;margin-bottom:4px;color:var(--md-on-surface-variant);">System Prompt</label>
+        <textarea name="system_prompt" id="id_system_prompt" rows="5" style="width:100%;padding:10px 12px;border-radius:8px;border:1px solid var(--md-outline);background:var(--md-surface);color:var(--md-on-surface);font-family:var(--md-font);font-size:0.875rem;resize:vertical;">{{ config.system_prompt }}</textarea>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;">
+        <div>
+          <label for="id_max_context_posts" style="display:block;font-size:0.8125rem;font-weight:500;margin-bottom:4px;color:var(--md-on-surface-variant);">Max Context Posts</label>
+          <input type="number" name="max_context_posts" id="id_max_context_posts" value="{{ config.max_context_posts }}" min="1" max="20" style="width:100%;padding:10px 12px;border-radius:8px;border:1px solid var(--md-outline);background:var(--md-surface);color:var(--md-on-surface);font-family:var(--md-font);font-size:0.875rem;">
+        </div>
+        <div>
+          <label for="id_max_context_replies" style="display:block;font-size:0.8125rem;font-weight:500;margin-bottom:4px;color:var(--md-on-surface-variant);">Max Context Replies</label>
+          <input type="number" name="max_context_replies" id="id_max_context_replies" value="{{ config.max_context_replies }}" min="1" max="50" style="width:100%;padding:10px 12px;border-radius:8px;border:1px solid var(--md-outline);background:var(--md-surface);color:var(--md-on-surface);font-family:var(--md-font);font-size:0.875rem;">
+        </div>
+        <div>
+          <label for="id_response_max_length" style="display:block;font-size:0.8125rem;font-weight:500;margin-bottom:4px;color:var(--md-on-surface-variant);">Max Response Length</label>
+          <input type="number" name="response_max_length" id="id_response_max_length" value="{{ config.response_max_length }}" min="50" max="2000" style="width:100%;padding:10px 12px;border-radius:8px;border:1px solid var(--md-outline);background:var(--md-surface);color:var(--md-on-surface);font-family:var(--md-font);font-size:0.875rem;">
+        </div>
+      </div>
+    </div>
+
+    <div style="background:var(--md-surface-container);border-radius:16px;padding:24px;margin-bottom:16px;">
+      <h2 style="font-size:1rem;font-weight:600;margin:0 0 8px;color:var(--md-on-surface-variant);">Danger Zone</h2>
+      <p style="font-size:0.8125rem;color:var(--md-on-surface-variant);margin:0 0 16px;">
+        To completely remove Neby: (1) Disable the bot above, (2) Delete the bot user account from Users panel, (3) Delete all Neby's replies from Forum Posts panel. No code changes needed.
+      </p>
+    </div>
+
+    <div style="display:flex;justify-content:flex-end;gap:8px;">
+      <button type="submit" class="md-btn md-btn-filled" style="padding:10px 24px;">
+        <span class="material-symbols-outlined" style="font-size:18px;">save</span>
+        Save Configuration
+      </button>
+    </div>
+  </form>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+  /* Toggle switch styles */
+  label input[type="checkbox"] + span {
+    background: var(--md-outline);
+  }
+  label input[type="checkbox"]:checked + span {
+    background: #7C4DFF;
+  }
+  label input[type="checkbox"]:checked + span + span {
+    transform: translateX(24px);
+  }
+  input[type="text"]:focus, input[type="url"]:focus, input[type="password"]:focus,
+  input[type="number"]:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: #7C4DFF;
+  }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  // Toggle switch functionality
+  const toggle = document.getElementById('id_enabled');
+  if (toggle) {
+    toggle.addEventListener('change', function() {
+      // Visual feedback is handled by CSS
+    });
+  }
+</script>
+{% endblock %}

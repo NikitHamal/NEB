@@ -16,9 +16,10 @@ class UserSerializer(serializers.ModelSerializer):
             'pradesh', 'district', 'school', 'bio', 'is_locked', 'created_at',
             'email_verified', 'hasPassword',
             'verification_level', 'moderator_level', 'is_admin', 'achievement_badges',
+            'is_bot',
         ]
         read_only_fields = ['id', 'created_at', 'email_verified', 'hasPassword',
-                            'verification_level', 'moderator_level', 'is_admin', 'achievement_badges']
+                            'verification_level', 'moderator_level', 'is_admin', 'achievement_badges', 'is_bot']
 
     def get_hasPassword(self, obj):
         return bool(obj.password_hash)
@@ -37,7 +38,7 @@ class UserPublicSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['username', 'display_name', 'photo_url', 'banner_url', 'bio', 'is_locked',
-                  'verification_level', 'moderator_level', 'is_admin', 'achievement_badges']
+                  'verification_level', 'moderator_level', 'is_admin', 'achievement_badges', 'is_bot']
 
     def to_representation(self, instance):
         ret = super().to_representation(instance)
@@ -47,12 +48,21 @@ class UserPublicSerializer(serializers.ModelSerializer):
 
 
 class ResourceSerializer(serializers.ModelSerializer):
+    sourceType = serializers.CharField(source='source_type', read_only=True)
+    sourceUrl = serializers.CharField(source='source_url', read_only=True)
+    sourceLabel = serializers.CharField(source='source_label', read_only=True)
+    likeCount = serializers.IntegerField(source='like_count', read_only=True)
+    commentCount = serializers.IntegerField(source='comment_count', read_only=True)
+
     class Meta:
         model = Resource
         fields = [
             'id', 'title', 'description', 'subject', 'grade_level',
             'type', 'file_url', 'thumbnail_url', 'file_size',
-            'added_at', 'view_count'
+            'added_at', 'view_count', 'author_name',
+            'like_count', 'comment_count',
+            'source_type', 'sourceType', 'source_url', 'sourceUrl',
+            'source_label', 'sourceLabel', 'likeCount', 'commentCount',
         ]
 
 
@@ -60,6 +70,7 @@ class PostSerializer(serializers.ModelSerializer):
     authorName = serializers.SerializerMethodField()
     authorPhotoUrl = serializers.SerializerMethodField()
     authorId = serializers.CharField(source='user_id', read_only=True)
+    authorIsBot = serializers.SerializerMethodField()
     thumbsUpCount = serializers.IntegerField(source='thumbs_up_count', read_only=True)
     replyCount = serializers.IntegerField(source='reply_count', read_only=True)
     createdAt = serializers.IntegerField(source='created_at', read_only=True)
@@ -72,7 +83,7 @@ class PostSerializer(serializers.ModelSerializer):
         model = Post
         fields = [
             'id', 'title', 'content', 'category',
-            'authorName', 'authorPhotoUrl', 'authorId',
+            'authorName', 'authorPhotoUrl', 'authorId', 'authorIsBot',
             'thumbsUpCount', 'replyCount', 'createdAt', 'updatedAt',
             'isEdited', 'isArchived', 'isThumbedUp'
         ]
@@ -88,6 +99,12 @@ class PostSerializer(serializers.ModelSerializer):
             return obj.user.photo_url
         except Exception:
             return None
+
+    def get_authorIsBot(self, obj):
+        try:
+            return obj.user.is_bot
+        except Exception:
+            return False
 
     def get_updatedAt(self, obj):
         return obj.edited_at if obj.edited_at else obj.created_at
@@ -109,6 +126,7 @@ class ReplySerializer(serializers.ModelSerializer):
     authorName = serializers.SerializerMethodField()
     authorPhotoUrl = serializers.SerializerMethodField()
     authorId = serializers.CharField(source='user_id', read_only=True)
+    authorIsBot = serializers.SerializerMethodField()
     postId = serializers.CharField(source='post_id', read_only=True)
     parentReplyId = serializers.CharField(source='parent_reply_id', read_only=True, allow_null=True)
     thumbsUpCount = serializers.IntegerField(source='thumbs_up_count', read_only=True)
@@ -122,7 +140,7 @@ class ReplySerializer(serializers.ModelSerializer):
         model = Reply
         fields = [
             'id', 'postId', 'parentReplyId', 'content',
-            'authorName', 'authorPhotoUrl', 'authorId',
+            'authorName', 'authorPhotoUrl', 'authorId', 'authorIsBot',
             'thumbsUpCount', 'childCount', 'createdAt', 'isEdited', 'editedAt', 'isThumbedUp'
         ]
 
@@ -137,6 +155,12 @@ class ReplySerializer(serializers.ModelSerializer):
             return obj.user.photo_url
         except Exception:
             return None
+
+    def get_authorIsBot(self, obj):
+        try:
+            return obj.user.is_bot
+        except Exception:
+            return False
 
     def get_isThumbedUp(self, obj):
         request = self.context.get('request')

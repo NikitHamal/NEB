@@ -115,6 +115,43 @@ def subject_icon(subject):
 
 
 @register.filter
+def resource_type_icon(rtype):
+    """Return a Material Symbol icon name for a resource type."""
+    icons = {
+        'pdf': 'picture_as_pdf',
+        'note': 'description',
+        'notes': 'description',
+        'video': 'play_circle',
+        'audio': 'headphones',
+        'image': 'image',
+        'link': 'link',
+        'textbook': 'menu_book',
+        'paper': 'article',
+        'past paper': 'article',
+        'model paper': 'article',
+        'presentation': 'slideshow',
+        'slides': 'slideshow',
+        'document': 'description',
+    }
+    return icons.get((rtype or '').lower().strip(), 'description')
+
+
+@register.filter
+def resource_media_type(rtype):
+    """Classify resource type into media category for rendering."""
+    t = (rtype or '').lower().strip()
+    if t in ('pdf',):
+        return 'pdf'
+    if t in ('video',):
+        return 'video'
+    if t in ('audio',):
+        return 'audio'
+    if t in ('image',):
+        return 'image'
+    return 'document'
+
+
+@register.filter
 def file_size_human(bytes_val):
     try:
         b = int(bytes_val)
@@ -234,6 +271,14 @@ def split(value, key):
     if not value:
         return []
     return [s.strip() for s in str(value).split(key) if s.strip()]
+
+
+@register.filter
+def dict_get(d, key):
+    """Get an item from a dict by key. Usage: {{ mydict|dict_get:key }}"""
+    if not isinstance(d, dict):
+        return None
+    return d.get(key)
 
 
 @register.filter

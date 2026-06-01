@@ -51,24 +51,64 @@
     gap: 2px;
   }
 
-  .notif-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    padding: 14px 16px;
-    border-radius: 16px;
-    cursor: pointer;
-    text-decoration: none;
-    color: inherit;
-    transition: background 0.15s;
-    position: relative;
-  }
+.notif-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  transition: background 0.15s;
+  position: relative;
+}
 
-  .notif-item:hover {
-    background: var(--md-surface-variant);
-    text-decoration: none;
-    color: inherit;
-  }
+.notif-item:hover {
+  background: var(--md-surface-variant);
+  text-decoration: none;
+  color: inherit;
+}
+
+.notif-avatar-link,
+.notif-actor-link,
+.notif-target-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.notif-avatar-link {
+  flex-shrink: 0;
+  display: block;
+  border-radius: 50%;
+  transition: opacity 0.15s;
+}
+
+.notif-avatar-link:hover {
+  opacity: 0.85;
+}
+
+.notif-actor-link {
+  font-weight: 600;
+  color: var(--md-on-surface);
+  transition: color 0.15s;
+}
+
+.notif-actor-link:hover {
+  color: var(--md-primary);
+  text-decoration: underline;
+}
+
+.notif-target-link {
+  display: inline;
+  color: var(--md-on-surface-variant);
+  transition: color 0.15s;
+}
+
+.notif-target-link:hover {
+  color: var(--md-primary);
+  text-decoration: underline;
+}
 
   .notif-item.unread {
     background: rgba(27, 110, 243, 0.06);
@@ -210,26 +250,54 @@
   <div class="notif-list" id="notifList">
     {% if notifications %}
       {% for n in notifications %}
-        <a class="notif-item {% if not n.isRead %}unread{% endif %}" href="{{ n.url }}" data-id="{{ n.id }}" data-read="{{ n.isRead|yesno:'true,false' }}">
+        <div class="notif-item {% if not n.isRead %}unread{% endif %}" data-id="{{ n.id }}" data-read="{{ n.isRead|yesno:'true,false' }}" data-url="{{ n.url }}">
           {% if n.verb == 'system' %}
             <div class="notif-icon-avatar">
               <span class="material-symbols-outlined">campaign</span>
             </div>
+            <div class="notif-body">
+              <div class="notif-text">{{ n.text|safe }}</div>
+              <div class="notif-time">{{ n.createdAt|time_ago }}</div>
+            </div>
           {% else %}
-            <div class="notif-avatar">
-              {% if n.actorPhotoUrl %}
-                <img src="{{ n.actorPhotoUrl }}" alt="{{ n.actorName }}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-                <span style="display:none;align-items:center;justify-content:center;width:100%;height:100%;">{{ n.actorName|first|upper }}</span>
-              {% else %}
-                {{ n.actorName|first|upper }}
-              {% endif %}
+            <a class="notif-avatar-link" href="{% url 'web:profile' username=n.actorName %}" title="View {{ n.actorName }}'s profile">
+              <div class="notif-avatar">
+                {% if n.actorPhotoUrl %}
+                  <img src="{{ n.actorPhotoUrl }}" alt="{{ n.actorName }}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                  <span style="display:none;align-items:center;justify-content:center;width:100%;height:100%;">{{ n.actorName|first|upper }}</span>
+                {% else %}
+                  {{ n.actorName|first|upper }}
+                {% endif %}
+              </div>
+            </a>
+            <div class="notif-body">
+              <div class="notif-text">
+                {% if n.verb == 'follow' %}
+                  <strong><a class="notif-actor-link" href="{% url 'web:profile' username=n.actorName %}">{{ n.actorName }}</a></strong> <span class="notif-verb">started following you</span>
+                {% else %}
+                  <strong><a class="notif-actor-link" href="{% url 'web:profile' username=n.actorName %}">{{ n.actorName }}</a></strong>{% if n.url and n.url != '#' %} <a class="notif-target-link" href="{{ n.url }}"><span class="notif-verb">
+                    {% if n.verb == 'like_post' %}liked your post
+                    {% elif n.verb == 'like_reply' %}liked your reply
+                    {% elif n.verb == 'reply' %}replied to your post
+                    {% elif n.verb == 'reply_reply' %}replied to your comment
+                    {% elif n.verb == 'mention' %}mentioned you
+                    {% else %}{{ n.verb }}
+                    {% endif %}
+                  </span></a>{% else %} <span class="notif-verb">
+                    {% if n.verb == 'like_post' %}liked your post
+                    {% elif n.verb == 'like_reply' %}liked your reply
+                    {% elif n.verb == 'reply' %}replied to your post
+                    {% elif n.verb == 'reply_reply' %}replied to your comment
+                    {% elif n.verb == 'mention' %}mentioned you
+                    {% else %}{{ n.verb }}
+                    {% endif %}
+                  </span>{% endif %}
+                {% endif %}
+              </div>
+              <div class="notif-time">{{ n.createdAt|time_ago }}</div>
             </div>
           {% endif %}
-          <div class="notif-body">
-            <div class="notif-text">{{ n.text|safe }}</div>
-            <div class="notif-time">{{ n.createdAt|time_ago }}</div>
-          </div>
-        </a>
+        </div>
       {% endfor %}
     {% else %}
       <div class="notif-empty">
@@ -307,14 +375,18 @@
     return Math.floor(months / 12) + 'y ago';
   }
 
-  // Transform server-side notifications to add URL and text
+  // Click handlers — make row clickable to go to target URL (post/comment),
+  // but allow inner links (avatar, username) to navigate to profile.
   document.querySelectorAll('.notif-item').forEach(el => {
     const id = el.dataset.id;
     const read = el.dataset.read === 'true';
-    // Already rendered server-side, just make clickable
+    const targetUrl = el.dataset.url;
     el.addEventListener('click', function(e) {
-      if (!read) {
-        markRead(id);
+      // If click is on an inner link, let the link navigate naturally
+      if (e.target.closest('a')) return;
+      if (!read) markRead(id);
+      if (targetUrl && targetUrl !== '#') {
+        window.location.href = targetUrl;
       }
     });
   });

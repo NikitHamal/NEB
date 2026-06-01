@@ -75,7 +75,7 @@
       <div class="admin-badge-section">
         <h3 class="md-title-medium" style="margin-bottom:12px;">Badges & Roles</h3>
 
-        <div class="form-group" style="display:flex;align-items:center;gap:12px;">
+<div class="form-group" style="display:flex;align-items:center;gap:12px;">
           <label class="md-switch">
             <input type="checkbox" name="is_admin" id="is_admin" {% if user_detail.is_admin %}checked{% endif %}>
             <span class="slider"></span>
@@ -83,9 +83,25 @@
           <div>
             <label for="is_admin" class="md-label" style="margin-bottom:0;">Admin</label>
             <div class="md-body-small" style="color:var(--md-on-surface-variant);">
-              <span class="material-symbols-outlined" style="font-size:14px;color:#F59E0B;vertical-align:middle;">crown</span>
+              <span class="material-symbols-outlined" style="font-size:14px;color:#F59E8B;vertical-align:middle;">crown</span>
               Gold crown badge
             </div>
+          </div>
+        </div>
+
+        <div class="form-group" style="display:flex;align-items:center;gap:12px;">
+          <label class="md-switch">
+            <input type="checkbox" name="is_bot" id="is_bot" {% if user_detail.is_bot %}checked{% endif %}>
+            <span class="slider"></span>
+          </label>
+          <div>
+            <label for="is_bot" class="md-label" style="margin-bottom:0;">AI Bot</label>
+            <div class="md-body-small" style="color:var(--md-on-surface-variant);">
+              <span class="material-symbols-outlined" style="font-size:14px;color:#7C4DFF;vertical-align:middle;">smart_toy</span>
+              Purple AI badge — marks this user as an AI assistant
+            </div>
+          </div>
+        </div>
           </div>
         </div>
 
@@ -167,6 +183,11 @@
           <span class="material-symbols-outlined">crown</span> Admin
         </span>
         {% endif %}
+        {% if user_detail.is_bot %}
+        <span class="badge-preview badge-bot">
+          <span class="material-symbols-outlined">smart_toy</span> AI
+        </span>
+        {% endif %}
         {% if user_detail.moderator_level and user_detail.moderator_level > 0 %}
           {% if user_detail.moderator_level == 1 %}
           <span class="badge-preview badge-mod-1">
@@ -245,6 +266,7 @@
   }
   .badge-preview .material-symbols-outlined { font-size: 16px; }
   .badge-admin { background: rgba(245,158,11,0.15); color: #D97706; }
+  .badge-bot { background: rgba(124,77,255,0.15); color: #7C4DFF; }
   .badge-mod-1 { background: rgba(27,154,240,0.12); color: #1B9AF0; }
   .badge-mod-2 { background: rgba(0,137,123,0.12); color: #00897B; }
   .badge-mod-3 { background: rgba(123,31,162,0.12); color: #7B1FA2; }

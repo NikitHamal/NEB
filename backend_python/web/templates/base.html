@@ -120,10 +120,12 @@
 
   <!-- Footer -->
   <footer class="site-footer">
+    {% if not hide_footer_links %}
     <div class="site-footer-links">
       <a href="{% url 'web:privacy_policy' %}">Privacy Policy</a>
       <a href="{% url 'web:terms_of_service' %}">Terms of Service</a>
     </div>
+    {% endif %}
     <p>&copy; 2026 NEBians. All rights reserved.</p>
   </footer>
 
