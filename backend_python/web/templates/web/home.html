@@ -308,7 +308,7 @@
             </div>
           </div>
           <h3><a href="{% url 'web:forum_post' post_id=post.id %}">{{ post.title }}</a></h3>
-          <div class="post-card-content">{{ post.content|truncatewords:50 }}</div>
+          <div class="post-card-content">{{ post.content|render_content }}</div>
           <div class="post-card-actions">
             <button type="button" onclick="toggleHomePostLike('{{ post.id }}', this);" class="{% if post.isThumbedUp %}liked{% endif %}" id="home-post-like-btn-{{ post.id }}">
               <span class="material-symbols-outlined">thumb_up</span>

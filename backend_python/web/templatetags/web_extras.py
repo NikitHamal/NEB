@@ -175,6 +175,37 @@ def mention_links(value, usernames=None):
 
 
 @register.filter
+def render_content(value):
+    """Render markdown formatting (bold, italic, line breaks) for post card previews. Truncates to ~50 words."""
+    if not value:
+        return mark_safe('')
+    import re
+    s = str(value)
+    # Escape HTML first
+    s = s.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;').replace("'", '&#x27;')
+    # Apply markdown formatting
+    s = re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', s)
+    s = re.sub(r'(?<!\w)__(.+?)__(?!\w)', r'<strong>\1</strong>', s)
+    s = re.sub(r'(?<!\w)\*(.+?)\*(?!\w)', r'<em>\1</em>', s)
+    s = re.sub(r'(?<!\w)_(.+?)_(?!\w)', r'<em>\1</em>', s)
+    s = s.replace('\n', '<br>')
+    # Truncate: get plain text, count words, rebuild if needed
+    plain = re.sub(r'<[^>]+>', '', s).replace('&amp;', '&').replace('&lt;', '<').replace('&gt;', '>').replace('&quot;', '"').replace('&#x27;', "'").replace('&hellip;', '...')
+    words = plain.split()
+    if len(words) > 50:
+        truncated_plain = ' '.join(words[:50])
+        # Re-escape and re-render the truncated plain text
+        t = truncated_plain.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;').replace("'", '&#x27;')
+        t = re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', t)
+        t = re.sub(r'(?<!\w)__(.+?)__(?!\w)', r'<strong>\1</strong>', t)
+        t = re.sub(r'(?<!\w)\*(.+?)\*(?!\w)', r'<em>\1</em>', t)
+        t = re.sub(r'(?<!\w)_(.+?)_(?!\w)', r'<em>\1</em>', t)
+        t = t.replace('\n', '<br>')
+        return mark_safe(t + '&hellip;')
+    return mark_safe(s)
+
+
+@register.filter
 def split(value, key):
     if not value:
         return []

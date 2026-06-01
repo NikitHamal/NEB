@@ -62,12 +62,12 @@
               {% else %}
                 <span>{{ user.username|first|upper }}</span>
               {% endif %}
-              {% if unread_notifications > 0 %}
-                <span class="notif-dot" id="profile-notif-dot"></span>
-              {% else %}
-                <span class="notif-dot" id="profile-notif-dot" style="display:none;"></span>
-              {% endif %}
             </span>
+            {% if unread_notifications > 0 %}
+              <span class="notif-dot" id="profile-notif-dot"></span>
+            {% else %}
+              <span class="notif-dot" id="profile-notif-dot" style="display:none;"></span>
+            {% endif %}
           </button>
           <div class="profile-dropdown-menu" id="profileMenu">
             <div class="profile-dropdown-header">
