@@ -731,12 +731,34 @@ def profile(request, username):
     is_self = bool(user_id and user_id == profile_user.id)
     profile_private = bool(profile_user.is_locked and not is_self)
 
+    badge_info = _user_badge_info(profile_user)
+
+    banner_type = ''
+    banner_deco_text = 'nebian'
+    banner_text_color = ''
+    if not profile_user.banner_url:
+        if profile_user.is_admin:
+            banner_type = 'gradient-admin'
+            banner_deco_text = 'admin'
+            banner_text_color = 'rgba(255,255,255,0.25)'
+        elif profile_user.moderator_level and profile_user.moderator_level > 0:
+            banner_type = 'gradient-moderator'
+            banner_deco_text = 'moderator'
+            banner_text_color = 'rgba(255,255,255,0.22)'
+        elif profile_user.verification_level and profile_user.verification_level > 0:
+            banner_type = 'gradient-verified'
+            banner_deco_text = 'nebian'
+            banner_text_color = 'rgba(255,255,255,0.20)'
+
     profile_data = {
         'id': profile_user.id,
         'username': profile_user.username,
         'email': profile_user.email,
         'photo_url': profile_user.photo_url,
         'banner_url': profile_user.banner_url,
+        'banner_type': banner_type,
+        'banner_deco_text': banner_deco_text,
+        'banner_text_color': banner_text_color,
         'display_name': profile_user.display_name,
         'dob': profile_user.dob,
         'gender': profile_user.gender,
@@ -753,7 +775,7 @@ def profile(request, username):
         'moderator_level': profile_user.moderator_level,
         'is_admin': profile_user.is_admin,
         'achievement_badges': profile_user.achievement_badges,
-        'badge_info': _user_badge_info(profile_user),
+        'badge_info': badge_info,
         'achievement_info': _user_achievement_badges(profile_user),
     }
 

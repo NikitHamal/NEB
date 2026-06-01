@@ -430,9 +430,7 @@
               </div>
               <div class="pf-banner-shine-overlay"></div>
               <span class="pf-banner-deco-text"
-                {% if profile_user.banner_deco_text %}data-banner-text="{{ profile_user.banner_deco_text }}"{% endif %}
                 {% if profile_user.banner_text_color %}data-banner-text-color="{{ profile_user.banner_text_color }}"{% endif %}
-                {% if profile_user.banner_text_size %}data-banner-text-size="{{ profile_user.banner_text_size }}"{% endif %}
               >{{ profile_user.banner_deco_text|default:"nebian" }}</span>
             {% endif %}
             <a href="javascript:history.back()" class="profile-banner-back-btn" title="Go Back">
@@ -452,11 +450,6 @@
             {% if user and user.username == profile_user.username %}
               <div class="pf-avatar-cam" onclick="openPhotoHistoryModal()" title="Change photo">
                 <span class="material-symbols-outlined">camera_alt</span>
-              </div>
-            {% endif %}
-            {% if profile_user.verification_level > 0 %}
-              <div class="pf-verified-badge" title="{{ badge_info.label }}">
-                <span class="material-symbols-outlined">verified</span>
               </div>
             {% endif %}
           </div>
@@ -502,7 +495,7 @@
                 NEBians Member
               {% endif %}
               {% if profile_user.subjects %}
-                | {{ profile_user.subjects }}
+                | {{ profile_user.subjects|comma_space }}
               {% endif %}
             </p>
 
@@ -566,7 +559,7 @@
                 {% else %}
                   {% if profile_user.display_name %}{{ profile_user.display_name }}{% else %}A NEBians member{% endif %}
                   {% if profile_user.school %} studying at <strong>{{ profile_user.school }}</strong>{% endif %}.
-                  {% if profile_user.subjects %}Focusing on <strong>{{ profile_user.subjects }}</strong>.{% endif %}
+                  {% if profile_user.subjects %}Focusing on <strong>{{ profile_user.subjects|comma_space }}</strong>.{% endif %}
                 {% endif %}
               </p>
             </div>
@@ -755,7 +748,7 @@
               <div class="about-detail-row">
                 <span class="material-symbols-outlined">menu_book</span>
                 <span class="about-detail-label">Subjects</span>
-                <span class="about-detail-value">{{ profile_user.subjects }}</span>
+                <span class="about-detail-value">{{ profile_user.subjects|comma_space }}</span>
               </div>
               {% endif %}
               {% if profile_user.school %}
