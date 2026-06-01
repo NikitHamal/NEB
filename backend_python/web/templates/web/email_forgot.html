@@ -11,8 +11,8 @@
         <path d="M8 8h3v16H8V8zm5 0h3v16h-3V8zm5 0v16l8-8-8-8z" fill="var(--md-on-primary)"/>
       </svg>
     </div>
-    <h1 class="md-headline-small">Reset Password</h1>
-    <p class="md-body-medium">Enter your email to receive a verification code.</p>
+    <h1 id="forgot-title" class="md-headline-small">Reset Password</h1>
+    <p id="forgot-subtitle" class="md-body-medium">Enter your email to receive a verification code.</p>
 
     <div style="margin-top:20px;">
       <div class="md-text-field-wrapper">
@@ -24,16 +24,24 @@
     </div>
 
     <div id="reset-section" style="display:none;margin-top:20px;">
+      <p id="reset-instruction" style="font-size:0.875rem;color:var(--md-on-surface-variant);margin-bottom:12px;">Enter the code and your new password.</p>
       <div class="md-text-field-wrapper">
         <input type="text" id="reset-code" class="md-text-field" placeholder=" " required maxlength="6" inputmode="numeric">
         <label class="md-text-field-label">6-digit Code</label>
       </div>
       <div class="md-text-field-wrapper" style="margin-top:12px;">
         <input type="password" id="reset-password" class="md-text-field" placeholder=" " required minlength="8">
-        <label class="md-text-field-label">New Password</label>
+        <label id="reset-password-label" class="md-text-field-label">New Password</label>
+      </div>
+      <div class="md-text-field-wrapper" style="margin-top:12px;">
+        <input type="password" id="reset-confirm-password" class="md-text-field" placeholder=" " required minlength="8">
+        <label class="md-text-field-label">Confirm Password</label>
       </div>
       <p id="reset-error" style="color:var(--md-error);font-size:0.8125rem;min-height:1.2em;margin:4px 0;"></p>
-      <button onclick="handleReset()" class="md-btn md-btn-filled" style="width:100%;margin-top:8px;">Reset Password</button>
+      <button onclick="handleReset()" id="reset-submit-btn" class="md-btn md-btn-filled" style="width:100%;margin-top:8px;">Reset Password</button>
+      <div style="margin-top:8px;text-align:center;">
+        <button onclick="handleForgotResend()" id="forgot-resend-btn" class="md-btn md-btn-text" style="display:none;">Resend Code</button>
+      </div>
     </div>
 
     <div style="text-align:center;margin-top:16px;">
@@ -44,6 +52,8 @@
 
 {% block extra_js %}
 <script>
+var _needsSetPassword = false;
+
 async function handleForgot() {
   const email = document.getElementById('forgot-email').value.trim();
   const errorEl = document.getElementById('forgot-error');
@@ -53,17 +63,40 @@ async function handleForgot() {
   btn.textContent = 'Sending...';
 
   try {
-    await fetch('/api/auth/email/forgot/', {
+    const res = await fetch('/api/auth/email/forgot/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email })
     });
-    document.getElementById('reset-section').style.display = 'block';
-    btn.textContent = 'Code Sent!';
+    const data = await res.json();
+    if (data.status === 'success' || !data.error) {
+      _needsSetPassword = !!data.needsSetPassword;
+      if (_needsSetPassword) {
+        document.getElementById('forgot-title').textContent = 'Set Password';
+        document.getElementById('forgot-subtitle').textContent = 'This account uses Google sign-in. Set a password to also sign in with email.';
+        document.getElementById('reset-password-label').textContent = 'New Password';
+        document.getElementById('reset-instruction').textContent = 'Enter the code and choose a password.';
+        document.getElementById('reset-submit-btn').textContent = 'Set Password';
+      } else {
+        document.getElementById('forgot-title').textContent = 'Reset Password';
+        document.getElementById('forgot-subtitle').textContent = 'Enter your email to receive a verification code.';
+        document.getElementById('reset-password-label').textContent = 'New Password';
+        document.getElementById('reset-instruction').textContent = 'Enter the code and your new password.';
+        document.getElementById('reset-submit-btn').textContent = 'Reset Password';
+      }
+      document.getElementById('reset-section').style.display = 'block';
+      document.getElementById('forgot-resend-btn').style.display = '';
+      btn.textContent = 'Code Sent!';
+      btn.disabled = true;
+    } else {
+      errorEl.textContent = data.error || 'Failed to send code';
+      btn.textContent = 'Send Code';
+      btn.disabled = false;
+    }
   } catch (e) {
     errorEl.textContent = 'Network error. Please try again.';
-    btn.disabled = false;
     btn.textContent = 'Send Code';
+    btn.disabled = false;
   }
 }
 
@@ -71,14 +104,72 @@ async function handleReset() {
   const email = document.getElementById('forgot-email').value.trim();
   const code = document.getElementById('reset-code').value.trim();
   const newPassword = document.getElementById('reset-password').value;
+  const confirmPassword = document.getElementById('reset-confirm-password').value;
   const errorEl = document.getElementById('reset-error');
   errorEl.textContent = '';
+
+  if (newPassword !== confirmPassword) {
+    errorEl.textContent = 'Passwords do not match';
+    return;
+  }
 
   try {
     const res = await fetch('/api/auth/email/reset-password/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, code, newPassword })
+      body: JSON.stringify({ email, code, newPassword, confirmPassword })
+    });
+    const data = await res.json();
+    if (data.status === 'success' && data.authToken) {
+      const sessionRes = await fetch('{% url "web:google_auth" %}', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
+        body: JSON.stringify({ emailAuthToken: data.authToken, emailUser: data.user })
+      });
+      window.location.href = '{% url "web:home" %}';
+    } else {
+      errorEl.textContent = data.error || 'Reset failed';
+    }
+  } catch (e) {
+    errorEl.textContent = 'Network error. Please try again.';
+  }
+}
+
+function handleForgotResend() {
+  const email = document.getElementById('forgot-email').value.trim();
+  const btn = document.getElementById('forgot-resend-btn');
+  btn.disabled = true;
+  btn.textContent = 'Sending...';
+  fetch('/api/auth/email/forgot/', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email })
+  }).then(function(res) { return res.json(); }).then(function(data) {
+    if (data.status === 'success' || !data.error) {
+      var seconds = 60;
+      btn.textContent = 'Resend in ' + seconds + 's';
+      var timer = setInterval(function() {
+        seconds--;
+        if (seconds <= 0) {
+          clearInterval(timer);
+          btn.textContent = 'Resend Code';
+          btn.disabled = false;
+        } else {
+          btn.textContent = 'Resend in ' + seconds + 's';
+        }
+      }, 1000);
+    } else {
+      btn.textContent = 'Resend Code';
+      btn.disabled = false;
+    }
+  }).catch(function() { btn.textContent = 'Resend Code'; btn.disabled = false; });
+}
+
+  try {
+    const res = await fetch('/api/auth/email/reset-password/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, code, newPassword, confirmPassword })
     });
     const data = await res.json();
     if (data.status === 'success' && data.authToken) {
