@@ -3,6 +3,20 @@
 {% block title %}New Discussion{% endblock %}
 {% block nav_forum %}md-nav-active{% endblock %}
 
+{% block extra_css %}
+<style>
+.fp-mention-dropdown{position:absolute;z-index:960;width:240px;max-height:200px;overflow-y:auto;background:var(--md-surface-container-lowest,#fff);border:1px solid var(--md-outline-variant);border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.12);display:none;padding:4px}
+.fp-mention-dropdown.open{display:block}
+.fp-mention-item{display:flex;align-items:center;gap:8px;padding:8px;border-radius:6px;cursor:pointer;transition:background .1s}
+.fp-mention-item:hover,.fp-mention-item.selected{background:var(--md-surface-container-high)}
+.fp-mention-item-avatar{width:28px;height:28px;border-radius:50%;overflow:hidden;background:var(--md-primary);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.fp-mention-item-avatar img{width:100%;height:100%;object-fit:cover}
+.fp-mention-item-letter{font-size:.7rem;font-weight:700;color:var(--md-on-primary)}
+.fp-mention-item-name{font-size:.8125rem;font-weight:500;color:var(--md-on-surface);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fp-mention-item-username{font-size:.6875rem;color:var(--md-on-surface-variant)}
+</style>
+{% endblock %}
+
 {% block content %}
 <div class="md-container-narrow" style="padding-top:24px;">
   <a href="{% url 'web:forum' %}" class="md-btn md-btn-text mb-2" style="padding-left:0;">
@@ -32,7 +46,7 @@
 
       <div class="form-group">
         <label class="md-label" for="content">Content</label>
-        <textarea id="content" name="content" class="md-textarea" placeholder="Share your thoughts..." rows="6" required></textarea>
+        <textarea id="content" name="content" class="md-textarea" placeholder="Share your thoughts... Use @username to mention someone." rows="6" required></textarea>
       </div>
 
       <div class="form-actions">
@@ -45,4 +59,125 @@
     </form>
   </div>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+(function() {
+  var textarea = document.getElementById('content');
+  if (!textarea) return;
+
+  var mentionDropdown = null;
+  var mentionItems = [];
+  var mentionSelectedIndex = -1;
+
+  function escapeHtml(s) {
+    var d = document.createElement('div');
+    d.textContent = s;
+    return d.innerHTML;
+  }
+
+  textarea.addEventListener('input', function(e) {
+    var val = e.target.value;
+    var pos = e.target.selectionStart;
+    var textBefore = val.substring(0, pos);
+    var atMatch = textBefore.match(/@(\w{2,})$/);
+    if (!atMatch) { closeDropdown(); return; }
+    var query = atMatch[1];
+    fetch('/ajax/user-search/?q=' + encodeURIComponent(query))
+      .then(function(r) { return r.json(); })
+      .then(function(users) {
+        if (!users.length) { closeDropdown(); return; }
+        showDropdown(users);
+      })
+      .catch(function() { closeDropdown(); });
+  });
+
+  textarea.addEventListener('keydown', function(e) {
+    if (!mentionDropdown || !mentionDropdown.classList.contains('open')) return;
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      mentionSelectedIndex = Math.min(mentionSelectedIndex + 1, mentionItems.length - 1);
+      highlightItem();
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      mentionSelectedIndex = Math.max(mentionSelectedIndex - 1, 0);
+      highlightItem();
+    } else if (e.key === 'Enter' || e.key === 'Tab') {
+      e.preventDefault();
+      selectItem(mentionSelectedIndex);
+    } else if (e.key === 'Escape') {
+      e.preventDefault();
+      closeDropdown();
+    }
+  });
+
+  textarea.addEventListener('blur', function() {
+    setTimeout(closeDropdown, 200);
+  });
+
+  function showDropdown(users) {
+    if (!mentionDropdown) {
+      mentionDropdown = document.createElement('div');
+      mentionDropdown.className = 'fp-mention-dropdown';
+      document.body.appendChild(mentionDropdown);
+    }
+    mentionItems = users;
+    mentionSelectedIndex = 0;
+    var html = '';
+    users.forEach(function(u, i) {
+      var avatarHtml = u.photoUrl
+        ? '<img src="' + escapeHtml(u.photoUrl) + '" alt="" onerror="this.style.display=\'none\'; this.nextElementSibling.style.display=\'flex\';"><span class="fp-mention-item-letter" style="display:none;">' + escapeHtml(u.displayName.charAt(0)) + '</span>'
+        : '<span class="fp-mention-item-letter">' + escapeHtml(u.displayName.charAt(0)) + '</span>';
+      html += '<div class="fp-mention-item' + (i === 0 ? ' selected' : '') + '" data-index="' + i + '" onmousedown="window.__selectCreateMention(' + i + ')" onmouseover="window.__hoverCreateMention(' + i + ')">';
+      html += '<div class="fp-mention-item-avatar">' + avatarHtml + '</div>';
+      html += '<div><div class="fp-mention-item-name">' + escapeHtml(u.displayName) + '</div>';
+      html += '<div class="fp-mention-item-username">@' + escapeHtml(u.username) + '</div></div>';
+      html += '</div>';
+    });
+    mentionDropdown.innerHTML = html;
+    mentionDropdown.classList.add('open');
+    var rect = textarea.getBoundingClientRect();
+    var dh = mentionDropdown.scrollHeight || 200;
+    mentionDropdown.style.top = (rect.top + window.scrollY - dh - 4) + 'px';
+    mentionDropdown.style.left = (rect.left + window.scrollX) + 'px';
+    mentionDropdown.style.width = Math.min(280, rect.width) + 'px';
+  }
+
+  function highlightItem() {
+    if (!mentionDropdown) return;
+    var items = mentionDropdown.querySelectorAll('.fp-mention-item');
+    items.forEach(function(item, i) {
+      item.classList.toggle('selected', i === mentionSelectedIndex);
+    });
+  }
+
+  function selectItem(index) {
+    if (!mentionDropdown || !mentionItems[index]) return;
+    var username = mentionItems[index].username;
+    var val = textarea.value;
+    var pos = textarea.selectionStart;
+    var textBefore = val.substring(0, pos);
+    var atMatch = textBefore.match(/@(\w*)$/);
+    if (!atMatch) { closeDropdown(); return; }
+    var atStart = pos - atMatch[0].length;
+    textarea.value = val.substring(0, atStart) + '@' + username + ' ' + val.substring(pos);
+    var newPos = atStart + username.length + 2;
+    textarea.setSelectionRange(newPos, newPos);
+    textarea.focus();
+    closeDropdown();
+  }
+
+  function closeDropdown() {
+    if (mentionDropdown) {
+      mentionDropdown.classList.remove('open');
+      mentionItems = [];
+      mentionSelectedIndex = -1;
+    }
+  }
+
+  window.__selectCreateMention = selectItem;
+  window.__hoverCreateMention = function(i) { mentionSelectedIndex = i; highlightItem(); };
+})();
+</script>
 {% endblock %}

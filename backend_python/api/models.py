@@ -451,7 +451,7 @@ class BotConfig(models.Model):
     id = models.PositiveIntegerField(primary_key=True, default=1)
     enabled = models.BooleanField(default=False)
     bot_username = models.CharField(max_length=50, default='neby')
-    api_url = models.TextField(default='https://astroweb-ai-proxy.astroweb3.workers.dev/v1/qwen/chat')
+    api_url = models.TextField(default='https://chat.qwen.ai/api/v2')
     api_key = models.TextField(blank=True, default='')
     model = models.CharField(max_length=100, default='qwen3.6-plus')
     system_prompt = models.TextField(

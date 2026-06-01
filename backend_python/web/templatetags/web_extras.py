@@ -227,26 +227,24 @@ def mention_links(value, usernames=None):
 
 @register.filter
 def render_content(value):
-    """Render markdown formatting (bold, italic, line breaks) for post card previews. Truncates to ~50 words."""
+    """Render markdown formatting and @mention links for post card previews. Truncates to ~50 words."""
     if not value:
         return mark_safe('')
     import re
     s = str(value)
-    # Escape HTML first
     s = s.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;').replace("'", '&#x27;')
-    # Apply markdown formatting
+    s = re.sub(r'@(\w+)', r'<a href="/profile/\1/" class="fp-mention">@\1</a>', s)
     s = re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', s)
     s = re.sub(r'(?<!\w)__(.+?)__(?!\w)', r'<strong>\1</strong>', s)
     s = re.sub(r'(?<!\w)\*(.+?)\*(?!\w)', r'<em>\1</em>', s)
     s = re.sub(r'(?<!\w)_(.+?)_(?!\w)', r'<em>\1</em>', s)
     s = s.replace('\n', '<br>')
-    # Truncate: get plain text, count words, rebuild if needed
     plain = re.sub(r'<[^>]+>', '', s).replace('&amp;', '&').replace('&lt;', '<').replace('&gt;', '>').replace('&quot;', '"').replace('&#x27;', "'").replace('&hellip;', '...')
     words = plain.split()
     if len(words) > 50:
         truncated_plain = ' '.join(words[:50])
-        # Re-escape and re-render the truncated plain text
         t = truncated_plain.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;').replace("'", '&#x27;')
+        t = re.sub(r'@(\w+)', r'<a href="/profile/\1/" class="fp-mention">@\1</a>', t)
         t = re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', t)
         t = re.sub(r'(?<!\w)__(.+?)__(?!\w)', r'<strong>\1</strong>', t)
         t = re.sub(r'(?<!\w)\*(.+?)\*(?!\w)', r'<em>\1</em>', t)
