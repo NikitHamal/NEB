@@ -1,0 +1,146 @@
+from django.db import migrations, models
+import django.db.models.deletion
+
+
+class Migration(migrations.Migration):
+
+    dependencies = [
+        ('api', '0019_merge_20260602_0155'),
+    ]
+
+    operations = [
+        # ResourceComment table — no FK constraints due to charset mismatch
+        # (users table is latin1_swedish_ci, resources is utf8mb4_unicode_ci)
+        migrations.RunSQL(
+            sql="""
+                CREATE TABLE `resource_comments` (
+                    `id` varchar(36) NOT NULL PRIMARY KEY,
+                    `content` longtext NOT NULL,
+                    `like_count` integer unsigned NOT NULL DEFAULT 0,
+                    `reply_count` integer unsigned NOT NULL DEFAULT 0,
+                    `is_edited` tinyint(1) NOT NULL DEFAULT 0,
+                    `edited_at` bigint NOT NULL DEFAULT 0,
+                    `created_at` bigint NOT NULL,
+                    `resource_id` varchar(36) NOT NULL,
+                    `user_id` varchar(255) NOT NULL,
+                    `parent_comment_id` varchar(36) NULL,
+                    INDEX `resource_comment_res_idx` (`resource_id`, `created_at`),
+                    INDEX `resource_comment_parent_idx` (`parent_comment_id`, `created_at`)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+            """,
+            reverse_sql="DROP TABLE IF EXISTS `resource_comments`",
+            state_operations=[
+                migrations.CreateModel(
+                    name='ResourceComment',
+                    fields=[
+                        ('id', models.CharField(max_length=36, primary_key=True, serialize=False)),
+                        ('content', models.TextField()),
+                        ('like_count', models.PositiveIntegerField(default=0)),
+                        ('reply_count', models.PositiveIntegerField(default=0)),
+                        ('is_edited', models.BooleanField(default=False)),
+                        ('edited_at', models.BigIntegerField(default=0)),
+                        ('created_at', models.BigIntegerField()),
+                        ('resource', models.ForeignKey(
+                            on_delete=django.db.models.deletion.CASCADE,
+                            related_name='comments',
+                            to='api.resource',
+                        )),
+                        ('user', models.ForeignKey(
+                            on_delete=django.db.models.deletion.CASCADE,
+                            related_name='resource_comments',
+                            to='api.user',
+                        )),
+                        ('parent_comment', models.ForeignKey(
+                            blank=True,
+                            null=True,
+                            on_delete=django.db.models.deletion.CASCADE,
+                            related_name='children',
+                            to='api.resourcecomment',
+                        )),
+                    ],
+                    options={
+                        'db_table': 'resource_comments',
+                        'ordering': ['created_at'],
+                    },
+                ),
+                migrations.AddIndex(
+                    model_name='resourcecomment',
+                    index=models.Index(fields=['resource_id', 'created_at'], name='resource_comment_res_idx'),
+                ),
+                migrations.AddIndex(
+                    model_name='resourcecomment',
+                    index=models.Index(fields=['parent_comment_id', 'created_at'], name='resource_comment_parent_idx'),
+                ),
+            ],
+        ),
+
+        # ResourceLike table — no FK constraints due to charset mismatch
+        migrations.RunSQL(
+            sql="""
+                CREATE TABLE `resource_likes` (
+                    `id` integer AUTO_INCREMENT NOT NULL PRIMARY KEY,
+                    `resource_id` varchar(36) NOT NULL,
+                    `user_id` varchar(255) NOT NULL,
+                    UNIQUE (`resource_id`, `user_id`)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+            """,
+            reverse_sql="DROP TABLE IF EXISTS `resource_likes`",
+            state_operations=[
+                migrations.CreateModel(
+                    name='ResourceLike',
+                    fields=[
+                        ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                        ('resource', models.ForeignKey(
+                            on_delete=django.db.models.deletion.CASCADE,
+                            related_name='likes',
+                            to='api.resource',
+                        )),
+                        ('user', models.ForeignKey(
+                            on_delete=django.db.models.deletion.CASCADE,
+                            related_name='resource_likes',
+                            to='api.user',
+                        )),
+                    ],
+                    options={
+                        'db_table': 'resource_likes',
+                        'unique_together': {('resource', 'user')},
+                    },
+                ),
+            ],
+        ),
+
+        # ResourceCommentLike table — no FK constraints due to charset mismatch
+        migrations.RunSQL(
+            sql="""
+                CREATE TABLE `resource_comment_likes` (
+                    `id` integer AUTO_INCREMENT NOT NULL PRIMARY KEY,
+                    `comment_id` varchar(36) NOT NULL,
+                    `user_id` varchar(255) NOT NULL,
+                    UNIQUE (`comment_id`, `user_id`)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+            """,
+            reverse_sql="DROP TABLE IF EXISTS `resource_comment_likes`",
+            state_operations=[
+                migrations.CreateModel(
+                    name='ResourceCommentLike',
+                    fields=[
+                        ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                        ('comment', models.ForeignKey(
+                            on_delete=django.db.models.deletion.CASCADE,
+                            related_name='likes',
+                            to='api.resourcecomment',
+                        )),
+                        ('user', models.ForeignKey(
+                            on_delete=django.db.models.deletion.CASCADE,
+                            related_name='resource_comment_likes',
+                            to='api.user',
+                        )),
+                    ],
+                    options={
+                        'db_table': 'resource_comment_likes',
+                        'unique_together': {('comment', 'user')},
+                    },
+                ),
+            ],
+        ),
+    ]
