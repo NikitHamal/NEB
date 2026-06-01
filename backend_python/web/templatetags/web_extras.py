@@ -54,6 +54,20 @@ def time_ago(value):
 
 
 @register.filter
+def join_date(value):
+    """Format a millisecond Unix timestamp as 'Month YYYY' (e.g. 'January 2025').
+    Returns empty string when value is 0/None/invalid."""
+    try:
+        ts = int(value)
+        if ts <= 0:
+            return ''
+        dt = datetime.fromtimestamp(ts / 1000, tz=timezone.utc)
+        return dt.strftime('%B %Y')
+    except (ValueError, TypeError, OSError):
+        return ''
+
+
+@register.filter
 def subject_color(subject):
     colors = {
         'physics': '#1B6EF3',
