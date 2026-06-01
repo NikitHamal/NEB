@@ -220,6 +220,16 @@ def render_content(value):
 
 
 @register.filter
+def comma_space(value):
+    """Add a space after commas if missing. e.g. 'a,b,c' -> 'a, b, c'"""
+    if not value:
+        return ''
+    s = str(value)
+    import re
+    return re.sub(r'\s*,\s*', ', ', s).strip()
+
+
+@register.filter
 def split(value, key):
     if not value:
         return []
