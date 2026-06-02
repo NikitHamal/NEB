@@ -39,7 +39,7 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="nebians" android:host="github-callback" />
+                <data android:scheme="nebians" android:host="auth-callback" />
             </intent-filter>
         </activity>
 

@@ -10,6 +10,7 @@ plugins {
 android {
     namespace = "com.neb.ians"
     compileSdk = 34
+    buildToolsVersion = "34.0.0"
 
     defaultConfig {
         applicationId = "com.neb.ians"
@@ -104,7 +105,6 @@ dependencies {
 
     // Material 3
     implementation("androidx.compose.material3:material3")
-    implementation("androidx.compose.material:material-icons-extended")
 
     // Activity Compose
     implementation("androidx.activity:activity-compose:1.8.2")
@@ -153,11 +153,6 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-kotlinx-serialization:2.11.0")
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
-
-    // Credential Manager for Google Sign-In
-    implementation("androidx.credentials:credentials:1.2.2")
-    implementation("androidx.credentials:credentials-play-services-auth:1.2.2")
-    implementation("com.google.android.libraries.identity.googleid:googleid:1.1.1")
 
     // Firebase BoM and FCM
     implementation(platform("com.google.firebase:firebase-bom:33.1.0"))

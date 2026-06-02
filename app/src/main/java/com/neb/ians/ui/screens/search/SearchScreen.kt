@@ -12,14 +12,10 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowBack
-import androidx.compose.material.icons.outlined.Article
-import androidx.compose.material.icons.outlined.AutoStories
 import androidx.compose.material.icons.outlined.Clear
-import androidx.compose.material.icons.outlined.Description
-
-import androidx.compose.material.icons.outlined.MenuBook
-import androidx.compose.material.icons.outlined.School
 import androidx.compose.material.icons.outlined.Search
+import androidx.compose.ui.res.painterResource
+import com.neb.ians.R
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -55,16 +51,16 @@ private fun getSubjectColor(subject: String): Color {
     return subjectColors[subject] ?: Color(0xFF565F71)
 }
 
-private fun getSubjectIcon(subject: String): ImageVector {
+private fun getSubjectIcon(subject: String): Int {
     return when (subject) {
-        "Physics" -> Icons.Outlined.School
-        "Chemistry" -> Icons.Outlined.School
-        "Mathematics" -> Icons.Outlined.AutoStories
-        "Biology" -> Icons.Outlined.School
-        "English" -> Icons.Outlined.MenuBook
-        "Nepali" -> Icons.Outlined.MenuBook
-        "Computer Science" -> Icons.Outlined.Description
-        else -> Icons.Outlined.Article
+        "Physics" -> R.drawable.ic_school
+        "Chemistry" -> R.drawable.ic_school
+        "Mathematics" -> R.drawable.ic_book
+        "Biology" -> R.drawable.ic_school
+        "English" -> R.drawable.ic_book
+        "Nepali" -> R.drawable.ic_book
+        "Computer Science" -> R.drawable.ic_document
+        else -> R.drawable.ic_document
     }
 }
 
@@ -279,7 +275,7 @@ private fun SearchResultItem(
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
-                    imageVector = getSubjectIcon(resource.subject),
+                    painter = painterResource(id = getSubjectIcon(resource.subject)),
                     contentDescription = null,
                     modifier = Modifier.size(20.dp),
                     tint = subjectColor

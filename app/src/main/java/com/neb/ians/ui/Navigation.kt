@@ -1,5 +1,6 @@
 package com.neb.ians.ui
 
+import android.net.Uri
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
@@ -8,13 +9,11 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.LibraryBooks
-import androidx.compose.material.icons.filled.Forum
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material.icons.outlined.LibraryBooks
-import androidx.compose.material.icons.outlined.Forum
 import androidx.compose.material.icons.outlined.Notifications
+import androidx.compose.ui.res.painterResource
+import com.neb.ians.R
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -104,18 +103,43 @@ sealed class Screen(val route: String) {
     }
 }
 
+sealed class BottomNavIcon {
+    data class Vector(val imageVector: ImageVector) : BottomNavIcon()
+    data class Drawable(val resId: Int) : BottomNavIcon()
+}
+
 data class BottomNavItem(
     val screen: Screen,
     val label: String,
-    val selectedIcon: ImageVector,
-    val unselectedIcon: ImageVector
+    val selectedIcon: BottomNavIcon,
+    val unselectedIcon: BottomNavIcon
 )
 
 val bottomNavItems = listOf(
-    BottomNavItem(Screen.Home, "Home", Icons.Filled.Home, Icons.Outlined.Home),
-    BottomNavItem(Screen.Library, "Library", Icons.Filled.LibraryBooks, Icons.Outlined.LibraryBooks),
-    BottomNavItem(Screen.Forum, "Forum", Icons.Filled.Forum, Icons.Outlined.Forum),
-    BottomNavItem(Screen.Notifications, "Alerts", Icons.Filled.Notifications, Icons.Outlined.Notifications),
+    BottomNavItem(
+        Screen.Home,
+        "Home",
+        BottomNavIcon.Vector(Icons.Filled.Home),
+        BottomNavIcon.Vector(Icons.Outlined.Home)
+    ),
+    BottomNavItem(
+        Screen.Library,
+        "Library",
+        BottomNavIcon.Drawable(R.drawable.ic_book),
+        BottomNavIcon.Drawable(R.drawable.ic_book)
+    ),
+    BottomNavItem(
+        Screen.Forum,
+        "Forum",
+        BottomNavIcon.Drawable(R.drawable.ic_forum_filled),
+        BottomNavIcon.Drawable(R.drawable.ic_forum_outlined)
+    ),
+    BottomNavItem(
+        Screen.Notifications,
+        "Alerts",
+        BottomNavIcon.Vector(Icons.Filled.Notifications),
+        BottomNavIcon.Vector(Icons.Outlined.Notifications)
+    ),
 )
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -124,8 +148,8 @@ fun NEBiansNavHost(
     settingsViewModel: SettingsViewModel,
     navController: NavHostController = rememberNavController(),
     authRepository: AuthRepository,
-    pendingGithubCode: String? = null,
-    onGithubCodeConsumed: () -> Unit = {}
+    pendingOAuthCallback: Uri? = null,
+    onOAuthCallbackConsumed: () -> Unit = {}
 ) {
     val context = androidx.compose.ui.platform.LocalContext.current
 
@@ -156,10 +180,17 @@ fun NEBiansNavHost(
                         val selected = currentDestination?.hierarchy?.any { it.route == item.screen.route } == true
                         NavigationBarItem(
                             icon = {
-                                Icon(
-                                    imageVector = if (selected) item.selectedIcon else item.unselectedIcon,
-                                    contentDescription = item.label
-                                )
+                                val iconSource = if (selected) item.selectedIcon else item.unselectedIcon
+                                when (iconSource) {
+                                    is BottomNavIcon.Vector -> Icon(
+                                        imageVector = iconSource.imageVector,
+                                        contentDescription = item.label
+                                    )
+                                    is BottomNavIcon.Drawable -> Icon(
+                                        painter = painterResource(id = iconSource.resId),
+                                        contentDescription = item.label
+                                    )
+                                }
                             },
                             label = {
                                 Text(
@@ -233,8 +264,8 @@ fun NEBiansNavHost(
                     },
                     onNavigateToEmailSignup = { navController.navigate(Screen.EmailSignup.route) },
                     onNavigateToEmailLogin = { navController.navigate(Screen.EmailLogin.route) },
-                    pendingGithubCode = pendingGithubCode,
-                    onGithubCodeConsumed = onGithubCodeConsumed
+                    pendingOAuthCallback = pendingOAuthCallback,
+                    onOAuthCallbackConsumed = onOAuthCallbackConsumed
                 )
             }
             composable(Screen.EmailSignup.route) {

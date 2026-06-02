@@ -3123,8 +3123,9 @@ button:focus-visible {
   }
 
   .pf-stats-row {
-    gap: 32px;
+    gap: 16px;
     margin-bottom: 20px;
+    justify-content: space-between;
   }
 
   .pf-stat-num {

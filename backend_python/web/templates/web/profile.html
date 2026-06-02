@@ -71,7 +71,7 @@
   /* Mobile padding overrides */
   @media (max-width: 900px) {
     .profile-page {
-      padding: 0 12px 24px;
+      padding: 0 16px 24px;
     }
   }
 
@@ -82,6 +82,12 @@
     margin-top: 20px;
     border-bottom: 1px solid var(--md-outline-variant);
     position: relative;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .profile-tabs::-webkit-scrollbar {
+    display: none;
   }
   .profile-tab {
     padding: 12px 16px 10px;
@@ -98,6 +104,8 @@
     transition: color 0.2s, background 0.2s;
     font-family: inherit;
     border-radius: 8px 8px 0 0;
+    flex-shrink: 0;
+    white-space: nowrap;
   }
   .profile-tab:hover { color: var(--md-on-surface); background: var(--md-surface-container); }
   .profile-tab.active { color: var(--md-primary); }
@@ -321,6 +329,8 @@
     .pf-actions { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
     .profile-tab { padding: 12px 12px 10px; font-size: 0.8125rem; }
     .overview-grid, .overview-grid.three-col { grid-template-columns: 1fr 1fr; }
+    .pf-reply-card { padding: 12px; }
+    .pf-reply-card-context { padding: 6px 10px; }
   }
 
   /* ── About details ── */
@@ -591,6 +601,109 @@
     font-size: 16px;
     color: var(--md-on-primary);
   }
+
+  .pf-reply-card {
+    background: var(--md-surface-container-lowest);
+    border: 1px solid var(--md-outline-variant);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 10px;
+    transition: border-color 0.15s;
+  }
+  .pf-reply-card:hover {
+    border-color: var(--md-outline);
+  }
+  .pf-reply-card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+  .pf-reply-card-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: var(--md-primary-container);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .pf-reply-card-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .pf-reply-card-meta {
+    flex: 1;
+    min-width: 0;
+  }
+  .pf-reply-card-context {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    background: var(--md-surface-container);
+    border-radius: 8px;
+    margin-bottom: 10px;
+    font-size: 0.8125rem;
+  }
+  .pf-reply-card-context .material-symbols-outlined {
+    font-size: 16px;
+    color: var(--md-on-surface-variant);
+  }
+  .pf-reply-card-context a {
+    color: var(--md-primary);
+    text-decoration: none;
+    font-weight: 500;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .pf-reply-card-context a:hover {
+    text-decoration: underline;
+  }
+  .pf-reply-card-body {
+    font-size: 0.875rem;
+    color: var(--md-on-surface-variant);
+    line-height: 1.55;
+    margin-bottom: 10px;
+    white-space: pre-wrap;
+    word-break: break-word;
+    max-height: 160px;
+    overflow: hidden;
+    position: relative;
+  }
+  .pf-reply-card-actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .pf-reply-card-actions button {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 8px;
+    border: none;
+    background: transparent;
+    color: var(--md-on-surface-variant);
+    cursor: pointer;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-family: inherit;
+    transition: background 0.15s, color 0.15s;
+  }
+  .pf-reply-card-actions button:hover {
+    background: var(--md-surface-container-high);
+    color: var(--md-primary);
+  }
+  .pf-reply-card-actions button.liked {
+    color: var(--md-primary);
+  }
+  .pf-reply-card-actions button .material-symbols-outlined {
+    font-size: 16px;
+  }
 </style>
 
 <div class="profile-page">
@@ -853,11 +966,12 @@
             {% if profile_user.is_bot %}Conversations{% else %}Posts{% endif %}
             <span class="tab-count">{{ stats.post_count|default:0 }}</span>
           </button>
+          <button class="profile-tab" data-tab="replies" onclick="switchProfileTab('replies')">
+            Replies
+            <span class="tab-count">{{ stats.reply_count|default:0 }}</span>
+          </button>
           <button class="profile-tab" data-tab="about" onclick="switchProfileTab('about')">
             About
-          </button>
-          <button class="profile-tab" data-tab="achievements" onclick="switchProfileTab('achievements')">
-            Achievements
           </button>
         </div>
 
@@ -948,15 +1062,78 @@
           </div>
         </div>
 
+        <!-- Tab: Replies -->
+        <div class="profile-tab-content" id="tabReplies">
+          <div class="pf-card">
+            <div class="activity-list" id="repliesFeed">
+              {% for reply in user_replies %}
+              <div class="pf-reply-card">
+                <div class="pf-reply-card-header">
+                  <div class="pf-reply-card-avatar">
+                    {% if profile_user.photo_url %}
+                      <img src="{{ profile_user.photo_url }}" alt="{{ profile_user.display_name|default:profile_user.username }}" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';">
+                      <span class="contributor-avatar-letter" style="display:none;">{{ profile_user.display_name|default:profile_user.username|slice:":1" }}</span>
+                    {% else %}
+                      <span class="contributor-avatar-letter">{{ profile_user.display_name|default:profile_user.username|slice:":1" }}</span>
+                    {% endif %}
+                  </div>
+                  <div class="pf-reply-card-meta">
+                    <div class="post-card-meta-line">
+                      <strong onclick="window.location.href='{% url 'web:profile' username=profile_user.username %}'" style="cursor:pointer;">{{ profile_user.display_name|default:profile_user.username }}</strong>
+                      {% if badge_info %}
+                      <span class="role-badge role-badge-{{ badge_info.type }}" title="{{ badge_info.label }}"><span class="material-symbols-outlined">{{ badge_info.icon }}</span></span>
+                      {% endif %}
+                    </div>
+                    <div class="post-meta-sub">
+                      <span class="act-action-text">replied</span>
+                      <span class="dot-sep">&middot;</span>
+                      <span class="post-card-time">{{ reply.createdAt|time_ago }}</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="pf-reply-card-context">
+                  <span class="material-symbols-outlined">chat_bubble_outline</span>
+                  <a href="{% url 'web:forum_post' post_id=reply.postId %}">{{ reply.postTitle }}</a>
+                </div>
+                <div class="pf-reply-card-body">{{ reply.content|render_content }}</div>
+                <div class="pf-reply-card-actions">
+                  <button type="button" onclick="toggleLikeReply('{{ reply.id }}', this);" class="{% if reply.isThumbedUp %}liked{% endif %}">
+                    <span class="material-symbols-outlined">thumb_up</span>
+                    <span>{{ reply.thumbsUpCount|default:0 }}</span>
+                  </button>
+                  <a href="{% url 'web:forum_post' post_id=reply.postId %}" class="act-btn-stat">
+                    <span class="material-symbols-outlined">open_in_new</span>
+                    <span>View Post</span>
+                  </a>
+                </div>
+              </div>
+              {% empty %}
+              <div class="activity-empty">
+                <span class="activity-empty-icon material-symbols-outlined">chat_bubble_outline</span>
+                <div class="activity-empty-text">
+                  <strong>No replies yet</strong>
+                  <span>Replies will appear here</span>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+            {% if stats.reply_count > 10 %}
+              <button class="load-more-btn" id="loadMoreRepliesBtn" onclick="loadMoreReplies()">
+                Load More Replies
+              </button>
+            {% endif %}
+          </div>
+        </div>
+
         <!-- Tab: About -->
         <div class="profile-tab-content" id="tabAbout">
-          <!-- Overview stats -->
+          <!-- Stats summary in about -->
           <div class="pf-card">
             <h3 class="pf-card-title">
-              <span class="material-symbols-outlined">bar_chart</span>
-              Overview
+              <span class="material-symbols-outlined">leaderboard</span>
+              Stats
             </h3>
-            <div class="overview-grid">
+            <div class="overview-grid three-col">
               <div class="ov-stat">
                 <div class="ov-stat-value">{{ stats.post_count|default:0 }}</div>
                 <div class="ov-stat-label">Discussions</div>
@@ -969,10 +1146,66 @@
                 <div class="ov-stat-value" id="cntFollowers_About">{{ stats.follower_count|default:0 }}</div>
                 <div class="ov-stat-label">Followers</div>
               </div>
+              <div class="ov-stat">
+                <div class="ov-stat-value">{{ stats.likes_received|default:0 }}</div>
+                <div class="ov-stat-label">Likes Received</div>
+              </div>
               <div class="ov-stat academic">
                 <div class="ov-stat-value">{{ stats.contribution_score|default:0 }}</div>
                 <div class="ov-stat-label">NEBian Score</div>
               </div>
+              <div class="ov-stat">
+                <div class="ov-stat-value">{{ stats.following_count|default:0 }}</div>
+                <div class="ov-stat-label">Following</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Achievements inside About -->
+          <div class="pf-card">
+            <h3 class="pf-card-title" style="display: flex; align-items: center; width: 100%;">
+              <span class="material-symbols-outlined" style="color: var(--md-primary);">workspace_premium</span>
+              <span>Achievements</span>
+              <a href="{% url 'web:profile_achievements' username=profile_user.username %}" style="margin-left: auto; font-size: 0.8125rem; font-weight: 600; color: var(--md-primary); text-decoration: none; display: flex; align-items: center; gap: 4px;" class="pf-see-all-link">
+                <span>See All</span>
+                <span class="material-symbols-outlined" style="font-size: 14px; color: var(--md-primary); margin: 0;">arrow_forward</span>
+              </a>
+            </h3>
+            <div class="achieve-grid">
+              {% if achievement_info %}
+                {% for ach in achievement_info %}
+                <span class="achievement-badge {{ ach.key }}" title="{{ ach.label }}">
+                  <span class="material-symbols-outlined">{{ ach.icon }}</span>
+                  {{ ach.label }}
+                </span>
+                {% endfor %}
+              {% endif %}
+              {% if stats.post_count >= 1 %}
+                <span class="achieve-badge completed ach-discussion">
+                  <span class="material-symbols-outlined">chat</span>
+                  First Discussion
+                </span>
+              {% endif %}
+
+              {% if stats.reply_count >= 1 %}
+                <span class="achieve-badge completed ach-reply">
+                  <span class="material-symbols-outlined">chat_bubble</span>
+                  First Reply
+                </span>
+              {% endif %}
+
+              {% if stats.likes_received >= 1 %}
+                <span class="achieve-badge completed ach-like">
+                  <span class="material-symbols-outlined">thumb_up</span>
+                  First Thumb Received
+                </span>
+              {% endif %}
+              
+              {% if not achievement_info and stats.post_count < 1 and stats.reply_count < 1 and stats.likes_received < 1 %}
+                <div style="font-size: 0.8125rem; color: var(--md-on-surface-variant); padding: 4px 0; line-height: 1.5;">
+                  No achievements unlocked yet. Post or reply in the forum to begin!
+                </div>
+              {% endif %}
             </div>
           </div>
 
@@ -1104,90 +1337,6 @@
             </div>
           </div>
           {% endif %}
-        </div>
-
-        <!-- Tab: Achievements -->
-        <div class="profile-tab-content" id="tabAchievements">
-          <div class="pf-card">
-            <h3 class="pf-card-title" style="display: flex; align-items: center; width: 100%;">
-              <span class="material-symbols-outlined" style="color: var(--md-primary);">workspace_premium</span>
-              <span>Achievements</span>
-              <a href="{% url 'web:profile_achievements' username=profile_user.username %}" style="margin-left: auto; font-size: 0.8125rem; font-weight: 600; color: var(--md-primary); text-decoration: none; display: flex; align-items: center; gap: 4px;" class="pf-see-all-link">
-                <span>See All</span>
-                <span class="material-symbols-outlined" style="font-size: 14px; color: var(--md-primary); margin: 0;">arrow_forward</span>
-              </a>
-            </h3>
-            <div class="achieve-grid">
-              {% if achievement_info %}
-                {% for ach in achievement_info %}
-                <span class="achievement-badge {{ ach.key }}" title="{{ ach.label }}">
-                  <span class="material-symbols-outlined">{{ ach.icon }}</span>
-                  {{ ach.label }}
-                </span>
-                {% endfor %}
-              {% endif %}
-              {% if stats.post_count >= 1 %}
-                <span class="achieve-badge completed ach-discussion">
-                  <span class="material-symbols-outlined">chat</span>
-                  First Discussion
-                </span>
-              {% endif %}
-
-              {% if stats.reply_count >= 1 %}
-                <span class="achieve-badge completed ach-reply">
-                  <span class="material-symbols-outlined">chat_bubble</span>
-                  First Reply
-                </span>
-              {% endif %}
-
-              {% if stats.likes_received >= 1 %}
-                <span class="achieve-badge completed ach-like">
-                  <span class="material-symbols-outlined">thumb_up</span>
-                  First Thumb Received
-                </span>
-              {% endif %}
-              
-              {% if not achievement_info and stats.post_count < 1 and stats.reply_count < 1 and stats.likes_received < 1 %}
-                <div style="font-size: 0.8125rem; color: var(--md-on-surface-variant); padding: 4px 0; line-height: 1.5;">
-                  No achievements unlocked yet. Post or reply in the forum to begin!
-                </div>
-              {% endif %}
-            </div>
-          </div>
-
-          <!-- Stats summary in achievements -->
-          <div class="pf-card">
-            <h3 class="pf-card-title">
-              <span class="material-symbols-outlined">leaderboard</span>
-              Stats
-            </h3>
-            <div class="overview-grid three-col">
-              <div class="ov-stat">
-                <div class="ov-stat-value">{{ stats.post_count|default:0 }}</div>
-                <div class="ov-stat-label">Discussions</div>
-              </div>
-              <div class="ov-stat">
-                <div class="ov-stat-value">{{ stats.reply_count|default:0 }}</div>
-                <div class="ov-stat-label">Replies</div>
-              </div>
-              <div class="ov-stat" onclick="openFollowModal('followers')" style="cursor:pointer">
-                <div class="ov-stat-value">{{ stats.follower_count|default:0 }}</div>
-                <div class="ov-stat-label">Followers</div>
-              </div>
-              <div class="ov-stat">
-                <div class="ov-stat-value">{{ stats.likes_received|default:0 }}</div>
-                <div class="ov-stat-label">Likes Received</div>
-              </div>
-              <div class="ov-stat academic">
-                <div class="ov-stat-value">{{ stats.contribution_score|default:0 }}</div>
-                <div class="ov-stat-label">NEBian Score</div>
-              </div>
-              <div class="ov-stat">
-                <div class="ov-stat-value">{{ stats.following_count|default:0 }}</div>
-                <div class="ov-stat-label">Following</div>
-              </div>
-            </div>
-          </div>
         </div>
 
       </div> <!-- End of .profile-right-col -->
@@ -1331,9 +1480,30 @@ async function toggleLikePost(postId, btnEl) {
   }
 }
 
+async function toggleLikeReply(replyId, btnEl) {
+  if (!IS_AUTHENTICATED) { window.location.href = '{% url "web:login" %}'; return; }
+  try {
+    const r = await fetch('/ajax/like/reply/' + replyId + '/', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN }, credentials: 'same-origin' });
+    const d = await r.json();
+    if (d && d.thumbsUpCount !== undefined) {
+      const countEl = btnEl.querySelector('span:last-child');
+      if (countEl) countEl.textContent = d.thumbsUpCount;
+      const iconEl = btnEl.querySelector('.material-symbols-outlined');
+      if (iconEl) { iconEl.textContent = 'thumb_up'; iconEl.style.fontVariationSettings = d.isThumbedUp ? "'FILL' 1" : ''; }
+      btnEl.classList.toggle('liked', d.isThumbedUp);
+    } else if (d && d.error) {
+      showSnackbar(d.error);
+    }
+  } catch(e) {
+    showSnackbar('Error updating like.');
+  }
+}
+
 // Activity AJAX Pagination
 let activityOffset = 10;
 const activityLimit = 10;
+let repliesOffset = 10;
+const repliesLimit = 10;
 const profileUsername = '{{ profile_user.username|escapejs }}';
 
 async function loadMoreActivity() {
@@ -1460,6 +1630,93 @@ async function loadMoreActivity() {
     btn.disabled = false;
     btn.textContent = 'Load More Activity';
     showSnackbar('Error loading activity feed.');
+  }
+}
+
+async function loadMoreReplies() {
+  const btn = document.getElementById('loadMoreRepliesBtn');
+  if (!btn) return;
+  btn.disabled = true;
+  btn.textContent = 'Loading...';
+
+  try {
+    const r = await fetch(`/ajax/profile/${profileUsername}/replies/?offset=${repliesOffset}&limit=${repliesLimit}`);
+    if (!r.ok) throw new Error('Failed to fetch replies');
+    const d = await r.json();
+
+    if (d && d.replies) {
+      const feed = document.getElementById('repliesFeed');
+
+      d.replies.forEach(reply => {
+        const item = document.createElement('div');
+        item.className = 'pf-reply-card';
+
+        const photoUrl = safeClientUrl('{{ profile_user.photo_url|default:""|escapejs }}');
+        const displayName = '{{ profile_user.display_name|default:profile_user.username|escapejs }}';
+        const displayNameHtml = escapeHtml(displayName);
+        const avatarHtml = photoUrl ? `<img src="${photoUrl}" alt="${displayNameHtml}" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';"><span class="contributor-avatar-letter" style="display:none;">${escapeHtml(displayName.slice(0, 1))}</span>` : `<span class="contributor-avatar-letter">${escapeHtml(displayName.slice(0, 1))}</span>`;
+
+        let badgeHtml = '';
+        const badgeInfo = {{ badge_info_json|default:'null'|safe }};
+        if (badgeInfo) {
+          badgeHtml = '<span class="role-badge role-badge-' + escapeHtml(badgeInfo.type) + '" title="' + escapeHtml(badgeInfo.label) + '"><span class="material-symbols-outlined">' + escapeHtml(badgeInfo.icon) + '</span></span>';
+        }
+
+        const replyContent = reply.content ? (reply.content.length > 300 ? reply.content.substring(0, 297) + '...' : reply.content) : '';
+        const postIdUrl = encodeURIComponent(reply.postId || '');
+        const postTitleHtml = escapeHtml(reply.postTitle || 'Untitled Post');
+
+        const likedClass = reply.isThumbedUp ? ' liked' : '';
+        const likedFill = reply.isThumbedUp ? " style=\"font-variation-settings:'FILL' 1\"" : '';
+
+        item.innerHTML = `
+          <div class="pf-reply-card-header">
+            <div class="pf-reply-card-avatar">${avatarHtml}</div>
+            <div class="pf-reply-card-meta">
+              <div class="post-card-meta-line">
+                <strong>${displayNameHtml}</strong>
+                ${badgeHtml}
+              </div>
+              <div class="post-meta-sub">
+                <span class="act-action-text">replied</span>
+                <span class="dot-sep">&middot;</span>
+                <span class="post-card-time">${escapeHtml(timeAgo(reply.createdAt))}</span>
+              </div>
+            </div>
+          </div>
+          <div class="pf-reply-card-context">
+            <span class="material-symbols-outlined">chat_bubble_outline</span>
+            <a href="/forum/post/${postIdUrl}/">${postTitleHtml}</a>
+          </div>
+          <div class="pf-reply-card-body">${renderMarkdown(replyContent)}</div>
+          <div class="pf-reply-card-actions">
+            <button type="button" onclick="toggleLikeReply('${escapeHtml(reply.id)}', this);" class="${likedClass}"${likedFill}>
+              <span class="material-symbols-outlined">thumb_up</span>
+              <span>${reply.thumbsUpCount || 0}</span>
+            </button>
+            <a href="/forum/post/${postIdUrl}/" class="act-btn-stat">
+              <span class="material-symbols-outlined">open_in_new</span>
+              <span>View Post</span>
+            </a>
+          </div>
+        `;
+
+        feed.appendChild(item);
+      });
+
+      repliesOffset += d.replies.length;
+
+      if (d.has_more) {
+        btn.disabled = false;
+        btn.textContent = 'Load More Replies';
+      } else {
+        btn.remove();
+      }
+    }
+  } catch (e) {
+    btn.disabled = false;
+    btn.textContent = 'Load More Replies';
+    showSnackbar('Error loading replies.');
   }
 }
 
