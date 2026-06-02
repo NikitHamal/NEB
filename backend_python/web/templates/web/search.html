@@ -207,7 +207,7 @@
         <span class="material-symbols-outlined" style="font-size:20px">close</span>
       </a>
       {% endif %}
-      <button onclick="document.getElementById('filter-dialog').style.display='flex'" class="{% if current_subject or current_grade or current_type %}has-filters{% endif %}" title="Filters">
+      <button onclick="document.getElementById('filter-dialog').style.display='flex'; document.body.style.overflow='hidden';" class="{% if current_subject or current_grade or current_type %}has-filters{% endif %}" title="Filters">
         <span class="material-symbols-outlined" style="font-size:22px">tune</span>
       </button>
     </div>
@@ -236,7 +236,7 @@
   {% endif %}
 
   <!-- Filter dialog -->
-  <div id="filter-dialog" class="filter-overlay" style="display:none;" onclick="if(event.target===this){this.style.display='none'}">
+  <div id="filter-dialog" class="filter-overlay" style="display:none;" onclick="if(event.target===this){this.style.display='none'; document.body.style.overflow='';}">
     <div class="filter-dialog">
       <h3>Filters</h3>
 

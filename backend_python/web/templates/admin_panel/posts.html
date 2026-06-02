@@ -55,10 +55,21 @@
   </table>
 </div>
 {% else %}
-<div class="empty-state">
-  <span class="material-symbols-outlined">forum</span>
+<div class="admin-empty">
+  <div class="admin-empty-icon-wrap" style="background: color-mix(in srgb, var(--md-primary) 12%, transparent); color: var(--md-primary); border-color: color-mix(in srgb, var(--md-primary) 25%, transparent);">
+    <span class="material-symbols-outlined">forum</span>
+  </div>
   <h3>No posts found</h3>
-  <p>Forum posts will appear here as users create them.</p>
+  {% if search %}
+    <p>No forum posts match your search query "{{ search }}". Try checking your spelling or searching for different keywords.</p>
+    <div class="admin-empty-actions">
+      <a href="{% url 'web:admin_posts' %}" class="md-btn md-btn-filled">
+        <span class="material-symbols-outlined">refresh</span> Clear Search
+      </a>
+    </div>
+  {% else %}
+    <p>No student discussions or questions have been posted to the forum yet. Forum activity will appear here once users start posting.</p>
+  {% endif %}
 </div>
 {% endif %}
 {% endblock %}

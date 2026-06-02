@@ -185,10 +185,26 @@
   </table>
 </div>
 {% else %}
-<div class="empty-state">
-  <span class="material-symbols-outlined">auto_stories</span>
+<div class="admin-empty">
+  <div class="admin-empty-icon-wrap" style="background: color-mix(in srgb, var(--md-primary) 12%, transparent); color: var(--md-primary); border-color: color-mix(in srgb, var(--md-primary) 25%, transparent);">
+    <span class="material-symbols-outlined">auto_stories</span>
+  </div>
   <h3>No resources found</h3>
-  <p>Add resources to get started.</p>
+  {% if search %}
+    <p>No study resources found matching "{{ search }}". Try checking your spelling or using a different query.</p>
+    <div class="admin-empty-actions">
+      <a href="{% url 'web:admin_resources' %}" class="md-btn md-btn-filled">
+        <span class="material-symbols-outlined">refresh</span> Clear Search
+      </a>
+    </div>
+  {% else %}
+    <p>No study resources have been added to the library yet. Start by creating a resource right now.</p>
+    <div class="admin-empty-actions">
+      <button class="md-btn md-btn-filled" onclick="document.getElementById('add-resource-form').style.display='block'; document.getElementById('title').focus(); return false;">
+        <span class="material-symbols-outlined">add</span> Add Resource
+      </button>
+    </div>
+  {% endif %}
 </div>
 {% endif %}
 {% endblock %}
