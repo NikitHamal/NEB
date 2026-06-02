@@ -629,11 +629,6 @@
               {% else %}
                 <div class="pf-avatar-initial">{{ profile_user.display_name|default:profile_user.username|slice:":1" }}</div>
               {% endif %}
-              {% if profile_user.is_bot %}
-                <span class="pf-avatar-ai-pill" title="AI Assistant">
-                  <span class="material-symbols-outlined">smart_toy</span>
-                </span>
-              {% endif %}
             </div>
             {% if user and user.username == profile_user.username and not profile_user.is_bot %}
               <div class="pf-avatar-cam" onclick="openPhotoHistoryModal()" title="Change photo">
@@ -788,45 +783,7 @@
               </p>
             </div>
 
-            {% if profile_user.is_bot %}
-              <!-- What I can do (bot only) -->
-              <div class="pf-capabilities">
-                <h2 class="pf-capabilities-title">
-                  <span class="material-symbols-outlined">bolt</span>
-                  What I can help with
-                </h2>
-                <ul class="pf-capabilities-list">
-                  <li>
-                    <span class="material-symbols-outlined pf-cap-icon pf-cap-icon-purple">menu_book</span>
-                    <div>
-                      <strong>Explain concepts</strong>
-                      <span>Break down tricky topics from Physics, Math, Chemistry, Biology and more.</span>
-                    </div>
-                  </li>
-                  <li>
-                    <span class="material-symbols-outlined pf-cap-icon pf-cap-icon-blue">lightbulb</span>
-                    <div>
-                      <strong>Homework help</strong>
-                      <span>Stuck on a problem? Mention me with @neby and I'll walk you through it.</span>
-                    </div>
-                  </li>
-                  <li>
-                    <span class="material-symbols-outlined pf-cap-icon pf-cap-icon-green">edit_note</span>
-                    <div>
-                      <strong>Summarise notes</strong>
-                      <span>Long chapter? I can pull out the key points so you can study faster.</span>
-                    </div>
-                  </li>
-                  <li>
-                    <span class="material-symbols-outlined pf-cap-icon pf-cap-icon-orange">translate</span>
-                    <div>
-                      <strong>Translate &amp; explain</strong>
-                      <span>Nepali ⇄ English, and I can rephrase dense academic language into plain words.</span>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            {% else %}
+            {% if not profile_user.is_bot %}
               <!-- Meta details (Location, School) with clean outline icons -->
               <div class="pf-meta-details">
                 {% if profile_user.district or profile_user.pradesh %}
