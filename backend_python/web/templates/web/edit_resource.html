@@ -1,20 +1,34 @@
-{% extends "admin_panel/base.html" %}
+{% extends "base.html" %}
 {% load web_extras %}
+{% block title %}Edit Resource — NEBians{% endblock %}
+{% block description %}Edit your study resource on NEBians.{% endblock %}
+{% block keywords %}edit, resource, NEB, study material{% endblock %}
 
-{% block title %}Edit Resource{% endblock %}
+{% block nav_library %}md-nav-active{% endblock %}
+{% block bnav_library %}md-nav-active{% endblock %}
 
 {% block content %}
-<div style="max-width:680px;margin:0 auto;">
-  <div style="margin-bottom:24px;">
-    <a href="{% url 'web:admin_resources' %}" class="back-link" style="margin-bottom:12px;display:inline-flex;">
+<div class="upload-page">
+  <div style="margin-top: 8px; margin-bottom: 24px;">
+    <a href="{% url 'web:reader' resource_id=resource.id %}" class="back-link" style="margin-bottom: 12px; display: inline-flex;">
       <span class="material-symbols-outlined">arrow_back</span>
-      Back to Resources
+      Back to Resource
     </a>
-    <h2 class="md-headline-medium" style="margin:0;">Edit Resource</h2>
+    <h1 class="md-headline-medium" style="margin: 0;">Edit Resource</h1>
+    <p style="margin: 6px 0 0; color: var(--md-on-surface-variant); font-size: 0.875rem; line-height: 1.5;">
+      Update your resource details. Changes will be reviewed before publishing.
+    </p>
   </div>
 
-  {% if resource %}
-  <form method="post" enctype="multipart/form-data" class="upload-form">
+  {% if errors %}
+  <div class="upload-errors">
+    {% for error in errors %}
+    <div class="upload-error-item">{{ error }}</div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <form method="post" action="{% url 'web:edit_resource' resource_id=resource.id %}" enctype="multipart/form-data" class="upload-form" id="upload-form">
     {% csrf_token %}
     <input type="hidden" id="subject-hidden" name="subject" value="{{ resource.subject|default:'' }}">
     <input type="hidden" id="tags-hidden" name="tags" value="{{ resource.tags|default:'' }}">
@@ -41,7 +55,7 @@
               Pick
             </button>
           </div>
-          <div class="upload-hint">Press Enter or comma to add. Click Pick to browse suggestions.</div>
+          <div class="upload-hint">Press Enter or comma to add. Click the Pick button to browse suggestions.</div>
         </div>
       </div>
 
@@ -203,69 +217,40 @@
         <h2>Attribution</h2>
       </div>
 
-      <div class="upload-row">
-        <div class="upload-field upload-field-half">
-          <label class="md-label" for="source_type">Source Type</label>
-          <select class="md-select" id="source_type" name="source_type">
-            {% for val, label in source_types %}
-            <option value="{{ val }}" {% if resource.source_type == val %}selected{% endif %}>{{ label }}</option>
-            {% endfor %}
-          </select>
-        </div>
-        <div class="upload-field upload-field-half">
-          <label class="md-label" for="author_name">Author / Credit</label>
-          <input class="md-input" type="text" id="author_name" name="author_name" value="{{ resource.author_name|default:'' }}" placeholder="e.g. Prof. Sharma, NEB Official">
-        </div>
-      </div>
-
-      <div class="upload-row">
-        <div class="upload-field upload-field-half">
-          <label class="md-label" for="source_label">Source Label</label>
-          <input class="md-input" type="text" id="source_label" name="source_label" value="{{ resource.source_label|default:'' }}" placeholder="e.g. NEB Official, Contributed by students">
-        </div>
-        <div class="upload-field upload-field-half">
-          <label class="md-label" for="source_url">Source URL</label>
-          <input class="md-input" type="url" id="source_url" name="source_url" value="{{ resource.source_url|default:'' }}" placeholder="https://...">
-        </div>
+      <div class="upload-field">
+        <label class="md-label" for="author_name">Author / Credit</label>
+        <input class="md-input" type="text" id="author_name" name="author_name" value="{{ resource.author_name|default:'' }}" placeholder="e.g. Prof. Sharma, NEB Official">
       </div>
 
       <div class="upload-field">
-        <label class="md-label" for="view_count">View Count</label>
-        <input class="md-input" type="number" id="view_count" name="view_count" value="{{ resource.view_count|default:'0' }}">
+        <label class="md-label" for="source_label">Source Label</label>
+        <input class="md-input" type="text" id="source_label" name="source_label" value="{{ resource.source_label|default:'' }}" placeholder="e.g. NEB Official, Contributed by students">
+      </div>
+
+      <div class="upload-field">
+        <label class="md-label" for="source_url">Source URL</label>
+        <input class="md-input" type="url" id="source_url" name="source_url" value="{{ resource.source_url|default:'' }}" placeholder="https://... (original source link)">
       </div>
     </div>
 
     <div class="upload-actions">
-      <a href="{% url 'web:admin_resources' %}" class="md-btn md-btn-text">Cancel</a>
+      <div class="upload-note">
+        <span class="material-symbols-outlined">info</span>
+        <span>Your changes will be reviewed before being published.</span>
+      </div>
       <button type="submit" class="md-btn md-btn-filled">
         <span class="material-symbols-outlined">save</span>
         Save Changes
       </button>
     </div>
   </form>
-
-  {% if resource.subject or resource.tags %}
-  <script>
-  var INITIAL_SUBJECTS = '{{ resource.subject|default:"" }}';
-  var INITIAL_TAGS = '{{ resource.tags|default:"" }}';
-  </script>
-  {% endif %}
-  {% else %}
-  <div class="empty-state" style="padding-top:64px;">
-    <span class="material-symbols-outlined">error_outline</span>
-    <h3>Resource not found</h3>
-    <a href="{% url 'web:admin_resources' %}" class="md-btn md-btn-filled mt-2">Back to Resources</a>
-  </div>
-  {% endif %}
 </div>
 
 <div class="subject-pick-overlay" id="subject-pick-overlay" style="display:none">
   <div class="subject-pick-dialog">
     <div class="subject-pick-header">
       <h3>Select Subjects</h3>
-      <button type="button" class="subject-pick-close" id="subject-pick-close">
-        <span class="material-symbols-outlined">close</span>
-      </button>
+      <button type="button" class="subject-pick-close" id="subject-pick-close"><span class="material-symbols-outlined">close</span></button>
     </div>
     <div class="subject-pick-search">
       <span class="material-symbols-outlined">search</span>
@@ -275,19 +260,14 @@
       {% for s in subjects %}
       <label class="subject-pick-item" data-subject="{{ s }}">
         <input type="checkbox" class="subject-pick-checkbox" value="{{ s }}">
-        <span class="subject-pick-check">
-          <span class="material-symbols-outlined">check</span>
-        </span>
+        <span class="subject-pick-check"><span class="material-symbols-outlined">check</span></span>
         <span class="subject-pick-label">{{ s }}</span>
       </label>
       {% endfor %}
     </div>
     <div class="subject-pick-add">
       <input type="text" id="subject-pick-custom" placeholder="Add a custom subject" autocomplete="off">
-      <button type="button" class="md-btn md-btn-tonal" id="subject-pick-add-btn">
-        <span class="material-symbols-outlined">add</span>
-        Add
-      </button>
+      <button type="button" class="md-btn md-btn-tonal" id="subject-pick-add-btn"><span class="material-symbols-outlined">add</span> Add</button>
     </div>
     <div class="subject-pick-actions">
       <button type="button" class="md-btn md-btn-text" id="subject-pick-cancel">Cancel</button>
@@ -300,9 +280,7 @@
   <div class="subject-pick-dialog">
     <div class="subject-pick-header">
       <h3>Select Tags</h3>
-      <button type="button" class="subject-pick-close" id="tags-pick-close">
-        <span class="material-symbols-outlined">close</span>
-      </button>
+      <button type="button" class="subject-pick-close" id="tags-pick-close"><span class="material-symbols-outlined">close</span></button>
     </div>
     <div class="subject-pick-search">
       <span class="material-symbols-outlined">search</span>
@@ -312,19 +290,14 @@
       {% for t in common_tags %}
       <label class="subject-pick-item" data-subject="{{ t }}">
         <input type="checkbox" class="subject-pick-checkbox" value="{{ t }}">
-        <span class="subject-pick-check">
-          <span class="material-symbols-outlined">check</span>
-        </span>
+        <span class="subject-pick-check"><span class="material-symbols-outlined">check</span></span>
         <span class="subject-pick-label">{{ t }}</span>
       </label>
       {% endfor %}
     </div>
     <div class="subject-pick-add">
       <input type="text" id="tags-pick-custom" placeholder="Add a custom tag" autocomplete="off">
-      <button type="button" class="md-btn md-btn-tonal" id="tags-pick-add-btn">
-        <span class="material-symbols-outlined">add</span>
-        Add
-      </button>
+      <button type="button" class="md-btn md-btn-tonal" id="tags-pick-add-btn"><span class="material-symbols-outlined">add</span> Add</button>
     </div>
     <div class="subject-pick-actions">
       <button type="button" class="md-btn md-btn-text" id="tags-pick-cancel">Cancel</button>
@@ -346,8 +319,12 @@
 .upload-row { display: flex; gap: 12px; }
 .upload-field-half { flex: 1; }
 .upload-hint { font-size: 0.8125rem; color: var(--md-on-surface-variant); margin-top: 4px; }
-.upload-actions { display: flex; align-items: center; justify-content: flex-end; gap: 12px; margin-top: 8px; }
-
+.upload-errors { background: color-mix(10%, var(--md-error), transparent); border: 1px solid var(--md-error); border-radius: 12px; padding: 12px 16px; margin-bottom: 16px; }
+.upload-error-item { color: var(--md-error); font-size: 0.875rem; margin-bottom: 4px; }
+.upload-error-item:last-child { margin-bottom: 0; }
+.upload-actions { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 8px; flex-wrap: wrap; }
+.upload-note { display: flex; align-items: flex-start; gap: 8px; font-size: 0.8125rem; color: var(--md-on-surface-variant); flex: 1; min-width: 200px; }
+.upload-note .material-symbols-outlined { font-size: 18px; margin-top: 1px; }
 .upload-details { background: var(--md-surface-container-low); border: 1px solid var(--md-outline-variant); border-radius: 16px; margin-bottom: 16px; overflow: hidden; }
 .upload-details[open] { border-color: var(--md-primary-container); }
 .upload-details-summary { display: flex; align-items: center; gap: 10px; padding: 16px 20px; cursor: pointer; font-size: 1.125rem; font-weight: 600; color: var(--md-on-surface); list-style: none; }
@@ -357,7 +334,6 @@
 .upload-details-summary .material-symbols-outlined { font-size: 22px; color: var(--md-primary); }
 .upload-details-badge { font-size: 0.6875rem; font-weight: 500; background: var(--md-primary-container); color: var(--md-on-primary-container); padding: 2px 8px; border-radius: 8px; margin-left: 8px; text-transform: uppercase; letter-spacing: 0.03em; }
 .upload-details-content { padding: 0 20px 20px; }
-
 .upload-dropzone { border: 2px dashed var(--md-outline-variant); border-radius: 16px; padding: 32px 20px; text-align: center; cursor: pointer; transition: border-color 0.2s, background 0.2s; position: relative; }
 .upload-dropzone:hover, .upload-dropzone.dragover { border-color: var(--md-primary); background: color-mix(5%, var(--md-primary), transparent); }
 .upload-dropzone.has-file { border-color: var(--md-primary); border-style: solid; background: color-mix(5%, var(--md-primary), transparent); padding: 16px 20px; }
@@ -374,10 +350,8 @@
 .upload-file-remove { background: none; border: none; cursor: pointer; padding: 4px; border-radius: 50%; color: var(--md-on-surface-variant); display: flex; align-items: center; justify-content: center; position: relative; z-index: 3; }
 .upload-file-remove:hover { background: color-mix(10%, var(--md-error), transparent); color: var(--md-error); }
 .upload-file-remove .material-symbols-outlined { font-size: 20px; }
-
 .upload-divider { display: flex; align-items: center; gap: 12px; margin: 12px 0 16px; color: var(--md-on-surface-variant); font-size: 0.8125rem; }
 .upload-divider::before, .upload-divider::after { content: ''; flex: 1; height: 1px; background: var(--md-outline-variant); }
-
 .subject-chips-area { display: flex; flex-direction: column; gap: 8px; }
 .subject-chips { display: flex; flex-wrap: wrap; gap: 6px; min-height: 0; }
 .subject-chip { display: inline-flex; align-items: center; gap: 4px; background: var(--md-primary-container); color: var(--md-on-primary-container); padding: 4px 8px 4px 12px; border-radius: 20px; font-size: 0.8125rem; font-weight: 500; line-height: 1.4; }
@@ -388,7 +362,6 @@
 .subject-input-row .md-input { flex: 1; }
 .subject-pick-btn { white-space: nowrap; padding: 8px 16px; }
 .subject-pick-btn .material-symbols-outlined { font-size: 18px; }
-
 .subject-pick-overlay { position: fixed; inset: 0; z-index: 9000; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; padding: 16px; }
 .subject-pick-dialog { background: var(--md-surface); border-radius: 20px; width: 100%; max-width: 480px; max-height: 80vh; display: flex; flex-direction: column; box-shadow: 0 8px 32px rgba(0,0,0,0.2); }
 .subject-pick-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px 12px; }
@@ -413,7 +386,6 @@
 .subject-pick-add input:focus { border-color: var(--md-primary); }
 .subject-pick-add .md-btn { padding: 8px 16px; }
 .subject-pick-actions { display: flex; justify-content: flex-end; gap: 8px; padding: 12px 20px 16px; border-top: 1px solid var(--md-outline-variant); }
-
 @media (max-width: 600px) {
   .upload-row { flex-direction: column; gap: 0; }
   .upload-dropzone { padding: 24px 16px; }
@@ -428,11 +400,7 @@
 (function() {
   var EXAM_TYPES = ['Past Paper', 'Model Paper', 'Guide', 'Solution', 'Note', 'PDF'];
 
-  function escapeHtml(str) {
-    var div = document.createElement('div');
-    div.textContent = str;
-    return div.innerHTML;
-  }
+  function escapeHtml(str) { var div = document.createElement('div'); div.textContent = str; return div.innerHTML; }
 
   function createChipPicker(config) {
     var hiddenInput = document.getElementById(config.hiddenId);
@@ -449,178 +417,47 @@
     var doneBtn = document.getElementById(config.doneBtnId);
     var items = [];
 
-    function init() {
-      var val = hiddenInput.value;
-      if (val) {
-        items = val.split(',').map(function(s) { return s.trim(); }).filter(function(s) { return s; });
-      }
-      renderChips();
-    }
-
+    function init() { var val = hiddenInput.value; if (val) { items = val.split(',').map(function(s) { return s.trim(); }).filter(function(s) { return s; }); } renderChips(); }
     function renderChips() {
       chipContainer.innerHTML = '';
-      items.forEach(function(s) {
-        var chip = document.createElement('span');
-        chip.className = 'subject-chip';
-        chip.innerHTML = escapeHtml(s) + '<button type="button" class="subject-chip-remove" data-item="' + escapeHtml(s) + '"><span class="material-symbols-outlined">close</span></button>';
-        chipContainer.appendChild(chip);
-      });
+      items.forEach(function(s) { var chip = document.createElement('span'); chip.className = 'subject-chip'; chip.innerHTML = escapeHtml(s) + '<button type="button" class="subject-chip-remove" data-item="' + escapeHtml(s) + '"><span class="material-symbols-outlined">close</span></button>'; chipContainer.appendChild(chip); });
       hiddenInput.value = items.join(', ');
-      chipContainer.querySelectorAll('.subject-chip-remove').forEach(function(btn) {
-        btn.addEventListener('click', function(e) {
-          e.preventDefault();
-          removeItem(btn.getAttribute('data-item'));
-        });
-      });
+      chipContainer.querySelectorAll('.subject-chip-remove').forEach(function(btn) { btn.addEventListener('click', function(e) { e.preventDefault(); removeItem(btn.getAttribute('data-item')); }); });
     }
+    function addItem(name) { name = name.trim(); if (!name) return; name.split(/[,;]/).forEach(function(part) { part = part.trim(); if (!part) return; var lower = part.toLowerCase(); var exists = items.some(function(s) { return s.toLowerCase() === lower; }); if (!exists) { items.push(part); } }); renderChips(); }
+    function removeItem(name) { items = items.filter(function(s) { return s !== name; }); renderChips(); }
 
-    function addItem(name) {
-      name = name.trim();
-      if (!name) return;
-      name.split(/[,;]/).forEach(function(part) {
-        part = part.trim();
-        if (!part) return;
-        var lower = part.toLowerCase();
-        var exists = items.some(function(s) { return s.toLowerCase() === lower; });
-        if (!exists) { items.push(part); }
-      });
-      renderChips();
-    }
-
-    function removeItem(name) {
-      items = items.filter(function(s) { return s !== name; });
-      renderChips();
-    }
-
-    textInput.addEventListener('keydown', function(e) {
-      if (e.key === 'Enter' || e.key === ',' || e.key === 'Tab') {
-        var val = textInput.value.replace(/,$/, '').trim();
-        if (val) { e.preventDefault(); addItem(val); textInput.value = ''; }
-      } else if (e.key === 'Backspace' && !textInput.value && items.length) {
-        removeItem(items[items.length - 1]);
-      }
-    });
-
-    textInput.addEventListener('blur', function() {
-      var val = textInput.value.replace(/,$/, '').trim();
-      if (val) { addItem(val); textInput.value = ''; }
-    });
-
-    pickBtn.addEventListener('click', function() {
-      overlay.style.display = '';
-      document.body.style.overflow = 'hidden';
-      searchInput.value = '';
-      filterList('');
-      syncSelection();
-      searchInput.focus();
-    });
-
+    textInput.addEventListener('keydown', function(e) { if (e.key === 'Enter' || e.key === ',' || e.key === 'Tab') { var val = textInput.value.replace(/,$/, '').trim(); if (val) { e.preventDefault(); addItem(val); textInput.value = ''; } } else if (e.key === 'Backspace' && !textInput.value && items.length) { removeItem(items[items.length - 1]); } });
+    textInput.addEventListener('blur', function() { var val = textInput.value.replace(/,$/, '').trim(); if (val) { addItem(val); textInput.value = ''; } });
+    pickBtn.addEventListener('click', function() { overlay.style.display = ''; document.body.style.overflow = 'hidden'; searchInput.value = ''; filterList(''); syncSelection(); searchInput.focus(); });
     closeBtn.addEventListener('click', function() { document.body.style.overflow = ''; overlay.style.display = 'none'; });
     cancelBtn.addEventListener('click', function() { document.body.style.overflow = ''; overlay.style.display = 'none'; });
-    overlay.addEventListener('click', function(e) {
-      if (e.target === overlay) { document.body.style.overflow = ''; overlay.style.display = 'none'; }
-    });
-
+    overlay.addEventListener('click', function(e) { if (e.target === overlay) { document.body.style.overflow = ''; overlay.style.display = 'none'; } });
     searchInput.addEventListener('input', function() { filterList(searchInput.value); });
-
-    function filterList(query) {
-      var q = query.toLowerCase();
-      pickList.querySelectorAll('.subject-pick-item').forEach(function(item) {
-        var label = item.getAttribute('data-subject').toLowerCase();
-        item.style.display = label.indexOf(q) >= 0 ? '' : 'none';
-      });
-    }
-
-    pickList.addEventListener('click', function(e) {
-      var item = e.target.closest('.subject-pick-item');
-      if (!item) return;
-      item.classList.toggle('selected');
-      item.querySelector('.subject-pick-checkbox').checked = item.classList.contains('selected');
-    });
-
-    addBtn.addEventListener('click', function() {
-      var val = customInput.value.trim();
-      if (val) {
-        addItem(val);
-        customInput.value = '';
-        var existingItem = pickList.querySelector('[data-subject="' + CSS.escape(val) + '"]');
-        if (!existingItem) {
-          var label = document.createElement('label');
-          label.className = 'subject-pick-item selected';
-          label.setAttribute('data-subject', val);
-          label.innerHTML = '<input type="checkbox" class="subject-pick-checkbox" checked><span class="subject-pick-check"><span class="material-symbols-outlined">check</span></span><span class="subject-pick-label">' + escapeHtml(val) + '</span>';
-          pickList.appendChild(label);
-        }
-      }
-    });
-
-    customInput.addEventListener('keydown', function(e) {
-      if (e.key === 'Enter') { e.preventDefault(); addBtn.click(); }
-    });
-
-    doneBtn.addEventListener('click', function() {
-      var selected = [];
-      pickList.querySelectorAll('.subject-pick-item.selected').forEach(function(item) {
-        selected.push(item.getAttribute('data-subject'));
-      });
-      items = selected;
-      renderChips();
-      document.body.style.overflow = '';
-      overlay.style.display = 'none';
-    });
-
-    function syncSelection() {
-      var lowerItems = items.map(function(s) { return s.toLowerCase(); });
-      pickList.querySelectorAll('.subject-pick-item').forEach(function(item) {
-        var subject = item.getAttribute('data-subject');
-        var isSel = lowerItems.indexOf(subject.toLowerCase()) >= 0;
-        item.classList.toggle('selected', isSel);
-        item.querySelector('.subject-pick-checkbox').checked = isSel;
-      });
-    }
-
+    function filterList(query) { var q = query.toLowerCase(); pickList.querySelectorAll('.subject-pick-item').forEach(function(item) { var label = item.getAttribute('data-subject').toLowerCase(); item.style.display = label.indexOf(q) >= 0 ? '' : 'none'; }); }
+    pickList.addEventListener('click', function(e) { var item = e.target.closest('.subject-pick-item'); if (!item) return; item.classList.toggle('selected'); item.querySelector('.subject-pick-checkbox').checked = item.classList.contains('selected'); });
+    addBtn.addEventListener('click', function() { var val = customInput.value.trim(); if (val) { addItem(val); customInput.value = ''; var existingItem = pickList.querySelector('[data-subject="' + CSS.escape(val) + '"]'); if (!existingItem) { var label = document.createElement('label'); label.className = 'subject-pick-item selected'; label.setAttribute('data-subject', val); label.innerHTML = '<input type="checkbox" class="subject-pick-checkbox" checked><span class="subject-pick-check"><span class="material-symbols-outlined">check</span></span><span class="subject-pick-label">' + escapeHtml(val) + '</span>'; pickList.appendChild(label); } } });
+    customInput.addEventListener('keydown', function(e) { if (e.key === 'Enter') { e.preventDefault(); addBtn.click(); } });
+    doneBtn.addEventListener('click', function() { var selected = []; pickList.querySelectorAll('.subject-pick-item.selected').forEach(function(item) { selected.push(item.getAttribute('data-subject')); }); items = selected; renderChips(); document.body.style.overflow = ''; overlay.style.display = 'none'; });
+    function syncSelection() { var lowerItems = items.map(function(s) { return s.toLowerCase(); }); pickList.querySelectorAll('.subject-pick-item').forEach(function(item) { var subject = item.getAttribute('data-subject'); var isSel = lowerItems.indexOf(subject.toLowerCase()) >= 0; item.classList.toggle('selected', isSel); item.querySelector('.subject-pick-checkbox').checked = isSel; }); }
     init();
   }
 
-  var subjectPicker = createChipPicker({
-    hiddenId: 'subject-hidden', chipsId: 'subject-chips', inputId: 'subject-input',
-    pickBtnId: 'subject-pick-btn', overlayId: 'subject-pick-overlay',
-    closeBtnId: 'subject-pick-close', searchId: 'subject-pick-search',
-    listId: 'subject-pick-list', customId: 'subject-pick-custom',
-    addBtnId: 'subject-pick-add-btn', cancelBtnId: 'subject-pick-cancel',
-    doneBtnId: 'subject-pick-done'
-  });
-
-  var tagsPicker = createChipPicker({
-    hiddenId: 'tags-hidden', chipsId: 'tags-chips', inputId: 'tags-input',
-    pickBtnId: 'tags-pick-btn', overlayId: 'tags-pick-overlay',
-    closeBtnId: 'tags-pick-close', searchId: 'tags-pick-search',
-    listId: 'tags-pick-list', customId: 'tags-pick-custom',
-    addBtnId: 'tags-pick-add-btn', cancelBtnId: 'tags-pick-cancel',
-    doneBtnId: 'tags-pick-done'
-  });
+  createChipPicker({ hiddenId: 'subject-hidden', chipsId: 'subject-chips', inputId: 'subject-input', pickBtnId: 'subject-pick-btn', overlayId: 'subject-pick-overlay', closeBtnId: 'subject-pick-close', searchId: 'subject-pick-search', listId: 'subject-pick-list', customId: 'subject-pick-custom', addBtnId: 'subject-pick-add-btn', cancelBtnId: 'subject-pick-cancel', doneBtnId: 'subject-pick-done' });
+  createChipPicker({ hiddenId: 'tags-hidden', chipsId: 'tags-chips', inputId: 'tags-input', pickBtnId: 'tags-pick-btn', overlayId: 'tags-pick-overlay', closeBtnId: 'tags-pick-close', searchId: 'tags-pick-search', listId: 'tags-pick-list', customId: 'tags-pick-custom', addBtnId: 'tags-pick-add-btn', cancelBtnId: 'tags-pick-cancel', doneBtnId: 'tags-pick-done' });
 
   var typeSelect = document.getElementById('type');
   var examTypeRow = document.getElementById('exam-type-row');
-
-  function toggleExamType() {
-    var t = typeSelect.value;
-    if (EXAM_TYPES.indexOf(t) >= 0) {
-      examTypeRow.style.display = '';
-    } else {
-      examTypeRow.style.display = 'none';
-      document.getElementById('exam_type').value = '';
-    }
-  }
-
+  function toggleExamType() { var t = typeSelect.value; if (EXAM_TYPES.indexOf(t) >= 0) { examTypeRow.style.display = ''; } else { examTypeRow.style.display = 'none'; document.getElementById('exam_type').value = ''; } }
   typeSelect.addEventListener('change', toggleExamType);
   toggleExamType();
 
-  if (document.getElementById('more-details')) {
-    var hasExtra = ['{{ resource.faculty|default:'' }}', '{{ resource.program|default:'' }}', '{{ resource.year|default:'' }}', '{{ resource.pradesh|default:'' }}', '{{ resource.district|default:'' }}', '{{ resource.school|default:'' }}'].some(function(v) { return v.trim() !== ''; });
-    if (hasExtra) {
-      document.getElementById('more-details').open = true;
-    }
+  // Auto-open "More Details" if any extra fields have values
+  var moreDetails = document.getElementById('more-details');
+  if (moreDetails) {
+    var extraFields = ['{{ resource.faculty|default:"" }}', '{{ resource.program|default:"" }}', '{{ resource.year|default:"" }}', '{{ resource.pradesh|default:"" }}', '{{ resource.district|default:"" }}', '{{ resource.school|default:"" }}'];
+    var hasExtra = extraFields.some(function(v) { return v.trim() !== ''; });
+    if (hasExtra) { moreDetails.open = true; }
   }
 
   var dropzone = document.getElementById('file-dropzone');
@@ -631,44 +468,15 @@
   var selectedFileSize = document.getElementById('selected-file-size');
   var removeBtn = document.getElementById('remove-file-btn');
 
-  function formatSize(bytes) {
-    if (bytes < 1024) return bytes + ' B';
-    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
-    return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
-  }
+  function formatSize(bytes) { if (bytes < 1024) return bytes + ' B'; if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB'; return (bytes / (1024 * 1024)).toFixed(1) + ' MB'; }
+  function showFile(file) { selectedFileName.textContent = file.name; selectedFileSize.textContent = formatSize(file.size); dropzoneContent.style.display = 'none'; dropzoneSelected.style.display = 'flex'; dropzone.classList.add('has-file'); }
+  function clearFile() { fileInput.value = ''; dropzoneContent.style.display = ''; dropzoneSelected.style.display = 'none'; dropzone.classList.remove('has-file'); }
 
-  function showFile(file) {
-    selectedFileName.textContent = file.name;
-    selectedFileSize.textContent = formatSize(file.size);
-    dropzoneContent.style.display = 'none';
-    dropzoneSelected.style.display = 'flex';
-    dropzone.classList.add('has-file');
-  }
-
-  function clearFile() {
-    fileInput.value = '';
-    dropzoneContent.style.display = '';
-    dropzoneSelected.style.display = 'none';
-    dropzone.classList.remove('has-file');
-  }
-
-  fileInput.addEventListener('change', function() {
-    if (fileInput.files && fileInput.files[0]) { showFile(fileInput.files[0]); }
-    else { clearFile(); }
-  });
-
+  fileInput.addEventListener('change', function() { if (fileInput.files && fileInput.files[0]) { showFile(fileInput.files[0]); } else { clearFile(); } });
   removeBtn.addEventListener('click', function(e) { e.preventDefault(); e.stopPropagation(); clearFile(); });
-
-  ['dragenter', 'dragover'].forEach(function(evt) {
-    dropzone.addEventListener(evt, function(e) { e.preventDefault(); dropzone.classList.add('dragover'); });
-  });
-  ['dragleave', 'drop'].forEach(function(evt) {
-    dropzone.addEventListener(evt, function(e) { e.preventDefault(); dropzone.classList.remove('dragover'); });
-  });
-  dropzone.addEventListener('drop', function(e) {
-    e.preventDefault();
-    if (e.dataTransfer.files && e.dataTransfer.files[0]) { fileInput.files = e.dataTransfer.files; showFile(e.dataTransfer.files[0]); }
-  });
+  ['dragenter', 'dragover'].forEach(function(evt) { dropzone.addEventListener(evt, function(e) { e.preventDefault(); dropzone.classList.add('dragover'); }); });
+  ['dragleave', 'drop'].forEach(function(evt) { dropzone.addEventListener(evt, function(e) { e.preventDefault(); dropzone.classList.remove('dragover'); }); });
+  dropzone.addEventListener('drop', function(e) { e.preventDefault(); if (e.dataTransfer.files && e.dataTransfer.files[0]) { fileInput.files = e.dataTransfer.files; showFile(e.dataTransfer.files[0]); } });
 })();
 </script>
 {% endblock %}
