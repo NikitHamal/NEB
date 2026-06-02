@@ -1,14 +1,9 @@
 package com.neb.ians.data.repository
 
 import android.content.Context
+import android.net.Uri
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
-import androidx.credentials.CredentialManager
-import androidx.credentials.GetCredentialRequest
-import androidx.credentials.CustomCredential
-import com.google.android.libraries.identity.googleid.GetGoogleIdOption
-import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
-import com.neb.ians.data.api.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.first
@@ -27,7 +22,7 @@ sealed interface AuthState {
 @Singleton
 class AuthRepository @Inject constructor(
     private val dataStore: DataStore<Preferences>,
-    private val apiService: ApiService
+    private val apiService: com.neb.ians.data.api.ApiService
 ) {
     companion object {
         private val AUTH_TOKEN = stringPreferencesKey("auth_token")
@@ -59,6 +54,9 @@ class AuthRepository @Inject constructor(
         val USER_FOLLOWING_COUNT = intPreferencesKey("user_following_count")
         val USER_CONTRIBUTION_SCORE = intPreferencesKey("user_contribution_score")
         val USER_ACHIEVEMENT_BADGES = stringPreferencesKey("user_achievement_badges")
+
+        const val GOOGLE_AUTH_URL = "https://nebians.consica.com.np/auth/google/login/?mobile=1"
+        const val GITHUB_AUTH_URL = "https://nebians.consica.com.np/auth/github/login/?mobile=1"
     }
 
     val authState: Flow<AuthState> = dataStore.data.map { preferences ->
@@ -125,7 +123,7 @@ class AuthRepository @Inject constructor(
         return "Bearer $token"
     }
 
-    private suspend fun cacheUser(user: UserProfileResponse, authToken: String, isNewUser: Boolean) {
+    private suspend fun cacheUser(user: com.neb.ians.data.api.UserProfileResponse, authToken: String, isNewUser: Boolean) {
         dataStore.edit { prefs ->
             prefs[AUTH_TOKEN] = authToken
             prefs[AUTH_STATUS] = "authenticated"
@@ -163,84 +161,33 @@ class AuthRepository @Inject constructor(
         }
     }
 
-    suspend fun signInWithGoogle(context: Context): GoogleSignInResult {
+    suspend fun handleOAuthCallback(uri: Uri): OAuthResult {
+        val error = uri.getQueryParameter("error")
+        if (error != null) {
+            return OAuthResult.Failure("Authentication failed: $error")
+        }
+        val authToken = uri.getQueryParameter("authToken")
+            ?: return OAuthResult.Failure("No auth token received")
+        val isNewUser = uri.getQueryParameter("isNewUser")?.toBoolean() ?: false
+
         return try {
-            val credentialManager = CredentialManager.create(context)
-            val googleIdOption = GetGoogleIdOption.Builder()
-                .setFilterByAuthorizedAccounts(false)
-                .setServerClientId("68143624035-que25r0vmrke4agasr715j5u9p8gic2s.apps.googleusercontent.com")
-                .setAutoSelectEnabled(false)
-                .build()
-
-            val request = GetCredentialRequest.Builder()
-                .addCredentialOption(googleIdOption)
-                .build()
-
-            val result = credentialManager.getCredential(context, request)
-            val credential = result.credential
-
-            if (credential is CustomCredential && credential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL) {
-                val googleIdTokenCredential = GoogleIdTokenCredential.createFrom(credential.data)
-                val idToken = googleIdTokenCredential.idToken
-
-                val response = withContext(Dispatchers.IO) {
-                    apiService.authenticateGoogle(GoogleAuthRequest(idToken))
-                }
-
-                val user = response.user
-                val authToken = response.authToken ?: user.id
+            val bearer = "Bearer $authToken"
+            val user = withContext(Dispatchers.IO) { apiService.getProfile(bearer, "me") }
+            withContext(Dispatchers.IO) { cacheUser(user, authToken, isNewUser) }
+            OAuthResult.Success(isNewUser)
+        } catch (e: Exception) {
+            try {
                 withContext(Dispatchers.IO) {
-                    cacheUser(user, authToken, response.isNewUser)
+                    dataStore.edit { prefs ->
+                        prefs[AUTH_TOKEN] = authToken
+                        prefs[AUTH_STATUS] = "authenticated"
+                        prefs[PROFILE_COMPLETED] = !isNewUser
+                        if (!isNewUser) prefs[USER_NAME] = "Student"
+                    }
                 }
-                GoogleSignInResult.Success(response.isNewUser)
-            } else {
-                GoogleSignInResult.Failure("Unsupported credential type")
-            }
-        } catch (e: Exception) {
-            GoogleSignInResult.Failure(e.localizedMessage ?: "Google Sign-In failed")
+            } catch (_: Exception) {}
+            OAuthResult.Success(isNewUser)
         }
-    }
-
-    suspend fun signInWithGithub(authCode: String): GithubSignInResult {
-        return try {
-            val response = withContext(Dispatchers.IO) {
-                apiService.authenticateGithub(GithubAuthRequest(authCode, "nebians://github-callback"))
-            }
-            val user = response.user
-            val authToken = response.authToken ?: user.id
-            withContext(Dispatchers.IO) {
-                cacheUser(user, authToken, response.isNewUser)
-            }
-            GithubSignInResult.Success(response.isNewUser)
-        } catch (e: Exception) {
-            GithubSignInResult.Failure(e.localizedMessage ?: "GitHub Sign-In failed")
-        }
-    }
-
-    suspend fun completeProfile(profile: UserProfileRequest): Boolean {
-        return try {
-            val bearer = getBearerToken() ?: return false
-            val response = withContext(Dispatchers.IO) {
-                apiService.updateProfile(bearer, profile)
-            }
-            val user = response.user
-            withContext(Dispatchers.IO) {
-                dataStore.edit { prefs ->
-                    prefs[PROFILE_COMPLETED] = true
-                    prefs[USER_NAME] = user.username
-                    prefs[USER_DOB] = user.dob
-                    prefs[USER_GENDER] = user.gender ?: ""
-                    prefs[USER_CLASS] = user.classLevel ?: ""
-                    prefs[USER_SUBJECTS] = user.subjects ?: ""
-                    prefs[USER_PRADESH] = user.pradesh ?: ""
-                    prefs[USER_DISTRICT] = user.district ?: ""
-                    prefs[USER_SCHOOL] = user.school ?: ""
-                    prefs[USER_LOCKED] = user.isLocked == 1
-                    prefs[USER_HAS_PASSWORD] = user.hasPassword
-                }
-            }
-            true
-        } catch (_: Exception) { false }
     }
 
     suspend fun continueAsGuest() {
@@ -256,7 +203,7 @@ class AuthRepository @Inject constructor(
     suspend fun emailSignup(email: String, password: String, username: String): EmailAuthResult {
         return try {
             val response = withContext(Dispatchers.IO) {
-                apiService.emailSignup(EmailSignupRequest(email, password, username))
+                apiService.emailSignup(com.neb.ians.data.api.EmailSignupRequest(email, password, username))
             }
             if (response.status == "success") {
                 EmailAuthResult.SignupSuccess(response.userId, response.email)
@@ -271,7 +218,7 @@ class AuthRepository @Inject constructor(
     suspend fun emailVerify(email: String, code: String): EmailAuthResult {
         return try {
             val response = withContext(Dispatchers.IO) {
-                apiService.emailVerify(EmailVerifyRequest(email, code))
+                apiService.emailVerify(com.neb.ians.data.api.EmailVerifyRequest(email, code))
             }
             if (response.status == "success" && response.authToken != null) {
                 val user = response.user
@@ -288,7 +235,7 @@ class AuthRepository @Inject constructor(
 
     suspend fun emailResendCode(email: String): EmailAuthResult {
         return try {
-            val response = withContext(Dispatchers.IO) { apiService.emailResendCode(EmailResendRequest(email)) }
+            val response = withContext(Dispatchers.IO) { apiService.emailResendCode(com.neb.ians.data.api.EmailResendRequest(email)) }
             EmailAuthResult.Message(response.message.ifEmpty { "Code resent" })
         } catch (e: Exception) {
             EmailAuthResult.Failure(e.localizedMessage ?: "Failed to resend code")
@@ -298,7 +245,7 @@ class AuthRepository @Inject constructor(
     suspend fun emailLogin(email: String, password: String): EmailAuthResult {
         return try {
             val response = withContext(Dispatchers.IO) {
-                apiService.emailLogin(EmailLoginRequest(email, password))
+                apiService.emailLogin(com.neb.ians.data.api.EmailLoginRequest(email, password))
             }
             if (response.status == "success" && response.authToken != null) {
                 val user = response.user
@@ -315,7 +262,7 @@ class AuthRepository @Inject constructor(
 
     suspend fun emailForgotPassword(email: String): EmailAuthResult {
         return try {
-            val response = withContext(Dispatchers.IO) { apiService.emailForgotPassword(EmailForgotRequest(email)) }
+            val response = withContext(Dispatchers.IO) { apiService.emailForgotPassword(com.neb.ians.data.api.EmailForgotRequest(email)) }
             EmailAuthResult.Message(response.message.ifEmpty { "If an account exists, a code has been sent" })
         } catch (e: Exception) {
             EmailAuthResult.Failure(e.localizedMessage ?: "Failed to send reset code")
@@ -325,7 +272,7 @@ class AuthRepository @Inject constructor(
     suspend fun emailResetPassword(email: String, code: String, newPassword: String): EmailAuthResult {
         return try {
             val response = withContext(Dispatchers.IO) {
-                apiService.emailResetPassword(EmailResetPasswordRequest(email, code, newPassword))
+                apiService.emailResetPassword(com.neb.ians.data.api.EmailResetPasswordRequest(email, code, newPassword))
             }
             if (response.status == "success" && response.authToken != null) {
                 val user = response.user
@@ -343,7 +290,7 @@ class AuthRepository @Inject constructor(
     suspend fun setPassword(password: String): PasswordResult {
         return try {
             val bearer = getBearerToken() ?: return PasswordResult.Failure("Not authenticated")
-            val response = withContext(Dispatchers.IO) { apiService.setPassword(bearer, SetPasswordRequest(password)) }
+            val response = withContext(Dispatchers.IO) { apiService.setPassword(bearer, com.neb.ians.data.api.SetPasswordRequest(password)) }
             if (response.status == "success") {
                 dataStore.edit { prefs -> prefs[USER_HAS_PASSWORD] = true }
                 PasswordResult.Success
@@ -359,7 +306,7 @@ class AuthRepository @Inject constructor(
         return try {
             val bearer = getBearerToken() ?: return PasswordResult.Failure("Not authenticated")
             val response = withContext(Dispatchers.IO) {
-                apiService.changePassword(bearer, ChangePasswordRequest(currentPassword, newPassword))
+                apiService.changePassword(bearer, com.neb.ians.data.api.ChangePasswordRequest(currentPassword, newPassword))
             }
             if (response.status == "success") {
                 response.authToken?.let { newToken ->
@@ -438,21 +385,16 @@ sealed class PasswordResult {
     data class Failure(val message: String) : PasswordResult()
 }
 
-sealed class GithubSignInResult {
-    data class Success(val isNewUser: Boolean) : GithubSignInResult()
-    data class Failure(val message: String) : GithubSignInResult()
-}
-
-sealed class GoogleSignInResult {
-    data class Success(val isNewUser: Boolean) : GoogleSignInResult()
-    data class Failure(val message: String) : GoogleSignInResult()
+sealed class OAuthResult {
+    data class Success(val isNewUser: Boolean) : OAuthResult()
+    data class Failure(val message: String) : OAuthResult()
 }
 
 sealed class EmailAuthResult {
     data class SignupSuccess(val userId: String, val email: String) : EmailAuthResult()
-    data class VerifySuccess(val isNewUser: Boolean, val authToken: String, val user: UserProfileResponse) : EmailAuthResult()
-    data class LoginSuccess(val isNewUser: Boolean, val authToken: String, val user: UserProfileResponse) : EmailAuthResult()
-    data class ResetSuccess(val authToken: String, val user: UserProfileResponse) : EmailAuthResult()
+    data class VerifySuccess(val isNewUser: Boolean, val authToken: String, val user: com.neb.ians.data.api.UserProfileResponse) : EmailAuthResult()
+    data class LoginSuccess(val isNewUser: Boolean, val authToken: String, val user: com.neb.ians.data.api.UserProfileResponse) : EmailAuthResult()
+    data class ResetSuccess(val authToken: String, val user: com.neb.ians.data.api.UserProfileResponse) : EmailAuthResult()
     data class Message(val message: String) : EmailAuthResult()
     data class Failure(val message: String) : EmailAuthResult()
 }

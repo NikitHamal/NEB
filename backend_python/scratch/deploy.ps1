@@ -16,6 +16,8 @@ $privateKey = $info.ssh_private_key
 # Write SSH key to temp file
 $keyPath = "$env:TEMP\nebians_deploy_key_temp.pem"
 if (Test-Path $keyPath) {
+    & icacls $keyPath /grant "${env:USERNAME}:F" 2>&1 | Out-Null
+    attrib -r $keyPath 2>&1 | Out-Null
     Remove-Item $keyPath -Force -ErrorAction SilentlyContinue
 }
 Write-Host "Creating temporary SSH key file at: $keyPath"
@@ -89,7 +91,9 @@ echo 'DEPLOYMENT SUCCESSFUL'
 # Cleanup key
 Write-Host "Cleaning up temporary SSH key file..."
 if (Test-Path $keyPath) {
-    Remove-Item $keyPath -Force
+    & icacls $keyPath /grant "${env:USERNAME}:F" 2>&1 | Out-Null
+    attrib -r $keyPath 2>&1 | Out-Null
+    Remove-Item $keyPath -Force -ErrorAction SilentlyContinue
 }
 
 Write-Host "Done!"

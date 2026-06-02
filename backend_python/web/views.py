@@ -243,7 +243,7 @@ def _serialize_replies(replies_qs, user_id=None):
                     'photoUrl': c.user.photo_url,
                 })
         result.append({
-            'id': r.id, 'postId': r.post_id, 'parentReplyId': r.parent_reply_id,
+            'id': r.id, 'postId': r.post_id, 'postTitle': r.post.title if r.post else '', 'parentReplyId': r.parent_reply_id,
             'content': r.content, 'authorName': r.user.username,
             'authorPhotoUrl': r.user.photo_url, 'authorId': r.user_id,
             'authorBadgeInfo': _user_badge_info(r.user),
@@ -962,6 +962,9 @@ def profile(request, username):
     user_posts_qs = Post.objects.none() if profile_private else Post.objects.select_related('user').filter(user_id=profile_user.id).order_by('-created_at')[:10]
     user_posts = _serialize_posts(user_posts_qs, user_id)
 
+    user_replies_qs = Reply.objects.none() if profile_private else Reply.objects.select_related('user', 'post').filter(user_id=profile_user.id).order_by('-created_at')[:10]
+    user_replies = _serialize_replies(user_replies_qs, user_id)
+
     user_photos = []
     if user_id and user_id == profile_user.id:
         user_photos = list(UserPhoto.objects.filter(user_id=profile_user.id).values('id', 'url', 'uploaded_at', 'is_current'))
@@ -972,6 +975,7 @@ def profile(request, username):
         stats=stats,
         user_photos=user_photos,
         user_posts=user_posts,
+        user_replies=user_replies,
         profile_private=profile_private,
         badge_info=profile_data.get('badge_info'),
         badge_info_json=json.dumps(profile_data.get('badge_info')),
@@ -1060,6 +1064,36 @@ def ajax_profile_activity(request, username):
 
     return JsonResponse({
         'posts': user_posts,
+        'has_more': has_more,
+        'total_count': total_count
+    })
+
+
+def ajax_profile_replies(request, username):
+    user_id = _get_user_id(request)
+    try:
+        profile_user = User.objects.get(username=username)
+    except User.DoesNotExist:
+        return JsonResponse({'error': 'User not found'}, status=404)
+
+    if profile_user.is_locked and user_id != profile_user.id:
+        return JsonResponse({'error': 'This profile is private'}, status=403)
+
+    try:
+        offset = max(0, int(request.GET.get('offset', 0)))
+        limit = min(25, max(1, int(request.GET.get('limit', 10))))
+    except ValueError:
+        offset = 0
+        limit = 10
+
+    replies_qs = Reply.objects.select_related('user', 'post').filter(user_id=profile_user.id).order_by('-created_at')[offset:offset+limit]
+    replies = _serialize_replies(replies_qs, user_id)
+
+    total_count = Reply.objects.filter(user_id=profile_user.id).count()
+    has_more = (offset + len(replies)) < total_count
+
+    return JsonResponse({
+        'replies': replies,
         'has_more': has_more,
         'total_count': total_count
     })
@@ -1271,7 +1305,13 @@ def google_login(request):
     client_id = settings.GOOGLE_CLIENT_ID
     if not client_id:
         return HttpResponse('Google OAuth is not configured.', status=501)
-    redirect_uri = _https_redirect_uri(request, '/auth/google/callback/')
+    mobile = request.GET.get('mobile')
+    if mobile == '1':
+        redirect_uri = 'nebians://auth-callback'
+        state = 'mobile_google'
+    else:
+        redirect_uri = _https_redirect_uri(request, '/auth/google/callback/')
+        state = ''
     authorize_url = (
         f'https://accounts.google.com/o/oauth2/v2/auth'
         f'?client_id={client_id}'
@@ -1281,18 +1321,27 @@ def google_login(request):
         f'&prompt=select_account'
         f'&access_type=online'
     )
+    if state:
+        authorize_url += f'&state={state}'
     return redirect(authorize_url)
 
 
 def google_oauth_callback(request):
     """Handle Google OAuth2 code → exchange for tokens → verify id_token → login/signup."""
-    import requests as _req
+    state = request.GET.get('state', '')
+    is_mobile = state == 'mobile_google'
     code = request.GET.get('code')
     if not code:
+        if is_mobile:
+            return redirect('nebians://auth-callback?error=cancelled')
         messages.error(request, 'Google sign-in was cancelled.')
         return redirect('web:login')
-    redirect_uri = _https_redirect_uri(request, '/auth/google/callback/')
+    if is_mobile:
+        redirect_uri = 'nebians://auth-callback'
+    else:
+        redirect_uri = _https_redirect_uri(request, '/auth/google/callback/')
     try:
+        import requests as _req
         token_resp = _req.post(
             'https://oauth2.googleapis.com/token',
             data={
@@ -1307,15 +1356,21 @@ def google_oauth_callback(request):
         token_data = token_resp.json()
     except Exception as e:
         logger.error('google_oauth_callback: token exchange failed: %s', e)
+        if is_mobile:
+            return redirect('nebians://auth-callback?error=token_exchange_failed')
         messages.error(request, 'Google sign-in failed. Please try again.')
         return redirect('web:login')
     id_token = token_data.get('id_token')
     if not id_token:
         logger.error('google_oauth_callback: no id_token in response: %s', token_data)
+        if is_mobile:
+            return redirect('nebians://auth-callback?error=no_id_token')
         messages.error(request, 'Google sign-in failed. Please try again.')
         return redirect('web:login')
     google_info = verify_google_token(id_token)
     if not google_info:
+        if is_mobile:
+            return redirect('nebians://auth-callback?error=token_verification_failed')
         messages.error(request, 'Google token verification failed.')
         return redirect('web:login')
     user_id = google_info['userId']
@@ -1332,11 +1387,16 @@ def google_oauth_callback(request):
         user_data['isNewUser'] = False
         api.set_session_auth(request, token, user_data)
         logger.info('google_oauth_callback: existing user signed in: %s', db_user.username or db_user.id)
+        if is_mobile:
+            return redirect(f'nebians://auth-callback?authToken={token}&isNewUser=false')
         return redirect('web:home')
     except User.DoesNotExist:
         pass
     redirect_result, linked = _link_oauth_user(request, email, user_id, display_name, photo_url, 'google_oauth_callback')
     if linked:
+        if is_mobile:
+            linked_token = linked.auth_token if hasattr(linked, 'auth_token') else ''
+            return redirect(f'nebians://auth-callback?authToken={linked_token}&isNewUser=false')
         return redirect_result
     auth_token = User.generate_token()
     temp_username = f"user_{user_id[:8]}"
@@ -1355,6 +1415,8 @@ def google_oauth_callback(request):
     user_data['isNewUser'] = True
     api.set_session_auth(request, token, user_data)
     logger.info('google_oauth_callback: new user created: %s (temp_username=%s)', user_id, temp_username)
+    if is_mobile:
+        return redirect(f'nebians://auth-callback?authToken={auth_token}&isNewUser=true')
     return redirect('web:edit_profile')
 
 
@@ -1363,23 +1425,38 @@ def github_login(request):
     client_id = settings.GITHUB_CLIENT_ID
     if not client_id:
         return HttpResponse('GitHub OAuth is not configured.', status=501)
-    redirect_uri = _https_redirect_uri(request, '/auth/github/callback/')
+    mobile = request.GET.get('mobile')
+    if mobile == '1':
+        redirect_uri = 'nebians://auth-callback'
+        state = 'mobile_github'
+    else:
+        redirect_uri = _https_redirect_uri(request, '/auth/github/callback/')
+        state = ''
     authorize_url = (
         f'https://github.com/login/oauth/authorize'
         f'?client_id={client_id}'
         f'&redirect_uri={redirect_uri}'
         f'&scope=read:user,user:email'
     )
+    if state:
+        authorize_url += f'&state={state}'
     return redirect(authorize_url)
 
 
 @require_GET
 def github_callback(request):
     """Handle GitHub OAuth callback — exchange code for token, fetch user, create/login."""
+    state = request.GET.get('state', '')
+    is_mobile = state == 'mobile_github'
     code = request.GET.get('code')
     if not code:
+        if is_mobile:
+            return redirect('nebians://auth-callback?error=cancelled')
         return HttpResponse('Missing authorization code.', status=400)
-    redirect_uri = _https_redirect_uri(request, '/auth/github/callback/')
+    if is_mobile:
+        redirect_uri = 'nebians://auth-callback'
+    else:
+        redirect_uri = _https_redirect_uri(request, '/auth/github/callback/')
     token_url = 'https://github.com/login/oauth/access_token'
     headers = {'Accept': 'application/json'}
     data = {
@@ -1394,9 +1471,13 @@ def github_callback(request):
         token_data = resp.json()
     except Exception as e:
         logger.error('github_callback: token exchange failed: %s', e)
+        if is_mobile:
+            return redirect('nebians://auth-callback?error=token_exchange_failed')
         return HttpResponse('Failed to exchange authorization code.', status=502)
     access_token = token_data.get('access_token')
     if not access_token:
+        if is_mobile:
+            return redirect('nebians://auth-callback?error=no_access_token')
         return HttpResponse('Failed to get access token from GitHub.', status=502)
     try:
         user_resp = _req.get(
@@ -1407,9 +1488,13 @@ def github_callback(request):
         github_user = user_resp.json()
     except Exception as e:
         logger.error('github_callback: user fetch failed: %s', e)
+        if is_mobile:
+            return redirect('nebians://auth-callback?error=user_fetch_failed')
         return HttpResponse('Failed to fetch GitHub user info.', status=502)
     github_id = str(github_user.get('id', ''))
     if not github_id:
+        if is_mobile:
+            return redirect('nebians://auth-callback?error=no_user_id')
         return HttpResponse('Could not retrieve GitHub user ID.', status=502)
     email = github_user.get('email') or ''
     if not email:
@@ -1444,11 +1529,16 @@ def github_callback(request):
         user_data['isNewUser'] = False
         api.set_session_auth(request, token, user_data)
         logger.info('github_callback: existing user signed in: %s', db_user.username or db_user.id)
+        if is_mobile:
+            return redirect(f'nebians://auth-callback?authToken={token}&isNewUser=false')
         return redirect('web:home')
     except User.DoesNotExist:
         pass
     redirect_result, linked = _link_oauth_user(request, email, user_pk, display_name, photo_url, 'github_callback')
     if linked:
+        if is_mobile:
+            linked_token = linked.auth_token if hasattr(linked, 'auth_token') else ''
+            return redirect(f'nebians://auth-callback?authToken={linked_token}&isNewUser=false')
         return redirect_result
     auth_token = User.generate_token()
     temp_username = f"github_{github_id[:8]}"
@@ -1472,6 +1562,8 @@ def github_callback(request):
     user_data['isNewUser'] = True
     api.set_session_auth(request, token, user_data)
     logger.info('github_callback: new user created: %s', user_pk)
+    if is_mobile:
+        return redirect(f'nebians://auth-callback?authToken={auth_token}&isNewUser=true')
     return redirect('web:edit_profile')
 
 
