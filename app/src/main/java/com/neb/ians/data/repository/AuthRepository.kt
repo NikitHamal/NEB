@@ -1,7 +1,6 @@
 package com.neb.ians.data.repository
 
 import android.content.Context
-import android.net.Uri
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
 import kotlinx.coroutines.flow.Flow
@@ -55,8 +54,9 @@ class AuthRepository @Inject constructor(
         val USER_CONTRIBUTION_SCORE = intPreferencesKey("user_contribution_score")
         val USER_ACHIEVEMENT_BADGES = stringPreferencesKey("user_achievement_badges")
 
-        const val GOOGLE_AUTH_URL = "https://nebians.consica.com.np/auth/google/login/?mobile=1"
-        const val GITHUB_AUTH_URL = "https://nebians.consica.com.np/auth/github/login/?mobile=1"
+        const val GOOGLE_SERVER_CLIENT_ID = "68143624035-que25r0vmrke4agasr715j5u9p8gic2s.apps.googleusercontent.com"
+        const val GITHUB_CLIENT_ID = "Ov23lii7dRW1FhLQ09w7"
+        const val GITHUB_REDIRECT_URI = "https://nebians.consica.com.np/auth/github/callback/"
     }
 
     val authState: Flow<AuthState> = dataStore.data.map { preferences ->
@@ -123,6 +123,32 @@ class AuthRepository @Inject constructor(
         return "Bearer $token"
     }
 
+    suspend fun signInWithGoogle(idToken: String): OAuthResult {
+        return try {
+            val response = withContext(Dispatchers.IO) {
+                apiService.authenticateGoogle(com.neb.ians.data.api.GoogleAuthRequest(idToken))
+            }
+            val authToken = response.authToken ?: return OAuthResult.Failure("No auth token received")
+            withContext(Dispatchers.IO) { cacheUser(response.user, authToken, response.isNewUser) }
+            OAuthResult.Success(response.isNewUser)
+        } catch (e: Exception) {
+            OAuthResult.Failure(e.localizedMessage ?: "Google sign-in failed")
+        }
+    }
+
+    suspend fun signInWithGitHub(code: String): OAuthResult {
+        return try {
+            val response = withContext(Dispatchers.IO) {
+                apiService.authenticateGitHub(com.neb.ians.data.api.GitHubAuthRequest(code, GITHUB_REDIRECT_URI))
+            }
+            val authToken = response.authToken ?: return OAuthResult.Failure("No auth token received")
+            withContext(Dispatchers.IO) { cacheUser(response.user, authToken, response.isNewUser) }
+            OAuthResult.Success(response.isNewUser)
+        } catch (e: Exception) {
+            OAuthResult.Failure(e.localizedMessage ?: "GitHub sign-in failed")
+        }
+    }
+
     private suspend fun cacheUser(user: com.neb.ians.data.api.UserProfileResponse, authToken: String, isNewUser: Boolean) {
         dataStore.edit { prefs ->
             prefs[AUTH_TOKEN] = authToken
@@ -158,35 +184,6 @@ class AuthRepository @Inject constructor(
                 prefs[USER_CONTRIBUTION_SCORE] = user.contributionScore
                 prefs[USER_ACHIEVEMENT_BADGES] = user.achievementBadges ?: ""
             }
-        }
-    }
-
-    suspend fun handleOAuthCallback(uri: Uri): OAuthResult {
-        val error = uri.getQueryParameter("error")
-        if (error != null) {
-            return OAuthResult.Failure("Authentication failed: $error")
-        }
-        val authToken = uri.getQueryParameter("authToken")
-            ?: return OAuthResult.Failure("No auth token received")
-        val isNewUser = uri.getQueryParameter("isNewUser")?.toBoolean() ?: false
-
-        return try {
-            val bearer = "Bearer $authToken"
-            val user = withContext(Dispatchers.IO) { apiService.getProfile(bearer, "me") }
-            withContext(Dispatchers.IO) { cacheUser(user, authToken, isNewUser) }
-            OAuthResult.Success(isNewUser)
-        } catch (e: Exception) {
-            try {
-                withContext(Dispatchers.IO) {
-                    dataStore.edit { prefs ->
-                        prefs[AUTH_TOKEN] = authToken
-                        prefs[AUTH_STATUS] = "authenticated"
-                        prefs[PROFILE_COMPLETED] = !isNewUser
-                        if (!isNewUser) prefs[USER_NAME] = "Student"
-                    }
-                }
-            } catch (_: Exception) {}
-            OAuthResult.Success(isNewUser)
         }
     }
 

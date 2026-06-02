@@ -18,6 +18,12 @@ import okhttp3.MediaType.Companion.toMediaType
 data class GoogleAuthRequest(val idToken: String)
 
 @Serializable
+data class GitHubAuthRequest(
+    val code: String,
+    @SerialName("redirectUri") val redirectUri: String
+)
+
+@Serializable
 data class EmailSignupRequest(
     val email: String,
     val password: String,
@@ -414,6 +420,9 @@ interface ApiService {
     // --- Auth ---
     @POST("api/auth/google/")
     suspend fun authenticateGoogle(@Body request: GoogleAuthRequest): GoogleAuthResponse
+
+    @POST("api/auth/github/")
+    suspend fun authenticateGitHub(@Body request: GitHubAuthRequest): GoogleAuthResponse
 
     @POST("api/auth/email/signup/")
     suspend fun emailSignup(@Body request: EmailSignupRequest): EmailSignupResponse

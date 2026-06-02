@@ -35,13 +35,14 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="nebians" android:host="auth-callback" />
-            </intent-filter>
         </activity>
+
+        <!-- GitHub OAuth Activity (in-app WebView) -->
+        <activity
+            android:name=".ui.screens.auth.GitHubAuthActivity"
+            android:exported="false"
+            android:theme="@style/Theme.NEBians"
+            android:configChanges="orientation|screenSize" />
 
         <!-- Firebase Cloud Messaging Service -->
         <service
