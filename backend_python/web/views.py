@@ -22,6 +22,7 @@ from api.authentication import verify_google_token
 from api import services
 from api import counters as _counters
 from api import notifications as _notif
+from api import cleanup as _cleanup
 from . import api_client as api
 
 logger = logging.getLogger(__name__)
@@ -1961,28 +1962,16 @@ def ajax_delete_post(request, post_id):
         return JsonResponse({'error': 'Unauthorized'}, status=401)
     try:
         post = Post.objects.get(pk=post_id)
-        if post.user_id != user_id:
-            return JsonResponse({'error': 'Forbidden'}, status=403)
-        user_id_str = post.user_id
-        with transaction.atomic():
-            reply_ids = list(Reply.objects.filter(post_id=post_id).values_list('id', flat=True))
-            Bookmark.objects.filter(target_type='post', target_id=post_id).delete()
-            Bookmark.objects.filter(target_type='reply', target_id__in=reply_ids).delete()
-            PostLike.objects.filter(post_id=post_id).delete()
-            ReplyLike.objects.filter(reply_id__in=reply_ids).delete()
-            EditHistory.objects.filter(target_type='post', target_id=post_id).delete()
-            EditHistory.objects.filter(target_type='reply', target_id__in=reply_ids).delete()
-            Reply.objects.filter(post_id=post_id).delete()
-            Report.objects.filter(target_type='post', target_id=post_id).delete()
-            _notif.delete_notifications_for_target('post', post_id)
-            for rid in reply_ids:
-                _notif.delete_notifications_for_target('reply', rid)
-            post.delete()
-        _counters.decrement_user_post_count(user_id_str)
-        _clear_page_cache()
-        return JsonResponse({'success': True})
     except Post.DoesNotExist:
         return JsonResponse({'error': 'Post not found'}, status=404)
+    if post.user_id != user_id:
+        return JsonResponse({'error': 'Forbidden'}, status=403)
+    try:
+        _cleanup.delete_post_with_cleanup(post_id)
+    except Post.DoesNotExist:
+        return JsonResponse({'error': 'Post not found'}, status=404)
+    _clear_page_cache()
+    return JsonResponse({'success': True})
 
 
 @require_POST
@@ -2089,23 +2078,10 @@ def ajax_delete_reply(request, reply_id):
         return JsonResponse({'error': 'Reply not found'}, status=404)
     if reply.user_id != user_id:
         return JsonResponse({'error': 'Forbidden'}, status=403)
-    reply_user_id = reply.user_id
-    post_id = reply.post_id
-    parent_id = reply.parent_reply_id
-    with transaction.atomic():
-        child_ids = list(Reply.objects.filter(parent_reply_id=reply_id).values_list('id', flat=True))
-        Bookmark.objects.filter(target_type='reply', target_id__in=[reply_id] + child_ids).delete()
-        ReplyLike.objects.filter(reply_id__in=[reply_id] + child_ids).delete()
-        EditHistory.objects.filter(target_type='reply', target_id__in=[reply_id] + child_ids).delete()
-        _notif.delete_notifications_for_target('reply', reply_id)
-        for cid in child_ids:
-            _notif.delete_notifications_for_target('reply', cid)
-        Reply.objects.filter(parent_reply_id=reply_id).delete()
-        reply.delete()
-        Post.objects.filter(pk=post_id, reply_count__gt=0).update(reply_count=F('reply_count') - 1)
-        if parent_id:
-            Reply.objects.filter(pk=parent_id, reply_count__gt=0).update(reply_count=F('reply_count') - 1)
-    _counters.decrement_user_reply_count(reply_user_id)
+    try:
+        _cleanup.delete_reply_with_cleanup(reply_id)
+    except Reply.DoesNotExist:
+        return JsonResponse({'error': 'Reply not found'}, status=404)
     _clear_page_cache()
     return JsonResponse({'success': True})
 

@@ -1,12 +1,12 @@
 """
 Neby AI Bot — detects @neby mentions and generates contextual replies.
 
-This is an experimental feature. The entire system can be disabled via
-BotConfig.enabled = False, which will cause all trigger checks to short-circuit
-before making any API calls.
+Task queue architecture:
+- Request cycle: detect_mention() → enqueue_neby_task() → creates a NebyTask row
+- Cron job: `python manage.py process_neby_tasks` picks up pending tasks,
+  calls the AI, creates the reply, and marks the task done/failed.
 
-The AI calls go directly to chat.qwen.ai using our own browser session spoofing
-(qwen_proxy module). No external proxy or API key needed.
+This avoids blocking the request and avoids daemon threads that Passenger kills.
 """
 import logging
 import re
@@ -16,7 +16,7 @@ import uuid
 from django.db import transaction
 from django.db.models import F
 
-from .models import BotConfig, User, Post, Reply
+from .models import BotConfig, User, Post, Reply, NebyTask
 
 logger = logging.getLogger(__name__)
 
@@ -43,6 +43,49 @@ def is_neby_enabled():
 def detect_mention(text, bot_username='neby'):
     pattern = re.compile(r'@' + re.escape(bot_username) + r'\b', re.IGNORECASE)
     return bool(pattern.search(text))
+
+
+def enqueue_neby_task(trigger, post_id, reply_id=None):
+    """Create a pending NebyTask and return it. Called from request cycle."""
+    if not is_neby_enabled():
+        logger.debug('Neby: enqueue skipped (not enabled)')
+        return None
+    config = BotConfig.get_config()
+    bot_user = BotConfig.get_bot_user()
+    if not bot_user:
+        logger.debug('Neby: enqueue skipped (no bot user)')
+        return None
+    task = NebyTask.objects.create(
+        id=str(uuid.uuid4()),
+        status='pending',
+        trigger=trigger,
+        post_id=post_id,
+        reply_id=reply_id,
+        created_at=_now_ms(),
+    )
+    logger.info(f'Neby: enqueued {trigger} task {task.id} for post {post_id}')
+    return task
+
+
+def enqueue_if_post_mention(post):
+    """Check if a post mentions @neby and enqueue a task if so."""
+    config = BotConfig.get_config()
+    if detect_mention(post.content, config.bot_username) or detect_mention(post.title, config.bot_username):
+        return enqueue_neby_task('post_mention', post.id)
+    return None
+
+
+def enqueue_if_reply_mention(reply):
+    """Check if a reply mentions @neby and enqueue a task if so."""
+    config = BotConfig.get_config()
+    bot_user = BotConfig.get_bot_user()
+    if not bot_user:
+        return None
+    if reply.user_id == bot_user.id:
+        return None
+    if detect_mention(reply.content, config.bot_username):
+        return enqueue_neby_task('reply_mention', reply.post_id, reply_id=reply.id)
+    return None
 
 
 def _build_post_context(post, max_replies=10):
@@ -80,6 +123,7 @@ def _build_reply_context(reply, max_context_replies=10):
         reply_author = reply.user.display_name or reply.user.username
     except Exception:
         reply_author = 'Unknown'
+    reply_username = reply.user.username
     lines.append(f"Post by {post_author} (category: {post.category}):")
     lines.append(f"Title: {post.title}")
     lines.append(f"Content: {post.content}")
@@ -99,7 +143,7 @@ def _build_reply_context(reply, max_context_replies=10):
     lines.append(f"{reply_author} just wrote (mentioning you): {reply.content}")
     lines.append("")
     lines.append("Please write a helpful reply as Neby. Keep it concise and relevant.")
-    return '\n'.join(lines), reply_author
+    return '\n'.join(lines), reply_username
 
 
 def call_ai_api(system_prompt, user_message, config=None):
@@ -112,97 +156,161 @@ def call_ai_api(system_prompt, user_message, config=None):
     return call_qwen(system_prompt, user_message, model=model, max_tokens=max_tokens)
 
 
-def trigger_neby_reply_post(post):
-    if not is_neby_enabled():
-        logger.debug('Neby: trigger skipped (not enabled)')
-        return None
+def process_neby_task(task):
+    """Execute a single NebyTask. Called by the management command."""
     config = BotConfig.get_config()
     bot_user = BotConfig.get_bot_user()
     if not bot_user:
-        logger.debug('Neby: trigger skipped (no bot user)')
-        return None
+        task.status = 'failed'
+        task.error_message = 'No bot user configured'
+        task.finished_at = _now_ms()
+        task.save(update_fields=['status', 'error_message', 'finished_at'])
+        return
+
+    task.status = 'processing'
+    task.started_at = _now_ms()
+    task.attempts = F('attempts') + 1
+    task.save(update_fields=['status', 'started_at', 'attempts'])
+    task.refresh_from_db()
+
+    try:
+        if task.trigger == 'post_mention':
+            _process_post_mention(task, config, bot_user)
+        elif task.trigger == 'reply_mention':
+            _process_reply_mention(task, config, bot_user)
+        else:
+            task.status = 'failed'
+            task.error_message = f'Unknown trigger: {task.trigger}'
+            task.finished_at = _now_ms()
+            task.save(update_fields=['status', 'error_message', 'finished_at'])
+    except Exception as e:
+        logger.error(f'Neby task {task.id} failed: {e}', exc_info=True)
+        task.refresh_from_db()
+        task.status = 'failed'
+        task.error_message = str(e)[:2000]
+        task.finished_at = _now_ms()
+        task.save(update_fields=['status', 'error_message', 'finished_at'])
+
+
+def _process_post_mention(task, config, bot_user):
+    try:
+        post = Post.objects.select_related('user').get(pk=task.post_id)
+    except Post.DoesNotExist:
+        task.status = 'failed'
+        task.error_message = f'Post {task.post_id} not found'
+        task.finished_at = _now_ms()
+        task.save(update_fields=['status', 'error_message', 'finished_at'])
+        return
+
     if not detect_mention(post.content, config.bot_username) and not detect_mention(post.title, config.bot_username):
-        return None
-    logger.info(f'Neby: @mention detected in post {post.id}, generating reply')
+        task.status = 'failed'
+        task.error_message = 'No @neby mention found in post'
+        task.finished_at = _now_ms()
+        task.save(update_fields=['status', 'error_message', 'finished_at'])
+        return
+
+    context, _ = _build_post_context(post, max_replies=config.max_context_replies)
+    response_text = call_ai_api(config.system_prompt, context, config)
+    if not response_text:
+        task.status = 'failed'
+        task.error_message = 'No response from AI'
+        task.finished_at = _now_ms()
+        task.save(update_fields=['status', 'error_message', 'finished_at'])
+        return
+
+    author_username = post.user.username
+    if author_username and not response_text.startswith('@'):
+        response_text = f'@{author_username} {response_text}'
+
+    with transaction.atomic():
+        reply = Reply.objects.create(
+            id=str(uuid.uuid4()),
+            post=post,
+            parent_reply_id=None,
+            user=bot_user,
+            content=response_text,
+            thumbs_up_count=0,
+            reply_count=0,
+            created_at=_now_ms(),
+        )
+        Post.objects.filter(pk=post.pk).update(reply_count=F('reply_count') + 1)
+
+    from . import counters as _counters
+    _counters.increment_user_reply_count(bot_user.id)
+    from . import notifications as _notif
+    _notif.notify_new_reply(bot_user.id, post.id, reply.id)
+
+    task.status = 'done'
+    task.finished_at = _now_ms()
+    task.save(update_fields=['status', 'finished_at'])
+    logger.info(f'Neby task {task.id}: replied to post {post.id}')
+
+
+def _process_reply_mention(task, config, bot_user):
+    if not task.reply_id:
+        task.status = 'failed'
+        task.error_message = 'No reply_id for reply_mention task'
+        task.finished_at = _now_ms()
+        task.save(update_fields=['status', 'error_message', 'finished_at'])
+        return
+
     try:
-        context, _ = _build_post_context(post, max_replies=config.max_context_replies)
-        response_text = call_ai_api(config.system_prompt, context, config)
-        if not response_text:
-            logger.warning(f'Neby: no response from AI for post {post.id}')
-            return None
-        try:
-            author_display = post.user.display_name or post.user.username
-        except Exception:
-            author_display = None
-        if author_display and not response_text.startswith('@'):
-            response_text = f'@{author_display} {response_text}'
-        with transaction.atomic():
-            reply = Reply.objects.create(
-                id=str(uuid.uuid4()),
-                post=post,
-                parent_reply_id=None,
-                user=bot_user,
-                content=response_text,
-                thumbs_up_count=0,
-                reply_count=0,
-                created_at=_now_ms(),
-            )
-            Post.objects.filter(pk=post.pk).update(reply_count=F('reply_count') + 1)
-        from . import counters as _counters
-        _counters.increment_user_reply_count(bot_user.id)
-        from . import notifications as _notif
-        _notif.notify_new_reply(bot_user.id, post.id, reply.id)
-        logger.info(f'Neby replied to post {post.id}')
-        return reply
-    except Exception as e:
-        logger.error(f'Neby reply to post failed: {e}', exc_info=True)
-        return None
+        reply = Reply.objects.select_related('post', 'user').get(pk=task.reply_id)
+    except Reply.DoesNotExist:
+        task.status = 'failed'
+        task.error_message = f'Reply {task.reply_id} not found'
+        task.finished_at = _now_ms()
+        task.save(update_fields=['status', 'error_message', 'finished_at'])
+        return
 
-
-def trigger_neby_reply_reply(reply):
-    if not is_neby_enabled():
-        logger.debug('Neby: trigger skipped (not enabled)')
-        return None
-    config = BotConfig.get_config()
-    bot_user = BotConfig.get_bot_user()
-    if not bot_user:
-        logger.debug('Neby: trigger skipped (no bot user)')
-        return None
     if not detect_mention(reply.content, config.bot_username):
-        return None
+        task.status = 'failed'
+        task.error_message = 'No @neby mention found in reply'
+        task.finished_at = _now_ms()
+        task.save(update_fields=['status', 'error_message', 'finished_at'])
+        return
+
     if reply.user_id == bot_user.id:
-        return None
-    logger.info(f'Neby: @mention detected in reply {reply.id}, generating reply')
-    try:
-        reply_obj = Reply.objects.select_related('post', 'user').get(pk=reply.id)
-        context, reply_author = _build_reply_context(reply_obj, max_context_replies=config.max_context_replies)
-        response_text = call_ai_api(config.system_prompt, context, config)
-        if not response_text:
-            logger.warning(f'Neby: no response from AI for reply {reply.id}')
-            return None
-        if reply_author and not response_text.startswith('@'):
-            response_text = f'@{reply_author} {response_text}'
-        with transaction.atomic():
-            neby_reply = Reply.objects.create(
-                id=str(uuid.uuid4()),
-                post_id=reply.post_id,
-                parent_reply_id=reply.id,
-                user=bot_user,
-                content=response_text,
-                thumbs_up_count=0,
-                reply_count=0,
-                created_at=_now_ms(),
-            )
-            Post.objects.filter(pk=reply.post_id).update(reply_count=F('reply_count') + 1)
-            Reply.objects.filter(pk=reply.id).update(reply_count=F('reply_count') + 1)
-        from . import counters as _counters
-        _counters.increment_user_reply_count(bot_user.id)
-        from . import notifications as _notif
-        _notif.notify_reply_to_reply(bot_user.id, reply.id, reply.post_id, neby_reply.id)
-        if reply.user_id != reply_obj.post.user_id:
-            _notif.notify_new_reply(bot_user.id, reply.post_id, neby_reply.id)
-        logger.info(f'Neby replied to reply {reply.id}')
-        return neby_reply
-    except Exception as e:
-        logger.error(f'Neby reply to reply failed: {e}', exc_info=True)
-        return None
+        task.status = 'failed'
+        task.error_message = 'Bot mentioned itself'
+        task.finished_at = _now_ms()
+        task.save(update_fields=['status', 'error_message', 'finished_at'])
+        return
+
+    context, reply_username = _build_reply_context(reply, max_context_replies=config.max_context_replies)
+    response_text = call_ai_api(config.system_prompt, context, config)
+    if not response_text:
+        task.status = 'failed'
+        task.error_message = 'No response from AI'
+        task.finished_at = _now_ms()
+        task.save(update_fields=['status', 'error_message', 'finished_at'])
+        return
+
+    if reply_username and not response_text.startswith('@'):
+        response_text = f'@{reply_username} {response_text}'
+
+    with transaction.atomic():
+        neby_reply = Reply.objects.create(
+            id=str(uuid.uuid4()),
+            post_id=reply.post_id,
+            parent_reply_id=reply.id,
+            user=bot_user,
+            content=response_text,
+            thumbs_up_count=0,
+            reply_count=0,
+            created_at=_now_ms(),
+        )
+        Post.objects.filter(pk=reply.post_id).update(reply_count=F('reply_count') + 1)
+        Reply.objects.filter(pk=reply.id).update(reply_count=F('reply_count') + 1)
+
+    from . import counters as _counters
+    _counters.increment_user_reply_count(bot_user.id)
+    from . import notifications as _notif
+    _notif.notify_reply_to_reply(bot_user.id, reply.id, reply.post_id, neby_reply.id)
+    if reply.user_id != reply.post.user_id:
+        _notif.notify_new_reply(bot_user.id, reply.post_id, neby_reply.id)
+
+    task.status = 'done'
+    task.finished_at = _now_ms()
+    task.save(update_fields=['status', 'finished_at'])
+    logger.info(f'Neby task {task.id}: replied to reply {reply.id}')
