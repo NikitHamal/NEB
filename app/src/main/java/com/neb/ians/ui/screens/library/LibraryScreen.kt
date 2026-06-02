@@ -11,20 +11,9 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Article
-import androidx.compose.material.icons.outlined.AutoStories
-import androidx.compose.material.icons.outlined.Calculate
-import androidx.compose.material.icons.outlined.Description
-
-import androidx.compose.material.icons.outlined.Eco
-import androidx.compose.material.icons.outlined.Language
-import androidx.compose.material.icons.outlined.MenuBook
-import androidx.compose.material.icons.outlined.Money
-import androidx.compose.material.icons.outlined.School
-import androidx.compose.material.icons.outlined.Science
 import androidx.compose.material.icons.outlined.Search
-import androidx.compose.material.icons.outlined.Terminal
-import androidx.compose.material.icons.outlined.Translate
+import androidx.compose.ui.res.painterResource
+import com.neb.ians.R
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -61,29 +50,29 @@ private fun getSubjectColor(subject: String): Color {
     return subjectColors[subject] ?: Color(0xFF565F71)
 }
 
-private fun getSubjectIcon(subject: String): ImageVector {
+private fun getSubjectIcon(subject: String): Int {
     return when (subject) {
-        "Physics" -> Icons.Outlined.Science
-        "Chemistry" -> Icons.Outlined.Science
-        "Mathematics" -> Icons.Outlined.Calculate
-        "Biology" -> Icons.Outlined.Eco
-        "English" -> Icons.Outlined.Language
-        "Nepali" -> Icons.Outlined.Translate
-        "Computer Science" -> Icons.Outlined.Terminal
-        "Economics" -> Icons.Outlined.Money
-        "Accountancy" -> Icons.Outlined.MenuBook
-        else -> Icons.Outlined.Description
+        "Physics" -> R.drawable.ic_science
+        "Chemistry" -> R.drawable.ic_science
+        "Mathematics" -> R.drawable.ic_science
+        "Biology" -> R.drawable.ic_science
+        "English" -> R.drawable.ic_globe
+        "Nepali" -> R.drawable.ic_globe
+        "Computer Science" -> R.drawable.ic_science
+        "Economics" -> R.drawable.ic_globe
+        "Accountancy" -> R.drawable.ic_book
+        else -> R.drawable.ic_document
     }
 }
 
-private fun getTypeIcon(type: String): ImageVector {
+private fun getTypeIcon(type: String): Int {
     return when (type.lowercase()) {
-        "textbook" -> Icons.Outlined.MenuBook
-        "notes" -> Icons.Outlined.Article
-        "past papers" -> Icons.Outlined.Description
-        "guide" -> Icons.Outlined.AutoStories
-        "solution" -> Icons.Outlined.School
-        else -> Icons.Outlined.Description
+        "textbook" -> R.drawable.ic_book
+        "notes" -> R.drawable.ic_document
+        "past papers" -> R.drawable.ic_document
+        "guide" -> R.drawable.ic_book
+        "solution" -> R.drawable.ic_school
+        else -> R.drawable.ic_document
     }
 }
 
@@ -350,7 +339,7 @@ private fun LibraryResourceCard(
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
-                    imageVector = getSubjectIcon(resource.subject),
+                    painter = painterResource(id = getSubjectIcon(resource.subject)),
                     contentDescription = null,
                     modifier = Modifier.size(36.dp),
                     tint = subjectColor
