@@ -1,0 +1,796 @@
+{% extends "base.html" %}
+{% load web_extras %}
+{% block title %}Upload Resource — NEBians{% endblock %}
+{% block description %}Share study resources with the NEBians community. Upload PDFs, notes, past papers and more.{% endblock %}
+{% block keywords %}upload, resource, NEB, study material, PDF, notes{% endblock %}
+
+{% block nav_library %}md-nav-active{% endblock %}
+
+{% block content %}
+<div class="upload-page">
+  <div class="upload-hero">
+    <div class="upload-hero-content">
+      <h1>Share a Resource</h1>
+      <p>Help fellow students by sharing study materials. Your contribution will be reviewed before publishing.</p>
+    </div>
+  </div>
+
+  {% if errors %}
+  <div class="upload-errors">
+    {% for error in errors %}
+    <div class="upload-error-item">{{ error }}</div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <form method="post" action="{% url 'web:upload_resource' %}" enctype="multipart/form-data" class="upload-form" id="upload-form">
+    {% csrf_token %}
+    <input type="hidden" id="subject-hidden" name="subject" value="{{ form_data.subject|default:'' }}">
+
+    <div class="upload-section">
+      <div class="upload-section-header">
+        <span class="material-symbols-outlined">description</span>
+        <h2>Basic Info</h2>
+      </div>
+
+      <div class="upload-field">
+        <label class="md-label" for="title">Title *</label>
+        <input class="md-input" type="text" id="title" name="title" value="{{ form_data.title|default:'' }}" placeholder="e.g. Class 12 Computer Engineering — Final Exam 2081" required>
+      </div>
+
+      <div class="upload-field">
+        <label class="md-label">Subject *</label>
+        <div class="subject-chips-area" id="subject-chips-area">
+          <div class="subject-chips" id="subject-chips"></div>
+          <div class="subject-input-row">
+            <input class="md-input subject-input" type="text" id="subject-input" placeholder="Type a subject and press Enter or comma" autocomplete="off">
+            <button type="button" class="md-btn md-btn-tonal subject-pick-btn" id="subject-pick-btn">
+              <span class="material-symbols-outlined">checklist</span>
+              Pick
+            </button>
+          </div>
+          <div class="upload-hint">Press Enter or comma to add. Click the Pick button to browse suggestions.</div>
+        </div>
+      </div>
+
+      <div class="upload-row">
+        <div class="upload-field upload-field-half">
+          <label class="md-label" for="grade_level">Level / Grade</label>
+          <select class="md-select" id="grade_level" name="grade_level">
+            <option value="">Select level</option>
+            {% for level in education_levels %}
+            <option value="{{ level }}" {% if form_data.grade_level == level %}selected{% endif %}>{{ level }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="upload-field upload-field-half">
+          <label class="md-label" for="type">Type</label>
+          <select class="md-select" id="type" name="type">
+            {% for t in resource_types %}
+            <option value="{{ t }}" {% if form_data.type == t %}selected{% endif %}>{{ t }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+
+      <div class="upload-row upload-exam-row" id="exam-type-row" style="display:none">
+        <div class="upload-field">
+          <label class="md-label" for="exam_type">Exam Type</label>
+          <select class="md-select" id="exam_type" name="exam_type">
+            <option value="">Select exam type</option>
+            <option value="Final" {% if form_data.exam_type == 'Final' %}selected{% endif %}>Final Exam</option>
+            <option value="Midterm" {% if form_data.exam_type == 'Midterm' %}selected{% endif %}>Midterm / Internal</option>
+            <option value="Board" {% if form_data.exam_type == 'Board' %}selected{% endif %}>Board Exam</option>
+            <option value="Entrance" {% if form_data.exam_type == 'Entrance' %}selected{% endif %}>Entrance Exam</option>
+            <option value="SEE" {% if form_data.exam_type == 'SEE' %}selected{% endif %}>SEE Exam</option>
+            <option value="Mock" {% if form_data.exam_type == 'Mock' %}selected{% endif %}>Mock / Model</option>
+            <option value="Assignment" {% if form_data.exam_type == 'Assignment' %}selected{% endif %}>Assignment / Project</option>
+            <option value="Notes" {% if form_data.exam_type == 'Notes' %}selected{% endif %}>Class Notes</option>
+            <option value="Reference" {% if form_data.exam_type == 'Reference' %}selected{% endif %}>Reference Material</option>
+            <option value="Other" {% if form_data.exam_type == 'Other' %}selected{% endif %}>Other</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="upload-field">
+        <label class="md-label" for="description">Description</label>
+        <textarea class="md-textarea" id="description" name="description" rows="3" placeholder="Briefly describe this resource...">{{ form_data.description|default:'' }}</textarea>
+      </div>
+
+      <div class="upload-field">
+        <label class="md-label" for="tags">Tags</label>
+        <input class="md-input" type="text" id="tags" name="tags" value="{{ form_data.tags|default:'' }}" placeholder="e.g. C programming, data structures, NEB 2081">
+        <div class="upload-hint">Comma-separated keywords to help others find this resource.</div>
+      </div>
+    </div>
+
+    <details class="upload-details" id="more-details">
+      <summary class="upload-details-summary">
+        <span class="material-symbols-outlined">school</span>
+        More Details
+        <span class="upload-details-badge">optional</span>
+      </summary>
+      <div class="upload-details-content">
+        <div class="upload-row">
+          <div class="upload-field upload-field-half">
+            <label class="md-label" for="faculty">Faculty / Stream</label>
+            <input class="md-input" type="text" id="faculty" name="faculty" value="{{ form_data.faculty|default:'' }}" placeholder="e.g. Science, Management, Computer Engineering">
+          </div>
+          <div class="upload-field upload-field-half">
+            <label class="md-label" for="program">Program / Course</label>
+            <input class="md-input" type="text" id="program" name="program" value="{{ form_data.program|default:'' }}" placeholder="e.g. BSc CSIT, BE Computer, +2 Science">
+          </div>
+        </div>
+
+        <div class="upload-row">
+          <div class="upload-field upload-field-half">
+            <label class="md-label" for="year">Year</label>
+            <input class="md-input" type="text" id="year" name="year" value="{{ form_data.year|default:'' }}" placeholder="e.g. 2081, 2024">
+          </div>
+          <div class="upload-field upload-field-half">
+            <label class="md-label" for="school">School / College</label>
+            <input class="md-input" type="text" id="school" name="school" value="{{ form_data.school|default:'' }}" placeholder="e.g. St. Xavier's College, Budhanilkantha School">
+          </div>
+        </div>
+
+        <div class="upload-row">
+          <div class="upload-field upload-field-half">
+            <label class="md-label" for="pradesh">Province</label>
+            <select class="md-select" id="pradesh" name="pradesh">
+              <option value="">Select province</option>
+              {% for p in pradesh_options %}
+              <option value="{{ p }}" {% if form_data.pradesh == p %}selected{% endif %}>{{ p }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="upload-field upload-field-half">
+            <label class="md-label" for="district">District</label>
+            <input class="md-input" type="text" id="district" name="district" value="{{ form_data.district|default:'' }}" placeholder="e.g. Kathmandu, Lalitpur, Chitwan">
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <div class="upload-section">
+      <div class="upload-section-header">
+        <span class="material-symbols-outlined">upload_file</span>
+        <h2>Upload File</h2>
+      </div>
+
+      <div class="upload-field">
+        <div class="upload-dropzone" id="file-dropzone">
+          <input type="file" id="file-input" name="file" class="upload-file-input" accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.txt,.rtf,.odt,.ods,.odp,.zip,.rar,.7z,.jpg,.jpeg,.png,.gif,.webp,.bmp,.svg,.mp4,.mkv,.avi,.mov,.webm,.mp3,.wav,.ogg,.flac,.aac,.epub,.mobi">
+          <div class="upload-dropzone-content" id="dropzone-content">
+            <span class="material-symbols-outlined upload-dropzone-icon">cloud_upload</span>
+            <p class="upload-dropzone-text">Drag and drop your file here, or <label for="file-input" class="upload-browse-link">browse</label></p>
+            <p class="upload-dropzone-hint">PDF, DOC, PPT, images, videos, audio — up to 100 MB. Images and PDFs are auto-compressed.</p>
+          </div>
+          <div class="upload-dropzone-selected" id="dropzone-selected" style="display:none">
+            <span class="material-symbols-outlined upload-file-icon">description</span>
+            <div class="upload-file-info">
+              <span class="upload-file-name" id="selected-file-name"></span>
+              <span class="upload-file-size" id="selected-file-size"></span>
+            </div>
+            <button type="button" class="upload-file-remove" id="remove-file-btn" title="Remove file">
+              <span class="material-symbols-outlined">close</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="upload-divider">
+        <span>or paste a link</span>
+      </div>
+
+      <div class="upload-field">
+        <label class="md-label" for="file_url">File URL</label>
+        <input class="md-input" type="url" id="file_url" name="file_url" value="{{ form_data.file_url|default:'' }}" placeholder="https://drive.google.com/... or https://...pdf">
+        <div class="upload-hint">Paste a direct link to the file if you prefer not to upload. Google Drive, Dropbox, and direct links work.</div>
+      </div>
+
+      <div class="upload-field">
+        <label class="md-label" for="thumbnail_url">Thumbnail URL</label>
+        <input class="md-input" type="url" id="thumbnail_url" name="thumbnail_url" value="{{ form_data.thumbnail_url|default:'' }}" placeholder="https://... (optional cover image)">
+      </div>
+    </div>
+
+    <div class="upload-section">
+      <div class="upload-section-header">
+        <span class="material-symbols-outlined">person</span>
+        <h2>Attribution</h2>
+      </div>
+
+      {% if not is_authenticated %}
+      <div class="upload-field">
+        <label class="md-label" for="requester_name">Your Name (optional)</label>
+        <input class="md-input" type="text" id="requester_name" name="author_name" value="{{ form_data.author_name|default:'' }}" placeholder="Leave blank for anonymous">
+      </div>
+      {% else %}
+      <div class="upload-field">
+        <label class="md-label" for="author_name">Author / Credit</label>
+        <input class="md-input" type="text" id="author_name" name="author_name" value="{{ form_data.author_name|default:'' }}" placeholder="e.g. Prof. Sharma, NEB Official">
+      </div>
+      {% endif %}
+
+      <div class="upload-field">
+        <label class="md-label" for="source_label">Source Label</label>
+        <input class="md-input" type="text" id="source_label" name="source_label" value="{{ form_data.source_label|default:'' }}" placeholder="e.g. NEB Official, Contributed by students">
+      </div>
+
+      <div class="upload-field">
+        <label class="md-label" for="source_url">Source URL</label>
+        <input class="md-input" type="url" id="source_url" name="source_url" value="{{ form_data.source_label|default:'' }}" placeholder="https://... (original source link)">
+      </div>
+    </div>
+
+    <div class="upload-actions">
+      <div class="upload-note">
+        <span class="material-symbols-outlined">info</span>
+        <span>Your upload will be reviewed before being published. This helps keep resources high quality.</span>
+      </div>
+      <button type="submit" class="md-btn md-btn-filled">
+        <span class="material-symbols-outlined">upload</span>
+        Submit for Review
+      </button>
+    </div>
+  </form>
+
+  <div class="upload-alt">
+    <p>Can't find what you need? <a href="{% url 'web:resource_requests' %}">Request a resource</a> and let the community help.</p>
+  </div>
+</div>
+
+<div class="subject-pick-overlay" id="subject-pick-overlay" style="display:none">
+  <div class="subject-pick-dialog">
+    <div class="subject-pick-header">
+      <h3>Select Subjects</h3>
+      <button type="button" class="subject-pick-close" id="subject-pick-close">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+    <div class="subject-pick-search">
+      <span class="material-symbols-outlined">search</span>
+      <input type="text" id="subject-pick-search" placeholder="Search subjects..." autocomplete="off">
+    </div>
+    <div class="subject-pick-list" id="subject-pick-list">
+      {% for s in subjects %}
+      <label class="subject-pick-item" data-subject="{{ s }}">
+        <input type="checkbox" class="subject-pick-checkbox" value="{{ s }}">
+        <span class="subject-pick-check">
+          <span class="material-symbols-outlined">check</span>
+        </span>
+        <span class="subject-pick-label">{{ s }}</span>
+      </label>
+      {% endfor %}
+    </div>
+    <div class="subject-pick-add">
+      <input type="text" id="subject-pick-custom" placeholder="Add a custom subject" autocomplete="off">
+      <button type="button" class="md-btn md-btn-tonal" id="subject-pick-add-btn">
+        <span class="material-symbols-outlined">add</span>
+        Add
+      </button>
+    </div>
+    <div class="subject-pick-actions">
+      <button type="button" class="md-btn md-btn-text" id="subject-pick-cancel">Cancel</button>
+      <button type="button" class="md-btn md-btn-filled" id="subject-pick-done">Done</button>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.upload-page { max-width: 680px; margin: 0 auto; padding: 24px 16px 48px; }
+.upload-hero { background: linear-gradient(135deg, var(--md-primary-container), var(--md-surface-container)); border-radius: 20px; padding: 32px 24px; margin-bottom: 24px; }
+.upload-hero h1 { font-size: 1.75rem; font-weight: 700; margin: 0 0 8px; color: var(--md-on-surface); }
+.upload-hero p { margin: 0; color: var(--md-on-surface-variant); font-size: 0.9375rem; line-height: 1.5; }
+.upload-section { background: var(--md-surface-container-low); border: 1px solid var(--md-outline-variant); border-radius: 16px; padding: 20px; margin-bottom: 16px; }
+.upload-section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+.upload-section-header .material-symbols-outlined { font-size: 22px; color: var(--md-primary); }
+.upload-section-header h2 { font-size: 1.125rem; font-weight: 600; margin: 0; color: var(--md-on-surface); }
+.upload-field { margin-bottom: 16px; }
+.upload-field:last-child { margin-bottom: 0; }
+.upload-row { display: flex; gap: 12px; }
+.upload-field-half { flex: 1; }
+.upload-hint { font-size: 0.8125rem; color: var(--md-on-surface-variant); margin-top: 4px; }
+.upload-errors { background: color-mix(10%, var(--md-error), transparent); border: 1px solid var(--md-error); border-radius: 12px; padding: 12px 16px; margin-bottom: 16px; }
+.upload-error-item { color: var(--md-error); font-size: 0.875rem; margin-bottom: 4px; }
+.upload-error-item:last-child { margin-bottom: 0; }
+.upload-actions { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 8px; flex-wrap: wrap; }
+.upload-note { display: flex; align-items: flex-start; gap: 8px; font-size: 0.8125rem; color: var(--md-on-surface-variant); flex: 1; min-width: 200px; }
+.upload-note .material-symbols-outlined { font-size: 18px; margin-top: 1px; }
+.upload-alt { text-align: center; margin-top: 24px; padding: 16px; font-size: 0.9375rem; color: var(--md-on-surface-variant); }
+.upload-alt a { color: var(--md-primary); text-decoration: none; font-weight: 500; }
+.upload-alt a:hover { text-decoration: underline; }
+
+/* Collapsible details */
+.upload-details { background: var(--md-surface-container-low); border: 1px solid var(--md-outline-variant); border-radius: 16px; margin-bottom: 16px; overflow: hidden; }
+.upload-details[open] { border-color: var(--md-primary-container); }
+.upload-details-summary { display: flex; align-items: center; gap: 10px; padding: 16px 20px; cursor: pointer; font-size: 1.125rem; font-weight: 600; color: var(--md-on-surface); list-style: none; }
+.upload-details-summary::-webkit-details-marker { display: none; }
+.upload-details-summary::after { content: ''; margin-left: auto; border: solid var(--md-on-surface-variant); border-width: 0 2px 2px 0; padding: 3px; transform: rotate(45deg); transition: transform 0.2s; }
+.upload-details[open] .upload-details-summary::after { transform: rotate(-135deg); }
+.upload-details-summary .material-symbols-outlined { font-size: 22px; color: var(--md-primary); }
+.upload-details-badge { font-size: 0.6875rem; font-weight: 500; background: var(--md-secondary-container); color: var(--md-on-secondary-container); padding: 2px 8px; border-radius: 8px; margin-left: 8px; text-transform: uppercase; letter-spacing: 0.03em; }
+.upload-details-content { padding: 0 20px 20px; }
+
+/* Dropzone */
+.upload-dropzone {
+  border: 2px dashed var(--md-outline-variant);
+  border-radius: 16px;
+  padding: 32px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  position: relative;
+}
+.upload-dropzone:hover, .upload-dropzone.dragover {
+  border-color: var(--md-primary);
+  background: color-mix(5%, var(--md-primary), transparent);
+}
+.upload-dropzone.has-file {
+  border-color: var(--md-primary);
+  border-style: solid;
+  background: color-mix(5%, var(--md-primary), transparent);
+  padding: 16px 20px;
+}
+.upload-file-input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 2;
+}
+.upload-dropzone-icon { font-size: 48px; color: var(--md-primary); display: block; margin: 0 auto 8px; }
+.upload-dropzone-text { margin: 0; color: var(--md-on-surface-variant); font-size: 0.9375rem; }
+.upload-browse-link { color: var(--md-primary); font-weight: 600; cursor: pointer; text-decoration: underline; }
+.upload-dropzone-hint { margin: 4px 0 0; font-size: 0.8125rem; color: var(--md-on-surface-variant); opacity: 0.7; }
+.upload-dropzone-selected { display: flex; align-items: center; gap: 12px; }
+.upload-file-icon { font-size: 36px; color: var(--md-primary); }
+.upload-file-info { flex: 1; text-align: left; }
+.upload-file-name { display: block; font-weight: 600; color: var(--md-on-surface); font-size: 0.9375rem; word-break: break-all; }
+.upload-file-size { display: block; font-size: 0.8125rem; color: var(--md-on-surface-variant); }
+.upload-file-remove { background: none; border: none; cursor: pointer; padding: 4px; border-radius: 50%; color: var(--md-on-surface-variant); display: flex; align-items: center; justify-content: center; position: relative; z-index: 3; }
+.upload-file-remove:hover { background: color-mix(10%, var(--md-error), transparent); color: var(--md-error); }
+.upload-file-remove .material-symbols-outlined { font-size: 20px; }
+
+/* Divider */
+.upload-divider { display: flex; align-items: center; gap: 12px; margin: 12px 0 16px; color: var(--md-on-surface-variant); font-size: 0.8125rem; }
+.upload-divider::before, .upload-divider::after { content: ''; flex: 1; height: 1px; background: var(--md-outline-variant); }
+
+/* Subject chips */
+.subject-chips-area { display: flex; flex-direction: column; gap: 8px; }
+.subject-chips { display: flex; flex-wrap: wrap; gap: 6px; min-height: 0; }
+.subject-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--md-secondary-container);
+  color: var(--md-on-secondary-container);
+  padding: 4px 8px 4px 12px;
+  border-radius: 20px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.4;
+}
+.subject-chip-remove {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--md-on-secondary-container);
+  opacity: 0.7;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+}
+.subject-chip-remove:hover { opacity: 1; background: color-mix(15%, var(--md-on-secondary-container), transparent); }
+.subject-chip-remove .material-symbols-outlined { font-size: 14px; }
+.subject-input-row { display: flex; gap: 8px; }
+.subject-input-row .md-input { flex: 1; }
+.subject-pick-btn { white-space: nowrap; padding: 8px 16px; }
+.subject-pick-btn .material-symbols-outlined { font-size: 18px; }
+
+/* Subject pick dialog */
+.subject-pick-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+.subject-pick-dialog {
+  background: var(--md-surface);
+  border-radius: 20px;
+  width: 100%;
+  max-width: 480px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+}
+.subject-pick-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px 12px;
+}
+.subject-pick-header h3 { margin: 0; font-size: 1.125rem; font-weight: 600; color: var(--md-on-surface); }
+.subject-pick-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
+  color: var(--md-on-surface-variant);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.subject-pick-close:hover { background: color-mix(10%, var(--md-on-surface-variant), transparent); }
+.subject-pick-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 20px 12px;
+  padding: 8px 12px;
+  border-radius: 12px;
+  background: var(--md-surface-container-high);
+}
+.subject-pick-search .material-symbols-outlined { font-size: 20px; color: var(--md-on-surface-variant); }
+.subject-pick-search input {
+  border: none;
+  background: none;
+  outline: none;
+  flex: 1;
+  font-size: 0.9375rem;
+  color: var(--md-on-surface);
+  font-family: inherit;
+}
+.subject-pick-search input::placeholder { color: var(--md-on-surface-variant); }
+.subject-pick-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 12px 12px;
+  min-height: 120px;
+  max-height: 40vh;
+}
+.subject-pick-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 0.9375rem;
+  color: var(--md-on-surface);
+  transition: background 0.15s;
+}
+.subject-pick-item:hover { background: color-mix(5%, var(--md-primary), transparent); }
+.subject-pick-checkbox { display: none; }
+.subject-pick-check {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  border: 2px solid var(--md-outline);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.15s, border-color 0.15s;
+}
+.subject-pick-check .material-symbols-outlined { font-size: 16px; color: var(--md-on-primary); opacity: 0; transition: opacity 0.15s; }
+.subject-pick-item.selected .subject-pick-check {
+  background: var(--md-primary);
+  border-color: var(--md-primary);
+}
+.subject-pick-item.selected .subject-pick-check .material-symbols-outlined { opacity: 1; }
+.subject-pick-label { flex: 1; }
+.subject-pick-add {
+  display: flex;
+  gap: 8px;
+  padding: 8px 20px 12px;
+  border-top: 1px solid var(--md-outline-variant);
+  margin-top: 4px;
+}
+.subject-pick-add input {
+  flex: 1;
+  border: 1px solid var(--md-outline-variant);
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-size: 0.875rem;
+  outline: none;
+  background: var(--md-surface-container);
+  color: var(--md-on-surface);
+  font-family: inherit;
+}
+.subject-pick-add input:focus { border-color: var(--md-primary); }
+.subject-pick-add .md-btn { padding: 8px 16px; }
+.subject-pick-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 12px 20px 16px;
+  border-top: 1px solid var(--md-outline-variant);
+}
+
+@media (max-width: 600px) {
+  .upload-row { flex-direction: column; gap: 0; }
+  .upload-hero { padding: 24px 16px; }
+  .upload-dropzone { padding: 24px 16px; }
+  .upload-details-content { padding: 0 16px 16px; }
+  .subject-pick-dialog { max-width: 100%; margin: 8px; }
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+(function() {
+  var EXAM_TYPES = ['Past Paper', 'Model Paper', 'Guide', 'Solution', 'Note', 'PDF'];
+  var subjectInput = document.getElementById('subject-input');
+  var subjectHidden = document.getElementById('subject-hidden');
+  var subjectChips = document.getElementById('subject-chips');
+  var subjectPickBtn = document.getElementById('subject-pick-btn');
+  var subjectPickOverlay = document.getElementById('subject-pick-overlay');
+  var subjectPickClose = document.getElementById('subject-pick-close');
+  var subjectPickSearch = document.getElementById('subject-pick-search');
+  var subjectPickList = document.getElementById('subject-pick-list');
+  var subjectPickCustom = document.getElementById('subject-pick-custom');
+  var subjectPickAddBtn = document.getElementById('subject-pick-add-btn');
+  var subjectPickCancel = document.getElementById('subject-pick-cancel');
+  var subjectPickDone = document.getElementById('subject-pick-done');
+  var typeSelect = document.getElementById('type');
+  var examTypeRow = document.getElementById('exam-type-row');
+  var currentSubjects = [];
+
+  function initSubjects() {
+    var val = subjectHidden.value;
+    if (val) {
+      currentSubjects = val.split(',').map(function(s) { return s.trim(); }).filter(function(s) { return s; });
+    }
+    renderChips();
+  }
+
+  function renderChips() {
+    subjectChips.innerHTML = '';
+    currentSubjects.forEach(function(s) {
+      var chip = document.createElement('span');
+      chip.className = 'subject-chip';
+      chip.innerHTML = escapeHtml(s) + '<button type="button" class="subject-chip-remove" data-subject="' + escapeHtml(s) + '"><span class="material-symbols-outlined">close</span></button>';
+      subjectChips.appendChild(chip);
+    });
+    subjectHidden.value = currentSubjects.join(', ');
+    subjectChips.querySelectorAll('.subject-chip-remove').forEach(function(btn) {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        removeSubject(btn.getAttribute('data-subject'));
+      });
+    });
+  }
+
+  function addSubject(name) {
+    name = name.trim();
+    if (!name) return;
+    var lower = name.toLowerCase();
+    var exists = currentSubjects.some(function(s) { return s.toLowerCase() === lower; });
+    if (!exists) {
+      currentSubjects.push(name);
+      renderChips();
+    }
+  }
+
+  function removeSubject(name) {
+    currentSubjects = currentSubjects.filter(function(s) { return s !== name; });
+    renderChips();
+  }
+
+  function escapeHtml(str) {
+    var div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  subjectInput.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' || e.key === ',' || e.key === 'Tab') {
+      var val = subjectInput.value.replace(/,$/, '').trim();
+      if (val) {
+        e.preventDefault();
+        addSubject(val);
+        subjectInput.value = '';
+      }
+    } else if (e.key === 'Backspace' && !subjectInput.value && currentSubjects.length) {
+      removeSubject(currentSubjects[currentSubjects.length - 1]);
+    }
+  });
+
+  subjectInput.addEventListener('blur', function() {
+    var val = subjectInput.value.replace(/,$/, '').trim();
+    if (val) {
+      addSubject(val);
+      subjectInput.value = '';
+    }
+  });
+
+  subjectPickBtn.addEventListener('click', function() {
+    subjectPickOverlay.style.display = '';
+    subjectPickSearch.value = '';
+    filterPickList('');
+    syncPickListSelection();
+    subjectPickSearch.focus();
+  });
+
+  subjectPickClose.addEventListener('click', closePickDialog);
+  subjectPickCancel.addEventListener('click', closePickDialog);
+
+  subjectPickOverlay.addEventListener('click', function(e) {
+    if (e.target === subjectPickOverlay) closePickDialog();
+  });
+
+  function closePickDialog() {
+    subjectPickOverlay.style.display = 'none';
+  }
+
+  subjectPickSearch.addEventListener('input', function() {
+    filterPickList(subjectPickSearch.value);
+  });
+
+  function filterPickList(query) {
+    var q = query.toLowerCase();
+    var items = subjectPickList.querySelectorAll('.subject-pick-item');
+    items.forEach(function(item) {
+      var label = item.getAttribute('data-subject').toLowerCase();
+      item.style.display = label.indexOf(q) >= 0 ? '' : 'none';
+    });
+  }
+
+  subjectPickList.addEventListener('click', function(e) {
+    var item = e.target.closest('.subject-pick-item');
+    if (!item) return;
+    item.classList.toggle('selected');
+    var cb = item.querySelector('.subject-pick-checkbox');
+    cb.checked = item.classList.contains('selected');
+  });
+
+  subjectPickAddBtn.addEventListener('click', function() {
+    var val = subjectPickCustom.value.trim();
+    if (val) {
+      addSubject(val);
+      subjectPickCustom.value = '';
+      var existingItem = subjectPickList.querySelector('[data-subject="' + CSS.escape(val) + '"]');
+      if (!existingItem) {
+        var label = document.createElement('label');
+        label.className = 'subject-pick-item selected';
+        label.setAttribute('data-subject', val);
+        label.innerHTML = '<input type="checkbox" class="subject-pick-checkbox" checked><span class="subject-pick-check"><span class="material-symbols-outlined">check</span></span><span class="subject-pick-label">' + escapeHtml(val) + '</span>';
+        subjectPickList.appendChild(label);
+      }
+    }
+  });
+
+  subjectPickCustom.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      subjectPickAddBtn.click();
+    }
+  });
+
+  subjectPickDone.addEventListener('click', function() {
+    var selected = [];
+    subjectPickList.querySelectorAll('.subject-pick-item.selected').forEach(function(item) {
+      selected.push(item.getAttribute('data-subject'));
+    });
+    currentSubjects = selected;
+    renderChips();
+    closePickDialog();
+  });
+
+  function syncPickListSelection() {
+    var lowerSelected = currentSubjects.map(function(s) { return s.toLowerCase(); });
+    subjectPickList.querySelectorAll('.subject-pick-item').forEach(function(item) {
+      var subject = item.getAttribute('data-subject');
+      var isSel = lowerSelected.indexOf(subject.toLowerCase()) >= 0;
+      item.classList.toggle('selected', isSel);
+      item.querySelector('.subject-pick-checkbox').checked = isSel;
+    });
+  }
+
+  function toggleExamType() {
+    var t = typeSelect.value;
+    if (EXAM_TYPES.indexOf(t) >= 0) {
+      examTypeRow.style.display = '';
+    } else {
+      examTypeRow.style.display = 'none';
+      document.getElementById('exam_type').value = '';
+    }
+  }
+
+  typeSelect.addEventListener('change', toggleExamType);
+  toggleExamType();
+
+  // Dropzone
+  var dropzone = document.getElementById('file-dropzone');
+  var fileInput = document.getElementById('file-input');
+  var dropzoneContent = document.getElementById('dropzone-content');
+  var dropzoneSelected = document.getElementById('dropzone-selected');
+  var selectedFileName = document.getElementById('selected-file-name');
+  var selectedFileSize = document.getElementById('selected-file-size');
+  var removeBtn = document.getElementById('remove-file-btn');
+  var fileUrlInput = document.getElementById('file_url');
+
+  function formatSize(bytes) {
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+    return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+  }
+
+  function showFile(file) {
+    selectedFileName.textContent = file.name;
+    selectedFileSize.textContent = formatSize(file.size);
+    dropzoneContent.style.display = 'none';
+    dropzoneSelected.style.display = 'flex';
+    dropzone.classList.add('has-file');
+    fileUrlInput.value = '';
+    fileUrlInput.removeAttribute('required');
+  }
+
+  function clearFile() {
+    fileInput.value = '';
+    dropzoneContent.style.display = '';
+    dropzoneSelected.style.display = 'none';
+    dropzone.classList.remove('has-file');
+  }
+
+  fileInput.addEventListener('change', function() {
+    if (fileInput.files && fileInput.files[0]) {
+      showFile(fileInput.files[0]);
+    } else {
+      clearFile();
+    }
+  });
+
+  removeBtn.addEventListener('click', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    clearFile();
+  });
+
+  ['dragenter', 'dragover'].forEach(function(evt) {
+    dropzone.addEventListener(evt, function(e) {
+      e.preventDefault();
+      dropzone.classList.add('dragover');
+    });
+  });
+
+  ['dragleave', 'drop'].forEach(function(evt) {
+    dropzone.addEventListener(evt, function(e) {
+      e.preventDefault();
+      dropzone.classList.remove('dragover');
+    });
+  });
+
+  dropzone.addEventListener('drop', function(e) {
+    e.preventDefault();
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      fileInput.files = e.dataTransfer.files;
+      showFile(e.dataTransfer.files[0]);
+    }
+  });
+
+  fileUrlInput.addEventListener('input', function() {
+    if (fileUrlInput.value.trim()) {
+      clearFile();
+    }
+  });
+
+  // Init
+  initSubjects();
+})();
+</script>
+{% endblock %}

@@ -10,3 +10,4 @@ whitenoise==6.7.0
 google-auth==2.53.0
 redis==5.2.1
 pycryptodome==3.21.0
+pikepdf==9.5.1

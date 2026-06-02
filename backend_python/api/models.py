@@ -98,13 +98,40 @@ class Resource(models.Model):
         ('anonymous', 'Anonymous Upload'),
         ('external', 'External Source'),
     ]
+    APPROVAL_CHOICES = [
+        ('approved', 'Approved'),
+        ('pending', 'Pending Review'),
+        ('rejected', 'Rejected'),
+    ]
+    EXAM_TYPES = [
+        ('', '—'),
+        ('Final', 'Final Exam'),
+        ('Midterm', 'Midterm / Internal'),
+        ('Board', 'Board Exam'),
+        ('Entrance', 'Entrance Exam'),
+        ('SEE', 'SEE Exam'),
+        ('Mock', 'Mock / Model'),
+        ('Assignment', 'Assignment / Project'),
+        ('Notes', 'Class Notes'),
+        ('Reference', 'Reference Material'),
+        ('Other', 'Other'),
+    ]
     id = models.CharField(max_length=36, primary_key=True)  # UUID
     title = models.CharField(max_length=255)
-    description = models.TextField(blank=True, null=True)
+    description = models.TextField(blank=True, default='')
     subject = models.CharField(max_length=100)
-    grade_level = models.CharField(max_length=20)
-    type = models.CharField(max_length=50)  # e.g. "PDF", "Note", "Video", "Audio", "Image", "Link"
-    file_url = models.TextField()
+    grade_level = models.CharField(max_length=30, blank=True, default='')  # Class 8–12, Diploma, Bachelor, Master, PhD, etc.
+    faculty = models.CharField(max_length=100, blank=True, default='')  # e.g. Science, Management, Computer Engineering
+    program = models.CharField(max_length=200, blank=True, default='')  # e.g. BSc CSIT, BE Computer, +2 Science
+    year = models.CharField(max_length=20, blank=True, default='')  # e.g. 2080, 2024
+    exam_type = models.CharField(max_length=20, blank=True, default='', choices=EXAM_TYPES)
+    pradesh = models.CharField(max_length=50, blank=True, default='')  # e.g. Bagmati, Province 3
+    district = models.CharField(max_length=100, blank=True, default='')  # e.g. Kathmandu, Lalitpur
+    school = models.CharField(max_length=200, blank=True, default='')  # e.g. St. Xavier's College, Budhanilkantha School
+    tags = models.TextField(blank=True, default='')  # comma-separated tags
+    type = models.CharField(max_length=50, default='PDF')  # e.g. "PDF", "Note", "Video", "Audio", "Image", "Link"
+    file = models.FileField(upload_to='resources/%Y/%m/', blank=True, null=True)
+    file_url = models.TextField(blank=True, default='')
     thumbnail_url = models.TextField(blank=True, null=True)
     file_size = models.BigIntegerField(default=0)
     added_at = models.BigIntegerField()  # Unix ms timestamp
@@ -117,6 +144,11 @@ class Resource(models.Model):
     uploaded_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='uploaded_resources')
     source_url = models.TextField(blank=True, default='')  # external source URL
     source_label = models.CharField(max_length=200, blank=True, default='')  # e.g. "NEB Official", "Contributed by students"
+    # Approval workflow — admin-added resources are auto-approved; user/anonymous uploads require review
+    approval_status = models.CharField(max_length=10, choices=APPROVAL_CHOICES, default='approved')
+    reviewed_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='reviewed_resources')
+    reviewed_at = models.BigIntegerField(default=0)
+    rejection_reason = models.TextField(blank=True, default='')
 
     class Meta:
         db_table = 'resources'
@@ -124,12 +156,67 @@ class Resource(models.Model):
         indexes = [
             models.Index(fields=['subject']),
             models.Index(fields=['grade_level']),
+            models.Index(fields=['faculty']),
+            models.Index(fields=['exam_type']),
             models.Index(fields=['type']),
             models.Index(fields=['-like_count']),
+            models.Index(fields=['approval_status']),
         ]
 
     def __str__(self):
         return self.title
+
+
+class ResourceRequest(models.Model):
+    """User requests for resources they need — e.g. 'I need Grade 12 Physics notes'."""
+    STATUS_CHOICES = [
+        ('open', 'Open'),
+        ('fulfilled', 'Fulfilled'),
+        ('closed', 'Closed'),
+    ]
+    id = models.CharField(max_length=36, primary_key=True)
+    title = models.CharField(max_length=255)
+    description = models.TextField(blank=True, default='')
+    subject = models.CharField(max_length=100, blank=True, default='')
+    grade_level = models.CharField(max_length=30, blank=True, default='')
+    faculty = models.CharField(max_length=100, blank=True, default='')
+    program = models.CharField(max_length=200, blank=True, default='')
+    year = models.CharField(max_length=20, blank=True, default='')
+    exam_type = models.CharField(max_length=20, blank=True, default='')
+    pradesh = models.CharField(max_length=50, blank=True, default='')
+    district = models.CharField(max_length=100, blank=True, default='')
+    school = models.CharField(max_length=200, blank=True, default='')
+    tags = models.TextField(blank=True, default='')
+    requested_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='resource_requests')
+    requester_name = models.CharField(max_length=100, blank=True, default='')  # for anonymous
+    requester_email = models.EmailField(blank=True, default='')  # for anonymous
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='open')
+    upvote_count = models.PositiveIntegerField(default=0)
+    created_at = models.BigIntegerField()
+    fulfilled_by = models.ForeignKey(Resource, on_delete=models.SET_NULL, null=True, blank=True, related_name='fulfilling_requests')
+    fulfilled_at = models.BigIntegerField(default=0)
+
+    class Meta:
+        db_table = 'resource_requests'
+        ordering = ['-created_at']
+        indexes = [
+            models.Index(fields=['status', '-upvote_count']),
+            models.Index(fields=['subject']),
+            models.Index(fields=['grade_level']),
+        ]
+
+    def __str__(self):
+        return self.title
+
+
+class ResourceRequestUpvote(models.Model):
+    """Tracks which users upvoted which resource requests."""
+    request = models.ForeignKey(ResourceRequest, on_delete=models.CASCADE, related_name='upvotes')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='request_upvotes')
+
+    class Meta:
+        db_table = 'resource_request_upvotes'
+        unique_together = ('request', 'user')
 
 
 class Post(models.Model):
