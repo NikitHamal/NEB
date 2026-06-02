@@ -30,10 +30,9 @@
             Master switch. When off, Neby will not respond to any mentions.
           </p>
         </div>
-        <label style="position:relative;display:inline-block;width:52px;height:28px;">
-          <input type="checkbox" name="enabled" id="id_enabled" {% if config.enabled %}checked{% endif %} style="opacity:0;width:0;height:0;">
-          <span style="position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;background:var(--md-outline);border-radius:14px;transition:.3s;"></span>
-          <span style="position:absolute;content:'';height:20px;width:20px;left:4px;bottom:4px;background:white;border-radius:50%;transition:.3s;"></span>
+        <label class="md-switch">
+          <input type="checkbox" name="enabled" id="id_enabled" {% if config.enabled %}checked{% endif %}>
+          <span class="slider"></span>
         </label>
       </div>
 
@@ -136,34 +135,6 @@
 </div>
 {% endblock %}
 
-{% block extra_css %}
-<style>
-  /* Toggle switch styles */
-  label input[type="checkbox"] + span {
-    background: var(--md-outline);
-  }
-  label input[type="checkbox"]:checked + span {
-    background: #7C4DFF;
-  }
-  label input[type="checkbox"]:checked + span + span {
-    transform: translateX(24px);
-  }
-  input[type="text"]:focus, input[type="url"]:focus, input[type="password"]:focus,
-  input[type="number"]:focus, select:focus, textarea:focus {
-    outline: none;
-    border-color: #7C4DFF;
-  }
-</style>
-{% endblock %}
+{% block extra_css %}{% endblock %}
 
-{% block extra_js %}
-<script>
-  // Toggle switch functionality
-  const toggle = document.getElementById('id_enabled');
-  if (toggle) {
-    toggle.addEventListener('change', function() {
-      // Visual feedback is handled by CSS
-    });
-  }
-</script>
-{% endblock %}
+{% block extra_js %}{% endblock %}
