@@ -3077,10 +3077,14 @@ def admin_users(request):
         users_qs = users_qs.filter(
             Q(username__icontains=search) | Q(email__icontains=search) | Q(display_name__icontains=search)
         )
-    users_data = [UserSerializer(u).data for u in users_qs[:100]]
+    paginator = Paginator(users_qs, 20)
+    page_number = request.GET.get('page', 1)
+    page_obj = paginator.get_page(page_number)
+    users_data = [UserSerializer(u).data for u in page_obj]
     return render(request, 'admin_panel/users.html', {
         'is_admin': True,
         'users': users_data,
+        'page_obj': page_obj,
         'search': search,
         'active_page': 'users',
     })
@@ -3204,11 +3208,14 @@ def admin_resources(request):
     search = request.GET.get('q', '').strip()
     if search:
         resources_qs = resources_qs.filter(Q(title__icontains=search) | Q(description__icontains=search))
-    from api.serializers import ResourceSerializer
-    resources_data = [ResourceSerializer(r).data for r in resources_qs[:100]]
+    paginator = Paginator(resources_qs, 20)
+    page_number = request.GET.get('page', 1)
+    page_obj = paginator.get_page(page_number)
+    resources_data = [ResourceSerializer(r).data for r in page_obj]
     return render(request, 'admin_panel/resources.html', {
         'is_admin': True,
         'resources': resources_data,
+        'page_obj': page_obj,
         'search': search,
         'active_page': 'resources',
     })
@@ -3242,7 +3249,7 @@ def admin_resource_edit(request, resource_id):
         resource_obj.save()
         cache.delete_many(['home_resources', 'library_all_resources'])
         return redirect('web:admin_resources')
-    _default_subjects = [
+_default_subjects = [
         'Physics', 'Chemistry', 'Mathematics', 'Biology', 'English', 'Nepali',
         'Computer Science', 'Economics', 'Accountancy', 'Business Studies',
         'Social Studies', 'History', 'Geography', 'Civics', 'Health & Physical Education',
@@ -3347,11 +3354,14 @@ def admin_posts(request):
     search = request.GET.get('q', '').strip()
     if search:
         posts_qs = posts_qs.filter(Q(title__icontains=search) | Q(content__icontains=search))
-    from api.serializers import PostSerializer
-    posts_data = [PostSerializer(p, context={}).data for p in posts_qs[:100]]
+    paginator = Paginator(posts_qs, 20)
+    page_number = request.GET.get('page', 1)
+    page_obj = paginator.get_page(page_number)
+    posts_data = [PostSerializer(p, context={}).data for p in page_obj]
     return render(request, 'admin_panel/posts.html', {
         'is_admin': True,
         'posts': posts_data,
+        'page_obj': page_obj,
         'search': search,
         'active_page': 'posts',
     })
@@ -3682,7 +3692,7 @@ def admin_bot_config(request):
             config.response_max_length = int(request.POST.get('response_max_length', config.response_max_length))
         except (TypeError, ValueError):
             pass
-        config.save()
+config.save()
         from django.core.cache import cache
         cache.delete('neby_enabled')
         messages.success(request, 'Bot configuration updated.')
