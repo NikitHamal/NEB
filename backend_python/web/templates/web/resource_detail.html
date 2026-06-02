@@ -268,6 +268,12 @@
         <span class="material-symbols-outlined"{% if is_bookmarked %} style="font-variation-settings:'FILL' 1"{% endif %}>bookmark</span>
       </button>
       {% endif %}
+      {% if can_edit %}
+      <a href="{% url 'web:edit_resource' resource_id=resource.id %}" class="rd-action-btn rd-btn-like" style="text-decoration:none;">
+        <span class="material-symbols-outlined">edit</span>
+        Edit
+      </a>
+      {% endif %}
       <button class="rd-action-btn rd-btn-share" onclick="shareResource()">
         <span class="material-symbols-outlined">share</span>
       </button>

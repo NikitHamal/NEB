@@ -252,7 +252,11 @@
         <span class="material-symbols-outlined">inventory_2</span>
       </div>
       <h3>More coming soon</h3>
-      <p>Our academic team is actively compiling new resources.</p>
+      <p style="margin-bottom: 12px;">Our academic team is actively compiling new resources.</p>
+      <a href="{% url 'web:resource_requests' %}" class="md-btn md-btn-tonal" style="font-size: 0.8125rem; min-height: 36px; padding: 6px 16px;">
+        <span class="material-symbols-outlined" style="font-size:18px">contact_support</span>
+        Request a Resource
+      </a>
     </div>
     {% endif %}
   </div>

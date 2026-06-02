@@ -484,7 +484,7 @@ def library(request):
     if all_resources is None:
         all_resources = _serialize_resources(Resource.objects.filter(approval_status='approved')[:500])
         cache.set('library_all_resources', all_resources, 180)
-    all_subjects = sorted(set(r.get('subject', '') for r in all_resources if r.get('subject')))
+    all_subjects = sorted(list(set(s.strip() for r in all_resources if r.get('subject') for s in r.get('subject', '').split(',') if s.strip())))
     all_grades = sorted(set(r.get('grade_level', '') for r in all_resources if r.get('grade_level')))
     all_types = sorted(set(r.get('type', '') for r in all_resources if r.get('type')))
     all_faculties = sorted(set(r.get('faculty', '') for r in all_resources if r.get('faculty')))
@@ -592,7 +592,7 @@ def search(request):
     if all_resources is None:
         all_resources = _serialize_resources(Resource.objects.filter(approval_status='approved')[:500])
         cache.set('library_all_resources', all_resources, 180)
-    all_subjects = sorted(set(r.get('subject', '') for r in all_resources if r.get('subject')))
+    all_subjects = sorted(list(set(s.strip() for r in all_resources if r.get('subject') for s in r.get('subject', '').split(',') if s.strip())))
     all_grades = sorted(set(r.get('grade_level', '') for r in all_resources if r.get('grade_level')))
     all_types = sorted(set(r.get('type', '') for r in all_resources if r.get('type')))
     return render(request, 'web/search.html', _ctx(request,
@@ -993,11 +993,14 @@ def reader(request, resource_id):
     ).exclude(pk=resource_id).order_by('-view_count', '-added_at')[:4]
     related_resources = _serialize_resources(related)
 
+    can_edit = bool(user_id and user_id == resource_obj.uploaded_by_id)
+
     return render(request, 'web/resource_detail.html', _ctx(request,
         resource=resource,
         resource_id=resource_id,
         is_liked=is_liked,
         is_bookmarked=is_bookmarked,
+        can_edit=can_edit,
         comments=all_comments,
         top_level_comments=top_level_comments,
         children_map=children_map,
@@ -1463,6 +1466,150 @@ def upload_resource(request):
         exam_types=exam_types, pradesh_options=pradesh_options,
         resource_types=resource_types, common_tags=common_tags,
         is_authenticated=bool(user),
+    ))
+
+
+def edit_resource(request, resource_id):
+    """Allow signed-in users who uploaded a resource to edit it."""
+    user_id = _get_user_id(request)
+    if not user_id:
+        return redirect('web:login')
+    try:
+        resource_obj = Resource.objects.get(pk=resource_id)
+    except Resource.DoesNotExist:
+        raise Http404("Resource not found")
+    if resource_obj.uploaded_by_id != user_id:
+        return redirect('web:reader', resource_id=resource_id)
+
+    user = User.objects.get(pk=user_id)
+    _default_subjects = [
+        'Physics', 'Chemistry', 'Mathematics', 'Biology', 'English', 'Nepali',
+        'Computer Science', 'Economics', 'Accountancy', 'Business Studies',
+        'Social Studies', 'History', 'Geography', 'Civics', 'Health & Physical Education',
+        'Environment Science', 'Science', 'General Science', 'Life Science',
+        'Physical Science', 'Earth Science', 'Applied Mathematics',
+        'Business Mathematics', 'Statistics', 'Probability',
+        'Microeconomics', 'Macroeconomics',
+        'Financial Accounting', 'Cost Accounting', 'Auditing',
+        'Marketing', 'Office Management', 'Hotel Management',
+        'Computer Engineering', 'Electronics', 'Electrical Engineering',
+        'Civil Engineering', 'Mechanical Engineering', 'Architecture',
+        'Mechanics', 'Thermodynamics', 'Optics', 'Electricity & Magnetism',
+        'Organic Chemistry', 'Inorganic Chemistry', 'Physical Chemistry',
+        'Botany', 'Zoology', 'Genetics', 'Ecology',
+        'English Grammar', 'English Literature', 'Creative Writing',
+        'Nepali Grammar', 'Nepali Literature', 'Essay Writing',
+        'Population Studies', 'Sociology', 'Psychology', 'Philosophy',
+        'Education', 'Pedagogy', 'Curriculum Development',
+        'Law', 'Constitutional Law', 'International Law',
+        'Medicine', 'Pharmacy', 'Nursing', 'Public Health',
+        'Agriculture', 'Forestry', 'Veterinary Science',
+        'Management', 'Human Resource Management', 'Entrepreneurship',
+        'Information Technology', 'Programming', 'Web Development',
+        'Database Management', 'Networking', 'Cybersecurity',
+        'Machine Learning', 'Artificial Intelligence', 'Data Science',
+        'C Programming', 'C++ Programming', 'Python Programming', 'Java Programming',
+        'Digital Logic', 'Operating Systems', 'Software Engineering',
+        'Surveying', 'Estimating & Costing', 'Building Construction',
+        'Fluid Mechanics', 'Strength of Materials', 'Engineering Drawing',
+        'Purana Veda', 'Upanishad', 'Sanskrit', 'Maithili',
+    ]
+    db_subjects = list(Resource.objects.values_list('subject', flat=True))
+    subjects = sorted(set(_default_subjects + db_subjects))
+    common_tags = [
+        'NEB', 'SEE', 'Board Exam', 'Past Paper', 'Model Paper', 'Solution',
+        'Important Questions', 'Numerical', 'Derivation', 'Formula Sheet',
+        'Chapter 1', 'Chapter 2', 'Chapter 3', 'Chapter 4', 'Chapter 5',
+        'Chapter 6', 'Chapter 7', 'Chapter 8', 'Chapter 9', 'Chapter 10',
+        'Unit 1', 'Unit 2', 'Unit 3', 'Unit 4', 'Unit 5',
+        'Class 11', 'Class 12', 'Grade 11', 'Grade 12',
+        'Science', 'Management', 'Humanities', 'Education', 'Law',
+        'Final Exam', 'Midterm', 'Internal Assessment', 'Practical',
+        'Old Course', 'New Course', 'Revised Syllabus', 'Curriculum',
+        'Textbook', 'Reference Book', 'Guide', 'Notes', 'Summary',
+        'Objective Questions', 'Subjective Questions', 'MCQ', 'Long Answer',
+        'Short Answer', 'Very Short Answer', 'Essay Type',
+        '2080 BS', '2081 BS', '2082 BS', '2079 BS',
+        '2078 BS', '2077 BS', '2076 BS',
+        'Kathmandu', 'Pokhara', 'Chitwan', 'Biratnagar', 'Butwal',
+        'HSEB', 'TU', 'KU', 'PU', 'CTEVT',
+        'Entrance', 'IOE', 'IOM', 'CEEE', 'KUUMAT',
+        'C Programming', 'Python', 'Java', 'Web Development',
+        'Organic Chemistry', 'Inorganic Chemistry', 'Physical Chemistry',
+        'Mechanics', 'Optics', 'Thermodynamics', 'Electricity',
+        'Calculus', 'Algebra', 'Trigonometry', 'Geometry', 'Statistics',
+        'Botany', 'Zoology', 'Ecology', 'Genetics',
+        'Nepali', 'English', 'Social Studies',
+    ]
+    education_levels = [
+        'Class 8', 'Class 9', 'Class 10 / SEE', 'Class 11', 'Class 12',
+        'Diploma', 'Bachelor', 'Master', 'PhD',
+        'Entrance Prep', 'Competitive Exam', 'Other',
+    ]
+    exam_types_list = ['', 'Final', 'Midterm', 'Board', 'Entrance', 'SEE', 'Mock', 'Assignment', 'Notes', 'Reference', 'Other']
+    pradesh_options = [
+        'Province 1', 'Madhesh', 'Bagmati', 'Gandaki', 'Lumbini', 'Karnali', 'Sudurpashchim',
+    ]
+    resource_types = ['PDF', 'Note', 'Video', 'Audio', 'Image', 'Link', 'Textbook', 'Past Paper', 'Model Paper', 'Guide', 'Solution', 'Presentation']
+
+    if request.method == 'POST':
+        resource_obj.title = request.POST.get('title', '').strip() or resource_obj.title
+        resource_obj.subject = request.POST.get('subject', '').strip() or resource_obj.subject
+        resource_obj.grade_level = request.POST.get('grade_level', '').strip()
+        resource_obj.faculty = request.POST.get('faculty', '').strip()
+        resource_obj.program = request.POST.get('program', '').strip()
+        resource_obj.year = request.POST.get('year', '').strip()
+        resource_obj.exam_type = request.POST.get('exam_type', '').strip()
+        resource_obj.pradesh = request.POST.get('pradesh', '').strip()
+        resource_obj.district = request.POST.get('district', '').strip()
+        resource_obj.school = request.POST.get('school', '').strip()
+        resource_obj.tags = request.POST.get('tags', '').strip()
+        resource_obj.type = request.POST.get('type', '').strip() or resource_obj.type
+        resource_obj.description = request.POST.get('description', '').strip()
+        resource_obj.author_name = request.POST.get('author_name', '').strip()
+        resource_obj.source_label = request.POST.get('source_label', '').strip()
+        resource_obj.source_url = request.POST.get('source_url', '').strip()
+
+        uploaded_file = request.FILES.get('file')
+        if uploaded_file:
+            path, size, err_resp = validate_and_save_resource_file(request, uploaded_file)
+            if not err_resp and path:
+                resource_obj.file = path
+                resource_obj.file_url = request.build_absolute_uri(settings.MEDIA_URL + path)
+                resource_obj.file_size = size
+
+        file_url = request.POST.get('file_url', '').strip()
+        if file_url and not uploaded_file:
+            try:
+                resource_obj.file_url = validate_resource_file_url(file_url)
+            except Exception:
+                pass
+
+        thumbnail_url = request.POST.get('thumbnail_url', '').strip()
+        if thumbnail_url:
+            try:
+                resource_obj.thumbnail_url = validate_resource_file_url(thumbnail_url)
+            except Exception:
+                pass
+        elif request.POST.get('thumbnail_url') == '':
+            resource_obj.thumbnail_url = ''
+
+        resource_obj.approval_status = 'pending'
+        resource_obj.save()
+        cache.delete_many(['home_resources', 'library_all_resources'])
+        return redirect('web:reader', resource_id=resource_id)
+
+    resource = _serialize_resource(resource_obj)
+    return render(request, 'web/edit_resource.html', _ctx(request,
+        resource=resource,
+        resource_id=resource_id,
+        subjects=subjects,
+        common_tags=common_tags,
+        education_levels=education_levels,
+        exam_types=exam_types_list,
+        pradesh_options=pradesh_options,
+        resource_types=resource_types,
+        is_authenticated=True,
     ))
 
 
@@ -3075,18 +3222,87 @@ def admin_resource_edit(request, resource_id):
                 resource_obj.file = path
                 resource_obj.file_url = request.build_absolute_uri(settings.MEDIA_URL + path)
                 resource_obj.file_size = size
-        for field in ['title', 'description', 'subject', 'grade_level', 'faculty', 'program', 'year', 'exam_type', 'pradesh', 'district', 'school', 'tags', 'type', 'file_url', 'thumbnail_url', 'author_name', 'source_url', 'source_label']:
-            val = request.POST.get(field, '').strip()
-            if val:
-                setattr(resource_obj, field, val)
-        # source_type: allow clearing to admin default
+        for field in ['title', 'description', 'subject', 'grade_level', 'faculty', 'program', 'year', 'exam_type', 'pradesh', 'district', 'school', 'tags', 'type', 'author_name', 'source_url', 'source_label']:
+            setattr(resource_obj, field, request.POST.get(field, '').strip())
+        resource_obj.file_url = request.POST.get('file_url', '').strip()
+        resource_obj.thumbnail_url = request.POST.get('thumbnail_url', '').strip()
         st = request.POST.get('source_type', '').strip()
         if st in ('admin', 'user', 'anonymous', 'external'):
             resource_obj.source_type = st
         if request.POST.get('view_count', '').strip():
             resource_obj.view_count = int(request.POST.get('view_count', '0'))
         resource_obj.save()
+        cache.delete_many(['home_resources', 'library_all_resources'])
         return redirect('web:admin_resources')
+    _default_subjects = [
+        'Physics', 'Chemistry', 'Mathematics', 'Biology', 'English', 'Nepali',
+        'Computer Science', 'Economics', 'Accountancy', 'Business Studies',
+        'Social Studies', 'History', 'Geography', 'Civics', 'Health & Physical Education',
+        'Environment Science', 'Science', 'General Science', 'Life Science',
+        'Physical Science', 'Earth Science', 'Applied Mathematics',
+        'Business Mathematics', 'Statistics', 'Probability',
+        'Microeconomics', 'Macroeconomics',
+        'Financial Accounting', 'Cost Accounting', 'Auditing',
+        'Marketing', 'Office Management', 'Hotel Management',
+        'Computer Engineering', 'Electronics', 'Electrical Engineering',
+        'Civil Engineering', 'Mechanical Engineering', 'Architecture',
+        'Mechanics', 'Thermodynamics', 'Optics', 'Electricity & Magnetism',
+        'Organic Chemistry', 'Inorganic Chemistry', 'Physical Chemistry',
+        'Botany', 'Zoology', 'Genetics', 'Ecology',
+        'English Grammar', 'English Literature', 'Creative Writing',
+        'Nepali Grammar', 'Nepali Literature', 'Essay Writing',
+        'Population Studies', 'Sociology', 'Psychology', 'Philosophy',
+        'Education', 'Pedagogy', 'Curriculum Development',
+        'Law', 'Constitutional Law', 'International Law',
+        'Medicine', 'Pharmacy', 'Nursing', 'Public Health',
+        'Agriculture', 'Forestry', 'Veterinary Science',
+        'Management', 'Human Resource Management', 'Entrepreneurship',
+        'Information Technology', 'Programming', 'Web Development',
+        'Database Management', 'Networking', 'Cybersecurity',
+        'Machine Learning', 'Artificial Intelligence', 'Data Science',
+        'C Programming', 'C++ Programming', 'Python Programming', 'Java Programming',
+        'Digital Logic', 'Operating Systems', 'Software Engineering',
+        'Surveying', 'Estimating & Costing', 'Building Construction',
+        'Fluid Mechanics', 'Strength of Materials', 'Engineering Drawing',
+        'Purana Veda', 'Upanishad', 'Sanskrit', 'Maithili',
+    ]
+    db_subjects = list(Resource.objects.values_list('subject', flat=True))
+    subjects = sorted(set(_default_subjects + db_subjects))
+    common_tags = [
+        'NEB', 'SEE', 'Board Exam', 'Past Paper', 'Model Paper', 'Solution',
+        'Important Questions', 'Numerical', 'Derivation', 'Formula Sheet',
+        'Chapter 1', 'Chapter 2', 'Chapter 3', 'Chapter 4', 'Chapter 5',
+        'Chapter 6', 'Chapter 7', 'Chapter 8', 'Chapter 9', 'Chapter 10',
+        'Unit 1', 'Unit 2', 'Unit 3', 'Unit 4', 'Unit 5',
+        'Class 11', 'Class 12', 'Grade 11', 'Grade 12',
+        'Science', 'Management', 'Humanities', 'Education', 'Law',
+        'Final Exam', 'Midterm', 'Internal Assessment', 'Practical',
+        'Old Course', 'New Course', 'Revised Syllabus', 'Curriculum',
+        'Textbook', 'Reference Book', 'Guide', 'Notes', 'Summary',
+        'Objective Questions', 'Subjective Questions', 'MCQ', 'Long Answer',
+        'Short Answer', 'Very Short Answer', 'Essay Type',
+        '2080 BS', '2081 BS', '2082 BS', '2079 BS',
+        '2078 BS', '2077 BS', '2076 BS',
+        'Kathmandu', 'Pokhara', 'Chitwan', 'Biratnagar', 'Butwal',
+        'HSEB', 'TU', 'KU', 'PU', 'CTEVT',
+        'Entrance', 'IOE', 'IOM', 'CEEE', 'KUUMAT',
+        'C Programming', 'Python', 'Java', 'Web Development',
+        'Organic Chemistry', 'Inorganic Chemistry', 'Physical Chemistry',
+        'Mechanics', 'Optics', 'Thermodynamics', 'Electricity',
+        'Calculus', 'Algebra', 'Trigonometry', 'Geometry', 'Statistics',
+        'Botany', 'Zoology', 'Ecology', 'Genetics',
+        'Nepali', 'English', 'Social Studies',
+    ]
+    education_levels = [
+        'Class 8', 'Class 9', 'Class 10 / SEE', 'Class 11', 'Class 12',
+        'Diploma', 'Bachelor', 'Master', 'PhD',
+        'Entrance Prep', 'Competitive Exam', 'Other',
+    ]
+    exam_types = ['', 'Final', 'Midterm', 'Board', 'Entrance', 'SEE', 'Mock', 'Assignment', 'Notes', 'Reference', 'Other']
+    pradesh_options = [
+        'Province 1', 'Madhesh', 'Bagmati', 'Gandaki', 'Lumbini', 'Karnali', 'Sudurpashchim',
+    ]
+    resource_types = ['PDF', 'Note', 'Video', 'Audio', 'Image', 'Link', 'Textbook', 'Past Paper', 'Model Paper', 'Guide', 'Solution', 'Presentation']
     from api.serializers import ResourceSerializer
     resource_data = ResourceSerializer(resource_obj).data
     return render(request, 'admin_panel/resource_edit.html', {
@@ -3094,6 +3310,12 @@ def admin_resource_edit(request, resource_id):
         'resource': resource_data,
         'active_page': 'resources',
         'source_types': Resource.SOURCE_TYPES,
+        'subjects': subjects,
+        'common_tags': common_tags,
+        'education_levels': education_levels,
+        'exam_types': exam_types,
+        'pradesh_options': pradesh_options,
+        'resource_types': resource_types,
     })
 
 
