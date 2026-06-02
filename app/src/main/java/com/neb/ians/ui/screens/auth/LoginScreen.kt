@@ -132,7 +132,7 @@ fun LoginScreen(
 
                         OutlinedButton(
                             onClick = {
-                                val clientId = "Ov23liiG0e0nXpQ2IXhl"
+                                val clientId = "Ov23lii7dRW1FhLQ09w7"
                                 val redirectUri = "nebians://github-callback"
                                 val githubAuthUrl = "https://github.com/login/oauth/authorize?client_id=$clientId&redirect_uri=$redirectUri&scope=read:user,user:email"
                                 context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(githubAuthUrl)))

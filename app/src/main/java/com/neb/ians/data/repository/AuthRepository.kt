@@ -168,7 +168,7 @@ class AuthRepository @Inject constructor(
             val credentialManager = CredentialManager.create(context)
             val googleIdOption = GetGoogleIdOption.Builder()
                 .setFilterByAuthorizedAccounts(false)
-                .setServerClientId("478709074228-cu0b0t75ghhsvqp2jotj75g6utj84nre.apps.googleusercontent.com")
+                .setServerClientId("68143624035-que25r0vmrke4agasr715j5u9p8gic2s.apps.googleusercontent.com")
                 .setAutoSelectEnabled(false)
                 .build()
 
