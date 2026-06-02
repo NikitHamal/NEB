@@ -38,7 +38,9 @@ class ResourceRepository @Inject constructor(
             val token = getBearerToken()
             val response = apiService.getResources(token, subject, grade, type, sort, page)
             _cachedResources.value = response.resources
-            Result.success(ResourcesResult(response.resources, response.totalCount, response.page, response.totalPages))
+            val currentPage = page ?: 1
+            val totalPages = maxOf(1, (response.totalCount + 49) / 50)
+            Result.success(ResourcesResult(response.resources, response.totalCount, currentPage, totalPages))
         } catch (e: Exception) {
             Result.failure(e)
         }

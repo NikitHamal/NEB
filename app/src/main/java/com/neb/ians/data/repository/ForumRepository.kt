@@ -35,7 +35,9 @@ class ForumRepository @Inject constructor(
             val token = getBearerToken()
             val response = apiService.getPosts(token, category, page)
             _cachedPosts.value = response.posts
-            Result.success(ForumPostsResult(response.posts, response.totalCount, response.page, response.totalPages))
+            val currentPage = page ?: 1
+            val totalPages = maxOf(1, (response.totalCount + 49) / 50)
+            Result.success(ForumPostsResult(response.posts, response.totalCount, currentPage, totalPages))
         } catch (e: Exception) {
             Result.failure(e)
         }
