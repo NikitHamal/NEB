@@ -145,7 +145,7 @@
   </a>
 
   <!-- Hero Card -->
-  <div class="rd-hero" style="--subject-color: {{ resource.subject|subject_color }}">
+  <div class="rd-hero" style="--subject-color: {{ resource.subject|split:','|first|subject_color }}">
     <div class="rd-hero-art">
       <svg viewBox="0 0 220 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
         <circle cx="180" cy="40" r="120" fill="var(--subject-color, var(--md-primary))"/>
@@ -153,10 +153,12 @@
       </svg>
     </div>
     <div class="rd-chips">
-      <span class="rd-chip rd-chip-subject">
-        <span class="material-symbols-outlined icon-sm">{{ resource.subject|subject_icon }}</span>
-        {{ resource.subject }}
+      {% for subj in resource.subject|split:"," %}
+      <span class="rd-chip rd-chip-subject" style="--subject-color: {{ subj|subject_color }};">
+        <span class="material-symbols-outlined icon-sm">{{ subj|subject_icon }}</span>
+        {{ subj }}
       </span>
+      {% endfor %}
       <span class="rd-chip rd-chip-type">
         <span class="material-symbols-outlined icon-sm">{{ resource.type|resource_type_icon }}</span>
         {{ resource.type }}
@@ -425,7 +427,7 @@
     <div class="rd-section-title" style="font-size:1rem;">More in {{ resource.subject }}</div>
     <div class="rd-related-grid">
       {% for r in related_resources %}
-      <a href="{% url 'web:reader' resource_id=r.id %}" class="resource-card subject-{{ r.subject|subject_slug }}">
+      <a href="{% url 'web:reader' resource_id=r.id %}" class="resource-card subject-{{ r.subject|split:','|first|subject_slug }}">
         <div class="resource-card-art">
           <svg viewBox="0 0 300 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
             <rect width="300" height="120" fill="var(--art-c1)"/>
@@ -433,10 +435,17 @@
             <path d="M0,120 L0,85 Q60,40 130,70 Q200,100 260,60 L300,75 L300,120Z" fill="var(--art-c3)" opacity="0.35"/>
           </svg>
           <span class="resource-card-type-pill">{{ r.type }}</span>
-          <span class="resource-card-art-icon material-symbols-outlined">{{ r.subject|subject_icon }}</span>
+          <span class="resource-card-art-icon material-symbols-outlined">{{ r.subject|split:','|first|subject_icon }}</span>
         </div>
         <div class="resource-card-info">
-          <div class="resource-card-subject-chip">{{ r.subject }}</div>
+          <div class="resource-card-subject-chip">
+            {% with subjs=r.subject|split:"," %}
+              {{ subjs|first }}
+              {% if subjs|length > 1 %}
+                +{{ subjs|length|add:"-1" }} more
+              {% endif %}
+            {% endwith %}
+          </div>
           <div class="resource-card-title">{{ r.title }}</div>
           <div class="resource-card-meta">{{ r.grade_level }}{% if r.file_size %} &middot; {{ r.file_size|file_size_human }}{% endif %}</div>
         </div>
