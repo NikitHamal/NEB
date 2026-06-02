@@ -1,7 +1,9 @@
 package com.neb.ians.ui.screens.auth
 
-import android.net.Uri
-import android.widget.Toast
+import android.app.Activity
+import android.content.Intent
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -14,6 +16,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.credentials.CredentialManager
+import androidx.credentials.GetCredentialRequest
+import androidx.credentials.exceptions.GetCredentialException
+import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.neb.ians.data.repository.AuthRepository
 import com.neb.ians.data.repository.OAuthResult
 import kotlinx.coroutines.launch
@@ -24,32 +30,35 @@ fun LoginScreen(
     onNavigateToHome: () -> Unit,
     onNavigateToCompleteProfile: () -> Unit,
     onNavigateToEmailSignup: () -> Unit = {},
-    onNavigateToEmailLogin: () -> Unit = {},
-    pendingOAuthCallback: Uri? = null,
-    onOAuthCallbackConsumed: () -> Unit = {}
+    onNavigateToEmailLogin: () -> Unit = {}
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     var isLoading by remember { mutableStateOf(false) }
+    var errorMessage by remember { mutableStateOf<String?>(null) }
 
-    LaunchedEffect(pendingOAuthCallback) {
-        if (pendingOAuthCallback != null) {
-            isLoading = true
-            when (val result = authRepository.handleOAuthCallback(pendingOAuthCallback)) {
-                is OAuthResult.Success -> {
-                    onOAuthCallbackConsumed()
-                    if (result.isNewUser) {
-                        onNavigateToCompleteProfile()
-                    } else {
-                        onNavigateToHome()
+    val githubAuthLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val code = result.data?.getStringExtra("github_code")
+            val error = result.data?.getStringExtra("github_error")
+            if (code != null) {
+                isLoading = true
+                scope.launch {
+                    when (val res = authRepository.signInWithGitHub(code)) {
+                        is OAuthResult.Success -> {
+                            if (res.isNewUser) onNavigateToCompleteProfile() else onNavigateToHome()
+                        }
+                        is OAuthResult.Failure -> {
+                            errorMessage = res.message
+                        }
                     }
+                    isLoading = false
                 }
-                is OAuthResult.Failure -> {
-                    onOAuthCallbackConsumed()
-                    Toast.makeText(context, result.message, Toast.LENGTH_LONG).show()
-                }
+            } else if (error != null) {
+                errorMessage = error
             }
-            isLoading = false
         }
     }
 
@@ -88,6 +97,16 @@ fun LoginScreen(
                     modifier = Modifier.padding(horizontal = 16.dp)
                 )
 
+                if (errorMessage != null) {
+                    Spacer(modifier = Modifier.height(12.dp))
+                    Text(
+                        text = errorMessage!!,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.error,
+                        textAlign = TextAlign.Center
+                    )
+                }
+
                 Spacer(modifier = Modifier.height(40.dp))
 
                 if (isLoading) {
@@ -99,12 +118,49 @@ fun LoginScreen(
                     ) {
                         OutlinedButton(
                             onClick = {
-                                context.startActivity(
-                                    android.content.Intent(
-                                        android.content.Intent.ACTION_VIEW,
-                                        Uri.parse(AuthRepository.GOOGLE_AUTH_URL)
-                                    )
-                                )
+                                errorMessage = null
+                                isLoading = true
+                                scope.launch {
+                                    try {
+                                        val activity = context as Activity
+                                        val credentialManager = CredentialManager.create(activity)
+                                        val googleIdOption = GetGoogleIdOption.Builder()
+                                            .setServerClientId(AuthRepository.GOOGLE_SERVER_CLIENT_ID)
+                                            .setFilterByAuthorizedAccounts(false)
+                                            .setAutoSelectEnabled(false)
+                                            .build()
+                                        val request = GetCredentialRequest.Builder()
+                                            .addCredentialOption(googleIdOption)
+                                            .build()
+                                        val result = credentialManager.getCredential(
+                                            request = request,
+                                            context = activity
+                                        )
+                                        val idToken = result.credential.data.getString("googleIdToken")
+                                            ?: run {
+                                            errorMessage = "Google sign-in failed: no ID token"
+                                            isLoading = false
+                                            return@launch
+                                        }
+                                        when (val res = authRepository.signInWithGoogle(idToken)) {
+                                            is OAuthResult.Success -> {
+                                                if (res.isNewUser) onNavigateToCompleteProfile() else onNavigateToHome()
+                                            }
+                                            is OAuthResult.Failure -> {
+                                                errorMessage = res.message
+                                            }
+                                        }
+                                    } catch (e: GetCredentialException) {
+                                        errorMessage = when {
+                                            e.message?.contains("No credential", ignoreCase = true) == true -> "No Google accounts found. Please sign in with email instead."
+                                            e.message?.contains("cancelled", ignoreCase = true) == true -> null
+                                            else -> "Google sign-in failed: ${e.message}"
+                                        }
+                                    } catch (e: Exception) {
+                                        errorMessage = "Google sign-in failed: ${e.localizedMessage}"
+                                    }
+                                    isLoading = false
+                                }
                             },
                             modifier = Modifier
                                 .weight(1f)
@@ -120,12 +176,9 @@ fun LoginScreen(
 
                         OutlinedButton(
                             onClick = {
-                                context.startActivity(
-                                    android.content.Intent(
-                                        android.content.Intent.ACTION_VIEW,
-                                        Uri.parse(AuthRepository.GITHUB_AUTH_URL)
-                                    )
-                                )
+                                errorMessage = null
+                                val intent = Intent(context, GitHubAuthActivity::class.java)
+                                githubAuthLauncher.launch(intent)
                             },
                             modifier = Modifier
                                 .weight(1f)
