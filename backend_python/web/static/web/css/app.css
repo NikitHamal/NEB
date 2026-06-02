@@ -510,7 +510,7 @@
 
 .post-card-time,
 .act-time {
-  font-size: 0.8125rem;
+  font-size: 0.75rem;
   color: var(--md-on-surface-variant);
   opacity: 0.85;
   margin-top: 3px;
@@ -685,7 +685,7 @@
   align-items: center;
   gap: 6px;
   margin-top: 2px;
-  font-size: 0.8125rem;
+  font-size: 0.75rem;
   color: var(--md-on-surface-variant);
   flex-wrap: wrap;
 }
@@ -3107,6 +3107,11 @@ button:focus-visible {
   
   .profile-left-col {
     position: static;
+  }
+
+  .profile-right-col {
+    min-width: 0;
+    overflow: hidden;
   }
   
   .pf-compact-card {

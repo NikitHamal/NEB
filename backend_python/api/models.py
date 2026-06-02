@@ -448,25 +448,33 @@ class Notification(models.Model):
     VERB_CHOICES = [
         ('like_post', 'Liked your post'),
         ('like_reply', 'Liked your reply'),
+        ('like_resource', 'Liked your resource'),
+        ('like_resource_comment', 'Liked your comment on a resource'),
         ('reply', 'Replied to your post'),
         ('reply_reply', 'Replied to your comment'),
+        ('resource_comment', 'Commented on your resource'),
+        ('resource_comment_reply', 'Replied to your comment on a resource'),
         ('follow', 'Started following you'),
         ('mention', 'Mentioned you'),
+        ('resource_approved', 'Your resource was approved'),
+        ('resource_rejected', 'Your resource was rejected'),
         ('system', 'System notification'),
     ]
     TARGET_TYPES = [
         ('post', 'Post'),
         ('reply', 'Reply'),
         ('user', 'User'),
+        ('resource', 'Resource'),
+        ('resource_comment', 'Resource Comment'),
         ('system', 'System'),
     ]
     id = models.CharField(max_length=36, primary_key=True)
     recipient = models.ForeignKey(User, on_delete=models.CASCADE, related_name='notifications')
     actor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='notifications_sent', null=True, blank=True)
-    verb = models.CharField(max_length=20, choices=VERB_CHOICES)
-    target_type = models.CharField(max_length=10, choices=TARGET_TYPES)
+    verb = models.CharField(max_length=30, choices=VERB_CHOICES)
+    target_type = models.CharField(max_length=20, choices=TARGET_TYPES)
     target_id = models.CharField(max_length=36)
-    reference_type = models.CharField(max_length=10, blank=True, default='')
+    reference_type = models.CharField(max_length=20, blank=True, default='')
     reference_id = models.CharField(max_length=36, blank=True, default='')
     message = models.TextField(blank=True, default='')
     is_read = models.BooleanField(default=False, db_index=True)
