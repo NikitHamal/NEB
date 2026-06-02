@@ -10,8 +10,8 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from .security import verify_internal_admin_signature, validate_resource_file_url
-from .models import User, Resource, Post, Reply, FCMToken, Report
-from .serializers import UserSerializer, ResourceSerializer, PostSerializer, ReplySerializer, ReportSerializer
+from .models import User, Resource, ResourceRequest, Post, Reply, FCMToken, Report
+from .serializers import UserSerializer, ResourceSerializer, ResourceRequestSerializer, PostSerializer, ReplySerializer, ReportSerializer
 
 logger = logging.getLogger(__name__)
 
@@ -243,6 +243,88 @@ def admin_resource_detail(request, resource_id):
     resource.save()
     cache.delete_many(['home_resources', 'library_all_resources'])
     return Response(ResourceSerializer(resource).data)
+
+
+@api_view(['GET', 'POST'])
+def admin_pending_resources(request):
+    """GET /api/admin/resources/pending/ — list pending resources.
+    POST /api/admin/resources/pending/ — approve or reject a pending resource."""
+    if not _check_admin(request):
+        return _admin_error()
+
+    if request.method == 'GET':
+        qs = Resource.objects.filter(approval_status='pending').order_by('added_at')
+        search = request.query_params.get('search', '').strip()
+        if search:
+            qs = qs.filter(Q(title__icontains=search) | Q(subject__icontains=search))
+        return Response(ResourceSerializer(qs[:100], many=True).data)
+
+    data = request.data
+    resource_id = data.get('resource_id', '').strip()
+    action = data.get('action', '').strip()
+    if not resource_id or action not in ('approve', 'reject'):
+        return Response({'error': 'resource_id and action (approve/reject) required'}, status=400)
+    try:
+        resource = Resource.objects.get(pk=resource_id)
+    except Resource.DoesNotExist:
+        return Response({'error': 'Resource not found'}, status=404)
+    admin_user = _django_user_from_request(request)
+    if action == 'approve':
+        resource.approval_status = 'approved'
+        resource.reviewed_by = admin_user
+        resource.reviewed_at = int(time.time() * 1000)
+        resource.rejection_reason = ''
+        resource.save()
+        cache.delete_many(['home_resources', 'library_all_resources'])
+        return Response(ResourceSerializer(resource).data)
+    else:
+        resource.approval_status = 'rejected'
+        resource.reviewed_by = admin_user
+        resource.reviewed_at = int(time.time() * 1000)
+        resource.rejection_reason = data.get('reason', '').strip()[:500]
+        resource.save()
+        cache.delete_many(['home_resources', 'library_all_resources'])
+        return Response(ResourceSerializer(resource).data)
+
+
+@api_view(['GET'])
+def admin_resource_requests(request):
+    """GET /api/admin/resource-requests/ — list all resource requests."""
+    if not _check_admin(request):
+        return _admin_error()
+    qs = ResourceRequest.objects.select_related('requested_by').all().order_by('-created_at')
+    status_filter = request.query_params.get('status', '')
+    if status_filter:
+        qs = qs.filter(status=status_filter)
+    return Response(ResourceRequestSerializer(qs[:100], many=True, context={'request': request}).data)
+
+
+@api_view(['POST'])
+def admin_resource_request_update(request, request_id):
+    """POST /api/admin/resource-requests/<request_id>/ — fulfill or close a request."""
+    if not _check_admin(request):
+        return _admin_error()
+    try:
+        req = ResourceRequest.objects.get(pk=request_id)
+    except ResourceRequest.DoesNotExist:
+        return Response({'error': 'Request not found'}, status=404)
+    action = request.data.get('action', '').strip()
+    if action == 'fulfill':
+        resource_id = request.data.get('resource_id', '').strip()
+        req.status = 'fulfilled'
+        req.fulfilled_at = int(time.time() * 1000)
+        if resource_id:
+            try:
+                req.fulfilled_by_id = resource_id
+            except Exception:
+                pass
+        req.save()
+    elif action == 'close':
+        req.status = 'closed'
+        req.save()
+    else:
+        return Response({'error': 'action must be "fulfill" or "close"'}, status=400)
+    return Response(ResourceRequestSerializer(req, context={'request': request}).data)
 
 
 @api_view(['GET'])

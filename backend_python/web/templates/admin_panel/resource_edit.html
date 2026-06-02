@@ -13,7 +13,7 @@
 {% if resource %}
 <div class="md-card-elevated p-3" style="max-width:600px;">
   <h2 class="md-title-large mb-2">Edit Resource</h2>
-  <form method="post">
+  <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="form-group">
       <label class="md-label" for="title">Title</label>
@@ -71,6 +71,10 @@
       </div>
     </div>
     <div class="form-group">
+      <label class="md-label" for="file">Replace File (leave empty to keep current)</label>
+      <input type="file" id="file" name="file" class="md-input" accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.txt,.rtf,.odt,.ods,.odp,.zip,.rar,.7z,.jpg,.jpeg,.png,.gif,.webp,.mp4,.mkv,.mp3,.wav,.epub">
+    </div>
+    <div class="form-group">
       <label class="md-label" for="file_url">File URL</label>
       <input type="url" id="file_url" name="file_url" class="md-input" value="{{ resource.file_url }}">
     </div>
@@ -82,15 +86,88 @@
     <hr style="margin:16px 0;border:none;border-top:1px solid var(--md-outline-variant);">
     <h3 class="md-title-small mb-1" style="color:var(--md-on-surface-variant);">Source & Attribution</h3>
 
-    <div class="form-row">
+<div class="form-row">
       <div class="form-group">
-        <label class="md-label" for="source_type">Source Type</label>
-        <select id="source_type" name="source_type" class="md-select">
-          {% for val, label in source_types %}
-          <option value="{{ val }}" {% if resource.source_type == val %}selected{% endif %}>{{ label }}</option>
-          {% endfor %}
+        <label class="md-label" for="grade_level">Level / Grade</label>
+        <select id="grade_level" name="grade_level" class="md-select">
+          <option value="">—</option>
+          <option value="Class 8" {% if resource.grade_level == 'Class 8' %}selected{% endif %}>Class 8</option>
+          <option value="Class 9" {% if resource.grade_level == 'Class 9' %}selected{% endif %}>Class 9</option>
+          <option value="Class 10 / SEE" {% if resource.grade_level == 'Class 10 / SEE' %}selected{% endif %}>Class 10 / SEE</option>
+          <option value="Class 11" {% if resource.grade_level == 'Class 11' %}selected{% endif %}>Class 11</option>
+          <option value="Class 12" {% if resource.grade_level == 'Class 12' %}selected{% endif %}>Class 12</option>
+          <option value="Diploma" {% if resource.grade_level == 'Diploma' %}selected{% endif %}>Diploma</option>
+          <option value="Bachelor" {% if resource.grade_level == 'Bachelor' %}selected{% endif %}>Bachelor</option>
+          <option value="Master" {% if resource.grade_level == 'Master' %}selected{% endif %}>Master</option>
+          <option value="PhD" {% if resource.grade_level == 'PhD' %}selected{% endif %}>PhD</option>
+          <option value="Entrance Prep" {% if resource.grade_level == 'Entrance Prep' %}selected{% endif %}>Entrance Prep</option>
+          <option value="Competitive Exam" {% if resource.grade_level == 'Competitive Exam' %}selected{% endif %}>Competitive Exam</option>
+          <option value="Other" {% if resource.grade_level == 'Other' %}selected{% endif %}>Other</option>
+          <option value="Grade 11" {% if resource.grade_level == 'Grade 11' %}selected{% endif %}>Grade 11 (legacy)</option>
+          <option value="Grade 12" {% if resource.grade_level == 'Grade 12' %}selected{% endif %}>Grade 12 (legacy)</option>
+          <option value="Both" {% if resource.grade_level == 'Both' %}selected{% endif %}>Both (legacy)</option>
         </select>
       </div>
+      <div class="form-group">
+        <label class="md-label" for="faculty">Faculty / Stream</label>
+        <input type="text" id="faculty" name="faculty" class="md-input" value="{{ resource.faculty|default:'' }}" placeholder="e.g. Science, Management, Computer Engineering">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="md-label" for="program">Program / Course</label>
+        <input type="text" id="program" name="program" class="md-input" value="{{ resource.program|default:'' }}" placeholder="e.g. BSc CSIT, BE Computer, +2 Science">
+      </div>
+      <div class="form-group">
+        <label class="md-label" for="year">Year</label>
+        <input type="text" id="year" name="year" class="md-input" value="{{ resource.year|default:'' }}" placeholder="e.g. 2081, 2024">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="md-label" for="exam_type">Exam Type</label>
+        <select id="exam_type" name="exam_type" class="md-select">
+          <option value="">—</option>
+          <option value="Final" {% if resource.exam_type == 'Final' %}selected{% endif %}>Final Exam</option>
+          <option value="Midterm" {% if resource.exam_type == 'Midterm' %}selected{% endif %}>Midterm / Internal</option>
+          <option value="Board" {% if resource.exam_type == 'Board' %}selected{% endif %}>Board Exam</option>
+          <option value="Entrance" {% if resource.exam_type == 'Entrance' %}selected{% endif %}>Entrance Exam</option>
+          <option value="SEE" {% if resource.exam_type == 'SEE' %}selected{% endif %}>SEE Exam</option>
+          <option value="Mock" {% if resource.exam_type == 'Mock' %}selected{% endif %}>Mock / Model</option>
+          <option value="Assignment" {% if resource.exam_type == 'Assignment' %}selected{% endif %}>Assignment / Project</option>
+          <option value="Notes" {% if resource.exam_type == 'Notes' %}selected{% endif %}>Class Notes</option>
+          <option value="Reference" {% if resource.exam_type == 'Reference' %}selected{% endif %}>Reference Material</option>
+          <option value="Other" {% if resource.exam_type == 'Other' %}selected{% endif %}>Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="md-label" for="pradesh">Province</label>
+        <select id="pradesh" name="pradesh" class="md-select">
+          <option value="">—</option>
+          <option value="Province 1" {% if resource.pradesh == 'Province 1' %}selected{% endif %}>Province 1</option>
+          <option value="Madhesh" {% if resource.pradesh == 'Madhesh' %}selected{% endif %}>Madhesh</option>
+          <option value="Bagmati" {% if resource.pradesh == 'Bagmati' %}selected{% endif %}>Bagmati</option>
+          <option value="Gandaki" {% if resource.pradesh == 'Gandaki' %}selected{% endif %}>Gandaki</option>
+          <option value="Lumbini" {% if resource.pradesh == 'Lumbini' %}selected{% endif %}>Lumbini</option>
+          <option value="Karnali" {% if resource.pradesh == 'Karnali' %}selected{% endif %}>Karnali</option>
+          <option value="Sudurpashchim" {% if resource.pradesh == 'Sudurpashchim' %}selected{% endif %}>Sudurpashchim</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="md-label" for="district">District</label>
+        <input type="text" id="district" name="district" class="md-input" value="{{ resource.district|default:'' }}" placeholder="e.g. Kathmandu, Lalitpur">
+      </div>
+      <div class="form-group">
+        <label class="md-label" for="school">School / College</label>
+        <input type="text" id="school" name="school" class="md-input" value="{{ resource.school|default:'' }}" placeholder="e.g. St. Xavier's College">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="md-label" for="tags">Tags</label>
+      <input type="text" id="tags" name="tags" class="md-input" value="{{ resource.tags|default:'' }}" placeholder="comma-separated keywords">
+    </div>
       <div class="form-group">
         <label class="md-label" for="author_name">Author / Credit</label>
         <input type="text" id="author_name" name="author_name" class="md-input" value="{{ resource.author_name|default:'' }}" placeholder="e.g. Prof. Sharma">

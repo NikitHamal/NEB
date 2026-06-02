@@ -2,7 +2,7 @@
 DRF serializers for all NEBians API resources.
 """
 from rest_framework import serializers
-from .models import User, Resource, Post, Reply, FCMToken, UserPhoto, Follow, EditHistory, Report, Bookmark, Notification
+from .models import User, Resource, ResourceRequest, ResourceRequestUpvote, Post, Reply, FCMToken, UserPhoto, Follow, EditHistory, Report, Bookmark, Notification
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -53,17 +53,78 @@ class ResourceSerializer(serializers.ModelSerializer):
     sourceLabel = serializers.CharField(source='source_label', read_only=True)
     likeCount = serializers.IntegerField(source='like_count', read_only=True)
     commentCount = serializers.IntegerField(source='comment_count', read_only=True)
+    approvalStatus = serializers.CharField(source='approval_status', read_only=True)
+    fileUrl = serializers.SerializerMethodField()
 
     class Meta:
         model = Resource
         fields = [
             'id', 'title', 'description', 'subject', 'grade_level',
-            'type', 'file_url', 'thumbnail_url', 'file_size',
+            'faculty', 'program', 'year', 'exam_type',
+            'pradesh', 'district', 'school', 'tags',
+            'type', 'file', 'file_url', 'fileUrl', 'thumbnail_url', 'file_size',
             'added_at', 'view_count', 'author_name',
             'like_count', 'comment_count',
             'source_type', 'sourceType', 'source_url', 'sourceUrl',
             'source_label', 'sourceLabel', 'likeCount', 'commentCount',
+            'approval_status', 'approvalStatus',
         ]
+
+    def get_fileUrl(self, obj):
+        if obj.file:
+            request = self.context.get('request')
+            if request:
+                return request.build_absolute_uri(obj.file.url)
+            return obj.file.url
+        return obj.file_url or ''
+
+
+class ResourceRequestSerializer(serializers.ModelSerializer):
+    requestedByName = serializers.SerializerMethodField()
+    requestedByPhoto = serializers.SerializerMethodField()
+    requestedByUsername = serializers.SerializerMethodField()
+    isUpvoted = serializers.SerializerMethodField()
+    upvoteCount = serializers.IntegerField(source='upvote_count', read_only=True)
+
+    class Meta:
+        model = ResourceRequest
+        fields = [
+            'id', 'title', 'description', 'subject', 'grade_level',
+            'faculty', 'program', 'year', 'exam_type',
+            'pradesh', 'district', 'school', 'tags',
+            'requested_by', 'requestedByName', 'requestedByPhoto', 'requestedByUsername',
+            'requester_name', 'requester_email',
+            'status', 'upvote_count', 'upvoteCount', 'isUpvoted',
+            'created_at', 'fulfilled_by', 'fulfilled_at',
+        ]
+        read_only_fields = ['id', 'status', 'upvote_count', 'fulfilled_by', 'fulfilled_at']
+
+    def get_requestedByName(self, obj):
+        if obj.requested_by:
+            return obj.requested_by.display_name or obj.requested_by.username
+        return obj.requester_name or 'Anonymous'
+
+    def get_requestedByPhoto(self, obj):
+        if obj.requested_by:
+            return obj.requested_by.photo_url or ''
+        return ''
+
+    def get_requestedByUsername(self, obj):
+        if obj.requested_by:
+            return obj.requested_by.username
+        return ''
+
+    def get_isUpvoted(self, obj):
+        request = self.context.get('request')
+        if not request or not hasattr(request, 'user') or request.user is None:
+            return False
+        user = request.user
+        if not isinstance(user, User):
+            return False
+        upvote_ids = self.context.get('upvoted_request_ids')
+        if upvote_ids is not None:
+            return obj.id in upvote_ids
+        return obj.upvotes.filter(user=user).exists()
 
 
 class PostSerializer(serializers.ModelSerializer):

@@ -22,26 +22,31 @@
   .rd-hero-art svg{width:100%;height:100%}
   .rd-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
   .rd-chip{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:var(--md-radius-full);font-size:.75rem;font-weight:600}
-  .rd-chip-subject{background:color-mix(8%, var(--subject-color, var(--md-primary)), transparent);color:var(--subject-color, var(--md-primary));border:1px solid color-mix(15%, var(--subject-color, var(--md-primary)), transparent)}
-  .rd-chip-type{background:var(--md-primary-container);color:var(--md-on-primary-container)}
-  .rd-chip-grade{background:var(--md-surface-container);color:var(--md-on-surface-variant);border:1px solid var(--md-outline-variant)}
+  .rd-chip-subject{background:color-mix(in srgb, var(--subject-color, var(--md-primary)) 5%, transparent);color:var(--subject-color, var(--md-primary));border:1px solid color-mix(in srgb, var(--subject-color, var(--md-primary)) 18%, transparent)}
+  .rd-chip-type{background:color-mix(in srgb, var(--md-primary) 5%, transparent);color:var(--md-primary);border:1px solid color-mix(in srgb, var(--md-primary) 18%, transparent)}
+  .rd-chip-grade{background:color-mix(in srgb, var(--md-outline) 5%, transparent);color:var(--md-on-surface-variant);border:1px solid color-mix(in srgb, var(--md-outline) 18%, transparent)}
   .rd-title{font-size:1.5rem;font-weight:700;color:var(--md-on-surface);margin:0 0 8px;line-height:1.35;position:relative}
-  .rd-author{font-size:.8125rem;color:var(--md-on-surface-variant);margin-bottom:6px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
-  .rd-author .material-symbols-outlined{font-size:16px}
-  .rd-source-badge{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:var(--md-radius-full);font-size:.6875rem;font-weight:600}
-  .rd-source-admin{background:color-mix(8%, var(--md-primary), transparent);color:var(--md-primary)}
-  .rd-source-user{background:color-mix(8%, #0D652D, transparent);color:#0D652D}
-  [data-theme="dark"] .rd-source-user{background:color-mix(12%, #4ADE80, transparent);color:#4ADE80}
-  .rd-source-anonymous{background:var(--md-surface-container);color:var(--md-on-surface-variant)}
-  .rd-source-external{background:color-mix(8%, #E37400, transparent);color:#E37400}
-  [data-theme="dark"] .rd-source-external{background:color-mix(12%, #FBBF24, transparent);color:#FBBF24}
-  .rd-uploader-avatar{width:20px;height:20px;border-radius:50%;overflow:hidden;background:var(--md-primary);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+  
+  /* Meta Bar */
+  .rd-meta-bar{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:.8125rem;color:var(--md-on-surface-variant);margin-bottom:16px}
+  .rd-meta-item{display:inline-flex;align-items:center;gap:4px;color:var(--md-on-surface-variant);font-weight:500}
+  .rd-meta-item .material-symbols-outlined{font-size:16px;color:var(--md-on-surface-variant)}
+  .rd-meta-bar .dot-sep{opacity:.3}
+  .rd-meta-admin{color:var(--md-primary);font-weight:600}
+  .rd-meta-admin .material-symbols-outlined{color:var(--md-primary);font-variation-settings:'FILL' 1}
+  .rd-meta-user{color:#0d652d;font-weight:600;display:inline-flex;align-items:center;gap:4px}
+  [data-theme="dark"] .rd-meta-user{color:#4ade80}
+  .rd-meta-user .material-symbols-outlined{color:#0d652d}
+  [data-theme="dark"] .rd-meta-user .material-symbols-outlined{color:#4ade80}
+  .rd-meta-external{color:#e37400;font-weight:600;display:inline-flex;align-items:center;gap:4px}
+  [data-theme="dark"] .rd-meta-external{color:#fbbf24}
+  .rd-meta-external .material-symbols-outlined{color:#e37400}
+  [data-theme="dark"] .rd-meta-external .material-symbols-outlined{color:#fbbf24}
+  .rd-uploader-avatar{width:18px;height:18px;border-radius:50%;overflow:hidden;background:var(--md-primary);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
   .rd-uploader-avatar img{width:100%;height:100%;object-fit:cover}
   .rd-uploader-avatar-letter{font-size:.5rem;font-weight:700;color:var(--md-on-primary)}
   .rd-uploader-link{color:var(--md-primary);font-weight:600;text-decoration:none}
   .rd-uploader-link:hover{text-decoration:underline}
-  .rd-meta{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:.8125rem;color:var(--md-on-surface-variant);margin-bottom:16px}
-  .rd-meta .dot-sep{opacity:.3}
   .rd-description{font-size:.9375rem;color:var(--md-on-surface-variant);line-height:1.65;white-space:pre-wrap;margin-bottom:0;position:relative}
 
   /* Action bar */
@@ -159,14 +164,14 @@
       <span class="rd-chip rd-chip-grade">{{ resource.grade_level }}</span>
     </div>
     <h1 class="rd-title">{{ resource.title }}</h1>
-    <!-- Source attribution -->
-    <div class="rd-author">
+    <!-- Metadata bar -->
+    <div class="rd-meta-bar">
       {% if resource.source_type == 'user' and resource.uploadedByName %}
-        <span class="rd-source-badge rd-source-user">
-          <span class="material-symbols-outlined" style="font-size:12px">cloud_upload</span>
+        <span class="rd-meta-item rd-meta-user">
+          <span class="material-symbols-outlined">cloud_upload</span>
           Community
         </span>
-        <span style="display:inline-flex;align-items:center;gap:4px;">
+        <span class="rd-meta-item">
           {% if resource.uploadedByPhoto %}
           <span class="rd-uploader-avatar"><img src="{{ resource.uploadedByPhoto }}" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><span class="rd-uploader-avatar-letter" style="display:none">{{ resource.uploadedByName|truncate_chars:1 }}</span></span>
           {% else %}
@@ -179,35 +184,51 @@
           {% endif %}
         </span>
       {% elif resource.source_type == 'anonymous' %}
-        <span class="rd-source-badge rd-source-anonymous">
-          <span class="material-symbols-outlined" style="font-size:12px">person_off</span>
-          Anonymous Contribution
+        <span class="rd-meta-item">
+          <span class="material-symbols-outlined">person_off</span>
+          Anonymous
         </span>
       {% elif resource.source_type == 'external' %}
-        <span class="rd-source-badge rd-source-external">
-          <span class="material-symbols-outlined" style="font-size:12px">public</span>
+        <span class="rd-meta-item rd-meta-external">
+          <span class="material-symbols-outlined">public</span>
           {% if resource.sourceLabel %}{{ resource.sourceLabel }}{% else %}External Source{% endif %}
         </span>
         {% if resource.source_url %}
-        <a href="{{ resource.source_url }}" target="_blank" rel="noopener" style="color:var(--md-primary);font-size:.75rem;text-decoration:none;">Source ↗</a>
+        <span class="rd-meta-item">
+          <a href="{{ resource.source_url }}" target="_blank" rel="noopener" class="rd-uploader-link">Source ↗</a>
+        </span>
         {% endif %}
       {% else %}
-        <span class="rd-source-badge rd-source-admin">
-          <span class="material-symbols-outlined" style="font-size:12px">verified_user</span>
+        <span class="rd-meta-item rd-meta-admin">
+          <span class="material-symbols-outlined">verified</span>
           NEBians Team
         </span>
         {% if resource.author_name %}
-        <span style="color:var(--md-on-surface-variant);">· {{ resource.author_name }}</span>
+        <span class="rd-meta-item">
+          <span class="material-symbols-outlined">person</span>
+          {{ resource.author_name }}
+        </span>
         {% endif %}
       {% endif %}
-    </div>
-    <div class="rd-meta">
-      <span>{{ resource.added_at|time_ago }}</span>
+
       <span class="dot-sep">·</span>
-      <span>{{ resource.view_count|format_count }} views</span>
+      <span class="rd-meta-item">
+        <span class="material-symbols-outlined">schedule</span>
+        {{ resource.added_at|time_ago }}
+      </span>
+
+      <span class="dot-sep">·</span>
+      <span class="rd-meta-item">
+        <span class="material-symbols-outlined">visibility</span>
+        {{ resource.view_count|format_count }} views
+      </span>
+
       {% if resource.file_size %}
       <span class="dot-sep">·</span>
-      <span>{{ resource.file_size|file_size_human }}</span>
+      <span class="rd-meta-item">
+        <span class="material-symbols-outlined">folder</span>
+        {{ resource.file_size|file_size_human }}
+      </span>
       {% endif %}
     </div>
     {% if resource.description %}

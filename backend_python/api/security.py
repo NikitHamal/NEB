@@ -238,6 +238,73 @@ def save_banner_image_upload(request, user, file_obj) -> str:
     return request.build_absolute_uri(settings.MEDIA_URL + path)
 
 
+RESOURCE_ALLOWED_EXTENSIONS = {
+    '.pdf', '.doc', '.docx', '.ppt', '.pptx', '.xls', '.xlsx',
+    '.txt', '.rtf', '.odt', '.ods', '.odp',
+    '.zip', '.rar', '.7z',
+    '.jpg', '.jpeg', '.png', '.gif', '.webp', '.bmp', '.svg',
+    '.mp4', '.mkv', '.avi', '.mov', '.webm',
+    '.mp3', '.wav', '.ogg', '.flac', '.aac',
+    '.epub', '.mobi',
+}
+RESOURCE_ALLOWED_MIME_PREFIXES = (
+    'application/pdf', 'application/msword',
+    'application/vnd.openxmlformats', 'application/vnd.ms-',
+    'application/vnd.oasis.opendocument',
+    'text/', 'image/', 'video/', 'audio/',
+    'application/zip', 'application/x-rar', 'application/x-7z',
+    'application/epub', 'application/x-mobipocket',
+)
+RESOURCE_MAX_BYTES = 100 * 1024 * 1024  # 100 MB
+
+
+def validate_and_save_resource_file(request, file_obj) -> tuple:
+    """Validate an uploaded resource file, compress if possible, and save it.
+
+    Returns (path, file_size, error_response) tuple.
+    On success, path is the storage path and file_size is the byte count.
+    On failure, path is None and error_response is a dict suitable for Response().
+    """
+    if not file_obj:
+        return None, 0, None
+
+    if getattr(file_obj, 'size', 0) > RESOURCE_MAX_BYTES:
+        return None, 0, {'error': f'File is too large. Maximum size is {RESOURCE_MAX_BYTES // (1024*1024)} MB.'}
+
+    original_name = get_valid_filename(getattr(file_obj, 'name', 'resource'))
+    ext = os.path.splitext(original_name)[1].lower()
+    if ext not in RESOURCE_ALLOWED_EXTENSIONS:
+        return None, 0, {'error': f'File type "{ext}" is not allowed. Allowed types: {", ".join(sorted(RESOURCE_ALLOWED_EXTENSIONS))}'}
+
+    content_type = getattr(file_obj, 'content_type', '')
+    if content_type and not content_type.startswith(RESOURCE_ALLOWED_MIME_PREFIXES):
+        return None, 0, {'error': f'MIME type "{content_type}" is not allowed.'}
+
+    import time as _time
+    import uuid as _uuid
+    from .compression import compress_resource_file
+
+    try:
+        result = compress_resource_file(file_obj, ext)
+        if result is not None:
+            compressed_content, final_ext = result
+            compressed_size = compressed_content.size
+            final_name = f"{_uuid.uuid4().hex[:12]}_{int(_time.time())}{final_ext}"
+            path = default_storage.save(os.path.join('resources', final_name), compressed_content)
+            return path, compressed_size, None
+    except Exception:
+        pass
+
+    if hasattr(file_obj, 'seek'):
+        file_obj.seek(0)
+
+    file_size = getattr(file_obj, 'size', 0)
+    filename = f"{_uuid.uuid4().hex[:12]}_{int(_time.time())}{ext}"
+    path = default_storage.save(os.path.join('resources', filename), file_obj)
+
+    return path, file_size, None
+
+
 def make_internal_admin_signature() -> str:
     return TimestampSigner(salt=ADMIN_API_SALT).sign('admin-api')
 

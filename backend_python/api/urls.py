@@ -37,6 +37,14 @@ urlpatterns = [
     path('resources/', views.resources_list, name='resources-list'),
     path('resources/<str:resource_id>/', views.resource_detail, name='resource-detail'),
     path('resources/<str:resource_id>/view/', views.resource_view, name='resource-view'),
+    path('resources/upload/', views.resource_upload, name='resource-upload'),
+    path('resources/upload/anonymous/', views.resource_upload_anonymous, name='resource-upload-anonymous'),
+
+    # Resource Requests
+    path('resource-requests/', views.resource_requests_list, name='resource-requests-list'),
+    path('resource-requests/create/', views.resource_request_create, name='resource-request-create'),
+    path('resource-requests/anonymous/', views.resource_request_create_anonymous, name='resource-request-create-anonymous'),
+    path('resource-requests/<str:request_id>/upvote/', views.resource_request_upvote, name='resource-request-upvote'),
 
     # Search
     path('search/', views.search_all, name='search-all'),

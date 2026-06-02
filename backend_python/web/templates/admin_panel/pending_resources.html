@@ -1,0 +1,122 @@
+{% extends "admin_panel/base.html" %}
+{% load web_extras %}
+{% block title %}Pending Resources — Admin{% endblock %}
+
+{% block content %}
+<div class="admin-section">
+  <div class="admin-section-header">
+    <h1>Pending Resources</h1>
+    <span class="admin-count">{{ pending_resources|length }} pending</span>
+  </div>
+
+  {% if pending_resources %}
+  <div class="admin-table-wrap">
+    <table class="md-table">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Subject</th>
+          <th>Grade</th>
+          <th>Type</th>
+          <th>Source</th>
+          <th>Submitted</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in pending_resources %}
+        <tr>
+          <td>
+            <div class="admin-resource-title">{{ r.title }}</div>
+            {% if r.description %}<div class="admin-resource-desc">{{ r.description|truncatewords:15 }}</div>{% endif %}
+            <div class="admin-resource-url">{% if r.file_url %}<a href="{{ r.file_url }}" target="_blank" rel="noopener">{{ r.file_url|truncatechars:60 }}</a>{% else %}No file{% endif %}</div>
+          </td>
+          <td><span class="md-chip">{{ r.subject }}</span></td>
+          <td>{{ r.grade_level }}</td>
+          <td>{{ r.type }}</td>
+          <td>
+            {% if r.source_type == 'user' %}
+              <span class="admin-badge admin-badge-user">User</span>
+              {% if r.uploaded_by_name %}<br><small>{{ r.uploaded_by_name }}</small>{% endif %}
+            {% elif r.source_type == 'anonymous' %}
+              <span class="admin-badge admin-badge-anon">Anonymous</span>
+            {% else %}
+              <span class="admin-badge admin-badge-admin">Admin</span>
+            {% endif %}
+          </td>
+          <td>{{ r.added_at|time_ago }}</td>
+          <td class="admin-actions-cell">
+            <form method="post" action="{% url 'web:admin_pending_resources' %}" style="display:inline">
+              {% csrf_token %}
+              <input type="hidden" name="resource_id" value="{{ r.id }}">
+              <input type="hidden" name="action" value="approve">
+              <button type="submit" class="md-btn md-btn-tonal" style="background:color-mix(10%,#4caf50,transparent);color:#2e7d32">
+                <span class="material-symbols-outlined" style="font-size:18px">check_circle</span> Approve
+              </button>
+            </form>
+            <button type="button" class="md-btn md-btn-text" style="color:var(--md-error)" onclick="showRejectForm('{{ r.id }}')">
+              <span class="material-symbols-outlined" style="font-size:18px">cancel</span> Reject
+            </button>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div id="reject-form-modal" style="display:none" class="reject-modal">
+    <div class="reject-modal-content">
+      <h3>Reject Resource</h3>
+      <form method="post" action="{% url 'web:admin_pending_resources' %}">
+        {% csrf_token %}
+        <input type="hidden" name="resource_id" id="reject-resource-id">
+        <input type="hidden" name="action" value="reject">
+        <div class="upload-field">
+          <label class="md-label" for="reject-reason">Reason (optional)</label>
+          <textarea class="md-textarea" id="reject-reason" name="reason" rows="3" placeholder="Why is this resource being rejected?"></textarea>
+        </div>
+        <div class="reject-modal-actions">
+          <button type="button" class="md-btn md-btn-text" onclick="hideRejectForm()">Cancel</button>
+          <button type="submit" class="md-btn md-btn-error">Reject</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  {% else %}
+  <div class="admin-empty">
+    <span class="material-symbols-outlined" style="font-size:48px;color:var(--md-on-surface-variant)">check_circle</span>
+    <p>No pending resources. All clear!</p>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.admin-resource-title { font-weight: 600; }
+.admin-resource-desc { font-size: 0.8125rem; color: var(--md-on-surface-variant); margin-top: 2px; }
+.admin-resource-url { font-size: 0.75rem; margin-top: 4px; }
+.admin-resource-url a { color: var(--md-primary); }
+.admin-badge { font-size: 0.75rem; font-weight: 600; padding: 2px 8px; border-radius: 4px; }
+.admin-badge-user { background: color-mix(10%, #4caf50, transparent); color: #2e7d32; }
+.admin-badge-anon { background: color-mix(10%, #9e9e9e, transparent); color: #616161; }
+.admin-badge-admin { background: color-mix(10%, #2196f3, transparent); color: #1565c0; }
+.admin-actions-cell { white-space: nowrap; }
+.reject-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; display: flex; align-items: center; justify-content: center; }
+.reject-modal-content { background: var(--md-surface-container-high); border-radius: 16px; padding: 24px; max-width: 420px; width: 90%; }
+.reject-modal h3 { margin: 0 0 16px; }
+.reject-modal-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 16px; }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function showRejectForm(resourceId) {
+  document.getElementById('reject-resource-id').value = resourceId;
+  document.getElementById('reject-form-modal').style.display = 'flex';
+}
+function hideRejectForm() {
+  document.getElementById('reject-form-modal').style.display = 'none';
+}
+</script>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load web_extras %}
+{% block title %}Upload Successful — NEBians{% endblock %}
+
+{% block content %}
+<div class="upload-success-page">
+  <div class="upload-success-card">
+    <div class="upload-success-icon">
+      <span class="material-symbols-outlined">check_circle</span>
+    </div>
+    <h1>Submitted for Review!</h1>
+    <p>Thank you for sharing! Your resource "{{ resource.title }}" has been submitted and will be reviewed by our team before it appears in the library.</p>
+    {% if is_anonymous %}
+    <p class="upload-success-note">Since you uploaded anonymously, you won't receive notifications. Check back later to see if it's been approved.</p>
+    {% else %}
+    <p class="upload-success-note">You'll be able to see it in the library once it's approved.</p>
+    {% endif %}
+    <div class="upload-success-actions">
+      <a href="{% url 'web:upload_resource' %}" class="md-btn md-btn-tonal">
+        <span class="material-symbols-outlined">upload</span>
+        Upload Another
+      </a>
+      <a href="{% url 'web:library' %}" class="md-btn md-btn-outlined">
+        <span class="material-symbols-outlined">local_library</span>
+        Browse Library
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.upload-success-page { max-width: 520px; margin: 0 auto; padding: 48px 16px; text-align: center; }
+.upload-success-card { background: var(--md-surface-container-low); border: 1px solid var(--md-outline-variant); border-radius: 20px; padding: 40px 24px; }
+.upload-success-icon .material-symbols-outlined { font-size: 56px; color: #4caf50; }
+.upload-success-card h1 { font-size: 1.5rem; font-weight: 700; margin: 16px 0 8px; }
+.upload-success-card p { color: var(--md-on-surface-variant); font-size: 0.9375rem; line-height: 1.5; margin: 0 0 8px; }
+.upload-success-note { font-size: 0.8125rem !important; }
+.upload-success-actions { display: flex; gap: 12px; justify-content: center; margin-top: 24px; flex-wrap: wrap; }
+</style>
+{% endblock %}
