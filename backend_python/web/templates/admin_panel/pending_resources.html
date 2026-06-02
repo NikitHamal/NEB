@@ -84,8 +84,19 @@
   </div>
   {% else %}
   <div class="admin-empty">
-    <span class="material-symbols-outlined" style="font-size:48px;color:var(--md-on-surface-variant)">check_circle</span>
-    <p>No pending resources. All clear!</p>
+    <div class="admin-empty-icon-wrap" style="background: color-mix(in srgb, #4caf50 12%, transparent); color: #2e7d32; border-color: color-mix(in srgb, #4caf50 25%, transparent);">
+      <span class="material-symbols-outlined">task_alt</span>
+    </div>
+    <h3>All caught up!</h3>
+    <p>There are no pending resources awaiting review. Excellent work keeping the library clean and up to date.</p>
+    <div class="admin-empty-actions">
+      <a href="{% url 'web:admin_resources' %}" class="md-btn md-btn-tonal">
+        <span class="material-symbols-outlined">auto_stories</span> View Library
+      </a>
+      <a href="{% url 'web:admin_dashboard' %}" class="md-btn md-btn-text">
+        <span class="material-symbols-outlined">dashboard</span> Dashboard
+      </a>
+    </div>
   </div>
   {% endif %}
 </div>

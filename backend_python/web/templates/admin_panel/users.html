@@ -79,10 +79,21 @@
   </table>
 </div>
 {% else %}
-<div class="empty-state">
-  <span class="material-symbols-outlined">people</span>
+<div class="admin-empty">
+  <div class="admin-empty-icon-wrap" style="background: color-mix(in srgb, var(--md-primary) 12%, transparent); color: var(--md-primary); border-color: color-mix(in srgb, var(--md-primary) 25%, transparent);">
+    <span class="material-symbols-outlined">group_off</span>
+  </div>
   <h3>No users found</h3>
-  <p>Users will appear here once they sign up.</p>
+  {% if search %}
+    <p>No registered users found matching "{{ search }}". Try checking your spelling or using a different query.</p>
+    <div class="admin-empty-actions">
+      <a href="{% url 'web:admin_users' %}" class="md-btn md-btn-filled">
+        <span class="material-symbols-outlined">refresh</span> Clear Search
+      </a>
+    </div>
+  {% else %}
+    <p>No registered users found in the system yet. They will appear here once they sign up.</p>
+  {% endif %}
 </div>
 {% endif %}
 {% endblock %}

@@ -302,7 +302,7 @@
 </div>
 
 <!-- Filter Dialog -->
-<div id="filter-dialog" class="filter-overlay" style="display:none;" onclick="if(event.target===this){this.style.display='none'}">
+<div id="filter-dialog" class="filter-overlay" style="display:none;" onclick="if(event.target===this){this.style.display='none'; document.body.style.overflow='';}">
   <div class="filter-dialog">
     <h3>Filters</h3>
 
@@ -360,6 +360,7 @@
 <script>
 function openFilterDialog() {
   document.getElementById('filter-dialog').style.display = 'flex';
+  document.body.style.overflow = 'hidden';
 }
 
 function applyFilters() {
