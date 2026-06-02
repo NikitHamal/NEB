@@ -16,10 +16,14 @@ import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material.icons.outlined.FormatUnderlined
-import androidx.compose.material.icons.outlined.Highlight
-import androidx.compose.material.icons.outlined.StickyNote2
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Warning
+import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.ui.res.painterResource
+import com.neb.ians.R
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -92,7 +96,7 @@ fun PdfReaderScreen(
                                 text = { Text("Add Bookmark") },
                                 leadingIcon = {
                                     Icon(
-                                        imageVector = Icons.Filled.BookmarkAdd,
+                                        painter = painterResource(id = R.drawable.ic_bookmark),
                                         contentDescription = null
                                     )
                                 },
@@ -106,7 +110,7 @@ fun PdfReaderScreen(
                                 text = { Text("View Bookmarks") },
                                 leadingIcon = {
                                     Icon(
-                                        imageVector = Icons.Filled.Bookmarks,
+                                        painter = painterResource(id = R.drawable.ic_bookmark),
                                         contentDescription = null
                                     )
                                 },
@@ -119,7 +123,7 @@ fun PdfReaderScreen(
                                 text = { Text("Jump to Page") },
                                 leadingIcon = {
                                     Icon(
-                                        imageVector = Icons.Filled.FindInPage,
+                                        painter = painterResource(id = R.drawable.ic_document),
                                         contentDescription = null
                                     )
                                 },
@@ -192,7 +196,7 @@ fun PdfReaderScreen(
                                     verticalArrangement = Arrangement.Center
                                 ) {
                                     Icon(
-                                        imageVector = Icons.Filled.PictureAsPdf,
+                                        painter = painterResource(id = R.drawable.ic_document),
                                         contentDescription = null,
                                         modifier = Modifier.size(72.dp),
                                         tint = MaterialTheme.colorScheme.primary
@@ -218,7 +222,7 @@ fun PdfReaderScreen(
                                         shape = RoundedCornerShape(12.dp)
                                     ) {
                                         Icon(
-                                            imageVector = Icons.Filled.Download,
+                                            painter = painterResource(id = R.drawable.ic_download),
                                             contentDescription = null,
                                             modifier = Modifier.size(18.dp)
                                         )
@@ -300,7 +304,7 @@ fun PdfReaderScreen(
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Icon(
-                                imageVector = Icons.Filled.ErrorOutline,
+                                imageVector = Icons.Filled.Warning,
                                 contentDescription = null,
                                 modifier = Modifier.size(64.dp),
                                 tint = MaterialTheme.colorScheme.error
@@ -347,7 +351,7 @@ fun PdfReaderScreen(
                                     verticalArrangement = Arrangement.Center
                                 ) {
                                     Icon(
-                                        imageVector = Icons.Filled.PictureAsPdf,
+                                        painter = painterResource(id = R.drawable.ic_document),
                                         contentDescription = null,
                                         modifier = Modifier.size(72.dp),
                                         tint = MaterialTheme.colorScheme.primary
@@ -412,7 +416,7 @@ fun PdfReaderScreen(
                             )
                             Icon(
                                 imageVector = if (annotationsExpanded)
-                                    Icons.Filled.ExpandLess else Icons.Filled.ExpandMore,
+                                    Icons.Filled.KeyboardArrowUp else Icons.Filled.KeyboardArrowDown,
                                 contentDescription = if (annotationsExpanded)
                                     "Collapse" else "Expand",
                                 tint = MaterialTheme.colorScheme.onSurfaceVariant
@@ -466,7 +470,7 @@ fun PdfReaderScreen(
                                 }
                             ) {
                                 Icon(
-                                    imageVector = Icons.Outlined.Highlight,
+                                    painter = painterResource(id = R.drawable.ic_pen),
                                     contentDescription = "Highlight",
                                     tint = if (annotationState.annotationMode == AnnotationMode.HIGHLIGHT)
                                         MaterialTheme.colorScheme.primary
@@ -481,7 +485,7 @@ fun PdfReaderScreen(
                                 }
                             ) {
                                 Icon(
-                                    imageVector = Icons.Outlined.FormatUnderlined,
+                                    painter = painterResource(id = R.drawable.ic_pen),
                                     contentDescription = "Underline",
                                     tint = if (annotationState.annotationMode == AnnotationMode.UNDERLINE)
                                         MaterialTheme.colorScheme.primary
@@ -496,7 +500,7 @@ fun PdfReaderScreen(
                                 }
                             ) {
                                 Icon(
-                                    imageVector = Icons.Outlined.StickyNote2,
+                                    painter = painterResource(id = R.drawable.ic_pen),
                                     contentDescription = "Sticky Note",
                                     tint = if (annotationState.annotationMode == AnnotationMode.STICKY_NOTE)
                                         MaterialTheme.colorScheme.primary
@@ -567,7 +571,7 @@ fun PdfReaderScreen(
                         enabled = pageState.currentPage > 0
                     ) {
                         Icon(
-                            imageVector = Icons.Filled.ChevronLeft,
+                            painter = painterResource(id = R.drawable.ic_chevron_left),
                             contentDescription = "Previous page"
                         )
                     }
@@ -586,7 +590,7 @@ fun PdfReaderScreen(
                         enabled = pageState.currentPage < pageState.totalPages - 1
                     ) {
                         Icon(
-                            imageVector = Icons.Filled.ChevronRight,
+                            painter = painterResource(id = R.drawable.ic_chevron_right),
                             contentDescription = "Next page"
                         )
                     }
@@ -723,7 +727,7 @@ fun PdfReaderScreen(
                     ) {
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
                             Icon(
-                                imageVector = Icons.Filled.BookmarkBorder,
+                                painter = painterResource(id = R.drawable.ic_bookmark),
                                 contentDescription = null,
                                 modifier = Modifier.size(40.dp),
                                 tint = MaterialTheme.colorScheme.onSurfaceVariant

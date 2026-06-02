@@ -11,14 +11,10 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Article
-import androidx.compose.material.icons.outlined.AutoStories
-import androidx.compose.material.icons.outlined.Description
-import androidx.compose.material.icons.outlined.MenuBook
-import androidx.compose.material.icons.outlined.QuestionAnswer
-import androidx.compose.material.icons.outlined.School
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.ThumbUp
+import androidx.compose.ui.res.painterResource
+import com.neb.ians.R
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -57,14 +53,14 @@ private fun getSubjectColor(subject: String): Color {
     return subjectColors[subject] ?: Color(0xFF565F71)
 }
 
-private fun getTypeIcon(type: String): ImageVector {
+private fun getTypeIcon(type: String): Int {
     return when (type.lowercase()) {
-        "textbook" -> Icons.Outlined.MenuBook
-        "notes" -> Icons.Outlined.Article
-        "past papers" -> Icons.Outlined.Description
-        "guide" -> Icons.Outlined.AutoStories
-        "solution" -> Icons.Outlined.School
-        else -> Icons.Outlined.Description
+        "textbook" -> R.drawable.ic_book
+        "notes" -> R.drawable.ic_document
+        "past papers" -> R.drawable.ic_document
+        "guide" -> R.drawable.ic_book
+        "solution" -> R.drawable.ic_school
+        else -> R.drawable.ic_document
     }
 }
 
@@ -302,7 +298,7 @@ private fun ResourceCard(
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
-                    imageVector = getTypeIcon(resource.type),
+                    painter = painterResource(id = getTypeIcon(resource.type)),
                     contentDescription = null,
                     modifier = Modifier.size(36.dp),
                     tint = subjectColor

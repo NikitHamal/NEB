@@ -8,17 +8,12 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.DarkMode
 import androidx.compose.material.icons.outlined.Info
-import androidx.compose.material.icons.outlined.Notifications
-import androidx.compose.material.icons.outlined.School
-import androidx.compose.material.icons.outlined.Wifi
 import androidx.compose.material.icons.outlined.Lock
-import androidx.compose.material.icons.outlined.LockOpen
+import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material.icons.outlined.Person
-import androidx.compose.material.icons.outlined.Password
-import androidx.compose.material.icons.outlined.Visibility
-import androidx.compose.material.icons.outlined.VisibilityOff
+import androidx.compose.ui.res.painterResource
+import com.neb.ians.R
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -124,7 +119,7 @@ fun SettingsScreen(
                     },
                     leadingContent = {
                         Icon(
-                            imageVector = if (profile.isLocked) Icons.Outlined.Lock else Icons.Outlined.LockOpen,
+                            painter = painterResource(id = if (profile.isLocked) R.drawable.ic_visibility_off else R.drawable.ic_visibility),
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -178,7 +173,7 @@ fun SettingsScreen(
                 supportingContent = { Text(if (isDarkMode) "Enabled" else "Disabled") },
                 leadingContent = {
                     Icon(
-                        imageVector = Icons.Outlined.DarkMode,
+                        painter = painterResource(id = R.drawable.ic_dark_mode),
                         contentDescription = null,
                         tint = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -226,7 +221,7 @@ fun SettingsScreen(
                 supportingContent = { Text(if (downloadWifiOnly) "Only download on Wi-Fi" else "Download on any network") },
                 leadingContent = {
                     Icon(
-                        imageVector = Icons.Outlined.Wifi,
+                        painter = painterResource(id = R.drawable.ic_wifi),
                         contentDescription = null,
                         tint = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -267,7 +262,7 @@ fun SettingsScreen(
                 supportingContent = { Text("Collaborative resources for Nepali students") },
                 leadingContent = {
                     Icon(
-                        imageVector = Icons.Outlined.School,
+                        painter = painterResource(id = R.drawable.ic_school),
                         contentDescription = null,
                         tint = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -343,7 +338,7 @@ private fun PasswordSection(settingsViewModel: SettingsViewModel, hasPassword: B
         },
         leadingContent = {
             Icon(
-                imageVector = Icons.Outlined.Password,
+                imageVector = Icons.Outlined.Lock,
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -407,7 +402,7 @@ private fun SetPasswordDialog(
                     trailingIcon = {
                         IconButton(onClick = { passwordVisible = !passwordVisible }) {
                             Icon(
-                                imageVector = if (passwordVisible) Icons.Outlined.VisibilityOff else Icons.Outlined.Visibility,
+                                painter = painterResource(id = if (passwordVisible) R.drawable.ic_visibility_off else R.drawable.ic_visibility),
                                 contentDescription = null
                             )
                         }
@@ -473,7 +468,7 @@ private fun ChangePasswordDialog(
                     trailingIcon = {
                         IconButton(onClick = { currentVisible = !currentVisible }) {
                             Icon(
-                                imageVector = if (currentVisible) Icons.Outlined.VisibilityOff else Icons.Outlined.Visibility,
+                                painter = painterResource(id = if (currentVisible) R.drawable.ic_visibility_off else R.drawable.ic_visibility),
                                 contentDescription = null
                             )
                         }
@@ -491,7 +486,7 @@ private fun ChangePasswordDialog(
                     trailingIcon = {
                         IconButton(onClick = { newVisible = !newVisible }) {
                             Icon(
-                                imageVector = if (newVisible) Icons.Outlined.VisibilityOff else Icons.Outlined.Visibility,
+                                painter = painterResource(id = if (newVisible) R.drawable.ic_visibility_off else R.drawable.ic_visibility),
                                 contentDescription = null
                             )
                         }
