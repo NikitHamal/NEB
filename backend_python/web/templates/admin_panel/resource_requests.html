@@ -1,0 +1,89 @@
+{% extends "admin_panel/base.html" %}
+{% load web_extras %}
+{% block title %}Resource Requests — Admin{% endblock %}
+
+{% block content %}
+<div class="admin-section">
+  <div class="admin-section-header">
+    <h1>Resource Requests</h1>
+    <div class="admin-filter-chips">
+      <a href="?status=open" class="md-chip {% if current_status == 'open' %}md-chip-active{% endif %}">Open</a>
+      <a href="?status=fulfilled" class="md-chip {% if current_status == 'fulfilled' %}md-chip-active{% endif %}">Fulfilled</a>
+      <a href="?status=closed" class="md-chip {% if current_status == 'closed' %}md-chip-active{% endif %}">Closed</a>
+      <a href="?status=" class="md-chip {% if not current_status %}md-chip-active{% endif %}">All</a>
+    </div>
+  </div>
+
+  {% if requests %}
+  <div class="admin-table-wrap">
+    <table class="md-table">
+      <thead>
+        <tr>
+          <th>Request</th>
+          <th>Subject</th>
+          <th>Grade</th>
+          <th>Requested By</th>
+          <th>Upvotes</th>
+          <th>Status</th>
+          <th>Created</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for req in requests %}
+        <tr>
+          <td>
+            <div style="font-weight:600">{{ req.title }}</div>
+            {% if req.description %}<div style="font-size:0.8125rem;color:var(--md-on-surface-variant)">{{ req.description|truncatewords:20 }}</div>{% endif %}
+          </td>
+          <td>{{ req.subject|default:"—" }}</td>
+          <td>{{ req.grade_level|default:"—" }}</td>
+          <td>{{ req.requested_by_name }}{% if req.requester_email %}<br><small>{{ req.requester_email }}</small>{% endif %}</td>
+          <td>{{ req.upvote_count }}</td>
+          <td>
+            <span class="admin-status admin-status-{{ req.status }}">{{ req.status|capfirst }}</span>
+          </td>
+          <td>{{ req.created_at|time_ago }}</td>
+          <td>
+            <form method="post" action="{% url 'web:admin_resource_requests' %}" style="display:inline">
+              {% csrf_token %}
+              <input type="hidden" name="request_id" value="{{ req.id }}">
+              {% if req.status == 'open' %}
+              <button type="submit" name="action" value="fulfill" class="md-btn md-btn-tonal" style="background:color-mix(10%,#4caf50,transparent);color:#2e7d32;font-size:0.8125rem;padding:4px 10px">
+                <span class="material-symbols-outlined" style="font-size:16px">check</span> Fulfill
+              </button>
+              <button type="submit" name="action" value="close" class="md-btn md-btn-text" style="color:var(--md-error);font-size:0.8125rem;padding:4px 10px">
+                <span class="material-symbols-outlined" style="font-size:16px">close</span> Close
+              </button>
+              {% elif req.status == 'fulfilled' or req.status == 'closed' %}
+              <button type="submit" name="action" value="reopen" class="md-btn md-btn-text" style="font-size:0.8125rem;padding:4px 10px">
+                <span class="material-symbols-outlined" style="font-size:16px">reopen</span> Reopen
+              </button>
+              {% endif %}
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div class="admin-empty">
+    <span class="material-symbols-outlined" style="font-size:48px;color:var(--md-on-surface-variant)">inbox</span>
+    <p>No resource requests found.</p>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.admin-section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
+.admin-section-header h1 { margin: 0; }
+.admin-filter-chips { display: flex; gap: 8px; flex-wrap: wrap; }
+.admin-status { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; padding: 2px 8px; border-radius: 4px; }
+.admin-status-open { background: color-mix(10%, #4caf50, transparent); color: #2e7d32; }
+.admin-status-fulfilled { background: color-mix(10%, #2196f3, transparent); color: #1565c0; }
+.admin-status-closed { background: color-mix(10%, #9e9e9e, transparent); color: #616161; }
+</style>
+{% endblock %}

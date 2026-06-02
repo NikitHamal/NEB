@@ -41,6 +41,14 @@
       <span class="material-symbols-outlined">auto_stories</span>
       Resources
     </a>
+    <a href="{% url 'web:admin_pending_resources' %}" class="{% if active_page == 'pending_resources' %}active{% endif %}" onclick="closeMobileNav()">
+      <span class="material-symbols-outlined">pending_actions</span>
+      Pending Review
+    </a>
+    <a href="{% url 'web:admin_resource_requests' %}" class="{% if active_page == 'resource_requests' %}active{% endif %}" onclick="closeMobileNav()">
+      <span class="material-symbols-outlined">help_request</span>
+      Requests
+    </a>
     <a href="{% url 'web:admin_posts' %}" class="{% if active_page == 'posts' %}active{% endif %}" onclick="closeMobileNav()">
       <span class="material-symbols-outlined">forum</span>
       Forum Posts
@@ -88,6 +96,14 @@
       <a href="{% url 'web:admin_resources' %}" class="{% if active_page == 'resources' %}active{% endif %}">
         <span class="material-symbols-outlined">auto_stories</span>
         Resources
+      </a>
+      <a href="{% url 'web:admin_pending_resources' %}" class="{% if active_page == 'pending_resources' %}active{% endif %}">
+        <span class="material-symbols-outlined">pending_actions</span>
+        Pending Review
+      </a>
+      <a href="{% url 'web:admin_resource_requests' %}" class="{% if active_page == 'resource_requests' %}active{% endif %}">
+        <span class="material-symbols-outlined">help_request</span>
+        Requests
       </a>
       <a href="{% url 'web:admin_posts' %}" class="{% if active_page == 'posts' %}active{% endif %}">
         <span class="material-symbols-outlined">forum</span>
