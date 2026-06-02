@@ -112,7 +112,6 @@ fun LibraryScreen(
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .verticalScroll(rememberScrollState())
                 ) {
                     FilterSection(
                         hasActiveFilters = hasActiveFilters,
