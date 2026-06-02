@@ -397,18 +397,18 @@ data class ApiStatsResponse(
 
 @Serializable
 data class ApiPaginatedResources(
-    val resources: List<ApiResource> = emptyList(),
-    @SerialName("total_count") val totalCount: Int = 0,
-    val page: Int = 1,
-    @SerialName("total_pages") val totalPages: Int = 1
+    @SerialName("results") val resources: List<ApiResource> = emptyList(),
+    @SerialName("count") val totalCount: Int = 0,
+    val next: String? = null,
+    val previous: String? = null
 )
 
 @Serializable
 data class ApiPaginatedPosts(
-    val posts: List<ApiPost> = emptyList(),
-    @SerialName("total_count") val totalCount: Int = 0,
-    val page: Int = 1,
-    @SerialName("total_pages") val totalPages: Int = 1
+    @SerialName("results") val posts: List<ApiPost> = emptyList(),
+    @SerialName("count") val totalCount: Int = 0,
+    val next: String? = null,
+    val previous: String? = null
 )
 
 // -------------------------------------------------------------
