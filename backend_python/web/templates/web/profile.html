@@ -970,6 +970,10 @@
             Replies
             <span class="tab-count">{{ stats.reply_count|default:0 }}</span>
           </button>
+          <button class="profile-tab" data-tab="resources" onclick="switchProfileTab('resources')">
+            Resources
+            <span class="tab-count">{{ stats.uploaded_resources_count|default:0 }}</span>
+          </button>
           <button class="profile-tab" data-tab="about" onclick="switchProfileTab('about')">
             About
           </button>
@@ -1122,6 +1126,93 @@
                 Load More Replies
               </button>
             {% endif %}
+          </div>
+        </div>
+
+        <!-- Tab: Resources -->
+        <div class="profile-tab-content" id="tabResources">
+          <div class="pf-card">
+            <div class="activity-list" id="resourcesFeed">
+              {% for r in user_resources %}
+              <div class="post-card" style="--subject-color: {{ r.subject|subject_color }}">
+                <!-- Card Header -->
+                <div class="post-card-header">
+                  <div class="post-card-avatar">
+                    {% if profile_user.photo_url %}
+                      <img src="{{ profile_user.photo_url }}" alt="{{ profile_user.display_name|default:profile_user.username }}" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';">
+                      <span class="contributor-avatar-letter" style="display:none;">{{ profile_user.display_name|default:profile_user.username|slice:":1" }}</span>
+                    {% else %}
+                      <span class="contributor-avatar-letter">{{ profile_user.display_name|default:profile_user.username|slice:":1" }}</span>
+                    {% endif %}
+                  </div>
+                  <div class="post-card-meta">
+                    <div class="post-card-meta-line">
+                      <strong onclick="window.location.href='{% url 'web:profile' username=profile_user.username %}'" style="cursor:pointer;">{{ profile_user.display_name|default:profile_user.username }}</strong>
+                      {% if badge_info %}
+                      <span class="role-badge role-badge-{{ badge_info.type }}" title="{{ badge_info.label }}"><span class="material-symbols-outlined">{{ badge_info.icon }}</span></span>
+                      {% endif %}
+                      
+                      <!-- Approval Status Badge for Profile Owner -->
+                      {% if stats.is_self %}
+                        {% if r.approval_status == 'pending' %}
+                          <span class="user-badge" style="background: rgba(217, 119, 6, 0.12); color: #D97706; border: 1px solid rgba(217, 119, 6, 0.25); text-transform: uppercase; font-size: 0.6875rem; font-weight: 700; padding: 2px 8px; border-radius: 12px; margin-left: 8px;">Pending Review</span>
+                        {% elif r.approval_status == 'approved' %}
+                          <span class="user-badge" style="background: rgba(46, 125, 50, 0.12); color: #2E7D32; border: 1px solid rgba(46, 125, 50, 0.25); text-transform: uppercase; font-size: 0.6875rem; font-weight: 700; padding: 2px 8px; border-radius: 12px; margin-left: 8px;">Approved</span>
+                        {% elif r.approval_status == 'rejected' %}
+                          <span class="user-badge" style="background: rgba(211, 47, 47, 0.12); color: #D32F2F; border: 1px solid rgba(211, 47, 47, 0.25); text-transform: uppercase; font-size: 0.6875rem; font-weight: 700; padding: 2px 8px; border-radius: 12px; margin-left: 8px;">Rejected</span>
+                        {% endif %}
+                      {% endif %}
+                    </div>
+                    <div class="post-meta-sub">
+                      <span class="act-action-text">shared a resource in</span>
+                      <span class="post-card-category-link" style="background-color: color-mix(in srgb, {{ r.subject|subject_color }} 8%, transparent); color: {{ r.subject|subject_color }}; border: 1px solid color-mix(in srgb, {{ r.subject|subject_color }} 20%, transparent); font-size: 0.75rem; font-weight: 600; padding: 2px 10px; border-radius: var(--md-radius-full);">{{ r.subject }}</span>
+                      <span class="dot-sep">&middot;</span>
+                      <span class="post-card-time">{{ r.added_at|time_ago }}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Attachment Card (exactly matching the user image screenshot) -->
+                <div class="act-resource-card" style="background: color-mix(in srgb, {{ r.subject|subject_color }} 3%, var(--md-surface-container-low)); border-color: color-mix(in srgb, {{ r.subject|subject_color }} 15%, var(--md-outline-variant));">
+                  <div class="act-resource-icon" style="background: color-mix(in srgb, {{ r.subject|subject_color }} 10%, transparent);">
+                    <span class="material-symbols-outlined" style="color: {{ r.subject|subject_color }}; font-size: 22px;">{{ r.type|resource_type_icon }}</span>
+                  </div>
+                  <div class="act-resource-info">
+                    <div class="act-resource-name">
+                      <a href="{% url 'web:reader' resource_id=r.id %}">{{ r.title }}</a>
+                    </div>
+                    <div class="act-resource-meta">{{ r.file_size|file_size_human|default:"2.4 MB" }} &bull; {{ r.type }} Document</div>
+                  </div>
+                </div>
+
+                <!-- Footer Actions -->
+                <div class="post-card-actions">
+                  <button type="button" onclick="toggleLikeResource('{{ r.id }}', this);" class="{% if r.is_liked %}liked{% endif %}" id="profile-resource-like-btn-{{ r.id }}" style="display: inline-flex; align-items: center; gap: 6px; font-size: 0.8125rem; border: none; background: transparent; padding: 6px 10px; border-radius: var(--md-radius-sm); cursor: pointer;">
+                    <span class="material-symbols-outlined" {% if r.is_liked %}style="font-variation-settings: 'FILL' 1;"{% endif %}>thumb_up</span>
+                    <span id="profile-resource-like-count-{{ r.id }}">{{ r.like_count|default:0 }}</span>
+                  </button>
+                  <a href="{% url 'web:reader' resource_id=r.id %}" class="act-btn-stat" style="display: inline-flex; align-items: center; gap: 6px; font-size: 0.8125rem; padding: 6px 10px; color: var(--md-on-surface-variant); text-decoration: none;">
+                    <span class="material-symbols-outlined">download</span>
+                    <span>{{ r.view_count|default:0 }} Downloads</span>
+                  </a>
+                </div>
+              </div>
+              {% empty %}
+              <div class="activity-empty">
+                <span class="activity-empty-icon material-symbols-outlined">folder_open</span>
+                <div class="activity-empty-text">
+                  <strong>No resources shared yet</strong>
+                  <span>Shared study guides, notes, and past papers will appear here</span>
+                  {% if stats.is_self %}
+                  <a href="{% url 'web:upload_resource' %}" class="md-btn md-btn-tonal" style="margin-top: 12px; width: fit-content; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
+                    <span class="material-symbols-outlined">cloud_upload</span>
+                    Upload a Resource
+                  </a>
+                  {% endif %}
+                </div>
+              </div>
+              {% endfor %}
+            </div>
           </div>
         </div>
 
@@ -1491,6 +1582,25 @@ async function toggleLikeReply(replyId, btnEl) {
       const iconEl = btnEl.querySelector('.material-symbols-outlined');
       if (iconEl) { iconEl.textContent = 'thumb_up'; iconEl.style.fontVariationSettings = d.isThumbedUp ? "'FILL' 1" : ''; }
       btnEl.classList.toggle('liked', d.isThumbedUp);
+    } else if (d && d.error) {
+      showSnackbar(d.error);
+    }
+  } catch(e) {
+    showSnackbar('Error updating like.');
+  }
+}
+
+async function toggleLikeResource(resourceId, btnEl) {
+  if (!IS_AUTHENTICATED) { window.location.href = '{% url "web:login" %}'; return; }
+  try {
+    const r = await fetch('/ajax/like/resource/' + resourceId + '/', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN }, credentials: 'same-origin' });
+    const d = await r.json();
+    if (d && d.likeCount !== undefined) {
+      const countEl = btnEl.querySelector('span:last-child') || document.getElementById('profile-resource-like-count-' + resourceId);
+      if (countEl) countEl.textContent = d.likeCount;
+      const iconEl = btnEl.querySelector('.material-symbols-outlined');
+      if (iconEl) { iconEl.textContent = 'thumb_up'; iconEl.style.fontVariationSettings = d.isLiked ? "'FILL' 1" : ''; }
+      btnEl.classList.toggle('liked', d.isLiked);
     } else if (d && d.error) {
       showSnackbar(d.error);
     }

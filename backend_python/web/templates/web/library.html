@@ -21,6 +21,32 @@
 
 {% block extra_css %}
 <style>
+  /* Header responsive classes */
+  .lib-header-row {
+    margin-top: 8px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .lib-header-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-shrink: 0;
+  }
+  .lib-header-actions .md-btn {
+    position: relative;
+    gap: 6px;
+  }
+  .filter-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--md-primary);
+  }
+
   /* Sort bar */
   .lib-sort-bar {
     display: flex; justify-content: space-between; align-items: center;
@@ -30,6 +56,11 @@
   }
   .lib-sort-bar .lib-count { font-size: 0.875rem; color: var(--md-on-surface-variant); }
   .lib-sort-bar .lib-count strong { color: var(--md-on-surface); }
+  .lib-sort-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
   .lib-sort-bar select {
     background: transparent; border: none; font-family: var(--md-font); font-size: 0.875rem;
     font-weight: 600; color: var(--md-primary); cursor: pointer; padding: 4px 8px;
@@ -37,8 +68,6 @@
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24'%3E%3Cpath fill='%23004AC6' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
     background-repeat: no-repeat; background-position: right center; padding-right: 24px;
   }
-
-  
 
   /* Filter dialog multi-select */
   .filter-chip-select {
@@ -80,21 +109,70 @@
   .lib-pagination .current { background: var(--md-primary); color: var(--md-on-primary); border: none; }
   .lib-pagination .dots { color: var(--md-on-surface-variant); border: none; min-width: 32px; }
   .lib-pagination .disabled { opacity: 0.4; pointer-events: none; }
+
+  /* Responsive breakpoints */
+  @media (max-width: 600px) {
+    .lib-header-row {
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .lib-header-row h1 {
+      font-size: 1.5rem;
+    }
+    .md-btn-text-responsive {
+      display: none;
+    }
+    .lib-header-actions .md-btn {
+      min-width: 40px;
+      height: 40px;
+      padding: 0;
+      justify-content: center;
+      gap: 0;
+      border-radius: 50%;
+    }
+    .lib-header-actions .md-btn .material-symbols-outlined {
+      margin: 0;
+    }
+    .lib-header-actions button .filter-dot {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+    }
+    .lib-sort-bar {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 10px;
+      padding: 12px 16px;
+    }
+    .lib-sort-controls {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      border-top: 1px solid var(--md-outline-variant);
+      padding-top: 8px;
+    }
+  }
 </style>
 {% endblock %}
 
 {% block content %}
 <div class="md-container">
   <!-- Header + Filter button -->
-  <div style="margin-top:8px; margin-bottom:20px; display:flex; align-items:center; justify-content:space-between;">
+  <div class="lib-header-row">
     <h1 class="md-headline-medium">Digital Library</h1>
-    <button onclick="openFilterDialog()" class="md-btn md-btn-outlined" style="gap:6px;">
-      <span class="material-symbols-outlined" style="font-size:20px">tune</span>
-      Filters
-      {% if current_subjects or current_grades or current_types %}
-      <span style="width:6px;height:6px;border-radius:50%;background:var(--md-primary);"></span>
-      {% endif %}
-    </button>
+    <div class="lib-header-actions">
+      <a href="{% url 'web:upload_resource' %}" class="md-btn md-btn-tonal" style="text-decoration:none;">
+        <span class="material-symbols-outlined" style="font-size:20px">upload</span>
+        <span class="md-btn-text-responsive">Upload</span>
+      </a>
+      <button onclick="openFilterDialog()" class="md-btn md-btn-outlined">
+        <span class="material-symbols-outlined" style="font-size:20px">tune</span>
+        <span class="md-btn-text-responsive">Filters</span>
+        {% if current_subjects or current_grades or current_types %}
+        <span class="filter-dot"></span>
+        {% endif %}
+      </button>
+    </div>
   </div>
 
   <!-- Active filter chips -->
@@ -122,7 +200,7 @@
   <!-- Sort bar -->
   <div class="lib-sort-bar">
     <div class="lib-count">Showing <strong>{{ page_obj.start_index }}–{{ page_obj.end_index }}</strong> of <strong>{{ page_obj.paginator.count }}</strong> resources</div>
-    <div style="display:flex;align-items:center;gap:8px;">
+    <div class="lib-sort-controls">
       <span style="font-size:0.8125rem;color:var(--md-on-surface-variant);">Sort by:</span>
       <select onchange="window.location.href=this.value">
         <option value="?sort=relevant{% for s in current_subjects %}&subject={{ s|urlencode }}{% endfor %}{% for g in current_grades %}&grade={{ g|urlencode }}{% endfor %}{% for t in current_types %}&type={{ t|urlencode }}{% endfor %}" {% if current_sort == 'relevant' %}selected{% endif %}>Most Relevant</option>
@@ -207,7 +285,7 @@
   <div class="empty-state">
     <span class="material-symbols-outlined">auto_stories</span>
     <h3>No resources found</h3>
-    <p>Try adjusting your filters or check back later.</p>
+    <p>Try adjusting your filters or <a href="{% url 'web:resource_requests' %}" style="color:var(--md-primary)">request a resource</a>.</p>
   </div>
   {% endif %}
 </div>

@@ -14,10 +14,10 @@ from django.shortcuts import render, redirect
 from django.views.decorators.http import require_GET, require_POST
 from django.http import JsonResponse, Http404, HttpResponse
 
-from api.models import User, Resource, Post, PostLike, Reply, ReplyLike, Follow, UserPhoto, EditHistory, Bookmark, Notification
+from api.models import User, Resource, ResourceRequest, ResourceRequestUpvote, Post, PostLike, Reply, ReplyLike, Follow, UserPhoto, EditHistory, Bookmark, Notification
 from api.models import ResourceLike, ResourceComment, ResourceCommentLike
 from api.serializers import UserSerializer
-from api.security import save_profile_image_upload, validate_profile_photo_url, validate_resource_file_url
+from api.security import save_profile_image_upload, validate_profile_photo_url, validate_resource_file_url, validate_and_save_resource_file
 from api.authentication import verify_google_token
 from api import services
 from api import counters as _counters
@@ -43,10 +43,18 @@ def _serialize_resource(r, _uploaded_by_map=None):
             uploaded_by_name = ub.display_name or ub.username
             uploaded_by_photo = ub.photo_url or ''
             uploaded_by_username = ub.username
+    file_url = r.file_url or ''
+    if r.file:
+        file_url = r.file.url
     return {
         'id': r.id, 'title': r.title, 'description': r.description or '',
         'subject': r.subject, 'gradeLevel': r.grade_level, 'grade_level': r.grade_level,
-        'type': r.type, 'fileUrl': r.file_url, 'file_url': r.file_url,
+        'faculty': r.faculty or '', 'program': r.program or '',
+        'year': r.year or '', 'examType': r.exam_type or '', 'exam_type': r.exam_type or '',
+        'pradesh': r.pradesh or '', 'district': r.district or '',
+        'school': r.school or '',
+        'tags': r.tags or '',
+        'type': r.type, 'fileUrl': file_url, 'file_url': file_url,
         'thumbnailUrl': r.thumbnail_url, 'thumbnail_url': r.thumbnail_url,
         'fileSize': r.file_size, 'file_size': r.file_size,
         'addedAt': r.added_at, 'added_at': r.added_at,
@@ -60,6 +68,7 @@ def _serialize_resource(r, _uploaded_by_map=None):
         'uploadedByName': uploaded_by_name, 'uploaded_by_name': uploaded_by_name,
         'uploadedByPhoto': uploaded_by_photo, 'uploaded_by_photo': uploaded_by_photo,
         'uploadedByUsername': uploaded_by_username,
+        'approvalStatus': r.approval_status, 'approval_status': r.approval_status,
     }
 
 
@@ -391,7 +400,7 @@ def home(request):
     user_id = _get_user_id(request)
     resources = cache.get('home_resources')
     if resources is None:
-        resources = _serialize_resources(Resource.objects.all()[:50])
+        resources = _serialize_resources(Resource.objects.filter(approval_status='approved')[:50])
         cache.set('home_resources', resources, 60)
     posts = cache.get('home_posts')
     if posts is None:
@@ -428,8 +437,10 @@ def library(request):
     subjects = [s.strip() for s in request.GET.getlist('subject') if s.strip()]
     grades = [g.strip() for g in request.GET.getlist('grade') if g.strip()]
     types = [t.strip() for t in request.GET.getlist('type') if t.strip()]
+    faculties = [f.strip() for f in request.GET.getlist('faculty') if f.strip()]
+    exam_types = [e.strip() for e in request.GET.getlist('exam_type') if e.strip()]
     sort_by = request.GET.get('sort', 'relevant')
-    qs = Resource.objects.all()
+    qs = Resource.objects.filter(approval_status='approved')
     if subjects:
         q = Q()
         for s in subjects:
@@ -444,6 +455,16 @@ def library(request):
         q = Q()
         for t in types:
             q |= Q(type__iexact=t)
+        qs = qs.filter(q)
+    if faculties:
+        q = Q()
+        for f in faculties:
+            q |= Q(faculty__iexact=f)
+        qs = qs.filter(q)
+    if exam_types:
+        q = Q()
+        for e in exam_types:
+            q |= Q(exam_type__iexact=e)
         qs = qs.filter(q)
     if sort_by == 'newest':
         qs = qs.order_by('-added_at')
@@ -461,19 +482,31 @@ def library(request):
     filtered = _serialize_resources(page_obj.object_list)
     all_resources = cache.get('library_all_resources')
     if all_resources is None:
-        all_resources = _serialize_resources(Resource.objects.all()[:500])
+        all_resources = _serialize_resources(Resource.objects.filter(approval_status='approved')[:500])
         cache.set('library_all_resources', all_resources, 180)
     all_subjects = sorted(set(r.get('subject', '') for r in all_resources if r.get('subject')))
     all_grades = sorted(set(r.get('grade_level', '') for r in all_resources if r.get('grade_level')))
     all_types = sorted(set(r.get('type', '') for r in all_resources if r.get('type')))
+    all_faculties = sorted(set(r.get('faculty', '') for r in all_resources if r.get('faculty')))
+    all_exam_types = sorted(set(r.get('exam_type', '') for r in all_resources if r.get('exam_type')))
+    education_levels = [
+        'Class 8', 'Class 9', 'Class 10 / SEE', 'Class 11', 'Class 12',
+        'Diploma', 'Bachelor', 'Master', 'PhD',
+        'Entrance Prep', 'Competitive Exam', 'Other',
+    ]
     return render(request, 'web/library.html', _ctx(request,
         resources=filtered,
         all_subjects=all_subjects,
         all_grades=all_grades,
         all_types=all_types,
+        all_faculties=all_faculties,
+        all_exam_types=all_exam_types,
+        education_levels=education_levels,
         current_subjects=subjects,
         current_grades=grades,
         current_types=types,
+        current_faculties=faculties,
+        current_exam_types=exam_types,
         current_sort=sort_by,
         page_obj=page_obj,
     ))
@@ -533,7 +566,8 @@ def search(request):
     all_types = []
     if query:
         resource_qs = Resource.objects.filter(
-            Q(title__icontains=query) | Q(description__icontains=query) | Q(subject__icontains=query)
+            Q(title__icontains=query) | Q(description__icontains=query) | Q(subject__icontains=query) | Q(faculty__icontains=query) | Q(program__icontains=query) | Q(school__icontains=query) | Q(tags__icontains=query),
+            approval_status='approved'
         )
         post_qs = Post.objects.select_related('user').filter(
             Q(title__icontains=query) | Q(content__icontains=query)
@@ -556,7 +590,7 @@ def search(request):
             user_results = _serialize_users_search(user_qs, user_id)
     all_resources = cache.get('library_all_resources')
     if all_resources is None:
-        all_resources = _serialize_resources(Resource.objects.all()[:500])
+        all_resources = _serialize_resources(Resource.objects.filter(approval_status='approved')[:500])
         cache.set('library_all_resources', all_resources, 180)
     all_subjects = sorted(set(r.get('subject', '') for r in all_resources if r.get('subject')))
     all_grades = sorted(set(r.get('grade_level', '') for r in all_resources if r.get('grade_level')))
@@ -866,6 +900,9 @@ def reader(request, resource_id):
     except Resource.DoesNotExist:
         raise Http404("Resource not found")
 
+    if resource_obj.approval_status != 'approved' and not _is_staff_admin(request):
+        raise Http404("Resource not found")
+
     # Increment view count once per session
     view_key = f'resource_viewed_{resource_id}'
     if not request.session.get(view_key):
@@ -880,10 +917,14 @@ def reader(request, resource_id):
     safe_file_url = ''
     file_url_error = ''
     if raw_file_url:
-        try:
-            safe_file_url = validate_resource_file_url(raw_file_url)
-        except ValidationError as exc:
-            file_url_error = ' '.join(exc.messages)
+        media_prefix = settings.MEDIA_URL
+        if raw_file_url.startswith(media_prefix) or (request and raw_file_url.startswith(request.build_absolute_uri(media_prefix))):
+            safe_file_url = raw_file_url
+        else:
+            try:
+                safe_file_url = validate_resource_file_url(raw_file_url)
+            except ValidationError as exc:
+                file_url_error = ' '.join(exc.messages)
     resource['safe_file_url'] = safe_file_url
     resource['file_url_error'] = file_url_error
 
@@ -1048,11 +1089,50 @@ def profile(request, username):
         if not stats['is_self'] and not profile_private:
             stats['is_following'] = Follow.objects.filter(follower_id=user_id, following_id=profile_user.id).exists()
 
+    if not profile_private:
+        if is_self:
+            uploaded_resources_count = Resource.objects.filter(uploaded_by_id=profile_user.id).count()
+        else:
+            uploaded_resources_count = Resource.objects.filter(uploaded_by_id=profile_user.id, approval_status='approved').count()
+    else:
+        uploaded_resources_count = 0
+    stats['uploaded_resources_count'] = uploaded_resources_count
+
     user_posts_qs = Post.objects.none() if profile_private else Post.objects.select_related('user').filter(user_id=profile_user.id).order_by('-created_at')[:10]
     user_posts = _serialize_posts(user_posts_qs, user_id)
 
     user_replies_qs = Reply.objects.none() if profile_private else Reply.objects.select_related('user', 'post').filter(user_id=profile_user.id).order_by('-created_at')[:10]
     user_replies = _serialize_replies(user_replies_qs, user_id)
+
+    user_resources = []
+    if not profile_private:
+        if is_self:
+            user_resources_qs = Resource.objects.filter(uploaded_by_id=profile_user.id).order_by('-added_at')
+        else:
+            user_resources_qs = Resource.objects.filter(uploaded_by_id=profile_user.id, approval_status='approved').order_by('-added_at')
+
+        liked_res_ids = set()
+        if user_id and user_resources_qs:
+            liked_res_ids = set(ResourceLike.objects.filter(
+                resource_id__in=[r.id for r in user_resources_qs], user_id=user_id
+            ).values_list('resource_id', flat=True))
+
+        for r in user_resources_qs:
+            user_resources.append({
+                'id': r.id,
+                'title': r.title,
+                'description': r.description or '',
+                'subject': r.subject,
+                'grade_level': r.grade_level,
+                'type': r.type,
+                'file_size': r.file_size,
+                'added_at': r.added_at,
+                'view_count': r.view_count,
+                'like_count': r.like_count,
+                'comment_count': r.comment_count,
+                'approval_status': r.approval_status,
+                'is_liked': r.id in liked_res_ids,
+            })
 
     user_photos = []
     if user_id and user_id == profile_user.id:
@@ -1065,6 +1145,7 @@ def profile(request, username):
         user_photos=user_photos,
         user_posts=user_posts,
         user_replies=user_replies,
+        user_resources=user_resources,
         profile_private=profile_private,
         badge_info=profile_data.get('badge_info'),
         badge_info_json=json.dumps(profile_data.get('badge_info')),
@@ -1188,6 +1269,324 @@ def ajax_profile_replies(request, username):
     })
 
 
+
+
+def upload_resource(request):
+    """Standalone upload page — authenticated users upload with approval_status='pending'.
+    Supports both file upload (primary) and URL (secondary)."""
+    user_id = _get_user_id(request)
+    user = None
+    if user_id:
+        try:
+            user = User.objects.get(pk=user_id)
+        except User.DoesNotExist:
+            pass
+
+    subjects = sorted(set(Resource.objects.values_list('subject', flat=True)))
+    education_levels = [
+        'Class 8', 'Class 9', 'Class 10 / SEE', 'Class 11', 'Class 12',
+        'Diploma', 'Bachelor', 'Master', 'PhD',
+        'Entrance Prep', 'Competitive Exam', 'Other',
+    ]
+    exam_types = ['', 'Final', 'Midterm', 'Board', 'Entrance', 'SEE', 'Mock', 'Assignment', 'Notes', 'Reference', 'Other']
+    pradesh_options = [
+        'Province 1', 'Madhesh', 'Bagmati', 'Gandaki', 'Lumbini', 'Karnali', 'Sudurpashchim',
+    ]
+    resource_types = ['PDF', 'Note', 'Video', 'Audio', 'Image', 'Link', 'Textbook', 'Past Paper', 'Model Paper', 'Guide', 'Solution', 'Presentation']
+
+    if request.method == 'POST':
+        title = request.POST.get('title', '').strip()
+        subject = request.POST.get('subject', '').strip()
+        grade_level = request.POST.get('grade_level', '').strip()
+        faculty = request.POST.get('faculty', '').strip()
+        program = request.POST.get('program', '').strip()
+        year = request.POST.get('year', '').strip()
+        exam_type = request.POST.get('exam_type', '').strip()
+        pradesh = request.POST.get('pradesh', '').strip()
+        district = request.POST.get('district', '').strip()
+        school = request.POST.get('school', '').strip()
+        tags = request.POST.get('tags', '').strip()
+        description = request.POST.get('description', '').strip()
+        rtype = request.POST.get('type', 'PDF').strip() or 'PDF'
+        author_name = request.POST.get('author_name', '').strip()
+        source_url = request.POST.get('source_url', '').strip()
+        source_label = request.POST.get('source_label', '').strip()
+        thumbnail_url = request.POST.get('thumbnail_url', '').strip()
+
+        uploaded_file = request.FILES.get('file')
+        file_url = request.POST.get('file_url', '').strip()
+
+        errors = []
+        if not title:
+            errors.append('Title is required.')
+        if not subject:
+            errors.append('Subject is required.')
+        if not uploaded_file and not file_url:
+            errors.append('Please upload a file or provide a file URL.')
+
+        file_path = ''
+        file_size = 0
+
+        if uploaded_file:
+            path, size, err_resp = validate_and_save_resource_file(request, uploaded_file)
+            if err_resp:
+                errors.append(err_resp['error'])
+            else:
+                file_path = path or ''
+                file_size = size
+
+        safe_file_url = ''
+        if not uploaded_file and file_url:
+            try:
+                safe_file_url = validate_resource_file_url(file_url)
+            except Exception as exc:
+                messages_list = getattr(exc, 'messages', [str(exc)])
+                errors.append(' '.join(messages_list))
+
+        safe_thumbnail_url = ''
+        if thumbnail_url:
+            try:
+                safe_thumbnail_url = validate_resource_file_url(thumbnail_url)
+            except Exception:
+                errors.append('Invalid thumbnail URL.')
+
+        if not errors:
+            final_file_url = ''
+            if file_path:
+                final_file_url = request.build_absolute_uri(settings.MEDIA_URL + file_path)
+            elif safe_file_url:
+                final_file_url = safe_file_url
+
+            resource = Resource(
+                id=str(uuid.uuid4()),
+                title=title,
+                description=description,
+                subject=subject,
+                grade_level=grade_level,
+                faculty=faculty,
+                program=program,
+                year=year,
+                exam_type=exam_type,
+                pradesh=pradesh,
+                district=district,
+                school=school,
+                tags=tags,
+                type=rtype,
+                file=file_path or None,
+                file_url=final_file_url,
+                thumbnail_url=safe_thumbnail_url,
+                file_size=file_size or int(request.POST.get('file_size', '0')),
+                added_at=int(time.time() * 1000),
+                author_name=author_name,
+                source_type='user' if user else 'anonymous',
+                uploaded_by=user,
+                source_url=source_url,
+                source_label=source_label,
+                approval_status='pending',
+            )
+            resource.save()
+            cache.delete_many(['home_resources', 'library_all_resources'])
+            return render(request, 'web/upload_success.html', _ctx(request,
+                resource=_serialize_resource(resource),
+                is_anonymous=not bool(user),
+            ))
+
+        return render(request, 'web/upload.html', _ctx(request,
+            subjects=subjects, education_levels=education_levels,
+            exam_types=exam_types, pradesh_options=pradesh_options,
+            resource_types=resource_types,
+            errors=errors,
+            form_data=request.POST,
+            is_authenticated=bool(user),
+        ))
+
+    return render(request, 'web/upload.html', _ctx(request,
+        subjects=subjects, education_levels=education_levels,
+        exam_types=exam_types, pradesh_options=pradesh_options,
+        resource_types=resource_types,
+        is_authenticated=bool(user),
+    ))
+
+
+def resource_requests_page(request):
+    """Public resource request listing page."""
+    user_id = _get_user_id(request)
+    user = None
+    if user_id:
+        try:
+            user = User.objects.get(pk=user_id)
+        except User.DoesNotExist:
+            pass
+
+    if request.method == 'POST' and request.POST.get('action') == 'create':
+        title = request.POST.get('title', '').strip()
+        if title:
+            ResourceRequest.objects.create(
+                id=str(uuid.uuid4()),
+                title=title,
+                description=request.POST.get('description', '').strip(),
+                subject=request.POST.get('subject', '').strip(),
+                grade_level=request.POST.get('grade_level', '').strip(),
+                faculty=request.POST.get('faculty', '').strip(),
+                program=request.POST.get('program', '').strip(),
+                year=request.POST.get('year', '').strip(),
+                exam_type=request.POST.get('exam_type', '').strip(),
+                pradesh=request.POST.get('pradesh', '').strip(),
+                district=request.POST.get('district', '').strip(),
+                tags=request.POST.get('tags', '').strip(),
+                requested_by=user,
+                requester_name=request.POST.get('requester_name', '').strip()[:100] if not user else '',
+                requester_email=request.POST.get('requester_email', '').strip() if not user else '',
+                created_at=int(time.time() * 1000),
+            )
+        return redirect('web:resource_requests')
+
+    status_filter = request.GET.get('status', 'open')
+    qs = ResourceRequest.objects.select_related('requested_by').all()
+    if status_filter:
+        qs = qs.filter(status=status_filter)
+    subject = request.GET.get('subject', '')
+    if subject:
+        qs = qs.filter(subject__iexact=subject)
+    grade = request.GET.get('grade', '')
+    if grade:
+        qs = qs.filter(grade_level__iexact=grade)
+    qs = qs.order_by('-upvote_count', '-created_at')
+
+    upvoted_ids = set()
+    if user_id:
+        upvoted_ids = set(ResourceRequestUpvote.objects.filter(
+            user_id=user_id, request_id__in=list(qs.values_list('id', flat=True)[:100])
+        ).values_list('request_id', flat=True))
+
+    all_subjects = sorted(set(ResourceRequest.objects.values_list('subject', flat=True)))
+    all_grades = sorted(set(ResourceRequest.objects.values_list('grade_level', flat=True)))
+
+    requests_data = []
+    for req in qs[:50]:
+        rd = {
+            'id': req.id,
+            'title': req.title,
+            'description': req.description or '',
+            'subject': req.subject,
+            'grade_level': req.grade_level,
+            'faculty': req.faculty or '',
+            'program': req.program or '',
+            'year': req.year or '',
+            'exam_type': req.exam_type or '',
+            'pradesh': req.pradesh or '',
+            'district': req.district or '',
+            'tags': req.tags or '',
+            'status': req.status,
+            'upvote_count': req.upvote_count,
+            'is_upvoted': req.id in upvoted_ids,
+            'created_at': req.created_at,
+            'requested_by_name': req.requested_by.display_name or req.requested_by.username if req.requested_by else (req.requester_name or 'Anonymous'),
+            'requested_by_photo': req.requested_by.photo_url if req.requested_by else '',
+        }
+        requests_data.append(rd)
+
+    return render(request, 'web/resource_requests.html', _ctx(request,
+        requests=requests_data,
+        all_subjects=all_subjects,
+        all_grades=all_grades,
+        current_status=status_filter,
+        current_subject=subject,
+        current_grade=grade,
+    ))
+
+
+def admin_pending_resources(request):
+    """Admin page to approve/reject pending resources."""
+    redirect_response = _require_staff_admin(request)
+    if redirect_response:
+        return redirect_response
+
+    if request.method == 'POST':
+        resource_id = request.POST.get('resource_id', '').strip()
+        action = request.POST.get('action', '').strip()
+        try:
+            resource_obj = Resource.objects.get(pk=resource_id)
+            admin_user = request.user if hasattr(request, 'user') and request.user.is_authenticated else None
+            if action == 'approve':
+                resource_obj.approval_status = 'approved'
+                resource_obj.reviewed_by = admin_user
+                resource_obj.reviewed_at = int(time.time() * 1000)
+                resource_obj.rejection_reason = ''
+                resource_obj.save()
+            elif action == 'reject':
+                resource_obj.approval_status = 'rejected'
+                resource_obj.reviewed_by = admin_user
+                resource_obj.reviewed_at = int(time.time() * 1000)
+                resource_obj.rejection_reason = request.POST.get('reason', '').strip()[:500]
+                resource_obj.save()
+            cache.delete_many(['home_resources', 'library_all_resources'])
+        except Resource.DoesNotExist:
+            pass
+        return redirect('web:admin_pending_resources')
+
+    pending = Resource.objects.filter(approval_status='pending').order_by('added_at')
+    pending_data = [_serialize_resource(r) for r in pending]
+    return render(request, 'admin_panel/pending_resources.html', {
+        'is_admin': True,
+        'pending_resources': pending_data,
+        'active_page': 'resources',
+    })
+
+
+def admin_resource_requests(request):
+    """Admin page to manage resource requests."""
+    redirect_response = _require_staff_admin(request)
+    if redirect_response:
+        return redirect_response
+
+    if request.method == 'POST':
+        request_id = request.POST.get('request_id', '').strip()
+        action = request.POST.get('action', '').strip()
+        try:
+            req = ResourceRequest.objects.get(pk=request_id)
+            if action == 'fulfill':
+                req.status = 'fulfilled'
+                req.fulfilled_at = int(time.time() * 1000)
+                resource_id = request.POST.get('resource_id', '').strip()
+                if resource_id:
+                    req.fulfilled_by_id = resource_id
+                req.save()
+            elif action == 'close':
+                req.status = 'closed'
+                req.save()
+            elif action == 'reopen':
+                req.status = 'open'
+                req.save()
+        except ResourceRequest.DoesNotExist:
+            pass
+        return redirect('web:admin_resource_requests')
+
+    status_filter = request.GET.get('status', '')
+    qs = ResourceRequest.objects.select_related('requested_by').all().order_by('-created_at')
+    if status_filter:
+        qs = qs.filter(status=status_filter)
+    requests_data = []
+    for req in qs[:100]:
+        rd = {
+            'id': req.id,
+            'title': req.title,
+            'description': req.description or '',
+            'subject': req.subject,
+            'grade_level': req.grade_level,
+            'status': req.status,
+            'upvote_count': req.upvote_count,
+            'created_at': req.created_at,
+            'requested_by_name': req.requested_by.display_name or req.requested_by.username if req.requested_by else (req.requester_name or 'Anonymous'),
+            'requester_email': req.requester_email or '',
+        }
+        requests_data.append(rd)
+    return render(request, 'admin_panel/resource_requests.html', {
+        'is_admin': True,
+        'requests': requests_data,
+        'current_status': status_filter,
+        'active_page': 'resource_requests',
+    })
 
 
 def edit_profile(request):
@@ -2435,6 +2834,7 @@ def admin_dashboard(request):
         stats = {
             'total_users': total_users,
             'total_resources': total_resources,
+            'pending_resources': Resource.objects.filter(approval_status='pending').count(),
             'total_posts': total_posts,
             'total_replies': total_replies,
             'total_likes': total_likes,
@@ -2529,37 +2929,59 @@ def admin_resources(request):
     if redirect_response:
         return redirect_response
     if request.method == 'POST':
-        data = {
-            'title': request.POST.get('title', '').strip(),
-            'description': request.POST.get('description', '').strip(),
-            'subject': request.POST.get('subject', '').strip(),
-            'grade_level': request.POST.get('grade_level', '').strip(),
-            'type': request.POST.get('type', '').strip(),
-            'file_url': request.POST.get('file_url', '').strip(),
-            'thumbnail_url': request.POST.get('thumbnail_url', '').strip(),
-            'file_size': int(request.POST.get('file_size', '0')),
-        }
-        try:
-            from api.security import validate_resource_file_url as _validate
-            safe_url = _validate(data['file_url'])
-            data['file_url'] = safe_url
-            if data['thumbnail_url']:
-                data['thumbnail_url'] = _validate(data['thumbnail_url'])
-            Resource.objects.create(
-                id=str(uuid.uuid4()),
-                title=data['title'],
-                description=data['description'],
-                subject=data['subject'],
-                grade_level=data['grade_level'],
-                type=data['type'] or 'PDF',
-                file_url=data['file_url'],
-                thumbnail_url=data.get('thumbnail_url', ''),
-                file_size=data['file_size'],
-                added_at=int(time.time() * 1000),
-                view_count=0,
-            )
-        except Exception:
-            pass
+        title = request.POST.get('title', '').strip()
+        subject = request.POST.get('subject', '').strip()
+        grade_level = request.POST.get('grade_level', '').strip()
+        rtype = request.POST.get('type', '').strip() or 'PDF'
+        file_url = request.POST.get('file_url', '').strip()
+        thumbnail_url = request.POST.get('thumbnail_url', '').strip()
+        description = request.POST.get('description', '').strip()
+        uploaded_file = request.FILES.get('file')
+
+        file_path = ''
+        file_size = 0
+        if uploaded_file:
+            path, size, err_resp = validate_and_save_resource_file(request, uploaded_file)
+            if not err_resp:
+                file_path = path or ''
+                file_size = size
+                file_url = request.build_absolute_uri(settings.MEDIA_URL + file_path) if file_path else ''
+
+        if title and subject and (file_path or file_url):
+            try:
+                from api.security import validate_resource_file_url as _validate
+                safe_url = ''
+                if file_url and not file_path:
+                    safe_url = _validate(file_url)
+                elif file_url:
+                    safe_url = file_url
+                safe_thumb = ''
+                if thumbnail_url:
+                    safe_thumb = _validate(thumbnail_url)
+                Resource.objects.create(
+                    id=str(uuid.uuid4()),
+                    title=title,
+                    description=description,
+                    subject=subject,
+                    grade_level=grade_level,
+                    faculty=request.POST.get('faculty', '').strip(),
+                    program=request.POST.get('program', '').strip(),
+                    year=request.POST.get('year', '').strip(),
+                    exam_type=request.POST.get('exam_type', '').strip(),
+                    pradesh=request.POST.get('pradesh', '').strip(),
+                    district=request.POST.get('district', '').strip(),
+                    school=request.POST.get('school', '').strip(),
+                    tags=request.POST.get('tags', '').strip(),
+                    type=rtype,
+                    file=file_path or None,
+                    file_url=safe_url,
+                    thumbnail_url=safe_thumb,
+                    file_size=file_size or int(request.POST.get('file_size', '0')),
+                    added_at=int(time.time() * 1000),
+                    view_count=0,
+                )
+            except Exception:
+                pass
     resources_qs = Resource.objects.all().order_by('-added_at')
     search = request.GET.get('q', '').strip()
     if search:
@@ -2583,7 +3005,14 @@ def admin_resource_edit(request, resource_id):
     except Resource.DoesNotExist:
         return redirect('web:admin_resources')
     if request.method == 'POST':
-        for field in ['title', 'description', 'subject', 'grade_level', 'type', 'file_url', 'thumbnail_url', 'author_name', 'source_url', 'source_label']:
+        uploaded_file = request.FILES.get('file')
+        if uploaded_file:
+            path, size, err_resp = validate_and_save_resource_file(request, uploaded_file)
+            if not err_resp and path:
+                resource_obj.file = path
+                resource_obj.file_url = request.build_absolute_uri(settings.MEDIA_URL + path)
+                resource_obj.file_size = size
+        for field in ['title', 'description', 'subject', 'grade_level', 'faculty', 'program', 'year', 'exam_type', 'pradesh', 'district', 'school', 'tags', 'type', 'file_url', 'thumbnail_url', 'author_name', 'source_url', 'source_label']:
             val = request.POST.get(field, '').strip()
             if val:
                 setattr(resource_obj, field, val)

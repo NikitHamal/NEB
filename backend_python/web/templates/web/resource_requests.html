@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+{% load web_extras %}
+{% block title %}Resource Requests — NEBians{% endblock %}
+{% block description %}Request study resources you need and upvote requests from other students.{% endblock %}
+
+{% block content %}
+<div class="requests-page">
+  <div class="requests-header">
+    <div class="requests-header-content">
+      <h1>Resource Requests</h1>
+      <p>Can't find what you need? Request it here and the community will help.</p>
+      <button class="md-btn md-btn-filled" onclick="document.getElementById('request-form').classList.toggle('request-form-hidden')">
+        <span class="material-symbols-outlined">add</span>
+        New Request
+      </button>
+    </div>
+  </div>
+
+  <div id="request-form" class="request-form-hidden">
+    <form method="post" action="{% url 'web:resource_requests' %}" class="request-form-card">
+      {% csrf_token %}
+      <input type="hidden" name="action" value="create">
+      <div class="request-form-fields">
+        <div class="upload-field">
+          <label class="md-label" for="req-title">What do you need? *</label>
+          <input class="md-input" type="text" id="req-title" name="title" placeholder="e.g. Grade 12 Physics past papers" required>
+        </div>
+        <div class="upload-row">
+          <div class="upload-field upload-field-half">
+            <label class="md-label" for="req-subject">Subject</label>
+            <input class="md-input" type="text" id="req-subject" name="subject" list="subject-list" placeholder="e.g. Physics">
+            <datalist id="subject-list">
+              {% for s in all_subjects %}<option value="{{ s }}">{% endfor %}
+            </datalist>
+          </div>
+          <div class="upload-field upload-field-half">
+            <label class="md-label" for="req-grade">Grade</label>
+            <select class="md-select" id="req-grade" name="grade_level">
+              <option value="">Any</option>
+              <option value="Grade 11">Grade 11</option>
+              <option value="Grade 12">Grade 12</option>
+              <option value="Both">Both</option>
+            </select>
+          </div>
+        </div>
+        <div class="upload-field">
+          <label class="md-label" for="req-desc">Details (optional)</label>
+          <textarea class="md-textarea" id="req-desc" name="description" rows="2" placeholder="More details about what you're looking for..."></textarea>
+        </div>
+      </div>
+      <div class="request-form-actions">
+        <button type="button" class="md-btn md-btn-text" onclick="document.getElementById('request-form').classList.add('request-form-hidden')">Cancel</button>
+        <button type="submit" class="md-btn md-btn-filled">Submit Request</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="requests-filters">
+    <div class="requests-filter-chips">
+      <a href="?status=open" class="md-chip {% if current_status == 'open' %}md-chip-active{% endif %}">Open</a>
+      <a href="?status=fulfilled" class="md-chip {% if current_status == 'fulfilled' %}md-chip-active{% endif %}">Fulfilled</a>
+      <a href="?status=closed" class="md-chip {% if current_status == 'closed' %}md-chip-active{% endif %}">Closed</a>
+      <a href="?status=" class="md-chip {% if not current_status %}md-chip-active{% endif %}">All</a>
+    </div>
+  </div>
+
+  <div class="requests-list">
+    {% for req in requests %}
+    <div class="request-card" data-id="{{ req.id }}">
+      <div class="request-card-main">
+        <div class="request-card-vote">
+          <button class="vote-btn {% if req.is_upvoted %}vote-btn-active{% endif %}" onclick="toggleUpvote('{{ req.id }}')" title="Upvote">
+            <span class="material-symbols-outlined">arrow_upward</span>
+          </button>
+          <span class="vote-count">{{ req.upvote_count }}</span>
+        </div>
+        <div class="request-card-content">
+          <div class="request-card-title">{{ req.title }}</div>
+          {% if req.description %}<div class="request-card-desc">{{ req.description }}</div>{% endif %}
+          <div class="request-card-meta">
+            {% if req.subject %}<span class="request-chip">{{ req.subject }}</span>{% endif %}
+            {% if req.grade_level %}<span class="request-chip">{{ req.grade_level }}</span>{% endif %}
+            <span class="dot-sep">·</span>
+            <span>{{ req.requested_by_name }}</span>
+            <span class="dot-sep">·</span>
+            <span>{{ req.created_at|time_ago }}</span>
+          </div>
+        </div>
+        <div class="request-card-status status-{{ req.status }}">
+          {{ req.status|capfirst }}
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <div class="request-empty">
+      <span class="material-symbols-outlined" style="font-size:48px;color:var(--md-on-surface-variant)">inbox</span>
+      <p>No requests yet. Be the first to request a resource!</p>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.requests-page { max-width: 720px; margin: 0 auto; padding: 24px 16px 48px; }
+.requests-header { background: linear-gradient(135deg, var(--md-primary-container), var(--md-surface-container)); border-radius: 20px; padding: 28px 24px; margin-bottom: 20px; }
+.requests-header h1 { font-size: 1.5rem; font-weight: 700; margin: 0 0 6px; }
+.requests-header p { color: var(--md-on-surface-variant); margin: 0 0 16px; font-size: 0.9375rem; }
+.request-form-hidden { display: none; }
+.request-form-card { background: var(--md-surface-container-low); border: 1px solid var(--md-outline-variant); border-radius: 16px; padding: 20px; margin-bottom: 20px; }
+.request-form-fields { display: flex; flex-direction: column; gap: 12px; }
+.request-form-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 16px; }
+.requests-filters { margin-bottom: 16px; }
+.requests-filter-chips { display: flex; gap: 8px; flex-wrap: wrap; }
+.requests-list { display: flex; flex-direction: column; gap: 10px; }
+.request-card { background: var(--md-surface-container-low); border: 1px solid var(--md-outline-variant); border-radius: 14px; padding: 16px; transition: border-color 0.15s; }
+.request-card:hover { border-color: var(--md-primary); }
+.request-card-main { display: flex; gap: 14px; align-items: flex-start; }
+.request-card-vote { display: flex; flex-direction: column; align-items: center; gap: 2px; min-width: 40px; }
+.vote-btn { background: none; border: none; cursor: pointer; padding: 4px; border-radius: 8px; color: var(--md-on-surface-variant); transition: background 0.15s, color 0.15s; }
+.vote-btn:hover { background: var(--md-primary-container); color: var(--md-primary); }
+.vote-btn-active { color: var(--md-primary); }
+.vote-btn-active:hover { background: var(--md-primary-container); }
+.vote-count { font-size: 0.875rem; font-weight: 600; color: var(--md-on-surface); }
+.request-card-content { flex: 1; min-width: 0; }
+.request-card-title { font-size: 1rem; font-weight: 600; color: var(--md-on-surface); margin-bottom: 4px; }
+.request-card-desc { font-size: 0.875rem; color: var(--md-on-surface-variant); margin-bottom: 6px; line-height: 1.4; }
+.request-card-meta { display: flex; align-items: center; gap: 6px; font-size: 0.8125rem; color: var(--md-on-surface-variant); flex-wrap: wrap; }
+.request-chip { background: var(--md-secondary-container); color: var(--md-on-secondary-container); padding: 2px 8px; border-radius: 6px; font-size: 0.75rem; font-weight: 500; }
+.dot-sep { opacity: 0.3; }
+.request-card-status { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; padding: 4px 10px; border-radius: 6px; white-space: nowrap; }
+.status-open { background: color-mix(10%, #4caf50, transparent); color: #2e7d32; }
+.status-fulfilled { background: color-mix(10%, #2196f3, transparent); color: #1565c0; }
+.status-closed { background: color-mix(10%, #9e9e9e, transparent); color: #616161; }
+.request-empty { text-align: center; padding: 48px 16px; color: var(--md-on-surface-variant); }
+.request-empty p { margin-top: 12px; }
+@media (max-width: 600px) { .upload-row { flex-direction: column; gap: 0; } }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function toggleUpvote(requestId) {
+  fetch('/api/resource-requests/' + requestId + '/upvote/', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN},
+    credentials: 'same-origin'
+  }).then(r => r.json()).then(data => {
+    const card = document.querySelector('[data-id="' + requestId + '"]');
+    if (!card) return;
+    const btn = card.querySelector('.vote-btn');
+    const count = card.querySelector('.vote-count');
+    if (data.upvoted) {
+      btn.classList.add('vote-btn-active');
+    } else {
+      btn.classList.remove('vote-btn-active');
+    }
+    count.textContent = data.upvote_count;
+  }).catch(err => {
+    if (!IS_AUTHENTICATED) {
+      window.location.href = '/login/';
+    }
+  });
+}
+</script>
+{% endblock %}
