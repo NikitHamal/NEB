@@ -14,16 +14,20 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Copy files via SSH
+      - name: Create ZIP archive
+        run: |
+          cd backend_python
+          zip -r ../deploy.zip api nebians web manage.py requirements.txt passenger_wsgi.py
+
+      - name: Copy ZIP file via SSH
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
           username: consicac
           key: ${{ secrets.SSH_KEY }}
           port: 22
-          source: "backend_python/"
+          source: "deploy.zip"
           target: "/home/consicac/nebians_api/"
-          strip_components: 1
 
       - name: Deploy and restart
         uses: appleboy/ssh-action@master
@@ -34,11 +38,32 @@ jobs:
           port: 22
           script: |
             cd /home/consicac/nebians_api
+            
+            echo "Cleaning migrations directory to prevent stray file conflicts..."
+            rm -rf api/migrations/*
+            
+            echo "Extracting deployment archive..."
+            unzip -o deploy.zip
+            rm -f deploy.zip
+            
             source /home/consicac/virtualenv/nebians_api/3.13/bin/activate
+            
+            echo "Installing dependencies..."
             pip install -r requirements.txt
+            
+            echo "Collecting static files..."
             rm -rf staticfiles/*
             python manage.py collectstatic --noinput
+            
+            echo "Running database migrations..."
             python manage.py migrate
+            
+            echo "Resolving cPanel static files two-location copies..."
+            mkdir -p public/static/web/css
+            cp -f web/static/web/css/app.css public/static/web/css/app.css
+            cp -f web/static/web/css/material3.css public/static/web/css/material3.css
+            
+            echo "Restarting Phusion Passenger application..."
             rm -rf tmp/*
             touch tmp/restart.txt
             echo "Deploy complete"

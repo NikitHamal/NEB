@@ -735,9 +735,7 @@
                 {% if is_authenticated %}
                   <button id="btnFollowToggle" onclick="toggleFollowUser('{{ profile_user.id }}')"
                           class="pf-btn {% if stats.is_following %}pf-btn-outlined{% else %}pf-btn-filled{% endif %}">
-                    {% if not stats.is_following %}
-                      <span class="material-symbols-outlined">add</span>
-                    {% endif %}
+                    <span class="material-symbols-outlined">{% if stats.is_following %}check{% else %}add{% endif %}</span>
                     <span id="followText">{% if stats.is_following %}Following{% else %}Follow{% endif %}</span>
                   </button>
                 {% else %}
@@ -1477,7 +1475,7 @@ async function toggleFollowUser(uid) {
     if (d && d.error) { showSnackbar(d.error); return; }
     if (d) {
       btn.className = d.is_following ? 'pf-btn pf-btn-outlined' : 'pf-btn pf-btn-filled';
-      btn.innerHTML = d.is_following ? `<span id="followText">Following</span>` : `<span class="material-symbols-outlined">add</span><span id="followText">Follow</span>`;
+      btn.innerHTML = `<span class="material-symbols-outlined">${d.is_following ? 'check' : 'add'}</span><span id="followText">${d.is_following ? 'Following' : 'Follow'}</span>`;
       const c = document.getElementById('cntFollowers');
       if (c) c.textContent = d.follower_count;
       const c_about = document.getElementById('cntFollowers_About');
