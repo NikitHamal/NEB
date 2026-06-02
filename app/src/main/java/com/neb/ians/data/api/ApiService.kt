@@ -186,7 +186,7 @@ data class UserProfileResponse(
     @SerialName("created_at") val createdAt: Long = 0,
     @SerialName("is_private") val isPrivate: Boolean = false,
     @SerialName("email_verified") val emailVerified: Boolean = false,
-    @SerialName("has_password") val hasPassword: Boolean = false,
+    @SerialName("hasPassword") val hasPassword: Boolean = false,
     @SerialName("verification_level") val verificationLevel: Int = 0,
     @SerialName("moderator_level") val moderatorLevel: Int = 0,
     @SerialName("is_admin") val isAdmin: Boolean = false,
@@ -231,39 +231,39 @@ data class ApiPost(
     val id: String,
     val title: String,
     val content: String,
-    @SerialName("author_name") val authorName: String,
-    @SerialName("author_id") val authorId: String,
-    @SerialName("author_photo_url") val authorPhotoUrl: String? = null,
-    @SerialName("author_badge") val authorBadge: String? = null,
+    @SerialName("authorName") val authorName: String,
+    @SerialName("authorId") val authorId: String,
+    @SerialName("authorPhotoUrl") val authorPhotoUrl: String? = null,
+    @SerialName("authorBadge") val authorBadge: String? = null,
     val category: String,
-    @SerialName("thumbs_up_count") val thumbsUpCount: Int,
-    @SerialName("reply_count") val replyCount: Int,
-    @SerialName("is_thumbed_up") val isThumbedUp: Boolean,
-    @SerialName("is_bookmarked") val isBookmarked: Boolean? = null,
-    @SerialName("is_edited") val isEdited: Boolean? = null,
-    @SerialName("is_archived") val isArchived: Boolean? = null,
-    @SerialName("created_at") val createdAt: Long,
-    @SerialName("updated_at") val updatedAt: Long? = null
+    @SerialName("thumbsUpCount") val thumbsUpCount: Int,
+    @SerialName("replyCount") val replyCount: Int,
+    @SerialName("isThumbedUp") val isThumbedUp: Boolean,
+    @SerialName("isBookmarked") val isBookmarked: Boolean? = null,
+    @SerialName("isEdited") val isEdited: Boolean? = null,
+    @SerialName("isArchived") val isArchived: Boolean? = null,
+    @SerialName("createdAt") val createdAt: Long,
+    @SerialName("updatedAt") val updatedAt: Long? = null
 )
 
 @Serializable
 data class ApiReply(
     val id: String,
-    @SerialName("post_id") val postId: String,
-    @SerialName("parent_reply_id") val parentReplyId: String? = null,
+    @SerialName("postId") val postId: String,
+    @SerialName("parentReplyId") val parentReplyId: String? = null,
     val content: String,
-    @SerialName("author_name") val authorName: String,
-    @SerialName("author_id") val authorId: String,
-    @SerialName("author_photo_url") val authorPhotoUrl: String? = null,
-    @SerialName("author_badge") val authorBadge: String? = null,
-    @SerialName("thumbs_up_count") val thumbsUpCount: Int,
-    @SerialName("reply_count") val replyCount: Int = 0,
-    @SerialName("is_thumbed_up") val isThumbedUp: Boolean,
-    @SerialName("is_bookmarked") val isBookmarked: Boolean? = null,
-    @SerialName("is_edited") val isEdited: Boolean? = null,
-    @SerialName("is_archived") val isArchived: Boolean? = null,
-    @SerialName("created_at") val createdAt: Long,
-    @SerialName("updated_at") val updatedAt: Long? = null
+    @SerialName("authorName") val authorName: String,
+    @SerialName("authorId") val authorId: String,
+    @SerialName("authorPhotoUrl") val authorPhotoUrl: String? = null,
+    @SerialName("authorBadge") val authorBadge: String? = null,
+    @SerialName("thumbsUpCount") val thumbsUpCount: Int,
+    @SerialName("childCount") val replyCount: Int = 0,
+    @SerialName("isThumbedUp") val isThumbedUp: Boolean,
+    @SerialName("isBookmarked") val isBookmarked: Boolean? = null,
+    @SerialName("isEdited") val isEdited: Boolean? = null,
+    @SerialName("isArchived") val isArchived: Boolean? = null,
+    @SerialName("createdAt") val createdAt: Long,
+    @SerialName("editedAt") val updatedAt: Long? = null
 )
 
 @Serializable
@@ -321,18 +321,18 @@ data class ApiBadgeInfo(
 @Serializable
 data class ApiNotification(
     val id: String,
-    @SerialName("actor_id") val actorId: String? = null,
-    @SerialName("actor_name") val actorName: String? = null,
-    @SerialName("actor_photo_url") val actorPhotoUrl: String? = null,
-    @SerialName("actor_badge") val actorBadge: String? = null,
+    @SerialName("actorId") val actorId: String? = null,
+    @SerialName("actorName") val actorName: String? = null,
+    @SerialName("actorPhotoUrl") val actorPhotoUrl: String? = null,
+    @SerialName("actorBadge") val actorBadge: String? = null,
     val verb: String,
-    @SerialName("target_type") val targetType: String? = null,
-    @SerialName("target_id") val targetId: String? = null,
-    @SerialName("reference_type") val referenceType: String? = null,
-    @SerialName("reference_id") val referenceId: String? = null,
+    @SerialName("targetType") val targetType: String? = null,
+    @SerialName("targetId") val targetId: String? = null,
+    @SerialName("referenceType") val referenceType: String? = null,
+    @SerialName("referenceId") val referenceId: String? = null,
     val message: String,
-    @SerialName("is_read") val isRead: Boolean,
-    @SerialName("created_at") val createdAt: Long
+    @SerialName("isRead") val isRead: Boolean,
+    @SerialName("createdAt") val createdAt: Long
 )
 
 @Serializable
