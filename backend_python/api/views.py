@@ -183,8 +183,156 @@ def _paginated_response(request, queryset, serializer_class, *, context=None, de
 # ---------------------------------------------------------------------------
 
 @api_view(['POST'])
-def auth_google(request):
+def auth_github(request):
     """
+    Sign-in or Register via GitHub OAuth authorization code (for mobile apps).
+    Body: { "code": "<github_oauth_authorization_code>" }
+    Returns: { "status": "success", "isNewUser": bool, "authToken": "...", "user": {...} }
+    """
+    code = request.data.get('code')
+    if not code:
+        return Response({'error': 'code is required'}, status=400)
+
+    from django.conf import settings
+    client_id = settings.GITHUB_CLIENT_ID
+    client_secret = settings.GITHUB_CLIENT_SECRET
+    if not client_id or not client_secret:
+        return Response({'error': 'GitHub OAuth is not configured'}, status=501)
+
+    redirect_uri = request.data.get('redirectUri', '')
+
+    token_url = 'https://github.com/login/oauth/access_token'
+    headers = {'Accept': 'application/json'}
+    data = {
+        'client_id': client_id,
+        'client_secret': client_secret,
+        'code': code,
+    }
+    if redirect_uri:
+        data['redirect_uri'] = redirect_uri
+
+    try:
+        import requests as _req
+        resp = _req.post(token_url, json=data, headers=headers, timeout=10)
+        token_data = resp.json()
+    except Exception as e:
+        logger.error('auth_github: token exchange failed: %s', e)
+        return Response({'error': 'Failed to exchange authorization code.'}, status=502)
+
+    access_token = token_data.get('access_token')
+    if not access_token:
+        error_desc = token_data.get('error_description', token_data.get('error', 'Unknown error'))
+        logger.warning('auth_github: no access token: %s', error_desc)
+        return Response({'error': 'Failed to get access token from GitHub.'}, status=401)
+
+    try:
+        user_resp = _req.get(
+            'https://api.github.com/user',
+            headers={'Authorization': f'Bearer {access_token}', 'Accept': 'application/json'},
+            timeout=10,
+        )
+        github_user = user_resp.json()
+    except Exception as e:
+        logger.error('auth_github: user fetch failed: %s', e)
+        return Response({'error': 'Failed to fetch GitHub user info.'}, status=502)
+
+    github_id = str(github_user.get('id', ''))
+    if not github_id:
+        return Response({'error': 'Could not retrieve GitHub user ID.'}, status=502)
+
+    email = github_user.get('email') or ''
+    if not email:
+        try:
+            emails_resp = _req.get(
+                'https://api.github.com/user/emails',
+                headers={'Authorization': f'Bearer {access_token}', 'Accept': 'application/json'},
+                timeout=10,
+            )
+            emails = emails_resp.json()
+            for e in emails:
+                if e.get('primary') and e.get('verified'):
+                    email = e['email']
+                    break
+            if not email:
+                for e in emails:
+                    if e.get('verified'):
+                        email = e['email']
+                        break
+        except Exception:
+            pass
+
+    display_name = github_user.get('name') or github_user.get('login', '')
+    photo_url = github_user.get('avatar_url') or ''
+    user_pk = f'github_{github_id}'
+
+    try:
+        user = User.objects.get(pk=user_pk)
+        if not user.auth_token:
+            user.auth_token = User.generate_token()
+            user.save(update_fields=['auth_token'])
+        logger.info('auth_github: existing user signed in: %s', user.username or user.id)
+        return Response({
+            'status': 'success',
+            'isNewUser': False,
+            'authToken': user.auth_token,
+            'user': UserSerializer(user).data
+        })
+    except User.DoesNotExist:
+        pass
+
+    linked = _link_oauth_user_model(email, user_pk, display_name, photo_url)
+    if linked:
+        logger.info('auth_github: linked existing user by email: %s', email)
+        return Response({
+            'status': 'success',
+            'isNewUser': False,
+            'authToken': linked.auth_token,
+            'user': UserSerializer(linked).data
+        })
+
+    auth_token = User.generate_token()
+    temp_username = f"github_{github_id[:8]}"
+    base_username = temp_username
+    suffix = 1
+    while User.objects.filter(username=temp_username).exists():
+        temp_username = f"{base_username}_{suffix}"
+        suffix += 1
+    user = User(
+        pk=user_pk,
+        auth_token=auth_token,
+        username=temp_username,
+        email=email,
+        display_name=display_name,
+        photo_url=photo_url,
+        created_at=_now_ms()
+    )
+    user.save()
+    logger.info('auth_github: new user created: %s', user_pk)
+    return Response({
+        'status': 'success',
+        'isNewUser': True,
+        'authToken': auth_token,
+        'user': UserSerializer(user).data
+    })
+
+
+def _link_oauth_user_model(email, user_pk, display_name, photo_url):
+    """Link an OAuth user to an existing account by verified email. Returns User or None."""
+    if not email:
+        return None
+    try:
+        existing = User.objects.get(email__iexact=email)
+        existing.pk = user_pk
+        existing.display_name = display_name or existing.display_name
+        existing.photo_url = photo_url or existing.photo_url
+        if not existing.auth_token:
+            existing.auth_token = User.generate_token()
+        existing.save()
+        return existing
+    except User.DoesNotExist:
+        return None
+    except Exception:
+        return None
     Sign-in or Register via Google ID Token.
     Body: { "idToken": "<google_id_token>" }
     Returns: { "status": "success", "isNewUser": bool, "authToken": "...", "user": {...} }

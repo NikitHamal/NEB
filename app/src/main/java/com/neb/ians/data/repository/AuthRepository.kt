@@ -201,6 +201,22 @@ class AuthRepository @Inject constructor(
         }
     }
 
+    suspend fun signInWithGithub(authCode: String): GithubSignInResult {
+        return try {
+            val response = withContext(Dispatchers.IO) {
+                apiService.authenticateGithub(GithubAuthRequest(authCode, "nebians://github-callback"))
+            }
+            val user = response.user
+            val authToken = response.authToken ?: user.id
+            withContext(Dispatchers.IO) {
+                cacheUser(user, authToken, response.isNewUser)
+            }
+            GithubSignInResult.Success(response.isNewUser)
+        } catch (e: Exception) {
+            GithubSignInResult.Failure(e.localizedMessage ?: "GitHub Sign-In failed")
+        }
+    }
+
     suspend fun completeProfile(profile: UserProfileRequest): Boolean {
         return try {
             val bearer = getBearerToken() ?: return false
@@ -420,6 +436,11 @@ class AuthRepository @Inject constructor(
 sealed class PasswordResult {
     object Success : PasswordResult()
     data class Failure(val message: String) : PasswordResult()
+}
+
+sealed class GithubSignInResult {
+    data class Success(val isNewUser: Boolean) : GithubSignInResult()
+    data class Failure(val message: String) : GithubSignInResult()
 }
 
 sealed class GoogleSignInResult {

@@ -67,16 +67,6 @@ import com.neb.ians.ui.screens.auth.EmailVerificationScreen
 import com.neb.ians.ui.screens.auth.ForgotPasswordScreen
 import com.neb.ians.ui.screens.auth.CompleteProfileScreen
 import com.neb.ians.ui.screens.auth.CompleteProfileViewModel
-import dagger.hilt.EntryPoint
-import dagger.hilt.InstallIn
-import dagger.hilt.android.EntryPointAccessors
-import dagger.hilt.components.SingletonComponent
-
-@EntryPoint
-@InstallIn(SingletonComponent::class)
-interface AuthEntryPoint {
-    fun authRepository(): AuthRepository
-}
 
 sealed class Screen(val route: String) {
     data object Splash : Screen("splash")
@@ -132,13 +122,12 @@ val bottomNavItems = listOf(
 @Composable
 fun NEBiansNavHost(
     settingsViewModel: SettingsViewModel,
-    navController: NavHostController = rememberNavController()
+    navController: NavHostController = rememberNavController(),
+    authRepository: AuthRepository,
+    pendingGithubCode: String? = null,
+    onGithubCodeConsumed: () -> Unit = {}
 ) {
     val context = androidx.compose.ui.platform.LocalContext.current
-    val authEntryPoint = remember(context) {
-        EntryPointAccessors.fromApplication(context.applicationContext, AuthEntryPoint::class.java)
-    }
-    val authRepository = authEntryPoint.authRepository()
 
     val authState by settingsViewModel.authState.collectAsStateWithLifecycle()
     LaunchedEffect(authState) {
@@ -243,7 +232,9 @@ fun NEBiansNavHost(
                         }
                     },
                     onNavigateToEmailSignup = { navController.navigate(Screen.EmailSignup.route) },
-                    onNavigateToEmailLogin = { navController.navigate(Screen.EmailLogin.route) }
+                    onNavigateToEmailLogin = { navController.navigate(Screen.EmailLogin.route) },
+                    pendingGithubCode = pendingGithubCode,
+                    onGithubCodeConsumed = onGithubCodeConsumed
                 )
             }
             composable(Screen.EmailSignup.route) {

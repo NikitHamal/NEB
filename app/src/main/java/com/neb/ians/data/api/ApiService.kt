@@ -18,7 +18,10 @@ import okhttp3.MediaType.Companion.toMediaType
 data class GoogleAuthRequest(val idToken: String)
 
 @Serializable
-data class GithubAuthRequest(val code: String)
+data class GithubAuthRequest(
+    val code: String,
+    @SerialName("redirectUri") val redirectUri: String? = null
+)
 
 @Serializable
 data class EmailSignupRequest(
@@ -435,89 +438,89 @@ data class ApiPaginatedPosts(
 interface ApiService {
 
     // --- Auth ---
-    @POST("api/auth/google")
+    @POST("api/auth/google/")
     suspend fun authenticateGoogle(@Body request: GoogleAuthRequest): GoogleAuthResponse
 
-    @POST("api/auth/github")
+    @POST("api/auth/github/")
     suspend fun authenticateGithub(@Body request: GithubAuthRequest): GoogleAuthResponse
 
-    @POST("api/auth/email/signup")
+    @POST("api/auth/email/signup/")
     suspend fun emailSignup(@Body request: EmailSignupRequest): EmailSignupResponse
 
-    @POST("api/auth/email/verify")
+    @POST("api/auth/email/verify/")
     suspend fun emailVerify(@Body request: EmailVerifyRequest): GoogleAuthResponse
 
-    @POST("api/auth/email/resend")
+    @POST("api/auth/email/resend/")
     suspend fun emailResendCode(@Body request: EmailResendRequest): EmailSignupResponse
 
-    @POST("api/auth/email/login")
+    @POST("api/auth/email/login/")
     suspend fun emailLogin(@Body request: EmailLoginRequest): GoogleAuthResponse
 
-    @POST("api/auth/email/forgot")
+    @POST("api/auth/email/forgot/")
     suspend fun emailForgotPassword(@Body request: EmailForgotRequest): EmailSignupResponse
 
-    @POST("api/auth/email/reset-password")
+    @POST("api/auth/email/reset-password/")
     suspend fun emailResetPassword(@Body request: EmailResetPasswordRequest): GoogleAuthResponse
 
-    @POST("api/auth/set-password")
+    @POST("api/auth/set-password/")
     suspend fun setPassword(
         @Header("Authorization") bearerToken: String,
         @Body request: SetPasswordRequest
     ): GenericMessageResponse
 
-    @POST("api/auth/change-password")
+    @POST("api/auth/change-password/")
     suspend fun changePassword(
         @Header("Authorization") bearerToken: String,
         @Body request: ChangePasswordRequest
     ): ChangePasswordResponse
 
     // --- Users ---
-    @GET("api/users/check-username")
+    @GET("api/users/check-username/")
     suspend fun checkUsername(@Query("username") username: String): UsernameCheckResponse
 
-    @POST("api/users/profile")
+    @POST("api/users/profile/")
     suspend fun updateProfile(
         @Header("Authorization") bearerToken: String,
         @Body request: UserProfileRequest
     ): GoogleAuthResponse
 
-    @GET("api/users/profile/{username}")
+    @GET("api/users/profile/{username}/")
     suspend fun getProfile(
         @Header("Authorization") bearerToken: String?,
         @Path("username") username: String
     ): UserProfileResponse
 
-    @POST("api/users/{userId}/follow")
+    @POST("api/users/{userId}/follow/")
     suspend fun toggleFollow(
         @Header("Authorization") bearerToken: String,
         @Path("userId") userId: String
     ): FollowResponse
 
-    @GET("api/users/{userId}/followers")
+    @GET("api/users/{userId}/followers/")
     suspend fun getFollowers(
         @Header("Authorization") bearerToken: String?,
         @Path("userId") userId: String
     ): List<UserProfileResponse>
 
-    @GET("api/users/{userId}/following")
+    @GET("api/users/{userId}/following/")
     suspend fun getFollowing(
         @Header("Authorization") bearerToken: String?,
         @Path("userId") userId: String
     ): List<UserProfileResponse>
 
-    @GET("api/users/me/photos")
+    @GET("api/users/me/photos/")
     suspend fun getUserPhotos(
         @Header("Authorization") bearerToken: String
     ): List<ApiUserPhoto>
 
-    @POST("api/users/me/photos/{photoId}/activate")
+    @POST("api/users/me/photos/{photoId}/activate/")
     suspend fun activatePhoto(
         @Header("Authorization") bearerToken: String,
         @Path("photoId") photoId: Int
     ): GenericMessageResponse
 
     // --- Resources ---
-    @GET("api/resources")
+    @GET("api/resources/")
     suspend fun getResources(
         @Header("Authorization") bearerToken: String?,
         @Query("subject") subject: String? = null,
@@ -527,29 +530,29 @@ interface ApiService {
         @Query("page") page: Int? = null
     ): ApiPaginatedResources
 
-    @GET("api/resources/{resourceId}")
+    @GET("api/resources/{resourceId}/")
     suspend fun getResource(
         @Header("Authorization") bearerToken: String?,
         @Path("resourceId") resourceId: String
     ): ApiResource
 
-    @POST("api/resources/{resourceId}/view")
+    @POST("api/resources/{resourceId}/view/")
     suspend fun viewResource(@Path("resourceId") resourceId: String)
 
-    @POST("api/resources/{resourceId}/like")
+    @POST("api/resources/{resourceId}/like/")
     suspend fun toggleLikeResource(
         @Header("Authorization") bearerToken: String,
         @Path("resourceId") resourceId: String
     ): ResourceLikeResponse
 
-    @POST("api/resources/{resourceId}/comments")
+    @POST("api/resources/{resourceId}/comments/")
     suspend fun createResourceComment(
         @Header("Authorization") bearerToken: String,
         @Path("resourceId") resourceId: String,
         @Body request: ApiResourceCommentCreateRequest
     ): ApiResourceComment
 
-    @DELETE("api/resources/{resourceId}/comments/{commentId}")
+    @DELETE("api/resources/{resourceId}/comments/{commentId}/")
     suspend fun deleteResourceComment(
         @Header("Authorization") bearerToken: String,
         @Path("resourceId") resourceId: String,
@@ -557,91 +560,91 @@ interface ApiService {
     )
 
     // --- Posts ---
-    @GET("api/posts")
+    @GET("api/posts/")
     suspend fun getPosts(
         @Header("Authorization") bearerToken: String?,
         @Query("category") category: String? = null,
         @Query("page") page: Int? = null
     ): ApiPaginatedPosts
 
-    @GET("api/posts/{postId}")
+    @GET("api/posts/{postId}/")
     suspend fun getPost(
         @Header("Authorization") bearerToken: String?,
         @Path("postId") postId: String
     ): ApiPost
 
-    @POST("api/posts")
+    @POST("api/posts/")
     suspend fun createPost(
         @Header("Authorization") bearerToken: String,
         @Body request: PostCreateRequest
     ): ApiPost
 
-    @PATCH("api/posts/{postId}")
+    @PATCH("api/posts/{postId}/")
     suspend fun updatePost(
         @Header("Authorization") bearerToken: String,
         @Path("postId") postId: String,
         @Body request: PostUpdateRequest
     ): ApiPost
 
-    @DELETE("api/posts/{postId}")
+    @DELETE("api/posts/{postId}/")
     suspend fun deletePost(
         @Header("Authorization") bearerToken: String,
         @Path("postId") postId: String
     )
 
-    @POST("api/posts/{postId}/like")
+    @POST("api/posts/{postId}/like/")
     suspend fun toggleLikePost(
         @Header("Authorization") bearerToken: String,
         @Path("postId") postId: String
     ): LikeResponse
 
-    @POST("api/posts/{postId}/archive")
+    @POST("api/posts/{postId}/archive/")
     suspend fun archivePost(
         @Header("Authorization") bearerToken: String,
         @Path("postId") postId: String
     ): GenericMessageResponse
 
     // --- Replies ---
-    @GET("api/posts/{postId}/replies")
+    @GET("api/posts/{postId}/replies/")
     suspend fun getReplies(
         @Header("Authorization") bearerToken: String?,
         @Path("postId") postId: String
     ): List<ApiReply>
 
-    @POST("api/posts/{postId}/replies")
+    @POST("api/posts/{postId}/replies/")
     suspend fun createReply(
         @Header("Authorization") bearerToken: String,
         @Path("postId") postId: String,
         @Body request: ReplyCreateRequest
     ): ApiReply
 
-    @PATCH("api/replies/{replyId}")
+    @PATCH("api/replies/{replyId}/")
     suspend fun updateReply(
         @Header("Authorization") bearerToken: String,
         @Path("replyId") replyId: String,
         @Body request: ReplyUpdateRequest
     ): ApiReply
 
-    @DELETE("api/replies/{replyId}")
+    @DELETE("api/replies/{replyId}/")
     suspend fun deleteReply(
         @Header("Authorization") bearerToken: String,
         @Path("replyId") replyId: String
     )
 
-    @POST("api/replies/{replyId}/like")
+    @POST("api/replies/{replyId}/like/")
     suspend fun toggleLikeReply(
         @Header("Authorization") bearerToken: String,
         @Path("replyId") replyId: String
     ): LikeResponse
 
-    @POST("api/replies/{replyId}/archive")
+    @POST("api/replies/{replyId}/archive/")
     suspend fun archiveReply(
         @Header("Authorization") bearerToken: String,
         @Path("replyId") replyId: String
     ): GenericMessageResponse
 
     // --- Edit History ---
-    @GET("api/edit-history/{targetType}/{targetId}")
+    @GET("api/edit-history/{targetType}/{targetId}/")
     suspend fun getEditHistory(
         @Header("Authorization") bearerToken: String?,
         @Path("targetType") targetType: String,
@@ -649,7 +652,7 @@ interface ApiService {
     ): List<ApiEditHistory>
 
     // --- Search ---
-    @GET("api/search")
+    @GET("api/search/")
     suspend fun search(
         @Header("Authorization") bearerToken: String?,
         @Query("q") query: String,
@@ -660,70 +663,70 @@ interface ApiService {
     ): ApiSearchResponse
 
     // --- Bookmarks ---
-    @POST("api/bookmarks/toggle")
+    @POST("api/bookmarks/toggle/")
     suspend fun toggleBookmark(
         @Header("Authorization") bearerToken: String,
         @Body request: BookmarkToggleRequest
     ): BookmarkResponse
 
-    @POST("api/bookmarks/check")
+    @POST("api/bookmarks/check/")
     suspend fun checkBookmark(
         @Header("Authorization") bearerToken: String,
         @Body request: BookmarkToggleRequest
     ): BookmarkResponse
 
-    @GET("api/bookmarks")
+    @GET("api/bookmarks/")
     suspend fun getBookmarks(
         @Header("Authorization") bearerToken: String,
         @Query("target_type") targetType: String? = null
     ): List<ApiBookmark>
 
     // --- Notifications ---
-    @GET("api/notifications")
+    @GET("api/notifications/")
     suspend fun getNotifications(
         @Header("Authorization") bearerToken: String,
         @Query("page") page: Int? = null
     ): ApiNotificationListResponse
 
-    @POST("api/notifications/mark-read")
+    @POST("api/notifications/mark-read/")
     suspend fun markNotificationsRead(
         @Header("Authorization") bearerToken: String
     ): ApiNotificationMarkReadResponse
 
-    @GET("api/notifications/unread-count")
+    @GET("api/notifications/unread-count/")
     suspend fun getUnreadNotificationCount(
         @Header("Authorization") bearerToken: String
     ): ApiNotificationUnreadCountResponse
 
     // --- FCM ---
-    @POST("api/fcm/register")
+    @POST("api/fcm/register/")
     suspend fun registerFcmToken(
         @Header("Authorization") bearerToken: String?,
         @Body request: FcmTokenRequest
     )
 
     // --- Reports ---
-    @POST("api/reports")
+    @POST("api/reports/")
     suspend fun createReport(
         @Header("Authorization") bearerToken: String,
         @Body request: ReportRequest
     ): GenericMessageResponse
 
     // --- Home data ---
-    @GET("api/home")
+    @GET("api/home/")
     suspend fun getHomeData(
         @Header("Authorization") bearerToken: String?
     ): ApiHomeResponse
 
     // --- Forum categories & leaderboard ---
-    @GET("api/forum/categories")
+    @GET("api/forum/categories/")
     suspend fun getForumCategories(): List<ApiForumCategory>
 
-    @GET("api/forum/leaderboard")
+    @GET("api/forum/leaderboard/")
     suspend fun getLeaderboard(): List<ApiLeaderboardEntry>
 
     // --- User search (for @mentions) ---
-    @GET("api/users/search")
+    @GET("api/users/search/")
     suspend fun searchUsers(
         @Header("Authorization") bearerToken: String?,
         @Query("q") query: String

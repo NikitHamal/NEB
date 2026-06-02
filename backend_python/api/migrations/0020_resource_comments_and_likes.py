@@ -5,7 +5,7 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('api', '0019_merge_20260602_0155'),
+        ('api', '0018_add_bot_config_and_is_bot'),
     ]
 
     operations = [

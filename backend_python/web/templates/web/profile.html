@@ -411,47 +411,33 @@
 
   /* ── Bot profile (Neby) ── */
   .pf-compact-card-bot {
-    border: 1px solid rgba(124, 77, 255, 0.18);
-    background:
-      radial-gradient(ellipse 100% 60% at 50% 0%, rgba(124, 77, 255, 0.04) 0%, transparent 70%),
-      var(--md-surface-container-lowest);
+    border-color: var(--md-primary-container);
   }
   [data-theme="dark"] .pf-compact-card-bot {
-    border-color: rgba(179, 136, 255, 0.25);
-    background:
-      radial-gradient(ellipse 100% 60% at 50% 0%, rgba(124, 77, 255, 0.08) 0%, transparent 70%),
-      var(--md-surface-container-lowest);
+    border-color: var(--md-primary-container);
   }
 
   .pf-bot-tagline {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    color: #7C4DFF;
+    color: var(--md-primary);
     font-weight: 600;
     font-size: 0.875rem;
   }
   .pf-bot-tagline .material-symbols-outlined {
     font-size: 18px;
-    animation: pfBotSpin 6s linear infinite;
-  }
-  [data-theme="dark"] .pf-bot-tagline { color: #B388FF; }
-  @keyframes pfBotSpin {
-    from { transform: rotate(0deg); }
-    to   { transform: rotate(360deg); }
   }
 
   .pf-btn-bot-cta {
-    background: linear-gradient(135deg, #7C4DFF 0%, #B388FF 100%) !important;
-    color: #fff !important;
-    box-shadow: 0 4px 14px rgba(124, 77, 255, 0.30);
-    transition: transform 0.2s, box-shadow 0.2s;
+    background: var(--md-primary) !important;
+    color: var(--md-on-primary) !important;
   }
   .pf-btn-bot-cta:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 6px 20px rgba(124, 77, 255, 0.45);
+    filter: brightness(1.08);
+    box-shadow: var(--md-elevation-1);
   }
-  .pf-btn-bot-cta .material-symbols-outlined { color: #fff !important; }
+  .pf-btn-bot-cta .material-symbols-outlined { color: var(--md-on-primary) !important; }
 
   /* Capabilities section */
   .pf-capabilities {
@@ -470,7 +456,7 @@
   }
   .pf-capabilities-title .material-symbols-outlined {
     font-size: 18px;
-    color: #7C4DFF;
+    color: var(--md-primary);
   }
   .pf-capabilities-list {
     list-style: none;
@@ -478,7 +464,7 @@
     padding: 0;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
   }
   .pf-capabilities-list li {
     display: flex;
@@ -512,39 +498,20 @@
     justify-content: center;
     font-size: 18px;
   }
-  .pf-cap-icon-purple { background: rgba(124, 77, 255, 0.12); color: #7C4DFF; }
-  .pf-cap-icon-blue   { background: rgba(27, 110, 243, 0.12); color: #1B6EF3; }
-  .pf-cap-icon-green  { background: rgba(0, 110, 28, 0.12);   color: #006E1C; }
-  .pf-cap-icon-orange { background: rgba(232, 113, 10, 0.12); color: #E8710A; }
-  [data-theme="dark"] .pf-cap-icon-purple { background: rgba(179, 136, 255, 0.18); color: #B388FF; }
-  [data-theme="dark"] .pf-cap-icon-blue   { background: rgba(99, 153, 244, 0.18); color: #82B6FF; }
-  [data-theme="dark"] .pf-cap-icon-green  { background: rgba(110, 200, 130, 0.18); color: #6EC882; }
-  [data-theme="dark"] .pf-cap-icon-orange { background: rgba(255, 165, 80, 0.18);  color: #FFA550; }
+  .pf-cap-icon-purple { background: var(--md-primary-container); color: var(--md-on-primary-container); }
+  .pf-cap-icon-blue   { background: var(--md-secondary-container); color: var(--md-on-secondary-container); }
+  .pf-cap-icon-green  { background: var(--md-tertiary-container); color: var(--md-on-tertiary-container); }
+  .pf-cap-icon-orange { background: var(--md-error-container); color: var(--md-on-error-container); }
 
   /* Bot CTA card (right column) */
   .pf-bot-cta-card {
-    position: relative;
-    overflow: hidden;
     border-radius: var(--md-radius-lg);
-    border: 1px solid rgba(124, 77, 255, 0.25);
+    border: 1px solid var(--md-outline-variant);
     background: var(--md-surface-container-lowest);
     padding: 22px;
     margin-bottom: 16px;
   }
-  .pf-bot-cta-glow {
-    position: absolute;
-    inset: -50%;
-    background: conic-gradient(from 0deg, rgba(124, 77, 255, 0.20), rgba(179, 136, 255, 0.10), rgba(124, 77, 255, 0.20));
-    filter: blur(40px);
-    opacity: 0.55;
-    animation: pfBotCtaSpin 14s linear infinite;
-    pointer-events: none;
-  }
-  @keyframes pfBotCtaSpin {
-    from { transform: rotate(0deg); }
-    to   { transform: rotate(360deg); }
-  }
-  .pf-bot-cta-content { position: relative; z-index: 1; }
+  .pf-bot-cta-content { position: relative; }
   .pf-bot-cta-eyebrow {
     display: inline-flex;
     align-items: center;
@@ -552,8 +519,8 @@
     font-size: 0.6875rem;
     font-weight: 700;
     letter-spacing: 0.08em;
-    color: #7C4DFF;
-    background: rgba(124, 77, 255, 0.10);
+    color: var(--md-primary);
+    background: var(--md-primary-container);
     padding: 4px 10px;
     border-radius: 100px;
     margin-bottom: 10px;
@@ -572,8 +539,8 @@
     line-height: 1.5;
   }
   .pf-bot-cta-desc code {
-    background: rgba(124, 77, 255, 0.10);
-    color: #7C4DFF;
+    background: var(--md-primary-container);
+    color: var(--md-on-primary-container);
     padding: 1px 6px;
     border-radius: 6px;
     font-size: 0.8125rem;
@@ -598,35 +565,13 @@
   }
   .pf-bot-footer .material-symbols-outlined {
     font-size: 14px;
-    color: #7C4DFF;
+    color: var(--md-primary);
   }
 
-  /* Bot avatar — pulsing AI ring + corner badge */
+  /* Bot avatar — primary border + AI badge */
   .pf-avatar-bot .pf-avatar-circle {
     position: relative;
-    border: 3px solid #7C4DFF;
-    box-shadow:
-      0 0 0 4px rgba(124, 77, 255, 0.18),
-      0 0 24px rgba(124, 77, 255, 0.40);
-    animation: pfBotAvatarPulse 3.4s ease-in-out infinite;
-  }
-  [data-theme="dark"] .pf-avatar-bot .pf-avatar-circle {
-    border-color: #B388FF;
-    box-shadow:
-      0 0 0 4px rgba(179, 136, 255, 0.22),
-      0 0 32px rgba(179, 136, 255, 0.55);
-  }
-  @keyframes pfBotAvatarPulse {
-    0%, 100% {
-      box-shadow:
-        0 0 0 4px rgba(124, 77, 255, 0.18),
-        0 0 24px rgba(124, 77, 255, 0.40);
-    }
-    50% {
-      box-shadow:
-        0 0 0 6px rgba(124, 77, 255, 0.10),
-        0 0 32px rgba(124, 77, 255, 0.55);
-    }
+    border: 3px solid var(--md-primary);
   }
   .pf-avatar-ai-pill {
     position: absolute;
@@ -635,17 +580,16 @@
     width: 28px;
     height: 28px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #7C4DFF 0%, #B388FF 100%);
-    color: #fff;
+    background: var(--md-primary);
+    color: var(--md-on-primary);
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
     border: 2px solid var(--md-surface-container-lowest);
   }
   .pf-avatar-ai-pill .material-symbols-outlined {
     font-size: 16px;
-    color: #fff;
+    color: var(--md-on-primary);
   }
 </style>
 
@@ -934,7 +878,6 @@
         {% if profile_user.is_bot %}
           <!-- Bot: Try @neby CTA card -->
           <div class="pf-bot-cta-card">
-            <div class="pf-bot-cta-glow"></div>
             <div class="pf-bot-cta-content">
               <div class="pf-bot-cta-eyebrow">
                 <span class="material-symbols-outlined">auto_awesome</span>
