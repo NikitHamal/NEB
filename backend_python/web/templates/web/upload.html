@@ -102,9 +102,19 @@
       </div>
 
       <div class="upload-field">
-        <label class="md-label" for="tags">Tags</label>
-        <input class="md-input" type="text" id="tags" name="tags" value="{{ form_data.tags|default:'' }}" placeholder="e.g. C programming, data structures, NEB 2081">
-        <div class="upload-hint">Comma-separated keywords to help others find this resource.</div>
+        <label class="md-label">Tags</label>
+        <div class="subject-chips-area" id="tags-chips-area">
+          <div class="subject-chips" id="tags-chips"></div>
+          <div class="subject-input-row">
+            <input class="md-input subject-input" type="text" id="tags-input" placeholder="Type a tag and press Enter or comma" autocomplete="off">
+            <button type="button" class="md-btn md-btn-tonal subject-pick-btn" id="tags-pick-btn">
+              <span class="material-symbols-outlined">checklist</span>
+              Pick
+            </button>
+          </div>
+          <div class="upload-hint">Press Enter or comma to add. Click Pick to browse suggestions.</div>
+        </div>
+        <input type="hidden" id="tags-hidden" name="tags" value="{{ form_data.tags|default:'' }}">
       </div>
     </div>
 
@@ -277,6 +287,43 @@
     <div class="subject-pick-actions">
       <button type="button" class="md-btn md-btn-text" id="subject-pick-cancel">Cancel</button>
       <button type="button" class="md-btn md-btn-filled" id="subject-pick-done">Done</button>
+    </div>
+  </div>
+</div>
+
+<div class="subject-pick-overlay" id="tags-pick-overlay" style="display:none">
+  <div class="subject-pick-dialog">
+    <div class="subject-pick-header">
+      <h3>Select Tags</h3>
+      <button type="button" class="subject-pick-close" id="tags-pick-close">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+    <div class="subject-pick-search">
+      <span class="material-symbols-outlined">search</span>
+      <input type="text" id="tags-pick-search" placeholder="Search tags..." autocomplete="off">
+    </div>
+    <div class="subject-pick-list" id="tags-pick-list">
+      {% for t in common_tags %}
+      <label class="subject-pick-item" data-subject="{{ t }}">
+        <input type="checkbox" class="subject-pick-checkbox" value="{{ t }}">
+        <span class="subject-pick-check">
+          <span class="material-symbols-outlined">check</span>
+        </span>
+        <span class="subject-pick-label">{{ t }}</span>
+      </label>
+      {% endfor %}
+    </div>
+    <div class="subject-pick-add">
+      <input type="text" id="tags-pick-custom" placeholder="Add a custom tag" autocomplete="off">
+      <button type="button" class="md-btn md-btn-tonal" id="tags-pick-add-btn">
+        <span class="material-symbols-outlined">add</span>
+        Add
+      </button>
+    </div>
+    <div class="subject-pick-actions">
+      <button type="button" class="md-btn md-btn-text" id="tags-pick-cancel">Cancel</button>
+      <button type="button" class="md-btn md-btn-filled" id="tags-pick-done">Done</button>
     </div>
   </div>
 </div>
@@ -534,62 +581,6 @@
 <script>
 (function() {
   var EXAM_TYPES = ['Past Paper', 'Model Paper', 'Guide', 'Solution', 'Note', 'PDF'];
-  var subjectInput = document.getElementById('subject-input');
-  var subjectHidden = document.getElementById('subject-hidden');
-  var subjectChips = document.getElementById('subject-chips');
-  var subjectPickBtn = document.getElementById('subject-pick-btn');
-  var subjectPickOverlay = document.getElementById('subject-pick-overlay');
-  var subjectPickClose = document.getElementById('subject-pick-close');
-  var subjectPickSearch = document.getElementById('subject-pick-search');
-  var subjectPickList = document.getElementById('subject-pick-list');
-  var subjectPickCustom = document.getElementById('subject-pick-custom');
-  var subjectPickAddBtn = document.getElementById('subject-pick-add-btn');
-  var subjectPickCancel = document.getElementById('subject-pick-cancel');
-  var subjectPickDone = document.getElementById('subject-pick-done');
-  var typeSelect = document.getElementById('type');
-  var examTypeRow = document.getElementById('exam-type-row');
-  var currentSubjects = [];
-
-  function initSubjects() {
-    var val = subjectHidden.value;
-    if (val) {
-      currentSubjects = val.split(',').map(function(s) { return s.trim(); }).filter(function(s) { return s; });
-    }
-    renderChips();
-  }
-
-  function renderChips() {
-    subjectChips.innerHTML = '';
-    currentSubjects.forEach(function(s) {
-      var chip = document.createElement('span');
-      chip.className = 'subject-chip';
-      chip.innerHTML = escapeHtml(s) + '<button type="button" class="subject-chip-remove" data-subject="' + escapeHtml(s) + '"><span class="material-symbols-outlined">close</span></button>';
-      subjectChips.appendChild(chip);
-    });
-    subjectHidden.value = currentSubjects.join(', ');
-    subjectChips.querySelectorAll('.subject-chip-remove').forEach(function(btn) {
-      btn.addEventListener('click', function(e) {
-        e.preventDefault();
-        removeSubject(btn.getAttribute('data-subject'));
-      });
-    });
-  }
-
-  function addSubject(name) {
-    name = name.trim();
-    if (!name) return;
-    var lower = name.toLowerCase();
-    var exists = currentSubjects.some(function(s) { return s.toLowerCase() === lower; });
-    if (!exists) {
-      currentSubjects.push(name);
-      renderChips();
-    }
-  }
-
-  function removeSubject(name) {
-    currentSubjects = currentSubjects.filter(function(s) { return s !== name; });
-    renderChips();
-  }
 
   function escapeHtml(str) {
     var div = document.createElement('div');
@@ -597,109 +588,183 @@
     return div.innerHTML;
   }
 
-  subjectInput.addEventListener('keydown', function(e) {
-    if (e.key === 'Enter' || e.key === ',' || e.key === 'Tab') {
-      var val = subjectInput.value.replace(/,$/, '').trim();
+  function createChipPicker(config) {
+    var hiddenInput = document.getElementById(config.hiddenId);
+    var chipContainer = document.getElementById(config.chipsId);
+    var textInput = document.getElementById(config.inputId);
+    var pickBtn = document.getElementById(config.pickBtnId);
+    var overlay = document.getElementById(config.overlayId);
+    var closeBtn = document.getElementById(config.closeBtnId);
+    var searchInput = document.getElementById(config.searchId);
+    var pickList = document.getElementById(config.listId);
+    var customInput = document.getElementById(config.customId);
+    var addBtn = document.getElementById(config.addBtnId);
+    var cancelBtn = document.getElementById(config.cancelBtnId);
+    var doneBtn = document.getElementById(config.doneBtnId);
+    var items = [];
+
+    function getItems() { return items; }
+
+    function init() {
+      var val = hiddenInput.value;
       if (val) {
-        e.preventDefault();
-        addSubject(val);
-        subjectInput.value = '';
+        items = val.split(',').map(function(s) { return s.trim(); }).filter(function(s) { return s; });
       }
-    } else if (e.key === 'Backspace' && !subjectInput.value && currentSubjects.length) {
-      removeSubject(currentSubjects[currentSubjects.length - 1]);
+      renderChips();
     }
-  });
 
-  subjectInput.addEventListener('blur', function() {
-    var val = subjectInput.value.replace(/,$/, '').trim();
-    if (val) {
-      addSubject(val);
-      subjectInput.value = '';
+    function renderChips() {
+      chipContainer.innerHTML = '';
+      items.forEach(function(s) {
+        var chip = document.createElement('span');
+        chip.className = 'subject-chip';
+        chip.innerHTML = escapeHtml(s) + '<button type="button" class="subject-chip-remove" data-item="' + escapeHtml(s) + '"><span class="material-symbols-outlined">close</span></button>';
+        chipContainer.appendChild(chip);
+      });
+      hiddenInput.value = items.join(', ');
+      chipContainer.querySelectorAll('.subject-chip-remove').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          removeItem(btn.getAttribute('data-item'));
+        });
+      });
     }
-  });
 
-  subjectPickBtn.addEventListener('click', function() {
-    subjectPickOverlay.style.display = '';
-    subjectPickSearch.value = '';
-    filterPickList('');
-    syncPickListSelection();
-    subjectPickSearch.focus();
-  });
-
-  subjectPickClose.addEventListener('click', closePickDialog);
-  subjectPickCancel.addEventListener('click', closePickDialog);
-
-  subjectPickOverlay.addEventListener('click', function(e) {
-    if (e.target === subjectPickOverlay) closePickDialog();
-  });
-
-  function closePickDialog() {
-    subjectPickOverlay.style.display = 'none';
-  }
-
-  subjectPickSearch.addEventListener('input', function() {
-    filterPickList(subjectPickSearch.value);
-  });
-
-  function filterPickList(query) {
-    var q = query.toLowerCase();
-    var items = subjectPickList.querySelectorAll('.subject-pick-item');
-    items.forEach(function(item) {
-      var label = item.getAttribute('data-subject').toLowerCase();
-      item.style.display = label.indexOf(q) >= 0 ? '' : 'none';
-    });
-  }
-
-  subjectPickList.addEventListener('click', function(e) {
-    var item = e.target.closest('.subject-pick-item');
-    if (!item) return;
-    item.classList.toggle('selected');
-    var cb = item.querySelector('.subject-pick-checkbox');
-    cb.checked = item.classList.contains('selected');
-  });
-
-  subjectPickAddBtn.addEventListener('click', function() {
-    var val = subjectPickCustom.value.trim();
-    if (val) {
-      addSubject(val);
-      subjectPickCustom.value = '';
-      var existingItem = subjectPickList.querySelector('[data-subject="' + CSS.escape(val) + '"]');
-      if (!existingItem) {
-        var label = document.createElement('label');
-        label.className = 'subject-pick-item selected';
-        label.setAttribute('data-subject', val);
-        label.innerHTML = '<input type="checkbox" class="subject-pick-checkbox" checked><span class="subject-pick-check"><span class="material-symbols-outlined">check</span></span><span class="subject-pick-label">' + escapeHtml(val) + '</span>';
-        subjectPickList.appendChild(label);
+    function addItem(name) {
+      name = name.trim();
+      if (!name) return;
+      var lower = name.toLowerCase();
+      var exists = items.some(function(s) { return s.toLowerCase() === lower; });
+      if (!exists) {
+        items.push(name);
+        renderChips();
       }
     }
-  });
 
-  subjectPickCustom.addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      subjectPickAddBtn.click();
+    function removeItem(name) {
+      items = items.filter(function(s) { return s !== name; });
+      renderChips();
     }
-  });
 
-  subjectPickDone.addEventListener('click', function() {
-    var selected = [];
-    subjectPickList.querySelectorAll('.subject-pick-item.selected').forEach(function(item) {
-      selected.push(item.getAttribute('data-subject'));
+    textInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ',' || e.key === 'Tab') {
+        var val = textInput.value.replace(/,$/, '').trim();
+        if (val) {
+          e.preventDefault();
+          addItem(val);
+          textInput.value = '';
+        }
+      } else if (e.key === 'Backspace' && !textInput.value && items.length) {
+        removeItem(items[items.length - 1]);
+      }
     });
-    currentSubjects = selected;
-    renderChips();
-    closePickDialog();
-  });
 
-  function syncPickListSelection() {
-    var lowerSelected = currentSubjects.map(function(s) { return s.toLowerCase(); });
-    subjectPickList.querySelectorAll('.subject-pick-item').forEach(function(item) {
-      var subject = item.getAttribute('data-subject');
-      var isSel = lowerSelected.indexOf(subject.toLowerCase()) >= 0;
-      item.classList.toggle('selected', isSel);
-      item.querySelector('.subject-pick-checkbox').checked = isSel;
+    textInput.addEventListener('blur', function() {
+      var val = textInput.value.replace(/,$/, '').trim();
+      if (val) {
+        addItem(val);
+        textInput.value = '';
+      }
     });
+
+    pickBtn.addEventListener('click', function() {
+      overlay.style.display = '';
+      searchInput.value = '';
+      filterList('');
+      syncSelection();
+      searchInput.focus();
+    });
+
+    closeBtn.addEventListener('click', closeDialog);
+    cancelBtn.addEventListener('click', closeDialog);
+    overlay.addEventListener('click', function(e) {
+      if (e.target === overlay) closeDialog();
+    });
+
+    function closeDialog() { overlay.style.display = 'none'; }
+
+    searchInput.addEventListener('input', function() { filterList(searchInput.value); });
+
+    function filterList(query) {
+      var q = query.toLowerCase();
+      pickList.querySelectorAll('.subject-pick-item').forEach(function(item) {
+        var label = item.getAttribute('data-subject').toLowerCase();
+        item.style.display = label.indexOf(q) >= 0 ? '' : 'none';
+      });
+    }
+
+    pickList.addEventListener('click', function(e) {
+      var item = e.target.closest('.subject-pick-item');
+      if (!item) return;
+      item.classList.toggle('selected');
+      item.querySelector('.subject-pick-checkbox').checked = item.classList.contains('selected');
+    });
+
+    addBtn.addEventListener('click', function() {
+      var val = customInput.value.trim();
+      if (val) {
+        addItem(val);
+        customInput.value = '';
+        var existingItem = pickList.querySelector('[data-subject="' + CSS.escape(val) + '"]');
+        if (!existingItem) {
+          var label = document.createElement('label');
+          label.className = 'subject-pick-item selected';
+          label.setAttribute('data-subject', val);
+          label.innerHTML = '<input type="checkbox" class="subject-pick-checkbox" checked><span class="subject-pick-check"><span class="material-symbols-outlined">check</span></span><span class="subject-pick-label">' + escapeHtml(val) + '</span>';
+          pickList.appendChild(label);
+        }
+      }
+    });
+
+    customInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') { e.preventDefault(); addBtn.click(); }
+    });
+
+    doneBtn.addEventListener('click', function() {
+      var selected = [];
+      pickList.querySelectorAll('.subject-pick-item.selected').forEach(function(item) {
+        selected.push(item.getAttribute('data-subject'));
+      });
+      items = selected;
+      renderChips();
+      closeDialog();
+    });
+
+    function syncSelection() {
+      var lowerItems = items.map(function(s) { return s.toLowerCase(); });
+      pickList.querySelectorAll('.subject-pick-item').forEach(function(item) {
+        var subject = item.getAttribute('data-subject');
+        var isSel = lowerItems.indexOf(subject.toLowerCase()) >= 0;
+        item.classList.toggle('selected', isSel);
+        item.querySelector('.subject-pick-checkbox').checked = isSel;
+      });
+    }
+
+    init();
+    return { addItem: addItem, removeItem: removeItem, getItems: getItems };
   }
+
+  var subjectPicker = createChipPicker({
+    hiddenId: 'subject-hidden', chipsId: 'subject-chips', inputId: 'subject-input',
+    pickBtnId: 'subject-pick-btn', overlayId: 'subject-pick-overlay',
+    closeBtnId: 'subject-pick-close', searchId: 'subject-pick-search',
+    listId: 'subject-pick-list', customId: 'subject-pick-custom',
+    addBtnId: 'subject-pick-add-btn', cancelBtnId: 'subject-pick-cancel',
+    doneBtnId: 'subject-pick-done'
+  });
+
+  var tagsPicker = createChipPicker({
+    hiddenId: 'tags-hidden', chipsId: 'tags-chips', inputId: 'tags-input',
+    pickBtnId: 'tags-pick-btn', overlayId: 'tags-pick-overlay',
+    closeBtnId: 'tags-pick-close', searchId: 'tags-pick-search',
+    listId: 'tags-pick-list', customId: 'tags-pick-custom',
+    addBtnId: 'tags-pick-add-btn', cancelBtnId: 'tags-pick-cancel',
+    doneBtnId: 'tags-pick-done'
+  });
+
+  // Conditional exam type
+  var typeSelect = document.getElementById('type');
+  var examTypeRow = document.getElementById('exam-type-row');
 
   function toggleExamType() {
     var t = typeSelect.value;
@@ -788,9 +853,6 @@
       clearFile();
     }
   });
-
-  // Init
-  initSubjects();
 })();
 </script>
 {% endblock %}
