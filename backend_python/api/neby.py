@@ -65,8 +65,8 @@ def _build_post_context(post, max_replies=10):
                 r_name = 'Unknown'
             lines.append(f"  {r_name}: {r.content}")
         lines.append("")
-    lines.append("Please write a helpful reply to this post as Neby. Keep it concise and relevant to the NEB curriculum or the student's question.")
-    return '\n'.join(lines)
+    lines.append("Please write a helpful reply to this post as Neby. Keep it concise and relevant to the student's question.")
+    return '\n'.join(lines), None
 
 
 def _build_reply_context(reply, max_context_replies=10):
@@ -99,7 +99,7 @@ def _build_reply_context(reply, max_context_replies=10):
     lines.append(f"{reply_author} just wrote (mentioning you): {reply.content}")
     lines.append("")
     lines.append("Please write a helpful reply as Neby. Keep it concise and relevant.")
-    return '\n'.join(lines)
+    return '\n'.join(lines), reply_author
 
 
 def call_ai_api(system_prompt, user_message, config=None):
@@ -123,50 +123,40 @@ def trigger_neby_reply_post(post):
         return None
     if not detect_mention(post.content, config.bot_username) and not detect_mention(post.title, config.bot_username):
         return None
-    logger.info(f'Neby: @mention detected in post {post.id}, spawning reply thread')
-    import threading
-    post_id = post.id
-    bot_user_id = bot_user.id
-    config_id = config.id
-
-    def _run():
-        from django.db import connections
-        connections.close_all()
+    logger.info(f'Neby: @mention detected in post {post.id}, generating reply')
+    try:
+        context, _ = _build_post_context(post, max_replies=config.max_context_replies)
+        response_text = call_ai_api(config.system_prompt, context, config)
+        if not response_text:
+            logger.warning(f'Neby: no response from AI for post {post.id}')
+            return None
         try:
-            logger.info(f'Neby thread started for post {post_id}')
-            config = BotConfig.objects.get(pk=config_id)
-            bot_user = User.objects.get(pk=bot_user_id)
-            post = Post.objects.get(pk=post_id)
-            context = _build_post_context(post, max_replies=config.max_context_replies)
-            response_text = call_ai_api(config.system_prompt, context, config)
-            if not response_text:
-                logger.warning(f'Neby: no response from AI for post {post_id}')
-                return
-            with transaction.atomic():
-                reply = Reply.objects.create(
-                    id=str(uuid.uuid4()),
-                    post=post,
-                    parent_reply_id=None,
-                    user=bot_user,
-                    content=response_text,
-                    thumbs_up_count=0,
-                    reply_count=0,
-                    created_at=_now_ms(),
-                )
-                Post.objects.filter(pk=post.pk).update(reply_count=F('reply_count') + 1)
-            from . import counters as _counters
-            _counters.increment_user_reply_count(bot_user.id)
-            from . import notifications as _notif
-            _notif.notify_new_reply(bot_user.id, post.id, reply.id)
-            logger.info(f'Neby replied to post {post.id}')
-        except Exception as e:
-            logger.error(f'Neby async reply to post failed: {e}', exc_info=True)
-        finally:
-            connections.close_all()
-
-    t = threading.Thread(target=_run, daemon=True)
-    t.start()
-    return None
+            author_display = post.user.display_name or post.user.username
+        except Exception:
+            author_display = None
+        if author_display and not response_text.startswith('@'):
+            response_text = f'@{author_display} {response_text}'
+        with transaction.atomic():
+            reply = Reply.objects.create(
+                id=str(uuid.uuid4()),
+                post=post,
+                parent_reply_id=None,
+                user=bot_user,
+                content=response_text,
+                thumbs_up_count=0,
+                reply_count=0,
+                created_at=_now_ms(),
+            )
+            Post.objects.filter(pk=post.pk).update(reply_count=F('reply_count') + 1)
+        from . import counters as _counters
+        _counters.increment_user_reply_count(bot_user.id)
+        from . import notifications as _notif
+        _notif.notify_new_reply(bot_user.id, post.id, reply.id)
+        logger.info(f'Neby replied to post {post.id}')
+        return reply
+    except Exception as e:
+        logger.error(f'Neby reply to post failed: {e}', exc_info=True)
+        return None
 
 
 def trigger_neby_reply_reply(reply):
@@ -182,53 +172,37 @@ def trigger_neby_reply_reply(reply):
         return None
     if reply.user_id == bot_user.id:
         return None
-    logger.info(f'Neby: @mention detected in reply {reply.id}, spawning reply thread')
-    import threading
-    reply_id = reply.id
-    post_id = reply.post_id
-    parent_reply_id = reply.parent_reply_id
-    bot_user_id = bot_user.id
-    config_id = config.id
-
-    def _run():
-        from django.db import connections
-        connections.close_all()
-        try:
-            logger.info(f'Neby thread started for reply {reply_id}')
-            config = BotConfig.objects.get(pk=config_id)
-            bot_user = User.objects.get(pk=bot_user_id)
-            reply = Reply.objects.select_related('post', 'user').get(pk=reply_id)
-            context = _build_reply_context(reply, max_context_replies=config.max_context_replies)
-            response_text = call_ai_api(config.system_prompt, context, config)
-            if not response_text:
-                logger.warning(f'Neby: no response from AI for reply {reply_id}')
-                return
-            with transaction.atomic():
-                neby_reply = Reply.objects.create(
-                    id=str(uuid.uuid4()),
-                    post_id=post_id,
-                    parent_reply_id=parent_reply_id,
-                    user=bot_user,
-                    content=response_text,
-                    thumbs_up_count=0,
-                    reply_count=0,
-                    created_at=_now_ms(),
-                )
-                Post.objects.filter(pk=post_id).update(reply_count=F('reply_count') + 1)
-                Reply.objects.filter(pk=reply_id).update(reply_count=F('reply_count') + 1)
-            from . import counters as _counters
-            _counters.increment_user_reply_count(bot_user.id)
-            from . import notifications as _notif
-            if parent_reply_id:
-                _notif.notify_reply_to_reply(bot_user.id, parent_reply_id, post_id, neby_reply.id)
-            else:
-                _notif.notify_new_reply(bot_user.id, post_id, neby_reply.id)
-            logger.info(f'Neby replied to reply {reply_id}')
-        except Exception as e:
-            logger.error(f'Neby async reply to reply failed: {e}', exc_info=True)
-        finally:
-            connections.close_all()
-
-    t = threading.Thread(target=_run, daemon=True)
-    t.start()
-    return None
+    logger.info(f'Neby: @mention detected in reply {reply.id}, generating reply')
+    try:
+        reply_obj = Reply.objects.select_related('post', 'user').get(pk=reply.id)
+        context, reply_author = _build_reply_context(reply_obj, max_context_replies=config.max_context_replies)
+        response_text = call_ai_api(config.system_prompt, context, config)
+        if not response_text:
+            logger.warning(f'Neby: no response from AI for reply {reply.id}')
+            return None
+        if reply_author and not response_text.startswith('@'):
+            response_text = f'@{reply_author} {response_text}'
+        with transaction.atomic():
+            neby_reply = Reply.objects.create(
+                id=str(uuid.uuid4()),
+                post_id=reply.post_id,
+                parent_reply_id=reply.id,
+                user=bot_user,
+                content=response_text,
+                thumbs_up_count=0,
+                reply_count=0,
+                created_at=_now_ms(),
+            )
+            Post.objects.filter(pk=reply.post_id).update(reply_count=F('reply_count') + 1)
+            Reply.objects.filter(pk=reply.id).update(reply_count=F('reply_count') + 1)
+        from . import counters as _counters
+        _counters.increment_user_reply_count(bot_user.id)
+        from . import notifications as _notif
+        _notif.notify_reply_to_reply(bot_user.id, reply.id, reply.post_id, neby_reply.id)
+        if reply.user_id != reply_obj.post.user_id:
+            _notif.notify_new_reply(bot_user.id, reply.post_id, neby_reply.id)
+        logger.info(f'Neby replied to reply {reply.id}')
+        return neby_reply
+    except Exception as e:
+        logger.error(f'Neby reply to reply failed: {e}', exc_info=True)
+        return None

@@ -26,21 +26,22 @@ from . import api_client as api
 
 logger = logging.getLogger(__name__)
 
-def _serialize_resource(r):
-    # Determine source attribution
+def _serialize_resource(r, _uploaded_by_map=None):
     source_type = r.source_type or 'admin'
     source_label = r.source_label or ''
     uploaded_by_name = ''
     uploaded_by_photo = ''
     uploaded_by_username = ''
     if r.uploaded_by_id and source_type == 'user':
-        try:
-            ub = r.uploaded_by if hasattr(r, 'uploaded_by') and r.uploaded_by else User.objects.get(pk=r.uploaded_by_id)
+        ub = None
+        if _uploaded_by_map and r.uploaded_by_id in _uploaded_by_map:
+            ub = _uploaded_by_map[r.uploaded_by_id]
+        elif hasattr(r, 'uploaded_by') and r.uploaded_by:
+            ub = r.uploaded_by
+        if ub:
             uploaded_by_name = ub.display_name or ub.username
             uploaded_by_photo = ub.photo_url or ''
             uploaded_by_username = ub.username
-        except User.DoesNotExist:
-            pass
     return {
         'id': r.id, 'title': r.title, 'description': r.description or '',
         'subject': r.subject, 'gradeLevel': r.grade_level, 'grade_level': r.grade_level,
@@ -59,6 +60,16 @@ def _serialize_resource(r):
         'uploadedByPhoto': uploaded_by_photo, 'uploaded_by_photo': uploaded_by_photo,
         'uploadedByUsername': uploaded_by_username,
     }
+
+
+def _serialize_resources(resources_qs):
+    resources = list(resources_qs)
+    user_source_ids = [r.uploaded_by_id for r in resources if r.uploaded_by_id and (r.source_type or 'admin') == 'user']
+    uploaded_by_map = {}
+    if user_source_ids:
+        for u in User.objects.filter(id__in=set(user_source_ids)):
+            uploaded_by_map[u.id] = u
+    return [_serialize_resource(r, _uploaded_by_map=uploaded_by_map) for r in resources]
 
 
 def _user_badge_info(user):
@@ -164,15 +175,23 @@ def _serialize_posts(posts_qs, user_id=None):
     return result
 
 
-def _serialize_post(p, user_id=None):
+def _serialize_post(p, user_id=None, _liked_ids=None, _followed_ids=None, _bookmarked_ids=None):
     is_thumbed_up = False
     is_following_author = False
     is_bookmarked = False
     if user_id:
-        is_thumbed_up = PostLike.objects.filter(post_id=p.id, user_id=user_id).exists()
-        if user_id != p.user_id:
+        if _liked_ids is not None:
+            is_thumbed_up = p.id in _liked_ids
+        else:
+            is_thumbed_up = PostLike.objects.filter(post_id=p.id, user_id=user_id).exists()
+        if _followed_ids is not None:
+            is_following_author = p.user_id in _followed_ids
+        elif user_id != p.user_id:
             is_following_author = Follow.objects.filter(follower_id=user_id, following_id=p.user_id).exists()
-        is_bookmarked = Bookmark.objects.filter(user_id=user_id, target_type='post', target_id=p.id).exists()
+        if _bookmarked_ids is not None:
+            is_bookmarked = p.id in _bookmarked_ids
+        else:
+            is_bookmarked = Bookmark.objects.filter(user_id=user_id, target_type='post', target_id=p.id).exists()
     return {
         'id': p.id, 'title': p.title, 'content': p.content, 'category': p.category,
         'authorName': p.user.username, 'authorPhotoUrl': p.user.photo_url,
@@ -261,12 +280,18 @@ def _serialize_replies(replies_qs, user_id=None):
     return result
 
 
-def _serialize_reply(r, user_id=None):
+def _serialize_reply(r, user_id=None, _liked_ids=None, _bookmarked_ids=None):
     is_thumbed_up = False
     is_bookmarked = False
     if user_id:
-        is_thumbed_up = ReplyLike.objects.filter(reply_id=r.id, user_id=user_id).exists()
-        is_bookmarked = Bookmark.objects.filter(user_id=user_id, target_type='reply', target_id=r.id).exists()
+        if _liked_ids is not None:
+            is_thumbed_up = r.id in _liked_ids
+        else:
+            is_thumbed_up = ReplyLike.objects.filter(reply_id=r.id, user_id=user_id).exists()
+        if _bookmarked_ids is not None:
+            is_bookmarked = r.id in _bookmarked_ids
+        else:
+            is_bookmarked = Bookmark.objects.filter(user_id=user_id, target_type='reply', target_id=r.id).exists()
     return {
         'id': r.id, 'postId': r.post_id, 'parentReplyId': r.parent_reply_id,
         'content': r.content, 'authorName': r.user.username,
@@ -365,7 +390,7 @@ def home(request):
     user_id = _get_user_id(request)
     resources = cache.get('home_resources')
     if resources is None:
-        resources = [_serialize_resource(r) for r in Resource.objects.all()[:50]]
+        resources = _serialize_resources(Resource.objects.all()[:50])
         cache.set('home_resources', resources, 60)
     posts = cache.get('home_posts')
     if posts is None:
@@ -432,10 +457,10 @@ def library(request):
         page_obj = paginator.page(page_num)
     except (EmptyPage, PageNotAnInteger):
         page_obj = paginator.page(1)
-    filtered = [_serialize_resource(r) for r in page_obj.object_list]
+    filtered = _serialize_resources(page_obj.object_list)
     all_resources = cache.get('library_all_resources')
     if all_resources is None:
-        all_resources = [_serialize_resource(r) for r in Resource.objects.all()[:500]]
+        all_resources = _serialize_resources(Resource.objects.all()[:500])
         cache.set('library_all_resources', all_resources, 180)
     all_subjects = sorted(set(r.get('subject', '') for r in all_resources if r.get('subject')))
     all_grades = sorted(set(r.get('grade_level', '') for r in all_resources if r.get('grade_level')))
@@ -453,13 +478,27 @@ def library(request):
     ))
 
 
-def _serialize_user_search(u, viewer_id=None):
+def _serialize_users_search(users, viewer_id=None):
+    followed_ids = set()
+    if viewer_id:
+        user_ids = [u.id for u in users if u.id != viewer_id]
+        if user_ids:
+            followed_ids = set(Follow.objects.filter(
+                follower_id=viewer_id, following_id__in=user_ids
+            ).values_list('following_id', flat=True))
+    return [_serialize_user_search_single(u, viewer_id, followed_ids) for u in users]
+
+
+def _serialize_user_search_single(u, viewer_id=None, _followed_ids=None):
     is_self = bool(viewer_id and str(viewer_id) == str(u.id))
     is_following = False
     if viewer_id and not is_self:
-        is_following = Follow.objects.filter(
-            follower_id=viewer_id, following_id=u.id
-        ).exists()
+        if _followed_ids is not None:
+            is_following = u.id in _followed_ids
+        else:
+            is_following = Follow.objects.filter(
+                follower_id=viewer_id, following_id=u.id
+            ).exists()
     return {
         'id': u.id,
         'username': u.username,
@@ -506,17 +545,17 @@ def search(request):
         if rtype:
             resource_qs = resource_qs.filter(type=rtype)
         if tab in ('all', 'resources'):
-            resource_results = [_serialize_resource(r) for r in resource_qs[:30]]
+            resource_results = _serialize_resources(resource_qs[:30])
         if tab in ('all', 'posts'):
             post_results = _serialize_posts(post_qs[:20], user_id)
         if tab in ('all', 'users'):
             user_qs = User.objects.filter(
                 Q(username__icontains=query) | Q(display_name__icontains=query)
             ).filter(is_locked=False).order_by('-follower_count', 'username')[:30]
-            user_results = [_serialize_user_search(u, user_id) for u in user_qs]
+            user_results = _serialize_users_search(user_qs, user_id)
     all_resources = cache.get('library_all_resources')
     if all_resources is None:
-        all_resources = [_serialize_resource(r) for r in Resource.objects.all()[:500]]
+        all_resources = _serialize_resources(Resource.objects.all()[:500])
         cache.set('library_all_resources', all_resources, 180)
     all_subjects = sorted(set(r.get('subject', '') for r in all_resources if r.get('subject')))
     all_grades = sorted(set(r.get('grade_level', '') for r in all_resources if r.get('grade_level')))
@@ -554,19 +593,27 @@ def get_user_level_title(score):
         return "Level 1 Novice"
 
 def _build_local_stats(user):
-    post_count = user.post_count if hasattr(user, 'post_count') and user.post_count > 0 else Post.objects.filter(user=user).count()
-    reply_count = user.reply_count if hasattr(user, 'reply_count') and user.reply_count > 0 else Reply.objects.filter(user=user).count()
-    follower_count = user.follower_count if hasattr(user, 'follower_count') and user.follower_count > 0 else Follow.objects.filter(following=user).count()
-    following_count = user.following_count if hasattr(user, 'following_count') and user.following_count > 0 else Follow.objects.filter(follower=user).count()
-    likes_given = user.likes_given_count if hasattr(user, 'likes_given_count') and user.likes_given_count > 0 else (
-        PostLike.objects.filter(user=user).count() + ReplyLike.objects.filter(user=user).count()
+    post_count = getattr(user, 'post_count', 0) or 0
+    reply_count = getattr(user, 'reply_count', 0) or 0
+    follower_count = getattr(user, 'follower_count', 0) or 0
+    following_count = getattr(user, 'following_count', 0) or 0
+    likes_given = getattr(user, 'likes_given_count', 0) or 0
+    likes_received = getattr(user, 'likes_received_count', 0) or 0
+    contribution_score = getattr(user, 'contribution_score', 0) or 0
+    needs_fallback = (
+        post_count == 0 or reply_count == 0 or follower_count == 0 or
+        following_count == 0 or likes_given == 0 or likes_received == 0 or
+        contribution_score == 0
     )
-    likes_received = user.likes_received_count if hasattr(user, 'likes_received_count') and user.likes_received_count > 0 else (
-        PostLike.objects.filter(post__user=user).count() + ReplyLike.objects.filter(reply__user=user).count()
-    )
-    contribution_score = user.contribution_score if hasattr(user, 'contribution_score') and user.contribution_score > 0 else (
-        (post_count * 3) + (reply_count * 2) + likes_given + (likes_received * 2)
-    )
+    if needs_fallback:
+        fallback = _build_local_stats_fallback(user.id)
+        post_count = post_count or fallback.get('post_count', 0)
+        reply_count = reply_count or fallback.get('reply_count', 0)
+        follower_count = follower_count or fallback.get('follower_count', 0)
+        following_count = following_count or fallback.get('following_count', 0)
+        likes_given = likes_given or fallback.get('likes_given', 0)
+        likes_received = likes_received or fallback.get('likes_received', 0)
+        contribution_score = contribution_score or fallback.get('contribution_score', 0)
     return {
         'post_count': post_count,
         'reply_count': reply_count,
@@ -576,21 +623,61 @@ def _build_local_stats(user):
     }
 
 
+def _build_local_stats_fallback(user_id):
+    stats = User.objects.filter(pk=user_id).annotate(
+        _post_count=Count('posts', distinct=True),
+        _reply_count=Count('replies', distinct=True),
+        _follower_count=Count('followers_set', distinct=True),
+        _following_count=Count('following_set', distinct=True),
+        _likes_given=Count('post_likes', distinct=True) + Count('reply_likes', distinct=True),
+    ).values(
+        '_post_count', '_reply_count', '_follower_count', '_following_count', '_likes_given',
+    ).first()
+    if not stats:
+        return {}
+    likes_received = (PostLike.objects.filter(post__user_id=user_id).count() +
+                      ReplyLike.objects.filter(reply__user_id=user_id).count())
+    pc = stats['_post_count'] or 0
+    rc = stats['_reply_count'] or 0
+    lg = stats['_likes_given'] or 0
+    contribution_score = (pc * 3) + (rc * 2) + lg + (likes_received * 2)
+    return {
+        'post_count': pc,
+        'reply_count': rc,
+        'follower_count': stats['_follower_count'] or 0,
+        'following_count': stats['_following_count'] or 0,
+        'likes_given': lg,
+        'likes_received': likes_received,
+        'contribution_score': contribution_score,
+    }
+
+
 def _build_contributors_batch():
-    """
-    Build leaderboard stats for ALL users.
-    Uses denormalized counters when available, falls back to aggregate queries.
-    """
-    user_ids = list(User.objects.values_list('id', flat=True))
-    users = User.objects.filter(id__in=user_ids)
+    from django.db.models import Sum, ExpressionWrapper, IntegerField, Subquery, OuterRef
+    users = User.objects.all().annotate(
+        _pc=Count('posts', distinct=True),
+        _rc=Count('replies', distinct=True),
+        _fc=Count('followers_set', distinct=True),
+        _fwc=Count('following_set', distinct=True),
+        _lg=Count('post_likes', distinct=True) + Count('reply_likes', distinct=True),
+        _lr=Subquery(
+            PostLike.objects.filter(post__user_id=OuterRef('pk')).values('post__user_id').annotate(
+                cnt=Count('pk')
+            ).values('cnt')[:1], output_field=IntegerField()
+        ) + Subquery(
+            ReplyLike.objects.filter(reply__user_id=OuterRef('pk')).values('reply__user_id').annotate(
+                cnt=Count('pk')
+            ).values('cnt')[:1], output_field=IntegerField()
+        ),
+    )
     contributors = []
     for u in users:
-        pc = u.post_count if hasattr(u, 'post_count') and u.post_count > 0 else Post.objects.filter(user=u).count()
-        rc = u.reply_count if hasattr(u, 'reply_count') and u.reply_count > 0 else Reply.objects.filter(user=u).count()
-        fc = u.follower_count if hasattr(u, 'follower_count') and u.follower_count > 0 else Follow.objects.filter(following=u).count()
-        fwc = u.following_count if hasattr(u, 'following_count') and u.following_count > 0 else Follow.objects.filter(follower=u).count()
-        lg = u.likes_given_count if hasattr(u, 'likes_given_count') and u.likes_given_count > 0 else 0
-        lr = u.likes_received_count if hasattr(u, 'likes_received_count') and u.likes_received_count > 0 else 0
+        pc = u.post_count if hasattr(u, 'post_count') and u.post_count > 0 else (u._pc or 0)
+        rc = u.reply_count if hasattr(u, 'reply_count') and u.reply_count > 0 else (u._rc or 0)
+        fc = u.follower_count if hasattr(u, 'follower_count') and u.follower_count > 0 else (u._fc or 0)
+        fwc = u.following_count if hasattr(u, 'following_count') and u.following_count > 0 else (u._fwc or 0)
+        lg = u.likes_given_count if hasattr(u, 'likes_given_count') and u.likes_given_count > 0 else (u._lg or 0)
+        lr = u.likes_received_count if hasattr(u, 'likes_received_count') and u.likes_received_count > 0 else (u._lr or 0)
         score = u.contribution_score if hasattr(u, 'contribution_score') and u.contribution_score > 0 else ((pc * 3) + (rc * 2) + lg + (lr * 2))
         contributors.append({
             'username': u.username,
@@ -826,8 +913,14 @@ def reader(request, resource_id):
     comments_qs = ResourceComment.objects.select_related('user').filter(
         resource_id=resource_id
     ).order_by('created_at')
+    comments_list = list(comments_qs)
+    liked_comment_ids = set()
+    if user_id and comments_list:
+        liked_comment_ids = set(ResourceCommentLike.objects.filter(
+            comment_id__in=[c.id for c in comments_list], user_id=user_id
+        ).values_list('comment_id', flat=True))
     all_comments = []
-    for c in comments_qs:
+    for c in comments_list:
         c_data = {
             'id': c.id,
             'resourceId': c.resource_id,
@@ -840,14 +933,9 @@ def reader(request, resource_id):
             'replyCount': c.reply_count,
             'isEdited': c.is_edited,
             'createdAt': c.created_at,
+            'isLiked': c.id in liked_comment_ids,
+            'isOwner': (user_id and user_id == c.user_id),
         }
-        if user_id:
-            c_data['isLiked'] = ResourceCommentLike.objects.filter(
-                comment_id=c.id, user_id=user_id
-            ).exists()
-        else:
-            c_data['isLiked'] = False
-        c_data['isOwner'] = (user_id and user_id == c.user_id)
         all_comments.append(c_data)
 
     # Build tree: top-level and children
@@ -861,7 +949,7 @@ def reader(request, resource_id):
     related = Resource.objects.filter(
         subject__iexact=resource_obj.subject
     ).exclude(pk=resource_id).order_by('-view_count', '-added_at')[:4]
-    related_resources = [_serialize_resource(r) for r in related]
+    related_resources = _serialize_resources(related)
 
     return render(request, 'web/resource_detail.html', _ctx(request,
         resource=resource,
@@ -2086,9 +2174,9 @@ def ajax_user_popup(request, username):
         'badgeInfo': _user_badge_info(u),
     }
     if not is_private:
-        data['postCount'] = Post.objects.filter(user=u).count()
-        data['replyCount'] = Reply.objects.filter(user=u).count()
-        data['followerCount'] = Follow.objects.filter(following=u).count()
+        data['postCount'] = getattr(u, 'post_count', 0) or 0 or Post.objects.filter(user=u).count()
+        data['replyCount'] = getattr(u, 'reply_count', 0) or 0 or Reply.objects.filter(user=u).count()
+        data['followerCount'] = getattr(u, 'follower_count', 0) or 0 or Follow.objects.filter(following=u).count()
     else:
         data['postCount'] = 0
         data['replyCount'] = 0
