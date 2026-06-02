@@ -229,12 +229,20 @@ def toggle_resource_like(user, resource_id):
             is_liked = True
             current_count = resource.like_count + 1
             _counters.increment_user_likes_given(user.id)
+            if resource.uploaded_by_id and str(resource.uploaded_by_id) != str(user.id):
+                _counters.increment_user_likes_received(resource.uploaded_by_id)
         else:
             like.delete()
             Resource.objects.filter(pk=resource_id, like_count__gt=0).update(like_count=F('like_count') - 1)
             is_liked = False
             current_count = max(resource.like_count - 1, 0)
             _counters.decrement_user_likes_given(user.id)
+            if resource.uploaded_by_id and str(resource.uploaded_by_id) != str(user.id):
+                _counters.decrement_user_likes_received(resource.uploaded_by_id)
+    if is_liked:
+        _notif.notify_resource_liked(user.id, resource_id)
+    else:
+        _notif.notify_resource_unliked(user.id, resource_id)
     return {'likeCount': current_count, 'isLiked': is_liked}
 
 
@@ -250,12 +258,20 @@ def toggle_resource_comment_like(user, comment_id):
             is_liked = True
             current_count = comment.like_count + 1
             _counters.increment_user_likes_given(user.id)
+            if comment.user_id and str(comment.user_id) != str(user.id):
+                _counters.increment_user_likes_received(comment.user_id)
         else:
             like.delete()
             ResourceComment.objects.filter(pk=comment_id, like_count__gt=0).update(like_count=F('like_count') - 1)
             is_liked = False
             current_count = max(comment.like_count - 1, 0)
             _counters.decrement_user_likes_given(user.id)
+            if comment.user_id and str(comment.user_id) != str(user.id):
+                _counters.decrement_user_likes_received(comment.user_id)
+    if is_liked:
+        _notif.notify_resource_comment_liked(user.id, comment_id)
+    else:
+        _notif.notify_resource_comment_unliked(user.id, comment_id)
     return {'likeCount': current_count, 'isLiked': is_liked}
 
 
@@ -283,6 +299,10 @@ def create_resource_comment(user, resource_id, content, parent_comment_id=None):
         if parent_comment_id:
             ResourceComment.objects.filter(pk=parent_comment_id).update(reply_count=F('reply_count') + 1)
     _counters.increment_user_reply_count(user.id)
+    if parent_comment_id:
+        _notif.notify_resource_comment_reply(user.id, parent_comment_id, resource_id, comment.id)
+    else:
+        _notif.notify_resource_comment(user.id, resource_id, comment.id)
     return _serialize_resource_comment(comment)
 
 
