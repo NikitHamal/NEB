@@ -111,6 +111,22 @@ def reset_user_unread_notification_count(user_id):
     User.objects.filter(pk=user_id).update(unread_notification_count=0)
 
 
+def increment_user_resource_approved(user_id):
+    """Award contribution points when a resource is approved."""
+    from .models import User
+    User.objects.filter(pk=user_id).update(
+        contribution_score=F('contribution_score') + 10,
+    )
+
+
+def decrement_user_resource_approved(user_id):
+    """Remove contribution points when a resource approval is revoked."""
+    from .models import User
+    User.objects.filter(pk=user_id, contribution_score__gte=10).update(
+        contribution_score=F('contribution_score') - 10,
+    )
+
+
 def batch_decrement_likes_given(user_ids):
     """Decrement likes_given_count and contribution_score for multiple users.
     Each user gets decremented by 1 (one like removed per user)."""
