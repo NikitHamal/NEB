@@ -109,3 +109,42 @@ def decrement_user_unread_notification_count(user_id, amount=1):
 def reset_user_unread_notification_count(user_id):
     from .models import User
     User.objects.filter(pk=user_id).update(unread_notification_count=0)
+
+
+def batch_decrement_likes_given(user_ids):
+    """Decrement likes_given_count and contribution_score for multiple users.
+    Each user gets decremented by 1 (one like removed per user)."""
+    if not user_ids:
+        return
+    from .models import User
+    User.objects.filter(pk__in=user_ids, likes_given_count__gt=0).update(
+        likes_given_count=F('likes_given_count') - 1,
+        contribution_score=F('contribution_score') - 1,
+    )
+
+
+def batch_decrement_likes_received(user_id_count_map):
+    """Decrement likes_received_count and contribution_score for users.
+    user_id_count_map is {user_id: count} where count is how many likes received to subtract."""
+    if not user_id_count_map:
+        return
+    from .models import User
+    for uid, count in user_id_count_map.items():
+        if count <= 0:
+            continue
+        User.objects.filter(pk=uid, likes_received_count__gte=count).update(
+            likes_received_count=F('likes_received_count') - count,
+            contribution_score=F('contribution_score') - (count * 2),
+        )
+
+
+def batch_decrement_reply_counts(user_ids):
+    """Decrement reply_count and contribution_score for multiple users.
+    Each user gets decremented by 1 (one reply removed per user)."""
+    if not user_ids:
+        return
+    from .models import User
+    User.objects.filter(pk__in=user_ids, reply_count__gt=0).update(
+        reply_count=F('reply_count') - 1,
+        contribution_score=F('contribution_score') - 2,
+    )

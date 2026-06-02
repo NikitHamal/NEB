@@ -490,3 +490,33 @@ class BotConfig(models.Model):
             return User.objects.get(username__iexact=config.bot_username, is_bot=True)
         except User.DoesNotExist:
             return None
+
+
+class NebyTask(models.Model):
+    STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('processing', 'Processing'),
+        ('done', 'Done'),
+        ('failed', 'Failed'),
+    ]
+    TRIGGER_CHOICES = [
+        ('post_mention', 'Post Mention'),
+        ('reply_mention', 'Reply Mention'),
+    ]
+    id = models.CharField(max_length=36, primary_key=True)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending', db_index=True)
+    trigger = models.CharField(max_length=20, choices=TRIGGER_CHOICES)
+    post_id = models.CharField(max_length=36)
+    reply_id = models.CharField(max_length=36, blank=True, null=True)
+    created_at = models.BigIntegerField()
+    started_at = models.BigIntegerField(default=0)
+    finished_at = models.BigIntegerField(default=0)
+    attempts = models.PositiveSmallIntegerField(default=0)
+    error_message = models.TextField(blank=True, default='')
+
+    class Meta:
+        db_table = 'neby_tasks'
+        ordering = ['created_at']
+        indexes = [
+            models.Index(fields=['status', 'created_at']),
+        ]
