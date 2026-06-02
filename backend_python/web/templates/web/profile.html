@@ -696,13 +696,13 @@
                   <span class="pf-stat-label">Replies</span>
                   <span class="pf-stat-num">{{ stats.reply_count|default:0 }}</span>
                 </div>
-                <div class="pf-stat-col">
-                  <span class="pf-stat-label">Threads</span>
-                  <span class="pf-stat-num">{{ stats.post_count|default:0 }}</span>
+                <div class="pf-stat-col" onclick="openFollowModal('followers')">
+                  <span class="pf-stat-label">Followers</span>
+                  <span class="pf-stat-num" id="cntFollowers">{{ stats.follower_count|default:0 }}</span>
                 </div>
-                <div class="pf-stat-col">
-                  <span class="pf-stat-label">Likes</span>
-                  <span class="pf-stat-num">{{ stats.likes_received|default:0 }}</span>
+                <div class="pf-stat-col" onclick="openFollowModal('following')">
+                  <span class="pf-stat-label">Following</span>
+                  <span class="pf-stat-num">{{ stats.following_count|default:0 }}</span>
                 </div>
               {% else %}
                 <div class="pf-stat-col" onclick="openFollowModal('followers')">
@@ -732,28 +732,27 @@
                   Share
                 </button>
               {% else %}
-                {% if profile_user.is_bot %}
-                  <a href="{% url 'web:create_post' %}" class="pf-btn pf-btn-filled pf-btn-bot-cta">
-                    <span class="material-symbols-outlined">alternate_email</span>
-                    Try @neby
-                  </a>
-                  <button class="pf-btn pf-btn-outlined" onclick="navigator.clipboard.writeText('@neby'); showSnackbar('Copied! Now mention @neby in any post to chat with me.');">
-                    <span class="material-symbols-outlined">content_copy</span>
-                    Copy Mention
+                {% if is_authenticated %}
+                  <button id="btnFollowToggle" onclick="toggleFollowUser('{{ profile_user.id }}')"
+                          class="pf-btn {% if stats.is_following %}pf-btn-outlined{% else %}pf-btn-filled{% endif %}">
+                    {% if not stats.is_following %}
+                      <span class="material-symbols-outlined">add</span>
+                    {% endif %}
+                    <span id="followText">{% if stats.is_following %}Following{% else %}Follow{% endif %}</span>
                   </button>
                 {% else %}
-                  {% if is_authenticated %}
-                    <button id="btnFollowToggle" onclick="toggleFollowUser('{{ profile_user.id }}')"
-                            class="pf-btn {% if stats.is_following %}pf-btn-outlined{% else %}pf-btn-filled{% endif %}">
-                      <span class="material-symbols-outlined">{% if stats.is_following %}remove{% else %}add{% endif %}</span>
-                      <span id="followText">{% if stats.is_following %}Following{% else %}Follow{% endif %}</span>
-                    </button>
-                  {% else %}
-                    <a href="{% url 'web:login' %}?next={{ request.path }}" class="pf-btn pf-btn-filled" style="text-decoration:none;">
-                      <span class="material-symbols-outlined">add</span>
-                      Follow
-                    </a>
-                  {% endif %}
+                  <a href="{% url 'web:login' %}?next={{ request.path }}" class="pf-btn pf-btn-filled" style="text-decoration:none;">
+                    <span class="material-symbols-outlined">add</span>
+                    Follow
+                  </a>
+                {% endif %}
+
+                {% if profile_user.is_bot %}
+                  <button class="pf-btn pf-btn-outlined" onclick="navigator.clipboard.writeText('@{{ profile_user.username }}'); showSnackbar('Copied @{{ profile_user.username }}! Mention them in any post to start chatting.');">
+                    <span class="material-symbols-outlined">alternate_email</span>
+                    Try Neby
+                  </button>
+                {% else %}
                   <button class="pf-btn pf-btn-outlined" onclick="navigator.clipboard.writeText('@{{ profile_user.username }}'); showSnackbar('Copied username handle! Mention them in the forum.');">
                     <span class="material-symbols-outlined">alternate_email</span>
                     Mention
@@ -845,16 +844,7 @@
                 I read every post that mentions me. Drop <code>@neby</code> into a question
                 and I'll join the thread with an answer, an explanation, or a study tip.
               </p>
-              <div class="pf-bot-cta-actions">
-                <a href="{% url 'web:create_post' %}" class="pf-btn pf-btn-filled pf-btn-bot-cta">
-                  <span class="material-symbols-outlined">edit</span>
-                  Start a discussion
-                </a>
-                <a href="{% url 'web:forum' %}" class="pf-btn pf-btn-outlined">
-                  <span class="material-symbols-outlined">forum</span>
-                  Browse forum
-                </a>
-              </div>
+
             </div>
           </div>
         {% endif %}
@@ -1487,7 +1477,7 @@ async function toggleFollowUser(uid) {
     if (d && d.error) { showSnackbar(d.error); return; }
     if (d) {
       btn.className = d.is_following ? 'pf-btn pf-btn-outlined' : 'pf-btn pf-btn-filled';
-      btn.innerHTML = `<span class="material-symbols-outlined">${d.is_following ? 'remove' : 'add'}</span><span id="followText">${d.is_following ? 'Following' : 'Follow'}</span>`;
+      btn.innerHTML = d.is_following ? `<span id="followText">Following</span>` : `<span class="material-symbols-outlined">add</span><span id="followText">Follow</span>`;
       const c = document.getElementById('cntFollowers');
       if (c) c.textContent = d.follower_count;
       const c_about = document.getElementById('cntFollowers_About');
