@@ -22,6 +22,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -33,22 +34,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.neb.ians.data.api.ApiResource
 import com.neb.ians.ui.components.ErrorCard
 import com.neb.ians.ui.components.ShimmerLibraryGrid
-
-private val subjectColors = mapOf(
-    "Physics" to Color(0xFF1B6EF3),
-    "Chemistry" to Color(0xFF006E1C),
-    "Mathematics" to Color(0xFFBA1A1A),
-    "Biology" to Color(0xFF006E1C),
-    "English" to Color(0xFF6F5677),
-    "Nepali" to Color(0xFFBA1A1A),
-    "Computer Science" to Color(0xFF0061A4),
-    "Economics" to Color(0xFFBA1A1A),
-    "Accountancy" to Color(0xFF0061A4)
-)
-
-private fun getSubjectColor(subject: String): Color {
-    return subjectColors[subject] ?: Color(0xFF565F71)
-}
+import com.neb.ians.ui.theme.getSubjectTheme
 
 private fun getSubjectIcon(subject: String): Int {
     return when (subject) {
@@ -321,86 +307,82 @@ private fun LibraryResourceCard(
     resource: ApiResource,
     onClick: () -> Unit
 ) {
-    val subjectColor = getSubjectColor(resource.subject)
+    val subjectTheme = getSubjectTheme(resource.subject)
 
     Card(
         onClick = onClick,
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-        )
+            containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
+        ),
+        border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
     ) {
         Column {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(88.dp)
-                    .background(subjectColor.copy(alpha = 0.12f)),
+                    .height(100.dp)
+                    .background(Brush.linearGradient(listOf(subjectTheme.container, subjectTheme.color))),
                 contentAlignment = Alignment.Center
             ) {
-                Icon(
-                    painter = painterResource(id = getSubjectIcon(resource.subject)),
-                    contentDescription = null,
-                    modifier = Modifier.size(36.dp),
-                    tint = subjectColor
-                )
+                Surface(
+                    shape = RoundedCornerShape(50),
+                    color = MaterialTheme.colorScheme.surface.copy(alpha = 0.9f),
+                    modifier = Modifier.size(40.dp)
+                ) {
+                    Box(contentAlignment = Alignment.Center) {
+                        Icon(
+                            painter = painterResource(id = getSubjectIcon(resource.subject)),
+                            contentDescription = null,
+                            modifier = Modifier.size(20.dp),
+                            tint = subjectTheme.color
+                        )
+                    }
+                }
             }
 
             Column(
                 modifier = Modifier.padding(12.dp)
             ) {
+                Surface(
+                    shape = RoundedCornerShape(50),
+                    color = subjectTheme.container,
+                    modifier = Modifier.padding(bottom = 6.dp)
+                ) {
+                    Text(
+                        text = resource.subject,
+                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp),
+                        style = MaterialTheme.typography.labelSmall,
+                        fontWeight = FontWeight.Bold,
+                        color = subjectTheme.onContainer,
+                        maxLines = 1
+                    )
+                }
+
                 Text(
                     text = resource.title,
                     style = MaterialTheme.typography.bodyMedium,
-                    fontWeight = FontWeight.Medium,
+                    fontWeight = FontWeight.SemiBold,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
-                    color = MaterialTheme.colorScheme.onSurface
+                    color = MaterialTheme.colorScheme.onSurface,
+                    modifier = Modifier.heightIn(min = 40.dp)
                 )
 
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Row(
-                    horizontalArrangement = Arrangement.spacedBy(6.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Surface(
-                        shape = RoundedCornerShape(8.dp),
-                        color = subjectColor.copy(alpha = 0.12f)
-                    ) {
-                        Text(
-                            text = resource.subject,
-                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 3.dp),
-                            style = MaterialTheme.typography.labelSmall,
-                            fontWeight = FontWeight.Medium,
-                            color = subjectColor,
-                            maxLines = 1
-                        )
-                    }
-
-                    Surface(
-                        shape = RoundedCornerShape(8.dp),
-                        color = MaterialTheme.colorScheme.surfaceContainerHighest
-                    ) {
-                        Text(
-                            text = resource.type,
-                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 3.dp),
-                            style = MaterialTheme.typography.labelSmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            maxLines = 1
-                        )
-                    }
-                }
-
-                Spacer(modifier = Modifier.height(6.dp))
-
-                Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Start,
+                    horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
                         text = resource.gradeLevel,
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    Text(
+                        text = resource.type,
                         style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
