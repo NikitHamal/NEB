@@ -333,6 +333,12 @@ def _link_oauth_user_model(email, user_pk, display_name, photo_url):
         return None
     except Exception:
         return None
+
+
+@api_view(['POST'])
+@authentication_classes([])
+def auth_google(request):
+    """
     Sign-in or Register via Google ID Token.
     Body: { "idToken": "<google_id_token>" }
     Returns: { "status": "success", "isNewUser": bool, "authToken": "...", "user": {...} }
