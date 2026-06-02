@@ -3,16 +3,27 @@ name: Build Release APKs
 on:
   push:
     branches:
-      - '**'
-    paths-ignore:
-      - 'backend_python/**'
-      - '.github/workflows/deploy-backend.yml'
-      - 'README.md'
+      - main
+    paths:
+      - 'app/**'
+      - 'build.gradle.kts'
+      - 'settings.gradle.kts'
+      - 'gradle.properties'
+      - 'gradle/**'
   workflow_dispatch:
+    inputs:
+      build_legacy:
+        description: 'Build legacy APK (minSdk 24)'
+        required: false
+        default: 'false'
+        type: choice
+        options:
+          - 'false'
+          - 'true'
 
 jobs:
   build:
-    name: Build Signed Release APKs
+    name: Build Release APK
     runs-on: ubuntu-latest
 
     steps:
@@ -25,100 +36,47 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Cache Gradle wrapper
-        uses: actions/cache@v4
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
         with:
-          path: ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-wrapper-
-
-      - name: Cache Gradle dependencies
-        uses: actions/cache@v4
-        with:
-          path: ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-caches-${{ hashFiles('**/*.gradle.kts', '**/gradle.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-caches-
-
-      - name: Cache Gradle build cache
-        uses: actions/cache@v4
-        with:
-          path: ~/.gradle/build-cache
-          key: ${{ runner.os }}-gradle-build-cache-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-build-cache-
-
-      - name: Grant execute permission on gradlew
-        run: chmod +x gradlew
+          cache-read-only: false
+          gradle-home-cache-cleanup: true
 
       - name: Inject Google Services JSON
         env:
           GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
-        run: |
-          echo "$GOOGLE_SERVICES_JSON" > app/google-services.json
+        run: echo "$GOOGLE_SERVICES_JSON" > app/google-services.json
 
-      - name: Build Modern and Legacy Release APKs
-        run: ./gradlew assembleModernRelease assembleLegacyRelease --no-daemon
+      - name: Build Modern Release APK
+        run: ./gradlew assembleModernRelease
         env:
-          GRADLE_OPTS: >-
-            -Dorg.gradle.daemon=true
-            -Dorg.gradle.caching=true
-            -Dorg.gradle.parallel=true
-            -Dorg.gradle.jvmargs=-Xmx4g
+          GRADLE_OPTS: -Dorg.gradle.jvmargs=-Xmx3g
 
-      - name: Get version name and commit hash
-        id: app-info
+      - name: Build Legacy Release APK
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.build_legacy == 'true'
+        run: ./gradlew assembleLegacyRelease
+        env:
+          GRADLE_OPTS: -Dorg.gradle.jvmargs=-Xmx3g
+
+      - name: Get version and commit info
+        id: info
         run: |
-          VERSION_NAME=$(grep 'versionName' app/build.gradle.kts | head -1 | sed 's/.*versionName\s*=\s*"\(.*\)"/\1/')
-          COMMIT_HASH=$(echo "${{ github.sha }}" | cut -c1-7)
-          echo "version_name=$VERSION_NAME" >> "$GITHUB_OUTPUT"
-          echo "commit_hash=$COMMIT_HASH" >> "$GITHUB_OUTPUT"
-          echo "Version: $VERSION_NAME | Commit: $COMMIT_HASH"
+          VERSION=$(grep 'versionName' app/build.gradle.kts | head -1 | sed 's/.*versionName\s*=\s*"\(.*\)"/\1/')
+          HASH=$(echo "${{ github.sha }}" | cut -c1-7)
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "hash=$HASH" >> "$GITHUB_OUTPUT"
 
-      - name: Rename APKs with version and commit hash
-        run: |
-          VERSION="${{ steps.app-info.outputs.version_name }}"
-          HASH="${{ steps.app-info.outputs.commit_hash }}"
-
-          MODERN_SRC=$(find app/build/outputs/apk/modern/release -name "*.apk" | head -1)
-          LEGACY_SRC=$(find app/build/outputs/apk/legacy/release -name "*.apk" | head -1)
-
-          MODERN_DEST="app/build/outputs/apk/modern/release/NEBians-modern-v${VERSION}-${HASH}.apk"
-          LEGACY_DEST="app/build/outputs/apk/legacy/release/NEBians-legacy-v${VERSION}-${HASH}.apk"
-
-          mv "$MODERN_SRC" "$MODERN_DEST"
-          mv "$LEGACY_SRC" "$LEGACY_DEST"
-
-          echo "MODERN_APK=$MODERN_DEST" >> "$GITHUB_ENV"
-          echo "LEGACY_APK=$LEGACY_DEST" >> "$GITHUB_ENV"
-
-      - name: Display APK info and sizes
-        run: |
-          echo "============================================"
-          echo "  NEBians Release APK Build Summary"
-          echo "============================================"
-          echo ""
-          echo "Modern APK (minSdk 28):"
-          echo "  Path: $MODERN_APK"
-          echo "  Size: $(du -h "$MODERN_APK" | cut -f1)"
-          echo ""
-          echo "Legacy APK (minSdk 24):"
-          echo "  Path: $LEGACY_APK"
-          echo "  Size: $(du -h "$LEGACY_APK" | cut -f1)"
-          echo ""
-          echo "============================================"
-
-      - name: Upload Modern Release APK
+      - name: Upload Modern APK
         uses: actions/upload-artifact@v4
         with:
-          name: NEBians-modern-v${{ steps.app-info.outputs.version_name }}-${{ steps.app-info.outputs.commit_hash }}
-          path: ${{ env.MODERN_APK }}
+          name: NEBians-modern-v${{ steps.info.outputs.version }}-${{ steps.info.outputs.hash }}
+          path: app/build/outputs/apk/modern/release/*.apk
           retention-days: 30
 
-      - name: Upload Legacy Release APK
+      - name: Upload Legacy APK
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.build_legacy == 'true'
         uses: actions/upload-artifact@v4
         with:
-          name: NEBians-legacy-v${{ steps.app-info.outputs.version_name }}-${{ steps.app-info.outputs.commit_hash }}
-          path: ${{ env.LEGACY_APK }}
+          name: NEBians-legacy-v${{ steps.info.outputs.version }}-${{ steps.info.outputs.hash }}
+          path: app/build/outputs/apk/legacy/release/*.apk
           retention-days: 30
