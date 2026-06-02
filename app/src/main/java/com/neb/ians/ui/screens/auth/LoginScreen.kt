@@ -1,9 +1,7 @@
 package com.neb.ians.ui.screens.auth
 
-import android.app.Activity
-import android.content.Intent
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
+import android.net.Uri
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
@@ -22,13 +20,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.credentials.CredentialManager
-import androidx.credentials.GetCredentialRequest
-import androidx.credentials.exceptions.GetCredentialException
-import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.neb.ians.data.repository.AuthRepository
-import com.neb.ians.data.repository.OAuthResult
-import kotlinx.coroutines.launch
 
 @Composable
 fun LoginScreen(
@@ -39,34 +31,7 @@ fun LoginScreen(
     onNavigateToEmailLogin: () -> Unit = {}
 ) {
     val context = LocalContext.current
-    val scope = rememberCoroutineScope()
-    var isLoading by remember { mutableStateOf(false) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
-
-    val githubAuthLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            val code = result.data?.getStringExtra("github_code")
-            val error = result.data?.getStringExtra("github_error")
-            if (code != null) {
-                isLoading = true
-                scope.launch {
-                    when (val res = authRepository.signInWithGitHub(code)) {
-                        is OAuthResult.Success -> {
-                            if (res.isNewUser) onNavigateToCompleteProfile() else onNavigateToHome()
-                        }
-                        is OAuthResult.Failure -> {
-                            errorMessage = res.message
-                        }
-                    }
-                    isLoading = false
-                }
-            } else if (error != null) {
-                errorMessage = error
-            }
-        }
-    }
 
     val isDark = isSystemInDarkTheme()
     val bgGradient = if (isDark) {
@@ -75,6 +40,21 @@ fun LoginScreen(
         Brush.linearGradient(listOf(Color(0xFFF5F6FA), Color(0xFFEBEEF5)))
     }
     val cardColor = if (isDark) Color(0xFF131316) else Color(0xFFFFFFFF)
+
+    fun launchOAuth(provider: String) {
+        val url = if (provider == "google") {
+            "https://nebians.consica.com.np/auth/google/login/?state=mobile_google"
+        } else {
+            "https://nebians.consica.com.np/auth/github/login/?mobile=1"
+        }
+
+        try {
+            val customTabsIntent = CustomTabsIntent.Builder().build()
+            customTabsIntent.launchUrl(context, Uri.parse(url))
+        } catch (e: Exception) {
+            errorMessage = "No browser available for sign-in."
+        }
+    }
 
     Box(
         modifier = Modifier
@@ -121,151 +101,105 @@ fun LoginScreen(
 
             Spacer(modifier = Modifier.height(32.dp))
 
-            if (isLoading) {
-                CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
-            } else {
-                Button(
-                    onClick = {
-                        errorMessage = null
-                        isLoading = true
-                        scope.launch {
-                            try {
-                                val activity = context as Activity
-                                val credentialManager = CredentialManager.create(activity)
-                                val googleIdOption = GetGoogleIdOption.Builder()
-                                    .setServerClientId(AuthRepository.GOOGLE_SERVER_CLIENT_ID)
-                                    .setFilterByAuthorizedAccounts(false)
-                                    .setAutoSelectEnabled(false)
-                                    .build()
-                                val request = GetCredentialRequest.Builder()
-                                    .addCredentialOption(googleIdOption)
-                                    .build()
-                                val result = credentialManager.getCredential(
-                                    request = request,
-                                    context = activity
-                                )
-                                val idToken = result.credential.data.getString("googleIdToken")
-                                    ?: run {
-                                    errorMessage = "Google sign-in failed: no ID token"
-                                    isLoading = false
-                                    return@launch
-                                }
-                                when (val res = authRepository.signInWithGoogle(idToken)) {
-                                    is OAuthResult.Success -> {
-                                        if (res.isNewUser) onNavigateToCompleteProfile() else onNavigateToHome()
-                                    }
-                                    is OAuthResult.Failure -> {
-                                        errorMessage = res.message
-                                    }
-                                }
-                            } catch (e: GetCredentialException) {
-                                errorMessage = when {
-                                    e.message?.contains("No credential", ignoreCase = true) == true -> "No Google accounts found. Please sign in with email instead."
-                                    e.message?.contains("cancelled", ignoreCase = true) == true -> null
-                                    else -> "Google sign-in failed: ${e.message}"
-                                }
-                            } catch (e: Exception) {
-                                errorMessage = "Google sign-in failed: ${e.localizedMessage}"
-                            }
-                            isLoading = false
-                        }
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(48.dp),
-                    shape = RoundedCornerShape(10.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = if (isDark) Color(0xFF1C1C20) else Color(0xFFF9FAFB),
-                        contentColor = MaterialTheme.colorScheme.onSurface
-                    ),
-                    border = androidx.compose.foundation.BorderStroke(1.dp, if (isDark) Color(0xFF2A2A30) else Color(0xFFE5E7EB))
-                ) {
-                    Text(
-                        text = "Continue with Google",
-                        style = MaterialTheme.typography.labelLarge,
-                        fontWeight = FontWeight.Medium
-                    )
-                }
+            Button(
+                onClick = {
+                    errorMessage = null
+                    launchOAuth("google")
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(48.dp),
+                shape = RoundedCornerShape(10.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = if (isDark) Color(0xFF1C1C20) else Color(0xFFF9FAFB),
+                    contentColor = MaterialTheme.colorScheme.onSurface
+                ),
+                border = androidx.compose.foundation.BorderStroke(1.dp, if (isDark) Color(0xFF2A2A30) else Color(0xFFE5E7EB))
+            ) {
+                Text(
+                    text = "Continue with Google",
+                    style = MaterialTheme.typography.labelLarge,
+                    fontWeight = FontWeight.Medium
+                )
+            }
 
-                Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(12.dp))
 
-                Button(
-                    onClick = {
-                        errorMessage = null
-                        val intent = Intent(context, GitHubAuthActivity::class.java)
-                        githubAuthLauncher.launch(intent)
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(48.dp),
-                    shape = RoundedCornerShape(10.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = if (isDark) Color(0xFF1C1C20) else Color(0xFFF9FAFB),
-                        contentColor = MaterialTheme.colorScheme.onSurface
-                    ),
-                    border = androidx.compose.foundation.BorderStroke(1.dp, if (isDark) Color(0xFF2A2A30) else Color(0xFFE5E7EB))
-                ) {
-                    Text(
-                        text = "Continue with GitHub",
-                        style = MaterialTheme.typography.labelLarge,
-                        fontWeight = FontWeight.Medium
-                    )
-                }
+            Button(
+                onClick = {
+                    errorMessage = null
+                    launchOAuth("github")
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(48.dp),
+                shape = RoundedCornerShape(10.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = if (isDark) Color(0xFF1C1C20) else Color(0xFFF9FAFB),
+                    contentColor = MaterialTheme.colorScheme.onSurface
+                ),
+                border = androidx.compose.foundation.BorderStroke(1.dp, if (isDark) Color(0xFF2A2A30) else Color(0xFFE5E7EB))
+            ) {
+                Text(
+                    text = "Continue with GitHub",
+                    style = MaterialTheme.typography.labelLarge,
+                    fontWeight = FontWeight.Medium
+                )
+            }
 
-                Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    HorizontalDivider(modifier = Modifier.weight(1f), color = if (isDark) Color(0xFF2A2A30) else Color(0xFFE5E7EB))
-                    Text(
-                        text = "  or  ",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                    HorizontalDivider(modifier = Modifier.weight(1f), color = if (isDark) Color(0xFF2A2A30) else Color(0xFFE5E7EB))
-                }
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                HorizontalDivider(modifier = Modifier.weight(1f), color = if (isDark) Color(0xFF2A2A30) else Color(0xFFE5E7EB))
+                Text(
+                    text = "  or  ",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                HorizontalDivider(modifier = Modifier.weight(1f), color = if (isDark) Color(0xFF2A2A30) else Color(0xFFE5E7EB))
+            }
 
-                Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
-                Button(
-                    onClick = onNavigateToEmailLogin,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(48.dp),
-                    shape = RoundedCornerShape(10.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.primary,
-                        contentColor = MaterialTheme.colorScheme.onPrimary
-                    )
-                ) {
-                    Icon(
-                        imageVector = Icons.Filled.Email,
-                        contentDescription = null,
-                        modifier = Modifier.size(20.dp)
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(
-                        text = "Sign in with Email",
-                        style = MaterialTheme.typography.labelLarge,
-                        fontWeight = FontWeight.Medium
-                    )
-                }
+            Button(
+                onClick = onNavigateToEmailLogin,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(48.dp),
+                shape = RoundedCornerShape(10.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    contentColor = MaterialTheme.colorScheme.onPrimary
+                )
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.Email,
+                    contentDescription = null,
+                    modifier = Modifier.size(20.dp)
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(
+                    text = "Sign in with Email",
+                    style = MaterialTheme.typography.labelLarge,
+                    fontWeight = FontWeight.Medium
+                )
+            }
 
-                Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
-                TextButton(
-                    onClick = onNavigateToEmailSignup,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text(
-                        text = "Don't have an account? Register",
-                        style = MaterialTheme.typography.labelLarge,
-                        fontWeight = FontWeight.Medium,
-                        color = MaterialTheme.colorScheme.primary
-                    )
-                }
+            TextButton(
+                onClick = onNavigateToEmailSignup,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(
+                    text = "Don't have an account? Register",
+                    style = MaterialTheme.typography.labelLarge,
+                    fontWeight = FontWeight.Medium,
+                    color = MaterialTheme.colorScheme.primary
+                )
             }
         }
     }
