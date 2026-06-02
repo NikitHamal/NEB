@@ -633,12 +633,16 @@
     function addItem(name) {
       name = name.trim();
       if (!name) return;
-      var lower = name.toLowerCase();
-      var exists = items.some(function(s) { return s.toLowerCase() === lower; });
-      if (!exists) {
-        items.push(name);
-        renderChips();
-      }
+      name.split(/[,;]/).forEach(function(part) {
+        part = part.trim();
+        if (!part) return;
+        var lower = part.toLowerCase();
+        var exists = items.some(function(s) { return s.toLowerCase() === lower; });
+        if (!exists) {
+          items.push(part);
+        }
+      });
+      renderChips();
     }
 
     function removeItem(name) {
