@@ -132,7 +132,7 @@ def _verify_user_code(user, code, purpose):
     now = _now_ms()
     if user.verification_code_expires < now:
         return False, Response({'error': 'Invalid or expired verification code'}, status=400)
-    if purpose is not None and user.verification_code_purpose and user.verification_code_purpose != purpose:
+    if user.verification_code_purpose and user.verification_code_purpose != purpose:
         if purpose == 'password_reset' and user.verification_code_purpose == 'set_password':
             pass
         elif purpose == 'set_password' and user.verification_code_purpose == 'password_reset':
@@ -185,6 +185,7 @@ def _paginated_response(request, queryset, serializer_class, *, context=None, de
 # ---------------------------------------------------------------------------
 
 @api_view(['POST'])
+@throttle_classes([AuthRateThrottle])
 def auth_github(request):
     """
     Sign-in or Register via GitHub OAuth authorization code (for mobile apps).
@@ -319,17 +320,34 @@ def auth_github(request):
 
 
 def _link_oauth_user_model(email, user_pk, display_name, photo_url):
-    """Link an OAuth user to an existing account by verified email. Returns User or None."""
+    """Link an OAuth user to an existing account by verified email.
+
+    Instead of changing the existing account's PK (which is dangerous with InnoDB FKs),
+    we transfer the OAuth identifiers to the existing account and delete the duplicate.
+    This preserves all FK references to the existing account.
+    """
     if not email:
         return None
     try:
         existing = User.objects.get(email__iexact=email)
-        existing.pk = user_pk
-        existing.display_name = display_name or existing.display_name
-        existing.photo_url = photo_url or existing.photo_url
+        # Don't link to self
+        if existing.pk == user_pk:
+            return existing
+        # Transfer display name and photo from OAuth account if existing doesn't have them
+        update_fields = []
+        if display_name and not existing.display_name:
+            existing.display_name = display_name
+            update_fields.append('display_name')
+        if photo_url and not existing.photo_url:
+            existing.photo_url = photo_url
+            update_fields.append('photo_url')
         if not existing.auth_token:
             existing.auth_token = User.generate_token()
-        existing.save()
+            update_fields.append('auth_token')
+        if update_fields:
+            existing.save(update_fields=update_fields)
+        # Delete the OAuth-created duplicate account
+        User.objects.filter(pk=user_pk).delete()
         return existing
     except User.DoesNotExist:
         return None
@@ -338,6 +356,7 @@ def _link_oauth_user_model(email, user_pk, display_name, photo_url):
 
 
 @api_view(['POST'])
+@throttle_classes([AuthRateThrottle])
 @authentication_classes([])
 def auth_google(request):
     """
@@ -1233,12 +1252,15 @@ def auth_email_login(request):
     if not password_ok:
         return Response({'error': 'Invalid email/username or password'}, status=401)
 
-    user.auth_token = User.generate_token()
-    update_fields = ['auth_token']
+    update_fields = []
+    if not user.auth_token:
+        user.auth_token = User.generate_token()
+        update_fields.append('auth_token')
     if needs_rehash:
         user.password_hash = hash_password(password)
         update_fields.append('password_hash')
-    user.save(update_fields=update_fields)
+    if update_fields:
+        user.save(update_fields=update_fields)
 
     logger.info("auth_email_login: user %s logged in", user.username)
     return Response({
@@ -1441,17 +1463,18 @@ def bookmark_toggle(request):
     elif target_type == 'resource':
         if not Resource.objects.filter(pk=target_id).exists():
             return Response({'error': 'Resource not found'}, status=404)
-    existing = Bookmark.objects.filter(user=user, target_type=target_type, target_id=target_id).first()
-    if existing:
-        existing.delete()
-        return Response({'isBookmarked': False})
-    Bookmark.objects.create(
-        id=str(uuid.uuid4()),
-        user=user,
-        target_type=target_type,
-        target_id=target_id,
-        created_at=_now_ms(),
-    )
+    with transaction.atomic():
+        existing = Bookmark.objects.select_for_update().filter(user=user, target_type=target_type, target_id=target_id).first()
+        if existing:
+            existing.delete()
+            return Response({'isBookmarked': False})
+        Bookmark.objects.create(
+            id=str(uuid.uuid4()),
+            user=user,
+            target_type=target_type,
+            target_id=target_id,
+            created_at=_now_ms(),
+        )
     return Response({'isBookmarked': True})
 
 
@@ -1591,6 +1614,12 @@ def posts_endpoint(request):
         reply_count=0,
         created_at=now,
     )
+    _counters.increment_user_post_count(user.id)
+    try:
+        from .neby import enqueue_if_post_mention
+        enqueue_if_post_mention(post)
+    except Exception:
+        pass
     logger.info("posts_endpoint: created post %s by user %s", post.id, user.username)
     return Response(PostSerializer(post, context={'request': request}).data, status=201)
 
@@ -1636,9 +1665,15 @@ def replies_endpoint(request, post_id):
             Reply.objects.filter(pk=parent_reply_id).update(reply_count=F('reply_count') + 1)
 
     logger.info("replies_endpoint: created reply on post %s by user %s", post_id, user.username)
+    _counters.increment_user_reply_count(user.id)
     _notif.notify_new_reply(user.id, post_id, reply.id)
     if parent_reply_id:
         _notif.notify_reply_to_reply(user.id, parent_reply_id, post_id, reply.id)
+    try:
+        from .neby import enqueue_if_reply_mention
+        enqueue_if_reply_mention(reply)
+    except Exception:
+        pass
     return Response(ReplySerializer(reply, context={'request': request}).data, status=201)
 
 
@@ -1782,7 +1817,7 @@ def user_follow_toggle(request, user_id):
         return Response({'error': 'User not found'}, status=404)
 
     with transaction.atomic():
-        existing = Follow.objects.filter(follower=current_user, following=target_user).first()
+        existing = Follow.objects.select_for_update().filter(follower=current_user, following=target_user).first()
         if existing:
             existing.delete()
             is_following = False

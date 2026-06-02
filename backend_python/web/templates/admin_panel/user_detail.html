@@ -61,14 +61,14 @@
 {% endblock %}
 
 {% block content %}
-<div style="margin-bottom:24px;">
+<div class="admin-back-link">
   <a href="{% url 'web:admin_users' %}" class="md-btn md-btn-text" style="padding-left:0;">
     <span class="material-symbols-outlined" style="font-size:18px;">arrow_back</span>
     Back to Users
   </a>
 </div>
 
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;" class="user-detail-grid">
+<div class="admin-grid-2">
   <div class="md-card-elevated p-3">
     <h2 class="md-title-large mb-2">Edit User</h2>
     <form method="post" enctype="multipart/form-data">
@@ -130,7 +130,7 @@
       </div>
 
       <div class="admin-profile-section">
-        <h3 class="md-title-medium" style="margin:20px 0 12px; padding-top:20px; border-top:1px solid var(--md-outline-variant);">Profile Content</h3>
+        <h3 class="md-title-medium admin-section-header">Profile Content</h3>
 
         <div class="form-group">
           <label class="md-label" for="bio">Bio</label>
@@ -205,29 +205,29 @@
       <div class="admin-badge-section">
         <h3 class="md-title-medium" style="margin-bottom:12px;">Badges & Roles</h3>
 
-<div class="form-group" style="display:flex;align-items:center;gap:12px;">
+<div class="form-group admin-switch-row">
           <label class="md-switch">
             <input type="checkbox" name="is_admin" id="is_admin" {% if user_detail.is_admin %}checked{% endif %}>
             <span class="slider"></span>
           </label>
           <div>
-            <label for="is_admin" class="md-label" style="margin-bottom:0;">Admin</label>
-            <div class="md-body-small" style="color:var(--md-on-surface-variant);">
-              <span class="material-symbols-outlined" style="font-size:14px;color:#F59E8B;vertical-align:middle;">crown</span>
+            <label for="is_admin" class="md-label admin-switch-label">Admin</label>
+            <div class="md-body-small admin-switch-desc">
+              <span class="material-symbols-outlined admin-role-icon admin-role-admin">crown</span>
               Gold crown badge
             </div>
           </div>
         </div>
 
-        <div class="form-group" style="display:flex;align-items:center;gap:12px;">
+        <div class="form-group admin-switch-row">
           <label class="md-switch">
             <input type="checkbox" name="is_bot" id="is_bot" {% if user_detail.is_bot %}checked{% endif %}>
             <span class="slider"></span>
           </label>
           <div>
-            <label for="is_bot" class="md-label" style="margin-bottom:0;">AI Bot</label>
-            <div class="md-body-small" style="color:var(--md-on-surface-variant);">
-              <span class="material-symbols-outlined" style="font-size:14px;color:#7C4DFF;vertical-align:middle;">smart_toy</span>
+            <label for="is_bot" class="md-label admin-switch-label">AI Bot</label>
+            <div class="md-body-small admin-switch-desc">
+              <span class="material-symbols-outlined admin-role-icon" style="font-size:14px;color:#7C4DFF;">smart_toy</span>
               Purple AI badge — marks this user as an AI assistant
             </div>
         </div>
