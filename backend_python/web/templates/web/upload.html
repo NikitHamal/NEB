@@ -8,11 +8,15 @@
 
 {% block content %}
 <div class="upload-page">
-  <div class="upload-hero">
-    <div class="upload-hero-content">
-      <h1>Share a Resource</h1>
-      <p>Help fellow students by sharing study materials. Your contribution will be reviewed before publishing.</p>
-    </div>
+  <div style="margin-top: 8px; margin-bottom: 24px;">
+    <a href="{% url 'web:library' %}" class="back-link" style="margin-bottom: 12px; display: inline-flex;">
+      <span class="material-symbols-outlined">arrow_back</span>
+      Back to Library
+    </a>
+    <h1 class="md-headline-medium" style="margin: 0;">Share a Resource</h1>
+    <p style="margin: 6px 0 0; color: var(--md-on-surface-variant); font-size: 0.875rem; line-height: 1.5;">
+      Help fellow students by sharing study materials. Your contribution will be reviewed before publishing.
+    </p>
   </div>
 
   {% if errors %}
@@ -281,9 +285,6 @@
 {% block extra_css %}
 <style>
 .upload-page { max-width: 680px; margin: 0 auto; padding: 24px 16px 48px; }
-.upload-hero { background: linear-gradient(135deg, var(--md-primary-container), var(--md-surface-container)); border-radius: 20px; padding: 32px 24px; margin-bottom: 24px; }
-.upload-hero h1 { font-size: 1.75rem; font-weight: 700; margin: 0 0 8px; color: var(--md-on-surface); }
-.upload-hero p { margin: 0; color: var(--md-on-surface-variant); font-size: 0.9375rem; line-height: 1.5; }
 .upload-section { background: var(--md-surface-container-low); border: 1px solid var(--md-outline-variant); border-radius: 16px; padding: 20px; margin-bottom: 16px; }
 .upload-section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
 .upload-section-header .material-symbols-outlined { font-size: 22px; color: var(--md-primary); }
@@ -522,7 +523,6 @@
 
 @media (max-width: 600px) {
   .upload-row { flex-direction: column; gap: 0; }
-  .upload-hero { padding: 24px 16px; }
   .upload-dropzone { padding: 24px 16px; }
   .upload-details-content { padding: 0 16px 16px; }
   .subject-pick-dialog { max-width: 100%; margin: 8px; }
