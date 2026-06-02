@@ -17,7 +17,7 @@ pip install -r requirements.txt
 REM Local development defaults. Override these in your shell or .env as needed.
 set DEBUG=True
 set SECRET_KEY=django-insecure-local-development-only-change-me
-set DB_ENGINE=sqlite
+set DB_ENGINE=mysql
 
 echo Migrating database
 python manage.py migrate

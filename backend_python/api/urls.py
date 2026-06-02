@@ -8,6 +8,7 @@ from . import views
 urlpatterns = [
     # Auth
     path('auth/google/', views.auth_google, name='auth-google'),
+    path('auth/github/', views.auth_github, name='auth-github'),
     path('auth/email/signup/', views.auth_email_signup, name='auth-email-signup'),
     path('auth/email/verify/', views.auth_email_verify, name='auth-email-verify'),
     path('auth/email/resend/', views.auth_email_resend, name='auth-email-resend'),
