@@ -344,7 +344,7 @@
 .upload-errors { background: color-mix(10%, var(--md-error), transparent); border: 1px solid var(--md-error); border-radius: 12px; padding: 12px 16px; margin-bottom: 16px; }
 .upload-error-item { color: var(--md-error); font-size: 0.875rem; margin-bottom: 4px; }
 .upload-error-item:last-child { margin-bottom: 0; }
-.upload-actions { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 8px; flex-wrap: wrap; }
+.upload-actions { display: flex; flex-direction: column; align-items: flex-start; gap: 16px; margin-top: 16px; }
 .upload-note { display: flex; align-items: flex-start; gap: 8px; font-size: 0.8125rem; color: var(--md-on-surface-variant); flex: 1; min-width: 200px; }
 .upload-note .material-symbols-outlined { font-size: 18px; margin-top: 1px; }
 .upload-alt { text-align: center; margin-top: 24px; padding: 16px; font-size: 0.9375rem; color: var(--md-on-surface-variant); }
@@ -359,7 +359,7 @@
 .upload-details-summary::after { content: ''; margin-left: auto; border: solid var(--md-on-surface-variant); border-width: 0 2px 2px 0; padding: 3px; transform: rotate(45deg); transition: transform 0.2s; }
 .upload-details[open] .upload-details-summary::after { transform: rotate(-135deg); }
 .upload-details-summary .material-symbols-outlined { font-size: 22px; color: var(--md-primary); }
-.upload-details-badge { font-size: 0.6875rem; font-weight: 500; background: var(--md-secondary-container); color: var(--md-on-secondary-container); padding: 2px 8px; border-radius: 8px; margin-left: 8px; text-transform: uppercase; letter-spacing: 0.03em; }
+.upload-details-badge { font-size: 0.6875rem; font-weight: 500; background: var(--md-primary-container); color: var(--md-on-primary-container); padding: 2px 8px; border-radius: 8px; margin-left: 8px; text-transform: uppercase; letter-spacing: 0.03em; }
 .upload-details-content { padding: 0 20px 20px; }
 
 /* Dropzone */
@@ -413,8 +413,8 @@
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  background: var(--md-secondary-container);
-  color: var(--md-on-secondary-container);
+  background: var(--md-primary-container);
+  color: var(--md-on-primary-container);
   padding: 4px 8px 4px 12px;
   border-radius: 20px;
   font-size: 0.8125rem;
@@ -429,13 +429,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--md-on-secondary-container);
+  color: var(--md-on-primary-container);
   opacity: 0.7;
   border-radius: 50%;
   width: 18px;
   height: 18px;
 }
-.subject-chip-remove:hover { opacity: 1; background: color-mix(15%, var(--md-on-secondary-container), transparent); }
+.subject-chip-remove:hover { opacity: 1; background: color-mix(15%, var(--md-on-primary-container), transparent); }
 .subject-chip-remove .material-symbols-outlined { font-size: 14px; }
 .subject-input-row { display: flex; gap: 8px; }
 .subject-input-row .md-input { flex: 1; }
@@ -673,19 +673,20 @@
 
     pickBtn.addEventListener('click', function() {
       overlay.style.display = '';
+      document.body.style.overflow = 'hidden';
       searchInput.value = '';
       filterList('');
       syncSelection();
       searchInput.focus();
     });
 
-    closeBtn.addEventListener('click', closeDialog);
-    cancelBtn.addEventListener('click', closeDialog);
+    closeBtn.addEventListener('click', function() { document.body.style.overflow = ''; overlay.style.display = 'none'; });
+    cancelBtn.addEventListener('click', function() { document.body.style.overflow = ''; overlay.style.display = 'none'; });
     overlay.addEventListener('click', function(e) {
-      if (e.target === overlay) closeDialog();
+      if (e.target === overlay) { document.body.style.overflow = ''; overlay.style.display = 'none'; }
     });
 
-    function closeDialog() { overlay.style.display = 'none'; }
+    function closeDialog() { overlay.style.display = 'none'; document.body.style.overflow = ''; }
 
     searchInput.addEventListener('input', function() { filterList(searchInput.value); });
 
@@ -731,7 +732,8 @@
       });
       items = selected;
       renderChips();
-      closeDialog();
+      document.body.style.overflow = '';
+      overlay.style.display = 'none';
     });
 
     function syncSelection() {
