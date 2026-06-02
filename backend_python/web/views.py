@@ -1468,7 +1468,7 @@ def google_oauth_callback(request):
         api.set_session_auth(request, token, user_data)
         logger.info('google_oauth_callback: existing user signed in: %s', db_user.username or db_user.id)
         if is_mobile:
-            return redirect(f'nebians://auth-callback?authToken={token}&isNewUser=false')
+            return redirect(f'nebians://auth-callback?authToken={token}&isNewUser=false&username={db_user.username}')
         return redirect('web:home')
     except User.DoesNotExist:
         pass
@@ -1606,7 +1606,7 @@ def github_callback(request):
         api.set_session_auth(request, token, user_data)
         logger.info('github_callback: existing user signed in: %s', db_user.username or db_user.id)
         if is_mobile:
-            return redirect(f'nebians://auth-callback?authToken={token}&isNewUser=false')
+            return redirect(f'nebians://auth-callback?authToken={token}&isNewUser=false&username={db_user.username}')
         return redirect('web:home')
     except User.DoesNotExist:
         pass
