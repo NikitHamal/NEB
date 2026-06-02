@@ -61,7 +61,7 @@ fun ForgotPasswordScreen(
             verticalArrangement = Arrangement.Center
         ) {
             Icon(
-                imageVector = Icons.Filled.LockReset,
+                imageVector = Icons.Filled.Lock,
                 contentDescription = null,
                 modifier = Modifier.size(48.dp),
                 tint = MaterialTheme.colorScheme.primary
@@ -136,7 +136,7 @@ fun ForgotPasswordScreen(
                     value = code,
                     onValueChange = { input -> code = input.filter { it.isDigit() }.take(6) },
                     label = { Text("Verification Code") },
-                    leadingIcon = { Icon(Icons.Default.Pin, contentDescription = null) },
+                    leadingIcon = { Icon(Icons.Default.Lock, contentDescription = null) },
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(12.dp),
@@ -154,7 +154,9 @@ fun ForgotPasswordScreen(
                     trailingIcon = {
                         IconButton(onClick = { passwordVisible = !passwordVisible }) {
                             Icon(
-                                imageVector = if (passwordVisible) Icons.Default.VisibilityOff else Icons.Default.Visibility,
+                                painter = androidx.compose.ui.res.painterResource(
+                                    id = if (passwordVisible) com.neb.ians.R.drawable.ic_visibility_off else com.neb.ians.R.drawable.ic_visibility
+                                ),
                                 contentDescription = null
                             )
                         }

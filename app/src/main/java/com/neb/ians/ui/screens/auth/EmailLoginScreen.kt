@@ -107,7 +107,9 @@ fun EmailLoginScreen(
                 trailingIcon = {
                     IconButton(onClick = { passwordVisible = !passwordVisible }) {
                         Icon(
-                            imageVector = if (passwordVisible) Icons.Default.VisibilityOff else Icons.Default.Visibility,
+                            painter = androidx.compose.ui.res.painterResource(
+                                id = if (passwordVisible) com.neb.ians.R.drawable.ic_visibility_off else com.neb.ians.R.drawable.ic_visibility
+                            ),
                             contentDescription = null
                         )
                     }

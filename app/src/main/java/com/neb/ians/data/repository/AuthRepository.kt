@@ -321,6 +321,32 @@ class AuthRepository @Inject constructor(
         }
     }
 
+    suspend fun completeProfile(profile: com.neb.ians.data.api.UserProfileRequest): Boolean {
+        return try {
+            val bearer = getBearerToken() ?: return false
+            val response = withContext(Dispatchers.IO) {
+                apiService.updateProfile(bearer, profile)
+            }
+            val user = response.user
+            withContext(Dispatchers.IO) {
+                dataStore.edit { prefs ->
+                    prefs[PROFILE_COMPLETED] = true
+                    prefs[USER_NAME] = user.username
+                    prefs[USER_DOB] = user.dob
+                    prefs[USER_GENDER] = user.gender ?: ""
+                    prefs[USER_CLASS] = user.classLevel ?: ""
+                    prefs[USER_SUBJECTS] = user.subjects ?: ""
+                    prefs[USER_PRADESH] = user.pradesh ?: ""
+                    prefs[USER_DISTRICT] = user.district ?: ""
+                    prefs[USER_SCHOOL] = user.school ?: ""
+                    prefs[USER_LOCKED] = user.isLocked == 1
+                    prefs[USER_HAS_PASSWORD] = user.hasPassword
+                }
+            }
+            true
+        } catch (_: Exception) { false }
+    }
+
     suspend fun refreshProfile() {
         try {
             val bearer = getBearerToken() ?: return
