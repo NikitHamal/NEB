@@ -92,7 +92,7 @@ fun EmailSignupScreen(
                 value = username,
                 onValueChange = { username = it.trim() },
                 label = { Text("Username") },
-                leadingIcon = { Icon(Icons.Default.AlternateEmail, contentDescription = null) },
+                leadingIcon = { Icon(Icons.Default.Email, contentDescription = null) },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(12.dp),
@@ -122,7 +122,9 @@ fun EmailSignupScreen(
                 trailingIcon = {
                     IconButton(onClick = { passwordVisible = !passwordVisible }) {
                         Icon(
-                            imageVector = if (passwordVisible) Icons.Default.VisibilityOff else Icons.Default.Visibility,
+                            painter = androidx.compose.ui.res.painterResource(
+                                id = if (passwordVisible) com.neb.ians.R.drawable.ic_visibility_off else com.neb.ians.R.drawable.ic_visibility
+                            ),
                             contentDescription = null
                         )
                     }
@@ -145,7 +147,9 @@ fun EmailSignupScreen(
                 trailingIcon = {
                     IconButton(onClick = { confirmPasswordVisible = !confirmPasswordVisible }) {
                         Icon(
-                            imageVector = if (confirmPasswordVisible) Icons.Default.VisibilityOff else Icons.Default.Visibility,
+                            painter = androidx.compose.ui.res.painterResource(
+                                id = if (confirmPasswordVisible) com.neb.ians.R.drawable.ic_visibility_off else com.neb.ians.R.drawable.ic_visibility
+                            ),
                             contentDescription = null
                         )
                     }

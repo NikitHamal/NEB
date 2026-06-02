@@ -116,14 +116,14 @@ fun CompleteProfileScreen(
                 value = uiState.username,
                 onValueChange = viewModel::onUsernameChange,
                 label = { Text("Username") },
-                leadingIcon = { Icon(Icons.Default.AlternateEmail, contentDescription = null) },
+                leadingIcon = { Icon(Icons.Default.Email, contentDescription = null) },
                 trailingIcon = {
                     when {
                         uiState.isCheckingUsername -> CircularProgressIndicator(modifier = Modifier.size(20.dp), strokeWidth = 2.dp)
                         uiState.usernameAvailable == true || (uiState.isEditing && uiState.username.isBlank()) ->
-                            Icon(Icons.Default.CheckCircle, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
+                            Icon(Icons.Default.Check, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
                         uiState.usernameAvailable == false || uiState.usernameError != null ->
-                            Icon(Icons.Default.Error, contentDescription = null, tint = MaterialTheme.colorScheme.error)
+                            Icon(Icons.Default.Warning, contentDescription = null, tint = MaterialTheme.colorScheme.error)
                     }
                 },
                 isError = uiState.usernameError != null || uiState.usernameAvailable == false,
@@ -158,7 +158,7 @@ fun CompleteProfileScreen(
                 onValueChange = {},
                 readOnly = true,
                 label = { Text("Date of Birth") },
-                leadingIcon = { Icon(Icons.Default.CalendarToday, contentDescription = null) },
+                leadingIcon = { Icon(Icons.Default.DateRange, contentDescription = null) },
                 placeholder = { Text("YYYY-MM-DD") },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -318,7 +318,7 @@ fun CompleteProfileScreen(
                 value = uiState.school,
                 onValueChange = viewModel::onSchoolChange,
                 label = { Text("School / College Name") },
-                leadingIcon = { Icon(Icons.Default.School, contentDescription = null) },
+                leadingIcon = { Icon(androidx.compose.ui.res.painterResource(id = com.neb.ians.R.drawable.ic_school), contentDescription = null) },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(12.dp)
@@ -341,7 +341,7 @@ fun CompleteProfileScreen(
                     Column(modifier = Modifier.weight(1f)) {
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Icon(
-                                imageVector = if (uiState.isLocked) Icons.Default.Lock else Icons.Default.LockOpen,
+                                imageVector = Icons.Default.Lock,
                                 contentDescription = null,
                                 tint = MaterialTheme.colorScheme.primary,
                                 modifier = Modifier.size(20.dp)
