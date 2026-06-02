@@ -72,6 +72,7 @@
   @media (max-width: 900px) {
     .profile-page {
       padding: 0 16px 24px;
+      overflow: hidden;
     }
   }
 
@@ -83,6 +84,7 @@
     border-bottom: 1px solid var(--md-outline-variant);
     position: relative;
     overflow-x: auto;
+    max-width: 100%;
     scrollbar-width: none;
     -ms-overflow-style: none;
   }
@@ -327,7 +329,8 @@
     .profile-header-inner { flex-direction: column; align-items: center; text-align: center; padding: 20px 16px; }
     .pf-badges { justify-content: center; }
     .pf-actions { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
-    .profile-tab { padding: 12px 12px 10px; font-size: 0.8125rem; }
+    .profile-tab { padding: 10px 10px 8px; font-size: 0.8125rem; }
+    .profile-tab .tab-count { font-size: 0.625rem; padding: 1px 5px; min-width: 16px; }
     .overview-grid, .overview-grid.three-col { grid-template-columns: 1fr 1fr; }
     .pf-reply-card { padding: 12px; }
     .pf-reply-card-context { padding: 6px 10px; }
@@ -1002,8 +1005,6 @@
                       {% endif %}
                     </div>
                     <div class="post-meta-sub">
-                      <span class="act-action-text">{% if post.is_resource %}shared a resource{% else %}posted{% endif %}</span>
-                      <span class="dot-sep">&middot;</span>
                       <a href="{% url 'web:forum' %}?category={{ post.category }}" class="post-card-category-link">{{ post.category }}</a>
                       <span class="dot-sep">&middot;</span>
                       <span class="post-card-time">{{ post.createdAt|time_ago }}</span>
@@ -1089,8 +1090,6 @@
                       {% endif %}
                     </div>
                     <div class="post-meta-sub">
-                      <span class="act-action-text">replied</span>
-                      <span class="dot-sep">&middot;</span>
                       <span class="post-card-time">{{ reply.createdAt|time_ago }}</span>
                     </div>
                   </div>
@@ -1152,19 +1151,16 @@
                       <span class="role-badge role-badge-{{ badge_info.type }}" title="{{ badge_info.label }}"><span class="material-symbols-outlined">{{ badge_info.icon }}</span></span>
                       {% endif %}
                       
-                      <!-- Approval Status Badge for Profile Owner -->
+<!-- Approval Status Badge for Profile Owner -->
                       {% if stats.is_self %}
-                        {% if r.approval_status == 'pending' %}
-                          <span class="user-badge" style="background: rgba(217, 119, 6, 0.12); color: #D97706; border: 1px solid rgba(217, 119, 6, 0.25); text-transform: uppercase; font-size: 0.6875rem; font-weight: 700; padding: 2px 8px; border-radius: 12px; margin-left: 8px;">Pending Review</span>
-                        {% elif r.approval_status == 'approved' %}
-                          <span class="user-badge" style="background: rgba(46, 125, 50, 0.12); color: #2E7D32; border: 1px solid rgba(46, 125, 50, 0.25); text-transform: uppercase; font-size: 0.6875rem; font-weight: 700; padding: 2px 8px; border-radius: 12px; margin-left: 8px;">Approved</span>
-                        {% elif r.approval_status == 'rejected' %}
-                          <span class="user-badge" style="background: rgba(211, 47, 47, 0.12); color: #D32F2F; border: 1px solid rgba(211, 47, 47, 0.25); text-transform: uppercase; font-size: 0.6875rem; font-weight: 700; padding: 2px 8px; border-radius: 12px; margin-left: 8px;">Rejected</span>
-                        {% endif %}
-                      {% endif %}
+                         {% if r.approval_status == 'pending' %}
+                           <span class="user-badge" style="background: rgba(217, 119, 6, 0.12); color: #D97706; border: 1px solid rgba(217, 119, 6, 0.25); text-transform: uppercase; font-size: 0.6875rem; font-weight: 700; padding: 2px 8px; border-radius: 12px; margin-left: 8px;">Pending Review</span>
+                         {% elif r.approval_status == 'rejected' %}
+                           <span class="user-badge" style="background: rgba(211, 47, 47, 0.12); color: #D32F2F; border: 1px solid rgba(211, 47, 47, 0.25); text-transform: uppercase; font-size: 0.6875rem; font-weight: 700; padding: 2px 8px; border-radius: 12px; margin-left: 8px;">Rejected{% if r.rejection_reason %}: {{ r.rejection_reason }}{% endif %}</span>
+                         {% endif %}
+                       {% endif %}
                     </div>
                     <div class="post-meta-sub">
-                      <span class="act-action-text">shared a resource in</span>
                       {% with subjs=r.subject|split:"," %}
                         {% for subj in subjs|slice:":2" %}
                           <span class="post-card-category-link" style="background-color: color-mix(in srgb, {{ subj|subject_color }} 8%, transparent); color: {{ subj|subject_color }}; border: 1px solid color-mix(in srgb, {{ subj|subject_color }} 20%, transparent); font-size: 0.75rem; font-weight: 600; padding: 2px 10px; border-radius: var(--md-radius-full); white-space: nowrap;">{{ subj }}</span>
@@ -1655,7 +1651,7 @@ async function loadMoreActivity() {
         const categoryHtml = escapeHtml(post.category || 'General');
         const postIdUrl = encodeURIComponent(post.id || '');
         const resourceIdUrl = encodeURIComponent(post.resource_id || '');
-        const actionText = post.is_resource ? 'shared a resource' : 'posted';
+        
         
         let contentHtml = '';
         if (post.is_resource) {
@@ -1710,13 +1706,11 @@ async function loadMoreActivity() {
                 <strong>${displayNameHtml}</strong>
                 ${badgeHtml}
               </div>
-              <div class="post-meta-sub">
-                <span class="act-action-text">${actionText}</span>
-                <span class="dot-sep">&middot;</span>
-                <a href="/forum/?category=${encodeURIComponent(post.category || '')}" class="post-card-category-link">${categoryHtml}</a>
-                <span class="dot-sep">&middot;</span>
-                <span class="post-card-time">${escapeHtml(timeAgo(post.createdAt))}</span>
-              </div>
+<div class="post-meta-sub">
+                 <a href="/forum/?category=${encodeURIComponent(post.category || '')}" class="post-card-category-link">${categoryHtml}</a>
+                 <span class="dot-sep">&middot;</span>
+                 <span class="post-card-time">${escapeHtml(timeAgo(post.createdAt))}</span>
+               </div>
             </div>
           </div>
           
@@ -1794,11 +1788,9 @@ async function loadMoreReplies() {
                 <strong>${displayNameHtml}</strong>
                 ${badgeHtml}
               </div>
-              <div class="post-meta-sub">
-                <span class="act-action-text">replied</span>
-                <span class="dot-sep">&middot;</span>
-                <span class="post-card-time">${escapeHtml(timeAgo(reply.createdAt))}</span>
-              </div>
+<div class="post-meta-sub">
+                 <span class="post-card-time">${escapeHtml(timeAgo(reply.createdAt))}</span>
+               </div>
             </div>
           </div>
           <div class="pf-reply-card-context">

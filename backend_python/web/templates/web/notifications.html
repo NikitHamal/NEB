@@ -278,16 +278,24 @@
                   <strong><a class="notif-actor-link" href="{% url 'web:profile' username=n.actorName %}">{{ n.actorName }}</a></strong>{% if n.url and n.url != '#' %} <a class="notif-target-link" href="{{ n.url }}"><span class="notif-verb">
                     {% if n.verb == 'like_post' %}liked your post
                     {% elif n.verb == 'like_reply' %}liked your reply
+                    {% elif n.verb == 'like_resource' %}liked your resource
+                    {% elif n.verb == 'like_resource_comment' %}liked your comment
                     {% elif n.verb == 'reply' %}replied to your post
                     {% elif n.verb == 'reply_reply' %}replied to your comment
+                    {% elif n.verb == 'resource_comment' %}commented on your resource
+                    {% elif n.verb == 'resource_comment_reply' %}replied to your comment
                     {% elif n.verb == 'mention' %}mentioned you
                     {% else %}{{ n.verb }}
                     {% endif %}
                   </span></a>{% else %} <span class="notif-verb">
                     {% if n.verb == 'like_post' %}liked your post
                     {% elif n.verb == 'like_reply' %}liked your reply
+                    {% elif n.verb == 'like_resource' %}liked your resource
+                    {% elif n.verb == 'like_resource_comment' %}liked your comment
                     {% elif n.verb == 'reply' %}replied to your post
                     {% elif n.verb == 'reply_reply' %}replied to your comment
+                    {% elif n.verb == 'resource_comment' %}commented on your resource
+                    {% elif n.verb == 'resource_comment_reply' %}replied to your comment
                     {% elif n.verb == 'mention' %}mentioned you
                     {% else %}{{ n.verb }}
                     {% endif %}
@@ -314,20 +322,32 @@
   const VERB_LABELS = {
     'like_post': 'liked your post',
     'like_reply': 'liked your reply',
+    'like_resource': 'liked your resource',
+    'like_resource_comment': 'liked your comment',
     'reply': 'replied to your post',
     'reply_reply': 'replied to your comment',
+    'resource_comment': 'commented on your resource',
+    'resource_comment_reply': 'replied to your comment',
     'follow': 'started following you',
     'mention': 'mentioned you',
+    'resource_approved': '',
+    'resource_rejected': '',
     'system': '',
   };
 
   const VERB_ICONS = {
     'like_post': 'thumb_up',
     'like_reply': 'thumb_up',
+    'like_resource': 'thumb_up',
+    'like_resource_comment': 'thumb_up',
     'reply': 'chat_bubble',
     'reply_reply': 'reply',
+    'resource_comment': 'description',
+    'resource_comment_reply': 'reply',
     'follow': 'person_add',
     'mention': 'alternate_email',
+    'resource_approved': 'check_circle',
+    'resource_rejected': 'cancel',
     'system': 'campaign',
   };
 
@@ -344,8 +364,21 @@
     if (n.verb === 'follow') {
       return '/profile/' + encodeURIComponent(n.actorName || '') + '/';
     }
-    if (n.verb === 'system') {
+    if (n.verb === 'system' || n.verb === 'resource_approved' || n.verb === 'resource_rejected') {
+      if (n.targetType === 'resource' && n.targetId) {
+        return '/resource/' + n.targetId + '/';
+      }
       return '#';
+    }
+    if (n.targetType === 'resource' || n.referenceType === 'resource') {
+      const resourceId = n.targetType === 'resource' ? n.targetId : n.referenceId;
+      return '/resource/' + resourceId + '/';
+    }
+    if (n.targetType === 'resource_comment') {
+      const resourceId = n.referenceType === 'resource' ? n.referenceId : (n.referenceId || '');
+      if (resourceId) {
+        return '/resource/' + resourceId + '/';
+      }
     }
     if (n.targetType === 'post' || n.referenceType === 'post') {
       const postId = n.targetType === 'post' ? n.targetId : n.referenceId;

@@ -17,7 +17,7 @@ import time
 from django.db import transaction
 from django.db.models import F
 
-from .models import Notification, User, Post, Reply
+from .models import Notification, User, Post, Reply, Resource, ResourceComment
 from . import counters as _counters
 
 logger = logging.getLogger(__name__)
@@ -263,6 +263,137 @@ def notify_system_broadcast(message, target_type='system', target_id=''):
         ))
     Notification.objects.bulk_create(objs)
     User.objects.all().update(unread_notification_count=F('unread_notification_count') + 1)
+
+
+def notify_resource_liked(actor_id, resource_id):
+    """Called when someone likes a resource. Creates notification for resource uploader."""
+    try:
+        resource = Resource.objects.select_related('uploaded_by').get(pk=resource_id)
+    except Resource.DoesNotExist:
+        return None
+    if not resource.uploaded_by_id:
+        return None
+    return _create_notification(
+        recipient_id=resource.uploaded_by_id,
+        actor_id=actor_id,
+        verb='like_resource',
+        target_type='resource',
+        target_id=resource_id,
+    )
+
+
+def notify_resource_unliked(actor_id, resource_id):
+    """Called when someone unlikes a resource. Removes the notification."""
+    try:
+        resource = Resource.objects.get(pk=resource_id)
+    except Resource.DoesNotExist:
+        return
+    if not resource.uploaded_by_id:
+        return
+    _delete_notification(
+        recipient_id=resource.uploaded_by_id,
+        actor_id=actor_id,
+        verb='like_resource',
+        target_type='resource',
+        target_id=resource_id,
+    )
+
+
+def notify_resource_comment_liked(actor_id, comment_id):
+    """Called when someone likes a resource comment. Creates notification for comment author."""
+    try:
+        comment = ResourceComment.objects.select_related('user').get(pk=comment_id)
+    except ResourceComment.DoesNotExist:
+        return None
+    return _create_notification(
+        recipient_id=comment.user_id,
+        actor_id=actor_id,
+        verb='like_resource_comment',
+        target_type='resource_comment',
+        target_id=comment_id,
+        reference_type='resource',
+        reference_id=comment.resource_id,
+    )
+
+
+def notify_resource_comment_unliked(actor_id, comment_id):
+    """Called when someone unlikes a resource comment. Removes the notification."""
+    try:
+        comment = ResourceComment.objects.get(pk=comment_id)
+    except ResourceComment.DoesNotExist:
+        return
+    _delete_notification(
+        recipient_id=comment.user_id,
+        actor_id=actor_id,
+        verb='like_resource_comment',
+        target_type='resource_comment',
+        target_id=comment_id,
+    )
+
+
+def notify_resource_comment(actor_id, resource_id, comment_id):
+    """Called when someone comments on a resource. Notifies the resource uploader."""
+    try:
+        resource = Resource.objects.get(pk=resource_id)
+    except Resource.DoesNotExist:
+        return None
+    if not resource.uploaded_by_id:
+        return None
+    return _create_notification(
+        recipient_id=resource.uploaded_by_id,
+        actor_id=actor_id,
+        verb='resource_comment',
+        target_type='resource',
+        target_id=resource_id,
+        reference_type='resource_comment',
+        reference_id=comment_id,
+    )
+
+
+def notify_resource_comment_reply(actor_id, parent_comment_id, resource_id, comment_id):
+    """Called when someone replies to a resource comment. Notifies the parent comment author."""
+    try:
+        parent_comment = ResourceComment.objects.get(pk=parent_comment_id)
+    except ResourceComment.DoesNotExist:
+        return None
+    if str(parent_comment.user_id) == str(actor_id):
+        return None
+    return _create_notification(
+        recipient_id=parent_comment.user_id,
+        actor_id=actor_id,
+        verb='resource_comment_reply',
+        target_type='resource_comment',
+        target_id=parent_comment_id,
+        reference_type='resource',
+        reference_id=resource_id,
+    )
+
+
+def notify_resource_approved(resource_id, uploader_id):
+    """Called when a resource is approved. Notifies the uploader."""
+    if not uploader_id:
+        return None
+    return notify_system(
+        recipient_id=uploader_id,
+        message='Your resource has been approved! It is now visible to everyone.',
+        target_type='resource',
+        target_id=resource_id,
+    )
+
+
+def notify_resource_rejected(resource_id, uploader_id, reason=''):
+    """Called when a resource is rejected. Notifies the uploader with the reason."""
+    if not uploader_id:
+        return None
+    msg = 'Your resource was not approved.'
+    if reason:
+        msg = f'Your resource was not approved. Reason: {reason}'
+    return notify_system(
+        recipient_id=uploader_id,
+        message=msg,
+        target_type='resource',
+        target_id=resource_id,
+    )
 
 
 def delete_notifications_for_target(target_type, target_id):

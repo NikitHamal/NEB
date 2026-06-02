@@ -671,11 +671,13 @@ def _build_local_stats_fallback(user_id):
     if not stats:
         return {}
     likes_received = (PostLike.objects.filter(post__user_id=user_id).count() +
-                      ReplyLike.objects.filter(reply__user_id=user_id).count())
+                      ReplyLike.objects.filter(reply__user_id=user_id).count() +
+                      ResourceLike.objects.filter(resource__uploaded_by_id=user_id).count())
+    approved_resource_count = Resource.objects.filter(uploaded_by_id=user_id, approval_status='approved').count()
     pc = stats['_post_count'] or 0
     rc = stats['_reply_count'] or 0
     lg = stats['_likes_given'] or 0
-    contribution_score = (pc * 3) + (rc * 2) + lg + (likes_received * 2)
+    contribution_score = (pc * 3) + (rc * 2) + lg + (likes_received * 2) + (approved_resource_count * 10)
     return {
         'post_count': pc,
         'reply_count': rc,
@@ -1134,6 +1136,7 @@ def profile(request, username):
                 'like_count': r.like_count,
                 'comment_count': r.comment_count,
                 'approval_status': r.approval_status,
+                'rejection_reason': r.rejection_reason or '',
                 'is_liked': r.id in liked_res_ids,
             })
 
@@ -1724,12 +1727,17 @@ def admin_pending_resources(request):
                 resource_obj.reviewed_at = int(time.time() * 1000)
                 resource_obj.rejection_reason = ''
                 resource_obj.save()
+                if resource_obj.uploaded_by_id:
+                    _counters.increment_user_resource_approved(resource_obj.uploaded_by_id)
+                    _notif.notify_resource_approved(resource_obj.id, resource_obj.uploaded_by_id)
             elif action == 'reject':
                 resource_obj.approval_status = 'rejected'
                 resource_obj.reviewed_by = admin_user
                 resource_obj.reviewed_at = int(time.time() * 1000)
                 resource_obj.rejection_reason = request.POST.get('reason', '').strip()[:500]
                 resource_obj.save()
+                if resource_obj.uploaded_by_id:
+                    _notif.notify_resource_rejected(resource_obj.id, resource_obj.uploaded_by_id, resource_obj.rejection_reason)
             cache.delete_many(['home_resources', 'library_all_resources'])
         except Resource.DoesNotExist:
             pass
@@ -3409,10 +3417,16 @@ def notifications(request):
     VERB_LABELS = {
         'like_post': 'liked your post',
         'like_reply': 'liked your reply',
+        'like_resource': 'liked your resource',
+        'like_resource_comment': 'liked your comment',
         'reply': 'replied to your post',
         'reply_reply': 'replied to your comment',
+        'resource_comment': 'commented on your resource',
+        'resource_comment_reply': 'replied to your comment',
         'follow': 'started following you',
         'mention': 'mentioned you',
+        'resource_approved': '',
+        'resource_rejected': '',
         'system': '',
     }
     notif_data = []
@@ -3431,6 +3445,15 @@ def notifications(request):
         url = '#'
         if n.verb == 'follow' and actor_name:
             url = f'/profile/{actor_name}/'
+        elif n.verb in ('resource_approved', 'resource_rejected') and n.target_type == 'resource' and n.target_id:
+            url = f'/resource/{n.target_id}/'
+        elif n.target_type == 'resource' or n.reference_type == 'resource':
+            resource_id = n.target_id if n.target_type == 'resource' else n.reference_id
+            url = f'/resource/{resource_id}/'
+        elif n.target_type == 'resource_comment':
+            resource_id = n.reference_id if n.reference_type == 'resource' else ''
+            if resource_id:
+                url = f'/resource/{resource_id}/'
         elif n.target_type == 'post' or n.reference_type == 'post':
             post_id = n.target_id if n.target_type == 'post' else n.reference_id
             url = f'/forum/post/{post_id}/'

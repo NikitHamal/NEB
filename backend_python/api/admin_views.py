@@ -275,16 +275,22 @@ def admin_pending_resources(request):
         resource.reviewed_at = int(time.time() * 1000)
         resource.rejection_reason = ''
         resource.save()
-        cache.delete_many(['home_resources', 'library_all_resources'])
-        return Response(ResourceSerializer(resource).data)
+        if resource.uploaded_by_id:
+            from . import counters as _counters
+            from . import notifications as _notif
+            _counters.increment_user_resource_approved(resource.uploaded_by_id)
+            _notif.notify_resource_approved(resource.id, resource.uploaded_by_id)
     else:
         resource.approval_status = 'rejected'
         resource.reviewed_by = admin_user
         resource.reviewed_at = int(time.time() * 1000)
         resource.rejection_reason = data.get('reason', '').strip()[:500]
         resource.save()
-        cache.delete_many(['home_resources', 'library_all_resources'])
-        return Response(ResourceSerializer(resource).data)
+        if resource.uploaded_by_id:
+            from . import notifications as _notif
+            _notif.notify_resource_rejected(resource.id, resource.uploaded_by_id, resource.rejection_reason)
+    cache.delete_many(['home_resources', 'library_all_resources'])
+    return Response(ResourceSerializer(resource).data)
 
 
 @api_view(['GET'])
