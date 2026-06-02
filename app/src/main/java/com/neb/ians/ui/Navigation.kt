@@ -1,6 +1,5 @@
 package com.neb.ians.ui
 
-import android.net.Uri
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
@@ -147,12 +146,8 @@ val bottomNavItems = listOf(
 fun NEBiansNavHost(
     settingsViewModel: SettingsViewModel,
     navController: NavHostController = rememberNavController(),
-    authRepository: AuthRepository,
-    pendingOAuthCallback: Uri? = null,
-    onOAuthCallbackConsumed: () -> Unit = {}
+    authRepository: AuthRepository
 ) {
-    val context = androidx.compose.ui.platform.LocalContext.current
-
     val authState by settingsViewModel.authState.collectAsStateWithLifecycle()
     LaunchedEffect(authState) {
         if (authState is AuthState.Unauthenticated) {
@@ -263,9 +258,7 @@ fun NEBiansNavHost(
                         }
                     },
                     onNavigateToEmailSignup = { navController.navigate(Screen.EmailSignup.route) },
-                    onNavigateToEmailLogin = { navController.navigate(Screen.EmailLogin.route) },
-                    pendingOAuthCallback = pendingOAuthCallback,
-                    onOAuthCallbackConsumed = onOAuthCallbackConsumed
+                    onNavigateToEmailLogin = { navController.navigate(Screen.EmailLogin.route) }
                 )
             }
             composable(Screen.EmailSignup.route) {
