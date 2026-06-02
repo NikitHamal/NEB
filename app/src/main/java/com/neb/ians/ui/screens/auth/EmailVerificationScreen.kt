@@ -66,7 +66,7 @@ fun EmailVerificationScreen(
             verticalArrangement = Arrangement.Center
         ) {
             Icon(
-                imageVector = Icons.Filled.MarkEmailUnread,
+                imageVector = Icons.Filled.Email,
                 contentDescription = null,
                 modifier = Modifier.size(64.dp),
                 tint = MaterialTheme.colorScheme.primary
@@ -99,7 +99,7 @@ fun EmailVerificationScreen(
                     code = input.filter { it.isDigit() }.take(6)
                 },
                 label = { Text("Verification Code") },
-                leadingIcon = { Icon(Icons.Default.Pin, contentDescription = null) },
+                leadingIcon = { Icon(Icons.Default.Lock, contentDescription = null) },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(12.dp),

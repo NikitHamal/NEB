@@ -10,8 +10,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ThumbUp
-import androidx.compose.material.icons.outlined.ChatBubbleOutline
-import androidx.compose.material.icons.outlined.Reply
+import androidx.compose.material.icons.filled.Send
 import androidx.compose.material.icons.outlined.ThumbUp
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -70,7 +69,7 @@ fun ForumPostDetailScreen(
                 contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
                 icon = {
                     Icon(
-                        imageVector = Icons.Outlined.Reply,
+                        imageVector = Icons.Default.Send,
                         contentDescription = "Add Reply"
                     )
                 },
@@ -377,7 +376,7 @@ private fun ReplyItem(
                     horizontalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
                     Icon(
-                        imageVector = Icons.Outlined.ChatBubbleOutline,
+                        painter = androidx.compose.ui.res.painterResource(id = com.neb.ians.R.drawable.ic_forum_outlined),
                         contentDescription = "Reply",
                         modifier = Modifier.size(14.dp),
                         tint = MaterialTheme.colorScheme.onSurfaceVariant
