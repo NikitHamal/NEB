@@ -149,6 +149,32 @@ class AuthRepository @Inject constructor(
         }
     }
 
+    suspend fun signInWithWebToken(token: String, isNewUser: Boolean, username: String?): Boolean {
+        return try {
+            if (isNewUser) {
+                dataStore.edit { prefs ->
+                    prefs[AUTH_TOKEN] = token
+                    prefs[AUTH_STATUS] = "authenticated"
+                    prefs[PROFILE_COMPLETED] = false
+                    prefs[USER_NAME] = username ?: ""
+                }
+                true
+            } else {
+                dataStore.edit { prefs ->
+                    prefs[AUTH_TOKEN] = token
+                    prefs[AUTH_STATUS] = "authenticated"
+                    prefs[USER_NAME] = username ?: ""
+                }
+                if (!username.isNullOrEmpty()) {
+                    refreshProfile()
+                }
+                true
+            }
+        } catch (e: Exception) {
+            false
+        }
+    }
+
     private suspend fun cacheUser(user: com.neb.ians.data.api.UserProfileResponse, authToken: String, isNewUser: Boolean) {
         dataStore.edit { prefs ->
             prefs[AUTH_TOKEN] = authToken
