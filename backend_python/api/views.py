@@ -54,6 +54,7 @@ from .serializers import (
 )
 from . import counters as _counters
 from . import notifications as _notif
+from . import cleanup as _cleanup
 
 logger = logging.getLogger(__name__)
 
@@ -588,9 +589,10 @@ def post_detail(request, post_id):
             return err
         if post.user_id != user.id:
             return Response({'error': 'Forbidden'}, status=403)
-        user_id = post.user_id
-        post.delete()
-        _counters.decrement_user_post_count(user_id)
+        try:
+            _cleanup.delete_post_with_cleanup(post_id)
+        except Post.DoesNotExist:
+            return Response({'error': 'Post not found'}, status=404)
         logger.info("post_detail DELETE: deleted post %s by user %s", post_id, user.username)
         return Response({'success': True})
 
@@ -724,15 +726,10 @@ def reply_detail(request, reply_id):
         return Response({'error': 'Forbidden'}, status=403)
 
     if request.method == 'DELETE':
-        with transaction.atomic():
-            post_id = reply.post_id
-            parent_id = reply.parent_reply_id
-            reply_user_id = reply.user_id
-            reply.delete()
-            Post.objects.filter(pk=post_id, reply_count__gt=0).update(reply_count=F('reply_count') - 1)
-            if parent_id:
-                Reply.objects.filter(pk=parent_id, reply_count__gt=0).update(reply_count=F('reply_count') - 1)
-        _counters.decrement_user_reply_count(reply_user_id)
+        try:
+            _cleanup.delete_reply_with_cleanup(reply.id)
+        except Reply.DoesNotExist:
+            return Response({'error': 'Reply not found'}, status=404)
         return Response({'success': True})
 
     content = request.data.get('content', '').strip()

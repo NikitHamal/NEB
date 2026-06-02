@@ -206,16 +206,7 @@ def mention_links(value, usernames=None):
     import re
     s = str(value)
     s = s.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;').replace("'", '&#x27;')
-    if usernames:
-        known = set(u.lower() for u in usernames)
-        def replacer(m):
-            nm = m.group(1)
-            if nm.lower() in known:
-                return '<a href="/profile/' + nm + '/" class="fp-mention">@' + nm + '</a>'
-            return m.group(0)
-        s = re.sub(r'@(\w+)', replacer, s)
-    else:
-        s = re.sub(r'@(\w+)', r'<a href="/profile/\1/" class="fp-mention">@\1</a>', s)
+    s = re.sub(r'@(\w+)', r'<a href="/profile/\1/" class="fp-mention">@\1</a>', s)
     # Basic markdown: bold, italic, line breaks
     s = re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', s)
     s = re.sub(r'(?<!\w)__(.+?)__(?!\w)', r'<strong>\1</strong>', s)
