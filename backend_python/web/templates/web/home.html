@@ -187,7 +187,7 @@
         </div>
         <div class="hscroll">
           {% for r in recent_resources %}
-          <a href="{% url 'web:reader' resource_id=r.id %}" class="resource-card subject-{{ r.subject|subject_slug }}">
+          <a href="{% url 'web:reader' resource_id=r.id %}" class="resource-card subject-{{ r.subject|split:','|first|subject_slug }}">
             <div class="resource-card-art">
               <svg viewBox="0 0 300 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
                 <rect width="300" height="120" fill="var(--art-c1)"/>
@@ -197,10 +197,17 @@
 
               </svg>
               <span class="resource-card-type-pill">{{ r.type }}</span>
-              <span class="resource-card-art-icon material-symbols-outlined">{{ r.subject|subject_icon }}</span>
+              <span class="resource-card-art-icon material-symbols-outlined">{{ r.subject|split:','|first|subject_icon }}</span>
             </div>
             <div class="resource-card-info">
-              <div class="resource-card-subject-chip">{{ r.subject }}</div>
+              <div class="resource-card-subject-chip">
+                {% with subjs=r.subject|split:"," %}
+                  {{ subjs|first }}
+                  {% if subjs|length > 1 %}
+                    +{{ subjs|length|add:"-1" }} more
+                  {% endif %}
+                {% endwith %}
+              </div>
               <div class="resource-card-title">{{ r.title }}</div>
               <div class="resource-card-meta">
                 {{ r.grade_level }} &middot; {{ r.type }}{% if r.file_size %} &middot; {{ r.file_size|file_size_human }}{% endif %}
@@ -223,7 +230,7 @@
         </div>
         <div class="hscroll">
           {% for r in popular_resources %}
-          <a href="{% url 'web:reader' resource_id=r.id %}" class="resource-card subject-{{ r.subject|subject_slug }}">
+          <a href="{% url 'web:reader' resource_id=r.id %}" class="resource-card subject-{{ r.subject|split:','|first|subject_slug }}">
             <div class="resource-card-art">
               <svg viewBox="0 0 300 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
                 <rect width="300" height="120" fill="var(--art-c1)"/>
@@ -233,10 +240,17 @@
 
               </svg>
               <span class="resource-card-type-pill">{{ r.type }}</span>
-              <span class="resource-card-art-icon material-symbols-outlined">{{ r.subject|subject_icon }}</span>
+              <span class="resource-card-art-icon material-symbols-outlined">{{ r.subject|split:','|first|subject_icon }}</span>
             </div>
             <div class="resource-card-info">
-              <div class="resource-card-subject-chip">{{ r.subject }}</div>
+              <div class="resource-card-subject-chip">
+                {% with subjs=r.subject|split:"," %}
+                  {{ subjs|first }}
+                  {% if subjs|length > 1 %}
+                    +{{ subjs|length|add:"-1" }} more
+                  {% endif %}
+                {% endwith %}
+              </div>
               <div class="resource-card-title">{{ r.title }}</div>
               <div class="resource-card-meta">
                 {{ r.grade_level }} &middot; {{ r.type }}

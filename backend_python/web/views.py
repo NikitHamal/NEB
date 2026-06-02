@@ -1282,7 +1282,65 @@ def upload_resource(request):
         except User.DoesNotExist:
             pass
 
-    subjects = sorted(set(Resource.objects.values_list('subject', flat=True)))
+    _default_subjects = [
+        'Physics', 'Chemistry', 'Mathematics', 'Biology', 'English', 'Nepali',
+        'Computer Science', 'Economics', 'Accountancy', 'Business Studies',
+        'Social Studies', 'History', 'Geography', 'Civics', 'Health & Physical Education',
+        'Environment Science', 'Science', 'General Science', 'Life Science',
+        'Physical Science', 'Earth Science', 'Applied Mathematics',
+        'Business Mathematics', 'Statistics', 'Probability',
+        'Microeconomics', 'Macroeconomics',
+        'Financial Accounting', 'Cost Accounting', 'Auditing',
+        'Marketing', 'Office Management', 'Hotel Management',
+        'Computer Engineering', 'Electronics', 'Electrical Engineering',
+        'Civil Engineering', 'Mechanical Engineering', 'Architecture',
+        'Mechanics', 'Thermodynamics', 'Optics', 'Electricity & Magnetism',
+        'Organic Chemistry', 'Inorganic Chemistry', 'Physical Chemistry',
+        'Botany', 'Zoology', 'Genetics', 'Ecology',
+        'English Grammar', 'English Literature', 'Creative Writing',
+        'Nepali Grammar', 'Nepali Literature', 'Essay Writing',
+        'Population Studies', 'Sociology', 'Psychology', 'Philosophy',
+        'Education', 'Pedagogy', 'Curriculum Development',
+        'Law', 'Constitutional Law', 'International Law',
+        'Medicine', 'Pharmacy', 'Nursing', 'Public Health',
+        'Agriculture', 'Forestry', 'Veterinary Science',
+        'Management', 'Human Resource Management', 'Entrepreneurship',
+        'Information Technology', 'Programming', 'Web Development',
+        'Database Management', 'Networking', 'Cybersecurity',
+        'Machine Learning', 'Artificial Intelligence', 'Data Science',
+        'C Programming', 'C++ Programming', 'Python Programming', 'Java Programming',
+        'Digital Logic', 'Operating Systems', 'Software Engineering',
+        'Surveying', 'Estimating & Costing', 'Building Construction',
+        'Fluid Mechanics', 'Strength of Materials', 'Engineering Drawing',
+        'Purana Veda', 'Upanishad', 'Sanskrit', 'Maithili',
+    ]
+    db_subjects = list(Resource.objects.values_list('subject', flat=True))
+    subjects = sorted(set(_default_subjects + db_subjects))
+    common_tags = [
+        'NEB', 'SEE', 'Board Exam', 'Past Paper', 'Model Paper', 'Solution',
+        'Important Questions', 'Numerical', 'Derivation', 'Formula Sheet',
+        'Chapter 1', 'Chapter 2', 'Chapter 3', 'Chapter 4', 'Chapter 5',
+        'Chapter 6', 'Chapter 7', 'Chapter 8', 'Chapter 9', 'Chapter 10',
+        'Unit 1', 'Unit 2', 'Unit 3', 'Unit 4', 'Unit 5',
+        'Class 11', 'Class 12', 'Grade 11', 'Grade 12',
+        'Science', 'Management', 'Humanities', 'Education', 'Law',
+        'Final Exam', 'Midterm', 'Internal Assessment', 'Practical',
+        'Old Course', 'New Course', 'Revised Syllabus', 'Curriculum',
+        'Textbook', 'Reference Book', 'Guide', 'Notes', 'Summary',
+        'Objective Questions', 'Subjective Questions', 'MCQ', 'Long Answer',
+        'Short Answer', 'Very Short Answer', 'Essay Type',
+        '2080 BS', '2081 BS', '2082 BS', '2079 BS',
+        '2078 BS', '2077 BS', '2076 BS',
+        'Kathmandu', 'Pokhara', 'Chitwan', 'Biratnagar', 'Butwal',
+        'HSEB', 'TU', 'KU', 'PU', 'CTEVT',
+        'Entrance', 'IOE', 'IOM', 'CEEE', 'KUUMAT',
+        'C Programming', 'Python', 'Java', 'Web Development',
+        'Organic Chemistry', 'Inorganic Chemistry', 'Physical Chemistry',
+        'Mechanics', 'Optics', 'Thermodynamics', 'Electricity',
+        'Calculus', 'Algebra', 'Trigonometry', 'Geometry', 'Statistics',
+        'Botany', 'Zoology', 'Ecology', 'Genetics',
+        'Nepali', 'English', 'Social Studies',
+    ]
     education_levels = [
         'Class 8', 'Class 9', 'Class 10 / SEE', 'Class 11', 'Class 12',
         'Diploma', 'Bachelor', 'Master', 'PhD',
@@ -1394,7 +1452,7 @@ def upload_resource(request):
         return render(request, 'web/upload.html', _ctx(request,
             subjects=subjects, education_levels=education_levels,
             exam_types=exam_types, pradesh_options=pradesh_options,
-            resource_types=resource_types,
+            resource_types=resource_types, common_tags=common_tags,
             errors=errors,
             form_data=request.POST,
             is_authenticated=bool(user),
@@ -1403,7 +1461,7 @@ def upload_resource(request):
     return render(request, 'web/upload.html', _ctx(request,
         subjects=subjects, education_levels=education_levels,
         exam_types=exam_types, pradesh_options=pradesh_options,
-        resource_types=resource_types,
+        resource_types=resource_types, common_tags=common_tags,
         is_authenticated=bool(user),
     ))
 
@@ -1507,7 +1565,12 @@ def admin_pending_resources(request):
         action = request.POST.get('action', '').strip()
         try:
             resource_obj = Resource.objects.get(pk=resource_id)
-            admin_user = request.user if hasattr(request, 'user') and request.user.is_authenticated else None
+            admin_user = None
+            if hasattr(request, 'user') and request.user.is_authenticated:
+                try:
+                    admin_user = User.objects.get(username=request.user.username)
+                except User.DoesNotExist:
+                    pass
             if action == 'approve':
                 resource_obj.approval_status = 'approved'
                 resource_obj.reviewed_by = admin_user
