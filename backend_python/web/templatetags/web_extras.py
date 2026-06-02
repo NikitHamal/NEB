@@ -67,6 +67,33 @@ def join_date(value):
         return ''
 
 
+def _normalize_subject(subject):
+    s = (subject or '').lower().strip()
+    if not s:
+        return 'general'
+    if 'physics' in s:
+        return 'physics'
+    if 'chemistry' in s:
+        return 'chemistry'
+    if 'math' in s:
+        return 'mathematics'
+    if 'biology' in s:
+        return 'biology'
+    if 'english' in s:
+        return 'english'
+    if 'nepali' in s:
+        return 'nepali'
+    if 'computer' in s or 'network' in s:
+        return 'computer science'
+    if 'economics' in s:
+        return 'economics'
+    if 'account' in s:
+        return 'accountancy'
+    if 'exam' in s or 'prep' in s:
+        return 'exam tips'
+    return s
+
+
 @register.filter
 def subject_color(subject):
     colors = {
@@ -83,13 +110,13 @@ def subject_color(subject):
         'general': '#5F6368',
         'exam tips': '#C5221F',
     }
-    return colors.get((subject or '').lower().strip(), '#5F6368')
+    return colors.get(_normalize_subject(subject), '#5F6368')
 
 
 @register.filter
 def subject_slug(subject):
     import re
-    s = (subject or '').lower().strip()
+    s = _normalize_subject(subject)
     s = re.sub(r'[^a-z0-9]+', '-', s)
     s = s.strip('-')
     return s
@@ -111,7 +138,7 @@ def subject_icon(subject):
         'general': 'category',
         'exam tips': 'quiz',
     }
-    return icons.get((subject or '').lower().strip(), 'category')
+    return icons.get(_normalize_subject(subject), 'category')
 
 
 @register.filter
