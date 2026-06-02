@@ -396,26 +396,6 @@ data class ApiStatsResponse(
 )
 
 @Serializable
-data class ApiLeaderboardEntry(
-    @SerialName("user_id") val userId: String,
-    val username: String,
-    @SerialName("display_name") val displayName: String? = null,
-    @SerialName("photo_url") val photoUrl: String? = null,
-    @SerialName("contribution_score") val contributionScore: Int = 0,
-    @SerialName("follower_count") val followerCount: Int = 0,
-    @SerialName("post_count") val postCount: Int = 0,
-    @SerialName("reply_count") val replyCount: Int = 0,
-    @SerialName("badge_info") val badgeInfo: ApiBadgeInfo? = null
-)
-
-@Serializable
-data class ApiHomeResponse(
-    @SerialName("recent_resources") val recentResources: List<ApiResource> = emptyList(),
-    @SerialName("popular_resources") val popularResources: List<ApiResource> = emptyList(),
-    @SerialName("recent_posts") val recentPosts: List<ApiPost> = emptyList()
-)
-
-@Serializable
 data class ApiPaginatedResources(
     val resources: List<ApiResource> = emptyList(),
     @SerialName("total_count") val totalCount: Int = 0,
@@ -712,19 +692,6 @@ interface ApiService {
         @Body request: ReportRequest
     ): GenericMessageResponse
 
-    // --- Home data ---
-    @GET("api/home/")
-    suspend fun getHomeData(
-        @Header("Authorization") bearerToken: String?
-    ): ApiHomeResponse
-
-    // --- Forum categories & leaderboard ---
-    @GET("api/forum/categories/")
-    suspend fun getForumCategories(): List<ApiForumCategory>
-
-    @GET("api/forum/leaderboard/")
-    suspend fun getLeaderboard(): List<ApiLeaderboardEntry>
-
     // --- User search (for @mentions) ---
     @GET("api/users/search/")
     suspend fun searchUsers(
@@ -785,8 +752,3 @@ data class ApiBookmark(
     @SerialName("created_at") val createdAt: Long
 )
 
-@Serializable
-data class ApiForumCategory(
-    val name: String,
-    @SerialName("post_count") val postCount: Int = 0
-)

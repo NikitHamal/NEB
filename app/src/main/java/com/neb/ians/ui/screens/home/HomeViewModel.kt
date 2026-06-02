@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.neb.ians.data.api.ApiResource
 import com.neb.ians.data.api.ApiPost
 import com.neb.ians.data.api.ApiService
-import com.neb.ians.data.api.ApiHomeResponse
 import com.neb.ians.data.repository.AuthRepository
 import com.neb.ians.data.repository.SettingsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -52,10 +51,12 @@ class HomeViewModel @Inject constructor(
             _error.value = null
             try {
                 val token = authRepository.getBearerToken()
-                val homeData = apiService.getHomeData(token)
-                _recentResources.value = homeData.recentResources
-                _popularResources.value = homeData.popularResources
-                _recentPosts.value = homeData.recentPosts
+                val resourcesResult = apiService.getResources(token, sort = "newest", page = 1)
+                val popularResult = apiService.getResources(token, sort = "relevant", page = 1)
+                val postsResult = apiService.getPosts(token)
+                _recentResources.value = resourcesResult.resources
+                _popularResources.value = popularResult.resources
+                _recentPosts.value = postsResult.posts
             } catch (e: Exception) {
                 _error.value = e.message ?: "Failed to load data"
             }
