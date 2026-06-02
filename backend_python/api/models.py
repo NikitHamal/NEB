@@ -119,7 +119,7 @@ class Resource(models.Model):
     id = models.CharField(max_length=36, primary_key=True)  # UUID
     title = models.CharField(max_length=255)
     description = models.TextField(blank=True, default='')
-    subject = models.CharField(max_length=100)
+    subject = models.CharField(max_length=500)
     grade_level = models.CharField(max_length=30, blank=True, default='')  # Class 8–12, Diploma, Bachelor, Master, PhD, etc.
     faculty = models.CharField(max_length=100, blank=True, default='')  # e.g. Science, Management, Computer Engineering
     program = models.CharField(max_length=200, blank=True, default='')  # e.g. BSc CSIT, BE Computer, +2 Science
@@ -177,7 +177,7 @@ class ResourceRequest(models.Model):
     id = models.CharField(max_length=36, primary_key=True)
     title = models.CharField(max_length=255)
     description = models.TextField(blank=True, default='')
-    subject = models.CharField(max_length=100, blank=True, default='')
+    subject = models.CharField(max_length=500, blank=True, default='')
     grade_level = models.CharField(max_length=30, blank=True, default='')
     faculty = models.CharField(max_length=100, blank=True, default='')
     program = models.CharField(max_length=200, blank=True, default='')
