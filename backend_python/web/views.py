@@ -1305,13 +1305,8 @@ def google_login(request):
     client_id = settings.GOOGLE_CLIENT_ID
     if not client_id:
         return HttpResponse('Google OAuth is not configured.', status=501)
-    mobile = request.GET.get('mobile')
-    if mobile == '1':
-        redirect_uri = 'nebians://auth-callback'
-        state = 'mobile_google'
-    else:
-        redirect_uri = _https_redirect_uri(request, '/auth/google/callback/')
-        state = ''
+    redirect_uri = _https_redirect_uri(request, '/auth/google/callback/')
+    state = request.GET.get('state', '')
     authorize_url = (
         f'https://accounts.google.com/o/oauth2/v2/auth'
         f'?client_id={client_id}'
@@ -1336,10 +1331,7 @@ def google_oauth_callback(request):
             return redirect('nebians://auth-callback?error=cancelled')
         messages.error(request, 'Google sign-in was cancelled.')
         return redirect('web:login')
-    if is_mobile:
-        redirect_uri = 'nebians://auth-callback'
-    else:
-        redirect_uri = _https_redirect_uri(request, '/auth/google/callback/')
+    redirect_uri = _https_redirect_uri(request, '/auth/google/callback/')
     try:
         import requests as _req
         token_resp = _req.post(
@@ -1425,12 +1417,11 @@ def github_login(request):
     client_id = settings.GITHUB_CLIENT_ID
     if not client_id:
         return HttpResponse('GitHub OAuth is not configured.', status=501)
-    mobile = request.GET.get('mobile')
-    if mobile == '1':
-        redirect_uri = 'nebians://auth-callback'
+    redirect_uri = _https_redirect_uri(request, '/auth/github/callback/')
+    state = request.GET.get('mobile', '')
+    if state == '1':
         state = 'mobile_github'
     else:
-        redirect_uri = _https_redirect_uri(request, '/auth/github/callback/')
         state = ''
     authorize_url = (
         f'https://github.com/login/oauth/authorize'
@@ -1453,10 +1444,7 @@ def github_callback(request):
         if is_mobile:
             return redirect('nebians://auth-callback?error=cancelled')
         return HttpResponse('Missing authorization code.', status=400)
-    if is_mobile:
-        redirect_uri = 'nebians://auth-callback'
-    else:
-        redirect_uri = _https_redirect_uri(request, '/auth/github/callback/')
+    redirect_uri = _https_redirect_uri(request, '/auth/github/callback/')
     token_url = 'https://github.com/login/oauth/access_token'
     headers = {'Accept': 'application/json'}
     data = {
