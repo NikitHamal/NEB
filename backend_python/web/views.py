@@ -579,13 +579,52 @@ def search(request):
     all_grades = []
     all_types = []
     if query:
-        resource_qs = Resource.objects.filter(
-            Q(title__icontains=query) | Q(description__icontains=query) | Q(subject__icontains=query) | Q(faculty__icontains=query) | Q(program__icontains=query) | Q(school__icontains=query) | Q(tags__icontains=query),
-            approval_status='approved'
-        )
-        post_qs = Post.objects.select_related('user').filter(
-            Q(title__icontains=query) | Q(content__icontains=query)
-        ).filter(is_archived=False)
+        import re
+        import operator
+        from functools import reduce
+        from django.db.models import Value, BooleanField, Case, When
+
+        terms = [t for t in re.sub(r'[^\w\s]', ' ', query).split() if t]
+        if terms:
+            res_q_list = []
+            for term in terms:
+                res_q_list.append(
+                    Q(title__icontains=term) | Q(description__icontains=term) | Q(subject__icontains=term) |
+                    Q(faculty__icontains=term) | Q(program__icontains=term) | Q(school__icontains=term) | Q(tags__icontains=term)
+                )
+            resource_qs = Resource.objects.filter(
+                reduce(operator.and_, res_q_list),
+                approval_status='approved'
+            )
+            exact_res_expr = Q(title__icontains=query) | Q(description__icontains=query) | Q(subject__icontains=query) | Q(tags__icontains=query)
+            resource_qs = resource_qs.annotate(
+                is_exact=Case(
+                    When(exact_res_expr, then=Value(True)),
+                    default=Value(False),
+                    output_field=BooleanField()
+                )
+            ).order_by('-is_exact', '-added_at')
+
+            post_q_list = []
+            for term in terms:
+                post_q_list.append(
+                    Q(title__icontains=term) | Q(content__icontains=term)
+                )
+            post_qs = Post.objects.select_related('user').filter(
+                reduce(operator.and_, post_q_list)
+            ).filter(is_archived=False)
+            exact_post_expr = Q(title__icontains=query) | Q(content__icontains=query)
+            post_qs = post_qs.annotate(
+                is_exact=Case(
+                    When(exact_post_expr, then=Value(True)),
+                    default=Value(False),
+                    output_field=BooleanField()
+                )
+            ).order_by('-is_exact', '-created_at')
+        else:
+            resource_qs = Resource.objects.none()
+            post_qs = Post.objects.none()
+
         if subject:
             resource_qs = resource_qs.filter(subject=subject)
             post_qs = post_qs.filter(category__iexact=subject)
@@ -593,6 +632,7 @@ def search(request):
             resource_qs = resource_qs.filter(grade_level=grade)
         if rtype:
             resource_qs = resource_qs.filter(type=rtype)
+
         if tab in ('all', 'resources'):
             resource_results = _serialize_resources(resource_qs[:30])
         if tab in ('all', 'posts'):
