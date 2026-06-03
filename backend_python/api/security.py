@@ -350,7 +350,7 @@ RESOURCE_ALLOWED_MIME_PREFIXES = (
     'application/zip', 'application/x-rar', 'application/x-7z',
     'application/epub', 'application/x-mobipocket',
 )
-RESOURCE_MAX_BYTES = 100 * 1024 * 1024  # 100 MB
+RESOURCE_MAX_BYTES = 50 * 1024 * 1024  # 50 MB
 
 
 def validate_and_save_resource_file(request, file_obj) -> tuple:

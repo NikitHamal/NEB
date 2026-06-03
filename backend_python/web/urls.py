@@ -1,4 +1,5 @@
 from django.urls import path
+from django.views.generic import RedirectView
 from . import views
 
 app_name = 'web'
@@ -16,6 +17,7 @@ urlpatterns = [
     path('forum/create/', views.create_post, name='create_post'),
     path('forum/reply/<str:post_id>/', views.reply_post, name='reply_post'),
     path('reader/<str:resource_id>/', views.reader, name='reader'),
+    path('resource/<str:resource_id>/', RedirectView.as_view(pattern_name='web:reader', permanent=True), name='resource_redirect'),
     path('resource/<str:resource_id>/edit/', views.edit_resource, name='edit_resource'),
     path('upload/', views.upload_resource, name='upload_resource'),
     path('upload/success/', views.upload_success, name='upload_success'),
