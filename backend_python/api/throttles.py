@@ -41,3 +41,18 @@ class UploadRateThrottle(_IdentityThrottle):
 
 class ViewIncrementRateThrottle(_IdentityThrottle):
     scope = 'view_increment'
+
+
+class ArenaChatRateThrottle(_IdentityThrottle):
+    """Throttle for AI4Bharat Arena chat endpoints (per-user or per-IP).
+
+    Generous limits — the upstream arena already enforces 20 msgs / token, and
+    the pool spreads load across many tokens. We mainly want to prevent one
+    user from monopolising the pool.
+    """
+    scope = 'arena_chat'
+
+
+class ArenaListRateThrottle(_IdentityThrottle):
+    """Cheaper to call (cached model list), but still rate-limited."""
+    scope = 'arena_list'

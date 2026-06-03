@@ -3878,9 +3878,21 @@ def admin_bot_config(request):
     if request.method == 'POST':
         config.enabled = request.POST.get('enabled') == 'on'
         config.bot_username = request.POST.get('bot_username', config.bot_username).strip() or 'neby'
+        provider = (request.POST.get('provider') or 'qwen').strip().lower()
+        if provider not in ('qwen', 'ai4bharat', 'custom'):
+            provider = 'qwen'
+        config.provider = provider
         config.api_url = request.POST.get('api_url', config.api_url).strip()
         config.api_key = request.POST.get('api_key', config.api_key).strip()
-        config.model = request.POST.get('model', config.model).strip() or 'qwen3.6-plus'
+        # The template uses a hidden `model` field that JS syncs from the visible
+        # select/textbox. Fall back to the visible control if hidden is empty.
+        model = (request.POST.get('model') or '').strip()
+        if not model:
+            model = (request.POST.get('model_select') or request.POST.get('model_text') or '').strip()
+        if model:
+            config.model = model[:200]
+        elif not config.model:
+            config.model = 'qwen3.6-plus'
         config.system_prompt = request.POST.get('system_prompt', config.system_prompt).strip()
         try:
             config.max_context_posts = int(request.POST.get('max_context_posts', config.max_context_posts))
@@ -3897,7 +3909,7 @@ def admin_bot_config(request):
         config.save()
         from django.core.cache import cache
         cache.delete('neby_enabled')
-        messages.success(request, 'Bot configuration updated.')
+        messages.success(request, f'Bot configuration updated. Provider: {provider}.')
         return redirect('/admin/bot/')
     bot_user = BotConfig.get_bot_user()
     ctx = _ctx(request, active_page='bot', config=config, bot_user=bot_user)

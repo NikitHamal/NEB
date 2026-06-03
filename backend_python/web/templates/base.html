@@ -129,8 +129,7 @@
             <span class="material-symbols-outlined">notifications</span>
             <span>Notifications</span>
             {% if unread_notifications > 0 %}
-            <span class="notif-popup-badge" id="notif-popup-badge">{% if unread_notifications > 9 %}9+{% else %}{{
-              unread_notifications }}{% endif %}</span>
+            <span class="notif-popup-badge" id="notif-popup-badge">{% if unread_notifications > 9 %}9+{% else %}{{ unread_notifications }}{% endif %}</span>
             {% else %}
             <span class="notif-popup-badge" id="notif-popup-badge" style="display:none;"></span>
             {% endif %}

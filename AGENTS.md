@@ -362,9 +362,113 @@ In light mode, text buttons and outlined buttons had solid blue (`var(--md-prima
 
 ---
 
+## AI4Bharat Arena Proxy (Neby AI on Android)
+
+The Android "Neby AI" tab uses a Django proxy in front of the public AI4Bharat Arena (`https://backend.arena.ai4bharat.co` — note `.co`, not `.org`). The arena is reverse-engineered from the SPA's source map at `https://arena.ai4bharat.org/static/js/main.ca5f343c.js.map`.
+
+### How it works
+- The arena is a free public chatbot arena. It exposes a Django/DRF backend that lets you mint an anonymous guest token via `POST /auth/anonymous/` and then call chat completions with no rate-limit login.
+- **Per-anon-token limits:** 20 messages / 3 sessions. After that the token returns 401.
+- To scale beyond those limits, we maintain a **pool of anon tokens** in the Redis cache (shared across Passenger workers) and round-robin across them. Pool size default = 12. When a token is at 15/20 messages we stop handing it out for new sessions; at 20 it's marked dead and never reused.
+- Streaming format is **custom** (not SSE): each line is `a0:"<json-stringified text>"` or `ad:{"finishReason":"stop"}`. Our proxy converts that to **OpenAI-style SSE** so any Android chat client can consume it.
+- `modelId` goes **inside** the assistant message object, not at the top of the body. The arena resolves multi-turn threading via the bound `arena_session_id` and `parent_message_ids`.
+
+### New files
+- `backend_python/api/ai4bharat_proxy.py` — anonymous-token pool, low-level client, streaming translator, `pool_stats()` diagnostic
+- `backend_python/api/arena_views.py` — DRF function-based views (auth required): models list, sessions CRUD, send message (SSE), regenerate
+- `backend_python/api/arena_urls.py` — URL routes mounted under `/api/neby-arena/`
+- `backend_python/api/migrations/0031_arena_chat_models.py` — `ArenaChatSession` + `ArenaChatMessage` tables
+- `backend_python/api/management/commands/arena_smoke_test.py` — `python manage.py arena_smoke_test` — verifies upstream reachability + multi-turn threading
+- `backend_python/api/management/commands/arena_e2e_test.py` — `python manage.py arena_e2e_test` — in-process E2E test of all 9 endpoints (creates a `testarena` user, runs real chat against the live arena)
+
+### Modified files
+- `backend_python/api/models.py` — added `ArenaChatSession` and `ArenaChatMessage` models
+- `backend_python/api/throttles.py` — added `ArenaChatRateThrottle` (60/min, env-overridable via `DRF_ARENA_CHAT_THROTTLE`) and `ArenaListRateThrottle` (120/min)
+- `backend_python/api/urls.py` — mounted `api.arena_urls` under `/api/neby-arena/`
+- `backend_python/nebians/settings.py` — added two new throttle scopes
+
+### Endpoints (all require `Authorization: Bearer <auth_token>`)
+| Method | Path | Purpose |
+|---|---|---|
+| GET | `/api/neby-arena/models/` | List active LLM models (Redis-cached 5 min) |
+| GET | `/api/neby-arena/sessions/` | List user's chat sessions |
+| POST | `/api/neby-arena/sessions/` | Create session — body: `{ "modelId": "...", "title": "..." }` |
+| GET | `/api/neby-arena/sessions/<id>/` | Session + full message history |
+| PATCH | `/api/neby-arena/sessions/<id>/` | Update title / isActive |
+| DELETE | `/api/neby-arena/sessions/<id>/` | Hard delete (cascades to messages) |
+| POST | `/api/neby-arena/sessions/<id>/messages/` | Send message — body: `{ "content": "..." }` — **SSE streaming response** |
+| POST | `/api/neby-arena/messages/<id>/regenerate/` | Regenerate last assistant reply — **SSE streaming** |
+| GET | `/api/neby-arena/pool-stats/` | Pool snapshot (staff only) |
+
+### SSE wire format (OpenAI-compatible)
+```
+data: {"choices":[{"index":0,"delta":{"role":"assistant","messageId":"...","userMessageId":"..."}}]}
+
+data: {"choices":[{"index":0,"delta":{"content":"chunk"}}]}
+
+...
+data: {"choices":[{"index":0,"delta":{},"finish_reason":"stop"}]}
+
+data: [DONE]
+```
+On error mid-stream:
+```
+data: {"error":{"message":"...","code":"upstream|server|not_found"}}
+
+data: [DONE]
+```
+
+### Gotchas
+- **Pool is in Redis cache** — keys `arena:pool:index` (set of tokens) and `arena:token:<token>` (JSON metadata). Survives Passenger worker restarts.
+- **`ARENA_TENANT` is empty by default** — the arena's tenant routing is optional for the public site.
+- **`X-Anonymous-Token` header** is what we send to the arena, NOT `Authorization: Bearer`. The arena uses either, but anonymous tokens are easier to pool than JWTs.
+- **Streaming generator uses pre-insert + finalise** — we save the assistant row in `pending` state at request start, then update with content on completion. If the client disconnects mid-stream, the partial content is still in the DB.
+- **Regenerate reuses the assistant row's id** — so the client doesn't need to re-render. The `preinsert_assistant=False` flag in `_stream_assistant` is critical.
+- **If the bound token dies mid-conversation**, the next send returns an `error: code=upstream` SSE event. The client should start a new session. (Auto-recovery with history replay is on the roadmap.)
+- **No `is_active` field on `User` model** — use `is_locked` for block checks (the User model uses `is_locked`, not Django's default `is_active`).
+
+### Operational notes
+- The proxy depends only on the standard `requests` library — no extra PyPI deps needed.
+- Upstream API can be flaky during arena maintenance windows. Throttle is 60/min; pool is 12 tokens → ~720 msgs/hour theoretical max.
+- For high-traffic scenarios, increase `TOKEN_POOL_SIZE` in `ai4bharat_proxy.py`.
+
+---
+
 ## Continuity Notes
 
 ### What Was Being Worked On (Last Session)
+**Admin panel: BotConfig provider switcher** — added a `provider` dropdown to `/admin/bot/` so the admin can flip the Neby AI bot between three backends without code changes:
+
+- **`qwen`** (default) — Qwen web chat via `qwen_proxy.call_qwen`
+- **`ai4bharat`** — Indic LLM Arena via the new `ai4bharat_proxy.simple_chat()` (anon-token pool, non-streaming)
+- **`custom`** — any OpenAI-compatible `/chat/completions` endpoint via the new `api/custom_provider.py`
+
+The model picker swaps options based on provider (7 Qwen models / 11 AI4Bharat UUIDs / free-form text). The URL field changes its default + help text per provider, and is "sticky" — if the admin types a custom URL, switching providers won't overwrite it. The "API Key" field is always shown (Qwen ignores it, AI4Bharat ignores it, custom may need it).
+
+**Files added:**
+- `api/custom_provider.py` — generic OpenAI-compatible client (`call_custom(api_url, api_key, model, ...)`)
+- `api/management/commands/test_bot_providers.py` — spins up a fake OpenAI server, exercises all 3 providers, restores config on exit
+
+**Files modified:**
+- `api/models.py` — added `BotConfig.provider` (choices: qwen/ai4bharat/custom, default qwen) + widened `model` to 200 chars
+- `api/neby.py` — `call_ai_api()` now dispatches to the right provider; renamed docstring
+- `web/views.py` — `admin_bot_config()` reads + validates the new `provider` field
+- `web/templates/admin_panel/bot_config.html` — provider dropdown, dynamic model picker, JS-driven UI swap
+- `api/migrations/0032_botconfig_provider.py` — adds `provider` column + backfills existing rows to 'qwen'
+
+**Verified end-to-end** (all 3 providers returned text via the same `call_ai_api` dispatcher):
+- `qwen` → 'OK'
+- `ai4bharat` (live) → 'OK' via Gemini 3.5 Flash
+- `custom` (fake OpenAI server) → 'Hello from custom!' with correct system+user roles in request
+
+Deployed to production. Migration 0032 applied. `/admin/bot/` returns 302 to login as expected.
+
+---
+
+### Previous Session
+**AI4Bharat Arena proxy for "Neby AI" on Android** — reverse-engineered https://arena.ai4bharat.org/ (Indic LLM Arena) and built a Django proxy in front of it. See the **"AI4Bharat Arena Proxy"** section above for the full architecture.
+
+### Previous Session
 UI/UX revamp — home page, library, search, and design system consistency pass:
 
 **Home page revamp:**

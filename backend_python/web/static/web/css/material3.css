@@ -101,6 +101,7 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
@@ -109,6 +110,7 @@ body {
   color: var(--md-on-surface);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
 
 button,
@@ -695,9 +697,9 @@ img {
 
 /* Dropdown card */
 .profile-dropdown-menu {
-  position: absolute;
-  right: 0;
-  top: calc(100% + 8px);
+  position: fixed;
+  right: 12px;
+  top: 64px;
   width: 224px;
   background: var(--md-surface);
   border: 1px solid var(--md-outline-variant);
@@ -707,7 +709,7 @@ img {
   display: flex;
   flex-direction: column;
   gap: 2px;
-  z-index: 101;
+  z-index: 200;
   opacity: 0;
   visibility: hidden;
   transform: translateY(-4px);

@@ -147,12 +147,40 @@ def _build_reply_context(reply, max_context_replies=10):
 
 
 def call_ai_api(system_prompt, user_message, config=None):
-    """Call Qwen AI directly via our own proxy. Returns response text or None."""
-    from .qwen_proxy import call_qwen
+    """Dispatch to the configured AI provider.
+
+    Supports:
+      - 'qwen'      → Qwen web chat (chat.qwen.ai), via qwen_proxy.call_qwen
+      - 'ai4bharat' → AI4Bharat Indic LLM Arena, via ai4bharat_proxy.simple_chat
+      - 'custom'    → any OpenAI-compatible /chat/completions endpoint
+    Returns response text or None.
+    """
     if config is None:
         config = BotConfig.get_config()
-    model = config.model or 'qwen3.6-plus'
+    provider = (config.provider or 'qwen').strip().lower()
     max_tokens = config.response_max_length or 500
+
+    if provider == 'ai4bharat':
+        from . import ai4bharat_proxy
+        return ai4bharat_proxy.simple_chat(
+            user_message=user_message,
+            model_id=config.model or None,
+            system_prompt=system_prompt or '',
+            max_tokens=max_tokens,
+        )
+    if provider == 'custom':
+        from .custom_provider import call_custom
+        return call_custom(
+            api_url=config.api_url or '',
+            api_key=config.api_key or '',
+            model=config.model or '',
+            system_prompt=system_prompt or '',
+            user_message=user_message,
+            max_tokens=max_tokens,
+        )
+    # default: qwen
+    from .qwen_proxy import call_qwen
+    model = config.model or 'qwen3.6-plus'
     return call_qwen(system_prompt, user_message, model=model, max_tokens=max_tokens)
 
 
