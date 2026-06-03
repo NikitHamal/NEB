@@ -71,8 +71,8 @@
           <div class="md-body-small" style="color:var(--md-on-surface-variant);">{{ p.category }} · {{ p.authorName }}</div>
         </div>
         <div style="display:flex;gap:8px;align-items:center;font-size:0.75rem;color:var(--md-on-surface-variant);">
-          <span>👍 {{ p.thumbsUpCount }}</span>
-          <span>💬 {{ p.replyCount }}</span>
+<span><span class="material-symbols-outlined" style="font-size:16px;">thumb_up</span> {{ p.thumbsUpCount }}</span>
+           <span><span class="material-symbols-outlined" style="font-size:16px;">chat_bubble</span> {{ p.replyCount }}</span>
         </div>
       </div>
       {% endfor %}
@@ -92,7 +92,7 @@
     <div style="display:flex;align-items:center;gap:12px;">
       <div class="md-body-small" style="width:120px;text-align:right;">{{ subject }}</div>
       <div style="flex:1;height:24px;background:var(--md-surface-variant);border-radius:4px;overflow:hidden;">
-        <div style="height:100%;background:var(--md-primary);border-radius:4px;width:{% widthratio count stats.total_resources 100 %}%;max-width:100%;"></div>
+        <div style="height:100%;background:var(--md-primary);border-radius:4px;{% if stats.total_resources > 0 %}width:{% widthratio count stats.total_resources 100 %}%;{% else %}width:0%;{% endif %}max-width:100%;"></div>
       </div>
       <div class="md-body-small" style="width:40px;">{{ count }}</div>
     </div>
