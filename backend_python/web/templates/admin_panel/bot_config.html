@@ -71,26 +71,39 @@
       </div>
 
       <div style="margin-bottom:16px;">
-        <label for="id_api_url" style="display:block;font-size:0.8125rem;font-weight:500;margin-bottom:4px;color:var(--md-on-surface-variant);">API URL</label>
-        <input type="url" name="api_url" id="id_api_url" value="{{ config.api_url }}" style="width:100%;padding:10px 12px;border-radius:8px;border:1px solid var(--md-outline);background:var(--md-surface);color:var(--md-on-surface);font-family:var(--md-font);font-size:0.875rem;">
+        <label for="id_provider" style="display:block;font-size:0.8125rem;font-weight:500;margin-bottom:4px;color:var(--md-on-surface-variant);">AI Provider</label>
+        <select name="provider" id="id_provider" data-action="provider-change" style="width:100%;padding:10px 12px;border-radius:8px;border:1px solid var(--md-outline);background:var(--md-surface);color:var(--md-on-surface);font-family:var(--md-font);font-size:0.875rem;cursor:pointer;">
+          <option value="qwen"      {% if config.provider == 'qwen' %}selected{% endif %}>Qwen (chat.qwen.ai)</option>
+          <option value="ai4bharat" {% if config.provider == 'ai4bharat' %}selected{% endif %}>AI4Bharat Arena (Indic LLM Arena)</option>
+          <option value="custom"    {% if config.provider == 'custom' %}selected{% endif %}>Custom (any OpenAI-compatible endpoint)</option>
+        </select>
+        <p style="font-size:0.75rem;color:var(--md-on-surface-variant);margin:4px 0 0;" id="id_provider_help">
+          Choose which AI backend powers the Neby bot. You can switch at any time.
+        </p>
       </div>
 
-      <div style="margin-bottom:16px;">
+      <div style="margin-bottom:16px;" id="id_api_url_row">
+        <label for="id_api_url" style="display:block;font-size:0.8125rem;font-weight:500;margin-bottom:4px;color:var(--md-on-surface-variant);" id="id_api_url_label">API URL</label>
+        <input type="url" name="api_url" id="id_api_url" value="{{ config.api_url }}" style="width:100%;padding:10px 12px;border-radius:8px;border:1px solid var(--md-outline);background:var(--md-surface);color:var(--md-on-surface);font-family:var(--md-font);font-size:0.875rem;">
+        <p style="font-size:0.75rem;color:var(--md-on-surface-variant);margin:4px 0 0;" id="id_api_url_help">
+          Full URL to a chat-completions endpoint.
+        </p>
+      </div>
+
+      <div style="margin-bottom:16px;" id="id_api_key_row">
         <label for="id_api_key" style="display:block;font-size:0.8125rem;font-weight:500;margin-bottom:4px;color:var(--md-on-surface-variant);">API Key <span style="font-weight:400;">(optional — leave blank if proxy doesn't require auth)</span></label>
         <input type="password" name="api_key" id="id_api_key" value="{{ config.api_key }}" placeholder="Leave blank if not needed" style="width:100%;padding:10px 12px;border-radius:8px;border:1px solid var(--md-outline);background:var(--md-surface);color:var(--md-on-surface);font-family:var(--md-font);font-size:0.875rem;">
       </div>
 
       <div style="margin-bottom:16px;">
-        <label for="id_model" style="display:block;font-size:0.8125rem;font-weight:500;margin-bottom:4px;color:var(--md-on-surface-variant);">Model</label>
-        <select name="model" id="id_model" style="width:100%;padding:10px 12px;border-radius:8px;border:1px solid var(--md-outline);background:var(--md-surface);color:var(--md-on-surface);font-family:var(--md-font);font-size:0.875rem;">
-          <option value="qwen3.6-plus" {% if config.model == 'qwen3.6-plus' %}selected{% endif %}>Qwen 3.6 Plus (default)</option>
-          <option value="qwen3.7-max" {% if config.model == 'qwen3.7-max' %}selected{% endif %}>Qwen 3.7 Max</option>
-          <option value="qwen3.7-plus" {% if config.model == 'qwen3.7-plus' %}selected{% endif %}>Qwen 3.7 Plus</option>
-          <option value="qwen3.6-max-preview" {% if config.model == 'qwen3.6-max-preview' %}selected{% endif %}>Qwen 3.6 Max Preview</option>
-          <option value="qwen3.5-plus" {% if config.model == 'qwen3.5-plus' %}selected{% endif %}>Qwen 3.5 Plus</option>
-          <option value="qwen2.5-coder-32b" {% if config.model == 'qwen2.5-coder-32b' %}selected{% endif %}>Qwen 2.5 Coder 32B</option>
-          <option value="qwq-32b" {% if config.model == 'qwq-32b' %}selected{% endif %}>Qwq 32B</option>
+        <label for="id_model" style="display:block;font-size:0.8125rem;font-weight:500;margin-bottom:4px;color:var(--md-on-surface-variant);" id="id_model_label">Model</label>
+        <!-- Select is shown for qwen / ai4bharat; text input is swapped in for custom. -->
+        <select name="model_select" id="id_model_select" style="width:100%;padding:10px 12px;border-radius:8px;border:1px solid var(--md-outline);background:var(--md-surface);color:var(--md-on-surface);font-family:var(--md-font);font-size:0.875rem;">
         </select>
+        <input type="text" name="model_text" id="id_model_text" placeholder="model-name-or-uuid" style="display:none;width:100%;padding:10px 12px;border-radius:8px;border:1px solid var(--md-outline);background:var(--md-surface);color:var(--md-on-surface);font-family:var(--md-font);font-size:0.875rem;">
+        <!-- Hidden mirror of whichever control is visible, so the form field is always called "model". -->
+        <input type="hidden" name="model" id="id_model" value="{{ config.model }}">
+        <p style="font-size:0.75rem;color:var(--md-on-surface-variant);margin:4px 0 0;" id="id_model_help"></p>
       </div>
     </div>
 
@@ -137,12 +150,147 @@
 
 {% block extra_js %}
 <script nonce="{{ csp_nonce }}">
-  // Toggle switch functionality
-  const toggle = document.getElementById('id_enabled');
-  if (toggle) {
-    toggle.addEventListener('change', function() {
-      // Visual feedback is handled by CSS
-    });
+  // Curated AI4Bharat Arena model list (mirrors fetch_models_for_client output).
+  // The UUIDs are stable per the upstream arena and rarely change.
+  const AI4BHARAT_MODELS = [
+    { id: 'fadda998-e440-4c44-81b4-b0ecae27a0c5', name: 'Gemini 3.5 Flash',                    code: 'gemini-3.5-flash' },
+    { id: 'd95f1077-e440-4c44-81b4-b0ecae27a0c5', name: 'Nemotron 3 Super 120B A12B',         code: 'nemotron-3-super-120b-a12b' },
+    { id: '7927d963-e440-4c44-81b4-b0ecae27a0c5', name: 'Nemotron 3 Nano Omni 30B A3B Reasoning', code: 'nemotron-3-nano-omni-30b-a3b-reasoning' },
+    { id: 'bb89dfa2-e440-4c44-81b4-b0ecae27a0c5', name: 'Gemma 4 26B A4B it',                  code: 'gemma-4-26b-a4b-it' },
+    { id: '860f13ee-e440-4c44-81b4-b0ecae27a0c5', name: 'Gemma 4 31B it',                      code: 'gemma-4-31b-it' },
+    { id: 'ca7565b7-e440-4c44-81b4-b0ecae27a0c5', name: 'Gemini 3.1 Flash Lite',               code: 'gemini-3.1-flash-lite' },
+    { id: 'a3581540-e440-4c44-81b4-b0ecae27a0c5', name: 'Sarvam 105B',                          code: 'sarvam-105b' },
+    { id: '8087217e-e440-4c44-81b4-b0ecae27a0c5', name: 'Sarvam 30B',                           code: 'sarvam-30b' },
+    { id: '1f228a49-e440-4c44-81b4-b0ecae27a0c5', name: 'Gemini 3 Flash',                       code: 'gemini-3-flash' },
+    { id: '318878b7-e440-4c44-81b4-b0ecae27a0c5', name: 'Gemini 2.5 Flash',                     code: 'gemini-2.5-flash' },
+    { id: '864608e8-e440-4c44-81b4-b0ecae27a0c5', name: 'Gemini 2.5 Flash Lite',                code: 'gemini-2.5-flash-lite' },
+  ];
+
+  const QWEN_MODELS = [
+    { value: 'qwen3.6-plus',         label: 'Qwen 3.6 Plus (default)' },
+    { value: 'qwen3.7-max',          label: 'Qwen 3.7 Max' },
+    { value: 'qwen3.7-plus',         label: 'Qwen 3.7 Plus' },
+    { value: 'qwen3.6-max-preview',  label: 'Qwen 3.6 Max Preview' },
+    { value: 'qwen3.5-plus',         label: 'Qwen 3.5 Plus' },
+    { value: 'qwen2.5-coder-32b',    label: 'Qwen 2.5 Coder 32B' },
+    { value: 'qwq-32b',              label: 'Qwq 32B' },
+  ];
+
+  const PROVIDER_CONFIG = {
+    qwen: {
+      urlLabel: 'API URL',
+      urlHelp: 'Qwen endpoint (leave default).',
+      urlDefault: 'https://chat.qwen.ai/api/v2',
+      modelControl: 'select',
+      modelHelp: 'Pick a Qwen model.',
+      options: QWEN_MODELS,
+    },
+    ai4bharat: {
+      urlLabel: 'API URL',
+      urlHelp: 'AI4Bharat Arena endpoint (leave default).',
+      urlDefault: 'https://backend.arena.ai4bharat.co',
+      modelControl: 'select',
+      modelHelp: 'Pick an AI4Bharat Arena model. Indic models (Sarvam) work best for Hindi/Nepali.',
+      options: AI4BHARAT_MODELS,
+    },
+    custom: {
+      urlLabel: 'API URL',
+      urlHelp: 'Full URL to any OpenAI-compatible /chat/completions endpoint (e.g. https://api.openai.com/v1/chat/completions).',
+      urlDefault: '',
+      modelControl: 'text',
+      modelHelp: 'Free-form model name as required by the provider.',
+      options: [],
+    },
+  };
+
+  let userTouchedUrl = false;
+  const urlEl = document.getElementById('id_api_url');
+  if (urlEl) {
+    urlEl.addEventListener('input', () => { userTouchedUrl = true; });
   }
+
+  function rebuildModelControl(provider, currentValue) {
+    const cfg = PROVIDER_CONFIG[provider];
+    const select = document.getElementById('id_model_select');
+    const text = document.getElementById('id_model_text');
+    const hidden = document.getElementById('id_model');
+    select.innerHTML = '';
+    if (cfg.modelControl === 'select') {
+      select.style.display = '';
+      text.style.display = 'none';
+      // Add a placeholder option if the current value doesn't match anything
+      let matched = false;
+      for (const opt of cfg.options) {
+        const o = document.createElement('option');
+        const v = opt.id || opt.value;
+        o.value = v;
+        o.textContent = opt.label || opt.name + '  (' + (opt.code || v) + ')';
+        if (v === currentValue) {
+          o.selected = true;
+          matched = true;
+        }
+        select.appendChild(o);
+      }
+      if (!matched && currentValue) {
+        const o = document.createElement('option');
+        o.value = currentValue;
+        o.textContent = currentValue + '  (custom value)';
+        o.selected = true;
+        select.appendChild(o);
+      }
+    } else {
+      select.style.display = 'none';
+      text.style.display = '';
+      text.value = currentValue || '';
+    }
+    if (hidden) hidden.value = currentValue || '';
+  }
+
+  function onProviderChange() {
+    const provider = document.getElementById('id_provider').value;
+    const cfg = PROVIDER_CONFIG[provider] || PROVIDER_CONFIG.qwen;
+    // URL row
+    document.getElementById('id_api_url_label').textContent = cfg.urlLabel;
+    document.getElementById('id_api_url_help').textContent = cfg.urlHelp;
+    if (!userTouchedUrl) {
+      urlEl.value = cfg.urlDefault;
+    }
+    // Show / hide API key row (Qwen uses cookies not keys; ai4bharat uses anon tokens;
+    // custom might need a key). Always show it for safety.
+    document.getElementById('id_api_key_row').style.display = '';
+    // Model control
+    const currentModel = document.getElementById('id_model').value;
+    rebuildModelControl(provider, currentModel);
+    document.getElementById('id_model_help').textContent = cfg.modelHelp;
+  }
+
+  // Mirror the visible control's value into the hidden "model" field on submit.
+  function syncModelHidden() {
+    const provider = document.getElementById('id_provider').value;
+    const cfg = PROVIDER_CONFIG[provider] || PROVIDER_CONFIG.qwen;
+    const hidden = document.getElementById('id_model');
+    const select = document.getElementById('id_model_select');
+    const text = document.getElementById('id_model_text');
+    if (cfg.modelControl === 'select') {
+      hidden.value = select.value;
+    } else {
+      hidden.value = text.value.trim();
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const select = document.getElementById('id_model_select');
+    const text = document.getElementById('id_model_text');
+    if (select) select.addEventListener('change', syncModelHidden);
+    if (text) text.addEventListener('input', syncModelHidden);
+    document.querySelector('form').addEventListener('submit', syncModelHidden);
+    onProviderChange();
+  });
+
+  registerActions({
+    'provider-change': function(el, e) {
+      onProviderChange();
+    }
+  });
 </script>
 {% endblock %}
