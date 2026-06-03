@@ -3305,3 +3305,26 @@ button:focus-visible {
   background: var(--md-surface-container-lowest) !important;
   border: 1px solid var(--md-outline-variant) !important;
 }
+
+/* Custom white background and light stroke for chips and nav-pill */
+.md-chip, .filter-chip-select {
+  background: var(--md-surface-container-lowest) !important;
+  border: 1px solid var(--md-outline-variant) !important;
+}
+
+.md-chip:hover, .filter-chip-select:hover {
+  background: var(--md-surface-container-low) !important;
+  border-color: var(--md-outline) !important;
+}
+
+/* Ensure selected/active states are still colored correctly */
+.md-chip-active, .filter-chip-select.selected {
+  background: var(--md-secondary-container) !important;
+  border-color: transparent !important;
+  color: var(--md-on-secondary-container) !important;
+}
+
+.md-nav-pill {
+  background: var(--md-surface-container-lowest) !important;
+  border: 1px solid var(--md-outline-variant) !important;
+}
