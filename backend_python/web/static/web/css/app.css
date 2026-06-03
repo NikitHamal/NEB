@@ -3113,53 +3113,6 @@ button:focus-visible {
   text-decoration: underline;
 }
 
-/* Custom Header Guest Styles matching user request */
-.md-topbar .md-search-bar {
-  background: var(--md-surface-container-lowest);
-  border: 1px solid var(--md-outline-variant);
-  border-radius: 8px;
-  height: 40px;
-  width: 260px;
-  padding: 0 12px;
-  transition: all var(--md-transition);
-}
-
-.md-topbar .md-search-bar:focus-within {
-  border-color: var(--md-primary);
-  background: var(--md-surface-container-lowest);
-  box-shadow: 0 0 0 1px var(--md-primary);
-}
-
-.md-topbar-actions .auth-btn-signin {
-  background: var(--md-surface-container-lowest);
-  color: var(--md-on-surface);
-  border: 1px solid var(--md-outline-variant);
-  border-radius: 8px;
-  font-weight: 500;
-  padding: 8px 18px;
-  min-height: 38px;
-  transition: all var(--md-transition);
-}
-
-.md-topbar-actions .auth-btn-signin:hover {
-  background: var(--md-surface-container-low);
-  border-color: var(--md-outline);
-}
-
-.md-topbar-actions .auth-btn-register {
-  background: var(--md-primary);
-  color: var(--md-on-primary);
-  border-radius: 8px;
-  font-weight: 600;
-  padding: 8px 18px;
-  min-height: 38px;
-  transition: all var(--md-transition);
-}
-
-.md-topbar-actions .auth-btn-register:hover {
-  filter: brightness(1.08);
-}
-
 /* Responsive grid media queries */
 @media (max-width: 900px) {
   .profile-grid-container {
