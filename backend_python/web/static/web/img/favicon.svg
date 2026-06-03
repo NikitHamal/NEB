@@ -29,6 +29,9 @@
   </linearGradient>
 </defs>
 
+<!-- Squircle background -->
+<rect width="1024" height="1024" rx="224" fill="#ffffff" />
+
 <g transform="translate(210.601 86.137) scale(0.610119)" stroke-linejoin="round" stroke-linecap="round">
   <g fill="none" stroke="#ffffff" stroke-opacity="0.72" stroke-width="10">
     <path d="M500 42 L501 135 L856 370 L858 1287 L943 1219 L943 331 Z"/>
