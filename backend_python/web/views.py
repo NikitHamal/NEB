@@ -3853,6 +3853,7 @@ def robots_txt(request):
         'Disallow: /ajax/',
         'Disallow: /auth/',
         'Disallow: /login/',
+        'Disallow: /logout/',
         'Disallow: /profile/edit/',
         '',
         'Sitemap: https://nebians.consica.com.np/sitemap.xml',
