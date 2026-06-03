@@ -452,3 +452,18 @@ input[type="file"].md-input::file-selector-button:hover {
     top: 0;
     outline: none;
 }
+
+/* --- Flat Admin Design overrides (Remove excessive shadows) --- */
+.admin-layout .md-card-elevated {
+    box-shadow: none !important;
+    background: var(--md-surface-container-low);
+    border: 1px solid var(--md-outline-variant);
+}
+
+/* Disable all transitions and animations in admin panel components to keep it flat and instant */
+.admin-layout *,
+.md-topbar *,
+.admin-mobile-nav * {
+    transition: none !important;
+    animation: none !important;
+}

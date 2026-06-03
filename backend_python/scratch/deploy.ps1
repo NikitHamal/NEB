@@ -75,6 +75,7 @@ mkdir -p public/static/web/css
 mkdir -p public/static/web/js
 cp -f web/static/web/css/app.css public/static/web/css/app.css
 cp -f web/static/web/css/material3.css public/static/web/css/material3.css
+cp -f web/static/web/css/admin.css public/static/web/css/admin.css
 cp -f web/static/web/js/delegated-events.js public/static/web/js/delegated-events.js
 
 echo 'Restarting Phusion Passenger application...'

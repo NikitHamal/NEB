@@ -18,7 +18,7 @@ from django.utils.html import escape
 
 from api.models import User, Resource, ResourceRequest, ResourceRequestUpvote, Post, PostLike, Reply, ReplyLike, Follow, UserPhoto, EditHistory, Bookmark, Notification, Report
 from api.models import ResourceLike, ResourceComment, ResourceCommentLike
-from api.serializers import UserSerializer
+from api.serializers import UserSerializer, ResourceSerializer, PostSerializer, ReplySerializer
 from api.security import (
     get_user_by_auth_token, hash_auth_token, issue_auth_token, revoke_auth_token,
     save_profile_image_upload, validate_profile_photo_url,
@@ -3356,7 +3356,6 @@ def admin_resource_edit(request, resource_id):
         'Province 1', 'Madhesh', 'Bagmati', 'Gandaki', 'Lumbini', 'Karnali', 'Sudurpashchim',
     ]
     resource_types = ['PDF', 'Note', 'Video', 'Audio', 'Image', 'Link', 'Textbook', 'Past Paper', 'Model Paper', 'Guide', 'Solution', 'Presentation']
-    from api.serializers import ResourceSerializer
     resource_data = ResourceSerializer(resource_obj).data
     return render(request, 'admin_panel/resource_edit.html', {
         'is_admin': True,
@@ -3413,7 +3412,6 @@ def admin_post_detail(request, post_id):
         post_obj = Post.objects.select_related('user').get(pk=post_id)
     except Post.DoesNotExist:
         return redirect('web:admin_posts')
-    from api.serializers import PostSerializer, ReplySerializer
     post_data = PostSerializer(post_obj, context={}).data
     replies_qs = Reply.objects.filter(post_id=post_id).select_related('user')
     replies_data = [ReplySerializer(r, context={}).data for r in replies_qs]
