@@ -188,6 +188,8 @@ REST_FRAMEWORK = {
         'search': os.environ.get('DRF_SEARCH_THROTTLE', '60/minute'),
         'upload': os.environ.get('DRF_UPLOAD_THROTTLE', '10/hour'),
         'view_increment': os.environ.get('DRF_VIEW_INCREMENT_THROTTLE', '60/minute'),
+        'arena_chat': os.environ.get('DRF_ARENA_CHAT_THROTTLE', '60/minute'),
+        'arena_list': os.environ.get('DRF_ARENA_LIST_THROTTLE', '120/minute'),
     },
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': int(os.environ.get('API_PAGE_SIZE', '50')),
