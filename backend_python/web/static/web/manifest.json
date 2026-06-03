@@ -1,0 +1,21 @@
+{
+  "name": "NEBians - NEB Students Network",
+  "short_name": "NEBians",
+  "description": "Study resources, discussion forum, and community for NEB students in Nepal",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1B6EF3",
+  "icons": [
+    {
+      "src": "/static/web/img/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/static/web/img/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
