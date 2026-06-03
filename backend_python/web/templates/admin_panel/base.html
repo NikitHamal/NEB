@@ -16,6 +16,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block title %}Admin{% endblock %} | NEBians Admin</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="{% static 'web/img/favicon-32x32.png' %}">
+  <link rel="icon" type="image/x-icon" href="{% static 'web/img/favicon.ico' %}">
+  <link rel="apple-touch-icon" sizes="180x180" href="{% static 'web/img/apple-touch-icon.png' %}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0..1,0&display=swap">
@@ -31,10 +34,7 @@
   <nav class="admin-mobile-nav" id="mobileNav">
     <div class="mobile-header">
       <a href="{% url 'web:admin_dashboard' %}">
-        <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" width="24" height="24">
-          <rect width="32" height="32" rx="8" fill="var(--md-primary)"/>
-          <path d="M8 8h3v16H8V8zm5 0h3v16h-3V8zm5 0v16l8-8-8-8z" fill="var(--md-on-primary)"/>
-        </svg>
+        <img src="{% static 'web/img/logo-192.png' %}" alt="NEBians" width="24" height="24">
         NEBians Admin
       </a>
       <button class="md-btn-icon" data-action="close-mobile-nav" aria-label="Close menu">
@@ -82,10 +82,7 @@
       <span class="material-symbols-outlined">menu</span>
     </button>
     <a href="{% url 'web:admin_dashboard' %}" class="md-topbar-brand" style="color:var(--md-primary);">
-      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" width="28" height="28">
-        <rect width="32" height="32" rx="8" fill="var(--md-primary)"/>
-        <path d="M8 8h3v16H8V8zm5 0h3v16h-3V8zm5 0v16l8-8-8-8z" fill="var(--md-on-primary)"/>
-      </svg>
+      <img src="{% static 'web/img/logo-192.png' %}" alt="NEBians" width="28" height="28">
       NEBians Admin
     </a>
     <div style="margin-left:auto;display:flex;align-items:center;gap:8px;">

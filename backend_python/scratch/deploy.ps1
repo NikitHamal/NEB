@@ -78,10 +78,12 @@ python manage.py migrate
 echo 'Resolving cPanel static files two-location copies...'
 mkdir -p public/static/web/css
 mkdir -p public/static/web/js
+mkdir -p public/static/web/img
 cp -f web/static/web/css/app.css public/static/web/css/app.css
 cp -f web/static/web/css/material3.css public/static/web/css/material3.css
 cp -f web/static/web/css/admin.css public/static/web/css/admin.css
 cp -f web/static/web/js/delegated-events.js public/static/web/js/delegated-events.js
+cp -rf web/static/web/img/ public/static/web/img/
 
 echo 'Restarting Phusion Passenger application...'
 rm -rf tmp/*
