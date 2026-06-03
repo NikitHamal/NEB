@@ -28,9 +28,9 @@ android {
     signingConfigs {
         create("release") {
             storeFile = file("${rootProject.projectDir}/nebians-release.keystore")
-            storePassword = "nebians123"
+            storePassword = System.getenv("KEYSTORE_PASSWORD") ?: project.findProperty("KEYSTORE_PASSWORD") as? String ?: "nebians123"
             keyAlias = "nebians"
-            keyPassword = "nebians123"
+            keyPassword = System.getenv("KEY_PASSWORD") ?: project.findProperty("KEY_PASSWORD") as? String ?: "nebians123"
         }
     }
 
