@@ -795,6 +795,8 @@
                   {% elif profile_user.class_level == '12' %}Grade 12 Student
                   {% elif profile_user.class_level == 'Both' %}Grade 11 & 12 Student
                   {% elif profile_user.class_level == 'Passout' %}NEB Graduate
+                  {% elif profile_user.class_level == 'Teacher' %}Teacher / Educator
+                  {% elif profile_user.class_level == 'Bachelors' %}University Student
                   {% else %}{{ profile_user.class_level }} Student{% endif %}
                 {% else %}
                   NEBians Member
@@ -1354,6 +1356,8 @@
                     {% elif profile_user.class_level == '12' %}Grade 12
                     {% elif profile_user.class_level == 'Both' %}Grade 11 & 12
                     {% elif profile_user.class_level == 'Passout' %}NEB Graduate
+                    {% elif profile_user.class_level == 'Teacher' %}Teacher
+                    {% elif profile_user.class_level == 'Bachelors' %}Bachelors
                     {% else %}{{ profile_user.class_level }}{% endif %}
                   </span>
                 </div>
