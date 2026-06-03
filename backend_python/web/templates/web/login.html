@@ -566,5 +566,16 @@ window.handleForgot = function(e) {
     })
     .catch(function() { errorEl.textContent = 'Network error'; btn.disabled = false; btn.innerHTML = '<span>Send code</span>'; });
 };
+
+// Check for initial panel parameter on load
+(function() {
+  var urlParams = new URLSearchParams(window.location.search);
+  var panel = urlParams.get('panel');
+  if (panel) {
+    setTimeout(function() {
+      window.showPanel(panel);
+    }, 0);
+  }
+})();
 </script>
 {% endblock %}

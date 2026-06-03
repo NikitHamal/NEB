@@ -2438,7 +2438,7 @@ def logout(request):
 def email_signup_page(request):
     if api.get_session_token(request):
         return redirect('web:home')
-    return render(request, 'web/email_signup.html', _ctx(request))
+    return redirect('/login/?panel=email-signup')
 
 
 def email_login_page(request):
