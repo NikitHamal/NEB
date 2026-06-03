@@ -12,7 +12,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="{% static 'web/img/n-logo-180.png' %}">
   <link rel="manifest" href="{% static 'web/manifest.json' %}">
   <meta name="theme-color" content="#004bd4">
-  <link rel="canonical" href="{{ request.build_absolute_uri }}">
+  <link rel="canonical" href="{% block canonical %}https://nebians.consica.com.np{{ request.path }}{% endblock %}">
   <meta name="description"
     content="{% block description %}NEBians - Free study platform and discussion forum for students and teachers of all classes and faculties in Nepal. Find and share notes, past papers, textbooks, and more.{% endblock %}">
   <meta name="keywords"

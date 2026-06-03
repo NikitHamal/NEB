@@ -1980,12 +1980,47 @@ def edit_profile(request):
         api.set_session_auth(request, token, updated_data)
         return redirect('web:home')
     profile_incomplete = not db_user.display_name or not db_user.gender or not db_user.class_level
-    popular_subjects = [
-        'Physics', 'Chemistry', 'Mathematics', 'Biology', 'Computer Science',
-        'English', 'Nepali', 'Social Studies', 'Economics', 'Accountancy',
-        'Business Studies', 'Business Mathematics', 'Civil Engineering', 'Computer Engineering'
+    _default_subjects = [
+        'Physics', 'Chemistry', 'Mathematics', 'Biology', 'English', 'Nepali',
+        'Computer Science', 'Economics', 'Accountancy', 'Business Studies',
+        'Social Studies', 'History', 'Geography', 'Civics', 'Health & Physical Education',
+        'Environment Science', 'Science', 'General Science', 'Life Science',
+        'Physical Science', 'Earth Science', 'Applied Mathematics',
+        'Business Mathematics', 'Statistics', 'Probability',
+        'Microeconomics', 'Macroeconomics',
+        'Financial Accounting', 'Cost Accounting', 'Auditing',
+        'Marketing', 'Office Management', 'Hotel Management',
+        'Computer Engineering', 'Electronics', 'Electrical Engineering',
+        'Civil Engineering', 'Mechanical Engineering', 'Architecture',
+        'Mechanics', 'Thermodynamics', 'Optics', 'Electricity & Magnetism',
+        'Organic Chemistry', 'Inorganic Chemistry', 'Physical Chemistry',
+        'Botany', 'Zoology', 'Genetics', 'Ecology',
+        'English Grammar', 'English Literature', 'Creative Writing',
+        'Nepali Grammar', 'Nepali Literature', 'Essay Writing',
+        'Population Studies', 'Sociology', 'Psychology', 'Philosophy',
+        'Education', 'Pedagogy', 'Curriculum Development',
+        'Law', 'Constitutional Law', 'International Law',
+        'Medicine', 'Pharmacy', 'Nursing', 'Public Health',
+        'Agriculture', 'Forestry', 'Veterinary Science',
+        'Management', 'Human Resource Management', 'Entrepreneurship',
+        'Information Technology', 'Programming', 'Web Development',
+        'Database Management', 'Networking', 'Cybersecurity',
+        'Machine Learning', 'Artificial Intelligence', 'Data Science',
+        'C Programming', 'C++ Programming', 'Python Programming', 'Java Programming',
+        'Digital Logic', 'Operating Systems', 'Software Engineering',
+        'Surveying', 'Estimating & Costing', 'Building Construction',
+        'Fluid Mechanics', 'Strength of Materials', 'Engineering Drawing',
+        'Purana Veda', 'Upanishad', 'Sanskrit', 'Maithili',
     ]
-    return render(request, 'web/edit_profile.html', _ctx(request, has_password=has_password, profile_incomplete=profile_incomplete, popular_subjects=popular_subjects))
+    db_subjects = []
+    for s_str in Resource.objects.values_list('subject', flat=True):
+        if s_str:
+            for s in s_str.split(','):
+                s_stripped = s.strip()
+                if s_stripped:
+                    db_subjects.append(s_stripped)
+    subjects = sorted(set(_default_subjects + db_subjects))
+    return render(request, 'web/edit_profile.html', _ctx(request, has_password=has_password, profile_incomplete=profile_incomplete, subjects=subjects))
 
 
 # ---------------------------------------------------------------------------
