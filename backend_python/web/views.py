@@ -3280,7 +3280,7 @@ def admin_resource_edit(request, resource_id):
         resource_obj.save()
         cache.delete_many(['home_resources', 'library_all_resources'])
         return redirect('web:admin_resources')
-_default_subjects = [
+    _default_subjects = [
         'Physics', 'Chemistry', 'Mathematics', 'Biology', 'English', 'Nepali',
         'Computer Science', 'Economics', 'Accountancy', 'Business Studies',
         'Social Studies', 'History', 'Geography', 'Civics', 'Health & Physical Education',
@@ -3730,7 +3730,7 @@ def admin_bot_config(request):
             config.response_max_length = int(request.POST.get('response_max_length', config.response_max_length))
         except (TypeError, ValueError):
             pass
-config.save()
+        config.save()
         from django.core.cache import cache
         cache.delete('neby_enabled')
         messages.success(request, 'Bot configuration updated.')
