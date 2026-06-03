@@ -2097,9 +2097,9 @@ button:focus-visible {
 }
 
 .follow-btn-inline.following {
-  background: var(--md-primary);
-  color: var(--md-on-primary);
-  border: 1px solid var(--md-primary);
+  background: transparent;
+  color: var(--md-on-surface-variant);
+  border: 1px solid var(--md-outline-variant);
 }
 
 .follow-btn-inline.not-following {
@@ -2125,9 +2125,9 @@ button:focus-visible {
 }
 
 .follow-btn-small.following {
-  background: var(--md-primary);
-  color: var(--md-on-primary);
-  border: 1px solid var(--md-primary);
+  background: transparent;
+  color: var(--md-on-surface-variant);
+  border: 1px solid var(--md-outline-variant);
 }
 
 .follow-btn-small.not-following {
