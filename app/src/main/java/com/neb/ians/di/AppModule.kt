@@ -17,6 +17,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import javax.inject.Singleton
 
@@ -37,7 +38,7 @@ object AppModule {
     fun provideApiService(dataStore: DataStore<Preferences>): ApiService {
         return ApiService.create(tokenProvider = {
             try {
-                runBlocking {
+                runBlocking(Dispatchers.IO) {
                     dataStore.data.map { it[stringPreferencesKey("auth_token")] }.first()
                 }
             } catch (_: Exception) { null }
