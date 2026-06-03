@@ -239,7 +239,8 @@ img { max-width: 100%; height: auto; }
 }
 .md-topbar-brand:hover { text-decoration: none; }
 .md-topbar-brand svg { width: 32px; height: 32px; }
-.md-topbar-brand img { width: 32px; height: 32px; border-radius: 6px; }
+.md-topbar-brand img { width: 32px; height: 32px; }
+.md-topbar-brand .topbar-logo { width: 32px; height: 32px; }
 .md-topbar-nav {
   position: absolute;
   left: 50%;
