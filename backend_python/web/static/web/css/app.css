@@ -1528,6 +1528,9 @@
   color: #9ca3af;
   line-height: 1.2;
   margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .adm-row-pill {
   font-size: 0.625rem;

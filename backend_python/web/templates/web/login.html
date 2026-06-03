@@ -199,33 +199,22 @@
       <div class="auth-brand-decor"></div>
 
       <div class="auth-brand-content">
-        <h1 class="auth-brand-title">Effortlessly manage your study resources and community.</h1>
-        <p class="auth-brand-sub">Notes, model questions, past papers, and an active student forum — all in one place.</p>
+        <h1 class="auth-brand-title">Notes, model questions, past papers, and an active student forum — all in one place.</h1>
+        <p class="auth-brand-sub">Join {{ login_stats.total_users|default:"0" }} students learning together on NEBians.</p>
 
         <div class="auth-dashboard-mock">
           <div class="adm-grid">
             <div class="adm-tile adm-tile--blue">
-              <div class="adm-tile-label">Total Resources</div>
-              <div class="adm-tile-num">524</div>
-              <div class="adm-tile-delta adm-tile-delta--up">+ 12% from last month</div>
+              <div class="adm-tile-label">Resources</div>
+              <div class="adm-tile-num">{{ login_stats.total_resources|default:"0" }}</div>
             </div>
             <div class="adm-tile adm-tile--green">
-              <div class="adm-tile-label">Active Students</div>
-              <div class="adm-tile-num">10.2k</div>
-              <div class="adm-tile-delta adm-tile-delta--up">+ 8% from last month</div>
+              <div class="adm-tile-label">Students</div>
+              <div class="adm-tile-num">{{ login_stats.total_users|default:"0" }}</div>
             </div>
-            <div class="adm-tile adm-tile--purple adm-tile--chart">
-              <div class="adm-tile-label">Forum Activity</div>
-              <svg class="adm-spark" viewBox="0 0 120 36" preserveAspectRatio="none">
-                <defs>
-                  <linearGradient id="sparkFill" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stop-color="#8b5cf6" stop-opacity="0.35"/>
-                    <stop offset="100%" stop-color="#8b5cf6" stop-opacity="0"/>
-                  </linearGradient>
-                </defs>
-                <path d="M0,28 L15,22 L30,26 L45,14 L60,18 L75,8 L90,16 L105,6 L120,12 L120,36 L0,36 Z" fill="url(#sparkFill)"/>
-                <path d="M0,28 L15,22 L30,26 L45,14 L60,18 L75,8 L90,16 L105,6 L120,12" fill="none" stroke="#8b5cf6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
+            <div class="adm-tile adm-tile--purple">
+              <div class="adm-tile-label">Forum Posts</div>
+              <div class="adm-tile-num">{{ login_stats.total_posts|default:"0" }}</div>
             </div>
           </div>
 
@@ -234,36 +223,28 @@
               <span>Recent Resources</span>
               <span class="material-symbols-outlined">more_horiz</span>
             </div>
+            {% for r in login_stats.recent_resources %}
+            <div class="adm-row">
+              <div class="adm-row-icon adm-row-icon--{{ r.subject|lower|cut:' ' }}">
+                <span class="material-symbols-outlined">auto_stories</span>
+              </div>
+              <div class="adm-row-text">
+                <div class="adm-row-title">{{ r.title|truncatechars:40 }}</div>
+                <div class="adm-row-sub">{{ r.subject|truncatechars:50 }}</div>
+              </div>
+              <span class="adm-row-pill">{{ r.type }}</span>
+            </div>
+            {% empty %}
             <div class="adm-row">
               <div class="adm-row-icon adm-row-icon--physics">
                 <span class="material-symbols-outlined">science</span>
               </div>
               <div class="adm-row-text">
-                <div class="adm-row-title">Physics — Class 12 Notes</div>
-                <div class="adm-row-sub">Added 2 days ago</div>
+                <div class="adm-row-title">Resources coming soon</div>
+                <div class="adm-row-sub">Stay tuned</div>
               </div>
-              <span class="adm-row-pill">PDF</span>
             </div>
-            <div class="adm-row">
-              <div class="adm-row-icon adm-row-icon--math">
-                <span class="material-symbols-outlined">calculate</span>
-              </div>
-              <div class="adm-row-text">
-                <div class="adm-row-title">Mathematics Model Set</div>
-                <div class="adm-row-sub">Added 4 days ago</div>
-              </div>
-              <span class="adm-row-pill">PDF</span>
-            </div>
-            <div class="adm-row">
-              <div class="adm-row-icon adm-row-icon--forum">
-                <span class="material-symbols-outlined">forum</span>
-              </div>
-              <div class="adm-row-text">
-                <div class="adm-row-title">Best books for NEB prep?</div>
-                <div class="adm-row-sub">Forum discussion · 23 replies</div>
-              </div>
-              <span class="adm-row-pill adm-row-pill--forum">POST</span>
-            </div>
+            {% endfor %}
           </div>
         </div>
       </div>

@@ -1882,7 +1882,23 @@ def edit_profile(request):
 def login_page(request):
     if api.get_session_token(request):
         return redirect('web:home')
-    return render(request, 'web/login.html', _ctx(request))
+    stats = cache.get('login_stats')
+    if stats is None:
+        from django.db.models import Sum
+        total_resources = Resource.objects.filter(approval_status='approved').count()
+        total_users = User.objects.count()
+        total_posts = Post.objects.filter(is_archived=False).count()
+        recent_resources = list(Resource.objects.filter(approval_status='approved').select_related('uploaded_by').order_by('-added_at')[:3].values('title', 'subject', 'type', 'added_at'))
+        for r in recent_resources:
+            r['type_label'] = dict(Resource.EXAM_TYPES).get(r.get('type', ''), r.get('type', 'PDF'))
+        stats = {
+            'total_resources': total_resources,
+            'total_users': total_users,
+            'total_posts': total_posts,
+            'recent_resources': recent_resources,
+        }
+        cache.set('login_stats', stats, 300)
+    return render(request, 'web/login.html', _ctx(request, login_stats=stats))
 
 
 @require_POST
