@@ -1747,7 +1747,7 @@ def admin_pending_resources(request):
     return render(request, 'admin_panel/pending_resources.html', {
         'is_admin': True,
         'pending_resources': pending_data,
-        'active_page': 'resources',
+        'active_page': 'pending_resources',
     })
 
 
