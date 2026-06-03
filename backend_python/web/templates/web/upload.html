@@ -173,21 +173,20 @@
 
       <div class="upload-field">
         <div class="upload-dropzone" id="file-dropzone">
-          <input type="file" id="file-input" name="file" class="upload-file-input" accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.txt,.rtf,.odt,.ods,.odp,.zip,.rar,.7z,.jpg,.jpeg,.png,.gif,.webp,.bmp,.svg,.mp4,.mkv,.avi,.mov,.webm,.mp3,.wav,.ogg,.flac,.aac,.epub,.mobi">
+          <input type="file" id="file-input" name="file" class="upload-file-input" accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.txt,.rtf,.odt,.ods,.odp,.zip,.rar,.7z,.jpg,.jpeg,.png,.gif,.webp,.bmp,.svg,.mp4,.mkv,.avi,.mov,.webm,.mp3,.wav,.ogg,.flac,.aac,.epub,.mobi" multiple>
           <div class="upload-dropzone-content" id="dropzone-content">
             <span class="material-symbols-outlined upload-dropzone-icon">cloud_upload</span>
-            <p class="upload-dropzone-text">Drag and drop your file here, or <span class="upload-browse-link">browse</span></p>
-            <p class="upload-dropzone-hint">PDF, DOC, PPT, images, videos, audio — up to 100 MB. Images and PDFs are auto-compressed.</p>
+            <p class="upload-dropzone-text">Drag and drop your files here, or <span class="upload-browse-link">browse</span></p>
+            <p class="upload-dropzone-hint">PDF, DOC, PPT, images, videos, audio — up to 50 MB per file. Images are auto-compressed.</p>
           </div>
-          <div class="upload-dropzone-selected" id="dropzone-selected" style="display:none">
-            <span class="material-symbols-outlined upload-file-icon">description</span>
-            <div class="upload-file-info">
-              <span class="upload-file-name" id="selected-file-name"></span>
-              <span class="upload-file-size" id="selected-file-size"></span>
+          <div class="upload-files-list" id="upload-files-list" style="display:none">
+            <div class="upload-files-items" id="upload-files-items"></div>
+            <div class="upload-files-actions" style="margin-top: 12px; display: flex; justify-content: center; z-index: 4; position: relative;">
+              <button type="button" class="md-btn md-btn-text" id="add-more-files-btn" style="font-size: 0.875rem;">
+                <span class="material-symbols-outlined" style="font-size: 18px;">add</span>
+                Add more files
+              </button>
             </div>
-            <button type="button" class="upload-file-remove" id="remove-file-btn" title="Remove file">
-              <span class="material-symbols-outlined">close</span>
-            </button>
           </div>
         </div>
       </div>
@@ -397,7 +396,8 @@
   border-color: var(--md-primary);
   border-style: solid;
   background: color-mix(5%, var(--md-primary), transparent);
-  padding: 16px 20px;
+  padding: 20px;
+  cursor: default;
 }
 .upload-file-input {
   position: absolute;
@@ -410,13 +410,69 @@
 .upload-dropzone-text { margin: 0; color: var(--md-on-surface-variant); font-size: 0.9375rem; }
 .upload-browse-link { color: var(--md-primary); font-weight: 600; cursor: pointer; text-decoration: underline; }
 .upload-dropzone-hint { margin: 4px 0 0; font-size: 0.8125rem; color: var(--md-on-surface-variant); opacity: 0.7; }
-.upload-dropzone-selected { display: flex; align-items: center; gap: 12px; }
-.upload-file-icon { font-size: 36px; color: var(--md-primary); }
-.upload-file-info { flex: 1; text-align: left; }
-.upload-file-name { display: block; font-weight: 600; color: var(--md-on-surface); font-size: 0.9375rem; word-break: break-all; }
-.upload-file-size { display: block; font-size: 0.8125rem; color: var(--md-on-surface-variant); }
-.upload-file-remove { background: none; border: none; cursor: pointer; padding: 4px; border-radius: 50%; color: var(--md-on-surface-variant); display: flex; align-items: center; justify-content: center; position: relative; z-index: 3; }
-.upload-file-remove:hover { background: color-mix(10%, var(--md-error), transparent); color: var(--md-error); }
+
+/* Files list for multiple uploads */
+.upload-files-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+.upload-file-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--md-surface-container-high);
+  border: 1px solid var(--md-outline-variant);
+  border-radius: 12px;
+  padding: 12px 16px;
+  min-width: 0; /* Critical for ellipsis */
+  cursor: default;
+}
+.upload-file-icon {
+  font-size: 28px;
+  color: var(--md-primary);
+  flex-shrink: 0;
+}
+.upload-file-info {
+  flex: 1;
+  text-align: left;
+  min-width: 0; /* Critical for ellipsis */
+}
+.upload-file-name {
+  display: block;
+  font-weight: 600;
+  color: var(--md-on-surface);
+  font-size: 0.9rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.upload-file-size {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--md-on-surface-variant);
+  margin-top: 2px;
+}
+.upload-file-remove {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 50%;
+  color: var(--md-on-surface-variant);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.2s, color 0.2s;
+  position: relative;
+  z-index: 3;
+}
+.upload-file-remove:hover {
+  background: color-mix(10%, var(--md-error), transparent);
+  color: var(--md-error);
+}
 .upload-file-remove .material-symbols-outlined { font-size: 20px; }
 
 /* Divider */
@@ -869,15 +925,22 @@
   typeSelect.addEventListener('change', toggleExamType);
   toggleExamType();
 
-  // Dropzone
+  // Dropzone and Multiple File Upload logic
   var dropzone = document.getElementById('file-dropzone');
   var fileInput = document.getElementById('file-input');
   var dropzoneContent = document.getElementById('dropzone-content');
-  var dropzoneSelected = document.getElementById('dropzone-selected');
-  var selectedFileName = document.getElementById('selected-file-name');
-  var selectedFileSize = document.getElementById('selected-file-size');
-  var removeBtn = document.getElementById('remove-file-btn');
+  var filesList = document.getElementById('upload-files-list');
+  var filesItemsContainer = document.getElementById('upload-files-items');
   var fileUrlInput = document.getElementById('file_url');
+  var addMoreBtn = document.getElementById('add-more-files-btn');
+  var uploadForm = document.getElementById('upload-form');
+  var progressOverlay = document.getElementById('upload-progress-overlay');
+  var progressBar = document.getElementById('upload-progress-bar');
+  var progressPercent = document.getElementById('upload-progress-percent');
+  var progressSize = document.getElementById('upload-progress-size');
+  var progressSubtitle = document.getElementById('upload-progress-subtitle');
+
+  var selectedFiles = [];
 
   function formatSize(bytes) {
     if (bytes < 1024) return bytes + ' B';
@@ -885,28 +948,192 @@
     return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
   }
 
-  function showFile(file) {
-    selectedFileName.textContent = file.name;
-    selectedFileSize.textContent = formatSize(file.size);
-    dropzoneContent.style.display = 'none';
-    dropzoneSelected.style.display = 'flex';
-    dropzone.classList.add('has-file');
-    fileUrlInput.value = '';
-    fileUrlInput.removeAttribute('required');
+  function compressImageFile(file, onSuccess, onFailure) {
+    var ext = file.name.split('.').pop().toLowerCase();
+    var imageTypes = ['jpg', 'jpeg', 'png', 'webp', 'bmp'];
+    if (imageTypes.indexOf(ext) === -1) {
+      onFailure(file);
+      return;
+    }
+
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      var img = new Image();
+      img.onload = function() {
+        var canvas = document.createElement('canvas');
+        var ctx = canvas.getContext('2d');
+        
+        canvas.width = img.width;
+        canvas.height = img.height;
+        ctx.drawImage(img, 0, 0);
+        
+        var mimeType = 'image/jpeg';
+        var quality = 0.85;
+        var newExt = '.jpg';
+        
+        if (ext === 'webp') {
+          mimeType = 'image/webp';
+          newExt = '.webp';
+        }
+        
+        canvas.toBlob(function(blob) {
+          if (blob && blob.size < file.size) {
+            var compressedFile = new File([blob], file.name.replace(/\.[^/.]+$/, "") + newExt, {
+              type: mimeType,
+              lastModified: Date.now()
+            });
+            onSuccess(compressedFile, file.size);
+          } else {
+            onFailure(file);
+          }
+        }, mimeType, quality);
+      };
+      img.onerror = function() {
+        onFailure(file);
+      };
+      img.src = e.target.result;
+    };
+    reader.onerror = function() {
+      onFailure(file);
+    };
+    reader.readAsDataURL(file);
   }
 
-  function clearFile() {
-    fileInput.value = '';
-    dropzoneContent.style.display = '';
-    dropzoneSelected.style.display = 'none';
-    dropzone.classList.remove('has-file');
+  function handleFilesAdded(files) {
+    var filesArray = Array.prototype.slice.call(files);
+    var index = 0;
+
+    function processNext() {
+      if (index >= filesArray.length) {
+        updateFilesUI();
+        return;
+      }
+      
+      var file = filesArray[index];
+      index++;
+
+      // Max size: 50 MB
+      if (file.size > 50 * 1024 * 1024) {
+        showSnackbar(file.name + ' is too large. Max size is 50 MB.');
+        processNext();
+        return;
+      }
+
+      var isDuplicate = selectedFiles.some(function(f) {
+        return f.name === file.name && f.size === file.size;
+      });
+      if (isDuplicate) {
+        processNext();
+        return;
+      }
+
+      var ext = file.name.split('.').pop().toLowerCase();
+      var imageTypes = ['jpg', 'jpeg', 'png', 'webp', 'bmp'];
+      if (imageTypes.indexOf(ext) >= 0) {
+        showSnackbar('Compressing image: ' + file.name + '...');
+        compressImageFile(file, function(compressedFile, originalSize) {
+          selectedFiles.push(compressedFile);
+          var savings = ((originalSize - compressedFile.size) / originalSize * 100).toFixed(0);
+          showSnackbar('Compressed ' + file.name + ' (' + savings + '% smaller)');
+          processNext();
+        }, function(originalFile) {
+          selectedFiles.push(originalFile);
+          processNext();
+        });
+      } else {
+        selectedFiles.push(file);
+        processNext();
+      }
+    }
+
+    processNext();
+  }
+
+  function updateFilesUI() {
+    filesItemsContainer.innerHTML = '';
+    
+    if (selectedFiles.length === 0) {
+      dropzoneContent.style.display = '';
+      filesList.style.display = 'none';
+      dropzone.classList.remove('has-file');
+      fileUrlInput.removeAttribute('disabled');
+    } else {
+      dropzoneContent.style.display = 'none';
+      filesList.style.display = 'block';
+      dropzone.classList.add('has-file');
+      fileUrlInput.value = '';
+      fileUrlInput.setAttribute('disabled', 'true');
+      
+      selectedFiles.forEach(function(file, idx) {
+        var item = document.createElement('div');
+        item.className = 'upload-file-item';
+        
+        var icon = document.createElement('span');
+        icon.className = 'material-symbols-outlined upload-file-icon';
+        icon.textContent = 'description';
+        
+        var info = document.createElement('div');
+        info.className = 'upload-file-info';
+        
+        var nameSpan = document.createElement('span');
+        nameSpan.className = 'upload-file-name';
+        nameSpan.textContent = file.name;
+        nameSpan.title = file.name;
+        
+        var sizeSpan = document.createElement('span');
+        sizeSpan.className = 'upload-file-size';
+        sizeSpan.textContent = formatSize(file.size);
+        
+        info.appendChild(nameSpan);
+        info.appendChild(sizeSpan);
+        
+        var removeBtn = document.createElement('button');
+        removeBtn.type = 'button';
+        removeBtn.className = 'upload-file-remove';
+        removeBtn.title = 'Remove file';
+        removeBtn.innerHTML = '<span class="material-symbols-outlined">close</span>';
+        
+        removeBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          removeFileAt(idx);
+        });
+        
+        item.appendChild(icon);
+        item.appendChild(info);
+        item.appendChild(removeBtn);
+        
+        filesItemsContainer.appendChild(item);
+      });
+    }
+    syncFileInput();
+  }
+
+  function removeFileAt(idx) {
+    selectedFiles.splice(idx, 1);
+    updateFilesUI();
+  }
+
+  function syncFileInput() {
+    try {
+      var dt = new DataTransfer();
+      selectedFiles.forEach(function(file) {
+        dt.items.add(file);
+      });
+      fileInput.files = dt.files;
+    } catch (e) {
+      console.error('Error syncing file input:', e);
+    }
+  }
+
+  function clearAllFiles() {
+    selectedFiles = [];
+    updateFilesUI();
   }
 
   fileInput.addEventListener('change', function() {
-    if (fileInput.files && fileInput.files[0]) {
-      showFile(fileInput.files[0]);
-    } else {
-      clearFile();
+    if (fileInput.files && fileInput.files.length > 0) {
+      handleFilesAdded(fileInput.files);
     }
   });
 
@@ -914,20 +1141,15 @@
     e.stopPropagation();
   });
 
-  removeBtn.addEventListener('click', function(e) {
+  addMoreBtn.addEventListener('click', function(e) {
     e.preventDefault();
     e.stopPropagation();
-    clearFile();
-  });
-
-  dropzone.addEventListener('click', function(e) {
-    if (dropzone.classList.contains('has-file')) return;
-    if (e.target.closest('.upload-file-remove')) return;
     fileInput.click();
   });
 
-  dropzoneSelected.addEventListener('click', function(e) {
-    if (e.target.closest('.upload-file-remove')) return;
+  dropzone.addEventListener('click', function(e) {
+    if (selectedFiles.length > 0) return;
+    if (e.target.closest('.upload-file-remove') || e.target.closest('.md-btn')) return;
     fileInput.click();
   });
 
@@ -947,38 +1169,24 @@
 
   dropzone.addEventListener('drop', function(e) {
     e.preventDefault();
-    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      fileInput.files = e.dataTransfer.files;
-      showFile(e.dataTransfer.files[0]);
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      handleFilesAdded(e.dataTransfer.files);
     }
   });
 
   fileUrlInput.addEventListener('input', function() {
     if (fileUrlInput.value.trim()) {
-      clearFile();
+      clearAllFiles();
     }
   });
 
-  // Upload progress
-  var uploadForm = document.getElementById('upload-form');
-  var progressOverlay = document.getElementById('upload-progress-overlay');
-  var progressBar = document.getElementById('upload-progress-bar');
-  var progressPercent = document.getElementById('upload-progress-percent');
-  var progressSize = document.getElementById('upload-progress-size');
-  var progressSubtitle = document.getElementById('upload-progress-subtitle');
-
-  function formatBytes(bytes) {
-    if (bytes < 1024) return bytes + ' B';
-    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
-    return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
-  }
-
+  // Upload progress and form submit
   uploadForm.addEventListener('submit', function(e) {
     var titleField = document.getElementById('title');
     if (!titleField.value.trim()) return;
     var subjectField = document.getElementById('subject-hidden');
     if (!subjectField.value.trim()) return;
-    var fileChosen = fileInput.files && fileInput.files[0];
+    var fileChosen = selectedFiles.length > 0;
     var urlFilled = fileUrlInput.value.trim();
     if (!fileChosen && !urlFilled) return;
 
@@ -987,7 +1195,7 @@
     progressBar.style.width = '0%';
     progressPercent.textContent = '0%';
     progressSize.textContent = '';
-    progressSubtitle.textContent = 'Please wait while your file is being uploaded...';
+    progressSubtitle.textContent = 'Please wait while your files are being uploaded...';
 
     var xhr = new XMLHttpRequest();
     xhr.open('POST', uploadForm.action, true);
@@ -998,14 +1206,14 @@
         var pct = Math.round((evt.loaded / evt.total) * 100);
         progressBar.style.width = pct + '%';
         progressPercent.textContent = pct + '%';
-        progressSize.textContent = formatBytes(evt.loaded) + ' / ' + formatBytes(evt.total);
+        progressSize.textContent = formatSize(evt.loaded) + ' / ' + formatSize(evt.total);
       }
     });
 
     xhr.upload.addEventListener('load', function() {
       progressBar.style.width = '100%';
       progressPercent.textContent = '100%';
-      progressSubtitle.textContent = 'Processing...';
+      progressSubtitle.textContent = 'Processing files...';
       progressSize.textContent = '';
     });
 
@@ -1053,7 +1261,9 @@
       progressOverlay.style.display = 'none';
     });
 
+    syncFileInput();
     xhr.send(new FormData(uploadForm));
   });
 })();
+</script>
 {% endblock %}
