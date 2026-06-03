@@ -11,6 +11,7 @@ from django.core.exceptions import ValidationError
 from django.db import transaction
 from django.db.models import Q, Count, F
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.views.decorators.http import require_GET, require_POST
 from django.http import JsonResponse, Http404, HttpResponse
 from django.core.paginator import Paginator
@@ -1370,7 +1371,7 @@ def upload_resource(request):
         source_label = request.POST.get('source_label', '').strip()
         thumbnail_url = request.POST.get('thumbnail_url', '').strip()
 
-        uploaded_file = request.FILES.get('file')
+        uploaded_files = request.FILES.getlist('file')
         file_url = request.POST.get('file_url', '').strip()
 
         errors = []
@@ -1378,22 +1379,34 @@ def upload_resource(request):
             errors.append('Title is required.')
         if not subject:
             errors.append('Subject is required.')
-        if not uploaded_file and not file_url:
+        if not uploaded_files and not file_url:
             errors.append('Please upload a file or provide a file URL.')
 
-        file_path = ''
-        file_size = 0
+        saved_files = []
+        if uploaded_files:
+            for f in uploaded_files:
+                path, size, err_resp = validate_and_save_resource_file(request, f)
+                if err_resp:
+                    errors.append(f"{f.name}: {err_resp['error']}")
+                else:
+                    saved_files.append({
+                        'path': path or '',
+                        'size': size,
+                        'name': f.name
+                    })
 
-        if uploaded_file:
-            path, size, err_resp = validate_and_save_resource_file(request, uploaded_file)
-            if err_resp:
-                errors.append(err_resp['error'])
-            else:
-                file_path = path or ''
-                file_size = size
+            # If there were errors, clean up any successfully saved files
+            if errors:
+                from django.core.files.storage import default_storage
+                for sf in saved_files:
+                    if sf['path']:
+                        try:
+                            default_storage.delete(sf['path'])
+                        except Exception:
+                            pass
 
         safe_file_url = ''
-        if not uploaded_file and file_url:
+        if not uploaded_files and file_url:
             try:
                 safe_file_url = validate_resource_file_url(file_url)
             except Exception as exc:
@@ -1408,46 +1421,86 @@ def upload_resource(request):
                 errors.append('Invalid thumbnail URL.')
 
         if not errors:
-            final_file_url = ''
-            if file_path:
-                final_file_url = request.build_absolute_uri(settings.MEDIA_URL + file_path)
-            elif safe_file_url:
-                final_file_url = safe_file_url
+            created_resources = []
+            if saved_files:
+                import os
+                from django.conf import settings
+                for idx, sf in enumerate(saved_files):
+                    res_title = title
+                    if len(saved_files) > 1:
+                        # Clean up extension from name
+                        display_name = os.path.splitext(sf['name'])[0]
+                        res_title = f"{title} - {display_name}"
 
-            resource = Resource(
-                id=str(uuid.uuid4()),
-                title=title,
-                description=description,
-                subject=subject,
-                grade_level=grade_level,
-                faculty=faculty,
-                program=program,
-                year=year,
-                exam_type=exam_type,
-                pradesh=pradesh,
-                district=district,
-                school=school,
-                tags=tags,
-                type=rtype,
-                file=file_path or None,
-                file_url=final_file_url,
-                thumbnail_url=safe_thumbnail_url,
-                file_size=file_size or int(request.POST.get('file_size', '0')),
-                added_at=int(time.time() * 1000),
-                author_name=author_name,
-                source_type='user' if user else 'anonymous',
-                uploaded_by=user,
-                source_url=source_url,
-                source_label=source_label,
-                approval_status='pending',
-            )
-            resource.save()
+                    final_file_url = request.build_absolute_uri(settings.MEDIA_URL + sf['path'])
+                    resource = Resource(
+                        id=str(uuid.uuid4()),
+                        title=res_title,
+                        description=description,
+                        subject=subject,
+                        grade_level=grade_level,
+                        faculty=faculty,
+                        program=program,
+                        year=year,
+                        exam_type=exam_type,
+                        pradesh=pradesh,
+                        district=district,
+                        school=school,
+                        tags=tags,
+                        type=rtype,
+                        file=sf['path'] or None,
+                        file_url=final_file_url,
+                        thumbnail_url=safe_thumbnail_url,
+                        file_size=sf['size'],
+                        added_at=int(time.time() * 1000) + idx,
+                        author_name=author_name,
+                        source_type='user' if user else 'anonymous',
+                        uploaded_by=user,
+                        source_url=source_url,
+                        source_label=source_label,
+                        approval_status='pending',
+                    )
+                    resource.save()
+                    created_resources.append(resource)
+            else:
+                final_file_url = safe_file_url
+                resource = Resource(
+                    id=str(uuid.uuid4()),
+                    title=title,
+                    description=description,
+                    subject=subject,
+                    grade_level=grade_level,
+                    faculty=faculty,
+                    program=program,
+                    year=year,
+                    exam_type=exam_type,
+                    pradesh=pradesh,
+                    district=district,
+                    school=school,
+                    tags=tags,
+                    type=rtype,
+                    file=None,
+                    file_url=final_file_url,
+                    thumbnail_url=safe_thumbnail_url,
+                    file_size=int(request.POST.get('file_size', '0')),
+                    added_at=int(time.time() * 1000),
+                    author_name=author_name,
+                    source_type='user' if user else 'anonymous',
+                    uploaded_by=user,
+                    source_url=source_url,
+                    source_label=source_label,
+                    approval_status='pending',
+                )
+                resource.save()
+                created_resources.append(resource)
+
             cache.delete_many(['home_resources', 'library_all_resources'])
             if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
                 return JsonResponse({'status': 'success', 'redirect': reverse('web:upload_success')})
             return render(request, 'web/upload_success.html', _ctx(request,
-                resource=_serialize_resource(resource),
+                resource=_serialize_resource(created_resources[0]),
                 is_anonymous=not bool(user),
+                count=len(created_resources),
             ))
 
         if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
@@ -3520,14 +3573,14 @@ def notifications(request):
         if n.verb == 'follow' and actor_name:
             url = f'/profile/{actor_name}/'
         elif n.verb in ('resource_approved', 'resource_rejected') and n.target_type == 'resource' and n.target_id:
-            url = f'/resource/{n.target_id}/'
+            url = f'/reader/{n.target_id}/'
         elif n.target_type == 'resource' or n.reference_type == 'resource':
             resource_id = n.target_id if n.target_type == 'resource' else n.reference_id
-            url = f'/resource/{resource_id}/'
+            url = f'/reader/{resource_id}/'
         elif n.target_type == 'resource_comment':
             resource_id = n.reference_id if n.reference_type == 'resource' else ''
             if resource_id:
-                url = f'/resource/{resource_id}/'
+                url = f'/reader/{resource_id}/'
         elif n.target_type == 'post' or n.reference_type == 'post':
             post_id = n.target_id if n.target_type == 'post' else n.reference_id
             url = f'/forum/post/{post_id}/'

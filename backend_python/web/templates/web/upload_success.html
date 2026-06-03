@@ -9,7 +9,11 @@
       <span class="material-symbols-outlined">check_circle</span>
     </div>
     <h1>Submitted for Review!</h1>
+    {% if count and count > 1 %}
+    <p>Thank you for sharing! Your {{ count }} resources have been submitted and will be reviewed by our team before they appear in the library.</p>
+    {% else %}
     <p>Thank you for sharing! Your resource "{{ resource.title }}" has been submitted and will be reviewed by our team before it appears in the library.</p>
+    {% endif %}
     {% if is_anonymous %}
     <p class="upload-success-note">Since you uploaded anonymously, you won't receive notifications. Check back later to see if it's been approved.</p>
     {% else %}
