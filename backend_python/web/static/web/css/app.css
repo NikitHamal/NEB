@@ -1215,7 +1215,7 @@
 .auth-btn-primary {
   width: 100%;
   padding: 13px 20px;
-  border-radius: 10px;
+  border-radius: var(--md-radius-full);
   border: none;
   background: var(--md-primary);
   color: var(--md-on-primary);
@@ -1241,7 +1241,7 @@
 .auth-btn-secondary-full {
   width: 100%;
   padding: 12px 18px;
-  border-radius: 10px;
+  border-radius: var(--md-radius-full);
   border: 1.5px solid #e5e7eb;
   background: transparent;
   color: var(--md-on-surface);
@@ -1288,7 +1288,7 @@
   gap: 10px;
   width: 100%;
   padding: 11px 16px;
-  border-radius: 10px;
+  border-radius: var(--md-radius-full);
   border: 1.5px solid #e5e7eb;
   background: #ffffff;
   color: var(--md-on-surface);
@@ -3280,7 +3280,7 @@ button:focus-visible {
   background: var(--md-surface-container-lowest);
   border: 1px solid var(--md-outline-variant);
   color: var(--md-on-surface);
-  border-radius: 8px;
+  border-radius: var(--md-radius-full);
   font-weight: 500;
   min-height: 38px;
   padding: 8px 18px;
@@ -3294,7 +3294,7 @@ button:focus-visible {
 .md-topbar-actions .md-btn-filled {
   background: var(--md-primary);
   color: var(--md-on-primary);
-  border-radius: 8px;
+  border-radius: var(--md-radius-full);
   font-weight: 600;
   min-height: 38px;
   padding: 8px 18px;
