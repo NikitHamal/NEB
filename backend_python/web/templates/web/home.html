@@ -217,8 +217,8 @@
               <div class="resource-card-meta">
                 {{ r.grade_level }} &middot; {{ r.type }}{% if r.file_size %} &middot; {{ r.file_size|file_size_human }}{% endif %}
               </div>
-              <div class="resource-card-download">
-                <span class="material-symbols-outlined">download</span> Download
+              <div class="resource-card-stats">
+                <span class="material-symbols-outlined">visibility</span> {{ r.view_count|short_number }} &middot; {{ r.added_at|time_ago }}
               </div>
             </div>
           </a>
@@ -264,8 +264,8 @@
               <div class="resource-card-meta">
                 {{ r.grade_level }} &middot; {{ r.type }}
               </div>
-              <div class="resource-card-download">
-                <span class="material-symbols-outlined">download</span> Download
+              <div class="resource-card-stats">
+                <span class="material-symbols-outlined">visibility</span> {{ r.view_count|short_number }} &middot; {{ r.added_at|time_ago }}
               </div>
             </div>
           </a>

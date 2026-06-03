@@ -194,6 +194,21 @@ def file_size_human(bytes_val):
 
 
 @register.filter
+def short_number(value):
+    try:
+        n = int(value)
+    except (ValueError, TypeError):
+        return value if value else '0'
+    if n < 1000:
+        return str(n)
+    if n < 1_000_000:
+        v = n / 1000
+        return f'{v:.1f}K' if v != int(v) else f'{int(v)}K'
+    v = n / 1_000_000
+    return f'{v:.1f}M' if v != int(v) else f'{int(v)}M'
+
+
+@register.filter
 def truncate_chars(value, max_length):
     if not value:
         return ''
