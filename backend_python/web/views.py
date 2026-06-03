@@ -13,6 +13,7 @@ from django.db.models import Q, Count, F
 from django.shortcuts import render, redirect
 from django.views.decorators.http import require_GET, require_POST
 from django.http import JsonResponse, Http404, HttpResponse
+from django.core.paginator import Paginator
 from django.utils.html import escape
 
 from api.models import User, Resource, ResourceRequest, ResourceRequestUpvote, Post, PostLike, Reply, ReplyLike, Follow, UserPhoto, EditHistory, Bookmark, Notification, Report
