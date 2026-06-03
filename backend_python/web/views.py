@@ -116,6 +116,12 @@ def _user_badge_info(user):
         badge['color'] = info['color']
         badge['label'] = info['label']
         return badge
+    if getattr(user, 'class_level', '') == 'Teacher':
+        badge['type'] = 'teacher'
+        badge['icon'] = 'school'
+        badge['color'] = '#10B981'
+        badge['label'] = 'Teacher'
+        return badge
     if user.verification_level and user.verification_level > 0:
         ver_levels = {
             1: {'icon': 'verified', 'color': '#1B9AF0', 'label': 'Verified'},

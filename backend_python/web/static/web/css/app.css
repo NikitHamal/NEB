@@ -443,6 +443,10 @@
 .role-badge-bot .material-symbols-outlined { color: #7C4DFF; }
 [data-theme="dark"] .role-badge-bot { background: rgba(124,77,255,0.25); }
 [data-theme="dark"] .role-badge-bot .material-symbols-outlined { color: #B388FF; }
+.role-badge-teacher { background: rgba(16, 185, 129, 0.15); border-radius: 100px; padding: 1px 4px 1px 2px; }
+.role-badge-teacher .material-symbols-outlined { color: #10B981; }
+[data-theme="dark"] .role-badge-teacher { background: rgba(16, 185, 129, 0.25); }
+[data-theme="dark"] .role-badge-teacher .material-symbols-outlined { color: #34D399; }
 .fp-mention { color: var(--md-primary, #1B6EF3); font-weight: 500; text-decoration: none; cursor: pointer; border-radius: 3px; padding: 0 1px; }
 .fp-mention:hover { text-decoration: underline; }
 .role-badge-mod-1 { background: rgba(27,154,240,0.12); border-radius: 100px; padding: 1px 4px 1px 2px; }

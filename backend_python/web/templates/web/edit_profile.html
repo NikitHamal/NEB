@@ -90,6 +90,9 @@
             <option value="12" {% if user.class_level == '12' %}selected{% endif %}>Class 12</option>
             <option value="Both" {% if user.class_level == 'Both' %}selected{% endif %}>Both</option>
             <option value="Passout" {% if user.class_level == 'Passout' %}selected{% endif %}>Passout</option>
+            <option value="Bachelors" {% if user.class_level == 'Bachelors' %}selected{% endif %}>Bachelors</option>
+            <option value="Teacher" {% if user.class_level == 'Teacher' %}selected{% endif %}>Teacher</option>
+            <option value="Other" {% if user.class_level == 'Other' %}selected{% endif %}>Other</option>
           </select>
         </div>
         <div class="form-group">

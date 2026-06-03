@@ -107,6 +107,9 @@
             <option value="12" {% if user_detail.class_level == '12' %}selected{% endif %}>Class 12</option>
             <option value="Both" {% if user_detail.class_level == 'Both' %}selected{% endif %}>Both</option>
             <option value="Passout" {% if user_detail.class_level == 'Passout' %}selected{% endif %}>Passout</option>
+            <option value="Bachelors" {% if user_detail.class_level == 'Bachelors' %}selected{% endif %}>Bachelors</option>
+            <option value="Teacher" {% if user_detail.class_level == 'Teacher' %}selected{% endif %}>Teacher</option>
+            <option value="Other" {% if user_detail.class_level == 'Other' %}selected{% endif %}>Other</option>
           </select>
         </div>
       </div>
@@ -349,6 +352,11 @@
           </span>
           {% endif %}
         {% endif %}
+        {% if user_detail.class_level == 'Teacher' %}
+        <span class="badge-preview badge-teacher">
+          <span class="material-symbols-outlined">school</span> Teacher
+        </span>
+        {% endif %}
         {% if user_detail.achievement_badges %}
           {% for ab in achievement_badges_list %}
           <span class="badge-preview badge-achievement">
@@ -412,6 +420,8 @@
   [data-theme="dark"] .badge-verified-2 { background: rgba(46,125,50,0.2); }
   [data-theme="dark"] .badge-verified-3 { background: rgba(245,158,11,0.25); color: #FBBF24; }
   [data-theme="dark"] .badge-achievement { background: rgba(27,154,240,0.15); }
+  .badge-teacher { background: rgba(16,185,129,0.15); color: #10B981; }
+  [data-theme="dark"] .badge-teacher { background: rgba(16,185,129,0.25); color: #34D399; }
 </style>
 {% endblock %}
 
