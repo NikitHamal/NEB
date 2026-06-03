@@ -560,12 +560,20 @@ class BotConfig(models.Model):
     """Singleton configuration for the Neby AI bot.
     Only one row should exist. The enabled flag acts as a global kill switch.
     """
+    PROVIDER_CHOICES = [
+        ('qwen', 'Qwen (chat.qwen.ai)'),
+        ('ai4bharat', 'AI4Bharat Arena (Indic LLM Arena)'),
+        ('custom', 'Custom OpenAI-compatible endpoint'),
+    ]
     id = models.PositiveIntegerField(primary_key=True, default=1)
     enabled = models.BooleanField(default=False)
     bot_username = models.CharField(max_length=50, default='neby')
+    provider = models.CharField(
+        max_length=20, choices=PROVIDER_CHOICES, default='qwen',
+    )
     api_url = models.TextField(default='https://chat.qwen.ai/api/v2')
     api_key = models.TextField(blank=True, default='')
-    model = models.CharField(max_length=100, default='qwen3.6-plus')
+    model = models.CharField(max_length=200, default='qwen3.6-plus')
     system_prompt = models.TextField(
         default='You are Neby, a friendly and helpful AI study buddy for Nepali students on the NEBians app. '
                 'You help with academic questions, explain concepts clearly, and give study tips.\n\n'
@@ -631,4 +639,70 @@ class NebyTask(models.Model):
         ordering = ['created_at']
         indexes = [
             models.Index(fields=['status', 'created_at']),
+        ]
+
+
+class ArenaChatSession(models.Model):
+    """A user's persistent conversation with the AI4Bharat Arena.
+
+    Each session maps to one remote arena session (UUID) and is bound to a
+    specific anonymous-pool token so multi-turn threading works server-side.
+    The token is rotated on demand when its message budget runs low.
+    """
+    id = models.CharField(max_length=36, primary_key=True)
+    user = models.ForeignKey(
+        'User', on_delete=models.CASCADE, related_name='arena_sessions', db_index=True,
+    )
+    arena_session_id = models.CharField(max_length=64, db_index=True)
+    arena_token_id = models.CharField(max_length=64, blank=True, default='')
+    model_id = models.CharField(max_length=64)
+    model_code = models.CharField(max_length=100, blank=True, default='')
+    model_display_name = models.CharField(max_length=200, blank=True, default='')
+    title = models.CharField(max_length=200, blank=True, default='')
+    is_active = models.BooleanField(default=True)
+    message_count = models.PositiveIntegerField(default=0)
+    last_message_at = models.BigIntegerField(default=0)
+    created_at = models.BigIntegerField()
+    updated_at = models.BigIntegerField()
+
+    class Meta:
+        db_table = 'arena_chat_sessions'
+        ordering = ['-updated_at']
+        indexes = [
+            models.Index(fields=['user', '-updated_at']),
+            models.Index(fields=['user', 'is_active']),
+        ]
+
+
+class ArenaChatMessage(models.Model):
+    """A single message (user or assistant) inside an ArenaChatSession.
+
+    `parent_id` is the local PK of the previous message in our DB
+    (for OpenAI-style client threading). `arena_message_id` is the remote
+    UUID the arena assigns to assistant messages — required for regenerations
+    and to pass `parent_message_ids` in subsequent turns.
+    """
+    ROLE_CHOICES = [
+        ('user', 'User'),
+        ('assistant', 'Assistant'),
+        ('system', 'System'),
+    ]
+    id = models.CharField(max_length=36, primary_key=True)
+    session = models.ForeignKey(
+        'ArenaChatSession', on_delete=models.CASCADE, related_name='messages', db_index=True,
+    )
+    role = models.CharField(max_length=10, choices=ROLE_CHOICES)
+    content = models.TextField(blank=True, default='')
+    parent_id = models.CharField(max_length=36, blank=True, default='')
+    arena_message_id = models.CharField(max_length=64, blank=True, default='')
+    finish_reason = models.CharField(max_length=20, blank=True, default='')
+    error = models.CharField(max_length=200, blank=True, default='')
+    duration_ms = models.PositiveIntegerField(default=0)
+    created_at = models.BigIntegerField()
+
+    class Meta:
+        db_table = 'arena_chat_messages'
+        ordering = ['created_at']
+        indexes = [
+            models.Index(fields=['session', 'created_at']),
         ]
