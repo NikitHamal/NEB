@@ -1443,10 +1443,15 @@ def upload_resource(request):
             )
             resource.save()
             cache.delete_many(['home_resources', 'library_all_resources'])
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({'status': 'success', 'redirect': reverse('web:upload_success')})
             return render(request, 'web/upload_success.html', _ctx(request,
                 resource=_serialize_resource(resource),
                 is_anonymous=not bool(user),
             ))
+
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({'status': 'error', 'errors': errors}, status=400)
 
         return render(request, 'web/upload.html', _ctx(request,
             subjects=subjects, education_levels=education_levels,
@@ -1463,6 +1468,10 @@ def upload_resource(request):
         resource_types=resource_types, common_tags=common_tags,
         is_authenticated=bool(user),
     ))
+
+
+def upload_success(request):
+    return render(request, 'web/upload_success.html', _ctx(request))
 
 
 def edit_resource(request, resource_id):
@@ -1599,6 +1608,8 @@ def edit_resource(request, resource_id):
         resource_obj.approval_status = 'pending'
         resource_obj.save()
         cache.delete_many(['home_resources', 'library_all_resources'])
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({'status': 'success', 'redirect': reverse('web:reader', kwargs={'resource_id': resource_id})})
         return redirect('web:reader', resource_id=resource_id)
 
     resource = _serialize_resource(resource_obj)

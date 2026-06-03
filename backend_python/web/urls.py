@@ -18,6 +18,7 @@ urlpatterns = [
     path('reader/<str:resource_id>/', views.reader, name='reader'),
     path('resource/<str:resource_id>/edit/', views.edit_resource, name='edit_resource'),
     path('upload/', views.upload_resource, name='upload_resource'),
+    path('upload/success/', views.upload_success, name='upload_success'),
     path('requests/', views.resource_requests_page, name='resource_requests'),
 
     path('profile/edit/', views.edit_profile, name='edit_profile'),
