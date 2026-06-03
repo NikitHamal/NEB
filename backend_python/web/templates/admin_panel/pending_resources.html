@@ -31,7 +31,7 @@
             {% if r.description %}<div class="admin-resource-desc">{{ r.description|truncatewords:15 }}</div>{% endif %}
             <div class="admin-resource-url">{% if r.file_url %}<a href="{{ r.file_url }}" target="_blank" rel="noopener">{{ r.file_url|truncatechars:60 }}</a>{% else %}No file{% endif %}</div>
           </td>
-          <td><span class="md-chip">{{ r.subject }}</span></td>
+          <td><span class="md-chip">{{ r.subject|truncatechars:35 }}</span></td>
           <td>{{ r.grade_level }}</td>
           <td>{{ r.type }}</td>
           <td>

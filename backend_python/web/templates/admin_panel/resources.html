@@ -166,7 +166,7 @@
           <div style="font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ r.title }}</div>
           <div style="font-size:0.75rem;color:var(--md-on-surface-variant);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ r.description|default:"" }}</div>
         </td>
-        <td><span class="md-chip" style="font-size:0.75rem;">{{ r.subject }}</span></td>
+        <td><span class="md-chip" style="font-size:0.75rem;">{{ r.subject|truncatechars:35 }}</span></td>
         <td>{{ r.grade_level }}</td>
         <td>{{ r.type }}</td>
         <td>{{ r.view_count }}</td>
