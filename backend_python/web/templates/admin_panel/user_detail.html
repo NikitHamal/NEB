@@ -103,11 +103,16 @@
           <label class="md-label" for="class_level">Class</label>
           <select id="class_level" name="class_level" class="md-select">
             <option value="">-</option>
+            <option value="Class 8" {% if user_detail.class_level == 'Class 8' %}selected{% endif %}>Class 8</option>
+            <option value="Class 9" {% if user_detail.class_level == 'Class 9' %}selected{% endif %}>Class 9</option>
+            <option value="Class 10 / SEE" {% if user_detail.class_level == 'Class 10 / SEE' %}selected{% endif %}>Class 10 / SEE</option>
             <option value="11" {% if user_detail.class_level == '11' %}selected{% endif %}>Class 11</option>
             <option value="12" {% if user_detail.class_level == '12' %}selected{% endif %}>Class 12</option>
             <option value="Both" {% if user_detail.class_level == 'Both' %}selected{% endif %}>Both</option>
             <option value="Passout" {% if user_detail.class_level == 'Passout' %}selected{% endif %}>Passout</option>
             <option value="Bachelors" {% if user_detail.class_level == 'Bachelors' %}selected{% endif %}>Bachelors</option>
+            <option value="Masters" {% if user_detail.class_level == 'Masters' %}selected{% endif %}>Masters</option>
+            <option value="PhD" {% if user_detail.class_level == 'PhD' %}selected{% endif %}>PhD</option>
             <option value="Teacher" {% if user_detail.class_level == 'Teacher' %}selected{% endif %}>Teacher</option>
             <option value="Other" {% if user_detail.class_level == 'Other' %}selected{% endif %}>Other</option>
           </select>
