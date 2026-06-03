@@ -177,20 +177,21 @@ com.neb.ians/
 - **Domain:** `nebians.consica.com.np` (also `www.nebians.consica.com.np`)
 
 ### CRITICAL: How to Deploy
-```bash
-# 1. Save SSH key to temp file (Windows)
-$sshKeyPath = "$env:TEMP\nebians_deploy_key2.pem"
-# ... load from .ssh_deploy_info.json
+**ALWAYS use the local deploy script — NEVER use manual SCP/SSH commands.**
 
-# 2. Fix permissions (Windows SSH requires this)
-icacls $sshKeyPath /inheritance:r /grant "${env:USERNAME}:R"
-
-# 3. SCP files to server (deploy one at a time — Windows PowerShell doesn't support &&)
-scp -o StrictHostKeyChecking=no -i $sshKeyPath "LOCAL_FILE" consicac@192.250.235.158:/home/consicac/nebians_api/DEST_PATH
-
-# 4. Restart Passenger (NOT gunicorn!)
-ssh -o StrictHostKeyChecking=no -i $sshKeyPath consicac@192.250.235.158 "cd /home/consicac/nebians_api && source /home/consicac/virtualenv/nebians_api/3.13/bin/activate && python manage.py collectstatic --noinput && python manage.py migrate && rm -rf tmp/* && touch tmp/restart.txt && echo 'DONE'"
+```powershell
+# From the backend_python/scratch/ directory:
+cd F:\NEB\backend_python\scratch
+.\deploy.ps1
 ```
+
+The deploy script (`backend_python/scratch/deploy.ps1`) handles:
+1. Reading SSH key from `.ssh_deploy_info.json`
+2. Creating a ZIP of all deployment files (api/, nebians/, web/, manage.py, requirements.txt, passenger_wsgi.py)
+3. Uploading ZIP via SCP
+4. Running remote commands: unzip, pip install, collectstatic, migrate, copy static files to public/, restart Passenger
+
+**Do NOT manually SCP individual files or run SSH commands for deployment.** Use `deploy.ps1` instead. Manual SCP/SSH should only be used for quick debugging (e.g., checking logs, running Django shell queries).
 
 ### CRITICAL: .env File Overrides settings.py Defaults
 The `.env` file at `/home/consicac/nebians_api/.env` is loaded by `dotenv` in `settings.py`. **Environment variables override `settings.py` defaults.** If you change a default value in `settings.py` but the `.env` still has the old value, the `.env` wins.

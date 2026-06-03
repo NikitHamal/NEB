@@ -1949,6 +1949,7 @@ function switchProfileTab(tabName) {
 
 
 registerActions({
+  'switch-profile-tab': function(el) { switchProfileTab(el.dataset.tab); },
   'toggle-like-post': function(el) { toggleLikePost(el.dataset.postId, el); },
   'toggle-like-reply': function(el) { toggleLikeReply(el.dataset.replyId, el); }
 });

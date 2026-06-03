@@ -1,5 +1,8 @@
 # NEBians cPanel ZIP-based Deployment Script
 
+$scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+$projectDir = Split-Path -Parent $scriptDir
+
 $infoPath = "F:\NEB\.ssh_deploy_info.json"
 if (-not (Test-Path $infoPath)) {
     Write-Error "Deployment info file not found!"
@@ -29,12 +32,14 @@ Write-Host "Setting strict file permissions on the SSH key..."
 & icacls $keyPath /grant "${env:USERNAME}:R"
 
 # Create a local zip archive of deployment files
-$zipPath = "deploy.zip"
+$zipPath = Join-Path $projectDir "deploy.zip"
 if (Test-Path $zipPath) {
     Remove-Item $zipPath -Force
 }
 Write-Host "Creating local ZIP archive of deployment files..."
+Push-Location $projectDir
 Compress-Archive -Path api, nebians, web, manage.py, requirements.txt, passenger_wsgi.py -DestinationPath $zipPath -Force
+Pop-Location
 
 # Upload the ZIP file
 Write-Host "Uploading ZIP file via SCP..."

@@ -138,6 +138,10 @@
   background: var(--subject-badge-bg, var(--md-surface-container));
   color: var(--subject-badge-fg, var(--md-on-surface-variant));
   width: fit-content;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .resource-card-title {
