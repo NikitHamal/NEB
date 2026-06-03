@@ -244,6 +244,23 @@
       </button>
     </div>
   </form>
+
+  <div class="upload-progress-overlay" id="upload-progress-overlay" style="display:none;">
+    <div class="upload-progress-dialog">
+      <div class="upload-progress-icon">
+        <span class="material-symbols-outlined">cloud_upload</span>
+      </div>
+      <h3 class="upload-progress-title">Saving changes</h3>
+      <p class="upload-progress-subtitle" id="upload-progress-subtitle">Please wait while your file is being uploaded...</p>
+      <div class="upload-progress-bar-track">
+        <div class="upload-progress-bar-fill" id="upload-progress-bar" style="width:0%"></div>
+      </div>
+      <div class="upload-progress-info">
+        <span id="upload-progress-percent">0%</span>
+        <span id="upload-progress-size"></span>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div class="subject-pick-overlay" id="subject-pick-overlay" style="display:none">
@@ -337,7 +354,7 @@
 .upload-dropzone { border: 2px dashed var(--md-outline-variant); border-radius: 16px; padding: 32px 20px; text-align: center; cursor: pointer; transition: border-color 0.2s, background 0.2s; position: relative; }
 .upload-dropzone:hover, .upload-dropzone.dragover { border-color: var(--md-primary); background: color-mix(5%, var(--md-primary), transparent); }
 .upload-dropzone.has-file { border-color: var(--md-primary); border-style: solid; background: color-mix(5%, var(--md-primary), transparent); padding: 16px 20px; }
-.upload-file-input { position: absolute; inset: 0; opacity: 0; cursor: pointer; z-index: 2; }
+.upload-file-input { position: absolute; width: 0; height: 0; opacity: 0; pointer-events: none; }
 .upload-dropzone-icon { font-size: 48px; color: var(--md-primary); display: block; margin: 0 auto 8px; }
 .upload-dropzone-text { margin: 0; color: var(--md-on-surface-variant); font-size: 0.9375rem; }
 .upload-browse-link { color: var(--md-primary); font-weight: 600; cursor: pointer; text-decoration: underline; }
@@ -392,6 +409,41 @@
   .upload-details-content { padding: 0 16px 16px; }
   .subject-pick-dialog { max-width: 100%; margin: 8px; }
 }
+
+.upload-progress-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+.upload-progress-dialog {
+  background: var(--md-surface-container-low);
+  border-radius: 24px;
+  padding: 32px 28px;
+  max-width: 380px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.24);
+}
+.upload-progress-icon { margin-bottom: 16px; }
+.upload-progress-icon .material-symbols-outlined {
+  font-size: 48px;
+  color: var(--md-primary);
+  animation: upload-pulse 1.5s ease-in-out infinite;
+}
+@keyframes upload-pulse {
+  0%, 100% { opacity: 1; transform: translateY(0); }
+  50% { opacity: 0.6; transform: translateY(-4px); }
+}
+.upload-progress-title { font-size: 1.125rem; font-weight: 600; color: var(--md-on-surface); margin: 0 0 6px; }
+.upload-progress-subtitle { font-size: 0.8125rem; color: var(--md-on-surface-variant); margin: 0 0 20px; }
+.upload-progress-bar-track { width: 100%; height: 6px; background: var(--md-surface-variant); border-radius: 3px; overflow: hidden; margin-bottom: 12px; }
+.upload-progress-bar-fill { height: 100%; background: var(--md-primary); border-radius: 3px; transition: width 0.3s ease; }
+.upload-progress-info { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--md-on-surface-variant); }
 </style>
 {% endblock %}
 
@@ -474,9 +526,85 @@
 
   fileInput.addEventListener('change', function() { if (fileInput.files && fileInput.files[0]) { showFile(fileInput.files[0]); } else { clearFile(); } });
   removeBtn.addEventListener('click', function(e) { e.preventDefault(); e.stopPropagation(); clearFile(); });
+  dropzone.addEventListener('click', function(e) { if (dropzone.classList.contains('has-file')) return; if (e.target.closest('.upload-file-remove')) return; fileInput.click(); });
+  dropzoneSelected.addEventListener('click', function(e) { if (e.target.closest('.upload-file-remove')) return; fileInput.click(); });
   ['dragenter', 'dragover'].forEach(function(evt) { dropzone.addEventListener(evt, function(e) { e.preventDefault(); dropzone.classList.add('dragover'); }); });
   ['dragleave', 'drop'].forEach(function(evt) { dropzone.addEventListener(evt, function(e) { e.preventDefault(); dropzone.classList.remove('dragover'); }); });
   dropzone.addEventListener('drop', function(e) { e.preventDefault(); if (e.dataTransfer.files && e.dataTransfer.files[0]) { fileInput.files = e.dataTransfer.files; showFile(e.dataTransfer.files[0]); } });
+
+  var uploadForm = document.getElementById('upload-form');
+  var progressOverlay = document.getElementById('upload-progress-overlay');
+  var progressBar = document.getElementById('upload-progress-bar');
+  var progressPercent = document.getElementById('upload-progress-percent');
+  var progressSize = document.getElementById('upload-progress-size');
+  var progressSubtitle = document.getElementById('upload-progress-subtitle');
+
+  function formatBytes(bytes) {
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+    return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+  }
+
+  uploadForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    progressOverlay.style.display = 'flex';
+    progressBar.style.width = '0%';
+    progressPercent.textContent = '0%';
+    progressSize.textContent = '';
+    progressSubtitle.textContent = 'Please wait while your file is being uploaded...';
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', uploadForm.action, true);
+    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+
+    xhr.upload.addEventListener('progress', function(evt) {
+      if (evt.lengthComputable) {
+        var pct = Math.round((evt.loaded / evt.total) * 100);
+        progressBar.style.width = pct + '%';
+        progressPercent.textContent = pct + '%';
+        progressSize.textContent = formatBytes(evt.loaded) + ' / ' + formatBytes(evt.total);
+      }
+    });
+
+    xhr.upload.addEventListener('load', function() {
+      progressBar.style.width = '100%';
+      progressPercent.textContent = '100%';
+      progressSubtitle.textContent = 'Processing...';
+      progressSize.textContent = '';
+    });
+
+    xhr.addEventListener('load', function() {
+      try {
+        var data = JSON.parse(xhr.responseText);
+        if (data.status === 'success' && data.redirect) {
+          progressSubtitle.textContent = 'Saved!';
+          progressBar.style.background = '#4caf50';
+          window.location.href = data.redirect;
+        } else {
+          progressOverlay.style.display = 'none';
+          showSnackbar('Failed to save. Please try again.');
+        }
+      } catch (ex) {
+        if (xhr.status >= 200 && xhr.status < 400) {
+          window.location.href = '{% url "web:reader" resource_id=resource.id %}';
+        } else {
+          progressOverlay.style.display = 'none';
+          showSnackbar('Failed to save. Please try again.');
+        }
+      }
+    });
+
+    xhr.addEventListener('error', function() {
+      progressOverlay.style.display = 'none';
+      showSnackbar('Network error. Please check your connection.');
+    });
+
+    xhr.addEventListener('abort', function() {
+      progressOverlay.style.display = 'none';
+    });
+
+    xhr.send(new FormData(uploadForm));
+  });
 })();
 </script>
 {% endblock %}
