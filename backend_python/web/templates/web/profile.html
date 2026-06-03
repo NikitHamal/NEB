@@ -986,8 +986,7 @@
 
         <!-- Tab: Posts -->
         <div class="profile-tab-content active" id="tabPosts">
-          <div class="pf-card">
-            <div class="activity-list" id="activityFeed">
+          <div class="activity-list" id="activityFeed">
               {% for post in user_posts %}
               <div class="post-card">
                 <div class="post-card-header">
@@ -1060,19 +1059,17 @@
                 </div>
               </div>
               {% endfor %}
-            </div>
             {% if stats.post_count > 10 %}
               <button class="load-more-btn" id="loadMoreBtn" data-action="load-more-activity">
                 Load More Activity
               </button>
             {% endif %}
-          </div>
+            </div>
         </div>
 
         <!-- Tab: Replies -->
         <div class="profile-tab-content" id="tabReplies">
-          <div class="pf-card">
-            <div class="activity-list" id="repliesFeed">
+          <div class="activity-list" id="repliesFeed">
               {% for reply in user_replies %}
               <div class="pf-reply-card">
                 <div class="pf-reply-card-header">
@@ -1121,19 +1118,17 @@
                 </div>
               </div>
               {% endfor %}
-            </div>
             {% if stats.reply_count > 10 %}
               <button class="load-more-btn" id="loadMoreRepliesBtn" data-action="load-more-replies">
                 Load More Replies
               </button>
             {% endif %}
-          </div>
+            </div>
         </div>
 
         <!-- Tab: Resources -->
         <div class="profile-tab-content" id="tabResources">
-          <div class="pf-card">
-            <div class="activity-list" id="resourcesFeed">
+          <div class="activity-list" id="resourcesFeed">
               {% for r in user_resources %}
               <div class="post-card" style="--subject-color: {{ r.subject|split:','|first|subject_color }}">
                 <!-- Card Header -->
@@ -1252,7 +1247,6 @@
               </div>
               {% endfor %}
             </div>
-          </div>
         </div>
 
         <!-- Tab: About -->
