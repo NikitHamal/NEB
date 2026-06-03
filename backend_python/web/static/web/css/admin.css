@@ -468,6 +468,17 @@ input[type="file"].md-input::file-selector-button:hover {
     animation: none !important;
 }
 
+/* Truncate long md-chip text inside tables to keep layout clean */
+.md-table .md-chip {
+    max-width: 180px;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+    text-align: center;
+}
+
 /* --- Mobile Responsive --- */
 @media (max-width: 768px) {
     .admin-content {

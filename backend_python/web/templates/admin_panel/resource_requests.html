@@ -36,7 +36,7 @@
             <div style="font-weight:600">{{ req.title }}</div>
             {% if req.description %}<div style="font-size:0.8125rem;color:var(--md-on-surface-variant)">{{ req.description|truncatewords:20 }}</div>{% endif %}
           </td>
-          <td>{{ req.subject|default:"—" }}</td>
+          <td>{{ req.subject|default:"—"|truncatechars:35 }}</td>
           <td>{{ req.grade_level|default:"—" }}</td>
           <td>{{ req.requested_by_name }}{% if req.requester_email %}<br><small>{{ req.requester_email }}</small>{% endif %}</td>
           <td>{{ req.upvote_count }}</td>
