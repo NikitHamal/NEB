@@ -1939,10 +1939,13 @@ def edit_profile(request):
         }
         api.set_session_auth(request, token, updated_data)
         return redirect('web:home')
-    ctx = _ctx(request)
-    ctx['error'] = ctx.get('error', None)
     profile_incomplete = not db_user.display_name or not db_user.gender or not db_user.class_level
-    return render(request, 'web/edit_profile.html', _ctx(request, error=ctx.get('error', None), has_password=has_password, profile_incomplete=profile_incomplete))
+    popular_subjects = [
+        'Physics', 'Chemistry', 'Mathematics', 'Biology', 'Computer Science',
+        'English', 'Nepali', 'Social Studies', 'Economics', 'Accountancy',
+        'Business Studies', 'Business Mathematics', 'Civil Engineering', 'Computer Engineering'
+    ]
+    return render(request, 'web/edit_profile.html', _ctx(request, has_password=has_password, profile_incomplete=profile_incomplete, popular_subjects=popular_subjects))
 
 
 # ---------------------------------------------------------------------------
