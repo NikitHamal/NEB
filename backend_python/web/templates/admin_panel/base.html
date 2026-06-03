@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script>
+  <script nonce="{{ csp_nonce }}">
     (function() {
       const saved = localStorage.getItem('theme');
       if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -25,7 +25,7 @@
 </head>
 <body>
   <!-- Mobile Nav Overlay -->
-  <div class="admin-mobile-overlay" id="mobileOverlay" onclick="closeMobileNav()"></div>
+  <div class="admin-mobile-overlay" id="mobileOverlay" data-action="close-mobile-nav"></div>
   <nav class="admin-mobile-nav" id="mobileNav">
     <div class="mobile-header">
       <a href="{% url 'web:admin_dashboard' %}">
@@ -35,40 +35,40 @@
         </svg>
         NEBians Admin
       </a>
-      <button class="md-btn-icon" onclick="closeMobileNav()" aria-label="Close menu">
+      <button class="md-btn-icon" data-action="close-mobile-nav" aria-label="Close menu">
         <span class="material-symbols-outlined">close</span>
       </button>
     </div>
-    <a href="{% url 'web:admin_dashboard' %}" class="{% if active_page == 'dashboard' %}active{% endif %}" onclick="closeMobileNav()">
+    <a href="{% url 'web:admin_dashboard' %}" class="{% if active_page == 'dashboard' %}active{% endif %}">
       <span class="material-symbols-outlined">dashboard</span>
       Dashboard
     </a>
-    <a href="{% url 'web:admin_users' %}" class="{% if active_page == 'users' %}active{% endif %}" onclick="closeMobileNav()">
+    <a href="{% url 'web:admin_users' %}" class="{% if active_page == 'users' %}active{% endif %}">
       <span class="material-symbols-outlined">people</span>
       Users
     </a>
-    <a href="{% url 'web:admin_resources' %}" class="{% if active_page == 'resources' %}active{% endif %}" onclick="closeMobileNav()">
+    <a href="{% url 'web:admin_resources' %}" class="{% if active_page == 'resources' %}active{% endif %}">
       <span class="material-symbols-outlined">auto_stories</span>
       Resources
     </a>
-    <a href="{% url 'web:admin_pending_resources' %}" class="{% if active_page == 'pending_resources' %}active{% endif %}" onclick="closeMobileNav()">
+    <a href="{% url 'web:admin_pending_resources' %}" class="{% if active_page == 'pending_resources' %}active{% endif %}">
       <span class="material-symbols-outlined">pending_actions</span>
       Pending Review
     </a>
-    <a href="{% url 'web:admin_resource_requests' %}" class="{% if active_page == 'resource_requests' %}active{% endif %}" onclick="closeMobileNav()">
+    <a href="{% url 'web:admin_resource_requests' %}" class="{% if active_page == 'resource_requests' %}active{% endif %}">
       <span class="material-symbols-outlined">contact_support</span>
       Requests
     </a>
-    <a href="{% url 'web:admin_posts' %}" class="{% if active_page == 'posts' %}active{% endif %}" onclick="closeMobileNav()">
+    <a href="{% url 'web:admin_posts' %}" class="{% if active_page == 'posts' %}active{% endif %}">
       <span class="material-symbols-outlined">forum</span>
       Forum Posts
     </a>
-    <a href="{% url 'web:admin_bot_config' %}" class="{% if active_page == 'bot' %}active{% endif %}" onclick="closeMobileNav()">
+    <a href="{% url 'web:admin_bot_config' %}" class="{% if active_page == 'bot' %}active{% endif %}">
       <span class="material-symbols-outlined">smart_toy</span>
       Neby AI Bot
     </a>
     <div class="md-divider" style="margin:8px 16px;"></div>
-    <a href="{% url 'web:home' %}" style="color:var(--md-on-surface-variant);" onclick="closeMobileNav()">
+    <a href="{% url 'web:home' %}" style="color:var(--md-on-surface-variant);">
       <span class="material-symbols-outlined">open_in_new</span>
       View Site
     </a>
@@ -76,7 +76,7 @@
 
   <!-- Top Bar -->
   <header class="md-topbar" style="background:var(--md-surface-container);">
-    <button class="admin-hamburger" onclick="openMobileNav()" aria-label="Open menu">
+    <button class="admin-hamburger" data-action="open-mobile-nav" aria-label="Open menu">
       <span class="material-symbols-outlined">menu</span>
     </button>
     <a href="{% url 'web:admin_dashboard' %}" class="md-topbar-brand" style="color:var(--md-primary);">
@@ -87,7 +87,7 @@
       NEBians Admin
     </a>
     <div style="margin-left:auto;display:flex;align-items:center;gap:8px;">
-      <button class="md-btn-icon" onclick="toggleTheme()" title="Toggle theme" aria-label="Toggle theme" style="margin-right:8px;">
+      <button class="md-btn-icon" data-action="toggle-theme" title="Toggle theme" aria-label="Toggle theme" style="margin-right:8px;">
         <span class="material-symbols-outlined" id="theme-icon">dark_mode</span>
       </button>
       <span class="md-body-small" style="color:var(--md-on-surface-variant);">Admin</span>
@@ -139,7 +139,8 @@
     </div>
   </div>
 
-  <script>
+  <script nonce="{{ csp_nonce }}" src="{% static 'web/js/delegated-events.js' %}"></script>
+  <script nonce="{{ csp_nonce }}">
     const CSRF_TOKEN = '{{ csrf_token }}';
     function toggleTheme() {
       const html = document.documentElement;
@@ -185,6 +186,31 @@
       document.getElementById('mobileNav').classList.remove('active');
       document.getElementById('mobileOverlay').classList.remove('active');
     }
+
+    registerActions({
+      'close-mobile-nav': function(el, e) {
+        closeMobileNav();
+      },
+      'open-mobile-nav': function(el, e) {
+        openMobileNav();
+      },
+      'toggle-theme': function(el, e) {
+        toggleTheme();
+      },
+      'confirm-delete': function(form, e) {
+        var msg = form.dataset.confirmMsg || 'Are you sure?';
+        if (!confirm(msg)) {
+          e.preventDefault();
+        }
+      }
+    });
+
+    // Close mobile nav when any link inside it is clicked
+    document.getElementById('mobileNav').addEventListener('click', function(e) {
+      if (e.target.closest('a')) {
+        closeMobileNav();
+      }
+    });
   </script>
   {% block extra_js %}{% endblock %}
 </body>

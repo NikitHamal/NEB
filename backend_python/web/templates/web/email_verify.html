@@ -20,8 +20,8 @@
         <label class="md-text-field-label">6-digit Code</label>
       </div>
       <p id="verify-error" style="color:var(--md-error);font-size:0.8125rem;min-height:1.2em;margin:4px 0;"></p>
-      <button onclick="handleVerify()" id="verify-btn" class="md-btn md-btn-filled" style="width:100%;margin-top:8px;">Verify</button>
-      <button onclick="handleResend()" id="resend-btn" class="md-btn md-btn-text" style="width:100%;margin-top:4px;">Resend Code</button>
+      <button data-action="verify-email" id="verify-btn" class="md-btn md-btn-filled" style="width:100%;margin-top:8px;">Verify</button>
+      <button data-action="resend-verify-code" id="resend-btn" class="md-btn md-btn-text" style="width:100%;margin-top:4px;">Resend Code</button>
     </div>
 
     <div style="text-align:center;margin-top:16px;">
@@ -31,62 +31,77 @@
 </div>
 
 {% block extra_js %}
-<script>
-const params = new URLSearchParams(window.location.search);
-const email = params.get('email') || '';
+<script nonce="{{ csp_nonce }}">
+var params = new URLSearchParams(window.location.search);
+var email = params.get('email') || '';
 document.getElementById('verify-email-display').textContent = email || 'your email';
 
-async function handleVerify() {
-  const code = document.getElementById('verify-code').value.trim();
-  const errorEl = document.getElementById('verify-error');
-  const btn = document.getElementById('verify-btn');
+function handleVerify() {
+  var code = document.getElementById('verify-code').value.trim();
+  var errorEl = document.getElementById('verify-error');
+  var btn = document.getElementById('verify-btn');
   errorEl.textContent = '';
   btn.disabled = true;
   btn.textContent = 'Verifying...';
 
-  try {
-    const res = await fetch('/api/auth/email/verify/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, code })
-    });
-    const data = await res.json();
+  fetch('/api/auth/email/verify/', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email: email, code: code })
+  }).then(function(res) { return res.json(); }).then(function(data) {
     if (data.status === 'success' && data.authToken) {
-      const sessionRes = await fetch('{% url "web:google_auth" %}', {
+      fetch('{% url "web:google_auth" %}', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
         body: JSON.stringify({ emailAuthToken: data.authToken, emailUser: data.user })
+      }).then(function() {
+        window.location.href = data.isNewUser ? '{% url "web:edit_profile" %}' : '{% url "web:home" %}';
       });
-      window.location.href = data.isNewUser ? '{% url "web:edit_profile" %}' : '{% url "web:home" %}';
     } else {
       errorEl.textContent = data.error || 'Verification failed';
       btn.disabled = false;
       btn.textContent = 'Verify';
     }
-  } catch (e) {
+  }).catch(function() {
     errorEl.textContent = 'Network error. Please try again.';
     btn.disabled = false;
     btn.textContent = 'Verify';
-  }
+  });
 }
 
-async function handleResend() {
-  const btn = document.getElementById('resend-btn');
+function handleResend() {
+  var btn = document.getElementById('resend-btn');
   btn.disabled = true;
   btn.textContent = 'Sending...';
-  try {
-    await fetch('/api/auth/email/resend/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email })
-    });
-    btn.textContent = 'Code sent!';
-    setTimeout(() => { btn.textContent = 'Resend Code'; btn.disabled = false; }, 30000);
-  } catch (e) {
-    btn.textContent = 'Resend Code';
-    btn.disabled = false;
-  }
+  fetch('/api/auth/email/resend/', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email: email })
+  }).then(function(res) { return res.json(); }).then(function(data) {
+    if (data.status === 'success' || !data.error) {
+      var seconds = 60;
+      btn.textContent = 'Resend in ' + seconds + 's';
+      var timer = setInterval(function() {
+        seconds--;
+        if (seconds <= 0) {
+          clearInterval(timer);
+          btn.textContent = 'Resend Code';
+          btn.disabled = false;
+        } else {
+          btn.textContent = 'Resend in ' + seconds + 's';
+        }
+      }, 1000);
+    } else {
+      btn.textContent = 'Resend Code';
+      btn.disabled = false;
+    }
+  }).catch(function() { btn.textContent = 'Resend Code'; btn.disabled = false; });
 }
+
+registerActions({
+  'verify-email': function() { handleVerify(); },
+  'resend-verify-code': function() { handleResend(); }
+});
 </script>
 {% endblock %}
 {% endblock %}

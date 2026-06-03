@@ -396,7 +396,7 @@
 {% endblock %}
 
 {% block extra_js %}
-<script>
+<script nonce="{{ csp_nonce }}">
 (function() {
   var EXAM_TYPES = ['Past Paper', 'Model Paper', 'Guide', 'Solution', 'Note', 'PDF'];
 
@@ -435,7 +435,7 @@
     overlay.addEventListener('click', function(e) { if (e.target === overlay) { document.body.style.overflow = ''; overlay.style.display = 'none'; } });
     searchInput.addEventListener('input', function() { filterList(searchInput.value); });
     function filterList(query) { var q = query.toLowerCase(); pickList.querySelectorAll('.subject-pick-item').forEach(function(item) { var label = item.getAttribute('data-subject').toLowerCase(); item.style.display = label.indexOf(q) >= 0 ? '' : 'none'; }); }
-    pickList.addEventListener('click', function(e) { var item = e.target.closest('.subject-pick-item'); if (!item) return; item.classList.toggle('selected'); item.querySelector('.subject-pick-checkbox').checked = item.classList.contains('selected'); });
+    pickList.addEventListener('change', function(e) { var checkbox = e.target; if (checkbox && checkbox.classList.contains('subject-pick-checkbox')) { var item = checkbox.closest('.subject-pick-item'); if (item) { item.classList.toggle('selected', checkbox.checked); } } });
     addBtn.addEventListener('click', function() { var val = customInput.value.trim(); if (val) { addItem(val); customInput.value = ''; var existingItem = pickList.querySelector('[data-subject="' + CSS.escape(val) + '"]'); if (!existingItem) { var label = document.createElement('label'); label.className = 'subject-pick-item selected'; label.setAttribute('data-subject', val); label.innerHTML = '<input type="checkbox" class="subject-pick-checkbox" checked><span class="subject-pick-check"><span class="material-symbols-outlined">check</span></span><span class="subject-pick-label">' + escapeHtml(val) + '</span>'; pickList.appendChild(label); } } });
     customInput.addEventListener('keydown', function(e) { if (e.key === 'Enter') { e.preventDefault(); addBtn.click(); } });
     doneBtn.addEventListener('click', function() { var selected = []; pickList.querySelectorAll('.subject-pick-item.selected').forEach(function(item) { selected.push(item.getAttribute('data-subject')); }); items = selected; renderChips(); document.body.style.overflow = ''; overlay.style.display = 'none'; });
