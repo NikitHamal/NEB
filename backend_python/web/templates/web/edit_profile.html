@@ -4,11 +4,171 @@
 
 {% block extra_css %}
 <style>
-  .subject-chip-btn.active {
-    background: var(--md-primary-container) !important;
-    border-color: var(--md-primary) !important;
-    color: var(--md-on-primary-container) !important;
-  }
+.subject-chips-area { display: flex; flex-direction: column; gap: 8px; }
+.subject-chips { display: flex; flex-wrap: wrap; gap: 6px; min-height: 0; }
+.subject-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--md-primary-container);
+  color: var(--md-on-primary-container);
+  padding: 4px 8px 4px 12px;
+  border-radius: 20px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.4;
+}
+.subject-chip-remove {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--md-on-primary-container);
+  opacity: 0.7;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+}
+.subject-chip-remove:hover { opacity: 1; background: color-mix(15%, var(--md-on-primary-container), transparent); }
+.subject-chip-remove .material-symbols-outlined { font-size: 14px; }
+.subject-input-row { display: flex; gap: 8px; }
+.subject-input-row .md-input { flex: 1; }
+.subject-pick-btn { white-space: nowrap; padding: 8px 16px; }
+.subject-pick-btn .material-symbols-outlined { font-size: 18px; }
+
+.subject-pick-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+.subject-pick-dialog {
+  background: var(--md-surface);
+  border-radius: 20px;
+  width: 100%;
+  max-width: 480px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+}
+.subject-pick-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px 12px;
+}
+.subject-pick-header h3 { margin: 0; font-size: 1.125rem; font-weight: 600; color: var(--md-on-surface); }
+.subject-pick-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
+  color: var(--md-on-surface-variant);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.subject-pick-close:hover { background: color-mix(10%, var(--md-on-surface-variant), transparent); }
+.subject-pick-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 20px 12px;
+  padding: 8px 12px;
+  border-radius: 12px;
+  background: var(--md-surface-container-high);
+}
+.subject-pick-search .material-symbols-outlined { font-size: 20px; color: var(--md-on-surface-variant); }
+.subject-pick-search input {
+  border: none;
+  background: none;
+  outline: none;
+  flex: 1;
+  font-size: 0.9375rem;
+  color: var(--md-on-surface);
+  font-family: inherit;
+}
+.subject-pick-search input::placeholder { color: var(--md-on-surface-variant); }
+.subject-pick-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 12px 12px;
+  min-height: 120px;
+  max-height: 40vh;
+  scrollbar-width: none;
+}
+.subject-pick-list::-webkit-scrollbar { display: none; }
+.subject-pick-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 0.9375rem;
+  color: var(--md-on-surface);
+  transition: background 0.15s;
+}
+.subject-pick-item:hover { background: color-mix(5%, var(--md-primary), transparent); }
+.subject-pick-checkbox { display: none; }
+.subject-pick-check {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  border: 2px solid var(--md-outline);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.15s, border-color 0.15s;
+}
+.subject-pick-check .material-symbols-outlined { font-size: 16px; color: var(--md-on-primary); opacity: 0; transition: opacity 0.15s; }
+.subject-pick-item.selected .subject-pick-check {
+  background: var(--md-primary);
+  border-color: var(--md-primary);
+}
+.subject-pick-item.selected .subject-pick-check .material-symbols-outlined { opacity: 1; }
+.subject-pick-label { flex: 1; }
+.subject-pick-add {
+  display: flex;
+  gap: 8px;
+  padding: 8px 20px 12px;
+  border-top: 1px solid var(--md-outline-variant);
+  margin-top: 4px;
+}
+.subject-pick-add input {
+  flex: 1;
+  border: 1px solid var(--md-outline-variant);
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-size: 0.875rem;
+  outline: none;
+  background: var(--md-surface-container);
+  color: var(--md-on-surface);
+  font-family: inherit;
+}
+.subject-pick-add input:focus { border-color: var(--md-primary); }
+.subject-pick-add .md-btn { padding: 8px 16px; }
+.subject-pick-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 12px 20px 16px;
+  border-top: 1px solid var(--md-outline-variant);
+}
+
+@media (max-width: 600px) {
+  .subject-pick-dialog { max-width: 100%; margin: 8px; }
+}
 </style>
 {% endblock %}
 
@@ -111,15 +271,18 @@
           </select>
         </div>
         <div class="form-group">
-          <label class="md-label" for="subjects">Subjects</label>
-          <input type="text" id="subjects" name="subjects" class="md-input" value="{{ user.subjects|default:'' }}" placeholder="e.g. Physics, Chemistry, Math">
-          <div class="subject-suggestions-title" style="font-size:0.75rem;color:var(--md-on-surface-variant);margin-top:8px;font-weight:600;">Popular Subjects (click to add/remove):</div>
-          <div class="subject-chips" style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">
-            {% for s in popular_subjects %}
-              <span class="subject-chip-btn" data-subject="{{ s }}" data-action="toggle-subject-chip" style="cursor:pointer;padding:4px 10px;border-radius:100px;background:var(--md-surface-container);border:1px solid var(--md-outline-variant);font-size:0.725rem;font-weight:500;user-select:none;transition:background 0.15s, border-color 0.15s;">
-                {{ s }}
-              </span>
-            {% endfor %}
+          <label class="md-label">Subjects</label>
+          <input type="hidden" id="subjects-hidden" name="subjects" value="{{ user.subjects|default:'' }}">
+          <div class="subject-chips-area" id="subjects-chips-area">
+            <div class="subject-chips" id="subjects-chips"></div>
+            <div class="subject-input-row">
+              <input class="md-input subject-input" type="text" id="subjects-input" placeholder="Type a subject and press Enter or comma" autocomplete="off">
+              <button type="button" class="md-btn md-btn-tonal subject-pick-btn" id="subjects-pick-btn">
+                <span class="material-symbols-outlined">checklist</span>
+                Pick
+              </button>
+            </div>
+            <div style="font-size:0.8125rem;color:var(--md-on-surface-variant);margin-top:4px;">Press Enter or comma to add. Click Pick to browse suggestions.</div>
           </div>
         </div>
       </div>
@@ -170,6 +333,43 @@
       <span class="material-symbols-outlined" style="font-size:18px;margin-right:8px;">lock</span>
       {% if has_password %}Change Password{% else %}Set Password{% endif %}
     </a>
+  </div>
+</div>
+
+<div class="subject-pick-overlay" id="subjects-pick-overlay" style="display:none">
+  <div class="subject-pick-dialog">
+    <div class="subject-pick-header">
+      <h3>Select Subjects</h3>
+      <button type="button" class="subject-pick-close" id="subjects-pick-close">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+    <div class="subject-pick-search">
+      <span class="material-symbols-outlined">search</span>
+      <input type="text" id="subjects-pick-search" placeholder="Search subjects..." autocomplete="off">
+    </div>
+    <div class="subject-pick-list" id="subjects-pick-list">
+      {% for s in subjects %}
+      <label class="subject-pick-item" data-subject="{{ s }}">
+        <input type="checkbox" class="subject-pick-checkbox" value="{{ s }}">
+        <span class="subject-pick-check">
+          <span class="material-symbols-outlined">check</span>
+        </span>
+        <span class="subject-pick-label">{{ s }}</span>
+      </label>
+      {% endfor %}
+    </div>
+    <div class="subject-pick-add">
+      <input type="text" id="subjects-pick-custom" placeholder="Add a custom subject" autocomplete="off">
+      <button type="button" class="md-btn md-btn-tonal" id="subjects-pick-add-btn">
+        <span class="material-symbols-outlined">add</span>
+        Add
+      </button>
+    </div>
+    <div class="subject-pick-actions">
+      <button type="button" class="md-btn md-btn-text" id="subjects-pick-cancel">Cancel</button>
+      <button type="button" class="md-btn md-btn-filled" id="subjects-pick-done">Done</button>
+    </div>
   </div>
 </div>
 {% endblock %}
@@ -241,56 +441,176 @@ if (usernameInput) {
   });
 }
 
-function updateChipsFromInput() {
-  var subjectsInput = document.getElementById('subjects');
-  if (!subjectsInput) return;
-  var activeSubjects = subjectsInput.value.split(',').map(function(s) { return s.trim(); }).filter(Boolean);
-  
-  document.querySelectorAll('.subject-chip-btn').forEach(function(chip) {
-    var subName = chip.dataset.subject;
-    var isMatched = activeSubjects.some(function(as) {
-      return as.toLowerCase() === subName.toLowerCase();
-    });
-    if (isMatched) {
-      chip.classList.add('active');
-    } else {
-      chip.classList.remove('active');
-    }
-  });
+function escapeHtml(str) {
+  var div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
 }
 
-var subjectsInput = document.getElementById('subjects');
-if (subjectsInput) {
-  subjectsInput.addEventListener('input', updateChipsFromInput);
-  updateChipsFromInput();
-}
+var subjectPicker = (function() {
+  var hiddenInput = document.getElementById('subjects-hidden');
+  var chipContainer = document.getElementById('subjects-chips');
+  var textInput = document.getElementById('subjects-input');
+  var pickBtn = document.getElementById('subjects-pick-btn');
+  var overlay = document.getElementById('subjects-pick-overlay');
+  var closeBtn = document.getElementById('subjects-pick-close');
+  var searchInput = document.getElementById('subjects-pick-search');
+  var pickList = document.getElementById('subjects-pick-list');
+  var customInput = document.getElementById('subjects-pick-custom');
+  var addBtn = document.getElementById('subjects-pick-add-btn');
+  var cancelBtn = document.getElementById('subjects-pick-cancel');
+  var doneBtn = document.getElementById('subjects-pick-done');
+  var items = [];
+
+  function init() {
+    var val = hiddenInput.value;
+    if (val) {
+      items = val.split(',').map(function(s) { return s.trim(); }).filter(function(s) { return s; });
+    }
+    renderChips();
+  }
+
+  function renderChips() {
+    chipContainer.innerHTML = '';
+    items.forEach(function(s) {
+      var chip = document.createElement('span');
+      chip.className = 'subject-chip';
+      chip.innerHTML = escapeHtml(s) + '<button type="button" class="subject-chip-remove" data-item="' + escapeHtml(s) + '"><span class="material-symbols-outlined">close</span></button>';
+      chipContainer.appendChild(chip);
+    });
+    hiddenInput.value = items.join(', ');
+    chipContainer.querySelectorAll('.subject-chip-remove').forEach(function(btn) {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        removeItem(btn.getAttribute('data-item'));
+      });
+    });
+  }
+
+  function addItem(name) {
+    name = name.trim();
+    if (!name) return;
+    name.split(/[,;]/).forEach(function(part) {
+      part = part.trim();
+      if (!part) return;
+      var lower = part.toLowerCase();
+      var exists = items.some(function(s) { return s.toLowerCase() === lower; });
+      if (!exists) {
+        items.push(part);
+      }
+    });
+    renderChips();
+  }
+
+  function removeItem(name) {
+    items = items.filter(function(s) { return s !== name; });
+    renderChips();
+  }
+
+  textInput.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' || e.key === ',' || e.key === 'Tab') {
+      var val = textInput.value.replace(/,$/, '').trim();
+      if (val) {
+        e.preventDefault();
+        addItem(val);
+        textInput.value = '';
+      }
+    } else if (e.key === 'Backspace' && !textInput.value && items.length) {
+      removeItem(items[items.length - 1]);
+    }
+  });
+
+  textInput.addEventListener('blur', function() {
+    var val = textInput.value.replace(/,$/, '').trim();
+    if (val) {
+      addItem(val);
+      textInput.value = '';
+    }
+  });
+
+  pickBtn.addEventListener('click', function() {
+    overlay.style.display = '';
+    document.body.style.overflow = 'hidden';
+    searchInput.value = '';
+    filterList('');
+    syncSelection();
+    searchInput.focus();
+  });
+
+  closeBtn.addEventListener('click', function() { document.body.style.overflow = ''; overlay.style.display = 'none'; });
+  cancelBtn.addEventListener('click', function() { document.body.style.overflow = ''; overlay.style.display = 'none'; });
+  overlay.addEventListener('click', function(e) {
+    if (e.target === overlay) { document.body.style.overflow = ''; overlay.style.display = 'none'; }
+  });
+
+  searchInput.addEventListener('input', function() { filterList(searchInput.value); });
+
+  function filterList(query) {
+    var q = query.toLowerCase();
+    pickList.querySelectorAll('.subject-pick-item').forEach(function(item) {
+      var label = item.getAttribute('data-subject').toLowerCase();
+      item.style.display = label.indexOf(q) >= 0 ? '' : 'none';
+    });
+  }
+
+  pickList.addEventListener('change', function(e) {
+    var checkbox = e.target;
+    if (checkbox && checkbox.classList.contains('subject-pick-checkbox')) {
+      var item = checkbox.closest('.subject-pick-item');
+      if (item) {
+        item.classList.toggle('selected', checkbox.checked);
+      }
+    }
+  });
+
+  addBtn.addEventListener('click', function() {
+    var val = customInput.value.trim();
+    if (val) {
+      addItem(val);
+      customInput.value = '';
+      var existingItem = pickList.querySelector('[data-subject="' + CSS.escape(val) + '"]');
+      if (!existingItem) {
+        var label = document.createElement('label');
+        label.className = 'subject-pick-item selected';
+        label.setAttribute('data-subject', val);
+        label.innerHTML = '<input type="checkbox" class="subject-pick-checkbox" checked><span class="subject-pick-check"><span class="material-symbols-outlined">check</span></span><span class="subject-pick-label">' + escapeHtml(val) + '</span>';
+        pickList.appendChild(label);
+      }
+    }
+  });
+
+  customInput.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') { e.preventDefault(); addBtn.click(); }
+  });
+
+  doneBtn.addEventListener('click', function() {
+    var selected = [];
+    pickList.querySelectorAll('.subject-pick-item.selected').forEach(function(item) {
+      selected.push(item.getAttribute('data-subject'));
+    });
+    items = selected;
+    renderChips();
+    document.body.style.overflow = '';
+    overlay.style.display = 'none';
+  });
+
+  function syncSelection() {
+    var lowerItems = items.map(function(s) { return s.toLowerCase(); });
+    pickList.querySelectorAll('.subject-pick-item').forEach(function(item) {
+      var subject = item.getAttribute('data-subject');
+      var isSel = lowerItems.indexOf(subject.toLowerCase()) >= 0;
+      item.classList.toggle('selected', isSel);
+      item.querySelector('.subject-pick-checkbox').checked = isSel;
+    });
+  }
+
+  init();
+  return { addItem: addItem, removeItem: removeItem };
+})();
 
 registerActions({
   'trigger-photo-upload': function() { document.getElementById('photo_file').click(); },
-  'edit-photo-upload': function(el, e) { handleEditPhotoUpload(e); },
-  'toggle-subject-chip': function(el) {
-    var subName = el.dataset.subject;
-    var input = document.getElementById('subjects');
-    if (!input) return;
-    var activeSubjects = input.value.split(',').map(function(s) { return s.trim(); }).filter(Boolean);
-    
-    var matchedIndex = -1;
-    for (var i = 0; i < activeSubjects.length; i++) {
-      if (activeSubjects[i].toLowerCase() === subName.toLowerCase()) {
-        matchedIndex = i;
-        break;
-      }
-    }
-    
-    if (matchedIndex > -1) {
-      activeSubjects.splice(matchedIndex, 1);
-    } else {
-      activeSubjects.push(subName);
-    }
-    
-    input.value = activeSubjects.join(', ');
-    updateChipsFromInput();
-  }
+  'edit-photo-upload': function(el, e) { handleEditPhotoUpload(e); }
 });
 </script>
 {% endblock %}

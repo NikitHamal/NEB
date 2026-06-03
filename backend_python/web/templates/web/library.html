@@ -8,6 +8,7 @@
 {% block og_description %}Browse NEB study resources - notes, past papers, textbooks and more for Class 11 and 12.{% endblock %}
 {% block nav_library %}md-nav-active{% endblock %}
 {% block bnav_library %}md-nav-active{% endblock %}
+{% block canonical %}https://nebians.consica.com.np{{ request.path }}{% if page_obj and page_obj.number > 1 %}?page={{ page_obj.number }}{% endif %}{% endblock %}
 
 {% block bottomnav %}
 <nav class="md-bottomnav">
