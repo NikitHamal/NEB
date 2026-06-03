@@ -1725,13 +1725,7 @@
   border-radius: 28px;
   max-width: 520px;
   margin: 48px auto;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.04);
-  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s ease;
-}
-
-.admin-empty:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.08);
+  box-shadow: none;
 }
 
 .admin-empty-icon-wrap {
@@ -1745,12 +1739,6 @@
   justify-content: center;
   margin-bottom: 24px;
   border: 2px solid color-mix(in srgb, var(--md-primary) 20%, transparent);
-  box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.1);
-  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-.admin-empty:hover .admin-empty-icon-wrap {
-  transform: scale(1.1) rotate(4deg);
 }
 
 .admin-empty-icon-wrap .material-symbols-outlined {
