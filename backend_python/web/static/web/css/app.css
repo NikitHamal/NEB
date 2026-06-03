@@ -166,18 +166,17 @@
   margin-bottom: 12px;
 }
 
-.resource-card-download {
+.resource-card-stats {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
   margin-top: auto;
-  font-size: 0.8125rem;
-  font-weight: 600;
+  font-size: 0.75rem;
   color: var(--md-on-surface-variant);
 }
 
-.resource-card-download .material-symbols-outlined {
-  font-size: 18px;
+.resource-card-stats .material-symbols-outlined {
+  font-size: 14px;
 }
 
 .subject-physics {
