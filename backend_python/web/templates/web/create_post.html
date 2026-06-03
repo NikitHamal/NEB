@@ -62,7 +62,7 @@
 {% endblock %}
 
 {% block extra_js %}
-<script>
+<script nonce="{{ csp_nonce }}">
 (function() {
   var textarea = document.getElementById('content');
   if (!textarea) return;
@@ -127,9 +127,9 @@
     var html = '';
     users.forEach(function(u, i) {
       var avatarHtml = u.photoUrl
-        ? '<img src="' + escapeHtml(u.photoUrl) + '" alt="" onerror="this.style.display=\'none\'; this.nextElementSibling.style.display=\'flex\';"><span class="fp-mention-item-letter" style="display:none;">' + escapeHtml(u.displayName.charAt(0)) + '</span>'
+        ? '<img src="' + escapeHtml(u.photoUrl) + '" alt="" data-fallback="flex"><span class="fp-mention-item-letter" style="display:none;">' + escapeHtml(u.displayName.charAt(0)) + '</span>'
         : '<span class="fp-mention-item-letter">' + escapeHtml(u.displayName.charAt(0)) + '</span>';
-      html += '<div class="fp-mention-item' + (i === 0 ? ' selected' : '') + '" data-index="' + i + '" onmousedown="window.__selectCreateMention(' + i + ')" onmouseover="window.__hoverCreateMention(' + i + ')">';
+      html += '<div class="fp-mention-item' + (i === 0 ? ' selected' : '') + '" data-index="' + i + '" data-mousedown-action="select-mention-item" data-hover-action="hover-mention-item">';
       html += '<div class="fp-mention-item-avatar">' + avatarHtml + '</div>';
       html += '<div><div class="fp-mention-item-name">' + escapeHtml(u.displayName) + '</div>';
       html += '<div class="fp-mention-item-username">@' + escapeHtml(u.username) + '</div></div>';
@@ -178,6 +178,16 @@
 
   window.__selectCreateMention = selectItem;
   window.__hoverCreateMention = function(i) { mentionSelectedIndex = i; highlightItem(); };
+
+  document.addEventListener('mousedown', function(e) {
+    var el = e.target.closest('[data-mousedown-action="select-mention-item"]');
+    if (el) { e.preventDefault(); window.__selectCreateMention(parseInt(el.dataset.index)); }
+  });
+
+  document.addEventListener('mouseover', function(e) {
+    var el = e.target.closest('[data-hover-action="hover-mention-item"]');
+    if (el) { window.__hoverCreateMention(parseInt(el.dataset.index)); }
+  });
 })();
 </script>
 {% endblock %}

@@ -157,7 +157,7 @@
 {% endblock %}
 
 {% block extra_js %}
-<script>
+<script nonce="{{ csp_nonce }}">
   // Toggle switch functionality
   const toggle = document.getElementById('id_enabled');
   if (toggle) {

@@ -17,6 +17,7 @@ urlpatterns = [
     path('auth/email/reset-password/', views.auth_email_reset_password, name='auth-email-reset-password'),
     path('auth/set-password/', views.auth_set_password, name='auth-set-password'),
     path('auth/change-password/', views.auth_change_password, name='auth-change-password'),
+    path('auth/logout/', views.auth_logout, name='auth-logout'),
 
     # Users — profile
     path('users/check-username/', views.check_username, name='check-username'),

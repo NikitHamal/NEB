@@ -17,6 +17,7 @@ from django.core.cache import cache
 from rest_framework.authentication import BaseAuthentication
 from rest_framework.exceptions import AuthenticationFailed
 from .models import User
+from .security import get_user_by_auth_token, hash_auth_token
 
 logger = logging.getLogger(__name__)
 
@@ -97,7 +98,7 @@ class AuthTokenAuthentication(BaseAuthentication):
         if not token:
             return None
 
-        cache_key = f'auth_user:{token}'
+        cache_key = f'auth_user:{hash_auth_token(token)}'
         user_id = cache.get(cache_key)
         if user_id is not None:
             try:
@@ -106,7 +107,7 @@ class AuthTokenAuthentication(BaseAuthentication):
                 cache.delete(cache_key)
 
         try:
-            user = User.objects.get(auth_token=token)
+            user = get_user_by_auth_token(token)
             cache.set(cache_key, user.id, _AUTH_TOKEN_CACHE_SECONDS)
             return (user, token)
         except User.DoesNotExist:

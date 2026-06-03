@@ -24,7 +24,7 @@
         <label class="md-text-field-label">Password</label>
       </div>
       <p id="login-error" style="color:var(--md-error);font-size:0.8125rem;min-height:1.2em;margin:4px 0;"></p>
-      <button onclick="handleLogin()" id="login-btn" class="md-btn md-btn-filled" style="width:100%;margin-top:8px;">Sign In</button>
+      <button data-action="email-login" id="login-btn" class="md-btn md-btn-filled" style="width:100%;margin-top:8px;">Sign In</button>
     </div>
 
     <div style="text-align:center;margin-top:8px;">
@@ -43,42 +43,44 @@
 </div>
 
 {% block extra_js %}
-<script>
-async function handleLogin() {
-  const email = document.getElementById('login-email').value.trim();
-  const password = document.getElementById('login-password').value;
-  const errorEl = document.getElementById('login-error');
-  const btn = document.getElementById('login-btn');
+<script nonce="{{ csp_nonce }}">
+function handleLogin() {
+  var email = document.getElementById('login-email').value.trim();
+  var password = document.getElementById('login-password').value;
+  var errorEl = document.getElementById('login-error');
+  var btn = document.getElementById('login-btn');
   errorEl.textContent = '';
   btn.disabled = true;
   btn.textContent = 'Signing in...';
 
-  try {
-    const res = await fetch('/api/auth/email/login/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password })
-    });
-    const data = await res.json();
+  fetch('/api/auth/email/login/', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email: email, password: password })
+  }).then(function(res) { return res.json(); }).then(function(data) {
     if (data.status === 'success' && data.authToken) {
-      // Set session via the backend
-      const sessionRes = await fetch('{% url "web:google_auth" %}', {
+      fetch('{% url "web:google_auth" %}', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
         body: JSON.stringify({ emailAuthToken: data.authToken, emailUser: data.user })
+      }).then(function() {
+        window.location.href = data.isNewUser ? '{% url "web:edit_profile" %}' : '{% url "web:home" %}';
       });
-      window.location.href = data.isNewUser ? '{% url "web:edit_profile" %}' : '{% url "web:home" %}';
     } else {
       errorEl.textContent = data.error || 'Login failed';
       btn.disabled = false;
       btn.textContent = 'Sign In';
     }
-  } catch (e) {
+  }).catch(function() {
     errorEl.textContent = 'Network error. Please try again.';
     btn.disabled = false;
     btn.textContent = 'Sign In';
-  }
+  });
 }
+
+registerActions({
+  'email-login': function() { handleLogin(); }
+});
 </script>
 {% endblock %}
 {% endblock %}

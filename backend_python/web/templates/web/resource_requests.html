@@ -9,7 +9,7 @@
     <div class="requests-header-content">
       <h1>Resource Requests</h1>
       <p>Can't find what you need? Request it here and the community will help.</p>
-      <button class="md-btn md-btn-filled" onclick="document.getElementById('request-form').classList.toggle('request-form-hidden')">
+      <button class="md-btn md-btn-filled" data-action="toggle-request-form">
         <span class="material-symbols-outlined">add</span>
         New Request
       </button>
@@ -49,7 +49,7 @@
         </div>
       </div>
       <div class="request-form-actions">
-        <button type="button" class="md-btn md-btn-text" onclick="document.getElementById('request-form').classList.add('request-form-hidden')">Cancel</button>
+        <button type="button" class="md-btn md-btn-text" data-action="cancel-request-form">Cancel</button>
         <button type="submit" class="md-btn md-btn-filled">Submit Request</button>
       </div>
     </form>
@@ -69,7 +69,7 @@
     <div class="request-card" data-id="{{ req.id }}">
       <div class="request-card-main">
         <div class="request-card-vote">
-          <button class="vote-btn {% if req.is_upvoted %}vote-btn-active{% endif %}" onclick="toggleUpvote('{{ req.id }}')" title="Upvote">
+          <button class="vote-btn {% if req.is_upvoted %}vote-btn-active{% endif %}" data-action="toggle-upvote" data-request-id="{{ req.id }}" title="Upvote">
             <span class="material-symbols-outlined">arrow_upward</span>
           </button>
           <span class="vote-count">{{ req.upvote_count }}</span>
@@ -140,28 +140,40 @@
 {% endblock %}
 
 {% block extra_js %}
-<script>
+<script nonce="{{ csp_nonce }}">
 function toggleUpvote(requestId) {
   fetch('/api/resource-requests/' + requestId + '/upvote/', {
     method: 'POST',
     headers: {'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN},
     credentials: 'same-origin'
-  }).then(r => r.json()).then(data => {
-    const card = document.querySelector('[data-id="' + requestId + '"]');
+  }).then(function(r) { return r.json(); }).then(function(data) {
+    var card = document.querySelector('[data-id="' + requestId + '"]');
     if (!card) return;
-    const btn = card.querySelector('.vote-btn');
-    const count = card.querySelector('.vote-count');
+    var btn = card.querySelector('.vote-btn');
+    var count = card.querySelector('.vote-count');
     if (data.upvoted) {
       btn.classList.add('vote-btn-active');
     } else {
       btn.classList.remove('vote-btn-active');
     }
     count.textContent = data.upvote_count;
-  }).catch(err => {
+  }).catch(function() {
     if (!IS_AUTHENTICATED) {
       window.location.href = '/login/';
     }
   });
 }
+
+registerActions({
+  'toggle-request-form': function() {
+    document.getElementById('request-form').classList.toggle('request-form-hidden');
+  },
+  'cancel-request-form': function() {
+    document.getElementById('request-form').classList.add('request-form-hidden');
+  },
+  'toggle-upvote': function(el) {
+    toggleUpvote(el.dataset.requestId);
+  }
+});
 </script>
 {% endblock %}

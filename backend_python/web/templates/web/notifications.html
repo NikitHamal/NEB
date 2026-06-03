@@ -244,7 +244,7 @@
 <div class="notif-container">
   <div class="notif-header">
     <h1>Notifications</h1>
-    <button class="notif-mark-all" id="markAllBtn" onclick="markAllRead()" style="display:none;">Mark all as read</button>
+    <button class="notif-mark-all" id="markAllBtn" data-action="mark-all-read" style="display:none;">Mark all as read</button>
   </div>
 
   <div class="notif-list" id="notifList">
@@ -263,7 +263,7 @@
             <a class="notif-avatar-link" href="{% url 'web:profile' username=n.actorName %}" title="View {{ n.actorName }}'s profile">
               <div class="notif-avatar">
                 {% if n.actorPhotoUrl %}
-                  <img src="{{ n.actorPhotoUrl }}" alt="{{ n.actorName }}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                  <img src="{{ n.actorPhotoUrl }}" alt="{{ n.actorName }}" data-fallback="flex">
                   <span style="display:none;align-items:center;justify-content:center;width:100%;height:100%;">{{ n.actorName|first|upper }}</span>
                 {% else %}
                   {{ n.actorName|first|upper }}
@@ -317,7 +317,7 @@
   </div>
 </div>
 
-<script>
+<script nonce="{{ csp_nonce }}">
   const UNREAD_COUNT = {{ unread_notifications|default:"0" }};
   const VERB_LABELS = {
     'like_post': 'liked your post',
@@ -441,7 +441,7 @@
   }
 
   async function markAllRead() {
-    const btn = document.getElementById('markAllBtn');
+    var btn = document.getElementById('markAllBtn');
     btn.textContent = 'Marking...';
     btn.disabled = true;
     await fetch('/ajax/notifications/mark-read/', {
@@ -450,7 +450,7 @@
       body: JSON.stringify({ mark_all: true }),
       credentials: 'same-origin',
     });
-    document.querySelectorAll('.notif-item.unread').forEach(el => {
+    document.querySelectorAll('.notif-item.unread').forEach(function(el) {
       el.classList.remove('unread');
     });
     btn.style.display = 'none';
@@ -459,12 +459,11 @@
 
   function updateUnreadBadge() {
     fetch('/ajax/notifications/unread-count/', { credentials: 'same-origin' })
-      .then(r => r.json())
-      .then(data => {
-        const count = data.count || 0;
-        // Update topbar badge
-        const badge = document.getElementById('notif-badge');
-        const popupBadge = document.getElementById('notif-popup-badge');
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        var count = data.count || 0;
+        var badge = document.getElementById('notif-badge');
+        var popupBadge = document.getElementById('notif-popup-badge');
         if (badge) {
           badge.textContent = count > 9 ? '9+' : count;
           badge.style.display = count > 0 ? '' : 'none';
@@ -473,12 +472,15 @@
           popupBadge.textContent = count > 9 ? '9+' : count;
           popupBadge.style.display = count > 0 ? '' : 'none';
         }
-        // Update profile dot indicator
-        const dot = document.getElementById('profile-notif-dot');
+        var dot = document.getElementById('profile-notif-dot');
         if (dot) {
           dot.style.display = count > 0 ? '' : 'none';
         }
       });
   }
+
+  registerActions({
+    'mark-all-read': function() { markAllRead(); }
+  });
 </script>
 {% endblock %}

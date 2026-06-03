@@ -43,7 +43,7 @@
         <td>
           <div style="display:flex;gap:4px;">
             <a href="{% url 'web:admin_post_detail' post_id=p.id %}" class="md-btn md-btn-text" style="padding:4px 8px;font-size:0.75rem;">View</a>
-            <form method="post" action="{% url 'web:admin_post_delete' post_id=p.id %}" onsubmit="return confirm('Delete this post?');" style="display:inline;">
+            <form method="post" action="{% url 'web:admin_post_delete' post_id=p.id %}" data-action="confirm-delete" data-confirm-msg="Delete this post?" style="display:inline;">
               {% csrf_token %}
               <button type="submit" class="md-btn md-btn-text" style="padding:4px 8px;font-size:0.75rem;color:var(--md-error);">Delete</button>
             </form>

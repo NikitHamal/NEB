@@ -15,7 +15,7 @@
 <div class="md-card-elevated p-3 mb-3">
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
     <h2 class="md-title-large">{{ post.title }}</h2>
-    <form method="post" action="{% url 'web:admin_post_delete' post_id=post.id %}" onsubmit="return confirm('Delete this post and all its replies?');">
+    <form method="post" action="{% url 'web:admin_post_delete' post_id=post.id %}" data-action="confirm-delete" data-confirm-msg="Delete this post and all its replies?">
       {% csrf_token %}
       <button type="submit" class="md-btn md-btn-error" style="font-size:0.8125rem;">Delete Post</button>
     </form>
@@ -52,7 +52,7 @@
       </div>
       <div class="md-body-medium" style="white-space:pre-wrap;">{{ reply.content }}</div>
     </div>
-    <form method="post" action="{% url 'web:admin_reply_delete' reply_id=reply.id %}" onsubmit="return confirm('Delete this reply?');">
+    <form method="post" action="{% url 'web:admin_reply_delete' reply_id=reply.id %}" data-action="confirm-delete" data-confirm-msg="Delete this reply?">
       {% csrf_token %}
       <button type="submit" class="md-btn-icon" style="color:var(--md-error);" title="Delete reply">
         <span class="material-symbols-outlined" style="font-size:18px;">delete</span>

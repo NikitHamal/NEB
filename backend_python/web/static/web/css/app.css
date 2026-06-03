@@ -64,6 +64,15 @@
   height: 100%;
 }
 
+.resource-card-art-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
 .resource-card-type-pill {
   position: absolute;
   top: 10px;
@@ -745,10 +754,18 @@
   max-width: 420px;
   width: 90%;
   max-height: 80vh;
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
   box-shadow: var(--md-elevation-3);
   animation: md-scale-in 200ms ease;
 }
+.filter-dialog-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+.filter-dialog-scroll::-webkit-scrollbar { display: none; }
 
 .filter-dialog h3 {
   font-size: 1.25rem;

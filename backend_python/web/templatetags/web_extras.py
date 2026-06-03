@@ -3,6 +3,8 @@ import time
 from datetime import datetime, timezone
 from django import template
 from django.utils.safestring import mark_safe
+from django.utils.html import conditional_escape, format_html
+from urllib.parse import quote
 
 register = template.Library()
 
@@ -230,17 +232,7 @@ def mention_links(value, usernames=None):
     """Convert @username mentions in text to clickable profile links, then render basic markdown."""
     if not value:
         return mark_safe('')
-    import re
-    s = str(value)
-    s = s.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;').replace("'", '&#x27;')
-    s = re.sub(r'@(\w+)', r'<a href="/profile/\1/" class="fp-mention">@\1</a>', s)
-    # Basic markdown: bold, italic, line breaks
-    s = re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', s)
-    s = re.sub(r'(?<!\w)__(.+?)__(?!\w)', r'<strong>\1</strong>', s)
-    s = re.sub(r'(?<!\w)\*(.+?)\*(?!\w)', r'<em>\1</em>', s)
-    s = re.sub(r'(?<!\w)_(.+?)_(?!\w)', r'<em>\1</em>', s)
-    s = s.replace('\n', '<br>')
-    return mark_safe(s)
+    return _render_user_content(str(value))
 
 
 @register.filter
@@ -248,28 +240,47 @@ def render_content(value):
     """Render markdown formatting and @mention links for post card previews. Truncates to ~50 words."""
     if not value:
         return mark_safe('')
-    import re
-    s = str(value)
-    s = s.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;').replace("'", '&#x27;')
-    s = re.sub(r'@(\w+)', r'<a href="/profile/\1/" class="fp-mention">@\1</a>', s)
-    s = re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', s)
-    s = re.sub(r'(?<!\w)__(.+?)__(?!\w)', r'<strong>\1</strong>', s)
-    s = re.sub(r'(?<!\w)\*(.+?)\*(?!\w)', r'<em>\1</em>', s)
-    s = re.sub(r'(?<!\w)_(.+?)_(?!\w)', r'<em>\1</em>', s)
-    s = s.replace('\n', '<br>')
-    plain = re.sub(r'<[^>]+>', '', s).replace('&amp;', '&').replace('&lt;', '<').replace('&gt;', '>').replace('&quot;', '"').replace('&#x27;', "'").replace('&hellip;', '...')
+    plain = str(value)
     words = plain.split()
     if len(words) > 50:
-        truncated_plain = ' '.join(words[:50])
-        t = truncated_plain.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;').replace("'", '&#x27;')
-        t = re.sub(r'@(\w+)', r'<a href="/profile/\1/" class="fp-mention">@\1</a>', t)
-        t = re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', t)
-        t = re.sub(r'(?<!\w)__(.+?)__(?!\w)', r'<strong>\1</strong>', t)
-        t = re.sub(r'(?<!\w)\*(.+?)\*(?!\w)', r'<em>\1</em>', t)
-        t = re.sub(r'(?<!\w)_(.+?)_(?!\w)', r'<em>\1</em>', t)
-        t = t.replace('\n', '<br>')
-        return mark_safe(t + '&hellip;')
-    return mark_safe(s)
+        return mark_safe(str(_render_user_content(' '.join(words[:50]))) + '&hellip;')
+    return _render_user_content(plain)
+
+
+def _render_user_content(value):
+    """Render a limited safe subset: @mentions, bold, italic, and line breaks."""
+    import re
+    token_re = re.compile(
+        r'@([A-Za-z0-9_]+)'
+        r'|\*\*([^*\n]+?)\*\*'
+        r'|(?<!\w)__([^_\n]+?)__(?!\w)'
+        r'|(?<!\w)\*([^*\n]+?)\*(?!\w)'
+        r'|(?<!\w)_([^_\n]+?)_(?!\w)'
+    )
+
+    def render_line(line):
+        parts = []
+        pos = 0
+        for match in token_re.finditer(line):
+            if match.start() > pos:
+                parts.append(conditional_escape(line[pos:match.start()]))
+            username, bold_star, bold_under, italic_star, italic_under = match.groups()
+            if username:
+                parts.append(format_html(
+                    '<a href="/profile/{}/" class="fp-mention">@{}</a>',
+                    quote(username),
+                    username,
+                ))
+            elif bold_star is not None or bold_under is not None:
+                parts.append(format_html('<strong>{}</strong>', bold_star if bold_star is not None else bold_under))
+            else:
+                parts.append(format_html('<em>{}</em>', italic_star if italic_star is not None else italic_under))
+            pos = match.end()
+        if pos < len(line):
+            parts.append(conditional_escape(line[pos:]))
+        return ''.join(str(part) for part in parts)
+
+    return mark_safe('<br>'.join(render_line(line) for line in str(value).splitlines()))
 
 
 @register.filter

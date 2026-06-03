@@ -20,7 +20,7 @@
         <label class="md-text-field-label">Email</label>
       </div>
       <p id="forgot-error" style="color:var(--md-error);font-size:0.8125rem;min-height:1.2em;margin:4px 0;"></p>
-      <button onclick="handleForgot()" id="forgot-btn" class="md-btn md-btn-filled" style="width:100%;margin-top:8px;">Send Code</button>
+      <button data-action="forgot-send-code" id="forgot-btn" class="md-btn md-btn-filled" style="width:100%;margin-top:8px;">Send Code</button>
     </div>
 
     <div id="reset-section" style="display:none;margin-top:20px;">
@@ -38,9 +38,9 @@
         <label class="md-text-field-label">Confirm Password</label>
       </div>
       <p id="reset-error" style="color:var(--md-error);font-size:0.8125rem;min-height:1.2em;margin:4px 0;"></p>
-      <button onclick="handleReset()" id="reset-submit-btn" class="md-btn md-btn-filled" style="width:100%;margin-top:8px;">Reset Password</button>
+      <button data-action="forgot-reset-password" id="reset-submit-btn" class="md-btn md-btn-filled" style="width:100%;margin-top:8px;">Reset Password</button>
       <div style="margin-top:8px;text-align:center;">
-        <button onclick="handleForgotResend()" id="forgot-resend-btn" class="md-btn md-btn-text" style="display:none;">Resend Code</button>
+        <button data-action="forgot-resend-code" id="forgot-resend-btn" class="md-btn md-btn-text" style="display:none;">Resend Code</button>
       </div>
     </div>
 
@@ -51,24 +51,22 @@
 </div>
 
 {% block extra_js %}
-<script>
+<script nonce="{{ csp_nonce }}">
 var _needsSetPassword = false;
 
-async function handleForgot() {
-  const email = document.getElementById('forgot-email').value.trim();
-  const errorEl = document.getElementById('forgot-error');
-  const btn = document.getElementById('forgot-btn');
+function handleForgot() {
+  var email = document.getElementById('forgot-email').value.trim();
+  var errorEl = document.getElementById('forgot-error');
+  var btn = document.getElementById('forgot-btn');
   errorEl.textContent = '';
   btn.disabled = true;
   btn.textContent = 'Sending...';
 
-  try {
-    const res = await fetch('/api/auth/email/forgot/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email })
-    });
-    const data = await res.json();
+  fetch('/api/auth/email/forgot/', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email: email })
+  }).then(function(res) { return res.json(); }).then(function(data) {
     if (data.status === 'success' || !data.error) {
       _needsSetPassword = !!data.needsSetPassword;
       if (_needsSetPassword) {
@@ -93,19 +91,19 @@ async function handleForgot() {
       btn.textContent = 'Send Code';
       btn.disabled = false;
     }
-  } catch (e) {
+  }).catch(function() {
     errorEl.textContent = 'Network error. Please try again.';
     btn.textContent = 'Send Code';
     btn.disabled = false;
-  }
+  });
 }
 
-async function handleReset() {
-  const email = document.getElementById('forgot-email').value.trim();
-  const code = document.getElementById('reset-code').value.trim();
-  const newPassword = document.getElementById('reset-password').value;
-  const confirmPassword = document.getElementById('reset-confirm-password').value;
-  const errorEl = document.getElementById('reset-error');
+function handleReset() {
+  var email = document.getElementById('forgot-email').value.trim();
+  var code = document.getElementById('reset-code').value.trim();
+  var newPassword = document.getElementById('reset-password').value;
+  var confirmPassword = document.getElementById('reset-confirm-password').value;
+  var errorEl = document.getElementById('reset-error');
   errorEl.textContent = '';
 
   if (newPassword !== confirmPassword) {
@@ -113,37 +111,36 @@ async function handleReset() {
     return;
   }
 
-  try {
-    const res = await fetch('/api/auth/email/reset-password/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, code, newPassword, confirmPassword })
-    });
-    const data = await res.json();
+  fetch('/api/auth/email/reset-password/', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email: email, code: code, newPassword: newPassword, confirmPassword: confirmPassword })
+  }).then(function(res) { return res.json(); }).then(function(data) {
     if (data.status === 'success' && data.authToken) {
-      const sessionRes = await fetch('{% url "web:google_auth" %}', {
+      fetch('{% url "web:google_auth" %}', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
         body: JSON.stringify({ emailAuthToken: data.authToken, emailUser: data.user })
+      }).then(function() {
+        window.location.href = '{% url "web:home" %}';
       });
-      window.location.href = '{% url "web:home" %}';
     } else {
       errorEl.textContent = data.error || 'Reset failed';
     }
-  } catch (e) {
+  }).catch(function() {
     errorEl.textContent = 'Network error. Please try again.';
-  }
+  });
 }
 
 function handleForgotResend() {
-  const email = document.getElementById('forgot-email').value.trim();
-  const btn = document.getElementById('forgot-resend-btn');
+  var email = document.getElementById('forgot-email').value.trim();
+  var btn = document.getElementById('forgot-resend-btn');
   btn.disabled = true;
   btn.textContent = 'Sending...';
   fetch('/api/auth/email/forgot/', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email })
+    body: JSON.stringify({ email: email })
   }).then(function(res) { return res.json(); }).then(function(data) {
     if (data.status === 'success' || !data.error) {
       var seconds = 60;
@@ -165,27 +162,11 @@ function handleForgotResend() {
   }).catch(function() { btn.textContent = 'Resend Code'; btn.disabled = false; });
 }
 
-  try {
-    const res = await fetch('/api/auth/email/reset-password/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, code, newPassword, confirmPassword })
-    });
-    const data = await res.json();
-    if (data.status === 'success' && data.authToken) {
-      const sessionRes = await fetch('{% url "web:google_auth" %}', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
-        body: JSON.stringify({ emailAuthToken: data.authToken, emailUser: data.user })
-      });
-      window.location.href = '{% url "web:home" %}';
-    } else {
-      errorEl.textContent = data.error || 'Reset failed';
-    }
-  } catch (e) {
-    errorEl.textContent = 'Network error. Please try again.';
-  }
-}
+registerActions({
+  'forgot-send-code': function() { handleForgot(); },
+  'forgot-reset-password': function() { handleReset(); },
+  'forgot-resend-code': function() { handleForgotResend(); }
+});
 </script>
 {% endblock %}
 {% endblock %}

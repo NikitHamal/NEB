@@ -189,13 +189,21 @@
           {% for r in recent_resources %}
           <a href="{% url 'web:reader' resource_id=r.id %}" class="resource-card subject-{{ r.subject|split:','|first|subject_slug }}">
             <div class="resource-card-art">
-              <svg viewBox="0 0 300 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-                <rect width="300" height="120" fill="var(--art-c1)"/>
-                <path d="M0,120 L0,70 Q40,20 100,55 Q160,90 220,45 Q270,10 300,50 L300,120Z" fill="var(--art-c2)" opacity="0.5"/>
-                <path d="M0,120 L0,85 Q60,40 130,70 Q200,100 260,60 L300,75 L300,120Z" fill="var(--art-c3)" opacity="0.35"/>
-                <path d="M0,120 L0,95 Q80,65 160,85 Q240,105 300,80 L300,120Z" fill="var(--art-c4)" opacity="0.2"/>
-
-              </svg>
+              {% if r.thumbnail_url %}
+<div class="resource-card-art">
+                <img src="{{ r.thumbnail_url }}" alt="{{ r.title }}" class="resource-card-art-img" loading="lazy">
+<div class="resource-card-art">
+              {% else %}
+<div class="resource-card-art">
+                <svg viewBox="0 0 300 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="300" height="120" fill="var(--art-c1)"/>
+                  <path d="M0,120 L0,70 Q40,20 100,55 Q160,90 220,45 Q270,10 300,50 L300,120Z" fill="var(--art-c2)" opacity="0.5"/>
+                  <path d="M0,120 L0,85 Q60,40 130,70 Q200,100 260,60 L300,75 L300,120Z" fill="var(--art-c3)" opacity="0.35"/>
+                  <path d="M0,120 L0,95 Q80,65 160,85 Q240,105 300,80 L300,120Z" fill="var(--art-c4)" opacity="0.2"/>
+  
+                </svg>
+<div class="resource-card-art">
+              {% endif %}
               <span class="resource-card-type-pill">{{ r.type }}</span>
               <span class="resource-card-art-icon material-symbols-outlined">{{ r.subject|split:','|first|subject_icon }}</span>
             </div>
@@ -232,13 +240,21 @@
           {% for r in popular_resources %}
           <a href="{% url 'web:reader' resource_id=r.id %}" class="resource-card subject-{{ r.subject|split:','|first|subject_slug }}">
             <div class="resource-card-art">
-              <svg viewBox="0 0 300 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-                <rect width="300" height="120" fill="var(--art-c1)"/>
-                <path d="M0,120 L0,70 Q40,20 100,55 Q160,90 220,45 Q270,10 300,50 L300,120Z" fill="var(--art-c2)" opacity="0.5"/>
-                <path d="M0,120 L0,85 Q60,40 130,70 Q200,100 260,60 L300,75 L300,120Z" fill="var(--art-c3)" opacity="0.35"/>
-                <path d="M0,120 L0,95 Q80,65 160,85 Q240,105 300,80 L300,120Z" fill="var(--art-c4)" opacity="0.2"/>
-
-              </svg>
+              {% if r.thumbnail_url %}
+<div class="resource-card-art">
+                <img src="{{ r.thumbnail_url }}" alt="{{ r.title }}" class="resource-card-art-img" loading="lazy">
+<div class="resource-card-art">
+              {% else %}
+<div class="resource-card-art">
+                <svg viewBox="0 0 300 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="300" height="120" fill="var(--art-c1)"/>
+                  <path d="M0,120 L0,70 Q40,20 100,55 Q160,90 220,45 Q270,10 300,50 L300,120Z" fill="var(--art-c2)" opacity="0.5"/>
+                  <path d="M0,120 L0,85 Q60,40 130,70 Q200,100 260,60 L300,75 L300,120Z" fill="var(--art-c3)" opacity="0.35"/>
+                  <path d="M0,120 L0,95 Q80,65 160,85 Q240,105 300,80 L300,120Z" fill="var(--art-c4)" opacity="0.2"/>
+  
+                </svg>
+<div class="resource-card-art">
+              {% endif %}
               <span class="resource-card-type-pill">{{ r.type }}</span>
               <span class="resource-card-art-icon material-symbols-outlined">{{ r.subject|split:','|first|subject_icon }}</span>
             </div>
@@ -278,7 +294,7 @@
           <div class="post-card-header">
             <div class="post-card-avatar">
               {% if post.authorPhotoUrl %}
-                <img src="{{ post.authorPhotoUrl }}" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';">
+                <img src="{{ post.authorPhotoUrl }}" alt="" data-fallback="inline-flex">
                 <span class="contributor-avatar-letter" style="display:none;">{{ post.authorName|truncate_chars:1|default:"?" }}</span>
               {% else %}
                 <span class="contributor-avatar-letter">{{ post.authorName|truncate_chars:1|default:"?" }}</span>
@@ -286,12 +302,12 @@
             </div>
             <div class="post-card-meta">
               <div class="post-card-meta-line">
-                <strong onclick="window.location.href='{% url 'web:profile' username=post.authorName %}'" style="cursor:pointer;">{{ post.authorName }}</strong>
+                <strong><a href="{% url 'web:profile' username=post.authorName %}" style="cursor:pointer;text-decoration:none;color:inherit;">{{ post.authorName }}</a></strong>
                 {% if post.authorBadgeInfo %}
                 <span class="role-badge role-badge-{{ post.authorBadgeInfo.type }}" title="{{ post.authorBadgeInfo.label }}"><span class="material-symbols-outlined">{{ post.authorBadgeInfo.icon }}</span></span>
                 {% endif %}
                 {% if is_authenticated and post.authorId != user.id %}
-                <button class="follow-btn-small {% if post.isFollowingAuthor %}following{% else %}not-following{% endif %}" data-user-id="{{ post.authorId }}" onclick="toggleFollowBtn(this, '{{ post.authorId }}')">{% if post.isFollowingAuthor %}Following{% else %}Follow{% endif %}</button>
+                <button class="follow-btn-small {% if post.isFollowingAuthor %}following{% else %}not-following{% endif %}" data-user-id="{{ post.authorId }}" data-action="toggle-follow">{% if post.isFollowingAuthor %}Following{% else %}Follow{% endif %}</button>
                 {% endif %}
               </div>
               <div class="post-meta-sub">
@@ -303,18 +319,18 @@
               </div>
             </div>
             <div class="more-menu-wrapper">
-              <button class="more-btn" onclick="toggleMoreMenu('post-menu-home-{{ post.id }}', this)" aria-label="More options"><span class="material-symbols-outlined">more_vert</span></button>
+              <button class="more-btn" data-action="toggle-more-menu" data-menu-id="post-menu-home-{{ post.id }}" aria-label="More options"><span class="material-symbols-outlined">more_vert</span></button>
               <div class="more-menu" id="post-menu-home-{{ post.id }}" style="display:none;">
                 {% if is_authenticated %}
-                <button class="more-menu-item" onclick="toggleBookmark('post', '{{ post.id }}', this); closeAllMenus();">
+                <button class="more-menu-item" data-action="toggle-bookmark" data-target-type="post" data-target-id="{{ post.id }}">
                   <span class="material-symbols-outlined" id="bookmark-icon-post-{{ post.id }}"{% if post.isBookmarked %} style="font-variation-settings:'FILL' 1"{% endif %}>bookmark</span>
                   <span id="bookmark-label-post-{{ post.id }}">{% if post.isBookmarked %}Remove{% else %}Bookmark{% endif %}</span>
                 </button>
-                <button class="more-menu-item" onclick="sharePostUrl('{% url 'web:forum_post' post_id=post.id %}'); closeAllMenus();">
+                <button class="more-menu-item" data-action="share-post-url" data-path="{% url 'web:forum_post' post_id=post.id %}">
                   <span class="material-symbols-outlined">share</span> Share
                 </button>
                 {% if post.authorId != user.id %}
-                <button class="more-menu-item" onclick="reportContent('post', '{{ post.id }}'); closeAllMenus();">
+                <button class="more-menu-item" data-action="report-content" data-target-type="post" data-target-id="{{ post.id }}">
                   <span class="material-symbols-outlined">flag</span> Report
                 </button>
                 {% endif %}
@@ -325,7 +341,7 @@
           <h3><a href="{% url 'web:forum_post' post_id=post.id %}">{{ post.title }}</a></h3>
           <div class="post-card-content">{{ post.content|render_content }}</div>
           <div class="post-card-actions">
-            <button type="button" onclick="toggleHomePostLike('{{ post.id }}', this);" class="{% if post.isThumbedUp %}liked{% endif %}" id="home-post-like-btn-{{ post.id }}">
+            <button type="button" data-action="toggle-home-post-like" data-post-id="{{ post.id }}" class="{% if post.isThumbedUp %}liked{% endif %}" id="home-post-like-btn-{{ post.id }}">
               <span class="material-symbols-outlined">thumb_up</span>
               <span id="home-post-like-count-{{ post.id }}">{{ post.thumbsUpCount }}</span>
             </button>
@@ -353,90 +369,106 @@
 {% endblock %}
 
 {% block extra_js %}
-<script>
-  async function toggleHomePostLike(postId, btn) {
-    if (!IS_AUTHENTICATED) { window.location.href = '{% url "web:login" %}'; return; }
-    try {
-      const result = await (await fetch('/ajax/like/post/' + postId + '/', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN }, credentials: 'same-origin' })).json();
-      if (result && result.thumbsUpCount !== undefined) {
-        const countEl = document.getElementById('home-post-like-count-' + postId);
-        if (countEl) countEl.textContent = result.thumbsUpCount;
-        const iconEl = btn.querySelector('.material-symbols-outlined');
-        if (iconEl) { iconEl.textContent = 'thumb_up'; iconEl.style.fontVariationSettings = result.isThumbedUp ? "'FILL' 1" : ''; }
-        btn.classList.toggle('liked', result.isThumbedUp);
-      }
-    } catch (e) {
-      showSnackbar('Failed to like post');
-    }
-  }
-
-  async function toggleFollowBtn(btn, userId) {
-    if (!IS_AUTHENTICATED) { window.location.href = '{% url "web:login" %}'; return; }
-    btn.disabled = true;
-    try {
-      const r = await fetch('/ajax/follow/' + userId + '/', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN }, credentials: 'same-origin' });
-      if (r.status === 401) { window.location.href = '{% url "web:login" %}'; return; }
-      const d = await r.json();
-      btn.disabled = false;
-      if (d && d.error) { showSnackbar(d.error); return; }
-      if (d) {
-        if (d.is_following) {
-          btn.textContent = 'Following';
-          btn.className = btn.className.replace('not-following', 'following');
-        } else {
-          btn.textContent = 'Follow';
-          btn.className = btn.className.replace('following', 'not-following');
+<script nonce="{{ csp_nonce }}">
+  registerActions({
+    'toggle-home-post-like': async function(el) {
+      if (!IS_AUTHENTICATED) { window.location.href = '{% url "web:login" %}'; return; }
+      var postId = el.dataset.postId;
+      try {
+        const result = await (await fetch('/ajax/like/post/' + postId + '/', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN }, credentials: 'same-origin' })).json();
+        if (result && result.thumbsUpCount !== undefined) {
+          const countEl = document.getElementById('home-post-like-count-' + postId);
+          if (countEl) countEl.textContent = result.thumbsUpCount;
+          const iconEl = el.querySelector('.material-symbols-outlined');
+          if (iconEl) { iconEl.textContent = 'thumb_up'; iconEl.style.fontVariationSettings = result.isThumbedUp ? "'FILL' 1" : ''; }
+          el.classList.toggle('liked', result.isThumbedUp);
         }
-      }
-    } catch (e) { btn.disabled = false; showSnackbar('Error updating follow.'); }
-  }
-
-  function toggleMoreMenu(menuId, btn) {
-    var menu = document.getElementById(menuId);
-    if (!menu) return;
-    var isOpen = menu.style.display !== 'none';
-    closeAllMenus();
-    if (!isOpen) {
-      menu.style.display = 'block';
-      var handler = function(e) {
-        if (!menu.contains(e.target) && e.target !== btn && !btn.contains(e.target)) {
-          closeAllMenus();
-          document.removeEventListener('click', handler, true);
+      } catch (e) { showSnackbar('Failed to like post'); }
+    },
+    'toggle-follow': async function(el) {
+      if (!IS_AUTHENTICATED) { window.location.href = '{% url "web:login" %}'; return; }
+      var userId = el.dataset.userId;
+      el.disabled = true;
+      try {
+        const r = await fetch('/ajax/follow/' + userId + '/', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN }, credentials: 'same-origin' });
+        if (r.status === 401) { window.location.href = '{% url "web:login" %}'; return; }
+        const d = await r.json();
+        el.disabled = false;
+        if (d && d.error) { showSnackbar(d.error); return; }
+        if (d) {
+          if (d.is_following) {
+            el.textContent = 'Following';
+            el.className = el.className.replace('not-following', 'following');
+          } else {
+            el.textContent = 'Follow';
+            el.className = el.className.replace('following', 'not-following');
+          }
         }
-      };
-      setTimeout(function() { document.addEventListener('click', handler, true); }, 0);
+      } catch (e) { el.disabled = false; showSnackbar('Error updating follow.'); }
+    },
+    'toggle-more-menu': function(el) {
+      var menuId = el.dataset.menuId;
+      var menu = document.getElementById(menuId);
+      if (!menu) return;
+      var isOpen = menu.style.display !== 'none';
+      closeAllMenus();
+      if (!isOpen) {
+        menu.style.display = 'block';
+        var handler = function(e) {
+          if (!menu.contains(e.target) && e.target !== el && !el.contains(e.target)) {
+            closeAllMenus();
+            document.removeEventListener('click', handler, true);
+          }
+        };
+        setTimeout(function() { document.addEventListener('click', handler, true); }, 0);
+      }
+    },
+    'toggle-bookmark': async function(el) {
+      closeAllMenus();
+      if (!IS_AUTHENTICATED) { window.location.href = '{% url "web:login" %}'; return; }
+      var targetType = el.dataset.targetType;
+      var targetId = el.dataset.targetId;
+      try {
+        const r = await fetch('/ajax/bookmark/toggle/', {
+          method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
+          credentials: 'same-origin', body: JSON.stringify({ target_type: targetType, target_id: targetId })
+        });
+        const d = await r.json();
+        if (r.status === 401) { window.location.href = '{% url "web:login" %}'; return; }
+        if (d.isBookmarked !== undefined) {
+          var iconEl = document.getElementById('bookmark-icon-' + targetType + '-' + targetId);
+          var labelEl = document.getElementById('bookmark-label-' + targetType + '-' + targetId);
+          if (iconEl) { iconEl.textContent = 'bookmark'; iconEl.style.fontVariationSettings = d.isBookmarked ? "'FILL' 1" : ''; }
+          if (labelEl) labelEl.textContent = d.isBookmarked ? 'Remove' : 'Bookmark';
+          showSnackbar(d.isBookmarked ? 'Bookmarked!' : 'Bookmark removed');
+        } else { showSnackbar(d.error || 'Failed to toggle bookmark'); }
+      } catch(e) { showSnackbar('Error toggling bookmark'); }
+    },
+    'share-post-url': function(el) {
+      closeAllMenus();
+      var path = el.dataset.path;
+      var url = window.location.origin + path;
+      if (navigator.share) { navigator.share({ title: document.title, url: url }).catch(function(){}); }
+      else { navigator.clipboard.writeText(url).then(function() { showSnackbar('Link copied!'); }).catch(function() { showSnackbar('Could not copy link'); }); }
+    },
+    'report-content': function(el) {
+      closeAllMenus();
+      var targetType = el.dataset.targetType;
+      var targetId = el.dataset.targetId;
+      fetch('/ajax/report/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
+        credentials: 'same-origin',
+        body: JSON.stringify({ target_type: targetType, target_id: targetId, reason: 'other', description: '' })
+      }).then(r => {
+        if (r.ok) showSnackbar('Report submitted. Thank you!');
+        else r.json().then(d => showSnackbar(d.error || 'Failed to submit report')).catch(() => showSnackbar('Failed to submit report'));
+      }).catch(() => showSnackbar('Failed to submit report'));
     }
-  }
+  });
 
   function closeAllMenus() {
     document.querySelectorAll('.more-menu').forEach(function(m) { m.style.display = 'none'; });
   }
-
-  async function toggleBookmark(targetType, targetId, btnEl) {
-    if (!IS_AUTHENTICATED) { window.location.href = '{% url "web:login" %}'; return; }
-    try {
-      const r = await fetch('/ajax/bookmark/toggle/', {
-        method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
-        credentials: 'same-origin', body: JSON.stringify({ target_type: targetType, target_id: targetId })
-      });
-      const d = await r.json();
-      if (r.status === 401) { window.location.href = '{% url "web:login" %}'; return; }
-if (d.isBookmarked !== undefined) {
-      var iconEl = document.getElementById('bookmark-icon-' + targetType + '-' + targetId);
-      var labelEl = document.getElementById('bookmark-label-' + targetType + '-' + targetId);
-      if (iconEl) { iconEl.textContent = 'bookmark'; iconEl.style.fontVariationSettings = d.isBookmarked ? "'FILL' 1" : ''; }
-      if (labelEl) labelEl.textContent = d.isBookmarked ? 'Remove' : 'Bookmark';
-        showSnackbar(d.isBookmarked ? 'Bookmarked!' : 'Bookmark removed');
-      } else { showSnackbar(d.error || 'Failed to toggle bookmark'); }
-    } catch(e) { showSnackbar('Error toggling bookmark'); }
-  }
-
-  function sharePostUrl(path) {
-    var url = window.location.origin + path;
-    if (navigator.share) { navigator.share({ title: document.title, url: url }).catch(function(){}); }
-    else { navigator.clipboard.writeText(url).then(function() { showSnackbar('Link copied!'); }).catch(function() { showSnackbar('Could not copy link'); }); }
-  }
-
-  function reportContent(targetType, targetId) { showSnackbar('Report submitted. Thank you!'); }
 </script>
 {% endblock %}

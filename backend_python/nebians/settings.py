@@ -36,6 +36,13 @@ if not SECRET_KEY or SECRET_KEY == 'django-insecure-change-me-in-production':
     else:
         raise ImproperlyConfigured('SECRET_KEY must be set to a strong unique value when DEBUG=False')
 
+ADMIN_API_SALT = os.environ.get('ADMIN_API_SALT', '')
+if not ADMIN_API_SALT:
+    if DEBUG:
+        ADMIN_API_SALT = SECRET_KEY
+    else:
+        raise ImproperlyConfigured('ADMIN_API_SALT must be set when DEBUG=False')
+
 ALLOWED_HOSTS = env_list(
     'ALLOWED_HOSTS',
     'localhost,127.0.0.1,nebians.consica.com.np,www.nebians.consica.com.np',
@@ -80,6 +87,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'nebians.middleware.csp_nonce_context',
             ],
         },
     },
@@ -130,8 +138,8 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = (BASE_DIR / 'public' / 'media') if (BASE_DIR / 'public').exists() else (BASE_DIR / 'media')
 PROFILE_PHOTO_MAX_BYTES = int(os.environ.get('PROFILE_PHOTO_MAX_BYTES', str(5 * 1024 * 1024)))
-FILE_UPLOAD_MAX_MEMORY_SIZE = int(os.environ.get('FILE_UPLOAD_MAX_MEMORY_SIZE', str(100 * 1024 * 1024)))
-DATA_UPLOAD_MAX_MEMORY_SIZE = int(os.environ.get('DATA_UPLOAD_MAX_MEMORY_SIZE', str(100 * 1024 * 1024)))
+FILE_UPLOAD_MAX_MEMORY_SIZE = int(os.environ.get('FILE_UPLOAD_MAX_MEMORY_SIZE', str(50 * 1024 * 1024)))
+DATA_UPLOAD_MAX_MEMORY_SIZE = int(os.environ.get('DATA_UPLOAD_MAX_MEMORY_SIZE', str(50 * 1024 * 1024)))
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
@@ -164,7 +172,7 @@ REST_FRAMEWORK = {
         'api.authentication.AuthTokenAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny',
+        'rest_framework.permissions.IsAuthenticated',
     ],
     'DEFAULT_THROTTLE_CLASSES': [
         'rest_framework.throttling.AnonRateThrottle',
@@ -175,6 +183,11 @@ REST_FRAMEWORK = {
         'user': os.environ.get('DRF_USER_THROTTLE', '1000/hour'),
         'auth': os.environ.get('DRF_AUTH_THROTTLE', '20/minute'),
         'verification': os.environ.get('DRF_VERIFICATION_THROTTLE', '6/hour'),
+        'write_action': os.environ.get('DRF_WRITE_ACTION_THROTTLE', '30/minute'),
+        'report': os.environ.get('DRF_REPORT_THROTTLE', '10/hour'),
+        'search': os.environ.get('DRF_SEARCH_THROTTLE', '60/minute'),
+        'upload': os.environ.get('DRF_UPLOAD_THROTTLE', '10/hour'),
+        'view_increment': os.environ.get('DRF_VIEW_INCREMENT_THROTTLE', '60/minute'),
     },
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': int(os.environ.get('API_PAGE_SIZE', '50')),

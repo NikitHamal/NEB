@@ -29,22 +29,27 @@ import uuid
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.contrib.auth.password_validation import validate_password
-from django.db import transaction
+from django.db import IntegrityError, transaction
 from django.db.models import Q, F
-from rest_framework.decorators import api_view, authentication_classes, throttle_classes
+from rest_framework.decorators import api_view, authentication_classes, permission_classes, throttle_classes
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.permissions import AllowAny
 
 from .authentication import verify_google_token
 from .security import (
     hash_password, verify_password, hash_verification_code, verify_verification_code,
+    hash_auth_token, issue_auth_token, revoke_auth_token,
     validate_profile_photo_url, save_profile_image_upload,
     validate_external_https_url,
     validate_and_save_resource_file, validate_resource_file_url,
 )
 from .email_utils import send_verification_email
-from .throttles import AuthRateThrottle, VerificationRateThrottle
+from .throttles import (
+    AuthRateThrottle, ReportRateThrottle, SearchRateThrottle, UploadRateThrottle,
+    VerificationRateThrottle, ViewIncrementRateThrottle, WriteActionRateThrottle,
+)
 from .models import User, Resource, ResourceRequest, ResourceRequestUpvote, Post, PostLike, Reply, ReplyLike, FCMToken, Follow, UserPhoto, EditHistory, Report, Bookmark, Notification
 from .serializers import (
     UserSerializer, UserPublicSerializer,
@@ -95,6 +100,16 @@ def _require_user(request):
 CODE_TTL_MS = 10 * 60 * 1000
 CODE_RESEND_COOLDOWN_MS = 60 * 1000
 MAX_CODE_ATTEMPTS = 5
+MAX_POST_TITLE_LENGTH = 200
+MAX_POST_CONTENT_LENGTH = 20_000
+MAX_REPLY_CONTENT_LENGTH = 10_000
+MAX_REPORT_DESCRIPTION_LENGTH = 2_000
+
+
+def _validate_text_length(value, max_length, field_name):
+    if len(value) > max_length:
+        return Response({'error': f'{field_name} must be {max_length} characters or fewer'}, status=400)
+    return None
 
 
 def _validate_password_strength(password):
@@ -185,6 +200,8 @@ def _paginated_response(request, queryset, serializer_class, *, context=None, de
 # ---------------------------------------------------------------------------
 
 @api_view(['POST'])
+@permission_classes([AllowAny])
+@throttle_classes([AuthRateThrottle])
 def auth_github(request):
     """
     Sign-in or Register via GitHub OAuth authorization code (for mobile apps).
@@ -269,14 +286,12 @@ def auth_github(request):
 
     try:
         user = User.objects.get(pk=user_pk)
-        if not user.auth_token:
-            user.auth_token = User.generate_token()
-            user.save(update_fields=['auth_token'])
+        auth_token = issue_auth_token(user)
         logger.info('auth_github: existing user signed in: %s', user.username or user.id)
         return Response({
             'status': 'success',
             'isNewUser': False,
-            'authToken': user.auth_token,
+            'authToken': auth_token,
             'user': UserSerializer(user).data
         })
     except User.DoesNotExist:
@@ -284,11 +299,12 @@ def auth_github(request):
 
     linked = _link_oauth_user_model(email, user_pk, display_name, photo_url)
     if linked:
+        auth_token = issue_auth_token(linked)
         logger.info('auth_github: linked existing user by email: %s', email)
         return Response({
             'status': 'success',
             'isNewUser': False,
-            'authToken': linked.auth_token,
+            'authToken': auth_token,
             'user': UserSerializer(linked).data
         })
 
@@ -301,13 +317,13 @@ def auth_github(request):
         suffix += 1
     user = User(
         pk=user_pk,
-        auth_token=auth_token,
         username=temp_username,
         email=email,
         display_name=display_name,
         photo_url=photo_url,
         created_at=_now_ms()
     )
+    user.auth_token = hash_auth_token(auth_token)
     user.save()
     logger.info('auth_github: new user created: %s', user_pk)
     return Response({
@@ -324,12 +340,9 @@ def _link_oauth_user_model(email, user_pk, display_name, photo_url):
         return None
     try:
         existing = User.objects.get(email__iexact=email)
-        existing.pk = user_pk
         existing.display_name = display_name or existing.display_name
         existing.photo_url = photo_url or existing.photo_url
-        if not existing.auth_token:
-            existing.auth_token = User.generate_token()
-        existing.save()
+        existing.save(update_fields=['display_name', 'photo_url'])
         return existing
     except User.DoesNotExist:
         return None
@@ -339,6 +352,8 @@ def _link_oauth_user_model(email, user_pk, display_name, photo_url):
 
 @api_view(['POST'])
 @authentication_classes([])
+@permission_classes([AllowAny])
+@throttle_classes([AuthRateThrottle])
 def auth_google(request):
     """
     Sign-in or Register via Google ID Token.
@@ -362,14 +377,12 @@ def auth_google(request):
 
     try:
         user = User.objects.get(pk=user_id)
-        if not user.auth_token:
-            user.auth_token = User.generate_token()
-            user.save(update_fields=['auth_token'])
+        auth_token = issue_auth_token(user)
         logger.info("auth_google: existing user signed in: %s", user.username or user.id)
         return Response({
             'status': 'success',
             'isNewUser': False,
-            'authToken': user.auth_token,
+            'authToken': auth_token,
             'user': UserSerializer(user).data
         })
     except User.DoesNotExist:
@@ -378,13 +391,13 @@ def auth_google(request):
         temp_username = f"user_{user_id[:8]}"
         user = User(
             pk=user_id,
-            auth_token=auth_token,
             username=temp_username,
             email=email,
             display_name=display_name,
             photo_url=photo_url,
             created_at=_now_ms()
         )
+        user.auth_token = hash_auth_token(auth_token)
         user.save()
         logger.info("auth_google: new user created: %s (temp_username=%s)", user_id, temp_username)
         return Response({
@@ -400,6 +413,8 @@ def auth_google(request):
 # ---------------------------------------------------------------------------
 
 @api_view(['GET'])
+@permission_classes([AllowAny])
+@throttle_classes([SearchRateThrottle])
 def check_username(request):
     """GET /api/users/check-username?username=<name>"""
     username = request.query_params.get('username', '').strip()
@@ -476,6 +491,7 @@ def user_profile_create_or_update(request):
 
 
 @api_view(['GET'])
+@permission_classes([AllowAny])
 def user_profile_get(request, username):
     """GET /api/users/profile/<username>"""
     try:
@@ -497,6 +513,8 @@ def user_profile_get(request, username):
 # ---------------------------------------------------------------------------
 
 @api_view(['GET'])
+@permission_classes([AllowAny])
+@throttle_classes([SearchRateThrottle])
 def resources_list(request):
     """GET /api/resources — public endpoint with enforced pagination."""
     resources = Resource.objects.filter(approval_status='approved')
@@ -521,6 +539,7 @@ def resources_list(request):
 
 
 @api_view(['GET'])
+@permission_classes([AllowAny])
 def resource_detail(request, resource_id):
     """GET /api/resources/<resourceId> — get a single resource."""
     try:
@@ -533,6 +552,8 @@ def resource_detail(request, resource_id):
 
 
 @api_view(['POST'])
+@permission_classes([AllowAny])
+@throttle_classes([ViewIncrementRateThrottle])
 def resource_view(request, resource_id):
     """POST /api/resources/<resourceId>/view — increment view_count."""
     try:
@@ -544,7 +565,7 @@ def resource_view(request, resource_id):
 
 
 @api_view(['POST'])
-@throttle_classes([AuthRateThrottle])
+@throttle_classes([UploadRateThrottle])
 def resource_upload(request):
     """POST /api/resources/upload — authenticated user uploads a resource.
     Requires auth. Accepts either a file upload or a file_url.
@@ -624,6 +645,8 @@ def resource_upload(request):
 
 
 @api_view(['POST'])
+@permission_classes([AllowAny])
+@throttle_classes([UploadRateThrottle])
 def resource_upload_anonymous(request):
     """POST /api/resources/upload/anonymous — anonymous resource upload.
     No auth required. Accepts either a file upload or a file_url.
@@ -703,6 +726,7 @@ pradesh=data.get('pradesh', '').strip(),
 # ---------------------------------------------------------------------------
 
 @api_view(['GET'])
+@permission_classes([AllowAny])
 def resource_requests_list(request):
     """GET /api/resource-requests/ — list open requests with optional filters."""
     qs = ResourceRequest.objects.select_related('requested_by').all()
@@ -728,7 +752,7 @@ def resource_requests_list(request):
 
 
 @api_view(['POST'])
-@throttle_classes([AuthRateThrottle])
+@throttle_classes([WriteActionRateThrottle])
 def resource_request_create(request):
     """POST /api/resource-requests/ — create a resource request (authenticated)."""
     user, err = _require_user(request)
@@ -758,6 +782,8 @@ def resource_request_create(request):
 
 
 @api_view(['POST'])
+@permission_classes([AllowAny])
+@throttle_classes([UploadRateThrottle])
 def resource_request_create_anonymous(request):
     """POST /api/resource-requests/anonymous/ — create a resource request (anonymous)."""
     title = request.data.get('title', '').strip()
@@ -786,7 +812,7 @@ def resource_request_create_anonymous(request):
 
 
 @api_view(['POST'])
-@throttle_classes([AuthRateThrottle])
+@throttle_classes([WriteActionRateThrottle])
 def resource_request_upvote(request, request_id):
     """POST /api/resource-requests/<request_id>/upvote — toggle upvote."""
     user, err = _require_user(request)
@@ -814,7 +840,7 @@ def resource_request_upvote(request, request_id):
 # ---------------------------------------------------------------------------
 
 @api_view(['POST'])
-@throttle_classes([AuthRateThrottle])
+@throttle_classes([WriteActionRateThrottle])
 def posts_create(request):
     """POST /api/posts"""
     user, err = _require_user(request)
@@ -826,6 +852,13 @@ def posts_create(request):
     category = request.data.get('category', '').strip()
     if not title or not content or not category:
         return Response({'error': 'Missing fields'}, status=400)
+
+    err = _validate_text_length(title, MAX_POST_TITLE_LENGTH, 'Title')
+    if err:
+        return err
+    err = _validate_text_length(content, MAX_POST_CONTENT_LENGTH, 'Content')
+    if err:
+        return err
 
     now = _now_ms()
     post = Post.objects.create(
@@ -845,6 +878,7 @@ def posts_create(request):
 
 
 @api_view(['GET', 'DELETE', 'PATCH'])
+@permission_classes([AllowAny])
 def post_detail(request, post_id):
     """GET/PATCH/DELETE /api/posts/<postId>"""
     try:
@@ -903,6 +937,7 @@ def post_detail(request, post_id):
 
 
 @api_view(['POST'])
+@throttle_classes([WriteActionRateThrottle])
 def post_like(request, post_id):
     """POST /api/posts/<postId>/like — toggle thumbs up."""
     user, err = _require_user(request)
@@ -941,6 +976,7 @@ def post_like(request, post_id):
 # ---------------------------------------------------------------------------
 
 @api_view(['POST'])
+@throttle_classes([WriteActionRateThrottle])
 def replies_create(request, post_id):
     """POST /api/posts/<postId>/replies"""
     user, err = _require_user(request)
@@ -956,6 +992,10 @@ def replies_create(request, post_id):
     parent_reply_id = request.data.get('parentReplyId', None)
     if not content:
         return Response({'error': 'Content is required'}, status=400)
+
+    err = _validate_text_length(content, MAX_REPLY_CONTENT_LENGTH, 'Content')
+    if err:
+        return err
 
     now = _now_ms()
     with transaction.atomic():
@@ -1017,6 +1057,7 @@ def reply_detail(request, reply_id):
 
 
 @api_view(['POST'])
+@throttle_classes([WriteActionRateThrottle])
 def reply_like(request, reply_id):
     """POST /api/replies/<replyId>/like — toggle thumbs up."""
     user, err = _require_user(request)
@@ -1051,6 +1092,7 @@ def reply_like(request, reply_id):
 
 
 @api_view(['GET'])
+@permission_classes([AllowAny])
 def edit_history(request, target_type, target_id):
     """GET /api/edit-history/<target_type>/<target_id>/ — edit history for a post or reply."""
     if target_type not in ('post', 'reply'):
@@ -1097,7 +1139,6 @@ def auth_email_signup(request):
 
     user = User(
         pk=str(uuid.uuid4()),
-        auth_token=User.generate_token(),
         username=username,
         email=email,
         password_hash=hash_password(password),
@@ -1147,7 +1188,7 @@ def auth_email_verify(request):
 
     user.email_verified = True
     _clear_verification_code(user)
-    user.auth_token = User.generate_token()
+    auth_token = issue_auth_token(user, save=False)
     user.save()
 
     logger.info("auth_email_verify: email verified for user %s", user.username)
@@ -1155,7 +1196,7 @@ def auth_email_verify(request):
         'status': 'success',
         'isNewUser': True,
         'profileIncomplete': _profile_incomplete(user),
-        'authToken': user.auth_token,
+        'authToken': auth_token,
         'user': UserSerializer(user).data,
     })
 
@@ -1233,7 +1274,7 @@ def auth_email_login(request):
     if not password_ok:
         return Response({'error': 'Invalid email/username or password'}, status=401)
 
-    user.auth_token = User.generate_token()
+    auth_token = issue_auth_token(user, save=False)
     update_fields = ['auth_token']
     if needs_rehash:
         user.password_hash = hash_password(password)
@@ -1245,7 +1286,7 @@ def auth_email_login(request):
         'status': 'success',
         'isNewUser': False,
         'profileIncomplete': _profile_incomplete(user),
-        'authToken': user.auth_token,
+        'authToken': auth_token,
         'user': UserSerializer(user).data,
     })
 
@@ -1329,14 +1370,14 @@ def auth_email_reset_password(request):
     user.password_hash = hash_password(new_password)
     user.email_verified = True
     _clear_verification_code(user)
-    user.auth_token = User.generate_token()
+    auth_token = issue_auth_token(user, save=False)
     user.save()
 
     logger.info("auth_email_reset_password: password set/reset for %s", user.username)
     return Response({
         'status': 'success',
         'profileIncomplete': _profile_incomplete(user),
-        'authToken': user.auth_token,
+        'authToken': auth_token,
         'user': UserSerializer(user).data,
     })
 
@@ -1408,19 +1449,32 @@ def auth_change_password(request):
         return Response({'error': 'Current password is incorrect'}, status=401)
 
     user.password_hash = hash_password(new_password)
-    user.auth_token = User.generate_token()
+    auth_token = issue_auth_token(user, save=False)
     user.save(update_fields=['password_hash', 'auth_token'])
 
     logger.info("auth_change_password: password changed for user %s", user.username)
     return Response({
         'status': 'success',
         'message': 'Password changed successfully',
-        'authToken': user.auth_token,
+        'authToken': auth_token,
         'user': UserSerializer(user).data,
     })
 
 
 @api_view(['POST'])
+@permission_classes([AllowAny])
+def auth_logout(request):
+    """POST /api/auth/logout — revoke the current auth token so it cannot be reused."""
+    raw_token = request.META.get('HTTP_AUTHORIZATION', '')
+    if raw_token.startswith('Bearer '):
+        raw_token = raw_token[7:].strip()
+    if raw_token:
+        revoke_auth_token(raw_token)
+    return Response({'status': 'success', 'message': 'Logged out'})
+
+
+@api_view(['POST'])
+@throttle_classes([WriteActionRateThrottle])
 def bookmark_toggle(request):
     """POST /api/bookmarks/toggle — toggle bookmark on a post, reply, or resource."""
     user, err = _require_user(request)
@@ -1441,21 +1495,26 @@ def bookmark_toggle(request):
     elif target_type == 'resource':
         if not Resource.objects.filter(pk=target_id).exists():
             return Response({'error': 'Resource not found'}, status=404)
-    existing = Bookmark.objects.filter(user=user, target_type=target_type, target_id=target_id).first()
-    if existing:
-        existing.delete()
-        return Response({'isBookmarked': False})
-    Bookmark.objects.create(
-        id=str(uuid.uuid4()),
-        user=user,
-        target_type=target_type,
-        target_id=target_id,
-        created_at=_now_ms(),
-    )
-    return Response({'isBookmarked': True})
+    try:
+        with transaction.atomic():
+            existing = Bookmark.objects.select_for_update().filter(user=user, target_type=target_type, target_id=target_id).first()
+            if existing:
+                existing.delete()
+                return Response({'isBookmarked': False})
+            Bookmark.objects.create(
+                id=str(uuid.uuid4()),
+                user=user,
+                target_type=target_type,
+                target_id=target_id,
+                created_at=_now_ms(),
+            )
+            return Response({'isBookmarked': True})
+    except IntegrityError:
+        return Response({'isBookmarked': True})
 
 
 @api_view(['GET'])
+@throttle_classes([SearchRateThrottle])
 def bookmark_list(request):
     """GET /api/bookmarks?target_type=post — list user's bookmarks, optionally filtered by type."""
     user, err = _require_user(request)
@@ -1469,6 +1528,7 @@ def bookmark_list(request):
 
 
 @api_view(['GET'])
+@throttle_classes([SearchRateThrottle])
 def bookmark_check(request):
     """GET /api/bookmarks/check?target_type=post&target_id=xxx — check if bookmarked."""
     user, err = _require_user(request)
@@ -1489,20 +1549,26 @@ def bookmark_check(request):
 @api_view(['POST'])
 @throttle_classes([AuthRateThrottle])
 def fcm_register(request):
-    """POST /api/fcm/register"""
+    """POST /api/fcm/register — register an FCM push token for the authenticated user."""
+    user, err = _require_user(request)
+    if err:
+        return err
     token = request.data.get('token', '').strip()
     if not token:
         return Response({'error': 'FCM token is required'}, status=400)
     if len(token) < 10 or len(token) > 512:
         return Response({'error': 'Invalid FCM token format'}, status=400)
 
-    user = _get_user_from_request(request)
     now = _now_ms()
-
-    FCMToken.objects.update_or_create(
-        token=token,
-        defaults={'user': user, 'created_at': now}
-    )
+    with transaction.atomic():
+        existing = FCMToken.objects.select_for_update().filter(token=token).first()
+        if existing:
+            if existing.user_id != user.id:
+                existing.user = user
+                existing.created_at = now
+                existing.save(update_fields=['user', 'created_at'])
+        else:
+            FCMToken.objects.create(token=token, user=user, created_at=now)
 
     return Response({'success': True})
 
@@ -1512,6 +1578,8 @@ def fcm_register(request):
 # ---------------------------------------------------------------------------
 
 @api_view(['GET'])
+@permission_classes([AllowAny])
+@throttle_classes([SearchRateThrottle])
 def search_all(request):
     """GET /api/search?q=query — unified search across resources and posts."""
     query = request.query_params.get('q', '').strip()
@@ -1580,6 +1648,13 @@ def posts_endpoint(request):
     if not title or not content or not category:
         return Response({'error': 'Missing fields'}, status=400)
 
+    err = _validate_text_length(title, MAX_POST_TITLE_LENGTH, 'Title')
+    if err:
+        return err
+    err = _validate_text_length(content, MAX_POST_CONTENT_LENGTH, 'Content')
+    if err:
+        return err
+
     now = _now_ms()
     post = Post.objects.create(
         id=str(uuid.uuid4()),
@@ -1620,6 +1695,10 @@ def replies_endpoint(request, post_id):
     if not content:
         return Response({'error': 'Content is required'}, status=400)
 
+    err = _validate_text_length(content, MAX_REPLY_CONTENT_LENGTH, 'Content')
+    if err:
+        return err
+
     now = _now_ms()
     with transaction.atomic():
         reply = Reply.objects.create(
@@ -1650,22 +1729,30 @@ def _build_stats(user):
     """
     Build the stats dict for a given User instance.
     Uses denormalized counters on the User model when available,
-    falls back to aggregate queries for legacy rows.
+    falls back to aggregate queries only when counters are None (not yet backfilled).
     """
-    post_count = user.post_count if hasattr(user, 'post_count') and user.post_count > 0 else Post.objects.filter(user=user).count()
-    reply_count = user.reply_count if hasattr(user, 'reply_count') and user.reply_count > 0 else Reply.objects.filter(user=user).count()
-    follower_count = user.follower_count if hasattr(user, 'follower_count') and user.follower_count > 0 else Follow.objects.filter(following=user).count()
-    following_count = user.following_count if hasattr(user, 'following_count') and user.following_count > 0 else Follow.objects.filter(follower=user).count()
-    likes_given = user.likes_given_count if hasattr(user, 'likes_given_count') and user.likes_given_count > 0 else (
-        PostLike.objects.filter(user=user).count() + ReplyLike.objects.filter(user=user).count()
-    )
-    likes_received = user.likes_received_count if hasattr(user, 'likes_received_count') and user.likes_received_count > 0 else (
-        PostLike.objects.filter(post__user=user).count() + ReplyLike.objects.filter(reply__user=user).count()
-    )
+    post_count = getattr(user, 'post_count', None)
+    reply_count = getattr(user, 'reply_count', None)
+    follower_count = getattr(user, 'follower_count', None)
+    following_count = getattr(user, 'following_count', None)
+    likes_given = getattr(user, 'likes_given_count', None)
+    likes_received = getattr(user, 'likes_received_count', None)
+    contribution_score = getattr(user, 'contribution_score', None)
 
-    contribution_score = user.contribution_score if hasattr(user, 'contribution_score') and user.contribution_score > 0 else (
-        (post_count * 3) + (reply_count * 2) + likes_given + (likes_received * 2)
-    )
+    if any(v is None for v in [post_count, reply_count, follower_count, following_count, likes_given, likes_received, contribution_score]):
+        post_count = post_count if post_count is not None else Post.objects.filter(user=user).count()
+        reply_count = reply_count if reply_count is not None else Reply.objects.filter(user=user).count()
+        follower_count = follower_count if follower_count is not None else Follow.objects.filter(following=user).count()
+        following_count = following_count if following_count is not None else Follow.objects.filter(follower=user).count()
+        likes_given = likes_given if likes_given is not None else (
+            PostLike.objects.filter(user=user).count() + ReplyLike.objects.filter(user=user).count()
+        )
+        likes_received = likes_received if likes_received is not None else (
+            PostLike.objects.filter(post__user=user).count() + ReplyLike.objects.filter(reply__user=user).count()
+        )
+        contribution_score = contribution_score if contribution_score is not None else (
+            (post_count * 3) + (reply_count * 2) + likes_given + (likes_received * 2)
+        )
 
     return {
         'username': user.username,
@@ -1681,50 +1768,70 @@ def _build_stats(user):
 
 def _build_stats_batch(user_qs):
     """
-    Build stats for a queryset of users in a single aggregation pass.
+    Build stats for a queryset of users using denormalized counters.
+    Falls back to aggregate queries only for users whose counters are None.
     Returns a dict mapping user_id -> stats dict.
     """
-    from django.db.models import Count, Q, Sum, Case, When, IntegerField
-
-    user_ids = list(user_qs.values_list('id', flat=True))
-
-    post_counts = dict(Post.objects.filter(user_id__in=user_ids).values('user_id').annotate(c=Count('id')).values_list('user_id', 'c'))
-    reply_counts = dict(Reply.objects.filter(user_id__in=user_ids).values('user_id').annotate(c=Count('id')).values_list('user_id', 'c'))
-    follower_counts = dict(Follow.objects.filter(following_id__in=user_ids).values('following_id').annotate(c=Count('id')).values_list('following_id', 'c'))
-    following_counts = dict(Follow.objects.filter(follower_id__in=user_ids).values('follower_id').annotate(c=Count('id')).values_list('follower_id', 'c'))
-
-    likes_given = {}
-    for model, like_field in [(PostLike, 'user_id'), (ReplyLike, 'user_id')]:
-        for uid, cnt in model.objects.filter(user_id__in=user_ids).values('user_id').annotate(c=Count('id')).values_list('user_id', 'c'):
-            likes_given[uid] = likes_given.get(uid, 0) + cnt
-
-    likes_received = {}
-    for model, owner_field in [(PostLike, 'post__user_id'), (ReplyLike, 'reply__user_id')]:
-        for uid, cnt in model.objects.filter(**{owner_field + '__in': user_ids}).values(owner_field).annotate(c=Count('id')).values_list(owner_field, 'c'):
-            likes_received[uid] = likes_received.get(uid, 0) + cnt
-
     users_map = {u.id: u for u in user_qs if hasattr(u, 'id')}
+    user_ids = list(users_map.keys())
+    needs_fallback_ids = []
+    for uid in user_ids:
+        u = users_map.get(uid)
+        if u and any(getattr(u, f, None) is None for f in ['post_count', 'reply_count', 'follower_count', 'following_count', 'likes_given_count', 'likes_received_count', 'contribution_score']):
+            needs_fallback_ids.append(uid)
+
+    fallback_data = {}
+    if needs_fallback_ids:
+        from django.db.models import Count
+        post_counts = dict(Post.objects.filter(user_id__in=needs_fallback_ids).values('user_id').annotate(c=Count('id')).values_list('user_id', 'c'))
+        reply_counts = dict(Reply.objects.filter(user_id__in=needs_fallback_ids).values('user_id').annotate(c=Count('id')).values_list('user_id', 'c'))
+        follower_counts = dict(Follow.objects.filter(following_id__in=needs_fallback_ids).values('following_id').annotate(c=Count('id')).values_list('following_id', 'c'))
+        following_counts = dict(Follow.objects.filter(follower_id__in=needs_fallback_ids).values('follower_id').annotate(c=Count('id')).values_list('follower_id', 'c'))
+        likes_given = {}
+        for model in [PostLike, ReplyLike]:
+            for uid, cnt in model.objects.filter(user_id__in=needs_fallback_ids).values('user_id').annotate(c=Count('id')).values_list('user_id', 'c'):
+                likes_given[uid] = likes_given.get(uid, 0) + cnt
+        likes_received = {}
+        for model, owner_field in [(PostLike, 'post__user_id'), (ReplyLike, 'reply__user_id')]:
+            for uid, cnt in model.objects.filter(**{owner_field + '__in': needs_fallback_ids}).values(owner_field).annotate(c=Count('id')).values_list(owner_field, 'c'):
+                likes_received[uid] = likes_received.get(uid, 0) + cnt
+        for uid in needs_fallback_ids:
+            pc = post_counts.get(uid, 0)
+            rc = reply_counts.get(uid, 0)
+            lg = likes_given.get(uid, 0)
+            lr = likes_received.get(uid, 0)
+            fallback_data[uid] = {
+                'post_count': pc,
+                'reply_count': rc,
+                'follower_count': follower_counts.get(uid, 0),
+                'following_count': following_counts.get(uid, 0),
+                'likes_given': lg,
+                'likes_received': lr,
+                'contribution_score': (pc * 3) + (rc * 2) + lg + (lr * 2),
+            }
+
     result = {}
     for uid in user_ids:
         u = users_map.get(uid)
-        pc = post_counts.get(uid, 0)
-        rc = reply_counts.get(uid, 0)
-        fc = follower_counts.get(uid, 0)
-        fwc = following_counts.get(uid, 0)
-        lg = likes_given.get(uid, 0)
-        lr = likes_received.get(uid, 0)
-        score = (pc * 3) + (rc * 2) + lg + (lr * 2)
+        fb = fallback_data.get(uid, {})
+        pc = getattr(u, 'post_count', None) if u else None
+        rc = getattr(u, 'reply_count', None) if u else None
+        fc = getattr(u, 'follower_count', None) if u else None
+        fwc = getattr(u, 'following_count', None) if u else None
+        lg = getattr(u, 'likes_given_count', None) if u else None
+        lr = getattr(u, 'likes_received_count', None) if u else None
+        score = getattr(u, 'contribution_score', None) if u else None
         result[uid] = {
             'username': u.username if u else '',
             'display_name': (u.display_name or u.username) if u else '',
             'photo_url': u.photo_url if u else '',
-            'post_count': pc,
-            'reply_count': rc,
-            'follower_count': fc,
-            'following_count': fwc,
-            'likes_given': lg,
-            'likes_received': lr,
-            'contribution_score': score,
+            'post_count': pc if pc is not None else fb.get('post_count', 0),
+            'reply_count': rc if rc is not None else fb.get('reply_count', 0),
+            'follower_count': fc if fc is not None else fb.get('follower_count', 0),
+            'following_count': fwc if fwc is not None else fb.get('following_count', 0),
+            'likes_given': lg if lg is not None else fb.get('likes_given', 0),
+            'likes_received': lr if lr is not None else fb.get('likes_received', 0),
+            'contribution_score': score if score is not None else fb.get('contribution_score', 0),
         }
     return result
 
@@ -1926,6 +2033,7 @@ def user_photo_activate(request, photo_id):
 # ---------------------------------------------------------------------------
 
 @api_view(['POST'])
+@throttle_classes([ReportRateThrottle])
 def report_create(request):
     """POST /api/reports — submit a content/user report."""
     user, err = _require_user(request)
@@ -1944,6 +2052,10 @@ def report_create(request):
         return Response({'error': 'target_id is required'}, status=400)
     if reason not in dict(Report.REASON_CHOICES):
         return Response({'error': 'Invalid reason'}, status=400)
+
+    err = _validate_text_length(description, MAX_REPORT_DESCRIPTION_LENGTH, 'Description')
+    if err:
+        return err
 
     report = Report.objects.create(
         id=str(uuid.uuid4()),

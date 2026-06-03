@@ -54,7 +54,7 @@
                 <span class="material-symbols-outlined" style="font-size:18px">check_circle</span> Approve
               </button>
             </form>
-            <button type="button" class="md-btn md-btn-text" style="color:var(--md-error)" onclick="showRejectForm('{{ r.id }}')">
+            <button type="button" class="md-btn md-btn-text" style="color:var(--md-error)" data-action="show-reject-form" data-resource-id="{{ r.id }}">
               <span class="material-symbols-outlined" style="font-size:18px">cancel</span> Reject
             </button>
           </td>
@@ -76,7 +76,7 @@
           <textarea class="md-textarea" id="reject-reason" name="reason" rows="3" placeholder="Why is this resource being rejected?"></textarea>
         </div>
         <div class="reject-modal-actions">
-          <button type="button" class="md-btn md-btn-text" onclick="hideRejectForm()">Cancel</button>
+          <button type="button" class="md-btn md-btn-text" data-action="hide-reject-form">Cancel</button>
           <button type="submit" class="md-btn md-btn-error">Reject</button>
         </div>
       </form>
@@ -121,7 +121,7 @@
 {% endblock %}
 
 {% block extra_js %}
-<script>
+<script nonce="{{ csp_nonce }}">
 function showRejectForm(resourceId) {
   document.getElementById('reject-resource-id').value = resourceId;
   document.getElementById('reject-form-modal').style.display = 'flex';
@@ -129,5 +129,13 @@ function showRejectForm(resourceId) {
 function hideRejectForm() {
   document.getElementById('reject-form-modal').style.display = 'none';
 }
+registerActions({
+  'show-reject-form': function(el, e) {
+    showRejectForm(el.dataset.resourceId);
+  },
+  'hide-reject-form': function(el, e) {
+    hideRejectForm();
+  }
+});
 </script>
 {% endblock %}

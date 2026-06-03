@@ -33,7 +33,7 @@
             <p>Enter your email and password to access your account.</p>
           </div>
 
-          <form id="login-form" onsubmit="window.handleEmailLogin(event)" class="auth-form" novalidate>
+          <form id="login-form" data-action="email-login" class="auth-form" novalidate>
             <div class="auth-field">
               <label for="login-email">Email</label>
               <input type="text" id="login-email" placeholder="hello@example.com" required autocomplete="username">
@@ -42,7 +42,7 @@
               <label for="login-password">Password</label>
               <div class="auth-input-wrap">
                 <input type="password" id="login-password" placeholder="••••••••" required minlength="8" autocomplete="current-password">
-                <button type="button" onclick="window.togglePassword('login-password', this)" class="auth-input-toggle" aria-label="Toggle password visibility">
+                <button type="button" data-action="toggle-password" data-input-id="login-password" class="auth-input-toggle" aria-label="Toggle password visibility">
                   <span class="material-symbols-outlined">visibility_off</span>
                 </button>
               </div>
@@ -72,12 +72,12 @@
           </div>
 
           <p class="auth-form-foot">
-            Don't have an account? <button type="button" onclick="window.showPanel('email-signup')" class="auth-form-link">Register now.</button>
+            Don't have an account? <button type="button" data-action="show-panel" data-panel="email-signup" class="auth-form-link">Register now.</button>
           </p>
         </div>
 
         <div id="panel-email-signup" class="auth-panel" style="display:none;">
-          <button onclick="window.showPanel('main')" class="auth-back">
+          <button data-action="show-panel" data-panel="main" class="auth-back">
             <span class="material-symbols-outlined">arrow_back</span>
             <span>Back</span>
           </button>
@@ -86,7 +86,7 @@
             <p>Sign up with email — we'll send a verification code.</p>
           </div>
 
-          <form id="signup-form" onsubmit="window.handleEmailSignup(event)" class="auth-form" novalidate>
+          <form id="signup-form" data-action="email-signup" class="auth-form" novalidate>
             <div class="auth-field">
               <label for="signup-username">Username</label>
               <input type="text" id="signup-username" placeholder="nikit_07" required minlength="3" pattern="[a-zA-Z0-9_]+" autocomplete="username">
@@ -99,7 +99,7 @@
               <label for="signup-password">Password</label>
               <div class="auth-input-wrap">
                 <input type="password" id="signup-password" placeholder="At least 8 characters" required minlength="8" autocomplete="new-password">
-                <button type="button" onclick="window.togglePassword('signup-password', this)" class="auth-input-toggle" aria-label="Toggle password visibility">
+                <button type="button" data-action="toggle-password" data-input-id="signup-password" class="auth-input-toggle" aria-label="Toggle password visibility">
                   <span class="material-symbols-outlined">visibility_off</span>
                 </button>
               </div>
@@ -110,11 +110,11 @@
 
           <div class="auth-divider-text"><span>or</span></div>
 
-          <button onclick="window.showPanel('main')" class="auth-btn-secondary-full">Already have an account? Sign in</button>
+          <button data-action="show-panel" data-panel="main" class="auth-btn-secondary-full">Already have an account? Sign in</button>
         </div>
 
         <div id="panel-verify" class="auth-panel" style="display:none;">
-          <button onclick="window.showPanel(window._verifyFrom || 'email-signup')" class="auth-back">
+          <button data-action="show-verify-back" class="auth-back">
             <span class="material-symbols-outlined">arrow_back</span>
             <span>Back</span>
           </button>
@@ -123,7 +123,7 @@
             <p>We sent a 6-digit code to <strong id="verify-email-display"></strong></p>
           </div>
 
-          <form onsubmit="window.handleVerifyCode(event)" class="auth-form" novalidate>
+          <form data-action="verify-code" class="auth-form" novalidate>
             <div class="auth-field">
               <label for="verify-code">Verification code</label>
               <input type="text" id="verify-code" placeholder="000000" required maxlength="6" inputmode="numeric" autocomplete="one-time-code" class="auth-code-input">
@@ -131,13 +131,13 @@
             <div id="verify-error" class="auth-error"></div>
             <button type="submit" id="verify-btn" class="auth-btn-primary">Verify &amp; continue</button>
             <p class="auth-form-foot">
-              Didn't get a code? <button type="button" onclick="window.handleResend()" id="resend-btn" class="auth-form-link">Resend</button>
+              Didn't get a code? <button type="button" data-action="resend-code" id="resend-btn" class="auth-form-link">Resend</button>
             </p>
           </form>
         </div>
 
         <div id="panel-forgot" class="auth-panel" style="display:none;">
-          <button onclick="window.showPanel('email-signup')" class="auth-back">
+          <button type="button" data-action="show-panel" data-panel="email-signup" class="auth-back">
             <span class="material-symbols-outlined">arrow_back</span>
             <span>Back</span>
           </button>
@@ -146,7 +146,7 @@
             <p id="forgot-subtitle">Enter your email and we'll send a verification code.</p>
           </div>
 
-          <form id="forgot-form" onsubmit="window.handleForgot(event)" class="auth-form" novalidate>
+          <form id="forgot-form" data-action="forgot-submit" class="auth-form" novalidate>
             <div class="auth-field">
               <label for="forgot-email">Email</label>
               <input type="email" id="forgot-email" placeholder="hello@example.com" required autocomplete="email">
@@ -159,7 +159,7 @@
             <div class="auth-form-head" style="margin-bottom:20px;">
               <p id="reset-instruction" style="font-size:0.875rem;color:var(--md-on-surface-variant);">Enter the code and your new password.</p>
             </div>
-            <form onsubmit="window.handleReset(event)" class="auth-form" novalidate>
+            <form data-action="reset-submit" class="auth-form" novalidate>
               <div class="auth-field">
                 <label for="reset-code">Code</label>
                 <input type="text" id="reset-code" placeholder="000000" required maxlength="6" inputmode="numeric" class="auth-code-input">
@@ -168,7 +168,7 @@
                 <label for="reset-password">New password</label>
                 <div class="auth-input-wrap">
                   <input type="password" id="reset-password" placeholder="At least 8 characters" required minlength="8" autocomplete="new-password">
-                  <button type="button" onclick="window.togglePassword('reset-password', this)" class="auth-input-toggle" aria-label="Toggle password visibility">
+                  <button type="button" data-action="toggle-password" data-input-id="reset-password" class="auth-input-toggle" aria-label="Toggle password visibility">
                     <span class="material-symbols-outlined">visibility_off</span>
                   </button>
                 </div>
@@ -177,7 +177,7 @@
                 <label for="reset-confirm-password">Confirm password</label>
                 <div class="auth-input-wrap">
                   <input type="password" id="reset-confirm-password" placeholder="Repeat new password" required minlength="8" autocomplete="new-password">
-                  <button type="button" onclick="window.togglePassword('reset-confirm-password', this)" class="auth-input-toggle" aria-label="Toggle password visibility">
+                  <button type="button" data-action="toggle-password" data-input-id="reset-confirm-password" class="auth-input-toggle" aria-label="Toggle password visibility">
                     <span class="material-symbols-outlined">visibility_off</span>
                   </button>
                 </div>
@@ -185,7 +185,7 @@
               <div id="reset-error" class="auth-error"></div>
               <button type="submit" id="reset-submit-btn" class="auth-btn-primary">Reset password</button>
               <p class="auth-form-foot" style="display:none;" id="forgot-resend-wrap">
-                Didn't get a code? <button type="button" onclick="window.handleForgotResend()" id="forgot-resend-btn" class="auth-form-link">Resend</button>
+                Didn't get a code? <button type="button" data-action="forgot-resend" id="forgot-resend-btn" class="auth-form-link">Resend</button>
               </p>
             </form>
           </div>
@@ -274,7 +274,7 @@
 {% endblock %}
 
 {% block extra_js %}
-<script>
+<script nonce="{{ csp_nonce }}">
 function setStatus(text) {
   var s = document.getElementById('signin-status');
   if (s) s.textContent = text;
@@ -293,120 +293,25 @@ window.showPanel = function(panel) {
   window._verifyFrom = (panel === 'verify') ? (window._verifyFrom || 'email-signup') : window._verifyFrom;
 };
 
-window.togglePassword = function(inputId, btn) {
-  var input = document.getElementById(inputId);
-  var icon = btn.querySelector('.material-symbols-outlined');
-  if (input.type === 'password') {
-    input.type = 'text';
-    icon.textContent = 'visibility';
+window.nebEmailLoginSuccess = function(data) {
+  if (data.authToken && data.user) {
+    var redirectUrl = (data.profileIncomplete || data.isNewUser) ? '{% url "web:edit_profile" %}' : '{% url "web:home" %}';
+    fetch('{% url "web:google_auth" %}', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
+      body: JSON.stringify({ emailAuthToken: data.authToken, emailUser: data })
+    }).then(function(res) { return res.json(); }).then(function(sessionData) {
+      if (sessionData.profileIncomplete || sessionData.isNewUser) {
+        window.location.href = '{% url "web:edit_profile" %}';
+      } else {
+        window.location.href = '{% url "web:home" %}';
+      }
+    }).catch(function() {
+      window.location.href = redirectUrl;
+    });
   } else {
-    input.type = 'password';
-    icon.textContent = 'visibility_off';
+    window.location.href = '{% url "web:home" %}';
   }
-};
-
-window.handleEmailLogin = function(e) {
-  e.preventDefault();
-  var email = document.getElementById('login-email').value.trim();
-  var password = document.getElementById('login-password').value;
-  var errorEl = document.getElementById('login-error');
-  var btn = document.getElementById('login-btn');
-  errorEl.textContent = '';
-  btn.disabled = true;
-  btn.innerHTML = '<span class="auth-spinner"></span><span>Signing in...</span>';
-  fetch('/api/auth/email/login/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email, password: password }) })
-    .then(function(res) { return res.json(); })
-    .then(function(data) {
-      if (data.status === 'success' && data.authToken) {
-        window.nebEmailLoginSuccess(data);
-      } else if (data.needsVerification && data.email) {
-        document.getElementById('verify-email-display').textContent = data.email;
-        var hiddenEmail = document.createElement('input');
-        hiddenEmail.type = 'hidden';
-        hiddenEmail.id = 'verify-email-hidden';
-        hiddenEmail.value = data.email;
-        document.getElementById('panel-verify').appendChild(hiddenEmail);
-        window._verifyFrom = 'email-signup';
-        window.startResendCooldown();
-        window.showPanel('verify');
-      } else if (data.needsSetPassword && data.email) {
-        document.getElementById('forgot-email').value = data.email || email;
-        window.showPanel('forgot');
-        window.handleForgot(new Event('submit'));
-      } else {
-        errorEl.textContent = data.error || 'Login failed';
-      }
-    })
-    .catch(function() { errorEl.textContent = 'Network error. Please try again.'; })
-    .finally(function() { btn.disabled = false; btn.innerHTML = '<span>Log In</span>'; });
-};
-
-window.handleEmailSignup = function(e) {
-  e.preventDefault();
-  var username = document.getElementById('signup-username').value.trim();
-  var email = document.getElementById('signup-email').value.trim();
-  var password = document.getElementById('signup-password').value;
-  var errorEl = document.getElementById('signup-error');
-  var btn = document.getElementById('signup-btn');
-  errorEl.textContent = '';
-  btn.disabled = true;
-  btn.innerHTML = '<span class="auth-spinner"></span><span>Creating account...</span>';
-  fetch('/api/auth/email/signup/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email, password: password, username: username }) })
-    .then(function(res) { return res.json(); })
-    .then(function(data) {
-      if (data.status === 'success') {
-        document.getElementById('verify-email-display').textContent = email;
-        window.startResendCooldown();
-        window.showPanel('verify');
-      } else {
-        errorEl.textContent = data.error || 'Signup failed';
-      }
-    })
-    .catch(function() { errorEl.textContent = 'Network error. Please try again.'; })
-    .finally(function() { btn.disabled = false; btn.innerHTML = '<span>Create account</span>'; });
-};
-
-window.handleVerifyCode = function(e) {
-  e.preventDefault();
-  var email = document.getElementById('verify-email-hidden') ? document.getElementById('verify-email-hidden').value : document.getElementById('signup-email').value.trim();
-  email = email || document.getElementById('signup-email').value.trim();
-  var code = document.getElementById('verify-code').value.trim();
-  var errorEl = document.getElementById('verify-error');
-  var btn = document.getElementById('verify-btn');
-  errorEl.textContent = '';
-  btn.disabled = true;
-  btn.innerHTML = '<span class="auth-spinner"></span><span>Verifying...</span>';
-  fetch('/api/auth/email/verify/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email, code: code }) })
-    .then(function(res) { return res.json(); })
-    .then(function(data) {
-      if (data.status === 'success') {
-        window.nebEmailLoginSuccess(data);
-      } else {
-        errorEl.textContent = data.error || 'Verification failed';
-      }
-    })
-    .catch(function() { errorEl.textContent = 'Network error. Please try again.'; })
-    .finally(function() { btn.disabled = false; btn.innerHTML = '<span>Verify &amp; continue</span>'; });
-};
-
-window.handleResend = function() {
-  var email = document.getElementById('verify-email-hidden') ? document.getElementById('verify-email-hidden').value : document.getElementById('signup-email').value.trim();
-  email = email || document.getElementById('signup-email').value.trim();
-  var btn = document.getElementById('resend-btn');
-  btn.disabled = true;
-  btn.textContent = 'Sending...';
-  fetch('/api/auth/email/resend/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email }) })
-    .then(function(res) { return res.json(); })
-    .then(function(data) {
-      if (data.status === 'success') {
-        window.startResendCooldown();
-      } else {
-        showSnackbar(data.error || 'Failed to resend');
-        btn.textContent = 'Resend';
-        btn.disabled = false;
-      }
-    })
-    .catch(function() { btn.textContent = 'Resend'; btn.disabled = false; });
 };
 
 window.startResendCooldown = function() {
@@ -426,9 +331,225 @@ window.startResendCooldown = function() {
   }, 1000);
 };
 
+window.startForgotResendCooldown = function() {
+  var btn = document.getElementById('forgot-resend-btn');
+  if (!btn) return;
+  var seconds = 60;
+  btn.disabled = true;
+  btn.textContent = 'Resend in ' + seconds + 's';
+  var timer = setInterval(function() {
+    seconds--;
+    if (seconds <= 0) {
+      clearInterval(timer);
+      btn.textContent = 'Resend';
+      btn.disabled = false;
+    } else {
+      btn.textContent = 'Resend in ' + seconds + 's';
+    }
+  }, 1000);
+};
+
 window._forgotNeedsSetPassword = false;
+
+registerActions({
+  'toggle-password': function(el) {
+    var inputId = el.dataset.inputId;
+    var input = document.getElementById(inputId);
+    var icon = el.querySelector('.material-symbols-outlined');
+    if (input.type === 'password') {
+      input.type = 'text';
+      icon.textContent = 'visibility';
+    } else {
+      input.type = 'password';
+      icon.textContent = 'visibility_off';
+    }
+  },
+  'show-panel': function(el) {
+    window.showPanel(el.dataset.panel);
+  },
+  'show-verify-back': function() {
+    window.showPanel(window._verifyFrom || 'email-signup');
+  },
+  'email-login': function(form, e) {
+    e.preventDefault();
+    var email = document.getElementById('login-email').value.trim();
+    var password = document.getElementById('login-password').value;
+    var errorEl = document.getElementById('login-error');
+    var btn = document.getElementById('login-btn');
+    errorEl.textContent = '';
+    btn.disabled = true;
+    btn.innerHTML = '<span class="auth-spinner"></span><span>Signing in...</span>';
+    fetch('/api/auth/email/login/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email, password: password }) })
+      .then(function(res) { return res.json(); })
+      .then(function(data) {
+        if (data.status === 'success' && data.authToken) {
+          window.nebEmailLoginSuccess(data);
+        } else if (data.needsVerification && data.email) {
+          document.getElementById('verify-email-display').textContent = data.email;
+          var hiddenEmail = document.createElement('input');
+          hiddenEmail.type = 'hidden';
+          hiddenEmail.id = 'verify-email-hidden';
+          hiddenEmail.value = data.email;
+          document.getElementById('panel-verify').appendChild(hiddenEmail);
+          window._verifyFrom = 'email-signup';
+          window.startResendCooldown();
+          window.showPanel('verify');
+        } else if (data.needsSetPassword && data.email) {
+          document.getElementById('forgot-email').value = data.email || email;
+          window.showPanel('forgot');
+          window.handleForgot(new Event('submit'));
+        } else {
+          errorEl.textContent = data.error || 'Login failed';
+        }
+      })
+      .catch(function() { errorEl.textContent = 'Network error. Please try again.'; })
+      .finally(function() { btn.disabled = false; btn.innerHTML = '<span>Log In</span>'; });
+  },
+  'email-signup': function(form, e) {
+    e.preventDefault();
+    var username = document.getElementById('signup-username').value.trim();
+    var email = document.getElementById('signup-email').value.trim();
+    var password = document.getElementById('signup-password').value;
+    var errorEl = document.getElementById('signup-error');
+    var btn = document.getElementById('signup-btn');
+    errorEl.textContent = '';
+    btn.disabled = true;
+    btn.innerHTML = '<span class="auth-spinner"></span><span>Creating account...</span>';
+    fetch('/api/auth/email/signup/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email, password: password, username: username }) })
+      .then(function(res) { return res.json(); })
+      .then(function(data) {
+        if (data.status === 'success') {
+          document.getElementById('verify-email-display').textContent = email;
+          window.startResendCooldown();
+          window.showPanel('verify');
+        } else {
+          errorEl.textContent = data.error || 'Signup failed';
+        }
+      })
+      .catch(function() { errorEl.textContent = 'Network error. Please try again.'; })
+      .finally(function() { btn.disabled = false; btn.innerHTML = '<span>Create account</span>'; });
+  },
+  'verify-code': function(form, e) {
+    e.preventDefault();
+    var email = document.getElementById('verify-email-hidden') ? document.getElementById('verify-email-hidden').value : document.getElementById('signup-email').value.trim();
+    email = email || document.getElementById('signup-email').value.trim();
+    var code = document.getElementById('verify-code').value.trim();
+    var errorEl = document.getElementById('verify-error');
+    var btn = document.getElementById('verify-btn');
+    errorEl.textContent = '';
+    btn.disabled = true;
+    btn.innerHTML = '<span class="auth-spinner"></span><span>Verifying...</span>';
+    fetch('/api/auth/email/verify/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email, code: code }) })
+      .then(function(res) { return res.json(); })
+      .then(function(data) {
+        if (data.status === 'success') {
+          window.nebEmailLoginSuccess(data);
+        } else {
+          errorEl.textContent = data.error || 'Verification failed';
+        }
+      })
+      .catch(function() { errorEl.textContent = 'Network error. Please try again.'; })
+      .finally(function() { btn.disabled = false; btn.innerHTML = '<span>Verify &amp; continue</span>'; });
+  },
+  'resend-code': function() {
+    var email = document.getElementById('verify-email-hidden') ? document.getElementById('verify-email-hidden').value : document.getElementById('signup-email').value.trim();
+    email = email || document.getElementById('signup-email').value.trim();
+    var btn = document.getElementById('resend-btn');
+    btn.disabled = true;
+    btn.textContent = 'Sending...';
+    fetch('/api/auth/email/resend/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email }) })
+      .then(function(res) { return res.json(); })
+      .then(function(data) {
+        if (data.status === 'success') {
+          window.startResendCooldown();
+        } else {
+          showSnackbar(data.error || 'Failed to resend');
+          btn.textContent = 'Resend';
+          btn.disabled = false;
+        }
+      })
+      .catch(function() { btn.textContent = 'Resend'; btn.disabled = false; });
+  },
+  'forgot-submit': function(form, e) {
+    e.preventDefault();
+    var email = document.getElementById('forgot-email').value.trim();
+    var errorEl = document.getElementById('forgot-error');
+    var btn = document.getElementById('forgot-btn');
+    errorEl.textContent = '';
+    btn.disabled = true;
+    btn.innerHTML = '<span class="auth-spinner"></span><span>Sending...</span>';
+    fetch('/api/auth/email/forgot/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email }) })
+      .then(function(res) { return res.json(); })
+      .then(function(data) {
+        if (data.status === 'success' || !data.error) {
+          window._forgotNeedsSetPassword = !!data.needsSetPassword;
+          if (window._forgotNeedsSetPassword) {
+            document.getElementById('forgot-title').textContent = 'Set password';
+            document.getElementById('forgot-subtitle').textContent = 'This account uses Google sign-in. Set a password to also sign in with email.';
+            document.getElementById('reset-instruction').textContent = 'Enter the code and choose a password.';
+            document.getElementById('reset-submit-btn').innerHTML = '<span>Set password</span>';
+          } else {
+            document.getElementById('forgot-title').textContent = 'Reset password';
+            document.getElementById('forgot-subtitle').textContent = 'Enter your email and we\'ll send a verification code.';
+            document.getElementById('reset-instruction').textContent = 'Enter the code and your new password.';
+            document.getElementById('reset-submit-btn').innerHTML = '<span>Reset password</span>';
+          }
+          document.getElementById('reset-section').style.display = 'block';
+          document.getElementById('forgot-resend-wrap').style.display = '';
+          window.startForgotResendCooldown();
+          btn.innerHTML = '<span>Code sent</span><span class="material-symbols-outlined">check</span>';
+        } else {
+          errorEl.textContent = data.error || 'Failed to send code';
+          btn.innerHTML = '<span>Send code</span>';
+          btn.disabled = false;
+        }
+      })
+      .catch(function() { errorEl.textContent = 'Network error'; btn.disabled = false; btn.innerHTML = '<span>Send code</span>'; });
+  },
+  'reset-submit': function(form, e) {
+    e.preventDefault();
+    var email = document.getElementById('forgot-email').value.trim();
+    var code = document.getElementById('reset-code').value.trim();
+    var newPassword = document.getElementById('reset-password').value;
+    var confirmPassword = document.getElementById('reset-confirm-password').value;
+    var errorEl = document.getElementById('reset-error');
+    errorEl.textContent = '';
+    if (newPassword !== confirmPassword) {
+      errorEl.textContent = 'Passwords do not match';
+      return;
+    }
+    fetch('/api/auth/email/reset-password/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email, code: code, newPassword: newPassword, confirmPassword: confirmPassword }) })
+      .then(function(res) { return res.json(); })
+      .then(function(data) {
+        if (data.status === 'success') {
+          window.nebEmailLoginSuccess(data);
+        } else {
+          errorEl.textContent = data.error || 'Reset failed';
+        }
+      })
+      .catch(function() { errorEl.textContent = 'Network error'; });
+  },
+  'forgot-resend': function() {
+    var email = document.getElementById('forgot-email').value.trim();
+    var btn = document.getElementById('forgot-resend-btn');
+    btn.disabled = true;
+    btn.textContent = 'Sending...';
+    fetch('/api/auth/email/forgot/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email }) })
+      .then(function(res) { return res.json(); })
+      .then(function(data) {
+        if (data.status === 'success' || !data.error) {
+          window.startForgotResendCooldown();
+        } else {
+          btn.textContent = 'Resend';
+          btn.disabled = false;
+        }
+      })
+      .catch(function() { btn.textContent = 'Resend'; btn.disabled = false; });
+  }
+});
+
 window.handleForgot = function(e) {
-  e.preventDefault();
+  if (e) e.preventDefault();
   var email = document.getElementById('forgot-email').value.trim();
   var errorEl = document.getElementById('forgot-error');
   var btn = document.getElementById('forgot-btn');
@@ -462,87 +583,6 @@ window.handleForgot = function(e) {
       }
     })
     .catch(function() { errorEl.textContent = 'Network error'; btn.disabled = false; btn.innerHTML = '<span>Send code</span>'; });
-};
-
-window.startForgotResendCooldown = function() {
-  var btn = document.getElementById('forgot-resend-btn');
-  if (!btn) return;
-  var seconds = 60;
-  btn.disabled = true;
-  btn.textContent = 'Resend in ' + seconds + 's';
-  var timer = setInterval(function() {
-    seconds--;
-    if (seconds <= 0) {
-      clearInterval(timer);
-      btn.textContent = 'Resend';
-      btn.disabled = false;
-    } else {
-      btn.textContent = 'Resend in ' + seconds + 's';
-    }
-  }, 1000);
-};
-
-window.handleReset = function(e) {
-  e.preventDefault();
-  var email = document.getElementById('forgot-email').value.trim();
-  var code = document.getElementById('reset-code').value.trim();
-  var newPassword = document.getElementById('reset-password').value;
-  var confirmPassword = document.getElementById('reset-confirm-password').value;
-  var errorEl = document.getElementById('reset-error');
-  errorEl.textContent = '';
-  if (newPassword !== confirmPassword) {
-    errorEl.textContent = 'Passwords do not match';
-    return;
-  }
-  fetch('/api/auth/email/reset-password/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email, code: code, newPassword: newPassword, confirmPassword: confirmPassword }) })
-    .then(function(res) { return res.json(); })
-    .then(function(data) {
-      if (data.status === 'success') {
-        window.nebEmailLoginSuccess(data);
-      } else {
-        errorEl.textContent = data.error || 'Reset failed';
-      }
-    })
-    .catch(function() { errorEl.textContent = 'Network error'; });
-};
-
-window.handleForgotResend = function() {
-  var email = document.getElementById('forgot-email').value.trim();
-  var btn = document.getElementById('forgot-resend-btn');
-  btn.disabled = true;
-  btn.textContent = 'Sending...';
-  fetch('/api/auth/email/forgot/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email }) })
-    .then(function(res) { return res.json(); })
-    .then(function(data) {
-      if (data.status === 'success' || !data.error) {
-        window.startForgotResendCooldown();
-      } else {
-        btn.textContent = 'Resend';
-        btn.disabled = false;
-      }
-    })
-    .catch(function() { btn.textContent = 'Resend'; btn.disabled = false; });
-};
-
-window.nebEmailLoginSuccess = function(data) {
-  if (data.authToken && data.user) {
-    var redirectUrl = (data.profileIncomplete || data.isNewUser) ? '{% url "web:edit_profile" %}' : '{% url "web:home" %}';
-    fetch('{% url "web:google_auth" %}', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
-      body: JSON.stringify({ emailAuthToken: data.authToken, emailUser: data })
-    }).then(function(res) { return res.json(); }).then(function(sessionData) {
-      if (sessionData.profileIncomplete || sessionData.isNewUser) {
-        window.location.href = '{% url "web:edit_profile" %}';
-      } else {
-        window.location.href = '{% url "web:home" %}';
-      }
-    }).catch(function() {
-      window.location.href = redirectUrl;
-    });
-  } else {
-    window.location.href = '{% url "web:home" %}';
-  }
 };
 </script>
 {% endblock %}

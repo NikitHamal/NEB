@@ -26,6 +26,7 @@
   <link rel="stylesheet" href="{% static 'web/css/material3.css' %}">
   <link rel="stylesheet" href="{% static 'web/css/app.css' %}">
   {% block extra_css %}{% endblock %}
+  <script nonce="{{ csp_nonce }}" src="{% static 'web/js/delegated-events.js' %}"></script>
 </head>
 <body>
   <!-- Top Navigation Bar -->
@@ -48,14 +49,14 @@
         <a href="{% url 'web:search' %}" class="md-search-bar-mobile-link" aria-label="Search">
           <span class="material-symbols-outlined md-search-bar-icon">search</span>
         </a>
-        <input type="search" placeholder="Search resources, posts..." id="topbarSearchInput" aria-label="Search" onkeydown="if(event.key==='Enter'){window.location.href='{% url 'web:search' %}?q='+encodeURIComponent(this.value);}">
+        <input type="search" placeholder="Search resources, posts..." id="topbarSearchInput" aria-label="Search" data-keydown-action="topbar-search">
       </div>
-      <button class="md-btn-icon" onclick="toggleTheme()" title="Toggle dark mode" aria-label="Toggle dark mode">
+      <button class="md-btn-icon" data-action="toggle-theme" title="Toggle dark mode" aria-label="Toggle dark mode">
         <span class="material-symbols-outlined" id="theme-icon">dark_mode</span>
       </button>
       {% if is_authenticated %}
         <div class="profile-dropdown-container" id="profileDropdown">
-          <button class="profile-dropdown-trigger" onclick="toggleProfileDropdown(event)" aria-label="Open user menu">
+          <button class="profile-dropdown-trigger" data-action="toggle-profile-dropdown" aria-label="Open user menu">
             <span class="avatar-ring">
               {% if user.avatar_url %}
                 <img src="{{ user.avatar_url }}" alt="Profile">
@@ -132,35 +133,48 @@
   <!-- Snackbar container -->
   <div id="snackbar-container"></div>
 
-  <script>
+  <script nonce="{{ csp_nonce }}">
     const IS_AUTHENTICATED = {{ is_authenticated|yesno:"true,false" }};
     const USER_DATA = {{ user|to_json }};
     const CSRF_TOKEN = '{{ csrf_token }}';
 
-    function toggleTheme() {
-      const html = document.documentElement;
-      const isDark = html.getAttribute('data-theme') === 'dark';
-      html.setAttribute('data-theme', isDark ? '' : 'dark');
-      
-      const themeIcon = document.getElementById('theme-icon');
-      themeIcon.textContent = isDark ? 'dark_mode' : 'light_mode';
-      
-      localStorage.setItem('theme', isDark ? 'light' : 'dark');
-      fetch('/ajax/theme/', {method: 'POST', headers: {'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN}});
-    }
+    registerActions({
+      'toggle-theme': function() {
+        const html = document.documentElement;
+        const isDark = html.getAttribute('data-theme') === 'dark';
+        html.setAttribute('data-theme', isDark ? '' : 'dark');
+        const themeIcon = document.getElementById('theme-icon');
+        themeIcon.textContent = isDark ? 'dark_mode' : 'light_mode';
+        localStorage.setItem('theme', isDark ? 'light' : 'dark');
+        fetch('/ajax/theme/', {method: 'POST', headers: {'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN}});
+      },
+      'toggle-profile-dropdown': function(el, e) {
+        e.stopPropagation();
+        const dropdown = document.getElementById('profileDropdown');
+        const menu = document.getElementById('profileMenu');
+        if (dropdown && menu) {
+          dropdown.classList.toggle('active');
+          menu.classList.toggle('show');
+        }
+      },
+      'topbar-search': function(el, e) {
+        if (e.key === 'Enter') {
+          window.location.href = '{% url "web:search" %}?q=' + encodeURIComponent(el.value);
+        }
+      },
+      'reload-page': function() { location.reload(); },
+      'go-back': function() { history.back(); }
+    });
 
-    function toggleProfileDropdown(event) {
-      event.stopPropagation();
-      const dropdown = document.getElementById('profileDropdown');
-      const menu = document.getElementById('profileMenu');
-      if (dropdown && menu) {
-        dropdown.classList.toggle('active');
-        menu.classList.toggle('show');
+    document.addEventListener('error', function(e) {
+      var el = e.target;
+      if (el.tagName === 'IMG' && el.dataset.fallback) {
+        el.style.display = 'none';
+        if (el.nextElementSibling) el.nextElementSibling.style.display = el.dataset.fallback;
       }
-    }
+    }, true);
 
-    // Close profile dropdown when clicking outside
-    window.addEventListener('click', function(e) {
+    document.addEventListener('click', function(e) {
       const dropdown = document.getElementById('profileDropdown');
       const menu = document.getElementById('profileMenu');
       if (dropdown && menu && !dropdown.contains(e.target)) {
@@ -222,7 +236,7 @@
       const container = document.getElementById(containerId);
       if (!container) return;
       if (error) {
-        container.innerHTML = '<div class="error-state"><span class="material-symbols-outlined">error_outline</span><h3>Something went wrong</h3><p></p><button class="md-btn md-btn-filled" onclick="location.reload()">Retry</button></div>';
+        container.innerHTML = '<div class="error-state"><span class="material-symbols-outlined">error_outline</span><h3>Something went wrong</h3><p></p><button class="md-btn md-btn-filled" data-action="reload-page">Retry</button></div>';
         const errorText = container.querySelector('.error-state p');
         if (errorText) errorText.textContent = error;
       } else {
