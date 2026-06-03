@@ -88,7 +88,7 @@
         <a href="{% url 'web:search' %}" class="md-search-bar-mobile-link" aria-label="Search">
           <span class="material-symbols-outlined md-search-bar-icon">search</span>
         </a>
-        <input type="search" placeholder="Search resources, posts..." id="topbarSearchInput" aria-label="Search"
+        <input type="search" placeholder="Search resources..." id="topbarSearchInput" aria-label="Search"
           data-keydown-action="topbar-search">
       </div>
       <button class="md-btn-icon" data-action="toggle-theme" title="Toggle dark mode" aria-label="Toggle dark mode">
@@ -146,7 +146,8 @@
         </div>
       </div>
       {% else %}
-      <a href="{% url 'web:login' %}" class="md-btn md-btn-filled" aria-label="Sign in">Sign In</a>
+      <a href="{% url 'web:login' %}" class="md-btn auth-btn-signin" aria-label="Sign in">Sign In</a>
+      <a href="{% url 'web:email_signup' %}" class="md-btn auth-btn-register" aria-label="Register">Register</a>
       {% endif %}
     </div>
   </header>
