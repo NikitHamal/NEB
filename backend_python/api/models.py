@@ -90,6 +90,23 @@ class User(models.Model):
         return not self.is_locked
 
 
+class UserAuthToken(models.Model):
+    """Hashed bearer tokens for concurrent web/mobile sessions."""
+    id = models.CharField(max_length=36, primary_key=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='auth_tokens')
+    token_hash = models.CharField(max_length=64, unique=True)
+    created_at = models.BigIntegerField(default=0)
+    last_used_at = models.BigIntegerField(default=0)
+    revoked_at = models.BigIntegerField(default=0)
+
+    class Meta:
+        db_table = 'user_auth_tokens'
+        indexes = [
+            models.Index(fields=['user_id', 'revoked_at']),
+            models.Index(fields=['token_hash', 'revoked_at']),
+        ]
+
+
 class Resource(models.Model):
     """Study resources — ebooks, PDFs, notes, videos, audio, images, etc."""
     SOURCE_TYPES = [

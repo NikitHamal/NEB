@@ -21,3 +21,23 @@ class AuthRateThrottle(_IdentityThrottle):
 
 class VerificationRateThrottle(_IdentityThrottle):
     scope = 'verification'
+
+
+class WriteActionRateThrottle(_IdentityThrottle):
+    scope = 'write_action'
+
+
+class ReportRateThrottle(_IdentityThrottle):
+    scope = 'report'
+
+
+class SearchRateThrottle(_IdentityThrottle):
+    scope = 'search'
+
+
+class UploadRateThrottle(_IdentityThrottle):
+    scope = 'upload'
+
+
+class ViewIncrementRateThrottle(_IdentityThrottle):
+    scope = 'view_increment'

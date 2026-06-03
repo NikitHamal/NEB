@@ -4,16 +4,20 @@ Centralizes authentication-adjacent helpers so API and web views follow the
 same validation and production safety rules.
 """
 import hmac
+import hashlib
 import ipaddress
 import os
 import re
 import secrets
 import socket
+import time
+import uuid
 from io import BytesIO
 from urllib.parse import urlparse
 
 from django.conf import settings
 from django.contrib.auth.hashers import check_password, make_password
+from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
@@ -28,8 +32,11 @@ PROFILE_PHOTO_ALLOWED_EXTENSIONS = {'.jpg', '.jpeg', '.png', '.webp'}
 PROFILE_PHOTO_ALLOWED_FORMATS = {'JPEG', 'PNG', 'WEBP'}
 PROFILE_PHOTO_CONTENT_TYPES = {'image/jpeg', 'image/png', 'image/webp'}
 EXTERNAL_URL_MAX_LENGTH = 2048
-ADMIN_API_SALT = 'nebians.admin-api.v1'
+ADMIN_API_SALT = getattr(settings, 'ADMIN_API_SALT', None) or os.environ.get('ADMIN_API_SALT')
 LEGACY_SHA256_RE = re.compile(r'^[a-f0-9]{64}$')
+
+if not ADMIN_API_SALT:
+    raise RuntimeError('ADMIN_API_SALT must be configured in environment or settings.')
 
 
 def hash_password(raw_password: str) -> str:
@@ -58,6 +65,94 @@ def generate_numeric_code(length: int = 6) -> str:
         raise ValueError('verification code length must be at least 6')
     upper = 10 ** length
     return f"{secrets.randbelow(upper):0{length}d}"
+
+
+def hash_auth_token(raw_token: str) -> str:
+    """Return a deterministic database-safe hash for a bearer auth token."""
+    if not raw_token:
+        return ''
+    return hashlib.sha256(raw_token.encode('utf-8')).hexdigest()
+
+
+def issue_auth_token(user, *, save: bool = True) -> str:
+    """Create a new bearer token, store only its SHA-256 hash, and return the raw token once.
+
+    Always creates a UserAuthToken row for the new session. When save=True,
+    also persists the user.auth_token field immediately. When save=False, the
+    caller is responsible for saving user.auth_token later (e.g. as part of a
+    larger update_fields batch).
+    """
+    raw_token = user.generate_token()
+    token_hash = hash_auth_token(raw_token)
+    now = int(time.time() * 1000)
+    from .models import UserAuthToken
+    UserAuthToken.objects.create(
+        id=str(uuid.uuid4()),
+        user=user,
+        token_hash=token_hash,
+        created_at=now,
+        last_used_at=now,
+        revoked_at=0,
+    )
+    user.auth_token = token_hash
+    if save:
+        user.save(update_fields=['auth_token'])
+    return raw_token
+
+
+def get_user_by_auth_token(raw_token: str, *, migrate_legacy: bool = True):
+    """Resolve a bearer token against hashed storage, accepting legacy plain tokens during rollout."""
+    if not raw_token:
+        raise ValueError('auth token is required')
+
+    from .models import User, UserAuthToken
+
+    token_hash = hash_auth_token(raw_token)
+    try:
+        token_row = UserAuthToken.objects.select_related('user').get(token_hash=token_hash, revoked_at=0)
+        return token_row.user
+    except UserAuthToken.DoesNotExist:
+        pass
+
+    try:
+        return User.objects.get(auth_token=token_hash)
+    except User.DoesNotExist:
+        pass
+
+    # Backward compatibility for rows created before auth_token hashing. Once a
+    # legacy token is used successfully, replace it with its hash and add it to
+    # the per-session token table.
+    user = User.objects.get(auth_token=raw_token)
+    if migrate_legacy:
+        now = int(time.time() * 1000)
+        user.auth_token = token_hash
+        user.save(update_fields=['auth_token'])
+        UserAuthToken.objects.get_or_create(
+            token_hash=token_hash,
+            defaults={
+                'id': str(uuid.uuid4()),
+                'user': user,
+                'created_at': now,
+                'last_used_at': now,
+                'revoked_at': 0,
+            },
+        )
+    return user
+
+
+def revoke_auth_token(raw_token: str) -> None:
+    """Revoke one bearer token and clear auth caches for immediate logout."""
+    if not raw_token:
+        return
+    from .models import UserAuthToken
+    token_hash = hash_auth_token(raw_token)
+    now = int(time.time() * 1000)
+    UserAuthToken.objects.filter(token_hash=token_hash, revoked_at=0).update(revoked_at=now)
+    cache.delete_many([
+        f'auth_user:{token_hash}',
+        f'valid_token:{token_hash}',
+        f'user_id_{token_hash}',
+    ])
 
 
 def hash_verification_code(code: str) -> str:

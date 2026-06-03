@@ -56,6 +56,7 @@ urlpatterns = [
     path('ajax/delete/reply/<str:reply_id>/', views.ajax_delete_reply, name='ajax_delete_reply'),
     path('ajax/bookmark/toggle/', views.ajax_bookmark_toggle, name='ajax_bookmark_toggle'),
     path('ajax/bookmark/check/', views.ajax_bookmark_check, name='ajax_bookmark_check'),
+    path('ajax/report/', views.ajax_report, name='ajax_report'),
     path('ajax/edit-history/<str:target_type>/<str:target_id>/', views.ajax_edit_history, name='ajax_edit_history'),
     path('ajax/reply-thread/<str:reply_id>/', views.ajax_reply_thread, name='ajax_reply_thread'),
     path('ajax/user-popup/<str:username>/', views.ajax_user_popup, name='ajax_user_popup'),

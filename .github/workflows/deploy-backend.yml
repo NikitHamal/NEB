@@ -39,9 +39,6 @@ jobs:
           script: |
             cd /home/consicac/nebians_api
             
-            echo "Cleaning migrations directory to prevent stray file conflicts..."
-            rm -rf api/migrations/*
-            
             echo "Extracting deployment archive..."
             unzip -o deploy.zip
             rm -f deploy.zip

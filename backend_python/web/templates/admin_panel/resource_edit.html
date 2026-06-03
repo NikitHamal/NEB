@@ -245,7 +245,7 @@
   </form>
 
   {% if resource.subject or resource.tags %}
-  <script>
+  <script nonce="{{ csp_nonce }}">
   var INITIAL_SUBJECTS = '{{ resource.subject|default:"" }}';
   var INITIAL_TAGS = '{{ resource.tags|default:"" }}';
   </script>
@@ -424,7 +424,7 @@
 {% endblock %}
 
 {% block extra_js %}
-<script>
+<script nonce="{{ csp_nonce }}">
 (function() {
   var EXAM_TYPES = ['Past Paper', 'Model Paper', 'Guide', 'Solution', 'Note', 'PDF'];
 
@@ -531,11 +531,14 @@
       });
     }
 
-    pickList.addEventListener('click', function(e) {
-      var item = e.target.closest('.subject-pick-item');
-      if (!item) return;
-      item.classList.toggle('selected');
-      item.querySelector('.subject-pick-checkbox').checked = item.classList.contains('selected');
+    pickList.addEventListener('change', function(e) {
+      var checkbox = e.target;
+      if (checkbox && checkbox.classList.contains('subject-pick-checkbox')) {
+        var item = checkbox.closest('.subject-pick-item');
+        if (item) {
+          item.classList.toggle('selected', checkbox.checked);
+        }
+      }
     });
 
     addBtn.addEventListener('click', function() {

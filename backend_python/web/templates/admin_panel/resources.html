@@ -10,7 +10,7 @@
       <span class="material-symbols-outlined" style="font-size:18px">pending_actions</span>
       Pending Review
     </a>
-    <a href="#" onclick="document.getElementById('add-resource-form').style.display=document.getElementById('add-resource-form').style.display==='none'?'block':'none';return false;" class="md-btn md-btn-filled">
+    <a href="#" data-action="toggle-add-resource-form" class="md-btn md-btn-filled">
       <span class="material-symbols-outlined" style="font-size:18px">add</span>
       Add Resource
     </a>
@@ -133,7 +133,7 @@
     </div>
     <div class="form-actions">
       <button type="submit" class="md-btn md-btn-filled">Create Resource</button>
-      <button type="button" class="md-btn md-btn-text" onclick="document.getElementById('add-resource-form').style.display='none'">Cancel</button>
+      <button type="button" class="md-btn md-btn-text" data-action="hide-add-resource-form">Cancel</button>
     </div>
   </form>
 </div>
@@ -173,7 +173,7 @@
         <td>
           <div style="display:flex;gap:4px;">
             <a href="{% url 'web:admin_resource_edit' resource_id=r.id %}" class="md-btn md-btn-text" style="padding:4px 8px;font-size:0.75rem;">Edit</a>
-            <form method="post" action="{% url 'web:admin_resource_delete' resource_id=r.id %}" onsubmit="return confirm('Delete this resource?');" style="display:inline;">
+            <form method="post" action="{% url 'web:admin_resource_delete' resource_id=r.id %}" data-action="confirm-delete" data-confirm-msg="Delete this resource?" style="display:inline;">
               {% csrf_token %}
               <button type="submit" class="md-btn md-btn-text" style="padding:4px 8px;font-size:0.75rem;color:var(--md-error);">Delete</button>
             </form>
@@ -200,11 +200,30 @@
   {% else %}
     <p>No study resources have been added to the library yet. Start by creating a resource right now.</p>
     <div class="admin-empty-actions">
-      <button class="md-btn md-btn-filled" onclick="document.getElementById('add-resource-form').style.display='block'; document.getElementById('title').focus(); return false;">
+      <button class="md-btn md-btn-filled" data-action="show-add-resource-form">
         <span class="material-symbols-outlined">add</span> Add Resource
       </button>
     </div>
   {% endif %}
 </div>
 {% endif %}
+{% endblock %}
+
+{% block extra_js %}
+<script nonce="{{ csp_nonce }}">
+registerActions({
+  'toggle-add-resource-form': function(el, e) {
+    e.preventDefault();
+    var form = document.getElementById('add-resource-form');
+    form.style.display = form.style.display === 'none' ? 'block' : 'none';
+  },
+  'hide-add-resource-form': function(el, e) {
+    document.getElementById('add-resource-form').style.display = 'none';
+  },
+  'show-add-resource-form': function(el, e) {
+    document.getElementById('add-resource-form').style.display = 'block';
+    document.getElementById('title').focus();
+  }
+});
+</script>
 {% endblock %}

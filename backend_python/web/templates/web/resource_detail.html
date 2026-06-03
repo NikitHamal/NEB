@@ -175,7 +175,7 @@
         </span>
         <span class="rd-meta-item">
           {% if resource.uploadedByPhoto %}
-          <span class="rd-uploader-avatar"><img src="{{ resource.uploadedByPhoto }}" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><span class="rd-uploader-avatar-letter" style="display:none">{{ resource.uploadedByName|truncate_chars:1 }}</span></span>
+          <span class="rd-uploader-avatar"><img src="{{ resource.uploadedByPhoto }}" alt="" data-fallback="flex"><span class="rd-uploader-avatar-letter" style="display:none">{{ resource.uploadedByName|truncate_chars:1 }}</span></span>
           {% else %}
           <span class="rd-uploader-avatar"><span class="rd-uploader-avatar-letter">{{ resource.uploadedByName|truncate_chars:1 }}</span></span>
           {% endif %}
@@ -259,12 +259,12 @@
       </a>
       {% endif %}
       <span class="rd-action-spacer"></span>
-      <button onclick="toggleResourceLike('{{ resource.id }}')" class="rd-action-btn rd-btn-like {% if is_liked %}liked{% endif %}" id="resource-like-btn">
+      <button data-action="toggle-resource-like" data-resource-id="{{ resource.id }}" class="rd-action-btn rd-btn-like {% if is_liked %}liked{% endif %}" id="resource-like-btn">
         <span class="material-symbols-outlined"{% if is_liked %} style="font-variation-settings:'FILL' 1"{% endif %}>thumb_up</span>
         <span id="resource-like-count">{{ resource.like_count }}</span>
       </button>
       {% if is_authenticated %}
-      <button class="rd-action-btn rd-btn-bookmark {% if is_bookmarked %}bookmarked{% endif %}" onclick="toggleBookmark('resource', '{{ resource.id }}', this)" id="resource-bookmark-btn">
+      <button class="rd-action-btn rd-btn-bookmark {% if is_bookmarked %}bookmarked{% endif %}" data-action="toggle-bookmark" data-target-type="resource" data-target-id="{{ resource.id }}" id="resource-bookmark-btn">
         <span class="material-symbols-outlined"{% if is_bookmarked %} style="font-variation-settings:'FILL' 1"{% endif %}>bookmark</span>
       </button>
       {% endif %}
@@ -274,7 +274,7 @@
         Edit
       </a>
       {% endif %}
-      <button class="rd-action-btn rd-btn-share" onclick="shareResource()">
+      <button class="rd-action-btn rd-btn-share" data-action="share-resource">
         <span class="material-symbols-outlined">share</span>
       </button>
     </div>
@@ -313,7 +313,7 @@
     <div class="rd-compose-header">Add a comment</div>
     <textarea id="comment-input" placeholder="Share your thoughts about this resource..." rows="3"></textarea>
     <div class="rd-compose-actions">
-      <button class="md-btn md-btn-filled" onclick="submitComment()" id="comment-submit-btn" style="min-height:36px;">Post Comment</button>
+      <button class="md-btn md-btn-filled" data-action="submit-comment" id="comment-submit-btn" style="min-height:36px;">Post Comment</button>
     </div>
   </div>
   {% else %}
@@ -331,7 +331,7 @@
         <div class="rd-comment-header">
           <div class="rd-comment-avatar">
             {% if c.authorPhoto %}
-              <img src="{{ c.authorPhoto }}" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+              <img src="{{ c.authorPhoto }}" alt="" data-fallback="flex">
               <span class="rd-comment-avatar-letter" style="display:none;">{{ c.authorName|truncate_chars:1|default:"?" }}</span>
             {% else %}
               <span class="rd-comment-avatar-letter">{{ c.authorName|truncate_chars:1|default:"?" }}</span>
@@ -347,18 +347,18 @@
         </div>
         <div class="rd-comment-body">{{ c.content|mention_links }}</div>
         <div class="rd-comment-actions">
-          <button onclick="toggleCommentLike('{{ c.id }}')" class="rd-comment-action {% if c.isLiked %}liked{% endif %}" id="comment-like-btn-{{ c.id }}">
+          <button data-action="toggle-comment-like" data-comment-id="{{ c.id }}" class="rd-comment-action {% if c.isLiked %}liked{% endif %}" id="comment-like-btn-{{ c.id }}">
             <span class="material-symbols-outlined">thumb_up</span>
             <span id="comment-like-count-{{ c.id }}">{{ c.likeCount }}</span>
           </button>
           {% if is_authenticated %}
-          <button class="rd-comment-action" onclick="showReplyBox('{{ c.id }}', '{{ c.authorName|escapejs }}')">
+          <button class="rd-comment-action" data-action="show-reply-box" data-comment-id="{{ c.id }}" data-author-name="{{ c.authorName|escapejs }}">
             <span class="material-symbols-outlined">reply</span> Reply
           </button>
           {% endif %}
           {% if c.isOwner or is_authenticated and user.is_admin %}
           <span class="rd-comment-action-spacer"></span>
-          <button class="rd-comment-action rd-comment-delete" onclick="deleteComment('{{ c.id }}')">
+          <button class="rd-comment-action rd-comment-delete" data-action="delete-comment" data-comment-id="{{ c.id }}">
             <span class="material-symbols-outlined">delete</span>
           </button>
           {% endif %}
@@ -367,9 +367,9 @@
         <!-- Inline reply box (hidden by default) -->
         <div id="reply-box-{{ c.id }}" style="display:none;margin-top:10px;">
           <div style="display:flex;gap:8px;align-items:flex-start;">
-            <textarea id="reply-input-{{ c.id }}" placeholder="Reply to {{ c.authorName }}..." style="flex:1;padding:10px;border:1px solid var(--md-outline-variant);border-radius:8px;font-family:inherit;font-size:.8125rem;background:var(--md-surface-container-high);color:var(--md-on-surface);outline:none;resize:none;min-height:48px;max-height:120px;transition:border-color .15s;" onfocus="this.style.borderColor='var(--md-primary)'" onblur="this.style.borderColor='var(--md-outline-variant)'"></textarea>
-            <button class="md-btn md-btn-filled" onclick="submitReply('{{ c.id }}')" style="min-height:36px;font-size:.75rem;padding:6px 12px;">Reply</button>
-            <button class="md-btn md-btn-text" onclick="hideReplyBox('{{ c.id }}')" style="min-height:36px;font-size:.75rem;padding:6px 12px;">Cancel</button>
+            <textarea id="reply-input-{{ c.id }}" placeholder="Reply to {{ c.authorName }}..." style="flex:1;padding:10px;border:1px solid var(--md-outline-variant);border-radius:8px;font-family:inherit;font-size:.8125rem;background:var(--md-surface-container-high);color:var(--md-on-surface);outline:none;resize:none;min-height:48px;max-height:120px;transition:border-color .15s;" data-focus-action="focus-border" data-blur-action="blur-border"></textarea>
+            <button class="md-btn md-btn-filled" data-action="submit-reply" data-comment-id="{{ c.id }}" style="min-height:36px;font-size:.75rem;padding:6px 12px;">Reply</button>
+            <button class="md-btn md-btn-text" data-action="hide-reply-box" data-comment-id="{{ c.id }}" style="min-height:36px;font-size:.75rem;padding:6px 12px;">Cancel</button>
           </div>
         </div>
 
@@ -382,7 +382,7 @@
             <div class="rd-comment-header">
               <div class="rd-comment-avatar" style="width:28px;height:28px;">
                 {% if child.authorPhoto %}
-                  <img src="{{ child.authorPhoto }}" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                  <img src="{{ child.authorPhoto }}" alt="" data-fallback="flex">
                   <span class="rd-comment-avatar-letter" style="display:none;font-size:.6rem;">{{ child.authorName|truncate_chars:1|default:"?" }}</span>
                 {% else %}
                   <span class="rd-comment-avatar-letter" style="font-size:.6rem;">{{ child.authorName|truncate_chars:1|default:"?" }}</span>
@@ -401,13 +401,13 @@
             </div>
             <div class="rd-comment-body" style="font-size:.8125rem;">{{ child.content|mention_links }}</div>
             <div class="rd-comment-actions">
-              <button onclick="toggleCommentLike('{{ child.id }}')" class="rd-comment-action {% if child.isLiked %}liked{% endif %}" id="comment-like-btn-{{ child.id }}">
+              <button data-action="toggle-comment-like" data-comment-id="{{ child.id }}" class="rd-comment-action {% if child.isLiked %}liked{% endif %}" id="comment-like-btn-{{ child.id }}">
                 <span class="material-symbols-outlined">thumb_up</span>
                 <span id="comment-like-count-{{ child.id }}">{{ child.likeCount }}</span>
               </button>
               {% if child.isOwner or is_authenticated and user.is_admin %}
               <span class="rd-comment-action-spacer"></span>
-              <button class="rd-comment-action rd-comment-delete" onclick="deleteComment('{{ child.id }}')">
+              <button class="rd-comment-action rd-comment-delete" data-action="delete-comment" data-comment-id="{{ child.id }}">
                 <span class="material-symbols-outlined">delete</span>
               </button>
               {% endif %}
@@ -435,11 +435,19 @@
       {% for r in related_resources %}
       <a href="{% url 'web:reader' resource_id=r.id %}" class="resource-card subject-{{ r.subject|split:','|first|subject_slug }}">
         <div class="resource-card-art">
-          <svg viewBox="0 0 300 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="300" height="120" fill="var(--art-c1)"/>
-            <path d="M0,120 L0,70 Q40,20 100,55 Q160,90 220,45 Q270,10 300,50 L300,120Z" fill="var(--art-c2)" opacity="0.5"/>
-            <path d="M0,120 L0,85 Q60,40 130,70 Q200,100 260,60 L300,75 L300,120Z" fill="var(--art-c3)" opacity="0.35"/>
-          </svg>
+          {% if r.thumbnail_url %}
+<div class="resource-card-art">
+            <img src="{{ r.thumbnail_url }}" alt="{{ r.title }}" class="resource-card-art-img" loading="lazy">
+<div class="resource-card-art">
+          {% else %}
+<div class="resource-card-art">
+            <svg viewBox="0 0 300 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="300" height="120" fill="var(--art-c1)"/>
+              <path d="M0,120 L0,70 Q40,20 100,55 Q160,90 220,45 Q270,10 300,50 L300,120Z" fill="var(--art-c2)" opacity="0.5"/>
+              <path d="M0,120 L0,85 Q60,40 130,70 Q200,100 260,60 L300,75 L300,120Z" fill="var(--art-c3)" opacity="0.35"/>
+            </svg>
+<div class="resource-card-art">
+          {% endif %}
           <span class="resource-card-type-pill">{{ r.type }}</span>
           <span class="resource-card-art-icon material-symbols-outlined">{{ r.subject|split:','|first|subject_icon }}</span>
         </div>
@@ -472,7 +480,7 @@
 {% endblock %}
 
 {% block extra_js %}
-<script>
+<script nonce="{{ csp_nonce }}">
 var RESOURCE_ID = '{{ resource.id|default:"" }}';
 var IS_AUTH = {{ is_authenticated|yesno:"true,false" }};
 
@@ -541,7 +549,6 @@ function submitComment() {
     if (data.error) { showSnackbar(data.error); return; }
     input.value = '';
     showSnackbar('Comment posted!');
-    // Reload page to show new comment in correct position
     window.location.reload();
   }).catch(function() { showSnackbar('Something went wrong'); })
   .finally(function() { btn.disabled = false; btn.textContent = 'Post Comment'; });
@@ -588,7 +595,6 @@ function deleteComment(commentId) {
     var card = document.getElementById('comment-' + commentId);
     if (card) card.remove();
     showSnackbar('Comment deleted');
-    // Update count in title
     var titleEl = document.querySelector('.rd-section-title .count');
     if (titleEl) {
       var current = parseInt(titleEl.textContent.replace(/[()]/g, '')) || 0;
@@ -604,7 +610,7 @@ function toggleBookmark(type, targetId, btn) {
     method: 'POST',
     headers: {'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN},
     credentials: 'same-origin',
-    body: JSON.stringify({targetType: type, targetId: targetId})
+    body: JSON.stringify({target_type: type, target_id: targetId})
   }).then(function(r) { return r.json(); }).then(function(data) {
     if (data.error) { showSnackbar(data.error); return; }
     var icon = btn.querySelector('.material-symbols-outlined');
@@ -633,5 +639,27 @@ function shareResource() {
     showSnackbar('Share not supported');
   }
 }
+
+registerActions({
+  'toggle-resource-like': function(btn) { toggleResourceLike(btn.dataset.resourceId); },
+  'toggle-bookmark': function(btn) { toggleBookmark(btn.dataset.targetType, btn.dataset.targetId, btn); },
+  'share-resource': function() { shareResource(); },
+  'submit-comment': function() { submitComment(); },
+  'toggle-comment-like': function(btn) { toggleCommentLike(btn.dataset.commentId); },
+  'show-reply-box': function(btn) { showReplyBox(btn.dataset.commentId, btn.dataset.authorName); },
+  'delete-comment': function(btn) { deleteComment(btn.dataset.commentId); },
+  'submit-reply': function(btn) { submitReply(btn.dataset.commentId); },
+  'hide-reply-box': function(btn) { hideReplyBox(btn.dataset.commentId); },
+  'focus-border': function(el) { el.style.borderColor = 'var(--md-primary)'; },
+  'blur-border': function(el) { el.style.borderColor = 'var(--md-outline-variant)'; }
+});
+
+document.querySelectorAll('[data-fallback]').forEach(function(img) {
+  img.addEventListener('error', function() {
+    this.style.display = 'none';
+    var next = this.nextElementSibling;
+    if (next) next.style.display = this.dataset.fallback;
+  });
+});
 </script>
 {% endblock %}

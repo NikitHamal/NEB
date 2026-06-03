@@ -13,11 +13,16 @@ from django.db.models import Q, Count, F
 from django.shortcuts import render, redirect
 from django.views.decorators.http import require_GET, require_POST
 from django.http import JsonResponse, Http404, HttpResponse
+from django.utils.html import escape
 
-from api.models import User, Resource, ResourceRequest, ResourceRequestUpvote, Post, PostLike, Reply, ReplyLike, Follow, UserPhoto, EditHistory, Bookmark, Notification
+from api.models import User, Resource, ResourceRequest, ResourceRequestUpvote, Post, PostLike, Reply, ReplyLike, Follow, UserPhoto, EditHistory, Bookmark, Notification, Report
 from api.models import ResourceLike, ResourceComment, ResourceCommentLike
 from api.serializers import UserSerializer
-from api.security import save_profile_image_upload, validate_profile_photo_url, validate_resource_file_url, validate_and_save_resource_file
+from api.security import (
+    get_user_by_auth_token, hash_auth_token, issue_auth_token, revoke_auth_token,
+    save_profile_image_upload, validate_profile_photo_url,
+    validate_resource_file_url, validate_and_save_resource_file,
+)
 from api.authentication import verify_google_token
 from api import services
 from api import counters as _counters
@@ -321,7 +326,7 @@ def _get_user_id(request):
     token = _get_valid_token(request)
     if not token:
         return None
-    cache_key = f'user_id_{token}'
+    cache_key = f'user_id_{hash_auth_token(token)}'
     user_id = cache.get(cache_key)
     if user_id is not None:
         return user_id
@@ -336,13 +341,13 @@ def _get_valid_token(request):
             token = auth_header[7:].strip()
     if not token:
         return None
-    cache_key = f'valid_token:{token}'
+    cache_key = f'valid_token:{hash_auth_token(token)}'
     if cache.get(cache_key):
         return token
     try:
-        user = User.objects.get(auth_token=token)
+        user = get_user_by_auth_token(token)
         cache.set(cache_key, True, 300)
-        cache.set(f'user_id_{token}', user.id, 300)
+        cache.set(f'user_id_{hash_auth_token(token)}', user.id, 300)
         return token
     except User.DoesNotExist:
         api.clear_session_auth(request)
@@ -367,6 +372,7 @@ def _ctx(request, **extra):
         'user': user,
         'dark_mode': dark_mode,
         'unread_notifications': unread_notifications,
+        'csp_nonce': getattr(request, 'csp_nonce', ''),
     }
     ctx.update(extra)
     return ctx
@@ -628,27 +634,23 @@ def get_user_level_title(score):
         return "Level 1 Novice"
 
 def _build_local_stats(user):
-    post_count = getattr(user, 'post_count', 0) or 0
-    reply_count = getattr(user, 'reply_count', 0) or 0
-    follower_count = getattr(user, 'follower_count', 0) or 0
-    following_count = getattr(user, 'following_count', 0) or 0
-    likes_given = getattr(user, 'likes_given_count', 0) or 0
-    likes_received = getattr(user, 'likes_received_count', 0) or 0
-    contribution_score = getattr(user, 'contribution_score', 0) or 0
-    needs_fallback = (
-        post_count == 0 or reply_count == 0 or follower_count == 0 or
-        following_count == 0 or likes_given == 0 or likes_received == 0 or
-        contribution_score == 0
-    )
+    post_count = getattr(user, 'post_count', None)
+    reply_count = getattr(user, 'reply_count', None)
+    follower_count = getattr(user, 'follower_count', None)
+    following_count = getattr(user, 'following_count', None)
+    likes_given = getattr(user, 'likes_given_count', None)
+    likes_received = getattr(user, 'likes_received_count', None)
+    contribution_score = getattr(user, 'contribution_score', None)
+    needs_fallback = any(v is None for v in [post_count, reply_count, follower_count, following_count, likes_given, likes_received, contribution_score])
     if needs_fallback:
         fallback = _build_local_stats_fallback(user.id)
-        post_count = post_count or fallback.get('post_count', 0)
-        reply_count = reply_count or fallback.get('reply_count', 0)
-        follower_count = follower_count or fallback.get('follower_count', 0)
-        following_count = following_count or fallback.get('following_count', 0)
-        likes_given = likes_given or fallback.get('likes_given', 0)
-        likes_received = likes_received or fallback.get('likes_received', 0)
-        contribution_score = contribution_score or fallback.get('contribution_score', 0)
+        post_count = post_count if post_count is not None else fallback.get('post_count', 0)
+        reply_count = reply_count if reply_count is not None else fallback.get('reply_count', 0)
+        follower_count = follower_count if follower_count is not None else fallback.get('follower_count', 0)
+        following_count = following_count if following_count is not None else fallback.get('following_count', 0)
+        likes_given = likes_given if likes_given is not None else fallback.get('likes_given', 0)
+        likes_received = likes_received if likes_received is not None else fallback.get('likes_received', 0)
+        contribution_score = contribution_score if contribution_score is not None else fallback.get('contribution_score', 0)
     return {
         'post_count': post_count,
         'reply_count': reply_count,
@@ -690,32 +692,16 @@ def _build_local_stats_fallback(user_id):
 
 
 def _build_contributors_batch():
-    from django.db.models import Sum, ExpressionWrapper, IntegerField, Subquery, OuterRef
-    users = User.objects.all().annotate(
-        _pc=Count('posts', distinct=True),
-        _rc=Count('replies', distinct=True),
-        _fc=Count('followers_set', distinct=True),
-        _fwc=Count('following_set', distinct=True),
-        _lg=Count('post_likes', distinct=True) + Count('reply_likes', distinct=True),
-        _lr=Subquery(
-            PostLike.objects.filter(post__user_id=OuterRef('pk')).values('post__user_id').annotate(
-                cnt=Count('pk')
-            ).values('cnt')[:1], output_field=IntegerField()
-        ) + Subquery(
-            ReplyLike.objects.filter(reply__user_id=OuterRef('pk')).values('reply__user_id').annotate(
-                cnt=Count('pk')
-            ).values('cnt')[:1], output_field=IntegerField()
-        ),
-    )
+    users = User.objects.all()
     contributors = []
     for u in users:
-        pc = u.post_count if hasattr(u, 'post_count') and u.post_count > 0 else (u._pc or 0)
-        rc = u.reply_count if hasattr(u, 'reply_count') and u.reply_count > 0 else (u._rc or 0)
-        fc = u.follower_count if hasattr(u, 'follower_count') and u.follower_count > 0 else (u._fc or 0)
-        fwc = u.following_count if hasattr(u, 'following_count') and u.following_count > 0 else (u._fwc or 0)
-        lg = u.likes_given_count if hasattr(u, 'likes_given_count') and u.likes_given_count > 0 else (u._lg or 0)
-        lr = u.likes_received_count if hasattr(u, 'likes_received_count') and u.likes_received_count > 0 else (u._lr or 0)
-        score = u.contribution_score if hasattr(u, 'contribution_score') and u.contribution_score > 0 else ((pc * 3) + (rc * 2) + lg + (lr * 2))
+        score = getattr(u, 'contribution_score', None)
+        if score is None:
+            pc = getattr(u, 'post_count', 0) or 0
+            rc = getattr(u, 'reply_count', 0) or 0
+            lg = getattr(u, 'likes_given_count', 0) or 0
+            lr = getattr(u, 'likes_received_count', 0) or 0
+            score = (pc * 3) + (rc * 2) + lg + (lr * 2)
         contributors.append({
             'username': u.username,
             'display_name': u.display_name or u.username,
@@ -1320,7 +1306,13 @@ def upload_resource(request):
         'Fluid Mechanics', 'Strength of Materials', 'Engineering Drawing',
         'Purana Veda', 'Upanishad', 'Sanskrit', 'Maithili',
     ]
-    db_subjects = list(Resource.objects.values_list('subject', flat=True))
+    db_subjects = []
+    for s_str in Resource.objects.values_list('subject', flat=True):
+        if s_str:
+            for s in s_str.split(','):
+                s_stripped = s.strip()
+                if s_stripped:
+                    db_subjects.append(s_stripped)
     subjects = sorted(set(_default_subjects + db_subjects))
     common_tags = [
         'NEB', 'SEE', 'Board Exam', 'Past Paper', 'Model Paper', 'Solution',
@@ -1517,7 +1509,13 @@ def edit_resource(request, resource_id):
         'Fluid Mechanics', 'Strength of Materials', 'Engineering Drawing',
         'Purana Veda', 'Upanishad', 'Sanskrit', 'Maithili',
     ]
-    db_subjects = list(Resource.objects.values_list('subject', flat=True))
+    db_subjects = []
+    for s_str in Resource.objects.values_list('subject', flat=True):
+        if s_str:
+            for s in s_str.split(','):
+                s_stripped = s.strip()
+                if s_stripped:
+                    db_subjects.append(s_stripped)
     subjects = sorted(set(_default_subjects + db_subjects))
     common_tags = [
         'NEB', 'SEE', 'Board Exam', 'Past Paper', 'Model Paper', 'Solution',
@@ -1897,8 +1895,8 @@ def google_auth(request):
     email_auth_token = data.get('emailAuthToken')
     if email_auth_token:
         try:
-            user = User.objects.get(auth_token=email_auth_token)
-            token = user.auth_token
+            user = get_user_by_auth_token(email_auth_token)
+            token = email_auth_token
             user_data = _normalize_user_data(UserSerializer(user).data)
             user_data['isNewUser'] = data.get('emailUser', {}).get('isNewUser', False)
             profile_incomplete = not user.display_name or not user.gender or not user.class_level
@@ -1924,10 +1922,7 @@ def google_auth(request):
     photo_url = google_info.get('photoUrl') or ''
     try:
         db_user = User.objects.get(pk=user_id)
-        if not db_user.auth_token:
-            db_user.auth_token = User.generate_token()
-            db_user.save(update_fields=['auth_token'])
-        token = db_user.auth_token
+        token = issue_auth_token(db_user)
         user_data = _normalize_user_data(UserSerializer(db_user).data)
         user_data['isNewUser'] = False
         api.set_session_auth(request, token, user_data)
@@ -1938,12 +1933,7 @@ def google_auth(request):
     if email:
         try:
             existing = User.objects.get(email__iexact=email)
-            if existing.auth_token:
-                token = existing.auth_token
-            else:
-                existing.auth_token = User.generate_token()
-                existing.save(update_fields=['auth_token'])
-                token = existing.auth_token
+            token = issue_auth_token(existing)
             user_data = _normalize_user_data(UserSerializer(existing).data)
             user_data['isNewUser'] = False
             api.set_session_auth(request, token, user_data)
@@ -1955,13 +1945,13 @@ def google_auth(request):
     temp_username = f"user_{user_id[:8]}"
     db_user = User(
         pk=user_id,
-        auth_token=auth_token,
         username=temp_username,
         email=email,
         display_name=display_name,
         photo_url=photo_url,
         created_at=int(time.time() * 1000)
     )
+    db_user.auth_token = hash_auth_token(auth_token)
     db_user.save()
     token = auth_token
     user_data = _normalize_user_data(UserSerializer(db_user).data)
@@ -1983,12 +1973,7 @@ def _link_oauth_user(request, email, user_pk, display_name, photo_url, provider_
     if email:
         try:
             existing = User.objects.get(email__iexact=email)
-            if existing.auth_token:
-                token = existing.auth_token
-            else:
-                existing.auth_token = User.generate_token()
-                existing.save(update_fields=['auth_token'])
-                token = existing.auth_token
+            token = issue_auth_token(existing)
             user_data = _normalize_user_data(UserSerializer(existing).data)
             user_data['isNewUser'] = False
             api.set_session_auth(request, token, user_data)
@@ -2077,10 +2062,7 @@ def google_oauth_callback(request):
     photo_url = google_info.get('photoUrl') or ''
     try:
         db_user = User.objects.get(pk=user_id)
-        if not db_user.auth_token:
-            db_user.auth_token = User.generate_token()
-            db_user.save(update_fields=['auth_token'])
-        token = db_user.auth_token
+        token = issue_auth_token(db_user)
         user_data = _normalize_user_data(UserSerializer(db_user).data)
         user_data['isNewUser'] = False
         api.set_session_auth(request, token, user_data)
@@ -2093,20 +2075,20 @@ def google_oauth_callback(request):
     redirect_result, linked = _link_oauth_user(request, email, user_id, display_name, photo_url, 'google_oauth_callback')
     if linked:
         if is_mobile:
-            linked_token = linked.auth_token if hasattr(linked, 'auth_token') else ''
+            linked_token = api.get_session_token(request) or ''
             return redirect(f'nebians://auth-callback?authToken={linked_token}&isNewUser=false')
         return redirect_result
     auth_token = User.generate_token()
     temp_username = f"user_{user_id[:8]}"
     db_user = User(
         pk=user_id,
-        auth_token=auth_token,
         username=temp_username,
         email=email,
         display_name=display_name,
         photo_url=photo_url,
         created_at=int(time.time() * 1000)
     )
+    db_user.auth_token = hash_auth_token(auth_token)
     db_user.save()
     token = auth_token
     user_data = _normalize_user_data(UserSerializer(db_user).data)
@@ -2215,10 +2197,7 @@ def github_callback(request):
     user_pk = f'github_{github_id}'
     try:
         db_user = User.objects.get(pk=user_pk)
-        if not db_user.auth_token:
-            db_user.auth_token = User.generate_token()
-            db_user.save(update_fields=['auth_token'])
-        token = db_user.auth_token
+        token = issue_auth_token(db_user)
         user_data = _normalize_user_data(UserSerializer(db_user).data)
         user_data['isNewUser'] = False
         api.set_session_auth(request, token, user_data)
@@ -2231,7 +2210,7 @@ def github_callback(request):
     redirect_result, linked = _link_oauth_user(request, email, user_pk, display_name, photo_url, 'github_callback')
     if linked:
         if is_mobile:
-            linked_token = linked.auth_token if hasattr(linked, 'auth_token') else ''
+            linked_token = api.get_session_token(request) or ''
             return redirect(f'nebians://auth-callback?authToken={linked_token}&isNewUser=false')
         return redirect_result
     auth_token = User.generate_token()
@@ -2243,13 +2222,13 @@ def github_callback(request):
         suffix += 1
     db_user = User(
         pk=user_pk,
-        auth_token=auth_token,
         username=temp_username,
         email=email,
         display_name=display_name,
         photo_url=photo_url,
         created_at=int(time.time() * 1000),
     )
+    db_user.auth_token = hash_auth_token(auth_token)
     db_user.save()
     token = auth_token
     user_data = _normalize_user_data(UserSerializer(db_user).data)
@@ -2284,6 +2263,9 @@ def _normalize_user_data(user):
 
 
 def logout(request):
+    token = api.get_session_token(request)
+    if token:
+        revoke_auth_token(token)
     api.clear_session_auth(request)
     return redirect('web:home')
 
@@ -2399,6 +2381,8 @@ def ajax_create_reply(request, post_id):
         return JsonResponse({'error': 'Invalid request'}, status=400)
     if not content:
         return JsonResponse({'error': 'Content required'}, status=400)
+    if len(content) > 10000:
+        return JsonResponse({'error': 'Content must be 10000 characters or fewer'}, status=400)
     result = services.create_reply(user, post_id, content, parent_id)
     if result:
         _clear_page_cache()
@@ -2490,7 +2474,14 @@ def ajax_create_post(request):
         data = json.loads(request.body)
     except json.JSONDecodeError:
         return JsonResponse({'error': 'Invalid request'}, status=400)
-    result = services.create_post(user, data.get('title', ''), data.get('content', ''), data.get('category', ''))
+    title = data.get('title', '').strip()
+    content = data.get('content', '').strip()
+    category = data.get('category', '').strip()
+    if len(title) > 200:
+        return JsonResponse({'error': 'Title must be 200 characters or fewer'}, status=400)
+    if len(content) > 20000:
+        return JsonResponse({'error': 'Content must be 20000 characters or fewer'}, status=400)
+    result = services.create_post(user, title, content, category)
     if result:
         _clear_page_cache()
         return JsonResponse(result, status=201)
@@ -2550,6 +2541,46 @@ def ajax_bookmark_check(request):
         user_id=user_id, target_type=target_type, target_id=target_id
     ).exists()
     return JsonResponse({'isBookmarked': is_bookmarked})
+
+
+@require_POST
+def ajax_report(request):
+    user_id = _get_user_id(request)
+    if not user_id:
+        return JsonResponse({'error': 'Please log in again.'}, status=401)
+    try:
+        user = User.objects.get(pk=user_id)
+    except User.DoesNotExist:
+        return JsonResponse({'error': 'Please log in again.'}, status=401)
+    try:
+        data = json.loads(request.body)
+    except json.JSONDecodeError:
+        return JsonResponse({'error': 'Invalid request'}, status=400)
+    target_type = data.get('target_type', '').strip()
+    target_id = data.get('target_id', '').strip()
+    reason = data.get('reason', 'other').strip()
+    description = data.get('description', '').strip()
+    valid_types = {'post', 'reply', 'user', 'resource'}
+    if target_type not in valid_types:
+        return JsonResponse({'error': 'Invalid target type'}, status=400)
+    if not target_id:
+        return JsonResponse({'error': 'target_id required'}, status=400)
+    if reason not in dict(Report.REASON_CHOICES):
+        return JsonResponse({'error': 'Invalid reason'}, status=400)
+    if len(description) > 2000:
+        return JsonResponse({'error': 'Description must be 2000 characters or fewer'}, status=400)
+    report = Report.objects.create(
+        id=str(uuid.uuid4()),
+        reporter=user,
+        target_type=target_type,
+        target_id=target_id,
+        reason=reason,
+        description=description,
+        status='open',
+        created_at=int(time.time() * 1000),
+    )
+    logger.info("ajax_report: user %s reported %s/%s (reason=%s)", user.username, target_type, target_id, reason)
+    return JsonResponse({'success': True, 'id': report.id})
 
 
 @require_POST
@@ -2843,7 +2874,7 @@ def ajax_user_photos(request):
 
     from api.models import UserPhoto
     try:
-        current_user = User.objects.get(auth_token=token)
+        current_user = get_user_by_auth_token(token)
     except User.DoesNotExist:
         api.clear_session_auth(request)
         return JsonResponse({'error': 'Please log in again.'}, status=401)
@@ -2950,7 +2981,7 @@ def ajax_set_password(request):
         _clear_page_cache()
         user_data = _normalize_user_data(UserSerializer(user).data)
         user_data['hasPassword'] = True
-        api.set_session_auth(request, user.auth_token, user_data)
+        api.set_session_auth(request, api.get_session_token(request), user_data)
         return JsonResponse({'status': 'success', 'message': 'Password set successfully'})
     return JsonResponse({'error': result.get('error', 'Failed to set password')}, status=status_code or 400)
 
@@ -2975,7 +3006,7 @@ def ajax_change_password(request):
     result, status_code = services.change_password(user, current_password, new_password)
     if result.get('status') == 'success':
         _clear_page_cache()
-        new_token = result.get('authToken', user.auth_token)
+        new_token = result.get('authToken') or api.get_session_token(request)
         user_data = _normalize_user_data(UserSerializer(user).data)
         api.set_session_auth(request, new_token, user_data)
         return JsonResponse({'status': 'success', 'message': 'Password changed successfully'})
@@ -3274,7 +3305,13 @@ def admin_resource_edit(request, resource_id):
         'Fluid Mechanics', 'Strength of Materials', 'Engineering Drawing',
         'Purana Veda', 'Upanishad', 'Sanskrit', 'Maithili',
     ]
-    db_subjects = list(Resource.objects.values_list('subject', flat=True))
+    db_subjects = []
+    for s_str in Resource.objects.values_list('subject', flat=True):
+        if s_str:
+            for s in s_str.split(','):
+                s_stripped = s.strip()
+                if s_stripped:
+                    db_subjects.append(s_stripped)
     subjects = sorted(set(_default_subjects + db_subjects))
     common_tags = [
         'NEB', 'SEE', 'Board Exam', 'Past Paper', 'Model Paper', 'Solution',
@@ -3432,16 +3469,17 @@ def notifications(request):
     notif_data = []
     for n in notifs:
         actor_name = n.actor.username if n.actor else None
+        safe_actor_name = escape(actor_name) if actor_name else None
         actor_photo = n.actor.photo_url if n.actor else None
         actor_id_val = n.actor_id if n.actor else None
         actor_badge = _user_badge_info(n.actor) if n.actor else None
         verb_label = VERB_LABELS.get(n.verb, n.verb)
         if n.verb == 'system':
-            text = n.message or 'System notification'
-        elif actor_name:
-            text = f'<strong>{actor_name}</strong> <span class="notif-verb">{verb_label}</span>'
+            text = escape(n.message or 'System notification')
+        elif safe_actor_name:
+            text = f'<strong>{safe_actor_name}</strong> <span class="notif-verb">{escape(verb_label)}</span>'
         else:
-            text = f'<span class="notif-verb">{verb_label}</span>'
+            text = f'<span class="notif-verb">{escape(verb_label)}</span>'
         url = '#'
         if n.verb == 'follow' and actor_name:
             url = f'/profile/{actor_name}/'
