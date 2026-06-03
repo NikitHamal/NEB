@@ -1217,7 +1217,7 @@
                   {% with subjs=r.subject|split:"," %}
                     {% for subj in subjs %}
                       <span class="resource-chip" style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 16px; background: color-mix(in srgb, {{ subj|subject_color }} 8%, var(--md-surface-container-high)); color: {{ subj|subject_color }}; border: 1px solid color-mix(in srgb, {{ subj|subject_color }} 15%, transparent); font-size: 0.75rem; font-weight: 600;">
-                        <span class="material-symbols-outlined" style="font-size: 14px;">{% if subj|lower|trim == 'physics' %}science{% elif subj|lower|trim == 'chemistry' %}science{% elif subj|lower|trim == 'biology' %}biology{% else %}menu_book{% endif %}</span>
+                        <span class="material-symbols-outlined" style="font-size: 14px;">{{ subj|subject_icon }}</span>
                         <span>{{ subj }}</span>
                       </span>
                     {% endfor %}
