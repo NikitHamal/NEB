@@ -84,13 +84,9 @@
       <a href="{% url 'web:forum' %}" class="{% block nav_forum %}{% endblock %}">Forum</a>
     </nav>
     <div class="md-topbar-actions">
-      <div class="md-search-bar" id="topbarSearch">
-        <a href="{% url 'web:search' %}" class="md-search-bar-mobile-link" aria-label="Search">
-          <span class="material-symbols-outlined md-search-bar-icon">search</span>
-        </a>
-        <input type="search" placeholder="Search resources..." id="topbarSearchInput" aria-label="Search"
-          data-keydown-action="topbar-search">
-      </div>
+      <a href="{% url 'web:search' %}" class="md-btn-icon" aria-label="Search" title="Search">
+        <span class="material-symbols-outlined">search</span>
+      </a>
       <button class="md-btn-icon" data-action="toggle-theme" title="Toggle dark mode" aria-label="Toggle dark mode">
         <span class="material-symbols-outlined" id="theme-icon">dark_mode</span>
       </button>
@@ -146,8 +142,8 @@
         </div>
       </div>
       {% else %}
-      <a href="{% url 'web:login' %}" class="md-btn auth-btn-signin" aria-label="Sign in">Sign In</a>
-      <a href="{% url 'web:email_signup' %}" class="md-btn auth-btn-register" aria-label="Register">Register</a>
+      <a href="{% url 'web:login' %}" class="md-btn md-btn-outlined" aria-label="Sign in">Sign In</a>
+      <a href="{% url 'web:email_signup' %}" class="md-btn md-btn-filled" aria-label="Register">Register</a>
       {% endif %}
     </div>
   </header>
