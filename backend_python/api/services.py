@@ -13,7 +13,7 @@ from django.core.exceptions import ValidationError as DjangoValidationError
 
 from .models import User, Post, PostLike, Reply, ReplyLike, Follow, UserPhoto, EditHistory
 from .models import Resource, ResourceLike, ResourceComment, ResourceCommentLike
-from .security import hash_password, verify_password, validate_profile_photo_url, validate_external_https_url
+from .security import hash_password, issue_auth_token, verify_password, validate_profile_photo_url, validate_external_https_url
 from . import counters as _counters
 from . import notifications as _notif
 from . import neby as _neby
@@ -193,13 +193,13 @@ def change_password(user, current_password, new_password):
     if not password_ok:
         return {'error': 'Current password is incorrect'}, 401
     user.password_hash = hash_password(new_password)
-    user.auth_token = User.generate_token()
+    auth_token = issue_auth_token(user, save=False)
     user.save(update_fields=['password_hash', 'auth_token'])
     from .serializers import UserSerializer
     return {
         'status': 'success',
         'message': 'Password changed successfully',
-        'authToken': user.auth_token,
+        'authToken': auth_token,
         'user': UserSerializer(user).data,
     }
 

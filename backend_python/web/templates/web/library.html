@@ -165,7 +165,7 @@
         <span class="material-symbols-outlined" style="font-size:20px">upload</span>
         <span class="md-btn-text-responsive">Upload</span>
       </a>
-      <button onclick="openFilterDialog()" class="md-btn md-btn-outlined">
+      <button data-action="open-filter-dialog" class="md-btn md-btn-outlined">
         <span class="material-symbols-outlined" style="font-size:20px">tune</span>
         <span class="md-btn-text-responsive">Filters</span>
         {% if current_subjects or current_grades or current_types %}
@@ -202,7 +202,7 @@
     <div class="lib-count">Showing <strong>{{ page_obj.start_index }}–{{ page_obj.end_index }}</strong> of <strong>{{ page_obj.paginator.count }}</strong> resources</div>
     <div class="lib-sort-controls">
       <span style="font-size:0.8125rem;color:var(--md-on-surface-variant);">Sort by:</span>
-      <select onchange="window.location.href=this.value">
+      <select data-change-action="navigate-sort">
         <option value="?sort=relevant{% for s in current_subjects %}&subject={{ s|urlencode }}{% endfor %}{% for g in current_grades %}&grade={{ g|urlencode }}{% endfor %}{% for t in current_types %}&type={{ t|urlencode }}{% endfor %}" {% if current_sort == 'relevant' %}selected{% endif %}>Most Relevant</option>
         <option value="?sort=newest{% for s in current_subjects %}&subject={{ s|urlencode }}{% endfor %}{% for g in current_grades %}&grade={{ g|urlencode }}{% endfor %}{% for t in current_types %}&type={{ t|urlencode }}{% endfor %}" {% if current_sort == 'newest' %}selected{% endif %}>Newest</option>
         <option value="?sort=oldest{% for s in current_subjects %}&subject={{ s|urlencode }}{% endfor %}{% for g in current_grades %}&grade={{ g|urlencode }}{% endfor %}{% for t in current_types %}&type={{ t|urlencode }}{% endfor %}" {% if current_sort == 'oldest' %}selected{% endif %}>Oldest</option>
@@ -216,12 +216,20 @@
     {% for r in resources %}
     <a href="{% url 'web:reader' resource_id=r.id %}" class="resource-card subject-{{ r.subject|split:','|first|subject_slug }}">
       <div class="resource-card-art">
-        <svg viewBox="0 0 300 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-          <rect width="300" height="120" fill="var(--art-c1)"/>
-          <path d="M0,120 L0,70 Q40,20 100,55 Q160,90 220,45 Q270,10 300,50 L300,120Z" fill="var(--art-c2)" opacity="0.5"/>
-          <path d="M0,120 L0,85 Q60,40 130,70 Q200,100 260,60 L300,75 L300,120Z" fill="var(--art-c3)" opacity="0.35"/>
-          <path d="M0,120 L0,95 Q80,65 160,85 Q240,105 300,80 L300,120Z" fill="var(--art-c4)" opacity="0.2"/>
-        </svg>
+        {% if r.thumbnail_url %}
+<div class="resource-card-art">
+          <img src="{{ r.thumbnail_url }}" alt="{{ r.title }}" class="resource-card-art-img" loading="lazy">
+<div class="resource-card-art">
+        {% else %}
+<div class="resource-card-art">
+          <svg viewBox="0 0 300 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="300" height="120" fill="var(--art-c1)"/>
+            <path d="M0,120 L0,70 Q40,20 100,55 Q160,90 220,45 Q270,10 300,50 L300,120Z" fill="var(--art-c2)" opacity="0.5"/>
+            <path d="M0,120 L0,85 Q60,40 130,70 Q200,100 260,60 L300,75 L300,120Z" fill="var(--art-c3)" opacity="0.35"/>
+            <path d="M0,120 L0,95 Q80,65 160,85 Q240,105 300,80 L300,120Z" fill="var(--art-c4)" opacity="0.2"/>
+          </svg>
+<div class="resource-card-art">
+        {% endif %}
         <span class="resource-card-type-pill">{{ r.type }}</span>
         <span class="resource-card-art-icon material-symbols-outlined">{{ r.subject|split:','|first|subject_icon }}</span>
       </div>
@@ -302,16 +310,17 @@
 </div>
 
 <!-- Filter Dialog -->
-<div id="filter-dialog" class="filter-overlay" style="display:none;" onclick="if(event.target===this){this.style.display='none'; document.body.style.overflow='';}">
+<div id="filter-dialog" class="filter-overlay" style="display:none;" data-action="close-filter-dialog">
   <div class="filter-dialog">
     <h3>Filters</h3>
+    <div class="filter-dialog-scroll">
 
     {% if all_grades %}
     <div class="filter-section">
       <div class="filter-section-label">Grade</div>
       <div class="chip-group" id="filter-grades">
         {% for g in all_grades %}
-        <button type="button" class="filter-chip-select {% if g in current_grades %}selected{% endif %}" data-value="{{ g }}" onclick="this.classList.toggle('selected')">
+        <button type="button" class="filter-chip-select {% if g in current_grades %}selected{% endif %}" data-value="{{ g }}" data-action="toggle-filter-chip">
           <span class="material-symbols-outlined check-icon">check</span>
           {{ g }}
         </button>
@@ -325,7 +334,7 @@
       <div class="filter-section-label">Subject</div>
       <div class="chip-group" id="filter-subjects">
         {% for s in all_subjects %}
-        <button type="button" class="filter-chip-select {% if s in current_subjects %}selected{% endif %}" data-value="{{ s }}" onclick="this.classList.toggle('selected')">
+        <button type="button" class="filter-chip-select {% if s in current_subjects %}selected{% endif %}" data-value="{{ s }}" data-action="toggle-filter-chip">
           <span class="material-symbols-outlined check-icon">check</span>
           {{ s }}
         </button>
@@ -339,7 +348,7 @@
       <div class="filter-section-label">Type</div>
       <div class="chip-group" id="filter-types">
         {% for t in all_types %}
-        <button type="button" class="filter-chip-select {% if t in current_types %}selected{% endif %}" data-value="{{ t }}" onclick="this.classList.toggle('selected')">
+        <button type="button" class="filter-chip-select {% if t in current_types %}selected{% endif %}" data-value="{{ t }}" data-action="toggle-filter-chip">
           <span class="material-symbols-outlined check-icon">check</span>
           {{ t }}
         </button>
@@ -348,16 +357,18 @@
     </div>
     {% endif %}
 
+    </div>
+
     <div class="filter-dialog-actions">
       <a href="{% url 'web:library' %}{% if current_sort and current_sort != 'relevant' %}?sort={{ current_sort }}{% endif %}" class="md-btn md-btn-text" style="min-height:36px;">Clear all</a>
-      <button class="md-btn md-btn-filled" onclick="applyFilters()" style="min-height:36px;">Apply</button>
+      <button class="md-btn md-btn-filled" data-action="apply-filters" style="min-height:36px;">Apply</button>
     </div>
   </div>
 </div>
 {% endblock %}
 
 {% block extra_js %}
-<script>
+<script nonce="{{ csp_nonce }}">
 function openFilterDialog() {
   document.getElementById('filter-dialog').style.display = 'flex';
   document.body.style.overflow = 'hidden';
@@ -380,5 +391,13 @@ function applyFilters() {
   var qs = params.toString();
   window.location.href = '{% url "web:library" %}' + (qs ? '?' + qs : '');
 }
+
+registerActions({
+  'open-filter-dialog': function() { openFilterDialog(); },
+  'close-filter-dialog': function(el, e) { if (e.target === el) { el.style.display = 'none'; document.body.style.overflow = ''; } },
+  'toggle-filter-chip': function(el) { el.classList.toggle('selected'); },
+  'apply-filters': function() { applyFilters(); },
+  'navigate-sort': function(el) { window.location.href = el.value; }
+});
 </script>
 {% endblock %}

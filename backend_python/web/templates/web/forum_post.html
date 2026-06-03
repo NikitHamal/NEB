@@ -250,7 +250,7 @@
     <div class="fp-post-header">
       <div class="fp-avatar">
         {% if post.authorPhotoUrl %}
-          <img src="{{ post.authorPhotoUrl }}" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <img src="{{ post.authorPhotoUrl }}" alt="" data-fallback="flex">
           <span class="fp-avatar-letter" style="display:none;">{{ post.authorName|truncate_chars:1|default:"?" }}</span>
         {% else %}
           <span class="fp-avatar-letter">{{ post.authorName|truncate_chars:1|default:"?" }}</span>
@@ -263,45 +263,45 @@
           <span class="role-badge role-badge-{{ post.authorBadgeInfo.type }}" title="{{ post.authorBadgeInfo.label }}"><span class="material-symbols-outlined">{{ post.authorBadgeInfo.icon }}</span></span>
           {% endif %}
           {% if is_authenticated and not is_owner %}
-            <button class="follow-btn-inline {% if is_following %}following{% else %}not-following{% endif %}" id="followBtn" onclick="toggleFollowPost()">{% if is_following %}Following{% else %}Follow{% endif %}</button>
+            <button class="follow-btn-inline {% if is_following %}following{% else %}not-following{% endif %}" id="followBtn" data-action="toggle-follow-post">{% if is_following %}Following{% else %}Follow{% endif %}</button>
           {% endif %}
           <a href="{% url 'web:forum' %}?category={{ post.category }}" class="fp-category">{{ post.category }}</a>
         </div>
         <div class="fp-meta-time">
           <span>{{ post.createdAt|time_ago }}</span>
           {% if post.isEdited %}
-            <span class="fp-edited" onclick="showEditHistory('post', '{{ post.id }}')">
+            <span class="fp-edited" data-action="show-edit-history" data-target-type="post" data-target-id="{{ post.id }}">
               <span class="material-symbols-outlined">edit</span> edited
             </span>
           {% endif %}
         </div>
       </div>
       <div class="more-menu-wrapper">
-        <button class="more-btn" onclick="toggleMoreMenu('post-menu-{{ post.id }}', this)" aria-label="More options"><span class="material-symbols-outlined">more_vert</span></button>
+        <button class="more-btn" data-action="toggle-more-menu" data-menu-id="post-menu-{{ post.id }}" aria-label="More options"><span class="material-symbols-outlined">more_vert</span></button>
         <div class="more-menu" id="post-menu-{{ post.id }}" style="display:none;">
           {% if is_authenticated %}
-          <button class="more-menu-item" onclick="toggleBookmark('post', '{{ post.id }}', this); closeAllMenus();">
+          <button class="more-menu-item" data-action="toggle-bookmark" data-target-type="post" data-target-id="{{ post.id }}">
             <span class="material-symbols-outlined" id="bookmark-icon-post-{{ post.id }}"{% if post.isBookmarked %} style="font-variation-settings:'FILL' 1"{% endif %}>bookmark</span>
             <span id="bookmark-label-post-{{ post.id }}">{% if post.isBookmarked %}Remove{% else %}Bookmark{% endif %}</span>
           </button>
-          <button class="more-menu-item" onclick="sharePost('{{ post.id }}'); closeAllMenus();">
+          <button class="more-menu-item" data-action="share-post" data-post-id="{{ post.id }}">
             <span class="material-symbols-outlined">share</span> Share
           </button>
           {% if not is_owner %}
-          <button class="more-menu-item" onclick="reportContent('post', '{{ post.id }}'); closeAllMenus();">
+          <button class="more-menu-item" data-action="report-content" data-target-type="post" data-target-id="{{ post.id }}">
             <span class="material-symbols-outlined">flag</span> Report
           </button>
           {% endif %}
           {% endif %}
           {% if is_owner %}
           <div class="more-menu-divider"></div>
-          <button class="more-menu-item" onclick="startEditPost(); closeAllMenus();">
+          <button class="more-menu-item" data-action="start-edit-post">
             <span class="material-symbols-outlined">edit</span> Edit post
           </button>
-          <button class="more-menu-item" onclick="archivePost(); closeAllMenus();">
+          <button class="more-menu-item" data-action="archive-post">
             <span class="material-symbols-outlined">{{ post.isArchived|yesno:"unarchive,archive" }}</span> {% if post.isArchived %}Unarchive{% else %}Archive{% endif %}
           </button>
-          <button class="more-menu-item danger" onclick="deletePost(); closeAllMenus();">
+          <button class="more-menu-item danger" data-action="delete-post">
             <span class="material-symbols-outlined">delete</span> Delete post
           </button>
           {% endif %}
@@ -312,7 +312,7 @@
     <div class="fp-post-body" id="post-content-{{ post.id }}">{{ post.content|mention_links:all_usernames }}</div>
 
     <div class="fp-post-actions">
-      <button onclick="togglePostLike('{{ post.id }}')" class="fp-action-btn {% if post.isThumbedUp %}liked{% endif %}" id="post-like-btn-{{ post.id }}">
+      <button data-action="toggle-post-like" data-post-id="{{ post.id }}" class="fp-action-btn {% if post.isThumbedUp %}liked{% endif %}" id="post-like-btn-{{ post.id }}">
         <span class="material-symbols-outlined">thumb_up</span>
         <span id="post-like-count-{{ post.id }}">{{ post.thumbsUpCount }}</span>
       </button>
@@ -321,10 +321,10 @@
         {{ post.replyCount }} replies
       </button>
       <span class="fp-action-spacer"></span>
-      <button class="fp-action-btn {% if post.isBookmarked %}bookmark-active{% endif %}" onclick="toggleBookmark('post', '{{ post.id }}', this)" id="post-bookmark-btn-{{ post.id }}">
+      <button class="fp-action-btn {% if post.isBookmarked %}bookmark-active{% endif %}" data-action="toggle-bookmark" data-target-type="post" data-target-id="{{ post.id }}" id="post-bookmark-btn-{{ post.id }}">
         <span class="material-symbols-outlined">bookmark</span>
       </button>
-      <button class="fp-action-btn" onclick="sharePost('{{ post.id }}')">
+      <button class="fp-action-btn" data-action="share-post" data-post-id="{{ post.id }}">
         <span class="material-symbols-outlined">share</span>
       </button>
     </div>
@@ -342,8 +342,8 @@
         <label for="editPostContent">Content</label>
         <textarea id="editPostContent" rows="6"></textarea>
         <div class="form-actions">
-          <button class="md-btn md-btn-text" onclick="closeEditPostModal()">Cancel</button>
-          <button class="md-btn md-btn-filled" onclick="submitEditPost()">Save</button>
+          <button class="md-btn md-btn-text" data-action="close-edit-post-modal">Cancel</button>
+          <button class="md-btn md-btn-filled" data-action="submit-edit-post">Save</button>
         </div>
       </div>
     </div>
@@ -355,7 +355,7 @@
       <h3>Edit History</h3>
       <div id="editHistoryContent"><p style="color:var(--md-on-surface-variant);">Loading...</p></div>
       <div style="text-align:right;margin-top:16px;">
-        <button class="md-btn md-btn-text" onclick="closeEditHistoryModal()">Close</button>
+        <button class="md-btn md-btn-text" data-action="close-edit-history-modal">Close</button>
       </div>
     </div>
   </div>
@@ -370,7 +370,7 @@
       <div class="fp-reply-header">
         <div class="fp-reply-avatar">
           {% if reply.authorPhotoUrl %}
-            <img src="{{ reply.authorPhotoUrl }}" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <img src="{{ reply.authorPhotoUrl }}" alt="" data-fallback="flex">
             <span class="fp-reply-avatar-letter" style="display:none;">{{ reply.authorName|truncate_chars:1|default:"?" }}</span>
           {% else %}
             <span class="fp-reply-avatar-letter">{{ reply.authorName|truncate_chars:1|default:"?" }}</span>
@@ -383,10 +383,10 @@
             <span class="role-badge role-badge-{{ reply.authorBadgeInfo.type }}" title="{{ reply.authorBadgeInfo.label }}"><span class="material-symbols-outlined">{{ reply.authorBadgeInfo.icon }}</span></span>
             {% endif %}
             {% if is_authenticated and reply.authorId != user.id %}
-              <button class="follow-btn-inline {% if reply.isFollowed %}following{% else %}not-following{% endif %}" data-user-id="{{ reply.authorId }}" onclick="toggleFollowBtn(this, '{{ reply.authorId }}')">{% if reply.isFollowed %}Following{% else %}Follow{% endif %}</button>
+              <button class="follow-btn-inline {% if reply.isFollowed %}following{% else %}not-following{% endif %}" data-user-id="{{ reply.authorId }}" data-action="toggle-follow" data-user-id="{{ reply.authorId }}">{% if reply.isFollowed %}Following{% else %}Follow{% endif %}</button>
             {% endif %}
 {% if reply.isEdited %}
-              <span class="fp-edited" onclick="showEditHistory('reply', '{{ reply.id }}')">
+              <span class="fp-edited" data-action="show-edit-history" data-target-type="reply" data-target-id="{{ reply.id }}">
                 <span class="material-symbols-outlined">edit</span> edited
               </span>
             {% endif %}
@@ -394,63 +394,63 @@
           <div class="fp-reply-time">{{ reply.createdAt|time_ago }}</div>
         </div>
         <div class="more-menu-wrapper">
-          <button class="more-btn" style="margin-left:auto;align-self:flex-start;" onclick="toggleMoreMenu('reply-menu-{{ reply.id }}', this)" aria-label="More options"><span class="material-symbols-outlined">more_vert</span></button>
+          <button class="more-btn" style="margin-left:auto;align-self:flex-start;" data-action="toggle-more-menu" data-menu-id="reply-menu-{{ reply.id }}" aria-label="More options"><span class="material-symbols-outlined">more_vert</span></button>
           <div class="more-menu" id="reply-menu-{{ reply.id }}" style="display:none;">
             {% if is_authenticated %}
-            <button class="more-menu-item" onclick="toggleBookmark('reply', '{{ reply.id }}', this); closeAllMenus();">
-              <span class="material-symbols-outlined" id="bookmark-icon-reply-{{ reply.id }}"{% if reply.isBookmarked %} style="font-variation-settings:'FILL' 1"{% endif %}>bookmark</span>
-              <span id="bookmark-label-reply-{{ reply.id }}">{% if reply.isBookmarked %}Remove{% else %}Bookmark{% endif %}</span>
-            </button>
-            <button class="more-menu-item" onclick="shareReply('{{ reply.id }}'); closeAllMenus();">
-              <span class="material-symbols-outlined">share</span> Share
-            </button>
-            {% if reply.authorId != user.id %}
-            <button class="more-menu-item" onclick="reportContent('reply', '{{ reply.id }}'); closeAllMenus();">
-              <span class="material-symbols-outlined">flag</span> Report
-            </button>
-            {% endif %}
-            {% endif %}
-            {% if is_authenticated and reply.authorId == user.id %}
-            <div class="more-menu-divider"></div>
-            <button class="more-menu-item" onclick="startEditReply('{{ reply.id }}'); closeAllMenus();">
-              <span class="material-symbols-outlined">edit</span> Edit reply
-            </button>
-            <button class="more-menu-item" onclick="archiveReply('{{ reply.id }}'); closeAllMenus();">
-              <span class="material-symbols-outlined">{{ reply.isArchived|yesno:"unarchive,archive" }}</span> {% if reply.isArchived %}Unarchive{% else %}Archive{% endif %}
-            </button>
-            <button class="more-menu-item danger" onclick="deleteReply('{{ reply.id }}'); closeAllMenus();">
+<button class="more-menu-item" data-action="toggle-bookmark" data-target-type="reply" data-target-id="{{ reply.id }}">
+                  <span class="material-symbols-outlined" id="bookmark-icon-reply-{{ reply.id }}"{% if reply.isBookmarked %} style="font-variation-settings:'FILL' 1"{% endif %}>bookmark</span>
+                  <span id="bookmark-label-reply-{{ reply.id }}">{% if reply.isBookmarked %}Remove{% else %}Bookmark{% endif %}</span>
+                </button>
+                <button class="more-menu-item" data-action="share-reply" data-reply-id="{{ reply.id }}">
+                  <span class="material-symbols-outlined">share</span> Share
+                </button>
+                {% if reply.authorId != user.id %}
+                <button class="more-menu-item" data-action="report-content" data-target-type="reply" data-target-id="{{ reply.id }}">
+                  <span class="material-symbols-outlined">flag</span> Report
+                </button>
+                {% endif %}
+                {% if reply.authorId == user.id %}
+                <div class="more-menu-divider"></div>
+                <button class="more-menu-item" data-action="start-edit-reply" data-reply-id="{{ reply.id }}">
+                  <span class="material-symbols-outlined">edit</span> Edit
+                </button>
+                <button class="more-menu-item" data-action="archive-reply" data-reply-id="{{ reply.id }}">
+                  <span class="material-symbols-outlined">archive</span> Archive
+                </button>
+                <button class="more-menu-item danger" data-action="delete-reply" data-reply-id="{{ reply.id }}">
               <span class="material-symbols-outlined">delete</span> Delete reply
             </button>
+            {% endif %}
             {% endif %}
           </div>
         </div>
       </div>
       <div class="fp-reply-body" id="reply-content-{{ reply.id }}">{{ reply.content|mention_links:all_usernames }}</div>
       <div class="fp-reply-actions">
-        <button onclick="toggleReplyLike('{{ reply.id }}')" class="fp-reply-action {% if reply.isThumbedUp %}liked{% endif %}" id="reply-like-btn-{{ reply.id }}">
+        <button data-action="toggle-reply-like" data-reply-id="{{ reply.id }}" class="fp-reply-action {% if reply.isThumbedUp %}liked{% endif %}" id="reply-like-btn-{{ reply.id }}">
           <span class="material-symbols-outlined">thumb_up</span>
           <span id="reply-like-count-{{ reply.id }}">{{ reply.thumbsUpCount }}</span>
         </button>
         {% if is_authenticated %}
-        <button class="fp-reply-action" onclick="openThreadReply('{{ reply.id }}', '{{ reply.authorName|escapejs }}')">
+        <button class="fp-reply-action" data-action="open-thread-reply" data-reply-id="{{ reply.id }}" data-author-name="{{ reply.authorName|escapejs }}">
           <span class="material-symbols-outlined">reply</span> Reply
         </button>
         <span class="fp-action-spacer"></span>
-        <button class="fp-reply-action {% if reply.isBookmarked %}bookmark-active{% endif %}" onclick="toggleBookmark('reply', '{{ reply.id }}', this)" id="reply-bookmark-btn-{{ reply.id }}">
+        <button class="fp-reply-action {% if reply.isBookmarked %}bookmark-active{% endif %}" data-action="toggle-bookmark" data-target-type="reply" data-target-id="{{ reply.id }}" id="reply-bookmark-btn-{{ reply.id }}">
           <span class="material-symbols-outlined">bookmark</span>
         </button>
-        <button class="fp-reply-action" onclick="shareReply('{{ reply.id }}')">
+        <button class="fp-reply-action" data-action="share-reply" data-reply-id="{{ reply.id }}">
           <span class="material-symbols-outlined">share</span>
         </button>
         {% endif %}
       </div>
       {% if reply.childCount > 0 %}
-      <button class="fp-thread-indicator" onclick="openThread('{{ reply.id }}')">
+      <button class="fp-thread-indicator" data-action="open-thread" data-reply-id="{{ reply.id }}">
         <div class="fp-thread-avatars">
           {% for author in reply.childAuthors %}
           <div class="fp-thread-avatar">
             {% if author.photoUrl %}
-              <img src="{{ author.photoUrl }}" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+              <img src="{{ author.photoUrl }}" alt="" data-fallback="flex">
               <span class="fp-thread-avatar-letter" style="display:none;">{{ author.username|truncate_chars:1|default:"?" }}</span>
             {% else %}
               <span class="fp-thread-avatar-letter">{{ author.username|truncate_chars:1|default:"?" }}</span>
@@ -477,7 +477,7 @@
   {% if is_authenticated %}
   <div class="fp-compose">
     <div class="fp-compose-title">Add a Reply</div>
-    <form id="mainReplyForm" onsubmit="submitMainReply(event)">
+    <form id="mainReplyForm" data-action="submit-main-reply">
       <textarea name="content" id="mainReplyContent" placeholder="Write your reply..." required></textarea>
       <div class="fp-compose-actions">
         <button type="submit" class="md-btn md-btn-filled">Submit Reply</button>
@@ -508,8 +508,8 @@
       <label for="editReplyContent">Content</label>
       <textarea id="editReplyContent" rows="4"></textarea>
       <div class="form-actions">
-        <button class="md-btn md-btn-text" onclick="closeEditReplyModal()">Cancel</button>
-        <button class="md-btn md-btn-filled" onclick="submitEditReply()">Save</button>
+        <button class="md-btn md-btn-text" data-action="close-edit-reply-modal">Cancel</button>
+        <button class="md-btn md-btn-filled" data-action="submit-edit-reply">Save</button>
       </div>
     </div>
   </div>
@@ -522,45 +522,45 @@
     <h3 style="margin-bottom:8px;">Delete Confirmation</h3>
     <p style="color:var(--md-on-surface-variant);margin-bottom:20px;" id="deleteConfirmText">Are you sure?</p>
     <div style="display:flex;gap:8px;justify-content:center;">
-      <button class="md-btn md-btn-text" onclick="closeDeleteConfirmModal()">Cancel</button>
-      <button class="md-btn md-btn-filled" style="background:var(--md-error);" id="deleteConfirmBtn" onclick="confirmDelete()">Delete</button>
+      <button class="md-btn md-btn-text" data-action="close-delete-confirm-modal">Cancel</button>
+      <button class="md-btn md-btn-filled" style="background:var(--md-error);" id="deleteConfirmBtn" data-action="confirm-delete">Delete</button>
     </div>
   </div>
 </div>
 
 <!-- Thread Sidebar (Desktop) -->
-<div class="fp-thread-sidebar-overlay" id="threadSidebarOverlay" onclick="closeThread()"></div>
+<div class="fp-thread-sidebar-overlay" id="threadSidebarOverlay" data-action="close-thread"></div>
 <div class="fp-thread-sidebar" id="threadSidebar">
   <div class="fp-thread-sidebar-header">
     <h3 id="threadSidebarTitle">Thread</h3>
     <span class="fp-thread-count" id="threadSidebarCount" style="display:none;"></span>
-    <button class="fp-thread-sidebar-close" onclick="closeThread()"><span class="material-symbols-outlined">close</span></button>
+    <button class="fp-thread-sidebar-close" data-action="close-thread"><span class="material-symbols-outlined">close</span></button>
   </div>
   <div class="fp-thread-sidebar-scroll" id="threadSidebarScroll"></div>
   <div class="fp-thread-sidebar-compose" id="threadSidebarCompose" style="display:none;">
     <div id="threadSidebarReplyingTo" style="display:none;font-size:.6875rem;color:var(--md-primary);font-weight:500;margin-bottom:6px;align-items:center;gap:4px;"></div>
-    <textarea id="threadSidebarTextarea" placeholder="Write a reply..." onkeydown="handleThreadReplyKey(event)"></textarea>
+    <textarea id="threadSidebarTextarea" placeholder="Write a reply..." data-keydown-action="handle-thread-reply-key"></textarea>
     <div class="fp-thread-sidebar-compose-actions">
-      <button class="md-btn md-btn-filled" style="font-size:.8125rem;padding:6px 16px;" onclick="submitThreadReply()">Reply</button>
+      <button class="md-btn md-btn-filled" style="font-size:.8125rem;padding:6px 16px;" data-action="submit-thread-reply">Reply</button>
     </div>
   </div>
 </div>
 
 <!-- Thread Bottom Sheet (Mobile) -->
-<div class="fp-thread-sheet-overlay" id="threadSheetOverlay" onclick="closeThread()"></div>
+<div class="fp-thread-sheet-overlay" id="threadSheetOverlay" data-action="close-thread"></div>
 <div class="fp-thread-sheet" id="threadSheet">
   <div class="fp-thread-sheet-handle"></div>
   <div class="fp-thread-sheet-header">
     <h3 id="threadSheetTitle">Thread</h3>
     <span class="fp-thread-count" id="threadSheetCount" style="display:none;"></span>
-    <button class="fp-thread-sheet-close" onclick="closeThread()"><span class="material-symbols-outlined">close</span></button>
+    <button class="fp-thread-sheet-close" data-action="close-thread"><span class="material-symbols-outlined">close</span></button>
   </div>
   <div class="fp-thread-sheet-scroll" id="threadSheetScroll"></div>
   <div class="fp-thread-sheet-compose" id="threadSheetCompose" style="display:none;">
     <div id="threadSheetReplyingTo" style="display:none;font-size:.6875rem;color:var(--md-primary);font-weight:500;margin-bottom:6px;align-items:center;gap:4px;"></div>
-    <textarea id="threadSheetTextarea" placeholder="Write a reply..." onkeydown="handleThreadReplyKey(event)"></textarea>
+    <textarea id="threadSheetTextarea" placeholder="Write a reply..." data-keydown-action="handle-thread-reply-key"></textarea>
     <div class="fp-thread-sheet-compose-actions" style="display:flex;justify-content:flex-end;margin-top:8px;">
-      <button class="md-btn md-btn-filled" style="font-size:.8125rem;padding:6px 16px;" onclick="submitThreadReply()">Reply</button>
+      <button class="md-btn md-btn-filled" style="font-size:.8125rem;padding:6px 16px;" data-action="submit-thread-reply">Reply</button>
     </div>
   </div>
 </div>
@@ -570,7 +570,7 @@
 {% endblock %}
 
 {% block extra_js %}
-<script>
+<script nonce="{{ csp_nonce }}">
 const POST_ID = '{{ post.id }}';
 const POST_AUTHOR_ID = '{{ post_author_id }}';
 const IS_OWNER = {{ is_owner|yesno:"true,false" }};
@@ -940,17 +940,17 @@ async function loadThreadReplies(replyId) {
 
 function renderThreadParent(parent) {
   const avatarHtml = parent.authorPhotoUrl
-    ? '<img src="' + escapeHtml(parent.authorPhotoUrl) + '" alt="" onerror="this.style.display=\'none\'; this.nextElementSibling.style.display=\'flex\';"><span class="fp-reply-avatar-letter" style="display:none;">' + escapeHtml(parent.authorName ? parent.authorName.charAt(0) : '?') + '</span>'
+    ? '<img src="' + escapeHtml(parent.authorPhotoUrl) + '" alt="" data-fallback="flex"><span class="fp-reply-avatar-letter" style="display:none;">' + escapeHtml(parent.authorName ? parent.authorName.charAt(0) : '?') + '</span>'
     : '<span class="fp-reply-avatar-letter">' + escapeHtml(parent.authorName ? parent.authorName.charAt(0) : '?') + '</span>';
   const likedClass = parent.isThumbedUp ? 'liked' : '';
   const likedFill = parent.isThumbedUp ? " style=\"font-variation-settings:'FILL' 1\"" : '';
   const likeIcon = 'thumb_up';
-  const editedBadge = parent.isEdited ? ' <span class="fp-edited" onclick="showEditHistory(\'reply\', \'' + escapeHtml(parent.id) + '\')"><span class="material-symbols-outlined">edit</span> edited</span>' : '';
+  const editedBadge = parent.isEdited ? ' <span class="fp-edited" data-action="show-edit-history" data-target-type="reply" data-target-id="' + escapeHtml(parent.id) + '"><span class="material-symbols-outlined">edit</span> edited</span>' : '';
   const ownerBtns = (IS_AUTH && parent.authorId === USER_ID)
     ? '<span class="fp-reply-owner"><button class="fp-owner-btn" data-action="edit-reply" data-reply-id="' + escapeHtml(parent.id) + '"><span class="material-symbols-outlined" style="font-size:12px;">edit</span></button><button class="fp-owner-btn danger" data-action="delete-reply" data-reply-id="' + escapeHtml(parent.id) + '"><span class="material-symbols-outlined" style="font-size:12px;">delete</span></button></span>'
     : '';
   const followBtn = (IS_AUTH && parent.authorId !== USER_ID)
-    ? '<button class="follow-btn-inline ' + (parent.authorFollowed ? 'following' : 'not-following') + '" data-user-id="' + parent.authorId + '" onclick="toggleFollowBtn(this, \'' + parent.authorId + '\')">' + (parent.authorFollowed ? 'Following' : 'Follow') + '</button>'
+    ? '<button class="follow-btn-inline ' + (parent.authorFollowed ? 'following' : 'not-following') + '" data-user-id="' + parent.authorId + '" data-action="toggle-follow">' + (parent.authorFollowed ? 'Following' : 'Follow') + '</button>'
     : '';
   const mentionContent = renderMentions(parent.content || '');
 
@@ -968,7 +968,7 @@ function renderThreadParent(parent) {
     '</div>' +
     '<div class="fp-reply-body">' + mentionContent + '</div>' +
     '<div class="fp-thread-parent-actions">' +
-      '<button onclick="toggleReplyLike(\'' + escapeHtml(parent.id) + '\')" class="fp-reply-action ' + likedClass + '" id="reply-like-btn-' + escapeHtml(parent.id) + '">' +
+      '<button data-action="toggle-reply-like" data-reply-id="' + escapeHtml(parent.id) + '" class="fp-reply-action ' + likedClass + '" id="reply-like-btn-' + escapeHtml(parent.id) + '">' +
         '<span class="material-symbols-outlined"' + likedFill + '>' + likeIcon + '</span>' +
         '<span id="reply-like-count-' + escapeHtml(parent.id) + '">' + (parent.thumbsUpCount || 0) + '</span>' +
       '</button>' +
@@ -991,17 +991,17 @@ function renderThreadReplies(replies, parentAuthor, depth) {
 
 function renderThreadReply(reply, parentAuthor, depth) {
   const avatarHtml = reply.authorPhotoUrl
-    ? '<img src="' + escapeHtml(reply.authorPhotoUrl) + '" alt="" onerror="this.style.display=\'none\'; this.nextElementSibling.style.display=\'flex\';"><span class="fp-reply-avatar-letter" style="display:none;">' + escapeHtml(reply.authorName.charAt(0)) + '</span>'
+    ? '<img src="' + escapeHtml(reply.authorPhotoUrl) + '" alt="" data-fallback="flex"><span class="fp-reply-avatar-letter" style="display:none;">' + escapeHtml(reply.authorName.charAt(0)) + '</span>'
     : '<span class="fp-reply-avatar-letter">' + escapeHtml(reply.authorName.charAt(0)) + '</span>';
   const likedClass = reply.isThumbedUp ? 'liked' : '';
   const likedFill = reply.isThumbedUp ? " style=\"font-variation-settings:'FILL' 1\"" : '';
   const likeIcon = 'thumb_up';
-  const editedBadge = reply.isEdited ? ' <span class="fp-edited" onclick="showEditHistory(\'reply\', \'' + escapeHtml(reply.id) + '\')"><span class="material-symbols-outlined">edit</span> edited</span>' : '';
+  const editedBadge = reply.isEdited ? ' <span class="fp-edited" data-action="show-edit-history" data-target-type="reply" data-target-id="' + escapeHtml(reply.id) + '"><span class="material-symbols-outlined">edit</span> edited</span>' : '';
   const ownerBtns = (IS_AUTH && reply.authorId === USER_ID)
     ? '<span class="fp-reply-owner"><button class="fp-owner-btn" data-action="edit-reply" data-reply-id="' + escapeHtml(reply.id) + '"><span class="material-symbols-outlined" style="font-size:12px;">edit</span></button><button class="fp-owner-btn danger" data-action="delete-reply" data-reply-id="' + escapeHtml(reply.id) + '"><span class="material-symbols-outlined" style="font-size:12px;">delete</span></button></span>'
     : '';
   const followBtn = (IS_AUTH && reply.authorId !== USER_ID)
-    ? '<button class="follow-btn-inline ' + (reply.isFollowed ? 'following' : 'not-following') + '" data-user-id="' + reply.authorId + '" onclick="toggleFollowBtn(this, \'' + reply.authorId + '\')">' + (reply.isFollowed ? 'Following' : 'Follow') + '</button>'
+    ? '<button class="follow-btn-inline ' + (reply.isFollowed ? 'following' : 'not-following') + '" data-user-id="' + reply.authorId + '" data-action="toggle-follow">' + (reply.isFollowed ? 'Following' : 'Follow') + '</button>'
     : '';
   const replyBtn = IS_AUTH
     ? '<button class="fp-reply-action" data-action="reply-to-author" data-author="' + escapeHtml(reply.authorName) + '" data-reply-id="' + escapeHtml(reply.id) + '"><span class="material-symbols-outlined">reply</span> Reply</button>'
@@ -1014,7 +1014,7 @@ function renderThreadReply(reply, parentAuthor, depth) {
 
   // Sub-thread indicator for children not shown (shouldn't happen with full tree, but safety)
   const subIndicator = (reply.childCount > 0 && (!reply.children || reply.children.length === 0))
-    ? '<button class="fp-thread-sub-indicator" onclick="loadSubThread(\'' + reply.id + '\')"><span class="material-symbols-outlined">forum</span> ' + reply.childCount + ' repl' + (reply.childCount === 1 ? 'y' : 'ies') + '</button>'
+    ? '<button class="fp-thread-sub-indicator" data-action="load-sub-thread" data-reply-id="' + reply.id + '"><span class="material-symbols-outlined">forum</span> ' + reply.childCount + ' repl' + (reply.childCount === 1 ? 'y' : 'ies') + '</button>'
     : '';
 
   const mentionContent = renderMentions(reply.content);
@@ -1034,7 +1034,7 @@ function renderThreadReply(reply, parentAuthor, depth) {
     replyingLine +
     '<div class="fp-reply-body">' + mentionContent + '</div>' +
     '<div class="fp-reply-actions">' +
-      '<button onclick="toggleReplyLike(\'' + reply.id + '\')" class="fp-reply-action ' + likedClass + '" id="reply-like-btn-' + reply.id + '">' +
+      '<button data-action="toggle-reply-like" data-reply-id="' + reply.id + '" class="fp-reply-action ' + likedClass + '" id="reply-like-btn-' + reply.id + '">' +
         '<span class="material-symbols-outlined"' + likedFill + '>' + likeIcon + '</span>' +
         '<span id="reply-like-count-' + reply.id + '">' + reply.thumbsUpCount + '</span>' +
       '</button>' +
@@ -1141,10 +1141,10 @@ function showUserPopup(username, anchorEl) {
 
 function renderUserPopup(data, anchorEl) {
   const avatarHtml = data.photoUrl
-    ? '<img src="' + escapeHtml(data.photoUrl) + '" alt="" onerror="this.style.display=\'none\'; this.nextElementSibling.style.display=\'flex\';"><span class="fp-user-popup-avatar-letter" style="display:none;">' + escapeHtml(data.displayName.charAt(0)) + '</span>'
+    ? '<img src="' + escapeHtml(data.photoUrl) + '" alt="" data-fallback="flex"><span class="fp-user-popup-avatar-letter" style="display:none;">' + escapeHtml(data.displayName.charAt(0)) + '</span>'
     : '<span class="fp-user-popup-avatar-letter">' + escapeHtml(data.displayName.charAt(0)) + '</span>';
   const followBtn = (!data.isSelf && IS_AUTHENTICATED)
-    ? '<button class="follow-btn-inline ' + (data.isFollowing ? 'following' : 'not-following') + '" onclick="toggleFollowBtn(this, \'' + data.id + '\')" style="font-size:.75rem;padding:4px 14px;">' + (data.isFollowing ? 'Following' : 'Follow') + '</button>'
+    ? '<button class="follow-btn-inline ' + (data.isFollowing ? 'following' : 'not-following') + '" data-action="toggle-follow" data-user-id="' + data.id + '" style="font-size:.75rem;padding:4px 14px;">' + (data.isFollowing ? 'Following' : 'Follow') + '</button>'
     : '';
   const profileBtn = '<a href="/profile/' + encodeURIComponent(data.username) + '/" class="md-btn md-btn-outlined" style="font-size:.75rem;padding:4px 14px;flex:1;text-align:center;">View Profile</a>';
 
@@ -1356,9 +1356,9 @@ function showMentionDropdown(users, textarea) {
   let html = '';
   users.forEach(function(u, i) {
     const avatarHtml = u.photoUrl
-      ? '<img src="' + escapeHtml(u.photoUrl) + '" alt="" onerror="this.style.display=\'none\'; this.nextElementSibling.style.display=\'flex\';"><span class="fp-mention-item-letter" style="display:none;">' + escapeHtml(u.displayName.charAt(0)) + '</span>'
+      ? '<img src="' + escapeHtml(u.photoUrl) + '" alt="" data-fallback="flex"><span class="fp-mention-item-letter" style="display:none;">' + escapeHtml(u.displayName.charAt(0)) + '</span>'
       : '<span class="fp-mention-item-letter">' + escapeHtml(u.displayName.charAt(0)) + '</span>';
-    html += '<div class="fp-mention-item' + (i === 0 ? ' selected' : '') + '" data-index="' + i + '" data-username="' + escapeHtml(u.username) + '" data-displayname="' + escapeHtml(u.displayName) + '" onmousedown="selectMentionItem(' + i + ')" onmouseover="mentionSelectedIndex=' + i + ';highlightMentionItem()">';
+    html += '<div class="fp-mention-item' + (i === 0 ? ' selected' : '') + '" data-index="' + i + '" data-username="' + escapeHtml(u.username) + '" data-displayname="' + escapeHtml(u.displayName) + '" data-mousedown-action="select-mention-item" data-hover-action="hover-mention-item">';
     html += '<div class="fp-mention-item-avatar">' + avatarHtml + '</div>';
     html += '<div><div class="fp-mention-item-name">' + escapeHtml(u.displayName) + '</div>';
     html += '<div class="fp-mention-item-username">@' + escapeHtml(u.username) + '</div></div>';
@@ -1476,9 +1476,18 @@ function shareReply(replyId) {
   }
 }
 
-// ---- Report (placeholder) ----
-function reportContent(targetType, targetId) {
-  showSnackbar('Report submitted. Thank you!');
+// ---- Report ----
+async function reportContent(targetType, targetId) {
+  try {
+    const r = await fetch('/ajax/report/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
+      credentials: 'same-origin',
+      body: JSON.stringify({ target_type: targetType, target_id: targetId, reason: 'other', description: '' })
+    });
+    if (r.ok) showSnackbar('Report submitted. Thank you!');
+    else { const d = await r.json().catch(() => ({})); showSnackbar(d.error || 'Failed to submit report'); }
+  } catch(e) { showSnackbar('Failed to submit report'); }
 }
 
 // ---- Archive reply ----
@@ -1498,6 +1507,41 @@ async function archiveReply(replyId) {
 document.addEventListener('DOMContentLoaded', function() {
   const mainTextarea = document.getElementById('mainReplyContent');
   if (mainTextarea) initMentionAutocomplete(mainTextarea);
+});
+
+registerActions({
+  'toggle-follow-post': function() { toggleFollowPost(); },
+  'show-edit-history': function(el) { showEditHistory(el.dataset.targetType, el.dataset.targetId); },
+  'toggle-more-menu': function(el) { toggleMoreMenu(el.dataset.menuId, el); },
+  'toggle-bookmark': async function(el) { closeAllMenus(); await toggleBookmark(el.dataset.targetType, el.dataset.targetId, el); },
+  'share-post': function(el) { closeAllMenus(); sharePost(el.dataset.postId); },
+  'report-content': function(el) { closeAllMenus(); reportContent(el.dataset.targetType, el.dataset.targetId); },
+  'start-edit-post': function() { closeAllMenus(); startEditPost(); },
+  'archive-post': function() { closeAllMenus(); archivePost(); },
+  'delete-post': function() { closeAllMenus(); deletePost(); },
+  'toggle-post-like': function(el) { togglePostLike(el.dataset.postId); },
+  'close-edit-post-modal': function() { closeEditPostModal(); },
+  'submit-edit-post': function() { submitEditPost(); },
+  'close-edit-history-modal': function() { closeEditHistoryModal(); },
+  'toggle-follow': async function(el) { await toggleFollowBtn(el, el.dataset.userId); },
+  'toggle-reply-like': function(el) { toggleReplyLike(el.dataset.replyId); },
+  'open-thread-reply': function(el) { openThreadReply(el.dataset.replyId, el.dataset.authorName); },
+  'share-reply': function(el) { closeAllMenus(); shareReply(el.dataset.replyId); },
+  'start-edit-reply': function(el) { closeAllMenus(); startEditReply(el.dataset.replyId); },
+  'archive-reply': function(el) { closeAllMenus(); archiveReply(el.dataset.replyId); },
+  'delete-reply': function(el) { closeAllMenus(); deleteReply(el.dataset.replyId); },
+  'open-thread': function(el) { openThread(el.dataset.replyId); },
+  'submit-main-reply': function(form, e) { e.preventDefault(); submitMainReply(e); },
+  'close-edit-reply-modal': function() { closeEditReplyModal(); },
+  'submit-edit-reply': function() { submitEditReply(); },
+  'close-delete-confirm-modal': function() { closeDeleteConfirmModal(); },
+  'confirm-delete': function() { confirmDelete(); },
+  'close-thread': function() { closeThread(); },
+  'handle-thread-reply-key': function(el, e) { handleThreadReplyKey(e); },
+  'submit-thread-reply': function() { submitThreadReply(); },
+  'load-sub-thread': function(el) { loadSubThread(el.dataset.replyId); },
+  'select-mention-item': function(el) { selectMentionItem(parseInt(el.dataset.index)); },
+  'hover-mention-item': function(el) { mentionSelectedIndex = parseInt(el.dataset.index); highlightMentionItem(); }
 });
 </script>
 {% endblock %}

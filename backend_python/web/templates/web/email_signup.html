@@ -28,7 +28,7 @@
         <label class="md-text-field-label">Password (8+ characters)</label>
       </div>
       <p id="signup-error" style="color:var(--md-error);font-size:0.8125rem;min-height:1.2em;margin:4px 0;"></p>
-      <button onclick="handleSignup()" id="signup-btn" class="md-btn md-btn-filled" style="width:100%;margin-top:8px;">Create Account</button>
+      <button data-action="email-signup" id="signup-btn" class="md-btn md-btn-filled" style="width:100%;margin-top:8px;">Create Account</button>
     </div>
 
     <div class="md-divider" style="margin-top:20px;"></div>
@@ -43,24 +43,22 @@
 </div>
 
 {% block extra_js %}
-<script>
-async function handleSignup() {
-  const username = document.getElementById('signup-username').value.trim();
-  const email = document.getElementById('signup-email').value.trim();
-  const password = document.getElementById('signup-password').value;
-  const errorEl = document.getElementById('signup-error');
-  const btn = document.getElementById('signup-btn');
+<script nonce="{{ csp_nonce }}">
+function handleSignup() {
+  var username = document.getElementById('signup-username').value.trim();
+  var email = document.getElementById('signup-email').value.trim();
+  var password = document.getElementById('signup-password').value;
+  var errorEl = document.getElementById('signup-error');
+  var btn = document.getElementById('signup-btn');
   errorEl.textContent = '';
   btn.disabled = true;
   btn.textContent = 'Creating account...';
 
-  try {
-    const res = await fetch('/api/auth/email/signup/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password, username })
-    });
-    const data = await res.json();
+  fetch('/api/auth/email/signup/', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email: email, password: password, username: username })
+  }).then(function(res) { return res.json(); }).then(function(data) {
     if (data.status === 'success') {
       window.location.href = '{% url "web:email_verify" %}?email=' + encodeURIComponent(email);
     } else {
@@ -68,12 +66,16 @@ async function handleSignup() {
       btn.disabled = false;
       btn.textContent = 'Create Account';
     }
-  } catch (e) {
+  }).catch(function() {
     errorEl.textContent = 'Network error. Please try again.';
     btn.disabled = false;
     btn.textContent = 'Create Account';
-  }
+  });
 }
+
+registerActions({
+  'email-signup': function() { handleSignup(); }
+});
 </script>
 {% endblock %}
 {% endblock %}

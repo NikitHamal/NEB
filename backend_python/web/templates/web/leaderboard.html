@@ -240,7 +240,7 @@
       <div class="leaderboard-user-info">
         <div class="leaderboard-avatar">
           {% if contributor.photo_url %}
-          <img src="{{ contributor.photo_url }}" alt="{{ contributor.display_name }}" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';">
+          <img src="{{ contributor.photo_url }}" alt="{{ contributor.display_name }}" data-fallback="inline-flex">
           <span class="leaderboard-avatar-letter" style="display:none;">{{ contributor.display_name|truncate_chars:1 }}</span>
           {% else %}
           <span class="leaderboard-avatar-letter">{{ contributor.display_name|truncate_chars:1 }}</span>
