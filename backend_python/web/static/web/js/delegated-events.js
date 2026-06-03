@@ -4,7 +4,7 @@
   function getActionEl(el) {
     var current = el;
     while (current && current !== document.body) {
-      if (current.dataset && current.dataset.action) return current;
+      if (current.dataset && current.dataset.action && current.tagName !== 'FORM') return current;
       current = current.parentElement;
     }
     return null;
