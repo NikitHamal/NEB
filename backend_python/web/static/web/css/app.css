@@ -3274,3 +3274,8 @@ button:focus-visible {
     font-size: 16px !important;
   }
 }
+
+/* Custom topbar auth button corner rounding */
+.topbar-auth-btn {
+  border-radius: 8px !important;
+}
