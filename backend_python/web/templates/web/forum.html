@@ -561,6 +561,36 @@
 
 {% block extra_js %}
 <script nonce="{{ csp_nonce }}">
+// ── Real-time forum list ──
+document.addEventListener('DOMContentLoaded', function() {
+  if (!window.WS) return;
+  window.WS.subscribe('forum.public');
+  // New post landed — show a snackbar with a refresh hint (auto-prepending
+  // a fully-rendered post card would be more invasive, so we just notify).
+  window.WS.on('forum.public:post.created', function (data) {
+    if (!data) return;
+    showSnackbar('New post: ' + (data.title || '').slice(0, 60) + (data.title && data.title.length > 60 ? '…' : ''));
+  });
+  // Like count changed on a post in the list
+  window.WS.on('forum.public:post.like_changed', function (data) {
+    if (!data || !data.post_id) return;
+    const el = document.getElementById('forum-post-like-count-' + data.post_id);
+    if (el) el.textContent = data.thumbs_up_count;
+  });
+  // Reply count changed
+  window.WS.on('forum.public:reply.created', function (data) {
+    if (!data || !data.post_id) return;
+    const el = document.getElementById('forum-post-reply-count-' + data.post_id);
+    if (el) el.textContent = (parseInt(el.textContent || '0', 10) || 0) + 1;
+  });
+  // Post deleted — hide the row
+  window.WS.on('forum.public:post.deleted', function (data) {
+    if (!data || !data.post_id) return;
+    const card = document.querySelector('.forum-post-card[data-post-id="' + data.post_id + '"]');
+    if (card) { card.style.opacity = '0.4'; card.style.pointerEvents = 'none'; }
+  });
+});
+
 async function toggleForumPostLike(postId, btn) {
   if (!IS_AUTHENTICATED) { window.location.href = '{% url "web:login" %}'; return; }
   try {

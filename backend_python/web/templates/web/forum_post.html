@@ -754,8 +754,33 @@ async function confirmDelete() {
     const r = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN }, credentials: 'same-origin' });
     const d = await r.json();
     if (d.success) {
-      if (deleteTarget.type === 'post') { window.location.href = '/forum/'; }
-      else { location.reload(); }
+      closeDeleteConfirmModal();
+      if (deleteTarget.type === 'post') {
+        window.location.href = '/forum/';
+      } else {
+        // Live DOM removal — the WS will also broadcast, but the optimistic
+        // update here avoids a flash. The WS handler will dedupe.
+        const replyId = deleteTarget.id;
+        const sel = '#reply-card-' + CSS.escape(replyId) + ', .fp-thread-reply[data-reply-id="' + CSS.escape(replyId) + '"]';
+        const node = document.querySelector(sel);
+        if (node) {
+          node.style.transition = 'opacity 0.2s, max-height 0.3s, margin 0.3s, padding 0.3s';
+          node.style.opacity = '0';
+          node.style.maxHeight = '0';
+          node.style.marginTop = '0';
+          node.style.marginBottom = '0';
+          node.style.paddingTop = '0';
+          node.style.paddingBottom = '0';
+          node.style.overflow = 'hidden';
+          setTimeout(function () { node.remove(); }, 300);
+        }
+        const counters = document.querySelectorAll('[data-reply-count], .fp-reply-count');
+        counters.forEach(function (el) {
+          const cur = parseInt(el.textContent || '0', 10) || 0;
+          el.textContent = Math.max(0, cur - 1);
+        });
+        showSnackbar('Reply deleted');
+      }
     } else { showSnackbar(d.error || 'Failed to delete.'); }
   } catch(e) { showSnackbar('Error deleting.'); }
 }
@@ -791,15 +816,43 @@ async function submitMainReply(e) {
   e.preventDefault();
   const content = document.getElementById('mainReplyContent').value.trim();
   if (!content) { showSnackbar('Content is required.'); return; }
+  const submitBtn = (e && e.target) ? e.target.querySelector('button[type="submit"]') : null;
+  if (submitBtn) submitBtn.disabled = true;
   try {
     const r = await fetch('/ajax/reply/' + POST_ID + '/', {
       method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
       credentials: 'same-origin', body: JSON.stringify({ content })
     });
     const d = await r.json();
-    if (d && d.id) { location.reload(); }
+    if (d && d.id) {
+      // Live insert: prepend the new reply without reloading
+      const list = document.querySelector('.fp-reply-list');
+      if (list && typeof renderThreadReply === 'function') {
+        const tmp = document.createElement('div');
+        tmp.innerHTML = renderThreadReply(d, '');
+        const card = tmp.firstElementChild;
+        if (card) {
+          card.style.opacity = '0';
+          list.insertBefore(card, list.firstChild);
+          requestAnimationFrame(function () {
+            card.style.transition = 'opacity 0.3s';
+            card.style.opacity = '1';
+          });
+        }
+        // Increment the counter
+        const counters = document.querySelectorAll('[data-reply-count], .fp-reply-count');
+        counters.forEach(function (el) {
+          const cur = parseInt(el.textContent || '0', 10) || 0;
+          el.textContent = cur + 1;
+        });
+      } else {
+        location.reload();
+      }
+      document.getElementById('mainReplyContent').value = '';
+    }
     else { showSnackbar(d.error || 'Failed to submit reply.'); }
   } catch(e) { showSnackbar('Error submitting reply.'); }
+  finally { if (submitBtn) submitBtn.disabled = false; }
 }
 
 function openThread(replyId) {
@@ -1494,13 +1547,98 @@ async function archiveReply(replyId) {
       credentials: 'same-origin'
     });
     const d = await r.json();
-    if (d.success) { location.reload(); }
-    else { showSnackbar(d.error || 'Failed to archive'); }
+    if (d.success) {
+      // Live DOM removal: archive == delete from view
+      const sel = '#reply-card-' + CSS.escape(replyId) + ', .fp-thread-reply[data-reply-id="' + CSS.escape(replyId) + '"]';
+      const node = document.querySelector(sel);
+      if (node) {
+        node.style.transition = 'opacity 0.2s, max-height 0.3s, margin 0.3s, padding 0.3s';
+        node.style.opacity = '0';
+        node.style.maxHeight = '0';
+        node.style.marginTop = '0';
+        node.style.marginBottom = '0';
+        node.style.paddingTop = '0';
+        node.style.paddingBottom = '0';
+        node.style.overflow = 'hidden';
+        setTimeout(function () { node.remove(); }, 300);
+      }
+      showSnackbar(d.isArchived ? 'Reply archived' : 'Reply restored');
+    } else { showSnackbar(d.error || 'Failed to archive'); }
   } catch(e) { showSnackbar('Error archiving reply'); }
 }
 
 // Init on page load
 document.addEventListener('DOMContentLoaded', function() {
+  // ── Real-time subscriptions ──
+  if (window.WS) {
+    window.WS.subscribe('post.' + POST_ID);
+    window.WS.subscribe('user');
+    // Live reply delete: remove the card without reloading the page
+    window.WS.on('post.' + POST_ID + ':reply.deleted', function (data) {
+      if (!data || !data.reply_id) return;
+      const sel = '#reply-card-' + CSS.escape(data.reply_id) + ', .fp-thread-reply[data-reply-id="' + CSS.escape(data.reply_id) + '"]';
+      const node = document.querySelector(sel);
+      if (node) {
+        node.style.transition = 'opacity 0.2s, max-height 0.3s, margin 0.3s, padding 0.3s';
+        node.style.opacity = '0';
+        node.style.maxHeight = '0';
+        node.style.marginTop = '0';
+        node.style.marginBottom = '0';
+        node.style.paddingTop = '0';
+        node.style.paddingBottom = '0';
+        node.style.overflow = 'hidden';
+        setTimeout(function () { node.remove(); updateReplyCount(-1); }, 300);
+      }
+    });
+    // Live reply inserted: prepend to the reply list
+    window.WS.on('post.' + POST_ID + ':reply.created', function (data) {
+      if (!data || !data.id) return;
+      if (document.getElementById('reply-card-' + data.id)) return; // dedupe
+      const list = document.querySelector('.fp-reply-list');
+      if (!list) return;
+      const tmp = document.createElement('div');
+      tmp.innerHTML = renderThreadReply(data, '');
+      const card = tmp.firstElementChild;
+      if (card) {
+        card.style.opacity = '0';
+        list.insertBefore(card, list.firstChild);
+        requestAnimationFrame(function () {
+          card.style.transition = 'opacity 0.3s';
+          card.style.opacity = '1';
+        });
+        updateReplyCount(1);
+        showSnackbar('New reply from @' + (data.authorName || 'someone'));
+      }
+    });
+    // Live reply like count changes
+    window.WS.on('post.' + POST_ID + ':reply.like_changed', function (data) {
+      if (!data || !data.reply_id) return;
+      const btn = document.getElementById('reply-like-btn-' + data.reply_id);
+      if (!btn) return;
+      const countEl = btn.querySelector('.fp-action-count, .count');
+      if (countEl) countEl.textContent = data.thumbs_up_count;
+    });
+    // Live post like count changes
+    window.WS.on('post.' + POST_ID + ':post.like_changed', function (data) {
+      if (!data) return;
+      const countEl = document.getElementById('post-like-count-' + data.post_id);
+      if (countEl) countEl.textContent = data.thumbs_up_count;
+    });
+    // Live post updates (edit): refresh page since content changed substantially
+    window.WS.on('post.' + POST_ID + ':post.updated', function () {
+      // Lightweight: just show a snackbar; user can refresh if they want
+      showSnackbar('This post was edited — refresh to see changes');
+    });
+  }
+
+  function updateReplyCount(delta) {
+    const counters = document.querySelectorAll('[data-reply-count], .fp-reply-count');
+    counters.forEach(function (el) {
+      const cur = parseInt(el.textContent || '0', 10) || 0;
+      el.textContent = Math.max(0, cur + delta);
+    });
+  }
+
   const mainTextarea = document.getElementById('mainReplyContent');
   if (mainTextarea) initMentionAutocomplete(mainTextarea);
 });

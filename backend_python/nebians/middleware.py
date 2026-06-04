@@ -1,9 +1,42 @@
 import secrets
 from django.conf import settings
+from django.core.exceptions import DisallowedHost
+from django.http.request import validate_host
 
 
 def csp_nonce_context(request):
     return {'csp_nonce': getattr(request, 'csp_nonce', '')}
+
+
+class AllowedHostMiddleware:
+    """Extends Django's ALLOWED_HOSTS check with suffix wildcards.
+
+    Suffix entries in settings.ALLOWED_HOSTS_GLOB (e.g. '.trycloudflare.com')
+    match any subdomain. We rewrite the Host header to the canonical domain
+    before CommonMiddleware's host validation runs, so Django-generated
+    absolute URLs and CSRF checks use the production host.
+
+    Place BEFORE CommonMiddleware.
+    """
+
+    CANONICAL_HOST = 'nebians.consica.com.np'
+
+    def __init__(self, get_response):
+        self.get_response = get_response
+        self.suffixes = list(getattr(settings, 'ALLOWED_HOST_SUFFIXES', []))
+
+    def __call__(self, request):
+        host = request.get_host().split(':')[0].lower()
+        for suffix in self.suffixes:
+            if host.endswith('.' + suffix) or host == suffix:
+                # Rewrite the HTTP_HOST header so Django uses the canonical
+                # host in URL generation, CSRF checks, and the
+                # Vary/Origin handling. The actual client connection is
+                # still on the trycloudflare domain.
+                request.META['HTTP_HOST'] = self.CANONICAL_HOST
+                request._mirrored_host = host
+                break
+        return self.get_response(request)
 
 
 class SecurityHeadersMiddleware:

@@ -43,7 +43,14 @@
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/delegated-events.js' %}"></script>
 </head>
 
-<body>
+<body{% if ws_url %} data-ws-url="{{ ws_url }}"{% endif %}>
+  {# WebSocket configuration. realtime.js reads window.WS_CONFIG.url. #}
+  <script>
+    window.WS_CONFIG = window.WS_CONFIG || {};
+    {% if ws_url %}
+    window.WS_CONFIG.url = "{{ ws_url|escapejs }}";
+    {% endif %}
+  </script>
   <!-- Top Navigation Bar -->
   {% block topbar %}
   <header class="md-topbar">
@@ -295,18 +302,102 @@
       if (dot) {
         dot.style.display = count > 0 ? '' : 'none';
       }
+      // Live counter on the /notifications/ page if it's open
+      const pageCount = document.getElementById('notif-page-count');
+      if (pageCount) pageCount.textContent = count;
+    }
+
+    // Toast for live notifications. Pages can override window.__showNotifToast
+    // to customise the rendering.
+    function showNotifToast(payload) {
+      if (typeof window.__showNotifToast === 'function') {
+        try { window.__showNotifToast(payload); return; } catch (e) { /* fall through */ }
+      }
+      const host = document.getElementById('toast-host') || (function () {
+        const h = document.createElement('div');
+        h.id = 'toast-host';
+        h.style.cssText = 'position:fixed;right:16px;bottom:16px;z-index:9999;display:flex;flex-direction:column;gap:8px;';
+        document.body.appendChild(h);
+        return h;
+      })();
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.style.cssText = 'background:var(--md-surface-container,#fff);color:var(--md-on-surface,#1c1b1f);border:1px solid var(--md-outline-variant,#cac4d0);border-radius:12px;padding:12px 16px;box-shadow:0 4px 16px rgba(0,0,0,0.15);min-width:240px;max-width:360px;animation:toastIn 0.2s ease-out;';
+      const verb = (payload && payload.verb) || 'activity';
+      const messages = {
+        like_post: 'Someone liked your post',
+        like_reply: 'Someone liked your reply',
+        reply: 'New reply to your post',
+        reply_reply: 'New reply to your comment',
+        follow: 'You have a new follower',
+        mention: 'You were mentioned',
+        like_resource: 'Someone liked your resource',
+        like_resource_comment: 'Someone liked your comment',
+        resource_comment: 'New comment on your resource',
+        resource_comment_reply: 'New reply to your comment',
+        system: payload && payload.message ? payload.message : 'New notification',
+      };
+      toast.textContent = messages[verb] || 'New notification';
+      host.appendChild(toast);
+      setTimeout(function () { toast.style.opacity = '0'; toast.style.transition = 'opacity 0.3s'; }, 4000);
+      setTimeout(function () { toast.remove(); }, 4500);
     }
 
     {% if is_authenticated %}
-    setInterval(function () {
-      fetch('/ajax/notifications/unread-count/', { credentials: 'same-origin' })
-        .then(function (r) { return r.json(); })
-        .then(function (data) { updateNotifBadge(data.count || 0); })
-        .catch(function () { });
-    }, 60000);
+    (function () {
+      // WebSocket first; if it doesn't connect within 4s, fall back to polling.
+      var POLL_INTERVAL = 60000;
+      var pollTimer = null;
+      var wsOnline = false;
+      var pollUnreadCount = function () {
+        fetch('/ajax/notifications/unread-count/', { credentials: 'same-origin' })
+          .then(function (r) { return r.json(); })
+          .then(function (data) { updateNotifBadge(data.count || 0); })
+          .catch(function () { });
+      };
+      var startPolling = function () {
+        if (pollTimer) return;
+        pollUnreadCount();
+        pollTimer = setInterval(pollUnreadCount, POLL_INTERVAL);
+      };
+      var stopPolling = function () {
+        if (pollTimer) { clearInterval(pollTimer); pollTimer = null; }
+      };
+
+      // Wait for realtime.js (loaded below) to attach window.WS
+      var boot = function () {
+        if (!window.WS) { setTimeout(boot, 50); return; }
+        // Subscribe to user channel
+        try { window.WS.subscribe('user'); } catch (e) { /* ignore */ }
+        window.WS.on('user:notification.new', function (payload) {
+          // Increment badge optimistically; server pushes the real count too.
+          var badge = document.getElementById('notif-popup-badge');
+          var dot = document.getElementById('profile-notif-dot');
+          var current = badge && badge.style.display !== 'none' ? parseInt(badge.textContent === '9+' ? 10 : badge.textContent, 10) || 0 : 0;
+          updateNotifBadge(current + 1);
+          showNotifToast(payload);
+          // If the /notifications/ page is open, append the row live.
+          if (typeof window.__appendNotification === 'function') {
+            try { window.__appendNotification(payload); } catch (e) { /* ignore */ }
+          }
+        });
+        window.WS.on('user:notification.unread_count', function (data) {
+          if (data && typeof data.count === 'number') updateNotifBadge(data.count);
+        });
+        window.WS.onHealth(function (s) {
+          wsOnline = (s === 'connected');
+          if (wsOnline) stopPolling();
+          else startPolling();
+        });
+        window.WS.start();
+        // Hard fallback: if WS never connects in 6s, start polling.
+        setTimeout(function () { if (!wsOnline) startPolling(); }, 6000);
+      };
+      boot();
+    })();
     {% endif %}
   </script>
-
+  <script src="{% load static %}{% static 'web/js/realtime.js' %}"></script>
   {% block extra_js %}{% endblock %}
 </body>
 

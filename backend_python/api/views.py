@@ -61,6 +61,7 @@ from .serializers import (
 from . import counters as _counters
 from . import notifications as _notif
 from . import cleanup as _cleanup
+from . import realtime as _rt
 
 logger = logging.getLogger(__name__)
 
@@ -894,6 +895,7 @@ def posts_create(request):
 
     logger.info("posts_create: created post %s by user %s", post.id, user.username)
     _counters.increment_user_post_count(user.id)
+    _rt.broadcast_post_created(PostSerializer(post, context={'request': request}).data)
     return Response(PostSerializer(post, context={'request': request}).data, status=201)
 
 
@@ -916,6 +918,7 @@ def post_detail(request, post_id):
             _cleanup.delete_post_with_cleanup(post_id)
         except Post.DoesNotExist:
             return Response({'error': 'Post not found'}, status=404)
+        _rt.broadcast_post_deleted(post_id)
         logger.info("post_detail DELETE: deleted post %s by user %s", post_id, user.username)
         return Response({'success': True})
 
@@ -988,6 +991,7 @@ def post_like(request, post_id):
                 _counters.decrement_user_likes_received(post.user_id)
             _notif.notify_post_unliked(user.id, post_id)
 
+    _rt.broadcast_post_like_changed(post_id, current_count)
     return Response({'thumbsUpCount': current_count, 'isThumbedUp': is_thumbed_up})
 
 
@@ -1037,6 +1041,7 @@ def replies_create(request, post_id):
     _notif.notify_new_reply(user.id, post_id, reply.id)
     if parent_reply_id:
         _notif.notify_reply_to_reply(user.id, parent_reply_id, post_id, reply.id)
+    _rt.broadcast_reply_created(post_id, ReplySerializer(reply, context={'request': request}).data)
     return Response(ReplySerializer(reply, context={'request': request}).data, status=201)
 
 
@@ -1059,6 +1064,7 @@ def reply_detail(request, reply_id):
             _cleanup.delete_reply_with_cleanup(reply.id)
         except Reply.DoesNotExist:
             return Response({'error': 'Reply not found'}, status=404)
+        _rt.broadcast_reply_deleted(reply.post_id, reply.id, deleted_by=str(user.id))
         return Response({'success': True})
 
     content = request.data.get('content', '').strip()
@@ -1108,6 +1114,7 @@ def reply_like(request, reply_id):
                 _counters.decrement_user_likes_received(reply.user_id)
             _notif.notify_reply_unliked(user.id, reply_id)
 
+    _rt.broadcast_reply_like_changed(reply.post_id, reply_id, current_count)
     return Response({'thumbsUpCount': current_count, 'isThumbedUp': is_thumbed_up})
 
 
@@ -1731,6 +1738,7 @@ def posts_endpoint(request):
     except Exception:
         pass
     logger.info("posts_endpoint: created post %s by user %s", post.id, user.username)
+    _rt.broadcast_post_created(PostSerializer(post, context={'request': request}).data)
     return Response(PostSerializer(post, context={'request': request}).data, status=201)
 
 
@@ -1788,6 +1796,7 @@ def replies_endpoint(request, post_id):
         enqueue_if_reply_mention(reply)
     except Exception:
         pass
+    _rt.broadcast_reply_created(post_id, ReplySerializer(reply, context={'request': request}).data)
     return Response(ReplySerializer(reply, context={'request': request}).data, status=201)
 
 
@@ -1978,6 +1987,7 @@ def user_follow_toggle(request, user_id):
             _notif.notify_new_follow(current_user.id, target_user.id)
 
     follower_count = target_user.follower_count if hasattr(target_user, 'follower_count') else Follow.objects.filter(following=target_user).count()
+    _rt.broadcast_follow_changed(target_user.id, follower_count)
     return Response({'is_following': is_following, 'follower_count': follower_count})
 
 

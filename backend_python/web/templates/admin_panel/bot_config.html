@@ -152,18 +152,19 @@
 <script nonce="{{ csp_nonce }}">
   // Curated AI4Bharat Arena model list (mirrors fetch_models_for_client output).
   // The UUIDs are stable per the upstream arena and rarely change.
+  // Verified against the live arena API on 2026-06-03.
   const AI4BHARAT_MODELS = [
-    { id: 'fadda998-e440-4c44-81b4-b0ecae27a0c5', name: 'Gemini 3.5 Flash',                    code: 'gemini-3.5-flash' },
-    { id: 'd95f1077-e440-4c44-81b4-b0ecae27a0c5', name: 'Nemotron 3 Super 120B A12B',         code: 'nemotron-3-super-120b-a12b' },
-    { id: '7927d963-e440-4c44-81b4-b0ecae27a0c5', name: 'Nemotron 3 Nano Omni 30B A3B Reasoning', code: 'nemotron-3-nano-omni-30b-a3b-reasoning' },
-    { id: 'bb89dfa2-e440-4c44-81b4-b0ecae27a0c5', name: 'Gemma 4 26B A4B it',                  code: 'gemma-4-26b-a4b-it' },
-    { id: '860f13ee-e440-4c44-81b4-b0ecae27a0c5', name: 'Gemma 4 31B it',                      code: 'gemma-4-31b-it' },
-    { id: 'ca7565b7-e440-4c44-81b4-b0ecae27a0c5', name: 'Gemini 3.1 Flash Lite',               code: 'gemini-3.1-flash-lite' },
-    { id: 'a3581540-e440-4c44-81b4-b0ecae27a0c5', name: 'Sarvam 105B',                          code: 'sarvam-105b' },
-    { id: '8087217e-e440-4c44-81b4-b0ecae27a0c5', name: 'Sarvam 30B',                           code: 'sarvam-30b' },
-    { id: '1f228a49-e440-4c44-81b4-b0ecae27a0c5', name: 'Gemini 3 Flash',                       code: 'gemini-3-flash' },
-    { id: '318878b7-e440-4c44-81b4-b0ecae27a0c5', name: 'Gemini 2.5 Flash',                     code: 'gemini-2.5-flash' },
-    { id: '864608e8-e440-4c44-81b4-b0ecae27a0c5', name: 'Gemini 2.5 Flash Lite',                code: 'gemini-2.5-flash-lite' },
+    { id: 'fadda998-e440-4c44-81b4-b0ecae27a0c5', name: 'Gemini 3.5 Flash',                       code: 'gemini-3.5-flash',                          provider: 'google',  reasoning: false, vision: false, context: 32000  },
+    { id: 'd95f1077-9bd0-46e4-8dcd-c43227e87885', name: 'Nemotron 3 Super 120B A12B',             code: 'nvidia/NVIDIA-Nemotron-3-Super-120B-A12B',  provider: 'nvidia',  reasoning: false, vision: false, context: 131072 },
+    { id: '7927d963-5444-4330-8bea-28d4b35694e5', name: 'Nemotron 3 Nano Omni 30B A3B Reasoning', code: 'nvidia/Nemotron-3-Nano-Omni-30B-A3B-Reasoning', provider: 'nvidia', reasoning: true,  vision: true,  context: 65536  },
+    { id: 'bb89dfa2-1b8e-4075-9567-0c6f4c6f621e', name: 'Gemma 4 26B A4B it',                     code: 'google/gemma-4-26B-A4B-it',                  provider: 'google',  reasoning: false, vision: false, context: 32768  },
+    { id: '860f13ee-b21b-4508-a12f-7f5ac184df58', name: 'Gemma 4 31B it',                         code: 'google/gemma-4-31B-it',                      provider: 'google',  reasoning: false, vision: false, context: 32768  },
+    { id: 'ca7565b7-eee6-4503-9c26-cf5655d61f82', name: 'Gemini 3.1 Flash Lite',                  code: 'gemini-3.1-flash-lite-preview',              provider: 'google',  reasoning: false, vision: true,  context: 32000  },
+    { id: 'a3581540-b86b-402f-b3d3-bdbc95e572ee', name: 'Sarvam 105B',                            code: 'sarvam-105b',                                provider: 'sarvam',  reasoning: true,  vision: false, context: 32768, hint: 'Best for Hindi/Nepali/Indic' },
+    { id: '8087217e-f01f-41b0-9d3a-885154d3d8e8', name: 'Sarvam 30B',                             code: 'sarvam-30b',                                 provider: 'sarvam',  reasoning: true,  vision: false, context: 32768, hint: 'Indic LLM (smaller, faster)' },
+    { id: '1f228a49-deed-4660-9301-d149efe8b068', name: 'Gemini 3 Flash',                         code: 'gemini-3-flash-preview',                     provider: 'google',  reasoning: true,  vision: true,  context: 32000  },
+    { id: '318878b7-c6a6-4c98-b228-b36ae505250c', name: 'Gemini 2.5 Flash',                       code: 'gemini-2.5-flash',                           provider: 'google',  reasoning: true,  vision: true,  context: 32000  },
+    { id: '864608e8-c05d-4ad0-bf46-ecc00b2045b6', name: 'Gemini 2.5 Flash Lite',                  code: 'gemini-2.5-flash-lite',                      provider: 'google',  reasoning: false, vision: true,  context: 32000  },
   ];
 
   const QWEN_MODELS = [
@@ -209,12 +210,30 @@
     urlEl.addEventListener('input', () => { userTouchedUrl = true; });
   }
 
+  function _fmtContextWindow(n) {
+    if (!n) return '';
+    if (n >= 1024 * 1024) return (n / (1024 * 1024)).toFixed(1) + 'M ctx';
+    if (n >= 1024) return Math.round(n / 1024) + 'K ctx';
+    return n + ' ctx';
+  }
+  function _formatOptionLabel(opt) {
+    if (opt.label) return opt.label;
+    const tags = [];
+    if (opt.reasoning) tags.push('🧠');
+    if (opt.vision) tags.push('👁');
+    if (opt.context) tags.push(_fmtContextWindow(opt.context));
+    const tagStr = tags.length ? '  ' + tags.join(' ') : '';
+    const codeStr = opt.code ? '  (' + opt.code + ')' : '';
+    return opt.name + tagStr + codeStr;
+  }
   function rebuildModelControl(provider, currentValue) {
     const cfg = PROVIDER_CONFIG[provider];
     const select = document.getElementById('id_model_select');
     const text = document.getElementById('id_model_text');
     const hidden = document.getElementById('id_model');
+    const helpEl = document.getElementById('id_model_help');
     select.innerHTML = '';
+    let activeOpt = null;
     if (cfg.modelControl === 'select') {
       select.style.display = '';
       text.style.display = 'none';
@@ -224,10 +243,11 @@
         const o = document.createElement('option');
         const v = opt.id || opt.value;
         o.value = v;
-        o.textContent = opt.label || opt.name + '  (' + (opt.code || v) + ')';
+        o.textContent = _formatOptionLabel(opt);
         if (v === currentValue) {
           o.selected = true;
           matched = true;
+          activeOpt = opt;
         }
         select.appendChild(o);
       }
@@ -244,6 +264,12 @@
       text.value = currentValue || '';
     }
     if (hidden) hidden.value = currentValue || '';
+    // Update help text with the currently-selected model's hint
+    if (activeOpt && activeOpt.hint && helpEl) {
+      helpEl.textContent = cfg.modelHelp + ' — ' + activeOpt.hint;
+    } else if (helpEl) {
+      helpEl.textContent = cfg.modelHelp;
+    }
   }
 
   function onProviderChange() {

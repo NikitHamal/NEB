@@ -292,7 +292,10 @@ def create_session(token: str, model_id: str, mode: str = 'direct') -> dict:
     if r.status_code == 400 and 'limit' in r.text.lower():
         raise ArenaRateLimit("session limit reached for this anon token", status_code=400, body=r.text)
     if r.status_code != 201 and r.status_code != 200:
-        raise ArenaError(f"create_session failed: {r.status_code}", status_code=r.status_code, body=r.text)
+        raise ArenaError(
+            f"create_session failed: {r.status_code} {r.text[:300]}",
+            status_code=r.status_code, body=r.text,
+        )
     return r.json()
 
 
@@ -360,6 +363,12 @@ def stream_chat(token: str, session_id: str, user_content: str, model_id: str,
             'status': resp.status_code,
         }
         return
+
+    # CRITICAL: arena sends Content-Type: text/plain (no charset), so `requests`
+    # falls back to ISO-8859-1 and corrupts every multi-byte UTF-8 character
+    # (emoji, Devanagari, CJK, etc.) into mojibake like `ð\x9f\x91\x8b`.
+    # Force UTF-8 decoding on the streaming response.
+    resp.encoding = 'utf-8'
 
     try:
         for raw_line in resp.iter_lines(decode_unicode=True):
@@ -429,6 +438,9 @@ def regenerate(token: str, assistant_message_id: str, timeout: int = REQUEST_TIM
             'status': resp.status_code,
         }
         return
+
+    # See stream_chat: force UTF-8 to avoid ISO-8859-1 mojibake.
+    resp.encoding = 'utf-8'
 
     try:
         for raw_line in resp.iter_lines(decode_unicode=True):
@@ -512,7 +524,26 @@ def simple_chat(user_message: str, model_id: str = None, system_prompt: str = ''
     else:
         # Try to resolve display name (best-effort) for logs
         match = next((m for m in models if m['id'] == model_id), None)
-        pick_name = match['name'] if match else model_id
+        if not match:
+            # Configured model_id not in the live arena catalog — this usually means
+            # the admin picked a stale/fake UUID. Degrade gracefully to the first
+            # active non-random model so the bot still responds instead of failing.
+            fallback = next((m for m in models if m['active'] and not m['random_only']), None)
+            if fallback:
+                logger.warning(
+                    "ai4bharat.simple_chat: configured model_id=%s not found in arena "
+                    "(got %d models). Falling back to %s (%s). "
+                    "Check the BotConfig admin page — the model UUID is likely stale.",
+                    model_id, len(models), fallback['id'], fallback['name'],
+                )
+                model_id = fallback['id']
+                pick_name = f"{fallback['name']} (fallback from {model_id[:12]}...)"
+            else:
+                raise ArenaError(
+                    f"configured model_id={model_id} not found and no fallback available"
+                )
+        else:
+            pick_name = match['name']
 
     sess = create_session(entry['token'], model_id)
     u, a = new_message_id(), new_message_id()

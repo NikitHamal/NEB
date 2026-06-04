@@ -1,5 +1,6 @@
 import json
 import logging
+import os
 import time
 import uuid
 
@@ -30,6 +31,7 @@ from api import services
 from api import counters as _counters
 from api import notifications as _notif
 from api import cleanup as _cleanup
+from api import realtime as _rt
 from . import api_client as api
 
 logger = logging.getLogger(__name__)
@@ -362,6 +364,36 @@ def _get_valid_token(request):
         return None
 
 
+def _get_ws_public_url():
+    """Return the public WebSocket URL for clients to connect to.
+
+    Priority:
+      1. WS_PUBLIC_URL env var (explicit override)
+      2. The current trycloudflare.com URL (read from /tmp/cf_quick*.log)
+         — used when running behind a Cloudflare quick tunnel.
+      3. Empty string (realtime.js falls back to same-origin /ws/).
+    """
+    explicit = os.environ.get('WS_PUBLIC_URL', '').strip()
+    if explicit:
+        return explicit
+    try:
+        import glob
+        for path in sorted(glob.glob('/tmp/cf_quick*.log'), reverse=True):
+            try:
+                with open(path) as f:
+                    content = f.read()
+                import re
+                m = re.search(r'https://([a-z0-9-]+\.trycloudflare\.com)', content)
+                if m:
+                    url = 'wss://' + m.group(1) + '/ws/'
+                    return url
+            except OSError:
+                continue
+    except Exception:  # noqa: BLE001
+        pass
+    return ''
+
+
 def _ctx(request, **extra):
     token = api.get_session_token(request)
     user = api.get_session_user(request)
@@ -381,6 +413,7 @@ def _ctx(request, **extra):
         'dark_mode': dark_mode,
         'unread_notifications': unread_notifications,
         'csp_nonce': getattr(request, 'csp_nonce', ''),
+        'ws_url': _get_ws_public_url(),
     }
     ctx.update(extra)
     return ctx
@@ -2762,6 +2795,7 @@ def ajax_archive_reply(request, reply_id):
     reply.is_archived = not reply.is_archived
     reply.save(update_fields=['is_archived'])
     _clear_page_cache()
+    _rt.broadcast_reply_deleted(reply.post_id, reply_id, deleted_by='archive')
     return JsonResponse({'success': True, 'isArchived': reply.is_archived})
 
 
@@ -2784,6 +2818,7 @@ def ajax_delete_post(request, post_id):
     except Post.DoesNotExist:
         return JsonResponse({'error': 'Post not found'}, status=404)
     _clear_page_cache()
+    _rt.broadcast_post_deleted(post_id)
     return JsonResponse({'success': True})
 
 
@@ -2828,6 +2863,10 @@ def ajax_edit_post(request, post_id):
     post.edited_at = now
     post.save()
     _clear_page_cache()
+    _rt.broadcast_post_updated(post.id, {
+        'title': post.title, 'content': post.content, 'category': post.category,
+        'is_edited': True, 'edited_at': now,
+    })
     return JsonResponse(_serialize_post(post, user_id))
 
 
@@ -2845,6 +2884,7 @@ def ajax_archive_post(request, post_id):
     post.is_archived = not post.is_archived
     post.save(update_fields=['is_archived'])
     _clear_page_cache()
+    _rt.broadcast_post_deleted(post_id)
     return JsonResponse({'success': True, 'isArchived': post.is_archived})
 
 
@@ -2877,6 +2917,9 @@ def ajax_edit_reply(request, reply_id):
     reply.edited_at = now
     reply.save()
     _clear_page_cache()
+    _rt.broadcast_reply_updated(reply.post_id, reply.id, {
+        'content': reply.content, 'is_edited': True, 'edited_at': now,
+    })
     return JsonResponse(_serialize_reply(reply, user_id))
 
 
@@ -2896,6 +2939,7 @@ def ajax_delete_reply(request, reply_id):
     except Reply.DoesNotExist:
         return JsonResponse({'error': 'Reply not found'}, status=404)
     _clear_page_cache()
+    _rt.broadcast_reply_deleted(reply.post_id, reply_id, deleted_by=str(user_id))
     return JsonResponse({'success': True})
 
 

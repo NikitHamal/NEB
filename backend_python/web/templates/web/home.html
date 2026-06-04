@@ -363,6 +363,28 @@
 
 {% block extra_js %}
 <script nonce="{{ csp_nonce }}">
+// ── Real-time home: like counts and follow updates ──
+document.addEventListener('DOMContentLoaded', function() {
+  if (!window.WS) return;
+  window.WS.subscribe('forum.public');
+  window.WS.subscribe('user');
+  window.WS.on('forum.public:post.like_changed', function (data) {
+    if (!data || !data.post_id) return;
+    const el = document.getElementById('home-post-like-count-' + data.post_id);
+    if (el) el.textContent = data.thumbs_up_count;
+  });
+  window.WS.on('forum.public:reply.created', function (data) {
+    if (!data || !data.post_id) return;
+    const el = document.getElementById('home-post-reply-count-' + data.post_id);
+    if (el) el.textContent = (parseInt(el.textContent || '0', 10) || 0) + 1;
+  });
+  window.WS.on('user:follow.changed', function (data) {
+    if (!data) return;
+    // Refresh on next user navigation; for now, a snackbar
+    showSnackbar('Your followers changed — refresh profile to see updated count');
+  });
+});
+
   registerActions({
     'toggle-home-post-like': async function(el) {
       if (!IS_AUTHENTICATED) { window.location.href = '{% url "web:login" %}'; return; }
