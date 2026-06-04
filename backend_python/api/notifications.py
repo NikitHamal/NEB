@@ -19,6 +19,7 @@ from django.db.models import F
 
 from .models import Notification, User, Post, Reply, Resource, ResourceComment
 from . import counters as _counters
+from . import realtime as _rt
 
 logger = logging.getLogger(__name__)
 
@@ -66,6 +67,23 @@ def _create_notification(*, recipient_id, actor_id, verb, target_type, target_id
         created_at=_now_ms(),
     )
     _counters.increment_user_unread_notification_count(recipient_id)
+    _rt.broadcast_notification(recipient_id, {
+        'id': notification.id,
+        'verb': verb,
+        'actor_id': actor_id,
+        'target_type': target_type,
+        'target_id': target_id,
+        'reference_type': reference_type,
+        'reference_id': reference_id,
+        'message': message,
+        'created_at': notification.created_at,
+    })
+    # Also push the new unread count so the badge updates without polling.
+    try:
+        user = recipient
+        _rt.broadcast_unread_count(user.id, user.unread_notification_count)
+    except Exception:  # noqa: BLE001
+        pass
     return notification
 
 
@@ -239,6 +257,17 @@ def notify_system(recipient_id, message, target_type='system', target_id=''):
         created_at=_now_ms(),
     )
     _counters.increment_user_unread_notification_count(recipient_id)
+    _rt.broadcast_notification(recipient_id, {
+        'id': notif.id,
+        'verb': 'system',
+        'actor_id': None,
+        'target_type': target_type,
+        'target_id': target_id,
+        'reference_type': '',
+        'reference_id': '',
+        'message': message,
+        'created_at': notif.created_at,
+    })
     return notif
 
 
@@ -262,7 +291,20 @@ def notify_system_broadcast(message, target_type='system', target_id=''):
             created_at=now,
         ))
     Notification.objects.bulk_create(objs)
-    User.objects.all().update(unread_notification_count=F('unread_notification_count') + 1)
+    User.objects.filter(is_bot=False).update(unread_notification_count=F('unread_notification_count') + 1)
+    # Fan out to all connected users. Each user has their own `user.<id>`
+    # group, so we walk them. Cheap because we only push the metadata; the
+    # full notification row is fetched on demand by the client.
+    for uid in user_ids:
+        _rt.broadcast_notification(uid, {
+            'verb': 'system',
+            'actor_id': None,
+            'target_type': target_type,
+            'target_id': target_id,
+            'message': message,
+            'created_at': now,
+        })
+    _rt.broadcast_system(message)
 
 
 def notify_resource_liked(actor_id, resource_id):

@@ -17,6 +17,7 @@ from .security import hash_password, issue_auth_token, verify_password, validate
 from . import counters as _counters
 from . import notifications as _notif
 from . import neby as _neby
+from . import realtime as _rt
 
 logger = logging.getLogger(__name__)
 
@@ -49,6 +50,7 @@ def toggle_post_like(user, post_id):
             if post.user_id != user.id:
                 _counters.decrement_user_likes_received(post.user_id)
             _notif.notify_post_unliked(user.id, post_id)
+    _rt.broadcast_post_like_changed(post_id, current_count)
     return {'thumbsUpCount': current_count, 'isThumbedUp': is_thumbed_up}
 
 
@@ -76,6 +78,7 @@ def toggle_reply_like(user, reply_id):
             if reply.user_id != user.id:
                 _counters.decrement_user_likes_received(reply.user_id)
             _notif.notify_reply_unliked(user.id, reply_id)
+    _rt.broadcast_reply_like_changed(reply.post_id, reply_id, current_count)
     return {'thumbsUpCount': current_count, 'isThumbedUp': is_thumbed_up}
 
 
@@ -108,7 +111,9 @@ def create_reply(user, post_id, content, parent_reply_id=None):
         _notif.notify_reply_to_reply(user.id, parent_reply_id, post_id, reply.id)
     _neby.enqueue_if_reply_mention(reply)
     from .serializers import ReplySerializer
-    return ReplySerializer(reply).data
+    reply_data = ReplySerializer(reply).data
+    _rt.broadcast_reply_created(post_id, reply_data)
+    return reply_data
 
 
 def create_post(user, title, content, category):
@@ -131,7 +136,9 @@ def create_post(user, title, content, category):
     _counters.increment_user_post_count(user.id)
     _neby.enqueue_if_post_mention(post)
     from .serializers import PostSerializer
-    return PostSerializer(post).data
+    post_data = PostSerializer(post).data
+    _rt.broadcast_post_created(post_data)
+    return post_data
 
 
 def toggle_follow(user, target_user_id):
@@ -156,6 +163,7 @@ def toggle_follow(user, target_user_id):
             _counters.increment_user_following_count(user.id)
             _notif.notify_new_follow(user.id, target_user.id)
     follower_count = target_user.follower_count if hasattr(target_user, 'follower_count') and target_user.follower_count > 0 else Follow.objects.filter(following=target_user).count()
+    _rt.broadcast_follow_changed(target_user.id, follower_count)
     return {'is_following': is_following, 'follower_count': follower_count}
 
 
@@ -243,6 +251,7 @@ def toggle_resource_like(user, resource_id):
         _notif.notify_resource_liked(user.id, resource_id)
     else:
         _notif.notify_resource_unliked(user.id, resource_id)
+    _rt.broadcast_resource_like_changed(resource_id, current_count)
     return {'likeCount': current_count, 'isLiked': is_liked}
 
 
@@ -272,6 +281,9 @@ def toggle_resource_comment_like(user, comment_id):
         _notif.notify_resource_comment_liked(user.id, comment_id)
     else:
         _notif.notify_resource_comment_unliked(user.id, comment_id)
+    # Comment-level like broadcasts go to the resource channel because the
+    # client renders comments inline under the resource view.
+    _rt.broadcast_resource_like_changed(comment.resource_id, current_count)
     return {'likeCount': current_count, 'isLiked': is_liked}
 
 
@@ -303,7 +315,9 @@ def create_resource_comment(user, resource_id, content, parent_comment_id=None):
         _notif.notify_resource_comment_reply(user.id, parent_comment_id, resource_id, comment.id)
     else:
         _notif.notify_resource_comment(user.id, resource_id, comment.id)
-    return _serialize_resource_comment(comment)
+    data = _serialize_resource_comment(comment)
+    _rt.broadcast_resource_comment_created(resource_id, data)
+    return data
 
 
 def delete_resource_comment(user, comment_id, is_admin=False):
@@ -325,11 +339,12 @@ def delete_resource_comment(user, comment_id, is_admin=False):
         Resource.objects.filter(pk=resource_id, comment_count__gt=0).update(
             comment_count=F('comment_count') - total_removed
         )
-        if parent_id:
-            ResourceComment.objects.filter(pk=parent_id, reply_count__gt=0).update(
-                reply_count=F('reply_count') - 1
-            )
+    if parent_id:
+        ResourceComment.objects.filter(pk=parent_id, reply_count__gt=0).update(
+            reply_count=F('reply_count') - 1
+        )
     _counters.decrement_user_reply_count(user.id)
+    _rt.broadcast_resource_comment_deleted(resource_id, comment_id)
     return True
 
 
