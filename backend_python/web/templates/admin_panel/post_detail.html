@@ -27,7 +27,7 @@
       <div class="md-body-small" style="color:var(--md-on-surface-variant);">{{ post.createdAt|time_ago }} · {{ post.category }}</div>
     </div>
   </div>
-  <div class="md-body-medium" style="white-space:pre-wrap;margin-bottom:16px;">{{ post.content }}</div>
+  <div class="md-body-medium md-content" style="margin-bottom:16px;">{{ post.content|mention_links }}</div>
   <div style="display:flex;gap:16px;color:var(--md-on-surface-variant);font-size:0.875rem;">
     <span>👍 {{ post.thumbsUpCount }} likes</span>
     <span>💬 {{ post.replyCount }} replies</span>
@@ -50,7 +50,7 @@
         <span style="font-size:0.75rem;color:var(--md-on-surface-variant);">{{ reply.createdAt|time_ago }}</span>
         <span style="font-size:0.75rem;color:var(--md-on-surface-variant);">👍 {{ reply.thumbsUpCount }}</span>
       </div>
-      <div class="md-body-medium" style="white-space:pre-wrap;">{{ reply.content }}</div>
+      <div class="md-body-medium md-content">{{ reply.content|mention_links }}</div>
     </div>
     <form method="post" action="{% url 'web:admin_reply_delete' reply_id=reply.id %}" data-action="confirm-delete" data-confirm-msg="Delete this reply?">
       {% csrf_token %}

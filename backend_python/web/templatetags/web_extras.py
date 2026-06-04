@@ -1,10 +1,11 @@
 import json
+import re
 import time
 from datetime import datetime, timezone
 from django import template
 from django.utils.safestring import mark_safe
-from django.utils.html import conditional_escape, format_html
 from urllib.parse import quote
+import markdown as md_lib
 
 register = template.Library()
 
@@ -258,44 +259,57 @@ def render_content(value):
     plain = str(value)
     words = plain.split()
     if len(words) > 50:
-        return mark_safe(str(_render_user_content(' '.join(words[:50]))) + '&hellip;')
+        truncated = ' '.join(words[:50])
+        html = _render_user_content(truncated)
+        return mark_safe(str(html) + '&hellip;')
     return _render_user_content(plain)
 
 
+_STRIP_BLOCK_RE = re.compile(r'</?(?:h[1-6]|pre|blockquote|ul|ol|li|table|thead|tbody|tr|th|td|hr|div|p)\b[^>]*>', re.IGNORECASE)
+
+
+@register.filter
+def render_content_inline(value):
+    """Render content for card previews — strips block-level tags, keeps inline formatting only."""
+    if not value:
+        return mark_safe('')
+    html = _render_user_content(str(value))
+    inline = _STRIP_BLOCK_RE.sub('', str(html))
+    return mark_safe(inline)
+
+
 def _render_user_content(value):
-    """Render a limited safe subset: @mentions, bold, italic, and line breaks."""
-    import re
-    token_re = re.compile(
-        r'@([A-Za-z0-9_]+)'
-        r'|\*\*([^*\n]+?)\*\*'
-        r'|(?<!\w)__([^_\n]+?)__(?!\w)'
-        r'|(?<!\w)\*([^*\n]+?)\*(?!\w)'
-        r'|(?<!\w)_([^_\n]+?)_(?!\w)'
+    """Render markdown formatting and @mention links."""
+    text = str(value)
+    mention_re = re.compile(r'@([A-Za-z0-9_]+)')
+
+    def replace_mentions(text):
+        parts = []
+        last = 0
+        for m in mention_re.finditer(text):
+            if m.start() > last:
+                parts.append(text[last:m.start()])
+            parts.append('[@' + m.group(1) + '](/profile/' + quote(m.group(1)) + '/)')
+            last = m.end()
+        if last < len(text):
+            parts.append(text[last:])
+        return ''.join(parts)
+
+    md_text = replace_mentions(text)
+    html = md_lib.markdown(md_text, extensions=['nl2br'], output_format='html5')
+
+    html = re.sub(
+        r'<a href="/profile/([^"]+)/">',
+        r'<a href="/profile/\1/" class="fp-mention">',
+        html,
+    )
+    html = re.sub(
+        r'<a href="(?!/profile/|/)(https?://[^"]+)"(?![^>]*target=)',
+        r'<a href="\1" target="_blank" rel="noopener noreferrer"',
+        html,
     )
 
-    def render_line(line):
-        parts = []
-        pos = 0
-        for match in token_re.finditer(line):
-            if match.start() > pos:
-                parts.append(conditional_escape(line[pos:match.start()]))
-            username, bold_star, bold_under, italic_star, italic_under = match.groups()
-            if username:
-                parts.append(format_html(
-                    '<a href="/profile/{}/" class="fp-mention">@{}</a>',
-                    quote(username),
-                    username,
-                ))
-            elif bold_star is not None or bold_under is not None:
-                parts.append(format_html('<strong>{}</strong>', bold_star if bold_star is not None else bold_under))
-            else:
-                parts.append(format_html('<em>{}</em>', italic_star if italic_star is not None else italic_under))
-            pos = match.end()
-        if pos < len(line):
-            parts.append(conditional_escape(line[pos:]))
-        return ''.join(str(part) for part in parts)
-
-    return mark_safe('<br>'.join(render_line(line) for line in str(value).splitlines()))
+    return mark_safe(html)
 
 
 @register.filter

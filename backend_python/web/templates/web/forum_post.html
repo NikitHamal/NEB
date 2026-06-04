@@ -48,7 +48,7 @@
   .fp-category{display:inline-block;padding:2px 8px;border-radius:6px;font-size:.75rem;font-weight:600;background:rgba(27,110,243,.08);color:var(--md-primary);text-decoration:none;border:1px solid rgba(27,110,243,.12);transition:background .15s}
   .fp-category:hover{background:rgba(27,110,243,.15);text-decoration:none}
   .fp-post-title{font-size:1.25rem;font-weight:700;color:var(--md-on-surface);margin:0 0 8px;line-height:1.4}
-  .fp-post-body{font-size:.9375rem;color:var(--md-on-surface-variant);white-space:pre-wrap;line-height:1.6;margin-bottom:0}
+  .fp-post-body{font-size:.9375rem;color:var(--md-on-surface-variant);line-height:1.6;margin-bottom:0}
   .fp-post-actions{display:flex;align-items:center;gap:4px;padding-top:16px;border-top:1px solid var(--md-outline-variant);margin-top:16px}
   .fp-action-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border:none;background:transparent;color:var(--md-on-surface-variant);cursor:pointer;border-radius:8px;font-size:.8125rem;font-family:inherit;transition:background .15s,color .15s}
   .fp-action-btn:hover{background:var(--md-surface-container-high);color:var(--md-primary)}
@@ -76,7 +76,7 @@
   .fp-reply-author{font-weight:600;font-size:.8125rem;color:var(--md-on-surface);text-decoration:none}
   .fp-reply-author:hover{color:var(--md-primary)}
   .fp-reply-time{font-size:.6875rem;color:var(--md-on-surface-variant)}
-  .fp-reply-body{font-size:.875rem;color:var(--md-on-surface-variant);white-space:pre-wrap;line-height:1.55;margin-bottom:8px}
+  .fp-reply-body{font-size:.875rem;color:var(--md-on-surface-variant);line-height:1.55;margin-bottom:8px}
   .fp-reply-actions{display:flex;align-items:center;gap:2px}
   .fp-action-spacer{flex:1}
   .fp-reply-action{display:inline-flex;align-items:center;gap:4px;padding:4px 8px;border:none;background:transparent;color:var(--md-on-surface-variant);cursor:pointer;border-radius:6px;font-size:.75rem;font-family:inherit;transition:background .15s,color .15s}
@@ -582,28 +582,15 @@ function isMobile() { return window.innerWidth <= 768; }
 
 function renderMentions(text) {
   if (!text) return '';
-  let html = escapeHtml(text);
-  html = html.replace(/@(\w+)/g, function(match, username) {
+  let md = text.replace(/@(\w+)/g, function(match, username) {
     const lower = username.toLowerCase();
     const found = ALL_USERNAMES.find(function(u) { return u.toLowerCase() === lower; });
     if (found) {
-      return '<a href="/profile/' + encodeURIComponent(found) + '/" class="fp-mention">@' + escapeHtml(found) + '</a>';
+      return '[@' + found + '](/profile/' + encodeURIComponent(found) + '/)';
     }
     return match;
   });
-  return renderMarkdown(html);
-}
-
-function renderMarkdown(html) {
-  // Bold: **text** or __text__
-  html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-  html = html.replace(/__(.+?)__/g, '<strong>$1</strong>');
-  // Italic: *text* or _text_ (but not inside tags or URLs)
-  html = html.replace(/(?<!\w)\*(.+?)\*(?!\w)/g, '<em>$1</em>');
-  html = html.replace(/(?<!\w)_(.+?)_(?!\w)/g, '<em>$1</em>');
-  // Line breaks: \n → <br> (preserving whitespace)
-  html = html.replace(/\n/g, '<br>');
-  return html;
+  return renderMarkdown(md);
 }
 
 async function togglePostLike(postId) {
