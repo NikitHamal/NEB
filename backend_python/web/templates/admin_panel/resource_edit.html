@@ -11,6 +11,19 @@
       Back to Resources
     </a>
     <h2 class="md-headline-medium" style="margin:0;">Edit Resource</h2>
+    {% if resource.approval_status == 'pending' %}
+    <div style="display:flex;gap:8px;margin-top:12px;">
+      <span class="admin-badge admin-badge-pending" style="font-size:0.75rem;padding:4px 10px;">Pending Review</span>
+    </div>
+    {% elif resource.approval_status == 'rejected' %}
+    <div style="display:flex;gap:8px;margin-top:12px;">
+      <span class="admin-badge admin-badge-rejected" style="font-size:0.75rem;padding:4px 10px;">Rejected{% if resource.rejection_reason %}: {{ resource.rejection_reason }}{% endif %}</span>
+    </div>
+    {% elif resource.approval_status == 'approved' %}
+    <div style="display:flex;gap:8px;margin-top:12px;">
+      <span class="admin-badge admin-badge-approved" style="font-size:0.75rem;padding:4px 10px;">Approved</span>
+    </div>
+    {% endif %}
   </div>
 
   {% if resource %}
@@ -235,6 +248,35 @@
       </div>
     </div>
 
+    <div class="upload-section">
+      <div class="upload-section-header">
+        <span class="material-symbols-outlined">verified</span>
+        <h2>Approval Status</h2>
+      </div>
+
+      <div class="upload-row">
+        <div class="upload-field upload-field-half">
+          <label class="md-label" for="approval_status">Status</label>
+          <select class="md-select" id="approval_status" name="approval_status">
+            {% for val, label in approval_choices %}
+            <option value="{{ val }}" {% if resource.approval_status == val %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="upload-field upload-field-half" id="rejection-reason-field" style="{% if resource.approval_status != 'rejected' %}display:none{% endif %}">
+          <label class="md-label" for="rejection_reason">Rejection Reason</label>
+          <input class="md-input" type="text" id="rejection_reason" name="rejection_reason" value="{{ resource.rejection_reason|default:'' }}" placeholder="Optional reason for rejection">
+        </div>
+      </div>
+
+      {% if resource.uploaded_by_name %}
+      <div class="upload-hint" style="margin-top:4px;">
+        Uploaded by <strong>{{ resource.uploaded_by_name }}</strong>
+        {% if resource.added_at %} on {{ resource.added_at|time_ago }}{% endif %}
+      </div>
+      {% endif %}
+    </div>
+
 <div class="upload-actions">
       <a href="{% url 'web:admin_resources' %}" class="md-btn md-btn-text">Cancel</a>
       <button type="submit" class="md-btn md-btn-filled">
@@ -374,6 +416,10 @@
 .upload-file-remove { background: none; border: none; cursor: pointer; padding: 4px; border-radius: 50%; color: var(--md-on-surface-variant); display: flex; align-items: center; justify-content: center; position: relative; z-index: 3; }
 .upload-file-remove:hover { background: color-mix(10%, var(--md-error), transparent); color: var(--md-error); }
 .upload-file-remove .material-symbols-outlined { font-size: 20px; }
+
+.admin-badge-approved { background: color-mix(10%, #4caf50, transparent); color: #2e7d32; font-size: 0.75rem; font-weight: 600; padding: 2px 8px; border-radius: 4px; }
+.admin-badge-pending { background: color-mix(10%, #ff9800, transparent); color: #e65100; font-size: 0.75rem; font-weight: 600; padding: 2px 8px; border-radius: 4px; }
+.admin-badge-rejected { background: color-mix(10%, #f44336, transparent); color: #c62828; font-size: 0.75rem; font-weight: 600; padding: 2px 8px; border-radius: 4px; }
 
 .upload-divider { display: flex; align-items: center; gap: 12px; margin: 12px 0 16px; color: var(--md-on-surface-variant); font-size: 0.8125rem; }
 .upload-divider::before, .upload-divider::after { content: ''; flex: 1; height: 1px; background: var(--md-outline-variant); }
@@ -618,6 +664,15 @@
 
   typeSelect.addEventListener('change', toggleExamType);
   toggleExamType();
+
+  var approvalSelect = document.getElementById('approval_status');
+  var rejectionField = document.getElementById('rejection-reason-field');
+  if (approvalSelect && rejectionField) {
+    function toggleRejectionReason() {
+      rejectionField.style.display = approvalSelect.value === 'rejected' ? '' : 'none';
+    }
+    approvalSelect.addEventListener('change', toggleRejectionReason);
+  }
 
   if (document.getElementById('more-details')) {
     var hasExtra = ['{{ resource.faculty|default:'' }}', '{{ resource.program|default:'' }}', '{{ resource.year|default:'' }}', '{{ resource.pradesh|default:'' }}', '{{ resource.district|default:'' }}', '{{ resource.school|default:'' }}'].some(function(v) { return v.trim() !== ''; });

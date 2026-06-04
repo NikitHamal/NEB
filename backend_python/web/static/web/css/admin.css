@@ -492,9 +492,10 @@ input[type="file"].md-input::file-selector-button:hover {
 
 /* --- Mobile Responsive --- */
 @media (max-width: 768px) {
-    .admin-content {
-        padding: 16px 12px;
-    }
+.admin-content {
+    padding: 16px 12px;
+    overflow-x: hidden;
+}
 
     .admin-section-header {
         flex-direction: column;
@@ -521,13 +522,19 @@ input[type="file"].md-input::file-selector-button:hover {
         font-size: 0.8125rem;
     }
 
-    .md-table th:nth-child(n+4),
-    .md-table td:nth-child(n+4) {
+    .md-table .col-subject,
+    .md-table .col-grade,
+    .md-table .col-type,
+    .md-table .col-views,
+    .md-table .col-submitted {
         display: none;
     }
 
     .md-table .admin-actions-cell {
         white-space: normal;
+        flex-wrap: wrap;
+        display: flex;
+        gap: 2px;
     }
 
     .md-table .admin-actions-cell .md-btn {
@@ -647,15 +654,11 @@ input[type="file"].md-input::file-selector-button:hover {
 @media (max-width: 480px) {
     .admin-content {
         padding: 12px 8px;
+        overflow-x: hidden;
     }
 
     .stats-grid {
         grid-template-columns: 1fr 1fr !important;
-    }
-
-    .md-table th:nth-child(3),
-    .md-table td:nth-child(3) {
-        display: none;
     }
 
     .md-table th,
