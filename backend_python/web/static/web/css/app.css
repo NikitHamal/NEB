@@ -17,11 +17,11 @@
 
 .post-card-content {
   font-size: 0.875rem;
-  line-height: 1.65;
+  line-height: 1.5;
   color: var(--md-on-surface-variant);
   margin-bottom: 0;
   display: -webkit-box;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -107,7 +107,7 @@
   align-items: center;
   gap: 8px;
   border-top: 1px solid rgba(var(--md-outline-variant), 0.35);
-  padding-top: 8px;
+  padding-top: 6px;
   margin-top: 8px;
 }
 
@@ -409,12 +409,12 @@
 }
 
 .post-card {
-  padding: 24px;
+  padding: 14px 18px;
   background: var(--md-surface-container-lowest);
   border: 1px solid var(--md-outline-variant);
   border-radius: 8px;
   transition: border-color 0.2s var(--md-transition);
-  margin-bottom: 16px;
+  margin-bottom: 12px;
   display: flex;
   flex-direction: column;
 }
@@ -425,8 +425,8 @@
 
 @media (max-width: 600px) {
   .post-card {
-    padding: 16px;
-    margin-bottom: 12px;
+    padding: 12px 14px;
+    margin-bottom: 10px;
     border-radius: 8px;
   }
 }
@@ -452,14 +452,14 @@
 .activity-item-header {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 10px;
+  gap: 10px;
+  margin-bottom: 6px;
   position: relative;
 }
 
 .post-card-avatar {
-  width: 44px;
-  height: 44px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   overflow: hidden;
   background: var(--md-primary-container);
@@ -496,7 +496,7 @@
 }
 
 .post-card-avatar .contributor-avatar-letter {
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 700;
   color: var(--md-on-primary-container);
   text-transform: uppercase;
@@ -687,12 +687,12 @@
 }
 
 .post-card h3 {
-  font-size: 1.15rem;
+  font-size: 1.05rem;
   font-weight: 600;
   color: var(--md-on-surface);
-  margin-top: 12px;
-  margin-bottom: 8px;
-  line-height: 1.4;
+  margin-top: 6px;
+  margin-bottom: 4px;
+  line-height: 1.35;
   letter-spacing: -0.01em;
 }
 
@@ -801,14 +801,14 @@
 .act-btn-stat {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
   font-size: 0.8125rem;
   font-weight: 500;
   color: var(--md-on-surface-variant);
   border: none;
   background: transparent;
   cursor: pointer;
-  padding: 6px 12px;
+  padding: 4px 10px;
   border-radius: 8px;
   transition: background 0.15s, color 0.15s;
   text-decoration: none !important;
@@ -2254,58 +2254,64 @@ button:focus-visible {
   }
 }
 
-  border: 1px solid var(--md-outline-variant);
-}
-
-.follow-btn-inline.not-following {
-  background: transparent;
-  color: var(--md-primary);
-  border: 1px solid var(--md-outline-variant);
-}
-
-.follow-btn-inline:hover {
-  opacity: 0.85;
-}
-
+.follow-btn-inline,
 .follow-btn-small {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 4px;
   padding: 3px 12px;
-  border-radius: var(--md-radius-full);
+  border-radius: 100px;
   font-size: 0.75rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s var(--md-transition);
-  text-decoration: none;
-  border: 1px solid transparent;
+  text-decoration: none !important;
   line-height: 1.2;
+  font-family: inherit;
+  outline: none;
+  box-sizing: border-box;
 }
 
-.follow-btn-small.following {
-  background: transparent;
-  color: var(--md-outline);
-  border: 1px solid var(--md-outline-variant);
-}
-
-.follow-btn-small.following:hover {
-  background: rgba(0, 0, 0, 0.04);
-  color: var(--md-error);
-  border-color: var(--md-error);
-}
-
-[data-theme="dark"] .follow-btn-small.following:hover {
-  background: rgba(255, 255, 255, 0.04);
-}
-
+/* --- Not Following (Standard Follow button) --- */
+.follow-btn-inline.not-following,
 .follow-btn-small.not-following {
   background: transparent;
   color: var(--md-primary);
   border: 1px solid var(--md-outline-variant);
 }
 
-.follow-btn-small:hover {
-  opacity: 0.85;
+.follow-btn-inline.not-following:hover,
+.follow-btn-small.not-following:hover {
+  background: rgba(27, 110, 243, 0.08);
+  border-color: var(--md-primary);
+  color: var(--md-primary);
+}
+
+/* --- Following (Active/Subscribed state) --- */
+.follow-btn-inline.following,
+.follow-btn-small.following {
+  background: transparent;
+  color: var(--md-outline);
+  border: 1px solid var(--md-outline-variant);
+}
+
+.follow-btn-inline.following:hover,
+.follow-btn-small.following:hover {
+  background: rgba(179, 38, 30, 0.08);
+  color: var(--md-error);
+  border-color: var(--md-error);
+}
+
+/* Dark theme specific overrides */
+[data-theme="dark"] .follow-btn-inline.not-following:hover,
+[data-theme="dark"] .follow-btn-small.not-following:hover {
+  background: rgba(180, 197, 255, 0.12);
+}
+
+[data-theme="dark"] .follow-btn-inline.following:hover,
+[data-theme="dark"] .follow-btn-small.following:hover {
+  background: rgba(242, 184, 181, 0.12);
 }
 
 .profile-avatar {
