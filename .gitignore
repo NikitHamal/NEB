@@ -62,3 +62,9 @@ client_secret_*.json
 *_oauth_client_secret*.json
 google_oauth_client_*.json
 
+# Large resource files (ZIPs, PDFs, etc.)
+Resources/
+*.zip
+*.rar
+*.7z
+
