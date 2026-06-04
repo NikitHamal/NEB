@@ -37,6 +37,7 @@ import com.neb.ians.data.api.ApiPost
 import com.neb.ians.data.api.ApiResource
 import com.neb.ians.ui.components.ErrorCard
 import com.neb.ians.ui.components.ShimmerHomeScreen
+import com.neb.ians.ui.components.UserAvatar
 import com.neb.ians.ui.theme.getSubjectTheme
 
 private fun getTypeIcon(type: String): Int {
@@ -394,20 +395,11 @@ private fun ForumPostItem(post: ApiPost) {
             }
         },
         leadingContent = {
-            Box(
-                modifier = Modifier
-                    .size(40.dp)
-                    .clip(CircleShape)
-                    .background(MaterialTheme.colorScheme.primaryContainer),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = post.authorName.firstOrNull()?.uppercase() ?: "?",
-                    style = MaterialTheme.typography.labelLarge,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onPrimaryContainer
-                )
-            }
+            UserAvatar(
+                photoUrl = post.authorPhotoUrl,
+                name = post.authorName,
+                size = 40.dp
+            )
         },
         trailingContent = {
             Row(

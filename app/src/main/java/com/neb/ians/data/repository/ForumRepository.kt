@@ -53,11 +53,11 @@ class ForumRepository @Inject constructor(
         }
     }
 
-    suspend fun getReplies(postId: String): Result<List<ApiReply>> {
+    suspend fun getReplies(postId: String, page: Int? = null): Result<List<ApiReply>> {
         return try {
             val token = getBearerToken()
-            val replies = apiService.getReplies(token, postId)
-            Result.success(replies)
+            val response = apiService.getReplies(token, postId, page)
+            Result.success(response.replies)
         } catch (e: Exception) {
             Result.failure(e)
         }

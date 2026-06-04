@@ -1916,6 +1916,7 @@ def _build_stats_batch(user_qs):
 
 
 @api_view(['GET'])
+@permission_classes([AllowAny])
 def user_profile_stats(request, username):
     """
     GET /api/users/profile/<username>/stats

@@ -14,6 +14,7 @@ import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.ui.res.painterResource
 import com.neb.ians.R
+import com.neb.ians.ui.components.UserAvatar
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -83,20 +84,11 @@ fun SettingsScreen(
                         Text("@${profile.username}")
                     },
                     leadingContent = {
-                        Box(
-                            modifier = Modifier
-                                .size(48.dp)
-                                .clip(CircleShape)
-                                .background(MaterialTheme.colorScheme.primaryContainer),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text(
-                                text = profile.username.firstOrNull()?.uppercase() ?: "?",
-                                style = MaterialTheme.typography.titleMedium,
-                                fontWeight = FontWeight.Bold,
-                                color = MaterialTheme.colorScheme.onPrimaryContainer
-                            )
-                        }
+                        UserAvatar(
+                            photoUrl = profile.photoUrl,
+                            name = profile.displayName?.takeIf { it.isNotEmpty() } ?: profile.username,
+                            size = 48.dp
+                        )
                     },
                     colors = ListItemDefaults.colors(
                         containerColor = MaterialTheme.colorScheme.surfaceContainerLowest

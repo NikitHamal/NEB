@@ -51,7 +51,6 @@ import com.neb.ians.ui.screens.search.SearchScreen
 import com.neb.ians.ui.screens.search.SearchViewModel
 import com.neb.ians.ui.screens.profile.ProfileScreen
 import com.neb.ians.ui.screens.profile.ProfileViewModel
-import com.neb.ians.ui.screens.profile.EditProfileScreen
 import com.neb.ians.ui.screens.notifications.NotificationsScreen
 import com.neb.ians.ui.screens.notifications.NotificationsViewModel
 import com.neb.ians.ui.screens.settings.SettingsScreen
@@ -408,7 +407,8 @@ fun NEBiansNavHost(
                 )
             }
             composable(Screen.EditProfile.route) {
-                EditProfileScreen(
+                CompleteProfileScreen(
+                    onNavigateToHome = { navController.popBackStack() },
                     onNavigateBack = { navController.popBackStack() }
                 )
             }

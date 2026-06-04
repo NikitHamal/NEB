@@ -100,7 +100,7 @@ data class PostUpdateRequest(
 @Serializable
 data class ReplyCreateRequest(
     val content: String,
-    @SerialName("parent_reply_id") val parentReplyId: String? = null
+    @SerialName("parentReplyId") val parentReplyId: String? = null
 )
 
 @Serializable
@@ -269,8 +269,8 @@ data class ApiReply(
 
 @Serializable
 data class LikeResponse(
-    @SerialName("thumbs_up_count") val thumbsUpCount: Int,
-    @SerialName("is_thumbed_up") val isThumbedUp: Boolean
+    @SerialName("thumbsUpCount") val thumbsUpCount: Int,
+    @SerialName("isThumbedUp") val isThumbedUp: Boolean
 )
 
 @Serializable
@@ -281,7 +281,7 @@ data class ResourceLikeResponse(
 
 @Serializable
 data class BookmarkResponse(
-    @SerialName("is_bookmarked") val isBookmarked: Boolean
+    @SerialName("isBookmarked") val isBookmarked: Boolean
 )
 
 @Serializable
@@ -338,14 +338,24 @@ data class ApiNotification(
 
 @Serializable
 data class ApiNotificationListResponse(
-    val notifications: List<ApiNotification>,
-    @SerialName("has_more") val hasMore: Boolean = false
+    @SerialName("results") val notifications: List<ApiNotification> = emptyList(),
+    @SerialName("count") val totalCount: Int = 0,
+    val next: String? = null,
+    val previous: String? = null
+) {
+    val hasMore: Boolean get() = next != null
+}
+
+@Serializable
+data class MarkReadRequest(
+    @SerialName("mark_all") val markAll: Boolean = false,
+    @SerialName("notification_ids") val notificationIds: List<String>? = null
 )
 
 @Serializable
 data class ApiNotificationMarkReadResponse(
-    val status: String = "",
-    val message: String = ""
+    val success: Boolean = false,
+    @SerialName("marked_count") val markedCount: Int = 0
 )
 
 @Serializable
@@ -412,6 +422,28 @@ data class ApiPaginatedPosts(
     val previous: String? = null
 )
 
+@Serializable
+data class ApiPaginatedReplies(
+    @SerialName("results") val replies: List<ApiReply> = emptyList(),
+    @SerialName("count") val totalCount: Int = 0,
+    val next: String? = null,
+    val previous: String? = null
+)
+
+@Serializable
+data class UserStatsResponse(
+    val username: String = "",
+    @SerialName("post_count") val postCount: Int = 0,
+    @SerialName("reply_count") val replyCount: Int = 0,
+    @SerialName("follower_count") val followerCount: Int = 0,
+    @SerialName("following_count") val followingCount: Int = 0,
+    @SerialName("likes_received") val likesReceived: Int = 0,
+    @SerialName("likes_given") val likesGiven: Int = 0,
+    @SerialName("contribution_score") val contributionScore: Int = 0,
+    @SerialName("is_following") val isFollowing: Boolean = false,
+    @SerialName("is_self") val isSelf: Boolean = false
+)
+
 // -------------------------------------------------------------
 // RETROFIT API INTERFACE
 // -------------------------------------------------------------
@@ -470,6 +502,12 @@ interface ApiService {
         @Header("Authorization") bearerToken: String?,
         @Path("username") username: String
     ): UserProfileResponse
+
+    @GET("api/users/profile/{username}/stats/")
+    suspend fun getUserStats(
+        @Header("Authorization") bearerToken: String?,
+        @Path("username") username: String
+    ): UserStatsResponse
 
     @POST("api/users/{userId}/follow/")
     suspend fun toggleFollow(
@@ -589,8 +627,9 @@ interface ApiService {
     @GET("api/posts/{postId}/replies/")
     suspend fun getReplies(
         @Header("Authorization") bearerToken: String?,
-        @Path("postId") postId: String
-    ): List<ApiReply>
+        @Path("postId") postId: String,
+        @Query("page") page: Int? = null
+    ): ApiPaginatedReplies
 
     @POST("api/posts/{postId}/replies/")
     suspend fun createReply(
@@ -650,10 +689,11 @@ interface ApiService {
         @Body request: BookmarkToggleRequest
     ): BookmarkResponse
 
-    @POST("api/bookmarks/check/")
+    @GET("api/bookmarks/check/")
     suspend fun checkBookmark(
         @Header("Authorization") bearerToken: String,
-        @Body request: BookmarkToggleRequest
+        @Query("target_type") targetType: String,
+        @Query("target_id") targetId: String
     ): BookmarkResponse
 
     @GET("api/bookmarks/")
@@ -671,7 +711,8 @@ interface ApiService {
 
     @POST("api/notifications/mark-read/")
     suspend fun markNotificationsRead(
-        @Header("Authorization") bearerToken: String
+        @Header("Authorization") bearerToken: String,
+        @Body request: MarkReadRequest = MarkReadRequest(markAll = true)
     ): ApiNotificationMarkReadResponse
 
     @GET("api/notifications/unread-count/")
