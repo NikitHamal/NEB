@@ -91,5 +91,8 @@ urlpatterns = [
     path('admin/posts/<str:post_id>/', views.admin_post_detail, name='admin_post_detail'),
     path('admin/posts/<str:post_id>/delete/', views.admin_post_delete, name='admin_post_delete'),
     path('admin/replies/<str:reply_id>/delete/', views.admin_reply_delete, name='admin_reply_delete'),
-    path('admin/bot/', views.admin_bot_config, name='admin_bot_config'),
+    path('admin/bots/', views.admin_bots, name='admin_bots'),
+    path('admin/bots/new/', views.admin_bot_edit, name='admin_bot_new'),
+    path('admin/bots/<int:bot_id>/', views.admin_bot_edit, name='admin_bot_edit'),
+    path('admin/bots/<int:bot_id>/create-user/', views.admin_bot_create_user, name='admin_bot_create_user'),
 ]

@@ -557,17 +557,21 @@ class ResourceCommentLike(models.Model):
 
 
 class BotConfig(models.Model):
-    """Singleton configuration for the Neby AI bot.
-    Only one row should exist. The enabled flag acts as a global kill switch.
+    """Configuration for an AI bot. Multiple bots can be defined, each with
+    its own username, provider, model, and personality. When enabled, the bot
+    responds to @username mentions in posts and replies.
     """
     PROVIDER_CHOICES = [
         ('qwen', 'Qwen (chat.qwen.ai)'),
         ('ai4bharat', 'AI4Bharat Arena (Indic LLM Arena)'),
         ('custom', 'Custom OpenAI-compatible endpoint'),
     ]
-    id = models.PositiveIntegerField(primary_key=True, default=1)
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=100, default='Neby', help_text='Display name shown in the admin panel.')
     enabled = models.BooleanField(default=False)
-    bot_username = models.CharField(max_length=50, default='neby')
+    bot_username = models.CharField(max_length=50, default='neby', unique=True, help_text='The @username that triggers this bot. Must match a User with is_bot=True.')
+    display_name = models.CharField(max_length=100, blank=True, default='', help_text='Friendly name the bot uses in replies. Falls back to name.')
+    avatar_url = models.TextField(blank=True, default='', help_text='URL for the bot avatar image.')
     provider = models.CharField(
         max_length=20, choices=PROVIDER_CHOICES, default='qwen',
     )
@@ -589,25 +593,36 @@ class BotConfig(models.Model):
     max_context_replies = models.PositiveIntegerField(default=10)
     response_max_length = models.PositiveIntegerField(default=500)
     updated_at = models.BigIntegerField(default=0)
+    created_at = models.BigIntegerField(default=0)
 
     class Meta:
         db_table = 'bot_config'
+        ordering = ['id']
 
     def save(self, *args, **kwargs):
         import time
-        self.updated_at = int(time.time() * 1000)
+        now = int(time.time() * 1000)
+        self.updated_at = now
+        if not self.created_at:
+            self.created_at = now
         super().save(*args, **kwargs)
 
-    @classmethod
-    def get_config(cls):
-        config, _ = cls.objects.get_or_create(pk=1)
-        return config
+    def __str__(self):
+        return f'{self.name} (@{self.bot_username})'
 
     @classmethod
-    def get_bot_user(cls):
-        config = cls.get_config()
+    def get_enabled_bots(cls):
+        return list(cls.objects.filter(enabled=True).select_related())
+
+    @classmethod
+    def get_bot_user(cls, bot_config=None):
+        if bot_config is None:
+            first = cls.objects.filter(enabled=True).first()
+            if not first:
+                return None
+            bot_config = first
         try:
-            return User.objects.get(username__iexact=config.bot_username, is_bot=True)
+            return User.objects.get(username__iexact=bot_config.bot_username, is_bot=True)
         except User.DoesNotExist:
             return None
 
@@ -624,6 +639,10 @@ class NebyTask(models.Model):
         ('reply_mention', 'Reply Mention'),
     ]
     id = models.CharField(max_length=36, primary_key=True)
+    bot_config = models.ForeignKey(
+        BotConfig, on_delete=models.SET_NULL, null=True, blank=True,
+        related_name='tasks', db_column='bot_config_id',
+    )
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending', db_index=True)
     trigger = models.CharField(max_length=20, choices=TRIGGER_CHOICES)
     post_id = models.CharField(max_length=36)

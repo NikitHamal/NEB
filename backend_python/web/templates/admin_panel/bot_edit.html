@@ -1,0 +1,355 @@
+{% extends "admin_panel/base.html" %}
+{% load static %}
+
+{% block title %}{% if is_new %}Add Bot{% else %}Edit Bot{% endif %}{% endblock %}
+
+{% block content %}
+<div style="max-width:720px;margin:0 auto;">
+  <div class="admin-back-link">
+    <a href="{% url 'web:admin_bots' %}" class="md-btn md-btn-text">
+      <span class="material-symbols-outlined" style="font-size:18px;">arrow_back</span>
+      Back to Bots
+    </a>
+  </div>
+
+  <h1 style="font-size:1.5rem;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:8px;">
+    <span class="material-symbols-outlined" style="font-size:28px;color:#7C4DFF;">smart_toy</span>
+    {% if is_new %}Add AI Bot{% else %}Edit: {{ config.name }}{% endif %}
+  </h1>
+  <p style="color:var(--md-on-surface-variant);margin-bottom:24px;">
+    {% if is_new %}Create a new AI bot. It will respond to @username mentions in posts and replies.{% else %}Configure the bot. When enabled, it will reply to @{{ config.bot_username }} mentions.{% endif %}
+  </p>
+
+  {% if messages %}
+  {% for msg in messages %}
+  <div class="md-snackbar" style="position:relative;margin-bottom:16px;opacity:1;">{{ msg }}</div>
+  {% endfor %}
+  {% endif %}
+
+  <form method="post" action="{% if is_new %}{% url 'web:admin_bot_new' %}{% else %}{% url 'web:admin_bot_edit' bot_id=config.pk %}{% endif %}">
+    {% csrf_token %}
+
+    {# === Identity Section === #}
+    <div style="background:var(--md-surface-container);border-radius:16px;padding:24px;margin-bottom:16px;">
+      <h2 style="font-size:1rem;font-weight:600;margin:0 0 16px;">Identity</h2>
+
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+        <div>
+          <h3 style="font-size:0.875rem;font-weight:600;margin:0;">Enabled</h3>
+          <p style="color:var(--md-on-surface-variant);font-size:0.75rem;margin:4px 0 0;">
+            When on, this bot will respond to @mentions.
+          </p>
+        </div>
+        <label class="md-switch">
+          <input type="checkbox" name="enabled" id="id_enabled" {% if config.enabled %}checked{% endif %}>
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div style="margin-bottom:16px;">
+        <label for="id_name" class="admin-form-label">Bot Name</label>
+        <input type="text" name="name" id="id_name" value="{{ config.name|default:'Neby' }}" class="admin-form-input" placeholder="e.g. Neby, MathHelper, ScienceBot">
+        <p class="admin-form-hint">Internal name shown in the admin panel.</p>
+      </div>
+
+      <div style="margin-bottom:16px;">
+        <label for="id_bot_username" class="admin-form-label">Bot Username <span style="color:var(--md-error);">*</span></label>
+        <input type="text" name="bot_username" id="id_bot_username" value="{{ config.bot_username|default:'neby' }}" class="admin-form-input" placeholder="neby" {% if not is_new %}{% endif %}>
+        <p class="admin-form-hint">The @username that triggers this bot. Must match a User account with <code>is_bot=True</code>.</p>
+      </div>
+
+      <div style="margin-bottom:16px;">
+        <label for="id_display_name" class="admin-form-label">Display Name</label>
+        <input type="text" name="display_name" id="id_display_name" value="{{ config.display_name|default:'' }}" class="admin-form-input" placeholder="e.g. Neby AI">
+        <p class="admin-form-hint">Friendly name used in the bot's system prompt context. Falls back to Bot Name.</p>
+      </div>
+
+      <div style="margin-bottom:16px;">
+        <label for="id_avatar_url" class="admin-form-label">Avatar URL</label>
+        <input type="url" name="avatar_url" id="id_avatar_url" value="{{ config.avatar_url|default:'' }}" class="admin-form-input" placeholder="https://example.com/avatar.png">
+        <p class="admin-form-hint">Optional. URL for the bot's avatar image shown in the admin panel.</p>
+      </div>
+
+      {% if not is_new %}
+      {% if bot_user %}
+      <div style="background:var(--md-surface-container-high);border-radius:12px;padding:16px;display:flex;align-items:center;gap:12px;">
+        {% if bot_user.photo_url %}
+        <img src="{{ bot_user.photo_url }}" alt="" style="width:40px;height:40px;border-radius:50%;object-fit:cover;">
+        {% else %}
+        <div style="width:40px;height:40px;border-radius:50%;background:#7C4DFF;display:flex;align-items:center;justify-content:center;">
+          <span class="material-symbols-outlined" style="color:white;font-size:20px;">smart_toy</span>
+        </div>
+        {% endif %}
+        <div>
+          <div style="font-weight:600;display:flex;align-items:center;gap:6px;">
+            {{ bot_user.display_name|default:bot_user.username }}
+            <span style="background:#7C4DFF;color:white;font-size:0.6875rem;padding:1px 6px;border-radius:4px;font-weight:600;">Bot</span>
+          </div>
+          <div style="color:var(--md-on-surface-variant);font-size:0.8125rem;">@{{ bot_user.username }} &middot; {{ bot_user.reply_count }} replies &middot; ID: {{ bot_user.id }}</div>
+        </div>
+      </div>
+      {% else %}
+      <div style="background:var(--md-error-container);border-radius:12px;padding:16px;color:var(--md-on-error-container);display:flex;align-items:center;gap:12px;">
+        <span class="material-symbols-outlined" style="font-size:20px;">warning</span>
+        <div>
+          <div style="font-weight:600;">No user account found</div>
+          <div style="font-size:0.8125rem;">Create a user with username "<strong>@{{ config.bot_username }}</strong>" and <code>is_bot=True</code> so this bot can post replies.</div>
+          <a href="{% url 'web:admin_bot_create_user' bot_id=config.pk %}" class="md-btn md-btn-outlined" style="margin-top:8px;font-size:0.8125rem;">
+            <span class="material-symbols-outlined" style="font-size:16px;">person_add</span>
+            Create User
+          </a>
+        </div>
+      </div>
+      {% endif %}
+      {% endif %}
+    </div>
+
+    {# === API Configuration Section === #}
+    <div style="background:var(--md-surface-container);border-radius:16px;padding:24px;margin-bottom:16px;">
+      <h2 style="font-size:1rem;font-weight:600;margin:0 0 16px;">API Configuration</h2>
+
+      <div style="margin-bottom:16px;">
+        <label for="id_provider" class="admin-form-label">AI Provider</label>
+        <select name="provider" id="id_provider" data-action="provider-change" class="admin-form-input" style="cursor:pointer;">
+          <option value="qwen"      {% if config.provider == 'qwen' %}selected{% endif %}>Qwen (chat.qwen.ai)</option>
+          <option value="ai4bharat" {% if config.provider == 'ai4bharat' %}selected{% endif %}>AI4Bharat Arena (Indic LLM Arena)</option>
+          <option value="custom"    {% if config.provider == 'custom' %}selected{% endif %}>Custom (any OpenAI-compatible endpoint)</option>
+        </select>
+        <p class="admin-form-hint" id="id_provider_help">Choose which AI backend powers this bot. You can switch at any time.</p>
+      </div>
+
+      <div style="margin-bottom:16px;" id="id_api_url_row">
+        <label for="id_api_url" class="admin-form-label" id="id_api_url_label">API URL</label>
+        <input type="url" name="api_url" id="id_api_url" value="{{ config.api_url }}" class="admin-form-input">
+        <p class="admin-form-hint" id="id_api_url_help">Full URL to a chat-completions endpoint.</p>
+      </div>
+
+      <div style="margin-bottom:16px;" id="id_api_key_row">
+        <label for="id_api_key" class="admin-form-label">API Key <span style="font-weight:400;">(optional — leave blank if proxy doesn't require auth)</span></label>
+        <input type="password" name="api_key" id="id_api_key" value="{{ config.api_key }}" placeholder="Leave blank if not needed" class="admin-form-input">
+      </div>
+
+      <div style="margin-bottom:16px;">
+        <label for="id_model" class="admin-form-label" id="id_model_label">Model</label>
+        <select name="model_select" id="id_model_select" class="admin-form-input"></select>
+        <input type="text" name="model_text" id="id_model_text" placeholder="model-name-or-uuid" class="admin-form-input" style="display:none;">
+        <input type="hidden" name="model" id="id_model" value="{{ config.model }}">
+        <p class="admin-form-hint" id="id_model_help"></p>
+      </div>
+    </div>
+
+    {# === Behavior Section === #}
+    <div style="background:var(--md-surface-container);border-radius:16px;padding:24px;margin-bottom:16px;">
+      <h2 style="font-size:1rem;font-weight:600;margin:0 0 16px;">Behavior</h2>
+
+      <div style="margin-bottom:16px;">
+        <label for="id_system_prompt" class="admin-form-label">System Prompt</label>
+        <textarea name="system_prompt" id="id_system_prompt" rows="5" class="admin-form-input" style="resize:vertical;">{{ config.system_prompt }}</textarea>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;">
+        <div>
+          <label for="id_max_context_posts" class="admin-form-label">Max Context Posts</label>
+          <input type="number" name="max_context_posts" id="id_max_context_posts" value="{{ config.max_context_posts }}" min="1" max="20" class="admin-form-input">
+        </div>
+        <div>
+          <label for="id_max_context_replies" class="admin-form-label">Max Context Replies</label>
+          <input type="number" name="max_context_replies" id="id_max_context_replies" value="{{ config.max_context_replies }}" min="1" max="50" class="admin-form-input">
+        </div>
+        <div>
+          <label for="id_response_max_length" class="admin-form-label">Max Response Length</label>
+          <input type="number" name="response_max_length" id="id_response_max_length" value="{{ config.response_max_length }}" min="50" max="2000" class="admin-form-input">
+        </div>
+      </div>
+    </div>
+
+    {# === Danger Zone (only for existing bots) === #}
+    {% if not is_new %}
+    <div class="admin-danger-zone" style="background:var(--md-surface-container);border-radius:16px;padding:24px;margin-bottom:16px;">
+      <h3 style="margin:0 0 8px;color:var(--md-error);">Danger Zone</h3>
+      <p style="font-size:0.8125rem;color:var(--md-on-surface-variant);margin:0 0 16px;">
+        Deleting a bot removes its configuration. Existing replies by this bot will remain in the forum.
+        {% if bot_user %}The user account @{{ config.bot_username }} will not be deleted — remove it from the Users panel.{% endif %}
+      </p>
+      <button type="submit" name="action" value="delete" class="md-btn md-btn-text" style="color:var(--md-error);"
+              data-action="confirm-delete" data-confirm-msg="Are you sure you want to delete this bot configuration? This cannot be undone.">
+        <span class="material-symbols-outlined" style="font-size:18px;">delete</span>
+        Delete Bot
+      </button>
+    </div>
+    {% endif %}
+
+    <div style="display:flex;justify-content:flex-end;gap:8px;">
+      <a href="{% url 'web:admin_bots' %}" class="md-btn md-btn-text">Cancel</a>
+      <button type="submit" name="action" value="save" class="md-btn md-btn-filled" style="padding:10px 24px;">
+        <span class="material-symbols-outlined" style="font-size:18px;">save</span>
+        {% if is_new %}Create Bot{% else %}Save Changes{% endif %}
+      </button>
+    </div>
+  </form>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script nonce="{{ csp_nonce }}">
+  const AI4BHARAT_MODELS = [
+    { id: 'fadda998-e440-4c44-81b4-b0ecae27a0c5', name: 'Gemini 3.5 Flash',                       code: 'gemini-3.5-flash',                          provider: 'google',  reasoning: false, vision: false, context: 32000  },
+    { id: 'd95f1077-9bd0-46e4-8dcd-c43227e87885', name: 'Nemotron 3 Super 120B A12B',             code: 'nvidia/NVIDIA-Nemotron-3-Super-120B-A12B',  provider: 'nvidia',  reasoning: false, vision: false, context: 131072 },
+    { id: '7927d963-5444-4330-8bea-28d4b35694e5', name: 'Nemotron 3 Nano Omni 30B A3B Reasoning', code: 'nvidia/Nemotron-3-Nano-Omni-30B-A3B-Reasoning', provider: 'nvidia', reasoning: true,  vision: true,  context: 65536  },
+    { id: 'bb89dfa2-1b8e-4075-9567-0c6f4c6f621e', name: 'Gemma 4 26B A4B it',                     code: 'google/gemma-4-26B-A4B-it',                  provider: 'google',  reasoning: false, vision: false, context: 32768  },
+    { id: '860f13ee-b21b-4508-a12f-7f5ac184df58', name: 'Gemma 4 31B it',                         code: 'google/gemma-4-31B-it',                      provider: 'google',  reasoning: false, vision: false, context: 32768  },
+    { id: 'ca7565b7-eee6-4503-9c26-cf5655d61f82', name: 'Gemini 3.1 Flash Lite',                  code: 'gemini-3.1-flash-lite-preview',              provider: 'google',  reasoning: false, vision: true,  context: 32000  },
+    { id: 'a3581540-b86b-402f-b3d3-bdbc95e572ee', name: 'Sarvam 105B',                            code: 'sarvam-105b',                                provider: 'sarvam',  reasoning: true,  vision: false, context: 32768, hint: 'Best for Hindi/Nepali/Indic' },
+    { id: '8087217e-f01f-41b0-9d3a-885154d3d8e8', name: 'Sarvam 30B',                             code: 'sarvam-30b',                                 provider: 'sarvam',  reasoning: true,  vision: false, context: 32768, hint: 'Indic LLM (smaller, faster)' },
+    { id: '1f228a49-deed-4660-9301-d149efe8b068', name: 'Gemini 3 Flash',                         code: 'gemini-3-flash-preview',                     provider: 'google',  reasoning: true,  vision: true,  context: 32000  },
+    { id: '318878b7-c6a6-4c98-b228-b36ae505250c', name: 'Gemini 2.5 Flash',                       code: 'gemini-2.5-flash',                           provider: 'google',  reasoning: true,  vision: true,  context: 32000  },
+    { id: '864608e8-c05d-4ad0-bf46-ecc00b2045b6', name: 'Gemini 2.5 Flash Lite',                  code: 'gemini-2.5-flash-lite',                      provider: 'google',  reasoning: false, vision: true,  context: 32000  },
+  ];
+
+  const QWEN_MODELS = [
+    { value: 'qwen3.6-plus',         label: 'Qwen 3.6 Plus (default)' },
+    { value: 'qwen3.7-max',          label: 'Qwen 3.7 Max' },
+    { value: 'qwen3.7-plus',         label: 'Qwen 3.7 Plus' },
+    { value: 'qwen3.6-max-preview',  label: 'Qwen 3.6 Max Preview' },
+    { value: 'qwen3.5-plus',         label: 'Qwen 3.5 Plus' },
+    { value: 'qwen2.5-coder-32b',    label: 'Qwen 2.5 Coder 32B' },
+    { value: 'qwq-32b',              label: 'Qwq 32B' },
+  ];
+
+  const PROVIDER_CONFIG = {
+    qwen: {
+      urlLabel: 'API URL',
+      urlHelp: 'Qwen endpoint (leave default).',
+      urlDefault: 'https://chat.qwen.ai/api/v2',
+      modelControl: 'select',
+      modelHelp: 'Pick a Qwen model.',
+      options: QWEN_MODELS,
+    },
+    ai4bharat: {
+      urlLabel: 'API URL',
+      urlHelp: 'AI4Bharat Arena endpoint (leave default).',
+      urlDefault: 'https://backend.arena.ai4bharat.co',
+      modelControl: 'select',
+      modelHelp: 'Pick an AI4Bharat Arena model. Indic models (Sarvam) work best for Hindi/Nepali.',
+      options: AI4BHARAT_MODELS,
+    },
+    custom: {
+      urlLabel: 'API URL',
+      urlHelp: 'Full URL to any OpenAI-compatible /chat/completions endpoint (e.g. https://api.openai.com/v1/chat/completions).',
+      urlDefault: '',
+      modelControl: 'text',
+      modelHelp: 'Free-form model name as required by the provider.',
+      options: [],
+    },
+  };
+
+  let userTouchedUrl = false;
+  const urlEl = document.getElementById('id_api_url');
+  if (urlEl) {
+    urlEl.addEventListener('input', function() { userTouchedUrl = true; });
+  }
+
+  function _fmtContextWindow(n) {
+    if (!n) return '';
+    if (n >= 1024 * 1024) return (n / (1024 * 1024)).toFixed(1) + 'M ctx';
+    if (n >= 1024) return Math.round(n / 1024) + 'K ctx';
+    return n + ' ctx';
+  }
+  function _formatOptionLabel(opt) {
+    if (opt.label) return opt.label;
+    var tags = [];
+    if (opt.reasoning) tags.push('\uD83E\uDDE0');
+    if (opt.vision) tags.push('\uD83D\uDC41');
+    if (opt.context) tags.push(_fmtContextWindow(opt.context));
+    var tagStr = tags.length ? '  ' + tags.join(' ') : '';
+    var codeStr = opt.code ? '  (' + opt.code + ')' : '';
+    return opt.name + tagStr + codeStr;
+  }
+  function rebuildModelControl(provider, currentValue) {
+    var cfg = PROVIDER_CONFIG[provider];
+    var select = document.getElementById('id_model_select');
+    var text = document.getElementById('id_model_text');
+    var hidden = document.getElementById('id_model');
+    var helpEl = document.getElementById('id_model_help');
+    select.innerHTML = '';
+    var activeOpt = null;
+    if (cfg.modelControl === 'select') {
+      select.style.display = '';
+      text.style.display = 'none';
+      var matched = false;
+      for (var i = 0; i < cfg.options.length; i++) {
+        var opt = cfg.options[i];
+        var o = document.createElement('option');
+        var v = opt.id || opt.value;
+        o.value = v;
+        o.textContent = _formatOptionLabel(opt);
+        if (v === currentValue) {
+          o.selected = true;
+          matched = true;
+          activeOpt = opt;
+        }
+        select.appendChild(o);
+      }
+      if (!matched && currentValue) {
+        var o = document.createElement('option');
+        o.value = currentValue;
+        o.textContent = currentValue + '  (custom value)';
+        o.selected = true;
+        select.appendChild(o);
+      }
+    } else {
+      select.style.display = 'none';
+      text.style.display = '';
+      text.value = currentValue || '';
+    }
+    if (hidden) hidden.value = currentValue || '';
+    if (activeOpt && activeOpt.hint && helpEl) {
+      helpEl.textContent = cfg.modelHelp + ' \u2014 ' + activeOpt.hint;
+    } else if (helpEl) {
+      helpEl.textContent = cfg.modelHelp;
+    }
+  }
+
+  function onProviderChange() {
+    var provider = document.getElementById('id_provider').value;
+    var cfg = PROVIDER_CONFIG[provider] || PROVIDER_CONFIG.qwen;
+    document.getElementById('id_api_url_label').textContent = cfg.urlLabel;
+    document.getElementById('id_api_url_help').textContent = cfg.urlHelp;
+    if (!userTouchedUrl) {
+      urlEl.value = cfg.urlDefault;
+    }
+    document.getElementById('id_api_key_row').style.display = '';
+    var currentModel = document.getElementById('id_model').value;
+    rebuildModelControl(provider, currentModel);
+    document.getElementById('id_model_help').textContent = cfg.modelHelp;
+  }
+
+  function syncModelHidden() {
+    var provider = document.getElementById('id_provider').value;
+    var cfg = PROVIDER_CONFIG[provider] || PROVIDER_CONFIG.qwen;
+    var hidden = document.getElementById('id_model');
+    var select = document.getElementById('id_model_select');
+    var text = document.getElementById('id_model_text');
+    if (cfg.modelControl === 'select') {
+      hidden.value = select.value;
+    } else {
+      hidden.value = text.value.trim();
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    var select = document.getElementById('id_model_select');
+    var text = document.getElementById('id_model_text');
+    if (select) select.addEventListener('change', syncModelHidden);
+    if (text) text.addEventListener('input', syncModelHidden);
+    document.querySelector('form').addEventListener('submit', syncModelHidden);
+    onProviderChange();
+  });
+
+  registerActions({
+    'provider-change': function(el, e) {
+      onProviderChange();
+    }
+  });
+</script>
+{% endblock %}

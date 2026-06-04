@@ -26,7 +26,7 @@
   }
   .search-page-bar .search-icon { color: var(--md-on-surface-variant); font-size: 22px; flex-shrink: 0; }
   .search-page-bar input {
-    flex: 1; min-width: 120px; border: none; background: transparent; outline: none;
+    flex: 1; width: 100%; min-width: 0; border: none; background: transparent; outline: none;
     color: var(--md-on-surface); font-family: var(--md-font); font-size: 1rem; padding: 8px 0;
   }
   .search-page-bar input::placeholder { color: var(--md-on-surface-variant); }
@@ -186,6 +186,52 @@
     padding: 6px 16px;
     font-size: 0.8125rem;
   }
+
+  /* Mobile responsiveness improvements */
+  @media (max-width: 480px) {
+    .search-page-bar {
+      padding: 0 12px;
+    }
+    .user-search-card {
+      align-items: flex-start;
+      gap: 10px;
+      padding: 10px;
+    }
+    .user-search-avatar {
+      width: 40px;
+      height: 40px;
+      font-size: 1rem;
+    }
+    .user-search-line1 {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 2px;
+    }
+    .user-search-dot {
+      display: none;
+    }
+    .user-search-followers {
+      margin-top: 2px;
+    }
+    .user-search-card .follow-btn-small {
+      padding: 4px 10px;
+      font-size: 0.75rem;
+    }
+  }
+
+  /* Search tab scroll styling */
+  .search-tabs {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .search-tabs::-webkit-scrollbar {
+    display: none;
+  }
+  .search-tabs .md-tab {
+    flex-shrink: 0;
+  }
 </style>
 {% endblock %}
 
@@ -194,7 +240,7 @@
   <!-- Search bar with filter chips inside -->
   <div class="search-page-bar">
     <span class="material-symbols-outlined search-icon">search</span>
-    <form method="get" action="{% url 'web:search' %}" id="search-form" style="display:flex;flex:1;flex-wrap:wrap;align-items:center;gap:6px;">
+    <form method="get" action="{% url 'web:search' %}" id="search-form" style="display:flex;flex:1;min-width:0;align-items:center;gap:6px;">
       <input type="text" name="q" value="{{ query }}" placeholder="Search resources and posts..." autofocus>
       {% if current_subject %}<input type="hidden" name="subject" value="{{ current_subject }}">{% endif %}
       {% if current_grade %}<input type="hidden" name="grade" value="{{ current_grade }}">{% endif %}
@@ -359,7 +405,7 @@
     <div class="section">
       <h3 class="md-title-medium" style="margin-bottom:16px;">{{ post_results|length }} post{{ post_results|length|pluralize }}</h3>
       {% for post in post_results %}
-      <div class="post-card">
+      <div class="post-card" data-action="open-post" data-post-url="{% url 'web:forum_post' post_id=post.id %}" style="cursor: pointer;">
         <div class="post-card-header">
           <div class="post-card-avatar">
             {% if post.authorPhotoUrl %}
@@ -384,16 +430,16 @@
           </div>
           <div class="more-menu-wrapper">
               <button class="more-btn" data-action="toggle-more-menu" data-menu-id="post-menu-search-{{ post.id }}" aria-label="More options"><span class="material-symbols-outlined">more_vert</span></button>
-              <div class="more-menu" id="post-menu-search-{{ post.id }}" style="display:none;">
+              <div class="more-menu" id="post-menu-search-{{ post.id }}" style="display:none;" data-action="stop-propagation">
                 {% if is_authenticated %}
                 <button class="more-menu-item" data-action="toggle-bookmark" data-target-type="post" data-target-id="{{ post.id }}">
                   <span class="material-symbols-outlined" id="bookmark-icon-post-{{ post.id }}"{% if post.isBookmarked %} style="font-variation-settings:'FILL' 1"{% endif %}>bookmark</span>
                   <span id="bookmark-label-post-{{ post.id }}">{% if post.isBookmarked %}Remove{% else %}Bookmark{% endif %}</span>
-              </button>
+                </button>
+                {% endif %}
                 <button class="more-menu-item" data-action="share-post-url" data-path="{% url 'web:forum_post' post_id=post.id %}">
                   <span class="material-symbols-outlined">share</span> Share
                 </button>
-                {% endif %}
               </div>
             </div>
           </div>
@@ -405,8 +451,15 @@
             </button>
             <a href="{% url 'web:forum_post' post_id=post.id %}" class="act-btn-stat">
               <span class="material-symbols-outlined">chat_bubble_outline</span>
-              <span>{{ post.replyCount }}</span>
+              <span>{{ post.replyCount }} Replies</span>
             </a>
+            <span class="fp-action-spacer" style="flex: 1;"></span>
+            <button type="button" class="{% if post.isBookmarked %}bookmark-active{% endif %}" data-action="toggle-bookmark" data-target-type="post" data-target-id="{{ post.id }}" id="search-post-bookmark-btn-{{ post.id }}" aria-label="Bookmark">
+              <span class="material-symbols-outlined" {% if post.isBookmarked %}style="font-variation-settings: 'FILL' 1;"{% endif %}>bookmark</span>
+            </button>
+            <button type="button" data-action="share-post-url" data-path="{% url 'web:forum_post' post_id=post.id %}" aria-label="Share">
+              <span class="material-symbols-outlined">share</span>
+            </button>
           </div>
         </div>
         {% endfor %}
@@ -589,7 +642,7 @@
           <a href="{% url 'web:search' %}?q={{ query }}{% if current_subject %}&subject={{ current_subject }}{% endif %}{% if current_grade %}&grade={{ current_grade }}{% endif %}{% if current_type %}&type={{ current_type }}{% endif %}&tab=posts" class="md-btn md-btn-text">View all</a>
         </div>
         {% for post in post_results|slice:":3" %}
-        <div class="post-card">
+        <div class="post-card" data-action="open-post" data-post-url="{% url 'web:forum_post' post_id=post.id %}" style="cursor: pointer;">
           <div class="post-card-header">
             <div class="post-card-avatar">
               {% if post.authorPhotoUrl %}
@@ -611,19 +664,18 @@
                 <span class="dot-sep">&middot;</span>
                 <span class="post-card-time">{{ post.createdAt|time_ago }}</span>
               </div>
-            </div>
-            <div class="more-menu-wrapper">
+            </div>             <div class="more-menu-wrapper">
               <button class="more-btn" data-action="toggle-more-menu" data-menu-id="post-menu-search2-{{ post.id }}" aria-label="More options"><span class="material-symbols-outlined">more_vert</span></button>
-              <div class="more-menu" id="post-menu-search2-{{ post.id }}" style="display:none;">
+              <div class="more-menu" id="post-menu-search2-{{ post.id }}" style="display:none;" data-action="stop-propagation">
                 {% if is_authenticated %}
                 <button class="more-menu-item" data-action="toggle-bookmark" data-target-type="post" data-target-id="{{ post.id }}">
                   <span class="material-symbols-outlined" id="bookmark-icon-post-{{ post.id }}"{% if post.isBookmarked %} style="font-variation-settings:'FILL' 1"{% endif %}>bookmark</span>
                   <span id="bookmark-label-post-{{ post.id }}">{% if post.isBookmarked %}Remove{% else %}Bookmark{% endif %}</span>
                 </button>
+                {% endif %}
                 <button class="more-menu-item" data-action="share-post-url" data-path="{% url 'web:forum_post' post_id=post.id %}">
                   <span class="material-symbols-outlined">share</span> Share
                 </button>
-                {% endif %}
               </div>
             </div>
           </div>
@@ -635,8 +687,15 @@
             </button>
             <a href="{% url 'web:forum_post' post_id=post.id %}" class="act-btn-stat">
               <span class="material-symbols-outlined">chat_bubble_outline</span>
-              <span>{{ post.replyCount }}</span>
+              <span>{{ post.replyCount }} Replies</span>
             </a>
+            <span class="fp-action-spacer" style="flex: 1;"></span>
+            <button type="button" class="{% if post.isBookmarked %}bookmark-active{% endif %}" data-action="toggle-bookmark" data-target-type="post" data-target-id="{{ post.id }}" id="search2-post-bookmark-btn-{{ post.id }}" aria-label="Bookmark">
+              <span class="material-symbols-outlined" {% if post.isBookmarked %}style="font-variation-settings: 'FILL' 1;"{% endif %}>bookmark</span>
+            </button>
+            <button type="button" data-action="share-post-url" data-path="{% url 'web:forum_post' post_id=post.id %}" aria-label="Share">
+              <span class="material-symbols-outlined">share</span>
+            </button>
           </div>
         </div>
         {% endfor %}
@@ -752,6 +811,18 @@
           var labelEl = document.getElementById('bookmark-label-' + targetType + '-' + targetId);
           if (iconEl) { iconEl.textContent = 'bookmark'; iconEl.style.fontVariationSettings = d.isBookmarked ? "'FILL' 1" : ''; }
           if (labelEl) labelEl.textContent = d.isBookmarked ? 'Remove' : 'Bookmark';
+          
+          // Update search footer buttons
+          ['search-post-bookmark-btn-', 'search2-post-bookmark-btn-'].forEach(function(prefix) {
+            var footerBtn = document.getElementById(prefix + targetId);
+            if (footerBtn) {
+              footerBtn.classList.toggle('bookmark-active', d.isBookmarked);
+              var footerIcon = footerBtn.querySelector('.material-symbols-outlined');
+              if (footerIcon) {
+                footerIcon.style.fontVariationSettings = d.isBookmarked ? "'FILL' 1" : '';
+              }
+            }
+          });
           showSnackbar(d.isBookmarked ? 'Bookmarked!' : 'Bookmark removed');
         } else { showSnackbar(d.error || 'Failed to toggle bookmark'); }
       } catch(e) { showSnackbar('Error toggling bookmark'); }

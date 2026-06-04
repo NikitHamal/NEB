@@ -90,8 +90,13 @@ class JWTAuthMiddleware(BaseMiddleware):
         # session cookie (if present). We override with the bearer token
         # if Authorization: Bearer <token> is provided. This is the
         # primary auth path for the Android app.
+        # Also check ?token= query param — used when the WS is on a
+        # different domain (e.g. trycloudflare.com) and the browser cannot
+        # send the session cookie cross-domain.
         existing = scope.get('user')
         bearer_user = None
+
+        # 1. Check Authorization: Bearer header
         for name, value in scope.get('headers', []):
             if name == b'authorization':
                 auth = value.decode('latin-1', errors='replace')
@@ -99,6 +104,17 @@ class JWTAuthMiddleware(BaseMiddleware):
                     token = auth[7:].strip()
                     bearer_user = await database_sync_to_async(self._resolve_bearer)(token)
                 break
+
+        # 2. If no bearer header and existing session user is anonymous,
+        #    try the ?token= query param.
+        if bearer_user is None and getattr(existing, 'is_anonymous', True):
+            qs = scope.get('query_string', b'').decode('latin-1', errors='replace')
+            for part in qs.split('&'):
+                if part.startswith('token='):
+                    token = part[6:].strip()
+                    if token:
+                        bearer_user = await database_sync_to_async(self._resolve_bearer)(token)
+                    break
 
         if bearer_user is not None:
             scope['user'] = bearer_user

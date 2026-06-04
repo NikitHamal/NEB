@@ -238,6 +238,7 @@ class RealtimeConsumer(AsyncWebsocketConsumer):
 
         await self.accept()
         self._groups: Set[str] = set()
+        self._client_subscriptions = {}
         self._last_activity = time.monotonic()
         self._rate = _RateLimiter(self.RATE_PER_SECOND, self.RATE_PER_HOUR)
         self._batcher = _EventBatcher(self._send_json)
@@ -319,6 +320,8 @@ class RealtimeConsumer(AsyncWebsocketConsumer):
             ok = True
         elif channel == 'user' and self._user_id:
             ok = True
+        elif channel.startswith('user.'):
+            ok = True  # public profile subscriptions (follow/stats updates)
         elif channel.startswith('post.'):
             post_id = channel[len('post.'):]
             ok = await self._can_see_post(post_id)
@@ -335,16 +338,27 @@ class RealtimeConsumer(AsyncWebsocketConsumer):
             await self._send_json({'type': 'error', 'code': 'forbidden', 'message': 'cannot subscribe to channel'})
             return
 
-        await self.channel_layer.group_add(channel, self.channel_name)
-        self._groups.add(channel)
+        # Map 'user' to user-specific group in channel layer
+        group_name = channel
+        if channel == 'user' and self._user_id:
+            group_name = f'user.{self._user_id}'
+
+        await self.channel_layer.group_add(group_name, self.channel_name)
+        self._groups.add(group_name)
+        self._client_subscriptions[group_name] = channel
+
         await self._send_json({'type': 'subscribed', 'channel': channel})
 
     async def _handle_unsubscribe(self, channel: str):
         if not channel:
             return
-        if channel in self._groups:
-            await self.channel_layer.group_discard(channel, self.channel_name)
-            self._groups.discard(channel)
+        group_name = channel
+        if channel == 'user' and self._user_id:
+            group_name = f'user.{self._user_id}'
+        if group_name in self._groups:
+            await self.channel_layer.group_discard(group_name, self.channel_name)
+            self._groups.discard(group_name)
+            self._client_subscriptions.pop(group_name, None)
         await self._send_json({'type': 'unsubscribed', 'channel': channel})
 
     # ------------------------------------------------------------------ heartbeat / watchdog
@@ -377,8 +391,12 @@ class RealtimeConsumer(AsyncWebsocketConsumer):
     # Internal channel_layer event names. Producers call group_send with
     # type='realtime.event' which Channels dispatches to realtime_event.
     async def realtime_event(self, event):
+        channel = event['channel']
+        # Map target channel back to client subscription name if mapped
+        if hasattr(self, '_client_subscriptions') and channel in self._client_subscriptions:
+            channel = self._client_subscriptions[channel]
         # Force into the batcher
-        await self._batcher.add(event['channel'], event['event'], event['data'])
+        await self._batcher.add(channel, event['event'], event['data'])
 
     # ------------------------------------------------------------------ internal
 

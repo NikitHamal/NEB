@@ -1,8 +1,12 @@
 """
-Neby AI Bot — detects @neby mentions and generates contextual replies.
+Neby AI Bot — detects @mentions and generates contextual replies.
+
+Supports multiple bots, each with its own BotConfig row. When a post or reply
+mentions @username, the system finds the matching enabled BotConfig and
+enqueues a NebyTask linked to that config.
 
 Task queue architecture:
-- Request cycle: detect_mention() → enqueue_neby_task() → creates a NebyTask row
+- Request cycle: detect_mention() → find matching BotConfig → enqueue_neby_task()
 - Cron job: `python manage.py process_neby_tasks` picks up pending tasks,
   calls the AI, creates the reply, and marks the task done/failed.
 
@@ -32,8 +36,12 @@ def is_neby_enabled():
     if val is not None:
         return val
     try:
-        config = BotConfig.get_config()
-        enabled = config.enabled and bool(BotConfig.get_bot_user())
+        enabled_bots = BotConfig.get_enabled_bots()
+        enabled = False
+        for config in enabled_bots:
+            if BotConfig.get_bot_user(config):
+                enabled = True
+                break
     except Exception:
         enabled = False
     cache.set(cache_key, enabled, 60)
@@ -45,50 +53,67 @@ def detect_mention(text, bot_username='neby'):
     return bool(pattern.search(text))
 
 
-def enqueue_neby_task(trigger, post_id, reply_id=None):
+def _find_matching_bots(text):
+    """Find all enabled BotConfigs whose @username appears in the text."""
+    configs = []
+    for config in BotConfig.get_enabled_bots():
+        if detect_mention(text, config.bot_username):
+            configs.append(config)
+    return configs
+
+
+def enqueue_neby_task(trigger, post_id, reply_id=None, bot_config=None):
     """Create a pending NebyTask and return it. Called from request cycle."""
     if not is_neby_enabled():
-        logger.debug('Neby: enqueue skipped (not enabled)')
+        logger.debug('Neby: enqueue skipped (no enabled bots with users)')
         return None
-    config = BotConfig.get_config()
-    bot_user = BotConfig.get_bot_user()
+    if bot_config is None:
+        return None
+    bot_user = BotConfig.get_bot_user(bot_config)
     if not bot_user:
-        logger.debug('Neby: enqueue skipped (no bot user)')
+        logger.debug(f'Neby: enqueue skipped (no user for @{bot_config.bot_username})')
         return None
     task = NebyTask.objects.create(
         id=str(uuid.uuid4()),
+        bot_config=bot_config,
         status='pending',
         trigger=trigger,
         post_id=post_id,
         reply_id=reply_id,
         created_at=_now_ms(),
     )
-    logger.info(f'Neby: enqueued {trigger} task {task.id} for post {post_id}')
+    logger.info(f'Neby: enqueued {trigger} task {task.id} for bot @{bot_config.bot_username}, post {post_id}')
     return task
 
 
 def enqueue_if_post_mention(post):
-    """Check if a post mentions @neby and enqueue a task if so."""
-    config = BotConfig.get_config()
-    if detect_mention(post.content, config.bot_username) or detect_mention(post.title, config.bot_username):
-        return enqueue_neby_task('post_mention', post.id)
-    return None
+    """Check if a post mentions any enabled bot and enqueue tasks for each match."""
+    text = f'{post.title} {post.content}'
+    configs = _find_matching_bots(text)
+    tasks = []
+    for config in configs:
+        bot_user = BotConfig.get_bot_user(config)
+        if bot_user and post.user_id != bot_user.id:
+            task = enqueue_neby_task('post_mention', post.id, bot_config=config)
+            if task:
+                tasks.append(task)
+    return tasks
 
 
 def enqueue_if_reply_mention(reply):
-    """Check if a reply mentions @neby and enqueue a task if so."""
-    config = BotConfig.get_config()
-    bot_user = BotConfig.get_bot_user()
-    if not bot_user:
-        return None
-    if reply.user_id == bot_user.id:
-        return None
-    if detect_mention(reply.content, config.bot_username):
-        return enqueue_neby_task('reply_mention', reply.post_id, reply_id=reply.id)
-    return None
+    """Check if a reply mentions any enabled bot and enqueue tasks for each match."""
+    configs = _find_matching_bots(reply.content)
+    tasks = []
+    for config in configs:
+        bot_user = BotConfig.get_bot_user(config)
+        if bot_user and reply.user_id != bot_user.id:
+            task = enqueue_neby_task('reply_mention', reply.post_id, reply_id=reply.id, bot_config=config)
+            if task:
+                tasks.append(task)
+    return tasks
 
 
-def _build_post_context(post, max_replies=10):
+def _build_post_context(post, max_replies=10, bot_name='Neby'):
     lines = []
     try:
         author_name = post.user.display_name or post.user.username
@@ -108,11 +133,11 @@ def _build_post_context(post, max_replies=10):
                 r_name = 'Unknown'
             lines.append(f"  {r_name}: {r.content}")
         lines.append("")
-    lines.append("Please write a helpful reply to this post as Neby. Keep it concise and relevant to the student's question.")
+    lines.append(f"Please write a helpful reply to this post as {bot_name}. Keep it concise and relevant to the student's question.")
     return '\n'.join(lines), None
 
 
-def _build_reply_context(reply, max_context_replies=10):
+def _build_reply_context(reply, max_context_replies=10, bot_name='Neby'):
     lines = []
     post = reply.post
     try:
@@ -142,7 +167,7 @@ def _build_reply_context(reply, max_context_replies=10):
         lines.append("")
     lines.append(f"{reply_author} just wrote (mentioning you): {reply.content}")
     lines.append("")
-    lines.append("Please write a helpful reply as Neby. Keep it concise and relevant.")
+    lines.append(f"Please write a helpful reply as {bot_name}. Keep it concise and relevant.")
     return '\n'.join(lines), reply_username
 
 
@@ -156,7 +181,9 @@ def call_ai_api(system_prompt, user_message, config=None):
     Returns response text or None.
     """
     if config is None:
-        config = BotConfig.get_config()
+        config = BotConfig.objects.filter(enabled=True).first()
+        if not config:
+            return None
     provider = (config.provider or 'qwen').strip().lower()
     max_tokens = config.response_max_length or 500
 
@@ -186,11 +213,23 @@ def call_ai_api(system_prompt, user_message, config=None):
 
 def process_neby_task(task):
     """Execute a single NebyTask. Called by the management command."""
-    config = BotConfig.get_config()
-    bot_user = BotConfig.get_bot_user()
+    config = task.bot_config
+    if not config:
+        try:
+            config = BotConfig.objects.filter(enabled=True).first()
+        except BotConfig.DoesNotExist:
+            config = None
+    if not config:
+        task.status = 'failed'
+        task.error_message = 'No bot config found'
+        task.finished_at = _now_ms()
+        task.save(update_fields=['status', 'error_message', 'finished_at'])
+        return
+
+    bot_user = BotConfig.get_bot_user(config)
     if not bot_user:
         task.status = 'failed'
-        task.error_message = 'No bot user configured'
+        task.error_message = f'No bot user for @{config.bot_username}'
         task.finished_at = _now_ms()
         task.save(update_fields=['status', 'error_message', 'finished_at'])
         return
@@ -232,12 +271,13 @@ def _process_post_mention(task, config, bot_user):
 
     if not detect_mention(post.content, config.bot_username) and not detect_mention(post.title, config.bot_username):
         task.status = 'failed'
-        task.error_message = 'No @neby mention found in post'
+        task.error_message = f'No @{config.bot_username} mention found in post'
         task.finished_at = _now_ms()
         task.save(update_fields=['status', 'error_message', 'finished_at'])
         return
 
-    context, _ = _build_post_context(post, max_replies=config.max_context_replies)
+    bot_name = config.display_name or config.name or 'Neby'
+    context, _ = _build_post_context(post, max_replies=config.max_context_replies, bot_name=bot_name)
     response_text = call_ai_api(config.system_prompt, context, config)
     if not response_text:
         task.status = 'failed'
@@ -274,7 +314,7 @@ def _process_post_mention(task, config, bot_user):
     task.status = 'done'
     task.finished_at = _now_ms()
     task.save(update_fields=['status', 'finished_at'])
-    logger.info(f'Neby task {task.id}: replied to post {post.id}')
+    logger.info(f'Neby task {task.id}: bot @{config.bot_username} replied to post {post.id}')
 
 
 def _process_reply_mention(task, config, bot_user):
@@ -296,7 +336,7 @@ def _process_reply_mention(task, config, bot_user):
 
     if not detect_mention(reply.content, config.bot_username):
         task.status = 'failed'
-        task.error_message = 'No @neby mention found in reply'
+        task.error_message = f'No @{config.bot_username} mention found in reply'
         task.finished_at = _now_ms()
         task.save(update_fields=['status', 'error_message', 'finished_at'])
         return
@@ -308,7 +348,8 @@ def _process_reply_mention(task, config, bot_user):
         task.save(update_fields=['status', 'error_message', 'finished_at'])
         return
 
-    context, reply_username = _build_reply_context(reply, max_context_replies=config.max_context_replies)
+    bot_name = config.display_name or config.name or 'Neby'
+    context, reply_username = _build_reply_context(reply, max_context_replies=config.max_context_replies, bot_name=bot_name)
     response_text = call_ai_api(config.system_prompt, context, config)
     if not response_text:
         task.status = 'failed'
@@ -347,4 +388,4 @@ def _process_reply_mention(task, config, bot_user):
     task.status = 'done'
     task.finished_at = _now_ms()
     task.save(update_fields=['status', 'finished_at'])
-    logger.info(f'Neby task {task.id}: replied to reply {reply.id}')
+    logger.info(f'Neby task {task.id}: bot @{config.bot_username} replied to reply {reply.id}')

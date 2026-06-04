@@ -1019,10 +1019,23 @@
         return;
       }
 
+      function getBaseName(filename) {
+        var idx = filename.lastIndexOf('.');
+        var name = idx !== -1 ? filename.substring(0, idx) : filename;
+        name = name.replace(/\s*\(\d+\)$/, ''); // matches "file (1)"
+        name = name.replace(/\s*-\s*Copy$/, ''); // matches "file - Copy"
+        name = name.replace(/_\d+$/, ''); // matches "file_1"
+        return name.toLowerCase().trim();
+      }
+
       var isDuplicate = selectedFiles.some(function(f) {
+        if (f.size === file.size && getBaseName(f.name) === getBaseName(file.name)) {
+          return true;
+        }
         return f.name === file.name && f.size === file.size;
       });
       if (isDuplicate) {
+        showSnackbar('Skipped duplicate file: ' + file.name);
         processNext();
         return;
       }

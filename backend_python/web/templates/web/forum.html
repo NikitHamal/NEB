@@ -22,10 +22,32 @@
 <style>
   /* 2-Column Responsive Forum Layout */
   .forum-container {
-    max-width: 1100px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 0 24px;
     font-family: 'Poppins', sans-serif;
+  }
+
+  .forum-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    margin-top: 24px;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--md-outline-variant);
+  }
+
+  .forum-header-content {
+    flex: 1;
+  }
+
+  .forum-header h1 {
+    font-weight: 800;
+    color: var(--md-on-surface);
+    letter-spacing: -0.02em;
+    margin: 0;
   }
 
   .forum-layout {
@@ -36,7 +58,7 @@
     margin-top: 16px;
   }
 
-  @media (max-width: 900px) {
+  @media (max-width: 990px) {
     .forum-layout {
       grid-template-columns: 1fr;
       gap: 24px;
@@ -56,8 +78,8 @@
   }
 
   .forum-card {
-    background: var(--md-surface-container-low, var(--md-surface));
-    border: 1px solid var(--md-outline-variant);
+    background: var(--md-surface-container-lowest);
+    border: 1px solid rgba(var(--md-outline-variant), 0.5);
     border-radius: 24px;
     padding: 24px;
   }
@@ -66,11 +88,12 @@
     display: flex;
     align-items: center;
     gap: 12px;
-    font-size: 1.25rem;
-    font-weight: 600;
+    font-size: 1.2rem;
+    font-weight: 700;
     color: var(--md-on-surface);
     margin-bottom: 20px;
     line-height: 1.2;
+    letter-spacing: -0.01em;
   }
 
   .forum-card-title span.material-symbols-outlined {
@@ -82,30 +105,31 @@
   .sidebar-category-list {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 6px;
   }
 
   .sidebar-category-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 16px;
+    padding: 12px 18px;
     border-radius: 16px;
     text-decoration: none;
-    color: var(--md-on-surface);
+    color: var(--md-on-surface-variant);
     font-weight: 500;
     font-size: 0.9375rem;
-    transition: background-color 0.2s ease;
+    transition: all 0.2s var(--md-transition);
   }
 
   .sidebar-category-row:hover {
     background-color: var(--md-surface-container-high);
+    color: var(--md-on-surface);
     text-decoration: none;
   }
 
   .sidebar-category-row.active {
-    background-color: rgba(37, 99, 235, 0.08);
-    color: var(--md-primary);
+    background-color: var(--md-primary-container);
+    color: var(--md-on-primary-container);
     font-weight: 600;
   }
 
@@ -119,7 +143,7 @@
     border-radius: 100px;
     background: var(--md-surface-container-highest);
     color: var(--md-on-surface-variant);
-    transition: background-color 0.2s ease;
+    transition: all 0.2s var(--md-transition);
   }
 
   .sidebar-category-row.active .category-badge {
@@ -131,7 +155,7 @@
   .sidebar-contributor-list {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 12px;
   }
 
   .sidebar-contributor-row {
@@ -139,9 +163,9 @@
     align-items: center;
     justify-content: space-between;
     gap: 12px;
-    padding: 8px;
-    border-radius: 12px;
-    transition: background-color 0.2s ease;
+    padding: 10px 12px;
+    border-radius: 16px;
+    transition: all 0.2s var(--md-transition);
   }
 
   .sidebar-contributor-row:hover {
@@ -155,16 +179,16 @@
   }
 
   .contributor-avatar-container {
-    width: 42px;
-    height: 42px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     overflow: hidden;
-    background: var(--md-primary);
+    background: var(--md-primary-container);
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    border: 1px solid var(--md-outline-variant);
+    border: 1.5px solid var(--md-outline-variant);
   }
 
   .contributor-avatar-container img {
@@ -174,9 +198,9 @@
   }
 
   .contributor-avatar-letter {
-    font-size: 1.0625rem;
+    font-size: 1rem;
     font-weight: 700;
-    color: var(--md-on-primary);
+    color: var(--md-on-primary-container);
     text-transform: uppercase;
   }
 
@@ -222,6 +246,71 @@
   .btn-leaderboard-link:hover {
     background-color: rgba(27, 110, 243, 0.08);
     text-decoration: none;
+  }
+
+  /* Mobile category filters scrolling container styling */
+  .filter-bar-container {
+    position: relative;
+    margin-bottom: 16px;
+    margin-top: 8px;
+    overflow: hidden;
+  }
+
+  .filter-bar-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 12px;
+    width: 48px;
+    background: linear-gradient(90deg, rgba(248, 249, 255, 0) 0%, var(--md-background) 100%);
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  [data-theme="dark"] .filter-bar-container::after {
+    background: linear-gradient(90deg, rgba(11, 28, 48, 0) 0%, var(--md-background) 100%);
+  }
+
+  .filter-bar {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding: 4px 4px 12px;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .filter-bar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .filter-bar .md-chip {
+    white-space: nowrap;
+    flex-shrink: 0;
+    padding: 8px 16px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    border-radius: var(--md-radius-full);
+    transition: all 0.2s var(--md-transition);
+  }
+
+  .filter-bar .md-chip-active {
+    font-weight: 600;
+    background: var(--md-primary-container) !important;
+    color: var(--md-on-primary-container) !important;
+    border-color: transparent !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  }
+
+  /* FAB Mobile Position Clearance */
+  @media (max-width: 900px) {
+    .md-fab {
+      bottom: 84px !important;
+    }
   }
 
   /* Modal Style (Leaderboard) */
@@ -349,23 +438,26 @@
 </style>
 
 <div class="forum-container">
-  <div class="section-header mt-2">
-    <h1 class="md-headline-medium">Forum</h1>
-    <div style="display:flex;gap:8px;align-items:center;">
-      <a href="{% url 'web:create_post' %}" class="md-btn md-btn-filled md-hide-mobile">
-        <span class="material-symbols-outlined" style="font-size:18px">add</span>
-        New Discussion
-      </a>
+  <!-- Redesigned Forum Header -->
+  <div class="forum-header">
+    <div class="forum-header-content">
+      <h1 class="md-headline-large">Forum</h1>
     </div>
+    <a href="{% url 'web:create_post' %}" class="md-btn md-btn-filled md-hide-mobile">
+      <span class="material-symbols-outlined">add</span>
+      New Discussion
+    </a>
   </div>
 
-  <!-- Mobile Category Filters (chips row) -->
+  <!-- Mobile Category Filters (chips scroll bar with fade overlay) -->
   {% if categories_data %}
-  <div class="filter-bar md-hide-desktop">
-    <a href="{% url 'web:forum' %}" class="md-chip {% if not current_category %}md-chip-active{% endif %}">All</a>
-    {% for c in categories_data %}
-    <a href="{% url 'web:forum' %}?category={{ c.name }}" class="md-chip {% if current_category == c.name %}md-chip-active{% endif %}">{{ c.name }}</a>
-    {% endfor %}
+  <div class="filter-bar-container md-hide-desktop">
+    <div class="filter-bar">
+      <a href="{% url 'web:forum' %}" class="md-chip {% if not current_category %}md-chip-active{% endif %}">All</a>
+      {% for c in categories_data %}
+      <a href="{% url 'web:forum' %}?category={{ c.name }}" class="md-chip {% if current_category == c.name %}md-chip-active{% endif %}">{{ c.name }}</a>
+      {% endfor %}
+    </div>
   </div>
   {% endif %}
 
@@ -376,7 +468,7 @@
       {% if posts %}
       <div style="display:flex;flex-direction:column;gap:12px;">
         {% for post in posts %}
-        <div class="post-card">
+        <div class="post-card" data-action="open-post" data-post-url="{% url 'web:forum_post' post_id=post.id %}" style="cursor: pointer;">
           <div class="post-card-header">
             <div class="post-card-avatar">
               {% if post.authorPhotoUrl %}
@@ -406,20 +498,20 @@
             </div>
             <div class="more-menu-wrapper">
               <button class="more-btn" data-action="toggle-more-menu" data-menu-id="post-menu-forum-{{ post.id }}" aria-label="More options"><span class="material-symbols-outlined">more_vert</span></button>
-              <div class="more-menu" id="post-menu-forum-{{ post.id }}" style="display:none;">
+              <div class="more-menu" id="post-menu-forum-{{ post.id }}" style="display:none;" data-action="stop-propagation">
                 {% if is_authenticated %}
                 <button class="more-menu-item" data-action="toggle-bookmark" data-target-type="post" data-target-id="{{ post.id }}">
                   <span class="material-symbols-outlined" id="bookmark-icon-post-{{ post.id }}"{% if post.isBookmarked %} style="font-variation-settings:'FILL' 1"{% endif %}>bookmark</span>
                   <span id="bookmark-label-post-{{ post.id }}">{% if post.isBookmarked %}Remove{% else %}Bookmark{% endif %}</span>
                 </button>
+                {% endif %}
                 <button class="more-menu-item" data-action="share-post-url" data-path="{% url 'web:forum_post' post_id=post.id %}">
                   <span class="material-symbols-outlined">share</span> Share
                 </button>
-                {% if post.authorId != user.id %}
+                {% if is_authenticated and post.authorId != user.id %}
                 <button class="more-menu-item" data-action="report-content" data-target-type="post" data-target-id="{{ post.id }}">
                   <span class="material-symbols-outlined">flag</span> Report
                 </button>
-                {% endif %}
                 {% endif %}
               </div>
             </div>
@@ -435,6 +527,13 @@
               <span class="material-symbols-outlined">chat_bubble_outline</span>
               <span>{{ post.replyCount }} Replies</span>
             </a>
+            <span class="fp-action-spacer" style="flex: 1;"></span>
+            <button type="button" class="{% if post.isBookmarked %}bookmark-active{% endif %}" data-action="toggle-bookmark" data-target-type="post" data-target-id="{{ post.id }}" id="forum-post-bookmark-btn-{{ post.id }}" aria-label="Bookmark">
+              <span class="material-symbols-outlined" {% if post.isBookmarked %}style="font-variation-settings: 'FILL' 1;"{% endif %}>bookmark</span>
+            </button>
+            <button type="button" data-action="share-post-url" data-path="{% url 'web:forum_post' post_id=post.id %}" aria-label="Share">
+              <span class="material-symbols-outlined">share</span>
+            </button>
           </div>
         </div>
         {% endfor %}
@@ -459,11 +558,17 @@
         </div>
         <div class="sidebar-category-list">
           <a href="{% url 'web:forum' %}" class="sidebar-category-row {% if not current_category %}active{% endif %}">
-            <span>All Discussions</span>
+            <span style="display:flex;align-items:center;gap:10px;">
+              <span class="material-symbols-outlined" style="font-size: 18px; opacity: 0.8;">forum</span>
+              All Discussions
+            </span>
           </a>
           {% for cat in categories_data %}
           <a href="{% url 'web:forum' %}?category={{ cat.name }}" class="sidebar-category-row {% if current_category == cat.name %}active{% endif %}">
-            <span>{{ cat.name }}</span>
+            <span style="display:flex;align-items:center;gap:10px;">
+              <span class="material-symbols-outlined" style="font-size: 18px; opacity: 0.8;">tag</span>
+              {{ cat.name }}
+            </span>
             <span class="category-badge">{{ cat.formatted_count }}</span>
           </a>
           {% endfor %}
@@ -669,6 +774,16 @@ async function toggleBookmark(targetType, targetId, btnEl) {
       var labelEl = document.getElementById('bookmark-label-' + targetType + '-' + targetId);
       if (iconEl) { iconEl.textContent = 'bookmark'; iconEl.style.fontVariationSettings = d.isBookmarked ? "'FILL' 1" : ''; }
       if (labelEl) labelEl.textContent = d.isBookmarked ? 'Remove' : 'Bookmark';
+      
+      // Update footer button
+      var footerBtn = document.getElementById('forum-post-bookmark-btn-' + targetId);
+      if (footerBtn) {
+        footerBtn.classList.toggle('bookmark-active', d.isBookmarked);
+        var footerIcon = footerBtn.querySelector('.material-symbols-outlined');
+        if (footerIcon) {
+          footerIcon.style.fontVariationSettings = d.isBookmarked ? "'FILL' 1" : '';
+        }
+      }
       showSnackbar(d.isBookmarked ? 'Bookmarked!' : 'Bookmark removed');
     } else { showSnackbar(d.error || 'Failed to toggle bookmark'); }
   } catch(e) { showSnackbar('Error toggling bookmark'); }
@@ -701,7 +816,31 @@ function reportContent(targetType, targetId) {
   registerActions({
     'close-leaderboard-modal': function(el, e) { closeLeaderboardModal(e); },
     'close-leaderboard-modal-btn': function() { closeLeaderboardModal(); },
-    'stop-propagation': function(el, e) { e.stopPropagation(); }
+    'stop-propagation': function(el, e) { e.stopPropagation(); },
+    'toggle-forum-post-like': function(el, e) {
+      if (e) e.stopPropagation();
+      toggleForumPostLike(el.dataset.postId, el);
+    },
+    'toggle-follow': function(el, e) {
+      if (e) e.stopPropagation();
+      toggleFollowBtn(el, el.dataset.userId);
+    },
+    'toggle-more-menu': function(el, e) {
+      if (e) e.stopPropagation();
+      toggleMoreMenu(el.dataset.menuId, el);
+    },
+    'toggle-bookmark': function(el, e) {
+      if (e) e.stopPropagation();
+      toggleBookmark(el.dataset.targetType, el.dataset.targetId, el);
+    },
+    'share-post-url': function(el, e) {
+      if (e) e.stopPropagation();
+      sharePostUrl(el.dataset.path);
+    },
+    'report-content': function(el, e) {
+      if (e) e.stopPropagation();
+      reportContent(el.dataset.targetType, el.dataset.targetId);
+    }
   });
 </script>
 {% endblock %}

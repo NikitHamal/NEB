@@ -18,7 +18,7 @@ from django.http import JsonResponse, Http404, HttpResponse
 from django.core.paginator import Paginator
 from django.utils.html import escape
 
-from api.models import User, Resource, ResourceRequest, ResourceRequestUpvote, Post, PostLike, Reply, ReplyLike, Follow, UserPhoto, EditHistory, Bookmark, Notification, Report
+from api.models import User, Resource, ResourceRequest, ResourceRequestUpvote, Post, PostLike, Reply, ReplyLike, Follow, UserPhoto, EditHistory, Bookmark, Notification, Report, BotConfig
 from api.models import ResourceLike, ResourceComment, ResourceCommentLike
 from api.serializers import UserSerializer, ResourceSerializer, PostSerializer, ReplySerializer
 from api.security import (
@@ -407,13 +407,20 @@ def _ctx(request, **extra):
             unread_notifications = getattr(db_user, 'unread_notification_count', 0) or 0
         except User.DoesNotExist:
             pass
+    ws_url = _get_ws_public_url()
+    # When using a cross-domain tunnel (trycloudflare.com), the browser cannot
+    # send the session cookie cross-domain. Append the auth token as a query
+    # param so JWTAuthMiddleware can authenticate the WS connection.
+    if ws_url and token and 'trycloudflare.com' in ws_url:
+        separator = '&' if '?' in ws_url else '?'
+        ws_url = f'{ws_url}{separator}token={token}'
     ctx = {
         'is_authenticated': bool(token),
         'user': user,
         'dark_mode': dark_mode,
         'unread_notifications': unread_notifications,
         'csp_nonce': getattr(request, 'csp_nonce', ''),
-        'ws_url': _get_ws_public_url(),
+        'ws_url': ws_url,
     }
     ctx.update(extra)
     return ctx
@@ -3446,8 +3453,11 @@ def admin_resources(request):
                 pass
     resources_qs = Resource.objects.all().order_by('-added_at')
     search = request.GET.get('q', '').strip()
+    status_filter = request.GET.get('status', '').strip()
     if search:
         resources_qs = resources_qs.filter(Q(title__icontains=search) | Q(description__icontains=search))
+    if status_filter in ('approved', 'pending', 'rejected'):
+        resources_qs = resources_qs.filter(approval_status=status_filter)
     paginator = Paginator(resources_qs, 20)
     page_number = request.GET.get('page', 1)
     page_obj = paginator.get_page(page_number)
@@ -3457,6 +3467,8 @@ def admin_resources(request):
         'resources': resources_data,
         'page_obj': page_obj,
         'search': search,
+        'status_filter': status_filter,
+        'pending_count': Resource.objects.filter(approval_status='pending').count(),
         'active_page': 'resources',
     })
 
@@ -3486,6 +3498,26 @@ def admin_resource_edit(request, resource_id):
             resource_obj.source_type = st
         if request.POST.get('view_count', '').strip():
             resource_obj.view_count = int(request.POST.get('view_count', '0'))
+        new_status = request.POST.get('approval_status', '').strip()
+        if new_status in ('approved', 'pending', 'rejected'):
+            old_status = resource_obj.approval_status
+            resource_obj.approval_status = new_status
+            resource_obj.reviewed_by = None
+            if hasattr(request, 'user') and request.user.is_authenticated:
+                try:
+                    resource_obj.reviewed_by = User.objects.get(username=request.user.username)
+                except User.DoesNotExist:
+                    pass
+            resource_obj.reviewed_at = int(time.time() * 1000)
+            if new_status == 'rejected':
+                resource_obj.rejection_reason = request.POST.get('rejection_reason', '').strip()[:500]
+            else:
+                resource_obj.rejection_reason = ''
+            if old_status == 'pending' and new_status == 'approved' and resource_obj.uploaded_by_id:
+                _counters.increment_user_resource_approved(resource_obj.uploaded_by_id)
+                _notif.notify_resource_approved(resource_obj.id, resource_obj.uploaded_by_id)
+            elif old_status == 'pending' and new_status == 'rejected' and resource_obj.uploaded_by_id:
+                _notif.notify_resource_rejected(resource_obj.id, resource_obj.uploaded_by_id, resource_obj.rejection_reason)
         resource_obj.save()
         cache.delete_many(['home_resources', 'library_all_resources'])
         return redirect('web:admin_resources')
@@ -3565,11 +3597,17 @@ def admin_resource_edit(request, resource_id):
     ]
     resource_types = ['PDF', 'Note', 'Video', 'Audio', 'Image', 'Link', 'Textbook', 'Past Paper', 'Model Paper', 'Guide', 'Solution', 'Presentation']
     resource_data = ResourceSerializer(resource_obj).data
+    resource_data['rejection_reason'] = resource_obj.rejection_reason or ''
+    if resource_obj.uploaded_by:
+        resource_data['uploaded_by_name'] = resource_obj.uploaded_by.display_name or resource_obj.uploaded_by.username
+    else:
+        resource_data['uploaded_by_name'] = ''
     return render(request, 'admin_panel/resource_edit.html', {
         'is_admin': True,
         'resource': resource_data,
         'active_page': 'resources',
         'source_types': Resource.SOURCE_TYPES,
+        'approval_choices': Resource.APPROVAL_CHOICES,
         'subjects': subjects,
         'common_tags': common_tags,
         'education_levels': education_levels,
@@ -3913,23 +3951,65 @@ def custom_500(request):
     return render(request, '500.html', _ctx(request), status=500)
 
 
-def admin_bot_config(request):
+def admin_bots(request):
     redirect_response = _require_staff_admin(request)
     if redirect_response:
         return redirect_response
     from api.models import BotConfig
-    config = BotConfig.get_config()
+    bots = BotConfig.objects.all().order_by('id')
+    bot_list = []
+    for bot in bots:
+        bot_user = BotConfig.get_bot_user(bot)
+        task_stats = {
+            'pending': bot.tasks.filter(status='pending').count(),
+            'processing': bot.tasks.filter(status='processing').count(),
+            'done': bot.tasks.filter(status='done').count(),
+            'failed': bot.tasks.filter(status='failed').count(),
+        }
+        bot_list.append({
+            'config': bot,
+            'user': bot_user,
+            'task_stats': task_stats,
+        })
+    ctx = _ctx(request, active_page='bot', bot_list=bot_list)
+    return render(request, 'admin_panel/bot_list.html', ctx)
+
+
+def admin_bot_edit(request, bot_id=None):
+    redirect_response = _require_staff_admin(request)
+    if redirect_response:
+        return redirect_response
+    from api.models import BotConfig
+    if bot_id:
+        config = BotConfig.objects.filter(pk=bot_id).first()
+        if not config:
+            messages.error(request, 'Bot not found.')
+            return redirect('/admin/bots/')
+    else:
+        config = None
+
     if request.method == 'POST':
+        action = request.POST.get('action', 'save')
+        if action == 'delete' and config:
+            bot_username = config.bot_username
+            config.delete()
+            from django.core.cache import cache
+            cache.delete('neby_enabled')
+            messages.success(request, f'Bot @{bot_username} deleted.')
+            return redirect('/admin/bots/')
+        if not config:
+            config = BotConfig()
         config.enabled = request.POST.get('enabled') == 'on'
-        config.bot_username = request.POST.get('bot_username', config.bot_username).strip() or 'neby'
+        config.name = request.POST.get('name', config.name or 'Neby').strip()[:100] or 'Neby'
+        config.bot_username = request.POST.get('bot_username', config.bot_username or 'neby').strip()[:50].lower() or 'neby'
+        config.display_name = request.POST.get('display_name', '').strip()[:100]
+        config.avatar_url = request.POST.get('avatar_url', '').strip()
         provider = (request.POST.get('provider') or 'qwen').strip().lower()
         if provider not in ('qwen', 'ai4bharat', 'custom'):
             provider = 'qwen'
         config.provider = provider
         config.api_url = request.POST.get('api_url', config.api_url).strip()
         config.api_key = request.POST.get('api_key', config.api_key).strip()
-        # The template uses a hidden `model` field that JS syncs from the visible
-        # select/textbox. Fall back to the visible control if hidden is empty.
         model = (request.POST.get('model') or '').strip()
         if not model:
             model = (request.POST.get('model_select') or request.POST.get('model_text') or '').strip()
@@ -3950,11 +4030,53 @@ def admin_bot_config(request):
             config.response_max_length = int(request.POST.get('response_max_length', config.response_max_length))
         except (TypeError, ValueError):
             pass
+        # Validate bot_username uniqueness
+        existing = BotConfig.objects.filter(bot_username__iexact=config.bot_username).exclude(pk=config.pk)
+        if existing.exists():
+            messages.error(request, f'A bot with username @{config.bot_username} already exists.')
+            bot_user = BotConfig.get_bot_user(config) if config.pk else None
+            ctx = _ctx(request, active_page='bot', config=config, bot_user=bot_user, is_new=not config.pk)
+            return render(request, 'admin_panel/bot_edit.html', ctx)
         config.save()
         from django.core.cache import cache
         cache.delete('neby_enabled')
-        messages.success(request, f'Bot configuration updated. Provider: {provider}.')
-        return redirect('/admin/bot/')
-    bot_user = BotConfig.get_bot_user()
-    ctx = _ctx(request, active_page='bot', config=config, bot_user=bot_user)
-    return render(request, 'admin_panel/bot_config.html', ctx)
+        messages.success(request, f'Bot "@{config.bot_username}" saved. Provider: {provider}.')
+        return redirect(f'/admin/bots/{config.pk}/')
+
+    bot_user = BotConfig.get_bot_user(config) if config else None
+    ctx = _ctx(request, active_page='bot', config=config, bot_user=bot_user, is_new=config is None)
+    return render(request, 'admin_panel/bot_edit.html', ctx)
+
+
+def admin_bot_create_user(request, bot_id):
+    redirect_response = _require_staff_admin(request)
+    if redirect_response:
+        return redirect_response
+    from api.models import BotConfig
+    config = BotConfig.objects.filter(pk=bot_id).first()
+    if not config:
+        messages.error(request, 'Bot not found.')
+        return redirect('/admin/bots/')
+    existing_user = BotConfig.get_bot_user(config)
+    if existing_user:
+        messages.info(request, f'User @{config.bot_username} already exists (id={existing_user.id}).')
+        return redirect(f'/admin/bots/{bot_id}/')
+    if request.method == 'POST':
+        username = config.bot_username
+        display_name = config.display_name or config.name or username.capitalize()
+        user_id = f'{username}-bot'
+        try:
+            bot_user = User.objects.create(
+                id=user_id,
+                username=username,
+                display_name=display_name,
+                is_bot=True,
+                email_verified=True,
+                created_at=int(time.time() * 1000),
+            )
+            messages.success(request, f'Created bot user @{username} (id={bot_user.id}).')
+        except Exception as e:
+            messages.error(request, f'Failed to create bot user: {e}')
+        return redirect(f'/admin/bots/{bot_id}/')
+    ctx = _ctx(request, active_page='bot', config=config)
+    return render(request, 'admin_panel/bot_create_user.html', ctx)

@@ -1,0 +1,63 @@
+{% extends "admin_panel/base.html" %}
+{% load static %}
+
+{% block title %}Create Bot User{% endblock %}
+
+{% block content %}
+<div style="max-width:600px;margin:0 auto;">
+  <div class="admin-back-link">
+    <a href="{% url 'web:admin_bot_edit' bot_id=config.pk %}" class="md-btn md-btn-text">
+      <span class="material-symbols-outlined" style="font-size:18px;">arrow_back</span>
+      Back to Bot
+    </a>
+  </div>
+
+  <h1 style="font-size:1.5rem;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:8px;">
+    <span class="material-symbols-outlined" style="font-size:28px;color:#7C4DFF;">person_add</span>
+    Create Bot User Account
+  </h1>
+  <p style="color:var(--md-on-surface-variant);margin-bottom:24px;">
+    Create a user account for the bot <strong>{{ config.name }}</strong> (<code>@{{ config.bot_username }}</code>).
+    This account will be marked as <code>is_bot=True</code> and will be used to post replies.
+  </p>
+
+  {% if messages %}
+  {% for msg in messages %}
+  <div class="md-snackbar" style="position:relative;margin-bottom:16px;opacity:1;">{{ msg }}</div>
+  {% endfor %}
+  {% endif %}
+
+  <div style="background:var(--md-surface-container);border-radius:16px;padding:24px;margin-bottom:16px;">
+    <h2 style="font-size:1rem;font-weight:600;margin:0 0 16px;">Account Details</h2>
+    <div style="display:grid;grid-template-columns:auto 1fr;gap:8px 16px;font-size:0.875rem;">
+      <div style="color:var(--md-on-surface-variant);">Username:</div>
+      <div style="font-weight:600;">@{{ config.bot_username }}</div>
+      <div style="color:var(--md-on-surface-variant);">Display Name:</div>
+      <div style="font-weight:600;">{{ config.display_name|default:config.name|default:"Neby" }}</div>
+      <div style="color:var(--md-on-surface-variant);">User ID:</div>
+      <div style="font-weight:600;"><code>{{ config.bot_username }}-bot</code></div>
+      <div style="color:var(--md-on-surface-variant);">is_bot:</div>
+      <div style="font-weight:600;">True</div>
+    </div>
+  </div>
+
+  <form method="post" action="{% url 'web:admin_bot_create_user' bot_id=config.pk %}">
+    {% csrf_token %}
+    <div style="background:var(--md-surface-container-high);border-radius:12px;padding:16px;margin-bottom:16px;display:flex;align-items:center;gap:12px;">
+      <span class="material-symbols-outlined" style="color:var(--md-primary);">info</span>
+      <div style="font-size:0.8125rem;color:var(--md-on-surface-variant);">
+        The user account will be created with <code>email_verified=True</code> and no password.
+        It will only be used by the bot system to post replies.
+      </div>
+    </div>
+
+    <div style="display:flex;justify-content:flex-end;gap:8px;">
+      <a href="{% url 'web:admin_bot_edit' bot_id=config.pk %}" class="md-btn md-btn-text">Cancel</a>
+      <button type="submit" class="md-btn md-btn-filled" style="padding:10px 24px;">
+        <span class="material-symbols-outlined" style="font-size:18px;">person_add</span>
+        Create User Account
+      </button>
+    </div>
+  </form>
+</div>
+{% endblock %}

@@ -66,7 +66,7 @@
 
   .fp-section-title{font-size:1.125rem;font-weight:700;color:var(--md-on-surface);margin-bottom:16px}
 
-  .fp-reply{background:var(--md-surface-container-lowest,#fff);border:1px solid var(--md-outline-variant);border-radius:12px;padding:16px;margin-bottom:10px;transition:border-color .15s}
+  .fp-reply{background:var(--md-surface-container-lowest,#fff);border:1px solid var(--md-outline-variant);border-radius:8px;padding:16px;margin-bottom:10px;transition:border-color .15s}
   .fp-reply:hover{border-color:var(--md-outline)}
   .fp-reply-header{display:flex;align-items:center;gap:10px;margin-bottom:8px;position:relative}
   .fp-reply-avatar{width:32px;height:32px;border-radius:50%;overflow:hidden;background:var(--md-primary);display:flex;align-items:center;justify-content:center;flex-shrink:0}
@@ -274,20 +274,20 @@
       </div>
       <div class="more-menu-wrapper">
         <button class="more-btn" data-action="toggle-more-menu" data-menu-id="post-menu-{{ post.id }}" aria-label="More options"><span class="material-symbols-outlined">more_vert</span></button>
-        <div class="more-menu" id="post-menu-{{ post.id }}" style="display:none;">
+        <div class="more-menu" id="post-menu-{{ post.id }}" style="display:none;" data-action="stop-propagation">
           {% if is_authenticated %}
           <button class="more-menu-item" data-action="toggle-bookmark" data-target-type="post" data-target-id="{{ post.id }}">
             <span class="material-symbols-outlined" id="bookmark-icon-post-{{ post.id }}"{% if post.isBookmarked %} style="font-variation-settings:'FILL' 1"{% endif %}>bookmark</span>
             <span id="bookmark-label-post-{{ post.id }}">{% if post.isBookmarked %}Remove{% else %}Bookmark{% endif %}</span>
           </button>
+          {% endif %}
           <button class="more-menu-item" data-action="share-post" data-post-id="{{ post.id }}">
             <span class="material-symbols-outlined">share</span> Share
           </button>
-          {% if not is_owner %}
+          {% if is_authenticated and not is_owner %}
           <button class="more-menu-item" data-action="report-content" data-target-type="post" data-target-id="{{ post.id }}">
             <span class="material-symbols-outlined">flag</span> Report
           </button>
-          {% endif %}
           {% endif %}
           {% if is_owner %}
           <div class="more-menu-divider"></div>
@@ -391,32 +391,32 @@
         </div>
         <div class="more-menu-wrapper">
           <button class="more-btn" style="margin-left:auto;align-self:flex-start;" data-action="toggle-more-menu" data-menu-id="reply-menu-{{ reply.id }}" aria-label="More options"><span class="material-symbols-outlined">more_vert</span></button>
-          <div class="more-menu" id="reply-menu-{{ reply.id }}" style="display:none;">
+          <div class="more-menu" id="reply-menu-{{ reply.id }}" style="display:none;" data-action="stop-propagation">
             {% if is_authenticated %}
-<button class="more-menu-item" data-action="toggle-bookmark" data-target-type="reply" data-target-id="{{ reply.id }}">
-                  <span class="material-symbols-outlined" id="bookmark-icon-reply-{{ reply.id }}"{% if reply.isBookmarked %} style="font-variation-settings:'FILL' 1"{% endif %}>bookmark</span>
-                  <span id="bookmark-label-reply-{{ reply.id }}">{% if reply.isBookmarked %}Remove{% else %}Bookmark{% endif %}</span>
-                </button>
-                <button class="more-menu-item" data-action="share-reply" data-reply-id="{{ reply.id }}">
-                  <span class="material-symbols-outlined">share</span> Share
-                </button>
-                {% if reply.authorId != user.id %}
-                <button class="more-menu-item" data-action="report-content" data-target-type="reply" data-target-id="{{ reply.id }}">
-                  <span class="material-symbols-outlined">flag</span> Report
-                </button>
-                {% endif %}
-                {% if reply.authorId == user.id %}
-                <div class="more-menu-divider"></div>
-                <button class="more-menu-item" data-action="start-edit-reply" data-reply-id="{{ reply.id }}">
-                  <span class="material-symbols-outlined">edit</span> Edit
-                </button>
-                <button class="more-menu-item" data-action="archive-reply" data-reply-id="{{ reply.id }}">
-                  <span class="material-symbols-outlined">archive</span> Archive
-                </button>
-                <button class="more-menu-item danger" data-action="delete-reply" data-reply-id="{{ reply.id }}">
-              <span class="material-symbols-outlined">delete</span> Delete reply
+            <button class="more-menu-item" data-action="toggle-bookmark" data-target-type="reply" data-target-id="{{ reply.id }}">
+              <span class="material-symbols-outlined" id="bookmark-icon-reply-{{ reply.id }}"{% if reply.isBookmarked %} style="font-variation-settings:'FILL' 1"{% endif %}>bookmark</span>
+              <span id="bookmark-label-reply-{{ reply.id }}">{% if reply.isBookmarked %}Remove{% else %}Bookmark{% endif %}</span>
             </button>
             {% endif %}
+            <button class="more-menu-item" data-action="share-reply" data-reply-id="{{ reply.id }}">
+              <span class="material-symbols-outlined">share</span> Share
+            </button>
+            {% if is_authenticated and reply.authorId != user.id %}
+            <button class="more-menu-item" data-action="report-content" data-target-type="reply" data-target-id="{{ reply.id }}">
+              <span class="material-symbols-outlined">flag</span> Report
+            </button>
+            {% endif %}
+            {% if is_authenticated and reply.authorId == user.id %}
+            <div class="more-menu-divider"></div>
+            <button class="more-menu-item" data-action="start-edit-reply" data-reply-id="{{ reply.id }}">
+              <span class="material-symbols-outlined">edit</span> Edit
+            </button>
+            <button class="more-menu-item" data-action="archive-reply" data-reply-id="{{ reply.id }}">
+              <span class="material-symbols-outlined">archive</span> Archive
+            </button>
+            <button class="more-menu-item danger" data-action="delete-reply" data-reply-id="{{ reply.id }}">
+              <span class="material-symbols-outlined">delete</span> Delete reply
+            </button>
             {% endif %}
           </div>
         </div>
@@ -1572,7 +1572,9 @@ document.addEventListener('DOMContentLoaded', function() {
   // ── Real-time subscriptions ──
   if (window.WS) {
     window.WS.subscribe('post.' + POST_ID);
-    window.WS.subscribe('user');
+    if (IS_AUTHENTICATED) {
+      window.WS.subscribe('user');
+    }
     // Live reply delete: remove the card without reloading the page
     window.WS.on('post.' + POST_ID + ':reply.deleted', function (data) {
       if (!data || !data.reply_id) return;

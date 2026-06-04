@@ -608,7 +608,7 @@
   .pf-reply-card {
     background: var(--md-surface-container-lowest);
     border: 1px solid var(--md-outline-variant);
-    border-radius: 12px;
+    border-radius: 8px;
     padding: 16px;
     margin-bottom: 10px;
     transition: border-color 0.15s;
@@ -988,7 +988,7 @@
         <div class="profile-tab-content active" id="tabPosts">
           <div class="activity-list" id="activityFeed">
               {% for post in user_posts %}
-              <div class="post-card">
+              <div class="post-card" data-action="open-post" data-post-url="{% url 'web:forum_post' post_id=post.id %}" style="cursor: pointer;">
                 <div class="post-card-header">
                   <div class="post-card-avatar">
                     {% if profile_user.photo_url %}
@@ -1042,11 +1042,25 @@
                     <span class="material-symbols-outlined">download</span>
                     <span>{{ post.downloadCount|default:89 }} Downloads</span>
                   </a>
+                  <span class="fp-action-spacer" style="flex: 1;"></span>
+                  <button type="button" class="{% if post.isBookmarked %}bookmark-active{% endif %}" data-action="bookmark-resource" data-resource-id="{{ post.resource_id }}" id="bookmark-icon-resource-{{ post.resource_id }}" aria-label="Bookmark">
+                    <span class="material-symbols-outlined" {% if post.isBookmarked %}style="font-variation-settings: 'FILL' 1;"{% endif %}>bookmark</span>
+                  </button>
+                  <button type="button" data-action="share-resource-url" data-resource-id="{{ post.resource_id }}" aria-label="Share">
+                    <span class="material-symbols-outlined">share</span>
+                  </button>
                   {% else %}
                   <a href="{% url 'web:forum_post' post_id=post.id %}" class="act-btn-stat">
                     <span class="material-symbols-outlined">chat_bubble_outline</span>
                     <span>{{ post.replyCount|default:0 }} Replies</span>
                   </a>
+                  <span class="fp-action-spacer" style="flex: 1;"></span>
+                  <button type="button" class="{% if post.isBookmarked %}bookmark-active{% endif %}" data-action="toggle-bookmark" data-target-type="post" data-target-id="{{ post.id }}" id="profile-post-bookmark-btn-{{ post.id }}" aria-label="Bookmark">
+                    <span class="material-symbols-outlined" {% if post.isBookmarked %}style="font-variation-settings: 'FILL' 1;"{% endif %}>bookmark</span>
+                  </button>
+                  <button type="button" data-action="share-post-url" data-path="{% url 'web:forum_post' post_id=post.id %}" aria-label="Share">
+                    <span class="material-symbols-outlined">share</span>
+                  </button>
                   {% endif %}
                 </div>
               </div>
@@ -1165,7 +1179,7 @@
                   </div>
                   <div class="more-menu-wrapper">
                     <button class="more-btn" data-action="toggle-more-menu" data-menu-id="resource-menu-{{ r.id }}" aria-label="More options"><span class="material-symbols-outlined">more_vert</span></button>
-                    <div class="more-menu" id="resource-menu-{{ r.id }}" style="display:none;">
+                    <div class="more-menu" id="resource-menu-{{ r.id }}" style="display:none;" data-action="stop-propagation">
                       <button class="more-menu-item" data-action="share-resource-url" data-resource-id="{{ r.id }}">
                         <span class="material-symbols-outlined">share</span> Share
                       </button>
@@ -1184,13 +1198,13 @@
                 <!-- Preview or Attachment Box -->
                 {% if r.thumbnail_url or r.type == 'Image' %}
                 <div class="act-resource-image-preview" style="margin-top: 12px;">
-                  <a href="{% url 'web:reader' resource_id=r.id %}" style="display: block; border-radius: 12px; overflow: hidden; background: var(--md-surface-container); border: 1px solid var(--md-outline-variant); position: relative; aspect-ratio: 16 / 9; max-height: 220px;">
+                  <a href="{% url 'web:reader' resource_id=r.id %}" style="display: block; border-radius: 8px; overflow: hidden; background: var(--md-surface-container); border: 1px solid var(--md-outline-variant); position: relative; aspect-ratio: 16 / 9; max-height: 220px;">
                     <img src="{{ r.thumbnail_url|default:r.file_url }}" alt="{{ r.title }}" style="width: 100%; height: 100%; object-fit: cover;">
                     <span style="position: absolute; bottom: 8px; left: 8px; background: rgba(0,0,0,0.65); color: white; padding: 2px 8px; border-radius: 6px; font-size: 0.75rem; font-weight: 500;">Preview</span>
                   </a>
                 </div>
                 {% else %}
-                <div class="act-resource-card" style="background: var(--md-surface-container-low); border: 1px solid var(--md-outline-variant); border-radius: 12px; display: flex; align-items: center; padding: 16px; margin-top: 12px; transition: border-color 0.2s;">
+                <div class="act-resource-card" style="background: var(--md-surface-container-low); border: 1px solid var(--md-outline-variant); border-radius: 8px; display: flex; align-items: center; padding: 16px; margin-top: 12px; transition: border-color 0.2s;">
                   <div class="act-resource-icon" style="width: 40px; height: 40px; border-radius: 8px; background: color-mix(in srgb, {{ r.subject|split:','|first|subject_color }} 10%, var(--md-surface-container-high)); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
                     <span class="material-symbols-outlined" style="color: {{ r.subject|split:','|first|subject_color }}; font-size: 22px;">{{ r.type|resource_type_icon }}</span>
                   </div>
@@ -1228,7 +1242,7 @@
                 </div>
 
                 <!-- Footer Actions -->
-                <div class="post-card-actions" style="display: flex; align-items: center; gap: 16px; margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--md-outline-variant);">
+                <div class="post-card-actions" style="display: flex; align-items: center; gap: 16px; margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--md-outline-variant);">
                   <button type="button" data-action="toggle-like-resource" data-resource-id="{{ r.id }}" class="{% if r.is_liked %}liked{% endif %}" id="profile-resource-like-btn-{{ r.id }}" style="display: inline-flex; align-items: center; gap: 6px; font-size: 0.8125rem; border: none; background: transparent; padding: 6px 12px; border-radius: 20px; cursor: pointer; color: var(--md-on-surface-variant); transition: background 0.2s;">
                     <span class="material-symbols-outlined" style="font-size: 20px; {% if r.is_liked %}font-variation-settings: 'FILL' 1; color: var(--md-primary);{% endif %}">thumb_up</span>
                     <span id="profile-resource-like-count-{{ r.id }}" style="font-weight: 500;">{{ r.like_count|default:0 }}</span>
@@ -2075,13 +2089,51 @@ registerActions({
       body: JSON.stringify({ target_type: 'resource', target_id: rid })
     }).then(function(r) { return r.json(); }).then(function(d) {
       if (d.isBookmarked !== undefined) {
-        var iconEl = document.getElementById('bookmark-icon-resource-' + rid);
         var labelEl = document.getElementById('bookmark-label-resource-' + rid);
-        if (iconEl) { iconEl.textContent = d.isBookmarked ? 'bookmark' : 'bookmark_border'; iconEl.style.fontVariationSettings = d.isBookmarked ? "'FILL' 1" : ''; }
         if (labelEl) labelEl.textContent = d.isBookmarked ? 'Remove' : 'Bookmark';
+        
+        var iconEls = document.querySelectorAll('[id="bookmark-icon-resource-' + rid + '"]');
+        iconEls.forEach(function(iconEl) {
+          iconEl.classList.toggle('bookmark-active', d.isBookmarked);
+          var materialIcon = iconEl.querySelector('.material-symbols-outlined') || iconEl;
+          if (materialIcon) {
+            materialIcon.textContent = d.isBookmarked ? 'bookmark' : 'bookmark_border';
+            materialIcon.style.fontVariationSettings = d.isBookmarked ? "'FILL' 1" : '';
+          }
+        });
         showSnackbar(d.isBookmarked ? 'Bookmarked!' : 'Bookmark removed');
       } else { showSnackbar(d.error || 'Failed'); }
     }).catch(function() { showSnackbar('Error toggling bookmark'); });
+  },
+  'toggle-bookmark': async function(el) {
+    if (!IS_AUTHENTICATED) { window.location.href = '{% url "web:login" %}'; return; }
+    var targetType = el.dataset.targetType;
+    var targetId = el.dataset.targetId;
+    try {
+      const r = await fetch('/ajax/bookmark/toggle/', {
+        method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
+        credentials: 'same-origin', body: JSON.stringify({ target_type: targetType, target_id: targetId })
+      });
+      const d = await r.json();
+      if (r.status === 401) { window.location.href = '{% url "web:login" %}'; return; }
+      if (d.isBookmarked !== undefined) {
+        var footerBtn = document.getElementById('profile-post-bookmark-btn-' + targetId);
+        if (footerBtn) {
+          footerBtn.classList.toggle('bookmark-active', d.isBookmarked);
+          var footerIcon = footerBtn.querySelector('.material-symbols-outlined');
+          if (footerIcon) {
+            footerIcon.style.fontVariationSettings = d.isBookmarked ? "'FILL' 1" : '';
+          }
+        }
+        showSnackbar(d.isBookmarked ? 'Bookmarked!' : 'Bookmark removed');
+      } else { showSnackbar(d.error || 'Failed to toggle bookmark'); }
+    } catch(e) { showSnackbar('Error toggling bookmark'); }
+  },
+  'share-post-url': function(el) {
+    var path = el.dataset.path;
+    var url = window.location.origin + path;
+    if (navigator.share) { navigator.share({ title: document.title, url: url }).catch(function(){}); }
+    else { navigator.clipboard.writeText(url).then(function() { showSnackbar('Link copied!'); }).catch(function() { showSnackbar('Could not copy link'); }); }
   },
   'close-follow-modal': function() { closeFollowModal(); },
   'close-follow-modal-btn': function() { closeFollowModal(); },
