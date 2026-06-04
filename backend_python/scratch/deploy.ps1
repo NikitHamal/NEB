@@ -38,7 +38,7 @@ if (Test-Path $zipPath) {
 }
 Write-Host "Creating local ZIP archive of deployment files..."
 Push-Location $projectDir
-Compress-Archive -Path api, nebians, web, manage.py, requirements.txt, passenger_wsgi.py -DestinationPath $zipPath -Force
+Compress-Archive -Path api, nebians, web, public, manage.py, requirements.txt, passenger_wsgi.py -DestinationPath $zipPath -Force
 Pop-Location
 
 # Upload the ZIP file
@@ -87,6 +87,9 @@ cp -f web/static/web/js/marked.min.js public/static/web/js/marked.min.js
 cp -f web/static/web/js/realtime.js public/static/web/js/realtime.js
 cp -f web/static/web/manifest.json public/static/web/manifest.json
 cp -rf web/static/web/img/ public/static/web/img/
+
+echo 'Deploying .htaccess security rules...'
+cp -f public/.htaccess public/.htaccess
 
 echo 'Restarting Phusion Passenger application...'
 rm -rf tmp/*
