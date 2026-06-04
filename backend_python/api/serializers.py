@@ -7,6 +7,8 @@ from .models import User, Resource, ResourceRequest, ResourceRequestUpvote, Post
 
 class UserSerializer(serializers.ModelSerializer):
     hasPassword = serializers.SerializerMethodField()
+    is_following = serializers.SerializerMethodField()
+    is_self = serializers.SerializerMethodField()
 
     class Meta:
         model = User
@@ -17,12 +19,33 @@ class UserSerializer(serializers.ModelSerializer):
             'email_verified', 'hasPassword',
             'verification_level', 'moderator_level', 'is_admin', 'achievement_badges',
             'is_bot',
+            'post_count', 'reply_count', 'follower_count', 'following_count',
+            'likes_given_count', 'likes_received_count', 'contribution_score',
+            'is_following', 'is_self',
         ]
         read_only_fields = ['id', 'created_at', 'email_verified', 'hasPassword',
-                            'verification_level', 'moderator_level', 'is_admin', 'achievement_badges', 'is_bot']
+                            'verification_level', 'moderator_level', 'is_admin', 'achievement_badges', 'is_bot',
+                            'post_count', 'reply_count', 'follower_count', 'following_count',
+                            'likes_given_count', 'likes_received_count', 'contribution_score',
+                            'is_following', 'is_self']
 
     def get_hasPassword(self, obj):
         return bool(obj.password_hash)
+
+    def _request_user(self):
+        request = self.context.get('request')
+        user = getattr(request, 'user', None) if request else None
+        return user if isinstance(user, User) else None
+
+    def get_is_following(self, obj):
+        user = self._request_user()
+        if not user or user.pk == obj.pk:
+            return False
+        return Follow.objects.filter(follower=user, following=obj).exists()
+
+    def get_is_self(self, obj):
+        user = self._request_user()
+        return bool(user and user.pk == obj.pk)
 
     def to_representation(self, instance):
         ret = super().to_representation(instance)

@@ -41,7 +41,10 @@ class ForumViewModel @Inject constructor(
     private fun loadPosts() {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true, error = null) }
-            forumRepository.getPosts(category = _uiState.value.selectedCategory)
+            forumRepository.getPosts(
+                category = _uiState.value.selectedCategory,
+                search = _uiState.value.searchQuery
+            )
                 .onSuccess { result ->
                     _uiState.update { it.copy(posts = result.posts, isLoading = false) }
                 }
@@ -63,6 +66,7 @@ class ForumViewModel @Inject constructor(
 
     fun onSearchQueryChange(query: String) {
         _uiState.update { it.copy(searchQuery = query) }
+        loadPosts()
     }
 
     fun toggleThumbsUp(postId: String) {

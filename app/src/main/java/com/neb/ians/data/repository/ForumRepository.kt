@@ -30,10 +30,10 @@ class ForumRepository @Inject constructor(
 
     private suspend fun getBearerToken(): String? = authRepository.getBearerToken()
 
-    suspend fun getPosts(category: String? = null, page: Int? = null): Result<ForumPostsResult> {
+    suspend fun getPosts(category: String? = null, search: String? = null, page: Int? = null): Result<ForumPostsResult> {
         return try {
             val token = getBearerToken()
-            val response = apiService.getPosts(token, category, page)
+            val response = apiService.getPosts(token, category, search?.takeIf { it.isNotBlank() }, page)
             _cachedPosts.value = response.posts
             val currentPage = page ?: 1
             val totalPages = maxOf(1, (response.totalCount + 49) / 50)
@@ -56,8 +56,8 @@ class ForumRepository @Inject constructor(
     suspend fun getReplies(postId: String): Result<List<ApiReply>> {
         return try {
             val token = getBearerToken()
-            val replies = apiService.getReplies(token, postId)
-            Result.success(replies)
+            val response = apiService.getReplies(token, postId)
+            Result.success(response.replies)
         } catch (e: Exception) {
             Result.failure(e)
         }

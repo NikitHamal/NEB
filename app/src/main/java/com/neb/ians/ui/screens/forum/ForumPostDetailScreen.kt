@@ -1,11 +1,9 @@
 package com.neb.ians.ui.screens.forum
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -16,9 +14,6 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -26,8 +21,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.neb.ians.data.api.ApiPost
 import com.neb.ians.data.api.ApiReply
+import com.neb.ians.ui.components.ActionStat
+import com.neb.ians.ui.components.CategoryPill
+import com.neb.ians.ui.components.WebAvatar
+import com.neb.ians.ui.components.cleanPreviewText
 import com.neb.ians.util.formatTimeAgo
-import com.neb.ians.util.getSubjectColor
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -176,8 +174,6 @@ private fun PostContentSection(
     post: ApiPost,
     onThumbsUpClick: () -> Unit
 ) {
-    val categoryColor = Color(getSubjectColor(post.category))
-
     Column {
         Text(
             text = post.title,
@@ -192,20 +188,7 @@ private fun PostContentSection(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            Box(
-                modifier = Modifier
-                    .size(32.dp)
-                    .clip(CircleShape)
-                    .background(MaterialTheme.colorScheme.primaryContainer),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = post.authorName.firstOrNull()?.uppercase() ?: "?",
-                    style = MaterialTheme.typography.labelMedium,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onPrimaryContainer
-                )
-            }
+            WebAvatar(post.authorName, post.authorPhotoUrl, size = 36.dp)
 
             Text(
                 text = post.authorName,
@@ -228,54 +211,24 @@ private fun PostContentSection(
 
             Spacer(modifier = Modifier.weight(1f))
 
-            Surface(
-                shape = RoundedCornerShape(8.dp),
-                color = categoryColor.copy(alpha = 0.12f)
-            ) {
-                Text(
-                    text = post.category,
-                    modifier = Modifier.padding(horizontal = 8.dp, vertical = 3.dp),
-                    style = MaterialTheme.typography.labelSmall,
-                    fontWeight = FontWeight.Medium,
-                    color = categoryColor
-                )
-            }
+            CategoryPill(post.category)
         }
 
         Spacer(modifier = Modifier.height(16.dp))
 
         Text(
-            text = post.content,
+            text = cleanPreviewText(post.content).ifBlank { post.content },
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onSurface
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(4.dp)
-        ) {
-            FilledTonalIconButton(
-                onClick = onThumbsUpClick,
-                modifier = Modifier.size(36.dp)
-            ) {
-                Icon(
-                    imageVector = if (post.isThumbedUp) Icons.Filled.ThumbUp
-                    else Icons.Outlined.ThumbUp,
-                    contentDescription = if (post.isThumbedUp) "Remove thumbs up" else "Thumbs up",
-                    modifier = Modifier.size(18.dp),
-                    tint = if (post.isThumbedUp) MaterialTheme.colorScheme.primary
-                    else MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            }
-            Text(
-                text = "${post.thumbsUpCount}",
-                style = MaterialTheme.typography.labelLarge,
-                color = if (post.isThumbedUp) MaterialTheme.colorScheme.primary
-                else MaterialTheme.colorScheme.onSurfaceVariant
-            )
-        }
+        ActionStat(
+            count = post.thumbsUpCount,
+            active = post.isThumbedUp,
+            onClick = onThumbsUpClick
+        )
     }
 }
 
@@ -287,9 +240,11 @@ private fun ReplyItem(
 ) {
     Card(
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
+            containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
         ),
-        shape = RoundedCornerShape(16.dp)
+        shape = RoundedCornerShape(8.dp),
+        border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
+        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
         Column(
             modifier = Modifier.padding(12.dp)
@@ -298,20 +253,7 @@ private fun ReplyItem(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Box(
-                    modifier = Modifier
-                        .size(28.dp)
-                        .clip(CircleShape)
-                        .background(MaterialTheme.colorScheme.secondaryContainer),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = reply.authorName.firstOrNull()?.uppercase() ?: "?",
-                        style = MaterialTheme.typography.labelSmall,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onSecondaryContainer
-                    )
-                }
+                WebAvatar(reply.authorName, reply.authorPhotoUrl, size = 32.dp)
 
                 Text(
                     text = reply.authorName,
@@ -332,7 +274,7 @@ private fun ReplyItem(
             Spacer(modifier = Modifier.height(8.dp))
 
             Text(
-                text = reply.content,
+                text = cleanPreviewText(reply.content).ifBlank { reply.content },
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurface
             )

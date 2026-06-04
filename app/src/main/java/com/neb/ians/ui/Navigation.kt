@@ -346,6 +346,9 @@ fun NEBiansNavHost(
                     onResourceClick = { resourceId ->
                         navController.navigate(Screen.PdfReader.createRoute(resourceId))
                     },
+                    onPostClick = { postId ->
+                        navController.navigate(Screen.ForumPostDetail.createRoute(postId))
+                    },
                     onSearchClick = { navController.navigate(Screen.Search.route) },
                     onViewAllClick = { navController.navigate(Screen.Library.route) },
                     onSubjectClick = { subject ->
@@ -471,4 +474,3 @@ fun NEBiansNavHost(
         }
     }
 }
-

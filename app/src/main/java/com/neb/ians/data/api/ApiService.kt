@@ -8,7 +8,9 @@ import retrofit2.Retrofit
 import retrofit2.converter.kotlinx.serialization.asConverterFactory
 import retrofit2.http.*
 import com.neb.ians.BuildConfig
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonNames
 import okhttp3.MediaType.Companion.toMediaType
 
 // -------------------------------------------------------------
@@ -69,17 +71,17 @@ data class EmailResetPasswordRequest(
 data class UserProfileRequest(
     val username: String,
     val email: String? = null,
-    @SerialName("photo_url") val photoUrl: String? = null,
-    @SerialName("display_name") val displayName: String? = null,
+    @SerialName("photoUrl") val photoUrl: String? = null,
+    @SerialName("displayName") val displayName: String? = null,
     val dob: String? = null,
     val gender: String? = null,
-    @SerialName("class_level") val classLevel: String? = null,
+    @SerialName("classLevel") val classLevel: String? = null,
     val subjects: String? = null,
     val pradesh: String? = null,
     val district: String? = null,
     val school: String? = null,
-    @SerialName("is_locked") val isLocked: Boolean? = null,
-    @SerialName("banner_url") val bannerUrl: String? = null,
+    @SerialName("isLocked") val isLocked: Boolean? = null,
+    @SerialName("bannerUrl") val bannerUrl: String? = null,
     val bio: String? = null
 )
 
@@ -100,7 +102,7 @@ data class PostUpdateRequest(
 @Serializable
 data class ReplyCreateRequest(
     val content: String,
-    @SerialName("parent_reply_id") val parentReplyId: String? = null
+    @SerialName("parentReplyId") val parentReplyId: String? = null
 )
 
 @Serializable
@@ -167,17 +169,18 @@ data class EmailSignupResponse(
 @Serializable
 data class UsernameCheckResponse(val available: Boolean)
 
+@OptIn(ExperimentalSerializationApi::class)
 @Serializable
 data class UserProfileResponse(
-    val id: String,
+    val id: String = "",
     val username: String = "",
     val email: String? = null,
-    @SerialName("photo_url") val photoUrl: String? = null,
-    @SerialName("banner_url") val bannerUrl: String? = null,
-    @SerialName("display_name") val displayName: String? = null,
+    @SerialName("photo_url") @JsonNames("photoUrl") val photoUrl: String? = null,
+    @SerialName("banner_url") @JsonNames("bannerUrl") val bannerUrl: String? = null,
+    @SerialName("display_name") @JsonNames("displayName") val displayName: String? = null,
     val dob: String = "",
     val gender: String? = null,
-    @SerialName("class") val classLevel: String? = null,
+    @SerialName("class") @JsonNames("class_level", "classLevel") val classLevel: String? = null,
     val subjects: String? = null,
     val pradesh: String? = null,
     val district: String? = null,
@@ -204,6 +207,7 @@ data class UserProfileResponse(
     @SerialName("achievement_badges") val achievementBadges: String? = null
 )
 
+@OptIn(ExperimentalSerializationApi::class)
 @Serializable
 data class ApiResource(
     val id: String,
@@ -212,13 +216,13 @@ data class ApiResource(
     val subject: String,
     @SerialName("grade_level") val gradeLevel: String,
     val type: String,
-    @SerialName("file_url") val fileUrl: String = "",
+    @SerialName("file_url") @JsonNames("fileUrl") val fileUrl: String = "",
     @SerialName("thumbnail_url") val thumbnailUrl: String = "",
     @SerialName("file_size") val fileSize: Long = 0,
     @SerialName("added_at") val addedAt: Long = 0,
     @SerialName("view_count") val viewCount: Int = 0,
-    @SerialName("like_count") val likeCount: Int = 0,
-    @SerialName("comment_count") val commentCount: Int = 0,
+    @SerialName("like_count") @JsonNames("likeCount") val likeCount: Int = 0,
+    @SerialName("comment_count") @JsonNames("commentCount") val commentCount: Int = 0,
     @SerialName("author_name") val authorName: String? = null,
     @SerialName("source_type") val sourceType: String? = null,
     @SerialName("source_url") val sourceUrl: String? = null,
@@ -267,21 +271,24 @@ data class ApiReply(
     @SerialName("editedAt") val updatedAt: Long? = null
 )
 
+@OptIn(ExperimentalSerializationApi::class)
 @Serializable
 data class LikeResponse(
-    @SerialName("thumbs_up_count") val thumbsUpCount: Int,
-    @SerialName("is_thumbed_up") val isThumbedUp: Boolean
+    @SerialName("thumbs_up_count") @JsonNames("thumbsUpCount") val thumbsUpCount: Int = 0,
+    @SerialName("is_thumbed_up") @JsonNames("isThumbedUp") val isThumbedUp: Boolean = false
 )
 
+@OptIn(ExperimentalSerializationApi::class)
 @Serializable
 data class ResourceLikeResponse(
-    @SerialName("like_count") val likeCount: Int,
-    @SerialName("is_liked") val isLiked: Boolean
+    @SerialName("like_count") @JsonNames("likeCount") val likeCount: Int = 0,
+    @SerialName("is_liked") @JsonNames("isLiked") val isLiked: Boolean = false
 )
 
+@OptIn(ExperimentalSerializationApi::class)
 @Serializable
 data class BookmarkResponse(
-    @SerialName("is_bookmarked") val isBookmarked: Boolean
+    @SerialName("is_bookmarked") @JsonNames("isBookmarked") val isBookmarked: Boolean = false
 )
 
 @Serializable
@@ -338,14 +345,25 @@ data class ApiNotification(
 
 @Serializable
 data class ApiNotificationListResponse(
-    val notifications: List<ApiNotification>,
-    @SerialName("has_more") val hasMore: Boolean = false
+    @SerialName("results") val notifications: List<ApiNotification> = emptyList(),
+    val count: Int = 0,
+    val next: String? = null,
+    val previous: String? = null
 )
 
 @Serializable
+data class ApiNotificationMarkReadRequest(
+    @SerialName("mark_all") val markAll: Boolean = true,
+    @SerialName("notification_ids") val notificationIds: List<String> = emptyList()
+)
+
+@OptIn(ExperimentalSerializationApi::class)
+@Serializable
 data class ApiNotificationMarkReadResponse(
     val status: String = "",
-    val message: String = ""
+    val message: String = "",
+    val success: Boolean = false,
+    @SerialName("marked_count") @JsonNames("markedCount") val markedCount: Int = 0
 )
 
 @Serializable
@@ -407,6 +425,22 @@ data class ApiPaginatedResources(
 @Serializable
 data class ApiPaginatedPosts(
     @SerialName("results") val posts: List<ApiPost> = emptyList(),
+    @SerialName("count") val totalCount: Int = 0,
+    val next: String? = null,
+    val previous: String? = null
+)
+
+@Serializable
+data class ApiPaginatedReplies(
+    @SerialName("results") val replies: List<ApiReply> = emptyList(),
+    @SerialName("count") val totalCount: Int = 0,
+    val next: String? = null,
+    val previous: String? = null
+)
+
+@Serializable
+data class ApiPaginatedBookmarks(
+    @SerialName("results") val bookmarks: List<ApiBookmark> = emptyList(),
     @SerialName("count") val totalCount: Int = 0,
     val next: String? = null,
     val previous: String? = null
@@ -545,6 +579,7 @@ interface ApiService {
     suspend fun getPosts(
         @Header("Authorization") bearerToken: String?,
         @Query("category") category: String? = null,
+        @Query("search") search: String? = null,
         @Query("page") page: Int? = null
     ): ApiPaginatedPosts
 
@@ -590,7 +625,7 @@ interface ApiService {
     suspend fun getReplies(
         @Header("Authorization") bearerToken: String?,
         @Path("postId") postId: String
-    ): List<ApiReply>
+    ): ApiPaginatedReplies
 
     @POST("api/posts/{postId}/replies/")
     suspend fun createReply(
@@ -650,17 +685,18 @@ interface ApiService {
         @Body request: BookmarkToggleRequest
     ): BookmarkResponse
 
-    @POST("api/bookmarks/check/")
+    @GET("api/bookmarks/check/")
     suspend fun checkBookmark(
         @Header("Authorization") bearerToken: String,
-        @Body request: BookmarkToggleRequest
+        @Query("target_type") targetType: String,
+        @Query("target_id") targetId: String
     ): BookmarkResponse
 
     @GET("api/bookmarks/")
     suspend fun getBookmarks(
         @Header("Authorization") bearerToken: String,
         @Query("target_type") targetType: String? = null
-    ): List<ApiBookmark>
+    ): ApiPaginatedBookmarks
 
     // --- Notifications ---
     @GET("api/notifications/")
@@ -671,7 +707,8 @@ interface ApiService {
 
     @POST("api/notifications/mark-read/")
     suspend fun markNotificationsRead(
-        @Header("Authorization") bearerToken: String
+        @Header("Authorization") bearerToken: String,
+        @Body request: ApiNotificationMarkReadRequest = ApiNotificationMarkReadRequest()
     ): ApiNotificationMarkReadResponse
 
     @GET("api/notifications/unread-count/")
@@ -752,4 +789,3 @@ data class ApiBookmark(
     @SerialName("target_id") val targetId: String,
     @SerialName("created_at") val createdAt: Long
 )
-

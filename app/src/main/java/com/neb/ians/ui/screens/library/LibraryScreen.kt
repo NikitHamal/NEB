@@ -1,6 +1,5 @@
 package com.neb.ians.ui.screens.library
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -12,55 +11,20 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Search
-import androidx.compose.ui.res.painterResource
-import com.neb.ians.R
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.neb.ians.data.api.ApiResource
 import com.neb.ians.ui.components.ErrorCard
 import com.neb.ians.ui.components.ShimmerLibraryGrid
-import com.neb.ians.ui.theme.getSubjectTheme
-
-private fun getSubjectIcon(subject: String): Int {
-    return when (subject) {
-        "Physics" -> R.drawable.ic_science
-        "Chemistry" -> R.drawable.ic_science
-        "Mathematics" -> R.drawable.ic_science
-        "Biology" -> R.drawable.ic_science
-        "English" -> R.drawable.ic_globe
-        "Nepali" -> R.drawable.ic_globe
-        "Computer Science" -> R.drawable.ic_science
-        "Economics" -> R.drawable.ic_globe
-        "Accountancy" -> R.drawable.ic_book
-        else -> R.drawable.ic_document
-    }
-}
-
-private fun getTypeIcon(type: String): Int {
-    return when (type.lowercase()) {
-        "textbook" -> R.drawable.ic_book
-        "notes" -> R.drawable.ic_document
-        "past papers" -> R.drawable.ic_document
-        "guide" -> R.drawable.ic_book
-        "solution" -> R.drawable.ic_school
-        else -> R.drawable.ic_document
-    }
-}
+import com.neb.ians.ui.components.WebResourceCard
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -184,7 +148,7 @@ fun LibraryScreen(
                             verticalArrangement = Arrangement.spacedBy(12.dp)
                         ) {
                             items(uiState.resources, key = { it.id }) { resource ->
-                                LibraryResourceCard(
+                                WebResourceCard(
                                     resource = resource,
                                     onClick = { onResourceClick(resource.id) }
                                 )
@@ -296,96 +260,6 @@ private fun FilterChipRow(
                         selected = isSelected
                     )
                 )
-            }
-        }
-    }
-}
-
-@Composable
-private fun LibraryResourceCard(
-    resource: ApiResource,
-    onClick: () -> Unit
-) {
-    val subjectTheme = getSubjectTheme(resource.subject)
-
-    Card(
-        onClick = onClick,
-        shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
-        ),
-        border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
-    ) {
-        Column {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(100.dp)
-                    .background(Brush.linearGradient(listOf(subjectTheme.container, subjectTheme.color))),
-                contentAlignment = Alignment.Center
-            ) {
-                Surface(
-                    shape = RoundedCornerShape(50),
-                    color = MaterialTheme.colorScheme.surface.copy(alpha = 0.9f),
-                    modifier = Modifier.size(40.dp)
-                ) {
-                    Box(contentAlignment = Alignment.Center) {
-                        Icon(
-                            painter = painterResource(id = getSubjectIcon(resource.subject)),
-                            contentDescription = null,
-                            modifier = Modifier.size(20.dp),
-                            tint = subjectTheme.color
-                        )
-                    }
-                }
-            }
-
-            Column(
-                modifier = Modifier.padding(12.dp)
-            ) {
-                Surface(
-                    shape = RoundedCornerShape(50),
-                    color = subjectTheme.container,
-                    modifier = Modifier.padding(bottom = 6.dp)
-                ) {
-                    Text(
-                        text = resource.subject,
-                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp),
-                        style = MaterialTheme.typography.labelSmall,
-                        fontWeight = FontWeight.Bold,
-                        color = subjectTheme.onContainer,
-                        maxLines = 1
-                    )
-                }
-
-                Text(
-                    text = resource.title,
-                    style = MaterialTheme.typography.bodyMedium,
-                    fontWeight = FontWeight.SemiBold,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    modifier = Modifier.heightIn(min = 40.dp)
-                )
-
-                Spacer(modifier = Modifier.height(8.dp))
-
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = resource.gradeLevel,
-                        style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                    Text(
-                        text = resource.type,
-                        style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
             }
         }
     }

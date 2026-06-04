@@ -508,7 +508,7 @@ def user_profile_create_or_update(request):
     user.save()
 
     logger.info("user_profile: profile saved for user %s (username=%s)", user.id, user.username)
-    return Response({'status': 'success', 'user': UserSerializer(user).data})
+    return Response({'status': 'success', 'user': UserSerializer(user, context={'request': request}).data})
 
 
 @api_view(['GET'])
@@ -526,7 +526,7 @@ def user_profile_get(request, username):
     if user.is_locked and not is_owner:
         return Response(UserPublicSerializer(user).data)
 
-    return Response(UserSerializer(user).data)
+    return Response(UserSerializer(user, context={'request': request}).data)
 
 
 # ---------------------------------------------------------------------------
@@ -544,6 +544,7 @@ def resources_list(request):
     grade = request.query_params.get('grade')
     rtype = request.query_params.get('type')
     search = request.query_params.get('search')
+    sort_by = request.query_params.get('sort', 'relevant')
 
     if subject:
         resources = resources.filter(subject__iexact=subject)
@@ -555,6 +556,12 @@ def resources_list(request):
         resources = resources.filter(
             Q(title__icontains=search) | Q(description__icontains=search)
         )
+    if sort_by == 'newest':
+        resources = resources.order_by('-added_at')
+    elif sort_by == 'oldest':
+        resources = resources.order_by('added_at')
+    elif sort_by in ('popular', 'relevant'):
+        resources = resources.order_by('-view_count', '-added_at')
 
     return _paginated_response(request, resources, ResourceSerializer)
 

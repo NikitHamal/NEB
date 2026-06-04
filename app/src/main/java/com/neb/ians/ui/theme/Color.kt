@@ -2,19 +2,19 @@ package com.neb.ians.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-// Light theme colors (matching website material3.css exactly)
+// Light theme colors (mirrors backend_python/web/static/web/css/material3.css)
 val md_theme_light_primary = Color(0xFF004AC6)
 val md_theme_light_onPrimary = Color(0xFFFFFFFF)
-val md_theme_light_primaryContainer = Color(0xFF2563EB)
-val md_theme_light_onPrimaryContainer = Color(0xFFEEEFFF)
-val md_theme_light_secondary = Color(0xFF565E74)
+val md_theme_light_primaryContainer = Color(0xFFDBE1FF)
+val md_theme_light_onPrimaryContainer = Color(0xFF00174B)
+val md_theme_light_secondary = Color(0xFF004AC6)
 val md_theme_light_onSecondary = Color(0xFFFFFFFF)
-val md_theme_light_secondaryContainer = Color(0xFFDAE2FD)
-val md_theme_light_onSecondaryContainer = Color(0xFF5C647A)
-val md_theme_light_tertiary = Color(0xFF525657)
+val md_theme_light_secondaryContainer = Color(0xFFDBE1FF)
+val md_theme_light_onSecondaryContainer = Color(0xFF00174B)
+val md_theme_light_tertiary = Color(0xFF56545A)
 val md_theme_light_onTertiary = Color(0xFFFFFFFF)
-val md_theme_light_tertiaryContainer = Color(0xFF6B6E70)
-val md_theme_light_onTertiaryContainer = Color(0xFFEFF1F3)
+val md_theme_light_tertiaryContainer = Color(0xFFE5E1E8)
+val md_theme_light_onTertiaryContainer = Color(0xFF1C1B20)
 val md_theme_light_error = Color(0xFFBA1A1A)
 val md_theme_light_onError = Color(0xFFFFFFFF)
 val md_theme_light_errorContainer = Color(0xFFFFDAD6)
@@ -100,25 +100,29 @@ val md_theme_dark_tertiaryFixedDim = Color(0xFFC4C7C9)
 val md_theme_dark_onTertiaryFixed = Color(0xFF191C1E)
 val md_theme_dark_onTertiaryFixedVariant = Color(0xFF444749)
 
-// Subject colors (matching website .subject-* CSS classes)
+// Subject art and badge colors (matching website .subject-* CSS classes)
 data class SubjectTheme(
     val color: Color,
     val container: Color,
-    val onContainer: Color
+    val onContainer: Color,
+    val art1: Color = container,
+    val art2: Color = color.copy(alpha = 0.72f),
+    val art3: Color = color,
+    val art4: Color = onContainer
 )
 
 val SubjectColors = mapOf(
-    "Physics" to SubjectTheme(Color(0xFF2563EB), Color(0xFFDBEAFE), Color(0xFF1E40AF)),
-    "Chemistry" to SubjectTheme(Color(0xFF16A34A), Color(0xFFDCFCE7), Color(0xFF15803D)),
-    "Mathematics" to SubjectTheme(Color(0xFFDC2626), Color(0xFFFEE2E2), Color(0xFFB91C1C)),
-    "Biology" to SubjectTheme(Color(0xFF0D9488), Color(0xFFCCFBF1), Color(0xFF0F766E)),
-    "English" to SubjectTheme(Color(0xFF9333EA), Color(0xFFF3E8FF), Color(0xFF7E22CE)),
-    "Nepali" to SubjectTheme(Color(0xFFCA8A04), Color(0xFFFEF9C3), Color(0xFFA16207)),
-    "Computer Science" to SubjectTheme(Color(0xFF0891B2), Color(0xFFCFFAFE), Color(0xFF0E7490)),
-    "Economics" to SubjectTheme(Color(0xFFEA580C), Color(0xFFFFEDD5), Color(0xFFC2410C)),
-    "Accountancy" to SubjectTheme(Color(0xFFBE185D), Color(0xFFFCE7F3), Color(0xFF9D174D)),
-    "Exam Tips" to SubjectTheme(Color(0xFF7C3AED), Color(0xFFEDE9FE), Color(0xFF6D28D9)),
-    "General" to SubjectTheme(Color(0xFF525657), Color(0xFFF1F5F9), Color(0xFF334155)),
+    "Physics" to SubjectTheme(Color(0xFF1E88E5), Color(0xFFE3F2FD), Color(0xFF0D47A1), Color(0xFFBBDEFB), Color(0xFF64B5F6), Color(0xFF1E88E5), Color(0xFF0D47A1)),
+    "Chemistry" to SubjectTheme(Color(0xFF2E7D32), Color(0xFFE8F5E9), Color(0xFF1B5E20), Color(0xFFC8E6C9), Color(0xFF66BB6A), Color(0xFF2E7D32), Color(0xFF1B5E20)),
+    "Mathematics" to SubjectTheme(Color(0xFFE65100), Color(0xFFFFF3E0), Color(0xFFBF360C), Color(0xFFFFE0B2), Color(0xFFFFA726), Color(0xFFE65100), Color(0xFFBF360C)),
+    "Biology" to SubjectTheme(Color(0xFF7B1FA2), Color(0xFFF3E5F5), Color(0xFF4A148C), Color(0xFFE1BEE7), Color(0xFFAB47BC), Color(0xFF7B1FA2), Color(0xFF4A148C)),
+    "English" to SubjectTheme(Color(0xFFC62828), Color(0xFFFFEBEE), Color(0xFFB71C1C), Color(0xFFFFCDD2), Color(0xFFEF5350), Color(0xFFC62828), Color(0xFFB71C1C)),
+    "Nepali" to SubjectTheme(Color(0xFF0277BD), Color(0xFFE1F5FE), Color(0xFF01579B), Color(0xFFB3E5FC), Color(0xFF29B6F6), Color(0xFF0277BD), Color(0xFF01579B)),
+    "Computer Science" to SubjectTheme(Color(0xFF00838F), Color(0xFFE0F7FA), Color(0xFF006064), Color(0xFFB2EBF2), Color(0xFF26C6DA), Color(0xFF00838F), Color(0xFF006064)),
+    "Economics" to SubjectTheme(Color(0xFFF9A825), Color(0xFFFFE082), Color(0xFFD84315), Color(0xFFFFE082), Color(0xFFFFCA28), Color(0xFFF9A825), Color(0xFFF57F17)),
+    "Accountancy" to SubjectTheme(Color(0xFF00796B), Color(0xFFE0F2F1), Color(0xFF004D40), Color(0xFFB2DFDB), Color(0xFF26A69A), Color(0xFF00796B), Color(0xFF004D40)),
+    "Exam Tips" to SubjectTheme(Color(0xFFC2185B), Color(0xFFFCE4EC), Color(0xFFC2185B), Color(0xFFF8BBD0), Color(0xFFEC407A), Color(0xFFC2185B), Color(0xFF880E4F)),
+    "General" to SubjectTheme(Color(0xFF546E7A), Color(0xFFECEFF1), Color(0xFF546E7A), Color(0xFFCFD8DC), Color(0xFF90A4AE), Color(0xFF546E7A), Color(0xFF37474F)),
 )
 
 fun getSubjectTheme(subject: String): SubjectTheme {
