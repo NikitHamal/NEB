@@ -128,7 +128,8 @@
     .rd-title{font-size:1.25rem}
     .rd-actions{gap:6px}
     .rd-action-btn{padding:7px 12px;font-size:.75rem}
-    .rd-btn-view,.rd-btn-download{display:none}
+    .rd-btn-label{display:none}
+    .rd-btn-view,.rd-btn-download{padding:7px 10px}
     .rd-related-grid{grid-template-columns:1fr 1fr}
   }
   @media(max-width:480px){
@@ -243,20 +244,20 @@
       {% if resource.safe_file_url %}
       <a href="{{ resource.safe_file_url }}" target="_blank" rel="noopener noreferrer" class="rd-action-btn rd-btn-view">
         <span class="material-symbols-outlined">open_in_new</span>
-        View {{ resource.type }}
+        <span class="rd-btn-label">View {{ resource.type }}</span>
       </a>
       <a href="{{ resource.safe_file_url }}" download class="rd-action-btn rd-btn-download">
         <span class="material-symbols-outlined">download</span>
-        Download
+        <span class="rd-btn-label">Download</span>
       </a>
       {% elif resource.file_url %}
       <a href="{{ resource.file_url }}" target="_blank" rel="noopener noreferrer" class="rd-action-btn rd-btn-view">
         <span class="material-symbols-outlined">open_in_new</span>
-        View {{ resource.type }}
+        <span class="rd-btn-label">View {{ resource.type }}</span>
       </a>
       <a href="{{ resource.file_url }}" download class="rd-action-btn rd-btn-download">
         <span class="material-symbols-outlined">download</span>
-        Download
+        <span class="rd-btn-label">Download</span>
       </a>
       {% endif %}
       <span class="rd-action-spacer"></span>
