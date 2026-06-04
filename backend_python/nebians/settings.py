@@ -28,6 +28,18 @@ def env_list(name, default=''):
     return [item.strip() for item in value.split(',') if item.strip()]
 
 
+# Domains that should be accepted in ALLOWED_HOSTS but not exact-match.
+# Use this for things like '.trycloudflare.com' which is a wildcard
+# matching any trycloudflare subdomain.
+_env_extra_hosts = os.environ.get('ALLOWED_HOSTS_GLOB', '')
+ALLOWED_HOSTS_GLOB = [item.strip() for item in _env_extra_hosts.split(',') if item.strip()]
+
+
+# Suffixes that should match any subdomain (e.g. '.trycloudflare.com' matches
+# 'fresh-xyz.trycloudflare.com'). Populated from ALLOWED_HOSTS_GLOB env var.
+ALLOWED_HOST_SUFFIXES = [h.lstrip('.') for h in ALLOWED_HOSTS_GLOB if h.startswith('.')]
+
+
 DEBUG = env_bool('DEBUG', False)
 SECRET_KEY = os.environ.get('SECRET_KEY', '')
 if not SECRET_KEY or SECRET_KEY == 'django-insecure-change-me-in-production':
@@ -48,13 +60,19 @@ ALLOWED_HOSTS = env_list(
     'localhost,127.0.0.1,nebians.consica.com.np,www.nebians.consica.com.np',
 )
 
+# Wildcard patterns (e.g. '.trycloudflare.com' matches any subdomain).
+# Combined with ALLOWED_HOSTS for the request host check in middleware.
+ALLOWED_HOSTS = list(ALLOWED_HOSTS) + list(ALLOWED_HOSTS_GLOB)
+
 INSTALLED_APPS = [
+    'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'channels',
     'rest_framework',
     'corsheaders',
     'api',
@@ -66,6 +84,7 @@ MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'nebians.middleware.AllowedHostMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -95,6 +114,26 @@ TEMPLATES = [
 
 LOGIN_URL = '/admin/'
 WSGI_APPLICATION = 'nebians.wsgi.application'
+ASGI_APPLICATION = 'nebians.asgi.application'
+
+# Channels layer: Redis-backed so broadcasts fan out across daphne + any
+# Passenger workers. Falls back to in-memory if Redis isn't configured
+# (single-process dev only).
+if os.environ.get('CACHE_BACKEND') == 'django.core.cache.backends.redis.RedisCache':
+    CHANNEL_LAYERS = {
+        'default': {
+            'BACKEND': 'channels_redis.core.RedisChannelLayer',
+            'CONFIG': {
+                'hosts': [os.environ.get('CACHE_LOCATION', 'redis://127.0.0.1:6379/0')],
+                'capacity': 1500,
+                'expiry': 30,
+            },
+        },
+    }
+else:
+    CHANNEL_LAYERS = {
+        'default': {'BACKEND': 'channels.layers.InMemoryChannelLayer'},
+    }
 
 # Database - MySQL in production, SQLite only when explicitly requested.
 if os.environ.get('DB_ENGINE') == 'sqlite':

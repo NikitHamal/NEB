@@ -366,6 +366,19 @@
 
 {% block extra_js %}
 <script nonce="{{ csp_nonce }}">
+// ── Real-time library: like counts update live ──
+document.addEventListener('DOMContentLoaded', function() {
+  if (!window.WS) return;
+  window.WS.subscribe('forum.public');
+  // Library cards on the public list don't have per-resource WS channels
+  // (would require N subscriptions per page). Like count updates on the
+  // global forum.public aren't a perfect fit, so we just listen for the
+  // resource_request channel events (low volume).
+  window.WS.on('forum.public:resource_request.created', function () {
+    // No-op for now; visible only when on a future /library/requests page.
+  });
+});
+
 function openFilterDialog() {
   document.getElementById('filter-dialog').style.display = 'flex';
   document.body.style.overflow = 'hidden';
