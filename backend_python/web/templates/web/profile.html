@@ -672,7 +672,6 @@
     color: var(--md-on-surface-variant);
     line-height: 1.55;
     margin-bottom: 10px;
-    white-space: pre-wrap;
     word-break: break-word;
     max-height: 160px;
     overflow: hidden;
@@ -1028,7 +1027,7 @@
                 {% else %}
                 <h3><a href="{% url 'web:forum_post' post_id=post.id %}">{{ post.title }}</a></h3>
                 {% if post.content %}
-                <div class="post-card-content">{{ post.content|render_content }}</div>
+                <div class="post-card-content">{{ post.content|render_content_inline }}</div>
                 {% endif %}
                 {% endif %}
 
@@ -1111,7 +1110,7 @@
                   <span class="material-symbols-outlined">chat_bubble_outline</span>
                   <a href="{% url 'web:forum_post' post_id=reply.postId %}">{{ reply.postTitle }}</a>
                 </div>
-                <div class="pf-reply-card-body">{{ reply.content|render_content }}</div>
+                <div class="pf-reply-card-body">{{ reply.content|render_content_inline }}</div>
                 <div class="pf-reply-card-actions">
                   <button type="button" data-action="toggle-like-reply" data-reply-id="{{ reply.id }}" class="{% if reply.isThumbedUp %}liked{% endif %}">
                     <span class="material-symbols-outlined">thumb_up</span>
@@ -1192,7 +1191,7 @@
 
                 <!-- Description Text -->
                 {% if r.description %}
-                <div class="post-card-description" style="margin-top: 12px; font-size: 0.875rem; color: var(--md-on-surface); line-height: 1.5; white-space: pre-wrap;">{{ r.description }}</div>
+                <div class="post-card-description" style="margin-top: 12px; font-size: 0.875rem; color: var(--md-on-surface); line-height: 1.5;">{{ r.description }}</div>
                 {% endif %}
 
                 <!-- Preview or Attachment Box -->
@@ -1621,16 +1620,7 @@ function fileSizeHuman(bytes) {
   return `${(b / 1048576).toFixed(1)} MB`;
 }
 
-function renderMarkdown(text) {
-  if (!text) return '';
-  let s = text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-  s = s.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-  s = s.replace(/(?<!\w)__(.+?)__(?!\w)/g, '<strong>$1</strong>');
-  s = s.replace(/(?<!\w)\*(.+?)\*(?!\w)/g, '<em>$1</em>');
-  s = s.replace(/(?<!\w)_(.+?)_(?!\w)/g, '<em>$1</em>');
-  s = s.replace(/\n/g, '<br>');
-  return s;
-}
+// renderMarkdown is defined globally in base.html (uses marked.js)
 
 // Activity Likes
 async function toggleLikePost(postId, btnEl) {
