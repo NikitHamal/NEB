@@ -41,6 +41,7 @@
   <link rel="stylesheet" href="{% static 'web/css/app.css' %}">
   {% block extra_css %}{% endblock %}
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/delegated-events.js' %}"></script>
+  <script nonce="{{ csp_nonce }}" src="{% static 'web/js/marked.min.js' %}"></script>
 </head>
 
 <body{% if ws_url %} data-ws-url="{{ ws_url }}"{% endif %}>
@@ -274,6 +275,31 @@
       return String(value ?? '').replace(/[&<>"']/g, ch => ({
         '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
       }[ch]));
+    }
+
+    function renderMarkdown(text) {
+      if (!text) return '';
+      if (typeof marked !== 'undefined') {
+        const renderer = new marked.Renderer();
+        const origLink = renderer.link.bind(renderer);
+        renderer.link = function(token) {
+          const isInternal = token.href && (token.href.startsWith('/') || token.href.startsWith(window.location.origin));
+          const html = origLink(token);
+          if (token.href && token.href.startsWith('/profile/')) {
+            return html.replace('<a ', '<a class="fp-mention" ');
+          }
+          if (!isInternal && token.href) {
+            return html.replace('<a ', '<a target="_blank" rel="noopener noreferrer" ');
+          }
+          return html;
+        };
+        return marked.parse(text, { breaks: true, gfm: true, renderer: renderer });
+      }
+      let s = escapeHtml(text);
+      s = s.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+      s = s.replace(/(?<!\w)\*(.+?)\*(?!\w)/g, '<em>$1</em>');
+      s = s.replace(/\n/g, '<br>');
+      return s;
     }
 
     function safeClientUrl(value) {

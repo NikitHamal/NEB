@@ -83,6 +83,8 @@ cp -f web/static/web/css/app.css public/static/web/css/app.css
 cp -f web/static/web/css/material3.css public/static/web/css/material3.css
 cp -f web/static/web/css/admin.css public/static/web/css/admin.css
 cp -f web/static/web/js/delegated-events.js public/static/web/js/delegated-events.js
+cp -f web/static/web/js/marked.min.js public/static/web/js/marked.min.js
+cp -f web/static/web/js/realtime.js public/static/web/js/realtime.js
 cp -f web/static/web/manifest.json public/static/web/manifest.json
 cp -rf web/static/web/img/ public/static/web/img/
 
