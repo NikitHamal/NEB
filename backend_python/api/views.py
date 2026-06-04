@@ -1992,6 +1992,7 @@ def user_follow_toggle(request, user_id):
 
 
 @api_view(['GET'])
+@permission_classes([AllowAny])
 def user_followers_list(request, user_id):
     """
     GET /api/users/<userId>/followers
@@ -2009,6 +2010,7 @@ def user_followers_list(request, user_id):
 
 
 @api_view(['GET'])
+@permission_classes([AllowAny])
 def user_following_list(request, user_id):
     """
     GET /api/users/<userId>/following

@@ -15,22 +15,22 @@
   <link rel="canonical" href="{% block canonical %}https://nebians.consica.com.np{{ request.path }}{% endblock %}">
   {% block robots %}{% endblock %}
   <meta name="description"
-    content="{% block description %}NEBians - Free study platform and discussion forum for students and teachers of all classes and faculties in Nepal. Find and share notes, past papers, textbooks, and more.{% endblock %}">
+    content="{% block description %}Free study platform and discussion forum for students and teachers. Find and share notes, past papers, textbooks, and more.{% endblock %}">
   <meta name="keywords"
-    content="{% block keywords %}NEB, NEBians, Nepal, study platform, notes, past papers, textbooks, Class 11, Class 12, Bachelors, teachers, education, discussion forum{% endblock %}">
-  <meta property="og:title" content="{% block og_title %}NEBians - Free Study Platform & Discussion Forum{% endblock %}">
+    content="{% block keywords %}study platform, notes, past papers, textbooks, education, discussion forum, Class 8, Class 9, Class 10, Class 11, Class 12, Bachelors, Masters, teachers, tutors{% endblock %}">
+  <meta property="og:title" content="{% block og_title %}NEBians - Study Platform & Discussion Forum{% endblock %}">
   <meta property="og:description"
-    content="{% block og_description %}Free study platform and discussion forum for all classes, faculties, students, and teachers in Nepal.{% endblock %}">
+    content="{% block og_description %}Free study platform and discussion forum for all classes, faculties, students, and teachers.{% endblock %}">
   <meta property="og:type" content="{% block og_type %}website{% endblock %}">
   <meta property="og:url" content="{{ request.build_absolute_uri }}">
   <meta property="og:site_name" content="NEBians">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="{% block tw_title %}NEBians - Free Study Platform & Discussion Forum{% endblock %}">
+  <meta name="twitter:title" content="{% block tw_title %}NEBians - Study Platform & Discussion Forum{% endblock %}">
   <meta name="twitter:description"
-    content="{% block tw_description %}Free study platform and discussion forum for all classes, faculties, students, and teachers in Nepal.{% endblock %}">
+    content="{% block tw_description %}Free study platform and discussion forum for all classes, faculties, students, and teachers.{% endblock %}">
   <meta property="og:image" content="{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'web/img/n-logo-512.png' %}{% endblock %}">
   <meta name="twitter:image" content="{% block tw_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'web/img/n-logo-512.png' %}{% endblock %}">
-  <title>{% block title %}NEBians{% endblock %} - Free Study Platform & Discussion Forum</title>
+  <title>{% block title %}NEBians{% endblock %} - Study Platform & Discussion Forum</title>
   {% block head_extra %}{% endblock %}
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -45,7 +45,7 @@
 
 <body{% if ws_url %} data-ws-url="{{ ws_url }}"{% endif %}>
   {# WebSocket configuration. realtime.js reads window.WS_CONFIG.url. #}
-  <script>
+  <script nonce="{{ csp_nonce }}">
     window.WS_CONFIG = window.WS_CONFIG || {};
     {% if ws_url %}
     window.WS_CONFIG.url = "{{ ws_url|escapejs }}";

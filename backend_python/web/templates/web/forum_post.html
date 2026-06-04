@@ -3,7 +3,7 @@
 
 {% block title %}{{ post.title|default:"Discussion" }} - NEBians{% endblock %}
 {% block description %}{{ post.content|truncatechars:160|default:"Discussion on NEBians forum" }}{% endblock %}
-{% block keywords %}NEBians, NEB, Nepal, discussion, forum, {{ post.category }}, {{ post.authorName }}{% endblock %}
+{% block keywords %}NEBians, discussion, forum, {{ post.category }}, {{ post.authorName }}{% endblock %}
 {% block og_title %}{{ post.title|default:"Discussion" }} - NEBians Forum{% endblock %}
 {% block og_description %}{{ post.content|truncatechars:200|default:"Discussion on NEBians forum" }}{% endblock %}
 {% block og_type %}article{% endblock %}

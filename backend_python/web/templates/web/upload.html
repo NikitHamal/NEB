@@ -2,7 +2,7 @@
 {% load web_extras %}
 {% block title %}Upload Resource — NEBians{% endblock %}
 {% block description %}Share study resources with the NEBians community. Upload PDFs, notes, past papers and more.{% endblock %}
-{% block keywords %}upload, resource, NEB, study material, PDF, notes{% endblock %}
+{% block keywords %}upload, resource, study material, PDF, notes{% endblock %}
 
 {% block nav_library %}md-nav-active{% endblock %}
 
@@ -15,7 +15,7 @@
     </a>
     <h1 class="md-headline-medium" style="margin: 0;">Share a Resource</h1>
     <p style="margin: 6px 0 0; color: var(--md-on-surface-variant); font-size: 0.875rem; line-height: 1.5;">
-      Help fellow students by sharing study materials. Your contribution will be reviewed before publishing.
+      Help fellow learners by sharing study materials. Your contribution will be reviewed before publishing.
     </p>
   </div>
 
@@ -221,13 +221,13 @@
       {% else %}
       <div class="upload-field">
         <label class="md-label" for="author_name">Author / Credit</label>
-        <input class="md-input" type="text" id="author_name" name="author_name" value="{{ form_data.author_name|default:'' }}" placeholder="e.g. Prof. Sharma, NEB Official">
+        <input class="md-input" type="text" id="author_name" name="author_name" value="{{ form_data.author_name|default:'' }}" placeholder="e.g. Prof. Sharma, Curriculum Board">
       </div>
       {% endif %}
 
       <div class="upload-field">
         <label class="md-label" for="source_label">Source Label</label>
-        <input class="md-input" type="text" id="source_label" name="source_label" value="{{ form_data.source_label|default:'' }}" placeholder="e.g. NEB Official, Contributed by students">
+        <input class="md-input" type="text" id="source_label" name="source_label" value="{{ form_data.source_label|default:'' }}" placeholder="e.g. Curriculum Board, Contributed by learners">
       </div>
 
       <div class="upload-field">
