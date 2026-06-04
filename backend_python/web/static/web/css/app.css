@@ -2154,6 +2154,7 @@ button:focus-visible {
   min-height: calc(100vh - 64px - 72px);
   padding-top: 16px;
   padding-bottom: 24px;
+  overflow-x: hidden;
 }
 
 .site-footer {
@@ -3327,3 +3328,10 @@ button:focus-visible {
   background: var(--md-surface-container-lowest) !important;
   border: 1px solid var(--md-outline-variant) !important;
 }
+
+/* Realtime toast notification */
+@keyframes toastIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+.ws-state-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--md-outline); margin-left: 6px; vertical-align: middle; }
+body[data-ws-state='connected'] .ws-state-dot { background: #2e7d32; }
+body[data-ws-state='connecting'] .ws-state-dot { background: #f57c00; }
+body[data-ws-state='disconnected'] .ws-state-dot { background: #c62828; }

@@ -267,6 +267,9 @@ def _process_post_mention(task, config, bot_user):
     _counters.increment_user_reply_count(bot_user.id)
     from . import notifications as _notif
     _notif.notify_new_reply(bot_user.id, post.id, reply.id)
+    from . import realtime as _rt
+    from .serializers import ReplySerializer
+    _rt.broadcast_reply_created(post.id, ReplySerializer(reply).data)
 
     task.status = 'done'
     task.finished_at = _now_ms()
@@ -337,6 +340,9 @@ def _process_reply_mention(task, config, bot_user):
     _notif.notify_reply_to_reply(bot_user.id, reply.id, reply.post_id, neby_reply.id)
     if reply.user_id != reply.post.user_id:
         _notif.notify_new_reply(bot_user.id, reply.post_id, neby_reply.id)
+    from . import realtime as _rt
+    from .serializers import ReplySerializer
+    _rt.broadcast_reply_created(reply.post_id, ReplySerializer(neby_reply).data)
 
     task.status = 'done'
     task.finished_at = _now_ms()

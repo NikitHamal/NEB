@@ -1163,9 +1163,17 @@
                       <span>Shared a resource</span>
                     </div>
                   </div>
-                  <button class="post-card-more-btn" style="background: none; border: none; cursor: pointer; color: var(--md-on-surface-variant); margin-left: auto; padding: 4px;" title="More Options">
-                    <span class="material-symbols-outlined" style="font-size: 20px;">more_horiz</span>
-                  </button>
+                  <div class="more-menu-wrapper">
+                    <button class="more-btn" data-action="toggle-more-menu" data-menu-id="resource-menu-{{ r.id }}" aria-label="More options"><span class="material-symbols-outlined">more_vert</span></button>
+                    <div class="more-menu" id="resource-menu-{{ r.id }}" style="display:none;">
+                      <button class="more-menu-item" data-action="share-resource-url" data-resource-id="{{ r.id }}">
+                        <span class="material-symbols-outlined">share</span> Share
+                      </button>
+                      <button class="more-menu-item" data-action="bookmark-resource" data-resource-id="{{ r.id }}">
+                        <span class="material-symbols-outlined" id="bookmark-icon-resource-{{ r.id }}">bookmark_border</span> <span id="bookmark-label-resource-{{ r.id }}">Bookmark</span>
+                      </button>
+                    </div>
+                  </div>
                 </div>
 
                 <!-- Description Text -->
@@ -1537,6 +1545,30 @@ document.addEventListener('DOMContentLoaded', function() {
     if (customSize) decoEl.style.fontSize = customSize;
   }
 });
+
+// ── Real-time profile: follower count + post count updates live ──
+(function() {
+  if (!window.WS) return;
+  var profileUserId = '{{ profile_user.id|escapejs }}';
+  window.WS.subscribe('user.' + profileUserId);
+  // When this profile is for the current user, also subscribe to "user" so
+  // we get unread_count updates that affect the badge in the navbar.
+  {% if is_current_user %}
+  window.WS.subscribe('user');
+  {% endif %}
+  window.WS.on('user.' + profileUserId + ':follow.changed', function (data) {
+    if (!data) return;
+    var els = document.querySelectorAll('[data-follower-count], .pf-follower-count');
+    els.forEach(function (el) { el.textContent = data.follower_count; });
+  });
+  window.WS.on('user.' + profileUserId + ':user.stats_changed', function (data) {
+    if (!data || !data.stats) return;
+    Object.keys(data.stats).forEach(function (k) {
+      var els = document.querySelectorAll('[data-stat="' + k + '"]');
+      els.forEach(function (el) { el.textContent = data.stats[k]; });
+    });
+  });
+})();
 // Dynamic formatting helpers
 function getSubjectColor(subj) {
   const colors = {
@@ -1980,10 +2012,87 @@ function switchProfileTab(tabName) {
 }
 
 
+function closeAllMenus() {
+  document.querySelectorAll('.more-menu').forEach(function(m) { m.style.display = 'none'; });
+}
+
 registerActions({
   'switch-profile-tab': function(el) { switchProfileTab(el.dataset.tab); },
   'toggle-like-post': function(el) { toggleLikePost(el.dataset.postId, el); },
-  'toggle-like-reply': function(el) { toggleLikeReply(el.dataset.replyId, el); }
+  'toggle-like-reply': function(el) { toggleLikeReply(el.dataset.replyId, el); },
+  'toggle-like-resource': function(el) { toggleLikeResource(el.dataset.resourceId, el); },
+  'load-more-activity': function() { loadMoreActivity(); },
+  'load-more-replies': function() { loadMoreReplies(); },
+  'toggle-follow-user': function(el) { toggleFollowUser(el.dataset.userId); },
+  'copy-profile-link': function() {
+    var url = window.location.origin + window.location.pathname;
+    if (navigator.share) { navigator.share({ title: document.title, url: url }).catch(function(){}); }
+    else { navigator.clipboard.writeText(url).then(function() { showSnackbar('Profile link copied!'); }).catch(function() { showSnackbar('Could not copy link'); }); }
+  },
+  'copy-share-link': function() {
+    var url = window.location.origin + window.location.pathname;
+    if (navigator.share) { navigator.share({ title: document.title, url: url }).catch(function(){}); }
+    else { navigator.clipboard.writeText(url).then(function() { showSnackbar('Profile link copied!'); }).catch(function() { showSnackbar('Could not copy link'); }); }
+  },
+  'copy-mention': function(el) {
+    var mention = el.dataset.mention || '';
+    var msg = el.dataset.msg || 'Copied!';
+    navigator.clipboard.writeText(mention).then(function() { showSnackbar(msg); }).catch(function() { showSnackbar('Could not copy'); });
+  },
+  'open-follow-modal': function(el) { openFollowModal(el.dataset.modalType); },
+  'show-options-soon': function() { showSnackbar('More options coming soon'); },
+  'go-back': function(e) { e.preventDefault(); if (window.history.length > 1) { window.history.back(); } else { window.location.href = '{% url "web:home" %}'; } },
+  'toggle-more-menu': function(el) {
+    var menuId = el.dataset.menuId;
+    var menu = document.getElementById(menuId);
+    if (!menu) return;
+    var isOpen = menu.style.display !== 'none';
+    closeAllMenus();
+    if (!isOpen) {
+      menu.style.display = 'block';
+      var handler = function(e) {
+        if (!menu.contains(e.target) && e.target !== el && !el.contains(e.target)) {
+          closeAllMenus();
+          document.removeEventListener('click', handler, true);
+        }
+      };
+      setTimeout(function() { document.addEventListener('click', handler, true); }, 0);
+    }
+  },
+  'share-resource-url': function(el) {
+    closeAllMenus();
+    var rid = el.dataset.resourceId;
+    var url = window.location.origin + '/reader/' + rid + '/';
+    if (navigator.share) { navigator.share({ title: document.title, url: url }).catch(function(){}); }
+    else { navigator.clipboard.writeText(url).then(function() { showSnackbar('Link copied!'); }).catch(function() { showSnackbar('Could not copy link'); }); }
+  },
+  'bookmark-resource': function(el) {
+    closeAllMenus();
+    if (!IS_AUTHENTICATED) { window.location.href = '{% url "web:login" %}'; return; }
+    var rid = el.dataset.resourceId;
+    fetch('/ajax/bookmark/toggle/', {
+      method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN }, credentials: 'same-origin',
+      body: JSON.stringify({ target_type: 'resource', target_id: rid })
+    }).then(function(r) { return r.json(); }).then(function(d) {
+      if (d.isBookmarked !== undefined) {
+        var iconEl = document.getElementById('bookmark-icon-resource-' + rid);
+        var labelEl = document.getElementById('bookmark-label-resource-' + rid);
+        if (iconEl) { iconEl.textContent = d.isBookmarked ? 'bookmark' : 'bookmark_border'; iconEl.style.fontVariationSettings = d.isBookmarked ? "'FILL' 1" : ''; }
+        if (labelEl) labelEl.textContent = d.isBookmarked ? 'Remove' : 'Bookmark';
+        showSnackbar(d.isBookmarked ? 'Bookmarked!' : 'Bookmark removed');
+      } else { showSnackbar(d.error || 'Failed'); }
+    }).catch(function() { showSnackbar('Error toggling bookmark'); });
+  },
+  'close-follow-modal': function() { closeFollowModal(); },
+  'close-follow-modal-btn': function() { closeFollowModal(); },
+  'open-photo-history-modal': function() { openPhotoHistoryModal(); },
+  'close-photo-history-modal': function() { closePhotoHistoryModal(); },
+  'close-photo-history-modal-btn': function() { closePhotoHistoryModal(); },
+  'activate-past-photo': function(el) { activatePastPhoto(el.dataset.photoId, el.dataset.photoUrl); },
+  'trigger-photo-upload': function() { document.getElementById('modal_photo_file').click(); },
+  'upload-new-photo-url': function() { uploadNewPhotoUrl(); },
+  'upload-photo-file': function(el) { uploadPhotoFile({ target: el }); },
+  'noop': function() {}
 });
 
 </script>

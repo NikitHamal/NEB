@@ -165,16 +165,18 @@ com.neb.ians/
 ## Web Backend — Server & SSH Deployment
 
 ### Server Details
-- **Host:** `192.250.235.158` (cPanel / Phusion Passenger)
+- **Host:** `192.250.235.158` (cPanel / CloudLinux / LiteSpeed + LSAPI)
 - **Username:** `consicac`
 - **SSH Key:** Stored in `.ssh_deploy_info.json` (RSA private key)
 - **Remote Project Dir:** `/home/consicac/nebians_api/`
 - **Virtualenv:** `/home/consicac/virtualenv/nebians_api/3.13/`
 - **Python:** 3.13
-- **Web Server:** Phusion Passenger (NOT gunicorn) — restarts via `touch tmp/restart.txt`
-- **WSGI Entry Point:** `passenger_wsgi.py` (NOT `wsgi.py`)
+- **Web Server:** LiteSpeed + LSAPI (NOT Phusion Passenger, NOT gunicorn). The cPanel Python Selector wraps LiteSpeed, which runs `lswsgi -m /home/consicac/nebians_api/passenger_wsgi.py`. Restart by `touch /home/consicac/nebians_api/tmp/restart.txt`.
+- **WSGI Entry Point:** `passenger_wsgi.py` (kept for historical reasons; actually loaded by LSAPI)
 - **Log File:** `/home/consicac/nebians_api/logs/nebians.log`
 - **Domain:** `nebians.consica.com.np` (also `www.nebians.consica.com.np`)
+- **Daphne (WebSocket server):** `127.0.0.1:8001` (background, managed via crontab `@reboot`). Log: `/home/consicac/nebians_api/logs/daphne.log`
+- **Cloudflared (WS tunnel):** Background process; `~/.local/bin/cloudflared --protocol http2 --url http://127.0.0.1:8001`. Log: `/home/consicac/nebians_api/logs/cloudflared.log`
 
 ### CRITICAL: How to Deploy
 **ALWAYS use the local deploy script — NEVER use manual SCP/SSH commands.**
@@ -189,7 +191,7 @@ The deploy script (`backend_python/scratch/deploy.ps1`) handles:
 1. Reading SSH key from `.ssh_deploy_info.json`
 2. Creating a ZIP of all deployment files (api/, nebians/, web/, manage.py, requirements.txt, passenger_wsgi.py)
 3. Uploading ZIP via SCP
-4. Running remote commands: unzip, pip install, collectstatic, migrate, copy static files to public/, restart Passenger
+4. Running remote commands: unzip, pip install, collectstatic, migrate, copy static files to public/, restart LiteSpeed (touch tmp/restart.txt)
 
 **Do NOT manually SCP individual files or run SSH commands for deployment.** Use `deploy.ps1` instead. Manual SCP/SSH should only be used for quick debugging (e.g., checking logs, running Django shell queries).
 
@@ -203,16 +205,16 @@ ssh ... consicac@192.250.235.158 "cat /home/consicac/nebians_api/.env"
 
 **The `load_dotenv()` call uses `override=True`** so `.env` values will override system env vars. But if a system-level env var is set (e.g., in cPanel), it still takes precedence. When in doubt, update both `.env` AND `settings.py`.
 
-### CRITICAL: Passenger vs Gunicorn
-The server uses **Phusion Passenger** (cPanel Python app), NOT gunicorn. Do NOT try to start/stop gunicorn. To restart:
+### CRITICAL: LiteSpeed/LSAPI vs Gunicorn
+The server uses **LiteSpeed + LSAPI** (cPanel Python app), NOT gunicorn, NOT vanilla Phusion Passenger. Do NOT try to start/stop gunicorn. To restart the Django app:
 ```bash
 rm -rf /home/consicac/nebians_api/tmp/*
 touch /home/consicac/nebians_api/tmp/restart.txt
 ```
-Passenger picks up changes after this. If env vars don't update, you may need to wait 30-60 seconds for Passenger to fully respawn workers.
+LiteSpeed picks up changes after this. If env vars don't update, you may need to wait 30-60 seconds for LSAPI to fully respawn workers.
 
 ### CRITICAL: SSL/Cookie Settings
-`SECURE_SSL_REDIRECT`, `SESSION_COOKIE_SECURE`, and `CSRF_COOKIE_SECURE` are all set to `False` by default. This is intentional — Passenger terminates SSL at the proxy level, so Django sees HTTP connections. Setting these to `True` causes infinite redirects or dropped cookies. Only enable them if you configure Passenger to forward the `X-Forwarded-Proto` header correctly.
+`SECURE_SSL_REDIRECT`, `SESSION_COOKIE_SECURE`, and `CSRF_COOKIE_SECURE` are all set to `False` by default. This is intentional — LiteSpeed terminates SSL at the proxy level, so Django sees HTTP connections. Setting these to `True` causes infinite redirects or dropped cookies. Only enable them if you configure LiteSpeed to forward the `X-Forwarded-Proto` header correctly.
 
 ### Checking Logs
 ```bash
@@ -233,7 +235,7 @@ The `.github/workflows/deploy-backend.yml` workflow auto-deploys on push to `mai
 **BUT** it does NOT update the `.env` file. If you change env-dependent settings, manually update `.env` on the server.
 
 ### CRITICAL: Static Files Deployment (Two-Location Problem)
-Phusion Passenger serves static files from `public/static/`, but Django's `STATIC_ROOT` points to `staticfiles/`. These are **DIFFERENT directories**. After editing CSS/JS in `web/static/`, you MUST update BOTH:
+LiteSpeed/LSAPI serves static files from `public/static/`, but Django's `STATIC_ROOT` points to `staticfiles/`. These are **DIFFERENT directories**. After editing CSS/JS in `web/static/`, you MUST update BOTH:
 
 ```bash
 # 1. Run collectstatic (writes to staticfiles/)
@@ -241,7 +243,7 @@ cd /home/consicac/nebians_api
 source /home/consicac/virtualenv/nebians_api/3.13/bin/activate
 python manage.py collectstatic --noinput
 
-# 2. Manually copy to public/static/ (where Passenger serves from)
+# 2. Manually copy to public/static/ (where LiteSpeed serves from)
 cp /home/consicac/nebians_api/web/static/web/css/app.css /home/consicac/nebians_api/public/static/web/css/app.css
 cp /home/consicac/nebians_api/web/static/web/css/material3.css /home/consicac/nebians_api/public/static/web/css/material3.css
 # ... repeat for any other changed static files
@@ -369,7 +371,7 @@ The Android "Neby AI" tab uses a Django proxy in front of the public AI4Bharat A
 ### How it works
 - The arena is a free public chatbot arena. It exposes a Django/DRF backend that lets you mint an anonymous guest token via `POST /auth/anonymous/` and then call chat completions with no rate-limit login.
 - **Per-anon-token limits:** 20 messages / 3 sessions. After that the token returns 401.
-- To scale beyond those limits, we maintain a **pool of anon tokens** in the Redis cache (shared across Passenger workers) and round-robin across them. Pool size default = 12. When a token is at 15/20 messages we stop handing it out for new sessions; at 20 it's marked dead and never reused.
+- To scale beyond those limits, we maintain a **pool of anon tokens** in the Redis cache (shared across LSAPI workers) and round-robin across them. Pool size default = 12. When a token is at 15/20 messages we stop handing it out for new sessions; at 20 it's marked dead and never reused.
 - Streaming format is **custom** (not SSE): each line is `a0:"<json-stringified text>"` or `ad:{"finishReason":"stop"}`. Our proxy converts that to **OpenAI-style SSE** so any Android chat client can consume it.
 - `modelId` goes **inside** the assistant message object, not at the top of the body. The arena resolves multi-turn threading via the bound `arena_session_id` and `parent_message_ids`.
 
@@ -419,7 +421,7 @@ data: [DONE]
 ```
 
 ### Gotchas
-- **Pool is in Redis cache** — keys `arena:pool:index` (set of tokens) and `arena:token:<token>` (JSON metadata). Survives Passenger worker restarts.
+- **Pool is in Redis cache** — keys `arena:pool:index` (set of tokens) and `arena:token:<token>` (JSON metadata). Survives LSAPI worker restarts.
 - **`ARENA_TENANT` is empty by default** — the arena's tenant routing is optional for the public site.
 - **`X-Anonymous-Token` header** is what we send to the arena, NOT `Authorization: Bearer`. The arena uses either, but anonymous tokens are easier to pool than JWTs.
 - **Streaming generator uses pre-insert + finalise** — we save the assistant row in `pending` state at request start, then update with content on completion. If the client disconnects mid-stream, the partial content is still in the DB.
@@ -434,9 +436,205 @@ data: [DONE]
 
 ---
 
+## Real-Time WebSockets (Channels + Daphne + Cloudflare Tunnel)
+
+The NEBians web frontend (and any future client) gets live updates — new posts, replies, likes, notifications, follow changes, message events — over a single WebSocket connection. No polling, no FCM for the web.
+
+### Architecture
+```
+Browser / Mobile
+   │  wss://<host>/ws/
+   ▼
+Cloudflare (CF edge)        ← free, proxies WS through any port
+   │
+   ▼
+Cloudflared quick tunnel    ← ~/.local/bin/cloudflared --protocol http2 --url http://127.0.0.1:8001
+   │
+   ▼
+Daphne (ASGI) on 127.0.0.1:8001
+   │
+   ▼
+RealtimeConsumer (Channels)
+   │
+   ├─→ Database (Postgres/MySQL) for auth + permissions
+   └─→ Redis channel layer (cross-worker fanout)
+```
+
+### Why a tunnel, not LiteSpeed proxy
+**LiteSpeed + LSAPI cannot proxy WebSockets reliably.** Even when the upgrade reaches daphne (101 Switching Protocols) and daphne logs a successful `WSCONNECT`, LiteSpeed buffers the response and never returns it to the client. Tried `RewriteRule [P]` and `ProxyPass` — both hung the WS connection. **Use Cloudflare Tunnel instead.**
+
+Cloudflare's free tier proxies WebSockets through any outbound HTTPS port. No firewall changes, no DNS changes (for the trycloudflare quick tunnel — a named tunnel requires CF-hosted DNS).
+
+### How to start / restart
+Both daphne and cloudflared auto-start via crontab `@reboot`:
+```bash
+@reboot /home/consicac/virtualenv/nebians_api/3.13/bin/daphne \
+    -b 127.0.0.1 -p 8001 -v 2 \
+    /home/consicac/nebians_api/nebians.asgi:application \
+    >> /home/consicac/nebians_api/logs/daphne.log 2>&1
+
+@reboot /usr/bin/env PATH=$HOME/.local/bin:/usr/bin:/bin \
+    /home/consicac/.local/bin/cloudflared tunnel --no-autoupdate --protocol http2 \
+    --url http://127.0.0.1:8001 \
+    >> /home/consicac/nebians_api/logs/cloudflared.log 2>&1
+```
+
+**Manual start** (e.g. after `kill`):
+```bash
+cd /home/consicac/nebians_api
+nohup /home/consicac/virtualenv/nebians_api/3.13/bin/daphne \
+    -b 127.0.0.1 -p 8001 -v 2 nebians.asgi:application \
+    >> logs/daphne.log 2>&1 & disown
+nohup ~/.local/bin/cloudflared tunnel --no-autoupdate --protocol http2 \
+    --url http://127.0.0.1:8001 \
+    >> logs/cloudflared.log 2>&1 & disown
+```
+
+**Check status:**
+```bash
+pgrep -af daphne               # should show daphne running on 8001
+pgrep -af cloudflared          # should show cloudflared quick tunnel
+tail -20 logs/daphne.log       # WS connections, broadcasts
+tail -20 logs/cloudflared.log  # trycloudflare URL is logged on first run
+```
+
+### Why `--protocol http2`
+Server blocks outbound UDP (CloudLinux firewall). The default QUIC protocol fails — cloudflared must use HTTP/2 transport.
+
+### The public URL is dynamic
+The trycloudflare quick tunnel URL **rotates every time cloudflared starts**. The deployed code handles this automatically:
+- `web/views.py::_get_ws_public_url()` reads `WS_PUBLIC_URL` env var if set
+- Otherwise it scrapes `logs/cloudflared.log` for the latest `https://<random>.trycloudflare.com` line and converts to `wss://<random>.trycloudflare.com/ws/`
+- The URL is injected into every page as `window.WS_CONFIG.url` via `web/templates/base.html`
+- The JS client (`realtime.js`) reads from `window.WS_CONFIG.url` first, falls back to deriving from `window.location`
+
+**For a stable URL** (no rotation), set up a named Cloudflare Tunnel (free):
+1. Move `nebians.consica.com.np` DNS to Cloudflare
+2. `cloudflared tunnel login`
+3. `cloudflared tunnel create nebians-ws`
+4. Create `~/.cloudflared/config.yml`:
+   ```yaml
+   tunnel: nebians-ws
+   credentials-file: /home/consicac/.cloudflared/<UUID>.json
+   ingress:
+     - hostname: ws.nebians.consica.com.np
+       service: http://127.0.0.1:8001
+     - service: http_status:404
+   ```
+5. Add CNAME in Cloudflare DNS: `ws` → `<UUID>.cfargotunnel.com` (proxied)
+6. Set env var: `WS_PUBLIC_URL=wss://ws.nebians.consica.com.np/ws/` in `nebians_api/.env`
+7. Restart cloudflared with: `cloudflared --config ~/.cloudflared/config.yml tunnel run nebians-ws`
+
+### Trycloudflare wildcard via middleware rewrite
+A trycloudflare URL looks like `https://abc123.trycloudflare.com` — different every restart. Django's `ALLOWED_HOSTS` check would reject these. Fix: `nebians.middleware.AllowedHostMiddleware` runs BEFORE `CommonMiddleware` and rewrites `HTTP_HOST` to `nebians.consica.com.np` when the request comes through a trycloudflare subdomain. This way:
+- `ALLOWED_HOSTS` stays strict
+- CSRF cookie uses the canonical origin
+- URL reversal works correctly
+- The middleware also sets `ALLOWED_HOSTS_GLOB` / `ALLOWED_HOST_SUFFIXES` from env vars for custom domains
+
+### Files added
+- `nebians/asgi.py` — `ProtocolTypeRouter` combining `django_asgi_app` (HTTP) and `websocket` (WS)
+- `api/routing_ws.py` — single route `^ws/?$` → `RealtimeConsumer`
+- `api/consumers_ws.py` — `RealtimeConsumer` (auth, heartbeat, batching, permission checks, rate limiting)
+- `api/middleware_ws.py` — `JWTAuthMiddleware` (Bearer token auth for WS) + `OriginValidatorMiddleware`
+- `api/realtime.py` — broadcast helpers: `broadcast_post_created/updated/deleted/like_changed`, `broadcast_reply_*`, `broadcast_notification`, `broadcast_follow_changed`, `broadcast_unread_count`, `get_health_snapshot`
+
+### Files modified
+- `nebians/settings.py` — `INSTALLED_APPS += ['daphne', 'channels']`; `ASGI_APPLICATION = 'nebians.asgi.application'`; `CHANNEL_LAYERS` (Redis or InMemory); `ALLOWED_HOSTS_GLOB` + `ALLOWED_HOST_SUFFIXES` env support
+- `nebians/middleware.py` — added `AllowedHostMiddleware` (trycloudflare host rewriting)
+- `api/services.py`, `api/views.py`, `api/notifications.py`, `api/neby.py` — broadcast calls on create/update/delete/like/follow/notification triggers
+- `web/views.py` — `_get_ws_public_url()` helper; `ws_url` in `_ctx()` for all templates
+- `web/templates/base.html` — `<body data-ws-url=...>` + `<script>window.WS_CONFIG = ...</script>` + `<script src="/static/web/js/realtime.js">` + `showNotifToast` JS
+- `web/templates/web/forum_post.html`, `forum.html`, `home.html`, `notifications.html`, `library.html`, `profile.html` — WS subscriptions + live DOM updates
+- `web/static/web/js/realtime.js` — WS client (auto-reconnect, heartbeat, tab-visibility, polling fallback, wildcard event dispatch, optimistic-update dedup)
+- `web/static/web/css/app.css` — `.toastIn` animation, `.ws-state-dot` styles
+- `requirements.txt` — `channels==4.2.0`, `channels-redis==4.2.1`, `daphne==4.1.2`, `websockets>=12` (test only)
+
+### Wire format
+**Client → Server** (JSON over WS):
+```json
+{ "action": "subscribe", "channel": "forum.public" }
+{ "action": "subscribe", "channel": "forum.post.<id>" }
+{ "action": "unsubscribe", "channel": "forum.public" }
+{ "action": "ping" }
+{ "action": "mark_read", "notification_id": 123 }
+```
+
+**Server → Client** (JSON over WS):
+```json
+{ "type": "ready", "user_id": "...", "server_time": 1780549377388, "heartbeat_interval": 25 }
+{ "type": "subscribed", "channel": "forum.public" }
+{ "type": "unsubscribed", "channel": "forum.public" }
+{ "type": "pong" }
+{ "type": "event", "channel": "user", "event": "notification.created", "data": { ... } }
+{ "type": "event", "channel": "forum.public", "event": "post.like_changed", "data": { "post_id": "...", "thumbs_up_count": 12, "isThumbedUp": true } }
+{ "type": "error", "code": "rate_limited", "message": "..." }
+```
+
+### Channel names
+| Channel | Who can subscribe | Events |
+|---|---|---|
+| `user` | Only the authenticated user (auto-subscribed on connect) | `notification.created`, `unread_count.changed`, `account.updated` |
+| `forum.public` | Anyone | `post.created`, `post.updated`, `post.deleted`, `post.like_changed` |
+| `forum.post.<id>` | Anyone | `reply.created`, `reply.updated`, `reply.deleted`, `reply.like_changed` |
+| `user.<id>.profile` | Authenticated (own only) | `follow.changed`, `profile.updated` |
+| `admin` | Staff only (auto-checked) | `report.created`, `user.locked`, `user.unlocked` |
+
+### Auth flow
+- Browser sends session cookie via standard `AuthMiddlewareStack` (Django Channels)
+- Mobile / external clients send `Authorization: Bearer <auth_token>` — handled by `JWTAuthMiddleware` which sits **inside** `AuthMiddlewareStack` so session auth runs first
+- Token is resolved via `User.objects.get(auth_token=token)` (NOT `UserAuthToken` which stores a hash) — see **AGENTS.md § Auth token cache invalidation**
+- Locked users (`is_locked=True`) and bot users (`is_bot=True`) are rejected with `websocket.close(4401)` (custom code) at connect time
+- After auth, the user's own `user` channel is auto-subscribed (no need to send a subscribe message)
+- For staff users, the `admin` channel is auto-subscribed
+
+### Client behavior (`realtime.js`)
+- **Auto-reconnect** with exponential backoff: 1s → 2s → 4s → 8s → 16s (capped at 30s)
+- **Heartbeat** every 25s — sends `{"action":"ping"}`, expects `{"type":"pong"}` within 5s, otherwise reconnects
+- **Tab visibility** — pauses heartbeat when tab is hidden for >5 min, reconnects on focus
+- **Polling fallback** — if WS doesn't connect within 6s, falls back to 60s polling for unread count
+- **Batched events** — server flushes events every 50ms (so a reply + 3 likes arrive as one `event` packet)
+- **Optimistic-update dedup** — DOM updates optimistically on user action; ignores WS events for the same `client_request_id` to avoid double-rendering
+- **Per-channel permission** — server checks permissions per subscribe (e.g. user 123 can't subscribe to `user.456.profile`)
+
+### Performance
+- **Server-side per-message size limit:** 4 KB
+- **Server-side per-connection rate limit:** 30 messages / 10s (configurable)
+- **Server-side per-user cap:** 5 concurrent connections
+- **Server-side idle timeout:** 5 min (heartbeat must be received)
+- **Event batching:** 50ms window
+- **Per-channel permission check** in `database_sync_to_async` to avoid blocking the event loop
+- **Lazy group subscribe** — clients only join Redis groups they actually subscribe to (not the whole world)
+
+### Gotchas
+- **WS field name is `action`, not `type`** — the client sends `{"action": "subscribe", ...}`; the server checks `msg.get('action')`
+- **Origin validation** — `OriginValidatorMiddleware` validates the `Origin` header against `nebians.consica.com.np` and `localhost:8000` (dev). Mismatch → `websocket.close(1008)`. CF tunnel adds the `Origin: https://nebians.consica.com.np` automatically since the client connects to nebians.consica.com.np first.
+- **CSRF** — WS auth bypasses CSRF (no `csrf_exempt` needed) because Channels has its own middleware stack. The session cookie is validated server-side.
+- **Static files for `realtime.js`** — remember to copy `realtime.js` to `public/static/web/js/` after editing (see "Static Files Deployment" above)
+- **If daphne is down** — the client falls back to polling after 6s. No data loss because the unread-count endpoint still works via HTTP.
+- **If cloudflared is down** — WS doesn't work at all (no public path to daphne). The page still loads via LiteSpeed, just no live updates.
+
+### Production checklist
+- [x] daphne running on 127.0.0.1:8001
+- [x] cloudflared running with `--protocol http2 --url http://127.0.0.1:8001`
+- [x] @reboot cron entries for both
+- [x] Redis channel layer configured (shares Redis used for cache)
+- [x] `database_sync_to_async` imported in `middleware_ws.py` (was missing in dev — caused 403 on bearer auth)
+- [x] AllowedHostMiddleware deployed (handles trycloudflare wildcard)
+- [x] window.WS_CONFIG.url injected in base.html
+- [x] realtime.js copied to public/static/web/js/
+- [ ] Named Cloudflare tunnel (stable URL — currently trycloudflare which rotates)
+
+---
+
 ## Continuity Notes
 
 ### What Was Being Worked On (Last Session)
+**Real-time WebSockets for NEBians web** — added a full WS layer (Channels + Daphne + Cloudflare Tunnel) so the web frontend gets live updates for posts, replies, likes, notifications, follows. See the **"Real-Time WebSockets"** section above for the full architecture. Verified end-to-end through the public Cloudflare URL (auth, subscribe, broadcast roundtrip all pass).
+
+Also fixed: AI4Bharat Arena mojibake — encoding was being double-decoded, garbling Nepali text in assistant responses. Fixed in `api/ai4bharat_proxy.py` `stream_chat()` and `regenerate()`. 0 corrupted rows remain in DB.
+
+### Previous Session
 **Admin panel: BotConfig provider switcher** — added a `provider` dropdown to `/admin/bot/` so the admin can flip the Neby AI bot between three backends without code changes:
 
 - **`qwen`** (default) — Qwen web chat via `qwen_proxy.call_qwen`
@@ -542,7 +740,7 @@ UI/UX revamp — home page, library, search, and design system consistency pass:
 - `google_auth` view now uses `verify_google_token()` directly instead of `api.auth_google()` HTTP call
 - Admin views (dashboard, users, resources, posts) all query the DB directly instead of going through `api_client`
 - `api_client.py` is still used for session management (`get_session_token`, `set_session_auth`, `clear_session_auth`) but NO data operations go through HTTP anymore
-- This eliminates: latency from localhost HTTP calls, double middleware processing, JSON serialization overhead, and potential deadlocks on single-process Passenger
+- This eliminates: latency from localhost HTTP calls, double middleware processing, JSON serialization overhead, and potential deadlocks on single-process LSAPI
 
 **Issue 2 — Switched from LocMemCache to Redis:**
 - Added `redis==5.2.1` to `requirements.txt`
@@ -596,7 +794,7 @@ UI/UX revamp — home page, library, search, and design system consistency pass:
 4. **Admin API URL mismatch** — `admin_urls.py` had paths without trailing slashes but `api_client.py` called with trailing slashes. Fixed all to use trailing slashes.
 5. **Sitemap crash** — `created_at` is a BigIntegerField (ms timestamp), not DateTimeField. Fixed `.isoformat()` calls to convert from ms timestamps.
 6. **PostLike/ReplyLike admin** — Referenced non-existent `created_at` field. Removed from `list_display`.
-7. **SECURE_SSL_REDIRECT breaking site** — Set to `True` in production would cause infinite redirects behind Passenger (SSL terminates at proxy). All SSL/cookie secure settings set to `False` by default.
+7. **SECURE_SSL_REDIRECT breaking site** — Set to `True` in production would cause infinite redirects behind LiteSpeed (SSL terminates at proxy). All SSL/cookie secure settings set to `False` by default.
 
 ### Admin Credentials
 - **Custom admin panel** (`/admin/`): Login with Django staff superuser account
@@ -661,7 +859,7 @@ UI/UX revamp — home page, library, search, and design system consistency pass:
 
 6. **CSP `script-src` includes `'unsafe-eval'`** — This was added because external PDF viewers (government PDF sites) use `eval()` internally. The `sandbox` attribute was also removed from the PDF iframe. If you want to re-harden CSP, you'd need to either proxy PDF content through your own server or use a PDF.js viewer that doesn't need eval.
 
-7. **`CONN_MAX_AGE=60`** — This keeps MySQL connections alive for 60 seconds between requests. If Passenger kills a worker after idle time, the connection may be stale. `CONN_HEALTH_CHECKS=True` handles this by checking connection health before reuse.
+7. **`CONN_MAX_AGE=60`** — This keeps MySQL connections alive for 60 seconds between requests. If LiteSpeed kills a worker after idle time, the connection may be stale. `CONN_HEALTH_CHECKS=True` handles this by checking connection health before reuse.
 
 8. **Like toggle response uses computed count** — `post_like` and `reply_like` now compute `thumbs_up_count` locally (old value ± 1) instead of `refresh_from_db()`. This means if two users like simultaneously, the count is still correct because `F()` expressions are atomic in the DB. The locally computed value may be off by 1 for the non-winning request, but the DB value is always correct.
 
@@ -675,9 +873,9 @@ UI/UX revamp — home page, library, search, and design system consistency pass:
 
 13. **`banner_url` is in the User model and serializer but not in the web edit_profile template** — The Android app can send `bannerUrl` in profile updates, but the web edit profile page doesn't have a banner URL field yet.
 
-14. **Redis cache is persistent across Passenger workers** — Unlike LocMemCache, Redis is shared between all Passenger workers and persists across restarts. This means cached pages, auth tokens, and sessions survive worker respawns. However, Redis is configured without persistence (`--save ''` on manual start, but the crontab config has `save` directives). If Redis restarts, the cache will be empty but will regenerate.
+14. **Redis cache is persistent across LSAPI workers** — Unlike LocMemCache, Redis is shared between all LSAPI workers and persists across restarts. This means cached pages, auth tokens, and sessions survive worker respawns. However, Redis is configured without persistence (`--save ''` on manual start, but the crontab config has `save` directives). If Redis restarts, the cache will be empty but will regenerate.
 
-15. **CRITICAL: Static files are served from TWO locations — do NOT change STATICFILES_STORAGE** — Phusion Passenger serves static files from `public/static/`, but Django's `STATIC_ROOT` points to `staticfiles/`. These are DIFFERENT directories. The `CompressedManifestStaticFilesStorage` (WhiteNoise) generates hashed filenames (e.g., `app.7d01927028c0.css`) and a `staticfiles.json` manifest. **Never switch to `StaticFilesStorage`** — it will break the manifest, delete hashed files, and cause UI corruption.
+15. **CRITICAL: Static files are served from TWO locations — do NOT change STATICFILES_STORAGE** — LiteSpeed/LSAPI serves static files from `public/static/`, but Django's `STATIC_ROOT` points to `staticfiles/`. These are DIFFERENT directories. The `CompressedManifestStaticFilesStorage` (WhiteNoise) generates hashed filenames (e.g., `app.7d01927028c0.css`) and a `staticfiles.json` manifest. **Never switch to `StaticFilesStorage`** — it will break the manifest, delete hashed files, and cause UI corruption.
 
 16. **CRITICAL: How to deploy CSS/JS changes correctly** — After editing files in `web/static/`, you MUST do BOTH of these:
     - Run `python manage.py collectstatic --noinput` (writes to `staticfiles/`)
