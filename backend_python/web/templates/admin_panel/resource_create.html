@@ -1,0 +1,1224 @@
+{% extends "admin_panel/base.html" %}
+{% load web_extras %}
+
+{% block title %}Add Resource{% endblock %}
+
+{% block content %}
+<div style="max-width:680px;margin:0 auto;">
+  <div style="margin-bottom:24px;">
+    <a href="{% url 'web:admin_resources' %}" class="back-link" style="margin-bottom:12px;display:inline-flex;">
+      <span class="material-symbols-outlined">arrow_back</span>
+      Back to Resources
+    </a>
+    <h2 class="md-headline-medium" style="margin:0;">Add New Resource</h2>
+    <p style="margin:6px 0 0;color:var(--md-on-surface-variant);font-size:0.875rem;line-height:1.5;">
+      Create a new resource on behalf of the library. Admin-created resources are published immediately.
+    </p>
+  </div>
+
+  {% if errors %}
+  <div class="upload-errors">
+    {% for error in errors %}
+    <div class="upload-error-item">{{ error }}</div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <form method="post" action="{% url 'web:admin_resource_create' %}" enctype="multipart/form-data" class="upload-form" id="upload-form">
+    {% csrf_token %}
+    <input type="hidden" id="subject-hidden" name="subject" value="{{ form_data.subject|default:'' }}">
+
+    <div class="upload-section">
+      <div class="upload-section-header">
+        <span class="material-symbols-outlined">description</span>
+        <h2>Basic Info</h2>
+      </div>
+
+      <div class="upload-field">
+        <label class="md-label" for="title">Title *</label>
+        <input class="md-input" type="text" id="title" name="title" value="{{ form_data.title|default:'' }}" placeholder="e.g. Class 12 Computer Engineering — Final Exam 2081" required>
+      </div>
+
+      <div class="upload-field">
+        <label class="md-label">Subject *</label>
+        <div class="subject-chips-area" id="subject-chips-area">
+          <div class="subject-chips" id="subject-chips"></div>
+          <div class="subject-input-row">
+            <input class="md-input subject-input" type="text" id="subject-input" placeholder="Type a subject and press Enter or comma" autocomplete="off">
+            <button type="button" class="md-btn md-btn-tonal subject-pick-btn" id="subject-pick-btn">
+              <span class="material-symbols-outlined">checklist</span>
+              Pick
+            </button>
+          </div>
+          <div class="upload-hint">Press Enter or comma to add. Click the Pick button to browse suggestions.</div>
+        </div>
+      </div>
+
+      <div class="upload-row">
+        <div class="upload-field upload-field-half">
+          <label class="md-label" for="grade_level">Level / Grade</label>
+          <select class="md-select" id="grade_level" name="grade_level">
+            <option value="">Select level</option>
+            {% for level in education_levels %}
+            <option value="{{ level }}" {% if form_data.grade_level == level %}selected{% endif %}>{{ level }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="upload-field upload-field-half">
+          <label class="md-label" for="type">Type</label>
+          <select class="md-select" id="type" name="type">
+            {% for t in resource_types %}
+            <option value="{{ t }}" {% if form_data.type == t %}selected{% endif %}>{{ t }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+
+      <div class="upload-row upload-exam-row" id="exam-type-row" style="display:none">
+        <div class="upload-field">
+          <label class="md-label" for="exam_type">Exam Type</label>
+          <select class="md-select" id="exam_type" name="exam_type">
+            <option value="">Select exam type</option>
+            {% for et in exam_types %}
+            {% if et %}
+            <option value="{{ et }}" {% if form_data.exam_type == et %}selected{% endif %}>{{ et }}</option>
+            {% endif %}
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+
+      <div class="upload-field">
+        <label class="md-label" for="description">Description</label>
+        <textarea class="md-textarea" id="description" name="description" rows="3" placeholder="Briefly describe this resource...">{{ form_data.description|default:'' }}</textarea>
+      </div>
+
+      <div class="upload-field">
+        <label class="md-label">Tags</label>
+        <div class="subject-chips-area" id="tags-chips-area">
+          <div class="subject-chips" id="tags-chips"></div>
+          <div class="subject-input-row">
+            <input class="md-input subject-input" type="text" id="tags-input" placeholder="Type a tag and press Enter or comma" autocomplete="off">
+            <button type="button" class="md-btn md-btn-tonal subject-pick-btn" id="tags-pick-btn">
+              <span class="material-symbols-outlined">checklist</span>
+              Pick
+            </button>
+          </div>
+          <div class="upload-hint">Press Enter or comma to add. Click Pick to browse suggestions.</div>
+        </div>
+        <input type="hidden" id="tags-hidden" name="tags" value="{{ form_data.tags|default:'' }}">
+      </div>
+    </div>
+
+    <details class="upload-details" id="more-details">
+      <summary class="upload-details-summary">
+        <span class="material-symbols-outlined">school</span>
+        More Details
+        <span class="upload-details-badge">optional</span>
+      </summary>
+      <div class="upload-details-content">
+        <div class="upload-row">
+          <div class="upload-field upload-field-half">
+            <label class="md-label" for="faculty">Faculty / Stream</label>
+            <input class="md-input" type="text" id="faculty" name="faculty" value="{{ form_data.faculty|default:'' }}" placeholder="e.g. Science, Management, Computer Engineering">
+          </div>
+          <div class="upload-field upload-field-half">
+            <label class="md-label" for="program">Program / Course</label>
+            <input class="md-input" type="text" id="program" name="program" value="{{ form_data.program|default:'' }}" placeholder="e.g. BSc CSIT, BE Computer, +2 Science">
+          </div>
+        </div>
+
+        <div class="upload-row">
+          <div class="upload-field upload-field-half">
+            <label class="md-label" for="year">Year</label>
+            <input class="md-input" type="text" id="year" name="year" value="{{ form_data.year|default:'' }}" placeholder="e.g. 2081, 2024">
+          </div>
+          <div class="upload-field upload-field-half">
+            <label class="md-label" for="school">School / College</label>
+            <input class="md-input" type="text" id="school" name="school" value="{{ form_data.school|default:'' }}" placeholder="e.g. St. Xavier's College, Budhanilkantha School">
+          </div>
+        </div>
+
+        <div class="upload-row">
+          <div class="upload-field upload-field-half">
+            <label class="md-label" for="pradesh">Province</label>
+            <select class="md-select" id="pradesh" name="pradesh">
+              <option value="">Select province</option>
+              {% for p in pradesh_options %}
+              <option value="{{ p }}" {% if form_data.pradesh == p %}selected{% endif %}>{{ p }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="upload-field upload-field-half">
+            <label class="md-label" for="district">District</label>
+            <input class="md-input" type="text" id="district" name="district" value="{{ form_data.district|default:'' }}" placeholder="e.g. Kathmandu, Lalitpur, Chitwan">
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <div class="upload-section">
+      <div class="upload-section-header">
+        <span class="material-symbols-outlined">upload_file</span>
+        <h2>Upload File</h2>
+      </div>
+
+      <div class="upload-field">
+        <div class="upload-dropzone" id="file-dropzone">
+          <input type="file" id="file-input" name="file" class="upload-file-input" accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.txt,.rtf,.odt,.ods,.odp,.zip,.rar,.7z,.jpg,.jpeg,.png,.gif,.webp,.bmp,.svg,.mp4,.mkv,.avi,.mov,.webm,.mp3,.wav,.ogg,.flac,.aac,.epub,.mobi" multiple>
+          <div class="upload-dropzone-content" id="dropzone-content">
+            <span class="material-symbols-outlined upload-dropzone-icon">cloud_upload</span>
+            <p class="upload-dropzone-text">Drag and drop your files here, or <span class="upload-browse-link">browse</span></p>
+            <p class="upload-dropzone-hint">PDF, DOC, PPT, images, videos, audio — up to 50 MB per file. Images are auto-compressed.</p>
+          </div>
+          <div class="upload-files-list" id="upload-files-list" style="display:none">
+            <div class="upload-files-items" id="upload-files-items"></div>
+            <div class="upload-files-actions" style="margin-top: 12px; display: flex; justify-content: center; z-index: 4; position: relative;">
+              <button type="button" class="md-btn md-btn-text" id="add-more-files-btn" style="font-size: 0.875rem;">
+                <span class="material-symbols-outlined" style="font-size: 18px;">add</span>
+                Add more files
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="upload-divider">
+        <span>or paste a link</span>
+      </div>
+
+      <div class="upload-field">
+        <label class="md-label" for="file_url">File URL</label>
+        <input class="md-input" type="url" id="file_url" name="file_url" value="{{ form_data.file_url|default:'' }}" placeholder="https://drive.google.com/... or https://...pdf">
+        <div class="upload-hint">Paste a direct link to the file if you prefer not to upload. Google Drive, Dropbox, and direct links work.</div>
+      </div>
+
+      <div class="upload-field">
+        <label class="md-label" for="thumbnail_url">Thumbnail URL</label>
+        <input class="md-input" type="url" id="thumbnail_url" name="thumbnail_url" value="{{ form_data.thumbnail_url|default:'' }}" placeholder="https://... (optional cover image)">
+      </div>
+    </div>
+
+    <div class="upload-section">
+      <div class="upload-section-header">
+        <span class="material-symbols-outlined">person</span>
+        <h2>Attribution</h2>
+      </div>
+
+      <div class="upload-row">
+        <div class="upload-field upload-field-half">
+          <label class="md-label" for="author_name">Author / Credit</label>
+          <input class="md-input" type="text" id="author_name" name="author_name" value="{{ form_data.author_name|default:'' }}" placeholder="e.g. Prof. Sharma, Curriculum Board">
+        </div>
+        <div class="upload-field upload-field-half">
+          <label class="md-label" for="source_type">Source Type</label>
+          <select class="md-select" id="source_type" name="source_type">
+            {% for val, label in source_types %}
+            <option value="{{ val }}" {% if form_data.source_type == val %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+
+      <div class="upload-row">
+        <div class="upload-field upload-field-half">
+          <label class="md-label" for="source_label">Source Label</label>
+          <input class="md-input" type="text" id="source_label" name="source_label" value="{{ form_data.source_label|default:'' }}" placeholder="e.g. Curriculum Board, Contributed by learners">
+        </div>
+        <div class="upload-field upload-field-half">
+          <label class="md-label" for="source_url">Source URL</label>
+          <input class="md-input" type="url" id="source_url" name="source_url" value="{{ form_data.source_url|default:'' }}" placeholder="https://... (original source link)">
+        </div>
+      </div>
+
+      <div class="upload-row">
+        <div class="upload-field upload-field-half">
+          <label class="md-label" for="view_count">View Count</label>
+          <input class="md-input" type="number" id="view_count" name="view_count" value="{{ form_data.view_count|default:'0' }}">
+        </div>
+        <div class="upload-field upload-field-half">
+          <label class="md-label" for="approval_status">Approval Status</label>
+          <select class="md-select" id="approval_status" name="approval_status">
+            {% for val, label in approval_choices %}
+            <option value="{{ val }}" {% if form_data.approval_status|default:'approved' == val %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="upload-actions">
+      <a href="{% url 'web:admin_resources' %}" class="md-btn md-btn-text">Cancel</a>
+      <button type="submit" class="md-btn md-btn-filled">
+        <span class="material-symbols-outlined">save</span>
+        Create Resource
+      </button>
+    </div>
+  </form>
+
+  <div class="subject-pick-overlay" id="subject-pick-overlay" style="display:none">
+    <div class="subject-pick-dialog">
+      <div class="subject-pick-header">
+        <h3>Select Subjects</h3>
+        <button type="button" class="subject-pick-close" id="subject-pick-close">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+      <div class="subject-pick-search">
+        <span class="material-symbols-outlined">search</span>
+        <input type="text" id="subject-pick-search" placeholder="Search subjects..." autocomplete="off">
+      </div>
+      <div class="subject-pick-list" id="subject-pick-list">
+        {% for s in subjects %}
+        <label class="subject-pick-item" data-subject="{{ s }}">
+          <input type="checkbox" class="subject-pick-checkbox" value="{{ s }}">
+          <span class="subject-pick-check">
+            <span class="material-symbols-outlined">check</span>
+          </span>
+          <span class="subject-pick-label">{{ s }}</span>
+        </label>
+        {% endfor %}
+      </div>
+      <div class="subject-pick-add">
+        <input type="text" id="subject-pick-custom" placeholder="Add a custom subject" autocomplete="off">
+        <button type="button" class="md-btn md-btn-tonal" id="subject-pick-add-btn">
+          <span class="material-symbols-outlined">add</span>
+          Add
+        </button>
+      </div>
+      <div class="subject-pick-actions">
+        <button type="button" class="md-btn md-btn-text" id="subject-pick-cancel">Cancel</button>
+        <button type="button" class="md-btn md-btn-filled" id="subject-pick-done">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="subject-pick-overlay" id="tags-pick-overlay" style="display:none">
+    <div class="subject-pick-dialog">
+      <div class="subject-pick-header">
+        <h3>Select Tags</h3>
+        <button type="button" class="subject-pick-close" id="tags-pick-close">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+      <div class="subject-pick-search">
+        <span class="material-symbols-outlined">search</span>
+        <input type="text" id="tags-pick-search" placeholder="Search tags..." autocomplete="off">
+      </div>
+      <div class="subject-pick-list" id="tags-pick-list">
+        {% for t in common_tags %}
+        <label class="subject-pick-item" data-subject="{{ t }}">
+          <input type="checkbox" class="subject-pick-checkbox" value="{{ t }}">
+          <span class="subject-pick-check">
+            <span class="material-symbols-outlined">check</span>
+          </span>
+          <span class="subject-pick-label">{{ t }}</span>
+        </label>
+        {% endfor %}
+      </div>
+      <div class="subject-pick-add">
+        <input type="text" id="tags-pick-custom" placeholder="Add a custom tag" autocomplete="off">
+        <button type="button" class="md-btn md-btn-tonal" id="tags-pick-add-btn">
+          <span class="material-symbols-outlined">add</span>
+          Add
+        </button>
+      </div>
+      <div class="subject-pick-actions">
+        <button type="button" class="md-btn md-btn-text" id="tags-pick-cancel">Cancel</button>
+        <button type="button" class="md-btn md-btn-filled" id="tags-pick-done">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="upload-progress-overlay" id="upload-progress-overlay" style="display:none;">
+    <div class="upload-progress-dialog">
+      <div class="upload-progress-icon">
+        <span class="material-symbols-outlined">cloud_upload</span>
+      </div>
+      <h3 class="upload-progress-title">Uploading your resource</h3>
+      <p class="upload-progress-subtitle" id="upload-progress-subtitle">Please wait while your file is being uploaded...</p>
+      <div class="upload-progress-bar-track">
+        <div class="upload-progress-bar-fill" id="upload-progress-bar" style="width:0%"></div>
+      </div>
+      <div class="upload-progress-info">
+        <span id="upload-progress-percent">0%</span>
+        <span id="upload-progress-size"></span>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.upload-section { background: var(--md-surface-container-low); border: 1px solid var(--md-outline-variant); border-radius: 16px; padding: 20px; margin-bottom: 16px; }
+.upload-section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+.upload-section-header .material-symbols-outlined { font-size: 22px; color: var(--md-primary); }
+.upload-section-header h2 { font-size: 1.125rem; font-weight: 600; margin: 0; color: var(--md-on-surface); }
+.upload-field { margin-bottom: 16px; }
+.upload-field:last-child { margin-bottom: 0; }
+.upload-row { display: flex; gap: 12px; }
+.upload-field-half { flex: 1; }
+.upload-hint { font-size: 0.8125rem; color: var(--md-on-surface-variant); margin-top: 4px; }
+.upload-actions { display: flex; align-items: center; justify-content: flex-end; gap: 12px; margin-top: 8px; }
+.upload-errors { background: color-mix(10%, var(--md-error), transparent); border: 1px solid var(--md-error); border-radius: 12px; padding: 12px 16px; margin-bottom: 16px; }
+.upload-error-item { color: var(--md-error); font-size: 0.875rem; margin-bottom: 4px; }
+.upload-error-item:last-child { margin-bottom: 0; }
+
+.upload-details { background: var(--md-surface-container-low); border: 1px solid var(--md-outline-variant); border-radius: 16px; margin-bottom: 16px; overflow: hidden; }
+.upload-details[open] { border-color: var(--md-primary-container); }
+.upload-details-summary { display: flex; align-items: center; gap: 10px; padding: 16px 20px; cursor: pointer; font-size: 1.125rem; font-weight: 600; color: var(--md-on-surface); list-style: none; }
+.upload-details-summary::-webkit-details-marker { display: none; }
+.upload-details-summary::after { content: ''; margin-left: auto; border: solid var(--md-on-surface-variant); border-width: 0 2px 2px 0; padding: 3px; transform: rotate(45deg); transition: transform 0.2s; }
+.upload-details[open] .upload-details-summary::after { transform: rotate(-135deg); }
+.upload-details-summary .material-symbols-outlined { font-size: 22px; color: var(--md-primary); }
+.upload-details-badge { font-size: 0.6875rem; font-weight: 500; background: var(--md-primary-container); color: var(--md-on-primary-container); padding: 2px 8px; border-radius: 8px; margin-left: 8px; text-transform: uppercase; letter-spacing: 0.03em; }
+.upload-details-content { padding: 0 20px 20px; }
+
+.upload-dropzone {
+  border: 2px dashed var(--md-outline-variant);
+  border-radius: 16px;
+  padding: 32px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  position: relative;
+}
+.upload-dropzone:hover, .upload-dropzone.dragover {
+  border-color: var(--md-primary);
+  background: color-mix(5%, var(--md-primary), transparent);
+}
+.upload-dropzone.has-file {
+  border-color: var(--md-primary);
+  border-style: solid;
+  background: color-mix(5%, var(--md-primary), transparent);
+  padding: 20px;
+  cursor: default;
+}
+.upload-file-input {
+  position: absolute;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+.upload-dropzone-icon { font-size: 48px; color: var(--md-primary); display: block; margin: 0 auto 8px; }
+.upload-dropzone-text { margin: 0; color: var(--md-on-surface-variant); font-size: 0.9375rem; }
+.upload-browse-link { color: var(--md-primary); font-weight: 600; cursor: pointer; text-decoration: underline; }
+.upload-dropzone-hint { margin: 4px 0 0; font-size: 0.8125rem; color: var(--md-on-surface-variant); opacity: 0.7; }
+
+.upload-files-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+.upload-file-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--md-surface-container-high);
+  border: 1px solid var(--md-outline-variant);
+  border-radius: 12px;
+  padding: 12px 16px;
+  min-width: 0;
+  cursor: default;
+}
+.upload-file-icon {
+  font-size: 28px;
+  color: var(--md-primary);
+  flex-shrink: 0;
+}
+.upload-file-info { flex: 1; text-align: left; min-width: 0; }
+.upload-file-name {
+  display: block;
+  font-weight: 600;
+  color: var(--md-on-surface);
+  font-size: 0.9rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.upload-file-size {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--md-on-surface-variant);
+  margin-top: 2px;
+}
+.upload-file-remove {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 50%;
+  color: var(--md-on-surface-variant);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.2s, color 0.2s;
+  position: relative;
+  z-index: 3;
+}
+.upload-file-remove:hover {
+  background: color-mix(10%, var(--md-error), transparent);
+  color: var(--md-error);
+}
+.upload-file-remove .material-symbols-outlined { font-size: 20px; }
+
+.upload-divider { display: flex; align-items: center; gap: 12px; margin: 12px 0 16px; color: var(--md-on-surface-variant); font-size: 0.8125rem; }
+.upload-divider::before, .upload-divider::after { content: ''; flex: 1; height: 1px; background: var(--md-outline-variant); }
+
+.subject-chips-area { display: flex; flex-direction: column; gap: 8px; }
+.subject-chips { display: flex; flex-wrap: wrap; gap: 6px; min-height: 0; }
+.subject-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--md-primary-container);
+  color: var(--md-on-primary-container);
+  padding: 4px 8px 4px 12px;
+  border-radius: 20px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.4;
+}
+.subject-chip-remove {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--md-on-primary-container);
+  opacity: 0.7;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+}
+.subject-chip-remove:hover { opacity: 1; background: color-mix(15%, var(--md-on-primary-container), transparent); }
+.subject-chip-remove .material-symbols-outlined { font-size: 14px; }
+.subject-input-row { display: flex; gap: 8px; }
+.subject-input-row .md-input { flex: 1; }
+.subject-pick-btn { white-space: nowrap; padding: 8px 16px; }
+.subject-pick-btn .material-symbols-outlined { font-size: 18px; }
+
+.subject-pick-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+.subject-pick-dialog {
+  background: var(--md-surface);
+  border-radius: 20px;
+  width: 100%;
+  max-width: 480px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+}
+.subject-pick-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px 12px;
+}
+.subject-pick-header h3 { margin: 0; font-size: 1.125rem; font-weight: 600; color: var(--md-on-surface); }
+.subject-pick-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
+  color: var(--md-on-surface-variant);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.subject-pick-close:hover { background: color-mix(10%, var(--md-on-surface-variant), transparent); }
+.subject-pick-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 20px 12px;
+  padding: 8px 12px;
+  border-radius: 12px;
+  background: var(--md-surface-container-high);
+}
+.subject-pick-search .material-symbols-outlined { font-size: 20px; color: var(--md-on-surface-variant); }
+.subject-pick-search input {
+  border: none;
+  background: none;
+  outline: none;
+  flex: 1;
+  font-size: 0.9375rem;
+  color: var(--md-on-surface);
+  font-family: inherit;
+}
+.subject-pick-search input::placeholder { color: var(--md-on-surface-variant); }
+.subject-pick-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 12px 12px;
+  min-height: 120px;
+  max-height: 40vh;
+}
+.subject-pick-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 0.9375rem;
+  color: var(--md-on-surface);
+  transition: background 0.15s;
+}
+.subject-pick-item:hover { background: color-mix(5%, var(--md-primary), transparent); }
+.subject-pick-checkbox { display: none; }
+.subject-pick-check {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  border: 2px solid var(--md-outline);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.15s, border-color 0.15s;
+}
+.subject-pick-check .material-symbols-outlined { font-size: 16px; color: var(--md-on-primary); opacity: 0; transition: opacity 0.15s; }
+.subject-pick-item.selected .subject-pick-check {
+  background: var(--md-primary);
+  border-color: var(--md-primary);
+}
+.subject-pick-item.selected .subject-pick-check .material-symbols-outlined { opacity: 1; }
+.subject-pick-label { flex: 1; }
+.subject-pick-add {
+  display: flex;
+  gap: 8px;
+  padding: 8px 20px 12px;
+  border-top: 1px solid var(--md-outline-variant);
+  margin-top: 4px;
+}
+.subject-pick-add input {
+  flex: 1;
+  border: 1px solid var(--md-outline-variant);
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-size: 0.875rem;
+  outline: none;
+  background: var(--md-surface-container);
+  color: var(--md-on-surface);
+  font-family: inherit;
+}
+.subject-pick-add input:focus { border-color: var(--md-primary); }
+.subject-pick-add .md-btn { padding: 8px 16px; }
+.subject-pick-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 12px 20px 16px;
+  border-top: 1px solid var(--md-outline-variant);
+}
+
+.upload-progress-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+.upload-progress-dialog {
+  background: var(--md-surface-container-low);
+  border-radius: 24px;
+  padding: 32px 28px;
+  max-width: 380px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.24);
+}
+.upload-progress-icon { margin-bottom: 16px; }
+.upload-progress-icon .material-symbols-outlined {
+  font-size: 48px;
+  color: var(--md-primary);
+  animation: upload-pulse 1.5s ease-in-out infinite;
+}
+@keyframes upload-pulse {
+  0%, 100% { opacity: 1; transform: translateY(0); }
+  50% { opacity: 0.6; transform: translateY(-4px); }
+}
+.upload-progress-title { font-size: 1.125rem; font-weight: 600; color: var(--md-on-surface); margin: 0 0 6px; }
+.upload-progress-subtitle { font-size: 0.8125rem; color: var(--md-on-surface-variant); margin: 0 0 20px; }
+.upload-progress-bar-track {
+  width: 100%;
+  height: 6px;
+  background: var(--md-surface-variant);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+.upload-progress-bar-fill {
+  height: 100%;
+  background: var(--md-primary);
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+.upload-progress-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--md-on-surface-variant);
+}
+
+@media (max-width: 600px) {
+  .upload-row { flex-direction: column; gap: 0; }
+  .upload-dropzone { padding: 24px 16px; }
+  .upload-details-content { padding: 0 16px 16px; }
+  .subject-pick-dialog { max-width: 100%; margin: 8px; }
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script nonce="{{ csp_nonce }}">
+(function() {
+  var EXAM_TYPES = ['Past Paper', 'Model Paper', 'Guide', 'Solution', 'Note', 'PDF'];
+
+  function escapeHtml(str) {
+    var div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  function createChipPicker(config) {
+    var hiddenInput = document.getElementById(config.hiddenId);
+    var chipContainer = document.getElementById(config.chipsId);
+    var textInput = document.getElementById(config.inputId);
+    var pickBtn = document.getElementById(config.pickBtnId);
+    var overlay = document.getElementById(config.overlayId);
+    var closeBtn = document.getElementById(config.closeBtnId);
+    var searchInput = document.getElementById(config.searchId);
+    var pickList = document.getElementById(config.listId);
+    var customInput = document.getElementById(config.customId);
+    var addBtn = document.getElementById(config.addBtnId);
+    var cancelBtn = document.getElementById(config.cancelBtnId);
+    var doneBtn = document.getElementById(config.doneBtnId);
+    var items = [];
+
+    function init() {
+      var val = hiddenInput.value;
+      if (val) {
+        items = val.split(',').map(function(s) { return s.trim(); }).filter(function(s) { return s; });
+      }
+      renderChips();
+    }
+
+    function renderChips() {
+      chipContainer.innerHTML = '';
+      items.forEach(function(s) {
+        var chip = document.createElement('span');
+        chip.className = 'subject-chip';
+        chip.innerHTML = escapeHtml(s) + '<button type="button" class="subject-chip-remove" data-item="' + escapeHtml(s) + '"><span class="material-symbols-outlined">close</span></button>';
+        chipContainer.appendChild(chip);
+      });
+      hiddenInput.value = items.join(', ');
+      chipContainer.querySelectorAll('.subject-chip-remove').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          removeItem(btn.getAttribute('data-item'));
+        });
+      });
+    }
+
+    function addItem(name) {
+      name = name.trim();
+      if (!name) return;
+      name.split(/[,;]/).forEach(function(part) {
+        part = part.trim();
+        if (!part) return;
+        var lower = part.toLowerCase();
+        var exists = items.some(function(s) { return s.toLowerCase() === lower; });
+        if (!exists) { items.push(part); }
+      });
+      renderChips();
+    }
+
+    function removeItem(name) {
+      items = items.filter(function(s) { return s !== name; });
+      renderChips();
+    }
+
+    textInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ',' || e.key === 'Tab') {
+        var val = textInput.value.replace(/,$/, '').trim();
+        if (val) { e.preventDefault(); addItem(val); textInput.value = ''; }
+      } else if (e.key === 'Backspace' && !textInput.value && items.length) {
+        removeItem(items[items.length - 1]);
+      }
+    });
+
+    textInput.addEventListener('blur', function() {
+      var val = textInput.value.replace(/,$/, '').trim();
+      if (val) { addItem(val); textInput.value = ''; }
+    });
+
+    pickBtn.addEventListener('click', function() {
+      overlay.style.display = '';
+      document.body.style.overflow = 'hidden';
+      searchInput.value = '';
+      filterList('');
+      syncSelection();
+      searchInput.focus();
+    });
+
+    closeBtn.addEventListener('click', function() { document.body.style.overflow = ''; overlay.style.display = 'none'; });
+    cancelBtn.addEventListener('click', function() { document.body.style.overflow = ''; overlay.style.display = 'none'; });
+    overlay.addEventListener('click', function(e) {
+      if (e.target === overlay) { document.body.style.overflow = ''; overlay.style.display = 'none'; }
+    });
+
+    searchInput.addEventListener('input', function() { filterList(searchInput.value); });
+
+    function filterList(query) {
+      var q = query.toLowerCase();
+      pickList.querySelectorAll('.subject-pick-item').forEach(function(item) {
+        var label = item.getAttribute('data-subject').toLowerCase();
+        item.style.display = label.indexOf(q) >= 0 ? '' : 'none';
+      });
+    }
+
+    pickList.addEventListener('change', function(e) {
+      var checkbox = e.target;
+      if (checkbox && checkbox.classList.contains('subject-pick-checkbox')) {
+        var item = checkbox.closest('.subject-pick-item');
+        if (item) {
+          item.classList.toggle('selected', checkbox.checked);
+        }
+      }
+    });
+
+    addBtn.addEventListener('click', function() {
+      var val = customInput.value.trim();
+      if (val) {
+        addItem(val);
+        customInput.value = '';
+        var existingItem = pickList.querySelector('[data-subject="' + CSS.escape(val) + '"]');
+        if (!existingItem) {
+          var label = document.createElement('label');
+          label.className = 'subject-pick-item selected';
+          label.setAttribute('data-subject', val);
+          label.innerHTML = '<input type="checkbox" class="subject-pick-checkbox" checked><span class="subject-pick-check"><span class="material-symbols-outlined">check</span></span><span class="subject-pick-label">' + escapeHtml(val) + '</span>';
+          pickList.appendChild(label);
+        }
+      }
+    });
+
+    customInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') { e.preventDefault(); addBtn.click(); }
+    });
+
+    doneBtn.addEventListener('click', function() {
+      var selected = [];
+      pickList.querySelectorAll('.subject-pick-item.selected').forEach(function(item) {
+        selected.push(item.getAttribute('data-subject'));
+      });
+      items = selected;
+      renderChips();
+      document.body.style.overflow = '';
+      overlay.style.display = 'none';
+    });
+
+    function syncSelection() {
+      var lowerItems = items.map(function(s) { return s.toLowerCase(); });
+      pickList.querySelectorAll('.subject-pick-item').forEach(function(item) {
+        var subject = item.getAttribute('data-subject');
+        var isSel = lowerItems.indexOf(subject.toLowerCase()) >= 0;
+        item.classList.toggle('selected', isSel);
+        item.querySelector('.subject-pick-checkbox').checked = isSel;
+      });
+    }
+
+    init();
+  }
+
+  createChipPicker({
+    hiddenId: 'subject-hidden', chipsId: 'subject-chips', inputId: 'subject-input',
+    pickBtnId: 'subject-pick-btn', overlayId: 'subject-pick-overlay',
+    closeBtnId: 'subject-pick-close', searchId: 'subject-pick-search',
+    listId: 'subject-pick-list', customId: 'subject-pick-custom',
+    addBtnId: 'subject-pick-add-btn', cancelBtnId: 'subject-pick-cancel',
+    doneBtnId: 'subject-pick-done'
+  });
+
+  createChipPicker({
+    hiddenId: 'tags-hidden', chipsId: 'tags-chips', inputId: 'tags-input',
+    pickBtnId: 'tags-pick-btn', overlayId: 'tags-pick-overlay',
+    closeBtnId: 'tags-pick-close', searchId: 'tags-pick-search',
+    listId: 'tags-pick-list', customId: 'tags-pick-custom',
+    addBtnId: 'tags-pick-add-btn', cancelBtnId: 'tags-pick-cancel',
+    doneBtnId: 'tags-pick-done'
+  });
+
+  var typeSelect = document.getElementById('type');
+  var examTypeRow = document.getElementById('exam-type-row');
+
+  function toggleExamType() {
+    var t = typeSelect.value;
+    if (EXAM_TYPES.indexOf(t) >= 0) {
+      examTypeRow.style.display = '';
+    } else {
+      examTypeRow.style.display = 'none';
+      document.getElementById('exam_type').value = '';
+    }
+  }
+
+  typeSelect.addEventListener('change', toggleExamType);
+  toggleExamType();
+
+  var dropzone = document.getElementById('file-dropzone');
+  var fileInput = document.getElementById('file-input');
+  var dropzoneContent = document.getElementById('dropzone-content');
+  var filesList = document.getElementById('upload-files-list');
+  var filesItemsContainer = document.getElementById('upload-files-items');
+  var fileUrlInput = document.getElementById('file_url');
+  var addMoreBtn = document.getElementById('add-more-files-btn');
+  var uploadForm = document.getElementById('upload-form');
+  var progressOverlay = document.getElementById('upload-progress-overlay');
+  var progressBar = document.getElementById('upload-progress-bar');
+  var progressPercent = document.getElementById('upload-progress-percent');
+  var progressSize = document.getElementById('upload-progress-size');
+  var progressSubtitle = document.getElementById('upload-progress-subtitle');
+
+  var selectedFiles = [];
+
+  function formatSize(bytes) {
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+    return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+  }
+
+  function compressImageFile(file, onSuccess, onFailure) {
+    var ext = file.name.split('.').pop().toLowerCase();
+    var imageTypes = ['jpg', 'jpeg', 'png', 'webp', 'bmp'];
+    if (imageTypes.indexOf(ext) === -1) {
+      onFailure(file);
+      return;
+    }
+
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      var img = new Image();
+      img.onload = function() {
+        var canvas = document.createElement('canvas');
+        var ctx = canvas.getContext('2d');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        ctx.drawImage(img, 0, 0);
+        var mimeType = 'image/jpeg';
+        var quality = 0.85;
+        var newExt = '.jpg';
+        if (ext === 'webp') {
+          mimeType = 'image/webp';
+          newExt = '.webp';
+        }
+        canvas.toBlob(function(blob) {
+          if (blob && blob.size < file.size) {
+            var compressedFile = new File([blob], file.name.replace(/\.[^/.]+$/, "") + newExt, {
+              type: mimeType,
+              lastModified: Date.now()
+            });
+            onSuccess(compressedFile, file.size);
+          } else {
+            onFailure(file);
+          }
+        }, mimeType, quality);
+      };
+      img.onerror = function() { onFailure(file); };
+      img.src = e.target.result;
+    };
+    reader.onerror = function() { onFailure(file); };
+    reader.readAsDataURL(file);
+  }
+
+  function handleFilesAdded(files) {
+    var filesArray = Array.prototype.slice.call(files);
+    var index = 0;
+
+    function processNext() {
+      if (index >= filesArray.length) {
+        updateFilesUI();
+        return;
+      }
+
+      var file = filesArray[index];
+      index++;
+
+      if (file.size > 50 * 1024 * 1024) {
+        showSnackbar(file.name + ' is too large. Max size is 50 MB.');
+        processNext();
+        return;
+      }
+
+      function getBaseName(filename) {
+        var idx = filename.lastIndexOf('.');
+        var name = idx !== -1 ? filename.substring(0, idx) : filename;
+        name = name.replace(/\s*\(\d+\)$/, '');
+        name = name.replace(/\s*-\s*Copy$/, '');
+        name = name.replace(/_\d+$/, '');
+        return name.toLowerCase().trim();
+      }
+
+      var isDuplicate = selectedFiles.some(function(f) {
+        if (f.size === file.size && getBaseName(f.name) === getBaseName(file.name)) {
+          return true;
+        }
+        return f.name === file.name && f.size === file.size;
+      });
+      if (isDuplicate) {
+        showSnackbar('Skipped duplicate file: ' + file.name);
+        processNext();
+        return;
+      }
+
+      var ext = file.name.split('.').pop().toLowerCase();
+      var imageTypes = ['jpg', 'jpeg', 'png', 'webp', 'bmp'];
+      if (imageTypes.indexOf(ext) >= 0) {
+        showSnackbar('Compressing image: ' + file.name + '...');
+        compressImageFile(file, function(compressedFile, originalSize) {
+          selectedFiles.push(compressedFile);
+          var savings = ((originalSize - compressedFile.size) / originalSize * 100).toFixed(0);
+          showSnackbar('Compressed ' + file.name + ' (' + savings + '% smaller)');
+          processNext();
+        }, function(originalFile) {
+          selectedFiles.push(originalFile);
+          processNext();
+        });
+      } else {
+        selectedFiles.push(file);
+        processNext();
+      }
+    }
+
+    processNext();
+  }
+
+  function updateFilesUI() {
+    filesItemsContainer.innerHTML = '';
+
+    if (selectedFiles.length === 0) {
+      dropzoneContent.style.display = '';
+      filesList.style.display = 'none';
+      dropzone.classList.remove('has-file');
+      fileUrlInput.removeAttribute('disabled');
+    } else {
+      dropzoneContent.style.display = 'none';
+      filesList.style.display = 'block';
+      dropzone.classList.add('has-file');
+      fileUrlInput.value = '';
+      fileUrlInput.setAttribute('disabled', 'true');
+
+      selectedFiles.forEach(function(file, idx) {
+        var item = document.createElement('div');
+        item.className = 'upload-file-item';
+
+        var icon = document.createElement('span');
+        icon.className = 'material-symbols-outlined upload-file-icon';
+        icon.textContent = 'description';
+
+        var info = document.createElement('div');
+        info.className = 'upload-file-info';
+
+        var nameSpan = document.createElement('span');
+        nameSpan.className = 'upload-file-name';
+        nameSpan.textContent = file.name;
+        nameSpan.title = file.name;
+
+        var sizeSpan = document.createElement('span');
+        sizeSpan.className = 'upload-file-size';
+        sizeSpan.textContent = formatSize(file.size);
+
+        info.appendChild(nameSpan);
+        info.appendChild(sizeSpan);
+
+        var removeBtn = document.createElement('button');
+        removeBtn.type = 'button';
+        removeBtn.className = 'upload-file-remove';
+        removeBtn.title = 'Remove file';
+        removeBtn.innerHTML = '<span class="material-symbols-outlined">close</span>';
+
+        removeBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          removeFileAt(idx);
+        });
+
+        item.appendChild(icon);
+        item.appendChild(info);
+        item.appendChild(removeBtn);
+
+        filesItemsContainer.appendChild(item);
+      });
+    }
+    syncFileInput();
+  }
+
+  function removeFileAt(idx) {
+    selectedFiles.splice(idx, 1);
+    updateFilesUI();
+  }
+
+  function syncFileInput() {
+    try {
+      var dt = new DataTransfer();
+      selectedFiles.forEach(function(file) {
+        dt.items.add(file);
+      });
+      fileInput.files = dt.files;
+    } catch (e) {
+      console.error('Error syncing file input:', e);
+    }
+  }
+
+  function clearAllFiles() {
+    selectedFiles = [];
+    updateFilesUI();
+  }
+
+  fileInput.addEventListener('change', function() {
+    if (fileInput.files && fileInput.files.length > 0) {
+      handleFilesAdded(fileInput.files);
+    }
+  });
+
+  fileInput.addEventListener('click', function(e) {
+    e.stopPropagation();
+  });
+
+  addMoreBtn.addEventListener('click', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    fileInput.click();
+  });
+
+  dropzone.addEventListener('click', function(e) {
+    if (selectedFiles.length > 0) return;
+    if (e.target.closest('.upload-file-remove') || e.target.closest('.md-btn')) return;
+    fileInput.click();
+  });
+
+  ['dragenter', 'dragover'].forEach(function(evt) {
+    dropzone.addEventListener(evt, function(e) { e.preventDefault(); dropzone.classList.add('dragover'); });
+  });
+  ['dragleave', 'drop'].forEach(function(evt) {
+    dropzone.addEventListener(evt, function(e) { e.preventDefault(); dropzone.classList.remove('dragover'); });
+  });
+  dropzone.addEventListener('drop', function(e) {
+    e.preventDefault();
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      handleFilesAdded(e.dataTransfer.files);
+    }
+  });
+
+  fileUrlInput.addEventListener('input', function() {
+    if (fileUrlInput.value.trim()) {
+      clearAllFiles();
+    }
+  });
+
+  uploadForm.addEventListener('submit', function(e) {
+    var titleField = document.getElementById('title');
+    if (!titleField.value.trim()) return;
+    var subjectField = document.getElementById('subject-hidden');
+    if (!subjectField.value.trim()) return;
+    var fileChosen = selectedFiles.length > 0;
+    var urlFilled = fileUrlInput.value.trim();
+    if (!fileChosen && !urlFilled) return;
+
+    e.preventDefault();
+    progressOverlay.style.display = 'flex';
+    progressBar.style.width = '0%';
+    progressPercent.textContent = '0%';
+    progressSize.textContent = '';
+    progressSubtitle.textContent = 'Please wait while your files are being uploaded...';
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', uploadForm.action, true);
+    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+
+    xhr.upload.addEventListener('progress', function(evt) {
+      if (evt.lengthComputable) {
+        var pct = Math.round((evt.loaded / evt.total) * 100);
+        progressBar.style.width = pct + '%';
+        progressPercent.textContent = pct + '%';
+        progressSize.textContent = formatSize(evt.loaded) + ' / ' + formatSize(evt.total);
+      }
+    });
+
+    xhr.upload.addEventListener('load', function() {
+      progressBar.style.width = '100%';
+      progressPercent.textContent = '100%';
+      progressSubtitle.textContent = 'Processing files...';
+      progressSize.textContent = '';
+    });
+
+    xhr.addEventListener('load', function() {
+      try {
+        var data = JSON.parse(xhr.responseText);
+        if (data.status === 'success' && data.redirect) {
+          progressSubtitle.textContent = 'Upload complete!';
+          progressBar.style.background = '#4caf50';
+          window.location.href = data.redirect;
+        } else if (data.errors) {
+          progressOverlay.style.display = 'none';
+          var errorDiv = document.querySelector('.upload-errors');
+          if (errorDiv) errorDiv.remove();
+          var newErrors = document.createElement('div');
+          newErrors.className = 'upload-errors';
+          data.errors.forEach(function(err) {
+            var item = document.createElement('div');
+            item.className = 'upload-error-item';
+            item.textContent = err;
+            newErrors.appendChild(item);
+          });
+          uploadForm.parentNode.insertBefore(newErrors, uploadForm);
+          uploadForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+          progressOverlay.style.display = 'none';
+          showSnackbar('Upload failed. Please try again.');
+        }
+      } catch (ex) {
+        if (xhr.status >= 200 && xhr.status < 400) {
+          window.location.href = '{% url "web:admin_resources" %}';
+        } else {
+          progressOverlay.style.display = 'none';
+          showSnackbar('Upload failed. Please try again.');
+        }
+      }
+    });
+
+    xhr.addEventListener('error', function() {
+      progressOverlay.style.display = 'none';
+      showSnackbar('Network error. Please check your connection and try again.');
+    });
+
+    xhr.addEventListener('abort', function() {
+      progressOverlay.style.display = 'none';
+    });
+
+    syncFileInput();
+    xhr.send(new FormData(uploadForm));
+  });
+})();
+</script>
+{% endblock %}

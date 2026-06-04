@@ -10,132 +10,11 @@
       <span class="material-symbols-outlined" style="font-size:18px">pending_actions</span>
       Pending{% if pending_count %} ({{ pending_count }}){% endif %}
     </a>
-    <a href="#" data-action="toggle-add-resource-form" class="md-btn md-btn-filled">
+    <a href="{% url 'web:admin_resource_create' %}" class="md-btn md-btn-filled">
       <span class="material-symbols-outlined" style="font-size:18px">add</span>
       Add Resource
     </a>
   </div>
-</div>
-
-<!-- Add Resource Form (hidden by default) -->
-<div id="add-resource-form" class="md-card-elevated p-3 mb-3" style="display:none;">
-  <h3 class="md-title-medium mb-2">Add New Resource</h3>
-  <form method="post" action="{% url 'web:admin_resources' %}" id="resource-create-form" enctype="multipart/form-data">
-    {% csrf_token %}
-    <div class="form-row">
-      <div class="form-group">
-        <label class="md-label" for="title">Title *</label>
-        <input type="text" id="title" name="title" class="md-input" required>
-      </div>
-      <div class="form-group">
-        <label class="md-label" for="subject">Subject *</label>
-        <select id="subject" name="subject" class="md-select" required>
-          <option value="">Select subject</option>
-          <option value="Physics">Physics</option>
-          <option value="Chemistry">Chemistry</option>
-          <option value="Mathematics">Mathematics</option>
-          <option value="Biology">Biology</option>
-          <option value="English">English</option>
-          <option value="Nepali">Nepali</option>
-          <option value="Computer Science">Computer Science</option>
-          <option value="Economics">Economics</option>
-          <option value="Accountancy">Accountancy</option>
-        </select>
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="md-label" for="description">Description</label>
-      <textarea id="description" name="description" class="md-textarea" rows="3"></textarea>
-    </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label class="md-label" for="grade_level">Level / Grade</label>
-        <select id="grade_level" name="grade_level" class="md-select">
-          <option value="">Select level</option>
-          <option value="Class 8">Class 8</option>
-          <option value="Class 9">Class 9</option>
-          <option value="Class 10 / SEE">Class 10 / SEE</option>
-          <option value="Class 11">Class 11</option>
-          <option value="Class 12">Class 12</option>
-          <option value="Diploma">Diploma</option>
-          <option value="Bachelor">Bachelor</option>
-          <option value="Master">Master</option>
-          <option value="PhD">PhD</option>
-          <option value="Entrance Prep">Entrance Prep</option>
-          <option value="Competitive Exam">Competitive Exam</option>
-          <option value="Other">Other</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label class="md-label" for="type">Type</label>
-        <select id="type" name="type" class="md-select">
-          <option value="PDF">PDF</option>
-          <option value="Note">Note</option>
-          <option value="Video">Video</option>
-          <option value="Textbook">Textbook</option>
-          <option value="Past Paper">Past Paper</option>
-          <option value="Model Paper">Model Paper</option>
-          <option value="Guide">Guide</option>
-          <option value="Solution">Solution</option>
-          <option value="Presentation">Presentation</option>
-        </select>
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label class="md-label" for="faculty">Faculty / Stream</label>
-        <input type="text" id="faculty" name="faculty" class="md-input" placeholder="e.g. Science, Management, Computer Engineering">
-      </div>
-      <div class="form-group">
-        <label class="md-label" for="exam_type">Exam Type</label>
-        <select id="exam_type" name="exam_type" class="md-select">
-          <option value="">—</option>
-          <option value="Final">Final Exam</option>
-          <option value="Midterm">Midterm / Internal</option>
-          <option value="Board">Board Exam</option>
-          <option value="Entrance">Entrance Exam</option>
-          <option value="SEE">SEE Exam</option>
-          <option value="Mock">Mock / Model</option>
-          <option value="Assignment">Assignment / Project</option>
-          <option value="Notes">Class Notes</option>
-          <option value="Reference">Reference Material</option>
-          <option value="Other">Other</option>
-        </select>
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label class="md-label" for="program">Program / Course</label>
-        <input type="text" id="program" name="program" class="md-input" placeholder="e.g. BSc CSIT, BE Computer, +2 Science">
-      </div>
-      <div class="form-group">
-        <label class="md-label" for="school">School / College</label>
-        <input type="text" id="school" name="school" class="md-input" placeholder="e.g. St. Xavier's College">
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="md-label" for="file">Upload File</label>
-      <input type="file" id="file" name="file" class="md-input" accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.txt,.rtf,.odt,.ods,.odp,.zip,.rar,.7z,.jpg,.jpeg,.png,.gif,.webp,.mp4,.mkv,.mp3,.wav,.epub">
-    </div>
-    <div class="form-group">
-      <label class="md-label" for="file_url">File URL (if not uploading)</label>
-      <input type="url" id="file_url" name="file_url" class="md-input" placeholder="https://example.com/file.pdf">
-    </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label class="md-label" for="thumbnail_url">Thumbnail URL</label>
-        <input type="url" id="thumbnail_url" name="thumbnail_url" class="md-input" placeholder="https://example.com/thumb.jpg">
-      </div>
-      <div class="form-group">
-        <label class="md-label" for="file_size">File Size (bytes)</label>
-        <input type="number" id="file_size" name="file_size" class="md-input" value="0">
-      </div>
-    </div>
-    <div class="form-actions">
-      <button type="submit" class="md-btn md-btn-filled">Create Resource</button>
-      <button type="button" class="md-btn md-btn-text" data-action="hide-add-resource-form">Cancel</button>
-    </div>
-  </form>
 </div>
 
 <!-- Filters & Search -->
@@ -243,9 +122,9 @@
   {% else %}
     <p>No study resources have been added to the library yet. Start by creating a resource right now.</p>
     <div class="admin-empty-actions">
-      <button class="md-btn md-btn-filled" data-action="show-add-resource-form">
+      <a href="{% url 'web:admin_resource_create' %}" class="md-btn md-btn-filled">
         <span class="material-symbols-outlined">add</span> Add Resource
-      </button>
+      </a>
     </div>
   {% endif %}
 </div>
@@ -258,23 +137,4 @@
 .admin-badge-pending { background: color-mix(10%, #ff9800, transparent); color: #e65100; }
 .admin-badge-rejected { background: color-mix(10%, #f44336, transparent); color: #c62828; }
 </style>
-{% endblock %}
-
-{% block extra_js %}
-<script nonce="{{ csp_nonce }}">
-registerActions({
-  'toggle-add-resource-form': function(el, e) {
-    e.preventDefault();
-    var form = document.getElementById('add-resource-form');
-    form.style.display = form.style.display === 'none' ? 'block' : 'none';
-  },
-  'hide-add-resource-form': function(el, e) {
-    document.getElementById('add-resource-form').style.display = 'none';
-  },
-  'show-add-resource-form': function(el, e) {
-    document.getElementById('add-resource-form').style.display = 'block';
-    document.getElementById('title').focus();
-  }
-});
-</script>
 {% endblock %}
