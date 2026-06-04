@@ -725,3 +725,31 @@ class ArenaChatMessage(models.Model):
         indexes = [
             models.Index(fields=['session', 'created_at']),
         ]
+
+
+class TakedownRequest(models.Model):
+    STATUS_CHOICES = [
+        ('open', 'Open'),
+        ('reviewing', 'Reviewing'),
+        ('resolved', 'Resolved'),
+        ('dismissed', 'Dismissed'),
+    ]
+    id = models.CharField(max_length=36, primary_key=True)  # UUID
+    name = models.CharField(max_length=150)
+    email = models.EmailField()
+    organization = models.CharField(max_length=200, blank=True, default='')
+    infringing_url = models.TextField()  # URL of file on NEBians
+    proof_of_ownership = models.TextField()  # Description of original copyright
+    statement_good_faith = models.BooleanField(default=False)
+    statement_accurate = models.BooleanField(default=False)
+    signature = models.CharField(max_length=150)  # Electronic signature
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='open')
+    created_at = models.BigIntegerField()  # Unix ms timestamp
+    resolved_at = models.BigIntegerField(default=0)
+    resolved_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='resolved_takedowns')
+    notes = models.TextField(blank=True, default='')  # Internal admin notes
+
+    class Meta:
+        db_table = 'takedown_requests'
+        ordering = ['-created_at']
+

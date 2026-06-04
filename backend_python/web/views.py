@@ -18,7 +18,7 @@ from django.http import JsonResponse, Http404, HttpResponse
 from django.core.paginator import Paginator
 from django.utils.html import escape
 
-from api.models import User, Resource, ResourceRequest, ResourceRequestUpvote, Post, PostLike, Reply, ReplyLike, Follow, UserPhoto, EditHistory, Bookmark, Notification, Report, BotConfig
+from api.models import User, Resource, ResourceRequest, ResourceRequestUpvote, Post, PostLike, Reply, ReplyLike, Follow, UserPhoto, EditHistory, Bookmark, Notification, Report, BotConfig, TakedownRequest
 from api.models import ResourceLike, ResourceComment, ResourceCommentLike
 from api.serializers import UserSerializer, ResourceSerializer, PostSerializer, ReplySerializer
 from api.security import (
@@ -1511,17 +1511,108 @@ def upload_resource(request):
             if saved_files:
                 import os
                 from django.conf import settings
-                for idx, sf in enumerate(saved_files):
-                    res_title = title
-                    if len(saved_files) > 1:
-                        # Clean up extension from name
-                        display_name = os.path.splitext(sf['name'])[0]
-                        res_title = f"{title} - {display_name}"
-
-                    final_file_url = request.build_absolute_uri(settings.MEDIA_URL + sf['path'])
+                from django.core.files.base import ContentFile
+                from django.core.files.storage import default_storage
+                
+                final_path = None
+                final_size = 0
+                
+                if len(saved_files) == 1:
+                    final_path = saved_files[0]['path']
+                    final_size = saved_files[0]['size']
+                else:
+                    # Multiple files - merge them!
+                    can_merge_pdf = True
+                    for sf in saved_files:
+                        ext = os.path.splitext(sf['name'])[1].lower()
+                        if ext not in ('.pdf', '.png', '.jpg', '.jpeg', '.webp', '.gif', '.bmp', '.tiff'):
+                            can_merge_pdf = False
+                            break
+                    
+                    merged_data = None
+                    merged_ext = None
+                    
+                    if can_merge_pdf:
+                        try:
+                            from pypdf import PdfMerger
+                            from PIL import Image
+                            import io
+                            
+                            merger = PdfMerger()
+                            opened_files = []
+                            try:
+                                for sf in saved_files:
+                                    ext = os.path.splitext(sf['name'])[1].lower()
+                                    if ext == '.pdf':
+                                        f_obj = default_storage.open(sf['path'], 'rb')
+                                        opened_files.append(f_obj)
+                                        merger.append(f_obj)
+                                    else:
+                                        with default_storage.open(sf['path'], 'rb') as f:
+                                            img_data = f.read()
+                                        img = Image.open(io.BytesIO(img_data))
+                                        img = img.convert('RGB')
+                                        pdf_io = io.BytesIO()
+                                        img.save(pdf_io, 'PDF')
+                                        pdf_io.seek(0)
+                                        opened_files.append(pdf_io)
+                                        merger.append(pdf_io)
+                                
+                                out_stream = io.BytesIO()
+                                merger.write(out_stream)
+                                merger.close()
+                                merged_data = out_stream.getvalue()
+                                merged_ext = '.pdf'
+                            finally:
+                                for f_obj in opened_files:
+                                    try:
+                                        f_obj.close()
+                                    except Exception:
+                                        pass
+                        except Exception as e:
+                            logger.error(f"Failed to merge files into PDF: {e}")
+                            merged_data = None
+                    
+                    if not merged_data:
+                        # Fallback to ZIP
+                        try:
+                            import zipfile
+                            import io
+                            
+                            zip_buffer = io.BytesIO()
+                            with zipfile.ZipFile(zip_buffer, 'w', zipfile.ZIP_DEFLATED) as zip_file:
+                                for sf in saved_files:
+                                    with default_storage.open(sf['path'], 'rb') as f:
+                                        content = f.read()
+                                    zip_file.writestr(sf['name'], content)
+                            merged_data = zip_buffer.getvalue()
+                            merged_ext = '.zip'
+                            if rtype == 'PDF':
+                                rtype = 'Note'
+                        except Exception as e:
+                            logger.error(f"Failed to create fallback ZIP: {e}")
+                            errors.append(f"Failed to process files: {str(e)}")
+                    
+                    if merged_data and merged_ext:
+                        # Save the merged file
+                        merged_filename = f"{uuid.uuid4().hex[:12]}_{int(time.time())}{merged_ext}"
+                        merged_path_relative = os.path.join('resources', merged_filename)
+                        final_path = default_storage.save(merged_path_relative, ContentFile(merged_data))
+                        final_size = len(merged_data)
+                        
+                        # Clean up the individual saved files
+                        for sf in saved_files:
+                            if sf['path']:
+                                try:
+                                    default_storage.delete(sf['path'])
+                                except Exception:
+                                    pass
+                
+                if not errors and final_path:
+                    final_file_url = request.build_absolute_uri(settings.MEDIA_URL + final_path)
                     resource = Resource(
                         id=str(uuid.uuid4()),
-                        title=res_title,
+                        title=title,
                         description=description,
                         subject=subject,
                         grade_level=grade_level,
@@ -1534,11 +1625,11 @@ def upload_resource(request):
                         school=school,
                         tags=tags,
                         type=rtype,
-                        file=sf['path'] or None,
+                        file=final_path,
                         file_url=final_file_url,
                         thumbnail_url=safe_thumbnail_url,
-                        file_size=sf['size'],
-                        added_at=int(time.time() * 1000) + idx,
+                        file_size=final_size,
+                        added_at=int(time.time() * 1000),
                         author_name=author_name,
                         source_type='user' if user else 'anonymous',
                         uploaded_by=user,
@@ -2525,6 +2616,64 @@ def terms_of_service(request):
     return render(request, 'web/legal/terms.html', _ctx(request))
 
 
+def copyright_takedown(request):
+    errors = {}
+    success = False
+    
+    if request.method == 'POST':
+        name = request.POST.get('name', '').strip()
+        email = request.POST.get('email', '').strip()
+        organization = request.POST.get('organization', '').strip()
+        infringing_url = request.POST.get('infringing_url', '').strip()
+        proof_of_ownership = request.POST.get('proof_of_ownership', '').strip()
+        statement_good_faith = request.POST.get('statement_good_faith') == 'on'
+        statement_accurate = request.POST.get('statement_accurate') == 'on'
+        signature = request.POST.get('signature', '').strip()
+        
+        # Validations
+        if not name:
+            errors['name'] = 'Full Name is required.'
+        if not email:
+            errors['email'] = 'Email Address is required.'
+        if not infringing_url:
+            errors['infringing_url'] = 'Infringing URL on NEBians is required.'
+        if not proof_of_ownership:
+            errors['proof_of_ownership'] = 'Please describe the copyrighted work and proof of ownership.'
+        if not statement_good_faith:
+            errors['statement_good_faith'] = 'You must check this box to confirm good faith belief.'
+        if not statement_accurate:
+            errors['statement_accurate'] = 'You must check this box to confirm accuracy.'
+        if not signature:
+            errors['signature'] = 'Electronic signature signature is required.'
+            
+        if not errors:
+            # Save the takedown request
+            takedown = TakedownRequest(
+                id=uuid.uuid4().hex,
+                name=name,
+                email=email,
+                organization=organization,
+                infringing_url=infringing_url,
+                proof_of_ownership=proof_of_ownership,
+                statement_good_faith=statement_good_faith,
+                statement_accurate=statement_accurate,
+                signature=signature,
+                status='open',
+                created_at=int(time.time() * 1000)
+            )
+            takedown.save()
+            success = True
+            
+    ctx = _ctx(request)
+    ctx.update({
+        'errors': errors,
+        'success': success,
+        'form_data': request.POST if request.method == 'POST' and not success else {}
+    })
+    return render(request, 'web/takedown.html', ctx)
+
+
+
 # ---------------------------------------------------------------------------
 # AJAX ENDPOINTS
 # ---------------------------------------------------------------------------
@@ -3406,6 +3555,17 @@ def admin_resources(request):
         thumbnail_url = request.POST.get('thumbnail_url', '').strip()
         description = request.POST.get('description', '').strip()
         uploaded_file = request.FILES.get('file')
+        tags = request.POST.get('tags', '').strip()
+        faculty = request.POST.get('faculty', '').strip()
+        program = request.POST.get('program', '').strip()
+        year = request.POST.get('year', '').strip()
+        exam_type = request.POST.get('exam_type', '').strip()
+        pradesh = request.POST.get('pradesh', '').strip()
+        district = request.POST.get('district', '').strip()
+        school = request.POST.get('school', '').strip()
+        author_name = request.POST.get('author_name', '').strip()
+        source_url = request.POST.get('source_url', '').strip()
+        source_label = request.POST.get('source_label', '').strip()
 
         file_path = ''
         file_size = 0
@@ -3433,14 +3593,14 @@ def admin_resources(request):
                     description=description,
                     subject=subject,
                     grade_level=grade_level,
-                    faculty=request.POST.get('faculty', '').strip(),
-                    program=request.POST.get('program', '').strip(),
-                    year=request.POST.get('year', '').strip(),
-                    exam_type=request.POST.get('exam_type', '').strip(),
-                    pradesh=request.POST.get('pradesh', '').strip(),
-                    district=request.POST.get('district', '').strip(),
-                    school=request.POST.get('school', '').strip(),
-                    tags=request.POST.get('tags', '').strip(),
+                    faculty=faculty,
+                    program=program,
+                    year=year,
+                    exam_type=exam_type,
+                    pradesh=pradesh,
+                    district=district,
+                    school=school,
+                    tags=tags,
                     type=rtype,
                     file=file_path or None,
                     file_url=safe_url,
@@ -3448,6 +3608,9 @@ def admin_resources(request):
                     file_size=file_size or int(request.POST.get('file_size', '0')),
                     added_at=int(time.time() * 1000),
                     view_count=0,
+                    author_name=author_name,
+                    source_url=source_url,
+                    source_label=source_label,
                 )
             except Exception:
                 pass
@@ -3470,6 +3633,377 @@ def admin_resources(request):
         'status_filter': status_filter,
         'pending_count': Resource.objects.filter(approval_status='pending').count(),
         'active_page': 'resources',
+    })
+
+
+def admin_resource_create(request):
+    """Standalone admin resource creation page — full-featured form matching the public upload page."""
+    redirect_response = _require_staff_admin(request)
+    if redirect_response:
+        return redirect_response
+
+    _default_subjects = [
+        'Physics', 'Chemistry', 'Mathematics', 'Biology', 'English', 'Nepali',
+        'Computer Science', 'Economics', 'Accountancy', 'Business Studies',
+        'Social Studies', 'History', 'Geography', 'Civics', 'Health & Physical Education',
+        'Environment Science', 'Science', 'General Science', 'Life Science',
+        'Physical Science', 'Earth Science', 'Applied Mathematics',
+        'Business Mathematics', 'Statistics', 'Probability',
+        'Microeconomics', 'Macroeconomics',
+        'Financial Accounting', 'Cost Accounting', 'Auditing',
+        'Marketing', 'Office Management', 'Hotel Management',
+        'Computer Engineering', 'Electronics', 'Electrical Engineering',
+        'Civil Engineering', 'Mechanical Engineering', 'Architecture',
+        'Mechanics', 'Thermodynamics', 'Optics', 'Electricity & Magnetism',
+        'Organic Chemistry', 'Inorganic Chemistry', 'Physical Chemistry',
+        'Botany', 'Zoology', 'Genetics', 'Ecology',
+        'English Grammar', 'English Literature', 'Creative Writing',
+        'Nepali Grammar', 'Nepali Literature', 'Essay Writing',
+        'Population Studies', 'Sociology', 'Psychology', 'Philosophy',
+        'Education', 'Pedagogy', 'Curriculum Development',
+        'Law', 'Constitutional Law', 'International Law',
+        'Medicine', 'Pharmacy', 'Nursing', 'Public Health',
+        'Agriculture', 'Forestry', 'Veterinary Science',
+        'Management', 'Human Resource Management', 'Entrepreneurship',
+        'Information Technology', 'Programming', 'Web Development',
+        'Database Management', 'Networking', 'Cybersecurity',
+        'Machine Learning', 'Artificial Intelligence', 'Data Science',
+        'C Programming', 'C++ Programming', 'Python Programming', 'Java Programming',
+        'Digital Logic', 'Operating Systems', 'Software Engineering',
+        'Surveying', 'Estimating & Costing', 'Building Construction',
+        'Fluid Mechanics', 'Strength of Materials', 'Engineering Drawing',
+        'Purana Veda', 'Upanishad', 'Sanskrit', 'Maithili',
+    ]
+    db_subjects = []
+    for s_str in Resource.objects.values_list('subject', flat=True):
+        if s_str:
+            for s in s_str.split(','):
+                s_stripped = s.strip()
+                if s_stripped:
+                    db_subjects.append(s_stripped)
+    subjects = sorted(set(_default_subjects + db_subjects))
+    common_tags = [
+        'Board Exam', 'SEE', 'Past Paper', 'Model Paper', 'Solution',
+        'Important Questions', 'Numerical', 'Derivation', 'Formula Sheet',
+        'Chapter 1', 'Chapter 2', 'Chapter 3', 'Chapter 4', 'Chapter 5',
+        'Chapter 6', 'Chapter 7', 'Chapter 8', 'Chapter 9', 'Chapter 10',
+        'Unit 1', 'Unit 2', 'Unit 3', 'Unit 4', 'Unit 5',
+        'Class 11', 'Class 12', 'Grade 11', 'Grade 12',
+        'Science', 'Management', 'Humanities', 'Education', 'Law',
+        'Final Exam', 'Midterm', 'Internal Assessment', 'Practical',
+        'Old Course', 'New Course', 'Revised Syllabus', 'Curriculum',
+        'Textbook', 'Reference Book', 'Guide', 'Notes', 'Summary',
+        'Objective Questions', 'Subjective Questions', 'MCQ', 'Long Answer',
+        'Short Answer', 'Very Short Answer', 'Essay Type',
+        '2080 BS', '2081 BS', '2082 BS', '2079 BS',
+        '2078 BS', '2077 BS', '2076 BS',
+        'Kathmandu', 'Pokhara', 'Chitwan', 'Biratnagar', 'Butwal',
+        'HSEB', 'TU', 'KU', 'PU', 'CTEVT',
+        'Entrance', 'IOE', 'IOM', 'CEEE', 'KUUMAT',
+        'C Programming', 'Python', 'Java', 'Web Development',
+        'Organic Chemistry', 'Inorganic Chemistry', 'Physical Chemistry',
+        'Mechanics', 'Optics', 'Thermodynamics', 'Electricity',
+        'Calculus', 'Algebra', 'Trigonometry', 'Geometry', 'Statistics',
+        'Botany', 'Zoology', 'Ecology', 'Genetics',
+        'Nepali', 'English', 'Social Studies',
+    ]
+    education_levels = [
+        'Class 8', 'Class 9', 'Class 10 / SEE', 'Class 11', 'Class 12',
+        'Diploma', 'Bachelor', 'Master', 'PhD',
+        'Entrance Prep', 'Competitive Exam', 'Other',
+    ]
+    exam_types = ['', 'Final', 'Midterm', 'Board', 'Entrance', 'SEE', 'Mock', 'Assignment', 'Notes', 'Reference', 'Other']
+    pradesh_options = [
+        'Province 1', 'Madhesh', 'Bagmati', 'Gandaki', 'Lumbini', 'Karnali', 'Sudurpashchim',
+    ]
+    resource_types = ['PDF', 'Note', 'Video', 'Audio', 'Image', 'Link', 'Textbook', 'Past Paper', 'Model Paper', 'Guide', 'Solution', 'Presentation']
+
+    if request.method == 'POST':
+        title = request.POST.get('title', '').strip()
+        subject = request.POST.get('subject', '').strip()
+        grade_level = request.POST.get('grade_level', '').strip()
+        faculty = request.POST.get('faculty', '').strip()
+        program = request.POST.get('program', '').strip()
+        year = request.POST.get('year', '').strip()
+        exam_type = request.POST.get('exam_type', '').strip()
+        pradesh = request.POST.get('pradesh', '').strip()
+        district = request.POST.get('district', '').strip()
+        school = request.POST.get('school', '').strip()
+        tags = request.POST.get('tags', '').strip()
+        description = request.POST.get('description', '').strip()
+        rtype = request.POST.get('type', 'PDF').strip() or 'PDF'
+        author_name = request.POST.get('author_name', '').strip()
+        source_url = request.POST.get('source_url', '').strip()
+        source_label = request.POST.get('source_label', '').strip()
+        source_type = request.POST.get('source_type', 'admin').strip() or 'admin'
+        thumbnail_url = request.POST.get('thumbnail_url', '').strip()
+        view_count = int(request.POST.get('view_count', '0') or '0')
+        approval_status = request.POST.get('approval_status', 'approved').strip() or 'approved'
+
+        uploaded_files = request.FILES.getlist('file')
+        file_url = request.POST.get('file_url', '').strip()
+
+        errors = []
+        if not title:
+            errors.append('Title is required.')
+        if not subject:
+            errors.append('Subject is required.')
+        if not uploaded_files and not file_url:
+            errors.append('Please upload a file or provide a file URL.')
+
+        saved_files = []
+        if uploaded_files:
+            for f in uploaded_files:
+                path, size, err_resp = validate_and_save_resource_file(request, f)
+                if err_resp:
+                    errors.append(f"{f.name}: {err_resp['error']}")
+                else:
+                    saved_files.append({
+                        'path': path or '',
+                        'size': size,
+                        'name': f.name
+                    })
+
+            if errors:
+                from django.core.files.storage import default_storage
+                for sf in saved_files:
+                    if sf['path']:
+                        try:
+                            default_storage.delete(sf['path'])
+                        except Exception:
+                            pass
+
+        safe_file_url = ''
+        if not uploaded_files and file_url:
+            try:
+                safe_file_url = validate_resource_file_url(file_url)
+            except Exception as exc:
+                messages_list = getattr(exc, 'messages', [str(exc)])
+                errors.append(' '.join(messages_list))
+
+        safe_thumbnail_url = ''
+        if thumbnail_url:
+            try:
+                safe_thumbnail_url = validate_resource_file_url(thumbnail_url)
+            except Exception:
+                errors.append('Invalid thumbnail URL.')
+
+        if not errors:
+            if source_type not in ('admin', 'user', 'anonymous', 'external'):
+                source_type = 'admin'
+            if approval_status not in ('approved', 'pending', 'rejected'):
+                approval_status = 'approved'
+
+            admin_user = None
+            if hasattr(request, 'user') and request.user.is_authenticated:
+                try:
+                    admin_user = User.objects.get(username=request.user.username)
+                except User.DoesNotExist:
+                    pass
+
+            created_count = 0
+            if saved_files:
+                import os
+                from django.conf import settings
+                from django.core.files.base import ContentFile
+                from django.core.files.storage import default_storage
+                
+                final_path = None
+                final_size = 0
+                
+                if len(saved_files) == 1:
+                    final_path = saved_files[0]['path']
+                    final_size = saved_files[0]['size']
+                else:
+                    # Multiple files - merge them!
+                    can_merge_pdf = True
+                    for sf in saved_files:
+                        ext = os.path.splitext(sf['name'])[1].lower()
+                        if ext not in ('.pdf', '.png', '.jpg', '.jpeg', '.webp', '.gif', '.bmp', '.tiff'):
+                            can_merge_pdf = False
+                            break
+                    
+                    merged_data = None
+                    merged_ext = None
+                    
+                    if can_merge_pdf:
+                        try:
+                            from pypdf import PdfMerger
+                            from PIL import Image
+                            import io
+                            
+                            merger = PdfMerger()
+                            opened_files = []
+                            try:
+                                for sf in saved_files:
+                                    ext = os.path.splitext(sf['name'])[1].lower()
+                                    if ext == '.pdf':
+                                        f_obj = default_storage.open(sf['path'], 'rb')
+                                        opened_files.append(f_obj)
+                                        merger.append(f_obj)
+                                    else:
+                                        with default_storage.open(sf['path'], 'rb') as f:
+                                            img_data = f.read()
+                                        img = Image.open(io.BytesIO(img_data))
+                                        img = img.convert('RGB')
+                                        pdf_io = io.BytesIO()
+                                        img.save(pdf_io, 'PDF')
+                                        pdf_io.seek(0)
+                                        opened_files.append(pdf_io)
+                                        merger.append(pdf_io)
+                                
+                                out_stream = io.BytesIO()
+                                merger.write(out_stream)
+                                merger.close()
+                                merged_data = out_stream.getvalue()
+                                merged_ext = '.pdf'
+                            finally:
+                                for f_obj in opened_files:
+                                    try:
+                                        f_obj.close()
+                                    except Exception:
+                                        pass
+                        except Exception as e:
+                            logger.error(f"Failed to merge files into PDF: {e}")
+                            merged_data = None
+                    
+                    if not merged_data:
+                        # Fallback to ZIP
+                        try:
+                            import zipfile
+                            import io
+                            
+                            zip_buffer = io.BytesIO()
+                            with zipfile.ZipFile(zip_buffer, 'w', zipfile.ZIP_DEFLATED) as zip_file:
+                                for sf in saved_files:
+                                    with default_storage.open(sf['path'], 'rb') as f:
+                                        content = f.read()
+                                    zip_file.writestr(sf['name'], content)
+                            merged_data = zip_buffer.getvalue()
+                            merged_ext = '.zip'
+                            if rtype == 'PDF':
+                                rtype = 'Note'
+                        except Exception as e:
+                            logger.error(f"Failed to create fallback ZIP: {e}")
+                            errors.append(f"Failed to process files: {str(e)}")
+                    
+                    if merged_data and merged_ext:
+                        # Save the merged file
+                        merged_filename = f"{uuid.uuid4().hex[:12]}_{int(time.time())}{merged_ext}"
+                        merged_path_relative = os.path.join('resources', merged_filename)
+                        final_path = default_storage.save(merged_path_relative, ContentFile(merged_data))
+                        final_size = len(merged_data)
+                        
+                        # Clean up the individual saved files
+                        for sf in saved_files:
+                            if sf['path']:
+                                try:
+                                    default_storage.delete(sf['path'])
+                                except Exception:
+                                    pass
+                
+                if not errors and final_path:
+                    final_file_url = request.build_absolute_uri(settings.MEDIA_URL + final_path)
+                    resource = Resource(
+                        id=str(uuid.uuid4()),
+                        title=title,
+                        description=description,
+                        subject=subject,
+                        grade_level=grade_level,
+                        faculty=faculty,
+                        program=program,
+                        year=year,
+                        exam_type=exam_type,
+                        pradesh=pradesh,
+                        district=district,
+                        school=school,
+                        tags=tags,
+                        type=rtype,
+                        file=final_path,
+                        file_url=final_file_url,
+                        thumbnail_url=safe_thumbnail_url,
+                        file_size=final_size,
+                        added_at=int(time.time() * 1000),
+                        view_count=view_count,
+                        author_name=author_name,
+                        source_type=source_type,
+                        uploaded_by=admin_user,
+                        source_url=source_url,
+                        source_label=source_label,
+                        approval_status=approval_status,
+                        reviewed_by=admin_user if approval_status == 'approved' else None,
+                        reviewed_at=int(time.time() * 1000) if approval_status == 'approved' else None,
+                    )
+                    resource.save()
+                    created_count += 1
+            else:
+                resource = Resource(
+                    id=str(uuid.uuid4()),
+                    title=title,
+                    description=description,
+                    subject=subject,
+                    grade_level=grade_level,
+                    faculty=faculty,
+                    program=program,
+                    year=year,
+                    exam_type=exam_type,
+                    pradesh=pradesh,
+                    district=district,
+                    school=school,
+                    tags=tags,
+                    type=rtype,
+                    file=None,
+                    file_url=safe_file_url,
+                    thumbnail_url=safe_thumbnail_url,
+                    file_size=0,
+                    added_at=int(time.time() * 1000),
+                    view_count=view_count,
+                    author_name=author_name,
+                    source_type=source_type,
+                    uploaded_by=admin_user,
+                    source_url=source_url,
+                    source_label=source_label,
+                    approval_status=approval_status,
+                    reviewed_by=admin_user if approval_status == 'approved' else None,
+                    reviewed_at=int(time.time() * 1000) if approval_status == 'approved' else None,
+                )
+                resource.save()
+                created_count += 1
+
+            cache.delete_many(['home_resources', 'library_all_resources'])
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({'status': 'success', 'redirect': reverse('web:admin_resources')})
+            return redirect('web:admin_resources')
+
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({'status': 'error', 'errors': errors}, status=400)
+
+        return render(request, 'admin_panel/resource_create.html', {
+            'is_admin': True,
+            'active_page': 'resources',
+            'subjects': subjects,
+            'education_levels': education_levels,
+            'exam_types': exam_types,
+            'pradesh_options': pradesh_options,
+            'resource_types': resource_types,
+            'common_tags': common_tags,
+            'source_types': Resource.SOURCE_TYPES,
+            'approval_choices': Resource.APPROVAL_CHOICES,
+            'errors': errors,
+            'form_data': request.POST,
+        })
+
+    return render(request, 'admin_panel/resource_create.html', {
+        'is_admin': True,
+        'active_page': 'resources',
+        'subjects': subjects,
+        'education_levels': education_levels,
+        'exam_types': exam_types,
+        'pradesh_options': pradesh_options,
+        'resource_types': resource_types,
+        'common_tags': common_tags,
+        'source_types': Resource.SOURCE_TYPES,
+        'approval_choices': Resource.APPROVAL_CHOICES,
     })
 
 

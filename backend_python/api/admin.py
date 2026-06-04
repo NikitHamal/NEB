@@ -3,7 +3,7 @@ Register models with Django Admin for easy content management.
 Accessible at /admin-django/ after creating a superuser. The public custom admin UI is /admin/ and now uses the same Django staff/superuser credentials.
 """
 from django.contrib import admin
-from .models import User, Resource, Post, Reply, PostLike, ReplyLike, FCMToken, UserPhoto, Follow, EditHistory, Report, BotConfig
+from .models import User, Resource, Post, Reply, PostLike, ReplyLike, FCMToken, UserPhoto, Follow, EditHistory, Report, BotConfig, TakedownRequest
 from .models import ResourceComment, ResourceLike, ResourceCommentLike
 
 
@@ -103,3 +103,11 @@ class ResourceLikeAdmin(admin.ModelAdmin):
 class ResourceCommentLikeAdmin(admin.ModelAdmin):
     list_display = ['user', 'comment']
     search_fields = ['user__username']
+
+
+@admin.register(TakedownRequest)
+class TakedownRequestAdmin(admin.ModelAdmin):
+    list_display = ['name', 'email', 'organization', 'infringing_url', 'status', 'created_at']
+    search_fields = ['name', 'email', 'organization', 'infringing_url', 'proof_of_ownership']
+    list_filter = ['status']
+    raw_id_fields = ['resolved_by']
