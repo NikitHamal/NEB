@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load web_extras %}
 
-{% block title %}NEBians - Free Study Platform & Discussion Forum{% endblock %}
+{% block title %}NEBians - Study Platform & Discussion Forum{% endblock %}
 {% block nav_home %}md-nav-active{% endblock %}
 {% block bnav_home %}md-nav-active{% endblock %}
 
@@ -22,7 +22,7 @@
   "@type": "WebSite",
   "name": "NEBians",
   "url": "https://nebians.consica.com.np/",
-  "description": "NEBians - Free study platform and discussion forum for students and teachers of all classes and faculties in Nepal.",
+  "description": "NEBians - Study platform and discussion forum for students and teachers of all classes and faculties.",
   "potentialAction": {
     "@type": "SearchAction",
     "target": "https://nebians.consica.com.np/search/?q={search_term_string}",
@@ -162,9 +162,9 @@
     {% if user %}
     <h1>Hello, {{ user.display_name|default:user.username }}!</h1>
     {% else %}
-    <h1>Hello, Student!</h1>
+    <h1>Welcome to NEBians</h1>
     {% endif %}
-    <p>What would you like to study today? Access NEB resources, join discussions, and more.</p>
+    <p>Discover study resources, join discussions, and connect with learners and teachers of all classes and faculties.</p>
     <div class="hero-actions">
       <a href="{% url 'web:library' %}" class="hero-btn-primary">
         <span class="material-symbols-outlined" style="font-size:20px">menu_book</span>
@@ -353,7 +353,7 @@
 
   {% if not recent_resources and not popular_resources and not recent_posts %}
   <div class="empty-state">
-    <span class="material-symbols-outlined">school</span>
+    <span class="material-symbols-outlined">auto_stories</span>
     <h3>Welcome to NEBians</h3>
     <p>Resources and discussions will appear here once they're available.</p>
   </div>

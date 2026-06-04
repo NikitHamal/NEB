@@ -3,7 +3,7 @@
 
 {% block title %}{{ resource.title|default:"Resource" }}{% endblock %}
 {% block description %}{{ resource.description|truncatechars:160|default:"Study resource on NEBians" }}{% endblock %}
-{% block keywords %}NEBians, NEB, {{ resource.subject }}, {{ resource.type }}, {{ resource.grade_level }}, study resource{% endblock %}
+{% block keywords %}NEBians, {{ resource.subject }}, {{ resource.type }}, {{ resource.grade_level }}, study resource{% endblock %}
 {% block og_title %}{{ resource.title|default:"Resource" }} - NEBians{% endblock %}
 {% block og_description %}{{ resource.description|truncatechars:200|default:"Study resource on NEBians" }}{% endblock %}
 {% block og_type %}article{% endblock %}
