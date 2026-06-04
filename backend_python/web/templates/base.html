@@ -207,7 +207,32 @@
         }
       },
       'reload-page': function () { location.reload(); },
-      'go-back': function () { history.back(); }
+      'go-back': function () { history.back(); },
+      'stop-propagation': function (el, e) {
+        if (e) {
+          e.stopPropagation();
+          e.preventDefault();
+        }
+      },
+      'open-post': function (el, e) {
+        const link = e.target.closest('a');
+        if (link) {
+          if (e.metaKey || e.ctrlKey) {
+            window.open(link.href, '_blank');
+          } else {
+            window.location.href = link.href;
+          }
+          return;
+        }
+        const postUrl = el.dataset.postUrl;
+        if (postUrl) {
+          if (e.metaKey || e.ctrlKey) {
+            window.open(postUrl, '_blank');
+          } else {
+            window.location.href = postUrl;
+          }
+        }
+      }
     });
 
     document.addEventListener('error', function (e) {
