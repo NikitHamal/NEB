@@ -534,11 +534,13 @@ def user_profile_get(request, username):
 # ---------------------------------------------------------------------------
 
 @api_view(['GET'])
-@permission_classes([AllowAny])
 @throttle_classes([SearchRateThrottle])
 def resources_list(request):
-    """GET /api/resources — public endpoint with enforced pagination."""
-    resources = Resource.objects.filter(approval_status='approved')
+    """GET /api/resources — authenticated endpoint with enforced pagination."""
+    user, err = _require_user(request)
+    if err:
+        return err
+    resources = Resource.objects.filter(approval_status='approved', is_lead=True)
 
     subject = request.query_params.get('subject')
     grade = request.query_params.get('grade')
@@ -560,9 +562,11 @@ def resources_list(request):
 
 
 @api_view(['GET'])
-@permission_classes([AllowAny])
 def resource_detail(request, resource_id):
-    """GET /api/resources/<resourceId> — get a single resource."""
+    """GET /api/resources/<resourceId> — get a single resource (authenticated)."""
+    user, err = _require_user(request)
+    if err:
+        return err
     try:
         resource = Resource.objects.get(pk=resource_id)
     except Resource.DoesNotExist:
@@ -957,6 +961,19 @@ def post_detail(request, post_id):
         return Response(PostSerializer(post, context={'request': request}).data)
 
     return Response(PostSerializer(post, context={'request': request}).data)
+
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+@throttle_classes([ViewIncrementRateThrottle])
+def post_view(request, post_id):
+    """POST /api/posts/<postId>/view — increment view_count."""
+    try:
+        post = Post.objects.get(pk=post_id)
+    except Post.DoesNotExist:
+        return Response({'error': 'Post not found'}, status=404)
+    Post.objects.filter(pk=post_id).update(view_count=F('view_count') + 1)
+    return Response({'view_count': post.view_count + 1})
 
 
 @api_view(['POST'])
@@ -1627,7 +1644,9 @@ def search_all(request):
                 Q(title__icontains=term) | Q(description__icontains=term) | Q(subject__icontains=term)
             )
         resources = Resource.objects.filter(
-            reduce(operator.and_, res_q_list)
+            reduce(operator.and_, res_q_list),
+            approval_status='approved',
+            is_lead=True
         )
         exact_res_expr = Q(title__icontains=query) | Q(description__icontains=query) | Q(subject__icontains=query)
         resources = resources.annotate(

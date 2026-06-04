@@ -122,6 +122,79 @@
   .rd-related{margin-top:32px}
   .rd-related-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
 
+  /* Bundle / Multiple Files Selector */
+  .rd-bundle-panel {
+    background: var(--md-surface-container-lowest);
+    border: 1px solid var(--md-outline-variant);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 24px;
+  }
+  .rd-bundle-header {
+    font-weight: 600;
+    font-size: 0.9375rem;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--md-on-surface);
+  }
+  .rd-bundle-header .material-symbols-outlined {
+    color: var(--md-primary);
+  }
+  .rd-bundle-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 10px;
+  }
+  .rd-bundle-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    border: 1px solid var(--md-outline-variant);
+    border-radius: 8px;
+    text-decoration: none;
+    color: var(--md-on-surface-variant);
+    background: var(--md-surface-container-low);
+    transition: all 0.2s ease;
+  }
+  .rd-bundle-item:hover {
+    background: var(--md-surface-container-high);
+    border-color: var(--md-outline);
+    transform: translateY(-1px);
+    text-decoration: none;
+  }
+  .rd-bundle-item.active {
+    border-color: var(--md-primary);
+    background: color-mix(in srgb, var(--md-primary) 8%, var(--md-surface-container-low));
+    color: var(--md-on-surface);
+  }
+  .rd-bundle-item-icon {
+    font-size: 24px;
+    color: var(--md-on-surface-variant);
+  }
+  .rd-bundle-item.active .rd-bundle-item-icon {
+    color: var(--md-primary);
+  }
+  .rd-bundle-item-title {
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: var(--md-on-surface);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex: 1;
+  }
+  .rd-bundle-item.active .rd-bundle-item-title {
+    color: var(--md-primary);
+  }
+  .rd-bundle-item-meta {
+    font-size: 0.75rem;
+    color: var(--md-on-surface-variant);
+    margin-top: 2px;
+  }
+
   /* Responsive */
   @media(max-width:768px){
     .rd-hero{padding:16px;border-radius:8px}
@@ -281,6 +354,34 @@
       </button>
     </div>
   </div>
+
+  <!-- Bundle Files Panel (if any) -->
+  {% if group_resources and group_resources|length > 1 %}
+  <div class="rd-bundle-panel">
+    <div class="rd-bundle-header">
+      <span class="material-symbols-outlined">library_books</span>
+      Files in this Bundle ({{ group_resources|length }})
+    </div>
+    <div class="rd-bundle-list">
+      {% for gr in group_resources %}
+      <a href="{% url 'web:reader' resource_id=gr.id %}" class="rd-bundle-item {% if gr.id == resource.id %}active{% endif %}">
+        <span class="material-symbols-outlined rd-bundle-item-icon">
+          {{ gr.type|resource_type_icon }}
+        </span>
+        <div style="flex: 1; min-width: 0;">
+          <div class="rd-bundle-item-title" title="{{ gr.title }}">{{ gr.title }}</div>
+          <div class="rd-bundle-item-meta">
+            {{ gr.type }}{% if gr.file_size %} &middot; {{ gr.file_size|file_size_human }}{% endif %}
+          </div>
+        </div>
+        {% if gr.id == resource.id %}
+        <span class="material-symbols-outlined" style="font-size: 20px; color: var(--md-primary);">check_circle</span>
+        {% endif %}
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
 
   <!-- Media Preview (inline) -->
   {% if resource.safe_file_url %}
