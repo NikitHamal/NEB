@@ -166,6 +166,8 @@ class Resource(models.Model):
     reviewed_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='reviewed_resources')
     reviewed_at = models.BigIntegerField(default=0)
     rejection_reason = models.TextField(blank=True, default='')
+    upload_group_id = models.CharField(max_length=36, blank=True, default='')
+    is_lead = models.BooleanField(default=True)
 
     class Meta:
         db_table = 'resources'
@@ -245,6 +247,7 @@ class Post(models.Model):
     category = models.CharField(max_length=100)
     thumbs_up_count = models.IntegerField(default=0)
     reply_count = models.IntegerField(default=0)
+    view_count = models.IntegerField(default=0)
     is_edited = models.BooleanField(default=False)
     edited_at = models.BigIntegerField(default=0)
     is_archived = models.BooleanField(default=False)
@@ -258,6 +261,7 @@ class Post(models.Model):
             models.Index(fields=['category']),
             models.Index(fields=['is_archived', '-created_at']),
             models.Index(fields=['-thumbs_up_count']),
+            models.Index(fields=['-view_count']),
         ]
 
     def __str__(self):
@@ -286,6 +290,7 @@ class Reply(models.Model):
     content = models.TextField()
     thumbs_up_count = models.IntegerField(default=0)
     reply_count = models.IntegerField(default=0)
+    view_count = models.IntegerField(default=0)
     is_edited = models.BooleanField(default=False)
     edited_at = models.BigIntegerField(default=0)
     is_archived = models.BooleanField(default=False)
@@ -752,4 +757,23 @@ class TakedownRequest(models.Model):
     class Meta:
         db_table = 'takedown_requests'
         ordering = ['-created_at']
+
+
+class SyllabusContent(models.Model):
+    id = models.CharField(max_length=36, primary_key=True)
+    grade_level = models.CharField(max_length=50)  # e.g., "Class 12"
+    subject = models.CharField(max_length=100)      # e.g., "English"
+    chapter_id = models.CharField(max_length=100)   # e.g., "the-selfish-giant"
+    chapter_title = models.CharField(max_length=200) # e.g., "Story 1: The Selfish Giant"
+    text_content = models.TextField()               # Text syllabus/summary/details
+    question_answers = models.TextField(blank=True, default='') # Solved Question & Answers text
+    order = models.IntegerField(default=0)
+    created_at = models.BigIntegerField(default=0)
+    updated_at = models.BigIntegerField(default=0)
+
+    class Meta:
+        db_table = 'syllabus_content'
+        ordering = ['grade_level', 'subject', 'order']
+        verbose_name = 'Syllabus Content'
+        verbose_name_plural = 'Syllabus Contents'
 

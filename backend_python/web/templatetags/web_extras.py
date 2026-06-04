@@ -430,3 +430,17 @@ def achievement_badges(badges_str):
                 f'{info["label"]}</span>'
             )
     return mark_safe(' '.join(html_parts))
+
+
+@register.filter
+def markdown_format(value):
+    """Render markdown formatting safely without mention replacement."""
+    if not value:
+        return mark_safe('')
+    html = md_lib.markdown(str(value), extensions=['nl2br'], output_format='html5')
+    html = re.sub(
+        r'<a href="(?!/)(https?://[^"]+)"(?![^>]*target=)',
+        r'<a href="\1" target="_blank" rel="noopener noreferrer"',
+        html,
+    )
+    return mark_safe(html)
