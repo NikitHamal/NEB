@@ -586,6 +586,24 @@ def resource_view(request, resource_id):
 
 
 @api_view(['POST'])
+def resource_like(request, resource_id):
+    """POST /api/resources/<resourceId>/like — toggle a like on a resource.
+
+    Mirrors the web behaviour (services.toggle_resource_like) so the Android app
+    and the website share one code path. Returns {likeCount, isLiked}.
+    """
+    user, err = _require_user(request)
+    if err:
+        return err
+    from . import services as _services
+    try:
+        result = _services.toggle_resource_like(user, resource_id)
+    except Resource.DoesNotExist:
+        return Response({'error': 'Resource not found'}, status=404)
+    return Response(result)
+
+
+@api_view(['POST'])
 @throttle_classes([UploadRateThrottle])
 def resource_upload(request):
     """POST /api/resources/upload — authenticated user uploads a resource.
@@ -995,6 +1013,24 @@ def post_like(request, post_id):
     return Response({'thumbsUpCount': current_count, 'isThumbedUp': is_thumbed_up})
 
 
+@api_view(['POST'])
+def post_archive(request, post_id):
+    """POST /api/posts/<postId>/archive — toggle archive state (author only)."""
+    user, err = _require_user(request)
+    if err:
+        return err
+    try:
+        post = Post.objects.get(pk=post_id)
+    except Post.DoesNotExist:
+        return Response({'error': 'Post not found'}, status=404)
+    if post.user_id != user.id:
+        return Response({'error': 'Forbidden'}, status=403)
+    post.is_archived = not post.is_archived
+    post.save(update_fields=['is_archived'])
+    _rt.broadcast_post_deleted(post_id)
+    return Response({'success': True, 'isArchived': post.is_archived})
+
+
 # ---------------------------------------------------------------------------
 # FORUM — REPLIES
 # ---------------------------------------------------------------------------
@@ -1116,6 +1152,24 @@ def reply_like(request, reply_id):
 
     _rt.broadcast_reply_like_changed(reply.post_id, reply_id, current_count)
     return Response({'thumbsUpCount': current_count, 'isThumbedUp': is_thumbed_up})
+
+
+@api_view(['POST'])
+def reply_archive(request, reply_id):
+    """POST /api/replies/<replyId>/archive — toggle archive state (author only)."""
+    user, err = _require_user(request)
+    if err:
+        return err
+    try:
+        reply = Reply.objects.get(pk=reply_id)
+    except Reply.DoesNotExist:
+        return Response({'error': 'Reply not found'}, status=404)
+    if reply.user_id != user.id:
+        return Response({'error': 'Forbidden'}, status=403)
+    reply.is_archived = not reply.is_archived
+    reply.save(update_fields=['is_archived'])
+    _rt.broadcast_reply_deleted(reply.post_id, reply.id, deleted_by=str(user.id))
+    return Response({'success': True, 'isArchived': reply.is_archived})
 
 
 @api_view(['GET'])

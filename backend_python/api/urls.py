@@ -38,6 +38,7 @@ urlpatterns = [
     path('resources/', views.resources_list, name='resources-list'),
     path('resources/<str:resource_id>/', views.resource_detail, name='resource-detail'),
     path('resources/<str:resource_id>/view/', views.resource_view, name='resource-view'),
+    path('resources/<str:resource_id>/like/', views.resource_like, name='resource-like'),
     path('resources/upload/', views.resource_upload, name='resource-upload'),
     path('resources/upload/anonymous/', views.resource_upload_anonymous, name='resource-upload-anonymous'),
 
@@ -54,6 +55,7 @@ urlpatterns = [
     path('posts/', views.posts_endpoint, name='posts'),
     path('posts/<str:post_id>/', views.post_detail, name='post-detail'),
     path('posts/<str:post_id>/like/', views.post_like, name='post-like'),
+    path('posts/<str:post_id>/archive/', views.post_archive, name='post-archive'),
 
     # Replies — GET list + POST create handled by replies_endpoint dispatcher
     path('posts/<str:post_id>/replies/', views.replies_endpoint, name='replies'),
@@ -61,9 +63,15 @@ urlpatterns = [
     # Replies
     path('replies/<str:reply_id>/', views.reply_detail, name='reply-detail'),
     path('replies/<str:reply_id>/like/', views.reply_like, name='reply-like'),
+    path('replies/<str:reply_id>/archive/', views.reply_archive, name='reply-archive'),
 
     # Edit History
     path('edit-history/<str:target_type>/<str:target_id>/', views.edit_history, name='edit-history'),
+
+    # Notifications
+    path('notifications/', views.notifications_list, name='notifications-list'),
+    path('notifications/mark-read/', views.notifications_mark_read, name='notifications-mark-read'),
+    path('notifications/unread-count/', views.notifications_unread_count, name='notifications-unread-count'),
 
     # FCM
     path('fcm/register/', views.fcm_register, name='fcm-register'),

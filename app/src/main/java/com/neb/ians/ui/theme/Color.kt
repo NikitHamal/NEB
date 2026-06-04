@@ -5,16 +5,16 @@ import androidx.compose.ui.graphics.Color
 // Light theme colors (matching website material3.css exactly)
 val md_theme_light_primary = Color(0xFF004AC6)
 val md_theme_light_onPrimary = Color(0xFFFFFFFF)
-val md_theme_light_primaryContainer = Color(0xFF2563EB)
-val md_theme_light_onPrimaryContainer = Color(0xFFEEEFFF)
-val md_theme_light_secondary = Color(0xFF565E74)
+val md_theme_light_primaryContainer = Color(0xFFDBE1FF)
+val md_theme_light_onPrimaryContainer = Color(0xFF00174B)
+val md_theme_light_secondary = Color(0xFF004AC6)
 val md_theme_light_onSecondary = Color(0xFFFFFFFF)
-val md_theme_light_secondaryContainer = Color(0xFFDAE2FD)
-val md_theme_light_onSecondaryContainer = Color(0xFF5C647A)
-val md_theme_light_tertiary = Color(0xFF525657)
+val md_theme_light_secondaryContainer = Color(0xFFDBE1FF)
+val md_theme_light_onSecondaryContainer = Color(0xFF00174B)
+val md_theme_light_tertiary = Color(0xFF56545A)
 val md_theme_light_onTertiary = Color(0xFFFFFFFF)
-val md_theme_light_tertiaryContainer = Color(0xFF6B6E70)
-val md_theme_light_onTertiaryContainer = Color(0xFFEFF1F3)
+val md_theme_light_tertiaryContainer = Color(0xFFE5E1E8)
+val md_theme_light_onTertiaryContainer = Color(0xFF1C1B20)
 val md_theme_light_error = Color(0xFFBA1A1A)
 val md_theme_light_onError = Color(0xFFFFFFFF)
 val md_theme_light_errorContainer = Color(0xFFFFDAD6)
@@ -56,10 +56,10 @@ val md_theme_dark_primary = Color(0xFFB4C5FF)
 val md_theme_dark_onPrimary = Color(0xFF002D78)
 val md_theme_dark_primaryContainer = Color(0xFF003EA8)
 val md_theme_dark_onPrimaryContainer = Color(0xFFDBE1FF)
-val md_theme_dark_secondary = Color(0xFFBEC6E0)
-val md_theme_dark_onSecondary = Color(0xFF283041)
-val md_theme_dark_secondaryContainer = Color(0xFF3F465C)
-val md_theme_dark_onSecondaryContainer = Color(0xFFDAE2FD)
+val md_theme_dark_secondary = Color(0xFFB4C5FF)
+val md_theme_dark_onSecondary = Color(0xFF002D78)
+val md_theme_dark_secondaryContainer = Color(0xFF003EA8)
+val md_theme_dark_onSecondaryContainer = Color(0xFFDBE1FF)
 val md_theme_dark_tertiary = Color(0xFFC4C7C9)
 val md_theme_dark_onTertiary = Color(0xFF2E3133)
 val md_theme_dark_tertiaryContainer = Color(0xFF444749)
@@ -107,18 +107,25 @@ data class SubjectTheme(
     val onContainer: Color
 )
 
+// Website uses a single --subject-color per subject; the tinted "container" is
+// color-mix(in srgb, var(--subject-color) 12%, transparent) and label text is the
+// subject color itself. We mirror that here so cards/chips match pixel-for-pixel.
+private fun subjectTheme(color: Color) =
+    SubjectTheme(color = color, container = color.copy(alpha = 0.12f), onContainer = color)
+
 val SubjectColors = mapOf(
-    "Physics" to SubjectTheme(Color(0xFF2563EB), Color(0xFFDBEAFE), Color(0xFF1E40AF)),
-    "Chemistry" to SubjectTheme(Color(0xFF16A34A), Color(0xFFDCFCE7), Color(0xFF15803D)),
-    "Mathematics" to SubjectTheme(Color(0xFFDC2626), Color(0xFFFEE2E2), Color(0xFFB91C1C)),
-    "Biology" to SubjectTheme(Color(0xFF0D9488), Color(0xFFCCFBF1), Color(0xFF0F766E)),
-    "English" to SubjectTheme(Color(0xFF9333EA), Color(0xFFF3E8FF), Color(0xFF7E22CE)),
-    "Nepali" to SubjectTheme(Color(0xFFCA8A04), Color(0xFFFEF9C3), Color(0xFFA16207)),
-    "Computer Science" to SubjectTheme(Color(0xFF0891B2), Color(0xFFCFFAFE), Color(0xFF0E7490)),
-    "Economics" to SubjectTheme(Color(0xFFEA580C), Color(0xFFFFEDD5), Color(0xFFC2410C)),
-    "Accountancy" to SubjectTheme(Color(0xFFBE185D), Color(0xFFFCE7F3), Color(0xFF9D174D)),
-    "Exam Tips" to SubjectTheme(Color(0xFF7C3AED), Color(0xFFEDE9FE), Color(0xFF6D28D9)),
-    "General" to SubjectTheme(Color(0xFF525657), Color(0xFFF1F5F9), Color(0xFF334155)),
+    "Physics" to subjectTheme(Color(0xFF2563EB)),
+    "Chemistry" to subjectTheme(Color(0xFF006E1C)),
+    "Mathematics" to subjectTheme(Color(0xFFE8710A)),
+    "Math" to subjectTheme(Color(0xFFE8710A)),
+    "Biology" to subjectTheme(Color(0xFF9334E6)),
+    "English" to subjectTheme(Color(0xFFD93025)),
+    "Nepali" to subjectTheme(Color(0xFF1967D2)),
+    "Computer Science" to subjectTheme(Color(0xFF185ABC)),
+    "Economics" to subjectTheme(Color(0xFFE37400)),
+    "Accountancy" to subjectTheme(Color(0xFF0D652D)),
+    "Exam Tips" to subjectTheme(Color(0xFFC5221F)),
+    "General" to subjectTheme(Color(0xFF5F6368)),
 )
 
 fun getSubjectTheme(subject: String): SubjectTheme {
@@ -134,15 +141,17 @@ data class BadgeTheme(
     val icon: String
 )
 
+// Colors mirror website .role-badge-* CSS. Verified badges have no pill background
+// (transparent) — only the icon is colored. Moderator/admin badges use a tinted pill.
 val BadgeThemes = mapOf(
-    "admin" to BadgeTheme(Color(0xFFFFF7ED), Color(0xFF92400E), "crown"),
-    "moderator-blue" to BadgeTheme(Color(0xFFDBEAFE), Color(0xFF1E40AF), "shield"),
-    "moderator-teal" to BadgeTheme(Color(0xFFCCFBF1), Color(0xFF0F766E), "shield"),
-    "moderator-purple" to BadgeTheme(Color(0xFFF3E8FF), Color(0xFF7E22CE), "shield"),
-    "verified-blue" to BadgeTheme(Color(0xFFDBEAFE), Color(0xFF1E40AF), "verified"),
-    "verified-green" to BadgeTheme(Color(0xFFDCFCE7), Color(0xFF15803D), "verified"),
-    "verified-gold" to BadgeTheme(Color(0xFFFEF9C3), Color(0xFFA16207), "verified"),
-    "verified-black" to BadgeTheme(Color(0xFFF1F5F9), Color(0xFF1E293B), "verified"),
+    "admin" to BadgeTheme(Color(0x26F59E0B), Color(0xFFD97706), "crown"),
+    "moderator-blue" to BadgeTheme(Color(0x1F1B9AF0), Color(0xFF1B9AF0), "shield"),
+    "moderator-teal" to BadgeTheme(Color(0x1F00897B), Color(0xFF00897B), "shield"),
+    "moderator-purple" to BadgeTheme(Color(0x1F7B1FA2), Color(0xFF7B1FA2), "shield"),
+    "verified-blue" to BadgeTheme(Color(0x00000000), Color(0xFF1B9AF0), "verified"),
+    "verified-green" to BadgeTheme(Color(0x00000000), Color(0xFF2E7D32), "verified"),
+    "verified-gold" to BadgeTheme(Color(0x00000000), Color(0xFFD97706), "verified"),
+    "verified-black" to BadgeTheme(Color(0x00000000), Color(0xFF1A1A1A), "verified"),
 )
 
 fun getBadgeTheme(badgeInfo: com.neb.ians.data.api.ApiBadgeInfo?): BadgeTheme? {

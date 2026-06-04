@@ -30,6 +30,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.neb.ians.data.api.ApiPost
 import com.neb.ians.ui.components.ErrorCard
 import com.neb.ians.ui.components.ShimmerForumList
+import com.neb.ians.ui.components.UserAvatar
 import com.neb.ians.util.formatTimeAgo
 import com.neb.ians.util.getSubjectColor
 
@@ -266,20 +267,11 @@ private fun ForumPostCard(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Box(
-                    modifier = Modifier
-                        .size(28.dp)
-                        .clip(CircleShape)
-                        .background(MaterialTheme.colorScheme.primaryContainer),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = post.authorName.firstOrNull()?.uppercase() ?: "?",
-                        style = MaterialTheme.typography.labelSmall,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onPrimaryContainer
-                    )
-                }
+                UserAvatar(
+                    name = post.authorName,
+                    photoUrl = post.authorPhotoUrl,
+                    size = 28.dp
+                )
 
                 Spacer(modifier = Modifier.width(8.dp))
 

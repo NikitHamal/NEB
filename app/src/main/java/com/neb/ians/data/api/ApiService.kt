@@ -42,8 +42,8 @@ data class SetPasswordRequest(val password: String)
 
 @Serializable
 data class ChangePasswordRequest(
-    @SerialName("current_password") val currentPassword: String,
-    @SerialName("new_password") val newPassword: String
+    val currentPassword: String,
+    val newPassword: String
 )
 
 @Serializable
@@ -62,24 +62,25 @@ data class EmailForgotRequest(val email: String)
 data class EmailResetPasswordRequest(
     val email: String,
     val code: String,
-    @SerialName("new_password") val newPassword: String
+    val newPassword: String,
+    val confirmPassword: String
 )
 
 @Serializable
 data class UserProfileRequest(
     val username: String,
     val email: String? = null,
-    @SerialName("photo_url") val photoUrl: String? = null,
-    @SerialName("display_name") val displayName: String? = null,
+    val photoUrl: String? = null,
+    val displayName: String? = null,
     val dob: String? = null,
     val gender: String? = null,
-    @SerialName("class_level") val classLevel: String? = null,
+    val classLevel: String? = null,
     val subjects: String? = null,
     val pradesh: String? = null,
     val district: String? = null,
     val school: String? = null,
-    @SerialName("is_locked") val isLocked: Boolean? = null,
-    @SerialName("banner_url") val bannerUrl: String? = null,
+    val isLocked: Boolean? = null,
+    val bannerUrl: String? = null,
     val bio: String? = null
 )
 
@@ -100,7 +101,7 @@ data class PostUpdateRequest(
 @Serializable
 data class ReplyCreateRequest(
     val content: String,
-    @SerialName("parent_reply_id") val parentReplyId: String? = null
+    val parentReplyId: String? = null
 )
 
 @Serializable
@@ -204,6 +205,23 @@ data class UserProfileResponse(
     @SerialName("achievement_badges") val achievementBadges: String? = null
 )
 
+// Mirrors backend UserStatsSerializer (snake_case). Returned by
+// GET /api/users/profile/<username>/stats/ — call alongside getProfile to
+// populate the profile screen, because UserSerializer itself carries no stats.
+@Serializable
+data class ApiUserStats(
+    val username: String = "",
+    @SerialName("post_count") val postCount: Int = 0,
+    @SerialName("reply_count") val replyCount: Int = 0,
+    @SerialName("follower_count") val followerCount: Int = 0,
+    @SerialName("following_count") val followingCount: Int = 0,
+    @SerialName("likes_received") val likesReceived: Int = 0,
+    @SerialName("likes_given") val likesGiven: Int = 0,
+    @SerialName("contribution_score") val contributionScore: Int = 0,
+    @SerialName("is_following") val isFollowing: Boolean = false,
+    @SerialName("is_self") val isSelf: Boolean = false
+)
+
 @Serializable
 data class ApiResource(
     val id: String,
@@ -269,19 +287,19 @@ data class ApiReply(
 
 @Serializable
 data class LikeResponse(
-    @SerialName("thumbs_up_count") val thumbsUpCount: Int,
-    @SerialName("is_thumbed_up") val isThumbedUp: Boolean
+    val thumbsUpCount: Int,
+    val isThumbedUp: Boolean
 )
 
 @Serializable
 data class ResourceLikeResponse(
-    @SerialName("like_count") val likeCount: Int,
-    @SerialName("is_liked") val isLiked: Boolean
+    val likeCount: Int,
+    val isLiked: Boolean
 )
 
 @Serializable
 data class BookmarkResponse(
-    @SerialName("is_bookmarked") val isBookmarked: Boolean
+    val isBookmarked: Boolean
 )
 
 @Serializable
@@ -337,15 +355,9 @@ data class ApiNotification(
 )
 
 @Serializable
-data class ApiNotificationListResponse(
-    val notifications: List<ApiNotification>,
-    @SerialName("has_more") val hasMore: Boolean = false
-)
-
-@Serializable
 data class ApiNotificationMarkReadResponse(
-    val status: String = "",
-    val message: String = ""
+    val success: Boolean = false,
+    @SerialName("marked_count") val markedCount: Int = 0
 )
 
 @Serializable
@@ -412,6 +424,59 @@ data class ApiPaginatedPosts(
     val previous: String? = null
 )
 
+@Serializable
+data class ApiPaginatedReplies(
+    @SerialName("results") val replies: List<ApiReply> = emptyList(),
+    @SerialName("count") val totalCount: Int = 0,
+    val next: String? = null,
+    val previous: String? = null
+)
+
+@Serializable
+data class ApiPaginatedNotifications(
+    @SerialName("results") val notifications: List<ApiNotification> = emptyList(),
+    @SerialName("count") val totalCount: Int = 0,
+    val next: String? = null,
+    val previous: String? = null
+)
+
+@Serializable
+data class ApiPaginatedBookmarks(
+    @SerialName("results") val bookmarks: List<ApiBookmark> = emptyList(),
+    @SerialName("count") val totalCount: Int = 0,
+    val next: String? = null,
+    val previous: String? = null
+)
+
+// Mirrors backend FollowSerializer (snake_case). A single record represents one
+// follow edge; depending on the endpoint either the follower_* or following_*
+// fields describe "the other person".
+@Serializable
+data class ApiFollow(
+    val id: Int = 0,
+    @SerialName("created_at") val createdAt: Long = 0,
+    @SerialName("follower_username") val followerUsername: String? = null,
+    @SerialName("follower_photo_url") val followerPhotoUrl: String? = null,
+    @SerialName("follower_display_name") val followerDisplayName: String? = null,
+    @SerialName("following_username") val followingUsername: String? = null,
+    @SerialName("following_photo_url") val followingPhotoUrl: String? = null,
+    @SerialName("following_display_name") val followingDisplayName: String? = null
+)
+
+@Serializable
+data class ApiPaginatedFollows(
+    @SerialName("results") val follows: List<ApiFollow> = emptyList(),
+    @SerialName("count") val totalCount: Int = 0,
+    val next: String? = null,
+    val previous: String? = null
+)
+
+@Serializable
+data class NotificationsMarkReadRequest(
+    @SerialName("mark_all") val markAll: Boolean = false,
+    @SerialName("notification_ids") val notificationIds: List<String>? = null
+)
+
 // -------------------------------------------------------------
 // RETROFIT API INTERFACE
 // -------------------------------------------------------------
@@ -471,6 +536,12 @@ interface ApiService {
         @Path("username") username: String
     ): UserProfileResponse
 
+    @GET("api/users/profile/{username}/stats/")
+    suspend fun getProfileStats(
+        @Header("Authorization") bearerToken: String?,
+        @Path("username") username: String
+    ): ApiUserStats
+
     @POST("api/users/{userId}/follow/")
     suspend fun toggleFollow(
         @Header("Authorization") bearerToken: String,
@@ -480,14 +551,16 @@ interface ApiService {
     @GET("api/users/{userId}/followers/")
     suspend fun getFollowers(
         @Header("Authorization") bearerToken: String?,
-        @Path("userId") userId: String
-    ): List<UserProfileResponse>
+        @Path("userId") userId: String,
+        @Query("page") page: Int? = null
+    ): ApiPaginatedFollows
 
     @GET("api/users/{userId}/following/")
     suspend fun getFollowing(
         @Header("Authorization") bearerToken: String?,
-        @Path("userId") userId: String
-    ): List<UserProfileResponse>
+        @Path("userId") userId: String,
+        @Query("page") page: Int? = null
+    ): ApiPaginatedFollows
 
     @GET("api/users/me/photos/")
     suspend fun getUserPhotos(
@@ -589,8 +662,9 @@ interface ApiService {
     @GET("api/posts/{postId}/replies/")
     suspend fun getReplies(
         @Header("Authorization") bearerToken: String?,
-        @Path("postId") postId: String
-    ): List<ApiReply>
+        @Path("postId") postId: String,
+        @Query("page") page: Int? = null
+    ): ApiPaginatedReplies
 
     @POST("api/posts/{postId}/replies/")
     suspend fun createReply(
@@ -650,28 +724,32 @@ interface ApiService {
         @Body request: BookmarkToggleRequest
     ): BookmarkResponse
 
-    @POST("api/bookmarks/check/")
+    @GET("api/bookmarks/check/")
     suspend fun checkBookmark(
         @Header("Authorization") bearerToken: String,
-        @Body request: BookmarkToggleRequest
+        @Query("target_type") targetType: String,
+        @Query("target_id") targetId: String
     ): BookmarkResponse
 
     @GET("api/bookmarks/")
     suspend fun getBookmarks(
         @Header("Authorization") bearerToken: String,
-        @Query("target_type") targetType: String? = null
-    ): List<ApiBookmark>
+        @Query("target_type") targetType: String? = null,
+        @Query("page") page: Int? = null
+    ): ApiPaginatedBookmarks
 
     // --- Notifications ---
     @GET("api/notifications/")
     suspend fun getNotifications(
         @Header("Authorization") bearerToken: String,
-        @Query("page") page: Int? = null
-    ): ApiNotificationListResponse
+        @Query("page") page: Int? = null,
+        @Query("unread_only") unreadOnly: Boolean? = null
+    ): ApiPaginatedNotifications
 
     @POST("api/notifications/mark-read/")
     suspend fun markNotificationsRead(
-        @Header("Authorization") bearerToken: String
+        @Header("Authorization") bearerToken: String,
+        @Body request: NotificationsMarkReadRequest = NotificationsMarkReadRequest(markAll = true)
     ): ApiNotificationMarkReadResponse
 
     @GET("api/notifications/unread-count/")

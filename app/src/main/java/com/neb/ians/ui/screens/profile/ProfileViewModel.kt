@@ -9,14 +9,17 @@ import kotlinx.coroutines.launch
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import com.neb.ians.data.api.ApiService
+import com.neb.ians.data.api.ApiUserStats
 import com.neb.ians.data.api.UserProfileResponse
 import com.neb.ians.data.repository.AuthRepository
 
 data class ProfileUiState(
     val profile: UserProfileResponse? = null,
+    val stats: ApiUserStats? = null,
     val isLoading: Boolean = false,
     val error: String? = null,
     val isFollowing: Boolean = false,
+    val isSelf: Boolean = false,
     val followerCount: Int = 0
 )
 
@@ -35,11 +38,18 @@ class ProfileViewModel @Inject constructor(
             try {
                 val token = authRepository.getBearerToken()
                 val profile = apiService.getProfile(token, username)
+                val stats = try {
+                    apiService.getProfileStats(token, username)
+                } catch (_: Exception) {
+                    null
+                }
                 _uiState.value = _uiState.value.copy(
                     profile = profile,
+                    stats = stats,
                     isLoading = false,
-                    isFollowing = profile.isFollowing ?: false,
-                    followerCount = profile.followerCount
+                    isFollowing = stats?.isFollowing ?: profile.isFollowing ?: false,
+                    isSelf = stats?.isSelf ?: profile.isSelf ?: false,
+                    followerCount = stats?.followerCount ?: profile.followerCount
                 )
             } catch (e: Exception) {
                 _uiState.value = _uiState.value.copy(isLoading = false, error = e.localizedMessage)

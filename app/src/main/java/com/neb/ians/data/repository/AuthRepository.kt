@@ -295,7 +295,7 @@ class AuthRepository @Inject constructor(
     suspend fun emailResetPassword(email: String, code: String, newPassword: String): EmailAuthResult {
         return try {
             val response = withContext(Dispatchers.IO) {
-                apiService.emailResetPassword(com.neb.ians.data.api.EmailResetPasswordRequest(email, code, newPassword))
+                apiService.emailResetPassword(com.neb.ians.data.api.EmailResetPasswordRequest(email, code, newPassword, newPassword))
             }
             if (response.status == "success" && response.authToken != null) {
                 val user = response.user
@@ -375,21 +375,27 @@ class AuthRepository @Inject constructor(
             val bearer = getBearerToken() ?: return
             val username = dataStore.data.first()[USER_NAME] ?: return
             val response = withContext(Dispatchers.IO) { apiService.getProfile(bearer, username) }
+            // UserSerializer carries no stats — fetch them from the dedicated stats endpoint.
+            val stats = try {
+                withContext(Dispatchers.IO) { apiService.getProfileStats(bearer, username) }
+            } catch (_: Exception) { null }
             withContext(Dispatchers.IO) {
                 dataStore.edit { prefs ->
                     prefs[USER_PHOTO_URL] = response.photoUrl ?: ""
                     prefs[USER_DISPLAY_NAME] = response.displayName ?: ""
                     prefs[USER_BANNER_URL] = response.bannerUrl ?: ""
                     prefs[USER_BIO] = response.bio ?: ""
-                    prefs[USER_FOLLOWER_COUNT] = response.followerCount
-                    prefs[USER_FOLLOWING_COUNT] = response.followingCount
-                    prefs[USER_POST_COUNT] = response.postCount
-                    prefs[USER_REPLY_COUNT] = response.replyCount
-                    prefs[USER_CONTRIBUTION_SCORE] = response.contributionScore
                     prefs[USER_VERIFICATION_LEVEL] = response.verificationLevel
                     prefs[USER_MODERATOR_LEVEL] = response.moderatorLevel
                     prefs[USER_IS_ADMIN] = response.isAdmin
                     prefs[USER_ACHIEVEMENT_BADGES] = response.achievementBadges ?: ""
+                    if (stats != null) {
+                        prefs[USER_FOLLOWER_COUNT] = stats.followerCount
+                        prefs[USER_FOLLOWING_COUNT] = stats.followingCount
+                        prefs[USER_POST_COUNT] = stats.postCount
+                        prefs[USER_REPLY_COUNT] = stats.replyCount
+                        prefs[USER_CONTRIBUTION_SCORE] = stats.contributionScore
+                    }
                 }
             }
         } catch (_: Exception) { }

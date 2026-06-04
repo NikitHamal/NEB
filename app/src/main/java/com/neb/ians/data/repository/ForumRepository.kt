@@ -56,7 +56,7 @@ class ForumRepository @Inject constructor(
     suspend fun getReplies(postId: String): Result<List<ApiReply>> {
         return try {
             val token = getBearerToken()
-            val replies = apiService.getReplies(token, postId)
+            val replies = apiService.getReplies(token, postId).replies
             Result.success(replies)
         } catch (e: Exception) {
             Result.failure(e)
