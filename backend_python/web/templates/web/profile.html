@@ -2,7 +2,7 @@
 {% load web_extras %}
 
 {% block title %}{{ profile_user.display_name|default:profile_user.username }} - NEBians Profile{% endblock %}
-{% block description %}{{ profile_user.display_name|default:profile_user.username }} on NEBians - NEB student profile, discussions, and achievements.{% endblock %}
+{% block description %}{{ profile_user.display_name|default:profile_user.username }}'s profile, discussions, and achievements on NEBians{% endblock %}
 
 {% block bottomnav %}{% endblock %}
 
@@ -11,7 +11,7 @@
   .profile-page {
     max-width: 1100px;
     margin: 0 auto;
-    padding: 0 16px 48px;
+    padding: 0 24px 48px;
   }
 
   /* ── Banner ── */
@@ -791,13 +791,13 @@
                 </span>
               {% else %}
                 {% if profile_user.class_level %}
-                  {% if profile_user.class_level == '11' %}Grade 11 Student
-                  {% elif profile_user.class_level == '12' %}Grade 12 Student
-                  {% elif profile_user.class_level == 'Both' %}Grade 11 & 12 Student
-                  {% elif profile_user.class_level == 'Passout' %}NEB Graduate
+                  {% if profile_user.class_level == '11' %}Class 11
+                  {% elif profile_user.class_level == '12' %}Class 12
+                  {% elif profile_user.class_level == 'Both' %}Class 11 & 12
+                  {% elif profile_user.class_level == 'Passout' %}Graduate
                   {% elif profile_user.class_level == 'Teacher' %}Teacher / Educator
-                  {% elif profile_user.class_level == 'Bachelors' %}University Student
-                  {% else %}{{ profile_user.class_level }} Student{% endif %}
+                  {% elif profile_user.class_level == 'Bachelors' %}Bachelors
+                  {% else %}{{ profile_user.class_level }}{% endif %}
                 {% else %}
                   NEBians Member
                 {% endif %}
@@ -891,7 +891,7 @@
                     Your friendly AI study buddy. Always learning, always here to help.
                   {% else %}
                     {% if profile_user.display_name %}{{ profile_user.display_name }}{% else %}A NEBians member{% endif %}
-                    {% if profile_user.school %} studying at <strong>{{ profile_user.school }}</strong>{% endif %}.
+                    {% if profile_user.school %} at <strong>{{ profile_user.school }}</strong>{% endif %}.
                     {% if profile_user.subjects %}Focusing on <strong>{{ profile_user.subjects|comma_space }}</strong>.{% endif %}
                   {% endif %}
                 {% endif %}
@@ -1388,10 +1388,10 @@
                   <span class="material-symbols-outlined">school</span>
                   <span class="about-detail-label">Class</span>
                   <span class="about-detail-value">
-                    {% if profile_user.class_level == '11' %}Grade 11
-                    {% elif profile_user.class_level == '12' %}Grade 12
-                    {% elif profile_user.class_level == 'Both' %}Grade 11 & 12
-                    {% elif profile_user.class_level == 'Passout' %}NEB Graduate
+                    {% if profile_user.class_level == '11' %}Class 11
+                    {% elif profile_user.class_level == '12' %}Class 12
+                    {% elif profile_user.class_level == 'Both' %}Class 11 & 12
+                    {% elif profile_user.class_level == 'Passout' %}Graduate
                     {% elif profile_user.class_level == 'Teacher' %}Teacher
                     {% elif profile_user.class_level == 'Bachelors' %}Bachelors
                     {% else %}{{ profile_user.class_level }}{% endif %}

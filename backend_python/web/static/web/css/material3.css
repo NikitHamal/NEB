@@ -391,15 +391,15 @@ img {
 
 /* Layout */
 .md-container {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 0 16px;
+  padding: 0 24px;
 }
 
 .md-container-narrow {
   max-width: 800px;
   margin: 0 auto;
-  padding: 0 16px;
+  padding: 0 24px;
 }
 
 /* Navigation Bar */
@@ -409,7 +409,7 @@ img {
   z-index: 100;
   background: var(--md-surface);
   border-bottom: none;
-  padding: 0 16px;
+  padding: 0 24px;
   height: 64px;
   display: flex;
   align-items: center;
@@ -1287,4 +1287,13 @@ img {
 .subject-icon svg {
   width: 24px;
   height: 24px;
+}
+
+@media (max-width: 600px) {
+  .md-container, .md-container-narrow {
+    padding: 0 16px;
+  }
+  .md-topbar {
+    padding: 0 16px;
+  }
 }

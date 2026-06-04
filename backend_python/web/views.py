@@ -1396,7 +1396,7 @@ def upload_resource(request):
                     db_subjects.append(s_stripped)
     subjects = sorted(set(_default_subjects + db_subjects))
     common_tags = [
-        'NEB', 'SEE', 'Board Exam', 'Past Paper', 'Model Paper', 'Solution',
+        'Board Exam', 'SEE', 'Past Paper', 'Model Paper', 'Solution',
         'Important Questions', 'Numerical', 'Derivation', 'Formula Sheet',
         'Chapter 1', 'Chapter 2', 'Chapter 3', 'Chapter 4', 'Chapter 5',
         'Chapter 6', 'Chapter 7', 'Chapter 8', 'Chapter 9', 'Chapter 10',
@@ -1660,7 +1660,7 @@ def edit_resource(request, resource_id):
                     db_subjects.append(s_stripped)
     subjects = sorted(set(_default_subjects + db_subjects))
     common_tags = [
-        'NEB', 'SEE', 'Board Exam', 'Past Paper', 'Model Paper', 'Solution',
+        'Board Exam', 'SEE', 'Past Paper', 'Model Paper', 'Solution',
         'Important Questions', 'Numerical', 'Derivation', 'Formula Sheet',
         'Chapter 1', 'Chapter 2', 'Chapter 3', 'Chapter 4', 'Chapter 5',
         'Chapter 6', 'Chapter 7', 'Chapter 8', 'Chapter 9', 'Chapter 10',
@@ -3530,7 +3530,7 @@ def admin_resource_edit(request, resource_id):
                     db_subjects.append(s_stripped)
     subjects = sorted(set(_default_subjects + db_subjects))
     common_tags = [
-        'NEB', 'SEE', 'Board Exam', 'Past Paper', 'Model Paper', 'Solution',
+        'Board Exam', 'SEE', 'Past Paper', 'Model Paper', 'Solution',
         'Important Questions', 'Numerical', 'Derivation', 'Formula Sheet',
         'Chapter 1', 'Chapter 2', 'Chapter 3', 'Chapter 4', 'Chapter 5',
         'Chapter 6', 'Chapter 7', 'Chapter 8', 'Chapter 9', 'Chapter 10',

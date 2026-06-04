@@ -29,10 +29,6 @@ class AllowedHostMiddleware:
         host = request.get_host().split(':')[0].lower()
         for suffix in self.suffixes:
             if host.endswith('.' + suffix) or host == suffix:
-                # Rewrite the HTTP_HOST header so Django uses the canonical
-                # host in URL generation, CSRF checks, and the
-                # Vary/Origin handling. The actual client connection is
-                # still on the trycloudflare domain.
                 request.META['HTTP_HOST'] = self.CANONICAL_HOST
                 request._mirrored_host = host
                 break
@@ -54,11 +50,39 @@ class SecurityHeadersMiddleware:
 
         nonce = getattr(request, 'csp_nonce', '')
         img_sources = "img-src 'self' data: https:;"
-        connect_sources = "connect-src 'self' https://accounts.google.com;"
+        connect_sources = ["'self'", "https://accounts.google.com"]
+
+        ws_url = getattr(settings, 'WS_PUBLIC_URL', '') or ''
+        if not ws_url:
+            try:
+                import glob as _glob
+                import re as _re
+                for path in sorted(_glob.glob('/tmp/cf_quick*.log'), reverse=True):
+                    try:
+                        with open(path) as f:
+                            content = f.read()
+                        m = _re.search(r'https://([a-z0-9-]+\.trycloudflare\.com)', content)
+                        if m:
+                            ws_url = 'wss://' + m.group(1) + '/ws/'
+                            break
+                    except OSError:
+                        continue
+            except Exception:
+                pass
+
+        if ws_url:
+            import re as _re2
+            m = _re2.match(r'(wss?|https?)://([a-z0-9.-]+)', ws_url)
+            if m:
+                host = m.group(2)
+                connect_sources.append('wss://' + host)
+                connect_sources.append('https://' + host)
+
+        connect_src_str = "connect-src " + " ".join(connect_sources) + ";"
 
         if settings.DEBUG:
             img_sources = "img-src 'self' data: http: https:;"
-            connect_sources = "connect-src 'self' http: https:;"
+            connect_src_str = "connect-src 'self' http: https: wss:;"
 
         csp = (
             "default-src 'self'; "
@@ -67,7 +91,7 @@ class SecurityHeadersMiddleware:
             "font-src 'self' https://fonts.gstatic.com; "
             f"{img_sources} "
             "frame-src 'self' https:; "
-            f"{connect_sources} "
+            f"{connect_src_str} "
             "base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
         )
         response.setdefault('Content-Security-Policy', csp)

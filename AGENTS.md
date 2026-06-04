@@ -623,7 +623,7 @@ A trycloudflare URL looks like `https://abc123.trycloudflare.com` — different 
 - [x] AllowedHostMiddleware deployed (handles trycloudflare wildcard)
 - [x] window.WS_CONFIG.url injected in base.html
 - [x] realtime.js copied to public/static/web/js/
-- [ ] Named Cloudflare tunnel (stable URL — currently trycloudflare which rotates)
+- [x] **Decided to stay on trycloudflare** (named tunnel deferred — requires registrar/partner action at babal.host)
 
 ---
 
@@ -631,6 +631,8 @@ A trycloudflare URL looks like `https://abc123.trycloudflare.com` — different 
 
 ### What Was Being Worked On (Last Session)
 **Real-time WebSockets for NEBians web** — added a full WS layer (Channels + Daphne + Cloudflare Tunnel) so the web frontend gets live updates for posts, replies, likes, notifications, follows. See the **"Real-Time WebSockets"** section above for the full architecture. Verified end-to-end through the public Cloudflare URL (auth, subscribe, broadcast roundtrip all pass).
+
+**Deployment decision (2026-06-04):** User decided to **stay on the trycloudflare quick tunnel** (`https://fresh-discrimination-purpose-envelope.trycloudflare.com` → `wss://fresh-...trycloudflare.com/ws/`) instead of setting up a named Cloudflare tunnel. Reason: the partner who manages the registrar (babal.host) cannot change nameservers for `consica.com.np` because the cPanel hosting uses direct nameservers, and the partner is not always available. The trycloudflare URL is fully functional — the only downside is cosmetic (the URL rotates if cloudflared restarts, but this is rare and the system self-heals on next page load). The `WS_PUBLIC_URL` env var is unset on the server, and `_get_ws_public_url()` auto-discovers the URL from `/tmp/cf_quick*.log` at request time. Switch to a named tunnel later if/when registrar access is available.
 
 Also fixed: AI4Bharat Arena mojibake — encoding was being double-decoded, garbling Nepali text in assistant responses. Fixed in `api/ai4bharat_proxy.py` `stream_chat()` and `regenerate()`. 0 corrupted rows remain in DB.
 

@@ -1,7 +1,7 @@
 {
-  "name": "NEBians - NEB Students Network",
+  "name": "NEBians - Study Platform & Discussion Forum",
   "short_name": "NEBians",
-  "description": "Study resources, discussion forum, and community for NEB students in Nepal",
+  "description": "Study resources, discussion forum, and community for students and teachers of all classes and faculties",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",

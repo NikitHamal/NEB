@@ -2159,7 +2159,7 @@ button:focus-visible {
 
 .site-footer {
   text-align: center;
-  padding: 24px 16px 16px;
+  padding: 24px 24px 16px;
   color: var(--md-on-surface-variant);
   font-size: 0.75rem;
   background: transparent;
