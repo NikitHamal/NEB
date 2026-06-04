@@ -630,13 +630,22 @@ A trycloudflare URL looks like `https://abc123.trycloudflare.com` — different 
 ## Continuity Notes
 
 ### What Was Being Worked On (Last Session)
-**Real-time WebSockets for NEBians web** — added a full WS layer (Channels + Daphne + Cloudflare Tunnel) so the web frontend gets live updates for posts, replies, likes, notifications, follows. See the **"Real-Time WebSockets"** section above for the full architecture. Verified end-to-end through the public Cloudflare URL (auth, subscribe, broadcast roundtrip all pass).
+**Multi-bot system** — converted the single BotConfig singleton into a multi-bot system where admins can create, edit, and delete multiple AI bots, each with its own username, provider, model, and personality. The bot user accounts can also be created directly from the admin panel.
 
-**Deployment decision (2026-06-04):** User decided to **stay on the trycloudflare quick tunnel** (`https://fresh-discrimination-purpose-envelope.trycloudflare.com` → `wss://fresh-...trycloudflare.com/ws/`) instead of setting up a named Cloudflare tunnel. Reason: the partner who manages the registrar (babal.host) cannot change nameservers for `consica.com.np` because the cPanel hosting uses direct nameservers, and the partner is not always available. The trycloudflare URL is fully functional — the only downside is cosmetic (the URL rotates if cloudflared restarts, but this is rare and the system self-heals on next page load). The `WS_PUBLIC_URL` env var is unset on the server, and `_get_ws_public_url()` auto-discovers the URL from `/tmp/cf_quick*.log` at request time. Switch to a named tunnel later if/when registrar access is available.
+**Changes:**
+- `BotConfig` model: removed singleton pattern (`pk=1`), changed `id` to `AutoField`, added `name`, `display_name`, `avatar_url`, `created_at` fields, made `bot_username` unique
+- `NebyTask` model: added `bot_config` ForeignKey (nullable, SET_NULL on delete) so tasks are linked to the specific bot config that triggered them
+- `api/neby.py`: completely rewritten to support multi-bot — `enqueue_if_post_mention()` and `enqueue_if_reply_mention()` now scan all enabled bots for @username matches, `process_neby_task()` reads `task.bot_config` instead of global singleton, `call_ai_api()` accepts any config (falls back to first enabled), `_build_post_context()` and `_build_reply_context()` use per-bot display name
+- `web/views.py`: replaced `admin_bot_config()` with `admin_bots()` (list), `admin_bot_edit()` (create/edit, with delete), `admin_bot_create_user()` (creates a bot User account with `is_bot=True`)
+- `web/urls.py`: replaced `/admin/bot/` with `/admin/bots/`, `/admin/bots/new/`, `/admin/bots/<int:bot_id>/`, `/admin/bots/<int:bot_id>/create-user/`
+- `web/templates/admin_panel/bot_list.html`: new — card grid of all bots with status, provider, model, task stats, edit/create-user buttons
+- `web/templates/admin_panel/bot_edit.html`: new — full bot config form (identity, API config, behavior, danger zone/delete) with same provider-switching JS as before
+- `web/templates/admin_panel/bot_create_user.html`: new — confirmation page to create a bot User account
+- `web/templates/admin_panel/base.html`: sidebar/mobile nav updated from "Neby AI Bot" → "AI Bots", link updated to `/admin/bots/`
+- `api/management/commands/create_neby_bot.py`: updated to work with multi-bot BotConfig, accepts `--name` flag
+- Migrations 0033, 0034, 0035: add new fields, FK to NebyTask, change PK to AutoField, add unique constraint on `bot_username`, backfill existing data
 
-Also fixed: AI4Bharat Arena mojibake — encoding was being double-decoded, garbling Nepali text in assistant responses. Fixed in `api/ai4bharat_proxy.py` `stream_chat()` and `regenerate()`. 0 corrupted rows remain in DB.
-
-### Previous Session
+**Previous session:**
 **Admin panel: BotConfig provider switcher** — added a `provider` dropdown to `/admin/bot/` so the admin can flip the Neby AI bot between three backends without code changes:
 
 - **`qwen`** (default) — Qwen web chat via `qwen_proxy.call_qwen`

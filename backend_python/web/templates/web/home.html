@@ -283,7 +283,7 @@
       </div>
       <div style="display:flex;flex-direction:column;gap:12px;">
         {% for post in recent_posts %}
-        <div class="post-card">
+        <div class="post-card" data-action="open-post" data-post-url="{% url 'web:forum_post' post_id=post.id %}" style="cursor: pointer;">
           <div class="post-card-header">
             <div class="post-card-avatar">
               {% if post.authorPhotoUrl %}
@@ -313,20 +313,20 @@
             </div>
             <div class="more-menu-wrapper">
               <button class="more-btn" data-action="toggle-more-menu" data-menu-id="post-menu-home-{{ post.id }}" aria-label="More options"><span class="material-symbols-outlined">more_vert</span></button>
-              <div class="more-menu" id="post-menu-home-{{ post.id }}" style="display:none;">
+              <div class="more-menu" id="post-menu-home-{{ post.id }}" style="display:none;" data-action="stop-propagation">
                 {% if is_authenticated %}
                 <button class="more-menu-item" data-action="toggle-bookmark" data-target-type="post" data-target-id="{{ post.id }}">
                   <span class="material-symbols-outlined" id="bookmark-icon-post-{{ post.id }}"{% if post.isBookmarked %} style="font-variation-settings:'FILL' 1"{% endif %}>bookmark</span>
                   <span id="bookmark-label-post-{{ post.id }}">{% if post.isBookmarked %}Remove{% else %}Bookmark{% endif %}</span>
                 </button>
+                {% endif %}
                 <button class="more-menu-item" data-action="share-post-url" data-path="{% url 'web:forum_post' post_id=post.id %}">
                   <span class="material-symbols-outlined">share</span> Share
                 </button>
-                {% if post.authorId != user.id %}
+                {% if is_authenticated and post.authorId != user.id %}
                 <button class="more-menu-item" data-action="report-content" data-target-type="post" data-target-id="{{ post.id }}">
                   <span class="material-symbols-outlined">flag</span> Report
                 </button>
-                {% endif %}
                 {% endif %}
               </div>
             </div>
@@ -342,6 +342,13 @@
               <span class="material-symbols-outlined">chat_bubble_outline</span>
               <span>{{ post.replyCount }} Replies</span>
             </a>
+            <span class="fp-action-spacer" style="flex: 1;"></span>
+            <button type="button" class="{% if post.isBookmarked %}bookmark-active{% endif %}" data-action="toggle-bookmark" data-target-type="post" data-target-id="{{ post.id }}" id="home-post-bookmark-btn-{{ post.id }}" aria-label="Bookmark">
+              <span class="material-symbols-outlined" {% if post.isBookmarked %}style="font-variation-settings: 'FILL' 1;"{% endif %}>bookmark</span>
+            </button>
+            <button type="button" data-action="share-post-url" data-path="{% url 'web:forum_post' post_id=post.id %}" aria-label="Share">
+              <span class="material-symbols-outlined">share</span>
+            </button>
           </div>
         </div>
         {% endfor %}
@@ -367,7 +374,9 @@
 document.addEventListener('DOMContentLoaded', function() {
   if (!window.WS) return;
   window.WS.subscribe('forum.public');
-  window.WS.subscribe('user');
+  if (IS_AUTHENTICATED) {
+    window.WS.subscribe('user');
+  }
   window.WS.on('forum.public:post.like_changed', function (data) {
     if (!data || !data.post_id) return;
     const el = document.getElementById('home-post-like-count-' + data.post_id);
@@ -455,6 +464,16 @@ document.addEventListener('DOMContentLoaded', function() {
           var labelEl = document.getElementById('bookmark-label-' + targetType + '-' + targetId);
           if (iconEl) { iconEl.textContent = 'bookmark'; iconEl.style.fontVariationSettings = d.isBookmarked ? "'FILL' 1" : ''; }
           if (labelEl) labelEl.textContent = d.isBookmarked ? 'Remove' : 'Bookmark';
+          
+          // Update footer button
+          var footerBtn = document.getElementById('home-post-bookmark-btn-' + targetId);
+          if (footerBtn) {
+            footerBtn.classList.toggle('bookmark-active', d.isBookmarked);
+            var footerIcon = footerBtn.querySelector('.material-symbols-outlined');
+            if (footerIcon) {
+              footerIcon.style.fontVariationSettings = d.isBookmarked ? "'FILL' 1" : '';
+            }
+          }
           showSnackbar(d.isBookmarked ? 'Bookmarked!' : 'Bookmark removed');
         } else { showSnackbar(d.error || 'Failed to toggle bookmark'); }
       } catch(e) { showSnackbar('Error toggling bookmark'); }

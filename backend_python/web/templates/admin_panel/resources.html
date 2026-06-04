@@ -8,7 +8,7 @@
   <div style="display:flex;gap:8px;align-items:center;">
     <a href="{% url 'web:admin_pending_resources' %}" class="md-btn md-btn-outlined" style="gap:6px;">
       <span class="material-symbols-outlined" style="font-size:18px">pending_actions</span>
-      Pending Review
+      Pending{% if pending_count %} ({{ pending_count }}){% endif %}
     </a>
     <a href="#" data-action="toggle-add-resource-form" class="md-btn md-btn-filled">
       <span class="material-symbols-outlined" style="font-size:18px">add</span>
@@ -138,13 +138,21 @@
   </form>
 </div>
 
-<!-- Search -->
-<form method="get" style="margin-bottom:16px;">
-  <div class="search-bar">
-    <span class="material-symbols-outlined">search</span>
-    <input type="text" name="q" value="{{ search }}" placeholder="Search resources...">
+<!-- Filters & Search -->
+<div style="display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap;align-items:center;overflow-x:hidden;">
+  <form method="get" style="flex:1;min-width:180px;">
+    <div class="search-bar">
+      <span class="material-symbols-outlined">search</span>
+      <input type="text" name="q" value="{{ search }}" placeholder="Search resources...">
+    </div>
+  </form>
+  <div style="display:flex;gap:6px;flex-wrap:wrap;">
+    <a href="{% url 'web:admin_resources' %}{% if search %}?q={{ search }}{% endif %}" class="md-btn {% if status_filter == '' %}md-btn-filled{% else %}md-btn-outlined{% endif %}" style="padding:6px 14px;font-size:0.8125rem;white-space:nowrap;">All</a>
+    <a href="?status=approved{% if search %}&q={{ search }}{% endif %}" class="md-btn {% if status_filter == 'approved' %}md-btn-filled{% else %}md-btn-outlined{% endif %}" style="padding:6px 14px;font-size:0.8125rem;white-space:nowrap;">Approved</a>
+    <a href="?status=pending{% if search %}&q={{ search }}{% endif %}" class="md-btn {% if status_filter == 'pending' %}md-btn-filled{% else %}md-btn-outlined{% endif %}" style="padding:6px 14px;font-size:0.8125rem;white-space:nowrap;">Pending</a>
+    <a href="?status=rejected{% if search %}&q={{ search }}{% endif %}" class="md-btn {% if status_filter == 'rejected' %}md-btn-filled{% else %}md-btn-outlined{% endif %}" style="padding:6px 14px;font-size:0.8125rem;white-space:nowrap;">Rejected</a>
   </div>
-</form>
+</div>
 
 {% if resources %}
 <div class="md-table-responsive">
@@ -152,10 +160,11 @@
     <thead>
       <tr>
         <th>Title</th>
-        <th>Subject</th>
-        <th>Grade</th>
-        <th>Type</th>
-        <th>Views</th>
+        <th class="col-subject">Subject</th>
+        <th class="col-grade">Grade</th>
+        <th class="col-type">Type</th>
+        <th>Status</th>
+        <th class="col-views">Views</th>
         <th>Actions</th>
       </tr>
     </thead>
@@ -167,9 +176,18 @@
           <div style="font-size:0.75rem;color:var(--md-on-surface-variant);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ r.description|default:"" }}</div>
         </td>
         <td><span class="md-chip" style="font-size:0.75rem;">{{ r.subject|truncatechars:35 }}</span></td>
-        <td>{{ r.grade_level }}</td>
-        <td>{{ r.type }}</td>
-        <td>{{ r.view_count }}</td>
+        <td class="col-grade">{{ r.grade_level }}</td>
+        <td class="col-type">{{ r.type }}</td>
+        <td>
+          {% if r.approval_status == 'approved' %}
+          <span class="admin-badge admin-badge-approved">Approved</span>
+          {% elif r.approval_status == 'pending' %}
+          <span class="admin-badge admin-badge-pending">Pending</span>
+          {% elif r.approval_status == 'rejected' %}
+          <span class="admin-badge admin-badge-rejected">Rejected</span>
+          {% endif %}
+        </td>
+        <td class="col-views">{{ r.view_count }}</td>
         <td>
           <div style="display:flex;gap:4px;">
             <a href="{% url 'web:admin_resource_edit' resource_id=r.id %}" class="md-btn md-btn-text" style="padding:4px 8px;font-size:0.75rem;">Edit</a>
@@ -188,7 +206,7 @@
 {% if page_obj.has_other_pages %}
 <div class="admin-pagination">
     {% if page_obj.has_previous %}
-        <a href="?page={{ page_obj.previous_page_number }}{% if search %}&q={{ search }}{% endif %}" class="md-btn md-btn-text">&laquo; Previous</a>
+        <a href="?page={{ page_obj.previous_page_number }}{% if search %}&q={{ search }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}" class="md-btn md-btn-text">&laquo; Previous</a>
     {% else %}
         <span class="disabled">&laquo; Previous</span>
     {% endif %}
@@ -196,11 +214,11 @@
         {% if page_obj.number == num %}
             <span class="active">{{ num }}</span>
         {% else %}
-            <a href="?page={{ num }}{% if search %}&q={{ search }}{% endif %}">{{ num }}</a>
+            <a href="?page={{ num }}{% if search %}&q={{ search }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}">{{ num }}</a>
         {% endif %}
     {% endfor %}
     {% if page_obj.has_next %}
-        <a href="?page={{ page_obj.next_page_number }}{% if search %}&q={{ search }}{% endif %}" class="md-btn md-btn-text">Next &raquo;</a>
+        <a href="?page={{ page_obj.next_page_number }}{% if search %}&q={{ search }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}" class="md-btn md-btn-text">Next &raquo;</a>
     {% else %}
         <span class="disabled">Next &raquo;</span>
     {% endif %}
@@ -232,6 +250,14 @@
   {% endif %}
 </div>
 {% endif %}
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.admin-badge-approved { background: color-mix(10%, #4caf50, transparent); color: #2e7d32; }
+.admin-badge-pending { background: color-mix(10%, #ff9800, transparent); color: #e65100; }
+.admin-badge-rejected { background: color-mix(10%, #f44336, transparent); color: #c62828; }
+</style>
 {% endblock %}
 
 {% block extra_js %}
