@@ -1,0 +1,38 @@
+# Security hardening for LiteSpeed
+
+# Remove Server header identity
+ServerSignature Off
+ServerTokens Prod
+
+# Block sensitive paths - return 404 instead of 403
+RewriteEngine On
+RewriteRule ^\.git - [R=404,L]
+RewriteRule ^\.env - [R=404,L]
+RewriteRule ^\.env\. - [R=404,L]
+RewriteRule ^\.DS_Store - [R=404,L]
+RewriteRule ^\.htaccess - [R=404,L]
+RewriteRule ^\.htpasswd - [R=404,L]
+RewriteRule ^wp-admin - [R=404,L]
+RewriteRule ^wp-login - [R=404,L]
+RewriteRule ^phpmyadmin - [R=404,L]
+RewriteRule ^xmlrpc\.php - [R=404,L]
+RewriteRule ^db\.sqlite3 - [R=404,L]
+RewriteRule ^web\.config - [R=404,L]
+RewriteRule ^config\.py - [R=404,L]
+RewriteRule ^settings\.py - [R=404,L]
+RewriteRule ^database\.yml - [R=404,L]
+RewriteRule ^server-status - [R=404,L]
+RewriteRule ^server-info - [R=404,L]
+
+# Remove ETag header
+Header unset ETag
+FileETag None
+
+# Set security headers (supplement Django middleware)
+Header set X-Content-Type-Options "nosniff"
+Header set X-Frame-Options "DENY"
+Header set Referrer-Policy "strict-origin-when-cross-origin"
+Header set Permissions-Policy "geolocation=(), microphone=(), camera=(), payment=()"
+
+# Hide Server header (LiteSpeed-specific)
+Header unset Server
