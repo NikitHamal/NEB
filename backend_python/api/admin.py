@@ -3,7 +3,7 @@ Register models with Django Admin for easy content management.
 Accessible at /admin-django/ after creating a superuser. The public custom admin UI is /admin/ and now uses the same Django staff/superuser credentials.
 """
 from django.contrib import admin
-from .models import User, Resource, Post, Reply, PostLike, ReplyLike, FCMToken, UserPhoto, Follow, EditHistory, Report, BotConfig, TakedownRequest
+from .models import User, Resource, Post, Reply, PostLike, ReplyLike, FCMToken, UserPhoto, Follow, EditHistory, Report, BotConfig, TakedownRequest, SyllabusContent
 from .models import ResourceComment, ResourceLike, ResourceCommentLike
 
 
@@ -111,3 +111,10 @@ class TakedownRequestAdmin(admin.ModelAdmin):
     search_fields = ['name', 'email', 'organization', 'infringing_url', 'proof_of_ownership']
     list_filter = ['status']
     raw_id_fields = ['resolved_by']
+
+
+@admin.register(SyllabusContent)
+class SyllabusContentAdmin(admin.ModelAdmin):
+    list_display = ['chapter_title', 'subject', 'grade_level', 'order', 'created_at']
+    search_fields = ['chapter_title', 'text_content', 'question_answers', 'subject']
+    list_filter = ['grade_level', 'subject']

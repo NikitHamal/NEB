@@ -80,7 +80,14 @@ def admin_stats(request):
     top_posts_data = PostSerializer(top_posts, many=True, context={'request': request}).data
     recent_users = User.objects.order_by('-created_at')[:5]
     recent_users_data = UserSerializer(recent_users, many=True).data
-    subject_counts = dict(Resource.objects.values('subject').annotate(cnt=Count('id')).values_list('subject', 'cnt'))
+    subject_counts_raw = Resource.objects.values('subject').annotate(cnt=Count('id')).values_list('subject', 'cnt')
+    subject_counts_split = {}
+    for subj_str, cnt in subject_counts_raw:
+        for s in (subj_str or '').split(','):
+            s = s.strip()
+            if s:
+                subject_counts_split[s] = subject_counts_split.get(s, 0) + cnt
+    subject_counts = dict(sorted(subject_counts_split.items(), key=lambda x: x[1], reverse=True)[:15])
     return Response({
         'total_users': total_users,
         'total_resources': total_resources,

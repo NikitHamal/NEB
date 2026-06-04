@@ -1,7 +1,31 @@
 import secrets
 from django.conf import settings
 from django.core.exceptions import DisallowedHost
+from django.http import HttpResponseNotFound
 from django.http.request import validate_host
+
+SENSITIVE_PATHS_404 = (
+    '/.git/',
+    '/.env',
+    '/.env.local',
+    '/.env.production',
+    '/.env.development',
+    '/.DS_Store',
+    '/wp-admin',
+    '/wp-login',
+    '/phpmyadmin',
+    '/xmlrpc.php',
+    '/web.config',
+    '/.htaccess',
+    '/.htpasswd',
+    '/config.py',
+    '/settings.py',
+    '/database.yml',
+    '/db.sqlite3',
+    '/debug/',
+    '/server-status',
+    '/server-info',
+)
 
 
 def csp_nonce_context(request):
@@ -40,6 +64,11 @@ class SecurityHeadersMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
+        path = request.path.lower().rstrip('/')
+        for sensitive in SENSITIVE_PATHS_404:
+            if path == sensitive.lower().rstrip('/') or path.startswith(sensitive.lower()):
+                return HttpResponseNotFound('<h1>Not Found</h1>', content_type='text/html', status=404)
+
         request.csp_nonce = secrets.token_urlsafe(16)
         response = self.get_response(request)
         response.setdefault('Permissions-Policy', 'geolocation=(), microphone=(), camera=(), payment=()')
@@ -47,6 +76,9 @@ class SecurityHeadersMiddleware:
         response.setdefault('X-Permitted-Cross-Domain-Policies', 'none')
         response.setdefault('X-Content-Type-Options', 'nosniff')
         response.setdefault('Referrer-Policy', 'strict-origin-when-cross-origin')
+
+        if 'Server' in response:
+            del response['Server']
 
         nonce = getattr(request, 'csp_nonce', '')
         img_sources = "img-src 'self' data: https:;"

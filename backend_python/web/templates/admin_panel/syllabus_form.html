@@ -1,0 +1,95 @@
+{% extends "admin_panel/base.html" %}
+
+{% block title %}{% if is_edit %}Edit{% else %}Add{% endif %} Syllabus Chapter / Topic{% endblock %}
+
+{% block content %}
+<div class="admin-back-link" style="margin-bottom:16px;">
+  <a href="{% url 'web:admin_syllabus_list' %}" class="md-btn md-btn-text" style="padding-left:0; text-decoration:none;">
+    <span class="material-symbols-outlined" style="font-size:18px; vertical-align:middle; margin-right:4px;">arrow_back</span>
+    Back to Syllabus List
+  </a>
+</div>
+
+<h1 class="md-title-large" style="margin-bottom:24px;">{% if is_edit %}Edit{% else %}Add{% endif %} Syllabus Chapter</h1>
+
+<div class="md-card-elevated p-4" style="max-width:800px; margin:0 auto; background:var(--md-surface-container-low);">
+  <form method="post" id="syllabusForm">
+    {% csrf_token %}
+    
+    <div class="form-row" style="display:flex; gap:16px; margin-bottom:16px; flex-wrap:wrap;">
+      <div class="form-group" style="flex:1; min-width:240px;">
+        <label class="md-label" for="grade_level">Level / Grade <span style="color:var(--md-error, #ba1a1a);">*</span></label>
+        <select id="grade_level" name="grade_level" class="md-select" required style="width:100%;">
+          <option value="" disabled {% if not syllabus.grade_level %}selected{% endif %}>Select Level</option>
+          {% for level in education_levels %}
+          <option value="{{ level }}" {% if syllabus.grade_level == level %}selected{% endif %}>{{ level }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="form-group" style="flex:1; min-width:240px;">
+        <label class="md-label" for="subject">Subject <span style="color:var(--md-error, #ba1a1a);">*</span></label>
+        <input type="text" id="subject" name="subject" class="md-input" value="{{ syllabus.subject|default:'' }}" required placeholder="e.g., English, Chemistry" style="width:100%;">
+      </div>
+    </div>
+
+    <div class="form-group" style="margin-bottom:16px;">
+      <label class="md-label" for="chapter_title">Chapter Title <span style="color:var(--md-error, #ba1a1a);">*</span></label>
+      <input type="text" id="chapter_title" name="chapter_title" class="md-input" value="{{ syllabus.chapter_title|default:'' }}" required placeholder="e.g., Story 1: The Selfish Giant" style="width:100%;">
+      <div class="md-body-small" style="color:var(--md-on-surface-variant); margin-top:4px;">Keep it descriptive. Example: "Chapter 1: Database Management System" or "Story 1: The Selfish Giant".</div>
+    </div>
+
+    <div class="form-row" style="display:flex; gap:16px; margin-bottom:16px; flex-wrap:wrap;">
+      <div class="form-group" style="flex:2; min-width:240px;">
+        <label class="md-label" for="chapter_id">Chapter ID / Slug <span style="color:var(--md-error, #ba1a1a);">*</span></label>
+        <input type="text" id="chapter_id" name="chapter_id" class="md-input" value="{{ syllabus.chapter_id|default:'' }}" required placeholder="e.g., the-selfish-giant" style="width:100%;">
+        <div class="md-body-small" style="color:var(--md-on-surface-variant); margin-top:4px;">Unique URL-friendly identifier. Auto-generates as you type the title.</div>
+      </div>
+
+      <div class="form-group" style="flex:1; min-width:120px;">
+        <label class="md-label" for="order">Display Order</label>
+        <input type="number" id="order" name="order" class="md-input" value="{{ syllabus.order|default:'0' }}" placeholder="0" style="width:100%;">
+        <div class="md-body-small" style="color:var(--md-on-surface-variant); margin-top:4px;">Ascending order list sorting.</div>
+      </div>
+    </div>
+
+    <div class="form-group" style="margin-bottom:20px;">
+      <label class="md-label" for="text_content">Syllabus Guide &amp; Summary (Markdown)</label>
+      <textarea id="text_content" name="text_content" class="md-input" rows="8" placeholder="Enter chapter overview, summary notes, or main syllabus highlights in Markdown format..." style="width:100%; resize:vertical; font-family:inherit;">{{ syllabus.text_content|default:'' }}</textarea>
+    </div>
+
+    <div class="form-group" style="margin-bottom:24px;">
+      <label class="md-label" for="question_answers">Solved Textbook Q&amp;As</label>
+      <textarea id="question_answers" name="question_answers" class="md-input" rows="8" placeholder="Format:&#10;Q: First question goes here?&#10;A: Detailed answer in Markdown or plain text goes here.&#10;&#10;Q: Second question?&#10;A: Second answer." style="width:100%; resize:vertical; font-family:monospace; font-size:0.875rem;">{{ syllabus.question_answers|default:'' }}</textarea>
+      <div class="md-body-small" style="color:var(--md-on-surface-variant); margin-top:4px;">Use the strict <code>Q:</code> and <code>A:</code> prefixes for each question and answer block. Leave empty lines between QA blocks.</div>
+    </div>
+
+    <div class="form-actions" style="display:flex; gap:12px; justify-content:flex-end;">
+      <a href="{% url 'web:admin_syllabus_list' %}" class="md-btn md-btn-text" style="min-height:36px; text-decoration:none;">Cancel</a>
+      <button type="submit" class="md-btn md-btn-filled" style="min-height:36px;">Save Syllabus Chapter</button>
+    </div>
+  </form>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script nonce="{{ csp_nonce }}">
+  // Auto-slugify helper
+  const titleInput = document.getElementById('chapter_title');
+  const slugInput = document.getElementById('chapter_id');
+  const isEdit = {% if is_edit %}true{% else %}false{% endif %};
+
+  if (titleInput && slugInput && !isEdit) {
+    titleInput.addEventListener('input', function() {
+      let text = titleInput.value.toLowerCase().trim();
+      
+      // Replace non-alphanumeric with hyphens
+      text = text.replace(/[^a-z0-9]+/g, '-');
+      // Strip leading/trailing hyphens
+      text = text.replace(/^-+|-+$/g, '');
+      
+      slugInput.value = text;
+    });
+  }
+</script>
+{% endblock %}

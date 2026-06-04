@@ -29,7 +29,17 @@
           <td>
             <div class="admin-resource-title">{{ r.title }}</div>
             {% if r.description %}<div class="admin-resource-desc">{{ r.description|truncatewords:15 }}</div>{% endif %}
-            <div class="admin-resource-url">{% if r.file_url %}<a href="{{ r.file_url }}" target="_blank" rel="noopener">{{ r.file_url|truncatechars:60 }}</a>{% else %}No file{% endif %}</div>
+            <div class="admin-resource-files" style="margin-top: 6px; display: flex; flex-direction: column; gap: 4px;">
+              {% for gf in r.group_files %}
+              <div class="admin-resource-file" style="font-size: 0.8125rem; display: flex; align-items: center; gap: 6px;">
+                <span class="material-symbols-outlined" style="font-size: 16px; color: var(--md-on-surface-variant);">description</span>
+                <a href="{{ gf.file_url }}" target="_blank" rel="noopener" style="color: var(--md-primary); text-decoration: underline;">
+                  {{ gf.title }}
+                </a>
+                <span style="color: var(--md-on-surface-variant); font-size: 0.75rem;">({{ gf.file_name }})</span>
+              </div>
+              {% endfor %}
+            </div>
           </td>
           <td class="col-subject"><span class="md-chip">{{ r.subject|truncatechars:35 }}</span></td>
           <td class="col-grade">{{ r.grade_level }}</td>

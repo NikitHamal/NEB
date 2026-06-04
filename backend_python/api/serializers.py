@@ -134,6 +134,7 @@ class PostSerializer(serializers.ModelSerializer):
     authorIsBot = serializers.SerializerMethodField()
     thumbsUpCount = serializers.IntegerField(source='thumbs_up_count', read_only=True)
     replyCount = serializers.IntegerField(source='reply_count', read_only=True)
+    viewCount = serializers.IntegerField(source='view_count', read_only=True)
     createdAt = serializers.IntegerField(source='created_at', read_only=True)
     updatedAt = serializers.SerializerMethodField()
     isEdited = serializers.BooleanField(source='is_edited', read_only=True)
@@ -145,7 +146,7 @@ class PostSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'title', 'content', 'category',
             'authorName', 'authorPhotoUrl', 'authorId', 'authorIsBot',
-            'thumbsUpCount', 'replyCount', 'createdAt', 'updatedAt',
+            'thumbsUpCount', 'replyCount', 'viewCount', 'createdAt', 'updatedAt',
             'isEdited', 'isArchived', 'isThumbedUp'
         ]
 
@@ -192,6 +193,7 @@ class ReplySerializer(serializers.ModelSerializer):
     parentReplyId = serializers.CharField(source='parent_reply_id', read_only=True, allow_null=True)
     thumbsUpCount = serializers.IntegerField(source='thumbs_up_count', read_only=True)
     childCount = serializers.IntegerField(source='reply_count', read_only=True)
+    viewCount = serializers.IntegerField(source='view_count', read_only=True)
     createdAt = serializers.IntegerField(source='created_at', read_only=True)
     isEdited = serializers.BooleanField(source='is_edited', read_only=True)
     editedAt = serializers.IntegerField(source='edited_at', read_only=True)
@@ -202,7 +204,7 @@ class ReplySerializer(serializers.ModelSerializer):
         fields = [
             'id', 'postId', 'parentReplyId', 'content',
             'authorName', 'authorPhotoUrl', 'authorId', 'authorIsBot',
-            'thumbsUpCount', 'childCount', 'createdAt', 'isEdited', 'editedAt', 'isThumbedUp'
+            'thumbsUpCount', 'childCount', 'viewCount', 'createdAt', 'isEdited', 'editedAt', 'isThumbedUp'
         ]
 
     def get_authorName(self, obj):

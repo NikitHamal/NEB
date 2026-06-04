@@ -1,0 +1,1774 @@
+{% extends "base.html" %}
+{% load web_extras %}
+
+{% block title %}{{ grade }} {{ subject }} - Syllabus & Resources{% endblock %}
+{% block description %}Access study notes, textbook solutions, model questions, past papers and discuss topics for {{ grade }} {{ subject }} on NEBians.{% endblock %}
+{% block keywords %}{{ subject }}, {{ grade }}, notes, solutions, past papers, questions, class notes, NEB{% endblock %}
+{% block og_title %}{{ grade }} {{ subject }} - NEBians{% endblock %}
+{% block og_description %}Get study notes, textbook solutions, model questions, and past papers for {{ grade }} {{ subject }}.{% endblock %}
+
+{% block extra_css %}
+<style>
+  /* Breadcrumbs Navigation */
+  .subj-breadcrumbs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--md-on-surface-variant);
+    margin-top: 16px;
+    margin-bottom: 12px;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .subj-breadcrumbs::-webkit-scrollbar {
+    display: none;
+  }
+  .breadcrumb-link {
+    color: var(--md-primary);
+    text-decoration: none;
+    transition: color 150ms ease;
+  }
+  .breadcrumb-link:hover {
+    color: var(--md-primary);
+    text-decoration: underline;
+  }
+  .breadcrumb-separator {
+    color: var(--md-outline-variant);
+    font-size: 0.875rem;
+    user-select: none;
+  }
+  .breadcrumb-current {
+    color: var(--md-on-surface-variant);
+  }
+
+  /* Breadcrumbs Dropdown System */
+  .breadcrumb-dropdown-wrapper {
+    position: relative;
+    display: inline-block;
+  }
+  .breadcrumb-dropdown-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 1px;
+    background: transparent;
+    border: none;
+    font-family: var(--md-font);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--md-primary);
+    cursor: pointer;
+    padding: 0;
+    transition: opacity 150ms ease;
+  }
+  .breadcrumb-dropdown-trigger:hover {
+    opacity: 0.8;
+  }
+  .breadcrumb-dropdown-trigger:hover .trigger-text {
+    text-decoration: underline;
+  }
+  .breadcrumb-dropdown-trigger .dropdown-arrow {
+    font-size: 14px;
+    vertical-align: middle;
+    margin-left: -2px;
+    transition: transform 150ms ease;
+  }
+  .breadcrumb-dropdown-trigger[aria-expanded="true"] .dropdown-arrow {
+    transform: rotate(180deg);
+  }
+  @keyframes bc-dropdown-in {
+    from { opacity: 0; transform: translateY(-4px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0)   scale(1); }
+  }
+  .bc-dropdown-menu {
+    position: fixed;
+    z-index: 9000;
+    background: #fff;
+    border: 1px solid rgba(0,0,0,0.08);
+    border-radius: 10px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.10), 0 2px 6px rgba(0,0,0,0.06);
+    min-width: 148px;
+    max-height: 300px;
+    overflow-y: auto;
+    padding: 4px 0 4px;
+    scrollbar-width: thin;
+    animation: bc-dropdown-in 130ms cubic-bezier(0.2,0,0,1) both;
+  }
+  .bc-dropdown-menu::-webkit-scrollbar { width: 4px; }
+  .bc-dropdown-menu::-webkit-scrollbar-track { background: transparent; }
+  .bc-dropdown-menu::-webkit-scrollbar-thumb {
+    background: var(--md-outline-variant);
+    border-radius: 100px;
+  }
+  [data-theme="dark"] .bc-dropdown-menu {
+    background: #1e1f22;
+    border-color: rgba(255,255,255,0.08);
+  }
+  .bc-dropdown-label {
+    display: block;
+    padding: 6px 12px 3px;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--md-on-surface-variant);
+    opacity: 0.6;
+    user-select: none;
+  }
+  .bc-dropdown-divider {
+    height: 1px;
+    background: var(--md-outline-variant);
+    opacity: 0.4;
+    margin: 2px 0 4px;
+  }
+  .bc-dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 12px;
+    font-size: 0.8125rem;
+    font-family: var(--md-font);
+    color: var(--md-on-surface);
+    text-decoration: none;
+    transition: background 120ms ease;
+    border-radius: 6px;
+    margin: 0 4px;
+    line-height: 1.3;
+  }
+  .bc-dropdown-item:hover {
+    background: rgba(27, 110, 243, 0.07);
+    text-decoration: none;
+    color: var(--md-primary);
+  }
+  .bc-dropdown-item.active {
+    color: var(--md-primary);
+    font-weight: 600;
+  }
+  .bc-dropdown-item .bc-check {
+    font-size: 14px;
+    opacity: 0;
+    flex-shrink: 0;
+    margin-left: auto;
+    color: var(--md-primary);
+  }
+  .bc-dropdown-item.active .bc-check {
+    opacity: 1;
+  }
+
+  /* Slim Page Header */
+  .subject-header {
+    margin-bottom: 24px;
+  }
+  .subject-title-row {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 4px;
+  }
+  .subject-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--md-on-surface);
+    margin: 0;
+    line-height: 1.1;
+  }
+  .subject-grade-badge {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--md-on-secondary-container);
+    background: var(--md-secondary-container);
+    padding: 3px 10px;
+    border-radius: var(--md-radius-full);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .subject-meta-row {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--md-on-surface-variant);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* M3 Tabs Navigation */
+  .subj-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--md-outline-variant);
+    margin-bottom: 24px;
+    gap: 8px;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .subj-tabs::-webkit-scrollbar {
+    display: none;
+  }
+  .subj-tab-btn {
+    background: transparent;
+    border: none;
+    border-bottom: 3px solid transparent;
+    font-family: var(--md-font);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--md-on-surface-variant);
+    padding: 12px 16px;
+    cursor: pointer;
+    transition: all 150ms ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+  .subj-tab-btn:hover { color: var(--md-primary); background: rgba(var(--md-primary-rgb), 0.04); }
+  .subj-tab-btn.active { color: var(--md-primary); border-bottom-color: var(--md-primary); }
+  .subj-tab-btn .material-symbols-outlined { font-size: 20px; }
+
+  .subj-tab-content { display: none; }
+  .subj-tab-content.active { display: block; }
+
+  /* Study Materials Two-Column Layout (Sidebar + Content Viewer) */
+  .subject-study-layout {
+    display: flex;
+    gap: 24px;
+    margin-top: 16px;
+    align-items: flex-start;
+  }
+  .subject-sidebar {
+    width: 280px;
+    flex-shrink: 0;
+    position: sticky;
+    top: 80px;
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+    background: var(--md-surface-container-low);
+    border: 1px solid var(--md-outline-variant);
+    border-radius: var(--md-radius-md);
+    padding: 16px 12px;
+    /* Hide scrollbar */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .subject-sidebar::-webkit-scrollbar {
+    display: none;
+  }
+  .sidebar-header {
+    font-size: 0.8125rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--md-on-surface-variant);
+    margin-bottom: 12px;
+    padding: 0 8px;
+  }
+  .sidebar-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .sidebar-nav-item {
+    display: block;
+    width: 100%;
+    background: transparent;
+    border: none;
+    text-align: left;
+    font-family: var(--md-font);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--md-on-surface-variant);
+    padding: 10px 16px;
+    border-radius: var(--md-radius-sm);
+    cursor: pointer;
+    transition: all 150ms ease;
+  }
+  .sidebar-nav-item:hover {
+    background: var(--md-surface-container-high);
+    color: var(--md-on-surface);
+  }
+  .sidebar-nav-item.active {
+    background: var(--md-primary-container);
+    color: var(--md-on-primary-container);
+    font-weight: 600;
+  }
+  .chapter-name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+  }
+
+  .subject-viewer {
+    flex: 1;
+    min-width: 0;
+    background: var(--md-surface-container-lowest);
+    border: 1px solid var(--md-outline-variant);
+    border-radius: var(--md-radius-md);
+    padding: 24px;
+  }
+  .chapter-content-pane {
+    display: none;
+  }
+  .chapter-content-pane.active {
+    display: block;
+  }
+  .pane-header {
+    margin-bottom: 16px;
+  }
+  .pane-header h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--md-on-surface);
+    margin: 0;
+  }
+  .pane-body {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Chapter Sub-Tabs */
+  .chapter-subtabs {
+    display: flex;
+    border-bottom: 1px solid var(--md-outline-variant);
+    margin-bottom: 20px;
+    gap: 20px;
+  }
+  .subtab-btn {
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    font-family: var(--md-font);
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--md-on-surface-variant);
+    padding: 8px 0;
+    cursor: pointer;
+    transition: all 150ms ease;
+  }
+  .subtab-btn:hover {
+    color: var(--md-primary);
+  }
+  .subtab-btn.active {
+    color: var(--md-primary);
+    border-bottom-color: var(--md-primary);
+  }
+  
+  .subtab-content {
+    display: none;
+  }
+  .subtab-content.active {
+    display: block;
+  }
+
+  /* Syllabus Content Card Styling */
+  .syllabus-text-card {
+    padding: 20px;
+    background: var(--md-surface-container-high);
+    border-radius: var(--md-radius-sm);
+    border-left: 4px solid var(--md-primary);
+    margin-bottom: 24px;
+  }
+  .syllabus-text-body {
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--md-on-surface);
+  }
+  .syllabus-text-body p {
+    margin-top: 0;
+    margin-bottom: 12px;
+  }
+  .syllabus-text-body p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Q&A Local Search Box */
+  .qa-search-box {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 8px;
+  }
+  .qa-search-input {
+    flex: 1;
+    background: var(--md-surface-container-low);
+    border: 1px solid var(--md-outline-variant);
+    border-radius: var(--md-radius-sm);
+    padding: 10px 16px;
+    font-family: var(--md-font);
+    font-size: 0.875rem;
+    color: var(--md-on-surface);
+    outline: none;
+    transition: border-color 150ms ease;
+  }
+  .qa-search-input:focus {
+    border-color: var(--md-primary);
+    background: var(--md-surface-container-lowest);
+  }
+
+  /* Structured Q&As Container */
+  .qas-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .qa-item {
+    background: var(--md-surface-container-low);
+    border: 1px solid var(--md-outline-variant);
+    border-radius: var(--md-radius-sm);
+    padding: 16px 20px;
+    transition: all 150ms ease;
+  }
+  .qa-item:hover {
+    border-color: var(--md-outline);
+    background: var(--md-surface-container-high);
+  }
+  .qa-item-q {
+    font-size: 0.9375rem;
+    font-weight: 700;
+    color: var(--md-primary);
+    margin-bottom: 8px;
+  }
+  .qa-item-a {
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: var(--md-on-surface);
+  }
+  .qa-item-a p {
+    margin-top: 0;
+    margin-bottom: 8px;
+  }
+  .qa-item-a p:last-child {
+    margin-bottom: 0;
+  }
+
+  @media (max-width: 768px) {
+    .subject-study-layout {
+      flex-direction: column;
+      gap: 16px;
+    }
+    .subject-sidebar {
+      width: 100%;
+      position: sticky;
+      top: 56px;
+      z-index: 99;
+      background: var(--md-surface-container);
+      border-right: none;
+      border-bottom: 1px solid var(--md-outline-variant);
+      padding: 8px 12px;
+      height: auto;
+      max-height: none;
+    }
+    .sidebar-header { display: none; }
+    .sidebar-menu {
+      display: flex;
+      flex-direction: row;
+      overflow-x: auto;
+      gap: 8px;
+      padding-bottom: 4px;
+      white-space: nowrap;
+      -webkit-overflow-scrolling: touch;
+    }
+    .sidebar-nav-item {
+      width: auto !important;
+      padding: 6px 12px !important;
+      font-size: 0.8125rem !important;
+      border-radius: var(--md-radius-full) !important;
+      border: 1px solid var(--md-outline) !important;
+    }
+    .sidebar-nav-item.active {
+      background: var(--md-primary-container) !important;
+      color: var(--md-on-primary-container) !important;
+      border-color: transparent !important;
+    }
+  }
+
+  /* Subcategories within chapters */
+  .subcat-section { margin-bottom: 20px; }
+  .subcat-section:last-child { margin-bottom: 0; }
+  .subcat-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--md-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 12px;
+    border-bottom: 1px dashed var(--md-outline-variant);
+    padding-bottom: 6px;
+  }
+  .subcat-title .material-symbols-outlined { font-size: 18px; }
+
+  /* Small Resource Card */
+  .s-resource-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 12px;
+  }
+  .s-res-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    background: var(--md-surface-container);
+    border: 1px solid var(--md-outline-variant);
+    border-radius: var(--md-radius-sm);
+    text-decoration: none;
+    color: inherit;
+    transition: all 150ms ease;
+  }
+  .s-res-card:hover {
+    border-color: var(--md-primary);
+    background: var(--md-surface-container-high);
+    text-decoration: none;
+    color: inherit;
+  }
+  .s-res-icon {
+    width: 40px; height: 40px; border-radius: 8px;
+    background: var(--md-primary-container); color: var(--md-primary);
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .s-res-icon .material-symbols-outlined { font-size: 20px; }
+  .s-res-info { flex: 1; min-width: 0; }
+  .s-res-title { font-size: 0.875rem; font-weight: 600; color: var(--md-on-surface); margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .s-res-meta { font-size: 0.75rem; color: var(--md-on-surface-variant); display: flex; align-items: center; gap: 6px; }
+
+  .empty-cat-placeholder {
+    font-size: 0.8125rem; color: var(--md-on-surface-variant); font-style: italic; padding: 4px 8px;
+  }
+  .empty-chapter-placeholder {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 24px; text-align: center; background: var(--md-surface-container-low);
+    border-radius: var(--md-radius-sm); border: 1px dashed var(--md-outline-variant);
+  }
+  .empty-chapter-placeholder p { font-size: 0.8125rem; color: var(--md-on-surface-variant); margin-bottom: 12px; }
+
+  /* Forum Tab Styles */
+  .forum-header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; gap: 12px; }
+  .forum-header-row h2 { font-size: 1.15rem; font-weight: 700; color: var(--md-on-surface); margin: 0; }
+  @media (max-width: 600px) {
+    .forum-header-row {
+      flex-direction: column;
+      align-items: stretch;
+      text-align: center;
+    }
+    .forum-header-row .md-btn {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+
+  /* Neby AI Chat Panel Layout */
+  .ai-layout {
+    display: flex;
+    border: 1px solid var(--md-outline-variant);
+    border-radius: var(--md-radius-lg);
+    background: var(--md-surface-container-lowest);
+    height: 600px;
+    overflow: hidden;
+  }
+  .ai-sidebar {
+    width: 240px;
+    border-right: 1px solid var(--md-outline-variant);
+    display: flex;
+    flex-direction: column;
+    background: var(--md-surface-container-low);
+    flex-shrink: 0;
+  }
+  .ai-sidebar-header {
+    padding: 16px;
+    border-bottom: 1px solid var(--md-outline-variant);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .ai-sidebar-header h3 { font-size: 0.875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--md-on-surface-variant); margin: 0; }
+  .ai-session-list { flex: 1; overflow-y: auto; padding: 8px; display: flex; flex-direction: column; gap: 4px; }
+  .ai-session-item {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 8px 12px; border-radius: var(--md-radius-sm); font-size: 0.8125rem;
+    font-weight: 500; color: var(--md-on-surface-variant); cursor: pointer; text-align: left;
+    background: transparent; border: none; font-family: var(--md-font); width: 100%;
+  }
+  .ai-session-item:hover { background: var(--md-surface-container-high); color: var(--md-on-surface); }
+  .ai-session-item.active { background: var(--md-primary-container); color: var(--md-on-primary-container); }
+  .ai-session-item .session-title { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-right: 6px; }
+  .ai-session-item .session-delete-btn { display: none; background: transparent; border: none; padding: 2px; color: inherit; cursor: pointer; }
+  .ai-session-item:hover .session-delete-btn { display: inline-flex; }
+
+  .ai-chat-area { flex: 1; display: flex; flex-direction: column; height: 100%; position: relative; }
+  .ai-chat-header {
+    padding: 14px 20px; border-bottom: 1px solid var(--md-outline-variant);
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--md-surface-container-lowest); z-index: 10;
+  }
+  .ai-chat-botinfo { display: flex; align-items: center; gap: 10px; }
+  .ai-chat-avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--md-primary-container); display: flex; align-items: center; justify-content: center; }
+  .ai-chat-avatar img { width: 100%; height: 100%; object-fit: cover; }
+  .ai-chat-botinfo h4 { font-size: 0.9375rem; font-weight: 600; color: var(--md-on-surface); margin: 0; }
+  .ai-chat-botinfo p { font-size: 0.75rem; color: var(--md-on-surface-variant); margin: 0; }
+
+  .ai-messages-container {
+    flex: 1; overflow-y: auto; padding: 20px;
+    display: flex; flex-direction: column; gap: 16px;
+    background: var(--md-surface-container-lowest);
+  }
+  .ai-message { display: flex; flex-direction: column; max-width: 80%; }
+  .ai-message.user { align-self: flex-end; }
+  .ai-message.assistant { align-self: flex-start; }
+  
+  .ai-msg-bubble {
+    padding: 10px 14px; border-radius: 16px; font-size: 0.875rem; line-height: 1.5;
+    word-break: break-word;
+  }
+  .ai-message.user .ai-msg-bubble {
+    background: var(--md-primary); color: var(--md-on-primary);
+    border-bottom-right-radius: 2px;
+  }
+  .ai-message.assistant .ai-msg-bubble {
+    background: var(--md-surface-container-high); color: var(--md-on-surface);
+    border-bottom-left-radius: 2px;
+  }
+  .ai-msg-time { font-size: 0.6875rem; color: var(--md-on-surface-variant); opacity: 0.7; margin-top: 4px; align-self: flex-end; }
+  .ai-message.assistant .ai-msg-time { align-self: flex-start; }
+
+  /* Message contents formatting */
+  .ai-msg-bubble p { margin: 0 0 10px; }
+  .ai-msg-bubble p:last-child { margin-bottom: 0; }
+  .ai-msg-bubble strong { font-weight: 700; }
+  .ai-msg-bubble ul, .ai-msg-bubble ol { margin: 0 0 10px; padding-left: 20px; }
+
+  .ai-input-area {
+    padding: 16px 20px; border-top: 1px solid var(--md-outline-variant);
+    display: flex; gap: 10px; align-items: center;
+    background: var(--md-surface-container-low);
+  }
+  .ai-input-box {
+    flex: 1; background: var(--md-surface-container-lowest);
+    border: 1px solid var(--md-outline); border-radius: 24px;
+    padding: 10px 16px; font-family: var(--md-font); font-size: 0.875rem;
+    color: var(--md-on-surface); outline: none; transition: border-color 150ms ease;
+  }
+  .ai-input-box:focus { border-color: var(--md-primary); }
+  .ai-send-btn {
+    width: 40px; height: 40px; border-radius: 50%; border: none;
+    background: var(--md-primary); color: var(--md-on-primary);
+    display: flex; align-items: center; justify-content: center; cursor: pointer;
+    transition: background 150ms ease;
+  }
+  .ai-send-btn:hover { background: var(--md-primary-container); color: var(--md-on-primary-container); }
+  .ai-send-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .ai-welcome-screen {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    height: 100%; text-align: center; padding: 32px;
+  }
+  .ai-welcome-icon { font-size: 48px; color: var(--md-primary); margin-bottom: 12px; }
+  .ai-welcome-title { font-size: 1.15rem; font-weight: 700; color: var(--md-on-surface); margin-bottom: 6px; }
+  .ai-welcome-desc { font-size: 0.875rem; color: var(--md-on-surface-variant); max-width: 320px; margin-bottom: 20px; }
+
+  /* Thinking Indicator */
+  .thinking-bubble { display: flex; align-items: center; gap: 4px; padding: 12px 16px; background: var(--md-surface-container-high); border-radius: 16px; }
+  .thinking-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--md-on-surface-variant); opacity: 0.4; animation: think 1.4s infinite both; }
+  .thinking-dot:nth-child(2) { animation-delay: 0.2s; }
+  .thinking-dot:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes think {
+    0%, 100% { transform: scale(1); opacity: 0.4; }
+    50% { transform: scale(1.3); opacity: 1; }
+  }
+
+  @media (max-width: 768px) {
+    .ai-layout { flex-direction: column; height: 500px; }
+    .ai-sidebar { width: 100%; height: 120px; border-right: none; border-bottom: 1px solid var(--md-outline-variant); }
+    .ai-sidebar-header { padding: 8px 12px; flex-direction: row; justify-content: space-between; align-items: center; }
+    .ai-sidebar-header .md-btn { min-height: 28px; padding: 2px 10px; font-size: 0.75rem; }
+    .ai-session-list { flex-direction: row; overflow-x: auto; overflow-y: hidden; height: 60px; padding: 4px 8px; gap: 8px; }
+    .ai-session-item { width: auto; padding: 6px 12px; border: 1px solid var(--md-outline-variant); border-radius: 16px; flex-shrink: 0; }
+    .ai-session-item.active { border-color: transparent; }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="md-container subject-{{ subject|subject_slug }}">
+  
+  <!-- Top Navigation & Breadcrumbs -->
+  <nav class="subj-breadcrumbs">
+    <a href="{% url 'web:library' %}" class="breadcrumb-link">Digital Library</a>
+    <span class="breadcrumb-separator">/</span>
+    <a href="{% url 'web:library' %}?tab=categories" class="breadcrumb-link">Syllabus</a>
+    
+    <span class="breadcrumb-separator">/</span>
+    <div class="breadcrumb-dropdown-wrapper">
+      <button type="button" class="breadcrumb-dropdown-trigger" data-action="toggle-breadcrumb-menu" data-menu-id="bc-class-menu">
+        <span class="trigger-text">{{ grade }}</span>
+        <span class="material-symbols-outlined dropdown-arrow">arrow_drop_down</span>
+      </button>
+      <div class="bc-dropdown-menu" id="bc-class-menu" style="display:none;">
+        <span class="bc-dropdown-label">Switch Class</span>
+        <div class="bc-dropdown-divider"></div>
+        {% for g in grade_list %}
+        <a href="{% url 'web:subject_page' grade_slug=g.slug subject_slug=subject_slug %}" class="bc-dropdown-item {% if g.name == grade %}active{% endif %}">
+          {{ g.name }}
+          <span class="material-symbols-outlined bc-check">check</span>
+        </a>
+        {% endfor %}
+      </div>
+    </div>
+
+    <span class="breadcrumb-separator">/</span>
+    <div class="breadcrumb-dropdown-wrapper">
+      <button type="button" class="breadcrumb-dropdown-trigger" data-action="toggle-breadcrumb-menu" data-menu-id="bc-subject-menu">
+        <span class="trigger-text">{{ subject }}</span>
+        <span class="material-symbols-outlined dropdown-arrow">arrow_drop_down</span>
+      </button>
+      <div class="bc-dropdown-menu" id="bc-subject-menu" style="display:none;">
+        <span class="bc-dropdown-label">Switch Subject</span>
+        <div class="bc-dropdown-divider"></div>
+        {% for s in subject_list %}
+        <a href="{% url 'web:subject_page' grade_slug=grade_slug subject_slug=s.slug %}" class="bc-dropdown-item {% if s.name == subject %}active{% endif %}">
+          {{ s.name }}
+          <span class="material-symbols-outlined bc-check">check</span>
+        </a>
+        {% endfor %}
+      </div>
+    </div>
+  </nav>
+
+
+  <!-- Navigation Tabs -->
+  <div class="subj-tabs">
+    <button class="subj-tab-btn active" data-tab="materials">
+      <span class="material-symbols-outlined">menu_book</span>
+      Study Materials
+    </button>
+    <button class="subj-tab-btn" data-tab="discussions">
+      <span class="material-symbols-outlined">forum</span>
+      Discussions
+    </button>
+    <button class="subj-tab-btn" data-tab="neby-ai">
+      <span class="material-symbols-outlined">smart_toy</span>
+      Neby AI helper
+    </button>
+  </div>
+
+  <!-- Tab Contents -->
+  <div class="tabs-container">
+    
+    <!-- STUDY MATERIALS TAB -->
+    <div class="subj-tab-content active" id="tab-materials">
+      <div class="subject-study-layout">
+        
+        <!-- Left Side: Chapter Navigation Sidebar -->
+        <aside class="subject-sidebar">
+          <div class="sidebar-header">
+            Chapters &amp; Topics
+          </div>
+          <div class="sidebar-menu">
+            {% for ch in grouped_resources %}
+            <button type="button" class="sidebar-nav-item {% if forloop.first %}active{% endif %}" data-action="select-chapter" data-chapter-id="{{ ch.id }}">
+              <span class="chapter-name">{{ ch.name }}</span>
+            </button>
+            {% endfor %}
+            {% if general_resources.count > 0 %}
+            <button type="button" class="sidebar-nav-item" data-action="select-chapter" data-chapter-id="ch-general">
+              <span class="chapter-name">General Resources</span>
+            </button>
+            {% endif %}
+          </div>
+        </aside>
+
+        <!-- Right Side: Chapter Content Viewer -->
+        <main class="subject-viewer">
+          {% for ch in grouped_resources %}
+          <div class="chapter-content-pane {% if forloop.first %}active{% endif %}" id="pane-{{ ch.id }}">
+            <div class="pane-header">
+              <h2>{{ ch.name }}</h2>
+            </div>
+            
+            <!-- Sub-Tabs Navigation (plain text, no icons) -->
+            <div class="chapter-subtabs">
+              <button type="button" class="subtab-btn active" data-action="select-subtab" data-chapter-id="{{ ch.id }}" data-subtab="guide">Chapter Guide</button>
+              <button type="button" class="subtab-btn" data-action="select-subtab" data-chapter-id="{{ ch.id }}" data-subtab="qas">Solved Q&As</button>
+              <button type="button" class="subtab-btn" data-action="select-subtab" data-chapter-id="{{ ch.id }}" data-subtab="files">Study Files</button>
+            </div>
+            
+            <div class="pane-body">
+              <!-- SUBTAB 1: CHAPTER GUIDE -->
+              <div class="subtab-content active" id="subtab-guide-{{ ch.id }}">
+                {% if ch.syllabus_text %}
+                <div class="syllabus-text-card">
+                  <div class="syllabus-text-body">
+                    {{ ch.syllabus_text|markdown_format }}
+                  </div>
+                </div>
+                {% else %}
+                <div class="empty-chapter-placeholder">
+                  <p>No chapter summary or syllabus guide is available yet.</p>
+                  <a href="{% url 'web:resource_requests' %}?subject={{ subject|urlencode }}&grade={{ grade|urlencode }}&topic={{ ch.name|urlencode }}&type=Notes" class="md-btn md-btn-tonal" style="font-size:0.75rem;min-height:32px;">
+                    Request Chapter Guide
+                  </a>
+                </div>
+                {% endif %}
+              </div>
+              
+              <!-- SUBTAB 2: SOLVED Q&As -->
+              <div class="subtab-content" id="subtab-qas-{{ ch.id }}">
+                {% if ch.question_answers_parsed %}
+                <div class="qa-search-box">
+                  <input type="text" class="qa-search-input" data-action="filter-qas" data-chapter-id="{{ ch.id }}" placeholder="Search questions in this chapter..." autocomplete="off">
+                </div>
+                <div class="qas-list" id="qas-list-{{ ch.id }}">
+                  {% for qa in ch.question_answers_parsed %}
+                  <div class="qa-item" data-search-text="{{ qa.question|lower }} {{ qa.answer|lower }}">
+                    <div class="qa-item-q">{{ qa.question|markdown_format }}</div>
+                    <div class="qa-item-a">{{ qa.answer|markdown_format }}</div>
+                  </div>
+                  {% endfor %}
+                </div>
+                {% else %}
+                <div class="empty-chapter-placeholder">
+                  <p>No solved textbook question-answers are available yet.</p>
+                  <a href="{% url 'web:resource_requests' %}?subject={{ subject|urlencode }}&grade={{ grade|urlencode }}&topic={{ ch.name|urlencode }}&type=Solutions" class="md-btn md-btn-tonal" style="font-size:0.75rem;min-height:32px;">
+                    Request Solved Q&As
+                  </a>
+                </div>
+                {% endif %}
+              </div>
+
+              <!-- SUBTAB 3: STUDY FILES -->
+              <div class="subtab-content" id="subtab-files-{{ ch.id }}">
+                {% if ch.count > 0 %}
+                  
+                  <!-- Notes & Summaries -->
+                  {% if ch.notes %}
+                  <div class="subcat-section">
+                    <h4 class="subcat-title"><span class="material-symbols-outlined">description</span>Notes &amp; Summaries</h4>
+                    <div class="s-resource-grid">
+                      {% for r in ch.notes %}
+                      <a href="{% url 'web:reader' resource_id=r.id %}" class="s-res-card">
+                        <div class="s-res-icon"><span class="material-symbols-outlined">{{ r.type|resource_type_icon }}</span></div>
+                        <div class="s-res-info">
+                          <div class="s-res-title">{{ r.title }}</div>
+                          <div class="s-res-meta">{{ r.fileSize|file_size_human }} &middot; {{ r.viewCount }} views</div>
+                        </div>
+                      </a>
+                      {% endfor %}
+                    </div>
+                  </div>
+                  {% endif %}
+                  
+                  <!-- Textbook Solutions -->
+                  {% if ch.solutions %}
+                  <div class="subcat-section">
+                    <h4 class="subcat-title"><span class="material-symbols-outlined">calculate</span>Question Answers &amp; Solutions</h4>
+                    <div class="s-resource-grid">
+                      {% for r in ch.solutions %}
+                      <a href="{% url 'web:reader' resource_id=r.id %}" class="s-res-card">
+                        <div class="s-res-icon"><span class="material-symbols-outlined">{{ r.type|resource_type_icon }}</span></div>
+                        <div class="s-res-info">
+                          <div class="s-res-title">{{ r.title }}</div>
+                          <div class="s-res-meta">{{ r.fileSize|file_size_human }} &middot; {{ r.viewCount }} views</div>
+                        </div>
+                      </a>
+                      {% endfor %}
+                    </div>
+                  </div>
+                  {% endif %}
+
+                  <!-- Past Papers & Model Questions -->
+                  {% if ch.papers %}
+                  <div class="subcat-section">
+                    <h4 class="subcat-title"><span class="material-symbols-outlined">quiz</span>Past Papers &amp; Model Questions</h4>
+                    <div class="s-resource-grid">
+                      {% for r in ch.papers %}
+                      <a href="{% url 'web:reader' resource_id=r.id %}" class="s-res-card">
+                        <div class="s-res-icon"><span class="material-symbols-outlined">{{ r.type|resource_type_icon }}</span></div>
+                        <div class="s-res-info">
+                          <div class="s-res-title">{{ r.title }}</div>
+                          <div class="s-res-meta">{{ r.fileSize|file_size_human }} &middot; {{ r.viewCount }} views</div>
+                        </div>
+                      </a>
+                      {% endfor %}
+                    </div>
+                  </div>
+                  {% endif %}
+                  
+                  <!-- Textbooks & Reference -->
+                  {% if ch.textbooks %}
+                  <div class="subcat-section">
+                    <h4 class="subcat-title"><span class="material-symbols-outlined">menu_book</span>Textbooks &amp; Reference</h4>
+                    <div class="s-resource-grid">
+                      {% for r in ch.textbooks %}
+                      <a href="{% url 'web:reader' resource_id=r.id %}" class="s-res-card">
+                        <div class="s-res-icon"><span class="material-symbols-outlined">{{ r.type|resource_type_icon }}</span></div>
+                        <div class="s-res-info">
+                          <div class="s-res-title">{{ r.title }}</div>
+                          <div class="s-res-meta">{{ r.fileSize|file_size_human }} &middot; {{ r.viewCount }} views</div>
+                        </div>
+                      </a>
+                      {% endfor %}
+                    </div>
+                  </div>
+                  {% endif %}
+
+                  <!-- Other / Unclassified -->
+                  {% if ch.other %}
+                  <div class="subcat-section">
+                    <h4 class="subcat-title"><span class="material-symbols-outlined">draft</span>Other Study Material</h4>
+                    <div class="s-resource-grid">
+                      {% for r in ch.other %}
+                      <a href="{% url 'web:reader' resource_id=r.id %}" class="s-res-card">
+                        <div class="s-res-icon"><span class="material-symbols-outlined">{{ r.type|resource_type_icon }}</span></div>
+                        <div class="s-res-info">
+                          <div class="s-res-title">{{ r.title }}</div>
+                          <div class="s-res-meta">{{ r.fileSize|file_size_human }} &middot; {{ r.viewCount }} views</div>
+                        </div>
+                      </a>
+                      {% endfor %}
+                    </div>
+                  </div>
+                  {% endif %}
+                  
+                {% else %}
+                  <!-- Empty chapter placeholder -->
+                  <div class="empty-chapter-placeholder">
+                    <p>No study resources or PDF files are available for this topic yet.</p>
+                    <a href="{% url 'web:resource_requests' %}?subject={{ subject|urlencode }}&grade={{ grade|urlencode }}" class="md-btn md-btn-tonal" style="font-size:0.75rem;min-height:32px;">
+                      Request Notes &amp; Files
+                    </a>
+                  </div>
+                {% endif %}
+              </div>
+          </div>
+          {% endfor %}
+
+          <!-- General Resources Pane -->
+          {% if general_resources.count > 0 %}
+          <div class="chapter-content-pane" id="pane-ch-general">
+            <div class="pane-header">
+              <h2>General &amp; Reference Resources</h2>
+            </div>
+            <div class="pane-body">
+              {% if general_resources.notes %}
+              <div class="subcat-section">
+                <h4 class="subcat-title"><span class="material-symbols-outlined">description</span>General Notes</h4>
+                <div class="s-resource-grid">
+                  {% for r in general_resources.notes %}
+                  <a href="{% url 'web:reader' resource_id=r.id %}" class="s-res-card">
+                    <div class="s-res-icon"><span class="material-symbols-outlined">{{ r.type|resource_type_icon }}</span></div>
+                    <div class="s-res-info">
+                      <div class="s-res-title">{{ r.title }}</div>
+                      <div class="s-res-meta">{{ r.fileSize|file_size_human }} &middot; {{ r.viewCount }} views</div>
+                    </div>
+                  </a>
+                  {% endfor %}
+                </div>
+              </div>
+              {% endif %}
+              
+              {% if general_resources.solutions %}
+              <div class="subcat-section">
+                <h4 class="subcat-title"><span class="material-symbols-outlined">calculate</span>Exercise Solutions</h4>
+                <div class="s-resource-grid">
+                  {% for r in general_resources.solutions %}
+                  <a href="{% url 'web:reader' resource_id=r.id %}" class="s-res-card">
+                    <div class="s-res-icon"><span class="material-symbols-outlined">{{ r.type|resource_type_icon }}</span></div>
+                    <div class="s-res-info">
+                      <div class="s-res-title">{{ r.title }}</div>
+                      <div class="s-res-meta">{{ r.fileSize|file_size_human }} &middot; {{ r.viewCount }} views</div>
+                    </div>
+                  </a>
+                  {% endfor %}
+                </div>
+              </div>
+              {% endif %}
+
+              {% if general_resources.papers %}
+              <div class="subcat-section">
+                <h4 class="subcat-title"><span class="material-symbols-outlined">quiz</span>Question Papers</h4>
+                <div class="s-resource-grid">
+                  {% for r in general_resources.papers %}
+                  <a href="{% url 'web:reader' resource_id=r.id %}" class="s-res-card">
+                    <div class="s-res-icon"><span class="material-symbols-outlined">{{ r.type|resource_type_icon }}</span></div>
+                    <div class="s-res-info">
+                      <div class="s-res-title">{{ r.title }}</div>
+                      <div class="s-res-meta">{{ r.fileSize|file_size_human }} &middot; {{ r.viewCount }} views</div>
+                    </div>
+                  </a>
+                  {% endfor %}
+                </div>
+              </div>
+              {% endif %}
+              
+              {% if general_resources.textbooks %}
+              <div class="subcat-section">
+                <h4 class="subcat-title"><span class="material-symbols-outlined">menu_book</span>Textbooks &amp; Reference</h4>
+                <div class="s-resource-grid">
+                  {% for r in general_resources.textbooks %}
+                  <a href="{% url 'web:reader' resource_id=r.id %}" class="s-res-card">
+                    <div class="s-res-icon"><span class="material-symbols-outlined">{{ r.type|resource_type_icon }}</span></div>
+                    <div class="s-res-info">
+                      <div class="s-res-title">{{ r.title }}</div>
+                      <div class="s-res-meta">{{ r.fileSize|file_size_human }} &middot; {{ r.viewCount }} views</div>
+                    </div>
+                  </a>
+                  {% endfor %}
+                </div>
+              </div>
+              {% endif %}
+
+              {% if general_resources.other %}
+              <div class="subcat-section">
+                <h4 class="subcat-title"><span class="material-symbols-outlined">draft</span>Miscellaneous Files</h4>
+                <div class="s-resource-grid">
+                  {% for r in general_resources.other %}
+                  <a href="{% url 'web:reader' resource_id=r.id %}" class="s-res-card">
+                    <div class="s-res-icon"><span class="material-symbols-outlined">{{ r.type|resource_type_icon }}</span></div>
+                    <div class="s-res-info">
+                      <div class="s-res-title">{{ r.title }}</div>
+                      <div class="s-res-meta">{{ r.fileSize|file_size_human }} &middot; {{ r.viewCount }} views</div>
+                    </div>
+                  </a>
+                  {% endfor %}
+                </div>
+              </div>
+              {% endif %}
+            </div>
+          </div>
+          {% endif %}
+        </main>
+      </div>
+    </div>
+    
+    <!-- COMMUNITY DISCUSSIONS TAB -->
+    <div class="subj-tab-content" id="tab-discussions">
+      <div class="forum-header-row">
+        <h2>Community Activity for {{ subject }}</h2>
+        <a href="{% url 'web:create_post' %}?category={{ subject|urlencode }}" class="md-btn md-btn-filled" style="text-decoration:none;">
+          <span class="material-symbols-outlined" style="font-size:20px">add</span>
+          Ask a Question
+        </a>
+      </div>
+      
+      {% if posts %}
+        <div class="posts-list">
+          {% for p in posts %}
+            <div class="post-card" data-action="open-post" data-post-url="{% url 'web:forum_post' post_id=p.id %}" style="cursor: pointer;">
+              <div class="post-card-header">
+                <div class="post-card-avatar">
+                  {% if p.authorPhotoUrl %}
+                    <img src="{{ p.authorPhotoUrl }}" alt="" data-fallback="inline-flex">
+                    <span class="contributor-avatar-letter" style="display:none;">{{ p.authorName|truncate_chars:1|default:"?" }}</span>
+                  {% else %}
+                    <span class="contributor-avatar-letter">{{ p.authorName|truncate_chars:1|default:"?" }}</span>
+                  {% endif %}
+                </div>
+                <div class="post-card-meta">
+                  <div class="post-card-meta-top" style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+                    <a href="{% url 'web:profile' username=p.authorName %}" style="font-weight:700;cursor:pointer;text-decoration:none;color:inherit;">{{ p.authorName }}</a>
+                    {% if p.authorBadgeInfo %}
+                    <span class="role-badge role-badge-{{ p.authorBadgeInfo.type }}" title="{{ p.authorBadgeInfo.label }}"><span class="material-symbols-outlined">{{ p.authorBadgeInfo.icon }}</span></span>
+                    {% endif %}
+                    {% if is_authenticated and p.authorId != user.id %}
+                    <button class="follow-btn-small {% if p.isFollowingAuthor %}following{% else %}not-following{% endif %}" data-action="toggle-follow" data-user-id="{{ p.authorId }}">{% if p.isFollowingAuthor %}Following{% else %}Follow{% endif %}</button>
+                    {% endif %}
+                  </div>
+                  <div class="post-card-meta-bottom" style="display:flex; align-items:center; flex-wrap:wrap; gap:6px; margin-top:2px; font-size:0.8125rem; color:var(--md-on-surface-variant);">
+                    <span class="act-action-text">started a discussion</span>
+                    <span style="opacity:0.4;">&middot;</span>
+                    <a href="{% url 'web:forum' %}?category={{ p.category }}" class="post-card-category-link">{{ p.category }}</a>
+                    <span style="opacity:0.4;">&middot;</span>
+                    <span class="post-card-time">{{ p.createdAt|time_ago }}</span>
+                  </div>
+                </div>
+                <div class="more-menu-wrapper">
+                  <button class="more-btn" data-action="toggle-more-menu" data-menu-id="post-menu-subject-{{ p.id }}" aria-label="More options"><span class="material-symbols-outlined">more_vert</span></button>
+                  <div class="more-menu" id="post-menu-subject-{{ p.id }}" style="display:none;" data-action="stop-propagation">
+                    {% if is_authenticated %}
+                    <button class="more-menu-item" data-action="toggle-bookmark" data-target-type="post" data-target-id="{{ p.id }}">
+                      <span class="material-symbols-outlined" id="bookmark-icon-post-{{ p.id }}"{% if p.isBookmarked %} style="font-variation-settings:'FILL' 1"{% endif %}>bookmark</span>
+                      <span id="bookmark-label-post-{{ p.id }}">{% if p.isBookmarked %}Remove{% else %}Bookmark{% endif %}</span>
+                    </button>
+                    {% endif %}
+                    <button class="more-menu-item" data-action="share-post-url" data-path="{% url 'web:forum_post' post_id=p.id %}">
+                      <span class="material-symbols-outlined">share</span> Share
+                    </button>
+                    {% if is_authenticated and p.authorId != user.id %}
+                    <button class="more-menu-item" data-action="report-content" data-target-type="post" data-target-id="{{ p.id }}">
+                      <span class="material-symbols-outlined">flag</span> Report
+                    </button>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+              <h3 style="margin-top:4px; margin-bottom:8px;"><a href="{% url 'web:forum_post' post_id=p.id %}" style="color: inherit; text-decoration: none;">{{ p.title }}</a></h3>
+              <div class="post-card-content">{{ p.content|render_content_inline }}</div>
+              <div class="post-card-actions">
+                <button type="button" data-action="toggle-subject-post-like" data-post-id="{{ p.id }}" class="{% if p.isThumbedUp %}liked{% endif %}" id="subject-post-like-btn-{{ p.id }}">
+                  <span class="material-symbols-outlined" {% if p.isThumbedUp %}style="font-variation-settings: 'FILL' 1;"{% endif %}>thumb_up</span>
+                  <span id="subject-post-like-count-{{ p.id }}">{{ p.thumbsUpCount }}</span>
+                </button>
+                <a href="{% url 'web:forum_post' post_id=p.id %}" class="act-btn-stat">
+                  <span class="material-symbols-outlined">chat_bubble_outline</span>
+                  <span>{{ p.replyCount }} Replies</span>
+                </a>
+                <span class="fp-action-spacer" style="flex: 1;"></span>
+                <button type="button" class="{% if p.isBookmarked %}bookmark-active{% endif %}" data-action="toggle-bookmark" data-target-type="post" data-target-id="{{ p.id }}" id="subject-post-bookmark-btn-{{ p.id }}" aria-label="Bookmark">
+                  <span class="material-symbols-outlined" {% if p.isBookmarked %}style="font-variation-settings: 'FILL' 1;"{% endif %}>bookmark</span>
+                </button>
+                <button type="button" data-action="share-post-url" data-path="{% url 'web:forum_post' post_id=p.id %}" aria-label="Share">
+                  <span class="material-symbols-outlined">share</span>
+                </button>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="empty-state">
+          <span class="material-symbols-outlined">chat_bubble_outline</span>
+          <h3>No discussions yet</h3>
+          <p>Be the first to start a conversation about {{ grade }} {{ subject }}!</p>
+          <a href="{% url 'web:create_post' %}?category={{ subject|urlencode }}" class="md-btn md-btn-filled mt-2" style="text-decoration:none;">Ask a Question</a>
+        </div>
+      {% endif %}
+    </div>
+    
+    <!-- NEBY AI HELPER TAB -->
+    <div class="subj-tab-content" id="tab-neby-ai">
+      <div class="ai-layout">
+        
+        <!-- Sessions Sidebar -->
+        <div class="ai-sidebar">
+          <div class="ai-sidebar-header">
+            <h3>Recent Chats</h3>
+            <button type="button" class="md-btn md-btn-tonal" id="ai-new-chat-btn" style="min-height:32px;padding:4px 12px;width:100%;justify-content:center;">
+              <span class="material-symbols-outlined" style="font-size:18px">add</span>New Chat
+            </button>
+          </div>
+          <div class="ai-session-list" id="ai-sessions-list">
+            <!-- Dynamically populated -->
+            <div class="empty-cat-placeholder" style="text-align:center;padding:20px 10px;">Loading sessions...</div>
+          </div>
+        </div>
+        
+        <!-- Chat Area -->
+        <div class="ai-chat-area">
+          
+          <!-- Welcome Screen (shown when no active session) -->
+          <div class="ai-welcome-screen" id="ai-welcome-panel">
+            <span class="material-symbols-outlined ai-welcome-icon">smart_toy</span>
+            <div class="ai-welcome-title">Chat with Neby AI</div>
+            <div class="ai-welcome-desc">
+              Ask Neby, your AI study partner, questions about {{ subject }} concepts, seek homework help, or request practice exercises.
+            </div>
+            <button type="button" class="md-btn md-btn-filled" id="ai-start-btn">
+              <span class="material-symbols-outlined">chat</span> Start Studying
+            </button>
+          </div>
+          
+          <!-- Chat Panel (shown during active session) -->
+          <div class="flex flex-col h-full" id="ai-chat-panel" style="display:none;flex:1;">
+            
+            <div class="ai-chat-header">
+              <div class="ai-chat-botinfo">
+                <div class="ai-chat-avatar">
+                  <span class="material-symbols-outlined" style="color:var(--md-primary)">smart_toy</span>
+                </div>
+                <div>
+                  <h4 id="ai-bot-name">Neby AI</h4>
+                  <p id="ai-bot-status">Powered by AI4Bharat</p>
+                </div>
+              </div>
+              <button class="md-btn-icon" id="ai-clear-session-btn" title="Delete current session">
+                <span class="material-symbols-outlined">delete</span>
+              </button>
+            </div>
+            
+            <div class="ai-messages-container" id="ai-messages-box">
+              <!-- Dynamically populated messages -->
+            </div>
+            
+            <div class="ai-input-area">
+              <input type="text" class="ai-input-box" id="ai-message-input" placeholder="Ask Neby about {{ subject }}..." autocomplete="off">
+              <button class="ai-send-btn" id="ai-send-btn" disabled>
+                <span class="material-symbols-outlined">send</span>
+              </button>
+            </div>
+            
+          </div>
+          
+        </div>
+        
+      </div>
+    </div>
+    
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script nonce="{{ csp_nonce }}">
+  // ── Tab Navigation ──
+  document.querySelectorAll('.subj-tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.subj-tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.subj-tab-content').forEach(c => c.classList.remove('active'));
+      
+      btn.classList.add('active');
+      const tabId = 'tab-' + btn.dataset.tab;
+      document.getElementById(tabId).classList.add('active');
+      
+      if (btn.dataset.tab === 'neby-ai') {
+        initNebyAIChat();
+      }
+    });
+  });
+
+  // ── Event Delegation & Actions ──
+  registerActions({
+    'select-chapter': function(el) {
+      const chapterId = el.dataset.chapterId;
+      if (!chapterId) return;
+
+      // Update sidebar nav items
+      document.querySelectorAll('.sidebar-nav-item').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.chapterId === chapterId);
+      });
+
+      // Update content panes
+      document.querySelectorAll('.chapter-content-pane').forEach(pane => {
+        pane.classList.toggle('active', pane.id === 'pane-' + chapterId);
+      });
+
+      // Smooth scroll content viewer into view on mobile
+      if (window.innerWidth <= 768) {
+        document.querySelector('.subject-viewer').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+
+      // Update URL hash without causing jumps
+      history.replaceState(null, null, '#ch-' + chapterId);
+    },
+    'select-subtab': function(el) {
+      const chapterId = el.dataset.chapterId;
+      const subtab = el.dataset.subtab;
+      if (!chapterId || !subtab) return;
+
+      const pane = document.getElementById('pane-' + chapterId);
+      if (!pane) return;
+
+      // Update sub-tab buttons active state
+      pane.querySelectorAll('.subtab-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.subtab === subtab);
+      });
+
+      // Update sub-tab content visibility
+      pane.querySelectorAll('.subtab-content').forEach(content => {
+        content.classList.toggle('active', content.id === 'subtab-' + subtab + '-' + chapterId);
+      });
+    },
+    'select-session': function(el) {
+      const sessId = el.dataset.sessionId;
+      if (sessId) {
+        selectAISession(sessId);
+      }
+    },
+    'delete-session': function(el) {
+      const sessId = el.dataset.sessionId;
+      if (sessId) {
+        deleteSessionDirect(sessId);
+      }
+    },
+    'toggle-subject-post-like': async function(el) {
+      if (!IS_AUTHENTICATED) { window.location.href = '{% url "web:login" %}?next=' + encodeURIComponent(window.location.pathname); return; }
+      var postId = el.dataset.postId;
+      try {
+        const result = await (await fetch('/ajax/like/post/' + postId + '/', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN }, credentials: 'same-origin' })).json();
+        if (result && result.thumbsUpCount !== undefined) {
+          const countEl = document.getElementById('subject-post-like-count-' + postId);
+          if (countEl) countEl.textContent = result.thumbsUpCount;
+          const iconEl = el.querySelector('.material-symbols-outlined');
+          if (iconEl) { iconEl.textContent = 'thumb_up'; iconEl.style.fontVariationSettings = result.isThumbedUp ? "'FILL' 1" : ''; }
+          el.classList.toggle('liked', result.isThumbedUp);
+        }
+      } catch (e) { showSnackbar('Failed to like post'); }
+    },
+    'toggle-follow': async function(el) {
+      if (!IS_AUTHENTICATED) { window.location.href = '{% url "web:login" %}?next=' + encodeURIComponent(window.location.pathname); return; }
+      var userId = el.dataset.userId;
+      el.disabled = true;
+      try {
+        const r = await fetch('/ajax/follow/' + userId + '/', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN }, credentials: 'same-origin' });
+        if (r.status === 401) { window.location.href = '{% url "web:login" %}?next=' + encodeURIComponent(window.location.pathname); return; }
+        const d = await r.json();
+        el.disabled = false;
+        if (d && d.error) { showSnackbar(d.error); return; }
+        if (d) {
+          if (d.is_following) {
+            el.textContent = 'Following';
+            el.className = el.className.replace('not-following', 'following');
+          } else {
+            el.textContent = 'Follow';
+            el.className = el.className.replace('following', 'not-following');
+          }
+        }
+      } catch (e) { el.disabled = false; showSnackbar('Error updating follow.'); }
+    },
+    'toggle-more-menu': function(el) {
+      var menuId = el.dataset.menuId;
+      var menu = document.getElementById(menuId);
+      if (!menu) return;
+      var isOpen = menu.style.display !== 'none';
+      closeAllMenus();
+      if (!isOpen) {
+        menu.style.display = 'block';
+        var handler = function(e) {
+          if (!menu.contains(e.target) && e.target !== el && !el.contains(e.target)) {
+            closeAllMenus();
+            document.removeEventListener('click', handler, true);
+          }
+        };
+        setTimeout(function() { document.addEventListener('click', handler, true); }, 0);
+      }
+    },
+    'toggle-breadcrumb-menu': function(el) {
+      var menuId = el.dataset.menuId;
+      var menu = document.getElementById(menuId);
+      if (!menu) return;
+      var isOpen = menu.style.display !== 'none';
+      closeAllMenus();
+      if (!isOpen) {
+        // Use fixed positioning to escape any overflow:auto/hidden ancestor
+        var rect = el.getBoundingClientRect();
+        var menuW = Math.max(menu.offsetWidth || 160, 160);
+        var left = rect.left;
+        // Keep inside viewport
+        if (left + menuW > window.innerWidth - 8) {
+          left = Math.max(8, window.innerWidth - menuW - 8);
+        }
+        menu.style.top = (rect.bottom + 6) + 'px';
+        menu.style.left = left + 'px';
+        menu.style.display = 'block';
+        // Recalculate width after display to get correct offsetWidth
+        var menuW2 = menu.offsetWidth;
+        if (rect.left + menuW2 > window.innerWidth - 8) {
+          menu.style.left = Math.max(8, window.innerWidth - menuW2 - 8) + 'px';
+        }
+        var handler = function(e) {
+          if (!menu.contains(e.target) && e.target !== el && !el.contains(e.target)) {
+            menu.style.display = 'none';
+            document.removeEventListener('click', handler, true);
+          }
+        };
+        setTimeout(function() { document.addEventListener('click', handler, true); }, 0);
+      }
+    },
+    'toggle-bookmark': async function(el) {
+      closeAllMenus();
+      if (!IS_AUTHENTICATED) { window.location.href = '{% url "web:login" %}?next=' + encodeURIComponent(window.location.pathname); return; }
+      var targetType = el.dataset.targetType;
+      var targetId = el.dataset.targetId;
+      try {
+        const r = await fetch('/ajax/bookmark/toggle/', {
+          method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
+          credentials: 'same-origin', body: JSON.stringify({ target_type: targetType, target_id: targetId })
+        });
+        const d = await r.json();
+        if (r.status === 401) { window.location.href = '{% url "web:login" %}?next=' + encodeURIComponent(window.location.pathname); return; }
+        if (d.isBookmarked !== undefined) {
+          var iconEl = document.getElementById('bookmark-icon-' + targetType + '-' + targetId);
+          var labelEl = document.getElementById('bookmark-label-' + targetType + '-' + targetId);
+          if (iconEl) { iconEl.textContent = 'bookmark'; iconEl.style.fontVariationSettings = d.isBookmarked ? "'FILL' 1" : ''; }
+          if (labelEl) labelEl.textContent = d.isBookmarked ? 'Remove' : 'Bookmark';
+          
+          // Update footer button
+          var footerBtn = document.getElementById('subject-post-bookmark-btn-' + targetId);
+          if (footerBtn) {
+            footerBtn.classList.toggle('bookmark-active', d.isBookmarked);
+            var footerIcon = footerBtn.querySelector('.material-symbols-outlined');
+            if (footerIcon) {
+              footerIcon.style.fontVariationSettings = d.isBookmarked ? "'FILL' 1" : '';
+            }
+          }
+          showSnackbar(d.isBookmarked ? 'Bookmarked!' : 'Bookmark removed');
+        } else { showSnackbar(d.error || 'Failed to toggle bookmark'); }
+      } catch(e) { showSnackbar('Error toggling bookmark'); }
+    },
+    'share-post-url': function(el) {
+      closeAllMenus();
+      var path = el.dataset.path;
+      var url = window.location.origin + path;
+      if (navigator.share) { navigator.share({ title: document.title, url: url }).catch(function(){}); }
+      else { navigator.clipboard.writeText(url).then(function() { showSnackbar('Link copied!'); }).catch(function() { showSnackbar('Could not copy link'); }); }
+    },
+    'report-content': function(el) {
+      closeAllMenus();
+      var targetType = el.dataset.targetType;
+      var targetId = el.dataset.targetId;
+      fetch('/ajax/report/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
+        credentials: 'same-origin',
+        body: JSON.stringify({ target_type: targetType, target_id: targetId, reason: 'other', description: '' })
+      }).then(r => {
+        if (r.ok) showSnackbar('Report submitted. Thank you!');
+        else r.json().then(d => showSnackbar(d.error || 'Failed to submit report')).catch(() => showSnackbar('Failed to submit report'));
+      }).catch(() => showSnackbar('Failed to submit report'));
+    }
+  });
+
+  // ── Neby AI Chat Engine ──
+  let activeSessionId = null;
+  let isAIInitialized = false;
+  let isSending = false;
+  const defaultModelId = '{{ default_model }}';
+  const subjectName = '{{ subject|escapejs }}';
+  const gradeLevel = '{{ grade|escapejs }}';
+
+  function initNebyAIChat() {
+    if (isAIInitialized) return;
+    isAIInitialized = true;
+    
+    // Bind Event Listeners
+    document.getElementById('ai-start-btn').addEventListener('click', createNewAISession);
+    document.getElementById('ai-new-chat-btn').addEventListener('click', createNewAISession);
+    document.getElementById('ai-clear-session-btn').addEventListener('click', deleteActiveSession);
+    
+    const input = document.getElementById('ai-message-input');
+    const sendBtn = document.getElementById('ai-send-btn');
+    
+    input.addEventListener('input', () => {
+      sendBtn.disabled = !input.value.trim() || isSending;
+    });
+    
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && input.value.trim() && !isSending) {
+        sendAIMessage();
+      }
+    });
+    
+    sendBtn.addEventListener('click', sendAIMessage);
+    
+    // Load existing sessions
+    loadAISessions();
+  }
+
+  async function loadAISessions() {
+    try {
+      const resp = await fetch('/ajax/neby-arena/sessions/');
+      const data = await resp.json();
+      const listEl = document.getElementById('ai-sessions-list');
+      listEl.innerHTML = '';
+      
+      if (data.sessions && data.sessions.length > 0) {
+        data.sessions.forEach(sess => {
+          const item = document.createElement('div');
+          item.className = 'ai-session-item';
+          if (sess.id === activeSessionId) item.classList.add('active');
+          item.dataset.sessionId = sess.id;
+          
+          item.innerHTML = `
+            <span class="session-title">${escapeHtml(sess.title)}</span>
+            <button type="button" class="session-delete-btn" data-action="delete-session" data-session-id="${sess.id}">
+              <span class="material-symbols-outlined" style="font-size:16px;">close</span>
+            </button>
+          `;
+          listEl.appendChild(item);
+        });
+      } else {
+        listEl.innerHTML = '<div class="empty-cat-placeholder" style="text-align:center;padding:20px 10px;">No chats yet</div>';
+      }
+    } catch (e) {
+      console.error('Failed to load sessions:', e);
+    }
+  }
+
+  async function selectAISession(sessionId) {
+    activeSessionId = sessionId;
+    
+    // Update sidebar styling
+    document.querySelectorAll('.ai-session-item').forEach(item => {
+      if (item.dataset.sessionId === sessionId) {
+        item.classList.add('active');
+      } else {
+        item.classList.remove('active');
+      }
+    });
+    
+    // Show chat panel
+    document.getElementById('ai-welcome-panel').style.display = 'none';
+    document.getElementById('ai-chat-panel').style.display = 'flex';
+    
+    const box = document.getElementById('ai-messages-box');
+    box.innerHTML = '<div class="empty-cat-placeholder" style="text-align:center;padding:20px;">Loading conversation...</div>';
+    
+    try {
+      const resp = await fetch(`/ajax/neby-arena/sessions/${sessionId}/`);
+      const data = await resp.json();
+      box.innerHTML = '';
+      
+      if (data.messages && data.messages.length > 0) {
+        data.messages.forEach(msg => {
+          if (msg.role !== 'system') {
+            appendMessageHTML(msg.role, msg.content, msg.id);
+          }
+        });
+      } else {
+        // Send a warm initial greeting from Neby pre-prompted with subject context
+        const initialGreeting = `Hi there! I am **Neby**, your AI study assistant. I'm ready to help you learn and master **${gradeLevel} ${subjectName}**! What topic or concept would you like to explore today?`;
+        appendMessageHTML('assistant', initialGreeting);
+      }
+      scrollToBottom();
+    } catch (e) {
+      box.innerHTML = '<div class="empty-cat-placeholder" style="color:var(--md-error);">Failed to load chat history.</div>';
+    }
+  }
+
+  async function createNewAISession() {
+    if (!IS_AUTHENTICATED) {
+      showSnackbar('Please sign in to chat with Neby AI.');
+      window.location.href = '{% url "web:login" %}?next=' + encodeURIComponent(window.location.pathname);
+      return;
+    }
+    
+    try {
+      const title = `${subjectName} helper`;
+      const resp = await fetch('/ajax/neby-arena/sessions/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
+        body: JSON.stringify({ modelId: defaultModelId, title: title })
+      });
+      const data = await resp.json();
+      
+      if (data.session) {
+        activeSessionId = data.session.id;
+        await loadAISessions();
+        await selectAISession(activeSessionId);
+      } else {
+        showSnackbar('Failed to start AI session: ' + (data.error || 'Unknown error'));
+      }
+    } catch (e) {
+      showSnackbar('Server error starting AI session.');
+    }
+  }
+
+  async function deleteActiveSession() {
+    if (!activeSessionId) return;
+    if (!confirm('Are you sure you want to delete this chat session?')) return;
+    
+    try {
+      await fetch(`/ajax/neby-arena/sessions/${activeSessionId}/`, {
+        method: 'DELETE',
+        headers: { 'X-CSRFToken': CSRF_TOKEN }
+      });
+      activeSessionId = null;
+      document.getElementById('ai-chat-panel').style.display = 'none';
+      document.getElementById('ai-welcome-panel').style.display = 'flex';
+      loadAISessions();
+      showSnackbar('Session deleted.');
+    } catch (e) {
+      showSnackbar('Failed to delete session.');
+    }
+  }
+
+  async function deleteSessionDirect(sessId) {
+    try {
+      await fetch(`/ajax/neby-arena/sessions/${sessId}/`, {
+        method: 'DELETE',
+        headers: { 'X-CSRFToken': CSRF_TOKEN }
+      });
+      if (sessId === activeSessionId) {
+        activeSessionId = null;
+        document.getElementById('ai-chat-panel').style.display = 'none';
+        document.getElementById('ai-welcome-panel').style.display = 'flex';
+      }
+      loadAISessions();
+      showSnackbar('Session deleted.');
+    } catch (e) {
+      showSnackbar('Failed to delete session.');
+    }
+  }
+
+  function appendMessageHTML(role, content, msgId = '') {
+    const box = document.getElementById('ai-messages-box');
+    const msgEl = document.createElement('div');
+    msgEl.className = `ai-message ${role}`;
+    if (msgId) msgEl.id = `msg-${msgId}`;
+    
+    // Parse markdown styling
+    const htmlContent = renderMarkdown(content);
+    
+    msgEl.innerHTML = `
+      <div class="ai-msg-bubble">${htmlContent}</div>
+    `;
+    box.appendChild(msgEl);
+    return msgEl;
+  }
+
+  function appendThinkingIndicator() {
+    const box = document.getElementById('ai-messages-box');
+    const indicator = document.createElement('div');
+    indicator.className = 'ai-message assistant thinking-indicator-box';
+    indicator.innerHTML = `
+      <div class="thinking-bubble">
+        <span class="thinking-dot"></span>
+        <span class="thinking-dot"></span>
+        <span class="thinking-dot"></span>
+      </div>
+    `;
+    box.appendChild(indicator);
+    return indicator;
+  }
+
+  async function sendAIMessage() {
+    if (isSending || !activeSessionId) return;
+    
+    const input = document.getElementById('ai-message-input');
+    const text = input.value.trim();
+    if (!text) return;
+    
+    isSending = true;
+    input.value = '';
+    document.getElementById('ai-send-btn').disabled = true;
+    
+    // Add user bubble
+    appendMessageHTML('user', text);
+    scrollToBottom();
+    
+    // Add thinking bubble
+    const thinking = appendThinkingIndicator();
+    scrollToBottom();
+    
+    try {
+      const response = await fetch(`/ajax/neby-arena/sessions/${activeSessionId}/messages/`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
+        body: JSON.stringify({ content: text })
+      });
+      
+      thinking.remove();
+      
+      if (!response.ok) {
+        const errData = await response.json();
+        appendMessageHTML('assistant', `⚠️ *Error:* ${errData.error || 'Failed to send message'}`);
+        isSending = false;
+        return;
+      }
+      
+      // Handle Server-Sent Events (SSE) streaming output
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder('utf-8');
+      let botBubble = null;
+      let botContent = '';
+      
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        
+        const chunk = decoder.decode(value, { stream: true });
+        // SSE lines look like: data: {"choices": [{"delta": {"content": "..."}}]}
+        const lines = chunk.split('\n');
+        for (const line of lines) {
+          const cleanLine = line.trim();
+          if (cleanLine.startsWith('data: ')) {
+            const dataStr = cleanLine.substring(6);
+            if (dataStr === '[DONE]') continue;
+            
+            try {
+              const parsed = JSON.parse(dataStr);
+              if (parsed.choices && parsed.choices[0].delta) {
+                const delta = parsed.choices[0].delta;
+                
+                // On first chunk, construct assistant bubble
+                if (!botBubble) {
+                  botBubble = appendMessageHTML('assistant', '');
+                }
+                
+                if (delta.content) {
+                  botContent += delta.content;
+                  botBubble.querySelector('.ai-msg-bubble').innerHTML = renderMarkdown(botContent);
+                  scrollToBottom();
+                }
+              } else if (parsed.error) {
+                if (!botBubble) {
+                  botBubble = appendMessageHTML('assistant', '');
+                }
+                botBubble.querySelector('.ai-msg-bubble').innerHTML = `<span style="color:var(--md-error)">⚠️ AI Error: ${escapeHtml(parsed.error.message)}</span>`;
+              }
+            } catch (e) {
+              // Ignore line parse errors (partially received json, etc.)
+            }
+          }
+        }
+      }
+      
+      // Update sidebar session list title/count
+      loadAISessions();
+      
+    } catch (e) {
+      thinking.remove();
+      appendMessageHTML('assistant', '⚠️ *Connection failed.* Please try again.');
+      console.error(e);
+    } finally {
+      isSending = false;
+      input.focus();
+    }
+  }
+
+  function scrollToBottom() {
+    const box = document.getElementById('ai-messages-box');
+    box.scrollTop = box.scrollHeight;
+  }
+
+  function escapeHtml(text) {
+    return text
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
+  function closeAllMenus() {
+    document.querySelectorAll('.more-menu').forEach(function(m) { m.style.display = 'none'; });
+    document.querySelectorAll('.bc-dropdown-menu').forEach(function(m) { m.style.display = 'none'; });
+  }
+
+  // ── Q&A Local Search Filtering ──
+  document.addEventListener('input', function(e) {
+    if (e.target.matches('.qa-search-input')) {
+      const chapterId = e.target.dataset.chapterId;
+      const query = e.target.value.toLowerCase().trim();
+      const list = document.getElementById('qas-list-' + chapterId);
+      if (!list) return;
+      
+      const items = list.querySelectorAll('.qa-item');
+      items.forEach(item => {
+        const searchText = item.dataset.searchText || '';
+        if (searchText.includes(query)) {
+          item.style.display = 'block';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    }
+  });
+
+  // ── Hash-based Chapter Initialization ──
+  document.addEventListener('DOMContentLoaded', function() {
+    const hash = window.location.hash;
+    if (hash && hash.startsWith('#ch-')) {
+      const chapterId = hash.substring(4);
+      const navItem = document.querySelector(`.sidebar-nav-item[data-chapter-id="${chapterId}"]`);
+      if (navItem) {
+        navItem.click();
+      }
+    }
+  });
+</script>
+{% endblock %}

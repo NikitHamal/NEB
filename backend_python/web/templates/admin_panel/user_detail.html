@@ -70,6 +70,18 @@
 
 <div class="admin-grid-2">
   <div class="md-card-elevated p-3">
+    <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px;">
+      {% if user_detail.photo_url %}
+      <img src="{{ user_detail.photo_url }}" alt="" style="width:56px;height:56px;border-radius:50%;object-fit:cover;flex-shrink:0;" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+      <div class="profile-avatar" style="width:56px;height:56px;font-size:1.25rem;display:none;">{{ user_detail.display_name|default:user_detail.username|truncate_chars:1|default:"?" }}</div>
+      {% else %}
+      <div class="profile-avatar" style="width:56px;height:56px;font-size:1.25rem;">{{ user_detail.display_name|default:user_detail.username|truncate_chars:1|default:"?" }}</div>
+      {% endif %}
+      <div>
+        <h2 class="md-title-large" style="margin:0;">{{ user_detail.display_name|default:user_detail.username }}</h2>
+        <div class="md-body-small" style="color:var(--md-on-surface-variant);">@{{ user_detail.username }}</div>
+      </div>
+    </div>
     <h2 class="md-title-large mb-2">Edit User</h2>
     <form method="post" enctype="multipart/form-data">
       {% csrf_token %}

@@ -53,6 +53,7 @@ urlpatterns = [
     # Posts — GET list + POST create handled by posts_endpoint dispatcher
     path('posts/', views.posts_endpoint, name='posts'),
     path('posts/<str:post_id>/', views.post_detail, name='post-detail'),
+    path('posts/<str:post_id>/view/', views.post_view, name='post-view'),
     path('posts/<str:post_id>/like/', views.post_like, name='post-like'),
 
     # Replies — GET list + POST create handled by replies_endpoint dispatcher

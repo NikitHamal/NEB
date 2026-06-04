@@ -14,7 +14,8 @@ from django.db.models import Q, Count, F
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views.decorators.http import require_GET, require_POST
-from django.http import JsonResponse, Http404, HttpResponse
+from django.http import JsonResponse, Http404, HttpResponse, StreamingHttpResponse
+from . import curriculum
 from django.core.paginator import Paginator
 from django.utils.html import escape
 
@@ -225,6 +226,7 @@ def _serialize_post(p, user_id=None, _liked_ids=None, _followed_ids=None, _bookm
         'authorIsBot': p.user.is_bot,
         'authorId': p.user_id, 'thumbsUpCount': p.thumbs_up_count, 'thumbs_up_count': p.thumbs_up_count,
         'replyCount': p.reply_count, 'reply_count': p.reply_count,
+        'viewCount': p.view_count, 'view_count': p.view_count,
         'createdAt': p.created_at, 'updatedAt': p.edited_at or p.created_at,
         'isEdited': p.is_edited, 'editedAt': p.edited_at, 'isArchived': p.is_archived,
         'isThumbedUp': is_thumbed_up, 'isFollowingAuthor': is_following_author,
@@ -294,6 +296,7 @@ def _serialize_replies(replies_qs, user_id=None):
             'authorAchievements': _user_achievement_badges(r.user),
             'authorIsBot': r.user.is_bot,
             'thumbsUpCount': r.thumbs_up_count, 'childCount': total_descendants.get(r.id, len(children)),
+            'viewCount': r.view_count,
             'childAuthors': child_authors,
             'createdAt': r.created_at,
             'isEdited': r.is_edited, 'editedAt': r.edited_at,
@@ -325,6 +328,7 @@ def _serialize_reply(r, user_id=None, _liked_ids=None, _bookmarked_ids=None):
         'authorAchievements': _user_achievement_badges(r.user),
         'authorIsBot': r.user.is_bot,
         'thumbsUpCount': r.thumbs_up_count, 'childCount': r.reply_count,
+        'viewCount': r.view_count,
         'createdAt': r.created_at,
         'isEdited': r.is_edited, 'editedAt': r.edited_at, 'isArchived': r.is_archived,
         'isThumbedUp': is_thumbed_up,
@@ -454,7 +458,7 @@ def home(request):
     user_id = _get_user_id(request)
     resources = cache.get('home_resources')
     if resources is None:
-        resources = _serialize_resources(Resource.objects.filter(approval_status='approved')[:50])
+        resources = _serialize_resources(Resource.objects.filter(approval_status='approved', is_lead=True)[:50])
         cache.set('home_resources', resources, 60)
     posts = cache.get('home_posts')
     if posts is None:
@@ -494,60 +498,119 @@ def library(request):
     faculties = [f.strip() for f in request.GET.getlist('faculty') if f.strip()]
     exam_types = [e.strip() for e in request.GET.getlist('exam_type') if e.strip()]
     sort_by = request.GET.get('sort', 'relevant')
-    qs = Resource.objects.filter(approval_status='approved')
-    if subjects:
-        q = Q()
-        for s in subjects:
-            q |= Q(subject__iexact=s)
-        qs = qs.filter(q)
-    if grades:
-        q = Q()
-        for g in grades:
-            q |= Q(grade_level__iexact=g)
-        qs = qs.filter(q)
-    if types:
-        q = Q()
-        for t in types:
-            q |= Q(type__iexact=t)
-        qs = qs.filter(q)
-    if faculties:
-        q = Q()
-        for f in faculties:
-            q |= Q(faculty__iexact=f)
-        qs = qs.filter(q)
-    if exam_types:
-        q = Q()
-        for e in exam_types:
-            q |= Q(exam_type__iexact=e)
-        qs = qs.filter(q)
-    if sort_by == 'newest':
-        qs = qs.order_by('-added_at')
-    elif sort_by == 'oldest':
-        qs = qs.order_by('added_at')
-    else:
-        qs = qs.order_by('-view_count', '-added_at')
-    from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-    page_num = request.GET.get('page', 1)
-    paginator = Paginator(qs, 12)
-    try:
-        page_obj = paginator.page(page_num)
-    except (EmptyPage, PageNotAnInteger):
-        page_obj = paginator.page(1)
-    filtered = _serialize_resources(page_obj.object_list)
+    current_tab = request.GET.get('tab', 'digital')
+    if current_tab not in ['digital', 'community', 'categories']:
+        current_tab = 'digital'
+
+    filtered = []
+    page_obj = None
+
+    if current_tab in ['digital', 'community']:
+        is_lead_val = (current_tab == 'digital')
+        qs = Resource.objects.filter(approval_status='approved', is_lead=is_lead_val)
+        if subjects:
+            q = Q()
+            for s in subjects:
+                q |= Q(subject__iexact=s)
+            qs = qs.filter(q)
+        if grades:
+            q = Q()
+            for g in grades:
+                q |= Q(grade_level__iexact=g)
+            qs = qs.filter(q)
+        if types:
+            q = Q()
+            for t in types:
+                q |= Q(type__iexact=t)
+            qs = qs.filter(q)
+        if faculties:
+            q = Q()
+            for f in faculties:
+                q |= Q(faculty__iexact=f)
+            qs = qs.filter(q)
+        if exam_types:
+            q = Q()
+            for e in exam_types:
+                q |= Q(exam_type__iexact=e)
+            qs = qs.filter(q)
+            
+        if sort_by == 'newest':
+            qs = qs.order_by('-added_at')
+        elif sort_by == 'oldest':
+            qs = qs.order_by('added_at')
+        else:
+            qs = qs.order_by('-view_count', '-added_at')
+            
+        from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+        page_num = request.GET.get('page', 1)
+        paginator = Paginator(qs, 12)
+        try:
+            page_obj = paginator.page(page_num)
+        except (EmptyPage, PageNotAnInteger):
+            page_obj = paginator.page(1)
+        filtered = _serialize_resources(page_obj.object_list)
+
     all_resources = cache.get('library_all_resources')
     if all_resources is None:
         all_resources = _serialize_resources(Resource.objects.filter(approval_status='approved')[:500])
         cache.set('library_all_resources', all_resources, 180)
+        
     all_subjects = sorted(list(set(s.strip() for r in all_resources if r.get('subject') for s in r.get('subject', '').split(',') if s.strip())))
     all_grades = sorted(set(r.get('grade_level', '') for r in all_resources if r.get('grade_level')))
     all_types = sorted(set(r.get('type', '') for r in all_resources if r.get('type')))
     all_faculties = sorted(set(r.get('faculty', '') for r in all_resources if r.get('faculty')))
     all_exam_types = sorted(set(r.get('exam_type', '') for r in all_resources if r.get('exam_type')))
+    
     education_levels = [
         'Class 8', 'Class 9', 'Class 10 / SEE', 'Class 11', 'Class 12',
         'Diploma', 'Bachelor', 'Master', 'PhD',
         'Entrance Prep', 'Competitive Exam', 'Other',
     ]
+
+    # Build Class syllabus category tree dynamically from SyllabusContent
+    from collections import defaultdict
+    from api.models import SyllabusContent
+    categories_map = defaultdict(set)
+    active_syllabus = SyllabusContent.objects.all().values('grade_level', 'subject')
+    
+    if active_syllabus.exists():
+        for item in active_syllabus:
+            grade = item['grade_level'].strip() if item['grade_level'] else ''
+            if grade.lower() == 'grade 12':
+                grade = 'Class 12'
+            elif grade.lower() == 'grade 11':
+                grade = 'Class 11'
+            subject_str = item['subject']
+            if grade and subject_str:
+                for s in subject_str.split(','):
+                    s_clean = s.strip()
+                    if s_clean:
+                        categories_map[grade].add(s_clean)
+    else:
+        # Fallback to CURRICULUM_MAP keys
+        for (g_val, s_val) in curriculum.CURRICULUM_MAP.keys():
+            categories_map[g_val].add(s_val)
+                    
+    grade_order = {val: i for i, val in enumerate(education_levels)}
+    categories_list = []
+    for grade, subjs in categories_map.items():
+        subjs_sorted = sorted(list(subjs))
+        subjs_list = []
+        for s in subjs_sorted:
+            grade_slug = grade.lower().replace(' / see', '-see').replace(' ', '-')
+            subject_slug = s.lower().replace(' ', '-')
+            subjs_list.append({
+                'name': s,
+                'slug': subject_slug,
+                'url': f"/subject/{grade_slug}/{subject_slug}/"
+            })
+        categories_list.append({
+            'grade': grade,
+            'subjects': subjs_list,
+            'order': grade_order.get(grade, 999)
+        })
+    categories_list.sort(key=lambda x: x['order'])
+
     return render(request, 'web/library.html', _ctx(request,
         resources=filtered,
         all_subjects=all_subjects,
@@ -562,7 +625,9 @@ def library(request):
         current_faculties=faculties,
         current_exam_types=exam_types,
         current_sort=sort_by,
+        current_tab=current_tab,
         page_obj=page_obj,
+        categories_list=categories_list,
     ))
 
 
@@ -634,7 +699,8 @@ def search(request):
                 )
             resource_qs = Resource.objects.filter(
                 reduce(operator.and_, res_q_list),
-                approval_status='approved'
+                approval_status='approved',
+                is_lead=True
             )
             exact_res_expr = Q(title__icontains=query) | Q(description__icontains=query) | Q(subject__icontains=query) | Q(tags__icontains=query)
             resource_qs = resource_qs.annotate(
@@ -902,6 +968,11 @@ def forum_post(request, post_id):
         post_obj = Post.objects.select_related('user').get(id=post_id)
     except Post.DoesNotExist:
         raise Http404("Post not found")
+    view_key = f'post_viewed_{post_id}'
+    if not request.session.get(view_key):
+        Post.objects.filter(pk=post_id).update(view_count=F('view_count') + 1)
+        request.session[view_key] = True
+        post_obj.view_count += 1
     post = _serialize_post(post_obj, user_id)
     replies_qs = Reply.objects.select_related('user').filter(post_id=post_id).order_by('created_at')
     all_replies = _serialize_replies(replies_qs, user_id)
@@ -1071,6 +1142,17 @@ def reader(request, resource_id):
 
     can_edit = bool(user_id and user_id == resource_obj.uploaded_by_id)
 
+    # Fetch bundle files if it belongs to a group
+    group_resources = []
+    if resource_obj.upload_group_id:
+        group_qs = Resource.objects.filter(
+            upload_group_id=resource_obj.upload_group_id
+        ).order_by('added_at')
+        # Include resources that are pending or approved for staff, but only approved for normal users
+        if not _is_staff_admin(request):
+            group_qs = group_qs.filter(approval_status='approved')
+        group_resources = _serialize_resources(group_qs)
+
     return render(request, 'web/resource_detail.html', _ctx(request,
         resource=resource,
         resource_id=resource_id,
@@ -1082,6 +1164,7 @@ def reader(request, resource_id):
         children_map=children_map,
         comment_count=resource_obj.comment_count,
         related_resources=related_resources,
+        group_resources=group_resources,
     ))
 
 
@@ -1511,108 +1594,22 @@ def upload_resource(request):
             if saved_files:
                 import os
                 from django.conf import settings
-                from django.core.files.base import ContentFile
-                from django.core.files.storage import default_storage
                 
-                final_path = None
-                final_size = 0
+                group_id = str(uuid.uuid4()) if len(saved_files) > 1 else ''
                 
-                if len(saved_files) == 1:
-                    final_path = saved_files[0]['path']
-                    final_size = saved_files[0]['size']
-                else:
-                    # Multiple files - merge them!
-                    can_merge_pdf = True
-                    for sf in saved_files:
-                        ext = os.path.splitext(sf['name'])[1].lower()
-                        if ext not in ('.pdf', '.png', '.jpg', '.jpeg', '.webp', '.gif', '.bmp', '.tiff'):
-                            can_merge_pdf = False
-                            break
-                    
-                    merged_data = None
-                    merged_ext = None
-                    
-                    if can_merge_pdf:
-                        try:
-                            from pypdf import PdfMerger
-                            from PIL import Image
-                            import io
-                            
-                            merger = PdfMerger()
-                            opened_files = []
-                            try:
-                                for sf in saved_files:
-                                    ext = os.path.splitext(sf['name'])[1].lower()
-                                    if ext == '.pdf':
-                                        f_obj = default_storage.open(sf['path'], 'rb')
-                                        opened_files.append(f_obj)
-                                        merger.append(f_obj)
-                                    else:
-                                        with default_storage.open(sf['path'], 'rb') as f:
-                                            img_data = f.read()
-                                        img = Image.open(io.BytesIO(img_data))
-                                        img = img.convert('RGB')
-                                        pdf_io = io.BytesIO()
-                                        img.save(pdf_io, 'PDF')
-                                        pdf_io.seek(0)
-                                        opened_files.append(pdf_io)
-                                        merger.append(pdf_io)
-                                
-                                out_stream = io.BytesIO()
-                                merger.write(out_stream)
-                                merger.close()
-                                merged_data = out_stream.getvalue()
-                                merged_ext = '.pdf'
-                            finally:
-                                for f_obj in opened_files:
-                                    try:
-                                        f_obj.close()
-                                    except Exception:
-                                        pass
-                        except Exception as e:
-                            logger.error(f"Failed to merge files into PDF: {e}")
-                            merged_data = None
-                    
-                    if not merged_data:
-                        # Fallback to ZIP
-                        try:
-                            import zipfile
-                            import io
-                            
-                            zip_buffer = io.BytesIO()
-                            with zipfile.ZipFile(zip_buffer, 'w', zipfile.ZIP_DEFLATED) as zip_file:
-                                for sf in saved_files:
-                                    with default_storage.open(sf['path'], 'rb') as f:
-                                        content = f.read()
-                                    zip_file.writestr(sf['name'], content)
-                            merged_data = zip_buffer.getvalue()
-                            merged_ext = '.zip'
-                            if rtype == 'PDF':
-                                rtype = 'Note'
-                        except Exception as e:
-                            logger.error(f"Failed to create fallback ZIP: {e}")
-                            errors.append(f"Failed to process files: {str(e)}")
-                    
-                    if merged_data and merged_ext:
-                        # Save the merged file
-                        merged_filename = f"{uuid.uuid4().hex[:12]}_{int(time.time())}{merged_ext}"
-                        merged_path_relative = os.path.join('resources', merged_filename)
-                        final_path = default_storage.save(merged_path_relative, ContentFile(merged_data))
-                        final_size = len(merged_data)
-                        
-                        # Clean up the individual saved files
-                        for sf in saved_files:
-                            if sf['path']:
-                                try:
-                                    default_storage.delete(sf['path'])
-                                except Exception:
-                                    pass
-                
-                if not errors and final_path:
-                    final_file_url = request.build_absolute_uri(settings.MEDIA_URL + final_path)
+                for idx, sf in enumerate(saved_files):
+                    res_title = title
+                    is_lead = True
+                    if len(saved_files) > 1:
+                        if idx > 0:
+                            is_lead = False
+                            display_name = os.path.splitext(sf['name'])[0]
+                            res_title = f"{title} - {display_name}"
+
+                    final_file_url = request.build_absolute_uri(settings.MEDIA_URL + sf['path'])
                     resource = Resource(
                         id=str(uuid.uuid4()),
-                        title=title,
+                        title=res_title,
                         description=description,
                         subject=subject,
                         grade_level=grade_level,
@@ -1625,17 +1622,19 @@ def upload_resource(request):
                         school=school,
                         tags=tags,
                         type=rtype,
-                        file=final_path,
+                        file=sf['path'] or None,
                         file_url=final_file_url,
                         thumbnail_url=safe_thumbnail_url,
-                        file_size=final_size,
-                        added_at=int(time.time() * 1000),
+                        file_size=sf['size'],
+                        added_at=int(time.time() * 1000) + idx,
                         author_name=author_name,
                         source_type='user' if user else 'anonymous',
                         uploaded_by=user,
                         source_url=source_url,
                         source_label=source_label,
                         approval_status='pending',
+                        upload_group_id=group_id,
+                        is_lead=is_lead,
                     )
                     resource.save()
                     created_resources.append(resource)
@@ -1667,6 +1666,8 @@ def upload_resource(request):
                     source_url=source_url,
                     source_label=source_label,
                     approval_status='pending',
+                    upload_group_id='',
+                    is_lead=True,
                 )
                 resource.save()
                 created_resources.append(resource)
@@ -1961,33 +1962,88 @@ def admin_pending_resources(request):
                     admin_user = User.objects.get(username=request.user.username)
                 except User.DoesNotExist:
                     pass
+            
+            # Identify all resources in the same upload group (or just the resource itself if no group)
+            if resource_obj.upload_group_id:
+                group_resources = Resource.objects.filter(upload_group_id=resource_obj.upload_group_id)
+            else:
+                group_resources = [resource_obj]
+
             if action == 'approve':
-                resource_obj.approval_status = 'approved'
-                resource_obj.reviewed_by = admin_user
-                resource_obj.reviewed_at = int(time.time() * 1000)
-                resource_obj.rejection_reason = ''
-                resource_obj.save()
-                if resource_obj.uploaded_by_id:
-                    _counters.increment_user_resource_approved(resource_obj.uploaded_by_id)
-                    _notif.notify_resource_approved(resource_obj.id, resource_obj.uploaded_by_id)
+                for r in group_resources:
+                    r.approval_status = 'approved'
+                    r.reviewed_by = admin_user
+                    r.reviewed_at = int(time.time() * 1000)
+                    r.rejection_reason = ''
+                    r.save()
+                    if r.uploaded_by_id:
+                        _counters.increment_user_resource_approved(r.uploaded_by_id)
+                        _notif.notify_resource_approved(r.id, r.uploaded_by_id)
             elif action == 'reject':
-                resource_obj.approval_status = 'rejected'
-                resource_obj.reviewed_by = admin_user
-                resource_obj.reviewed_at = int(time.time() * 1000)
-                resource_obj.rejection_reason = request.POST.get('reason', '').strip()[:500]
-                resource_obj.save()
-                if resource_obj.uploaded_by_id:
-                    _notif.notify_resource_rejected(resource_obj.id, resource_obj.uploaded_by_id, resource_obj.rejection_reason)
+                reason = request.POST.get('reason', '').strip()[:500]
+                for r in group_resources:
+                    r.approval_status = 'rejected'
+                    r.reviewed_by = admin_user
+                    r.reviewed_at = int(time.time() * 1000)
+                    r.rejection_reason = reason
+                    r.save()
+                    if r.uploaded_by_id:
+                        _notif.notify_resource_rejected(r.id, r.uploaded_by_id, reason)
+            
             cache.delete_many(['home_resources', 'library_all_resources'])
         except Resource.DoesNotExist:
             pass
         return redirect('web:admin_pending_resources')
 
     pending = Resource.objects.filter(approval_status='pending').order_by('added_at')
-    pending_data = [_serialize_resource(r) for r in pending]
+    
+    # Group the pending resources by upload_group_id to show them as a single request card
+    grouped_pending = []
+    seen_groups = set()
+    
+    for r in pending:
+        if r.upload_group_id:
+            if r.upload_group_id in seen_groups:
+                continue
+            seen_groups.add(r.upload_group_id)
+            
+            # Fetch all pending resources in this group
+            group_members = list(Resource.objects.filter(
+                upload_group_id=r.upload_group_id, 
+                approval_status='pending'
+            ).order_by('added_at'))
+            
+            if not group_members:
+                continue
+                
+            lead_r = next((m for m in group_members if m.is_lead), group_members[0])
+            lead_data = _serialize_resource(lead_r)
+            
+            # List all file details in this group
+            lead_data['group_files'] = [
+                {
+                    'id': m.id,
+                    'title': m.title,
+                    'file_url': m.file.url if m.file else m.file_url,
+                    'file_name': os.path.basename(m.file.name) if m.file else 'External URL'
+                } for m in group_members
+            ]
+            grouped_pending.append(lead_data)
+        else:
+            data = _serialize_resource(r)
+            data['group_files'] = [
+                {
+                    'id': r.id,
+                    'title': r.title,
+                    'file_url': r.file.url if r.file else r.file_url,
+                    'file_name': os.path.basename(r.file.name) if r.file else 'External URL'
+                }
+            ]
+            grouped_pending.append(data)
+
     return render(request, 'admin_panel/pending_resources.html', {
         'is_admin': True,
-        'pending_resources': pending_data,
+        'pending_resources': grouped_pending,
         'active_page': 'pending_resources',
     })
 
@@ -3436,26 +3492,71 @@ def admin_dashboard(request):
         return redirect_response
     stats = cache.get('admin_stats')
     if stats is None:
-        from django.db.models import Sum
+        from django.db.models import Sum, Count, Avg
+        now_ms = int(time.time() * 1000)
+        seven_days_ago = int((time.time() - 7 * 86400) * 1000)
+        thirty_days_ago = int((time.time() - 30 * 86400) * 1000)
+
         total_users = User.objects.count()
         total_resources = Resource.objects.count()
         total_posts = Post.objects.count()
         total_replies = Reply.objects.count()
         total_likes = Post.objects.aggregate(total=Sum('thumbs_up_count'))['total'] or 0
-        seven_days_ago = int((time.time() - 7 * 86400) * 1000)
+        total_reply_likes = Reply.objects.aggregate(total=Sum('thumbs_up_count'))['total'] or 0
+        total_resource_views = Resource.objects.aggregate(total=Sum('view_count'))['total'] or 0
+        total_post_views = Post.objects.aggregate(total=Sum('view_count'))['total'] or 0
+        pending_resources = Resource.objects.filter(approval_status='pending').count()
         new_users_week = User.objects.filter(created_at__gte=seven_days_ago).count()
+        new_users_month = User.objects.filter(created_at__gte=thirty_days_ago).count()
         new_posts_week = Post.objects.filter(created_at__gte=seven_days_ago).count()
+        new_posts_month = Post.objects.filter(created_at__gte=thirty_days_ago).count()
+        new_replies_week = Reply.objects.filter(created_at__gte=seven_days_ago).count()
+        new_replies_month = Reply.objects.filter(created_at__gte=thirty_days_ago).count()
+        new_resources_week = Resource.objects.filter(added_at__gte=seven_days_ago).count()
+        new_resources_month = Resource.objects.filter(added_at__gte=thirty_days_ago).count()
+
+        recent_users = list(User.objects.order_by('-created_at')[:10])
+        top_posts = list(Post.objects.select_related('user').filter(is_archived=False).order_by('-thumbs_up_count')[:10])
+        top_viewed_posts = list(Post.objects.select_related('user').filter(is_archived=False).order_by('-view_count')[:10])
+        top_viewed_resources = list(Resource.objects.filter(approval_status='approved').order_by('-view_count')[:10])
+        subject_counts_raw = Resource.objects.filter(approval_status='approved').values_list('subject').annotate(count=Count('id'))
+        subject_counts_split = {}
+        for subj_str, cnt in subject_counts_raw:
+            for s in (subj_str or '').split(','):
+                s = s.strip()
+                if s:
+                    subject_counts_split[s] = subject_counts_split.get(s, 0) + cnt
+        subject_counts = dict(sorted(subject_counts_split.items(), key=lambda x: x[1], reverse=True)[:15])
+        category_counts = dict(Post.objects.filter(is_archived=False).values_list('category').annotate(count=Count('id')).order_by('-count')[:10])
+        resource_type_counts = dict(Resource.objects.filter(approval_status='approved').values_list('type').annotate(count=Count('id')).order_by('-count'))
+
         stats = {
             'total_users': total_users,
             'total_resources': total_resources,
-            'pending_resources': Resource.objects.filter(approval_status='pending').count(),
             'total_posts': total_posts,
             'total_replies': total_replies,
             'total_likes': total_likes,
+            'total_reply_likes': total_reply_likes,
+            'total_resource_views': total_resource_views,
+            'total_post_views': total_post_views,
+            'pending_resources': pending_resources,
             'new_users_week': new_users_week,
+            'new_users_month': new_users_month,
             'new_posts_week': new_posts_week,
+            'new_posts_month': new_posts_month,
+            'new_replies_week': new_replies_week,
+            'new_replies_month': new_replies_month,
+            'new_resources_week': new_resources_week,
+            'new_resources_month': new_resources_month,
+            'recent_users': recent_users,
+            'top_posts': top_posts,
+            'top_viewed_posts': top_viewed_posts,
+            'top_viewed_resources': top_viewed_resources,
+            'subject_counts': subject_counts,
+            'category_counts': category_counts,
+            'resource_type_counts': resource_type_counts,
         }
-        cache.set('admin_stats', stats, 60)
+        cache.set('admin_stats', stats, 300)
     return render(request, 'admin_panel/dashboard.html', {
         'is_admin': True,
         'stats': stats,
@@ -3805,108 +3906,22 @@ def admin_resource_create(request):
             if saved_files:
                 import os
                 from django.conf import settings
-                from django.core.files.base import ContentFile
-                from django.core.files.storage import default_storage
                 
-                final_path = None
-                final_size = 0
+                group_id = str(uuid.uuid4()) if len(saved_files) > 1 else ''
                 
-                if len(saved_files) == 1:
-                    final_path = saved_files[0]['path']
-                    final_size = saved_files[0]['size']
-                else:
-                    # Multiple files - merge them!
-                    can_merge_pdf = True
-                    for sf in saved_files:
-                        ext = os.path.splitext(sf['name'])[1].lower()
-                        if ext not in ('.pdf', '.png', '.jpg', '.jpeg', '.webp', '.gif', '.bmp', '.tiff'):
-                            can_merge_pdf = False
-                            break
-                    
-                    merged_data = None
-                    merged_ext = None
-                    
-                    if can_merge_pdf:
-                        try:
-                            from pypdf import PdfMerger
-                            from PIL import Image
-                            import io
-                            
-                            merger = PdfMerger()
-                            opened_files = []
-                            try:
-                                for sf in saved_files:
-                                    ext = os.path.splitext(sf['name'])[1].lower()
-                                    if ext == '.pdf':
-                                        f_obj = default_storage.open(sf['path'], 'rb')
-                                        opened_files.append(f_obj)
-                                        merger.append(f_obj)
-                                    else:
-                                        with default_storage.open(sf['path'], 'rb') as f:
-                                            img_data = f.read()
-                                        img = Image.open(io.BytesIO(img_data))
-                                        img = img.convert('RGB')
-                                        pdf_io = io.BytesIO()
-                                        img.save(pdf_io, 'PDF')
-                                        pdf_io.seek(0)
-                                        opened_files.append(pdf_io)
-                                        merger.append(pdf_io)
-                                
-                                out_stream = io.BytesIO()
-                                merger.write(out_stream)
-                                merger.close()
-                                merged_data = out_stream.getvalue()
-                                merged_ext = '.pdf'
-                            finally:
-                                for f_obj in opened_files:
-                                    try:
-                                        f_obj.close()
-                                    except Exception:
-                                        pass
-                        except Exception as e:
-                            logger.error(f"Failed to merge files into PDF: {e}")
-                            merged_data = None
-                    
-                    if not merged_data:
-                        # Fallback to ZIP
-                        try:
-                            import zipfile
-                            import io
-                            
-                            zip_buffer = io.BytesIO()
-                            with zipfile.ZipFile(zip_buffer, 'w', zipfile.ZIP_DEFLATED) as zip_file:
-                                for sf in saved_files:
-                                    with default_storage.open(sf['path'], 'rb') as f:
-                                        content = f.read()
-                                    zip_file.writestr(sf['name'], content)
-                            merged_data = zip_buffer.getvalue()
-                            merged_ext = '.zip'
-                            if rtype == 'PDF':
-                                rtype = 'Note'
-                        except Exception as e:
-                            logger.error(f"Failed to create fallback ZIP: {e}")
-                            errors.append(f"Failed to process files: {str(e)}")
-                    
-                    if merged_data and merged_ext:
-                        # Save the merged file
-                        merged_filename = f"{uuid.uuid4().hex[:12]}_{int(time.time())}{merged_ext}"
-                        merged_path_relative = os.path.join('resources', merged_filename)
-                        final_path = default_storage.save(merged_path_relative, ContentFile(merged_data))
-                        final_size = len(merged_data)
-                        
-                        # Clean up the individual saved files
-                        for sf in saved_files:
-                            if sf['path']:
-                                try:
-                                    default_storage.delete(sf['path'])
-                                except Exception:
-                                    pass
-                
-                if not errors and final_path:
-                    final_file_url = request.build_absolute_uri(settings.MEDIA_URL + final_path)
+                for idx, sf in enumerate(saved_files):
+                    res_title = title
+                    is_lead = True
+                    if len(saved_files) > 1:
+                        if idx > 0:
+                            is_lead = False
+                            display_name = os.path.splitext(sf['name'])[0]
+                            res_title = f"{title} - {display_name}"
+
+                    final_file_url = request.build_absolute_uri(settings.MEDIA_URL + sf['path'])
                     resource = Resource(
                         id=str(uuid.uuid4()),
-                        title=title,
+                        title=res_title,
                         description=description,
                         subject=subject,
                         grade_level=grade_level,
@@ -3919,11 +3934,11 @@ def admin_resource_create(request):
                         school=school,
                         tags=tags,
                         type=rtype,
-                        file=final_path,
+                        file=sf['path'] or None,
                         file_url=final_file_url,
                         thumbnail_url=safe_thumbnail_url,
-                        file_size=final_size,
-                        added_at=int(time.time() * 1000),
+                        file_size=sf['size'],
+                        added_at=int(time.time() * 1000) + idx,
                         view_count=view_count,
                         author_name=author_name,
                         source_type=source_type,
@@ -3933,6 +3948,8 @@ def admin_resource_create(request):
                         approval_status=approval_status,
                         reviewed_by=admin_user if approval_status == 'approved' else None,
                         reviewed_at=int(time.time() * 1000) if approval_status == 'approved' else None,
+                        upload_group_id=group_id,
+                        is_lead=is_lead,
                     )
                     resource.save()
                     created_count += 1
@@ -3966,6 +3983,8 @@ def admin_resource_create(request):
                     approval_status=approval_status,
                     reviewed_by=admin_user if approval_status == 'approved' else None,
                     reviewed_at=int(time.time() * 1000) if approval_status == 'approved' else None,
+                    upload_group_id='',
+                    is_lead=True,
                 )
                 resource.save()
                 created_count += 1
@@ -4614,3 +4633,671 @@ def admin_bot_create_user(request, bot_id):
         return redirect(f'/admin/bots/{bot_id}/')
     ctx = _ctx(request, active_page='bot', config=config)
     return render(request, 'admin_panel/bot_create_user.html', ctx)
+
+
+# ---------------------------------------------------------------------------
+# SUBJECT PAGES & NEBY AI INTEGRATION
+# ---------------------------------------------------------------------------
+
+def parse_qas(text):
+    """Parse a block of text containing Q&A pairs into a list of dictionaries."""
+    if not text:
+        return []
+    blocks = []
+    current_q = None
+    current_a = []
+    
+    lines = text.split('\n')
+    for line in lines:
+        line_stripped = line.strip()
+        is_new_q = False
+        if line_stripped.lower().startswith('q:') or line_stripped.lower().startswith('question'):
+            is_new_q = True
+        elif line_stripped.startswith('Q') and len(line_stripped) > 1:
+            first_word = line_stripped.split()[0] if line_stripped.split() else ''
+            if len(first_word) > 1 and (first_word[1].isdigit() or first_word[1] in ['.', ':', ' ']):
+                is_new_q = True
+        
+        if is_new_q:
+            if current_q:
+                blocks.append({
+                    'question': current_q,
+                    'answer': '\n'.join(current_a).strip()
+                })
+            current_q = line_stripped
+            current_a = []
+        else:
+            if current_q:
+                current_a.append(line)
+            else:
+                if line_stripped:
+                    current_q = line_stripped
+                    current_a = []
+    if current_q:
+        blocks.append({
+            'question': current_q,
+            'answer': '\n'.join(current_a).strip()
+        })
+    return blocks
+
+
+def subject_page(request, grade_slug, subject_slug):
+    """Subject details page — groups resources by chapter and links Neby AI + forum."""
+    grade_db_val = curriculum.get_grade_db_value(grade_slug)
+    subject_db_val = curriculum.get_subject_db_value(subject_slug)
+    
+    # Query approved lead resources
+    resources_qs = Resource.objects.filter(
+        approval_status='approved',
+        is_lead=True,
+        grade_level__iexact=grade_db_val,
+        subject__icontains=subject_db_val
+    )
+    
+    # Fetch database syllabus content entries
+    from api.models import SyllabusContent
+    syllabus_entries = SyllabusContent.objects.filter(
+        grade_level__iexact=grade_db_val,
+        subject__iexact=subject_db_val
+    ).order_by('order')
+    
+    grouped_resources = []
+    chapter_map = {}
+    
+    if syllabus_entries.exists():
+        for entry in syllabus_entries:
+            ch_entry = {
+                'id': entry.chapter_id,
+                'name': entry.chapter_title,
+                'keywords': [entry.chapter_title.lower(), entry.chapter_id.replace('-', ' ')],
+                'notes': [],
+                'solutions': [],
+                'papers': [],
+                'textbooks': [],
+                'other': [],
+                'count': 0,
+                'syllabus_text': entry.text_content,
+                'question_answers': entry.question_answers,
+                'question_answers_parsed': parse_qas(entry.question_answers)
+            }
+            grouped_resources.append(ch_entry)
+            chapter_map[entry.chapter_id] = ch_entry
+    else:
+        # Fallback to predefined curriculum map
+        chapters = curriculum.get_chapters_for_subject(grade_db_val, subject_db_val)
+        for ch in chapters:
+            ch_entry = {
+                'id': ch['id'],
+                'name': ch['name'],
+                'keywords': ch['keywords'],
+                'notes': [],
+                'solutions': [],
+                'papers': [],
+                'textbooks': [],
+                'other': [],
+                'count': 0,
+                'syllabus_text': '',
+                'question_answers': '',
+                'question_answers_parsed': []
+            }
+            grouped_resources.append(ch_entry)
+            chapter_map[ch['id']] = ch_entry
+        
+    general_resources = {
+        'id': 'general',
+        'name': 'General & Reference Resources',
+        'notes': [],
+        'solutions': [],
+        'papers': [],
+        'textbooks': [],
+        'other': [],
+        'count': 0
+    }
+    
+    total_count = 0
+    for r in resources_qs:
+        total_count += 1
+        serialized = _serialize_resource(r)
+        
+        # Match to a chapter
+        matched_ch_id = None
+        # First match by tags exactly
+        res_tags = [t.strip().lower() for t in (r.tags or '').split(',') if t.strip()]
+        for ch in grouped_resources:
+            if any(kw.lower() in res_tags for kw in ch['keywords']):
+                matched_ch_id = ch['id']
+                break
+                
+        # Substring search in tags, title or description if not matched yet
+        if not matched_ch_id:
+            r_title_lower = r.title.lower()
+            r_desc_lower = (r.description or '').lower()
+            r_tags_lower = (r.tags or '').lower()
+            for ch in grouped_resources:
+                if any(kw.lower() in r_title_lower or kw.lower() in r_desc_lower or kw.lower() in r_tags_lower for kw in ch['keywords']):
+                    matched_ch_id = ch['id']
+                    break
+        
+        target_group = chapter_map.get(matched_ch_id) if matched_ch_id else general_resources
+        
+        # Categorise resource type
+        rtype_lower = (r.type or '').lower().strip()
+        exam_type_lower = (r.exam_type or '').lower().strip()
+        r_title_lower = r.title.lower()
+        r_tags_lower = (r.tags or '').lower()
+        
+        is_solution = any(x in r_title_lower or x in r_tags_lower for x in ['solution', 'exercise', 'question answer', 'q&a', 'answers'])
+        is_paper = exam_type_lower in ['board', 'final', 'mock', 'entrance', 'see'] or any(x in r_title_lower or x in r_tags_lower for x in ['past paper', 'model paper', 'question paper', 'exam paper'])
+        
+        if is_solution:
+            target_group['solutions'].append(serialized)
+        elif is_paper:
+            target_group['papers'].append(serialized)
+        elif rtype_lower == 'note' or exam_type_lower == 'notes':
+            target_group['notes'].append(serialized)
+        elif rtype_lower == 'textbook' or exam_type_lower == 'reference' or 'textbook' in r_title_lower:
+            target_group['textbooks'].append(serialized)
+        else:
+            target_group['other'].append(serialized)
+            
+        target_group['count'] += 1
+    
+    # Query forum posts
+    posts_qs = Post.objects.select_related('user').filter(
+        Q(category__iexact=subject_db_val) | 
+        Q(title__icontains=subject_db_val) | 
+        Q(content__icontains=subject_db_val)
+    ).filter(is_archived=False).order_by('-created_at')[:15]
+    user_id = _get_user_id(request)
+    posts = _serialize_posts(posts_qs, user_id)
+    
+    # Compile lists for drop-downs
+    from api.models import SyllabusContent
+    has_syllabus = SyllabusContent.objects.exists()
+    
+    active_subjects = set()
+    if has_syllabus:
+        # Driven solely by admin-created SyllabusContent
+        for s_val in SyllabusContent.objects.filter(grade_level__iexact=grade_db_val).values_list('subject', flat=True).distinct():
+            for s in s_val.split(','):
+                s_clean = s.strip()
+                if s_clean:
+                    active_subjects.add(s_clean)
+        # If no syllabus content exists for this specific grade, fall back to CURRICULUM_MAP
+        if not active_subjects:
+            for (g_val, s_val) in curriculum.CURRICULUM_MAP.keys():
+                if g_val.lower() == grade_db_val.lower():
+                    active_subjects.add(s_val)
+    else:
+        # Fallback to CURRICULUM_MAP keys
+        for (g_val, s_val) in curriculum.CURRICULUM_MAP.keys():
+            if g_val.lower() == grade_db_val.lower():
+                active_subjects.add(s_val)
+                
+    subject_list = []
+    for s in sorted(list(active_subjects)):
+        slug = curriculum.slugify_tag(s)
+        if slug:
+            subject_list.append({
+                'name': s,
+                'slug': slug
+            })
+
+    active_grades = {grade_db_val}
+    if has_syllabus:
+        # Driven solely by admin-created SyllabusContent
+        for g in SyllabusContent.objects.values_list('grade_level', flat=True).distinct():
+            g_clean = g.strip() if g else ''
+            if g_clean:
+                if g_clean.lower() == 'grade 12':
+                    g_clean = 'Class 12'
+                elif g_clean.lower() == 'grade 11':
+                    g_clean = 'Class 11'
+                active_grades.add(g_clean)
+    else:
+        # Fallback to CURRICULUM_MAP keys
+        for (g_val, s_val) in curriculum.CURRICULUM_MAP.keys():
+            g_clean = g_val.strip()
+            if g_clean:
+                if g_clean.lower() == 'grade 12':
+                    g_clean = 'Class 12'
+                elif g_clean.lower() == 'grade 11':
+                    g_clean = 'Class 11'
+                active_grades.add(g_clean)
+            
+    education_levels = [
+        'Class 8', 'Class 9', 'Class 10 / SEE', 'Class 11', 'Class 12',
+        'Diploma', 'Bachelor', 'Master', 'PhD',
+        'Entrance Prep', 'Competitive Exam', 'Other',
+    ]
+    grade_order = {val.lower(): i for i, val in enumerate(education_levels)}
+    sorted_grades = sorted(list(active_grades), key=lambda x: grade_order.get(x.lower(), 999))
+    
+    grade_list = []
+    for g in sorted_grades:
+        grade_list.append({
+            'name': g,
+            'slug': g.lower().replace(' / see', '-see').replace(' ', '-')
+        })
+    
+    ctx = _ctx(request,
+        grade=grade_db_val,
+        subject=subject_db_val,
+        grade_slug=grade_slug,
+        subject_slug=subject_slug,
+        grouped_resources=grouped_resources,
+        general_resources=general_resources,
+        posts=posts,
+        total_count=total_count,
+        grade_list=grade_list,
+        subject_list=subject_list,
+        default_model='meta-llama/Llama-3-8b-instruct'
+    )
+    return render(request, 'web/subject_page.html', ctx)
+
+
+def ajax_arena_sessions(request):
+    """Session-based AJAX wrapper for listing or creating AI4Bharat Arena sessions."""
+    user_id = _get_user_id(request)
+    if not user_id:
+        return JsonResponse({'error': 'Unauthorized'}, status=401)
+    try:
+        user = User.objects.get(pk=user_id)
+    except User.DoesNotExist:
+        return JsonResponse({'error': 'User not found'}, status=404)
+
+    from api import ai4bharat_proxy as arena
+    from api.models import ArenaChatSession
+
+    if request.method == 'GET':
+        sessions = ArenaChatSession.objects.filter(user=user, is_active=True).order_by('-updated_at')[:100]
+        return JsonResponse({
+            'sessions': [
+                {
+                    'id': s.id,
+                    'title': s.title,
+                    'modelId': s.model_id,
+                    'modelCode': s.model_code,
+                    'modelName': s.model_display_name,
+                    'messageCount': s.message_count,
+                    'createdAt': s.created_at,
+                    'updatedAt': s.updated_at,
+                    'lastMessageAt': s.last_message_at,
+                }
+                for s in sessions
+            ]
+        })
+        
+    elif request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+        except ValueError:
+            return JsonResponse({'error': 'Invalid JSON'}, status=400)
+            
+        model_id = (data.get('modelId') or '').strip()
+        title = (data.get('title') or '').strip()[:200]
+        if not model_id:
+            return JsonResponse({'error': 'modelId is required'}, status=400)
+            
+        try:
+            entry = arena.acquire_token(require_low_budget=True)
+        except arena.ArenaRateLimit:
+            return JsonResponse({'error': 'AI pool capacity reached', 'code': 'pool_exhausted'}, status=503)
+        except arena.ArenaError as e:
+            logger.error("ajax_arena_sessions create: token mint failed: %s", e)
+            return JsonResponse({'error': 'AI service temporarily unavailable'}, status=503)
+            
+        model_meta = None
+        try:
+            all_models = arena.list_models(entry['token'])
+            model_meta = next((m for m in all_models if m.get('id') == model_id), None)
+        except Exception:
+            pass
+            
+        try:
+            remote = arena.create_session(entry['token'], model_id)
+        except arena.ArenaAuthError:
+            try:
+                fresh = arena._new_anonymous_token()
+                remote = arena.create_session(fresh['token'], model_id)
+                entry = fresh
+            except Exception as e:
+                logger.error("ajax_arena_sessions create fallback failed: %s", e)
+                return JsonResponse({'error': 'AI service temporarily unavailable'}, status=503)
+        except arena.ArenaRateLimit as e:
+            return JsonResponse({'error': str(e), 'code': 'pool_exhausted'}, status=503)
+        except arena.ArenaError as e:
+            logger.error("ajax_arena_sessions create failed: %s", e)
+            return JsonResponse({'error': 'Could not start AI session — try again'}, status=502)
+            
+        now = int(time.time() * 1000)
+        sess = ArenaChatSession.objects.create(
+            id=str(uuid.uuid4()),
+            user=user,
+            arena_session_id=remote['id'],
+            arena_token_id=entry['token'],
+            model_id=model_id,
+            model_code=(model_meta or {}).get('model_code', ''),
+            model_display_name=(model_meta or {}).get('display_name', ''),
+            title=title or 'New chat',
+            is_active=True,
+            message_count=0,
+            last_message_at=0,
+            created_at=now,
+            updated_at=now,
+        )
+        arena.commit_token_use(entry['token'], message_used=False, session_opened=True)
+        
+        return JsonResponse({
+            'session': {
+                'id': sess.id,
+                'title': sess.title,
+                'modelId': sess.model_id,
+                'modelCode': sess.model_code,
+                'modelName': sess.model_display_name,
+                'messageCount': 0,
+                'createdAt': sess.created_at,
+                'updatedAt': sess.updated_at,
+            }
+        }, status=201)
+    
+    return JsonResponse({'error': 'Method not allowed'}, status=405)
+
+
+def ajax_arena_session_detail(request, session_id):
+    """Session-based AJAX wrapper for getting, updating or deleting a chat session."""
+    user_id = _get_user_id(request)
+    if not user_id:
+        return JsonResponse({'error': 'Unauthorized'}, status=401)
+        
+    from api.models import ArenaChatSession
+
+    try:
+        sess = ArenaChatSession.objects.get(pk=session_id)
+    except ArenaChatSession.DoesNotExist:
+        return JsonResponse({'error': 'Session not found'}, status=404)
+        
+    if sess.user_id != user_id:
+        return JsonResponse({'error': 'Forbidden'}, status=403)
+        
+    if request.method == 'GET':
+        msgs = list(sess.messages.order_by('created_at'))
+        return JsonResponse({
+            'session': {
+                'id': sess.id,
+                'title': sess.title,
+                'modelId': sess.model_id,
+                'modelCode': sess.model_code,
+                'modelName': sess.model_display_name,
+                'messageCount': sess.message_count,
+                'createdAt': sess.created_at,
+                'updatedAt': sess.updated_at,
+                'lastMessageAt': sess.last_message_at,
+                'isActive': sess.is_active,
+            },
+            'messages': [
+                {
+                    'id': m.id,
+                    'role': m.role,
+                    'content': m.content,
+                    'parentId': m.parent_id,
+                    'arenaMessageId': m.arena_message_id,
+                    'finishReason': m.finish_reason,
+                    'error': m.error,
+                    'durationMs': m.duration_ms,
+                    'createdAt': m.created_at,
+                }
+                for m in msgs
+            ]
+        })
+        
+    elif request.method == 'PATCH':
+        try:
+            data = json.loads(request.body)
+        except ValueError:
+            return JsonResponse({'error': 'Invalid JSON'}, status=400)
+            
+        new_title = data.get('title')
+        if new_title is not None:
+            sess.title = str(new_title).strip()[:200]
+        if 'isActive' in data:
+            sess.is_active = bool(data.get('isActive'))
+        sess.updated_at = int(time.time() * 1000)
+        sess.save(update_fields=['title', 'is_active', 'updated_at'])
+        return JsonResponse({'ok': True, 'title': sess.title, 'isActive': sess.is_active})
+        
+    elif request.method == 'DELETE':
+        sess.delete()
+        return JsonResponse({'ok': True})
+
+    return JsonResponse({'error': 'Method not allowed'}, status=405)
+
+
+def ajax_arena_send_message(request, session_id):
+    """Session-based AJAX wrapper for sending a message and streaming the SSE response."""
+    user_id = _get_user_id(request)
+    if not user_id:
+        return JsonResponse({'error': 'Unauthorized'}, status=401)
+        
+    from api.models import ArenaChatSession
+
+    try:
+        sess = ArenaChatSession.objects.get(pk=session_id)
+    except ArenaChatSession.DoesNotExist:
+        return JsonResponse({'error': 'Session not found'}, status=404)
+        
+    if sess.user_id != user_id:
+        return JsonResponse({'error': 'Forbidden'}, status=403)
+        
+    if request.method != 'POST':
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
+        
+    try:
+        data = json.loads(request.body)
+    except ValueError:
+        return JsonResponse({'error': 'Invalid JSON'}, status=400)
+        
+    content = (data.get('content') or '').strip()
+    if not content:
+        return JsonResponse({'error': 'content is required'}, status=400)
+    if len(content) > 8000:
+        return JsonResponse({'error': 'Message too long (max 8000 chars)'}, status=400)
+        
+    from api.arena_views import _stream_send
+    
+    gen = _stream_send(sess, content)
+    response = StreamingHttpResponse(gen, content_type='text/event-stream')
+    response['Cache-Control'] = 'no-cache'
+    response['X-Accel-Buffering'] = 'no'
+    response['Connection'] = 'keep-alive'
+    return response
+
+
+def ajax_arena_regenerate(request, message_id):
+    """Session-based AJAX wrapper for regenerating the last assistant response."""
+    user_id = _get_user_id(request)
+    if not user_id:
+        return JsonResponse({'error': 'Unauthorized'}, status=401)
+        
+    from api.models import ArenaChatMessage
+
+    try:
+        target = ArenaChatMessage.objects.select_related('session').get(pk=message_id)
+    except ArenaChatMessage.DoesNotExist:
+        return JsonResponse({'error': 'Message not found'}, status=404)
+        
+    if target.session.user_id != user_id:
+        return JsonResponse({'error': 'Forbidden'}, status=403)
+        
+    if target.role != 'assistant':
+        return JsonResponse({'error': 'Only assistant messages can be regenerated'}, status=400)
+        
+    if request.method != 'POST':
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
+        
+    from api.arena_views import _stream_regenerate
+    
+    gen = _stream_regenerate(target.session, target.id)
+    response = StreamingHttpResponse(gen, content_type='text/event-stream')
+    response['Cache-Control'] = 'no-cache'
+    response['X-Accel-Buffering'] = 'no'
+    response['Connection'] = 'keep-alive'
+    return response
+
+
+def admin_syllabus_list(request):
+    redirect_response = _require_staff_admin(request)
+    if redirect_response:
+        return redirect_response
+    
+    from api.models import SyllabusContent
+    syllabus_qs = SyllabusContent.objects.all().order_by('grade_level', 'subject', 'order')
+    
+    search = request.GET.get('q', '').strip()
+    if search:
+        syllabus_qs = syllabus_qs.filter(
+            Q(grade_level__icontains=search) | 
+            Q(subject__icontains=search) | 
+            Q(chapter_title__icontains=search)
+        )
+        
+    paginator = Paginator(syllabus_qs, 20)
+    page_number = request.GET.get('page', 1)
+    page_obj = paginator.get_page(page_number)
+    
+    return render(request, 'admin_panel/syllabus_list.html', {
+        'is_admin': True,
+        'page_obj': page_obj,
+        'search': search,
+        'active_page': 'syllabus',
+    })
+
+
+def admin_syllabus_create(request):
+    redirect_response = _require_staff_admin(request)
+    if redirect_response:
+        return redirect_response
+        
+    from api.models import SyllabusContent
+    import uuid
+    import time
+    
+    education_levels = [
+        'Class 8', 'Class 9', 'Class 10 / SEE', 'Class 11', 'Class 12',
+        'Diploma', 'Bachelor', 'Master', 'PhD',
+        'Entrance Prep', 'Competitive Exam', 'Other',
+    ]
+    
+    if request.method == 'POST':
+        grade_level = request.POST.get('grade_level', '').strip()
+        subject = request.POST.get('subject', '').strip()
+        chapter_title = request.POST.get('chapter_title', '').strip()
+        chapter_id = request.POST.get('chapter_id', '').strip()
+        text_content = request.POST.get('text_content', '').strip()
+        question_answers = request.POST.get('question_answers', '').strip()
+        order_val = request.POST.get('order', '0').strip()
+        
+        if not grade_level or not subject or not chapter_title or not chapter_id:
+            return HttpResponse('Missing required fields.', status=400)
+            
+        now_ms = int(time.time() * 1000)
+        try:
+            order = int(order_val)
+        except ValueError:
+            order = 0
+            
+        syllabus_obj = SyllabusContent(
+            id=str(uuid.uuid4()),
+            grade_level=grade_level,
+            subject=subject,
+            chapter_id=chapter_id,
+            chapter_title=chapter_title,
+            text_content=text_content,
+            question_answers=question_answers,
+            order=order,
+            created_at=now_ms,
+            updated_at=now_ms
+        )
+        syllabus_obj.save()
+        return redirect('web:admin_syllabus_list')
+        
+    return render(request, 'admin_panel/syllabus_form.html', {
+        'is_admin': True,
+        'education_levels': education_levels,
+        'active_page': 'syllabus',
+        'is_edit': False,
+    })
+
+
+def admin_syllabus_edit(request, entry_id):
+    redirect_response = _require_staff_admin(request)
+    if redirect_response:
+        return redirect_response
+        
+    from api.models import SyllabusContent
+    import time
+    
+    try:
+        syllabus_obj = SyllabusContent.objects.get(pk=entry_id)
+    except SyllabusContent.DoesNotExist:
+        return redirect('web:admin_syllabus_list')
+        
+    education_levels = [
+        'Class 8', 'Class 9', 'Class 10 / SEE', 'Class 11', 'Class 12',
+        'Diploma', 'Bachelor', 'Master', 'PhD',
+        'Entrance Prep', 'Competitive Exam', 'Other',
+    ]
+    
+    if request.method == 'POST':
+        grade_level = request.POST.get('grade_level', '').strip()
+        subject = request.POST.get('subject', '').strip()
+        chapter_title = request.POST.get('chapter_title', '').strip()
+        chapter_id = request.POST.get('chapter_id', '').strip()
+        text_content = request.POST.get('text_content', '').strip()
+        question_answers = request.POST.get('question_answers', '').strip()
+        order_val = request.POST.get('order', '0').strip()
+        
+        if not grade_level or not subject or not chapter_title or not chapter_id:
+            return HttpResponse('Missing required fields.', status=400)
+            
+        try:
+            order = int(order_val)
+        except ValueError:
+            order = 0
+            
+        syllabus_obj.grade_level = grade_level
+        syllabus_obj.subject = subject
+        syllabus_obj.chapter_title = chapter_title
+        syllabus_obj.chapter_id = chapter_id
+        syllabus_obj.text_content = text_content
+        syllabus_obj.question_answers = question_answers
+        syllabus_obj.order = order
+        syllabus_obj.updated_at = int(time.time() * 1000)
+        syllabus_obj.save()
+        return redirect('web:admin_syllabus_list')
+        
+    return render(request, 'admin_panel/syllabus_form.html', {
+        'is_admin': True,
+        'syllabus': syllabus_obj,
+        'education_levels': education_levels,
+        'active_page': 'syllabus',
+        'is_edit': True,
+    })
+
+
+def admin_syllabus_delete(request, entry_id):
+    redirect_response = _require_staff_admin(request)
+    if redirect_response:
+        return redirect_response
+        
+    from api.models import SyllabusContent
+    try:
+        syllabus_obj = SyllabusContent.objects.get(pk=entry_id)
+    except SyllabusContent.DoesNotExist:
+        return redirect('web:admin_syllabus_list')
+        
+    if request.method == 'POST':
+        syllabus_obj.delete()
+        
+    return redirect('web:admin_syllabus_list')
+

@@ -25,6 +25,7 @@
         <th>Category</th>
         <th>Likes</th>
         <th>Replies</th>
+        <th class="col-views">Views</th>
         <th>Created</th>
         <th>Actions</th>
       </tr>
@@ -35,10 +36,21 @@
         <td style="max-width:300px;">
           <a href="{% url 'web:admin_post_detail' post_id=p.id %}" style="font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block;">{{ p.title }}</a>
         </td>
-        <td>{{ p.authorName }}</td>
+        <td>
+          <div class="admin-flex-row">
+            {% if p.authorPhotoUrl %}
+            <img src="{{ p.authorPhotoUrl }}" alt="" style="width:24px;height:24px;border-radius:50%;object-fit:cover;flex-shrink:0;" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+            <div class="profile-avatar" style="width:24px;height:24px;font-size:0.625rem;display:none;">{{ p.authorName|truncate_chars:1|default:"?" }}</div>
+            {% else %}
+            <div class="profile-avatar" style="width:24px;height:24px;font-size:0.625rem;">{{ p.authorName|truncate_chars:1|default:"?" }}</div>
+            {% endif %}
+            <span>{{ p.authorName }}</span>
+          </div>
+        </td>
         <td><span class="md-chip" style="font-size:0.75rem;">{{ p.category }}</span></td>
         <td>{{ p.thumbsUpCount }}</td>
         <td>{{ p.replyCount }}</td>
+        <td class="col-views">{{ p.viewCount }}</td>
         <td style="font-size:0.75rem;">{{ p.createdAt|time_ago }}</td>
         <td>
           <div style="display:flex;gap:4px;">

@@ -66,6 +66,10 @@
       <span class="material-symbols-outlined">auto_stories</span>
       Resources
     </a>
+    <a href="{% url 'web:admin_syllabus_list' %}" class="{% if active_page == 'syllabus' %}active{% endif %}">
+      <span class="material-symbols-outlined">menu_book</span>
+      Syllabus &amp; Chapters
+    </a>
     <a href="{% url 'web:admin_pending_resources' %}" class="{% if active_page == 'pending_resources' %}active{% endif %}">
       <span class="material-symbols-outlined">pending_actions</span>
       Pending Review
@@ -133,6 +137,10 @@
       <a href="{% url 'web:admin_resources' %}" class="{% if active_page == 'resources' %}active{% endif %}">
         <span class="material-symbols-outlined">auto_stories</span>
         Resources
+      </a>
+      <a href="{% url 'web:admin_syllabus_list' %}" class="{% if active_page == 'syllabus' %}active{% endif %}">
+        <span class="material-symbols-outlined">menu_book</span>
+        Syllabus &amp; Chapters
       </a>
       <a href="{% url 'web:admin_pending_resources' %}" class="{% if active_page == 'pending_resources' %}active{% endif %}">
         <span class="material-symbols-outlined">pending_actions</span>
