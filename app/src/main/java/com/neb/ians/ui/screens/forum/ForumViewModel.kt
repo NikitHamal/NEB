@@ -9,6 +9,7 @@ import com.neb.ians.data.repository.ForumRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
 import javax.inject.Inject
 
 data class ForumUiState(
@@ -41,12 +42,21 @@ class ForumViewModel @Inject constructor(
     private fun loadPosts() {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true, error = null) }
-            forumRepository.getPosts(category = _uiState.value.selectedCategory)
+            val query = _uiState.value.searchQuery.trim().takeIf { it.length >= 2 }
+            forumRepository.getPosts(
+                category = _uiState.value.selectedCategory,
+                search = query
+            )
                 .onSuccess { result ->
                     _uiState.update { it.copy(posts = result.posts, isLoading = false) }
                 }
                 .onFailure { e ->
-                    _uiState.update { it.copy(isLoading = false, error = e.message ?: "Failed to load posts") }
+                    val message = if (e is HttpException && e.code() == 401) {
+                        "Sign in to view and join forum discussions."
+                    } else {
+                        e.message ?: "Failed to load posts"
+                    }
+                    _uiState.update { it.copy(isLoading = false, error = message) }
                 }
         }
     }
@@ -63,6 +73,9 @@ class ForumViewModel @Inject constructor(
 
     fun onSearchQueryChange(query: String) {
         _uiState.update { it.copy(searchQuery = query) }
+        if (query.isBlank() || query.trim().length >= 2) {
+            loadPosts()
+        }
     }
 
     fun toggleThumbsUp(postId: String) {

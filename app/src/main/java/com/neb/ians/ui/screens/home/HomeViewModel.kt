@@ -49,16 +49,28 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             _isLoading.value = true
             _error.value = null
-            try {
-                val token = authRepository.getBearerToken()
+            val token = authRepository.getBearerToken()
+            val resourceError = runCatching {
                 val resourcesResult = apiService.getResources(token, sort = "newest", page = 1)
-                val popularResult = apiService.getResources(token, sort = "relevant", page = 1)
-                val postsResult = apiService.getPosts(token)
                 _recentResources.value = resourcesResult.resources
+            }.exceptionOrNull()
+
+            runCatching {
+                val popularResult = apiService.getResources(token, sort = "relevant", page = 1)
                 _popularResources.value = popularResult.resources
+            }.onFailure {
+                _popularResources.value = _recentResources.value
+            }
+
+            runCatching {
+                val postsResult = apiService.getPosts(token)
                 _recentPosts.value = postsResult.posts
-            } catch (e: Exception) {
-                _error.value = e.message ?: "Failed to load data"
+            }.onFailure {
+                _recentPosts.value = emptyList()
+            }
+
+            if (resourceError != null && _recentResources.value.isEmpty()) {
+                _error.value = resourceError.message ?: "Failed to load resources"
             }
             _isLoading.value = false
         }

@@ -30,6 +30,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.neb.ians.data.api.ApiPost
 import com.neb.ians.ui.components.ErrorCard
 import com.neb.ians.ui.components.ShimmerForumList
+import com.neb.ians.ui.components.WebPostCard
 import com.neb.ians.util.formatTimeAgo
 import com.neb.ians.util.getSubjectColor
 
@@ -109,8 +110,8 @@ fun ForumScreen(
         floatingActionButton = {
             ExtendedFloatingActionButton(
                 onClick = onCreatePostClick,
-                containerColor = MaterialTheme.colorScheme.primaryContainer,
-                contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.onPrimary,
                 icon = {
                     Icon(
                         imageVector = Icons.Filled.Add,
@@ -205,7 +206,7 @@ fun ForumScreen(
                             verticalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
                             items(uiState.posts, key = { it.id }) { post ->
-                                ForumPostCard(
+                                WebPostCard(
                                     post = post,
                                     onClick = { onPostClick(post.id) },
                                     onThumbsUpClick = { viewModel.toggleThumbsUp(post.id) }

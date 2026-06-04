@@ -1,6 +1,7 @@
 package com.neb.ians.ui.screens.forum
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -26,6 +27,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.neb.ians.data.api.ApiPost
 import com.neb.ians.data.api.ApiReply
+import com.neb.ians.ui.components.NebiansAvatar
 import com.neb.ians.util.formatTimeAgo
 import com.neb.ians.util.getSubjectColor
 
@@ -65,8 +67,8 @@ fun ForumPostDetailScreen(
         floatingActionButton = {
             ExtendedFloatingActionButton(
                 onClick = { onReplyClick(null) },
-                containerColor = MaterialTheme.colorScheme.primaryContainer,
-                contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.onPrimary,
                 icon = {
                     Icon(
                         imageVector = Icons.Default.Send,
@@ -178,103 +180,95 @@ private fun PostContentSection(
 ) {
     val categoryColor = Color(getSubjectColor(post.category))
 
-    Column {
-        Text(
-            text = post.title,
-            style = MaterialTheme.typography.headlineSmall,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.onSurface
-        )
-
-        Spacer(modifier = Modifier.height(12.dp))
-
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
+    Card(
+        shape = RoundedCornerShape(8.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest),
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
+    ) {
+        Column(
+            modifier = Modifier.padding(16.dp)
         ) {
-            Box(
-                modifier = Modifier
-                    .size(32.dp)
-                    .clip(CircleShape)
-                    .background(MaterialTheme.colorScheme.primaryContainer),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = post.authorName.firstOrNull()?.uppercase() ?: "?",
-                    style = MaterialTheme.typography.labelMedium,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onPrimaryContainer
-                )
-            }
-
             Text(
-                text = post.authorName,
-                style = MaterialTheme.typography.labelMedium,
-                fontWeight = FontWeight.Medium,
+                text = post.title,
+                style = MaterialTheme.typography.headlineSmall,
+                fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onSurface
             )
 
-            Text(
-                text = "·",
-                style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
+            Spacer(modifier = Modifier.height(12.dp))
 
-            Text(
-                text = formatTimeAgo(post.createdAt),
-                style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-
-            Spacer(modifier = Modifier.weight(1f))
-
-            Surface(
-                shape = RoundedCornerShape(8.dp),
-                color = categoryColor.copy(alpha = 0.12f)
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(10.dp)
             ) {
-                Text(
-                    text = post.category,
-                    modifier = Modifier.padding(horizontal = 8.dp, vertical = 3.dp),
-                    style = MaterialTheme.typography.labelSmall,
-                    fontWeight = FontWeight.Medium,
-                    color = categoryColor
+                NebiansAvatar(
+                    name = post.authorName,
+                    photoUrl = post.authorPhotoUrl,
+                    modifier = Modifier.size(34.dp)
                 )
+
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        text = post.authorName,
+                        style = MaterialTheme.typography.labelMedium,
+                        fontWeight = FontWeight.SemiBold,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                    Text(
+                        text = formatTimeAgo(post.createdAt),
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+
+                Surface(
+                    shape = RoundedCornerShape(8.dp),
+                    color = categoryColor.copy(alpha = 0.12f)
+                ) {
+                    Text(
+                        text = post.category,
+                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 3.dp),
+                        style = MaterialTheme.typography.labelSmall,
+                        fontWeight = FontWeight.Medium,
+                        color = categoryColor
+                    )
+                }
             }
-        }
 
-        Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
-        Text(
-            text = post.content,
-            style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.onSurface
-        )
+            Text(
+                text = post.content,
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onSurface
+            )
 
-        Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(4.dp)
-        ) {
-            FilledTonalIconButton(
-                onClick = onThumbsUpClick,
-                modifier = Modifier.size(36.dp)
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(4.dp)
             ) {
-                Icon(
-                    imageVector = if (post.isThumbedUp) Icons.Filled.ThumbUp
-                    else Icons.Outlined.ThumbUp,
-                    contentDescription = if (post.isThumbedUp) "Remove thumbs up" else "Thumbs up",
-                    modifier = Modifier.size(18.dp),
-                    tint = if (post.isThumbedUp) MaterialTheme.colorScheme.primary
+                FilledTonalIconButton(
+                    onClick = onThumbsUpClick,
+                    modifier = Modifier.size(36.dp)
+                ) {
+                    Icon(
+                        imageVector = if (post.isThumbedUp) Icons.Filled.ThumbUp
+                        else Icons.Outlined.ThumbUp,
+                        contentDescription = if (post.isThumbedUp) "Remove thumbs up" else "Thumbs up",
+                        modifier = Modifier.size(18.dp),
+                        tint = if (post.isThumbedUp) MaterialTheme.colorScheme.primary
+                        else MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+                Text(
+                    text = "${post.thumbsUpCount}",
+                    style = MaterialTheme.typography.labelLarge,
+                    color = if (post.isThumbedUp) MaterialTheme.colorScheme.primary
                     else MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
-            Text(
-                text = "${post.thumbsUpCount}",
-                style = MaterialTheme.typography.labelLarge,
-                color = if (post.isThumbedUp) MaterialTheme.colorScheme.primary
-                else MaterialTheme.colorScheme.onSurfaceVariant
-            )
         }
     }
 }
@@ -287,9 +281,10 @@ private fun ReplyItem(
 ) {
     Card(
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
+            containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
         ),
-        shape = RoundedCornerShape(16.dp)
+        shape = RoundedCornerShape(8.dp),
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
     ) {
         Column(
             modifier = Modifier.padding(12.dp)
@@ -298,20 +293,13 @@ private fun ReplyItem(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Box(
-                    modifier = Modifier
-                        .size(28.dp)
-                        .clip(CircleShape)
-                        .background(MaterialTheme.colorScheme.secondaryContainer),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = reply.authorName.firstOrNull()?.uppercase() ?: "?",
-                        style = MaterialTheme.typography.labelSmall,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onSecondaryContainer
-                    )
-                }
+                NebiansAvatar(
+                    name = reply.authorName,
+                    photoUrl = reply.authorPhotoUrl,
+                    modifier = Modifier.size(28.dp),
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                    contentColor = MaterialTheme.colorScheme.onSecondaryContainer
+                )
 
                 Text(
                     text = reply.authorName,

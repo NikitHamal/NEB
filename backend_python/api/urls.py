@@ -38,6 +38,9 @@ urlpatterns = [
     path('resources/', views.resources_list, name='resources-list'),
     path('resources/<str:resource_id>/', views.resource_detail, name='resource-detail'),
     path('resources/<str:resource_id>/view/', views.resource_view, name='resource-view'),
+    path('resources/<str:resource_id>/like/', views.resource_like, name='resource-like'),
+    path('resources/<str:resource_id>/comments/', views.resource_comments, name='resource-comments'),
+    path('resources/<str:resource_id>/comments/<str:comment_id>/', views.resource_comment_detail, name='resource-comment-detail'),
     path('resources/upload/', views.resource_upload, name='resource-upload'),
     path('resources/upload/anonymous/', views.resource_upload_anonymous, name='resource-upload-anonymous'),
 

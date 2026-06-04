@@ -37,6 +37,8 @@ import com.neb.ians.data.api.ApiPost
 import com.neb.ians.data.api.ApiResource
 import com.neb.ians.ui.components.ErrorCard
 import com.neb.ians.ui.components.ShimmerHomeScreen
+import com.neb.ians.ui.components.WebPostCard
+import com.neb.ians.ui.components.WebResourceCard
 import com.neb.ians.ui.theme.getSubjectTheme
 
 private fun getTypeIcon(type: String): Int {
@@ -72,6 +74,7 @@ fun HomeScreen(
     onSearchClick: () -> Unit,
     onViewAllClick: () -> Unit,
     onSubjectClick: (String) -> Unit = {},
+    onForumPostClick: (String) -> Unit = {},
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -188,9 +191,10 @@ fun HomeScreen(
                             horizontalArrangement = Arrangement.spacedBy(12.dp)
                         ) {
                             items(uiState.recentResources, key = { it.id }) { resource ->
-                                ResourceCard(
+                                WebResourceCard(
                                     resource = resource,
-                                    onClick = { onResourceClick(resource.id) }
+                                    onClick = { onResourceClick(resource.id) },
+                                    modifier = Modifier.width(178.dp)
                                 )
                             }
                         }
@@ -210,9 +214,10 @@ fun HomeScreen(
                             horizontalArrangement = Arrangement.spacedBy(12.dp)
                         ) {
                             items(uiState.popularResources, key = { it.id }) { resource ->
-                                ResourceCard(
+                                WebResourceCard(
                                     resource = resource,
-                                    onClick = { onResourceClick(resource.id) }
+                                    onClick = { onResourceClick(resource.id) },
+                                    modifier = Modifier.width(178.dp)
                                 )
                             }
                         }
@@ -231,7 +236,11 @@ fun HomeScreen(
                             modifier = Modifier.padding(horizontal = 16.dp)
                         ) {
                             uiState.recentPosts.forEach { post ->
-                                ForumPostItem(post = post)
+                                WebPostCard(
+                                    post = post,
+                                    onClick = { onForumPostClick(post.id) },
+                                    modifier = Modifier.padding(bottom = 8.dp)
+                                )
                             }
                         }
                     }

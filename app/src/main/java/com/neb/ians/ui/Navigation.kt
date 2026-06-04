@@ -350,6 +350,9 @@ fun NEBiansNavHost(
                     onViewAllClick = { navController.navigate(Screen.Library.route) },
                     onSubjectClick = { subject ->
                         navController.navigate(Screen.Library.createRoute(subject))
+                    },
+                    onForumPostClick = { postId ->
+                        navController.navigate(Screen.ForumPostDetail.createRoute(postId))
                     }
                 )
             }
@@ -377,7 +380,10 @@ fun NEBiansNavHost(
                     onResourceClick = { resourceId ->
                         navController.navigate(Screen.PdfReader.createRoute(resourceId))
                     },
-                    onNavigateBack = { navController.popBackStack() }
+                    onNavigateBack = { navController.popBackStack() },
+                    onPostClick = { postId ->
+                        navController.navigate(Screen.ForumPostDetail.createRoute(postId))
+                    }
                 )
             }
             composable(Screen.Notifications.route) {
@@ -471,4 +477,3 @@ fun NEBiansNavHost(
         }
     }
 }
-

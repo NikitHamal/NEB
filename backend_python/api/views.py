@@ -50,7 +50,7 @@ from .throttles import (
     AuthRateThrottle, ReportRateThrottle, SearchRateThrottle, UploadRateThrottle,
     VerificationRateThrottle, ViewIncrementRateThrottle, WriteActionRateThrottle,
 )
-from .models import User, Resource, ResourceRequest, ResourceRequestUpvote, Post, PostLike, Reply, ReplyLike, FCMToken, Follow, UserPhoto, EditHistory, Report, Bookmark, Notification
+from .models import User, Resource, ResourceRequest, ResourceRequestUpvote, Post, PostLike, Reply, ReplyLike, FCMToken, Follow, UserPhoto, EditHistory, Report, Bookmark, Notification, ResourceComment
 from .serializers import (
     UserSerializer, UserPublicSerializer,
     ResourceSerializer, ResourceRequestSerializer, PostSerializer, ReplySerializer,
@@ -62,6 +62,7 @@ from . import counters as _counters
 from . import notifications as _notif
 from . import cleanup as _cleanup
 from . import realtime as _rt
+from . import services as _services
 
 logger = logging.getLogger(__name__)
 
@@ -524,9 +525,30 @@ def user_profile_get(request, username):
     is_owner = requesting_user and requesting_user.pk == user.pk
 
     if user.is_locked and not is_owner:
-        return Response(UserPublicSerializer(user).data)
+        data = UserPublicSerializer(user).data
+        data['is_self'] = bool(is_owner)
+        data['is_following'] = False
+        return Response(data)
 
-    return Response(UserSerializer(user).data)
+    data = UserSerializer(user).data
+    stats = _build_stats(user)
+    data.update({
+        'post_count': stats.get('post_count', 0),
+        'reply_count': stats.get('reply_count', 0),
+        'follower_count': stats.get('follower_count', 0),
+        'following_count': stats.get('following_count', 0),
+        'likes_given_count': stats.get('likes_given', 0),
+        'likes_received_count': stats.get('likes_received', 0),
+        'contribution_score': stats.get('contribution_score', 0),
+        'is_following': bool(
+            requesting_user and not is_owner and Follow.objects.filter(
+                follower=requesting_user,
+                following=user
+            ).exists()
+        ),
+        'is_self': bool(is_owner),
+    })
+    return Response(data)
 
 
 # ---------------------------------------------------------------------------
@@ -544,6 +566,7 @@ def resources_list(request):
     grade = request.query_params.get('grade')
     rtype = request.query_params.get('type')
     search = request.query_params.get('search')
+    sort = request.query_params.get('sort', '').strip().lower()
 
     if subject:
         resources = resources.filter(subject__iexact=subject)
@@ -555,6 +578,14 @@ def resources_list(request):
         resources = resources.filter(
             Q(title__icontains=search) | Q(description__icontains=search)
         )
+    if sort in ('popular', 'relevant', 'likes'):
+        resources = resources.order_by('-like_count', '-view_count', '-added_at')
+    elif sort in ('viewed', 'views'):
+        resources = resources.order_by('-view_count', '-added_at')
+    elif sort in ('oldest',):
+        resources = resources.order_by('added_at')
+    else:
+        resources = resources.order_by('-added_at')
 
     return _paginated_response(request, resources, ResourceSerializer)
 
@@ -583,6 +614,70 @@ def resource_view(request, resource_id):
         return Response({'error': 'Resource not found'}, status=404)
     Resource.objects.filter(pk=resource_id).update(view_count=F('view_count') + 1)
     return Response({'view_count': resource.view_count + 1})
+
+
+@api_view(['POST'])
+@throttle_classes([WriteActionRateThrottle])
+def resource_like(request, resource_id):
+    """POST /api/resources/<resourceId>/like — toggle a resource like."""
+    user, err = _require_user(request)
+    if err:
+        return err
+    try:
+        return Response(_services.toggle_resource_like(user, resource_id))
+    except Resource.DoesNotExist:
+        return Response({'error': 'Resource not found'}, status=404)
+
+
+@api_view(['GET', 'POST'])
+@permission_classes([AllowAny])
+def resource_comments(request, resource_id):
+    """
+    GET  /api/resources/<resourceId>/comments — list resource comments.
+    POST /api/resources/<resourceId>/comments — create a resource comment.
+    """
+    if request.method == 'GET':
+        if not Resource.objects.filter(pk=resource_id, approval_status='approved').exists():
+            return Response({'error': 'Resource not found'}, status=404)
+        comments = ResourceComment.objects.filter(
+            resource_id=resource_id
+        ).select_related('user').order_by('created_at')
+        return Response([_services._serialize_resource_comment(comment) for comment in comments])
+
+    user, err = _require_user(request)
+    if err:
+        return err
+    content = request.data.get('content', '').strip()
+    parent_comment_id = (
+        request.data.get('parentCommentId')
+        or request.data.get('parent_comment_id')
+        or None
+    )
+    err = _validate_text_length(content, MAX_REPLY_CONTENT_LENGTH, 'Comment')
+    if err:
+        return err
+    if parent_comment_id and not ResourceComment.objects.filter(
+        pk=parent_comment_id,
+        resource_id=resource_id
+    ).exists():
+        return Response({'error': 'Parent comment not found'}, status=404)
+    data = _services.create_resource_comment(user, resource_id, content, parent_comment_id)
+    if data is None:
+        return Response({'error': 'Resource not found or content is empty'}, status=400)
+    return Response(data, status=201)
+
+
+@api_view(['DELETE'])
+@throttle_classes([WriteActionRateThrottle])
+def resource_comment_detail(request, resource_id, comment_id):
+    """DELETE /api/resources/<resourceId>/comments/<commentId> — delete a resource comment."""
+    user, err = _require_user(request)
+    if err:
+        return err
+    deleted = _services.delete_resource_comment(user, comment_id, getattr(user, 'is_staff', False))
+    if not deleted:
+        return Response({'error': 'Comment not found or permission denied'}, status=404)
+    return Response(status=204)
 
 
 @api_view(['POST'])
@@ -1013,7 +1108,7 @@ def replies_create(request, post_id):
         return Response({'error': 'Post not found'}, status=404)
 
     content = request.data.get('content', '').strip()
-    parent_reply_id = request.data.get('parentReplyId', None)
+    parent_reply_id = request.data.get('parentReplyId') or request.data.get('parent_reply_id')
     if not content:
         return Response({'error': 'Content is required'}, status=400)
 
@@ -1555,15 +1650,16 @@ def bookmark_list(request):
     return _paginated_response(request, qs, BookmarkSerializer, default_page_size=50)
 
 
-@api_view(['GET'])
+@api_view(['GET', 'POST'])
 @throttle_classes([SearchRateThrottle])
 def bookmark_check(request):
-    """GET /api/bookmarks/check?target_type=post&target_id=xxx — check if bookmarked."""
+    """GET/POST /api/bookmarks/check — check if a target is bookmarked."""
     user, err = _require_user(request)
     if err:
         return err
-    target_type = request.query_params.get('target_type', '').strip()
-    target_id = request.query_params.get('target_id', '').strip()
+    source = request.data if request.method == 'POST' else request.query_params
+    target_type = source.get('target_type', '').strip()
+    target_id = source.get('target_id', '').strip()
     is_bookmarked = Bookmark.objects.filter(
         user=user, target_type=target_type, target_id=target_id
     ).exists()
@@ -1673,6 +1769,7 @@ def search_all(request):
 # ---------------------------------------------------------------------------
 
 @api_view(['GET', 'POST'])
+@permission_classes([AllowAny])
 def posts_endpoint(request):
     """
     GET  /api/posts  → list posts (with optional filtering/pagination)
@@ -1743,6 +1840,7 @@ def posts_endpoint(request):
 
 
 @api_view(['GET', 'POST'])
+@permission_classes([AllowAny])
 def replies_endpoint(request, post_id):
     """
     GET  /api/posts/<postId>/replies  → list replies
@@ -1763,7 +1861,7 @@ def replies_endpoint(request, post_id):
         return Response({'error': 'Post not found'}, status=404)
 
     content = request.data.get('content', '').strip()
-    parent_reply_id = request.data.get('parentReplyId', None)
+    parent_reply_id = request.data.get('parentReplyId') or request.data.get('parent_reply_id')
     if not content:
         return Response({'error': 'Content is required'}, status=400)
 

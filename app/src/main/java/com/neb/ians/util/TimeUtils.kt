@@ -17,18 +17,18 @@ fun formatTimeAgo(timestamp: Long): String {
 }
 
 fun getSubjectColor(subject: String): Long {
-    return when (subject) {
-        "Physics" -> 0xFF1A73E8
-        "Chemistry" -> 0xFF188038
-        "Mathematics" -> 0xFFE8710A
-        "Biology" -> 0xFF9334E6
-        "English" -> 0xFFD93025
-        "Nepali" -> 0xFF1967D2
-        "Computer Science" -> 0xFF185ABC
-        "Economics" -> 0xFFE37400
-        "Accountancy" -> 0xFF0D652D
-        "General" -> 0xFF5F6368
-        "Exam Tips" -> 0xFFC5221F
+    val normalized = subject.trim().lowercase()
+    return when {
+        "physics" in normalized -> 0xFF1E88E5
+        "chem" in normalized -> 0xFF2E7D32
+        "math" in normalized -> 0xFFE65100
+        "bio" in normalized -> 0xFF7B1FA2
+        "english" in normalized -> 0xFFC62828
+        "nepali" in normalized -> 0xFF0277BD
+        "computer" in normalized || "programming" in normalized || "python" in normalized -> 0xFF00838F
+        "econom" in normalized -> 0xFFF9A825
+        "account" in normalized -> 0xFF00796B
+        "exam" in normalized || "tip" in normalized -> 0xFFC2185B
         else -> 0xFF5F6368
     }
 }

@@ -169,7 +169,7 @@ data class UsernameCheckResponse(val available: Boolean)
 
 @Serializable
 data class UserProfileResponse(
-    val id: String,
+    val id: String = "",
     val username: String = "",
     val email: String? = null,
     @SerialName("photo_url") val photoUrl: String? = null,
@@ -269,20 +269,33 @@ data class ApiReply(
 
 @Serializable
 data class LikeResponse(
-    @SerialName("thumbs_up_count") val thumbsUpCount: Int,
-    @SerialName("is_thumbed_up") val isThumbedUp: Boolean
-)
+    @SerialName("thumbsUpCount") private val thumbsUpCountCamel: Int? = null,
+    @SerialName("thumbs_up_count") private val thumbsUpCountSnake: Int? = null,
+    @SerialName("isThumbedUp") private val isThumbedUpCamel: Boolean? = null,
+    @SerialName("is_thumbed_up") private val isThumbedUpSnake: Boolean? = null
+) {
+    val thumbsUpCount: Int get() = thumbsUpCountCamel ?: thumbsUpCountSnake ?: 0
+    val isThumbedUp: Boolean get() = isThumbedUpCamel ?: isThumbedUpSnake ?: false
+}
 
 @Serializable
 data class ResourceLikeResponse(
-    @SerialName("like_count") val likeCount: Int,
-    @SerialName("is_liked") val isLiked: Boolean
-)
+    @SerialName("likeCount") private val likeCountCamel: Int? = null,
+    @SerialName("like_count") private val likeCountSnake: Int? = null,
+    @SerialName("isLiked") private val isLikedCamel: Boolean? = null,
+    @SerialName("is_liked") private val isLikedSnake: Boolean? = null
+) {
+    val likeCount: Int get() = likeCountCamel ?: likeCountSnake ?: 0
+    val isLiked: Boolean get() = isLikedCamel ?: isLikedSnake ?: false
+}
 
 @Serializable
 data class BookmarkResponse(
-    @SerialName("is_bookmarked") val isBookmarked: Boolean
-)
+    @SerialName("isBookmarked") private val isBookmarkedCamel: Boolean? = null,
+    @SerialName("is_bookmarked") private val isBookmarkedSnake: Boolean? = null
+) {
+    val isBookmarked: Boolean get() = isBookmarkedCamel ?: isBookmarkedSnake ?: false
+}
 
 @Serializable
 data class FollowResponse(
@@ -369,18 +382,39 @@ data class ApiEditHistory(
 @Serializable
 data class ApiResourceComment(
     val id: String,
-    @SerialName("resource_id") val resourceId: String,
-    @SerialName("user_id") val userId: String,
-    @SerialName("user_name") val userName: String,
-    @SerialName("user_photo_url") val userPhotoUrl: String? = null,
+    @SerialName("resourceId") private val resourceIdCamel: String? = null,
+    @SerialName("resource_id") private val resourceIdSnake: String? = null,
+    @SerialName("authorId") private val userIdCamel: String? = null,
+    @SerialName("user_id") private val userIdSnake: String? = null,
+    @SerialName("authorName") private val userNameCamel: String? = null,
+    @SerialName("user_name") private val userNameSnake: String? = null,
+    @SerialName("authorPhoto") private val userPhotoUrlCamel: String? = null,
+    @SerialName("user_photo_url") private val userPhotoUrlSnake: String? = null,
     val content: String,
-    @SerialName("like_count") val likeCount: Int = 0,
-    @SerialName("reply_count") val replyCount: Int = 0,
-    @SerialName("is_liked") val isLiked: Boolean? = null,
-    @SerialName("parent_comment_id") val parentCommentId: String? = null,
-    @SerialName("is_edited") val isEdited: Boolean? = null,
-    @SerialName("created_at") val createdAt: Long
-)
+    @SerialName("likeCount") private val likeCountCamel: Int? = null,
+    @SerialName("like_count") private val likeCountSnake: Int? = null,
+    @SerialName("replyCount") private val replyCountCamel: Int? = null,
+    @SerialName("reply_count") private val replyCountSnake: Int? = null,
+    @SerialName("isLiked") private val isLikedCamel: Boolean? = null,
+    @SerialName("is_liked") private val isLikedSnake: Boolean? = null,
+    @SerialName("parentCommentId") private val parentCommentIdCamel: String? = null,
+    @SerialName("parent_comment_id") private val parentCommentIdSnake: String? = null,
+    @SerialName("isEdited") private val isEditedCamel: Boolean? = null,
+    @SerialName("is_edited") private val isEditedSnake: Boolean? = null,
+    @SerialName("createdAt") private val createdAtCamel: Long? = null,
+    @SerialName("created_at") private val createdAtSnake: Long? = null
+) {
+    val resourceId: String get() = resourceIdCamel ?: resourceIdSnake ?: ""
+    val userId: String get() = userIdCamel ?: userIdSnake ?: ""
+    val userName: String get() = userNameCamel ?: userNameSnake ?: ""
+    val userPhotoUrl: String? get() = userPhotoUrlCamel ?: userPhotoUrlSnake
+    val likeCount: Int get() = likeCountCamel ?: likeCountSnake ?: 0
+    val replyCount: Int get() = replyCountCamel ?: replyCountSnake ?: 0
+    val isLiked: Boolean? get() = isLikedCamel ?: isLikedSnake
+    val parentCommentId: String? get() = parentCommentIdCamel ?: parentCommentIdSnake
+    val isEdited: Boolean? get() = isEditedCamel ?: isEditedSnake
+    val createdAt: Long get() = createdAtCamel ?: createdAtSnake ?: 0L
+}
 
 @Serializable
 data class ApiResourceCommentCreateRequest(
@@ -407,6 +441,14 @@ data class ApiPaginatedResources(
 @Serializable
 data class ApiPaginatedPosts(
     @SerialName("results") val posts: List<ApiPost> = emptyList(),
+    @SerialName("count") val totalCount: Int = 0,
+    val next: String? = null,
+    val previous: String? = null
+)
+
+@Serializable
+data class ApiPaginatedBookmarks(
+    @SerialName("results") val bookmarks: List<ApiBookmark> = emptyList(),
     @SerialName("count") val totalCount: Int = 0,
     val next: String? = null,
     val previous: String? = null
@@ -545,6 +587,7 @@ interface ApiService {
     suspend fun getPosts(
         @Header("Authorization") bearerToken: String?,
         @Query("category") category: String? = null,
+        @Query("search") search: String? = null,
         @Query("page") page: Int? = null
     ): ApiPaginatedPosts
 
@@ -660,7 +703,7 @@ interface ApiService {
     suspend fun getBookmarks(
         @Header("Authorization") bearerToken: String,
         @Query("target_type") targetType: String? = null
-    ): List<ApiBookmark>
+    ): ApiPaginatedBookmarks
 
     // --- Notifications ---
     @GET("api/notifications/")
@@ -752,4 +795,3 @@ data class ApiBookmark(
     @SerialName("target_id") val targetId: String,
     @SerialName("created_at") val createdAt: Long
 )
-
