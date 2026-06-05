@@ -1,0 +1,91 @@
+{% load web_extras %}
+{% if resources %}
+<div class="resource-grid">
+  {% for r in resources %}
+  <a href="{% url 'web:reader' resource_id=r.id %}" class="resource-card subject-{{ r.subject|split:','|first|subject_slug }}">
+    <div class="resource-card-art">
+      {% if r.thumbnail_url %}
+        <img src="{{ r.thumbnail_url }}" alt="{{ r.title }}" class="resource-card-art-img" loading="lazy">
+      {% else %}
+        <svg viewBox="0 0 300 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="300" height="120" fill="var(--art-c1)"/>
+          <path d="M0,120 L0,70 Q40,20 100,55 Q160,90 220,45 Q270,10 300,50 L300,120Z" fill="var(--art-c2)" opacity="0.5"/>
+          <path d="M0,120 L0,85 Q60,40 130,70 Q200,100 260,60 L300,75 L300,120Z" fill="var(--art-c3)" opacity="0.35"/>
+          <path d="M0,120 L0,95 Q80,65 160,85 Q240,105 300,80 L300,120Z" fill="var(--art-c4)" opacity="0.2"/>
+        </svg>
+      {% endif %}
+      <span class="resource-card-type-pill">{{ r.type }}</span>
+      <span class="resource-card-art-icon material-symbols-outlined">{{ r.subject|split:','|first|subject_icon }}</span>
+    </div>
+    <div class="resource-card-info">
+      <div class="resource-card-subject-chip">
+        {% with subjs=r.subject|split:"," %}
+          {{ subjs|first }}
+          {% if subjs|length > 1 %}
+            +{{ subjs|length|add:"-1" }} more
+          {% endif %}
+        {% endwith %}
+      </div>
+      <div class="resource-card-title">{{ r.title }}</div>
+      <div class="resource-card-meta">
+        {{ r.grade_level }}{% if r.file_size %} &middot; {{ r.file_size|file_size_human }}{% endif %}
+      </div>
+      <div class="resource-card-stats">
+        <span class="material-symbols-outlined">visibility</span> {{ r.view_count|short_number }} &middot; {{ r.added_at|time_ago }}
+      </div>
+    </div>
+  </a>
+  {% endfor %}
+
+  {% if not page_obj.has_next %}
+  <div class="lib-coming-soon">
+    <div class="lib-coming-soon-icon">
+      <span class="material-symbols-outlined">inventory_2</span>
+    </div>
+    <h3>More coming soon</h3>
+    <p style="margin-bottom: 12px;">Our academic team is actively compiling new resources.</p>
+    <a href="{% url 'web:resource_requests' %}" class="md-btn md-btn-tonal" style="font-size: 0.8125rem; min-height: 36px; padding: 6px 16px;">
+      <span class="material-symbols-outlined" style="font-size:18px">contact_support</span>
+      Request a Resource
+    </a>
+  </div>
+  {% endif %}
+</div>
+
+{% if page_obj.paginator.num_pages > 1 %}
+<div class="lib-pagination">
+  {% if page_obj.has_previous %}
+  <a href="?page={{ page_obj.previous_page_number }}&tab={{ current_tab }}&sort={{ current_sort }}{% for s in current_subjects %}&subject={{ s|urlencode }}{% endfor %}{% for g in current_grades %}&grade={{ g|urlencode }}{% endfor %}{% for t in current_types %}&type={{ t|urlencode }}{% endfor %}" hx-get="?page={{ page_obj.previous_page_number }}&tab={{ current_tab }}&sort={{ current_sort }}{% for s in current_subjects %}&subject={{ s|urlencode }}{% endfor %}{% for g in current_grades %}&grade={{ g|urlencode }}{% endfor %}{% for t in current_types %}&type={{ t|urlencode }}{% endfor %}" hx-target="#library-main" hx-swap="innerHTML" hx-push-url="true">
+    <span class="material-symbols-outlined" style="font-size:20px">chevron_left</span>
+  </a>
+  {% else %}
+  <span class="disabled"><span class="material-symbols-outlined" style="font-size:20px">chevron_left</span></span>
+  {% endif %}
+
+  {% for num in page_obj.paginator.page_range %}
+    {% if page_obj.number == num %}
+    <span class="current">{{ num }}</span>
+    {% elif num == 1 or num == page_obj.paginator.num_pages or num == page_obj.number|add:1 or num == page_obj.number|add:-1 %}
+    <a href="?page={{ num }}&tab={{ current_tab }}&sort={{ current_sort }}{% for s in current_subjects %}&subject={{ s|urlencode }}{% endfor %}{% for g in current_grades %}&grade={{ g|urlencode }}{% endfor %}{% for t in current_types %}&type={{ t|urlencode }}{% endfor %}" hx-get="?page={{ num }}&tab={{ current_tab }}&sort={{ current_sort }}{% for s in current_subjects %}&subject={{ s|urlencode }}{% endfor %}{% for g in current_grades %}&grade={{ g|urlencode }}{% endfor %}{% for t in current_types %}&type={{ t|urlencode }}{% endfor %}" hx-target="#library-main" hx-swap="innerHTML" hx-push-url="true">{{ num }}</a>
+    {% elif num == 2 and page_obj.number > 4 or num == page_obj.paginator.num_pages|add:-1 and page_obj.number < page_obj.paginator.num_pages|add:-3 %}
+    <span class="dots">&hellip;</span>
+    {% endif %}
+  {% endfor %}
+
+  {% if page_obj.has_next %}
+  <a href="?page={{ page_obj.next_page_number }}&tab={{ current_tab }}&sort={{ current_sort }}{% for s in current_subjects %}&subject={{ s|urlencode }}{% endfor %}{% for g in current_grades %}&grade={{ g|urlencode }}{% endfor %}{% for t in current_types %}&type={{ t|urlencode }}{% endfor %}" hx-get="?page={{ page_obj.next_page_number }}&tab={{ current_tab }}&sort={{ current_sort }}{% for s in current_subjects %}&subject={{ s|urlencode }}{% endfor %}{% for g in current_grades %}&grade={{ g|urlencode }}{% endfor %}{% for t in current_types %}&type={{ t|urlencode }}{% endfor %}" hx-target="#library-main" hx-swap="innerHTML" hx-push-url="true">
+    <span class="material-symbols-outlined" style="font-size:20px">chevron_right</span>
+  </a>
+  {% else %}
+  <span class="disabled"><span class="material-symbols-outlined" style="font-size:20px">chevron_right</span></span>
+  {% endif %}
+</div>
+{% endif %}
+
+{% else %}
+<div class="empty-state">
+  <span class="material-symbols-outlined">auto_stories</span>
+  <h3>No resources found</h3>
+  <p>Try adjusting your filters or <a href="{% url 'web:resource_requests' %}" style="color:var(--md-primary)">request a resource</a>.</p>
+</div>
+{% endif %}
