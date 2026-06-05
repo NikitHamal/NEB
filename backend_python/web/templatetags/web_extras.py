@@ -296,7 +296,7 @@ def _render_user_content(value):
         return ''.join(parts)
 
     md_text = replace_mentions(text)
-    html = md_lib.markdown(md_text, extensions=['nl2br'], output_format='html5')
+    html = md_lib.markdown(md_text, extensions=['nl2br', 'tables', 'sane_lists', 'smarty'], output_format='html5')
 
     html = re.sub(
         r'<a href="/profile/([^"]+)/">',
@@ -437,10 +437,45 @@ def markdown_format(value):
     """Render markdown formatting safely without mention replacement."""
     if not value:
         return mark_safe('')
-    html = md_lib.markdown(str(value), extensions=['nl2br'], output_format='html5')
+    html = md_lib.markdown(str(value), extensions=['nl2br', 'tables', 'sane_lists', 'smarty'], output_format='html5')
     html = re.sub(
         r'<a href="(?!/)(https?://[^"]+)"(?![^>]*target=)',
         r'<a href="\1" target="_blank" rel="noopener noreferrer"',
         html,
     )
     return mark_safe(html)
+
+
+@register.filter
+def markdown(value):
+    """Alias for markdown_format for template brevity."""
+    return markdown_format(value)
+
+
+@register.filter
+def parse_qa(value):
+    """Parse Q&A text format into list of {question, answer} dicts for template rendering."""
+    if not value:
+        return []
+    blocks = str(value).split('\n\n')
+    result = []
+    for block in blocks:
+        lines = block.strip().split('\n')
+        question = ''
+        answer = ''
+        current = 'q'
+        for line in lines:
+            stripped = line.strip()
+            if stripped.lower().startswith('q:') or stripped.lower().startswith('q：'):
+                question = stripped[2:].strip()
+                current = 'a'
+            elif stripped.lower().startswith('a:') or stripped.lower().startswith('a：'):
+                answer = stripped[2:].strip()
+                current = 'a'
+            elif current == 'q':
+                question = (question + ' ' + stripped).strip() if question else stripped
+            else:
+                answer = (answer + ' ' + stripped).strip() if answer else stripped
+        if question or answer:
+            result.append({'question': question, 'answer': answer})
+    return result

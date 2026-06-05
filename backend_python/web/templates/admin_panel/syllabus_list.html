@@ -4,57 +4,110 @@
 {% block title %}Syllabus Chapters &amp; Topics{% endblock %}
 
 {% block content %}
-<div class="admin-header-row" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px; flex-wrap:wrap; gap:16px;">
+<div class="admin-header-row" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;flex-wrap:wrap;gap:16px;">
   <div>
-    <h1 class="md-title-large" style="margin:0;">Syllabus Chapters &amp; Topics</h1>
-    <p class="md-body-small" style="color:var(--md-on-surface-variant); margin:4px 0 0 0;">Manage topics, guides, and question-answers for classes and subjects.</p>
+    <h1 class="md-title-large" style="margin:0;">Syllabus Chapters</h1>
+    <p class="md-body-small" style="color:var(--md-on-surface-variant);margin:4px 0 0;">{{ total_count }} total chapters across {{ all_grades|length }} grades and {{ all_subjects|length }} subjects</p>
   </div>
-  <a href="{% url 'web:admin_syllabus_create' %}" class="md-btn md-btn-filled" style="text-decoration:none;">
-    <span class="material-symbols-outlined" style="font-size:18px;">add</span>
-    Add Chapter / Topic
-  </a>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;">
+    <a href="{% url 'web:admin_syllabus_create' %}" class="md-btn md-btn-filled" style="text-decoration:none;">
+      <span class="material-symbols-outlined" style="font-size:18px;">add</span>
+      Add Chapter
+    </a>
+    <a href="{% url 'web:admin_syllabus_import' %}" class="md-btn md-btn-tonal" style="text-decoration:none;">
+      <span class="material-symbols-outlined" style="font-size:18px;">upload</span>
+      Import JSON
+    </a>
+    <a href="{% url 'web:admin_syllabus_export' %}{% if filter_grade %}?grade={{ filter_grade }}{% endif %}{% if filter_subject %}{% if not filter_grade %}?{% else %}&{% endif %}subject={{ filter_subject }}{% endif %}" class="md-btn md-btn-outlined" style="text-decoration:none;">
+      <span class="material-symbols-outlined" style="font-size:18px;">download</span>
+      Export
+    </a>
+  </div>
 </div>
 
-<!-- Search Bar -->
-<div class="md-card-elevated p-2 mb-3" style="background:var(--md-surface-container);">
-  <form method="get" action="{% url 'web:admin_syllabus_list' %}" style="display:flex; gap:12px;">
-    <input type="text" name="q" value="{{ search|default:'' }}" class="md-input" placeholder="Search by grade, subject, or chapter title..." style="flex:1; min-height:40px;">
-    <button type="submit" class="md-btn md-btn-filled" style="min-height:40px;">Search</button>
-    {% if search %}
-    <a href="{% url 'web:admin_syllabus_list' %}" class="md-btn md-btn-text" style="min-height:40px; display:inline-flex; align-items:center;">Clear</a>
-    {% endif %}
-  </form>
+<div class="md-card-elevated p-3" style="background:var(--md-surface-container-low);margin-bottom:20px;">
+  <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+    <div style="flex:1;min-width:200px;">
+      <form method="get" action="{% url 'web:admin_syllabus_list' %}" style="display:flex;gap:8px;">
+        <div style="flex:1;position:relative;">
+          <span class="material-symbols-outlined" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:20px;color:var(--md-on-surface-variant);">search</span>
+          <input type="text" name="q" value="{{ search|default:'' }}" class="md-input" placeholder="Search chapters..." style="width:100%;padding-left:40px;min-height:40px;">
+        </div>
+        <button type="submit" class="md-btn md-btn-filled" style="min-height:40px;">Search</button>
+        {% if search or filter_grade or filter_subject %}
+        <a href="{% url 'web:admin_syllabus_list' %}" class="md-btn md-btn-text" style="min-height:40px;text-decoration:none;">Clear All</a>
+        {% endif %}
+      </form>
+    </div>
+  </div>
+
+  <div style="margin-top:12px;">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+      <span class="material-symbols-outlined" style="font-size:18px;color:var(--md-on-surface-variant);">filter_list</span>
+      <span class="md-label" style="font-size:0.8125rem;color:var(--md-on-surface-variant);">Filters</span>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px;">
+      <span class="md-body-small" style="color:var(--md-on-surface-variant);line-height:32px;margin-right:4px;">Grade:</span>
+      <a href="?{% if filter_subject %}subject={{ filter_subject }}{% endif %}{% if search %}&q={{ search }}{% endif %}" class="syllabus-filter-chip{% if not filter_grade %} active{% endif %}">All</a>
+      {% for grade in all_grades %}
+      <a href="?grade={{ grade }}{% if filter_subject %}&subject={{ filter_subject }}{% endif %}{% if search %}&q={{ search }}{% endif %}" class="syllabus-filter-chip{% if filter_grade == grade %} active{% endif %}">{{ grade }}</a>
+      {% endfor %}
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;">
+      <span class="md-body-small" style="color:var(--md-on-surface-variant);line-height:32px;margin-right:4px;">Subject:</span>
+      <a href="?{% if filter_grade %}grade={{ filter_grade }}{% endif %}{% if search %}&q={{ search }}{% endif %}" class="syllabus-filter-chip{% if not filter_subject %} active{% endif %}">All</a>
+      {% for subject in all_subjects %}
+      <a href="?subject={{ subject }}{% if filter_grade %}&grade={{ filter_grade }}{% endif %}{% if search %}&q={{ search }}{% endif %}" class="syllabus-filter-chip{% if filter_subject == subject %} active{% endif %}">{{ subject }}</a>
+      {% endfor %}
+    </div>
+  </div>
 </div>
 
-<!-- Table -->
 <div class="md-card-elevated p-3">
   {% if page_obj %}
   <div class="md-table-responsive">
     <table class="md-table">
       <thead>
         <tr>
-          <th>Class/Level</th>
+          <th style="width:40px;">#</th>
+          <th>Grade</th>
           <th>Subject</th>
-          <th>Title</th>
-          <th>Chapter ID (Slug)</th>
-          <th>Order</th>
+          <th>Chapter</th>
+          <th>Slug</th>
+          <th style="text-align:center;">Order</th>
+          <th style="text-align:center;">Content</th>
           <th style="text-align:right;">Actions</th>
         </tr>
       </thead>
       <tbody>
         {% for item in page_obj %}
         <tr>
+          <td style="color:var(--md-on-surface-variant);font-size:0.8125rem;">{{ forloop.counter }}</td>
           <td><strong>{{ item.grade_level }}</strong></td>
-          <td>{{ item.subject }}</td>
-          <td>{{ item.chapter_title }}</td>
-          <td><code>{{ item.chapter_id }}</code></td>
-          <td>{{ item.order }}</td>
+          <td><span class="syllabus-subject-chip">{{ item.subject }}</span></td>
+          <td style="max-width:260px;">
+            <div style="font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ item.chapter_title }}</div>
+            {% if item.text_content %}
+            <div style="font-size:0.75rem;color:var(--md-on-surface-variant);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:240px;">{{ item.text_content|truncatechars:60 }}</div>
+            {% endif %}
+          </td>
+          <td><code style="font-size:0.8125rem;background:var(--md-surface-container-high);padding:2px 6px;border-radius:4px;">{{ item.chapter_id }}</code></td>
+          <td style="text-align:center;">{{ item.order }}</td>
+          <td style="text-align:center;">
+            {% if item.text_content %}<span class="material-symbols-outlined" style="font-size:18px;color:var(--md-primary);" title="Has guide/summary">description</span>{% endif %}
+            {% if item.question_answers %}<span class="material-symbols-outlined" style="font-size:18px;color:var(--md-tertiary);margin-left:4px;" title="Has Q&amp;As">quiz</span>{% endif %}
+          </td>
           <td style="text-align:right;">
-            <div style="display:inline-flex; gap:8px; justify-content:flex-end; align-items:center;">
-              <a href="{% url 'web:admin_syllabus_edit' entry_id=item.id %}" class="md-btn md-btn-tonal" style="font-size:0.75rem; min-height:28px; padding:2px 10px; text-decoration:none;">Edit</a>
+            <div style="display:inline-flex;gap:8px;justify-content:flex-end;align-items:center;">
+              {% if item.id %}
+              <a href="{% url 'web:admin_syllabus_edit' entry_id=item.id %}" class="md-btn md-btn-tonal" style="font-size:0.75rem;min-height:28px;padding:2px 10px;text-decoration:none;">Edit</a>
               <form method="post" action="{% url 'web:admin_syllabus_delete' entry_id=item.id %}" data-action="confirm-delete" data-confirm-msg="Are you sure you want to delete '{{ item.chapter_title }}'?" style="display:inline;">
+              {% else %}
+              <span style="font-size:0.75rem;color:var(--md-error, #ba1a1a);">Missing ID</span>
+              <form method="post" action="{% url 'web:admin_syllabus_delete' entry_id=item.chapter_id %}" data-action="confirm-delete" data-confirm-msg="Are you sure you want to delete '{{ item.chapter_title }}'?" style="display:inline;">
+              {% endif %}
                 {% csrf_token %}
-                <button type="submit" class="md-btn md-btn-text" style="font-size:0.75rem; min-height:28px; padding:2px 10px; color:var(--md-error, #ba1a1a);">Delete</button>
+                <button type="submit" class="md-btn md-btn-text" style="font-size:0.75rem;min-height:28px;padding:2px 10px;color:var(--md-error, #ba1a1a);">Delete</button>
               </form>
             </div>
           </td>
@@ -64,26 +117,76 @@
     </table>
   </div>
 
-  <!-- Pagination -->
   {% if page_obj.has_other_pages %}
-  <div class="md-pagination" style="display:flex; justify-content:center; gap:8px; margin-top:24px; align-items:center;">
+  <div class="md-pagination" style="display:flex;justify-content:center;gap:8px;margin-top:24px;align-items:center;">
     {% if page_obj.has_previous %}
-    <a href="?page={{ page_obj.previous_page_number }}{% if search %}&q={{ search }}{% endif %}" class="md-btn md-btn-tonal" style="min-height:32px; padding:4px 12px; text-decoration:none;">Previous</a>
+    <a href="?page={{ page_obj.previous_page_number }}{% if filter_grade %}&grade={{ filter_grade }}{% endif %}{% if filter_subject %}&subject={{ filter_subject }}{% endif %}{% if search %}&q={{ search }}{% endif %}" class="md-btn md-btn-tonal" style="min-height:32px;padding:4px 12px;text-decoration:none;">Previous</a>
     {% endif %}
     <span class="md-body-medium" style="color:var(--md-on-surface-variant);">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
     {% if page_obj.has_next %}
-    <a href="?page={{ page_obj.next_page_number }}{% if search %}&q={{ search }}{% endif %}" class="md-btn md-btn-tonal" style="min-height:32px; padding:4px 12px; text-decoration:none;">Next</a>
+    <a href="?page={{ page_obj.next_page_number }}{% if filter_grade %}&grade={{ filter_grade }}{% endif %}{% if filter_subject %}&subject={{ filter_subject }}{% endif %}{% if search %}&q={{ search }}{% endif %}" class="md-btn md-btn-tonal" style="min-height:32px;padding:4px 12px;text-decoration:none;">Next</a>
     {% endif %}
   </div>
   {% endif %}
 
   {% else %}
-  <div style="text-align:center; padding:48px 16px;">
-    <span class="material-symbols-outlined" style="font-size:48px; color:var(--md-on-surface-variant); opacity:0.5;">menu_book</span>
-    <h3 class="md-title-medium" style="margin:16px 0 8px 0;">No Chapters Found</h3>
-    <p class="md-body-medium" style="color:var(--md-on-surface-variant); margin:0 0 16px 0;">No syllabus chapters or topics match your filters.</p>
-    <a href="{% url 'web:admin_syllabus_create' %}" class="md-btn md-btn-filled" style="text-decoration:none;">Add Chapter</a>
+  <div class="admin-empty">
+    <div class="admin-empty-icon-wrap">
+      <span class="material-symbols-outlined" style="font-size:48px;color:var(--md-on-surface-variant);opacity:0.5;">menu_book</span>
+    </div>
+    <h3 class="md-title-medium" style="margin:16px 0 8px;">No Chapters Found</h3>
+    <p class="md-body-medium" style="color:var(--md-on-surface-variant);margin:0 0 16px;">
+      {% if search or filter_grade or filter_subject %}
+        No syllabus chapters match your current filters.
+        <a href="{% url 'web:admin_syllabus_list' %}" style="color:var(--md-primary);font-weight:500;">Clear filters</a>
+      {% else %}
+        Start by adding your first syllabus chapter.
+      {% endif %}
+    </p>
+    <a href="{% url 'web:admin_syllabus_create' %}" class="md-btn md-btn-filled" style="text-decoration:none;">
+      <span class="material-symbols-outlined" style="font-size:18px;">add</span>
+      Add Chapter
+    </a>
   </div>
   {% endif %}
 </div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.syllabus-filter-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 14px;
+  border-radius: 20px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  text-decoration: none;
+  border: 1px solid var(--md-outline-variant);
+  background: var(--md-surface-container);
+  color: var(--md-on-surface-variant);
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.syllabus-filter-chip:hover {
+  background: color-mix(8%, var(--md-primary), transparent);
+  border-color: var(--md-primary);
+  color: var(--md-primary);
+}
+.syllabus-filter-chip.active {
+  background: var(--md-primary);
+  color: var(--md-on-primary);
+  border-color: var(--md-primary);
+}
+.syllabus-subject-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  background: var(--md-secondary-container);
+  color: var(--md-on-secondary-container);
+}
+</style>
 {% endblock %}

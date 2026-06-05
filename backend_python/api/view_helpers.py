@@ -1,0 +1,342 @@
+"""
+All API views for NEBians.
+Endpoints:
+  POST   /api/auth/google
+  GET    /api/users/check-username?username=
+  POST   /api/users/profile
+  GET    /api/users/profile/<username>
+  GET    /api/users/profile/<username>/stats
+  POST   /api/users/<userId>/follow           (toggle follow/unfollow)
+  GET    /api/users/<userId>/followers
+  GET    /api/users/<userId>/following
+  GET    /api/users/me/photos
+  POST   /api/users/me/photos
+  POST   /api/users/me/photos/<photoId>/activate
+  GET    /api/resources
+  GET    /api/posts          (via posts_endpoint dispatcher)
+  POST   /api/posts          (via posts_endpoint dispatcher)
+  DELETE /api/posts/<postId>
+  POST   /api/posts/<postId>/like
+  GET    /api/posts/<postId>/replies   (via replies_endpoint dispatcher)
+  POST   /api/posts/<postId>/replies   (via replies_endpoint dispatcher)
+  POST   /api/replies/<replyId>/like
+  POST   /api/fcm/register
+"""
+import logging
+import time
+import uuid
+
+from django.core.cache import cache
+from django.core.exceptions import ValidationError
+from django.contrib.auth.password_validation import validate_password
+from django.db import IntegrityError, transaction
+from django.db.models import Q, F
+from rest_framework.decorators import api_view, authentication_classes, permission_classes, throttle_classes
+from rest_framework.pagination import PageNumberPagination
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.permissions import AllowAny
+
+from .authentication import verify_google_token
+from .security import (
+    hash_password, verify_password, hash_verification_code, verify_verification_code,
+    hash_auth_token, issue_auth_token, revoke_auth_token,
+    validate_profile_photo_url, save_profile_image_upload,
+    validate_external_https_url,
+    validate_and_save_resource_file, validate_resource_file_url,
+)
+from .email_utils import send_verification_email
+from .throttles import (
+    AuthRateThrottle, ReportRateThrottle, SearchRateThrottle, UploadRateThrottle,
+    VerificationRateThrottle, ViewIncrementRateThrottle, WriteActionRateThrottle,
+)
+from .models import User, Resource, ResourceRequest, ResourceRequestUpvote, Post, PostLike, Reply, ReplyLike, FCMToken, Follow, UserPhoto, EditHistory, Report, Bookmark, Notification
+from .serializers import (
+    UserSerializer, UserPublicSerializer,
+    ResourceSerializer, ResourceRequestSerializer, PostSerializer, ReplySerializer,
+    UserPhotoSerializer, UserStatsSerializer, FollowSerializer,
+    EditHistorySerializer, ReportSerializer, BookmarkSerializer,
+    NotificationSerializer,
+)
+from . import counters as _counters
+from . import notifications as _notif
+from . import cleanup as _cleanup
+from . import realtime as _rt
+
+logger = logging.getLogger(__name__)
+
+CODE_TTL_MS = 10 * 60 * 1000
+
+CODE_RESEND_COOLDOWN_MS = 60 * 1000
+
+MAX_CODE_ATTEMPTS = 5
+
+MAX_POST_TITLE_LENGTH = 200
+
+MAX_POST_CONTENT_LENGTH = 20_000
+
+MAX_REPLY_CONTENT_LENGTH = 10_000
+
+MAX_REPORT_DESCRIPTION_LENGTH = 2_000
+
+def _now_ms():
+    """Current time as Unix milliseconds."""
+    return int(time.time() * 1000)
+
+def _profile_incomplete(user):
+    """Check if user profile is missing mandatory fields."""
+    return not user.display_name or not user.gender or not user.class_level
+
+def _get_user_from_request(request):
+    """
+    Returns the authenticated User object if the request is authenticated,
+    otherwise None. Does NOT raise.
+    """
+    user = getattr(request, 'user', None)
+    if isinstance(user, User):
+        return user
+    return None
+
+def _require_user(request):
+    """
+    Returns (user, error_response) tuple. If user is authenticated, returns
+    (user, None). Otherwise returns (None, Response with 401).
+    """
+    user = _get_user_from_request(request)
+    if user is None:
+        return None, Response({'error': 'Unauthorized — please sign in again'}, status=401)
+    return user, None
+
+def _validate_text_length(value, max_length, field_name):
+    if len(value) > max_length:
+        return Response({'error': f'{field_name} must be {max_length} characters or fewer'}, status=400)
+    return None
+
+def _validate_password_strength(password):
+    try:
+        validate_password(password)
+    except ValidationError as exc:
+        return Response({'error': ' '.join(exc.messages)}, status=400)
+    return None
+
+def _issue_verification_code(user, purpose):
+    code = User.generate_verification_code()
+    now = _now_ms()
+    user.verification_code = hash_verification_code(code)
+    user.verification_code_expires = now + CODE_TTL_MS
+    user.verification_code_purpose = purpose
+    user.verification_code_attempts = 0
+    user.verification_code_last_sent_at = now
+    user.save(update_fields=[
+        'verification_code', 'verification_code_expires', 'verification_code_purpose',
+        'verification_code_attempts', 'verification_code_last_sent_at'
+    ])
+    return code
+
+def _verification_resend_blocked(user):
+    last_sent = user.verification_code_last_sent_at or 0
+    if not last_sent:
+        # Legacy rows only had an expiry. Do not infer last-send time from expiry.
+        return False
+    return (_now_ms() - last_sent) < CODE_RESEND_COOLDOWN_MS
+
+def _verify_user_code(user, code, purpose):
+    now = _now_ms()
+    if user.verification_code_expires < now:
+        return False, Response({'error': 'Invalid or expired verification code'}, status=400)
+    if user.verification_code_purpose and user.verification_code_purpose != purpose:
+        if purpose == 'password_reset' and user.verification_code_purpose == 'set_password':
+            pass
+        elif purpose == 'set_password' and user.verification_code_purpose == 'password_reset':
+            pass
+        else:
+            return False, Response({'error': 'Invalid or expired verification code'}, status=400)
+    if user.verification_code_attempts >= MAX_CODE_ATTEMPTS:
+        return False, Response({'error': 'Too many invalid attempts. Please request a new code.'}, status=429)
+    if not verify_verification_code(code, user.verification_code or ''):
+        User.objects.filter(pk=user.pk).update(verification_code_attempts=F('verification_code_attempts') + 1)
+        return False, Response({'error': 'Invalid or expired verification code'}, status=400)
+    return True, None
+
+def _clear_verification_code(user):
+    user.verification_code = None
+    user.verification_code_expires = 0
+    user.verification_code_purpose = ''
+    user.verification_code_attempts = 0
+    user.verification_code_last_sent_at = 0
+
+def _paginated_response(request, queryset, serializer_class, *, context=None, default_page_size=50, max_page_size=100):
+    paginator = PageNumberPagination()
+    try:
+        page_size = int(request.query_params.get('page_size', default_page_size))
+    except (TypeError, ValueError):
+        page_size = default_page_size
+    paginator.page_size = max(1, min(page_size, max_page_size))
+    page = paginator.paginate_queryset(queryset, request)
+
+    ctx = context or {}
+    user = _get_user_from_request(request)
+    if user and page:
+        if serializer_class == PostSerializer:
+            ctx['liked_post_ids'] = set(PostLike.objects.filter(
+                user=user, post_id__in=[p.id for p in page]
+            ).values_list('post_id', flat=True))
+        elif serializer_class == ReplySerializer:
+            ctx['liked_reply_ids'] = set(ReplyLike.objects.filter(
+                user=user, reply_id__in=[r.id for r in page]
+            ).values_list('reply_id', flat=True))
+
+    serializer = serializer_class(page, many=True, context=ctx)
+    return paginator.get_paginated_response(serializer.data)
+
+def _link_oauth_user_model(email, user_pk, display_name, photo_url):
+    """Link an OAuth user to an existing account by verified email.
+
+    Instead of changing the existing account's PK (which is dangerous with InnoDB FKs),
+    we transfer the OAuth identifiers to the existing account and delete the duplicate.
+    This preserves all FK references to the existing account.
+    """
+    if not email:
+        return None
+    try:
+        existing = User.objects.get(email__iexact=email)
+        # Don't link to self
+        if existing.pk == user_pk:
+            return existing
+        # Transfer display name and photo from OAuth account if existing doesn't have them
+        update_fields = []
+        if display_name and not existing.display_name:
+            existing.display_name = display_name
+            update_fields.append('display_name')
+        if photo_url and not existing.photo_url:
+            existing.photo_url = photo_url
+            update_fields.append('photo_url')
+        if not existing.auth_token:
+            existing.auth_token = User.generate_token()
+            update_fields.append('auth_token')
+        if update_fields:
+            existing.save(update_fields=update_fields)
+        # Delete the OAuth-created duplicate account
+        User.objects.filter(pk=user_pk).delete()
+        return existing
+    except User.DoesNotExist:
+        return None
+    except Exception:
+        return None
+
+def _build_stats(user):
+    """
+    Build the stats dict for a given User instance.
+    Uses denormalized counters on the User model when available,
+    falls back to aggregate queries only when counters are None (not yet backfilled).
+    """
+    post_count = getattr(user, 'post_count', None)
+    reply_count = getattr(user, 'reply_count', None)
+    follower_count = getattr(user, 'follower_count', None)
+    following_count = getattr(user, 'following_count', None)
+    likes_given = getattr(user, 'likes_given_count', None)
+    likes_received = getattr(user, 'likes_received_count', None)
+    contribution_score = getattr(user, 'contribution_score', None)
+
+    if any(v is None for v in [post_count, reply_count, follower_count, following_count, likes_given, likes_received, contribution_score]):
+        post_count = post_count if post_count is not None else Post.objects.filter(user=user).count()
+        reply_count = reply_count if reply_count is not None else Reply.objects.filter(user=user).count()
+        follower_count = follower_count if follower_count is not None else Follow.objects.filter(following=user).count()
+        following_count = following_count if following_count is not None else Follow.objects.filter(follower=user).count()
+        likes_given = likes_given if likes_given is not None else (
+            PostLike.objects.filter(user=user).count() + ReplyLike.objects.filter(user=user).count()
+        )
+        likes_received = likes_received if likes_received is not None else (
+            PostLike.objects.filter(post__user=user).count() + ReplyLike.objects.filter(reply__user=user).count()
+        )
+        contribution_score = contribution_score if contribution_score is not None else (
+            (post_count * 3) + (reply_count * 2) + likes_given + (likes_received * 2)
+        )
+
+    return {
+        'username': user.username,
+        'post_count': post_count,
+        'reply_count': reply_count,
+        'follower_count': follower_count,
+        'following_count': following_count,
+        'likes_received': likes_received,
+        'likes_given': likes_given,
+        'contribution_score': contribution_score,
+    }
+
+def _build_stats_batch(user_qs):
+    """
+    Build stats for a queryset of users using denormalized counters.
+    Falls back to aggregate queries only for users whose counters are None.
+    Returns a dict mapping user_id -> stats dict.
+    """
+    users_map = {u.id: u for u in user_qs if hasattr(u, 'id')}
+    user_ids = list(users_map.keys())
+    needs_fallback_ids = []
+    for uid in user_ids:
+        u = users_map.get(uid)
+        if u and any(getattr(u, f, None) is None for f in ['post_count', 'reply_count', 'follower_count', 'following_count', 'likes_given_count', 'likes_received_count', 'contribution_score']):
+            needs_fallback_ids.append(uid)
+
+    fallback_data = {}
+    if needs_fallback_ids:
+        from django.db.models import Count
+        post_counts = dict(Post.objects.filter(user_id__in=needs_fallback_ids).values('user_id').annotate(c=Count('id')).values_list('user_id', 'c'))
+        reply_counts = dict(Reply.objects.filter(user_id__in=needs_fallback_ids).values('user_id').annotate(c=Count('id')).values_list('user_id', 'c'))
+        follower_counts = dict(Follow.objects.filter(following_id__in=needs_fallback_ids).values('following_id').annotate(c=Count('id')).values_list('following_id', 'c'))
+        following_counts = dict(Follow.objects.filter(follower_id__in=needs_fallback_ids).values('follower_id').annotate(c=Count('id')).values_list('follower_id', 'c'))
+        likes_given = {}
+        for model in [PostLike, ReplyLike]:
+            for uid, cnt in model.objects.filter(user_id__in=needs_fallback_ids).values('user_id').annotate(c=Count('id')).values_list('user_id', 'c'):
+                likes_given[uid] = likes_given.get(uid, 0) + cnt
+        likes_received = {}
+        for model, owner_field in [(PostLike, 'post__user_id'), (ReplyLike, 'reply__user_id')]:
+            for uid, cnt in model.objects.filter(**{owner_field + '__in': needs_fallback_ids}).values(owner_field).annotate(c=Count('id')).values_list(owner_field, 'c'):
+                likes_received[uid] = likes_received.get(uid, 0) + cnt
+        for uid in needs_fallback_ids:
+            pc = post_counts.get(uid, 0)
+            rc = reply_counts.get(uid, 0)
+            lg = likes_given.get(uid, 0)
+            lr = likes_received.get(uid, 0)
+            fallback_data[uid] = {
+                'post_count': pc,
+                'reply_count': rc,
+                'follower_count': follower_counts.get(uid, 0),
+                'following_count': following_counts.get(uid, 0),
+                'likes_given': lg,
+                'likes_received': lr,
+                'contribution_score': (pc * 3) + (rc * 2) + lg + (lr * 2),
+            }
+
+    result = {}
+    for uid in user_ids:
+        u = users_map.get(uid)
+        fb = fallback_data.get(uid, {})
+        pc = getattr(u, 'post_count', None) if u else None
+        rc = getattr(u, 'reply_count', None) if u else None
+        fc = getattr(u, 'follower_count', None) if u else None
+        fwc = getattr(u, 'following_count', None) if u else None
+        lg = getattr(u, 'likes_given_count', None) if u else None
+        lr = getattr(u, 'likes_received_count', None) if u else None
+        score = getattr(u, 'contribution_score', None) if u else None
+        result[uid] = {
+            'username': u.username if u else '',
+            'display_name': (u.display_name or u.username) if u else '',
+            'photo_url': u.photo_url if u else '',
+            'post_count': pc if pc is not None else fb.get('post_count', 0),
+            'reply_count': rc if rc is not None else fb.get('reply_count', 0),
+            'follower_count': fc if fc is not None else fb.get('follower_count', 0),
+            'following_count': fwc if fwc is not None else fb.get('following_count', 0),
+            'likes_given': lg if lg is not None else fb.get('likes_given', 0),
+            'likes_received': lr if lr is not None else fb.get('likes_received', 0),
+            'contribution_score': score if score is not None else fb.get('contribution_score', 0),
+        }
+    return result
+
+# Star imports from this module are intentional: split view modules need the
+# same helper functions and imported framework symbols that the former monolith
+# exposed as globals. Keep this broad to avoid changing runtime behavior.
+__all__ = [
+    name for name in globals()
+    if not name.startswith('__') and name not in {'annotations'}
+]

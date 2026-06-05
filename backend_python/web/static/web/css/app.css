@@ -1,3 +1,26 @@
+/* HTMX Loading Bar */
+.htmx-loading-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--md-primary), transparent);
+  z-index: 9999;
+  animation: htmx-slide 0.8s ease-in-out infinite;
+}
+@keyframes htmx-slide {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+.htmx-request .htmx-indicator,
+.htmx-indicator.htmx-show {
+  display: block !important;
+}
+.htmx-indicator {
+  display: none !important;
+}
+
 .section {
   margin-bottom: 36px;
 }

@@ -1,63 +1,10 @@
 {% extends "admin_panel/base.html" %}
-{% load web_extras %}
+{% load static web_extras %}
 
 {% block title %}User Detail{% endblock %}
 
 {% block extra_css %}
-<style>
-  .bot-preset-avatar {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    border: 2px solid var(--md-outline-variant);
-    background: var(--md-surface-container);
-    cursor: pointer;
-    padding: 0;
-    overflow: hidden;
-    transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
-    font-size: 0;
-    background-size: cover;
-    background-position: center;
-    position: relative;
-  }
-  .bot-preset-avatar:hover {
-    transform: scale(1.08);
-    border-color: var(--md-primary);
-  }
-  .bot-preset-avatar.active {
-    border-color: var(--md-primary);
-    box-shadow: 0 0 0 3px var(--md-primary-container);
-  }
-  .bot-preset-avatar[data-seed="neby"]  { background-image: url('https://api.dicebear.com/7.x/bottts/png?seed=neby&size=96');  }
-  .bot-preset-avatar[data-seed="nova"]  { background-image: url('https://api.dicebear.com/7.x/bottts/png?seed=nova&size=96');  }
-  .bot-preset-avatar[data-seed="atlas"] { background-image: url('https://api.dicebear.com/7.x/bottts/png?seed=atlas&size=96'); }
-  .bot-preset-avatar[data-seed="orion"] { background-image: url('https://api.dicebear.com/7.x/bottts/png?seed=orion&size=96'); }
-  .bot-preset-avatar[data-seed="cosmo"] { background-image: url('https://api.dicebear.com/7.x/bottts/png?seed=cosmo&size=96'); }
-  .bot-preset-avatar[data-seed="echo"]  { background-image: url('https://api.dicebear.com/7.x/bottts/png?seed=echo&size=96');  }
-  .bot-preset-avatar[data-seed="lyra"]  { background-image: url('https://api.dicebear.com/7.x/bottts/png?seed=lyra&size=96');  }
-  .bot-preset-avatar[data-seed="vega"]  { background-image: url('https://api.dicebear.com/7.x/bottts/png?seed=vega&size=96');  }
-  input[type="file"].md-input {
-    padding: 10px 12px;
-    cursor: pointer;
-  }
-  input[type="file"].md-input::file-selector-button {
-    margin-right: 12px;
-    padding: 6px 12px;
-    border: 1px solid var(--md-outline);
-    border-radius: 6px;
-    background: var(--md-primary-container);
-    color: var(--md-on-primary-container);
-    font-family: inherit;
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.15s ease;
-  }
-  input[type="file"].md-input::file-selector-button:hover {
-    background: var(--md-primary);
-    color: var(--md-on-primary);
-  }
-</style>
+<link rel="stylesheet" href="{% static 'web/css/pages/admin-panel-user-detail.css' %}">
 {% endblock %}
 
 {% block content %}

@@ -1,0 +1,123 @@
+{% load web_extras %}
+<!-- Sort Tabs + Category Filters -->
+<div class="forum-controls-bar">
+  <div class="forum-sort-tabs">
+    <a href="{% url 'web:forum' %}?sort=hot{% if current_category %}&category={{ current_category }}{% endif %}{% if search_query %}&q={{ search_query }}{% endif %}" class="forum-sort-tab {% if current_sort == 'hot' %}forum-sort-tab-active{% endif %}" hx-get="{% url 'web:forum' %}?sort=hot{% if current_category %}&category={{ current_category }}{% endif %}{% if search_query %}&q={{ search_query }}{% endif %}" hx-target="#forum-main" hx-swap="innerHTML" hx-push-url="true">
+      <span class="material-symbols-outlined">whatshot</span> Hot
+    </a>
+    <a href="{% url 'web:forum' %}?sort=new{% if current_category %}&category={{ current_category }}{% endif %}{% if search_query %}&q={{ search_query }}{% endif %}" class="forum-sort-tab {% if current_sort == 'new' %}forum-sort-tab-active{% endif %}" hx-get="{% url 'web:forum' %}?sort=new{% if current_category %}&category={{ current_category }}{% endif %}{% if search_query %}&q={{ search_query }}{% endif %}" hx-target="#forum-main" hx-swap="innerHTML" hx-push-url="true">
+      <span class="material-symbols-outlined">schedule</span> New
+    </a>
+    <a href="{% url 'web:forum' %}?sort=top{% if current_category %}&category={{ current_category }}{% endif %}{% if search_query %}&q={{ search_query }}{% endif %}" class="forum-sort-tab {% if current_sort == 'top' %}forum-sort-tab-active{% endif %}" hx-get="{% url 'web:forum' %}?sort=top{% if current_category %}&category={{ current_category }}{% endif %}{% if search_query %}&q={{ search_query }}{% endif %}" hx-target="#forum-main" hx-swap="innerHTML" hx-push-url="true">
+      <span class="material-symbols-outlined">thumb_up</span> Top
+    </a>
+    <a href="{% url 'web:forum' %}?sort=discussed{% if current_category %}&category={{ current_category }}{% endif %}{% if search_query %}&q={{ search_query }}{% endif %}" class="forum-sort-tab {% if current_sort == 'discussed' %}forum-sort-tab-active{% endif %}" hx-get="{% url 'web:forum' %}?sort=discussed{% if current_category %}&category={{ current_category }}{% endif %}{% if search_query %}&q={{ search_query }}{% endif %}" hx-target="#forum-main" hx-swap="innerHTML" hx-push-url="true">
+      <span class="material-symbols-outlined">chat_bubble</span> Discussed
+    </a>
+  </div>
+</div>
+
+<!-- Mobile Category Filters (chips scroll bar with fade overlay) -->
+{% if categories_data %}
+<div class="filter-bar-container md-hide-desktop">
+  <div class="filter-bar">
+    <a href="{% url 'web:forum' %}?sort={{ current_sort }}{% if search_query %}&q={{ search_query }}{% endif %}" class="md-chip {% if not current_category %}md-chip-active{% endif %}" hx-get="{% url 'web:forum' %}?sort={{ current_sort }}{% if search_query %}&q={{ search_query }}{% endif %}" hx-target="#forum-main" hx-swap="innerHTML" hx-push-url="true">All</a>
+    {% for c in categories_data %}
+    <a href="{% url 'web:forum' %}?sort={{ current_sort }}&category={{ c.name }}{% if search_query %}&q={{ search_query }}{% endif %}" class="md-chip {% if current_category == c.name %}md-chip-active{% endif %}" hx-get="{% url 'web:forum' %}?sort={{ current_sort }}&category={{ c.name }}{% if search_query %}&q={{ search_query }}{% endif %}" hx-target="#forum-main" hx-swap="innerHTML" hx-push-url="true">{{ c.name }}</a>
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+
+<!-- Active filter chips -->
+{% if search_query or current_category %}
+<div class="forum-active-filters">
+  {% if search_query %}
+  <span class="search-filter-chip">
+    "{{ search_query }}"
+    <a href="{% url 'web:forum' %}?sort={{ current_sort }}{% if current_category %}&category={{ current_category }}{% endif %}" class="search-filter-chip-remove" hx-get="{% url 'web:forum' %}?sort={{ current_sort }}{% if current_category %}&category={{ current_category }}{% endif %}" hx-target="#forum-main" hx-swap="innerHTML" hx-push-url="true">&times;</a>
+  </span>
+  {% endif %}
+  {% if current_category %}
+  <span class="search-filter-chip">
+    {{ current_category }}
+    <a href="{% url 'web:forum' %}?sort={{ current_sort }}{% if search_query %}&q={{ search_query }}{% endif %}" class="search-filter-chip-remove" hx-get="{% url 'web:forum' %}?sort={{ current_sort }}{% if search_query %}&q={{ search_query }}{% endif %}" hx-target="#forum-main" hx-swap="innerHTML" hx-push-url="true">&times;</a>
+  </span>
+  {% endif %}
+</div>
+{% endif %}
+
+<!-- Dual-Column Responsive Grid Layout -->
+<div class="forum-layout">
+  <!-- Left Column: Posts List -->
+  <div class="forum-main-content">
+    {% include "web/_forum_posts.html" %}
+  </div>
+
+  <!-- Right Column: Sidebar (Desktop only) -->
+  <div class="forum-sidebar">
+    <!-- 1. Categories Sidebar Card -->
+    <div class="forum-card">
+      <div class="forum-card-title">
+        <span class="material-symbols-outlined">category</span>
+        Categories
+      </div>
+      <div class="sidebar-category-list">
+        <a href="{% url 'web:forum' %}?sort={{ current_sort }}{% if search_query %}&q={{ search_query }}{% endif %}" class="sidebar-category-row {% if not current_category %}active{% endif %}" hx-get="{% url 'web:forum' %}?sort={{ current_sort }}{% if search_query %}&q={{ search_query }}{% endif %}" hx-target="#forum-main" hx-swap="innerHTML" hx-push-url="true">
+          <span style="display:flex;align-items:center;gap:10px;">
+            <span class="material-symbols-outlined" style="font-size: 18px; opacity: 0.8;">forum</span>
+            All Discussions
+          </span>
+        </a>
+        {% for cat in categories_data %}
+        <a href="{% url 'web:forum' %}?sort={{ current_sort }}&category={{ cat.name }}{% if search_query %}&q={{ search_query }}{% endif %}" class="sidebar-category-row {% if current_category == cat.name %}active{% endif %}" hx-get="{% url 'web:forum' %}?sort={{ current_sort }}&category={{ cat.name }}{% if search_query %}&q={{ search_query }}{% endif %}" hx-target="#forum-main" hx-swap="innerHTML" hx-push-url="true">
+          <span style="display:flex;align-items:center;gap:10px;">
+            <span class="material-symbols-outlined" style="font-size: 18px; opacity: 0.8;">tag</span>
+            {{ cat.name }}
+          </span>
+          <span class="category-badge">{{ cat.formatted_count }}</span>
+        </a>
+        {% endfor %}
+      </div>
+      <a href="{% url 'web:forum_categories' %}" class="btn-leaderboard-link" style="margin-top: 8px;">
+        See All Categories
+      </a>
+    </div>
+
+    <!-- 2. Top Contributors Sidebar Card -->
+    <div class="forum-card">
+      <div class="forum-card-title">
+        <span class="material-symbols-outlined" style="color: var(--md-primary);">emoji_events</span>
+        Top Contributors
+      </div>
+      <div class="sidebar-contributor-list">
+        {% for contributor in top_contributors %}
+        <a href="{% url 'web:profile' username=contributor.username %}" class="sidebar-contributor-row" style="text-decoration:none;color:inherit;">
+          <div class="contributor-profile-wrapper">
+            <div class="contributor-avatar-container">
+              {% if contributor.photo_url %}
+              <img src="{{ contributor.photo_url }}" alt="{{ contributor.display_name }}" data-fallback="inline-flex">
+              <span class="contributor-avatar-letter" style="display:none;">{{ contributor.display_name|truncate_chars:1 }}</span>
+              {% else %}
+              <span class="contributor-avatar-letter">{{ contributor.display_name|truncate_chars:1 }}</span>
+              {% endif %}
+            </div>
+            <div class="contributor-meta-data">
+              <span class="contributor-username-text">{{ contributor.username }}{% if contributor.badgeInfo %}<span class="role-badge role-badge-{{ contributor.badgeInfo.type }}" title="{{ contributor.badgeInfo.label }}"><span class="material-symbols-outlined">{{ contributor.badgeInfo.icon }}</span></span>{% endif %}</span>
+              <span class="contributor-level-text">{{ contributor.level }}</span>
+            </div>
+          </div>
+          <span class="contributor-score-text">{{ contributor.formatted_score }}</span>
+        </a>
+        {% empty %}
+        <div style="text-align:center; color:var(--md-on-surface-variant); font-size:0.875rem;">No contributors yet.</div>
+        {% endfor %}
+      </div>
+      {% if top_contributors %}
+      <a href="{% url 'web:leaderboard' %}" class="btn-leaderboard-link">
+        View Leaderboard
+      </a>
+      {% endif %}
+    </div>
+  </div>
+</div>
