@@ -699,7 +699,7 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    background: var(--md-surface-container-low);
+    background: var(--md-surface-container-lowest);
     border: 1px solid var(--md-outline-variant);
     border-radius: var(--md-radius-full);
     padding: 4px 16px;
@@ -708,7 +708,7 @@
   }
   .qa-search-box:focus-within {
     border-color: var(--md-primary);
-    background: var(--md-surface-container-lowest);
+    box-shadow: 0 0 0 1px var(--md-primary);
   }
   .qa-search-input {
     flex: 1;
@@ -958,11 +958,11 @@
   }
   .ai-input-box {
     flex: 1; background: var(--md-surface-container-lowest);
-    border: 1px solid var(--md-outline); border-radius: 24px;
+    border: 1px solid var(--md-outline-variant); border-radius: 24px;
     padding: 10px 16px; font-family: var(--md-font); font-size: 0.875rem;
-    color: var(--md-on-surface); outline: none; transition: border-color 150ms ease;
+    color: var(--md-on-surface); outline: none; transition: border-color 150ms ease, box-shadow 150ms ease;
   }
-  .ai-input-box:focus { border-color: var(--md-primary); }
+  .ai-input-box:focus { border-color: var(--md-primary); box-shadow: 0 0 0 1px var(--md-primary); }
   .ai-send-btn {
     width: 40px; height: 40px; border-radius: 50%; border: none;
     background: var(--md-primary); color: var(--md-on-primary);

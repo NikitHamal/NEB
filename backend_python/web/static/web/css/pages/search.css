@@ -2,7 +2,7 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    background: var(--md-surface-container);
+    background: var(--md-surface-container-lowest);
     border-radius: 28px;
     padding: 0 16px;
     border: 1px solid var(--md-outline-variant);

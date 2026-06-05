@@ -67,8 +67,12 @@
   .rd-section-title .count{font-size:.875rem;font-weight:500;color:var(--md-on-surface-variant)}
 
   /* Comment compose */
-  .rd-compose{background:transparent;border:none;border-radius:0;padding:0;margin-bottom:24px}
-  .rd-compose-header{font-size:.9375rem;font-weight:600;color:var(--md-on-surface);margin-bottom:10px}
+  .rd-compose{background:var(--md-surface-container-lowest);border:1px solid var(--md-outline-variant);border-radius:8px;padding:16px;margin-bottom:24px}
+  .rd-compose-header{font-size:.9375rem;font-weight:600;color:var(--md-on-surface);margin-bottom:12px}
+  .rd-compose textarea{width:100%;padding:12px;border:1px solid var(--md-outline-variant);border-radius:8px;font-family:inherit;font-size:.875rem;background:var(--md-surface-container-lowest);color:var(--md-on-surface);outline:none;resize:vertical;min-height:80px;transition:border-color .15s}
+  .rd-compose textarea:focus{border-color:var(--md-primary)}
+  .rd-compose textarea::placeholder{color:var(--md-on-surface-variant)}
+  .rd-compose-actions{display:flex;justify-content:flex-end;margin-top:10px}
   .rd-login-prompt{text-align:center;padding:32px;border:1px solid var(--md-outline-variant);border-radius:12px;margin-bottom:24px}
   .rd-login-prompt p{color:var(--md-on-surface-variant);margin-bottom:12px}
 

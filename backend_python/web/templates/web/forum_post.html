@@ -174,11 +174,13 @@
   {% if is_authenticated %}
   <div class="fp-compose">
     <div class="fp-compose-title">Add a Reply</div>
-    <form id="mainReplyForm" data-action="submit-main-reply" class="fp-compose-bar">
-      <textarea name="content" id="mainReplyContent" placeholder="Write a reply..." rows="1" required></textarea>
-      <button type="submit" class="fp-send-btn" id="mainReplySendBtn" disabled aria-label="Send reply">
-        <span class="material-symbols-outlined">arrow_upward</span>
-      </button>
+    <form id="mainReplyForm" data-action="submit-main-reply">
+      <div class="reply-input-wrapper">
+        <textarea name="content" id="mainReplyContent" placeholder="Write your reply..." required></textarea>
+        <button type="submit" class="reply-send-btn" id="mainReplySubmit" disabled>
+          <span class="material-symbols-outlined">arrow_upward</span>
+        </button>
+      </div>
     </form>
   </div>
   {% else %}
@@ -236,9 +238,9 @@
   <div class="fp-thread-sidebar-scroll" id="threadSidebarScroll"></div>
   <div class="fp-thread-sidebar-compose" id="threadSidebarCompose" style="display:none;">
     <div id="threadSidebarReplyingTo" style="display:none;font-size:.6875rem;color:var(--md-primary);font-weight:500;margin-bottom:6px;align-items:center;gap:4px;"></div>
-    <div class="fp-compose-bar">
-      <textarea id="threadSidebarTextarea" placeholder="Write a reply..." rows="1" data-keydown-action="handle-thread-reply-key"></textarea>
-      <button type="button" class="fp-send-btn" id="threadSidebarSendBtn" disabled data-action="submit-thread-reply" aria-label="Send reply">
+    <div class="reply-input-wrapper">
+      <textarea id="threadSidebarTextarea" placeholder="Write a reply..." data-keydown-action="handle-thread-reply-key"></textarea>
+      <button class="reply-send-btn" id="threadSidebarSubmit" data-action="submit-thread-reply" disabled>
         <span class="material-symbols-outlined">arrow_upward</span>
       </button>
     </div>
@@ -257,9 +259,9 @@
   <div class="fp-thread-sheet-scroll" id="threadSheetScroll"></div>
   <div class="fp-thread-sheet-compose" id="threadSheetCompose" style="display:none;">
     <div id="threadSheetReplyingTo" style="display:none;font-size:.6875rem;color:var(--md-primary);font-weight:500;margin-bottom:6px;align-items:center;gap:4px;"></div>
-    <div class="fp-compose-bar">
-      <textarea id="threadSheetTextarea" placeholder="Write a reply..." rows="1" data-keydown-action="handle-thread-reply-key"></textarea>
-      <button type="button" class="fp-send-btn" id="threadSheetSendBtn" disabled data-action="submit-thread-reply" aria-label="Send reply">
+    <div class="reply-input-wrapper">
+      <textarea id="threadSheetTextarea" placeholder="Write a reply..." data-keydown-action="handle-thread-reply-key"></textarea>
+      <button class="reply-send-btn" id="threadSheetSubmit" data-action="submit-thread-reply" disabled>
         <span class="material-symbols-outlined">arrow_upward</span>
       </button>
     </div>
@@ -508,7 +510,7 @@ async function submitMainReply(e) {
   e.preventDefault();
   const content = document.getElementById('mainReplyContent').value.trim();
   if (!content) { showSnackbar('Content is required.'); return; }
-  const submitBtn = (e && e.target) ? e.target.querySelector('button[type="submit"]') : null;
+  const submitBtn = (e && e.target) ? e.target.querySelector('.reply-send-btn') : null;
   if (submitBtn) submitBtn.disabled = true;
   try {
     const r = await fetch('/ajax/reply/' + POST_ID + '/', {
@@ -544,7 +546,11 @@ async function submitMainReply(e) {
     }
     else { showSnackbar(d.error || 'Failed to submit reply.'); }
   } catch(e) { showSnackbar('Error submitting reply.'); }
-  finally { if (submitBtn) submitBtn.disabled = false; }
+  finally {
+    if (submitBtn) {
+      submitBtn.disabled = !document.getElementById('mainReplyContent').value.trim();
+    }
+  }
 }
 
 function openThread(replyId) {
@@ -590,6 +596,9 @@ function focusThreadCompose(authorName, replyId) {
     textarea.value = '@' + authorName + ' ';
     textarea.focus();
     textarea.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    const submitId = isMobile() ? 'threadSheetSubmit' : 'threadSidebarSubmit';
+    const submitBtn = document.getElementById(submitId);
+    if (submitBtn) submitBtn.disabled = false;
   }
 }
 
@@ -669,7 +678,13 @@ async function loadThreadReplies(replyId) {
     if (pendingThreadReplyContent) {
       const textareaId = isMobile() ? 'threadSheetTextarea' : 'threadSidebarTextarea';
       const textarea = document.getElementById(textareaId);
-      if (textarea) { textarea.value = pendingThreadReplyContent; textarea.focus(); }
+      if (textarea) {
+        textarea.value = pendingThreadReplyContent;
+        textarea.focus();
+        const submitId = isMobile() ? 'threadSheetSubmit' : 'threadSidebarSubmit';
+        const submitBtn = document.getElementById(submitId);
+        if (submitBtn) submitBtn.disabled = !textarea.value.trim();
+      }
       pendingThreadReplyContent = null;
     }
   } catch(e) {
@@ -803,9 +818,9 @@ function scrollToReply(replyId) {
   if (!scrollEl) return;
   const target = scrollEl.querySelector('#thread-reply-' + CSS.escape(replyId));
   if (!target) return;
-  // Calculate target position relative to scroll container
-  const targetTop = target.offsetTop;
-  scrollEl.scrollTo({ top: Math.max(0, targetTop - 12), behavior: 'smooth' });
+  // Calculate target position relative to scroll container robustly using bounding clients
+  const relativeTop = target.getBoundingClientRect().top - scrollEl.getBoundingClientRect().top + scrollEl.scrollTop;
+  scrollEl.scrollTo({ top: Math.max(0, relativeTop - 12), behavior: 'smooth' });
   // Highlight animation
   target.classList.remove('fp-thread-flash');
   // Force reflow to restart the animation
@@ -847,6 +862,9 @@ async function submitThreadReply() {
   if (!textarea) return;
   const content = textarea.value.trim();
   if (!content) { showSnackbar('Content is required.'); return; }
+  const submitId = isMobile() ? 'threadSheetSubmit' : 'threadSidebarSubmit';
+  const submitBtn = document.getElementById(submitId);
+  if (submitBtn) submitBtn.disabled = true;
   const parentId = activeParentReplyId || activeThreadId;
   try {
     const r = await fetch('/ajax/reply/' + POST_ID + '/', {
@@ -867,7 +885,13 @@ async function submitThreadReply() {
     } else {
       showSnackbar(d.error || 'Failed to submit reply.');
     }
-  } catch(e) { showSnackbar('Error submitting reply.'); }
+  } catch(e) {
+    showSnackbar('Error submitting reply.');
+  } finally {
+    if (submitBtn) {
+      submitBtn.disabled = !textarea.value.trim();
+    }
+  }
 }
 
 document.querySelectorAll('.modal-overlay').forEach(overlay => {
@@ -1365,28 +1389,12 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // Reply bar send-button enabled/disabled state
-  function setupReplyBar(textareaId, buttonId) {
-    const ta = document.getElementById(textareaId);
-    const btn = document.getElementById(buttonId);
-    if (!ta || !btn) return;
-    function sync() {
-      const has = ta.value.trim().length > 0;
-      btn.classList.toggle('is-active', has);
-      if (has) btn.removeAttribute('disabled'); else btn.setAttribute('disabled', '');
-    }
-    ta.addEventListener('input', sync);
-    sync();
-  }
-  setupReplyBar('mainReplyContent', 'mainReplySendBtn');
-  setupReplyBar('threadSidebarTextarea', 'threadSidebarSendBtn');
-  setupReplyBar('threadSheetTextarea', 'threadSheetSendBtn');
-
   const mainTextarea = document.getElementById('mainReplyContent');
   if (mainTextarea) initMentionAutocomplete(mainTextarea);
 });
 
 registerActions({
+  'scroll-to-reply': function(el) { scrollToReply(el.dataset.targetReplyId); },
   'toggle-follow-post': function() { toggleFollowPost(); },
   'show-edit-history': function(el) { showEditHistory(el.dataset.targetType, el.dataset.targetId); },
   'toggle-more-menu': function(el) { toggleMoreMenu(el.dataset.menuId, el); },

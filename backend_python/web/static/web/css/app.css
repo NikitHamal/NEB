@@ -1047,11 +1047,11 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  background: var(--md-surface-container);
+  background: var(--md-surface-container-lowest);
   border-radius: var(--md-radius-xl);
   padding: 4px 16px;
   border: 1px solid var(--md-outline-variant);
-  transition: border-color var(--md-transition);
+  transition: all var(--md-transition);
 }
 
 .search-bar:focus-within {
@@ -1083,7 +1083,7 @@
   padding: 15px 16px;
   border-radius: var(--md-radius-sm);
   border: 1.5px solid var(--md-outline-variant);
-  background: var(--md-surface);
+  background: var(--md-surface-container-lowest);
   color: var(--md-on-surface);
   font-family: var(--md-font);
   font-size: 1rem;
@@ -1110,7 +1110,7 @@
   padding: 15px 16px;
   border-radius: var(--md-radius-sm);
   border: 1.5px solid var(--md-outline-variant);
-  background: var(--md-surface);
+  background: var(--md-surface-container-lowest);
   color: var(--md-on-surface);
   font-family: var(--md-font);
   font-size: 1rem;
@@ -1140,7 +1140,7 @@
   padding-right: 40px;
   border-radius: var(--md-radius-sm);
   border: 1.5px solid var(--md-outline-variant);
-  background: var(--md-surface);
+  background: var(--md-surface-container-lowest);
   color: var(--md-on-surface);
   font-family: var(--md-font);
   font-size: 1rem;
@@ -3622,4 +3622,71 @@ body[data-ws-state='disconnected'] .ws-state-dot { background: #c62828; }
 }
 .md-content del, .fp-post-body del, .fp-reply-body del {
   text-decoration: line-through; opacity: 0.6;
+}
+
+/* Messaging/Reply box design revamp */
+.reply-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: var(--md-surface-container-lowest) !important;
+  border: 1px solid var(--md-outline-variant) !important;
+  border-radius: 24px !important;
+  padding: 4px 6px 4px 16px !important;
+  transition: all var(--md-transition) !important;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.reply-input-wrapper:focus-within {
+  border-color: var(--md-primary) !important;
+  box-shadow: 0 0 0 1px var(--md-primary) !important;
+}
+
+.reply-input-wrapper textarea {
+  flex: 1 !important;
+  border: none !important;
+  background: transparent !important;
+  outline: none !important;
+  color: var(--md-on-surface) !important;
+  font-family: inherit !important;
+  font-size: 0.875rem !important;
+  padding: 6px 0 !important;
+  resize: none !important;
+  min-height: 24px !important;
+  max-height: 120px !important;
+  line-height: 1.5 !important;
+  box-sizing: border-box;
+  box-shadow: none !important;
+}
+
+.reply-input-wrapper .reply-send-btn {
+  width: 32px !important;
+  height: 32px !important;
+  border-radius: 50% !important;
+  border: none !important;
+  background: var(--md-primary) !important;
+  color: var(--md-on-primary) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  transition: all var(--md-transition) !important;
+  flex-shrink: 0 !important;
+  align-self: flex-end !important;
+  margin-bottom: 2px !important;
+  margin-left: 8px !important;
+  padding: 0 !important;
+}
+
+.reply-input-wrapper .reply-send-btn:disabled {
+  background: var(--md-outline-variant) !important;
+  color: var(--md-on-surface-variant) !important;
+  opacity: 0.5 !important;
+  cursor: not-allowed !important;
+}
+
+.reply-input-wrapper .reply-send-btn .material-symbols-outlined {
+  font-size: 18px !important;
+  font-weight: 600 !important;
 }
