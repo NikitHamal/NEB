@@ -714,14 +714,26 @@ function renderThreadParent(parent) {
 }
 
 function renderThreadReplies(replies, parentAuthor, depth) {
-  let html = '';
-  replies.forEach(function(reply) {
-    html += renderThreadReply(reply, parentAuthor, depth);
-    if (reply.children && reply.children.length > 0) {
-      html += '<div class="fp-thread-nested">';
-      html += renderThreadReplies(reply.children, reply.authorName, depth + 1);
-      html += '</div>';
-    }
+  var flatReplies = [];
+  function collect(list, directParentAuthor) {
+    if (!list) return;
+    list.forEach(function(reply) {
+      reply.directParentAuthor = directParentAuthor;
+      flatReplies.push(reply);
+      if (reply.children && reply.children.length > 0) {
+        collect(reply.children, reply.authorName);
+      }
+    });
+  }
+  collect(replies, parentAuthor);
+  flatReplies.sort(function(a, b) {
+    var timeA = typeof a.createdAt === 'string' ? Date.parse(a.createdAt) : a.createdAt;
+    var timeB = typeof b.createdAt === 'string' ? Date.parse(b.createdAt) : b.createdAt;
+    return timeA - timeB;
+  });
+  var html = '';
+  flatReplies.forEach(function(reply) {
+    html += renderThreadReply(reply, reply.directParentAuthor, 0);
   });
   return html;
 }
@@ -745,7 +757,7 @@ function renderThreadReply(reply, parentAuthor, depth) {
     : '';
 
   // "Replying to" label — show if the reply is to someone other than the thread parent
-  const replyingLine = (parentAuthor && reply.authorName !== parentAuthor)
+  const replyingLine = (parentAuthor && parentAuthor !== threadParentAuthor && reply.authorName !== parentAuthor)
     ? '<div class="fp-replying-to"><span class="material-symbols-outlined">reply</span> @' + escapeHtml(parentAuthor) + '</div>'
     : '';
 
