@@ -174,11 +174,11 @@
   {% if is_authenticated %}
   <div class="fp-compose">
     <div class="fp-compose-title">Add a Reply</div>
-    <form id="mainReplyForm" data-action="submit-main-reply">
-      <textarea name="content" id="mainReplyContent" placeholder="Write your reply..." required></textarea>
-      <div class="fp-compose-actions">
-        <button type="submit" class="md-btn md-btn-filled">Submit Reply</button>
-      </div>
+    <form id="mainReplyForm" data-action="submit-main-reply" class="fp-compose-bar">
+      <textarea name="content" id="mainReplyContent" placeholder="Write a reply..." rows="1" required></textarea>
+      <button type="submit" class="fp-send-btn" id="mainReplySendBtn" disabled aria-label="Send reply">
+        <span class="material-symbols-outlined">arrow_upward</span>
+      </button>
     </form>
   </div>
   {% else %}
@@ -236,9 +236,11 @@
   <div class="fp-thread-sidebar-scroll" id="threadSidebarScroll"></div>
   <div class="fp-thread-sidebar-compose" id="threadSidebarCompose" style="display:none;">
     <div id="threadSidebarReplyingTo" style="display:none;font-size:.6875rem;color:var(--md-primary);font-weight:500;margin-bottom:6px;align-items:center;gap:4px;"></div>
-    <textarea id="threadSidebarTextarea" placeholder="Write a reply..." data-keydown-action="handle-thread-reply-key"></textarea>
-    <div class="fp-thread-sidebar-compose-actions">
-      <button class="md-btn md-btn-filled" style="font-size:.8125rem;padding:6px 16px;" data-action="submit-thread-reply">Reply</button>
+    <div class="fp-compose-bar">
+      <textarea id="threadSidebarTextarea" placeholder="Write a reply..." rows="1" data-keydown-action="handle-thread-reply-key"></textarea>
+      <button type="button" class="fp-send-btn" id="threadSidebarSendBtn" disabled data-action="submit-thread-reply" aria-label="Send reply">
+        <span class="material-symbols-outlined">arrow_upward</span>
+      </button>
     </div>
   </div>
 </div>
@@ -255,9 +257,11 @@
   <div class="fp-thread-sheet-scroll" id="threadSheetScroll"></div>
   <div class="fp-thread-sheet-compose" id="threadSheetCompose" style="display:none;">
     <div id="threadSheetReplyingTo" style="display:none;font-size:.6875rem;color:var(--md-primary);font-weight:500;margin-bottom:6px;align-items:center;gap:4px;"></div>
-    <textarea id="threadSheetTextarea" placeholder="Write a reply..." data-keydown-action="handle-thread-reply-key"></textarea>
-    <div class="fp-thread-sheet-compose-actions" style="display:flex;justify-content:flex-end;margin-top:8px;">
-      <button class="md-btn md-btn-filled" style="font-size:.8125rem;padding:6px 16px;" data-action="submit-thread-reply">Reply</button>
+    <div class="fp-compose-bar">
+      <textarea id="threadSheetTextarea" placeholder="Write a reply..." rows="1" data-keydown-action="handle-thread-reply-key"></textarea>
+      <button type="button" class="fp-send-btn" id="threadSheetSendBtn" disabled data-action="submit-thread-reply" aria-label="Send reply">
+        <span class="material-symbols-outlined">arrow_upward</span>
+      </button>
     </div>
   </div>
 </div>
@@ -1360,6 +1364,23 @@ document.addEventListener('DOMContentLoaded', function() {
       el.textContent = Math.max(0, cur + delta);
     });
   }
+
+  // Reply bar send-button enabled/disabled state
+  function setupReplyBar(textareaId, buttonId) {
+    const ta = document.getElementById(textareaId);
+    const btn = document.getElementById(buttonId);
+    if (!ta || !btn) return;
+    function sync() {
+      const has = ta.value.trim().length > 0;
+      btn.classList.toggle('is-active', has);
+      if (has) btn.removeAttribute('disabled'); else btn.setAttribute('disabled', '');
+    }
+    ta.addEventListener('input', sync);
+    sync();
+  }
+  setupReplyBar('mainReplyContent', 'mainReplySendBtn');
+  setupReplyBar('threadSidebarTextarea', 'threadSidebarSendBtn');
+  setupReplyBar('threadSheetTextarea', 'threadSheetSendBtn');
 
   const mainTextarea = document.getElementById('mainReplyContent');
   if (mainTextarea) initMentionAutocomplete(mainTextarea);
