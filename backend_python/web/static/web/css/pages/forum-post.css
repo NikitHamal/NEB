@@ -185,6 +185,14 @@
   .fp-replying-to .material-symbols-outlined{font-size:14px;color:var(--md-on-surface-variant);flex-shrink:0}
   .fp-replying-to-text{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;min-width:0}
 
+  /* "Replying to" bar above thread compose area — shows truncated parent content */
+  .fp-replying-to-bar{display:flex;align-items:center;gap:6px;margin-bottom:8px;padding:6px 8px;font-size:.75rem;color:var(--md-on-surface-variant);background:var(--md-surface-container-high);border-radius:8px;cursor:pointer;border:none;font-family:inherit;width:100%;text-align:left;line-height:1.35;transition:background .12s;overflow:hidden}
+  .fp-replying-to-bar:hover{background:var(--md-surface-container-highest, var(--md-surface-container))}
+  .fp-replying-to-bar > .material-symbols-outlined:first-child{font-size:14px;color:var(--md-on-surface-variant);flex-shrink:0}
+  .fp-replying-to-bar-text{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .fp-replying-to-bar-close{font-size:14px !important;color:var(--md-on-surface-variant);flex-shrink:0;padding:2px;border-radius:4px;transition:background .12s}
+  .fp-replying-to-bar-close:hover{background:rgba(0,0,0,.08)}
+
   /* Reply actions inside thread */
   .fp-thread-reply .fp-reply-actions{display:flex;align-items:center;gap:2px;padding-top:6px}
   .fp-thread-reply .fp-reply-action{font-size:.6875rem;padding:4px 6px;border-radius:6px}
