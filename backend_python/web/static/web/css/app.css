@@ -39,8 +39,8 @@
 }
 
 .post-card-content {
-  font-size: 0.875rem;
-  line-height: 1.5;
+  font-size: 0.75rem;
+  line-height: 1.45;
   color: var(--md-on-surface-variant);
   margin-bottom: 0;
   display: -webkit-box;
@@ -48,6 +48,7 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+
 .post-card-content p {
   display: inline;
 }
@@ -149,10 +150,10 @@
 .post-card-actions {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 4px;
   border-top: 1px solid rgba(var(--md-outline-variant), 0.35);
-  padding-top: 6px;
-  margin-top: 8px;
+  padding-top: 4px;
+  margin-top: 4px;
 }
 
 .section-header a {
@@ -453,12 +454,12 @@
 }
 
 .post-card {
-  padding: 14px 18px;
+  padding: 8px 12px;
   background: var(--md-surface-container-lowest);
   border: 1px solid var(--md-outline-variant);
   border-radius: 8px;
   transition: border-color 0.2s var(--md-transition);
-  margin-bottom: 12px;
+  margin-bottom: 0;
   display: flex;
   flex-direction: column;
 }
@@ -469,8 +470,8 @@
 
 @media (max-width: 600px) {
   .post-card {
-    padding: 12px 14px;
-    margin-bottom: 10px;
+    padding: 6px 8px;
+    margin-bottom: 0;
     border-radius: 8px;
   }
 }
@@ -496,8 +497,8 @@
 .activity-item-header {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 6px;
+  gap: 8px;
+  margin-bottom: 4px;
   position: relative;
 }
 
@@ -567,13 +568,19 @@
 }
 
 .post-card-meta-line {
-  font-size: 0.9375rem;
+  font-size: 0.8125rem;
   color: var(--md-on-surface-variant);
   line-height: 1.4;
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 6px;
+}
+
+.post-card-meta-line strong a,
+.post-card-meta-top > a:first-child,
+.post-meta-line > a:first-child {
+  font-size: 0.8125rem;
 }
 
 .act-meta-line {
@@ -701,12 +708,13 @@
 }
 
 .post-card-category-link {
-  display: inline-block;
-  padding: 2px 10px;
-  border-radius: var(--md-radius-full);
-  font-size: 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 6px;
+  border-radius: var(--md-radius-full, 100px);
+  font-size: 0.6875rem;
   font-weight: 600;
-  line-height: 1.25;
+  line-height: 1;
   text-transform: capitalize;
   text-decoration: none;
   background-color: var(--md-surface-container-low);
@@ -724,18 +732,18 @@
 
 .post-card-time,
 .act-time {
-  font-size: 0.75rem;
+  font-size: 0.725rem;
   color: var(--md-on-surface-variant);
   opacity: 0.85;
-  margin-top: 3px;
+  margin-top: 0;
 }
 
 .post-card h3 {
-  font-size: 1.05rem;
+  font-size: 0.875rem;
   font-weight: 600;
   color: var(--md-on-surface);
-  margin-top: 6px;
-  margin-bottom: 4px;
+  margin-top: 2px;
+  margin-bottom: 2px;
   line-height: 1.35;
   letter-spacing: -0.01em;
 }
@@ -835,13 +843,13 @@
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  font-size: 0.8125rem;
+  font-size: 0.75rem;
   font-weight: 500;
   color: var(--md-on-surface-variant);
   border: none;
   background: transparent;
   cursor: pointer;
-  padding: 4px 10px;
+  padding: 2px 8px;
   border-radius: 8px;
   transition: background 0.15s, color 0.15s;
   text-decoration: none !important;
@@ -872,7 +880,7 @@
 .post-card-actions button .material-symbols-outlined,
 .post-card-actions a .material-symbols-outlined,
 .act-btn-stat .material-symbols-outlined {
-  font-size: 18px;
+  font-size: 16px;
 }
 
 .filter-bar {
@@ -899,14 +907,35 @@
   flex-wrap: wrap;
 }
 
+.post-card-meta-bottom,
 .post-meta-sub {
   display: flex;
   align-items: center;
   gap: 6px;
   margin-top: 2px;
-  font-size: 0.75rem;
+  font-size: 0.725rem;
   color: var(--md-on-surface-variant);
   flex-wrap: wrap;
+}
+
+/* Post card header buttons and badges proportions */
+.post-card-meta .follow-btn-small,
+.post-card-meta-top .follow-btn-small,
+.post-card-meta-line .follow-btn-small,
+.post-meta-line .follow-btn-small {
+  padding: 1.5px 8px;
+  font-size: 0.6875rem;
+  height: 20px;
+  min-height: 20px;
+  line-height: 1.1;
+  box-sizing: border-box;
+}
+
+.post-card-meta .role-badge .material-symbols-outlined,
+.post-card-meta-top .role-badge .material-symbols-outlined,
+.post-card-meta-line .role-badge .material-symbols-outlined,
+.post-meta-line .role-badge .material-symbols-outlined {
+  font-size: 13px;
 }
 
 .dot-sep {

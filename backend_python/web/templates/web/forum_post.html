@@ -237,7 +237,11 @@
   </div>
   <div class="fp-thread-sidebar-scroll" id="threadSidebarScroll"></div>
   <div class="fp-thread-sidebar-compose" id="threadSidebarCompose" style="display:none;">
-    <div id="threadSidebarReplyingTo" style="display:none;font-size:.6875rem;color:var(--md-primary);font-weight:500;margin-bottom:6px;align-items:center;gap:4px;"></div>
+    <button type="button" id="threadSidebarReplyingTo" class="fp-replying-to-bar" style="display:none;" data-action="scroll-to-reply-target" data-target-reply-id="">
+      <span class="material-symbols-outlined">format_quote</span>
+      <span class="fp-replying-to-bar-text"></span>
+      <span class="material-symbols-outlined fp-replying-to-bar-close" data-action="cancel-thread-reply-target">close</span>
+    </button>
     <div class="reply-input-wrapper">
       <textarea id="threadSidebarTextarea" placeholder="Write a reply..." data-keydown-action="handle-thread-reply-key"></textarea>
       <button class="reply-send-btn" id="threadSidebarSubmit" data-action="submit-thread-reply" disabled>
@@ -258,7 +262,11 @@
   </div>
   <div class="fp-thread-sheet-scroll" id="threadSheetScroll"></div>
   <div class="fp-thread-sheet-compose" id="threadSheetCompose" style="display:none;">
-    <div id="threadSheetReplyingTo" style="display:none;font-size:.6875rem;color:var(--md-primary);font-weight:500;margin-bottom:6px;align-items:center;gap:4px;"></div>
+    <button type="button" id="threadSheetReplyingTo" class="fp-replying-to-bar" style="display:none;" data-action="scroll-to-reply-target" data-target-reply-id="">
+      <span class="material-symbols-outlined">format_quote</span>
+      <span class="fp-replying-to-bar-text"></span>
+      <span class="material-symbols-outlined fp-replying-to-bar-close" data-action="cancel-thread-reply-target">close</span>
+    </button>
     <div class="reply-input-wrapper">
       <textarea id="threadSheetTextarea" placeholder="Write a reply..." data-keydown-action="handle-thread-reply-key"></textarea>
       <button class="reply-send-btn" id="threadSheetSubmit" data-action="submit-thread-reply" disabled>
@@ -582,14 +590,19 @@ function openThreadReply(parentId, authorName) {
   openThread(parentId);
 }
 
-function focusThreadCompose(authorName, replyId) {
+function focusThreadCompose(authorName, replyId, content) {
   activeParentReplyId = replyId || activeThreadId;
   const textareaId = isMobile() ? 'threadSheetTextarea' : 'threadSidebarTextarea';
   const textarea = document.getElementById(textareaId);
   const replyingToId = isMobile() ? 'threadSheetReplyingTo' : 'threadSidebarReplyingTo';
   const replyingToEl = document.getElementById(replyingToId);
   if (replyingToEl) {
-    replyingToEl.textContent = 'Replying to @' + authorName;
+    const textEl = replyingToEl.querySelector('.fp-replying-to-bar-text');
+    if (textEl) {
+      textEl.textContent = content ? truncateQuote(content, 80) : '@' + authorName;
+    }
+    replyingToEl.setAttribute('data-target-reply-id', replyId || '');
+    replyingToEl.title = content ? 'Jump to ' + authorName + '\'s message' : '';
     replyingToEl.style.display = 'flex';
   }
   if (textarea) {
@@ -1075,10 +1088,27 @@ window.addEventListener('scroll', function() {
     } else if (action === 'reply-to-author') {
       var author = btn.getAttribute('data-author');
       var replyId = btn.getAttribute('data-reply-id') || activeThreadId;
-      focusThreadCompose(author, replyId);
-    } else if (action === 'scroll-to-reply') {
+      var threadReply = btn.closest('.fp-thread-reply');
+      var content = threadReply ? (threadReply.getAttribute('data-reply-content') || '') : '';
+      focusThreadCompose(author, replyId, content);
+    } else if (action === 'scroll-to-reply' || action === 'scroll-to-reply-target') {
       var targetId = btn.getAttribute('data-target-reply-id');
       if (targetId) scrollToReply(targetId);
+    } else if (action === 'cancel-thread-reply-target') {
+      e.stopPropagation();
+      e.preventDefault();
+      var textareaId = isMobile() ? 'threadSheetTextarea' : 'threadSidebarTextarea';
+      var ta = document.getElementById(textareaId);
+      if (ta) {
+        ta.value = '';
+        var submitId = isMobile() ? 'threadSheetSubmit' : 'threadSidebarSubmit';
+        var sb = document.getElementById(submitId);
+        if (sb) sb.disabled = true;
+      }
+      activeParentReplyId = activeThreadId;
+      var rId = isMobile() ? 'threadSheetReplyingTo' : 'threadSidebarReplyingTo';
+      var rEl = document.getElementById(rId);
+      if (rEl) rEl.style.display = 'none';
     }
   });
 });
