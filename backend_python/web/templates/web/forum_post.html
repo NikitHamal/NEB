@@ -636,8 +636,7 @@ async function loadThreadReplies(replyId) {
       html += '<div class="fp-thread-convo"><div style="text-align:center;padding:24px 16px;color:var(--md-on-surface-variant);"><span class="material-symbols-outlined" style="font-size:32px;display:block;margin-bottom:8px;opacity:.4;">chat_bubble_outline</span>No replies yet in this thread.</div></div>';
     } else {
       html += '<div class="fp-thread-convo">';
-      html += '<div style="font-size:.6875rem;font-weight:600;color:var(--md-on-surface-variant);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;">Replies</div>';
-      html += renderThreadReplies(replies, parentAuthor, 0);
+      html += renderThreadReplies(replies, { id: parent.id, author: parent.authorName, content: parent.content }, 0);
       html += '</div>';
     }
 
@@ -691,7 +690,7 @@ function renderThreadParent(parent) {
     : '';
   const mentionContent = renderMentions(parent.content || '');
 
-  return '<div class="fp-thread-parent">' +
+  return '<div class="fp-thread-parent" id="thread-reply-' + escapeHtml(parent.id) + '" data-reply-id="' + escapeHtml(parent.id) + '">' +
     '<div class="fp-reply-header">' +
       '<div class="fp-reply-avatar">' + avatarHtml + '</div>' +
       '<div class="fp-reply-meta">' +
@@ -713,32 +712,31 @@ function renderThreadParent(parent) {
   '</div>';
 }
 
-function renderThreadReplies(replies, parentAuthor, depth) {
-  var flatReplies = [];
-  function collect(list, directParentAuthor) {
-    if (!list) return;
-    list.forEach(function(reply) {
-      reply.directParentAuthor = directParentAuthor;
-      flatReplies.push(reply);
-      if (reply.children && reply.children.length > 0) {
-        collect(reply.children, reply.authorName);
-      }
-    });
-  }
-  collect(replies, parentAuthor);
-  flatReplies.sort(function(a, b) {
-    var timeA = typeof a.createdAt === 'string' ? Date.parse(a.createdAt) : a.createdAt;
-    var timeB = typeof b.createdAt === 'string' ? Date.parse(b.createdAt) : b.createdAt;
-    return timeA - timeB;
-  });
-  var html = '';
-  flatReplies.forEach(function(reply) {
-    html += renderThreadReply(reply, reply.directParentAuthor, 0);
+function truncateQuote(text, maxLen) {
+  if (!text) return '';
+  let clean = text.replace(/@\w+/g, '').replace(/\*\*|__|\*|_|~~|`/g, '').replace(/\n+/g, ' ').replace(/\s+/g, ' ').trim();
+  if (clean.length <= maxLen) return clean;
+  return clean.substring(0, maxLen).replace(/\s+\S*$/, '') + '…';
+}
+
+function renderThreadReplies(replies, parentInfo, depth) {
+  // parentInfo: { id, author, content } — info about the message these replies are responding to
+  let html = '';
+  replies.forEach(function(reply) {
+    html += renderThreadReply(reply, parentInfo, depth);
+    if (reply.children && reply.children.length > 0) {
+      // Flat list — no nested wrapper, no indent
+      html += renderThreadReplies(reply.children, {
+        id: reply.id,
+        author: reply.authorName,
+        content: reply.content
+      }, depth + 1);
+    }
   });
   return html;
 }
 
-function renderThreadReply(reply, parentAuthor, depth) {
+function renderThreadReply(reply, parentInfo, depth) {
   const avatarHtml = reply.authorPhotoUrl
     ? '<img src="' + escapeHtml(reply.authorPhotoUrl) + '" alt="" data-fallback="flex"><span class="fp-reply-avatar-letter" style="display:none;">' + escapeHtml(reply.authorName.charAt(0)) + '</span>'
     : '<span class="fp-reply-avatar-letter">' + escapeHtml(reply.authorName.charAt(0)) + '</span>';
@@ -756,9 +754,12 @@ function renderThreadReply(reply, parentAuthor, depth) {
     ? '<button class="fp-reply-action" data-action="reply-to-author" data-author="' + escapeHtml(reply.authorName) + '" data-reply-id="' + escapeHtml(reply.id) + '"><span class="material-symbols-outlined">reply</span> Reply</button>'
     : '';
 
-  // "Replying to" label — show if the reply is to someone other than the thread parent
-  const replyingLine = (parentAuthor && parentAuthor !== threadParentAuthor && reply.authorName !== parentAuthor)
-    ? '<div class="fp-replying-to"><span class="material-symbols-outlined">reply</span> @' + escapeHtml(parentAuthor) + '</div>'
+  // "Replying to" chip — shows truncated text of the parent message, clickable to scroll + highlight
+  const replyingLine = parentInfo
+    ? '<button type="button" class="fp-replying-to" data-action="scroll-to-reply" data-target-reply-id="' + escapeHtml(parentInfo.id) + '" title="Jump to ' + escapeHtml(parentInfo.author || 'parent') + '\'s message">' +
+        '<span class="material-symbols-outlined">format_quote</span>' +
+        '<span class="fp-replying-to-text">' + escapeHtml(truncateQuote(parentInfo.content, 80)) + '</span>' +
+      '</button>'
     : '';
 
   // Sub-thread indicator for children not shown (shouldn't happen with full tree, but safety)
@@ -768,7 +769,7 @@ function renderThreadReply(reply, parentAuthor, depth) {
 
   const mentionContent = renderMentions(reply.content);
 
-  return '<div class="fp-thread-reply" data-reply-content="' + escapeHtml(reply.content).replace(/"/g, '&quot;') + '" data-reply-id="' + escapeHtml(reply.id) + '">' +
+  return '<div class="fp-thread-reply" id="thread-reply-' + escapeHtml(reply.id) + '" data-reply-content="' + escapeHtml(reply.content).replace(/"/g, '&quot;') + '" data-reply-id="' + escapeHtml(reply.id) + '">' +
     '<div class="fp-reply-header">' +
       '<div class="fp-reply-avatar">' + avatarHtml + '</div>' +
       '<div class="fp-reply-meta">' +
@@ -791,6 +792,22 @@ function renderThreadReply(reply, parentAuthor, depth) {
       subIndicator +
     '</div>' +
   '</div>';
+}
+
+function scrollToReply(replyId) {
+  const scrollEl = isMobile() ? document.getElementById('threadSheetScroll') : document.getElementById('threadSidebarScroll');
+  if (!scrollEl) return;
+  const target = scrollEl.querySelector('#thread-reply-' + CSS.escape(replyId));
+  if (!target) return;
+  // Calculate target position relative to scroll container
+  const targetTop = target.offsetTop;
+  scrollEl.scrollTo({ top: Math.max(0, targetTop - 12), behavior: 'smooth' });
+  // Highlight animation
+  target.classList.remove('fp-thread-flash');
+  // Force reflow to restart the animation
+  void target.offsetWidth;
+  target.classList.add('fp-thread-flash');
+  setTimeout(function() { target.classList.remove('fp-thread-flash'); }, 1500);
 }
 
 function loadSubThread(replyId) {
@@ -1031,6 +1048,9 @@ window.addEventListener('scroll', function() {
       var author = btn.getAttribute('data-author');
       var replyId = btn.getAttribute('data-reply-id') || activeThreadId;
       focusThreadCompose(author, replyId);
+    } else if (action === 'scroll-to-reply') {
+      var targetId = btn.getAttribute('data-target-reply-id');
+      if (targetId) scrollToReply(targetId);
     }
   });
 });
