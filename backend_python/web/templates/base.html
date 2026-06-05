@@ -10,7 +10,7 @@
   <link rel="icon" type="image/png" sizes="32x32" href="{% static 'web/img/n-logo-32.png' %}">
   <link rel="icon" type="image/x-icon" href="{% static 'web/img/favicon.ico' %}">
   <link rel="apple-touch-icon" sizes="180x180" href="{% static 'web/img/n-logo-180.png' %}">
-  <link rel="manifest" href="{% url 'web:manifest_json' %}">
+  <link rel="manifest" href="{% url 'web:manifest_json' %}" crossorigin="use-credentials">
   <meta name="theme-color" content="#004bd4">
   <link rel="canonical" href="{% block canonical %}https://nebians.consica.com.np{{ request.path }}{% endblock %}">
   {% block robots %}{% endblock %}
