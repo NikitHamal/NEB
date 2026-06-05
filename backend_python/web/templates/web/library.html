@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load web_extras %}
+{% load static web_extras %}
 
 {% block title %}Study Resources Library{% endblock %}
 {% block description %}Browse study resources - notes, past papers, textbooks and more for students and teachers.{% endblock %}
@@ -21,201 +21,7 @@
 {% endblock %}
 
 {% block extra_css %}
-<style>
-  /* Header responsive classes */
-  .lib-header-row {
-    margin-top: 8px;
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-  }
-  .lib-header-actions {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    flex-shrink: 0;
-  }
-  .lib-header-actions .md-btn {
-    position: relative;
-    gap: 6px;
-  }
-  .filter-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--md-primary);
-  }
-
-  /* M3 Tabs Navigation */
-  .subj-tabs {
-    display: flex;
-    border-bottom: 1px solid var(--md-outline-variant);
-    margin-bottom: 24px;
-    gap: 8px;
-  }
-  .subj-tab-btn {
-    background: transparent;
-    border: none;
-    border-bottom: 3px solid transparent;
-    font-family: var(--md-font);
-    font-size: 0.9375rem;
-    font-weight: 600;
-    color: var(--md-on-surface-variant);
-    padding: 12px 16px;
-    cursor: pointer;
-    transition: all 150ms ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    text-decoration: none;
-  }
-  .subj-tab-btn:hover { color: var(--md-primary); background: rgba(0, 74, 198, 0.04); text-decoration: none; }
-  .subj-tab-btn.active { color: var(--md-primary); border-bottom-color: var(--md-primary); }
-  .subj-tab-btn .material-symbols-outlined { font-size: 20px; }
-
-  /* Accordion styles for Syllabus Categories */
-  .chapters-container { display: flex; flex-direction: column; gap: 12px; }
-  .chapter-section {
-    background: var(--md-surface-container-lowest);
-    border: 1px solid var(--md-outline-variant);
-    border-radius: var(--md-radius-md);
-    overflow: hidden;
-  }
-  .chapter-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 16px 20px;
-    background: var(--md-surface-container-low);
-    cursor: pointer;
-    user-select: none;
-  }
-  .chapter-header h3 { font-size: 1rem; font-weight: 600; color: var(--md-on-surface); margin: 0; }
-  .chapter-badge {
-    background: var(--md-secondary-container);
-    color: var(--md-on-secondary-container);
-    font-size: 0.75rem;
-    font-weight: 700;
-    padding: 2px 10px;
-    border-radius: var(--md-radius-full);
-  }
-  .chapter-content {
-    padding: 20px;
-    border-top: 1px solid var(--md-outline-variant);
-    display: none;
-  }
-  .chapter-section.open .chapter-content { display: block; }
-  .chapter-header .expand-icon { transition: transform 200ms ease; }
-  .chapter-section.open .chapter-header .expand-icon { transform: rotate(180deg); }
-
-  /* Sort bar */
-  .lib-sort-bar {
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 10px 16px; background: var(--md-surface-container-lowest);
-    border: 1px solid var(--md-outline-variant); border-radius: var(--md-radius-md);
-    margin-bottom: 16px;
-  }
-  .lib-sort-bar .lib-count { font-size: 0.875rem; color: var(--md-on-surface-variant); }
-  .lib-sort-bar .lib-count strong { color: var(--md-on-surface); }
-  .lib-sort-controls {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .lib-sort-bar select {
-    background: transparent; border: none; font-family: var(--md-font); font-size: 0.875rem;
-    font-weight: 600; color: var(--md-primary); cursor: pointer; padding: 4px 8px;
-    border-radius: var(--md-radius-sm); appearance: none; -webkit-appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24'%3E%3Cpath fill='%23004AC6' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
-    background-repeat: no-repeat; background-position: right center; padding-right: 24px;
-  }
-
-  /* Filter dialog multi-select */
-  .filter-chip-select {
-    display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px;
-    border-radius: var(--md-radius-full); font-size: 0.8125rem; font-weight: 500;
-    background: transparent; color: var(--md-on-surface-variant);
-    border: 1px solid var(--md-outline); cursor: pointer; transition: all 150ms ease;
-    user-select: none;
-  }
-  .filter-chip-select:hover { background: var(--md-surface-variant); }
-  .filter-chip-select.selected { background: var(--md-secondary-container); color: var(--md-on-secondary-container); border-color: transparent; }
-  .filter-chip-select .check-icon { display: none; font-size: 16px; }
-  .filter-chip-select.selected .check-icon { display: inline; }
-
-  /* Coming soon card */
-  .lib-coming-soon {
-    display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
-    padding: 32px 20px; background: var(--md-surface-container);
-    border: 2px dashed var(--md-outline-variant); border-radius: var(--md-radius-lg);
-    min-height: 200px;
-  }
-  .lib-coming-soon-icon {
-    width: 56px; height: 56px; border-radius: 50%; background: var(--md-surface-container-high);
-    display: flex; align-items: center; justify-content: center; margin-bottom: 12px;
-  }
-  .lib-coming-soon-icon .material-symbols-outlined { font-size: 28px; color: var(--md-primary); }
-  .lib-coming-soon h3 { font-size: 1rem; font-weight: 600; color: var(--md-on-surface); margin-bottom: 4px; }
-  .lib-coming-soon p { font-size: 0.8125rem; color: var(--md-on-surface-variant); max-width: 240px; }
-
-  /* Pagination */
-  .lib-pagination { display: flex; justify-content: center; align-items: center; gap: 6px; margin-top: 24px; }
-  .lib-pagination a, .lib-pagination span {
-    display: flex; align-items: center; justify-content: center; min-width: 40px; height: 40px;
-    border-radius: var(--md-radius-md); font-size: 0.875rem; font-weight: 600;
-    text-decoration: none; transition: background 150ms ease, color 150ms ease;
-  }
-  .lib-pagination a { color: var(--md-on-surface-variant); border: 1px solid var(--md-outline-variant); }
-  .lib-pagination a:hover { background: var(--md-surface-container-high); text-decoration: none; }
-  .lib-pagination .current { background: var(--md-primary); color: var(--md-on-primary); border: none; }
-  .lib-pagination .dots { color: var(--md-on-surface-variant); border: none; min-width: 32px; }
-  .lib-pagination .disabled { opacity: 0.4; pointer-events: none; }
-
-  /* Responsive breakpoints */
-  @media (max-width: 600px) {
-    .lib-header-row {
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-    .lib-header-row h1 {
-      font-size: 1.5rem;
-    }
-    .md-btn-text-responsive {
-      display: none;
-    }
-    .lib-header-actions .md-btn {
-      min-width: 40px;
-      height: 40px;
-      padding: 0;
-      justify-content: center;
-      gap: 0;
-      border-radius: 50%;
-    }
-    .lib-header-actions .md-btn .material-symbols-outlined {
-      margin: 0;
-    }
-    .lib-header-actions button .filter-dot {
-      position: absolute;
-      top: 8px;
-      right: 8px;
-    }
-    .lib-sort-bar {
-      flex-direction: column;
-      align-items: stretch;
-      gap: 10px;
-      padding: 12px 16px;
-    }
-    .lib-sort-controls {
-      display: flex;
-      justify-content: space-between;
-      width: 100%;
-      border-top: 1px solid var(--md-outline-variant);
-      padding-top: 8px;
-    }
-  }
-</style>
+<link rel="stylesheet" href="{% static 'web/css/pages/web-library.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -248,135 +54,49 @@
     </a>
   </div>
 
-  {% if current_tab == 'digital' %}
+{% if current_tab == 'digital' %}
+  <div id="library-main">
     <!-- Active filter chips -->
     {% if current_subjects or current_grades or current_types %}
     <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;align-items:center;">
       {% for s in current_subjects %}
-      <a href="{% url 'web:library' %}?tab={{ current_tab }}{% for ss in current_subjects %}{% if ss != s %}&subject={{ ss|urlencode }}{% endif %}{% endfor %}{% for g in current_grades %}&grade={{ g|urlencode }}{% endfor %}{% for t in current_types %}&type={{ t|urlencode }}{% endfor %}{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}" class="search-filter-chip">
+      <a href="{% url 'web:library' %}?tab={{ current_tab }}{% for ss in current_subjects %}{% if ss != s %}&subject={{ ss|urlencode }}{% endif %}{% endfor %}{% for g in current_grades %}&grade={{ g|urlencode }}{% endfor %}{% for t in current_types %}&type={{ t|urlencode }}{% endfor %}{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}" class="search-filter-chip" hx-get="{% url 'web:library' %}?tab={{ current_tab }}{% for ss in current_subjects %}{% if ss != s %}&subject={{ ss|urlencode }}{% endif %}{% endfor %}{% for g in current_grades %}&grade={{ g|urlencode }}{% endfor %}{% for t in current_types %}&type={{ t|urlencode }}{% endfor %}{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}" hx-target="#library-main" hx-swap="innerHTML" hx-push-url="true">
         {{ s }} <span class="material-symbols-outlined">close</span>
       </a>
       {% endfor %}
       {% for g in current_grades %}
-      <a href="{% url 'web:library' %}?tab={{ current_tab }}{% for s in current_subjects %}&subject={{ s|urlencode }}{% endfor %}{% for gg in current_grades %}{% if gg != g %}&grade={{ gg|urlencode }}{% endif %}{% endfor %}{% for t in current_types %}&type={{ t|urlencode }}{% endfor %}{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}" class="search-filter-chip">
+      <a href="{% url 'web:library' %}?tab={{ current_tab }}{% for s in current_subjects %}&subject={{ s|urlencode }}{% endfor %}{% for gg in current_grades %}{% if gg != g %}&grade={{ gg|urlencode }}{% endif %}{% endfor %}{% for t in current_types %}&type={{ t|urlencode }}{% endfor %}{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}" class="search-filter-chip" hx-get="{% url 'web:library' %}?tab={{ current_tab }}{% for s in current_subjects %}&subject={{ s|urlencode }}{% endfor %}{% for gg in current_grades %}{% if gg != g %}&grade={{ gg|urlencode }}{% endif %}{% endfor %}{% for t in current_types %}&type={{ t|urlencode }}{% endfor %}{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}" hx-target="#library-main" hx-swap="innerHTML" hx-push-url="true">
         {{ g }} <span class="material-symbols-outlined">close</span>
       </a>
       {% endfor %}
       {% for t in current_types %}
-      <a href="{% url 'web:library' %}?tab={{ current_tab }}{% for s in current_subjects %}&subject={{ s|urlencode }}{% endfor %}{% for g in current_grades %}&grade={{ g|urlencode }}{% endfor %}{% for tt in current_types %}{% if tt != t %}&type={{ tt|urlencode }}{% endif %}{% endfor %}{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}" class="search-filter-chip">
+      <a href="{% url 'web:library' %}?tab={{ current_tab }}{% for s in current_subjects %}&subject={{ s|urlencode }}{% endfor %}{% for g in current_grades %}&grade={{ g|urlencode }}{% endfor %}{% for tt in current_types %}{% if tt != t %}&type={{ tt|urlencode }}{% endif %}{% endfor %}{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}" class="search-filter-chip" hx-get="{% url 'web:library' %}?tab={{ current_tab }}{% for s in current_subjects %}&subject={{ s|urlencode }}{% endfor %}{% for g in current_grades %}&grade={{ g|urlencode }}{% endfor %}{% for tt in current_types %}{% if tt != t %}&type={{ tt|urlencode }}{% endif %}{% endfor %}{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}" hx-target="#library-main" hx-swap="innerHTML" hx-push-url="true">
         {{ t }} <span class="material-symbols-outlined">close</span>
       </a>
       {% endfor %}
-      <a href="{% url 'web:library' %}?tab={{ current_tab }}{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}" style="font-size:0.8125rem;color:var(--md-primary);text-decoration:none;font-weight:600;">Clear all</a>
+      <a href="{% url 'web:library' %}?tab={{ current_tab }}{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}" style="font-size:0.8125rem;color:var(--md-primary);text-decoration:none;font-weight:600;" hx-get="{% url 'web:library' %}?tab={{ current_tab }}{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}" hx-target="#library-main" hx-swap="innerHTML" hx-push-url="true">Clear all</a>
     </div>
     {% endif %}
 
     <!-- Sort bar -->
     <div class="lib-sort-bar">
-      <div class="lib-count">Showing <strong>{{ page_obj.start_index }}–{{ page_obj.end_index }}</strong> of <strong>{{ page_obj.paginator.count }}</strong> resources</div>
+      <div class="lib-count">Showing <strong>{{ page_obj.start_index }}&ndash;{{ page_obj.end_index }}</strong> of <strong>{{ page_obj.paginator.count }}</strong> resources</div>
       <div class="lib-sort-controls">
         <span style="font-size:0.8125rem;color:var(--md-on-surface-variant);">Sort by:</span>
-        <select data-change-action="navigate-sort">
-          <option value="?tab={{ current_tab }}&sort=relevant{% for s in current_subjects %}&subject={{ s|urlencode }}{% endfor %}{% for g in current_grades %}&grade={{ g|urlencode }}{% endfor %}{% for t in current_types %}&type={{ t|urlencode }}{% endfor %}" {% if current_sort == 'relevant' %}selected{% endif %}>Most Relevant</option>
-          <option value="?tab={{ current_tab }}&sort=newest{% for s in current_subjects %}&subject={{ s|urlencode }}{% endfor %}{% for g in current_grades %}&grade={{ g|urlencode }}{% endfor %}{% for t in current_types %}&type={{ t|urlencode }}{% endfor %}" {% if current_sort == 'newest' %}selected{% endif %}>Newest</option>
-          <option value="?tab={{ current_tab }}&sort=oldest{% for s in current_subjects %}&subject={{ s|urlencode }}{% endfor %}{% for g in current_grades %}&grade={{ g|urlencode }}{% endfor %}{% for t in current_types %}&type={{ t|urlencode }}{% endfor %}" {% if current_sort == 'oldest' %}selected{% endif %}>Oldest</option>
+        <select data-change-action="navigate-sort" hx-get="{% url 'web:library' %}" hx-target="#library-main" hx-swap="innerHTML" hx-push-url="true" hx-trigger="change" hx-include="#sort-params">
+          <option value="relevant" {% if current_sort == 'relevant' %}selected{% endif %}>Most Relevant</option>
+          <option value="trending" {% if current_sort == 'trending' %}selected{% endif %}>Trending</option>
+          <option value="newest" {% if current_sort == 'newest' %}selected{% endif %}>Newest</option>
+          <option value="liked" {% if current_sort == 'liked' %}selected{% endif %}>Most Liked</option>
+          <option value="oldest" {% if current_sort == 'oldest' %}selected{% endif %}>Oldest</option>
         </select>
+        <span id="sort-params" style="display:none;" data-tab="{{ current_tab }}" data-subjects="{{ current_subjects|join:',' }}" data-grades="{{ current_grades|join:',' }}" data-types="{{ current_types|join:',' }}"></span>
       </div>
     </div>
 
     <!-- Resource Grid -->
-    {% if resources %}
-    <div class="resource-grid">
-      {% for r in resources %}
-      <a href="{% url 'web:reader' resource_id=r.id %}" class="resource-card subject-{{ r.subject|split:','|first|subject_slug }}">
-        <div class="resource-card-art">
-          {% if r.thumbnail_url %}
-            <img src="{{ r.thumbnail_url }}" alt="{{ r.title }}" class="resource-card-art-img" loading="lazy">
-          {% else %}
-            <svg viewBox="0 0 300 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-              <rect width="300" height="120" fill="var(--art-c1)"/>
-              <path d="M0,120 L0,70 Q40,20 100,55 Q160,90 220,45 Q270,10 300,50 L300,120Z" fill="var(--art-c2)" opacity="0.5"/>
-              <path d="M0,120 L0,85 Q60,40 130,70 Q200,100 260,60 L300,75 L300,120Z" fill="var(--art-c3)" opacity="0.35"/>
-              <path d="M0,120 L0,95 Q80,65 160,85 Q240,105 300,80 L300,120Z" fill="var(--art-c4)" opacity="0.2"/>
-            </svg>
-          {% endif %}
-          <span class="resource-card-type-pill">{{ r.type }}</span>
-          <span class="resource-card-art-icon material-symbols-outlined">{{ r.subject|split:','|first|subject_icon }}</span>
-        </div>
-        <div class="resource-card-info">
-          <div class="resource-card-subject-chip">
-            {% with subjs=r.subject|split:"," %}
-              {{ subjs|first }}
-              {% if subjs|length > 1 %}
-                +{{ subjs|length|add:"-1" }} more
-              {% endif %}
-            {% endwith %}
-          </div>
-          <div class="resource-card-title">{{ r.title }}</div>
-          <div class="resource-card-meta">
-            {{ r.grade_level }}{% if r.file_size %} &middot; {{ r.file_size|file_size_human }}{% endif %}
-          </div>
-          <div class="resource-card-stats">
-            <span class="material-symbols-outlined">visibility</span> {{ r.view_count|short_number }} &middot; {{ r.added_at|time_ago }}
-          </div>
-        </div>
-      </a>
-      {% endfor %}
-
-      <!-- Coming soon card -->
-      {% if not page_obj.has_next %}
-      <div class="lib-coming-soon">
-        <div class="lib-coming-soon-icon">
-          <span class="material-symbols-outlined">inventory_2</span>
-        </div>
-        <h3>More coming soon</h3>
-        <p style="margin-bottom: 12px;">Our academic team is actively compiling new resources.</p>
-        <a href="{% url 'web:resource_requests' %}" class="md-btn md-btn-tonal" style="font-size: 0.8125rem; min-height: 36px; padding: 6px 16px;">
-          <span class="material-symbols-outlined" style="font-size:18px">contact_support</span>
-          Request a Resource
-        </a>
-      </div>
-      {% endif %}
-    </div>
-
-    <!-- Pagination -->
-    {% if page_obj.paginator.num_pages > 1 %}
-    <div class="lib-pagination">
-      {% if page_obj.has_previous %}
-      <a href="?page={{ page_obj.previous_page_number }}&tab={{ current_tab }}&sort={{ current_sort }}{% for s in current_subjects %}&subject={{ s|urlencode }}{% endfor %}{% for g in current_grades %}&grade={{ g|urlencode }}{% endfor %}{% for t in current_types %}&type={{ t|urlencode }}{% endfor %}">
-        <span class="material-symbols-outlined" style="font-size:20px">chevron_left</span>
-      </a>
-      {% else %}
-      <span class="disabled"><span class="material-symbols-outlined" style="font-size:20px">chevron_left</span></span>
-      {% endif %}
-
-      {% for num in page_obj.paginator.page_range %}
-        {% if page_obj.number == num %}
-        <span class="current">{{ num }}</span>
-        {% elif num == 1 or num == page_obj.paginator.num_pages or num == page_obj.number|add:1 or num == page_obj.number|add:-1 %}
-        <a href="?page={{ num }}&tab={{ current_tab }}&sort={{ current_sort }}{% for s in current_subjects %}&subject={{ s|urlencode }}{% endfor %}{% for g in current_grades %}&grade={{ g|urlencode }}{% endfor %}{% for t in current_types %}&type={{ t|urlencode }}{% endfor %}">{{ num }}</a>
-        {% elif num == 2 and page_obj.number > 4 or num == page_obj.paginator.num_pages|add:-1 and page_obj.number < page_obj.paginator.num_pages|add:-3 %}
-        <span class="dots">&hellip;</span>
-        {% endif %}
-      {% endfor %}
-
-      {% if page_obj.has_next %}
-      <a href="?page={{ page_obj.next_page_number }}&tab={{ current_tab }}&sort={{ current_sort }}{% for s in current_subjects %}&subject={{ s|urlencode }}{% endfor %}{% for g in current_grades %}&grade={{ g|urlencode }}{% endfor %}{% for t in current_types %}&type={{ t|urlencode }}{% endfor %}">
-        <span class="material-symbols-outlined" style="font-size:20px">chevron_right</span>
-      </a>
-      {% else %}
-      <span class="disabled"><span class="material-symbols-outlined" style="font-size:20px">chevron_right</span></span>
-      {% endif %}
-    </div>
-    {% endif %}
-
-    {% else %}
-    <div class="empty-state">
-      <span class="material-symbols-outlined">auto_stories</span>
-      <h3>No resources found</h3>
-      <p>Try adjusting your filters or <a href="{% url 'web:resource_requests' %}" style="color:var(--md-primary)">request a resource</a>.</p>
-    </div>
-    {% endif %}
+    {% include "web/_library_content.html" %}
+  </div>
 
   {% else %}
     <!-- Syllabus Categories tab accordion -->
@@ -504,7 +224,11 @@ function applyFilters() {
   });
 
   var qs = params.toString();
-  window.location.href = '{% url "web:library" %}' + (qs ? '?' + qs : '');
+  var url = '{% url "web:library" %}' + (qs ? '?' + qs : '');
+  htmx.ajax('GET', url, '#library-main', {swap: 'innerHTML'});
+  history.pushState({}, '', url);
+  document.getElementById('filter-dialog').style.display = 'none';
+  document.body.style.overflow = '';
 }
 
 registerActions({
@@ -512,7 +236,19 @@ registerActions({
   'close-filter-dialog': function(el, e) { if (e.target === el) { el.style.display = 'none'; document.body.style.overflow = ''; } },
   'toggle-filter-chip': function(el) { el.classList.toggle('selected'); },
   'apply-filters': function() { applyFilters(); },
-  'navigate-sort': function(el) { window.location.href = el.value; },
+  'navigate-sort': function(el) {
+    var sortVal = el.value;
+    var params = new URLSearchParams();
+    params.set('tab', '{{ current_tab }}');
+    params.set('sort', sortVal);
+    {% for s in current_subjects %}params.append('subject', '{{ s }}');{% endfor %}
+    {% for g in current_grades %}params.append('grade', '{{ g }}');{% endfor %}
+    {% for t in current_types %}params.append('type', '{{ t }}');{% endfor %}
+    var qs = params.toString();
+    var url = '{% url "web:library" %}?' + qs;
+    htmx.ajax('GET', url, '#library-main', {swap: 'innerHTML'});
+    history.pushState({}, '', url);
+  },
   'toggle-chapter': function(el) {
     const parent = el.closest('.chapter-section');
     if (parent) {

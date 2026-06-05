@@ -1,95 +1,531 @@
 {% extends "admin_panel/base.html" %}
+{% load static %}
 
-{% block title %}{% if is_edit %}Edit{% else %}Add{% endif %} Syllabus Chapter / Topic{% endblock %}
+{% block title %}{% if is_edit %}Edit{% else %}Add{% endif %} Syllabus Chapter{% endblock %}
 
 {% block content %}
-<div class="admin-back-link" style="margin-bottom:16px;">
-  <a href="{% url 'web:admin_syllabus_list' %}" class="md-btn md-btn-text" style="padding-left:0; text-decoration:none;">
-    <span class="material-symbols-outlined" style="font-size:18px; vertical-align:middle; margin-right:4px;">arrow_back</span>
-    Back to Syllabus List
-  </a>
-</div>
+<div style="max-width:800px;margin:0 auto;">
+  <div style="margin-bottom:24px;">
+    <a href="{% url 'web:admin_syllabus_list' %}" class="back-link" style="margin-bottom:12px;display:inline-flex;">
+      <span class="material-symbols-outlined">arrow_back</span>
+      Back to Syllabus
+    </a>
+    <h1 class="md-headline-medium" style="margin:0;">{% if is_edit %}Edit{% else %}Add{% endif %} Syllabus Chapter</h1>
+    {% if is_edit %}
+    <p class="md-body-small" style="color:var(--md-on-surface-variant);margin:4px 0 0;">
+      Editing: <strong>{{ syllabus.chapter_title }}</strong> &middot; {{ syllabus.grade_level }} &middot; {{ syllabus.subject }}
+    </p>
+    {% endif %}
+  </div>
 
-<h1 class="md-title-large" style="margin-bottom:24px;">{% if is_edit %}Edit{% else %}Add{% endif %} Syllabus Chapter</h1>
+  {% if form_error %}
+  <div class="syllabus-error-banner" style="display:flex;align-items:center;gap:10px;padding:12px 16px;background:color-mix(10%,var(--md-error),transparent);border:1px solid color-mix(30%,var(--md-error),transparent);border-radius:12px;margin-bottom:20px;">
+    <span class="material-symbols-outlined" style="color:var(--md-error);font-size:22px;">error</span>
+    <span style="color:var(--md-error);font-size:0.9375rem;">{{ form_error }}</span>
+  </div>
+  {% endif %}
 
-<div class="md-card-elevated p-4" style="max-width:800px; margin:0 auto; background:var(--md-surface-container-low);">
   <form method="post" id="syllabusForm">
     {% csrf_token %}
-    
-    <div class="form-row" style="display:flex; gap:16px; margin-bottom:16px; flex-wrap:wrap;">
-      <div class="form-group" style="flex:1; min-width:240px;">
-        <label class="md-label" for="grade_level">Level / Grade <span style="color:var(--md-error, #ba1a1a);">*</span></label>
-        <select id="grade_level" name="grade_level" class="md-select" required style="width:100%;">
-          <option value="" disabled {% if not syllabus.grade_level %}selected{% endif %}>Select Level</option>
-          {% for level in education_levels %}
-          <option value="{{ level }}" {% if syllabus.grade_level == level %}selected{% endif %}>{{ level }}</option>
-          {% endfor %}
-        </select>
+    <input type="hidden" id="subject-hidden" name="subject" value="{% if is_edit %}{{ syllabus.subject }}{% elif form_data.subject %}{{ form_data.subject }}{% endif %}">
+
+    <div class="upload-section">
+      <div class="upload-section-header">
+        <span class="material-symbols-outlined">school</span>
+        <h2>Level &amp; Subject</h2>
       </div>
 
-      <div class="form-group" style="flex:1; min-width:240px;">
-        <label class="md-label" for="subject">Subject <span style="color:var(--md-error, #ba1a1a);">*</span></label>
-        <input type="text" id="subject" name="subject" class="md-input" value="{{ syllabus.subject|default:'' }}" required placeholder="e.g., English, Chemistry" style="width:100%;">
+      <div class="upload-row" style="margin-bottom:16px;">
+        <div class="upload-field upload-field-half">
+          <label class="md-label" for="grade_level">Level / Grade <span style="color:var(--md-error, #ba1a1a);">*</span></label>
+          <select id="grade_level" name="grade_level" class="md-select" required style="width:100%;">
+            <option value="" disabled {% if not syllabus.grade_level and not form_data.grade_level %}selected{% endif %}>Select Level</option>
+            {% for level in education_levels %}
+            <option value="{{ level }}" {% if syllabus.grade_level == level or form_data.grade_level == level %}selected{% endif %}>{{ level }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="upload-field upload-field-half">
+          <label class="md-label">Subject <span style="color:var(--md-error, #ba1a1a);">*</span></label>
+          <div class="subject-chips-area" id="subject-chips-area">
+            <div class="subject-chips" id="subject-chips"></div>
+            <div class="subject-input-row">
+              <input class="md-input subject-input" type="text" id="subject-input" placeholder="Type a subject and press Enter" autocomplete="off">
+              <button type="button" class="md-btn md-btn-tonal subject-pick-btn" id="subject-pick-btn">
+                <span class="material-symbols-outlined">checklist</span>
+                Pick
+              </button>
+            </div>
+            <div class="upload-hint">Press Enter to add. Click Pick to browse suggestions for the selected grade.</div>
+          </div>
+        </div>
+      </div>
+
+      <div id="grade-subject-suggestion" style="display:none;margin-bottom:16px;">
+        <label class="md-label" style="margin-bottom:8px;display:block;">Quick Pick — Subjects for <span id="grade-label-suggestion"></span></label>
+        <div id="grade-subject-chips" style="display:flex;flex-wrap:wrap;gap:6px;"></div>
       </div>
     </div>
 
-    <div class="form-group" style="margin-bottom:16px;">
-      <label class="md-label" for="chapter_title">Chapter Title <span style="color:var(--md-error, #ba1a1a);">*</span></label>
-      <input type="text" id="chapter_title" name="chapter_title" class="md-input" value="{{ syllabus.chapter_title|default:'' }}" required placeholder="e.g., Story 1: The Selfish Giant" style="width:100%;">
-      <div class="md-body-small" style="color:var(--md-on-surface-variant); margin-top:4px;">Keep it descriptive. Example: "Chapter 1: Database Management System" or "Story 1: The Selfish Giant".</div>
-    </div>
-
-    <div class="form-row" style="display:flex; gap:16px; margin-bottom:16px; flex-wrap:wrap;">
-      <div class="form-group" style="flex:2; min-width:240px;">
-        <label class="md-label" for="chapter_id">Chapter ID / Slug <span style="color:var(--md-error, #ba1a1a);">*</span></label>
-        <input type="text" id="chapter_id" name="chapter_id" class="md-input" value="{{ syllabus.chapter_id|default:'' }}" required placeholder="e.g., the-selfish-giant" style="width:100%;">
-        <div class="md-body-small" style="color:var(--md-on-surface-variant); margin-top:4px;">Unique URL-friendly identifier. Auto-generates as you type the title.</div>
+    <div class="upload-section">
+      <div class="upload-section-header">
+        <span class="material-symbols-outlined">title</span>
+        <h2>Chapter Details</h2>
       </div>
 
-      <div class="form-group" style="flex:1; min-width:120px;">
-        <label class="md-label" for="order">Display Order</label>
-        <input type="number" id="order" name="order" class="md-input" value="{{ syllabus.order|default:'0' }}" placeholder="0" style="width:100%;">
-        <div class="md-body-small" style="color:var(--md-on-surface-variant); margin-top:4px;">Ascending order list sorting.</div>
+      <div class="upload-field">
+        <label class="md-label" for="chapter_title">Chapter Title <span style="color:var(--md-error, #ba1a1a);">*</span></label>
+        <input type="text" id="chapter_title" name="chapter_title" class="md-input" value="{% if is_edit %}{{ syllabus.chapter_title }}{% elif form_data.chapter_title %}{{ form_data.chapter_title }}{% endif %}" required placeholder="e.g., Story 1: The Selfish Giant" style="width:100%;">
+        <div class="upload-hint">Keep it descriptive. Example: "Chapter 1: Database Management System" or "Story 1: The Selfish Giant".</div>
+      </div>
+
+      <div class="upload-row">
+        <div class="upload-field" style="flex:2;">
+          <label class="md-label" for="chapter_id">Chapter ID / Slug <span style="color:var(--md-error, #ba1a1a);">*</span></label>
+          <input type="text" id="chapter_id" name="chapter_id" class="md-input" value="{% if is_edit %}{{ syllabus.chapter_id }}{% elif form_data.chapter_id %}{{ form_data.chapter_id }}{% endif %}" required placeholder="e.g., the-selfish-giant" style="width:100%;">
+          <div class="upload-hint">Unique URL-friendly identifier. Auto-generates from the title.</div>
+          <div id="slug-status" style="display:none;font-size:0.8125rem;margin-top:4px;"></div>
+        </div>
+
+        <div class="upload-field" style="flex:1;">
+          <label class="md-label" for="order">Display Order</label>
+          <input type="number" id="order" name="order" class="md-input" value="{% if is_edit %}{{ syllabus.order }}{% elif form_data.order %}{{ form_data.order }}{% else %}0{% endif %}" placeholder="0" style="width:100%;">
+          <div class="upload-hint">Ascending sort order.</div>
+        </div>
       </div>
     </div>
 
-    <div class="form-group" style="margin-bottom:20px;">
-      <label class="md-label" for="text_content">Syllabus Guide &amp; Summary (Markdown)</label>
-      <textarea id="text_content" name="text_content" class="md-input" rows="8" placeholder="Enter chapter overview, summary notes, or main syllabus highlights in Markdown format..." style="width:100%; resize:vertical; font-family:inherit;">{{ syllabus.text_content|default:'' }}</textarea>
+    <div class="upload-section">
+      <div class="upload-section-header">
+        <span class="material-symbols-outlined">description</span>
+        <h2>Syllabus Guide &amp; Summary</h2>
+        <button type="button" class="md-btn md-btn-text" id="toggle-preview-md" style="margin-left:auto;font-size:0.8125rem;min-height:32px;">
+          <span class="material-symbols-outlined" style="font-size:18px;">visibility</span>
+          Preview
+        </button>
+      </div>
+
+      <div class="upload-field" style="margin-bottom:0;">
+        <textarea id="text_content" name="text_content" class="md-input" rows="10" placeholder="Enter chapter overview, summary notes, or main syllabus highlights in Markdown format..." style="width:100%;resize:vertical;font-family:'Poppins',sans-serif;font-size:0.9375rem;line-height:1.6;">{% if is_edit %}{{ syllabus.text_content }}{% elif form_data.text_content %}{{ form_data.text_content }}{% endif %}</textarea>
+      </div>
+
+      <div id="md-preview-panel" style="display:none;margin-top:16px;padding:16px;background:var(--md-surface-container);border-radius:12px;border:1px solid var(--md-outline-variant);">
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:12px;">
+          <span class="material-symbols-outlined" style="font-size:18px;color:var(--md-primary);">visibility</span>
+          <span class="md-label" style="margin:0;">Markdown Preview</span>
+        </div>
+        <div id="md-preview-content" class="md-content" style="font-size:0.9375rem;line-height:1.7;max-height:400px;overflow-y:auto;"></div>
+      </div>
     </div>
 
-    <div class="form-group" style="margin-bottom:24px;">
-      <label class="md-label" for="question_answers">Solved Textbook Q&amp;As</label>
-      <textarea id="question_answers" name="question_answers" class="md-input" rows="8" placeholder="Format:&#10;Q: First question goes here?&#10;A: Detailed answer in Markdown or plain text goes here.&#10;&#10;Q: Second question?&#10;A: Second answer." style="width:100%; resize:vertical; font-family:monospace; font-size:0.875rem;">{{ syllabus.question_answers|default:'' }}</textarea>
-      <div class="md-body-small" style="color:var(--md-on-surface-variant); margin-top:4px;">Use the strict <code>Q:</code> and <code>A:</code> prefixes for each question and answer block. Leave empty lines between QA blocks.</div>
+    <div class="upload-section">
+      <div class="upload-section-header">
+        <span class="material-symbols-outlined">quiz</span>
+        <h2>Solved Q&amp;As</h2>
+        <span class="upload-details-badge">optional</span>
+      </div>
+
+      <div class="upload-field" style="margin-bottom:0;">
+        <textarea id="question_answers" name="question_answers" class="md-input" rows="8" placeholder="Format:&#10;Q: First question goes here?&#10;A: Detailed answer in Markdown or plain text goes here.&#10;&#10;Q: Second question?&#10;A: Second answer." style="width:100%;resize:vertical;font-family:monospace;font-size:0.875rem;line-height:1.6;">{% if is_edit %}{{ syllabus.question_answers }}{% elif form_data.question_answers %}{{ form_data.question_answers }}{% endif %}</textarea>
+        <div class="upload-hint">Use <code>Q:</code> and <code>A:</code> prefixes for each block. Leave empty lines between blocks.</div>
+      </div>
+
+      <div id="qa-preview-panel" style="display:none;margin-top:16px;padding:16px;background:var(--md-surface-container);border-radius:12px;border:1px solid var(--md-outline-variant);">
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:12px;">
+          <span class="material-symbols-outlined" style="font-size:18px;color:var(--md-primary);">quiz</span>
+          <span class="md-label" style="margin:0;">Q&amp;A Preview</span>
+        </div>
+        <div id="qa-preview-content" style="max-height:400px;overflow-y:auto;"></div>
+      </div>
+
+      <div style="display:flex;gap:8px;margin-top:12px;">
+        <button type="button" class="md-btn md-btn-text" id="toggle-preview-qa" style="font-size:0.8125rem;min-height:32px;">
+          <span class="material-symbols-outlined" style="font-size:18px;">visibility</span>
+          Preview Q&amp;As
+        </button>
+      </div>
     </div>
 
-    <div class="form-actions" style="display:flex; gap:12px; justify-content:flex-end;">
-      <a href="{% url 'web:admin_syllabus_list' %}" class="md-btn md-btn-text" style="min-height:36px; text-decoration:none;">Cancel</a>
-      <button type="submit" class="md-btn md-btn-filled" style="min-height:36px;">Save Syllabus Chapter</button>
+    <div class="upload-actions">
+      <a href="{% url 'web:admin_syllabus_list' %}" class="md-btn md-btn-text" style="text-decoration:none;">Cancel</a>
+      <button type="submit" class="md-btn md-btn-filled">
+        <span class="material-symbols-outlined" style="font-size:18px;">save</span>
+        {% if is_edit %}Save Changes{% else %}Create Chapter{% endif %}
+      </button>
     </div>
   </form>
 </div>
+
+<div class="subject-pick-overlay" id="subject-pick-overlay" style="display:none">
+  <div class="subject-pick-dialog">
+    <div class="subject-pick-header">
+      <h3>Select Subject</h3>
+      <button type="button" class="subject-pick-close" id="subject-pick-close">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+    <div class="subject-pick-search">
+      <span class="material-symbols-outlined">search</span>
+      <input type="text" id="subject-pick-search" placeholder="Search subjects..." autocomplete="off">
+    </div>
+    <div class="subject-pick-list" id="subject-pick-list">
+      {% for s in existing_subjects %}
+      <label class="subject-pick-item" data-subject="{{ s }}">
+        <input type="checkbox" class="subject-pick-checkbox" value="{{ s }}">
+        <span class="subject-pick-check">
+          <span class="material-symbols-outlined">check</span>
+        </span>
+        <span class="subject-pick-label">{{ s }}</span>
+      </label>
+      {% endfor %}
+    </div>
+    <div class="subject-pick-add">
+      <input type="text" id="subject-pick-custom" placeholder="Add a custom subject" autocomplete="off">
+      <button type="button" class="md-btn md-btn-tonal" id="subject-pick-add-btn">
+        <span class="material-symbols-outlined">add</span>
+        Add
+      </button>
+    </div>
+    <div class="subject-pick-actions">
+      <button type="button" class="md-btn md-btn-text" id="subject-pick-cancel">Cancel</button>
+      <button type="button" class="md-btn md-btn-filled" id="subject-pick-done">Done</button>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'web/css/pages/admin-panel-syllabus-form.css' %}">
 {% endblock %}
 
 {% block extra_js %}
 <script nonce="{{ csp_nonce }}">
-  // Auto-slugify helper
-  const titleInput = document.getElementById('chapter_title');
-  const slugInput = document.getElementById('chapter_id');
-  const isEdit = {% if is_edit %}true{% else %}false{% endif %};
+(function() {
+  var gradeSubjects = {{ grade_subjects_json|safe }};
+  var existingIds = {{ existing_ids_json|safe }};
+  var isEdit = {% if is_edit %}true{% else %}false{% endif %};
 
-  if (titleInput && slugInput && !isEdit) {
-    titleInput.addEventListener('input', function() {
-      let text = titleInput.value.toLowerCase().trim();
-      
-      // Replace non-alphanumeric with hyphens
-      text = text.replace(/[^a-z0-9]+/g, '-');
-      // Strip leading/trailing hyphens
-      text = text.replace(/^-+|-+$/g, '');
-      
-      slugInput.value = text;
+  function escapeHtml(str) {
+    var div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  var subjectPicker = (function() {
+    var hiddenInput = document.getElementById('subject-hidden');
+    var chipContainer = document.getElementById('subject-chips');
+    var textInput = document.getElementById('subject-input');
+    var pickBtn = document.getElementById('subject-pick-btn');
+    var overlay = document.getElementById('subject-pick-overlay');
+    var closeBtn = document.getElementById('subject-pick-close');
+    var searchInput = document.getElementById('subject-pick-search');
+    var pickList = document.getElementById('subject-pick-list');
+    var customInput = document.getElementById('subject-pick-custom');
+    var addBtn = document.getElementById('subject-pick-add-btn');
+    var cancelBtn = document.getElementById('subject-pick-cancel');
+    var doneBtn = document.getElementById('subject-pick-done');
+    var items = [];
+
+    function init() {
+      var val = hiddenInput.value;
+      if (val) {
+        items = val.split(',').map(function(s) { return s.trim(); }).filter(function(s) { return s; });
+      }
+      renderChips();
+    }
+
+    function renderChips() {
+      chipContainer.innerHTML = '';
+      items.forEach(function(s) {
+        var chip = document.createElement('span');
+        chip.className = 'subject-chip';
+        chip.innerHTML = escapeHtml(s) + '<button type="button" class="subject-chip-remove" data-item="' + escapeHtml(s) + '"><span class="material-symbols-outlined">close</span></button>';
+        chipContainer.appendChild(chip);
+      });
+      hiddenInput.value = items.join(', ');
+      chipContainer.querySelectorAll('.subject-chip-remove').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          removeItem(btn.getAttribute('data-item'));
+        });
+      });
+    }
+
+    function addItem(name) {
+      name = name.trim();
+      if (!name) return;
+      name.split(/[,;]/).forEach(function(part) {
+        part = part.trim();
+        if (!part) return;
+        var lower = part.toLowerCase();
+        var exists = items.some(function(s) { return s.toLowerCase() === lower; });
+        if (!exists) { items.push(part); }
+      });
+      renderChips();
+    }
+
+    function removeItem(name) {
+      items = items.filter(function(s) { return s !== name; });
+      renderChips();
+    }
+
+    textInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ',' || e.key === 'Tab') {
+        var val = textInput.value.replace(/,$/, '').trim();
+        if (val) { e.preventDefault(); addItem(val); textInput.value = ''; }
+      } else if (e.key === 'Backspace' && !textInput.value && items.length) {
+        removeItem(items[items.length - 1]);
+      }
+    });
+
+    textInput.addEventListener('blur', function() {
+      var val = textInput.value.replace(/,$/, '').trim();
+      if (val) { addItem(val); textInput.value = ''; }
+    });
+
+    pickBtn.addEventListener('click', function() {
+      overlay.style.display = '';
+      document.body.style.overflow = 'hidden';
+      searchInput.value = '';
+      filterList('');
+      syncSelection();
+      searchInput.focus();
+    });
+
+    closeBtn.addEventListener('click', function() { document.body.style.overflow = ''; overlay.style.display = 'none'; });
+    cancelBtn.addEventListener('click', function() { document.body.style.overflow = ''; overlay.style.display = 'none'; });
+    overlay.addEventListener('click', function(e) {
+      if (e.target === overlay) { document.body.style.overflow = ''; overlay.style.display = 'none'; }
+    });
+
+    searchInput.addEventListener('input', function() { filterList(searchInput.value); });
+
+    function filterList(query) {
+      var q = query.toLowerCase();
+      pickList.querySelectorAll('.subject-pick-item').forEach(function(item) {
+        var label = item.getAttribute('data-subject').toLowerCase();
+        item.style.display = label.indexOf(q) >= 0 ? '' : 'none';
+      });
+    }
+
+    pickList.addEventListener('change', function(e) {
+      var checkbox = e.target;
+      if (checkbox && checkbox.classList.contains('subject-pick-checkbox')) {
+        var item = checkbox.closest('.subject-pick-item');
+        if (item) { item.classList.toggle('selected', checkbox.checked); }
+      }
+    });
+
+    addBtn.addEventListener('click', function() {
+      var val = customInput.value.trim();
+      if (val) {
+        addItem(val);
+        customInput.value = '';
+        var existingItem = pickList.querySelector('[data-subject="' + CSS.escape(val) + '"]');
+        if (!existingItem) {
+          var label = document.createElement('label');
+          label.className = 'subject-pick-item selected';
+          label.setAttribute('data-subject', val);
+          label.innerHTML = '<input type="checkbox" class="subject-pick-checkbox" checked><span class="subject-pick-check"><span class="material-symbols-outlined">check</span></span><span class="subject-pick-label">' + escapeHtml(val) + '</span>';
+          pickList.appendChild(label);
+        }
+      }
+    });
+
+    customInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') { e.preventDefault(); addBtn.click(); }
+    });
+
+    doneBtn.addEventListener('click', function() {
+      var selected = [];
+      pickList.querySelectorAll('.subject-pick-item.selected').forEach(function(item) {
+        selected.push(item.getAttribute('data-subject'));
+      });
+      items = selected;
+      renderChips();
+      document.body.style.overflow = '';
+      overlay.style.display = 'none';
+    });
+
+    function syncSelection() {
+      var lowerItems = items.map(function(s) { return s.toLowerCase(); });
+      pickList.querySelectorAll('.subject-pick-item').forEach(function(item) {
+        var subject = item.getAttribute('data-subject');
+        var isSel = lowerItems.indexOf(subject.toLowerCase()) >= 0;
+        item.classList.toggle('selected', isSel);
+        item.querySelector('.subject-pick-checkbox').checked = isSel;
+      });
+    }
+
+    init();
+    return { addItem: addItem, removeItem: removeItem, getItems: function() { return items; } };
+  })();
+
+  var gradeSelect = document.getElementById('grade_level');
+  var suggestionArea = document.getElementById('grade-subject-suggestion');
+  var gradeLabelSpan = document.getElementById('grade-label-suggestion');
+  var gradeChipsDiv = document.getElementById('grade-subject-chips');
+
+  function updateGradeSuggestions() {
+    var grade = gradeSelect.value;
+    if (!grade || !gradeSubjects[grade] || gradeSubjects[grade].length === 0) {
+      suggestionArea.style.display = 'none';
+      return;
+    }
+    gradeLabelSpan.textContent = grade;
+    gradeChipsDiv.innerHTML = '';
+    var currentSubject = subjectPicker.getItems().length > 0 ? subjectPicker.getItems()[0].toLowerCase() : '';
+    gradeSubjects[grade].forEach(function(subj) {
+      var chip = document.createElement('button');
+      chip.type = 'button';
+      chip.className = 'grade-suggestion-chip' + (subj.toLowerCase() === currentSubject ? ' active' : '');
+      chip.textContent = subj;
+      chip.addEventListener('click', function(e) {
+        e.preventDefault();
+        subjectPicker.addItem(subj);
+        gradeChipsDiv.querySelectorAll('.grade-suggestion-chip').forEach(function(c) { c.classList.remove('active'); });
+        chip.classList.add('active');
+      });
+      gradeChipsDiv.appendChild(chip);
+    });
+    suggestionArea.style.display = '';
+  }
+
+  gradeSelect.addEventListener('change', updateGradeSuggestions);
+  updateGradeSuggestions();
+
+  var titleInput = document.getElementById('chapter_title');
+  var slugInput = document.getElementById('chapter_id');
+  var slugStatus = document.getElementById('slug-status');
+
+  if (titleInput && slugInput) {
+    if (!isEdit) {
+      titleInput.addEventListener('input', function() {
+        var text = titleInput.value.toLowerCase().trim();
+        text = text.replace(/[^a-z0-9]+/g, '-');
+        text = text.replace(/^-+|-+$/g, '');
+        slugInput.value = text;
+        checkSlug(text);
+      });
+    }
+    slugInput.addEventListener('input', function() {
+      checkSlug(slugInput.value.trim());
     });
   }
+
+  function checkSlug(slug) {
+    if (!slug) { slugStatus.style.display = 'none'; return; }
+    if (existingIds.indexOf(slug) >= 0) {
+      slugStatus.innerHTML = '<span class="material-symbols-outlined" style="font-size:14px;vertical-align:middle;">error</span> This slug is already taken';
+      slugStatus.className = 'slug-taken';
+      slugStatus.style.display = '';
+    } else {
+      slugStatus.innerHTML = '<span class="material-symbols-outlined" style="font-size:14px;vertical-align:middle;">check_circle</span> Slug is available';
+      slugStatus.className = 'slug-ok';
+      slugStatus.style.display = '';
+    }
+  }
+
+  if (isEdit && slugInput && slugInput.value) {
+    checkSlug(slugInput.value.trim());
+  }
+
+  var mdTextarea = document.getElementById('text_content');
+  var mdPreviewPanel = document.getElementById('md-preview-panel');
+  var mdPreviewContent = document.getElementById('md-preview-content');
+  var toggleMdBtn = document.getElementById('toggle-preview-md');
+  var mdPreviewVisible = false;
+
+  toggleMdBtn.addEventListener('click', function() {
+    mdPreviewVisible = !mdPreviewVisible;
+    mdPreviewPanel.style.display = mdPreviewVisible ? '' : 'none';
+    toggleMdBtn.querySelector('.material-symbols-outlined').textContent = mdPreviewVisible ? 'visibility_off' : 'visibility';
+    if (mdPreviewVisible) renderMarkdown();
+  });
+
+  mdTextarea.addEventListener('input', function() {
+    if (mdPreviewVisible) renderMarkdown();
+  });
+
+  function renderMarkdown() {
+    var text = mdTextarea.value;
+    var html = simpleMarkdown(text);
+    mdPreviewContent.innerHTML = html || '<p style="color:var(--md-on-surface-variant);opacity:0.5;">No content yet. Start typing above...</p>';
+  }
+
+  function simpleMarkdown(md) {
+    if (!md) return '';
+    var html = escapeHtml(md);
+    html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+    html = html.replace(/^## (.+)$/gm, '<h2>$1</h2>');
+    html = html.replace(/^# (.+)$/gm, '<h1>$1</h1>');
+    html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+    html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
+    html = html.replace(/`(.+?)`/g, '<code>$1</code>');
+    html = html.replace(/^&gt; (.+)$/gm, '<blockquote>$1</blockquote>');
+    html = html.replace(/^- (.+)$/gm, '<li>$1</li>');
+    html = html.replace(/(<li>.*<\/li>)/gs, '<ul>$1</ul>');
+    html = html.replace(/<\/ul>\s*<ul>/g, '');
+    html = html.replace(/\n\n/g, '</p><p>');
+    html = html.replace(/\n/g, '<br>');
+    html = '<p>' + html + '</p>';
+    html = html.replace(/<p><\/p>/g, '');
+    html = html.replace(/<p><(h[1-3]|ul|blockquote)/g, '<$1');
+    html = html.replace(/<\/(h[1-3]|ul|blockquote)><\/p>/g, '</$1>');
+    return html;
+  }
+
+  var qaTextarea = document.getElementById('question_answers');
+  var qaPreviewPanel = document.getElementById('qa-preview-panel');
+  var qaPreviewContent = document.getElementById('qa-preview-content');
+  var toggleQaBtn = document.getElementById('toggle-preview-qa');
+  var qaPreviewVisible = false;
+
+  toggleQaBtn.addEventListener('click', function() {
+    qaPreviewVisible = !qaPreviewVisible;
+    qaPreviewPanel.style.display = qaPreviewVisible ? '' : 'none';
+    toggleQaBtn.querySelector('.material-symbols-outlined').textContent = qaPreviewVisible ? 'visibility_off' : 'visibility';
+    if (qaPreviewVisible) renderQA();
+  });
+
+  qaTextarea.addEventListener('input', function() {
+    if (qaPreviewVisible) renderQA();
+  });
+
+  function renderQA() {
+    var text = qaTextarea.value;
+    if (!text.trim()) {
+      qaPreviewContent.innerHTML = '<p style="color:var(--md-on-surface-variant);opacity:0.5;">No Q&amp;As yet. Use Q: and A: format above.</p>';
+      return;
+    }
+    var blocks = text.split(/\n\s*\n/);
+    var html = '';
+    blocks.forEach(function(block) {
+      var lines = block.trim().split('\n');
+      var question = '';
+      var answer = '';
+      lines.forEach(function(line) {
+        var trimmed = line.trim();
+        if (trimmed.match(/^Q[:：]\s*/i)) {
+          question = trimmed.replace(/^Q[:：]\s*/i, '');
+        } else if (trimmed.match(/^A[:：]\s*/i)) {
+          answer = trimmed.replace(/^A[:：]\s*/i, '');
+        } else if (question && !answer) {
+          question += ' ' + trimmed;
+        } else {
+          answer += (answer ? '\n' : '') + trimmed;
+        }
+      });
+      if (question || answer) {
+        html += '<div class="qa-block">';
+        if (question) html += '<div class="qa-question"><span class="material-symbols-outlined">help</span>' + simpleMarkdown(question) + '</div>';
+        if (answer) html += '<div class="qa-answer"><span class="material-symbols-outlined">lightbulb</span>' + simpleMarkdown(answer) + '</div>';
+        html += '</div>';
+      }
+    });
+    qaPreviewContent.innerHTML = html || '<p style="color:var(--md-on-surface-variant);opacity:0.5;">No Q&amp;As parsed. Use Q: and A: format.</p>';
+  }
+})();
 </script>
 {% endblock %}

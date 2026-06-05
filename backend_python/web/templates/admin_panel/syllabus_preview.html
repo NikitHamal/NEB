@@ -1,0 +1,140 @@
+{% extends "admin_panel/base.html" %}
+{% load web_extras %}
+
+{% block title %}Preview: {{ syllabus.chapter_title }}{% endblock %}
+
+{% block content %}
+<div style="max-width:900px;margin:0 auto;">
+  <div style="margin-bottom:24px;">
+    <a href="{% url 'web:admin_syllabus_list' %}" class="back-link" style="margin-bottom:12px;display:inline-flex;">
+      <span class="material-symbols-outlined">arrow_back</span>
+      All Chapters
+    </a>
+    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:8px;">
+      <h1 class="md-headline-medium" style="margin:0;flex:1;">{{ syllabus.chapter_title }}</h1>
+      {% if syllabus.id %}
+      <a href="{% url 'web:admin_syllabus_edit' entry_id=syllabus.id %}" class="md-btn md-btn-tonal" style="text-decoration:none;min-height:36px;">
+        <span class="material-symbols-outlined" style="font-size:18px;">edit</span>
+        Edit
+      </a>
+      {% endif %}
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;">
+      <span class="syllabus-subject-chip" style="background:var(--md-primary-container);color:var(--md-on-primary-container);">{{ syllabus.grade_level }}</span>
+      <span class="syllabus-subject-chip">{{ syllabus.subject }}</span>
+      <code style="font-size:0.75rem;background:var(--md-surface-container-high);padding:2px 8px;border-radius:4px;color:var(--md-on-surface-variant);">{{ syllabus.chapter_id }}</code>
+      <span style="font-size:0.75rem;color:var(--md-on-surface-variant);">Order: {{ syllabus.order }}</span>
+    </div>
+  </div>
+
+  {% if siblings %}
+  <div class="md-card-elevated" style="background:var(--md-surface-container-low);padding:16px;margin-bottom:20px;">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+      <span class="material-symbols-outlined" style="font-size:20px;color:var(--md-primary);">menu_book</span>
+      <span class="md-label" style="font-weight:600;">{{ syllabus.grade_level }} &middot; {{ syllabus.subject }} &mdash; All Chapters</span>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;">
+      {% for sib in siblings %}
+      {% if sib.id %}
+      <a href="{% url 'web:admin_syllabus_preview' entry_id=sib.id %}" style="display:inline-flex;align-items:center;gap:4px;padding:5px 12px;border-radius:var(--md-radius-full);text-decoration:none;font-size:0.8125rem;font-weight:500;{% if sib.id == syllabus.id %}background:var(--md-primary-container);color:var(--md-on-primary-container);font-weight:600;{% else %}background:var(--md-surface-container);color:var(--md-on-surface-variant);{% endif %}transition:background 150ms ease;">
+      {% else %}
+      <span style="display:inline-flex;align-items:center;gap:4px;padding:5px 12px;border-radius:var(--md-radius-full);font-size:0.8125rem;font-weight:500;background:var(--md-surface-container);color:var(--md-on-surface-variant);opacity:0.5;">
+      {% endif %}
+        <span style="color:var(--md-on-surface-variant);font-size:0.75rem;">{{ sib.order }}</span>
+        {{ sib.chapter_title }}
+      {% if sib.id %}</a>{% else %}</span>{% endif %}
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  {% if syllabus.text_content %}
+  <div class="md-card-elevated" style="background:var(--md-surface-container-low);padding:24px;margin-bottom:20px;">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;">
+      <span class="material-symbols-outlined" style="font-size:22px;color:var(--md-primary);">description</span>
+      <h2 style="margin:0;font-size:1.125rem;font-weight:600;color:var(--md-on-surface);">Syllabus Guide &amp; Summary</h2>
+    </div>
+    <div class="md-content" style="font-size:0.9375rem;line-height:1.7;">
+      {{ syllabus.text_content|markdown }}
+    </div>
+  </div>
+  {% endif %}
+
+  {% if syllabus.question_answers %}
+  <div class="md-card-elevated" style="background:var(--md-surface-container-low);padding:24px;margin-bottom:20px;">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;">
+      <span class="material-symbols-outlined" style="font-size:22px;color:var(--md-primary);">quiz</span>
+      <h2 style="margin:0;font-size:1.125rem;font-weight:600;color:var(--md-on-surface);">Solved Textbook Q&amp;As</h2>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px;">
+      {% for block in syllabus.question_answers|parse_qa %}
+      <details class="qa-accordion" style="border:1px solid var(--md-outline-variant);border-radius:var(--md-radius-md);overflow:hidden;background:var(--md-surface-container-low);">
+        <summary style="display:flex;align-items:flex-start;gap:10px;padding:14px 16px;cursor:pointer;font-size:0.9375rem;font-weight:600;color:var(--md-on-surface);line-height:1.5;list-style:none;">
+          <span style="flex:1;min-width:0;">{{ block.question }}</span>
+          <span class="material-symbols-outlined" style="font-size:20px;color:var(--md-on-surface-variant);flex-shrink:0;transition:transform 200ms ease;">expand_more</span>
+        </summary>
+        <div style="padding:0 16px 16px;font-size:0.9375rem;line-height:1.7;color:var(--md-on-surface-variant);">
+          {{ block.answer|markdown }}
+        </div>
+      </details>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  {% if not syllabus.text_content and not syllabus.question_answers %}
+  <div class="md-card-elevated" style="background:var(--md-surface-container-low);padding:48px 24px;text-align:center;">
+    <span class="material-symbols-outlined" style="font-size:48px;color:var(--md-on-surface-variant);opacity:0.5;">edit_note</span>
+    <h3 class="md-title-medium" style="margin:16px 0 8px;">No Content Yet</h3>
+    <p class="md-body-medium" style="color:var(--md-on-surface-variant);margin:0 0 16px;">This chapter has no guide or Q&amp;A content. Edit it to add content.</p>
+    {% if syllabus.id %}
+    <a href="{% url 'web:admin_syllabus_edit' entry_id=syllabus.id %}" class="md-btn md-btn-filled" style="text-decoration:none;">
+      <span class="material-symbols-outlined" style="font-size:18px;">edit</span>
+      Edit Chapter
+    </a>
+    {% endif %}
+  </div>
+  {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+details[open] > summary .material-symbols-outlined {
+  transform: rotate(180deg);
+  color: var(--md-primary);
+}
+details[open] {
+  border-color: var(--md-primary) !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+details > summary:hover {
+  background: var(--md-surface-container-high);
+}
+details > summary::-webkit-details-marker {
+  display: none;
+}
+.md-content h1, .md-content h2, .md-content h3 { margin: 0.75em 0 0.25em; font-weight: 600; }
+  .md-content h1 { font-size: 1.5rem; }
+  .md-content h2 { font-size: 1.25rem; }
+  .md-content h3 { font-size: 1.1rem; }
+  .md-content h4 { font-size: 1rem; font-weight: 600; margin: 0.5em 0 0.25em; }
+  .md-content h5 { font-size: 0.9375rem; font-weight: 600; margin: 0.5em 0 0.25em; }
+  .md-content h6 { font-size: 0.875rem; font-weight: 600; margin: 0.5em 0 0.25em; }
+  .md-content p { margin: 0.5em 0; }
+  .md-content ul, .md-content ol { margin: 0.5em 0; padding-left: 1.5em; }
+  .md-content li { margin-bottom: 4px; }
+  .md-content strong { font-weight: 600; }
+  .md-content em { font-style: italic; }
+  .md-content code { background: var(--md-surface-container-high); padding: 2px 6px; border-radius: 4px; font-size: 0.875rem; }
+  .md-content pre { background: var(--md-surface-container-high); padding: 12px 16px; border-radius: 8px; overflow-x: auto; margin: 0.75em 0; }
+  .md-content pre code { background: none; padding: 0; }
+  .md-content blockquote { border-left: 3px solid var(--md-primary); padding-left: 12px; margin: 0.5em 0; color: var(--md-on-surface-variant); }
+  .md-content hr { border: none; border-top: 1px solid var(--md-outline-variant); margin: 1em 0; }
+  .md-content table { width: 100%; border-collapse: collapse; margin: 0.75em 0; font-size: 0.875rem; }
+  .md-content th, .md-content td { border: 1px solid var(--md-outline-variant); padding: 6px 10px; text-align: left; }
+  .md-content th { background: var(--md-surface-container-high); font-weight: 600; }
+  .md-content a { color: var(--md-primary); text-decoration: none; }
+  .md-content a:hover { text-decoration: underline; }
+</style>
+{% endblock %}
