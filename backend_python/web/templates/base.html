@@ -195,6 +195,18 @@
       document.body.setAttribute('hx-headers', JSON.stringify({'X-CSRFToken': CSRF_TOKEN}));
     });
 
+    // Auto-enable/disable send button in messaging inputs
+    document.addEventListener('input', function(e) {
+      var el = e.target;
+      if (el.tagName === 'TEXTAREA' && el.closest('.reply-input-wrapper')) {
+        var wrapper = el.closest('.reply-input-wrapper');
+        var btn = wrapper.querySelector('.reply-send-btn');
+        if (btn) {
+          btn.disabled = !el.value.trim();
+        }
+      }
+    });
+
     // Show/hide loading bar on HTMX requests
     document.addEventListener('htmx:beforeRequest', function() {
       document.getElementById('htmx-loading-bar').style.display = '';

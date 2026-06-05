@@ -79,14 +79,10 @@ echo 'Resolving cPanel static files two-location copies...'
 mkdir -p public/static/web/css
 mkdir -p public/static/web/js
 mkdir -p public/static/web/img
-cp -f web/static/web/css/app.css public/static/web/css/app.css
-cp -f web/static/web/css/material3.css public/static/web/css/material3.css
-cp -f web/static/web/css/admin.css public/static/web/css/admin.css
-cp -f web/static/web/js/delegated-events.js public/static/web/js/delegated-events.js
-cp -f web/static/web/js/marked.min.js public/static/web/js/marked.min.js
-cp -f web/static/web/js/realtime.js public/static/web/js/realtime.js
+cp -rf web/static/web/css/* public/static/web/css/
+cp -rf web/static/web/js/* public/static/web/js/
 cp -f web/static/web/manifest.json public/static/web/manifest.json
-cp -rf web/static/web/img/ public/static/web/img/
+cp -rf web/static/web/img/* public/static/web/img/
 
 echo 'Deploying .htaccess security rules...'
 cp -f public/.htaccess public/.htaccess

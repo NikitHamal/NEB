@@ -289,7 +289,7 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    background: var(--md-surface-container-high);
+    background: var(--md-surface-container-lowest);
     border: 1px solid var(--md-outline-variant);
     border-radius: var(--md-radius-full);
     padding: 4px 16px;

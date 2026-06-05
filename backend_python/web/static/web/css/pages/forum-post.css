@@ -97,17 +97,12 @@
   .fp-thread-avatars .fp-thread-avatar-letter{font-size:.5rem;font-weight:700;color:var(--md-on-primary)}
   .fp-thread-label{font-size:.75rem;font-weight:500;color:var(--md-primary)}
 
-  .fp-compose{background:transparent;border:none;border-radius:0;padding:0;margin-bottom:24px}
-  .fp-compose-title{font-size:.9375rem;font-weight:600;color:var(--md-on-surface);margin-bottom:10px}
-  .fp-compose-bar{display:flex;align-items:flex-end;gap:8px;background:var(--md-surface-container-lowest);border:1px solid var(--md-outline-variant);border-radius:999px;padding:6px 6px 6px 16px;transition:border-color .15s,box-shadow .15s}
-  .fp-compose-bar:focus-within{border-color:var(--md-outline);box-shadow:0 0 0 3px color-mix(in srgb, var(--md-primary) 12%, transparent)}
-  .fp-compose-bar textarea{flex:1;min-width:0;border:none;background:transparent;padding:8px 0;font-family:inherit;font-size:.875rem;color:var(--md-on-surface);outline:none;resize:none;min-height:24px;max-height:120px;line-height:1.45;field-sizing:content}
-  .fp-compose-bar textarea::placeholder{color:var(--md-on-surface-variant)}
-  .fp-send-btn{flex-shrink:0;width:36px;height:36px;border-radius:50%;border:none;display:flex;align-items:center;justify-content:center;cursor:not-allowed;background:color-mix(in srgb, var(--md-on-surface) 10%, transparent);color:var(--md-on-surface-variant);pointer-events:none;transition:background .15s,color .15s,opacity .15s}
-  .fp-send-btn .material-symbols-outlined{font-size:20px}
-  .fp-send-btn.is-active{background:var(--md-primary);color:var(--md-on-primary);cursor:pointer;pointer-events:auto}
-  .fp-send-btn.is-active:hover{filter:brightness(1.08)}
-  .fp-send-btn:disabled{opacity:.5}
+  .fp-compose{background:var(--md-surface-container-lowest,#fff);border:1px solid var(--md-outline-variant);border-radius:12px;padding:16px;margin-bottom:24px}
+  .fp-compose-title{font-size:.9375rem;font-weight:600;color:var(--md-on-surface);margin-bottom:12px}
+  .fp-compose textarea{width:100%;padding:12px;border:1px solid var(--md-outline-variant);border-radius:8px;font-family:inherit;font-size:.875rem;background:var(--md-surface-container-high);color:var(--md-on-surface);outline:none;resize:vertical;min-height:80px;transition:border-color .15s}
+  .fp-compose textarea:focus{border-color:var(--md-primary)}
+  .fp-compose textarea::placeholder{color:var(--md-on-surface-variant)}
+  .fp-compose-actions{display:flex;justify-content:flex-end;margin-top:10px}
 
   .fp-login-prompt{text-align:center;padding:32px;border:1px solid var(--md-outline-variant);border-radius:12px;margin-bottom:24px}
   .fp-login-prompt p{color:var(--md-on-surface-variant);margin-bottom:12px}
@@ -119,7 +114,7 @@
   .modal-overlay.active{display:flex}
   .modal-box{background:var(--md-surface);border:1px solid var(--md-outline-variant);border-radius:20px;width:90%;max-width:520px;max-height:80vh;overflow-y:auto;padding:24px}
   .modal-box h3{margin:0 0 16px}
-  .edit-form textarea,.edit-form input[type="text"]{width:100%;padding:10px 14px;border:1px solid var(--md-outline);border-radius:12px;font-family:inherit;font-size:.9375rem;background:var(--md-surface-container-high);color:var(--md-on-surface);outline:none;margin-bottom:12px}
+  .edit-form textarea,.edit-form input[type="text"]{width:100%;padding:10px 14px;border:1px solid var(--md-outline);border-radius:12px;font-family:inherit;font-size:.9375rem;background:var(--md-surface-container-lowest);color:var(--md-on-surface);outline:none;margin-bottom:12px}
   .edit-form textarea:focus,.edit-form input[type="text"]:focus{border-color:var(--md-primary)}
   .edit-form label{display:block;font-size:.8125rem;font-weight:600;color:var(--md-on-surface-variant);margin-bottom:4px}
   .edit-form .form-actions{display:flex;gap:8px;justify-content:flex-end}
@@ -142,7 +137,8 @@
   .fp-thread-sidebar-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:899;opacity:0;pointer-events:none;transition:opacity .25s}
   .fp-thread-sidebar-overlay.open{opacity:1;pointer-events:auto}
   .fp-thread-sidebar-compose{padding:12px 16px 16px;border-top:1px solid var(--md-outline-variant);flex-shrink:0;background:var(--md-surface)}
-  .fp-thread-sidebar-compose .fp-compose-bar textarea{font-size:.8125rem}
+  .fp-thread-sidebar-compose textarea{width:100%;padding:10px 12px;border:1.5px solid var(--md-outline-variant);border-radius:12px;font-family:inherit;font-size:.8125rem;background:var(--md-surface-container-high);color:var(--md-on-surface);outline:none;resize:none;min-height:48px;max-height:120px;transition:border-color .15s}
+  .fp-thread-sidebar-compose textarea:focus{border-color:var(--md-primary)}
   .fp-thread-sidebar-compose-actions{display:flex;justify-content:flex-end;margin-top:8px}
 
   /* Thread bottom sheet (mobile) */
@@ -157,7 +153,8 @@
   .fp-thread-sheet-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:899;opacity:0;pointer-events:none;transition:opacity .25s}
   .fp-thread-sheet-overlay.open{opacity:1;pointer-events:auto}
   .fp-thread-sheet-compose{padding:12px 16px 16px;border-top:1px solid var(--md-outline-variant);flex-shrink:0;background:var(--md-surface)}
-  .fp-thread-sheet-compose .fp-compose-bar textarea{font-size:.8125rem}
+  .fp-thread-sheet-compose textarea{width:100%;padding:10px 12px;border:1.5px solid var(--md-outline-variant);border-radius:12px;font-family:inherit;font-size:.8125rem;background:var(--md-surface-container-high);color:var(--md-on-surface);outline:none;resize:none;min-height:48px;max-height:120px;transition:border-color .15s}
+  .fp-thread-sheet-compose textarea:focus{border-color:var(--md-primary)}
   .fp-thread-sheet-compose-actions{display:flex;justify-content:flex-end;margin-top:8px}
 
   /* Thread parent message (the reply that started the thread) — flat, no heavy border */
