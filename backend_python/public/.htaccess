@@ -28,10 +28,6 @@ RewriteRule ^server-info - [R=404,L]
 Header unset ETag
 FileETag None
 
-# Serve manifest.json with correct MIME type for PWA
-<FilesMatch "manifest\.json$">
-    ForceType application/manifest+json
-</FilesMatch>
 
 # Set security headers (supplement Django middleware)
 Header set X-Content-Type-Options "nosniff"
