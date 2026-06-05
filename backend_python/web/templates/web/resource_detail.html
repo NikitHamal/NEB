@@ -217,9 +217,11 @@
   {% if is_authenticated %}
   <div class="rd-compose" id="comment-compose">
     <div class="rd-compose-header">Add a comment</div>
-    <textarea id="comment-input" placeholder="Share your thoughts about this resource..." rows="3"></textarea>
-    <div class="rd-compose-actions">
-      <button class="md-btn md-btn-filled" data-action="submit-comment" id="comment-submit-btn" style="min-height:36px;">Post Comment</button>
+    <div class="fp-compose-bar">
+      <textarea id="comment-input" placeholder="Share your thoughts about this resource..." rows="1"></textarea>
+      <button type="button" class="fp-send-btn" id="commentSubmitBtn" disabled data-action="submit-comment" aria-label="Send comment">
+        <span class="material-symbols-outlined">arrow_upward</span>
+      </button>
     </div>
   </div>
   {% else %}
@@ -272,10 +274,11 @@
 
         <!-- Inline reply box (hidden by default) -->
         <div id="reply-box-{{ c.id }}" style="display:none;margin-top:10px;">
-          <div style="display:flex;gap:8px;align-items:flex-start;">
-            <textarea id="reply-input-{{ c.id }}" placeholder="Reply to {{ c.authorName }}..." style="flex:1;padding:10px;border:1px solid var(--md-outline-variant);border-radius:8px;font-family:inherit;font-size:.8125rem;background:var(--md-surface-container-high);color:var(--md-on-surface);outline:none;resize:none;min-height:48px;max-height:120px;transition:border-color .15s;" data-focus-action="focus-border" data-blur-action="blur-border"></textarea>
-            <button class="md-btn md-btn-filled" data-action="submit-reply" data-comment-id="{{ c.id }}" style="min-height:36px;font-size:.75rem;padding:6px 12px;">Reply</button>
-            <button class="md-btn md-btn-text" data-action="hide-reply-box" data-comment-id="{{ c.id }}" style="min-height:36px;font-size:.75rem;padding:6px 12px;">Cancel</button>
+          <div class="fp-compose-bar">
+            <textarea id="reply-input-{{ c.id }}" placeholder="Reply to {{ c.authorName }}..." rows="1"></textarea>
+            <button type="button" class="fp-send-btn" id="replySendBtn-{{ c.id }}" disabled data-action="submit-reply" data-comment-id="{{ c.id }}" aria-label="Send reply">
+              <span class="material-symbols-outlined">arrow_upward</span>
+            </button>
           </div>
         </div>
 
@@ -437,11 +440,11 @@ function toggleCommentLike(commentId) {
 function submitComment() {
   if (!IS_AUTH) { window.location.href = '{% url "web:login" %}'; return; }
   var input = document.getElementById('comment-input');
-  var btn = document.getElementById('comment-submit-btn');
+  var btn = document.getElementById('commentSubmitBtn');
   var content = input.value.trim();
   if (!content) { showSnackbar('Please write something'); return; }
   btn.disabled = true;
-  btn.textContent = 'Posting...';
+  btn.classList.remove('is-active');
   fetch('/ajax/resource-comment/' + RESOURCE_ID + '/', {
     method: 'POST',
     headers: {'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN},
@@ -453,13 +456,18 @@ function submitComment() {
     showSnackbar('Comment posted!');
     window.location.reload();
   }).catch(function() { showSnackbar('Something went wrong'); })
-  .finally(function() { btn.disabled = false; btn.textContent = 'Post Comment'; });
+  .finally(function() { btn.disabled = false; });
 }
 
 /* ── Reply to comment ── */
 function showReplyBox(commentId, authorName) {
   var box = document.getElementById('reply-box-' + commentId);
-  if (box) { box.style.display = 'block'; box.querySelector('textarea').focus(); }
+  if (box) {
+    box.style.display = 'block';
+    var ta = box.querySelector('textarea');
+    ta.focus();
+    setupReplyBar('reply-input-' + commentId, 'replySendBtn-' + commentId);
+  }
 }
 function hideReplyBox(commentId) {
   var box = document.getElementById('reply-box-' + commentId);
@@ -468,9 +476,11 @@ function hideReplyBox(commentId) {
 function submitReply(parentCommentId) {
   if (!IS_AUTH) { window.location.href = '{% url "web:login" %}'; return; }
   var input = document.getElementById('reply-input-' + parentCommentId);
+  var btn = document.getElementById('replySendBtn-' + parentCommentId);
   var content = input.value.trim();
   if (!content) { showSnackbar('Please write something'); return; }
   input.disabled = true;
+  if (btn) { btn.disabled = true; btn.classList.remove('is-active'); }
   fetch('/ajax/resource-comment/' + RESOURCE_ID + '/', {
     method: 'POST',
     headers: {'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN},
@@ -482,7 +492,7 @@ function submitReply(parentCommentId) {
     showSnackbar('Reply posted!');
     window.location.reload();
   }).catch(function() { showSnackbar('Something went wrong'); })
-  .finally(function() { input.disabled = false; });
+  .finally(function() { input.disabled = false; if (btn) { btn.disabled = false; } });
 }
 
 /* ── Delete comment ── */
@@ -551,9 +561,7 @@ registerActions({
   'show-reply-box': function(btn) { showReplyBox(btn.dataset.commentId, btn.dataset.authorName); },
   'delete-comment': function(btn) { deleteComment(btn.dataset.commentId); },
   'submit-reply': function(btn) { submitReply(btn.dataset.commentId); },
-  'hide-reply-box': function(btn) { hideReplyBox(btn.dataset.commentId); },
-  'focus-border': function(el) { el.style.borderColor = 'var(--md-primary)'; },
-  'blur-border': function(el) { el.style.borderColor = 'var(--md-outline-variant)'; }
+  'hide-reply-box': function(btn) { hideReplyBox(btn.dataset.commentId); }
 });
 
 document.querySelectorAll('[data-fallback]').forEach(function(img) {
@@ -563,5 +571,20 @@ document.querySelectorAll('[data-fallback]').forEach(function(img) {
     if (next) next.style.display = this.dataset.fallback;
   });
 });
+
+// Reply bar send-button enabled/disabled state
+function setupReplyBar(textareaId, buttonId) {
+  var ta = document.getElementById(textareaId);
+  var btn = document.getElementById(buttonId);
+  if (!ta || !btn) return;
+  function sync() {
+    var has = ta.value.trim().length > 0;
+    btn.classList.toggle('is-active', has);
+    if (has) btn.removeAttribute('disabled'); else btn.setAttribute('disabled', '');
+  }
+  ta.addEventListener('input', sync);
+  sync();
+}
+setupReplyBar('comment-input', 'commentSubmitBtn');
 </script>
 {% endblock %}
