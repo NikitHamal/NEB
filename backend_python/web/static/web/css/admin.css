@@ -680,3 +680,80 @@ input[type="file"].md-input::file-selector-button:hover {
         padding: 12px;
     }
 }
+
+/* --- Admin Form Sections (shared by resource edit & syllabus) --- */
+.upload-section {
+    background: var(--md-surface-container-low);
+    border: 1px solid var(--md-outline-variant);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 16px;
+}
+.upload-section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+.upload-section-header .material-symbols-outlined {
+    font-size: 22px;
+    color: var(--md-primary);
+}
+.upload-section-header h2 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin: 0;
+    color: var(--md-on-surface);
+}
+.upload-field {
+    margin-bottom: 16px;
+}
+.upload-field:last-child {
+    margin-bottom: 0;
+}
+.upload-row {
+    display: flex;
+    gap: 12px;
+}
+.upload-field-half {
+    flex: 1;
+}
+.upload-hint {
+    font-size: 0.8125rem;
+    color: var(--md-on-surface-variant);
+    margin-top: 4px;
+}
+.upload-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 8px;
+}
+.upload-details-badge {
+    font-size: 0.6875rem;
+    font-weight: 500;
+    background: var(--md-primary-container);
+    color: var(--md-on-primary-container);
+    padding: 2px 8px;
+    border-radius: 8px;
+    margin-left: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--md-primary);
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+.back-link:hover {
+    text-decoration: underline;
+}
+.back-link .material-symbols-outlined {
+    font-size: 18px;
+}

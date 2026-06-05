@@ -66,9 +66,10 @@ ALLOWED_HOSTS = list(ALLOWED_HOSTS) + list(ALLOWED_HOSTS_GLOB)
 
 INSTALLED_APPS = [
     'daphne',
+    'django_htmx',
     'django.contrib.admin',
-    'django.contrib.auth',
     'django.contrib.contenttypes',
+    'django.contrib.auth',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
@@ -90,6 +91,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_htmx.middleware.HtmxMiddleware',
     'nebians.middleware.SecurityHeadersMiddleware',
 ]
 

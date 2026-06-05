@@ -5,7 +5,8 @@ from django.core.cache import cache
 from django.core.paginator import Paginator, EmptyPage
 from django.db.models import Count, Sum, Q
 from django.db.models import F
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework import status
 
@@ -65,6 +66,7 @@ def _paginate(request, queryset, serializer_class, *, context=None, default_page
 
 
 @api_view(['GET'])
+@permission_classes([AllowAny])
 def admin_stats(request):
     if not _check_admin(request):
         return _admin_error()
@@ -103,6 +105,7 @@ def admin_stats(request):
 
 
 @api_view(['GET'])
+@permission_classes([AllowAny])
 def admin_users_list(request):
     if not _check_admin(request):
         return _admin_error()
@@ -120,6 +123,7 @@ def admin_users_list(request):
 
 
 @api_view(['GET', 'PATCH', 'DELETE'])
+@permission_classes([AllowAny])
 def admin_user_detail(request, user_id):
     if not _check_admin(request):
         return _admin_error()
@@ -163,6 +167,7 @@ def admin_user_detail(request, user_id):
 
 
 @api_view(['GET', 'POST'])
+@permission_classes([AllowAny])
 def admin_resources_list(request):
     if not _check_admin(request):
         return _admin_error()
@@ -213,6 +218,7 @@ def admin_resources_list(request):
 
 
 @api_view(['GET', 'PATCH', 'DELETE'])
+@permission_classes([AllowAny])
 def admin_resource_detail(request, resource_id):
     if not _check_admin(request):
         return _admin_error()
@@ -253,6 +259,7 @@ def admin_resource_detail(request, resource_id):
 
 
 @api_view(['GET', 'POST'])
+@permission_classes([AllowAny])
 def admin_pending_resources(request):
     """GET /api/admin/resources/pending/ — list pending resources.
     POST /api/admin/resources/pending/ — approve or reject a pending resource."""
@@ -301,6 +308,7 @@ def admin_pending_resources(request):
 
 
 @api_view(['GET'])
+@permission_classes([AllowAny])
 def admin_resource_requests(request):
     """GET /api/admin/resource-requests/ — list all resource requests."""
     if not _check_admin(request):
@@ -313,6 +321,7 @@ def admin_resource_requests(request):
 
 
 @api_view(['POST'])
+@permission_classes([AllowAny])
 def admin_resource_request_update(request, request_id):
     """POST /api/admin/resource-requests/<request_id>/ — fulfill or close a request."""
     if not _check_admin(request):
@@ -341,6 +350,7 @@ def admin_resource_request_update(request, request_id):
 
 
 @api_view(['GET'])
+@permission_classes([AllowAny])
 def admin_posts_list(request):
     if not _check_admin(request):
         return _admin_error()
@@ -355,6 +365,7 @@ def admin_posts_list(request):
 
 
 @api_view(['GET', 'DELETE'])
+@permission_classes([AllowAny])
 def admin_post_detail(request, post_id):
     if not _check_admin(request):
         return _admin_error()
@@ -371,6 +382,7 @@ def admin_post_detail(request, post_id):
 
 
 @api_view(['GET'])
+@permission_classes([AllowAny])
 def admin_post_replies(request, post_id):
     if not _check_admin(request):
         return _admin_error()
@@ -379,6 +391,7 @@ def admin_post_replies(request, post_id):
 
 
 @api_view(['DELETE'])
+@permission_classes([AllowAny])
 def admin_reply_detail(request, reply_id):
     if not _check_admin(request):
         return _admin_error()
@@ -395,6 +408,7 @@ def admin_reply_detail(request, reply_id):
 
 
 @api_view(['GET'])
+@permission_classes([AllowAny])
 def admin_reports_list(request):
     if not _check_admin(request):
         return _admin_error()
@@ -408,6 +422,7 @@ def admin_reports_list(request):
 
 
 @api_view(['GET', 'PATCH'])
+@permission_classes([AllowAny])
 def admin_report_detail(request, report_id):
     if not _check_admin(request):
         return _admin_error()

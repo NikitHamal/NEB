@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load web_extras %}
+{% load static web_extras %}
 
 {% block title %}Discussion Forum{% endblock %}
 {% block description %}Discuss subjects, ask questions, share notes, and connect with fellow learners and teachers.{% endblock %}
@@ -19,423 +19,7 @@
 {% endblock %}
 
 {% block content %}
-<style>
-  /* 2-Column Responsive Forum Layout */
-  .forum-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 24px;
-    font-family: 'Poppins', sans-serif;
-  }
-
-  .forum-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 24px;
-    margin-top: 24px;
-    margin-bottom: 24px;
-    padding-bottom: 16px;
-    border-bottom: 1px solid var(--md-outline-variant);
-  }
-
-  .forum-header-content {
-    flex: 1;
-  }
-
-  .forum-header h1 {
-    font-weight: 800;
-    color: var(--md-on-surface);
-    letter-spacing: -0.02em;
-    margin: 0;
-  }
-
-  .forum-layout {
-    display: grid;
-    grid-template-columns: 1fr 340px;
-    gap: 32px;
-    align-items: start;
-    margin-top: 16px;
-  }
-
-  @media (max-width: 990px) {
-    .forum-layout {
-      grid-template-columns: 1fr;
-      gap: 24px;
-    }
-    .forum-sidebar {
-      display: none; /* Mobile uses chips row at the top */
-    }
-  }
-
-  /* Sleek Flat M3 Cards for Sidebar */
-  .forum-sidebar {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    position: sticky;
-    top: 88px;
-  }
-
-  .forum-card {
-    background: var(--md-surface-container-lowest);
-    border: 1px solid rgba(var(--md-outline-variant), 0.5);
-    border-radius: 24px;
-    padding: 24px;
-  }
-
-  .forum-card-title {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: var(--md-on-surface);
-    margin-bottom: 20px;
-    line-height: 1.2;
-    letter-spacing: -0.01em;
-  }
-
-  .forum-card-title span.material-symbols-outlined {
-    font-size: 24px;
-    color: var(--md-primary);
-  }
-
-  /* Categories Sidebar List */
-  .sidebar-category-list {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-
-  .sidebar-category-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 12px 18px;
-    border-radius: 16px;
-    text-decoration: none;
-    color: var(--md-on-surface-variant);
-    font-weight: 500;
-    font-size: 0.9375rem;
-    transition: all 0.2s var(--md-transition);
-  }
-
-  .sidebar-category-row:hover {
-    background-color: var(--md-surface-container-high);
-    color: var(--md-on-surface);
-    text-decoration: none;
-  }
-
-  .sidebar-category-row.active {
-    background-color: var(--md-primary-container);
-    color: var(--md-on-primary-container);
-    font-weight: 600;
-  }
-
-  .category-badge {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.75rem;
-    font-weight: 600;
-    padding: 2px 10px;
-    border-radius: 100px;
-    background: var(--md-surface-container-highest);
-    color: var(--md-on-surface-variant);
-    transition: all 0.2s var(--md-transition);
-  }
-
-  .sidebar-category-row.active .category-badge {
-    background: var(--md-primary);
-    color: var(--md-on-primary);
-  }
-
-  /* Top Contributors Sidebar List */
-  .sidebar-contributor-list {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .sidebar-contributor-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    padding: 10px 12px;
-    border-radius: 16px;
-    transition: all 0.2s var(--md-transition);
-  }
-
-  .sidebar-contributor-row:hover {
-    background-color: var(--md-surface-container-high);
-  }
-
-  .contributor-profile-wrapper {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .contributor-avatar-container {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    overflow: hidden;
-    background: var(--md-primary-container);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    border: 1.5px solid var(--md-outline-variant);
-  }
-
-  .contributor-avatar-container img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .contributor-avatar-letter {
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--md-on-primary-container);
-    text-transform: uppercase;
-  }
-
-  .contributor-meta-data {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-
-  .contributor-username-text {
-    font-size: 0.9375rem;
-    font-weight: 600;
-    color: var(--md-on-surface);
-  }
-
-  .contributor-level-text {
-    font-size: 0.75rem;
-    font-weight: 500;
-    color: var(--md-primary);
-  }
-
-  .contributor-score-text {
-    font-size: 0.9375rem;
-    font-weight: 600;
-    color: var(--md-on-surface-variant);
-    white-space: nowrap;
-  }
-
-  .btn-leaderboard-link {
-    display: block;
-    text-align: center;
-    color: var(--md-primary);
-    font-size: 0.875rem;
-    font-weight: 600;
-    text-decoration: none;
-    padding: 10px 0;
-    margin-top: 12px;
-    border-radius: 100px;
-    transition: background-color 0.2s ease;
-    cursor: pointer;
-  }
-
-  .btn-leaderboard-link:hover {
-    background-color: rgba(27, 110, 243, 0.08);
-    text-decoration: none;
-  }
-
-  /* Mobile category filters scrolling container styling */
-  .filter-bar-container {
-    position: relative;
-    margin-bottom: 16px;
-    margin-top: 8px;
-    overflow: hidden;
-  }
-
-  .filter-bar-container::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 12px;
-    width: 48px;
-    background: linear-gradient(90deg, rgba(248, 249, 255, 0) 0%, var(--md-background) 100%);
-    pointer-events: none;
-    z-index: 2;
-  }
-
-  [data-theme="dark"] .filter-bar-container::after {
-    background: linear-gradient(90deg, rgba(11, 28, 48, 0) 0%, var(--md-background) 100%);
-  }
-
-  .filter-bar {
-    display: flex;
-    gap: 8px;
-    overflow-x: auto;
-    padding: 4px 4px 12px;
-    scroll-snap-type: x mandatory;
-    scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-  }
-
-  .filter-bar::-webkit-scrollbar {
-    display: none;
-  }
-
-  .filter-bar .md-chip {
-    white-space: nowrap;
-    flex-shrink: 0;
-    padding: 8px 16px;
-    font-size: 0.875rem;
-    font-weight: 500;
-    border-radius: var(--md-radius-full);
-    transition: all 0.2s var(--md-transition);
-  }
-
-  .filter-bar .md-chip-active {
-    font-weight: 600;
-    background: var(--md-primary-container) !important;
-    color: var(--md-on-primary-container) !important;
-    border-color: transparent !important;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-  }
-
-  /* FAB Mobile Position Clearance */
-  @media (max-width: 900px) {
-    .md-fab {
-      bottom: 84px !important;
-    }
-  }
-
-  /* Modal Style (Leaderboard) */
-  .m3-modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(4px);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 2000;
-    opacity: 0;
-    transition: opacity 0.2s ease;
-  }
-
-  .m3-modal-overlay.open {
-    display: flex;
-    opacity: 1;
-  }
-
-  .m3-modal-box {
-    background-color: var(--md-surface-container-high, var(--md-surface));
-    border: 1px solid var(--md-outline-variant);
-    border-radius: 28px;
-    width: 90%;
-    max-width: 500px;
-    padding: 32px;
-    transform: scale(0.95);
-    transition: transform 0.2s ease;
-  }
-
-  .m3-modal-overlay.open .m3-modal-box {
-    transform: scale(1);
-  }
-
-  .m3-modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 24px;
-  }
-
-  .m3-modal-title {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: var(--md-on-surface);
-  }
-
-  .m3-modal-close-btn {
-    border: none;
-    background: transparent;
-    cursor: pointer;
-    color: var(--md-on-surface-variant);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    transition: background-color 0.2s ease;
-  }
-
-  .m3-modal-close-btn:hover {
-    background-color: var(--md-surface-container-highest);
-  }
-
-  /* Leaderboard Table Styles */
-  .leaderboard-table-container {
-    max-height: 400px;
-    overflow-y: auto;
-  }
-
-  .leaderboard-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 12px 8px;
-    border-bottom: 1px solid var(--md-outline-variant);
-  }
-
-  .leaderboard-row:last-child {
-    border-bottom: none;
-  }
-
-  .leaderboard-rank-profile {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-  }
-
-  .leaderboard-rank-number {
-    font-size: 1.0625rem;
-    font-weight: 700;
-    width: 24px;
-    color: var(--md-on-surface-variant);
-    text-align: center;
-  }
-
-  .leaderboard-rank-number.rank-1 {
-    color: #F9A825;
-  }
-  .leaderboard-rank-number.rank-2 {
-    color: #78909C;
-  }
-  .leaderboard-rank-number.rank-3 {
-    color: #E64A19;
-  }
-
-  [data-theme="dark"] .leaderboard-rank-number.rank-1 {
-    color: #FFD54F;
-  }
-  [data-theme="dark"] .leaderboard-rank-number.rank-2 {
-    color: #B0BEC5;
-  }
-  [data-theme="dark"] .leaderboard-rank-number.rank-3 {
-    color: #FF8A65;
-  }
-</style>
+<link rel="stylesheet" href="{% static 'web/css/pages/forum.css' %}">
 
 <div class="forum-container">
   <!-- Redesigned Forum Header -->
@@ -449,15 +33,62 @@
     </a>
   </div>
 
+  <!-- Search Bar -->
+  <form method="get" action="{% url 'web:forum' %}" class="forum-search-bar" hx-get="{% url 'web:forum' %}" hx-target="#forum-main" hx-swap="innerHTML" hx-push-url="true" hx-trigger="search" hx-indicator="#forum-search-indicator">
+    <span class="material-symbols-outlined forum-search-icon">search</span>
+    <input type="text" name="q" value="{{ search_query }}" placeholder="Search discussions..." class="forum-search-input" hx-trigger="keyup changed delay:400ms, search" hx-get="{% url 'web:forum' %}" hx-target="#forum-main" hx-swap="innerHTML" hx-push-url="true">
+    {% if current_category %}<input type="hidden" name="category" value="{{ current_category }}">{% endif %}
+    {% if current_sort != 'hot' %}<input type="hidden" name="sort" value="{{ current_sort }}">{% endif %}
+    <span id="forum-search-indicator" class="htmx-indicator" style="display:none;"><span class="material-symbols-outlined forum-search-icon" style="animation:spin 1s linear infinite;">progress_activity</span></span>
+    {% if search_query %}<button type="button" class="forum-search-clear" data-action="clear-forum-search"><span class="material-symbols-outlined">close</span></button>{% endif %}
+  </form>
+
+  <div id="forum-main">
+  <!-- Sort Tabs + Category Filters -->
+  <div class="forum-controls-bar">
+    <div class="forum-sort-tabs">
+      <a href="{% url 'web:forum' %}?sort=hot{% if current_category %}&category={{ current_category }}{% endif %}{% if search_query %}&q={{ search_query }}{% endif %}" class="forum-sort-tab {% if current_sort == 'hot' %}forum-sort-tab-active{% endif %}" hx-get="{% url 'web:forum' %}?sort=hot{% if current_category %}&category={{ current_category }}{% endif %}{% if search_query %}&q={{ search_query }}{% endif %}" hx-target="#forum-main" hx-swap="innerHTML" hx-push-url="true">
+        <span class="material-symbols-outlined">whatshot</span> Hot
+      </a>
+      <a href="{% url 'web:forum' %}?sort=new{% if current_category %}&category={{ current_category }}{% endif %}{% if search_query %}&q={{ search_query }}{% endif %}" class="forum-sort-tab {% if current_sort == 'new' %}forum-sort-tab-active{% endif %}" hx-get="{% url 'web:forum' %}?sort=new{% if current_category %}&category={{ current_category }}{% endif %}{% if search_query %}&q={{ search_query }}{% endif %}" hx-target="#forum-main" hx-swap="innerHTML" hx-push-url="true">
+        <span class="material-symbols-outlined">schedule</span> New
+      </a>
+      <a href="{% url 'web:forum' %}?sort=top{% if current_category %}&category={{ current_category }}{% endif %}{% if search_query %}&q={{ search_query }}{% endif %}" class="forum-sort-tab {% if current_sort == 'top' %}forum-sort-tab-active{% endif %}" hx-get="{% url 'web:forum' %}?sort=top{% if current_category %}&category={{ current_category }}{% endif %}{% if search_query %}&q={{ search_query }}{% endif %}" hx-target="#forum-main" hx-swap="innerHTML" hx-push-url="true">
+        <span class="material-symbols-outlined">thumb_up</span> Top
+      </a>
+      <a href="{% url 'web:forum' %}?sort=discussed{% if current_category %}&category={{ current_category }}{% endif %}{% if search_query %}&q={{ search_query }}{% endif %}" class="forum-sort-tab {% if current_sort == 'discussed' %}forum-sort-tab-active{% endif %}" hx-get="{% url 'web:forum' %}?sort=discussed{% if current_category %}&category={{ current_category }}{% endif %}{% if search_query %}&q={{ search_query }}{% endif %}" hx-target="#forum-main" hx-swap="innerHTML" hx-push-url="true">
+        <span class="material-symbols-outlined">chat_bubble</span> Discussed
+      </a>
+    </div>
+  </div>
+
   <!-- Mobile Category Filters (chips scroll bar with fade overlay) -->
   {% if categories_data %}
   <div class="filter-bar-container md-hide-desktop">
     <div class="filter-bar">
-      <a href="{% url 'web:forum' %}" class="md-chip {% if not current_category %}md-chip-active{% endif %}">All</a>
+      <a href="{% url 'web:forum' %}?sort={{ current_sort }}{% if search_query %}&q={{ search_query }}{% endif %}" class="md-chip {% if not current_category %}md-chip-active{% endif %}" hx-get="{% url 'web:forum' %}?sort={{ current_sort }}{% if search_query %}&q={{ search_query }}{% endif %}" hx-target="#forum-main" hx-swap="innerHTML" hx-push-url="true">All</a>
       {% for c in categories_data %}
-      <a href="{% url 'web:forum' %}?category={{ c.name }}" class="md-chip {% if current_category == c.name %}md-chip-active{% endif %}">{{ c.name }}</a>
+      <a href="{% url 'web:forum' %}?sort={{ current_sort }}&category={{ c.name }}{% if search_query %}&q={{ search_query }}{% endif %}" class="md-chip {% if current_category == c.name %}md-chip-active{% endif %}" hx-get="{% url 'web:forum' %}?sort={{ current_sort }}&category={{ c.name }}{% if search_query %}&q={{ search_query }}{% endif %}" hx-target="#forum-main" hx-swap="innerHTML" hx-push-url="true">{{ c.name }}</a>
       {% endfor %}
     </div>
+  </div>
+  {% endif %}
+
+  <!-- Active filter chips -->
+  {% if search_query or current_category %}
+  <div class="forum-active-filters">
+    {% if search_query %}
+    <span class="search-filter-chip">
+      "{{ search_query }}"
+      <a href="{% url 'web:forum' %}?sort={{ current_sort }}{% if current_category %}&category={{ current_category }}{% endif %}" class="search-filter-chip-remove" hx-get="{% url 'web:forum' %}?sort={{ current_sort }}{% if current_category %}&category={{ current_category }}{% endif %}" hx-target="#forum-main" hx-swap="innerHTML" hx-push-url="true">&times;</a>
+    </span>
+    {% endif %}
+    {% if current_category %}
+    <span class="search-filter-chip">
+      {{ current_category }}
+      <a href="{% url 'web:forum' %}?sort={{ current_sort }}{% if search_query %}&q={{ search_query }}{% endif %}" class="search-filter-chip-remove" hx-get="{% url 'web:forum' %}?sort={{ current_sort }}{% if search_query %}&q={{ search_query }}{% endif %}" hx-target="#forum-main" hx-swap="innerHTML" hx-push-url="true">&times;</a>
+    </span>
+    {% endif %}
   </div>
   {% endif %}
 
@@ -465,87 +96,7 @@
   <div class="forum-layout">
     <!-- Left Column: Posts List -->
     <div class="forum-main-content">
-      {% if posts %}
-      <div style="display:flex;flex-direction:column;gap:12px;">
-        {% for post in posts %}
-        <div class="post-card" data-action="open-post" data-post-url="{% url 'web:forum_post' post_id=post.id %}" style="cursor: pointer;">
-          <div class="post-card-header">
-            <div class="post-card-avatar">
-              {% if post.authorPhotoUrl %}
-                <img src="{{ post.authorPhotoUrl }}" alt="" data-fallback="inline-flex">
-                <span class="contributor-avatar-letter" style="display:none;">{{ post.authorName|truncate_chars:1|default:"?" }}</span>
-              {% else %}
-                <span class="contributor-avatar-letter">{{ post.authorName|truncate_chars:1|default:"?" }}</span>
-              {% endif %}
-            </div>
-            <div class="post-card-meta">
-              <div class="post-card-meta-top" style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
-                <a href="{% url 'web:profile' username=post.authorName %}" style="font-weight:700;cursor:pointer;text-decoration:none;color:inherit;">{{ post.authorName }}</a>
-                {% if post.authorBadgeInfo %}
-                <span class="role-badge role-badge-{{ post.authorBadgeInfo.type }}" title="{{ post.authorBadgeInfo.label }}"><span class="material-symbols-outlined">{{ post.authorBadgeInfo.icon }}</span></span>
-                {% endif %}
-                {% if is_authenticated and post.authorId != user.id %}
-                <button class="follow-btn-small {% if post.isFollowingAuthor %}following{% else %}not-following{% endif %}" data-action="toggle-follow" data-user-id="{{ post.authorId }}">{% if post.isFollowingAuthor %}Following{% else %}Follow{% endif %}</button>
-                {% endif %}
-              </div>
-              <div class="post-card-meta-bottom" style="display:flex; align-items:center; flex-wrap:wrap; gap:6px; margin-top:2px; font-size:0.8125rem; color:var(--md-on-surface-variant);">
-                <span class="act-action-text">started a discussion</span>
-                <span style="opacity:0.4;">&middot;</span>
-                <a href="{% url 'web:forum' %}?category={{ post.category }}" class="post-card-category-link">{{ post.category }}</a>
-                <span style="opacity:0.4;">&middot;</span>
-                <span class="post-card-time">{{ post.createdAt|time_ago }}</span>
-              </div>
-            </div>
-            <div class="more-menu-wrapper">
-              <button class="more-btn" data-action="toggle-more-menu" data-menu-id="post-menu-forum-{{ post.id }}" aria-label="More options"><span class="material-symbols-outlined">more_vert</span></button>
-              <div class="more-menu" id="post-menu-forum-{{ post.id }}" style="display:none;" data-action="stop-propagation">
-                {% if is_authenticated %}
-                <button class="more-menu-item" data-action="toggle-bookmark" data-target-type="post" data-target-id="{{ post.id }}">
-                  <span class="material-symbols-outlined" id="bookmark-icon-post-{{ post.id }}"{% if post.isBookmarked %} style="font-variation-settings:'FILL' 1"{% endif %}>bookmark</span>
-                  <span id="bookmark-label-post-{{ post.id }}">{% if post.isBookmarked %}Remove{% else %}Bookmark{% endif %}</span>
-                </button>
-                {% endif %}
-                <button class="more-menu-item" data-action="share-post-url" data-path="{% url 'web:forum_post' post_id=post.id %}">
-                  <span class="material-symbols-outlined">share</span> Share
-                </button>
-                {% if is_authenticated and post.authorId != user.id %}
-                <button class="more-menu-item" data-action="report-content" data-target-type="post" data-target-id="{{ post.id }}">
-                  <span class="material-symbols-outlined">flag</span> Report
-                </button>
-                {% endif %}
-              </div>
-            </div>
-          </div>
-          <h3 style="margin-top:4px; margin-bottom:8px;"><a href="{% url 'web:forum_post' post_id=post.id %}" style="color: inherit; text-decoration: none;">{{ post.title }}</a></h3>
-          <div class="post-card-content">{{ post.content|render_content_inline }}</div>
-          <div class="post-card-actions">
-            <button type="button" data-action="toggle-forum-post-like" data-post-id="{{ post.id }}" class="{% if post.isThumbedUp %}liked{% endif %}" id="forum-post-like-btn-{{ post.id }}">
-              <span class="material-symbols-outlined">thumb_up</span>
-              <span id="forum-post-like-count-{{ post.id }}">{{ post.thumbsUpCount }}</span>
-            </button>
-            <a href="{% url 'web:forum_post' post_id=post.id %}" class="act-btn-stat">
-              <span class="material-symbols-outlined">chat_bubble_outline</span>
-              <span>{{ post.replyCount }} Replies</span>
-            </a>
-            <span class="fp-action-spacer" style="flex: 1;"></span>
-            <button type="button" class="{% if post.isBookmarked %}bookmark-active{% endif %}" data-action="toggle-bookmark" data-target-type="post" data-target-id="{{ post.id }}" id="forum-post-bookmark-btn-{{ post.id }}" aria-label="Bookmark">
-              <span class="material-symbols-outlined" {% if post.isBookmarked %}style="font-variation-settings: 'FILL' 1;"{% endif %}>bookmark</span>
-            </button>
-            <button type="button" data-action="share-post-url" data-path="{% url 'web:forum_post' post_id=post.id %}" aria-label="Share">
-              <span class="material-symbols-outlined">share</span>
-            </button>
-          </div>
-        </div>
-        {% endfor %}
-      </div>
-      {% else %}
-      <div class="empty-state">
-        <span class="material-symbols-outlined">forum</span>
-        <h3>No discussions yet</h3>
-        <p>Be the first to start a discussion!</p>
-        <a href="{% url 'web:create_post' %}" class="md-btn md-btn-filled mt-2">Start Discussion</a>
-      </div>
-      {% endif %}
+      {% include "web/_forum_posts.html" %}
     </div>
 
     <!-- Right Column: Sidebar (Desktop only) -->
@@ -557,14 +108,14 @@
           Categories
         </div>
         <div class="sidebar-category-list">
-          <a href="{% url 'web:forum' %}" class="sidebar-category-row {% if not current_category %}active{% endif %}">
+          <a href="{% url 'web:forum' %}?sort={{ current_sort }}{% if search_query %}&q={{ search_query }}{% endif %}" class="sidebar-category-row {% if not current_category %}active{% endif %}" hx-get="{% url 'web:forum' %}?sort={{ current_sort }}{% if search_query %}&q={{ search_query }}{% endif %}" hx-target="#forum-main" hx-swap="innerHTML" hx-push-url="true">
             <span style="display:flex;align-items:center;gap:10px;">
               <span class="material-symbols-outlined" style="font-size: 18px; opacity: 0.8;">forum</span>
               All Discussions
             </span>
           </a>
           {% for cat in categories_data %}
-          <a href="{% url 'web:forum' %}?category={{ cat.name }}" class="sidebar-category-row {% if current_category == cat.name %}active{% endif %}">
+          <a href="{% url 'web:forum' %}?sort={{ current_sort }}&category={{ cat.name }}{% if search_query %}&q={{ search_query }}{% endif %}" class="sidebar-category-row {% if current_category == cat.name %}active{% endif %}" hx-get="{% url 'web:forum' %}?sort={{ current_sort }}&category={{ cat.name }}{% if search_query %}&q={{ search_query }}{% endif %}" hx-target="#forum-main" hx-swap="innerHTML" hx-push-url="true">
             <span style="display:flex;align-items:center;gap:10px;">
               <span class="material-symbols-outlined" style="font-size: 18px; opacity: 0.8;">tag</span>
               {{ cat.name }}
@@ -615,7 +166,7 @@
       </div>
     </div>
   </div>
-</div>
+  </div>
 
 <!-- Mobile FAB -->
 <a href="{% url 'web:create_post' %}" class="md-fab md-hide-desktop" title="New Discussion">
@@ -817,6 +368,13 @@ function reportContent(targetType, targetId) {
     'close-leaderboard-modal': function(el, e) { closeLeaderboardModal(e); },
     'close-leaderboard-modal-btn': function() { closeLeaderboardModal(); },
     'stop-propagation': function(el, e) { e.stopPropagation(); },
+    'clear-forum-search': function() {
+      var input = document.querySelector('.forum-search-input');
+      if (input) {
+        input.value = '';
+        htmx.ajax('GET', '{% url "web:forum" %}?sort={{ current_sort }}{% if current_category %}&category={{ current_category }}{% endif %}', '#forum-main');
+      }
+    },
     'toggle-forum-post-like': function(el, e) {
       if (e) e.stopPropagation();
       toggleForumPostLike(el.dataset.postId, el);

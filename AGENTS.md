@@ -630,47 +630,59 @@ A trycloudflare URL looks like `https://abc123.trycloudflare.com` — different 
 ## Continuity Notes
 
 ### What Was Being Worked On (Last Session)
-**Multi-bot system** — converted the single BotConfig singleton into a multi-bot system where admins can create, edit, and delete multiple AI bots, each with its own username, provider, model, and personality. The bot user accounts can also be created directly from the admin panel.
+**HTMX — no-reload page transitions** — added HTMX (14KB, zero dependencies) to eliminate full-page reloads on sort/filter/pagination actions. Pages now swap content fragments in-place with `history.pushState` for URL updates.
 
 **Changes:**
-- `BotConfig` model: removed singleton pattern (`pk=1`), changed `id` to `AutoField`, added `name`, `display_name`, `avatar_url`, `created_at` fields, made `bot_username` unique
-- `NebyTask` model: added `bot_config` ForeignKey (nullable, SET_NULL on delete) so tasks are linked to the specific bot config that triggered them
-- `api/neby.py`: completely rewritten to support multi-bot — `enqueue_if_post_mention()` and `enqueue_if_reply_mention()` now scan all enabled bots for @username matches, `process_neby_task()` reads `task.bot_config` instead of global singleton, `call_ai_api()` accepts any config (falls back to first enabled), `_build_post_context()` and `_build_reply_context()` use per-bot display name
-- `web/views.py`: replaced `admin_bot_config()` with `admin_bots()` (list), `admin_bot_edit()` (create/edit, with delete), `admin_bot_create_user()` (creates a bot User account with `is_bot=True`)
-- `web/urls.py`: replaced `/admin/bot/` with `/admin/bots/`, `/admin/bots/new/`, `/admin/bots/<int:bot_id>/`, `/admin/bots/<int:bot_id>/create-user/`
-- `web/templates/admin_panel/bot_list.html`: new — card grid of all bots with status, provider, model, task stats, edit/create-user buttons
-- `web/templates/admin_panel/bot_edit.html`: new — full bot config form (identity, API config, behavior, danger zone/delete) with same provider-switching JS as before
-- `web/templates/admin_panel/bot_create_user.html`: new — confirmation page to create a bot User account
-- `web/templates/admin_panel/base.html`: sidebar/mobile nav updated from "Neby AI Bot" → "AI Bots", link updated to `/admin/bots/`
-- `api/management/commands/create_neby_bot.py`: updated to work with multi-bot BotConfig, accepts `--name` flag
-- Migrations 0033, 0034, 0035: add new fields, FK to NebyTask, change PK to AutoField, add unique constraint on `bot_username`, backfill existing data
+- Added `django-htmx==1.23.0` to `requirements.txt` and `INSTALLED_APPS`/`MIDDLEWARE`
+- Downloaded `htmx.min.js` to `web/static/web/js/`
+- Added HTMX script + config meta tag + loading bar + CSRF header setup to `base.html`
+- Added `.htmx-loading-bar` CSS animation to `app.css`
+- Created partial templates: `_forum_posts.html`, `_forum_post_replies.html`, `_library_content.html`
+- Modified views: `forum()`, `library()`, `forum_post()` — when `request.htmx` is True, render the partial template instead of full page
+
+**Forum page (`/forum/`) — HTMX:**
+- Sort tabs (Hot/New/Top/Discussed): `hx-get` → `#forum-posts-list` → `hx-push-url="true"`
+- Category chips (mobile + sidebar): `hx-get` → `#forum-posts-list` → `hx-push-url="true"`
+- Search input: `hx-trigger="keyup changed delay:400ms, search"` for debounced live search
+- Active filter chip remove links: `hx-get` → `#forum-posts-list`
+- Pagination prev/next: `hx-get` → `#forum-posts-list` → `hx-push-url="true"`
+- Clear search button: uses `htmx.ajax()` instead of form submit
+
+**Library page (`/library/`) — HTMX:**
+- Sort dropdown: `hx-trigger="change"` → `#library-content` → `hx-push-url="true"`
+- Filter chip remove links: `hx-get` → `#library-content` → `hx-push-url="true"`
+- "Clear all" link: `hx-get` → `#library-content`
+- Pagination links: `hx-get` → `#library-content` → `hx-push-url="true"`
+- Apply filters: uses `htmx.ajax()` + `history.pushState()` instead of `window.location.href`
+
+**Forum post detail (`/forum/post/<id>/`) — HTMX:**
+- Reply sort buttons (Oldest/Newest/Top): `hx-get` → `#replies-list` → `hx-push-url="true"`
+- Replies wrapped in `<div id="replies-list">` for HTMX targeting
+
+**Global HTMX setup:**
+- `htmx:beforeRequest` → shows top loading bar
+- `htmx:afterRequest` → hides loading bar
+- `htmx:responseError` → hides loading bar + shows snackbar error
+- CSRF token injected via `hx-headers` on `<body>`
 
 **Previous session:**
-**Admin panel: BotConfig provider switcher** — added a `provider` dropdown to `/admin/bot/` so the admin can flip the Neby AI bot between three backends without code changes:
+- Added **Most Liked** sort option: `order_by('-like_count', '-added_at')`
+- Sort dropdown now has: Most Relevant, Trending, Newest, Most Liked, Oldest
 
-- **`qwen`** (default) — Qwen web chat via `qwen_proxy.call_qwen`
-- **`ai4bharat`** — Indic LLM Arena via the new `ai4bharat_proxy.simple_chat()` (anon-token pool, non-streaming)
-- **`custom`** — any OpenAI-compatible `/chat/completions` endpoint via the new `api/custom_provider.py`
-
-The model picker swaps options based on provider (7 Qwen models / 11 AI4Bharat UUIDs / free-form text). The URL field changes its default + help text per provider, and is "sticky" — if the admin types a custom URL, switching providers won't overwrite it. The "API Key" field is always shown (Qwen ignores it, AI4Bharat ignores it, custom may need it).
-
-**Files added:**
-- `api/custom_provider.py` — generic OpenAI-compatible client (`call_custom(api_url, api_key, model, ...)`)
-- `api/management/commands/test_bot_providers.py` — spins up a fake OpenAI server, exercises all 3 providers, restores config on exit
+**Home page (`/`):**
+- "Forum Activity" section renamed to **"Trending Discussions"**
+- Posts now sorted by hot score algorithm instead of just `created_at`
+- "View all" link points to `/forum/?sort=hot`
+- CTA button text changed from "Start a Discussion" to "Join the Discussion"
 
 **Files modified:**
-- `api/models.py` — added `BotConfig.provider` (choices: qwen/ai4bharat/custom, default qwen) + widened `model` to 200 chars
-- `api/neby.py` — `call_ai_api()` now dispatches to the right provider; renamed docstring
-- `web/views.py` — `admin_bot_config()` reads + validates the new `provider` field
-- `web/templates/admin_panel/bot_config.html` — provider dropdown, dynamic model picker, JS-driven UI swap
-- `api/migrations/0032_botconfig_provider.py` — adds `provider` column + backfills existing rows to 'qwen'
+- `web/views.py` — `_compute_hot_score()`, `forum()` (sort/search/filter/pagination), `forum_post()` (reply sort), `library()` (trending/liked sort), `home()` (hot-scored posts)
+- `web/templates/web/forum.html` — search bar, sort tabs, active filter chips, pagination, updated category links
+- `web/templates/web/forum_post.html` — reply sort buttons (Oldest/Newest/Top)
+- `web/templates/web/home.html` — "Trending Discussions" section with hot-scored posts
+- `web/templates/web/library.html` — Trending and Most Liked sort options
 
-**Verified end-to-end** (all 3 providers returned text via the same `call_ai_api` dispatcher):
-- `qwen` → 'OK'
-- `ai4bharat` (live) → 'OK' via Gemini 3.5 Flash
-- `custom` (fake OpenAI server) → 'Hello from custom!' with correct system+user roles in request
-
-Deployed to production. Migration 0032 applied. `/admin/bot/` returns 302 to login as expected.
+**No new migrations or model changes.**
 
 ---
 
@@ -815,14 +827,18 @@ UI/UX revamp — home page, library, search, and design system consistency pass:
 - Create new superusers: `python manage.py createsuperuser`
 
 ### Key Files That Were Recently Modified
-- `backend_python/web/templates/web/home.html` — Hero gradient, "Welcome to NEBians" for guests, `md-btn-tonal` for Join Forum, `.post-meta-line`/`.post-meta-sub`/`.dot-sep`/`.icon-sm` classes, removed inline styles
-- `backend_python/web/templates/web/library.html` — Complete redesign: sidebar filter layout on desktop (260px sticky sidebar with collapsible Grade/Subject/Type sections), mobile filter dialog, sort bar with pagination (Most Relevant/Newest/Oldest, page numbers), featured card for first resource, standard resource cards, "More coming soon" dashed card, badge colors by type, pagination controls at bottom
-- `backend_python/web/views.py` — Library view now supports `sort` param (relevant/newest/oldest) and pagination (`page` param, 12 per page) via Django Paginator; search view queries both Resource and Post models with filters and tabs
-- `backend_python/web/templates/web/search.html` — Complete rewrite: search bar with filter icon, filter dialog modal, tab switcher (All/Resources/Posts), combined resource+post search, `.post-meta-line`/`.post-meta-sub`/`.dot-sep` classes
-- `backend_python/web/templates/base.html` — `.site-main` and `.site-footer` classes replacing inline styles
-- `backend_python/web/static/web/css/app.css` — Hero gradient, resource card colored header (`color-mix`), post-card tighter padding/radius, hscroll hidden scrollbar, `.post-meta-line`/`.post-meta-sub`/`.dot-sep`/`.icon-sm`/`.back-link`/`.site-main`/`.site-footer`/`.site-footer-links`/`.filter-overlay`/`.filter-dialog`/`.filter-section`/`.filter-section-label`/`.filter-dialog-actions`/`.search-filter-chip`/`.md-btn-icon.has-filters` utility classes, hardcoded color fixes, removed duplicated CSS
-- `backend_python/web/static/web/css/material3.css` — `.subject-icon` size 48→40px, lighter background tint (12% vs 15%), `.md-tab .material-symbols-outlined` 18px rule
-- `backend_python/web/views.py` — Search view now accepts `tab` param, `subject/grade/type` filter params, queries both Resource and Post models, returns `all_subjects/grades/types` even without query
+- `backend_python/web/views.py` — `forum()` and `library()` and `forum_post()` now detect `request.htmx` and render partial templates; `_compute_hot_score()` for Reddit-style hot ranking; `forum()` supports sort/search/filter/pagination; `forum_post()` supports reply sort; `library()` supports trending/liked sort; `home()` uses hot-score algorithm
+- `backend_python/web/templates/web/_forum_posts.html` — NEW: partial template for forum posts list (used by HTMX and full page include)
+- `backend_python/web/templates/web/_forum_post_replies.html` — NEW: partial template for forum post replies (used by HTMX and full page include)
+- `backend_python/web/templates/web/_library_content.html` — NEW: partial template for library resource grid (used by HTMX and full page include)
+- `backend_python/web/templates/web/forum.html` — HTMX attributes on sort tabs, category chips, search, pagination, sidebar links; includes `_forum_posts.html`; search input has debounced `hx-trigger`
+- `backend_python/web/templates/web/forum_post.html` — HTMX attributes on reply sort buttons; includes `_forum_post_replies.html`; wrapped replies in `#replies-list`
+- `backend_python/web/templates/web/library.html` — HTMX attributes on sort dropdown, filter chips, pagination; includes `_library_content.html`; JS uses `htmx.ajax()` for filter apply and sort change
+- `backend_python/web/templates/web/base.html` — Added HTMX script, config meta tag, loading bar div, CSRF header injection, `htmx:beforeRequest`/`htmx:afterRequest`/`htmx:responseError` event handlers
+- `backend_python/web/static/web/js/htmx.min.js` — NEW: HTMX 1.9.12 library (48KB)
+- `backend_python/web/static/web/css/app.css` — Added `.htmx-loading-bar` animation CSS
+- `backend_python/nebians/settings.py` — Added `django_htmx` to `INSTALLED_APPS` and `HtmxMiddleware` to `MIDDLEWARE`
+- `backend_python/requirements.txt` — Added `django-htmx==1.23.0`
 - `backend_python/api/models.py` — Added 7 denormalized counter fields to User model (`post_count`, `reply_count`, `follower_count`, `following_count`, `likes_given_count`, `likes_received_count`, `contribution_score`), `banner_url` field, `Report` model, verification_code CharField(128)
 - `backend_python/api/views.py` — Counter increment/decrement calls on like toggle, follow toggle, post/reply create/delete; `_build_stats()` uses denormalized counters; follower_count in follow toggle uses denormalized counter
 - `backend_python/api/services.py` — NEW: Direct Python service functions for web views (replaces HTTP API roundtrips). Includes `toggle_post_like`, `toggle_reply_like`, `create_reply`, `create_post`, `toggle_follow`, `check_username_available`, `set_password`, `change_password`, `activate_photo`. All call counter helpers.

@@ -1,0 +1,12 @@
+{% load web_extras %}
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+  <div class="fp-section-title" style="margin-bottom:0;">Replies ({{ top_level_replies|length }})</div>
+  <div class="fp-reply-sort">
+    <span style="font-size:0.8125rem;color:var(--md-on-surface-variant);">Sort:</span>
+    <a href="?sort=oldest" class="fp-reply-sort-btn {% if reply_sort == 'oldest' %}fp-reply-sort-active{% endif %}" hx-get="?sort=oldest" hx-target="#replies-section" hx-swap="innerHTML" hx-push-url="true">Oldest</a>
+    <a href="?sort=newest" class="fp-reply-sort-btn {% if reply_sort == 'newest' %}fp-reply-sort-active{% endif %}" hx-get="?sort=newest" hx-target="#replies-section" hx-swap="innerHTML" hx-push-url="true">Newest</a>
+    <a href="?sort=top" class="fp-reply-sort-btn {% if reply_sort == 'top' %}fp-reply-sort-active{% endif %}" hx-get="?sort=top" hx-target="#replies-section" hx-swap="innerHTML" hx-push-url="true">Top</a>
+  </div>
+</div>
+
+{% include "web/_forum_post_replies.html" %}

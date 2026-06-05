@@ -128,6 +128,8 @@ class AdminAndPrivacyRegressionTests(TestCase):
         self.assertNotIn('subjects', data)
 
     def test_public_lists_are_paginated(self):
+        user = _create_user()
+        auth_header = {'HTTP_AUTHORIZATION': f'Bearer {user.auth_token}'}
         for i in range(3):
             Resource.objects.create(
                 id=str(uuid.uuid4()),
@@ -139,7 +141,7 @@ class AdminAndPrivacyRegressionTests(TestCase):
                 file_url='https://example.com/resource.pdf',
                 added_at=i,
             )
-        response = self.client.get('/api/resources/?page=1&page_size=2')
+        response = self.client.get('/api/resources/?page=1&page_size=2', **auth_header)
         self.assertEqual(response.status_code, 200)
         data = response.json()
         self.assertEqual(data['count'], 3)
@@ -250,7 +252,7 @@ class PostAndReplyTests(TestCase):
             category='General', thumbs_up_count=0, reply_count=0, created_at=int(time.time() * 1000),
             is_archived=False,
         )
-        response = self.client.get('/api/posts/')
+        response = self.client.get('/api/posts/', **self.auth_header)
         data = response.json()
         titles = [p['title'] for p in data['results']]
         self.assertNotIn('Archived', titles)
@@ -295,18 +297,20 @@ class FollowTests(TestCase):
 class FCMTests(TestCase):
     def setUp(self):
         self.client = Client()
+        self.user = _create_user()
+        self.auth_header = {'HTTP_AUTHORIZATION': f'Bearer {self.user.auth_token}'}
 
     def test_fcm_register_requires_token(self):
-        response = self.client.post('/api/fcm/register/', {}, content_type='application/json')
+        response = self.client.post('/api/fcm/register/', {}, content_type='application/json', **self.auth_header)
         self.assertEqual(response.status_code, 400)
 
     def test_fcm_register_rejects_short_token(self):
-        response = self.client.post('/api/fcm/register/', {'token': 'abc'}, content_type='application/json')
+        response = self.client.post('/api/fcm/register/', {'token': 'abc'}, content_type='application/json', **self.auth_header)
         self.assertEqual(response.status_code, 400)
 
     def test_fcm_register_valid_token(self):
         token = 'a' * 100
-        response = self.client.post('/api/fcm/register/', {'token': token}, content_type='application/json')
+        response = self.client.post('/api/fcm/register/', {'token': token}, content_type='application/json', **self.auth_header)
         self.assertEqual(response.status_code, 200)
 
 

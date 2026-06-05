@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load web_extras %}
+{% load static web_extras %}
 
 {% block title %}NEBians - Study Platform & Discussion Forum{% endblock %}
 {% block nav_home %}md-nav-active{% endblock %}
@@ -33,127 +33,7 @@
 {% endblock %}
 
 {% block extra_css %}
-<style>
-  .hero {
-    text-align: center;
-    padding: 48px 0 40px;
-  }
-
-  .hero h1 {
-    font-size: 2rem;
-    font-weight: 800;
-    color: var(--md-on-surface);
-    margin-bottom: 12px;
-    letter-spacing: -0.02em;
-  }
-
-  .hero p {
-    font-size: 1.125rem;
-    color: var(--md-on-surface-variant);
-    max-width: 520px;
-    margin: 0 auto 28px;
-    line-height: 1.6;
-  }
-
-  .hero-actions {
-    display: flex;
-    gap: 12px;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  .hero-btn-primary {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 14px 32px;
-    border-radius: var(--md-radius-full);
-    background: var(--md-primary);
-    color: var(--md-on-primary);
-    font-family: var(--md-font);
-    font-size: 0.9375rem;
-    font-weight: 600;
-    border: none;
-    cursor: pointer;
-    text-decoration: none;
-    transition: filter 150ms ease;
-  }
-
-  .hero-btn-primary:hover {
-    filter: brightness(1.08);
-    text-decoration: none;
-  }
-
-  .hero-btn-secondary {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 14px 32px;
-    border-radius: var(--md-radius-full);
-    background: var(--md-surface-container-lowest);
-    color: var(--md-primary);
-    font-family: var(--md-font);
-    font-size: 0.9375rem;
-    font-weight: 500;
-    border: 1px solid var(--md-outline-variant);
-    cursor: pointer;
-    text-decoration: none;
-    transition: background 150ms ease, border-color 150ms ease;
-  }
-
-  .hero-btn-secondary:hover {
-    background: var(--md-surface-container-low);
-    border-color: var(--md-outline);
-    text-decoration: none;
-  }
-
-  @media (max-width: 768px) {
-    .hero h1 {
-      font-size: 1.625rem;
-    }
-
-    .hero p {
-      font-size: 0.9375rem;
-    }
-  }
-
-  .home-bento {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-  }
-
-  .home-bento > * {
-    min-width: 0;
-  }
-
-  .forum-cta {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    text-align: center;
-    border: 1px solid var(--md-border-subtle);
-    border-radius: var(--md-radius-md);
-    background: transparent;
-    color: var(--md-primary);
-    font-family: var(--md-font);
-    font-size: 0.8125rem;
-    font-weight: 600;
-    cursor: pointer;
-    text-decoration: none;
-    margin-top: 12px;
-    transition: background 150ms ease;
-  }
-
-  .forum-cta:hover {
-    background: var(--md-surface-container-low);
-    text-decoration: none;
-  }
-
-  .resource-card-art {
-    height: 110px;
-  }
-</style>
+<link rel="stylesheet" href="{% static 'web/css/pages/web-home.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -278,11 +158,11 @@
     {% if recent_posts %}
     <div class="section">
       <div class="section-header">
-        <h2>Forum Activity</h2>
-        <a href="{% url 'web:forum' %}">View all</a>
+        <h2>Trending Discussions</h2>
+        <a href="{% url 'web:forum' %}?sort=hot">View all</a>
       </div>
       <div style="display:flex;flex-direction:column;gap:12px;">
-        {% for post in recent_posts %}
+        {% for post in trending_posts %}
         <div class="post-card" data-action="open-post" data-post-url="{% url 'web:forum_post' post_id=post.id %}" style="cursor: pointer;">
           <div class="post-card-header">
             <div class="post-card-avatar">
@@ -353,7 +233,7 @@
         </div>
         {% endfor %}
       </div>
-      <a href="{% url 'web:forum' %}" class="forum-cta">Start a Discussion</a>
+      <a href="{% url 'web:forum' %}?sort=hot" class="forum-cta">Join the Discussion</a>
     </div>
     {% endif %}
   </div>

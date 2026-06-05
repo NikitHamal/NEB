@@ -1,0 +1,110 @@
+{% load web_extras %}
+{% if top_level_replies %}
+<div style="display:flex;flex-direction:column;gap:10px;">
+  {% for reply in top_level_replies %}
+  <div class="fp-reply" id="reply-card-{{ reply.id }}">
+    <div class="fp-reply-header">
+      <div class="fp-reply-avatar">
+        {% if reply.authorPhotoUrl %}
+          <img src="{{ reply.authorPhotoUrl }}" alt="" data-fallback="flex">
+          <span class="fp-reply-avatar-letter" style="display:none;">{{ reply.authorName|truncate_chars:1|default:"?" }}</span>
+        {% else %}
+          <span class="fp-reply-avatar-letter">{{ reply.authorName|truncate_chars:1|default:"?" }}</span>
+        {% endif %}
+      </div>
+      <div class="fp-reply-meta">
+        <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+          <a href="{% url 'web:profile' username=reply.authorName %}" class="fp-reply-author">{{ reply.authorName }}</a>
+          {% if reply.authorBadgeInfo %}
+          <span class="role-badge role-badge-{{ reply.authorBadgeInfo.type }}" title="{{ reply.authorBadgeInfo.label }}"><span class="material-symbols-outlined">{{ reply.authorBadgeInfo.icon }}</span></span>
+          {% endif %}
+          {% if is_authenticated and reply.authorId != user.id %}
+            <button class="follow-btn-inline {% if reply.isFollowed %}following{% else %}not-following{% endif %}" data-user-id="{{ reply.authorId }}" data-action="toggle-follow" data-user-id="{{ reply.authorId }}">{% if reply.isFollowed %}Following{% else %}Follow{% endif %}</button>
+          {% endif %}
+{% if reply.isEdited %}
+            <span class="fp-edited" data-action="show-edit-history" data-target-type="reply" data-target-id="{{ reply.id }}">
+              <span class="material-symbols-outlined">edit</span> edited
+            </span>
+          {% endif %}
+        </div>
+        <div class="fp-reply-time">{{ reply.createdAt|time_ago }}</div>
+      </div>
+      <div class="more-menu-wrapper">
+        <button class="more-btn" style="margin-left:auto;align-self:flex-start;" data-action="toggle-more-menu" data-menu-id="reply-menu-{{ reply.id }}" aria-label="More options"><span class="material-symbols-outlined">more_vert</span></button>
+        <div class="more-menu" id="reply-menu-{{ reply.id }}" style="display:none;" data-action="stop-propagation">
+          {% if is_authenticated %}
+          <button class="more-menu-item" data-action="toggle-bookmark" data-target-type="reply" data-target-id="{{ reply.id }}">
+            <span class="material-symbols-outlined" id="bookmark-icon-reply-{{ reply.id }}"{% if reply.isBookmarked %} style="font-variation-settings:'FILL' 1"{% endif %}>bookmark</span>
+            <span id="bookmark-label-reply-{{ reply.id }}">{% if reply.isBookmarked %}Remove{% else %}Bookmark{% endif %}</span>
+          </button>
+          {% endif %}
+          <button class="more-menu-item" data-action="share-reply" data-reply-id="{{ reply.id }}">
+            <span class="material-symbols-outlined">share</span> Share
+          </button>
+          {% if is_authenticated and reply.authorId != user.id %}
+          <button class="more-menu-item" data-action="report-content" data-target-type="reply" data-target-id="{{ reply.id }}">
+            <span class="material-symbols-outlined">flag</span> Report
+          </button>
+          {% endif %}
+          {% if is_authenticated and reply.authorId == user.id %}
+          <div class="more-menu-divider"></div>
+          <button class="more-menu-item" data-action="start-edit-reply" data-reply-id="{{ reply.id }}">
+            <span class="material-symbols-outlined">edit</span> Edit
+          </button>
+          <button class="more-menu-item" data-action="archive-reply" data-reply-id="{{ reply.id }}">
+            <span class="material-symbols-outlined">archive</span> Archive
+          </button>
+          <button class="more-menu-item danger" data-action="delete-reply" data-reply-id="{{ reply.id }}">
+            <span class="material-symbols-outlined">delete</span> Delete reply
+          </button>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    <div class="fp-reply-body" id="reply-content-{{ reply.id }}">{{ reply.content|mention_links:all_usernames }}</div>
+    <div class="fp-reply-actions">
+      <button data-action="toggle-reply-like" data-reply-id="{{ reply.id }}" class="fp-reply-action {% if reply.isThumbedUp %}liked{% endif %}" id="reply-like-btn-{{ reply.id }}">
+        <span class="material-symbols-outlined">thumb_up</span>
+        <span id="reply-like-count-{{ reply.id }}">{{ reply.thumbsUpCount }}</span>
+      </button>
+      {% if is_authenticated %}
+      <button class="fp-reply-action" data-action="open-thread-reply" data-reply-id="{{ reply.id }}" data-author-name="{{ reply.authorName|escapejs }}">
+        <span class="material-symbols-outlined">reply</span> Reply
+      </button>
+      <span class="fp-action-spacer"></span>
+      <button class="fp-reply-action {% if reply.isBookmarked %}bookmark-active{% endif %}" data-action="toggle-bookmark" data-target-type="reply" data-target-id="{{ reply.id }}" id="reply-bookmark-btn-{{ reply.id }}">
+        <span class="material-symbols-outlined">bookmark</span>
+      </button>
+      <button class="fp-reply-action" data-action="share-reply" data-reply-id="{{ reply.id }}">
+        <span class="material-symbols-outlined">share</span>
+      </button>
+      {% endif %}
+    </div>
+    {% if reply.childCount > 0 %}
+    <button class="fp-thread-indicator" data-action="open-thread" data-reply-id="{{ reply.id }}">
+      <div class="fp-thread-avatars">
+        {% for author in reply.childAuthors %}
+        <div class="fp-thread-avatar">
+          {% if author.photoUrl %}
+            <img src="{{ author.photoUrl }}" alt="" data-fallback="flex">
+            <span class="fp-thread-avatar-letter" style="display:none;">{{ author.username|truncate_chars:1|default:"?" }}</span>
+          {% else %}
+            <span class="fp-thread-avatar-letter">{{ author.username|truncate_chars:1|default:"?" }}</span>
+          {% endif %}
+        </div>
+        {% endfor %}
+      </div>
+      <span class="fp-thread-label">{% if reply.childCount > 9 %}9+{% else %}{{ reply.childCount }}{% endif %} repl{{ reply.childCount|pluralize:"y,ies" }}</span>
+      <span class="material-symbols-outlined" style="font-size:16px;margin-left:auto;">forum</span>
+    </button>
+    {% endif %}
+  </div>
+  <script type="text/plain" id="reply-content-{{ reply.id }}">{{ reply.content|safe }}</script>
+  {% endfor %}
+</div>
+{% else %}
+<div class="fp-empty">
+  <span class="material-symbols-outlined">chat_bubble_outline</span>
+  <p>No replies yet. Be the first!</p>
+</div>
+{% endif %}

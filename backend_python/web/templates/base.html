@@ -10,7 +10,7 @@
   <link rel="icon" type="image/png" sizes="32x32" href="{% static 'web/img/n-logo-32.png' %}">
   <link rel="icon" type="image/x-icon" href="{% static 'web/img/favicon.ico' %}">
   <link rel="apple-touch-icon" sizes="180x180" href="{% static 'web/img/n-logo-180.png' %}">
-  <link rel="manifest" href="{% static 'web/manifest.json' %}">
+  <link rel="manifest" href="{% url 'web:manifest_json' %}">
   <meta name="theme-color" content="#004bd4">
   <link rel="canonical" href="{% block canonical %}https://nebians.consica.com.np{{ request.path }}{% endblock %}">
   {% block robots %}{% endblock %}
@@ -41,7 +41,10 @@
   <link rel="stylesheet" href="{% static 'web/css/app.css' %}">
   {% block extra_css %}{% endblock %}
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/delegated-events.js' %}"></script>
+  <script nonce="{{ csp_nonce }}" src="{% static 'web/js/htmx.min.js' %}"></script>
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/marked.min.js' %}"></script>
+<!-- HTMX global config: use full URL for pushState, allow CSS transitions -->
+  <meta name="htmx-config" content='{"historyEnabled":true,"refreshOnHistoryMiss":true}'>
 </head>
 
 <body{% if ws_url %} data-ws-url="{{ ws_url }}"{% endif %}>
@@ -156,6 +159,9 @@
   </header>
   {% endblock %}
 
+  <!-- HTMX loading indicator -->
+  <div id="htmx-loading-bar" class="htmx-loading-bar" style="display:none;"></div>
+
   <!-- Main Content -->
   <main class="site-main">
     {% block content %}{% endblock %}
@@ -183,6 +189,23 @@
     const IS_AUTHENTICATED = {{ is_authenticated|yesno:"true,false" }};
     const USER_DATA = {{ user|to_json }};
     const CSRF_TOKEN = '{{ csrf_token }}';
+
+    // HTMX global setup
+    document.addEventListener('DOMContentLoaded', function() {
+      document.body.setAttribute('hx-headers', JSON.stringify({'X-CSRFToken': CSRF_TOKEN}));
+    });
+
+    // Show/hide loading bar on HTMX requests
+    document.addEventListener('htmx:beforeRequest', function() {
+      document.getElementById('htmx-loading-bar').style.display = '';
+    });
+    document.addEventListener('htmx:afterRequest', function() {
+      document.getElementById('htmx-loading-bar').style.display = 'none';
+    });
+    document.addEventListener('htmx:responseError', function() {
+      document.getElementById('htmx-loading-bar').style.display = 'none';
+      showSnackbar('Something went wrong. Please try again.');
+    });
 
     registerActions({
       'toggle-theme': function () {
