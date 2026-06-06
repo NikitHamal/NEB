@@ -101,6 +101,7 @@
 
 html {
   scroll-behavior: smooth;
+  scrollbar-gutter: stable;
 }
 
 body {
@@ -109,6 +110,7 @@ body {
   color: var(--md-on-surface);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  overflow-y: scroll;
 }
 
 button,
