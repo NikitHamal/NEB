@@ -819,52 +819,8 @@
   {% endif %}
 </div>
 
-<!-- Photo History Modal -->
-{% if user and user.username == profile_user.username %}
-<div class="modal-overlay" id="photoHistoryModal" data-action="close-photo-history-modal">
-  <div class="modal-box" data-action="noop">
-    <div class="modal-header">
-      <h3 class="modal-title">Switch Profile Photo</h3>
-      <button class="modal-close" data-action="close-photo-history-modal-btn"><span class="material-symbols-outlined">close</span></button>
-    </div>
-    <div class="modal-body">
-      <div class="photos-grid" id="photosGrid">
-        {% for photo in user_photos %}
-          <div class="photo-thumb {% if photo.is_current %}active{% endif %}" data-action="activate-past-photo" data-photo-id="{{ photo.id }}" data-photo-url="{{ photo.url }}">
-            <img src="{{ photo.url }}" alt="">
-          </div>
-        {% empty %}
-          <div style="grid-column:span 3; text-align:center; padding:16px; color:var(--md-on-surface-variant); font-size:0.875rem;">
-            No photo history yet. Paste a URL below!
-          </div>
-        {% endfor %}
-      </div>
-      <input type="file" id="modal_photo_file" accept="image/*" style="display:none" data-change-action="upload-photo-file">
-      <button class="photo-upload-btn" data-action="trigger-photo-upload">
-        <span class="material-symbols-outlined" style="font-size:16px; vertical-align:middle; margin-right:4px;">upload</span>
-        Upload Image File
-      </button>
-      <div class="photo-url-row">
-        <input type="url" id="inputNewPhotoUrl" class="photo-url-input" placeholder="https://example.com/photo.jpg">
-        <button class="pf-btn-follow pf-btn-follow-filled" data-action="upload-new-photo-url" style="border-radius:10px; padding:8px 16px; font-size:0.8125rem;">Add</button>
-      </div>
-    </div>
-  </div>
-</div>
-{% endif %}
-
-<!-- Followers/Following Modal -->
-<div class="modal-overlay" id="followModal" data-action="close-follow-modal">
-  <div class="modal-box" data-action="noop">
-    <div class="modal-header">
-      <h3 class="modal-title" id="followModalTitle">Followers</h3>
-      <button class="modal-close" data-action="close-follow-modal-btn"><span class="material-symbols-outlined">close</span></button>
-    </div>
-    <div class="modal-body" id="followModalBody">
-      <div style="text-align:center; padding:24px 0; color:var(--md-on-surface-variant);">Loading...</div>
-    </div>
-  </div>
-</div>
+{% include "web/profile/_photo_modal.html" %}
+{% include "web/profile/_follow_modal.html" %}
 {% endblock %}
 
 {% block extra_js %}
@@ -1298,16 +1254,7 @@ async function uploadNewPhotoUrl() {
     else showSnackbar(d.error || 'Failed.');
   } catch(e) { showSnackbar('Error uploading.'); }
 }
-async function uploadPhotoFile(ev) {
-  const file = ev.target.files[0]; if (!file) return;
-  const fd = new FormData(); fd.append('file', file);
-  try {
-    const r = await fetch('/ajax/photos/', { method:'POST', headers:{'X-CSRFToken':CSRF_TOKEN}, body:fd, credentials:'same-origin' });
-    const d = await r.json();
-    if (d && d.url) { ev.target.value=''; document.getElementById('profilePageAvatar').innerHTML=`<img src="${safeClientUrl(d.url)}" alt="Profile">`; closePhotoHistoryModal(); showSnackbar('Profile picture uploaded.'); }
-    else showSnackbar(d.error || 'Failed.');
-  } catch(e) { showSnackbar('Error uploading.'); }
-}
+
 // Animate progress fills on page load
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.progress-fill').forEach(fill => {
@@ -1452,11 +1399,11 @@ registerActions({
   'close-photo-history-modal': function() { closePhotoHistoryModal(); },
   'close-photo-history-modal-btn': function() { closePhotoHistoryModal(); },
   'activate-past-photo': function(el) { activatePastPhoto(el.dataset.photoId, el.dataset.photoUrl); },
-  'trigger-photo-upload': function() { document.getElementById('modal_photo_file').click(); },
+  'trigger-photo-upload': function() {},
   'upload-new-photo-url': function() { uploadNewPhotoUrl(); },
-  'upload-photo-file': function(el) { uploadPhotoFile({ target: el }); },
   'noop': function() {}
 });
 
 </script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/profile-photo-upload.js' %}"></script>
 {% endblock %}

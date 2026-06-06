@@ -1,0 +1,389 @@
+/* ==========================================
+   NEBians Admin Panel Styles
+   ========================================== */
+
+/* --- Layout --- */
+.admin-header-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+.admin-flex-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.admin-flex-col {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.admin-flex-col-sm {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.admin-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+.admin-grid-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+}
+
+@media (max-width: 768px) {
+    .admin-grid-2,
+    .admin-grid-3 {
+        grid-template-columns: 1fr;
+    }
+}
+
+.admin-flex-1 {
+    flex: 1;
+    min-width: 0;
+}
+
+/* --- Typography --- */
+.admin-text-secondary {
+    color: var(--md-on-surface-variant);
+}
+
+.admin-text-sm {
+    font-size: 0.75rem;
+}
+
+.admin-text-xs {
+    font-size: 0.6875rem;
+}
+
+.admin-font-medium {
+    font-weight: 600;
+}
+
+/* --- Cards & Sections --- */
+.admin-section-card {
+    background: var(--md-surface-container);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 16px;
+}
+
+.admin-section-card-highlight {
+    background: var(--md-surface-container-high);
+    border-radius: 12px;
+    padding: 16px;
+}
+
+/* --- Form Elements --- */
+.admin-form-input {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--md-outline);
+    background: var(--md-surface);
+    color: var(--md-on-surface);
+    font-family: var(--md-font);
+    font-size: 0.875rem;
+}
+
+.admin-form-input:focus {
+    outline: none;
+    border-color: var(--md-primary);
+}
+
+.admin-form-label {
+    display: block;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    margin-bottom: 4px;
+    color: var(--md-on-surface-variant);
+}
+
+.admin-form-hint {
+    font-size: 0.75rem;
+    color: var(--md-on-surface-variant);
+    margin-top: 4px;
+}
+
+.admin-form-group {
+    margin-bottom: 16px;
+}
+
+/* --- Search Bar --- */
+.admin-search-input {
+    border: none;
+    background: transparent;
+    outline: none;
+    color: var(--md-on-surface);
+    font-family: var(--md-font);
+    font-size: 0.875rem;
+    padding: 8px 0;
+}
+
+/* --- Status Badges --- */
+.admin-status-locked {
+    color: var(--md-error);
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.admin-status-active {
+    color: var(--md-primary);
+    font-size: 0.75rem;
+}
+
+/* --- Role Icons (inline) --- */
+.admin-role-icon {
+    font-size: 14px;
+    vertical-align: middle;
+}
+
+.admin-role-admin {
+    color: #F59E0B;
+}
+
+.admin-role-mod {
+    color: #1B9AF0;
+}
+
+.admin-role-verified {
+    color: #00897B;
+}
+
+.admin-role-bot {
+    color: #7C4DFF;
+}
+
+/* --- Table Action Buttons --- */
+.admin-table-action {
+    padding: 4px 8px;
+    font-size: 0.75rem;
+}
+
+.admin-table-action-destructive {
+    padding: 4px 8px;
+    font-size: 0.75rem;
+    color: var(--md-error);
+}
+
+/* --- Text Truncation --- */
+.admin-truncate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.admin-cell-title {
+    max-width: 300px;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.admin-cell-desc {
+    font-size: 0.75rem;
+    color: var(--md-on-surface-variant);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* --- Back Link --- */
+.admin-back-link {
+    margin-bottom: 24px;
+}
+
+.admin-back-link a {
+    padding-left: 0;
+}
+
+.admin-back-link .material-symbols-outlined {
+    font-size: 18px;
+}
+
+/* --- Danger Zone --- */
+.admin-danger-zone {
+    border: 1px solid var(--md-error);
+    border-radius: var(--md-radius-lg);
+}
+
+.admin-danger-zone h3 {
+    color: var(--md-error);
+}
+
+.admin-danger-zone p {
+    color: var(--md-on-surface-variant);
+    margin-bottom: 16px;
+}
+
+/* --- Profile Section Headers --- */
+.admin-section-header {
+    margin: 20px 0 12px;
+    padding-top: 20px;
+    border-top: 1px solid var(--md-outline-variant);
+}
+
+/* --- Profile Photo/Banner Previews --- */
+.admin-photo-preview {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid var(--md-outline-variant);
+}
+
+.admin-banner-preview {
+    width: 100%;
+    max-width: 340px;
+    aspect-ratio: 11 / 2.8;
+    border-radius: 8px;
+    object-fit: cover;
+    border: 1px solid var(--md-outline-variant);
+}
+
+/* --- Bot Config Specific --- */
+.admin-bot-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.admin-bot-avatar-fallback {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #7C4DFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.admin-bot-avatar-fallback .material-symbols-outlined {
+    color: white;
+    font-size: 20px;
+}
+
+.admin-bot-badge {
+    background: #7C4DFF;
+    color: white;
+    font-size: 0.6875rem;
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-weight: 600;
+}
+
+/* --- Switch Row (for admin settings) --- */
+.admin-switch-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.admin-switch-label {
+    margin-bottom: 0;
+}
+
+.admin-switch-desc {
+    color: var(--md-on-surface-variant);
+}
+
+/* --- Dashboard Stats --- */
+.admin-stat-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    font-size: 0.75rem;
+    color: var(--md-on-surface-variant);
+}
+
+.admin-bar-bg {
+    flex: 1;
+    height: 24px;
+    background: var(--md-surface-variant);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.admin-bar-fill {
+    height: 100%;
+    background: var(--md-primary);
+    border-radius: 4px;
+    max-width: 100%;
+}
+
+.admin-bar-label {
+    width: 160px;
+    text-align: right;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-shrink: 0;
+}
+
+.admin-bar-count {
+    width: 40px;
+    text-align: right;
+    flex-shrink: 0;
+}
+
+/* --- Divider --- */
+.admin-divider {
+    margin: 16px 0;
+    border: none;
+    border-top: 1px solid var(--md-outline-variant);
+}
+
+/* --- Container (bot config, resource edit) --- */
+.admin-container-narrow {
+    max-width: 600px;
+}
+
+.admin-container-medium {
+    max-width: 720px;
+    margin: 0 auto;
+}
+
+/* --- Bot Preset Avatar Grid --- */
+.admin-preset-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 4px;
+}
+
+/* --- Chip --- */
+.admin-chip {
+    font-size: 0.75rem;
+}
+
+/* --- File Input Override --- */
+input[type="file"].md-input {
+    padding: 8px;
+    cursor: pointer;
+}
+
+input[type="file"].md-input::file-selector-button {
+    margin-right: 12px;
+    padding: 6px 16px;
+    border: 1px solid var(--md-outline);
+    border-radius: 8px;
+    background: var(--md-surface);
+    color: var(--md-on-surface);
+    font-family: var(--md-font);
+    cursor: pointer;
+}
+
+input[type="file"].md-input::file-selector-button:hover {
+    background: var(--md-surface-container);
+}

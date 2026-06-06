@@ -1,0 +1,157 @@
+/* Material 3 Buttons */
+.md-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 24px;
+  border-radius: var(--md-radius-full);
+  border: none;
+  font-family: var(--md-font);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--md-transition);
+  text-decoration: none;
+  min-height: 40px;
+  line-height: 1.43;
+}
+
+.md-btn:hover {
+  text-decoration: none;
+}
+
+.md-btn-filled {
+  background: var(--md-primary);
+  color: var(--md-on-primary);
+}
+
+.md-btn-filled:hover {
+  filter: brightness(1.08);
+}
+
+.md-btn-outlined {
+  background: transparent;
+  color: var(--md-primary);
+  border: 1px solid var(--md-outline);
+}
+
+.md-btn-outlined:hover {
+  background: color-mix(in srgb, var(--md-primary) 8%, transparent);
+}
+
+.md-btn-text {
+  background: transparent;
+  color: var(--md-primary);
+}
+
+.md-btn-text:hover {
+  background: color-mix(in srgb, var(--md-primary) 8%, transparent);
+}
+
+.md-btn-tonal {
+  background: var(--md-secondary-container);
+  color: var(--md-on-secondary-container);
+}
+
+.md-btn-tonal:hover {
+  filter: brightness(1.04);
+}
+
+.md-btn-error {
+  background: var(--md-error);
+  color: var(--md-on-error);
+}
+
+.md-btn-icon {
+  width: 40px;
+  height: 40px;
+  padding: 8px;
+  border-radius: var(--md-radius-full);
+  background: transparent;
+  border: none;
+  color: var(--md-on-surface-variant);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background var(--md-transition);
+}
+
+.md-btn-icon:hover {
+  background: var(--md-surface-variant);
+}
+
+/* Material 3 Cards */
+.md-card {
+  background: var(--md-surface-container-lowest);
+  border: 1px solid var(--md-outline-variant);
+  border-radius: var(--md-radius-lg);
+  overflow: hidden;
+}
+
+.md-card:hover {}
+
+.md-card-outlined {
+  background: var(--md-surface-container-lowest);
+  border: 1px solid var(--md-outline-variant);
+  border-radius: var(--md-radius-lg);
+  overflow: hidden;
+}
+
+.md-card-elevated {
+  background: var(--md-surface-container-lowest);
+  border: 1px solid var(--md-outline-variant);
+  border-radius: var(--md-radius-lg);
+  box-shadow: var(--md-elevation-1);
+  overflow: hidden;
+}
+
+.md-card-filled {
+  background: var(--md-surface-container-highest);
+  border: 1px solid var(--md-outline-variant);
+  border-radius: var(--md-radius-lg);
+  overflow: hidden;
+}
+
+/* Material 3 Chips */
+.md-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 16px;
+  border-radius: var(--md-radius-full);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--md-transition);
+  border: 1px solid var(--md-outline);
+  background: transparent;
+  color: var(--md-on-surface-variant);
+  font-family: var(--md-font);
+  text-decoration: none;
+}
+
+.md-chip:hover {
+  background: var(--md-surface-variant);
+  text-decoration: none;
+}
+
+.md-chip-active {
+  background: var(--md-secondary-container);
+  color: var(--md-on-secondary-container);
+  border-color: transparent;
+}
+
+.md-chip-active:hover {
+  background: var(--md-secondary-container);
+}
+
+/* Material 3 Text Fields — defined with focus fixes in app.css */
+.md-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--md-on-surface-variant);
+  margin-bottom: 8px;
+}
