@@ -80,6 +80,15 @@
                   <span class="material-symbols-outlined">{{ badge_info.icon }}</span>
                 </span>
               {% endif %}
+              {% if profile_user.role == 'teacher' %}
+                <span class="role-badge role-badge-teacher" title="Verified Teacher">
+                  <span class="material-symbols-outlined">person_book</span>
+                </span>
+              {% elif profile_user.role == 'institution' %}
+                <span class="role-badge role-badge-institution" title="Institution">
+                  <span class="material-symbols-outlined">apartment</span>
+                </span>
+              {% endif %}
             </h1>
 
             <!-- Student Subtitle / Role Headline -->
@@ -90,19 +99,25 @@
                   AI Study Companion
                 </span>
               {% else %}
-                {% if profile_user.class_level %}
-                  {% if profile_user.class_level == '11' %}Class 11
-                  {% elif profile_user.class_level == '12' %}Class 12
-                  {% elif profile_user.class_level == 'Both' %}Class 11 & 12
-                  {% elif profile_user.class_level == 'Passout' %}Graduate
-                  {% elif profile_user.class_level == 'Teacher' %}Teacher / Educator
-                  {% elif profile_user.class_level == 'Bachelors' %}Bachelors
-                  {% else %}{{ profile_user.class_level }}{% endif %}
+                {% if profile_user.role == 'teacher' %}
+                  Teacher{% if profile_user.teaching_subjects %} &middot; {{ profile_user.teaching_subjects|comma_space }}{% endif %}{% if profile_user.school %} &middot; {{ profile_user.school }}{% endif %}
+                {% elif profile_user.role == 'institution' %}
+                  {% if profile_user.institution_type == 'school' %}School{% elif profile_user.institution_type == 'college' %}College{% elif profile_user.institution_type == 'academy' %}Academy{% else %}Institution{% endif %}{% if profile_user.school %} &middot; {{ profile_user.school }}{% endif %}
                 {% else %}
-                  NEBians Member
-                {% endif %}
-                {% if profile_user.subjects %}
-                  | {{ profile_user.subjects|comma_space }}
+                  {% if profile_user.class_level %}
+                    {% if profile_user.class_level == '11' %}Class 11
+                    {% elif profile_user.class_level == '12' %}Class 12
+                    {% elif profile_user.class_level == 'Both' %}Class 11 & 12
+                    {% elif profile_user.class_level == 'Passout' %}Graduate
+                    {% elif profile_user.class_level == 'Teacher' %}Teacher / Educator
+                    {% elif profile_user.class_level == 'Bachelors' %}Bachelors
+                    {% else %}{{ profile_user.class_level }}{% endif %}
+                  {% else %}
+                    NEBians Member
+                  {% endif %}
+                  {% if profile_user.subjects %}
+                    | {{ profile_user.subjects|comma_space }}
+                  {% endif %}
                 {% endif %}
               {% endif %}
             </p>
@@ -299,15 +314,20 @@
                     {% endif %}
                   </div>
                   <div class="post-card-meta">
-                    <div class="post-card-meta-line">
-                      <strong><a href="{% url 'web:profile' username=profile_user.username %}" style="cursor:pointer;text-decoration:none;color:inherit;">{{ profile_user.display_name|default:profile_user.username }}</a></strong>
+                    <div class="post-card-meta-top" style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+                      <a href="{% url 'web:profile' username=profile_user.username %}" style="font-weight:700;cursor:pointer;text-decoration:none;color:inherit;">{{ profile_user.display_name|default:profile_user.username }}</a>
                       {% if badge_info %}
                       <span class="role-badge role-badge-{{ badge_info.type }}" title="{{ badge_info.label }}"><span class="material-symbols-outlined">{{ badge_info.icon }}</span></span>
                       {% endif %}
+                      {% if is_authenticated and profile_user.id != user.id %}
+                      <button class="follow-btn-small {% if stats.is_following %}following{% else %}not-following{% endif %}" data-action="toggle-follow" data-user-id="{{ profile_user.id }}">{% if stats.is_following %}Following{% else %}Follow{% endif %}</button>
+                      {% endif %}
                     </div>
-                    <div class="post-meta-sub">
+                    <div class="post-card-meta-bottom" style="display:flex; align-items:center; flex-wrap:wrap; gap:6px; margin-top:2px; color:var(--md-on-surface-variant);">
+                      <span class="act-action-text">started a discussion</span>
+                      <span style="opacity:0.4;">&middot;</span>
                       <a href="{% url 'web:forum' %}?category={{ post.category }}" class="post-card-category-link">{{ post.category }}</a>
-                      <span class="dot-sep">&middot;</span>
+                      <span style="opacity:0.4;">&middot;</span>
                       <span class="post-card-time">{{ post.createdAt|time_ago }}</span>
                     </div>
                   </div>

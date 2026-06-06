@@ -13,7 +13,7 @@
 
   {% if profile_incomplete %}
   <div style="background:var(--md-primary-container, #d1e4ff);color:var(--md-on-primary-container, #001d6b);padding:12px 16px;border-radius:12px;margin-bottom:16px;font-size:0.875rem;font-weight:500;">
-    Please complete your profile to continue. Display name, gender, and class are required.
+    Please complete your profile to continue. Display name, gender, and role-specific fields are required.
   </div>
   {% elif error %}
   <div style="background:var(--md-error-container, #fce4ec);color:var(--md-on-error-container, #b71c1c);padding:12px 16px;border-radius:12px;margin-bottom:16px;font-size:0.875rem;font-weight:500;">
@@ -45,6 +45,27 @@
             </button>
             <span style="font-size:0.75rem;color:var(--md-on-surface-variant);">JPG, PNG or WebP. Max 5MB.</span>
           </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="md-label" for="role">I am a...</label>
+        <div style="display:flex;gap:8px;margin-top:4px;flex-wrap:wrap;" id="role-selector">
+          <label class="role-radio-card{% if user.role == 'student' %} role-radio-active{% endif %}">
+            <input type="radio" name="role" value="student" {% if user.role == 'student' or not user.role %}checked{% endif %} style="display:none;">
+            <span class="material-symbols-outlined" style="font-size:20px;">school</span>
+            Student
+          </label>
+          <label class="role-radio-card{% if user.role == 'teacher' %} role-radio-active{% endif %}">
+            <input type="radio" name="role" value="teacher" {% if user.role == 'teacher' %}checked{% endif %} style="display:none;">
+            <span class="material-symbols-outlined" style="font-size:20px;">person_book</span>
+            Teacher
+          </label>
+          <label class="role-radio-card{% if user.role == 'institution' %} role-radio-active{% endif %}">
+            <input type="radio" name="role" value="institution" {% if user.role == 'institution' %}checked{% endif %} style="display:none;">
+            <span class="material-symbols-outlined" style="font-size:20px;">apartment</span>
+            Institution
+          </label>
         </div>
       </div>
 
@@ -86,25 +107,8 @@
         </div>
       </div>
 
-      <div class="form-row">
-        <div class="form-group">
-          <label class="md-label" for="class_level">Class *</label>
-          <select id="class_level" name="class_level" class="md-select" required>
-            <option value="">Select class</option>
-            <option value="Class 8" {% if user.class_level == 'Class 8' %}selected{% endif %}>Class 8</option>
-            <option value="Class 9" {% if user.class_level == 'Class 9' %}selected{% endif %}>Class 9</option>
-            <option value="Class 10 / SEE" {% if user.class_level == 'Class 10 / SEE' %}selected{% endif %}>Class 10 / SEE</option>
-            <option value="11" {% if user.class_level == '11' %}selected{% endif %}>Class 11</option>
-            <option value="12" {% if user.class_level == '12' %}selected{% endif %}>Class 12</option>
-            <option value="Both" {% if user.class_level == 'Both' %}selected{% endif %}>Both</option>
-            <option value="Passout" {% if user.class_level == 'Passout' %}selected{% endif %}>Passout</option>
-            <option value="Bachelors" {% if user.class_level == 'Bachelors' %}selected{% endif %}>Bachelors</option>
-            <option value="Masters" {% if user.class_level == 'Masters' %}selected{% endif %}>Masters</option>
-            <option value="PhD" {% if user.class_level == 'PhD' %}selected{% endif %}>PhD</option>
-            <option value="Teacher" {% if user.class_level == 'Teacher' %}selected{% endif %}>Teacher</option>
-            <option value="Other" {% if user.class_level == 'Other' %}selected{% endif %}>Other</option>
-          </select>
-        </div>
+      <!-- Student fields -->
+      <div id="role-fields-student" class="role-fields" style="{% if user.role == 'student' or not user.role %}{% else %}display:none;{% endif %}">
         <div class="form-group">
           <label class="md-label">Subjects</label>
           <input type="hidden" id="subjects-hidden" name="subjects" value="{{ user.subjects|default:'' }}">
@@ -122,8 +126,58 @@
         </div>
       </div>
 
+      <!-- Teacher fields -->
+      <div id="role-fields-teacher" class="role-fields" style="{% if user.role == 'teacher' %}{% else %}display:none;{% endif %}">
+        <div class="form-group">
+          <label class="md-label">Teaching Subjects *</label>
+          <input type="hidden" id="teaching-subjects-hidden" name="teaching_subjects" value="{{ user.teaching_subjects|default:'' }}">
+          <div class="subject-chips-area" id="teaching-subjects-chips-area">
+            <div class="subject-chips" id="teaching-subjects-chips"></div>
+            <div class="subject-input-row">
+              <input class="md-input subject-input" type="text" id="teaching-subjects-input" placeholder="Add subjects you teach (Enter or comma)" autocomplete="off">
+              <button type="button" class="md-btn md-btn-tonal subject-pick-btn" id="teaching-subjects-pick-btn">
+                <span class="material-symbols-outlined">checklist</span>
+                Pick
+              </button>
+            </div>
+            <div style="font-size:0.8125rem;color:var(--md-on-surface-variant);margin-top:4px;">Add the subjects you teach. Students will find you by these.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Institution fields -->
+      <div id="role-fields-institution" class="role-fields" style="{% if user.role == 'institution' %}{% else %}display:none;{% endif %}">
+        <div class="form-group">
+          <label class="md-label" for="institution_type">Institution Type *</label>
+          <select id="institution_type" name="institution_type" class="md-select">
+            <option value="">Select type</option>
+            <option value="school" {% if user.institution_type == 'school' %}selected{% endif %}>School</option>
+            <option value="college" {% if user.institution_type == 'college' %}selected{% endif %}>College</option>
+            <option value="academy" {% if user.institution_type == 'academy' %}selected{% endif %}>Academy</option>
+            <option value="other" {% if user.institution_type == 'other' %}selected{% endif %}>Other</option>
+          </select>
+        </div>
+      </div>
+
       <div class="form-row">
         <div class="form-group">
+          <label class="md-label" for="class_level">Class / Level</label>
+          <select id="class_level" name="class_level" class="md-select">
+            <option value="">Select class</option>
+            <option value="Class 8" {% if user.class_level == 'Class 8' %}selected{% endif %}>Class 8</option>
+            <option value="Class 9" {% if user.class_level == 'Class 9' %}selected{% endif %}>Class 9</option>
+            <option value="Class 10 / SEE" {% if user.class_level == 'Class 10 / SEE' %}selected{% endif %}>Class 10 / SEE</option>
+            <option value="11" {% if user.class_level == '11' %}selected{% endif %}>Class 11</option>
+            <option value="12" {% if user.class_level == '12' %}selected{% endif %}>Class 12</option>
+            <option value="Both" {% if user.class_level == 'Both' %}selected{% endif %}>Both (11 & 12)</option>
+            <option value="Passout" {% if user.class_level == 'Passout' %}selected{% endif %}>Passout</option>
+            <option value="Bachelors" {% if user.class_level == 'Bachelors' %}selected{% endif %}>Bachelors</option>
+            <option value="Masters" {% if user.class_level == 'Masters' %}selected{% endif %}>Masters</option>
+            <option value="PhD" {% if user.class_level == 'PhD' %}selected{% endif %}>PhD</option>
+            <option value="Other" {% if user.class_level == 'Other' %}selected{% endif %}>Other</option>
+          </select>
+        </div>
+        <div class="form-group" id="province-district-group">
           <label class="md-label" for="pradesh">Province</label>
           <select id="pradesh" name="pradesh" class="md-select">
             <option value="">Select</option>
@@ -136,14 +190,15 @@
             <option value="7" {% if user.pradesh == '7' %}selected{% endif %}>Sudurpashchim</option>
           </select>
         </div>
-        <div class="form-group">
-          <label class="md-label" for="district">District</label>
-          <input type="text" id="district" name="district" class="md-input" value="{{ user.district|default:'' }}" placeholder="Your district">
-        </div>
       </div>
 
       <div class="form-group">
-        <label class="md-label" for="school">School/College</label>
+        <label class="md-label" for="district">District</label>
+        <input type="text" id="district" name="district" class="md-input" value="{{ user.district|default:'' }}" placeholder="Your district">
+      </div>
+
+      <div class="form-group">
+        <label class="md-label" for="school" id="school-label">School/College</label>
         <input type="text" id="school" name="school" class="md-input" value="{{ user.school|default:'' }}" placeholder="Your school or college name">
       </div>
 
@@ -443,9 +498,218 @@ var subjectPicker = (function() {
   return { addItem: addItem, removeItem: removeItem };
 })();
 
+var teachingSubjectPicker = (function() {
+  var hiddenInput = document.getElementById('teaching-subjects-hidden');
+  var chipContainer = document.getElementById('teaching-subjects-chips');
+  var textInput = document.getElementById('teaching-subjects-input');
+  var pickBtn = document.getElementById('teaching-subjects-pick-btn');
+  var overlay = document.getElementById('subjects-pick-overlay');
+  var closeBtn = document.getElementById('subjects-pick-close');
+  var searchInput = document.getElementById('subjects-pick-search');
+  var pickList = document.getElementById('subjects-pick-list');
+  var customInput = document.getElementById('subjects-pick-custom');
+  var addBtn = document.getElementById('subjects-pick-add-btn');
+  var cancelBtn = document.getElementById('subjects-pick-cancel');
+  var doneBtn = document.getElementById('subjects-pick-done');
+  var items = [];
+
+  if (!hiddenInput || !chipContainer) return { addItem: function(){}, removeItem: function(){} };
+
+  function init() {
+    var val = hiddenInput.value;
+    if (val) {
+      items = val.split(',').map(function(s) { return s.trim(); }).filter(function(s) { return s; });
+    }
+    renderChips();
+  }
+
+  function renderChips() {
+    chipContainer.innerHTML = '';
+    items.forEach(function(s) {
+      var chip = document.createElement('span');
+      chip.className = 'subject-chip';
+      chip.innerHTML = escapeHtml(s) + '<button type="button" class="subject-chip-remove" data-item="' + escapeHtml(s) + '"><span class="material-symbols-outlined">close</span></button>';
+      chipContainer.appendChild(chip);
+    });
+    hiddenInput.value = items.join(', ');
+    chipContainer.querySelectorAll('.subject-chip-remove').forEach(function(btn) {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        removeItem(btn.getAttribute('data-item'));
+      });
+    });
+  }
+
+  function addItem(name) {
+    name = name.trim();
+    if (!name) return;
+    name.split(/[,;]/).forEach(function(part) {
+      part = part.trim();
+      if (!part) return;
+      var lower = part.toLowerCase();
+      var exists = items.some(function(s) { return s.toLowerCase() === lower; });
+      if (!exists) items.push(part);
+    });
+    renderChips();
+  }
+
+  function removeItem(name) {
+    items = items.filter(function(s) { return s !== name; });
+    renderChips();
+  }
+
+  textInput.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' || e.key === ',' || e.key === 'Tab') {
+      var val = textInput.value.replace(/,$/, '').trim();
+      if (val) { e.preventDefault(); addItem(val); textInput.value = ''; }
+    } else if (e.key === 'Backspace' && !textInput.value && items.length) {
+      removeItem(items[items.length - 1]);
+    }
+  });
+
+  textInput.addEventListener('blur', function() {
+    var val = textInput.value.replace(/,$/, '').trim();
+    if (val) { addItem(val); textInput.value = ''; }
+  });
+
+  pickBtn.addEventListener('click', function() {
+    overlay.style.display = '';
+    document.body.style.overflow = 'hidden';
+    searchInput.value = '';
+    filterList('');
+    syncSelection();
+    searchInput.focus();
+  });
+
+  function filterList(query) {
+    var q = query.toLowerCase();
+    pickList.querySelectorAll('.subject-pick-item').forEach(function(item) {
+      var label = item.getAttribute('data-subject').toLowerCase();
+      item.style.display = label.indexOf(q) >= 0 ? '' : 'none';
+    });
+  }
+
+  searchInput.addEventListener('input', function() { filterList(searchInput.value); });
+
+  doneBtn.addEventListener('click', function() {
+    var selected = [];
+    pickList.querySelectorAll('.subject-pick-item.selected').forEach(function(item) {
+      selected.push(item.getAttribute('data-subject'));
+    });
+    items = selected;
+    renderChips();
+    document.body.style.overflow = '';
+    overlay.style.display = 'none';
+  });
+
+  function syncSelection() {
+    var lowerItems = items.map(function(s) { return s.toLowerCase(); });
+    pickList.querySelectorAll('.subject-pick-item').forEach(function(item) {
+      var subject = item.getAttribute('data-subject');
+      var isSel = lowerItems.indexOf(subject.toLowerCase()) >= 0;
+      item.classList.toggle('selected', isSel);
+      item.querySelector('.subject-pick-checkbox').checked = isSel;
+    });
+  }
+
+  init();
+  return { addItem: addItem, removeItem: removeItem };
+})();
+
 registerActions({
   'trigger-photo-upload': function() { document.getElementById('photo_file').click(); },
   'edit-photo-upload': function(el, e) { handleEditPhotoUpload(e); }
 });
+
+// Role selector toggle
+(function() {
+  var roleCards = document.querySelectorAll('.role-radio-card');
+  var fieldSections = {
+    student: document.getElementById('role-fields-student'),
+    teacher: document.getElementById('role-fields-teacher'),
+    institution: document.getElementById('role-fields-institution')
+  };
+  var schoolLabel = document.getElementById('school-label');
+  var schoolInput = document.getElementById('school');
+  var classLevelSelect = document.getElementById('class_level');
+  var classLevelLabel = document.querySelector('label[for="class_level"]');
+  var schoolLabels = { student: 'School/College', teacher: 'School/College', institution: 'Institution Name' };
+  var schoolPlaceholders = { student: 'Your school or college name', teacher: 'Where you teach', institution: 'Official institution name' };
+  var classLabels = { student: 'Class *', teacher: 'Class Level', institution: 'Class Level' };
+
+  // Student class options
+  var studentOptions = [
+    { value: '', text: 'Select class' },
+    { value: 'Class 8', text: 'Class 8' },
+    { value: 'Class 9', text: 'Class 9' },
+    { value: 'Class 10 / SEE', text: 'Class 10 / SEE' },
+    { value: '11', text: 'Class 11' },
+    { value: '12', text: 'Class 12' },
+    { value: 'Both', text: 'Both (11 & 12)' },
+    { value: 'Passout', text: 'Passout' },
+    { value: 'Bachelors', text: 'Bachelors' },
+    { value: 'Masters', text: 'Masters' },
+    { value: 'PhD', text: 'PhD' },
+    { value: 'Other', text: 'Other' }
+  ];
+  // Teacher/institution class options (no Class 8-10, SEE, Passout)
+  var teacherOptions = [
+    { value: '', text: 'Select level' },
+    { value: '11', text: 'Class 11' },
+    { value: '12', text: 'Class 12' },
+    { value: 'Both', text: 'Both (11 & 12)' },
+    { value: 'Bachelors', text: 'Bachelors' },
+    { value: 'Masters', text: 'Masters' },
+    { value: 'Other', text: 'Other' }
+  ];
+
+  function updateClassOptions(role) {
+    if (!classLevelSelect) return;
+    var currentValue = classLevelSelect.value;
+    var options = (role === 'student') ? studentOptions : teacherOptions;
+    classLevelSelect.innerHTML = '';
+    options.forEach(function(opt) {
+      var option = document.createElement('option');
+      option.value = opt.value;
+      option.textContent = opt.text;
+      classLevelSelect.appendChild(option);
+    });
+    // Restore previous value if it exists in new options
+    var found = options.some(function(opt) { return opt.value === currentValue; });
+    if (found) {
+      classLevelSelect.value = currentValue;
+    }
+    // Update required/label
+    if (classLevelLabel) classLevelLabel.textContent = classLabels[role] || 'Class';
+    if (role === 'student') {
+      classLevelSelect.setAttribute('required', 'required');
+    } else {
+      classLevelSelect.removeAttribute('required');
+    }
+  }
+
+  function showRoleFields(role) {
+    Object.keys(fieldSections).forEach(function(key) {
+      if (fieldSections[key]) {
+        fieldSections[key].style.display = key === role ? '' : 'none';
+      }
+    });
+    if (schoolLabel) schoolLabel.textContent = schoolLabels[role] || 'School/College';
+    if (schoolInput) schoolInput.placeholder = schoolPlaceholders[role] || '';
+    updateClassOptions(role);
+  }
+
+  roleCards.forEach(function(card) {
+    card.addEventListener('click', function() {
+      var radio = card.querySelector('input[type="radio"]');
+      if (radio) {
+        radio.checked = true;
+        roleCards.forEach(function(c) { c.classList.remove('role-radio-active'); });
+        card.classList.add('role-radio-active');
+        showRoleFields(radio.value);
+      }
+    });
+  });
+})();
 </script>
 {% endblock %}

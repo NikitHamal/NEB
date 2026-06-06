@@ -205,9 +205,13 @@ def auth_email_signup(request):
     email = request.data.get('email', '').strip().lower()
     password = request.data.get('password', '')
     username = request.data.get('username', '').strip()
+    role = request.data.get('role', 'student').strip().lower()
 
     if not email or not password or not username:
         return Response({'error': 'Email, password, and username are required'}, status=400)
+
+    if role not in ('student', 'teacher', 'institution'):
+        role = 'student'
 
     password_error = _validate_password_strength(password)
     if password_error:
@@ -230,6 +234,7 @@ def auth_email_signup(request):
         username=username,
         email=email,
         password_hash=hash_password(password),
+        role=role,
         email_verified=False,
         created_at=_now_ms()
     )
