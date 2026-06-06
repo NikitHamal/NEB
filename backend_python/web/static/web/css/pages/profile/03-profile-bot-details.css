@@ -1,0 +1,194 @@
+  /* Bot CTA card (right column) */
+  .pf-bot-cta-card {
+    border-radius: var(--md-radius-lg);
+    border: 1px solid var(--md-outline-variant);
+    background: var(--md-surface-container-lowest);
+    padding: 22px;
+    margin-bottom: 16px;
+  }
+  .pf-bot-cta-content { position: relative; }
+  .pf-bot-cta-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--md-primary);
+    background: var(--md-primary-container);
+    padding: 4px 10px;
+    border-radius: 100px;
+    margin-bottom: 10px;
+  }
+  .pf-bot-cta-eyebrow .material-symbols-outlined { font-size: 14px; }
+  .pf-bot-cta-title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--md-on-surface);
+    margin: 0 0 8px;
+  }
+  .pf-bot-cta-desc {
+    font-size: 0.875rem;
+    color: var(--md-on-surface-variant);
+    margin: 0 0 16px;
+    line-height: 1.5;
+  }
+  .pf-bot-cta-desc code {
+    background: var(--md-primary-container);
+    color: var(--md-on-primary-container);
+    padding: 1px 6px;
+    border-radius: 6px;
+    font-size: 0.8125rem;
+    font-weight: 600;
+  }
+  .pf-bot-cta-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  /* Bot footer line */
+  .pf-bot-footer {
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid var(--md-outline-variant);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.75rem;
+    color: var(--md-on-surface-variant);
+  }
+  .pf-bot-footer .material-symbols-outlined {
+    font-size: 14px;
+    color: var(--md-primary);
+  }
+
+  /* Bot avatar — primary border + AI badge */
+  .pf-avatar-bot .pf-avatar-circle {
+    position: relative;
+    border: 3px solid var(--md-primary);
+  }
+  .pf-avatar-ai-pill {
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--md-primary);
+    color: var(--md-on-primary);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--md-surface-container-lowest);
+  }
+  .pf-avatar-ai-pill .material-symbols-outlined {
+    font-size: 16px;
+    color: var(--md-on-primary);
+  }
+
+  .pf-reply-card {
+    background: var(--md-surface-container-lowest);
+    border: 1px solid var(--md-outline-variant);
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 10px;
+    transition: border-color 0.15s;
+  }
+  .pf-reply-card:hover {
+    border-color: var(--md-outline);
+  }
+  .pf-reply-card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+  .pf-reply-card-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: var(--md-primary-container);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .pf-reply-card-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .pf-reply-card-meta {
+    flex: 1;
+    min-width: 0;
+  }
+  .pf-reply-card-context {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    background: var(--md-surface-container);
+    border-radius: 8px;
+    margin-bottom: 10px;
+    font-size: 0.8125rem;
+  }
+  .pf-reply-card-context .material-symbols-outlined {
+    font-size: 16px;
+    color: var(--md-on-surface-variant);
+  }
+  .pf-reply-card-context a {
+    color: var(--md-primary);
+    text-decoration: none;
+    font-weight: 500;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .pf-reply-card-context a:hover {
+    text-decoration: underline;
+  }
+  .pf-reply-card-body {
+    font-size: 0.875rem;
+    color: var(--md-on-surface-variant);
+    line-height: 1.55;
+    margin-bottom: 10px;
+    word-break: break-word;
+    max-height: 160px;
+    overflow: hidden;
+    position: relative;
+  }
+  .pf-reply-card-actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    border-top: 1px solid var(--md-outline-variant);
+    padding-top: 10px;
+    margin-top: 12px;
+    width: 100%;
+  }
+  .pf-reply-card-actions button {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 8px;
+    border: none;
+    background: transparent;
+    color: var(--md-on-surface-variant);
+    cursor: pointer;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-family: inherit;
+    transition: background 0.15s, color 0.15s;
+  }
+  .pf-reply-card-actions button:hover {
+    background: var(--md-surface-container-high);
+    color: var(--md-primary);
+  }
+  .pf-reply-card-actions button.liked {
+    color: var(--md-primary);
+  }
+  .pf-reply-card-actions button .material-symbols-outlined {
+    font-size: 16px;
+  }

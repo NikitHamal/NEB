@@ -1,0 +1,200 @@
+/* Responsive */
+@media (max-width: 768px) {
+  .md-topbar-nav {
+    display: none;
+  }
+
+  .md-bottomnav {
+    display: flex;
+  }
+
+  .md-container {
+    padding: 0 12px;
+  }
+
+  body {
+    padding-bottom: 96px;
+  }
+
+  .md-hide-mobile {
+    display: none !important;
+  }
+}
+
+@media (min-width: 769px) {
+  .md-hide-desktop {
+    display: none !important;
+  }
+}
+
+/* Utility */
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.mt-1 {
+  margin-top: 8px;
+}
+
+.mt-2 {
+  margin-top: 16px;
+}
+
+.mt-3 {
+  margin-top: 24px;
+}
+
+.mt-4 {
+  margin-top: 32px;
+}
+
+.mb-1 {
+  margin-bottom: 8px;
+}
+
+.mb-2 {
+  margin-bottom: 16px;
+}
+
+.mb-3 {
+  margin-bottom: 24px;
+}
+
+.p-2 {
+  padding: 16px;
+}
+
+.p-3 {
+  padding: 24px;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.gap-1 {
+  gap: 8px;
+}
+
+.gap-2 {
+  gap: 16px;
+}
+
+.gap-3 {
+  gap: 24px;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+@media (max-width: 768px) {
+
+  .grid-2,
+  .grid-3,
+  .grid-4 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Subject colors */
+.subject-physics {
+  --subject-color: #2563EB;
+}
+
+.subject-chemistry {
+  --subject-color: #006E1C;
+}
+
+.subject-mathematics,
+.subject-math {
+  --subject-color: #E8710A;
+}
+
+.subject-biology {
+  --subject-color: #9334E6;
+}
+
+.subject-english {
+  --subject-color: #D93025;
+}
+
+.subject-nepali {
+  --subject-color: #1967D2;
+}
+
+.subject-computer-science {
+  --subject-color: #185ABC;
+}
+
+.subject-economics {
+  --subject-color: #E37400;
+}
+
+.subject-accountancy {
+  --subject-color: #0D652D;
+}
+
+.subject-general {
+  --subject-color: #5F6368;
+}
+
+.subject-exam-tips {
+  --subject-color: #C5221F;
+}
+
+.subject-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--md-radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: color-mix(in srgb, var(--subject-color, #5F6368) 12%, transparent);
+  color: var(--subject-color, #5F6368);
+  flex-shrink: 0;
+}
+
+.subject-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+@media (max-width: 600px) {
+  .md-container, .md-container-narrow {
+    padding: 0 16px;
+  }
+  .md-topbar {
+    padding: 0 16px;
+  }
+}

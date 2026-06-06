@@ -1,0 +1,205 @@
+/* --- Not Following (Standard Follow button) --- */
+.follow-btn-inline.not-following,
+.follow-btn-small.not-following {
+  background: transparent;
+  color: var(--md-primary);
+  border: 1px solid var(--md-outline-variant);
+}
+
+.follow-btn-inline.not-following:hover,
+.follow-btn-small.not-following:hover {
+  background: rgba(27, 110, 243, 0.08);
+  border-color: var(--md-primary);
+  color: var(--md-primary);
+}
+
+/* --- Following (Active/Subscribed state) --- */
+.follow-btn-inline.following,
+.follow-btn-small.following {
+  background: transparent;
+  color: var(--md-outline);
+  border: 1px solid var(--md-outline-variant);
+}
+
+.follow-btn-inline.following:hover,
+.follow-btn-small.following:hover {
+  background: rgba(179, 38, 30, 0.08);
+  color: var(--md-error);
+  border-color: var(--md-error);
+}
+
+/* Dark theme specific overrides */
+[data-theme="dark"] .follow-btn-inline.not-following:hover,
+[data-theme="dark"] .follow-btn-small.not-following:hover {
+  background: rgba(180, 197, 255, 0.12);
+}
+
+[data-theme="dark"] .follow-btn-inline.following:hover,
+[data-theme="dark"] .follow-btn-small.following:hover {
+  background: rgba(242, 184, 181, 0.12);
+}
+
+.profile-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--md-primary);
+  color: var(--md-on-primary);
+  font-weight: 700;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.site-main {
+  min-height: calc(100vh - 64px - 72px);
+  padding-top: 16px;
+  padding-bottom: 24px;
+  overflow-x: hidden;
+}
+
+.site-footer {
+  text-align: center;
+  padding: 24px 24px 16px;
+  color: var(--md-on-surface-variant);
+  font-size: 0.75rem;
+  background: transparent;
+  border-top: 1px solid var(--md-border-subtle, var(--md-outline-variant));
+}
+
+.site-footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.site-footer-links a {
+  color: var(--md-on-surface-variant);
+  text-decoration: none;
+}
+
+.site-footer-links a:hover {
+  text-decoration: underline;
+}
+
+.site-footer p {
+  margin: 8px 0 0;
+}
+
+/* ---- Three-dot Menu ---- */
+.more-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  color: var(--md-on-surface-variant);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+  flex-shrink: 0;
+}
+.more-btn:hover {
+  background: var(--md-surface-container-high);
+}
+.more-btn .material-symbols-outlined {
+  font-size: 20px;
+}
+
+.more-menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  background: var(--md-surface-container);
+  border: 1px solid var(--md-outline-variant);
+  border-radius: 12px;
+  min-width: 180px;
+  z-index: 100;
+  overflow: hidden;
+  padding: 4px 0;
+  animation: menuFadeIn 0.12s ease-out;
+}
+@keyframes menuFadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.more-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  font-size: 0.875rem;
+  color: var(--md-on-surface);
+  cursor: pointer;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  font-family: 'Poppins', sans-serif;
+  transition: background 0.12s;
+}
+.more-menu-item:hover {
+  background: var(--md-surface-container-high);
+}
+.more-menu-item .material-symbols-outlined {
+  font-size: 20px;
+  color: var(--md-on-surface-variant);
+}
+.more-menu-item.danger {
+  color: var(--md-error, #B3261E);
+}
+.more-menu-item.danger .material-symbols-outlined {
+  color: var(--md-error, #B3261E);
+}
+.more-menu-divider {
+  height: 1px;
+  background: var(--md-outline-variant);
+  margin: 4px 0;
+}
+
+/* Post card more button positioning */
+.post-card-header {
+  position: relative;
+}
+.more-menu-wrapper {
+  position: relative;
+  margin-left: auto;
+  align-self: flex-start;
+  flex-shrink: 0;
+}
+
+/* Bookmark icon active state */
+.bookmark-active .material-symbols-outlined {
+  font-variation-settings: 'FILL' 1;
+  color: var(--md-primary);
+}
+
+.liked .material-symbols-outlined {
+  font-variation-settings: 'FILL' 1;
+}
+
+/* Start a Discussion CTA button */
+.forum-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 14px 24px;
+  margin-top: 20px;
+  border-radius: var(--md-radius-full);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  font-family: inherit;
+  text-decoration: none;
+  background: var(--md-primary);
+  color: var(--md-on-primary);
+  border: none;
+  cursor: pointer;
+}
+.forum-cta:hover {
+  filter: brightness(1.08);
+  text-decoration: none;
+}

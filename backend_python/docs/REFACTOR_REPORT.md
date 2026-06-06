@@ -76,3 +76,46 @@ python manage.py collectstatic --noinput
 Because CSS was moved to static files, run `collectstatic` before deploying the refactored code. The project already uses WhiteNoise manifest static storage, so missing `collectstatic` can cause static-file lookup errors in production.
 
 Use your real production `.env` on the server. Do not commit or upload `.env`.
+
+## Frontend refactor pass — profile upload + CSS modularization
+
+### Profile photo upload fix
+
+The profile photo modal upload button was hardened in two ways:
+
+- The hidden file input no longer uses `display:none`; it now uses an accessible visually-hidden class so native file pickers are less likely to be blocked by browser engines.
+- `web/static/web/js/profile-photo-upload.js` adds a small capture-phase fallback for the modal upload trigger and upload input. This bypasses fragile delegated-event edge cases and uses `showPicker()` when available, falling back to `input.click()`.
+
+The inline `triggerModalPhotoUpload()` and `uploadPhotoFile()` functions were removed from `profile.html` since the external JS handles all photo upload logic. The `registerActions` entry for `trigger-photo-upload` is kept as a no-op to avoid errors if the delegated-events system still dispatches to it.
+
+### CSS modularization
+
+Large CSS entrypoints were reduced to small import files and split into focused modules:
+
+- `web/static/web/css/app.css` → `web/static/web/css/app/*.css`
+- `web/static/web/css/material3.css` → `web/static/web/css/material3/*.css`
+- `web/static/web/css/admin.css` → `web/static/web/css/admin/*.css`
+- `web/static/web/css/pages/profile.css` → `web/static/web/css/pages/profile/*.css`
+- `web/static/web/css/pages/subject-page.css` → `web/static/web/css/pages/subject-page/*.css`
+
+The largest CSS module after this pass is below 600 lines. One exact duplicate activity-resource style block was consolidated while preserving the later complete `.act-resource-card` rule.
+
+### Template component extraction
+
+The profile page modal markup was split into reusable partials:
+
+- `web/templates/web/profile/_photo_modal.html`
+- `web/templates/web/profile/_follow_modal.html`
+
+### Validation performed in this pass
+
+- `node --check web/static/web/js/profile-photo-upload.js`
+- CSS brace-balance check across all CSS files
+- CSS line-count check; largest CSS file is 567 lines
+
+Run in your deployment environment before pushing live:
+
+```bash
+python manage.py check
+python manage.py collectstatic --noinput
+```

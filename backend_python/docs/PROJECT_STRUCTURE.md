@@ -33,3 +33,16 @@ Keep URL configs importing `from . import views`. The compatibility modules are 
 ## Suggested future cleanup
 
 The next safe refactor pass should target template JavaScript. Many scripts still contain Django template variables, so extract them only after moving dynamic values into JSON script tags or `data-*` attributes.
+
+## Frontend static modules added in latest pass
+
+```text
+web/static/web/css/app/              Global app modules imported by app.css.
+web/static/web/css/material3/        Material 3 design-system modules imported by material3.css.
+web/static/web/css/admin/            Shared admin CSS modules imported by admin.css.
+web/static/web/css/pages/profile/    Profile page CSS modules imported by pages/profile.css.
+web/static/web/css/pages/subject-page/ Subject page CSS modules imported by pages/subject-page.css.
+web/static/web/js/profile-photo-upload.js Profile photo modal upload picker/upload fallback.
+web/templates/web/profile/_photo_modal.html Profile photo modal partial.
+web/templates/web/profile/_follow_modal.html Followers/following modal partial.
+```
