@@ -8,11 +8,14 @@ from .security import generate_numeric_code
 
 
 class User(models.Model):
-    """
-    NEBians user profile.
-    id = Google 'sub' (subject) claim — used as primary key.
-    auth_token = server-issued token for subsequent authenticated requests.
-    """
+    ROLE_STUDENT = 'student'
+    ROLE_TEACHER = 'teacher'
+    ROLE_INSTITUTION = 'institution'
+    ROLE_CHOICES = [
+        (ROLE_STUDENT, 'Student'),
+        (ROLE_TEACHER, 'Teacher'),
+        (ROLE_INSTITUTION, 'Institution'),
+    ]
     id = models.CharField(max_length=255, primary_key=True)
     auth_token = models.CharField(max_length=64, unique=True, blank=True, null=True)
     username = models.CharField(max_length=50, unique=True)
@@ -20,10 +23,13 @@ class User(models.Model):
     photo_url = models.TextField(blank=True, null=True)
     banner_url = models.TextField(blank=True, null=True)
     display_name = models.CharField(max_length=150, blank=True, null=True)
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES, default=ROLE_STUDENT, db_index=True)
     dob = models.CharField(max_length=20, default='')
     gender = models.CharField(max_length=20, blank=True, null=True)
     class_level = models.CharField(max_length=10, blank=True, null=True, db_column='class')
     subjects = models.TextField(blank=True, null=True)  # comma-separated
+    teaching_subjects = models.TextField(blank=True, default='')  # teacher-specific: comma-separated
+    institution_type = models.CharField(max_length=30, blank=True, default='')  # school/college/academy/other
     pradesh = models.CharField(max_length=100, blank=True, null=True)
     district = models.CharField(max_length=100, blank=True, null=True)
     school = models.CharField(max_length=200, blank=True, null=True)

@@ -146,14 +146,13 @@
   font-size: 0.8125rem;
   color: var(--md-on-surface-variant);
 }
-
 .post-card-actions {
   display: flex;
   align-items: center;
   gap: 4px;
-  border-top: 1px solid rgba(var(--md-outline-variant), 0.35);
-  padding-top: 4px;
-  margin-top: 4px;
+  border-top: 1px solid var(--md-outline-variant);
+  padding-top: 10px;
+  margin-top: 12px;
 }
 
 .section-header a {
@@ -635,6 +634,10 @@
 .role-badge-teacher .material-symbols-outlined { color: #10B981; }
 [data-theme="dark"] .role-badge-teacher { background: rgba(16, 185, 129, 0.25); }
 [data-theme="dark"] .role-badge-teacher .material-symbols-outlined { color: #34D399; }
+.role-badge-institution { background: rgba(99, 102, 241, 0.15); border-radius: 100px; padding: 1px 4px 1px 2px; }
+.role-badge-institution .material-symbols-outlined { color: #6366F1; }
+[data-theme="dark"] .role-badge-institution { background: rgba(99, 102, 241, 0.25); }
+[data-theme="dark"] .role-badge-institution .material-symbols-outlined { color: #A5B4FC; }
 .fp-mention { color: var(--md-primary, #1B6EF3); font-weight: 500; text-decoration: none; cursor: pointer; border-radius: 3px; padding: 0 1px; }
 .fp-mention:hover { text-decoration: underline; }
 .role-badge-mod-1 { background: rgba(27,154,240,0.12); border-radius: 100px; padding: 1px 4px 1px 2px; }
@@ -870,6 +873,12 @@
 .act-btn-stat[data-liked="true"] {
   background: transparent;
   color: var(--md-primary);
+}
+
+.post-card-actions button.liked:hover,
+.post-card-actions a.liked:hover,
+.act-btn-stat[data-liked="true"]:hover {
+  background: var(--md-surface-container-high);
 }
 
 .post-card-actions button.bookmark-active,
