@@ -1,5 +1,6 @@
 """Views Profile extracted from views.py."""
 from .view_helpers import *  # noqa: F401,F403
+from api.view_helpers import _profile_incomplete
 
 def profile(request, username):
     user_id = _get_user_id(request)
