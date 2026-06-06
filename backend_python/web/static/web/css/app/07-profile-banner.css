@@ -13,21 +13,13 @@
   padding: 16px 16px 48px;
 }
 
-/* Keep the desktop card pinned to the first grid cell while tabs change height. */
 .profile-left-col {
-  grid-column: 1;
-  grid-row: 1;
-  align-self: start;
-  height: max-content;
-  margin-top: 0;
   position: sticky;
   top: 80px;
   z-index: 5;
 }
 
 .profile-right-col {
-  grid-column: 2;
-  grid-row: 1;
   min-width: 0;
   overflow: hidden;
 }

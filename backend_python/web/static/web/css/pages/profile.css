@@ -2,3 +2,37 @@
 @import url("profile/01-profile-shell-tabs-cards.css");
 @import url("profile/02-profile-modals-photo-bot.css");
 @import url("profile/03-profile-bot-details.css");
+
+/* Desktop profile layout lock
+   Keep the left profile card anchored in the same desktop position while
+   Replies, Resources, and About swap different-height tab content. */
+@media (min-width: 901px) {
+  .profile-grid-container {
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: center;
+    gap: 32px;
+    max-width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 16px 16px 48px;
+  }
+
+  .profile-left-col {
+    flex: 0 0 320px !important;
+    width: 320px !important;
+    min-width: 320px !important;
+    max-width: 320px !important;
+    align-self: flex-start !important;
+    margin: 0 !important;
+    position: relative !important;
+    top: auto !important;
+    z-index: 5;
+  }
+
+  .profile-right-col {
+    flex: 1 1 0 !important;
+    min-width: 0 !important;
+    overflow: hidden;
+  }
+}
