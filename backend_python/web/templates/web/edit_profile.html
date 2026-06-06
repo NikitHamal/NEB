@@ -38,7 +38,7 @@
             {% endif %}
           </div>
           <div style="display:flex;flex-direction:column;gap:8px;">
-            <input type="file" id="photo_file" accept="image/*" style="position:absolute;width:0;height:0;opacity:0;overflow:hidden;" data-change-action="edit-photo-upload">
+            <input type="file" id="photo_file" accept="image/*" style="position:absolute;width:0;height:0;opacity:0;overflow:hidden;" onchange="handleEditPhotoUpload(event)" data-change-action="edit-photo-upload">
             <button type="button" class="md-btn md-btn-outlined" data-action="trigger-photo-upload" onclick="document.getElementById('photo_file').click(); return false;" style="padding: 6px 16px; font-size: 0.875rem;">
               <span class="material-symbols-outlined" style="font-size: 18px; margin-right: 6px;">upload</span>
               Upload Photo
@@ -499,6 +499,7 @@ var subjectPicker = (function() {
 })();
 
 var teachingSubjectPicker = (function() {
+  try {
   var hiddenInput = document.getElementById('teaching-subjects-hidden');
   var chipContainer = document.getElementById('teaching-subjects-chips');
   var textInput = document.getElementById('teaching-subjects-input');
@@ -614,6 +615,7 @@ var teachingSubjectPicker = (function() {
 
   init();
   return { addItem: addItem, removeItem: removeItem };
+  } catch(e) { console.error('teachingSubjectPicker error:', e); return { addItem: function(){}, removeItem: function(){} }; }
 })();
 
 registerActions({
@@ -623,6 +625,7 @@ registerActions({
 
 // Role selector toggle
 (function() {
+  try {
   var roleCards = document.querySelectorAll('.role-radio-card');
   var fieldSections = {
     student: document.getElementById('role-fields-student'),
@@ -710,6 +713,7 @@ registerActions({
       }
     });
   });
+  } catch(e) { console.error('role toggle error:', e); }
 })();
 </script>
 {% endblock %}
