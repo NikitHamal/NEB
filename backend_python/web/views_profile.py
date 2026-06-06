@@ -44,11 +44,14 @@ def profile(request, username):
         'banner_deco_text': banner_deco_text,
         'banner_text_color': banner_text_color,
         'display_name': profile_user.display_name,
+        'role': profile_user.role,
         'dob': profile_user.dob,
         'gender': profile_user.gender,
         'class_level': profile_user.class_level,
         'class': profile_user.class_level,
         'subjects': profile_user.subjects,
+        'teaching_subjects': profile_user.teaching_subjects,
+        'institution_type': profile_user.institution_type,
         'pradesh': profile_user.pradesh,
         'district': profile_user.district,
         'school': profile_user.school,
@@ -165,11 +168,14 @@ def profile_achievements(request, username):
         'photo_url': profile_user.photo_url,
         'banner_url': profile_user.banner_url,
         'display_name': profile_user.display_name,
+        'role': profile_user.role,
         'dob': profile_user.dob,
         'gender': profile_user.gender,
         'class_level': profile_user.class_level,
         'class': profile_user.class_level,
         'subjects': profile_user.subjects,
+        'teaching_subjects': profile_user.teaching_subjects,
+        'institution_type': profile_user.institution_type,
         'pradesh': profile_user.pradesh,
         'district': profile_user.district,
         'school': profile_user.school,
@@ -278,25 +284,35 @@ def edit_profile(request):
         dob = request.POST.get('dob', '').strip()
         display_name = request.POST.get('display_name', '').strip()
         gender = request.POST.get('gender', '').strip()
+        role = request.POST.get('role', db_user.role).strip().lower()
         class_level = request.POST.get('class_level', '').strip()
+        if role not in ('student', 'teacher', 'institution'):
+            role = db_user.role or 'student'
         if not username or not dob:
             return render(request, 'web/edit_profile.html', _ctx(request, error='Username and Date of Birth are required.'))
         if not display_name:
             return render(request, 'web/edit_profile.html', _ctx(request, error='Display Name is required.'))
         if not gender:
             return render(request, 'web/edit_profile.html', _ctx(request, error='Gender is required.'))
-        if not class_level:
-            return render(request, 'web/edit_profile.html', _ctx(request, error='Class is required.'))
+        if role == 'student' and not class_level:
+            return render(request, 'web/edit_profile.html', _ctx(request, error='Class is required for students.'))
+        if role == 'teacher' and not request.POST.get('teaching_subjects', '').strip():
+            return render(request, 'web/edit_profile.html', _ctx(request, error='Teaching subjects are required for teachers.'))
+        if role == 'institution' and not request.POST.get('school', '').strip():
+            return render(request, 'web/edit_profile.html', _ctx(request, error='Institution name is required.'))
         conflict = User.objects.filter(username__iexact=username).exclude(pk=db_user.id).exists()
         if conflict:
             return render(request, 'web/edit_profile.html', _ctx(request, error='Username already taken.'))
         db_user.username = username
         db_user.email = request.POST.get('email', '').strip() or db_user.email or ''
         db_user.display_name = display_name or db_user.display_name or ''
+        db_user.role = role
         db_user.dob = dob
         db_user.gender = gender or db_user.gender or ''
         db_user.class_level = class_level or db_user.class_level or ''
         db_user.subjects = request.POST.get('subjects', '') or db_user.subjects or ''
+        db_user.teaching_subjects = request.POST.get('teaching_subjects', '') or db_user.teaching_subjects or ''
+        db_user.institution_type = request.POST.get('institution_type', '') or db_user.institution_type or ''
         db_user.pradesh = request.POST.get('pradesh', '') or db_user.pradesh or ''
         db_user.district = request.POST.get('district', '').strip() or db_user.district or ''
         db_user.school = request.POST.get('school', '').strip() or db_user.school or ''
@@ -310,11 +326,14 @@ def edit_profile(request):
             'email': db_user.email,
             'photo_url': db_user.photo_url,
             'display_name': db_user.display_name,
+            'role': db_user.role,
             'dob': db_user.dob,
             'gender': db_user.gender,
             'class_level': db_user.class_level,
             'class': db_user.class_level,
             'subjects': db_user.subjects,
+            'teaching_subjects': db_user.teaching_subjects,
+            'institution_type': db_user.institution_type,
             'pradesh': db_user.pradesh,
             'district': db_user.district,
             'school': db_user.school,
@@ -324,7 +343,7 @@ def edit_profile(request):
         }
         api.set_session_auth(request, token, updated_data)
         return redirect('web:home')
-    profile_incomplete = not db_user.display_name or not db_user.gender or not db_user.class_level
+    profile_incomplete = _profile_incomplete(db_user)
     _default_subjects = [
         'Physics', 'Chemistry', 'Mathematics', 'Biology', 'English', 'Nepali',
         'Computer Science', 'Economics', 'Accountancy', 'Business Studies',

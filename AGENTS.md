@@ -923,3 +923,16 @@ UI/UX revamp — home page, library, search, and design system consistency pass:
 19. **Three-dot menu + Bookmark system (Migration 0016)** — Added `Bookmark` model (user, target_type, target_id) and `Reply.is_archived` field. All post/reply cards across home, forum, search, and forum_post pages now have a three-dot `more-btn` → `more-menu` dropdown. The menu is wrapped in `.more-menu-wrapper` for proper `position: absolute` containment. Menu options: Bookmark, Share, Report (non-author), Edit/Archive/Delete (author only). Bookmark toggle hits `/ajax/bookmark/toggle/`. Post/reply delete now cascades to bookmarks, likes, edit history, and child replies.
 
 20. **Post delete cascade is thorough** — `ajax_delete_post` deletes: bookmarks for the post, bookmarks for all replies, PostLikes, ReplyLikes, EditHistory for post and replies, all replies, and the post itself. `ajax_delete_reply` deletes: bookmarks for the reply and its children, ReplyLikes, EditHistory, child replies, and the reply. Both use `transaction.atomic()`.
+
+---
+
+## Long-Term Platform Vision — The SaaS Transition
+
+### Orientation for AI Agents
+
+All AI agents working on this codebase must maintain a forward-looking, production-ready vision. We are transitioning NEBians from a passive content hub (viewing, downloading, reading forums) into an **active Web Software / SaaS (Software as a Service)**. This means:
+1. **Interactive Utilities:** Shifting from just file downloads to real-time collaboration features, automated active recall quizzes, interactive mock testing, and pomodoro study rooms.
+2. **Role-Based Onboarding:** Custom workspaces and dashboards for three core personas: **Students** (trackers, flashcards, profiles), **Teachers** (verified accounts, resource publishing metrics, grading dashboards), and **Schools** (notice boards, managed classrooms).
+3. **Gamification & Quests:** Redefining traditional Q&A forum sections as interactive **Academic Quests** with bounties, where students post challenges and peers/teachers earn contribution points for solving them.
+
+**CRITICAL REFERENCE:** A separate, highly detailed product specification and architecture document is available in `docs/SAAS_VISION.md`. Review it to understand the technical plans, DB model adjustments, and UI requirements before designing features related to user roles, quizzing, collaboration rooms, or dashboards.

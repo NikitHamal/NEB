@@ -76,13 +76,13 @@
 {% if page_obj.has_other_pages %}
 <div class="forum-pagination">
   {% if page_obj.has_previous %}
-  <a href="?sort={{ current_sort }}{% if current_category %}&category={{ current_category }}{% endif %}{% if search_query %}&q={{ search_query }}{% endif %}&page={{ page_obj.previous_page_number }}" class="forum-pagination-btn" hx-get="?sort={{ current_sort }}{% if current_category %}&category={{ current_category }}{% endif %}{% if search_query %}&q={{ search_query }}{% endif %}&page={{ page_obj.previous_page_number }}" hx-target="#forum-main" hx-swap="innerHTML" hx-push-url="true">
+  <a href="?sort={{ current_sort }}{% if current_category %}&category={{ current_category }}{% endif %}&page={{ page_obj.previous_page_number }}" class="forum-pagination-btn" hx-get="?sort={{ current_sort }}{% if current_category %}&category={{ current_category }}{% endif %}&page={{ page_obj.previous_page_number }}" hx-target="#forum-main" hx-swap="innerHTML" hx-push-url="true">
     <span class="material-symbols-outlined">chevron_left</span> Prev
   </a>
   {% endif %}
   <span class="forum-pagination-info">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
   {% if page_obj.has_next %}
-  <a href="?sort={{ current_sort }}{% if current_category %}&category={{ current_category }}{% endif %}{% if search_query %}&q={{ search_query }}{% endif %}&page={{ page_obj.next_page_number }}" class="forum-pagination-btn" hx-get="?sort={{ current_sort }}{% if current_category %}&category={{ current_category }}{% endif %}{% if search_query %}&q={{ search_query }}{% endif %}&page={{ page_obj.next_page_number }}" hx-target="#forum-main" hx-swap="innerHTML" hx-push-url="true">
+  <a href="?sort={{ current_sort }}{% if current_category %}&category={{ current_category }}{% endif %}&page={{ page_obj.next_page_number }}" class="forum-pagination-btn" hx-get="?sort={{ current_sort }}{% if current_category %}&category={{ current_category }}{% endif %}&page={{ page_obj.next_page_number }}" hx-target="#forum-main" hx-swap="innerHTML" hx-push-url="true">
     Next <span class="material-symbols-outlined">chevron_right</span>
   </a>
   {% endif %}
@@ -92,8 +92,8 @@
 {% else %}
 <div class="empty-state">
   <span class="material-symbols-outlined">forum</span>
-  <h3>{% if search_query %}No results for "{{ search_query }}"{% else %}No discussions yet{% endif %}</h3>
-  <p>{% if search_query %}Try different keywords or clear your search.{% else %}Be the first to start a discussion!{% endif %}</p>
-  {% if not search_query %}<a href="{% url 'web:create_post' %}" class="md-btn md-btn-filled mt-2">Start Discussion</a>{% endif %}
+  <h3>No discussions yet</h3>
+  <p>Be the first to start a discussion!</p>
+  <a href="{% url 'web:create_post' %}" class="md-btn md-btn-filled mt-2">Start Discussion</a>
 </div>
 {% endif %}

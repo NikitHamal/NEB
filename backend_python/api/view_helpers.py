@@ -85,7 +85,15 @@ def _now_ms():
 
 def _profile_incomplete(user):
     """Check if user profile is missing mandatory fields."""
-    return not user.display_name or not user.gender or not user.class_level
+    if not user.display_name or not user.gender:
+        return True
+    if user.role == 'student' and not user.class_level:
+        return True
+    if user.role == 'teacher' and not user.teaching_subjects:
+        return True
+    if user.role == 'institution' and not user.school:
+        return True
+    return False
 
 def _get_user_from_request(request):
     """

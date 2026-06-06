@@ -671,6 +671,10 @@
     display: flex;
     align-items: center;
     gap: 4px;
+    border-top: 1px solid var(--md-outline-variant);
+    padding-top: 10px;
+    margin-top: 12px;
+    width: 100%;
   }
   .pf-reply-card-actions button {
     display: inline-flex;
