@@ -355,10 +355,15 @@
   }
   
   .profile-left-col {
+    grid-column: auto;
+    grid-row: auto;
+    height: auto;
     position: static;
   }
 
   .profile-right-col {
+    grid-column: auto;
+    grid-row: auto;
     min-width: 0;
     overflow: hidden;
   }
