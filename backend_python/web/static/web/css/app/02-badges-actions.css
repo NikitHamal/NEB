@@ -1,0 +1,313 @@
+/* Role badge icons — verified ticks, moderator shields, admin crown */
+.role-badge {
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+  margin-left: 3px;
+  line-height: 1;
+}
+.role-badge .material-symbols-outlined {
+  font-size: 16px;
+}
+.role-badge-admin { background: rgba(245,158,11,0.15); border-radius: 100px; padding: 1px 4px 1px 2px; }
+.role-badge-admin .material-symbols-outlined { color: #D97706; }
+.role-badge-bot { background: rgba(124,77,255,0.15); border-radius: 100px; padding: 1px 4px 1px 2px; }
+.role-badge-bot .material-symbols-outlined { color: #7C4DFF; }
+[data-theme="dark"] .role-badge-bot { background: rgba(124,77,255,0.25); }
+[data-theme="dark"] .role-badge-bot .material-symbols-outlined { color: #B388FF; }
+.role-badge-teacher { background: rgba(16, 185, 129, 0.15); border-radius: 100px; padding: 1px 4px 1px 2px; }
+.role-badge-teacher .material-symbols-outlined { color: #10B981; }
+[data-theme="dark"] .role-badge-teacher { background: rgba(16, 185, 129, 0.25); }
+[data-theme="dark"] .role-badge-teacher .material-symbols-outlined { color: #34D399; }
+.role-badge-institution { background: rgba(99, 102, 241, 0.15); border-radius: 100px; padding: 1px 4px 1px 2px; }
+.role-badge-institution .material-symbols-outlined { color: #6366F1; }
+[data-theme="dark"] .role-badge-institution { background: rgba(99, 102, 241, 0.25); }
+[data-theme="dark"] .role-badge-institution .material-symbols-outlined { color: #A5B4FC; }
+.fp-mention { color: var(--md-primary, #1B6EF3); font-weight: 500; text-decoration: none; cursor: pointer; border-radius: 3px; padding: 0 1px; }
+.fp-mention:hover { text-decoration: underline; }
+.role-badge-mod-1 { background: rgba(27,154,240,0.12); border-radius: 100px; padding: 1px 4px 1px 2px; }
+.role-badge-mod-1 .material-symbols-outlined { color: #1B9AF0; }
+.role-badge-mod-2 { background: rgba(0,137,123,0.12); border-radius: 100px; padding: 1px 4px 1px 2px; }
+.role-badge-mod-2 .material-symbols-outlined { color: #00897B; }
+.role-badge-mod-3 { background: rgba(123,31,162,0.12); border-radius: 100px; padding: 1px 4px 1px 2px; }
+.role-badge-mod-3 .material-symbols-outlined { color: #7B1FA2; }
+.role-badge-verified-1 .material-symbols-outlined { color: #1B9AF0; }
+.role-badge-verified-2 .material-symbols-outlined { color: #2E7D32; }
+.role-badge-verified-3 .material-symbols-outlined { color: #D97706; }
+.role-badge-verified-4 .material-symbols-outlined { color: #1a1a1a; }
+[data-theme="dark"] .role-badge-admin { background: rgba(245,158,11,0.25); }
+[data-theme="dark"] .role-badge-admin .material-symbols-outlined { color: #FBBF24; }
+[data-theme="dark"] .role-badge-mod-1 { background: rgba(27,154,240,0.2); }
+[data-theme="dark"] .role-badge-mod-2 { background: rgba(0,137,123,0.2); }
+[data-theme="dark"] .role-badge-mod-3 { background: rgba(123,31,162,0.2); }
+[data-theme="dark"] .role-badge-verified-3 .material-symbols-outlined { color: #FBBF24; }
+[data-theme="dark"] .role-badge-verified-4 .material-symbols-outlined { color: #e0e0e0; }
+
+/* Achievement badges — small pill with icon */
+.achievement-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  border-radius: var(--md-radius-full);
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1;
+  vertical-align: middle;
+}
+.achievement-badge .material-symbols-outlined {
+  font-size: 12px;
+}
+.achievement-badge.top_contributor { background: rgba(245,158,11,0.12); color: #F59E0B; }
+.achievement-badge.helpful { background: rgba(236,64,122,0.12); color: #EC407A; }
+.achievement-badge.scholar { background: rgba(27,154,240,0.12); color: #1B9AF0; }
+.achievement-badge.streak { background: rgba(255,109,0,0.12); color: #FF6D00; }
+.achievement-badge.first_post { background: rgba(46,125,50,0.12); color: #2E7D32; }
+.achievement-badge.100_likes { background: rgba(229,57,53,0.12); color: #E53935; }
+.achievement-badge.bookworm { background: rgba(0,137,123,0.12); color: #00897B; }
+.achievement-badge.problem_solver { background: rgba(249,168,37,0.12); color: #F9A825; }
+[data-theme="dark"] .achievement-badge.top_contributor { background: rgba(245,158,11,0.2); }
+[data-theme="dark"] .achievement-badge.helpful { background: rgba(236,64,122,0.2); }
+[data-theme="dark"] .achievement-badge.scholar { background: rgba(27,154,240,0.2); }
+[data-theme="dark"] .achievement-badge.streak { background: rgba(255,109,0,0.2); }
+[data-theme="dark"] .achievement-badge.first_post { background: rgba(46,125,50,0.2); }
+[data-theme="dark"] .achievement-badge.100_likes { background: rgba(229,57,53,0.2); }
+[data-theme="dark"] .achievement-badge.bookworm { background: rgba(0,137,123,0.2); }
+[data-theme="dark"] .achievement-badge.problem_solver { background: rgba(249,168,37,0.2); }
+
+.act-action-text {
+  color: var(--md-on-surface-variant);
+}
+
+.post-card-category,
+.act-category {
+  display: inline-block;
+  padding: 2.5px 10px;
+  border-radius: var(--md-radius-full);
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.25;
+  text-transform: capitalize;
+  text-decoration: none;
+  background-color: var(--md-surface-container);
+  color: var(--md-on-surface-variant);
+  border: none;
+  transition: background-color 150ms ease;
+}
+
+.post-card-category-link {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 6px;
+  border-radius: var(--md-radius-full, 100px);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  line-height: 1;
+  text-transform: capitalize;
+  text-decoration: none;
+  background-color: var(--md-surface-container-low);
+  color: var(--md-primary);
+  border: 1px solid var(--md-outline-variant);
+  transition: all 0.2s var(--md-transition);
+}
+
+.post-card-category-link:hover {
+  background-color: var(--md-primary);
+  color: var(--md-on-primary);
+  border-color: var(--md-primary);
+  text-decoration: none;
+}
+
+.post-card-time,
+.act-time {
+  font-size: 0.725rem;
+  color: var(--md-on-surface-variant);
+  opacity: 0.85;
+  margin-top: 0;
+}
+
+.post-card h3 {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--md-on-surface);
+  margin-top: 2px;
+  margin-bottom: 2px;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+}
+
+.act-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--md-on-surface);
+  margin: 0 0 6px;
+  line-height: 1.45;
+}
+
+.post-card h3 a,
+.act-title a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.post-card h3 a:hover,
+.act-title a:hover {
+  color: var(--md-primary);
+}
+
+.act-resource-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: var(--md-surface-container-low);
+  border: 1px solid var(--md-outline-variant);
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin: 12px 0 16px;
+  transition: all 0.2s ease;
+}
+
+.act-resource-card:hover {
+  background: var(--md-surface-container-high);
+  border-color: var(--md-primary);
+}
+
+.act-resource-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: var(--md-primary-container);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.act-resource-icon .material-symbols-outlined {
+  font-size: 22px;
+  color: var(--md-primary);
+}
+
+.act-resource-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.act-resource-name {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--md-on-surface);
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.act-resource-name a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.act-resource-name a:hover {
+  color: var(--md-primary);
+}
+
+.act-resource-meta {
+  font-size: 0.8125rem;
+  color: var(--md-on-surface-variant);
+}
+
+
+.act-footer {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.post-card-actions button,
+.post-card-actions a,
+.act-btn-stat {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--md-on-surface-variant);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 2px 8px;
+  border-radius: 8px;
+  transition: background 0.15s, color 0.15s;
+  text-decoration: none !important;
+  font-family: inherit;
+  outline: none;
+}
+
+.post-card-actions button:hover,
+.post-card-actions a:hover,
+.act-btn-stat:hover {
+  background: var(--md-surface-container-high);
+  color: var(--md-primary);
+  text-decoration: none !important;
+}
+
+.post-card-actions button.liked,
+.post-card-actions a.liked,
+.act-btn-stat[data-liked="true"] {
+  background: transparent;
+  color: var(--md-primary);
+}
+
+.post-card-actions button.liked:hover,
+.post-card-actions a.liked:hover,
+.act-btn-stat[data-liked="true"]:hover {
+  background: var(--md-surface-container-high);
+}
+
+.post-card-actions button.bookmark-active,
+.post-card-actions a.bookmark-active {
+  color: var(--md-primary);
+}
+
+.post-card-actions button .material-symbols-outlined,
+.post-card-actions a .material-symbols-outlined,
+.act-btn-stat .material-symbols-outlined {
+  font-size: 16px;
+}
+
+.filter-bar {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 8px 0 12px;
+  scrollbar-width: thin;
+}
+
+.filter-bar .md-chip {
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.md-btn-icon.has-filters {
+  color: var(--md-primary);
+}
+
+.post-meta-line {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.post-card-meta-bottom,
+.post-meta-sub {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 2px;
+  font-size: 0.725rem;
+  color: var(--md-on-surface-variant);
+  flex-wrap: wrap;
+}
