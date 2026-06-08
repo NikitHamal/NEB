@@ -13,20 +13,26 @@
 {% block bnav_forum %}md-nav-active{% endblock %}
 
 {% block content %}
-<script type="application/ld+json">
+<script type="application/ld+json" nonce="{{ csp_nonce }}">
 {
   "@context": "https://schema.org",
   "@type": "DiscussionForumPosting",
+  "@id": "{{ request.scheme }}://{{ request.get_host }}{{ request.path }}#post",
+  "url": "{{ request.scheme }}://{{ request.get_host }}{{ request.path }}",
+  "mainEntityOfPage": "{{ request.scheme }}://{{ request.get_host }}{{ request.path }}",
   "headline": "{{ post.title|escapejs }}",
-  "description": "{{ post.content|truncatechars:200|escapejs }}",
+  "description": "{{ post.content|truncatechars:220|escapejs }}",
   "datePublished": "{{ post.createdAt|timestamp_to_iso }}",
+  "dateModified": "{% if post.isEdited and post.editedAt %}{{ post.editedAt|timestamp_to_iso }}{% else %}{{ post.createdAt|timestamp_to_iso }}{% endif %}",
+  "publisher": { "@id": "https://nebians.consica.com.np/#organization" },
   "author": {
     "@type": "Person",
     "name": "{{ post.authorName|escapejs }}"
   },
   "interactionStatistic": [
-    { "@type": "InteractionCounter", "interactionType": "LikeAction", "userInteractionCount": {{ post.thumbsUpCount|default:0 }} },
-    { "@type": "InteractionCounter", "interactionType": "CommentAction", "userInteractionCount": {{ post.replyCount|default:0 }} }
+    { "@type": "InteractionCounter", "interactionType": "https://schema.org/LikeAction", "userInteractionCount": {{ post.thumbsUpCount|default:0 }} },
+    { "@type": "InteractionCounter", "interactionType": "https://schema.org/CommentAction", "userInteractionCount": {{ post.replyCount|default:0 }} },
+    { "@type": "InteractionCounter", "interactionType": "https://schema.org/ViewAction", "userInteractionCount": {{ post.viewCount|default:0 }} }
   ]
 }
 </script>
@@ -412,7 +418,8 @@ async function toggleFollowPost() {
   const btn = document.getElementById('followBtn');
   btn.disabled = true;
   try {
-    const r = await fetch('/ajax/follow/' + POST_AUTHOR_ID + '/', { method:'POST', headers:{'Content-Type':'application/json','X-CSRFToken':CSRF_TOKEN} });
+    const desired = btn.classList.contains('following') ? 'unfollow' : 'follow';
+    const r = await fetch('/ajax/follow/' + POST_AUTHOR_ID + '/', { method:'POST', headers:{'Content-Type':'application/json','X-CSRFToken':CSRF_TOKEN}, credentials:'same-origin', body: JSON.stringify({ action: desired }) });
     if (r.status === 401) { window.location.href = '{% url "web:login" %}'; return; }
     const d = await r.json();
     btn.disabled = false;
@@ -441,7 +448,8 @@ async function toggleFollowBtn(btn, userId) {
   if (!IS_AUTHENTICATED) { window.location.href = '{% url "web:login" %}'; return; }
   btn.disabled = true;
   try {
-    const r = await fetch('/ajax/follow/' + userId + '/', { method:'POST', headers:{'Content-Type':'application/json','X-CSRFToken':CSRF_TOKEN} });
+    const desired = btn.classList.contains('following') ? 'unfollow' : 'follow';
+    const r = await fetch('/ajax/follow/' + userId + '/', { method:'POST', headers:{'Content-Type':'application/json','X-CSRFToken':CSRF_TOKEN}, credentials:'same-origin', body: JSON.stringify({ action: desired }) });
     if (r.status === 401) { window.location.href = '{% url "web:login" %}'; return; }
     const d = await r.json();
     if (d && d.error) { showSnackbar(d.error); btn.disabled = false; return; }

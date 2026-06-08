@@ -238,31 +238,59 @@ def vote_poll(user, poll_id, option_ids):
     }, 200
 
 
-def toggle_follow(user, target_user_id):
+def toggle_follow(user, target_user_id, desired=None):
+    """Follow/unfollow a user.
+
+    desired may be "follow" or "unfollow" for idempotent UI calls. When omitted,
+    the legacy toggle behavior is preserved. Counts are recalculated from the
+    Follow table so stale denormalized counters cannot make profiles show 0.
+    """
+    desired = (desired or '').strip().lower() or None
+    if desired not in (None, 'follow', 'unfollow'):
+        desired = None
     if str(user.id) == str(target_user_id):
         return {'error': 'You cannot follow yourself'}, 400
     try:
         target_user = User.objects.get(pk=target_user_id)
     except User.DoesNotExist:
         return {'error': 'User not found'}, 404
-    with transaction.atomic():
-        existing = Follow.objects.filter(follower=user, following=target_user).first()
-        if existing:
-            existing.delete()
-            is_following = False
-            _counters.decrement_user_follower_count(target_user.id)
-            _counters.decrement_user_following_count(user.id)
-            _notif.notify_unfollow(user.id, target_user.id)
-        else:
-            Follow.objects.create(follower=user, following=target_user, created_at=now_ms())
-            is_following = True
-            _counters.increment_user_follower_count(target_user.id)
-            _counters.increment_user_following_count(user.id)
-            _notif.notify_new_follow(user.id, target_user.id)
-    follower_count = target_user.follower_count if hasattr(target_user, 'follower_count') and target_user.follower_count > 0 else Follow.objects.filter(following=target_user).count()
-    _rt.broadcast_follow_changed(target_user.id, follower_count)
-    return {'is_following': is_following, 'follower_count': follower_count}, 200
 
+    notify_follow = False
+    notify_unfollow = False
+    with transaction.atomic():
+        existing = Follow.objects.select_for_update().filter(follower=user, following=target_user).first()
+        if existing:
+            if desired == 'follow':
+                is_following = True
+            else:
+                existing.delete()
+                is_following = False
+                notify_unfollow = True
+        else:
+            if desired == 'unfollow':
+                is_following = False
+            else:
+                Follow.objects.create(follower=user, following=target_user, created_at=now_ms())
+                is_following = True
+                notify_follow = True
+
+        follower_count = Follow.objects.filter(following=target_user).count()
+        following_count = Follow.objects.filter(follower=user).count()
+        is_mutual = bool(is_following and Follow.objects.filter(follower=target_user, following=user).exists())
+        User.objects.filter(pk=target_user.id).update(follower_count=follower_count)
+        User.objects.filter(pk=user.id).update(following_count=following_count)
+
+    if notify_follow:
+        _notif.notify_new_follow(user.id, target_user.id)
+    elif notify_unfollow:
+        _notif.notify_unfollow(user.id, target_user.id)
+    _rt.broadcast_follow_changed(target_user.id, follower_count)
+    return {
+        'is_following': is_following,
+        'follower_count': follower_count,
+        'following_count': following_count,
+        'is_mutual': is_mutual,
+    }, 200
 
 def check_username_available(username):
     exists = User.objects.filter(username__iexact=username).exists()

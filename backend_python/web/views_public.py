@@ -2,19 +2,19 @@
 from .view_helpers import *  # noqa: F401,F403
 
 def manifest_json(request):
-    import json
     from django.http import JsonResponse
     data = {
-        'name': 'NEBians - Study Platform & Discussion Forum',
+        'name': 'NEBians - Nepali Learning Community',
         'short_name': 'NEBians',
-        'description': 'Study resources, discussion forum, and community for students and teachers of all classes and faculties',
+        'description': 'A Nepali learning community for students, teachers, and lifelong learners with resources, discussions, AI summaries, quizzes, flashcards, and mindmaps.',
         'start_url': '/',
+        'scope': '/',
         'display': 'standalone',
         'background_color': '#ffffff',
         'theme_color': '#004bd4',
         'icons': [
             {'src': '/static/web/img/n-logo-192.png', 'sizes': '192x192', 'type': 'image/png'},
-            {'src': '/static/web/img/n-logo-512.png', 'sizes': '512x512', 'type': 'image/png'},
+            {'src': '/static/web/img/n-logo-512.png', 'sizes': '512x512', 'type': 'image/png', 'purpose': 'any maskable'},
         ],
     }
     response = JsonResponse(data)
@@ -1245,79 +1245,13 @@ def copyright_takedown(request):
     return render(request, 'web/takedown.html', ctx)
 
 def sitemap_xml(request):
-    """
-    Generates a dynamic XML sitemap listing the homepage, library, forum,
-    and all public resources and forum posts dynamically from the database.
-    Cached for 1 hour.
-    """
-    sitemap_content = cache.get('sitemap_xml')
-    if sitemap_content is not None:
-        return HttpResponse(sitemap_content, content_type='application/xml')
-
-    from api.models import Resource, Post, User
-    from django.utils import timezone
-
-    base = 'https://nebians.consica.com.np'
-    now = timezone.now().isoformat()
-    urls = [
-        {'loc': f'{base}/', 'changefreq': 'daily', 'priority': '1.0', 'lastmod': now},
-        {'loc': f'{base}/library/', 'changefreq': 'daily', 'priority': '0.8', 'lastmod': now},
-        {'loc': f'{base}/forum/', 'changefreq': 'daily', 'priority': '0.8', 'lastmod': now},
-        {'loc': f'{base}/search/', 'changefreq': 'weekly', 'priority': '0.5', 'lastmod': now},
-    ]
-
-    for r in Resource.objects.all():
-        ts = r.updated_at if hasattr(r, 'updated_at') and r.updated_at else r.added_at
-        if isinstance(ts, int) and ts:
-            lastmod = timezone.datetime.fromtimestamp(ts / 1000, tz=timezone.get_current_timezone()).isoformat()
-        elif hasattr(ts, 'isoformat') and ts:
-            lastmod = ts.isoformat()
-        else:
-            lastmod = now
-        urls.append({
-            'loc': f'{base}/reader/{r.id}/',
-            'changefreq': 'weekly',
-            'priority': '0.6',
-            'lastmod': lastmod,
-        })
-
-    for p in Post.objects.filter(is_archived=False).select_related('user')[:500]:
-        ts = p.created_at
-        if isinstance(ts, int) and ts:
-            lastmod = timezone.datetime.fromtimestamp(ts / 1000, tz=timezone.get_current_timezone()).isoformat()
-        elif hasattr(ts, 'isoformat') and ts:
-            lastmod = ts.isoformat()
-        else:
-            lastmod = now
-        urls.append({
-            'loc': f'{base}/forum/post/{p.id}/',
-            'changefreq': 'daily',
-            'priority': '0.7',
-            'lastmod': lastmod,
-        })
-
-    for u in User.objects.filter(is_locked=False)[:500]:
-        if u.username:
-            urls.append({
-                'loc': f'{base}/profile/{u.username}/',
-                'changefreq': 'weekly',
-                'priority': '0.4',
-                'lastmod': now,
-            })
-
-    xml_content = '<?xml version="1.0" encoding="UTF-8"?>\n'
-    xml_content += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-    for u in urls:
-        xml_content += '  <url>\n'
-        xml_content += f"    <loc>{u['loc']}</loc>\n"
-        xml_content += f"    <lastmod>{u['lastmod']}</lastmod>\n"
-        xml_content += f"    <changefreq>{u['changefreq']}</changefreq>\n"
-        xml_content += f"    <priority>{u['priority']}</priority>\n"
-        xml_content += '  </url>\n'
-    xml_content += '</urlset>\n'
-
-    cache.set('sitemap_xml', xml_content, 3600)
-    return HttpResponse(xml_content, content_type='application/xml')
+    """Generate a crawler-facing sitemap with only clean, public, indexable pages."""
+    sitemap_content = cache.get('sitemap_xml_v2')
+    if sitemap_content is None:
+        from .seo import build_sitemap_xml
+        sitemap_content = build_sitemap_xml()
+        cache.set('sitemap_xml_v2', sitemap_content, 3600)
+    return HttpResponse(sitemap_content, content_type='application/xml')
 
 def robots_txt(request):
     lines = [
@@ -1331,6 +1265,8 @@ def robots_txt(request):
         'Disallow: /login/',
         'Disallow: /logout/',
         'Disallow: /profile/edit/',
+        'Disallow: /bookmarks/',
+        'Disallow: /study-lab/',
         '',
         'Sitemap: https://nebians.consica.com.np/sitemap.xml',
     ]

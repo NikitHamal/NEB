@@ -2,14 +2,48 @@
 {% load static web_extras %}
 
 {% block title %}{{ profile_user.display_name|default:profile_user.username }} - NEBians Profile{% endblock %}
-{% block description %}{{ profile_user.display_name|default:profile_user.username }}'s profile, discussions, and achievements on NEBians{% endblock %}
+{% block description %}{{ profile_user.display_name|default:profile_user.username }}'s profile, discussions, resources, and achievements on NEBians — a Nepali learning community.{% endblock %}
 {% block og_title %}{{ profile_user.display_name|default:profile_user.username }} on NEBians{% endblock %}
-{% block og_description %}{% if profile_user.bio %}{{ profile_user.bio }}{% else %}Check out {{ profile_user.display_name|default:profile_user.username }}'s profile on NEBians — the study platform for Nepali students.{% endif %}{% endblock %}
+{% block og_description %}{% if profile_user.bio %}{{ profile_user.bio }}{% else %}Check out {{ profile_user.display_name|default:profile_user.username }}'s profile on NEBians — a Nepali learning community for students, teachers, and learners.{% endif %}{% endblock %}
 {% block og_type %}profile{% endblock %}
 {% block tw_title %}{{ profile_user.display_name|default:profile_user.username }} on NEBians{% endblock %}
-{% block tw_description %}{% if profile_user.bio %}{{ profile_user.bio }}{% else %}Check out {{ profile_user.display_name|default:profile_user.username }}'s profile on NEBians{% endif %}{% endblock %}
-{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'web/img/n-logo-512.png' %}{% endblock %}
-{% block tw_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'web/img/n-logo-512.png' %}{% endblock %}
+{% block tw_description %}{% if profile_user.bio %}{{ profile_user.bio }}{% else %}Check out {{ profile_user.display_name|default:profile_user.username }}'s profile on NEBians — a Nepali learning community.{% endif %}{% endblock %}
+{% block og_image %}https://nebians.consica.com.np{% url 'web:profile_card_image' username=profile_user.username %}?v=4{% endblock %}
+{% block og_image_secure %}https://nebians.consica.com.np{% url 'web:profile_card_image' username=profile_user.username %}?v=4{% endblock %}
+{% block og_image_alt %}{{ profile_user.display_name|default:profile_user.username }} profile card on NEBians{% endblock %}
+{% block tw_image %}https://nebians.consica.com.np{% url 'web:profile_card_image' username=profile_user.username %}?v=4{% endblock %}
+{% block tw_image_alt %}{{ profile_user.display_name|default:profile_user.username }} profile card on NEBians{% endblock %}
+{% block robots %}{% if profile_private or profile_user.is_bot %}<meta name="robots" content="noindex,nofollow">{% endif %}{% endblock %}
+
+{% block head_extra %}
+{% if not profile_private and not profile_user.is_bot %}
+<script type="application/ld+json" nonce="{{ csp_nonce }}">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfilePage",
+  "@id": "{{ request.scheme }}://{{ request.get_host }}{{ request.path }}#profilepage",
+  "url": "{{ request.scheme }}://{{ request.get_host }}{{ request.path }}",
+  "dateCreated": "{{ profile_user.created_at|timestamp_to_iso }}",
+  "dateModified": "{{ profile_user.created_at|timestamp_to_iso }}",
+  "publisher": { "@id": "https://nebians.consica.com.np/#organization" },
+  "mainEntity": {
+    "@type": "{% if profile_user.role == 'institution' %}Organization{% else %}Person{% endif %}",
+    "@id": "{{ request.scheme }}://{{ request.get_host }}{{ request.path }}#creator",
+    "name": "{{ profile_user.display_name|default:profile_user.username|escapejs }}",
+    "alternateName": "{{ profile_user.username|escapejs }}",
+    "description": "{% if profile_user.bio %}{{ profile_user.bio|truncatechars:240|escapejs }}{% else %}NEBians learning community member{% endif %}",
+    "image": "{{ request.scheme }}://{{ request.get_host }}{% url 'web:profile_card_image' username=profile_user.username %}",
+    "url": "{{ request.scheme }}://{{ request.get_host }}{{ request.path }}",
+    "interactionStatistic": [
+      { "@type": "InteractionCounter", "interactionType": "https://schema.org/FollowAction", "userInteractionCount": {{ stats.follower_count|default:0 }} },
+      { "@type": "InteractionCounter", "interactionType": "https://schema.org/LikeAction", "userInteractionCount": {{ stats.likes_received|default:0 }} },
+      { "@type": "InteractionCounter", "interactionType": "https://schema.org/WriteAction", "userInteractionCount": {{ stats.post_count|default:0 }} }
+    ]
+  }
+}
+</script>
+{% endif %}
+{% endblock %}
 
 {% block bottomnav %}{% endblock %}
 
@@ -833,6 +867,7 @@
 
 {% block extra_js %}
 <script nonce="{{ csp_nonce }}">
+const PROFILE_PRIVATE = {{ profile_private|yesno:"true,false" }};
 // Banner store customization — apply data-attr overrides via inline styles (CSS attr() non-string support is limited)
 document.addEventListener('DOMContentLoaded', function() {
   var decoEl = document.querySelector('.pf-banner-deco-text');
@@ -1188,11 +1223,21 @@ async function toggleFollowUser(uid) {
   if (!btn) return;
   btn.disabled = true;
   try {
-    const r = await fetch(`/ajax/follow/${encodeURIComponent(uid)}/`, { method:'POST', headers:{'Content-Type':'application/json','X-CSRFToken':CSRF_TOKEN}, credentials:'same-origin' });
+    const action = btn.classList.contains('pf-btn-outlined') ? 'unfollow' : 'follow';
+    const r = await fetch(`/ajax/follow/${encodeURIComponent(uid)}/`, {
+      method:'POST',
+      headers:{'Content-Type':'application/json','X-CSRFToken':CSRF_TOKEN},
+      credentials:'same-origin',
+      body: JSON.stringify({ action: action })
+    });
     const d = await r.json();
     btn.disabled = false;
     if (d && d.error) { showSnackbar(d.error); return; }
     if (d) {
+      if (d.is_mutual && PROFILE_PRIVATE && d.is_following) {
+        window.location.reload();
+        return;
+      }
       btn.className = d.is_following ? 'pf-btn pf-btn-outlined' : 'pf-btn pf-btn-filled';
       btn.innerHTML = `<span class="material-symbols-outlined">${d.is_following ? 'check' : 'add'}</span><span id="followText">${d.is_following ? 'Following' : 'Follow'}</span>`;
       const c = document.getElementById('cntFollowers');
@@ -1224,7 +1269,7 @@ async function openFollowModal(type) {
         const photo = safeClientUrl(photoRaw || '');
         const usernamePath = encodeURIComponent(unameRaw || '');
         const av = photo ? `<img src="${photo}" alt="">` : `<span class="follow-user-initial">${escapeHtml((unameRaw || 'U').slice(0,1))}</span>`;
-        return `<div class="follow-list-user"><div class="follow-user-avatar">${av}</div><div class="follow-user-info"><a href="/profile/${usernamePath}/" class="follow-user-name">${name}</a><span class="follow-user-handle">@${uname}</span></div></div>`;
+        return `<a class="follow-list-user" href="/profile/${usernamePath}/"><div class="follow-user-avatar">${av}</div><div class="follow-user-info"><span class="follow-user-name">${name}</span><span class="follow-user-handle">@${uname}</span></div><span class="material-symbols-outlined follow-user-open">chevron_right</span></a>`;
       }).join('');
     } else {
       body.innerHTML = '<div class="follow-list-empty">No users found</div>';
@@ -1390,15 +1435,6 @@ function buildShareCardHTML(data) {
     avatarHTML = '<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:2rem;font-weight:700;color:#2563eb;background:#dbeafe;border-radius:50%;">' + escapeHtml(data.displayName.charAt(0).toUpperCase()) + '</div>';
   }
 
-  var badgeSVGs = {
-    admin: '<svg width="12" height="12" viewBox="0 0 24 24" fill="#92400E"><path d="M5 16L7 18L12 13L17 18L19 16L14 11L19 6L17 4L12 9L7 4L5 6L10 11Z"/><path d="M12 2L4 6V12C4 16.4 7.4 20.5 12 22C16.6 20.5 20 16.4 20 12V6L12 2Z" opacity="0.3"/></svg>',
-    moderator: '<svg width="12" height="12" viewBox="0 0 24 24" fill="#0F766E"><path d="M12 2L4 6V12C4 16.4 7.4 20.5 12 22C16.6 20.5 20 16.4 20 12V6L12 2Z"/><path d="M12 5L17 8V12C17 15.5 14.8 18.7 12 19.9C9.2 18.7 7 15.5 7 12V8L12 5Z" fill="#fff" opacity="0.4"/></svg>',
-    teacher: '<svg width="12" height="12" viewBox="0 0 24 24" fill="#065F46"><path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82zM12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/></svg>',
-    institution: '<svg width="12" height="12" viewBox="0 0 24 24" fill="#3730A3"><path d="M12 3L1 9l2 1v10h2V12h14v8h2V10l2-1L12 3zm-5 7h2v4H7v-4zm4 0h2v4h-2v-4zm4 0h2v4h-2v-4z"/></svg>',
-    verified: '<svg width="12" height="12" viewBox="0 0 24 24" fill="#1E40AF"><path d="M12 2L4 6V12C4 16.4 7.4 20.5 12 22C16.6 20.5 20 16.4 20 12V6L12 2ZM10 17L6 13L7.4 11.6L10 14.2L16.6 7.6L18 9L10 17Z"/></svg>',
-    bot: '<svg width="12" height="12" viewBox="0 0 24 24" fill="#5B21B6"><path d="M12 2C6.5 2 2 6.5 2 12S6.5 22 12 22 22 17.5 22 12 17.5 2 12 2zm0 4C14.2 6 16 7.8 16 10H8C8 7.8 9.8 6 12 6zm-4 8h2v2h4v-2h2v2c0 1.1-.9 2-2 2H10c-1.1 0-2-.9-2-2v-2z"/></svg>',
-    explorer: '<svg width="12" height="12" viewBox="0 0 24 24" fill="#B45309"><path d="M12 2C6.5 2 2 6.5 2 12S6.5 22 12 22 22 17.5 22 12 17.5 2 12 2zm0 4c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm4 8c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm-8 0c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/></svg>'
-  };
   var badgeHTML = '';
   if (data.badgeInfo) {
     var bi = data.badgeInfo;
@@ -1412,22 +1448,17 @@ function buildShareCardHTML(data) {
       explorer: { bg: '#FEF3C7', color: '#B45309' }
     };
     var bc = badgeColors[bi.type] || badgeColors.verified;
-    var svg = badgeSVGs[bi.type] || badgeSVGs.verified;
-    var label = bi.label || bi.type;
-    if (bi.type === 'teacher' && data.teacherVerified) {
-      label = 'Verified Teacher';
-      bc = { bg: '#D1FAE5', color: '#065F46' };
-      svg = '<svg width="12" height="12" viewBox="0 0 24 24" fill="#065F46"><path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82zM12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/></svg><svg width="10" height="10" viewBox="0 0 24 24" fill="#065F46" style="margin-left:-2px;"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>';
-    }
-    badgeHTML = '<span style="display:inline-flex;align-items:center;gap:3px;padding:2px 6px 2px 4px;border-radius:100px;font-size:0.6875rem;font-weight:700;letter-spacing:0.04em;background:' + bc.bg + ';color:' + bc.color + ';">' + svg + escapeHtml(label) + '</span>';
+    var label = (bi.type === 'teacher' && data.teacherVerified) ? 'Verified Teacher' : (bi.label || bi.type);
+    badgeHTML = '<span style="display:inline-flex;align-items:center;padding:3px 8px;border-radius:100px;font-size:0.6875rem;font-weight:700;letter-spacing:0.04em;background:' + bc.bg + ';color:' + bc.color + ';">' + escapeHtml(label) + '</span>';
   }
+
 
   var bioLine = '';
   if (data.bio) {
     bioLine = '<p style="font-size:0.8125rem;color:#6B7280;margin:6px 0 0;line-height:1.4;">' + escapeHtml(data.bio.length > 120 ? data.bio.substring(0, 117) + '...' : data.bio) + '</p>';
   }
 
-  var logoImg = '<img src="' + escapeHtml(data.logoUrl) + '" alt="NEBians" style="width:32px;height:32px;object-fit:contain;transform:translateY(-1px);">';
+  var logoImg = '<img src="' + escapeHtml(data.logoUrl) + '" alt="NEBians" style="width:24px;height:24px;object-fit:contain;transform:translateY(-1px);">';
 
   return '<div class="share-profile-card">' +
     '<div class="share-card-banner" style="' + bannerStyle + '">' +
@@ -1463,16 +1494,7 @@ function openShareCardModal() {
   var caption = document.getElementById('shareCardCaption');
   var data = getShareCardData();
   preview.innerHTML = buildShareCardHTML(data);
-  var defaultCaption = '';
-  if (data.role === 'teacher') {
-    defaultCaption = 'Meet ' + data.displayName + ', an amazing teacher on NEBians! \ud83c\udf93\ud83d\udc68\u200d\ud83c\udfeb\n' + data.profileUrl;
-  } else if (data.role === 'institution') {
-    defaultCaption = 'Check out ' + data.displayName + ' on NEBians! \ud83c\udfeb\u2728\n' + data.profileUrl;
-  } else if (data.role === 'explorer') {
-    defaultCaption = 'Exploring NEBians with ' + data.displayName + '! \ud83e\udded\u2728\n' + data.profileUrl;
-  } else {
-    defaultCaption = 'Check out ' + data.displayName + ' on NEBians! \ud83c\udf93\u2728\n' + data.profileUrl;
-  }
+  var defaultCaption = 'This profile is from NEBians. Come join me on Nepal\'s learning community, explore resources, and learn together.\n' + data.profileUrl;
   caption.textContent = defaultCaption;
   modal.classList.add('active');
   shareCardDataURL = null;
@@ -1533,25 +1555,20 @@ function triggerDownload(dataURL) {
 
 function shareCardToFacebook() {
   var caption = document.getElementById('shareCardCaption');
-  var text = caption ? caption.textContent : '';
-  var url = window.location.origin + window.location.pathname;
-  if (navigator.share) {
-    navigator.share({ title: document.title, text: text, url: url }).catch(function(){});
-  } else {
-    window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url), '_blank', 'width=600,height=400');
-  }
+  var text = caption ? caption.textContent.trim() : '';
+  var data = getShareCardData();
+  var url = data.profileUrl;
+  // Facebook uses the shared URL's Open Graph card image; the caption is passed as a quote where supported.
+  window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url) + '&quote=' + encodeURIComponent(text), '_blank', 'width=680,height=520');
 }
 
 function shareCardToX() {
   var caption = document.getElementById('shareCardCaption');
-  var text = caption ? caption.textContent : '';
-  var url = window.location.origin + window.location.pathname;
-  var fullText = text || ('Check out my profile on NEBians! ' + url);
-  if (navigator.share) {
-    navigator.share({ title: 'NEBians Profile', text: fullText, url: url }).catch(function(){});
-  } else {
-    window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(fullText), '_blank', 'width=600,height=400');
-  }
+  var text = caption ? caption.textContent.trim() : '';
+  var data = getShareCardData();
+  var url = data.profileUrl;
+  var cleanText = (text || 'This post is made from NEBians. Come join me on Nepal\'s learning community.').replace(url, '').trim();
+  window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(cleanText) + '&url=' + encodeURIComponent(url), '_blank', 'width=680,height=520');
 }
 
 registerActions({
@@ -1675,7 +1692,7 @@ registerActions({
   'share-card-x': function() { shareCardToX(); },
   'share-card-download': function() { downloadShareCard(); },
   'share-card-copy-link': function() {
-    var url = window.location.origin + window.location.pathname;
+    var url = getShareCardData().profileUrl;
     navigator.clipboard.writeText(url).then(function() { showSnackbar('Profile link copied!'); }).catch(function() { showSnackbar('Could not copy link'); });
   }
 });

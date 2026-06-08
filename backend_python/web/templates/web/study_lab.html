@@ -102,7 +102,10 @@
           <div class="sl-detail-title-row">
             <span class="material-symbols-outlined">description</span>
             <h2 id="slDetailTitle">Document</h2>
-            <button class="md-btn-icon" data-action="sl-delete-doc" title="Delete document">
+            <button type="button" class="md-btn-icon" data-action="sl-open-share" title="Share document">
+              <span class="material-symbols-outlined">ios_share</span>
+            </button>
+            <button type="button" class="md-btn-icon" data-action="sl-delete-doc" title="Delete document">
               <span class="material-symbols-outlined">delete</span>
             </button>
           </div>
@@ -164,7 +167,26 @@
           </div>
           <div class="sl-mindmap-content" id="slMindmapContent" style="display:none;">
             <div class="sl-mindmap-actions">
-              <button class="md-btn md-btn-outlined" data-action="sl-regenerate-mindmap"><span class="material-symbols-outlined">refresh</span> Regenerate</button>
+              <div class="sl-mm-toolbar">
+                <button class="md-btn md-btn-outlined" data-action="sl-regenerate-mindmap"><span class="material-symbols-outlined">refresh</span> Regenerate</button>
+                <select id="slMindmapLayout" data-change-action="sl-mm-customize" aria-label="Mindmap layout">
+                  <option value="radial">Radial layout</option>
+                  <option value="tree">Tree layout</option>
+                </select>
+                <select id="slMindmapTheme" data-change-action="sl-mm-customize" aria-label="Mindmap style">
+                  <option value="clean">Clean style</option>
+                  <option value="color">Color style</option>
+                  <option value="mono">Mono style</option>
+                </select>
+                <select id="slMindmapDensity" data-change-action="sl-mm-customize" aria-label="Mindmap density">
+                  <option value="comfortable">Comfortable</option>
+                  <option value="compact">Compact</option>
+                </select>
+                <input id="slMindmapSearch" data-keydown-action="sl-mm-search" placeholder="Search branches..." aria-label="Search mindmap branches">
+                <button class="sl-mm-icon-btn" data-action="sl-mm-zoom-out" title="Zoom out"><span class="material-symbols-outlined">remove</span></button>
+                <button class="sl-mm-icon-btn" data-action="sl-mm-zoom-in" title="Zoom in"><span class="material-symbols-outlined">add</span></button>
+                <button class="sl-mm-icon-btn" data-action="sl-mm-expand" title="Expand all"><span class="material-symbols-outlined">unfold_more</span></button>
+              </div>
             </div>
             <div id="slMindmapTree"></div>
           </div>
@@ -262,10 +284,41 @@
     </main>
   </div>
   {% endif %}
+
+  <div class="modal-overlay" id="slShareModal" data-action="sl-close-share" style="display:none;">
+    <div class="modal-box" data-action-stop style="max-width:560px;">
+      <div class="modal-header">
+        <h3 class="modal-title">Share study document</h3>
+        <button class="modal-close" data-action="sl-close-share"><span class="material-symbols-outlined">close</span></button>
+      </div>
+      <div class="modal-body">
+        <div class="sl-share-options">
+          <label class="sl-share-option"><input type="radio" name="slShareMode" value="private" checked> <span><span class="sl-share-option-title">Private</span><small>Only you can open this Study Lab document.</small></span></label>
+          <label class="sl-share-option"><input type="radio" name="slShareMode" value="link"> <span><span class="sl-share-option-title">Anyone with the link</span><small>Signed-in NEBians users with the link can view and interact.</small></span></label>
+          <label class="sl-share-option"><input type="radio" name="slShareMode" value="specific"> <span><span class="sl-share-option-title">Specific users</span><small>Enter usernames or emails separated by commas.</small></span></label>
+        </div>
+        <div class="sl-share-specific" id="slShareSpecific" style="display:none;">
+          <label for="slShareUsers">Users</label>
+          <textarea id="slShareUsers" placeholder="kabita, utsab@example.com"></textarea>
+          <p class="sl-share-help">Tip: users must already have a NEBians account.</p>
+        </div>
+        <div class="sl-share-linkbox">
+          <label>Share link</label>
+          <div class="sl-share-linkrow"><input id="slShareLink" readonly><button class="md-btn md-btn-tonal" data-action="sl-copy-share-link"><span class="material-symbols-outlined">content_copy</span> Copy</button></div>
+        </div>
+        <div class="sl-share-current" id="slShareCurrent"></div>
+        <div class="sl-share-footer">
+          <button class="md-btn md-btn-filled" data-action="sl-save-share"><span class="material-symbols-outlined">save</span> Save sharing</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
 {% endblock %}
 
 {% block extra_js %}
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/study-mindmap.js' %}"></script>
 {% if is_authenticated %}
 <script nonce="{{ csp_nonce }}">
 (function() {
@@ -282,6 +335,7 @@
   var flashcards = [];
   var currentFlashIdx = 0;
   var isFlipped = false;
+  var currentShareSettings = null;
 
   var fileInput = document.getElementById('slFileInput');
   if (fileInput) {
@@ -477,11 +531,30 @@
     if (currentDocData && currentDocData.mindmap) {
       document.getElementById('slMindmapPrompt').style.display = 'none';
       document.getElementById('slMindmapContent').style.display = '';
-      document.getElementById('slMindmapTree').innerHTML = renderMindmap(currentDocData.mindmap);
+      renderMindmapStage();
     } else {
       document.getElementById('slMindmapPrompt').style.display = '';
       document.getElementById('slMindmapContent').style.display = 'none';
     }
+  }
+
+  function getMindmapOptions() {
+    var layout = document.getElementById('slMindmapLayout');
+    var theme = document.getElementById('slMindmapTheme');
+    var density = document.getElementById('slMindmapDensity');
+    var search = document.getElementById('slMindmapSearch');
+    return {
+      layout: layout ? layout.value : 'radial',
+      theme: theme ? theme.value : 'clean',
+      density: density ? density.value : 'comfortable',
+      query: search ? search.value : ''
+    };
+  }
+
+  function renderMindmapStage() {
+    var el = document.getElementById('slMindmapTree');
+    if (!el || !currentDocData || !currentDocData.mindmap || !window.NEBiansMindmap) return;
+    window.NEBiansMindmap.render(el, currentDocData.mindmap, getMindmapOptions());
   }
 
   function generateMindmap() {
@@ -504,21 +577,6 @@
       });
   }
 
-  function renderMindmap(map) {
-    if (!map) return '';
-    return '<div class="sl-map-root"><div class="sl-map-root-title">' + escapeHtml(map.title || 'Mindmap') + '</div>' + renderMindmapNodes(map.nodes || [], 1) + '</div>';
-  }
-
-  function renderMindmapNodes(nodes, depth) {
-    if (!nodes || !nodes.length) return '';
-    var html = '<ul class="sl-map-list sl-map-depth-' + depth + '">';
-    nodes.forEach(function(node) {
-      html += '<li class="sl-map-node"><div class="sl-map-node-card"><span>' + escapeHtml(node.title || 'Topic') + '</span>' +
-        (node.note ? '<small>' + escapeHtml(node.note) + '</small>' : '') + '</div>' + renderMindmapNodes(node.children || [], depth + 1) + '</li>';
-    });
-    html += '</ul>';
-    return html;
-  }
 
   function renderQuizList(quizzes) {
     var html = '<div class="sl-list-head"><h3 class="sl-section-title">Your Quizzes</h3><button class="md-btn md-btn-tonal" data-action="sl-new-quiz"><span class="material-symbols-outlined">add</span> Fresh Quiz</button></div><div class="sl-quiz-cards">';
@@ -674,6 +732,79 @@
     else { renderFlashcard(); showSnackbar('Deck finished. Generate more new cards when ready.'); }
   }
 
+
+  function openShareDialog() {
+    if (!currentDocId) {
+      var activeDoc = document.querySelector('.sl-doc-item.sl-doc-active');
+      if (activeDoc && activeDoc.dataset.docId) currentDocId = activeDoc.dataset.docId;
+    }
+    if (!currentDocId) { showSnackbar('Select a document first'); return; }
+    var modal = document.getElementById('slShareModal');
+    if (!modal) return;
+    modal.style.display = 'flex';
+    modal.classList.add('active');
+    var current = document.getElementById('slShareCurrent');
+    if (current) current.textContent = 'Loading sharing settings...';
+    fetch('/ajax/study-lab/document/' + encodeURIComponent(currentDocId) + '/share/', { headers: {'X-CSRFToken': CSRF_TOKEN}, credentials: 'same-origin' })
+      .then(handleJson)
+      .then(function(data) { currentShareSettings = data; renderShareDialog(data); })
+      .catch(function(err) { showSnackbar(err.message || 'Failed to load sharing settings'); });
+  }
+
+  function closeShareDialog(ev) {
+    if (ev && ev.target && ev.target.id !== 'slShareModal' && !ev.target.closest('.modal-close')) return;
+    var modal = document.getElementById('slShareModal');
+    if (modal) { modal.classList.remove('active'); modal.style.display = 'none'; }
+  }
+
+  function renderShareDialog(data) {
+    var mode = data.mode || 'private';
+    document.querySelectorAll('input[name="slShareMode"]').forEach(function(radio) { radio.checked = radio.value === mode; });
+    var link = document.getElementById('slShareLink');
+    if (link) link.value = data.shareUrl || '';
+    var usersBox = document.getElementById('slShareUsers');
+    if (usersBox) usersBox.value = (data.users || []).map(function(u) { return u.username; }).join(', ');
+    updateShareSpecificVisibility();
+    var current = document.getElementById('slShareCurrent');
+    if (current) {
+      if (mode === 'private') current.innerHTML = 'Current access: only you.';
+      else if (mode === 'link') current.innerHTML = 'Current access: signed-in users with this link.';
+      else if (data.users && data.users.length) current.innerHTML = 'Shared with: ' + data.users.map(function(u) { return '<span class="sl-share-chip">@' + escapeHtml(u.username) + '</span>'; }).join('');
+      else current.innerHTML = 'Specific-user sharing is selected, but no users are added yet.';
+    }
+  }
+
+  function updateShareSpecificVisibility() {
+    var selected = document.querySelector('input[name="slShareMode"]:checked');
+    var specific = document.getElementById('slShareSpecific');
+    if (specific) specific.style.display = selected && selected.value === 'specific' ? '' : 'none';
+  }
+
+  function saveShareDialog() {
+    if (!currentDocId) return;
+    var selected = document.querySelector('input[name="slShareMode"]:checked');
+    var mode = selected ? selected.value : 'private';
+    var users = document.getElementById('slShareUsers') ? document.getElementById('slShareUsers').value : '';
+    fetch('/ajax/study-lab/document/' + encodeURIComponent(currentDocId) + '/share/', {
+      method: 'POST', headers: {'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN}, credentials: 'same-origin',
+      body: JSON.stringify({mode: mode, users: users})
+    }).then(handleJson).then(function(data) {
+      currentShareSettings = data;
+      if (currentDocData && currentDocData.document) currentDocData.document.shareMode = data.mode;
+      renderShareDialog(data);
+      showSnackbar('Sharing updated');
+    }).catch(function(err) {
+      if (err.missing) showSnackbar('Some users were not found');
+      else showSnackbar(err.message || 'Failed to update sharing');
+    });
+  }
+
+  function copyStudyShareLink() {
+    var link = document.getElementById('slShareLink');
+    if (!link || !link.value) return;
+    navigator.clipboard.writeText(link.value).then(function() { showSnackbar('Share link copied'); }).catch(function() { showSnackbar('Could not copy link'); });
+  }
+
   function deleteDoc() {
     if (!currentDocId || !confirm('Delete this document and all its quizzes, summaries, mindmap, and flashcards?')) return;
     fetch('/ajax/study-lab/document/' + currentDocId + '/delete/', { method: 'POST', headers: {'X-CSRFToken': CSRF_TOKEN}, credentials: 'same-origin' })
@@ -721,6 +852,8 @@
     return template.innerHTML;
   }
 
+  document.querySelectorAll('input[name="slShareMode"]').forEach(function(radio) { radio.addEventListener('change', updateShareSpecificVisibility); });
+
   registerActions({
     'sl-upload': function() { document.getElementById('slFileInput').click(); },
     'sl-select-doc': function(el) { selectDoc(el.dataset.docId); },
@@ -731,8 +864,17 @@
     'sl-edit-summary': function() { startSummaryEdit(); },
     'sl-save-summary': function() { saveSummaryEdit(); },
     'sl-cancel-summary-edit': function() { cancelSummaryEdit(); },
+    'sl-open-share': function() { openShareDialog(); },
+    'sl-close-share': function(el, ev) { closeShareDialog(ev); },
+    'sl-save-share': function() { saveShareDialog(); },
+    'sl-copy-share-link': function() { copyStudyShareLink(); },
     'sl-generate-mindmap': function() { generateMindmap(); },
     'sl-regenerate-mindmap': function() { generateMindmap(); },
+    'sl-mm-customize': function() { renderMindmapStage(); },
+    'sl-mm-search': function() { setTimeout(renderMindmapStage, 0); },
+    'sl-mm-zoom-in': function() { if (window.NEBiansMindmap) window.NEBiansMindmap.setZoom(document.getElementById('slMindmapTree'), 0.12, currentDocData.mindmap); },
+    'sl-mm-zoom-out': function() { if (window.NEBiansMindmap) window.NEBiansMindmap.setZoom(document.getElementById('slMindmapTree'), -0.12, currentDocData.mindmap); },
+    'sl-mm-expand': function() { if (window.NEBiansMindmap) window.NEBiansMindmap.expandAll(document.getElementById('slMindmapTree'), currentDocData.mindmap); },
     'sl-generate-quiz': function() { generateQuiz(); },
     'sl-new-quiz': function() { showQuizPrompt(); },
     'sl-quiz-new': function() { showQuizPrompt(); },

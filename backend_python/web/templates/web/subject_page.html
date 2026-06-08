@@ -681,7 +681,8 @@
       var userId = el.dataset.userId;
       el.disabled = true;
       try {
-        const r = await fetch('/ajax/follow/' + userId + '/', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN }, credentials: 'same-origin' });
+        const desired = el.classList.contains('following') ? 'unfollow' : 'follow';
+        const r = await fetch('/ajax/follow/' + userId + '/', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN }, credentials: 'same-origin', body: JSON.stringify({ action: desired }) });
         if (r.status === 401) { window.location.href = '{% url "web:login" %}?next=' + encodeURIComponent(window.location.pathname); return; }
         const d = await r.json();
         el.disabled = false;
