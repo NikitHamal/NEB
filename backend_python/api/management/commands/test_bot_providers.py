@@ -74,7 +74,7 @@ class Command(BaseCommand):
             # 1) Qwen path
             self.stdout.write('\n[1] provider=qwen')
             cfg.provider = 'qwen'
-            cfg.model = 'qwen3.6-plus'
+            cfg.model = 'qwen3.7-plus'
             cfg.save()
             try:
                 out = _neby.call_ai_api('You are a test.', 'Say just the word OK.')

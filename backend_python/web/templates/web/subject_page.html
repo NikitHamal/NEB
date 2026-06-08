@@ -560,6 +560,11 @@
             </div>
             
             <div class="ai-input-area">
+              <div id="ai-attach-preview" style="display:none;"></div>
+              <input type="file" id="ai-file-input" multiple accept=".png,.jpg,.jpeg,.gif,.webp,.bmp,.svg,.pdf,.mp4,.avi,.mov,.mkv,.webm,.mp3,.wav,.ogg,.flac,.aac,.m4a,.txt,.doc,.docx" style="display:none;">
+              <button type="button" class="ai-attach-btn" id="ai-attach-btn" title="Attach file">
+                <span class="material-symbols-outlined">attach_file</span>
+              </button>
               <input type="text" class="ai-input-box" id="ai-message-input" placeholder="Ask Neby about {{ subject }}..." autocomplete="off">
               <button class="ai-send-btn" id="ai-send-btn" disabled>
                 <span class="material-symbols-outlined">send</span>
@@ -802,6 +807,10 @@
   const defaultModelId = '{{ default_model }}';
   const subjectName = '{{ subject|escapejs }}';
   const gradeLevel = '{{ grade|escapejs }}';
+  let aiAttachedFiles = [];
+  const AI_MAX_FILES = 5;
+  const AI_MAX_FILE_SIZE = 20 * 1024 * 1024;
+  const AI_ALLOWED_EXT = new Set(['.png','.jpg','.jpeg','.gif','.webp','.bmp','.svg','.pdf','.txt','.doc','.docx','.mp4','.avi','.mov','.mkv','.webm','.mp3','.wav','.ogg','.flac','.aac','.m4a']);
 
   function initNebyAIChat() {
     if (isAIInitialized) return;
@@ -814,21 +823,23 @@
     
     const input = document.getElementById('ai-message-input');
     const sendBtn = document.getElementById('ai-send-btn');
+    const attachBtn = document.getElementById('ai-attach-btn');
+    const fileInput = document.getElementById('ai-file-input');
     
     input.addEventListener('input', () => {
-      sendBtn.disabled = !input.value.trim() || isSending;
+      sendBtn.disabled = (!input.value.trim() && aiAttachedFiles.length === 0) || isSending;
     });
     
     input.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' && input.value.trim() && !isSending) {
+      if (e.key === 'Enter' && (input.value.trim() || aiAttachedFiles.length > 0) && !isSending) {
         sendAIMessage();
       }
     });
     
     sendBtn.addEventListener('click', sendAIMessage);
     
-    // Load existing sessions
-    loadAISessions();
+    attachBtn.addEventListener('click', () => fileInput.click());
+    fileInput.addEventListener('change', handleAIFileSelect);
   }
 
   async function loadAISessions() {
@@ -888,7 +899,12 @@
       if (data.messages && data.messages.length > 0) {
         data.messages.forEach(msg => {
           if (msg.role !== 'system') {
-            appendMessageHTML(msg.role, msg.content, msg.id);
+            let content = msg.content;
+            if (msg.attachments && msg.attachments.length > 0) {
+              const fileNames = msg.attachments.map(a => a.fileName).join(', ');
+              content += '\n📎 ' + fileNames;
+            }
+            appendMessageHTML(msg.role, content, msg.id);
           }
         });
       } else {
@@ -1003,26 +1019,74 @@
     
     const input = document.getElementById('ai-message-input');
     const text = input.value.trim();
-    if (!text) return;
+    if (!text && aiAttachedFiles.length === 0) return;
     
     isSending = true;
     input.value = '';
     document.getElementById('ai-send-btn').disabled = true;
     
-    // Add user bubble
-    appendMessageHTML('user', text);
+    // Build user bubble showing text + file names
+    const fileNames = aiAttachedFiles.map(f => f.name).join(', ');
+    const displayText = text + (fileNames ? '\n📎 ' + fileNames : '');
+    appendMessageHTML('user', displayText);
     scrollToBottom();
+    
+    // Capture files before clearing
+    const filesToSend = aiAttachedFiles.slice();
+    aiAttachedFiles = [];
+    renderAIFilePreview();
     
     // Add thinking bubble
     const thinking = appendThinkingIndicator();
     scrollToBottom();
     
     try {
-      const response = await fetch(`/ajax/neby-arena/sessions/${activeSessionId}/messages/`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
-        body: JSON.stringify({ content: text })
-      });
+      let response;
+      
+      if (filesToSend.length > 0) {
+        // Route through Qwen provider for file uploads
+        // First, ensure we have a Qwen session
+        let qwenSessionId = activeSessionId;
+        const sessResp = await fetch(`/ajax/neby-arena/sessions/${qwenSessionId}/`);
+        const sessData = await sessResp.json();
+        
+        if (!sessData.session || sessData.session.provider !== 'qwen') {
+          // Create a new Qwen session
+          const createResp = await fetch('/ajax/neby-arena/qwen/sessions/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
+            body: JSON.stringify({ modelId: defaultModelId || 'qwen3.7-plus', title: (text || 'File upload').substring(0, 80) })
+          });
+          const createData = await createResp.json();
+          if (!createData.session) {
+            thinking.remove();
+            appendMessageHTML('assistant', `⚠️ *Error:* Failed to create Qwen session: ${(createData.error || 'Unknown error')}`);
+            isSending = false;
+            return;
+          }
+          qwenSessionId = createData.session.id;
+          activeSessionId = qwenSessionId;
+          await loadAISessions();
+        }
+        
+        // Send with files via multipart form data
+        const formData = new FormData();
+        formData.append('content', text || 'Please analyze the attached file(s).');
+        filesToSend.forEach(f => formData.append('files', f));
+        
+        response = await fetch(`/ajax/neby-arena/qwen/sessions/${qwenSessionId}/messages/`, {
+          method: 'POST',
+          headers: { 'X-CSRFToken': CSRF_TOKEN },
+          body: formData
+        });
+      } else {
+        // Text-only: use existing AI4Bharat arena endpoint
+        response = await fetch(`/ajax/neby-arena/sessions/${activeSessionId}/messages/`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
+          body: JSON.stringify({ content: text })
+        });
+      }
       
       thinking.remove();
       
@@ -1044,7 +1108,6 @@
         if (done) break;
         
         const chunk = decoder.decode(value, { stream: true });
-        // SSE lines look like: data: {"choices": [{"delta": {"content": "..."}}]}
         const lines = chunk.split('\n');
         for (const line of lines) {
           const cleanLine = line.trim();
@@ -1057,7 +1120,6 @@
               if (parsed.choices && parsed.choices[0].delta) {
                 const delta = parsed.choices[0].delta;
                 
-                // On first chunk, construct assistant bubble
                 if (!botBubble) {
                   botBubble = appendMessageHTML('assistant', '');
                 }
@@ -1074,13 +1136,12 @@
                 botBubble.querySelector('.ai-msg-bubble').innerHTML = `<span style="color:var(--md-error)">⚠️ AI Error: ${escapeHtml(parsed.error.message)}</span>`;
               }
             } catch (e) {
-              // Ignore line parse errors (partially received json, etc.)
+              // Ignore line parse errors
             }
           }
         }
       }
       
-      // Update sidebar session list title/count
       loadAISessions();
       
     } catch (e) {
@@ -1105,6 +1166,64 @@
       .replace(/>/g, "&gt;")
       .replace(/"/g, "&quot;")
       .replace(/'/g, "&#039;");
+  }
+
+  // ── AI File Attachment Handling ──
+  function handleAIFileSelect(e) {
+    const files = Array.from(e.target.files || []);
+    const preview = document.getElementById('ai-attach-preview');
+    
+    for (const file of files) {
+      if (aiAttachedFiles.length >= AI_MAX_FILES) {
+        showSnackbar(`Maximum ${AI_MAX_FILES} files allowed.`);
+        break;
+      }
+      const ext = '.' + file.name.split('.').pop().toLowerCase();
+      if (!AI_ALLOWED_EXT.has(ext)) {
+        showSnackbar(`File type "${ext}" not supported.`);
+        continue;
+      }
+      if (file.size > AI_MAX_FILE_SIZE) {
+        showSnackbar(`File "${file.name}" is too large (max 20 MB).`);
+        continue;
+      }
+      aiAttachedFiles.push(file);
+    }
+    
+    renderAIFilePreview();
+    e.target.value = '';
+    
+    const input = document.getElementById('ai-message-input');
+    document.getElementById('ai-send-btn').disabled = (!input.value.trim() && aiAttachedFiles.length === 0) || isSending;
+  }
+
+  function renderAIFilePreview() {
+    const preview = document.getElementById('ai-attach-preview');
+    if (aiAttachedFiles.length === 0) {
+      preview.style.display = 'none';
+      preview.innerHTML = '';
+      return;
+    }
+    preview.style.display = 'flex';
+    preview.innerHTML = aiAttachedFiles.map((f, i) => {
+      const ext = f.name.split('.').pop().toLowerCase();
+      const isImage = ['png','jpg','jpeg','gif','webp','bmp','svg'].includes(ext);
+      const icon = isImage ? 'image' : (ext === 'pdf' ? 'picture_as_pdf' : 'description');
+      const sizeStr = f.size < 1024 ? f.size + ' B' : (f.size < 1048576 ? (f.size / 1024).toFixed(1) + ' KB' : (f.size / 1048576).toFixed(1) + ' MB');
+      return `<div class="ai-file-chip" data-idx="${i}">
+        <span class="material-symbols-outlined" style="font-size:16px;">${icon}</span>
+        <span class="ai-file-chip-name">${escapeHtml(f.name)}</span>
+        <span class="ai-file-chip-size">${sizeStr}</span>
+        <button type="button" class="ai-file-chip-remove" onclick="removeAIFile(${i})">×</button>
+      </div>`;
+    }).join('');
+  }
+
+  function removeAIFile(idx) {
+    aiAttachedFiles.splice(idx, 1);
+    renderAIFilePreview();
+    const input = document.getElementById('ai-message-input');
+    document.getElementById('ai-send-btn').disabled = (!input.value.trim() && aiAttachedFiles.length === 0) || isSending;
   }
 
   function closeAllMenus() {

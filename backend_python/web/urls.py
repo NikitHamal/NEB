@@ -81,6 +81,8 @@ urlpatterns = [
     path('ajax/neby-arena/sessions/<str:session_id>/', views.ajax_arena_session_detail, name='ajax_arena_session_detail'),
     path('ajax/neby-arena/sessions/<str:session_id>/messages/', views.ajax_arena_send_message, name='ajax_arena_send_message'),
     path('ajax/neby-arena/messages/<str:message_id>/regenerate/', views.ajax_arena_regenerate, name='ajax_arena_regenerate'),
+    path('ajax/neby-arena/qwen/sessions/', views.ajax_arena_create_qwen_session, name='ajax_arena_create_qwen_session'),
+    path('ajax/neby-arena/qwen/sessions/<str:session_id>/messages/', views.ajax_arena_send_message_qwen, name='ajax_arena_send_message_qwen'),
 
     path('notifications/', views.notifications, name='notifications'),
     path('ajax/notifications/', views.ajax_notifications, name='ajax_notifications'),
@@ -113,4 +115,17 @@ urlpatterns = [
     path('admin/bots/new/', views.admin_bot_edit, name='admin_bot_new'),
     path('admin/bots/<int:bot_id>/', views.admin_bot_edit, name='admin_bot_edit'),
     path('admin/bots/<int:bot_id>/create-user/', views.admin_bot_create_user, name='admin_bot_create_user'),
+
+    # Study Lab
+    path('study-lab/', views.study_lab, name='study_lab'),
+    path('ajax/study-lab/upload/', views.ajax_study_upload, name='ajax_study_upload'),
+    path('ajax/study-lab/documents/', views.ajax_study_documents, name='ajax_study_documents'),
+    path('ajax/study-lab/document/<str:doc_id>/', views.ajax_study_document_detail, name='ajax_study_document_detail'),
+    path('ajax/study-lab/document/<str:doc_id>/delete/', views.ajax_study_delete_document, name='ajax_study_delete_document'),
+    path('ajax/study-lab/document/<str:doc_id>/summary/', views.ajax_study_generate_summary, name='ajax_study_generate_summary'),
+    path('ajax/study-lab/document/<str:doc_id>/quiz/', views.ajax_study_generate_quiz, name='ajax_study_generate_quiz'),
+    path('ajax/study-lab/document/<str:doc_id>/flashcards/', views.ajax_study_generate_flashcards, name='ajax_study_generate_flashcards'),
+    path('ajax/study-lab/quiz/<str:quiz_id>/', views.ajax_study_quiz_detail, name='ajax_study_quiz_detail'),
+    path('ajax/study-lab/quiz/<str:quiz_id>/submit/', views.ajax_study_quiz_submit, name='ajax_study_quiz_submit'),
+    path('ajax/study-lab/flashcard/<str:card_id>/review/', views.ajax_study_flashcard_review, name='ajax_study_flashcard_review'),
 ]

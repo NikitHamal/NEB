@@ -68,6 +68,19 @@
     <p style="font-size:0.8125rem; margin-top:24px; margin-bottom:0;"><a href="{% url 'web:privacy_policy' %}" style="color:var(--md-on-surface-variant); text-decoration:underline;">Privacy Policy</a> &middot; <a href="{% url 'web:terms_of_service' %}" style="color:var(--md-on-surface-variant); text-decoration:underline;">Terms of Service</a></p>
   </div>
 
+  {% if is_authenticated %}
+  <a href="{% url 'web:study_lab' %}" class="study-lab-hero-card">
+    <div class="study-lab-hero-icon">
+      <span class="material-symbols-outlined">science</span>
+    </div>
+    <div class="study-lab-hero-content">
+      <h2>Study Lab</h2>
+      <p>Upload your notes &amp; PDFs. Get AI summaries, quizzes, and flashcards instantly.</p>
+    </div>
+    <span class="material-symbols-outlined study-lab-hero-arrow">arrow_forward</span>
+  </a>
+  {% endif %}
+
   <div class="home-bento">
     <div>
       {% if recent_resources %}

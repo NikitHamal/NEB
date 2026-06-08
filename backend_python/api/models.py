@@ -677,7 +677,7 @@ class BotConfig(models.Model):
     )
     api_url = models.TextField(default='https://chat.qwen.ai/api/v2')
     api_key = models.TextField(blank=True, default='')
-    model = models.CharField(max_length=200, default='qwen3.6-plus')
+    model = models.CharField(max_length=200, default='qwen3.7-plus')
     system_prompt = models.TextField(
         default='You are Neby, a friendly and helpful AI study buddy for Nepali students on the NEBians app. '
                 'You help with academic questions, explain concepts clearly, and give study tips.\n\n'
@@ -762,18 +762,28 @@ class NebyTask(models.Model):
 
 
 class ArenaChatSession(models.Model):
-    """A user's persistent conversation with the AI4Bharat Arena.
+    """A user's persistent conversation with an AI provider.
 
-    Each session maps to one remote arena session (UUID) and is bound to a
-    specific anonymous-pool token so multi-turn threading works server-side.
-    The token is rotated on demand when its message budget runs low.
+    Supports two providers:
+      - 'ai4bharat': the AI4Bharat Arena (anonymous token pool, no file uploads)
+      - 'qwen': the Qwen proxy (browser-spoofed session, supports file uploads)
+
+    Each session maps to one remote session ID and is bound to provider-specific
+    credentials. For AI4Bharat, arena_token_id is the bound anonymous pool token.
+    For Qwen, qwen_chat_id is the Qwen chat ID.
     """
+    PROVIDER_CHOICES = [
+        ('ai4bharat', 'AI4Bharat Arena'),
+        ('qwen', 'Qwen (chat.qwen.ai)'),
+    ]
     id = models.CharField(max_length=36, primary_key=True)
     user = models.ForeignKey(
         'User', on_delete=models.CASCADE, related_name='arena_sessions', db_index=True,
     )
+    provider = models.CharField(max_length=20, choices=PROVIDER_CHOICES, default='ai4bharat')
     arena_session_id = models.CharField(max_length=64, db_index=True)
     arena_token_id = models.CharField(max_length=64, blank=True, default='')
+    qwen_chat_id = models.CharField(max_length=64, blank=True, default='')
     model_id = models.CharField(max_length=64)
     model_code = models.CharField(max_length=100, blank=True, default='')
     model_display_name = models.CharField(max_length=200, blank=True, default='')
@@ -824,6 +834,136 @@ class ArenaChatMessage(models.Model):
         ordering = ['created_at']
         indexes = [
             models.Index(fields=['session', 'created_at']),
+        ]
+
+
+class ArenaChatAttachment(models.Model):
+    """A file attached to an ArenaChatMessage (image, PDF, audio, video)."""
+    id = models.CharField(max_length=36, primary_key=True)
+    message = models.ForeignKey(
+        'ArenaChatMessage', on_delete=models.CASCADE, related_name='attachments', db_index=True,
+    )
+    file_type = models.CharField(max_length=20)
+    file_name = models.CharField(max_length=500)
+    file_size = models.PositiveIntegerField(default=0)
+    mime_type = models.CharField(max_length=200, blank=True, default='')
+    qwen_file_id = models.CharField(max_length=200, blank=True, default='')
+    qwen_file_url = models.TextField(blank=True, default='')
+    show_type = models.CharField(max_length=20, blank=True, default='')
+    file_class = models.CharField(max_length=20, blank=True, default='')
+    created_at = models.BigIntegerField()
+
+    class Meta:
+        db_table = 'arena_chat_attachments'
+
+
+class StudyDocument(models.Model):
+    STATUS_CHOICES = [
+        ('uploading', 'Uploading'),
+        ('processing', 'Processing'),
+        ('ready', 'Ready'),
+        ('failed', 'Failed'),
+    ]
+    id = models.CharField(max_length=36, primary_key=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='study_documents', db_index=True)
+    title = models.CharField(max_length=500, blank=True, default='')
+    file_url = models.TextField(blank=True, default='')
+    file_name = models.CharField(max_length=500, blank=True, default='')
+    file_size = models.PositiveIntegerField(default=0)
+    mime_type = models.CharField(max_length=200, blank=True, default='')
+    page_count = models.PositiveIntegerField(default=0)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='uploading')
+    summary = models.TextField(blank=True, default='')
+    summary_generated_at = models.BigIntegerField(default=0)
+    created_at = models.BigIntegerField(default=0)
+    updated_at = models.BigIntegerField(default=0)
+
+    class Meta:
+        db_table = 'study_documents'
+        ordering = ['-updated_at']
+        indexes = [
+            models.Index(fields=['user', '-updated_at']),
+        ]
+
+
+class StudyQuiz(models.Model):
+    id = models.CharField(max_length=36, primary_key=True)
+    document = models.ForeignKey(StudyDocument, on_delete=models.CASCADE, related_name='quizzes', db_index=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='study_quizzes', db_index=True)
+    title = models.CharField(max_length=500, blank=True, default='')
+    question_count = models.PositiveIntegerField(default=0)
+    created_at = models.BigIntegerField(default=0)
+
+    class Meta:
+        db_table = 'study_quizzes'
+        ordering = ['-created_at']
+
+
+class StudyQuizQuestion(models.Model):
+    id = models.CharField(max_length=36, primary_key=True)
+    quiz = models.ForeignKey(StudyQuiz, on_delete=models.CASCADE, related_name='questions', db_index=True)
+    question_number = models.PositiveIntegerField(default=0)
+    question_text = models.TextField()
+    option_a = models.TextField(blank=True, default='')
+    option_b = models.TextField(blank=True, default='')
+    option_c = models.TextField(blank=True, default='')
+    option_d = models.TextField(blank=True, default='')
+    correct_answer = models.CharField(max_length=1, default='A')
+    explanation = models.TextField(blank=True, default='')
+
+    class Meta:
+        db_table = 'study_quiz_questions'
+        ordering = ['question_number']
+
+
+class StudyQuizAttempt(models.Model):
+    id = models.CharField(max_length=36, primary_key=True)
+    quiz = models.ForeignKey(StudyQuiz, on_delete=models.CASCADE, related_name='attempts', db_index=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='study_quiz_attempts', db_index=True)
+    score = models.PositiveIntegerField(default=0)
+    total_questions = models.PositiveIntegerField(default=0)
+    answers = models.TextField(blank=True, default='')  # JSON: {"1":"A","2":"C",...}
+    xp_earned = models.PositiveIntegerField(default=0)
+    completed_at = models.BigIntegerField(default=0)
+    created_at = models.BigIntegerField(default=0)
+
+    class Meta:
+        db_table = 'study_quiz_attempts'
+        ordering = ['-completed_at']
+
+
+class StudyFlashcard(models.Model):
+    id = models.CharField(max_length=36, primary_key=True)
+    document = models.ForeignKey(StudyDocument, on_delete=models.CASCADE, related_name='flashcards', db_index=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='study_flashcards', db_index=True)
+    front = models.TextField()
+    back = models.TextField()
+    card_number = models.PositiveIntegerField(default=0)
+    created_at = models.BigIntegerField(default=0)
+
+    class Meta:
+        db_table = 'study_flashcards'
+        ordering = ['card_number']
+
+
+class StudyFlashcardReview(models.Model):
+    CONFIDENCE_CHOICES = [
+        ('easy', 'Easy'),
+        ('medium', 'Medium'),
+        ('hard', 'Hard'),
+    ]
+    id = models.CharField(max_length=36, primary_key=True)
+    flashcard = models.ForeignKey(StudyFlashcard, on_delete=models.CASCADE, related_name='reviews', db_index=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='study_flashcard_reviews', db_index=True)
+    confidence = models.CharField(max_length=10, choices=CONFIDENCE_CHOICES, default='medium')
+    review_count = models.PositiveIntegerField(default=0)
+    last_reviewed_at = models.BigIntegerField(default=0)
+    next_review_at = models.BigIntegerField(default=0)
+
+    class Meta:
+        db_table = 'study_flashcard_reviews'
+        indexes = [
+            models.Index(fields=['user', 'flashcard']),
         ]
 
 
