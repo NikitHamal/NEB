@@ -1,4 +1,5 @@
 """Views Auth extracted from views.py."""
+import uuid
 from .view_helpers import *  # noqa: F401,F403
 
 @api_view(['POST'])

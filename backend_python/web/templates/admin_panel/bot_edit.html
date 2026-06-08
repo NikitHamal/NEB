@@ -206,15 +206,14 @@
     { id: '864608e8-c05d-4ad0-bf46-ecc00b2045b6', name: 'Gemini 2.5 Flash Lite',                  code: 'gemini-2.5-flash-lite',                      provider: 'google',  reasoning: false, vision: true,  context: 32000  },
   ];
 
-  const QWEN_MODELS = [
-    { value: 'qwen3.6-plus',         label: 'Qwen 3.6 Plus (default)' },
-    { value: 'qwen3.7-max',          label: 'Qwen 3.7 Max' },
+  const QWEN_FALLBACK = [
     { value: 'qwen3.7-plus',         label: 'Qwen 3.7 Plus' },
-    { value: 'qwen3.6-max-preview',  label: 'Qwen 3.6 Max Preview' },
+    { value: 'qwen3.7-max',          label: 'Qwen 3.7 Max' },
+    { value: 'qwen3.6-plus',         label: 'Qwen 3.6 Plus (default)' },
     { value: 'qwen3.5-plus',         label: 'Qwen 3.5 Plus' },
-    { value: 'qwen2.5-coder-32b',    label: 'Qwen 2.5 Coder 32B' },
-    { value: 'qwq-32b',              label: 'Qwq 32B' },
+    { value: 'qwen3.5-flash',        label: 'Qwen 3.5 Flash' },
   ];
+  let QWEN_MODELS = QWEN_FALLBACK;
 
   const PROVIDER_CONFIG = {
     qwen: {
@@ -242,6 +241,38 @@
       options: [],
     },
   };
+
+  // Fetch live Qwen models from API, fall back to static list on error
+  (async function fetchQwenModels() {
+    try {
+      const resp = await fetch('/api/neby-arena/qwen/models/');
+      if (!resp.ok) throw new Error('HTTP ' + resp.status);
+      const data = await resp.json();
+      if (data.models && data.models.length) {
+        QWEN_MODELS = data.models
+          .filter(function(m) { return m.is_active; })
+          .map(function(m) {
+            var caps = [];
+            if (m.capabilities.vision) caps.push('vision');
+            if (m.capabilities.document) caps.push('doc');
+            if (m.capabilities.thinking) caps.push('think');
+            var ctx = m.max_context_length;
+            var ctxStr = ctx >= 1000000 ? (ctx / 1000000).toFixed(0) + 'M' : ctx >= 1000 ? Math.round(ctx / 1000) + 'K' : String(ctx);
+            return { value: m.id, label: m.name + ' (' + ctxStr + ', ' + caps.join('/') + ')' };
+          });
+        PROVIDER_CONFIG.qwen.options = QWEN_MODELS;
+        // Refresh the provider dropdown if Qwen is currently selected
+        var sel = document.getElementById('id_provider');
+        if (sel && sel.value === 'qwen') {
+          var evt = document.createEvent('HTMLEvents');
+          evt.initEvent('change', true, false);
+          sel.dispatchEvent(evt);
+        }
+      }
+    } catch(e) {
+      console.warn('Qwen model fetch failed, using fallback list:', e.message);
+    }
+  })();
 
   let userTouchedUrl = false;
   const urlEl = document.getElementById('id_api_url');

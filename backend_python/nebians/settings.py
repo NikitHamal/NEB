@@ -4,10 +4,11 @@ Production defaults are intentionally strict. Use .env.example as the only
 committed template; never deploy with DEBUG=True or fallback secrets.
 """
 import os
+import re
 import sys
 import logging
 from pathlib import Path
-from logging.handlers import RotatingFileHandler  # noqa: F401 - referenced by dotted path below
+from logging.handlers import RotatingFileHandler
 
 from django.core.exceptions import ImproperlyConfigured
 from dotenv import load_dotenv
@@ -292,11 +293,14 @@ LOG_DIR.mkdir(exist_ok=True)
 
 class SensitiveDataFilter(logging.Filter):
     REDACT_KEYS = ('token', 'auth', 'password', 'secret', 'credential', 'code')
+    _PATTERN = re.compile(
+        r'(' + '|'.join(REDACT_KEYS) + r')\s*[=:]\s*[^\s,;]+',
+        re.IGNORECASE,
+    )
 
     def filter(self, record):
         message = record.getMessage()
-        for key in self.REDACT_KEYS:
-            message = __import__('re').sub(rf'({key}\s*[=:]\s*)([^\s,;]+)', rf'\1[REDACTED]', message, flags=__import__('re').IGNORECASE)
+        message = self._PATTERN.sub(r'\1[REDACTED]', message)
         record.msg = message
         record.args = ()
         return True

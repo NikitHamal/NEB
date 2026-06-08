@@ -116,6 +116,3 @@ class AuthTokenAuthentication(BaseAuthentication):
 
     def authenticate_header(self, request):
         return 'Bearer'
-
-
-GoogleTokenAuthentication = AuthTokenAuthentication
