@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% load static web_extras %}
+
+{% block title %}Bookmarks — NEBians{% endblock %}
+{% block description %}Your saved NEBians posts, replies, and resources in one private page.{% endblock %}
+{% block robots %}<meta name="robots" content="noindex,nofollow">{% endblock %}
+{% block nav_home %}{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'web/css/pages/bookmarks.css' %}">{% endblock %}
+
+{% block content %}
+<div class="bookmarks-page">
+  <header class="bookmarks-header">
+    <div>
+      <p class="bookmarks-kicker">Saved</p>
+      <h1>Bookmarks</h1>
+    </div>
+    <span class="bookmarks-total">{{ bookmark_counts.all|default:0 }} saved</span>
+  </header>
+
+  <nav class="bookmarks-tabs" aria-label="Bookmark filters">
+    <button class="bookmark-tab active" data-action="filter-bookmarks" data-filter="all">All <span>{{ bookmark_counts.all|default:0 }}</span></button>
+    <button class="bookmark-tab" data-action="filter-bookmarks" data-filter="post">Posts <span>{{ bookmark_counts.post|default:0 }}</span></button>
+    <button class="bookmark-tab" data-action="filter-bookmarks" data-filter="reply">Replies <span>{{ bookmark_counts.reply|default:0 }}</span></button>
+    <button class="bookmark-tab" data-action="filter-bookmarks" data-filter="resource">Resources <span>{{ bookmark_counts.resource|default:0 }}</span></button>
+  </nav>
+
+  <section class="bookmarks-list" id="bookmarksList" aria-label="Saved items">
+    {% if bookmark_items %}
+      {% for item in bookmark_items %}
+      <article class="bookmark-card" data-bookmark-type="{{ item.type }}">
+        <div class="bookmark-card-main">
+          <div class="bookmark-card-topline">
+            <span>{{ item.type|title }}</span>
+            <span aria-hidden="true">·</span>
+            <span>{{ item.created_at|time_ago }}</span>
+          </div>
+          <h2><a href="{{ item.url }}">{{ item.title }}</a></h2>
+          {% if item.excerpt %}<p>{{ item.excerpt|truncatechars:160 }}</p>{% endif %}
+          {% if item.meta %}<div class="bookmark-card-meta">{{ item.meta }}</div>{% endif %}
+        </div>
+        <div class="bookmark-card-actions">
+          <a href="{{ item.url }}" class="bookmark-open" aria-label="Open bookmark">Open</a>
+          <button type="button" class="bookmark-remove" data-action="remove-bookmark" data-target-type="{{ item.type }}" data-target-id="{{ item.id }}" aria-label="Remove bookmark">
+            <span class="material-symbols-outlined" aria-hidden="true">bookmark_remove</span>
+          </button>
+        </div>
+      </article>
+      {% endfor %}
+    {% else %}
+      <div class="bookmarks-empty">
+        <h2>No bookmarks yet</h2>
+        <p>Save posts, replies, and resources from across NEBians and they will appear here.</p>
+        <a href="{% url 'web:home' %}" class="bookmarks-empty-link">Explore NEBians</a>
+      </div>
+    {% endif %}
+  </section>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script nonce="{{ csp_nonce }}">
+registerActions({
+  'filter-bookmarks': function(btn) {
+    var filter = btn.dataset.filter || 'all';
+    document.querySelectorAll('.bookmark-tab').forEach(function(t){ t.classList.remove('active'); });
+    btn.classList.add('active');
+    document.querySelectorAll('.bookmark-card').forEach(function(card){
+      card.style.display = (filter === 'all' || card.dataset.bookmarkType === filter) ? '' : 'none';
+    });
+  },
+  'remove-bookmark': async function(btn) {
+    var card = btn.closest('.bookmark-card');
+    btn.disabled = true;
+    try {
+      var r = await fetch('/ajax/bookmark/toggle/', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json','X-CSRFToken':CSRF_TOKEN},
+        credentials: 'same-origin',
+        body: JSON.stringify({ targetType: btn.dataset.targetType, targetId: btn.dataset.targetId })
+      });
+      var d = await r.json();
+      if (d && d.success) {
+        if (card) card.remove();
+        showSnackbar('Removed from bookmarks');
+      } else {
+        btn.disabled = false;
+        showSnackbar((d && d.error) || 'Failed to remove bookmark');
+      }
+    } catch(e) {
+      btn.disabled = false;
+      showSnackbar('Error removing bookmark');
+    }
+  }
+});
+</script>
+{% endblock %}

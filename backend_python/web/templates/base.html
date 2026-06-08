@@ -14,42 +14,70 @@
   <link rel="apple-touch-icon" sizes="180x180" href="{% static 'web/img/n-logo-180.png' %}">
   <link rel="manifest" href="{% url 'web:manifest_json' %}" crossorigin="use-credentials">
   <meta name="theme-color" content="#004bd4">
+  <meta name="msapplication-TileColor" content="#004bd4">
+  <meta name="msapplication-TileImage" content="{% static 'web/img/n-logo-192.png' %}">
   <link rel="canonical" href="{% block canonical %}https://nebians.consica.com.np{{ request.path }}{% endblock %}">
   {% block robots %}{% endblock %}
   <meta name="description"
-    content="{% block description %}Free study platform and discussion forum for students and teachers. Find and share notes, past papers, textbooks, and more.{% endblock %}">
+    content="{% block description %}NEBians is a Nepali learning community for students, teachers, and lifelong learners to share resources, discuss questions, and study smarter with AI tools.{% endblock %}">
+  <meta name="application-name" content="NEBians">
+  <meta name="apple-mobile-web-app-title" content="NEBians">
   <meta name="keywords"
-    content="{% block keywords %}study platform, notes, past papers, textbooks, education, discussion forum, Class 8, Class 9, Class 10, Class 11, Class 12, Bachelors, Masters, teachers, tutors{% endblock %}">
-  <meta property="og:title" content="{% block og_title %}NEBians - Study Platform & Discussion Forum{% endblock %}">
+    content="{% block keywords %}NEBians, Nepali learning platform, Nepal education, study resources, notes, past papers, textbooks, teachers, students, discussion forum, AI study tools, quizzes, flashcards, mindmaps{% endblock %}">
+  <meta property="og:title" content="{% block og_title %}NEBians — Nepali Learning Community{% endblock %}">
   <meta property="og:description"
-    content="{% block og_description %}Free study platform and discussion forum for all classes, faculties, students, and teachers.{% endblock %}">
+    content="{% block og_description %}A Nepali learning community for students, teachers, and learners to share resources, discuss questions, and study smarter with AI tools.{% endblock %}">
   <meta property="og:type" content="{% block og_type %}website{% endblock %}">
   <meta property="og:url" content="{{ request.build_absolute_uri }}">
   <meta property="og:site_name" content="NEBians">
+  <meta property="og:locale" content="en_NP">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="{% block tw_title %}NEBians - Study Platform & Discussion Forum{% endblock %}">
+  <meta name="twitter:title" content="{% block tw_title %}NEBians — Nepali Learning Community{% endblock %}">
   <meta name="twitter:description"
-    content="{% block tw_description %}Free study platform and discussion forum for all classes, faculties, students, and teachers.{% endblock %}">
-  <meta property="og:image" content="{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'web/img/n-logo-512.png' %}{% endblock %}">
-  <meta property="og:image:width" content="512">
-  <meta property="og:image:height" content="512">
-  <meta property="og:image:alt" content="NEBians logo">
-  <meta name="twitter:image" content="{% block tw_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'web/img/n-logo-512.png' %}{% endblock %}">
-  <title>{% block title %}NEBians{% endblock %} - Study Platform & Discussion Forum</title>
-  {# Organization JSON-LD — drives the site logo shown in Google branded search results / knowledge panel. #}
-  <script type="application/ld+json">
+    content="{% block tw_description %}A Nepali learning community for students, teachers, and learners to share resources, discuss questions, and study smarter with AI tools.{% endblock %}">
+  <meta property="og:image" content="{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'web/img/n-logo-social-1200.png' %}{% endblock %}">
+  <meta property="og:image:secure_url" content="{% block og_image_secure %}{{ request.scheme }}://{{ request.get_host }}{% static 'web/img/n-logo-social-1200.png' %}{% endblock %}">
+  <meta property="og:image:type" content="{% block og_image_type %}image/png{% endblock %}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="{% block og_image_alt %}NEBians logo{% endblock %}">
+  <meta name="twitter:image" content="{% block tw_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'web/img/n-logo-social-1200.png' %}{% endblock %}">
+  <meta name="twitter:image:alt" content="{% block tw_image_alt %}NEBians logo{% endblock %}">
+  <title>{% block title %}NEBians — Nepali Learning Community{% endblock %}</title>
+  {# Sitewide structured data: the canonical Organization entity and WebSite search action. #}
+  <script type="application/ld+json" nonce="{{ csp_nonce }}">
   {
     "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "NEBians",
-    "url": "https://nebians.consica.com.np/",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "{{ request.scheme }}://{{ request.get_host }}{% static 'web/img/n-logo-512.png' %}",
-      "width": 512,
-      "height": 512
-    },
-    "description": "Free study platform and discussion forum for students and teachers of all classes and faculties in Nepal."
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://nebians.consica.com.np/#organization",
+        "name": "NEBians",
+        "alternateName": ["NEBians Nepal", "NEBians Learning Community"],
+        "url": "https://nebians.consica.com.np/",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "{{ request.scheme }}://{{ request.get_host }}{% static 'web/img/n-logo-512.png' %}",
+          "width": 512,
+          "height": 512
+        },
+        "image": "{{ request.scheme }}://{{ request.get_host }}{% static 'web/img/n-logo-social-1200.png' %}",
+        "description": "A Nepali learning community for students, teachers, and lifelong learners to share resources, discuss questions, and study smarter with AI tools."
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://nebians.consica.com.np/#website",
+        "name": "NEBians",
+        "url": "https://nebians.consica.com.np/",
+        "publisher": { "@id": "https://nebians.consica.com.np/#organization" },
+        "inLanguage": "en-NP",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://nebians.consica.com.np/search/?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      }
+    ]
   }
   </script>
   {% block head_extra %}{% endblock %}
@@ -165,6 +193,10 @@
             {% else %}
             <span class="notif-popup-badge" id="notif-popup-badge" style="display:none;"></span>
             {% endif %}
+          </a>
+          <a href="{% url 'web:bookmarks' %}">
+            <span class="material-symbols-outlined">bookmark</span>
+            <span>Bookmarks</span>
           </a>
           <a href="{% url 'web:logout' %}" class="menu-logout">
             <span class="material-symbols-outlined">logout</span>

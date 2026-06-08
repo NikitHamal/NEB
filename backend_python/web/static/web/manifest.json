@@ -1,8 +1,9 @@
 {
-  "name": "NEBians - Study Platform & Discussion Forum",
+  "name": "NEBians - Nepali Learning Community",
   "short_name": "NEBians",
-  "description": "Study resources, discussion forum, and community for students and teachers of all classes and faculties",
+  "description": "A Nepali learning community for students, teachers, and lifelong learners with resources, discussions, AI summaries, quizzes, flashcards, and mindmaps.",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#004bd4",
@@ -15,7 +16,8 @@
     {
       "src": "/static/web/img/n-logo-512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }

@@ -27,6 +27,8 @@ urlpatterns = [
 
     path('profile/edit/', views.edit_profile, name='edit_profile'),
     path('analytics/', views.analytics, name='analytics'),
+    path('bookmarks/', views.bookmarks, name='bookmarks'),
+    path('profile/<str:username>/card.png', views.profile_card_image, name='profile_card_image'),
     path('profile/<str:username>/', views.profile, name='profile'),
     path('profile/<str:username>/achievements/', views.profile_achievements, name='profile_achievements'),
     path('ajax/profile/<str:username>/activity/', views.ajax_profile_activity, name='ajax_profile_activity'),
@@ -119,10 +121,12 @@ urlpatterns = [
 
     # Study Lab
     path('study-lab/', views.study_lab, name='study_lab'),
+    path('study-lab/shared/<str:token>/', views.study_lab_shared, name='study_lab_shared'),
     path('ajax/study-lab/upload/', views.ajax_study_upload, name='ajax_study_upload'),
     path('ajax/study-lab/documents/', views.ajax_study_documents, name='ajax_study_documents'),
     path('ajax/study-lab/document/<str:doc_id>/', views.ajax_study_document_detail, name='ajax_study_document_detail'),
     path('ajax/study-lab/document/<str:doc_id>/delete/', views.ajax_study_delete_document, name='ajax_study_delete_document'),
+    path('ajax/study-lab/document/<str:doc_id>/share/', views.ajax_study_share_settings, name='ajax_study_share_settings'),
     path('ajax/study-lab/document/<str:doc_id>/summary/', views.ajax_study_generate_summary, name='ajax_study_generate_summary'),
     path('ajax/study-lab/document/<str:doc_id>/summary/edit/', views.ajax_study_update_summary, name='ajax_study_update_summary'),
     path('ajax/study-lab/document/<str:doc_id>/mindmap/', views.ajax_study_generate_mindmap, name='ajax_study_generate_mindmap'),
