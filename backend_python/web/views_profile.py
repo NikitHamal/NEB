@@ -323,18 +323,36 @@ def _profile_card_banner_style(user):
 
 
 def _load_profile_card_font(weight='regular', size=32):
-    base = Path('/usr/share/fonts/truetype/dejavu')
+    from PIL import ImageFont
+    base = Path(settings.BASE_DIR) / 'web/static/web/fonts'
     names = {
-        'bold': 'DejaVuSans-Bold.ttf',
-        'semibold': 'DejaVuSans-Bold.ttf',
-        'regular': 'DejaVuSans.ttf',
+        'bold': 'poppins_bold.ttf',
+        'semibold': 'poppins_medium.ttf',
+        'medium': 'poppins_medium.ttf',
+        'regular': 'poppins_regular.ttf',
     }
     try:
-        from PIL import ImageFont
-        return ImageFont.truetype(str(base / names.get(weight, 'DejaVuSans.ttf')), size)
+        return ImageFont.truetype(str(base / names.get(weight, 'poppins_regular.ttf')), size)
     except Exception:
-        from PIL import ImageFont
-        return ImageFont.load_default()
+        pass
+    # Fallback to system fonts
+    fallbacks = []
+    if weight in ('bold', 'semibold'):
+        fallbacks = [
+            '/usr/share/fonts/urw-base35/NimbusSans-Bold.t1',
+            '/usr/share/fonts/google-droid-sans-fonts/DroidSansFallbackFull.ttf',
+        ]
+    else:
+        fallbacks = [
+            '/usr/share/fonts/urw-base35/NimbusSans-Regular.t1',
+            '/usr/share/fonts/google-droid-sans-fonts/DroidSansFallbackFull.ttf',
+        ]
+    for path in fallbacks:
+        try:
+            return ImageFont.truetype(path, size)
+        except Exception:
+            continue
+    return ImageFont.load_default()
 
 
 def _draw_text_ellipsis(draw, xy, text, font, fill, max_width):
@@ -412,7 +430,10 @@ def _profile_card_avatar(user, size=152):
 
 
 def profile_card_image(request, username):
-    """Open Graph/social card PNG for profile sharing."""
+    """Open Graph/social card PNG for profile sharing.
+
+    Two-panel: left = role-colored with large avatar, right = white with name, handle, bio, branding.
+    """
     try:
         from PIL import Image, ImageDraw, ImageFilter
     except Exception:
@@ -423,108 +444,122 @@ def profile_card_image(request, username):
         raise Http404('User not found')
 
     W, H = 1200, 630
-    img = Image.new('RGB', (W, H), (248, 250, 252))
-    d = ImageDraw.Draw(img)
-
-    # Outer card
-    x0, y0, x1, y1 = 56, 46, 1144, 584
-    d.rounded_rectangle((x0, y0, x1, y1), radius=36, fill=(255, 255, 255), outline=(226, 232, 240), width=2)
-
-    # Banner kept compact so the preview always shows identity details.
     deco, c1, c2 = _profile_card_banner_style(profile_user)
-    banner_h = 184
-    banner = Image.new('RGB', (x1 - x0, banner_h), c1)
-    bd = ImageDraw.Draw(banner)
-    for x in range(banner.width):
-        t = x / max(1, banner.width - 1)
-        col = tuple(int(c1[i] * (1 - t) + c2[i] * t) for i in range(3))
-        bd.line((x, 0, x, banner_h), fill=col)
-    bd.ellipse((-160, 72, 440, 284), fill=tuple(min(255, v + 34) for v in c1))
-    bd.ellipse((520, 40, 1280, 290), fill=tuple(max(0, v - 12) for v in c2))
-    banner = banner.filter(ImageFilter.GaussianBlur(radius=0.45))
-    img.paste(banner, (x0, y0))
+
+    img = Image.new('RGB', (W, H), (255, 255, 255))
     d = ImageDraw.Draw(img)
 
-    # Small NEBians brand mark in the banner.
-    logo_path = Path(settings.BASE_DIR) / 'web/static/web/img/n-logo-512.png'
-    try:
-        logo = Image.open(logo_path).convert('RGBA')
-        logo.thumbnail((46, 46), Image.LANCZOS)
-        img.paste(logo, (92, 82), logo)
-    except Exception:
-        pass
-    d.text((150, 91), 'NEBians', font=_load_profile_card_font('bold', 32), fill=(255, 255, 255))
+    # ── Left panel: role-colored background with avatar ──
+    panel_w = 440
+    for y in range(H):
+        t = y / max(1, H - 1)
+        col = tuple(int(c1[i] * (1 - t) + c2[i] * t) for i in range(3))
+        d.line((0, y, panel_w, y), fill=col)
 
-    deco_font = _load_profile_card_font('bold', 42)
-    deco_text = (deco or 'NEBIAN').upper()
-    deco_w = d.textlength(deco_text, font=deco_font)
-    d.text((x1 - 92 - deco_w, 91), deco_text, font=deco_font, fill=(255, 255, 255))
+    accent = Image.new('RGBA', (W, H), (0, 0, 0, 0))
+    ad = ImageDraw.Draw(accent)
+    ad.polygon([(0, H - 300), (panel_w, H), (0, H)], fill=(255, 255, 255, 15))
+    ad.polygon([(0, 0), (panel_w, 0), (panel_w, 200), (0, 350)], fill=(0, 0, 0, 12))
+    img_rgba = img.convert('RGBA')
+    img_rgba = Image.alpha_composite(img_rgba, accent)
+    img = img_rgba.convert('RGB')
+    d = ImageDraw.Draw(img)
 
-    # Big profile area.
-    avatar_size = 178
+    # Avatar — centered in the left panel
+    avatar_size = 240
     avatar = _profile_card_avatar(profile_user, avatar_size)
-    ring_size = avatar_size + 18
-    ring = Image.new('RGBA', (ring_size, ring_size), (255, 255, 255, 0))
+    ring_size = avatar_size + 16
+    ring = Image.new('RGBA', (ring_size, ring_size), (0, 0, 0, 0))
     rd = ImageDraw.Draw(ring)
     rd.ellipse((0, 0, ring_size - 1, ring_size - 1), fill=(255, 255, 255, 255))
-    rd.ellipse((4, 4, ring_size - 5, ring_size - 5), outline=(226, 232, 240, 255), width=2)
-    ring.alpha_composite(avatar, (9, 9))
-    img.paste(ring, (94, 174), ring)
-
+    rd.ellipse((4, 4, ring_size - 5, ring_size - 5), fill=(255, 255, 255, 0))
+    ring.alpha_composite(avatar, (8, 8))
+    av_x = (panel_w - ring_size) // 2
+    av_y = (H - ring_size) // 2 - 15
+    img.paste(ring, (av_x, av_y), ring)
     d = ImageDraw.Draw(img)
+
+    # ── Right panel: white with name, handle, NEBians logo ──
+    right_x = panel_w + 70
+    right_w = W - right_x - 60
+
+    # Name — big, bold, centered in space above the logo
     display = profile_user.display_name or profile_user.username
-    name_font = _load_profile_card_font('bold', 58)
-    handle_font = _load_profile_card_font('regular', 31)
-    bio_font = _load_profile_card_font('regular', 27)
-    stat_font = _load_profile_card_font('bold', 38)
-    label_font = _load_profile_card_font('regular', 18)
+    name_font = _load_profile_card_font('bold', 88)
+    handle = '@' + (profile_user.username or 'nebian')
+    handle_font = _load_profile_card_font('regular', 36)
+    name_bbox = d.textbbox((0, 0), display, font=name_font)
+    name_h = name_bbox[3] - name_bbox[1]
+    handle_bbox = d.textbbox((0, 0), handle, font=handle_font)
+    handle_h = handle_bbox[3] - handle_bbox[1]
+    gap = 28
+    block_h = name_h + gap + handle_h
+    available_h = H - 50 - block_h
+    block_y = int(available_h / 2)
+    _draw_text_ellipsis(d, (right_x, block_y), display, name_font, (15, 23, 42), right_w)
+    _draw_text_ellipsis(d, (right_x, block_y + name_h + gap), handle, handle_font, (100, 116, 139), right_w)
 
-    _draw_text_ellipsis(d, (318, 226), display, name_font, (15, 23, 42), 690)
-    _draw_text_ellipsis(d, (320, 300), '@' + (profile_user.username or 'nebian'), handle_font, (71, 85, 105), 650)
-
-    headline = 'NEBians Member'
-    if profile_user.is_admin:
-        headline = 'Admin'
-    elif profile_user.is_bot:
-        headline = 'AI Study Companion'
-    elif profile_user.role == 'teacher':
-        headline = 'Teacher'
-    elif profile_user.role == 'institution':
-        headline = 'Institution'
-    elif profile_user.class_level:
-        headline = profile_user.class_level if profile_user.class_level != 'Passout' else '+2 Passout'
-    _draw_text_ellipsis(d, (320, 342), headline, bio_font, (71, 85, 105), 650)
-    if profile_user.bio:
-        _draw_text_ellipsis(d, (96, 406), profile_user.bio, bio_font, (71, 85, 105), 980)
-    else:
-        _draw_text_ellipsis(d, (96, 406), 'Learning, sharing, and growing with the NEBians community.', bio_font, (71, 85, 105), 980)
-
-    followers = Follow.objects.filter(following_id=profile_user.id).count()
-    following = Follow.objects.filter(follower_id=profile_user.id).count()
-    posts = Post.objects.filter(user_id=profile_user.id).count()
-    resources = Resource.objects.filter(uploaded_by_id=profile_user.id, approval_status='approved').count()
-    stats = [('Posts', posts), ('Followers', followers), ('Following', following), ('Resources', resources)]
-    d.line((96, 466, 1104, 466), fill=(226, 232, 240), width=2)
-    for i, (label, val) in enumerate(stats):
-        col_w = 252
-        cx = 96 + col_w * i + col_w / 2
-        txt = str(val)
-        tw = d.textlength(txt, font=stat_font)
-        d.text((cx - tw / 2, 490), txt, font=stat_font, fill=(15, 23, 42))
-        lw = d.textlength(label.upper(), font=label_font)
-        d.text((cx - lw / 2, 540), label.upper(), font=label_font, fill=(100, 116, 139))
-
-    site = request.get_host() or 'nebians.consica.com.np'
-    site_font = _load_profile_card_font('regular', 22)
-    sw = d.textlength(site, font=site_font)
-    d.text((1104 - sw, 596), site, font=site_font, fill=(148, 163, 184))
+    # NEBians logo + text — bottom-right corner
+    logo_path = Path(settings.BASE_DIR) / 'web/static/web/img/n-logo-512.png'
+    logo_size = 72
+    try:
+        logo = Image.open(logo_path).convert('RGBA')
+        logo.thumbnail((logo_size, logo_size), Image.LANCZOS)
+        logo_x = W - logo_size - 60
+        logo_y = H - logo_size - 50
+        img.paste(logo, (logo_x, logo_y), logo)
+    except Exception:
+        pass
+    brand_font = _load_profile_card_font('bold', 32)
+    brand = 'NEBians'
+    bw = d.textlength(brand, font=brand_font)
+    d.text((logo_x - bw - 10, logo_y + (logo_size - 36) // 2), brand, font=brand_font, fill=(100, 116, 139))
 
     buf = BytesIO()
     img.save(buf, format='PNG', optimize=True)
     resp = HttpResponse(buf.getvalue(), content_type='image/png')
-    resp['Cache-Control'] = 'public, max-age=86400, stale-while-revalidate=604800'
+    resp['Cache-Control'] = 'no-cache, must-revalidate'
     resp['X-Content-Type-Options'] = 'nosniff'
     return resp
+
+
+def _draw_text_ellipsis_multiline(draw, xy, text, font, fill, max_width, max_lines=3):
+    """Draw text that wraps across multiple lines with ellipsis on the last line."""
+    text = str(text or '')
+    words = text.split()
+    lines = []
+    current = ''
+    for word in words:
+        test = (current + ' ' + word).strip()
+        if draw.textlength(test, font=font) <= max_width:
+            current = test
+        else:
+            if current:
+                lines.append(current)
+            current = word
+            if len(lines) >= max_lines - 1:
+                break
+    if current:
+        lines.append(current)
+    # Truncate last line with ellipsis if needed
+    if len(lines) >= max_lines and lines:
+        last = lines[-1]
+        ell = '\u2026'
+        while last and draw.textlength(last + ell, font=font) > max_width:
+            last = last[:-1]
+        lines[-1] = last + ell
+    elif len(lines) > max_lines:
+        lines = lines[:max_lines]
+        last = lines[-1]
+        ell = '\u2026'
+        while last and draw.textlength(last + ell, font=font) > max_width:
+            last = last[:-1]
+        lines[-1] = last + ell
+    x, y = xy
+    for line in lines[:max_lines]:
+        draw.text((x, y), line, font=font, fill=fill)
+        bbox = draw.textbbox((0, 0), line, font=font)
+        y += (bbox[3] - bbox[1]) + 8
 
 
 def ajax_profile_activity(request, username):
