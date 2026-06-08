@@ -160,6 +160,7 @@ def user_follow_toggle(request, user_id):
             _counters.increment_user_following_count(current_user.id)
             _notif.notify_new_follow(current_user.id, target_user.id)
 
+    target_user.refresh_from_db(fields=['follower_count'])
     follower_count = target_user.follower_count if hasattr(target_user, 'follower_count') else Follow.objects.filter(following=target_user).count()
     _rt.broadcast_follow_changed(target_user.id, follower_count)
     return Response({'is_following': is_following, 'follower_count': follower_count})
