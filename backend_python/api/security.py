@@ -333,6 +333,76 @@ def save_banner_image_upload(request, user, file_obj) -> str:
     return request.build_absolute_uri(settings.MEDIA_URL + path)
 
 
+POST_IMAGE_MAX_BYTES = 10 * 1024 * 1024  # 10 MB per image
+POST_IMAGE_MAX_COUNT = 3
+POST_IMAGE_ALLOWED_EXTENSIONS = {'.jpg', '.jpeg', '.png', '.webp', '.gif'}
+POST_IMAGE_ALLOWED_FORMATS = {'JPEG', 'PNG', 'WEBP', 'GIF'}
+POST_IMAGE_CONTENT_TYPES = {'image/jpeg', 'image/png', 'image/webp', 'image/gif'}
+
+
+def save_post_image_upload(request, file_obj, order=0) -> str:
+    """Validate and save an uploaded post image, returning an absolute URL.
+
+    Max 10 MB per image, JPG/PNG/WEBP/GIF only. Images are stored under
+    post_images/ with a random filename. Returns the absolute URL.
+    """
+    if not file_obj:
+        raise ValidationError('Image file is required')
+    if getattr(file_obj, 'size', 0) > POST_IMAGE_MAX_BYTES:
+        raise ValidationError('Image is too large. Maximum size is 10 MB.')
+
+    original_name = get_valid_filename(getattr(file_obj, 'name', 'post-image'))
+    ext = os.path.splitext(original_name)[1].lower()
+    if ext not in POST_IMAGE_ALLOWED_EXTENSIONS:
+        raise ValidationError('Invalid image format. Only JPG, PNG, WEBP, and GIF are allowed.')
+    content_type = getattr(file_obj, 'content_type', '')
+    if content_type and content_type not in POST_IMAGE_CONTENT_TYPES:
+        raise ValidationError('Invalid image MIME type.')
+
+    data = file_obj.read(POST_IMAGE_MAX_BYTES + 1)
+    if len(data) > POST_IMAGE_MAX_BYTES:
+        raise ValidationError('Image is too large. Maximum size is 10 MB.')
+
+    try:
+        image = Image.open(BytesIO(data))
+        image.verify()
+    except (UnidentifiedImageError, OSError):
+        raise ValidationError('Uploaded file is not a valid image.')
+
+    image = Image.open(BytesIO(data))
+    image_format = image.format
+    if image_format not in POST_IMAGE_ALLOWED_FORMATS:
+        raise ValidationError('Invalid image format. Only JPG, PNG, WEBP, and GIF are allowed.')
+
+    max_dim = 2000
+    if image.width > max_dim or image.height > max_dim:
+        image.thumbnail((max_dim, max_dim), Image.LANCZOS)
+
+    output = BytesIO()
+    if image_format == 'PNG':
+        safe_ext = '.png'
+        if image.mode not in ('RGB', 'RGBA'):
+            image = image.convert('RGBA')
+        image.save(output, format='PNG', optimize=True)
+    elif image_format == 'WEBP':
+        safe_ext = '.webp'
+        if image.mode not in ('RGB', 'RGBA'):
+            image = image.convert('RGBA')
+        image.save(output, format='WEBP', quality=88, method=6)
+    elif image_format == 'GIF':
+        safe_ext = '.gif'
+        image.save(output, format='GIF', optimize=True)
+    else:
+        safe_ext = '.jpg'
+        if image.mode != 'RGB':
+            image = image.convert('RGB')
+        image.save(output, format='JPEG', quality=88, optimize=True)
+
+    filename = f"post_{secrets.token_urlsafe(12)}_{order}{safe_ext}"
+    path = default_storage.save(os.path.join('post_images', filename), ContentFile(output.getvalue()))
+    return request.build_absolute_uri(settings.MEDIA_URL + path)
+
+
 RESOURCE_ALLOWED_EXTENSIONS = {
     '.pdf', '.doc', '.docx', '.ppt', '.pptx', '.xls', '.xlsx',
     '.txt', '.rtf', '.odt', '.ods', '.odp',

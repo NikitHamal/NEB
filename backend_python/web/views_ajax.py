@@ -140,11 +140,26 @@ def ajax_create_post(request):
     title = data.get('title', '').strip()
     content = data.get('content', '').strip()
     category = data.get('category', '').strip()
+    image_urls = data.get('images', [])
+    poll_data = data.get('poll')
     if len(title) > 200:
         return JsonResponse({'error': 'Title must be 200 characters or fewer'}, status=400)
     if len(content) > 20000:
         return JsonResponse({'error': 'Content must be 20000 characters or fewer'}, status=400)
-    result = services.create_post(user, title, content, category)
+    if image_urls and len(image_urls) > 3:
+        return JsonResponse({'error': 'Maximum 3 images per post'}, status=400)
+    if poll_data:
+        options = poll_data.get('options', [])
+        if len(options) < 2:
+            return JsonResponse({'error': 'Poll must have at least 2 options'}, status=400)
+        if len(options) > 6:
+            return JsonResponse({'error': 'Poll can have at most 6 options'}, status=400)
+        for opt in options:
+            if not opt.strip():
+                return JsonResponse({'error': 'Poll options cannot be empty'}, status=400)
+            if len(opt.strip()) > 200:
+                return JsonResponse({'error': 'Poll option must be 200 characters or fewer'}, status=400)
+    result = services.create_post(user, title, content, category, image_urls=image_urls, poll_data=poll_data)
     if result:
         _clear_page_cache()
         return JsonResponse(result, status=201)
@@ -689,3 +704,45 @@ def ajax_activate_photo(request, photo_id):
                     api.set_session_auth(request, token, user_data)
         return JsonResponse(result)
     return JsonResponse({'error': 'Failed'}, status=500)
+
+
+@require_POST
+def ajax_upload_post_image(request):
+    user_id = _get_user_id(request)
+    if not user_id:
+        return JsonResponse({'error': 'Please log in again.'}, status=401)
+    try:
+        user = User.objects.get(pk=user_id)
+    except User.DoesNotExist:
+        return JsonResponse({'error': 'Please log in again.'}, status=401)
+    file_obj = request.FILES.get('image')
+    if not file_obj:
+        return JsonResponse({'error': 'No image file provided'}, status=400)
+    from api.security import save_post_image_upload
+    try:
+        url = save_post_image_upload(request, user, file_obj)
+    except DjangoValidationError as e:
+        return JsonResponse({'error': str(e.message)}, status=400)
+    return JsonResponse({'url': url})
+
+
+@require_POST
+def ajax_poll_vote(request, poll_id):
+    user_id = _get_user_id(request)
+    if not user_id:
+        return JsonResponse({'error': 'Please log in again.'}, status=401)
+    try:
+        user = User.objects.get(pk=user_id)
+    except User.DoesNotExist:
+        return JsonResponse({'error': 'Please log in again.'}, status=401)
+    try:
+        data = json.loads(request.body)
+    except json.JSONDecodeError:
+        return JsonResponse({'error': 'Invalid request'}, status=400)
+    option_id = data.get('option_id', '').strip()
+    if not option_id:
+        return JsonResponse({'error': 'Option ID is required'}, status=400)
+    result, status_code = services.vote_poll(user, poll_id, option_id)
+    if 'error' in result:
+        return JsonResponse(result, status=status_code)
+    return JsonResponse(result)

@@ -106,6 +106,60 @@
     <h2 class="fp-post-title">{{ post.title }}</h2>
     <div class="fp-post-body" id="post-content-{{ post.id }}">{{ post.content|mention_links:all_usernames }}</div>
 
+    {% if post.images %}
+    <div class="fp-post-images">
+      {% if post.images|length == 1 %}
+      <div class="fp-post-image-single">
+        <img src="{{ post.images.0.imageUrl }}" alt="Post image" loading="lazy" data-action="open-image-lightbox" data-src="{{ post.images.0.imageUrl }}">
+      </div>
+      {% elif post.images|length == 2 %}
+      <div class="fp-post-image-grid fp-post-image-grid-2">
+        {% for img in post.images %}
+        <img src="{{ img.imageUrl }}" alt="Post image" loading="lazy" data-action="open-image-lightbox" data-src="{{ img.imageUrl }}">
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="fp-post-image-grid fp-post-image-grid-3">
+        {% for img in post.images %}
+        <img src="{{ img.imageUrl }}" alt="Post image" loading="lazy" data-action="open-image-lightbox" data-src="{{ img.imageUrl }}">
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+    {% endif %}
+
+    {% if post.poll %}
+    <div class="fp-poll" id="poll-{{ post.poll.id }}" data-poll-id="{{ post.poll.id }}" data-user-vote="{{ post.poll.userVote|default:'' }}">
+      {% if post.poll.question %}
+      <div class="fp-poll-question">{{ post.poll.question }}</div>
+      {% endif %}
+      <div class="fp-poll-options">
+        {% for opt in post.poll.options %}
+        <button class="fp-poll-option {% if post.poll.userVote == opt.id %}fp-poll-option-voted{% endif %}" data-action="vote-poll" data-poll-id="{{ post.poll.id }}" data-option-id="{{ opt.id }}" data-vote-count="{{ opt.voteCount }}" data-total-votes="{{ post.poll.totalVotes }}">
+          <div class="fp-poll-option-bar" style="width:{% if post.poll.totalVotes > 0 %}{% widthratio opt.voteCount post.poll.totalVotes 100 %}{% else %}0{% endif %}%"></div>
+          <div class="fp-poll-option-text">
+            <span class="fp-poll-option-label">{{ opt.text }}</span>
+            {% if post.poll.userVote %}
+            <span class="fp-poll-option-count">{{ opt.voteCount }} vote{{ opt.voteCount|pluralize }} &middot; {% widthratio opt.voteCount post.poll.totalVotes 100 %}%</span>
+            {% endif %}
+          </div>
+          {% if post.poll.userVote == opt.id %}
+          <span class="material-symbols-outlined fp-poll-option-check" style="font-variation-settings:'FILL' 1">check_circle</span>
+          {% endif %}
+        </button>
+        {% endfor %}
+      </div>
+      <div class="fp-poll-meta">
+        <span>{{ post.poll.totalVotes }} vote{{ post.poll.totalVotes|pluralize }}</span>
+        {% if post.poll.isExpired %}
+        <span class="fp-poll-expired">Poll ended</span>
+        {% elif post.poll.durationMs > 0 %}
+        <span data-poll-expires="{{ post.poll.createdAt|add:post.poll.durationMs }}"></span>
+        {% endif %}
+      </div>
+    </div>
+    {% endif %}
+
     <div class="fp-post-actions">
       <button data-action="toggle-post-like" data-post-id="{{ post.id }}" class="fp-action-btn {% if post.isThumbedUp %}liked{% endif %}" id="post-like-btn-{{ post.id }}">
         <span class="material-symbols-outlined">thumb_up</span>
@@ -281,6 +335,9 @@
 {% endblock %}
 
 {% block extra_js %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" nonce="{{ csp_nonce }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" nonce="{{ csp_nonce }}"></script>
 <script nonce="{{ csp_nonce }}">
 const POST_ID = '{{ post.id }}';
 const POST_AUTHOR_ID = '{{ post_author_id }}';
@@ -1456,7 +1513,88 @@ registerActions({
   'submit-thread-reply': function() { submitThreadReply(); },
   'load-sub-thread': function(el) { loadSubThread(el.dataset.replyId); },
   'select-mention-item': function(el) { selectMentionItem(parseInt(el.dataset.index)); },
-  'hover-mention-item': function(el) { mentionSelectedIndex = parseInt(el.dataset.index); highlightMentionItem(); }
+  'hover-mention-item': function(el) { mentionSelectedIndex = parseInt(el.dataset.index); highlightMentionItem(); },
+  'vote-poll': function(el) { votePoll(el); },
+  'open-image-lightbox': function(el) { openImageLightbox(el.dataset.src || el.src); }
 });
+
+// KaTeX rendering
+document.addEventListener('DOMContentLoaded', function() {
+  var postContent = document.getElementById('post-content-{{ post.id }}');
+  if (postContent && typeof renderMathInElement === 'function') {
+    renderMathInElement(postContent, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '\\(', right: '\\)', display: false}
+      ],
+      throwOnError: false
+    });
+  }
+  // Render math in all reply bodies
+  document.querySelectorAll('.fp-reply-body').forEach(function(el) {
+    if (typeof renderMathInElement === 'function') {
+      renderMathInElement(el, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '\\(', right: '\\)', display: false}
+        ],
+        throwOnError: false
+      });
+    }
+  });
+});
+
+async function votePoll(btn) {
+  if (!IS_AUTH) { window.location.href = '{% url "web:login" %}'; return; }
+  var pollEl = btn.closest('.fp-poll');
+  var pollId = pollEl.dataset.pollId;
+  var optionId = btn.dataset.optionId;
+  btn.disabled = true;
+  try {
+    var r = await fetch('/ajax/poll/' + pollId + '/vote/', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN},
+      credentials: 'same-origin',
+      body: JSON.stringify({option_id: optionId})
+    });
+    var d = await r.json();
+    if (d.error) { showSnackbar(d.error); btn.disabled = false; return; }
+    // Re-render poll with results
+    var pollDiv = document.getElementById('poll-' + pollId);
+    if (pollDiv && d.options) {
+      var totalVotes = d.totalVotes || 0;
+      var userVote = d.userVote || '';
+      var isExpired = d.isExpired || false;
+      var optionsHtml = '';
+      d.options.forEach(function(opt) {
+        var pct = totalVotes > 0 ? Math.round(opt.voteCount / totalVotes * 100) : 0;
+        var voted = opt.id === userVote;
+        optionsHtml += '<button class="fp-poll-option fp-poll-option-voted' + (voted ? ' fp-poll-option-selected' : '') + '" disabled>' +
+          '<div class="fp-poll-option-bar" style="width:' + pct + '%"></div>' +
+          '<div class="fp-poll-option-text">' +
+            '<span class="fp-poll-option-label">' + escapeHtml(opt.text) + '</span>' +
+            '<span class="fp-poll-option-count">' + opt.voteCount + ' vote' + (opt.voteCount !== 1 ? 's' : '') + ' &middot; ' + pct + '%</span>' +
+          '</div>' +
+          (voted ? '<span class="material-symbols-outlined fp-poll-option-check" style="font-variation-settings:\'FILL\' 1">check_circle</span>' : '') +
+        '</button>';
+      });
+      pollDiv.querySelector('.fp-poll-options').innerHTML = optionsHtml;
+      var metaHtml = '<span>' + totalVotes + ' vote' + (totalVotes !== 1 ? 's' : '') + '</span>';
+      if (isExpired) metaHtml += '<span class="fp-poll-expired">Poll ended</span>';
+      pollDiv.querySelector('.fp-poll-meta').innerHTML = metaHtml;
+    }
+  } catch(e) { showSnackbar('Error voting on poll.'); btn.disabled = false; }
+}
+
+function openImageLightbox(src) {
+  var overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:9999;display:flex;align-items:center;justify-content:center;cursor:zoom-out;';
+  var img = document.createElement('img');
+  img.src = src;
+  img.style.cssText = 'max-width:90vw;max-height:90vh;border-radius:8px;object-fit:contain;';
+  overlay.appendChild(img);
+  overlay.addEventListener('click', function() { overlay.remove(); });
+  document.body.appendChild(overlay);
+}
 </script>
 {% endblock %}

@@ -84,6 +84,9 @@ cp -rf web/static/web/js/* public/static/web/js/
 cp -f web/static/web/manifest.json public/static/web/manifest.json
 cp -rf web/static/web/img/* public/static/web/img/
 
+echo 'Deploying favicon.ico to site root for /favicon.ico serving...'
+cp -f web/static/web/img/favicon.ico public/favicon.ico
+
 echo 'Deploying .htaccess security rules...'
 cp -f public/.htaccess public/.htaccess
 

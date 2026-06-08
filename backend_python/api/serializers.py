@@ -2,7 +2,7 @@
 DRF serializers for all NEBians API resources.
 """
 from rest_framework import serializers
-from .models import User, Resource, ResourceRequest, ResourceRequestUpvote, Post, Reply, FCMToken, UserPhoto, Follow, EditHistory, Report, Bookmark, Notification
+from .models import User, Resource, ResourceRequest, ResourceRequestUpvote, Post, PostImage, Poll, PollOption, PollVote, Reply, FCMToken, UserPhoto, Follow, EditHistory, Report, Bookmark, Notification
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -17,10 +17,10 @@ class UserSerializer(serializers.ModelSerializer):
             'pradesh', 'district', 'school', 'bio', 'is_locked', 'created_at',
             'email_verified', 'hasPassword',
             'verification_level', 'moderator_level', 'is_admin', 'achievement_badges',
-            'is_bot',
+            'is_bot', 'teacher_verified',
         ]
         read_only_fields = ['id', 'created_at', 'email_verified', 'hasPassword',
-                            'verification_level', 'moderator_level', 'is_admin', 'achievement_badges', 'is_bot']
+                            'verification_level', 'moderator_level', 'is_admin', 'achievement_badges', 'is_bot', 'teacher_verified']
 
     def get_hasPassword(self, obj):
         return bool(obj.password_hash)
@@ -39,7 +39,7 @@ class UserPublicSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['username', 'display_name', 'photo_url', 'banner_url', 'bio', 'is_locked',
-                  'role', 'verification_level', 'moderator_level', 'is_admin', 'achievement_badges', 'is_bot']
+                  'role', 'verification_level', 'moderator_level', 'is_admin', 'achievement_badges', 'is_bot', 'teacher_verified']
 
     def to_representation(self, instance):
         ret = super().to_representation(instance)
@@ -128,6 +128,32 @@ class ResourceRequestSerializer(serializers.ModelSerializer):
         return obj.upvotes.filter(user=user).exists()
 
 
+class PostImageSerializer(serializers.ModelSerializer):
+    imageUrl = serializers.CharField(source='image_url')
+
+    class Meta:
+        model = PostImage
+        fields = ['id', 'imageUrl', 'order']
+
+
+class PollOptionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PollOption
+        fields = ['id', 'text', 'vote_count', 'order']
+
+
+class PollSerializer(serializers.ModelSerializer):
+    options = PollOptionSerializer(many=True, read_only=True)
+    isExpired = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Poll
+        fields = ['id', 'question', 'duration_ms', 'total_votes', 'isExpired', 'options']
+
+    def get_isExpired(self, obj):
+        return obj.is_expired
+
+
 class PostSerializer(serializers.ModelSerializer):
     authorName = serializers.SerializerMethodField()
     authorPhotoUrl = serializers.SerializerMethodField()
@@ -141,6 +167,8 @@ class PostSerializer(serializers.ModelSerializer):
     isEdited = serializers.BooleanField(source='is_edited', read_only=True)
     isArchived = serializers.BooleanField(source='is_archived', read_only=True)
     isThumbedUp = serializers.SerializerMethodField()
+    images = PostImageSerializer(many=True, read_only=True)
+    poll = PollSerializer(read_only=True)
 
     class Meta:
         model = Post
@@ -148,7 +176,7 @@ class PostSerializer(serializers.ModelSerializer):
             'id', 'title', 'content', 'category',
             'authorName', 'authorPhotoUrl', 'authorId', 'authorIsBot',
             'thumbsUpCount', 'replyCount', 'viewCount', 'createdAt', 'updatedAt',
-            'isEdited', 'isArchived', 'isThumbedUp'
+            'isEdited', 'isArchived', 'isThumbedUp', 'images', 'poll'
         ]
 
     def get_authorName(self, obj):

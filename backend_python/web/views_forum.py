@@ -1,5 +1,6 @@
 """Views Forum extracted from views.py."""
 from .view_helpers import *  # noqa: F401,F403
+from api import services
 
 def forum(request):
     import math
@@ -189,8 +190,26 @@ def create_post(request):
         title = request.POST.get('title', '').strip()
         content = request.POST.get('content', '').strip()
         category = request.POST.get('category', '').strip()
+        image_urls = []
+        for i in range(3):
+            img = request.FILES.get(f'image_{i}')
+            if img:
+                try:
+                    url = save_post_image_upload(request, user, img, order=i)
+                    image_urls.append(url)
+                except Exception:
+                    pass
+        poll_question = request.POST.get('poll_question', '').strip()
+        poll_options = [opt.strip() for opt in request.POST.getlist('poll_option[]') if opt.strip()]
+        poll_data = None
+        if poll_question and len(poll_options) >= 2:
+            poll_data = {
+                'question': poll_question,
+                'duration_ms': int(request.POST.get('poll_duration', '0') or '0'),
+                'options': poll_options,
+            }
         if title and content and category:
-            result = services.create_post(user, title, content, category)
+            result = services.create_post(user, title, content, category, image_urls=image_urls, poll_data=poll_data)
             if result and result.get('id'):
                 _clear_page_cache()
                 return redirect('web:forum_post', post_id=result['id'])
