@@ -155,9 +155,13 @@ def ajax_create_post(request):
         if len(options) > 6:
             return JsonResponse({'error': 'Poll can have at most 6 options'}, status=400)
         for opt in options:
-            if not opt.strip():
+            if isinstance(opt, dict):
+                opt_text = opt.get('text', '').strip()
+            else:
+                opt_text = str(opt).strip()
+            if not opt_text:
                 return JsonResponse({'error': 'Poll options cannot be empty'}, status=400)
-            if len(opt.strip()) > 200:
+            if len(opt_text) > 200:
                 return JsonResponse({'error': 'Poll option must be 200 characters or fewer'}, status=400)
     result = services.create_post(user, title, content, category, image_urls=image_urls, poll_data=poll_data)
     if result:
@@ -720,9 +724,12 @@ def ajax_upload_post_image(request):
         return JsonResponse({'error': 'No image file provided'}, status=400)
     from api.security import save_post_image_upload
     try:
-        url = save_post_image_upload(request, user, file_obj)
-    except DjangoValidationError as e:
-        return JsonResponse({'error': str(e.message)}, status=400)
+        url = save_post_image_upload(request, file_obj)
+    except ValidationError as e:
+        logger.warning('Upload rejected: name=%s content_type=%s size=%s error=%s',
+                       getattr(file_obj, 'name', '?'), getattr(file_obj, 'content_type', '?'),
+                       getattr(file_obj, 'size', '?'), e)
+        return JsonResponse({'error': str(e)}, status=400)
     return JsonResponse({'url': url})
 
 
@@ -739,10 +746,16 @@ def ajax_poll_vote(request, poll_id):
         data = json.loads(request.body)
     except json.JSONDecodeError:
         return JsonResponse({'error': 'Invalid request'}, status=400)
-    option_id = data.get('option_id', '').strip()
-    if not option_id:
+    option_ids = data.get('option_ids', [])
+    if not option_ids:
+        option_id = data.get('option_id', '').strip()
+        if option_id:
+            option_ids = [option_id]
+    if not option_ids:
         return JsonResponse({'error': 'Option ID is required'}, status=400)
-    result, status_code = services.vote_poll(user, poll_id, option_id)
-    if 'error' in result:
-        return JsonResponse(result, status=status_code)
+    result = services.vote_poll(user, poll_id, option_ids)
+    if isinstance(result, tuple):
+        result, status_code = result
+        if 'error' in result:
+            return JsonResponse(result, status=status_code)
     return JsonResponse(result)

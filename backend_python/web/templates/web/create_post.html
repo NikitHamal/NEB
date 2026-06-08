@@ -36,13 +36,12 @@
     </div>
 
     <div class="cp-field">
-      <label class="cp-label" for="cp-category">Category</label>
-      <select id="cp-category" class="cp-select">
-        <option value="" disabled selected>Select a category</option>
-        {% for c in categories %}
-        <option value="{{ c }}">{{ c }}</option>
-        {% endfor %}
-      </select>
+      <label class="cp-label">Category</label>
+      <div class="cp-category-display" id="cp-category-display">
+        <span class="cp-category-placeholder" id="cp-category-placeholder">Select a category</span>
+        <span class="cp-category-selected" id="cp-category-selected" style="display:none"></span>
+        <span class="material-symbols-outlined cp-category-arrow">expand_more</span>
+      </div>
     </div>
 
     <div class="cp-field">
@@ -95,11 +94,20 @@
           <span class="cp-char-count" id="cp-char-count">0 / 20,000</span>
         </div>
       </div>
-      <input type="file" id="cp-file-input" accept="image/jpeg,image/png,image/webp,image/gif" multiple style="display:none">
+      <input type="file" id="cp-file-input" accept="image/jpeg,image/png,image/webp,image/gif" style="display:none">
     </div>
 
     <div class="cp-images" id="cp-images" style="display:none">
       <div class="cp-images-grid" id="cp-images-grid"></div>
+    </div>
+
+    <div class="cp-upload-overlay" id="cp-upload-overlay" style="display:none">
+      <div class="cp-upload-dialog">
+        <div class="cp-upload-spinner"></div>
+        <div class="cp-upload-title" id="cp-upload-title">Uploading images...</div>
+        <div class="cp-upload-progress-bar"><div class="cp-upload-progress-fill" id="cp-upload-progress"></div></div>
+        <div class="cp-upload-detail" id="cp-upload-detail">Compressing and uploading...</div>
+      </div>
     </div>
 
     <div class="cp-poll-section" id="cp-poll-section" style="display:none">
@@ -113,24 +121,77 @@
           Remove
         </button>
       </div>
+
+      <div class="cp-poll-type-row">
+        <button type="button" class="cp-poll-type-btn active" data-poll-type="voting" id="cp-poll-type-voting">
+          <span class="material-symbols-outlined">how_to_vote</span>
+          <span class="cp-poll-type-label">Voting</span>
+        </button>
+        <button type="button" class="cp-poll-type-btn" data-poll-type="mcq" id="cp-poll-type-mcq">
+          <span class="material-symbols-outlined">quiz</span>
+          <span class="cp-poll-type-label">MCQ Quiz</span>
+        </button>
+      </div>
+
+      <input type="hidden" id="cp-poll-type-val" name="poll_type" value="voting">
+      <input type="hidden" id="cp-allow-multiple" name="allow_multiple" value="">
+
       <input type="text" class="cp-poll-question" id="cp-poll-question" placeholder="Ask a question..." maxlength="300">
+
+      <div class="cp-poll-settings" id="cp-poll-settings">
+        <div class="cp-poll-setting">
+          <label class="cp-poll-setting-label">Selection</label>
+          <div class="cp-poll-setting-options" id="cp-poll-selection-toggle">
+            <button type="button" class="cp-poll-setting-opt active" data-value="single">
+              <span class="material-symbols-outlined">radio_button_checked</span>
+              Single
+            </button>
+            <button type="button" class="cp-poll-setting-opt" data-value="multiple">
+              <span class="material-symbols-outlined">check_box</span>
+              Multiple
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="cp-poll-mcq-settings" id="cp-poll-mcq-settings" style="display:none">
+        <div class="cp-poll-mcq-hint">
+          <span class="material-symbols-outlined">info</span>
+          Mark the correct answer(s). Results will show after voting.
+        </div>
+      </div>
+
       <div class="cp-poll-options" id="cp-poll-options">
         <div class="cp-poll-option" data-option-index="0">
           <span class="cp-poll-option-num">1</span>
-          <input type="text" class="cp-poll-option-input" placeholder="Option 1" maxlength="200">
+          <input type="text" class="cp-poll-option-input" name="poll_option[]" placeholder="Option 1" maxlength="200">
+          <button type="button" class="cp-poll-correct-toggle" data-action="toggle-correct" title="Mark as correct answer" style="display:none">
+            <span class="material-symbols-outlined">check_circle</span>
+          </button>
+          <button type="button" class="cp-poll-option-remove" data-action="remove-poll-option"><span class="material-symbols-outlined">close</span></button>
         </div>
         <div class="cp-poll-option" data-option-index="1">
           <span class="cp-poll-option-num">2</span>
-          <input type="text" class="cp-poll-option-input" placeholder="Option 2" maxlength="200">
+          <input type="text" class="cp-poll-option-input" name="poll_option[]" placeholder="Option 2" maxlength="200">
+          <button type="button" class="cp-poll-correct-toggle" data-action="toggle-correct" title="Mark as correct answer" style="display:none">
+            <span class="material-symbols-outlined">check_circle</span>
+          </button>
+          <button type="button" class="cp-poll-option-remove" data-action="remove-poll-option"><span class="material-symbols-outlined">close</span></button>
         </div>
       </div>
       <button type="button" class="cp-poll-add-option" data-action="add-poll-option">
         <span class="material-symbols-outlined">add</span>
         Add option
       </button>
+
+      <div class="cp-poll-explanation-row" id="cp-poll-explanation-row" style="display:none">
+        <label class="cp-poll-setting-label">Explanation (optional)</label>
+        <textarea class="cp-poll-explanation" id="cp-poll-explanation" name="poll_explanation" placeholder="Explain why the correct answer is right..." rows="2" maxlength="500"></textarea>
+      </div>
+
       <div class="cp-poll-duration">
         <span class="cp-poll-duration-label">Duration:</span>
-        <select class="cp-poll-duration-select" id="cp-poll-duration">
+        <select class="cp-poll-duration-select" id="cp-poll-duration" name="poll_duration">
           <option value="0">No expiry</option>
           <option value="3600000">1 hour</option>
           <option value="86400000">24 hours</option>
@@ -158,6 +219,81 @@
       <a href="{% url 'web:forum' %}" class="cp-cancel">Cancel</a>
     </div>
   </div>
+
+  <div class="subject-pick-overlay" id="cp-category-overlay" style="display:none">
+    <div class="subject-pick-dialog">
+      <div class="subject-pick-header">
+        <h3>Select Category</h3>
+        <button type="button" class="subject-pick-close" id="cp-category-close">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+      <div class="subject-pick-search">
+        <span class="material-symbols-outlined">search</span>
+        <input type="text" id="cp-category-search" placeholder="Search categories..." autocomplete="off">
+      </div>
+      <div class="subject-pick-list" id="cp-category-list">
+        {% for c in categories %}
+        <label class="subject-pick-item is-radio" data-value="{{ c }}">
+          <span class="subject-pick-check">
+            <span class="material-symbols-outlined">check</span>
+          </span>
+          <span class="subject-pick-label">{{ c }}</span>
+        </label>
+        {% endfor %}
+      </div>
+      <div class="subject-pick-add">
+        <input type="text" id="cp-category-custom" placeholder="Add a custom category" autocomplete="off">
+        <button type="button" class="md-btn md-btn-tonal" id="cp-category-add-btn">
+          <span class="material-symbols-outlined">add</span>
+          Add
+        </button>
+      </div>
+      <div class="subject-pick-actions">
+        <button type="button" class="md-btn md-btn-text" id="cp-category-cancel">Cancel</button>
+        <button type="button" class="md-btn md-btn-filled" id="cp-category-done">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="cp-math-overlay" id="cp-math-overlay" style="display:none">
+    <div class="cp-math-dialog">
+      <div class="cp-math-header">
+        <h3>Insert Math Formula</h3>
+        <button type="button" class="cp-pick-close" id="cp-math-close">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+      <div class="cp-math-input-area">
+        <label class="cp-math-label">LaTeX Expression</label>
+        <textarea id="cp-math-input" class="cp-math-textarea" placeholder="Type LaTeX here, e.g. E=mc^2 or \frac{a}{b}" rows="4"></textarea>
+        <div class="cp-math-quick">
+          <button type="button" class="cp-math-quick-btn" data-latex="\\frac{a}{b}" title="Fraction">a/b</button>
+          <button type="button" class="cp-math-quick-btn" data-latex="\\sqrt{x}" title="Square root">&#8730;x</button>
+          <button type="button" class="cp-math-quick-btn" data-latex="x^{n}" title="Superscript">x&#8319;</button>
+          <button type="button" class="cp-math-quick-btn" data-latex="x_{i}" title="Subscript">x&#7522;</button>
+          <button type="button" class="cp-math-quick-btn" data-latex="\\int_{a}^{b}" title="Integral">&#8747;</button>
+          <button type="button" class="cp-math-quick-btn" data-latex="\\sum_{i=0}^{n}" title="Summation">&#8721;</button>
+          <button type="button" class="cp-math-quick-btn" data-latex="\\lim_{x \\to \\infty}" title="Limit">lim</button>
+          <button type="button" class="cp-math-quick-btn" data-latex="\\alpha" title="Alpha">&#945;</button>
+          <button type="button" class="cp-math-quick-btn" data-latex="\\beta" title="Beta">&#946;</button>
+          <button type="button" class="cp-math-quick-btn" data-latex="\\theta" title="Theta">&#952;</button>
+          <button type="button" class="cp-math-quick-btn" data-latex="\\pi" title="Pi">&#960;</button>
+          <button type="button" class="cp-math-quick-btn" data-latex="\\infty" title="Infinity">&#8734;</button>
+        </div>
+      </div>
+      <div class="cp-math-preview-area">
+        <label class="cp-math-label">Preview</label>
+        <div class="cp-math-preview" id="cp-math-preview">
+          <span class="cp-math-preview-placeholder">Formula preview will appear here</span>
+        </div>
+      </div>
+      <div class="cp-math-actions">
+        <button type="button" class="md-btn md-btn-text" id="cp-math-cancel">Cancel</button>
+        <button type="button" class="md-btn md-btn-filled" id="cp-math-insert">Insert</button>
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock %}
 
@@ -167,13 +303,21 @@
 <script nonce="{{ csp_nonce }}">
 (function() {
   var MAX_IMAGES = 3;
+  var MAX_IMAGE_SIZE = 10 * 1024 * 1024;
+  var MAX_TOTAL_SIZE = 30 * 1024 * 1024;
   var MAX_CONTENT = 20000;
-  var uploadedImages = [];
+  var pendingImages = [];
   var pollVisible = false;
   var submitting = false;
 
   var titleInput = document.getElementById('cp-title');
-  var categorySelect = document.getElementById('cp-category');
+  var selectedCategory = '';
+  var categoryDisplay = document.getElementById('cp-category-display');
+  var categoryPlaceholder = document.getElementById('cp-category-placeholder');
+  var categorySelected = document.getElementById('cp-category-selected');
+  var categoryOverlay = document.getElementById('cp-category-overlay');
+  var categoryList = document.getElementById('cp-category-list');
+  var categorySearch = document.getElementById('cp-category-search');
   var editorBody = document.getElementById('cp-body');
   var charCount = document.getElementById('cp-char-count');
   var errorDiv = document.getElementById('cp-error');
@@ -273,20 +417,176 @@
         }
         break;
       case 'format-math':
-        var mathText = prompt('Enter LaTeX formula:', 'E=mc^2');
-        if (mathText) {
-          var sel2 = window.getSelection();
-          var range2 = sel2.getRangeAt(0);
-          var node2 = document.createTextNode('$$' + mathText + '$$');
-          range2.deleteContents();
-          range2.insertNode(node2);
-        }
+        openMathDialog();
         break;
     }
   });
 
+  /* --- Category Picker Dialog (shared subject-pick-* pattern) --- */
+  categoryDisplay.addEventListener('click', function() {
+    categoryOverlay.style.display = '';
+    document.body.style.overflow = 'hidden';
+    categorySearch.value = '';
+    filterCategoryList('');
+    syncCategorySelection();
+    categorySearch.focus();
+  });
+
+  function filterCategoryList(query) {
+    var q = query.toLowerCase();
+    categoryList.querySelectorAll('.subject-pick-item').forEach(function(item) {
+      var label = item.getAttribute('data-value').toLowerCase();
+      item.style.display = label.indexOf(q) >= 0 ? '' : 'none';
+    });
+  }
+
+  categorySearch.addEventListener('input', function() {
+    filterCategoryList(this.value);
+  });
+
+  categoryList.addEventListener('click', function(e) {
+    var item = e.target.closest('.subject-pick-item');
+    if (!item) return;
+    // Single-select: clear others, select this
+    categoryList.querySelectorAll('.subject-pick-item.selected').forEach(function(el) {
+      el.classList.remove('selected');
+      var cb = el.querySelector('.subject-pick-checkbox');
+      if (cb) cb.checked = false;
+    });
+    item.classList.add('selected');
+    var cb = item.querySelector('.subject-pick-checkbox');
+    if (cb) cb.checked = true;
+  });
+
+  function syncCategorySelection() {
+    categoryList.querySelectorAll('.subject-pick-item').forEach(function(item) {
+      var val = item.getAttribute('data-value');
+      var isSelected = selectedCategory && val.toLowerCase() === selectedCategory.toLowerCase();
+      item.classList.toggle('selected', isSelected);
+      var cb = item.querySelector('.subject-pick-checkbox');
+      if (cb) cb.checked = isSelected;
+    });
+  }
+
+  function closeCategoryDialog() {
+    categoryOverlay.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  document.getElementById('cp-category-close').addEventListener('click', closeCategoryDialog);
+  document.getElementById('cp-category-cancel').addEventListener('click', closeCategoryDialog);
+  document.getElementById('cp-category-done').addEventListener('click', function() {
+    var sel = categoryList.querySelector('.subject-pick-item.selected');
+    if (sel) {
+      selectedCategory = sel.getAttribute('data-value');
+      categorySelected.textContent = selectedCategory;
+      categorySelected.style.display = '';
+      categoryPlaceholder.style.display = 'none';
+      categoryDisplay.classList.add('has-value');
+    }
+    closeCategoryDialog();
+  });
+  categoryOverlay.addEventListener('click', function(e) {
+    if (e.target === categoryOverlay) closeCategoryDialog();
+  });
+
+  document.getElementById('cp-category-add-btn').addEventListener('click', function() {
+    var input = document.getElementById('cp-category-custom');
+    var val = input.value.trim();
+    if (!val) return;
+    val = val.charAt(0).toUpperCase() + val.slice(1);
+    var existing = categoryList.querySelector('[data-value="' + CSS.escape(val) + '"]');
+    if (existing) {
+      categoryList.querySelectorAll('.subject-pick-item.selected').forEach(function(el) {
+        el.classList.remove('selected');
+        var cb = el.querySelector('.subject-pick-checkbox');
+        if (cb) cb.checked = false;
+      });
+      existing.classList.add('selected');
+      var cb = existing.querySelector('.subject-pick-checkbox');
+      if (cb) cb.checked = true;
+      existing.style.display = '';
+    } else {
+      categoryList.querySelectorAll('.subject-pick-item.selected').forEach(function(el) {
+        el.classList.remove('selected');
+        var cb = el.querySelector('.subject-pick-checkbox');
+        if (cb) cb.checked = false;
+      });
+      var label = document.createElement('label');
+      label.className = 'subject-pick-item is-radio selected';
+      label.setAttribute('data-value', val);
+      label.innerHTML = '<span class="subject-pick-check"><span class="material-symbols-outlined">check</span></span><span class="subject-pick-label">' + escapeHtml(val) + '</span>';
+      categoryList.appendChild(label);
+    }
+    input.value = '';
+  });
+  document.getElementById('cp-category-custom').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') { e.preventDefault(); document.getElementById('cp-category-add-btn').click(); }
+  });
+
+  /* --- Math Formula Dialog --- */
+  var mathOverlay = document.getElementById('cp-math-overlay');
+  var mathInput = document.getElementById('cp-math-input');
+  var mathPreview = document.getElementById('cp-math-preview');
+
+  function openMathDialog() {
+    mathOverlay.style.display = '';
+    mathInput.value = '';
+    mathPreview.innerHTML = '<span class="cp-math-preview-placeholder">Formula preview will appear here</span>';
+    mathInput.focus();
+  }
+
+  mathInput.addEventListener('input', function() {
+    var latex = mathInput.value.trim();
+    if (!latex) {
+      mathPreview.innerHTML = '<span class="cp-math-preview-placeholder">Formula preview will appear here</span>';
+      return;
+    }
+    try {
+      var html = katex.renderToString(latex, { throwOnError: false, displayMode: true });
+      mathPreview.innerHTML = html;
+    } catch (e) {
+      mathPreview.innerHTML = '<span class="cp-math-preview-placeholder">Invalid LaTeX</span>';
+    }
+  });
+
+  document.getElementById('cp-math-close').addEventListener('click', function() {
+    mathOverlay.style.display = 'none';
+  });
+  document.getElementById('cp-math-cancel').addEventListener('click', function() {
+    mathOverlay.style.display = 'none';
+  });
+  document.getElementById('cp-math-insert').addEventListener('click', function() {
+    var latex = mathInput.value.trim();
+    if (latex) {
+      editorBody.focus();
+      var sel = window.getSelection();
+      var range = sel.getRangeAt(0);
+      var node = document.createTextNode('$$' + latex + '$$');
+      range.deleteContents();
+      range.insertNode(node);
+      updateCharCount();
+    }
+    mathOverlay.style.display = 'none';
+  });
+  mathOverlay.addEventListener('click', function(e) {
+    if (e.target === mathOverlay) mathOverlay.style.display = 'none';
+  });
+
+  document.querySelectorAll('.cp-math-quick-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var latex = this.getAttribute('data-latex');
+      var pos = mathInput.selectionStart;
+      var val = mathInput.value;
+      mathInput.value = val.substring(0, pos) + latex + val.substring(pos);
+      mathInput.focus();
+      mathInput.setSelectionRange(pos + latex.length, pos + latex.length);
+      mathInput.dispatchEvent(new Event('input'));
+    });
+  });
+
   document.querySelector('[data-action="attach-image"]').addEventListener('click', function() {
-    if (uploadedImages.length >= MAX_IMAGES) {
+    if (pendingImages.length >= MAX_IMAGES) {
       showError('Maximum ' + MAX_IMAGES + ' images per post');
       return;
     }
@@ -309,24 +609,57 @@
     pollSection.classList.remove('active');
   });
 
-  document.querySelector('[data-action="add-poll-option"]').addEventListener('click', function() {
-    var count = pollOptions.querySelectorAll('.cp-poll-option').length;
-    if (count >= 6) {
-      showError('Maximum 6 poll options');
-      return;
+  var currentPollType = 'voting';
+
+  document.querySelectorAll('.cp-poll-type-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.cp-poll-type-btn').forEach(function(b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      currentPollType = btn.dataset.pollType;
+      document.getElementById('cp-poll-type-val').value = currentPollType;
+      updatePollTypeUI();
+    });
+  });
+
+  function updatePollTypeUI() {
+    var isMcq = currentPollType === 'mcq';
+    document.getElementById('cp-poll-mcq-settings').style.display = isMcq ? '' : 'none';
+    document.getElementById('cp-poll-explanation-row').style.display = isMcq ? '' : 'none';
+    document.getElementById('cp-poll-settings').style.display = isMcq ? 'none' : '';
+    pollOptions.querySelectorAll('.cp-poll-correct-toggle').forEach(function(t) {
+      t.style.display = isMcq ? '' : 'none';
+    });
+    if (!isMcq) {
+      pollOptions.querySelectorAll('.cp-poll-correct-toggle.correct').forEach(function(t) {
+        t.classList.remove('correct');
+        t.querySelector('.material-symbols-outlined').textContent = 'check_circle';
+      });
     }
-    hideError();
-    var idx = count;
-    var div = document.createElement('div');
-    div.className = 'cp-poll-option';
-    div.dataset.optionIndex = idx;
-    div.innerHTML = '<span class="cp-poll-option-num">' + (idx + 1) + '</span>' +
-      '<input type="text" class="cp-poll-option-input" placeholder="Option ' + (idx + 1) + '" maxlength="200">' +
-      '<button type="button" class="cp-poll-option-remove" data-action="remove-poll-option"><span class="material-symbols-outlined">close</span></button>';
-    pollOptions.appendChild(div);
+  }
+
+  document.querySelectorAll('#cp-poll-selection-toggle .cp-poll-setting-opt').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('#cp-poll-selection-toggle .cp-poll-setting-opt').forEach(function(b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      var val = btn.dataset.value;
+      document.getElementById('cp-allow-multiple').value = val === 'multiple' ? 'true' : '';
+    });
   });
 
   pollOptions.addEventListener('click', function(e) {
+    var correctBtn = e.target.closest('[data-action="toggle-correct"]');
+    if (correctBtn) {
+      correctBtn.classList.toggle('correct');
+      var icon = correctBtn.querySelector('.material-symbols-outlined');
+      if (correctBtn.classList.contains('correct')) {
+        icon.textContent = 'check_circle';
+        icon.style.fontVariationSettings = "'FILL' 1";
+      } else {
+        icon.textContent = 'check_circle';
+        icon.style.fontVariationSettings = '';
+      }
+      return;
+    }
     var btn = e.target.closest('[data-action="remove-poll-option"]');
     if (!btn) return;
     var count = pollOptions.querySelectorAll('.cp-poll-option').length;
@@ -345,10 +678,35 @@
     });
   });
 
+  document.querySelector('[data-action="add-poll-option"]').addEventListener('click', function() {
+    var count = pollOptions.querySelectorAll('.cp-poll-option').length;
+    if (count >= 6) {
+      showError('Maximum 6 poll options');
+      return;
+    }
+    hideError();
+    var isMcq = currentPollType === 'mcq';
+    var div = document.createElement('div');
+    div.className = 'cp-poll-option';
+    div.dataset.optionIndex = count;
+    div.innerHTML = '<span class="cp-poll-option-num">' + (count + 1) + '</span>' +
+      '<input type="text" class="cp-poll-option-input" name="poll_option[]" placeholder="Option ' + (count + 1) + '" maxlength="200">' +
+      (isMcq ? '<button type="button" class="cp-poll-correct-toggle" data-action="toggle-correct" title="Mark as correct answer"><span class="material-symbols-outlined">check_circle</span></button>' : '<button type="button" class="cp-poll-correct-toggle" data-action="toggle-correct" title="Mark as correct answer" style="display:none"><span class="material-symbols-outlined">check_circle</span></button>') +
+      '<button type="button" class="cp-poll-option-remove" data-action="remove-poll-option"><span class="material-symbols-outlined">close</span></button>';
+    pollOptions.appendChild(div);
+  });
+
   fileInput.addEventListener('change', function() {
     var files = Array.from(fileInput.files);
-    if (uploadedImages.length + files.length > MAX_IMAGES) {
+    if (pendingImages.length + files.length > MAX_IMAGES) {
       showError('Maximum ' + MAX_IMAGES + ' images per post');
+      fileInput.value = '';
+      return;
+    }
+    var totalSize = pendingImages.reduce(function(s, img) { return s + img.originalSize; }, 0);
+    files.forEach(function(f) { totalSize += f.size; });
+    if (totalSize > MAX_TOTAL_SIZE) {
+      showError('Total image size cannot exceed 30 MB');
       fileInput.value = '';
       return;
     }
@@ -358,11 +716,11 @@
         showError('Only JPG, PNG, WEBP, and GIF images are allowed');
         return;
       }
-      if (file.size > 10 * 1024 * 1024) {
-        showError('Image must be under 10 MB');
+      if (file.size > MAX_IMAGE_SIZE) {
+        showError(file.name + ' is too large (max 10 MB per image)');
         return;
       }
-      uploadImage(file);
+      addImageFile(file);
     });
     fileInput.value = '';
   });
@@ -373,14 +731,13 @@
     for (var i = 0; i < items.length; i++) {
       if (items[i].type.indexOf('image') !== -1) {
         hasImage = true;
-        if (uploadedImages.length >= MAX_IMAGES) {
+        if (pendingImages.length >= MAX_IMAGES) {
           showError('Maximum ' + MAX_IMAGES + ' images per post');
           e.preventDefault();
           return;
         }
         hideError();
-        var file = items[i].getAsFile();
-        uploadImage(file);
+        addImageFile(items[i].getAsFile());
       }
     }
     if (hasImage) e.preventDefault();
@@ -397,81 +754,116 @@
     var files = Array.from(e.dataTransfer.files);
     var imageFiles = files.filter(function(f) { return f.type.indexOf('image') === 0; });
     if (imageFiles.length === 0) return;
-    if (uploadedImages.length + imageFiles.length > MAX_IMAGES) {
+    if (pendingImages.length + imageFiles.length > MAX_IMAGES) {
       showError('Maximum ' + MAX_IMAGES + ' images per post');
       return;
     }
+    var totalSize = pendingImages.reduce(function(s, img) { return s + img.originalSize; }, 0);
+    imageFiles.forEach(function(f) { totalSize += f.size; });
+    if (totalSize > MAX_TOTAL_SIZE) {
+      showError('Total image size cannot exceed 30 MB');
+      return;
+    }
     hideError();
-    imageFiles.forEach(function(file) { uploadImage(file); });
+    imageFiles.forEach(function(file) { addImageFile(file); });
   });
 
-  function uploadImage(file) {
-    var formData = new FormData();
-    formData.append('image', file);
-    var thumb = createThumb(file);
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/ajax/post/upload-image/');
-    xhr.setRequestHeader('X-CSRFToken', document.querySelector('[name=csrfmiddlewaretoken]').value);
-    xhr.onload = function() {
-      if (xhr.status === 200) {
-        try {
-          var data = JSON.parse(xhr.responseText);
-          uploadedImages.push(data.url);
-          thumb.dataset.url = data.url;
-          thumb.querySelector('.cp-image-thumb-progress').style.display = 'none';
-        } catch (e) {
-          removeThumb(thumb);
-          showError('Failed to upload image');
+  function compressImage(file, callback) {
+    var ext = file.name.split('.').pop().toLowerCase();
+    var compressible = ['jpg', 'jpeg', 'png', 'webp', 'bmp'];
+    if (compressible.indexOf(ext) === -1 && file.type !== 'image/jpeg' && file.type !== 'image/png' && file.type !== 'image/webp') {
+      callback(file);
+      return;
+    }
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      var img = new Image();
+      img.onload = function() {
+        var canvas = document.createElement('canvas');
+        var maxDim = 2000;
+        var w = img.width, h = img.height;
+        if (w > maxDim || h > maxDim) {
+          if (w > h) { h = Math.round(h * maxDim / w); w = maxDim; }
+          else { w = Math.round(w * maxDim / h); h = maxDim; }
         }
-      } else {
-        removeThumb(thumb);
-        try {
-          var err = JSON.parse(xhr.responseText);
-          showError(err.error || 'Failed to upload image');
-        } catch (e) {
-          showError('Failed to upload image');
-        }
+        canvas.width = w;
+        canvas.height = h;
+        var ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, w, h);
+        var mimeType = 'image/jpeg';
+        var quality = 0.82;
+        if (file.type === 'image/png') { mimeType = 'image/png'; quality = undefined; }
+        else if (file.type === 'image/webp') { mimeType = 'image/webp'; quality = 0.85; }
+        canvas.toBlob(function(blob) {
+          if (blob && blob.size < file.size) {
+            var compressed = new File([blob], file.name.replace(/\.[^.]+$/, mimeType === 'image/png' ? '.png' : mimeType === 'image/webp' ? '.webp' : '.jpg'), { type: mimeType, lastModified: Date.now() });
+            callback(compressed);
+          } else {
+            callback(file);
+          }
+        }, mimeType, quality);
+      };
+      img.onerror = function() { callback(file); };
+      img.src = e.target.result;
+    };
+    reader.onerror = function() { callback(file); };
+    reader.readAsDataURL(file);
+  }
+
+  function addImageFile(file) {
+    if (pendingImages.length >= MAX_IMAGES) return;
+    hideError();
+    var thumbUrl = URL.createObjectURL(file);
+    var imgItem = { file: null, originalFile: file, thumbUrl: thumbUrl, originalSize: file.size, compressed: false };
+    pendingImages.push(imgItem);
+    renderImageThumbs();
+    compressImage(file, function(compressed) {
+      imgItem.file = compressed;
+      imgItem.compressed = true;
+      var savings = compressed.size < file.size ? Math.round((1 - compressed.size / file.size) * 100) : 0;
+      if (savings > 0) {
+        var sizeLabel = document.getElementById('cp-img-info-' + (pendingImages.length - 1));
+        if (sizeLabel) sizeLabel.textContent = formatSize(compressed.size) + ' (saved ' + savings + '%)';
       }
-    };
-    xhr.onerror = function() {
-      removeThumb(thumb);
-      showError('Network error uploading image');
-    };
-    xhr.send(formData);
-  }
-
-  function createThumb(file) {
-    imagesContainer.style.display = '';
-    var thumb = document.createElement('div');
-    thumb.className = 'cp-image-thumb';
-    var img = document.createElement('img');
-    img.src = URL.createObjectURL(file);
-    thumb.appendChild(img);
-    var progress = document.createElement('div');
-    progress.className = 'cp-image-thumb-progress';
-    progress.textContent = 'Uploading...';
-    thumb.appendChild(progress);
-    var removeBtn = document.createElement('button');
-    removeBtn.type = 'button';
-    removeBtn.className = 'cp-image-thumb-remove';
-    removeBtn.innerHTML = '<span class="material-symbols-outlined">close</span>';
-    removeBtn.addEventListener('click', function() {
-      removeThumb(thumb);
     });
-    thumb.appendChild(removeBtn);
-    imagesGrid.appendChild(thumb);
-    return thumb;
   }
 
-  function removeThumb(thumb) {
-    var url = thumb.dataset.url;
-    if (url) {
-      uploadedImages = uploadedImages.filter(function(u) { return u !== url; });
-    }
-    thumb.remove();
-    if (imagesGrid.children.length === 0) {
+  function formatSize(bytes) {
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+    return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+  }
+
+  function renderImageThumbs() {
+    imagesGrid.innerHTML = '';
+    if (pendingImages.length === 0) {
       imagesContainer.style.display = 'none';
+      return;
     }
+    imagesContainer.style.display = '';
+    pendingImages.forEach(function(img, i) {
+      var thumb = document.createElement('div');
+      thumb.className = 'cp-image-thumb';
+      var imgEl = document.createElement('img');
+      imgEl.src = img.thumbUrl;
+      thumb.appendChild(imgEl);
+      var info = document.createElement('div');
+      info.className = 'cp-image-thumb-info';
+      info.id = 'cp-img-info-' + i;
+      info.textContent = formatSize(img.originalSize);
+      thumb.appendChild(info);
+      var removeBtn = document.createElement('button');
+      removeBtn.type = 'button';
+      removeBtn.className = 'cp-image-thumb-remove';
+      removeBtn.innerHTML = '<span class="material-symbols-outlined">close</span>';
+      removeBtn.addEventListener('click', function() {
+        URL.revokeObjectURL(pendingImages[i].thumbUrl);
+        pendingImages.splice(i, 1);
+        renderImageThumbs();
+      });
+      thumb.appendChild(removeBtn);
+      imagesGrid.appendChild(thumb);
+    });
   }
 
   var previewVisible = false;
@@ -481,20 +873,89 @@
     if (previewVisible) renderPreview();
   });
 
-  function renderPreview() {
-    var html = getContentHtml();
-    var temp = document.createElement('div');
-    temp.innerHTML = html;
-    var text = temp.textContent || temp.innerText || '';
+  function renderMarkdown(text) {
     text = text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
     text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-    text = text.replace(/\*(.+?)\*/g, '<em>$1</em>');
+    text = text.replace(/\*([^*]+?)\*/g, '<em>$1</em>');
     text = text.replace(/~~(.+?)~~/g, '<del>$1</del>');
-    text = text.replace(/`(.+?)`/g, '<code>$1</code>');
+    text = text.replace(/`([^`]+?)`/g, '<code>$1</code>');
     text = text.replace(/^## (.+)$/gm, '<h3>$1</h3>');
-    text = text.replace(/^> (.+)$/gm, '<blockquote>$1</blockquote>');
+    text = text.replace(/^&gt; (.+)$/gm, '<blockquote>$1</blockquote>');
     text = text.replace(/\n/g, '<br>');
-    previewContent.innerHTML = text;
+    return text;
+  }
+
+  function renderPreview() {
+    var title = titleInput.value.trim() || 'Untitled';
+    var content = getContentText().trim();
+    var contentHtml = content ? renderMarkdown(content) : '<span style="color:var(--md-on-surface-variant)">No content yet</span>';
+    var category = selectedCategory || 'General';
+    var userName = document.querySelector('.topbar-user-name') ? document.querySelector('.topbar-user-name').textContent.trim() : 'You';
+    var userPhoto = document.querySelector('.topbar-avatar img') ? document.querySelector('.topbar-avatar img').src : '';
+    var avatarHtml = userPhoto
+      ? '<img src="' + escapeHtml(userPhoto) + '" alt="" style="width:40px;height:40px;border-radius:50%;object-fit:cover">'
+      : '<span style="width:40px;height:40px;border-radius:50%;background:var(--md-primary);color:var(--md-on-primary);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.875rem">' + escapeHtml(userName.charAt(0).toUpperCase()) + '</span>';
+
+    var html = '<div class="cp-preview-post">';
+    html += '<div class="cp-preview-post-header">';
+    html += '<div class="cp-preview-avatar">' + avatarHtml + '</div>';
+    html += '<div class="cp-preview-meta">';
+    html += '<div class="cp-preview-meta-top"><span class="cp-preview-author">' + escapeHtml(userName) + '</span>';
+    html += '<span class="cp-preview-dot">&middot;</span>';
+    html += '<a class="cp-preview-category" href="#">' + escapeHtml(category) + '</a>';
+    html += '</div>';
+    html += '<div class="cp-preview-time">just now</div>';
+    html += '</div></div>';
+    html += '<h2 class="cp-preview-title">' + escapeHtml(title) + '</h2>';
+    html += '<div class="cp-preview-body">' + contentHtml + '</div>';
+
+    if (pendingImages.length > 0) {
+      html += '<div class="cp-preview-images">';
+      if (pendingImages.length === 1) {
+        html += '<div class="cp-preview-image-single"><img src="' + pendingImages[0].thumbUrl + '" alt="Preview"></div>';
+      } else if (pendingImages.length === 2) {
+        html += '<div class="cp-preview-image-grid cp-preview-image-grid-2">';
+        pendingImages.forEach(function(img) { html += '<img src="' + img.thumbUrl + '" alt="Preview">'; });
+        html += '</div>';
+      } else {
+        html += '<div class="cp-preview-image-grid cp-preview-image-grid-3">';
+        pendingImages.forEach(function(img) { html += '<img src="' + img.thumbUrl + '" alt="Preview">'; });
+        html += '</div>';
+      }
+      html += '</div>';
+    }
+
+    if (pollVisible) {
+      var pollQuestion = document.getElementById('cp-poll-question').value.trim();
+      var pollType = currentPollType;
+      var optInputs = pollOptions.querySelectorAll('.cp-poll-option-input');
+      var opts = [];
+      optInputs.forEach(function(input) {
+        var v = input.value.trim();
+        if (v) opts.push(v);
+      });
+      if (pollQuestion || opts.length > 0) {
+        html += '<div class="cp-preview-poll">';
+        html += '<div class="cp-preview-poll-badge">';
+        html += '<span class="material-symbols-outlined" style="font-size:14px">' + (pollType === 'mcq' ? 'quiz' : 'how_to_vote') + '</span>';
+        html += (pollType === 'mcq' ? 'MCQ Quiz' : 'Poll');
+        html += '</div>';
+        if (pollQuestion) html += '<div class="cp-preview-poll-question">' + escapeHtml(pollQuestion) + '</div>';
+        html += '<div class="cp-preview-poll-options">';
+        opts.forEach(function(opt) {
+          html += '<div class="cp-preview-poll-option"><span class="cp-preview-poll-option-label">' + escapeHtml(opt) + '</span></div>';
+        });
+        html += '</div></div>';
+      }
+    }
+
+    html += '<div class="cp-preview-actions">';
+    html += '<span class="cp-preview-action"><span class="material-symbols-outlined" style="font-size:16px">thumb_up</span> 0</span>';
+    html += '<span class="cp-preview-action"><span class="material-symbols-outlined" style="font-size:16px">chat_bubble_outline</span> 0</span>';
+    html += '</div>';
+    html += '</div>';
+
+    previewContent.innerHTML = html;
     try {
       renderMathInElement(previewContent, {
         delimiters: [
@@ -505,27 +966,108 @@
     } catch (e) {}
   }
 
+  function uploadImagesSequentially(callback) {
+    if (pendingImages.length === 0) {
+      callback([]);
+      return;
+    }
+    var urls = [];
+    var overlay = document.getElementById('cp-upload-overlay');
+    var progressFill = document.getElementById('cp-upload-progress');
+    var uploadTitle = document.getElementById('cp-upload-title');
+    var uploadDetail = document.getElementById('cp-upload-detail');
+    overlay.style.display = '';
+    progressFill.style.width = '0%';
+    uploadTitle.textContent = 'Uploading images...';
+    var total = pendingImages.length;
+    var completed = 0;
+
+    function uploadNext(index) {
+      if (index >= total) {
+        overlay.style.display = 'none';
+        callback(urls);
+        return;
+      }
+      var img = pendingImages[index];
+      var fileToUpload = img.file || img.originalFile;
+      uploadDetail.textContent = 'Uploading ' + (index + 1) + ' of ' + total + '...';
+      var formData = new FormData();
+      formData.append('image', fileToUpload);
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', '/ajax/post/upload-image/');
+      xhr.setRequestHeader('X-CSRFToken', CSRF_TOKEN);
+      xhr.upload.onprogress = function(e) {
+        if (e.lengthComputable) {
+          var pct = ((completed + e.loaded / e.total) / total) * 100;
+          progressFill.style.width = pct + '%';
+        }
+      };
+      xhr.onload = function() {
+        completed++;
+        progressFill.style.width = (completed / total * 100) + '%';
+        if (xhr.status === 200) {
+          try {
+            var data = JSON.parse(xhr.responseText);
+            urls.push(data.url);
+          } catch (e) {
+            overlay.style.display = 'none';
+            showError('Failed to upload image ' + (index + 1));
+            callback(null);
+            return;
+          }
+        } else {
+          overlay.style.display = 'none';
+          try {
+            var err = JSON.parse(xhr.responseText);
+            showError(err.error || 'Failed to upload image ' + (index + 1));
+          } catch (e) {
+            showError('Failed to upload image ' + (index + 1));
+          }
+          callback(null);
+          return;
+        }
+        uploadNext(index + 1);
+      };
+      xhr.onerror = function() {
+        overlay.style.display = 'none';
+        showError('Network error uploading image ' + (index + 1));
+        callback(null);
+      };
+      xhr.send(formData);
+    }
+    uploadNext(0);
+  }
+
   submitBtn.addEventListener('click', function() {
     if (submitting) return;
     hideError();
     var title = titleInput.value.trim();
     var content = getContentText().trim();
-    var category = categorySelect.value;
+    var category = selectedCategory;
     if (!title) { showError('Please enter a title'); titleInput.focus(); return; }
     if (!content) { showError('Please enter some content'); editorBody.focus(); return; }
-    if (!category) { showError('Please select a category'); categorySelect.focus(); return; }
+    if (!category) { showError('Please select a category'); return; }
     if (content.length > MAX_CONTENT) { showError('Content is too long (max 20,000 characters)'); return; }
 
-    var imageUrls = uploadedImages.slice();
+    for (var ci = 0; ci < pendingImages.length; ci++) {
+      if (!pendingImages[ci].compressed && !pendingImages[ci].file) {
+        showError('Please wait for image compression to finish');
+        return;
+      }
+    }
 
     var pollData = null;
     if (pollVisible) {
       var pollQuestion = document.getElementById('cp-poll-question').value.trim();
       var optInputs = pollOptions.querySelectorAll('.cp-poll-option-input');
       var options = [];
-      optInputs.forEach(function(input) {
+      optInputs.forEach(function(input, i) {
         var v = input.value.trim();
-        if (v) options.push(v);
+        if (v) {
+          var optEl = input.closest('.cp-poll-option');
+          var isCorrect = optEl && optEl.querySelector('.cp-poll-correct-toggle.correct') ? true : false;
+          options.push({ text: v, is_correct: isCorrect, index: i });
+        }
       });
       if (options.length < 2) {
         showError('Poll must have at least 2 non-empty options');
@@ -535,8 +1077,15 @@
         showError('Poll can have at most 6 options');
         return;
       }
+      if (currentPollType === 'mcq' && !options.some(function(o) { return o.is_correct; })) {
+        showError('MCQ quiz must have at least one correct answer');
+        return;
+      }
       pollData = {
         question: pollQuestion,
+        poll_type: currentPollType,
+        allow_multiple: document.getElementById('cp-allow-multiple').value === 'true',
+        explanation: document.getElementById('cp-poll-explanation').value.trim(),
         duration_ms: parseInt(document.getElementById('cp-poll-duration').value) || 0,
         options: options
       };
@@ -544,45 +1093,55 @@
 
     submitting = true;
     submitBtn.disabled = true;
-    submitBtn.textContent = 'Posting...';
+    submitBtn.textContent = 'Uploading...';
 
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/ajax/post/');
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.setRequestHeader('X-CSRFToken', document.querySelector('[name=csrfmiddlewaretoken]').value);
-    xhr.onload = function() {
-      submitting = false;
-      submitBtn.disabled = false;
-      submitBtn.innerHTML = '<span class="material-symbols-outlined">send</span> Post Discussion';
-      if (xhr.status === 201) {
+    uploadImagesSequentially(function(imageUrls) {
+      if (imageUrls === null) {
+        submitting = false;
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<span class="material-symbols-outlined">send</span> Post Discussion';
+        return;
+      }
+      submitBtn.textContent = 'Posting...';
+
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', '/ajax/post/');
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.setRequestHeader('X-CSRFToken', CSRF_TOKEN);
+      xhr.onload = function() {
+        submitting = false;
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<span class="material-symbols-outlined">send</span> Post Discussion';
+        if (xhr.status === 201) {
+          try {
+            var data = JSON.parse(xhr.responseText);
+            if (data.id) {
+              window.location.href = '/forum/post/' + data.id + '/';
+              return;
+            }
+          } catch (e) {}
+        }
         try {
-          var data = JSON.parse(xhr.responseText);
-          if (data.id) {
-            window.location.href = '/forum/post/' + data.id + '/';
-            return;
-          }
-        } catch (e) {}
-      }
-      try {
-        var err = JSON.parse(xhr.responseText);
-        showError(err.error || 'Failed to create post');
-      } catch (e) {
-        showError('Failed to create post');
-      }
-    };
-    xhr.onerror = function() {
-      submitting = false;
-      submitBtn.disabled = false;
-      submitBtn.innerHTML = '<span class="material-symbols-outlined">send</span> Post Discussion';
-      showError('Network error. Please try again.');
-    };
-    xhr.send(JSON.stringify({
-      title: title,
-      content: content,
-      category: category,
-      images: imageUrls,
-      poll: pollData
-    }));
+          var err = JSON.parse(xhr.responseText);
+          showError(err.error || 'Failed to create post');
+        } catch (e) {
+          showError('Failed to create post');
+        }
+      };
+      xhr.onerror = function() {
+        submitting = false;
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<span class="material-symbols-outlined">send</span> Post Discussion';
+        showError('Network error. Please try again.');
+      };
+      xhr.send(JSON.stringify({
+        title: title,
+        content: content,
+        category: category,
+        images: imageUrls,
+        poll: pollData
+      }));
+    });
   });
 
   var mentionDropdown = null;

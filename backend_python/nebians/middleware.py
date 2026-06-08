@@ -116,12 +116,13 @@ class SecurityHeadersMiddleware:
             img_sources = "img-src 'self' data: http: https:;"
             connect_src_str = "connect-src 'self' http: https: wss:;"
 
+        img_sources_blob = img_sources.replace("img-src ", "img-src blob: ")
         csp = (
             "default-src 'self'; "
-            f"script-src 'self' 'nonce-{nonce}' 'unsafe-eval' https://accounts.google.com https://www.gstatic.com; "
-            "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://accounts.google.com; "
-            "font-src 'self' https://fonts.gstatic.com; "
-            f"{img_sources} "
+            f"script-src 'self' 'nonce-{nonce}' 'unsafe-eval' https://accounts.google.com https://www.gstatic.com https://cdn.jsdelivr.net; "
+            "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://accounts.google.com https://cdn.jsdelivr.net; "
+            "font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net; "
+            f"{img_sources_blob} "
             "frame-src 'self' https:; "
             f"{connect_src_str} "
             "base-uri 'self'; form-action 'self'; frame-ancestors 'none'"

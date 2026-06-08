@@ -103,12 +103,8 @@
                 {% elif profile_user.role == 'institution' %}
                   {% if profile_user.institution_type == 'school' %}School{% elif profile_user.institution_type == 'college' %}College{% elif profile_user.institution_type == 'academy' %}Academy{% else %}Institution{% endif %}{% if profile_user.school %} &middot; {{ profile_user.school }}{% endif %}
                 {% elif profile_user.role == 'explorer' %}
-                  <span class="pf-explorer-tagline">
-                    <span class="material-symbols-outlined">travel_explore</span>
-                    Exploring NEBians
-                  </span>
                   {% if profile_user.class_level or profile_user.school %}
-                    &middot; {{ profile_user.school|default:profile_user.class_level }}
+                    {{ profile_user.school|default:profile_user.class_level }}
                   {% endif %}
                 {% else %}
                   {% if profile_user.class_level %}
@@ -1348,7 +1344,11 @@ function getShareHeadline(pu) {
     if (pu.school) t += ' \u00b7 ' + pu.school;
     return t;
   }
-  if (pu.role === 'explorer') return 'Exploring NEBians';
+  if (pu.role === 'explorer') {
+    if (pu.school) return pu.school;
+    if (pu.class_level) return pu.class_level;
+    return '';
+  }
   if (pu.class_level) {
     var cl = pu.class_level;
     if (cl === '11') cl = 'Class 11';
