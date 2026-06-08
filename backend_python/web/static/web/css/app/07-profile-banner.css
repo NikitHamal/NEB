@@ -380,6 +380,86 @@
   text-shadow: 0 2px 20px rgba(124, 77, 255, 0.35), 0 0 40px rgba(98, 0, 234, 0.10);
 }
 
+/* ── Role-based banner: Teacher (emerald green, scholarly) ── */
+.pf-card-banner[data-banner-type="gradient-tutor"] .pf-banner-holo-metallic {
+  background:
+    radial-gradient(ellipse 80% 120% at 10% 90%, rgba(5, 150, 105, 0.60) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 100% at 85% 20%, rgba(16, 185, 129, 0.55) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 80% at 50% 50%, rgba(52, 211, 153, 0.35) 0%, transparent 70%),
+    radial-gradient(ellipse 90% 90% at 95% 80%, rgba(20, 184, 166, 0.45) 0%, transparent 50%),
+    linear-gradient(160deg, #064e3b 0%, #047857 25%, #10b981 50%, #34d399 75%, #064e3b 100%);
+  background-size: 200% 200%;
+  animation: bannerGradientDrift 18s linear infinite;
+}
+[data-theme="dark"] .pf-card-banner[data-banner-type="gradient-tutor"] .pf-banner-holo-metallic {
+  background:
+    radial-gradient(ellipse 80% 120% at 10% 90%, rgba(6, 78, 59, 0.80) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 100% at 85% 20%, rgba(6, 95, 70, 0.65) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 80% at 50% 50%, rgba(16, 185, 129, 0.30) 0%, transparent 70%),
+    radial-gradient(ellipse 90% 90% at 95% 80%, rgba(20, 184, 166, 0.50) 0%, transparent 50%),
+    linear-gradient(160deg, #022c22 0%, #064e3b 25%, #065f46 50%, #047857 75%, #022c22 100%);
+  background-size: 200% 200%;
+}
+.pf-card-banner[data-banner-type="gradient-tutor"] .pf-banner-deco-text {
+  color: var(--banner-text-color, rgba(255, 255, 255, 0.28));
+  text-shadow: 0 2px 20px rgba(16, 185, 129, 0.30), 0 0 40px rgba(52, 211, 153, 0.15);
+  font-size: 3.5rem;
+  letter-spacing: 0.30em;
+}
+.pf-card-banner[data-banner-type="gradient-tutor"] .pf-banner-mesh-overlay {
+  opacity: 0.12;
+}
+[data-theme="dark"] .pf-card-banner[data-banner-type="gradient-tutor"] .pf-banner-deco-text {
+  color: rgba(167, 243, 208, 0.25);
+  text-shadow: 0 2px 20px rgba(16, 185, 129, 0.35), 0 0 40px rgba(20, 184, 166, 0.10);
+}
+@media (max-width: 600px) {
+  .pf-card-banner[data-banner-type="gradient-tutor"] .pf-banner-deco-text {
+    font-size: 2rem;
+    letter-spacing: 0.20em;
+  }
+}
+
+/* ── Role-based banner: Institution (indigo, institutional) ── */
+.pf-card-banner[data-banner-type="gradient-institution"] .pf-banner-holo-metallic {
+  background:
+    radial-gradient(ellipse 80% 120% at 10% 90%, rgba(67, 56, 202, 0.60) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 100% at 85% 20%, rgba(99, 102, 241, 0.55) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 80% at 50% 50%, rgba(129, 140, 248, 0.35) 0%, transparent 70%),
+    radial-gradient(ellipse 90% 90% at 95% 80%, rgba(139, 92, 246, 0.45) 0%, transparent 50%),
+    linear-gradient(160deg, #312e81 0%, #4338ca 25%, #6366f1 50%, #818cf8 75%, #312e81 100%);
+  background-size: 200% 200%;
+  animation: bannerGradientDrift 18s linear infinite;
+}
+[data-theme="dark"] .pf-card-banner[data-banner-type="gradient-institution"] .pf-banner-holo-metallic {
+  background:
+    radial-gradient(ellipse 80% 120% at 10% 90%, rgba(49, 46, 129, 0.80) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 100% at 85% 20%, rgba(67, 56, 202, 0.65) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 80% at 50% 50%, rgba(99, 102, 241, 0.30) 0%, transparent 70%),
+    radial-gradient(ellipse 90% 90% at 95% 80%, rgba(129, 140, 248, 0.50) 0%, transparent 50%),
+    linear-gradient(160deg, #1e1b4b 0%, #312e81 25%, #3730a3 50%, #4338ca 75%, #1e1b4b 100%);
+  background-size: 200% 200%;
+}
+.pf-card-banner[data-banner-type="gradient-institution"] .pf-banner-deco-text {
+  color: var(--banner-text-color, rgba(255, 255, 255, 0.25));
+  text-shadow: 0 2px 20px rgba(99, 102, 241, 0.30), 0 0 40px rgba(165, 180, 252, 0.15);
+  font-size: 2.5rem;
+  letter-spacing: 0.25em;
+}
+.pf-card-banner[data-banner-type="gradient-institution"] .pf-banner-mesh-overlay {
+  opacity: 0.12;
+}
+[data-theme="dark"] .pf-card-banner[data-banner-type="gradient-institution"] .pf-banner-deco-text {
+  color: rgba(199, 210, 254, 0.22);
+  text-shadow: 0 2px 20px rgba(99, 102, 241, 0.35), 0 0 40px rgba(129, 140, 248, 0.10);
+}
+@media (max-width: 600px) {
+  .pf-card-banner[data-banner-type="gradient-institution"] .pf-banner-deco-text {
+    font-size: 1.5rem;
+    letter-spacing: 0.18em;
+  }
+}
+
 /* ── Dark mode variant (default brand) ── */
 [data-theme="dark"] .pf-banner-holo-metallic {
   background:
