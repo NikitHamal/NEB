@@ -589,6 +589,9 @@ def _parse_stream(response):
         except json.JSONDecodeError:
             continue
 
+        if "error" in chunk:
+            logger.error(f"Qwen stream error: {chunk['error']}")
+
         if "response.created" in chunk:
             resp_id = chunk.get("response.created", {}).get("response_id")
             if resp_id:

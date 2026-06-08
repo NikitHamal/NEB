@@ -14,7 +14,7 @@ from api.models import (
 )
 from api.utils import now_ms, uuid_str
 from api import qwen_proxy
-from api.qwen_utils.file_upload import ALLOWED_EXTENSIONS, MAX_FILE_SIZE
+from api.qwen_utils.file_upload import ALLOWED_EXTENSIONS, MAX_FILE_SIZE, upload_file_from_bytes
 
 logger = logging.getLogger(__name__)
 
@@ -309,6 +309,7 @@ def ajax_study_generate_summary(request, doc_id):
 
     prepared = _prepare_doc_for_qwen(doc)
     if not prepared:
+        logger.error("DEBUG: 502 reason: Could not read document content")
         return JsonResponse({'error': 'Could not read document content'}, status=502)
 
     qwen_session, _ = qwen_proxy._get_session()
@@ -319,10 +320,14 @@ def ajax_study_generate_summary(request, doc_id):
 
     chat_id = qwen_proxy.create_chat(qwen_session, model=_qwen_model())
     if not chat_id:
+        logger.error("DEBUG: 502 reason: Could not start AI session")
         return JsonResponse({'error': 'Could not start AI session — try again'}, status=502)
 
-    if prepared['is_image']:
-        prompt = "Summarize the content shown in this image thoroughly. Use clear headings, bullet points, and bold key terms."
+    if prepared.get('has_file') or prepared.get('is_image'):
+        if prepared.get('is_image'):
+            prompt = "Summarize the content shown in this image thoroughly. Use clear headings, bullet points, and bold key terms."
+        else:
+            prompt = "Summarize this document thoroughly. Use clear headings, bullet points, and bold key terms."
         result = qwen_proxy.send_message(
             qwen_session, chat_id, prompt, model=_qwen_model(),
             parent_id=None, uploaded_files=prepared['uploaded_files'],
@@ -338,6 +343,7 @@ def ajax_study_generate_summary(request, doc_id):
         )
 
     if not result:
+        logger.error("DEBUG: 502 reason: AI returned an empty response")
         return JsonResponse({'error': 'AI returned an empty response'}, status=502)
 
     doc.summary = result
@@ -387,8 +393,11 @@ def ajax_study_generate_quiz(request, doc_id):
     if not chat_id:
         return JsonResponse({'error': 'Could not start AI session — try again'}, status=502)
 
-    if prepared['is_image']:
-        prompt = f"Generate {question_count} MCQ questions based on the content shown in this image."
+    if prepared.get('has_file') or prepared.get('is_image'):
+        if prepared.get('is_image'):
+            prompt = f"Generate {question_count} MCQ questions based on the content shown in this image."
+        else:
+            prompt = f"Generate {question_count} MCQ questions from this document."
         result = qwen_proxy.send_message(
             qwen_session, chat_id, prompt, model=_qwen_model(),
             parent_id=None, uploaded_files=prepared['uploaded_files'],
@@ -500,8 +509,11 @@ def ajax_study_generate_flashcards(request, doc_id):
     if not chat_id:
         return JsonResponse({'error': 'Could not start AI session — try again'}, status=502)
 
-    if prepared['is_image']:
-        prompt = f"Create {card_count} flashcards based on the content shown in this image."
+    if prepared.get('has_file') or prepared.get('is_image'):
+        if prepared.get('is_image'):
+            prompt = f"Create {card_count} flashcards based on the content shown in this image."
+        else:
+            prompt = f"Create {card_count} flashcards from this document."
         result = qwen_proxy.send_message(
             qwen_session, chat_id, prompt, model=_qwen_model(),
             parent_id=None, uploaded_files=prepared['uploaded_files'],
@@ -748,8 +760,8 @@ def _prepare_doc_for_qwen(doc):
 
     ext = os.path.splitext(doc.file_name)[1].lower()
 
-    # Image types → upload to Qwen OSS (Qwen supports these natively)
-    if ext in ('.png', '.jpg', '.jpeg', '.gif', '.webp', '.bmp', '.svg'):
+    # Image types and PDF → upload to Qwen OSS (Qwen supports these natively)
+    if ext in ('.png', '.jpg', '.jpeg', '.gif', '.webp', '.bmp', '.svg', '.pdf'):
         qwen_session, _ = qwen_proxy._get_session()
         midtoken = qwen_proxy.get_midtoken(qwen_session)
         if midtoken:
@@ -758,21 +770,9 @@ def _prepare_doc_for_qwen(doc):
         req_headers = dict(qwen_session.headers)
         file_obj = upload_file_from_bytes(doc.file_name, file_data, qwen_session, req_headers)
         if file_obj:
-            return {'is_image': True, 'uploaded_files': [file_obj], 'text_content': None}
+            is_image = ext not in ('.pdf',)
+            return {'is_image': is_image, 'has_file': True, 'uploaded_files': [file_obj], 'text_content': None}
         return None
-
-    # PDF → extract text using pypdf
-    if ext == '.pdf':
-        try:
-            from pypdf import PdfReader
-            import io
-            reader = PdfReader(io.BytesIO(file_data))
-            text = '\n'.join(page.extract_text() or '' for page in reader.pages)
-            if text.strip():
-                text = text[:MAX_TEXT_CHARS]
-                return {'is_image': False, 'uploaded_files': None, 'text_content': text}
-        except Exception as e:
-            logger.warning("Failed to extract PDF text: %s", e)
 
     # Plain text files
     if ext == '.txt':

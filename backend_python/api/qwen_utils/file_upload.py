@@ -180,21 +180,29 @@ def upload_file(
             logger.warning("File upload to OSS failed: %s", upload_resp.status_code)
             return None
 
+        parse_status = None
+
         now_ms = int(time.time() * 1000)
+        
+        meta_dict = {
+            "name": file_name,
+            "size": file_size,
+            "content_type": mime_type,
+        }
+        if parse_status:
+            meta_dict["parse_meta"] = {"parse_status": parse_status}
+
         file_obj = {
-            "type": file_type,
+            "type": show_type,
             "file": {
                 "created_at": now_ms,
                 "data": {},
                 "filename": file_name,
                 "hash": None,
                 "id": file_id,
-                "meta": {
-                    "name": file_name,
-                    "size": file_size,
-                    "content_type": mime_type,
-                },
+                "meta": meta_dict,
                 "update_at": now_ms,
+                "type": mime_type,
             },
             "id": file_id,
             "url": file_url,
@@ -281,21 +289,29 @@ def upload_file_from_bytes(
             logger.warning("File upload to OSS failed: %s", upload_resp.status_code)
             return None
 
+        parse_status = None
+
         now_ms = int(time.time() * 1000)
+        
+        meta_dict = {
+            "name": file_name,
+            "size": file_size,
+            "content_type": mime_type,
+        }
+        if parse_status:
+            meta_dict["parse_meta"] = {"parse_status": parse_status}
+
         file_obj = {
-            "type": file_type,
+            "type": show_type,
             "file": {
                 "created_at": now_ms,
                 "data": {},
                 "filename": file_name,
                 "hash": None,
                 "id": file_id,
-                "meta": {
-                    "name": file_name,
-                    "size": file_size,
-                    "content_type": mime_type,
-                },
+                "meta": meta_dict,
                 "update_at": now_ms,
+                "type": mime_type,
             },
             "id": file_id,
             "url": file_url,
