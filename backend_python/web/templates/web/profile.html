@@ -8,10 +8,10 @@
 {% block og_type %}profile{% endblock %}
 {% block tw_title %}{{ profile_user.display_name|default:profile_user.username }} on NEBians{% endblock %}
 {% block tw_description %}{% if profile_user.bio %}{{ profile_user.bio }}{% else %}Check out {{ profile_user.display_name|default:profile_user.username }}'s profile on NEBians — a Nepali learning community.{% endif %}{% endblock %}
-{% block og_image %}https://nebians.consica.com.np{% url 'web:profile_card_image' username=profile_user.username %}?v=4{% endblock %}
-{% block og_image_secure %}https://nebians.consica.com.np{% url 'web:profile_card_image' username=profile_user.username %}?v=4{% endblock %}
+{% block og_image %}https://nebians.consica.com.np{% url 'web:profile_card_image' username=profile_user.username %}?v=13{% endblock %}
+{% block og_image_secure %}https://nebians.consica.com.np{% url 'web:profile_card_image' username=profile_user.username %}?v=13{% endblock %}
 {% block og_image_alt %}{{ profile_user.display_name|default:profile_user.username }} profile card on NEBians{% endblock %}
-{% block tw_image %}https://nebians.consica.com.np{% url 'web:profile_card_image' username=profile_user.username %}?v=4{% endblock %}
+{% block tw_image %}https://nebians.consica.com.np{% url 'web:profile_card_image' username=profile_user.username %}?v=13{% endblock %}
 {% block tw_image_alt %}{{ profile_user.display_name|default:profile_user.username }} profile card on NEBians{% endblock %}
 {% block robots %}{% if profile_private or profile_user.is_bot %}<meta name="robots" content="noindex,nofollow">{% endif %}{% endblock %}
 
