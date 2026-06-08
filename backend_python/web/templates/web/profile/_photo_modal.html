@@ -1,7 +1,7 @@
 <!-- Photo History Modal -->
 {% if user and user.username == profile_user.username %}
 <div class="modal-overlay" id="photoHistoryModal" data-action="close-photo-history-modal">
-  <div class="modal-box" data-action="noop">
+  <div class="modal-box" data-action-stop>
     <div class="modal-header">
       <h3 class="modal-title">Switch Profile Photo</h3>
       <button class="modal-close" data-action="close-photo-history-modal-btn"><span class="material-symbols-outlined">close</span></button>

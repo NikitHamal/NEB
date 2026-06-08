@@ -87,9 +87,8 @@ def user_profile_get(request, username):
         return Response({'error': 'User not found'}, status=404)
 
     requesting_user = _get_user_from_request(request)
-    is_owner = requesting_user and requesting_user.pk == user.pk
 
-    if user.is_locked and not is_owner:
+    if not _can_view_locked_profile(requesting_user, user):
         return Response(UserPublicSerializer(user).data)
 
     return Response(UserSerializer(user).data)
@@ -108,8 +107,21 @@ def user_profile_stats(request, username):
 
     requesting_user = _get_user_from_request(request)
     is_owner = bool(requesting_user and requesting_user.pk == user.pk)
-    if user.is_locked and not is_owner:
-        return Response({'error': 'This profile is private'}, status=403)
+    if not _can_view_locked_profile(requesting_user, user):
+        is_following = bool(requesting_user and Follow.objects.filter(follower=requesting_user, following=user).exists())
+        return Response({
+            'username': user.username,
+            'post_count': 0,
+            'reply_count': 0,
+            'follower_count': 0,
+            'following_count': 0,
+            'likes_received': 0,
+            'likes_given': 0,
+            'contribution_score': 0,
+            'is_following': is_following,
+            'is_self': is_owner,
+            'is_private': True,
+        })
 
     stats = _build_stats(user)
     is_following = False
@@ -125,44 +137,19 @@ def user_profile_stats(request, username):
 def user_follow_toggle(request, user_id):
     """
     POST /api/users/<userId>/follow
-    Instagram-style toggle: follow if not following, unfollow if already following.
-    Returns: { is_following: bool, follower_count: int }
-    Android app: call after Follow/Unfollow button tap and update UI from response.
+    Supports either legacy toggle behavior or an idempotent action payload:
+    {"action": "follow"} / {"action": "unfollow"}.
     """
     current_user, err = _require_user(request)
     if err:
         return err
-
-    if current_user.id == user_id:
-        return Response({'error': 'You cannot follow yourself'}, status=400)
-
+    desired = None
     try:
-        target_user = User.objects.get(pk=user_id)
-    except User.DoesNotExist:
-        return Response({'error': 'User not found'}, status=404)
-
-    with transaction.atomic():
-        existing = Follow.objects.select_for_update().filter(follower=current_user, following=target_user).first()
-        if existing:
-            existing.delete()
-            is_following = False
-            _counters.decrement_user_follower_count(target_user.id)
-            _counters.decrement_user_following_count(current_user.id)
-            _notif.notify_unfollow(current_user.id, target_user.id)
-        else:
-            Follow.objects.create(
-                follower=current_user,
-                following=target_user,
-                created_at=_now_ms()
-            )
-            is_following = True
-            _counters.increment_user_follower_count(target_user.id)
-            _counters.increment_user_following_count(current_user.id)
-            _notif.notify_new_follow(current_user.id, target_user.id)
-
-    follower_count = target_user.follower_count if hasattr(target_user, 'follower_count') else Follow.objects.filter(following=target_user).count()
-    _rt.broadcast_follow_changed(target_user.id, follower_count)
-    return Response({'is_following': is_following, 'follower_count': follower_count})
+        desired = (request.data.get('action') or request.data.get('intent') or '').strip().lower() or None
+    except Exception:
+        desired = None
+    data, status_code = services.toggle_follow(current_user, user_id, desired=desired)
+    return Response(data, status=status_code)
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
@@ -176,7 +163,8 @@ def user_followers_list(request, user_id):
     except User.DoesNotExist:
         return Response({'error': 'User not found'}, status=404)
 
-    if target_user.is_locked and not (_get_user_from_request(request) and _get_user_from_request(request).pk == target_user.pk):
+    requesting_user = _get_user_from_request(request)
+    if not _can_view_locked_profile(requesting_user, target_user):
         return Response({'error': 'This profile is private'}, status=403)
     follows = Follow.objects.filter(following=target_user).select_related('follower')
     return _paginated_response(request, follows, FollowSerializer, default_page_size=50)
@@ -193,7 +181,8 @@ def user_following_list(request, user_id):
     except User.DoesNotExist:
         return Response({'error': 'User not found'}, status=404)
 
-    if target_user.is_locked and not (_get_user_from_request(request) and _get_user_from_request(request).pk == target_user.pk):
+    requesting_user = _get_user_from_request(request)
+    if not _can_view_locked_profile(requesting_user, target_user):
         return Response({'error': 'This profile is private'}, status=403)
     follows = Follow.objects.filter(follower=target_user).select_related('following')
     return _paginated_response(request, follows, FollowSerializer, default_page_size=50)

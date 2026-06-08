@@ -1,7 +1,12 @@
 {% extends "base.html" %}
 {% load static web_extras %}
 
-{% block title %}NEBians - Study Platform & Discussion Forum{% endblock %}
+{% block title %}NEBians — Nepali Learning Community{% endblock %}
+{% block description %}Join NEBians, a Nepali learning community for students, teachers, and learners. Share study resources, ask questions, discuss ideas, and use AI Study Lab summaries, mindmaps, quizzes, and flashcards.{% endblock %}
+{% block og_title %}NEBians — Nepali Learning Community{% endblock %}
+{% block og_description %}Share resources, join discussions, and study smarter with AI tools built for Nepal’s learning community.{% endblock %}
+{% block tw_title %}NEBians — Nepali Learning Community{% endblock %}
+{% block tw_description %}A Nepali learning community for students, teachers, and lifelong learners.{% endblock %}
 {% block nav_home %}md-nav-active{% endblock %}
 {% block bnav_home %}md-nav-active{% endblock %}
 
@@ -15,32 +20,7 @@
 </nav>
 {% endblock %}
 
-{% block head_extra %}
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "name": "NEBians",
-  "url": "https://nebians.consica.com.np/",
-  "description": "NEBians - Study platform and discussion forum for students and teachers of all classes and faculties.",
-  "publisher": {
-    "@type": "Organization",
-    "name": "NEBians",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://nebians.consica.com.np/static/web/img/n-logo-512.png",
-      "width": 512,
-      "height": 512
-    }
-  },
-  "potentialAction": {
-    "@type": "SearchAction",
-    "target": "https://nebians.consica.com.np/search/?q={search_term_string}",
-    "query-input": "required name=search_term_string"
-  }
-}
-</script>
-{% endblock %}
+
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'web/css/pages/web-home.css' %}">
@@ -76,7 +56,7 @@
     <span class="material-symbols-outlined study-lab-hero-icon">science</span>
     <div class="study-lab-hero-content">
       <h2>Study Lab</h2>
-      <p>Upload your notes &amp; PDFs. Get AI-powered summaries, quizzes, and flashcards.</p>
+      <p>Upload your notes &amp; PDFs. Get AI-powered summaries, mindmaps, quizzes, and flashcards.</p>
     </div>
   </a>
 
@@ -350,7 +330,8 @@
       var userId = el.dataset.userId;
       el.disabled = true;
       try {
-        const r = await fetch('/ajax/follow/' + userId + '/', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN }, credentials: 'same-origin' });
+        const desired = el.classList.contains('following') ? 'unfollow' : 'follow';
+        const r = await fetch('/ajax/follow/' + userId + '/', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN }, credentials: 'same-origin', body: JSON.stringify({ action: desired }) });
         if (r.status === 401) { window.location.href = '{% url "web:login" %}'; return; }
         const d = await r.json();
         el.disabled = false;

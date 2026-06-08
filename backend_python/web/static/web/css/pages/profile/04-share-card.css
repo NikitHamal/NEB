@@ -1,3 +1,22 @@
+
+#shareCardModal .share-card-modal-box {
+  width: min(94vw, 640px);
+  max-width: 640px;
+  max-height: 92vh;
+  display: flex;
+  flex-direction: column;
+}
+
+#shareCardModal .share-card-modal-body {
+  padding: 16px;
+  overflow-y: auto;
+  max-height: calc(92vh - 70px);
+}
+
+.share-card-preview {
+  margin-bottom: 16px;
+}
+
 /* ── Share Profile Card ── */
 
 .share-card-caption-box {
@@ -116,7 +135,7 @@
   overflow: hidden;
   background: #fff;
   font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+  box-shadow: 0 2px 12px rgba(15,23,42,0.08);
   position: relative;
 }
 
@@ -277,18 +296,23 @@
   display: flex;
   align-items: center;
   gap: 6px;
+  min-width: 0;
 }
 
 .share-card-brand img {
-  width: 28px;
-  height: 28px;
+  width: 24px;
+  height: 24px;
   object-fit: contain;
+  display: block;
+  flex: 0 0 auto;
 }
 
 .share-card-brand-text {
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   font-weight: 700;
   color: #2563eb;
+  line-height: 1;
+  transform: translateY(1px);
 }
 
 .share-card-url {
@@ -326,4 +350,11 @@
   .share-card-stats {
     gap: 0;
   }
+}
+
+@media (max-width: 430px) {
+  #shareCardModal .share-card-modal-body { padding: 12px; }
+  #shareCardPreview .share-profile-card { max-width: 100%; }
+  .share-card-url { display: none; }
+  .share-card-deco { font-size: 1.35rem; letter-spacing: 0.16em; }
 }

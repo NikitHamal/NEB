@@ -1,13 +1,13 @@
 <!-- Share Profile Card Modal -->
 <div class="modal-overlay" id="shareCardModal" data-action="close-share-card-modal">
-  <div class="modal-box" data-action="noop" style="max-width:520px;">
+  <div class="modal-box share-card-modal-box" data-action-stop>
     <div class="modal-header">
       <h3 class="modal-title">Share Profile Card</h3>
       <button class="modal-close" data-action="close-share-card-modal-btn"><span class="material-symbols-outlined">close</span></button>
     </div>
-    <div class="modal-body" style="padding:16px;max-height:none;overflow:visible;">
+    <div class="modal-body share-card-modal-body">
       <!-- Card Preview -->
-      <div id="shareCardPreview" style="margin-bottom:16px;"></div>
+      <div id="shareCardPreview" class="share-card-preview"></div>
       <!-- Caption -->
       <div class="share-card-caption-box">
         <label class="share-card-caption-label">Caption</label>

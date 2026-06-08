@@ -533,7 +533,7 @@ def _serialize_user_search_single(u, viewer_id=None, _followed_ids=None):
         'moderatorLevel': u.moderator_level or 0,
         'verificationLevel': u.verification_level or 0,
         'badgeInfo': _user_badge_info(u),
-        'followerCount': getattr(u, 'follower_count', 0) or 0,
+        'followerCount': Follow.objects.filter(following_id=u.id).count(),
         'isFollowing': is_following,
         'isSelf': is_self,
     }
