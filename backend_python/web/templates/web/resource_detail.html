@@ -7,6 +7,37 @@
 {% block og_title %}{{ resource.title|default:"Resource" }} - NEBians{% endblock %}
 {% block og_description %}{{ resource.description|truncatechars:200|default:"Study resource on NEBians" }}{% endblock %}
 {% block og_type %}article{% endblock %}
+{% block head_extra %}
+{% if resource %}
+<script type="application/ld+json" nonce="{{ csp_nonce }}">
+{
+  "@context": "https://schema.org",
+  "@type": ["LearningResource", "DigitalDocument"],
+  "@id": "{{ request.scheme }}://{{ request.get_host }}{{ request.path }}#resource",
+  "url": "{{ request.scheme }}://{{ request.get_host }}{{ request.path }}",
+  "name": "{{ resource.title|escapejs }}",
+  "headline": "{{ resource.title|escapejs }}",
+  "description": "{% if resource.description %}{{ resource.description|truncatechars:300|escapejs }}{% else %}Study resource on NEBians{% endif %}",
+  "learningResourceType": "{{ resource.type|default:'Study Resource'|escapejs }}",
+  "educationalLevel": "{{ resource.grade_level|default:'Nepal education'|escapejs }}",
+  "about": "{{ resource.subject|default:'Education'|escapejs }}",
+  "keywords": "{% if resource.tags %}{{ resource.tags|escapejs }}{% else %}{{ resource.subject|default:'NEBians, study resources'|escapejs }}{% endif %}",
+  "datePublished": "{{ resource.added_at|timestamp_to_iso }}",
+  "isAccessibleForFree": true,
+  "publisher": { "@id": "https://nebians.consica.com.np/#organization" },
+  "author": {
+    "@type": "Person",
+    "name": "{% if resource.uploadedByName %}{{ resource.uploadedByName|escapejs }}{% elif resource.author_name %}{{ resource.author_name|escapejs }}{% else %}NEBians Team{% endif %}"
+  },
+  "interactionStatistic": [
+    { "@type": "InteractionCounter", "interactionType": "https://schema.org/ViewAction", "userInteractionCount": {{ resource.view_count|default:0 }} },
+    { "@type": "InteractionCounter", "interactionType": "https://schema.org/LikeAction", "userInteractionCount": {{ resource.like_count|default:0 }} },
+    { "@type": "InteractionCounter", "interactionType": "https://schema.org/CommentAction", "userInteractionCount": {{ resource.comment_count|default:0 }} }
+  ]
+}
+</script>
+{% endif %}
+{% endblock %}
 {% block nav_library %}md-nav-active{% endblock %}
 {% block bnav_library %}md-nav-active{% endblock %}
 

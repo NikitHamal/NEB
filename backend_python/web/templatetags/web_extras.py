@@ -378,9 +378,9 @@ def clean_province(value):
 
 @register.simple_tag
 def role_badge(verification_level, moderator_level, is_admin):
-    """Render role badge HTML (admin crown, mod shield, or verified tick)."""
+    """Render role badge HTML (admin badge, mod shield, or verified tick)."""
     if is_admin:
-        return mark_safe('<span class="role-badge role-badge-admin" title="Admin"><span class="material-symbols-outlined">crown</span></span>')
+        return mark_safe('<span class="role-badge role-badge-admin" title="Admin"><span class="material-symbols-outlined">workspace_premium</span></span>')
     if moderator_level and int(moderator_level) > 0:
         ml = int(moderator_level)
         if ml == 3:

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Shared document unavailable{% endblock %}
+{% block robots %}<meta name="robots" content="noindex, nofollow">{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'web/css/pages/study-lab.css' %}">{% endblock %}
+{% block content %}
+<div class="sl-shared-wrap">
+  <section class="sl-shared-hero">
+    <div class="sl-shared-eyebrow">Private Study Lab document</div>
+    <h1>You do not have access to this shared document.</h1>
+    <p class="sl-detail-meta">Ask the owner to switch sharing to “anyone with the link” or add your NEBians username/email.</p>
+  </section>
+</div>
+{% endblock %}

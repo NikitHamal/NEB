@@ -1,5 +1,6 @@
 """Views Ajax extracted from views.py."""
 from .view_helpers import *  # noqa: F401,F403
+from api.view_helpers import _can_view_locked_profile
 
 @require_POST
 def ajax_like_post(request, post_id):
@@ -467,7 +468,14 @@ def ajax_user_popup(request, username):
         u = User.objects.get(username=username)
     except User.DoesNotExist:
         return JsonResponse({'error': 'User not found'}, status=404)
-    is_private = bool(u.is_locked)
+    user_id = _get_user_id(request)
+    viewer_user = None
+    if user_id:
+        try:
+            viewer_user = User.objects.get(pk=user_id)
+        except User.DoesNotExist:
+            viewer_user = None
+    is_private = not _can_view_locked_profile(viewer_user, u)
     data = {
         'id': u.id,
         'username': u.username,
@@ -481,15 +489,14 @@ def ajax_user_popup(request, username):
     if not is_private:
         data['postCount'] = getattr(u, 'post_count', 0) or 0 or Post.objects.filter(user=u).count()
         data['replyCount'] = getattr(u, 'reply_count', 0) or 0 or Reply.objects.filter(user=u).count()
-        data['followerCount'] = getattr(u, 'follower_count', 0) or 0 or Follow.objects.filter(following=u).count()
+        data['followerCount'] = Follow.objects.filter(following_id=u.id).count()
     else:
         data['postCount'] = 0
         data['replyCount'] = 0
         data['followerCount'] = 0
-    user_id = _get_user_id(request)
     if user_id:
         data['isFollowing'] = Follow.objects.filter(follower_id=user_id, following_id=u.id).exists()
-        data['isSelf'] = (user_id == u.id)
+        data['isSelf'] = (str(user_id) == str(u.id))
     else:
         data['isFollowing'] = False
         data['isSelf'] = False
@@ -538,7 +545,13 @@ def ajax_follow_user(request, user_id):
         user = User.objects.get(pk=user_id_obj)
     except User.DoesNotExist:
         return JsonResponse({'error': 'Please log in again.'}, status=401)
-    result = services.toggle_follow(user, user_id)
+    desired = None
+    try:
+        payload = json.loads(request.body or b'{}')
+        desired = (payload.get('action') or payload.get('intent') or '').strip().lower() or None
+    except Exception:
+        desired = None
+    result = services.toggle_follow(user, user_id, desired=desired)
     if isinstance(result, tuple):
         return JsonResponse(result[0], status=result[1])
     return JsonResponse(result)

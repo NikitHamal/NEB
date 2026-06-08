@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+{% load static web_extras %}
+
+{% block title %}{{ shared_doc.title }} — Shared Study Lab{% endblock %}
+{% block description %}Shared NEBians Study Lab document with summaries, mindmap, quizzes, and flashcards.{% endblock %}
+{% block robots %}<meta name="robots" content="noindex, nofollow">{% endblock %}
+
+{% block extra_css %}<link rel="stylesheet" href="{% static 'web/css/pages/study-lab.css' %}">{% endblock %}
+
+{% block content %}
+<div class="sl-shared-wrap">
+  <section class="sl-shared-hero">
+    <div class="sl-shared-eyebrow">Shared Study Lab</div>
+    <h1>{{ shared_doc.title }}</h1>
+    <div class="sl-shared-owner">
+      {% if shared_owner.photoUrl %}<img src="{{ shared_owner.photoUrl }}" alt="">{% else %}<span class="sl-shared-owner-initial">{{ shared_owner.displayName|first|upper }}</span>{% endif %}
+      <span>Shared by <a href="{% url 'web:profile' username=shared_owner.username %}">{{ shared_owner.displayName }}</a></span>
+    </div>
+  </section>
+
+  <div class="sl-detail" id="slDetail">
+    <div class="sl-tabs" id="slTabs">
+      <button class="sl-tab sl-tab-active" data-tab="summary" data-action="sd-switch-tab"><span class="material-symbols-outlined">summarize</span> Summary</button>
+      <button class="sl-tab" data-tab="mindmap" data-action="sd-switch-tab"><span class="material-symbols-outlined">account_tree</span> Mindmap</button>
+      <button class="sl-tab" data-tab="quiz" data-action="sd-switch-tab"><span class="material-symbols-outlined">quiz</span> Quiz</button>
+      <button class="sl-tab" data-tab="flashcards" data-action="sd-switch-tab"><span class="material-symbols-outlined">style</span> Flashcards</button>
+    </div>
+
+    <div class="sl-tab-content" id="sdTabSummary">
+      <div class="sl-summary-modebar">
+        <button class="sl-mode-btn sl-mode-active" data-mode="compact" data-action="sd-summary-mode">Compact</button>
+        <button class="sl-mode-btn" data-mode="detailed" data-action="sd-summary-mode">Detailed</button>
+      </div>
+      <div class="sl-shared-card"><div class="sl-summary-text" id="sdSummaryText"></div></div>
+    </div>
+
+    <div class="sl-tab-content" id="sdTabMindmap" style="display:none;">
+      {% if mindmap %}
+      <div class="sl-mindmap-actions">
+        <div class="sl-mm-toolbar">
+          <select id="sdMindmapLayout" data-change-action="sd-mm-customize"><option value="radial">Radial layout</option><option value="tree">Tree layout</option></select>
+          <select id="sdMindmapTheme" data-change-action="sd-mm-customize"><option value="clean">Clean style</option><option value="color">Color style</option><option value="mono">Mono style</option></select>
+          <select id="sdMindmapDensity" data-change-action="sd-mm-customize"><option value="comfortable">Comfortable</option><option value="compact">Compact</option></select>
+          <input id="sdMindmapSearch" data-keydown-action="sd-mm-search" placeholder="Search branches...">
+          <button class="sl-mm-icon-btn" data-action="sd-mm-zoom-out"><span class="material-symbols-outlined">remove</span></button>
+          <button class="sl-mm-icon-btn" data-action="sd-mm-zoom-in"><span class="material-symbols-outlined">add</span></button>
+          <button class="sl-mm-icon-btn" data-action="sd-mm-expand"><span class="material-symbols-outlined">unfold_more</span></button>
+        </div>
+      </div>
+      <div id="sdMindmapTree"></div>
+      {% else %}
+      <div class="sl-shared-empty">No mindmap has been generated for this document yet.</div>
+      {% endif %}
+    </div>
+
+    <div class="sl-tab-content" id="sdTabQuiz" style="display:none;">
+      {% if quizzes %}<div class="sl-quiz-list" id="sdQuizList"></div>{% else %}<div class="sl-shared-empty">No quizzes have been generated for this document yet.</div>{% endif %}
+      <div class="sl-quiz-active" id="sdQuizActive" style="display:none;">
+        <div class="sl-quiz-progress"><span id="sdQuizProgress"></span><span id="sdQuizScore"></span></div>
+        <div class="sl-quiz-question" id="sdQuizQuestion"></div>
+        <div class="sl-quiz-options-list" id="sdQuizOptions"></div>
+        <div class="sl-quiz-nav"><button class="md-btn md-btn-outlined" id="sdQuizPrev" data-action="sd-quiz-prev">Previous</button><button class="md-btn md-btn-filled" id="sdQuizNext" data-action="sd-quiz-next">Next</button><button class="md-btn md-btn-filled" id="sdQuizSubmit" data-action="sd-quiz-submit" style="display:none;">Submit Quiz</button></div>
+      </div>
+      <div class="sl-quiz-results" id="sdQuizResults" style="display:none;"><div class="sl-quiz-results-header"><span class="material-symbols-outlined">emoji_events</span><h2>Quiz Complete</h2><div class="sl-quiz-score-display"><span class="sl-quiz-score-num" id="sdQuizFinalScore">0</span><span class="sl-quiz-score-total" id="sdQuizFinalTotal">/0</span></div><div class="sl-quiz-xp" id="sdQuizXpEarned">+0 XP</div></div><div class="sl-quiz-results-list" id="sdQuizResultsList"></div></div>
+    </div>
+
+    <div class="sl-tab-content" id="sdTabFlashcards" style="display:none;">
+      {% if flashcards %}
+      <div class="sl-flash-deck" id="sdFlashDeck">
+        <div class="sl-flash-topbar"><div class="sl-flash-counter" id="sdFlashCounter"></div></div>
+        <div class="sl-flash-card" id="sdFlashCard" data-action="sd-flip-card"><div class="sl-flash-card-inner"><div class="sl-flash-front"><span class="sl-flash-label">Question</span><p id="sdFlashFrontText"></p></div><div class="sl-flash-back"><span class="sl-flash-label">Answer</span><p id="sdFlashBackText"></p></div></div></div>
+        <div class="sl-flash-confidence"><button class="sl-conf-btn sl-conf-hard" data-action="sd-flash-confidence" data-level="hard"><span class="material-symbols-outlined">close</span> Hard</button><button class="sl-conf-btn sl-conf-medium" data-action="sd-flash-confidence" data-level="medium"><span class="material-symbols-outlined">remove</span> Okay</button><button class="sl-conf-btn sl-conf-easy" data-action="sd-flash-confidence" data-level="easy"><span class="material-symbols-outlined">check</span> Easy</button></div>
+        <div class="sl-flash-nav"><button class="md-btn md-btn-outlined" id="sdFlashPrev" data-action="sd-flash-prev"><span class="material-symbols-outlined">arrow_back</span> Previous</button><button class="md-btn md-btn-outlined" id="sdFlashNext" data-action="sd-flash-next">Next <span class="material-symbols-outlined">arrow_forward</span></button></div>
+      </div>
+      {% else %}<div class="sl-shared-empty">No flashcards have been generated for this document yet.</div>{% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/study-mindmap.js' %}"></script>
+<script nonce="{{ csp_nonce }}">
+(function(){
+  'use strict';
+  var doc = {{ shared_doc|to_json }};
+  var mindmap = {{ mindmap|to_json }};
+  var quizzes = {{ quizzes|to_json }};
+  var flashcards = {{ flashcards|to_json }};
+  var summaryMode = 'compact', quizQuestions = [], quizAnswers = {}, quizIdx = 0, quizId = null, flashIdx = 0, flipped = false;
+
+  function showTab(tab){
+    document.querySelectorAll('.sl-tab').forEach(function(t){ t.classList.toggle('sl-tab-active', t.dataset.tab === tab); });
+    ['Summary','Mindmap','Quiz','Flashcards'].forEach(function(name){ document.getElementById('sdTab'+name).style.display = name.toLowerCase() === tab ? '' : 'none'; });
+    if (tab === 'mindmap') renderMindmap();
+  }
+  function esc(v){ return String(v == null ? '' : v).replace(/[&<>"']/g, function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
+  function md(text){ return typeof marked !== 'undefined' ? marked.parse(String(text || '')) : esc(text).replace(/\n/g,'<br>'); }
+  function renderSummary(){
+    document.querySelectorAll('.sl-mode-btn').forEach(function(b){ b.classList.toggle('sl-mode-active', b.dataset.mode === summaryMode); });
+    var text = summaryMode === 'detailed' ? (doc.summaryDetailed || '') : (doc.summaryCompact || doc.summary || '');
+    document.getElementById('sdSummaryText').innerHTML = text ? md(text) : '<div class="sl-shared-empty">No ' + summaryMode + ' summary has been generated yet.</div>';
+  }
+  function mmOpts(){ return {layout: document.getElementById('sdMindmapLayout')?.value || 'radial', theme: document.getElementById('sdMindmapTheme')?.value || 'clean', density: document.getElementById('sdMindmapDensity')?.value || 'comfortable', query: document.getElementById('sdMindmapSearch')?.value || ''}; }
+  function renderMindmap(){ if (mindmap && window.NEBiansMindmap) window.NEBiansMindmap.render(document.getElementById('sdMindmapTree'), mindmap, mmOpts()); }
+  function renderQuizList(){
+    var el = document.getElementById('sdQuizList'); if (!el) return;
+    el.innerHTML = '<div class="sl-list-head"><h3 class="sl-section-title">Shared quizzes</h3></div><div class="sl-quiz-cards">' + quizzes.map(function(q){ return '<div class="sl-quiz-card" data-action="sd-start-quiz" data-quiz-id="'+esc(q.id)+'"><div class="sl-quiz-card-title">'+esc(q.title)+'</div><div class="sl-quiz-card-meta">'+q.questionCount+' questions · '+(q.attemptCount||0)+' attempt'+((q.attemptCount||0)===1?'':'s')+'</div><div class="sl-quiz-card-score">Best: '+(q.bestScore||0)+'/'+q.questionCount+'</div></div>'; }).join('') + '</div>';
+  }
+  function startQuiz(q){ quizId=q.id; quizQuestions=q.questions||[]; quizAnswers={}; quizIdx=0; document.getElementById('sdQuizList').style.display='none'; document.getElementById('sdQuizResults').style.display='none'; document.getElementById('sdQuizActive').style.display=''; renderQuizQuestion(); }
+  function renderQuizQuestion(){ var q=quizQuestions[quizIdx]; if(!q) return; document.getElementById('sdQuizProgress').textContent='Question '+(quizIdx+1)+' of '+quizQuestions.length; document.getElementById('sdQuizScore').textContent='Answered: '+Object.keys(quizAnswers).length+'/'+quizQuestions.length; document.getElementById('sdQuizQuestion').textContent=q.question; var opts=['A','B','C','D'].map(function(k){ var text=q['option'+k]||''; var sel=quizAnswers[q.id]===k; return '<button class="sl-quiz-option '+(sel?'sl-quiz-option-selected':'')+'" data-action="sd-quiz-answer" data-qid="'+q.id+'" data-answer="'+k+'"><span class="sl-quiz-option-letter">'+k+'</span><span class="sl-quiz-option-text">'+esc(text)+'</span></button>'; }).join(''); document.getElementById('sdQuizOptions').innerHTML=opts; document.getElementById('sdQuizPrev').disabled=quizIdx===0; var last=quizIdx===quizQuestions.length-1; document.getElementById('sdQuizNext').style.display=last?'none':''; document.getElementById('sdQuizSubmit').style.display=last?'':'none'; }
+  function submitQuiz(){ var answers={}; quizQuestions.forEach(function(q){ if(quizAnswers[q.id]) answers[q.number]=quizAnswers[q.id]; }); fetch('/ajax/study-lab/quiz/'+quizId+'/submit/',{method:'POST',headers:{'Content-Type':'application/json','X-CSRFToken':CSRF_TOKEN},credentials:'same-origin',body:JSON.stringify({answers:answers})}).then(function(r){return r.json();}).then(function(data){ if(data.error) throw new Error(data.error); var a=data.attempt; document.getElementById('sdQuizActive').style.display='none'; document.getElementById('sdQuizResults').style.display=''; document.getElementById('sdQuizFinalScore').textContent=a.score; document.getElementById('sdQuizFinalTotal').textContent='/'+a.totalQuestions; document.getElementById('sdQuizXpEarned').textContent='+'+a.xpEarned+' XP'; document.getElementById('sdQuizResultsList').innerHTML=Object.keys(a.results).map(function(n){var r=a.results[n]; return '<div class="sl-result-item '+(r.isCorrect?'sl-result-correct':'sl-result-wrong')+'"><span class="material-symbols-outlined">'+(r.isCorrect?'check_circle':'cancel')+'</span><div><strong>Q'+n+': '+esc(r.userAnswer||'Skipped')+'</strong><span class="sl-result-answer">Correct: '+r.correctAnswer+'</span>'+(r.explanation?'<p class="sl-result-explanation">'+esc(r.explanation)+'</p>':'')+'</div></div>';}).join(''); }).catch(function(e){ showSnackbar(e.message || 'Failed to submit quiz'); }); }
+  function renderFlash(){ if(!flashcards.length) return; var c=flashcards[flashIdx]; document.getElementById('sdFlashCounter').textContent=(flashIdx+1)+' / '+flashcards.length; document.getElementById('sdFlashFrontText').textContent=c.front; document.getElementById('sdFlashBackText').textContent=c.back; flipped=false; document.getElementById('sdFlashCard').classList.remove('sl-flash-flipped'); document.getElementById('sdFlashPrev').disabled=flashIdx===0; document.getElementById('sdFlashNext').disabled=flashIdx===flashcards.length-1; document.querySelectorAll('.sl-conf-btn').forEach(function(b){ b.classList.toggle('sl-conf-active', c.confidence===b.dataset.level); }); }
+  function review(level){ var c=flashcards[flashIdx]; c.confidence=level; fetch('/ajax/study-lab/flashcard/'+c.id+'/review/',{method:'POST',headers:{'Content-Type':'application/json','X-CSRFToken':CSRF_TOKEN},credentials:'same-origin',body:JSON.stringify({confidence:level})}).catch(function(){}); if(flashIdx<flashcards.length-1){flashIdx++; renderFlash();} else renderFlash(); }
+
+  renderSummary(); renderQuizList(); renderFlash();
+  registerActions({
+    'sd-switch-tab': function(el){ showTab(el.dataset.tab); },
+    'sd-summary-mode': function(el){ summaryMode=el.dataset.mode==='detailed'?'detailed':'compact'; renderSummary(); },
+    'sd-mm-customize': function(){ renderMindmap(); },
+    'sd-mm-search': function(){ setTimeout(renderMindmap,0); },
+    'sd-mm-zoom-in': function(){ if(window.NEBiansMindmap) window.NEBiansMindmap.setZoom(document.getElementById('sdMindmapTree'), .12, mindmap); },
+    'sd-mm-zoom-out': function(){ if(window.NEBiansMindmap) window.NEBiansMindmap.setZoom(document.getElementById('sdMindmapTree'), -.12, mindmap); },
+    'sd-mm-expand': function(){ if(window.NEBiansMindmap) window.NEBiansMindmap.expandAll(document.getElementById('sdMindmapTree'), mindmap); },
+    'sd-start-quiz': function(el){ fetch('/ajax/study-lab/quiz/'+el.dataset.quizId+'/',{credentials:'same-origin'}).then(function(r){return r.json();}).then(function(d){ if(d.error) throw new Error(d.error); startQuiz(d.quiz); }).catch(function(e){showSnackbar(e.message||'Failed to load quiz');}); },
+    'sd-quiz-answer': function(el){ quizAnswers[el.dataset.qid]=el.dataset.answer; renderQuizQuestion(); },
+    'sd-quiz-prev': function(){ if(quizIdx>0){quizIdx--; renderQuizQuestion();} },
+    'sd-quiz-next': function(){ if(quizIdx<quizQuestions.length-1){quizIdx++; renderQuizQuestion();} },
+    'sd-quiz-submit': function(){ submitQuiz(); },
+    'sd-flip-card': function(){ flipped=!flipped; document.getElementById('sdFlashCard').classList.toggle('sl-flash-flipped', flipped); },
+    'sd-flash-confidence': function(el){ review(el.dataset.level); },
+    'sd-flash-prev': function(){ if(flashIdx>0){flashIdx--; renderFlash();} },
+    'sd-flash-next': function(){ if(flashIdx<flashcards.length-1){flashIdx++; renderFlash();} }
+  });
+})();
+</script>
+{% endblock %}

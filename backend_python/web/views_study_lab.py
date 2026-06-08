@@ -29,6 +29,7 @@ from api.models import (
     ResourceCommentLike,
     ResourceLike,
     StudyDocument,
+    StudyDocumentShare,
     StudyFlashcard,
     StudyFlashcardReview,
     StudyQuiz,
@@ -154,13 +155,14 @@ _FLASHCARD_SYSTEM_PROMPT = (
 )
 
 _MINDMAP_SYSTEM_PROMPT = (
-    "You are an expert study mindmap designer for Nepali students following the NEB curriculum. "
-    "Create a clean hierarchical mindmap from the provided material. "
-    "You MUST respond with ONLY a valid JSON object, no markdown and no extra text. Use this schema: "
+    "You are an expert visual mindmap architect for Nepali learners. Build a true study mindmap, not a summary. "
+    "Create balanced, visual branches that radiate from the main idea and help a learner remember relationships. "
+    "You MUST respond with ONLY a valid JSON object, no markdown and no extra text. Use this schema exactly: "
     '{"title":"Main topic","nodes":[{"title":"Branch","note":"optional short note",'
     '"children":[{"title":"Sub-branch","note":"optional short note","children":[]}]}]}. '
-    "Use 4 to 8 main branches when possible. Keep labels short, specific, and study-friendly. "
-    "Depth should be 2 to 4 levels. Do not invent content outside the document."
+    "Use 5 to 7 strong main branches when content allows. Use concise labels of 1-5 words. "
+    "Notes must be short memory cues, never paragraph summaries. Use 2 to 4 levels, avoid repeating branch names, "
+    "group causes/processes/examples/formulas/comparisons separately, and do not invent facts outside the document."
 )
 
 
@@ -186,6 +188,45 @@ def study_lab(request):
     ctx = _ctx(request, documents=doc_list, page='study_lab')
     return render(request, 'web/study_lab.html', ctx)
 
+
+
+def study_lab_shared(request, token):
+    """Signed-in shared Study Lab document view.
+
+    Owners can share documents as link-access or with named users. Viewers can
+    read summaries/mindmaps and interact with existing quizzes and flashcards,
+    while generation/editing remains owner-only.
+    """
+    user_id = _get_user_id(request)
+    if not user_id:
+        return redirect(f"{reverse('web:login')}?next={request.path}")
+
+    try:
+        doc = StudyDocument.objects.select_related('user').get(share_token=token)
+    except StudyDocument.DoesNotExist:
+        raise Http404('Shared document not found')
+
+    if not _can_access_shared_doc(doc, user_id):
+        return render(request, 'web/study_lab_shared_denied.html', _ctx(request, page='study_lab'), status=403)
+
+    owner = doc.user
+    quizzes = doc.quizzes.all().order_by('-created_at')
+    flashcards = doc.flashcards.all().order_by('card_number')
+    ctx = _ctx(
+        request,
+        page='study_lab',
+        shared_doc=_serialize_study_doc_detail(doc),
+        shared_owner={
+            'username': owner.username,
+            'displayName': owner.display_name or owner.username,
+            'photoUrl': owner.photo_url or '',
+        },
+        mindmap=_mindmap_value(doc),
+        quizzes=[_serialize_quiz_list_item(q, user_id) for q in quizzes],
+        flashcards=[_serialize_flashcard(fc, user_id) for fc in flashcards],
+        is_owner=(doc.user_id == user_id),
+    )
+    return render(request, 'web/study_lab_shared.html', ctx)
 
 def analytics(request):
     """Private analytics dashboard. Only the authenticated user can see their own insights."""
@@ -423,7 +464,7 @@ def ajax_study_document_detail(request, doc_id):
     if not user_id:
         return JsonResponse({'error': 'Unauthorized'}, status=401)
 
-    doc, error = _owned_doc(doc_id, user_id)
+    doc, error = _accessible_doc(doc_id, user_id)
     if error:
         return error
 
@@ -453,6 +494,50 @@ def ajax_study_delete_document(request, doc_id):
     doc.delete()
     return JsonResponse({'success': True})
 
+
+
+def ajax_study_share_settings(request, doc_id):
+    """Read/update sharing settings for an owned Study Lab document."""
+    user_id = _get_user_id(request)
+    if not user_id:
+        return JsonResponse({'error': 'Unauthorized'}, status=401)
+
+    doc, error = _owned_doc(doc_id, user_id)
+    if error:
+        return error
+
+    if request.method == 'GET':
+        return JsonResponse(_serialize_share_settings(doc, request))
+    if request.method != 'POST':
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
+
+    body = _json_body(request)
+    mode = (body.get('mode') or StudyDocument.SHARE_PRIVATE).strip().lower()
+    if mode not in (StudyDocument.SHARE_PRIVATE, StudyDocument.SHARE_LINK, StudyDocument.SHARE_SPECIFIC):
+        return JsonResponse({'error': 'Invalid sharing option'}, status=400)
+
+    now = now_ms()
+    doc.share_mode = mode
+    doc.shared_at = now if mode != StudyDocument.SHARE_PRIVATE else 0
+    doc.updated_at = now
+    doc.save(update_fields=['share_mode', 'shared_at', 'updated_at'])
+
+    if mode in (StudyDocument.SHARE_PRIVATE, StudyDocument.SHARE_LINK):
+        doc.share_grants.all().delete()
+    else:
+        identifiers = body.get('users') or body.get('recipients') or ''
+        resolved, missing = _resolve_share_users(identifiers, owner_id=user_id)
+        if missing:
+            return JsonResponse({'error': 'Some users were not found', 'missing': missing}, status=400)
+        existing_ids = set(doc.share_grants.values_list('user_id', flat=True))
+        wanted_ids = set(u.id for u in resolved)
+        doc.share_grants.exclude(user_id__in=wanted_ids).delete()
+        for u in resolved:
+            if u.id in existing_ids:
+                continue
+            StudyDocumentShare.objects.create(id=uuid_str(), document=doc, user=u, granted_by_id=user_id, created_at=now)
+
+    return JsonResponse(_serialize_share_settings(doc, request))
 
 # ── Summary ────────────────────────────────────────────────────────────────
 
@@ -633,7 +718,7 @@ def ajax_study_generate_quiz(request, doc_id):
     doc.updated_at = now
     doc.save(update_fields=['updated_at'])
 
-    return JsonResponse({'quiz': _serialize_quiz_detail(quiz)}, status=201)
+    return JsonResponse({'quiz': _serialize_quiz_detail(quiz, user_id)}, status=201)
 
 
 def ajax_study_quiz_detail(request, quiz_id):
@@ -643,14 +728,14 @@ def ajax_study_quiz_detail(request, quiz_id):
         return JsonResponse({'error': 'Unauthorized'}, status=401)
 
     try:
-        quiz = StudyQuiz.objects.get(pk=quiz_id)
+        quiz = StudyQuiz.objects.select_related('document').get(pk=quiz_id)
     except StudyQuiz.DoesNotExist:
         return JsonResponse({'error': 'Quiz not found'}, status=404)
 
-    if quiz.user_id != user_id:
+    if not _can_access_study_doc(quiz.document, user_id):
         return JsonResponse({'error': 'Forbidden'}, status=403)
 
-    return JsonResponse({'quiz': _serialize_quiz_detail(quiz)})
+    return JsonResponse({'quiz': _serialize_quiz_detail(quiz, user_id)})
 
 
 def ajax_study_quiz_submit(request, quiz_id):
@@ -662,10 +747,10 @@ def ajax_study_quiz_submit(request, quiz_id):
         return JsonResponse({'error': 'Method not allowed'}, status=405)
 
     try:
-        quiz = StudyQuiz.objects.get(pk=quiz_id)
+        quiz = StudyQuiz.objects.select_related('document').get(pk=quiz_id)
     except StudyQuiz.DoesNotExist:
         return JsonResponse({'error': 'Quiz not found'}, status=404)
-    if quiz.user_id != user_id:
+    if not _can_access_study_doc(quiz.document, user_id):
         return JsonResponse({'error': 'Forbidden'}, status=403)
 
     body = _json_body(request)
@@ -787,7 +872,7 @@ def ajax_study_flashcard_review(request, card_id):
         card = StudyFlashcard.objects.get(pk=card_id)
     except StudyFlashcard.DoesNotExist:
         return JsonResponse({'error': 'Flashcard not found'}, status=404)
-    if card.user_id != user_id:
+    if not _can_access_study_doc(card.document, user_id):
         return JsonResponse({'error': 'Forbidden'}, status=403)
 
     body = _json_body(request)
@@ -837,6 +922,8 @@ def _serialize_study_doc_list_item(d):
         'flashcardCount': d.flashcards.count(),
         'createdAt': d.created_at,
         'updatedAt': d.updated_at,
+        'shareMode': getattr(d, 'share_mode', StudyDocument.SHARE_PRIVATE),
+        'sharedAt': getattr(d, 'shared_at', 0),
     }
 
 
@@ -857,6 +944,9 @@ def _serialize_study_doc_detail(d):
         'mindmapGenerated': bool(getattr(d, 'mindmap_json', '')),
         'createdAt': d.created_at,
         'updatedAt': d.updated_at,
+        'shareMode': getattr(d, 'share_mode', StudyDocument.SHARE_PRIVATE),
+        'sharedAt': getattr(d, 'shared_at', 0),
+        'shareToken': str(getattr(d, 'share_token', '') or ''),
     }
 
 
@@ -872,8 +962,9 @@ def _serialize_quiz_list_item(q, user_id):
     }
 
 
-def _serialize_quiz_detail(quiz):
-    previous_attempts = quiz.attempts.filter(user_id=quiz.user_id).order_by('-completed_at')
+def _serialize_quiz_detail(quiz, viewer_user_id=None):
+    viewer_user_id = viewer_user_id or quiz.user_id
+    previous_attempts = quiz.attempts.filter(user_id=viewer_user_id).order_by('-completed_at')
     questions = quiz.questions.all().order_by('question_number')
     return {
         'id': quiz.id,
@@ -920,6 +1011,73 @@ def _owned_doc(doc_id, user_id):
         return None, JsonResponse({'error': 'Forbidden'}, status=403)
     return doc, None
 
+
+
+def _accessible_doc(doc_id, user_id):
+    try:
+        doc = StudyDocument.objects.get(pk=doc_id)
+    except StudyDocument.DoesNotExist:
+        return None, JsonResponse({'error': 'Document not found'}, status=404)
+    if not _can_access_study_doc(doc, user_id):
+        return None, JsonResponse({'error': 'Forbidden'}, status=403)
+    return doc, None
+
+
+def _can_access_shared_doc(doc, user_id):
+    if doc.user_id == user_id:
+        return True
+    if getattr(doc, 'share_mode', StudyDocument.SHARE_PRIVATE) == StudyDocument.SHARE_LINK and getattr(doc, 'shared_at', 0):
+        return True
+    if getattr(doc, 'share_mode', StudyDocument.SHARE_PRIVATE) == StudyDocument.SHARE_SPECIFIC and getattr(doc, 'shared_at', 0):
+        return StudyDocumentShare.objects.filter(document=doc, user_id=user_id).exists()
+    return False
+
+
+def _can_access_study_doc(doc, user_id):
+    return _can_access_shared_doc(doc, user_id)
+
+
+def _resolve_share_users(raw, owner_id):
+    if isinstance(raw, list):
+        parts = raw
+    else:
+        parts = re.split(r'[\s,;]+', str(raw or ''))
+    identifiers = []
+    for part in parts:
+        ident = str(part or '').strip()
+        if ident.startswith('@'):
+            ident = ident[1:]
+        if ident and ident not in identifiers:
+            identifiers.append(ident)
+    resolved = []
+    missing = []
+    for ident in identifiers[:50]:
+        user = User.objects.filter(Q(username__iexact=ident) | Q(email__iexact=ident)).first()
+        if not user or user.id == owner_id:
+            if ident:
+                missing.append(ident)
+            continue
+        resolved.append(user)
+    return resolved, missing
+
+
+def _serialize_share_settings(doc, request):
+    grants = doc.share_grants.select_related('user').order_by('user__username')
+    link = request.build_absolute_uri(reverse('web:study_lab_shared', args=[doc.share_token]))
+    return {
+        'mode': getattr(doc, 'share_mode', StudyDocument.SHARE_PRIVATE),
+        'shareUrl': link,
+        'sharedAt': getattr(doc, 'shared_at', 0),
+        'users': [
+            {
+                'id': g.user_id,
+                'username': g.user.username,
+                'displayName': g.user.display_name or g.user.username,
+                'photoUrl': g.user.photo_url or '',
+            }
+            for g in grants
+        ],
+    }
 
 def _json_body(request):
     try:

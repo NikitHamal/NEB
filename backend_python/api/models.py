@@ -880,6 +880,17 @@ class StudyDocument(models.Model):
     summary_updated_at = models.BigIntegerField(default=0)
     mindmap_json = models.TextField(blank=True, default='')
     mindmap_generated_at = models.BigIntegerField(default=0)
+    SHARE_PRIVATE = 'private'
+    SHARE_LINK = 'link'
+    SHARE_SPECIFIC = 'specific'
+    SHARE_CHOICES = [
+        (SHARE_PRIVATE, 'Private'),
+        (SHARE_LINK, 'Anyone with link'),
+        (SHARE_SPECIFIC, 'Specific users'),
+    ]
+    share_token = models.CharField(max_length=64, unique=True, default=uuid.uuid4, db_index=True)
+    share_mode = models.CharField(max_length=20, choices=SHARE_CHOICES, default=SHARE_PRIVATE, db_index=True)
+    shared_at = models.BigIntegerField(default=0)
     created_at = models.BigIntegerField(default=0)
     updated_at = models.BigIntegerField(default=0)
 
@@ -888,6 +899,25 @@ class StudyDocument(models.Model):
         ordering = ['-updated_at']
         indexes = [
             models.Index(fields=['user', '-updated_at']),
+        ]
+
+
+
+
+class StudyDocumentShare(models.Model):
+    """Explicit access grants for a Study Lab document shared with specific users."""
+    id = models.CharField(max_length=36, primary_key=True, default=uuid.uuid4)
+    document = models.ForeignKey(StudyDocument, on_delete=models.CASCADE, related_name='share_grants', db_index=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='study_document_shares', db_index=True)
+    granted_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='study_document_grants')
+    created_at = models.BigIntegerField(default=0)
+
+    class Meta:
+        db_table = 'study_document_shares'
+        unique_together = ('document', 'user')
+        indexes = [
+            models.Index(fields=['document', 'user']),
+            models.Index(fields=['user', '-created_at']),
         ]
 
 
