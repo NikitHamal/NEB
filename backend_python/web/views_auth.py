@@ -87,7 +87,7 @@ def google_auth(request):
         email=email,
         display_name=display_name,
         photo_url=photo_url,
-        created_at=int(time.time() * 1000)
+        created_at=now_ms()
     )
     db_user.auth_token = hash_auth_token(auth_token)
     db_user.save()
@@ -192,7 +192,7 @@ def google_oauth_callback(request):
         email=email,
         display_name=display_name,
         photo_url=photo_url,
-        created_at=int(time.time() * 1000)
+        created_at=now_ms()
     )
     db_user.auth_token = hash_auth_token(auth_token)
     db_user.save()
@@ -330,7 +330,7 @@ def github_callback(request):
         email=email,
         display_name=display_name,
         photo_url=photo_url,
-        created_at=int(time.time() * 1000),
+        created_at=now_ms(),
     )
     db_user.auth_token = hash_auth_token(auth_token)
     db_user.save()

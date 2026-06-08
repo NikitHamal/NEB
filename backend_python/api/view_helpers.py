@@ -23,8 +23,6 @@ Endpoints:
   POST   /api/fcm/register
 """
 import logging
-import time
-import uuid
 
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
@@ -51,6 +49,9 @@ from .throttles import (
     VerificationRateThrottle, ViewIncrementRateThrottle, WriteActionRateThrottle,
 )
 from .models import User, Resource, ResourceRequest, ResourceRequestUpvote, Post, PostLike, PostImage, Poll, PollOption, PollVote, Reply, ReplyLike, FCMToken, Follow, UserPhoto, EditHistory, Report, Bookmark, Notification
+from .utils import now_ms, uuid_str
+import uuid
+_now_ms = now_ms
 from . import services
 from .serializers import (
     UserSerializer, UserPublicSerializer,
@@ -79,10 +80,6 @@ MAX_POST_CONTENT_LENGTH = 20_000
 MAX_REPLY_CONTENT_LENGTH = 10_000
 
 MAX_REPORT_DESCRIPTION_LENGTH = 2_000
-
-def _now_ms():
-    """Current time as Unix milliseconds."""
-    return int(time.time() * 1000)
 
 def _profile_incomplete(user):
     """Check if user profile is missing mandatory fields."""
@@ -131,7 +128,7 @@ def _validate_password_strength(password):
 
 def _issue_verification_code(user, purpose):
     code = User.generate_verification_code()
-    now = _now_ms()
+    now = now_ms()
     user.verification_code = hash_verification_code(code)
     user.verification_code_expires = now + CODE_TTL_MS
     user.verification_code_purpose = purpose
@@ -148,10 +145,10 @@ def _verification_resend_blocked(user):
     if not last_sent:
         # Legacy rows only had an expiry. Do not infer last-send time from expiry.
         return False
-    return (_now_ms() - last_sent) < CODE_RESEND_COOLDOWN_MS
+    return (now_ms() - last_sent) < CODE_RESEND_COOLDOWN_MS
 
 def _verify_user_code(user, code, purpose):
-    now = _now_ms()
+    now = now_ms()
     if user.verification_code_expires < now:
         return False, Response({'error': 'Invalid or expired verification code'}, status=400)
     if user.verification_code_purpose and user.verification_code_purpose != purpose:
@@ -237,109 +234,37 @@ def _link_oauth_user_model(email, user_pk, display_name, photo_url):
 def _build_stats(user):
     """
     Build the stats dict for a given User instance.
-    Uses denormalized counters on the User model when available,
-    falls back to aggregate queries only when counters are None (not yet backfilled).
+    Uses denormalized counters on the User model directly.
     """
-    post_count = getattr(user, 'post_count', None)
-    reply_count = getattr(user, 'reply_count', None)
-    follower_count = getattr(user, 'follower_count', None)
-    following_count = getattr(user, 'following_count', None)
-    likes_given = getattr(user, 'likes_given_count', None)
-    likes_received = getattr(user, 'likes_received_count', None)
-    contribution_score = getattr(user, 'contribution_score', None)
-
-    if any(v is None for v in [post_count, reply_count, follower_count, following_count, likes_given, likes_received, contribution_score]):
-        post_count = post_count if post_count is not None else Post.objects.filter(user=user).count()
-        reply_count = reply_count if reply_count is not None else Reply.objects.filter(user=user).count()
-        follower_count = follower_count if follower_count is not None else Follow.objects.filter(following=user).count()
-        following_count = following_count if following_count is not None else Follow.objects.filter(follower=user).count()
-        likes_given = likes_given if likes_given is not None else (
-            PostLike.objects.filter(user=user).count() + ReplyLike.objects.filter(user=user).count()
-        )
-        likes_received = likes_received if likes_received is not None else (
-            PostLike.objects.filter(post__user=user).count() + ReplyLike.objects.filter(reply__user=user).count()
-        )
-        contribution_score = contribution_score if contribution_score is not None else (
-            (post_count * 3) + (reply_count * 2) + likes_given + (likes_received * 2)
-        )
-
     return {
         'username': user.username,
-        'post_count': post_count,
-        'reply_count': reply_count,
-        'follower_count': follower_count,
-        'following_count': following_count,
-        'likes_received': likes_received,
-        'likes_given': likes_given,
-        'contribution_score': contribution_score,
+        'post_count': user.post_count,
+        'reply_count': user.reply_count,
+        'follower_count': user.follower_count,
+        'following_count': user.following_count,
+        'likes_received': user.likes_received_count,
+        'likes_given': user.likes_given_count,
+        'contribution_score': user.contribution_score,
     }
 
 def _build_stats_batch(user_qs):
     """
     Build stats for a queryset of users using denormalized counters.
-    Falls back to aggregate queries only for users whose counters are None.
     Returns a dict mapping user_id -> stats dict.
     """
-    users_map = {u.id: u for u in user_qs if hasattr(u, 'id')}
-    user_ids = list(users_map.keys())
-    needs_fallback_ids = []
-    for uid in user_ids:
-        u = users_map.get(uid)
-        if u and any(getattr(u, f, None) is None for f in ['post_count', 'reply_count', 'follower_count', 'following_count', 'likes_given_count', 'likes_received_count', 'contribution_score']):
-            needs_fallback_ids.append(uid)
-
-    fallback_data = {}
-    if needs_fallback_ids:
-        from django.db.models import Count
-        post_counts = dict(Post.objects.filter(user_id__in=needs_fallback_ids).values('user_id').annotate(c=Count('id')).values_list('user_id', 'c'))
-        reply_counts = dict(Reply.objects.filter(user_id__in=needs_fallback_ids).values('user_id').annotate(c=Count('id')).values_list('user_id', 'c'))
-        follower_counts = dict(Follow.objects.filter(following_id__in=needs_fallback_ids).values('following_id').annotate(c=Count('id')).values_list('following_id', 'c'))
-        following_counts = dict(Follow.objects.filter(follower_id__in=needs_fallback_ids).values('follower_id').annotate(c=Count('id')).values_list('follower_id', 'c'))
-        likes_given = {}
-        for model in [PostLike, ReplyLike]:
-            for uid, cnt in model.objects.filter(user_id__in=needs_fallback_ids).values('user_id').annotate(c=Count('id')).values_list('user_id', 'c'):
-                likes_given[uid] = likes_given.get(uid, 0) + cnt
-        likes_received = {}
-        for model, owner_field in [(PostLike, 'post__user_id'), (ReplyLike, 'reply__user_id')]:
-            for uid, cnt in model.objects.filter(**{owner_field + '__in': needs_fallback_ids}).values(owner_field).annotate(c=Count('id')).values_list(owner_field, 'c'):
-                likes_received[uid] = likes_received.get(uid, 0) + cnt
-        for uid in needs_fallback_ids:
-            pc = post_counts.get(uid, 0)
-            rc = reply_counts.get(uid, 0)
-            lg = likes_given.get(uid, 0)
-            lr = likes_received.get(uid, 0)
-            fallback_data[uid] = {
-                'post_count': pc,
-                'reply_count': rc,
-                'follower_count': follower_counts.get(uid, 0),
-                'following_count': following_counts.get(uid, 0),
-                'likes_given': lg,
-                'likes_received': lr,
-                'contribution_score': (pc * 3) + (rc * 2) + lg + (lr * 2),
-            }
-
     result = {}
-    for uid in user_ids:
-        u = users_map.get(uid)
-        fb = fallback_data.get(uid, {})
-        pc = getattr(u, 'post_count', None) if u else None
-        rc = getattr(u, 'reply_count', None) if u else None
-        fc = getattr(u, 'follower_count', None) if u else None
-        fwc = getattr(u, 'following_count', None) if u else None
-        lg = getattr(u, 'likes_given_count', None) if u else None
-        lr = getattr(u, 'likes_received_count', None) if u else None
-        score = getattr(u, 'contribution_score', None) if u else None
-        result[uid] = {
-            'username': u.username if u else '',
-            'display_name': (u.display_name or u.username) if u else '',
-            'photo_url': u.photo_url if u else '',
-            'post_count': pc if pc is not None else fb.get('post_count', 0),
-            'reply_count': rc if rc is not None else fb.get('reply_count', 0),
-            'follower_count': fc if fc is not None else fb.get('follower_count', 0),
-            'following_count': fwc if fwc is not None else fb.get('following_count', 0),
-            'likes_given': lg if lg is not None else fb.get('likes_given', 0),
-            'likes_received': lr if lr is not None else fb.get('likes_received', 0),
-            'contribution_score': score if score is not None else fb.get('contribution_score', 0),
+    for u in user_qs:
+        result[u.id] = {
+            'username': u.username,
+            'display_name': u.display_name or u.username,
+            'photo_url': u.photo_url or '',
+            'post_count': u.post_count,
+            'reply_count': u.reply_count,
+            'follower_count': u.follower_count,
+            'following_count': u.following_count,
+            'likes_given': u.likes_given_count,
+            'likes_received': u.likes_received_count,
+            'contribution_score': u.contribution_score,
         }
     return result
 

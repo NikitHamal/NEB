@@ -36,7 +36,7 @@ def home(request):
     all_posts = _serialize_posts(posts_qs, user_id)
 
     import math as _math
-    _now_ms = int(time.time() * 1000)
+    _now_ms = now_ms()
     def _post_hot(p):
         likes = p.get('thumbs_up_count', 0) or 0
         replies = p.get('reply_count', 0) or 0
@@ -135,13 +135,13 @@ def library(request):
 
         if sort_by == 'trending' and filtered:
             import math
-            now_ms = int(time.time() * 1000)
+            _now = now_ms()
             def _resource_hot(r):
                 likes = r.get('like_count', 0) or 0
                 views = r.get('view_count', 0) or 0
                 added = r.get('added_at', 0) or 0
                 engagement = likes * 5 + min(views, 500) * 0.1
-                age_hours = max(0, (now_ms - added) / 3600000)
+                age_hours = max(0, (_now - added) / 3600000)
                 if engagement <= 0:
                     return -age_hours / 168.0
                 return math.log2(max(engagement, 1)) - age_hours / 168.0
@@ -473,7 +473,7 @@ def resource_requests_page(request):
         title = request.POST.get('title', '').strip()
         if title:
             ResourceRequest.objects.create(
-                id=str(uuid.uuid4()),
+                id=uuid_str(),
                 title=title,
                 description=request.POST.get('description', '').strip(),
                 subject=request.POST.get('subject', '').strip(),
@@ -488,7 +488,7 @@ def resource_requests_page(request):
                 requested_by=user,
                 requester_name=request.POST.get('requester_name', '').strip()[:100] if not user else '',
                 requester_email=request.POST.get('requester_email', '').strip() if not user else '',
-                created_at=int(time.time() * 1000),
+                created_at=now_ms(),
             )
         return redirect('web:resource_requests')
 
@@ -707,7 +707,7 @@ def upload_resource(request):
                 import os
                 from django.conf import settings
                 
-                group_id = str(uuid.uuid4()) if len(saved_files) > 1 else ''
+                group_id = uuid_str() if len(saved_files) > 1 else ''
                 
                 for idx, sf in enumerate(saved_files):
                     res_title = title
@@ -720,7 +720,7 @@ def upload_resource(request):
 
                     final_file_url = request.build_absolute_uri(settings.MEDIA_URL + sf['path'])
                     resource = Resource(
-                        id=str(uuid.uuid4()),
+                        id=uuid_str(),
                         title=res_title,
                         description=description,
                         subject=subject,
@@ -738,7 +738,7 @@ def upload_resource(request):
                         file_url=final_file_url,
                         thumbnail_url=safe_thumbnail_url,
                         file_size=sf['size'],
-                        added_at=int(time.time() * 1000) + idx,
+                        added_at=now_ms() + idx,
                         author_name=author_name,
                         source_type='user' if user else 'anonymous',
                         uploaded_by=user,
@@ -753,7 +753,7 @@ def upload_resource(request):
             else:
                 final_file_url = safe_file_url
                 resource = Resource(
-                    id=str(uuid.uuid4()),
+                    id=uuid_str(),
                     title=title,
                     description=description,
                     subject=subject,
@@ -771,7 +771,7 @@ def upload_resource(request):
                     file_url=final_file_url,
                     thumbnail_url=safe_thumbnail_url,
                     file_size=int(request.POST.get('file_size', '0')),
-                    added_at=int(time.time() * 1000),
+                    added_at=now_ms(),
                     author_name=author_name,
                     source_type='user' if user else 'anonymous',
                     uploaded_by=user,
@@ -1231,7 +1231,7 @@ def copyright_takedown(request):
                 statement_accurate=statement_accurate,
                 signature=signature,
                 status='open',
-                created_at=int(time.time() * 1000)
+                created_at=now_ms()
             )
             takedown.save()
             success = True

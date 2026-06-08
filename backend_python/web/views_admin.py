@@ -29,7 +29,7 @@ def admin_pending_resources(request):
                 for r in group_resources:
                     r.approval_status = 'approved'
                     r.reviewed_by = admin_user
-                    r.reviewed_at = int(time.time() * 1000)
+                    r.reviewed_at = now_ms()
                     r.rejection_reason = ''
                     r.save()
                     if r.uploaded_by_id:
@@ -40,7 +40,7 @@ def admin_pending_resources(request):
                 for r in group_resources:
                     r.approval_status = 'rejected'
                     r.reviewed_by = admin_user
-                    r.reviewed_at = int(time.time() * 1000)
+                    r.reviewed_at = now_ms()
                     r.rejection_reason = reason
                     r.save()
                     if r.uploaded_by_id:
@@ -116,7 +116,7 @@ def admin_resource_requests(request):
             req = ResourceRequest.objects.get(pk=request_id)
             if action == 'fulfill':
                 req.status = 'fulfilled'
-                req.fulfilled_at = int(time.time() * 1000)
+                req.fulfilled_at = now_ms()
                 resource_id = request.POST.get('resource_id', '').strip()
                 if resource_id:
                     req.fulfilled_by_id = resource_id
@@ -181,9 +181,9 @@ def admin_dashboard(request):
     stats = cache.get('admin_stats')
     if stats is None:
         from django.db.models import Sum, Count, Avg
-        now_ms = int(time.time() * 1000)
-        seven_days_ago = int((time.time() - 7 * 86400) * 1000)
-        thirty_days_ago = int((time.time() - 30 * 86400) * 1000)
+        _now = now_ms()
+        seven_days_ago = _now - 7 * 86400000
+        thirty_days_ago = _now - 30 * 86400000
 
         total_users = User.objects.count()
         total_resources = Resource.objects.count()
@@ -384,7 +384,7 @@ def admin_resources(request):
                 if thumbnail_url:
                     safe_thumb = _validate(thumbnail_url)
                 Resource.objects.create(
-                    id=str(uuid.uuid4()),
+                    id=uuid_str(),
                     title=title,
                     description=description,
                     subject=subject,
@@ -402,7 +402,7 @@ def admin_resources(request):
                     file_url=safe_url,
                     thumbnail_url=safe_thumb,
                     file_size=file_size or int(request.POST.get('file_size', '0')),
-                    added_at=int(time.time() * 1000),
+                    added_at=now_ms(),
                     view_count=0,
                     author_name=author_name,
                     source_url=source_url,
@@ -601,7 +601,7 @@ def admin_resource_create(request):
                 import os
                 from django.conf import settings
                 
-                group_id = str(uuid.uuid4()) if len(saved_files) > 1 else ''
+                group_id = uuid_str() if len(saved_files) > 1 else ''
                 
                 for idx, sf in enumerate(saved_files):
                     res_title = title
@@ -614,7 +614,7 @@ def admin_resource_create(request):
 
                     final_file_url = request.build_absolute_uri(settings.MEDIA_URL + sf['path'])
                     resource = Resource(
-                        id=str(uuid.uuid4()),
+                        id=uuid_str(),
                         title=res_title,
                         description=description,
                         subject=subject,
@@ -632,7 +632,7 @@ def admin_resource_create(request):
                         file_url=final_file_url,
                         thumbnail_url=safe_thumbnail_url,
                         file_size=sf['size'],
-                        added_at=int(time.time() * 1000) + idx,
+                        added_at=now_ms() + idx,
                         view_count=view_count,
                         author_name=author_name,
                         source_type=source_type,
@@ -641,7 +641,7 @@ def admin_resource_create(request):
                         source_label=source_label,
                         approval_status=approval_status,
                         reviewed_by=admin_user if approval_status == 'approved' else None,
-                        reviewed_at=int(time.time() * 1000) if approval_status == 'approved' else None,
+                        reviewed_at=now_ms() if approval_status == 'approved' else None,
                         upload_group_id=group_id,
                         is_lead=is_lead,
                     )
@@ -649,7 +649,7 @@ def admin_resource_create(request):
                     created_count += 1
             else:
                 resource = Resource(
-                    id=str(uuid.uuid4()),
+                    id=uuid_str(),
                     title=title,
                     description=description,
                     subject=subject,
@@ -667,7 +667,7 @@ def admin_resource_create(request):
                     file_url=safe_file_url,
                     thumbnail_url=safe_thumbnail_url,
                     file_size=0,
-                    added_at=int(time.time() * 1000),
+                    added_at=now_ms(),
                     view_count=view_count,
                     author_name=author_name,
                     source_type=source_type,
@@ -676,7 +676,7 @@ def admin_resource_create(request):
                     source_label=source_label,
                     approval_status=approval_status,
                     reviewed_by=admin_user if approval_status == 'approved' else None,
-                    reviewed_at=int(time.time() * 1000) if approval_status == 'approved' else None,
+                    reviewed_at=now_ms() if approval_status == 'approved' else None,
                     upload_group_id='',
                     is_lead=True,
                 )
@@ -754,7 +754,7 @@ def admin_resource_edit(request, resource_id):
                     resource_obj.reviewed_by = User.objects.get(username=request.user.username)
                 except User.DoesNotExist:
                     pass
-            resource_obj.reviewed_at = int(time.time() * 1000)
+            resource_obj.reviewed_at = now_ms()
             if new_status == 'rejected':
                 resource_obj.rejection_reason = request.POST.get('rejection_reason', '').strip()[:500]
             else:
@@ -1000,7 +1000,7 @@ def admin_bot_edit(request, bot_id=None):
         if model:
             config.model = model[:200]
         elif not config.model:
-            config.model = 'qwen3.6-plus'
+            config.model = 'qwen3.7-plus'
         config.system_prompt = request.POST.get('system_prompt', config.system_prompt).strip()
         try:
             config.max_context_posts = int(request.POST.get('max_context_posts', config.max_context_posts))
@@ -1055,7 +1055,7 @@ def admin_bot_create_user(request, bot_id):
                 display_name=display_name,
                 is_bot=True,
                 email_verified=True,
-                created_at=int(time.time() * 1000),
+                created_at=now_ms(),
             )
             messages.success(request, f'Created bot user @{username} (id={bot_user.id}).')
         except Exception as e:
@@ -1177,14 +1177,14 @@ def admin_syllabus_create(request):
                 'form_data': request.POST,
             })
             
-        now_ms = int(time.time() * 1000)
+        _now = now_ms()
         try:
             order = int(order_val)
         except ValueError:
             order = 0
             
         syllabus_obj = SyllabusContent(
-            id=str(uuid.uuid4()),
+            id=uuid_str(),
             grade_level=grade_level,
             subject=subject,
             chapter_id=chapter_id,
@@ -1192,8 +1192,8 @@ def admin_syllabus_create(request):
             text_content=text_content,
             question_answers=question_answers,
             order=order,
-            created_at=now_ms,
-            updated_at=now_ms
+            created_at=_now,
+            updated_at=_now
         )
         syllabus_obj.save()
         return redirect('web:admin_syllabus_list')
@@ -1294,7 +1294,7 @@ def admin_syllabus_edit(request, entry_id):
         syllabus_obj.text_content = text_content
         syllabus_obj.question_answers = question_answers
         syllabus_obj.order = order
-        syllabus_obj.updated_at = int(time.time() * 1000)
+        syllabus_obj.updated_at = now_ms()
         syllabus_obj.save()
         return redirect('web:admin_syllabus_list')
         
@@ -1382,7 +1382,7 @@ def admin_syllabus_import(request):
                     updated = 0
                     skipped = 0
                     errors = []
-                    now_ms = int(time.time() * 1000)
+                    _now = now_ms()
                     
                     for i, item in enumerate(data):
                         grade = str(item.get('grade_level', '')).strip()
@@ -1410,7 +1410,7 @@ def admin_syllabus_import(request):
                                 existing.text_content = content
                                 existing.question_answers = qa
                                 existing.order = order
-                                existing.updated_at = now_ms
+                                existing.updated_at = _now
                                 existing.save()
                                 updated += 1
                                 continue
@@ -1418,15 +1418,15 @@ def admin_syllabus_import(request):
                         obj, created_flag = SyllabusContent.objects.get_or_create(
                             chapter_id=slug,
                             defaults={
-                                'id': str(uuid.uuid4()),
+                                'id': uuid_str(),
                                 'grade_level': grade,
                                 'subject': subject,
                                 'chapter_title': title,
                                 'text_content': content,
                                 'question_answers': qa,
                                 'order': order,
-                                'created_at': now_ms,
-                                'updated_at': now_ms,
+                                'created_at': _now,
+                                'updated_at': _now,
                             }
                         )
                         if created_flag:
@@ -1439,7 +1439,7 @@ def admin_syllabus_import(request):
                                 obj.text_content = content
                                 obj.question_answers = qa
                                 obj.order = order
-                                obj.updated_at = now_ms
+                                obj.updated_at = _now
                                 obj.save()
                                 updated += 1
                             else:

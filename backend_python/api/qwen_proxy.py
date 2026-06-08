@@ -502,7 +502,10 @@ def _reset_session():
 
 # ========================= Chat API =========================
 
-def create_chat(session, model="qwen3.6-plus"):
+def create_chat(session, model=None):
+    if model is None:
+        from .qwen_utils.models import get_default_model
+        model = get_default_model()
     payload = {
         "title": "New Chat",
         "models": [model],
@@ -525,38 +528,34 @@ def create_chat(session, model="qwen3.6-plus"):
         return None
 
 
-def send_message(session, chat_id, message, model="qwen3.6-plus", parent_id=None, max_tokens=500):
+def send_message(session, chat_id, message, model=None, parent_id=None,
+                 max_tokens=500, uploaded_files=None, system_prompt=None):
+    if model is None:
+        from .qwen_utils.models import get_default_model
+        model = get_default_model()
+    if system_prompt:
+        full_prompt = system_prompt + "\n\n" + message
+    else:
+        full_prompt = message
     msg_id = str(uuid.uuid4())
-    payload = {
-        "stream": True,
-        "incremental_output": True,
-        "chat_id": chat_id,
-        "chat_mode": "normal",
-        "model": model,
-        "parent_id": parent_id,
-        "messages": [
-            {
-                "fid": msg_id,
-                "parentId": parent_id,
-                "childrenIds": [],
-                "role": "user",
-                "content": message,
-                "user_action": "chat",
-                "files": [],
-                "models": [model],
-                "chat_type": "t2t",
-                "feature_config": {
-                    "thinking_enabled": False,
-                },
-                "sub_chat_type": "t2t",
-            }
-        ],
-    }
+    from .qwen_utils.message_builder import build_msg_payload, build_feature_config
+    feature_config = build_feature_config(thinking_enabled=False)
+    payload = build_msg_payload(
+        chat_id=chat_id,
+        model=model,
+        full_prompt=full_prompt,
+        parent_id=parent_id,
+        uploaded_files=uploaded_files or [],
+        chat_type="t2t",
+        chat_mode="normal",
+        feature_config=feature_config,
+        stream=True,
+    )
     try:
         resp = session.post(
             f"{QWEN_URL}/api/v2/chat/completions?chat_id={chat_id}",
             json=payload,
-            timeout=60,
+            timeout=120,
             stream=True,
         )
         if resp.status_code != 200:
@@ -621,17 +620,28 @@ def _parse_stream(response):
 
 # ========================= Public API =========================
 
-def call_qwen(system_prompt, user_message, model="qwen3.6-plus", max_tokens=500):
+def call_qwen(system_prompt, user_message, model="qwen3.7-plus", max_tokens=500,
+               file_paths=None):
     """Call Qwen AI directly (no proxy needed). Returns response text or None.
 
     This function manages its own browser session, creating a fresh one
     when needed and rotating it on errors.
+
+    Args:
+        system_prompt: System instructions (prepended to user message).
+        user_message: The user's message text.
+        model: Qwen model ID (default qwen3.6-plus).
+        max_tokens: Rough character cap for the response.
+        file_paths: Optional list of local file paths to upload to Qwen OSS.
+                   Supports images, PDFs, audio, and video files.
     """
     full_message = ""
     if system_prompt:
         full_message = f"[System Instructions]\n{system_prompt}\n\n[User Message]\n{user_message}"
     else:
         full_message = user_message
+
+    from .qwen_utils.file_upload import upload_file, MAX_FILES_PER_MESSAGE
 
     max_attempts = 3
     for attempt in range(max_attempts):
@@ -642,6 +652,15 @@ def call_qwen(system_prompt, user_message, model="qwen3.6-plus", max_tokens=500)
                 session.headers["bx-umidtoken"] = midtoken
                 session.headers["bx-v"] = "2.5.31"
 
+            # Upload files if provided
+            uploaded_files = []
+            if file_paths:
+                req_headers = dict(session.headers)
+                for fp in file_paths[:MAX_FILES_PER_MESSAGE]:
+                    file_obj = upload_file(fp, session, req_headers)
+                    if file_obj:
+                        uploaded_files.append(file_obj)
+
             chat_id = create_chat(session, model)
             if not chat_id:
                 logger.warning(f"Qwen chat creation failed (attempt {attempt + 1})")
@@ -649,7 +668,10 @@ def call_qwen(system_prompt, user_message, model="qwen3.6-plus", max_tokens=500)
                 time.sleep(2 * (attempt + 1))
                 continue
 
-            result = send_message(session, chat_id, full_message, model, max_tokens=max_tokens)
+            result = send_message(
+                session, chat_id, full_message, model, max_tokens=max_tokens,
+                uploaded_files=uploaded_files if uploaded_files else None,
+            )
             if result:
                 logger.info(f"Qwen response received ({len(result)} chars)")
                 return result

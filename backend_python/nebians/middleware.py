@@ -51,12 +51,29 @@ class AllowedHostMiddleware:
 
     def __call__(self, request):
         host = request.get_host().split(':')[0].lower()
+        matched_suffix = False
+        original_host = None
         for suffix in self.suffixes:
             if host.endswith('.' + suffix) or host == suffix:
+                matched_suffix = True
+                original_host = request.META.get('HTTP_HOST')
                 request.META['HTTP_HOST'] = self.CANONICAL_HOST
                 request._mirrored_host = host
                 break
-        return self.get_response(request)
+        
+        response = self.get_response(request)
+        
+        if matched_suffix and response.has_header('Location') and original_host:
+            location = response['Location']
+            canonical_prefix = f'https://{self.CANONICAL_HOST}'
+            if location.startswith(canonical_prefix):
+                response['Location'] = location.replace(canonical_prefix, f'https://{original_host}', 1)
+            else:
+                canonical_prefix_http = f'http://{self.CANONICAL_HOST}'
+                if location.startswith(canonical_prefix_http):
+                    response['Location'] = location.replace(canonical_prefix_http, f'http://{original_host}', 1)
+                    
+        return response
 
 
 class SecurityHeadersMiddleware:
