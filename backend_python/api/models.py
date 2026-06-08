@@ -873,8 +873,13 @@ class StudyDocument(models.Model):
     mime_type = models.CharField(max_length=200, blank=True, default='')
     page_count = models.PositiveIntegerField(default=0)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='uploading')
-    summary = models.TextField(blank=True, default='')
+    summary = models.TextField(blank=True, default='')  # legacy/compact summary for backward compatibility
+    summary_compact = models.TextField(blank=True, default='')
+    summary_detailed = models.TextField(blank=True, default='')
     summary_generated_at = models.BigIntegerField(default=0)
+    summary_updated_at = models.BigIntegerField(default=0)
+    mindmap_json = models.TextField(blank=True, default='')
+    mindmap_generated_at = models.BigIntegerField(default=0)
     created_at = models.BigIntegerField(default=0)
     updated_at = models.BigIntegerField(default=0)
 

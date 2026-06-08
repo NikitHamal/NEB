@@ -1,0 +1,292 @@
+{% extends "base.html" %}
+{% load static web_extras %}
+
+{% block title %}Analytics{% endblock %}
+{% block description %}Private NEBians analytics for your posts, resources, comments, and Study Lab learning progress.{% endblock %}
+{% block robots %}<meta name="robots" content="noindex,nofollow">{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'web/css/pages/analytics.css' %}">{% endblock %}
+
+{% block content %}
+<div class="an-page">
+  <header class="an-header">
+    <div>
+      <a class="an-back" href="{% url 'web:profile' username=user.username %}">
+        <span class="material-symbols-outlined">arrow_back</span>
+        Back to profile
+      </a>
+      <h1>Analytics</h1>
+      <p>Private insights for your NEBians activity, shared resources, and Study Lab learning loop.</p>
+    </div>
+    <div class="an-privacy-pill">
+      <span class="material-symbols-outlined">lock</span>
+      Only visible to you
+    </div>
+  </header>
+
+  <section class="an-kpi-grid" aria-label="Analytics overview">
+    <article class="an-kpi-card">
+      <span class="material-symbols-outlined">forum</span>
+      <div>
+        <strong>{{ stats.posts|short_number }}</strong>
+        <span>Posts</span>
+      </div>
+      <small>{{ stats.recentPosts|short_number }} in 30d</small>
+    </article>
+    <article class="an-kpi-card">
+      <span class="material-symbols-outlined">visibility</span>
+      <div>
+        <strong>{{ stats.postViews|short_number }}</strong>
+        <span>Post views</span>
+      </div>
+      <small>{{ stats.postLikesReceived|short_number }} likes · {{ stats.postRepliesReceived|short_number }} replies</small>
+    </article>
+    <article class="an-kpi-card">
+      <span class="material-symbols-outlined">folder_open</span>
+      <div>
+        <strong>{{ stats.resources|short_number }}</strong>
+        <span>Resources</span>
+      </div>
+      <small>{{ stats.resourceViews|short_number }} views · {{ stats.resourceLikesReceived|short_number }} likes</small>
+    </article>
+    <article class="an-kpi-card">
+      <span class="material-symbols-outlined">school</span>
+      <div>
+        <strong>{{ stats.studyDocs|short_number }}</strong>
+        <span>Study docs</span>
+      </div>
+      <small>{{ stats.summaries|short_number }} summaries · {{ stats.mindmaps|short_number }} mindmaps</small>
+    </article>
+  </section>
+
+  <section class="an-layout">
+    <div class="an-main-col">
+      <article class="an-card an-activity-card">
+        <div class="an-card-head">
+          <div>
+            <h2>14-day activity</h2>
+            <p>Posts, replies, uploads, quiz attempts, and flashcard reviews.</p>
+          </div>
+          <span class="an-mini-stat">{{ stats.recentStudyActions|short_number }} study actions in 30d</span>
+        </div>
+        <div class="an-bars" role="img" aria-label="Recent daily activity chart">
+          {% for day in activity_days %}
+            <div class="an-bar-item" title="{{ day.total }} actions">
+              <div class="an-bar-track">
+                <span class="an-bar-fill" style="height: {{ day.height }}%;"></span>
+              </div>
+              <span>{{ day.label }}</span>
+            </div>
+          {% endfor %}
+        </div>
+      </article>
+
+      <article class="an-card">
+        <div class="an-card-head">
+          <div>
+            <h2>Study Lab progress</h2>
+            <p>Your generated materials and learning outcomes.</p>
+          </div>
+          <a class="an-text-link" href="{% url 'web:study_lab' %}">Open Study Lab</a>
+        </div>
+        <div class="an-study-grid">
+          <div class="an-study-box">
+            <span class="material-symbols-outlined">summarize</span>
+            <strong>{{ stats.summaries|short_number }}</strong>
+            <small>Summary versions</small>
+          </div>
+          <div class="an-study-box">
+            <span class="material-symbols-outlined">account_tree</span>
+            <strong>{{ stats.mindmaps|short_number }}</strong>
+            <small>Mindmaps</small>
+          </div>
+          <div class="an-study-box">
+            <span class="material-symbols-outlined">quiz</span>
+            <strong>{{ stats.quizAccuracy }}%</strong>
+            <small>Quiz accuracy</small>
+          </div>
+          <div class="an-study-box">
+            <span class="material-symbols-outlined">style</span>
+            <strong>{{ stats.flashReviews|short_number }}</strong>
+            <small>Flashcard reviews</small>
+          </div>
+        </div>
+
+        <div class="an-review-row">
+          <div>
+            <span class="an-dot an-dot-easy"></span>
+            Easy <strong>{{ stats.easyReviews|short_number }}</strong>
+          </div>
+          <div>
+            <span class="an-dot an-dot-medium"></span>
+            Medium <strong>{{ stats.mediumReviews|short_number }}</strong>
+          </div>
+          <div>
+            <span class="an-dot an-dot-hard"></span>
+            Hard <strong>{{ stats.hardReviews|short_number }}</strong>
+          </div>
+          <div>
+            <span class="an-dot an-dot-xp"></span>
+            XP <strong>{{ stats.quizXp|short_number }}</strong>
+          </div>
+        </div>
+      </article>
+
+      <article class="an-card">
+        <div class="an-card-head">
+          <div>
+            <h2>Recent Study Lab history</h2>
+            <p>Documents and quiz attempts you worked on recently.</p>
+          </div>
+        </div>
+        <div class="an-history-grid">
+          <div class="an-list-block">
+            <h3>Documents</h3>
+            {% if recent_docs %}
+              {% for doc in recent_docs %}
+                <div class="an-list-row">
+                  <span class="material-symbols-outlined">description</span>
+                  <div>
+                    <strong>{{ doc.title|default:doc.file_name|truncate_chars:62 }}</strong>
+                    <small>{% if doc.summary_compact or doc.summary or doc.summary_detailed %}Summary{% else %}No summary{% endif %} · {% if doc.mindmap_json %}Mindmap{% else %}No mindmap{% endif %}</small>
+                  </div>
+                </div>
+              {% endfor %}
+            {% else %}
+              <p class="an-empty">No Study Lab documents yet.</p>
+            {% endif %}
+          </div>
+          <div class="an-list-block">
+            <h3>Quiz attempts</h3>
+            {% if recent_attempts %}
+              {% for attempt in recent_attempts %}
+                <div class="an-list-row">
+                  <span class="material-symbols-outlined">fact_check</span>
+                  <div>
+                    <strong>{{ attempt.score }}/{{ attempt.total_questions }} correct</strong>
+                    <small>{{ attempt.quiz.title|default:"Study quiz"|truncate_chars:54 }} · {{ attempt.completed_at|time_ago }}</small>
+                  </div>
+                </div>
+              {% endfor %}
+            {% else %}
+              <p class="an-empty">No quiz attempts yet.</p>
+            {% endif %}
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <aside class="an-side-col">
+      <article class="an-card an-insights-card">
+        <div class="an-card-head compact">
+          <div>
+            <h2>Suggestions</h2>
+            <p>Context-aware next steps.</p>
+          </div>
+        </div>
+        <div class="an-suggestion-list">
+          {% for item in suggestions %}
+            <div class="an-suggestion">
+              <span class="material-symbols-outlined">tips_and_updates</span>
+              <p>{{ item }}</p>
+            </div>
+          {% endfor %}
+        </div>
+      </article>
+
+      <article class="an-card">
+        <div class="an-card-head compact">
+          <div>
+            <h2>Community footprint</h2>
+            <p>How your account contributes.</p>
+          </div>
+        </div>
+        <div class="an-metric-list">
+          <div><span>Replies made</span><strong>{{ stats.replies|short_number }}</strong></div>
+          <div><span>Resource comments</span><strong>{{ stats.resourceCommentsMade|short_number }}</strong></div>
+          <div><span>Resource comments received</span><strong>{{ stats.resourceCommentsReceived|short_number }}</strong></div>
+          <div><span>Followers</span><strong>{{ stats.followers|short_number }}</strong></div>
+          <div><span>Following</span><strong>{{ stats.following|short_number }}</strong></div>
+          <div><span>Bookmarks</span><strong>{{ stats.bookmarks|short_number }}</strong></div>
+          <div><span>Unread notifications</span><strong>{{ stats.notificationsUnread|short_number }}</strong></div>
+        </div>
+      </article>
+
+      <article class="an-card">
+        <div class="an-card-head compact">
+          <div>
+            <h2>Top topics</h2>
+            <p>Based on your posts and resources.</p>
+          </div>
+        </div>
+        <div class="an-topic-block">
+          <h3>Post categories</h3>
+          {% if top_categories %}
+            {% for row in top_categories %}
+              <div class="an-topic-row">
+                <div><span>{{ row.label }}</span><strong>{{ row.count }}</strong></div>
+                <span class="an-topic-track"><i style="width: {{ row.width }}%;"></i></span>
+              </div>
+            {% endfor %}
+          {% else %}
+            <p class="an-empty">No post categories yet.</p>
+          {% endif %}
+        </div>
+        <div class="an-topic-block">
+          <h3>Resource subjects</h3>
+          {% if top_subjects %}
+            {% for row in top_subjects %}
+              <div class="an-topic-row">
+                <div><span>{{ row.label }}</span><strong>{{ row.count }}</strong></div>
+                <span class="an-topic-track"><i style="width: {{ row.width }}%;"></i></span>
+              </div>
+            {% endfor %}
+          {% else %}
+            <p class="an-empty">No resource subjects yet.</p>
+          {% endif %}
+        </div>
+      </article>
+
+      <article class="an-card">
+        <div class="an-card-head compact">
+          <div>
+            <h2>Top content</h2>
+            <p>Most viewed posts and resources.</p>
+          </div>
+        </div>
+        <div class="an-list-block compact-list">
+          <h3>Posts</h3>
+          {% if top_posts %}
+            {% for post in top_posts %}
+              <a class="an-content-row" href="{% url 'web:forum_post' post_id=post.id %}">
+                <span class="material-symbols-outlined">article</span>
+                <div>
+                  <strong>{{ post.title|truncate_chars:58 }}</strong>
+                  <small>{{ post.view_count|short_number }} views · {{ post.thumbs_up_count|short_number }} likes</small>
+                </div>
+              </a>
+            {% endfor %}
+          {% else %}
+            <p class="an-empty">No posts yet.</p>
+          {% endif %}
+        </div>
+        <div class="an-list-block compact-list">
+          <h3>Resources</h3>
+          {% if top_resources %}
+            {% for resource in top_resources %}
+              <a class="an-content-row" href="{% url 'web:reader' resource_id=resource.id %}">
+                <span class="material-symbols-outlined">picture_as_pdf</span>
+                <div>
+                  <strong>{{ resource.title|truncate_chars:58 }}</strong>
+                  <small>{{ resource.view_count|short_number }} views · {{ resource.like_count|short_number }} likes</small>
+                </div>
+              </a>
+            {% endfor %}
+          {% else %}
+            <p class="an-empty">No resources yet.</p>
+          {% endif %}
+        </div>
+      </article>
+    </aside>
+  </section>
+</div>
+{% endblock %}
