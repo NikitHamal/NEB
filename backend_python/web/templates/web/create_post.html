@@ -1,75 +1,189 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}New Discussion{% endblock %}
 {% block nav_forum %}md-nav-active{% endblock %}
 
 {% block extra_css %}
+<link rel="stylesheet" href="{% static 'web/css/pages/create-post.css' %}">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 <style>
-.fp-mention-dropdown{position:absolute;z-index:960;width:240px;max-height:200px;overflow-y:auto;background:var(--md-surface-container-lowest,#fff);border:1px solid var(--md-outline-variant);border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.12);display:none;padding:4px}
-.fp-mention-dropdown.open{display:block}
-.fp-mention-item{display:flex;align-items:center;gap:8px;padding:8px;border-radius:6px;cursor:pointer;transition:background .1s}
-.fp-mention-item:hover,.fp-mention-item.selected{background:var(--md-surface-container-high)}
-.fp-mention-item-avatar{width:28px;height:28px;border-radius:50%;overflow:hidden;background:var(--md-primary);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.fp-mention-item-avatar img{width:100%;height:100%;object-fit:cover}
-.fp-mention-item-letter{font-size:.7rem;font-weight:700;color:var(--md-on-primary)}
-.fp-mention-item-name{font-size:.8125rem;font-weight:500;color:var(--md-on-surface);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.fp-mention-item-username{font-size:.6875rem;color:var(--md-on-surface-variant)}
+.cp-mention-dropdown{position:absolute;z-index:960;width:240px;max-height:200px;overflow-y:auto;background:var(--md-surface-container-lowest,#fff);border:1px solid var(--md-outline-variant);border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.12);display:none;padding:4px}
+.cp-mention-dropdown.open{display:block}
+.cp-mention-item{display:flex;align-items:center;gap:8px;padding:8px;border-radius:6px;cursor:pointer;transition:background .1s}
+.cp-mention-item:hover,.cp-mention-item.selected{background:var(--md-surface-container-high)}
+.cp-mention-item-avatar{width:28px;height:28px;border-radius:50%;overflow:hidden;background:var(--md-primary);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.cp-mention-item-avatar img{width:100%;height:100%;object-fit:cover}
+.cp-mention-item-letter{font-size:.7rem;font-weight:700;color:var(--md-on-primary)}
+.cp-mention-item-name{font-size:.8125rem;font-weight:500;color:var(--md-on-surface);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cp-mention-item-username{font-size:.6875rem;color:var(--md-on-surface-variant)}
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="md-container-narrow" style="padding-top:24px;">
-  <a href="{% url 'web:forum' %}" class="md-btn md-btn-text mb-2" style="padding-left:0;">
-    <span class="material-symbols-outlined" style="font-size:18px">arrow_back</span>
+<div class="cp-page">
+  <a href="{% url 'web:forum' %}" class="cp-back">
+    <span class="material-symbols-outlined">arrow_back</span>
     Back to Forum
   </a>
 
-  <h1 class="md-headline-small mb-3">New Discussion</h1>
+  <h1 class="cp-title">New Discussion</h1>
 
-  <div class="md-card p-3">
-    <form method="post">
-      {% csrf_token %}
-      <div class="form-group">
-        <label class="md-label" for="title">Title</label>
-        <input type="text" id="title" name="title" class="md-input" placeholder="What's your discussion about?" required>
+  <div class="cp-card">
+    <div class="cp-field">
+      <label class="cp-label" for="cp-title">Title</label>
+      <input type="text" id="cp-title" class="cp-input" placeholder="What's your discussion about?" maxlength="200" autocomplete="off">
+    </div>
+
+    <div class="cp-field">
+      <label class="cp-label" for="cp-category">Category</label>
+      <select id="cp-category" class="cp-select">
+        <option value="" disabled selected>Select a category</option>
+        {% for c in categories %}
+        <option value="{{ c }}">{{ c }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="cp-field">
+      <label class="cp-label">Content</label>
+      <div class="cp-editor" id="cp-editor">
+        <div class="cp-toolbar" id="cp-toolbar">
+          <button type="button" class="cp-toolbar-btn" data-action="format-bold" title="Bold">
+            <span class="material-symbols-outlined">format_bold</span>
+          </button>
+          <button type="button" class="cp-toolbar-btn" data-action="format-italic" title="Italic">
+            <span class="material-symbols-outlined">format_italic</span>
+          </button>
+          <button type="button" class="cp-toolbar-btn" data-action="format-code" title="Inline code">
+            <span class="material-symbols-outlined">code</span>
+          </button>
+          <button type="button" class="cp-toolbar-btn" data-action="format-strikethrough" title="Strikethrough">
+            <span class="material-symbols-outlined">strikethrough_s</span>
+          </button>
+          <div class="cp-toolbar-sep"></div>
+          <button type="button" class="cp-toolbar-btn" data-action="format-h2" title="Heading">
+            <span class="material-symbols-outlined">title</span>
+          </button>
+          <button type="button" class="cp-toolbar-btn" data-action="format-ul" title="Bullet list">
+            <span class="material-symbols-outlined">format_list_bulleted</span>
+          </button>
+          <button type="button" class="cp-toolbar-btn" data-action="format-ol" title="Numbered list">
+            <span class="material-symbols-outlined">format_list_numbered</span>
+          </button>
+          <button type="button" class="cp-toolbar-btn" data-action="format-blockquote" title="Quote">
+            <span class="material-symbols-outlined">format_quote</span>
+          </button>
+          <div class="cp-toolbar-sep"></div>
+          <button type="button" class="cp-toolbar-btn" data-action="format-link" title="Insert link">
+            <span class="material-symbols-outlined">link</span>
+          </button>
+          <button type="button" class="cp-toolbar-btn" data-action="format-math" title="Math formula">
+            <span class="material-symbols-outlined">functions</span>
+          </button>
+        </div>
+        <div class="cp-editor-body" id="cp-body" contenteditable="true" data-placeholder="Share your thoughts... Use @username to mention someone."></div>
+        <div class="cp-attach-bar">
+          <button type="button" class="cp-attach-btn" data-action="attach-image" title="Add image">
+            <span class="material-symbols-outlined">image</span>
+            Image
+          </button>
+          <button type="button" class="cp-attach-btn" data-action="toggle-poll" title="Add poll">
+            <span class="material-symbols-outlined">poll</span>
+            Poll
+          </button>
+          <span class="cp-char-count" id="cp-char-count">0 / 20,000</span>
+        </div>
       </div>
+      <input type="file" id="cp-file-input" accept="image/jpeg,image/png,image/webp,image/gif" multiple style="display:none">
+    </div>
 
-      <div class="form-group">
-        <label class="md-label" for="category">Category</label>
-        <select id="category" name="category" class="md-select" required>
-          <option value="" disabled selected>Select a category</option>
-          {% for c in categories %}
-          <option value="{{ c }}">{{ c }}</option>
-          {% endfor %}
+    <div class="cp-images" id="cp-images" style="display:none">
+      <div class="cp-images-grid" id="cp-images-grid"></div>
+    </div>
+
+    <div class="cp-poll-section" id="cp-poll-section" style="display:none">
+      <div class="cp-poll-header">
+        <span class="cp-poll-header-title">
+          <span class="material-symbols-outlined" style="font-size:18px;vertical-align:middle;margin-right:4px">poll</span>
+          Poll
+        </span>
+        <button type="button" class="cp-poll-remove" data-action="remove-poll">
+          <span class="material-symbols-outlined">close</span>
+          Remove
+        </button>
+      </div>
+      <input type="text" class="cp-poll-question" id="cp-poll-question" placeholder="Ask a question..." maxlength="300">
+      <div class="cp-poll-options" id="cp-poll-options">
+        <div class="cp-poll-option" data-option-index="0">
+          <span class="cp-poll-option-num">1</span>
+          <input type="text" class="cp-poll-option-input" placeholder="Option 1" maxlength="200">
+        </div>
+        <div class="cp-poll-option" data-option-index="1">
+          <span class="cp-poll-option-num">2</span>
+          <input type="text" class="cp-poll-option-input" placeholder="Option 2" maxlength="200">
+        </div>
+      </div>
+      <button type="button" class="cp-poll-add-option" data-action="add-poll-option">
+        <span class="material-symbols-outlined">add</span>
+        Add option
+      </button>
+      <div class="cp-poll-duration">
+        <span class="cp-poll-duration-label">Duration:</span>
+        <select class="cp-poll-duration-select" id="cp-poll-duration">
+          <option value="0">No expiry</option>
+          <option value="3600000">1 hour</option>
+          <option value="86400000">24 hours</option>
+          <option value="259200000">3 days</option>
+          <option value="604800000">7 days</option>
         </select>
       </div>
+    </div>
 
-      <div class="form-group">
-        <label class="md-label" for="content">Content</label>
-        <textarea id="content" name="content" class="md-textarea" placeholder="Share your thoughts... Use @username to mention someone." rows="6" required></textarea>
-      </div>
+    <div class="cp-error" id="cp-error"></div>
 
-      <div class="form-actions">
-        <button type="submit" class="md-btn md-btn-filled">
-          <span class="material-symbols-outlined" style="font-size:18px">send</span>
-          Post Discussion
-        </button>
-        <a href="{% url 'web:forum' %}" class="md-btn md-btn-text">Cancel</a>
-      </div>
-    </form>
+    <div class="cp-preview">
+      <button type="button" class="cp-preview-toggle" data-action="toggle-preview">
+        <span class="material-symbols-outlined">visibility</span>
+        Preview
+      </button>
+      <div class="cp-preview-content" id="cp-preview-content"></div>
+    </div>
+
+    <div class="cp-actions">
+      <button type="button" class="cp-submit" id="cp-submit">
+        <span class="material-symbols-outlined">send</span>
+        Post Discussion
+      </button>
+      <a href="{% url 'web:forum' %}" class="cp-cancel">Cancel</a>
+    </div>
   </div>
 </div>
 {% endblock %}
 
 {% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" nonce="{{ csp_nonce }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" nonce="{{ csp_nonce }}"></script>
 <script nonce="{{ csp_nonce }}">
 (function() {
-  var textarea = document.getElementById('content');
-  if (!textarea) return;
+  var MAX_IMAGES = 3;
+  var MAX_CONTENT = 20000;
+  var uploadedImages = [];
+  var pollVisible = false;
+  var submitting = false;
 
-  var mentionDropdown = null;
-  var mentionItems = [];
-  var mentionSelectedIndex = -1;
+  var titleInput = document.getElementById('cp-title');
+  var categorySelect = document.getElementById('cp-category');
+  var editorBody = document.getElementById('cp-body');
+  var charCount = document.getElementById('cp-char-count');
+  var errorDiv = document.getElementById('cp-error');
+  var submitBtn = document.getElementById('cp-submit');
+  var fileInput = document.getElementById('cp-file-input');
+  var imagesContainer = document.getElementById('cp-images');
+  var imagesGrid = document.getElementById('cp-images-grid');
+  var pollSection = document.getElementById('cp-poll-section');
+  var pollOptions = document.getElementById('cp-poll-options');
+  var previewContent = document.getElementById('cp-preview-content');
 
   function escapeHtml(s) {
     var d = document.createElement('div');
@@ -77,49 +191,452 @@
     return d.innerHTML;
   }
 
-  textarea.addEventListener('input', function(e) {
-    var val = e.target.value;
-    var pos = e.target.selectionStart;
-    var textBefore = val.substring(0, pos);
+  function showError(msg) {
+    errorDiv.textContent = msg;
+    errorDiv.classList.add('visible');
+  }
+  function hideError() {
+    errorDiv.textContent = '';
+    errorDiv.classList.remove('visible');
+  }
+
+  function updateCharCount() {
+    var len = (editorBody.textContent || '').length;
+    charCount.textContent = len.toLocaleString() + ' / 20,000';
+    charCount.classList.toggle('warn', len > MAX_CONTENT * 0.9);
+  }
+  editorBody.addEventListener('input', updateCharCount);
+
+  function getContentText() {
+    return editorBody.innerText || '';
+  }
+
+  function getContentHtml() {
+    return editorBody.innerHTML;
+  }
+
+  function formatText(before, after, placeholder) {
+    var sel = window.getSelection();
+    if (!sel.rangeCount) return;
+    var range = sel.getRangeAt(0);
+    var selectedText = range.toString();
+    var text = selectedText || placeholder;
+    var node = document.createTextNode(before + text + after);
+    range.deleteContents();
+    range.insertNode(node);
+    if (!selectedText) {
+      var newRange = document.createRange();
+      newRange.setStart(node, before.length);
+      newRange.setEnd(node, before.length + text.length);
+      sel.removeAllRanges();
+      sel.addRange(newRange);
+    }
+    editorBody.focus();
+    updateCharCount();
+  }
+
+  function insertBlock(tag) {
+    var sel = window.getSelection();
+    if (!sel.rangeCount) return;
+    var range = sel.getRangeAt(0);
+    var text = range.toString() || 'Text';
+    var node = document.createTextNode('\n' + tag + text + tag + '\n');
+    range.deleteContents();
+    range.insertNode(node);
+    editorBody.focus();
+    updateCharCount();
+  }
+
+  document.getElementById('cp-toolbar').addEventListener('click', function(e) {
+    var btn = e.target.closest('[data-action]');
+    if (!btn) return;
+    var action = btn.dataset.action;
+    editorBody.focus();
+    switch (action) {
+      case 'format-bold': formatText('**', '**', 'bold text'); break;
+      case 'format-italic': formatText('*', '*', 'italic text'); break;
+      case 'format-code': formatText('`', '`', 'code'); break;
+      case 'format-strikethrough': formatText('~~', '~~', 'text'); break;
+      case 'format-h2': insertBlock('## '); break;
+      case 'format-ul': formatText('\n- ', '', 'list item'); break;
+      case 'format-ol': formatText('\n1. ', '', 'list item'); break;
+      case 'format-blockquote': formatText('\n> ', '', 'quote'); break;
+      case 'format-link':
+        var sel = window.getSelection();
+        var range = sel.getRangeAt(0);
+        var linkText = range.toString() || 'Link text';
+        var url = prompt('Enter URL:', 'https://');
+        if (url) {
+          var node = document.createTextNode('[' + linkText + '](' + url + ')');
+          range.deleteContents();
+          range.insertNode(node);
+        }
+        break;
+      case 'format-math':
+        var mathText = prompt('Enter LaTeX formula:', 'E=mc^2');
+        if (mathText) {
+          var sel2 = window.getSelection();
+          var range2 = sel2.getRangeAt(0);
+          var node2 = document.createTextNode('$$' + mathText + '$$');
+          range2.deleteContents();
+          range2.insertNode(node2);
+        }
+        break;
+    }
+  });
+
+  document.querySelector('[data-action="attach-image"]').addEventListener('click', function() {
+    if (uploadedImages.length >= MAX_IMAGES) {
+      showError('Maximum ' + MAX_IMAGES + ' images per post');
+      return;
+    }
+    fileInput.click();
+  });
+
+  document.querySelector('[data-action="toggle-poll"]').addEventListener('click', function() {
+    pollVisible = !pollVisible;
+    pollSection.style.display = pollVisible ? '' : 'none';
+    if (pollVisible) {
+      pollSection.classList.add('active');
+    } else {
+      pollSection.classList.remove('active');
+    }
+  });
+
+  document.querySelector('[data-action="remove-poll"]').addEventListener('click', function() {
+    pollVisible = false;
+    pollSection.style.display = 'none';
+    pollSection.classList.remove('active');
+  });
+
+  document.querySelector('[data-action="add-poll-option"]').addEventListener('click', function() {
+    var count = pollOptions.querySelectorAll('.cp-poll-option').length;
+    if (count >= 6) {
+      showError('Maximum 6 poll options');
+      return;
+    }
+    hideError();
+    var idx = count;
+    var div = document.createElement('div');
+    div.className = 'cp-poll-option';
+    div.dataset.optionIndex = idx;
+    div.innerHTML = '<span class="cp-poll-option-num">' + (idx + 1) + '</span>' +
+      '<input type="text" class="cp-poll-option-input" placeholder="Option ' + (idx + 1) + '" maxlength="200">' +
+      '<button type="button" class="cp-poll-option-remove" data-action="remove-poll-option"><span class="material-symbols-outlined">close</span></button>';
+    pollOptions.appendChild(div);
+  });
+
+  pollOptions.addEventListener('click', function(e) {
+    var btn = e.target.closest('[data-action="remove-poll-option"]');
+    if (!btn) return;
+    var count = pollOptions.querySelectorAll('.cp-poll-option').length;
+    if (count <= 2) {
+      showError('Poll must have at least 2 options');
+      return;
+    }
+    hideError();
+    var option = btn.closest('.cp-poll-option');
+    option.remove();
+    var remaining = pollOptions.querySelectorAll('.cp-poll-option');
+    remaining.forEach(function(opt, i) {
+      opt.dataset.optionIndex = i;
+      opt.querySelector('.cp-poll-option-num').textContent = i + 1;
+      opt.querySelector('.cp-poll-option-input').placeholder = 'Option ' + (i + 1);
+    });
+  });
+
+  fileInput.addEventListener('change', function() {
+    var files = Array.from(fileInput.files);
+    if (uploadedImages.length + files.length > MAX_IMAGES) {
+      showError('Maximum ' + MAX_IMAGES + ' images per post');
+      fileInput.value = '';
+      return;
+    }
+    hideError();
+    files.forEach(function(file) {
+      if (!file.type.match(/^image\/(jpeg|png|webp|gif)$/)) {
+        showError('Only JPG, PNG, WEBP, and GIF images are allowed');
+        return;
+      }
+      if (file.size > 10 * 1024 * 1024) {
+        showError('Image must be under 10 MB');
+        return;
+      }
+      uploadImage(file);
+    });
+    fileInput.value = '';
+  });
+
+  editorBody.addEventListener('paste', function(e) {
+    var items = (e.clipboardData || e.originalEvent.clipboardData).items;
+    var hasImage = false;
+    for (var i = 0; i < items.length; i++) {
+      if (items[i].type.indexOf('image') !== -1) {
+        hasImage = true;
+        if (uploadedImages.length >= MAX_IMAGES) {
+          showError('Maximum ' + MAX_IMAGES + ' images per post');
+          e.preventDefault();
+          return;
+        }
+        hideError();
+        var file = items[i].getAsFile();
+        uploadImage(file);
+      }
+    }
+    if (hasImage) e.preventDefault();
+  });
+
+  var dropZone = document.getElementById('cp-editor');
+  dropZone.addEventListener('dragover', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+  });
+  dropZone.addEventListener('drop', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    var files = Array.from(e.dataTransfer.files);
+    var imageFiles = files.filter(function(f) { return f.type.indexOf('image') === 0; });
+    if (imageFiles.length === 0) return;
+    if (uploadedImages.length + imageFiles.length > MAX_IMAGES) {
+      showError('Maximum ' + MAX_IMAGES + ' images per post');
+      return;
+    }
+    hideError();
+    imageFiles.forEach(function(file) { uploadImage(file); });
+  });
+
+  function uploadImage(file) {
+    var formData = new FormData();
+    formData.append('image', file);
+    var thumb = createThumb(file);
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/ajax/post/upload-image/');
+    xhr.setRequestHeader('X-CSRFToken', document.querySelector('[name=csrfmiddlewaretoken]').value);
+    xhr.onload = function() {
+      if (xhr.status === 200) {
+        try {
+          var data = JSON.parse(xhr.responseText);
+          uploadedImages.push(data.url);
+          thumb.dataset.url = data.url;
+          thumb.querySelector('.cp-image-thumb-progress').style.display = 'none';
+        } catch (e) {
+          removeThumb(thumb);
+          showError('Failed to upload image');
+        }
+      } else {
+        removeThumb(thumb);
+        try {
+          var err = JSON.parse(xhr.responseText);
+          showError(err.error || 'Failed to upload image');
+        } catch (e) {
+          showError('Failed to upload image');
+        }
+      }
+    };
+    xhr.onerror = function() {
+      removeThumb(thumb);
+      showError('Network error uploading image');
+    };
+    xhr.send(formData);
+  }
+
+  function createThumb(file) {
+    imagesContainer.style.display = '';
+    var thumb = document.createElement('div');
+    thumb.className = 'cp-image-thumb';
+    var img = document.createElement('img');
+    img.src = URL.createObjectURL(file);
+    thumb.appendChild(img);
+    var progress = document.createElement('div');
+    progress.className = 'cp-image-thumb-progress';
+    progress.textContent = 'Uploading...';
+    thumb.appendChild(progress);
+    var removeBtn = document.createElement('button');
+    removeBtn.type = 'button';
+    removeBtn.className = 'cp-image-thumb-remove';
+    removeBtn.innerHTML = '<span class="material-symbols-outlined">close</span>';
+    removeBtn.addEventListener('click', function() {
+      removeThumb(thumb);
+    });
+    thumb.appendChild(removeBtn);
+    imagesGrid.appendChild(thumb);
+    return thumb;
+  }
+
+  function removeThumb(thumb) {
+    var url = thumb.dataset.url;
+    if (url) {
+      uploadedImages = uploadedImages.filter(function(u) { return u !== url; });
+    }
+    thumb.remove();
+    if (imagesGrid.children.length === 0) {
+      imagesContainer.style.display = 'none';
+    }
+  }
+
+  var previewVisible = false;
+  document.querySelector('[data-action="toggle-preview"]').addEventListener('click', function() {
+    previewVisible = !previewVisible;
+    previewContent.classList.toggle('visible', previewVisible);
+    if (previewVisible) renderPreview();
+  });
+
+  function renderPreview() {
+    var html = getContentHtml();
+    var temp = document.createElement('div');
+    temp.innerHTML = html;
+    var text = temp.textContent || temp.innerText || '';
+    text = text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+    text = text.replace(/\*(.+?)\*/g, '<em>$1</em>');
+    text = text.replace(/~~(.+?)~~/g, '<del>$1</del>');
+    text = text.replace(/`(.+?)`/g, '<code>$1</code>');
+    text = text.replace(/^## (.+)$/gm, '<h3>$1</h3>');
+    text = text.replace(/^> (.+)$/gm, '<blockquote>$1</blockquote>');
+    text = text.replace(/\n/g, '<br>');
+    previewContent.innerHTML = text;
+    try {
+      renderMathInElement(previewContent, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '\\(', right: '\\)', display: false}
+        ]
+      });
+    } catch (e) {}
+  }
+
+  submitBtn.addEventListener('click', function() {
+    if (submitting) return;
+    hideError();
+    var title = titleInput.value.trim();
+    var content = getContentText().trim();
+    var category = categorySelect.value;
+    if (!title) { showError('Please enter a title'); titleInput.focus(); return; }
+    if (!content) { showError('Please enter some content'); editorBody.focus(); return; }
+    if (!category) { showError('Please select a category'); categorySelect.focus(); return; }
+    if (content.length > MAX_CONTENT) { showError('Content is too long (max 20,000 characters)'); return; }
+
+    var imageUrls = uploadedImages.slice();
+
+    var pollData = null;
+    if (pollVisible) {
+      var pollQuestion = document.getElementById('cp-poll-question').value.trim();
+      var optInputs = pollOptions.querySelectorAll('.cp-poll-option-input');
+      var options = [];
+      optInputs.forEach(function(input) {
+        var v = input.value.trim();
+        if (v) options.push(v);
+      });
+      if (options.length < 2) {
+        showError('Poll must have at least 2 non-empty options');
+        return;
+      }
+      if (options.length > 6) {
+        showError('Poll can have at most 6 options');
+        return;
+      }
+      pollData = {
+        question: pollQuestion,
+        duration_ms: parseInt(document.getElementById('cp-poll-duration').value) || 0,
+        options: options
+      };
+    }
+
+    submitting = true;
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Posting...';
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/ajax/post/');
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.setRequestHeader('X-CSRFToken', document.querySelector('[name=csrfmiddlewaretoken]').value);
+    xhr.onload = function() {
+      submitting = false;
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = '<span class="material-symbols-outlined">send</span> Post Discussion';
+      if (xhr.status === 201) {
+        try {
+          var data = JSON.parse(xhr.responseText);
+          if (data.id) {
+            window.location.href = '/forum/post/' + data.id + '/';
+            return;
+          }
+        } catch (e) {}
+      }
+      try {
+        var err = JSON.parse(xhr.responseText);
+        showError(err.error || 'Failed to create post');
+      } catch (e) {
+        showError('Failed to create post');
+      }
+    };
+    xhr.onerror = function() {
+      submitting = false;
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = '<span class="material-symbols-outlined">send</span> Post Discussion';
+      showError('Network error. Please try again.');
+    };
+    xhr.send(JSON.stringify({
+      title: title,
+      content: content,
+      category: category,
+      images: imageUrls,
+      poll: pollData
+    }));
+  });
+
+  var mentionDropdown = null;
+  var mentionItems = [];
+  var mentionSelectedIndex = -1;
+
+  editorBody.addEventListener('input', function(e) {
+    updateCharCount();
+    var text = editorBody.textContent;
+    var sel = window.getSelection();
+    if (!sel.rangeCount) return;
+    var range = sel.getRangeAt(0);
+    var node = range.startContainer;
+    var offset = range.startOffset;
+    var textBefore = node.textContent.substring(0, offset);
     var atMatch = textBefore.match(/@(\w{2,})$/);
-    if (!atMatch) { closeDropdown(); return; }
+    if (!atMatch) { closeMentionDropdown(); return; }
     var query = atMatch[1];
     fetch('/ajax/user-search/?q=' + encodeURIComponent(query))
       .then(function(r) { return r.json(); })
       .then(function(users) {
-        if (!users.length) { closeDropdown(); return; }
-        showDropdown(users);
+        if (!users.length) { closeMentionDropdown(); return; }
+        showMentionDropdown(users);
       })
-      .catch(function() { closeDropdown(); });
+      .catch(function() { closeMentionDropdown(); });
   });
 
-  textarea.addEventListener('keydown', function(e) {
+  editorBody.addEventListener('keydown', function(e) {
     if (!mentionDropdown || !mentionDropdown.classList.contains('open')) return;
     if (e.key === 'ArrowDown') {
       e.preventDefault();
       mentionSelectedIndex = Math.min(mentionSelectedIndex + 1, mentionItems.length - 1);
-      highlightItem();
+      highlightMentionItem();
     } else if (e.key === 'ArrowUp') {
       e.preventDefault();
       mentionSelectedIndex = Math.max(mentionSelectedIndex - 1, 0);
-      highlightItem();
+      highlightMentionItem();
     } else if (e.key === 'Enter' || e.key === 'Tab') {
       e.preventDefault();
-      selectItem(mentionSelectedIndex);
+      selectMentionItem(mentionSelectedIndex);
     } else if (e.key === 'Escape') {
       e.preventDefault();
-      closeDropdown();
+      closeMentionDropdown();
     }
   });
 
-  textarea.addEventListener('blur', function() {
-    setTimeout(closeDropdown, 200);
+  editorBody.addEventListener('blur', function() {
+    setTimeout(closeMentionDropdown, 200);
   });
 
-  function showDropdown(users) {
+  function showMentionDropdown(users) {
     if (!mentionDropdown) {
       mentionDropdown = document.createElement('div');
-      mentionDropdown.className = 'fp-mention-dropdown';
+      mentionDropdown.className = 'cp-mention-dropdown';
       document.body.appendChild(mentionDropdown);
     }
     mentionItems = users;
@@ -127,48 +644,54 @@
     var html = '';
     users.forEach(function(u, i) {
       var avatarHtml = u.photoUrl
-        ? '<img src="' + escapeHtml(u.photoUrl) + '" alt="" data-fallback="flex"><span class="fp-mention-item-letter" style="display:none;">' + escapeHtml(u.displayName.charAt(0)) + '</span>'
-        : '<span class="fp-mention-item-letter">' + escapeHtml(u.displayName.charAt(0)) + '</span>';
-      html += '<div class="fp-mention-item' + (i === 0 ? ' selected' : '') + '" data-index="' + i + '" data-mousedown-action="select-mention-item" data-hover-action="hover-mention-item">';
-      html += '<div class="fp-mention-item-avatar">' + avatarHtml + '</div>';
-      html += '<div><div class="fp-mention-item-name">' + escapeHtml(u.displayName) + '</div>';
-      html += '<div class="fp-mention-item-username">@' + escapeHtml(u.username) + '</div></div>';
+        ? '<img src="' + escapeHtml(u.photoUrl) + '" alt="" data-fallback="flex"><span class="cp-mention-item-letter" style="display:none;">' + escapeHtml(u.displayName.charAt(0)) + '</span>'
+        : '<span class="cp-mention-item-letter">' + escapeHtml(u.displayName.charAt(0)) + '</span>';
+      html += '<div class="cp-mention-item' + (i === 0 ? ' selected' : '') + '" data-index="' + i + '" data-mousedown-action="select-mention-item" data-hover-action="hover-mention-item">';
+      html += '<div class="cp-mention-item-avatar">' + avatarHtml + '</div>';
+      html += '<div><div class="cp-mention-item-name">' + escapeHtml(u.displayName) + '</div>';
+      html += '<div class="cp-mention-item-username">@' + escapeHtml(u.username) + '</div></div>';
       html += '</div>';
     });
     mentionDropdown.innerHTML = html;
     mentionDropdown.classList.add('open');
-    var rect = textarea.getBoundingClientRect();
+    var rect = editorBody.getBoundingClientRect();
     var dh = mentionDropdown.scrollHeight || 200;
     mentionDropdown.style.top = (rect.top + window.scrollY - dh - 4) + 'px';
     mentionDropdown.style.left = (rect.left + window.scrollX) + 'px';
     mentionDropdown.style.width = Math.min(280, rect.width) + 'px';
   }
 
-  function highlightItem() {
+  function highlightMentionItem() {
     if (!mentionDropdown) return;
-    var items = mentionDropdown.querySelectorAll('.fp-mention-item');
+    var items = mentionDropdown.querySelectorAll('.cp-mention-item');
     items.forEach(function(item, i) {
       item.classList.toggle('selected', i === mentionSelectedIndex);
     });
   }
 
-  function selectItem(index) {
+  function selectMentionItem(index) {
     if (!mentionDropdown || !mentionItems[index]) return;
     var username = mentionItems[index].username;
-    var val = textarea.value;
-    var pos = textarea.selectionStart;
-    var textBefore = val.substring(0, pos);
-    var atMatch = textBefore.match(/@(\w*)$/);
-    if (!atMatch) { closeDropdown(); return; }
-    var atStart = pos - atMatch[0].length;
-    textarea.value = val.substring(0, atStart) + '@' + username + ' ' + val.substring(pos);
-    var newPos = atStart + username.length + 2;
-    textarea.setSelectionRange(newPos, newPos);
-    textarea.focus();
-    closeDropdown();
+    var sel = window.getSelection();
+    if (!sel.rangeCount) return;
+    var range = sel.getRangeAt(0);
+    var node = range.startContainer;
+    var offset = range.startOffset;
+    var textBefore = node.textContent.substring(0, offset);
+    var atMatch = textBefore.match(/@\w*$/);
+    if (!atMatch) { closeMentionDropdown(); return; }
+    var atStart = offset - atMatch[0].length;
+    node.textContent = node.textContent.substring(0, atStart) + '@' + username + ' ' + node.textContent.substring(offset);
+    var newOffset = atStart + username.length + 2;
+    var newRange = document.createRange();
+    newRange.setStart(node, newOffset);
+    newRange.setEnd(node, newOffset);
+    sel.removeAllRanges();
+    sel.addRange(newRange);
+    closeMentionDropdown();
   }
 
-  function closeDropdown() {
+  function closeMentionDropdown() {
     if (mentionDropdown) {
       mentionDropdown.classList.remove('open');
       mentionItems = [];
@@ -176,17 +699,13 @@
     }
   }
 
-  window.__selectCreateMention = selectItem;
-  window.__hoverCreateMention = function(i) { mentionSelectedIndex = i; highlightItem(); };
-
   document.addEventListener('mousedown', function(e) {
     var el = e.target.closest('[data-mousedown-action="select-mention-item"]');
-    if (el) { e.preventDefault(); window.__selectCreateMention(parseInt(el.dataset.index)); }
+    if (el) { e.preventDefault(); selectMentionItem(parseInt(el.dataset.index)); }
   });
-
   document.addEventListener('mouseover', function(e) {
     var el = e.target.closest('[data-hover-action="hover-mention-item"]');
-    if (el) { window.__hoverCreateMention(parseInt(el.dataset.index)); }
+    if (el) { mentionSelectedIndex = parseInt(el.dataset.index); highlightMentionItem(); }
   });
 })();
 </script>

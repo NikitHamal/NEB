@@ -68,3 +68,6 @@ Resources/
 *.rar
 *.7z
 
+# Temp directories
+.kunsdd/
+

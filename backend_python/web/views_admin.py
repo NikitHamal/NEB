@@ -257,10 +257,15 @@ def admin_users(request):
         return redirect_response
     users_qs = User.objects.all().order_by('-created_at')
     search = request.GET.get('q', '').strip()
+    role_filter = request.GET.get('role', '').strip()
     if search:
         users_qs = users_qs.filter(
             Q(username__icontains=search) | Q(email__icontains=search) | Q(display_name__icontains=search)
         )
+    if role_filter == 'teacher_verified':
+        users_qs = users_qs.filter(role='teacher', teacher_verified=True)
+    elif role_filter in ('student', 'teacher', 'institution', 'explorer'):
+        users_qs = users_qs.filter(role=role_filter)
     paginator = Paginator(users_qs, 20)
     page_number = request.GET.get('page', 1)
     page_obj = paginator.get_page(page_number)
@@ -270,6 +275,7 @@ def admin_users(request):
         'users': users_data,
         'page_obj': page_obj,
         'search': search,
+        'role_filter': role_filter,
         'active_page': 'users',
     })
 
@@ -317,6 +323,10 @@ def admin_user_detail(request, user_id):
         user_obj.moderator_level = int(request.POST.get('moderator_level', '0'))
         user_obj.is_admin = request.POST.get('is_admin') == 'on'
         user_obj.is_bot = request.POST.get('is_bot') == 'on'
+        role = request.POST.get('role', '').strip()
+        if role in ('student', 'teacher', 'institution', 'explorer'):
+            user_obj.role = role
+        user_obj.teacher_verified = request.POST.get('teacher_verified') == 'on'
         user_obj.achievement_badges = request.POST.get('achievement_badges', '')
         user_obj.save()
     user_data = UserSerializer(user_obj).data

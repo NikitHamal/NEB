@@ -5,7 +5,7 @@ import time
 
 
 class Command(BaseCommand):
-    help = 'Create mock student, teacher, and institution accounts for local testing'
+    help = 'Create mock student, teacher, institution, and explorer accounts for local testing'
 
     def handle(self, *args, **options):
         now = int(time.time() * 1000)
@@ -58,6 +58,19 @@ class Command(BaseCommand):
                 'bio': 'Leading educational institution in Kathmandu offering +2 Science and Management programs.',
                 'email_verified': True,
             },
+            {
+                'pk': 'mock_explorer_001',
+                'username': 'explorer_demo',
+                'email': 'explorer@nebians.test',
+                'display_name': 'Curious Learner',
+                'password_hash': hash_password('demo1234'),
+                'role': 'explorer',
+                'gender': 'Other',
+                'pradesh': '3',
+                'district': 'Bhaktapur',
+                'bio': 'Just exploring NEBians to see what it offers. Might upgrade to a student account later.',
+                'email_verified': True,
+            },
         ]
 
         for user_data in users:
@@ -80,3 +93,4 @@ class Command(BaseCommand):
         self.stdout.write('  Student:     student_demo / demo1234')
         self.stdout.write('  Teacher:     teacher_demo / demo1234')
         self.stdout.write('  Institution: institution_demo / demo1234')
+        self.stdout.write('  Explorer:    explorer_demo / demo1234')

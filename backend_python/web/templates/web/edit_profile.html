@@ -53,18 +53,23 @@
         <div style="display:flex;gap:8px;margin-top:4px;flex-wrap:wrap;" id="role-selector">
           <label class="role-radio-card{% if user.role == 'student' %} role-radio-active{% endif %}">
             <input type="radio" name="role" value="student" {% if user.role == 'student' or not user.role %}checked{% endif %} style="display:none;">
-            <span class="material-symbols-outlined" style="font-size:20px;">school</span>
+            <span class="material-symbols-outlined" style="font-size:20px;">backpack</span>
             Student
           </label>
           <label class="role-radio-card{% if user.role == 'teacher' %} role-radio-active{% endif %}">
             <input type="radio" name="role" value="teacher" {% if user.role == 'teacher' %}checked{% endif %} style="display:none;">
-            <span class="material-symbols-outlined" style="font-size:20px;">person_book</span>
+            <span class="material-symbols-outlined" style="font-size:20px;">history_edu</span>
             Teacher
           </label>
           <label class="role-radio-card{% if user.role == 'institution' %} role-radio-active{% endif %}">
             <input type="radio" name="role" value="institution" {% if user.role == 'institution' %}checked{% endif %} style="display:none;">
-            <span class="material-symbols-outlined" style="font-size:20px;">apartment</span>
+            <span class="material-symbols-outlined" style="font-size:20px;">account_balance</span>
             Institution
+          </label>
+          <label class="role-radio-card role-radio-card-explorer{% if user.role == 'explorer' %} role-radio-active{% endif %}">
+            <input type="radio" name="role" value="explorer" {% if user.role == 'explorer' %}checked{% endif %} style="display:none;">
+            <span class="material-symbols-outlined" style="font-size:20px;">travel_explore</span>
+            Explorer
           </label>
         </div>
       </div>
@@ -159,6 +164,14 @@
         </div>
       </div>
 
+      <!-- Explorer fields -->
+      <div id="role-fields-explorer" class="role-fields" style="{% if user.role == 'explorer' %}{% else %}display:none;{% endif %}">
+        <div class="form-group" style="padding: 12px 14px; border-radius: 12px; background: var(--md-surface-container-low, #f8f7fc); border: 1px dashed var(--md-outline, #79747e); color: var(--md-on-surface-variant, #49454f); font-size: 0.875rem; display: flex; gap: 10px; align-items: flex-start;">
+          <span class="material-symbols-outlined" style="font-size:20px;color:var(--md-tertiary,#7d5260);">travel_explore</span>
+          <span>You're exploring NEBians for now. You can update your role to Student, Teacher, or Institution anytime from this page.</span>
+        </div>
+      </div>
+
       <div class="form-row">
         <div class="form-group">
           <label class="md-label" for="class_level">Class / Level</label>
@@ -169,8 +182,8 @@
             <option value="Class 10 / SEE" {% if user.class_level == 'Class 10 / SEE' %}selected{% endif %}>Class 10 / SEE</option>
             <option value="11" {% if user.class_level == '11' %}selected{% endif %}>Class 11</option>
             <option value="12" {% if user.class_level == '12' %}selected{% endif %}>Class 12</option>
-            <option value="Both" {% if user.class_level == 'Both' %}selected{% endif %}>Both (11 & 12)</option>
-            <option value="Passout" {% if user.class_level == 'Passout' %}selected{% endif %}>Passout</option>
+            <option value="+2 Passout" {% if user.class_level == '+2 Passout' %}selected{% endif %}>+2 Passout</option>
+            <option value="Diploma" {% if user.class_level == 'Diploma' %}selected{% endif %}>Diploma</option>
             <option value="Bachelors" {% if user.class_level == 'Bachelors' %}selected{% endif %}>Bachelors</option>
             <option value="Masters" {% if user.class_level == 'Masters' %}selected{% endif %}>Masters</option>
             <option value="PhD" {% if user.class_level == 'PhD' %}selected{% endif %}>PhD</option>
@@ -630,15 +643,16 @@ registerActions({
   var fieldSections = {
     student: document.getElementById('role-fields-student'),
     teacher: document.getElementById('role-fields-teacher'),
-    institution: document.getElementById('role-fields-institution')
+    institution: document.getElementById('role-fields-institution'),
+    explorer: document.getElementById('role-fields-explorer')
   };
   var schoolLabel = document.getElementById('school-label');
   var schoolInput = document.getElementById('school');
   var classLevelSelect = document.getElementById('class_level');
   var classLevelLabel = document.querySelector('label[for="class_level"]');
-  var schoolLabels = { student: 'School/College', teacher: 'School/College', institution: 'Institution Name' };
-  var schoolPlaceholders = { student: 'Your school or college name', teacher: 'Where you teach', institution: 'Official institution name' };
-  var classLabels = { student: 'Class *', teacher: 'Class Level', institution: 'Class Level' };
+  var schoolLabels = { student: 'School/College', teacher: 'School/College', institution: 'Institution Name', explorer: 'School/College' };
+  var schoolPlaceholders = { student: 'Your school or college name', teacher: 'Where you teach', institution: 'Official institution name', explorer: 'Your school or college name (optional)' };
+  var classLabels = { student: 'Class *', teacher: 'Class Level', institution: 'Class Level', explorer: 'Class / Level' };
 
   // Student class options
   var studentOptions = [
@@ -648,8 +662,8 @@ registerActions({
     { value: 'Class 10 / SEE', text: 'Class 10 / SEE' },
     { value: '11', text: 'Class 11' },
     { value: '12', text: 'Class 12' },
-    { value: 'Both', text: 'Both (11 & 12)' },
-    { value: 'Passout', text: 'Passout' },
+    { value: '+2 Passout', text: '+2 Passout' },
+    { value: 'Diploma', text: 'Diploma' },
     { value: 'Bachelors', text: 'Bachelors' },
     { value: 'Masters', text: 'Masters' },
     { value: 'PhD', text: 'PhD' },
@@ -660,7 +674,8 @@ registerActions({
     { value: '', text: 'Select level' },
     { value: '11', text: 'Class 11' },
     { value: '12', text: 'Class 12' },
-    { value: 'Both', text: 'Both (11 & 12)' },
+    { value: '+2 Passout', text: '+2 Passout' },
+    { value: 'Diploma', text: 'Diploma' },
     { value: 'Bachelors', text: 'Bachelors' },
     { value: 'Masters', text: 'Masters' },
     { value: 'Other', text: 'Other' }

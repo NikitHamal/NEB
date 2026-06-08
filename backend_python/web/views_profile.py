@@ -34,6 +34,14 @@ def profile(request, username):
             banner_type = 'gradient-verified'
             banner_deco_text = 'nebian'
             banner_text_color = 'rgba(255,255,255,0.20)'
+        elif getattr(profile_user, 'role', '') == 'teacher':
+            banner_type = 'gradient-tutor'
+            banner_deco_text = 'tutor'
+            banner_text_color = 'rgba(255,255,255,0.28)'
+        elif getattr(profile_user, 'role', '') == 'institution':
+            banner_type = 'gradient-institution'
+            banner_deco_text = 'nebian'
+            banner_text_color = 'rgba(255,255,255,0.25)'
 
     profile_data = {
         'id': profile_user.id,
@@ -63,6 +71,7 @@ def profile(request, username):
         'moderator_level': profile_user.moderator_level,
         'is_admin': profile_user.is_admin,
         'is_bot': profile_user.is_bot,
+        'teacher_verified': profile_user.teacher_verified,
         'achievement_badges': profile_user.achievement_badges,
         'badge_info': badge_info,
         'achievement_info': _user_achievement_badges(profile_user),
@@ -150,6 +159,7 @@ def profile(request, username):
         badge_info=profile_data.get('badge_info'),
         badge_info_json=json.dumps(profile_data.get('badge_info')),
         achievement_info_json=json.dumps(profile_data.get('achievement_info', [])),
+        profile_user_json=json.dumps(profile_data),
     ))
 
 def profile_achievements(request, username):
@@ -186,6 +196,7 @@ def profile_achievements(request, username):
         'verification_level': profile_user.verification_level,
         'moderator_level': profile_user.moderator_level,
         'is_admin': profile_user.is_admin,
+        'teacher_verified': profile_user.teacher_verified,
         'achievement_badges': profile_user.achievement_badges,
         'badge_info': _user_badge_info(profile_user),
         'achievement_info': _user_achievement_badges(profile_user),
@@ -287,7 +298,7 @@ def edit_profile(request):
         gender = request.POST.get('gender', '').strip()
         role = request.POST.get('role', db_user.role).strip().lower()
         class_level = request.POST.get('class_level', '').strip()
-        if role not in ('student', 'teacher', 'institution'):
+        if role not in ('student', 'teacher', 'institution', 'explorer'):
             role = db_user.role or 'student'
         if not username or not dob:
             return render(request, 'web/edit_profile.html', _ctx(request, error='Username and Date of Birth are required.'))

@@ -85,6 +85,21 @@
     font-size: 18px;
   }
 
+  .pf-explorer-tagline {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #B45309;
+    font-weight: 600;
+    font-size: 0.875rem;
+  }
+  html[data-theme="dark"] .pf-explorer-tagline {
+    color: #FBBF24;
+  }
+  .pf-explorer-tagline .material-symbols-outlined {
+    font-size: 18px;
+  }
+
   .pf-btn-bot-cta {
     background: var(--md-primary) !important;
     color: var(--md-on-primary) !important;

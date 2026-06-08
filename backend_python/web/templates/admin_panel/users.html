@@ -15,6 +15,25 @@
   </form>
 </div>
 
+<div class="admin-filter-tabs" style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;">
+  <a href="{% url 'web:admin_users' %}{% if search %}?q={{ search }}{% endif %}" class="md-btn {% if not role_filter %}md-btn-filled{% else %}md-btn-outlined{% endif %}" style="padding:6px 14px;font-size:0.8125rem;">All</a>
+  <a href="{% url 'web:admin_users' %}?role=teacher{% if search %}&q={{ search }}{% endif %}" class="md-btn {% if role_filter == 'teacher' %}md-btn-filled{% else %}md-btn-outlined{% endif %}" style="padding:6px 14px;font-size:0.8125rem;">
+    <span class="material-symbols-outlined" style="font-size:16px;">school</span> Teachers
+  </a>
+  <a href="{% url 'web:admin_users' %}?role=institution{% if search %}&q={{ search }}{% endif %}" class="md-btn {% if role_filter == 'institution' %}md-btn-filled{% else %}md-btn-outlined{% endif %}" style="padding:6px 14px;font-size:0.8125rem;">
+    <span class="material-symbols-outlined" style="font-size:16px;">account_balance</span> Institutions
+  </a>
+  <a href="{% url 'web:admin_users' %}?role=student{% if search %}&q={{ search }}{% endif %}" class="md-btn {% if role_filter == 'student' %}md-btn-filled{% else %}md-btn-outlined{% endif %}" style="padding:6px 14px;font-size:0.8125rem;">
+    <span class="material-symbols-outlined" style="font-size:16px;">backpack</span> Students
+  </a>
+  <a href="{% url 'web:admin_users' %}?role=explorer{% if search %}&q={{ search }}{% endif %}" class="md-btn {% if role_filter == 'explorer' %}md-btn-filled{% else %}md-btn-outlined{% endif %}" style="padding:6px 14px;font-size:0.8125rem;">
+    <span class="material-symbols-outlined" style="font-size:16px;">travel_explore</span> Explorers
+  </a>
+  <a href="{% url 'web:admin_users' %}?role=teacher_verified{% if search %}&q={{ search }}{% endif %}" class="md-btn {% if role_filter == 'teacher_verified' %}md-btn-filled{% else %}md-btn-outlined{% endif %}" style="padding:6px 14px;font-size:0.8125rem;background:{% if role_filter == 'teacher_verified' %}#10B981;color:#fff{% else %}transparent;color:#10B981{% endif %};border-color:#10B981;">
+    <span class="material-symbols-outlined" style="font-size:16px;">verified</span> Verified Teachers
+  </a>
+</div>
+
 {% if users %}
 <div class="md-table-responsive">
   <table class="md-table">
@@ -60,7 +79,15 @@
           </div>
         </td>
         <td>{{ u.email|default:"-" }}</td>
-        <td>{{ u.class_level|default:"-" }}</td>
+        <td style="font-size:0.75rem;">{{ u.class_level|default:"-" }}
+            {% if u.role == 'teacher' %}
+              <span style="color:#10B981;font-weight:600;">Teacher{% if u.teacher_verified %} ✓{% endif %}</span>
+            {% elif u.role == 'institution' %}
+              <span style="color:#6366F1;font-weight:600;">Institution</span>
+            {% elif u.role == 'explorer' %}
+              <span style="color:#F59E0B;font-weight:600;">Explorer</span>
+            {% endif %}
+          </td>
         <td>{{ u.pradesh|default:"-" }}</td>
         <td>
           {% if u.is_locked %}
@@ -89,7 +116,7 @@
 {% if page_obj.has_other_pages %}
 <div class="admin-pagination">
     {% if page_obj.has_previous %}
-        <a href="?page={{ page_obj.previous_page_number }}{% if search %}&q={{ search }}{% endif %}" class="md-btn md-btn-text">&laquo; Previous</a>
+        <a href="?page={{ page_obj.previous_page_number }}{% if search %}&q={{ search }}{% endif %}{% if role_filter %}&role={{ role_filter }}{% endif %}" class="md-btn md-btn-text">&laquo; Previous</a>
     {% else %}
         <span class="disabled">&laquo; Previous</span>
     {% endif %}
@@ -97,11 +124,11 @@
         {% if page_obj.number == num %}
             <span class="active">{{ num }}</span>
         {% else %}
-            <a href="?page={{ num }}{% if search %}&q={{ search }}{% endif %}">{{ num }}</a>
+            <a href="?page={{ num }}{% if search %}&q={{ search }}{% endif %}{% if role_filter %}&role={{ role_filter }}{% endif %}">{{ num }}</a>
         {% endif %}
     {% endfor %}
     {% if page_obj.has_next %}
-        <a href="?page={{ page_obj.next_page_number }}{% if search %}&q={{ search }}{% endif %}" class="md-btn md-btn-text">Next &raquo;</a>
+        <a href="?page={{ page_obj.next_page_number }}{% if search %}&q={{ search }}{% endif %}{% if role_filter %}&role={{ role_filter }}{% endif %}" class="md-btn md-btn-text">Next &raquo;</a>
     {% else %}
         <span class="disabled">Next &raquo;</span>
     {% endif %}

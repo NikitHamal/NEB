@@ -1,5 +1,8 @@
 """Views Forum extracted from views.py."""
 from .view_helpers import *  # noqa: F401,F403
+from .models import PostImage, Poll, PollOption, PollVote
+from .security import save_post_image_upload, POST_IMAGE_MAX_COUNT
+from . import services
 
 @api_view(['POST'])
 @throttle_classes([WriteActionRateThrottle])
@@ -318,26 +321,32 @@ def posts_endpoint(request):
     if err:
         return err
 
-    now = _now_ms()
-    post = Post.objects.create(
-        id=str(uuid.uuid4()),
-        user=user,
-        title=title,
-        content=content,
-        category=category,
-        thumbs_up_count=0,
-        reply_count=0,
-        created_at=now,
-    )
-    _counters.increment_user_post_count(user.id)
-    try:
-        from .neby import enqueue_if_post_mention
-        enqueue_if_post_mention(post)
-    except Exception:
-        pass
-    logger.info("posts_endpoint: created post %s by user %s", post.id, user.username)
-    _rt.broadcast_post_created(PostSerializer(post, context={'request': request}).data)
-    return Response(PostSerializer(post, context={'request': request}).data, status=201)
+    image_urls = request.data.get('image_urls', [])
+    if image_urls and len(image_urls) > POST_IMAGE_MAX_COUNT:
+        return Response({'error': f'Maximum {POST_IMAGE_MAX_COUNT} images per post'}, status=400)
+
+    poll_data = None
+    poll_raw = request.data.get('poll')
+    if poll_raw:
+        options = poll_raw.get('options', [])
+        if len(options) < 2:
+            return Response({'error': 'Poll must have at least 2 options'}, status=400)
+        if len(options) > 6:
+            return Response({'error': 'Poll can have at most 6 options'}, status=400)
+        for opt in options:
+            if not opt.strip():
+                return Response({'error': 'Poll options cannot be empty'}, status=400)
+        poll_data = {
+            'question': poll_raw.get('question', ''),
+            'duration_ms': int(poll_raw.get('duration_ms', 0) or 0),
+            'options': [opt.strip() for opt in options],
+        }
+
+    result = services.create_post(user, title, content, category, image_urls=image_urls, poll_data=poll_data)
+    if result:
+        logger.info("posts_endpoint: created post %s by user %s", result['id'], user.username)
+        return Response(result, status=201)
+    return Response({'error': 'Failed to create post'}, status=400)
 
 @api_view(['GET', 'POST'])
 def replies_endpoint(request, post_id):
@@ -395,3 +404,54 @@ def replies_endpoint(request, post_id):
         pass
     _rt.broadcast_reply_created(post_id, ReplySerializer(reply, context={'request': request}).data)
     return Response(ReplySerializer(reply, context={'request': request}).data, status=201)
+
+
+@api_view(['POST'])
+@throttle_classes([WriteActionRateThrottle])
+def post_images(request, post_id):
+    user, err = _require_user(request)
+    if err:
+        return err
+    try:
+        post = Post.objects.get(pk=post_id)
+    except Post.DoesNotExist:
+        return Response({'error': 'Post not found'}, status=404)
+    if post.user_id != user.id:
+        return Response({'error': 'Forbidden'}, status=403)
+    existing_count = PostImage.objects.filter(post=post).count()
+    files = request.data.getlist('images') if hasattr(request.data, 'getlist') else []
+    if not files:
+        return Response({'error': 'No images provided'}, status=400)
+    if existing_count + len(files) > POST_IMAGE_MAX_COUNT:
+        return Response({'error': 'Maximum 3 images per post'}, status=400)
+    now = _now_ms()
+    uploaded = []
+    for i, f in enumerate(files):
+        try:
+            url = save_post_image_upload(request, user, f, order=existing_count + i)
+            img = PostImage.objects.create(
+                id=str(uuid.uuid4()),
+                post=post,
+                image_url=url,
+                order=existing_count + i,
+                created_at=now,
+            )
+            uploaded.append({'id': img.id, 'imageUrl': img.image_url, 'order': img.order})
+        except Exception as e:
+            return Response({'error': str(e)}, status=400)
+    return Response({'images': uploaded}, status=201)
+
+
+@api_view(['POST'])
+@throttle_classes([WriteActionRateThrottle])
+def poll_vote(request, poll_id):
+    user, err = _require_user(request)
+    if err:
+        return err
+    option_id = request.data.get('option_id', '').strip()
+    if not option_id:
+        return Response({'error': 'option_id is required'}, status=400)
+    result, status_code = services.vote_poll(user, poll_id, option_id)
+    if 'error' in result:
+        return Response(result, status=status_code)
+    return Response(result)

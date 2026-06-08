@@ -44,6 +44,29 @@
   .auth-role-label { display: block; font-size: 1rem; font-weight: 600; line-height: 1.3; }
   .auth-role-desc { display: block; font-size: 0.8125rem; color: var(--md-on-surface-variant, #49454f); margin-top: 2px; }
   html[data-theme="dark"] .auth-role-desc { color: var(--md-on-surface-variant, #cac4d0); }
+  .auth-role-divider {
+    display: flex; align-items: center; gap: 12px;
+    margin: 8px 0 4px;
+    color: var(--md-on-surface-variant, #49454f);
+    font-size: 0.8125rem;
+  }
+  .auth-role-divider::before,
+  .auth-role-divider::after {
+    content: "";
+    flex: 1; height: 1px;
+    background: var(--md-outline-variant, #cac4d0);
+  }
+  .auth-role-card-explorer {
+    background: transparent;
+    border-style: dashed;
+    border-color: var(--md-outline, #79747e);
+  }
+  .auth-role-card-explorer:hover {
+    border-style: solid;
+    background: var(--md-primary-container, #dfe1ff);
+  }
+  .auth-role-card-explorer .auth-role-icon { color: var(--md-tertiary, #7d5260); }
+  html[data-theme="dark"] .auth-role-card-explorer .auth-role-icon { color: var(--md-tertiary, #efb8c0); }
 </style>
 
 <div class="auth-shell">
@@ -119,19 +142,25 @@
             <label class="md-label" style="margin-bottom:12px;">I am a...</label>
             <div class="auth-role-cards">
               <button type="button" class="auth-role-card" data-action="select-role" data-role="student">
-                <span class="material-symbols-outlined auth-role-icon">school</span>
+                <span class="material-symbols-outlined auth-role-icon">backpack</span>
                 <span class="auth-role-label">Student</span>
                 <span class="auth-role-desc">I'm studying for exams</span>
               </button>
               <button type="button" class="auth-role-card" data-action="select-role" data-role="teacher">
-                <span class="material-symbols-outlined auth-role-icon">person_book</span>
+                <span class="material-symbols-outlined auth-role-icon">history_edu</span>
                 <span class="auth-role-label">Teacher</span>
                 <span class="auth-role-desc">I teach and create content</span>
               </button>
               <button type="button" class="auth-role-card" data-action="select-role" data-role="institution">
-                <span class="material-symbols-outlined auth-role-icon">apartment</span>
+                <span class="material-symbols-outlined auth-role-icon">account_balance</span>
                 <span class="auth-role-label">Institution</span>
                 <span class="auth-role-desc">School, college, or academy</span>
+              </button>
+              <div class="auth-role-divider"><span>Or just exploring?</span></div>
+              <button type="button" class="auth-role-card auth-role-card-explorer" data-action="select-role" data-role="explorer">
+                <span class="material-symbols-outlined auth-role-icon">travel_explore</span>
+                <span class="auth-role-label">Explorer</span>
+                <span class="auth-role-desc">Just browsing for now</span>
               </button>
             </div>
           </div>
@@ -474,7 +503,7 @@ registerActions({
     document.getElementById('signup-role-step').style.display = 'none';
     document.getElementById('signup-fields-step').style.display = '';
     document.getElementById('signup-role-change').style.display = '';
-    var roleLabels = { student: 'Student', teacher: 'Teacher', institution: 'Institution' };
+    var roleLabels = { student: 'Student', teacher: 'Teacher', institution: 'Institution', explorer: 'Explorer' };
     var roleHeadEl = document.querySelector('#panel-email-signup .auth-form-head h1');
     var roleSubEl = document.querySelector('#panel-email-signup .auth-form-head p');
     if (roleHeadEl) roleHeadEl.textContent = 'Join as ' + roleLabels[role];

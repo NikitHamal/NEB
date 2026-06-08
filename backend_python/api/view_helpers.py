@@ -50,7 +50,8 @@ from .throttles import (
     AuthRateThrottle, ReportRateThrottle, SearchRateThrottle, UploadRateThrottle,
     VerificationRateThrottle, ViewIncrementRateThrottle, WriteActionRateThrottle,
 )
-from .models import User, Resource, ResourceRequest, ResourceRequestUpvote, Post, PostLike, Reply, ReplyLike, FCMToken, Follow, UserPhoto, EditHistory, Report, Bookmark, Notification
+from .models import User, Resource, ResourceRequest, ResourceRequestUpvote, Post, PostLike, PostImage, Poll, PollOption, PollVote, Reply, ReplyLike, FCMToken, Follow, UserPhoto, EditHistory, Report, Bookmark, Notification
+from . import services
 from .serializers import (
     UserSerializer, UserPublicSerializer,
     ResourceSerializer, ResourceRequestSerializer, PostSerializer, ReplySerializer,
@@ -93,6 +94,7 @@ def _profile_incomplete(user):
         return True
     if user.role == 'institution' and not user.school:
         return True
+    # Explorers have no role-specific required fields.
     return False
 
 def _get_user_from_request(request):

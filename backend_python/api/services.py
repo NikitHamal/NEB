@@ -11,7 +11,7 @@ from django.db import transaction
 from django.db.models import F
 from django.core.exceptions import ValidationError as DjangoValidationError
 
-from .models import User, Post, PostLike, Reply, ReplyLike, Follow, UserPhoto, EditHistory
+from .models import User, Post, PostLike, PostImage, Poll, PollOption, PollVote, Reply, ReplyLike, Follow, UserPhoto, EditHistory
 from .models import Resource, ResourceLike, ResourceComment, ResourceCommentLike
 from .security import hash_password, issue_auth_token, verify_password, validate_profile_photo_url, validate_external_https_url
 from . import counters as _counters
@@ -116,7 +116,7 @@ def create_reply(user, post_id, content, parent_reply_id=None):
     return reply_data
 
 
-def create_post(user, title, content, category):
+def create_post(user, title, content, category, image_urls=None, poll_data=None):
     title = title.strip()
     content = content.strip()
     category = category.strip()
@@ -133,12 +133,74 @@ def create_post(user, title, content, category):
         reply_count=0,
         created_at=now,
     )
+    if image_urls:
+        for i, url in enumerate(image_urls[:3]):
+            PostImage.objects.create(
+                id=str(uuid.uuid4()),
+                post=post,
+                image_url=url,
+                order=i,
+                created_at=now,
+            )
+    if poll_data:
+        poll = Poll.objects.create(
+            id=str(uuid.uuid4()),
+            post=post,
+            question=poll_data.get('question', ''),
+            duration_ms=poll_data.get('duration_ms', 0),
+            total_votes=0,
+            created_at=now,
+        )
+        for i, opt_text in enumerate(poll_data.get('options', [])):
+            PollOption.objects.create(
+                id=str(uuid.uuid4()),
+                poll=poll,
+                text=opt_text.strip(),
+                vote_count=0,
+                order=i,
+            )
     _counters.increment_user_post_count(user.id)
     _neby.enqueue_if_post_mention(post)
     from .serializers import PostSerializer
     post_data = PostSerializer(post).data
     _rt.broadcast_post_created(post_data)
     return post_data
+
+
+def vote_poll(user, poll_id, option_id):
+    try:
+        poll = Poll.objects.get(pk=poll_id)
+    except Poll.DoesNotExist:
+        return {'error': 'Poll not found'}, 404
+    if poll.is_expired:
+        return {'error': 'This poll has expired'}, 400
+    try:
+        option = PollOption.objects.get(pk=option_id, poll=poll)
+    except PollOption.DoesNotExist:
+        return {'error': 'Invalid poll option'}, 400
+    with transaction.atomic():
+        existing = PollVote.objects.filter(poll=poll, user=user).first()
+        if existing:
+            return {'error': 'You have already voted on this poll'}, 400
+        PollVote.objects.create(
+            id=str(uuid.uuid4()),
+            poll=poll,
+            option=option,
+            user=user,
+            created_at=_now_ms(),
+        )
+        PollOption.objects.filter(pk=option_id).update(vote_count=F('vote_count') + 1)
+        Poll.objects.filter(pk=poll_id).update(total_votes=F('total_votes') + 1)
+    poll.refresh_from_db()
+    options = list(PollOption.objects.filter(poll=poll).order_by('order'))
+    return {
+        'id': poll.id,
+        'question': poll.question,
+        'total_votes': poll.total_votes,
+        'isExpired': poll.is_expired,
+        'options': [{'id': o.id, 'text': o.text, 'vote_count': o.vote_count, 'order': o.order} for o in options],
+        'userVote': option_id,
+    }
 
 
 def toggle_follow(user, target_user_id):

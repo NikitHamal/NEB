@@ -630,6 +630,114 @@ A trycloudflare URL looks like `https://abc123.trycloudflare.com` — different 
 ## Continuity Notes
 
 ### What Was Being Worked On (Last Session)
+**Fixed double teacher/institution badge + added role-themed profile banners ("TUTOR" and "NEBIAN") + better teacher icon**
+
+**Problem 1 — Double badge:** `badge_info` (from `_user_badge_info`) already returns a role badge for teacher/institution/explorer (added last session), but `profile.html` had a duplicate `{% if profile_user.role == 'teacher' %}` block that added a second badge next to the username.
+
+**Problem 2 — Better teacher icon:** `person_book` looked like a generic "person" icon. Switched to `history_edu` (scholar with graduation cap) — semantically closer to "teacher".
+
+**Problem 3 — Role-themed banners:** Teachers and institutions got the default blue "nebian" banner, which didn't match their identity. Added two new role-themed banner presets.
+
+**Changes:**
+
+**`web/templates/web/profile.html` (line 75-83):**
+- Removed the duplicate `{% if profile_user.role == 'teacher' %}` / `institution` / `explorer` block (13 lines)
+- Now only the dynamic `badge_info` block renders the badge
+
+**`web/view_helpers.py` (line 125):**
+- Teacher icon: `person_book` → `history_edu` (Material Symbol "scholar" — character with graduation cap)
+
+**`web/templates/web/login.html` (line 150):**
+- Teacher signup card icon: `person_book` → `history_edu`
+
+**`web/templates/web/edit_profile.html` (line 61):**
+- Teacher role card icon: `person_book` → `history_edu`
+
+**`web/views_profile.py` (line 37-44):**
+- Added two new branches in the default-banner logic:
+  - `role == 'teacher'` → `banner_type = 'gradient-tutor'`, `banner_deco_text = 'tutor'` (CSS uppercases to "TUTOR")
+  - `role == 'institution'` → `banner_type = 'gradient-institution'`, `banner_deco_text = 'nebian'` (CSS uppercases to "NEBIAN")
+- Both fall back to the default blue banner if `banner_url` is set
+- These are placed AFTER the admin/mod/verified branches so admin teachers and verified teachers still get their higher-priority banner
+
+**`web/static/web/css/app/07-profile-banner.css` (line 383-461):**
+- **`gradient-tutor` preset** (emerald green): radial+linear gradients using `#064e3b → #047857 → #10b981 → #34d399`; deco text is bigger (`3.5rem`) and wider letter-spacing (`0.30em`) to fill the short "TUTOR" string better
+- **`gradient-institution` preset** (indigo): gradients using `#312e81 → #4338ca → #6366f1 → #818cf8`; deco text uses default `2.5rem` for the 6-letter "NEBIAN" string
+- Both have light + dark variants and a `@media (max-width: 600px)` rule for mobile
+
+**Design decisions:**
+- Teachers get a `TUTOR` deco text (not `TEACHER`) — shorter, more brand-like, matches the visual weight of other deco texts (`MODERATOR`, `NEBIAN`, `NEBY AI`)
+- Institution deco text stays `nebian` (rendered as `NEBIAN` by `text-transform: uppercase`) per user request — the only change is the indigo gradient theme matching the institution badge
+- The badge priority order is unchanged: bot → admin → moderator → role → verified → None. So an admin teacher still gets the admin gold crown, not the teacher green badge
+
+**Files modified:**
+- `web/templates/web/profile.html` (line 75-83)
+- `web/view_helpers.py` (line 125)
+- `web/templates/web/login.html` (line 150)
+- `web/templates/web/edit_profile.html` (line 61)
+- `web/views_profile.py` (line 37-44)
+- `web/static/web/css/app/07-profile-banner.css` (lines 383-461, +78 lines)
+
+**Not deployed yet — user hasn't given the go-ahead.**
+
+### Previous Session
+**Added "explorer" role (just exploring) — fourth user role alongside student/teacher/institution**
+
+**Goal:** Let users sign up without committing to a role — they can explore the platform first and upgrade later.
+
+**Changes:**
+- Added `User.ROLE_EXPLORER = 'explorer'` and new tuple `(ROLE_EXPLORER, 'Explorer')` in `api/models.py:14-19`
+- Created migration `api/migrations/0042_alter_user_role.py` to add the new choice to the `role` field's `choices`
+- Updated role allowlist in `api/views_auth.py:213` (signup) and `web/views_profile.py:290` (edit profile) to accept `'explorer'`
+- `_profile_incomplete()` in `api/view_helpers.py:86` — explorers have no role-specific required fields (no class_level, teaching_subjects, or school)
+- `_user_badge_info()` in `web/view_helpers.py:135-140` — returns `{type: 'explorer', icon: 'travel_explore', color: '#F59E0B', label: 'Explorer'}` badge (amber, Material `travel_explore` icon)
+- Added `.role-badge-explorer` CSS in `02-badges-actions.css` (light + dark mode variants, amber)
+- Added `.pf-explorer-tagline` CSS in `02-profile-modals-photo-bot.css` (amber/orange, mirrors `pf-bot-tagline` pattern)
+- Added `.role-radio-card-explorer` + `.auth-role-card-explorer` dashed-border style (visually distinguishes the "casual" option from the three core role cards)
+- Added `.auth-role-divider` divider CSS for the "Or just exploring?" line in the signup card
+
+**Signup card (`web/templates/web/login.html`):**
+- Added a `<div class="auth-role-divider"><span>Or just exploring?</span></div>` after the three core role cards
+- Added a fourth `<button class="auth-role-card auth-role-card-explorer" data-role="explorer">` card with `travel_explore` icon, "Just browsing for now" description
+- Updated `roleLabels` map in the `select-role` action handler (line 506) to include `explorer: 'Explorer'`
+
+**Edit profile (`web/templates/web/edit_profile.html`):**
+- Added fourth role card `<label class="role-radio-card role-radio-card-explorer">` with `value="explorer"`
+- Added `<div id="role-fields-explorer" class="role-fields">` info block — friendly hint: "You're exploring NEBians for now. You can update your role to Student, Teacher, or Institution anytime from this page."
+- Updated `fieldSections` map (line 631) to include `explorer: document.getElementById('role-fields-explorer')`
+- Updated `schoolLabels`, `schoolPlaceholders`, `classLabels` maps to include 'explorer' entries (so school/class labels render sensibly when explorer is selected)
+
+**Profile page (`web/templates/web/profile.html`):**
+- Added explorer branch to the role badge duplication block (line 91) — third conditional now includes explorer
+- Added `{% elif profile_user.role == 'explorer' %}` branch in `pf-card-headline` — shows `🧭 Exploring NEBians` tagline + optional class_level/school
+
+**Topbar dropdown (`web/templates/base.html:131`):**
+- **Fixed pre-existing bug:** `<span class="profile-dropdown-role">Student</span>` was hardcoded as literal "Student" — now renders the actual role: Teacher / Institution / Explorer / Student
+
+**Mock user seeder (`api/management/commands/create_mock_users.py`):**
+- Added `mock_explorer_001` account: `explorer_demo / demo1234`, "Curious Learner", based in Bhaktapur, "Just exploring NEBians…"
+
+**No new migrations strictly required for explorer-specific fields** — the migration `0042_alter_user_role.py` only updates the `choices` list on the existing field. No new columns.
+
+**Files modified:**
+- `api/models.py` (line 14-19)
+- `api/migrations/0042_alter_user_role.py` (NEW)
+- `api/views_auth.py` (line 213)
+- `api/view_helpers.py` (lines 86-99)
+- `web/view_helpers.py` (lines 135-140)
+- `web/views_profile.py` (line 290)
+- `web/templates/web/login.html` (line 159-164, 506, plus CSS at lines 47-71)
+- `web/templates/web/edit_profile.html` (lines 69-72, 162-168, 631-641)
+- `web/templates/web/profile.html` (lines 91-93, 105-114)
+- `web/templates/base.html` (line 131)
+- `web/static/web/css/app/02-badges-actions.css` (lines 26-28)
+- `web/static/web/css/pages/profile/02-profile-modals-photo-bot.css` (lines 88-100)
+- `web/static/web/css/pages/web-edit-profile.css` (lines 70-84)
+- `api/management/commands/create_mock_users.py` (lines 8, 61-74, 85)
+
+**Not deployed yet — user hasn't given the go-ahead.**
+
+### Previous Session
 **HTMX — no-reload page transitions** — added HTMX (14KB, zero dependencies) to eliminate full-page reloads on sort/filter/pagination actions. Pages now swap content fragments in-place with `history.pushState` for URL updates.
 
 **Changes:**

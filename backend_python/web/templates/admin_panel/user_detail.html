@@ -67,8 +67,8 @@
             <option value="Class 10 / SEE" {% if user_detail.class_level == 'Class 10 / SEE' %}selected{% endif %}>Class 10 / SEE</option>
             <option value="11" {% if user_detail.class_level == '11' %}selected{% endif %}>Class 11</option>
             <option value="12" {% if user_detail.class_level == '12' %}selected{% endif %}>Class 12</option>
-            <option value="Both" {% if user_detail.class_level == 'Both' %}selected{% endif %}>Both</option>
-            <option value="Passout" {% if user_detail.class_level == 'Passout' %}selected{% endif %}>Passout</option>
+            <option value="+2 Passout" {% if user_detail.class_level == '+2 Passout' %}selected{% endif %}>+2 Passout</option>
+            <option value="Diploma" {% if user_detail.class_level == 'Diploma' %}selected{% endif %}>Diploma</option>
             <option value="Bachelors" {% if user_detail.class_level == 'Bachelors' %}selected{% endif %}>Bachelors</option>
             <option value="Masters" {% if user_detail.class_level == 'Masters' %}selected{% endif %}>Masters</option>
             <option value="PhD" {% if user_detail.class_level == 'PhD' %}selected{% endif %}>PhD</option>
@@ -182,6 +182,34 @@
             <div class="md-body-small admin-switch-desc">
               <span class="material-symbols-outlined admin-role-icon admin-role-admin">crown</span>
               Gold crown badge
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="md-label" for="role">Role</label>
+          <select id="role" name="role" class="md-select">
+            <option value="student" {% if user_detail.role == 'student' %}selected{% endif %}>Student</option>
+            <option value="teacher" {% if user_detail.role == 'teacher' %}selected{% endif %}>Teacher</option>
+            <option value="institution" {% if user_detail.role == 'institution' %}selected{% endif %}>Institution</option>
+            <option value="explorer" {% if user_detail.role == 'explorer' %}selected{% endif %}>Explorer</option>
+          </select>
+          <div class="md-body-small" style="color:var(--md-on-surface-variant);margin-top:4px;">
+            <span class="material-symbols-outlined" style="font-size:14px;vertical-align:middle;">person</span>
+            User role — determines badge and profile layout
+          </div>
+        </div>
+
+        <div class="form-group admin-switch-row" id="teacher-verified-row" style="{% if user_detail.role == 'teacher' %}{% else %}display:none;{% endif %}">
+          <label class="md-switch">
+            <input type="checkbox" name="teacher_verified" id="teacher_verified" {% if user_detail.teacher_verified %}checked{% endif %}>
+            <span class="slider"></span>
+          </label>
+          <div>
+            <label for="teacher_verified" class="md-label admin-switch-label">Verified Teacher</label>
+            <div class="md-body-small admin-switch-desc">
+              <span class="material-symbols-outlined admin-role-icon" style="font-size:14px;color:#10B981;">school</span>
+              Green verified teacher badge — confirms this is a real teacher
             </div>
           </div>
         </div>
@@ -316,9 +344,19 @@
           </span>
           {% endif %}
         {% endif %}
-        {% if user_detail.class_level == 'Teacher' %}
+        {% if user_detail.role == 'teacher' %}
         <span class="badge-preview badge-teacher">
-          <span class="material-symbols-outlined">school</span> Teacher
+          <span class="material-symbols-outlined">school</span> Teacher{% if user_detail.teacher_verified %} ✓{% endif %}
+        </span>
+        {% endif %}
+        {% if user_detail.role == 'institution' %}
+        <span class="badge-preview badge-institution">
+          <span class="material-symbols-outlined">account_balance</span> Institution
+        </span>
+        {% endif %}
+        {% if user_detail.role == 'explorer' %}
+        <span class="badge-preview badge-explorer">
+          <span class="material-symbols-outlined">travel_explore</span> Explorer
         </span>
         {% endif %}
         {% if user_detail.achievement_badges %}
@@ -328,7 +366,7 @@
           </span>
           {% endfor %}
         {% endif %}
-        {% if not user_detail.is_admin and not user_detail.moderator_level and not user_detail.verification_level and not user_detail.achievement_badges %}
+        {% if not user_detail.is_admin and not user_detail.moderator_level and not user_detail.verification_level and not user_detail.achievement_badges and user_detail.role == 'student' %}
         <span class="md-body-small" style="color:var(--md-on-surface-variant);">No badges assigned</span>
         {% endif %}
       </div>
@@ -386,6 +424,10 @@
   [data-theme="dark"] .badge-achievement { background: rgba(27,154,240,0.15); }
   .badge-teacher { background: rgba(16,185,129,0.15); color: #10B981; }
   [data-theme="dark"] .badge-teacher { background: rgba(16,185,129,0.25); color: #34D399; }
+  .badge-institution { background: rgba(99,102,241,0.15); color: #6366F1; }
+  [data-theme="dark"] .badge-institution { background: rgba(99,102,241,0.25); color: #A5B4FC; }
+  .badge-explorer { background: rgba(245,158,11,0.15); color: #F59E0B; }
+  [data-theme="dark"] .badge-explorer { background: rgba(245,158,11,0.25); color: #FBBF24; }
 </style>
 {% endblock %}
 
@@ -418,6 +460,10 @@ registerActions({
       p.style.display = '';
     }
   }
+});
+document.getElementById('role').addEventListener('change', function() {
+  var tvRow = document.getElementById('teacher-verified-row');
+  tvRow.style.display = this.value === 'teacher' ? '' : 'none';
 });
 </script>
 {% endblock %}

@@ -7,6 +7,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/svg+xml" href="{% static 'web/img/favicon.svg' %}">
+  <link rel="icon" type="image/png" sizes="192x192" href="{% static 'web/img/n-logo-192.png' %}">
+  <link rel="icon" type="image/png" sizes="48x48" href="{% static 'web/img/n-logo-48.png' %}">
   <link rel="icon" type="image/png" sizes="32x32" href="{% static 'web/img/n-logo-32.png' %}">
   <link rel="icon" type="image/x-icon" href="{% static 'web/img/favicon.ico' %}">
   <link rel="apple-touch-icon" sizes="180x180" href="{% static 'web/img/n-logo-180.png' %}">
@@ -29,8 +31,27 @@
   <meta name="twitter:description"
     content="{% block tw_description %}Free study platform and discussion forum for all classes, faculties, students, and teachers.{% endblock %}">
   <meta property="og:image" content="{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'web/img/n-logo-512.png' %}{% endblock %}">
+  <meta property="og:image:width" content="512">
+  <meta property="og:image:height" content="512">
+  <meta property="og:image:alt" content="NEBians logo">
   <meta name="twitter:image" content="{% block tw_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'web/img/n-logo-512.png' %}{% endblock %}">
   <title>{% block title %}NEBians{% endblock %} - Study Platform & Discussion Forum</title>
+  {# Organization JSON-LD — drives the site logo shown in Google branded search results / knowledge panel. #}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "NEBians",
+    "url": "https://nebians.consica.com.np/",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "{{ request.scheme }}://{{ request.get_host }}{% static 'web/img/n-logo-512.png' %}",
+      "width": 512,
+      "height": 512
+    },
+    "description": "Free study platform and discussion forum for students and teachers of all classes and faculties in Nepal."
+  }
+  </script>
   {% block head_extra %}{% endblock %}
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -128,7 +149,7 @@
             </span>
             <div class="profile-dropdown-info">
               <span class="profile-dropdown-name">{{ user.username }}</span>
-              <span class="profile-dropdown-role">Student</span>
+              <span class="profile-dropdown-role">{% if user.role == 'teacher' %}Teacher{% elif user.role == 'institution' %}Institution{% elif user.role == 'explorer' %}Explorer{% else %}Student{% endif %}</span>
             </div>
           </div>
           <div class="menu-divider"></div>

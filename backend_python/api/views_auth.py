@@ -210,7 +210,7 @@ def auth_email_signup(request):
     if not email or not password or not username:
         return Response({'error': 'Email, password, and username are required'}, status=400)
 
-    if role not in ('student', 'teacher', 'institution'):
+    if role not in ('student', 'teacher', 'institution', 'explorer'):
         role = 'student'
 
     password_error = _validate_password_strength(password)

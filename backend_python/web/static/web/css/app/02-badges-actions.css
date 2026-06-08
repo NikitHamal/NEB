@@ -17,12 +17,17 @@
 [data-theme="dark"] .role-badge-bot .material-symbols-outlined { color: #B388FF; }
 .role-badge-teacher { background: rgba(16, 185, 129, 0.15); border-radius: 100px; padding: 1px 4px 1px 2px; }
 .role-badge-teacher .material-symbols-outlined { color: #10B981; }
+.role-badge-teacher-verified { background: rgba(16, 185, 129, 0.22); padding: 2px 6px 2px 3px; }
 [data-theme="dark"] .role-badge-teacher { background: rgba(16, 185, 129, 0.25); }
 [data-theme="dark"] .role-badge-teacher .material-symbols-outlined { color: #34D399; }
 .role-badge-institution { background: rgba(99, 102, 241, 0.15); border-radius: 100px; padding: 1px 4px 1px 2px; }
 .role-badge-institution .material-symbols-outlined { color: #6366F1; }
 [data-theme="dark"] .role-badge-institution { background: rgba(99, 102, 241, 0.25); }
 [data-theme="dark"] .role-badge-institution .material-symbols-outlined { color: #A5B4FC; }
+.role-badge-explorer { background: rgba(245, 158, 11, 0.15); border-radius: 100px; padding: 1px 4px 1px 2px; }
+.role-badge-explorer .material-symbols-outlined { color: #F59E0B; }
+[data-theme="dark"] .role-badge-explorer { background: rgba(245, 158, 11, 0.25); }
+[data-theme="dark"] .role-badge-explorer .material-symbols-outlined { color: #FBBF24; }
 .fp-mention { color: var(--md-primary, #1B6EF3); font-weight: 500; text-decoration: none; cursor: pointer; border-radius: 3px; padding: 0 1px; }
 .fp-mention:hover { text-decoration: underline; }
 .role-badge-mod-1 { background: rgba(27,154,240,0.12); border-radius: 100px; padding: 1px 4px 1px 2px; }
