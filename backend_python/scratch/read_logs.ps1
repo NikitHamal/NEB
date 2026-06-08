@@ -20,13 +20,13 @@ $privateKey | Out-File -FilePath $keyPath -Encoding ascii -NoNewline
 & icacls $keyPath /inheritance:r | Out-Null
 & icacls $keyPath /grant "${env:USERNAME}:R" | Out-Null
 
-Write-Host "--- Active Cloudflare Tunnel Log ---"
-& ssh -o StrictHostKeyChecking=no -i $keyPath -p 22 "${username}@${hostIp}" "cat /tmp/cf_quick_active.log"
+# Write-Host "--- Active Cloudflare Tunnel Log ---"
+# & ssh -o StrictHostKeyChecking=no -i $keyPath -p 22 "${username}@${hostIp}" "cat /tmp/cf_quick_active.log"
 
-Write-Host "`n--- Daphne Log ---"
-& ssh -o StrictHostKeyChecking=no -i $keyPath -p 22 "${username}@${hostIp}" "tail -n 25 /home/consicac/nebians_api/logs/daphne.log"
+# Write-Host "`n--- Daphne Log ---"
+# & ssh -o StrictHostKeyChecking=no -i $keyPath -p 22 "${username}@${hostIp}" "tail -n 25 /home/consicac/nebians_api/logs/daphne.log"
 
 Write-Host "`n--- Django App Log ---"
-& ssh -o StrictHostKeyChecking=no -i $keyPath -p 22 "${username}@${hostIp}" "tail -n 25 /home/consicac/nebians_api/logs/nebians.log"
+& ssh -o StrictHostKeyChecking=no -i $keyPath -p 22 "${username}@${hostIp}" "tail -n 100 /home/consicac/nebians_api/logs/nebians.log"
 
 Remove-Item $keyPath -Force -ErrorAction SilentlyContinue
