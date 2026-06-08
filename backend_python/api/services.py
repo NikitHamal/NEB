@@ -4,8 +4,6 @@ These replicate the business logic from api/views.py but return Python dicts
 instead of DRF Response objects, and accept User objects instead of DRF requests.
 """
 import logging
-import uuid
-import time
 
 from django.db import transaction
 from django.db.models import F
@@ -14,16 +12,13 @@ from django.core.exceptions import ValidationError as DjangoValidationError
 from .models import User, Post, PostLike, PostImage, Poll, PollOption, PollVote, Reply, ReplyLike, Follow, UserPhoto, EditHistory
 from .models import Resource, ResourceLike, ResourceComment, ResourceCommentLike
 from .security import hash_password, issue_auth_token, verify_password, validate_profile_photo_url, validate_external_https_url
+from .utils import now_ms, uuid_str
 from . import counters as _counters
 from . import notifications as _notif
 from . import neby as _neby
 from . import realtime as _rt
 
 logger = logging.getLogger(__name__)
-
-
-def _now_ms():
-    return int(time.time() * 1000)
 
 
 def toggle_post_like(user, post_id):
@@ -90,10 +85,10 @@ def create_reply(user, post_id, content, parent_reply_id=None):
     content = content.strip()
     if not content:
         return None
-    now = _now_ms()
+    now = now_ms()
     with transaction.atomic():
         reply = Reply.objects.create(
-            id=str(uuid.uuid4()),
+            id=uuid_str(),
             post=post,
             parent_reply_id=parent_reply_id,
             user=user,
@@ -122,9 +117,9 @@ def create_post(user, title, content, category, image_urls=None, poll_data=None)
     category = category.strip()
     if not title or not content or not category:
         return None
-    now = _now_ms()
+    now = now_ms()
     post = Post.objects.create(
-        id=str(uuid.uuid4()),
+        id=uuid_str(),
         user=user,
         title=title,
         content=content,
@@ -136,7 +131,7 @@ def create_post(user, title, content, category, image_urls=None, poll_data=None)
     if image_urls:
         for i, url in enumerate(image_urls[:3]):
             PostImage.objects.create(
-                id=str(uuid.uuid4()),
+                id=uuid_str(),
                 post=post,
                 image_url=url,
                 order=i,
@@ -144,7 +139,7 @@ def create_post(user, title, content, category, image_urls=None, poll_data=None)
             )
     if poll_data:
         poll = Poll.objects.create(
-            id=str(uuid.uuid4()),
+            id=uuid_str(),
             post=post,
             question=poll_data.get('question', ''),
             poll_type=poll_data.get('poll_type', 'voting'),
@@ -163,7 +158,7 @@ def create_post(user, title, content, category, image_urls=None, poll_data=None)
                 is_correct = False
             if opt_text:
                 PollOption.objects.create(
-                    id=str(uuid.uuid4()),
+                    id=uuid_str(),
                     poll=poll,
                     text=opt_text,
                     is_correct=is_correct,
@@ -206,11 +201,11 @@ def vote_poll(user, poll_id, option_ids):
                 return {'error': 'You have already voted on one or more of these options'}, 400
             for opt in valid_options:
                 PollVote.objects.create(
-                    id=str(uuid.uuid4()),
+                    id=uuid_str(),
                     poll=poll,
                     option=opt,
                     user=user,
-                    created_at=_now_ms(),
+                    created_at=now_ms(),
                 )
                 PollOption.objects.filter(pk=opt.id).update(vote_count=F('vote_count') + 1)
             Poll.objects.filter(pk=poll_id).update(total_votes=F('total_votes') + len(valid_options))
@@ -220,11 +215,11 @@ def vote_poll(user, poll_id, option_ids):
                 return {'error': 'You have already voted on this poll'}, 400
             opt = valid_options[0]
             PollVote.objects.create(
-                id=str(uuid.uuid4()),
+                id=uuid_str(),
                 poll=poll,
                 option=opt,
                 user=user,
-                created_at=_now_ms(),
+                created_at=now_ms(),
             )
             PollOption.objects.filter(pk=opt.id).update(vote_count=F('vote_count') + 1)
             Poll.objects.filter(pk=poll_id).update(total_votes=F('total_votes') + 1)
@@ -240,7 +235,7 @@ def vote_poll(user, poll_id, option_ids):
         'isExpired': poll.is_expired,
         'options': [{'id': o.id, 'text': o.text, 'is_correct': o.is_correct, 'vote_count': o.vote_count, 'order': o.order} for o in options],
         'userVote': [str(o.id) for o in valid_options] if poll.allow_multiple else str(valid_options[0].id),
-    }
+    }, 200
 
 
 def toggle_follow(user, target_user_id):
@@ -259,14 +254,14 @@ def toggle_follow(user, target_user_id):
             _counters.decrement_user_following_count(user.id)
             _notif.notify_unfollow(user.id, target_user.id)
         else:
-            Follow.objects.create(follower=user, following=target_user, created_at=_now_ms())
+            Follow.objects.create(follower=user, following=target_user, created_at=now_ms())
             is_following = True
             _counters.increment_user_follower_count(target_user.id)
             _counters.increment_user_following_count(user.id)
             _notif.notify_new_follow(user.id, target_user.id)
     follower_count = target_user.follower_count if hasattr(target_user, 'follower_count') and target_user.follower_count > 0 else Follow.objects.filter(following=target_user).count()
     _rt.broadcast_follow_changed(target_user.id, follower_count)
-    return {'is_following': is_following, 'follower_count': follower_count}
+    return {'is_following': is_following, 'follower_count': follower_count}, 200
 
 
 def check_username_available(username):
@@ -286,7 +281,7 @@ def set_password(user, password):
     user.email_verified = True
     user.save(update_fields=['password_hash', 'email_verified'])
     from .serializers import UserSerializer
-    return {'status': 'success', 'message': 'Password set successfully', 'user': UserSerializer(user).data}
+    return {'status': 'success', 'message': 'Password set successfully', 'user': UserSerializer(user).data}, 200
 
 
 def change_password(user, current_password, new_password):
@@ -311,7 +306,7 @@ def change_password(user, current_password, new_password):
         'message': 'Password changed successfully',
         'authToken': auth_token,
         'user': UserSerializer(user).data,
-    }
+    }, 200
 
 
 def activate_photo(user, photo_id):
@@ -397,10 +392,10 @@ def create_resource_comment(user, resource_id, content, parent_comment_id=None):
     content = content.strip()
     if not content:
         return None
-    now = _now_ms()
+    now = now_ms()
     with transaction.atomic():
         comment = ResourceComment.objects.create(
-            id=str(uuid.uuid4()),
+            id=uuid_str(),
             resource=resource,
             parent_comment_id=parent_comment_id,
             user=user,

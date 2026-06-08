@@ -202,11 +202,11 @@ def ajax_bookmark_toggle(request):
         existing.delete()
         return JsonResponse({'isBookmarked': False})
     Bookmark.objects.create(
-        id=str(uuid.uuid4()),
+        id=uuid_str(),
         user=user,
         target_type=target_type,
         target_id=target_id,
-        created_at=int(time.time() * 1000),
+        created_at=now_ms(),
     )
     return JsonResponse({'isBookmarked': True})
 
@@ -249,14 +249,14 @@ def ajax_report(request):
     if len(description) > 2000:
         return JsonResponse({'error': 'Description must be 2000 characters or fewer'}, status=400)
     report = Report.objects.create(
-        id=str(uuid.uuid4()),
+        id=uuid_str(),
         reporter=user,
         target_type=target_type,
         target_id=target_id,
         reason=reason,
         description=description,
         status='open',
-        created_at=int(time.time() * 1000),
+        created_at=now_ms(),
     )
     logger.info("ajax_report: user %s reported %s/%s (reason=%s)", user.username, target_type, target_id, reason)
     return JsonResponse({'success': True, 'id': report.id})
@@ -315,24 +315,24 @@ def ajax_edit_post(request, post_id):
         return JsonResponse({'error': 'Post not found'}, status=404)
     if post.user_id != user_id:
         return JsonResponse({'error': 'Forbidden'}, status=403)
-    now = int(time.time() * 1000)
+    now = now_ms()
     if 'title' in data:
         EditHistory.objects.create(
-            id=str(uuid.uuid4()), target_type='post', target_id=post.id,
+            id=uuid_str(), target_type='post', target_id=post.id,
             field='title', old_value=post.title, new_value=data['title'].strip(),
             edited_by_id=user_id, edited_at=now
         )
         post.title = data['title'].strip()
     if 'content' in data:
         EditHistory.objects.create(
-            id=str(uuid.uuid4()), target_type='post', target_id=post.id,
+            id=uuid_str(), target_type='post', target_id=post.id,
             field='content', old_value=post.content, new_value=data['content'].strip(),
             edited_by_id=user_id, edited_at=now
         )
         post.content = data['content'].strip()
     if 'category' in data:
         EditHistory.objects.create(
-            id=str(uuid.uuid4()), target_type='post', target_id=post.id,
+            id=uuid_str(), target_type='post', target_id=post.id,
             field='category', old_value=post.category, new_value=data['category'].strip(),
             edited_by_id=user_id, edited_at=now
         )
@@ -382,9 +382,9 @@ def ajax_edit_reply(request, reply_id):
     content = data.get('content', '').strip()
     if not content:
         return JsonResponse({'error': 'Content required'}, status=400)
-    now = int(time.time() * 1000)
+    now = now_ms()
     EditHistory.objects.create(
-        id=str(uuid.uuid4()), target_type='reply', target_id=reply.id,
+        id=uuid_str(), target_type='reply', target_id=reply.id,
         field='content', old_value=reply.content, new_value=content,
         edited_by_id=user_id, edited_at=now
     )
@@ -607,7 +607,7 @@ def ajax_user_photos(request):
                 photo = UserPhoto.objects.create(
                     user=current_user,
                     url=url,
-                    uploaded_at=int(time.time() * 1000),
+                    uploaded_at=now_ms(),
                     is_current=True,
                 )
                 current_user.photo_url = url
@@ -722,7 +722,6 @@ def ajax_upload_post_image(request):
     file_obj = request.FILES.get('image')
     if not file_obj:
         return JsonResponse({'error': 'No image file provided'}, status=400)
-    from api.security import save_post_image_upload
     try:
         url = save_post_image_upload(request, file_obj)
     except ValidationError as e:

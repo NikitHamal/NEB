@@ -11,21 +11,16 @@ Design principles:
 - System notifications have no actor (null)
 """
 import logging
-import uuid
-import time
 
 from django.db import transaction
 from django.db.models import F
 
 from .models import Notification, User, Post, Reply, Resource, ResourceComment
+from .utils import now_ms, uuid_str
 from . import counters as _counters
 from . import realtime as _rt
 
 logger = logging.getLogger(__name__)
-
-
-def _now_ms():
-    return int(time.time() * 1000)
 
 
 def _create_notification(*, recipient_id, actor_id, verb, target_type, target_id,
@@ -54,7 +49,7 @@ def _create_notification(*, recipient_id, actor_id, verb, target_type, target_id
     if existing:
         return existing
     notification = Notification.objects.create(
-        id=str(uuid.uuid4()),
+        id=uuid_str(),
         recipient_id=recipient_id,
         actor_id=actor_id,
         verb=verb,
@@ -64,7 +59,7 @@ def _create_notification(*, recipient_id, actor_id, verb, target_type, target_id
         reference_id=reference_id,
         message=message,
         is_read=False,
-        created_at=_now_ms(),
+        created_at=now_ms(),
     )
     _counters.increment_user_unread_notification_count(recipient_id)
     _rt.broadcast_notification(recipient_id, {
@@ -244,7 +239,7 @@ def notify_system(recipient_id, message, target_type='system', target_id=''):
     if recipient.is_bot:
         return None
     notif = Notification.objects.create(
-        id=str(uuid.uuid4()),
+        id=uuid_str(),
         recipient_id=recipient_id,
         actor_id=None,
         verb='system',
@@ -254,7 +249,7 @@ def notify_system(recipient_id, message, target_type='system', target_id=''):
         reference_id='',
         message=message,
         is_read=False,
-        created_at=_now_ms(),
+        created_at=now_ms(),
     )
     _counters.increment_user_unread_notification_count(recipient_id)
     _rt.broadcast_notification(recipient_id, {
@@ -274,11 +269,11 @@ def notify_system(recipient_id, message, target_type='system', target_id=''):
 def notify_system_broadcast(message, target_type='system', target_id=''):
     """Send a system notification to all users (skip bots)."""
     user_ids = list(User.objects.filter(is_bot=False).values_list('id', flat=True))
-    now = _now_ms()
+    now = now_ms()
     objs = []
     for uid in user_ids:
         objs.append(Notification(
-            id=str(uuid.uuid4()),
+            id=uuid_str(),
             recipient_id=uid,
             actor_id=None,
             verb='system',

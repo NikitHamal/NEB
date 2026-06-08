@@ -24,8 +24,6 @@ On error:
 """
 import json
 import logging
-import time
-import uuid
 
 from django.http import StreamingHttpResponse
 from rest_framework import status
@@ -33,18 +31,15 @@ from rest_framework.decorators import api_view, authentication_classes, throttle
 from rest_framework.response import Response
 
 from .authentication import AuthTokenAuthentication
-from .models import ArenaChatSession, ArenaChatMessage, User
+from .models import ArenaChatSession, ArenaChatMessage, ArenaChatAttachment, User
 from .throttles import ArenaChatRateThrottle, ArenaListRateThrottle
+from .utils import now_ms, uuid_str
 from . import ai4bharat_proxy as arena
 
 logger = logging.getLogger(__name__)
 
 
 # ========================= Helpers =========================
-
-def _now_ms() -> int:
-    return int(time.time() * 1000)
-
 
 def _require_user(request):
     user = getattr(request, 'user', None)
@@ -175,6 +170,7 @@ def arena_sessions(request):
                     'createdAt': s.created_at,
                     'updatedAt': s.updated_at,
                     'lastMessageAt': s.last_message_at,
+                    'provider': s.provider,
                 }
                 for s in items
             ],
@@ -240,9 +236,9 @@ def arena_sessions(request):
         )
 
     # Record the bind
-    now = _now_ms()
+    now = now_ms()
     sess = ArenaChatSession.objects.create(
-        id=str(uuid.uuid4()),
+        id=uuid_str(),
         user=user,
         arena_session_id=remote['id'],
         arena_token_id=entry['token'],
@@ -287,6 +283,32 @@ def arena_session_detail(request, session_id: str):
 
     if request.method == 'GET':
         msgs = list(sess.messages.order_by('created_at'))
+        msg_data = []
+        for m in msgs:
+            atts = list(m.attachments.all())
+            msg_data.append({
+                'id': m.id,
+                'role': m.role,
+                'content': m.content,
+                'parentId': m.parent_id,
+                'arenaMessageId': m.arena_message_id,
+                'finishReason': m.finish_reason,
+                'error': m.error,
+                'durationMs': m.duration_ms,
+                'createdAt': m.created_at,
+                'attachments': [
+                    {
+                        'id': a.id,
+                        'fileType': a.file_type,
+                        'fileName': a.file_name,
+                        'fileSize': a.file_size,
+                        'mimeType': a.mime_type,
+                        'showType': a.show_type,
+                        'fileClass': a.file_class,
+                    }
+                    for a in atts
+                ] if atts else [],
+            })
         return Response({
             'session': {
                 'id': sess.id,
@@ -299,21 +321,9 @@ def arena_session_detail(request, session_id: str):
                 'updatedAt': sess.updated_at,
                 'lastMessageAt': sess.last_message_at,
                 'isActive': sess.is_active,
+                'provider': sess.provider,
             },
-            'messages': [
-                {
-                    'id': m.id,
-                    'role': m.role,
-                    'content': m.content,
-                    'parentId': m.parent_id,
-                    'arenaMessageId': m.arena_message_id,
-                    'finishReason': m.finish_reason,
-                    'error': m.error,
-                    'durationMs': m.duration_ms,
-                    'createdAt': m.created_at,
-                }
-                for m in msgs
-            ],
+            'messages': msg_data,
         })
 
     if request.method == 'PATCH':
@@ -322,7 +332,7 @@ def arena_session_detail(request, session_id: str):
             sess.title = str(new_title).strip()[:200]
         if 'isActive' in request.data:
             sess.is_active = bool(request.data.get('isActive'))
-        sess.updated_at = _now_ms()
+        sess.updated_at = now_ms()
         sess.save(update_fields=['title', 'is_active', 'updated_at'])
         return Response({'ok': True, 'title': sess.title, 'isActive': sess.is_active})
 
@@ -343,10 +353,10 @@ def _sse_done_marker() -> str:
 
 def _stream_send(sess, user_content: str):
     """Generator: handle a normal send — persist user msg, stream assistant, persist it."""
-    now = _now_ms()
-    user_msg_id = str(uuid.uuid4())
-    asst_msg_id = str(uuid.uuid4())
-    asst_started_at = _now_ms()
+    now = now_ms()
+    user_msg_id = uuid_str()
+    asst_msg_id = uuid_str()
+    asst_started_at = now_ms()
 
     # Look up the last assistant message as the parent (for threading)
     last = (
@@ -386,7 +396,7 @@ def _stream_send(sess, user_content: str):
 
 def _stream_regenerate(sess, target_msg_id: str):
     """Generator: handle a regenerate — stream assistant, replace target msg in place."""
-    asst_started_at = _now_ms()
+    asst_started_at = now_ms()
     target = sess.messages.filter(pk=target_msg_id).first()
     if not target:
         yield _sse_format({'error': {'message': 'Target message not found', 'code': 'not_found'}})
@@ -489,7 +499,7 @@ def _stream_assistant(sess, user_msg_id: str, asst_msg_id: str, asst_started_at:
         error_text = str(e)
 
     # Finalise the assistant row
-    duration_ms = max(0, _now_ms() - asst_started_at)
+    duration_ms = max(0, now_ms() - asst_started_at)
     try:
         ArenaChatMessage.objects.filter(pk=asst_msg_id).update(
             content=collected_text,
@@ -506,11 +516,11 @@ def _stream_assistant(sess, user_msg_id: str, asst_msg_id: str, asst_started_at:
         try:
             ArenaChatSession.objects.filter(pk=sess.id).update(
                 message_count=sess.message_count + 1,
-                last_message_at=_now_ms(),
-                updated_at=_now_ms(),
+                last_message_at=now_ms(),
+                updated_at=now_ms(),
             )
             sess.message_count = sess.message_count + 1
-            sess.last_message_at = _now_ms()
+            sess.last_message_at = now_ms()
             arena.commit_token_use(token, message_used=True, session_opened=False)
         except Exception as e:
             logger.warning("stream: counter commit failed: %s", e)

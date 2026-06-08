@@ -47,9 +47,9 @@ def forum(request):
     posts = _serialize_posts(posts_qs, user_id)
 
     if sort == 'hot' and posts_qs:
-        now_ms = int(time.time() * 1000)
+        _now = now_ms()
         scored = list(zip(posts_qs, posts))
-        scored.sort(key=lambda x: _compute_hot_score(x[0], now_ms), reverse=True)
+        scored.sort(key=lambda x: _compute_hot_score(x[0], _now), reverse=True)
         posts = [s[1] for s in scored]
 
     category_counts = dict(

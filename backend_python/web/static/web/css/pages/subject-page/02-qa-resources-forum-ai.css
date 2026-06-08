@@ -435,7 +435,7 @@
 
   .ai-input-area {
     padding: 16px 20px; border-top: 1px solid var(--md-outline-variant);
-    display: flex; gap: 10px; align-items: center;
+    display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
     background: var(--md-surface-container-low);
   }
   .ai-input-box {
@@ -453,6 +453,33 @@
   }
   .ai-send-btn:hover { background: var(--md-primary-container); color: var(--md-on-primary-container); }
   .ai-send-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .ai-attach-btn {
+    width: 40px; height: 40px; border-radius: 50%; border: none;
+    background: transparent; color: var(--md-on-surface-variant);
+    display: flex; align-items: center; justify-content: center; cursor: pointer;
+    transition: background 150ms ease, color 150ms ease;
+  }
+  .ai-attach-btn:hover { background: var(--md-surface-container-high); color: var(--md-primary); }
+
+  #ai-attach-preview {
+    display: none; flex-wrap: wrap; gap: 6px;
+    padding: 8px 20px 0; background: var(--md-surface-container-low);
+  }
+  .ai-file-chip {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 4px 8px; border-radius: 8px;
+    background: var(--md-surface-container-high); border: 1px solid var(--md-outline-variant);
+    font-size: 0.75rem; color: var(--md-on-surface-variant); max-width: 200px;
+  }
+  .ai-file-chip-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 120px; }
+  .ai-file-chip-size { color: var(--md-on-surface-variant); opacity: 0.7; font-size: 0.7rem; }
+  .ai-file-chip-remove {
+    background: none; border: none; color: var(--md-on-surface-variant);
+    cursor: pointer; font-size: 1rem; line-height: 1; padding: 0 2px;
+    border-radius: 50%; transition: background 150ms ease;
+  }
+  .ai-file-chip-remove:hover { background: var(--md-error-container); color: var(--md-on-error-container); }
 
   .ai-welcome-screen {
     display: flex; flex-direction: column; align-items: center; justify-content: center;

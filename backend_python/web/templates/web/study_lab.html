@@ -1,0 +1,732 @@
+{% extends "base.html" %}
+{% load static web_extras %}
+
+{% block title %}Study Lab - AI-Powered Study Tools{% endblock %}
+{% block description %}Upload your notes and PDFs. Get AI summaries, quizzes, and flashcards instantly.{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'web/css/pages/study-lab.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="sl-page">
+  <!-- Header -->
+  <div class="sl-header">
+    <div class="sl-header-content">
+      <div class="sl-header-icon">
+        <span class="material-symbols-outlined">science</span>
+      </div>
+      <div>
+        <h1 class="sl-header-title">Study Lab</h1>
+        <p class="sl-header-subtitle">Upload your notes &amp; PDFs. Get AI summaries, quizzes, and flashcards.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main layout: sidebar + content -->
+  <div class="sl-layout">
+    <!-- Sidebar: document list -->
+    <aside class="sl-sidebar" id="slSidebar">
+      <div class="sl-sidebar-header">
+        <h2>My Documents</h2>
+        <button class="md-btn md-btn-tonal" id="slUploadBtn" data-action="sl-upload">
+          <span class="material-symbols-outlined">upload_file</span>
+          Upload
+        </button>
+      </div>
+      <input type="file" id="slFileInput" accept=".pdf,.png,.jpg,.jpeg,.gif,.webp,.bmp,.svg,.txt,.doc,.docx" hidden>
+      <div class="sl-doc-list" id="slDocList">
+        {% for doc in documents %}
+        <div class="sl-doc-item" data-doc-id="{{ doc.id }}" data-action="sl-select-doc">
+          <span class="material-symbols-outlined sl-doc-icon">{% if doc.status == 'ready' %}description{% elif doc.status == 'processing' %}hourglass_top{% else %}error{% endif %}</span>
+          <div class="sl-doc-info">
+            <div class="sl-doc-title">{{ doc.title }}</div>
+            <div class="sl-doc-meta">
+              {% if doc.summaryGenerated %}<span class="sl-badge sl-badge-summary">Summary</span>{% endif %}
+              {% if doc.quizCount %}<span class="sl-badge sl-badge-quiz">{{ doc.quizCount }} Quiz{% if doc.quizCount > 1 %}zes{% endif %}</span>{% endif %}
+              {% if doc.flashcardCount %}<span class="sl-badge sl-badge-flash">{{ doc.flashcardCount }} Cards</span>{% endif %}
+            </div>
+          </div>
+        </div>
+        {% empty %}
+        <div class="sl-empty-state" id="slEmptyDocs">
+          <span class="material-symbols-outlined">note_add</span>
+          <p>No documents yet. Upload a PDF or image to get started.</p>
+        </div>
+        {% endfor %}
+      </div>
+    </aside>
+
+    <!-- Content area -->
+    <main class="sl-main" id="slMain">
+      <!-- Welcome screen (no doc selected) -->
+      <div class="sl-welcome" id="slWelcome">
+        <span class="material-symbols-outlined sl-welcome-icon">auto_awesome</span>
+        <h2>Upload a document to get started</h2>
+        <p>Upload your notes, PDFs, or images. AI will generate summaries, quizzes, and flashcards for you.</p>
+        <div class="sl-welcome-features">
+          <div class="sl-feature-card">
+            <span class="material-symbols-outlined">summarize</span>
+            <h3>Smart Summaries</h3>
+            <p>Get concise, structured summaries of your study material.</p>
+          </div>
+          <div class="sl-feature-card">
+            <span class="material-symbols-outlined">quiz</span>
+            <h3>MCQ Quizzes</h3>
+            <p>Test your knowledge with auto-generated multiple-choice questions.</p>
+          </div>
+          <div class="sl-feature-card">
+            <span class="material-symbols-outlined">style</span>
+            <h3>Flashcards</h3>
+            <p>Review key concepts with spaced-repetition flashcards.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Document detail (shown when doc selected) -->
+      <div class="sl-detail" id="slDetail" style="display:none;">
+        <!-- Doc header -->
+        <div class="sl-detail-header">
+          <div class="sl-detail-title-row">
+            <span class="material-symbols-outlined">description</span>
+            <h2 id="slDetailTitle">Document</h2>
+            <button class="md-btn-icon" data-action="sl-delete-doc" title="Delete document">
+              <span class="material-symbols-outlined">delete</span>
+            </button>
+          </div>
+          <div class="sl-detail-meta" id="slDetailMeta"></div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="sl-tabs" id="slTabs">
+          <button class="sl-tab sl-tab-active" data-tab="summary" data-action="sl-switch-tab">
+            <span class="material-symbols-outlined">summarize</span> Summary
+          </button>
+          <button class="sl-tab" data-tab="quiz" data-action="sl-switch-tab">
+            <span class="material-symbols-outlined">quiz</span> Quiz
+          </button>
+          <button class="sl-tab" data-tab="flashcards" data-action="sl-switch-tab">
+            <span class="material-symbols-outlined">style</span> Flashcards
+          </button>
+        </div>
+
+        <!-- Tab content: Summary -->
+        <div class="sl-tab-content sl-tab-summary" id="slTabSummary">
+          <div class="sl-generate-prompt" id="slSummaryPrompt">
+            <span class="material-symbols-outlined">auto_awesome</span>
+            <p>Generate a concise summary of your document using AI.</p>
+            <button class="md-btn md-btn-filled" data-action="sl-generate-summary">
+              <span class="material-symbols-outlined">summarize</span>
+              Generate Summary
+            </button>
+          </div>
+          <div class="sl-summary-loading" id="slSummaryLoading" style="display:none;">
+            <div class="sl-spinner"></div>
+            <p>Generating summary...</p>
+          </div>
+          <div class="sl-summary-content" id="slSummaryContent" style="display:none;">
+            <div class="sl-summary-text" id="slSummaryText"></div>
+            <button class="md-btn md-btn-outlined" data-action="sl-regenerate-summary">
+              <span class="material-symbols-outlined">refresh</span>
+              Regenerate
+            </button>
+          </div>
+        </div>
+
+        <!-- Tab content: Quiz -->
+        <div class="sl-tab-content sl-tab-quiz" id="slTabQuiz" style="display:none;">
+          <div class="sl-generate-prompt" id="slQuizPrompt">
+            <span class="material-symbols-outlined">quiz</span>
+            <p>Generate an MCQ quiz from your document. Choose the number of questions.</p>
+            <div class="sl-quiz-options">
+              <label>Questions:
+                <select id="slQuizCount">
+                  <option value="5">5</option>
+                  <option value="10" selected>10</option>
+                  <option value="15">15</option>
+                  <option value="20">20</option>
+                  <option value="30">30</option>
+                </select>
+              </label>
+            </div>
+            <button class="md-btn md-btn-filled" data-action="sl-generate-quiz">
+              <span class="material-symbols-outlined">quiz</span>
+              Generate Quiz
+            </button>
+          </div>
+          <div class="sl-quiz-loading" id="slQuizLoading" style="display:none;">
+            <div class="sl-spinner"></div>
+            <p>Generating quiz questions...</p>
+          </div>
+          <!-- Quiz list (past quizzes) -->
+          <div class="sl-quiz-list" id="slQuizList" style="display:none;"></div>
+          <!-- Active quiz (taking it) -->
+          <div class="sl-quiz-active" id="slQuizActive" style="display:none;">
+            <div class="sl-quiz-progress">
+              <span id="slQuizProgress">Question 1 of 10</span>
+              <span id="slQuizScore">Score: 0</span>
+            </div>
+            <div class="sl-quiz-question" id="slQuizQuestion"></div>
+            <div class="sl-quiz-options-list" id="slQuizOptions"></div>
+            <div class="sl-quiz-nav">
+              <button class="md-btn md-btn-outlined" id="slQuizPrev" data-action="sl-quiz-prev" disabled>Previous</button>
+              <button class="md-btn md-btn-filled" id="slQuizNext" data-action="sl-quiz-next">Next</button>
+              <button class="md-btn md-btn-filled" id="slQuizSubmit" data-action="sl-quiz-submit" style="display:none;">Submit Quiz</button>
+            </div>
+          </div>
+          <!-- Quiz results -->
+          <div class="sl-quiz-results" id="slQuizResults" style="display:none;">
+            <div class="sl-quiz-results-header">
+              <span class="material-symbols-outlined">emoji_events</span>
+              <h2>Quiz Complete!</h2>
+              <div class="sl-quiz-score-display">
+                <span class="sl-quiz-score-num" id="slQuizFinalScore">0</span>
+                <span class="sl-quiz-score-total" id="slQuizFinalTotal">/10</span>
+              </div>
+              <div class="sl-quiz-xp" id="slQuizXpEarned">+0 XP</div>
+            </div>
+            <div class="sl-quiz-results-list" id="slQuizResultsList"></div>
+            <div class="sl-quiz-results-actions">
+              <button class="md-btn md-btn-outlined" data-action="sl-quiz-retake">Retake Quiz</button>
+              <button class="md-btn md-btn-tonal" data-action="sl-quiz-new">New Quiz</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab content: Flashcards -->
+        <div class="sl-tab-content sl-tab-flashcards" id="slTabFlashcards" style="display:none;">
+          <div class="sl-generate-prompt" id="slFlashPrompt">
+            <span class="material-symbols-outlined">style</span>
+            <p>Generate flashcards from your document. Choose how many cards to create.</p>
+            <div class="sl-flash-options">
+              <label>Cards:
+                <select id="slFlashCount">
+                  <option value="10">10</option>
+                  <option value="15" selected>15</option>
+                  <option value="20">20</option>
+                  <option value="30">30</option>
+                  <option value="50">50</option>
+                </select>
+              </label>
+            </div>
+            <button class="md-btn md-btn-filled" data-action="sl-generate-flashcards">
+              <span class="material-symbols-outlined">style</span>
+              Generate Flashcards
+            </button>
+          </div>
+          <div class="sl-flash-loading" id="slFlashLoading" style="display:none;">
+            <div class="sl-spinner"></div>
+            <p>Generating flashcards...</p>
+          </div>
+          <!-- Flashcard deck -->
+          <div class="sl-flash-deck" id="slFlashDeck" style="display:none;">
+            <div class="sl-flash-counter" id="slFlashCounter">1 / 15</div>
+            <div class="sl-flash-card" id="slFlashCard" data-action="sl-flip-card">
+              <div class="sl-flash-card-inner">
+                <div class="sl-flash-front" id="slFlashFront">
+                  <span class="sl-flash-label">Question</span>
+                  <p id="slFlashFrontText"></p>
+                </div>
+                <div class="sl-flash-back" id="slFlashBack">
+                  <span class="sl-flash-label">Answer</span>
+                  <p id="slFlashBackText"></p>
+                </div>
+              </div>
+            </div>
+            <div class="sl-flash-confidence">
+              <button class="sl-conf-btn sl-conf-hard" data-action="sl-flash-confidence" data-level="hard">
+                <span class="material-symbols-outlined">close</span> Hard
+              </button>
+              <button class="sl-conf-btn sl-conf-medium" data-action="sl-flash-confidence" data-level="medium">
+                <span class="material-symbols-outlined">remove</span> Okay
+              </button>
+              <button class="sl-conf-btn sl-conf-easy" data-action="sl-flash-confidence" data-level="easy">
+                <span class="material-symbols-outlined">check</span> Easy
+              </button>
+            </div>
+            <div class="sl-flash-nav">
+              <button class="md-btn md-btn-outlined" id="slFlashPrev" data-action="sl-flash-prev" disabled>
+                <span class="material-symbols-outlined">arrow_back</span> Previous
+              </button>
+              <button class="md-btn md-btn-outlined" id="slFlashNext" data-action="sl-flash-next">
+                Next <span class="material-symbols-outlined">arrow_forward</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script nonce="{{ csp_nonce }}">
+(function() {
+  'use strict';
+
+  var currentDocId = null;
+  var currentDocData = null;
+  var currentTab = 'summary';
+  var quizQuestions = [];
+  var quizAnswers = {};
+  var currentQuizIdx = 0;
+  var flashcards = [];
+  var currentFlashIdx = 0;
+  var isFlipped = false;
+
+  // ── Upload ──────────────────────────────────────────
+  document.getElementById('slFileInput').addEventListener('change', function(e) {
+    var file = e.target.files[0];
+    if (!file) return;
+    var formData = new FormData();
+    formData.append('file', file);
+    fetch('/ajax/study-lab/upload/', {
+      method: 'POST',
+      headers: {'X-CSRFToken': CSRF_TOKEN},
+      credentials: 'same-origin',
+      body: formData
+    }).then(function(r) {
+      if (!r.ok) return r.json().then(function(d) { throw new Error(d.error || 'Upload failed'); });
+      return r.json();
+    }).then(function(data) {
+      showSnackbar('Document uploaded!');
+      addDocToList(data.document);
+      selectDoc(data.document.id);
+    }).catch(function(err) {
+      showSnackbar(err.message || 'Upload failed');
+    });
+    e.target.value = '';
+  });
+
+  function addDocToList(doc) {
+    var empty = document.getElementById('slEmptyDocs');
+    if (empty) empty.style.display = 'none';
+    var list = document.getElementById('slDocList');
+    var div = document.createElement('div');
+    div.className = 'sl-doc-item';
+    div.dataset.docId = doc.id;
+    div.dataset.action = 'sl-select-doc';
+    div.innerHTML =
+      '<span class="material-symbols-outlined sl-doc-icon">description</span>' +
+      '<div class="sl-doc-info">' +
+        '<div class="sl-doc-title">' + escapeHtml(doc.title) + '</div>' +
+        '<div class="sl-doc-meta"></div>' +
+      '</div>';
+    list.insertBefore(div, list.firstChild);
+  }
+
+  // ── Select document ─────────────────────────────────
+  function selectDoc(docId) {
+    currentDocId = docId;
+    document.querySelectorAll('.sl-doc-item').forEach(function(el) {
+      el.classList.toggle('sl-doc-active', el.dataset.docId === docId);
+    });
+    document.getElementById('slWelcome').style.display = 'none';
+    document.getElementById('slDetail').style.display = '';
+    fetch('/ajax/study-lab/document/' + docId + '/', {
+      headers: {'X-CSRFToken': CSRF_TOKEN},
+      credentials: 'same-origin'
+    }).then(function(r) { return r.json(); }).then(function(data) {
+      currentDocData = data;
+      renderDocDetail(data);
+    }).catch(function() { showSnackbar('Failed to load document'); });
+  }
+
+  function renderDocDetail(data) {
+    var doc = data.document;
+    document.getElementById('slDetailTitle').textContent = doc.title;
+    var meta = [];
+    if (doc.fileName) meta.push(doc.fileName);
+    if (doc.fileSize) meta.push(formatSize(doc.fileSize));
+    meta.push(doc.summaryGenerated ? 'Summary available' : 'No summary yet');
+    document.getElementById('slDetailMeta').textContent = meta.join(' \u00B7 ');
+
+    // Summary tab
+    if (doc.summary) {
+      document.getElementById('slSummaryPrompt').style.display = 'none';
+      document.getElementById('slSummaryContent').style.display = '';
+      document.getElementById('slSummaryText').innerHTML = renderMarkdown(doc.summary);
+    } else {
+      document.getElementById('slSummaryPrompt').style.display = '';
+      document.getElementById('slSummaryContent').style.display = 'none';
+    }
+
+    // Quiz tab
+    var quizPrompt = document.getElementById('slQuizPrompt');
+    var quizList = document.getElementById('slQuizList');
+    if (data.quizzes && data.quizzes.length > 0) {
+      quizPrompt.style.display = 'none';
+      quizList.style.display = '';
+      renderQuizList(data.quizzes);
+    } else {
+      quizPrompt.style.display = '';
+      quizList.style.display = 'none';
+    }
+    document.getElementById('slQuizActive').style.display = 'none';
+    document.getElementById('slQuizResults').style.display = 'none';
+
+    // Flashcards tab
+    var flashPrompt = document.getElementById('slFlashPrompt');
+    var flashDeck = document.getElementById('slFlashDeck');
+    if (data.flashcards && data.flashcards.length > 0) {
+      flashPrompt.style.display = 'none';
+      flashDeck.style.display = '';
+      flashcards = data.flashcards;
+      currentFlashIdx = 0;
+      renderFlashcard();
+    } else {
+      flashPrompt.style.display = '';
+      flashDeck.style.display = 'none';
+    }
+
+    // Update sidebar badges
+    updateDocBadges(data);
+
+    // Switch to summary tab
+    switchTab('summary');
+  }
+
+  function updateDocBadges(data) {
+    var docItem = document.querySelector('.sl-doc-item[data-doc-id="' + currentDocId + '"]');
+    if (!docItem) return;
+    var meta = docItem.querySelector('.sl-doc-meta');
+    var badges = [];
+    if (data.document.summaryGenerated) badges.push('<span class="sl-badge sl-badge-summary">Summary</span>');
+    if (data.quizzes && data.quizzes.length) badges.push('<span class="sl-badge sl-badge-quiz">' + data.quizzes.length + ' Quiz</span>');
+    if (data.flashcards && data.flashcards.length) badges.push('<span class="sl-badge sl-badge-flash">' + data.totalFlashcards + ' Cards</span>');
+    meta.innerHTML = badges.join(' ');
+  }
+
+  // ── Tabs ─────────────────────────────────────────────
+  function switchTab(tab) {
+    currentTab = tab;
+    document.querySelectorAll('.sl-tab').forEach(function(t) {
+      t.classList.toggle('sl-tab-active', t.dataset.tab === tab);
+    });
+    document.getElementById('slTabSummary').style.display = tab === 'summary' ? '' : 'none';
+    document.getElementById('slTabQuiz').style.display = tab === 'quiz' ? '' : 'none';
+    document.getElementById('slTabFlashcards').style.display = tab === 'flashcards' ? '' : 'none';
+  }
+
+  // ── Generate summary ────────────────────────────────
+  function generateSummary() {
+    document.getElementById('slSummaryPrompt').style.display = 'none';
+    document.getElementById('slSummaryLoading').style.display = '';
+    document.getElementById('slSummaryContent').style.display = 'none';
+    fetch('/ajax/study-lab/document/' + currentDocId + '/summary/', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN},
+      credentials: 'same-origin'
+    }).then(function(r) { return r.json(); }).then(function(data) {
+      document.getElementById('slSummaryLoading').style.display = 'none';
+      if (data.error) { showSnackbar(data.error); document.getElementById('slSummaryPrompt').style.display = ''; return; }
+      document.getElementById('slSummaryContent').style.display = '';
+      document.getElementById('slSummaryText').innerHTML = renderMarkdown(data.summary);
+      currentDocData.document.summary = data.summary;
+      currentDocData.document.summaryGenerated = true;
+      updateDocBadges(currentDocData);
+    }).catch(function() {
+      document.getElementById('slSummaryLoading').style.display = 'none';
+      document.getElementById('slSummaryPrompt').style.display = '';
+      showSnackbar('Failed to generate summary');
+    });
+  }
+
+  // ── Generate quiz ───────────────────────────────────
+  function generateQuiz() {
+    var count = parseInt(document.getElementById('slQuizCount').value) || 10;
+    document.getElementById('slQuizPrompt').style.display = 'none';
+    document.getElementById('slQuizLoading').style.display = '';
+    fetch('/ajax/study-lab/document/' + currentDocId + '/quiz/', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN},
+      credentials: 'same-origin',
+      body: JSON.stringify({count: count})
+    }).then(function(r) { return r.json(); }).then(function(data) {
+      document.getElementById('slQuizLoading').style.display = 'none';
+      if (data.error) { showSnackbar(data.error); document.getElementById('slQuizPrompt').style.display = ''; return; }
+      startQuiz(data.quiz);
+    }).catch(function() {
+      document.getElementById('slQuizLoading').style.display = 'none';
+      document.getElementById('slQuizPrompt').style.display = '';
+      showSnackbar('Failed to generate quiz');
+    });
+  }
+
+  function startQuiz(quiz) {
+    quizQuestions = quiz.questions;
+    quizAnswers = {};
+    currentQuizIdx = 0;
+    document.getElementById('slQuizList').style.display = 'none';
+    document.getElementById('slQuizResults').style.display = 'none';
+    document.getElementById('slQuizActive').style.display = '';
+    renderQuizQuestion();
+  }
+
+  function renderQuizQuestion() {
+    var q = quizQuestions[currentQuizIdx];
+    document.getElementById('slQuizProgress').textContent = 'Question ' + (currentQuizIdx + 1) + ' of ' + quizQuestions.length;
+    document.getElementById('slQuizScore').textContent = 'Score: ' + Object.values(quizAnswers).filter(function(v) { return v; }).length + '/' + quizQuestions.length;
+    document.getElementById('slQuizQuestion').textContent = q.question;
+    var optionsHtml = '';
+    var opts = [
+      {key: 'A', text: q.optionA},
+      {key: 'B', text: q.optionB},
+      {key: 'C', text: q.optionC},
+      {key: 'D', text: q.optionD}
+    ];
+    opts.forEach(function(opt) {
+      var selected = quizAnswers[q.id] === opt.key;
+      optionsHtml += '<button class="sl-quiz-option' + (selected ? ' sl-quiz-option-selected' : '') + '" data-action="sl-quiz-answer" data-qid="' + q.id + '" data-answer="' + opt.key + '">' +
+        '<span class="sl-quiz-option-letter">' + opt.key + '</span>' +
+        '<span class="sl-quiz-option-text">' + escapeHtml(opt.text) + '</span>' +
+      '</button>';
+    });
+    document.getElementById('slQuizOptions').innerHTML = optionsHtml;
+    document.getElementById('slQuizPrev').disabled = currentQuizIdx === 0;
+    var isLast = currentQuizIdx === quizQuestions.length - 1;
+    document.getElementById('slQuizNext').style.display = isLast ? 'none' : '';
+    document.getElementById('slQuizSubmit').style.display = isLast ? '' : 'none';
+  }
+
+  function submitQuiz() {
+    var quizId = quizQuestions[0] && quizQuestions[0].id ? null : null;
+    // Find the quiz ID from current doc data
+    var quizData = currentDocData && currentDocData.quizzes ? currentDocData.quizzes[0] : null;
+    // Actually we need to store the quiz ID from generateQuiz response
+    // We'll use a stored variable
+    var answers = {};
+    quizQuestions.forEach(function(q) {
+      if (quizAnswers[q.id]) answers[q.number] = quizAnswers[q.id];
+    });
+
+    fetch('/ajax/study-lab/quiz/' + window._lastQuizId + '/submit/', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN},
+      credentials: 'same-origin',
+      body: JSON.stringify({answers: answers})
+    }).then(function(r) { return r.json(); }).then(function(data) {
+      if (data.error) { showSnackbar(data.error); return; }
+      showQuizResults(data.attempt);
+    }).catch(function() { showSnackbar('Failed to submit quiz'); });
+  }
+
+  function showQuizResults(attempt) {
+    document.getElementById('slQuizActive').style.display = 'none';
+    document.getElementById('slQuizResults').style.display = '';
+    document.getElementById('slQuizFinalScore').textContent = attempt.score;
+    document.getElementById('slQuizFinalTotal').textContent = '/' + attempt.totalQuestions;
+    document.getElementById('slQuizXpEarned').textContent = '+' + attempt.xpEarned + ' XP';
+
+    var resultsHtml = '';
+    Object.keys(attempt.results).forEach(function(num) {
+      var r = attempt.results[num];
+      var icon = r.isCorrect ? 'check_circle' : 'cancel';
+      var cls = r.isCorrect ? 'sl-result-correct' : 'sl-result-wrong';
+      resultsHtml += '<div class="sl-result-item ' + cls + '">' +
+        '<span class="material-symbols-outlined">' + icon + '</span>' +
+        '<span>Q' + num + ': ' + (r.userAnswer || 'Skipped') + '</span>' +
+        '<span class="sl-result-answer">Correct: ' + r.correctAnswer + '</span>' +
+        (r.explanation ? '<p class="sl-result-explanation">' + escapeHtml(r.explanation) + '</p>' : '') +
+      '</div>';
+    });
+    document.getElementById('slQuizResultsList').innerHTML = resultsHtml;
+  }
+
+  // ── Generate flashcards ────────────────────────────
+  function generateFlashcards() {
+    var count = parseInt(document.getElementById('slFlashCount').value) || 15;
+    document.getElementById('slFlashPrompt').style.display = 'none';
+    document.getElementById('slFlashLoading').style.display = '';
+    fetch('/ajax/study-lab/document/' + currentDocId + '/flashcards/', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN},
+      credentials: 'same-origin',
+      body: JSON.stringify({count: count})
+    }).then(function(r) { return r.json(); }).then(function(data) {
+      document.getElementById('slFlashLoading').style.display = 'none';
+      if (data.error) { showSnackbar(data.error); document.getElementById('slFlashPrompt').style.display = ''; return; }
+      flashcards = data.flashcards;
+      currentFlashIdx = 0;
+      document.getElementById('slFlashDeck').style.display = '';
+      renderFlashcard();
+    }).catch(function() {
+      document.getElementById('slFlashLoading').style.display = 'none';
+      document.getElementById('slFlashPrompt').style.display = '';
+      showSnackbar('Failed to generate flashcards');
+    });
+  }
+
+  function renderFlashcard() {
+    if (!flashcards.length) return;
+    var card = flashcards[currentFlashIdx];
+    document.getElementById('slFlashCounter').textContent = (currentFlashIdx + 1) + ' / ' + flashcards.length;
+    document.getElementById('slFlashFrontText').textContent = card.front;
+    document.getElementById('slFlashBackText').textContent = card.back;
+    isFlipped = false;
+    document.getElementById('slFlashCard').classList.remove('sl-flash-flipped');
+    document.getElementById('slFlashPrev').disabled = currentFlashIdx === 0;
+    // Highlight confidence
+    document.querySelectorAll('.sl-conf-btn').forEach(function(btn) {
+      btn.classList.remove('sl-conf-active');
+      if (card.confidence === btn.dataset.level) btn.classList.add('sl-conf-active');
+    });
+  }
+
+  function flipCard() {
+    isFlipped = !isFlipped;
+    document.getElementById('slFlashCard').classList.toggle('sl-flash-flipped', isFlipped);
+  }
+
+  function flashcardConfidence(level) {
+    if (!flashcards.length) return;
+    var card = flashcards[currentFlashIdx];
+    fetch('/ajax/study-lab/flashcard/' + card.id + '/review/', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN},
+      credentials: 'same-origin',
+      body: JSON.stringify({confidence: level})
+    }).catch(function() {});
+    // Highlight active confidence
+    document.querySelectorAll('.sl-conf-btn').forEach(function(btn) {
+      btn.classList.toggle('sl-conf-active', btn.dataset.level === level);
+    });
+    card.confidence = level;
+    // Auto-advance
+    if (currentFlashIdx < flashcards.length - 1) {
+      currentFlashIdx++;
+      renderFlashcard();
+    }
+  }
+
+  // ── Delete document ─────────────────────────────────
+  function deleteDoc() {
+    if (!currentDocId || !confirm('Delete this document and all its quizzes and flashcards?')) return;
+    fetch('/ajax/study-lab/document/' + currentDocId + '/delete/', {
+      method: 'POST',
+      headers: {'X-CSRFToken': CSRF_TOKEN},
+      credentials: 'same-origin'
+    }).then(function(r) { return r.json(); }).then(function(data) {
+      if (data.error) { showSnackbar(data.error); return; }
+      var item = document.querySelector('.sl-doc-item[data-doc-id="' + currentDocId + '"]');
+      if (item) item.remove();
+      currentDocId = null;
+      currentDocData = null;
+      document.getElementById('slDetail').style.display = 'none';
+      document.getElementById('slWelcome').style.display = '';
+      showSnackbar('Document deleted');
+    }).catch(function() { showSnackbar('Failed to delete document'); });
+  }
+
+  // ── Render quiz list ────────────────────────────────
+  function renderQuizList(quizzes) {
+    var html = '<h3 class="sl-section-title">Your Quizzes</h3><div class="sl-quiz-cards">';
+    quizzes.forEach(function(q) {
+      html += '<div class="sl-quiz-card" data-action="sl-start-quiz" data-quiz-id="' + q.id + '">' +
+        '<div class="sl-quiz-card-title">' + escapeHtml(q.title) + '</div>' +
+        '<div class="sl-quiz-card-meta">' + q.questionCount + ' questions</div>' +
+        '<div class="sl-quiz-card-score">Best: ' + q.bestScore + '/' + q.questionCount + '</div>' +
+      '</div>';
+    });
+    html += '</div>';
+    html += '<button class="md-btn md-btn-tonal" data-action="sl-new-quiz" style="margin-top:16px;"><span class="material-symbols-outlined">add</span> New Quiz</button>';
+    var el = document.getElementById('slQuizList');
+    el.innerHTML = html;
+  }
+
+  // ── Helpers ──────────────────────────────────────────
+  function escapeHtml(text) {
+    var div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
+  function formatSize(bytes) {
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+    return (bytes / 1048576).toFixed(1) + ' MB';
+  }
+
+  function renderMarkdown(text) {
+    if (typeof marked !== 'undefined') {
+      return marked.parse(text);
+    }
+    return text.replace(/\n/g, '<br>');
+  }
+
+  // ── Action dispatcher ───────────────────────────────
+  registerActions({
+    'sl-upload': function() { document.getElementById('slFileInput').click(); },
+    'sl-select-doc': function(el) { selectDoc(el.dataset.docId); },
+    'sl-switch-tab': function(el) { switchTab(el.dataset.tab); },
+    'sl-generate-summary': function() { generateSummary(); },
+    'sl-regenerate-summary': function() { generateSummary(); },
+    'sl-generate-quiz': function() { generateQuiz(); },
+    'sl-generate-flashcards': function() { generateFlashcards(); },
+    'sl-delete-doc': function() { deleteDoc(); },
+    'sl-quiz-answer': function(el) {
+      quizAnswers[el.dataset.qid] = el.dataset.answer;
+      document.querySelectorAll('.sl-quiz-option').forEach(function(o) { o.classList.remove('sl-quiz-option-selected'); });
+      el.classList.add('sl-quiz-option-selected');
+    },
+    'sl-quiz-prev': function() { if (currentQuizIdx > 0) { currentQuizIdx--; renderQuizQuestion(); } },
+    'sl-quiz-next': function() { if (currentQuizIdx < quizQuestions.length - 1) { currentQuizIdx++; renderQuizQuestion(); } },
+    'sl-quiz-submit': function() { submitQuiz(); },
+    'sl-quiz-retake': function() { startQuiz({questions: quizQuestions, id: window._lastQuizId}); },
+    'sl-quiz-new': function() {
+      document.getElementById('slQuizList').style.display = 'none';
+      document.getElementById('slQuizPrompt').style.display = '';
+    },
+    'sl-start-quiz': function(el) {
+      var quizId = el.dataset.quizId;
+      window._lastQuizId = quizId;
+      fetch('/ajax/study-lab/quiz/' + quizId + '/', {
+        headers: {'X-CSRFToken': CSRF_TOKEN},
+        credentials: 'same-origin'
+      }).then(function(r) { return r.json(); }).then(function(data) {
+        if (data.error) { showSnackbar(data.error); return; }
+        window._lastQuizId = quizId;
+        startQuiz(data.quiz);
+      }).catch(function() { showSnackbar('Failed to load quiz'); });
+    },
+    'sl-flip-card': function() { flipCard(); },
+    'sl-flash-confidence': function(el) { flashcardConfidence(el.dataset.level); },
+    'sl-flash-prev': function() { if (currentFlashIdx > 0) { currentFlashIdx--; renderFlashcard(); } },
+    'sl-flash-next': function() { if (currentFlashIdx < flashcards.length - 1) { currentFlashIdx++; renderFlashcard(); } },
+  });
+
+  // Override generateQuiz to store quiz ID
+  var _origGenerateQuiz = generateQuiz;
+  generateQuiz = function() {
+    var count = parseInt(document.getElementById('slQuizCount').value) || 10;
+    document.getElementById('slQuizPrompt').style.display = 'none';
+    document.getElementById('slQuizLoading').style.display = '';
+    fetch('/ajax/study-lab/document/' + currentDocId + '/quiz/', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN},
+      credentials: 'same-origin',
+      body: JSON.stringify({count: count})
+    }).then(function(r) { return r.json(); }).then(function(data) {
+      document.getElementById('slQuizLoading').style.display = 'none';
+      if (data.error) { showSnackbar(data.error); document.getElementById('slQuizPrompt').style.display = ''; return; }
+      window._lastQuizId = data.quiz.id;
+      startQuiz(data.quiz);
+    }).catch(function() {
+      document.getElementById('slQuizLoading').style.display = 'none';
+      document.getElementById('slQuizPrompt').style.display = '';
+      showSnackbar('Failed to generate quiz');
+    });
+  };
+
+  // Mobile sidebar toggle
+  var sidebarToggle = document.getElementById('slSidebarToggle');
+  if (sidebarToggle) {
+    sidebarToggle.addEventListener('click', function() {
+      document.getElementById('slSidebar').classList.toggle('sl-sidebar-open');
+    });
+  }
+
+})();
+</script>
+{% endblock %}

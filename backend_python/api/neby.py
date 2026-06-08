@@ -14,19 +14,14 @@ This avoids blocking the request and avoids daemon threads that Passenger kills.
 """
 import logging
 import re
-import time
-import uuid
 
 from django.db import transaction
 from django.db.models import F
 
 from .models import BotConfig, User, Post, Reply, NebyTask
+from .utils import now_ms, uuid_str
 
 logger = logging.getLogger(__name__)
-
-
-def _now_ms():
-    return int(time.time() * 1000)
 
 
 def is_neby_enabled():
@@ -74,13 +69,13 @@ def enqueue_neby_task(trigger, post_id, reply_id=None, bot_config=None):
         logger.debug(f'Neby: enqueue skipped (no user for @{bot_config.bot_username})')
         return None
     task = NebyTask.objects.create(
-        id=str(uuid.uuid4()),
+        id=uuid_str(),
         bot_config=bot_config,
         status='pending',
         trigger=trigger,
         post_id=post_id,
         reply_id=reply_id,
-        created_at=_now_ms(),
+        created_at=now_ms(),
     )
     logger.info(f'Neby: enqueued {trigger} task {task.id} for bot @{bot_config.bot_username}, post {post_id}')
     return task
@@ -207,7 +202,7 @@ def call_ai_api(system_prompt, user_message, config=None):
         )
     # default: qwen
     from .qwen_proxy import call_qwen
-    model = config.model or 'qwen3.6-plus'
+    model = config.model or 'qwen3.7-plus'
     return call_qwen(system_prompt, user_message, model=model, max_tokens=max_tokens)
 
 
@@ -222,7 +217,7 @@ def process_neby_task(task):
     if not config:
         task.status = 'failed'
         task.error_message = 'No bot config found'
-        task.finished_at = _now_ms()
+        task.finished_at = now_ms()
         task.save(update_fields=['status', 'error_message', 'finished_at'])
         return
 
@@ -230,12 +225,12 @@ def process_neby_task(task):
     if not bot_user:
         task.status = 'failed'
         task.error_message = f'No bot user for @{config.bot_username}'
-        task.finished_at = _now_ms()
+        task.finished_at = now_ms()
         task.save(update_fields=['status', 'error_message', 'finished_at'])
         return
 
     task.status = 'processing'
-    task.started_at = _now_ms()
+    task.started_at = now_ms()
     task.attempts = F('attempts') + 1
     task.save(update_fields=['status', 'started_at', 'attempts'])
     task.refresh_from_db()
@@ -248,14 +243,14 @@ def process_neby_task(task):
         else:
             task.status = 'failed'
             task.error_message = f'Unknown trigger: {task.trigger}'
-            task.finished_at = _now_ms()
+            task.finished_at = now_ms()
             task.save(update_fields=['status', 'error_message', 'finished_at'])
     except Exception as e:
         logger.error(f'Neby task {task.id} failed: {e}', exc_info=True)
         task.refresh_from_db()
         task.status = 'failed'
         task.error_message = str(e)[:2000]
-        task.finished_at = _now_ms()
+        task.finished_at = now_ms()
         task.save(update_fields=['status', 'error_message', 'finished_at'])
 
 
@@ -265,14 +260,14 @@ def _process_post_mention(task, config, bot_user):
     except Post.DoesNotExist:
         task.status = 'failed'
         task.error_message = f'Post {task.post_id} not found'
-        task.finished_at = _now_ms()
+        task.finished_at = now_ms()
         task.save(update_fields=['status', 'error_message', 'finished_at'])
         return
 
     if not detect_mention(post.content, config.bot_username) and not detect_mention(post.title, config.bot_username):
         task.status = 'failed'
         task.error_message = f'No @{config.bot_username} mention found in post'
-        task.finished_at = _now_ms()
+        task.finished_at = now_ms()
         task.save(update_fields=['status', 'error_message', 'finished_at'])
         return
 
@@ -282,7 +277,7 @@ def _process_post_mention(task, config, bot_user):
     if not response_text:
         task.status = 'failed'
         task.error_message = 'No response from AI'
-        task.finished_at = _now_ms()
+        task.finished_at = now_ms()
         task.save(update_fields=['status', 'error_message', 'finished_at'])
         return
 
@@ -292,14 +287,14 @@ def _process_post_mention(task, config, bot_user):
 
     with transaction.atomic():
         reply = Reply.objects.create(
-            id=str(uuid.uuid4()),
+            id=uuid_str(),
             post=post,
             parent_reply_id=None,
             user=bot_user,
             content=response_text,
             thumbs_up_count=0,
             reply_count=0,
-            created_at=_now_ms(),
+            created_at=now_ms(),
         )
         Post.objects.filter(pk=post.pk).update(reply_count=F('reply_count') + 1)
 
@@ -312,7 +307,7 @@ def _process_post_mention(task, config, bot_user):
     _rt.broadcast_reply_created(post.id, ReplySerializer(reply).data)
 
     task.status = 'done'
-    task.finished_at = _now_ms()
+    task.finished_at = now_ms()
     task.save(update_fields=['status', 'finished_at'])
     logger.info(f'Neby task {task.id}: bot @{config.bot_username} replied to post {post.id}')
 
@@ -321,7 +316,7 @@ def _process_reply_mention(task, config, bot_user):
     if not task.reply_id:
         task.status = 'failed'
         task.error_message = 'No reply_id for reply_mention task'
-        task.finished_at = _now_ms()
+        task.finished_at = now_ms()
         task.save(update_fields=['status', 'error_message', 'finished_at'])
         return
 
@@ -330,21 +325,21 @@ def _process_reply_mention(task, config, bot_user):
     except Reply.DoesNotExist:
         task.status = 'failed'
         task.error_message = f'Reply {task.reply_id} not found'
-        task.finished_at = _now_ms()
+        task.finished_at = now_ms()
         task.save(update_fields=['status', 'error_message', 'finished_at'])
         return
 
     if not detect_mention(reply.content, config.bot_username):
         task.status = 'failed'
         task.error_message = f'No @{config.bot_username} mention found in reply'
-        task.finished_at = _now_ms()
+        task.finished_at = now_ms()
         task.save(update_fields=['status', 'error_message', 'finished_at'])
         return
 
     if reply.user_id == bot_user.id:
         task.status = 'failed'
         task.error_message = 'Bot mentioned itself'
-        task.finished_at = _now_ms()
+        task.finished_at = now_ms()
         task.save(update_fields=['status', 'error_message', 'finished_at'])
         return
 
@@ -354,7 +349,7 @@ def _process_reply_mention(task, config, bot_user):
     if not response_text:
         task.status = 'failed'
         task.error_message = 'No response from AI'
-        task.finished_at = _now_ms()
+        task.finished_at = now_ms()
         task.save(update_fields=['status', 'error_message', 'finished_at'])
         return
 
@@ -363,14 +358,14 @@ def _process_reply_mention(task, config, bot_user):
 
     with transaction.atomic():
         neby_reply = Reply.objects.create(
-            id=str(uuid.uuid4()),
+            id=uuid_str(),
             post_id=reply.post_id,
             parent_reply_id=reply.id,
             user=bot_user,
             content=response_text,
             thumbs_up_count=0,
             reply_count=0,
-            created_at=_now_ms(),
+            created_at=now_ms(),
         )
         Post.objects.filter(pk=reply.post_id).update(reply_count=F('reply_count') + 1)
         Reply.objects.filter(pk=reply.id).update(reply_count=F('reply_count') + 1)
@@ -386,6 +381,6 @@ def _process_reply_mention(task, config, bot_user):
     _rt.broadcast_reply_created(reply.post_id, ReplySerializer(neby_reply).data)
 
     task.status = 'done'
-    task.finished_at = _now_ms()
+    task.finished_at = now_ms()
     task.save(update_fields=['status', 'finished_at'])
     logger.info(f'Neby task {task.id}: bot @{config.bot_username} replied to reply {reply.id}')

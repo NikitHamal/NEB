@@ -2,8 +2,6 @@ import json
 import logging
 import os
 import re
-import time
-import uuid
 
 from django.conf import settings
 from django.contrib import messages
@@ -29,6 +27,7 @@ from api.security import (
     validate_resource_file_url, validate_and_save_resource_file,
 )
 from api.authentication import verify_google_token
+from api.utils import now_ms, uuid_str
 from api import services
 from api import counters as _counters
 from api import notifications as _notif
@@ -403,7 +402,12 @@ def _get_user_id(request):
     user_id = cache.get(cache_key)
     if user_id is not None:
         return user_id
-    return None
+    try:
+        user = get_user_by_auth_token(token)
+        cache.set(cache_key, user.id, 300)
+        return user.id
+    except User.DoesNotExist:
+        return None
 
 def _get_valid_token(request):
     token = api.get_session_token(request)
@@ -630,14 +634,14 @@ def _build_contributors_batch():
     contributors.sort(key=lambda c: c['score'], reverse=True)
     return contributors
 
-def _compute_hot_score(post_or_dict, now_ms=None):
+def _compute_hot_score(post_or_dict, now_ms_val=None):
     """Reddit-style hot score: log2(engagement) + age_bonus.
     engagement = likes*3 + replies*2 + views*0.1
     age_bonus = (now - created_at) / 86400000  -> decays ~1pt/day
     """
     import math
-    if now_ms is None:
-        now_ms = int(time.time() * 1000)
+    if now_ms_val is None:
+        now_ms_val = now_ms()
     likes = getattr(post_or_dict, 'thumbs_up_count', None)
     replies = getattr(post_or_dict, 'reply_count', None)
     views = getattr(post_or_dict, 'view_count', None)
@@ -655,7 +659,7 @@ def _compute_hot_score(post_or_dict, now_ms=None):
     views = views or 0
     created = created or 0
     engagement = likes * 3 + replies * 2 + min(views, 1000) * 0.1
-    age_hours = max(0, (now_ms - created) / 3600000)
+    age_hours = max(0, (now_ms_val - created) / 3600000)
     if engagement <= 0:
         score = -age_hours / 168.0
     else:

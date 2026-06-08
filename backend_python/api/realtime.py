@@ -9,13 +9,12 @@ Channels layer is configured in settings.py with a Redis backend so
 broadcasts fan out across all daphne / Passenger worker processes.
 """
 import logging
-import time
 from typing import Any, Dict, Optional
 
 try:
     from asgiref.sync import async_to_sync
     from channels.layers import get_channel_layer
-except ImportError:  # Channels not installed yet
+except ImportError:
     def async_to_sync(fn, *args, **kwargs):  # type: ignore
         return None
     def get_channel_layer():
@@ -30,12 +29,9 @@ from .consumers_ws import (
     GRP_RESOURCE_REQUEST_FMT,
     GRP_USER_FMT,
 )
+from .utils import now_ms
 
 logger = logging.getLogger(__name__)
-
-
-def _now_ms() -> int:
-    return int(time.time() * 1000)
 
 
 def _send(group: str, event: str, data: Dict[str, Any]):
@@ -50,7 +46,7 @@ def _send(group: str, event: str, data: Dict[str, Any]):
                 'type': 'realtime.event',
                 'channel': group,
                 'event': event,
-                'data': {**data, 'ts': _now_ms()},
+                'data': {**data, 'ts': now_ms()},
             },
         )
     except Exception as e:  # noqa: BLE001
@@ -166,5 +162,5 @@ def get_health_snapshot() -> Dict[str, Any]:
     return {
         'channel_layer': bool(get_channel_layer()),
         'cached_conns': total_conns,
-        'now_ms': _now_ms(),
+        'now_ms': now_ms(),
     }
