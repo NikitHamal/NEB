@@ -26,6 +26,7 @@ urlpatterns = [
     path('requests/', views.resource_requests_page, name='resource_requests'),
 
     path('profile/edit/', views.edit_profile, name='edit_profile'),
+    path('analytics/', views.analytics, name='analytics'),
     path('profile/<str:username>/', views.profile, name='profile'),
     path('profile/<str:username>/achievements/', views.profile_achievements, name='profile_achievements'),
     path('ajax/profile/<str:username>/activity/', views.ajax_profile_activity, name='ajax_profile_activity'),
@@ -123,6 +124,8 @@ urlpatterns = [
     path('ajax/study-lab/document/<str:doc_id>/', views.ajax_study_document_detail, name='ajax_study_document_detail'),
     path('ajax/study-lab/document/<str:doc_id>/delete/', views.ajax_study_delete_document, name='ajax_study_delete_document'),
     path('ajax/study-lab/document/<str:doc_id>/summary/', views.ajax_study_generate_summary, name='ajax_study_generate_summary'),
+    path('ajax/study-lab/document/<str:doc_id>/summary/edit/', views.ajax_study_update_summary, name='ajax_study_update_summary'),
+    path('ajax/study-lab/document/<str:doc_id>/mindmap/', views.ajax_study_generate_mindmap, name='ajax_study_generate_mindmap'),
     path('ajax/study-lab/document/<str:doc_id>/quiz/', views.ajax_study_generate_quiz, name='ajax_study_generate_quiz'),
     path('ajax/study-lab/document/<str:doc_id>/flashcards/', views.ajax_study_generate_flashcards, name='ajax_study_generate_flashcards'),
     path('ajax/study-lab/quiz/<str:quiz_id>/', views.ajax_study_quiz_detail, name='ajax_study_quiz_detail'),
