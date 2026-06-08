@@ -305,9 +305,18 @@ class Poll(models.Model):
         (259200000, '3 days'),
         (604800000, '7 days'),
     ]
+    POLL_TYPE_VOTING = 'voting'
+    POLL_TYPE_MCQ = 'mcq'
+    POLL_TYPE_CHOICES = [
+        (POLL_TYPE_VOTING, 'Voting'),
+        (POLL_TYPE_MCQ, 'MCQ Quiz'),
+    ]
     id = models.CharField(max_length=36, primary_key=True)
     post = models.OneToOneField(Post, on_delete=models.CASCADE, related_name='poll')
     question = models.CharField(max_length=300, blank=True, default='')
+    poll_type = models.CharField(max_length=10, choices=POLL_TYPE_CHOICES, default=POLL_TYPE_VOTING)
+    allow_multiple = models.BooleanField(default=False)
+    explanation = models.TextField(blank=True, default='')
     duration_ms = models.BigIntegerField(default=0, choices=DURATION_CHOICES)
     total_votes = models.PositiveIntegerField(default=0)
     created_at = models.BigIntegerField()
@@ -327,6 +336,7 @@ class PollOption(models.Model):
     id = models.CharField(max_length=36, primary_key=True)
     poll = models.ForeignKey(Poll, on_delete=models.CASCADE, related_name='options')
     text = models.CharField(max_length=200)
+    is_correct = models.BooleanField(default=False)
     vote_count = models.PositiveIntegerField(default=0)
     order = models.PositiveSmallIntegerField(default=0)
 
@@ -348,7 +358,9 @@ class PollVote(models.Model):
 
     class Meta:
         db_table = 'poll_votes'
-        unique_together = ('poll', 'user')
+        indexes = [
+            models.Index(fields=['poll_id', 'user_id']),
+        ]
 
 
 class PostLike(models.Model):

@@ -353,11 +353,7 @@ def save_post_image_upload(request, file_obj, order=0) -> str:
 
     original_name = get_valid_filename(getattr(file_obj, 'name', 'post-image'))
     ext = os.path.splitext(original_name)[1].lower()
-    if ext not in POST_IMAGE_ALLOWED_EXTENSIONS:
-        raise ValidationError('Invalid image format. Only JPG, PNG, WEBP, and GIF are allowed.')
     content_type = getattr(file_obj, 'content_type', '')
-    if content_type and content_type not in POST_IMAGE_CONTENT_TYPES:
-        raise ValidationError('Invalid image MIME type.')
 
     data = file_obj.read(POST_IMAGE_MAX_BYTES + 1)
     if len(data) > POST_IMAGE_MAX_BYTES:
@@ -365,14 +361,27 @@ def save_post_image_upload(request, file_obj, order=0) -> str:
 
     try:
         image = Image.open(BytesIO(data))
-        image.verify()
+        image_format = image.format
+        if not image_format:
+            image.load()
+            image_format = image.format
+        else:
+            image.load()
     except (UnidentifiedImageError, OSError):
         raise ValidationError('Uploaded file is not a valid image.')
 
-    image = Image.open(BytesIO(data))
-    image_format = image.format
     if image_format not in POST_IMAGE_ALLOWED_FORMATS:
         raise ValidationError('Invalid image format. Only JPG, PNG, WEBP, and GIF are allowed.')
+
+    format_to_ext = {'JPEG': '.jpg', 'PNG': '.png', 'WEBP': '.webp', 'GIF': '.gif'}
+    if ext not in POST_IMAGE_ALLOWED_EXTENSIONS:
+        ext = format_to_ext.get(image_format, '')
+        if not ext:
+            raise ValidationError('Invalid image format. Only JPG, PNG, WEBP, and GIF are allowed.')
+
+    if content_type and content_type not in POST_IMAGE_CONTENT_TYPES:
+        content_type_map = {'JPEG': 'image/jpeg', 'PNG': 'image/png', 'WEBP': 'image/webp', 'GIF': 'image/gif'}
+        content_type = content_type_map.get(image_format, content_type)
 
     max_dim = 2000
     if image.width > max_dim or image.height > max_dim:

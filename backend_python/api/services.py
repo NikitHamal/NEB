@@ -147,18 +147,29 @@ def create_post(user, title, content, category, image_urls=None, poll_data=None)
             id=str(uuid.uuid4()),
             post=post,
             question=poll_data.get('question', ''),
+            poll_type=poll_data.get('poll_type', 'voting'),
+            allow_multiple=poll_data.get('allow_multiple', False),
+            explanation=poll_data.get('explanation', ''),
             duration_ms=poll_data.get('duration_ms', 0),
             total_votes=0,
             created_at=now,
         )
-        for i, opt_text in enumerate(poll_data.get('options', [])):
-            PollOption.objects.create(
-                id=str(uuid.uuid4()),
-                poll=poll,
-                text=opt_text.strip(),
-                vote_count=0,
-                order=i,
-            )
+        for i, opt in enumerate(poll_data.get('options', [])):
+            if isinstance(opt, dict):
+                opt_text = opt.get('text', '').strip()
+                is_correct = opt.get('is_correct', False)
+            else:
+                opt_text = opt.strip()
+                is_correct = False
+            if opt_text:
+                PollOption.objects.create(
+                    id=str(uuid.uuid4()),
+                    poll=poll,
+                    text=opt_text,
+                    is_correct=is_correct,
+                    vote_count=0,
+                    order=i,
+                )
     _counters.increment_user_post_count(user.id)
     _neby.enqueue_if_post_mention(post)
     from .serializers import PostSerializer
@@ -167,39 +178,68 @@ def create_post(user, title, content, category, image_urls=None, poll_data=None)
     return post_data
 
 
-def vote_poll(user, poll_id, option_id):
+def vote_poll(user, poll_id, option_ids):
+    """Vote on a poll. option_ids can be a single id or a list for multiple selection."""
+    if isinstance(option_ids, str):
+        option_ids = [option_ids]
     try:
         poll = Poll.objects.get(pk=poll_id)
     except Poll.DoesNotExist:
         return {'error': 'Poll not found'}, 404
     if poll.is_expired:
         return {'error': 'This poll has expired'}, 400
-    try:
-        option = PollOption.objects.get(pk=option_id, poll=poll)
-    except PollOption.DoesNotExist:
-        return {'error': 'Invalid poll option'}, 400
+    valid_options = []
+    for oid in option_ids:
+        try:
+            opt = PollOption.objects.get(pk=oid, poll=poll)
+            valid_options.append(opt)
+        except PollOption.DoesNotExist:
+            return {'error': 'Invalid poll option'}, 400
+    if not valid_options:
+        return {'error': 'No options selected'}, 400
+    if not poll.allow_multiple and len(valid_options) > 1:
+        return {'error': 'This poll allows only one option'}, 400
     with transaction.atomic():
-        existing = PollVote.objects.filter(poll=poll, user=user).first()
-        if existing:
-            return {'error': 'You have already voted on this poll'}, 400
-        PollVote.objects.create(
-            id=str(uuid.uuid4()),
-            poll=poll,
-            option=option,
-            user=user,
-            created_at=_now_ms(),
-        )
-        PollOption.objects.filter(pk=option_id).update(vote_count=F('vote_count') + 1)
-        Poll.objects.filter(pk=poll_id).update(total_votes=F('total_votes') + 1)
+        if poll.allow_multiple:
+            existing = PollVote.objects.filter(poll=poll, user=user, option__in=valid_options)
+            if existing.exists():
+                return {'error': 'You have already voted on one or more of these options'}, 400
+            for opt in valid_options:
+                PollVote.objects.create(
+                    id=str(uuid.uuid4()),
+                    poll=poll,
+                    option=opt,
+                    user=user,
+                    created_at=_now_ms(),
+                )
+                PollOption.objects.filter(pk=opt.id).update(vote_count=F('vote_count') + 1)
+            Poll.objects.filter(pk=poll_id).update(total_votes=F('total_votes') + len(valid_options))
+        else:
+            existing = PollVote.objects.filter(poll=poll, user=user).first()
+            if existing:
+                return {'error': 'You have already voted on this poll'}, 400
+            opt = valid_options[0]
+            PollVote.objects.create(
+                id=str(uuid.uuid4()),
+                poll=poll,
+                option=opt,
+                user=user,
+                created_at=_now_ms(),
+            )
+            PollOption.objects.filter(pk=opt.id).update(vote_count=F('vote_count') + 1)
+            Poll.objects.filter(pk=poll_id).update(total_votes=F('total_votes') + 1)
     poll.refresh_from_db()
     options = list(PollOption.objects.filter(poll=poll).order_by('order'))
     return {
         'id': poll.id,
         'question': poll.question,
+        'pollType': poll.poll_type,
+        'allowMultiple': poll.allow_multiple,
+        'explanation': poll.explanation,
         'total_votes': poll.total_votes,
         'isExpired': poll.is_expired,
-        'options': [{'id': o.id, 'text': o.text, 'vote_count': o.vote_count, 'order': o.order} for o in options],
-        'userVote': option_id,
+        'options': [{'id': o.id, 'text': o.text, 'is_correct': o.is_correct, 'vote_count': o.vote_count, 'order': o.order} for o in options],
+        'userVote': [str(o.id) for o in valid_options] if poll.allow_multiple else str(valid_options[0].id),
     }
 
 
