@@ -200,11 +200,21 @@ def create_post(request):
                 except Exception:
                     pass
         poll_question = request.POST.get('poll_question', '').strip()
-        poll_options = [opt.strip() for opt in request.POST.getlist('poll_option[]') if opt.strip()]
+        poll_options_raw = request.POST.getlist('poll_option[]')
+        poll_option_correct = request.POST.getlist('poll_option_correct[]')
+        poll_options = []
+        for i, opt in enumerate(poll_options_raw):
+            opt_text = opt.strip()
+            if opt_text:
+                is_correct = str(i) in poll_option_correct
+                poll_options.append({'text': opt_text, 'is_correct': is_correct})
         poll_data = None
         if poll_question and len(poll_options) >= 2:
             poll_data = {
                 'question': poll_question,
+                'poll_type': request.POST.get('poll_type', 'voting'),
+                'allow_multiple': request.POST.get('allow_multiple', '') == 'true',
+                'explanation': request.POST.get('poll_explanation', '').strip(),
                 'duration_ms': int(request.POST.get('poll_duration', '0') or '0'),
                 'options': poll_options,
             }

@@ -128,37 +128,52 @@
     </div>
     {% endif %}
 
-    {% if post.poll %}
-    <div class="fp-poll" id="poll-{{ post.poll.id }}" data-poll-id="{{ post.poll.id }}" data-user-vote="{{ post.poll.userVote|default:'' }}">
-      {% if post.poll.question %}
-      <div class="fp-poll-question">{{ post.poll.question }}</div>
-      {% endif %}
-      <div class="fp-poll-options">
-        {% for opt in post.poll.options %}
-        <button class="fp-poll-option {% if post.poll.userVote == opt.id %}fp-poll-option-voted{% endif %}" data-action="vote-poll" data-poll-id="{{ post.poll.id }}" data-option-id="{{ opt.id }}" data-vote-count="{{ opt.voteCount }}" data-total-votes="{{ post.poll.totalVotes }}">
-          <div class="fp-poll-option-bar" style="width:{% if post.poll.totalVotes > 0 %}{% widthratio opt.voteCount post.poll.totalVotes 100 %}{% else %}0{% endif %}%"></div>
-          <div class="fp-poll-option-text">
-            <span class="fp-poll-option-label">{{ opt.text }}</span>
-            {% if post.poll.userVote %}
-            <span class="fp-poll-option-count">{{ opt.voteCount }} vote{{ opt.voteCount|pluralize }} &middot; {% widthratio opt.voteCount post.poll.totalVotes 100 %}%</span>
-            {% endif %}
-          </div>
-          {% if post.poll.userVote == opt.id %}
-          <span class="material-symbols-outlined fp-poll-option-check" style="font-variation-settings:'FILL' 1">check_circle</span>
-          {% endif %}
-        </button>
-        {% endfor %}
-      </div>
-      <div class="fp-poll-meta">
-        <span>{{ post.poll.totalVotes }} vote{{ post.poll.totalVotes|pluralize }}</span>
-        {% if post.poll.isExpired %}
-        <span class="fp-poll-expired">Poll ended</span>
-        {% elif post.poll.durationMs > 0 %}
-        <span data-poll-expires="{{ post.poll.createdAt|add:post.poll.durationMs }}"></span>
-        {% endif %}
-      </div>
-    </div>
-    {% endif %}
+{% if post.poll %}
+     <div class="fp-poll {% if post.poll.pollType == 'mcq' %}fp-poll-mcq{% endif %}" id="poll-{{ post.poll.id }}" data-poll-id="{{ post.poll.id }}" data-user-vote="{{ post.poll.userVote|default:'' }}" data-poll-type="{{ post.poll.pollType }}" data-allow-multiple="{{ post.poll.allowMultiple|default:'false' }}">
+       <div class="fp-poll-type-badge">
+         <span class="material-symbols-outlined">{% if post.poll.pollType == 'mcq' %}quiz{% else %}how_to_vote{% endif %}</span>
+         {% if post.poll.pollType == 'mcq' %}MCQ Quiz{% else %}Poll{% endif %}
+         {% if post.poll.allowMultiple %} &middot; Multiple choice{% endif %}
+       </div>
+       {% if post.poll.question %}
+       <div class="fp-poll-question">{{ post.poll.question }}</div>
+       {% endif %}
+       <div class="fp-poll-options">
+         {% for opt in post.poll.options %}
+         <button class="fp-poll-option {% if post.poll.userVote == opt.id or post.poll.userVote.0 == opt.id %}fp-poll-option-voted{% endif %}{% if post.poll.pollType == 'mcq' and post.poll.userVote and opt.isCorrect %}fp-poll-option-correct{% endif %}{% if post.poll.pollType == 'mcq' and post.poll.userVote and not opt.isCorrect and post.poll.userVote != opt.id %}fp-poll-option-wrong{% endif %}" data-action="vote-poll" data-poll-id="{{ post.poll.id }}" data-option-id="{{ opt.id }}" data-vote-count="{{ opt.voteCount }}" data-total-votes="{{ post.poll.totalVotes }}" data-is-correct="{{ opt.isCorrect|default:'false' }}">
+           <div class="fp-poll-option-bar" style="width:{% if post.poll.totalVotes > 0 %}{% widthratio opt.voteCount post.poll.totalVotes 100 %}{% else %}0{% endif %}%"></div>
+           <div class="fp-poll-option-text">
+             <span class="fp-poll-option-label">{{ opt.text }}</span>
+             {% if post.poll.userVote %}
+             <span class="fp-poll-option-count">{{ opt.voteCount }} vote{{ opt.voteCount|pluralize }} &middot; {% widthratio opt.voteCount post.poll.totalVotes 100 %}%</span>
+             {% endif %}
+           </div>
+           {% if post.poll.pollType == 'mcq' and post.poll.userVote and opt.isCorrect %}
+           <span class="material-symbols-outlined fp-poll-option-correct-icon" style="font-variation-settings:'FILL' 1">check_circle</span>
+           {% elif post.poll.pollType == 'mcq' and post.poll.userVote and post.poll.userVote == opt.id and not opt.isCorrect %}
+           <span class="material-symbols-outlined fp-poll-option-wrong-icon">cancel</span>
+           {% elif post.poll.userVote == opt.id or post.poll.userVote.0 == opt.id %}
+           <span class="material-symbols-outlined fp-poll-option-check" style="font-variation-settings:'FILL' 1">check_circle</span>
+           {% endif %}
+         </button>
+         {% endfor %}
+       </div>
+       {% if post.poll.pollType == 'mcq' and post.poll.userVote and post.poll.explanation %}
+       <div class="fp-poll-explanation">
+         <span class="material-symbols-outlined">lightbulb</span>
+         {{ post.poll.explanation }}
+       </div>
+       {% endif %}
+       <div class="fp-poll-meta">
+         <span>{{ post.poll.totalVotes }} vote{{ post.poll.totalVotes|pluralize }}</span>
+         {% if post.poll.isExpired %}
+         <span class="fp-poll-expired">Poll ended</span>
+         {% elif post.poll.durationMs > 0 %}
+         <span data-poll-expires="{{ post.poll.createdAt|add:post.poll.durationMs }}"></span>
+         {% endif %}
+       </div>
+     </div>
+     {% endif %}
 
     <div class="fp-post-actions">
       <button data-action="toggle-post-like" data-post-id="{{ post.id }}" class="fp-action-btn {% if post.isThumbedUp %}liked{% endif %}" id="post-like-btn-{{ post.id }}">
@@ -1559,29 +1574,51 @@ async function votePoll(btn) {
     });
     var d = await r.json();
     if (d.error) { showSnackbar(d.error); btn.disabled = false; return; }
-    // Re-render poll with results
     var pollDiv = document.getElementById('poll-' + pollId);
     if (pollDiv && d.options) {
       var totalVotes = d.totalVotes || 0;
       var userVote = d.userVote || '';
       var isExpired = d.isExpired || false;
+      var isMcq = d.pollType === 'mcq';
+      var hasExplanation = d.explanation && d.explanation.trim();
       var optionsHtml = '';
       d.options.forEach(function(opt) {
         var pct = totalVotes > 0 ? Math.round(opt.voteCount / totalVotes * 100) : 0;
-        var voted = opt.id === userVote;
-        optionsHtml += '<button class="fp-poll-option fp-poll-option-voted' + (voted ? ' fp-poll-option-selected' : '') + '" disabled>' +
+        var voted = Array.isArray(userVote) ? userVote.indexOf(opt.id) !== -1 : opt.id === userVote;
+        var isCorrect = opt.isCorrect || false;
+        var cls = 'fp-poll-option fp-poll-option-voted';
+        if (isMcq && voted && isCorrect) cls += ' fp-poll-option-correct';
+        if (isMcq && voted && !isCorrect) cls += ' fp-poll-option-wrong';
+        var iconHtml = '';
+        if (isMcq && voted && isCorrect) {
+          iconHtml = '<span class="material-symbols-outlined fp-poll-option-correct-icon" style="font-variation-settings:\'FILL\' 1">check_circle</span>';
+        } else if (isMcq && voted && !isCorrect) {
+          iconHtml = '<span class="material-symbols-outlined fp-poll-option-wrong-icon">cancel</span>';
+        } else if (voted) {
+          iconHtml = '<span class="material-symbols-outlined fp-poll-option-check" style="font-variation-settings:\'FILL\' 1">check_circle</span>';
+        }
+        optionsHtml += '<button class="' + cls + '" disabled>' +
           '<div class="fp-poll-option-bar" style="width:' + pct + '%"></div>' +
           '<div class="fp-poll-option-text">' +
             '<span class="fp-poll-option-label">' + escapeHtml(opt.text) + '</span>' +
             '<span class="fp-poll-option-count">' + opt.voteCount + ' vote' + (opt.voteCount !== 1 ? 's' : '') + ' &middot; ' + pct + '%</span>' +
           '</div>' +
-          (voted ? '<span class="material-symbols-outlined fp-poll-option-check" style="font-variation-settings:\'FILL\' 1">check_circle</span>' : '') +
+          iconHtml +
         '</button>';
       });
       pollDiv.querySelector('.fp-poll-options').innerHTML = optionsHtml;
       var metaHtml = '<span>' + totalVotes + ' vote' + (totalVotes !== 1 ? 's' : '') + '</span>';
       if (isExpired) metaHtml += '<span class="fp-poll-expired">Poll ended</span>';
       pollDiv.querySelector('.fp-poll-meta').innerHTML = metaHtml;
+      if (isMcq && hasExplanation) {
+        var explDiv = pollDiv.querySelector('.fp-poll-explanation');
+        if (!explDiv) {
+          explDiv = document.createElement('div');
+          explDiv.className = 'fp-poll-explanation';
+          pollDiv.querySelector('.fp-poll-meta').parentNode.insertBefore(explDiv, pollDiv.querySelector('.fp-poll-meta'));
+        }
+        explDiv.innerHTML = '<span class="material-symbols-outlined">lightbulb</span>' + escapeHtml(d.explanation);
+      }
     }
   } catch(e) { showSnackbar('Error voting on poll.'); btn.disabled = false; }
 }

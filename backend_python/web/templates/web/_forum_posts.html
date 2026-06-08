@@ -63,8 +63,8 @@
     {% endif %}
     {% if post.poll %}
     <div class="post-card-poll-badge">
-      <span class="material-symbols-outlined" style="font-size:16px;">poll</span>
-      Poll
+      <span class="material-symbols-outlined" style="font-size:16px;">{% if post.poll.pollType == 'mcq' %}quiz{% else %}poll{% endif %}</span>
+      {% if post.poll.pollType == 'mcq' %}MCQ{% else %}Poll{% endif %}
     </div>
     {% endif %}
     <div class="post-card-actions">

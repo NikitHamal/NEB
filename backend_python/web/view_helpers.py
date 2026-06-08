@@ -193,10 +193,13 @@ def _serialize_post_poll(post_id, user_id=None):
     return {
         'id': poll.id,
         'question': poll.question,
+        'pollType': poll.poll_type,
+        'allowMultiple': poll.allow_multiple,
+        'explanation': poll.explanation,
         'durationMs': poll.duration_ms,
         'totalVotes': poll.total_votes,
         'isExpired': poll.is_expired,
-        'options': [{'id': o.id, 'text': o.text, 'voteCount': o.vote_count, 'order': o.order} for o in options],
+        'options': [{'id': o.id, 'text': o.text, 'isCorrect': o.is_correct, 'voteCount': o.vote_count, 'order': o.order} for o in options],
         'userVote': user_vote,
     }
 
@@ -231,9 +234,11 @@ def _serialize_posts(posts_qs, user_id=None):
             if vote:
                 user_vote = vote.option_id
         all_polls[poll.post_id] = {
-            'id': poll.id, 'question': poll.question, 'durationMs': poll.duration_ms,
+            'id': poll.id, 'question': poll.question, 'pollType': poll.poll_type,
+            'allowMultiple': poll.allow_multiple, 'explanation': poll.explanation,
+            'durationMs': poll.duration_ms,
             'totalVotes': poll.total_votes, 'isExpired': poll.is_expired,
-            'options': [{'id': o.id, 'text': o.text, 'voteCount': o.vote_count, 'order': o.order} for o in opts],
+            'options': [{'id': o.id, 'text': o.text, 'isCorrect': o.is_correct, 'voteCount': o.vote_count, 'order': o.order} for o in opts],
             'userVote': user_vote,
         }
     result = []

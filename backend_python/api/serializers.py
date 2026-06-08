@@ -139,7 +139,7 @@ class PostImageSerializer(serializers.ModelSerializer):
 class PollOptionSerializer(serializers.ModelSerializer):
     class Meta:
         model = PollOption
-        fields = ['id', 'text', 'vote_count', 'order']
+        fields = ['id', 'text', 'is_correct', 'vote_count', 'order']
 
 
 class PollSerializer(serializers.ModelSerializer):
@@ -148,7 +148,7 @@ class PollSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Poll
-        fields = ['id', 'question', 'duration_ms', 'total_votes', 'isExpired', 'options']
+        fields = ['id', 'question', 'poll_type', 'allow_multiple', 'explanation', 'duration_ms', 'total_votes', 'isExpired', 'options']
 
     def get_isExpired(self, obj):
         return obj.is_expired
