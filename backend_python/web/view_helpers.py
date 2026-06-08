@@ -20,12 +20,12 @@ from . import curriculum
 from django.core.paginator import Paginator
 from django.utils.html import escape
 
-from api.models import User, Resource, ResourceRequest, ResourceRequestUpvote, Post, PostLike, Reply, ReplyLike, Follow, UserPhoto, EditHistory, Bookmark, Notification, Report, BotConfig, TakedownRequest
+from api.models import User, Resource, ResourceRequest, ResourceRequestUpvote, Post, PostLike, PostImage, Poll, PollOption, PollVote, Reply, ReplyLike, Follow, UserPhoto, EditHistory, Bookmark, Notification, Report, BotConfig, TakedownRequest
 from api.models import ResourceLike, ResourceComment, ResourceCommentLike
 from api.serializers import UserSerializer, ResourceSerializer, PostSerializer, ReplySerializer
 from api.security import (
     get_user_by_auth_token, hash_auth_token, issue_auth_token, revoke_auth_token,
-    save_profile_image_upload, validate_profile_photo_url,
+    save_profile_image_upload, save_post_image_upload, validate_profile_photo_url,
     validate_resource_file_url, validate_and_save_resource_file,
 )
 from api.authentication import verify_google_token
@@ -122,15 +122,21 @@ def _user_badge_info(user):
         return badge
     if getattr(user, 'role', 'student') == 'teacher':
         badge['type'] = 'teacher'
-        badge['icon'] = 'person_book'
+        badge['icon'] = 'school'
         badge['color'] = '#10B981'
-        badge['label'] = 'Teacher'
+        badge['label'] = 'Verified Teacher' if getattr(user, 'teacher_verified', False) else 'Teacher'
         return badge
     if getattr(user, 'role', 'student') == 'institution':
         badge['type'] = 'institution'
-        badge['icon'] = 'apartment'
+        badge['icon'] = 'account_balance'
         badge['color'] = '#6366F1'
         badge['label'] = 'Institution'
+        return badge
+    if getattr(user, 'role', 'student') == 'explorer':
+        badge['type'] = 'explorer'
+        badge['icon'] = 'travel_explore'
+        badge['color'] = '#F59E0B'
+        badge['label'] = 'Explorer'
         return badge
     if user.verification_level and user.verification_level > 0:
         ver_levels = {
@@ -169,6 +175,31 @@ def _user_achievement_badges(user):
             result.append({'key': key, 'icon': info['icon'], 'color': info['color'], 'label': info['label']})
     return result
 
+def _serialize_post_images(post_id):
+    images = PostImage.objects.filter(post_id=post_id).order_by('order', 'created_at')
+    return [{'id': img.id, 'imageUrl': img.image_url, 'order': img.order} for img in images]
+
+def _serialize_post_poll(post_id, user_id=None):
+    try:
+        poll = Poll.objects.get(post_id=post_id)
+    except Poll.DoesNotExist:
+        return None
+    options = list(PollOption.objects.filter(poll=poll).order_by('order'))
+    user_vote = None
+    if user_id:
+        vote = PollVote.objects.filter(poll=poll, user_id=user_id).select_related('option').first()
+        if vote:
+            user_vote = vote.option_id
+    return {
+        'id': poll.id,
+        'question': poll.question,
+        'durationMs': poll.duration_ms,
+        'totalVotes': poll.total_votes,
+        'isExpired': poll.is_expired,
+        'options': [{'id': o.id, 'text': o.text, 'voteCount': o.vote_count, 'order': o.order} for o in options],
+        'userVote': user_vote,
+    }
+
 def _serialize_posts(posts_qs, user_id=None):
     posts = list(posts_qs)
     liked_ids = set()
@@ -187,6 +218,24 @@ def _serialize_posts(posts_qs, user_id=None):
             user_id=user_id, target_type='post',
             target_id__in=[p.id for p in posts]
         ).values_list('target_id', flat=True))
+    post_ids = [p.id for p in posts]
+    all_images = {}
+    for img in PostImage.objects.filter(post_id__in=post_ids).order_by('order', 'created_at'):
+        all_images.setdefault(img.post_id, []).append({'id': img.id, 'imageUrl': img.image_url, 'order': img.order})
+    all_polls = {}
+    for poll in Poll.objects.filter(post_id__in=post_ids):
+        opts = list(PollOption.objects.filter(poll=poll).order_by('order'))
+        user_vote = None
+        if user_id:
+            vote = PollVote.objects.filter(poll=poll, user_id=user_id).select_related('option').first()
+            if vote:
+                user_vote = vote.option_id
+        all_polls[poll.post_id] = {
+            'id': poll.id, 'question': poll.question, 'durationMs': poll.duration_ms,
+            'totalVotes': poll.total_votes, 'isExpired': poll.is_expired,
+            'options': [{'id': o.id, 'text': o.text, 'voteCount': o.vote_count, 'order': o.order} for o in opts],
+            'userVote': user_vote,
+        }
     result = []
     for p in posts:
         result.append({
@@ -202,6 +251,8 @@ def _serialize_posts(posts_qs, user_id=None):
             'isThumbedUp': p.id in liked_ids,
             'isFollowingAuthor': p.user_id in followed_author_ids,
             'isBookmarked': p.id in bookmarked_ids,
+            'images': all_images.get(p.id, []),
+            'poll': all_polls.get(p.id),
         })
     return result
 
@@ -235,6 +286,8 @@ def _serialize_post(p, user_id=None, _liked_ids=None, _followed_ids=None, _bookm
         'isEdited': p.is_edited, 'editedAt': p.edited_at, 'isArchived': p.is_archived,
         'isThumbedUp': is_thumbed_up, 'isFollowingAuthor': is_following_author,
         'isBookmarked': is_bookmarked,
+        'images': _serialize_post_images(p.id),
+        'poll': _serialize_post_poll(p.id, user_id),
     }
 
 def _serialize_replies(replies_qs, user_id=None):

@@ -2,6 +2,7 @@
 Django models for NEBians.
 Schema is the source of truth — keep in sync with the Kotlin app's ApiService.
 """
+import time
 import uuid
 from django.db import models
 from .security import generate_numeric_code
@@ -11,10 +12,12 @@ class User(models.Model):
     ROLE_STUDENT = 'student'
     ROLE_TEACHER = 'teacher'
     ROLE_INSTITUTION = 'institution'
+    ROLE_EXPLORER = 'explorer'
     ROLE_CHOICES = [
         (ROLE_STUDENT, 'Student'),
         (ROLE_TEACHER, 'Teacher'),
         (ROLE_INSTITUTION, 'Institution'),
+        (ROLE_EXPLORER, 'Explorer'),
     ]
     id = models.CharField(max_length=255, primary_key=True)
     auth_token = models.CharField(max_length=64, unique=True, blank=True, null=True)
@@ -65,6 +68,9 @@ class User(models.Model):
 
     # Bot / AI account flag
     is_bot = models.BooleanField(default=False)
+
+    # Teacher verification — admin-verified teachers get a special badge
+    teacher_verified = models.BooleanField(default=False, db_index=True)
 
     # Denormalized notification counter
     unread_notification_count = models.PositiveIntegerField(default=0)
@@ -272,6 +278,77 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class PostImage(models.Model):
+    """Images attached to a post (max 3 per post)."""
+    id = models.CharField(max_length=36, primary_key=True)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='images')
+    image_url = models.TextField()
+    order = models.PositiveSmallIntegerField(default=0)
+    created_at = models.BigIntegerField()
+
+    class Meta:
+        db_table = 'post_images'
+        ordering = ['order', 'created_at']
+        indexes = [
+            models.Index(fields=['post_id', 'order']),
+        ]
+
+
+class Poll(models.Model):
+    """Poll attached to a post."""
+    DURATION_CHOICES = [
+        (0, 'No expiry'),
+        (3600000, '1 hour'),
+        (86400000, '24 hours'),
+        (259200000, '3 days'),
+        (604800000, '7 days'),
+    ]
+    id = models.CharField(max_length=36, primary_key=True)
+    post = models.OneToOneField(Post, on_delete=models.CASCADE, related_name='poll')
+    question = models.CharField(max_length=300, blank=True, default='')
+    duration_ms = models.BigIntegerField(default=0, choices=DURATION_CHOICES)
+    total_votes = models.PositiveIntegerField(default=0)
+    created_at = models.BigIntegerField()
+
+    @property
+    def is_expired(self):
+        if self.duration_ms == 0:
+            return False
+        return int(time.time() * 1000) > self.created_at + self.duration_ms
+
+    class Meta:
+        db_table = 'polls'
+
+
+class PollOption(models.Model):
+    """An option in a poll."""
+    id = models.CharField(max_length=36, primary_key=True)
+    poll = models.ForeignKey(Poll, on_delete=models.CASCADE, related_name='options')
+    text = models.CharField(max_length=200)
+    vote_count = models.PositiveIntegerField(default=0)
+    order = models.PositiveSmallIntegerField(default=0)
+
+    class Meta:
+        db_table = 'poll_options'
+        ordering = ['order']
+        indexes = [
+            models.Index(fields=['poll_id', 'order']),
+        ]
+
+
+class PollVote(models.Model):
+    """A user's vote on a poll option."""
+    id = models.CharField(max_length=36, primary_key=True)
+    poll = models.ForeignKey(Poll, on_delete=models.CASCADE, related_name='votes')
+    option = models.ForeignKey(PollOption, on_delete=models.CASCADE, related_name='votes')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='poll_votes')
+    created_at = models.BigIntegerField()
+
+    class Meta:
+        db_table = 'poll_votes'
+        unique_together = ('poll', 'user')
 
 
 class PostLike(models.Model):

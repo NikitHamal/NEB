@@ -160,6 +160,11 @@ def admin_user_detail(request, user_id):
             user.is_admin = bool(data['is_admin'])
         if 'is_bot' in data:
             user.is_bot = bool(data['is_bot'])
+        if 'teacher_verified' in data:
+            user.teacher_verified = bool(data['teacher_verified'])
+        if 'role' in data:
+            if data['role'] in ('student', 'teacher', 'institution', 'explorer'):
+                user.role = data['role']
         if 'achievement_badges' in data:
             user.achievement_badges = str(data['achievement_badges'])
         user.save()

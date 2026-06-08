@@ -56,6 +56,9 @@ urlpatterns = [
     path('posts/<str:post_id>/view/', views.post_view, name='post-view'),
     path('posts/<str:post_id>/like/', views.post_like, name='post-like'),
 
+    path('posts/<str:post_id>/images/', views.post_images, name='post-images'),
+    path('polls/<str:poll_id>/vote/', views.poll_vote, name='poll-vote'),
+
     # Replies — GET list + POST create handled by replies_endpoint dispatcher
     path('posts/<str:post_id>/replies/', views.replies_endpoint, name='replies'),
 
