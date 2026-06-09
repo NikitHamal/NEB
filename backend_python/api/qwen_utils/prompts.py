@@ -10,9 +10,12 @@ FORMULA_PROMPT = (
     "Use proper LaTeX math notation for all formulas. "
     "For inline formulas use $...$ (e.g., $E = mc^2$, $x^2 + y^2 = z^2$, $v = u + at$). "
     "For displayed/centered equations use $$...$$ on their own line. "
-    "For chemical and molecular formulas use $\\ce{...}$ (e.g., $\\ce{H2O}$, $\\ce{CH4}$, "
-    "$\\ce{C6H12O6}$, $\\ce{NaOH}$, $\\ce{H2SO4}$, $\\ce{CO2}$). "
-    "For subscripts use x_{i} notation. For superscripts use x^{2} notation."
+    "For chemical and molecular formulas use $\\ce{{...}}$ (e.g., $\\ce{{H2O}}$, $\\ce{{CH4}}$, "
+    "$\\ce{{C6H12O6}}$, $\\ce{{NaOH}}$, $\\ce{{H2SO4}}$, $\\ce{{CO2}}$). "
+    "For chemical equations/reactions, wrap the ENTIRE equation inside $\\ce{{...}}$ including arrows and coefficients "
+    "(e.g., $\\ce{{2H2 + O2 -> 2H2O}}$, $\\ce{{X(g) + e^- -> X^-(g)}}$, $\\ce{{NaOH + HCl -> NaCl + H2O}}$). "
+    "IMPORTANT: Always wrap ALL chemical formulas and equations in $...$ delimiters so the renderer can process them. "
+    "For subscripts use x_{{i}} notation. For superscripts use x^{{2}} notation."
 )
 
 

@@ -309,7 +309,7 @@ def ajax_arena_create_qwen_session(request):
         qwen_session.headers['bx-umidtoken'] = midtoken
         qwen_session.headers['bx-v'] = '2.5.31'
 
-    chat_id = qwen_proxy.create_chat(qwen_session, model=model_id)
+    chat_id = qwen_proxy.create_chat(qwen_session, model=model_id, _pool_session=qwen_session)
     if not chat_id:
         return JsonResponse({'error': 'Could not start Qwen session — try again'}, status=502)
 
@@ -396,12 +396,12 @@ def ajax_arena_send_message_qwen(request, session_id):
         if len(files) > MAX_FILES_PER_MESSAGE:
             return JsonResponse({'error': f'Too many files (max {MAX_FILES_PER_MESSAGE})'}, status=400)
 
-        qwen_session, _ = qwen_proxy._get_session()
-        midtoken = qwen_proxy.get_midtoken(qwen_session)
+        arena_qwen_session, _ = qwen_proxy._get_session()
+        midtoken = qwen_proxy.get_midtoken(arena_qwen_session)
         if midtoken:
-            qwen_session.headers['bx-umidtoken'] = midtoken
-            qwen_session.headers['bx-v'] = '2.5.31'
-        req_headers = dict(qwen_session.headers)
+            arena_qwen_session.headers['bx-umidtoken'] = midtoken
+            arena_qwen_session.headers['bx-v'] = '2.5.31'
+        req_headers = dict(arena_qwen_session.headers)
 
         for f in files:
             ext = os.path.splitext(f.name)[1].lower()
@@ -411,7 +411,7 @@ def ajax_arena_send_message_qwen(request, session_id):
                 continue
 
             file_data = f.read()
-            file_obj = upload_file_from_bytes(f.name, file_data, qwen_session, req_headers)
+            file_obj = upload_file_from_bytes(f.name, file_data, arena_qwen_session, req_headers)
             if file_obj:
                 uploaded_file_objs.append(file_obj)
 
@@ -481,6 +481,7 @@ def ajax_arena_send_message_qwen(request, session_id):
         result = qwen_proxy.send_message(
             qwen_session, chat_id, content, model=model,
             parent_id=parent_id, uploaded_files=uploaded_file_objs or None,
+            _pool_session=qwen_session,
         )
 
         collected_text = ''

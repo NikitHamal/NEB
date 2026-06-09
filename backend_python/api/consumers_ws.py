@@ -71,6 +71,7 @@ GRP_USER_FMT = 'user.{user_id}'
 GRP_POST_FMT = 'post.{post_id}'
 GRP_RESOURCE_FMT = 'resource.{resource_id}'
 GRP_RESOURCE_REQUEST_FMT = 'resource_request.{request_id}'
+GRP_STUDY_SPACE_FMT = 'studyspace.{space_id}'
 
 
 def _is_authenticated(user):
@@ -180,6 +181,15 @@ class RealtimeConsumer(AsyncWebsocketConsumer):
         except Post.DoesNotExist:
             return False
         return not p.is_archived
+
+    @database_sync_to_async
+    def _can_see_study_space(self, space_id: str) -> bool:
+        from api.models import StudySpace
+        try:
+            s = StudySpace.objects.only('id', 'visibility').get(pk=space_id)
+        except StudySpace.DoesNotExist:
+            return False
+        return s.visibility in ('public', 'link')
 
     @database_sync_to_async
     def _can_see_resource(self, resource_id: str) -> bool:
@@ -301,6 +311,10 @@ class RealtimeConsumer(AsyncWebsocketConsumer):
         elif action == 'since':
             # Future: replay events from a timestamp. For now just acknowledge.
             await self._send_json({'type': 'since_ack', 'ts': msg.get('ts')})
+        elif action == 'note_content':
+            await self._handle_note_content(msg)
+        elif action == 'note_cursor':
+            await self._handle_note_cursor(msg)
         else:
             await self._send_json({'type': 'error', 'code': 'unknown_action', 'message': f'unknown: {action}'})
 
@@ -330,6 +344,9 @@ class RealtimeConsumer(AsyncWebsocketConsumer):
             ok = await self._can_see_resource(resource_id)
         elif channel.startswith('resource_request.'):
             ok = True  # public reading
+        elif channel.startswith('studyspace.'):
+            space_id = channel[len('studyspace.'):]
+            ok = await self._can_see_study_space(space_id) if self._user_id else False
         else:
             await self._send_json({'type': 'error', 'code': 'unknown_channel', 'message': f'unsupported: {channel}'})
             return
@@ -397,6 +414,62 @@ class RealtimeConsumer(AsyncWebsocketConsumer):
             channel = self._client_subscriptions[channel]
         # Force into the batcher
         await self._batcher.add(channel, event['event'], event['data'])
+
+    # ------------------------------------------------------------------ study-space notes realtime
+
+    async def _handle_note_content(self, msg):
+        """Receive note content update from a StudySpace member and broadcast to others."""
+        space_id = msg.get('spaceId')
+        content = msg.get('content', '')
+        version = int(msg.get('version') or 0)
+        if not space_id or not isinstance(content, str):
+            return
+        if len(content) > 200000:
+            await self._send_json({'type': 'error', 'code': 'note_too_large', 'message': 'Note exceeds 200k chars'})
+            return
+        # Save to Redis for fast cross-worker access
+        cache.set(f'studynote:content:{space_id}', content, timeout=86400)
+        cache.set(f'studynote:version:{space_id}', version, timeout=86400)
+        cache.set(f'studynote:updated_by:{space_id}', self._user_id, timeout=86400)
+        # Broadcast to all space subscribers (clients filter own messages by senderId)
+        group = f'studyspace.{space_id}'
+        if group in self._groups:
+            await self.channel_layer.group_send(
+                group,
+                {
+                    'type': 'realtime.event',
+                    'channel': group,
+                    'event': 'note_content',
+                    'data': {
+                        'content': content,
+                        'version': version,
+                        'senderId': self._user_id,
+                    },
+                }
+            )
+
+    async def _handle_note_cursor(self, msg):
+        """Broadcast cursor position to other StudySpace members."""
+        space_id = msg.get('spaceId')
+        start = int(msg.get('start') or 0)
+        end = int(msg.get('end') or 0)
+        if not space_id:
+            return
+        group = f'studyspace.{space_id}'
+        if group in self._groups:
+            await self.channel_layer.group_send(
+                group,
+                {
+                    'type': 'realtime.event',
+                    'channel': group,
+                    'event': 'note_cursor',
+                    'data': {
+                        'start': start,
+                        'end': end,
+                        'senderId': self._user_id,
+                    },
+                }
+            )
 
     # ------------------------------------------------------------------ internal
 
