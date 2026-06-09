@@ -102,10 +102,10 @@
           <div class="sl-detail-title-row">
             <span class="material-symbols-outlined">description</span>
             <h2 id="slDetailTitle">Document</h2>
-            <button type="button" class="md-btn-icon" data-action="sl-open-share" title="Share document">
+            <button class="md-btn-icon" data-action="sl-open-share" title="Share document">
               <span class="material-symbols-outlined">ios_share</span>
             </button>
-            <button type="button" class="md-btn-icon" data-action="sl-delete-doc" title="Delete document">
+            <button class="md-btn-icon" data-action="sl-delete-doc" title="Delete document">
               <span class="material-symbols-outlined">delete</span>
             </button>
           </div>
@@ -167,28 +167,17 @@
           </div>
           <div class="sl-mindmap-content" id="slMindmapContent" style="display:none;">
             <div class="sl-mindmap-actions">
-              <div class="sl-mm-toolbar">
-                <button class="md-btn md-btn-outlined" data-action="sl-regenerate-mindmap"><span class="material-symbols-outlined">refresh</span> Regenerate</button>
-                <select id="slMindmapLayout" data-change-action="sl-mm-customize" aria-label="Mindmap layout">
-                  <option value="radial">Radial layout</option>
-                  <option value="tree">Tree layout</option>
-                </select>
-                <select id="slMindmapTheme" data-change-action="sl-mm-customize" aria-label="Mindmap style">
-                  <option value="clean">Clean style</option>
-                  <option value="color">Color style</option>
-                  <option value="mono">Mono style</option>
-                </select>
-                <select id="slMindmapDensity" data-change-action="sl-mm-customize" aria-label="Mindmap density">
-                  <option value="comfortable">Comfortable</option>
-                  <option value="compact">Compact</option>
-                </select>
-                <input id="slMindmapSearch" data-keydown-action="sl-mm-search" placeholder="Search branches..." aria-label="Search mindmap branches">
-                <button class="sl-mm-icon-btn" data-action="sl-mm-zoom-out" title="Zoom out"><span class="material-symbols-outlined">remove</span></button>
-                <button class="sl-mm-icon-btn" data-action="sl-mm-zoom-in" title="Zoom in"><span class="material-symbols-outlined">add</span></button>
-                <button class="sl-mm-icon-btn" data-action="sl-mm-expand" title="Expand all"><span class="material-symbols-outlined">unfold_more</span></button>
+              <button class="md-btn md-btn-outlined" data-action="sl-regenerate-mindmap"><span class="material-symbols-outlined">refresh</span> Regenerate</button>
+            </div>
+            <div class="sl-mindmap-stage">
+              <div id="slMindmapTree"></div>
+              <div class="sl-mm-zoom-bar">
+                <button class="sl-mm-zb" data-action="sl-mm-zoom-in" title="Zoom in"><span class="material-symbols-outlined">add</span></button>
+                <button class="sl-mm-zb" data-action="sl-mm-zoom-out" title="Zoom out"><span class="material-symbols-outlined">remove</span></button>
+                <button class="sl-mm-zb" data-action="sl-mm-fit" title="Fit to view"><span class="material-symbols-outlined">fit_screen</span></button>
+                <button class="sl-mm-zb" data-action="sl-mm-export" title="Download PNG"><span class="material-symbols-outlined">download</span></button>
               </div>
             </div>
-            <div id="slMindmapTree"></div>
           </div>
         </div>
 
@@ -286,7 +275,7 @@
   {% endif %}
 
   <div class="modal-overlay" id="slShareModal" data-action="sl-close-share" style="display:none;">
-    <div class="modal-box" data-action-stop style="max-width:560px;">
+    <div class="modal-box" data-action="noop" data-action-stop style="max-width:560px;">
       <div class="modal-header">
         <h3 class="modal-title">Share study document</h3>
         <button class="modal-close" data-action="sl-close-share"><span class="material-symbols-outlined">close</span></button>
@@ -539,16 +528,7 @@
   }
 
   function getMindmapOptions() {
-    var layout = document.getElementById('slMindmapLayout');
-    var theme = document.getElementById('slMindmapTheme');
-    var density = document.getElementById('slMindmapDensity');
-    var search = document.getElementById('slMindmapSearch');
-    return {
-      layout: layout ? layout.value : 'radial',
-      theme: theme ? theme.value : 'clean',
-      density: density ? density.value : 'comfortable',
-      query: search ? search.value : ''
-    };
+    return {};
   }
 
   function renderMindmapStage() {
@@ -734,25 +714,17 @@
 
 
   function openShareDialog() {
-    if (!currentDocId) {
-      var activeDoc = document.querySelector('.sl-doc-item.sl-doc-active');
-      if (activeDoc && activeDoc.dataset.docId) currentDocId = activeDoc.dataset.docId;
-    }
-    if (!currentDocId) { showSnackbar('Select a document first'); return; }
+    if (!currentDocId) return;
     var modal = document.getElementById('slShareModal');
-    if (!modal) return;
     modal.style.display = 'flex';
     modal.classList.add('active');
-    var current = document.getElementById('slShareCurrent');
-    if (current) current.textContent = 'Loading sharing settings...';
-    fetch('/ajax/study-lab/document/' + encodeURIComponent(currentDocId) + '/share/', { headers: {'X-CSRFToken': CSRF_TOKEN}, credentials: 'same-origin' })
+    fetch('/ajax/study-lab/document/' + currentDocId + '/share/', { headers: {'X-CSRFToken': CSRF_TOKEN}, credentials: 'same-origin' })
       .then(handleJson)
       .then(function(data) { currentShareSettings = data; renderShareDialog(data); })
       .catch(function(err) { showSnackbar(err.message || 'Failed to load sharing settings'); });
   }
 
-  function closeShareDialog(ev) {
-    if (ev && ev.target && ev.target.id !== 'slShareModal' && !ev.target.closest('.modal-close')) return;
+  function closeShareDialog() {
     var modal = document.getElementById('slShareModal');
     if (modal) { modal.classList.remove('active'); modal.style.display = 'none'; }
   }
@@ -785,7 +757,7 @@
     var selected = document.querySelector('input[name="slShareMode"]:checked');
     var mode = selected ? selected.value : 'private';
     var users = document.getElementById('slShareUsers') ? document.getElementById('slShareUsers').value : '';
-    fetch('/ajax/study-lab/document/' + encodeURIComponent(currentDocId) + '/share/', {
+    fetch('/ajax/study-lab/document/' + currentDocId + '/share/', {
       method: 'POST', headers: {'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN}, credentials: 'same-origin',
       body: JSON.stringify({mode: mode, users: users})
     }).then(handleJson).then(function(data) {
@@ -865,16 +837,15 @@
     'sl-save-summary': function() { saveSummaryEdit(); },
     'sl-cancel-summary-edit': function() { cancelSummaryEdit(); },
     'sl-open-share': function() { openShareDialog(); },
-    'sl-close-share': function(el, ev) { closeShareDialog(ev); },
+    'sl-close-share': function() { closeShareDialog(); },
     'sl-save-share': function() { saveShareDialog(); },
     'sl-copy-share-link': function() { copyStudyShareLink(); },
     'sl-generate-mindmap': function() { generateMindmap(); },
     'sl-regenerate-mindmap': function() { generateMindmap(); },
-    'sl-mm-customize': function() { renderMindmapStage(); },
-    'sl-mm-search': function() { setTimeout(renderMindmapStage, 0); },
     'sl-mm-zoom-in': function() { if (window.NEBiansMindmap) window.NEBiansMindmap.setZoom(document.getElementById('slMindmapTree'), 0.12, currentDocData.mindmap); },
     'sl-mm-zoom-out': function() { if (window.NEBiansMindmap) window.NEBiansMindmap.setZoom(document.getElementById('slMindmapTree'), -0.12, currentDocData.mindmap); },
-    'sl-mm-expand': function() { if (window.NEBiansMindmap) window.NEBiansMindmap.expandAll(document.getElementById('slMindmapTree'), currentDocData.mindmap); },
+    'sl-mm-fit': function() { if (window.NEBiansMindmap) window.NEBiansMindmap.fitView(document.getElementById('slMindmapTree'), currentDocData.mindmap); },
+    'sl-mm-export': function() { if (window.NEBiansMindmap) window.NEBiansMindmap.downloadPng(document.getElementById('slMindmapTree')); },
     'sl-generate-quiz': function() { generateQuiz(); },
     'sl-new-quiz': function() { showQuizPrompt(); },
     'sl-quiz-new': function() { showQuizPrompt(); },

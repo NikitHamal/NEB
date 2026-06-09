@@ -67,7 +67,7 @@
               <div style="font-weight:600;display:flex;align-items:center;gap:4px;">
                 {{ u.display_name|default:"-" }}
                 {% if u.is_admin %}
-                <span class="material-symbols-outlined" style="font-size:14px;color:#F59E0B;" title="Admin">workspace_premium</span>
+                <span class="material-symbols-outlined" style="font-size:14px;color:#F59E0B;" title="Admin">crown</span>
                 {% elif u.moderator_level and u.moderator_level > 0 %}
                 <span class="material-symbols-outlined" style="font-size:14px;color:{% if u.moderator_level == 3 %}#7B1FA2{% elif u.moderator_level == 2 %}#00897B{% else %}#1B9AF0{% endif %};" title="Moderator">{% if u.moderator_level == 3 %}shield_with_heart{% elif u.moderator_level == 2 %}shield{% else %}local_police{% endif %}</span>
                 {% elif u.verification_level and u.verification_level > 0 %}

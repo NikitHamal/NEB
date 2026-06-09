@@ -1,255 +1,294 @@
 (function () {
   'use strict';
 
-  function escapeHtml(value) {
-    return String(value == null ? '' : value).replace(/[&<>"']/g, function (ch) {
-      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch];
-    });
-  }
+  var ESC_MAP = {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'};
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){ return ESC_MAP[c]; }); }
+  function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
 
+  /* ── Approximate text width for auto-sizing ── */
+  var CHAR_W = 8.2;
+  function textWidth(text) { return (text || '').length * CHAR_W; }
+
+  /* ── Flatten tree ── */
   function flatten(map, collapsed) {
-    var nodes = [];
-    var edges = [];
-    var id = 0;
-    function walk(raw, parentId, depth, path) {
-      var nodeId = path || ('n' + (id++));
-      var children = Array.isArray(raw.children) ? raw.children : [];
-      var hidden = collapsed.has(nodeId);
-      var node = {
-        id: nodeId,
-        parentId: parentId,
-        depth: depth,
-        title: raw.title || raw.name || 'Topic',
-        note: raw.note || raw.description || '',
-        hasChildren: children.length > 0,
-        hidden: hidden,
-        childCount: children.length
-      };
-      nodes.push(node);
-      if (parentId) edges.push({from: parentId, to: nodeId});
-      if (!hidden) {
-        children.forEach(function (child, i) { walk(child || {}, nodeId, depth + 1, nodeId + '-' + i); });
-      }
-      return node;
+    var nodes = [], edges = [];
+    function walk(raw, pid, depth, path) {
+      var id = path;
+      var kids = Array.isArray(raw.children) ? raw.children : [];
+      var hidden = collapsed.has(id);
+      nodes.push({ id: id, pid: pid, depth: depth, title: raw.title || raw.name || 'Topic', note: raw.note || raw.description || '', hasKids: kids.length > 0, hidden: hidden });
+      if (pid) edges.push({ from: pid, to: id });
+      if (!hidden) kids.forEach(function(k,i){ walk(k || {}, id, depth+1, id+'-'+i); });
     }
-    walk({title: map.title || 'Mindmap', note: '', children: map.nodes || []}, null, 0, 'root');
-    return {nodes: nodes, edges: edges};
+    walk({ title: map.title || 'Mindmap', children: map.nodes || [] }, null, 0, 'root');
+    return { nodes: nodes, edges: edges };
   }
 
-  function splitText(text, maxChars, maxLines) {
-    var words = String(text || '').split(/\s+/).filter(Boolean);
-    var lines = [];
-    var line = '';
-    words.forEach(function (word) {
-      while (word.length > maxChars) {
-        var chunk = word.slice(0, maxChars - 1) + '…';
-        if (line) {
-          lines.push(line);
-          line = '';
-        }
-        lines.push(chunk);
-        word = word.slice(maxChars - 1);
-      }
-      if ((line + ' ' + word).trim().length > maxChars && line) {
-        lines.push(line);
-        line = word;
-      } else {
-        line = (line + ' ' + word).trim();
-      }
-    });
-    if (line) lines.push(line);
-    if (!lines.length) lines = ['Topic'];
-    if (lines.length > maxLines) {
-      lines = lines.slice(0, maxLines);
-      lines[lines.length - 1] = lines[lines.length - 1].replace(/\.*$/, '') + '…';
-    }
-    return lines;
+  /* ── Index children by parent ── */
+  function byParent(data) {
+    var m = {};
+    data.nodes.forEach(function(n){ (m[n.pid||'_'] = m[n.pid||'_']||[]).push(n); });
+    return m;
   }
 
-  function radialLayout(data) {
-    var byParent = {};
-    data.nodes.forEach(function (n) { (byParent[n.parentId || 'none'] = byParent[n.parentId || 'none'] || []).push(n); });
-    var pos = {root: {x: 520, y: 360}};
-    var mains = byParent.root || [];
-    var total = Math.max(mains.length, 1);
-    mains.forEach(function (n, i) {
-      var angle = -Math.PI / 2 + (2 * Math.PI * i / total);
-      pos[n.id] = {x: 520 + Math.cos(angle) * 245, y: 360 + Math.sin(angle) * 210, angle: angle};
-      placeChildren(n, angle, 1);
-    });
-    function placeChildren(parent, baseAngle, level) {
-      var kids = byParent[parent.id] || [];
-      var fan = Math.min(Math.PI * 0.9, Math.PI * (0.36 + kids.length * 0.055));
-      kids.forEach(function (kid, idx) {
-        var offset = kids.length === 1 ? 0 : -fan / 2 + fan * idx / (kids.length - 1);
-        var angle = baseAngle + offset;
-        var radius = 145 + Math.min(level, 3) * 34;
-        pos[kid.id] = {x: pos[parent.id].x + Math.cos(angle) * radius, y: pos[parent.id].y + Math.sin(angle) * radius, angle: angle};
-        placeChildren(kid, angle, level + 1);
-      });
-    }
-    return pos;
-  }
-
+  /* ── Horizontal tree layout ── */
   function treeLayout(data) {
-    var byParent = {};
-    data.nodes.forEach(function (n) { (byParent[n.parentId || 'none'] = byParent[n.parentId || 'none'] || []).push(n); });
-    var y = 92;
+    var bp = byParent(data);
+    var y = 60;
     var pos = {};
-    function layout(node, depth) {
-      var kids = byParent[node.id] || [];
+    var xStep = 280, yStep = 78;
+    function lay(node, depth) {
+      var kids = bp[node.id] || [];
       if (!kids.length) {
-        pos[node.id] = {x: 96 + depth * 235, y: y};
-        y += 108;
+        pos[node.id] = { x: 60 + depth * xStep, y: y };
+        y += yStep + (node.note ? 18 : 0);
       } else {
-        kids.forEach(function (k) { layout(k, depth + 1); });
-        var first = pos[kids[0].id].y;
-        var last = pos[kids[kids.length - 1].id].y;
-        pos[node.id] = {x: 96 + depth * 235, y: (first + last) / 2};
+        kids.forEach(function(k){ lay(k, depth + 1); });
+        pos[node.id] = { x: 60 + depth * xStep, y: (pos[kids[0].id].y + pos[kids[kids.length-1].id].y) / 2 };
       }
     }
-    layout(data.nodes[0], 0);
+    lay(data.nodes[0], 0);
     return pos;
   }
 
-  function nodeSize(node, settings) {
-    var root = node.depth === 0;
-    return {
-      width: root ? 210 : (settings.density === 'compact' ? 168 : 192),
-      height: root ? 72 : (node.note ? 72 : 56)
-    };
+  /* ── Node dimensions (NotebookLM style) ── */
+  var PAD_L = 18, PAD_R = 18, H_TITLE = 44, H_WITH_NOTE = 62;
+  var FONT_PX = 14, NOTE_FONT_PX = 11, INDICATOR_R = 10, INDICATOR_GAP = 8;
+
+  function nodeW(node) {
+    var tw = textWidth(node.title);
+    var nw = node.note ? textWidth(node.note) * (NOTE_FONT_PX / FONT_PX) : 0;
+    var contentW = Math.max(tw, nw);
+    if (node.hasKids) contentW += INDICATOR_R * 2 + INDICATOR_GAP;
+    return Math.max(80, contentW + PAD_L + PAD_R);
+  }
+  function nodeH(node) { return node.note ? H_WITH_NOTE : H_TITLE; }
+
+  /* ── Fit canvas ── */
+  function fitCanvas(data, pos) {
+    var pad = 50;
+    var minX=Infinity, minY=Infinity, maxX=-Infinity, maxY=-Infinity;
+    data.nodes.forEach(function(n){
+      var p = pos[n.id]; if (!p) return;
+      var w = nodeW(n), h = nodeH(n);
+      minX = Math.min(minX, p.x - PAD_L); maxX = Math.max(maxX, p.x - PAD_L + w);
+      minY = Math.min(minY, p.y - h/2); maxY = Math.max(maxY, p.y + h/2);
+    });
+    if (!isFinite(minX)) return { w: 800, h: 500 };
+    var dx = pad - minX, dy = pad - minY;
+    Object.keys(pos).forEach(function(id){ pos[id].x += dx; pos[id].y += dy; });
+    return { w: Math.max(600, Math.ceil(maxX - minX + pad*2)), h: Math.max(400, Math.ceil(maxY - minY + pad*2)) };
   }
 
-  function fitCanvas(data, pos, settings) {
-    var pad = settings.layout === 'tree' ? 56 : 72;
-    var minX = Infinity;
-    var minY = Infinity;
-    var maxX = -Infinity;
-    var maxY = -Infinity;
+  /* ── Draw a node (NotebookLM style: g transform, rect x=-18, text start, circle indicator) ── */
+  function drawNode(node, p) {
+    var w = nodeW(node), h = nodeH(node);
+    var depth = Math.min(node.depth, 4);
+    var cls = 'sl-mm-n sl-mm-d' + depth + (node.depth===0?' sl-mm-root':'') + (node.hasKids?' sl-mm-clickable':'');
 
-    data.nodes.forEach(function (node) {
-      var p = pos[node.id];
-      if (!p) return;
-      var size = nodeSize(node, settings);
-      minX = Math.min(minX, p.x - size.width / 2);
-      maxX = Math.max(maxX, p.x + size.width / 2);
-      minY = Math.min(minY, p.y - size.height / 2);
-      maxY = Math.max(maxY, p.y + size.height / 2);
-    });
+    var rectX = -PAD_L;
+    var rectY = -h / 2;
 
-    if (!isFinite(minX) || !isFinite(minY)) {
-      return {width: 1040, height: 720};
+    var s = '<g class="'+esc(cls)+'" tabindex="0" role="button" data-nid="'+esc(node.id)+'" transform="translate('+p.x+','+p.y+')">';
+    s += '<rect class="sl-mm-nr" x="'+rectX+'" y="'+rectY+'" width="'+w+'" height="'+h+'" rx="8" ry="8"></rect>';
+
+    if (node.note) {
+      /* Title + note: title top-aligned, note below */
+      var titleY = -h/2 + 18;
+      s += '<text class="sl-mm-t" x="0" y="'+titleY+'" text-anchor="start" dominant-baseline="middle">'+esc(node.title)+'</text>';
+      var noteY = titleY + 15;
+      s += '<text class="sl-mm-nt" x="0" y="'+noteY+'" text-anchor="start" dominant-baseline="middle">'+esc(node.note)+'</text>';
+    } else {
+      /* Title only: vertically centered */
+      s += '<text class="sl-mm-t" x="0" y="0" text-anchor="start" dominant-baseline="middle">'+esc(node.title)+'</text>';
     }
 
-    var dx = pad - minX;
-    var dy = pad - minY;
-    Object.keys(pos).forEach(function (id) {
-      pos[id].x += dx;
-      pos[id].y += dy;
-    });
-
-    return {
-      width: Math.max(760, Math.ceil((maxX - minX) + pad * 2)),
-      height: Math.max(520, Math.ceil((maxY - minY) + pad * 2))
-    };
-  }
-
-  function drawNode(node, p, settings) {
-    var root = node.depth === 0;
-    var size = nodeSize(node, settings);
-    var width = size.width;
-    var height = size.height;
-    var x = p.x - width / 2;
-    var y = p.y - height / 2;
-    var lines = splitText(node.title, root ? 18 : 20, root ? 2 : 2);
-    var note = node.note ? splitText(node.note, 28, 1)[0] : '';
-    var cls = 'sl-mm-node sl-mm-depth-' + Math.min(node.depth, 4) + (root ? ' sl-mm-root-node' : '') + (node.hasChildren ? ' sl-mm-has-children' : '');
-    var html = '<g class="' + cls + '" tabindex="0" role="button" data-node-id="' + escapeHtml(node.id) + '">' +
-      '<rect x="' + x.toFixed(1) + '" y="' + y.toFixed(1) + '" width="' + width + '" height="' + height + '" rx="18"></rect>' +
-      '<text x="' + p.x.toFixed(1) + '" y="' + (y + (note ? 25 : 32)).toFixed(1) + '" text-anchor="middle">';
-    lines.forEach(function (line, i) {
-      html += '<tspan x="' + p.x.toFixed(1) + '" dy="' + (i ? 17 : 0) + '">' + escapeHtml(line) + '</tspan>';
-    });
-    if (note) html += '<tspan class="sl-mm-note" x="' + p.x.toFixed(1) + '" dy="18">' + escapeHtml(note) + '</tspan>';
-    html += '</text>';
-    if (node.hasChildren) {
-      html += '<circle cx="' + (x + width - 18).toFixed(1) + '" cy="' + (y + 18).toFixed(1) + '" r="10"></circle>' +
-        '<text class="sl-mm-count" x="' + (x + width - 18).toFixed(1) + '" y="' + (y + 22).toFixed(1) + '" text-anchor="middle">' + node.childCount + '</text>';
+    /* Expand/collapse circle at right edge */
+    if (node.hasKids) {
+      var cx = w - PAD_L - PAD_R + INDICATOR_R + 4;
+      var symbol = node.hidden ? '&gt;' : '&lt;';
+      s += '<circle class="sl-mm-indicator sl-mm-indicator-d'+depth+'" cx="'+cx+'" cy="0" r="'+INDICATOR_R+'"></circle>';
+      s += '<text class="sl-mm-indicator-text" x="'+cx+'" y="1" text-anchor="middle" dominant-baseline="middle">'+symbol+'</text>';
     }
-    html += '</g>';
-    return html;
+
+    s += '</g>';
+    return s;
   }
 
-  function render(container, map, options) {
-    if (!container) return;
-    options = options || {};
-    var state = container.__mindmapState || {collapsed: new Set(), zoom: 1, layout: 'radial', theme: 'clean', density: 'comfortable', query: ''};
-    state.layout = options.layout || state.layout;
-    state.theme = options.theme || state.theme;
-    state.density = options.density || state.density;
-    state.query = options.query != null ? options.query : state.query;
-    container.__mindmapState = state;
+  /* ── Smooth cubic bezier edge ── */
+  function edgePath(a, b) {
+    var dx = (b.x - a.x) * 0.45;
+    return 'M'+a.x+','+a.y+' C'+(a.x+dx)+','+a.y+' '+(b.x-dx)+','+b.y+' '+b.x+','+b.y;
+  }
 
-    var data = flatten(map || {}, state.collapsed);
-    var pos = state.layout === 'tree' ? treeLayout(data) : radialLayout(data);
-    var canvas = fitCanvas(data, pos, state);
-    var width = Math.max(state.layout === 'tree' ? 1000 : 1040, canvas.width);
-    var height = Math.max(state.layout === 'tree' ? 620 : 720, canvas.height);
-    var q = String(state.query || '').trim().toLowerCase();
-    var edges = data.edges.map(function (e) {
-      var a = pos[e.from]; var b = pos[e.to];
+  /* ── State ── */
+  function getState(el, opts) {
+    var st = el.__mm || { collapsed: new Set(), zoom: 1, query: '', centered: false, scroll: {x:0,y:0} };
+    if (opts) {
+      if (opts.query != null) st.query = opts.query;
+      if (typeof opts.zoom === 'number') st.zoom = clamp(opts.zoom, 0.2, 3);
+    }
+    el.__mm = st;
+    return st;
+  }
+
+  /* ── Bind pan + wheel zoom ── */
+  function bindEvents(el) {
+    if (el.__mmBound) return;
+    el.__mmBound = true;
+    var drag = null, moved = false;
+
+    el.addEventListener('mousedown', function(e) {
+      if (e.button !== 0) return;
+      drag = { sx: e.clientX, sy: e.clientY, sl: el.scrollLeft, st: el.scrollTop };
+      moved = false;
+      el.classList.add('sl-mm-grabbing');
+      e.preventDefault();
+    });
+    window.addEventListener('mousemove', function(e) {
+      if (!drag) return;
+      var dx = e.clientX - drag.sx, dy = e.clientY - drag.sy;
+      if (Math.abs(dx) + Math.abs(dy) > 3) moved = true;
+      el.scrollLeft = drag.sl - dx;
+      el.scrollTop = drag.st - dy;
+    });
+    window.addEventListener('mouseup', function() {
+      if (!drag) return;
+      drag = null;
+      el.classList.remove('sl-mm-grabbing');
+      setTimeout(function(){ el.__moved = moved; moved = false; }, 0);
+    });
+
+    el.addEventListener('wheel', function(e) {
+      e.preventDefault();
+      var treeEl = el.closest('[id="slMindmapTree"]') || el.parentElement;
+      var st = getState(treeEl, {});
+      var oldZoom = st.zoom || 1;
+      var rect = el.getBoundingClientRect();
+      var mx = e.clientX - rect.left, my = e.clientY - rect.top;
+      var delta = e.deltaY < 0 ? 0.1 : -0.1;
+      var newZoom = clamp(oldZoom + delta, 0.2, 3);
+      st.zoom = newZoom;
+      st.pendingScroll = { x: (el.scrollLeft + mx) * (newZoom / oldZoom) - mx, y: (el.scrollTop + my) * (newZoom / oldZoom) - my };
+      render(treeEl, window.__mmMap, st);
+    }, { passive: false });
+
+    el.addEventListener('dblclick', function() {
+      var treeEl = el.closest('[id="slMindmapTree"]') || el.parentElement;
+      var st = getState(treeEl, {});
+      st.zoom = 1; st.forceCenter = true;
+      render(treeEl, window.__mmMap, st);
+    });
+  }
+
+  /* ── Main render ── */
+  function render(el, map, opts) {
+    if (!el) return;
+    window.__mmMap = map;
+    var st = getState(el, opts);
+    var data = flatten(map || {}, st.collapsed);
+    var pos = treeLayout(data);
+    var canvas = fitCanvas(data, pos);
+
+    var q = String(st.query || '').trim().toLowerCase();
+    var edgesSvg = data.edges.map(function(e){
+      var a = pos[e.from], b = pos[e.to];
       if (!a || !b) return '';
-      var midx = state.layout === 'tree' ? (a.x + b.x) / 2 : null;
-      var d = state.layout === 'tree'
-        ? 'M' + a.x.toFixed(1) + ',' + a.y.toFixed(1) + ' C' + midx.toFixed(1) + ',' + a.y.toFixed(1) + ' ' + midx.toFixed(1) + ',' + b.y.toFixed(1) + ' ' + b.x.toFixed(1) + ',' + b.y.toFixed(1)
-        : 'M' + a.x.toFixed(1) + ',' + a.y.toFixed(1) + ' L' + b.x.toFixed(1) + ',' + b.y.toFixed(1);
-      return '<path class="sl-mm-edge" d="' + d + '"></path>';
-    }).join('');
-    var nodes = data.nodes.map(function (n) {
-      var html = drawNode(n, pos[n.id], state);
-      if (q && (n.title + ' ' + n.note).toLowerCase().indexOf(q) >= 0) html = html.replace('sl-mm-node', 'sl-mm-node sl-mm-match');
-      return html;
+      var depth = 0;
+      data.nodes.forEach(function(n){ if (n.id === e.to) depth = n.depth; });
+      return '<path class="sl-mm-e sl-mm-e-d'+Math.min(depth, 4)+'" d="'+edgePath(a,b)+'"></path>';
     }).join('');
 
-    container.className = 'sl-mindmap-stage sl-mm-theme-' + state.theme + ' sl-mm-density-' + state.density;
-    container.innerHTML = '<div class="sl-mm-scroll"><svg class="sl-mm-svg" viewBox="0 0 ' + width + ' ' + height + '" style="width:' + (width * state.zoom) + 'px;height:' + (height * state.zoom) + 'px" aria-label="Interactive study mindmap"><g class="sl-mm-edges">' + edges + '</g><g class="sl-mm-nodes">' + nodes + '</g></svg></div><div class="sl-mm-hint">Tap a branch to collapse or expand it.</div>';
+    var nodesSvg = data.nodes.map(function(n){
+      var s = drawNode(n, pos[n.id]);
+      if (q && n.title.toLowerCase().indexOf(q) >= 0) s = s.replace('sl-mm-n ', 'sl-mm-n sl-mm-match ');
+      return s;
+    }).join('');
 
-    container.querySelectorAll('.sl-mm-node').forEach(function (el) {
-      el.addEventListener('click', function () {
-        var id = el.getAttribute('data-node-id');
-        var node = data.nodes.find(function (n) { return n.id === id; });
-        if (!node || !node.hasChildren) return;
-        if (state.collapsed.has(id)) state.collapsed.delete(id); else state.collapsed.add(id);
-        render(container, map, state);
+    var zoom = st.zoom || 1;
+    el.innerHTML = '<div class="sl-mm-wrap" style="height:520px;"><div class="sl-mm-canvas" style="transform:scale('+zoom+');transform-origin:0 0;width:'+canvas.w+'px;height:'+canvas.h+'px;"><svg class="sl-mm-svg" viewBox="0 0 '+canvas.w+' '+canvas.h+'" style="width:'+canvas.w+'px;height:'+canvas.h+'px">'+edgesSvg+nodesSvg+'</svg></div></div>';
+
+    var wrapEl = el.querySelector('.sl-mm-wrap');
+    bindEvents(wrapEl);
+
+    requestAnimationFrame(function(){
+      if (st.pendingScroll) {
+        wrapEl.scrollLeft = Math.max(0, st.pendingScroll.x);
+        wrapEl.scrollTop = Math.max(0, st.pendingScroll.y);
+        st.pendingScroll = null;
+      } else if (st.forceCenter || !st.centered) {
+        var rootP = pos.root || { x: canvas.w/2, y: canvas.h/2 };
+        wrapEl.scrollLeft = Math.max(0, rootP.x * st.zoom - wrapEl.clientWidth / 2);
+        wrapEl.scrollTop = Math.max(0, rootP.y * st.zoom - wrapEl.clientHeight / 2);
+        st.centered = true; st.forceCenter = false;
+      } else {
+        wrapEl.scrollLeft = st.scroll.x || 0;
+        wrapEl.scrollTop = st.scroll.y || 0;
+      }
+      st.scroll = { x: wrapEl.scrollLeft, y: wrapEl.scrollTop };
+    });
+
+    wrapEl.querySelectorAll('.sl-mm-clickable').forEach(function(g){
+      g.addEventListener('click', function(e) {
+        if (wrapEl.__moved) return;
+        var id = g.getAttribute('data-nid');
+        if (st.collapsed.has(id)) st.collapsed.delete(id); else st.collapsed.add(id);
+        render(el, map, st);
       });
+      g.addEventListener('keydown', function(e) { if (e.key==='Enter'||e.key===' '){ e.preventDefault(); g.click(); }});
     });
   }
 
-  function setZoom(container, delta, map) {
-    var state = container.__mindmapState || {collapsed: new Set(), zoom: 1};
-    state.zoom = Math.max(0.65, Math.min(1.75, (state.zoom || 1) + delta));
-    render(container, map, state);
-  }
-
-  function expandAll(container, map) {
-    var state = container.__mindmapState || {collapsed: new Set()};
-    state.collapsed = new Set();
-    render(container, map, state);
-  }
-
-  function collapseAll(container, map) {
-    var state = container.__mindmapState || {collapsed: new Set()};
-    state.collapsed = new Set();
-    function walk(nodes, path) {
-      (nodes || []).forEach(function (n, i) {
-        var id = (path || 'root') + '-' + i;
-        if (n.children && n.children.length) state.collapsed.add(id);
-        walk(n.children || [], id);
-      });
+  /* ── Public API ── */
+  function setZoom(el, delta, map) {
+    var st = getState(el, {});
+    var wrapEl = el.querySelector('.sl-mm-wrap');
+    var old = st.zoom || 1;
+    st.zoom = clamp(old + delta, 0.2, 3);
+    if (wrapEl) {
+      st.pendingScroll = { x: (wrapEl.scrollLeft + wrapEl.clientWidth/2) * (st.zoom/old) - wrapEl.clientWidth/2, y: (wrapEl.scrollTop + wrapEl.clientHeight/2) * (st.zoom/old) - wrapEl.clientHeight/2 };
     }
-    walk(map.nodes || [], 'root');
-    render(container, map, state);
+    render(el, map, st);
+  }
+  function expandAll(el, map) { var st = getState(el, {}); st.collapsed = new Set(); render(el, map, st); }
+  function collapseAll(el, map) {
+    var st = getState(el, {}); st.collapsed = new Set();
+    function walk(nodes, path) { (nodes||[]).forEach(function(n,i){ var id=(path||'root')+'-'+i; if (n.children&&n.children.length) st.collapsed.add(id); walk(n.children||[], id); }); }
+    walk((map||{}).nodes||[], 'root');
+    render(el, map, st);
+  }
+  function fitView(el, map) {
+    var st = getState(el, {});
+    var wrapEl = el.querySelector('.sl-mm-wrap');
+    if (wrapEl) {
+      var svgEl = el.querySelector('.sl-mm-svg');
+      if (svgEl) {
+        var vb = svgEl.getAttribute('viewBox').split(' ');
+        var svgW = parseFloat(vb[2]) || 800, svgH = parseFloat(vb[3]) || 500;
+        st.zoom = clamp(Math.min((wrapEl.clientWidth - 40) / svgW, (wrapEl.clientHeight - 40) / svgH), 0.2, 2);
+      }
+    }
+    st.forceCenter = true; render(el, map, st);
+  }
+  function resetView(el, map) { var st = getState(el, {}); st.zoom = 1; st.forceCenter = true; render(el, map, st); }
+
+  function downloadPng(el) {
+    var svg = el && el.querySelector('.sl-mm-svg'); if (!svg) return;
+    var clone = svg.cloneNode(true);
+    var bg = document.querySelector('[data-theme="dark"]') ? '#0f172a' : '#ffffff';
+    var style = document.createElement('style');
+    style.textContent = '.sl-mm-nr{fill:#fff;stroke:#e2e8f0;stroke-width:1;rx:8;ry:8}.sl-mm-root .sl-mm-nr{fill:#4f46e5;stroke:#4338ca;stroke-width:1.5}.sl-mm-d0 .sl-mm-nr{fill:#eef2ff;stroke:#c7d2fe}.sl-mm-d1 .sl-mm-nr{fill:#ecfdf5;stroke:#6ee7b7}.sl-mm-d2 .sl-mm-nr{fill:#fffbeb;stroke:#fcd34d}.sl-mm-d3 .sl-mm-nr{fill:#eff6ff;stroke:#93c5fd}.sl-mm-d4 .sl-mm-nr{fill:#faf5ff;stroke:#d8b4fe}.sl-mm-t{fill:#334155;font-family:Poppins,system-ui,sans-serif;font-size:14px;font-weight:600}.sl-mm-root .sl-mm-t{fill:#fff;font-weight:700}.sl-mm-e{fill:none;stroke:#cbd5e1;stroke-width:2;stroke-linecap:round}.sl-mm-e-d1{stroke:#6ee7b7}.sl-mm-e-d2{stroke:#fcd34d}.sl-mm-e-d3{stroke:#93c5fd}.sl-mm-e-d4{stroke:#d8b4fe}.sl-mm-indicator{stroke:#e2e8f0;stroke-width:1}.sl-mm-indicator-text{fill:#64748b;font-size:14px;font-weight:700;font-family:system-ui,sans-serif}';
+    clone.insertBefore(style, clone.firstChild);
+    var data = new XMLSerializer().serializeToString(clone);
+    var blob = new Blob([data], {type:'image/svg+xml;charset=utf-8'});
+    var url = URL.createObjectURL(blob), img = new Image();
+    img.onload = function(){
+      var c = document.createElement('canvas'); c.width = img.width * 2; c.height = img.height * 2;
+      var ctx = c.getContext('2d'); ctx.scale(2,2); ctx.fillStyle = bg; ctx.fillRect(0,0,img.width,img.height); ctx.drawImage(img,0,0); URL.revokeObjectURL(url);
+      var a = document.createElement('a'); a.href = c.toDataURL('image/png'); a.download = 'nebians-mindmap.png'; document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    };
+    img.src = url;
   }
 
-  window.NEBiansMindmap = { render: render, setZoom: setZoom, expandAll: expandAll, collapseAll: collapseAll };
+  window.NEBiansMindmap = { render: render, setZoom: setZoom, expandAll: expandAll, collapseAll: collapseAll, fitView: fitView, resetView: resetView, downloadPng: downloadPng };
 })();

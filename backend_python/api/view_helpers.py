@@ -95,12 +95,14 @@ def _profile_incomplete(user):
     return False
 
 def _is_mutual_follow(viewer, target_user):
-    """Return True when viewer and target follow each other.
+    """True when viewer and target follow each other.
 
-    Locked NEBians profiles stay private for everyone except the owner and
-    mutual connections, matching the familiar Instagram/Facebook behavior.
+    Locked profiles stay private for everyone except the owner and mutual
+    connections, matching the familiar Instagram/Facebook behavior.
     """
-    if not viewer or not target_user or getattr(viewer, 'pk', None) == getattr(target_user, 'pk', None):
+    if not viewer or not target_user:
+        return False
+    if getattr(viewer, 'pk', None) == getattr(target_user, 'pk', None):
         return False
     return (
         Follow.objects.filter(follower_id=viewer.pk, following_id=target_user.pk).exists()
@@ -117,6 +119,7 @@ def _can_view_locked_profile(viewer, target_user):
     if viewer and getattr(viewer, 'pk', None) == getattr(target_user, 'pk', None):
         return True
     return _is_mutual_follow(viewer, target_user)
+
 
 def _get_user_from_request(request):
     """
