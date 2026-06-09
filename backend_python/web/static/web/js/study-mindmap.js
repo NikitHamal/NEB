@@ -7,6 +7,32 @@
   }
   function clamp(value, min, max) { return Math.max(min, Math.min(max, value)); }
 
+  var LATEX_MAP = {'Delta':'Δ','alpha':'α','beta':'β','gamma':'γ','delta':'δ','epsilon':'ε','theta':'θ','lambda':'λ','sigma':'σ','omega':'ω','mu':'μ','nu':'ν','pi':'π','rho':'ρ','tau':'τ','phi':'φ','psi':'ψ','chi':'χ','kappa':'κ','xi':'ξ','zeta':'ζ','eta':'η','upsilon':'υ','varphi':'φ','varepsilon':'ε','vartheta':'ϑ','rightarrow':'→','leftarrow':'←','leftrightarrow':'↔','Rightarrow':'⇒','Leftarrow':'⇐','Leftrightarrow':'⇔','approx':'≈','neq':'≠','leq':'≤','geq':'≥','leqslant':'≤','geqslant':'≥','pm':'±','mp':'∓','times':'×','div':'÷','cdot':'·','partial':'∂','nabla':'∇','infty':'∞','sum':'∑','prod':'∏','int':'∫','circ':'∘','bullet':'•','oplus':'⊕','otimes':'⊗','perp':'⊥','parallel':'∥','angle':'∠','cong':'≅','sim':'∼','propto':'∝','equiv':'≡','subset':'⊂','supset':'⊃','subseteq':'⊆','supseteq':'⊇','cup':'∪','cap':'∩','in':'∈','notin':'∉','forall':'∀','exists':'∃','neg':'¬','land':'∧','lor':'∨','prime':'′','ell':'ℓ','Re':'ℜ','Im':'ℑ','aleph':'ℵ','hbar':'ℏ','top':'⊤','bot':'⊥','rightarrow':'→','leftarrow':'←','Rightarrow':'⇒','Leftarrow':'⇐','ldots':'…','cdots':'⋯','vdots':'⋮','ddots':'⋱'};
+  function latexToText(s){
+    if(!s) return s;
+    s = s.replace(/\$+\$(.*?)\$\$+/g, '$1');
+    s = s.replace(/\$([^$]+)\$/g, '$1');
+    s = s.replace(/\\ce\{([^}]*)\}/g, function(m, inner){
+      return inner.replace(/(\d+)/g, function(m,n){ return n; }).replace(/([A-Z][a-z]?)(\d*)/g, function(m, el, num){ return el + (num || ''); }).replace(/\^(\{[^}]*\}|.)/g, function(m, p){ return p.replace(/[{}]/g,''); }).replace(/_(\{[^}]*\}|.)/g, function(m, p){ return '₋' + p.replace(/[{}]/g,''); }).replace(/->/g,'→').replace(/\+/g,' + ').replace(/->/g,' → ');
+    });
+    s = s.replace(/\\([A-Za-z]+)(\{[^}]*\})?/g, function(m, cmd, arg){
+      if(LATEX_MAP[cmd]) return LATEX_MAP[cmd];
+      if(cmd==='mathrm'||cmd==='text'||cmd==='operatorname') return arg ? arg.replace(/[{}]/g,'') : cmd;
+      return (arg || '').replace(/[{}]/g,'');
+    });
+    s = s.replace(/([A-Za-z])_([\d]+|[{}][^{}]*[{}])/g, function(m, base, sub){
+      var s2 = sub.replace(/[{}]/g,'');
+      var subMap = {'0':'₀','1':'₁','2':'₂','3':'₃','4':'₄','5':'₅','6':'₆','7':'₇','8':'₈','9':'₉','eg':'ₑg','n':'ₙ','i':'ᵢ','j':'ⱼ','max':'ₘₐₓ'};
+      return base + (subMap[s2] || '₍'+s2+'₎');
+    });
+    s = s.replace(/([A-Za-z])\^([\d]+|[{}][^{}]*[{}])/g, function(m, base, sup){
+      var s2 = sup.replace(/[{}]/g,'');
+      var supMap = {'2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹','-':'⁻','+':'⁺','n':'ⁿ','i':'ⁱ'};
+      return base + (supMap[s2] || '⁽'+s2+'⁾');
+    });
+    return s;
+  }
+
   var TITLE_CHAR_W = 8.6;
   var NOTE_CHAR_W = 6.35;
   var MIN_NODE_W = 142;
@@ -120,8 +146,8 @@
     if (node._mmBox) return node._mmBox;
     var titleChars = Math.floor((MAX_NODE_W - PAD_X * 2) / TITLE_CHAR_W);
     var noteChars = Math.floor((MAX_NODE_W - PAD_X * 2) / NOTE_CHAR_W);
-    var titleLines = wrapText(node.title, titleChars, 2);
-    var noteLines = node.note ? wrapText(node.note, noteChars, 2) : [];
+    var titleLines = wrapText(latexToText(node.title), titleChars, 2);
+    var noteLines = node.note ? wrapText(latexToText(node.note), noteChars, 2) : [];
     var titleW = titleLines.reduce(function (max, line) { return Math.max(max, textWidth(line, TITLE_CHAR_W)); }, 0);
     var noteW = noteLines.reduce(function (max, line) { return Math.max(max, textWidth(line, NOTE_CHAR_W)); }, 0);
     var contentW = Math.max(titleW, noteW);
