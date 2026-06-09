@@ -122,6 +122,8 @@ urlpatterns = [
     # Study Lab
     path('study-lab/', views.study_lab, name='study_lab'),
     path('study-lab/shared/<str:token>/', views.study_lab_shared, name='study_lab_shared'),
+    path('study-space/<str:space_id>/', views.study_space_page, name='study_space_page'),
+    path('study-space/shared/<str:token>/', views.study_space_shared, name='study_space_shared'),
     path('ajax/study-lab/upload/', views.ajax_study_upload, name='ajax_study_upload'),
     path('ajax/study-lab/documents/', views.ajax_study_documents, name='ajax_study_documents'),
     path('ajax/study-lab/document/<str:doc_id>/', views.ajax_study_document_detail, name='ajax_study_document_detail'),
@@ -135,4 +137,23 @@ urlpatterns = [
     path('ajax/study-lab/quiz/<str:quiz_id>/', views.ajax_study_quiz_detail, name='ajax_study_quiz_detail'),
     path('ajax/study-lab/quiz/<str:quiz_id>/submit/', views.ajax_study_quiz_submit, name='ajax_study_quiz_submit'),
     path('ajax/study-lab/flashcard/<str:card_id>/review/', views.ajax_study_flashcard_review, name='ajax_study_flashcard_review'),
+
+    # Study Space AJAX
+    path('ajax/study-space/list/', views.ajax_space_list, name='ajax_space_list'),
+    path('ajax/study-space/create/', views.ajax_space_create, name='ajax_space_create'),
+    path('ajax/study-space/<str:space_id>/', views.ajax_space_detail, name='ajax_space_detail'),
+    path('ajax/study-space/<str:space_id>/update/', views.ajax_space_update, name='ajax_space_update'),
+    path('ajax/study-space/<str:space_id>/delete/', views.ajax_space_delete, name='ajax_space_delete'),
+    path('ajax/study-space/<str:space_id>/share/', views.ajax_space_share, name='ajax_space_share'),
+    path('ajax/study-space/<str:space_id>/document/add/', views.ajax_space_add_document, name='ajax_space_add_document'),
+    path('ajax/study-space/<str:space_id>/document/<str:doc_id>/remove/', views.ajax_space_remove_document, name='ajax_space_remove_document'),
+    path('ajax/study-space/<str:space_id>/upload/', views.ajax_space_upload, name='ajax_space_upload'),
+    path('ajax/study-space/<str:space_id>/summary/', views.ajax_space_generate_summary, name='ajax_space_generate_summary'),
+    path('ajax/study-space/<str:space_id>/summary/edit/', views.ajax_space_update_summary, name='ajax_space_update_summary'),
+    path('ajax/study-space/<str:space_id>/mindmap/', views.ajax_space_generate_mindmap, name='ajax_space_generate_mindmap'),
+    path('ajax/study-space/<str:space_id>/quiz/', views.ajax_space_generate_quiz, name='ajax_space_generate_quiz'),
+    path('ajax/study-space/<str:space_id>/flashcards/', views.ajax_space_generate_flashcards, name='ajax_space_generate_flashcards'),
+    path('ajax/study-space/quiz/<str:quiz_id>/', views.ajax_space_quiz_detail, name='ajax_space_quiz_detail'),
+    path('ajax/study-space/quiz/<str:quiz_id>/submit/', views.ajax_space_quiz_submit, name='ajax_space_quiz_submit'),
+    path('ajax/study-space/flashcard/<str:card_id>/review/', views.ajax_space_flashcard_review, name='ajax_space_flashcard_review'),
 ]
