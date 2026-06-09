@@ -857,29 +857,11 @@ class ArenaChatAttachment(models.Model):
         db_table = 'arena_chat_attachments'
 
 
-class StudyDocument(models.Model):
-    STATUS_CHOICES = [
-        ('uploading', 'Uploading'),
-        ('processing', 'Processing'),
-        ('ready', 'Ready'),
-        ('failed', 'Failed'),
-    ]
-    id = models.CharField(max_length=36, primary_key=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='study_documents', db_index=True)
-    title = models.CharField(max_length=500, blank=True, default='')
-    file_url = models.TextField(blank=True, default='')
-    file_name = models.CharField(max_length=500, blank=True, default='')
-    file_size = models.PositiveIntegerField(default=0)
-    mime_type = models.CharField(max_length=200, blank=True, default='')
-    page_count = models.PositiveIntegerField(default=0)
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='uploading')
-    summary = models.TextField(blank=True, default='')  # legacy/compact summary for backward compatibility
-    summary_compact = models.TextField(blank=True, default='')
-    summary_detailed = models.TextField(blank=True, default='')
-    summary_generated_at = models.BigIntegerField(default=0)
-    summary_updated_at = models.BigIntegerField(default=0)
-    mindmap_json = models.TextField(blank=True, default='')
-    mindmap_generated_at = models.BigIntegerField(default=0)
+class StudySpace(models.Model):
+    id = models.CharField(max_length=36, primary_key=True, default=uuid.uuid4)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='study_spaces', db_index=True)
+    title = models.CharField(max_length=200, blank=True, default='')
+    description = models.TextField(blank=True, default='')
     SHARE_PRIVATE = 'private'
     SHARE_LINK = 'link'
     SHARE_SPECIFIC = 'specific'
@@ -891,6 +873,142 @@ class StudyDocument(models.Model):
     share_token = models.CharField(max_length=64, unique=True, default=uuid.uuid4, db_index=True)
     share_mode = models.CharField(max_length=20, choices=SHARE_CHOICES, default=SHARE_PRIVATE, db_index=True)
     shared_at = models.BigIntegerField(default=0)
+    link_summary_compact = models.TextField(blank=True, default='')
+    link_summary_detailed = models.TextField(blank=True, default='')
+    link_summary_generated_at = models.BigIntegerField(default=0)
+    link_mindmap_json = models.TextField(blank=True, default='')
+    link_mindmap_generated_at = models.BigIntegerField(default=0)
+    created_at = models.BigIntegerField(default=0)
+    updated_at = models.BigIntegerField(default=0)
+
+    class Meta:
+        db_table = 'study_spaces'
+        ordering = ['-updated_at']
+        indexes = [
+            models.Index(fields=['user', '-updated_at']),
+        ]
+
+
+class StudySpaceShare(models.Model):
+    id = models.CharField(max_length=36, primary_key=True, default=uuid.uuid4)
+    space = models.ForeignKey(StudySpace, on_delete=models.CASCADE, related_name='share_grants', db_index=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='study_space_shares', db_index=True)
+    granted_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='study_space_grants')
+    created_at = models.BigIntegerField(default=0)
+
+    class Meta:
+        db_table = 'study_space_shares'
+        unique_together = ('space', 'user')
+        indexes = [
+            models.Index(fields=['space', 'user']),
+            models.Index(fields=['user', '-created_at']),
+        ]
+
+
+class StudySpaceQuiz(models.Model):
+    id = models.CharField(max_length=36, primary_key=True, default=uuid.uuid4)
+    space = models.ForeignKey(StudySpace, on_delete=models.CASCADE, related_name='quizzes', db_index=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='study_space_quizzes', db_index=True)
+    title = models.CharField(max_length=500, blank=True, default='')
+    question_count = models.PositiveIntegerField(default=0)
+    created_at = models.BigIntegerField(default=0)
+
+    class Meta:
+        db_table = 'study_space_quizzes'
+        ordering = ['-created_at']
+
+
+class StudySpaceQuizQuestion(models.Model):
+    id = models.CharField(max_length=36, primary_key=True, default=uuid.uuid4)
+    quiz = models.ForeignKey(StudySpaceQuiz, on_delete=models.CASCADE, related_name='questions', db_index=True)
+    question_number = models.PositiveIntegerField(default=0)
+    question_text = models.TextField()
+    option_a = models.TextField(blank=True, default='')
+    option_b = models.TextField(blank=True, default='')
+    option_c = models.TextField(blank=True, default='')
+    option_d = models.TextField(blank=True, default='')
+    correct_answer = models.CharField(max_length=1, default='A')
+    explanation = models.TextField(blank=True, default='')
+
+    class Meta:
+        db_table = 'study_space_quiz_questions'
+        ordering = ['question_number']
+
+
+class StudySpaceQuizAttempt(models.Model):
+    id = models.CharField(max_length=36, primary_key=True, default=uuid.uuid4)
+    quiz = models.ForeignKey(StudySpaceQuiz, on_delete=models.CASCADE, related_name='attempts', db_index=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='study_space_quiz_attempts', db_index=True)
+    score = models.PositiveIntegerField(default=0)
+    total_questions = models.PositiveIntegerField(default=0)
+    answers = models.TextField(blank=True, default='')
+    xp_earned = models.PositiveIntegerField(default=0)
+    completed_at = models.BigIntegerField(default=0)
+    created_at = models.BigIntegerField(default=0)
+
+    class Meta:
+        db_table = 'study_space_quiz_attempts'
+        ordering = ['-completed_at']
+
+
+class StudySpaceFlashcard(models.Model):
+    id = models.CharField(max_length=36, primary_key=True, default=uuid.uuid4)
+    space = models.ForeignKey(StudySpace, on_delete=models.CASCADE, related_name='flashcards', db_index=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='study_space_flashcards', db_index=True)
+    front = models.TextField()
+    back = models.TextField()
+    card_number = models.PositiveIntegerField(default=0)
+    created_at = models.BigIntegerField(default=0)
+
+    class Meta:
+        db_table = 'study_space_flashcards'
+        ordering = ['card_number']
+
+
+class StudySpaceFlashcardReview(models.Model):
+    CONFIDENCE_CHOICES = [
+        ('easy', 'Easy'),
+        ('medium', 'Medium'),
+        ('hard', 'Hard'),
+    ]
+    id = models.CharField(max_length=36, primary_key=True, default=uuid.uuid4)
+    flashcard = models.ForeignKey(StudySpaceFlashcard, on_delete=models.CASCADE, related_name='reviews', db_index=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='study_space_flashcard_reviews', db_index=True)
+    confidence = models.CharField(max_length=10, choices=CONFIDENCE_CHOICES, default='medium')
+    review_count = models.PositiveIntegerField(default=0)
+    last_reviewed_at = models.BigIntegerField(default=0)
+    next_review_at = models.BigIntegerField(default=0)
+
+    class Meta:
+        db_table = 'study_space_flashcard_reviews'
+        indexes = [
+            models.Index(fields=['user', 'flashcard']),
+        ]
+
+
+class StudyDocument(models.Model):
+    STATUS_CHOICES = [
+        ('uploading', 'Uploading'),
+        ('processing', 'Processing'),
+        ('ready', 'Ready'),
+        ('failed', 'Failed'),
+    ]
+    id = models.CharField(max_length=36, primary_key=True)
+    space = models.ForeignKey(StudySpace, on_delete=models.CASCADE, related_name='documents', db_index=True, null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='study_documents', db_index=True)
+    title = models.CharField(max_length=500, blank=True, default='')
+    file_url = models.TextField(blank=True, default='')
+    file_name = models.CharField(max_length=500, blank=True, default='')
+    file_size = models.PositiveIntegerField(default=0)
+    mime_type = models.CharField(max_length=200, blank=True, default='')
+    page_count = models.PositiveIntegerField(default=0)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='uploading')
+    summary_compact = models.TextField(blank=True, default='')
+    summary_detailed = models.TextField(blank=True, default='')
+    summary_generated_at = models.BigIntegerField(default=0)
+    summary_updated_at = models.BigIntegerField(default=0)
+    mindmap_json = models.TextField(blank=True, default='')
+    mindmap_generated_at = models.BigIntegerField(default=0)
     created_at = models.BigIntegerField(default=0)
     updated_at = models.BigIntegerField(default=0)
 
@@ -899,6 +1017,7 @@ class StudyDocument(models.Model):
         ordering = ['-updated_at']
         indexes = [
             models.Index(fields=['user', '-updated_at']),
+            models.Index(fields=['space', '-updated_at']),
         ]
 
 
