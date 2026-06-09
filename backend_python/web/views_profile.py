@@ -37,14 +37,14 @@ def bookmarks(request):
             title = obj.title or 'Untitled discussion'
             url = reverse('web:forum_post', kwargs={'post_id': obj.id})
             excerpt = obj.content or ''
-            meta = f"{obj.user.display_name or obj.user.username} · {obj.reply_count} replies"
+            meta = f'{obj.user.display_name or obj.user.username} · {obj.reply_count} replies'
         elif bm.target_type == 'reply' and bm.target_id in replies:
             obj = replies[bm.target_id]
             data = _serialize_reply(obj, user_id=user_id, _bookmarked_ids={obj.id})
             title = f"Reply on {obj.post.title if obj.post else 'discussion'}"
             url = reverse('web:forum_post', kwargs={'post_id': obj.post_id}) + f"#reply-{obj.id}"
             excerpt = obj.content or ''
-            meta = f"{obj.user.display_name or obj.user.username} · Reply"
+            meta = f'{obj.user.display_name or obj.user.username} · Reply'
         elif bm.target_type == 'resource' and bm.target_id in resources:
             obj = resources[bm.target_id]
             if obj.approval_status != 'approved' and obj.uploaded_by_id != user_id:

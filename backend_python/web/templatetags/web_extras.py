@@ -70,6 +70,36 @@ def join_date(value):
         return ''
 
 
+@register.filter
+def date_label(value):
+    """Group a millisecond Unix timestamp into a human-readable date label.
+    Returns 'Today', 'Yesterday', 'This Week', 'This Month', or 'Month YYYY'."""
+    try:
+        ts = int(value)
+        if ts <= 0:
+            return ''
+        import time as _time
+        now = _time.time()
+        dt_ts = ts / 1000
+        diff = now - dt_ts
+        if diff < 0:
+            return 'Today'
+        if diff < 86400:
+            now_dt = datetime.fromtimestamp(now, tz=timezone.utc)
+            val_dt = datetime.fromtimestamp(dt_ts, tz=timezone.utc)
+            if now_dt.date() == val_dt.date():
+                return 'Today'
+            return 'Yesterday'
+        if diff < 604800:
+            return 'This Week'
+        if diff < 2592000:
+            return 'This Month'
+        dt = datetime.fromtimestamp(dt_ts, tz=timezone.utc)
+        return dt.strftime('%B %Y')
+    except (ValueError, TypeError, OSError):
+        return ''
+
+
 def _normalize_subject(subject):
     s = (subject or '').lower().strip()
     if not s:

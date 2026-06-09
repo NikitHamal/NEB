@@ -1,0 +1,111 @@
+/* ── Shared Study Lab document page ── */
+.sl-shared-wrap { max-width: 1120px; margin: 0 auto; padding: 20px 16px 48px; }
+.sl-shared-hero {
+  border: 1px solid var(--md-outline-variant);
+  border-radius: 24px;
+  padding: 22px;
+  background: var(--md-surface-container-lowest);
+  margin-bottom: 16px;
+}
+.sl-shared-eyebrow { color: var(--md-primary); font-weight: 700; font-size: 0.8125rem; letter-spacing: .04em; text-transform: uppercase; }
+.sl-shared-hero h1 { margin: 8px 0; font-size: clamp(1.6rem, 4vw, 2.4rem); }
+.sl-shared-owner { display: flex; gap: 10px; align-items: center; color: var(--md-on-surface-variant); }
+.sl-shared-owner img, .sl-shared-owner-initial { width: 34px; height: 34px; border-radius: 50%; object-fit: cover; display: inline-flex; align-items: center; justify-content: center; background: var(--md-primary-container); color: var(--md-on-primary-container); font-weight: 800; }
+.sl-shared-card { border: 1px solid var(--md-outline-variant); border-radius: 20px; background: var(--md-surface-container-lowest); padding: 16px; margin-top: 14px; }
+.sl-shared-empty { color: var(--md-on-surface-variant); padding: 24px; text-align: center; }
+
+/* ── Study document share dialog ── */
+.sl-share-options { display: grid; gap: 10px; }
+.sl-share-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  border: 1px solid var(--md-outline-variant);
+  border-radius: 16px;
+  padding: 12px;
+  cursor: pointer;
+  background: var(--md-surface-container-lowest);
+}
+.sl-share-option:hover { border-color: var(--md-primary); background: var(--md-surface-container-low); }
+.sl-share-option input { margin-top: 3px; accent-color: var(--md-primary); }
+.sl-share-option span { display: grid; gap: 3px; }
+.sl-share-option strong { color: var(--md-on-surface); }
+.sl-share-option small, .sl-share-help { color: var(--md-on-surface-variant); font-size: 0.8125rem; }
+.sl-share-specific { margin-top: 14px; }
+.sl-share-specific label, .sl-share-linkbox label { display:block; font-weight: 700; margin-bottom: 6px; }
+.sl-share-specific textarea {
+  width: 100%;
+  min-height: 78px;
+  resize: vertical;
+  border: 1px solid var(--md-outline-variant);
+  border-radius: 14px;
+  background: var(--md-surface-container-lowest);
+  color: var(--md-on-surface);
+  padding: 12px;
+  font: inherit;
+}
+.sl-share-linkbox { margin-top: 14px; }
+.sl-share-linkrow { display: flex; gap: 8px; }
+.sl-share-linkrow input {
+  flex: 1;
+  min-width: 0;
+  border: 1px solid var(--md-outline-variant);
+  border-radius: 14px;
+  padding: 10px 12px;
+  background: var(--md-surface-container-low);
+  color: var(--md-on-surface);
+  font: inherit;
+}
+.sl-share-current { margin-top: 12px; color: var(--md-on-surface-variant); font-size: 0.875rem; }
+.sl-share-chip { display:inline-flex; align-items:center; gap:6px; padding:5px 10px; border-radius:999px; background:var(--md-surface-container); margin:4px 4px 0 0; color:var(--md-on-surface); font-weight:600; }
+.sl-share-footer { display:flex; justify-content:flex-end; margin-top: 16px; }
+@media (max-width: 600px) { .sl-share-linkrow { flex-direction: column; } }
+
+/* Production fix: Study Lab share dialog must stay centered as a real modal. */
+#slShareModal.modal-overlay {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  background: rgba(15, 23, 42, .38);
+  z-index: 1200;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .16s ease;
+}
+#slShareModal.modal-overlay.active {
+  display: flex !important;
+  opacity: 1;
+  pointer-events: auto;
+}
+#slShareModal .modal-box {
+  width: min(100%, 520px);
+  max-height: min(88vh, 680px);
+  overflow: hidden;
+  border: 1px solid var(--md-outline-variant);
+  border-radius: 20px;
+  background: var(--md-surface-container-lowest);
+  box-shadow: 0 18px 50px rgba(15, 23, 42, .18);
+}
+#slShareModal .modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--md-outline-variant);
+}
+#slShareModal .modal-title { margin: 0; font-size: 1rem; font-weight: 500; }
+#slShareModal .modal-body { padding: 14px 16px 16px; overflow: auto; max-height: calc(min(88vh, 680px) - 58px); }
+#slShareModal .modal-close { border: 0; background: transparent; border-radius: 999px; width: 34px; height: 34px; display: inline-grid; place-items: center; color: var(--md-on-surface-variant); cursor: pointer; }
+#slShareModal .modal-close:hover { background: var(--md-surface-container); color: var(--md-on-surface); }
+#slShareModal .sl-share-options { gap: 8px; }
+#slShareModal .sl-share-option { border-radius: 14px; padding: 10px 12px; }
+#slShareModal .sl-share-option-title { color: var(--md-on-surface); font-weight: 400; }
+#slShareModal .sl-share-specific label,
+#slShareModal .sl-share-linkbox label { font-weight: 400; font-size: .88rem; }
+#slShareModal .sl-share-footer { margin-top: 14px; }
+
+

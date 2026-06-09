@@ -1,294 +1,456 @@
 (function () {
   'use strict';
 
-  var ESC_MAP = {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'};
-  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){ return ESC_MAP[c]; }); }
-  function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+  var ESC_MAP = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
+  function esc(value) {
+    return String(value == null ? '' : value).replace(/[&<>"']/g, function (c) { return ESC_MAP[c]; });
+  }
+  function clamp(value, min, max) { return Math.max(min, Math.min(max, value)); }
 
-  /* ── Approximate text width for auto-sizing ── */
-  var CHAR_W = 8.2;
-  function textWidth(text) { return (text || '').length * CHAR_W; }
+  var TITLE_CHAR_W = 8.6;
+  var NOTE_CHAR_W = 6.35;
+  var MIN_NODE_W = 142;
+  var MAX_NODE_W = 340;
+  var PAD_X = 20;
+  var PAD_Y = 13;
+  var TITLE_LH = 20;
+  var NOTE_LH = 15;
+  var NOTE_GAP = 5;
+  var INDICATOR_R = 12;
+  var INDICATOR_GAP = 12;
+  var COLUMN_GAP = 96;
+  var ROW_GAP = 24;
 
-  /* ── Flatten tree ── */
+  function textWidth(text, charW) { return String(text || '').length * charW; }
+
+  function splitLongWord(word, maxChars) {
+    var parts = [];
+    var size = Math.max(4, maxChars - 1);
+    for (var i = 0; i < word.length; i += size) parts.push(word.slice(i, i + size));
+    return parts;
+  }
+
+  function trimLine(line, maxChars) {
+    if (line.length <= maxChars) return line;
+    return line.slice(0, Math.max(0, maxChars - 1)).replace(/[\s,;:.]+$/g, '') + '…';
+  }
+
+  function wrapText(text, maxChars, maxLines) {
+    var raw = String(text || '').replace(/\s+/g, ' ').trim();
+    if (!raw) return [];
+    var words = [];
+    raw.split(' ').forEach(function (word) {
+      if (word.length > maxChars) words = words.concat(splitLongWord(word, maxChars));
+      else words.push(word);
+    });
+
+    var lines = [];
+    var current = '';
+    var usedAll = true;
+    for (var i = 0; i < words.length; i++) {
+      var next = current ? current + ' ' + words[i] : words[i];
+      if (next.length <= maxChars) {
+        current = next;
+      } else {
+        if (current) lines.push(current);
+        current = words[i];
+        if (lines.length === maxLines) { usedAll = false; break; }
+      }
+    }
+    if (usedAll && current) lines.push(current);
+    if (lines.length > maxLines) {
+      lines = lines.slice(0, maxLines);
+      usedAll = false;
+    }
+    if (!usedAll || (current && words.length && lines.length === maxLines && words.indexOf(current) < words.length - 1)) {
+      lines[lines.length - 1] = trimLine(lines[lines.length - 1], maxChars);
+    }
+    return lines.length ? lines : [trimLine(raw, maxChars)];
+  }
+
   function flatten(map, collapsed) {
-    var nodes = [], edges = [];
-    function walk(raw, pid, depth, path) {
-      var id = path;
-      var kids = Array.isArray(raw.children) ? raw.children : [];
-      var hidden = collapsed.has(id);
-      nodes.push({ id: id, pid: pid, depth: depth, title: raw.title || raw.name || 'Topic', note: raw.note || raw.description || '', hasKids: kids.length > 0, hidden: hidden });
-      if (pid) edges.push({ from: pid, to: id });
-      if (!hidden) kids.forEach(function(k,i){ walk(k || {}, id, depth+1, id+'-'+i); });
+    var nodes = [];
+    var edges = [];
+    function walk(raw, parentId, depth, path) {
+      var children = Array.isArray(raw.children) ? raw.children : [];
+      var hidden = collapsed.has(path);
+      nodes.push({
+        id: path,
+        pid: parentId,
+        depth: depth,
+        title: raw.title || raw.name || 'Topic',
+        note: raw.note || raw.subtitle || raw.description || '',
+        hasKids: children.length > 0,
+        hidden: hidden
+      });
+      if (parentId) edges.push({ from: parentId, to: path });
+      if (!hidden) children.forEach(function (child, index) { walk(child || {}, path, depth + 1, path + '-' + index); });
     }
     walk({ title: map.title || 'Mindmap', children: map.nodes || [] }, null, 0, 'root');
     return { nodes: nodes, edges: edges };
   }
 
-  /* ── Index children by parent ── */
-  function byParent(data) {
-    var m = {};
-    data.nodes.forEach(function(n){ (m[n.pid||'_'] = m[n.pid||'_']||[]).push(n); });
-    return m;
+  function byId(data) {
+    var map = {};
+    data.nodes.forEach(function (node) { map[node.id] = node; });
+    return map;
   }
 
-  /* ── Horizontal tree layout ── */
+  function byParent(data) {
+    var map = {};
+    data.nodes.forEach(function (node) {
+      var key = node.pid || '_root';
+      if (!map[key]) map[key] = [];
+      map[key].push(node);
+    });
+    return map;
+  }
+
+  function measureNode(node) {
+    if (node._mmBox) return node._mmBox;
+    var titleChars = Math.floor((MAX_NODE_W - PAD_X * 2) / TITLE_CHAR_W);
+    var noteChars = Math.floor((MAX_NODE_W - PAD_X * 2) / NOTE_CHAR_W);
+    var titleLines = wrapText(node.title, titleChars, 2);
+    var noteLines = node.note ? wrapText(node.note, noteChars, 2) : [];
+    var titleW = titleLines.reduce(function (max, line) { return Math.max(max, textWidth(line, TITLE_CHAR_W)); }, 0);
+    var noteW = noteLines.reduce(function (max, line) { return Math.max(max, textWidth(line, NOTE_CHAR_W)); }, 0);
+    var contentW = Math.max(titleW, noteW);
+    var width = clamp(Math.ceil(contentW + PAD_X * 2), MIN_NODE_W, MAX_NODE_W);
+    var contentH = titleLines.length * TITLE_LH + (noteLines.length ? NOTE_GAP + noteLines.length * NOTE_LH : 0);
+    var height = Math.max(node.note ? 66 : 50, Math.ceil(contentH + PAD_Y * 2));
+    node._mmBox = {
+      w: width,
+      h: height,
+      totalW: width + (node.hasKids ? INDICATOR_GAP + INDICATOR_R * 2 : 0),
+      titleLines: titleLines,
+      noteLines: noteLines,
+      contentH: contentH
+    };
+    return node._mmBox;
+  }
+
   function treeLayout(data) {
     var bp = byParent(data);
-    var y = 60;
+    var maxDepth = 0;
+    var maxWidthByDepth = [];
+    data.nodes.forEach(function (node) {
+      maxDepth = Math.max(maxDepth, node.depth);
+      var box = measureNode(node);
+      maxWidthByDepth[node.depth] = Math.max(maxWidthByDepth[node.depth] || 0, box.totalW);
+    });
+
+    var depthX = [64];
+    for (var d = 1; d <= maxDepth; d++) depthX[d] = depthX[d - 1] + (maxWidthByDepth[d - 1] || MIN_NODE_W) + COLUMN_GAP;
+
+    var y = 64;
     var pos = {};
-    var xStep = 280, yStep = 78;
-    function lay(node, depth) {
-      var kids = bp[node.id] || [];
-      if (!kids.length) {
-        pos[node.id] = { x: 60 + depth * xStep, y: y };
-        y += yStep + (node.note ? 18 : 0);
-      } else {
-        kids.forEach(function(k){ lay(k, depth + 1); });
-        pos[node.id] = { x: 60 + depth * xStep, y: (pos[kids[0].id].y + pos[kids[kids.length-1].id].y) / 2 };
+    function place(node) {
+      var children = bp[node.id] || [];
+      var box = measureNode(node);
+      if (!children.length) {
+        pos[node.id] = { x: depthX[node.depth], y: y };
+        y += box.h + ROW_GAP;
+        return;
       }
+      children.forEach(place);
+      var first = pos[children[0].id];
+      var last = pos[children[children.length - 1].id];
+      pos[node.id] = { x: depthX[node.depth], y: (first.y + last.y) / 2 };
     }
-    lay(data.nodes[0], 0);
+    place(data.nodes[0]);
     return pos;
   }
 
-  /* ── Node dimensions (NotebookLM style) ── */
-  var PAD_L = 18, PAD_R = 18, H_TITLE = 44, H_WITH_NOTE = 62;
-  var FONT_PX = 14, NOTE_FONT_PX = 11, INDICATOR_R = 10, INDICATOR_GAP = 8;
-
-  function nodeW(node) {
-    var tw = textWidth(node.title);
-    var nw = node.note ? textWidth(node.note) * (NOTE_FONT_PX / FONT_PX) : 0;
-    var contentW = Math.max(tw, nw);
-    if (node.hasKids) contentW += INDICATOR_R * 2 + INDICATOR_GAP;
-    return Math.max(80, contentW + PAD_L + PAD_R);
-  }
-  function nodeH(node) { return node.note ? H_WITH_NOTE : H_TITLE; }
-
-  /* ── Fit canvas ── */
   function fitCanvas(data, pos) {
-    var pad = 50;
-    var minX=Infinity, minY=Infinity, maxX=-Infinity, maxY=-Infinity;
-    data.nodes.forEach(function(n){
-      var p = pos[n.id]; if (!p) return;
-      var w = nodeW(n), h = nodeH(n);
-      minX = Math.min(minX, p.x - PAD_L); maxX = Math.max(maxX, p.x - PAD_L + w);
-      minY = Math.min(minY, p.y - h/2); maxY = Math.max(maxY, p.y + h/2);
+    var pad = 72;
+    var minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+    data.nodes.forEach(function (node) {
+      var point = pos[node.id];
+      if (!point) return;
+      var box = measureNode(node);
+      minX = Math.min(minX, point.x);
+      maxX = Math.max(maxX, point.x + box.totalW);
+      minY = Math.min(minY, point.y - box.h / 2);
+      maxY = Math.max(maxY, point.y + box.h / 2);
     });
-    if (!isFinite(minX)) return { w: 800, h: 500 };
-    var dx = pad - minX, dy = pad - minY;
-    Object.keys(pos).forEach(function(id){ pos[id].x += dx; pos[id].y += dy; });
-    return { w: Math.max(600, Math.ceil(maxX - minX + pad*2)), h: Math.max(400, Math.ceil(maxY - minY + pad*2)) };
+    if (!isFinite(minX)) return { w: 900, h: 560 };
+    var dx = pad - minX;
+    var dy = pad - minY;
+    Object.keys(pos).forEach(function (id) { pos[id].x += dx; pos[id].y += dy; });
+    return {
+      w: Math.max(760, Math.ceil(maxX - minX + pad * 2)),
+      h: Math.max(520, Math.ceil(maxY - minY + pad * 2))
+    };
   }
 
-  /* ── Draw a node (NotebookLM style: g transform, rect x=-18, text start, circle indicator) ── */
-  function drawNode(node, p) {
-    var w = nodeW(node), h = nodeH(node);
+  function textElements(lines, cssClass, x, startY, lineHeight) {
+    return lines.map(function (line, index) {
+      var y = startY + index * lineHeight;
+      return '<text class="' + cssClass + '" x="' + x + '" y="' + y + '" text-anchor="start" dominant-baseline="middle">' + esc(line) + '</text>';
+    }).join('');
+  }
+
+  function drawNode(node, point) {
+    var box = measureNode(node);
     var depth = Math.min(node.depth, 4);
-    var cls = 'sl-mm-n sl-mm-d' + depth + (node.depth===0?' sl-mm-root':'') + (node.hasKids?' sl-mm-clickable':'');
+    var cls = 'sl-mm-n sl-mm-d' + depth + (node.depth === 0 ? ' sl-mm-root' : '') + (node.hasKids ? ' sl-mm-clickable' : '');
+    var aria = node.hasKids ? ' tabindex="0" role="button" aria-label="Toggle ' + esc(node.title) + '"' : '';
+    var html = '<g class="' + esc(cls) + '" data-nid="' + esc(node.id) + '" transform="translate(' + point.x + ',' + point.y + ')"' + aria + '>';
+    html += '<rect class="sl-mm-nr" x="0" y="' + (-box.h / 2) + '" width="' + box.w + '" height="' + box.h + '" rx="12" ry="12"></rect>';
 
-    var rectX = -PAD_L;
-    var rectY = -h / 2;
-
-    var s = '<g class="'+esc(cls)+'" tabindex="0" role="button" data-nid="'+esc(node.id)+'" transform="translate('+p.x+','+p.y+')">';
-    s += '<rect class="sl-mm-nr" x="'+rectX+'" y="'+rectY+'" width="'+w+'" height="'+h+'" rx="8" ry="8"></rect>';
-
-    if (node.note) {
-      /* Title + note: title top-aligned, note below */
-      var titleY = -h/2 + 18;
-      s += '<text class="sl-mm-t" x="0" y="'+titleY+'" text-anchor="start" dominant-baseline="middle">'+esc(node.title)+'</text>';
-      var noteY = titleY + 15;
-      s += '<text class="sl-mm-nt" x="0" y="'+noteY+'" text-anchor="start" dominant-baseline="middle">'+esc(node.note)+'</text>';
-    } else {
-      /* Title only: vertically centered */
-      s += '<text class="sl-mm-t" x="0" y="0" text-anchor="start" dominant-baseline="middle">'+esc(node.title)+'</text>';
+    var titleStart = -box.contentH / 2 + TITLE_LH / 2;
+    html += textElements(box.titleLines, 'sl-mm-t', PAD_X, titleStart, TITLE_LH);
+    if (box.noteLines.length) {
+      var noteStart = titleStart + box.titleLines.length * TITLE_LH - TITLE_LH / 2 + NOTE_GAP + NOTE_LH / 2;
+      html += textElements(box.noteLines, 'sl-mm-nt', PAD_X, noteStart, NOTE_LH);
     }
 
-    /* Expand/collapse circle at right edge */
     if (node.hasKids) {
-      var cx = w - PAD_L - PAD_R + INDICATOR_R + 4;
+      var cx = box.w + INDICATOR_GAP + INDICATOR_R;
       var symbol = node.hidden ? '&gt;' : '&lt;';
-      s += '<circle class="sl-mm-indicator sl-mm-indicator-d'+depth+'" cx="'+cx+'" cy="0" r="'+INDICATOR_R+'"></circle>';
-      s += '<text class="sl-mm-indicator-text" x="'+cx+'" y="1" text-anchor="middle" dominant-baseline="middle">'+symbol+'</text>';
+      html += '<circle class="sl-mm-indicator sl-mm-indicator-d' + depth + '" cx="' + cx + '" cy="0" r="' + INDICATOR_R + '"></circle>';
+      html += '<text class="sl-mm-indicator-text" x="' + cx + '" y="1" text-anchor="middle" dominant-baseline="middle">' + symbol + '</text>';
     }
-
-    s += '</g>';
-    return s;
+    html += '</g>';
+    return html;
   }
 
-  /* ── Smooth cubic bezier edge ── */
-  function edgePath(a, b) {
-    var dx = (b.x - a.x) * 0.45;
-    return 'M'+a.x+','+a.y+' C'+(a.x+dx)+','+a.y+' '+(b.x-dx)+','+b.y+' '+b.x+','+b.y;
+  function outputPoint(node, point) {
+    var box = measureNode(node);
+    if (!node.hasKids) return { x: point.x + box.w, y: point.y };
+    return { x: point.x + box.w + INDICATOR_GAP + INDICATOR_R, y: point.y };
   }
 
-  /* ── State ── */
+  function inputPoint(node, point) {
+    return { x: point.x - 8, y: point.y };
+  }
+
+  function edgePath(fromNode, toNode, fromPoint, toPoint) {
+    var start = outputPoint(fromNode, fromPoint);
+    var end = inputPoint(toNode, toPoint);
+    var distance = Math.max(80, end.x - start.x);
+    var curve = Math.min(150, Math.max(72, distance * 0.54));
+    return 'M' + start.x + ',' + start.y + ' C' + (start.x + curve) + ',' + start.y + ' ' + (end.x - curve) + ',' + end.y + ' ' + end.x + ',' + end.y;
+  }
+
   function getState(el, opts) {
-    var st = el.__mm || { collapsed: new Set(), zoom: 1, query: '', centered: false, scroll: {x:0,y:0} };
+    var state = el.__mm || { collapsed: new Set(), zoom: 1, query: '', centered: false, scroll: { x: 0, y: 0 } };
     if (opts) {
-      if (opts.query != null) st.query = opts.query;
-      if (typeof opts.zoom === 'number') st.zoom = clamp(opts.zoom, 0.2, 3);
+      if (opts.query != null) state.query = opts.query;
+      if (typeof opts.zoom === 'number') state.zoom = clamp(opts.zoom, 0.25, 2.8);
     }
-    el.__mm = st;
-    return st;
+    el.__mm = state;
+    return state;
   }
 
-  /* ── Bind pan + wheel zoom ── */
-  function bindEvents(el) {
-    if (el.__mmBound) return;
-    el.__mmBound = true;
-    var drag = null, moved = false;
-
-    el.addEventListener('mousedown', function(e) {
-      if (e.button !== 0) return;
-      drag = { sx: e.clientX, sy: e.clientY, sl: el.scrollLeft, st: el.scrollTop };
-      moved = false;
-      el.classList.add('sl-mm-grabbing');
-      e.preventDefault();
+  function bindPanAndZoom(wrapEl, hostEl) {
+    var drag = null;
+    wrapEl.addEventListener('pointerdown', function (event) {
+      if (event.button !== 0) return;
+      drag = { x: event.clientX, y: event.clientY, left: wrapEl.scrollLeft, top: wrapEl.scrollTop, moved: false };
+      wrapEl.setPointerCapture(event.pointerId);
+      wrapEl.classList.add('sl-mm-grabbing');
     });
-    window.addEventListener('mousemove', function(e) {
+    wrapEl.addEventListener('pointermove', function (event) {
       if (!drag) return;
-      var dx = e.clientX - drag.sx, dy = e.clientY - drag.sy;
-      if (Math.abs(dx) + Math.abs(dy) > 3) moved = true;
-      el.scrollLeft = drag.sl - dx;
-      el.scrollTop = drag.st - dy;
+      var dx = event.clientX - drag.x;
+      var dy = event.clientY - drag.y;
+      if (Math.abs(dx) + Math.abs(dy) > 4) drag.moved = true;
+      wrapEl.scrollLeft = drag.left - dx;
+      wrapEl.scrollTop = drag.top - dy;
     });
-    window.addEventListener('mouseup', function() {
+    wrapEl.addEventListener('pointerup', function () {
       if (!drag) return;
+      wrapEl.__mmMoved = drag.moved;
       drag = null;
-      el.classList.remove('sl-mm-grabbing');
-      setTimeout(function(){ el.__moved = moved; moved = false; }, 0);
+      wrapEl.classList.remove('sl-mm-grabbing');
+      setTimeout(function () { wrapEl.__mmMoved = false; }, 0);
     });
-
-    el.addEventListener('wheel', function(e) {
-      e.preventDefault();
-      var treeEl = el.closest('[id="slMindmapTree"]') || el.parentElement;
-      var st = getState(treeEl, {});
-      var oldZoom = st.zoom || 1;
-      var rect = el.getBoundingClientRect();
-      var mx = e.clientX - rect.left, my = e.clientY - rect.top;
-      var delta = e.deltaY < 0 ? 0.1 : -0.1;
-      var newZoom = clamp(oldZoom + delta, 0.2, 3);
-      st.zoom = newZoom;
-      st.pendingScroll = { x: (el.scrollLeft + mx) * (newZoom / oldZoom) - mx, y: (el.scrollTop + my) * (newZoom / oldZoom) - my };
-      render(treeEl, window.__mmMap, st);
+    wrapEl.addEventListener('wheel', function (event) {
+      event.preventDefault();
+      var state = getState(hostEl, {});
+      var oldZoom = state.zoom || 1;
+      var rect = wrapEl.getBoundingClientRect();
+      var mx = event.clientX - rect.left;
+      var my = event.clientY - rect.top;
+      var nextZoom = clamp(oldZoom + (event.deltaY < 0 ? 0.1 : -0.1), 0.25, 2.8);
+      state.zoom = nextZoom;
+      state.pendingScroll = {
+        x: (wrapEl.scrollLeft + mx) * (nextZoom / oldZoom) - mx,
+        y: (wrapEl.scrollTop + my) * (nextZoom / oldZoom) - my
+      };
+      render(hostEl, hostEl.__mmMap || {}, state);
     }, { passive: false });
+    wrapEl.addEventListener('dblclick', function () { resetView(hostEl, hostEl.__mmMap || {}); });
+  }
 
-    el.addEventListener('dblclick', function() {
-      var treeEl = el.closest('[id="slMindmapTree"]') || el.parentElement;
-      var st = getState(treeEl, {});
-      st.zoom = 1; st.forceCenter = true;
-      render(treeEl, window.__mmMap, st);
+  function applyInitialScroll(state, wrapEl, canvasEl, canvas, pos) {
+    requestAnimationFrame(function () {
+      if (state.fitRequested) {
+        state.zoom = clamp(Math.min((wrapEl.clientWidth - 56) / canvas.w, (wrapEl.clientHeight - 56) / canvas.h), 0.25, 2.1);
+        canvasEl.style.transform = 'scale(' + state.zoom + ')';
+        state.forceCenter = true;
+        state.fitRequested = false;
+      }
+      if (state.pendingScroll) {
+        wrapEl.scrollLeft = Math.max(0, state.pendingScroll.x);
+        wrapEl.scrollTop = Math.max(0, state.pendingScroll.y);
+        state.pendingScroll = null;
+      } else if (state.forceCenter || !state.centered) {
+        var root = pos.root || { x: canvas.w / 2, y: canvas.h / 2 };
+        wrapEl.scrollLeft = Math.max(0, root.x * state.zoom - wrapEl.clientWidth / 2);
+        wrapEl.scrollTop = Math.max(0, root.y * state.zoom - wrapEl.clientHeight / 2);
+        state.centered = true;
+        state.forceCenter = false;
+      } else {
+        wrapEl.scrollLeft = state.scroll.x || 0;
+        wrapEl.scrollTop = state.scroll.y || 0;
+      }
+      state.scroll = { x: wrapEl.scrollLeft, y: wrapEl.scrollTop };
     });
   }
 
-  /* ── Main render ── */
   function render(el, map, opts) {
     if (!el) return;
-    window.__mmMap = map;
-    var st = getState(el, opts);
-    var data = flatten(map || {}, st.collapsed);
-    var pos = treeLayout(data);
-    var canvas = fitCanvas(data, pos);
+    var oldWrap = el.querySelector('.sl-mm-wrap');
+    var state = getState(el, opts);
+    if (oldWrap) state.scroll = { x: oldWrap.scrollLeft, y: oldWrap.scrollTop };
+    el.__mmMap = map || {};
 
-    var q = String(st.query || '').trim().toLowerCase();
-    var edgesSvg = data.edges.map(function(e){
-      var a = pos[e.from], b = pos[e.to];
-      if (!a || !b) return '';
-      var depth = 0;
-      data.nodes.forEach(function(n){ if (n.id === e.to) depth = n.depth; });
-      return '<path class="sl-mm-e sl-mm-e-d'+Math.min(depth, 4)+'" d="'+edgePath(a,b)+'"></path>';
+    var data = flatten(map || {}, state.collapsed);
+    var positions = treeLayout(data);
+    var canvas = fitCanvas(data, positions);
+    var nodeMap = byId(data);
+    var query = String(state.query || '').trim().toLowerCase();
+
+    var edges = data.edges.map(function (edge) {
+      var fromNode = nodeMap[edge.from];
+      var toNode = nodeMap[edge.to];
+      if (!fromNode || !toNode || !positions[edge.from] || !positions[edge.to]) return '';
+      return '<path class="sl-mm-e sl-mm-e-d' + Math.min(toNode.depth, 4) + '" d="' + edgePath(fromNode, toNode, positions[edge.from], positions[edge.to]) + '"></path>';
     }).join('');
 
-    var nodesSvg = data.nodes.map(function(n){
-      var s = drawNode(n, pos[n.id]);
-      if (q && n.title.toLowerCase().indexOf(q) >= 0) s = s.replace('sl-mm-n ', 'sl-mm-n sl-mm-match ');
-      return s;
+    var nodes = data.nodes.map(function (node) {
+      var html = drawNode(node, positions[node.id]);
+      if (query && (node.title + ' ' + node.note).toLowerCase().indexOf(query) >= 0) html = html.replace('sl-mm-n ', 'sl-mm-n sl-mm-match ');
+      return html;
     }).join('');
 
-    var zoom = st.zoom || 1;
-    el.innerHTML = '<div class="sl-mm-wrap" style="height:520px;"><div class="sl-mm-canvas" style="transform:scale('+zoom+');transform-origin:0 0;width:'+canvas.w+'px;height:'+canvas.h+'px;"><svg class="sl-mm-svg" viewBox="0 0 '+canvas.w+' '+canvas.h+'" style="width:'+canvas.w+'px;height:'+canvas.h+'px">'+edgesSvg+nodesSvg+'</svg></div></div>';
+    var zoom = state.zoom || 1;
+    el.innerHTML = '<div class="sl-mm-wrap"><div class="sl-mm-canvas" style="transform:scale(' + zoom + ');width:' + canvas.w + 'px;height:' + canvas.h + 'px;"><svg class="sl-mm-svg" viewBox="0 0 ' + canvas.w + ' ' + canvas.h + '" style="width:' + canvas.w + 'px;height:' + canvas.h + 'px">' + edges + nodes + '</svg></div></div>';
 
     var wrapEl = el.querySelector('.sl-mm-wrap');
-    bindEvents(wrapEl);
-
-    requestAnimationFrame(function(){
-      if (st.pendingScroll) {
-        wrapEl.scrollLeft = Math.max(0, st.pendingScroll.x);
-        wrapEl.scrollTop = Math.max(0, st.pendingScroll.y);
-        st.pendingScroll = null;
-      } else if (st.forceCenter || !st.centered) {
-        var rootP = pos.root || { x: canvas.w/2, y: canvas.h/2 };
-        wrapEl.scrollLeft = Math.max(0, rootP.x * st.zoom - wrapEl.clientWidth / 2);
-        wrapEl.scrollTop = Math.max(0, rootP.y * st.zoom - wrapEl.clientHeight / 2);
-        st.centered = true; st.forceCenter = false;
-      } else {
-        wrapEl.scrollLeft = st.scroll.x || 0;
-        wrapEl.scrollTop = st.scroll.y || 0;
-      }
-      st.scroll = { x: wrapEl.scrollLeft, y: wrapEl.scrollTop };
-    });
-
-    wrapEl.querySelectorAll('.sl-mm-clickable').forEach(function(g){
-      g.addEventListener('click', function(e) {
-        if (wrapEl.__moved) return;
-        var id = g.getAttribute('data-nid');
-        if (st.collapsed.has(id)) st.collapsed.delete(id); else st.collapsed.add(id);
-        render(el, map, st);
+    var canvasEl = el.querySelector('.sl-mm-canvas');
+    bindPanAndZoom(wrapEl, el);
+    wrapEl.querySelectorAll('.sl-mm-clickable').forEach(function (nodeEl) {
+      nodeEl.addEventListener('click', function () {
+        if (wrapEl.__mmMoved) return;
+        var id = nodeEl.getAttribute('data-nid');
+        if (state.collapsed.has(id)) state.collapsed.delete(id);
+        else state.collapsed.add(id);
+        render(el, map, state);
       });
-      g.addEventListener('keydown', function(e) { if (e.key==='Enter'||e.key===' '){ e.preventDefault(); g.click(); }});
+      nodeEl.addEventListener('keydown', function (event) {
+        if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); nodeEl.dispatchEvent(new MouseEvent('click')); }
+      });
     });
+    applyInitialScroll(state, wrapEl, canvasEl, canvas, positions);
   }
 
-  /* ── Public API ── */
   function setZoom(el, delta, map) {
-    var st = getState(el, {});
+    if (!el) return;
+    var state = getState(el, {});
     var wrapEl = el.querySelector('.sl-mm-wrap');
-    var old = st.zoom || 1;
-    st.zoom = clamp(old + delta, 0.2, 3);
+    var oldZoom = state.zoom || 1;
+    state.zoom = clamp(oldZoom + delta, 0.25, 2.8);
     if (wrapEl) {
-      st.pendingScroll = { x: (wrapEl.scrollLeft + wrapEl.clientWidth/2) * (st.zoom/old) - wrapEl.clientWidth/2, y: (wrapEl.scrollTop + wrapEl.clientHeight/2) * (st.zoom/old) - wrapEl.clientHeight/2 };
+      state.pendingScroll = {
+        x: (wrapEl.scrollLeft + wrapEl.clientWidth / 2) * (state.zoom / oldZoom) - wrapEl.clientWidth / 2,
+        y: (wrapEl.scrollTop + wrapEl.clientHeight / 2) * (state.zoom / oldZoom) - wrapEl.clientHeight / 2
+      };
     }
-    render(el, map, st);
+    render(el, map || el.__mmMap || {}, state);
   }
-  function expandAll(el, map) { var st = getState(el, {}); st.collapsed = new Set(); render(el, map, st); }
+
+  function expandAll(el, map) {
+    if (!el) return;
+    var state = getState(el, {});
+    state.collapsed = new Set();
+    render(el, map || el.__mmMap || {}, state);
+  }
+
   function collapseAll(el, map) {
-    var st = getState(el, {}); st.collapsed = new Set();
-    function walk(nodes, path) { (nodes||[]).forEach(function(n,i){ var id=(path||'root')+'-'+i; if (n.children&&n.children.length) st.collapsed.add(id); walk(n.children||[], id); }); }
-    walk((map||{}).nodes||[], 'root');
-    render(el, map, st);
-  }
-  function fitView(el, map) {
-    var st = getState(el, {});
-    var wrapEl = el.querySelector('.sl-mm-wrap');
-    if (wrapEl) {
-      var svgEl = el.querySelector('.sl-mm-svg');
-      if (svgEl) {
-        var vb = svgEl.getAttribute('viewBox').split(' ');
-        var svgW = parseFloat(vb[2]) || 800, svgH = parseFloat(vb[3]) || 500;
-        st.zoom = clamp(Math.min((wrapEl.clientWidth - 40) / svgW, (wrapEl.clientHeight - 40) / svgH), 0.2, 2);
-      }
+    if (!el) return;
+    var state = getState(el, {});
+    state.collapsed = new Set();
+    function walk(nodes, path) {
+      (nodes || []).forEach(function (node, index) {
+        var id = (path || 'root') + '-' + index;
+        if (node.children && node.children.length) state.collapsed.add(id);
+        walk(node.children || [], id);
+      });
     }
-    st.forceCenter = true; render(el, map, st);
+    walk((map || el.__mmMap || {}).nodes || [], 'root');
+    render(el, map || el.__mmMap || {}, state);
   }
-  function resetView(el, map) { var st = getState(el, {}); st.zoom = 1; st.forceCenter = true; render(el, map, st); }
+
+  function fitView(el, map) {
+    if (!el) return;
+    var state = getState(el, {});
+    state.fitRequested = true;
+    render(el, map || el.__mmMap || {}, state);
+  }
+
+  function resetView(el, map) {
+    if (!el) return;
+    var state = getState(el, {});
+    state.zoom = 1;
+    state.forceCenter = true;
+    render(el, map || el.__mmMap || {}, state);
+  }
+
+  function exportStyles() {
+    return '.sl-mm-svg{background:#fcfdff}.sl-mm-e{fill:none;stroke:#7284ff;stroke-width:2.45;stroke-linecap:round}.sl-mm-e-d2,.sl-mm-e-d4{stroke:#5acfc3}.sl-mm-e-d3{stroke:#5aa8ff}.sl-mm-nr{fill:#bfdbfe;stroke:#bfdbfe;stroke-width:1.2}.sl-mm-root .sl-mm-nr{fill:#c7d2fe;stroke:#a5b4fc}.sl-mm-d2 .sl-mm-nr,.sl-mm-d3 .sl-mm-nr,.sl-mm-d4 .sl-mm-nr{fill:#9eddd5;stroke:#8ad8cf}.sl-mm-t{fill:#0f172a;font-family:Poppins,system-ui,sans-serif;font-size:15.5px;font-weight:500;letter-spacing:-0.015em}.sl-mm-nt{fill:#047d73;font-family:Poppins,system-ui,sans-serif;font-size:11.5px;font-weight:500}.sl-mm-d1 .sl-mm-nt{fill:#2563eb}.sl-mm-root .sl-mm-t{fill:#111827}.sl-mm-root .sl-mm-nt{fill:#4f46e5}.sl-mm-indicator{fill:#d7e6ff;stroke:#ffffff;stroke-width:2.5}.sl-mm-indicator-d2,.sl-mm-indicator-d3,.sl-mm-indicator-d4{fill:#c1ebe6}.sl-mm-indicator-text{fill:#253069;font-family:system-ui,sans-serif;font-size:17px;font-weight:800}';
+  }
 
   function downloadPng(el) {
-    var svg = el && el.querySelector('.sl-mm-svg'); if (!svg) return;
+    var svg = el && el.querySelector('.sl-mm-svg');
+    if (!svg) return;
     var clone = svg.cloneNode(true);
-    var bg = document.querySelector('[data-theme="dark"]') ? '#0f172a' : '#ffffff';
     var style = document.createElement('style');
-    style.textContent = '.sl-mm-nr{fill:#fff;stroke:#e2e8f0;stroke-width:1;rx:8;ry:8}.sl-mm-root .sl-mm-nr{fill:#4f46e5;stroke:#4338ca;stroke-width:1.5}.sl-mm-d0 .sl-mm-nr{fill:#eef2ff;stroke:#c7d2fe}.sl-mm-d1 .sl-mm-nr{fill:#ecfdf5;stroke:#6ee7b7}.sl-mm-d2 .sl-mm-nr{fill:#fffbeb;stroke:#fcd34d}.sl-mm-d3 .sl-mm-nr{fill:#eff6ff;stroke:#93c5fd}.sl-mm-d4 .sl-mm-nr{fill:#faf5ff;stroke:#d8b4fe}.sl-mm-t{fill:#334155;font-family:Poppins,system-ui,sans-serif;font-size:14px;font-weight:600}.sl-mm-root .sl-mm-t{fill:#fff;font-weight:700}.sl-mm-e{fill:none;stroke:#cbd5e1;stroke-width:2;stroke-linecap:round}.sl-mm-e-d1{stroke:#6ee7b7}.sl-mm-e-d2{stroke:#fcd34d}.sl-mm-e-d3{stroke:#93c5fd}.sl-mm-e-d4{stroke:#d8b4fe}.sl-mm-indicator{stroke:#e2e8f0;stroke-width:1}.sl-mm-indicator-text{fill:#64748b;font-size:14px;font-weight:700;font-family:system-ui,sans-serif}';
+    style.textContent = exportStyles();
     clone.insertBefore(style, clone.firstChild);
     var data = new XMLSerializer().serializeToString(clone);
-    var blob = new Blob([data], {type:'image/svg+xml;charset=utf-8'});
-    var url = URL.createObjectURL(blob), img = new Image();
-    img.onload = function(){
-      var c = document.createElement('canvas'); c.width = img.width * 2; c.height = img.height * 2;
-      var ctx = c.getContext('2d'); ctx.scale(2,2); ctx.fillStyle = bg; ctx.fillRect(0,0,img.width,img.height); ctx.drawImage(img,0,0); URL.revokeObjectURL(url);
-      var a = document.createElement('a'); a.href = c.toDataURL('image/png'); a.download = 'nebians-mindmap.png'; document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    var blob = new Blob([data], { type: 'image/svg+xml;charset=utf-8' });
+    var url = URL.createObjectURL(blob);
+    var image = new Image();
+    image.onload = function () {
+      var canvas = document.createElement('canvas');
+      canvas.width = image.width * 2;
+      canvas.height = image.height * 2;
+      var ctx = canvas.getContext('2d');
+      ctx.scale(2, 2);
+      ctx.fillStyle = document.documentElement.getAttribute('data-theme') === 'dark' ? '#0b1120' : '#fbfcff';
+      ctx.fillRect(0, 0, image.width, image.height);
+      ctx.drawImage(image, 0, 0);
+      URL.revokeObjectURL(url);
+      var link = document.createElement('a');
+      link.href = canvas.toDataURL('image/png');
+      link.download = 'nebians-mindmap.png';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     };
-    img.src = url;
+    image.src = url;
   }
 
-  window.NEBiansMindmap = { render: render, setZoom: setZoom, expandAll: expandAll, collapseAll: collapseAll, fitView: fitView, resetView: resetView, downloadPng: downloadPng };
+  window.NEBiansMindmap = {
+    render: render,
+    setZoom: setZoom,
+    expandAll: expandAll,
+    collapseAll: collapseAll,
+    fitView: fitView,
+    resetView: resetView,
+    downloadPng: downloadPng
+  };
 })();

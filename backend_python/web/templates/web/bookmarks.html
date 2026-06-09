@@ -10,47 +10,81 @@
 {% block content %}
 <div class="bookmarks-page">
   <header class="bookmarks-header">
-    <div>
-      <p class="bookmarks-kicker">Saved</p>
+    <div class="bookmarks-header-left">
+      <p class="bookmarks-kicker">Your collection</p>
       <h1>Bookmarks</h1>
     </div>
-    <span class="bookmarks-total">{{ bookmark_counts.all|default:0 }} saved</span>
+    <span class="bookmarks-total">
+      <span class="material-symbols-outlined">bookmark</span>
+      {{ bookmark_counts.all|default:0 }} saved
+    </span>
   </header>
 
   <nav class="bookmarks-tabs" aria-label="Bookmark filters">
-    <button class="bookmark-tab active" data-action="filter-bookmarks" data-filter="all">All <span>{{ bookmark_counts.all|default:0 }}</span></button>
-    <button class="bookmark-tab" data-action="filter-bookmarks" data-filter="post">Posts <span>{{ bookmark_counts.post|default:0 }}</span></button>
-    <button class="bookmark-tab" data-action="filter-bookmarks" data-filter="reply">Replies <span>{{ bookmark_counts.reply|default:0 }}</span></button>
-    <button class="bookmark-tab" data-action="filter-bookmarks" data-filter="resource">Resources <span>{{ bookmark_counts.resource|default:0 }}</span></button>
+    <button class="bookmark-tab active" data-action="filter-bookmarks" data-filter="all">
+      <span class="material-symbols-outlined">bookmark</span>
+      All <span class="bookmark-tab-count">{{ bookmark_counts.all|default:0 }}</span>
+    </button>
+    <button class="bookmark-tab" data-action="filter-bookmarks" data-filter="post">
+      <span class="material-symbols-outlined">forum</span>
+      Posts <span class="bookmark-tab-count">{{ bookmark_counts.post|default:0 }}</span>
+    </button>
+    <button class="bookmark-tab" data-action="filter-bookmarks" data-filter="reply">
+      <span class="material-symbols-outlined">chat_bubble</span>
+      Replies <span class="bookmark-tab-count">{{ bookmark_counts.reply|default:0 }}</span>
+    </button>
+    <button class="bookmark-tab" data-action="filter-bookmarks" data-filter="resource">
+      <span class="material-symbols-outlined">menu_book</span>
+      Resources <span class="bookmark-tab-count">{{ bookmark_counts.resource|default:0 }}</span>
+    </button>
   </nav>
 
   <section class="bookmarks-list" id="bookmarksList" aria-label="Saved items">
     {% if bookmark_items %}
       {% for item in bookmark_items %}
+      {% ifchanged item.created_at|date_label %}
+      <div class="bookmark-date-group" data-date-label="{{ item.created_at|date_label }}">
+        <span class="bookmark-date-label">{{ item.created_at|date_label }}</span>
+        <span class="bookmark-date-line"></span>
+      </div>
+      {% endifchanged %}
       <article class="bookmark-card" data-bookmark-type="{{ item.type }}">
-        <div class="bookmark-card-main">
+        <div class="bookmark-type-icon type-{{ item.type }}">
+          {% if item.type == 'post' %}
+          <span class="material-symbols-outlined">forum</span>
+          {% elif item.type == 'reply' %}
+          <span class="material-symbols-outlined">chat_bubble</span>
+          {% elif item.type == 'resource' %}
+          <span class="material-symbols-outlined">menu_book</span>
+          {% endif %}
+        </div>
+        <div class="bookmark-card-content">
           <div class="bookmark-card-topline">
-            <span>{{ item.type|title }}</span>
-            <span aria-hidden="true">·</span>
-            <span>{{ item.created_at|time_ago }}</span>
+            <span class="bookmark-type-badge type-{{ item.type }}">{{ item.type|title }}</span>
+            <span class="bookmark-card-time">{{ item.created_at|time_ago }}</span>
           </div>
           <h2><a href="{{ item.url }}">{{ item.title }}</a></h2>
-          {% if item.excerpt %}<p>{{ item.excerpt|truncatechars:160 }}</p>{% endif %}
+          {% if item.excerpt %}<p class="bookmark-card-excerpt">{{ item.excerpt|truncatechars:140 }}</p>{% endif %}
           {% if item.meta %}<div class="bookmark-card-meta">{{ item.meta }}</div>{% endif %}
         </div>
         <div class="bookmark-card-actions">
-          <a href="{{ item.url }}" class="bookmark-open" aria-label="Open bookmark">Open</a>
           <button type="button" class="bookmark-remove" data-action="remove-bookmark" data-target-type="{{ item.type }}" data-target-id="{{ item.id }}" aria-label="Remove bookmark">
-            <span class="material-symbols-outlined" aria-hidden="true">bookmark_remove</span>
+            <span class="material-symbols-outlined">bookmark_remove</span>
           </button>
         </div>
       </article>
       {% endfor %}
     {% else %}
       <div class="bookmarks-empty">
+        <div class="bookmarks-empty-icon">
+          <span class="material-symbols-outlined">bookmark</span>
+        </div>
         <h2>No bookmarks yet</h2>
-        <p>Save posts, replies, and resources from across NEBians and they will appear here.</p>
-        <a href="{% url 'web:home' %}" class="bookmarks-empty-link">Explore NEBians</a>
+        <p>Save posts, replies, and resources from across NEBians and they'll appear here.</p>
+        <a href="{% url 'web:home' %}" class="bookmarks-empty-link">
+          <span class="material-symbols-outlined">explore</span>
+          Explore NEBians
+        </a>
       </div>
     {% endif %}
   </section>
@@ -67,6 +101,16 @@ registerActions({
     document.querySelectorAll('.bookmark-card').forEach(function(card){
       card.style.display = (filter === 'all' || card.dataset.bookmarkType === filter) ? '' : 'none';
     });
+    var dateGroups = document.querySelectorAll('.bookmark-date-group');
+    dateGroups.forEach(function(g) {
+      var next = g.nextElementSibling;
+      var hasVisible = false;
+      while (next && !next.classList.contains('bookmark-date-group')) {
+        if (next.style.display !== 'none') hasVisible = true;
+        next = next.nextElementSibling;
+      }
+      g.style.display = hasVisible ? '' : 'none';
+    });
   },
   'remove-bookmark': async function(btn) {
     var card = btn.closest('.bookmark-card');
@@ -80,7 +124,9 @@ registerActions({
       });
       var d = await r.json();
       if (d && d.success) {
-        if (card) card.remove();
+        card.classList.add('removing');
+        var type = card.dataset.bookmarkType;
+        setTimeout(function() { card.remove(); updateEmptyState(); updateCounts(type); cleanupDateGroups(); }, 300);
         showSnackbar('Removed from bookmarks');
       } else {
         btn.disabled = false;
@@ -92,5 +138,51 @@ registerActions({
     }
   }
 });
+
+function updateEmptyState() {
+  var list = document.getElementById('bookmarksList');
+  if (!list) return;
+  var cards = list.querySelectorAll('.bookmark-card:not(.removing)');
+  if (cards.length === 0) {
+    var dateGroups = list.querySelectorAll('.bookmark-date-group');
+    dateGroups.forEach(function(g) { g.remove(); });
+    list.innerHTML = '<div class="bookmarks-empty">' +
+      '<div class="bookmarks-empty-icon"><span class="material-symbols-outlined">bookmark</span></div>' +
+      '<h2>No bookmarks yet</h2>' +
+      '<p>Save posts, replies, and resources from across NEBians and they\'ll appear here.</p>' +
+      '<a href="/" class="bookmarks-empty-link"><span class="material-symbols-outlined">explore</span> Explore NEBians</a>' +
+      '</div>';
+  }
+}
+
+function updateCounts(type) {
+  var allTab = document.querySelector('.bookmark-tab[data-filter="all"]');
+  var typeTab = document.querySelector('.bookmark-tab[data-filter="' + type + '"]');
+  var totalEl = document.querySelector('.bookmarks-total');
+  if (allTab) {
+    var allCount = allTab.querySelector('.bookmark-tab-count');
+    if (allCount) { var v = parseInt(allCount.textContent) - 1; allCount.textContent = Math.max(0, v); }
+  }
+  if (typeTab) {
+    var typeCount = typeTab.querySelector('.bookmark-tab-count');
+    if (typeCount) { var v2 = parseInt(typeCount.textContent) - 1; typeCount.textContent = Math.max(0, v2); }
+  }
+  if (totalEl) {
+    var currentNum = parseInt(totalEl.textContent.trim()) || 0;
+    totalEl.innerHTML = '<span class="material-symbols-outlined">bookmark</span> ' + Math.max(0, currentNum - 1) + ' saved';
+  }
+}
+
+function cleanupDateGroups() {
+  document.querySelectorAll('.bookmark-date-group').forEach(function(g) {
+    var next = g.nextElementSibling;
+    var hasVisible = false;
+    while (next && !next.classList.contains('bookmark-date-group')) {
+      if (next.style.display !== 'none') hasVisible = true;
+      next = next.nextElementSibling;
+    }
+    if (!hasVisible) g.remove();
+  });
+}
 </script>
 {% endblock %}
