@@ -224,6 +224,7 @@
   {% block bottomnav %}{% endblock %}
 
   <!-- Footer -->
+  {% block footer %}
   <footer class="site-footer">
     {% if not hide_footer_links %}
     <div class="site-footer-links">
@@ -234,6 +235,7 @@
     {% endif %}
     <p>&copy; 2026 NEBians. All rights reserved.</p>
   </footer>
+  {% endblock %}
 
   <!-- Snackbar container -->
   <div id="snackbar-container"></div>

@@ -3,16 +3,23 @@
 
 {% block title %}{{ space.title }} - Study Space{% endblock %}
 {% block description %}Study space with AI-powered summaries, mindmaps, quizzes and flashcards.{% endblock %}
+{% block topbar %}{% endblock %}
+{% block footer %}{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'web/css/pages/study-lab.css' %}">
 <link rel="stylesheet" href="{% static 'web/css/pages/upload.css' %}">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" nonce="{{ csp_nonce }}">
 <style nonce="{{ csp_nonce }}">
+.site-main {
+  min-height: 100vh;
+  padding-top: 0;
+  padding-bottom: 0;
+}
 .ss-page {
-  max-width: 1400px;
+  max-width: none;
   margin: 0 auto;
-  padding: 0 24px 24px;
+  padding: 0 12px 12px;
 }
 /* Top bar */
 .ss-topbar {
@@ -20,7 +27,7 @@
   align-items: center;
   gap: 12px;
   padding: 12px 0;
-  margin-bottom: 16px;
+  margin-bottom: 10px;
   border-bottom: 1px solid var(--md-outline-variant);
 }
 .ss-back-btn {
@@ -59,7 +66,7 @@
 .ss-layout {
   display: grid;
   grid-template-columns: 260px minmax(0, 1fr);
-  gap: 20px;
+  gap: 12px;
   align-items: start;
 }
 @media (max-width: 900px) {
@@ -86,8 +93,8 @@
   border: 1px solid var(--md-outline-variant);
   padding: 16px;
   position: sticky;
-  top: 80px;
-  max-height: calc(100vh - 100px);
+  top: 12px;
+  max-height: calc(100vh - 24px);
   overflow-y: auto;
 }
 .ss-sidebar-section-title {
@@ -146,6 +153,50 @@
 .ss-file-remove:hover {
   opacity: 1;
   color: var(--md-error);
+}
+.ss-file-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+.ss-file-status-text {
+  font-size: 0.6875rem;
+  color: var(--md-on-surface-variant);
+  line-height: 1.2;
+}
+.ss-file-status-parsing .ss-file-icon {
+  animation: ss-spin 1.5s linear infinite;
+}
+.ss-file-status-parsing .ss-file-status-text {
+  color: var(--md-primary);
+}
+.ss-file-status-failed .ss-file-icon {
+  color: var(--md-error);
+}
+.ss-file-status-failed .ss-file-status-text {
+  color: var(--md-error);
+}
+.ss-file-retry-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 2px;
+  color: var(--md-primary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+.ss-file-retry-btn:hover {
+  background: var(--md-primary-container);
+}
+.ss-file-retry-btn .material-symbols-outlined {
+  font-size: 16px;
+}
+@keyframes ss-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 .ss-upload-btn {
   display: flex;
@@ -314,7 +365,6 @@
   font-size: 0.9375rem;
   line-height: 1.7;
   color: var(--md-on-surface);
-  max-width: 720px;
 }
 .ss-summary-text h1,.ss-summary-text h2,.ss-summary-text h3 {
   margin: 20px 0 8px;
@@ -326,6 +376,71 @@
 .ss-summary-text p { margin: 0 0 12px; }
 .ss-summary-text ul,.ss-summary-text ol { margin: 0 0 12px; padding-left: 24px; }
 .ss-summary-text li { margin-bottom: 4px; }
+.sl-quiz-opt-text { flex: 1; min-width: 0; }
+.sl-quiz-opt-text p { margin: 0; }
+.sl-quiz-opt-text p + p { margin-top: 8px; }
+/* Proper markdown content styling */
+.ss-summary-text pre,.ss-ai-answer pre,.sl-quiz-opt-text pre,.sl-flash-front pre,.sl-flash-back pre {
+  background: var(--md-surface-container-high);
+  border-radius: var(--md-radius-md);
+  padding: 12px 16px;
+  overflow-x: auto;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  margin: 8px 0;
+  border: 1px solid var(--md-outline-variant);
+}
+.ss-summary-text code,.ss-ai-answer code,.sl-quiz-opt-text code {
+  font-size: 0.8125rem;
+  background: var(--md-surface-container-high);
+  padding: 1px 4px;
+  border-radius: 4px;
+  font-family: 'SFMono-Regular',Consolas,'Liberation Mono',Menlo,monospace;
+}
+.ss-summary-text pre code,.ss-ai-answer pre code,.sl-quiz-opt-text pre code {
+  background: none;
+  padding: 0;
+  border-radius: 0;
+}
+.ss-summary-text blockquote,.ss-ai-answer blockquote {
+  border-left: 3px solid var(--md-primary);
+  margin: 12px 0;
+  padding: 4px 16px;
+  color: var(--md-on-surface-variant);
+  background: var(--md-surface-container-low);
+  border-radius: 0 var(--md-radius-md) var(--md-radius-md) 0;
+}
+.ss-summary-text table,.ss-ai-answer table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 12px 0;
+  font-size: 0.875rem;
+}
+.ss-summary-text th,.ss-summary-text td,.ss-ai-answer th,.ss-ai-answer td {
+  border: 1px solid var(--md-outline-variant);
+  padding: 8px 12px;
+  text-align: left;
+}
+.ss-summary-text th,.ss-ai-answer th {
+  background: var(--md-surface-container-high);
+  font-weight: 600;
+}
+.ss-summary-text hr,.ss-ai-answer hr {
+  border: none;
+  border-top: 1px solid var(--md-outline-variant);
+  margin: 20px 0;
+}
+.ss-summary-text img,.ss-ai-answer img {
+  max-width: 100%;
+  border-radius: var(--md-radius-md);
+  margin: 12px 0;
+}
+/* KaTeX math display */
+.ss-summary-text .katex-display,.ss-ai-answer .katex-display {
+  margin: 12px 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
 .ss-summary-actions {
   display: flex;
   gap: 8px;
@@ -524,6 +639,73 @@
   color: var(--md-outline);
   margin-bottom: 8px;
 }
+
+.ss-count-picker {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 4px;
+  border-radius: 999px;
+  background: var(--md-surface-container-low);
+  border: 1px solid var(--md-outline-variant);
+}
+.ss-count-choice {
+  border: 0;
+  border-radius: 999px;
+  padding: 7px 13px;
+  background: transparent;
+  color: var(--md-on-surface-variant);
+  font-weight: 700;
+  cursor: pointer;
+}
+.ss-count-choice.active {
+  background: var(--md-primary-container);
+  color: var(--md-on-primary-container);
+}
+.ss-member-list { display: flex; flex-direction: column; gap: 6px; }
+.ss-member-item { display: flex; align-items: center; gap: 8px; padding: 7px 4px; border-radius: 12px; }
+.ss-member-avatar { width: 28px; height: 28px; border-radius: 50%; display: inline-grid; place-items: center; background: var(--md-primary-container); color: var(--md-on-primary-container); font-size: .75rem; font-weight: 800; overflow: hidden; flex-shrink: 0; }
+.ss-member-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.ss-member-info { min-width: 0; display: flex; flex-direction: column; flex: 1; }
+.ss-member-name { font-size: .8125rem; font-weight: 600; color: var(--md-on-surface); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ss-member-role { font-size: .6875rem; color: var(--md-on-surface-variant); text-transform: capitalize; }
+.ss-invite-code-box { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 10px 12px; margin-top: 12px; border-radius: 14px; background: var(--md-surface-container); border: 1px solid var(--md-outline-variant); }
+.ss-invite-code { font-weight: 800; letter-spacing: .14em; color: var(--md-on-surface); }
+.sl-share-hint { margin: 10px 0 0; color: var(--md-on-surface-variant); font-size: .8125rem; line-height: 1.5; }
+.ss-section-head { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:8px; }
+.ss-text-xs { font-size:.75rem; color:var(--md-on-surface-variant); }
+.ss-presence-list { display:flex; flex-direction:column; gap:6px; margin-top:8px; }
+.ss-presence-item { display:flex; align-items:center; gap:8px; padding:8px 10px; border:1px solid var(--md-outline-variant); border-radius:12px; background:var(--md-surface); }
+.ss-presence-avatar, .ss-member-avatar { width:30px; height:30px; border-radius:50%; display:flex; align-items:center; justify-content:center; overflow:hidden; background:var(--md-primary-container); color:var(--md-on-primary-container); font-size:.75rem; font-weight:700; }
+.ss-presence-avatar img, .ss-member-avatar img { width:100%; height:100%; object-fit:cover; }
+.ss-presence-main { min-width:0; flex:1; display:flex; flex-direction:column; }
+.ss-presence-name { font-size:.8rem; font-weight:600; color:var(--md-on-surface); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.ss-presence-meta { font-size:.7rem; color:var(--md-on-surface-variant); text-transform:capitalize; }
+.ss-sidebar-mini-btn { border:none; background:transparent; color:var(--md-primary); font-size:.75rem; cursor:pointer; padding:4px 0; }
+.ss-kpi-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:12px; }
+.ss-kpi { padding:14px; border:1px solid var(--md-outline-variant); border-radius:16px; background:var(--md-surface-container-low); }
+.ss-kpi-label { font-size:.75rem; color:var(--md-on-surface-variant); margin-bottom:6px; }
+.ss-kpi-value { font-size:1.35rem; font-weight:800; color:var(--md-on-surface); }
+.ss-collab-wrap, .ss-ai-card { border:1px solid var(--md-outline-variant); border-radius:18px; background:var(--md-surface-container-low); padding:16px; }
+.ss-notes-toolbar { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:10px; }
+.ss-notes-textarea, .ss-ai-input, .ss-settings-grid input, .ss-settings-grid textarea, .ss-settings-grid select { width:100%; box-sizing:border-box; border:1px solid var(--md-outline); background:var(--md-surface); color:var(--md-on-surface); border-radius:14px; padding:12px 14px; font-size:.875rem; }
+.ss-notes-textarea { min-height:340px; resize:vertical; }
+.ss-ai-actions { display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-top:12px; }
+.ss-ai-answer { margin-top:14px; padding:14px; border-radius:14px; background:var(--md-surface); border:1px solid var(--md-outline-variant); font-size:.875rem; line-height:1.6; }
+.ss-ai-citations { margin-top:10px; font-size:.75rem; color:var(--md-on-surface-variant); }
+.ss-modal-grid { display:grid; gap:12px; }
+.ss-settings-grid { display:grid; gap:12px; grid-template-columns:repeat(2,minmax(0,1fr)); }
+.ss-settings-grid .full { grid-column:1 / -1; }
+@media (max-width: 700px) { .ss-settings-grid { grid-template-columns:1fr; } }
+.sl-share-option-title { font-size:.875rem; }
+.sl-share-option small, .sl-share-hint, .ss-member-role, .ss-text-xs { font-size:.72rem; }
+#ssShareModal .modal-title { font-size:1rem; }
+#ssShareModal .modal-body { font-size:.875rem; }
+.ss-member-actions { display:flex; align-items:center; gap:8px; }
+.ss-member-role-select { border:1px solid var(--md-outline-variant); border-radius:10px; background:var(--md-surface); color:var(--md-on-surface); font-size:.75rem; padding:6px 8px; }
+.ss-member-remove { border:none; background:transparent; color:var(--md-error); cursor:pointer; font-size:.75rem; }
+.ss-inline-meta { display:flex; gap:8px; flex-wrap:wrap; }
+.ss-chip { border:1px solid var(--md-outline-variant); background:var(--md-surface); border-radius:999px; padding:6px 10px; font-size:.75rem; color:var(--md-on-surface-variant); }
 </style>
 {% endblock %}
 
@@ -536,7 +718,13 @@
     <h1 class="ss-topbar-title" id="ssTitle" data-space-id="{{ space_id }}">{{ space.title }}</h1>
     <div class="ss-topbar-actions">
       <button class="md-btn md-btn-icon" data-action="ss-share" title="Share space">
-        <span class="material-symbols-outlined">ios_share</span>
+        <span class="material-symbols-outlined">share</span>
+      </button>
+      <button class="md-btn md-btn-icon" data-action="ss-open-members" title="Members">
+        <span class="material-symbols-outlined">group</span>
+      </button>
+      <button class="md-btn md-btn-icon" data-action="ss-open-settings" title="Space settings">
+        <span class="material-symbols-outlined">settings</span>
       </button>
       <button class="md-btn md-btn-icon" data-action="ss-rename" title="Rename">
         <span class="material-symbols-outlined">edit</span>
@@ -576,6 +764,19 @@
           Generate flashcards
         </button>
       </div>
+
+      <div class="ss-sidebar-gen">
+        <div class="ss-section-head">
+          <div class="ss-sidebar-section-title" style="margin:0;">Members</div>
+          <button class="ss-sidebar-mini-btn" data-action="ss-open-members">See all</button>
+        </div>
+        <div class="ss-member-list" id="ssMemberList"></div>
+        <div class="ss-section-head" style="margin-top:12px;">
+          <div class="ss-sidebar-section-title" style="margin:0;">Live now</div>
+          <span class="ss-text-xs" id="ssActiveNowCount">0 active</span>
+        </div>
+        <div class="ss-presence-list" id="ssPresenceList"></div>
+      </div>
     </aside>
 
     <main class="ss-main" id="ssMain">
@@ -591,6 +792,21 @@
         </button>
         <button class="ss-tab" data-tab="flashcards" data-action="ss-switch-tab">
           <span class="material-symbols-outlined">style</span> Flashcards
+        </button>
+        <button class="ss-tab" data-tab="notes" data-action="ss-switch-tab">
+          <span class="material-symbols-outlined">edit_note</span> Notes
+        </button>
+        <button class="ss-tab" data-tab="tutor" data-action="ss-switch-tab">
+          <span class="material-symbols-outlined">school</span> AI Tutor
+        </button>
+        <button class="ss-tab" data-tab="learningPath" data-action="ss-switch-tab">
+          <span class="material-symbols-outlined">route</span> Learning Path
+        </button>
+        <button class="ss-tab" data-tab="analytics" data-action="ss-switch-tab">
+          <span class="material-symbols-outlined">monitoring</span> Analytics
+        </button>
+        <button class="ss-tab" data-tab="examMode" data-action="ss-switch-tab">
+          <span class="material-symbols-outlined">timer</span> Exam Mode
         </button>
       </div>
 
@@ -613,7 +829,7 @@
         <div id="ssSummaryContent" style="display:none;">
           <div class="ss-summary-actions">
             <button class="md-btn md-btn-outlined" data-action="ss-edit-summary"><span class="material-symbols-outlined">edit</span> Edit</button>
-            <button class="md-btn md-btn-outlined" data-action="ss-regenerate-summary"><span class="material-symbols-outlined">refresh</span> Regenerate</button>
+            <button class="md-btn md-btn-outlined" data-action="ss-regenerate-summary">Regenerate</button>
           </div>
           <div class="ss-summary-text" id="ssSummaryText"></div>
           <div class="ss-summary-editor" id="ssSummaryEditor" style="display:none;">
@@ -631,7 +847,7 @@
         <div class="ss-gen-prompt" id="ssMindmapPrompt">
           <span class="material-symbols-outlined">account_tree</span>
           <p>Generate a mindmap from all documents in this space.</p>
-          <button class="md-btn md-btn-filled" data-action="ss-generate-mindmap"><span class="material-symbols-outlined">account_tree</span> Generate Mindmap</button>
+          <button class="md-btn md-btn-filled" data-action="ss-generate-mindmap">Generate Mindmap</button>
         </div>
         <div class="ss-loading" id="ssMindmapLoading" style="display:none;">
           <div class="ss-spinner"></div>
@@ -639,7 +855,7 @@
         </div>
         <div id="ssMindmapContent" style="display:none;">
           <div class="sl-mindmap-actions">
-            <button class="md-btn md-btn-outlined" data-action="ss-regenerate-mindmap"><span class="material-symbols-outlined">refresh</span> Regenerate</button>
+            <button class="md-btn md-btn-outlined" data-action="ss-regenerate-mindmap">Regenerate</button>
           </div>
           <div class="sl-mindmap-stage">
             <div id="ssMindmapTree"></div>
@@ -659,16 +875,16 @@
           <span class="material-symbols-outlined">quiz</span>
           <p>Generate a quiz from all documents in this space. New questions avoid previous ones.</p>
           <div class="sl-quiz-options">
-            <label>Questions:
-              <select id="ssQuizCount">
-                <option value="5">5</option>
-                <option value="10" selected>10</option>
-                <option value="15">15</option>
-                <option value="20">20</option>
-              </select>
-            </label>
+            <span class="filter-section-label">Questions</span>
+            <div class="ss-count-picker" id="ssQuizCountPicker" data-target="ssQuizCount">
+              <button type="button" class="ss-count-choice" data-action="ss-count-choice" data-value="5">5</button>
+              <button type="button" class="ss-count-choice active" data-action="ss-count-choice" data-value="10">10</button>
+              <button type="button" class="ss-count-choice" data-action="ss-count-choice" data-value="15">15</button>
+              <button type="button" class="ss-count-choice" data-action="ss-count-choice" data-value="20">20</button>
+            </div>
+            <input type="hidden" id="ssQuizCount" value="10">
           </div>
-          <button class="md-btn md-btn-filled" data-action="ss-generate-quiz"><span class="material-symbols-outlined">quiz</span> Generate Quiz</button>
+          <button class="md-btn md-btn-filled" data-action="ss-generate-quiz">Generate Quiz</button>
         </div>
         <div class="ss-loading" id="ssQuizLoading" style="display:none;"><div class="ss-spinner"></div><p>Generating quiz questions...</p></div>
         <div id="ssQuizActive" style="display:none;"></div>
@@ -681,19 +897,83 @@
           <span class="material-symbols-outlined">style</span>
           <p>Generate flashcards from all documents in this space. New cards avoid previous ones.</p>
           <div class="sl-flash-options">
-            <label>Cards:
-              <select id="ssFlashCount">
-                <option value="8">8</option>
-                <option value="12">12</option>
-                <option value="20">20</option>
-                <option value="30">30</option>
-              </select>
-            </label>
+            <span class="filter-section-label">Cards</span>
+            <div class="ss-count-picker" id="ssFlashCountPicker" data-target="ssFlashCount">
+              <button type="button" class="ss-count-choice active" data-action="ss-count-choice" data-value="8">8</button>
+              <button type="button" class="ss-count-choice" data-action="ss-count-choice" data-value="12">12</button>
+              <button type="button" class="ss-count-choice" data-action="ss-count-choice" data-value="20">20</button>
+              <button type="button" class="ss-count-choice" data-action="ss-count-choice" data-value="30">30</button>
+            </div>
+            <input type="hidden" id="ssFlashCount" value="8">
           </div>
-          <button class="md-btn md-btn-filled" data-action="ss-generate-flashcards"><span class="material-symbols-outlined">style</span> Generate Flashcards</button>
+          <button class="md-btn md-btn-filled" data-action="ss-generate-flashcards">Generate Flashcards</button>
         </div>
         <div class="ss-loading" id="ssFlashLoading" style="display:none;"><div class="ss-spinner"></div><p>Generating flashcards...</p></div>
         <div id="ssFlashDeck" style="display:none;"></div>
+      </div>
+
+
+      <div class="ss-tab-content" id="ssTabNotes">
+        <div class="ss-collab-wrap">
+          <div class="ss-notes-toolbar">
+            <div>
+              <div style="font-weight:700;">Collaborative notes</div>
+              <div class="ss-text-xs" id="ssNotesMeta">Autosaves for everyone in this StudySpace.</div>
+            </div>
+            <div class="ss-inline-meta">
+              <span class="ss-chip" id="ssNotesPresenceHint">Live collaboration</span>
+              <button class="md-btn md-btn-tonal" data-action="ss-save-notes">Save now</button>
+            </div>
+          </div>
+          <textarea class="ss-notes-textarea" id="ssNotesTextarea" placeholder="Write shared notes, revision plans, class summaries, and collaborative explanations..."></textarea>
+        </div>
+      </div>
+
+      <div class="ss-tab-content" id="ssTabTutor">
+        <div class="ss-ai-card">
+          <div style="font-weight:700; margin-bottom:8px;">AI tutor with citations</div>
+          <div class="ss-text-xs">Ask questions grounded in the documents inside this StudySpace.</div>
+          <textarea class="ss-ai-input" id="ssTutorQuestion" rows="4" placeholder="Ask anything from your study materials..."></textarea>
+          <div class="ss-ai-actions">
+            <button class="md-btn md-btn-filled" data-action="ss-ask-tutor">Ask tutor</button>
+            <span class="ss-text-xs" id="ssTutorStatus"></span>
+          </div>
+          <div class="ss-ai-answer" id="ssTutorAnswer" style="display:none;"></div>
+          <div class="ss-ai-citations" id="ssTutorCitations"></div>
+        </div>
+      </div>
+
+      <div class="ss-tab-content" id="ssTabLearningPath">
+        <div class="ss-ai-card">
+          <div style="font-weight:700; margin-bottom:8px;">AI-generated learning path</div>
+          <div class="ss-text-xs">Turn your PDFs and notes into a guided day-by-day study plan.</div>
+          <div class="ss-ai-actions">
+            <label class="ss-text-xs" for="ssLearningDays">Days</label>
+            <select id="ssLearningDays" style="max-width:120px;"><option>7</option><option>10</option><option>14</option><option>21</option></select>
+            <button class="md-btn md-btn-filled" data-action="ss-generate-learning-path">Generate path</button>
+            <span class="ss-text-xs" id="ssLearningStatus"></span>
+          </div>
+          <div class="ss-ai-answer" id="ssLearningPlan" style="display:none;"></div>
+        </div>
+      </div>
+
+      <div class="ss-tab-content" id="ssTabAnalytics">
+        <div class="ss-kpi-grid" id="ssAnalyticsGrid"></div>
+      </div>
+
+      <div class="ss-tab-content" id="ssTabExamMode">
+        <div class="ss-ai-card">
+          <div style="font-weight:700; margin-bottom:8px;">Exam mode</div>
+          <div class="ss-text-xs">Generate a timed mock test from this StudySpace and practice under exam conditions.</div>
+          <div class="ss-ai-actions">
+            <label class="ss-text-xs" for="ssExamQuestionCount">Questions</label>
+            <select id="ssExamQuestionCount" style="max-width:120px;"><option>10</option><option>20</option><option>30</option></select>
+            <label class="ss-text-xs" for="ssExamMinutes">Minutes</label>
+            <select id="ssExamMinutes" style="max-width:120px;"><option>10</option><option>20</option><option>30</option><option>45</option></select>
+            <button class="md-btn md-btn-filled" data-action="ss-start-exam-mode">Start exam quiz</button>
+          </div>
+          <p class="ss-text-xs">This uses the StudySpace quiz generator and opens the Quiz tab.</p>
+        </div>
       </div>
     </main>
   </div>
@@ -709,8 +989,9 @@
     <div class="modal-body">
       <div class="sl-share-options">
         <label class="sl-share-option"><input type="radio" name="ssShareMode" value="private" checked> <span><span class="sl-share-option-title">Private</span><small>Only you can access this study space.</small></span></label>
-        <label class="sl-share-option"><input type="radio" name="ssShareMode" value="link"> <span><span class="sl-share-option-title">Anyone with the link</span><small>Signed-in NEBians users with the link can view.</small></span></label>
+        <label class="sl-share-option"><input type="radio" name="ssShareMode" value="link"> <span><span class="sl-share-option-title">Invite link</span><small>Signed-in users can join this study space from the link.</small></span></label>
         <label class="sl-share-option"><input type="radio" name="ssShareMode" value="specific"> <span><span class="sl-share-option-title">Specific users</span><small>Enter usernames or emails separated by commas.</small></span></label>
+        <label class="sl-share-option"><input type="checkbox" id="ssPublicSpace"> <span><span class="sl-share-option-title">Show in Public tab</span><small>Let people discover this Study Space without a code.</small></span></label>
       </div>
       <div class="sl-share-specific" id="ssShareSpecific" style="display:none;">
         <label for="ssShareUsers">Users</label>
@@ -719,10 +1000,88 @@
       <div class="sl-share-linkbox">
         <label>Share link</label>
         <div class="sl-share-linkrow"><input id="ssShareLink" readonly><button class="md-btn md-btn-tonal" data-action="ss-copy-share-link"><span class="material-symbols-outlined">content_copy</span> Copy</button></div>
+        <div class="ss-invite-code-box"><span>Invite code</span><span class="ss-invite-code" id="ssInviteCode">—</span></div>
+        <p class="sl-share-hint">Use the invite link for direct joins, or share the code for manual joining from Study Lab.</p>
       </div>
       <div class="sl-share-current" id="ssShareCurrent"></div>
+      <div class="sl-share-current">
+        <div class="ss-section-head"><strong>Members</strong><button class="ss-sidebar-mini-btn" data-action="ss-open-members">See all members</button></div>
+        <div id="ssShareMembers" class="ss-member-list"></div>
+      </div>
       <div class="sl-share-footer">
         <button class="md-btn md-btn-filled" data-action="ss-save-share"><span class="material-symbols-outlined">save</span> Save sharing</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Members modal -->
+<div class="modal-overlay" id="ssMembersModal" data-action="ss-close-members" style="display:none;">
+  <div class="modal-box" data-action="noop" data-action-stop style="max-width:620px;">
+    <div class="modal-header">
+      <h3 class="modal-title">StudySpace members</h3>
+      <button class="modal-close" data-action="ss-close-members"><span class="material-symbols-outlined">close</span></button>
+    </div>
+    <div class="modal-body">
+      <div class="ss-text-xs" style="margin-bottom:10px;">Manage people in this space, update roles, and remove members when needed.</div>
+      <div id="ssMembersModalList" class="ss-member-list"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Settings modal -->
+<div class="modal-overlay" id="ssSettingsModal" data-action="ss-close-settings" style="display:none;">
+  <div class="modal-box" data-action="noop" data-action-stop style="max-width:760px;">
+    <div class="modal-header">
+      <h3 class="modal-title">StudySpace settings</h3>
+      <button class="modal-close" data-action="ss-close-settings"><span class="material-symbols-outlined">close</span></button>
+    </div>
+    <div class="modal-body">
+      <div class="ss-settings-grid">
+        <div class="full">
+          <label class="ss-text-xs" for="ssSettingsTitle">Title</label>
+          <input id="ssSettingsTitle" type="text" maxlength="200">
+        </div>
+        <div class="full">
+          <label class="ss-text-xs" for="ssSettingsDescription">Description</label>
+          <textarea id="ssSettingsDescription" rows="3" maxlength="2000"></textarea>
+        </div>
+        <div>
+          <label class="ss-text-xs" for="ssSettingsLevel">Grade / level</label>
+          <input id="ssSettingsLevel" type="text" maxlength="80" placeholder="Class 12, Bachelors, etc.">
+        </div>
+        <div>
+          <label class="ss-text-xs" for="ssSettingsSubject">Subject</label>
+          <input id="ssSettingsSubject" type="text" maxlength="120" placeholder="Physics, English, Accounts...">
+        </div>
+        <div>
+          <label class="ss-text-xs" for="ssSettingsExam">Exam</label>
+          <input id="ssSettingsExam" type="text" maxlength="120" placeholder="NEB Board, IOE, CEE...">
+        </div>
+        <div>
+          <label class="ss-text-xs" for="ssSettingsVisibility">Visibility</label>
+          <select id="ssSettingsVisibility"><option value="private">Private</option><option value="unlisted">Unlisted</option><option value="public">Public</option></select>
+        </div>
+        <div>
+          <label class="ss-text-xs" for="ssPermGenerate">Who can generate AI content?</label>
+          <select id="ssPermGenerate"><option value="owner">Owner</option><option value="admin">Admins+</option><option value="moderator">Moderators+</option><option value="member">Any member</option></select>
+        </div>
+        <div>
+          <label class="ss-text-xs" for="ssPermUpload">Who can upload files?</label>
+          <select id="ssPermUpload"><option value="owner">Owner</option><option value="admin">Admins+</option><option value="moderator">Moderators+</option><option value="member">Any member</option></select>
+        </div>
+        <div>
+          <label class="ss-text-xs" for="ssPermInvite">Who can invite people?</label>
+          <select id="ssPermInvite"><option value="owner">Owner</option><option value="admin">Admins+</option><option value="moderator">Moderators+</option><option value="member">Any member</option></select>
+        </div>
+        <div>
+          <label class="ss-text-xs" for="ssPermPublish">Who can publish publicly?</label>
+          <select id="ssPermPublish"><option value="owner">Owner</option><option value="admin">Admins+</option><option value="moderator">Moderators+</option><option value="member">Any member</option></select>
+        </div>
+      </div>
+      <div class="modal-footer" style="margin-top:16px;">
+        <button class="md-btn md-btn-outlined" data-action="ss-close-settings">Cancel</button>
+        <button class="md-btn md-btn-filled" data-action="ss-save-settings">Save settings</button>
       </div>
     </div>
   </div>

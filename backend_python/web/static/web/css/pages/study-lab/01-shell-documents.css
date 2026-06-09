@@ -143,6 +143,24 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.sl-doc-parse-status {
+  font-size: 0.6875rem;
+  line-height: 1.2;
+  color: var(--md-on-surface-variant);
+}
+.sl-doc-parse-status.sl-doc-parsing {
+  color: var(--md-primary);
+}
+.sl-doc-parse-status.sl-doc-failed {
+  color: var(--md-error);
+}
+.sl-icon-spin {
+  animation: sl-spin 1.5s linear infinite;
+}
+@keyframes sl-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
 .sl-doc-meta {
   display: flex;
   flex-wrap: wrap;

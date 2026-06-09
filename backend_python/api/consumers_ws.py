@@ -167,8 +167,8 @@ class RealtimeConsumer(AsyncWebsocketConsumer):
     HEARTBEAT_INTERVAL = 25  # seconds
     HEARTBEAT_TIMEOUT = 30  # seconds
     IDLE_TIMEOUT = 5 * 60    # 5 minutes
-    RATE_PER_SECOND = 60
-    RATE_PER_HOUR = 3600
+    RATE_PER_SECOND = 120
+    RATE_PER_HOUR = 14400
 
     # ------------------------------------------------------------------ helpers
 

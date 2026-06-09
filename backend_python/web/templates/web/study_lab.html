@@ -255,6 +255,57 @@
 @media (max-width: 600px) {
   .modal-box { width: 95%; border-radius: 16px; }
 }
+
+.sl-space-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 18px;
+}
+.sl-space-tabs {
+  display: inline-flex;
+  gap: 4px;
+  padding: 4px;
+  margin-top: 18px;
+  border: 1px solid var(--md-outline-variant);
+  border-radius: 999px;
+  background: var(--md-surface-container-low);
+}
+.sl-space-tab {
+  border: 0;
+  background: transparent;
+  border-radius: 999px;
+  padding: 8px 14px;
+  color: var(--md-on-surface-variant);
+  cursor: pointer;
+  font-weight: 600;
+}
+.sl-space-tab.active {
+  background: var(--md-primary-container);
+  color: var(--md-on-primary-container);
+}
+.sl-space-panel { display: none; }
+.sl-space-panel.active { display: block; }
+.sl-code-input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--md-outline);
+  border-radius: var(--md-radius-md);
+  background: var(--md-surface-container-low);
+  color: var(--md-on-surface);
+  font-size: 1rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  box-sizing: border-box;
+}
+.sl-space-empty {
+  padding: 24px;
+  border: 1px dashed var(--md-outline-variant);
+  border-radius: var(--md-radius-lg);
+  color: var(--md-on-surface-variant);
+  background: var(--md-surface-container-low);
+  margin-top: 16px;
+}
 </style>
 {% endblock %}
 
@@ -285,13 +336,26 @@
   </div>
   {% else %}
 
-  <div class="sl-spaces-section">
+  <div class="sl-space-actions">
+    <button class="md-btn md-btn-outlined" data-action="sl-open-join-code"><span class="material-symbols-outlined">key</span> Join with code</button>
+  </div>
+
+  <div class="sl-space-tabs" role="tablist">
+    <button class="sl-space-tab active" data-action="sl-switch-space-tab" data-tab="mine">My spaces</button>
+    <button class="sl-space-tab" data-action="sl-switch-space-tab" data-tab="public">Public spaces</button>
+  </div>
+
+  <div class="sl-spaces-section sl-space-panel active" id="slPanelMine">
     <div class="sl-spaces-grid" id="slSpacesGrid">
       <div class="sl-create-card" data-action="sl-create-space">
         <span class="material-symbols-outlined">add_circle</span>
         <span>New Study Space</span>
       </div>
     </div>
+  </div>
+
+  <div class="sl-spaces-section sl-space-panel" id="slPanelPublic">
+    <div class="sl-spaces-grid" id="slPublicSpacesGrid"></div>
   </div>
 
   <div class="sl-legacy-section" id="slLegacySection" style="display:none;">
@@ -326,6 +390,23 @@
     </div>
   </div>
 
+  <div class="modal-overlay" id="slJoinCodeModal" data-action="sl-close-join-code" style="display:none;">
+    <div class="modal-box" data-action="noop" data-action-stop style="max-width:420px;">
+      <div class="modal-header">
+        <h3 class="modal-title">Join Study Space</h3>
+        <button class="modal-close" data-action="sl-close-join-code"><span class="material-symbols-outlined">close</span></button>
+      </div>
+      <div class="modal-body">
+        <label for="slJoinCode">Invite code</label>
+        <input id="slJoinCode" class="sl-code-input" maxlength="12" autocomplete="off" placeholder="ABC12345">
+        <div class="modal-footer">
+          <button class="md-btn md-btn-outlined" data-action="sl-close-join-code">Cancel</button>
+          <button class="md-btn md-btn-filled" data-action="sl-submit-join-code">Join</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   {% endif %}
 
 </div>
@@ -339,6 +420,9 @@
   var legacySection = document.getElementById('slLegacySection');
   var legacyList = document.getElementById('slLegacyList');
   var createModal = document.getElementById('slCreateModal');
+  var joinCodeModal = document.getElementById('slJoinCodeModal');
+  var joinCodeInput = document.getElementById('slJoinCode');
+  var publicGrid = document.getElementById('slPublicSpacesGrid');
   var titleInput = document.getElementById('slSpaceTitle');
   var descInput = document.getElementById('slSpaceDesc');
   var titleCount = document.getElementById('slSpaceTitleCount');
@@ -354,33 +438,48 @@
     return d.toLocaleDateString();
   }
 
+  function renderSpaceCard(s, mode){
+    var badges = '';
+    if(s.visibility === 'public') badges += '<span class="sl-space-badge"><span class="material-symbols-outlined">public</span>Public</span>';
+    if(s.hasSummary) badges += '<span class="sl-space-badge"><span class="material-symbols-outlined">summarize</span>Summary</span>';
+    if(s.hasMindmap) badges += '<span class="sl-space-badge"><span class="material-symbols-outlined">account_tree</span>Mindmap</span>';
+    if(s.hasQuiz) badges += '<span class="sl-space-badge"><span class="material-symbols-outlined">quiz</span>Quiz</span>';
+    if(s.hasFlashcards) badges += '<span class="sl-space-badge"><span class="material-symbols-outlined">style</span>Flashcards</span>';
+    var href = s.isJoined ? '/study-space/'+s.id+'/' : '/study-space/shared/'+s.shareToken+'/';
+    return '<a href="'+href+'" class="sl-space-card">'
+      + '<span class="material-symbols-outlined sl-space-card-icon">workspaces</span>'
+      + '<h3 class="sl-space-card-title">'+escapeHtml(s.title)+'</h3>'
+      + (s.description ? '<p class="sl-space-card-desc">'+escapeHtml(s.description)+'</p>' : '')
+      + '<div class="sl-space-card-badges">'+badges+'</div>'
+      + '<div class="sl-space-card-meta">'
+      + '<span><span class="material-symbols-outlined">description</span> '+s.docCount+'</span>'
+      + '<span><span class="material-symbols-outlined">groups</span> '+(s.memberCount||1)+'</span>'
+      + '<span>'+fmtTime(s.updatedAt)+'</span>'
+      + '</div></a>';
+  }
+
   function loadSpaces(){
     fetch('/ajax/study-space/list/',{headers:{'X-CSRFToken':csrf(),'Accept':'application/json'}})
     .then(function(r){ return r.json(); })
     .then(function(data){
       var spaces = data.spaces || [];
-      var html = '';
-      spaces.forEach(function(s){
-        var badges = '';
-        if(s.hasSummary) badges += '<span class="sl-space-badge"><span class="material-symbols-outlined">summarize</span>Summary</span>';
-        if(s.hasMindmap) badges += '<span class="sl-space-badge"><span class="material-symbols-outlined">account_tree</span>Mindmap</span>';
-        if(s.hasQuiz) badges += '<span class="sl-space-badge"><span class="material-symbols-outlined">quiz</span>Quiz</span>';
-        if(s.hasFlashcards) badges += '<span class="sl-space-badge"><span class="material-symbols-outlined">style</span>Flashcards</span>';
-        html += '<a href="/study-space/'+s.id+'/" class="sl-space-card">'
-          + '<span class="material-symbols-outlined sl-space-card-icon">workspaces</span>'
-          + '<h3 class="sl-space-card-title">'+escapeHtml(s.title)+'</h3>'
-          + (s.description ? '<p class="sl-space-card-desc">'+escapeHtml(s.description)+'</p>' : '')
-          + '<div class="sl-space-card-badges">'+badges+'</div>'
-          + '<div class="sl-space-card-meta">'
-          + '<span><span class="material-symbols-outlined">description</span> '+s.docCount+'</span>'
-          + '<span>'+fmtTime(s.updatedAt)+'</span>'
-          + '</div></a>';
-      });
       var createCard = grid.querySelector('.sl-create-card');
       grid.innerHTML = '';
       grid.appendChild(createCard);
-      grid.insertAdjacentHTML('beforeend', html);
+      grid.insertAdjacentHTML('beforeend', spaces.map(function(s){ return renderSpaceCard(s, 'mine'); }).join(''));
     });
+  }
+
+  function loadPublicSpaces(){
+    if(!publicGrid) return;
+    publicGrid.innerHTML = '<div class="sl-space-empty">Loading public spaces...</div>';
+    fetch('/ajax/study-space/public/',{headers:{'X-CSRFToken':csrf(),'Accept':'application/json'}})
+    .then(function(r){ return r.json(); })
+    .then(function(data){
+      var spaces = data.spaces || [];
+      publicGrid.innerHTML = spaces.length ? spaces.map(function(s){ return renderSpaceCard(s, 'public'); }).join('') : '<div class="sl-space-empty">No public study spaces yet. Create one and make it public from the Share dialog.</div>';
+    })
+    .catch(function(){ publicGrid.innerHTML = '<div class="sl-space-empty">Could not load public spaces.</div>'; });
   }
 
   function escapeHtml(t){ var d=document.createElement('div'); d.textContent=t; return d.innerHTML; }
@@ -393,6 +492,26 @@
     if(!el) return;
     var action=el.getAttribute('data-action');
     if(action==='sl-create-space'){ createModal.style.display='flex'; titleInput.focus(); }
+    else if(action==='sl-open-join-code'){ joinCodeModal.style.display='flex'; joinCodeInput.focus(); }
+    else if(action==='sl-close-join-code'){ joinCodeModal.style.display='none'; }
+    else if(action==='sl-switch-space-tab'){
+      document.querySelectorAll('.sl-space-tab').forEach(function(t){ t.classList.toggle('active', t.dataset.tab===el.dataset.tab); });
+      document.getElementById('slPanelMine').classList.toggle('active', el.dataset.tab==='mine');
+      document.getElementById('slPanelPublic').classList.toggle('active', el.dataset.tab==='public');
+      if(el.dataset.tab==='public') loadPublicSpaces();
+    }
+    else if(action==='sl-submit-join-code'){
+      var code = joinCodeInput.value.trim().toUpperCase();
+      if(!code){ joinCodeInput.focus(); return; }
+      fetch('/ajax/study-space/join-code/',{
+        method:'POST',
+        headers:{'Content-Type':'application/json','X-CSRFToken':csrf()},
+        body:JSON.stringify({code:code})
+      }).then(function(r){ return r.json(); }).then(function(data){
+        if(data.redirectUrl){ window.location.href=data.redirectUrl; return; }
+        alert(data.error||'Could not join space');
+      });
+    }
     else if(action==='sl-close-create-modal'){ createModal.style.display='none'; }
     else if(action==='sl-submit-create-space'){
       var title=titleInput.value.trim(); var desc=descInput.value.trim();
@@ -419,6 +538,10 @@
   createModal.addEventListener('click',function(e){
     if(e.target===createModal) createModal.style.display='none';
   });
+  joinCodeModal.addEventListener('click',function(e){
+    if(e.target===joinCodeModal) joinCodeModal.style.display='none';
+  });
+  joinCodeInput.addEventListener('input', function(){ this.value = this.value.toUpperCase().replace(/[^A-Z0-9]/g, ''); });
 
   loadSpaces();
 })();

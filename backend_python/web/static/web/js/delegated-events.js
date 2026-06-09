@@ -5,10 +5,11 @@
     var current = el;
     while (current && current !== document.body) {
       if (current.dataset) {
-        if (current.dataset.action && current.tagName !== 'FORM') return current;
-        // Modal/sheet cards can opt out of backdrop actions so nested links,
-        // radio buttons, and follower cards keep their own behavior.
+        // data-action-stop must be checked first so modal/sheet cards can
+        // prevent backdrop actions from intercepting nested links, radio
+        // buttons, and follower cards.
         if (current.dataset.actionStop !== undefined) return null;
+        if (current.dataset.action && current.tagName !== 'FORM') return current;
       }
       current = current.parentElement;
     }

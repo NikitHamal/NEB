@@ -211,6 +211,8 @@ def profile(request, username):
                 'subject': r.subject,
                 'grade_level': r.grade_level,
                 'type': r.type,
+                'file_url': r.file_url or '',
+                'thumbnail_url': r.thumbnail_url or '',
                 'file_size': r.file_size,
                 'added_at': r.added_at,
                 'view_count': r.view_count,

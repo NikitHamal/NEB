@@ -336,3 +336,69 @@ def upload_file_from_bytes(
     except Exception as e:
         logger.exception("File upload from bytes error: %s", e)
         return None
+
+
+PARSE_POLL_INTERVAL = 2
+PARSE_MAX_WAIT = 120
+
+
+def parse_file(file_id: str, session: requests.Session, headers: dict) -> bool:
+    """Trigger Qwen's internal file parsing (OCR for PDFs, etc.).
+    
+    Returns True if parsing was triggered successfully.
+    """
+    try:
+        resp = session.post(
+            f"{QWEN_URL}/api/v2/files/parse",
+            json={"file_id": file_id},
+            headers=headers,
+            timeout=30,
+        )
+        if resp.status_code != 200:
+            logger.warning("Parse trigger failed for %s: %s", file_id, resp.status_code)
+            return False
+        data = resp.json()
+        if not data.get("success"):
+            logger.warning("Parse trigger error for %s: %s", file_id, data)
+            return False
+        logger.info("Parse triggered for file %s", file_id)
+        return True
+    except Exception as e:
+        logger.warning("Parse trigger exception for %s: %s", file_id, e)
+        return False
+
+
+def wait_for_parse(file_id: str, session: requests.Session, headers: dict,
+                   interval: float = PARSE_POLL_INTERVAL, max_wait: float = PARSE_MAX_WAIT) -> bool:
+    """Poll parse status until success or timeout.
+    
+    Returns True if parsing completed successfully, False otherwise.
+    """
+    import time as _time
+    elapsed = 0.0
+    while elapsed < max_wait:
+        try:
+            resp = session.post(
+                f"{QWEN_URL}/api/v2/files/parse/status",
+                json={"file_id_list": [file_id]},
+                headers=headers,
+                timeout=30,
+            )
+            if resp.status_code == 200:
+                data = resp.json()
+                items = data.get("data", [])
+                if items and len(items) > 0:
+                    status = items[0].get("status", "")
+                    if status == "success":
+                        logger.info("Parse completed for file %s", file_id)
+                        return True
+                    if status in ("failed", "error"):
+                        err = items[0].get("error_msg", "")
+                        logger.warning("Parse failed for file %s: %s", file_id, err)
+                        return False
+        except Exception as e:
+            logger.warning("Parse status poll exception for %s: %s", file_id, e)
+        _time.sleep(interval)
+        elapsed += interval
+    logger.warning("Parse timed out for file %s after %.0fs", file_id, max_wait)
+    return False
