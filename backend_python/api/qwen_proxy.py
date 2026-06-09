@@ -12,6 +12,7 @@ import json
 import logging
 import random
 import re
+import threading
 import time
 import uuid
 
@@ -444,20 +445,27 @@ def get_midtoken(session, force_refresh=False):
     return None
 
 
-# ========================= Session Management =========================
+# ========================= Session Management (Pool) =========================
+#
+# We maintain a pool of browser-mimicking sessions.  Each session has a unique
+# fingerprint, cookies, and bx-umidtoken, so Qwen's free-tier rate limiter
+# sees them as independent browsers.  Sessions are round-robin'd and retired
+# after SESSION_MSG_LIMIT messages to stay well under the ~20-msg free limit.
+#
+# A background thread refills the pool to keep POOL_TARGET_SIZE entries warm.
 
-_session = None
-_session_cookies = None
-_session_timestamp = 0
-_SESSION_TTL = 900  # 15 minutes
+_session_pool = []   # list of dicts: {session, cookies, created_at, msg_count}
+_pool_lock = threading.Lock()
+
+POOL_TARGET_SIZE = 6
+SESSION_MSG_LIMIT = 14   # retire at 14 to stay under Qwen's ~20-msg per-identity cap
+SESSION_TTL = 900        # 15 minutes absolute TTL
+_POOL_REFILL_INTERVAL = 120
+_pool_refill_thread_started = False
 
 
-def _get_session():
-    global _session, _session_cookies, _session_timestamp
-    now = time.time()
-    if _session and (now - _session_timestamp) < _SESSION_TTL:
-        return _session, _session_cookies
-
+def _create_fresh_session():
+    """Build a brand-new session with unique fingerprint and cookies."""
     cookies_data = generate_cookies()
     bx_ua = generate_bx_ua(cookies_data.get("rawData", ""))
     headers = build_session_headers(bx_ua)
@@ -477,32 +485,115 @@ def _get_session():
         session.headers["bx-umidtoken"] = midtoken
         session.headers["bx-v"] = "2.5.31"
 
-    # Warmup: hit the main page to get any additional cookies
     try:
         warmup = session.get(f"{QWEN_URL}/", timeout=15, allow_redirects=True)
         logger.info(f"Qwen warmup: {warmup.status_code}")
-        # Collect any Set-Cookie headers
         for cookie in session.cookies:
             pass
     except Exception as e:
         logger.warning(f"Qwen warmup failed: {e}")
 
-    _session = session
-    _session_cookies = cookies_data
-    _session_timestamp = now
-    return _session, _session_cookies
+    return session, cookies_data
+
+
+def _add_pool_entry():
+    """Create a fresh session, add to pool."""
+    session, cookies = _create_fresh_session()
+    entry = {
+        'session': session,
+        'cookies': cookies,
+        'created_at': time.time(),
+        'msg_count': 0,
+    }
+    _session_pool.append(entry)
+    return entry
+
+
+def _prune_pool():
+    """Remove expired or overused entries from pool."""
+    now = time.time()
+    _session_pool[:] = [
+        e for e in _session_pool
+        if e['msg_count'] < SESSION_MSG_LIMIT
+        and (now - e['created_at']) < SESSION_TTL
+    ]
+
+
+def _pool_refill_loop():
+    """Background thread: keep the pool at target size."""
+    while True:
+        time.sleep(_POOL_REFILL_INTERVAL)
+        try:
+            with _pool_lock:
+                _prune_pool()
+                need = POOL_TARGET_SIZE - len(_session_pool)
+            for _ in range(need):
+                try:
+                    with _pool_lock:
+                        _add_pool_entry()
+                except Exception as e:
+                    logger.error(f"Pool refill failed: {e}")
+                    break
+            if need > 0:
+                logger.info(f"Pool refill: added {need} sessions (pool={len(_session_pool)})")
+        except Exception as e:
+            logger.error(f"Pool refill loop error: {e}")
+
+
+def _start_refill_thread():
+    global _pool_refill_thread_started
+    if _pool_refill_thread_started:
+        return
+    _pool_refill_thread_started = True
+    t = threading.Thread(target=_pool_refill_loop, daemon=True, name='qwen-pool-refill')
+    t.start()
+    logger.info("Qwen session pool refill thread started")
+
+
+def _get_session():
+    """Return the least-used session from the pool (creates one if empty)."""
+    with _pool_lock:
+        _prune_pool()
+        if not _session_pool:
+            _add_pool_entry()
+        # sort by msg_count ascending so least-used session is returned
+        _session_pool.sort(key=lambda e: e['msg_count'])
+        winner = _session_pool[0]
+        return winner['session'], winner['cookies']
+
+
+def _mark_failed(session):
+    """Retire a session immediately (quota error, etc.)."""
+    with _pool_lock:
+        before = len(_session_pool)
+        _session_pool[:] = [e for e in _session_pool if e['session'] is not session]
+        gone = before - len(_session_pool)
+        if gone:
+            logger.info(f"Session retired (pool now {len(_session_pool)})")
+
+
+def _mark_used(session):
+    """Increment message count for the given session."""
+    with _pool_lock:
+        for entry in _session_pool:
+            if entry['session'] is session:
+                entry['msg_count'] += 1
+                break
 
 
 def _reset_session():
-    global _session, _session_cookies, _session_timestamp
-    _session = None
-    _session_cookies = None
-    _session_timestamp = 0
+    """Clear the entire pool (legacy helper)."""
+    with _pool_lock:
+        _session_pool.clear()
+
+
+# Kick off the refill thread at import time (safe because it's a daemon thread)
+_start_refill_thread()
 
 
 # ========================= Chat API =========================
 
-def create_chat(session, model=None):
+def create_chat(session, model=None, _pool_session=None):
     if model is None:
         from .qwen_utils.models import get_default_model
         model = get_default_model()
@@ -517,19 +608,26 @@ def create_chat(session, model=None):
         resp = session.post(f"{QWEN_URL}/api/v2/chats/new", json=payload, timeout=30)
         if resp.status_code != 200:
             logger.error(f"Qwen chat creation failed: {resp.status_code} {resp.text[:300]}")
+            if _pool_session:
+                _mark_failed(_pool_session)
             return None
         data = resp.json()
         if not data.get("success"):
             logger.error(f"Qwen chat creation unsuccessful: {data}")
+            if _pool_session:
+                _mark_failed(_pool_session)
             return None
         return data["data"]["id"]
     except Exception as e:
         logger.error(f"Qwen chat creation exception: {e}")
+        if _pool_session:
+            _mark_failed(_pool_session)
         return None
 
 
 def send_message(session, chat_id, message, model=None, parent_id=None,
-                 max_tokens=500, uploaded_files=None, system_prompt=None):
+                 max_tokens=500, uploaded_files=None, system_prompt=None,
+                 _pool_session=None):
     if model is None:
         from .qwen_utils.models import get_default_model
         model = get_default_model()
@@ -560,18 +658,24 @@ def send_message(session, chat_id, message, model=None, parent_id=None,
         )
         if resp.status_code != 200:
             logger.error(f"Qwen chat completions failed: {resp.status_code} {resp.text[:300]}")
+            if _pool_session:
+                _mark_failed(_pool_session)
             return None
-        return _parse_stream(resp)
+        result = _parse_stream(resp, session=_pool_session)
+        if _pool_session:
+            _mark_used(_pool_session)
+        return result
     except Exception as e:
         logger.error(f"Qwen chat completions exception: {e}")
         return None
 
 
-def _parse_stream(response):
+def _parse_stream(response, session=None):
     full_text = ""
     reasoning_text = ""
     buffer = ""
     parent_id = None
+    had_quota_error = False
 
     for line in response.iter_lines(decode_unicode=True):
         if not line:
@@ -590,7 +694,10 @@ def _parse_stream(response):
             continue
 
         if "error" in chunk:
-            logger.error(f"Qwen stream error: {chunk['error']}")
+            err_text = str(chunk['error'])
+            logger.error(f"Qwen stream error: {err_text}")
+            if 'quota' in err_text.lower():
+                had_quota_error = True
 
         if "response.created" in chunk:
             resp_id = chunk.get("response.created", {}).get("response_id")
@@ -618,7 +725,12 @@ def _parse_stream(response):
     if not full_text and reasoning_text:
         full_text = reasoning_text
 
-    return full_text.strip() if full_text else None
+    if had_quota_error and session:
+        _mark_failed(session)
+        logger.info("Session retired due to quota error")
+
+    result = full_text.strip() if full_text else None
+    return result
 
 
 # ========================= Public API =========================
@@ -648,6 +760,7 @@ def call_qwen(system_prompt, user_message, model="qwen3.7-plus", max_tokens=500,
 
     max_attempts = 3
     for attempt in range(max_attempts):
+        session = None
         try:
             session, cookies = _get_session()
             midtoken = get_midtoken(session, force_refresh=(attempt > 0))
@@ -664,27 +777,29 @@ def call_qwen(system_prompt, user_message, model="qwen3.7-plus", max_tokens=500,
                     if file_obj:
                         uploaded_files.append(file_obj)
 
-            chat_id = create_chat(session, model)
+            chat_id = create_chat(session, model, _pool_session=session)
             if not chat_id:
                 logger.warning(f"Qwen chat creation failed (attempt {attempt + 1})")
-                _reset_session()
+                _mark_failed(session)
                 time.sleep(2 * (attempt + 1))
                 continue
 
             result = send_message(
                 session, chat_id, full_message, model, max_tokens=max_tokens,
                 uploaded_files=uploaded_files if uploaded_files else None,
+                _pool_session=session,
             )
             if result:
                 logger.info(f"Qwen response received ({len(result)} chars)")
                 return result
 
             logger.warning(f"Qwen empty response (attempt {attempt + 1})")
-            _reset_session()
+            _mark_failed(session)
             time.sleep(2 * (attempt + 1))
         except Exception as e:
             logger.error(f"Qwen call exception (attempt {attempt + 1}): {e}")
-            _reset_session()
+            if session:
+                _mark_failed(session)
             time.sleep(2 * (attempt + 1))
 
     return None
