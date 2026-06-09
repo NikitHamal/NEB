@@ -496,7 +496,7 @@ def ajax_user_popup(request, username):
         data['followerCount'] = 0
     if user_id:
         data['isFollowing'] = Follow.objects.filter(follower_id=user_id, following_id=u.id).exists()
-        data['isSelf'] = (str(user_id) == str(u.id))
+        data['isSelf'] = (user_id == u.id)
     else:
         data['isFollowing'] = False
         data['isSelf'] = False
