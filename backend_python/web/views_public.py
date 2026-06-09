@@ -1245,13 +1245,108 @@ def copyright_takedown(request):
     return render(request, 'web/takedown.html', ctx)
 
 def sitemap_xml(request):
-    """Generate a crawler-facing sitemap with only clean, public, indexable pages."""
-    sitemap_content = cache.get('sitemap_xml_v2')
-    if sitemap_content is None:
-        from .seo import build_sitemap_xml
-        sitemap_content = build_sitemap_xml()
-        cache.set('sitemap_xml_v2', sitemap_content, 3600)
-    return HttpResponse(sitemap_content, content_type='application/xml')
+    """
+    Generates a clean XML sitemap: public pages plus only approved resources,
+    public non-archived forum posts, and unlocked real profiles.
+    Search engines should not see private profiles, bots/test users, rejected
+    uploads, placeholders, or low-value empty pages.
+    """
+    sitemap_content = cache.get('sitemap_xml')
+    if sitemap_content is not None:
+        return HttpResponse(sitemap_content, content_type='application/xml')
+
+    from api.models import Resource, Post, User
+    from django.utils import timezone
+    from xml.sax.saxutils import escape as xml_escape
+
+    base = 'https://nebians.consica.com.np'
+    now = timezone.now().isoformat()
+    urls = [
+        {'loc': f'{base}/', 'changefreq': 'daily', 'priority': '1.0', 'lastmod': now},
+        {'loc': f'{base}/library/', 'changefreq': 'daily', 'priority': '0.8', 'lastmod': now},
+        {'loc': f'{base}/forum/', 'changefreq': 'daily', 'priority': '0.8', 'lastmod': now},
+    ]
+
+    def _lastmod(ts):
+        if isinstance(ts, int) and ts:
+            return timezone.datetime.fromtimestamp(ts / 1000, tz=timezone.get_current_timezone()).isoformat()
+        if hasattr(ts, 'isoformat') and ts:
+            return ts.isoformat()
+        return now
+
+    def _clean_text(value):
+        return (value or '').strip().lower()
+
+    def _looks_low_quality(title, body=''):
+        hay = (_clean_text(title) + ' ' + _clean_text(body)).strip()
+        if len(_clean_text(title)) < 4:
+            return True
+        bad = ('test', 'demo', 'dummy', 'sample placeholder', 'lorem ipsum', 'asdf', 'untitled')
+        return any(term in hay for term in bad)
+
+    resources = (Resource.objects
+                 .filter(approval_status='approved', is_lead=True)
+                 .select_related('uploaded_by')
+                 .order_by('-added_at')[:1500])
+    for r in resources:
+        if _looks_low_quality(r.title, r.description):
+            continue
+        uploader = getattr(r, 'uploaded_by', None)
+        if uploader and (getattr(uploader, 'is_locked', False) or getattr(uploader, 'is_bot', False)):
+            continue
+        ts = getattr(r, 'updated_at', None) or getattr(r, 'added_at', None)
+        urls.append({
+            'loc': f'{base}/reader/{r.id}/',
+            'changefreq': 'weekly',
+            'priority': '0.6',
+            'lastmod': _lastmod(ts),
+        })
+
+    posts = (Post.objects
+             .filter(is_archived=False)
+             .select_related('user')
+             .order_by('-created_at')[:1000])
+    for post in posts:
+        author = getattr(post, 'user', None)
+        if author and (getattr(author, 'is_locked', False) or getattr(author, 'is_bot', False)):
+            continue
+        if _looks_low_quality(post.title, post.content):
+            continue
+        urls.append({
+            'loc': f'{base}/forum/post/{post.id}/',
+            'changefreq': 'daily',
+            'priority': '0.7',
+            'lastmod': _lastmod(post.created_at),
+        })
+
+    users = (User.objects
+             .filter(is_locked=False, is_bot=False)
+             .exclude(username='')
+             .order_by('-contribution_score', 'username')[:500])
+    for u in users:
+        uname = (u.username or '').strip()
+        if not uname or any(term in uname.lower() for term in ('test', 'demo', 'dummy', 'adminadmin')):
+            continue
+        urls.append({
+            'loc': f'{base}/profile/{uname}/',
+            'changefreq': 'weekly',
+            'priority': '0.4',
+            'lastmod': _lastmod(getattr(u, 'created_at', None)),
+        })
+
+    xml_content = '<?xml version="1.0" encoding="UTF-8"?>\n'
+    xml_content += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+    for u in urls:
+        xml_content += '  <url>\n'
+        xml_content += f"    <loc>{xml_escape(u['loc'])}</loc>\n"
+        xml_content += f"    <lastmod>{xml_escape(u['lastmod'])}</lastmod>\n"
+        xml_content += f"    <changefreq>{u['changefreq']}</changefreq>\n"
+        xml_content += f"    <priority>{u['priority']}</priority>\n"
+        xml_content += '  </url>\n'
+    xml_content += '</urlset>\n'
+
+    cache.set('sitemap_xml', xml_content, 3600)
+    return HttpResponse(xml_content, content_type='application/xml')
 
 def robots_txt(request):
     lines = [
@@ -1265,8 +1360,6 @@ def robots_txt(request):
         'Disallow: /login/',
         'Disallow: /logout/',
         'Disallow: /profile/edit/',
-        'Disallow: /bookmarks/',
-        'Disallow: /study-lab/',
         '',
         'Sitemap: https://nebians.consica.com.np/sitemap.xml',
     ]

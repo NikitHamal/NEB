@@ -87,7 +87,6 @@ def user_profile_get(request, username):
         return Response({'error': 'User not found'}, status=404)
 
     requesting_user = _get_user_from_request(request)
-
     if not _can_view_locked_profile(requesting_user, user):
         return Response(UserPublicSerializer(user).data)
 
@@ -107,29 +106,29 @@ def user_profile_stats(request, username):
 
     requesting_user = _get_user_from_request(request)
     is_owner = bool(requesting_user and requesting_user.pk == user.pk)
+    is_following = False
+    if requesting_user and requesting_user.pk != user.pk:
+        is_following = Follow.objects.filter(follower=requesting_user, following=user).exists()
+
     if not _can_view_locked_profile(requesting_user, user):
-        is_following = bool(requesting_user and Follow.objects.filter(follower=requesting_user, following=user).exists())
         return Response({
-            'username': user.username,
             'post_count': 0,
             'reply_count': 0,
+            'likes_given': 0,
+            'likes_received': 0,
+            'contribution_score': 0,
             'follower_count': 0,
             'following_count': 0,
-            'likes_received': 0,
-            'likes_given': 0,
-            'contribution_score': 0,
+            'uploaded_resources_count': 0,
             'is_following': is_following,
             'is_self': is_owner,
             'is_private': True,
         })
 
     stats = _build_stats(user)
-    is_following = False
-    if requesting_user and requesting_user.pk != user.pk:
-        is_following = Follow.objects.filter(follower=requesting_user, following=user).exists()
-
     stats['is_following'] = is_following
     stats['is_self'] = is_owner
+    stats['is_private'] = False
     return Response(stats)
 
 @api_view(['POST'])

@@ -6,9 +6,8 @@
     while (current && current !== document.body) {
       if (current.dataset) {
         if (current.dataset.action && current.tagName !== 'FORM') return current;
-        // Some components use a backdrop-level data-action for closing modals.
-        // data-action-stop marks the modal content as an event boundary so normal
-        // controls inside it (links, radios, text fields) keep their native behavior.
+        // Modal/sheet cards can opt out of backdrop actions so nested links,
+        // radio buttons, and follower cards keep their own behavior.
         if (current.dataset.actionStop !== undefined) return null;
       }
       current = current.parentElement;

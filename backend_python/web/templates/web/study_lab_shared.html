@@ -39,12 +39,16 @@
       <div class="sl-mindmap-actions">
         <div class="sl-mm-toolbar">
           <select id="sdMindmapLayout" data-change-action="sd-mm-customize"><option value="radial">Radial layout</option><option value="tree">Tree layout</option></select>
-          <select id="sdMindmapTheme" data-change-action="sd-mm-customize"><option value="clean">Clean style</option><option value="color">Color style</option><option value="mono">Mono style</option></select>
+          <select id="sdMindmapTheme" data-change-action="sd-mm-customize"><option value="concept" selected>Concept theme</option><option value="clean">Clean style</option><option value="color">Color style</option><option value="mono">Mono style</option></select>
           <select id="sdMindmapDensity" data-change-action="sd-mm-customize"><option value="comfortable">Comfortable</option><option value="compact">Compact</option></select>
           <input id="sdMindmapSearch" data-keydown-action="sd-mm-search" placeholder="Search branches...">
-          <button class="sl-mm-icon-btn" data-action="sd-mm-zoom-out"><span class="material-symbols-outlined">remove</span></button>
-          <button class="sl-mm-icon-btn" data-action="sd-mm-zoom-in"><span class="material-symbols-outlined">add</span></button>
-          <button class="sl-mm-icon-btn" data-action="sd-mm-expand"><span class="material-symbols-outlined">unfold_more</span></button>
+          <button class="sl-mm-icon-btn" data-action="sd-mm-zoom-out" title="Zoom out"><span class="material-symbols-outlined">remove</span></button>
+          <button class="sl-mm-icon-btn" data-action="sd-mm-zoom-in" title="Zoom in"><span class="material-symbols-outlined">add</span></button>
+          <button class="sl-mm-icon-btn" data-action="sd-mm-fit" title="Fit to view"><span class="material-symbols-outlined">fit_screen</span></button>
+          <button class="sl-mm-icon-btn" data-action="sd-mm-reset" title="Reset view"><span class="material-symbols-outlined">center_focus_strong</span></button>
+          <button class="sl-mm-icon-btn" data-action="sd-mm-expand" title="Expand all"><span class="material-symbols-outlined">unfold_more</span></button>
+          <button class="sl-mm-icon-btn" data-action="sd-mm-collapse" title="Collapse all"><span class="material-symbols-outlined">unfold_less</span></button>
+          <button class="sl-mm-icon-btn" data-action="sd-mm-export" title="Export PNG"><span class="material-symbols-outlined">download</span></button>
         </div>
       </div>
       <div id="sdMindmapTree"></div>
@@ -122,6 +126,10 @@
     'sd-mm-zoom-in': function(){ if(window.NEBiansMindmap) window.NEBiansMindmap.setZoom(document.getElementById('sdMindmapTree'), .12, mindmap); },
     'sd-mm-zoom-out': function(){ if(window.NEBiansMindmap) window.NEBiansMindmap.setZoom(document.getElementById('sdMindmapTree'), -.12, mindmap); },
     'sd-mm-expand': function(){ if(window.NEBiansMindmap) window.NEBiansMindmap.expandAll(document.getElementById('sdMindmapTree'), mindmap); },
+    'sd-mm-collapse': function(){ if(window.NEBiansMindmap) window.NEBiansMindmap.collapseAll(document.getElementById('sdMindmapTree'), mindmap); },
+    'sd-mm-fit': function(){ if(window.NEBiansMindmap) window.NEBiansMindmap.fitView(document.getElementById('sdMindmapTree'), mindmap); },
+    'sd-mm-reset': function(){ if(window.NEBiansMindmap) window.NEBiansMindmap.resetView(document.getElementById('sdMindmapTree'), mindmap); },
+    'sd-mm-export': function(){ if(window.NEBiansMindmap) window.NEBiansMindmap.downloadPng(document.getElementById('sdMindmapTree')); },
     'sd-start-quiz': function(el){ fetch('/ajax/study-lab/quiz/'+el.dataset.quizId+'/',{credentials:'same-origin'}).then(function(r){return r.json();}).then(function(d){ if(d.error) throw new Error(d.error); startQuiz(d.quiz); }).catch(function(e){showSnackbar(e.message||'Failed to load quiz');}); },
     'sd-quiz-answer': function(el){ quizAnswers[el.dataset.qid]=el.dataset.answer; renderQuizQuestion(); },
     'sd-quiz-prev': function(){ if(quizIdx>0){quizIdx--; renderQuizQuestion();} },
