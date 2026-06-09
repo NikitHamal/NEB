@@ -148,6 +148,14 @@ class Resource(models.Model):
     id = models.CharField(max_length=36, primary_key=True)  # UUID
     title = models.CharField(max_length=255)
     description = models.TextField(blank=True, default='')
+    study_level = models.CharField(max_length=80, blank=True, default='')
+    subject = models.CharField(max_length=120, blank=True, default='')
+    exam = models.CharField(max_length=120, blank=True, default='')
+    generate_min_role = models.CharField(max_length=20, default='moderator')
+    upload_min_role = models.CharField(max_length=20, default='member')
+    invite_min_role = models.CharField(max_length=20, default='admin')
+    moderate_min_role = models.CharField(max_length=20, default='moderator')
+    publish_min_role = models.CharField(max_length=20, default='owner')
     subject = models.CharField(max_length=500)
     grade_level = models.CharField(max_length=30, blank=True, default='')  # Class 8–12, Diploma, Bachelor, Master, PhD, etc.
     faculty = models.CharField(max_length=100, blank=True, default='')  # e.g. Science, Management, Computer Engineering
@@ -867,11 +875,30 @@ class StudySpace(models.Model):
     SHARE_SPECIFIC = 'specific'
     SHARE_CHOICES = [
         (SHARE_PRIVATE, 'Private'),
-        (SHARE_LINK, 'Anyone with link'),
+        (SHARE_LINK, 'Invite link'),
         (SHARE_SPECIFIC, 'Specific users'),
     ]
+    VISIBILITY_PRIVATE = 'private'
+    VISIBILITY_UNLISTED = 'unlisted'
+    VISIBILITY_PUBLIC = 'public'
+    VISIBILITY_CHOICES = [
+        (VISIBILITY_PRIVATE, 'Private'),
+        (VISIBILITY_UNLISTED, 'Unlisted invite'),
+        (VISIBILITY_PUBLIC, 'Public'),
+    ]
     share_token = models.CharField(max_length=64, unique=True, default=uuid.uuid4, db_index=True)
+    invite_code = models.CharField(max_length=12, unique=True, blank=True, default='', db_index=True)
     share_mode = models.CharField(max_length=20, choices=SHARE_CHOICES, default=SHARE_PRIVATE, db_index=True)
+    visibility = models.CharField(max_length=20, choices=VISIBILITY_CHOICES, default=VISIBILITY_PRIVATE, db_index=True)
+    allow_join_by_code = models.BooleanField(default=True)
+    study_level = models.CharField(max_length=80, blank=True, default='')
+    subject = models.CharField(max_length=120, blank=True, default='')
+    exam = models.CharField(max_length=120, blank=True, default='')
+    generate_min_role = models.CharField(max_length=20, default='moderator')
+    upload_min_role = models.CharField(max_length=20, default='member')
+    invite_min_role = models.CharField(max_length=20, default='admin')
+    moderate_min_role = models.CharField(max_length=20, default='moderator')
+    publish_min_role = models.CharField(max_length=20, default='owner')
     shared_at = models.BigIntegerField(default=0)
     link_summary_compact = models.TextField(blank=True, default='')
     link_summary_detailed = models.TextField(blank=True, default='')
@@ -902,6 +929,34 @@ class StudySpaceShare(models.Model):
         indexes = [
             models.Index(fields=['space', 'user']),
             models.Index(fields=['user', '-created_at']),
+        ]
+
+
+class StudySpaceMember(models.Model):
+    ROLE_OWNER = 'owner'
+    ROLE_ADMIN = 'admin'
+    ROLE_MODERATOR = 'moderator'
+    ROLE_MEMBER = 'member'
+    ROLE_CHOICES = [
+        (ROLE_OWNER, 'Owner'),
+        (ROLE_ADMIN, 'Admin'),
+        (ROLE_MODERATOR, 'Moderator'),
+        (ROLE_MEMBER, 'Member'),
+    ]
+    id = models.CharField(max_length=36, primary_key=True, default=uuid.uuid4)
+    space = models.ForeignKey(StudySpace, on_delete=models.CASCADE, related_name='members', db_index=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='study_space_memberships', db_index=True)
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES, default=ROLE_MEMBER, db_index=True)
+    invited_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='study_space_invites_sent')
+    joined_at = models.BigIntegerField(default=0)
+    updated_at = models.BigIntegerField(default=0)
+
+    class Meta:
+        db_table = 'study_space_members'
+        unique_together = ('space', 'user')
+        indexes = [
+            models.Index(fields=['space', 'role']),
+            models.Index(fields=['user', '-joined_at']),
         ]
 
 
@@ -986,6 +1041,56 @@ class StudySpaceFlashcardReview(models.Model):
         ]
 
 
+
+
+class StudySpaceNote(models.Model):
+    id = models.CharField(max_length=36, primary_key=True, default=uuid.uuid4)
+    space = models.OneToOneField(StudySpace, on_delete=models.CASCADE, related_name='shared_note', db_index=True)
+    content = models.TextField(blank=True, default='')
+    updated_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='study_space_notes_updated')
+    version = models.PositiveIntegerField(default=1)
+    created_at = models.BigIntegerField(default=0)
+    updated_at = models.BigIntegerField(default=0)
+
+    class Meta:
+        db_table = 'study_space_notes'
+
+
+class StudySpacePresence(models.Model):
+    STATUS_INSIDE = 'inside'
+    STATUS_READING = 'reading'
+    STATUS_TYPING = 'typing'
+    STATUS_GENERATING = 'generating'
+    STATUS_EDITING = 'editing'
+    STATUS_IDLE = 'idle'
+    STATUS_CHOICES = [
+        (STATUS_INSIDE, 'Inside'),
+        (STATUS_READING, 'Reading'),
+        (STATUS_TYPING, 'Typing'),
+        (STATUS_GENERATING, 'Generating'),
+        (STATUS_EDITING, 'Editing'),
+        (STATUS_IDLE, 'Idle'),
+    ]
+    id = models.CharField(max_length=36, primary_key=True, default=uuid.uuid4)
+    space = models.ForeignKey(StudySpace, on_delete=models.CASCADE, related_name='presence_rows', db_index=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='study_space_presence', db_index=True)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default=STATUS_INSIDE, db_index=True)
+    current_tab = models.CharField(max_length=40, blank=True, default='')
+    current_document_id = models.CharField(max_length=36, blank=True, default='')
+    detail = models.CharField(max_length=120, blank=True, default='')
+    is_typing = models.BooleanField(default=False)
+    session_id = models.CharField(max_length=64, blank=True, default='')
+    last_seen_at = models.BigIntegerField(default=0, db_index=True)
+    updated_at = models.BigIntegerField(default=0)
+
+    class Meta:
+        db_table = 'study_space_presence'
+        unique_together = ('space', 'user')
+        indexes = [
+            models.Index(fields=['space', '-last_seen_at']),
+            models.Index(fields=['user', '-last_seen_at']),
+        ]
+
 class StudyDocument(models.Model):
     STATUS_CHOICES = [
         ('uploading', 'Uploading'),
@@ -1003,6 +1108,11 @@ class StudyDocument(models.Model):
     mime_type = models.CharField(max_length=200, blank=True, default='')
     page_count = models.PositiveIntegerField(default=0)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='uploading')
+    parse_status = models.CharField(max_length=20, default='pending')
+    parsed_text = models.TextField(blank=True, default='')
+    parsed_at = models.BigIntegerField(default=0)
+    parse_error = models.TextField(blank=True, default='')
+    qwen_file_id = models.CharField(max_length=200, blank=True, default='')
     summary_compact = models.TextField(blank=True, default='')
     summary_detailed = models.TextField(blank=True, default='')
     summary_generated_at = models.BigIntegerField(default=0)

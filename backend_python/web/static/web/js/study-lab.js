@@ -90,9 +90,23 @@
     div.className = 'sl-doc-item';
     div.dataset.docId = doc.id;
     div.dataset.action = 'sl-select-doc';
-    div.innerHTML = '<span class="material-symbols-outlined sl-doc-icon">description</span>' +
-      '<div class="sl-doc-info"><div class="sl-doc-title">' + escapeHtml(doc.title) + '</div></div>';
+    var ps = doc.parseStatus || 'pending';
+    var icon = 'description';
+    var statusHtml = '';
+    if (ps === 'uploading' || ps === 'parsing' || ps === 'extracting') {
+      icon = 'hourglass_top';
+      statusHtml = '<span class="sl-doc-parse-status sl-doc-parsing">Parsing...</span>';
+    } else if (ps === 'failed') {
+      icon = 'error';
+      statusHtml = '<span class="sl-doc-parse-status sl-doc-failed">Parse failed</span>';
+    }
+    div.innerHTML = '<span class="material-symbols-outlined sl-doc-icon' + (ps === 'uploading' || ps === 'parsing' || ps === 'extracting' ? ' sl-icon-spin' : '') + '">' + icon + '</span>' +
+      '<div class="sl-doc-info"><div class="sl-doc-title">' + escapeHtml(doc.title) + '</div>' + statusHtml + '</div>';
     list.insertBefore(div, list.firstChild);
+    // Start polling if parsing
+    if (ps === 'uploading' || ps === 'parsing' || ps === 'extracting') {
+      _pollParseStatus(doc.id);
+    }
   }
 
   function selectDoc(docId) {
@@ -655,6 +669,56 @@
     'sl-flip-card': function() { flipCard(); },
     'sl-flash-confidence': function(el) { flashcardConfidence(el.dataset.level); },
     'sl-flash-prev': function() { if (currentFlashIdx > 0) { currentFlashIdx--; renderFlashcard(); } },
-    'sl-flash-next': function() { if (currentFlashIdx < flashcards.length - 1) { currentFlashIdx++; renderFlashcard(); } }
+    'sl-flash-next': function() { if (currentFlashIdx < flashcards.length - 1) { currentFlashIdx++; renderFlashcard(); } },
+    'sl-retry-parse': function(el) { retryParse(el.dataset.docId); }
   });
+
+  // ── Parse status polling ──
+  function _pollParseStatus(docId) {
+    setTimeout(function() {
+      fetch('/ajax/study-lab/document/' + docId + '/parse-status/', { headers: {'X-CSRFToken': CSRF_TOKEN, 'Accept': 'application/json'}, credentials: 'same-origin' })
+        .then(handleJson)
+        .then(function(data) {
+          if (data.error) return;
+          var el = document.querySelector('.sl-doc-item[data-doc-id="' + docId + '"]');
+          if (!el) return;
+          var icon = el.querySelector('.sl-doc-icon');
+          var ps = data.status || 'pending';
+          if (ps === 'ready') {
+            if (icon) { icon.textContent = 'description'; icon.classList.remove('sl-icon-spin'); }
+            var statusEl = el.querySelector('.sl-doc-parse-status');
+            if (statusEl) statusEl.remove();
+          } else if (ps === 'failed') {
+            if (icon) { icon.textContent = 'error'; icon.classList.remove('sl-icon-spin'); }
+            var statusEl = el.querySelector('.sl-doc-parse-status');
+            if (statusEl) { statusEl.textContent = 'Parse failed'; statusEl.className = 'sl-doc-parse-status sl-doc-failed'; }
+          } else {
+            if (ps === 'uploading') { if (icon) icon.textContent = 'hourglass_top'; }
+            else if (ps === 'parsing') { if (icon) icon.textContent = 'hourglass_top'; }
+            else if (ps === 'extracting') { if (icon) icon.textContent = 'hourglass_top'; }
+            _pollParseStatus(docId);
+          }
+        })
+        .catch(function() { _pollParseStatus(docId); });
+    }, 3000);
+  }
+
+  function retryParse(docId) {
+    fetch('/ajax/study-lab/document/' + docId + '/reparse/?force=true', {
+      method: 'POST', headers: {'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN}, credentials: 'same-origin'
+    }).then(handleJson)
+    .then(function(data) {
+      if (data.error) { showSnackbar(data.error); return; }
+      // Update icon and start polling
+      var el = document.querySelector('.sl-doc-item[data-doc-id="' + docId + '"]');
+      if (el) {
+        var icon = el.querySelector('.sl-doc-icon');
+        if (icon) { icon.textContent = 'hourglass_top'; icon.classList.add('sl-icon-spin'); }
+        var statusEl = el.querySelector('.sl-doc-parse-status');
+        if (statusEl) { statusEl.textContent = 'Parsing...'; statusEl.className = 'sl-doc-parse-status sl-doc-parsing'; }
+      }
+      _pollParseStatus(docId);
+    })
+    .catch(function() { showSnackbar('Failed to retry parsing'); });
+  }
 })();

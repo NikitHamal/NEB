@@ -193,6 +193,7 @@
     }
     if (type === 'ping') {
       sendRaw({ action: 'pong' });
+      lastEventTs = Date.now();
       return;
     }
     if (type === 'ready') {

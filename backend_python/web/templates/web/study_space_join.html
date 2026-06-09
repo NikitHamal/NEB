@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Join {{ space.title }} - Study Space{% endblock %}
+{% block description %}Join a NEBians Study Space invite.{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'web/css/pages/study-lab.css' %}">
+<style nonce="{{ csp_nonce }}">
+.study-join-page {
+  max-width: 720px;
+  margin: 48px auto;
+  padding: 0 18px;
+}
+.study-join-card {
+  border: 1px solid var(--md-outline-variant);
+  border-radius: 28px;
+  background: var(--md-surface-container-low);
+  padding: 28px;
+  box-shadow: var(--md-elevation-1);
+}
+.study-join-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: var(--md-secondary-container);
+  color: var(--md-on-secondary-container);
+  font-size: .8125rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+.study-join-card h1 {
+  margin: 0 0 8px;
+  color: var(--md-on-surface);
+  font-size: clamp(1.6rem, 4vw, 2.35rem);
+  line-height: 1.1;
+}
+.study-join-desc {
+  margin: 0 0 18px;
+  color: var(--md-on-surface-variant);
+  line-height: 1.6;
+}
+.study-join-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 18px 0 22px;
+}
+.study-join-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 999px;
+  padding: 6px 10px;
+  background: var(--md-surface-container);
+  color: var(--md-on-surface-variant);
+  font-size: .8125rem;
+  font-weight: 600;
+}
+.study-join-owner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  border-radius: 18px;
+  background: var(--md-surface);
+  border: 1px solid var(--md-outline-variant);
+  margin-bottom: 22px;
+}
+.study-join-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: inline-grid;
+  place-items: center;
+  background: var(--md-primary-container);
+  color: var(--md-on-primary-container);
+  font-weight: 800;
+  overflow: hidden;
+}
+.study-join-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.study-join-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+@media (max-width: 600px) {
+  .study-join-page { margin: 20px auto; }
+  .study-join-card { padding: 22px; border-radius: 22px; }
+  .study-join-actions .md-btn { flex: 1; justify-content: center; }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="study-join-page">
+  <div class="study-join-card">
+    <span class="study-join-eyebrow"><span class="material-symbols-outlined">group_add</span> Study Space invite</span>
+    <h1>{{ space.title }}</h1>
+    {% if space.description %}<p class="study-join-desc">{{ space.description }}</p>{% endif %}
+    <div class="study-join-meta">
+      <span class="study-join-chip"><span class="material-symbols-outlined icon-sm">description</span>{{ space.docCount }} docs</span>
+      <span class="study-join-chip"><span class="material-symbols-outlined icon-sm">groups</span>{{ space.memberCount }} members</span>
+      {% if space.visibility == 'public' %}<span class="study-join-chip"><span class="material-symbols-outlined icon-sm">public</span>Public</span>{% endif %}
+    </div>
+    <div class="study-join-owner">
+      <span class="study-join-avatar">
+        {% if owner.photoUrl %}<img src="{{ owner.photoUrl }}" alt="{{ owner.displayName }}">{% else %}{{ owner.displayName|first|upper }}{% endif %}
+      </span>
+      <div>
+        <strong>{{ owner.displayName }}</strong><br>
+        <small>@{{ owner.username }} invited you to join this space</small>
+      </div>
+    </div>
+    <div class="study-join-actions">
+      <button class="md-btn md-btn-filled" id="joinSpaceBtn" data-join-url="{{ join_url }}">Join Study Space</button>
+      <a class="md-btn md-btn-outlined" href="{% url 'web:study_lab' %}">Not now</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script nonce="{{ csp_nonce }}">
+(function(){
+  var btn = document.getElementById('joinSpaceBtn');
+  if(!btn) return;
+  function csrf(){ return document.querySelector('meta[name="csrf-token"]')?.content || document.cookie.split('csrftoken=').pop()?.split(';')[0] || ''; }
+  btn.addEventListener('click', function(){
+    btn.disabled = true;
+    btn.textContent = 'Joining...';
+    fetch(btn.dataset.joinUrl, {method:'POST', headers:{'X-CSRFToken':csrf()}, credentials:'same-origin'})
+      .then(function(r){ return r.json(); })
+      .then(function(data){
+        if(data.redirectUrl){ window.location.href = data.redirectUrl; return; }
+        throw new Error(data.error || 'Could not join this space');
+      })
+      .catch(function(err){ btn.disabled = false; btn.textContent = 'Join Study Space'; alert(err.message); });
+  });
+})();
+</script>
+{% endblock %}
