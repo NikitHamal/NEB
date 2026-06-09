@@ -8,6 +8,207 @@
 <link rel="stylesheet" href="{% static 'web/css/pages/study-lab.css' %}">
 <link rel="stylesheet" href="{% static 'web/css/pages/upload.css' %}">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" nonce="{{ csp_nonce }}">
+<style nonce="{{ csp_nonce }}">
+.sl-spaces-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+.sl-space-card {
+  background: var(--md-surface-container-low);
+  border: 1px solid var(--md-outline-variant);
+  border-radius: var(--md-radius-lg);
+  padding: 20px;
+  cursor: pointer;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-decoration: none;
+  color: inherit;
+}
+.sl-space-card:hover {
+  border-color: var(--md-primary);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.sl-space-card-icon {
+  font-size: 28px;
+  color: var(--md-primary);
+}
+.sl-space-card-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--md-on-surface);
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.sl-space-card-desc {
+  font-size: 0.8125rem;
+  color: var(--md-on-surface-variant);
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.4;
+}
+.sl-space-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.75rem;
+  color: var(--md-on-surface-variant);
+  margin-top: auto;
+}
+.sl-space-card-meta .material-symbols-outlined {
+  font-size: 14px;
+}
+.sl-space-card-badges {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.sl-space-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 0.6875rem;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  background: var(--md-secondary-container);
+  color: var(--md-on-secondary-container);
+}
+.sl-space-badge .material-symbols-outlined {
+  font-size: 12px;
+}
+.sl-create-card {
+  background: var(--md-surface-container-low);
+  border: 2px dashed var(--md-outline-variant);
+  border-radius: var(--md-radius-lg);
+  padding: 20px;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 180px;
+  text-decoration: none;
+  color: var(--md-on-surface-variant);
+}
+.sl-create-card:hover {
+  border-color: var(--md-primary);
+  background: var(--md-primary-container);
+  color: var(--md-on-primary-container);
+}
+.sl-create-card .material-symbols-outlined {
+  font-size: 32px;
+}
+.sl-create-card span {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+.sl-legacy-section {
+  margin-top: 40px;
+  padding-top: 24px;
+  border-top: 1px solid var(--md-outline-variant);
+}
+.sl-legacy-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--md-on-surface-variant);
+  margin: 0 0 12px;
+}
+.sl-legacy-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.sl-legacy-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: var(--md-radius-md);
+  background: var(--md-surface-container-low);
+  cursor: pointer;
+  text-decoration: none;
+  color: var(--md-on-surface);
+  font-size: 0.8125rem;
+  transition: background 0.15s;
+}
+.sl-legacy-item:hover {
+  background: var(--md-surface-container);
+}
+.sl-legacy-item .material-symbols-outlined {
+  font-size: 18px;
+  color: var(--md-primary);
+}
+.sl-empty-spaces {
+  text-align: center;
+  padding: 48px 24px;
+}
+.sl-empty-spaces .material-symbols-outlined {
+  font-size: 48px;
+  color: var(--md-outline);
+  margin-bottom: 12px;
+}
+.sl-empty-spaces h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--md-on-surface);
+  margin: 0 0 6px;
+}
+.sl-empty-spaces p {
+  color: var(--md-on-surface-variant);
+  font-size: 0.875rem;
+  margin: 0;
+}
+/* Create space modal */
+.sl-create-modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.sl-create-modal-body label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--md-on-surface);
+  margin-bottom: 4px;
+  display: block;
+}
+.sl-create-modal-body input[type="text"],
+.sl-create-modal-body textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid var(--md-outline);
+  border-radius: var(--md-radius-md);
+  background: var(--md-surface-container-low);
+  color: var(--md-on-surface);
+  font-size: 0.9375rem;
+  font-family: inherit;
+  resize: vertical;
+  box-sizing: border-box;
+}
+.sl-create-modal-body input:focus,
+.sl-create-modal-body textarea:focus {
+  outline: none;
+  border-color: var(--md-primary);
+}
+.sl-create-modal-body textarea {
+  min-height: 80px;
+}
+.sl-char-count {
+  font-size: 0.75rem;
+  color: var(--md-on-surface-variant);
+  text-align: right;
+  margin-top: 2px;
+}
+</style>
 {% endblock %}
 
 {% block content %}
@@ -17,7 +218,7 @@
       <span class="material-symbols-outlined sl-header-icon">auto_awesome</span>
       <div>
         <h1 class="sl-header-title">Study Lab</h1>
-        <p class="sl-header-subtitle">AI-powered summaries, mindmaps, quizzes &amp; flashcards from your notes.</p>
+        <p class="sl-header-subtitle">Create study spaces to organize your notes and generate AI-powered summaries, mindmaps, quizzes &amp; flashcards.</p>
       </div>
     </div>
   </div>
@@ -37,295 +238,142 @@
   </div>
   {% else %}
 
-  <div class="sl-layout">
-    <aside class="sl-sidebar" id="slSidebar">
-      <div class="sl-sidebar-header">
-        <h2>My Documents</h2>
-        <button class="md-btn md-btn-tonal" id="slUploadBtn" data-action="sl-upload">
-          <span class="material-symbols-outlined">upload_file</span>
-          Upload
-        </button>
+  <div class="sl-spaces-section">
+    <div class="sl-spaces-grid" id="slSpacesGrid">
+      <div class="sl-create-card" data-action="sl-create-space">
+        <span class="material-symbols-outlined">add_circle</span>
+        <span>New Study Space</span>
       </div>
-      <input type="file" id="slFileInput" accept=".pdf,.png,.jpg,.jpeg,.gif,.webp,.bmp,.svg,.txt,.doc,.docx" hidden>
-      <div class="sl-doc-list" id="slDocList">
-        {% for doc in documents %}
-        <div class="sl-doc-item" data-doc-id="{{ doc.id }}" data-action="sl-select-doc">
-          <span class="material-symbols-outlined sl-doc-icon">{% if doc.status == 'ready' %}description{% elif doc.status == 'processing' %}hourglass_top{% else %}error{% endif %}</span>
-          <div class="sl-doc-info">
-            <div class="sl-doc-title">{{ doc.title }}</div>
-          </div>
-        </div>
-        {% empty %}
-        <div class="sl-empty-state" id="slEmptyDocs">
-          <span class="material-symbols-outlined">note_add</span>
-          <p>No documents yet. Upload a PDF, image, or document to get started.</p>
-        </div>
-        {% endfor %}
-      </div>
-    </aside>
-
-    <main class="sl-main" id="slMain">
-      <div class="sl-welcome" id="slWelcome">
-        <span class="material-symbols-outlined sl-welcome-icon">auto_awesome</span>
-        <h2>Upload a document to get started</h2>
-        <p>Upload your notes, PDFs, images, or documents. AI will generate study tools for you.</p>
-        <div class="sl-welcome-features">
-          <div class="sl-feature-card">
-            <span class="material-symbols-outlined">summarize</span>
-            <h3>Compact &amp; Detailed Summaries</h3>
-            <p>Switch between quick revision and full study notes.</p>
-          </div>
-          <div class="sl-feature-card">
-            <span class="material-symbols-outlined">account_tree</span>
-            <h3>Mindmaps</h3>
-            <p>See topic structure, links, and sub-concepts clearly.</p>
-          </div>
-          <div class="sl-feature-card">
-            <span class="material-symbols-outlined">quiz</span>
-            <h3>Fresh Quizzes</h3>
-            <p>Generate new MCQs without repeating old questions.</p>
-          </div>
-          <div class="sl-feature-card">
-            <span class="material-symbols-outlined">style</span>
-            <h3>Expandable Flashcards</h3>
-            <p>Finish a deck, then add new non-repeated cards.</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="sl-detail" id="slDetail" style="display:none;">
-        <div class="sl-detail-header">
-          <div class="sl-detail-title-row">
-            <span class="material-symbols-outlined">description</span>
-            <h2 id="slDetailTitle">Document</h2>
-            <button class="md-btn-icon" data-action="sl-open-share" title="Share document">
-              <span class="material-symbols-outlined">ios_share</span>
-            </button>
-            <button class="md-btn-icon" data-action="sl-delete-doc" title="Delete document">
-              <span class="material-symbols-outlined">delete</span>
-            </button>
-          </div>
-          <div class="sl-detail-meta" id="slDetailMeta"></div>
-        </div>
-
-        <div class="sl-tabs" id="slTabs">
-          <button class="sl-tab sl-tab-active" data-tab="summary" data-action="sl-switch-tab"><span class="material-symbols-outlined">summarize</span> Summary</button>
-          <button class="sl-tab" data-tab="mindmap" data-action="sl-switch-tab"><span class="material-symbols-outlined">account_tree</span> Mindmap</button>
-          <button class="sl-tab" data-tab="quiz" data-action="sl-switch-tab"><span class="material-symbols-outlined">quiz</span> Quiz</button>
-          <button class="sl-tab" data-tab="flashcards" data-action="sl-switch-tab"><span class="material-symbols-outlined">style</span> Flashcards</button>
-        </div>
-
-        <div class="sl-tab-content sl-tab-summary" id="slTabSummary">
-          <div class="sl-summary-modebar" id="slSummaryModebar">
-            <button class="sl-mode-btn sl-mode-active" data-mode="compact" data-action="sl-summary-mode">Compact</button>
-            <button class="sl-mode-btn" data-mode="detailed" data-action="sl-summary-mode">Detailed</button>
-          </div>
-
-          <div class="sl-generate-prompt" id="slSummaryPrompt">
-            <span class="material-symbols-outlined">auto_awesome</span>
-            <p id="slSummaryPromptText">Generate a compact, high-yield summary of your document.</p>
-            <button class="md-btn md-btn-filled" data-action="sl-generate-summary">
-              <span class="material-symbols-outlined">summarize</span>
-              <span id="slSummaryGenerateLabel">Generate Compact Summary</span>
-            </button>
-          </div>
-
-          <div class="sl-summary-loading" id="slSummaryLoading" style="display:none;">
-            <div class="sl-spinner"></div>
-            <p id="slSummaryLoadingText">Generating summary...</p>
-          </div>
-
-          <div class="sl-summary-content" id="slSummaryContent" style="display:none;">
-            <div class="sl-summary-actions">
-              <button class="md-btn md-btn-outlined" data-action="sl-edit-summary"><span class="material-symbols-outlined">edit</span> Edit</button>
-              <button class="md-btn md-btn-outlined" data-action="sl-regenerate-summary"><span class="material-symbols-outlined">refresh</span> Regenerate</button>
-            </div>
-            <div class="sl-summary-text" id="slSummaryText"></div>
-            <div class="sl-summary-editor" id="slSummaryEditor" style="display:none;">
-              <textarea id="slSummaryTextarea" aria-label="Edit generated summary"></textarea>
-              <div class="sl-summary-editor-actions">
-                <button class="md-btn md-btn-filled" data-action="sl-save-summary">Save changes</button>
-                <button class="md-btn md-btn-outlined" data-action="sl-cancel-summary-edit">Cancel</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="sl-tab-content sl-tab-mindmap" id="slTabMindmap" style="display:none;">
-          <div class="sl-generate-prompt" id="slMindmapPrompt">
-            <span class="material-symbols-outlined">account_tree</span>
-            <p>Generate a clean mindmap that shows main topics, branches, and sub-concepts.</p>
-            <button class="md-btn md-btn-filled" data-action="sl-generate-mindmap"><span class="material-symbols-outlined">account_tree</span> Generate Mindmap</button>
-          </div>
-          <div class="sl-mindmap-loading" id="slMindmapLoading" style="display:none;">
-            <div class="sl-spinner"></div>
-            <p>Building mindmap...</p>
-          </div>
-          <div class="sl-mindmap-content" id="slMindmapContent" style="display:none;">
-            <div class="sl-mindmap-actions">
-              <button class="md-btn md-btn-outlined" data-action="sl-regenerate-mindmap"><span class="material-symbols-outlined">refresh</span> Regenerate</button>
-            </div>
-            <div class="sl-mindmap-stage">
-              <div id="slMindmapTree"></div>
-              <div class="sl-mm-zoom-bar">
-                <button class="sl-mm-zb" data-action="sl-mm-zoom-in" title="Zoom in"><span class="material-symbols-outlined">add</span></button>
-                <button class="sl-mm-zb" data-action="sl-mm-zoom-out" title="Zoom out"><span class="material-symbols-outlined">remove</span></button>
-                <button class="sl-mm-zb" data-action="sl-mm-fit" title="Fit to view"><span class="material-symbols-outlined">fit_screen</span></button>
-                <button class="sl-mm-zb" data-action="sl-mm-export" title="Download PNG"><span class="material-symbols-outlined">download</span></button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="sl-tab-content sl-tab-quiz" id="slTabQuiz" style="display:none;">
-          <div class="sl-generate-prompt" id="slQuizPrompt">
-            <span class="material-symbols-outlined">quiz</span>
-            <p>Generate a fresh MCQ quiz. New quizzes avoid existing questions from this document.</p>
-            <div class="sl-quiz-options">
-              <label>Questions:
-                <select id="slQuizCount">
-                  <option value="5">5</option>
-                  <option value="10" selected>10</option>
-                  <option value="15">15</option>
-                  <option value="20">20</option>
-                  <option value="30">30</option>
-                </select>
-              </label>
-            </div>
-            <button class="md-btn md-btn-filled" data-action="sl-generate-quiz"><span class="material-symbols-outlined">quiz</span> Generate New Quiz</button>
-          </div>
-          <div class="sl-quiz-loading" id="slQuizLoading" style="display:none;"><div class="sl-spinner"></div><p>Generating fresh quiz questions...</p></div>
-          <div class="sl-quiz-list" id="slQuizList" style="display:none;"></div>
-          <div class="sl-quiz-active" id="slQuizActive" style="display:none;">
-            <div class="sl-quiz-progress"><span id="slQuizProgress">Question 1 of 10</span><span id="slQuizScore">Answered: 0</span></div>
-            <div class="sl-quiz-question" id="slQuizQuestion"></div>
-            <div class="sl-quiz-options-list" id="slQuizOptions"></div>
-            <p class="sl-keyboard-hint">Press <kbd>A</kbd> <kbd>B</kbd> <kbd>C</kbd> <kbd>D</kbd> to answer &middot; <kbd>Enter</kbd> to submit &middot; <kbd>&larr;</kbd> <kbd>&rarr;</kbd> to navigate</p>
-            <div class="sl-quiz-nav">
-              <button class="md-btn md-btn-outlined" id="slQuizPrev" data-action="sl-quiz-prev" disabled>Previous</button>
-              <button class="md-btn md-btn-filled" id="slQuizNext" data-action="sl-quiz-next">Next</button>
-              <button class="md-btn md-btn-filled" id="slQuizSubmit" data-action="sl-quiz-submit" style="display:none;">Submit Quiz</button>
-            </div>
-          </div>
-          <div class="sl-quiz-results" id="slQuizResults" style="display:none;">
-            <div class="sl-quiz-results-header">
-              <span class="material-symbols-outlined">emoji_events</span>
-              <h2>Quiz Complete</h2>
-              <div class="sl-quiz-score-display"><span class="sl-quiz-score-num" id="slQuizFinalScore">0</span><span class="sl-quiz-score-total" id="slQuizFinalTotal">/10</span></div>
-              <div class="sl-quiz-xp" id="slQuizXpEarned">+0 XP</div>
-            </div>
-            <div class="sl-quiz-results-list" id="slQuizResultsList"></div>
-            <div class="sl-quiz-results-actions">
-              <button class="md-btn md-btn-outlined" data-action="sl-quiz-retake">Retake Quiz</button>
-              <button class="md-btn md-btn-tonal" data-action="sl-quiz-new">Generate Fresh Quiz</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="sl-tab-content sl-tab-flashcards" id="slTabFlashcards" style="display:none;">
-          <div class="sl-generate-prompt" id="slFlashPrompt">
-            <span class="material-symbols-outlined">style</span>
-            <p>Generate flashcards. Additional decks avoid existing cards from this document.</p>
-            <div class="sl-flash-options">
-              <label>Cards:
-                <select id="slFlashCount">
-                  <option value="10">10</option>
-                  <option value="15" selected>15</option>
-                  <option value="20">20</option>
-                  <option value="30">30</option>
-                  <option value="50">50</option>
-                </select>
-              </label>
-            </div>
-            <button class="md-btn md-btn-filled" data-action="sl-generate-flashcards"><span class="material-symbols-outlined">style</span> Generate Flashcards</button>
-          </div>
-          <div class="sl-flash-loading" id="slFlashLoading" style="display:none;"><div class="sl-spinner"></div><p>Generating fresh flashcards...</p></div>
-          <div class="sl-flash-deck" id="slFlashDeck" style="display:none;">
-            <div class="sl-flash-topbar">
-              <div class="sl-flash-counter" id="slFlashCounter">1 / 15</div>
-              <button class="md-btn md-btn-tonal" data-action="sl-flash-more"><span class="material-symbols-outlined">add</span> More cards</button>
-            </div>
-            <div class="sl-flash-card" id="slFlashCard" data-action="sl-flip-card">
-              <div class="sl-flash-card-inner">
-                <div class="sl-flash-front" id="slFlashFront"><span class="sl-flash-label">Question</span><p id="slFlashFrontText"></p></div>
-                <div class="sl-flash-back" id="slFlashBack"><span class="sl-flash-label">Answer</span><p id="slFlashBackText"></p></div>
-              </div>
-            </div>
-            <div class="sl-flash-confidence">
-              <button class="sl-conf-btn sl-conf-hard" data-action="sl-flash-confidence" data-level="hard"><span class="material-symbols-outlined">close</span> Hard</button>
-              <button class="sl-conf-btn sl-conf-medium" data-action="sl-flash-confidence" data-level="medium"><span class="material-symbols-outlined">remove</span> Okay</button>
-              <button class="sl-conf-btn sl-conf-easy" data-action="sl-flash-confidence" data-level="easy"><span class="material-symbols-outlined">check</span> Easy</button>
-            </div>
-            <div class="sl-flash-nav">
-              <button class="md-btn md-btn-outlined" id="slFlashPrev" data-action="sl-flash-prev" disabled><span class="material-symbols-outlined">arrow_back</span> Previous</button>
-              <button class="md-btn md-btn-outlined" id="slFlashNext" data-action="sl-flash-next">Next <span class="material-symbols-outlined">arrow_forward</span></button>
-            </div>
-            <p class="sl-keyboard-hint">Press <kbd>Space</kbd> to flip &middot; <kbd>&larr;</kbd> <kbd>&rarr;</kbd> to navigate &middot; <kbd>H</kbd> Hard &middot; <kbd>O</kbd> Okay &middot; <kbd>E</kbd> Easy</p>
-            <div class="sl-flash-more" id="slFlashMoreWrap" style="display:none;">
-              <p>You reached the end of this deck.</p>
-              <button class="md-btn md-btn-filled" data-action="sl-flash-more"><span class="material-symbols-outlined">add</span> Generate more new cards</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </main>
+    </div>
   </div>
+
+  <div class="sl-legacy-section" id="slLegacySection" style="display:none;">
+    <h3 class="sl-legacy-title">Standalone documents</h3>
+    <div class="sl-legacy-list" id="slLegacyList"></div>
+  </div>
+
   {% endif %}
 
-  <div class="upload-progress-overlay" id="slUploadProgress" style="display:none;">
-    <div class="upload-progress-dialog">
-      <div class="upload-progress-icon">
-        <span class="material-symbols-outlined">cloud_upload</span>
-      </div>
-      <h3 class="upload-progress-title">Uploading document</h3>
-      <p class="upload-progress-subtitle" id="slUploadProgressSubtitle">Please wait while your file is being uploaded...</p>
-      <div class="upload-progress-bar-track">
-        <div class="upload-progress-bar-fill" id="slUploadProgressBar" style="width:0%"></div>
-      </div>
-      <div class="upload-progress-info">
-        <span id="slUploadProgressPercent">0%</span>
-        <span id="slUploadProgressSize"></span>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal-overlay" id="slShareModal" data-action="sl-close-share" style="display:none;">
-    <div class="modal-box" data-action="noop" data-action-stop style="max-width:560px;">
+  <div class="modal-overlay" id="slCreateModal" data-action="sl-close-create-modal" style="display:none;">
+    <div class="modal-box" data-action="noop" data-action-stop style="max-width:480px;">
       <div class="modal-header">
-        <h3 class="modal-title">Share study document</h3>
-        <button class="modal-close" data-action="sl-close-share"><span class="material-symbols-outlined">close</span></button>
+        <h3 class="modal-title">New Study Space</h3>
+        <button class="modal-close" data-action="sl-close-create-modal"><span class="material-symbols-outlined">close</span></button>
       </div>
       <div class="modal-body">
-        <div class="sl-share-options">
-          <label class="sl-share-option"><input type="radio" name="slShareMode" value="private" checked> <span><span class="sl-share-option-title">Private</span><small>Only you can open this Study Lab document.</small></span></label>
-          <label class="sl-share-option"><input type="radio" name="slShareMode" value="link"> <span><span class="sl-share-option-title">Anyone with the link</span><small>Signed-in NEBians users with the link can view and interact.</small></span></label>
-          <label class="sl-share-option"><input type="radio" name="slShareMode" value="specific"> <span><span class="sl-share-option-title">Specific users</span><small>Enter usernames or emails separated by commas.</small></span></label>
+        <div class="sl-create-modal-body">
+          <div>
+            <label for="slSpaceTitle">Title</label>
+            <input type="text" id="slSpaceTitle" placeholder="e.g. Physics Grade 12" maxlength="200">
+            <div class="sl-char-count"><span id="slSpaceTitleCount">0</span>/200</div>
+          </div>
+          <div>
+            <label for="slSpaceDesc">Description <small>(optional)</small></label>
+            <textarea id="slSpaceDesc" placeholder="What topics will you study?" maxlength="2000"></textarea>
+            <div class="sl-char-count"><span id="slSpaceDescCount">0</span>/2000</div>
+          </div>
         </div>
-        <div class="sl-share-specific" id="slShareSpecific" style="display:none;">
-          <label for="slShareUsers">Users</label>
-          <textarea id="slShareUsers" placeholder="kabita, utsab@example.com"></textarea>
-          <p class="sl-share-help">Tip: users must already have a NEBians account.</p>
-        </div>
-        <div class="sl-share-linkbox">
-          <label>Share link</label>
-          <div class="sl-share-linkrow"><input id="slShareLink" readonly><button class="md-btn md-btn-tonal" data-action="sl-copy-share-link"><span class="material-symbols-outlined">content_copy</span> Copy</button></div>
-        </div>
-        <div class="sl-share-current" id="slShareCurrent"></div>
-        <div class="sl-share-footer">
-          <button class="md-btn md-btn-filled" data-action="sl-save-share"><span class="material-symbols-outlined">save</span> Save sharing</button>
+        <div class="modal-footer">
+          <button class="md-btn md-btn-outlined" data-action="sl-close-create-modal">Cancel</button>
+          <button class="md-btn md-btn-filled" data-action="sl-submit-create-space"><span class="material-symbols-outlined">add_circle</span> Create</button>
         </div>
       </div>
     </div>
   </div>
-
 </div>
 {% endblock %}
 
 {% block extra_js %}
-<script nonce="{{ csp_nonce }}" src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
-<script nonce="{{ csp_nonce }}" src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
-<script nonce="{{ csp_nonce }}" src="{% static 'web/js/study-mindmap.js' %}"></script>
 {% if is_authenticated %}
-<script nonce="{{ csp_nonce }}" src="{% static 'web/js/study-lab.js' %}"></script>
+<script nonce="{{ csp_nonce }}">
+(function(){
+  var grid = document.getElementById('slSpacesGrid');
+  var legacySection = document.getElementById('slLegacySection');
+  var legacyList = document.getElementById('slLegacyList');
+  var createModal = document.getElementById('slCreateModal');
+  var titleInput = document.getElementById('slSpaceTitle');
+  var descInput = document.getElementById('slSpaceDesc');
+  var titleCount = document.getElementById('slSpaceTitleCount');
+  var descCount = document.getElementById('slSpaceDescCount');
+
+  function csrf(){ return document.querySelector('meta[name="csrf-token"]')?.content || document.cookie.split('csrftoken=').pop()?.split(';')[0] || ''; }
+
+  function fmtTime(ts){
+    if(!ts) return '';
+    var d=new Date(ts); var now=new Date(); var diff=now-d; var day=86400000;
+    if(diff<day) return 'Today'; if(diff<2*day) return 'Yesterday';
+    if(diff<7*day) return Math.floor(diff/day)+' days ago';
+    return d.toLocaleDateString();
+  }
+
+  function loadSpaces(){
+    fetch('/ajax/study-space/list/',{headers:{'X-CSRFToken':csrf(),'Accept':'application/json'}})
+    .then(function(r){ return r.json(); })
+    .then(function(data){
+      var spaces = data.spaces || [];
+      var html = '';
+      spaces.forEach(function(s){
+        var badges = '';
+        if(s.hasSummary) badges += '<span class="sl-space-badge"><span class="material-symbols-outlined">summarize</span>Summary</span>';
+        if(s.hasMindmap) badges += '<span class="sl-space-badge"><span class="material-symbols-outlined">account_tree</span>Mindmap</span>';
+        if(s.hasQuiz) badges += '<span class="sl-space-badge"><span class="material-symbols-outlined">quiz</span>Quiz</span>';
+        if(s.hasFlashcards) badges += '<span class="sl-space-badge"><span class="material-symbols-outlined">style</span>Flashcards</span>';
+        html += '<a href="/study-space/'+s.id+'/" class="sl-space-card">'
+          + '<span class="material-symbols-outlined sl-space-card-icon">workspaces</span>'
+          + '<h3 class="sl-space-card-title">'+escapeHtml(s.title)+'</h3>'
+          + (s.description ? '<p class="sl-space-card-desc">'+escapeHtml(s.description)+'</p>' : '')
+          + '<div class="sl-space-card-badges">'+badges+'</div>'
+          + '<div class="sl-space-card-meta">'
+          + '<span><span class="material-symbols-outlined">description</span> '+s.docCount+'</span>'
+          + '<span>'+fmtTime(s.updatedAt)+'</span>'
+          + '</div></a>';
+      });
+      var createCard = grid.querySelector('.sl-create-card');
+      grid.innerHTML = '';
+      grid.appendChild(createCard);
+      grid.insertAdjacentHTML('beforeend', html);
+    });
+  }
+
+  function escapeHtml(t){ var d=document.createElement('div'); d.textContent=t; return d.innerHTML; }
+
+  titleInput.addEventListener('input',function(){ titleCount.textContent=titleInput.value.length; });
+  descInput.addEventListener('input',function(){ descCount.textContent=descInput.value.length; });
+
+  document.addEventListener('click',function(e){
+    var el=e.target.closest('[data-action]');
+    if(!el) return;
+    var action=el.getAttribute('data-action');
+    if(action==='sl-create-space'){ createModal.style.display='flex'; titleInput.focus(); }
+    else if(action==='sl-close-create-modal'){ createModal.style.display='none'; }
+    else if(action==='sl-submit-create-space'){
+      var title=titleInput.value.trim(); var desc=descInput.value.trim();
+      if(!title){ titleInput.focus(); return; }
+      fetch('/ajax/study-space/create/',{
+        method:'POST',
+        headers:{'Content-Type':'application/json','X-CSRFToken':csrf()},
+        body:JSON.stringify({title:title,description:desc})
+      })
+      .then(function(r){ return r.json(); })
+      .then(function(data){
+        if(data.id){
+          createModal.style.display='none';
+          titleInput.value=''; descInput.value='';
+          titleCount.textContent='0'; descCount.textContent='0';
+          window.location.href='/study-space/'+data.id+'/';
+        } else {
+          alert(data.error||'Failed to create space');
+        }
+      });
+    }
+  });
+
+  createModal.addEventListener('click',function(e){
+    if(e.target===createModal) createModal.style.display='none';
+  });
+
+  loadSpaces();
+})();
+</script>
 {% endif %}
 {% endblock %}
