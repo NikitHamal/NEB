@@ -1,72 +1,151 @@
 {% extends "base.html" %}
 
 {% block title %}Sign In — NEBians{% endblock %}
-{% block robots %}<meta name="robots" content="noindex, nofollow">{% endblock %}
+{% block robots %}
+<meta name="robots" content="noindex, nofollow">{% endblock %}
 
 {% block content %}
 <style>
-  html, body {
+  html,
+  body {
     background: linear-gradient(135deg, #f5f6fa 0%, #ebeef5 100%) !important;
     background-attachment: fixed !important;
   }
-  html[data-theme="dark"], html[data-theme="dark"] body {
+
+  html[data-theme="dark"],
+  html[data-theme="dark"] body {
     background: linear-gradient(135deg, #0a0a0c 0%, #16161a 100%) !important;
     background-attachment: fixed !important;
   }
-  main, .site-main { padding: 0 !important; max-width: none !important; }
-  .md-topbar-actions .md-btn[aria-label="Sign in"] { display: none !important; }
-  .auth-role-cards { display: flex; flex-direction: column; gap: 12px; margin-top: 8px; }
+
+  main,
+  .site-main {
+    padding: 0 !important;
+    max-width: none !important;
+  }
+
+  .md-topbar-actions .md-btn[aria-label="Sign in"],
+  .md-topbar-actions .md-btn[aria-label="Register"],
+  .md-topbar-actions .md-btn-icon[aria-label="Search"] {
+    display: none !important;
+  }
+
+  .auth-field input.has-error {
+    border-color: var(--md-error, #b3261e);
+  }
+
+  .auth-field input.has-error:focus {
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--md-error, #b3261e) 14%, transparent);
+  }
+
+  .auth-forgot-link {
+    display: block;
+    text-align: right;
+    margin-top: -10px;
+    margin-bottom: 4px;
+  }
+
+  .auth-role-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 8px;
+  }
+
   .auth-role-card {
-    display: flex; align-items: center; gap: 14px;
-    padding: 16px 18px; border-radius: 16px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 18px;
+    border-radius: 16px;
     border: 2px solid var(--md-outline-variant, #cac4d0);
     background: var(--md-surface-container-low, #f8f7fc);
-    cursor: pointer; transition: all 0.2s ease;
-    font-family: 'Poppins', sans-serif; text-align: left;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: 'Poppins', sans-serif;
+    text-align: left;
     color: var(--md-on-surface, #1d1b20);
   }
+
   .auth-role-card:hover {
     border-color: var(--md-primary, #4f6aff);
     background: var(--md-primary-container, #dfe1ff);
     transform: translateY(-1px);
-    box-shadow: 0 2px 8px rgba(79,106,255,0.15);
+    box-shadow: 0 2px 8px rgba(79, 106, 255, 0.15);
   }
+
   html[data-theme="dark"] .auth-role-card {
     background: var(--md-surface-container-low, #141218);
     border-color: var(--md-outline-variant, #49454f);
   }
+
   html[data-theme="dark"] .auth-role-card:hover {
     border-color: var(--md-primary, #b0bcff);
     background: var(--md-primary-container, #1b1b2e);
   }
-  .auth-role-icon { font-size: 28px !important; color: var(--md-primary, #4f6aff); }
-  html[data-theme="dark"] .auth-role-icon { color: var(--md-primary, #b0bcff); }
-  .auth-role-label { display: block; font-size: 1rem; font-weight: 600; line-height: 1.3; }
-  .auth-role-desc { display: block; font-size: 0.8125rem; color: var(--md-on-surface-variant, #49454f); margin-top: 2px; }
-  html[data-theme="dark"] .auth-role-desc { color: var(--md-on-surface-variant, #cac4d0); }
+
+  .auth-role-icon {
+    font-size: 28px !important;
+    color: var(--md-primary, #4f6aff);
+  }
+
+  html[data-theme="dark"] .auth-role-icon {
+    color: var(--md-primary, #b0bcff);
+  }
+
+  .auth-role-label {
+    display: block;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  .auth-role-desc {
+    display: block;
+    font-size: 0.8125rem;
+    color: var(--md-on-surface-variant, #49454f);
+    margin-top: 2px;
+  }
+
+  html[data-theme="dark"] .auth-role-desc {
+    color: var(--md-on-surface-variant, #cac4d0);
+  }
+
   .auth-role-divider {
-    display: flex; align-items: center; gap: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
     margin: 8px 0 4px;
     color: var(--md-on-surface-variant, #49454f);
     font-size: 0.8125rem;
   }
+
   .auth-role-divider::before,
   .auth-role-divider::after {
     content: "";
-    flex: 1; height: 1px;
+    flex: 1;
+    height: 1px;
     background: var(--md-outline-variant, #cac4d0);
   }
+
   .auth-role-card-explorer {
     background: transparent;
     border-style: dashed;
     border-color: var(--md-outline, #79747e);
   }
+
   .auth-role-card-explorer:hover {
     border-style: solid;
     background: var(--md-primary-container, #dfe1ff);
   }
-  .auth-role-card-explorer .auth-role-icon { color: var(--md-tertiary, #7d5260); }
-  html[data-theme="dark"] .auth-role-card-explorer .auth-role-icon { color: var(--md-tertiary, #efb8c0); }
+
+  .auth-role-card-explorer .auth-role-icon {
+    color: var(--md-tertiary, #7d5260);
+  }
+
+  html[data-theme="dark"] .auth-role-card-explorer .auth-role-icon {
+    color: var(--md-tertiary, #efb8c0);
+  }
 </style>
 
 <div class="auth-shell">
@@ -86,45 +165,60 @@
           </div>
 
           <form id="login-form" data-action="email-login" class="auth-form" novalidate>
-            <div class="auth-field">
-              <label for="login-email">Email</label>
-              <input type="text" id="login-email" placeholder="hello@example.com" required autocomplete="username">
+<div class="auth-field">
+              <label for="login-email">Username or email</label>
+              <input type="text" id="login-email" name="email" placeholder="username or hello@example.com" required autocomplete="username" aria-describedby="login-error">
             </div>
             <div class="auth-field">
               <label for="login-password">Password</label>
               <div class="auth-input-wrap">
-                <input type="password" id="login-password" placeholder="••••••••" required minlength="8" autocomplete="current-password">
-                <button type="button" data-action="toggle-password" data-input-id="login-password" class="auth-input-toggle" aria-label="Toggle password visibility">
+                <input type="password" id="login-password" name="password" placeholder="••••••••" required minlength="8"
+                  autocomplete="current-password" aria-describedby="login-error">
+                <button type="button" data-action="toggle-password" data-input-id="login-password"
+                  class="auth-input-toggle" aria-label="Show password">
                   <span class="material-symbols-outlined">visibility_off</span>
                 </button>
               </div>
             </div>
-            <div id="login-error" class="auth-error"></div>
+            <div id="login-error" class="auth-error" role="alert" aria-live="polite"></div>
             <button type="submit" id="login-btn" class="auth-btn-primary">Log In</button>
+            <p class="auth-forgot-link"><button type="button" data-action="show-panel" data-panel="forgot"
+                class="auth-form-link">Forgot password?</button></p>
           </form>
 
           <div class="auth-divider-text"><span>Or login with</span></div>
 
           <div class="auth-social-row">
             <a href="{% url 'web:google_login' %}" class="auth-btn-social" aria-label="Sign in with Google">
-              <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" width="20" height="20" aria-hidden="true">
-                <path fill="#FFC107" d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 12.955 4 4 12.955 4 24s8.955 20 20 20 20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z"/>
-                <path fill="#FF3D00" d="M6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 16.318 4 9.656 8.337 6.306 14.691z"/>
-                <path fill="#4CAF50" d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238C29.211 35.091 26.715 36 24 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z"/>
-                <path fill="#1976D2" d="M43.611 20.083H42V20H24v8h11.303c-.792 2.237-2.231 4.166-4.087 5.571.001-.001.002-.001.003-.002l6.19 5.238C36.971 39.205 44 34 44 24c0-1.341-.138-2.65-.389-3.917z"/>
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="20" height="20" aria-hidden="true">
+                <path
+                  d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"
+                  fill="#4285F4" />
+                <path
+                  d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                  fill="#34A853" />
+                <path
+                  d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+                  fill="#FBBC05" />
+                <path
+                  d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                  fill="#EA4335" />
               </svg>
               <span>Google</span>
             </a>
-            <a href="{% url 'web:github_login' %}" class="auth-btn-social">
-              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="20" height="20" aria-hidden="true" fill="currentColor">
-                <path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
+            <a href="{% url 'web:github_login' %}" class="auth-btn-social" aria-label="Continue with GitHub">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="20" height="20" aria-hidden="true"
+                fill="currentColor">
+                <path
+                  d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z" />
               </svg>
               <span>GitHub</span>
             </a>
           </div>
 
           <p class="auth-form-foot">
-            Don't have an account? <button type="button" data-action="show-panel" data-panel="email-signup" class="auth-form-link">Register now.</button>
+            Don't have an account? <button type="button" data-action="show-panel" data-panel="email-signup"
+              class="auth-form-link">Register now.</button>
           </p>
         </div>
 
@@ -157,7 +251,8 @@
                 <span class="auth-role-desc">School, college, or academy</span>
               </button>
               <div class="auth-role-divider"><span>Or just exploring?</span></div>
-              <button type="button" class="auth-role-card auth-role-card-explorer" data-action="select-role" data-role="explorer">
+              <button type="button" class="auth-role-card auth-role-card-explorer" data-action="select-role"
+                data-role="explorer">
                 <span class="material-symbols-outlined auth-role-icon">travel_explore</span>
                 <span class="auth-role-label">Explorer</span>
                 <span class="auth-role-desc">Just browsing for now</span>
@@ -170,32 +265,38 @@
               <input type="hidden" id="signup-role" name="role" value="student">
               <div class="auth-field">
                 <label for="signup-username">Username</label>
-                <input type="text" id="signup-username" placeholder="nikit_07" required minlength="3" pattern="[a-zA-Z0-9_]+" autocomplete="username">
+                <input type="text" id="signup-username" name="username" placeholder="nikit_07" required minlength="3"
+                  pattern="[a-zA-Z0-9_]+" autocomplete="username" aria-describedby="signup-error">
               </div>
               <div class="auth-field">
                 <label for="signup-email">Email</label>
-                <input type="email" id="signup-email" placeholder="hello@example.com" required autocomplete="email">
+                <input type="email" id="signup-email" name="email" placeholder="hello@example.com" required
+                  autocomplete="email" aria-describedby="signup-error">
               </div>
               <div class="auth-field">
                 <label for="signup-password">Password</label>
                 <div class="auth-input-wrap">
-                  <input type="password" id="signup-password" placeholder="At least 8 characters" required minlength="8" autocomplete="new-password">
-                  <button type="button" data-action="toggle-password" data-input-id="signup-password" class="auth-input-toggle" aria-label="Toggle password visibility">
+                  <input type="password" id="signup-password" name="password" placeholder="At least 8 characters"
+                    required minlength="8" autocomplete="new-password" aria-describedby="signup-error">
+                  <button type="button" data-action="toggle-password" data-input-id="signup-password"
+                    class="auth-input-toggle" aria-label="Show password">
                     <span class="material-symbols-outlined">visibility_off</span>
                   </button>
                 </div>
               </div>
-              <div id="signup-error" class="auth-error"></div>
+              <div id="signup-error" class="auth-error" role="alert" aria-live="polite"></div>
               <button type="submit" id="signup-btn" class="auth-btn-primary">Create account</button>
             </form>
 
             <div class="auth-divider-text"><span>or</span></div>
 
-            <button data-action="show-panel" data-panel="main" class="auth-btn-secondary-full">Already have an account? Sign in</button>
+            <button data-action="show-panel" data-panel="main" class="auth-btn-secondary-full">Already have an account?
+              Sign in</button>
           </div>
 
           <div id="signup-role-change" style="display:none;margin-top:12px;text-align:center;">
-            <button type="button" data-action="change-role" class="auth-form-link" style="font-size:0.8125rem;">Change role</button>
+            <button type="button" data-action="change-role" class="auth-form-link" style="font-size:0.8125rem;">Change
+              role</button>
           </div>
         </div>
 
@@ -212,18 +313,21 @@
           <form data-action="verify-code" class="auth-form" novalidate>
             <div class="auth-field">
               <label for="verify-code">Verification code</label>
-              <input type="text" id="verify-code" placeholder="000000" required maxlength="6" inputmode="numeric" autocomplete="one-time-code" class="auth-code-input">
+              <input type="text" id="verify-code" name="code" placeholder="000000" required maxlength="6"
+                inputmode="numeric" autocomplete="one-time-code" class="auth-code-input"
+                aria-describedby="verify-error">
             </div>
-            <div id="verify-error" class="auth-error"></div>
+            <div id="verify-error" class="auth-error" role="alert" aria-live="polite"></div>
             <button type="submit" id="verify-btn" class="auth-btn-primary">Verify &amp; continue</button>
             <p class="auth-form-foot">
-              Didn't get a code? <button type="button" data-action="resend-code" id="resend-btn" class="auth-form-link">Resend</button>
+              Didn't get a code? <button type="button" data-action="resend-code" id="resend-btn"
+                class="auth-form-link">Resend</button>
             </p>
           </form>
         </div>
 
         <div id="panel-forgot" class="auth-panel" style="display:none;">
-          <button type="button" data-action="show-panel" data-panel="email-signup" class="auth-back">
+          <button type="button" data-action="show-panel" data-panel="main" class="auth-back">
             <span class="material-symbols-outlined">arrow_back</span>
             <span>Back</span>
           </button>
@@ -235,26 +339,32 @@
           <form id="forgot-form" data-action="forgot-submit" class="auth-form" novalidate>
             <div class="auth-field">
               <label for="forgot-email">Email</label>
-              <input type="email" id="forgot-email" placeholder="hello@example.com" required autocomplete="email">
+              <input type="email" id="forgot-email" name="email" placeholder="hello@example.com" required
+                autocomplete="email" aria-describedby="forgot-error">
             </div>
-            <div id="forgot-error" class="auth-error"></div>
+            <div id="forgot-error" class="auth-error" role="alert" aria-live="polite"></div>
             <button type="submit" id="forgot-btn" class="auth-btn-primary">Send code</button>
           </form>
 
           <div id="reset-section" style="display:none;margin-top:24px;">
             <div class="auth-form-head" style="margin-bottom:20px;">
-              <p id="reset-instruction" style="font-size:0.875rem;color:var(--md-on-surface-variant);">Enter the code and your new password.</p>
+              <p id="reset-instruction" style="font-size:0.875rem;color:var(--md-on-surface-variant);">Enter the code
+                and your new password.</p>
             </div>
             <form data-action="reset-submit" class="auth-form" novalidate>
               <div class="auth-field">
                 <label for="reset-code">Code</label>
-                <input type="text" id="reset-code" placeholder="000000" required maxlength="6" inputmode="numeric" class="auth-code-input">
+                <input type="text" id="reset-code" name="code" placeholder="000000" required maxlength="6"
+                  inputmode="numeric" autocomplete="one-time-code" class="auth-code-input"
+                  aria-describedby="reset-error">
               </div>
               <div class="auth-field">
                 <label for="reset-password">New password</label>
                 <div class="auth-input-wrap">
-                  <input type="password" id="reset-password" placeholder="At least 8 characters" required minlength="8" autocomplete="new-password">
-                  <button type="button" data-action="toggle-password" data-input-id="reset-password" class="auth-input-toggle" aria-label="Toggle password visibility">
+                  <input type="password" id="reset-password" name="newPassword" placeholder="At least 8 characters"
+                    required minlength="8" autocomplete="new-password" aria-describedby="reset-error">
+                  <button type="button" data-action="toggle-password" data-input-id="reset-password"
+                    class="auth-input-toggle" aria-label="Show password">
                     <span class="material-symbols-outlined">visibility_off</span>
                   </button>
                 </div>
@@ -262,16 +372,20 @@
               <div class="auth-field">
                 <label for="reset-confirm-password">Confirm password</label>
                 <div class="auth-input-wrap">
-                  <input type="password" id="reset-confirm-password" placeholder="Repeat new password" required minlength="8" autocomplete="new-password">
-                  <button type="button" data-action="toggle-password" data-input-id="reset-confirm-password" class="auth-input-toggle" aria-label="Toggle password visibility">
+                  <input type="password" id="reset-confirm-password" name="confirmPassword"
+                    placeholder="Repeat new password" required minlength="8" autocomplete="new-password"
+                    aria-describedby="reset-error">
+                  <button type="button" data-action="toggle-password" data-input-id="reset-confirm-password"
+                    class="auth-input-toggle" aria-label="Show password">
                     <span class="material-symbols-outlined">visibility_off</span>
                   </button>
                 </div>
               </div>
-              <div id="reset-error" class="auth-error"></div>
+              <div id="reset-error" class="auth-error" role="alert" aria-live="polite"></div>
               <button type="submit" id="reset-submit-btn" class="auth-btn-primary">Reset password</button>
               <p class="auth-form-foot" style="display:none;" id="forgot-resend-wrap">
-                Didn't get a code? <button type="button" data-action="forgot-resend" id="forgot-resend-btn" class="auth-form-link">Resend</button>
+                Didn't get a code? <button type="button" data-action="forgot-resend" id="forgot-resend-btn"
+                  class="auth-form-link">Resend</button>
               </p>
             </form>
           </div>
@@ -285,7 +399,8 @@
       <div class="auth-brand-decor"></div>
 
       <div class="auth-brand-content">
-        <h1 class="auth-brand-title">Notes, model questions, past papers, and an active community — all in one place.</h1>
+        <h1 class="auth-brand-title">Notes, model questions, past papers, and an active community — all in one place.
+        </h1>
         <p class="auth-brand-sub">Join {{ login_stats.total_users|default:"0" }} learners and teachers on NEBians.</p>
 
         <div class="auth-dashboard-mock">
@@ -342,234 +457,397 @@
 
 {% block extra_js %}
 <script nonce="{{ csp_nonce }}">
-function setStatus(text) {
-  var s = document.getElementById('signin-status');
-  if (s) s.textContent = text;
-}
-
-window.showPanel = function(panel) {
-  document.querySelectorAll('[id^="panel-"], #auth-main').forEach(function(el) { el.style.display = 'none'; });
-  var target = panel === 'main' ? document.getElementById('auth-main') : document.getElementById('panel-' + panel);
-  if (target) {
-    target.style.display = '';
-    target.classList.remove('auth-panel');
-    void target.offsetWidth;
-    target.classList.add('auth-panel');
+  function setStatus(text) {
+    var s = document.getElementById('signin-status');
+    if (s) s.textContent = text;
   }
-  document.querySelectorAll('.auth-error').forEach(function(el) { el.textContent = ''; });
-  window._verifyFrom = (panel === 'verify') ? (window._verifyFrom || 'email-signup') : window._verifyFrom;
-};
 
-window.nebEmailLoginSuccess = function(data) {
-  if (data.authToken && data.user) {
-    var redirectUrl = (data.profileIncomplete || data.isNewUser) ? '{% url "web:edit_profile" %}' : '{% url "web:home" %}';
-    fetch('{% url "web:google_auth" %}', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
-      body: JSON.stringify({ emailAuthToken: data.authToken, emailUser: data })
-    }).then(function(res) { return res.json(); }).then(function(sessionData) {
-      if (sessionData.profileIncomplete || sessionData.isNewUser) {
-        window.location.href = '{% url "web:edit_profile" %}';
-      } else {
-        window.location.href = '{% url "web:home" %}';
-      }
-    }).catch(function() {
-      window.location.href = redirectUrl;
-    });
-  } else {
-    window.location.href = '{% url "web:home" %}';
+  function clearFieldErrors(formId) {
+    var form = document.getElementById(formId);
+    if (!form) return;
+    form.querySelectorAll('.has-error').forEach(function (el) { el.classList.remove('has-error'); });
   }
-};
 
-window.startResendCooldown = function() {
-  var btn = document.getElementById('resend-btn');
-  var seconds = 60;
-  btn.disabled = true;
-  btn.textContent = 'Resend in ' + seconds + 's';
-  var timer = setInterval(function() {
-    seconds--;
-    if (seconds <= 0) {
-      clearInterval(timer);
-      btn.textContent = 'Resend';
-      btn.disabled = false;
-    } else {
-      btn.textContent = 'Resend in ' + seconds + 's';
-    }
-  }, 1000);
-};
-
-window.startForgotResendCooldown = function() {
-  var btn = document.getElementById('forgot-resend-btn');
-  if (!btn) return;
-  var seconds = 60;
-  btn.disabled = true;
-  btn.textContent = 'Resend in ' + seconds + 's';
-  var timer = setInterval(function() {
-    seconds--;
-    if (seconds <= 0) {
-      clearInterval(timer);
-      btn.textContent = 'Resend';
-      btn.disabled = false;
-    } else {
-      btn.textContent = 'Resend in ' + seconds + 's';
-    }
-  }, 1000);
-};
-
-window._forgotNeedsSetPassword = false;
-
-registerActions({
-  'toggle-password': function(el) {
-    var inputId = el.dataset.inputId;
+  function addFieldError(inputId) {
     var input = document.getElementById(inputId);
-    var icon = el.querySelector('.material-symbols-outlined');
-    if (input.type === 'password') {
-      input.type = 'text';
-      icon.textContent = 'visibility';
-    } else {
-      input.type = 'password';
-      icon.textContent = 'visibility_off';
+    if (input) input.classList.add('has-error');
+  }
+
+  function clearErrorOnInput(inputId, errorId) {
+    var input = document.getElementById(inputId);
+    var error = document.getElementById(errorId);
+    if (input && error) {
+      input.addEventListener('input', function () {
+        error.textContent = '';
+        input.classList.remove('has-error');
+      });
     }
-  },
-  'show-panel': function(el) {
-    window.showPanel(el.dataset.panel);
-  },
-  'show-verify-back': function() {
-    window.showPanel(window._verifyFrom || 'email-signup');
-  },
-  'email-login': function(form, e) {
-    e.preventDefault();
-    var email = document.getElementById('login-email').value.trim();
-    var password = document.getElementById('login-password').value;
-    var errorEl = document.getElementById('login-error');
-    var btn = document.getElementById('login-btn');
-    errorEl.textContent = '';
-    btn.disabled = true;
-    btn.innerHTML = '<span class="auth-spinner"></span><span>Signing in...</span>';
-    fetch('/api/auth/email/login/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email, password: password }) })
-      .then(function(res) { return res.json(); })
-      .then(function(data) {
-        if (data.status === 'success' && data.authToken) {
-          window.nebEmailLoginSuccess(data);
-        } else if (data.needsVerification && data.email) {
-          document.getElementById('verify-email-display').textContent = data.email;
-          var hiddenEmail = document.createElement('input');
-          hiddenEmail.type = 'hidden';
-          hiddenEmail.id = 'verify-email-hidden';
-          hiddenEmail.value = data.email;
-          document.getElementById('panel-verify').appendChild(hiddenEmail);
-          window._verifyFrom = 'email-signup';
-          window.startResendCooldown();
-          window.showPanel('verify');
-        } else if (data.needsSetPassword && data.email) {
-          document.getElementById('forgot-email').value = data.email || email;
-          window.showPanel('forgot');
-          window.handleForgot(new Event('submit'));
+  }
+
+  clearErrorOnInput('login-email', 'login-error');
+  clearErrorOnInput('login-password', 'login-error');
+  clearErrorOnInput('signup-username', 'signup-error');
+  clearErrorOnInput('signup-email', 'signup-error');
+  clearErrorOnInput('signup-password', 'signup-error');
+  clearErrorOnInput('verify-code', 'verify-error');
+  clearErrorOnInput('forgot-email', 'forgot-error');
+  clearErrorOnInput('reset-code', 'reset-error');
+  clearErrorOnInput('reset-password', 'reset-error');
+  clearErrorOnInput('reset-confirm-password', 'reset-error');
+
+  function handleApiError(res, data, errorEl) {
+    if (res.status === 429) {
+      errorEl.textContent = 'Too many attempts. Please wait a moment and try again.';
+    } else {
+      errorEl.textContent = data.error || 'Something went wrong. Please try again.';
+    }
+  }
+
+  window.showPanel = function (panel) {
+    document.querySelectorAll('[id^="panel-"], #auth-main').forEach(function (el) { el.style.display = 'none'; });
+    var target = panel === 'main' ? document.getElementById('auth-main') : document.getElementById('panel-' + panel);
+    if (target) {
+      target.style.display = '';
+      target.classList.remove('auth-panel');
+      void target.offsetWidth;
+      target.classList.add('auth-panel');
+      var heading = target.querySelector('h1');
+      if (heading) { heading.setAttribute('tabindex', '-1'); heading.focus(); }
+    }
+    document.querySelectorAll('.auth-error').forEach(function (el) { el.textContent = ''; });
+    document.querySelectorAll('.has-error').forEach(function (el) { el.classList.remove('has-error'); });
+    window._verifyFrom = (panel === 'verify') ? (window._verifyFrom || 'email-signup') : window._verifyFrom;
+  };
+
+  window.nebEmailLoginSuccess = function (data) {
+    if (data.authToken && data.user) {
+      var redirectUrl = (data.profileIncomplete || data.isNewUser) ? '{% url "web:edit_profile" %}' : '{% url "web:home" %}';
+      fetch('{% url "web:google_auth" %}', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
+        body: JSON.stringify({ emailAuthToken: data.authToken, emailUser: data })
+      }).then(function (res) { return res.json(); }).then(function (sessionData) {
+        if (sessionData.profileIncomplete || sessionData.isNewUser) {
+          window.location.href = '{% url "web:edit_profile" %}';
         } else {
-          errorEl.textContent = data.error || 'Login failed';
+          window.location.href = '{% url "web:home" %}';
         }
-      })
-      .catch(function() { errorEl.textContent = 'Network error. Please try again.'; })
-      .finally(function() { btn.disabled = false; btn.innerHTML = '<span>Log In</span>'; });
-  },
-  'email-signup': function(form, e) {
-    e.preventDefault();
-    var username = document.getElementById('signup-username').value.trim();
-    var email = document.getElementById('signup-email').value.trim();
-    var password = document.getElementById('signup-password').value;
-    var role = document.getElementById('signup-role').value;
-    var errorEl = document.getElementById('signup-error');
-    var btn = document.getElementById('signup-btn');
-    errorEl.textContent = '';
-    btn.disabled = true;
-    btn.innerHTML = '<span class="auth-spinner"></span><span>Creating account...</span>';
-    fetch('/api/auth/email/signup/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email, password: password, username: username, role: role }) })
-      .then(function(res) { return res.json(); })
-      .then(function(data) {
-        if (data.status === 'success') {
-          document.getElementById('verify-email-display').textContent = email;
-          window.startResendCooldown();
-          window.showPanel('verify');
-        } else {
-          errorEl.textContent = data.error || 'Signup failed';
-        }
-      })
-      .catch(function() { errorEl.textContent = 'Network error. Please try again.'; })
-      .finally(function() { btn.disabled = false; btn.innerHTML = '<span>Create account</span>'; });
-  },
-  'select-role': function(el) {
-    var role = el.dataset.role;
-    document.getElementById('signup-role').value = role;
-    document.getElementById('signup-role-step').style.display = 'none';
-    document.getElementById('signup-fields-step').style.display = '';
-    document.getElementById('signup-role-change').style.display = '';
-    var roleLabels = { student: 'Student', teacher: 'Teacher', institution: 'Institution', explorer: 'Explorer' };
-    var roleHeadEl = document.querySelector('#panel-email-signup .auth-form-head h1');
-    var roleSubEl = document.querySelector('#panel-email-signup .auth-form-head p');
-    if (roleHeadEl) roleHeadEl.textContent = 'Join as ' + roleLabels[role];
-    if (roleSubEl) roleSubEl.textContent = 'Create your ' + roleLabels[role].toLowerCase() + ' account to get started.';
-  },
-  'change-role': function() {
-    document.getElementById('signup-role-step').style.display = '';
-    document.getElementById('signup-fields-step').style.display = 'none';
-    document.getElementById('signup-role-change').style.display = 'none';
-    var roleHeadEl = document.querySelector('#panel-email-signup .auth-form-head h1');
-    var roleSubEl = document.querySelector('#panel-email-signup .auth-form-head p');
-    if (roleHeadEl) roleHeadEl.textContent = 'Create account';
-    if (roleSubEl) roleSubEl.textContent = 'Sign up with email — we\'ll send a verification code.';
-  },
-  'verify-code': function(form, e) {
-    e.preventDefault();
-    var email = document.getElementById('verify-email-hidden') ? document.getElementById('verify-email-hidden').value : document.getElementById('signup-email').value.trim();
-    email = email || document.getElementById('signup-email').value.trim();
-    var code = document.getElementById('verify-code').value.trim();
-    var errorEl = document.getElementById('verify-error');
-    var btn = document.getElementById('verify-btn');
-    errorEl.textContent = '';
-    btn.disabled = true;
-    btn.innerHTML = '<span class="auth-spinner"></span><span>Verifying...</span>';
-    fetch('/api/auth/email/verify/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email, code: code }) })
-      .then(function(res) { return res.json(); })
-      .then(function(data) {
-        if (data.status === 'success') {
-          window.nebEmailLoginSuccess(data);
-        } else {
-          errorEl.textContent = data.error || 'Verification failed';
-        }
-      })
-      .catch(function() { errorEl.textContent = 'Network error. Please try again.'; })
-      .finally(function() { btn.disabled = false; btn.innerHTML = '<span>Verify &amp; continue</span>'; });
-  },
-  'resend-code': function() {
-    var email = document.getElementById('verify-email-hidden') ? document.getElementById('verify-email-hidden').value : document.getElementById('signup-email').value.trim();
-    email = email || document.getElementById('signup-email').value.trim();
+      }).catch(function () {
+        window.location.href = redirectUrl;
+      });
+    } else {
+      window.location.href = '{% url "web:home" %}';
+    }
+  };
+
+  window.startResendCooldown = function () {
     var btn = document.getElementById('resend-btn');
+    var seconds = 60;
     btn.disabled = true;
-    btn.textContent = 'Sending...';
-    fetch('/api/auth/email/resend/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email }) })
-      .then(function(res) { return res.json(); })
-      .then(function(data) {
-        if (data.status === 'success') {
-          window.startResendCooldown();
-        } else {
-          showSnackbar(data.error || 'Failed to resend');
-          btn.textContent = 'Resend';
-          btn.disabled = false;
-        }
-      })
-      .catch(function() { btn.textContent = 'Resend'; btn.disabled = false; });
-  },
-  'forgot-submit': function(form, e) {
-    e.preventDefault();
+    btn.textContent = 'Resend in ' + seconds + 's';
+    var timer = setInterval(function () {
+      seconds--;
+      if (seconds <= 0) {
+        clearInterval(timer);
+        btn.textContent = 'Resend';
+        btn.disabled = false;
+      } else {
+        btn.textContent = 'Resend in ' + seconds + 's';
+      }
+    }, 1000);
+  };
+
+  window.startForgotResendCooldown = function () {
+    var btn = document.getElementById('forgot-resend-btn');
+    if (!btn) return;
+    var seconds = 60;
+    btn.disabled = true;
+    btn.textContent = 'Resend in ' + seconds + 's';
+    var timer = setInterval(function () {
+      seconds--;
+      if (seconds <= 0) {
+        clearInterval(timer);
+        btn.textContent = 'Resend';
+        btn.disabled = false;
+      } else {
+        btn.textContent = 'Resend in ' + seconds + 's';
+      }
+    }, 1000);
+  };
+
+  window._forgotNeedsSetPassword = false;
+
+  registerActions({
+    'toggle-password': function (el) {
+      var inputId = el.dataset.inputId;
+      var input = document.getElementById(inputId);
+      var icon = el.querySelector('.material-symbols-outlined');
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.textContent = 'visibility';
+        el.setAttribute('aria-label', 'Hide password');
+      } else {
+        input.type = 'password';
+        icon.textContent = 'visibility_off';
+        el.setAttribute('aria-label', 'Show password');
+      }
+    },
+    'show-panel': function (el) {
+      window.showPanel(el.dataset.panel);
+    },
+    'show-verify-back': function () {
+      window.showPanel(window._verifyFrom || 'email-signup');
+    },
+    'email-login': function (form, e) {
+      e.preventDefault();
+      var email = document.getElementById('login-email').value.trim();
+      var password = document.getElementById('login-password').value;
+      var errorEl = document.getElementById('login-error');
+      var btn = document.getElementById('login-btn');
+      clearFieldErrors('login-form');
+      errorEl.textContent = '';
+      if (!email) { errorEl.textContent = 'Please enter your username or email.'; addFieldError('login-email'); return; }
+      if (!password) { errorEl.textContent = 'Please enter your password.'; addFieldError('login-password'); return; }
+      btn.disabled = true;
+      btn.innerHTML = '<span class="auth-spinner"></span><span>Signing in...</span>';
+      fetch('/api/auth/email/login/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email, password: password }) })
+        .then(function (res) { return res.json().then(function (data) { return { ok: res.ok, status: res.status, data: data }; }); })
+        .then(function (result) {
+          var data = result.data;
+          if (result.status === 429) { errorEl.textContent = 'Too many attempts. Please wait a moment and try again.'; return; }
+          if (data.status === 'success' && data.authToken) {
+            window.nebEmailLoginSuccess(data);
+          } else if (data.needsVerification && data.email) {
+            document.getElementById('verify-email-display').textContent = data.email;
+            var hiddenEmail = document.createElement('input');
+            hiddenEmail.type = 'hidden';
+            hiddenEmail.id = 'verify-email-hidden';
+            hiddenEmail.value = data.email;
+            document.getElementById('panel-verify').appendChild(hiddenEmail);
+            window._verifyFrom = 'email-signup';
+            window.startResendCooldown();
+            window.showPanel('verify');
+          } else if (data.needsSetPassword && data.email) {
+            document.getElementById('forgot-email').value = data.email || email;
+            window.showPanel('forgot');
+            window.handleForgot(new Event('submit'));
+          } else {
+            errorEl.textContent = data.error || 'Login failed';
+            if (data.error && data.error.toLowerCase().indexOf('email') !== -1) addFieldError('login-email');
+            if (data.error && data.error.toLowerCase().indexOf('password') !== -1) addFieldError('login-password');
+          }
+        })
+        .catch(function () { errorEl.textContent = 'Network error. Please try again.'; })
+        .finally(function () { btn.disabled = false; btn.innerHTML = '<span>Log In</span>'; });
+    },
+    'email-signup': function (form, e) {
+      e.preventDefault();
+      var username = document.getElementById('signup-username').value.trim();
+      var email = document.getElementById('signup-email').value.trim();
+      var password = document.getElementById('signup-password').value;
+      var role = document.getElementById('signup-role').value;
+      var errorEl = document.getElementById('signup-error');
+      var btn = document.getElementById('signup-btn');
+      clearFieldErrors('signup-form');
+      errorEl.textContent = '';
+      if (!username) { errorEl.textContent = 'Please choose a username.'; addFieldError('signup-username'); return; }
+      if (username.length < 3) { errorEl.textContent = 'Username must be at least 3 characters.'; addFieldError('signup-username'); return; }
+      if (!/^[a-zA-Z0-9_]+$/.test(username)) { errorEl.textContent = 'Username can only contain letters, numbers, and underscores.'; addFieldError('signup-username'); return; }
+      if (!email) { errorEl.textContent = 'Please enter your email.'; addFieldError('signup-email'); return; }
+      if (!email.includes('@') || !email.includes('.')) { errorEl.textContent = 'Please enter a valid email address.'; addFieldError('signup-email'); return; }
+      if (!password) { errorEl.textContent = 'Please enter a password.'; addFieldError('signup-password'); return; }
+      if (password.length < 8) { errorEl.textContent = 'Password must be at least 8 characters.'; addFieldError('signup-password'); return; }
+      btn.disabled = true;
+      btn.innerHTML = '<span class="auth-spinner"></span><span>Creating account...</span>';
+      fetch('/api/auth/email/signup/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email, password: password, username: username, role: role }) })
+        .then(function (res) { return res.json().then(function (data) { return { status: res.status, data: data }; }); })
+        .then(function (result) {
+          var data = result.data;
+          if (result.status === 429) { errorEl.textContent = 'Too many attempts. Please wait a moment and try again.'; return; }
+          if (data.status === 'success') {
+            document.getElementById('verify-email-display').textContent = email;
+            window.startResendCooldown();
+            window.showPanel('verify');
+          } else {
+            errorEl.textContent = data.error || 'Signup failed';
+          }
+        })
+        .catch(function () { errorEl.textContent = 'Network error. Please try again.'; })
+        .finally(function () { btn.disabled = false; btn.innerHTML = '<span>Create account</span>'; });
+    },
+    'select-role': function (el) {
+      var role = el.dataset.role;
+      document.getElementById('signup-role').value = role;
+      document.getElementById('signup-role-step').style.display = 'none';
+      document.getElementById('signup-fields-step').style.display = '';
+      document.getElementById('signup-role-change').style.display = '';
+      var roleLabels = { student: 'Student', teacher: 'Teacher', institution: 'Institution', explorer: 'Explorer' };
+      var roleHeadEl = document.querySelector('#panel-email-signup .auth-form-head h1');
+      var roleSubEl = document.querySelector('#panel-email-signup .auth-form-head p');
+      if (roleHeadEl) roleHeadEl.textContent = 'Join as ' + roleLabels[role];
+      if (roleSubEl) roleSubEl.textContent = 'Create your ' + roleLabels[role].toLowerCase() + ' account to get started.';
+    },
+    'change-role': function () {
+      document.getElementById('signup-role-step').style.display = '';
+      document.getElementById('signup-fields-step').style.display = 'none';
+      document.getElementById('signup-role-change').style.display = 'none';
+      var roleHeadEl = document.querySelector('#panel-email-signup .auth-form-head h1');
+      var roleSubEl = document.querySelector('#panel-email-signup .auth-form-head p');
+      if (roleHeadEl) roleHeadEl.textContent = 'Create account';
+      if (roleSubEl) roleSubEl.textContent = 'Sign up with email — we\'ll send a verification code.';
+    },
+    'verify-code': function (form, e) {
+      e.preventDefault();
+      var email = document.getElementById('verify-email-hidden') ? document.getElementById('verify-email-hidden').value : document.getElementById('signup-email').value.trim();
+      email = email || document.getElementById('signup-email').value.trim();
+      var code = document.getElementById('verify-code').value.trim();
+      var errorEl = document.getElementById('verify-error');
+      var btn = document.getElementById('verify-btn');
+      clearFieldErrors('verify-form');
+      errorEl.textContent = '';
+      if (!code) { errorEl.textContent = 'Please enter the verification code.'; addFieldError('verify-code'); return; }
+      if (code.length < 6) { errorEl.textContent = 'The code should be 6 digits.'; addFieldError('verify-code'); return; }
+      btn.disabled = true;
+      btn.innerHTML = '<span class="auth-spinner"></span><span>Verifying...</span>';
+      fetch('/api/auth/email/verify/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email, code: code }) })
+        .then(function (res) { return res.json().then(function (data) { return { status: res.status, data: data }; }); })
+        .then(function (result) {
+          var data = result.data;
+          if (result.status === 429) { errorEl.textContent = 'Too many attempts. Please wait a moment and try again.'; return; }
+          if (data.status === 'success') {
+            window.nebEmailLoginSuccess(data);
+          } else {
+            errorEl.textContent = data.error || 'Verification failed';
+          }
+        })
+        .catch(function () { errorEl.textContent = 'Network error. Please try again.'; })
+        .finally(function () { btn.disabled = false; btn.innerHTML = '<span>Verify &amp; continue</span>'; });
+    },
+    'resend-code': function () {
+      var email = document.getElementById('verify-email-hidden') ? document.getElementById('verify-email-hidden').value : document.getElementById('signup-email').value.trim();
+      email = email || document.getElementById('signup-email').value.trim();
+      var btn = document.getElementById('resend-btn');
+      btn.disabled = true;
+      btn.textContent = 'Sending...';
+      fetch('/api/auth/email/resend/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email }) })
+        .then(function (res) { return res.json(); })
+        .then(function (data) {
+          if (data.status === 'success') {
+            window.startResendCooldown();
+          } else {
+            showSnackbar(data.error || 'Failed to resend');
+            btn.textContent = 'Resend';
+            btn.disabled = false;
+          }
+        })
+        .catch(function () { btn.textContent = 'Resend'; btn.disabled = false; });
+    },
+    'forgot-submit': function (form, e) {
+      e.preventDefault();
+      var email = document.getElementById('forgot-email').value.trim();
+      var errorEl = document.getElementById('forgot-error');
+      var btn = document.getElementById('forgot-btn');
+      clearFieldErrors('forgot-form');
+      errorEl.textContent = '';
+      if (!email) { errorEl.textContent = 'Please enter your email.'; addFieldError('forgot-email'); return; }
+      if (!email.includes('@') || !email.includes('.')) { errorEl.textContent = 'Please enter a valid email address.'; addFieldError('forgot-email'); return; }
+      btn.disabled = true;
+      btn.innerHTML = '<span class="auth-spinner"></span><span>Sending...</span>';
+      fetch('/api/auth/email/forgot/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email }) })
+        .then(function (res) { return res.json().then(function (data) { return { status: res.status, data: data }; }); })
+        .then(function (result) {
+          var data = result.data;
+          if (result.status === 429) { errorEl.textContent = 'Too many attempts. Please wait a moment and try again.'; btn.disabled = false; btn.innerHTML = '<span>Send code</span>'; return; }
+          if (data.status === 'success' || !data.error) {
+            window._forgotNeedsSetPassword = !!data.needsSetPassword;
+            if (window._forgotNeedsSetPassword) {
+              document.getElementById('forgot-title').textContent = 'Set password';
+              document.getElementById('forgot-subtitle').textContent = 'This account uses Google sign-in. Set a password to also sign in with email.';
+              document.getElementById('reset-instruction').textContent = 'Enter the code and choose a password.';
+              document.getElementById('reset-submit-btn').innerHTML = '<span>Set password</span>';
+            } else {
+              document.getElementById('forgot-title').textContent = 'Reset password';
+              document.getElementById('forgot-subtitle').textContent = 'Enter your email and we\'ll send a verification code.';
+              document.getElementById('reset-instruction').textContent = 'Enter the code and your new password.';
+              document.getElementById('reset-submit-btn').innerHTML = '<span>Reset password</span>';
+            }
+            document.getElementById('reset-section').style.display = 'block';
+            document.getElementById('forgot-resend-wrap').style.display = '';
+            window.startForgotResendCooldown();
+            btn.innerHTML = '<span>Code sent</span><span class="material-symbols-outlined">check</span>';
+          } else {
+            errorEl.textContent = data.error || 'Failed to send code';
+            btn.innerHTML = '<span>Send code</span>';
+            btn.disabled = false;
+          }
+        })
+.catch(function () { errorEl.textContent = 'Network error. Please try again.'; btn.disabled = false; btn.innerHTML = '<span>Send code</span>'; });
+    },
+    'reset-submit': function (form, e) {
+      e.preventDefault();
+      var email = document.getElementById('forgot-email').value.trim();
+      var code = document.getElementById('reset-code').value.trim();
+      var newPassword = document.getElementById('reset-password').value;
+      var confirmPassword = document.getElementById('reset-confirm-password').value;
+      var errorEl = document.getElementById('reset-error');
+      clearFieldErrors('reset-form');
+      errorEl.textContent = '';
+      if (!code || code.length < 6) { errorEl.textContent = 'Please enter the 6-digit code.'; addFieldError('reset-code'); return; }
+      if (!newPassword) { errorEl.textContent = 'Please enter a new password.'; addFieldError('reset-password'); return; }
+      if (newPassword.length < 8) { errorEl.textContent = 'Password must be at least 8 characters.'; addFieldError('reset-password'); return; }
+      if (newPassword !== confirmPassword) {
+        errorEl.textContent = 'Passwords do not match';
+        addFieldError('reset-confirm-password');
+        return;
+      }
+      fetch('/api/auth/email/reset-password/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email, code: code, newPassword: newPassword, confirmPassword: confirmPassword }) })
+        .then(function (res) { return res.json().then(function (data) { return { status: res.status, data: data }; }); })
+        .then(function (result) {
+          var data = result.data;
+          if (result.status === 429) { errorEl.textContent = 'Too many attempts. Please wait a moment and try again.'; return; }
+          if (data.status === 'success') {
+            window.nebEmailLoginSuccess(data);
+          } else {
+            errorEl.textContent = data.error || 'Reset failed';
+          }
+        })
+        .catch(function () { errorEl.textContent = 'Network error. Please try again.'; });
+    },
+    'forgot-resend': function () {
+      var email = document.getElementById('forgot-email').value.trim();
+      var btn = document.getElementById('forgot-resend-btn');
+      btn.disabled = true;
+      btn.textContent = 'Sending...';
+      fetch('/api/auth/email/forgot/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email }) })
+        .then(function (res) { return res.json(); })
+        .then(function (data) {
+          if (data.status === 'success' || !data.error) {
+            window.startForgotResendCooldown();
+          } else {
+            btn.textContent = 'Resend';
+            btn.disabled = false;
+          }
+        })
+        .catch(function () { btn.textContent = 'Resend'; btn.disabled = false; });
+    }
+  });
+
+  window.handleForgot = function (e) {
+    if (e) e.preventDefault();
     var email = document.getElementById('forgot-email').value.trim();
     var errorEl = document.getElementById('forgot-error');
     var btn = document.getElementById('forgot-btn');
+    clearFieldErrors('forgot-form');
     errorEl.textContent = '';
+    if (!email) { errorEl.textContent = 'Please enter your email.'; addFieldError('forgot-email'); return; }
+    if (!email.includes('@') || !email.includes('.')) { errorEl.textContent = 'Please enter a valid email address.'; addFieldError('forgot-email'); return; }
     btn.disabled = true;
     btn.innerHTML = '<span class="auth-spinner"></span><span>Sending...</span>';
     fetch('/api/auth/email/forgot/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email }) })
-      .then(function(res) { return res.json(); })
-      .then(function(data) {
+      .then(function (res) { return res.json().then(function (data) { return { status: res.status, data: data }; }); })
+      .then(function (result) {
+        var data = result.data;
+        if (result.status === 429) { errorEl.textContent = 'Too many attempts. Please wait a moment and try again.'; btn.disabled = false; btn.innerHTML = '<span>Send code</span>'; return; }
         if (data.status === 'success' || !data.error) {
           window._forgotNeedsSetPassword = !!data.needsSetPassword;
           if (window._forgotNeedsSetPassword) {
@@ -593,96 +871,18 @@ registerActions({
           btn.disabled = false;
         }
       })
-      .catch(function() { errorEl.textContent = 'Network error'; btn.disabled = false; btn.innerHTML = '<span>Send code</span>'; });
-  },
-  'reset-submit': function(form, e) {
-    e.preventDefault();
-    var email = document.getElementById('forgot-email').value.trim();
-    var code = document.getElementById('reset-code').value.trim();
-    var newPassword = document.getElementById('reset-password').value;
-    var confirmPassword = document.getElementById('reset-confirm-password').value;
-    var errorEl = document.getElementById('reset-error');
-    errorEl.textContent = '';
-    if (newPassword !== confirmPassword) {
-      errorEl.textContent = 'Passwords do not match';
-      return;
+      .catch(function () { errorEl.textContent = 'Network error'; btn.disabled = false; btn.innerHTML = '<span>Send code</span>'; });
+  };
+
+  // Check for initial panel parameter on load
+  (function () {
+    var urlParams = new URLSearchParams(window.location.search);
+    var panel = urlParams.get('panel');
+    if (panel) {
+      setTimeout(function () {
+        window.showPanel(panel);
+      }, 0);
     }
-    fetch('/api/auth/email/reset-password/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email, code: code, newPassword: newPassword, confirmPassword: confirmPassword }) })
-      .then(function(res) { return res.json(); })
-      .then(function(data) {
-        if (data.status === 'success') {
-          window.nebEmailLoginSuccess(data);
-        } else {
-          errorEl.textContent = data.error || 'Reset failed';
-        }
-      })
-      .catch(function() { errorEl.textContent = 'Network error'; });
-  },
-  'forgot-resend': function() {
-    var email = document.getElementById('forgot-email').value.trim();
-    var btn = document.getElementById('forgot-resend-btn');
-    btn.disabled = true;
-    btn.textContent = 'Sending...';
-    fetch('/api/auth/email/forgot/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email }) })
-      .then(function(res) { return res.json(); })
-      .then(function(data) {
-        if (data.status === 'success' || !data.error) {
-          window.startForgotResendCooldown();
-        } else {
-          btn.textContent = 'Resend';
-          btn.disabled = false;
-        }
-      })
-      .catch(function() { btn.textContent = 'Resend'; btn.disabled = false; });
-  }
-});
-
-window.handleForgot = function(e) {
-  if (e) e.preventDefault();
-  var email = document.getElementById('forgot-email').value.trim();
-  var errorEl = document.getElementById('forgot-error');
-  var btn = document.getElementById('forgot-btn');
-  errorEl.textContent = '';
-  btn.disabled = true;
-  btn.innerHTML = '<span class="auth-spinner"></span><span>Sending...</span>';
-  fetch('/api/auth/email/forgot/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email }) })
-    .then(function(res) { return res.json(); })
-    .then(function(data) {
-      if (data.status === 'success' || !data.error) {
-        window._forgotNeedsSetPassword = !!data.needsSetPassword;
-        if (window._forgotNeedsSetPassword) {
-          document.getElementById('forgot-title').textContent = 'Set password';
-          document.getElementById('forgot-subtitle').textContent = 'This account uses Google sign-in. Set a password to also sign in with email.';
-          document.getElementById('reset-instruction').textContent = 'Enter the code and choose a password.';
-          document.getElementById('reset-submit-btn').innerHTML = '<span>Set password</span>';
-        } else {
-          document.getElementById('forgot-title').textContent = 'Reset password';
-          document.getElementById('forgot-subtitle').textContent = 'Enter your email and we\'ll send a verification code.';
-          document.getElementById('reset-instruction').textContent = 'Enter the code and your new password.';
-          document.getElementById('reset-submit-btn').innerHTML = '<span>Reset password</span>';
-        }
-        document.getElementById('reset-section').style.display = 'block';
-        document.getElementById('forgot-resend-wrap').style.display = '';
-        window.startForgotResendCooldown();
-        btn.innerHTML = '<span>Code sent</span><span class="material-symbols-outlined">check</span>';
-      } else {
-        errorEl.textContent = data.error || 'Failed to send code';
-        btn.innerHTML = '<span>Send code</span>';
-        btn.disabled = false;
-      }
-    })
-    .catch(function() { errorEl.textContent = 'Network error'; btn.disabled = false; btn.innerHTML = '<span>Send code</span>'; });
-};
-
-// Check for initial panel parameter on load
-(function() {
-  var urlParams = new URLSearchParams(window.location.search);
-  var panel = urlParams.get('panel');
-  if (panel) {
-    setTimeout(function() {
-      window.showPanel(panel);
-    }, 0);
-  }
-})();
+  })();
 </script>
 {% endblock %}

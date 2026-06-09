@@ -134,6 +134,12 @@
   border-color: var(--md-primary);
   box-shadow: 0 0 0 4px color-mix(in srgb, var(--md-primary) 14%, transparent);
 }
+.auth-field input.has-error {
+  border-color: var(--md-error, #b3261e);
+}
+.auth-field input.has-error:focus {
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--md-error, #b3261e) 14%, transparent);
+}
 .auth-field input.auth-code-input {
   text-align: center;
   letter-spacing: 0.5em;
@@ -199,7 +205,6 @@
 }
 .auth-btn-primary:hover:not(:disabled) {
   background: color-mix(in srgb, var(--md-primary) 90%, #000);
-  box-shadow: 0 4px 12px color-mix(in srgb, var(--md-primary) 30%, transparent);
 }
 .auth-btn-primary:active:not(:disabled) { transform: scale(0.99); }
 .auth-btn-primary:disabled { opacity: 0.7; cursor: not-allowed; }
@@ -279,6 +284,11 @@
   text-align: center;
   font-size: 0.875rem;
   color: var(--md-on-surface-variant);
+}
+.auth-forgot-link {
+  text-align: right;
+  margin-top: -10px;
+  margin-bottom: 4px;
 }
 .auth-form-link {
   background: none;

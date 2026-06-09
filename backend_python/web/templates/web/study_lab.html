@@ -6,6 +6,8 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'web/css/pages/study-lab.css' %}">
+<link rel="stylesheet" href="{% static 'web/css/pages/upload.css' %}">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" nonce="{{ csp_nonce }}">
 {% endblock %}
 
 {% block content %}
@@ -51,12 +53,6 @@
           <span class="material-symbols-outlined sl-doc-icon">{% if doc.status == 'ready' %}description{% elif doc.status == 'processing' %}hourglass_top{% else %}error{% endif %}</span>
           <div class="sl-doc-info">
             <div class="sl-doc-title">{{ doc.title }}</div>
-            <div class="sl-doc-meta">
-              {% if doc.summaryGenerated %}<span class="sl-badge sl-badge-summary">Summary</span>{% endif %}
-              {% if doc.mindmapGenerated %}<span class="sl-badge sl-badge-map">Mindmap</span>{% endif %}
-              {% if doc.quizCount %}<span class="sl-badge sl-badge-quiz">{{ doc.quizCount }} Quiz{% if doc.quizCount > 1 %}zes{% endif %}</span>{% endif %}
-              {% if doc.flashcardCount %}<span class="sl-badge sl-badge-flash">{{ doc.flashcardCount }} Cards</span>{% endif %}
-            </div>
           </div>
         </div>
         {% empty %}
@@ -204,6 +200,7 @@
             <div class="sl-quiz-progress"><span id="slQuizProgress">Question 1 of 10</span><span id="slQuizScore">Answered: 0</span></div>
             <div class="sl-quiz-question" id="slQuizQuestion"></div>
             <div class="sl-quiz-options-list" id="slQuizOptions"></div>
+            <p class="sl-keyboard-hint">Press <kbd>A</kbd> <kbd>B</kbd> <kbd>C</kbd> <kbd>D</kbd> to answer &middot; <kbd>Enter</kbd> to submit &middot; <kbd>&larr;</kbd> <kbd>&rarr;</kbd> to navigate</p>
             <div class="sl-quiz-nav">
               <button class="md-btn md-btn-outlined" id="slQuizPrev" data-action="sl-quiz-prev" disabled>Previous</button>
               <button class="md-btn md-btn-filled" id="slQuizNext" data-action="sl-quiz-next">Next</button>
@@ -263,6 +260,7 @@
               <button class="md-btn md-btn-outlined" id="slFlashPrev" data-action="sl-flash-prev" disabled><span class="material-symbols-outlined">arrow_back</span> Previous</button>
               <button class="md-btn md-btn-outlined" id="slFlashNext" data-action="sl-flash-next">Next <span class="material-symbols-outlined">arrow_forward</span></button>
             </div>
+            <p class="sl-keyboard-hint">Press <kbd>Space</kbd> to flip &middot; <kbd>&larr;</kbd> <kbd>&rarr;</kbd> to navigate &middot; <kbd>H</kbd> Hard &middot; <kbd>O</kbd> Okay &middot; <kbd>E</kbd> Easy</p>
             <div class="sl-flash-more" id="slFlashMoreWrap" style="display:none;">
               <p>You reached the end of this deck.</p>
               <button class="md-btn md-btn-filled" data-action="sl-flash-more"><span class="material-symbols-outlined">add</span> Generate more new cards</button>
@@ -273,6 +271,23 @@
     </main>
   </div>
   {% endif %}
+
+  <div class="upload-progress-overlay" id="slUploadProgress" style="display:none;">
+    <div class="upload-progress-dialog">
+      <div class="upload-progress-icon">
+        <span class="material-symbols-outlined">cloud_upload</span>
+      </div>
+      <h3 class="upload-progress-title">Uploading document</h3>
+      <p class="upload-progress-subtitle" id="slUploadProgressSubtitle">Please wait while your file is being uploaded...</p>
+      <div class="upload-progress-bar-track">
+        <div class="upload-progress-bar-fill" id="slUploadProgressBar" style="width:0%"></div>
+      </div>
+      <div class="upload-progress-info">
+        <span id="slUploadProgressPercent">0%</span>
+        <span id="slUploadProgressSize"></span>
+      </div>
+    </div>
+  </div>
 
   <div class="modal-overlay" id="slShareModal" data-action="sl-close-share" style="display:none;">
     <div class="modal-box" data-action="noop" data-action-stop style="max-width:560px;">
@@ -307,6 +322,8 @@
 {% endblock %}
 
 {% block extra_js %}
+<script nonce="{{ csp_nonce }}" src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script nonce="{{ csp_nonce }}" src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 <script nonce="{{ csp_nonce }}" src="{% static 'web/js/study-mindmap.js' %}"></script>
 {% if is_authenticated %}
 <script nonce="{{ csp_nonce }}" src="{% static 'web/js/study-lab.js' %}"></script>
