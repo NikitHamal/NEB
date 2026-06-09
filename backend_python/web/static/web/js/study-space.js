@@ -131,8 +131,17 @@
       case 'ss-upload-file':
         $('ssFileInput').click();
         break;
+      case 'ss-select-doc':
+        openDocSelectModal();
+        break;
       case 'ss-remove-doc':
         removeDoc(el.dataset.docId);
+        break;
+      case 'ss-close-select-doc':
+        $('ssSelectDocModal').style.display='none';
+        break;
+      case 'ss-submit-select-doc':
+        submitDocSelection();
         break;
       case 'ss-share':
         openShareModal();
@@ -625,6 +634,129 @@
       else alert(data.error||'Failed to delete');
     });
   }
+
+  // ── Document selection ──
+  var selectedDocId = null;
+  var docSelectTab = 'docs';
+
+  function openDocSelectModal(){
+    var modal = $('ssSelectDocModal');
+    var list = $('ssDocSelectList');
+    var rlist = $('ssResourceSelectList');
+    list.innerHTML = '<div class="ss-doc-select-empty"><span class="material-symbols-outlined">hourglass_top</span><p>Loading documents...</p></div>';
+    rlist.innerHTML = '<div class="ss-doc-select-empty"><span class="material-symbols-outlined">hourglass_top</span><p>Loading resources...</p></div>';
+    selectedDocId = null;
+    modal.style.display='flex';
+    loadDocSelectDocs();
+    loadDocSelectResources();
+  }
+
+  function loadDocSelectDocs(){
+    var list = $('ssDocSelectList');
+    fetch('/ajax/study-space/'+SPACE_ID+'/document/list/',{headers:{'X-CSRFToken':csrf(),'Accept':'application/json'}})
+    .then(function(r){return r.json()})
+    .then(function(data){
+      var docs = data.documents || [];
+      if(!docs.length){
+        list.innerHTML = '<div class="ss-doc-select-empty"><span class="material-symbols-outlined">description</span><p>No study documents yet</p></div>';
+        return;
+      }
+      var html = '';
+      docs.forEach(function(d){
+        var icon = d.status==='ready'?'description':'error';
+        var inSpace = d.spaceId === SPACE_ID;
+        var selClass = inSpace ? ' selected' : '';
+        var meta = [];
+        if(d.fileName) meta.push(d.fileName);
+        if(d.fileSize) meta.push((d.fileSize/1024).toFixed(0)+'KB');
+        html += '<div class="ss-doc-select-item'+selClass+'" data-doc-id="'+d.id+'" data-doc-type="studydoc" data-action="ss-select-doc-item">'
+          + '<span class="material-symbols-outlined">'+icon+'</span>'
+          + '<div class="ss-doc-select-info">'
+          + '<span class="ss-doc-select-title">'+esc(d.title)+'</span>'
+          + (meta.length ? '<span class="ss-doc-select-meta">'+esc(meta.join(' · '))+'</span>' : '')
+          + '</div>'
+          + (inSpace ? '<span class="material-symbols-outlined ss-doc-select-check">check_circle</span>' : '')
+          + '</div>';
+      });
+      list.innerHTML = html;
+    }).catch(function(e){
+      list.innerHTML = '<div class="ss-doc-select-empty"><span class="material-symbols-outlined">error</span><p>Failed to load documents.</p></div>';
+    });
+  }
+
+  function loadDocSelectResources(){
+    var list = $('ssResourceSelectList');
+    fetch('/ajax/study-space/'+SPACE_ID+'/resource/list/',{headers:{'X-CSRFToken':csrf(),'Accept':'application/json'}})
+    .then(function(r){return r.json()})
+    .then(function(data){
+      var resources = data.resources || [];
+      if(!resources.length){
+        list.innerHTML = '<div class="ss-doc-select-empty"><span class="material-symbols-outlined">folder_off</span><p>No resources uploaded yet</p></div>';
+        return;
+      }
+      var html = '';
+      resources.forEach(function(r){
+        var icon = r.type==='PDF'?'picture_as_pdf':r.type==='Video'?'play_circle':'article';
+        var meta = [];
+        if(r.subject) meta.push(r.subject);
+        if(r.type) meta.push(r.type);
+        if(r.fileSize) meta.push((r.fileSize/1024).toFixed(0)+'KB');
+        html += '<div class="ss-doc-select-item" data-resource-id="'+r.id+'" data-doc-type="resource" data-action="ss-select-doc-item">'
+          + '<span class="material-symbols-outlined">'+icon+'</span>'
+          + '<div class="ss-doc-select-info">'
+          + '<span class="ss-doc-select-title">'+esc(r.title)+'</span>'
+          + (meta.length ? '<span class="ss-doc-select-meta">'+esc(meta.join(' · '))+'</span>' : '')
+          + '</div>'
+          + '</div>';
+      });
+      list.innerHTML = html;
+    }).catch(function(e){
+      list.innerHTML = '<div class="ss-doc-select-empty"><span class="material-symbols-outlined">error</span><p>Failed to load resources.</p></div>';
+    });
+  }
+
+  function submitDocSelection(){
+    if(!selectedDocId){ alert('Please select an item'); return; }
+    var selectedItem = document.querySelector('.ss-doc-select-item.selected');
+    var docType = selectedItem ? selectedItem.dataset.docType : 'studydoc';
+    var url, body;
+    if(docType === 'resource'){
+      url = '/ajax/study-space/'+SPACE_ID+'/resource/add/';
+      body = JSON.stringify({resource_id: selectedDocId});
+    } else {
+      url = '/ajax/study-space/'+SPACE_ID+'/document/add/';
+      body = JSON.stringify({document_id: selectedDocId});
+    }
+    fetch(url,{
+      method:'POST',
+      headers:{'Content-Type':'application/json','X-CSRFToken':csrf()},
+      body: body
+    }).then(function(r){return r.json()})
+    .then(function(data){
+      if(data.error){ alert(data.error); return; }
+      $('ssSelectDocModal').style.display='none';
+      loadSpace();
+    });
+  }
+
+  document.addEventListener('click',function(e){
+    var item = e.target.closest('.ss-doc-select-item');
+    if(item){
+      $$('.ss-doc-select-item').forEach(function(i){ i.classList.remove('selected'); });
+      item.classList.add('selected');
+      selectedDocId = item.dataset.docId || item.dataset.resourceId;
+      return;
+    }
+    var tab = e.target.closest('[data-action="ss-doc-tab"]');
+    if(tab){
+      docSelectTab = tab.dataset.tab;
+      $$('.ss-doc-tab').forEach(function(t){ t.classList.toggle('ss-doc-tab-active', t.dataset.tab===docSelectTab); });
+      $('ssDocSelectList').style.display = docSelectTab==='docs'?'':'none';
+      $('ssResourceSelectList').style.display = docSelectTab==='resources'?'':'none';
+      selectedDocId = null;
+      $$('.ss-doc-select-item').forEach(function(i){ i.classList.remove('selected'); });
+    }
+  });
 
   // ── Quiz option selection (event delegation) ──
   document.addEventListener('click',function(e){

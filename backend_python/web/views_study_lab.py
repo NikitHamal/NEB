@@ -448,6 +448,57 @@ def ajax_space_share(request, space_id):
     return JsonResponse(_serialize_space_detail(space, user_id))
 
 
+def ajax_space_list_available_docs(request, space_id):
+    """List all StudyDocuments owned by the user, for adding to a space."""
+    user_id = _get_user_id(request)
+    if not user_id:
+        return JsonResponse({'error': 'Unauthorized'}, status=401)
+
+    space, err = _accessible_space(space_id, user_id)
+    if err:
+        return err
+
+    docs = StudyDocument.objects.filter(user_id=user_id).order_by('-updated_at')[:100]
+    doc_list = []
+    for d in docs:
+        doc_list.append({
+            'id': d.id,
+            'title': d.title or d.file_name or 'Untitled',
+            'fileName': d.file_name,
+            'fileSize': d.file_size,
+            'spaceId': d.space_id,
+            'status': d.status,
+        })
+    return JsonResponse({'documents': doc_list})
+
+
+def ajax_space_list_resources(request, space_id):
+    """List Resources uploaded by the user that can be added to a space."""
+    user_id = _get_user_id(request)
+    if not user_id:
+        return JsonResponse({'error': 'Unauthorized'}, status=401)
+
+    space, err = _accessible_space(space_id, user_id)
+    if err:
+        return err
+
+    resources = Resource.objects.filter(
+        uploaded_by_id=user_id,
+        approval_status='approved',
+    ).order_by('-added_at')[:100]
+    res_list = []
+    for r in resources:
+        res_list.append({
+            'id': r.id,
+            'title': r.title or 'Untitled',
+            'subject': r.subject,
+            'type': r.type,
+            'fileSize': r.file_size,
+            'fileUrl': r.file_url or '',
+        })
+    return JsonResponse({'resources': res_list})
+
+
 def ajax_space_add_document(request, space_id):
     """Attach an existing StudyDocument to a study space. Max 5 docs per space."""
     user_id = _get_user_id(request)
@@ -484,6 +535,56 @@ def ajax_space_add_document(request, space_id):
     space.save(update_fields=['updated_at'])
 
     return JsonResponse(_serialize_space_detail(space, user_id))
+
+
+def ajax_space_add_resource(request, space_id):
+    """Import a Resource into a study space as a new StudyDocument. Max 5 docs per space."""
+    user_id = _get_user_id(request)
+    if not user_id:
+        return JsonResponse({'error': 'Unauthorized'}, status=401)
+    if request.method != 'POST':
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
+
+    space, err = _owned_space(space_id, user_id)
+    if err:
+        return err
+
+    if space.documents.count() >= MAX_DOCS_PER_SPACE:
+        return JsonResponse({'error': f'Maximum {MAX_DOCS_PER_SPACE} documents per space'}, status=400)
+
+    body = _json_body(request)
+    resource_id = body.get('resource_id', '').strip()
+    if not resource_id:
+        return JsonResponse({'error': 'resource_id is required'}, status=400)
+
+    try:
+        resource = Resource.objects.get(pk=resource_id, uploaded_by_id=user_id, approval_status='approved')
+    except Resource.DoesNotExist:
+        return JsonResponse({'error': 'Resource not found'}, status=404)
+
+    file_url = resource.file_url or ''
+    if resource.file:
+        file_url = resource.file.url
+
+    now = now_ms()
+    doc = StudyDocument.objects.create(
+        id=uuid_str(),
+        space=space,
+        user_id=user_id,
+        title=resource.title,
+        file_url=file_url,
+        file_name=os.path.basename(file_url) if file_url else resource.title,
+        file_size=resource.file_size,
+        mime_type='application/pdf' if resource.type == 'PDF' else 'application/octet-stream',
+        status='ready',
+        created_at=now,
+        updated_at=now,
+    )
+
+    space.updated_at = now
+    space.save(update_fields=['updated_at'])
+
+    return JsonResponse(_serialize_space_detail(space, user_id), status=201)
 
 
 def ajax_space_remove_document(request, space_id, doc_id):
