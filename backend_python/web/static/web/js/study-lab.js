@@ -20,16 +20,57 @@
     fileInput.addEventListener('change', function(e) {
       var file = e.target.files[0];
       if (!file) return;
+      var overlay = document.getElementById('slUploadProgress');
+      var bar = document.getElementById('slUploadProgressBar');
+      var pctEl = document.getElementById('slUploadProgressPercent');
+      var sizeEl = document.getElementById('slUploadProgressSize');
+      var subtitleEl = document.getElementById('slUploadProgressSubtitle');
+      if (overlay) { overlay.style.display = 'flex'; }
+      if (bar) { bar.style.width = '0%'; }
+      if (pctEl) { pctEl.textContent = '0%'; }
+      if (sizeEl) { sizeEl.textContent = formatSize(0) + ' / ' + formatSize(file.size); }
+      if (subtitleEl) { subtitleEl.textContent = 'Please wait while your file is being uploaded...'; }
       var formData = new FormData();
       formData.append('file', file);
-      fetch('/ajax/study-lab/upload/', { method: 'POST', headers: {'X-CSRFToken': CSRF_TOKEN}, credentials: 'same-origin', body: formData })
-        .then(handleJson)
-        .then(function(data) {
-          showSnackbar('Document uploaded');
-          addDocToList(data.document);
-          selectDoc(data.document.id);
-        })
-        .catch(function(err) { showSnackbar(err.message || 'Upload failed'); });
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', '/ajax/study-lab/upload/', true);
+      xhr.setRequestHeader('X-CSRFToken', CSRF_TOKEN);
+      xhr.withCredentials = true;
+      xhr.upload.addEventListener('progress', function(evt) {
+        if (evt.lengthComputable) {
+          var pct = Math.round((evt.loaded / evt.total) * 100);
+          if (bar) bar.style.width = pct + '%';
+          if (pctEl) pctEl.textContent = pct + '%';
+          if (sizeEl) sizeEl.textContent = formatSize(evt.loaded) + ' / ' + formatSize(evt.total);
+        }
+      });
+      xhr.addEventListener('load', function() {
+        try {
+          var data = JSON.parse(xhr.responseText);
+          if (xhr.status >= 200 && xhr.status < 300 && !data.error) {
+            if (bar) bar.style.width = '100%';
+            if (pctEl) pctEl.textContent = '100%';
+            if (subtitleEl) subtitleEl.textContent = 'Processing document...';
+            setTimeout(function() {
+              if (overlay) overlay.style.display = 'none';
+              showSnackbar('Document uploaded');
+              addDocToList(data.document);
+              selectDoc(data.document.id);
+            }, 600);
+          } else {
+            if (overlay) overlay.style.display = 'none';
+            showSnackbar((data && data.error) || 'Upload failed');
+          }
+        } catch (err) {
+          if (overlay) overlay.style.display = 'none';
+          showSnackbar('Upload failed');
+        }
+      });
+      xhr.addEventListener('error', function() {
+        if (overlay) overlay.style.display = 'none';
+        showSnackbar('Network error during upload');
+      });
+      xhr.send(formData);
       e.target.value = '';
     });
   }
@@ -50,7 +91,7 @@
     div.dataset.docId = doc.id;
     div.dataset.action = 'sl-select-doc';
     div.innerHTML = '<span class="material-symbols-outlined sl-doc-icon">description</span>' +
-      '<div class="sl-doc-info"><div class="sl-doc-title">' + escapeHtml(doc.title) + '</div><div class="sl-doc-meta"></div></div>';
+      '<div class="sl-doc-info"><div class="sl-doc-title">' + escapeHtml(doc.title) + '</div></div>';
     list.insertBefore(div, list.firstChild);
   }
 
@@ -103,20 +144,7 @@
       document.getElementById('slFlashDeck').style.display = 'none';
     }
 
-    updateDocBadges(data);
     switchTab('summary');
-  }
-
-  function updateDocBadges(data) {
-    var docItem = document.querySelector('.sl-doc-item[data-doc-id="' + currentDocId + '"]');
-    if (!docItem) return;
-    var meta = docItem.querySelector('.sl-doc-meta');
-    var badges = [];
-    if (data.document && data.document.summaryGenerated) badges.push('<span class="sl-badge sl-badge-summary">Summary</span>');
-    if ((data.document && data.document.mindmapGenerated) || data.mindmap) badges.push('<span class="sl-badge sl-badge-map">Mindmap</span>');
-    if (data.quizzes && data.quizzes.length) badges.push('<span class="sl-badge sl-badge-quiz">' + data.quizzes.length + ' Quiz' + (data.quizzes.length > 1 ? 'zes' : '') + '</span>');
-    if (data.flashcards && data.flashcards.length) badges.push('<span class="sl-badge sl-badge-flash">' + data.flashcards.length + ' Cards</span>');
-    meta.innerHTML = badges.join(' ');
   }
 
   function switchTab(tab) {
@@ -142,12 +170,30 @@
     if (text) {
       document.getElementById('slSummaryPrompt').style.display = 'none';
       document.getElementById('slSummaryContent').style.display = '';
-      document.getElementById('slSummaryText').innerHTML = renderMarkdown(text);
+      var el = document.getElementById('slSummaryText');
+      el.innerHTML = renderMarkdown(text);
+      renderMath(el);
     } else {
       document.getElementById('slSummaryPrompt').style.display = '';
       document.getElementById('slSummaryContent').style.display = 'none';
     }
     doc.summaryGenerated = Boolean(doc.summaryCompact || doc.summaryDetailed || doc.summary);
+  }
+
+  function renderMath(el) {
+    if (typeof renderMathInElement === 'function') {
+      try {
+        renderMathInElement(el, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false},
+            {left: '\\(', right: '\\)', display: false},
+            {left: '\\[', right: '\\]', display: true}
+          ],
+          ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code', 'annotation', 'semantics']
+        });
+      } catch(e) {}
+    }
   }
 
   function getSummaryText() {
@@ -169,7 +215,7 @@
       if (data.mode === 'compact') currentDocData.document.summary = data.summary;
       currentDocData.document.summaryGenerated = true;
       renderSummaryPanel();
-      updateDocBadges(currentDocData);
+      
     }).catch(function(err) {
       document.getElementById('slSummaryLoading').style.display = 'none';
       renderSummaryPanel();
@@ -200,7 +246,7 @@
       if (data.mode === 'compact') currentDocData.document.summary = data.summary;
       currentDocData.document.summaryGenerated = true;
       renderSummaryPanel();
-      updateDocBadges(currentDocData);
+      
       showSnackbar('Summary updated');
     }).catch(function(err) { showSnackbar(err.message || 'Failed to save summary'); });
   }
@@ -237,7 +283,7 @@
         currentDocData.mindmap = data.mindmap;
         currentDocData.document.mindmapGenerated = true;
         renderMindmapPanel();
-        updateDocBadges(currentDocData);
+        
       })
       .catch(function(err) {
         document.getElementById('slMindmapLoading').style.display = 'none';
@@ -278,7 +324,7 @@
       document.getElementById('slQuizLoading').style.display = 'none';
       currentDocData.quizzes = currentDocData.quizzes || [];
       currentDocData.quizzes.unshift({id: data.quiz.id, title: data.quiz.title, questionCount: data.quiz.questionCount, attemptCount: 0, bestScore: 0, createdAt: data.quiz.createdAt});
-      updateDocBadges(currentDocData);
+      
       startQuiz(data.quiz);
     }).catch(function(err) {
       document.getElementById('slQuizLoading').style.display = 'none';
@@ -305,19 +351,22 @@
     var answeredCount = Object.keys(quizAnswers).filter(function(k) { return quizAnswers[k]; }).length;
     document.getElementById('slQuizProgress').textContent = 'Question ' + (currentQuizIdx + 1) + ' of ' + quizQuestions.length;
     document.getElementById('slQuizScore').textContent = 'Answered: ' + answeredCount + '/' + quizQuestions.length;
-    document.getElementById('slQuizQuestion').textContent = q.question;
+    var qEl = document.getElementById('slQuizQuestion');
+    qEl.innerHTML = renderMarkdown(q.question);
+    renderMath(qEl);
     var opts = [{key:'A', text:q.optionA}, {key:'B', text:q.optionB}, {key:'C', text:q.optionC}, {key:'D', text:q.optionD}];
     var html = '';
     opts.forEach(function(opt) {
       var selected = quizAnswers[q.id] === opt.key;
       html += '<button class="sl-quiz-option' + (selected ? ' sl-quiz-option-selected' : '') + '" data-action="sl-quiz-answer" data-qid="' + q.id + '" data-answer="' + opt.key + '">' +
-        '<span class="sl-quiz-option-letter">' + opt.key + '</span><span class="sl-quiz-option-text">' + escapeHtml(opt.text || '') + '</span></button>';
+        '<span class="sl-quiz-option-letter">' + opt.key + '</span><span class="sl-quiz-option-text">' + renderMarkdown(opt.text || '') + '</span></button>';
     });
     document.getElementById('slQuizOptions').innerHTML = html;
+    renderMath(document.getElementById('slQuizOptions'));
     document.getElementById('slQuizPrev').disabled = currentQuizIdx === 0;
     var isLast = currentQuizIdx === quizQuestions.length - 1;
     document.getElementById('slQuizNext').style.display = isLast ? 'none' : '';
-    document.getElementById('slQuizSubmit').style.display = isLast ? '' : 'none';
+    document.getElementById('slQuizSubmit').style.display = isLast ? '' : '';
   }
 
   function submitQuiz() {
@@ -340,11 +389,14 @@
       var r = attempt.results[num];
       var cls = r.isCorrect ? 'sl-result-correct' : 'sl-result-wrong';
       var icon = r.isCorrect ? 'check_circle' : 'cancel';
+      var expl = r.explanation ? '<p class="sl-result-explanation">' + renderMarkdown(r.explanation) + '</p>' : '';
       html += '<div class="sl-result-item ' + cls + '"><span class="material-symbols-outlined">' + icon + '</span>' +
         '<div><strong>Q' + num + ': ' + (r.userAnswer || 'Skipped') + '</strong><span class="sl-result-answer">Correct: ' + r.correctAnswer + '</span>' +
-        (r.explanation ? '<p class="sl-result-explanation">' + escapeHtml(r.explanation) + '</p>' : '') + '</div></div>';
+        expl + '</div></div>';
     });
-    document.getElementById('slQuizResultsList').innerHTML = html;
+    var el = document.getElementById('slQuizResultsList');
+    el.innerHTML = html;
+    renderMath(el);
   }
 
   function generateFlashcards(append) {
@@ -362,7 +414,7 @@
       currentFlashIdx = append && oldLength ? oldLength : 0;
       document.getElementById('slFlashDeck').style.display = '';
       renderFlashcard();
-      updateDocBadges(currentDocData);
+      
     }).catch(function(err) {
       document.getElementById('slFlashLoading').style.display = 'none';
       if (!flashcards.length) document.getElementById('slFlashPrompt').style.display = '';
@@ -375,8 +427,12 @@
     var card = flashcards[currentFlashIdx];
     var atEnd = currentFlashIdx === flashcards.length - 1;
     document.getElementById('slFlashCounter').textContent = (currentFlashIdx + 1) + ' / ' + flashcards.length;
-    document.getElementById('slFlashFrontText').textContent = card.front;
-    document.getElementById('slFlashBackText').textContent = card.back;
+    var frontEl = document.getElementById('slFlashFrontText');
+    frontEl.innerHTML = renderMarkdown(card.front);
+    renderMath(frontEl);
+    var backEl = document.getElementById('slFlashBackText');
+    backEl.innerHTML = renderMarkdown(card.back);
+    renderMath(backEl);
     isFlipped = false;
     document.getElementById('slFlashCard').classList.remove('sl-flash-flipped');
     document.getElementById('slFlashPrev').disabled = currentFlashIdx === 0;
@@ -514,6 +570,52 @@
   }
 
   document.querySelectorAll('input[name="slShareMode"]').forEach(function(radio) { radio.addEventListener('change', updateShareSpecificVisibility); });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+    if (currentTab === 'quiz' && document.getElementById('slQuizActive').style.display !== 'none') {
+      var key = e.key.toUpperCase();
+      if (key === 'A' || key === 'B' || key === 'C' || key === 'D') {
+        e.preventDefault();
+        var q = quizQuestions[currentQuizIdx];
+        if (q && !quizAnswers[q.id]) {
+          quizAnswers[q.id] = key;
+          renderQuizQuestion();
+        }
+      } else if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        if (currentQuizIdx > 0) { currentQuizIdx--; renderQuizQuestion(); }
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        if (currentQuizIdx < quizQuestions.length - 1) { currentQuizIdx++; renderQuizQuestion(); }
+      } else if (e.key === 'Enter') {
+        e.preventDefault();
+        if (currentQuizIdx === quizQuestions.length - 1) submitQuiz();
+        else if (currentQuizIdx < quizQuestions.length - 1) { currentQuizIdx++; renderQuizQuestion(); }
+      }
+    }
+    if (currentTab === 'flashcards' && document.getElementById('slFlashDeck').style.display !== 'none') {
+      if (e.key === ' ') {
+        e.preventDefault();
+        flipCard();
+      } else if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        if (currentFlashIdx > 0) { currentFlashIdx--; renderFlashcard(); }
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        if (currentFlashIdx < flashcards.length - 1) { currentFlashIdx++; renderFlashcard(); }
+      } else if (e.key.toUpperCase() === 'H') {
+        e.preventDefault();
+        flashcardConfidence('hard');
+      } else if (e.key.toUpperCase() === 'O') {
+        e.preventDefault();
+        flashcardConfidence('medium');
+      } else if (e.key.toUpperCase() === 'E') {
+        e.preventDefault();
+        flashcardConfidence('easy');
+      }
+    }
+  });
 
   registerActions({
     'sl-upload': function() { document.getElementById('slFileInput').click(); },
