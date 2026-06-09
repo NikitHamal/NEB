@@ -351,6 +351,179 @@
   margin-top: 8px;
 }
 /* Quiz and flashcard styles reuse from study-lab */
+/* Modal base styles */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  background: rgba(15, 23, 42, .38);
+  z-index: 1200;
+}
+.modal-overlay.active { display: flex; }
+.modal-box {
+  width: min(100%, 520px);
+  max-height: min(88vh, 680px);
+  overflow: hidden;
+  border: 1px solid var(--md-outline-variant);
+  border-radius: 20px;
+  background: var(--md-surface-container-lowest);
+  box-shadow: 0 18px 50px rgba(15, 23, 42, .18);
+}
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--md-outline-variant);
+}
+.modal-title { margin: 0; font-size: 1rem; font-weight: 500; }
+.modal-body { padding: 14px 16px 16px; overflow: auto; }
+.modal-close {
+  border: 0;
+  background: transparent;
+  border-radius: 999px;
+  width: 34px;
+  height: 34px;
+  display: inline-grid;
+  place-items: center;
+  color: var(--md-on-surface-variant);
+  cursor: pointer;
+}
+.modal-close:hover { background: var(--md-surface-container); color: var(--md-on-surface); }
+.modal-footer { display: flex; justify-content: flex-end; gap: 8px; margin-top: 16px; }
+@media (max-width: 600px) {
+  .modal-box { width: 95%; border-radius: 16px; }
+}
+/* Share-specific styles */
+.sl-share-options { display: flex; flex-direction: column; gap: 8px; }
+.sl-share-option {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 10px 12px; border: 1px solid var(--md-outline-variant);
+  border-radius: 12px; cursor: pointer; transition: background 0.15s;
+}
+.sl-share-option:hover { background: var(--md-surface-container); }
+.sl-share-option input[type="radio"] { margin-top: 2px; accent-color: var(--md-primary); }
+.sl-share-option-title { font-weight: 500; color: var(--md-on-surface); display: block; }
+.sl-share-option small { color: var(--md-on-surface-variant); font-size: 0.75rem; }
+.sl-share-specific { margin-top: 12px; }
+.sl-share-specific label { font-size: 0.875rem; font-weight: 500; display: block; margin-bottom: 4px; }
+.sl-share-specific textarea {
+  width: 100%; padding: 8px 12px; border: 1px solid var(--md-outline);
+  border-radius: var(--md-radius-md); background: var(--md-surface-container-low);
+  color: var(--md-on-surface); font-family: inherit; font-size: 0.875rem;
+  resize: vertical; min-height: 60px; box-sizing: border-box;
+}
+.sl-share-linkbox { margin-top: 12px; }
+.sl-share-linkbox label { font-size: 0.875rem; font-weight: 500; display: block; margin-bottom: 4px; }
+.sl-share-linkrow { display: flex; gap: 8px; }
+.sl-share-linkrow input {
+  flex: 1; padding: 8px 12px; border: 1px solid var(--md-outline);
+  border-radius: var(--md-radius-md); background: var(--md-surface-container-low);
+  color: var(--md-on-surface); font-size: 0.875rem;
+}
+.sl-share-current { margin-top: 12px; }
+.sl-share-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 5px 10px; border-radius: 9999px;
+  background: var(--md-surface-container); margin: 4px 4px 0 0;
+  color: var(--md-on-surface); font-weight: 600;
+}
+.ss-doc-select-tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid var(--md-outline-variant);
+}
+.ss-doc-tab {
+  padding: 8px 16px;
+  border: none;
+  background: transparent;
+  color: var(--md-on-surface-variant);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: color 0.15s, border-color 0.15s;
+}
+.ss-doc-tab:hover {
+  background: var(--md-surface-container);
+}
+.ss-doc-tab.ss-doc-tab-active {
+  color: var(--md-primary);
+  border-bottom-color: var(--md-primary);
+}
+.ss-doc-select-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 340px;
+  overflow-y: auto;
+}
+.ss-doc-select-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--md-outline-variant);
+  border-radius: var(--md-radius-md);
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+.ss-doc-select-item:hover {
+  background: var(--md-surface-container);
+}
+.ss-doc-select-item.selected {
+  border-color: var(--md-primary);
+  background: var(--md-primary-container);
+}
+.ss-doc-select-item .material-symbols-outlined {
+  font-size: 20px;
+  color: var(--md-primary);
+  flex-shrink: 0;
+}
+.ss-doc-select-check {
+  margin-left: auto;
+  color: var(--md-primary);
+  font-size: 20px;
+  display: none;
+}
+.ss-doc-select-item.selected .ss-doc-select-check {
+  display: inline-flex;
+}
+.ss-doc-select-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+  flex: 1;
+}
+.ss-doc-select-title {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--md-on-surface);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ss-doc-select-meta {
+  font-size: 0.75rem;
+  color: var(--md-on-surface-variant);
+}
+.ss-doc-select-empty {
+  text-align: center;
+  padding: 32px 16px;
+  color: var(--md-on-surface-variant);
+  font-size: 0.875rem;
+}
+.ss-doc-select-empty .material-symbols-outlined {
+  font-size: 36px;
+  color: var(--md-outline);
+  margin-bottom: 8px;
+}
 </style>
 {% endblock %}
 
@@ -383,20 +556,24 @@
         <span class="material-symbols-outlined">upload_file</span>
         Add file
       </button>
+      <button class="ss-upload-btn" data-action="ss-select-doc">
+        <span class="material-symbols-outlined">folder_open</span>
+        Select existing file
+      </button>
 
       <div class="ss-sidebar-gen" id="ssLinkedGen">
         <div class="ss-sidebar-section-title">Linked generation</div>
         <button class="ss-gen-btn" data-action="ss-gen-linked-summary" id="ssGenSummaryBtn">
-          <span class="material-symbols-outlined">summarize</span> Generate summary
+          Generate summary
         </button>
         <button class="ss-gen-btn" data-action="ss-gen-linked-mindmap" id="ssGenMindmapBtn">
-          <span class="material-symbols-outlined">account_tree</span> Generate mindmap
+          Generate mindmap
         </button>
         <button class="ss-gen-btn" data-action="ss-gen-linked-quiz" id="ssGenQuizBtn">
-          <span class="material-symbols-outlined">quiz</span> Generate quiz
+          Generate quiz
         </button>
         <button class="ss-gen-btn" data-action="ss-gen-linked-flashcards" id="ssGenFlashBtn">
-          <span class="material-symbols-outlined">style</span> Generate flashcards
+          Generate flashcards
         </button>
       </div>
     </aside>
@@ -424,10 +601,8 @@
           <button class="ss-mode-btn" data-mode="detailed" data-action="ss-summary-mode">Detailed</button>
         </div>
         <div class="ss-gen-prompt" id="ssSummaryPrompt">
-          <span class="material-symbols-outlined">summarize</span>
           <p id="ssSummaryPromptText">Generate a study summary from all documents in this space.</p>
           <button class="md-btn md-btn-filled" data-action="ss-generate-summary">
-            <span class="material-symbols-outlined">auto_awesome</span>
             <span id="ssSummaryGenerateLabel">Generate Summary</span>
           </button>
         </div>
@@ -597,7 +772,28 @@
 </div>
 
 <!-- Upload progress -->
-<div class="upload-progress-overlay" id="ssUploadProgress" style="display:none;">
+  <div class="modal-overlay" id="ssSelectDocModal" data-action="ss-close-select-doc" style="display:none;">
+    <div class="modal-box" data-action="noop" data-action-stop style="max-width:560px;">
+      <div class="modal-header">
+        <h3 class="modal-title">Add from your library</h3>
+        <button class="modal-close" data-action="ss-close-select-doc"><span class="material-symbols-outlined">close</span></button>
+      </div>
+      <div class="modal-body" style="padding-bottom:8px;">
+        <div class="ss-doc-select-tabs" id="ssDocSelectTabs">
+          <button class="ss-doc-tab ss-doc-tab-active" data-tab="docs" data-action="ss-doc-tab">Study Documents</button>
+          <button class="ss-doc-tab" data-tab="resources" data-action="ss-doc-tab">Resources</button>
+        </div>
+        <div class="ss-doc-select-list" id="ssDocSelectList"></div>
+        <div class="ss-doc-select-list" id="ssResourceSelectList" style="display:none;"></div>
+      </div>
+      <div class="modal-footer" style="padding:0 16px 16px;">
+        <button class="md-btn md-btn-outlined" data-action="ss-close-select-doc">Cancel</button>
+        <button class="md-btn md-btn-filled" data-action="ss-submit-select-doc">Add to Space</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="upload-progress-overlay" id="ssUploadProgress" style="display:none;">
   <div class="upload-progress-dialog">
     <div class="upload-progress-icon"><span class="material-symbols-outlined">cloud_upload</span></div>
     <h3 class="upload-progress-title">Uploading file</h3>
