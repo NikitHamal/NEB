@@ -95,6 +95,8 @@
 }
 .sl-quiz-option-text {
   padding-top: 3px;
+  flex: 1;
+  min-width: 0;
 }
 .sl-quiz-nav {
   display: flex;
@@ -419,4 +421,83 @@
   border-radius: 4px;
   color: var(--md-on-surface);
   line-height: 1.5;
+}
+
+/* Quiz history */
+.ss-section-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--md-on-surface-variant);
+  margin: 16px 0 8px;
+}
+.ss-quiz-history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.ss-quiz-history-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: var(--md-surface-container-low);
+  border: 1px solid var(--md-outline-variant);
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+.ss-quiz-history-item:hover {
+  border-color: var(--md-primary);
+  background: var(--md-primary-container);
+}
+.ss-quiz-hist-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--md-primary-container);
+  color: var(--md-on-primary-container);
+  flex-shrink: 0;
+}
+.ss-quiz-hist-icon .material-symbols-outlined { font-size: 20px; }
+.ss-quiz-hist-info { flex: 1; min-width: 0; }
+.ss-quiz-hist-title {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--md-on-surface);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ss-quiz-hist-meta {
+  font-size: 0.75rem;
+  color: var(--md-on-surface-variant);
+  margin-top: 2px;
+}
+.ss-quiz-hist-score {
+  text-align: right;
+  flex-shrink: 0;
+}
+.ss-quiz-hist-score-num {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--md-primary);
+}
+.ss-quiz-hist-score-total {
+  font-size: 0.75rem;
+  color: var(--md-on-surface-variant);
+}
+.ss-quiz-hist-empty {
+  padding: 16px;
+  text-align: center;
+  font-size: 0.8125rem;
+  color: var(--md-on-surface-variant);
+  opacity: 0.7;
 }

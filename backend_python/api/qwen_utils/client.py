@@ -42,11 +42,13 @@ class QwenClient:
         self._model = model
         self._session = None
         self._headers = None
+        self._pool_session = None  # tracked for use/fail accounting
 
     def _ensure_session(self) -> Tuple[object, Dict]:
         """Lazily create and return a Qwen session + headers dict."""
         if self._session is None:
             self._session, _ = qwen_proxy._get_session()
+            self._pool_session = self._session
             midtoken = qwen_proxy.get_midtoken(self._session)
             if midtoken:
                 self._session.headers['bx-umidtoken'] = midtoken
@@ -66,8 +68,11 @@ class QwenClient:
 
     def reset_session(self):
         """Force a fresh session on next operation."""
+        if self._session:
+            qwen_proxy._mark_failed(self._session)
         self._session = None
         self._headers = None
+        self._pool_session = None
 
     def get_model(self) -> str:
         """Return the default Qwen model ID."""
@@ -78,7 +83,7 @@ class QwenClient:
     def create_chat(self, model: Optional[str] = None) -> Optional[str]:
         """Create a new Qwen chat session. Returns the chat_id or None."""
         model_id = model or self.get_model()
-        return qwen_proxy.create_chat(self.session, model=model_id)
+        return qwen_proxy.create_chat(self.session, model=model_id, _pool_session=self._pool_session)
 
     def send_message(
         self,
@@ -99,6 +104,7 @@ class QwenClient:
             parent_id=parent_id,
             system_prompt=system_prompt,
             uploaded_files=uploaded_files or [],
+            _pool_session=self._pool_session,
         )
 
     def upload_file_from_bytes(self, filename: str, data: bytes) -> Optional[dict]:

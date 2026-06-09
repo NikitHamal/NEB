@@ -169,6 +169,7 @@ urlpatterns = [
     path('ajax/study-space/<str:space_id>/summary/edit/', views.ajax_space_update_summary, name='ajax_space_update_summary'),
     path('ajax/study-space/<str:space_id>/mindmap/', views.ajax_space_generate_mindmap, name='ajax_space_generate_mindmap'),
     path('ajax/study-space/<str:space_id>/quiz/', views.ajax_space_generate_quiz, name='ajax_space_generate_quiz'),
+    path('ajax/study-space/<str:space_id>/quizzes/', views.ajax_space_quiz_history, name='ajax_space_quiz_history'),
     path('ajax/study-space/<str:space_id>/flashcards/', views.ajax_space_generate_flashcards, name='ajax_space_generate_flashcards'),
     path('ajax/study-space/quiz/<str:quiz_id>/', views.ajax_space_quiz_detail, name='ajax_space_quiz_detail'),
     path('ajax/study-space/quiz/<str:quiz_id>/submit/', views.ajax_space_quiz_submit, name='ajax_space_quiz_submit'),

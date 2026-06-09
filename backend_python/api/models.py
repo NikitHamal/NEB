@@ -905,6 +905,8 @@ class StudySpace(models.Model):
     link_summary_generated_at = models.BigIntegerField(default=0)
     link_mindmap_json = models.TextField(blank=True, default='')
     link_mindmap_generated_at = models.BigIntegerField(default=0)
+    learning_plan = models.TextField(blank=True, default='')
+    learning_plan_days = models.IntegerField(default=0)
     created_at = models.BigIntegerField(default=0)
     updated_at = models.BigIntegerField(default=0)
 

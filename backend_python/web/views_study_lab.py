@@ -14,7 +14,7 @@ import string
 from collections import Counter
 
 from django.db import connection, transaction
-from django.db.models import Avg, F, Max, Sum
+from django.db.models import Avg, Count, F, Max, Sum
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 
@@ -67,6 +67,7 @@ from api.qwen_utils.parsing import (
     parse_json_object_response, dedupe_questions, dedupe_flashcards,
 )
 from api.qwen_utils.doc_parser import start_parse, reparse as doc_reparse, get_parse_status, PARSE_STATUS_READY, PARSE_STATUS_FAILED
+from api.realtime import broadcast_note_content
 
 logger = logging.getLogger(__name__)
 
@@ -673,6 +674,7 @@ def ajax_space_notes(request, space_id):
         note.version = int(note.version or 0) + 1
         note.updated_at = now_ms()
         note.save(update_fields=['content', 'updated_by_id', 'version', 'updated_at'])
+        broadcast_note_content(space.id, content, note.version, user_id)
     updater = note.updated_by
     return JsonResponse({
         'note': {
@@ -768,7 +770,12 @@ def ajax_space_learning_path(request, space_id):
     result, err = _qwen().simple_chat(prompt, system_prompt=PLANNER_SYSTEM_PROMPT)
     if err:
         return JsonResponse({'error': err}, status=502)
-    return JsonResponse({'plan': clean_ai_markdown(result), 'days': days})
+    plan_text = clean_ai_markdown(result)
+    # persist to space
+    space.learning_plan = plan_text
+    space.learning_plan_days = days
+    space.save(update_fields=['learning_plan', 'learning_plan_days'])
+    return JsonResponse({'plan': plan_text, 'days': days})
 
 
 def ajax_space_list_available_docs(request, space_id):
@@ -1380,6 +1387,42 @@ def ajax_space_quiz_submit(request, quiz_id):
             'answers': answer_records,
         },
     })
+
+
+def ajax_space_quiz_history(request, space_id):
+    """Get all quizzes for a space with attempt summary for the current user."""
+    user_id = _get_user_id(request)
+    if not user_id:
+        return JsonResponse({'error': 'Unauthorized'}, status=401)
+
+    space, err = _accessible_space(space_id, user_id)
+    if err:
+        return err
+
+    quizzes = StudySpaceQuiz.objects.filter(space=space, user_id=user_id).order_by('-created_at')
+    quiz_ids = [q.id for q in quizzes]
+
+    attempt_agg = StudySpaceQuizAttempt.objects.filter(
+        quiz_id__in=quiz_ids, user_id=user_id
+    ).values('quiz_id').annotate(
+        total=Count('id'), best=Max('score'), last_at=Max('completed_at')
+    )
+    attempt_map = {a['quiz_id']: a for a in attempt_agg}
+
+    quiz_list = []
+    for q in quizzes:
+        agg = attempt_map.get(q.id, {})
+        quiz_list.append({
+            'id': q.id,
+            'title': q.title,
+            'questionCount': q.question_count,
+            'createdAt': q.created_at,
+            'attemptCount': agg.get('total', 0),
+            'bestScore': agg.get('best', 0),
+            'lastAttemptAt': agg.get('last_at'),
+        })
+
+    return JsonResponse({'quizzes': quiz_list})
 
 
 def ajax_space_generate_flashcards(request, space_id):
@@ -2897,15 +2940,34 @@ def _serialize_space_detail(space, user_id):
             'updatedAt': d.updated_at,
         })
     quizzes = StudySpaceQuiz.objects.filter(space=space, user_id=user_id).order_by('-created_at')[:10]
+    quiz_ids = [q.id for q in quizzes]
+    attempt_agg = StudySpaceQuizAttempt.objects.filter(quiz_id__in=quiz_ids, user_id=user_id).values('quiz_id').annotate(
+        total=Count('id'), best=Max('score'), last_at=Max('completed_at')
+    )
+    attempt_map = {a['quiz_id']: a for a in attempt_agg}
     quiz_list = []
     for q in quizzes:
+        agg = attempt_map.get(q.id, {})
         quiz_list.append({
             'id': q.id,
             'title': q.title,
             'questionCount': q.question_count,
             'createdAt': q.created_at,
+            'attemptCount': agg.get('total', 0),
+            'bestScore': agg.get('best', 0),
+            'lastAttemptAt': agg.get('last_at'),
         })
     flashcard_count = StudySpaceFlashcard.objects.filter(space=space, user_id=user_id).count()
+    flashcards_qs = StudySpaceFlashcard.objects.filter(space=space, user_id=user_id).order_by('card_number')[:50]
+    flashcard_list = []
+    for fc in flashcards_qs:
+        flashcard_list.append({
+            'id': fc.id,
+            'front': fc.front,
+            'back': fc.back,
+            'cardNumber': fc.card_number,
+            'createdAt': fc.created_at,
+        })
     is_owner = space.user_id == user_id
     member_role = _space_membership_role(space, user_id)
     can_manage = _can_manage_space(space, user_id)
@@ -2937,6 +2999,7 @@ def _serialize_space_detail(space, user_id):
         'documents': doc_list,
         'quizzes': quiz_list,
         'flashcardCount': flashcard_count,
+        'flashcards': flashcard_list,
         'shareMode': space.share_mode,
         'visibility': getattr(space, 'visibility', StudySpace.VISIBILITY_PRIVATE),
         'allowJoinByCode': getattr(space, 'allow_join_by_code', True),
@@ -2983,6 +3046,8 @@ def _serialize_space_detail(space, user_id):
         'linkSummaryGeneratedAt': space.link_summary_generated_at,
         'linkMindmapJson': space.link_mindmap_json,
         'linkMindmapGeneratedAt': space.link_mindmap_generated_at,
+        'learningPlan': space.learning_plan,
+        'learningPlanDays': space.learning_plan_days,
         'createdAt': space.created_at,
         'updatedAt': space.updated_at,
     }

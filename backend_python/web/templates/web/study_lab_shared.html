@@ -80,6 +80,7 @@
 
 {% block extra_js %}
 <script nonce="{{ csp_nonce }}" src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script nonce="{{ csp_nonce }}" src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/mhchem.min.js"></script>
 <script nonce="{{ csp_nonce }}" src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 <script nonce="{{ csp_nonce }}" src="{% static 'web/js/study-mindmap.js' %}"></script>
 <script nonce="{{ csp_nonce }}">

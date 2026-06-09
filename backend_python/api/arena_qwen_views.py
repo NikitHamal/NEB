@@ -161,7 +161,7 @@ def arena_create_qwen_session(request):
         qwen_session.headers['bx-umidtoken'] = midtoken
         qwen_session.headers['bx-v'] = '2.5.31'
 
-    chat_id = qwen_proxy.create_chat(qwen_session, model=model_id)
+    chat_id = qwen_proxy.create_chat(qwen_session, model=model_id, _pool_session=qwen_session)
     if not chat_id:
         return Response(
             {'error': 'Could not start Qwen session — try again'},
@@ -314,6 +314,7 @@ def arena_send_message_qwen(request, session_id):
         result = qwen_proxy.send_message(
             qwen_session, chat_id, content, model=model,
             parent_id=parent_id, uploaded_files=uploaded_file_objs or None,
+            _pool_session=qwen_session,
         )
 
         collected_text = ''
@@ -497,6 +498,7 @@ def arena_send_message_qwen_sse(request, session_id):
         result = qwen_proxy.send_message(
             qwen_session, chat_id, content, model=model,
             parent_id=parent_id, uploaded_files=uploaded_file_objs or None,
+            _pool_session=qwen_session,
         )
 
         collected_text = ''
@@ -508,6 +510,7 @@ def arena_send_message_qwen_sse(request, session_id):
         else:
             error_text = 'Qwen returned an empty response'
             finish_reason = 'error'
+            # Error event before [DONE]
             yield _sse_format({
                 'error': {'message': error_text, 'code': 'upstream'},
             })

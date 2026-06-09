@@ -27,6 +27,7 @@ from .consumers_ws import (
     GRP_POST_FMT,
     GRP_RESOURCE_FMT,
     GRP_RESOURCE_REQUEST_FMT,
+    GRP_STUDY_SPACE_FMT,
     GRP_USER_FMT,
 )
 from .utils import now_ms
@@ -150,6 +151,26 @@ def broadcast_unread_count(user_id: str, count: int):
 def broadcast_system(message: str, level: str = 'info'):
     """Site-wide announcement. Goes to all connected clients."""
     _send(GRP_FORUM_PUBLIC, 'system.message', {'message': message, 'level': level})
+
+
+# ----------------------------------------------------------------------- study space notes
+
+def broadcast_note_content(space_id: str, content: str, version: int, sender_id: str):
+    """Push note content update to all StudySpace members (except sender filters client-side)."""
+    _send(GRP_STUDY_SPACE_FMT.format(space_id=space_id), 'note_content', {
+        'content': content,
+        'version': version,
+        'senderId': sender_id,
+    })
+
+
+def broadcast_note_cursor(space_id: str, start: int, end: int, sender_id: str):
+    """Push cursor position to other StudySpace members."""
+    _send(GRP_STUDY_SPACE_FMT.format(space_id=space_id), 'note_cursor', {
+        'start': start,
+        'end': end,
+        'senderId': sender_id,
+    })
 
 
 # ----------------------------------------------------------------------- health

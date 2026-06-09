@@ -14,6 +14,11 @@
   var PRESENCE_SESSION = 'ss-' + Math.random().toString(36).slice(2);
   var PRESENCE_TIMER = null;
   var NOTES_SAVE_TIMER = null;
+  var NOTES_WS = null;
+  var NOTES_WS_USER_ID = null;
+  var NOTES_WS_CONNECTED = false;
+  var NOTES_CURSOR_TIMER = null;
+  var NOTES_WS_RECONNECT_TIMER = null;
 
   function csrf(){
     return document.querySelector('meta[name="csrf-token"]')?.content ||
@@ -47,6 +52,10 @@
       renderAnalytics();
       hydrateNotes();
       loadExistingContent();
+      loadSavedFlashcards();
+      loadSavedQuiz();
+      loadQuizHistory();
+      loadSavedLearningPlan();
       startPresenceLoop();
     })
     .catch(function(e){ console.error('Failed to load space:',e); });
@@ -127,23 +136,53 @@
   }
 
   function renderMembers(){
-    renderMemberList('ssMemberList', false);
+    renderMergedMemberList('ssMemberList', false);
     renderMemberList('ssShareMembers', true);
     renderMemberList('ssMembersModalList', true);
   }
 
   function renderPresence(){
-    var list = $('ssPresenceList');
-    var count = $('ssActiveNowCount');
+    renderMembers();
+  }
+
+  function renderMergedMemberList(targetId, manage){
+    var list = $(targetId);
     if(!list || !SPACE_DATA) return;
+    var members = SPACE_DATA.members || [];
     var presence = SPACE_DATA.presence || [];
-    if(count) count.textContent = presence.length + ' active';
-    if(!presence.length){ list.innerHTML = '<div class="ss-text-xs">No active members right now.</div>'; return; }
-    list.innerHTML = presence.map(function(p){
-      var avatar = p.photoUrl ? '<img src="'+esc(p.photoUrl)+'" alt="">' : esc((p.displayName||p.username||'?').charAt(0).toUpperCase());
-      var label = p.status || 'inside';
-      var detail = p.detail ? ' · ' + esc(p.detail) : '';
-      return '<div class="ss-presence-item"><span class="ss-presence-avatar">'+avatar+'</span><span class="ss-presence-main"><span class="ss-presence-name">'+esc(p.displayName||p.username)+'</span><span class="ss-presence-meta">'+esc(label)+detail+'</span></span></div>';
+    var onlineMap = {};
+    presence.forEach(function(p){ onlineMap[p.username] = p; });
+    var onlineCount = presence.length;
+    var countEl = $('ssActiveNowCount');
+    if(countEl) countEl.textContent = onlineCount > 0 ? onlineCount + ' online' : '';
+    if(!members.length){ list.innerHTML = '<div style="color:var(--md-on-surface-variant);font-size:.8125rem;">Only you for now</div>'; return; }
+    var sorted = members.slice().sort(function(a,b){
+      var aOn = onlineMap[a.username] ? 1 : 0;
+      var bOn = onlineMap[b.username] ? 1 : 0;
+      return bOn - aOn;
+    });
+    list.innerHTML = sorted.map(function(m){
+      var avatar = m.photoUrl ? '<img src="'+esc(m.photoUrl)+'" alt="">' : esc((m.displayName||m.username||'?').charAt(0).toUpperCase());
+      var online = onlineMap[m.username];
+      var dot = online ? '<span class="ss-live-dot"></span>' : '';
+      var detail = '';
+      if(online && online.detail){
+        detail = '<span class="ss-member-activity">'+esc(online.detail)+'</span>';
+      } else if(online){
+        detail = '<span class="ss-member-activity">Inside</span>';
+      }
+      var actions = '';
+      if(manage && SPACE_DATA.isOwner && m.role !== 'owner'){
+        actions = '<span class="ss-member-actions"><select class="ss-member-role-select" data-member-id="'+m.id+'">'
+          + '<option value="member" '+(m.role==='member'?'selected':'')+'>Member</option>'
+          + '<option value="moderator" '+(m.role==='moderator'?'selected':'')+'>Moderator</option>'
+          + '<option value="admin" '+(m.role==='admin'?'selected':'')+'>Admin</option>'
+          + '</select>'
+          + '<button class="ss-member-remove" data-action="ss-remove-member" data-member-id="'+m.id+'">Remove</button></span>';
+      }
+      return '<div class="ss-member-item'+(online?' ss-member-online':'')+'"><span class="ss-member-avatar">'+dot+avatar+'</span>'
+        + '<span class="ss-member-info"><span class="ss-member-name">'+esc(m.displayName||m.username)+'</span><span class="ss-member-role">'+esc(m.role)+(detail?' · ':'. ')+detail+'</span></span>'
+        + actions + '</div>';
     }).join('');
   }
 
@@ -177,6 +216,26 @@
       var who = SPACE_DATA.note.updatedBy ? 'Last updated by ' + SPACE_DATA.note.updatedBy : 'Shared with everyone in this StudySpace';
       meta.textContent = who;
     }
+  }
+
+  function loadSavedFlashcards(){
+    if(!SPACE_DATA || !SPACE_DATA.flashcards || !SPACE_DATA.flashcards.length) return;
+    FLASHCARDS = SPACE_DATA.flashcards;
+    FLASH_INDEX = 0;
+  }
+
+  function loadSavedQuiz(){
+    if(!SPACE_DATA || !SPACE_DATA.quizzes || !SPACE_DATA.quizzes.length) return;
+    var latest = SPACE_DATA.quizzes[0];
+    fetch('/ajax/study-space/quiz/'+latest.id+'/',{headers:{'Accept':'application/json'}})
+    .then(function(r){return r.json()})
+    .then(function(data){
+      if(data && data.quiz && data.quiz.questions && data.quiz.questions.length){
+        QUIZ_DATA = data.quiz;
+        QUIZ_ANSWERS = {};
+        QUIZ_CURRENT = 0;
+      }
+    }).catch(function(){});
   }
 
   function loadExistingContent(){
@@ -379,6 +438,9 @@
       case 'ss-quiz-new':
         generateQuiz();
         break;
+      case 'ss-load-past-quiz':
+        loadPastQuiz(el.dataset.quizId);
+        break;
     }
   });
 
@@ -400,13 +462,20 @@
       this.value='';
     });
     var notes=$('ssNotesTextarea');
-    if(notes) notes.addEventListener('input',function(){
-      if(NOTES_SAVE_TIMER) clearTimeout(NOTES_SAVE_TIMER);
-      sendPresence('typing','editing shared notes', true);
-      NOTES_SAVE_TIMER = setTimeout(function(){ saveNotes(false); }, 900);
-    });
+    if(notes){
+      notes.addEventListener('input',function(){
+        if(NOTES_SAVE_TIMER) clearTimeout(NOTES_SAVE_TIMER);
+        sendPresence('typing','editing shared notes', true);
+        var ver = SPACE_DATA && SPACE_DATA.note ? (SPACE_DATA.note.version||0)+1 : 1;
+        sendNoteContentViaWS(this.value, ver);
+        NOTES_SAVE_TIMER = setTimeout(function(){ saveNotes(false); }, 2000);
+      });
+      notes.addEventListener('mouseup',function(){ trackNoteCursor(); });
+      notes.addEventListener('keyup',function(){ trackNoteCursor(); });
+    }
   });
   window.addEventListener('beforeunload', function(){
+    disconnectNotesWS();
     try { navigator.sendBeacon('/ajax/study-space/'+SPACE_ID+'/presence/', new Blob([JSON.stringify({status:'idle', currentTab:CURRENT_TAB, isTyping:false, sessionId:PRESENCE_SESSION})], {type:'application/json'})); } catch(e){}
   });
 
@@ -513,6 +582,84 @@
     });
   }
 
+  // ── Realtime notes WebSocket ──
+  function connectNotesWS(){
+    if(NOTES_WS && (NOTES_WS.readyState===WebSocket.OPEN||NOTES_WS.readyState===WebSocket.CONNECTING)) return;
+    if(NOTES_WS_RECONNECT_TIMER){ clearTimeout(NOTES_WS_RECONNECT_TIMER); NOTES_WS_RECONNECT_TIMER=null; }
+    var wsUrl = (window.WS_CONFIG && window.WS_CONFIG.url) || '';
+    if(!wsUrl){
+      var p = window.location.protocol==='https:'?'wss:':'ws:';
+      wsUrl = p+'//'+window.location.host+'/ws/';
+    }
+    try {
+      NOTES_WS = new WebSocket(wsUrl);
+    } catch(e){ return; }
+    NOTES_WS.onopen = function(){
+      NOTES_WS_CONNECTED = true;
+      try{ NOTES_WS.send(JSON.stringify({action:'subscribe',channel:'studyspace.'+SPACE_ID})); }catch(e){}
+    };
+    NOTES_WS.onmessage = function(e){
+      try {
+        var msg = JSON.parse(e.data);
+        if(msg.type==='ready'){ NOTES_WS_USER_ID = msg.user_id; }
+        else if(msg.type==='event'){ handleNotesWSEvent(msg); }
+      } catch(err){}
+    };
+    NOTES_WS.onclose = function(){
+      NOTES_WS_CONNECTED = false;
+      if(NOTES_WS_RECONNECT_TIMER) return;
+      NOTES_WS_RECONNECT_TIMER = setTimeout(function(){
+        NOTES_WS_RECONNECT_TIMER = null;
+        connectNotesWS();
+      }, 3000);
+    };
+    NOTES_WS.onerror = function(){
+      NOTES_WS_CONNECTED = false;
+    };
+  }
+
+  function disconnectNotesWS(){
+    if(NOTES_WS_RECONNECT_TIMER){ clearTimeout(NOTES_WS_RECONNECT_TIMER); NOTES_WS_RECONNECT_TIMER=null; }
+    if(NOTES_WS){ try{ NOTES_WS.close(); }catch(e){} NOTES_WS=null; }
+    NOTES_WS_CONNECTED = false;
+    NOTES_WS_USER_ID = null;
+  }
+
+  function handleNotesWSEvent(msg){
+    if(msg.event==='note_content' && msg.data){
+      if(msg.data.senderId===NOTES_WS_USER_ID) return;
+      var ta = $('ssNotesTextarea');
+      if(!ta) return;
+      ta.value = msg.data.content;
+      var meta = $('ssNotesMeta');
+      if(meta) meta.textContent = 'Updated by another member';
+    }
+    if(msg.event==='note_cursor' && msg.data){
+      if(msg.data.senderId===NOTES_WS_USER_ID) return;
+      var hint = $('ssNotesPresenceHint');
+      if(hint){
+        hint.textContent = 'Someone is typing\u2026';
+        clearTimeout(hint._cursorTimer);
+        hint._cursorTimer = setTimeout(function(){ hint.textContent = 'Live collaboration'; }, 2000);
+      }
+    }
+  }
+
+  function sendNoteContentViaWS(content, version){
+    if(!NOTES_WS_CONNECTED || !NOTES_WS) return false;
+    try {
+      NOTES_WS.send(JSON.stringify({action:'note_content',spaceId:SPACE_ID,content:content,version:version||0}));
+      return true;
+    } catch(e){ return false; }
+  }
+
+  function sendNoteCursorViaWS(start, end){
+    if(!NOTES_WS_CONNECTED || !NOTES_WS) return;
+    try {
+      NOTES_WS.send(JSON.stringify({action:'note_cursor',spaceId:SPACE_ID,start:start||0,end:end||0}));
+    } catch(e){}
+  }
+
   // ── Tab switching ──
   function switchTab(tab){
     CURRENT_TAB = tab;
@@ -520,9 +667,38 @@
     $$('.ss-tab-content').forEach(function(c){ c.classList.remove('ss-tab-content-active'); });
     var panel = $('ssTab'+tab.charAt(0).toUpperCase()+tab.slice(1));
     if(panel) panel.classList.add('ss-tab-content-active');
-    if(tab==='notes') hydrateNotes();
+    if(tab==='notes'){ hydrateNotes(); connectNotesWS(); }
+    else { disconnectNotesWS(); }
+    if(tab==='quiz' && QUIZ_DATA && QUIZ_DATA.questions && QUIZ_DATA.questions.length){
+      $('ssQuizPrompt').style.display='none';
+      $('ssQuizLoading').style.display='none';
+      renderQuiz();
+    } else if(tab==='quiz'){
+      $('ssQuizPrompt').style.display='';
+      $('ssQuizActive').style.display='none';
+      $('ssQuizResults').style.display='none';
+    }
+    if(tab==='flashcards' && FLASHCARDS && FLASHCARDS.length){
+      $('ssFlashPrompt').style.display='none';
+      $('ssFlashLoading').style.display='none';
+      $('ssFlashDeck').style.display='block';
+      renderFlashcard();
+    } else if(tab==='flashcards'){
+      $('ssFlashPrompt').style.display='';
+      $('ssFlashDeck').style.display='none';
+    }
     if(tab==='analytics') renderAnalytics();
     sendPresence(activityStatus(), activityDetail(), false);
+  }
+
+  function trackNoteCursor(){
+    var ta = $('ssNotesTextarea');
+    if(!ta) return;
+    if(NOTES_CURSOR_TIMER) clearTimeout(NOTES_CURSOR_TIMER);
+    NOTES_CURSOR_TIMER = setTimeout(function(){
+      NOTES_CURSOR_TIMER = null;
+      sendNoteCursorViaWS(ta.selectionStart, ta.selectionEnd);
+    }, 80);
   }
 
   function selectCountChoice(el){
@@ -582,6 +758,7 @@
 
   function renderMarkdown(text){
     if(!text) return '';
+    text = wrapBareLatex(text);
     if(typeof window.renderMarkdown === 'function'){
       return sanitizeRendered(window.renderMarkdown(text));
     }
@@ -603,11 +780,106 @@
     return template.innerHTML;
   }
 
+  function wrapBareLatex(text){
+    if(!text) return text;
+    text = text.replace(/\$+/g, '');
+    var out='', i=0;
+    while(i<text.length){
+      if(text[i]==='\\'){
+        if(text.slice(i,i+4)==='\\ce{'){
+          var depth=1, j=i+4;
+          while(j<text.length && depth>0){
+            if(text[j]==='{') depth++;
+            else if(text[j]==='}') depth--;
+            j++;
+          }
+          out+='$'+text.slice(i,j)+'$';
+          i=j;
+        } else {
+          var cmd=text.slice(i+1).match(/^[A-Za-z]+/);
+          if(cmd){
+            var known=['Delta','alpha','beta','gamma','delta','epsilon','theta','lambda','sigma','omega','mu','nu','pi','rho','tau','phi','psi','chi','kappa','xi','zeta','eta','upsilon','varphi','varepsilon','vartheta','varpi','varrho','varsigma','rightarrow','leftarrow','leftrightarrow','longrightarrow','longleftarrow','Rightarrow','Leftarrow','Leftrightarrow','approx','neq','leq','geq','leqslant','geqslant','pm','mp','times','div','cdot','partial','nabla','infty','sum','prod','int','oint','sqrt','frac','circ','bullet','oplus','otimes','perp','parallel','angle','triangle','cong','sim','simeq','propto','equiv','subset','supset','subseteq','supseteq','cup','cap','in','notin','forall','exists','neg','land','lor','implies','iff','prime','ell','Re','Im','aleph','hbar','top','bot','vdots','cdots','ddots','ldots','quad','qquad','mathrm','text','operatorname','overline','underline','hat','bar','vec','tilde','dot','ddot','widehat','widetilde','overrightarrow','overleftarrow','xrightarrow','xleftarrow'];
+            if(known.indexOf(cmd[0])!==-1){
+              var math='$\\'+cmd[0];
+              var k=i+1+cmd[0].length;
+              var spaceConsumed=false;
+              while(k<text.length){
+                if(text[k]==='_' || text[k]==='^'){
+                  math+=text[k];
+                  k++;
+                  if(text[k]==='{'){
+                    var d2=1, m=k+1;
+                    while(m<text.length && d2>0){
+                      if(text[m]==='{') d2++;
+                      else if(text[m]==='}') d2--;
+                      m++;
+                    }
+                    math+=text.slice(k,m);
+                    k=m;
+                  } else if(text[k]){
+                    math+=text[k];
+                    k++;
+                  }
+                } else if(!spaceConsumed && text[k]===' ' && k+1<text.length && /[A-Za-z]/.test(text[k+1]) && text[k+1]!=='\\'){
+                  spaceConsumed=true;
+                  math+=text[k];
+                  k++;
+                  while(k<text.length && /[A-Za-z0-9]/.test(text[k])){
+                    math+=text[k];
+                    k++;
+                    if(text[k]==='_' || text[k]==='^'){
+                      math+=text[k];
+                      k++;
+                      if(text[k]==='{'){
+                        var d3=1, m2=k+1;
+                        while(m2<text.length && d3>0){
+                          if(text[m2]==='{') d3++;
+                          else if(text[m2]==='}') d3--;
+                          m2++;
+                        }
+                        math+=text.slice(k,m2);
+                        k=m2;
+                      } else if(text[k]){
+                        math+=text[k];
+                        k++;
+                      }
+                    }
+                  }
+                } else {
+                  break;
+                }
+              }
+              math+='$';
+              out+=math;
+              i=k;
+            } else {
+              out+=text[i];
+              i++;
+            }
+          } else {
+            out+=text[i];
+            i++;
+          }
+        }
+      } else {
+        out+=text[i];
+        i++;
+      }
+    }
+    return out;
+  }
+
   function renderMathInElement(el){
     if(window.renderMathInElement){
       window.renderMathInElement(el,{
-        delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],
-        throwOnError:false
+        delimiters:[
+          {left:'$$',right:'$$',display:true},
+          {left:'$',right:'$',display:false},
+          {left:'\\(',right:'\\)',display:false},
+          {left:'\\[',right:'\\]',display:true}
+        ],
+        throwOnError:false,
+        strict:false
       });
     }
   }
@@ -673,6 +945,7 @@
   // ── Quiz ──
   function generateQuiz(){
     $('ssQuizPrompt').style.display='none';
+    $('ssQuizHistorySection').style.display='none';
     $('ssQuizLoading').style.display='block';
     $('ssQuizActive').style.display='none';
     $('ssQuizResults').style.display='none';
@@ -686,6 +959,7 @@
         return r.json().then(function(data){
           $('ssQuizLoading').style.display='none';
           $('ssQuizPrompt').style.display='';
+          $('ssQuizHistorySection').style.display='';
           showParseStatusMessage(data.error||'Documents are still being parsed. Please wait and try again.');
           return null;
         });
@@ -694,7 +968,7 @@
     }).then(function(data){
       if(!data) return;
       $('ssQuizLoading').style.display='none';
-      if(data.error){ $('ssQuizPrompt').style.display=''; showParseStatusMessage(data.error); return; }
+      if(data.error){ $('ssQuizPrompt').style.display=''; $('ssQuizHistorySection').style.display=''; showParseStatusMessage(data.error); return; }
       QUIZ_DATA = data.quiz;
       QUIZ_ANSWERS = {};
       QUIZ_CURRENT = 0;
@@ -702,6 +976,7 @@
     }).catch(function(e){
       $('ssQuizLoading').style.display='none';
       $('ssQuizPrompt').style.display='';
+      $('ssQuizHistorySection').style.display='';
       showParseStatusMessage('Failed to generate quiz. Please try again.');
     });
   }
@@ -730,9 +1005,9 @@
   }
 
   function formatOption(qid,letter,text,selected){
-    var sel = selected?' sl-quiz-opt-selected':'';
-    return '<div class="sl-quiz-opt'+sel+'" data-action="ss-quiz-select" data-qid="'+qid+'" data-answer="'+letter+'">'
-      +'<span class="sl-quiz-opt-letter">'+letter+'</span><div class="sl-quiz-opt-text">'+renderMarkdown(text)+'</div></div>';
+    var sel = selected?' sl-quiz-option-selected':'';
+    return '<div class="sl-quiz-option'+sel+'" data-action="ss-quiz-select" data-qid="'+qid+'" data-answer="'+letter+'">'
+      +'<span class="sl-quiz-option-letter">'+letter+'</span><div class="sl-quiz-option-text">'+renderMarkdown(text)+'</div></div>';
   }
 
   // ── Flashcards ──
@@ -829,6 +1104,7 @@
     .then(function(data){
       if(data.error){ alert(data.error); return; }
       showQuizResults(data.attempt);
+      loadQuizHistory();
     });
   }
 
@@ -859,6 +1135,73 @@
     QUIZ_CURRENT = 0;
     $('ssQuizResults').style.display='none';
     renderQuiz();
+  }
+
+  function loadQuizHistory(){
+    if(!SPACE_ID) return;
+    fetch('/ajax/study-space/'+SPACE_ID+'/quizzes/',{headers:{'Accept':'application/json'}})
+    .then(function(r){return r.json()})
+    .then(function(data){
+      if(!data || !data.quizzes) return;
+      renderQuizHistory(data.quizzes);
+    }).catch(function(){});
+  }
+
+  function renderQuizHistory(quizzes){
+    var section = $('ssQuizHistorySection');
+    var list = $('ssQuizHistoryList');
+    if(!section || !list) return;
+    if(!quizzes || !quizzes.length){
+      section.style.display='none';
+      return;
+    }
+    section.style.display='block';
+    var html = '';
+    quizzes.forEach(function(q){
+      var pct = q.attemptCount > 0 ? Math.round((q.bestScore / q.questionCount) * 100) : 0;
+      var scoreText = q.attemptCount > 0 ? q.bestScore + '/' + q.questionCount + ' best' : 'No attempts';
+      var metaText = q.attemptCount > 0 ? q.attemptCount + ' attempt' + (q.attemptCount===1?'':'s') : '';
+      if(q.lastAttemptAt){
+        var d = new Date(q.lastAttemptAt);
+        metaText += (metaText ? ' \u00b7 ' : '') + d.toLocaleDateString(undefined, {month:'short',day:'numeric'});
+      }
+      if(!metaText) metaText = q.questionCount + ' questions \u00b7 ' + new Date(q.createdAt).toLocaleDateString(undefined,{month:'short',day:'numeric'});
+      html += '<div class="ss-quiz-history-item" data-action="ss-load-past-quiz" data-quiz-id="'+q.id+'">'
+        + '<div class="ss-quiz-hist-icon"><span class="material-symbols-outlined">quiz</span></div>'
+        + '<div class="ss-quiz-hist-info">'
+        + '<div class="ss-quiz-hist-title">'+esc(q.title||'Quiz')+'</div>'
+        + '<div class="ss-quiz-hist-meta">'+esc(metaText)+'</div>'
+        + '</div>'
+        + (q.attemptCount > 0 ? '<div class="ss-quiz-hist-score"><span class="ss-quiz-hist-score-num">'+pct+'%</span><div class="ss-quiz-hist-score-total">'+scoreText+'</div></div>' : '')
+        + '</div>';
+    });
+    list.innerHTML = html;
+  }
+
+  function loadPastQuiz(quizId){
+    $('ssQuizPrompt').style.display='none';
+    $('ssQuizHistorySection').style.display='none';
+    $('ssQuizLoading').style.display='block';
+    $('ssQuizActive').style.display='none';
+    $('ssQuizResults').style.display='none';
+    fetch('/ajax/study-space/quiz/'+quizId+'/',{headers:{'Accept':'application/json'}})
+    .then(function(r){return r.json()})
+    .then(function(data){
+      $('ssQuizLoading').style.display='none';
+      if(!data || !data.quiz || !data.quiz.questions || !data.quiz.questions.length){
+        $('ssQuizPrompt').style.display='';
+        showParseStatusMessage('Could not load quiz.');
+        return;
+      }
+      QUIZ_DATA = data.quiz;
+      QUIZ_ANSWERS = {};
+      QUIZ_CURRENT = 0;
+      renderQuiz();
+    }).catch(function(){
+      $('ssQuizLoading').style.display='none';
+      $('ssQuizPrompt').style.display='';
+      showParseStatusMessage('Failed to load quiz.');
+    });
   }
 
   // ── Share ──
@@ -959,6 +1302,48 @@
     return 'browsing ' + CURRENT_TAB;
   }
 
+  function loadSavedLearningPlan(){
+    if(!SPACE_DATA || !SPACE_DATA.learningPlan) return;
+    var days = SPACE_DATA.learningPlanDays || 10;
+    $('ssLearningEmpty').style.display='none';
+    renderLearningPlanInto(SPACE_DATA.learningPlan, days);
+  }
+
+  function renderLearningPlanInto(plan, days){
+    var el = $('ssLearningPlan');
+    var html = '<div class="ss-learning-plan-header"><span class="material-symbols-outlined">route</span><span>'+days+'-Day Study Plan</span></div>';
+    var blocks = splitDayBlocks(plan);
+    blocks.forEach(function(b){
+      if(b.isDay){
+        html += '<div class="ss-day-card"><div class="ss-day-card-head"><span class="material-symbols-outlined ss-day-icon">calendar_today</span>'+esc(b.title)+'</div><div class="ss-day-card-body">'+renderMarkdown(b.body)+'</div></div>';
+      } else {
+        html += renderMarkdown(b.body);
+      }
+    });
+    html += '<div class="ss-learning-plan-actions"><button class="md-btn md-btn-outlined" data-action="ss-generate-learning-path"><span class="material-symbols-outlined">refresh</span> Regenerate</button></div>';
+    el.innerHTML = html;
+    renderMathInElement(el);
+    el.style.display='block';
+  }
+
+  function splitDayBlocks(plan){
+    var lines = plan.split('\n');
+    var blocks = [];
+    var current = null;
+    for(var i=0;i<lines.length;i++){
+      var m = lines[i].match(/^(#{1,3})\s*(Day\s*\d[\s\S]*?)$/i);
+      if(m){
+        if(current) blocks.push(current);
+        current = {isDay:true, title:m[2].trim(), body:''};
+      } else {
+        if(!current) current = {isDay:false, body:''};
+        current.body += lines[i]+'\n';
+      }
+    }
+    if(current) blocks.push(current);
+    return blocks;
+  }
+
   function sendPresence(status, detail, isTyping){
     if(!SPACE_ID) return;
     fetch('/ajax/study-space/'+SPACE_ID+'/presence/',{
@@ -1019,15 +1404,18 @@
   function saveNotes(showToast){
     var ta = $('ssNotesTextarea');
     if(!ta) return;
+    var content = ta.value;
+    var version = (SPACE_DATA && SPACE_DATA.note ? SPACE_DATA.note.version||0 : 0) + 1;
+    sendNoteContentViaWS(content, version);
     fetch('/ajax/study-space/'+SPACE_ID+'/notes/',{
-      method:'POST', headers:{'Content-Type':'application/json','X-CSRFToken':csrf()}, body:JSON.stringify({content:ta.value})
+      method:'POST', headers:{'Content-Type':'application/json','X-CSRFToken':csrf()}, body:JSON.stringify({content:content})
     }).then(function(r){return r.json()})
     .then(function(data){
       if(data.error){ if(showToast) alert(data.error); return; }
       SPACE_DATA.note = data.note;
       hydrateNotes();
       sendPresence('editing','editing shared notes', false);
-    });
+    }).catch(function(){});
   }
 
   function askTutor(){
@@ -1050,32 +1438,36 @@
   }
 
   function generateLearningPath(){
-    var days = parseInt($('ssLearningDays').value || '7', 10);
-    $('ssLearningStatus').textContent='Generating...';
+    var days = parseInt($('ssLearningDays')?.value || '10', 10);
+    $('ssLearningEmpty').style.display='none';
     $('ssLearningPlan').style.display='none';
+    $('ssLearningLoading').style.display='block';
     fetch('/ajax/study-space/'+SPACE_ID+'/learning-path/',{
       method:'POST', headers:{'Content-Type':'application/json','X-CSRFToken':csrf()}, body:JSON.stringify({days:days})
     }).then(function(r){return r.json()})
     .then(function(data){
-      $('ssLearningStatus').textContent='';
-      if(data.error){ alert(data.error); return; }
-      $('ssLearningPlan').style.display='block';
-      $('ssLearningPlan').innerHTML = renderMarkdown(data.plan || '');
-      renderMathInElement($('ssLearningPlan'));
+      $('ssLearningLoading').style.display='none';
+      if(data.error){ alert(data.error); $('ssLearningEmpty').style.display='block'; return; }
+      if(data.plan){
+        renderLearningPlanInto(data.plan, days);
+      }
       sendPresence('generating','generating learning path', false);
-    }).catch(function(){ $('ssLearningStatus').textContent=''; alert('Failed to generate learning path'); });
+    }).catch(function(){
+      $('ssLearningLoading').style.display='none';
+      $('ssLearningEmpty').style.display='block';
+    });
   }
-
   function startExamMode(){
-    var count = parseInt($('ssExamQuestionCount').value || '10', 10);
-    var mins = parseInt($('ssExamMinutes').value || '10', 10);
+    var count = parseInt($('ssExamQuestionCount')?.value || '10', 10);
+    var mins = parseInt($('ssExamMinutes')?.value || '10', 10);
     switchTab('quiz');
     $('ssQuizCount').value = String(count);
-    $$('.ss-count-choice').forEach(function(b){ if(b.closest('#ssQuizCountPicker')) b.classList.toggle('active', b.dataset.value===String(count)); });
+    $$('.ss-count-choice').forEach(function(b){
+      if(b.closest('#ssQuizCountPicker')) b.classList.toggle('active', b.dataset.value===String(count));
+    });
     generateQuiz();
     setTimeout(function(){ alert('Exam mode started. You have ' + mins + ' minutes for this mock test.'); }, 200);
   }
-
   // ── Rename ──
   function openRenameModal(){
     $('ssRenameTitle').value = SPACE_DATA.title||'';
@@ -1236,7 +1628,7 @@
 
   // ── Quiz option selection (event delegation) ──
   document.addEventListener('click',function(e){
-    var opt = e.target.closest('.sl-quiz-opt');
+    var opt = e.target.closest('.sl-quiz-option');
     if(!opt) return;
     var qid = opt.dataset.qid;
     var answer = opt.dataset.answer;
