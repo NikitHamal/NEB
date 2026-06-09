@@ -186,6 +186,22 @@
   display: block;
   overflow: visible;
 }
+.sl-mm-animate .sl-mm-n {
+  animation: slMmNodeIn 180ms ease-out both;
+}
+.sl-mm-animate .sl-mm-e {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: slMmEdgeIn 210ms ease-out both;
+}
+@keyframes slMmNodeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes slMmEdgeIn {
+  from { opacity: 0; stroke-dashoffset: 1; }
+  to { opacity: 0.92; stroke-dashoffset: 0; }
+}
 .sl-mm-zoom-bar {
   position: absolute;
   right: 14px;
@@ -233,6 +249,7 @@
 .sl-mm-nr {
   stroke-width: 1.2;
   transition: fill 160ms ease, stroke 160ms ease;
+  pointer-events: none;
 }
 .sl-mm-t {
   font-family: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -257,6 +274,17 @@
   font-weight: 800;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   pointer-events: none;
+}
+.sl-mm-toggle {
+  cursor: pointer;
+}
+.sl-mm-toggle-hit {
+  fill: transparent;
+  stroke: none;
+  pointer-events: all;
+}
+.sl-mm-clickable:focus-visible .sl-mm-indicator {
+  stroke-width: 3px;
 }
 .sl-mm-clickable { cursor: pointer; }
 .sl-mm-clickable:hover .sl-mm-nr {
@@ -294,6 +322,12 @@
 .sl-mm-match .sl-mm-nr {
   stroke: #4f46e5;
   stroke-width: 2;
+}
+@media (prefers-reduced-motion: reduce) {
+  .sl-mm-animate .sl-mm-n,
+  .sl-mm-animate .sl-mm-e {
+    animation: none;
+  }
 }
 [data-theme="dark"] .sl-mindmap-stage {
   background: #0d1320;
@@ -356,16 +390,21 @@
 [data-theme="dark"] .sl-mm-match .sl-mm-nr { stroke: #c7d2fe; }
 @media (max-width: 720px) {
   .sl-mm-wrap {
-    height: 440px;
-    min-height: 400px;
+    height: 420px;
+    min-height: 360px;
   }
   .sl-mm-zoom-bar {
-    right: 10px;
-    bottom: 10px;
+    right: 8px;
+    bottom: 8px;
     border-radius: 16px;
+    padding: 4px;
+    flex-direction: row;
+    gap: 2px;
   }
   .sl-mm-zb {
-    width: 34px;
-    height: 34px;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
   }
+  .sl-mm-zb .material-symbols-outlined { font-size: 22px; }
 }
