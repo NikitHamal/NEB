@@ -114,6 +114,16 @@ def _send_doc_task(prepared, file_prompt, text_prompt, system_prompt):
 # ── Prompt templates ───────────────────────────────────────────────────────
 
 
+_FORMULA_PROMPT = (
+    "Use proper LaTeX math notation for all formulas. "
+    "For inline formulas use $...$ (e.g., $E = mc^2$, $x^2 + y^2 = z^2$, $v = u + at$). "
+    "For displayed/centered equations use $$...$$ on their own line. "
+    "For chemical and molecular formulas use $\\ce{...}$ (e.g., $\\ce{H2O}$, $\\ce{CH4}$, "
+    "$\\ce{C6H12O6}$, $\\ce{NaOH}$, $\\ce{H2SO4}$, $\\ce{CO2}$). "
+    "For subscripts use x_{i} notation. For superscripts use x^{2} notation."
+)
+
+
 def _summary_system_prompt(mode):
     if mode == 'detailed':
         length_rule = (
@@ -128,6 +138,7 @@ def _summary_system_prompt(mode):
     return (
         "You are an expert study assistant for Nepali students following the NEB curriculum. "
         f"{length_rule} "
+        f"{_FORMULA_PROMPT} "
         "Return ONLY the summary content. Do not add an intro sentence, apology, or meta-commentary. "
         "Never start with phrases like 'Here is', 'Here's', 'Below is', or 'I have'. "
         "Start directly with a useful markdown heading. Use clear headings, short paragraphs, bullets, "
@@ -139,6 +150,7 @@ _QUIZ_SYSTEM_PROMPT = (
     "You are an expert quiz generator for Nepali students following the NEB curriculum. "
     "Generate fresh, exam-style multiple-choice questions from the provided material. "
     "Do not repeat or lightly paraphrase any existing questions listed by the user. "
+    f"{_FORMULA_PROMPT} "
     "You MUST respond with ONLY a valid JSON array, no markdown and no extra text. Each element must have: "
     '"question" (string), "options" (array of exactly 4 strings in A/B/C/D order), '
     '"correct" (string: "A", "B", "C", or "D"), "explanation" (string). '
@@ -149,6 +161,7 @@ _FLASHCARD_SYSTEM_PROMPT = (
     "You are an expert flashcard creator for Nepali students following the NEB curriculum. "
     "Create fresh flashcards from the provided material. Do not repeat or lightly paraphrase any existing "
     "flashcards listed by the user. "
+    f"{_FORMULA_PROMPT} "
     "You MUST respond with ONLY a valid JSON array, no markdown and no extra text. Each element must have: "
     '"front" (string: the question, cue, or key term), "back" (string: the answer or explanation). '
     "Generate exactly {count} flashcards. Cover important concepts, definitions, formulas, comparisons, and likely exam points."
@@ -157,6 +170,7 @@ _FLASHCARD_SYSTEM_PROMPT = (
 _MINDMAP_SYSTEM_PROMPT = (
     "You are an expert visual mindmap architect for Nepali learners. Build a true study mindmap, not a summary. "
     "Create balanced, visual branches that radiate from the main idea and help a learner remember relationships. "
+    f"{_FORMULA_PROMPT} "
     "You MUST respond with ONLY a valid JSON object, no markdown and no extra text. Use this schema exactly: "
     '{"title":"Main topic","nodes":[{"title":"Branch","note":"optional short note",'
     '"children":[{"title":"Sub-branch","note":"optional short note","children":[]}]}]}. '
@@ -576,7 +590,7 @@ def ajax_study_generate_summary(request, doc_id):
         logger.error('Study Lab summary failed: %s', err)
         return JsonResponse({'error': err}, status=502)
 
-    summary = _clean_ai_markdown(result)
+    summary = _normalize_formulas(_clean_ai_markdown(result))
     _save_summary(doc, mode, summary)
 
     return JsonResponse({
@@ -706,13 +720,13 @@ def ajax_study_generate_quiz(request, doc_id):
             id=uuid_str(),
             quiz=quiz,
             question_number=i + 1,
-            question_text=(q.get('question', '') if isinstance(q, dict) else '').strip(),
-            option_a=options[0] if len(options) > 0 else '',
-            option_b=options[1] if len(options) > 1 else '',
-            option_c=options[2] if len(options) > 2 else '',
-            option_d=options[3] if len(options) > 3 else '',
+            question_text=_normalize_formulas((q.get('question', '') if isinstance(q, dict) else '').strip()),
+            option_a=_normalize_formulas(options[0]) if len(options) > 0 else '',
+            option_b=_normalize_formulas(options[1]) if len(options) > 1 else '',
+            option_c=_normalize_formulas(options[2]) if len(options) > 2 else '',
+            option_d=_normalize_formulas(options[3]) if len(options) > 3 else '',
             correct_answer=((q.get('correct', 'A') if isinstance(q, dict) else 'A') or 'A').upper()[:1],
-            explanation=(q.get('explanation', '') if isinstance(q, dict) else '').strip(),
+            explanation=_normalize_formulas((q.get('explanation', '') if isinstance(q, dict) else '').strip()),
         )
 
     doc.updated_at = now
@@ -844,8 +858,8 @@ def ajax_study_generate_flashcards(request, doc_id):
             id=uuid_str(),
             document=doc,
             user_id=user_id,
-            front=(c.get('front', '') if isinstance(c, dict) else '').strip(),
-            back=(c.get('back', '') if isinstance(c, dict) else '').strip(),
+            front=_normalize_formulas((c.get('front', '') if isinstance(c, dict) else '').strip()),
+            back=_normalize_formulas((c.get('back', '') if isinstance(c, dict) else '').strip()),
             card_number=max_card_number + i + 1,
             created_at=now,
         )
@@ -1136,6 +1150,21 @@ def _clean_ai_markdown(text):
     return cleaned
 
 
+def _normalize_formulas(text):
+    """Post-process AI output to ensure formulas are in KaTeX-compatible LaTeX.
+
+    - Wraps lone \\ce{...} in $...$ so KaTeX auto-render catches them.
+    - Ensures $$ display math is on its own line.
+    """
+    if not text:
+        return text
+    # Wrap \\ce{...} that isn't already inside $...$ or $$...$$
+    text = re.sub(r'(?<!\$)\\ce\{([^}]*)\}', r'$\ce{\1}$', text)
+    # Ensure $$...$$ blocks are on their own line (add newline before if not)
+    text = re.sub(r'(?<!\n)\$\$(.+?)\$\$(?!\n)', r'\n$$\1$$', text)
+    return text
+
+
 def _prepare_doc_for_qwen(doc):
     """Read document and return Qwen context for file upload or extracted text."""
     if not doc.file_url:
@@ -1307,8 +1336,8 @@ def _normalize_mindmap(mindmap, doc):
 
 
 def _normalize_node(node):
-    title = str(node.get('title') or node.get('name') or '').strip()[:140]
-    note = str(node.get('note') or node.get('description') or '').strip()[:280]
+    title = _normalize_formulas(str(node.get('title') or node.get('name') or '').strip()[:140])
+    note = _normalize_formulas(str(node.get('note') or node.get('description') or '').strip()[:280])
     children = node.get('children') if isinstance(node.get('children'), list) else []
     return {
         'title': title or 'Topic',
