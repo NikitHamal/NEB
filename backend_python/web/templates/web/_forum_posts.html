@@ -1,6 +1,6 @@
 {% load web_extras %}
 {% if posts %}
-<div style="display:flex;flex-direction:column;gap:12px;">
+<div style="display:flex;flex-direction:column;gap:0;">
   {% for post in posts %}
   <div class="post-card" data-action="open-post" data-post-url="{% url 'web:forum_post' post_id=post.id %}" style="cursor: pointer;">
     <div class="post-card-header">
