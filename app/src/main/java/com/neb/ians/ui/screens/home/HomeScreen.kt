@@ -69,7 +69,8 @@ fun HomeScreen(
                 onSearchClick = onSearchClick,
                 onNotificationsClick = onNotificationsClick,
                 onProfileClick = onProfileClick,
-                avatarInitial = uiState.userName
+                avatarInitial = uiState.userName,
+                avatarUrl = uiState.userPhotoUrl
             )
         },
         containerColor = MaterialTheme.colorScheme.surface

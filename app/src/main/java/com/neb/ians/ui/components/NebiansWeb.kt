@@ -45,6 +45,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -66,6 +67,15 @@ import com.neb.ians.data.api.ApiPost
 import com.neb.ians.data.api.ApiResource
 import com.neb.ians.ui.theme.getSubjectTheme
 import com.neb.ians.util.formatTimeAgo
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.neb.ians.data.repository.AuthRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.stateIn
+import javax.inject.Inject
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 val WebCardShape = RoundedCornerShape(8.dp)
 val WebPanelShape = RoundedCornerShape(16.dp)
@@ -83,6 +93,16 @@ fun NebiansLogo(
     )
 }
 
+@HiltViewModel
+class TopBarViewModel @Inject constructor(
+    authRepository: AuthRepository
+) : ViewModel() {
+    val userName = authRepository.currentUserNameFlow
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), "Student")
+    val userPhotoUrl = authRepository.currentUserPhotoUrlFlow
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
+}
+
 @Composable
 fun WebTopBar(
     modifier: Modifier = Modifier,
@@ -94,10 +114,18 @@ fun WebTopBar(
     onSearchClick: () -> Unit = {},
     onNotificationsClick: () -> Unit = {},
     onProfileClick: () -> Unit = {},
-    avatarInitial: String = "N",
+    avatarInitial: String? = null,
+    avatarUrl: String? = null,
     unreadCount: Int = 0,
-    actions: @Composable RowScope.() -> Unit = {}
+    actions: @Composable RowScope.() -> Unit = {},
+    viewModel: TopBarViewModel = hiltViewModel()
 ) {
+    val dbUserName by viewModel.userName.collectAsStateWithLifecycle()
+    val dbUserPhotoUrl by viewModel.userPhotoUrl.collectAsStateWithLifecycle()
+
+    val name = (avatarInitial ?: dbUserName).ifEmpty { "N" }
+    val photo = avatarUrl ?: dbUserPhotoUrl
+
     Surface(
         modifier = modifier.fillMaxWidth(),
         color = MaterialTheme.colorScheme.surface,
@@ -192,22 +220,12 @@ fun WebTopBar(
                     )
                 }
             }
-            Surface(
-                modifier = Modifier
-                    .size(40.dp)
-                    .clickable(onClick = onProfileClick),
-                shape = CircleShape,
-                color = MaterialTheme.colorScheme.primary
-            ) {
-                Box(contentAlignment = Alignment.Center) {
-                    Text(
-                        text = avatarInitial.take(1).uppercase().ifEmpty { "N" },
-                        style = MaterialTheme.typography.labelLarge,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onPrimary
-                    )
-                }
-            }
+            Avatar(
+                name = name,
+                imageUrl = photo,
+                modifier = Modifier.clickable(onClick = onProfileClick),
+                size = 40.dp
+            )
         }
     }
 }
@@ -737,9 +755,14 @@ fun Avatar(
         shape = CircleShape,
         color = MaterialTheme.colorScheme.primary
     ) {
-        if (!imageUrl.isNullOrBlank()) {
+        val resolvedUrl = remember(imageUrl) {
+            if (imageUrl.isNullOrBlank()) null
+            else if (imageUrl.startsWith("http://") || imageUrl.startsWith("https://")) imageUrl
+            else "https://nebians.consica.com.np${if (imageUrl.startsWith("/")) "" else "/"}$imageUrl"
+        }
+        if (!resolvedUrl.isNullOrBlank()) {
             AsyncImage(
-                model = imageUrl,
+                model = resolvedUrl,
                 contentDescription = name,
                 modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Crop

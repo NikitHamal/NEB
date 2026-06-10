@@ -782,7 +782,8 @@ interface ApiService {
 
     @POST("api/notifications/mark-read/")
     suspend fun markNotificationsRead(
-        @Header("Authorization") bearerToken: String
+        @Header("Authorization") bearerToken: String,
+        @Body body: Map<String, @JvmSuppressWildcards Any> = mapOf("mark_all" to true)
     ): ApiNotificationMarkReadResponse
 
     @GET("api/notifications/unread-count/")

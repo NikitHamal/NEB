@@ -343,13 +343,17 @@ class NotificationSerializer(serializers.ModelSerializer):
     actorName = serializers.SerializerMethodField()
     actorPhotoUrl = serializers.SerializerMethodField()
     actorId = serializers.CharField(source='actor_id', read_only=True, allow_null=True)
+    targetType = serializers.CharField(source='target_type', read_only=True)
+    targetId = serializers.CharField(source='target_id', read_only=True)
+    referenceType = serializers.CharField(source='reference_type', read_only=True, allow_null=True)
+    referenceId = serializers.CharField(source='reference_id', read_only=True, allow_null=True)
     createdAt = serializers.IntegerField(source='created_at', read_only=True)
     isRead = serializers.BooleanField(source='is_read', read_only=True)
 
     class Meta:
         model = Notification
         fields = [
-            'id', 'recipient', 'actorId', 'actorName', 'actorPhotoUrl',
+            'id', 'actorId', 'actorName', 'actorPhotoUrl',
             'verb', 'targetType', 'targetId', 'referenceType', 'referenceId',
             'message', 'isRead', 'createdAt',
         ]
