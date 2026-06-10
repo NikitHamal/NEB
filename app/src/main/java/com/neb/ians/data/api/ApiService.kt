@@ -73,6 +73,9 @@ data class UserProfileRequest(
     val email: String? = null,
     @SerialName("photo_url") val photoUrl: String? = null,
     @SerialName("display_name") val displayName: String? = null,
+    val role: String? = null,
+    @SerialName("teaching_subjects") val teachingSubjects: String? = null,
+    @SerialName("institution_type") val institutionType: String? = null,
     val dob: String? = null,
     val gender: String? = null,
     @SerialName("class_level") val classLevel: String? = null,
@@ -177,6 +180,9 @@ data class UserProfileResponse(
     @SerialName("photo_url") val photoUrl: String? = null,
     @SerialName("banner_url") val bannerUrl: String? = null,
     @SerialName("display_name") val displayName: String? = null,
+    val role: String? = null,
+    @SerialName("teaching_subjects") val teachingSubjects: String? = null,
+    @SerialName("institution_type") val institutionType: String? = null,
     val dob: String = "",
     val gender: String? = null,
     @SerialName("class") val classLevel: String? = null,
@@ -204,6 +210,14 @@ data class UserProfileResponse(
     @SerialName("is_following") val isFollowing: Boolean? = null,
     @SerialName("is_self") val isSelf: Boolean? = null,
     @SerialName("achievement_badges") val achievementBadges: String? = null
+)
+
+@Serializable
+data class UserPhotoResponse(
+    val id: Int,
+    val url: String,
+    @SerialName("uploaded_at") val uploadedAt: Long,
+    @SerialName("is_current") val isCurrent: Boolean
 )
 
 @Serializable
@@ -472,6 +486,13 @@ interface ApiService {
         @Header("Authorization") bearerToken: String?,
         @Path("username") username: String
     ): UserProfileResponse
+
+    @Multipart
+    @POST("api/users/me/photos/")
+    suspend fun uploadProfilePhoto(
+        @Header("Authorization") bearerToken: String,
+        @Part file: okhttp3.MultipartBody.Part
+    ): UserPhotoResponse
 
     @GET("api/users/profile/{username}/stats/")
     suspend fun getProfileStats(

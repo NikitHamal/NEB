@@ -34,6 +34,9 @@ class AuthRepository @Inject constructor(
         val USER_PHOTO_URL = stringPreferencesKey("user_photo_url")
         val USER_DISPLAY_NAME = stringPreferencesKey("user_display_name")
         val USER_BANNER_URL = stringPreferencesKey("user_banner_url")
+        val USER_ROLE = stringPreferencesKey("user_role")
+        val USER_TEACHING_SUBJECTS = stringPreferencesKey("user_teaching_subjects")
+        val USER_INSTITUTION_TYPE = stringPreferencesKey("user_institution_type")
         val USER_DOB = stringPreferencesKey("user_dob")
         val USER_GENDER = stringPreferencesKey("user_gender")
         val USER_CLASS = stringPreferencesKey("user_class")
@@ -88,6 +91,9 @@ class AuthRepository @Inject constructor(
             photoUrl = preferences[USER_PHOTO_URL],
             bannerUrl = preferences[USER_BANNER_URL],
             displayName = preferences[USER_DISPLAY_NAME],
+            role = preferences[USER_ROLE],
+            teachingSubjects = preferences[USER_TEACHING_SUBJECTS],
+            institutionType = preferences[USER_INSTITUTION_TYPE],
             dob = preferences[USER_DOB] ?: "",
             gender = preferences[USER_GENDER],
             classLevel = preferences[USER_CLASS],
@@ -163,6 +169,7 @@ class AuthRepository @Inject constructor(
                 dataStore.edit { prefs ->
                     prefs[AUTH_TOKEN] = token
                     prefs[AUTH_STATUS] = "authenticated"
+                    prefs[PROFILE_COMPLETED] = true
                     prefs[USER_NAME] = username ?: ""
                 }
                 if (!username.isNullOrEmpty()) {
@@ -355,6 +362,13 @@ class AuthRepository @Inject constructor(
                 dataStore.edit { prefs ->
                     prefs[PROFILE_COMPLETED] = true
                     prefs[USER_NAME] = user.username
+                    prefs[USER_EMAIL] = user.email ?: ""
+                    prefs[USER_PHOTO_URL] = user.photoUrl ?: ""
+                    prefs[USER_DISPLAY_NAME] = user.displayName ?: ""
+                    prefs[USER_BANNER_URL] = user.bannerUrl ?: ""
+                    prefs[USER_ROLE] = user.role ?: ""
+                    prefs[USER_TEACHING_SUBJECTS] = user.teachingSubjects ?: ""
+                    prefs[USER_INSTITUTION_TYPE] = user.institutionType ?: ""
                     prefs[USER_DOB] = user.dob
                     prefs[USER_GENDER] = user.gender ?: ""
                     prefs[USER_CLASS] = user.classLevel ?: ""
@@ -362,12 +376,30 @@ class AuthRepository @Inject constructor(
                     prefs[USER_PRADESH] = user.pradesh ?: ""
                     prefs[USER_DISTRICT] = user.district ?: ""
                     prefs[USER_SCHOOL] = user.school ?: ""
+                    prefs[USER_BIO] = user.bio ?: ""
                     prefs[USER_LOCKED] = user.isLocked == 1
                     prefs[USER_HAS_PASSWORD] = user.hasPassword
                 }
             }
             true
         } catch (_: Exception) { false }
+    }
+
+    suspend fun uploadProfilePhoto(filePart: okhttp3.MultipartBody.Part): String? {
+        return try {
+            val bearer = getBearerToken() ?: return null
+            val response = withContext(Dispatchers.IO) {
+                apiService.uploadProfilePhoto(bearer, filePart)
+            }
+            withContext(Dispatchers.IO) {
+                dataStore.edit { prefs ->
+                    prefs[USER_PHOTO_URL] = response.url
+                }
+            }
+            response.url
+        } catch (e: Exception) {
+            null
+        }
     }
 
     suspend fun refreshProfile() {
@@ -380,7 +412,19 @@ class AuthRepository @Inject constructor(
                     prefs[USER_PHOTO_URL] = response.photoUrl ?: ""
                     prefs[USER_DISPLAY_NAME] = response.displayName ?: ""
                     prefs[USER_BANNER_URL] = response.bannerUrl ?: ""
+                    prefs[USER_ROLE] = response.role ?: ""
+                    prefs[USER_TEACHING_SUBJECTS] = response.teachingSubjects ?: ""
+                    prefs[USER_INSTITUTION_TYPE] = response.institutionType ?: ""
+                    prefs[USER_DOB] = response.dob
+                    prefs[USER_GENDER] = response.gender ?: ""
+                    prefs[USER_CLASS] = response.classLevel ?: ""
+                    prefs[USER_SUBJECTS] = response.subjects ?: ""
+                    prefs[USER_PRADESH] = response.pradesh ?: ""
+                    prefs[USER_DISTRICT] = response.district ?: ""
+                    prefs[USER_SCHOOL] = response.school ?: ""
                     prefs[USER_BIO] = response.bio ?: ""
+                    prefs[USER_LOCKED] = response.isLocked == 1
+                    prefs[USER_HAS_PASSWORD] = response.hasPassword
                     prefs[USER_FOLLOWER_COUNT] = response.followerCount
                     prefs[USER_FOLLOWING_COUNT] = response.followingCount
                     prefs[USER_POST_COUNT] = response.postCount
@@ -406,6 +450,9 @@ class AuthRepository @Inject constructor(
             prefs[USER_PHOTO_URL] = ""
             prefs[USER_DISPLAY_NAME] = ""
             prefs[USER_BANNER_URL] = ""
+            prefs[USER_ROLE] = ""
+            prefs[USER_TEACHING_SUBJECTS] = ""
+            prefs[USER_INSTITUTION_TYPE] = ""
             prefs[USER_DOB] = ""
             prefs[USER_GENDER] = ""
             prefs[USER_CLASS] = ""
@@ -455,6 +502,9 @@ data class UserProfileCache(
     val photoUrl: String?,
     val bannerUrl: String?,
     val displayName: String?,
+    val role: String?,
+    val teachingSubjects: String?,
+    val institutionType: String?,
     val dob: String,
     val gender: String?,
     val classLevel: String?,

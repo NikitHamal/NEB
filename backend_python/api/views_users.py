@@ -48,15 +48,18 @@ def user_profile_create_or_update(request):
             banner_url = validate_external_https_url(banner_url)
         except ValidationError as exc:
             return Response({'error': ' '.join(exc.messages)}, status=400)
-    display_name = data.get('displayName', '') or user.display_name or ''
+    display_name = data.get('displayName', '') or data.get('display_name', '') or user.display_name or ''
     gender = data.get('gender', '')
-    class_level = data.get('classLevel', '')
+    class_level = data.get('classLevel', '') or data.get('class_level', '')
     subjects = data.get('subjects', '')
     pradesh = data.get('pradesh', '')
     district = data.get('district', '')
     school = data.get('school', '')
     bio = data.get('bio', '')
-    is_locked = bool(data.get('isLocked', False))
+    is_locked = bool(data.get('isLocked', data.get('is_locked', False)))
+    role = data.get('role', '').strip().lower() or user.role
+    teaching_subjects = data.get('teachingSubjects', '') or data.get('teaching_subjects', '')
+    institution_type = data.get('institutionType', '') or data.get('institution_type', '')
 
     user.username = username
     user.email = email
@@ -72,6 +75,10 @@ def user_profile_create_or_update(request):
     user.school = school
     user.bio = bio
     user.is_locked = is_locked
+    if role in ('student', 'teacher', 'institution', 'explorer'):
+        user.role = role
+    user.teaching_subjects = teaching_subjects
+    user.institution_type = institution_type
     user.save()
 
     logger.info("user_profile: profile saved for user %s (username=%s)", user.id, user.username)
