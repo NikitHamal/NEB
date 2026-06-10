@@ -119,7 +119,7 @@ class AuthRepository @Inject constructor(
     }
 
     suspend fun getBearerToken(): String? {
-        val token = getToken() ?: return null
+        val token = getToken()?.takeIf { it.isNotBlank() } ?: return null
         return "Bearer $token"
     }
 
