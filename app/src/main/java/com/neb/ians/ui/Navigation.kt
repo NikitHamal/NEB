@@ -3,26 +3,24 @@ package com.neb.ians.ui
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Notifications
-import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material.icons.outlined.Notifications
-import androidx.compose.ui.res.painterResource
-import com.neb.ians.R
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -36,27 +34,25 @@ import androidx.navigation.navArgument
 import com.neb.ians.data.repository.AuthRepository
 import com.neb.ians.data.repository.AuthState
 import com.neb.ians.ui.screens.home.HomeScreen
-import com.neb.ians.ui.screens.home.HomeViewModel
 import com.neb.ians.ui.screens.library.LibraryScreen
-import com.neb.ians.ui.screens.library.LibraryViewModel
 import com.neb.ians.ui.screens.forum.ForumScreen
-import com.neb.ians.ui.screens.forum.ForumViewModel
 import com.neb.ians.ui.screens.forum.ForumPostDetailScreen
-import com.neb.ians.ui.screens.forum.PostDetailViewModel
 import com.neb.ians.ui.screens.forum.CreatePostScreen
-import com.neb.ians.ui.screens.forum.CreatePostViewModel
 import com.neb.ians.ui.screens.forum.ReplyScreen
-import com.neb.ians.ui.screens.forum.ReplyViewModel
 import com.neb.ians.ui.screens.search.SearchScreen
-import com.neb.ians.ui.screens.search.SearchViewModel
+import com.neb.ians.ui.screens.study.StudyLabScreen
+import com.neb.ians.ui.screens.study.StudySpaceScreen
+import com.neb.ians.ui.screens.ai.NebyAiScreen
+import com.neb.ians.ui.screens.analytics.AnalyticsScreen
+import com.neb.ians.ui.screens.bookmarks.BookmarksScreen
 import com.neb.ians.ui.screens.profile.ProfileScreen
-import com.neb.ians.ui.screens.profile.ProfileViewModel
 import com.neb.ians.ui.screens.profile.EditProfileScreen
 import com.neb.ians.ui.screens.notifications.NotificationsScreen
-import com.neb.ians.ui.screens.notifications.NotificationsViewModel
 import com.neb.ians.ui.screens.settings.SettingsScreen
 import com.neb.ians.ui.screens.settings.SettingsViewModel
 import com.neb.ians.ui.screens.reader.PdfReaderScreen
+import com.neb.ians.ui.components.LiquidNavContainer
+import com.neb.ians.ui.components.WebPillShape
 import com.neb.ians.ui.screens.auth.SplashScreen
 import com.neb.ians.ui.screens.auth.LoginScreen
 import com.neb.ians.ui.screens.auth.EmailSignupScreen
@@ -64,7 +60,6 @@ import com.neb.ians.ui.screens.auth.EmailLoginScreen
 import com.neb.ians.ui.screens.auth.EmailVerificationScreen
 import com.neb.ians.ui.screens.auth.ForgotPasswordScreen
 import com.neb.ians.ui.screens.auth.CompleteProfileScreen
-import com.neb.ians.ui.screens.auth.CompleteProfileViewModel
 
 sealed class Screen(val route: String) {
     data object Splash : Screen("splash")
@@ -85,6 +80,13 @@ sealed class Screen(val route: String) {
     data object Forum : Screen("forum")
     data object Search : Screen("search")
     data object Notifications : Screen("notifications")
+    data object StudyLab : Screen("study_lab")
+    data object StudySpace : Screen("study_space/{spaceId}") {
+        fun createRoute(spaceId: String) = "study_space/$spaceId"
+    }
+    data object NebyAi : Screen("neby_ai")
+    data object Analytics : Screen("analytics")
+    data object Bookmarks : Screen("bookmarks")
     data object Profile : Screen("profile/{username}") {
         fun createRoute(username: String) = "profile/${java.net.URLEncoder.encode(username, "UTF-8")}"
     }
@@ -102,43 +104,24 @@ sealed class Screen(val route: String) {
     }
 }
 
-sealed class BottomNavIcon {
-    data class Vector(val imageVector: ImageVector) : BottomNavIcon()
-    data class Drawable(val resId: Int) : BottomNavIcon()
-}
-
 data class BottomNavItem(
     val screen: Screen,
-    val label: String,
-    val selectedIcon: BottomNavIcon,
-    val unselectedIcon: BottomNavIcon
+    val label: String
 )
 
 val bottomNavItems = listOf(
     BottomNavItem(
         Screen.Home,
-        "Home",
-        BottomNavIcon.Vector(Icons.Filled.Home),
-        BottomNavIcon.Vector(Icons.Outlined.Home)
+        "Home"
     ),
     BottomNavItem(
         Screen.Library,
-        "Library",
-        BottomNavIcon.Drawable(R.drawable.ic_book),
-        BottomNavIcon.Drawable(R.drawable.ic_book)
+        "Library"
     ),
     BottomNavItem(
         Screen.Forum,
-        "Forum",
-        BottomNavIcon.Drawable(R.drawable.ic_forum_filled),
-        BottomNavIcon.Drawable(R.drawable.ic_forum_outlined)
-    ),
-    BottomNavItem(
-        Screen.Notifications,
-        "Alerts",
-        BottomNavIcon.Vector(Icons.Filled.Notifications),
-        BottomNavIcon.Vector(Icons.Outlined.Notifications)
-    ),
+        "Forum"
+    )
 )
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -149,6 +132,7 @@ fun NEBiansNavHost(
     authRepository: AuthRepository
 ) {
     val authState by settingsViewModel.authState.collectAsStateWithLifecycle()
+    val userProfile by settingsViewModel.userProfile.collectAsStateWithLifecycle()
     LaunchedEffect(authState) {
         if (authState is AuthState.Unauthenticated) {
             navController.navigate(Screen.Login.route) {
@@ -162,46 +146,26 @@ fun NEBiansNavHost(
 
     val bottomBarScreens = bottomNavItems.map { it.screen.route }
     val showBottomBar = currentDestination?.route in bottomBarScreens
+    val navigateToOwnProfile = {
+        val username = userProfile?.username?.takeIf { it.isNotBlank() && it != "Guest" }
+        if (username != null) navController.navigate(Screen.Profile.createRoute(username))
+        else navController.navigate(Screen.Settings.route)
+    }
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.surface,
         bottomBar = {
             if (showBottomBar) {
-                NavigationBar(
-                    tonalElevation = 0.dp,
-                    containerColor = MaterialTheme.colorScheme.surfaceContainer,
+                Box(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.BottomCenter
                 ) {
+                    LiquidNavContainer {
                     bottomNavItems.forEach { item ->
                         val selected = currentDestination?.hierarchy?.any { it.route == item.screen.route } == true
-                        NavigationBarItem(
-                            icon = {
-                                val iconSource = if (selected) item.selectedIcon else item.unselectedIcon
-                                when (iconSource) {
-                                    is BottomNavIcon.Vector -> Icon(
-                                        imageVector = iconSource.imageVector,
-                                        contentDescription = item.label
-                                    )
-                                    is BottomNavIcon.Drawable -> Icon(
-                                        painter = painterResource(id = iconSource.resId),
-                                        contentDescription = item.label
-                                    )
-                                }
-                            },
-                            label = {
-                                Text(
-                                    text = item.label,
-                                    style = if (selected) MaterialTheme.typography.labelMedium
-                                    else MaterialTheme.typography.labelSmall
-                                )
-                            },
+                        FloatingNavItem(
+                            label = item.label,
                             selected = selected,
-                            colors = NavigationBarItemDefaults.colors(
-                                selectedIconColor = MaterialTheme.colorScheme.onSecondaryContainer,
-                                selectedTextColor = MaterialTheme.colorScheme.onSecondaryContainer,
-                                indicatorColor = MaterialTheme.colorScheme.secondaryContainer,
-                                unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                                unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant
-                            ),
                             onClick = {
                                 navController.navigate(item.screen.route) {
                                     popUpTo(navController.graph.findStartDestination().id) { saveState = true }
@@ -211,6 +175,7 @@ fun NEBiansNavHost(
                             }
                         )
                     }
+                    }
                 }
             }
         }
@@ -219,7 +184,7 @@ fun NEBiansNavHost(
             navController = navController,
             startDestination = Screen.Splash.route,
             modifier = Modifier.padding(
-                bottom = if (showBottomBar) innerPadding.calculateBottomPadding() else 0.dp
+                bottom = if (showBottomBar) 86.dp else 0.dp
             ),
             enterTransition = { fadeIn(animationSpec = tween(220)) + slideInHorizontally(initialOffsetX = { it / 4 }) },
             exitTransition = { fadeOut(animationSpec = tween(90)) },
@@ -350,7 +315,13 @@ fun NEBiansNavHost(
                     onViewAllClick = { navController.navigate(Screen.Library.route) },
                     onSubjectClick = { subject ->
                         navController.navigate(Screen.Library.createRoute(subject))
-                    }
+                    },
+                    onForumClick = { navController.navigate(Screen.Forum.route) },
+                    onStudyLabClick = { navController.navigate(Screen.StudyLab.route) },
+                    onNebyAiClick = { navController.navigate(Screen.NebyAi.route) },
+                    onPostClick = { postId -> navController.navigate(Screen.ForumPostDetail.createRoute(postId)) },
+                    onNotificationsClick = { navController.navigate(Screen.Notifications.route) },
+                    onProfileClick = navigateToOwnProfile
                 )
             }
             composable(
@@ -361,7 +332,10 @@ fun NEBiansNavHost(
                     onResourceClick = { resourceId ->
                         navController.navigate(Screen.PdfReader.createRoute(resourceId))
                     },
-                    onSearchClick = { navController.navigate(Screen.Search.route) }
+                    onSearchClick = { navController.navigate(Screen.Search.route) },
+                    onUploadClick = { navController.navigate(Screen.StudyLab.route) },
+                    onNotificationsClick = { navController.navigate(Screen.Notifications.route) },
+                    onProfileClick = navigateToOwnProfile
                 )
             }
             composable(Screen.Forum.route) {
@@ -369,7 +343,10 @@ fun NEBiansNavHost(
                     onPostClick = { postId ->
                         navController.navigate(Screen.ForumPostDetail.createRoute(postId))
                     },
-                    onCreatePostClick = { navController.navigate(Screen.CreatePost.route) }
+                    onCreatePostClick = { navController.navigate(Screen.CreatePost.route) },
+                    onSearchClick = { navController.navigate(Screen.Search.route) },
+                    onNotificationsClick = { navController.navigate(Screen.Notifications.route) },
+                    onProfileClick = navigateToOwnProfile
                 )
             }
             composable(Screen.Search.route) {
@@ -390,6 +367,42 @@ fun NEBiansNavHost(
                     }
                 )
             }
+            composable(Screen.StudyLab.route) {
+                StudyLabScreen(
+                    onNavigateBack = { navController.popBackStack() },
+                    onOpenSpace = { spaceId -> navController.navigate(Screen.StudySpace.createRoute(spaceId)) },
+                    onSearchClick = { navController.navigate(Screen.Search.route) }
+                )
+            }
+            composable(
+                route = Screen.StudySpace.route,
+                arguments = listOf(navArgument("spaceId") { type = NavType.StringType })
+            ) {
+                StudySpaceScreen(
+                    onNavigateBack = { navController.popBackStack() },
+                    onSearchClick = { navController.navigate(Screen.Search.route) }
+                )
+            }
+            composable(Screen.NebyAi.route) {
+                NebyAiScreen(
+                    onNavigateBack = { navController.popBackStack() },
+                    onSearchClick = { navController.navigate(Screen.Search.route) }
+                )
+            }
+            composable(Screen.Analytics.route) {
+                AnalyticsScreen(
+                    onNavigateBack = { navController.popBackStack() },
+                    onSearchClick = { navController.navigate(Screen.Search.route) }
+                )
+            }
+            composable(Screen.Bookmarks.route) {
+                BookmarksScreen(
+                    onNavigateBack = { navController.popBackStack() },
+                    onResourceClick = { resourceId -> navController.navigate(Screen.PdfReader.createRoute(resourceId)) },
+                    onPostClick = { postId -> navController.navigate(Screen.ForumPostDetail.createRoute(postId)) },
+                    onSearchClick = { navController.navigate(Screen.Search.route) }
+                )
+            }
             composable(
                 route = Screen.Profile.route,
                 arguments = listOf(navArgument("username") { type = NavType.StringType })
@@ -404,7 +417,10 @@ fun NEBiansNavHost(
                     },
                     onFollowerClick = { userId ->
                         // Could navigate to followers modal or list
-                    }
+                    },
+                    onAnalyticsClick = { navController.navigate(Screen.Analytics.route) },
+                    onBookmarksClick = { navController.navigate(Screen.Bookmarks.route) },
+                    onSearchClick = { navController.navigate(Screen.Search.route) }
                 )
             }
             composable(Screen.EditProfile.route) {
@@ -472,3 +488,31 @@ fun NEBiansNavHost(
     }
 }
 
+@Composable
+private fun RowScope.FloatingNavItem(
+    label: String,
+    selected: Boolean,
+    onClick: () -> Unit
+) {
+    val background = if (selected) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceContainer.copy(alpha = 0f)
+    val color = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
+    Box(
+        modifier = Modifier
+            .weight(1f)
+            .widthIn(min = 92.dp)
+            .heightIn(min = 42.dp)
+            .clip(WebPillShape)
+            .background(background)
+            .clickable(onClick = onClick)
+            .padding(horizontal = 18.dp, vertical = 10.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = label,
+            style = MaterialTheme.typography.labelLarge,
+            color = color,
+            fontWeight = if (selected) FontWeight.Bold else FontWeight.SemiBold,
+            maxLines = 1
+        )
+    }
+}
