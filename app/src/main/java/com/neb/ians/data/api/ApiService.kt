@@ -10,6 +10,8 @@ import retrofit2.http.*
 import com.neb.ians.BuildConfig
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.ResponseBody
+import retrofit2.Response
 
 // -------------------------------------------------------------
 // REQUEST MODELS
@@ -412,6 +414,89 @@ data class ApiPaginatedPosts(
     val previous: String? = null
 )
 
+@Serializable
+data class ArenaModel(
+    val id: String,
+    val code: String? = null,
+    val name: String,
+    val provider: String? = null,
+    val description: String? = null,
+    val thinking: Boolean? = null,
+    @SerialName("randomOnly") val randomOnly: Boolean? = null,
+    @SerialName("active") val isActive: Boolean = true
+)
+
+@Serializable
+data class ArenaModelsResponse(
+    val models: List<ArenaModel> = emptyList(),
+    val cached: Boolean = false
+)
+
+@Serializable
+data class ArenaChatSession(
+    val id: String,
+    val title: String = "",
+    @SerialName("modelId") val modelId: String,
+    @SerialName("modelCode") val modelCode: String? = null,
+    @SerialName("modelName") val modelName: String? = null,
+    @SerialName("isActive") val isActive: Boolean = true,
+    @SerialName("messageCount") val messageCount: Int = 0,
+    @SerialName("lastMessageAt") val lastMessageAt: Long? = null,
+    val provider: String? = null,
+    @SerialName("createdAt") val createdAt: Long? = null,
+    @SerialName("updatedAt") val updatedAt: Long? = null,
+    val messages: List<ArenaChatMessage> = emptyList()
+)
+
+@Serializable
+data class ArenaChatMessage(
+    val id: String,
+    val role: String,
+    val content: String = "",
+    @SerialName("parentId") val parentId: String? = null,
+    @SerialName("arenaMessageId") val arenaMessageId: String? = null,
+    @SerialName("finishReason") val finishReason: String? = null,
+    val error: String? = null,
+    @SerialName("durationMs") val durationMs: Long? = null,
+    val status: String? = null,
+    @SerialName("createdAt") val createdAt: Long? = null
+)
+
+@Serializable
+data class ArenaSessionsResponse(
+    val sessions: List<ArenaChatSession> = emptyList()
+)
+
+@Serializable
+data class ArenaSessionResponse(
+    val session: ArenaChatSession,
+    val messages: List<ArenaChatMessage> = emptyList()
+)
+
+@Serializable
+data class ArenaMutationResponse(
+    val ok: Boolean = false,
+    val title: String? = null,
+    @SerialName("isActive") val isActive: Boolean? = null
+)
+
+@Serializable
+data class ArenaCreateSessionRequest(
+    @SerialName("modelId") val modelId: String,
+    val title: String? = null
+)
+
+@Serializable
+data class ArenaUpdateSessionRequest(
+    val title: String? = null,
+    @SerialName("isActive") val isActive: Boolean? = null
+)
+
+@Serializable
+data class ArenaSendMessageRequest(
+    val content: String
+)
+
 // -------------------------------------------------------------
 // RETROFIT API INTERFACE
 // -------------------------------------------------------------
@@ -545,6 +630,7 @@ interface ApiService {
     suspend fun getPosts(
         @Header("Authorization") bearerToken: String?,
         @Query("category") category: String? = null,
+        @Query("sort") sort: String? = null,
         @Query("page") page: Int? = null
     ): ApiPaginatedPosts
 
@@ -662,6 +748,57 @@ interface ApiService {
         @Query("target_type") targetType: String? = null
     ): List<ApiBookmark>
 
+    // --- Neby AI / AI4Bharat Arena proxy ---
+    @GET("api/neby-arena/models/")
+    suspend fun getArenaModels(
+        @Header("Authorization") bearerToken: String
+    ): ArenaModelsResponse
+
+    @GET("api/neby-arena/sessions/")
+    suspend fun getArenaSessions(
+        @Header("Authorization") bearerToken: String
+    ): ArenaSessionsResponse
+
+    @POST("api/neby-arena/sessions/")
+    suspend fun createArenaSession(
+        @Header("Authorization") bearerToken: String,
+        @Body request: ArenaCreateSessionRequest
+    ): ArenaSessionResponse
+
+    @GET("api/neby-arena/sessions/{sessionId}/")
+    suspend fun getArenaSession(
+        @Header("Authorization") bearerToken: String,
+        @Path("sessionId") sessionId: String
+    ): ArenaSessionResponse
+
+    @PATCH("api/neby-arena/sessions/{sessionId}/")
+    suspend fun updateArenaSession(
+        @Header("Authorization") bearerToken: String,
+        @Path("sessionId") sessionId: String,
+        @Body request: ArenaUpdateSessionRequest
+    ): ArenaMutationResponse
+
+    @DELETE("api/neby-arena/sessions/{sessionId}/")
+    suspend fun deleteArenaSession(
+        @Header("Authorization") bearerToken: String,
+        @Path("sessionId") sessionId: String
+    ): ArenaMutationResponse
+
+    @Streaming
+    @POST("api/neby-arena/sessions/{sessionId}/messages/")
+    suspend fun streamArenaMessage(
+        @Header("Authorization") bearerToken: String,
+        @Path("sessionId") sessionId: String,
+        @Body request: ArenaSendMessageRequest
+    ): Response<ResponseBody>
+
+    @Streaming
+    @POST("api/neby-arena/messages/{messageId}/regenerate/")
+    suspend fun regenerateArenaMessage(
+        @Header("Authorization") bearerToken: String,
+        @Path("messageId") messageId: String
+    ): Response<ResponseBody>
+
     // --- Notifications ---
     @GET("api/notifications/")
     suspend fun getNotifications(
@@ -752,4 +889,3 @@ data class ApiBookmark(
     @SerialName("target_id") val targetId: String,
     @SerialName("created_at") val createdAt: Long
 )
-

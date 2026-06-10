@@ -36,7 +36,12 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.neb.ians.data.api.ApiPost
 import com.neb.ians.data.api.ApiResource
 import com.neb.ians.ui.components.ErrorCard
+import com.neb.ians.ui.components.NEBiansLogoWordmark
 import com.neb.ians.ui.components.ShimmerHomeScreen
+import com.neb.ians.ui.components.StudyLabHeroCard
+import com.neb.ians.ui.components.WebHero
+import com.neb.ians.ui.components.WebResourceCard
+import com.neb.ians.ui.components.WebSectionHeader
 import com.neb.ians.ui.theme.getSubjectTheme
 
 private fun getTypeIcon(type: String): Int {
@@ -71,6 +76,8 @@ fun HomeScreen(
     onResourceClick: (String) -> Unit,
     onSearchClick: () -> Unit,
     onViewAllClick: () -> Unit,
+    onStudyLabClick: () -> Unit = {},
+    onNebyAiClick: () -> Unit = {},
     onSubjectClick: (String) -> Unit = {},
     viewModel: HomeViewModel = hiltViewModel()
 ) {
@@ -82,18 +89,7 @@ fun HomeScreen(
         topBar = {
             LargeTopAppBar(
                 title = {
-                    Column {
-                        Text(
-                            text = "Hello, ${uiState.userName}",
-                            style = MaterialTheme.typography.headlineSmall,
-                            fontWeight = FontWeight.Bold
-                        )
-                        Text(
-                            text = "What would you like to study today?",
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
+                    NEBiansLogoWordmark()
                 },
                 actions = {
                     FilledTonalIconButton(onClick = onSearchClick) {
@@ -144,11 +140,24 @@ fun HomeScreen(
                         )
                     }
 
+                    WebHero(
+                        title = "Hello, ${uiState.userName}!",
+                        body = "Discover study resources, join discussions, and connect with learners and teachers of all classes and faculties.",
+                        primaryText = "Browse Library",
+                        primaryIconRes = R.drawable.ic_book,
+                        onPrimaryClick = onViewAllClick,
+                        secondaryText = "Neby AI",
+                        secondaryIconRes = R.drawable.ic_science,
+                        onSecondaryClick = onNebyAiClick
+                    )
+
+                    StudyLabHeroCard(onClick = onStudyLabClick)
+
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
                             .horizontalScroll(rememberScrollState())
-                            .padding(horizontal = 16.dp, vertical = 8.dp),
+                            .padding(horizontal = 24.dp, vertical = 12.dp),
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         HomeUiState.SUBJECTS.forEach { subject ->
@@ -175,9 +184,9 @@ fun HomeScreen(
                         }
                     }
 
-                    SectionHeader(
+                    WebSectionHeader(
                         title = "Recent Resources",
-                        onViewAllClick = onViewAllClick
+                        onActionClick = onViewAllClick
                     )
 
                     if (uiState.recentResources.isEmpty()) {
@@ -197,9 +206,9 @@ fun HomeScreen(
                     }
 
                     Spacer(modifier = Modifier.height(24.dp))
-                    SectionHeader(
+                    WebSectionHeader(
                         title = "Popular Resources",
-                        onViewAllClick = onViewAllClick
+                        onActionClick = onViewAllClick
                     )
 
                     if (uiState.popularResources.isEmpty()) {
@@ -219,9 +228,10 @@ fun HomeScreen(
                     }
 
                     Spacer(modifier = Modifier.height(24.dp))
-                    SectionHeader(
-                        title = "Forum Activity",
-                        onViewAllClick = null
+                    WebSectionHeader(
+                        title = "Trending Discussions",
+                        actionLabel = null,
+                        onActionClick = null
                     )
 
                     if (uiState.recentPosts.isEmpty()) {
@@ -278,90 +288,11 @@ private fun ResourceCard(
     resource: ApiResource,
     onClick: () -> Unit
 ) {
-    val subjectTheme = getSubjectTheme(resource.subject)
-
-    Card(
+    WebResourceCard(
+        resource = resource,
         onClick = onClick,
-        modifier = Modifier.width(168.dp),
-        shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
-        ),
-        border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
-    ) {
-        Column {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(96.dp)
-                    .background(Brush.linearGradient(listOf(subjectTheme.container, subjectTheme.color))),
-                contentAlignment = Alignment.Center
-            ) {
-                Surface(
-                    shape = RoundedCornerShape(50),
-                    color = MaterialTheme.colorScheme.surface.copy(alpha = 0.9f),
-                    modifier = Modifier.size(40.dp)
-                ) {
-                    Box(contentAlignment = Alignment.Center) {
-                        Icon(
-                            painter = painterResource(id = getSubjectIcon(resource.subject)),
-                            contentDescription = null,
-                            modifier = Modifier.size(20.dp),
-                            tint = subjectTheme.color
-                        )
-                    }
-                }
-            }
-
-            Column(
-                modifier = Modifier.padding(horizontal = 12.dp, vertical = 10.dp)
-            ) {
-                Surface(
-                    shape = RoundedCornerShape(50),
-                    color = subjectTheme.container,
-                    modifier = Modifier.padding(bottom = 6.dp)
-                ) {
-                    Text(
-                        text = resource.subject,
-                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp),
-                        style = MaterialTheme.typography.labelSmall,
-                        fontWeight = FontWeight.Bold,
-                        color = subjectTheme.onContainer,
-                        maxLines = 1
-                    )
-                }
-
-                Text(
-                    text = resource.title,
-                    style = MaterialTheme.typography.bodyMedium,
-                    fontWeight = FontWeight.SemiBold,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    modifier = Modifier.heightIn(min = 40.dp)
-                )
-
-                Spacer(modifier = Modifier.height(8.dp))
-
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = resource.gradeLevel,
-                        style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                    Text(
-                        text = resource.type,
-                        style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-            }
-        }
-    }
+        modifier = Modifier.width(184.dp)
+    )
 }
 
 @Composable

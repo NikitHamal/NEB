@@ -33,7 +33,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.neb.ians.data.api.ApiResource
 import com.neb.ians.ui.components.ErrorCard
+import com.neb.ians.ui.components.NEBiansLogoWordmark
 import com.neb.ians.ui.components.ShimmerLibraryGrid
+import com.neb.ians.ui.components.WebResourceCard
 import com.neb.ians.ui.theme.getSubjectTheme
 
 private fun getSubjectIcon(subject: String): Int {
@@ -81,10 +83,7 @@ fun LibraryScreen(
         topBar = {
             LargeTopAppBar(
                 title = {
-                    Text(
-                        text = "Library",
-                        fontWeight = FontWeight.Bold
-                    )
+                    NEBiansLogoWordmark()
                 },
                 actions = {
                     FilledTonalIconButton(onClick = onSearchClick) {
@@ -178,8 +177,8 @@ fun LibraryScreen(
                         }
                     } else {
                         LazyVerticalGrid(
-                            columns = GridCells.Fixed(2),
-                            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+                            columns = GridCells.Adaptive(minSize = 164.dp),
+                            contentPadding = PaddingValues(horizontal = 24.dp, vertical = 8.dp),
                             horizontalArrangement = Arrangement.spacedBy(12.dp),
                             verticalArrangement = Arrangement.spacedBy(12.dp)
                         ) {
@@ -256,17 +255,17 @@ private fun FilterChipRow(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 4.dp),
+                    .padding(vertical = 5.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
             text = label,
             style = MaterialTheme.typography.labelMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.padding(start = 16.dp, end = 8.dp)
+            modifier = Modifier.padding(start = 24.dp, end = 8.dp)
         )
         LazyRow(
-            contentPadding = PaddingValues(end = 16.dp),
+            contentPadding = PaddingValues(end = 24.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             items(items) { item ->
@@ -306,87 +305,5 @@ private fun LibraryResourceCard(
     resource: ApiResource,
     onClick: () -> Unit
 ) {
-    val subjectTheme = getSubjectTheme(resource.subject)
-
-    Card(
-        onClick = onClick,
-        shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
-        ),
-        border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
-    ) {
-        Column {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(100.dp)
-                    .background(Brush.linearGradient(listOf(subjectTheme.container, subjectTheme.color))),
-                contentAlignment = Alignment.Center
-            ) {
-                Surface(
-                    shape = RoundedCornerShape(50),
-                    color = MaterialTheme.colorScheme.surface.copy(alpha = 0.9f),
-                    modifier = Modifier.size(40.dp)
-                ) {
-                    Box(contentAlignment = Alignment.Center) {
-                        Icon(
-                            painter = painterResource(id = getSubjectIcon(resource.subject)),
-                            contentDescription = null,
-                            modifier = Modifier.size(20.dp),
-                            tint = subjectTheme.color
-                        )
-                    }
-                }
-            }
-
-            Column(
-                modifier = Modifier.padding(12.dp)
-            ) {
-                Surface(
-                    shape = RoundedCornerShape(50),
-                    color = subjectTheme.container,
-                    modifier = Modifier.padding(bottom = 6.dp)
-                ) {
-                    Text(
-                        text = resource.subject,
-                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp),
-                        style = MaterialTheme.typography.labelSmall,
-                        fontWeight = FontWeight.Bold,
-                        color = subjectTheme.onContainer,
-                        maxLines = 1
-                    )
-                }
-
-                Text(
-                    text = resource.title,
-                    style = MaterialTheme.typography.bodyMedium,
-                    fontWeight = FontWeight.SemiBold,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    modifier = Modifier.heightIn(min = 40.dp)
-                )
-
-                Spacer(modifier = Modifier.height(8.dp))
-
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = resource.gradeLevel,
-                        style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                    Text(
-                        text = resource.type,
-                        style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-            }
-        }
-    }
+    WebResourceCard(resource = resource, onClick = onClick)
 }

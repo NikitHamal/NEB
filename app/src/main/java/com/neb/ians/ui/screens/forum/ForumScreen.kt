@@ -1,6 +1,7 @@
 package com.neb.ians.ui.screens.forum
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
@@ -29,6 +30,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.neb.ians.data.api.ApiPost
 import com.neb.ians.ui.components.ErrorCard
+import com.neb.ians.ui.components.NEBiansLogoWordmark
 import com.neb.ians.ui.components.ShimmerForumList
 import com.neb.ians.util.formatTimeAgo
 import com.neb.ians.util.getSubjectColor
@@ -85,10 +87,7 @@ fun ForumScreen(
             } else {
                 LargeTopAppBar(
                     title = {
-                        Text(
-                            text = "Forum",
-                            fontWeight = FontWeight.Bold
-                        )
+                        NEBiansLogoWordmark()
                     },
                     actions = {
                         IconButton(onClick = { isSearchVisible = true }) {
@@ -109,6 +108,7 @@ fun ForumScreen(
         floatingActionButton = {
             ExtendedFloatingActionButton(
                 onClick = onCreatePostClick,
+                shape = RoundedCornerShape(16.dp),
                 containerColor = MaterialTheme.colorScheme.primaryContainer,
                 contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
                 icon = {
@@ -117,9 +117,7 @@ fun ForumScreen(
                         contentDescription = "Create post"
                     )
                 },
-                text = {
-                    Text("New Post")
-                }
+                text = { Text("New Discussion") }
             )
         },
         containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
@@ -133,7 +131,44 @@ fun ForumScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .horizontalScroll(rememberScrollState())
-                        .padding(horizontal = 16.dp, vertical = 8.dp),
+                        .padding(horizontal = 24.dp, vertical = 8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    ForumUiState.SORTS.forEach { (sort, label) ->
+                        val isSelected = uiState.selectedSort == sort
+                        FilterChip(
+                            selected = isSelected,
+                            onClick = { viewModel.selectSort(sort) },
+                            label = {
+                                Text(
+                                    text = label,
+                                    style = MaterialTheme.typography.labelLarge,
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis
+                                )
+                            },
+                            shape = CircleShape,
+                            colors = FilterChipDefaults.filterChipColors(
+                                containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+                                labelColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                                selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                                selectedLabelColor = MaterialTheme.colorScheme.primary
+                            ),
+                            border = FilterChipDefaults.filterChipBorder(
+                                borderColor = MaterialTheme.colorScheme.outlineVariant,
+                                selectedBorderColor = MaterialTheme.colorScheme.primaryContainer,
+                                enabled = true,
+                                selected = isSelected
+                            )
+                        )
+                    }
+                }
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .horizontalScroll(rememberScrollState())
+                        .padding(horizontal = 24.dp, vertical = 8.dp),
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     ForumUiState.CATEGORIES.forEach { category ->
@@ -201,7 +236,7 @@ fun ForumScreen(
                         }
                         LazyColumn(
                             modifier = Modifier.fillMaxSize(),
-                            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+                            contentPadding = PaddingValues(horizontal = 24.dp, vertical = 8.dp),
                             verticalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
                             items(uiState.posts, key = { it.id }) { post ->
@@ -233,8 +268,10 @@ private fun ForumPostCard(
         onClick = onClick,
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-        )
+            containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
+        ),
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
+        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
         Column(
             modifier = Modifier

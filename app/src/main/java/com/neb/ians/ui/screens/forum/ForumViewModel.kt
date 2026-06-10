@@ -14,6 +14,7 @@ import javax.inject.Inject
 data class ForumUiState(
     val posts: List<ApiPost> = emptyList(),
     val selectedCategory: String? = null,
+    val selectedSort: String = "hot",
     val searchQuery: String = "",
     val isLoading: Boolean = true,
     val error: String? = null
@@ -23,6 +24,7 @@ data class ForumUiState(
             "General", "Physics", "Chemistry", "Mathematics",
             "Biology", "English", "Computer Science", "Exam Tips"
         )
+        val SORTS = listOf("hot" to "Hot", "new" to "New", "top" to "Top", "discussed" to "Discussed")
     }
 }
 
@@ -41,7 +43,10 @@ class ForumViewModel @Inject constructor(
     private fun loadPosts() {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true, error = null) }
-            forumRepository.getPosts(category = _uiState.value.selectedCategory)
+            forumRepository.getPosts(
+                category = _uiState.value.selectedCategory,
+                sort = _uiState.value.selectedSort
+            )
                 .onSuccess { result ->
                     _uiState.update { it.copy(posts = result.posts, isLoading = false) }
                 }
@@ -58,6 +63,11 @@ class ForumViewModel @Inject constructor(
     fun selectCategory(category: String?) {
         val newCategory = if (_uiState.value.selectedCategory == category) null else category
         _uiState.update { it.copy(selectedCategory = newCategory) }
+        loadPosts()
+    }
+
+    fun selectSort(sort: String) {
+        _uiState.update { it.copy(selectedSort = sort) }
         loadPosts()
     }
 

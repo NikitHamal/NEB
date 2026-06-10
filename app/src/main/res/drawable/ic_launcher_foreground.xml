@@ -4,53 +4,38 @@
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
-
-    <!-- Open book shape representing education -->
-    <!-- Left page -->
-    <path
-        android:fillColor="#FFFFFF"
-        android:pathData="M54,36 L54,78 L26,74 L26,32 Z" />
-    <!-- Right page -->
-    <path
-        android:fillColor="#FFFFFF"
-        android:pathData="M54,36 L54,78 L82,74 L82,32 Z" />
-    <!-- Book spine highlight -->
-    <path
-        android:fillColor="#E3F2FD"
-        android:pathData="M52,36 L54,34 L56,36 L54,78 Z" />
-    <!-- Left page lines -->
-    <path
-        android:strokeColor="#90CAF9"
-        android:strokeWidth="1"
-        android:pathData="M32,42 L50,44" />
-    <path
-        android:strokeColor="#90CAF9"
-        android:strokeWidth="1"
-        android:pathData="M32,48 L50,50" />
-    <path
-        android:strokeColor="#90CAF9"
-        android:strokeWidth="1"
-        android:pathData="M32,54 L50,56" />
-    <path
-        android:strokeColor="#90CAF9"
-        android:strokeWidth="1"
-        android:pathData="M32,60 L50,62" />
-    <!-- Right page lines -->
-    <path
-        android:strokeColor="#90CAF9"
-        android:strokeWidth="1"
-        android:pathData="M58,44 L76,42" />
-    <path
-        android:strokeColor="#90CAF9"
-        android:strokeWidth="1"
-        android:pathData="M58,50 L76,48" />
-    <path
-        android:strokeColor="#90CAF9"
-        android:strokeWidth="1"
-        android:pathData="M58,56 L76,54" />
-    <path
-        android:strokeColor="#90CAF9"
-        android:strokeWidth="1"
-        android:pathData="M58,62 L76,60" />
-
+    <group
+        android:translateX="0"
+        android:translateY="0"
+        android:scaleX="0.10547"
+        android:scaleY="0.10547">
+        <path
+            android:fillColor="#052566"
+            android:pathData="M710.7,111.8 L711.3,168.5 L927.9,311.9 L929.1,871.5 L981,830 L981,288.1 Z"
+            android:strokeColor="#EEF5FF"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round"
+            android:strokeWidth="4.9" />
+        <path
+            android:fillColor="#06327C"
+            android:pathData="M674.7,202.7 L674.7,258.2 L827.2,358.9 L827.2,573.7 L877.8,626.8 L878.4,335.1 Z"
+            android:strokeColor="#EEF5FF"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round"
+            android:strokeWidth="4.9" />
+        <path
+            android:fillColor="#90B4FB"
+            android:pathData="M592.3,281.4 L592.9,316.2 L779.6,517 L779.6,382.1 Z"
+            android:strokeColor="#EEF5FF"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round"
+            android:strokeWidth="4.9" />
+        <path
+            android:fillColor="#004BD4"
+            android:pathData="M436.7,225.2 L436.7,776.9 L566,907.5 L568.4,581.6 L878.4,911.8 L878.4,627.4 L827.2,574.3 L823.5,636.5 Z"
+            android:strokeColor="#EEF5FF"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round"
+            android:strokeWidth="4.9" />
+    </group>
 </vector>

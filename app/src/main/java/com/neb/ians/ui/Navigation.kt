@@ -5,13 +5,19 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material.icons.outlined.Notifications
-import androidx.compose.ui.res.painterResource
 import com.neb.ians.R
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -20,6 +26,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -53,7 +60,6 @@ import com.neb.ians.ui.screens.profile.ProfileScreen
 import com.neb.ians.ui.screens.profile.ProfileViewModel
 import com.neb.ians.ui.screens.profile.EditProfileScreen
 import com.neb.ians.ui.screens.notifications.NotificationsScreen
-import com.neb.ians.ui.screens.notifications.NotificationsViewModel
 import com.neb.ians.ui.screens.settings.SettingsScreen
 import com.neb.ians.ui.screens.settings.SettingsViewModel
 import com.neb.ians.ui.screens.reader.PdfReaderScreen
@@ -64,7 +70,7 @@ import com.neb.ians.ui.screens.auth.EmailLoginScreen
 import com.neb.ians.ui.screens.auth.EmailVerificationScreen
 import com.neb.ians.ui.screens.auth.ForgotPasswordScreen
 import com.neb.ians.ui.screens.auth.CompleteProfileScreen
-import com.neb.ians.ui.screens.auth.CompleteProfileViewModel
+import com.neb.ians.ui.components.FeaturePlaceholderScreen
 
 sealed class Screen(val route: String) {
     data object Splash : Screen("splash")
@@ -85,6 +91,11 @@ sealed class Screen(val route: String) {
     data object Forum : Screen("forum")
     data object Search : Screen("search")
     data object Notifications : Screen("notifications")
+    data object StudyLab : Screen("study_lab")
+    data object StudySpaces : Screen("study_spaces")
+    data object Analytics : Screen("analytics")
+    data object Bookmarks : Screen("bookmarks")
+    data object NebyAi : Screen("neby_ai")
     data object Profile : Screen("profile/{username}") {
         fun createRoute(username: String) = "profile/${java.net.URLEncoder.encode(username, "UTF-8")}"
     }
@@ -132,13 +143,7 @@ val bottomNavItems = listOf(
         "Forum",
         BottomNavIcon.Drawable(R.drawable.ic_forum_filled),
         BottomNavIcon.Drawable(R.drawable.ic_forum_outlined)
-    ),
-    BottomNavItem(
-        Screen.Notifications,
-        "Alerts",
-        BottomNavIcon.Vector(Icons.Filled.Notifications),
-        BottomNavIcon.Vector(Icons.Outlined.Notifications)
-    ),
+    )
 )
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -167,51 +172,16 @@ fun NEBiansNavHost(
         containerColor = MaterialTheme.colorScheme.surface,
         bottomBar = {
             if (showBottomBar) {
-                NavigationBar(
-                    tonalElevation = 0.dp,
-                    containerColor = MaterialTheme.colorScheme.surfaceContainer,
-                ) {
-                    bottomNavItems.forEach { item ->
-                        val selected = currentDestination?.hierarchy?.any { it.route == item.screen.route } == true
-                        NavigationBarItem(
-                            icon = {
-                                val iconSource = if (selected) item.selectedIcon else item.unselectedIcon
-                                when (iconSource) {
-                                    is BottomNavIcon.Vector -> Icon(
-                                        imageVector = iconSource.imageVector,
-                                        contentDescription = item.label
-                                    )
-                                    is BottomNavIcon.Drawable -> Icon(
-                                        painter = painterResource(id = iconSource.resId),
-                                        contentDescription = item.label
-                                    )
-                                }
-                            },
-                            label = {
-                                Text(
-                                    text = item.label,
-                                    style = if (selected) MaterialTheme.typography.labelMedium
-                                    else MaterialTheme.typography.labelSmall
-                                )
-                            },
-                            selected = selected,
-                            colors = NavigationBarItemDefaults.colors(
-                                selectedIconColor = MaterialTheme.colorScheme.onSecondaryContainer,
-                                selectedTextColor = MaterialTheme.colorScheme.onSecondaryContainer,
-                                indicatorColor = MaterialTheme.colorScheme.secondaryContainer,
-                                unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                                unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant
-                            ),
-                            onClick = {
-                                navController.navigate(item.screen.route) {
-                                    popUpTo(navController.graph.findStartDestination().id) { saveState = true }
-                                    launchSingleTop = true
-                                    restoreState = true
-                                }
-                            }
-                        )
+                WebMirrorBottomNav(
+                    currentRoute = currentDestination?.route,
+                    onNavigate = { route ->
+                        navController.navigate(route) {
+                            popUpTo(navController.graph.findStartDestination().id) { saveState = true }
+                            launchSingleTop = true
+                            restoreState = true
+                        }
                     }
-                }
+                )
             }
         }
     ) { innerPadding ->
@@ -347,7 +317,9 @@ fun NEBiansNavHost(
                         navController.navigate(Screen.PdfReader.createRoute(resourceId))
                     },
                     onSearchClick = { navController.navigate(Screen.Search.route) },
-                    onViewAllClick = { navController.navigate(Screen.Library.route) },
+                    onViewAllClick = { navController.navigate(Screen.Library.createRoute()) },
+                    onStudyLabClick = { navController.navigate(Screen.StudyLab.route) },
+                    onNebyAiClick = { navController.navigate(Screen.NebyAi.route) },
                     onSubjectClick = { subject ->
                         navController.navigate(Screen.Library.createRoute(subject))
                     }
@@ -388,6 +360,46 @@ fun NEBiansNavHost(
                     onProfileClick = { username ->
                         navController.navigate(Screen.Profile.createRoute(username))
                     }
+                )
+            }
+            composable(Screen.StudyLab.route) {
+                FeaturePlaceholderScreen(
+                    title = "Study Lab",
+                    subtitle = "Native AI summaries, mindmaps, quizzes, and flashcards are now represented in the app shell and ready for endpoint wiring.",
+                    iconRes = R.drawable.ic_science,
+                    onNavigateBack = { navController.popBackStack() }
+                )
+            }
+            composable(Screen.StudySpaces.route) {
+                FeaturePlaceholderScreen(
+                    title = "Study Spaces",
+                    subtitle = "Live collaborative rooms from the web product get a native destination so the Android app matches the platform map.",
+                    iconRes = R.drawable.ic_school,
+                    onNavigateBack = { navController.popBackStack() }
+                )
+            }
+            composable(Screen.Analytics.route) {
+                FeaturePlaceholderScreen(
+                    title = "Analytics",
+                    subtitle = "Progress, contribution, and learning analytics belong here with the same calm card system as the website.",
+                    iconRes = R.drawable.ic_visibility,
+                    onNavigateBack = { navController.popBackStack() }
+                )
+            }
+            composable(Screen.Bookmarks.route) {
+                FeaturePlaceholderScreen(
+                    title = "Bookmarks",
+                    subtitle = "Saved resources, posts, and replies are exposed as a native screen matching the web navigation menu.",
+                    iconRes = R.drawable.ic_bookmark,
+                    onNavigateBack = { navController.popBackStack() }
+                )
+            }
+            composable(Screen.NebyAi.route) {
+                FeaturePlaceholderScreen(
+                    title = "Neby AI",
+                    subtitle = "The new AI chat features now have a native destination for the arena-backed assistant experience.",
+                    iconRes = R.drawable.ic_science,
+                    onNavigateBack = { navController.popBackStack() }
                 )
             }
             composable(
@@ -472,3 +484,60 @@ fun NEBiansNavHost(
     }
 }
 
+@Composable
+private fun WebMirrorBottomNav(
+    currentRoute: String?,
+    onNavigate: (String) -> Unit
+) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 20.dp, vertical = 14.dp)
+    ) {
+        Surface(
+            modifier = Modifier
+                .align(androidx.compose.ui.Alignment.Center)
+                .widthIn(max = 360.dp),
+            shape = RoundedCornerShape(50),
+            color = MaterialTheme.colorScheme.surfaceContainerLow.copy(alpha = 0.92f),
+            border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
+            tonalElevation = 0.dp,
+            shadowElevation = 8.dp
+        ) {
+            Row(
+                modifier = Modifier.padding(4.dp),
+                horizontalArrangement = Arrangement.spacedBy(0.dp)
+            ) {
+                bottomNavItems.forEach { item ->
+                    val selected = currentRoute == item.screen.route
+                    val targetRoute = when (item.screen) {
+                        Screen.Library -> Screen.Library.createRoute()
+                        else -> item.screen.route
+                    }
+                    Box(
+                        modifier = Modifier
+                            .weight(1f)
+                            .clip(RoundedCornerShape(50))
+                            .clickable { onNavigate(targetRoute) }
+                            .background(
+                                if (selected) MaterialTheme.colorScheme.primaryContainer
+                                else androidx.compose.ui.graphics.Color.Transparent
+                            )
+                            .padding(horizontal = 18.dp, vertical = 10.dp),
+                        contentAlignment = androidx.compose.ui.Alignment.Center
+                    ) {
+                        Text(
+                            text = item.label,
+                            style = MaterialTheme.typography.labelLarge,
+                            fontWeight = if (selected) androidx.compose.ui.text.font.FontWeight.Bold
+                            else androidx.compose.ui.text.font.FontWeight.SemiBold,
+                            color = if (selected) MaterialTheme.colorScheme.primary
+                            else MaterialTheme.colorScheme.onSurfaceVariant,
+                            maxLines = 1
+                        )
+                    }
+                }
+            }
+        }
+    }
+}

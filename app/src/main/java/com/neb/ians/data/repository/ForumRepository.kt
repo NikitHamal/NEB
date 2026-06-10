@@ -30,10 +30,10 @@ class ForumRepository @Inject constructor(
 
     private suspend fun getBearerToken(): String? = authRepository.getBearerToken()
 
-    suspend fun getPosts(category: String? = null, page: Int? = null): Result<ForumPostsResult> {
+    suspend fun getPosts(category: String? = null, sort: String? = null, page: Int? = null): Result<ForumPostsResult> {
         return try {
             val token = getBearerToken()
-            val response = apiService.getPosts(token, category, page)
+            val response = apiService.getPosts(token, category = category, sort = sort, page = page)
             _cachedPosts.value = response.posts
             val currentPage = page ?: 1
             val totalPages = maxOf(1, (response.totalCount + 49) / 50)

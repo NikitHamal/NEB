@@ -22,14 +22,14 @@ val NEBiansTypography = Typography(
         fontWeight = FontWeight.W800,
         fontSize = 40.sp,
         lineHeight = 48.sp,
-        letterSpacing = (-0.8).sp,
+        letterSpacing = 0.sp,
     ),
     displayMedium = TextStyle(
         fontFamily = Poppins,
         fontWeight = FontWeight.W700,
         fontSize = 32.sp,
         lineHeight = 38.4.sp,
-        letterSpacing = (-0.64).sp,
+        letterSpacing = 0.sp,
     ),
     displaySmall = TextStyle(
         fontFamily = Poppins,
@@ -42,7 +42,7 @@ val NEBiansTypography = Typography(
         fontWeight = FontWeight.W800,
         fontSize = 40.sp,
         lineHeight = 48.sp,
-        letterSpacing = (-0.8).sp,
+        letterSpacing = 0.sp,
     ),
     headlineMedium = TextStyle(
         fontFamily = Poppins,

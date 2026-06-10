@@ -51,6 +51,15 @@ fun PdfReaderScreen(
     val dialogState by viewModel.dialogState.collectAsState()
     val bookmarksState by viewModel.bookmarksState.collectAsState()
 
+    MinimalResourceReader(
+        pageState = pageState,
+        onNavigateBack = onNavigateBack,
+        onDownload = { viewModel.downloadResource() },
+        onPreviousPage = { viewModel.previousPage() },
+        onNextPage = { viewModel.nextPage() }
+    )
+    return
+
     var showOverflowMenu by remember { mutableStateOf(false) }
     var showPageJumpDialog by remember { mutableStateOf(false) }
     var showBookmarkListDialog by remember { mutableStateOf(false) }
@@ -794,6 +803,176 @@ fun PdfReaderScreen(
                 }
             }
         )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun MinimalResourceReader(
+    pageState: ReaderPageState,
+    onNavigateBack: () -> Unit,
+    onDownload: () -> Unit,
+    onPreviousPage: () -> Unit,
+    onNextPage: () -> Unit
+) {
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(
+                        text = pageState.resource?.title ?: "Resource",
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                },
+                navigationIcon = {
+                    IconButton(onClick = onNavigateBack) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "Back"
+                        )
+                    }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.surface
+                )
+            )
+        },
+        containerColor = MaterialTheme.colorScheme.surface
+    ) { paddingValues ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            Card(
+                shape = RoundedCornerShape(8.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
+                ),
+                border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
+                elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+            ) {
+                Column(modifier = Modifier.padding(16.dp)) {
+                    Text(
+                        text = pageState.resource?.title ?: "Loading resource...",
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                    Spacer(modifier = Modifier.height(6.dp))
+                    Text(
+                        text = listOfNotNull(
+                            pageState.resource?.subject,
+                            pageState.resource?.gradeLevel,
+                            pageState.resource?.type
+                        ).joinToString(" · "),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                    if (pageState.isDownloading) {
+                        Spacer(modifier = Modifier.height(12.dp))
+                        LinearProgressIndicator(
+                            progress = { pageState.downloadProgress / 100f },
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    }
+                }
+            }
+
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(8.dp))
+                    .background(MaterialTheme.colorScheme.surfaceContainerLowest)
+                    .border(
+                        width = 1.dp,
+                        color = MaterialTheme.colorScheme.outlineVariant,
+                        shape = RoundedCornerShape(8.dp)
+                    ),
+                contentAlignment = Alignment.Center
+            ) {
+                when {
+                    pageState.isLoading -> CircularProgressIndicator()
+                    pageState.needsDownload -> Column(
+                        modifier = Modifier.padding(24.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(14.dp)
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_document),
+                            contentDescription = null,
+                            modifier = Modifier.size(56.dp),
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                        Text(
+                            text = "Download this PDF for native viewing.",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            textAlign = TextAlign.Center
+                        )
+                        Button(onClick = onDownload, shape = RoundedCornerShape(50)) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_download),
+                                contentDescription = null,
+                                modifier = Modifier.size(18.dp)
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text("Download PDF")
+                        }
+                    }
+                    pageState.pageBitmap != null -> Image(
+                        bitmap = pageState.pageBitmap.asImageBitmap(),
+                        contentDescription = "PDF page ${pageState.currentPage + 1}",
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(8.dp),
+                        contentScale = ContentScale.Fit
+                    )
+                    else -> Text(
+                        text = pageState.error ?: "Preview unavailable",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.padding(24.dp)
+                    )
+                }
+            }
+
+            if (pageState.totalPages > 0) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    OutlinedButton(
+                        onClick = onPreviousPage,
+                        enabled = pageState.currentPage > 0,
+                        shape = RoundedCornerShape(50)
+                    ) {
+                        Text("Previous")
+                    }
+                    Text(
+                        text = "${pageState.currentPage + 1} / ${pageState.totalPages}",
+                        style = MaterialTheme.typography.labelLarge,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    OutlinedButton(
+                        onClick = onNextPage,
+                        enabled = pageState.currentPage < pageState.totalPages - 1,
+                        shape = RoundedCornerShape(50)
+                    ) {
+                        Text("Next")
+                    }
+                }
+            }
+        }
     }
 }
 
