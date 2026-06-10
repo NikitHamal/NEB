@@ -80,6 +80,27 @@
   display: none !important;
 }
 
+.post-card-images {
+  display: flex;
+  gap: 4px;
+  margin-top: 8px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.post-card-thumb {
+  width: 120px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: opacity .15s;
+}
+
+.post-card-thumb:hover {
+  opacity: .85;
+}
+
 .act-preview {
   font-size: 0.875rem;
   line-height: 1.6;
