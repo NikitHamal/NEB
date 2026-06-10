@@ -51,8 +51,8 @@ def home(request):
 
     recent = resources[:5]
     popular = sorted(resources, key=lambda r: r.get('view_count', 0), reverse=True)[:5]
-    recent_posts = all_posts[:5]
-    trending_posts = all_posts[:5]
+    recent_posts = all_posts[:3]
+    trending_posts = all_posts[:3]
     subjects = []
     seen = set()
     for r in resources:
