@@ -17,12 +17,20 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.FilterList
+import androidx.compose.material.icons.outlined.Search
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -40,7 +48,6 @@ import com.neb.ians.R
 import com.neb.ians.ui.components.ErrorCard
 import com.neb.ians.ui.components.ShimmerLibraryGrid
 import com.neb.ians.ui.components.WebChip
-import com.neb.ians.ui.components.WebChipRow
 import com.neb.ians.ui.components.WebEmptyState
 import com.neb.ians.ui.components.WebOutlinedButton
 import com.neb.ians.ui.components.WebPanelShape
@@ -48,6 +55,7 @@ import com.neb.ians.ui.components.WebPillShape
 import com.neb.ians.ui.components.WebResourceCard
 import com.neb.ians.ui.components.WebTopBar
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LibraryScreen(
     onResourceClick: (String) -> Unit,
@@ -59,7 +67,9 @@ fun LibraryScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     var currentTab by remember { mutableStateOf("library") }
+    var showFilterSheet by remember { mutableStateOf(false) }
     val hasActiveFilters = uiState.selectedSubject != null || uiState.selectedGradeLevel != null || uiState.selectedType != null
+    val sheetState = rememberModalBottomSheetState()
 
     Scaffold(
         topBar = {
@@ -86,25 +96,33 @@ fun LibraryScreen(
             ) {
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
-                        text = "Digital Library",
+                        text = if (currentTab == "library") "Digital Library" else "Syllabus",
                         style = MaterialTheme.typography.headlineSmall,
                         fontWeight = FontWeight.ExtraBold,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
                     Text(
-                        text = "Notes, past papers, textbooks, guides, and syllabus categories.",
+                        text = if (currentTab == "library") "Notes, past papers, textbooks, and guides." else "Browse subjects by grade level.",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         maxLines = 2,
                         overflow = TextOverflow.Ellipsis
                     )
                 }
-                WebOutlinedButton(
-                    text = "Upload",
-                    painter = painterResource(id = R.drawable.ic_science),
-                    onClick = onUploadClick
-                )
+                if (currentTab == "library") {
+                    IconButton(
+                        onClick = { showFilterSheet = true },
+                        modifier = Modifier.size(40.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.FilterList,
+                            contentDescription = "Filter",
+                            tint = if (hasActiveFilters) MaterialTheme.colorScheme.primary
+                            else MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                }
             }
 
             LibraryTabs(
@@ -113,11 +131,28 @@ fun LibraryScreen(
             )
 
             if (currentTab == "library") {
-                FilterSection(
-                    hasActiveFilters = hasActiveFilters,
-                    uiState = uiState,
-                    viewModel = viewModel
-                )
+                if (hasActiveFilters) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp, vertical = 4.dp),
+                        horizontalArrangement = Arrangement.spacedBy(6.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        uiState.selectedSubject?.let {
+                            ActiveFilterChip(label = it, onRemove = { viewModel.selectSubject(it) })
+                        }
+                        uiState.selectedGradeLevel?.let {
+                            ActiveFilterChip(label = it, onRemove = { viewModel.selectGradeLevel(it) })
+                        }
+                        uiState.selectedType?.let {
+                            ActiveFilterChip(label = it, onRemove = { viewModel.selectType(it) })
+                        }
+                        TextButton(onClick = viewModel::clearFilters) {
+                            Text("Clear all", style = MaterialTheme.typography.labelSmall)
+                        }
+                    }
+                }
                 LibraryContent(
                     uiState = uiState,
                     hasActiveFilters = hasActiveFilters,
@@ -133,6 +168,133 @@ fun LibraryScreen(
                 )
             }
         }
+    }
+
+    if (showFilterSheet) {
+        ModalBottomSheet(
+            onDismissRequest = { showFilterSheet = false },
+            sheetState = sheetState,
+            containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
+        ) {
+            FilterSheetContent(
+                uiState = uiState,
+                viewModel = viewModel,
+                onApply = { showFilterSheet = false }
+            )
+        }
+    }
+}
+
+@Composable
+private fun ActiveFilterChip(label: String, onRemove: () -> Unit) {
+    Surface(
+        shape = WebPillShape,
+        color = MaterialTheme.colorScheme.primaryContainer,
+        modifier = Modifier.clickable { onRemove() }
+    ) {
+        Row(
+            modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            Text(
+                text = label,
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
+                fontWeight = FontWeight.Medium
+            )
+        }
+    }
+}
+
+@Composable
+private fun FilterSheetContent(
+    uiState: LibraryUiState,
+    viewModel: LibraryViewModel,
+    onApply: () -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 8.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "Filters",
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold
+            )
+            TextButton(onClick = {
+                viewModel.clearFilters()
+                onApply()
+            }) {
+                Text("Clear all")
+            }
+        }
+
+        Text(
+            text = "Subject",
+            style = MaterialTheme.typography.labelLarge,
+            fontWeight = FontWeight.SemiBold,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            LibraryUiState.SUBJECTS.forEach { subject ->
+                WebChip(
+                    text = subject,
+                    selected = uiState.selectedSubject == subject,
+                    onClick = { viewModel.selectSubject(subject) }
+                )
+            }
+        }
+
+        Text(
+            text = "Grade",
+            style = MaterialTheme.typography.labelLarge,
+            fontWeight = FontWeight.SemiBold,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            LibraryUiState.GRADE_LEVELS.forEach { grade ->
+                WebChip(
+                    text = grade,
+                    selected = uiState.selectedGradeLevel == grade,
+                    onClick = { viewModel.selectGradeLevel(grade) }
+                )
+            }
+        }
+
+        Text(
+            text = "Type",
+            style = MaterialTheme.typography.labelLarge,
+            fontWeight = FontWeight.SemiBold,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            LibraryUiState.TYPES.forEach { type ->
+                WebChip(
+                    text = type,
+                    selected = uiState.selectedType == type,
+                    onClick = { viewModel.selectType(type) }
+                )
+            }
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
     }
 }
 
@@ -183,48 +345,6 @@ private fun TabButton(text: String, selected: Boolean, onClick: () -> Unit) {
             color = if (selected) MaterialTheme.colorScheme.primary else androidx.compose.ui.graphics.Color.Transparent,
             shape = WebPillShape
         ) {}
-    }
-}
-
-@Composable
-private fun FilterSection(
-    hasActiveFilters: Boolean,
-    uiState: LibraryUiState,
-    viewModel: LibraryViewModel
-) {
-    Column(
-        modifier = Modifier.padding(top = 12.dp, bottom = 6.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        WebChipRow(
-            items = LibraryUiState.SUBJECTS,
-            selectedItem = uiState.selectedSubject,
-            onItemClick = viewModel::selectSubject
-        )
-        WebChipRow(
-            items = LibraryUiState.GRADE_LEVELS,
-            selectedItem = uiState.selectedGradeLevel,
-            onItemClick = viewModel::selectGradeLevel
-        )
-        WebChipRow(
-            items = LibraryUiState.TYPES,
-            selectedItem = uiState.selectedType,
-            onItemClick = viewModel::selectType
-        )
-        if (hasActiveFilters) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-                horizontalArrangement = Arrangement.End
-            ) {
-                WebChip(
-                    text = "Clear all",
-                    selected = true,
-                    onClick = viewModel::clearFilters
-                )
-            }
-        }
     }
 }
 

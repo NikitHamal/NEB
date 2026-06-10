@@ -2,6 +2,7 @@ package com.neb.ians.ui.screens.profile
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,11 +18,20 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.outlined.ArrowBack
+import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -30,6 +40,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -43,12 +54,10 @@ import com.neb.ians.ui.components.Avatar
 import com.neb.ians.ui.components.WebChip
 import com.neb.ians.ui.components.WebEmptyState
 import com.neb.ians.ui.components.WebKpiCard
-import com.neb.ians.ui.components.WebOutlinedButton
 import com.neb.ians.ui.components.WebPanelShape
-import com.neb.ians.ui.components.WebPrimaryButton
-import com.neb.ians.ui.components.WebTopBar
 import com.neb.ians.ui.components.compactCount
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(
     username: String,
@@ -59,6 +68,7 @@ fun ProfileScreen(
     onAnalyticsClick: () -> Unit = {},
     onBookmarksClick: () -> Unit = {},
     onSearchClick: () -> Unit = {},
+    onProfileClick: (String) -> Unit = {},
     viewModel: ProfileViewModel = hiltViewModel()
 ) {
     LaunchedEffect(username) {
@@ -69,12 +79,29 @@ fun ProfileScreen(
 
     Scaffold(
         topBar = {
-            WebTopBar(
-                title = "@${uiState.profile?.username ?: username}",
-                subtitle = "Profile",
-                showBack = true,
-                onBackClick = onNavigateBack,
-                onSearchClick = onSearchClick
+            TopAppBar(
+                title = {
+                    Text(
+                        text = "@${uiState.profile?.username ?: username}",
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                },
+                navigationIcon = {
+                    IconButton(onClick = onNavigateBack) {
+                        Icon(Icons.Outlined.ArrowBack, contentDescription = "Back")
+                    }
+                },
+                actions = {
+                    if (uiState.profile?.isSelf == true) {
+                        IconButton(onClick = onEditProfile) {
+                            Icon(Icons.Filled.Edit, contentDescription = "Edit")
+                        }
+                    }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.surface
+                )
             )
         },
         containerColor = MaterialTheme.colorScheme.surface
@@ -96,6 +123,7 @@ fun ProfileScreen(
                     profile = uiState.profile!!,
                     followerCount = uiState.followerCount,
                     isFollowing = uiState.isFollowing,
+                    isSelf = uiState.profile?.isSelf == true,
                     onEditProfile = onEditProfile,
                     onFollowClick = viewModel::toggleFollow,
                     onAnalyticsClick = onAnalyticsClick,
@@ -111,6 +139,7 @@ private fun ProfileContent(
     profile: UserProfileResponse,
     followerCount: Int,
     isFollowing: Boolean,
+    isSelf: Boolean,
     onEditProfile: () -> Unit,
     onFollowClick: () -> Unit,
     onAnalyticsClick: () -> Unit,
@@ -157,26 +186,32 @@ private fun ProfileContent(
                     }
                 }
                 Column(modifier = Modifier.padding(16.dp)) {
-                    Avatar(
-                        name = profile.displayName ?: profile.username,
-                        imageUrl = profile.photoUrl,
-                        size = 76.dp,
-                        modifier = Modifier
-                            .clip(CircleShape)
-                    )
-                    Spacer(modifier = Modifier.height(12.dp))
-                    Text(
-                        text = profile.displayName?.takeIf { it.isNotBlank() } ?: profile.username,
-                        style = MaterialTheme.typography.headlineSmall,
-                        fontWeight = FontWeight.ExtraBold,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                    Text(
-                        text = "@${profile.username}",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        Avatar(
+                            name = profile.displayName ?: profile.username,
+                            imageUrl = profile.photoUrl,
+                            size = 64.dp,
+                            modifier = Modifier.clip(CircleShape)
+                        )
+                        Column(modifier = Modifier.weight(1f)) {
+                            Text(
+                                text = profile.displayName?.takeIf { it.isNotBlank() } ?: profile.username,
+                                style = MaterialTheme.typography.titleLarge,
+                                fontWeight = FontWeight.ExtraBold,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
+                            )
+                            Text(
+                                text = "@${profile.username}",
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
+                    }
+
                     if (!profile.bio.isNullOrBlank()) {
                         Spacer(modifier = Modifier.height(8.dp))
                         Text(
@@ -187,36 +222,67 @@ private fun ProfileContent(
                             overflow = TextOverflow.Ellipsis
                         )
                     }
-                    Spacer(modifier = Modifier.height(12.dp))
+
+                    Spacer(modifier = Modifier.height(10.dp))
                     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                         profile.classLevel?.takeIf { it.isNotBlank() }?.let { WebChip(text = it) }
                         profile.school?.takeIf { it.isNotBlank() }?.let { WebChip(text = it) }
-                        if (profile.isPrivate) WebChip(text = "Private", selected = true)
-                    }
-                    Spacer(modifier = Modifier.height(14.dp))
-                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        if (profile.isSelf == true) {
-                            WebPrimaryButton(
-                                text = "Edit Profile",
-                                imageVector = Icons.Filled.Edit,
-                                onClick = onEditProfile
-                            )
-                        } else {
-                            WebPrimaryButton(
-                                text = if (isFollowing) "Following" else "Follow",
-                                onClick = onFollowClick
+                        profile.role?.takeIf { it.isNotBlank() && it != "student" }?.let {
+                            WebChip(
+                                text = it.replaceFirstChar { c -> c.uppercase() },
+                                selected = true
                             )
                         }
-                        WebOutlinedButton(
-                            text = "Analytics",
-                            painter = painterResource(id = R.drawable.ic_science),
-                            onClick = onAnalyticsClick
-                        )
-                        WebOutlinedButton(
-                            text = "Bookmarks",
-                            painter = painterResource(id = R.drawable.ic_bookmark),
-                            onClick = onBookmarksClick
-                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(14.dp))
+                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        if (isSelf) {
+                            OutlinedButton(
+                                onClick = onEditProfile,
+                                border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
+                            ) {
+                                Icon(
+                                    Icons.Filled.Edit,
+                                    contentDescription = null,
+                                    modifier = Modifier.size(16.dp)
+                                )
+                                Spacer(modifier = Modifier.size(6.dp))
+                                Text("Edit Profile")
+                            }
+                        } else {
+                            OutlinedButton(
+                                onClick = onFollowClick,
+                                border = BorderStroke(
+                                    1.dp,
+                                    if (isFollowing) MaterialTheme.colorScheme.outline
+                                    else MaterialTheme.colorScheme.primary
+                                ),
+                                colors = if (isFollowing)
+                                    androidx.compose.material3.ButtonDefaults.outlinedButtonColors(
+                                        containerColor = MaterialTheme.colorScheme.surfaceVariant
+                                    )
+                                else
+                                    androidx.compose.material3.ButtonDefaults.outlinedButtonColors(
+                                        containerColor = MaterialTheme.colorScheme.primary,
+                                        contentColor = MaterialTheme.colorScheme.onPrimary
+                                    )
+                            ) {
+                                Text(if (isFollowing) "Following" else "Follow", fontWeight = FontWeight.SemiBold)
+                            }
+                        }
+                        OutlinedButton(
+                            onClick = onBookmarksClick,
+                            border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
+                        ) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_bookmark),
+                                contentDescription = null,
+                                modifier = Modifier.size(16.dp)
+                            )
+                            Spacer(modifier = Modifier.size(6.dp))
+                            Text("Bookmarks")
+                        }
                     }
                 }
             }

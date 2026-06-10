@@ -4,23 +4,25 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.widthIn
-import androidx.compose.material3.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.MenuBook
+import androidx.compose.material.icons.automirrored.outlined.MenuBook
+import androidx.compose.material.icons.filled.Forum
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.outlined.Forum
+import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.draw.clip
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -33,6 +35,8 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.neb.ians.data.repository.AuthRepository
 import com.neb.ians.data.repository.AuthState
+import com.neb.ians.ui.components.LiquidGlassBottomNav
+import com.neb.ians.ui.components.NebNavItem
 import com.neb.ians.ui.screens.home.HomeScreen
 import com.neb.ians.ui.screens.library.LibraryScreen
 import com.neb.ians.ui.screens.forum.ForumScreen
@@ -40,19 +44,19 @@ import com.neb.ians.ui.screens.forum.ForumPostDetailScreen
 import com.neb.ians.ui.screens.forum.CreatePostScreen
 import com.neb.ians.ui.screens.forum.ReplyScreen
 import com.neb.ians.ui.screens.search.SearchScreen
-import com.neb.ians.ui.screens.study.StudyLabScreen
-import com.neb.ians.ui.screens.study.StudySpaceScreen
-import com.neb.ians.ui.screens.ai.NebyAiScreen
-import com.neb.ians.ui.screens.analytics.AnalyticsScreen
-import com.neb.ians.ui.screens.bookmarks.BookmarksScreen
 import com.neb.ians.ui.screens.profile.ProfileScreen
 import com.neb.ians.ui.screens.profile.EditProfileScreen
 import com.neb.ians.ui.screens.notifications.NotificationsScreen
 import com.neb.ians.ui.screens.settings.SettingsScreen
 import com.neb.ians.ui.screens.settings.SettingsViewModel
 import com.neb.ians.ui.screens.reader.PdfReaderScreen
-import com.neb.ians.ui.components.LiquidNavContainer
-import com.neb.ians.ui.components.WebPillShape
+import com.neb.ians.ui.screens.reader.PdfViewerScreen
+import com.neb.ians.ui.screens.resource.ResourceDetailScreen
+import com.neb.ians.ui.screens.analytics.AnalyticsScreen
+import com.neb.ians.ui.screens.bookmarks.BookmarksScreen
+import com.neb.ians.ui.screens.ai.NebyAiScreen
+import com.neb.ians.ui.screens.study.StudyLabScreen
+import com.neb.ians.ui.screens.study.StudySpaceScreen
 import com.neb.ians.ui.screens.auth.SplashScreen
 import com.neb.ians.ui.screens.auth.LoginScreen
 import com.neb.ians.ui.screens.auth.EmailSignupScreen
@@ -95,6 +99,12 @@ sealed class Screen(val route: String) {
     data object PdfReader : Screen("reader/{resourceId}") {
         fun createRoute(resourceId: String) = "reader/$resourceId"
     }
+    data object PdfViewer : Screen("pdf/{resourceId}") {
+        fun createRoute(resourceId: String) = "pdf/$resourceId"
+    }
+    data object ResourceDetail : Screen("resource/{resourceId}") {
+        fun createRoute(resourceId: String) = "resource/$resourceId"
+    }
     data object ForumPostDetail : Screen("forum/post/{postId}") {
         fun createRoute(postId: String) = "forum/post/$postId"
     }
@@ -104,24 +114,25 @@ sealed class Screen(val route: String) {
     }
 }
 
-data class BottomNavItem(
-    val screen: Screen,
-    val label: String
-)
-
-val bottomNavItems = listOf(
-    BottomNavItem(
-        Screen.Home,
-        "Home"
+val glassNavItems = listOf(
+    NebNavItem(
+        route = Screen.Home.route,
+        label = "Home",
+        selectedIcon = Icons.Filled.Home,
+        unselectedIcon = Icons.Outlined.Home,
     ),
-    BottomNavItem(
-        Screen.Library,
-        "Library"
+    NebNavItem(
+        route = "library",
+        label = "Library",
+        selectedIcon = Icons.AutoMirrored.Filled.MenuBook,
+        unselectedIcon = Icons.AutoMirrored.Outlined.MenuBook,
     ),
-    BottomNavItem(
-        Screen.Forum,
-        "Forum"
-    )
+    NebNavItem(
+        route = Screen.Forum.route,
+        label = "Forum",
+        selectedIcon = Icons.Filled.Forum,
+        unselectedIcon = Icons.Outlined.Forum,
+    ),
 )
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -132,7 +143,9 @@ fun NEBiansNavHost(
     authRepository: AuthRepository
 ) {
     val authState by settingsViewModel.authState.collectAsStateWithLifecycle()
+    val isDarkMode by settingsViewModel.isDarkMode.collectAsStateWithLifecycle()
     val userProfile by settingsViewModel.userProfile.collectAsStateWithLifecycle()
+    val isAuthenticated = authState is AuthState.Authenticated
     LaunchedEffect(authState) {
         val state = authState
         when (state) {
@@ -143,7 +156,7 @@ fun NEBiansNavHost(
             }
             is AuthState.Authenticated -> {
                 val currentRoute = navController.currentBackStackEntry?.destination?.route
-                if (currentRoute == Screen.Login.route || currentRoute == Screen.EmailLogin.route || currentRoute == Screen.EmailSignup.route) {
+                if (currentRoute == Screen.Login.route || currentRoute == Screen.EmailLogin.route) {
                     val dest = if (state.isProfileComplete) Screen.Home.route else Screen.CompleteProfile.route
                     navController.navigate(dest) {
                         popUpTo(navController.graph.findStartDestination().id) { inclusive = true }
@@ -156,49 +169,19 @@ fun NEBiansNavHost(
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
-
-    val bottomBarScreens = bottomNavItems.map { it.screen.route }
-    val showBottomBar = currentDestination?.route in bottomBarScreens
+    val currentRoute = currentDestination?.route?.substringBefore("?")
+    val showBottomBar = currentRoute in glassNavItems.map { it.route }
     val navigateToOwnProfile = {
         val username = userProfile?.username?.takeIf { it.isNotBlank() && it != "Guest" }
         if (username != null) navController.navigate(Screen.Profile.createRoute(username))
         else navController.navigate(Screen.Settings.route)
     }
 
-    Scaffold(
-        containerColor = MaterialTheme.colorScheme.surface,
-        bottomBar = {
-            if (showBottomBar) {
-                Box(
-                    modifier = Modifier.fillMaxWidth(),
-                    contentAlignment = Alignment.BottomCenter
-                ) {
-                    LiquidNavContainer {
-                    bottomNavItems.forEach { item ->
-                        val selected = currentDestination?.hierarchy?.any { it.route == item.screen.route } == true
-                        FloatingNavItem(
-                            label = item.label,
-                            selected = selected,
-                            onClick = {
-                                navController.navigate(item.screen.route) {
-                                    popUpTo(navController.graph.findStartDestination().id) { saveState = true }
-                                    launchSingleTop = true
-                                    restoreState = true
-                                }
-                            }
-                        )
-                    }
-                    }
-                }
-            }
-        }
-    ) { innerPadding ->
+    Box(modifier = Modifier.fillMaxSize()) {
         NavHost(
             navController = navController,
             startDestination = Screen.Splash.route,
-            modifier = Modifier.padding(
-                bottom = if (showBottomBar) 86.dp else 0.dp
-            ),
+            modifier = Modifier.fillMaxSize(),
             enterTransition = { fadeIn(animationSpec = tween(220)) + slideInHorizontally(initialOffsetX = { it / 4 }) },
             exitTransition = { fadeOut(animationSpec = tween(90)) },
         ) {
@@ -332,7 +315,7 @@ fun NEBiansNavHost(
             composable(Screen.Home.route) {
                 HomeScreen(
                     onResourceClick = { resourceId ->
-                        navController.navigate(Screen.PdfReader.createRoute(resourceId))
+                        navController.navigate(Screen.ResourceDetail.createRoute(resourceId))
                     },
                     onSearchClick = { navController.navigate(Screen.Search.route) },
                     onViewAllClick = { navController.navigate(Screen.Library.route) },
@@ -353,7 +336,7 @@ fun NEBiansNavHost(
             ) { backStackEntry ->
                 LibraryScreen(
                     onResourceClick = { resourceId ->
-                        navController.navigate(Screen.PdfReader.createRoute(resourceId))
+                        navController.navigate(Screen.ResourceDetail.createRoute(resourceId))
                     },
                     onSearchClick = { navController.navigate(Screen.Search.route) },
                     onUploadClick = { navController.navigate(Screen.StudyLab.route) },
@@ -375,7 +358,13 @@ fun NEBiansNavHost(
             composable(Screen.Search.route) {
                 SearchScreen(
                     onResourceClick = { resourceId ->
-                        navController.navigate(Screen.PdfReader.createRoute(resourceId))
+                        navController.navigate(Screen.ResourceDetail.createRoute(resourceId))
+                    },
+                    onPostClick = { postId ->
+                        navController.navigate(Screen.ForumPostDetail.createRoute(postId))
+                    },
+                    onProfileClick = { username ->
+                        navController.navigate(Screen.Profile.createRoute(username))
                     },
                     onNavigateBack = { navController.popBackStack() }
                 )
@@ -421,7 +410,7 @@ fun NEBiansNavHost(
             composable(Screen.Bookmarks.route) {
                 BookmarksScreen(
                     onNavigateBack = { navController.popBackStack() },
-                    onResourceClick = { resourceId -> navController.navigate(Screen.PdfReader.createRoute(resourceId)) },
+                    onResourceClick = { resourceId -> navController.navigate(Screen.ResourceDetail.createRoute(resourceId)) },
                     onPostClick = { postId -> navController.navigate(Screen.ForumPostDetail.createRoute(postId)) },
                     onSearchClick = { navController.navigate(Screen.Search.route) }
                 )
@@ -438,9 +427,7 @@ fun NEBiansNavHost(
                     onPostClick = { postId ->
                         navController.navigate(Screen.ForumPostDetail.createRoute(postId))
                     },
-                    onFollowerClick = { userId ->
-                        // Could navigate to followers modal or list
-                    },
+                    onFollowerClick = { userId -> },
                     onAnalyticsClick = { navController.navigate(Screen.Analytics.route) },
                     onBookmarksClick = { navController.navigate(Screen.Bookmarks.route) },
                     onSearchClick = { navController.navigate(Screen.Search.route) }
@@ -473,6 +460,29 @@ fun NEBiansNavHost(
                 )
             }
             composable(
+                route = Screen.PdfViewer.route,
+                arguments = listOf(navArgument("resourceId") { type = NavType.StringType })
+            ) {
+                PdfViewerScreen(
+                    onNavigateBack = { navController.popBackStack() },
+                    isDark = isDarkMode,
+                    onToggleTheme = { settingsViewModel.setDarkMode(!isDarkMode) }
+                )
+            }
+            composable(
+                route = Screen.ResourceDetail.route,
+                arguments = listOf(navArgument("resourceId") { type = NavType.StringType })
+            ) {
+                ResourceDetailScreen(
+                    onNavigateBack = { navController.popBackStack() },
+                    onOpenPdf = { resourceId, fileUrl, title ->
+                        navController.navigate(Screen.PdfViewer.createRoute(resourceId))
+                    },
+                    isDark = isDarkMode,
+                    onToggleTheme = { settingsViewModel.setDarkMode(!isDarkMode) }
+                )
+            }
+            composable(
                 route = Screen.ForumPostDetail.route,
                 arguments = listOf(navArgument("postId") { type = NavType.StringType })
             ) { backStackEntry ->
@@ -482,6 +492,9 @@ fun NEBiansNavHost(
                     onNavigateBack = { navController.popBackStack() },
                     onReplyClick = { replyToId ->
                         navController.navigate(Screen.Reply.createRoute(postId, replyToId))
+                    },
+                    onProfileClick = { userId ->
+                        navController.navigate(Screen.Profile.createRoute(userId))
                     }
                 )
             }
@@ -508,34 +521,20 @@ fun NEBiansNavHost(
                 )
             }
         }
-    }
-}
 
-@Composable
-private fun RowScope.FloatingNavItem(
-    label: String,
-    selected: Boolean,
-    onClick: () -> Unit
-) {
-    val background = if (selected) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceContainer.copy(alpha = 0f)
-    val color = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
-    Box(
-        modifier = Modifier
-            .weight(1f)
-            .widthIn(min = 92.dp)
-            .heightIn(min = 42.dp)
-            .clip(WebPillShape)
-            .background(background)
-            .clickable(onClick = onClick)
-            .padding(horizontal = 18.dp, vertical = 10.dp),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            text = label,
-            style = MaterialTheme.typography.labelLarge,
-            color = color,
-            fontWeight = if (selected) FontWeight.Bold else FontWeight.SemiBold,
-            maxLines = 1
-        )
+        if (showBottomBar) {
+            LiquidGlassBottomNav(
+                items = glassNavItems,
+                currentRoute = currentRoute,
+                onSelect = { item ->
+                    navController.navigate(item.route) {
+                        popUpTo(navController.graph.findStartDestination().id) { saveState = true }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
+                },
+                modifier = Modifier.align(Alignment.BottomCenter)
+            )
+        }
     }
 }
