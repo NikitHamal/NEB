@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.neb.ians.data.repository.AuthRepository
@@ -68,18 +69,14 @@ fun EmailVerificationScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(bgGradient)
+            .background(cardColor)
             .statusBarsPadding()
             .navigationBarsPadding(),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.TopCenter
     ) {
         Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(20.dp)
-                .clip(RoundedCornerShape(24.dp))
-                .background(cardColor)
-                .border(1.dp, if (isDark) Color(0xFF2A2A30) else Color(0xFFE5E7EB), RoundedCornerShape(24.dp))
+                .fillMaxSize()
                 .verticalScroll(rememberScrollState())
                 .padding(horizontal = 24.dp, vertical = 28.dp),
             horizontalAlignment = Alignment.CenterHorizontally
@@ -152,7 +149,7 @@ fun EmailVerificationScreen(
                 OutlinedTextField(
                     value = code,
                     onValueChange = { input -> code = input.filter { it.isDigit() }.take(6) },
-                    placeholder = { Text("000000", color = if (isDark) Color(0xFF6B7280) else Color(0xFF9CA3AF)) },
+                    placeholder = { Text("000000", color = if (isDark) Color(0xFF6B7280) else Color(0xFF9CA3AF), maxLines = 1, overflow = TextOverflow.Ellipsis) },
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(10.dp),
