@@ -21,7 +21,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -29,6 +28,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.neb.ians.data.api.ApiPost
 import com.neb.ians.ui.components.ErrorCard
+import com.neb.ians.ui.components.NebTopBar
 import com.neb.ians.ui.components.ShimmerForumList
 import com.neb.ians.util.formatTimeAgo
 import com.neb.ians.util.getSubjectColor
@@ -38,14 +38,18 @@ import com.neb.ians.util.getSubjectColor
 fun ForumScreen(
     onPostClick: (String) -> Unit,
     onCreatePostClick: () -> Unit,
+    isDark: Boolean = false,
+    onToggleTheme: () -> Unit = {},
+    isAuthenticated: Boolean = false,
+    photoUrl: String? = null,
+    username: String = "",
+    onProfileClick: () -> Unit = {},
     viewModel: ForumViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     var isSearchVisible by remember { mutableStateOf(false) }
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
     Scaffold(
-        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             if (isSearchVisible) {
                 TopAppBar(
@@ -83,32 +87,23 @@ fun ForumScreen(
                     )
                 )
             } else {
-                LargeTopAppBar(
-                    title = {
-                        Text(
-                            text = "Forum",
-                            fontWeight = FontWeight.Bold
-                        )
-                    },
-                    actions = {
-                        IconButton(onClick = { isSearchVisible = true }) {
-                            Icon(
-                                imageVector = Icons.Filled.Search,
-                                contentDescription = "Search"
-                            )
-                        }
-                    },
-                    scrollBehavior = scrollBehavior,
-                    colors = TopAppBarDefaults.largeTopAppBarColors(
-                        containerColor = MaterialTheme.colorScheme.surface,
-                        scrolledContainerColor = MaterialTheme.colorScheme.surfaceContainer
-                    )
+                NebTopBar(
+                    showBrand = false,
+                    title = "Forum",
+                    isDark = isDark,
+                    onToggleTheme = onToggleTheme,
+                    onSearch = { isSearchVisible = true },
+                    isAuthenticated = isAuthenticated,
+                    photoUrl = photoUrl,
+                    username = username,
+                    onProfile = onProfileClick
                 )
             }
         },
         floatingActionButton = {
             ExtendedFloatingActionButton(
                 onClick = onCreatePostClick,
+                modifier = Modifier.padding(bottom = 88.dp),
                 containerColor = MaterialTheme.colorScheme.primaryContainer,
                 contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
                 icon = {
@@ -201,7 +196,7 @@ fun ForumScreen(
                         }
                         LazyColumn(
                             modifier = Modifier.fillMaxSize(),
-                            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+                            contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 110.dp),
                             verticalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
                             items(uiState.posts, key = { it.id }) { post ->
@@ -210,9 +205,6 @@ fun ForumScreen(
                                     onClick = { onPostClick(post.id) },
                                     onThumbsUpClick = { viewModel.toggleThumbsUp(post.id) }
                                 )
-                            }
-                            item {
-                                Spacer(modifier = Modifier.height(72.dp))
                             }
                         }
                     }

@@ -1,5 +1,6 @@
 """Views Resources extracted from views.py."""
 from .view_helpers import *  # noqa: F401,F403
+from .models import ResourceComment, ResourceCommentLike
 
 @api_view(['GET'])
 @throttle_classes([SearchRateThrottle])
@@ -314,3 +315,92 @@ def resource_request_upvote(request, request_id):
         ResourceRequest.objects.filter(pk=request_id).update(upvote_count=F('upvote_count') + 1)
         req.refresh_from_db()
         return Response({'upvoted': True, 'upvote_count': req.upvote_count})
+
+
+def _serialize_resource_comment_api(comment, liked_ids=None):
+    """Snake_case serialization matching the Android ApiResourceComment model."""
+    liked_ids = liked_ids or set()
+    user = comment.user if (hasattr(comment, 'user') and comment.user) else None
+    return {
+        'id': comment.id,
+        'resource_id': comment.resource_id,
+        'user_id': comment.user_id,
+        'user_name': user.username if user else '',
+        'user_photo_url': (user.photo_url or '') if user else '',
+        'content': comment.content,
+        'like_count': comment.like_count,
+        'reply_count': comment.reply_count,
+        'is_liked': comment.id in liked_ids,
+        'parent_comment_id': comment.parent_comment_id or None,
+        'is_edited': bool(comment.is_edited),
+        'created_at': comment.created_at,
+    }
+
+
+@api_view(['POST'])
+@throttle_classes([WriteActionRateThrottle])
+def resource_like(request, resource_id):
+    """POST /api/resources/<resource_id>/like — toggle like (authenticated)."""
+    user, err = _require_user(request)
+    if err:
+        return err
+    try:
+        result = services.toggle_resource_like(user, resource_id)
+    except Resource.DoesNotExist:
+        return Response({'error': 'Resource not found'}, status=404)
+    return Response({'like_count': result['likeCount'], 'is_liked': result['isLiked']})
+
+
+@api_view(['GET', 'POST'])
+@permission_classes([AllowAny])
+def resource_comments(request, resource_id):
+    """GET — list comments; POST — create a comment (authenticated)."""
+    try:
+        Resource.objects.get(pk=resource_id)
+    except Resource.DoesNotExist:
+        return Response({'error': 'Resource not found'}, status=404)
+
+    if request.method == 'GET':
+        viewer = _get_user_from_request(request)
+        comments = (ResourceComment.objects
+                    .filter(resource_id=resource_id)
+                    .select_related('user')
+                    .order_by('created_at'))
+        liked_ids = set()
+        if viewer:
+            liked_ids = set(ResourceCommentLike.objects.filter(
+                user=viewer,
+                comment_id__in=list(comments.values_list('id', flat=True))
+            ).values_list('comment_id', flat=True))
+        data = [_serialize_resource_comment_api(c, liked_ids) for c in comments]
+        return Response({'comments': data})
+
+    user, err = _require_user(request)
+    if err:
+        return err
+    content = (request.data.get('content') or '').strip()
+    parent_id = request.data.get('parent_comment_id')
+    if not content:
+        return Response({'error': 'content is required'}, status=400)
+    result = services.create_resource_comment(user, resource_id, content, parent_id)
+    if not result:
+        return Response({'error': 'Failed to create comment'}, status=400)
+    try:
+        comment = ResourceComment.objects.select_related('user').get(pk=result['id'])
+        return Response(_serialize_resource_comment_api(comment), status=201)
+    except ResourceComment.DoesNotExist:
+        return Response(result, status=201)
+
+
+@api_view(['DELETE'])
+def resource_comment_delete(request, resource_id, comment_id):
+    """DELETE /api/resources/<resource_id>/comments/<comment_id> — delete own comment."""
+    user, err = _require_user(request)
+    if err:
+        return err
+    ok = services.delete_resource_comment(
+        user, comment_id, is_admin=bool(getattr(user, 'is_admin', False))
+    )
+    if ok:
+        return Response(status=204)
+    return Response({'error': 'Permission denied or comment not found'}, status=403)

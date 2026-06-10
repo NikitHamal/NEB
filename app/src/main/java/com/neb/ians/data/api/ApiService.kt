@@ -389,6 +389,11 @@ data class ApiResourceCommentCreateRequest(
 )
 
 @Serializable
+data class ApiResourceCommentsResponse(
+    val comments: List<ApiResourceComment> = emptyList()
+)
+
+@Serializable
 data class ApiStatsResponse(
     @SerialName("total_users") val totalUsers: Int = 0,
     @SerialName("total_posts") val totalPosts: Int = 0,
@@ -410,6 +415,175 @@ data class ApiPaginatedPosts(
     @SerialName("count") val totalCount: Int = 0,
     val next: String? = null,
     val previous: String? = null
+)
+
+// -------------------------------------------------------------
+// NEBY AI — AI4Bharat Arena chat proxy (/api/neby-arena/)
+// -------------------------------------------------------------
+
+@Serializable
+data class ArenaModel(
+    val id: String,
+    val code: String = "",
+    val name: String = "",
+    val provider: String = "",
+    val thinking: Boolean = false,
+    val randomOnly: Boolean = false,
+    val active: Boolean = true
+)
+
+@Serializable
+data class ArenaModelsResponse(
+    val models: List<ArenaModel> = emptyList(),
+    val cached: Boolean = false
+)
+
+@Serializable
+data class ArenaSession(
+    val id: String,
+    val title: String = "New chat",
+    val modelId: String = "",
+    val modelCode: String = "",
+    val modelName: String = "",
+    val messageCount: Int = 0,
+    val createdAt: Long = 0,
+    val updatedAt: Long = 0,
+    val lastMessageAt: Long = 0,
+    val provider: String = ""
+)
+
+@Serializable
+data class ArenaSessionsResponse(
+    val sessions: List<ArenaSession> = emptyList()
+)
+
+@Serializable
+data class ArenaSessionCreateRequest(
+    val modelId: String,
+    val title: String? = null
+)
+
+@Serializable
+data class ArenaSessionWrapper(
+    val session: ArenaSession
+)
+
+@Serializable
+data class ArenaSessionUpdateRequest(
+    val title: String? = null,
+    val isActive: Boolean? = null
+)
+
+@Serializable
+data class ArenaAttachment(
+    val id: String,
+    val fileType: String = "",
+    val fileName: String = "",
+    val fileSize: Long = 0,
+    val mimeType: String = "",
+    val showType: String = "",
+    val fileClass: String = ""
+)
+
+@Serializable
+data class ArenaMessage(
+    val id: String,
+    val role: String,
+    val content: String = "",
+    val parentId: String? = null,
+    val arenaMessageId: String? = null,
+    val finishReason: String? = null,
+    val error: String? = null,
+    val durationMs: Long = 0,
+    val createdAt: Long = 0,
+    val attachments: List<ArenaAttachment> = emptyList()
+)
+
+@Serializable
+data class ArenaSessionDetail(
+    val id: String,
+    val title: String = "",
+    val modelId: String = "",
+    val modelCode: String = "",
+    val modelName: String = "",
+    val messageCount: Int = 0,
+    val createdAt: Long = 0,
+    val updatedAt: Long = 0,
+    val provider: String = ""
+)
+
+@Serializable
+data class ArenaSessionDetailResponse(
+    val session: ArenaSessionDetail,
+    val messages: List<ArenaMessage> = emptyList()
+)
+
+// -------------------------------------------------------------
+// ANALYTICS — private learning dashboard (/api/analytics/me/)
+// -------------------------------------------------------------
+
+@Serializable
+data class AnalyticsStats(
+    val posts: Int = 0,
+    val replies: Int = 0,
+    val postViews: Int = 0,
+    val postLikesReceived: Int = 0,
+    val postRepliesReceived: Int = 0,
+    val resources: Int = 0,
+    val resourceViews: Int = 0,
+    val resourceLikesReceived: Int = 0,
+    val resourceCommentsReceived: Int = 0,
+    val resourceCommentsMade: Int = 0,
+    val followers: Int = 0,
+    val following: Int = 0,
+    val bookmarks: Int = 0,
+    val studyDocs: Int = 0,
+    val summaries: Int = 0,
+    val mindmaps: Int = 0,
+    val quizzes: Int = 0,
+    val quizAttempts: Int = 0,
+    val quizAccuracy: Int = 0,
+    val quizXp: Int = 0,
+    val flashcards: Int = 0,
+    val flashReviews: Int = 0,
+    val easyReviews: Int = 0,
+    val mediumReviews: Int = 0,
+    val hardReviews: Int = 0,
+    val recentPosts: Int = 0,
+    val recentReplies: Int = 0,
+    val recentStudyActions: Int = 0
+)
+
+@Serializable
+data class AnalyticsActivityCounts(
+    val posts: Int = 0,
+    val replies: Int = 0,
+    val resources: Int = 0,
+    val study: Int = 0
+)
+
+@Serializable
+data class AnalyticsActivityDay(
+    val label: String = "",
+    val total: Int = 0,
+    val counts: AnalyticsActivityCounts = AnalyticsActivityCounts(),
+    val height: Int = 8
+)
+
+@Serializable
+data class AnalyticsCounterRow(
+    val label: String = "",
+    val count: Int = 0,
+    val width: Int = 0
+)
+
+@Serializable
+data class AnalyticsResponse(
+    val stats: AnalyticsStats = AnalyticsStats(),
+    val activityDays: List<AnalyticsActivityDay> = emptyList(),
+    val topCategories: List<AnalyticsCounterRow> = emptyList(),
+    val topSubjects: List<AnalyticsCounterRow> = emptyList(),
+    val suggestions: List<String> = emptyList()
 )
 
 // -------------------------------------------------------------
@@ -525,6 +699,12 @@ interface ApiService {
         @Header("Authorization") bearerToken: String,
         @Path("resourceId") resourceId: String
     ): ResourceLikeResponse
+
+    @GET("api/resources/{resourceId}/comments/")
+    suspend fun getResourceComments(
+        @Header("Authorization") bearerToken: String?,
+        @Path("resourceId") resourceId: String
+    ): ApiResourceCommentsResponse
 
     @POST("api/resources/{resourceId}/comments/")
     suspend fun createResourceComment(
@@ -659,8 +839,9 @@ interface ApiService {
     @GET("api/bookmarks/")
     suspend fun getBookmarks(
         @Header("Authorization") bearerToken: String,
-        @Query("target_type") targetType: String? = null
-    ): List<ApiBookmark>
+        @Query("target_type") targetType: String? = null,
+        @Query("page") page: Int? = null
+    ): ApiBookmarksResponse
 
     // --- Notifications ---
     @GET("api/notifications/")
@@ -699,6 +880,48 @@ interface ApiService {
         @Header("Authorization") bearerToken: String?,
         @Query("q") query: String
     ): List<ApiUserSearchResult>
+
+    // --- Analytics ---
+    @GET("api/analytics/me/")
+    suspend fun getAnalytics(
+        @Header("Authorization") bearerToken: String
+    ): AnalyticsResponse
+
+    // --- Neby AI (AI4Bharat Arena) ---
+    @GET("api/neby-arena/models/")
+    suspend fun getArenaModels(
+        @Header("Authorization") bearerToken: String
+    ): ArenaModelsResponse
+
+    @GET("api/neby-arena/sessions/")
+    suspend fun getArenaSessions(
+        @Header("Authorization") bearerToken: String
+    ): ArenaSessionsResponse
+
+    @POST("api/neby-arena/sessions/")
+    suspend fun createArenaSession(
+        @Header("Authorization") bearerToken: String,
+        @Body request: ArenaSessionCreateRequest
+    ): ArenaSessionWrapper
+
+    @GET("api/neby-arena/sessions/{sessionId}/")
+    suspend fun getArenaSession(
+        @Header("Authorization") bearerToken: String,
+        @Path("sessionId") sessionId: String
+    ): ArenaSessionDetailResponse
+
+    @PATCH("api/neby-arena/sessions/{sessionId}/")
+    suspend fun updateArenaSession(
+        @Header("Authorization") bearerToken: String,
+        @Path("sessionId") sessionId: String,
+        @Body request: ArenaSessionUpdateRequest
+    ): GenericMessageResponse
+
+    @DELETE("api/neby-arena/sessions/{sessionId}/")
+    suspend fun deleteArenaSession(
+        @Header("Authorization") bearerToken: String,
+        @Path("sessionId") sessionId: String
+    ): GenericMessageResponse
 
     companion object {
         private const val BASE_URL = "https://nebians.consica.com.np/"
@@ -750,6 +973,16 @@ data class ApiBookmark(
     val id: String,
     @SerialName("target_type") val targetType: String,
     @SerialName("target_id") val targetId: String,
-    @SerialName("created_at") val createdAt: Long
+    @SerialName("created_at") val createdAt: Long,
+    val resource: ApiResource? = null,
+    val post: ApiPost? = null
+)
+
+@Serializable
+data class ApiBookmarksResponse(
+    @SerialName("results") val results: List<ApiBookmark> = emptyList(),
+    @SerialName("count") val count: Int = 0,
+    val next: String? = null,
+    val previous: String? = null
 )
 

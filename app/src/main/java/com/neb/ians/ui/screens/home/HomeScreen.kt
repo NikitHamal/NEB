@@ -11,7 +11,9 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Search
+import androidx.compose.material.icons.automirrored.outlined.KeyboardArrowRight
+import androidx.compose.material.icons.filled.AutoAwesome
+import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material.icons.outlined.ThumbUp
 import androidx.compose.ui.res.painterResource
 import com.neb.ians.R
@@ -36,6 +38,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.neb.ians.data.api.ApiPost
 import com.neb.ians.data.api.ApiResource
 import com.neb.ians.ui.components.ErrorCard
+import com.neb.ians.ui.components.NebColors
+import com.neb.ians.ui.components.NebIconButton
+import com.neb.ians.ui.components.NebTopBar
 import com.neb.ians.ui.components.ShimmerHomeScreen
 import com.neb.ians.ui.theme.getSubjectTheme
 
@@ -72,42 +77,39 @@ fun HomeScreen(
     onSearchClick: () -> Unit,
     onViewAllClick: () -> Unit,
     onSubjectClick: (String) -> Unit = {},
+    isDark: Boolean = false,
+    onToggleTheme: () -> Unit = {},
+    isAuthenticated: Boolean = false,
+    photoUrl: String? = null,
+    unread: Int = 0,
+    onProfileClick: () -> Unit = {},
+    onNotificationsClick: () -> Unit = {},
+    onNebyAiClick: () -> Unit = {},
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
     Scaffold(
-        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
-            LargeTopAppBar(
-                title = {
-                    Column {
-                        Text(
-                            text = "Hello, ${uiState.userName}",
-                            style = MaterialTheme.typography.headlineSmall,
-                            fontWeight = FontWeight.Bold
-                        )
-                        Text(
-                            text = "What would you like to study today?",
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
-                },
-                actions = {
-                    FilledTonalIconButton(onClick = onSearchClick) {
-                        Icon(
-                            imageVector = Icons.Outlined.Search,
-                            contentDescription = "Search"
+            NebTopBar(
+                showBrand = true,
+                isDark = isDark,
+                onToggleTheme = onToggleTheme,
+                onSearch = onSearchClick,
+                isAuthenticated = isAuthenticated,
+                photoUrl = photoUrl,
+                username = uiState.userName,
+                unread = unread,
+                onProfile = onProfileClick,
+                actions = if (isAuthenticated) {
+                    {
+                        NebIconButton(
+                            icon = Icons.Outlined.Notifications,
+                            contentDescription = "Notifications",
+                            onClick = onNotificationsClick
                         )
                     }
-                },
-                scrollBehavior = scrollBehavior,
-                colors = TopAppBarDefaults.largeTopAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.surface,
-                    scrolledContainerColor = MaterialTheme.colorScheme.surfaceContainer
-                )
+                } else null
             )
         },
         containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
@@ -116,8 +118,14 @@ fun HomeScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
-                .padding(innerPadding)
+                .padding(top = innerPadding.calculateTopPadding())
         ) {
+            HomeHero(userName = uiState.userName, isAuthenticated = isAuthenticated)
+
+            if (isAuthenticated) {
+                NebyAiPromoCard(onClick = onNebyAiClick)
+            }
+
             if (uiState.isLoading) {
                 ShimmerHomeScreen()
             } else if (uiState.error != null && uiState.recentResources.isEmpty() && uiState.popularResources.isEmpty()) {
@@ -236,9 +244,46 @@ fun HomeScreen(
                         }
                     }
 
-                    Spacer(modifier = Modifier.height(24.dp))
+                    // Clear the floating glass nav at the bottom.
+                    Spacer(modifier = Modifier.height(110.dp))
                 }
             }
+        }
+    }
+}
+
+@Composable
+private fun HomeHero(userName: String, isAuthenticated: Boolean) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 12.dp)
+            .clip(RoundedCornerShape(24.dp))
+            .background(
+                Brush.verticalGradient(
+                    listOf(
+                        MaterialTheme.colorScheme.surfaceContainer,
+                        MaterialTheme.colorScheme.surfaceContainerLowest
+                    )
+                )
+            )
+            .padding(20.dp)
+    ) {
+        Column {
+            Text(
+                text = if (isAuthenticated) "Hello, $userName" else "Welcome to NEBians",
+                style = MaterialTheme.typography.headlineSmall,
+                fontWeight = FontWeight.ExtraBold,
+                color = MaterialTheme.colorScheme.onSurface,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+            Spacer(Modifier.height(4.dp))
+            Text(
+                text = "Your study resources, forum, and AI tools — all in one place.",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
         }
     }
 }
@@ -449,6 +494,56 @@ private fun EmptyResourceRow(message: String) {
             text = message,
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+    }
+}
+
+@Composable
+private fun NebyAiPromoCard(onClick: () -> Unit) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 8.dp)
+            .clip(RoundedCornerShape(18.dp))
+            .background(NebColors.brandBrush)
+            .clickable(onClick = onClick)
+            .padding(16.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(14.dp)
+    ) {
+        Box(
+            modifier = Modifier
+                .size(44.dp)
+                .clip(CircleShape)
+                .background(Color.White.copy(alpha = 0.18f)),
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                Icons.Filled.AutoAwesome,
+                contentDescription = null,
+                tint = Color.White,
+                modifier = Modifier.size(24.dp)
+            )
+        }
+        Column(modifier = Modifier.weight(1f)) {
+            Text(
+                "Ask Neby AI",
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold,
+                color = Color.White
+            )
+            Text(
+                "Your AI study buddy for NEB subjects",
+                style = MaterialTheme.typography.bodySmall,
+                color = Color.White.copy(alpha = 0.85f),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+        }
+        Icon(
+            Icons.AutoMirrored.Outlined.KeyboardArrowRight,
+            contentDescription = null,
+            tint = Color.White
         )
     }
 }

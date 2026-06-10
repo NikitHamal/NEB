@@ -106,6 +106,10 @@ dependencies {
     // Material 3
     implementation("androidx.compose.material3:material3")
 
+    // Material icons (extended set — mirrors the web's Material Symbols)
+    implementation("androidx.compose.material:material-icons-core")
+    implementation("androidx.compose.material:material-icons-extended")
+
     // Activity Compose
     implementation("androidx.activity:activity-compose:1.8.2")
 

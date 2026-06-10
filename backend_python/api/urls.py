@@ -38,6 +38,9 @@ urlpatterns = [
     path('resources/', views.resources_list, name='resources-list'),
     path('resources/<str:resource_id>/', views.resource_detail, name='resource-detail'),
     path('resources/<str:resource_id>/view/', views.resource_view, name='resource-view'),
+    path('resources/<str:resource_id>/like/', views.resource_like, name='resource-like'),
+    path('resources/<str:resource_id>/comments/', views.resource_comments, name='resource-comments'),
+    path('resources/<str:resource_id>/comments/<str:comment_id>/', views.resource_comment_delete, name='resource-comment-delete'),
     path('resources/upload/', views.resource_upload, name='resource-upload'),
     path('resources/upload/anonymous/', views.resource_upload_anonymous, name='resource-upload-anonymous'),
 
@@ -79,6 +82,9 @@ urlpatterns = [
     path('bookmarks/toggle/', views.bookmark_toggle, name='bookmark-toggle'),
     path('bookmarks/', views.bookmark_list, name='bookmark-list'),
     path('bookmarks/check/', views.bookmark_check, name='bookmark-check'),
+
+    # Private learning analytics dashboard
+    path('analytics/me/', views.analytics_me, name='analytics-me'),
 
     # AI4Bharat Arena chat (Neby AI on Android)
     path('neby-arena/', include('api.arena_urls')),

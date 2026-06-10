@@ -11,7 +11,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Search
 import androidx.compose.ui.res.painterResource
 import com.neb.ians.R
 import androidx.compose.material3.*
@@ -33,6 +32,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.neb.ians.data.api.ApiResource
 import com.neb.ians.ui.components.ErrorCard
+import com.neb.ians.ui.components.NebTopBar
 import com.neb.ians.ui.components.ShimmerLibraryGrid
 import com.neb.ians.ui.theme.getSubjectTheme
 
@@ -67,38 +67,32 @@ private fun getTypeIcon(type: String): Int {
 fun LibraryScreen(
     onResourceClick: (String) -> Unit,
     onSearchClick: () -> Unit,
+    isDark: Boolean = false,
+    onToggleTheme: () -> Unit = {},
+    isAuthenticated: Boolean = false,
+    photoUrl: String? = null,
+    username: String = "",
+    onProfileClick: () -> Unit = {},
     viewModel: LibraryViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
     val hasActiveFilters = uiState.selectedSubject != null ||
             uiState.selectedGradeLevel != null ||
             uiState.selectedType != null
 
     Scaffold(
-        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
-            LargeTopAppBar(
-                title = {
-                    Text(
-                        text = "Library",
-                        fontWeight = FontWeight.Bold
-                    )
-                },
-                actions = {
-                    FilledTonalIconButton(onClick = onSearchClick) {
-                        Icon(
-                            imageVector = Icons.Outlined.Search,
-                            contentDescription = "Search"
-                        )
-                    }
-                },
-                scrollBehavior = scrollBehavior,
-                colors = TopAppBarDefaults.largeTopAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.surface,
-                    scrolledContainerColor = MaterialTheme.colorScheme.surfaceContainer
-                )
+            NebTopBar(
+                showBrand = false,
+                title = "Library",
+                isDark = isDark,
+                onToggleTheme = onToggleTheme,
+                onSearch = onSearchClick,
+                isAuthenticated = isAuthenticated,
+                photoUrl = photoUrl,
+                username = username,
+                onProfile = onProfileClick
             )
         },
         containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
@@ -179,7 +173,7 @@ fun LibraryScreen(
                     } else {
                         LazyVerticalGrid(
                             columns = GridCells.Fixed(2),
-                            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+                            contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 110.dp),
                             horizontalArrangement = Arrangement.spacedBy(12.dp),
                             verticalArrangement = Arrangement.spacedBy(12.dp)
                         ) {
