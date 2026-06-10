@@ -1,10 +1,8 @@
 package com.neb.ians.ui.screens.auth
 
 import androidx.compose.animation.core.*
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.icons.Icons
-
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -12,6 +10,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -77,11 +77,11 @@ fun SplashScreen(
                     tonalElevation = 4.dp
                 ) {
                     Box(contentAlignment = Alignment.Center) {
-                        Icon(
-                            painter = androidx.compose.ui.res.painterResource(id = com.neb.ians.R.drawable.ic_book),
+                        Image(
+                            painter = painterResource(id = com.neb.ians.R.drawable.ic_nebians_logo),
                             contentDescription = "NEBians Logo",
-                            tint = MaterialTheme.colorScheme.onPrimaryContainer,
-                            modifier = Modifier.size(48.dp)
+                            modifier = Modifier.size(64.dp),
+                            contentScale = ContentScale.Fit
                         )
                     }
                 }
