@@ -255,12 +255,21 @@ data class ApiPost(
     val category: String,
     @SerialName("thumbsUpCount") val thumbsUpCount: Int,
     @SerialName("replyCount") val replyCount: Int,
+    @SerialName("viewCount") val viewCount: Int = 0,
     @SerialName("isThumbedUp") val isThumbedUp: Boolean,
     @SerialName("isBookmarked") val isBookmarked: Boolean? = null,
     @SerialName("isEdited") val isEdited: Boolean? = null,
     @SerialName("isArchived") val isArchived: Boolean? = null,
     @SerialName("createdAt") val createdAt: Long,
-    @SerialName("updatedAt") val updatedAt: Long? = null
+    @SerialName("updatedAt") val updatedAt: Long? = null,
+    val images: List<ApiPostImage> = emptyList()
+)
+
+@Serializable
+data class ApiPostImage(
+    val id: String,
+    @SerialName("imageUrl") val imageUrl: String,
+    val order: Int = 0
 )
 
 @Serializable
@@ -402,6 +411,11 @@ data class ApiResourceComment(
 data class ApiResourceCommentCreateRequest(
     val content: String,
     @SerialName("parent_comment_id") val parentCommentId: String? = null
+)
+
+@Serializable
+data class ApiResourceCommentsResponse(
+    val comments: List<ApiResourceComment> = emptyList()
 )
 
 @Serializable
@@ -554,6 +568,12 @@ interface ApiService {
         @Header("Authorization") bearerToken: String,
         @Path("resourceId") resourceId: String
     ): ResourceLikeResponse
+
+    @GET("api/resources/{resourceId}/comments/")
+    suspend fun getResourceComments(
+        @Header("Authorization") bearerToken: String?,
+        @Path("resourceId") resourceId: String
+    ): ApiResourceCommentsResponse
 
     @POST("api/resources/{resourceId}/comments/")
     suspend fun createResourceComment(

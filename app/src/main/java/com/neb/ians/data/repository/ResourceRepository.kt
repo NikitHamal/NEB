@@ -1,6 +1,8 @@
 package com.neb.ians.data.repository
 
 import com.neb.ians.data.api.ApiResource
+import com.neb.ians.data.api.ApiResourceComment
+import com.neb.ians.data.api.ApiResourceCommentCreateRequest
 import com.neb.ians.data.api.ApiPaginatedResources
 import com.neb.ians.data.api.ApiService
 import com.neb.ians.data.api.BookmarkToggleRequest
@@ -83,6 +85,42 @@ class ResourceRepository @Inject constructor(
     suspend fun viewResource(resourceId: String): Result<Unit> {
         return try {
             apiService.viewResource(resourceId)
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun getComments(resourceId: String): Result<List<ApiResourceComment>> {
+        return try {
+            val token = getBearerToken()
+            val response = apiService.getResourceComments(token, resourceId)
+            Result.success(response.comments)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun createComment(
+        resourceId: String,
+        content: String,
+        parentCommentId: String? = null
+    ): Result<ApiResourceComment> {
+        return try {
+            val token = getBearerToken() ?: return Result.failure(IllegalStateException("Not authenticated"))
+            val comment = apiService.createResourceComment(
+                token, resourceId, ApiResourceCommentCreateRequest(content, parentCommentId)
+            )
+            Result.success(comment)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun deleteComment(resourceId: String, commentId: String): Result<Unit> {
+        return try {
+            val token = getBearerToken() ?: return Result.failure(IllegalStateException("Not authenticated"))
+            apiService.deleteResourceComment(token, resourceId, commentId)
             Result.success(Unit)
         } catch (e: Exception) {
             Result.failure(e)
