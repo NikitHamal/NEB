@@ -10,6 +10,7 @@ import retrofit2.http.*
 import com.neb.ians.BuildConfig
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.ResponseBody
 
 // -------------------------------------------------------------
 // REQUEST MODELS
@@ -281,7 +282,7 @@ data class ResourceLikeResponse(
 
 @Serializable
 data class BookmarkResponse(
-    @SerialName("is_bookmarked") val isBookmarked: Boolean
+    @SerialName("isBookmarked") val isBookmarked: Boolean
 )
 
 @Serializable
@@ -471,6 +472,12 @@ interface ApiService {
         @Path("username") username: String
     ): UserProfileResponse
 
+    @GET("api/users/profile/{username}/stats/")
+    suspend fun getProfileStats(
+        @Header("Authorization") bearerToken: String?,
+        @Path("username") username: String
+    ): ApiProfileStats
+
     @POST("api/users/{userId}/follow/")
     suspend fun toggleFollow(
         @Header("Authorization") bearerToken: String,
@@ -650,17 +657,99 @@ interface ApiService {
         @Body request: BookmarkToggleRequest
     ): BookmarkResponse
 
-    @POST("api/bookmarks/check/")
+    @GET("api/bookmarks/check/")
     suspend fun checkBookmark(
         @Header("Authorization") bearerToken: String,
-        @Body request: BookmarkToggleRequest
+        @Query("target_type") targetType: String,
+        @Query("target_id") targetId: String
     ): BookmarkResponse
 
     @GET("api/bookmarks/")
     suspend fun getBookmarks(
         @Header("Authorization") bearerToken: String,
         @Query("target_type") targetType: String? = null
-    ): List<ApiBookmark>
+    ): ApiPaginatedBookmarks
+
+    // --- Study Spaces / Study Lab ---
+    @GET("ajax/study-space/list/")
+    suspend fun getStudySpaces(
+        @Header("Authorization") bearerToken: String
+    ): ApiStudySpaceListResponse
+
+    @GET("ajax/study-space/public/")
+    suspend fun getPublicStudySpaces(
+        @Header("Authorization") bearerToken: String,
+        @Query("q") query: String? = null,
+        @Query("sort") sort: String? = null
+    ): ApiStudySpaceListResponse
+
+    @POST("ajax/study-space/create/")
+    suspend fun createStudySpace(
+        @Header("Authorization") bearerToken: String,
+        @Body request: ApiStudySpaceCreateRequest
+    ): ApiStudySpaceDetail
+
+    @POST("ajax/study-space/join-code/")
+    suspend fun joinStudySpaceByCode(
+        @Header("Authorization") bearerToken: String,
+        @Body request: ApiStudySpaceJoinRequest
+    ): ApiStudySpaceJoinResponse
+
+    @GET("ajax/study-space/{spaceId}/")
+    suspend fun getStudySpaceDetail(
+        @Header("Authorization") bearerToken: String,
+        @Path("spaceId") spaceId: String
+    ): ApiStudySpaceDetail
+
+    // --- Neby AI / Arena ---
+    @GET("api/neby-arena/models/")
+    suspend fun getArenaModels(
+        @Header("Authorization") bearerToken: String
+    ): ApiArenaModelsResponse
+
+    @GET("api/neby-arena/qwen/models/")
+    suspend fun getQwenModels(
+        @Header("Authorization") bearerToken: String
+    ): ApiArenaModelsResponse
+
+    @GET("api/neby-arena/sessions/")
+    suspend fun getArenaSessions(
+        @Header("Authorization") bearerToken: String
+    ): ApiArenaSessionsResponse
+
+    @POST("api/neby-arena/sessions/")
+    suspend fun createArenaSession(
+        @Header("Authorization") bearerToken: String,
+        @Body request: ApiArenaCreateSessionRequest
+    ): ApiArenaSessionResponse
+
+    @POST("api/neby-arena/qwen/sessions/")
+    suspend fun createQwenArenaSession(
+        @Header("Authorization") bearerToken: String,
+        @Body request: ApiArenaCreateSessionRequest
+    ): ApiArenaSessionResponse
+
+    @GET("api/neby-arena/sessions/{sessionId}/")
+    suspend fun getArenaSessionDetail(
+        @Header("Authorization") bearerToken: String,
+        @Path("sessionId") sessionId: String
+    ): ApiArenaSessionDetailResponse
+
+    @Streaming
+    @POST("api/neby-arena/sessions/{sessionId}/messages/")
+    suspend fun sendArenaMessage(
+        @Header("Authorization") bearerToken: String,
+        @Path("sessionId") sessionId: String,
+        @Body request: ApiArenaSendMessageRequest
+    ): ResponseBody
+
+    @Streaming
+    @POST("api/neby-arena/qwen/sessions/{sessionId}/messages/sse/")
+    suspend fun sendQwenArenaMessage(
+        @Header("Authorization") bearerToken: String,
+        @Path("sessionId") sessionId: String,
+        @Body request: ApiArenaSendMessageRequest
+    ): ResponseBody
 
     // --- Notifications ---
     @GET("api/notifications/")
@@ -753,3 +842,217 @@ data class ApiBookmark(
     @SerialName("created_at") val createdAt: Long
 )
 
+@Serializable
+data class ApiPaginatedBookmarks(
+    @SerialName("results") val bookmarks: List<ApiBookmark> = emptyList(),
+    @SerialName("count") val totalCount: Int = 0,
+    val next: String? = null,
+    val previous: String? = null
+)
+
+@Serializable
+data class ApiProfileStats(
+    val username: String = "",
+    @SerialName("post_count") val postCount: Int = 0,
+    @SerialName("reply_count") val replyCount: Int = 0,
+    @SerialName("follower_count") val followerCount: Int = 0,
+    @SerialName("following_count") val followingCount: Int = 0,
+    @SerialName("likes_received") val likesReceived: Int = 0,
+    @SerialName("likes_given") val likesGiven: Int = 0,
+    @SerialName("contribution_score") val contributionScore: Int = 0,
+    @SerialName("uploaded_resources_count") val uploadedResourcesCount: Int = 0,
+    @SerialName("is_following") val isFollowing: Boolean = false,
+    @SerialName("is_self") val isSelf: Boolean = false,
+    @SerialName("is_private") val isPrivate: Boolean = false
+)
+
+@Serializable
+data class ApiStudySpaceOwner(
+    val id: String = "",
+    val username: String = "",
+    val displayName: String = "",
+    val photoUrl: String = "",
+    val badge: String = ""
+)
+
+@Serializable
+data class ApiStudySpace(
+    val id: String,
+    val title: String = "Untitled Space",
+    val description: String = "",
+    val docCount: Int = 0,
+    val memberCount: Int = 0,
+    val activeNow: Int = 0,
+    val shareMode: String = "",
+    val visibility: String = "private",
+    val inviteCode: String = "",
+    val shareToken: String = "",
+    val studyLevel: String = "",
+    val subject: String = "",
+    val exam: String = "",
+    val isJoined: Boolean = false,
+    val memberRole: String = "",
+    val owner: ApiStudySpaceOwner? = null,
+    val createdAt: Long = 0,
+    val updatedAt: Long = 0,
+    val hasSummary: Boolean = false,
+    val hasMindmap: Boolean = false,
+    val hasQuiz: Boolean = false,
+    val hasFlashcards: Boolean = false
+)
+
+@Serializable
+data class ApiStudySpaceListResponse(
+    val spaces: List<ApiStudySpace> = emptyList()
+)
+
+@Serializable
+data class ApiStudySpaceCreateRequest(
+    val title: String,
+    val description: String = ""
+)
+
+@Serializable
+data class ApiStudySpaceJoinRequest(
+    val code: String
+)
+
+@Serializable
+data class ApiStudyDocument(
+    val id: String,
+    val title: String = "Untitled",
+    val fileName: String = "",
+    val fileSize: Long = 0,
+    val mimeType: String = "",
+    val pageCount: Int = 0,
+    val status: String = "",
+    val parseStatus: String = "",
+    val parsedTextLength: Int = 0,
+    val parseError: String = "",
+    val summaryCompact: String = "",
+    val summaryDetailed: String = "",
+    val mindmapJson: String = "",
+    val createdAt: Long = 0,
+    val updatedAt: Long = 0
+)
+
+@Serializable
+data class ApiStudyQuizSummary(
+    val id: String,
+    val title: String = "Study quiz",
+    val questionCount: Int = 0,
+    val createdAt: Long = 0,
+    val attemptCount: Int = 0,
+    val bestScore: Int = 0,
+    val lastAttemptAt: Long? = null
+)
+
+@Serializable
+data class ApiStudyFlashcard(
+    val id: String,
+    val front: String = "",
+    val back: String = "",
+    val cardNumber: Int = 0,
+    val createdAt: Long = 0
+)
+
+@Serializable
+data class ApiStudySpaceDetail(
+    val id: String,
+    val title: String = "Untitled Space",
+    val description: String = "",
+    val docCount: Int = 0,
+    val documents: List<ApiStudyDocument> = emptyList(),
+    val quizzes: List<ApiStudyQuizSummary> = emptyList(),
+    val flashcardCount: Int = 0,
+    val flashcards: List<ApiStudyFlashcard> = emptyList(),
+    val shareMode: String = "",
+    val visibility: String = "private",
+    val inviteCode: String = "",
+    val shareToken: String = "",
+    val memberCount: Int = 0,
+    val activeNow: Int = 0,
+    val memberRole: String = "",
+    val createdAt: Long = 0,
+    val updatedAt: Long = 0
+)
+
+@Serializable
+data class ApiStudySpaceJoinResponse(
+    val success: Boolean = false,
+    val space: ApiStudySpaceDetail? = null,
+    val spaceId: String? = null,
+    val redirectUrl: String? = null,
+    val error: String? = null
+)
+
+@Serializable
+data class ApiArenaModel(
+    val id: String = "",
+    val code: String = "",
+    val name: String = "",
+    val provider: String = "",
+    val thinking: Boolean = false,
+    val randomOnly: Boolean = false,
+    val active: Boolean = true
+)
+
+@Serializable
+data class ApiArenaModelsResponse(
+    val models: List<ApiArenaModel> = emptyList(),
+    val cached: Boolean = false
+)
+
+@Serializable
+data class ApiArenaSession(
+    val id: String,
+    val title: String = "New chat",
+    val modelId: String = "",
+    val modelCode: String = "",
+    val modelName: String = "",
+    val provider: String = "ai4bharat",
+    val messageCount: Int = 0,
+    val createdAt: Long = 0,
+    val updatedAt: Long = 0,
+    val lastMessageAt: Long = 0,
+    val isActive: Boolean = true
+)
+
+@Serializable
+data class ApiArenaSessionsResponse(
+    val sessions: List<ApiArenaSession> = emptyList()
+)
+
+@Serializable
+data class ApiArenaCreateSessionRequest(
+    val modelId: String,
+    val title: String = "New chat"
+)
+
+@Serializable
+data class ApiArenaSessionResponse(
+    val session: ApiArenaSession
+)
+
+@Serializable
+data class ApiArenaMessage(
+    val id: String,
+    val role: String,
+    val content: String = "",
+    val parentId: String = "",
+    val finishReason: String = "",
+    val error: String = "",
+    val durationMs: Int = 0,
+    val createdAt: Long = 0
+)
+
+@Serializable
+data class ApiArenaSessionDetailResponse(
+    val session: ApiArenaSession,
+    val messages: List<ApiArenaMessage> = emptyList()
+)
+
+@Serializable
+data class ApiArenaSendMessageRequest(
+    val content: String
+)
