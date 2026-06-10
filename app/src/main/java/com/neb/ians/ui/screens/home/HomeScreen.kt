@@ -209,12 +209,12 @@ private fun HomeHero(
             verticalAlignment = Alignment.CenterVertically
         ) {
             WebPrimaryButton(
-                text = "Browse Library",
+                text = "Browse",
                 painter = painterResource(id = R.drawable.ic_book),
                 onClick = onLibraryClick
             )
             WebOutlinedButton(
-                text = "Join Forum",
+                text = "Join",
                 painter = painterResource(id = R.drawable.ic_forum_outlined),
                 onClick = onForumClick
             )
