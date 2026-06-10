@@ -72,6 +72,11 @@ urlpatterns = [
     # FCM
     path('fcm/register/', views.fcm_register, name='fcm-register'),
 
+    # Notifications
+    path('notifications/', views.notifications_list, name='notifications-list'),
+    path('notifications/mark-read/', views.notifications_mark_read, name='notifications-mark-read'),
+    path('notifications/unread-count/', views.notifications_unread_count, name='notifications-unread-count'),
+
     # Reports
     path('reports/', views.report_create, name='report-create'),
 
