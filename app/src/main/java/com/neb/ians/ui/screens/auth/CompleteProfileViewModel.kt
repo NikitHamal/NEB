@@ -15,14 +15,22 @@ import javax.inject.Inject
 
 data class CompleteProfileUiState(
     val username: String = "",
+    val displayName: String = "",
+    val email: String = "",
+    val bio: String = "",
     val dob: String = "",
     val gender: String = "Male",
+    val role: String = "student",
     val classLevel: String = "Class 11",
     val subjects: List<String> = emptyList(),
+    val teachingSubjects: List<String> = emptyList(),
+    val institutionType: String = "",
     val pradesh: String = "Bagmati",
     val district: String = "Kathmandu",
     val school: String = "",
     val isLocked: Boolean = false,
+    val photoUrl: String = "",
+    val isPhotoUploading: Boolean = false,
     val isCheckingUsername: Boolean = false,
     val usernameAvailable: Boolean? = null,
     val usernameError: String? = null,
@@ -48,19 +56,28 @@ class CompleteProfileViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             val cached = authRepository.userProfileFlow.first()
-            if (cached != null && cached.username.isNotEmpty()) {
-                cachedUsername = cached.username
+            if (cached != null) {
+                if (cached.username.isNotEmpty()) {
+                    cachedUsername = cached.username
+                }
                 _uiState.update { state ->
                     state.copy(
-                        isEditing = true,
+                        isEditing = cached.username.isNotEmpty(),
                         username = cached.username,
+                        displayName = cached.displayName ?: "",
+                        email = cached.email ?: "",
+                        bio = cached.bio ?: "",
                         dob = cached.dob,
                         gender = cached.gender ?: "Male",
+                        role = cached.role ?: "student",
                         classLevel = cached.classLevel ?: "Class 11",
                         subjects = cached.subjects?.split(",")?.filter { it.isNotBlank() } ?: emptyList(),
+                        teachingSubjects = cached.teachingSubjects?.split(",")?.filter { it.isNotBlank() } ?: emptyList(),
+                        institutionType = cached.institutionType ?: "",
                         pradesh = cached.pradesh ?: "Bagmati",
                         district = cached.district ?: "Kathmandu",
                         school = cached.school ?: "",
+                        photoUrl = cached.photoUrl ?: "",
                         isLocked = cached.isLocked
                     )
                 }
@@ -114,12 +131,28 @@ class CompleteProfileViewModel @Inject constructor(
         _usernameQuery.value = trimmed
     }
 
+    fun onDisplayNameChange(value: String) {
+        _uiState.update { it.copy(displayName = value) }
+    }
+
+    fun onEmailChange(value: String) {
+        _uiState.update { it.copy(email = value.trim()) }
+    }
+
+    fun onBioChange(value: String) {
+        _uiState.update { it.copy(bio = value) }
+    }
+
     fun onDobChange(dob: String) {
         _uiState.update { it.copy(dob = dob) }
     }
 
     fun onGenderChange(gender: String) {
         _uiState.update { it.copy(gender = gender) }
+    }
+
+    fun onRoleChange(role: String) {
+        _uiState.update { it.copy(role = role) }
     }
 
     fun onClassChange(classLevel: String) {
@@ -132,6 +165,18 @@ class CompleteProfileViewModel @Inject constructor(
             if (current.contains(subject)) current.remove(subject) else current.add(subject)
             state.copy(subjects = current)
         }
+    }
+
+    fun onTeachingSubjectToggle(subject: String) {
+        _uiState.update { state ->
+            val current = state.teachingSubjects.toMutableList()
+            if (current.contains(subject)) current.remove(subject) else current.add(subject)
+            state.copy(teachingSubjects = current)
+        }
+    }
+
+    fun onInstitutionTypeChange(value: String) {
+        _uiState.update { it.copy(institutionType = value) }
     }
 
     fun onPradeshChange(pradesh: String) {
@@ -150,6 +195,23 @@ class CompleteProfileViewModel @Inject constructor(
         _uiState.update { it.copy(isLocked = locked) }
     }
 
+    fun uploadProfilePhoto(bytes: ByteArray, fileName: String, mimeType: String) {
+        _uiState.update { it.copy(isPhotoUploading = true) }
+        viewModelScope.launch {
+            try {
+                val requestBody = okhttp3.RequestBody.create(okhttp3.MediaType.parse(mimeType), bytes)
+                val filePart = okhttp3.MultipartBody.Part.createFormData("file", fileName, requestBody)
+                val url = authRepository.uploadProfilePhoto(filePart)
+                _uiState.update { it.copy(
+                    isPhotoUploading = false,
+                    photoUrl = url ?: it.photoUrl
+                ) }
+            } catch (e: Exception) {
+                _uiState.update { it.copy(isPhotoUploading = false) }
+            }
+        }
+    }
+
     fun submitProfile() {
         val state = _uiState.value
         if (state.isSubmitting) return
@@ -160,17 +222,21 @@ class CompleteProfileViewModel @Inject constructor(
             val cachedUser = authRepository.userProfileFlow.first()
             val request = UserProfileRequest(
                 username = state.username,
-                email = cachedUser?.email,
-                photoUrl = cachedUser?.photoUrl,
-                displayName = cachedUser?.displayName ?: cachedUser?.email?.substringBefore("@"),
+                email = state.email.ifBlank { cachedUser?.email },
+                photoUrl = state.photoUrl.ifBlank { cachedUser?.photoUrl },
+                displayName = state.displayName.ifBlank { cachedUser?.displayName ?: state.email.substringBefore("@") },
                 dob = state.dob,
                 gender = state.gender,
+                role = state.role,
                 classLevel = state.classLevel,
                 subjects = state.subjects.joinToString(","),
+                teachingSubjects = state.teachingSubjects.joinToString(","),
+                institutionType = state.institutionType,
                 pradesh = state.pradesh,
                 district = state.district,
                 school = state.school,
-                isLocked = state.isLocked
+                isLocked = state.isLocked,
+                bio = state.bio
             )
 
             val success = authRepository.completeProfile(request)
