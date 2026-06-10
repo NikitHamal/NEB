@@ -134,7 +134,8 @@ fun NEBiansNavHost(
     val authState by settingsViewModel.authState.collectAsStateWithLifecycle()
     val userProfile by settingsViewModel.userProfile.collectAsStateWithLifecycle()
     LaunchedEffect(authState) {
-        when (authState) {
+        val state = authState
+        when (state) {
             is AuthState.Unauthenticated -> {
                 navController.navigate(Screen.Login.route) {
                     popUpTo(navController.graph.findStartDestination().id) { inclusive = true }
@@ -143,7 +144,7 @@ fun NEBiansNavHost(
             is AuthState.Authenticated -> {
                 val currentRoute = navController.currentBackStackEntry?.destination?.route
                 if (currentRoute == Screen.Login.route || currentRoute == Screen.EmailLogin.route || currentRoute == Screen.EmailSignup.route) {
-                    val dest = if (authState.isProfileComplete) Screen.Home.route else Screen.CompleteProfile.route
+                    val dest = if (state.isProfileComplete) Screen.Home.route else Screen.CompleteProfile.route
                     navController.navigate(dest) {
                         popUpTo(navController.graph.findStartDestination().id) { inclusive = true }
                     }
