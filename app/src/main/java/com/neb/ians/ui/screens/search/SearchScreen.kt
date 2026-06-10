@@ -91,9 +91,11 @@ fun SearchScreen(
                         onValueChange = { viewModel.onQueryChange(it) },
                         placeholder = {
                             Text(
-                                text = "Search resources, notes, papers...",
+                                text = "Search resources, notes...",
                                 style = MaterialTheme.typography.bodyMedium,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
                             )
                         },
                         leadingIcon = {
