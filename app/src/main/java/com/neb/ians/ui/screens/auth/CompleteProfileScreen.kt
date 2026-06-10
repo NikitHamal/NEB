@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.compose.ui.layout.ContentScale
 import coil.compose.rememberAsyncImagePainter
 import java.util.*
 
@@ -180,7 +181,7 @@ fun CompleteProfileScreen(
                                         painter = rememberAsyncImagePainter(uiState.photoUrl),
                                         contentDescription = "Avatar",
                                         modifier = Modifier.fillMaxSize(),
-                                        contentScale = androidx.compose.ui.layout.ContentScale.Cover
+                                        contentScale = ContentScale.Crop
                                     )
                                 } else {
                                     val initial = if (uiState.username.isNotEmpty()) uiState.username.take(1).uppercase() else "N"

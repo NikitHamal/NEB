@@ -11,6 +11,8 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody.Companion.toRequestBody
 import javax.inject.Inject
 
 data class CompleteProfileUiState(
@@ -199,7 +201,7 @@ class CompleteProfileViewModel @Inject constructor(
         _uiState.update { it.copy(isPhotoUploading = true) }
         viewModelScope.launch {
             try {
-                val requestBody = okhttp3.RequestBody.create(okhttp3.MediaType.parse(mimeType), bytes)
+                val requestBody = bytes.toRequestBody(mimeType.toMediaTypeOrNull())
                 val filePart = okhttp3.MultipartBody.Part.createFormData("file", fileName, requestBody)
                 val url = authRepository.uploadProfilePhoto(filePart)
                 _uiState.update { it.copy(
