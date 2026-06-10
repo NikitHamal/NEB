@@ -1,20 +1,28 @@
 package com.neb.ians.ui.screens.library
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Search
-import androidx.compose.ui.res.painterResource
-import com.neb.ians.R
-import androidx.compose.material3.*
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -22,178 +30,159 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.neb.ians.data.api.ApiResource
+import com.neb.ians.R
 import com.neb.ians.ui.components.ErrorCard
 import com.neb.ians.ui.components.ShimmerLibraryGrid
-import com.neb.ians.ui.theme.getSubjectTheme
+import com.neb.ians.ui.components.WebChip
+import com.neb.ians.ui.components.WebChipRow
+import com.neb.ians.ui.components.WebEmptyState
+import com.neb.ians.ui.components.WebOutlinedButton
+import com.neb.ians.ui.components.WebPanelShape
+import com.neb.ians.ui.components.WebPillShape
+import com.neb.ians.ui.components.WebResourceCard
+import com.neb.ians.ui.components.WebTopBar
 
-private fun getSubjectIcon(subject: String): Int {
-    return when (subject) {
-        "Physics" -> R.drawable.ic_science
-        "Chemistry" -> R.drawable.ic_science
-        "Mathematics" -> R.drawable.ic_science
-        "Biology" -> R.drawable.ic_science
-        "English" -> R.drawable.ic_globe
-        "Nepali" -> R.drawable.ic_globe
-        "Computer Science" -> R.drawable.ic_science
-        "Economics" -> R.drawable.ic_globe
-        "Accountancy" -> R.drawable.ic_book
-        else -> R.drawable.ic_document
-    }
-}
-
-private fun getTypeIcon(type: String): Int {
-    return when (type.lowercase()) {
-        "textbook" -> R.drawable.ic_book
-        "notes" -> R.drawable.ic_document
-        "past papers" -> R.drawable.ic_document
-        "guide" -> R.drawable.ic_book
-        "solution" -> R.drawable.ic_school
-        else -> R.drawable.ic_document
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LibraryScreen(
     onResourceClick: (String) -> Unit,
     onSearchClick: () -> Unit,
+    onUploadClick: () -> Unit = {},
+    onNotificationsClick: () -> Unit = {},
+    onProfileClick: () -> Unit = {},
     viewModel: LibraryViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
-
-    val hasActiveFilters = uiState.selectedSubject != null ||
-            uiState.selectedGradeLevel != null ||
-            uiState.selectedType != null
+    var currentTab by remember { mutableStateOf("library") }
+    val hasActiveFilters = uiState.selectedSubject != null || uiState.selectedGradeLevel != null || uiState.selectedType != null
 
     Scaffold(
-        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
-            LargeTopAppBar(
-                title = {
-                    Text(
-                        text = "Library",
-                        fontWeight = FontWeight.Bold
-                    )
-                },
-                actions = {
-                    FilledTonalIconButton(onClick = onSearchClick) {
-                        Icon(
-                            imageVector = Icons.Outlined.Search,
-                            contentDescription = "Search"
-                        )
-                    }
-                },
-                scrollBehavior = scrollBehavior,
-                colors = TopAppBarDefaults.largeTopAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.surface,
-                    scrolledContainerColor = MaterialTheme.colorScheme.surfaceContainer
-                )
+            WebTopBar(
+                onSearchClick = onSearchClick,
+                onNotificationsClick = onNotificationsClick,
+                onProfileClick = onProfileClick,
+                avatarInitial = "N"
             )
         },
-        containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
+        containerColor = MaterialTheme.colorScheme.surface
     ) { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            if (uiState.isLoading) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                ) {
-                    FilterSection(
-                        hasActiveFilters = hasActiveFilters,
-                        uiState = uiState,
-                        viewModel = viewModel
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 12.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        text = "Digital Library",
+                        style = MaterialTheme.typography.headlineSmall,
+                        fontWeight = FontWeight.ExtraBold,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
                     )
-                    ShimmerLibraryGrid()
-                }
-            } else if (uiState.error != null && uiState.resources.isEmpty()) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .verticalScroll(rememberScrollState()),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    FilterSection(
-                        hasActiveFilters = hasActiveFilters,
-                        uiState = uiState,
-                        viewModel = viewModel
-                    )
-                    ErrorCard(
-                        message = uiState.error ?: "Something went wrong",
-                        onRetry = { viewModel.refresh() }
+                    Text(
+                        text = "Notes, past papers, textbooks, guides, and syllabus categories.",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis
                     )
                 }
+                WebOutlinedButton(
+                    text = "Upload",
+                    painter = painterResource(id = R.drawable.ic_science),
+                    onClick = onUploadClick
+                )
+            }
+
+            LibraryTabs(
+                currentTab = currentTab,
+                onTabSelected = { currentTab = it }
+            )
+
+            if (currentTab == "library") {
+                FilterSection(
+                    hasActiveFilters = hasActiveFilters,
+                    uiState = uiState,
+                    viewModel = viewModel
+                )
+                LibraryContent(
+                    uiState = uiState,
+                    hasActiveFilters = hasActiveFilters,
+                    onResourceClick = onResourceClick,
+                    onRetry = { viewModel.refresh() }
+                )
             } else {
-                Column(
-                    modifier = Modifier.fillMaxSize()
-                ) {
-                    FilterSection(
-                        hasActiveFilters = hasActiveFilters,
-                        uiState = uiState,
-                        viewModel = viewModel
-                    )
-
-                    if (uiState.error != null) {
-                        ErrorCard(
-                            message = uiState.error ?: "Something went wrong",
-                            onRetry = { viewModel.refresh() }
-                        )
+                SyllabusContent(
+                    onSubjectClick = { subject ->
+                        currentTab = "library"
+                        viewModel.selectSubject(subject)
                     }
-
-                    if (uiState.resources.isEmpty()) {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .padding(32.dp),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                                Text(
-                                    text = "No resources found",
-                                    style = MaterialTheme.typography.titleMedium,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                                Spacer(modifier = Modifier.height(8.dp))
-                                Text(
-                                    text = if (hasActiveFilters) "Try adjusting your filters."
-                                    else "Resources will appear here once available.",
-                                    style = MaterialTheme.typography.bodyMedium,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                            }
-                        }
-                    } else {
-                        LazyVerticalGrid(
-                            columns = GridCells.Fixed(2),
-                            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
-                            horizontalArrangement = Arrangement.spacedBy(12.dp),
-                            verticalArrangement = Arrangement.spacedBy(12.dp)
-                        ) {
-                            items(uiState.resources, key = { it.id }) { resource ->
-                                LibraryResourceCard(
-                                    resource = resource,
-                                    onClick = { onResourceClick(resource.id) }
-                                )
-                            }
-                        }
-                    }
-                }
+                )
             }
         }
+    }
+}
+
+@Composable
+private fun LibraryTabs(
+    currentTab: String,
+    onTabSelected: (String) -> Unit
+) {
+    Column(modifier = Modifier.padding(horizontal = 16.dp)) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            TabButton(
+                text = "Library",
+                selected = currentTab == "library",
+                onClick = { onTabSelected("library") }
+            )
+            TabButton(
+                text = "Syllabus",
+                selected = currentTab == "syllabus",
+                onClick = { onTabSelected("syllabus") }
+            )
+        }
+        HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+    }
+}
+
+@Composable
+private fun TabButton(text: String, selected: Boolean, onClick: () -> Unit) {
+    Column(
+        modifier = Modifier
+            .clickable(onClick = onClick)
+            .padding(horizontal = 16.dp, vertical = 12.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = text,
+            style = MaterialTheme.typography.labelLarge,
+            fontWeight = FontWeight.Bold,
+            color = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        Surface(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(3.dp),
+            color = if (selected) MaterialTheme.colorScheme.primary else androidx.compose.ui.graphics.Color.Transparent,
+            shape = WebPillShape
+        ) {}
     }
 }
 
@@ -204,29 +193,24 @@ private fun FilterSection(
     viewModel: LibraryViewModel
 ) {
     Column(
-        modifier = Modifier.padding(bottom = 8.dp)
+        modifier = Modifier.padding(top = 12.dp, bottom = 6.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        FilterChipRow(
-            label = "Subject",
+        WebChipRow(
             items = LibraryUiState.SUBJECTS,
             selectedItem = uiState.selectedSubject,
-            onItemSelected = viewModel::selectSubject
+            onItemClick = viewModel::selectSubject
         )
-
-        FilterChipRow(
-            label = "Grade",
+        WebChipRow(
             items = LibraryUiState.GRADE_LEVELS,
             selectedItem = uiState.selectedGradeLevel,
-            onItemSelected = viewModel::selectGradeLevel
+            onItemClick = viewModel::selectGradeLevel
         )
-
-        FilterChipRow(
-            label = "Type",
+        WebChipRow(
             items = LibraryUiState.TYPES,
             selectedItem = uiState.selectedType,
-            onItemSelected = viewModel::selectType
+            onItemClick = viewModel::selectType
         )
-
         if (hasActiveFilters) {
             Row(
                 modifier = Modifier
@@ -234,67 +218,10 @@ private fun FilterSection(
                     .padding(horizontal = 16.dp),
                 horizontalArrangement = Arrangement.End
             ) {
-                TextButton(onClick = viewModel::clearFilters) {
-                    Text(
-                        text = "Clear Filters",
-                        style = MaterialTheme.typography.labelLarge,
-                        color = MaterialTheme.colorScheme.primary
-                    )
-                }
-            }
-        }
-    }
-}
-
-@Composable
-private fun FilterChipRow(
-    label: String,
-    items: List<String>,
-    selectedItem: String?,
-    onItemSelected: (String?) -> Unit
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 4.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Text(
-            text = label,
-            style = MaterialTheme.typography.labelMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.padding(start = 16.dp, end = 8.dp)
-        )
-        LazyRow(
-            contentPadding = PaddingValues(end = 16.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            items(items) { item ->
-                val isSelected = selectedItem == item
-                FilterChip(
-                    selected = isSelected,
-                    onClick = { onItemSelected(item) },
-                    label = {
-                        Text(
-                            text = item,
-                            style = MaterialTheme.typography.labelMedium,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis
-                        )
-                    },
-                    shape = RoundedCornerShape(50),
-                    colors = FilterChipDefaults.filterChipColors(
-                        containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
-                        labelColor = MaterialTheme.colorScheme.onSurface,
-                        selectedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
-                        selectedLabelColor = MaterialTheme.colorScheme.onSecondaryContainer
-                    ),
-                    border = FilterChipDefaults.filterChipBorder(
-                        borderColor = MaterialTheme.colorScheme.outlineVariant,
-                        selectedBorderColor = MaterialTheme.colorScheme.secondaryContainer,
-                        enabled = true,
-                        selected = isSelected
-                    )
+                WebChip(
+                    text = "Clear all",
+                    selected = true,
+                    onClick = viewModel::clearFilters
                 )
             }
         }
@@ -302,91 +229,164 @@ private fun FilterChipRow(
 }
 
 @Composable
-private fun LibraryResourceCard(
-    resource: ApiResource,
-    onClick: () -> Unit
+private fun LibraryContent(
+    uiState: LibraryUiState,
+    hasActiveFilters: Boolean,
+    onResourceClick: (String) -> Unit,
+    onRetry: () -> Unit
 ) {
-    val subjectTheme = getSubjectTheme(resource.subject)
-
-    Card(
-        onClick = onClick,
-        shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
-        ),
-        border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
-    ) {
-        Column {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(100.dp)
-                    .background(Brush.linearGradient(listOf(subjectTheme.container, subjectTheme.color))),
-                contentAlignment = Alignment.Center
-            ) {
+    when {
+        uiState.isLoading -> ShimmerLibraryGrid()
+        uiState.error != null && uiState.resources.isEmpty() -> {
+            ErrorCard(
+                message = uiState.error ?: "Something went wrong",
+                onRetry = onRetry,
+                modifier = Modifier.padding(16.dp)
+            )
+        }
+        uiState.resources.isEmpty() -> {
+            WebEmptyState(
+                title = "No resources found",
+                message = if (hasActiveFilters) "Try adjusting your filters." else "Resources will appear here once available.",
+                icon = painterResource(id = R.drawable.ic_document),
+                modifier = Modifier.padding(16.dp)
+            )
+        }
+        else -> {
+            Column(modifier = Modifier.fillMaxSize()) {
+                if (uiState.error != null) {
+                    ErrorCard(
+                        message = uiState.error ?: "Something went wrong",
+                        onRetry = onRetry,
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+                    )
+                }
                 Surface(
-                    shape = RoundedCornerShape(50),
-                    color = MaterialTheme.colorScheme.surface.copy(alpha = 0.9f),
-                    modifier = Modifier.size(40.dp)
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 8.dp),
+                    shape = WebPanelShape,
+                    color = MaterialTheme.colorScheme.surfaceContainerLowest,
+                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
                 ) {
-                    Box(contentAlignment = Alignment.Center) {
-                        Icon(
-                            painter = painterResource(id = getSubjectIcon(resource.subject)),
-                            contentDescription = null,
-                            modifier = Modifier.size(20.dp),
-                            tint = subjectTheme.color
+                    Row(
+                        modifier = Modifier.padding(horizontal = 14.dp, vertical = 10.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = "Showing ${uiState.resources.size} of ${uiState.totalCount.coerceAtLeast(uiState.resources.size)} resources",
+                            style = MaterialTheme.typography.labelMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            modifier = Modifier.weight(1f),
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                        Text(
+                            text = "Most Relevant",
+                            style = MaterialTheme.typography.labelMedium,
+                            color = MaterialTheme.colorScheme.primary,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                }
+                LazyVerticalGrid(
+                    columns = GridCells.Adaptive(minSize = 174.dp),
+                    contentPadding = PaddingValues(start = 16.dp, top = 6.dp, end = 16.dp, bottom = 110.dp),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp),
+                    verticalArrangement = Arrangement.spacedBy(12.dp),
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    items(uiState.resources, key = { it.id }) { resource ->
+                        WebResourceCard(
+                            resource = resource,
+                            onClick = { onResourceClick(resource.id) },
+                            minWidth = null
                         )
                     }
                 }
             }
+        }
+    }
+}
 
-            Column(
-                modifier = Modifier.padding(12.dp)
+@Composable
+private fun SyllabusContent(
+    onSubjectClick: (String) -> Unit
+) {
+    LazyColumn(
+        modifier = Modifier.fillMaxSize(),
+        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 18.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        items(LibraryUiState.GRADE_LEVELS) { grade ->
+            Surface(
+                modifier = Modifier.fillMaxWidth(),
+                shape = WebPanelShape,
+                color = MaterialTheme.colorScheme.surfaceContainerLowest,
+                border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
             ) {
-                Surface(
-                    shape = RoundedCornerShape(50),
-                    color = subjectTheme.container,
-                    modifier = Modifier.padding(bottom = 6.dp)
-                ) {
-                    Text(
-                        text = resource.subject,
-                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp),
-                        style = MaterialTheme.typography.labelSmall,
-                        fontWeight = FontWeight.Bold,
-                        color = subjectTheme.onContainer,
-                        maxLines = 1
-                    )
-                }
-
-                Text(
-                    text = resource.title,
-                    style = MaterialTheme.typography.bodyMedium,
-                    fontWeight = FontWeight.SemiBold,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    modifier = Modifier.heightIn(min = 40.dp)
-                )
-
-                Spacer(modifier = Modifier.height(8.dp))
-
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = resource.gradeLevel,
-                        style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                    Text(
-                        text = resource.type,
-                        style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
+                Column(modifier = Modifier.padding(16.dp)) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_school),
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.size(22.dp)
+                        )
+                        Spacer(modifier = Modifier.size(8.dp))
+                        Text(
+                            text = grade,
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier.weight(1f)
+                        )
+                        Text(
+                            text = "${LibraryUiState.SUBJECTS.size} subjects",
+                            style = MaterialTheme.typography.labelSmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(12.dp))
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        Column(verticalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.weight(1f)) {
+                            LibraryUiState.SUBJECTS.filterIndexed { index, _ -> index % 2 == 0 }.forEach { subject ->
+                                SyllabusSubjectChip(subject = subject, onClick = { onSubjectClick(subject) })
+                            }
+                        }
+                        Column(verticalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.weight(1f)) {
+                            LibraryUiState.SUBJECTS.filterIndexed { index, _ -> index % 2 == 1 }.forEach { subject ->
+                                SyllabusSubjectChip(subject = subject, onClick = { onSubjectClick(subject) })
+                            }
+                        }
+                    }
                 }
             }
         }
+        item { Spacer(modifier = Modifier.height(92.dp)) }
+    }
+}
+
+@Composable
+private fun SyllabusSubjectChip(subject: String, onClick: () -> Unit) {
+    Surface(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick),
+        shape = WebPillShape,
+        color = MaterialTheme.colorScheme.surfaceContainerLow,
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
+    ) {
+        Text(
+            text = subject,
+            modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
+            style = MaterialTheme.typography.labelMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            fontWeight = FontWeight.SemiBold,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
+        )
     }
 }
