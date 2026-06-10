@@ -53,22 +53,18 @@
         <div style="display:flex;gap:8px;margin-top:4px;flex-wrap:wrap;" id="role-selector">
           <label class="role-radio-card{% if user.role == 'student' %} role-radio-active{% endif %}">
             <input type="radio" name="role" value="student" {% if user.role == 'student' or not user.role %}checked{% endif %} style="display:none;">
-            <span class="material-symbols-outlined" style="font-size:20px;">backpack</span>
             Student
           </label>
           <label class="role-radio-card{% if user.role == 'teacher' %} role-radio-active{% endif %}">
             <input type="radio" name="role" value="teacher" {% if user.role == 'teacher' %}checked{% endif %} style="display:none;">
-            <span class="material-symbols-outlined" style="font-size:20px;">history_edu</span>
             Teacher
           </label>
           <label class="role-radio-card{% if user.role == 'institution' %} role-radio-active{% endif %}">
             <input type="radio" name="role" value="institution" {% if user.role == 'institution' %}checked{% endif %} style="display:none;">
-            <span class="material-symbols-outlined" style="font-size:20px;">account_balance</span>
             Institution
           </label>
           <label class="role-radio-card role-radio-card-explorer{% if user.role == 'explorer' %} role-radio-active{% endif %}">
             <input type="radio" name="role" value="explorer" {% if user.role == 'explorer' %}checked{% endif %} style="display:none;">
-            <span class="material-symbols-outlined" style="font-size:20px;">travel_explore</span>
             Explorer
           </label>
         </div>
