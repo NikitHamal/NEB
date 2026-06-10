@@ -81,6 +81,7 @@ class AuthRepository @Inject constructor(
     val isProfileCompletedFlow: Flow<Boolean> = dataStore.data.map { it[PROFILE_COMPLETED] ?: false }
     val currentUserNameFlow: Flow<String> = dataStore.data.map { it[USER_NAME] ?: "Student" }
     val currentUserIdFlow: Flow<String?> = dataStore.data.map { it[USER_ID] }
+    val currentUserPhotoUrlFlow: Flow<String?> = dataStore.data.map { it[USER_PHOTO_URL] }
 
     val userProfileFlow: Flow<UserProfileCache?> = dataStore.data.map { preferences ->
         val userId = preferences[USER_ID] ?: return@map null
@@ -157,26 +158,16 @@ class AuthRepository @Inject constructor(
 
     suspend fun signInWithWebToken(token: String, isNewUser: Boolean, username: String?): Boolean {
         return try {
-            if (isNewUser) {
-                dataStore.edit { prefs ->
-                    prefs[AUTH_TOKEN] = token
-                    prefs[AUTH_STATUS] = "authenticated"
-                    prefs[PROFILE_COMPLETED] = false
-                    prefs[USER_NAME] = username ?: ""
-                }
-                true
-            } else {
-                dataStore.edit { prefs ->
-                    prefs[AUTH_TOKEN] = token
-                    prefs[AUTH_STATUS] = "authenticated"
-                    prefs[PROFILE_COMPLETED] = true
-                    prefs[USER_NAME] = username ?: ""
-                }
-                if (!username.isNullOrEmpty()) {
-                    refreshProfile()
-                }
-                true
+            dataStore.edit { prefs ->
+                prefs[AUTH_TOKEN] = token
+                prefs[AUTH_STATUS] = "authenticated"
+                prefs[PROFILE_COMPLETED] = !isNewUser
+                prefs[USER_NAME] = username ?: ""
             }
+            if (!username.isNullOrEmpty()) {
+                refreshProfile()
+            }
+            true
         } catch (e: Exception) {
             false
         }
@@ -360,6 +351,7 @@ class AuthRepository @Inject constructor(
             val user = response.user
             withContext(Dispatchers.IO) {
                 dataStore.edit { prefs ->
+                    prefs[USER_ID] = user.id
                     prefs[PROFILE_COMPLETED] = true
                     prefs[USER_NAME] = user.username
                     prefs[USER_EMAIL] = user.email ?: ""
@@ -409,6 +401,8 @@ class AuthRepository @Inject constructor(
             val response = withContext(Dispatchers.IO) { apiService.getProfile(bearer, username) }
             withContext(Dispatchers.IO) {
                 dataStore.edit { prefs ->
+                    prefs[USER_ID] = response.id
+                    prefs[USER_EMAIL] = response.email ?: ""
                     prefs[USER_PHOTO_URL] = response.photoUrl ?: ""
                     prefs[USER_DISPLAY_NAME] = response.displayName ?: ""
                     prefs[USER_BANNER_URL] = response.bannerUrl ?: ""

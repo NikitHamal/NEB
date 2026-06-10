@@ -25,6 +25,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -142,9 +143,14 @@ private fun ProfileContent(
                             )
                         )
                 ) {
-                    if (!profile.bannerUrl.isNullOrBlank()) {
+                    val resolvedBannerUrl = remember(profile.bannerUrl) {
+                        if (profile.bannerUrl.isNullOrBlank()) null
+                        else if (profile.bannerUrl.startsWith("http://") || profile.bannerUrl.startsWith("https://")) profile.bannerUrl
+                        else "https://nebians.consica.com.np${if (profile.bannerUrl.startsWith("/")) "" else "/"}${profile.bannerUrl}"
+                    }
+                    if (!resolvedBannerUrl.isNullOrBlank()) {
                         AsyncImage(
-                            model = profile.bannerUrl,
+                            model = resolvedBannerUrl,
                             contentDescription = null,
                             modifier = Modifier.fillMaxSize()
                         )

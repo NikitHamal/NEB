@@ -16,7 +16,9 @@ data class ForumUiState(
     val selectedCategory: String? = null,
     val searchQuery: String = "",
     val isLoading: Boolean = true,
-    val error: String? = null
+    val error: String? = null,
+    val userName: String = "Student",
+    val userPhotoUrl: String? = null
 ) {
     companion object {
         val CATEGORIES = listOf(
@@ -28,11 +30,19 @@ data class ForumUiState(
 
 @HiltViewModel
 class ForumViewModel @Inject constructor(
-    private val forumRepository: ForumRepository
+    private val forumRepository: ForumRepository,
+    private val authRepository: AuthRepository
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(ForumUiState())
-    val uiState: StateFlow<ForumUiState> = _uiState.asStateFlow()
+    private val _forumState = MutableStateFlow(ForumUiState())
+    
+    val uiState: StateFlow<ForumUiState> = combine(
+        _forumState,
+        authRepository.currentUserNameFlow,
+        authRepository.currentUserPhotoUrlFlow
+    ) { state, name, photo ->
+        state.copy(userName = name, userPhotoUrl = photo)
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), ForumUiState())
 
     init {
         loadPosts()
@@ -40,13 +50,13 @@ class ForumViewModel @Inject constructor(
 
     private fun loadPosts() {
         viewModelScope.launch {
-            _uiState.update { it.copy(isLoading = true, error = null) }
-            forumRepository.getPosts(category = _uiState.value.selectedCategory)
+            _forumState.update { it.copy(isLoading = true, error = null) }
+            forumRepository.getPosts(category = _forumState.value.selectedCategory)
                 .onSuccess { result ->
-                    _uiState.update { it.copy(posts = result.posts, isLoading = false) }
+                    _forumState.update { it.copy(posts = result.posts, isLoading = false) }
                 }
                 .onFailure { e ->
-                    _uiState.update { it.copy(isLoading = false, error = e.message ?: "Failed to load posts") }
+                    _forumState.update { it.copy(isLoading = false, error = e.message ?: "Failed to load posts") }
                 }
         }
     }
@@ -56,25 +66,25 @@ class ForumViewModel @Inject constructor(
     }
 
     fun selectCategory(category: String?) {
-        val newCategory = if (_uiState.value.selectedCategory == category) null else category
-        _uiState.update { it.copy(selectedCategory = newCategory) }
+        val newCategory = if (_forumState.value.selectedCategory == category) null else category
+        _forumState.update { it.copy(selectedCategory = newCategory) }
         loadPosts()
     }
 
     fun onSearchQueryChange(query: String) {
-        _uiState.update { it.copy(searchQuery = query) }
+        _forumState.update { it.copy(searchQuery = query) }
     }
 
     fun toggleThumbsUp(postId: String) {
         viewModelScope.launch {
             forumRepository.toggleLikePost(postId)
                 .onSuccess { response ->
-                    val updatedPosts = _uiState.value.posts.map { post ->
+                    val updatedPosts = _forumState.value.posts.map { post ->
                         if (post.id == postId) {
                             post.copy(thumbsUpCount = response.thumbsUpCount, isThumbedUp = response.isThumbedUp)
                         } else post
                     }
-                    _uiState.update { it.copy(posts = updatedPosts) }
+                    _forumState.update { it.copy(posts = updatedPosts) }
                 }
         }
     }

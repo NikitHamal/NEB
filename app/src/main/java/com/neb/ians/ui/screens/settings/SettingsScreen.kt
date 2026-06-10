@@ -25,6 +25,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.neb.ians.ui.components.Avatar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -83,20 +84,11 @@ fun SettingsScreen(
                         Text("@${profile.username}")
                     },
                     leadingContent = {
-                        Box(
-                            modifier = Modifier
-                                .size(48.dp)
-                                .clip(CircleShape)
-                                .background(MaterialTheme.colorScheme.primaryContainer),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text(
-                                text = profile.username.firstOrNull()?.uppercase() ?: "?",
-                                style = MaterialTheme.typography.titleMedium,
-                                fontWeight = FontWeight.Bold,
-                                color = MaterialTheme.colorScheme.onPrimaryContainer
-                            )
-                        }
+                        Avatar(
+                            name = profile.username,
+                            imageUrl = profile.photoUrl,
+                            size = 48.dp
+                        )
                     },
                     colors = ListItemDefaults.colors(
                         containerColor = MaterialTheme.colorScheme.surfaceContainerLowest

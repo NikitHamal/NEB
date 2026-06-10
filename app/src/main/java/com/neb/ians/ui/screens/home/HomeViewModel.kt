@@ -14,6 +14,7 @@ import javax.inject.Inject
 
 data class HomeUiState(
     val userName: String = "Student",
+    val userPhotoUrl: String? = null,
     val recentResources: List<ApiResource> = emptyList(),
     val popularResources: List<ApiResource> = emptyList(),
     val recentPosts: List<ApiPost> = emptyList(),
@@ -69,14 +70,15 @@ class HomeViewModel @Inject constructor(
     }
 
     val uiState: StateFlow<HomeUiState> = combine(
-        settingsRepository.userName,
+        combine(settingsRepository.userName, authRepository.currentUserPhotoUrlFlow) { name, photo -> Pair(name, photo) },
         _recentResources,
         _popularResources,
         _recentPosts,
         combine(_isLoading, _error) { isLoading, error -> Pair(isLoading, error) }
-    ) { userName, recentResources, popularResources, recentPosts, loadingError ->
+    ) { user, recentResources, popularResources, recentPosts, loadingError ->
         HomeUiState(
-            userName = userName,
+            userName = user.first,
+            userPhotoUrl = user.second,
             recentResources = recentResources,
             popularResources = popularResources,
             recentPosts = recentPosts,

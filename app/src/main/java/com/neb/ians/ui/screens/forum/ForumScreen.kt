@@ -49,7 +49,9 @@ fun ForumScreen(
             WebTopBar(
                 onSearchClick = onSearchClick,
                 onNotificationsClick = onNotificationsClick,
-                onProfileClick = onProfileClick
+                onProfileClick = onProfileClick,
+                avatarInitial = uiState.userName,
+                avatarUrl = uiState.userPhotoUrl
             )
         },
         containerColor = MaterialTheme.colorScheme.surface
