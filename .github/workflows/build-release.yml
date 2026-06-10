@@ -40,6 +40,7 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
         with:
           cache-read-only: false
+          gradle-home-cache-cleanup: true
 
       - name: Inject Google Services JSON
         env:
@@ -47,15 +48,15 @@ jobs:
         run: echo "$GOOGLE_SERVICES_JSON" > app/google-services.json
 
       - name: Build Modern Release APK
-        run: ./gradlew assembleModernRelease
+        run: ./gradlew assembleModernRelease --build-cache
         env:
-          GRADLE_OPTS: -Dorg.gradle.jvmargs=-Xmx3g
+          GRADLE_OPTS: -Dorg.gradle.jvmargs="-Xmx4g -XX:+UseParallelGC -XX:MaxMetaspaceSize=1g" -Dorg.gradle.parallel=true -Dorg.gradle.caching=true -Dorg.gradle.configuration-cache=true
 
       - name: Build Legacy Release APK
         if: github.event_name == 'workflow_dispatch' && github.event.inputs.build_legacy == 'true'
-        run: ./gradlew assembleLegacyRelease
+        run: ./gradlew assembleLegacyRelease --build-cache
         env:
-          GRADLE_OPTS: -Dorg.gradle.jvmargs=-Xmx3g
+          GRADLE_OPTS: -Dorg.gradle.jvmargs="-Xmx4g -XX:+UseParallelGC -XX:MaxMetaspaceSize=1g" -Dorg.gradle.parallel=true -Dorg.gradle.caching=true -Dorg.gradle.configuration-cache=true
 
       - name: Get version and commit info
         id: info
