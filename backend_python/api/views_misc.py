@@ -200,6 +200,7 @@ def notifications_list(request):
     """
     GET /api/notifications — list current user's notifications.
     Query params: page, page_size, unread_only (bool)
+    Returns: { "notifications": [...], "has_more": bool }
     """
     user, err = _require_user(request)
     if err:
@@ -211,7 +212,18 @@ def notifications_list(request):
     if unread_only:
         qs = qs.filter(is_read=False)
 
-    return _paginated_response(request, qs, NotificationSerializer, default_page_size=30, max_page_size=100)
+    paginator = PageNumberPagination()
+    try:
+        page_size = int(request.query_params.get('page_size', 30))
+    except (TypeError, ValueError):
+        page_size = 30
+    paginator.page_size = max(1, min(page_size, 100))
+    page = paginator.paginate_queryset(qs, request)
+    serializer = NotificationSerializer(page, many=True)
+    return Response({
+        'notifications': serializer.data,
+        'has_more': page.has_next() if hasattr(page, 'has_next') else False
+    })
 
 @api_view(['POST'])
 def notifications_mark_read(request):
@@ -231,10 +243,10 @@ def notifications_mark_read(request):
         count = Notification.objects.filter(recipient=user, is_read=False).update(is_read=True)
         _counters.reset_user_unread_notification_count(user.id)
         logger.info("notifications_mark_read: user %s marked all %d notifications as read", user.username, count)
-        return Response({'success': True, 'marked_count': count})
+        return Response({'status': 'ok', 'message': f'{count} notification(s) marked as read'})
 
     if not notification_ids:
-        return Response({'error': 'Provide notification_ids or mark_all=true'}, status=400)
+        return Response({'status': 'error', 'message': 'Provide notification_ids or mark_all=true'}, status=400)
 
     notifs = Notification.objects.filter(recipient=user, pk__in=notification_ids, is_read=False)
     count = notifs.update(is_read=True)
@@ -242,7 +254,7 @@ def notifications_mark_read(request):
     unread = Notification.objects.filter(recipient=user, is_read=False).count()
     User.objects.filter(pk=user.id).update(unread_notification_count=unread)
     logger.info("notifications_mark_read: user %s marked %d notifications as read", user.username, count)
-    return Response({'success': True, 'marked_count': count})
+    return Response({'status': 'ok', 'message': f'{count} notification(s) marked as read'})
 
 @api_view(['GET'])
 def notifications_unread_count(request):

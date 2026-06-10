@@ -223,10 +223,10 @@ class AuthRepository @Inject constructor(
         }
     }
 
-    suspend fun emailSignup(email: String, password: String, username: String): EmailAuthResult {
+    suspend fun emailSignup(email: String, password: String, username: String, role: String = "student"): EmailAuthResult {
         return try {
             val response = withContext(Dispatchers.IO) {
-                apiService.emailSignup(com.neb.ians.data.api.EmailSignupRequest(email, password, username))
+                apiService.emailSignup(com.neb.ians.data.api.EmailSignupRequest(email, password, username, role))
             }
             if (response.status == "success") {
                 EmailAuthResult.SignupSuccess(response.userId, response.email)
