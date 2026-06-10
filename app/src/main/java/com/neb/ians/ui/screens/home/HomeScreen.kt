@@ -1,242 +1,168 @@
 package com.neb.ians.ui.screens.home
 
-import androidx.compose.foundation.background
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.horizontalScroll
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Search
-import androidx.compose.material.icons.outlined.ThumbUp
-import androidx.compose.ui.res.painterResource
-import com.neb.ians.R
-import androidx.compose.material3.*
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.neb.ians.data.api.ApiPost
-import com.neb.ians.data.api.ApiResource
+import com.neb.ians.R
 import com.neb.ians.ui.components.ErrorCard
 import com.neb.ians.ui.components.ShimmerHomeScreen
-import com.neb.ians.ui.theme.getSubjectTheme
+import com.neb.ians.ui.components.WebEmptyState
+import com.neb.ians.ui.components.WebOutlinedButton
+import com.neb.ians.ui.components.WebPanelShape
+import com.neb.ians.ui.components.WebPostCard
+import com.neb.ians.ui.components.WebPrimaryButton
+import com.neb.ians.ui.components.WebResourceCard
+import com.neb.ians.ui.components.WebSectionHeader
+import com.neb.ians.ui.components.WebTopBar
 
-private fun getTypeIcon(type: String): Int {
-    return when (type.lowercase()) {
-        "textbook" -> R.drawable.ic_book
-        "notes" -> R.drawable.ic_document
-        "past papers" -> R.drawable.ic_document
-        "guide" -> R.drawable.ic_book
-        "solution" -> R.drawable.ic_school
-        else -> R.drawable.ic_document
-    }
-}
-
-private fun getSubjectIcon(subject: String): Int {
-    return when (subject) {
-        "Physics" -> R.drawable.ic_science
-        "Chemistry" -> R.drawable.ic_science
-        "Mathematics" -> R.drawable.ic_science
-        "Biology" -> R.drawable.ic_science
-        "English" -> R.drawable.ic_globe
-        "Nepali" -> R.drawable.ic_globe
-        "Computer Science" -> R.drawable.ic_science
-        "Economics" -> R.drawable.ic_globe
-        "Accountancy" -> R.drawable.ic_book
-        else -> R.drawable.ic_document
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     onResourceClick: (String) -> Unit,
     onSearchClick: () -> Unit,
     onViewAllClick: () -> Unit,
     onSubjectClick: (String) -> Unit = {},
+    onForumClick: () -> Unit = {},
+    onStudyLabClick: () -> Unit = {},
+    onNebyAiClick: () -> Unit = {},
+    onPostClick: (String) -> Unit = {},
+    onNotificationsClick: () -> Unit = {},
+    onProfileClick: () -> Unit = {},
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
     Scaffold(
-        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
-            LargeTopAppBar(
-                title = {
-                    Column {
-                        Text(
-                            text = "Hello, ${uiState.userName}",
-                            style = MaterialTheme.typography.headlineSmall,
-                            fontWeight = FontWeight.Bold
-                        )
-                        Text(
-                            text = "What would you like to study today?",
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
-                },
-                actions = {
-                    FilledTonalIconButton(onClick = onSearchClick) {
-                        Icon(
-                            imageVector = Icons.Outlined.Search,
-                            contentDescription = "Search"
-                        )
-                    }
-                },
-                scrollBehavior = scrollBehavior,
-                colors = TopAppBarDefaults.largeTopAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.surface,
-                    scrolledContainerColor = MaterialTheme.colorScheme.surfaceContainer
-                )
+            WebTopBar(
+                onSearchClick = onSearchClick,
+                onNotificationsClick = onNotificationsClick,
+                onProfileClick = onProfileClick,
+                avatarInitial = uiState.userName
             )
         },
-        containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
+        containerColor = MaterialTheme.colorScheme.surface
     ) { innerPadding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .verticalScroll(rememberScrollState())
                 .padding(innerPadding)
+                .verticalScroll(rememberScrollState())
         ) {
-            if (uiState.isLoading) {
-                ShimmerHomeScreen()
-            } else if (uiState.error != null && uiState.recentResources.isEmpty() && uiState.popularResources.isEmpty()) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize(),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
+            when {
+                uiState.isLoading -> ShimmerHomeScreen()
+                uiState.error != null && uiState.recentResources.isEmpty() && uiState.recentPosts.isEmpty() -> {
                     ErrorCard(
                         message = uiState.error ?: "Something went wrong",
-                        onRetry = { viewModel.refresh() }
+                        onRetry = { viewModel.refresh() },
+                        modifier = Modifier.padding(16.dp)
                     )
                 }
-            } else {
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                ) {
+                else -> {
                     if (uiState.error != null) {
                         ErrorCard(
                             message = uiState.error ?: "Something went wrong",
                             onRetry = { viewModel.refresh() },
-                            modifier = Modifier.padding(horizontal = 16.dp)
+                            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
                         )
                     }
 
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .horizontalScroll(rememberScrollState())
-                            .padding(horizontal = 16.dp, vertical = 8.dp),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        HomeUiState.SUBJECTS.forEach { subject ->
-                            SuggestionChip(
-                                onClick = { onSubjectClick(subject) },
-                                label = {
-                                    Text(
-                                        text = subject,
-                                        style = MaterialTheme.typography.labelLarge,
-                                        maxLines = 1,
-                                        overflow = TextOverflow.Ellipsis
-                                    )
-                                },
-                                shape = RoundedCornerShape(50),
-                                colors = SuggestionChipDefaults.suggestionChipColors(
-                                    containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
-                                    labelColor = MaterialTheme.colorScheme.onSurface
-                                ),
-                                border = SuggestionChipDefaults.suggestionChipBorder(
-                                    borderColor = MaterialTheme.colorScheme.outlineVariant,
-                                    enabled = true
-                                )
-                            )
-                        }
-                    }
+                    HomeHero(
+                        userName = uiState.userName,
+                        onLibraryClick = onViewAllClick,
+                        onForumClick = onForumClick
+                    )
 
-                    SectionHeader(
+                    StudyLabHero(
+                        onClick = onStudyLabClick,
+                        onNebyAiClick = onNebyAiClick
+                    )
+
+                    WebSectionHeader(
                         title = "Recent Resources",
-                        onViewAllClick = onViewAllClick
+                        actionLabel = "View all",
+                        onActionClick = onViewAllClick
+                    )
+                    ResourceRow(
+                        resources = uiState.recentResources,
+                        emptyMessage = "No resources yet. Check the Library to explore.",
+                        onResourceClick = onResourceClick
                     )
 
-                    if (uiState.recentResources.isEmpty()) {
-                        EmptyResourceRow(message = "No resources yet. Check the Library to explore.")
-                    } else {
-                        LazyRow(
-                            contentPadding = PaddingValues(horizontal = 16.dp),
-                            horizontalArrangement = Arrangement.spacedBy(12.dp)
-                        ) {
-                            items(uiState.recentResources, key = { it.id }) { resource ->
-                                ResourceCard(
-                                    resource = resource,
-                                    onClick = { onResourceClick(resource.id) }
-                                )
-                            }
-                        }
-                    }
-
-                    Spacer(modifier = Modifier.height(24.dp))
-                    SectionHeader(
+                    Spacer(modifier = Modifier.height(18.dp))
+                    WebSectionHeader(
                         title = "Popular Resources",
-                        onViewAllClick = onViewAllClick
+                        actionLabel = "View all",
+                        onActionClick = onViewAllClick
+                    )
+                    ResourceRow(
+                        resources = uiState.popularResources,
+                        emptyMessage = "Popular resources will appear here.",
+                        onResourceClick = onResourceClick
                     )
 
-                    if (uiState.popularResources.isEmpty()) {
-                        EmptyResourceRow(message = "Popular resources will appear here.")
-                    } else {
-                        LazyRow(
-                            contentPadding = PaddingValues(horizontal = 16.dp),
-                            horizontalArrangement = Arrangement.spacedBy(12.dp)
-                        ) {
-                            items(uiState.popularResources, key = { it.id }) { resource ->
-                                ResourceCard(
-                                    resource = resource,
-                                    onClick = { onResourceClick(resource.id) }
-                                )
-                            }
-                        }
-                    }
-
-                    Spacer(modifier = Modifier.height(24.dp))
-                    SectionHeader(
-                        title = "Forum Activity",
-                        onViewAllClick = null
+                    Spacer(modifier = Modifier.height(18.dp))
+                    WebSectionHeader(
+                        title = "Trending Discussions",
+                        actionLabel = "View all",
+                        onActionClick = onForumClick
                     )
 
                     if (uiState.recentPosts.isEmpty()) {
-                        EmptyForumSection()
+                        WebEmptyState(
+                            title = "No discussions yet",
+                            message = "Start a question or browse the forum when posts appear.",
+                            icon = painterResource(id = R.drawable.ic_forum_outlined),
+                            modifier = Modifier.padding(horizontal = 16.dp)
+                        )
                     } else {
                         Column(
-                            modifier = Modifier.padding(horizontal = 16.dp)
+                            modifier = Modifier.padding(horizontal = 16.dp),
+                            verticalArrangement = Arrangement.spacedBy(12.dp)
                         ) {
-                            uiState.recentPosts.forEach { post ->
-                                ForumPostItem(post = post)
+                            uiState.recentPosts.take(4).forEach { post ->
+                                WebPostCard(
+                                    post = post,
+                                    onClick = { onPostClick(post.id) },
+                                    onLikeClick = {},
+                                    compact = true
+                                )
                             }
                         }
                     }
 
-                    Spacer(modifier = Modifier.height(24.dp))
+                    Spacer(modifier = Modifier.height(110.dp))
                 }
             }
         }
@@ -244,227 +170,167 @@ fun HomeScreen(
 }
 
 @Composable
-private fun SectionHeader(
-    title: String,
-    onViewAllClick: (() -> Unit)?
+private fun HomeHero(
+    userName: String,
+    onLibraryClick: () -> Unit,
+    onForumClick: () -> Unit
 ) {
-    Row(
+    Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 4.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
+            .padding(horizontal = 20.dp, vertical = 34.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = title,
-            style = MaterialTheme.typography.titleMedium,
-            fontWeight = FontWeight.SemiBold,
-            color = MaterialTheme.colorScheme.onSurface
+            text = if (userName.isBlank() || userName == "Student") "Welcome to NEBians" else "Hello, $userName!",
+            style = MaterialTheme.typography.headlineMedium,
+            fontWeight = FontWeight.ExtraBold,
+            color = MaterialTheme.colorScheme.onSurface,
+            textAlign = TextAlign.Center,
+            maxLines = 2,
+            overflow = TextOverflow.Ellipsis
         )
-        if (onViewAllClick != null) {
-            TextButton(onClick = onViewAllClick) {
-                Text(
-                    text = "View all",
-                    style = MaterialTheme.typography.labelLarge,
-                    color = MaterialTheme.colorScheme.primary
-                )
-            }
-        }
-    }
-}
-
-@Composable
-private fun ResourceCard(
-    resource: ApiResource,
-    onClick: () -> Unit
-) {
-    val subjectTheme = getSubjectTheme(resource.subject)
-
-    Card(
-        onClick = onClick,
-        modifier = Modifier.width(168.dp),
-        shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
-        ),
-        border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
-    ) {
-        Column {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(96.dp)
-                    .background(Brush.linearGradient(listOf(subjectTheme.container, subjectTheme.color))),
-                contentAlignment = Alignment.Center
-            ) {
-                Surface(
-                    shape = RoundedCornerShape(50),
-                    color = MaterialTheme.colorScheme.surface.copy(alpha = 0.9f),
-                    modifier = Modifier.size(40.dp)
-                ) {
-                    Box(contentAlignment = Alignment.Center) {
-                        Icon(
-                            painter = painterResource(id = getSubjectIcon(resource.subject)),
-                            contentDescription = null,
-                            modifier = Modifier.size(20.dp),
-                            tint = subjectTheme.color
-                        )
-                    }
-                }
-            }
-
-            Column(
-                modifier = Modifier.padding(horizontal = 12.dp, vertical = 10.dp)
-            ) {
-                Surface(
-                    shape = RoundedCornerShape(50),
-                    color = subjectTheme.container,
-                    modifier = Modifier.padding(bottom = 6.dp)
-                ) {
-                    Text(
-                        text = resource.subject,
-                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp),
-                        style = MaterialTheme.typography.labelSmall,
-                        fontWeight = FontWeight.Bold,
-                        color = subjectTheme.onContainer,
-                        maxLines = 1
-                    )
-                }
-
-                Text(
-                    text = resource.title,
-                    style = MaterialTheme.typography.bodyMedium,
-                    fontWeight = FontWeight.SemiBold,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    modifier = Modifier.heightIn(min = 40.dp)
-                )
-
-                Spacer(modifier = Modifier.height(8.dp))
-
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = resource.gradeLevel,
-                        style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                    Text(
-                        text = resource.type,
-                        style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-            }
-        }
-    }
-}
-
-@Composable
-private fun ForumPostItem(post: ApiPost) {
-    ListItem(
-        headlineContent = {
-            Text(
-                text = post.title,
-                style = MaterialTheme.typography.bodyLarge,
-                fontWeight = FontWeight.Medium,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
+        Spacer(modifier = Modifier.height(12.dp))
+        Text(
+            text = "Discover study resources, join discussions, and connect with learners and teachers of all classes and faculties.",
+            style = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            textAlign = TextAlign.Center,
+            lineHeight = MaterialTheme.typography.bodyLarge.lineHeight,
+            modifier = Modifier
+                .fillMaxWidth()
+                .widthIn(max = 520.dp),
+            maxLines = 4,
+            overflow = TextOverflow.Ellipsis
+        )
+        Spacer(modifier = Modifier.height(22.dp))
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            WebPrimaryButton(
+                text = "Browse Library",
+                painter = painterResource(id = R.drawable.ic_book),
+                onClick = onLibraryClick
             )
-        },
-        supportingContent = {
+            WebOutlinedButton(
+                text = "Join Forum",
+                painter = painterResource(id = R.drawable.ic_forum_outlined),
+                onClick = onForumClick
+            )
+        }
+    }
+}
+
+@Composable
+private fun StudyLabHero(
+    onClick: () -> Unit,
+    onNebyAiClick: () -> Unit
+) {
+    Column(
+        modifier = Modifier.padding(horizontal = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(10.dp)
+    ) {
+        Surface(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable(onClick = onClick),
+            shape = WebPanelShape,
+            color = MaterialTheme.colorScheme.surfaceContainerLowest,
+            border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
+        ) {
             Row(
+                modifier = Modifier.padding(18.dp),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                Text(
-                    text = post.authorName,
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-                Text(
-                    text = post.category,
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.primary
-                )
-            }
-        },
-        leadingContent = {
-            Box(
-                modifier = Modifier
-                    .size(40.dp)
-                    .clip(CircleShape)
-                    .background(MaterialTheme.colorScheme.primaryContainer),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = post.authorName.firstOrNull()?.uppercase() ?: "?",
-                    style = MaterialTheme.typography.labelLarge,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onPrimaryContainer
-                )
-            }
-        },
-        trailingContent = {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(4.dp)
+                horizontalArrangement = Arrangement.spacedBy(14.dp)
             ) {
                 Icon(
-                    imageVector = Icons.Outlined.ThumbUp,
-                    contentDescription = "Likes",
-                    modifier = Modifier.size(16.dp),
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                    painter = painterResource(id = R.drawable.ic_science),
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.size(30.dp)
                 )
-                Text(
-                    text = "${post.thumbsUpCount}",
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        text = "Study Lab",
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold,
+                        maxLines = 1
+                    )
+                    Text(
+                        text = "Upload notes and PDFs. Get AI summaries, mindmaps, quizzes, and flashcards.",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        maxLines = 3,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
             }
-        },
-        colors = ListItemDefaults.colors(
-            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-        ),
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 2.dp)
-            .clip(RoundedCornerShape(12.dp))
-    )
-}
+        }
 
-@Composable
-private fun EmptyResourceRow(message: String) {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 24.dp),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            text = message,
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
+        Surface(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable(onClick = onNebyAiClick),
+            shape = WebPanelShape,
+            color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.45f),
+            border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
+        ) {
+            Row(
+                modifier = Modifier.padding(16.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.Add,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.size(26.dp)
+                )
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        text = "Neby AI",
+                        style = MaterialTheme.typography.titleSmall,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Text(
+                        text = "Ask the new AI chat, continue sessions, and use Qwen file-aware models.",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
+            }
+        }
     }
 }
 
 @Composable
-private fun EmptyForumSection() {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 24.dp),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            text = "No forum posts yet. Start a discussion!",
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
+private fun ResourceRow(
+    resources: List<com.neb.ians.data.api.ApiResource>,
+    emptyMessage: String,
+    onResourceClick: (String) -> Unit
+) {
+    if (resources.isEmpty()) {
+        WebEmptyState(
+            title = "Nothing here yet",
+            message = emptyMessage,
+            icon = painterResource(id = R.drawable.ic_document),
+            modifier = Modifier.padding(horizontal = 16.dp)
         )
+    } else {
+        LazyRow(
+            contentPadding = PaddingValues(horizontal = 16.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            items(resources.take(12), key = { it.id }) { resource ->
+                WebResourceCard(
+                    resource = resource,
+                    onClick = { onResourceClick(resource.id) },
+                    minWidth = 224.dp
+                )
+            }
+        }
     }
 }

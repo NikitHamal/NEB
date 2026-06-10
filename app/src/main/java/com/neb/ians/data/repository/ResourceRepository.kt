@@ -3,6 +3,7 @@ package com.neb.ians.data.repository
 import com.neb.ians.data.api.ApiResource
 import com.neb.ians.data.api.ApiPaginatedResources
 import com.neb.ians.data.api.ApiService
+import com.neb.ians.data.api.BookmarkToggleRequest
 import com.neb.ians.data.api.ResourceLikeResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -61,6 +62,19 @@ class ResourceRepository @Inject constructor(
             val token = getBearerToken() ?: return Result.failure(IllegalStateException("Not authenticated"))
             val response = apiService.toggleLikeResource(token, resourceId)
             Result.success(response)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun toggleBookmark(resourceId: String): Result<Boolean> {
+        return try {
+            val token = getBearerToken() ?: return Result.failure(IllegalStateException("Not authenticated"))
+            val response = apiService.toggleBookmark(
+                token,
+                BookmarkToggleRequest(targetType = "resource", targetId = resourceId)
+            )
+            Result.success(response.isBookmarked)
         } catch (e: Exception) {
             Result.failure(e)
         }

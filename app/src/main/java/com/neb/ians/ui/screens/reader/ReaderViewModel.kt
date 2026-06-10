@@ -165,6 +165,35 @@ class ReaderViewModel @Inject constructor(
         _pageState.update { it.copy(isDownloading = false, downloadProgress = 0) }
     }
 
+    fun toggleResourceLike() {
+        val resource = _pageState.value.resource ?: return
+        viewModelScope.launch {
+            resourceRepository.toggleLike(resource.id)
+                .onSuccess { response ->
+                    _pageState.update {
+                        it.copy(
+                            resource = it.resource?.copy(
+                                likeCount = response.likeCount,
+                                isLiked = response.isLiked
+                            )
+                        )
+                    }
+                }
+        }
+    }
+
+    fun toggleResourceBookmark() {
+        val resource = _pageState.value.resource ?: return
+        viewModelScope.launch {
+            resourceRepository.toggleBookmark(resource.id)
+                .onSuccess { isBookmarked ->
+                    _pageState.update {
+                        it.copy(resource = it.resource?.copy(isBookmarked = isBookmarked))
+                    }
+                }
+        }
+    }
+
     private fun loadAnnotations() {
         viewModelScope.launch {
             annotationRepository.getAnnotationsForResource(resourceId)
