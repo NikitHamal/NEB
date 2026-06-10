@@ -29,7 +29,8 @@ data class GitHubAuthRequest(
 data class EmailSignupRequest(
     val email: String,
     val password: String,
-    val username: String
+    val username: String,
+    val role: String = "student"
 )
 
 @Serializable
