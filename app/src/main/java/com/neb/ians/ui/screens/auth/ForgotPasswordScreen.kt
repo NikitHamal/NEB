@@ -10,6 +10,8 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -24,6 +26,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.neb.ians.data.repository.AuthRepository
@@ -81,18 +84,14 @@ fun ForgotPasswordScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(bgGradient)
+            .background(cardColor)
             .statusBarsPadding()
             .navigationBarsPadding(),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.TopCenter
     ) {
         Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(20.dp)
-                .clip(RoundedCornerShape(24.dp))
-                .background(cardColor)
-                .border(1.dp, if (isDark) Color(0xFF2A2A30) else Color(0xFFE5E7EB), RoundedCornerShape(24.dp))
+                .fillMaxSize()
                 .verticalScroll(rememberScrollState())
                 .padding(horizontal = 24.dp, vertical = 28.dp),
             horizontalAlignment = Alignment.CenterHorizontally
@@ -174,7 +173,7 @@ fun ForgotPasswordScreen(
                     OutlinedTextField(
                         value = email,
                         onValueChange = { email = it.trim() },
-                        placeholder = { Text("hello@example.com", color = if (isDark) Color(0xFF6B7280) else Color(0xFF9CA3AF)) },
+                        placeholder = { Text("hello@example.com", color = if (isDark) Color(0xFF6B7280) else Color(0xFF9CA3AF), maxLines = 1, overflow = TextOverflow.Ellipsis) },
                         singleLine = true,
                         modifier = Modifier.fillMaxWidth(),
                         shape = RoundedCornerShape(10.dp),
@@ -274,7 +273,7 @@ fun ForgotPasswordScreen(
                     OutlinedTextField(
                         value = code,
                         onValueChange = { input -> code = input.filter { it.isDigit() }.take(6) },
-                        placeholder = { Text("000000", color = if (isDark) Color(0xFF6B7280) else Color(0xFF9CA3AF)) },
+                        placeholder = { Text("000000", color = if (isDark) Color(0xFF6B7280) else Color(0xFF9CA3AF), maxLines = 1, overflow = TextOverflow.Ellipsis) },
                         singleLine = true,
                         modifier = Modifier.fillMaxWidth(),
                         shape = RoundedCornerShape(10.dp),
@@ -304,13 +303,11 @@ fun ForgotPasswordScreen(
                     OutlinedTextField(
                         value = newPassword,
                         onValueChange = { newPassword = it },
-                        placeholder = { Text("At least 8 characters", color = if (isDark) Color(0xFF6B7280) else Color(0xFF9CA3AF)) },
+                        placeholder = { Text("At least 8 characters", color = if (isDark) Color(0xFF6B7280) else Color(0xFF9CA3AF), maxLines = 1, overflow = TextOverflow.Ellipsis) },
                         trailingIcon = {
                             IconButton(onClick = { passwordVisible = !passwordVisible }) {
                                 Icon(
-                                    painter = painterResource(
-                                        id = if (passwordVisible) com.neb.ians.R.drawable.ic_visibility_off else com.neb.ians.R.drawable.ic_visibility
-                                    ),
+                                    imageVector = if (passwordVisible) Icons.Default.VisibilityOff else Icons.Default.Visibility,
                                     contentDescription = null,
                                     tint = if (isDark) Color(0xFF8D90A1) else Color(0xFF737686)
                                 )
@@ -346,13 +343,11 @@ fun ForgotPasswordScreen(
                     OutlinedTextField(
                         value = confirmPassword,
                         onValueChange = { confirmPassword = it },
-                        placeholder = { Text("Repeat new password", color = if (isDark) Color(0xFF6B7280) else Color(0xFF9CA3AF)) },
+                        placeholder = { Text("Repeat new password", color = if (isDark) Color(0xFF6B7280) else Color(0xFF9CA3AF), maxLines = 1, overflow = TextOverflow.Ellipsis) },
                         trailingIcon = {
                             IconButton(onClick = { confirmPasswordVisible = !confirmPasswordVisible }) {
                                 Icon(
-                                    painter = painterResource(
-                                        id = if (confirmPasswordVisible) com.neb.ians.R.drawable.ic_visibility_off else com.neb.ians.R.drawable.ic_visibility
-                                    ),
+                                    imageVector = if (confirmPasswordVisible) Icons.Default.VisibilityOff else Icons.Default.Visibility,
                                     contentDescription = null,
                                     tint = if (isDark) Color(0xFF8D90A1) else Color(0xFF737686)
                                 )

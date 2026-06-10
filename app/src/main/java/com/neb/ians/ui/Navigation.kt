@@ -67,10 +67,10 @@ sealed class Screen(val route: String) {
     data object EmailSignup : Screen("email_signup")
     data object EmailLogin : Screen("email_login")
     data object EmailVerification : Screen("email_verification/{email}") {
-        fun createRoute(email: String) = "email_verification/${java.net.URLEncoder.encode(email, "UTF-8")}"
+        fun createRoute(email: String) = "email_verification/${if (email.isBlank()) "none" else java.net.URLEncoder.encode(email, "UTF-8")}"
     }
     data object ForgotPassword : Screen("forgot_password/{email}") {
-        fun createRoute(email: String) = "forgot_password/${java.net.URLEncoder.encode(email, "UTF-8")}"
+        fun createRoute(email: String) = "forgot_password/${if (email.isBlank()) "none" else java.net.URLEncoder.encode(email, "UTF-8")}"
     }
     data object CompleteProfile : Screen("complete_profile")
     data object Home : Screen("home")
@@ -266,7 +266,8 @@ fun NEBiansNavHost(
                 route = Screen.EmailVerification.route,
                 arguments = listOf(navArgument("email") { type = NavType.StringType })
             ) { backStackEntry ->
-                val email = java.net.URLDecoder.decode(backStackEntry.arguments?.getString("email") ?: "", "UTF-8")
+                val emailArg = backStackEntry.arguments?.getString("email") ?: ""
+                val email = if (emailArg == "none") "" else emailArg
                 EmailVerificationScreen(
                     email = email,
                     authRepository = authRepository,
@@ -287,7 +288,8 @@ fun NEBiansNavHost(
                 route = Screen.ForgotPassword.route,
                 arguments = listOf(navArgument("email") { type = NavType.StringType })
             ) { backStackEntry ->
-                val email = java.net.URLDecoder.decode(backStackEntry.arguments?.getString("email") ?: "", "UTF-8")
+                val emailArg = backStackEntry.arguments?.getString("email") ?: ""
+                val email = if (emailArg == "none") "" else emailArg
                 ForgotPasswordScreen(
                     initialEmail = email,
                     authRepository = authRepository,
@@ -415,7 +417,7 @@ fun NEBiansNavHost(
                 route = Screen.Profile.route,
                 arguments = listOf(navArgument("username") { type = NavType.StringType })
             ) { backStackEntry ->
-                val username = java.net.URLDecoder.decode(backStackEntry.arguments?.getString("username") ?: "", "UTF-8")
+                val username = backStackEntry.arguments?.getString("username") ?: ""
                 ProfileScreen(
                     username = username,
                     onNavigateBack = { navController.popBackStack() },
