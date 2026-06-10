@@ -70,7 +70,10 @@ import com.neb.ians.ui.components.ErrorCard
 import com.neb.ians.ui.components.WebResourceCard
 import com.neb.ians.ui.components.compactCount
 import com.neb.ians.util.formatTimeAgo
-import com.neb.ians.util.getSubjectColor
+import androidx.compose.material.icons.filled.ThumbUp
+import androidx.compose.material.icons.outlined.ChatBubbleOutline
+import androidx.compose.material.icons.outlined.ThumbUp
+import androidx.compose.material3.Surface
 
 private val subjectColors = mapOf(
     "Physics" to Color(0xFF1B6EF3),
@@ -521,7 +524,7 @@ private fun PostResultItem(
     post: ApiPost,
     onClick: () -> Unit
 ) {
-    val categoryColor = Color(getSubjectColor(post.category))
+    val categoryColor = getSubjectColor(post.category)
 
     Surface(
         modifier = Modifier
@@ -622,7 +625,7 @@ private fun PostResultItem(
                     horizontalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
                     Icon(
-                        Icons.Filled.ChatBubbleOutline,
+                        Icons.Outlined.ChatBubbleOutline,
                         contentDescription = null,
                         modifier = Modifier.size(14.dp),
                         tint = MaterialTheme.colorScheme.onSurfaceVariant
