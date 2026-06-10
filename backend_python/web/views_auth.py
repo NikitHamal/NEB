@@ -191,7 +191,8 @@ def google_oauth_callback(request):
     if linked:
         if is_mobile:
             linked_token = api.get_session_token(request) or ''
-            return deep_link(f'nebians://auth-callback?authToken={linked_token}&isNewUser=false')
+            linked_user = User.objects.get(email__iexact=email)
+            return deep_link(f'nebians://auth-callback?authToken={linked_token}&isNewUser=false&username={linked_user.username}')
         return redirect_result
     auth_token = User.generate_token()
     temp_username = f"user_{user_id[:8]}"
@@ -211,7 +212,7 @@ def google_oauth_callback(request):
     api.set_session_auth(request, token, user_data)
     logger.info('google_oauth_callback: new user created: %s (temp_username=%s)', user_id, temp_username)
     if is_mobile:
-        return deep_link(f'nebians://auth-callback?authToken={auth_token}&isNewUser=true')
+        return deep_link(f'nebians://auth-callback?authToken={auth_token}&isNewUser=true&username={temp_username}')
     return redirect('web:edit_profile')
 
 def github_login(request):
@@ -324,7 +325,8 @@ def github_callback(request):
     if linked:
         if is_mobile:
             linked_token = api.get_session_token(request) or ''
-            return deep_link(f'nebians://auth-callback?authToken={linked_token}&isNewUser=false')
+            linked_user = User.objects.get(email__iexact=email)
+            return deep_link(f'nebians://auth-callback?authToken={linked_token}&isNewUser=false&username={linked_user.username}')
         return redirect_result
     auth_token = User.generate_token()
     temp_username = f"github_{github_id[:8]}"
@@ -349,7 +351,7 @@ def github_callback(request):
     api.set_session_auth(request, token, user_data)
     logger.info('github_callback: new user created: %s', user_pk)
     if is_mobile:
-        return deep_link(f'nebians://auth-callback?authToken={auth_token}&isNewUser=true')
+        return deep_link(f'nebians://auth-callback?authToken={auth_token}&isNewUser=true&username={temp_username}')
     return redirect('web:edit_profile')
 
 def logout(request):
