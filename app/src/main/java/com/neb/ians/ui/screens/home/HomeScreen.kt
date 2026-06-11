@@ -26,6 +26,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -148,11 +149,12 @@ fun HomeScreen(
                             modifier = Modifier.padding(horizontal = 16.dp)
                         )
                     } else {
+                        val trendingPosts = remember(uiState.recentPosts) { uiState.recentPosts.take(4) }
                         Column(
                             modifier = Modifier.padding(horizontal = 16.dp),
                             verticalArrangement = Arrangement.spacedBy(12.dp)
                         ) {
-                            uiState.recentPosts.take(4).forEach { post ->
+                            trendingPosts.forEach { post ->
                                 WebPostCard(
                                     post = post,
                                     onClick = { onPostClick(post.id) },
@@ -321,11 +323,12 @@ private fun ResourceRow(
             modifier = Modifier.padding(horizontal = 16.dp)
         )
     } else {
+        val rowItems = remember(resources) { resources.take(12) }
         LazyRow(
             contentPadding = PaddingValues(horizontal = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            items(resources.take(12), key = { it.id }) { resource ->
+            items(rowItems, key = { it.id }) { resource ->
                 WebResourceCard(
                     resource = resource,
                     onClick = { onResourceClick(resource.id) },
