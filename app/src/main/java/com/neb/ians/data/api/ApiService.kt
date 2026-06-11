@@ -92,7 +92,70 @@ data class UserProfileRequest(
 data class PostCreateRequest(
     val title: String,
     val content: String,
-    val category: String
+    val category: String,
+    @SerialName("image_urls") val imageUrls: List<String> = emptyList(),
+    val poll: ApiPollCreate? = null
+)
+
+@Serializable
+data class ApiPollCreate(
+    val question: String = "",
+    @SerialName("poll_type") val pollType: String = "voting",
+    @SerialName("allow_multiple") val allowMultiple: Boolean = false,
+    val explanation: String = "",
+    @SerialName("duration_ms") val durationMs: Long = 0,
+    val options: List<ApiPollOptionCreate> = emptyList()
+)
+
+@Serializable
+data class ApiPollOptionCreate(
+    val text: String,
+    @SerialName("is_correct") val isCorrect: Boolean = false,
+    val index: Int = 0
+)
+
+/** Web AJAX create-post request — supports full poll builder (MCQ, explanation, multi-select). */
+@Serializable
+data class WebPostCreateRequest(
+    val title: String,
+    val content: String,
+    val category: String,
+    val images: List<String> = emptyList(),
+    val poll: ApiPollCreate? = null
+)
+
+@Serializable
+data class PollVoteRequest(
+    @SerialName("option_id") val optionId: String? = null,
+    @SerialName("option_ids") val optionIds: List<String>? = null
+)
+
+@Serializable
+data class ApiPollVoteResponse(
+    val id: String = "",
+    val question: String = "",
+    @SerialName("pollType") val pollType: String = "voting",
+    @SerialName("allowMultiple") val allowMultiple: Boolean = false,
+    val explanation: String = "",
+    @SerialName("total_votes") val totalVotes: Int = 0,
+    @SerialName("isExpired") val isExpired: Boolean = false,
+    val options: List<ApiPollVoteOption> = emptyList(),
+    val error: String? = null
+)
+
+@Serializable
+data class ApiPollVoteOption(
+    val id: String,
+    val text: String = "",
+    @SerialName("is_correct") val isCorrect: Boolean = false,
+    @SerialName("vote_count") val voteCount: Int = 0,
+    val order: Int = 0
+)
+
+@Serializable
+data class UploadImageResponse(
+    val url: String = "",
+    val error: String? = null
 )
 
 @Serializable
@@ -252,18 +315,68 @@ data class ApiPost(
     @SerialName("authorId") val authorId: String,
     @SerialName("authorPhotoUrl") val authorPhotoUrl: String? = null,
     @SerialName("authorBadge") val authorBadge: String? = null,
+    @SerialName("authorBadgeInfo") val authorBadgeInfo: ApiBadgeInfo? = null,
+    @SerialName("authorIsBot") val authorIsBot: Boolean = false,
     val category: String,
     @SerialName("thumbsUpCount") val thumbsUpCount: Int,
     @SerialName("replyCount") val replyCount: Int,
     @SerialName("viewCount") val viewCount: Int = 0,
     @SerialName("isThumbedUp") val isThumbedUp: Boolean,
     @SerialName("isBookmarked") val isBookmarked: Boolean? = null,
+    @SerialName("isFollowingAuthor") val isFollowingAuthor: Boolean? = null,
     @SerialName("isEdited") val isEdited: Boolean? = null,
     @SerialName("isArchived") val isArchived: Boolean? = null,
     @SerialName("createdAt") val createdAt: Long,
     @SerialName("updatedAt") val updatedAt: Long? = null,
-    val images: List<ApiPostImage> = emptyList()
+    val images: List<ApiPostImage> = emptyList(),
+    val poll: ApiPoll? = null
 )
+
+@Serializable
+data class ApiPoll(
+    val id: String,
+    val question: String = "",
+    @SerialName("pollType") val pollType: String = "voting",
+    @SerialName("allowMultiple") val allowMultiple: Boolean = false,
+    val explanation: String = "",
+    @SerialName("durationMs") val durationMs: Long = 0,
+    @SerialName("totalVotes") val totalVotes: Int = 0,
+    @SerialName("createdAt") val createdAt: Long = 0,
+    @SerialName("isExpired") val isExpired: Boolean = false,
+    @SerialName("userVote") val userVote: kotlinx.serialization.json.JsonElement? = null,
+    val options: List<ApiPollOption> = emptyList()
+) {
+    /** Option ids the current user voted for (handles both single-id string and list shapes). */
+    val userVoteIds: List<String>
+        get() {
+            val el = userVote ?: return emptyList()
+            return try {
+                when (el) {
+                    is kotlinx.serialization.json.JsonArray ->
+                        el.mapNotNull { (it as? kotlinx.serialization.json.JsonPrimitive)?.content }
+                    is kotlinx.serialization.json.JsonPrimitive ->
+                        if (el.content.isBlank() || el.content == "null") emptyList() else listOf(el.content)
+                    else -> emptyList()
+                }
+            } catch (e: Exception) {
+                emptyList()
+            }
+        }
+}
+
+@Serializable
+data class ApiPollOption(
+    val id: String,
+    val text: String = "",
+    @SerialName("is_correct") val isCorrect: Boolean = false,
+    @SerialName("isCorrect") val isCorrectCamel: Boolean? = null,
+    @SerialName("vote_count") val voteCount: Int = 0,
+    @SerialName("voteCount") val voteCountCamel: Int? = null,
+    val order: Int = 0
+) {
+    val correct: Boolean get() = isCorrectCamel ?: isCorrect
+    val votes: Int get() = voteCountCamel ?: voteCount
+}
 
 @Serializable
 data class ApiPostImage(
@@ -282,6 +395,8 @@ data class ApiReply(
     @SerialName("authorId") val authorId: String,
     @SerialName("authorPhotoUrl") val authorPhotoUrl: String? = null,
     @SerialName("authorBadge") val authorBadge: String? = null,
+    @SerialName("authorBadgeInfo") val authorBadgeInfo: ApiBadgeInfo? = null,
+    @SerialName("authorIsBot") val authorIsBot: Boolean = false,
     @SerialName("thumbsUpCount") val thumbsUpCount: Int,
     @SerialName("childCount") val replyCount: Int = 0,
     @SerialName("isThumbedUp") val isThumbedUp: Boolean,
@@ -340,8 +455,40 @@ data class ApiUserSearchResult(
 @Serializable
 data class ApiBadgeInfo(
     val type: String,
-    val label: String,
-    val icon: String? = null
+    val label: String = "",
+    val icon: String? = null,
+    val color: String? = null
+)
+
+/** Mini profile shown in the user popover (long-press a username/avatar). */
+@Serializable
+data class ApiUserPopup(
+    val id: String = "",
+    val username: String = "",
+    @SerialName("displayName") val displayName: String = "",
+    @SerialName("photoUrl") val photoUrl: String = "",
+    val bio: String = "",
+    @SerialName("classLevel") val classLevel: String = "",
+    @SerialName("isLocked") val isLocked: Boolean = false,
+    @SerialName("badgeInfo") val badgeInfo: ApiBadgeInfo? = null,
+    @SerialName("postCount") val postCount: Int = 0,
+    @SerialName("replyCount") val replyCount: Int = 0,
+    @SerialName("followerCount") val followerCount: Int = 0,
+    @SerialName("isFollowing") val isFollowing: Boolean = false,
+    @SerialName("isSelf") val isSelf: Boolean = false
+)
+
+@Serializable
+data class ApiProfileActivityResponse(
+    val posts: List<ApiPost> = emptyList(),
+    @SerialName("has_more") val hasMore: Boolean = false,
+    @SerialName("total_count") val totalCount: Int = 0
+)
+
+@Serializable
+data class ApiRealtimeConfig(
+    @SerialName("ws_url") val wsUrl: String = "",
+    @SerialName("heartbeat_interval") val heartbeatInterval: Int = 25
 )
 
 @Serializable
@@ -368,6 +515,12 @@ data class ApiNotificationListResponse(
 )
 
 @Serializable
+data class ApiNotificationMarkReadRequest(
+    @SerialName("mark_all") val markAll: Boolean? = null,
+    @SerialName("notification_ids") val notificationIds: List<String>? = null
+)
+
+@Serializable
 data class ApiNotificationMarkReadResponse(
     val status: String = "",
     val message: String = ""
@@ -381,14 +534,14 @@ data class ApiNotificationUnreadCountResponse(
 @Serializable
 data class ApiEditHistory(
     val id: String,
-    @SerialName("target_type") val targetType: String,
-    @SerialName("target_id") val targetId: String,
-    val field: String,
-    @SerialName("old_value") val oldValue: String,
-    @SerialName("new_value") val newValue: String,
-    @SerialName("edited_by") val editedBy: String,
-    @SerialName("editor_name") val editorName: String? = null,
-    @SerialName("edited_at") val editedAt: Long
+    @SerialName("target_type") val targetType: String = "",
+    @SerialName("target_id") val targetId: String = "",
+    val field: String = "",
+    @SerialName("old_value") val oldValue: String = "",
+    @SerialName("new_value") val newValue: String = "",
+    @SerialName("editedByUsername") val editedByUsername: String = "",
+    @SerialName("editedByPhotoUrl") val editedByPhotoUrl: String? = null,
+    @SerialName("edited_at") val editedAt: Long = 0
 )
 
 @Serializable
@@ -594,7 +747,10 @@ interface ApiService {
     suspend fun getPosts(
         @Header("Authorization") bearerToken: String?,
         @Query("category") category: String? = null,
-        @Query("page") page: Int? = null
+        @Query("page") page: Int? = null,
+        @Query("sort") sort: String? = null,
+        @Query("search") search: String? = null,
+        @Query("username") username: String? = null
     ): ApiPaginatedPosts
 
     @GET("api/posts/{postId}/")
@@ -803,7 +959,7 @@ interface ApiService {
     @POST("api/notifications/mark-read/")
     suspend fun markNotificationsRead(
         @Header("Authorization") bearerToken: String,
-        @Body body: Map<String, @JvmSuppressWildcards Any> = mapOf("mark_all" to true)
+        @Body body: ApiNotificationMarkReadRequest = ApiNotificationMarkReadRequest(markAll = true)
     ): ApiNotificationMarkReadResponse
 
     @GET("api/notifications/unread-count/")
@@ -831,6 +987,244 @@ interface ApiService {
         @Header("Authorization") bearerToken: String?,
         @Query("q") query: String
     ): List<ApiUserSearchResult>
+
+    // --- Web AJAX (Bearer-token authenticated; CSRF-exempt for mobile) ---
+
+    /** Create a post with full poll support (MCQ, multi-select, explanation) + images. */
+    @POST("ajax/post/")
+    suspend fun createPostWeb(
+        @Header("Authorization") bearerToken: String,
+        @Body request: WebPostCreateRequest
+    ): ApiPost
+
+    /** Upload one post image; returns its hosted URL. Max 3 per post, 10MB each. */
+    @Multipart
+    @POST("ajax/post/upload-image/")
+    suspend fun uploadPostImage(
+        @Header("Authorization") bearerToken: String,
+        @Part image: okhttp3.MultipartBody.Part
+    ): UploadImageResponse
+
+    /** Vote on a poll (single option_id or option_ids for multi-select). */
+    @POST("api/polls/{pollId}/vote/")
+    suspend fun votePoll(
+        @Header("Authorization") bearerToken: String,
+        @Path("pollId") pollId: String,
+        @Body request: PollVoteRequest
+    ): ApiPollVoteResponse
+
+    /** Mini profile popover (web parity: shown on username hover / long-press). */
+    @GET("ajax/user-popup/{username}/")
+    suspend fun getUserPopup(
+        @Header("Authorization") bearerToken: String?,
+        @Path("username") username: String
+    ): ApiUserPopup
+
+    /** Paginated posts by a user, for the profile Posts tab. */
+    @GET("ajax/profile/{username}/activity/")
+    suspend fun getProfileActivity(
+        @Header("Authorization") bearerToken: String?,
+        @Path("username") username: String,
+        @Query("offset") offset: Int = 0,
+        @Query("limit") limit: Int = 10
+    ): ApiProfileActivityResponse
+
+    // --- Realtime ---
+    @GET("api/realtime/config/")
+    suspend fun getRealtimeConfig(): ApiRealtimeConfig
+
+    // --- Neby AI extras ---
+    @PATCH("api/neby-arena/sessions/{sessionId}/")
+    suspend fun updateArenaSession(
+        @Header("Authorization") bearerToken: String,
+        @Path("sessionId") sessionId: String,
+        @Body request: ApiArenaUpdateSessionRequest
+    ): GenericMessageResponse
+
+    @DELETE("api/neby-arena/sessions/{sessionId}/")
+    suspend fun deleteArenaSession(
+        @Header("Authorization") bearerToken: String,
+        @Path("sessionId") sessionId: String
+    ): GenericMessageResponse
+
+    @Streaming
+    @POST("api/neby-arena/messages/{messageId}/regenerate/")
+    suspend fun regenerateArenaMessage(
+        @Header("Authorization") bearerToken: String,
+        @Path("messageId") messageId: String
+    ): ResponseBody
+
+    /** Qwen send with base64-encoded file attachments (images, PDFs, docs — max 5 x 20MB). */
+    @Streaming
+    @POST("api/neby-arena/qwen/sessions/{sessionId}/messages/sse/")
+    suspend fun sendQwenMessageWithFiles(
+        @Header("Authorization") bearerToken: String,
+        @Path("sessionId") sessionId: String,
+        @Body request: ApiQwenSendMessageRequest
+    ): ResponseBody
+
+    // --- Study Lab: documents (web-parity AJAX endpoints, Bearer-auth) ---
+    @Multipart
+    @POST("ajax/study-lab/upload/")
+    suspend fun uploadStudyDocument(
+        @Header("Authorization") bearerToken: String,
+        @Part file: okhttp3.MultipartBody.Part
+    ): ApiStudyUploadResponse
+
+    @GET("ajax/study-lab/documents/")
+    suspend fun getStudyDocuments(
+        @Header("Authorization") bearerToken: String
+    ): ApiStudyDocumentsResponse
+
+    @GET("ajax/study-lab/document/{docId}/")
+    suspend fun getStudyDocumentDetail(
+        @Header("Authorization") bearerToken: String,
+        @Path("docId") docId: String
+    ): ApiStudyDocDetailResponse
+
+    @POST("ajax/study-lab/document/{docId}/delete/")
+    suspend fun deleteStudyDocument(
+        @Header("Authorization") bearerToken: String,
+        @Path("docId") docId: String
+    ): ApiStudySuccessResponse
+
+    @GET("ajax/study-lab/document/{docId}/parse-status/")
+    suspend fun getStudyParseStatus(
+        @Header("Authorization") bearerToken: String,
+        @Path("docId") docId: String
+    ): ApiStudyParseStatus
+
+    @POST("ajax/study-lab/document/{docId}/reparse/")
+    suspend fun reparseStudyDocument(
+        @Header("Authorization") bearerToken: String,
+        @Path("docId") docId: String,
+        @Query("force") force: Boolean? = null
+    ): ApiStudyReparseResponse
+
+    @POST("ajax/study-lab/document/{docId}/summary/")
+    suspend fun generateStudySummary(
+        @Header("Authorization") bearerToken: String,
+        @Path("docId") docId: String,
+        @Body request: ApiStudySummaryRequest
+    ): ApiStudySummaryResponse
+
+    @POST("ajax/study-lab/document/{docId}/mindmap/")
+    suspend fun generateStudyMindmap(
+        @Header("Authorization") bearerToken: String,
+        @Path("docId") docId: String
+    ): ApiStudyMindmapResponse
+
+    @POST("ajax/study-lab/document/{docId}/quiz/")
+    suspend fun generateStudyQuiz(
+        @Header("Authorization") bearerToken: String,
+        @Path("docId") docId: String,
+        @Body request: ApiStudyCountRequest
+    ): ApiStudyQuizResponse
+
+    @POST("ajax/study-lab/document/{docId}/flashcards/")
+    suspend fun generateStudyFlashcards(
+        @Header("Authorization") bearerToken: String,
+        @Path("docId") docId: String,
+        @Body request: ApiStudyCountRequest
+    ): ApiStudyFlashcardsResponse
+
+    @GET("ajax/study-lab/quiz/{quizId}/")
+    suspend fun getStudyQuiz(
+        @Header("Authorization") bearerToken: String,
+        @Path("quizId") quizId: String
+    ): ApiStudyQuizResponse
+
+    /** Document quizzes: answers keyed by question NUMBER (as string). */
+    @POST("ajax/study-lab/quiz/{quizId}/submit/")
+    suspend fun submitStudyQuiz(
+        @Header("Authorization") bearerToken: String,
+        @Path("quizId") quizId: String,
+        @Body request: ApiStudyQuizSubmitRequest
+    ): ApiStudyQuizSubmitResponse
+
+    @POST("ajax/study-lab/flashcard/{cardId}/review/")
+    suspend fun reviewStudyFlashcard(
+        @Header("Authorization") bearerToken: String,
+        @Path("cardId") cardId: String,
+        @Body request: ApiStudyFlashcardReviewRequest
+    ): ApiStudyFlashcardReviewResponse
+
+    // --- Study Spaces: uploads + AI generation (web-parity) ---
+    @Multipart
+    @POST("ajax/study-space/{spaceId}/upload/")
+    suspend fun uploadSpaceDocument(
+        @Header("Authorization") bearerToken: String,
+        @Path("spaceId") spaceId: String,
+        @Part file: okhttp3.MultipartBody.Part
+    ): ApiStudyUploadResponse
+
+    @GET("ajax/study-space/{spaceId}/document/{docId}/parse-status/")
+    suspend fun getSpaceParseStatus(
+        @Header("Authorization") bearerToken: String,
+        @Path("spaceId") spaceId: String,
+        @Path("docId") docId: String
+    ): ApiStudyParseStatus
+
+    @POST("ajax/study-space/{spaceId}/document/{docId}/reparse/")
+    suspend fun reparseSpaceDocument(
+        @Header("Authorization") bearerToken: String,
+        @Path("spaceId") spaceId: String,
+        @Path("docId") docId: String
+    ): ApiStudyReparseResponse
+
+    @POST("ajax/study-space/{spaceId}/summary/")
+    suspend fun generateSpaceSummary(
+        @Header("Authorization") bearerToken: String,
+        @Path("spaceId") spaceId: String,
+        @Body request: ApiStudySummaryRequest
+    ): ApiStudySummaryResponse
+
+    @POST("ajax/study-space/{spaceId}/mindmap/")
+    suspend fun generateSpaceMindmap(
+        @Header("Authorization") bearerToken: String,
+        @Path("spaceId") spaceId: String
+    ): ApiStudyMindmapResponse
+
+    @POST("ajax/study-space/{spaceId}/quiz/")
+    suspend fun generateSpaceQuiz(
+        @Header("Authorization") bearerToken: String,
+        @Path("spaceId") spaceId: String,
+        @Body request: ApiStudyCountRequest
+    ): ApiStudyQuizResponse
+
+    @GET("ajax/study-space/{spaceId}/quizzes/")
+    suspend fun getSpaceQuizzes(
+        @Header("Authorization") bearerToken: String,
+        @Path("spaceId") spaceId: String
+    ): ApiSpaceQuizzesResponse
+
+    @POST("ajax/study-space/{spaceId}/flashcards/")
+    suspend fun generateSpaceFlashcards(
+        @Header("Authorization") bearerToken: String,
+        @Path("spaceId") spaceId: String,
+        @Body request: ApiStudyCountRequest
+    ): ApiStudyFlashcardsResponse
+
+    @GET("ajax/study-space/quiz/{quizId}/")
+    suspend fun getSpaceQuiz(
+        @Header("Authorization") bearerToken: String,
+        @Path("quizId") quizId: String
+    ): ApiStudyQuizResponse
+
+    /** Space quizzes: answers keyed by question ID. */
+    @POST("ajax/study-space/quiz/{quizId}/submit/")
+    suspend fun submitSpaceQuiz(
+        @Header("Authorization") bearerToken: String,
+        @Path("quizId") quizId: String,
+        @Body request: ApiStudyQuizSubmitRequest
+    ): ApiStudyQuizSubmitResponse
+
+    @POST("ajax/study-space/flashcard/{cardId}/review/")
+    suspend fun reviewSpaceFlashcard(
+        @Header("Authorization") bearerToken: String,
+        @Path("cardId") cardId: String,
+        @Body request: ApiStudyFlashcardReviewRequest
+    ): ApiStudyFlashcardReviewResponse
 
     companion object {
         private const val BASE_URL = "https://nebians.consica.com.np/"
@@ -975,6 +1369,12 @@ data class ApiStudyDocument(
     val summaryCompact: String = "",
     val summaryDetailed: String = "",
     val mindmapJson: String = "",
+    val summaryGenerated: Boolean = false,
+    val mindmapGenerated: Boolean = false,
+    val quizCount: Int = 0,
+    val flashcardCount: Int = 0,
+    val shareMode: String = "",
+    val sharedAt: Long = 0,
     val createdAt: Long = 0,
     val updatedAt: Long = 0
 )
@@ -996,6 +1396,7 @@ data class ApiStudyFlashcard(
     val front: String = "",
     val back: String = "",
     val cardNumber: Int = 0,
+    val confidence: String = "new",
     val createdAt: Long = 0
 )
 
@@ -1086,7 +1487,8 @@ data class ApiArenaMessage(
     val finishReason: String = "",
     val error: String = "",
     val durationMs: Int = 0,
-    val createdAt: Long = 0
+    val createdAt: Long = 0,
+    val attachments: List<ApiArenaAttachment> = emptyList()
 )
 
 @Serializable
@@ -1098,4 +1500,232 @@ data class ApiArenaSessionDetailResponse(
 @Serializable
 data class ApiArenaSendMessageRequest(
     val content: String
+)
+
+// -------------------------------------------------------------
+// NEBY AI EXTRA MODELS
+// -------------------------------------------------------------
+
+@Serializable
+data class ApiArenaUpdateSessionRequest(
+    val title: String? = null,
+    @SerialName("isActive") val isActive: Boolean? = null
+)
+
+@Serializable
+data class ApiQwenSendMessageRequest(
+    val content: String,
+    val files: List<ApiQwenFile> = emptyList()
+)
+
+@Serializable
+data class ApiQwenFile(
+    val name: String,
+    /** Base64-encoded file content. */
+    val data: String
+)
+
+@Serializable
+data class ApiArenaAttachment(
+    val id: String = "",
+    val fileType: String = "",
+    val fileName: String = "",
+    val fileSize: Long = 0,
+    val mimeType: String = "",
+    val showType: String = "",
+    val fileClass: String = ""
+)
+
+// -------------------------------------------------------------
+// STUDY LAB MODELS (web-parity AJAX shapes)
+// -------------------------------------------------------------
+
+@Serializable
+data class ApiStudySuccessResponse(
+    val success: Boolean = false,
+    val error: String? = null
+)
+
+@Serializable
+data class ApiStudyUploadResponse(
+    val document: ApiStudyDocument? = null,
+    val error: String? = null
+)
+
+@Serializable
+data class ApiStudyDocumentsResponse(
+    val documents: List<ApiStudyDocument> = emptyList()
+)
+
+@Serializable
+data class ApiStudyDocDetailResponse(
+    val document: ApiStudyDocument? = null,
+    val mindmap: ApiStudyMindmap? = null,
+    val quizzes: List<ApiStudyQuizSummary> = emptyList(),
+    val flashcards: List<ApiStudyFlashcard> = emptyList(),
+    val totalFlashcards: Int = 0,
+    val error: String? = null
+)
+
+@Serializable
+data class ApiStudyParseStatus(
+    val id: String = "",
+    val status: String = "",
+    val parsedTextLength: Int = 0,
+    val error: String? = null,
+    val parsedAt: Long = 0
+)
+
+@Serializable
+data class ApiStudyReparseResponse(
+    val success: Boolean = false,
+    val parseStatus: String = "",
+    val document: ApiStudyDocument? = null,
+    val error: String? = null
+)
+
+@Serializable
+data class ApiStudySummaryRequest(
+    val mode: String = "compact"
+)
+
+@Serializable
+data class ApiStudyCountRequest(
+    val count: Int
+)
+
+@Serializable
+data class ApiStudySummaryResponse(
+    val mode: String = "compact",
+    val summary: String = "",
+    val summaryCompact: String = "",
+    val summaryDetailed: String = "",
+    val error: String? = null,
+    val parseStatus: String? = null
+)
+
+@Serializable
+data class ApiStudyMindmap(
+    val title: String = "",
+    val nodes: List<ApiStudyMindmapNode> = emptyList()
+)
+
+@Serializable
+data class ApiStudyMindmapNode(
+    val title: String = "",
+    val note: String = "",
+    val children: List<ApiStudyMindmapNode> = emptyList()
+)
+
+@Serializable
+data class ApiStudyMindmapResponse(
+    val mindmap: ApiStudyMindmap? = null,
+    val error: String? = null,
+    val parseStatus: String? = null
+)
+
+@Serializable
+data class ApiStudyQuizQuestion(
+    val id: String,
+    /** Document quizzes use `number`; space quizzes use `questionNumber`. */
+    val number: Int = 0,
+    @SerialName("questionNumber") val questionNumber: Int = 0,
+    val question: String = "",
+    @SerialName("questionText") val questionText: String = "",
+    val optionA: String = "",
+    val optionB: String = "",
+    val optionC: String = "",
+    val optionD: String = "",
+    @SerialName("correctAnswer") val correctAnswer: String? = null,
+    val explanation: String? = null
+) {
+    val displayNumber: Int get() = if (number > 0) number else questionNumber
+    val displayQuestion: String get() = question.ifBlank { questionText }
+}
+
+@Serializable
+data class ApiStudyQuizDetail(
+    val id: String,
+    val title: String = "Study quiz",
+    val questionCount: Int = 0,
+    val createdAt: Long = 0,
+    val attemptCount: Int = 0,
+    val bestScore: Int = 0,
+    val questions: List<ApiStudyQuizQuestion> = emptyList()
+)
+
+@Serializable
+data class ApiStudyQuizResponse(
+    val quiz: ApiStudyQuizDetail? = null,
+    val error: String? = null,
+    val parseStatus: String? = null
+)
+
+@Serializable
+data class ApiSpaceQuizzesResponse(
+    val quizzes: List<ApiStudyQuizSummary> = emptyList(),
+    val error: String? = null
+)
+
+@Serializable
+data class ApiStudyQuizSubmitRequest(
+    /** Document quizzes: keys are question NUMBERS as strings. Space quizzes: keys are question IDs. */
+    val answers: Map<String, String>
+)
+
+@Serializable
+data class ApiStudyQuizResult(
+    val userAnswer: String = "",
+    val correctAnswer: String = "",
+    val isCorrect: Boolean = false,
+    val explanation: String = ""
+)
+
+@Serializable
+data class ApiSpaceQuizAnswerRecord(
+    val questionId: String = "",
+    val given: String = "",
+    val correct: String = "",
+    val isCorrect: Boolean = false
+)
+
+@Serializable
+data class ApiStudyQuizAttempt(
+    val id: String = "",
+    val score: Int = 0,
+    val totalQuestions: Int = 0,
+    val xpEarned: Int = 0,
+    /** Document quiz results: keyed by question number string. */
+    val results: Map<String, ApiStudyQuizResult> = emptyMap(),
+    /** Space quiz results: list of per-question records. */
+    val answers: List<ApiSpaceQuizAnswerRecord> = emptyList()
+)
+
+@Serializable
+data class ApiStudyQuizSubmitResponse(
+    val attempt: ApiStudyQuizAttempt? = null,
+    val error: String? = null
+)
+
+@Serializable
+data class ApiStudyFlashcardsResponse(
+    val flashcards: List<ApiStudyFlashcard> = emptyList(),
+    val totalFlashcards: Int = 0,
+    val error: String? = null,
+    val parseStatus: String? = null
+)
+
+@Serializable
+data class ApiStudyFlashcardReviewRequest(
+    val confidence: String
+)
+
+@Serializable
+data class ApiStudyFlashcardReviewResponse(
+    @SerialName("flashcardId") val flashcardId: String = "",
+    @SerialName("cardId") val cardId: String = "",
+    val confidence: String = "",
+    val reviewCount: Int = 0,
+    @SerialName("nextReviewAt") val nextReviewAt: Long = 0,
+    val error: String? = null
 )

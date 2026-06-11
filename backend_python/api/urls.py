@@ -80,6 +80,9 @@ urlpatterns = [
     # Reports
     path('reports/', views.report_create, name='report-create'),
 
+    # Realtime discovery (mobile clients)
+    path('realtime/config/', views.realtime_config, name='realtime-config'),
+
     # Bookmarks
     path('bookmarks/toggle/', views.bookmark_toggle, name='bookmark-toggle'),
     path('bookmarks/', views.bookmark_list, name='bookmark-list'),

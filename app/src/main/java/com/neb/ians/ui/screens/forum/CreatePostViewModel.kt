@@ -1,59 +1,337 @@
 package com.neb.ians.ui.screens.forum
 
+import android.content.Context
+import android.net.Uri
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.neb.ians.data.api.ApiPollCreate
+import com.neb.ians.data.api.ApiPollOptionCreate
+import com.neb.ians.data.api.ApiUserSearchResult
+import com.neb.ians.data.api.WebPostCreateRequest
 import com.neb.ians.data.repository.ForumRepository
+import com.neb.ians.ui.components.applyMention
+import com.neb.ians.ui.components.mentionQueryAt
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import javax.inject.Inject
+
+const val MAX_POST_TITLE = 200
+const val MAX_POST_CONTENT = 20_000
+const val MAX_POST_IMAGES = 3
+const val MAX_IMAGE_BYTES = 10L * 1024 * 1024
+
+data class PollOptionDraft(
+    val text: String = "",
+    val isCorrect: Boolean = false
+)
 
 data class CreatePostUiState(
     val title: String = "",
-    val content: String = "",
+    val content: TextFieldValue = TextFieldValue(""),
     val selectedCategory: String = "General",
+    val customCategory: String = "",
+    val isCustomCategory: Boolean = false,
+    val showPreview: Boolean = false,
+    val images: List<Uri> = emptyList(),
     val isSubmitting: Boolean = false,
-    val error: String? = null
+    val error: String? = null,
+    // Poll builder
+    val pollEnabled: Boolean = false,
+    val pollType: String = "voting", // "voting" | "mcq"
+    val pollQuestion: String = "",
+    val pollOptions: List<PollOptionDraft> = listOf(PollOptionDraft(), PollOptionDraft()),
+    val pollAllowMultiple: Boolean = false,
+    val pollExplanation: String = "",
+    val pollDurationMs: Long = 0L,
+    // @mention autocomplete
+    val mentionSuggestions: List<ApiUserSearchResult> = emptyList()
 ) {
+    val effectiveCategory: String
+        get() = if (isCustomCategory) customCategory.trim() else selectedCategory
+
     companion object {
+        const val OTHER_CATEGORY = "Other..."
         val CATEGORIES = listOf(
             "General", "Physics", "Chemistry", "Mathematics",
             "Biology", "English", "Computer Science", "Exam Tips"
+        )
+        val POLL_DURATIONS = listOf(
+            0L to "No expiry",
+            3_600_000L to "1 hour",
+            86_400_000L to "24 hours",
+            259_200_000L to "3 days",
+            604_800_000L to "7 days"
         )
     }
 }
 
 @HiltViewModel
 class CreatePostViewModel @Inject constructor(
-    private val forumRepository: ForumRepository
+    private val forumRepository: ForumRepository,
+    @ApplicationContext private val appContext: Context
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(CreatePostUiState())
     val uiState: StateFlow<CreatePostUiState> = _uiState.asStateFlow()
 
+    private var mentionJob: Job? = null
+
     fun onTitleChange(title: String) {
-        _uiState.update { it.copy(title = title) }
+        if (title.length <= MAX_POST_TITLE) _uiState.update { it.copy(title = title) }
     }
 
-    fun onContentChange(content: String) {
+    fun onContentChange(content: TextFieldValue) {
+        if (content.text.length > MAX_POST_CONTENT) return
         _uiState.update { it.copy(content = content) }
+        scheduleMentionSearch(content)
+    }
+
+    private fun scheduleMentionSearch(content: TextFieldValue) {
+        mentionJob?.cancel()
+        val query = mentionQueryAt(content)
+        if (query == null) {
+            if (_uiState.value.mentionSuggestions.isNotEmpty()) {
+                _uiState.update { it.copy(mentionSuggestions = emptyList()) }
+            }
+            return
+        }
+        mentionJob = viewModelScope.launch {
+            delay(300)
+            forumRepository.searchUsers(query)
+                .onSuccess { users ->
+                    // Only show if the query is still active at the cursor.
+                    if (mentionQueryAt(_uiState.value.content) == query) {
+                        _uiState.update { it.copy(mentionSuggestions = users.take(8)) }
+                    }
+                }
+                .onFailure {
+                    _uiState.update { it.copy(mentionSuggestions = emptyList()) }
+                }
+        }
+    }
+
+    fun selectMention(user: ApiUserSearchResult) {
+        _uiState.update {
+            it.copy(
+                content = applyMention(it.content, user.username),
+                mentionSuggestions = emptyList()
+            )
+        }
     }
 
     fun onCategoryChange(category: String) {
-        _uiState.update { it.copy(selectedCategory = category) }
+        if (category == CreatePostUiState.OTHER_CATEGORY) {
+            _uiState.update { it.copy(isCustomCategory = true) }
+        } else {
+            _uiState.update { it.copy(selectedCategory = category, isCustomCategory = false) }
+        }
     }
+
+    fun onCustomCategoryChange(value: String) {
+        if (value.length <= 50) _uiState.update { it.copy(customCategory = value) }
+    }
+
+    fun togglePreview(show: Boolean) {
+        _uiState.update { it.copy(showPreview = show) }
+    }
+
+    // ----- Images -----
+
+    fun addImage(uri: Uri?) {
+        if (uri == null) return
+        val state = _uiState.value
+        if (state.images.size >= MAX_POST_IMAGES) {
+            _uiState.update { it.copy(error = "Maximum $MAX_POST_IMAGES images per post") }
+            return
+        }
+        val size = imageSizeBytes(uri)
+        if (size != null && size > MAX_IMAGE_BYTES) {
+            _uiState.update { it.copy(error = "Image too large (max 10MB)") }
+            return
+        }
+        _uiState.update { it.copy(images = it.images + uri, error = null) }
+    }
+
+    fun removeImage(uri: Uri) {
+        _uiState.update { it.copy(images = it.images - uri) }
+    }
+
+    private fun imageSizeBytes(uri: Uri): Long? {
+        return try {
+            appContext.contentResolver.openAssetFileDescriptor(uri, "r")?.use { it.length }
+        } catch (_: Exception) {
+            null
+        }
+    }
+
+    // ----- Poll builder -----
+
+    fun togglePoll(enabled: Boolean) {
+        _uiState.update { it.copy(pollEnabled = enabled) }
+    }
+
+    fun onPollTypeChange(type: String) {
+        _uiState.update { it.copy(pollType = type) }
+    }
+
+    fun onPollQuestionChange(value: String) {
+        if (value.length <= 300) _uiState.update { it.copy(pollQuestion = value) }
+    }
+
+    fun onPollOptionChange(index: Int, text: String) {
+        if (text.length > 200) return
+        _uiState.update { state ->
+            state.copy(pollOptions = state.pollOptions.mapIndexed { i, option ->
+                if (i == index) option.copy(text = text) else option
+            })
+        }
+    }
+
+    fun togglePollOptionCorrect(index: Int) {
+        _uiState.update { state ->
+            state.copy(pollOptions = state.pollOptions.mapIndexed { i, option ->
+                if (i == index) option.copy(isCorrect = !option.isCorrect) else option
+            })
+        }
+    }
+
+    fun addPollOption() {
+        _uiState.update { state ->
+            if (state.pollOptions.size >= 6) state
+            else state.copy(pollOptions = state.pollOptions + PollOptionDraft())
+        }
+    }
+
+    fun removePollOption(index: Int) {
+        _uiState.update { state ->
+            if (state.pollOptions.size <= 2) state
+            else state.copy(pollOptions = state.pollOptions.filterIndexed { i, _ -> i != index })
+        }
+    }
+
+    fun onPollAllowMultipleChange(allow: Boolean) {
+        _uiState.update { it.copy(pollAllowMultiple = allow) }
+    }
+
+    fun onPollExplanationChange(value: String) {
+        if (value.length <= 500) _uiState.update { it.copy(pollExplanation = value) }
+    }
+
+    fun onPollDurationChange(durationMs: Long) {
+        _uiState.update { it.copy(pollDurationMs = durationMs) }
+    }
+
+    // ----- Submit -----
 
     fun submitPost(onSuccess: () -> Unit) {
         val state = _uiState.value
-        if (state.title.isBlank() || state.content.isBlank()) return
+        val title = state.title.trim()
+        val content = state.content.text.trim()
+        val category = state.effectiveCategory
+
+        if (title.isBlank() || content.isBlank()) return
+        if (category.isBlank()) {
+            _uiState.update { it.copy(error = "Choose a category") }
+            return
+        }
+
+        var pollCreate: ApiPollCreate? = null
+        if (state.pollEnabled) {
+            val options = state.pollOptions.filter { it.text.isNotBlank() }
+            if (options.size < 2) {
+                _uiState.update { it.copy(error = "Poll needs at least 2 options") }
+                return
+            }
+            if (state.pollType == "mcq" && options.none { it.isCorrect }) {
+                _uiState.update { it.copy(error = "Mark at least 1 correct answer") }
+                return
+            }
+            pollCreate = ApiPollCreate(
+                question = state.pollQuestion.trim(),
+                pollType = state.pollType,
+                allowMultiple = state.pollType == "voting" && state.pollAllowMultiple,
+                explanation = if (state.pollType == "mcq") state.pollExplanation.trim() else "",
+                durationMs = state.pollDurationMs,
+                options = options.mapIndexed { index, option ->
+                    ApiPollOptionCreate(
+                        text = option.text.trim(),
+                        isCorrect = state.pollType == "mcq" && option.isCorrect,
+                        index = index
+                    )
+                }
+            )
+        }
 
         viewModelScope.launch {
             _uiState.update { it.copy(isSubmitting = true, error = null) }
-            forumRepository.createPost(
-                title = state.title,
-                content = state.content,
-                category = state.selectedCategory
-            ).onSuccess {
+
+            // Upload images first (max 3, 10MB each).
+            val imageUrls = mutableListOf<String>()
+            for ((index, uri) in state.images.withIndex()) {
+                val bytes = withContext(Dispatchers.IO) {
+                    try {
+                        appContext.contentResolver.openInputStream(uri)?.use { it.readBytes() }
+                    } catch (_: Exception) {
+                        null
+                    }
+                }
+                if (bytes == null) {
+                    _uiState.update { it.copy(isSubmitting = false, error = "Couldn't read image ${index + 1}") }
+                    return@launch
+                }
+                if (bytes.size > MAX_IMAGE_BYTES) {
+                    _uiState.update { it.copy(isSubmitting = false, error = "Image ${index + 1} is too large (max 10MB)") }
+                    return@launch
+                }
+                val mime = appContext.contentResolver.getType(uri) ?: "image/*"
+                val extension = when (mime) {
+                    "image/png" -> "png"
+                    "image/webp" -> "webp"
+                    "image/gif" -> "gif"
+                    else -> "jpg"
+                }
+                val part = MultipartBody.Part.createFormData(
+                    "image",
+                    "image_$index.$extension",
+                    bytes.toRequestBody(mime.toMediaType())
+                )
+                val result = forumRepository.uploadPostImage(part)
+                val url = result.getOrNull()
+                if (url == null) {
+                    _uiState.update { it.copy(isSubmitting = false, error = "Image upload failed") }
+                    return@launch
+                }
+                imageUrls.add(url)
+            }
+
+            val result = if (pollCreate != null || imageUrls.isNotEmpty()) {
+                forumRepository.createPostWeb(
+                    WebPostCreateRequest(
+                        title = title,
+                        content = content,
+                        category = category,
+                        images = imageUrls,
+                        poll = pollCreate
+                    )
+                )
+            } else {
+                forumRepository.createPost(title = title, content = content, category = category)
+            }
+
+            result.onSuccess {
                 _uiState.update { it.copy(isSubmitting = false) }
                 onSuccess()
             }.onFailure { e ->

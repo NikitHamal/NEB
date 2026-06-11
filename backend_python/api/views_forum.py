@@ -304,6 +304,9 @@ def posts_endpoint(request):
         username = request.query_params.get('username')
         category = request.query_params.get('category')
         search = request.query_params.get('search')
+        sort = (request.query_params.get('sort') or 'new').strip().lower()
+        if sort not in ('hot', 'new', 'top', 'discussed'):
+            sort = 'new'
 
         if username:
             posts = posts.filter(user__username__iexact=username)
@@ -314,7 +317,33 @@ def posts_endpoint(request):
                 Q(title__icontains=search) | Q(content__icontains=search)
             )
 
-        return _paginated_response(request, posts, PostSerializer, context={'request': request})
+        if sort == 'top':
+            posts = posts.order_by('-thumbs_up_count', '-created_at')
+        elif sort == 'discussed':
+            posts = posts.order_by('-reply_count', '-created_at')
+        else:
+            # 'new' and 'hot' both pre-sort by recency; 'hot' re-ranks the page below.
+            posts = posts.order_by('-created_at')
+
+        response = _paginated_response(request, posts, PostSerializer, context={'request': request})
+        if sort == 'hot' and isinstance(response.data, dict):
+            results = response.data.get('results')
+            if isinstance(results, list):
+                import math
+                import time as _time
+                now_ms_val = int(_time.time() * 1000)
+
+                def _hot_score(p):
+                    engagement = (p.get('thumbsUpCount', 0) * 3
+                                  + p.get('replyCount', 0) * 2
+                                  + min(p.get('viewCount', 0) or 0, 1000) * 0.1)
+                    age_hours = max(0.0, (now_ms_val - (p.get('createdAt') or 0)) / 3600000.0)
+                    if engagement <= 0:
+                        return -age_hours / 168.0
+                    return math.log2(max(engagement, 1)) - age_hours / 168.0
+
+                response.data['results'] = sorted(results, key=_hot_score, reverse=True)
+        return response
 
     # POST — create
     user, err = _require_user(request)
