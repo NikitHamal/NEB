@@ -133,13 +133,9 @@ fun NebTopBar(
                 NebAvatar(photoUrl = photoUrl, name = username, size = 34.dp, ring = true,
                     modifier = Modifier.clickable(onClick = onProfile))
                 if (unread > 0) {
-                    Box(
-                        modifier = Modifier
-                            .align(Alignment.TopEnd)
-                            .size(10.dp)
-                            .clip(CircleShape)
-                            .background(MaterialTheme.colorScheme.error)
-                            .border(1.5.dp, MaterialTheme.colorScheme.surface, CircleShape)
+                    UnreadCountBadge(
+                        count = unread,
+                        modifier = Modifier.align(Alignment.TopEnd)
                     )
                 }
             }

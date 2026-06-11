@@ -5,6 +5,7 @@ instead of DRF Response objects, and accept User objects instead of DRF requests
 """
 import logging
 
+from django.core.cache import cache
 from django.db import transaction
 from django.db.models import F
 from django.core.exceptions import ValidationError as DjangoValidationError
@@ -84,6 +85,9 @@ def create_reply(user, post_id, content, parent_reply_id=None):
         return None
     content = content.strip()
     if not content:
+        return None
+    if parent_reply_id and not Reply.objects.filter(pk=parent_reply_id, post_id=post_id).exists():
+        # Invalid parent reply (missing or belongs to another post)
         return None
     now = now_ms()
     with transaction.atomic():
@@ -325,6 +329,16 @@ def change_password(user, current_password, new_password):
     password_ok, needs_rehash = verify_password(current_password, user.password_hash)
     if not password_ok:
         return {'error': 'Current password is incorrect'}, 401
+    # Invalidate cached auth entries for the old token BEFORE rotating it.
+    # user.auth_token stores the SHA-256 hash of the raw bearer token, which is
+    # exactly what the cache keys are derived from (hash_auth_token(raw)).
+    old_token_hash = user.auth_token
+    if old_token_hash:
+        cache.delete_many([
+            f'valid_token:{old_token_hash}',
+            f'user_id_{old_token_hash}',
+            f'auth_user:{old_token_hash}',
+        ])
     user.password_hash = hash_password(new_password)
     auth_token = issue_auth_token(user, save=False)
     user.save(update_fields=['password_hash', 'auth_token'])

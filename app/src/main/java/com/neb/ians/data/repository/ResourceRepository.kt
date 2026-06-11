@@ -30,17 +30,29 @@ class ResourceRepository @Inject constructor(
 
     private suspend fun getBearerToken(): String? = authRepository.getBearerToken()
 
+    /**
+     * Fetches a page of resources with optional filters and sort.
+     *
+     * @param append when true the fetched page is appended to the cached list
+     *               (infinite scroll); when false the cache is replaced.
+     */
     suspend fun getResources(
         subject: String? = null,
         grade: String? = null,
         type: String? = null,
         sort: String? = null,
-        page: Int? = null
+        page: Int? = null,
+        append: Boolean = false
     ): Result<ResourcesResult> {
         return try {
             val token = getBearerToken()
             val response = apiService.getResources(token, subject, grade, type, sort, page)
-            _cachedResources.value = response.resources
+            _cachedResources.value = if (append) {
+                val existingIds = _cachedResources.value.mapTo(HashSet()) { it.id }
+                _cachedResources.value + response.resources.filterNot { it.id in existingIds }
+            } else {
+                response.resources
+            }
             val currentPage = page ?: 1
             val totalPages = maxOf(1, (response.totalCount + 49) / 50)
             Result.success(ResourcesResult(response.resources, response.totalCount, currentPage, totalPages))
