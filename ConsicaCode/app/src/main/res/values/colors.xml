@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Eco-Logic brand colors -->
+    <color name="forest_green">#FF2D5A27</color>
+    <color name="leaf_light">#FFE8F5E9</color>
+    <color name="clean_white">#FFFFFFFF</color>
+    <color name="soil_dark">#FF1A1A1A</color>
+    <color name="stone_gray">#FF8D99AE</color>
+    <color name="river_blue">#FF4DA8DA</color>
+    <color name="sun_yellow">#FFFFD54F</color>
+    <color name="ic_launcher_background">#FF2D5A27</color>
+</resources>

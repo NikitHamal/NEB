@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Consica Code (Ccode) — English base strings.
+  This is the single source of user-facing UI text. To add Nepali, copy this file to
+  res/values-ne/strings.xml (Devanagari) and translate values only. No code changes needed.
+  Lesson/mascot CONTENT strings live in res/values/content_strings.xml.
+-->
+<resources>
+    <string name="app_name">Consica Code</string>
+    <string name="app_short_name">Ccode</string>
+
+    <!-- Generic actions -->
+    <string name="action_next">Next</string>
+    <string name="action_back">Back</string>
+    <string name="action_continue">Continue</string>
+    <string name="action_skip">Skip</string>
+    <string name="action_done">Done</string>
+    <string name="action_start">Start</string>
+    <string name="action_start_coding">Start Coding</string>
+    <string name="action_close">Close</string>
+    <string name="action_retry">Try again</string>
+    <string name="action_save">Save</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_got_it">Got it</string>
+    <string name="action_reset">Reset</string>
+    <string name="action_run">Run</string>
+    <string name="action_grow">Grow</string>
+    <string name="action_clear">Clear</string>
+    <string name="action_hint">Hint</string>
+    <string name="action_check">Check</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_welcome_title">Welcome to Consica Code</string>
+    <string name="onboarding_welcome_body">Grow your own digital nature world by writing real code. Let’s set things up for you.</string>
+    <string name="onboarding_age_title">How old are you?</string>
+    <string name="onboarding_age_body">We’ll adapt the lessons, tools, and tone to fit you best.</string>
+    <string name="onboarding_age_8_12">8 to 12</string>
+    <string name="onboarding_age_8_12_desc">Playful, guided learning with games and a friendly owl guide.</string>
+    <string name="onboarding_age_13_16">13 to 16</string>
+    <string name="onboarding_age_13_16_desc">Real coding concepts, projects, and debugging.</string>
+    <string name="onboarding_age_16_plus">16 and up</string>
+    <string name="onboarding_age_16_plus_desc">A professional, powerful coding experience.</string>
+
+    <string name="onboarding_goal_title">What do you want to do?</string>
+    <string name="onboarding_goal_body">Pick a learning goal. You can change this any time.</string>
+    <string name="goal_learn_basics">Learn the basics</string>
+    <string name="goal_build_websites">Build websites</string>
+    <string name="goal_build_games">Make games</string>
+    <string name="goal_solve_puzzles">Solve coding puzzles</string>
+    <string name="goal_explore">Just explore</string>
+
+    <string name="onboarding_experience_title">How much have you coded before?</string>
+    <string name="onboarding_experience_body">Be honest — there are no wrong answers.</string>
+    <string name="experience_none">Never tried it</string>
+    <string name="experience_some">A little</string>
+    <string name="experience_lots">Quite a lot</string>
+
+    <string name="onboarding_intensity_title">Pick your vibe</string>
+    <string name="onboarding_intensity_body">How playful should Consica Code feel?</string>
+    <string name="intensity_playful">Playful</string>
+    <string name="intensity_playful_desc">Lots of color, characters, and celebration.</string>
+    <string name="intensity_balanced">Balanced</string>
+    <string name="intensity_balanced_desc">Fun, but focused.</string>
+    <string name="intensity_focused">Focused</string>
+    <string name="intensity_focused_desc">Calm and minimal. Just the code.</string>
+
+    <string name="onboarding_interests_title">What are you curious about?</string>
+    <string name="onboarding_interests_body">Choose any that interest you (optional).</string>
+    <string name="interest_python">Python</string>
+    <string name="interest_web">Web &amp; HTML</string>
+    <string name="interest_games">Games</string>
+    <string name="interest_apps">Apps</string>
+    <string name="interest_ai">AI basics</string>
+    <string name="interest_creative">Creative coding</string>
+
+    <string name="onboarding_finish_title">You’re all set!</string>
+    <string name="onboarding_finish_body">Your world is ready to grow. Let’s plant your first seed.</string>
+    <string name="onboarding_finish_cta">Enter my world</string>
+
+    <!-- Navigation / destinations -->
+    <string name="nav_home">Home</string>
+    <string name="nav_path">Path</string>
+    <string name="nav_playground">Playground</string>
+    <string name="nav_rewards">Rewards</string>
+    <string name="nav_settings">Settings</string>
+
+    <!-- Home / Biome Map -->
+    <string name="home_title">Your Biome</string>
+    <string name="home_greeting">Hi, explorer!</string>
+    <string name="home_continue_learning">Continue learning</string>
+    <string name="home_suggested_next">Suggested next</string>
+    <string name="home_locked_node">Locked — keep growing to unlock</string>
+    <string name="home_active_node">Tap to begin</string>
+    <string name="home_completed_node">Completed</string>
+    <string name="home_recent_workspaces">Recent workspaces</string>
+    <string name="home_saved_playgrounds">Saved playgrounds</string>
+    <string name="home_projects">Projects</string>
+    <string name="home_challenges">Challenges</string>
+    <string name="home_open_pro_editor">Open Pro Editor</string>
+    <string name="home_no_workspaces">No saved workspaces yet. Create one in the Playground.</string>
+
+    <!-- Stats / currency -->
+    <string name="stat_xp">XP</string>
+    <string name="stat_level">Level</string>
+    <string name="stat_streak">Streak</string>
+    <string name="stat_streak_days">%1$d day streak</string>
+    <string name="stat_sun">Sun</string>
+    <string name="stat_water">Water</string>
+    <string name="stat_badges">Badges</string>
+    <string name="stat_lessons_done">Lessons done</string>
+    <string name="stat_mastery">Mastery</string>
+
+    <!-- Tutorial / Terra's Nest -->
+    <string name="tutorial_title">Terra’s Nest</string>
+    <string name="tutorial_step_of">Step %1$d of %2$d</string>
+    <string name="tutorial_minimize_guide">Minimize guide</string>
+    <string name="tutorial_expand_guide">Show guide</string>
+
+    <!-- Playground / Editor -->
+    <string name="playground_title">Green-Code Playground</string>
+    <string name="playground_language">Language</string>
+    <string name="playground_lang_html">HTML</string>
+    <string name="playground_lang_python">Python</string>
+    <string name="playground_console">Console</string>
+    <string name="playground_preview">Preview</string>
+    <string name="playground_errors">Errors</string>
+    <string name="playground_run_history">Run history</string>
+    <string name="playground_save_workspace">Save workspace</string>
+    <string name="playground_workspace_name">Workspace name</string>
+    <string name="playground_new_file">New file</string>
+    <string name="playground_pro_mode">Pro mode</string>
+    <string name="playground_beginner_mode">Beginner mode</string>
+    <string name="playground_format">Format</string>
+    <string name="playground_running">Growing your code…</string>
+    <string name="playground_no_output">No output yet. Tap %1$s to see what your code grows.</string>
+    <string name="playground_locked_pro">Pro editor is locked. Unlock it by mastering more lessons or in Settings.</string>
+    <string name="playground_unlock_pro">Unlock Pro Editor</string>
+
+    <!-- Coding keyboard hints -->
+    <string name="kbd_snippets">Snippets</string>
+    <string name="kbd_symbols">Symbols</string>
+
+    <!-- Ecosystem / Output -->
+    <string name="ecosystem_title">Your Ecosystem</string>
+    <string name="ecosystem_grew">Your code made something grow!</string>
+    <string name="ecosystem_needs_water">This plant needs a little water</string>
+    <string name="ecosystem_reward_earned">You earned a reward</string>
+    <string name="ecosystem_view_details">View details</string>
+
+    <!-- Drag and drop -->
+    <string name="dragdrop_title">Block Puzzle</string>
+    <string name="dragdrop_instruction">Drag the blocks into the right order.</string>
+    <string name="dragdrop_correct">Perfect order!</string>
+    <string name="dragdrop_incorrect">Not quite — a couple of blocks are out of place.</string>
+    <string name="dragdrop_reset">Shuffle again</string>
+    <string name="dragdrop_check_order">Check order</string>
+
+    <!-- Rewards -->
+    <string name="rewards_title">Rewards</string>
+    <string name="rewards_badges">Badges</string>
+    <string name="rewards_locked_badge">Locked</string>
+    <string name="rewards_streak_title">Daily streak</string>
+    <string name="rewards_mastery_title">Mastery</string>
+    <string name="rewards_decorations">Ecosystem items</string>
+    <string name="rewards_new_badge">New badge unlocked!</string>
+    <string name="rewards_certificates">Certificates</string>
+    <string name="rewards_empty">Complete lessons to start earning rewards.</string>
+
+    <!-- Learning path -->
+    <string name="path_title">Learning Path</string>
+    <string name="path_track_web_beginner">Beginner Web</string>
+    <string name="path_track_python_beginner">Beginner Python</string>
+    <string name="path_track_intermediate">Intermediate</string>
+    <string name="path_track_advanced">Advanced</string>
+    <string name="path_locked">Complete earlier lessons to unlock</string>
+    <string name="path_progress">%1$d of %2$d complete</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_section_accessibility">Accessibility</string>
+    <string name="settings_high_contrast">High contrast mode</string>
+    <string name="settings_high_contrast_desc">Stronger colors and borders for easier reading.</string>
+    <string name="settings_reduced_motion">Reduce motion</string>
+    <string name="settings_reduced_motion_desc">Fewer animations and effects.</string>
+    <string name="settings_font_scale">Text size</string>
+    <string name="settings_sound">Sound effects</string>
+    <string name="settings_section_learning">Learning</string>
+    <string name="settings_guidance_level">Guide level</string>
+    <string name="settings_guidance_full">Full guidance</string>
+    <string name="settings_guidance_some">Some guidance</string>
+    <string name="settings_guidance_minimal">Minimal</string>
+    <string name="settings_age_group">Age group</string>
+    <string name="settings_theme_intensity">Theme intensity</string>
+    <string name="settings_section_pro">Professional tools</string>
+    <string name="settings_pro_mode_status">Pro editor</string>
+    <string name="settings_pro_locked">Locked</string>
+    <string name="settings_pro_unlocked">Unlocked</string>
+    <string name="settings_unlock_pro_now">Unlock now</string>
+    <string name="settings_pro_unlock_desc">Turns on professional editor tools everywhere. Recommended for older or experienced learners.</string>
+    <string name="settings_section_progress">Progress</string>
+    <string name="settings_progress_summary">Progress summary</string>
+    <string name="settings_reset_progress">Reset all progress</string>
+    <string name="settings_reset_confirm">This erases all XP, badges, streaks and saved work. This cannot be undone.</string>
+    <string name="settings_section_about">About</string>
+    <string name="settings_language">Language</string>
+    <string name="settings_language_english">English</string>
+    <string name="settings_language_more_soon">More languages coming soon</string>
+    <string name="settings_version">Version %1$s</string>
+
+    <!-- Offline -->
+    <string name="offline_banner_kid">Don’t worry — you’re offline, but everything you do is saved right here. Keep growing!</string>
+    <string name="offline_banner_pro">Offline. All features work locally and your progress is saved on this device.</string>
+    <string name="offline_badge">Offline</string>
+
+    <!-- Streak -->
+    <string name="streak_title">Daily Streak</string>
+    <string name="streak_today_done">You learned today — nice!</string>
+    <string name="streak_today_pending">Do one lesson today to keep your streak.</string>
+    <string name="streak_best">Best streak: %1$d days</string>
+
+    <!-- Content descriptions (accessibility) -->
+    <string name="cd_mascot_terra">Terra the owl, your guide</string>
+    <string name="cd_back">Go back</string>
+    <string name="cd_settings">Open settings</string>
+    <string name="cd_locked">Locked</string>
+    <string name="cd_completed">Completed</string>
+    <string name="cd_run_code">Run your code</string>
+    <string name="cd_xp_icon">Experience points</string>
+    <string name="cd_streak_icon">Streak</string>
+    <string name="cd_sun_icon">Sun coins</string>
+    <string name="cd_water_icon">Water drops</string>
+    <string name="cd_badge">Badge</string>
+
+    <!-- Errors / empty states -->
+    <string name="error_generic">Something didn’t work. Let’s try that again.</string>
+    <string name="error_code_empty">Write some code first, then tap %1$s.</string>
+    <string name="empty_generic">Nothing here yet.</string>
+</resources>

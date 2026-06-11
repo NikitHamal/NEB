@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Base app theme. Compose drives the real theming; this is the platform shell. -->
+    <style name="Theme.ConsicaCode" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">@color/leaf_light</item>
+        <item name="android:statusBarColor">@color/forest_green</item>
+    </style>
+
+    <!-- Splash screen theme (androidx core-splashscreen). -->
+    <style name="Theme.ConsicaCode.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/leaf_light</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
+        <item name="postSplashScreenTheme">@style/Theme.ConsicaCode</item>
+    </style>
+</resources>

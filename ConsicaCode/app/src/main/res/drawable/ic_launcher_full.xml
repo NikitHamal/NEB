@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Legacy (API 24-25) launcher fallback: full icon in one vector. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path
+        android:fillColor="#2D5A27"
+        android:pathData="M16,8h76a8,8 0,0 1,8 8v76a8,8 0,0 1,-8 8h-76a8,8 0,0 1,-8 -8v-76a8,8 0,0 1,8 -8z" />
+    <path
+        android:fillColor="#7BC67E"
+        android:pathData="M54,30c-12,0 -22,9 -22,22c0,9 5,16 12,19c-2,-12 5,-22 14,-27c-7,7 -10,16 -8,28c10,-2 18,-12 18,-23c0,-12 -10,-19 -14,-19z" />
+    <path
+        android:strokeColor="#E8F5E9"
+        android:strokeWidth="4"
+        android:strokeLineCap="round"
+        android:pathData="M54,80L54,52" />
+    <path
+        android:strokeColor="#FFD54F"
+        android:strokeWidth="5"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:pathData="M44,68l-7,7l7,7" />
+    <path
+        android:strokeColor="#FFD54F"
+        android:strokeWidth="5"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:pathData="M64,68l7,7l-7,7" />
+</vector>

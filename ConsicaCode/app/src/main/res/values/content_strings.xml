@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Mascot dialogue + lesson-content strings. Kept separate from UI strings so lesson/
+  character CONTENT can be localized and even shipped as offline language packs later
+  without touching UI code. Each mascot line has age-group variants (kid / teen / pro).
+-->
+<resources>
+    <!-- Terra greeting by age -->
+    <string name="terra_greet_kid">Hoot hoot! I’m Terra. Let’s grow a beautiful world together!</string>
+    <string name="terra_greet_teen">Hey, I’m Terra. I’ll guide you, but you’re the coder here.</string>
+    <string name="terra_greet_pro">Welcome. I’m Terra. I’ll stay out of your way — tap me if you need a hint.</string>
+
+    <!-- Success -->
+    <string name="terra_success_kid">Wow! You did it! Look how your world is growing!</string>
+    <string name="terra_success_teen">Nice work — that ran perfectly.</string>
+    <string name="terra_success_pro">Passed. Clean run.</string>
+
+    <!-- Mistake / error -->
+    <string name="terra_error_kid">Oopsie! This little plant just needs some water. Let’s fix it together!</string>
+    <string name="terra_error_teen">Looks like a small bug. Read the error and try again — you’ve got this.</string>
+    <string name="terra_error_pro">There’s an error below. Check the line number and message.</string>
+
+    <!-- Hints -->
+    <string name="terra_hint_kid">Hint: try adding the magic word and close your tag like a hug — &lt;/h1&gt;</string>
+    <string name="terra_hint_teen">Hint: an HTML heading needs an opening and closing tag.</string>
+    <string name="terra_hint_pro">Hint: wrap the text in matching &lt;h1&gt;…&lt;/h1&gt; tags.</string>
+
+    <!-- Offline -->
+    <string name="terra_offline_kid">We’re offline, but that’s totally okay! Everything is saved safely. Keep playing!</string>
+    <string name="terra_offline_pro">You’re offline. Everything runs locally; progress is saved on-device.</string>
+
+    <!-- Streak -->
+    <string name="terra_streak_kid">You came back! Your streak is growing like a happy vine!</string>
+    <string name="terra_streak_pro">Streak extended. Consistency compounds.</string>
+
+    <!-- Locked -->
+    <string name="terra_locked_kid">This part is still a sleepy seed. Finish a few lessons to wake it up!</string>
+    <string name="terra_locked_pro">Locked. Complete the prerequisite lessons to unlock.</string>
+
+    <!-- Reward -->
+    <string name="terra_reward_kid">A shiny new badge! You’re amazing!</string>
+    <string name="terra_reward_pro">Badge unlocked. Added to your collection.</string>
+
+    <!-- First lesson: HTML heading (Planting a Seed) -->
+    <string name="lesson_seed_title">Plant a Seed</string>
+    <string name="lesson_seed_intro_kid">An HTML heading is like a big, bold sign in your garden. It shouts a word so everyone can see it! Let’s make one that says “Sprout”.</string>
+    <string name="lesson_seed_intro_teen">A heading is the biggest text on a web page. In HTML you make one with the &lt;h1&gt; tag. Let’s write a heading that says “Sprout”.</string>
+    <string name="lesson_seed_intro_pro">Headings (&lt;h1&gt;…&lt;h6&gt;) define document structure and hierarchy. Create an &lt;h1&gt; containing the text “Sprout”.</string>
+    <string name="lesson_seed_goal">Write a heading that shows the word Sprout.</string>
+    <string name="lesson_seed_success">A seed sprouted with the word “Sprout” above it!</string>
+
+    <!-- Track names + a few lesson titles (content layer) -->
+    <string name="lesson_html_tags">HTML Tags</string>
+    <string name="lesson_html_structure">Page Structure</string>
+    <string name="lesson_headings_paragraphs">Headings &amp; Paragraphs</string>
+    <string name="lesson_links_images">Links &amp; Images</string>
+    <string name="lesson_lists">Lists</string>
+    <string name="lesson_simple_css">Simple CSS</string>
+
+    <string name="lesson_py_print">Print</string>
+    <string name="lesson_py_variables">Variables</string>
+    <string name="lesson_py_strings_numbers">Strings &amp; Numbers</string>
+    <string name="lesson_py_input">Input</string>
+    <string name="lesson_py_conditionals">If / Else</string>
+    <string name="lesson_py_loops">Loops</string>
+    <string name="lesson_py_lists">Lists</string>
+    <string name="lesson_py_functions">Functions</string>
+
+    <string name="lesson_inter_css_layout">CSS Layouts</string>
+    <string name="lesson_inter_forms">Forms</string>
+    <string name="lesson_inter_logic">Logic Puzzles</string>
+    <string name="lesson_inter_data">Data Structures</string>
+
+    <string name="lesson_adv_workspace">Workspace Projects</string>
+    <string name="lesson_adv_algorithms">Algorithmic Thinking</string>
+    <string name="lesson_adv_capstone">Capstone Project</string>
+</resources>

@@ -1,0 +1,64 @@
+name: Build Consica Code Release APK
+
+on:
+  push:
+    branches:
+      - main
+      - tembo/offline-first-age-adaptive-ccode-app
+    paths:
+      - 'ConsicaCode/**'
+      - '.github/workflows/ccode-build-release.yml'
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build Signed Release APK
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ConsicaCode
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          cache-read-only: false
+          gradle-home-cache-cleanup: true
+
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
+      - name: Build Release APK
+        run: ./gradlew :app:assembleRelease --no-daemon --stacktrace
+        env:
+          GRADLE_OPTS: -Dorg.gradle.jvmargs="-Xmx4g -XX:+UseParallelGC -XX:MaxMetaspaceSize=1g" -Dorg.gradle.parallel=true -Dorg.gradle.caching=true
+
+      - name: Get version and commit info
+        id: info
+        run: |
+          VERSION=$(grep 'versionName' app/build.gradle.kts | head -1 | sed 's/.*versionName\s*=\s*"\(.*\)"/\1/')
+          HASH=$(echo "${GITHUB_SHA}" | cut -c1-7)
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "hash=$HASH" >> "$GITHUB_OUTPUT"
+
+      - name: Rename APK with commit hash
+        run: |
+          mkdir -p artifact
+          SRC=$(find app/build/outputs/apk/release -name "*.apk" | head -1)
+          cp "$SRC" "artifact/ConsicaCode-v${{ steps.info.outputs.version }}-${{ steps.info.outputs.hash }}.apk"
+
+      - name: Upload Signed Release APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: ConsicaCode-v${{ steps.info.outputs.version }}-${{ steps.info.outputs.hash }}
+          path: ConsicaCode/artifact/*.apk
+          retention-days: 30
