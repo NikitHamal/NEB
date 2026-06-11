@@ -172,6 +172,7 @@ def call_ai_api(system_prompt, user_message, config=None):
     Supports:
       - 'qwen'      → Qwen web chat (chat.qwen.ai), via qwen_proxy.call_qwen
       - 'ai4bharat' → AI4Bharat Indic LLM Arena, via ai4bharat_proxy.simple_chat
+      - 'egov'      → eGov Chat AI (Philippines), via egov_proxy.simple_chat
       - 'custom'    → any OpenAI-compatible /chat/completions endpoint
     Returns response text or None.
     """
@@ -189,6 +190,50 @@ def call_ai_api(system_prompt, user_message, config=None):
             model_id=config.model or None,
             system_prompt=system_prompt or '',
             max_tokens=max_tokens,
+        )
+    if provider == 'egov':
+        from . import egov_proxy
+        return egov_proxy.simple_chat(
+            user_message=user_message,
+            model=config.model or 'AI1',
+            system_prompt=system_prompt or '',
+            max_tokens=max_tokens,
+        )
+    if provider == 'deepai':
+        from . import deepai_proxy
+        return deepai_proxy.simple_chat(
+            user_message=user_message,
+            model=config.model or 'standard',
+            system_prompt=system_prompt or '',
+        )
+    if provider == 'eqing':
+        from . import eqing_proxy
+        return eqing_proxy.simple_chat(
+            user_message=user_message,
+            model=config.model or 'gpt-4o-mini',
+            system_prompt=system_prompt or '',
+        )
+    if provider == 'freegpt':
+        from . import freegpt_proxy
+        return freegpt_proxy.simple_chat(
+            prompt=user_message,
+            model=config.model or 'gpt-5-nano',
+            access_code=getattr(config, 'api_key', '') or '',
+        )
+    if provider == 'deepseekai':
+        from . import deepseekai_proxy
+        return deepseekai_proxy.simple_chat(
+            user_message=user_message,
+            model=config.model or 'deepseek/deepseek-v4-flash',
+            system_prompt=system_prompt or '',
+        )
+    if provider == 'surfsense':
+        from . import surfsense_proxy
+        return surfsense_proxy.simple_chat(
+            user_message=user_message,
+            model=config.model or 'gpt-5.4-mini-no-login',
+            system_prompt=system_prompt or '',
+            web_search=True,
         )
     if provider == 'custom':
         from .custom_provider import call_custom

@@ -24,6 +24,42 @@ from . import realtime as _rt
 logger = logging.getLogger(__name__)
 
 
+def get_notification_url(n, actor_name=None):
+    if not actor_name and n.actor_id:
+        try:
+            actor = User.objects.get(pk=n.actor_id)
+            actor_name = actor.username
+        except User.DoesNotExist:
+            pass
+
+    url = '#'
+    if n.verb == 'follow' and actor_name:
+        url = f'/profile/{actor_name}/'
+    elif n.verb in ('resource_approved', 'resource_rejected') and n.target_type == 'resource' and n.target_id:
+        url = f'/reader/{n.target_id}/'
+    elif n.target_type == 'resource' or n.reference_type == 'resource':
+        resource_id = n.target_id if n.target_type == 'resource' else n.reference_id
+        url = f'/reader/{resource_id}/'
+    elif n.target_type == 'resource_comment':
+        resource_id = n.reference_id if n.reference_type == 'resource' else ''
+        if resource_id:
+            url = f'/reader/{resource_id}/'
+    elif n.target_type == 'post' or n.reference_type == 'post':
+        post_id = n.target_id if n.target_type == 'post' else n.reference_id
+        url = f'/forum/post/{post_id}/'
+    elif n.target_type == 'reply':
+        post_id = n.reference_id if n.reference_type == 'post' else ''
+        if not post_id and n.target_id:
+            try:
+                reply_obj = Reply.objects.get(pk=n.target_id)
+                post_id = reply_obj.post_id
+            except Reply.DoesNotExist:
+                pass
+        if post_id:
+            url = f'/forum/post/{post_id}/#thread-{n.target_id}'
+    return url
+
+
 def _create_notification(*, recipient_id, actor_id, verb, target_type, target_id,
                          reference_type='', reference_id='', message=''):
     """
@@ -63,16 +99,33 @@ def _create_notification(*, recipient_id, actor_id, verb, target_type, target_id
         created_at=now_ms(),
     )
     _counters.increment_user_unread_notification_count(recipient_id)
+
+    # Fetch actor details to send over WebSocket
+    actor_name = ''
+    actor_photo_url = ''
+    if actor_id:
+        try:
+            actor = User.objects.get(pk=actor_id)
+            actor_name = actor.username
+            actor_photo_url = actor.photo_url or ''
+        except User.DoesNotExist:
+            pass
+
+    url = get_notification_url(notification, actor_name=actor_name)
+
     _rt.broadcast_notification(recipient_id, {
         'id': notification.id,
         'verb': verb,
         'actor_id': actor_id,
+        'actor_name': actor_name,
+        'actor_photo_url': actor_photo_url,
         'target_type': target_type,
         'target_id': target_id,
         'reference_type': reference_type,
         'reference_id': reference_id,
         'message': message,
         'created_at': notification.created_at,
+        'url': url,
     })
     # Also push the new unread count so the badge updates without polling.
     try:
@@ -146,6 +199,8 @@ def notify_reply_liked(actor_id, reply_id):
         verb='like_reply',
         target_type='reply',
         target_id=reply_id,
+        reference_type='post',
+        reference_id=reply.post_id,
     )
 
 
