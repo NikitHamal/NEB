@@ -72,6 +72,14 @@ def post_detail(request, post_id):
         if post.user_id != user.id:
             return Response({'error': 'Forbidden'}, status=403)
         data = request.data
+        if 'title' in data:
+            err = _validate_text_length(data['title'].strip(), MAX_POST_TITLE_LENGTH, 'Title')
+            if err:
+                return err
+        if 'content' in data:
+            err = _validate_text_length(data['content'].strip(), MAX_POST_CONTENT_LENGTH, 'Content')
+            if err:
+                return err
         now = _now_ms()
         if 'title' in data:
             EditHistory.objects.create(
@@ -169,6 +177,9 @@ def replies_create(request, post_id):
     err = _validate_text_length(content, MAX_REPLY_CONTENT_LENGTH, 'Content')
     if err:
         return err
+
+    if parent_reply_id and not Reply.objects.filter(pk=parent_reply_id, post_id=post_id).exists():
+        return Response({'error': 'Invalid parent reply'}, status=400)
 
     now = _now_ms()
     with transaction.atomic():
@@ -270,7 +281,9 @@ def edit_history(request, target_type, target_id):
     """GET /api/edit-history/<target_type>/<target_id>/ — edit history for a post or reply."""
     if target_type not in ('post', 'reply'):
         return Response({'error': 'Invalid target_type'}, status=400)
-    entries = EditHistory.objects.filter(target_type=target_type, target_id=target_id).select_related('edited_by')
+    entries = EditHistory.objects.filter(
+        target_type=target_type, target_id=target_id
+    ).select_related('edited_by').order_by('-edited_at')[:20]
     return Response(EditHistorySerializer(entries, many=True).data)
 
 @api_view(['GET', 'POST'])
@@ -291,6 +304,9 @@ def posts_endpoint(request):
         username = request.query_params.get('username')
         category = request.query_params.get('category')
         search = request.query_params.get('search')
+        sort = (request.query_params.get('sort') or 'new').strip().lower()
+        if sort not in ('hot', 'new', 'top', 'discussed'):
+            sort = 'new'
 
         if username:
             posts = posts.filter(user__username__iexact=username)
@@ -301,7 +317,33 @@ def posts_endpoint(request):
                 Q(title__icontains=search) | Q(content__icontains=search)
             )
 
-        return _paginated_response(request, posts, PostSerializer, context={'request': request})
+        if sort == 'top':
+            posts = posts.order_by('-thumbs_up_count', '-created_at')
+        elif sort == 'discussed':
+            posts = posts.order_by('-reply_count', '-created_at')
+        else:
+            # 'new' and 'hot' both pre-sort by recency; 'hot' re-ranks the page below.
+            posts = posts.order_by('-created_at')
+
+        response = _paginated_response(request, posts, PostSerializer, context={'request': request})
+        if sort == 'hot' and isinstance(response.data, dict):
+            results = response.data.get('results')
+            if isinstance(results, list):
+                import math
+                import time as _time
+                now_ms_val = int(_time.time() * 1000)
+
+                def _hot_score(p):
+                    engagement = (p.get('thumbsUpCount', 0) * 3
+                                  + p.get('replyCount', 0) * 2
+                                  + min(p.get('viewCount', 0) or 0, 1000) * 0.1)
+                    age_hours = max(0.0, (now_ms_val - (p.get('createdAt') or 0)) / 3600000.0)
+                    if engagement <= 0:
+                        return -age_hours / 168.0
+                    return math.log2(max(engagement, 1)) - age_hours / 168.0
+
+                response.data['results'] = sorted(results, key=_hot_score, reverse=True)
+        return response
 
     # POST — create
     user, err = _require_user(request)
@@ -376,6 +418,9 @@ def replies_endpoint(request, post_id):
     err = _validate_text_length(content, MAX_REPLY_CONTENT_LENGTH, 'Content')
     if err:
         return err
+
+    if parent_reply_id and not Reply.objects.filter(pk=parent_reply_id, post_id=post_id).exists():
+        return Response({'error': 'Invalid parent reply'}, status=400)
 
     now = _now_ms()
     with transaction.atomic():
