@@ -734,6 +734,7 @@ function processLog(text) {
   fileMap = {};
 
   let startTime = null, endTime = null;
+  let diffText = '';
 
   for (const sec of sections) {
     const ev = parseEvent(sec.trim());
@@ -743,23 +744,34 @@ function processLog(text) {
     if (!startTime) startTime = ev.ts;
     endTime = ev.ts;
 
-    // Build file map for write/edit events
-    if ((ev.type === 'write' || ev.type === 'edit') && ev.path && ev.content !== undefined) {
-      const p = ev.path;
-      if (!fileMap[p]) {
-        fileMap[p] = { path: p, content: ev.content, timestamp: ev.ts, operations: [] };
-      } else {
-        fileMap[p].content = ev.content;
+    // Check if this event contains the git diff stdout
+    if (ev.type === 'success' && ev.command && ev.command.includes('git diff --cached') && ev.stdout) {
+      diffText = ev.stdout;
+    }
+  }
+
+  // Parse git diff if available; otherwise fallback to tracking config/credential writes
+  if (diffText) {
+    parseGitDiff(diffText);
+  } else {
+    for (const ev of events) {
+      if ((ev.type === 'write' || ev.type === 'edit') && ev.path && ev.content !== undefined) {
+        const p = ev.path;
+        if (!fileMap[p]) {
+          fileMap[p] = { path: p, content: ev.content, timestamp: ev.ts, operations: [], isNew: ev.type === 'write' };
+        } else {
+          fileMap[p].content = ev.content;
+        }
+        fileMap[p].operations.push({ type: ev.type, ts: ev.ts, content: ev.content });
       }
-      fileMap[p].operations.push({ type: ev.type, ts: ev.ts, content: ev.content });
     }
   }
 
   filteredEvents = [...events];
 
   // Stats
-  const writes = events.filter(e => e.type === 'write').length;
-  const edits = events.filter(e => e.type === 'edit').length;
+  const writes = Object.values(fileMap).filter(f => f.isNew).length;
+  const edits = Object.values(fileMap).filter(f => !f.isNew).length;
   const cmds = events.filter(e => e.type === 'run').length;
   const errors = events.filter(e => e.type === 'error').length;
 
@@ -782,7 +794,81 @@ function processLog(text) {
   renderTimeline();
   renderFileCards();
 
-  toast('✅ Parsed ' + events.length + ' events', 'success');
+  toast('✅ Parsed ' + events.length + ' events. Extracted ' + Object.keys(fileMap).length + ' files.', 'success');
+}
+
+function parseGitDiff(diffText) {
+  const fileDiffs = diffText.split(/^diff --git /m);
+  
+  for (let part of fileDiffs) {
+    part = part.trim();
+    if (!part) continue;
+    
+    const lines = part.split('\n');
+    const headerLine = lines[0];
+    const headerMatch = headerLine.match(/^a\/(.*?) b\/(.*?)$/);
+    if (!headerMatch) continue;
+    
+    const path = headerMatch[2];
+    
+    let isNew = false;
+    let isDeleted = false;
+    let hunks = [];
+    let currentHunk = null;
+    
+    // Scan headers
+    let lineIdx = 1;
+    while (lineIdx < lines.length) {
+      const line = lines[lineIdx];
+      if (line.startsWith('@@')) break;
+      if (line.startsWith('new file mode')) isNew = true;
+      if (line.startsWith('deleted file mode')) isDeleted = true;
+      lineIdx++;
+    }
+    
+    // Parse hunks
+    for (let idx = lineIdx; idx < lines.length; idx++) {
+      const line = lines[idx];
+      if (line.startsWith('@@')) {
+        if (currentHunk) hunks.push(currentHunk);
+        currentHunk = { header: line, lines: [] };
+      } else if (currentHunk) {
+        currentHunk.lines.push(line);
+      }
+    }
+    if (currentHunk) hunks.push(currentHunk);
+    
+    // Reconstruct content if new file
+    let content = '';
+    if (isNew) {
+      const addedLines = [];
+      for (const hunk of hunks) {
+        for (const hline of hunk.lines) {
+          if (hline.startsWith('+')) {
+            addedLines.push(hline.slice(1));
+          }
+        }
+      }
+      content = addedLines.join('\n');
+    } else {
+      // For modified files, display the diff chunks
+      const diffLines = [];
+      for (const hunk of hunks) {
+        diffLines.push(hunk.header);
+        diffLines.push(...hunk.lines);
+      }
+      content = diffLines.join('\n');
+    }
+    
+    fileMap[path] = {
+      path: path,
+      content: content,
+      isNew: isNew,
+      isDeleted: isDeleted,
+      operations: isNew ? [{ type: 'write' }] : [{ type: 'edit' }],
+      hunks: hunks
+    };
+  }
 }
 
 function parseEvent(text) {
@@ -869,7 +955,7 @@ function renderDetail(ev) {
     const content = ev.content || (ev.details && ev.details.content) || '';
     bodyHtml = `
       <div style="position:relative;">
-        <button class="copy-btn" onclick="copyText(${JSON.stringify(content)})">Copy</button>
+        <button class="copy-btn" onclick="copyActiveContent()">Copy</button>
         <div class="code-block" style="padding:16px 0">
           ${renderCode(content)}
         </div>
@@ -914,7 +1000,7 @@ function renderDetail(ev) {
         </div>
         ${(ev.type === 'write' || ev.type === 'edit') && ev.path ? `
         <div class="panel-actions">
-          <button class="btn btn-sm btn-green" onclick="applyFileToDisk('${esc(ev.path)}', ${JSON.stringify(ev.content || '')})">✅ Mark Applied</button>
+          <button class="btn btn-sm btn-green" onclick="applyActiveToDisk()">✅ Mark Applied</button>
         </div>` : ''}
       </div>
       ${bodyHtml}
@@ -948,39 +1034,39 @@ function renderFileCards() {
     return a.localeCompare(b);
   });
 
-  paths.forEach(p => {
-    const info = fileMap[p];
-    const isNew = info.operations.length === 1 && info.operations[0].type === 'write';
-    const card = document.createElement('div');
-    card.className = 'file-card';
-    card.id = 'fc_' + CSS.escape(p.replace(/[^a-zA-Z0-9]/g, '_'));
+    paths.forEach(p => {
+      const info = fileMap[p];
+      const isNew = info.isNew;
+      const card = document.createElement('div');
+      card.className = 'file-card';
+      card.id = 'fc_' + CSS.escape(p.replace(/[^a-zA-Z0-9]/g, '_'));
 
-    const ext = p.split('.').pop().toLowerCase();
-    const icon = getFileIcon(ext);
-    const statusLabel = isNew ? 'new' : 'modified';
+      const ext = p.split('.').pop().toLowerCase();
+      const icon = getFileIcon(ext);
+      const statusLabel = isNew ? 'new' : 'modified';
 
-    card.innerHTML = `
-      <div class="file-card-header" onclick="toggleFileCard(this)">
-        <span class="fc-icon">${icon}</span>
-        <span class="fc-path" title="${esc(p)}">${esc(shortPath(p, 60))}</span>
-        <span class="fc-status ${statusLabel}">${statusLabel}</span>
-        <span class="fc-toggle">▼</span>
-      </div>
-      <div class="fc-body">
-        <div class="code-block" style="padding:12px 0">
-          ${renderCode(info.content || '')}
+      card.innerHTML = `
+        <div class="file-card-header" onclick="toggleFileCard(this)">
+          <span class="fc-icon">${icon}</span>
+          <span class="fc-path" title="${esc(p)}">${esc(shortPath(p, 60))}</span>
+          <span class="fc-status ${statusLabel}">${statusLabel}</span>
+          <span class="fc-toggle">▼</span>
         </div>
-        <div class="fc-actions">
-          <button class="btn btn-sm btn-green" onclick="markApplied('${esc(p)}')">✅ Mark as Applied</button>
-          <button class="btn btn-sm btn-secondary" onclick="copyText(${JSON.stringify(info.content || '')})">📋 Copy Content</button>
-          <button class="btn btn-sm btn-secondary" onclick="downloadFile('${esc(p)}', ${JSON.stringify(info.content || '')})">⬇️ Download</button>
-          <span style="margin-left:auto;font-size:11px;color:var(--text-muted)">${info.operations.length} operation(s)</span>
+        <div class="fc-body">
+          <div class="code-block" style="padding:12px 0">
+            ${renderCode(info.content || '', !isNew)}
+          </div>
+          <div class="fc-actions">
+            <button class="btn btn-sm btn-green" onclick="markApplied('${esc(p)}')">✅ Mark as Applied</button>
+            <button class="btn btn-sm btn-secondary" onclick="copyFromFileMap('${esc(p)}')">📋 Copy Content</button>
+            <button class="btn btn-sm btn-secondary" onclick="downloadFromFileMap('${esc(p)}')">⬇️ Download</button>
+            <span style="margin-left:auto;font-size:11px;color:var(--text-muted)">${info.operations.length} operation(s)</span>
+          </div>
         </div>
-      </div>
-    `;
+      `;
 
-    container.appendChild(card);
-  });
+      container.appendChild(card);
+    });
 }
 
 function toggleFileCard(header) {
@@ -1002,6 +1088,33 @@ function markApplied(path) {
 
 function applyFileToDisk(path, content) {
   markApplied(path);
+}
+
+function copyFromFileMap(path) {
+  const info = fileMap[path];
+  if (info) copyText(info.content || '');
+}
+
+function downloadFromFileMap(path) {
+  const info = fileMap[path];
+  if (info) downloadFile(path, info.content || '');
+}
+
+function copyActiveContent() {
+  if (activeIdx !== -1) {
+    const ev = filteredEvents[activeIdx];
+    const content = ev.content || (ev.details && ev.details.content) || '';
+    copyText(content);
+  }
+}
+
+function applyActiveToDisk() {
+  if (activeIdx !== -1) {
+    const ev = filteredEvents[activeIdx];
+    if (ev.path) {
+      applyFileToDisk(ev.path, ev.content || '');
+    }
+  }
 }
 
 // ============================================================
@@ -1037,13 +1150,29 @@ function searchTimeline(q) {
 // ============================================================
 // Code rendering
 // ============================================================
-function renderCode(content) {
+function renderCode(content, isDiff=false) {
   if (typeof content === 'object') content = JSON.stringify(content, null, 2);
   if (!content) return '<div class="code-line"><span class="line-num">—</span><span style="color:var(--text-muted);font-style:italic">Empty content</span></div>';
 
   const lines = String(content).split('\n');
   return lines.map((line, i) => {
-    return `<div class="code-line"><span class="line-num">${i+1}</span><span>${syntaxHighlight(esc(line))}</span></div>`;
+    let cls = 'code-line';
+    let displayedLine = line;
+    
+    if (isDiff) {
+      if (line.startsWith('+')) {
+        cls += ' added';
+        displayedLine = line.slice(1);
+      } else if (line.startsWith('-')) {
+        cls += ' removed';
+        displayedLine = line.slice(1);
+      } else if (line.startsWith('@@')) {
+        cls += ' hunk-header';
+        return `<div class="${cls}" style="color:var(--accent2);background:rgba(124,111,247,0.05);padding:0 16px;font-weight:600;"><span class="line-num">@@</span><span>${esc(line)}</span></div>`;
+      }
+    }
+    
+    return `<div class="${cls}"><span class="line-num">${i+1}</span><span>${syntaxHighlight(esc(displayedLine))}</span></div>`;
   }).join('');
 }
 
