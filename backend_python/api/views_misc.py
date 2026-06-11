@@ -267,3 +267,33 @@ def notifications_unread_count(request):
         return err
     count = getattr(user, 'unread_notification_count', 0) or 0
     return Response({'count': count})
+
+
+@api_view(['GET'])
+@authentication_classes([])
+@permission_classes([AllowAny])
+def realtime_config(request):
+    """
+    GET /api/realtime/config — public discovery endpoint for mobile clients.
+
+    Returns the public WebSocket URL so native apps (Android) can connect to
+    the realtime layer without scraping HTML pages.
+    """
+    import os as _os
+    ws_url = _os.environ.get('WS_PUBLIC_URL', '').strip()
+    if not ws_url:
+        try:
+            import glob as _glob
+            import re as _re
+            for path in sorted(_glob.glob('/tmp/cf_quick*.log'), reverse=True):
+                try:
+                    with open(path, 'r', errors='ignore') as fh:
+                        matches = _re.findall(r'https://[a-z0-9-]+\.trycloudflare\.com', fh.read())
+                    if matches:
+                        ws_url = matches[-1].replace('https://', 'wss://') + '/ws/'
+                        break
+                except OSError:
+                    continue
+        except Exception:
+            ws_url = ''
+    return Response({'ws_url': ws_url, 'heartbeat_interval': 25})

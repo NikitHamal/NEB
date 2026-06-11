@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
@@ -61,6 +62,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.neb.ians.R
 import com.neb.ians.data.api.ApiPost
@@ -69,6 +71,7 @@ import com.neb.ians.ui.theme.getSubjectTheme
 import com.neb.ians.util.formatTimeAgo
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.neb.ians.data.realtime.RealtimeClient
 import com.neb.ians.data.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
@@ -95,12 +98,45 @@ fun NebiansLogo(
 
 @HiltViewModel
 class TopBarViewModel @Inject constructor(
-    authRepository: AuthRepository
+    authRepository: AuthRepository,
+    realtimeClient: RealtimeClient
 ) : ViewModel() {
     val userName = authRepository.currentUserNameFlow
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), "Student")
     val userPhotoUrl = authRepository.currentUserPhotoUrlFlow
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
+
+    /** Live unread notification count (web parity: topbar badge). */
+    val unreadCount: kotlinx.coroutines.flow.StateFlow<Int> = realtimeClient.unreadCount
+}
+
+/**
+ * Small error-colored count pill shown at the top-end of an icon
+ * (web parity: red unread badge with count, "9+" above 9).
+ */
+@Composable
+fun UnreadCountBadge(
+    count: Int,
+    modifier: Modifier = Modifier
+) {
+    if (count <= 0) return
+    val label = if (count > 9) "9+" else count.toString()
+    Box(
+        modifier = modifier
+            .defaultMinSize(minWidth = 16.dp, minHeight = 16.dp)
+            .background(MaterialTheme.colorScheme.error, WebPillShape)
+            .border(1.5.dp, MaterialTheme.colorScheme.surface, WebPillShape)
+            .padding(horizontal = 3.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = label,
+            color = Color.White,
+            fontSize = 9.sp,
+            fontWeight = FontWeight.Bold,
+            maxLines = 1
+        )
+    }
 }
 
 @Composable
@@ -122,9 +158,11 @@ fun WebTopBar(
 ) {
     val dbUserName by viewModel.userName.collectAsStateWithLifecycle()
     val dbUserPhotoUrl by viewModel.userPhotoUrl.collectAsStateWithLifecycle()
+    val vmUnreadCount by viewModel.unreadCount.collectAsStateWithLifecycle()
 
     val name = (avatarInitial ?: dbUserName).ifEmpty { "N" }
     val photo = avatarUrl ?: dbUserPhotoUrl
+    val badgeCount = maxOf(unreadCount, vmUnreadCount)
 
     Surface(
         modifier = modifier.fillMaxWidth(),
@@ -209,14 +247,12 @@ fun WebTopBar(
                     contentDescription = "Notifications",
                     onClick = onNotificationsClick
                 )
-                if (unreadCount > 0) {
-                    Box(
+                if (badgeCount > 0) {
+                    UnreadCountBadge(
+                        count = badgeCount,
                         modifier = Modifier
                             .align(Alignment.TopEnd)
-                            .padding(top = 7.dp, end = 7.dp)
-                            .size(9.dp)
-                            .background(MaterialTheme.colorScheme.error, CircleShape)
-                            .border(1.5.dp, MaterialTheme.colorScheme.surface, CircleShape)
+                            .padding(top = 2.dp, end = 2.dp)
                     )
                 }
             }
@@ -491,6 +527,13 @@ fun WebResourceCard(
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest),
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
     ) {
+        // Web parity: thin subject-colored header strip (color-mix accent) at the very top.
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(4.dp)
+                .background(subjectTheme.color)
+        )
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -527,7 +570,12 @@ fun WebResourceCard(
                 )
             }
         }
-        Column(modifier = Modifier.padding(12.dp)) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(subjectTheme.color.copy(alpha = 0.08f))
+                .padding(12.dp)
+        ) {
             Surface(
                 shape = WebPillShape,
                 color = subjectTheme.container

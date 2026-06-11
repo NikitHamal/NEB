@@ -8,6 +8,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login as django_login, logout as django_logout
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
+from django.core.signing import TimestampSigner
 from django.db import transaction
 from django.db.models import Q, Count, F
 from django.shortcuts import render, redirect
@@ -225,13 +226,14 @@ def _serialize_posts(posts_qs, user_id=None):
     for img in PostImage.objects.filter(post_id__in=post_ids).order_by('order', 'created_at'):
         all_images.setdefault(img.post_id, []).append({'id': img.id, 'imageUrl': img.image_url, 'order': img.order})
     all_polls = {}
-    for poll in Poll.objects.filter(post_id__in=post_ids):
+    polls = list(Poll.objects.filter(post_id__in=post_ids))
+    user_votes_by_poll = {}
+    if user_id and polls:
+        for v in PollVote.objects.filter(poll__post_id__in=post_ids, user_id=user_id):
+            user_votes_by_poll.setdefault(v.poll_id, v.option_id)
+    for poll in polls:
         opts = list(PollOption.objects.filter(poll=poll).order_by('order'))
-        user_vote = None
-        if user_id:
-            vote = PollVote.objects.filter(poll=poll, user_id=user_id).select_related('option').first()
-            if vote:
-                user_vote = vote.option_id
+        user_vote = user_votes_by_poll.get(poll.id)
         all_polls[poll.post_id] = {
             'id': poll.id, 'question': poll.question, 'pollType': poll.poll_type,
             'allowMultiple': poll.allow_multiple, 'explanation': poll.explanation,
@@ -429,8 +431,8 @@ def _get_valid_token(request):
         api.clear_session_auth(request)
         return None
 
-def _get_ws_public_url():
-    """Return the public WebSocket URL for clients to connect to.
+def _resolve_ws_public_url():
+    """Resolve the public WebSocket URL (uncached).
 
     Priority:
       1. WS_PUBLIC_URL env var (explicit override)
@@ -458,6 +460,48 @@ def _get_ws_public_url():
         pass
     return ''
 
+def _get_ws_public_url():
+    """Return the public WebSocket URL, cached for 60s to avoid per-request file I/O."""
+    return cache.get_or_set('ws_public_url_resolved', _resolve_ws_public_url, 60)
+
+def _client_ip(request):
+    forwarded = request.META.get('HTTP_X_FORWARDED_FOR', '')
+    if forwarded:
+        first = forwarded.split(',')[0].strip()
+        if first:
+            return first
+    return request.META.get('REMOTE_ADDR', '') or 'unknown'
+
+def _rate_limit(request, scope, limit, window_seconds, by_ip=False):
+    """Return True if over limit. Uses cache.add + incr (fixed window)."""
+    if by_ip:
+        ident = _client_ip(request)
+    else:
+        ident = _get_user_id(request) or _client_ip(request)
+    key = f'rl:{scope}:{ident}'
+    if cache.add(key, 1, window_seconds):
+        return False
+    try:
+        count = cache.incr(key)
+    except ValueError:
+        # Key expired between add and incr — start a fresh window.
+        cache.add(key, 1, window_seconds)
+        return False
+    return count > limit
+
+def _get_distinct_subjects():
+    """Distinct, comma-split, sorted subject names from the Resource table (cached 10 min)."""
+    def _resolver():
+        subjects = set()
+        for s_str in Resource.objects.values_list('subject', flat=True).distinct():
+            if s_str:
+                for s in s_str.split(','):
+                    s_stripped = s.strip()
+                    if s_stripped:
+                        subjects.add(s_stripped)
+        return sorted(subjects)
+    return cache.get_or_set('distinct_subjects', _resolver, 600)
+
 def _ctx(request, **extra):
     token = api.get_session_token(request)
     user = api.get_session_user(request)
@@ -466,18 +510,21 @@ def _ctx(request, **extra):
     dark_mode = request.session.get('theme') == 'dark'
     unread_notifications = 0
     if user and user.get('id'):
-        try:
-            db_user = User.objects.get(pk=user['id'])
-            unread_notifications = getattr(db_user, 'unread_notification_count', 0) or 0
-        except User.DoesNotExist:
-            pass
+        _uid = user['id']
+
+        def _load_unread():
+            return (User.objects.filter(pk=_uid)
+                    .values_list('unread_notification_count', flat=True).first()) or 0
+        unread_notifications = cache.get_or_set(f'unread_count:{_uid}', _load_unread, 30)
     ws_url = _get_ws_public_url()
     # When using a cross-domain tunnel (trycloudflare.com), the browser cannot
-    # send the session cookie cross-domain. Append the auth token as a query
-    # param so JWTAuthMiddleware can authenticate the WS connection.
-    if ws_url and token and 'trycloudflare.com' in ws_url:
+    # send the session cookie cross-domain. Append a short-lived signed ticket
+    # (NOT the auth token) so JWTAuthMiddleware can authenticate the WS
+    # connection without leaking the bearer token in page HTML.
+    if ws_url and token and user and user.get('id') and 'trycloudflare.com' in ws_url:
+        ticket = TimestampSigner(salt='ws-ticket').sign(str(user['id']))
         separator = '&' if '?' in ws_url else '?'
-        ws_url = f'{ws_url}{separator}token={token}'
+        ws_url = f'{ws_url}{separator}ticket={ticket}'
     ctx = {
         'is_authenticated': bool(token),
         'user': user,
@@ -533,7 +580,7 @@ def _serialize_user_search_single(u, viewer_id=None, _followed_ids=None):
         'moderatorLevel': u.moderator_level or 0,
         'verificationLevel': u.verification_level or 0,
         'badgeInfo': _user_badge_info(u),
-        'followerCount': Follow.objects.filter(following_id=u.id).count(),
+        'followerCount': getattr(u, 'follower_count', 0) or 0,
         'isFollowing': is_following,
         'isSelf': is_self,
     }
@@ -612,7 +659,13 @@ def _build_local_stats_fallback(user_id):
     }
 
 def _build_contributors_batch():
-    users = User.objects.all()
+    users = User.objects.order_by('-contribution_score').only(
+        'id', 'username', 'display_name', 'photo_url',
+        'contribution_score', 'post_count', 'reply_count',
+        'likes_given_count', 'likes_received_count',
+        'is_bot', 'is_admin', 'moderator_level', 'verification_level',
+        'role', 'teacher_verified',
+    )[:50]
     contributors = []
     for u in users:
         score = getattr(u, 'contribution_score', None)
@@ -718,6 +771,7 @@ def _clear_page_cache():
     cache.delete_many([
         'home_resources', 'home_posts', 'library_all_resources',
         'forum_all_posts', 'forum_contributors', 'admin_stats', 'sitemap_xml',
+        'distinct_subjects', 'library_filter_options',
     ])
 
 def parse_sections(text):

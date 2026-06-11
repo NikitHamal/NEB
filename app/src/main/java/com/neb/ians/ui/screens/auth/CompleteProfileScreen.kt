@@ -34,6 +34,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.ui.layout.ContentScale
 import coil.compose.rememberAsyncImagePainter
+import com.neb.ians.data.api.UserProfileResponse
+import com.neb.ians.ui.components.ProfileBanner
+import com.neb.ians.ui.components.bannerPresetFor
 import java.util.*
 
 private val PRADESH_LIST = listOf("Koshi", "Madhesh", "Bagmati", "Gandaki", "Lumbini", "Karnali", "Sudurpashchim")
@@ -63,10 +66,13 @@ fun CompleteProfileScreen(
     val context = LocalContext.current
     val scrollState = rememberScrollState()
 
+    val isBannerUrlValid = uiState.bannerUrl.isBlank() || uiState.bannerUrl.startsWith("https://")
+
     val isFormValid = uiState.username.length >= 3 &&
         (uiState.usernameAvailable == true || (uiState.isEditing && uiState.username.isNotEmpty())) &&
         uiState.dob.isNotEmpty() &&
         uiState.displayName.isNotEmpty() &&
+        isBannerUrlValid &&
         (uiState.role != "student" || uiState.classLevel.isNotEmpty()) &&
         (uiState.role != "teacher" || uiState.teachingSubjects.isNotEmpty()) &&
         (uiState.role != "institution" || uiState.school.isNotEmpty())
@@ -770,6 +776,64 @@ fun CompleteProfileScreen(
                             value = uiState.school,
                             onValueChange = viewModel::onSchoolChange,
                             placeholder = { Text(schoolPlaceholder) },
+                            singleLine = true,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(top = 4.dp),
+                            shape = RoundedCornerShape(12.dp)
+                        )
+                    }
+
+                    // Profile appearance — live banner preview + banner URL
+                    Column {
+                        Text(
+                            text = "Profile appearance",
+                            style = MaterialTheme.typography.bodyMedium,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+
+                        // Live preview: entered URL if valid, otherwise the
+                        // role-themed animated gradient preset.
+                        val previewProfile = remember(uiState.role) {
+                            UserProfileResponse(id = "", role = uiState.role)
+                        }
+                        val previewPreset = remember(uiState.role) { bannerPresetFor(previewProfile) }
+                        val previewUrl = uiState.bannerUrl.takeIf {
+                            it.isNotBlank() && it.startsWith("https://")
+                        }
+                        ProfileBanner(
+                            bannerUrl = previewUrl,
+                            bannerType = previewPreset.first,
+                            decoText = previewPreset.second,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(100.dp)
+                        )
+
+                        Spacer(modifier = Modifier.height(10.dp))
+                        Text(
+                            text = "Banner image URL",
+                            style = MaterialTheme.typography.bodyMedium,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                        OutlinedTextField(
+                            value = uiState.bannerUrl,
+                            onValueChange = viewModel::onBannerUrlChange,
+                            placeholder = { Text("https://example.com/banner.jpg (optional)") },
+                            isError = !isBannerUrlValid,
+                            supportingText = {
+                                if (!isBannerUrlValid) {
+                                    Text(
+                                        "Banner URL must start with https://",
+                                        color = MaterialTheme.colorScheme.error
+                                    )
+                                } else {
+                                    Text("Leave blank for the role-themed gradient banner.")
+                                }
+                            },
                             singleLine = true,
                             modifier = Modifier
                                 .fillMaxWidth()
