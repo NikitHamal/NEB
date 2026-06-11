@@ -72,6 +72,8 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.decodeFromString
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -127,9 +129,19 @@ class StudySpaceViewModel @Inject constructor(
             _uiState.update { it.copy(isLoading = true, error = null) }
             try {
                 val detail = apiService.getStudySpaceDetail(token, spaceId)
+                val spaceMindmap = try {
+                    if (!detail.linkMindmapJson.isNullOrBlank()) {
+                        Json { ignoreUnknownKeys = true }.decodeFromString<ApiStudyMindmap>(detail.linkMindmapJson)
+                    } else null
+                } catch (e: Exception) {
+                    null
+                }
                 _uiState.update {
                     it.copy(
                         space = detail,
+                        summaryCompact = detail.linkSummaryCompact ?: "",
+                        summaryDetailed = detail.linkSummaryDetailed ?: "",
+                        mindmap = spaceMindmap,
                         quizzes = detail.quizzes,
                         flashcards = detail.flashcards,
                         isLoading = false
