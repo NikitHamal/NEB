@@ -1,5 +1,6 @@
 """Views Notifications extracted from views.py."""
 from .view_helpers import *  # noqa: F401,F403
+from api.notifications import get_notification_url
 
 def notifications(request):
     """Full-page notification center."""
@@ -36,25 +37,7 @@ def notifications(request):
             text = f'<strong>{safe_actor_name}</strong> <span class="notif-verb">{escape(verb_label)}</span>'
         else:
             text = f'<span class="notif-verb">{escape(verb_label)}</span>'
-        url = '#'
-        if n.verb == 'follow' and actor_name:
-            url = f'/profile/{actor_name}/'
-        elif n.verb in ('resource_approved', 'resource_rejected') and n.target_type == 'resource' and n.target_id:
-            url = f'/reader/{n.target_id}/'
-        elif n.target_type == 'resource' or n.reference_type == 'resource':
-            resource_id = n.target_id if n.target_type == 'resource' else n.reference_id
-            url = f'/reader/{resource_id}/'
-        elif n.target_type == 'resource_comment':
-            resource_id = n.reference_id if n.reference_type == 'resource' else ''
-            if resource_id:
-                url = f'/reader/{resource_id}/'
-        elif n.target_type == 'post' or n.reference_type == 'post':
-            post_id = n.target_id if n.target_type == 'post' else n.reference_id
-            url = f'/forum/post/{post_id}/'
-        elif n.target_type == 'reply':
-            post_id = n.reference_id if n.reference_type == 'post' else ''
-            if post_id:
-                url = f'/forum/post/{post_id}/'
+        url = get_notification_url(n, actor_name=actor_name)
         notif_data.append({
             'id': n.id,
             'verb': n.verb,
@@ -94,6 +77,7 @@ def ajax_notifications(request):
     results = []
     for n in notifs_page:
         actor_badge = _user_badge_info(n.actor) if n.actor else None
+        actor_name = n.actor.username if n.actor else None
         results.append({
             'id': n.id,
             'verb': n.verb,
@@ -104,10 +88,11 @@ def ajax_notifications(request):
             'message': n.message,
             'isRead': n.is_read,
             'createdAt': n.created_at,
-            'actorName': n.actor.username if n.actor else None,
+            'actorName': actor_name,
             'actorPhotoUrl': n.actor.photo_url if n.actor else None,
             'actorId': n.actor_id if n.actor else None,
             'actorBadgeInfo': actor_badge,
+            'url': get_notification_url(n, actor_name=actor_name),
         })
     return JsonResponse({
         'results': results,

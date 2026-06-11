@@ -481,6 +481,15 @@
       };
       toast.textContent = messages[verb] || 'New notification';
       host.appendChild(toast);
+
+      const url = payload && payload.url;
+      if (url && url !== '#') {
+        toast.style.cursor = 'pointer';
+        toast.addEventListener('click', function() {
+          window.location.href = url;
+        });
+      }
+
       setTimeout(function () { toast.style.opacity = '0'; toast.style.transition = 'opacity 0.3s'; }, 4000);
       setTimeout(function () { toast.remove(); }, 4500);
     }
