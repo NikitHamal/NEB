@@ -93,22 +93,28 @@ def decrement_user_following_count(user_id):
 
 
 def increment_user_unread_notification_count(user_id):
+    from django.core.cache import cache
     from .models import User
     User.objects.filter(pk=user_id).update(unread_notification_count=F('unread_notification_count') + 1)
+    cache.delete(f'unread_count:{user_id}')
 
 
 def decrement_user_unread_notification_count(user_id, amount=1):
+    from django.core.cache import cache
     from .models import User
     if amount <= 0:
         return
     User.objects.filter(pk=user_id, unread_notification_count__gt=0).update(
         unread_notification_count=F('unread_notification_count') - amount
     )
+    cache.delete(f'unread_count:{user_id}')
 
 
 def reset_user_unread_notification_count(user_id):
+    from django.core.cache import cache
     from .models import User
     User.objects.filter(pk=user_id).update(unread_notification_count=0)
+    cache.delete(f'unread_count:{user_id}')
 
 
 def increment_user_resource_approved(user_id):
