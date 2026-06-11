@@ -71,3 +71,4 @@ Resources/
 # Temp directories
 .kunsdd/
 
+.kotlin/

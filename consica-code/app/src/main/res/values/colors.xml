@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="forest_green">#2D5A27</color>
+    <color name="leaf_light">#E8F5E9</color>
+    <color name="clean_white">#FFFFFF</color>
+    <color name="soil_dark">#1A1A1A</color>
+    <color name="stone_gray">#8D99AE</color>
+    <color name="river_blue">#4DA8DA</color>
+    <color name="sun_yellow">#FFD54F</color>
+    <color name="ic_launcher_background">#E8F5E9</color>
+</resources>

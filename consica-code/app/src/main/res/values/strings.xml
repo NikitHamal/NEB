@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Consica Code</string>
+    <string name="app_short_name">Ccode</string>
+
+    <!-- Terra the guide -->
+    <string name="terra_name">Terra</string>
+    <string name="guide_lesson_start_kid">Yay, you\'re here! Let\'s plant some code together! 🌱</string>
+    <string name="guide_lesson_start_teen">Ready? Let\'s build something cool, step by step.</string>
+    <string name="guide_lesson_start_adult">Welcome back. Here\'s your next objective.</string>
+    <string name="guide_success_kid">WOW! Your code grew something amazing! 🎉</string>
+    <string name="guide_success_teen">Nice work — that ran perfectly!</string>
+    <string name="guide_success_adult">Passed. Clean solution.</string>
+    <string name="guide_mistake_kid">Oops, a tiny tangle! Mistakes help seeds grow. Try again!</string>
+    <string name="guide_mistake_teen">Not quite — check the hint and give it another shot.</string>
+    <string name="guide_mistake_adult">Execution failed. Review the error details below.</string>
+    <string name="guide_offline_kid">No internet? No problem! The whole forest works offline!</string>
+    <string name="guide_offline_older">You\'re offline — everything here still works. Nothing needs the internet.</string>
+    <string name="guide_reward_kid">You earned something shiny! Check your rewards!</string>
+    <string name="guide_reward_teen">Reward unlocked — nice streak of progress.</string>
+    <string name="guide_reward_adult">Reward earned. Progress logged.</string>
+    <string name="guide_locked_kid">That part of the forest is still sleepy. Finish more lessons to wake it up!</string>
+    <string name="guide_locked_older">This area is locked. Complete more of the previous biome to unlock it.</string>
+    <string name="guide_streak">Your streak is growing strong — keep it alive!</string>
+    <string name="guide_idle_kid">Psst… need a little hint? Tap the lightbulb!</string>
+    <string name="guide_idle_older">Stuck? There\'s a hint available if you want it.</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_welcome_title">Welcome to Consica Code!</string>
+    <string name="onboarding_welcome_body">I\'m Terra! I\'ll help you grow real coding skills — no internet needed, ever.</string>
+    <string name="onboarding_age_title">How old are you?</string>
+    <string name="onboarding_age_kids">8–12</string>
+    <string name="onboarding_age_teens">13–16</string>
+    <string name="onboarding_age_adults">16+</string>
+    <string name="onboarding_age_kids_desc">Playful adventures with Terra</string>
+    <string name="onboarding_age_teens_desc">Structured challenges and projects</string>
+    <string name="onboarding_age_adults_desc">Professional tools from day one</string>
+    <string name="onboarding_goal_title">Why do you want to code?</string>
+    <string name="onboarding_goal_fun">For fun</string>
+    <string name="onboarding_goal_school">For school</string>
+    <string name="onboarding_goal_career">For a career</string>
+    <string name="onboarding_goal_creative">To create things</string>
+    <string name="onboarding_experience_title">Have you coded before?</string>
+    <string name="onboarding_experience_new">Brand new</string>
+    <string name="onboarding_experience_some">I know some basics</string>
+    <string name="onboarding_experience_confident">I\'m fairly confident</string>
+    <string name="onboarding_theme_title">Pick your vibe</string>
+    <string name="onboarding_theme_playful">Playful</string>
+    <string name="onboarding_theme_balanced">Balanced</string>
+    <string name="onboarding_theme_focused">Focused</string>
+    <string name="onboarding_theme_playful_desc">Lots of animations and celebrations</string>
+    <string name="onboarding_theme_balanced_desc">A friendly mix</string>
+    <string name="onboarding_theme_focused_desc">Calm and minimal</string>
+    <string name="onboarding_interests_title">What sounds exciting?</string>
+    <string name="onboarding_interest_python">Python</string>
+    <string name="onboarding_interest_web">Websites</string>
+    <string name="onboarding_interest_games">Games</string>
+    <string name="onboarding_interest_apps">Apps</string>
+    <string name="onboarding_interest_ai">AI basics</string>
+    <string name="onboarding_interest_creative">Creative coding</string>
+    <string name="onboarding_name_title">What should Terra call you?</string>
+    <string name="onboarding_name_hint">Your name (optional)</string>
+    <string name="onboarding_next">Next</string>
+    <string name="onboarding_back">Back</string>
+    <string name="onboarding_start">Start growing!</string>
+    <string name="onboarding_step_of">Step %1$d of %2$d</string>
+
+    <!-- Biome map / home -->
+    <string name="map_title">Your Forest</string>
+    <string name="map_continue">Continue</string>
+    <string name="map_locked_biome">Locked — keep growing!</string>
+    <string name="map_lessons_done">%1$d of %2$d lessons</string>
+    <string name="map_level">Level %1$d</string>
+    <string name="map_quick_python">Python Playground</string>
+    <string name="map_quick_web">Web Playground</string>
+    <string name="map_quick_workspaces">My Workspaces</string>
+    <string name="map_offline_banner">Offline and fully working — no internet needed!</string>
+    <string name="stat_xp">XP</string>
+    <string name="stat_sun_coins">Sun Coins</string>
+    <string name="stat_water_drops">Water Drops</string>
+    <string name="stat_streak">Day streak</string>
+    <string name="cd_terra_settings">Terra — open settings</string>
+    <string name="cd_lesson_node">Lesson: %1$s</string>
+    <string name="cd_lesson_locked">Locked lesson</string>
+    <string name="cd_lesson_completed">Completed lesson</string>
+
+    <!-- Lesson / Terra's Nest -->
+    <string name="lesson_continue">Continue</string>
+    <string name="lesson_lets_code">Let\'s code!</string>
+    <string name="lesson_solve_puzzle">Solve the puzzle!</string>
+    <string name="lesson_finish">Finish lesson</string>
+    <string name="lesson_step_progress">%1$d / %2$d</string>
+
+    <!-- Playground -->
+    <string name="playground_title">Green-Code Playground</string>
+    <string name="playground_run_kid">Grow!</string>
+    <string name="playground_run">Run</string>
+    <string name="playground_output">Output</string>
+    <string name="playground_preview">Preview</string>
+    <string name="playground_console">Console</string>
+    <string name="playground_hint">Hint</string>
+    <string name="playground_instructions">Your mission</string>
+    <string name="playground_empty_output">Run your code to see what grows!</string>
+    <string name="playground_success">It worked! Your code is alive!</string>
+    <string name="playground_check_again">Almost! Check the mission and try again.</string>
+    <string name="playground_error_title">Something to fix</string>
+    <string name="playground_error_line">Line %1$d</string>
+    <string name="playground_reset_code">Reset code</string>
+    <string name="playground_pro_mode">Pro editor</string>
+    <string name="playground_collect_rewards">Collect rewards</string>
+    <string name="playground_keyboard_help">Tap a key to add code</string>
+    <string name="error_friendly_syntax">The code\'s shape isn\'t quite right — check for missing symbols.</string>
+    <string name="error_friendly_name">You used a name the computer doesn\'t know yet.</string>
+    <string name="error_friendly_type">Two things that don\'t mix were combined — like adding words to numbers.</string>
+    <string name="error_friendly_value">A value wasn\'t what the computer expected.</string>
+    <string name="error_friendly_index">You asked for an item that isn\'t in the list.</string>
+    <string name="error_friendly_division">Dividing by zero — even computers can\'t do that!</string>
+    <string name="error_friendly_runtime">Something unexpected happened while running.</string>
+    <string name="error_friendly_timeout">Your code ran for too long — maybe a loop that never ends?</string>
+
+    <!-- Puzzle -->
+    <string name="puzzle_title">Code Puzzle</string>
+    <string name="puzzle_check">Check my answer</string>
+    <string name="puzzle_correct">Perfect order! The code flows beautifully!</string>
+    <string name="puzzle_incorrect">Not quite the right order — try moving blocks around.</string>
+    <string name="puzzle_move_up">Move block up</string>
+    <string name="puzzle_move_down">Move block down</string>
+    <string name="puzzle_your_blocks">Arrange the blocks in order</string>
+
+    <!-- Rewards -->
+    <string name="rewards_title">Your Rewards</string>
+    <string name="rewards_badges">Badges</string>
+    <string name="rewards_ecosystem">Your Ecosystem</string>
+    <string name="rewards_streak_title">Streak garden</string>
+    <string name="rewards_no_badges">Complete lessons to earn your first badge!</string>
+    <string name="rewards_no_items">Your ecosystem is waiting to grow. Finish lessons to add life!</string>
+    <string name="rewards_badge_locked">Not earned yet</string>
+    <string name="rewards_level_progress">Level %1$d — %2$d / %3$d XP</string>
+    <string name="rewards_mastery">Mastery: %1$d points</string>
+    <string name="rewards_streak_days">%1$d-day streak</string>
+    <string name="rewards_active_today">Active today — streak safe!</string>
+    <string name="rewards_come_back">Come back tomorrow to keep your streak growing!</string>
+
+    <!-- Learning path -->
+    <string name="path_title">Learning Paths</string>
+    <string name="path_beginner_web">Web Sprouts</string>
+    <string name="path_beginner_python">Python Seeds</string>
+    <string name="path_intermediate">Growing Grove</string>
+    <string name="path_advanced">Sky Canopy</string>
+    <string name="path_beginner_web_desc">Build your first web pages with HTML</string>
+    <string name="path_beginner_python_desc">Learn Python from your very first print</string>
+    <string name="path_intermediate_desc">Loops, logic and bigger ideas</string>
+    <string name="path_advanced_desc">Projects and professional skills</string>
+    <string name="path_progress">%1$d%% complete</string>
+    <string name="path_open">Open</string>
+
+    <!-- Workspaces -->
+    <string name="workspaces_title">My Workspaces</string>
+    <string name="workspaces_new">New workspace</string>
+    <string name="workspaces_empty">Create a workspace to build your own projects!</string>
+    <string name="workspaces_name_hint">Project name</string>
+    <string name="workspaces_language">Language</string>
+    <string name="workspaces_create">Create</string>
+    <string name="workspaces_cancel">Cancel</string>
+    <string name="workspaces_delete">Delete</string>
+    <string name="workspaces_delete_confirm">Delete this workspace? This cannot be undone.</string>
+    <string name="workspaces_updated">Updated %1$s</string>
+    <string name="workspace_save">Save</string>
+    <string name="workspace_saved">Saved!</string>
+    <string name="workspace_files">Files</string>
+    <string name="workspace_add_file">Add file</string>
+    <string name="workspace_file_name_hint">File name</string>
+    <string name="cd_delete_workspace">Delete workspace</string>
+    <string name="cd_delete_file">Delete file</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_profile">Profile</string>
+    <string name="settings_display_name">Display name</string>
+    <string name="settings_age_group">Age group</string>
+    <string name="settings_appearance">Appearance</string>
+    <string name="settings_theme_intensity">Theme style</string>
+    <string name="settings_high_contrast">High contrast</string>
+    <string name="settings_high_contrast_desc">Stronger colors for easier reading</string>
+    <string name="settings_reduced_motion">Reduce motion</string>
+    <string name="settings_reduced_motion_desc">Calms animations and effects</string>
+    <string name="settings_sound">Sounds</string>
+    <string name="settings_sound_desc">Gentle chimes for taps and rewards</string>
+    <string name="settings_guidance">Terra\'s guidance</string>
+    <string name="settings_guidance_full">Full — Terra helps a lot</string>
+    <string name="settings_guidance_balanced">Balanced — helpful nudges</string>
+    <string name="settings_guidance_minimal">Minimal — just the essentials</string>
+    <string name="settings_pro_mode">Professional editor mode</string>
+    <string name="settings_pro_mode_desc">Line numbers, advanced tools and pro lessons</string>
+    <string name="settings_pro_mode_locked">Unlocks at level %1$d or %2$d mastery points</string>
+    <string name="settings_data">Data</string>
+    <string name="settings_reset">Reset all progress</string>
+    <string name="settings_reset_desc">Erases lessons, badges, rewards and workspaces</string>
+    <string name="settings_reset_confirm_title">Reset everything?</string>
+    <string name="settings_reset_confirm_body">All your progress, badges and workspaces will be erased. This cannot be undone.</string>
+    <string name="settings_reset_confirm_yes">Yes, reset</string>
+    <string name="settings_about">About</string>
+    <string name="settings_about_body">Consica Code is a fully offline coding school for curious minds in Nepal and beyond. Made with 💚.</string>
+    <string name="settings_version">Version %1$s</string>
+
+    <!-- Celebration -->
+    <string name="celebrate_lesson_complete">Lesson complete!</string>
+    <string name="celebrate_xp_gained">+%1$d XP</string>
+    <string name="celebrate_sun_gained">+%1$d sun coins</string>
+    <string name="celebrate_water_gained">+%1$d water drops</string>
+    <string name="celebrate_level_up">Level up! You reached level %1$d!</string>
+    <string name="celebrate_pro_unlocked">Professional tools unlocked!</string>
+    <string name="celebrate_new_badge">New badge earned!</string>
+    <string name="celebrate_new_item">New ecosystem friend!</string>
+    <string name="celebrate_continue">Keep growing</string>
+
+    <!-- Misc -->
+    <string name="back">Back</string>
+    <string name="close">Close</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+</resources>

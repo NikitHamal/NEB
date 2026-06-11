@@ -1,0 +1,496 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- ════════════════════════ Badges ════════════════════════ -->
+    <string name="badge_first_sprout_name">First Sprout</string>
+    <string name="badge_first_sprout_desc">You planted your very first heading on the web. Every forest starts with one sprout!</string>
+    <string name="badge_web_wanderer_name">Web Wanderer</string>
+    <string name="badge_web_wanderer_desc">You connected pages with links and added your first image.</string>
+    <string name="badge_html_hero_name">HTML Hero</string>
+    <string name="badge_html_hero_desc">You built a complete mini web page all by yourself.</string>
+    <string name="badge_css_artist_name">CSS Artist</string>
+    <string name="badge_css_artist_desc">You painted a page with background colors and centered layout.</string>
+    <string name="badge_python_hatchling_name">Python Hatchling</string>
+    <string name="badge_python_hatchling_desc">You hatched into Python with your very first print().</string>
+    <string name="badge_loop_ranger_name">Loop Ranger</string>
+    <string name="badge_loop_ranger_desc">You mastered for loops and greeted every butterfly in the meadow.</string>
+    <string name="badge_function_forester_name">Function Forester</string>
+    <string name="badge_function_forester_desc">You wrote your first reusable Python function.</string>
+    <string name="badge_bug_squasher_name">Bug Squasher</string>
+    <string name="badge_bug_squasher_desc">You rebuilt the broken watering code and squashed the bug.</string>
+    <string name="badge_river_builder_name">River Builder</string>
+    <string name="badge_river_builder_desc">You built a styled profile card in the River Delta.</string>
+    <string name="badge_grove_thinker_name">Grove Thinker</string>
+    <string name="badge_grove_thinker_desc">You solved the vowel-counting challenge in the Deep Grove.</string>
+    <string name="badge_clean_coder_name">Clean Coder</string>
+    <string name="badge_clean_coder_desc">You wrote a tidy trail report with functions and loops.</string>
+    <string name="badge_algorithm_ace_name">Algorithm Ace</string>
+    <string name="badge_algorithm_ace_desc">You found the tallest peak with your own algorithm, no max() needed.</string>
+    <string name="badge_project_pioneer_name">Project Pioneer</string>
+    <string name="badge_project_pioneer_desc">You completed your first multi-step project: the Mountain Lodge page.</string>
+    <string name="badge_capstone_name">Capstone Crown</string>
+    <string name="badge_capstone_desc">You finished the ecosystem health capstone. The whole sky celebrates you!</string>
+    <string name="badge_streak_3_name">3-Day Streak</string>
+    <string name="badge_streak_3_desc">You learned three days in a row. The habit is sprouting!</string>
+    <string name="badge_streak_7_name">7-Day Streak</string>
+    <string name="badge_streak_7_desc">A whole week of coding every day. Terra is impressed!</string>
+    <string name="badge_streak_30_name">30-Day Streak</string>
+    <string name="badge_streak_30_desc">Thirty days of daily learning. You are unstoppable!</string>
+    <string name="badge_mastery_bronze_name">Bronze Mastery</string>
+    <string name="badge_mastery_bronze_desc">Earn 20 mastery points by completing lessons.</string>
+    <string name="badge_mastery_silver_name">Silver Mastery</string>
+    <string name="badge_mastery_silver_desc">Earn 60 mastery points. Pro tools await!</string>
+    <string name="badge_mastery_gold_name">Gold Mastery</string>
+    <string name="badge_mastery_gold_desc">Earn 120 mastery points and reach the top of the canopy.</string>
+
+    <!-- ════════════════════════ Biomes ════════════════════════ -->
+    <string name="biome_forest_floor_name">Forest Floor</string>
+    <string name="biome_forest_floor_tagline">Plant your first HTML and CSS seeds</string>
+    <string name="biome_sunny_meadow_name">Sunny Meadow</string>
+    <string name="biome_sunny_meadow_tagline">Learn Python basics in the warm sunshine</string>
+    <string name="biome_river_delta_name">River Delta</string>
+    <string name="biome_river_delta_tagline">Shape layouts, forms and real pages</string>
+    <string name="biome_deep_grove_name">Deep Grove</string>
+    <string name="biome_deep_grove_tagline">Grow deeper Python logic under the old trees</string>
+    <string name="biome_mountain_peaks_name">Mountain Peaks</string>
+    <string name="biome_mountain_peaks_tagline">Climb into big projects and algorithms</string>
+    <string name="biome_sky_canopy_name">Sky Canopy</string>
+    <string name="biome_sky_canopy_tagline">Creative coding and your capstone, above the clouds</string>
+
+    <!-- ════════════════════════ Ecosystem items ════════════════════════ -->
+    <string name="eco_sprout_name">Little Sprout</string>
+    <string name="eco_fern_name">Forest Fern</string>
+    <string name="eco_mushroom_name">Friendly Mushroom</string>
+    <string name="eco_sunflower_name">Sunflower</string>
+    <string name="eco_bee_name">Busy Bee</string>
+    <string name="eco_butterfly_name">Meadow Butterfly</string>
+    <string name="eco_river_stone_name">River Stone</string>
+    <string name="eco_fish_name">River Fish</string>
+    <string name="eco_lily_name">Water Lily</string>
+    <string name="eco_pine_name">Grove Pine</string>
+    <string name="eco_owl_friend_name">Owl Friend</string>
+    <string name="eco_waterfall_name">Waterfall</string>
+    <string name="eco_eagle_name">Summit Eagle</string>
+    <string name="eco_snow_lotus_name">Snow Lotus</string>
+    <string name="eco_cloud_lantern_name">Cloud Lantern</string>
+    <string name="eco_rainbow_name">Sky Rainbow</string>
+
+    <!-- ════════════════════════ Forest Floor — Web ════════════════════════ -->
+
+    <!-- 1. web_intro -->
+    <string name="lesson_web_intro_title">What Is the Web?</string>
+    <string name="lesson_web_intro_desc">Meet Terra and discover how web pages are made.</string>
+    <string name="lesson_web_intro_step1_kid">Hoot hoot! I\'m Terra the owl! 🦉 Welcome to the Forest Floor, where every web page begins as a tiny seed!</string>
+    <string name="lesson_web_intro_step1_teen">Hey, I\'m Terra! Welcome to the Forest Floor — this is where you\'ll learn how web pages are built.</string>
+    <string name="lesson_web_intro_step2_kid">Every website you\'ve ever seen is made of a secret language called HTML. It tells the page what to show! 🤔</string>
+    <string name="lesson_web_intro_step2_teen">Every website is written in HTML — a markup language that describes what appears on the page: headings, text, images and more.</string>
+    <string name="lesson_web_intro_step3_kid">Look! This tiny line of HTML makes a big bold greeting appear. Soon YOU will plant words like this! 🌱</string>
+    <string name="lesson_web_intro_step3_teen">Check out this example: one h1 tag makes a big bold heading. In the next lesson you\'ll write your own.</string>
+
+    <!-- 2. web_first_heading -->
+    <string name="lesson_web_first_heading_title">Plant Your First Heading</string>
+    <string name="lesson_web_first_heading_desc">Write your first HTML tag and grow a heading.</string>
+    <string name="lesson_web_first_heading_step1_kid">It\'s planting time! 🌱 Today you write your very first HTML all by yourself. I\'m so excited!</string>
+    <string name="lesson_web_first_heading_step1_teen">Time to write your first HTML for real. It\'s easier than you think — one tag, one word.</string>
+    <string name="lesson_web_first_heading_step1_adult">In this lesson you will write your first HTML element: a level-one heading.</string>
+    <string name="lesson_web_first_heading_step2_kid">HTML tags are like little flower pots. The h1 pot holds the BIGGEST words on the page! 🪴</string>
+    <string name="lesson_web_first_heading_step2_teen">An h1 tag marks the most important heading on a page. Whatever you put between the opening and closing tag shows up big and bold.</string>
+    <string name="lesson_web_first_heading_step2_adult">The h1 element defines the top-level heading. Content placed between the opening and closing tags is rendered as the page title.</string>
+    <string name="lesson_web_first_heading_step3_kid">See how the word Sprout sits inside the tags? That\'s how we plant a word-seed! 🌱</string>
+    <string name="lesson_web_first_heading_step3_teen">Here\'s the pattern: the word Sprout goes between the opening h1 tag and the closing one.</string>
+    <string name="lesson_web_first_heading_step3_adult">Note the structure: opening tag, text content, closing tag. You will reproduce this in the editor.</string>
+    <string name="lesson_web_first_heading_step4_kid">Now it\'s your turn! Plant the word Sprout in the playground and watch it grow! You can do it! 💪</string>
+    <string name="lesson_web_first_heading_step4_teen">Your turn — open the playground and write the heading yourself. I\'ll be right here if you need a hint.</string>
+    <string name="lesson_web_first_heading_step4_adult">Complete the challenge in the editor. A hint is available if needed.</string>
+    <string name="lesson_web_first_heading_instruction">Write the word Sprout inside the h1 tags so it appears as a big heading.</string>
+    <string name="lesson_web_first_heading_hint">Type Sprout between the opening h1 tag and the closing h1 tag — the pots are already there!</string>
+
+    <!-- 3. web_structure (puzzle) -->
+    <string name="lesson_web_structure_title">Page Skeleton</string>
+    <string name="lesson_web_structure_desc">Arrange the bones of a full HTML page.</string>
+    <string name="lesson_web_structure_step1_kid">Every web page has a skeleton, just like every tree has a trunk and branches! 🌳</string>
+    <string name="lesson_web_structure_step1_teen">Every proper web page follows the same skeleton: a doctype, an html element, a head and a body.</string>
+    <string name="lesson_web_structure_step2_kid">Look at the shape! DOCTYPE comes first, then html wraps around the head and the body. 🦴</string>
+    <string name="lesson_web_structure_step2_teen">Here\'s the structure: DOCTYPE first, then html wrapping head (page info) and body (what you see).</string>
+    <string name="lesson_web_structure_step3_kid">Now let\'s build it! Drag the blocks into the right order and the skeleton will stand up! 🧩</string>
+    <string name="lesson_web_structure_step3_teen">Your turn: put the blocks in the right order to build a complete page skeleton.</string>
+    <string name="lesson_web_structure_instruction">Arrange the blocks to build a complete HTML page: DOCTYPE first, then html, head, body and the closing tags.</string>
+    <string name="lesson_web_structure_hint">DOCTYPE always comes first. The head goes before the body, and closing tags mirror the opening ones.</string>
+
+    <!-- 4. web_headings_paragraphs -->
+    <string name="lesson_web_headings_paragraphs_title">Headings and Paragraphs</string>
+    <string name="lesson_web_headings_paragraphs_desc">Mix big headings with flowing paragraph text.</string>
+    <string name="lesson_web_headings_paragraphs_step1_kid">A page with only headings would SHOUT all the time! 📣 We need calm paragraph text too.</string>
+    <string name="lesson_web_headings_paragraphs_step1_teen">Headings grab attention, but paragraphs carry the real story. Pages need both.</string>
+    <string name="lesson_web_headings_paragraphs_step2_kid">The h2 tag makes a medium heading, and the p tag holds a sentence. Look how nicely they sit together! 🪺</string>
+    <string name="lesson_web_headings_paragraphs_step2_teen">Use h2 for section headings and p for paragraphs. Here\'s an example with both.</string>
+    <string name="lesson_web_headings_paragraphs_step3_kid">Your turn! Write a heading about something you love, then tell me about it in a paragraph! ✏️</string>
+    <string name="lesson_web_headings_paragraphs_step3_teen">Now write your own: one h2 heading and one p paragraph about anything you like.</string>
+    <string name="lesson_web_headings_paragraphs_instruction">Write an h2 heading and a p paragraph below it about any topic you like.</string>
+    <string name="lesson_web_headings_paragraphs_hint">You need two tags: h2 for the heading and p for the paragraph. Don\'t forget the closing tags!</string>
+
+    <!-- 5. web_links_images -->
+    <string name="lesson_web_links_images_title">Links and Images</string>
+    <string name="lesson_web_links_images_desc">Connect pages with links and show pictures.</string>
+    <string name="lesson_web_links_images_step1_kid">Links are like magic bridges between pages, and images are pictures we pin to our page! 🌉🖼️</string>
+    <string name="lesson_web_links_images_step1_teen">Links connect pages together — that\'s what makes the web a web. Images bring pages to life.</string>
+    <string name="lesson_web_links_images_step2_kid">The a tag makes a clickable link with href, and the img tag shows a picture with src. Look! 👀</string>
+    <string name="lesson_web_links_images_step2_teen">The a tag needs an href attribute for the destination. The img tag needs src for the picture and alt to describe it.</string>
+    <string name="lesson_web_links_images_step3_kid">Now build your own bridge and pin your own picture! You\'re becoming a real web wanderer! 🧭</string>
+    <string name="lesson_web_links_images_step3_teen">Your turn: add one link and one image to the page. Earn that Web Wanderer badge!</string>
+    <string name="lesson_web_links_images_instruction">Add one link using the a tag and one picture using the img tag.</string>
+    <string name="lesson_web_links_images_hint">The a tag needs href=\"...\" and the img tag needs src=\"...\". Copy the pattern from the example.</string>
+
+    <!-- 6. web_lists -->
+    <string name="lesson_web_lists_title">Making Lists</string>
+    <string name="lesson_web_lists_desc">Collect things in tidy bullet-point lists.</string>
+    <string name="lesson_web_lists_step1_kid">Time to collect treasures! 🍄 Lists keep all your favorite things in a neat row of bullet points.</string>
+    <string name="lesson_web_lists_step1_teen">Lists are everywhere on the web — menus, to-dos, rankings. Let\'s learn the tags behind them.</string>
+    <string name="lesson_web_lists_step2_kid">The ul tag is the basket, and each li tag is one treasure inside it! See the fern and mushroom? 🧺</string>
+    <string name="lesson_web_lists_step2_teen">A ul tag wraps the whole list, and each item lives in its own li tag. Like this example.</string>
+    <string name="lesson_web_lists_instruction">Make a bullet list with a ul tag holding three li items — things you found in the forest.</string>
+    <string name="lesson_web_lists_hint">Open with ul, then add one li tag for each item, then close the ul. Each li needs a closing tag too.</string>
+
+    <!-- 7. web_simple_css -->
+    <string name="lesson_web_simple_css_title">Your First CSS</string>
+    <string name="lesson_web_simple_css_desc">Paint your HTML with a splash of color.</string>
+    <string name="lesson_web_simple_css_step1_kid">HTML plants the garden, but CSS paints it! 🎨 Today we give your words beautiful colors!</string>
+    <string name="lesson_web_simple_css_step1_teen">HTML is structure, CSS is style. Time to add some color to your pages.</string>
+    <string name="lesson_web_simple_css_step2_kid">Look! This little spell tells every h1 to turn green, like a fresh leaf! 🍃</string>
+    <string name="lesson_web_simple_css_step2_teen">A CSS rule picks a tag (like h1) and sets properties — here, color: green makes the heading green.</string>
+    <string name="lesson_web_simple_css_step3_kid">Now you try! Pick any color you like and paint your heading inside the style tags! 🖌️</string>
+    <string name="lesson_web_simple_css_step3_teen">Your turn: write a CSS rule inside the style tags that gives the heading a color of your choice.</string>
+    <string name="lesson_web_simple_css_instruction">Inside the style tags, write a CSS rule that gives the h1 heading a color.</string>
+    <string name="lesson_web_simple_css_hint">Write h1 { color: green; } inside the style tags — or pick any color you like!</string>
+
+    <!-- 8. web_colors_layout -->
+    <string name="lesson_web_colors_layout_title">Colors and Layout</string>
+    <string name="lesson_web_colors_layout_desc">Style the whole page: background and centering.</string>
+    <string name="lesson_web_colors_layout_step1_kid">Let\'s paint the WHOLE page this time! 🌈 A background color makes everything feel cozy.</string>
+    <string name="lesson_web_colors_layout_step1_teen">You can style the entire page by targeting the body — background colors, alignment and more.</string>
+    <string name="lesson_web_colors_layout_step2_kid">See? background-color paints the page, and text-align: center moves everything to the middle! ✨</string>
+    <string name="lesson_web_colors_layout_step2_teen">Two properties to remember: background-color sets the page color, and text-align: center centers the text.</string>
+    <string name="lesson_web_colors_layout_instruction">Give the body a background color and center the text with text-align: center.</string>
+    <string name="lesson_web_colors_layout_hint">Inside the body rule add background-color: with any color, and text-align: center on a second line.</string>
+
+    <!-- 9. web_mini_page -->
+    <string name="lesson_web_mini_page_title">Mini Page Project</string>
+    <string name="lesson_web_mini_page_desc">Build a complete little web page on your own.</string>
+    <string name="lesson_web_mini_page_step1_kid">This is it — your first WHOLE page! 🎉 Everything you\'ve learned comes together today!</string>
+    <string name="lesson_web_mini_page_step1_teen">Final challenge of the Forest Floor: build a complete page using everything you\'ve learned.</string>
+    <string name="lesson_web_mini_page_step2_kid">You\'ll need a big h1 heading, a paragraph, and a list with items. You know all of these! 🧠</string>
+    <string name="lesson_web_mini_page_step2_teen">The page needs an h1 heading, a p paragraph, and a ul list with li items. You\'ve used all of them before.</string>
+    <string name="lesson_web_mini_page_step3_kid">I believe in you, little builder! Finish this page and you\'ll be a true HTML Hero! 🦸</string>
+    <string name="lesson_web_mini_page_step3_teen">Finish this and the HTML Hero badge is yours. Take your time and build something you like.</string>
+    <string name="lesson_web_mini_page_instruction">Inside the body, build a page with an h1 heading, a p paragraph, and a ul list with li items.</string>
+    <string name="lesson_web_mini_page_hint">Add them one at a time: first h1, then p, then a ul with at least one li inside.</string>
+
+    <!-- ════════════════════════ Sunny Meadow — Python ════════════════════════ -->
+
+    <!-- 1. py_print -->
+    <string name="lesson_py_print_title">Hello, print()!</string>
+    <string name="lesson_py_print_desc">Make Python speak with your first print().</string>
+    <string name="lesson_py_print_step1_kid">Welcome to the Sunny Meadow! 🌻 Here we speak Python — and the first word is print()!</string>
+    <string name="lesson_py_print_step1_teen">Welcome to Python! The first thing every coder learns is print() — it makes the program talk.</string>
+    <string name="lesson_py_print_step2_kid">Look! print() shouts whatever you put inside the quotes. This one says hello to the meadow! 📣</string>
+    <string name="lesson_py_print_step2_teen">print() outputs whatever text you put between the quotes. Here it prints a greeting.</string>
+    <string name="lesson_py_print_step3_kid">Your turn, little coder! Make Python say Hello, meadow! out loud! 🌼</string>
+    <string name="lesson_py_print_step3_teen">Now you try it — write a print() that greets the meadow.</string>
+    <string name="lesson_py_print_instruction">Use print() to output the message Hello, meadow!</string>
+    <string name="lesson_py_print_hint">Write print(\"Hello, meadow!\") — don\'t forget the quotes and parentheses.</string>
+
+    <!-- 2. py_variables -->
+    <string name="lesson_py_variables_title">Variables</string>
+    <string name="lesson_py_variables_desc">Store values in labelled jars called variables.</string>
+    <string name="lesson_py_variables_step1_kid">Variables are like labelled jars! 🫙 We can keep a name in one jar and a number in another.</string>
+    <string name="lesson_py_variables_step1_teen">Variables store values under a name so you can reuse them — text, numbers, anything.</string>
+    <string name="lesson_py_variables_step2_kid">See the jars? plant_name holds Sunflower and plant_age holds 3. The f before the quotes mixes them into a sentence! 🌻</string>
+    <string name="lesson_py_variables_step2_teen">Here plant_name and plant_age hold values, and the f-string puts them inside a sentence using curly braces.</string>
+    <string name="lesson_py_variables_step3_kid">Now you print a sentence using BOTH jars! Tell me about the sunflower! 💬</string>
+    <string name="lesson_py_variables_step3_teen">Your turn: print one sentence that uses both variables.</string>
+    <string name="lesson_py_variables_instruction">Print a sentence that uses both plant_name and plant_age, so the output shows Sunflower and 3.</string>
+    <string name="lesson_py_variables_hint">Try an f-string: print(f\"{plant_name} is {plant_age} years old\") — the braces drop the values in.</string>
+
+    <!-- 3. py_strings_numbers -->
+    <string name="lesson_py_strings_numbers_title">Strings and Numbers</string>
+    <string name="lesson_py_strings_numbers_desc">Add numbers together and make words shout.</string>
+    <string name="lesson_py_strings_numbers_step1_kid">Numbers and words are different creatures! 🤔 Numbers can add up, and words can do tricks like SHOUTING!</string>
+    <string name="lesson_py_strings_numbers_step1_teen">Python treats numbers and strings differently. Numbers do math; strings have handy methods like .upper().</string>
+    <string name="lesson_py_strings_numbers_step2_kid">Look! 4 + 3 seeds makes 7, and word.upper() turns meadow into MEADOW! Magic! ✨</string>
+    <string name="lesson_py_strings_numbers_step2_teen">Adding numbers gives a total, and .upper() returns the string in uppercase. Both get printed here.</string>
+    <string name="lesson_py_strings_numbers_instruction">Print the seed total (it should be 7), then print the word in UPPERCASE using .upper().</string>
+    <string name="lesson_py_strings_numbers_hint">print(seeds) shows the total, and print(word.upper()) shouts MEADOW.</string>
+
+    <!-- 4. py_input -->
+    <string name="lesson_py_input_title">Asking with input()</string>
+    <string name="lesson_py_input_desc">Let your program ask questions and listen.</string>
+    <string name="lesson_py_input_step1_kid">Until now your code only talked. Today it LISTENS too! 👂 input() lets the user type something!</string>
+    <string name="lesson_py_input_step1_teen">Programs get interesting when they listen. input() pauses and waits for the user to type something.</string>
+    <string name="lesson_py_input_step2_kid">See? input() catches what the user types and keeps it in the name jar. Then we greet them! 👋</string>
+    <string name="lesson_py_input_step2_teen">input() returns whatever was typed, and we store it in a variable. Then an f-string builds the greeting.</string>
+    <string name="lesson_py_input_step3_kid">Try it! Ask for a name and say a big friendly hello to whoever answers! 😊</string>
+    <string name="lesson_py_input_step3_teen">Your turn: read a name with input() and print a greeting that includes it.</string>
+    <string name="lesson_py_input_instruction">Read a name with input() and print a friendly greeting that includes that name.</string>
+    <string name="lesson_py_input_hint">The name is already in the name variable — print it with an f-string like print(f\"Hello, {name}!\").</string>
+
+    <!-- 5. py_conditionals -->
+    <string name="lesson_py_conditionals_title">If and Else</string>
+    <string name="lesson_py_conditionals_desc">Teach your code to make decisions.</string>
+    <string name="lesson_py_conditionals_step1_kid">Hmm, should I fly or nap? 🤔 Code makes choices too — with if and else!</string>
+    <string name="lesson_py_conditionals_step1_teen">Programs make decisions with if and else: if a condition is true, do one thing; otherwise, do another.</string>
+    <string name="lesson_py_conditionals_step2_kid">Look! If the sun level is bigger than 5, we say Sunny day! Otherwise we say Cloudy day. ☀️☁️</string>
+    <string name="lesson_py_conditionals_step2_teen">The condition sun_level > 5 is checked first. True runs the if branch, false runs the else branch. Mind the indentation!</string>
+    <string name="lesson_py_conditionals_step3_kid">Now you be the weather owl! Check the sun level and announce the day! 🦉</string>
+    <string name="lesson_py_conditionals_step3_teen">Your turn: write the weather check yourself. The sun level is 8, so guess which message will print.</string>
+    <string name="lesson_py_conditionals_instruction">If sun_level is more than 5, print Sunny day! — otherwise print Cloudy day.</string>
+    <string name="lesson_py_conditionals_hint">Start with if sun_level > 5: then an indented print. Add else: with its own indented print below.</string>
+
+    <!-- 6. py_loops -->
+    <string name="lesson_py_loops_title">For Loops</string>
+    <string name="lesson_py_loops_desc">Repeat actions without repeating yourself.</string>
+    <string name="lesson_py_loops_step1_kid">Five butterflies are visiting! 🦋 Should we write five prints? No way — a loop does it for us!</string>
+    <string name="lesson_py_loops_step1_teen">When you need to repeat something, don\'t copy-paste — use a for loop with range().</string>
+    <string name="lesson_py_loops_step2_kid">Look! for i in range(5) runs the print five times, counting each butterfly one by one! 🔁</string>
+    <string name="lesson_py_loops_step2_teen">range(5) gives 0 to 4, and the loop body runs once for each. i + 1 makes the count start at 1.</string>
+    <string name="lesson_py_loops_step3_kid">Now greet all five butterflies with your own loop! They\'re waiting for you! 🦋🦋🦋</string>
+    <string name="lesson_py_loops_step3_teen">Your turn: write a loop that greets each of the five butterflies.</string>
+    <string name="lesson_py_loops_instruction">Use a for loop with range to greet each of the five butterflies.</string>
+    <string name="lesson_py_loops_hint">Write for i in range(5): then an indented print that mentions Butterfly — try an f-string with i + 1.</string>
+
+    <!-- 7. py_lists -->
+    <string name="lesson_py_lists_title">Lists</string>
+    <string name="lesson_py_lists_desc">Keep many things in one seed pouch.</string>
+    <string name="lesson_py_lists_step1_kid">A list is like a seed pouch — it holds lots of things in one place! 🌰 Let\'s peek inside!</string>
+    <string name="lesson_py_lists_step1_teen">Lists hold many values in one variable. You can add to them, count them and loop over them.</string>
+    <string name="lesson_py_lists_step2_kid">See? append() drops a new seed into the pouch, and len() counts how many seeds we have! 🔢</string>
+    <string name="lesson_py_lists_step2_teen">.append() adds an item to the end of the list, and len() tells you how many items it holds.</string>
+    <string name="lesson_py_lists_step3_kid">Now add a lotus seed to your pouch, then show me the pouch and count the seeds! 🪷</string>
+    <string name="lesson_py_lists_step3_teen">Your turn: append \"lotus\", then print the list and its length.</string>
+    <string name="lesson_py_lists_instruction">Add the word lotus to the seeds list with append, then print the list and how many seeds it holds.</string>
+    <string name="lesson_py_lists_hint">Use seeds.append(\"lotus\"), then print(seeds) and print(len(seeds)) — the count should be 4.</string>
+
+    <!-- 8. py_functions -->
+    <string name="lesson_py_functions_title">Functions</string>
+    <string name="lesson_py_functions_desc">Build a reusable greeting machine with def.</string>
+    <string name="lesson_py_functions_step1_kid">Imagine a magic machine: put a name in, and a greeting pops out! 🎰 That\'s a function!</string>
+    <string name="lesson_py_functions_step1_teen">Functions are reusable blocks of code. Define them once with def, then call them as many times as you like.</string>
+    <string name="lesson_py_functions_step2_kid">Look! def greet(name) builds the machine, and greet(\"Terra\") makes it say Namaste, Terra! 🙏</string>
+    <string name="lesson_py_functions_step2_teen">def greet(name): defines the function with a parameter. Calling greet(\"Terra\") runs the body with that name.</string>
+    <string name="lesson_py_functions_step3_kid">Now fix the machine so it says Namaste to everyone! Terra and Asha are waiting! 😊</string>
+    <string name="lesson_py_functions_step3_teen">Your turn: make the greet function print a Namaste greeting for whichever name it receives.</string>
+    <string name="lesson_py_functions_instruction">Change the greet function so it prints Namaste, followed by the name it was given.</string>
+    <string name="lesson_py_functions_hint">Inside greet, replace the print with print(f\"Namaste, {name}!\") so each call greets the right person.</string>
+
+    <!-- 9. py_debugging (puzzle) -->
+    <string name="lesson_py_debugging_title">Bug Hunt</string>
+    <string name="lesson_py_debugging_desc">Rebuild a scrambled watering program.</string>
+    <string name="lesson_py_debugging_step1_kid">Oh no! 🐞 My watering program fell apart and all the lines got scrambled! The plants are thirsty!</string>
+    <string name="lesson_py_debugging_step1_teen">Uh oh — this watering script got scrambled. The lines are all there, just in the wrong order.</string>
+    <string name="lesson_py_debugging_step2_kid">Let\'s think like detectives! 🔍 First we need the plant list, then the counter, THEN the loop that waters each one.</string>
+    <string name="lesson_py_debugging_step2_teen">Think about the flow: set up the list and counter first, then loop through the plants, then report the total.</string>
+    <string name="lesson_py_debugging_step3_kid">You can do this! Put the blocks back in order and save the thirsty plants! 💧</string>
+    <string name="lesson_py_debugging_step3_teen">Reorder the blocks so the program waters every plant and counts them correctly.</string>
+    <string name="lesson_py_debugging_instruction">Arrange the blocks so the program waters every plant in the list and then reports how many were watered.</string>
+    <string name="lesson_py_debugging_hint">Create the list and set watered to 0 first. The two indented lines belong inside the for loop. The final print comes last.</string>
+
+    <!-- 10. py_guess_game -->
+    <string name="lesson_py_guess_game_title">Guess the Number</string>
+    <string name="lesson_py_guess_game_desc">Build a tiny guessing game with if, elif, else.</string>
+    <string name="lesson_py_guess_game_step1_kid">Game time! 🎲 I\'m thinking of a secret number, and your code will tell players if they guessed right!</string>
+    <string name="lesson_py_guess_game_step1_teen">Let\'s build an actual game: the player guesses a number and your code says if it\'s too low, too high or correct.</string>
+    <string name="lesson_py_guess_game_step2_kid">Look at the three roads: too low, too high, or correct! if, elif and else pick the right one! 🛤️</string>
+    <string name="lesson_py_guess_game_step2_teen">Three branches: if for too low, elif for too high, else for the correct guess. One of them always runs.</string>
+    <string name="lesson_py_guess_game_step3_kid">You\'ve learned so much, little coder! Build the game and let\'s play together! 🥳</string>
+    <string name="lesson_py_guess_game_step3_teen">Last lesson of the meadow — build the comparison and finish your first game. Nice work getting here!</string>
+    <string name="lesson_py_guess_game_instruction">Compare guess with secret: print Too low!, Too high!, or Correct! depending on the guess.</string>
+    <string name="lesson_py_guess_game_hint">Use if guess &lt; secret: for Too low!, elif guess &gt; secret: for Too high!, and else: for Correct!</string>
+
+    <!-- ════════════════════════ River Delta — Intermediate Web ════════════════════════ -->
+
+    <!-- 1. int_web_layouts -->
+    <string name="lesson_int_web_layouts_title">Card Layouts</string>
+    <string name="lesson_int_web_layouts_desc">Shape content into soft, rounded cards with CSS.</string>
+    <string name="lesson_int_web_layouts_step1_kid">Welcome to the River Delta! 🌊 Here we shape our pages like smooth river stones — round and cozy!</string>
+    <string name="lesson_int_web_layouts_step1_teen">Welcome to the River Delta. Real websites organize content into cards — let\'s learn how.</string>
+    <string name="lesson_int_web_layouts_step2_kid">Three spells make a card: padding gives space inside, border-radius rounds the corners, and a background color paints it! 🎨</string>
+    <string name="lesson_int_web_layouts_step2_teen">A card needs three CSS properties: padding for inner space, border-radius for rounded corners, and a background color.</string>
+    <string name="lesson_int_web_layouts_step3_kid">Now shape your own river-stone card! Make it smooth and colorful! 🪨</string>
+    <string name="lesson_int_web_layouts_step3_teen">Your turn: style the card class with all three properties.</string>
+    <string name="lesson_int_web_layouts_instruction">Style the card with padding, border-radius, and a background color.</string>
+    <string name="lesson_int_web_layouts_hint">Inside .card add three lines: padding: 16px; border-radius: 12px; and background-color: with any color.</string>
+
+    <!-- 2. int_web_forms -->
+    <string name="lesson_int_web_forms_title">Forms</string>
+    <string name="lesson_int_web_forms_desc">Build a form that asks visitors questions.</string>
+    <string name="lesson_int_web_forms_step1_kid">How do websites ask questions? 🤔 With forms! Boxes to type in and buttons to press!</string>
+    <string name="lesson_int_web_forms_step1_teen">Forms are how websites collect input — search bars, sign-ups, surveys. They\'re all forms.</string>
+    <string name="lesson_int_web_forms_step2_kid">A form has a label that explains, an input box to type in, and a button to send. Look at them work together! 📨</string>
+    <string name="lesson_int_web_forms_step2_teen">Inside a form tag you need a label to describe the field, an input for typing, and a button to submit.</string>
+    <string name="lesson_int_web_forms_step3_kid">Now build a river survey! Ask the fish what they think! 🐟</string>
+    <string name="lesson_int_web_forms_step3_teen">Your turn: complete the river survey form with all three pieces.</string>
+    <string name="lesson_int_web_forms_instruction">Inside the form, add a label, a text input, and a button.</string>
+    <string name="lesson_int_web_forms_hint">You need three tags inside the form: label with some text, input with type=\"text\", and button with a caption.</string>
+
+    <!-- 3. int_web_sections (puzzle) -->
+    <string name="lesson_int_web_sections_title">Page Sections</string>
+    <string name="lesson_int_web_sections_desc">Organize a page with header, main and footer.</string>
+    <string name="lesson_int_web_sections_step1_kid">Big pages need neighborhoods! 🏘️ A header at the top, a main in the middle, and a footer at the bottom!</string>
+    <string name="lesson_int_web_sections_step1_teen">Real pages are organized into semantic sections: header, nav, main and footer. It keeps everything tidy.</string>
+    <string name="lesson_int_web_sections_step2_kid">Let\'s build the Delta Diary page! Drag the sections into place from top to bottom! 🧩</string>
+    <string name="lesson_int_web_sections_step2_teen">Arrange the blocks: header first, then nav, then main with its section inside, and footer last.</string>
+    <string name="lesson_int_web_sections_instruction">Arrange the blocks to build the Delta Diary page: header, nav, main with a section inside, then footer.</string>
+    <string name="lesson_int_web_sections_hint">Top to bottom: header, nav, main. The section block sits inside main, and footer always comes last.</string>
+
+    <!-- 4. int_web_profile_card -->
+    <string name="lesson_int_web_profile_card_title">Profile Card Project</string>
+    <string name="lesson_int_web_profile_card_desc">Build and style your own profile card.</string>
+    <string name="lesson_int_web_profile_card_step1_kid">Project time! 🎉 Let\'s build a profile card all about YOU — with a picture, your name and your story!</string>
+    <string name="lesson_int_web_profile_card_step1_teen">Mini project: a profile card like the ones on real social sites — image, name, bio, styled with CSS.</string>
+    <string name="lesson_int_web_profile_card_step2_kid">You\'ll need an img for the picture, an h2 for your name, a p for your story, and round corners to make it pretty! 🖼️</string>
+    <string name="lesson_int_web_profile_card_step2_teen">The card needs an img, an h2 with your name, a p with a short bio, and border-radius in the CSS.</string>
+    <string name="lesson_int_web_profile_card_step3_kid">Finish this card and you\'ll earn the River Builder badge! I\'m so proud of you! 🏗️</string>
+    <string name="lesson_int_web_profile_card_step3_teen">Finish the card and the River Builder badge is yours. Make it look good!</string>
+    <string name="lesson_int_web_profile_card_instruction">Build a profile card with an image, an h2 name, a bio paragraph, and rounded corners using border-radius.</string>
+    <string name="lesson_int_web_profile_card_hint">Add img, h2 and p inside the profile div, then set border-radius in the .profile CSS rule.</string>
+
+    <!-- ════════════════════════ Deep Grove — Intermediate Python ════════════════════════ -->
+
+    <!-- 1. int_py_logic (puzzle) -->
+    <string name="lesson_int_py_logic_title">Even or Odd</string>
+    <string name="lesson_int_py_logic_desc">Sort numbers into even and odd with logic.</string>
+    <string name="lesson_int_py_logic_step1_kid">Welcome to the Deep Grove! 🌳 Here numbers hide secrets — some are even, some are odd. Can we sort them?</string>
+    <string name="lesson_int_py_logic_step1_teen">Welcome to the Deep Grove. First challenge: classify numbers as even or odd using the modulo operator.</string>
+    <string name="lesson_int_py_logic_step2_kid">The modulo sign tells us the leftover after dividing! If n mod 2 leaves nothing, the number is even! 🔢</string>
+    <string name="lesson_int_py_logic_step2_teen">The modulo operator gives the remainder after dividing by 2. If it equals 0, the number is even — otherwise odd.</string>
+    <string name="lesson_int_py_logic_instruction">Arrange the blocks so the program checks each number and prints whether it is even or odd.</string>
+    <string name="lesson_int_py_logic_hint">The list comes first, then the for loop. Inside it: the if check, its print, then else with its print.</string>
+
+    <!-- 2. int_py_data -->
+    <string name="lesson_int_py_data_title">Working with Data</string>
+    <string name="lesson_int_py_data_desc">Sort and sum a list of snack prices.</string>
+    <string name="lesson_int_py_data_step1_kid">The trail snack stand has prices everywhere! 🍪 Let\'s tidy them up and find the cheapest treat!</string>
+    <string name="lesson_int_py_data_step1_teen">Real programs crunch data all the time. Let\'s sort a list of prices and pull useful facts out of it.</string>
+    <string name="lesson_int_py_data_step2_kid">Watch! sort() lines the prices up from small to big, prices[0] grabs the cheapest, and sum() adds them ALL up! 🧮</string>
+    <string name="lesson_int_py_data_step2_teen">.sort() orders the list, prices[0] is then the smallest value, and sum(prices) totals everything.</string>
+    <string name="lesson_int_py_data_instruction">Sort the prices, then print the cheapest price and the total of all prices.</string>
+    <string name="lesson_int_py_data_hint">Call prices.sort() first, then print(prices[0]) for the cheapest (30) and print(sum(prices)) for the total (280).</string>
+
+    <!-- 3. int_py_functions -->
+    <string name="lesson_int_py_functions_title">Reusable Functions</string>
+    <string name="lesson_int_py_functions_desc">Write one function and use it for every garden bed.</string>
+    <string name="lesson_int_py_functions_step1_kid">We have lots of garden beds to measure! 🌷 Instead of doing the math again and again, let\'s build ONE helper!</string>
+    <string name="lesson_int_py_functions_step1_teen">When you repeat the same calculation, wrap it in a function with parameters — write once, use everywhere.</string>
+    <string name="lesson_int_py_functions_step2_kid">See? rectangle_area takes a width and a height, multiplies them, and announces the area! 📐</string>
+    <string name="lesson_int_py_functions_step2_teen">rectangle_area takes two parameters and prints width * height. Each call can pass different numbers.</string>
+    <string name="lesson_int_py_functions_step3_kid">Now fix the function and measure the 4 by 5 bed and the 3 by 3 bed! The flowers are counting on you! 🌸</string>
+    <string name="lesson_int_py_functions_step3_teen">Your turn: make the function print the real area, then call it for a 4 x 5 bed and a 3 x 3 bed.</string>
+    <string name="lesson_int_py_functions_instruction">Make rectangle_area print the real area, then call it for a 4 x 5 bed and a 3 x 3 bed.</string>
+    <string name="lesson_int_py_functions_hint">Print width * height inside the function, then call rectangle_area(4, 5) and rectangle_area(3, 3) — expect 20 and 9.</string>
+
+    <!-- 4. int_py_challenge -->
+    <string name="lesson_int_py_challenge_title">Vowel Counter</string>
+    <string name="lesson_int_py_challenge_desc">Solve a real puzzle: count the vowels in a word.</string>
+    <string name="lesson_int_py_challenge_step1_kid">Challenge time! 🧠 The word himalaya is hiding vowels — a, e, i, o, u. Can your code find them all?</string>
+    <string name="lesson_int_py_challenge_step1_teen">Time for a proper problem: count how many vowels appear in the word himalaya. No step-by-step recipe this time.</string>
+    <string name="lesson_int_py_challenge_step2_kid">Here\'s my secret plan: look at each letter one by one, and if it\'s a vowel, add one to a counter! 🕵️</string>
+    <string name="lesson_int_py_challenge_step2_teen">Think it through: loop over each letter, check if it\'s in \"aeiou\", and bump a counter when it is.</string>
+    <string name="lesson_int_py_challenge_step3_kid">You have all the tools: a loop, an if, and a counter. Go find those vowels — I believe in you! 💪</string>
+    <string name="lesson_int_py_challenge_step3_teen">You\'ve got loops, conditions and counters. Combine them and print the total. Good luck!</string>
+    <string name="lesson_int_py_challenge_instruction">Count how many vowels (a, e, i, o, u) appear in the word and print the total.</string>
+    <string name="lesson_int_py_challenge_hint">Loop with for letter in word: and check if letter in \"aeiou\": to add 1 to a counter. himalaya has 4 vowels.</string>
+
+    <!-- ════════════════════════ Mountain Peaks — Advanced ════════════════════════ -->
+
+    <!-- 1. adv_web_project -->
+    <string name="lesson_adv_web_project_title">Mountain Lodge Page</string>
+    <string name="lesson_adv_web_project_desc">A three-step web project: structure, content, style.</string>
+    <string name="lesson_adv_web_project_step1_kid">Welcome to the Mountain Peaks! 🏔️ Our big mission: build a whole page for a cozy mountain lodge, step by step!</string>
+    <string name="lesson_adv_web_project_step1_teen">Welcome to the Mountain Peaks. This is a real multi-step project: a complete page for a mountain lodge.</string>
+    <string name="lesson_adv_web_project_step1_adult">This project covers a full page build in three steps: header content, a structured trail section, and page styling.</string>
+    <string name="lesson_adv_web_project_step2_kid">Three steps to the top: 1) the lodge name in a big heading, 2) a list of three trails, 3) paint it with style! 🥾</string>
+    <string name="lesson_adv_web_project_step2_teen">Step 1: lodge name in an h1 plus a tagline. Step 2: a section with an h2 and a ul of three trails. Step 3: CSS styling.</string>
+    <string name="lesson_adv_web_project_step3_kid">Follow the signs in the starter code — the comments show exactly where each step goes. Climb on! 🧗</string>
+    <string name="lesson_adv_web_project_step3_teen">The starter code has comments marking each step. Work through them in order — you know every tag involved.</string>
+    <string name="lesson_adv_web_project_instruction">Complete all 3 steps: add the lodge h1 and tagline, a section with an h2 and a ul of three trails, then style the page with a background color and font-family.</string>
+    <string name="lesson_adv_web_project_hint">Work step by step: h1 in the header, h2 plus ul with li items in main, then background-color and font-family in the style block.</string>
+
+    <!-- 2. adv_python_project -->
+    <string name="lesson_adv_python_project_title">Trail Report Generator</string>
+    <string name="lesson_adv_python_project_desc">Write a clean Python script with functions and loops.</string>
+    <string name="lesson_adv_python_project_step1_kid">Time for clean code, little ranger! 🧹 We\'ll write a trail report that\'s tidy, neat and easy to read!</string>
+    <string name="lesson_adv_python_project_step1_teen">Pro coders care about clean code: small functions, clear names, no repetition. Let\'s build a trail report that way.</string>
+    <string name="lesson_adv_python_project_step1_adult">This project emphasizes clean structure: a small focused function, a loop over parallel lists, and a summary line.</string>
+    <string name="lesson_adv_python_project_step2_kid">Look at describe_trail — one tiny machine that prints one tidy line for any trail! We\'ll use it for all three! 🛤️</string>
+    <string name="lesson_adv_python_project_step2_teen">describe_trail(name, km) prints one formatted line. Define it once, then call it inside a loop for each trail.</string>
+    <string name="lesson_adv_python_project_step3_kid">Three steps: build the machine, loop through the trails, then add up all the kilometres. You\'ve got this! ⛰️</string>
+    <string name="lesson_adv_python_project_step3_teen">Plan: write the function, loop through the trails calling it, then print the total distance. Step by step.</string>
+    <string name="lesson_adv_python_project_instruction">Write describe_trail(name, km), loop through the trails to describe each one, then print the total distance.</string>
+    <string name="lesson_adv_python_project_hint">Use range(len(trail_names)) or zip to pair names with kms, call describe_trail for each, then print(sum(trail_kms)) — the total is 26.</string>
+
+    <!-- 3. adv_debugging (puzzle) -->
+    <string name="lesson_adv_debugging_title">Lander Rescue</string>
+    <string name="lesson_adv_debugging_desc">Fix a while loop and land the mountain lander safely.</string>
+    <string name="lesson_adv_debugging_step1_kid">Mayday! 🛬 The mountain lander\'s landing code is broken — and some sneaky wrong blocks got mixed in!</string>
+    <string name="lesson_adv_debugging_step1_teen">Debug mission: the lander\'s countdown loop is scrambled, and a couple of trap blocks were mixed in.</string>
+    <string name="lesson_adv_debugging_step2_kid">Think hard! 🤔 The fuel must go DOWN each time, or the loop never ends and we circle forever!</string>
+    <string name="lesson_adv_debugging_step2_teen">Watch out for infinite loops: the condition must be fuel &gt; 0, and fuel has to decrease inside the loop.</string>
+    <string name="lesson_adv_debugging_step3_kid">Pick only the right blocks, line them up, and bring our lander home! 🛰️</string>
+    <string name="lesson_adv_debugging_step3_teen">Skip the distractor blocks, order the real ones, and land safely.</string>
+    <string name="lesson_adv_debugging_instruction">Arrange the correct blocks so the lander counts its fuel down from 5 and touches down safely. Watch out for trap blocks!</string>
+    <string name="lesson_adv_debugging_hint">Start with fuel = 5 and while fuel &gt; 0:. Inside the loop, print the fuel and subtract 1. Avoid blocks that add fuel or check fuel &lt; 0.</string>
+
+    <!-- 4. adv_algorithms -->
+    <string name="lesson_adv_algorithms_title">Find the Tallest Peak</string>
+    <string name="lesson_adv_algorithms_desc">Write your own algorithm to find the biggest number.</string>
+    <string name="lesson_adv_algorithms_step1_kid">See all those peaks? 🏔️ We\'ll find the TALLEST one ourselves — no shortcuts, just brain power!</string>
+    <string name="lesson_adv_algorithms_step1_teen">Algorithms are step-by-step recipes. Today: find the largest number in a list without using max().</string>
+    <string name="lesson_adv_algorithms_step1_adult">This lesson covers a classic linear scan: track the current maximum while iterating through a list, without built-in helpers.</string>
+    <string name="lesson_adv_algorithms_step2_kid">Here\'s the trick: remember the tallest peak so far, and every time we see a taller one, swap it in! 🔁</string>
+    <string name="lesson_adv_algorithms_step2_teen">Start with the first peak as tallest. For each peak, if it\'s bigger than tallest, update tallest. Simple but powerful.</string>
+    <string name="lesson_adv_algorithms_step3_kid">Now soar like an eagle and find that giant peak! Print its height when you spot it! 🦅</string>
+    <string name="lesson_adv_algorithms_step3_teen">Your turn: write the loop, keep tallest up to date, and print the answer at the end.</string>
+    <string name="lesson_adv_algorithms_instruction">Loop through the peaks, keep tallest updated when you find a bigger one, then print the tallest height. No max() allowed!</string>
+    <string name="lesson_adv_algorithms_hint">Inside the for loop, write if p &gt; tallest: then tallest = p. Print tallest after the loop — it should be 8848.</string>
+
+    <!-- ════════════════════════ Sky Canopy — Advanced ════════════════════════ -->
+
+    <!-- 1. sky_apis (tutorial) -->
+    <string name="lesson_sky_apis_title">What Is an API?</string>
+    <string name="lesson_sky_apis_desc">Learn how programs talk to each other.</string>
+    <string name="lesson_sky_apis_step1_kid">Welcome above the clouds! ☁️ Up here, programs send little letters to each other — that\'s what an API is!</string>
+    <string name="lesson_sky_apis_step1_teen">Welcome to the Sky Canopy. Time for a big idea: APIs — the way programs talk to other programs.</string>
+    <string name="lesson_sky_apis_step1_adult">This concept lesson introduces APIs: structured interfaces that let one program request data or services from another.</string>
+    <string name="lesson_sky_apis_step2_kid">Imagine a restaurant! 🍽️ You ask the waiter for momo, and the kitchen sends it back. The waiter is the API!</string>
+    <string name="lesson_sky_apis_step2_teen">Think of a restaurant: you give an order (request), the kitchen prepares it, the waiter brings it back (response). The API is the waiter.</string>
+    <string name="lesson_sky_apis_step2_adult">An API defines a contract: a client sends a structured request, the server processes it and returns a structured response.</string>
+    <string name="lesson_sky_apis_step3_kid">Look! An app asks the sky: how\'s the weather in Pokhara? And the answer comes back: clear and 21 degrees! 🌤️</string>
+    <string name="lesson_sky_apis_step3_teen">Here\'s a real example: a GET request asks for Pokhara\'s weather, and the response comes back as structured data with sky and temp.</string>
+    <string name="lesson_sky_apis_step4_kid">One day your apps will ask the whole world questions like this! Isn\'t that amazing? 🌍</string>
+    <string name="lesson_sky_apis_step4_teen">Weather apps, games, chat — they all run on APIs. When you build connected apps later, this is the foundation.</string>
+
+    <!-- 2. sky_creative -->
+    <string name="lesson_sky_creative_title">Paint the Sky</string>
+    <string name="lesson_sky_creative_desc">Creative coding: design your own sky with CSS clouds.</string>
+    <string name="lesson_sky_creative_step1_kid">Art time! 🎨 Today we paint a whole sky with code — and float fluffy clouds across it!</string>
+    <string name="lesson_sky_creative_step1_teen">Creative coding session: design a sky scene using only divs and CSS. You\'re the artist here.</string>
+    <string name="lesson_sky_creative_step2_kid">A cloud is just a div wearing a costume: a soft color and SUPER round corners! Make at least two! ☁️☁️</string>
+    <string name="lesson_sky_creative_step2_teen">Each cloud is a div with a background color and a large border-radius. The sky div gets its own background too.</string>
+    <string name="lesson_sky_creative_step3_kid">Paint it YOUR way — sunset orange, night blue, anything! There\'s no wrong sky! 🌅</string>
+    <string name="lesson_sky_creative_step3_teen">Make it yours — any colors, any mood. As long as the sky has a title and at least two clouds, it counts.</string>
+    <string name="lesson_sky_creative_instruction">Build a sky scene: give the sky a background color, shape soft clouds with border-radius, and add an h1 title with at least two cloud divs.</string>
+    <string name="lesson_sky_creative_hint">Set background-color on .sky and .cloud, add border-radius to .cloud, then put an h1 and two divs with class cloud inside the sky.</string>
+
+    <!-- 3. sky_capstone -->
+    <string name="lesson_sky_capstone_title">Ecosystem Capstone</string>
+    <string name="lesson_sky_capstone_desc">The final challenge: a full ecosystem health report.</string>
+    <string name="lesson_sky_capstone_step1_kid">This is it, little coder — the FINAL challenge! 🌈 Write a health report for our whole ecosystem!</string>
+    <string name="lesson_sky_capstone_step1_teen">The capstone. Everything you\'ve learned — functions, loops, conditions — goes into one ecosystem health report.</string>
+    <string name="lesson_sky_capstone_step1_adult">The capstone combines functions, iteration and branching: classify each species count and produce a summary report.</string>
+    <string name="lesson_sky_capstone_step2_kid">The plan: a health checker that says thriving, stable or needs care — then check every species and count everyone! 📋</string>
+    <string name="lesson_sky_capstone_step2_teen">Three parts: a health(count) function with the thresholds, a loop reporting each species, and the total count at the end.</string>
+    <string name="lesson_sky_capstone_step3_kid">Everything you\'ve learned brought you here. Finish this and the rainbow is yours! I\'m SO proud! 🌈</string>
+    <string name="lesson_sky_capstone_step3_teen">Finish this and you\'ve completed the whole journey. Take it one step at a time — you\'re ready.</string>
+    <string name="lesson_sky_capstone_instruction">Write health(count) that prints thriving (8 or more), stable (4 to 7) or needs care (under 4), report each species in a loop, then print the total count.</string>
+    <string name="lesson_sky_capstone_hint">In health(count) use if count &gt;= 8, elif count &gt;= 4, else. Loop with range(len(species)), then print(sum(counts)) — the total is 25.</string>
+
+</resources>

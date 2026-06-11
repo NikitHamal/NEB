@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Sprout stem -->
+    <path
+        android:fillColor="#2D5A27"
+        android:pathData="M54,76 C54,66 54,58 54,50 C54,48 55,46 56,45 L57,47 C56,48 56,49 56,50 C56,58 56,66 56,76 Z" />
+    <!-- Left leaf -->
+    <path
+        android:fillColor="#4CAF50"
+        android:pathData="M54,52 C44,52 36,46 34,36 C44,36 52,42 54,52 Z" />
+    <!-- Right leaf -->
+    <path
+        android:fillColor="#2D5A27"
+        android:pathData="M56,46 C66,46 74,40 76,30 C66,30 58,36 56,46 Z" />
+    <!-- Soil mound -->
+    <path
+        android:fillColor="#6D4C41"
+        android:pathData="M40,76 C40,72 46,70 55,70 C64,70 70,72 70,76 C70,79 64,80 55,80 C46,80 40,79 40,76 Z" />
+    <!-- Code bracket left -->
+    <path
+        android:fillColor="#4DA8DA"
+        android:pathData="M32,52 L24,60 L32,68 L29,71 L18,60 L29,49 Z" />
+    <!-- Code bracket right -->
+    <path
+        android:fillColor="#4DA8DA"
+        android:pathData="M78,52 L86,60 L78,68 L81,71 L92,60 L81,49 Z" />
+    <!-- Sun dot -->
+    <path
+        android:fillColor="#FFD54F"
+        android:pathData="M73,24 m-5,0 a5,5 0 1,1 10,0 a5,5 0 1,1 -10,0" />
+</vector>
