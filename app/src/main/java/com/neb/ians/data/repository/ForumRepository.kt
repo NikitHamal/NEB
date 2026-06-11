@@ -84,12 +84,12 @@ class ForumRepository @Inject constructor(
     suspend fun getReplies(postId: String): Result<List<ApiReply>> {
         return try {
             val token = getBearerToken()
-            val replies = apiService.getReplies(token, postId)
-            Result.success(replies)
+            val response = apiService.getReplies(token, postId)
+            Result.success(response.replies)
         } catch (e: Exception) {
             Result.failure(e)
         }
-    }
+     }
 
     suspend fun createPost(title: String, content: String, category: String): Result<ApiPost> {
         return try {
