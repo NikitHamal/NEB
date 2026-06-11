@@ -595,6 +595,14 @@ data class ApiPaginatedPosts(
     val previous: String? = null
 )
 
+@Serializable
+data class ApiPaginatedReplies(
+    @SerialName("results") val replies: List<ApiReply> = emptyList(),
+    @SerialName("count") val totalCount: Int = 0,
+    val next: String? = null,
+    val previous: String? = null
+)
+
 // -------------------------------------------------------------
 // RETROFIT API INTERFACE
 // -------------------------------------------------------------
@@ -795,7 +803,7 @@ interface ApiService {
     suspend fun getReplies(
         @Header("Authorization") bearerToken: String?,
         @Path("postId") postId: String
-    ): List<ApiReply>
+    ): ApiPaginatedReplies
 
     @POST("api/posts/{postId}/replies/")
     suspend fun createReply(
@@ -1417,6 +1425,9 @@ data class ApiStudySpaceDetail(
     val memberCount: Int = 0,
     val activeNow: Int = 0,
     val memberRole: String = "",
+    val linkSummaryCompact: String? = null,
+    val linkSummaryDetailed: String? = null,
+    val linkMindmapJson: String? = null,
     val createdAt: Long = 0,
     val updatedAt: Long = 0
 )
@@ -1563,7 +1574,7 @@ data class ApiStudyDocDetailResponse(
     val mindmap: ApiStudyMindmap? = null,
     val quizzes: List<ApiStudyQuizSummary> = emptyList(),
     val flashcards: List<ApiStudyFlashcard> = emptyList(),
-    val totalFlashcards: Int = 0,
+    @SerialName("total_flashcards") val totalFlashcards: Int = 0,
     val error: String? = null
 )
 
