@@ -1,6 +1,42 @@
 """Views Public extracted from views.py."""
 from .view_helpers import *  # noqa: F401,F403
 
+def _get_library_filter_options():
+    """Cached distinct subject/grade/type/faculty/exam_type lists for filter UIs.
+
+    Replaces the old pattern of caching 500 fully serialized resources just to
+    derive these small option lists.
+    """
+    options = cache.get('library_filter_options')
+    if options is None:
+        rows = Resource.objects.filter(approval_status='approved').values_list(
+            'subject', 'grade_level', 'type', 'faculty', 'exam_type'
+        )[:500]
+        subjects_set, grades_set, types_set, faculties_set, exam_types_set = set(), set(), set(), set(), set()
+        for subj, grade, rtype, faculty, exam_type in rows:
+            if subj:
+                for s in subj.split(','):
+                    s_stripped = s.strip()
+                    if s_stripped:
+                        subjects_set.add(s_stripped)
+            if grade:
+                grades_set.add(grade)
+            if rtype:
+                types_set.add(rtype)
+            if faculty:
+                faculties_set.add(faculty)
+            if exam_type:
+                exam_types_set.add(exam_type)
+        options = {
+            'subjects': sorted(subjects_set),
+            'grades': sorted(grades_set),
+            'types': sorted(types_set),
+            'faculties': sorted(faculties_set),
+            'exam_types': sorted(exam_types_set),
+        }
+        cache.set('library_filter_options', options, 180)
+    return options
+
 def manifest_json(request):
     from django.http import JsonResponse
     data = {
@@ -147,16 +183,12 @@ def library(request):
                 return math.log2(max(engagement, 1)) - age_hours / 168.0
             filtered.sort(key=_resource_hot, reverse=True)
 
-    all_resources = cache.get('library_all_resources')
-    if all_resources is None:
-        all_resources = _serialize_resources(Resource.objects.filter(approval_status='approved')[:500])
-        cache.set('library_all_resources', all_resources, 180)
-        
-    all_subjects = sorted(list(set(s.strip() for r in all_resources if r.get('subject') for s in r.get('subject', '').split(',') if s.strip())))
-    all_grades = sorted(set(r.get('grade_level', '') for r in all_resources if r.get('grade_level')))
-    all_types = sorted(set(r.get('type', '') for r in all_resources if r.get('type')))
-    all_faculties = sorted(set(r.get('faculty', '') for r in all_resources if r.get('faculty')))
-    all_exam_types = sorted(set(r.get('exam_type', '') for r in all_resources if r.get('exam_type')))
+    filter_options = _get_library_filter_options()
+    all_subjects = filter_options['subjects']
+    all_grades = filter_options['grades']
+    all_types = filter_options['types']
+    all_faculties = filter_options['faculties']
+    all_exam_types = filter_options['exam_types']
     
     education_levels = [
         'Class 8', 'Class 9', 'Class 10 / SEE', 'Class 11', 'Class 12',
@@ -310,13 +342,10 @@ def search(request):
                 Q(username__icontains=query) | Q(display_name__icontains=query)
             ).filter(is_locked=False).order_by('-follower_count', 'username')[:30]
             user_results = _serialize_users_search(user_qs, user_id)
-    all_resources = cache.get('library_all_resources')
-    if all_resources is None:
-        all_resources = _serialize_resources(Resource.objects.filter(approval_status='approved')[:500])
-        cache.set('library_all_resources', all_resources, 180)
-    all_subjects = sorted(list(set(s.strip() for r in all_resources if r.get('subject') for s in r.get('subject', '').split(',') if s.strip())))
-    all_grades = sorted(set(r.get('grade_level', '') for r in all_resources if r.get('grade_level')))
-    all_types = sorted(set(r.get('type', '') for r in all_resources if r.get('type')))
+    filter_options = _get_library_filter_options()
+    all_subjects = filter_options['subjects']
+    all_grades = filter_options['grades']
+    all_types = filter_options['types']
     return render(request, 'web/search.html', _ctx(request,
         query=query,
         tab=tab,
@@ -589,13 +618,7 @@ def upload_resource(request):
         'Fluid Mechanics', 'Strength of Materials', 'Engineering Drawing',
         'Purana Veda', 'Upanishad', 'Sanskrit', 'Maithili',
     ]
-    db_subjects = []
-    for s_str in Resource.objects.values_list('subject', flat=True):
-        if s_str:
-            for s in s_str.split(','):
-                s_stripped = s.strip()
-                if s_stripped:
-                    db_subjects.append(s_stripped)
+    db_subjects = _get_distinct_subjects()
     subjects = sorted(set(_default_subjects + db_subjects))
     common_tags = [
         'Board Exam', 'SEE', 'Past Paper', 'Model Paper', 'Solution',
@@ -634,6 +657,17 @@ def upload_resource(request):
     resource_types = ['PDF', 'Note', 'Video', 'Audio', 'Image', 'Link', 'Textbook', 'Past Paper', 'Model Paper', 'Guide', 'Solution', 'Presentation']
 
     if request.method == 'POST':
+        if _rate_limit(request, 'upload_resource', 10, 3600, by_ip=True):
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({'error': 'Too many requests. Please try again later.'}, status=429)
+            return render(request, 'web/upload.html', _ctx(request,
+                subjects=subjects, education_levels=education_levels,
+                exam_types=exam_types, pradesh_options=pradesh_options,
+                resource_types=resource_types, common_tags=common_tags,
+                errors=['Too many uploads. Please try again later.'],
+                form_data=request.POST,
+                is_authenticated=bool(user),
+            ), status=429)
         title = request.POST.get('title', '').strip()
         subject = request.POST.get('subject', '').strip()
         grade_level = request.POST.get('grade_level', '').strip()
@@ -656,6 +690,9 @@ def upload_resource(request):
         file_url = request.POST.get('file_url', '').strip()
 
         errors = []
+        if len(uploaded_files) > 5:
+            errors.append('You can upload at most 5 files per request.')
+            uploaded_files = uploaded_files[:5]
         if not title:
             errors.append('Title is required.')
         if not subject:
@@ -784,7 +821,7 @@ def upload_resource(request):
                 resource.save()
                 created_resources.append(resource)
 
-            cache.delete_many(['home_resources', 'library_all_resources'])
+            cache.delete_many(['home_resources', 'library_all_resources', 'library_filter_options', 'distinct_subjects'])
             if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
                 return JsonResponse({'status': 'success', 'redirect': reverse('web:upload_success')})
             return render(request, 'web/upload_success.html', _ctx(request,
@@ -860,13 +897,7 @@ def edit_resource(request, resource_id):
         'Fluid Mechanics', 'Strength of Materials', 'Engineering Drawing',
         'Purana Veda', 'Upanishad', 'Sanskrit', 'Maithili',
     ]
-    db_subjects = []
-    for s_str in Resource.objects.values_list('subject', flat=True):
-        if s_str:
-            for s in s_str.split(','):
-                s_stripped = s.strip()
-                if s_stripped:
-                    db_subjects.append(s_stripped)
+    db_subjects = _get_distinct_subjects()
     subjects = sorted(set(_default_subjects + db_subjects))
     common_tags = [
         'Board Exam', 'SEE', 'Past Paper', 'Model Paper', 'Solution',
@@ -948,7 +979,7 @@ def edit_resource(request, resource_id):
 
         resource_obj.approval_status = 'pending'
         resource_obj.save()
-        cache.delete_many(['home_resources', 'library_all_resources'])
+        cache.delete_many(['home_resources', 'library_all_resources', 'library_filter_options', 'distinct_subjects'])
         if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
             return JsonResponse({'status': 'success', 'redirect': reverse('web:reader', kwargs={'resource_id': resource_id})})
         return redirect('web:reader', resource_id=resource_id)

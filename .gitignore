@@ -71,3 +71,8 @@ Resources/
 # Temp directories
 .kunsdd/
 
+
+# Local build environment
+local.properties
+.kotlin/
+.opencode/

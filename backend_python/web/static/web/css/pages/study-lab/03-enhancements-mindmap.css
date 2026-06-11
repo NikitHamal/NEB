@@ -176,6 +176,11 @@
   cursor: grabbing;
   user-select: none;
 }
+.sl-mm-sizer {
+  position: relative;
+  min-width: 100%;
+  min-height: 100%;
+}
 .sl-mm-canvas {
   display: inline-block;
   min-width: 100%;

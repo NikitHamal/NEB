@@ -12,14 +12,18 @@ OriginValidatorMiddleware: rejects WebSocket upgrade requests whose Origin
                       Prevents cross-site WebSocket hijacking (CSWSH).
 """
 import logging
-from urllib.parse import urlparse
+from urllib.parse import urlparse, unquote
 
 from channels.db import database_sync_to_async
 from channels.middleware import BaseMiddleware
 from django.conf import settings
 from django.contrib.auth.models import AnonymousUser
+from django.core.signing import BadSignature, SignatureExpired, TimestampSigner
 
 from api.authentication import get_user_by_auth_token
+
+WS_TICKET_SALT = 'ws-ticket'
+WS_TICKET_MAX_AGE = 300  # seconds
 
 logger = logging.getLogger(__name__)
 
@@ -44,6 +48,20 @@ def _origin_allowed(origin):
     for allowed in settings.CORS_ALLOWED_ORIGINS:
         if allowed.lower().endswith(host) or host == allowed.lower().replace('https://', '').replace('http://', ''):
             return True
+            
+    # Support wildcard suffix matching in ALLOWED_HOSTS (e.g. .trycloudflare.com)
+    for allowed in settings.ALLOWED_HOSTS:
+        if allowed.startswith('.'):
+            suffix = allowed.lower()
+            if host.endswith(suffix) or host == suffix[1:]:
+                return True
+
+    logger.warning(
+        'WS Origin validation failed. host=%r, allowed_hosts=%r, CORS=%r',
+        host,
+        list(allowed_hosts),
+        list(settings.CORS_ALLOWED_ORIGINS)
+    )
     return False
 
 
@@ -106,15 +124,21 @@ class JWTAuthMiddleware(BaseMiddleware):
                 break
 
         # 2. If no bearer header and existing session user is anonymous,
-        #    try the ?token= query param.
+        #    try the ?ticket= (short-lived signed ticket injected into page
+        #    HTML) or the legacy ?token= query param.
         if bearer_user is None and getattr(existing, 'is_anonymous', True):
             qs = scope.get('query_string', b'').decode('latin-1', errors='replace')
+            token = ''
+            ticket = ''
             for part in qs.split('&'):
                 if part.startswith('token='):
-                    token = part[6:].strip()
-                    if token:
-                        bearer_user = await database_sync_to_async(self._resolve_bearer)(token)
-                    break
+                    token = unquote(part[6:].strip())
+                elif part.startswith('ticket='):
+                    ticket = unquote(part[7:].strip())
+            if ticket:
+                bearer_user = await database_sync_to_async(self._resolve_ticket)(ticket)
+            if bearer_user is None and token:
+                bearer_user = await database_sync_to_async(self._resolve_bearer)(token)
 
         if bearer_user is not None:
             scope['user'] = bearer_user
@@ -133,3 +157,25 @@ class JWTAuthMiddleware(BaseMiddleware):
             return u
         except Exception:  # noqa: BLE001
             return None
+
+    @staticmethod
+    def _resolve_ticket(ticket):
+        """Resolve a short-lived signed WS ticket (?ticket=) to a User.
+
+        The ticket is TimestampSigner(salt='ws-ticket').sign(str(user_id)),
+        generated server-side when rendering the page. Expires after 5 min.
+        """
+        from api.models import User
+        try:
+            user_id = TimestampSigner(salt=WS_TICKET_SALT).unsign(
+                ticket, max_age=WS_TICKET_MAX_AGE
+            )
+        except (BadSignature, SignatureExpired):
+            return None
+        try:
+            u = User.objects.get(pk=user_id)
+        except User.DoesNotExist:
+            return None
+        if u.is_locked:
+            return None
+        return u

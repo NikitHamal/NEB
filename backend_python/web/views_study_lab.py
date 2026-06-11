@@ -6,18 +6,19 @@ Production notes:
 - Existing single ``summary`` values are kept as a backward-compatible compact summary.
 """
 import json
-import logging
-import os
-import re
-import random
-import string
-from collections import Counter
-
-from django.db import connection, transaction
-from django.db.models import Avg, Count, F, Max, Sum
-from django.http import JsonResponse
-from django.shortcuts import render, redirect
-
+import logging
+import os
+import re
+import secrets
+import string
+from collections import Counter
+
+from django.core.cache import cache
+from django.db import connection, transaction
+from django.db.models import Avg, Count, F, Max, Q, Sum
+from django.http import JsonResponse
+from django.shortcuts import render, redirect
+
 from .view_helpers import *  # noqa: F401,F403
 from api.models import (
     Bookmark,
@@ -51,13 +52,13 @@ from api.models import (
 )
 from api.utils import now_ms, uuid_str
 from api.qwen_utils.client import QwenClient
-from api.qwen_utils.file_upload import ALLOWED_EXTENSIONS, MAX_FILE_SIZE
-from api.qwen_utils.text_extraction import extract_text_from_file, MAX_TEXT_CHARS as QWEN_MAX_TEXT_CHARS
-from api.qwen_utils.prompts import (
-    summary_system_prompt, QUIZ_SYSTEM_PROMPT, FLASHCARD_SYSTEM_PROMPT,
-    MINDMAP_SYSTEM_PROMPT, TUTOR_SYSTEM_PROMPT, PLANNER_SYSTEM_PROMPT,
-    summary_outline_prompt, summary_full_prompt,
-    MINDMAP_OUTLINE_PROMPT, MINDMAP_FULL_PROMPT,
+from api.qwen_utils.file_upload import ALLOWED_EXTENSIONS, MAX_FILE_SIZE
+from api.qwen_utils.text_extraction import extract_text_from_file, MAX_TEXT_CHARS as QWEN_MAX_TEXT_CHARS
+from api.qwen_utils.prompts import (
+    summary_system_prompt, quiz_system_prompt, flashcard_system_prompt,
+    MINDMAP_SYSTEM_PROMPT, TUTOR_SYSTEM_PROMPT, PLANNER_SYSTEM_PROMPT,
+    summary_outline_prompt, summary_full_prompt,
+    MINDMAP_OUTLINE_PROMPT, MINDMAP_FULL_PROMPT,
     quiz_outline_prompt, quiz_full_prompt,
     flashcard_outline_prompt, flashcard_full_prompt,
     exclusion_block,
@@ -91,13 +92,13 @@ def _space_permission_allows(space, user_id, minimum_role_attr):
         role = StudySpaceMember.ROLE_OWNER
     required = getattr(space, minimum_role_attr, StudySpaceMember.ROLE_OWNER) or StudySpaceMember.ROLE_OWNER
     return _role_rank(role) >= _role_rank(required)
-
-
-def _ensure_space_note(space):
-    note = StudySpaceNote.objects.filter(space=space).first()
-    if note:
-        return note
-    now = now_ms()
+
+
+def _ensure_space_note(space):
+    note = StudySpaceNote.objects.filter(space=space).select_related('updated_by').first()
+    if note:
+        return note
+    now = now_ms()
     return StudySpaceNote.objects.create(
         id=uuid_str(),
         space=space,
@@ -162,12 +163,54 @@ def _space_analytics(space):
 # ── Qwen client ────────────────────────────────────────────────────────────
 
 def _qwen():
-    return QwenClient()
-
-
-# ── Page views ─────────────────────────────────────────────────────────────
-
-
+    return QwenClient()
+
+
+# ── Rate limiting ──────────────────────────────────────────────────────────
+
+# (scope, limit, window_seconds)
+THROTTLE_GENERATE = ('generate', 10, 600)   # AI generation: 10 per 10 minutes
+THROTTLE_TUTOR = ('tutor', 20, 600)         # AI tutor: 20 per 10 minutes
+THROTTLE_UPLOAD = ('upload', 20, 3600)      # File uploads: 20 per hour
+
+
+def _throttle(request, scope, limit, window_seconds):
+    """Cache-based fixed-window rate limiter keyed on the authenticated user id.
+
+    Returns an error JsonResponse (HTTP 429) if the rate limit is exceeded,
+    else None. Uses cache.add() to atomically create the window counter and
+    cache.incr() afterwards, so concurrent requests cannot reset the window.
+    """
+    user_id = _get_user_id(request)
+    if not user_id:
+        return None
+    key = f'throttle:study_lab:{scope}:{user_id}'
+    try:
+        if cache.add(key, 1, timeout=window_seconds):
+            count = 1
+        else:
+            try:
+                count = cache.incr(key)
+            except ValueError:
+                # Key expired between add() and incr() — start a new window.
+                cache.add(key, 1, timeout=window_seconds)
+                count = 1
+    except Exception:
+        logger.exception('Rate limit cache failure for %s', key)
+        return None
+    if count > limit:
+        return JsonResponse({'error': 'Too many requests. Please wait a moment.'}, status=429)
+    return None
+
+
+def _throttled(request, rule):
+    scope, limit, window_seconds = rule
+    return _throttle(request, scope, limit, window_seconds)
+
+
+# ── Page views ─────────────────────────────────────────────────────────────
+
+
 def study_lab(request):
     """Study Lab landing page. Shows spaces for authenticated users."""
     user_id = _get_user_id(request)
@@ -178,23 +221,52 @@ def study_lab(request):
     try:
         user = User.objects.get(pk=user_id)
     except User.DoesNotExist:
-        ctx = _ctx(request, page='study_lab')
-        return render(request, 'web/study_lab.html', ctx)
-
-    spaces = StudySpace.objects.filter(user=user).order_by('-updated_at')[:MAX_SPACES_PER_USER]
-    for space in spaces:
-        _ensure_space_owner_member(space)
-        _ensure_space_invite_code(space)
-    space_list = [_serialize_space_list_item(s) for s in spaces]
-
-    unassigned_docs = StudyDocument.objects.filter(user=user, space__isnull=True).order_by('-updated_at')[:20]
-    doc_list = [_serialize_study_doc_list_item(d) for d in unassigned_docs]
-
-    public_spaces = StudySpace.objects.filter(visibility=StudySpace.VISIBILITY_PUBLIC).exclude(user=user).order_by('-updated_at')[:12]
-    ctx = _ctx(request, spaces=space_list, public_spaces=[_serialize_space_list_item(s, user_id) for s in public_spaces], documents=doc_list, page='study_lab')
-    return render(request, 'web/study_lab.html', ctx)
-
-
+        ctx = _ctx(request, page='study_lab')
+        return render(request, 'web/study_lab.html', ctx)
+
+    spaces = list(
+        StudySpace.objects.filter(user=user)
+        .select_related('user')
+        .annotate(
+            member_count_agg=Count('members', distinct=True),
+            doc_count_agg=Count('documents', distinct=True),
+        )
+        .order_by('-updated_at')[:MAX_SPACES_PER_USER]
+    )
+    for space in spaces:
+        _ensure_space_owner_member(space)
+        _ensure_space_invite_code(space)
+    space_list = [
+        _serialize_space_list_item(s, member_count=s.member_count_agg, doc_count=s.doc_count_agg)
+        for s in spaces
+    ]
+
+    unassigned_docs = StudyDocument.objects.filter(user=user, space__isnull=True).order_by('-updated_at')[:20]
+    doc_list = [_serialize_study_doc_list_item(d) for d in unassigned_docs]
+
+    public_spaces = (
+        StudySpace.objects.filter(visibility=StudySpace.VISIBILITY_PUBLIC)
+        .exclude(user=user)
+        .select_related('user')
+        .annotate(
+            member_count_agg=Count('members', distinct=True),
+            doc_count_agg=Count('documents', distinct=True),
+        )
+        .order_by('-updated_at')[:12]
+    )
+    ctx = _ctx(
+        request,
+        spaces=space_list,
+        public_spaces=[
+            _serialize_space_list_item(s, user_id, member_count=s.member_count_agg, doc_count=s.doc_count_agg)
+            for s in public_spaces
+        ],
+        documents=doc_list,
+        page='study_lab',
+    )
+    return render(request, 'web/study_lab.html', ctx)
+
+
 
 def study_lab_shared(request, token):
     """Backward-compatible Study Lab share route.
@@ -219,13 +291,13 @@ def study_lab_shared(request, token):
 def study_space_page(request, space_id):
     """Fullscreen study space workspace page."""
     user_id = _get_user_id(request)
-    if not user_id:
-        return redirect(f"{reverse('web:login')}?next={request.path}")
-
-    space, err = _accessible_space(space_id, user_id)
-    if err:
-        return err
-
+    if not user_id:
+        return redirect(f"{reverse('web:login')}?next={request.path}")
+
+    space, err = _accessible_space(space_id, user_id, request)
+    if err:
+        return err
+
     space_data = _serialize_space_detail(space, user_id)
     ctx = _ctx(request, space=space_data, space_id=space_id, page='study_space')
     return render(request, 'web/study_space.html', ctx)
@@ -242,12 +314,17 @@ def study_space_shared(request, token):
     except StudySpace.DoesNotExist:
         raise Http404('Shared space not found')
 
-    if not _space_can_be_joined_by_link(space, user_id):
-        return render(request, 'web/study_lab_shared_denied.html', _ctx(request, page='study_lab'), status=403)
-
-    if _space_membership_role(space, user_id) or space.user_id == user_id:
-        return redirect('web:study_space_page', space_id=space.id)
-
+    if not _space_can_be_joined_by_link(space, user_id):
+        return render(request, 'web/study_lab_shared_denied.html', _ctx(request, page='study_lab'), status=403)
+
+    # Remember that this session presented the valid share token. Link-share
+    # access checks in _accessible_space() require this session marker so a
+    # bare space id can never be used to read an unlisted link-shared space.
+    request.session[f'space_token_{space.id}'] = space.share_token
+
+    if _space_membership_role(space, user_id) or space.user_id == user_id:
+        return redirect('web:study_space_page', space_id=space.id)
+
     _ensure_space_invite_code(space)
     owner = space.user
     ctx = _ctx(
@@ -270,14 +347,25 @@ def study_space_shared(request, token):
 def ajax_space_list(request):
     """List the authenticated user's study spaces."""
     user_id = _get_user_id(request)
-    if not user_id:
-        return JsonResponse({'error': 'Unauthorized'}, status=401)
-
-    spaces = StudySpace.objects.filter(user_id=user_id).order_by('-updated_at')[:50]
-    return JsonResponse({'spaces': [_serialize_space_list_item(s, user_id) for s in spaces]})
-
-
-def ajax_space_create(request):
+    if not user_id:
+        return JsonResponse({'error': 'Unauthorized'}, status=401)
+
+    spaces = (
+        StudySpace.objects.filter(user_id=user_id)
+        .select_related('user')
+        .annotate(
+            member_count_agg=Count('members', distinct=True),
+            doc_count_agg=Count('documents', distinct=True),
+        )
+        .order_by('-updated_at')[:50]
+    )
+    return JsonResponse({'spaces': [
+        _serialize_space_list_item(s, user_id, member_count=s.member_count_agg, doc_count=s.doc_count_agg)
+        for s in spaces
+    ]})
+
+
+def ajax_space_create(request):
     """Create a new study space. Max 5 per user."""
     user_id = _get_user_id(request)
     if not user_id:
@@ -317,29 +405,37 @@ def ajax_space_public_list(request):
     q = (request.GET.get('q') or '').strip()
     level = (request.GET.get('level') or '').strip()
     subject = (request.GET.get('subject') or '').strip()
-    exam = (request.GET.get('exam') or '').strip()
-    sort = (request.GET.get('sort') or 'recent').strip()
-
-    spaces = StudySpace.objects.filter(visibility=StudySpace.VISIBILITY_PUBLIC).select_related('user')
-    if q:
-        spaces = spaces.filter(title__icontains=q)
-    if level:
+    exam = (request.GET.get('exam') or '').strip()
+    sort = (request.GET.get('sort') or 'recent').strip()
+
+    spaces = (
+        StudySpace.objects.filter(visibility=StudySpace.VISIBILITY_PUBLIC)
+        .select_related('user')
+        .annotate(
+            member_count_agg=Count('members', distinct=True),
+            doc_count_agg=Count('documents', distinct=True),
+        )
+    )
+    if q:
+        spaces = spaces.filter(title__icontains=q)
+    if level:
         spaces = spaces.filter(study_level__icontains=level)
     if subject:
         spaces = spaces.filter(subject__icontains=subject)
     if exam:
-        spaces = spaces.filter(exam__icontains=exam)
-
-    if sort == 'members':
-        rows = list(spaces[:120])
-        rows.sort(key=lambda sp: StudySpaceMember.objects.filter(space=sp).count(), reverse=True)
-        rows = rows[:60]
-    else:
-        rows = list(spaces.order_by('-updated_at')[:60])
-    return JsonResponse({'spaces': [_serialize_space_list_item(s, user_id) for s in rows]})
-
-
-def ajax_space_join_code(request):
+        spaces = spaces.filter(exam__icontains=exam)
+
+    if sort == 'members':
+        rows = list(spaces.order_by('-member_count_agg', '-updated_at')[:60])
+    else:
+        rows = list(spaces.order_by('-updated_at')[:60])
+    return JsonResponse({'spaces': [
+        _serialize_space_list_item(s, user_id, member_count=s.member_count_agg, doc_count=s.doc_count_agg)
+        for s in rows
+    ]})
+
+
+def ajax_space_join_code(request):
     """Join a Study Space by invite code."""
     user_id = _get_user_id(request)
     if not user_id:
@@ -386,13 +482,13 @@ def ajax_space_join_shared(request, token):
 def ajax_space_detail(request, space_id):
     """Get full detail of a study space."""
     user_id = _get_user_id(request)
-    if not user_id:
-        return JsonResponse({'error': 'Unauthorized'}, status=401)
-
-    space, err = _accessible_space(space_id, user_id)
-    if err:
-        return err
-
+    if not user_id:
+        return JsonResponse({'error': 'Unauthorized'}, status=401)
+
+    space, err = _accessible_space(space_id, user_id, request)
+    if err:
+        return err
+
     return JsonResponse(_serialize_space_detail(space, user_id))
 
 
@@ -454,44 +550,48 @@ def ajax_space_share(request, space_id):
 
     if mode not in (StudySpace.SHARE_PRIVATE, StudySpace.SHARE_LINK, StudySpace.SHARE_SPECIFIC):
         return JsonResponse({'error': 'Invalid share mode'}, status=400)
-    if visibility not in (StudySpace.VISIBILITY_PRIVATE, StudySpace.VISIBILITY_UNLISTED, StudySpace.VISIBILITY_PUBLIC):
-        return JsonResponse({'error': 'Invalid visibility'}, status=400)
-
-    _ensure_space_invite_code(space)
-    space.share_mode = mode
-    space.visibility = visibility
-    space.allow_join_by_code = allow_join_by_code
-    if mode != StudySpace.SHARE_PRIVATE or visibility == StudySpace.VISIBILITY_PUBLIC:
-        space.shared_at = now_ms()
-    else:
-        space.shared_at = 0
-        StudySpaceShare.objects.filter(space=space).delete()
-
-    if mode == StudySpace.SHARE_SPECIFIC:
-        raw_users = body.get('users', [])
-        resolved, missing = _resolve_share_users(raw_users, user_id)
-        existing_ids = set(
-            StudySpaceShare.objects.filter(space=space).values_list('user_id', flat=True)
-        )
-        for user in resolved:
-            if user.id not in existing_ids:
-                StudySpaceShare.objects.create(
-                    id=uuid_str(),
-                    space=space,
-                    user_id=user.id,
-                    granted_by_id=user_id,
-                    created_at=now_ms(),
-                )
-        resolved_set = {u.id for u in resolved}
-        StudySpaceShare.objects.filter(space=space).exclude(user_id__in=resolved_set).delete()
-    else:
-        missing = []
-
-    space.updated_at = now_ms()
-    space.save(update_fields=['share_mode', 'visibility', 'allow_join_by_code', 'shared_at', 'updated_at', 'invite_code'])
-
-    data = _serialize_space_detail(space, user_id)
-    if missing:
+    if visibility not in (StudySpace.VISIBILITY_PRIVATE, StudySpace.VISIBILITY_UNLISTED, StudySpace.VISIBILITY_PUBLIC):
+        return JsonResponse({'error': 'Invalid visibility'}, status=400)
+
+    with transaction.atomic():
+        _ensure_space_invite_code(space)
+        space.share_mode = mode
+        space.visibility = visibility
+        space.allow_join_by_code = allow_join_by_code
+        if mode != StudySpace.SHARE_PRIVATE or visibility == StudySpace.VISIBILITY_PUBLIC:
+            space.shared_at = now_ms()
+        else:
+            space.shared_at = 0
+            StudySpaceShare.objects.filter(space=space).delete()
+
+        if mode == StudySpace.SHARE_SPECIFIC:
+            raw_users = body.get('users', [])
+            resolved, missing = _resolve_share_users(raw_users, user_id)
+            existing_ids = set(
+                StudySpaceShare.objects.filter(space=space).values_list('user_id', flat=True)
+            )
+            new_grants = [
+                StudySpaceShare(
+                    id=uuid_str(),
+                    space=space,
+                    user_id=user.id,
+                    granted_by_id=user_id,
+                    created_at=now_ms(),
+                )
+                for user in resolved if user.id not in existing_ids
+            ]
+            if new_grants:
+                StudySpaceShare.objects.bulk_create(new_grants)
+            resolved_set = {u.id for u in resolved}
+            StudySpaceShare.objects.filter(space=space).exclude(user_id__in=resolved_set).delete()
+        else:
+            missing = []
+
+        space.updated_at = now_ms()
+        space.save(update_fields=['share_mode', 'visibility', 'allow_join_by_code', 'shared_at', 'updated_at', 'invite_code'])
+
+    data = _serialize_space_detail(space, user_id)
+    if missing:
         data['missingUsers'] = missing
     return JsonResponse(data)
 
@@ -597,13 +697,13 @@ def ajax_space_settings(request, space_id):
 def ajax_space_presence(request, space_id):
     """Heartbeat endpoint for near-real-time StudySpace presence."""
     user_id = _get_user_id(request)
-    if not user_id:
-        return JsonResponse({'error': 'Unauthorized'}, status=401)
-
-    space, err = _accessible_space(space_id, user_id)
-    if err:
-        return err
-
+    if not user_id:
+        return JsonResponse({'error': 'Unauthorized'}, status=401)
+
+    space, err = _accessible_space(space_id, user_id, request)
+    if err:
+        return err
+
     _ensure_space_owner_member(space)
     _prune_space_presence(space)
     now = now_ms()
@@ -654,13 +754,13 @@ def ajax_space_presence(request, space_id):
 def ajax_space_notes(request, space_id):
     """Shared collaborative notes for a StudySpace with autosave."""
     user_id = _get_user_id(request)
-    if not user_id:
-        return JsonResponse({'error': 'Unauthorized'}, status=401)
-
-    space, err = _accessible_space(space_id, user_id)
-    if err:
-        return err
-
+    if not user_id:
+        return JsonResponse({'error': 'Unauthorized'}, status=401)
+
+    space, err = _accessible_space(space_id, user_id, request)
+    if err:
+        return err
+
     note = _ensure_space_note(space)
     if request.method == 'POST':
         if not _space_permission_allows(space, user_id, 'generate_min_role'):
@@ -696,13 +796,17 @@ def ajax_space_tutor(request, space_id):
     user_id = _get_user_id(request)
     if not user_id:
         return JsonResponse({'error': 'Unauthorized'}, status=401)
-    if request.method != 'POST':
-        return JsonResponse({'error': 'Method not allowed'}, status=405)
-
-    space, err = _accessible_space(space_id, user_id)
-    if err:
-        return err
-    if not _space_permission_allows(space, user_id, 'generate_min_role'):
+    if request.method != 'POST':
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
+
+    throttled = _throttled(request, THROTTLE_TUTOR)
+    if throttled:
+        return throttled
+
+    space, err = _accessible_space(space_id, user_id, request)
+    if err:
+        return err
+    if not _space_permission_allows(space, user_id, 'generate_min_role'):
         return JsonResponse({'error': 'You do not have permission to use the AI tutor here'}, status=403)
 
     question = str(_json_body(request).get('question') or '').strip()
@@ -744,13 +848,17 @@ def ajax_space_learning_path(request, space_id):
     user_id = _get_user_id(request)
     if not user_id:
         return JsonResponse({'error': 'Unauthorized'}, status=401)
-    if request.method != 'POST':
-        return JsonResponse({'error': 'Method not allowed'}, status=405)
-
-    space, err = _accessible_space(space_id, user_id)
-    if err:
-        return err
-    if not _space_permission_allows(space, user_id, 'generate_min_role'):
+    if request.method != 'POST':
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
+
+    throttled = _throttled(request, THROTTLE_GENERATE)
+    if throttled:
+        return throttled
+
+    space, err = _accessible_space(space_id, user_id, request)
+    if err:
+        return err
+    if not _space_permission_allows(space, user_id, 'generate_min_role'):
         return JsonResponse({'error': 'You do not have permission to generate learning paths here'}, status=403)
 
     days = _bounded_int(_json_body(request).get('days'), 3, 30, 7)
@@ -781,13 +889,13 @@ def ajax_space_learning_path(request, space_id):
 def ajax_space_list_available_docs(request, space_id):
     """List all StudyDocuments owned by the user, for adding to a space."""
     user_id = _get_user_id(request)
-    if not user_id:
-        return JsonResponse({'error': 'Unauthorized'}, status=401)
-
-    space, err = _accessible_space(space_id, user_id)
-    if err:
-        return err
-
+    if not user_id:
+        return JsonResponse({'error': 'Unauthorized'}, status=401)
+
+    space, err = _accessible_space(space_id, user_id, request)
+    if err:
+        return err
+
     docs = StudyDocument.objects.filter(user_id=user_id).order_by('-updated_at')[:100]
     doc_list = []
     for d in docs:
@@ -805,13 +913,13 @@ def ajax_space_list_available_docs(request, space_id):
 def ajax_space_list_resources(request, space_id):
     """List Resources uploaded by the user that can be added to a space."""
     user_id = _get_user_id(request)
-    if not user_id:
-        return JsonResponse({'error': 'Unauthorized'}, status=401)
-
-    space, err = _accessible_space(space_id, user_id)
-    if err:
-        return err
-
+    if not user_id:
+        return JsonResponse({'error': 'Unauthorized'}, status=401)
+
+    space, err = _accessible_space(space_id, user_id, request)
+    if err:
+        return err
+
     resources = Resource.objects.filter(
         uploaded_by_id=user_id,
         approval_status='approved',
@@ -953,12 +1061,16 @@ def ajax_space_upload(request, space_id):
     user_id = _get_user_id(request)
     if not user_id:
         return JsonResponse({'error': 'Unauthorized'}, status=401)
-    if request.method != 'POST':
-        return JsonResponse({'error': 'Method not allowed'}, status=405)
-
-    space, err = _manageable_space(space_id, user_id)
-    if err:
-        return err
+    if request.method != 'POST':
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
+
+    throttled = _throttled(request, THROTTLE_UPLOAD)
+    if throttled:
+        return throttled
+
+    space, err = _manageable_space(space_id, user_id)
+    if err:
+        return err
     if not _space_permission_allows(space, user_id, 'upload_min_role'):
         return JsonResponse({'error': 'You do not have permission to add files to this space'}, status=403)
 
@@ -1019,13 +1131,17 @@ def ajax_space_generate_summary(request, space_id):
     user_id = _get_user_id(request)
     if not user_id:
         return JsonResponse({'error': 'Unauthorized'}, status=401)
-    if request.method != 'POST':
-        return JsonResponse({'error': 'Method not allowed'}, status=405)
-
-    space, err = _accessible_space(space_id, user_id)
-    if err:
-        return err
-    if not _space_permission_allows(space, user_id, 'generate_min_role'):
+    if request.method != 'POST':
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
+
+    throttled = _throttled(request, THROTTLE_GENERATE)
+    if throttled:
+        return throttled
+
+    space, err = _accessible_space(space_id, user_id, request)
+    if err:
+        return err
+    if not _space_permission_allows(space, user_id, 'generate_min_role'):
         return JsonResponse({'error': 'You do not have permission to generate content in this space'}, status=403)
 
     body = _json_body(request)
@@ -1042,25 +1158,14 @@ def ajax_space_generate_summary(request, space_id):
     combined = '\n\n'.join(
         f"=== {t['title']} ===\n{t['content']}" for t in texts
     )
-    if len(combined) > MAX_TEXT_CHARS:
-        combined = combined[:MAX_TEXT_CHARS]
-
-    prompt_label = 'detailed' if mode == 'detailed' else 'compact'
-    outline_prompt = (
-        f"Create a {prompt_label} study summary outline from these documents. "
-        "List the main sections and key points. Start directly with the outline. "
-        "Do not include any introductory sentence."
-    )
-    full_prompt = (
-        f"Create a {prompt_label} study summary from these documents based on the outline below. "
-        "Start directly with the summary heading. Do not include any introductory sentence."
-    )
-
-    result, err = _qwen().two_turn_generation(
-        outline_prompt, full_prompt, combined,
-        system_prompt=summary_system_prompt(mode),
-    )
-    if err:
+    if len(combined) > MAX_TEXT_CHARS:
+        combined = combined[:MAX_TEXT_CHARS]
+
+    result, err = _qwen().two_turn_generation(
+        summary_outline_prompt(mode), summary_full_prompt(mode), combined,
+        system_prompt=summary_system_prompt(mode),
+    )
+    if err:
         return JsonResponse({'error': err}, status=502)
 
     summary = normalize_formulas(clean_ai_markdown(result))
@@ -1121,13 +1226,17 @@ def ajax_space_generate_mindmap(request, space_id):
     user_id = _get_user_id(request)
     if not user_id:
         return JsonResponse({'error': 'Unauthorized'}, status=401)
-    if request.method != 'POST':
-        return JsonResponse({'error': 'Method not allowed'}, status=405)
-
-    space, err = _accessible_space(space_id, user_id)
-    if err:
-        return err
-    if not _space_permission_allows(space, user_id, 'generate_min_role'):
+    if request.method != 'POST':
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
+
+    throttled = _throttled(request, THROTTLE_GENERATE)
+    if throttled:
+        return throttled
+
+    space, err = _accessible_space(space_id, user_id, request)
+    if err:
+        return err
+    if not _space_permission_allows(space, user_id, 'generate_min_role'):
         return JsonResponse({'error': 'You do not have permission to generate content in this space'}, status=403)
 
     texts, _parsing, _failed = _get_space_texts(space)
@@ -1141,24 +1250,14 @@ def ajax_space_generate_mindmap(request, space_id):
     combined = '\n\n'.join(
         f"=== {t['title']} ===\n{t['content']}" for t in texts
     )
-    if len(combined) > MAX_TEXT_CHARS:
-        combined = combined[:MAX_TEXT_CHARS]
-
-    outline_prompt = (
-        "Create a study mindmap outline from these documents. "
-        "List the main topics and subtopics as a structured outline. "
-        "Return only the outline text."
-    )
-    full_prompt = (
-        "Create a study mindmap from these documents based on the outline below. "
-        "Return only the JSON object."
-    )
-
-    result, err = _qwen().two_turn_generation(
-        outline_prompt, full_prompt, combined,
-        system_prompt=MINDMAP_SYSTEM_PROMPT,
-    )
-    if err:
+    if len(combined) > MAX_TEXT_CHARS:
+        combined = combined[:MAX_TEXT_CHARS]
+
+    result, err = _qwen().two_turn_generation(
+        MINDMAP_OUTLINE_PROMPT, MINDMAP_FULL_PROMPT, combined,
+        system_prompt=MINDMAP_SYSTEM_PROMPT,
+    )
+    if err:
         return JsonResponse({'error': err}, status=502)
 
     mindmap = parse_json_object_response(result)
@@ -1179,13 +1278,17 @@ def ajax_space_generate_quiz(request, space_id):
     user_id = _get_user_id(request)
     if not user_id:
         return JsonResponse({'error': 'Unauthorized'}, status=401)
-    if request.method != 'POST':
-        return JsonResponse({'error': 'Method not allowed'}, status=405)
-
-    space, err = _accessible_space(space_id, user_id)
-    if err:
-        return err
-    if not _space_permission_allows(space, user_id, 'generate_min_role'):
+    if request.method != 'POST':
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
+
+    throttled = _throttled(request, THROTTLE_GENERATE)
+    if throttled:
+        return throttled
+
+    space, err = _accessible_space(space_id, user_id, request)
+    if err:
+        return err
+    if not _space_permission_allows(space, user_id, 'generate_min_role'):
         return JsonResponse({'error': 'You do not have permission to generate content in this space'}, status=403)
 
     body = _json_body(request)
@@ -1234,38 +1337,43 @@ def ajax_space_generate_quiz(request, space_id):
     items = items[:count]
 
     if not items:
-        return JsonResponse({'error': 'Could not generate quiz questions'}, status=502)
-
-    now = now_ms()
-    quiz = StudySpaceQuiz.objects.create(
-        id=uuid_str(),
-        space=space,
-        user_id=user_id,
-        title=f"Quiz: {space.title or 'Study Space'}",
-        question_count=len(items),
-        created_at=now,
-    )
-    for i, item in enumerate(items, 1):
-        options = item.get('options', [])
-        StudySpaceQuizQuestion.objects.create(
-            id=uuid_str(),
-            quiz=quiz,
-            question_number=i,
-            question_text=item.get('question', ''),
-            option_a=options[0] if len(options) > 0 else '',
-            option_b=options[1] if len(options) > 1 else '',
-            option_c=options[2] if len(options) > 2 else '',
-            option_d=options[3] if len(options) > 3 else '',
-            correct_answer=(item.get('correct_answer') or item.get('correctAnswer') or 'A').upper()[:1],
-            explanation=item.get('explanation', ''),
-        )
-
-    space.updated_at = now
-    space.save(update_fields=['updated_at'])
-
-    return JsonResponse({
-        'quiz': {
-            'id': quiz.id,
+        return JsonResponse({'error': 'Could not generate quiz questions'}, status=502)
+
+    now = now_ms()
+    with transaction.atomic():
+        quiz = StudySpaceQuiz.objects.create(
+            id=uuid_str(),
+            space=space,
+            user_id=user_id,
+            title=f"Quiz: {space.title or 'Study Space'}",
+            question_count=len(items),
+            created_at=now,
+        )
+        question_rows = []
+        for i, item in enumerate(items, 1):
+            options = item.get('options', [])
+            question_rows.append(StudySpaceQuizQuestion(
+                id=uuid_str(),
+                quiz=quiz,
+                question_number=i,
+                question_text=item.get('question', ''),
+                option_a=options[0] if len(options) > 0 else '',
+                option_b=options[1] if len(options) > 1 else '',
+                option_c=options[2] if len(options) > 2 else '',
+                option_d=options[3] if len(options) > 3 else '',
+                correct_answer=(item.get('correct_answer') or item.get('correctAnswer') or item.get('correct') or 'A').upper()[:1],
+                explanation=item.get('explanation', ''),
+            ))
+        StudySpaceQuizQuestion.objects.bulk_create(question_rows)
+
+        space.updated_at = now
+        space.save(update_fields=['updated_at'])
+
+    # NOTE: correctAnswer/explanation are intentionally omitted before
+    # submission — they come back in the quiz submit response.
+    return JsonResponse({
+        'quiz': {
+            'id': quiz.id,
             'title': quiz.title,
             'questionCount': quiz.question_count,
             'createdAt': quiz.created_at,
@@ -1275,16 +1383,14 @@ def ajax_space_generate_quiz(request, space_id):
                     'questionNumber': q.question_number,
                     'questionText': q.question_text,
                     'optionA': q.option_a,
-                    'optionB': q.option_b,
-                    'optionC': q.option_c,
-                    'optionD': q.option_d,
-                    'correctAnswer': q.correct_answer,
-                    'explanation': q.explanation,
-                }
-                for q in quiz.questions.all()
-            ],
-        },
-    }, status=201)
+                    'optionB': q.option_b,
+                    'optionC': q.option_c,
+                    'optionD': q.option_d,
+                }
+                for q in question_rows
+            ],
+        },
+    }, status=201)
 
 
 def ajax_space_quiz_detail(request, quiz_id):
@@ -1295,17 +1401,18 @@ def ajax_space_quiz_detail(request, quiz_id):
 
     try:
         quiz = StudySpaceQuiz.objects.get(pk=quiz_id)
-    except StudySpaceQuiz.DoesNotExist:
-        return JsonResponse({'error': 'Quiz not found'}, status=404)
-
-    space, err = _accessible_space(quiz.space_id, user_id)
-    if err:
-        return err
-
-    questions = quiz.questions.all().order_by('question_number')
-    return JsonResponse({
-        'quiz': {
-            'id': quiz.id,
+    except StudySpaceQuiz.DoesNotExist:
+        return JsonResponse({'error': 'Quiz not found'}, status=404)
+
+    space, err = _accessible_space(quiz.space_id, user_id, request)
+    if err:
+        return err
+
+    questions = quiz.questions.all().order_by('question_number')
+    # correctAnswer/explanation are intentionally omitted before submission.
+    return JsonResponse({
+        'quiz': {
+            'id': quiz.id,
             'title': quiz.title,
             'questionCount': quiz.question_count,
             'createdAt': quiz.created_at,
@@ -1315,14 +1422,12 @@ def ajax_space_quiz_detail(request, quiz_id):
                     'questionNumber': q.question_number,
                     'questionText': q.question_text,
                     'optionA': q.option_a,
-                    'optionB': q.option_b,
-                    'optionC': q.option_c,
-                    'optionD': q.option_d,
-                    'correctAnswer': q.correct_answer,
-                    'explanation': q.explanation,
-                }
-                for q in questions
-            ],
+                    'optionB': q.option_b,
+                    'optionC': q.option_c,
+                    'optionD': q.option_d,
+                }
+                for q in questions
+            ],
         },
     })
 
@@ -1337,68 +1442,85 @@ def ajax_space_quiz_submit(request, quiz_id):
 
     try:
         quiz = StudySpaceQuiz.objects.get(pk=quiz_id)
-    except StudySpaceQuiz.DoesNotExist:
-        return JsonResponse({'error': 'Quiz not found'}, status=404)
-
-    space, err = _accessible_space(quiz.space_id, user_id)
-    if err:
-        return err
-
+    except StudySpaceQuiz.DoesNotExist:
+        return JsonResponse({'error': 'Quiz not found'}, status=404)
+
+    space, err = _accessible_space(quiz.space_id, user_id, request)
+    if err:
+        return err
+
     body = _json_body(request)
     answers = body.get('answers', {})
     if not isinstance(answers, dict):
         return JsonResponse({'error': 'Invalid answers format'}, status=400)
 
-    questions = list(quiz.questions.all().order_by('question_number'))
-    correct = 0
-    answer_records = []
-    for q in questions:
-        given = str(answers.get(str(q.id), '')).upper()[:1]
-        is_correct = given == q.correct_answer
+    questions = list(quiz.questions.all().order_by('question_number'))
+    correct = 0
+    answer_records = []
+    results = []
+    for q in questions:
+        given = str(answers.get(str(q.id), '')).upper()[:1]
+        is_correct = given == q.correct_answer
         if is_correct:
             correct += 1
         answer_records.append({
             'questionId': q.id,
             'given': given,
-            'correct': q.correct_answer,
-            'isCorrect': is_correct,
-        })
-
-    now = now_ms()
-    xp = correct * 10
-    attempt = StudySpaceQuizAttempt.objects.create(
-        id=uuid_str(),
-        quiz=quiz,
+            'correct': q.correct_answer,
+            'isCorrect': is_correct,
+        })
+        results.append({
+            'questionId': q.id,
+            'question': q.question_text,
+            'options': {'A': q.option_a, 'B': q.option_b, 'C': q.option_c, 'D': q.option_d},
+            'userAnswer': given,
+            'correctAnswer': q.correct_answer,
+            'explanation': q.explanation,
+            'isCorrect': is_correct,
+        })
+
+    now = now_ms()
+    # XP is only credited on the FIRST attempt per (quiz, user) to prevent farming.
+    is_first_attempt = not StudySpaceQuizAttempt.objects.filter(quiz=quiz, user_id=user_id).exists()
+    xp = correct * 10 if is_first_attempt else 0
+    attempt = StudySpaceQuizAttempt.objects.create(
+        id=uuid_str(),
+        quiz=quiz,
         user_id=user_id,
         score=correct,
         total_questions=len(questions),
         answers=json.dumps(answers),
         xp_earned=xp,
-        completed_at=now,
-        created_at=now,
-    )
-
-    return JsonResponse({
-        'attempt': {
+        completed_at=now,
+        created_at=now,
+    )
+    if xp:
+        User.objects.filter(pk=user_id).update(contribution_score=F('contribution_score') + xp)
+
+    return JsonResponse({
+        'attempt': {
             'id': attempt.id,
-            'score': correct,
-            'totalQuestions': len(questions),
-            'xpEarned': xp,
-            'answers': answer_records,
-        },
-    })
-
-
+            'score': correct,
+            'totalQuestions': len(questions),
+            'xpEarned': xp,
+            'firstAttempt': is_first_attempt,
+            'answers': answer_records,
+            'results': results,
+        },
+        'results': results,
+    })
+
+
 def ajax_space_quiz_history(request, space_id):
     """Get all quizzes for a space with attempt summary for the current user."""
     user_id = _get_user_id(request)
-    if not user_id:
-        return JsonResponse({'error': 'Unauthorized'}, status=401)
-
-    space, err = _accessible_space(space_id, user_id)
-    if err:
-        return err
-
+    if not user_id:
+        return JsonResponse({'error': 'Unauthorized'}, status=401)
+
+    space, err = _accessible_space(space_id, user_id, request)
+    if err:
+        return err
+
     quizzes = StudySpaceQuiz.objects.filter(space=space, user_id=user_id).order_by('-created_at')
     quiz_ids = [q.id for q in quizzes]
 
@@ -1430,13 +1552,17 @@ def ajax_space_generate_flashcards(request, space_id):
     user_id = _get_user_id(request)
     if not user_id:
         return JsonResponse({'error': 'Unauthorized'}, status=401)
-    if request.method != 'POST':
-        return JsonResponse({'error': 'Method not allowed'}, status=405)
-
-    space, err = _accessible_space(space_id, user_id)
-    if err:
-        return err
-    if not _space_permission_allows(space, user_id, 'generate_min_role'):
+    if request.method != 'POST':
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
+
+    throttled = _throttled(request, THROTTLE_GENERATE)
+    if throttled:
+        return throttled
+
+    space, err = _accessible_space(space_id, user_id, request)
+    if err:
+        return err
+    if not _space_permission_allows(space, user_id, 'generate_min_role'):
         return JsonResponse({'error': 'You do not have permission to generate content in this space'}, status=403)
 
     body = _json_body(request)
@@ -1485,32 +1611,38 @@ def ajax_space_generate_flashcards(request, space_id):
     items = items[:count]
 
     if not items:
-        return JsonResponse({'error': 'Could not generate flashcards'}, status=502)
-
-    now = now_ms()
-    cards = []
-    for i, item in enumerate(items, 1):
-        fc = StudySpaceFlashcard.objects.create(
-            id=uuid_str(),
-            space=space,
-            user_id=user_id,
+        return JsonResponse({'error': 'Could not generate flashcards'}, status=502)
+
+    now = now_ms()
+    card_rows = [
+        StudySpaceFlashcard(
+            id=uuid_str(),
+            space=space,
+            user_id=user_id,
             front=item.get('front', ''),
             back=item.get('back', ''),
-            card_number=i,
-            created_at=now,
-        )
-        cards.append({
-            'id': fc.id,
-            'front': fc.front,
-            'back': fc.back,
-            'cardNumber': fc.card_number,
-        })
-
-    space.updated_at = now
-    space.save(update_fields=['updated_at'])
-
-    return JsonResponse({'flashcards': cards}, status=201)
-
+            card_number=i,
+            created_at=now,
+        )
+        for i, item in enumerate(items, 1)
+    ]
+    with transaction.atomic():
+        StudySpaceFlashcard.objects.bulk_create(card_rows)
+        space.updated_at = now
+        space.save(update_fields=['updated_at'])
+
+    cards = [
+        {
+            'id': fc.id,
+            'front': fc.front,
+            'back': fc.back,
+            'cardNumber': fc.card_number,
+        }
+        for fc in card_rows
+    ]
+
+    return JsonResponse({'flashcards': cards}, status=201)
+
 
 def ajax_space_flashcard_review(request, card_id):
     """Review (rate confidence for) a space-level flashcard."""
@@ -1522,35 +1654,42 @@ def ajax_space_flashcard_review(request, card_id):
 
     try:
         card = StudySpaceFlashcard.objects.get(pk=card_id)
-    except StudySpaceFlashcard.DoesNotExist:
-        return JsonResponse({'error': 'Flashcard not found'}, status=404)
-
-    space, err = _accessible_space(card.space_id, user_id)
-    if err:
-        return err
-
+    except StudySpaceFlashcard.DoesNotExist:
+        return JsonResponse({'error': 'Flashcard not found'}, status=404)
+
+    space, err = _accessible_space(card.space_id, user_id, request)
+    if err:
+        return err
+
     body = _json_body(request)
     confidence = body.get('confidence', 'medium')
     if confidence not in ('easy', 'medium', 'hard'):
-        confidence = 'medium'
-
-    now = now_ms()
-    review, created = StudySpaceFlashcardReview.objects.update_or_create(
-        flashcard=card,
-        user_id=user_id,
-        defaults={
-            'confidence': confidence,
-            'review_count': F('review_count') + 1 if not created else 1,
-            'last_reviewed_at': now,
-            'next_review_at': now + (86400000 if confidence == 'hard' else 86400000 * 3 if confidence == 'medium' else 86400000 * 7),
-        },
-    )
-    if created:
-        review.review_count = 1
-        review.save(update_fields=['review_count'])
-
-    return JsonResponse({
-        'cardId': card.id,
+        confidence = 'medium'
+
+    now = now_ms()
+    next_review_at = now + (86400000 if confidence == 'hard' else 86400000 * 3 if confidence == 'medium' else 86400000 * 7)
+    review, created = StudySpaceFlashcardReview.objects.get_or_create(
+        flashcard=card,
+        user_id=user_id,
+        defaults={
+            'id': uuid_str(),
+            'confidence': confidence,
+            'review_count': 1,
+            'last_reviewed_at': now,
+            'next_review_at': next_review_at,
+        },
+    )
+    if not created:
+        StudySpaceFlashcardReview.objects.filter(pk=review.pk).update(
+            confidence=confidence,
+            review_count=F('review_count') + 1,
+            last_reviewed_at=now,
+            next_review_at=next_review_at,
+        )
+        review.refresh_from_db(fields=['review_count'])
+
+    return JsonResponse({
+        'cardId': card.id,
         'confidence': confidence,
         'reviewCount': review.review_count,
     })
@@ -1632,15 +1771,13 @@ def analytics(request):
             if part:
                 subject_counter[part] += 1
 
-    top_categories = _counter_rows(category_counter, limit=5)
-    top_subjects = _counter_rows(subject_counter, limit=5)
-
-    summaries_count = study_docs.filter(summary_compact__gt='').count() + study_docs.filter(summary_detailed__gt='').count()
-    if not summaries_count:
-        summaries_count = study_docs.exclude(summary='').count()
-    mindmaps_count = study_docs.exclude(mindmap_json='').count()
-
-    suggestions = []
+    top_categories = _counter_rows(category_counter, limit=5)
+    top_subjects = _counter_rows(subject_counter, limit=5)
+
+    summaries_count = study_docs.filter(Q(summary_compact__gt='') | Q(summary_detailed__gt='')).count()
+    mindmaps_count = study_docs.exclude(mindmap_json='').count()
+
+    suggestions = []
     if study_docs.count() and summaries_count < study_docs.count():
         suggestions.append('Generate compact summaries for documents that still have no summary.')
     if study_docs.count() and mindmaps_count < study_docs.count():
@@ -1725,12 +1862,16 @@ def ajax_study_upload(request):
     user_id = _get_user_id(request)
     if not user_id:
         return JsonResponse({'error': 'Unauthorized'}, status=401)
-    if request.method != 'POST':
-        return JsonResponse({'error': 'Method not allowed'}, status=405)
-
-    f = request.FILES.get('file')
-    if not f:
-        return JsonResponse({'error': 'No file provided'}, status=400)
+    if request.method != 'POST':
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
+
+    throttled = _throttled(request, THROTTLE_UPLOAD)
+    if throttled:
+        return throttled
+
+    f = request.FILES.get('file')
+    if not f:
+        return JsonResponse({'error': 'No file provided'}, status=400)
 
     ext = os.path.splitext(f.name)[1].lower()
     if ext not in ALLOWED_EXTENSIONS:
@@ -1817,13 +1958,13 @@ def ajax_study_reparse(request, doc_id):
 def ajax_space_parse_status(request, space_id, doc_id):
     """Get the parse status of a document in a study space."""
     user_id = _get_user_id(request)
-    if not user_id:
-        return JsonResponse({'error': 'Unauthorized'}, status=401)
-
-    space, err = _accessible_space(space_id, user_id)
-    if err:
-        return err
-
+    if not user_id:
+        return JsonResponse({'error': 'Unauthorized'}, status=401)
+
+    space, err = _accessible_space(space_id, user_id, request)
+    if err:
+        return err
+
     try:
         doc = space.documents.get(pk=doc_id)
     except StudyDocument.DoesNotExist:
@@ -1916,65 +2057,49 @@ def ajax_study_delete_document(request, doc_id):
     doc.delete()
     return JsonResponse({'success': True})
 
-
-
-def ajax_study_share_settings(request, doc_id):
-    """Read/update sharing settings for an owned Study Lab document."""
-    user_id = _get_user_id(request)
-    if not user_id:
-        return JsonResponse({'error': 'Unauthorized'}, status=401)
+
+
+def ajax_study_share_settings(request, doc_id):
+    """Legacy per-document sharing endpoint.
+
+    Per-document sharing was removed in migration 0052 — sharing now happens
+    at the Study Space level. This endpoint returns 410 Gone instead of
+    crashing on the removed StudyDocument share fields.
+    """
+    user_id = _get_user_id(request)
+    if not user_id:
+        return JsonResponse({'error': 'Unauthorized'}, status=401)
 
     doc, error = _owned_doc(doc_id, user_id)
-    if error:
-        return error
-
-    if request.method == 'GET':
-        return JsonResponse(_serialize_share_settings(doc, request))
-    if request.method != 'POST':
-        return JsonResponse({'error': 'Method not allowed'}, status=405)
-
-    body = _json_body(request)
-    mode = (body.get('mode') or StudySpace.SHARE_PRIVATE).strip().lower()
-    if mode not in (StudySpace.SHARE_PRIVATE, StudySpace.SHARE_LINK, StudySpace.SHARE_SPECIFIC):
-        return JsonResponse({'error': 'Invalid sharing option'}, status=400)
-
-    now = now_ms()
-    doc.share_mode = mode
-    doc.shared_at = now if mode != StudySpace.SHARE_PRIVATE else 0
-    doc.updated_at = now
-    doc.save(update_fields=['share_mode', 'shared_at', 'updated_at'])
-
-    if mode in (StudySpace.SHARE_PRIVATE, StudySpace.SHARE_LINK):
-        doc.share_grants.all().delete()
-    else:
-        identifiers = body.get('users') or body.get('recipients') or ''
-        resolved, missing = _resolve_share_users(identifiers, owner_id=user_id)
-        if missing:
-            return JsonResponse({'error': 'Some users were not found', 'missing': missing}, status=400)
-        existing_ids = set(doc.share_grants.values_list('user_id', flat=True))
-        wanted_ids = set(u.id for u in resolved)
-        doc.share_grants.exclude(user_id__in=wanted_ids).delete()
-        for u in resolved:
-            if u.id in existing_ids:
-                continue
-            StudyDocumentShare.objects.create(id=uuid_str(), document=doc, user=u, granted_by_id=user_id, created_at=now)
-
-    return JsonResponse(_serialize_share_settings(doc, request))
-
-# ── Summary ────────────────────────────────────────────────────────────────
-
+    if error:
+        return error
+
+    return JsonResponse({
+        'error': (
+            'Per-document sharing has been replaced by Study Space sharing. '
+            'Add this document to a Study Space and share the space instead.'
+        ),
+        'code': 'gone',
+    }, status=410)
+
+# ── Summary ────────────────────────────────────────────────────────────────
+
 
 def ajax_study_generate_summary(request, doc_id):
     """Generate a compact or detailed summary for a document using Qwen."""
     user_id = _get_user_id(request)
     if not user_id:
         return JsonResponse({'error': 'Unauthorized'}, status=401)
-    if request.method != 'POST':
-        return JsonResponse({'error': 'Method not allowed'}, status=405)
-
-    doc, error = _owned_doc(doc_id, user_id)
-    if error:
-        return error
+    if request.method != 'POST':
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
+
+    throttled = _throttled(request, THROTTLE_GENERATE)
+    if throttled:
+        return throttled
+
+    doc, error = _owned_doc(doc_id, user_id)
+    if error:
+        return error
 
     body = _json_body(request)
     mode = _summary_mode(body.get('mode'))
@@ -2002,13 +2127,13 @@ def ajax_study_generate_summary(request, doc_id):
     summary = normalize_formulas(clean_ai_markdown(result))
     _save_summary(doc, mode, summary)
 
-    return JsonResponse({
-        'mode': mode,
-        'summary': summary,
-        'summaryCompact': doc.summary_compact or doc.summary,
-        'summaryDetailed': doc.summary_detailed,
-    })
-
+    return JsonResponse({
+        'mode': mode,
+        'summary': summary,
+        'summaryCompact': doc.summary_compact,
+        'summaryDetailed': doc.summary_detailed,
+    })
+
 
 def ajax_study_update_summary(request, doc_id):
     """Allow the owner to edit and save generated compact/detailed summaries."""
@@ -2031,13 +2156,13 @@ def ajax_study_update_summary(request, doc_id):
         return JsonResponse({'error': 'Summary is too long'}, status=400)
 
     _save_summary(doc, mode, summary)
-    return JsonResponse({
-        'mode': mode,
-        'summary': summary,
-        'summaryCompact': doc.summary_compact or doc.summary,
-        'summaryDetailed': doc.summary_detailed,
-    })
-
+    return JsonResponse({
+        'mode': mode,
+        'summary': summary,
+        'summaryCompact': doc.summary_compact,
+        'summaryDetailed': doc.summary_detailed,
+    })
+
 
 # ── Mindmap ────────────────────────────────────────────────────────────────
 
@@ -2047,12 +2172,16 @@ def ajax_study_generate_mindmap(request, doc_id):
     user_id = _get_user_id(request)
     if not user_id:
         return JsonResponse({'error': 'Unauthorized'}, status=401)
-    if request.method != 'POST':
-        return JsonResponse({'error': 'Method not allowed'}, status=405)
-
-    doc, error = _owned_doc(doc_id, user_id)
-    if error:
-        return error
+    if request.method != 'POST':
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
+
+    throttled = _throttled(request, THROTTLE_GENERATE)
+    if throttled:
+        return throttled
+
+    doc, error = _owned_doc(doc_id, user_id)
+    if error:
+        return error
 
     prepared = _prepare_doc_for_qwen(doc)
     err = _check_prepared(prepared)
@@ -2087,12 +2216,16 @@ def ajax_study_generate_quiz(request, doc_id):
     user_id = _get_user_id(request)
     if not user_id:
         return JsonResponse({'error': 'Unauthorized'}, status=401)
-    if request.method != 'POST':
-        return JsonResponse({'error': 'Method not allowed'}, status=405)
-
-    doc, error = _owned_doc(doc_id, user_id)
-    if error:
-        return error
+    if request.method != 'POST':
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
+
+    throttled = _throttled(request, THROTTLE_GENERATE)
+    if throttled:
+        return throttled
+
+    doc, error = _owned_doc(doc_id, user_id)
+    if error:
+        return error
 
     body = _json_body(request)
     question_count = _bounded_int(body.get('count', 10), 5, 40, 10)
@@ -2113,38 +2246,41 @@ def ajax_study_generate_quiz(request, doc_id):
     questions = parse_json_response(result)
     questions = dedupe_questions(questions, set(q.lower().strip() for q in exclusions))[:question_count]
     if not questions:
-        return JsonResponse({'error': 'Failed to parse fresh quiz questions from AI response'}, status=502)
-
-    now = now_ms()
-    quiz = StudyQuiz.objects.create(
-        id=uuid_str(),
-        document=doc,
-        user_id=user_id,
-        title=f"Quiz: {doc.title or doc.file_name or 'Untitled'}",
-        question_count=len(questions),
-        created_at=now,
-    )
-
-    for i, q in enumerate(questions):
-        options = q.get('options', []) if isinstance(q, dict) else []
-        StudyQuizQuestion.objects.create(
-            id=uuid_str(),
-            quiz=quiz,
-            question_number=i + 1,
-            question_text=normalize_formulas((q.get('question', '') if isinstance(q, dict) else '').strip()),
-            option_a=normalize_formulas(options[0]) if len(options) > 0 else '',
-            option_b=normalize_formulas(options[1]) if len(options) > 1 else '',
-            option_c=normalize_formulas(options[2]) if len(options) > 2 else '',
-            option_d=normalize_formulas(options[3]) if len(options) > 3 else '',
-            correct_answer=((q.get('correct', 'A') if isinstance(q, dict) else 'A') or 'A').upper()[:1],
-            explanation=normalize_formulas((q.get('explanation', '') if isinstance(q, dict) else '').strip()),
-        )
-
-    doc.updated_at = now
-    doc.save(update_fields=['updated_at'])
-
-    return JsonResponse({'quiz': _serialize_quiz_detail(quiz, user_id)}, status=201)
-
+        return JsonResponse({'error': 'Failed to parse fresh quiz questions from AI response'}, status=502)
+
+    now = now_ms()
+    with transaction.atomic():
+        quiz = StudyQuiz.objects.create(
+            id=uuid_str(),
+            document=doc,
+            user_id=user_id,
+            title=f"Quiz: {doc.title or doc.file_name or 'Untitled'}",
+            question_count=len(questions),
+            created_at=now,
+        )
+
+        question_rows = []
+        for i, q in enumerate(questions):
+            options = q.get('options', []) if isinstance(q, dict) else []
+            question_rows.append(StudyQuizQuestion(
+                id=uuid_str(),
+                quiz=quiz,
+                question_number=i + 1,
+                question_text=normalize_formulas((q.get('question', '') if isinstance(q, dict) else '').strip()),
+                option_a=normalize_formulas(options[0]) if len(options) > 0 else '',
+                option_b=normalize_formulas(options[1]) if len(options) > 1 else '',
+                option_c=normalize_formulas(options[2]) if len(options) > 2 else '',
+                option_d=normalize_formulas(options[3]) if len(options) > 3 else '',
+                correct_answer=((q.get('correct', 'A') if isinstance(q, dict) else 'A') or 'A').upper()[:1],
+                explanation=normalize_formulas((q.get('explanation', '') if isinstance(q, dict) else '').strip()),
+            ))
+        StudyQuizQuestion.objects.bulk_create(question_rows)
+
+        doc.updated_at = now
+        doc.save(update_fields=['updated_at'])
+
+    return JsonResponse({'quiz': _serialize_quiz_detail(quiz, user_id)}, status=201)
+
 
 def ajax_study_quiz_detail(request, quiz_id):
     """Get quiz questions without correct answers."""
@@ -2196,13 +2332,15 @@ def ajax_study_quiz_submit(request, quiz_id):
             'userAnswer': user_answer,
             'correctAnswer': q.correct_answer,
             'isCorrect': is_correct,
-            'explanation': q.explanation,
-        }
-
-    xp_earned = score * 10
-    now = now_ms()
-    attempt = StudyQuizAttempt.objects.create(
-        id=uuid_str(),
+            'explanation': q.explanation,
+        }
+
+    # XP is only credited on the FIRST attempt per (quiz, user) to prevent farming.
+    is_first_attempt = not StudyQuizAttempt.objects.filter(quiz=quiz, user_id=user_id).exists()
+    xp_earned = score * 10 if is_first_attempt else 0
+    now = now_ms()
+    attempt = StudyQuizAttempt.objects.create(
+        id=uuid_str(),
         quiz=quiz,
         user_id=user_id,
         score=score,
@@ -2210,20 +2348,22 @@ def ajax_study_quiz_submit(request, quiz_id):
         answers=json.dumps(answers),
         xp_earned=xp_earned,
         completed_at=now,
-        created_at=now,
-    )
-
-    User.objects.filter(pk=user_id).update(contribution_score=F('contribution_score') + xp_earned)
-
-    return JsonResponse({
-        'attempt': {
+        created_at=now,
+    )
+
+    if xp_earned:
+        User.objects.filter(pk=user_id).update(contribution_score=F('contribution_score') + xp_earned)
+
+    return JsonResponse({
+        'attempt': {
             'id': attempt.id,
-            'score': attempt.score,
-            'totalQuestions': attempt.total_questions,
-            'xpEarned': attempt.xp_earned,
-            'results': results,
-        }
-    })
+            'score': attempt.score,
+            'totalQuestions': attempt.total_questions,
+            'xpEarned': attempt.xp_earned,
+            'firstAttempt': is_first_attempt,
+            'results': results,
+        }
+    })
 
 
 # ── Flashcards ─────────────────────────────────────────────────────────────
@@ -2234,12 +2374,16 @@ def ajax_study_generate_flashcards(request, doc_id):
     user_id = _get_user_id(request)
     if not user_id:
         return JsonResponse({'error': 'Unauthorized'}, status=401)
-    if request.method != 'POST':
-        return JsonResponse({'error': 'Method not allowed'}, status=405)
-
-    doc, error = _owned_doc(doc_id, user_id)
-    if error:
-        return error
+    if request.method != 'POST':
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
+
+    throttled = _throttled(request, THROTTLE_GENERATE)
+    if throttled:
+        return throttled
+
+    doc, error = _owned_doc(doc_id, user_id)
+    if error:
+        return error
 
     body = _json_body(request)
     card_count = _bounded_int(body.get('count', 15), 5, 50, 15)
@@ -2261,27 +2405,28 @@ def ajax_study_generate_flashcards(request, doc_id):
     cards = dedupe_flashcards(cards, set(c.lower().strip() for c in exclusions))[:card_count]
     if not cards:
         return JsonResponse({'error': 'Failed to parse fresh flashcards from AI response'}, status=502)
-
-    now = now_ms()
-    max_card_number = StudyFlashcard.objects.filter(document=doc).aggregate(m=Max('card_number')).get('m') or 0
-    flashcard_objs = []
-    for i, c in enumerate(cards):
-        fc = StudyFlashcard.objects.create(
-            id=uuid_str(),
-            document=doc,
-            user_id=user_id,
+
+    now = now_ms()
+    max_card_number = StudyFlashcard.objects.filter(document=doc).aggregate(m=Max('card_number')).get('m') or 0
+    flashcard_objs = [
+        StudyFlashcard(
+            id=uuid_str(),
+            document=doc,
+            user_id=user_id,
             front=normalize_formulas((c.get('front', '') if isinstance(c, dict) else '').strip()),
             back=normalize_formulas((c.get('back', '') if isinstance(c, dict) else '').strip()),
-            card_number=max_card_number + i + 1,
-            created_at=now,
-        )
-        flashcard_objs.append(fc)
-
-    doc.updated_at = now
-    doc.save(update_fields=['updated_at'])
-
-    return JsonResponse({
-        'flashcards': [_serialize_flashcard(fc, user_id) for fc in flashcard_objs],
+            card_number=max_card_number + i + 1,
+            created_at=now,
+        )
+        for i, c in enumerate(cards)
+    ]
+    with transaction.atomic():
+        StudyFlashcard.objects.bulk_create(flashcard_objs)
+        doc.updated_at = now
+        doc.save(update_fields=['updated_at'])
+
+    return JsonResponse({
+        'flashcards': [_serialize_flashcard(fc, user_id) for fc in flashcard_objs],
         'totalFlashcards': StudyFlashcard.objects.filter(document=doc).count(),
     }, status=201)
 
@@ -2380,34 +2525,34 @@ def _serialize_study_doc_detail(d):
         'sharedAt': getattr(d, 'shared_at', 0),
         'shareToken': str(getattr(d, 'share_token', '') or ''),
     }
-
-
-def _serialize_quiz_list_item(q, user_id):
-    attempts = q.attempts.filter(user_id=user_id)
-    return {
-        'id': q.id,
-        'title': q.title,
-        'questionCount': q.question_count,
-        'attemptCount': attempts.count(),
-        'bestScore': max((a.score for a in attempts), default=0),
-        'createdAt': q.created_at,
-    }
-
-
-def _serialize_quiz_detail(quiz, viewer_user_id=None):
-    viewer_user_id = viewer_user_id or quiz.user_id
-    previous_attempts = quiz.attempts.filter(user_id=viewer_user_id).order_by('-completed_at')
-    questions = quiz.questions.all().order_by('question_number')
-    return {
-        'id': quiz.id,
-        'title': quiz.title,
-        'questionCount': quiz.question_count,
-        'createdAt': quiz.created_at,
-        'attemptCount': previous_attempts.count(),
-        'bestScore': max((a.score for a in previous_attempts), default=0),
-        'questions': [
-            {
-                'id': q.id,
+
+
+def _serialize_quiz_list_item(q, user_id):
+    agg = q.attempts.filter(user_id=user_id).aggregate(c=Count('id'), best=Max('score'))
+    return {
+        'id': q.id,
+        'title': q.title,
+        'questionCount': q.question_count,
+        'attemptCount': agg.get('c') or 0,
+        'bestScore': agg.get('best') or 0,
+        'createdAt': q.created_at,
+    }
+
+
+def _serialize_quiz_detail(quiz, viewer_user_id=None):
+    viewer_user_id = viewer_user_id or quiz.user_id
+    attempt_agg = quiz.attempts.filter(user_id=viewer_user_id).aggregate(c=Count('id'), best=Max('score'))
+    questions = quiz.questions.all().order_by('question_number')
+    return {
+        'id': quiz.id,
+        'title': quiz.title,
+        'questionCount': quiz.question_count,
+        'createdAt': quiz.created_at,
+        'attemptCount': attempt_agg.get('c') or 0,
+        'bestScore': attempt_agg.get('best') or 0,
+        'questions': [
+            {
+                'id': q.id,
                 'number': q.question_number,
                 'question': q.question_text,
                 'optionA': q.option_a,
@@ -2490,30 +2635,12 @@ def _resolve_share_users(raw, owner_id):
                 missing.append(ident)
             continue
         resolved.append(user)
-    return resolved, missing
-
-
-def _serialize_share_settings(doc, request):
-    grants = doc.share_grants.select_related('user').order_by('user__username')
-    link = request.build_absolute_uri(reverse('web:study_lab_shared', args=[doc.share_token]))
-    return {
-        'mode': getattr(doc, 'share_mode', StudySpace.SHARE_PRIVATE),
-        'shareUrl': link,
-        'sharedAt': getattr(doc, 'shared_at', 0),
-        'users': [
-            {
-                'id': g.user_id,
-                'username': g.user.username,
-                'displayName': g.user.display_name or g.user.username,
-                'photoUrl': g.user.photo_url or '',
-            }
-            for g in grants
-        ],
-    }
-
-def _json_body(request):
-    try:
-        return json.loads(request.body) if request.body else {}
+    return resolved, missing
+
+
+def _json_body(request):
+    try:
+        return json.loads(request.body) if request.body else {}
     except ValueError:
         return {}
 
@@ -2533,21 +2660,20 @@ def _summary_mode(mode):
 def _save_summary(doc, mode, summary):
     now = now_ms()
     if mode == 'detailed':
-        doc.summary_detailed = summary
-    else:
-        doc.summary_compact = summary
-        doc.summary = summary  # backward compatibility for old reads/templates
-    doc.summary_updated_at = now
-    doc.summary_generated_at = now
-    doc.updated_at = now
+        doc.summary_detailed = summary
+    else:
+        doc.summary_compact = summary
+    doc.summary_updated_at = now
+    doc.summary_generated_at = now
+    doc.updated_at = now
     fields = ['summary_updated_at', 'summary_generated_at', 'updated_at']
-    if mode == 'detailed':
-        fields.append('summary_detailed')
-    else:
-        fields.extend(['summary_compact', 'summary'])
-    doc.save(update_fields=fields)
-
-
+    if mode == 'detailed':
+        fields.append('summary_detailed')
+    else:
+        fields.append('summary_compact')
+    doc.save(update_fields=fields)
+
+
 def _prepare_doc_for_qwen(doc):
     """Prepare a document for Qwen generation.
 
@@ -2661,13 +2787,13 @@ MAX_SPACES_PER_USER = 5
 MAX_DOCS_PER_SPACE = 5
 
 
-def _generate_unique_invite_code():
-    alphabet = string.ascii_uppercase + string.digits
-    for _ in range(20):
-        code = ''.join(random.choice(alphabet) for _ in range(8))
-        if not StudySpace.objects.filter(invite_code=code).exists():
-            return code
-    return uuid_str().replace('-', '')[:8].upper()
+def _generate_unique_invite_code():
+    alphabet = string.ascii_uppercase + string.digits
+    for _ in range(20):
+        code = ''.join(secrets.choice(alphabet) for _ in range(8))
+        if not StudySpace.objects.filter(invite_code=code).exists():
+            return code
+    return uuid_str().replace('-', '')[:8].upper()
 
 
 def _ensure_space_invite_code(space):
@@ -2860,22 +2986,28 @@ def _legacy_table_columns(cursor, table):
         cursor.execute(f'PRAGMA table_info({table})')
         return {row[1] for row in cursor.fetchall()}
     cursor.execute(f'SHOW COLUMNS FROM `{table}`')
-    return {row[0] for row in cursor.fetchall()}
-
-
-def _serialize_space_list_item(space, user_id=None):
-    _ensure_space_invite_code(space)
-    _ensure_space_owner_member(space)
-    _prune_space_presence(space)
-    doc_count = space.documents.count()
-    has_summary = bool(space.link_summary_compact or space.link_summary_detailed)
-    has_mindmap = bool(space.link_mindmap_json)
-    has_quiz = StudySpaceQuiz.objects.filter(space=space).exists()
-    has_flashcards = StudySpaceFlashcard.objects.filter(space=space).exists()
-    member_count = StudySpaceMember.objects.filter(space=space).count()
-    active_now = StudySpacePresence.objects.filter(space=space).count()
-    owner = getattr(space, 'user', None)
-    role = _space_membership_role(space, user_id) if user_id else ''
+    return {row[0] for row in cursor.fetchall()}
+
+
+def _serialize_space_list_item(space, user_id=None, member_count=None, doc_count=None):
+    """Read-only list serializer.
+
+    Must NOT write to the database (no invite-code/owner-member/presence
+    upkeep) — it is called in loops over many spaces. Callers can pass
+    precomputed ``member_count``/``doc_count`` annotations to avoid
+    per-space COUNT queries.
+    """
+    if doc_count is None:
+        doc_count = space.documents.count()
+    if member_count is None:
+        member_count = StudySpaceMember.objects.filter(space=space).count()
+    has_summary = bool(space.link_summary_compact or space.link_summary_detailed)
+    has_mindmap = bool(space.link_mindmap_json)
+    has_quiz = StudySpaceQuiz.objects.filter(space=space).exists()
+    has_flashcards = StudySpaceFlashcard.objects.filter(space=space).exists()
+    active_now = StudySpacePresence.objects.filter(space=space).count()
+    owner = getattr(space, 'user', None)
+    role = _space_membership_role(space, user_id) if user_id else ''
     owner_badge = ''
     if owner:
         if getattr(owner, 'teacher_verified', False):
@@ -3068,26 +3200,33 @@ def _owned_space(space_id, user_id):
         space = StudySpace.objects.get(pk=space_id, user_id=user_id)
     except StudySpace.DoesNotExist:
         return None, JsonResponse({'error': 'Space not found'}, status=404)
-    return space, None
-
-
-def _accessible_space(space_id, user_id):
-    try:
-        space = StudySpace.objects.get(pk=space_id)
-    except StudySpace.DoesNotExist:
+    return space, None
+
+
+def _accessible_space(space_id, user_id, request=None):
+    try:
+        space = StudySpace.objects.get(pk=space_id)
+    except StudySpace.DoesNotExist:
         return None, JsonResponse({'error': 'Space not found'}, status=404)
     if space.user_id == user_id:
         _ensure_space_owner_member(space)
         return space, None
     if _space_membership_role(space, user_id):
         return space, None
-    if getattr(space, 'visibility', StudySpace.VISIBILITY_PRIVATE) == StudySpace.VISIBILITY_PUBLIC:
-        return space, None
-    if space.share_mode == StudySpace.SHARE_LINK and space.shared_at:
-        return space, None
-    if space.share_mode == StudySpace.SHARE_SPECIFIC and space.shared_at:
-        if StudySpaceShare.objects.filter(space=space, user_id=user_id).exists():
-            return space, None
+    if getattr(space, 'visibility', StudySpace.VISIBILITY_PRIVATE) == StudySpace.VISIBILITY_PUBLIC:
+        return space, None
+    if space.share_mode == StudySpace.SHARE_LINK and space.shared_at:
+        # Link-share access requires that this session actually presented the
+        # share token (set in study_space_shared). A bare space id is NOT
+        # enough to read an unlisted link-shared space.
+        if (
+            request is not None
+            and request.session.get(f'space_token_{space.id}') == space.share_token
+        ):
+            return space, None
+    if space.share_mode == StudySpace.SHARE_SPECIFIC and space.shared_at:
+        if StudySpaceShare.objects.filter(space=space, user_id=user_id).exists():
+            return space, None
     return None, JsonResponse({'error': 'Access denied'}, status=403)
 
 

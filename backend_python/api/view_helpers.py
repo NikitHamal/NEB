@@ -212,13 +212,21 @@ def _paginated_response(request, queryset, serializer_class, *, context=None, de
     user = _get_user_from_request(request)
     if user and page:
         if serializer_class == PostSerializer:
+            ids = [p.id for p in page]
             ctx['liked_post_ids'] = set(PostLike.objects.filter(
-                user=user, post_id__in=[p.id for p in page]
+                user=user, post_id__in=ids
             ).values_list('post_id', flat=True))
+            ctx['bookmarked_post_ids'] = set(Bookmark.objects.filter(
+                user=user, target_type='post', target_id__in=ids
+            ).values_list('target_id', flat=True))
         elif serializer_class == ReplySerializer:
+            ids = [r.id for r in page]
             ctx['liked_reply_ids'] = set(ReplyLike.objects.filter(
-                user=user, reply_id__in=[r.id for r in page]
+                user=user, reply_id__in=ids
             ).values_list('reply_id', flat=True))
+            ctx['bookmarked_reply_ids'] = set(Bookmark.objects.filter(
+                user=user, target_type='reply', target_id__in=ids
+            ).values_list('target_id', flat=True))
 
     serializer = serializer_class(page, many=True, context=ctx)
     return paginator.get_paginated_response(serializer.data)

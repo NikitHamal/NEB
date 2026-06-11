@@ -145,13 +145,37 @@ class PollOptionSerializer(serializers.ModelSerializer):
 class PollSerializer(serializers.ModelSerializer):
     options = PollOptionSerializer(many=True, read_only=True)
     isExpired = serializers.SerializerMethodField()
+    pollType = serializers.CharField(source='poll_type', read_only=True)
+    allowMultiple = serializers.BooleanField(source='allow_multiple', read_only=True)
+    durationMs = serializers.IntegerField(source='duration_ms', read_only=True)
+    totalVotes = serializers.IntegerField(source='total_votes', read_only=True)
+    createdAt = serializers.IntegerField(source='created_at', read_only=True)
+    userVote = serializers.SerializerMethodField()
 
     class Meta:
         model = Poll
-        fields = ['id', 'question', 'poll_type', 'allow_multiple', 'explanation', 'duration_ms', 'total_votes', 'isExpired', 'options']
+        fields = ['id', 'question', 'poll_type', 'allow_multiple', 'explanation', 'duration_ms', 'total_votes',
+                  'pollType', 'allowMultiple', 'durationMs', 'totalVotes', 'createdAt', 'isExpired', 'userVote', 'options']
 
     def get_isExpired(self, obj):
         return obj.is_expired
+
+    def get_userVote(self, obj):
+        request = self.context.get('request')
+        if not request or not hasattr(request, 'user') or request.user is None:
+            return None
+        user = request.user
+        if not isinstance(user, User):
+            return None
+        try:
+            votes = list(PollVote.objects.filter(poll=obj, user=user).values_list('option_id', flat=True))
+        except Exception:
+            return None
+        if not votes:
+            return None
+        if obj.allow_multiple:
+            return [str(v) for v in votes]
+        return str(votes[0])
 
 
 class PostSerializer(serializers.ModelSerializer):
@@ -167,6 +191,8 @@ class PostSerializer(serializers.ModelSerializer):
     isEdited = serializers.BooleanField(source='is_edited', read_only=True)
     isArchived = serializers.BooleanField(source='is_archived', read_only=True)
     isThumbedUp = serializers.SerializerMethodField()
+    isBookmarked = serializers.SerializerMethodField()
+    authorBadgeInfo = serializers.SerializerMethodField()
     images = PostImageSerializer(many=True, read_only=True)
     poll = PollSerializer(read_only=True)
 
@@ -174,10 +200,32 @@ class PostSerializer(serializers.ModelSerializer):
         model = Post
         fields = [
             'id', 'title', 'content', 'category',
-            'authorName', 'authorPhotoUrl', 'authorId', 'authorIsBot',
+            'authorName', 'authorPhotoUrl', 'authorId', 'authorIsBot', 'authorBadgeInfo',
             'thumbsUpCount', 'replyCount', 'viewCount', 'createdAt', 'updatedAt',
-            'isEdited', 'isArchived', 'isThumbedUp', 'images', 'poll'
+            'isEdited', 'isArchived', 'isThumbedUp', 'isBookmarked', 'images', 'poll'
         ]
+
+    def get_authorBadgeInfo(self, obj):
+        from .badges import user_badge_info
+        try:
+            return user_badge_info(obj.user)
+        except Exception:
+            return None
+
+    def get_isBookmarked(self, obj):
+        request = self.context.get('request')
+        if not request or not hasattr(request, 'user') or request.user is None:
+            return False
+        user = request.user
+        if not isinstance(user, User):
+            return False
+        bookmarked_ids = self.context.get('bookmarked_post_ids')
+        if bookmarked_ids is not None:
+            return obj.id in bookmarked_ids
+        try:
+            return Bookmark.objects.filter(user=user, target_type='post', target_id=obj.id).exists()
+        except Exception:
+            return False
 
     def get_authorName(self, obj):
         try:
@@ -226,15 +274,41 @@ class ReplySerializer(serializers.ModelSerializer):
     createdAt = serializers.IntegerField(source='created_at', read_only=True)
     isEdited = serializers.BooleanField(source='is_edited', read_only=True)
     editedAt = serializers.IntegerField(source='edited_at', read_only=True)
+    isArchived = serializers.BooleanField(source='is_archived', read_only=True)
     isThumbedUp = serializers.SerializerMethodField()
+    isBookmarked = serializers.SerializerMethodField()
+    authorBadgeInfo = serializers.SerializerMethodField()
 
     class Meta:
         model = Reply
         fields = [
             'id', 'postId', 'parentReplyId', 'content',
-            'authorName', 'authorPhotoUrl', 'authorId', 'authorIsBot',
-            'thumbsUpCount', 'childCount', 'viewCount', 'createdAt', 'isEdited', 'editedAt', 'isThumbedUp'
+            'authorName', 'authorPhotoUrl', 'authorId', 'authorIsBot', 'authorBadgeInfo',
+            'thumbsUpCount', 'childCount', 'viewCount', 'createdAt', 'isEdited', 'editedAt',
+            'isArchived', 'isThumbedUp', 'isBookmarked'
         ]
+
+    def get_authorBadgeInfo(self, obj):
+        from .badges import user_badge_info
+        try:
+            return user_badge_info(obj.user)
+        except Exception:
+            return None
+
+    def get_isBookmarked(self, obj):
+        request = self.context.get('request')
+        if not request or not hasattr(request, 'user') or request.user is None:
+            return False
+        user = request.user
+        if not isinstance(user, User):
+            return False
+        bookmarked_ids = self.context.get('bookmarked_reply_ids')
+        if bookmarked_ids is not None:
+            return obj.id in bookmarked_ids
+        try:
+            return Bookmark.objects.filter(user=user, target_type='reply', target_id=obj.id).exists()
+        except Exception:
+            return False
 
     def get_authorName(self, obj):
         try:

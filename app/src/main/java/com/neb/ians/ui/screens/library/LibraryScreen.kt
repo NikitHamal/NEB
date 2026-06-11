@@ -14,17 +14,24 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.FilterList
 import androidx.compose.material.icons.outlined.Search
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MenuAnchorType
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -32,10 +39,13 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -157,7 +167,9 @@ fun LibraryScreen(
                     uiState = uiState,
                     hasActiveFilters = hasActiveFilters,
                     onResourceClick = onResourceClick,
-                    onRetry = { viewModel.refresh() }
+                    onRetry = { viewModel.refresh() },
+                    onSortSelected = viewModel::selectSort,
+                    onLoadMore = viewModel::loadNextPage
                 )
             } else {
                 SyllabusContent(
@@ -353,7 +365,9 @@ private fun LibraryContent(
     uiState: LibraryUiState,
     hasActiveFilters: Boolean,
     onResourceClick: (String) -> Unit,
-    onRetry: () -> Unit
+    onRetry: () -> Unit,
+    onSortSelected: (String) -> Unit,
+    onLoadMore: () -> Unit
 ) {
     when {
         uiState.isLoading -> ShimmerLibraryGrid()
@@ -390,26 +404,40 @@ private fun LibraryContent(
                     border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
                 ) {
                     Row(
-                        modifier = Modifier.padding(horizontal = 14.dp, vertical = 10.dp),
+                        modifier = Modifier.padding(start = 14.dp, top = 4.dp, end = 8.dp, bottom = 4.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
+                        val total = uiState.totalCount.coerceAtLeast(uiState.resources.size)
                         Text(
-                            text = "Showing ${uiState.resources.size} of ${uiState.totalCount.coerceAtLeast(uiState.resources.size)} resources",
+                            text = "Showing 1\u2013${uiState.resources.size} of $total resources",
                             style = MaterialTheme.typography.labelMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                             modifier = Modifier.weight(1f),
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis
                         )
-                        Text(
-                            text = "Most Relevant",
-                            style = MaterialTheme.typography.labelMedium,
-                            color = MaterialTheme.colorScheme.primary,
-                            fontWeight = FontWeight.Bold
+                        LibrarySortDropdown(
+                            sort = uiState.sort,
+                            onSortSelected = onSortSelected
                         )
                     }
                 }
+
+                val gridState = rememberLazyGridState()
+                LaunchedEffect(gridState) {
+                    snapshotFlow {
+                        val layoutInfo = gridState.layoutInfo
+                        val lastVisible = layoutInfo.visibleItemsInfo.lastOrNull()?.index ?: -1
+                        lastVisible to layoutInfo.totalItemsCount
+                    }
+                        .distinctUntilChanged()
+                        .collect { (lastVisible, total) ->
+                            if (total > 0 && lastVisible >= total - 4) onLoadMore()
+                        }
+                }
+
                 LazyVerticalGrid(
+                    state = gridState,
                     columns = GridCells.Adaptive(minSize = 174.dp),
                     contentPadding = PaddingValues(start = 16.dp, top = 6.dp, end = 16.dp, bottom = 110.dp),
                     horizontalArrangement = Arrangement.spacedBy(12.dp),
@@ -423,7 +451,78 @@ private fun LibraryContent(
                             minWidth = null
                         )
                     }
+                    if (uiState.isLoadingMore) {
+                        item(key = "loading_footer", span = { GridItemSpan(maxLineSpan) }) {
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(vertical = 14.dp),
+                                horizontalArrangement = Arrangement.Center,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                CircularProgressIndicator(modifier = Modifier.size(26.dp))
+                            }
+                        }
+                    }
                 }
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun LibrarySortDropdown(
+    sort: String,
+    onSortSelected: (String) -> Unit
+) {
+    var expanded by remember { mutableStateOf(false) }
+    val selectedLabel = LibraryUiState.SORT_OPTIONS.firstOrNull { it.key == sort }?.label
+        ?: LibraryUiState.SORT_OPTIONS.first().label
+
+    ExposedDropdownMenuBox(
+        expanded = expanded,
+        onExpandedChange = { expanded = it }
+    ) {
+        Row(
+            modifier = Modifier
+                .menuAnchor(MenuAnchorType.PrimaryNotEditable)
+                .clickable { expanded = true }
+                .padding(horizontal = 6.dp, vertical = 8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = selectedLabel,
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.primary,
+                fontWeight = FontWeight.Bold,
+                maxLines = 1
+            )
+            ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
+        }
+        ExposedDropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false }
+        ) {
+            LibraryUiState.SORT_OPTIONS.forEach { option ->
+                DropdownMenuItem(
+                    text = {
+                        Text(
+                            text = option.label,
+                            style = MaterialTheme.typography.bodyMedium,
+                            fontWeight = if (option.key == sort) FontWeight.Bold else FontWeight.Normal,
+                            color = if (option.key == sort) {
+                                MaterialTheme.colorScheme.primary
+                            } else {
+                                MaterialTheme.colorScheme.onSurface
+                            }
+                        )
+                    },
+                    onClick = {
+                        expanded = false
+                        onSortSelected(option.key)
+                    }
+                )
             }
         }
     }
@@ -433,12 +532,14 @@ private fun LibraryContent(
 private fun SyllabusContent(
     onSubjectClick: (String) -> Unit
 ) {
+    val leftSubjects = remember { LibraryUiState.SUBJECTS.filterIndexed { index, _ -> index % 2 == 0 } }
+    val rightSubjects = remember { LibraryUiState.SUBJECTS.filterIndexed { index, _ -> index % 2 == 1 } }
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 18.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        items(LibraryUiState.GRADE_LEVELS) { grade ->
+        items(LibraryUiState.GRADE_LEVELS, key = { it }) { grade ->
             Surface(
                 modifier = Modifier.fillMaxWidth(),
                 shape = WebPanelShape,
@@ -472,12 +573,12 @@ private fun SyllabusContent(
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         Column(verticalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.weight(1f)) {
-                            LibraryUiState.SUBJECTS.filterIndexed { index, _ -> index % 2 == 0 }.forEach { subject ->
+                            leftSubjects.forEach { subject ->
                                 SyllabusSubjectChip(subject = subject, onClick = { onSubjectClick(subject) })
                             }
                         }
                         Column(verticalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.weight(1f)) {
-                            LibraryUiState.SUBJECTS.filterIndexed { index, _ -> index % 2 == 1 }.forEach { subject ->
+                            rightSubjects.forEach { subject ->
                                 SyllabusSubjectChip(subject = subject, onClick = { onSubjectClick(subject) })
                             }
                         }
@@ -485,7 +586,7 @@ private fun SyllabusContent(
                 }
             }
         }
-        item { Spacer(modifier = Modifier.height(92.dp)) }
+        item(key = "bottom_spacer") { Spacer(modifier = Modifier.height(92.dp)) }
     }
 }
 
