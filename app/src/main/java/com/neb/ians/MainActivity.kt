@@ -10,6 +10,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.lifecycleScope
+import com.neb.ians.data.realtime.RealtimeClient
 import com.neb.ians.data.repository.AuthRepository
 import com.neb.ians.ui.NEBiansNavHost
 import com.neb.ians.ui.theme.NEBiansTheme
@@ -22,6 +23,7 @@ import javax.inject.Inject
 class MainActivity : ComponentActivity() {
 
     @Inject lateinit var authRepository: AuthRepository
+    @Inject lateinit var realtimeClient: RealtimeClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +41,18 @@ class MainActivity : ComponentActivity() {
                 )
             }
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        // Live updates: posts/likes/replies/notifications over WebSocket.
+        realtimeClient.start()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        // Save battery/data when the app is backgrounded; FCM covers pushes.
+        realtimeClient.stop()
     }
 
     override fun onNewIntent(intent: Intent) {

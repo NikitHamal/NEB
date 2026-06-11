@@ -64,6 +64,30 @@ def csp_nonce_context(request):
     return {'csp_nonce': getattr(request, 'csp_nonce', '')}
 
 
+class BearerCsrfExemptMiddleware:
+    """Skip CSRF enforcement for Bearer-token API clients (mobile apps).
+
+    CSRF protects cookie/session-authenticated requests. Requests that carry an
+    `Authorization: Bearer <token>` header are not cookie-authenticated from a
+    browser context (browsers cannot attach custom Authorization headers
+    cross-site without a CORS preflight), so CSRF does not apply to them.
+
+    This lets the Android app call the `/ajax/` endpoints (which return the
+    exact web JSON shapes) using its auth token.
+
+    Place BEFORE CsrfViewMiddleware.
+    """
+
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        auth = request.META.get('HTTP_AUTHORIZATION', '')
+        if auth.startswith('Bearer ') and not request.COOKIES.get('sessionid'):
+            request._dont_enforce_csrf_checks = True
+        return self.get_response(request)
+
+
 class AllowedHostMiddleware:
     """Extends Django's ALLOWED_HOSTS check with suffix wildcards.
 

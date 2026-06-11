@@ -48,6 +48,20 @@ def _origin_allowed(origin):
     for allowed in settings.CORS_ALLOWED_ORIGINS:
         if allowed.lower().endswith(host) or host == allowed.lower().replace('https://', '').replace('http://', ''):
             return True
+            
+    # Support wildcard suffix matching in ALLOWED_HOSTS (e.g. .trycloudflare.com)
+    for allowed in settings.ALLOWED_HOSTS:
+        if allowed.startswith('.'):
+            suffix = allowed.lower()
+            if host.endswith(suffix) or host == suffix[1:]:
+                return True
+
+    logger.warning(
+        'WS Origin validation failed. host=%r, allowed_hosts=%r, CORS=%r',
+        host,
+        list(allowed_hosts),
+        list(settings.CORS_ALLOWED_ORIGINS)
+    )
     return False
 
 

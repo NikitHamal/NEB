@@ -1,37 +1,83 @@
 package com.neb.ians.ui.screens.notifications
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.Reply
+import androidx.compose.material.icons.outlined.AlternateEmail
+import androidx.compose.material.icons.outlined.Notifications
+import androidx.compose.material.icons.outlined.PersonAdd
+import androidx.compose.material.icons.outlined.ThumbUp
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.TopAppBar
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.neb.ians.data.api.ApiNotification
+import com.neb.ians.data.api.ApiNotificationMarkReadRequest
+import com.neb.ians.data.api.ApiService
+import com.neb.ians.data.realtime.RealtimeClient
+import com.neb.ians.data.repository.AuthRepository
+import com.neb.ians.ui.components.Avatar
+import com.neb.ians.util.formatTimeAgo
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
-import com.neb.ians.data.api.ApiService
-import com.neb.ians.data.api.ApiNotification
-import com.neb.ians.data.repository.AuthRepository
-import com.neb.ians.util.formatTimeAgo
 
 data class NotificationsUiState(
     val notifications: List<ApiNotification> = emptyList(),
     val isLoading: Boolean = false,
+    val isLoadingMore: Boolean = false,
+    val hasMore: Boolean = false,
+    val page: Int = 1,
     val error: String? = null
-)
+) {
+    val hasUnread: Boolean get() = notifications.any { !it.isRead }
+}
 
 @HiltViewModel
 class NotificationsViewModel @Inject constructor(
     private val apiService: ApiService,
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
+    private val realtimeClient: RealtimeClient
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(NotificationsUiState())
@@ -39,13 +85,54 @@ class NotificationsViewModel @Inject constructor(
 
     fun loadNotifications() {
         viewModelScope.launch {
-            _uiState.value = _uiState.value.copy(isLoading = true, error = null)
+            _uiState.update { it.copy(isLoading = true, error = null) }
             try {
-                val token = authRepository.getBearerToken() ?: return@launch
-                val response = apiService.getNotifications(token)
-                _uiState.value = _uiState.value.copy(notifications = response.notifications, isLoading = false)
+                val token = authRepository.getBearerToken()
+                if (token == null) {
+                    _uiState.update { it.copy(isLoading = false, error = "Not signed in") }
+                    return@launch
+                }
+                val response = apiService.getNotifications(token, page = 1)
+                _uiState.update {
+                    it.copy(
+                        notifications = response.notifications,
+                        isLoading = false,
+                        page = 1,
+                        hasMore = response.hasMore
+                    )
+                }
             } catch (e: Exception) {
-                _uiState.value = _uiState.value.copy(isLoading = false, error = e.localizedMessage)
+                _uiState.update { it.copy(isLoading = false, error = e.localizedMessage) }
+            }
+            realtimeClient.refreshUnreadCount()
+        }
+    }
+
+    fun loadNextPage() {
+        val state = _uiState.value
+        if (state.isLoading || state.isLoadingMore || !state.hasMore) return
+        viewModelScope.launch {
+            _uiState.update { it.copy(isLoadingMore = true) }
+            try {
+                val token = authRepository.getBearerToken()
+                if (token == null) {
+                    _uiState.update { it.copy(isLoadingMore = false) }
+                    return@launch
+                }
+                val nextPage = state.page + 1
+                val response = apiService.getNotifications(token, page = nextPage)
+                _uiState.update { current ->
+                    val existingIds = current.notifications.mapTo(HashSet()) { it.id }
+                    current.copy(
+                        notifications = current.notifications +
+                            response.notifications.filterNot { it.id in existingIds },
+                        page = nextPage,
+                        hasMore = response.hasMore,
+                        isLoadingMore = false
+                    )
+                }
+            } catch (_: Exception) {
+                _uiState.update { it.copy(isLoadingMore = false) }
             }
         }
     }
@@ -54,11 +141,39 @@ class NotificationsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val token = authRepository.getBearerToken() ?: return@launch
-                apiService.markNotificationsRead(token)
-                _uiState.value = _uiState.value.copy(
-                    notifications = _uiState.value.notifications.map { it.copy(isRead = true) }
+                apiService.markNotificationsRead(token, ApiNotificationMarkReadRequest(markAll = true))
+                _uiState.update { current ->
+                    current.copy(notifications = current.notifications.map { it.copy(isRead = true) })
+                }
+                realtimeClient.setUnreadCount(0)
+            } catch (_: Exception) {
+            }
+        }
+    }
+
+    /** Marks a single notification read — optimistic UI, then refresh badge from server. */
+    fun markOneRead(notificationId: String) {
+        val target = _uiState.value.notifications.firstOrNull { it.id == notificationId }
+        if (target == null || target.isRead) return
+        // Optimistic: tint change immediately + drop badge locally.
+        _uiState.update { current ->
+            current.copy(
+                notifications = current.notifications.map {
+                    if (it.id == notificationId) it.copy(isRead = true) else it
+                }
+            )
+        }
+        realtimeClient.setUnreadCount(realtimeClient.unreadCount.value - 1)
+        viewModelScope.launch {
+            try {
+                val token = authRepository.getBearerToken() ?: return@launch
+                apiService.markNotificationsRead(
+                    token,
+                    ApiNotificationMarkReadRequest(notificationIds = listOf(notificationId))
                 )
-            } catch (_: Exception) { }
+            } catch (_: Exception) {
+            }
+            realtimeClient.refreshUnreadCount()
         }
     }
 }
@@ -74,26 +189,84 @@ fun NotificationsScreen(
         viewModel.loadNotifications()
     }
 
-    val uiState by viewModel.uiState.collectAsState()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val listState = rememberLazyListState()
+
+    // Infinite scroll: load the next page when the last loaded item becomes visible.
+    LaunchedEffect(listState) {
+        snapshotFlow {
+            val layoutInfo = listState.layoutInfo
+            val lastVisible = layoutInfo.visibleItemsInfo.lastOrNull()?.index ?: -1
+            lastVisible to layoutInfo.totalItemsCount
+        }
+            .distinctUntilChanged()
+            .collect { (lastVisible, total) ->
+                if (total > 0 && lastVisible >= total - 3) viewModel.loadNextPage()
+            }
+    }
 
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text("Notifications") })
+            TopAppBar(
+                title = { Text("Notifications") },
+                actions = {
+                    if (uiState.hasUnread) {
+                        TextButton(onClick = viewModel::markAllRead) {
+                            Text(
+                                text = "Mark all read",
+                                style = MaterialTheme.typography.labelLarge,
+                                fontWeight = FontWeight.SemiBold,
+                                color = MaterialTheme.colorScheme.primary
+                            )
+                        }
+                    }
+                }
+            )
         }
     ) { padding ->
         Box(modifier = Modifier.fillMaxSize().padding(padding)) {
             when {
-                uiState.isLoading -> CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
-                uiState.error != null -> Text("Error: ${uiState.error}", modifier = Modifier.padding(16.dp))
-                uiState.notifications.isEmpty() -> Text("No notifications yet", modifier = Modifier.padding(16.dp))
+                uiState.isLoading && uiState.notifications.isEmpty() ->
+                    CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+                uiState.error != null && uiState.notifications.isEmpty() ->
+                    Text("Error: ${uiState.error}", modifier = Modifier.padding(16.dp))
+                uiState.notifications.isEmpty() ->
+                    Text("No notifications yet", modifier = Modifier.padding(16.dp))
                 else -> {
-                    LazyColumn(modifier = Modifier.fillMaxSize()) {
-                        items(uiState.notifications) { notification ->
+                    LazyColumn(
+                        state = listState,
+                        modifier = Modifier.fillMaxSize()
+                    ) {
+                        items(uiState.notifications, key = { it.id }) { notification ->
                             NotificationItem(
                                 notification = notification,
-                                onPostClick = onPostClick,
-                                onProfileClick = onProfileClick
+                                onClick = {
+                                    viewModel.markOneRead(notification.id)
+                                    val targetId = notification.targetId
+                                    if (!targetId.isNullOrBlank()) {
+                                        when (notification.targetType) {
+                                            "post" -> onPostClick(targetId)
+                                            "user", "profile" -> onProfileClick(targetId)
+                                        }
+                                    }
+                                },
+                                onAvatarClick = {
+                                    notification.actorId?.takeIf { it.isNotBlank() }?.let(onProfileClick)
+                                }
                             )
+                            HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
+                        }
+                        if (uiState.isLoadingMore) {
+                            item(key = "loading_footer") {
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(vertical = 16.dp),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    CircularProgressIndicator(modifier = Modifier.size(26.dp))
+                                }
+                            }
                         }
                     }
                 }
@@ -102,25 +275,86 @@ fun NotificationsScreen(
     }
 }
 
+/** Maps a notification verb to a leading icon (web parity). */
+private fun verbIcon(verb: String): ImageVector {
+    val v = verb.lowercase()
+    return when {
+        "like" in v || "thumb" in v -> Icons.Outlined.ThumbUp
+        "repl" in v || "comment" in v -> Icons.AutoMirrored.Outlined.Reply
+        "follow" in v -> Icons.Outlined.PersonAdd
+        "mention" in v -> Icons.Outlined.AlternateEmail
+        else -> Icons.Outlined.Notifications
+    }
+}
+
 @Composable
 fun NotificationItem(
     notification: ApiNotification,
-    onPostClick: (String) -> Unit,
-    onProfileClick: (String) -> Unit
+    onClick: () -> Unit,
+    onAvatarClick: () -> Unit = {}
 ) {
     Surface(
-        modifier = Modifier.fillMaxWidth(),
-        color = if (!notification.isRead) MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.3f) else MaterialTheme.colorScheme.surface,
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick),
+        color = if (!notification.isRead) {
+            MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.3f)
+        } else {
+            MaterialTheme.colorScheme.surface
+        },
         tonalElevation = if (!notification.isRead) 1.dp else 0.dp
     ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text(notification.message, style = MaterialTheme.typography.bodyMedium)
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(
-                formatTimeAgo(notification.createdAt),
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+        Row(
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
+            verticalAlignment = Alignment.Top,
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            Avatar(
+                name = notification.actorName ?: "?",
+                imageUrl = notification.actorPhotoUrl,
+                size = 40.dp,
+                modifier = Modifier.clickable(onClick = onAvatarClick)
             )
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = notification.message,
+                    style = MaterialTheme.typography.bodyMedium,
+                    fontWeight = if (!notification.isRead) FontWeight.SemiBold else FontWeight.Normal,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    maxLines = 3,
+                    overflow = TextOverflow.Ellipsis
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(5.dp)
+                ) {
+                    Icon(
+                        imageVector = verbIcon(notification.verb),
+                        contentDescription = null,
+                        modifier = Modifier.size(14.dp),
+                        tint = if (!notification.isRead) {
+                            MaterialTheme.colorScheme.primary
+                        } else {
+                            MaterialTheme.colorScheme.onSurfaceVariant
+                        }
+                    )
+                    Text(
+                        text = formatTimeAgo(notification.createdAt),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        maxLines = 1
+                    )
+                }
+            }
+            if (!notification.isRead) {
+                Box(
+                    modifier = Modifier
+                        .padding(top = 6.dp)
+                        .size(8.dp)
+                        .background(MaterialTheme.colorScheme.primary, CircleShape)
+                )
+            }
         }
     }
 }

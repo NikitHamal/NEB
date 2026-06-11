@@ -1,5 +1,7 @@
 package com.neb.ians.ui.screens.study
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -16,9 +18,12 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -29,9 +34,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -42,6 +50,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.neb.ians.R
 import com.neb.ians.data.api.ApiService
+import com.neb.ians.data.api.ApiStudyDocument
 import com.neb.ians.data.api.ApiStudySpace
 import com.neb.ians.data.api.ApiStudySpaceCreateRequest
 import com.neb.ians.data.api.ApiStudySpaceJoinRequest
@@ -52,22 +61,37 @@ import com.neb.ians.ui.components.WebOutlinedButton
 import com.neb.ians.ui.components.WebPanelShape
 import com.neb.ians.ui.components.WebPrimaryButton
 import com.neb.ians.ui.components.WebTopBar
+import com.neb.ians.ui.components.fileSizeLabel
 import com.neb.ians.util.formatTimeAgo
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import javax.inject.Inject
 
 data class StudyLabUiState(
     val mySpaces: List<ApiStudySpace> = emptyList(),
     val publicSpaces: List<ApiStudySpace> = emptyList(),
+    val documents: List<ApiStudyDocument> = emptyList(),
+    val documentsLoaded: Boolean = false,
+    val isLoadingDocuments: Boolean = false,
+    val isUploading: Boolean = false,
     val selectedTab: String = "mine",
     val isLoading: Boolean = true,
     val isBusy: Boolean = false,
-    val error: String? = null
+    val error: String? = null,
+    val docsError: String? = null
 )
 
 @HiltViewModel
@@ -77,6 +101,8 @@ class StudyLabViewModel @Inject constructor(
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(StudyLabUiState())
     val uiState: StateFlow<StudyLabUiState> = _uiState.asStateFlow()
+
+    private var pollJob: Job? = null
 
     init {
         refresh()
@@ -102,6 +128,133 @@ class StudyLabViewModel @Inject constructor(
 
     fun selectTab(tab: String) {
         _uiState.update { it.copy(selectedTab = tab) }
+        if (tab == "docs" && !_uiState.value.documentsLoaded) {
+            loadDocuments()
+        }
+    }
+
+    fun loadDocuments() {
+        viewModelScope.launch {
+            val token = authRepository.getBearerToken()
+            if (token == null) {
+                _uiState.update { it.copy(docsError = "Sign in to use Study Lab", isLoadingDocuments = false) }
+                return@launch
+            }
+            _uiState.update { it.copy(isLoadingDocuments = true, docsError = null) }
+            try {
+                val docs = apiService.getStudyDocuments(token).documents
+                _uiState.update {
+                    it.copy(documents = docs, documentsLoaded = true, isLoadingDocuments = false)
+                }
+                ensurePolling()
+            } catch (e: Exception) {
+                _uiState.update { it.copy(isLoadingDocuments = false, docsError = studyErrorMessage(e)) }
+            }
+        }
+    }
+
+    fun reportDocsError(message: String) {
+        _uiState.update { it.copy(docsError = message) }
+    }
+
+    fun clearDocsError() {
+        _uiState.update { it.copy(docsError = null) }
+    }
+
+    fun uploadDocument(fileName: String, mime: String?, bytes: ByteArray) {
+        viewModelScope.launch {
+            val token = authRepository.getBearerToken() ?: return@launch
+            _uiState.update { it.copy(isUploading = true, docsError = null) }
+            try {
+                val mediaType = mime?.toMediaTypeOrNull() ?: "application/octet-stream".toMediaType()
+                val body = bytes.toRequestBody(mediaType)
+                val part = MultipartBody.Part.createFormData("file", fileName, body)
+                val resp = apiService.uploadStudyDocument(token, part)
+                val doc = resp.document
+                if (doc == null) {
+                    _uiState.update { it.copy(isUploading = false, docsError = resp.error ?: "Upload failed") }
+                    return@launch
+                }
+                _uiState.update { it.copy(isUploading = false, documents = listOf(doc) + it.documents) }
+                ensurePolling()
+            } catch (e: Exception) {
+                _uiState.update { it.copy(isUploading = false, docsError = studyErrorMessage(e)) }
+            }
+        }
+    }
+
+    fun deleteDocument(docId: String) {
+        viewModelScope.launch {
+            val token = authRepository.getBearerToken() ?: return@launch
+            try {
+                apiService.deleteStudyDocument(token, docId)
+                _uiState.update { state ->
+                    state.copy(documents = state.documents.filterNot { it.id == docId })
+                }
+            } catch (e: Exception) {
+                _uiState.update { it.copy(docsError = studyErrorMessage(e)) }
+            }
+        }
+    }
+
+    fun reparseDocument(docId: String) {
+        viewModelScope.launch {
+            val token = authRepository.getBearerToken() ?: return@launch
+            _uiState.update { it.copy(docsError = null) }
+            try {
+                val resp = apiService.reparseStudyDocument(token, docId)
+                val newStatus = resp.document?.parseStatus?.ifBlank { null }
+                    ?: resp.parseStatus.ifBlank { "parsing" }
+                _uiState.update { state ->
+                    state.copy(documents = state.documents.map { doc ->
+                        if (doc.id == docId) doc.copy(parseStatus = newStatus, parseError = "") else doc
+                    })
+                }
+                ensurePolling()
+            } catch (e: Exception) {
+                _uiState.update { it.copy(docsError = studyErrorMessage(e)) }
+            }
+        }
+    }
+
+    /** Polls parse status for non-terminal documents every 3s until all settle. */
+    private fun ensurePolling() {
+        if (pollJob?.isActive == true) return
+        pollJob = viewModelScope.launch {
+            while (isActive) {
+                val pending = _uiState.value.documents.filter {
+                    studyParseStatusOf(it) !in STUDY_TERMINAL_PARSE_STATES
+                }
+                if (pending.isEmpty()) break
+                delay(3000)
+                val token = authRepository.getBearerToken() ?: break
+                pending.forEach { doc ->
+                    try {
+                        val status = apiService.getStudyParseStatus(token, doc.id)
+                        if (status.status.isNotBlank()) {
+                            _uiState.update { state ->
+                                state.copy(documents = state.documents.map { d ->
+                                    if (d.id == doc.id) {
+                                        d.copy(
+                                            parseStatus = status.status,
+                                            parsedTextLength = status.parsedTextLength,
+                                            parseError = status.error ?: d.parseError
+                                        )
+                                    } else d
+                                })
+                            }
+                        }
+                    } catch (_: Exception) {
+                        // transient polling errors are ignored
+                    }
+                }
+            }
+        }
+    }
+
+    override fun onCleared() {
+        pollJob?.cancel()
+        super.onCleared()
     }
 
     fun createSpace(title: String, description: String, onCreated: (String) -> Unit) {
@@ -144,6 +297,18 @@ fun StudyLabScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     var showCreate by remember { mutableStateOf(false) }
     var showJoin by remember { mutableStateOf(false) }
+    var selectedDocId by rememberSaveable { mutableStateOf<String?>(null) }
+
+    // Internal navigation: document detail replaces the lab list.
+    val openDocId = selectedDocId
+    if (openDocId != null) {
+        DocumentDetailView(
+            docId = openDocId,
+            onClose = { selectedDocId = null },
+            onSearchClick = onSearchClick
+        )
+        return
+    }
 
     Scaffold(
         topBar = {
@@ -199,9 +364,10 @@ fun StudyLabScreen(
             ) {
                 WebChip(text = "My spaces", selected = uiState.selectedTab == "mine", onClick = { viewModel.selectTab("mine") })
                 WebChip(text = "Public spaces", selected = uiState.selectedTab == "public", onClick = { viewModel.selectTab("public") })
+                WebChip(text = "My Documents", selected = uiState.selectedTab == "docs", onClick = { viewModel.selectTab("docs") })
             }
 
-            if (uiState.error != null) {
+            if (uiState.error != null && uiState.selectedTab != "docs") {
                 Text(
                     text = uiState.error ?: "",
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
@@ -211,6 +377,11 @@ fun StudyLabScreen(
             }
 
             when {
+                uiState.selectedTab == "docs" -> MyDocumentsTab(
+                    uiState = uiState,
+                    viewModel = viewModel,
+                    onOpenDocument = { selectedDocId = it }
+                )
                 uiState.isLoading -> {
                     Column(
                         modifier = Modifier.fillMaxWidth().padding(40.dp),
@@ -258,6 +429,218 @@ fun StudyLabScreen(
                 }
             }
         )
+    }
+}
+
+// -------------------------------------------------------------
+// My Documents tab
+// -------------------------------------------------------------
+
+@Composable
+private fun MyDocumentsTab(
+    uiState: StudyLabUiState,
+    viewModel: StudyLabViewModel,
+    onOpenDocument: (String) -> Unit
+) {
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    var deleteCandidate by remember { mutableStateOf<ApiStudyDocument?>(null) }
+
+    val filePicker = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+        if (uri == null) return@rememberLauncherForActivityResult
+        scope.launch {
+            val picked = withContext(Dispatchers.IO) { readPickedStudyFile(context, uri) }
+            if (picked == null) {
+                viewModel.reportDocsError("Could not read the selected file")
+                return@launch
+            }
+            val validationError = studyUploadValidationError(picked.name, picked.size)
+            if (validationError != null) {
+                viewModel.reportDocsError(validationError)
+                return@launch
+            }
+            viewModel.uploadDocument(picked.name, picked.mime, picked.bytes)
+        }
+    }
+
+    Column(modifier = Modifier.fillMaxSize()) {
+        Row(
+            modifier = Modifier.padding(horizontal = 16.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(10.dp)
+        ) {
+            if (uiState.isUploading) {
+                CircularProgressIndicator(modifier = Modifier.size(18.dp), strokeWidth = 2.dp)
+                Text(
+                    text = "Uploading…",
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            } else {
+                WebPrimaryButton(
+                    text = "Upload document",
+                    imageVector = Icons.Filled.Add,
+                    onClick = { filePicker.launch("*/*") }
+                )
+            }
+        }
+        if (uiState.docsError != null) {
+            Text(
+                text = uiState.docsError,
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 6.dp),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.error
+            )
+        }
+        Spacer(modifier = Modifier.height(10.dp))
+        when {
+            uiState.isLoadingDocuments && uiState.documents.isEmpty() -> {
+                Column(
+                    modifier = Modifier.fillMaxWidth().padding(40.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    CircularProgressIndicator()
+                }
+            }
+            uiState.documents.isEmpty() -> {
+                WebEmptyState(
+                    title = "No documents yet",
+                    message = "Upload PDFs, notes, or images to generate summaries, mindmaps, quizzes, and flashcards.",
+                    icon = painterResource(id = R.drawable.ic_document),
+                    modifier = Modifier.padding(16.dp)
+                )
+            }
+            else -> {
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize(),
+                    contentPadding = PaddingValues(horizontal = 16.dp, vertical = 4.dp),
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    items(uiState.documents, key = { it.id }) { doc ->
+                        StudyDocumentCard(
+                            doc = doc,
+                            onClick = {
+                                if (studyParseStatusOf(doc) == "ready") onOpenDocument(doc.id)
+                            },
+                            onRetryParse = { viewModel.reparseDocument(doc.id) },
+                            onDelete = { deleteCandidate = doc }
+                        )
+                    }
+                    item { Spacer(modifier = Modifier.height(32.dp)) }
+                }
+            }
+        }
+    }
+
+    val candidate = deleteCandidate
+    if (candidate != null) {
+        AlertDialog(
+            onDismissRequest = { deleteCandidate = null },
+            title = { Text("Delete document?") },
+            text = {
+                Text("\"${candidate.title.ifBlank { candidate.fileName }}\" and its summaries, quizzes, and flashcards will be permanently deleted.")
+            },
+            confirmButton = {
+                TextButton(onClick = {
+                    viewModel.deleteDocument(candidate.id)
+                    deleteCandidate = null
+                }) { Text("Delete", color = MaterialTheme.colorScheme.error) }
+            },
+            dismissButton = {
+                TextButton(onClick = { deleteCandidate = null }) { Text("Cancel") }
+            }
+        )
+    }
+}
+
+@Composable
+private fun StudyDocumentCard(
+    doc: ApiStudyDocument,
+    onClick: () -> Unit,
+    onRetryParse: () -> Unit,
+    onDelete: () -> Unit
+) {
+    val status = studyParseStatusOf(doc)
+    Surface(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick),
+        shape = WebPanelShape,
+        color = MaterialTheme.colorScheme.surfaceContainerLowest,
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
+    ) {
+        Column(modifier = Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_document),
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.size(24.dp)
+                )
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        text = doc.title.ifBlank { doc.fileName.ifBlank { "Untitled" } },
+                        style = MaterialTheme.typography.titleSmall,
+                        fontWeight = FontWeight.Bold,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                    Text(
+                        text = listOf(doc.fileName, fileSizeLabel(doc.fileSize), formatTimeAgo(doc.createdAt))
+                            .filter { it.isNotBlank() }
+                            .joinToString(" · "),
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
+                IconButton(onClick = onDelete) {
+                    Icon(
+                        imageVector = Icons.Filled.Delete,
+                        contentDescription = "Delete document",
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.size(20.dp)
+                    )
+                }
+            }
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                ParseStatusPill(status = status)
+                Text(
+                    text = buildString {
+                        append("${doc.quizCount} quizzes · ${doc.flashcardCount} cards")
+                        append(" · Summary ${if (doc.summaryGenerated || doc.summaryCompact.isNotBlank() || doc.summaryDetailed.isNotBlank()) "✓" else "–"}")
+                        append(" · Mindmap ${if (doc.mindmapGenerated || doc.mindmapJson.isNotBlank()) "✓" else "–"}")
+                    },
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
+            if (status == "failed") {
+                if (doc.parseError.isNotBlank()) {
+                    Text(
+                        text = doc.parseError,
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.error,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
+                WebOutlinedButton(
+                    text = "Retry parse",
+                    imageVector = Icons.Filled.Refresh,
+                    onClick = onRetryParse
+                )
+            }
+        }
     }
 }
 

@@ -32,6 +32,7 @@ data class CompleteProfileUiState(
     val school: String = "",
     val isLocked: Boolean = false,
     val photoUrl: String = "",
+    val bannerUrl: String = "",
     val isPhotoUploading: Boolean = false,
     val isCheckingUsername: Boolean = false,
     val usernameAvailable: Boolean? = null,
@@ -80,6 +81,7 @@ class CompleteProfileViewModel @Inject constructor(
                         district = cached.district ?: "Kathmandu",
                         school = cached.school ?: "",
                         photoUrl = cached.photoUrl ?: "",
+                        bannerUrl = cached.bannerUrl ?: "",
                         isLocked = cached.isLocked
                     )
                 }
@@ -197,6 +199,10 @@ class CompleteProfileViewModel @Inject constructor(
         _uiState.update { it.copy(isLocked = locked) }
     }
 
+    fun onBannerUrlChange(value: String) {
+        _uiState.update { it.copy(bannerUrl = value.trim()) }
+    }
+
     fun uploadProfilePhoto(bytes: ByteArray, fileName: String, mimeType: String) {
         _uiState.update { it.copy(isPhotoUploading = true) }
         viewModelScope.launch {
@@ -238,6 +244,7 @@ class CompleteProfileViewModel @Inject constructor(
                 district = state.district,
                 school = state.school,
                 isLocked = state.isLocked,
+                bannerUrl = state.bannerUrl.trim(),
                 bio = state.bio
             )
 
