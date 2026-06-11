@@ -165,14 +165,14 @@ def profile(request, username):
             'subjects': '', 'pradesh': '', 'district': '', 'school': '',
         })
 
-    stats = _build_local_stats(profile_user) if not profile_private else {
-        'post_count': 0, 'reply_count': 0, 'likes_given': 0, 'likes_received': 0, 'contribution_score': 0,
-    }
-    follower_count = Follow.objects.filter(following_id=profile_user.id).count() if not profile_private else 0
-    following_count = Follow.objects.filter(follower_id=profile_user.id).count() if not profile_private else 0
-    stats['follower_count'] = follower_count
-    stats['following_count'] = following_count
-    stats['is_following'] = is_following_profile
+    stats = _build_local_stats(profile_user) if not profile_private else {
+        'post_count': 0, 'reply_count': 0, 'likes_given': 0, 'likes_received': 0, 'contribution_score': 0,
+    }
+    follower_count = (getattr(profile_user, 'follower_count', 0) or 0) if not profile_private else 0
+    following_count = (getattr(profile_user, 'following_count', 0) or 0) if not profile_private else 0
+    stats['follower_count'] = follower_count
+    stats['following_count'] = following_count
+    stats['is_following'] = is_following_profile
     stats['is_self'] = is_self
 
     if not profile_private:
@@ -190,15 +190,15 @@ def profile(request, username):
     user_replies_qs = Reply.objects.none() if profile_private else Reply.objects.select_related('user', 'post').filter(user_id=profile_user.id).order_by('-created_at')[:10]
     user_replies = _serialize_replies(user_replies_qs, user_id)
 
-    user_resources = []
-    if not profile_private:
-        if is_self:
-            user_resources_qs = Resource.objects.filter(uploaded_by_id=profile_user.id).order_by('-added_at')
-        else:
-            user_resources_qs = Resource.objects.filter(uploaded_by_id=profile_user.id, approval_status='approved').order_by('-added_at')
-
-        liked_res_ids = set()
-        if user_id and user_resources_qs:
+    user_resources = []
+    if not profile_private:
+        if is_self:
+            user_resources_qs = list(Resource.objects.filter(uploaded_by_id=profile_user.id).order_by('-added_at')[:60])
+        else:
+            user_resources_qs = list(Resource.objects.filter(uploaded_by_id=profile_user.id, approval_status='approved').order_by('-added_at')[:60])
+
+        liked_res_ids = set()
+        if user_id and user_resources_qs:
             liked_res_ids = set(ResourceLike.objects.filter(
                 resource_id__in=[r.id for r in user_resources_qs], user_id=user_id
             ).values_list('resource_id', flat=True))
@@ -433,21 +433,46 @@ def _profile_card_avatar(user, size=152):
 
 def profile_card_image(request, username):
     """Open Graph/social card PNG for profile sharing.
-
-    Two-panel: left = role-colored with large avatar, right = white with name, handle, bio, branding.
-    """
-    try:
-        from PIL import Image, ImageDraw, ImageFilter
-    except Exception:
+
+    Two-panel: left = role-colored with large avatar, right = white with name, handle, bio, branding.
+    """
+    if _rate_limit(request, 'profile_card_image', 30, 60, by_ip=True):
+        return JsonResponse({'error': 'Too many requests. Please slow down.'}, status=429)
+    try:
+        from PIL import Image, ImageDraw, ImageFilter
+    except Exception:
         raise Http404('Image support is unavailable')
     try:
         profile_user = User.objects.get(username=username)
-    except User.DoesNotExist:
-        raise Http404('User not found')
-
-    W, H = 1200, 630
-    deco, c1, c2 = _profile_card_banner_style(profile_user)
-
+    except User.DoesNotExist:
+        raise Http404('User not found')
+
+    # Cache the rendered PNG keyed on the username + a hash of all fields
+    # that influence the rendering (photo, name, role, verification fields).
+    import hashlib as _hashlib
+    _sig_src = '|'.join([
+        str(profile_user.photo_url or ''),
+        str(profile_user.display_name or ''),
+        str(profile_user.username or ''),
+        str(getattr(profile_user, 'role', '') or ''),
+        str(profile_user.is_admin),
+        str(getattr(profile_user, 'is_bot', False)),
+        str(getattr(profile_user, 'moderator_level', 0) or 0),
+        str(getattr(profile_user, 'verification_level', 0) or 0),
+        str(getattr(profile_user, 'teacher_verified', False)),
+    ])
+    _sig = _hashlib.sha256(_sig_src.encode('utf-8')).hexdigest()[:20]
+    cache_key = f'profile_card_png:{username}:{_sig}'
+    cached_png = cache.get(cache_key)
+    if cached_png is not None:
+        resp = HttpResponse(cached_png, content_type='image/png')
+        resp['Cache-Control'] = 'public, max-age=3600'
+        resp['X-Content-Type-Options'] = 'nosniff'
+        return resp
+
+    W, H = 1200, 630
+    deco, c1, c2 = _profile_card_banner_style(profile_user)
+
     img = Image.new('RGB', (W, H), (255, 255, 255))
     d = ImageDraw.Draw(img)
 
@@ -516,14 +541,16 @@ def profile_card_image(request, username):
     brand = 'NEBians'
     bw = d.textlength(brand, font=brand_font)
     d.text((logo_x - bw - 10, logo_y + (logo_size - 36) // 2), brand, font=brand_font, fill=(100, 116, 139))
-
-    buf = BytesIO()
-    img.save(buf, format='PNG', optimize=True)
-    resp = HttpResponse(buf.getvalue(), content_type='image/png')
-    resp['Cache-Control'] = 'no-cache, must-revalidate'
-    resp['X-Content-Type-Options'] = 'nosniff'
-    return resp
-
+
+    buf = BytesIO()
+    img.save(buf, format='PNG', optimize=True)
+    png_bytes = buf.getvalue()
+    cache.set(cache_key, png_bytes, 3600)
+    resp = HttpResponse(png_bytes, content_type='image/png')
+    resp['Cache-Control'] = 'public, max-age=3600'
+    resp['X-Content-Type-Options'] = 'nosniff'
+    return resp
+
 
 def _draw_text_ellipsis_multiline(draw, xy, text, font, fill, max_width, max_lines=3):
     """Draw text that wraps across multiple lines with ellipsis on the last line."""
@@ -740,15 +767,9 @@ def edit_profile(request):
         'C Programming', 'C++ Programming', 'Python Programming', 'Java Programming',
         'Digital Logic', 'Operating Systems', 'Software Engineering',
         'Surveying', 'Estimating & Costing', 'Building Construction',
-        'Fluid Mechanics', 'Strength of Materials', 'Engineering Drawing',
-        'Purana Veda', 'Upanishad', 'Sanskrit', 'Maithili',
-    ]
-    db_subjects = []
-    for s_str in Resource.objects.values_list('subject', flat=True):
-        if s_str:
-            for s in s_str.split(','):
-                s_stripped = s.strip()
-                if s_stripped:
-                    db_subjects.append(s_stripped)
-    subjects = sorted(set(_default_subjects + db_subjects))
-    return render(request, 'web/edit_profile.html', _ctx(request, has_password=has_password, profile_incomplete=profile_incomplete, subjects=subjects))
+        'Fluid Mechanics', 'Strength of Materials', 'Engineering Drawing',
+        'Purana Veda', 'Upanishad', 'Sanskrit', 'Maithili',
+    ]
+    db_subjects = _get_distinct_subjects()
+    subjects = sorted(set(_default_subjects + db_subjects))
+    return render(request, 'web/edit_profile.html', _ctx(request, has_password=has_password, profile_incomplete=profile_incomplete, subjects=subjects))

@@ -22,7 +22,7 @@ class User(models.Model):
     id = models.CharField(max_length=255, primary_key=True)
     auth_token = models.CharField(max_length=64, unique=True, blank=True, null=True)
     username = models.CharField(max_length=50, unique=True)
-    email = models.EmailField(blank=True, null=True)
+    email = models.EmailField(blank=True, null=True, db_index=True)
     photo_url = models.TextField(blank=True, null=True)
     banner_url = models.TextField(blank=True, null=True)
     display_name = models.CharField(max_length=150, blank=True, null=True)
@@ -149,6 +149,9 @@ class Resource(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField(blank=True, default='')
     study_level = models.CharField(max_length=80, blank=True, default='')
+    # TODO: dead columns — remove in cleanup migration (this `subject` is
+    # shadowed by the second `subject` definition below; the StudySpace-style
+    # *_min_role fields were copy-pasted and are unused on Resource).
     subject = models.CharField(max_length=120, blank=True, default='')
     exam = models.CharField(max_length=120, blank=True, default='')
     generate_min_role = models.CharField(max_length=20, default='moderator')
@@ -200,6 +203,8 @@ class Resource(models.Model):
             models.Index(fields=['type']),
             models.Index(fields=['-like_count']),
             models.Index(fields=['approval_status']),
+            models.Index(fields=['approval_status', 'is_lead', '-added_at'], name='res_appr_lead_added_idx'),
+            models.Index(fields=['approval_status', 'is_lead', '-view_count'], name='res_appr_lead_views_idx'),
         ]
 
     def __str__(self):
@@ -282,6 +287,7 @@ class Post(models.Model):
             models.Index(fields=['is_archived', '-created_at']),
             models.Index(fields=['-thumbs_up_count']),
             models.Index(fields=['-view_count']),
+            models.Index(fields=['category', 'is_archived', '-created_at'], name='post_cat_arch_created_idx'),
         ]
 
     def __str__(self):
@@ -1277,4 +1283,3 @@ class SyllabusContent(models.Model):
         ordering = ['grade_level', 'subject', 'order']
         verbose_name = 'Syllabus Content'
         verbose_name_plural = 'Syllabus Contents'
-

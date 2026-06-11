@@ -28,29 +28,57 @@ def forum(request):
                 q |= Q(title__icontains=term) | Q(content__icontains=term)
             qs = qs.filter(q)
 
-    if sort == 'new':
-        qs = qs.order_by('-created_at')
-    elif sort == 'top':
-        qs = qs.order_by('-thumbs_up_count', '-created_at')
-    elif sort == 'discussed':
-        qs = qs.order_by('-reply_count', '-created_at')
+    if sort == 'hot' and not search:
+        # Hot-rank a capped window of the most recent 500 posts (minimal
+        # fields), cache the ranked ID list for 60s, then paginate over the
+        # ranked IDs and fetch page objects preserving order.
+        hot_cache_key = f'forum_hot_ids:{(category or "all").strip().lower()}'
+        ranked_ids = cache.get(hot_cache_key)
+        if ranked_ids is None:
+            window = list(
+                qs.order_by('-created_at')
+                .only('id', 'created_at', 'thumbs_up_count', 'reply_count', 'view_count')[:500]
+            )
+            _now = now_ms()
+            window.sort(key=lambda p: _compute_hot_score(p, _now), reverse=True)
+            ranked_ids = [p.id for p in window]
+            cache.set(hot_cache_key, ranked_ids, 60)
+
+        paginator = Paginator(ranked_ids, 20)
+        try:
+            page_obj = paginator.page(page_num)
+        except (EmptyPage, PageNotAnInteger):
+            page_obj = paginator.page(1)
+        page_ids = list(page_obj.object_list)
+        posts_by_id = {
+            p.id: p for p in Post.objects.select_related('user').filter(pk__in=page_ids)
+        }
+        posts_qs = [posts_by_id[pid] for pid in page_ids if pid in posts_by_id]
+        posts = _serialize_posts(posts_qs, user_id)
     else:
-        qs = qs.order_by('-created_at')
+        if sort == 'new':
+            qs = qs.order_by('-created_at')
+        elif sort == 'top':
+            qs = qs.order_by('-thumbs_up_count', '-created_at')
+        elif sort == 'discussed':
+            qs = qs.order_by('-reply_count', '-created_at')
+        else:
+            qs = qs.order_by('-created_at')
 
-    paginator = Paginator(qs, 20)
-    try:
-        page_obj = paginator.page(page_num)
-    except (EmptyPage, PageNotAnInteger):
-        page_obj = paginator.page(1)
+        paginator = Paginator(qs, 20)
+        try:
+            page_obj = paginator.page(page_num)
+        except (EmptyPage, PageNotAnInteger):
+            page_obj = paginator.page(1)
 
-    posts_qs = list(page_obj.object_list)
-    posts = _serialize_posts(posts_qs, user_id)
+        posts_qs = list(page_obj.object_list)
+        posts = _serialize_posts(posts_qs, user_id)
 
-    if sort == 'hot' and posts_qs:
-        _now = now_ms()
-        scored = list(zip(posts_qs, posts))
-        scored.sort(key=lambda x: _compute_hot_score(x[0], _now), reverse=True)
-        posts = [s[1] for s in scored]
+        if sort == 'hot' and posts_qs:
+            _now = now_ms()
+            scored = list(zip(posts_qs, posts))
+            scored.sort(key=lambda x: _compute_hot_score(x[0], _now), reverse=True)
+            posts = [s[1] for s in scored]
 
     category_counts = dict(
         Post.objects.values('category').annotate(cnt=Count('id')).values_list('category', 'cnt')
@@ -149,11 +177,11 @@ def forum_post(request, post_id):
     if reply_sort not in ('oldest', 'newest', 'top'):
         reply_sort = 'oldest'
     if reply_sort == 'newest':
-        replies_qs = Reply.objects.select_related('user').filter(post_id=post_id).order_by('-created_at')
+        replies_qs = Reply.objects.select_related('user', 'post').filter(post_id=post_id).order_by('-created_at')
     elif reply_sort == 'top':
-        replies_qs = Reply.objects.select_related('user').filter(post_id=post_id).order_by('-thumbs_up_count', 'created_at')
+        replies_qs = Reply.objects.select_related('user', 'post').filter(post_id=post_id).order_by('-thumbs_up_count', 'created_at')
     else:
-        replies_qs = Reply.objects.select_related('user').filter(post_id=post_id).order_by('created_at')
+        replies_qs = Reply.objects.select_related('user', 'post').filter(post_id=post_id).order_by('created_at')
     all_replies = _serialize_replies(replies_qs, user_id)
     top_level = []
     children_map = {}

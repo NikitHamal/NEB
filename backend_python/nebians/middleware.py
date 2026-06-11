@@ -1,8 +1,40 @@
 import secrets
 from django.conf import settings
+from django.core.cache import cache
 from django.core.exceptions import DisallowedHost
 from django.http import HttpResponseNotFound
 from django.http.request import validate_host
+
+
+def _resolve_ws_public_url():
+    """Resolve the public WebSocket URL (uncached).
+
+    Duplicated from web.view_helpers (small wrapper) to avoid a circular
+    import between project middleware and the web app's view helpers.
+    """
+    ws_url = getattr(settings, 'WS_PUBLIC_URL', '') or ''
+    if ws_url:
+        return ws_url
+    try:
+        import glob as _glob
+        import re as _re
+        for path in sorted(_glob.glob('/tmp/cf_quick*.log'), reverse=True):
+            try:
+                with open(path) as f:
+                    content = f.read()
+                m = _re.search(r'https://([a-z0-9-]+\\.trycloudflare\\.com)', content)
+                if m:
+                    return 'wss://' + m.group(1) + '/ws/'
+            except OSError:
+                continue
+    except Exception:
+        pass
+    return ''
+
+
+def _get_ws_public_url_cached():
+    """Cached (60s) resolution of the public WS URL — avoids per-request file I/O."""
+    return cache.get_or_set('ws_public_url_resolved', _resolve_ws_public_url, 60)
 
 SENSITIVE_PATHS_404 = (
     '/.git/',

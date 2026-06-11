@@ -5,6 +5,7 @@ import os
 from django.http import StreamingHttpResponse, JsonResponse
 
 from .view_helpers import *  # noqa: F401,F403
+from web.rate_limit import web_rate_limit
 
 
 def _sse_format(obj):
@@ -139,7 +140,7 @@ def ajax_arena_session_detail(request, session_id):
         return JsonResponse({'error': 'Forbidden'}, status=403)
         
     if request.method == 'GET':
-        msgs = list(sess.messages.order_by('created_at'))
+        msgs = list(sess.messages.order_by('created_at').prefetch_related('attachments'))
         msg_data = []
         for m in msgs:
             atts = list(m.attachments.all())
@@ -204,6 +205,7 @@ def ajax_arena_session_detail(request, session_id):
 
     return JsonResponse({'error': 'Method not allowed'}, status=405)
 
+@web_rate_limit('arena-send', limit=30, window=60)
 def ajax_arena_send_message(request, session_id):
     """Session-based AJAX wrapper for sending a message and streaming the SSE response."""
     user_id = _get_user_id(request)
@@ -243,6 +245,7 @@ def ajax_arena_send_message(request, session_id):
     response['Connection'] = 'keep-alive'
     return response
 
+@web_rate_limit('arena-send', limit=30, window=60)
 def ajax_arena_regenerate(request, message_id):
     """Session-based AJAX wrapper for regenerating the last assistant response."""
     user_id = _get_user_id(request)
@@ -349,6 +352,7 @@ def ajax_arena_create_qwen_session(request):
     }, status=201)
 
 
+@web_rate_limit('arena-send', limit=30, window=60)
 def ajax_arena_send_message_qwen(request, session_id):
     """Session-based AJAX wrapper for sending a Qwen message with optional file attachments.
 

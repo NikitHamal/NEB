@@ -9,12 +9,13 @@ Design principles:
 - Auto-delete on undo (unlike, unfollow) or content deletion
 - Denormalized unread_notification_count on User model for fast badge queries
 - System notifications have no actor (null)
-"""
-import logging
-
-from django.db import transaction
-from django.db.models import F
-
+"""
+import logging
+
+from django.core.cache import cache
+from django.db import transaction
+from django.db.models import F
+
 from .models import Notification, User, Post, Reply, Resource, ResourceComment
 from .utils import now_ms, uuid_str
 from . import counters as _counters
@@ -284,12 +285,13 @@ def notify_system_broadcast(message, target_type='system', target_id=''):
             message=message,
             is_read=False,
             created_at=now,
-        ))
-    Notification.objects.bulk_create(objs)
-    User.objects.filter(is_bot=False).update(unread_notification_count=F('unread_notification_count') + 1)
-    # Fan out to all connected users. Each user has their own `user.<id>`
-    # group, so we walk them. Cheap because we only push the metadata; the
-    # full notification row is fetched on demand by the client.
+        ))
+    Notification.objects.bulk_create(objs)
+    User.objects.filter(is_bot=False).update(unread_notification_count=F('unread_notification_count') + 1)
+    cache.delete_many([f'unread_count:{uid}' for uid in user_ids])
+    # Fan out to all connected users. Each user has their own `user.<id>`
+    # group, so we walk them. Cheap because we only push the metadata; the
+    # full notification row is fetched on demand by the client.
     for uid in user_ids:
         _rt.broadcast_notification(uid, {
             'verb': 'system',
@@ -443,12 +445,13 @@ def delete_notifications_for_target(target_type, target_id):
         notifs.filter(is_read=False).values_list('recipient_id', flat=True).distinct()
     )
     notifs.delete()
-    for rid in unread_recipient_ids:
-        count = Notification.objects.filter(recipient_id=rid, is_read=False).count()
-        User.objects.filter(pk=rid).update(unread_notification_count=count)
-
-
-def delete_notifications_for_actor_and_target(actor_id, verb, target_type, target_id):
+    for rid in unread_recipient_ids:
+        count = Notification.objects.filter(recipient_id=rid, is_read=False).count()
+        User.objects.filter(pk=rid).update(unread_notification_count=count)
+        cache.delete(f'unread_count:{rid}')
+
+
+def delete_notifications_for_actor_and_target(actor_id, verb, target_type, target_id):
     """
     Delete notifications matching actor+verb+target, regardless of recipient.
     Used when content is deleted by the author.
@@ -463,6 +466,7 @@ def delete_notifications_for_actor_and_target(actor_id, verb, target_type, targe
         notifs.filter(is_read=False).values_list('recipient_id', flat=True).distinct()
     )
     notifs.delete()
-    for rid in unread_recipient_ids:
-        count = Notification.objects.filter(recipient_id=rid, is_read=False).count()
-        User.objects.filter(pk=rid).update(unread_notification_count=count)
+    for rid in unread_recipient_ids:
+        count = Notification.objects.filter(recipient_id=rid, is_read=False).count()
+        User.objects.filter(pk=rid).update(unread_notification_count=count)
+        cache.delete(f'unread_count:{rid}')

@@ -48,7 +48,19 @@
   var ROW_GAP = 24;
   var ANIMATE_MS = 220;
 
-  function textWidth(text, charW) { return String(text || '').length * charW; }
+  // Measure text with a canvas context for accurate widths (incl. Devanagari);
+  // falls back to a per-character estimate if canvas is unavailable.
+  var _measureCtx = null;
+  function textWidth(text, charW) {
+    var str = String(text || '');
+    try {
+      if (!_measureCtx) _measureCtx = document.createElement('canvas').getContext('2d');
+      _measureCtx.font = (charW > 7 ? '600 14px ' : '400 11.5px ') + "'Poppins', 'Segoe UI', sans-serif";
+      return _measureCtx.measureText(str).width;
+    } catch (e) {
+      return str.length * charW;
+    }
+  }
 
   function closestWithClass(target, className, stopAt) {
     var node = target;
@@ -322,7 +334,7 @@
         x: (wrapEl.scrollLeft + mx) * (nextZoom / oldZoom) - mx,
         y: (wrapEl.scrollTop + my) * (nextZoom / oldZoom) - my
       };
-      render(hostEl, hostEl.__mmMap || {}, state);
+      if (!applyZoomOnly(hostEl, state)) render(hostEl, hostEl.__mmMap || {}, state);
     }, { passive: false });
     wrapEl.addEventListener('dblclick', function () { resetView(hostEl, hostEl.__mmMap || {}); });
   }
@@ -332,6 +344,11 @@
       if (state.fitRequested) {
         state.zoom = clamp(Math.min((wrapEl.clientWidth - 56) / canvas.w, (wrapEl.clientHeight - 56) / canvas.h), 0.25, 2.1);
         canvasEl.style.transform = 'scale(' + state.zoom + ')';
+        var sizerEl = wrapEl.querySelector('.sl-mm-sizer');
+        if (sizerEl) {
+          sizerEl.style.width = (canvas.w * state.zoom) + 'px';
+          sizerEl.style.height = (canvas.h * state.zoom) + 'px';
+        }
         state.forceCenter = true;
         state.fitRequested = false;
       }
@@ -389,8 +406,9 @@
     }).join('');
 
     var zoom = state.zoom || 1;
+    state.canvasSize = canvas;
     var animateClass = state.animate ? ' sl-mm-animate' : '';
-    el.innerHTML = '<div class="sl-mm-wrap' + animateClass + '"><div class="sl-mm-canvas" style="transform:scale(' + zoom + ');width:' + canvas.w + 'px;height:' + canvas.h + 'px;"><svg class="sl-mm-svg" viewBox="0 0 ' + canvas.w + ' ' + canvas.h + '" width="' + canvas.w + '" height="' + canvas.h + '" style="width:' + canvas.w + 'px;height:' + canvas.h + 'px">' + edges + nodes + '</svg></div></div>';
+    el.innerHTML = '<div class="sl-mm-wrap' + animateClass + '"><div class="sl-mm-sizer" style="width:' + (canvas.w * zoom) + 'px;height:' + (canvas.h * zoom) + 'px;"><div class="sl-mm-canvas" style="transform:scale(' + zoom + ');width:' + canvas.w + 'px;height:' + canvas.h + 'px;"><svg class="sl-mm-svg" viewBox="0 0 ' + canvas.w + ' ' + canvas.h + '" width="' + canvas.w + '" height="' + canvas.h + '" style="width:' + canvas.w + 'px;height:' + canvas.h + 'px">' + edges + nodes + '</svg></div></div></div>';
 
     var wrapEl = el.querySelector('.sl-mm-wrap');
     var canvasEl = el.querySelector('.sl-mm-canvas');
@@ -421,6 +439,28 @@
     applyInitialScroll(state, wrapEl, canvasEl, canvas, positions);
   }
 
+  // Apply a zoom change to the existing DOM without a full layout +
+  // innerHTML rebuild (cheap path used by wheel zoom and the zoom buttons).
+  function applyZoomOnly(el, state) {
+    var wrapEl = el.querySelector('.sl-mm-wrap');
+    var canvasEl = el.querySelector('.sl-mm-canvas');
+    var sizerEl = el.querySelector('.sl-mm-sizer');
+    var c = state.canvasSize;
+    if (!wrapEl || !canvasEl || !c) return false;
+    canvasEl.style.transform = 'scale(' + state.zoom + ')';
+    if (sizerEl) {
+      sizerEl.style.width = (c.w * state.zoom) + 'px';
+      sizerEl.style.height = (c.h * state.zoom) + 'px';
+    }
+    if (state.pendingScroll) {
+      wrapEl.scrollLeft = Math.max(0, state.pendingScroll.x);
+      wrapEl.scrollTop = Math.max(0, state.pendingScroll.y);
+      state.pendingScroll = null;
+    }
+    state.scroll = { x: wrapEl.scrollLeft, y: wrapEl.scrollTop };
+    return true;
+  }
+
   function setZoom(el, delta, map) {
     if (!el) return;
     var state = getState(el, {});
@@ -433,6 +473,7 @@
         y: (wrapEl.scrollTop + wrapEl.clientHeight / 2) * (state.zoom / oldZoom) - wrapEl.clientHeight / 2
       };
     }
+    if (applyZoomOnly(el, state)) return;
     render(el, map || el.__mmMap || {}, state);
   }
 

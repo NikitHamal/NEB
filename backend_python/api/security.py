@@ -416,7 +416,8 @@ RESOURCE_ALLOWED_EXTENSIONS = {
     '.pdf', '.doc', '.docx', '.ppt', '.pptx', '.xls', '.xlsx',
     '.txt', '.rtf', '.odt', '.ods', '.odp',
     '.zip', '.rar', '.7z',
-    '.jpg', '.jpeg', '.png', '.gif', '.webp', '.bmp', '.svg',
+    # NOTE: .svg intentionally excluded — SVG can carry scripts (stored XSS).
+    '.jpg', '.jpeg', '.png', '.gif', '.webp', '.bmp',
     '.mp4', '.mkv', '.avi', '.mov', '.webm',
     '.mp3', '.wav', '.ogg', '.flac', '.aac',
     '.epub', '.mobi',

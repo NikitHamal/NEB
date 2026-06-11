@@ -43,17 +43,137 @@ def clean_ai_markdown(text: str) -> str:
     return cleaned
 
 
+
+def _match_brace_end(text: str, open_idx: int) -> int:
+    """Given the index of a '{' in ``text``, return the index just past its
+    matching '}' (handling nested braces and backslash escapes), or -1."""
+    depth = 0
+    i = open_idx
+    n = len(text)
+    while i < n:
+        c = text[i]
+        if c == '\\':
+            i += 2
+            continue
+        if c == '{':
+            depth += 1
+        elif c == '}':
+            depth -= 1
+            if depth == 0:
+                return i + 1
+        i += 1
+    return -1
+
+
 def normalize_formulas(text: str) -> str:
     """Post-process AI output to ensure formulas are KaTeX-compatible LaTeX.
 
     - Wraps lone \\ce{...} in $...$ so KaTeX auto-render catches them.
-    - Ensures $$ display math is on its own line.
+      Handles nested braces (e.g. \\ce{^{235}U}) and does NOT double-wrap
+      occurrences that are already inside $...$ or $$...$$ math.
+    - Ensures $$ display math starts on its own line.
     """
     if not text:
         return text
-    text = re.sub(r'(?<!\$)\\ce\{([^}]*)\}', r'$\\ce{\1}$', text)
-    text = re.sub(r'(?<!\n)\$\$(.+?)\$\$(?!\n)', r'\n$$\1$$', text)
-    return text
+
+    out = []
+    i = 0
+    n = len(text)
+    in_inline = False   # inside $...$
+    in_display = False  # inside $$...$$
+    while i < n:
+        if text.startswith('$$', i):
+            in_display = not in_display
+            out.append('$$')
+            i += 2
+            continue
+        if text[i] == '$' and not in_display:
+            in_inline = not in_inline
+            out.append('$')
+            i += 1
+            continue
+        if text[i] == '\\' and i + 1 < n:
+            if (not in_inline and not in_display) and text.startswith('\\ce', i):
+                j = i + 3
+                if j < n and text[j] == '{':
+                    end = _match_brace_end(text, j)
+                    if end != -1:
+                        out.append('$' + text[i:end] + '$')
+                        i = end
+                        continue
+            # Copy the escape pair verbatim so '\\$' never toggles math state.
+            out.append(text[i:i + 2])
+            i += 2
+            continue
+        out.append(text[i])
+        i += 1
+
+    result = ''.join(out)
+    result = re.sub(r'(?<!\n)\$\$(.+?)\$\$(?!\n)', r'\n$$\1$$', result)
+    return result
+
+
+# A backslash followed by anything that is NOT a valid JSON escape character.
+_INVALID_JSON_ESCAPE_RE = re.compile(r'\\(?!["\\/bfnrtu])')
+
+
+def _repair_json_escapes(text: str) -> str:
+    """Double any backslash that does not start a valid JSON escape.
+
+    AI models often emit raw LaTeX like ``"\\ce{H2O}"`` inside JSON strings,
+    which is invalid JSON (``\\c`` is not a recognised escape). Doubling the
+    backslash turns it into a valid escaped backslash.
+    """
+    if not text:
+        return text
+    return _INVALID_JSON_ESCAPE_RE.sub(r'\\\\', text)
+
+
+def _extract_balanced(text: str, open_ch: str, close_ch: str) -> str | None:
+    """Return the first balanced ``open_ch...close_ch`` block in ``text``.
+
+    Uses a small stack-based scanner that respects JSON string literals and
+    backslash escapes, unlike a greedy regex.
+    """
+    if not text:
+        return None
+    start = text.find(open_ch)
+    if start == -1:
+        return None
+    depth = 0
+    in_str = False
+    escaped = False
+    for i in range(start, len(text)):
+        c = text[i]
+        if in_str:
+            if escaped:
+                escaped = False
+            elif c == '\\':
+                escaped = True
+            elif c == '"':
+                in_str = False
+            continue
+        if c == '"':
+            in_str = True
+        elif c == open_ch:
+            depth += 1
+        elif c == close_ch:
+            depth -= 1
+            if depth == 0:
+                return text[start:i + 1]
+    return None
+
+
+def _try_json_loads(candidate: str, expect_type: type):
+    """Try to parse ``candidate`` as JSON, with a LaTeX-escape repair pass."""
+    for attempt in (candidate, _repair_json_escapes(candidate)):
+        try:
+            parsed = json.loads(attempt)
+        except (json.JSONDecodeError, TypeError):
+            continue
+        if isinstance(parsed, expect_type):
+            return parsed
+    return None
 
 
 def parse_json_response(text: str) -> list:
@@ -61,17 +181,14 @@ def parse_json_response(text: str) -> list:
     if not text:
         return []
     stripped = strip_code_fence(text)
-    try:
-        parsed = json.loads(stripped)
-        return parsed if isinstance(parsed, list) else []
-    except json.JSONDecodeError:
-        match = re.search(r'\[.*\]', stripped, re.DOTALL)
-        if match:
-            try:
-                parsed = json.loads(match.group())
-                return parsed if isinstance(parsed, list) else []
-            except json.JSONDecodeError:
-                pass
+    parsed = _try_json_loads(stripped, list)
+    if parsed is not None:
+        return parsed
+    extracted = _extract_balanced(stripped, '[', ']')
+    if extracted:
+        parsed = _try_json_loads(extracted, list)
+        if parsed is not None:
+            return parsed
     logger.warning('Failed to parse Qwen JSON array response: %s...', text[:200])
     return []
 
@@ -81,19 +198,17 @@ def parse_json_object_response(text: str) -> dict | None:
     if not text:
         return None
     stripped = strip_code_fence(text)
-    try:
-        parsed = json.loads(stripped)
-        return parsed if isinstance(parsed, dict) else None
-    except json.JSONDecodeError:
-        match = re.search(r'\{.*\}', stripped, re.DOTALL)
-        if match:
-            try:
-                parsed = json.loads(match.group())
-                return parsed if isinstance(parsed, dict) else None
-            except json.JSONDecodeError:
-                pass
+    parsed = _try_json_loads(stripped, dict)
+    if parsed is not None:
+        return parsed
+    extracted = _extract_balanced(stripped, '{', '}')
+    if extracted:
+        parsed = _try_json_loads(extracted, dict)
+        if parsed is not None:
+            return parsed
     logger.warning('Failed to parse Qwen JSON object response: %s...', text[:200])
     return None
+
 
 
 def dedupe_questions(items: list, existing_normalized: set | list) -> list:
@@ -128,7 +243,7 @@ def dedupe_flashcards(items: list, existing_normalized: set | list) -> list:
             continue
         key = f'{front} — {back}'.lower()
         if key in seen or front.lower() in seen:
-            continue
-        seen.add(key)
-        out.append(item)
-    return out
+            continue
+        seen.add(key)
+        out.append(item)
+    return out

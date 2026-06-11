@@ -19,10 +19,18 @@
   var NOTES_WS_CONNECTED = false;
   var NOTES_CURSOR_TIMER = null;
   var NOTES_WS_RECONNECT_TIMER = null;
+  var EXAM_ACTIVE = false;
+  var EXAM_DEADLINE = 0;
+  var EXAM_TIMER = null;
 
   function csrf(){
     return document.querySelector('meta[name="csrf-token"]')?.content ||
       document.cookie.split('csrftoken=').pop()?.split(';')[0] || '';
+  }
+
+  function toast(msg){
+    if(typeof window.showSnackbar === 'function') window.showSnackbar(msg);
+    else alert(msg);
   }
 
   function esc(t){
@@ -37,7 +45,24 @@
     if(!el) return;
     SPACE_ID = el.dataset.spaceId || window.location.pathname.split('/')[2];
     if(!SPACE_ID) return;
+    initTabOverflowHint();
     loadSpace();
+  }
+
+  // Show/hide the fade hint at the right edge of the tab bar when it
+  // overflows (mobile affordance for off-screen tabs).
+  function initTabOverflowHint(){
+    var wrap = $('ssTabsWrap');
+    var tabs = $('ssTabs');
+    if(!wrap || !tabs) return;
+    function update(){
+      var overflowing = tabs.scrollWidth > tabs.clientWidth + 2;
+      var atEnd = tabs.scrollLeft + tabs.clientWidth >= tabs.scrollWidth - 4;
+      wrap.classList.toggle('ss-tabs-overflow', overflowing && !atEnd);
+    }
+    tabs.addEventListener('scroll', update, {passive:true});
+    window.addEventListener('resize', update);
+    update();
   }
 
   function loadSpace(){
@@ -240,13 +265,49 @@
 
   function loadExistingContent(){
     if(SPACE_DATA.linkSummaryCompact || SPACE_DATA.linkSummaryDetailed){
-      showSummary(SPACE_DATA.linkSummaryDetailed || SPACE_DATA.linkSummaryCompact);
+      // Default to the mode that actually has content (compact preferred).
+      SUMMARY_MODE = SPACE_DATA.linkSummaryCompact ? 'compact' : 'detailed';
+      syncSummaryModeButtons();
     }
+    renderSummaryPanel();
     if(SPACE_DATA.linkMindmapJson){
       try{
         MINDMAP_DATA = JSON.parse(SPACE_DATA.linkMindmapJson);
         showMindmap(MINDMAP_DATA);
       }catch(e){}
+    }
+  }
+
+  function summaryTextForMode(){
+    if(!SPACE_DATA) return '';
+    return SUMMARY_MODE === 'detailed' ? (SPACE_DATA.linkSummaryDetailed || '') : (SPACE_DATA.linkSummaryCompact || '');
+  }
+
+  function syncSummaryModeButtons(){
+    $$('.ss-mode-btn').forEach(function(b){
+      b.classList.toggle('ss-mode-active', b.dataset.mode === SUMMARY_MODE);
+    });
+    var label = $('ssSummaryGenerateLabel');
+    if(label) label.textContent = SUMMARY_MODE === 'detailed' ? 'Generate Detailed Summary' : 'Generate Compact Summary';
+    var promptText = $('ssSummaryPromptText');
+    if(promptText) promptText.textContent = SUMMARY_MODE === 'detailed'
+      ? 'Generate a detailed, comprehensive summary from all documents.'
+      : 'Generate a compact, high-yield summary from all documents.';
+  }
+
+  // Render the summary panel for the current mode: shows the saved text if
+  // it exists, or the generate prompt for this mode otherwise.
+  function renderSummaryPanel(){
+    var text = summaryTextForMode();
+    var editor = $('ssSummaryEditor');
+    if(editor) editor.style.display = 'none';
+    if(text){
+      showSummary(text);
+    } else {
+      $('ssSummaryContent').style.display = 'none';
+      $('ssSummaryPrompt').style.display = '';
+      var meta = $('ssSummaryMeta');
+      if(meta) meta.textContent = '';
     }
   }
 
@@ -262,23 +323,25 @@
         break;
       case 'ss-summary-mode':
         SUMMARY_MODE = el.dataset.mode;
-        $$('.ss-mode-btn').forEach(function(b){b.classList.remove('ss-mode-active')});
-        el.classList.add('ss-mode-active');
-        $('ssSummaryGenerateLabel').textContent = SUMMARY_MODE==='detailed'?'Generate Detailed Summary':'Generate Summary';
-        $('ssSummaryPromptText').textContent = SUMMARY_MODE==='detailed'?'Generate a detailed, comprehensive summary from all documents.':'Generate a compact, high-yield summary from all documents.';
+        syncSummaryModeButtons();
+        renderSummaryPanel();
         break;
       case 'ss-generate-summary':
         generateSummary();
         break;
       case 'ss-edit-summary':
+        // Edit the RAW markdown source (not rendered DOM text, which would
+        // destroy LaTeX/markdown on save).
         $('ssSummaryEditor').style.display='block';
-        $('ssSummaryTextarea').value = $('ssSummaryText').innerText;
+        $('ssSummaryText').style.display='none';
+        $('ssSummaryTextarea').value = summaryTextForMode();
         break;
       case 'ss-save-summary':
         saveSummary();
         break;
       case 'ss-cancel-summary-edit':
         $('ssSummaryEditor').style.display='none';
+        $('ssSummaryText').style.display='';
         break;
       case 'ss-regenerate-summary':
         generateSummary();
@@ -354,7 +417,7 @@
         $('ssShareModal').style.display='none';
         break;
       case 'ss-copy-share-link':
-        var link=$('ssShareLink'); link.select(); document.execCommand('copy');
+        copyShareLink();
         break;
       case 'ss-save-share':
         saveShare();
@@ -370,6 +433,13 @@
         break;
       case 'ss-start-exam-mode':
         startExamMode();
+        break;
+      case 'ss-exam-stop':
+        stopExamTimer();
+        toast('Exam mode ended. You can keep answering without the timer.');
+        break;
+      case 'ss-toggle-sidebar':
+        toggleMobileSidebar();
         break;
       case 'ss-remove-member':
         removeMember(el.dataset.memberId);
@@ -467,7 +537,9 @@
         if(NOTES_SAVE_TIMER) clearTimeout(NOTES_SAVE_TIMER);
         sendPresence('typing','editing shared notes', true);
         var ver = SPACE_DATA && SPACE_DATA.note ? (SPACE_DATA.note.version||0)+1 : 1;
-        sendNoteContentViaWS(this.value, ver);
+        if(sendNoteContentViaWS(this.value, ver) && SPACE_DATA && SPACE_DATA.note){
+          SPACE_DATA.note.version = ver;
+        }
         NOTES_SAVE_TIMER = setTimeout(function(){ saveNotes(false); }, 2000);
       });
       notes.addEventListener('mouseup',function(){ trackNoteCursor(); });
@@ -501,12 +573,12 @@
       if(xhr.status>=200&&xhr.status<300){
         loadSpace();
       } else {
-        try{ var d=JSON.parse(xhr.responseText); alert(d.error||'Upload failed'); }catch(e){ alert('Upload failed'); }
+        try{ var d=JSON.parse(xhr.responseText); toast(d.error||'Upload failed'); }catch(e){ toast('Upload failed'); }
       }
     };
     xhr.onerror=function(){
       $('ssUploadProgress').style.display='none';
-      alert('Upload failed — network error');
+      toast('Upload failed — network error');
     };
     xhr.send(fd);
   }
@@ -517,7 +589,7 @@
       method:'POST', headers:{'X-CSRFToken':csrf(),'Content-Type':'application/json'}
     }).then(function(r){return r.json()})
     .then(function(data){
-      if(data.error) alert(data.error);
+      if(data.error) toast(data.error);
       else loadSpace();
     });
   }
@@ -565,8 +637,8 @@
     if(existing){ existing.remove(); }
     var el = document.createElement('div');
     el.id = 'ssParseStatusMsg';
-    el.style.cssText = 'text-align:center;padding:16px 20px;margin:12px 0;border-radius:12px;background:var(--md-secondary-container,rgba(27,110,243,0.08));color:var(--md-on-secondary-container,#004ac6);font-size:0.875rem;line-height:1.5;';
-    el.innerHTML = '<span class="material-symbols-outlined" style="font-size:18px;vertical-align:middle;margin-right:6px;">hourglass_top</span>' + esc(msg);
+    el.className = 'ss-status-msg';
+    el.innerHTML = '<span class="material-symbols-outlined">hourglass_top</span>' + esc(msg);
     var panel = $('ssTabSummary') || $('ssSummaryPrompt');
     if(panel) panel.parentNode.insertBefore(el, panel.nextSibling);
     setTimeout(function(){ if(el.parentNode) el.remove(); }, 8000);
@@ -577,7 +649,7 @@
       method:'POST', headers:{'X-CSRFToken':csrf(),'Content-Type':'application/json'}
     }).then(function(r){ return r.json(); })
     .then(function(data){
-      if(data.error) alert(data.error);
+      if(data.error) toast(data.error);
       else loadSpace();
     });
   }
@@ -663,6 +735,13 @@
   // ── Tab switching ──
   function switchTab(tab){
     CURRENT_TAB = tab;
+    // Close mobile drawer when navigating
+    var sidebar = $('ssSidebar');
+    if(sidebar && sidebar.classList.contains('ss-sidebar-mobile-open')){
+      sidebar.classList.remove('ss-sidebar-mobile-open');
+      var scrim = $('ssSidebarScrim');
+      if(scrim) scrim.classList.remove('ss-sidebar-scrim-open');
+    }
     $$('.ss-tab').forEach(function(t){ t.classList.toggle('ss-tab-active', t.dataset.tab===tab); });
     $$('.ss-tab-content').forEach(function(c){ c.classList.remove('ss-tab-content-active'); });
     var panel = $('ssTab'+tab.charAt(0).toUpperCase()+tab.slice(1));
@@ -677,6 +756,8 @@
       $('ssQuizPrompt').style.display='';
       $('ssQuizActive').style.display='none';
       $('ssQuizResults').style.display='none';
+      var qHint = $('ssQuizKeyHint');
+      if(qHint) qHint.style.display='none';
     }
     if(tab==='flashcards' && FLASHCARDS && FLASHCARDS.length){
       $('ssFlashPrompt').style.display='none';
@@ -686,6 +767,8 @@
     } else if(tab==='flashcards'){
       $('ssFlashPrompt').style.display='';
       $('ssFlashDeck').style.display='none';
+      var fHint = $('ssFlashKeyHint');
+      if(fHint) fHint.style.display='none';
     }
     if(tab==='analytics') renderAnalytics();
     sendPresence(activityStatus(), activityDetail(), false);
@@ -739,9 +822,12 @@
       if(!data) return;
       $('ssSummaryLoading').style.display='none';
       if(data.error){ $('ssSummaryPrompt').style.display=''; showParseStatusMessage(data.error); return; }
-      showSummary(data.summary);
-      SPACE_DATA.linkSummaryCompact = data.summaryCompact || data.summary;
-      SPACE_DATA.linkSummaryDetailed = data.summaryDetailed || data.summary;
+      // The backend returns the actual stored per-mode fields; never
+      // cross-pollute the compact/detailed slots.
+      SPACE_DATA.linkSummaryCompact = data.summaryCompact || '';
+      SPACE_DATA.linkSummaryDetailed = data.summaryDetailed || '';
+      if(data.mode) { SUMMARY_MODE = data.mode; syncSummaryModeButtons(); }
+      renderSummaryPanel();
     }).catch(function(e){
       $('ssSummaryLoading').style.display='none';
       $('ssSummaryPrompt').style.display='';
@@ -944,6 +1030,7 @@
 
   // ── Quiz ──
   function generateQuiz(){
+    stopExamTimer();
     $('ssQuizPrompt').style.display='none';
     $('ssQuizHistorySection').style.display='none';
     $('ssQuizLoading').style.display='block';
@@ -968,29 +1055,46 @@
     }).then(function(data){
       if(!data) return;
       $('ssQuizLoading').style.display='none';
-      if(data.error){ $('ssQuizPrompt').style.display=''; $('ssQuizHistorySection').style.display=''; showParseStatusMessage(data.error); return; }
+      if(data.error){ $('ssQuizPrompt').style.display=''; $('ssQuizHistorySection').style.display=''; EXAM_PENDING_MINUTES=0; showParseStatusMessage(data.error); return; }
       QUIZ_DATA = data.quiz;
       QUIZ_ANSWERS = {};
       QUIZ_CURRENT = 0;
       renderQuiz();
+      if(EXAM_PENDING_MINUTES > 0){
+        startExamTimer(EXAM_PENDING_MINUTES);
+        toast('Exam started — '+EXAM_PENDING_MINUTES+' minutes on the clock.');
+        EXAM_PENDING_MINUTES = 0;
+      }
     }).catch(function(e){
       $('ssQuizLoading').style.display='none';
       $('ssQuizPrompt').style.display='';
       $('ssQuizHistorySection').style.display='';
+      EXAM_PENDING_MINUTES = 0;
       showParseStatusMessage('Failed to generate quiz. Please try again.');
     });
+  }
+
+  function answeredCount(){
+    var qs = (QUIZ_DATA && QUIZ_DATA.questions) || [];
+    var n = 0;
+    qs.forEach(function(q){ if(QUIZ_ANSWERS[q.id]) n++; });
+    return n;
   }
 
   function renderQuiz(){
     if(!QUIZ_DATA) return;
     $('ssQuizActive').style.display='block';
+    var hint = $('ssQuizKeyHint');
+    if(hint) hint.style.display='';
     var qs = QUIZ_DATA.questions||[];
     if(!qs.length){ $('ssQuizActive').innerHTML='<p>No questions generated.</p>'; return; }
     var q = qs[QUIZ_CURRENT];
-    var answered = Object.keys(QUIZ_ANSWERS).length;
-    $('ssQuizActive').innerHTML = '<div class="sl-quiz-progress"><span>Question '+(QUIZ_CURRENT+1)+' of '+qs.length+'</span><span>Answered: '+answered+'</span></div>'
+    var answered = answeredCount();
+    var isLast = QUIZ_CURRENT >= qs.length-1;
+    var allAnswered = answered >= qs.length;
+    $('ssQuizActive').innerHTML = '<div class="sl-quiz-progress"><span>Question '+(QUIZ_CURRENT+1)+' of '+qs.length+'</span><span>Answered: '+answered+'/'+qs.length+'</span></div>'
       + '<div class="sl-quiz-question">'+renderMarkdown(q.questionText)+'</div>'
-      + '<div class="sl-quiz-options-list">'
+      + '<div class="sl-quiz-options-list" role="radiogroup" aria-label="Answer options">'
       + formatOption(q.id,'A',q.optionA,QUIZ_ANSWERS[q.id]==='A')
       + formatOption(q.id,'B',q.optionB,QUIZ_ANSWERS[q.id]==='B')
       + formatOption(q.id,'C',q.optionC,QUIZ_ANSWERS[q.id]==='C')
@@ -998,16 +1102,20 @@
       + '</div>'
       + '<div class="sl-quiz-nav">'
       + '<button class="md-btn md-btn-outlined" data-action="ss-quiz-prev" '+(QUIZ_CURRENT===0?'disabled':'')+'>Previous</button>'
-      + '<button class="md-btn md-btn-filled" data-action="ss-quiz-next" '+(QUIZ_CURRENT>=qs.length-1?'disabled':'')+'>Next</button>'
-      + '<button class="md-btn md-btn-filled" data-action="ss-quiz-submit" '+(answered<qs.length?'':'')+'>Submit Quiz</button>'
+      + (isLast || allAnswered
+          ? '<button class="md-btn md-btn-filled" data-action="ss-quiz-submit" '+(answered===0?'disabled':'')+'>Submit Quiz</button>'
+          : '')
+      + (!isLast
+          ? '<button class="md-btn md-btn-filled" data-action="ss-quiz-next">Next</button>'
+          : '')
       + '</div>';
     renderMathInElement($('ssQuizActive'));
   }
 
   function formatOption(qid,letter,text,selected){
     var sel = selected?' sl-quiz-option-selected':'';
-    return '<div class="sl-quiz-option'+sel+'" data-action="ss-quiz-select" data-qid="'+qid+'" data-answer="'+letter+'">'
-      +'<span class="sl-quiz-option-letter">'+letter+'</span><div class="sl-quiz-option-text">'+renderMarkdown(text)+'</div></div>';
+    return '<button type="button" class="sl-quiz-option'+sel+'" role="radio" aria-checked="'+(selected?'true':'false')+'" data-action="ss-quiz-select" data-qid="'+qid+'" data-answer="'+letter+'">'
+      +'<span class="sl-quiz-option-letter">'+letter+'</span><span class="sl-quiz-option-text">'+renderMarkdown(text)+'</span></button>';
   }
 
   // ── Flashcards ──
@@ -1047,11 +1155,15 @@
   function renderFlashcard(){
     if(!FLASHCARDS.length){ $('ssFlashDeck').style.display='none'; return; }
     $('ssFlashDeck').style.display='block';
+    var fHint = $('ssFlashKeyHint');
+    if(fHint) fHint.style.display='';
     var c = FLASHCARDS[FLASH_INDEX];
+    var pct = Math.round(((FLASH_INDEX+1)/FLASHCARDS.length)*100);
     $('ssFlashDeck').innerHTML = '<div class="sl-flash-topbar">'
       + '<div class="sl-flash-counter">'+(FLASH_INDEX+1)+' / '+FLASHCARDS.length+'</div>'
       + '<button class="md-btn md-btn-tonal" data-action="ss-flash-more">More cards</button>'
       + '</div>'
+      + '<div class="ss-flash-progress"><div class="ss-flash-progress-fill" style="width:'+pct+'%"></div></div>'
       + '<div class="sl-flash-card" data-action="ss-flip-card">'
       + '<div class="sl-flash-card-inner">'
       + '<div class="sl-flash-front"><span class="sl-flash-label">Question</span>'+renderMarkdown(c.front)+'</div>'
@@ -1094,40 +1206,64 @@
     renderQuiz();
   }
 
+  var QUIZ_SUBMITTING = false;
   function submitQuiz(){
-    if(!QUIZ_DATA) return;
+    if(!QUIZ_DATA || QUIZ_SUBMITTING) return;
+    QUIZ_SUBMITTING = true;
+    stopExamTimer();
     fetch('/ajax/study-space/quiz/'+QUIZ_DATA.id+'/submit/',{
       method:'POST',
       headers:{'Content-Type':'application/json','X-CSRFToken':csrf()},
       body:JSON.stringify({answers:QUIZ_ANSWERS})
     }).then(function(r){return r.json()})
     .then(function(data){
-      if(data.error){ alert(data.error); return; }
-      showQuizResults(data.attempt);
+      QUIZ_SUBMITTING = false;
+      if(data.error){ toast(data.error); return; }
+      showQuizResults(data.attempt || {}, data.results || (data.attempt && data.attempt.results) || []);
       loadQuizHistory();
+    }).catch(function(){
+      QUIZ_SUBMITTING = false;
+      toast('Failed to submit quiz. Please try again.');
     });
   }
 
-  function showQuizResults(attempt){
+  function showQuizResults(attempt, results){
     $('ssQuizActive').style.display='none';
     $('ssQuizResults').style.display='block';
+    var hint = $('ssQuizKeyHint');
+    if(hint) hint.style.display='none';
+    var xpLine = attempt.xpEarned > 0
+      ? '<div class="sl-quiz-xp">+'+attempt.xpEarned+' XP</div>'
+      : (attempt.firstAttempt === false ? '<div class="ss-text-xs">XP is only earned on the first attempt.</div>' : '');
     var html = '<div class="sl-quiz-results-header">'
-      + '<span class="material-symbols-outlined" style="font-size:48px;color:var(--md-primary);">emoji_events</span>'
+      + '<span class="material-symbols-outlined">emoji_events</span>'
       + '<h2>Quiz Complete</h2>'
-      + '<div class="sl-quiz-score-display"><span class="sl-quiz-score-num">'+attempt.score+'</span><span class="sl-quiz-score-total">/'+attempt.totalQuestions+'</span></div>'
-      + '<div class="sl-quiz-xp">+'+attempt.xpEarned+' XP</div></div>'
-      + '<div class="sl-quiz-results-list">';
-    (attempt.answers||[]).forEach(function(a){
-      var icon = a.isCorrect?'check_circle':'cancel';
-      var color = a.isCorrect?'var(--md-primary)':'var(--md-error)';
-      html += '<div class="sl-quiz-result-item" style="color:'+color+'"><span class="material-symbols-outlined">'+icon+'</span> '
-        + esc(a.questionId) + ' — Your answer: '+a.given+' (Correct: '+a.correct+')</div>';
+      + '<div class="sl-quiz-score-display"><span class="sl-quiz-score-num">'+(attempt.score||0)+'</span><span class="sl-quiz-score-total">/'+(attempt.totalQuestions||0)+'</span></div>'
+      + xpLine + '</div>'
+      + '<div class="ss-results-list">';
+    (results||[]).forEach(function(r, idx){
+      var ok = !!r.isCorrect;
+      var icon = ok ? 'check_circle' : 'cancel';
+      var given = r.userAnswer || '—';
+      var givenText = r.options && r.options[given] ? renderMarkdown(r.options[given]) : '';
+      var correctText = r.options && r.options[r.correctAnswer] ? renderMarkdown(r.options[r.correctAnswer]) : '';
+      html += '<div class="ss-result-item '+(ok?'ss-result-item-correct':'ss-result-item-wrong')+'">'
+        + '<div class="ss-result-q"><span class="material-symbols-outlined">'+icon+'</span>'
+        + '<span class="ss-result-q-num">'+(idx+1)+'.</span>'
+        + '<div class="ss-result-q-text">'+renderMarkdown(r.question||'')+'</div></div>'
+        + '<div class="ss-result-answers">'
+        + '<span class="ss-result-given">Your answer: <strong>'+esc(given)+'</strong>'+(givenText?' — '+givenText:'')+'</span>'
+        + (!ok ? '<span class="ss-result-correct-ans">Correct: <strong>'+esc(r.correctAnswer||'')+'</strong>'+(correctText?' — '+correctText:'')+'</span>' : '')
+        + '</div>'
+        + (r.explanation ? '<div class="ss-result-explanation">'+renderMarkdown(r.explanation)+'</div>' : '')
+        + '</div>';
     });
     html += '</div><div class="sl-quiz-results-actions">'
       + '<button class="md-btn md-btn-outlined" data-action="ss-quiz-retake">Retake Quiz</button>'
       + '<button class="md-btn md-btn-tonal" data-action="ss-quiz-new">Generate New Quiz</button>'
       + '</div>';
     $('ssQuizResults').innerHTML = html;
+    renderMathInElement($('ssQuizResults'));
   }
 
   function retakeQuiz(){
@@ -1135,6 +1271,39 @@
     QUIZ_CURRENT = 0;
     $('ssQuizResults').style.display='none';
     renderQuiz();
+  }
+
+  // ── Exam mode timer ──
+  function startExamTimer(minutes){
+    EXAM_ACTIVE = true;
+    EXAM_DEADLINE = Date.now() + minutes*60*1000;
+    var bar = $('ssExamTimer');
+    if(bar){ bar.classList.add('ss-exam-timer-on'); bar.classList.remove('ss-exam-timer-low'); }
+    if(EXAM_TIMER) clearInterval(EXAM_TIMER);
+    updateExamClock();
+    EXAM_TIMER = setInterval(updateExamClock, 1000);
+  }
+
+  function updateExamClock(){
+    var clock = $('ssExamTimerClock');
+    var remaining = Math.max(0, EXAM_DEADLINE - Date.now());
+    var mins = Math.floor(remaining/60000);
+    var secs = Math.floor((remaining%60000)/1000);
+    if(clock) clock.textContent = mins+':'+(secs<10?'0':'')+secs;
+    var bar = $('ssExamTimer');
+    if(bar && remaining < 60*1000) bar.classList.add('ss-exam-timer-low');
+    if(remaining <= 0){
+      stopExamTimer();
+      toast('Time is up — submitting your answers.');
+      submitQuiz();
+    }
+  }
+
+  function stopExamTimer(){
+    EXAM_ACTIVE = false;
+    if(EXAM_TIMER){ clearInterval(EXAM_TIMER); EXAM_TIMER = null; }
+    var bar = $('ssExamTimer');
+    if(bar) bar.classList.remove('ss-exam-timer-on');
   }
 
   function loadQuizHistory(){
@@ -1204,7 +1373,28 @@
     });
   }
 
+  // ── Mobile sidebar drawer ──
+  function toggleMobileSidebar(){
+    var sidebar = $('ssSidebar');
+    var scrim = $('ssSidebarScrim');
+    if(!sidebar) return;
+    var open = !sidebar.classList.contains('ss-sidebar-mobile-open');
+    sidebar.classList.toggle('ss-sidebar-mobile-open', open);
+    if(scrim) scrim.classList.toggle('ss-sidebar-scrim-open', open);
+  }
+
   // ── Share ──
+  function copyShareLink(){
+    var link = $('ssShareLink');
+    if(!link || !link.value) return;
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(link.value).then(function(){ toast('Link copied'); })
+        .catch(function(){ link.select(); document.execCommand('copy'); toast('Link copied'); });
+    } else {
+      link.select(); document.execCommand('copy'); toast('Link copied');
+    }
+  }
+
   function inviteLink(){
     return window.location.origin + '/study-space/shared/' + SPACE_DATA.shareToken + '/';
   }
@@ -1245,13 +1435,13 @@
       body:JSON.stringify({mode:mode, users:users, visibility:visibility, allowJoinByCode:true})
     }).then(function(r){return r.json()})
     .then(function(data){
-      if(data.error){ alert(data.error); return; }
+      if(data.error){ toast(data.error); return; }
       SPACE_DATA = data;
       if(data.shareToken){ $('ssShareLink').value = inviteLink(); }
       $('ssInviteCode').textContent = data.inviteCode || '—';
       renderMembers();
       modal.style.display='none';
-      if(data.missingUsers && data.missingUsers.length){ alert('Saved, but these users were not found: '+data.missingUsers.join(', ')); }
+      if(data.missingUsers && data.missingUsers.length){ toast('Saved, but these users were not found: '+data.missingUsers.join(', ')); }
     });
   }
 
@@ -1262,7 +1452,7 @@
       body:JSON.stringify({role:role})
     }).then(function(r){return r.json()})
     .then(function(data){
-      if(data.error){ alert(data.error); loadSpace(); return; }
+      if(data.error){ toast(data.error); loadSpace(); return; }
       SPACE_DATA = data.space || SPACE_DATA;
       renderMembers();
     });
@@ -1274,7 +1464,7 @@
       method:'POST', headers:{'X-CSRFToken':csrf()}
     }).then(function(r){return r.json()})
     .then(function(data){
-      if(data.error){ alert(data.error); return; }
+      if(data.error){ toast(data.error); return; }
       SPACE_DATA = data.space || SPACE_DATA;
       renderMembers();
       renderPresence();
@@ -1393,7 +1583,7 @@
       method:'POST', headers:{'Content-Type':'application/json','X-CSRFToken':csrf()}, body:JSON.stringify(body)
     }).then(function(r){return r.json()})
     .then(function(data){
-      if(data.error){ alert(data.error); return; }
+      if(data.error){ toast(data.error); return; }
       SPACE_DATA = data;
       $('ssTitle').textContent = data.title || 'Untitled Space';
       $('ssSettingsModal').style.display='none';
@@ -1411,7 +1601,7 @@
       method:'POST', headers:{'Content-Type':'application/json','X-CSRFToken':csrf()}, body:JSON.stringify({content:content})
     }).then(function(r){return r.json()})
     .then(function(data){
-      if(data.error){ if(showToast) alert(data.error); return; }
+      if(data.error){ if(showToast) toast(data.error); return; }
       SPACE_DATA.note = data.note;
       hydrateNotes();
       sendPresence('editing','editing shared notes', false);
@@ -1420,7 +1610,7 @@
 
   function askTutor(){
     var q = $('ssTutorQuestion').value.trim();
-    if(!q){ alert('Enter a question first'); return; }
+    if(!q){ toast('Enter a question first'); return; }
     $('ssTutorStatus').textContent='Thinking...';
     $('ssTutorAnswer').style.display='none';
     fetch('/ajax/study-space/'+SPACE_ID+'/tutor/',{
@@ -1428,13 +1618,13 @@
     }).then(function(r){return r.json()})
     .then(function(data){
       $('ssTutorStatus').textContent='';
-      if(data.error){ alert(data.error); return; }
+      if(data.error){ toast(data.error); return; }
       $('ssTutorAnswer').style.display='block';
       $('ssTutorAnswer').innerHTML = renderMarkdown(data.answer || '');
       renderMathInElement($('ssTutorAnswer'));
       $('ssTutorCitations').textContent = 'Sources: ' + (data.citations || []).map(function(c){ return c.title; }).join(', ');
       sendPresence('generating','asking the AI tutor', false);
-    }).catch(function(){ $('ssTutorStatus').textContent=''; alert('Tutor request failed'); });
+    }).catch(function(){ $('ssTutorStatus').textContent=''; toast('Tutor request failed'); });
   }
 
   function generateLearningPath(){
@@ -1447,7 +1637,7 @@
     }).then(function(r){return r.json()})
     .then(function(data){
       $('ssLearningLoading').style.display='none';
-      if(data.error){ alert(data.error); $('ssLearningEmpty').style.display='block'; return; }
+      if(data.error){ toast(data.error); $('ssLearningEmpty').style.display='block'; return; }
       if(data.plan){
         renderLearningPlanInto(data.plan, days);
       }
@@ -1457,6 +1647,7 @@
       $('ssLearningEmpty').style.display='block';
     });
   }
+  var EXAM_PENDING_MINUTES = 0;
   function startExamMode(){
     var count = parseInt($('ssExamQuestionCount')?.value || '10', 10);
     var mins = parseInt($('ssExamMinutes')?.value || '10', 10);
@@ -1465,8 +1656,8 @@
     $$('.ss-count-choice').forEach(function(b){
       if(b.closest('#ssQuizCountPicker')) b.classList.toggle('active', b.dataset.value===String(count));
     });
+    EXAM_PENDING_MINUTES = mins;
     generateQuiz();
-    setTimeout(function(){ alert('Exam mode started. You have ' + mins + ' minutes for this mock test.'); }, 200);
   }
   // ── Rename ──
   function openRenameModal(){
@@ -1484,7 +1675,7 @@
       body:JSON.stringify({title:title, description:desc})
     }).then(function(r){return r.json()})
     .then(function(data){
-      if(data.error){ alert(data.error); return; }
+      if(data.error){ toast(data.error); return; }
       SPACE_DATA = data;
       $('ssTitle').textContent = data.title||'Untitled Space';
       $('ssRenameModal').style.display='none';
@@ -1499,7 +1690,7 @@
     }).then(function(r){return r.json()})
     .then(function(data){
       if(data.success) window.location.href='/study-lab/';
-      else alert(data.error||'Failed to delete');
+      else toast(data.error||'Failed to delete');
     });
   }
 
@@ -1584,7 +1775,7 @@
   }
 
   function submitDocSelection(){
-    if(!selectedDocId){ alert('Please select an item'); return; }
+    if(!selectedDocId){ toast('Please select an item'); return; }
     var selectedItem = document.querySelector('.ss-doc-select-item.selected');
     var docType = selectedItem ? selectedItem.dataset.docType : 'studydoc';
     var url, body;
@@ -1601,7 +1792,7 @@
       body: body
     }).then(function(r){return r.json()})
     .then(function(data){
-      if(data.error){ alert(data.error); return; }
+      if(data.error){ toast(data.error); return; }
       $('ssSelectDocModal').style.display='none';
       loadSpace();
     });
@@ -1626,28 +1817,18 @@
     }
   });
 
-  // ── Quiz option selection (event delegation) ──
-  document.addEventListener('click',function(e){
-    var opt = e.target.closest('.sl-quiz-option');
-    if(!opt) return;
-    var qid = opt.dataset.qid;
-    var answer = opt.dataset.answer;
-    if(QUIZ_DATA && QUIZ_DATA.questions && QUIZ_DATA.questions[QUIZ_CURRENT]){
-      qid = QUIZ_DATA.questions[QUIZ_CURRENT].id;
-    }
-    if(qid) QUIZ_ANSWERS[qid] = answer;
-    renderQuiz();
-  });
-
   // ── Keyboard shortcuts ──
+  var KEY_TO_LETTER = {'1':'A','2':'B','3':'C','4':'D'};
   document.addEventListener('keydown',function(e){
     if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA'||e.target.tagName==='SELECT') return;
+    if(e.ctrlKey||e.metaKey||e.altKey) return;
     if(CURRENT_TAB==='quiz' && $('ssQuizActive') && $('ssQuizActive').style.display!=='none'){
       var key = e.key.toUpperCase();
+      if(KEY_TO_LETTER[key]) key = KEY_TO_LETTER[key];
       if(key==='A'||key==='B'||key==='C'||key==='D'){
         e.preventDefault();
         var q = QUIZ_DATA && QUIZ_DATA.questions && QUIZ_DATA.questions[QUIZ_CURRENT];
-        if(q && !QUIZ_ANSWERS[q.id]){
+        if(q){
           QUIZ_ANSWERS[q.id] = key;
           renderQuiz();
         }

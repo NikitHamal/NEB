@@ -72,6 +72,14 @@ def post_detail(request, post_id):
         if post.user_id != user.id:
             return Response({'error': 'Forbidden'}, status=403)
         data = request.data
+        if 'title' in data:
+            err = _validate_text_length(data['title'].strip(), MAX_POST_TITLE_LENGTH, 'Title')
+            if err:
+                return err
+        if 'content' in data:
+            err = _validate_text_length(data['content'].strip(), MAX_POST_CONTENT_LENGTH, 'Content')
+            if err:
+                return err
         now = _now_ms()
         if 'title' in data:
             EditHistory.objects.create(
@@ -169,6 +177,9 @@ def replies_create(request, post_id):
     err = _validate_text_length(content, MAX_REPLY_CONTENT_LENGTH, 'Content')
     if err:
         return err
+
+    if parent_reply_id and not Reply.objects.filter(pk=parent_reply_id, post_id=post_id).exists():
+        return Response({'error': 'Invalid parent reply'}, status=400)
 
     now = _now_ms()
     with transaction.atomic():
@@ -270,7 +281,9 @@ def edit_history(request, target_type, target_id):
     """GET /api/edit-history/<target_type>/<target_id>/ — edit history for a post or reply."""
     if target_type not in ('post', 'reply'):
         return Response({'error': 'Invalid target_type'}, status=400)
-    entries = EditHistory.objects.filter(target_type=target_type, target_id=target_id).select_related('edited_by')
+    entries = EditHistory.objects.filter(
+        target_type=target_type, target_id=target_id
+    ).select_related('edited_by').order_by('-edited_at')[:20]
     return Response(EditHistorySerializer(entries, many=True).data)
 
 @api_view(['GET', 'POST'])
@@ -376,6 +389,9 @@ def replies_endpoint(request, post_id):
     err = _validate_text_length(content, MAX_REPLY_CONTENT_LENGTH, 'Content')
     if err:
         return err
+
+    if parent_reply_id and not Reply.objects.filter(pk=parent_reply_id, post_id=post_id).exists():
+        return Response({'error': 'Invalid parent reply'}, status=400)
 
     now = _now_ms()
     with transaction.atomic():

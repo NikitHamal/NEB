@@ -79,8 +79,14 @@ def ajax_notifications(request):
     user_id = _get_user_id(request)
     if not user_id:
         return JsonResponse({'error': 'Unauthorized'}, status=401)
-    page = int(request.GET.get('page', 1))
-    page_size = int(request.GET.get('page_size', 20))
+    try:
+        page = max(1, int(request.GET.get('page', 1)))
+    except (TypeError, ValueError):
+        page = 1
+    try:
+        page_size = min(100, max(1, int(request.GET.get('page_size', 20))))
+    except (TypeError, ValueError):
+        page_size = 20
     offset = (page - 1) * page_size
     notifs = Notification.objects.filter(recipient_id=user_id).select_related('actor').order_by('-created_at')
     total = notifs.count()
@@ -131,6 +137,7 @@ def ajax_notifications_mark_read(request):
         count = notifs.update(is_read=True)
         unread = Notification.objects.filter(recipient_id=user_id, is_read=False).count()
         User.objects.filter(pk=user_id).update(unread_notification_count=unread)
+        cache.delete(f'unread_count:{user_id}')
         return JsonResponse({'success': True, 'marked_count': count})
     return JsonResponse({'error': 'Provide notification_ids or mark_all=true'}, status=400)
 
