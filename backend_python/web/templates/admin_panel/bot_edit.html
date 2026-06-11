@@ -113,6 +113,12 @@
         <select name="provider" id="id_provider" data-action="provider-change" class="admin-form-input" style="cursor:pointer;">
           <option value="qwen"      {% if config.provider == 'qwen' %}selected{% endif %}>Qwen (chat.qwen.ai)</option>
           <option value="ai4bharat" {% if config.provider == 'ai4bharat' %}selected{% endif %}>AI4Bharat Arena (Indic LLM Arena)</option>
+          <option value="egov"      {% if config.provider == 'egov' %}selected{% endif %}>eGov Chat AI (Philippines)</option>
+          <option value="deepai"    {% if config.provider == 'deepai' %}selected{% endif %}>DeepAI (deepai.org)</option>
+          <option value="eqing"     {% if config.provider == 'eqing' %}selected{% endif %}>EQing / EasyChat (chat3.eqing.tech)</option>
+          <option value="freegpt"   {% if config.provider == 'freegpt' %}selected{% endif %}>FreeGPT (standalone.freegpt.win:3001)</option>
+          <option value="deepseekai" {% if config.provider == 'deepseekai' %}selected{% endif %}>DeepSeek AI (deep-seek.ai)</option>
+          <option value="surfsense" {% if config.provider == 'surfsense' %}selected{% endif %}>SurfSense (surfsense.com)</option>
           <option value="custom"    {% if config.provider == 'custom' %}selected{% endif %}>Custom (any OpenAI-compatible endpoint)</option>
         </select>
         <p class="admin-form-hint" id="id_provider_help">Choose which AI backend powers this bot. You can switch at any time.</p>
@@ -207,11 +213,14 @@
   ];
 
   const QWEN_FALLBACK = [
-    { value: 'qwen3.7-plus',         label: 'Qwen 3.7 Plus' },
-    { value: 'qwen3.7-max',          label: 'Qwen 3.7 Max' },
-    { value: 'qwen3.6-plus',         label: 'Qwen 3.6 Plus (default)' },
-    { value: 'qwen3.5-plus',         label: 'Qwen 3.5 Plus' },
-    { value: 'qwen3.5-flash',        label: 'Qwen 3.5 Flash' },
+    { value: 'qwen3.7-plus',         label: 'Qwen3.7-Plus (1M ctx, vision/think)' },
+    { value: 'qwen3.7-max',          label: 'Qwen3.7-Max (1M ctx, thinking)' },
+    { value: 'qwen3.6-plus',         label: 'Qwen3.6-Plus (1M ctx, vision/think)' },
+    { value: 'qwen3.6-max-preview',  label: 'Qwen3.6-Max-Preview (1M ctx, thinking)' },
+    { value: 'qwen3.5-plus',         label: 'Qwen3.5-Plus (1M ctx, vision)' },
+    { value: 'qwen3.5-omni-plus',    label: 'Qwen3.5-Omni-Plus (262K ctx, vision)' },
+    { value: 'qwen2.5-coder-32b',    label: 'Qwen2.5-Coder-32B (128K ctx)' },
+    { value: 'qwq-32b',              label: 'Qwq-32B (32K ctx, thinking)' },
   ];
   let QWEN_MODELS = QWEN_FALLBACK;
 
@@ -239,6 +248,126 @@
       modelControl: 'text',
       modelHelp: 'Free-form model name as required by the provider.',
       options: [],
+    },
+    egov: {
+      urlLabel: 'API URL',
+      urlHelp: 'eGov Chat AI endpoint (leave default).',
+      urlDefault: 'https://egov-chat-ai.e.gov.ph',
+      modelControl: 'select',
+      modelHelp: 'Pick an eGov model.',
+      options: [
+        { value: 'AI1', label: 'eGov AI1 (Global)' },
+        { value: 'AI1-ph', label: 'eGov AI1 (Philippines)' },
+        { value: 'AI2', label: 'eGov AI2 (Global)' },
+        { value: 'AI2-ph', label: 'eGov AI2 (Philippines)' },
+      ],
+    },
+    deepai: {
+      urlLabel: 'API URL',
+      urlHelp: 'DeepAI endpoint (leave default).',
+      urlDefault: 'https://api.deepai.org',
+      modelControl: 'select',
+      modelHelp: 'Pick a DeepAI model.',
+      options: [
+        { value: 'standard', label: 'DeepAI Standard' },
+        { value: 'deepseek-v3.2', label: 'DeepSeek V3.2' },
+        { value: 'gemma-4', label: 'Gemma 4' },
+        { value: 'gpt-4.1-nano', label: 'GPT-4.1 Nano' },
+        { value: 'gpt-5-nano', label: 'GPT-5 Nano' },
+        { value: 'gpt-oss-120b', label: 'GPT OSS 120B (Reasoning)' },
+        { value: 'gemini-2.5-flash-lite', label: 'Gemini 2.5 Flash Lite' },
+        { value: 'llama-3.3-70b-instruct', label: 'Llama 3.3 70B' },
+        { value: 'llama-3.1-8b-instant', label: 'Llama 3.1 8B' },
+        { value: 'llama-4-scout', label: 'Llama 4 Scout' },
+        { value: 'qwen3-30b-a3b', label: 'Qwen3 30B (Reasoning)' },
+        // Pro models
+        { value: 'genius', label: 'DeepAI Genius (Pro)' },
+        { value: 'supergenius', label: 'DeepAI Super Genius (Pro)' },
+        { value: 'gpt-4o-mini', label: 'GPT-4o Mini (Pro)' },
+        { value: 'gpt-4.1', label: 'GPT-4.1 (Pro)' },
+        { value: 'o4-mini', label: 'o4 Mini (Pro)' },
+        { value: 'o3', label: 'o3 (Pro)' },
+        { value: 'gemini-3-pro-preview', label: 'Gemini 3.1 Pro (Pro)' },
+        { value: 'claude-4.7-opus', label: 'Claude Opus 4.7 (Pro)' },
+        { value: 'grok-4.3', label: 'Grok 4.3 (Pro)' },
+        { value: 'gpt-5.3-chat-latest', label: 'GPT-5.3 Chat (Pro)' },
+        { value: 'gpt-5.2', label: 'GPT-5.2 (Pro)' },
+        { value: 'chatgpt-4o-latest', label: 'ChatGPT 4o Latest (Pro)' },
+      ],
+    },
+    eqing: {
+      urlLabel: 'API URL',
+      urlHelp: 'EQing / EasyChat endpoint (leave default).',
+      urlDefault: 'https://easy-api-eo.llm99.com',
+      modelControl: 'select',
+      modelHelp: 'Pick an EQing model.',
+      options: [
+        { value: 'gpt-4o-mini', label: 'GPT-4o Mini' },
+        { value: 'gpt-4o-mini-image-free', label: 'GPT-4o Mini Vision' },
+        { value: 'gpt-5-free', label: 'GPT-5 Free' },
+        { value: 'grok-4.1-fast-free', label: 'Grok 4.1 Fast' },
+        { value: 'gemini-3-flash', label: 'Gemini 3 Flash' },
+        { value: 'code-claude-3.5-sonnet-free', label: 'Claude 3.5 Sonnet Free' },
+        { value: 'code-claude-3-opus', label: 'Claude 3 Opus Free' },
+        { value: 'gpt-4o', label: 'GPT-4o' },
+        { value: 'gpt-4o-all', label: 'GPT-4o All' },
+        { value: 'claude-3.5-sonnet', label: 'Claude 3.5 Sonnet' },
+        { value: 'claude-3-opus-20240229', label: 'Claude 3 Opus' },
+        { value: 'o1-mini', label: 'o1 Mini (Thinking)' },
+        { value: 'o3', label: 'o3 (Thinking)' },
+        { value: 'claude-sonnet-4-6-thinking', label: 'Claude Sonnet 4.6 Thinking' },
+        { value: 'claude-opus-4-6-thinking', label: 'Claude Opus 4.6 Thinking' },
+        { value: 'gpt-5-4-thinking', label: 'GPT-5.4 Thinking' },
+      ],
+    },
+    freegpt: {
+      urlLabel: 'API URL',
+      urlHelp: 'FreeGPT endpoint (leave default).',
+      urlDefault: 'https://standalone.freegpt.win:3001',
+      modelControl: 'select',
+      modelHelp: 'Pick a FreeGPT model.',
+      options: [
+        { value: 'gpt-5-nano', label: 'GPT-5 Nano' },
+        { value: 'gpt-5.4', label: 'GPT-5.4' },
+        { value: 'gpt-5.4-nano', label: 'GPT-5.4 Nano' },
+        { value: 'gpt-4o', label: 'GPT-4o (Vision)' },
+        { value: 'gpt-4o-mini', label: 'GPT-4o Mini' },
+        { value: 'gpt-4.1-nano', label: 'GPT-4.1 Nano' },
+        { value: 'claude-sonnet-4-6', label: 'Claude Sonnet 4.6' },
+        { value: 'claude-sonnet-4-6-thinking', label: 'Claude Sonnet 4.6 Thinking' },
+        { value: 'claude-opus-4-6-thinking', label: 'Claude Opus 4.6 Thinking' },
+        { value: 'gemini-2.5-pro', label: 'Gemini 2.5 Pro' },
+        { value: 'gemini-2.5-flash', label: 'Gemini 2.5 Flash' },
+        { value: 'deepseek-chat', label: 'DeepSeek Chat' },
+        { value: 'deepseek-reasoner', label: 'DeepSeek Reasoner (Thinking)' },
+        { value: 'o3-mini', label: 'o3 Mini (Thinking)' },
+        { value: 'o4-mini', label: 'o4 Mini (Thinking)' },
+        { value: 'gpt-5.5', label: 'GPT-5.5' },
+        { value: 'gpt-5', label: 'GPT-5' },
+      ],
+    },
+    deepseekai: {
+      urlLabel: 'API URL',
+      urlHelp: 'DeepSeek AI endpoint (leave default).',
+      urlDefault: 'https://deep-seek.ai',
+      modelControl: 'select',
+      modelHelp: 'Pick a DeepSeek AI model.',
+      options: [
+        { value: 'deepseek/deepseek-v4-flash', label: 'DeepSeek-V4 Flash' },
+        { value: 'deepseek/deepseek-r1', label: 'DeepSeek-R1 (reasoning)' },
+        { value: 'deepseek/deepseek-v3.2', label: 'DeepSeek-V3.2' },
+      ],
+    },
+    surfsense: {
+      urlLabel: 'API URL',
+      urlHelp: 'SurfSense endpoint (leave default).',
+      urlDefault: 'https://api.surfsense.com',
+      modelControl: 'select',
+      modelHelp: 'Pick a SurfSense model.',
+      options: [
+        { value: 'gpt-5.4-mini-no-login', label: 'GPT 5.4 Mini' },
+        { value: 'gpt-o4-mini-no-login', label: 'GPT O4 Mini (reasoning)' },
+      ],
     },
   };
 

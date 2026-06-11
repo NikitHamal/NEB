@@ -434,6 +434,7 @@ def get_midtoken(session, force_refresh=False):
         return token
     try:
         resp = session.get("https://sg-wum.alibaba.com/w/wu.json", timeout=10)
+        resp.encoding = "utf-8"
         if resp.status_code == 200:
             match = re.search(r"(?:umx\.wu|__fycb)\('([^']+)'\)", resp.text)
             if match:
@@ -606,6 +607,7 @@ def create_chat(session, model=None, _pool_session=None):
     }
     try:
         resp = session.post(f"{QWEN_URL}/api/v2/chats/new", json=payload, timeout=30)
+        resp.encoding = "utf-8"
         if resp.status_code != 200:
             logger.error(f"Qwen chat creation failed: {resp.status_code} {resp.text[:300]}")
             if _pool_session:
@@ -671,6 +673,7 @@ def send_message(session, chat_id, message, model=None, parent_id=None,
 
 
 def _parse_stream(response, session=None):
+    response.encoding = "utf-8"
     full_text = ""
     reasoning_text = ""
     buffer = ""

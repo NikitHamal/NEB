@@ -70,6 +70,8 @@ def call_custom(
         logger.error(f"custom_provider: transport error: {e}")
         return None
 
+    resp.encoding = 'utf-8'
+
     dt_ms = int((time.time() - t0) * 1000)
     if resp.status_code != 200:
         logger.error(

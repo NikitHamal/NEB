@@ -645,6 +645,10 @@ async function submitMainReply(e) {
 function openThread(replyId) {
   activeThreadId = replyId;
   activeParentReplyId = replyId;
+  const hash = 'thread-' + replyId;
+  if (window.location.hash !== '#' + hash) {
+    history.replaceState(null, null, '#' + hash);
+  }
   if (isMobile()) {
     document.getElementById('threadSheetTitle').textContent = 'Thread';
     document.getElementById('threadSheetCount').style.display = 'none';
@@ -704,7 +708,28 @@ function closeThread() {
   activeThreadId = null;
   activeParentReplyId = null;
   threadParentAuthor = null;
+  if (window.location.hash.startsWith('#thread-')) {
+    history.replaceState(null, null, window.location.pathname + window.location.search);
+  }
 }
+
+function handleHashRoute() {
+  const hash = window.location.hash;
+  const match = hash.match(/^#thread-([\w-]+)$/);
+  if (match) {
+    const replyId = match[1];
+    if (activeThreadId !== replyId) {
+      openThread(replyId);
+    }
+  } else {
+    if (activeThreadId) {
+      closeThread();
+    }
+  }
+}
+
+window.addEventListener('hashchange', handleHashRoute);
+document.addEventListener('DOMContentLoaded', handleHashRoute);
 
 function countThreadReplies(replies) {
   let count = 0;

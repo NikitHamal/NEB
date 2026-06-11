@@ -36,7 +36,7 @@ def forum(request):
         ranked_ids = cache.get(hot_cache_key)
         if ranked_ids is None:
             window = list(
-                qs.order_by('-created_at')
+                qs.select_related(None).order_by('-created_at')
                 .only('id', 'created_at', 'thumbs_up_count', 'reply_count', 'view_count')[:500]
             )
             _now = now_ms()
