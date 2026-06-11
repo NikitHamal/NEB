@@ -1,0 +1,723 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Consica Code — every user-facing string lives here so Nepali (and other
+    languages) can be added later as values-ne/strings.xml without touching UI code.
+    Keys are grouped by feature. Lesson content keys are prefixed lesson_/step_.
+-->
+<resources>
+
+    <!-- ===== App ===== -->
+    <string name="app_name">Consica Code</string>
+    <string name="app_short_name">Ccode</string>
+    <string name="app_tagline">Grow your world with code</string>
+
+    <!-- ===== Common actions ===== -->
+    <string name="action_ok">OK</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_next">Next</string>
+    <string name="action_back">Back</string>
+    <string name="action_skip">Skip</string>
+    <string name="action_done">Done</string>
+    <string name="action_continue">Continue</string>
+    <string name="action_start">Start</string>
+    <string name="action_close">Close</string>
+    <string name="action_retry">Try again</string>
+    <string name="action_save">Save</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_rename">Rename</string>
+    <string name="action_open">Open</string>
+    <string name="action_reset">Reset</string>
+    <string name="action_check">Check</string>
+    <string name="action_shuffle">Shuffle</string>
+    <string name="action_got_it">Got it!</string>
+    <string name="action_view_all">View all</string>
+    <string name="action_keep_going">Keep going</string>
+
+    <!-- ===== Navigation ===== -->
+    <string name="nav_home">Biome Map</string>
+    <string name="nav_rewards">Rewards</string>
+    <string name="nav_workspaces">Workspaces</string>
+    <string name="nav_settings">Settings</string>
+    <string name="nav_playground">Playground</string>
+
+    <!-- ===== Accessibility ===== -->
+    <string name="a11y_terra_avatar">Terra the Owl, your guide. Tap for help and settings.</string>
+    <string name="a11y_lesson_locked">Locked lesson</string>
+    <string name="a11y_lesson_completed">Completed lesson</string>
+    <string name="a11y_lesson_active">Active lesson, tap to start</string>
+    <string name="a11y_xp_counter">Experience points</string>
+    <string name="a11y_sun_counter">Sun coins</string>
+    <string name="a11y_water_counter">Water drops</string>
+    <string name="a11y_streak_counter">Daily streak</string>
+    <string name="a11y_run_code">Run your code</string>
+    <string name="a11y_code_editor">Code editor</string>
+    <string name="a11y_drag_block">Code block. Use the arrows to move it up or down.</string>
+    <string name="a11y_move_up">Move block up</string>
+    <string name="a11y_move_down">Move block down</string>
+    <string name="a11y_remove_block">Remove block</string>
+    <string name="a11y_badge_earned">Badge earned</string>
+    <string name="a11y_badge_locked">Badge not earned yet</string>
+
+    <!-- ===== Onboarding ===== -->
+    <string name="onboarding_welcome_title">Welcome to Consica Code!</string>
+    <string name="onboarding_welcome_body">I\'m Terra the Owl. Together we\'ll grow a living digital world — by writing real code. Ready to plant your first seed?</string>
+    <string name="onboarding_lets_go">Let\'s grow!</string>
+
+    <string name="onboarding_age_title">Who is learning today?</string>
+    <string name="onboarding_age_subtitle">Consica Code adapts everything — lessons, tools and rewards — to you.</string>
+    <string name="onboarding_age_kids">8–12 years</string>
+    <string name="onboarding_age_kids_desc">Playful guided adventures with Terra</string>
+    <string name="onboarding_age_teens">13–16 years</string>
+    <string name="onboarding_age_teens_desc">Real coding skills, projects and challenges</string>
+    <string name="onboarding_age_pro">16+ years</string>
+    <string name="onboarding_age_pro_desc">Professional editor, workspaces and serious projects</string>
+
+    <string name="onboarding_goal_title">What\'s your goal?</string>
+    <string name="onboarding_goal_subtitle">We\'ll recommend the best learning path.</string>
+    <string name="onboarding_goal_fun">Just for fun</string>
+    <string name="onboarding_goal_school">Help with school</string>
+    <string name="onboarding_goal_career">A future career</string>
+    <string name="onboarding_goal_build">Build my own things</string>
+
+    <string name="onboarding_experience_title">Have you coded before?</string>
+    <string name="onboarding_experience_subtitle">Be honest — every gardener starts with one seed.</string>
+    <string name="onboarding_exp_new">Brand new</string>
+    <string name="onboarding_exp_new_desc">I\'ve never written code</string>
+    <string name="onboarding_exp_some">I know some basics</string>
+    <string name="onboarding_exp_some_desc">I\'ve tried a little coding</string>
+    <string name="onboarding_exp_confident">Pretty confident</string>
+    <string name="onboarding_exp_confident_desc">I\'ve built things before</string>
+
+    <string name="onboarding_theme_title">Pick your vibe</string>
+    <string name="onboarding_theme_subtitle">How playful should the app feel? You can change this anytime.</string>
+    <string name="onboarding_theme_playful">Playful</string>
+    <string name="onboarding_theme_playful_desc">Bright, bouncy and full of celebrations</string>
+    <string name="onboarding_theme_balanced">Balanced</string>
+    <string name="onboarding_theme_balanced_desc">Fun, with focus when you need it</string>
+    <string name="onboarding_theme_focused">Focused</string>
+    <string name="onboarding_theme_focused_desc">Calm, clean and distraction-free</string>
+
+    <string name="onboarding_interests_title">What sounds exciting?</string>
+    <string name="onboarding_interests_subtitle">Choose as many as you like — this shapes your path.</string>
+    <string name="interest_python">Python</string>
+    <string name="interest_web">Websites</string>
+    <string name="interest_games">Games</string>
+    <string name="interest_apps">Apps</string>
+    <string name="interest_ai">AI basics</string>
+    <string name="interest_creative">Creative coding</string>
+
+    <string name="onboarding_ready_title">Your biome awaits!</string>
+    <string name="onboarding_ready_body_kids">Hooray! Your forest is ready. Every line of code you write will help it grow. Let\'s plant your first seed!</string>
+    <string name="onboarding_ready_body_teens">Your learning path is set. Complete lessons to grow your biome, earn XP and unlock new tools.</string>
+    <string name="onboarding_ready_body_pro">Setup complete. Your roadmap covers web foundations, Python, projects and a professional workspace. Everything runs fully offline.</string>
+    <string name="onboarding_enter_app">Enter my biome</string>
+
+    <!-- ===== Home / Biome Map ===== -->
+    <string name="home_greeting_kids">Hi, explorer! 🌱</string>
+    <string name="home_greeting_teens">Welcome back!</string>
+    <string name="home_greeting_pro">Welcome back</string>
+    <string name="home_level_label">Level %1$d</string>
+    <string name="home_xp_label">%1$d XP</string>
+    <string name="home_streak_days">%1$d-day streak</string>
+    <string name="home_suggested_next">Suggested next step</string>
+    <string name="home_continue_lesson">Continue learning</string>
+    <string name="home_quick_access">Quick access</string>
+    <string name="home_recent_workspaces">Recent workspaces</string>
+    <string name="home_open_playground">Open playground</string>
+    <string name="home_pro_editor">Professional editor</string>
+    <string name="home_challenges">Challenges</string>
+    <string name="home_no_workspaces">No saved workspaces yet</string>
+    <string name="home_path_complete">Path complete! 🎉</string>
+    <string name="home_locked_biome_hint">Finish the previous biome to unlock</string>
+    <string name="home_lessons_done">%1$d of %2$d lessons</string>
+
+    <!-- ===== Terra / Character guide ===== -->
+    <string name="terra_name">Terra</string>
+    <string name="terra_role">Your owl guide</string>
+    <string name="terra_minimize">Minimize Terra</string>
+    <string name="terra_expand">Show Terra</string>
+    <string name="terra_welcome_back_kids">You\'re back! Your biome missed you. Let\'s grow something new today!</string>
+    <string name="terra_welcome_back_teens">Good to see you. Ready to pick up where you left off?</string>
+    <string name="terra_welcome_back_pro">Welcome back. Your next milestone is one session away.</string>
+    <string name="terra_streak_kids">Wow! You came back %1$d days in a row! Your plants are dancing!</string>
+    <string name="terra_streak_teens">%1$d-day streak — consistency is a superpower.</string>
+    <string name="terra_streak_pro">%1$d-day streak. Momentum compounds.</string>
+    <string name="terra_error_kids">Oops, a little bug crawled in! Bugs are friends — let\'s gently fix it together.</string>
+    <string name="terra_error_teens">There\'s a bug in the code. Read the message below — it tells you exactly where to look.</string>
+    <string name="terra_error_pro">Runtime error. Check the diagnostics panel for the line and cause.</string>
+    <string name="terra_success_kids">YESSS! Look at your biome grow! You\'re a real coder now!</string>
+    <string name="terra_success_teens">Nice work — that ran perfectly. Your biome just grew.</string>
+    <string name="terra_success_pro">Clean run. Output verified.</string>
+    <string name="terra_locked_kids">This part of the forest is still sleepy. Finish the glowing lesson to wake it up!</string>
+    <string name="terra_locked_teens">This lesson unlocks after you complete the previous one.</string>
+    <string name="terra_locked_pro">Locked. Complete prerequisites to access.</string>
+    <string name="terra_offline_kids">No internet? No problem! Everything lives right here on your device, and all your progress is safe with me.</string>
+    <string name="terra_offline_teens">You\'re offline — everything still works and progress is saved locally.</string>
+    <string name="terra_offline_pro">Offline mode. All features available; data persists locally.</string>
+    <string name="terra_hint_intro_kids">Psst! Want a little hint?</string>
+    <string name="terra_hint_intro_teens">Hint available:</string>
+    <string name="terra_hint_intro_pro">Hint:</string>
+
+    <!-- ===== Offline banner ===== -->
+    <string name="offline_title">You\'re offline</string>
+    <string name="offline_body_kids">Everything is okay! Your whole forest lives on this device. 🌳</string>
+    <string name="offline_body_teens">All lessons and tools work offline. Progress is saved on this device.</string>
+    <string name="offline_body_pro">Offline — full functionality available. Local persistence active.</string>
+
+    <!-- ===== Lesson / Terra's Nest ===== -->
+    <string name="lesson_start_coding">Start coding</string>
+    <string name="lesson_start_puzzle">Start puzzle</string>
+    <string name="lesson_tap_to_continue">Tap to continue</string>
+    <string name="lesson_summary_title">Summary</string>
+    <string name="lesson_skip_to_code">Skip to code</string>
+    <string name="lesson_complete_title">Lesson complete!</string>
+    <string name="lesson_rewards_earned">Rewards earned</string>
+    <string name="lesson_xp_earned">+%1$d XP</string>
+    <string name="lesson_sun_earned">+%1$d sun coins</string>
+    <string name="lesson_water_earned">+%1$d water drops</string>
+    <string name="lesson_mastery_earned">+%1$d mastery</string>
+    <string name="lesson_next_lesson">Next lesson</string>
+    <string name="lesson_back_to_map">Back to map</string>
+    <string name="lesson_replay">Replay lesson</string>
+
+    <!-- ===== Playground / Editor ===== -->
+    <string name="playground_title">Green-Code Playground</string>
+    <string name="playground_grow">Grow</string>
+    <string name="playground_run">Run</string>
+    <string name="playground_console">Console</string>
+    <string name="playground_preview">Preview</string>
+    <string name="playground_output">Output</string>
+    <string name="playground_errors">Problems</string>
+    <string name="playground_hint">Hint</string>
+    <string name="playground_reset_code">Reset code</string>
+    <string name="playground_reset_confirm">Reset to starter code? Your changes will be lost.</string>
+    <string name="playground_language">Language</string>
+    <string name="playground_saved">Saved to workspaces</string>
+    <string name="playground_save_as">Save as workspace</string>
+    <string name="playground_workspace_name">Workspace name</string>
+    <string name="playground_run_history">Run history</string>
+    <string name="playground_templates">Templates</string>
+    <string name="playground_empty_console">Run your code to see output here</string>
+    <string name="playground_keyboard_helper">Coding keys</string>
+    <string name="playground_pro_mode">Pro editor</string>
+    <string name="playground_simple_mode">Simple editor</string>
+    <string name="playground_line_numbers">Line numbers</string>
+    <string name="playground_challenge_goal">Your challenge</string>
+    <string name="playground_challenge_passed">Challenge passed!</string>
+    <string name="playground_challenge_not_yet_kids">Almost there! Your plant needs a bit more water. Check the hint!</string>
+    <string name="playground_challenge_not_yet_teens">Not quite yet — compare your output with the goal and try again.</string>
+    <string name="playground_challenge_not_yet_pro">Checks failed. Review the requirements and rerun.</string>
+    <string name="playground_running">Growing…</string>
+    <string name="playground_format_code">Tidy code</string>
+
+    <!-- ===== Ecosystem view ===== -->
+    <string name="ecosystem_title">Ecosystem</string>
+    <string name="ecosystem_success_kids">Your code made the biome bloom!</string>
+    <string name="ecosystem_success_teens">Success — your biome grew.</string>
+    <string name="ecosystem_success_pro">Execution successful.</string>
+    <string name="ecosystem_error_kids">This little plant is thirsty. Let\'s fix the bug and water it!</string>
+    <string name="ecosystem_error_teens">The code hit an error — fix it to grow your biome.</string>
+    <string name="ecosystem_error_pro">Execution failed. See diagnostics.</string>
+    <string name="ecosystem_technical_details">Technical details</string>
+    <string name="ecosystem_friendly_explainer">What happened?</string>
+    <string name="ecosystem_back_to_code">Back to code</string>
+    <string name="ecosystem_html_preview">Web preview</string>
+    <string name="ecosystem_console_output">Console output</string>
+    <string name="ecosystem_claim_rewards">Claim rewards</string>
+
+    <!-- ===== Puzzle ===== -->
+    <string name="puzzle_title">Block Puzzle</string>
+    <string name="puzzle_instruction_kids">Drag the blocks into the right order to grow your plant!</string>
+    <string name="puzzle_instruction_teens">Arrange the code blocks into the correct order.</string>
+    <string name="puzzle_instruction_pro">Order the blocks to form a working program. Watch for decoys.</string>
+    <string name="puzzle_correct_kids">Perfect! The blocks clicked together like magic!</string>
+    <string name="puzzle_correct_teens">Correct order — well done.</string>
+    <string name="puzzle_correct_pro">Sequence verified.</string>
+    <string name="puzzle_wrong_kids">So close! Some blocks want to swap places. Try again!</string>
+    <string name="puzzle_wrong_teens">Not quite — check the order of the highlighted blocks.</string>
+    <string name="puzzle_wrong_pro">Incorrect sequence. Re-evaluate the control flow.</string>
+    <string name="puzzle_distractor_hint">Careful: some blocks don\'t belong in the program at all.</string>
+    <string name="puzzle_blocks_remaining">%1$d blocks placed</string>
+    <string name="puzzle_tray_title">Block tray</string>
+    <string name="puzzle_answer_title">Your program</string>
+    <string name="puzzle_tap_to_place">Tap a block to add it to your program</string>
+
+    <!-- ===== Rewards ===== -->
+    <string name="rewards_title">Rewards Garden</string>
+    <string name="rewards_xp">XP</string>
+    <string name="rewards_level">Level</string>
+    <string name="rewards_sun_coins">Sun coins</string>
+    <string name="rewards_water_drops">Water drops</string>
+    <string name="rewards_mastery">Mastery</string>
+    <string name="rewards_streak">Streak</string>
+    <string name="rewards_badges">Badges</string>
+    <string name="rewards_badges_earned">%1$d of %2$d earned</string>
+    <string name="rewards_lessons_completed">Lessons completed</string>
+    <string name="rewards_biomes_unlocked">Biomes unlocked</string>
+    <string name="rewards_pro_unlocked">Professional mode</string>
+    <string name="rewards_pro_unlocked_yes">Unlocked</string>
+    <string name="rewards_pro_unlocked_no">Locked</string>
+    <string name="rewards_pro_progress">Unlock at mastery %1$d (you have %2$d)</string>
+    <string name="rewards_badge_unlocked_title">Badge unlocked!</string>
+    <string name="rewards_streak_title">Daily streak</string>
+    <string name="rewards_streak_today_done">You\'ve grown today ✓</string>
+    <string name="rewards_streak_come_back">Come back tomorrow to keep your streak alive!</string>
+    <string name="rewards_next_level_progress">%1$d / %2$d XP to next level</string>
+    <string name="rewards_certificates">Mastery certificates</string>
+    <string name="rewards_certificate_path">%1$s — completed</string>
+
+    <!-- ===== Workspaces ===== -->
+    <string name="workspaces_title">Workspaces</string>
+    <string name="workspaces_empty_title">No workspaces yet</string>
+    <string name="workspaces_empty_body">Save your playground experiments here and come back to them anytime.</string>
+    <string name="workspaces_new">New workspace</string>
+    <string name="workspaces_new_python">Python playground</string>
+    <string name="workspaces_new_html">Web playground</string>
+    <string name="workspaces_from_template">From template</string>
+    <string name="workspaces_lesson_linked">Lesson project</string>
+    <string name="workspaces_free_play">Free play</string>
+    <string name="workspaces_updated_at">Edited %1$s</string>
+    <string name="workspaces_delete_confirm">Delete this workspace? This can\'t be undone.</string>
+    <string name="workspaces_locked_title">Workspaces are a pro tool</string>
+    <string name="workspaces_locked_body">Keep completing lessons to unlock workspaces, or a parent can unlock them in Settings.</string>
+    <string name="workspaces_template_blank_py">Blank Python</string>
+    <string name="workspaces_template_blank_html">Blank web page</string>
+    <string name="workspaces_template_story">Story generator (Python)</string>
+    <string name="workspaces_template_portfolio">Mini portfolio (HTML)</string>
+    <string name="workspaces_template_quiz">Quiz game (Python)</string>
+
+    <!-- ===== Settings ===== -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_section_appearance">Appearance</string>
+    <string name="settings_section_learning">Learning</string>
+    <string name="settings_section_sound">Sound &amp; motion</string>
+    <string name="settings_section_progress">Progress</string>
+    <string name="settings_section_about">About</string>
+    <string name="settings_high_contrast">High-contrast mode</string>
+    <string name="settings_high_contrast_desc">Stronger colors and outlines for readability</string>
+    <string name="settings_dark_mode">Dark mode</string>
+    <string name="settings_dark_mode_desc">Night forest theme</string>
+    <string name="settings_reduced_motion">Reduce motion</string>
+    <string name="settings_reduced_motion_desc">Fewer animations and effects</string>
+    <string name="settings_sound">Sound effects</string>
+    <string name="settings_sound_desc">Gentle chimes for rewards and actions</string>
+    <string name="settings_guidance">Terra\'s guidance</string>
+    <string name="settings_guidance_full">Full — guide me through everything</string>
+    <string name="settings_guidance_balanced">Balanced — help when it matters</string>
+    <string name="settings_guidance_minimal">Minimal — I\'ll explore on my own</string>
+    <string name="settings_age_group">Age group</string>
+    <string name="settings_theme_intensity">Theme intensity</string>
+    <string name="settings_pro_mode">Professional mode</string>
+    <string name="settings_pro_mode_desc">Advanced editor, workspaces and serious tooling</string>
+    <string name="settings_pro_mode_unlocked">Unlocked — earned through mastery</string>
+    <string name="settings_pro_mode_parent_unlock">Unlock now (parent/guardian)</string>
+    <string name="settings_pro_mode_locked_desc">Unlocks automatically at mastery %1$d, or right here with a grown-up\'s approval.</string>
+    <string name="settings_reset_progress">Reset all progress</string>
+    <string name="settings_reset_confirm_title">Reset everything?</string>
+    <string name="settings_reset_confirm_body">XP, badges, streaks, lesson progress and workspaces will be erased from this device. This cannot be undone.</string>
+    <string name="settings_progress_summary">Progress summary</string>
+    <string name="settings_progress_summary_desc">A parent-friendly overview of learning so far</string>
+    <string name="settings_about_version">Version %1$s</string>
+    <string name="settings_about_body">Consica Code is an offline-first coding playground for learners in Nepal and beyond. Made with 💚.</string>
+    <string name="settings_language">Language</string>
+    <string name="settings_language_english">English</string>
+    <string name="settings_language_nepali_soon">नेपाली — coming soon</string>
+
+    <!-- Progress summary -->
+    <string name="summary_title">Learning summary</string>
+    <string name="summary_lessons">Lessons completed: %1$d</string>
+    <string name="summary_xp">Total XP: %1$d</string>
+    <string name="summary_badges">Badges earned: %1$d</string>
+    <string name="summary_streak">Current streak: %1$d days</string>
+    <string name="summary_best_streak">Longest streak: %1$d days</string>
+    <string name="summary_mastery">Mastery points: %1$d</string>
+    <string name="summary_paths">Paths in progress</string>
+
+    <!-- ===== Biomes ===== -->
+    <string name="biome_forest_floor">Forest Floor</string>
+    <string name="biome_forest_floor_sub">Beginner Web — plant your first HTML seeds</string>
+    <string name="biome_sunny_meadow">Sunny Meadow</string>
+    <string name="biome_sunny_meadow_sub">Beginner Python — let logic bloom</string>
+    <string name="biome_riverbank">Riverbank</string>
+    <string name="biome_riverbank_sub">Intermediate — layouts, forms and logic puzzles</string>
+    <string name="biome_canopy">The Canopy</string>
+    <string name="biome_canopy_sub">Advanced — projects, debugging and capstones</string>
+
+    <!-- ===== Badges ===== -->
+    <string name="badge_first_sprout">First Sprout</string>
+    <string name="badge_first_sprout_desc">Planted your very first HTML heading</string>
+    <string name="badge_web_gardener">Web Gardener</string>
+    <string name="badge_web_gardener_desc">Completed the Forest Floor web path</string>
+    <string name="badge_first_print">Hello, World</string>
+    <string name="badge_first_print_desc">Ran your first Python print()</string>
+    <string name="badge_block_wizard">Block Wizard</string>
+    <string name="badge_block_wizard_desc">Solved your first block puzzle</string>
+    <string name="badge_bug_catcher">Bug Catcher</string>
+    <string name="badge_bug_catcher_desc">Fixed broken code like a pro debugger</string>
+    <string name="badge_river_builder">River Builder</string>
+    <string name="badge_river_builder_desc">Completed the Riverbank intermediate path</string>
+    <string name="badge_canopy_master">Canopy Master</string>
+    <string name="badge_canopy_master_desc">Conquered the capstone project</string>
+    <string name="badge_streak_3">Three-Day Sprout</string>
+    <string name="badge_streak_3_desc">Learned 3 days in a row</string>
+    <string name="badge_streak_7">Week of Growth</string>
+    <string name="badge_streak_7_desc">Learned 7 days in a row</string>
+    <string name="badge_streak_30">Evergreen</string>
+    <string name="badge_streak_30_desc">Learned 30 days in a row</string>
+    <string name="badge_pro_coder">Pro Coder</string>
+    <string name="badge_pro_coder_desc">Unlocked professional mode</string>
+
+    <!-- =====================================================================
+         LESSON CONTENT — Forest Floor (Beginner Web)
+         ===================================================================== -->
+
+    <!-- L1: What is the web -->
+    <string name="lesson_web_intro_title">What is the Web?</string>
+    <string name="lesson_web_intro_desc">Discover how websites work</string>
+    <string name="step_web_intro_1_kids">Imagine a giant forest where every tree is a page you can visit. That\'s the web! And web pages are written in a language called HTML.</string>
+    <string name="step_web_intro_1_teens">The web is a network of pages connected by links. Every page you\'ve ever visited is built with HTML — the structure language of the web.</string>
+    <string name="step_web_intro_1_pro">Web pages are documents structured with HTML, styled with CSS, and made interactive with JavaScript. We start with HTML — the document skeleton.</string>
+    <string name="step_web_intro_2_kids">HTML uses little labels called tags, like &lt;h1&gt;. Tags tell the page what each thing is — a title, a picture, or a story.</string>
+    <string name="step_web_intro_2_teens">HTML uses tags like &lt;h1&gt; and &lt;p&gt; to mark up content. Most tags open and close: &lt;h1&gt;Hello&lt;/h1&gt;.</string>
+    <string name="step_web_intro_2_pro">Tags are paired markers: &lt;h1&gt;…&lt;/h1&gt;. The browser parses them into a tree of elements (the DOM).</string>
+    <string name="step_web_intro_3_kids">In the next lesson you\'ll write your first tag and grow a real plant in your biome. Let\'s go!</string>
+    <string name="step_web_intro_3_teens">Next up: writing your first heading tag and growing your biome.</string>
+    <string name="step_web_intro_3_pro">Next: author your first element and validate it in the live preview.</string>
+
+    <!-- L2: First heading (key flow: Sprout) -->
+    <string name="lesson_web_heading_title">Plant Your First Heading</string>
+    <string name="lesson_web_heading_desc">Write an &lt;h1&gt; and watch it sprout</string>
+    <string name="step_web_heading_1_kids">A heading is the biggest, proudest text on a page — like a tree shouting its name! We write it with the &lt;h1&gt; tag.</string>
+    <string name="step_web_heading_1_teens">Headings give a page its title. &lt;h1&gt; is the most important heading on the page.</string>
+    <string name="step_web_heading_1_pro">&lt;h1&gt; is the top-level heading. Each page should have exactly one — it anchors the document outline.</string>
+    <string name="step_web_heading_2_kids">Let\'s plant the word Sprout inside a heading. Type it between the opening and closing tags — then press Grow!</string>
+    <string name="step_web_heading_2_teens">Your challenge: write an &lt;h1&gt; containing the word Sprout, then run it.</string>
+    <string name="step_web_heading_2_pro">Task: produce an h1 element whose text content includes \"Sprout\". Validate via the preview.</string>
+    <string name="challenge_web_heading_kids">Write a heading that says Sprout 🌱</string>
+    <string name="challenge_web_heading_teens">Create an &lt;h1&gt; heading with the text Sprout</string>
+    <string name="challenge_web_heading_pro">Add an h1 element containing \"Sprout\"</string>
+    <string name="hint_web_heading_kids">Tags hug your words: &lt;h1&gt;Sprout&lt;/h1&gt; — don\'t forget the closing tag with the slash!</string>
+    <string name="hint_web_heading_teens">Pattern: &lt;h1&gt;your text&lt;/h1&gt;. The closing tag needs a forward slash.</string>
+    <string name="hint_web_heading_pro">&lt;h1&gt;Sprout&lt;/h1&gt; — ensure the element is properly closed.</string>
+
+    <!-- L3: Headings & paragraphs -->
+    <string name="lesson_web_paragraphs_title">Headings &amp; Paragraphs</string>
+    <string name="lesson_web_paragraphs_desc">Give your page a story with &lt;p&gt;</string>
+    <string name="step_web_paragraphs_1_kids">Headings are titles, and paragraphs are the stories under them. Paragraphs use the &lt;p&gt; tag.</string>
+    <string name="step_web_paragraphs_1_teens">Paragraphs hold body text. Combine headings and paragraphs to structure any page.</string>
+    <string name="step_web_paragraphs_1_pro">Use h1–h6 for hierarchy and p for body copy. Semantic structure improves accessibility.</string>
+    <string name="step_web_paragraphs_2_kids">Add a paragraph under your heading that tells everyone about your garden!</string>
+    <string name="step_web_paragraphs_2_teens">Add a &lt;p&gt; element below your heading with at least one sentence.</string>
+    <string name="step_web_paragraphs_2_pro">Compose a heading plus at least one paragraph element.</string>
+    <string name="challenge_web_paragraphs_kids">Add a heading AND a paragraph about your garden</string>
+    <string name="challenge_web_paragraphs_teens">Write an &lt;h1&gt; and a &lt;p&gt; paragraph below it</string>
+    <string name="challenge_web_paragraphs_pro">Produce an h1 followed by a p element</string>
+    <string name="hint_web_paragraphs_kids">First &lt;h1&gt;My Garden&lt;/h1&gt;, then &lt;p&gt;Plants grow here!&lt;/p&gt;</string>
+    <string name="hint_web_paragraphs_teens">Stack them: &lt;h1&gt;Title&lt;/h1&gt; then &lt;p&gt;Text…&lt;/p&gt; on the next line.</string>
+    <string name="hint_web_paragraphs_pro">Two sibling elements: h1 then p.</string>
+
+    <!-- L4: HTML structure puzzle -->
+    <string name="lesson_web_structure_title">Build the HTML Tree</string>
+    <string name="lesson_web_structure_desc">Order a full HTML document</string>
+    <string name="step_web_structure_1_kids">Every web page has a secret skeleton: html on the outside, then head and body inside — like bark, branches and leaves!</string>
+    <string name="step_web_structure_1_teens">A full document nests tags: &lt;html&gt; wraps &lt;head&gt; (info) and &lt;body&gt; (content).</string>
+    <string name="step_web_structure_1_pro">Document anatomy: doctype, html root, head metadata, body content. Order and nesting matter.</string>
+    <string name="puzzle_web_structure_kids">Stack the blocks to build a whole web page skeleton!</string>
+    <string name="puzzle_web_structure_teens">Arrange the blocks into a valid HTML document.</string>
+    <string name="puzzle_web_structure_pro">Order the document: doctype → html → head → body, with correct closing order.</string>
+
+    <!-- L5: Links -->
+    <string name="lesson_web_links_title">Magic Doorways: Links</string>
+    <string name="lesson_web_links_desc">Connect pages with &lt;a&gt;</string>
+    <string name="step_web_links_1_kids">Links are magic doorways between pages! The &lt;a&gt; tag makes them, with href telling the door where to go.</string>
+    <string name="step_web_links_1_teens">The anchor tag &lt;a href=\"…\"&gt; creates links. The href attribute holds the destination.</string>
+    <string name="step_web_links_1_pro">Anchors define hyperlinks: &lt;a href=\"url\"&gt;label&lt;/a&gt;. Attributes are name=\"value\" pairs inside the opening tag.</string>
+    <string name="challenge_web_links_kids">Make a link that says Visit the forest</string>
+    <string name="challenge_web_links_teens">Create an &lt;a&gt; link with an href attribute</string>
+    <string name="challenge_web_links_pro">Author an anchor element with a valid href attribute</string>
+    <string name="hint_web_links_kids">Like this: &lt;a href=\"#\"&gt;Visit the forest&lt;/a&gt;</string>
+    <string name="hint_web_links_teens">&lt;a href=\"#\"&gt;link text&lt;/a&gt; — the href goes inside the opening tag.</string>
+    <string name="hint_web_links_pro">href is an attribute of the opening tag, quoted.</string>
+
+    <!-- L6: Images -->
+    <string name="lesson_web_images_title">Picture Seeds: Images</string>
+    <string name="lesson_web_images_desc">Show pictures with &lt;img&gt;</string>
+    <string name="step_web_images_1_kids">The &lt;img&gt; tag plants a picture on your page. It\'s special — it doesn\'t need a closing tag! It needs src (the picture) and alt (words that describe it).</string>
+    <string name="step_web_images_1_teens">&lt;img&gt; is self-closing. src points to the image; alt describes it for screen readers.</string>
+    <string name="step_web_images_1_pro">img is a void element. Always provide alt text — it\'s essential for accessibility.</string>
+    <string name="challenge_web_images_kids">Add a picture tag with src and alt</string>
+    <string name="challenge_web_images_teens">Write an &lt;img&gt; tag with src and alt attributes</string>
+    <string name="challenge_web_images_pro">Add an img element with src and alt attributes</string>
+    <string name="hint_web_images_kids">&lt;img src=\"tree.png\" alt=\"a tall tree\"&gt; — no closing tag needed!</string>
+    <string name="hint_web_images_teens">&lt;img src=\"file\" alt=\"description\"&gt;</string>
+    <string name="hint_web_images_pro">Two attributes on one void element.</string>
+
+    <!-- L7: Lists puzzle -->
+    <string name="lesson_web_lists_title">Lists in Order</string>
+    <string name="lesson_web_lists_desc">Build a &lt;ul&gt; list block by block</string>
+    <string name="step_web_lists_1_kids">Lists keep things tidy, like seeds in a row! &lt;ul&gt; starts the list and every seed sits in an &lt;li&gt;.</string>
+    <string name="step_web_lists_1_teens">Unordered lists: &lt;ul&gt; wraps &lt;li&gt; items. Ordered lists use &lt;ol&gt;.</string>
+    <string name="step_web_lists_1_pro">List semantics: ul/ol containers with li children. Nesting must close in reverse order.</string>
+    <string name="puzzle_web_lists_kids">Stack the blocks to grow a list of three plants!</string>
+    <string name="puzzle_web_lists_teens">Arrange the blocks into a valid &lt;ul&gt; list.</string>
+    <string name="puzzle_web_lists_pro">Construct a valid list — beware of the decoy block.</string>
+
+    <!-- L8: CSS colors -->
+    <string name="lesson_web_css_title">A Splash of CSS</string>
+    <string name="lesson_web_css_desc">Paint your page with style</string>
+    <string name="step_web_css_1_kids">CSS is the paintbrush of the web! With a style tag you can color your headings any color you like.</string>
+    <string name="step_web_css_1_teens">CSS styles HTML. Inside &lt;style&gt;, rules look like: h1 { color: green; }</string>
+    <string name="step_web_css_1_pro">CSS rules: selector { property: value; }. Embed with a style element for now; external sheets later.</string>
+    <string name="challenge_web_css_kids">Color your heading green with CSS</string>
+    <string name="challenge_web_css_teens">Use a &lt;style&gt; block to set the h1 color</string>
+    <string name="challenge_web_css_pro">Add a style element with a color rule applied to h1</string>
+    <string name="hint_web_css_kids">&lt;style&gt; h1 { color: green; } &lt;/style&gt; — then your &lt;h1&gt; below it!</string>
+    <string name="hint_web_css_teens">style block + h1 selector + color property.</string>
+    <string name="hint_web_css_pro">selector h1, property color, value of your choice.</string>
+
+    <!-- L9: Mini page project -->
+    <string name="lesson_web_project_title">Project: My Mini Page</string>
+    <string name="lesson_web_project_desc">Combine everything into a tiny website</string>
+    <string name="step_web_project_1_kids">Time for your first real creation! Build a page with a heading, a paragraph and a list. Your biome will love it!</string>
+    <string name="step_web_project_1_teens">Project time: combine a heading, paragraph and a list into one page. This unlocks the Web Gardener badge.</string>
+    <string name="step_web_project_1_pro">Capstone for this path: heading, paragraph, list, and optional CSS — composed into a single page.</string>
+    <string name="challenge_web_project_kids">Build a page with a heading, a paragraph and a list</string>
+    <string name="challenge_web_project_teens">Combine &lt;h1&gt;, &lt;p&gt; and &lt;ul&gt;/&lt;li&gt; in one page</string>
+    <string name="challenge_web_project_pro">Compose a page containing h1, p and a list structure</string>
+    <string name="hint_web_project_kids">Stack them like layers: heading first, then paragraph, then your list!</string>
+    <string name="hint_web_project_teens">All three structures, one after another.</string>
+    <string name="hint_web_project_pro">h1 + p + ul&gt;li. Optionally add a style block.</string>
+
+    <!-- =====================================================================
+         LESSON CONTENT — Sunny Meadow (Beginner Python)
+         ===================================================================== -->
+
+    <!-- L10: print -->
+    <string name="lesson_py_print_title">Say Hello with print()</string>
+    <string name="lesson_py_print_desc">Your first Python words</string>
+    <string name="step_py_print_1_kids">Python is a language that talks to computers! The print() spell makes words appear in the console.</string>
+    <string name="step_py_print_1_teens">Python\'s print() function writes text to the console — it\'s how programs talk back.</string>
+    <string name="step_py_print_1_pro">print() writes to stdout. Strings are quoted; arguments are comma-separated.</string>
+    <string name="step_py_print_2_kids">Try making the console say Hello, Meadow! — type your words inside the quotes.</string>
+    <string name="step_py_print_2_teens">Challenge: print the text Hello, Meadow! exactly.</string>
+    <string name="step_py_print_2_pro">Emit \"Hello, Meadow!\" to the console.</string>
+    <string name="challenge_py_print_kids">Make the console say Hello, Meadow!</string>
+    <string name="challenge_py_print_teens">Print the text: Hello, Meadow!</string>
+    <string name="challenge_py_print_pro">Print \"Hello, Meadow!\" to stdout</string>
+    <string name="hint_py_print_kids">print(\"Hello, Meadow!\") — quotes hug your words!</string>
+    <string name="hint_py_print_teens">print(\"…\") with the message inside quotes.</string>
+    <string name="hint_py_print_pro">A single print call with a string literal.</string>
+
+    <!-- L11: variables -->
+    <string name="lesson_py_variables_title">Seed Boxes: Variables</string>
+    <string name="lesson_py_variables_desc">Store values with names</string>
+    <string name="step_py_variables_1_kids">A variable is a little seed box with a name. Put something inside with = and use it later!</string>
+    <string name="step_py_variables_1_teens">Variables store values: plant = \"fern\". Use the name anywhere you need the value.</string>
+    <string name="step_py_variables_1_pro">Assignment binds a name to a value. Names are case-sensitive; no declaration keyword needed.</string>
+    <string name="challenge_py_variables_kids">Make a variable called plant and print it</string>
+    <string name="challenge_py_variables_teens">Create a variable named plant and print its value</string>
+    <string name="challenge_py_variables_pro">Bind plant to a string and print it</string>
+    <string name="hint_py_variables_kids">plant = \"fern\" then print(plant) — no quotes around the name when printing!</string>
+    <string name="hint_py_variables_teens">Two lines: assignment, then print(plant).</string>
+    <string name="hint_py_variables_pro">Assignment then a print of the identifier.</string>
+
+    <!-- L12: strings & numbers -->
+    <string name="lesson_py_strnum_title">Strings &amp; Numbers</string>
+    <string name="lesson_py_strnum_desc">Words, math and mixing them</string>
+    <string name="step_py_strnum_1_kids">Python can do math like a calculator! 3 + 4 makes 7. Words in quotes are called strings.</string>
+    <string name="step_py_strnum_1_teens">Numbers support +, -, *, /. Strings are text in quotes; + glues strings together.</string>
+    <string name="step_py_strnum_1_pro">Numeric types: int and float. String concatenation with +; mixing types requires str() conversion.</string>
+    <string name="challenge_py_strnum_kids">Print the answer to 6 * 7</string>
+    <string name="challenge_py_strnum_teens">Print the result of 6 * 7 using Python math</string>
+    <string name="challenge_py_strnum_pro">Evaluate and print 6 * 7</string>
+    <string name="hint_py_strnum_kids">print(6 * 7) — the star * means multiply!</string>
+    <string name="hint_py_strnum_teens">Multiplication uses the * operator inside print().</string>
+    <string name="hint_py_strnum_pro">print(6 * 7)</string>
+
+    <!-- L13: order the program (puzzle) -->
+    <string name="lesson_py_order_title">Order the Program</string>
+    <string name="lesson_py_order_desc">Programs run top to bottom</string>
+    <string name="step_py_order_1_kids">Computers read code like a recipe: top to bottom, one step at a time. If the steps are jumbled, the cake goes wrong!</string>
+    <string name="step_py_order_1_teens">Execution order matters — a variable must be created before you use it.</string>
+    <string name="step_py_order_1_pro">Statements execute sequentially. Names must be bound before they\'re referenced.</string>
+    <string name="puzzle_py_order_kids">Put the recipe in order so the plant gets watered!</string>
+    <string name="puzzle_py_order_teens">Order the statements so the program runs without errors.</string>
+    <string name="puzzle_py_order_pro">Sequence the statements respecting data dependencies.</string>
+
+    <!-- L14: conditionals -->
+    <string name="lesson_py_cond_title">Choices: if / else</string>
+    <string name="lesson_py_cond_desc">Teach your code to decide</string>
+    <string name="step_py_cond_1_kids">Code can make choices! IF it\'s sunny, water the plants. ELSE, take a nap. The if statement checks, and indented lines belong to it.</string>
+    <string name="step_py_cond_1_teens">if checks a condition; the indented block runs when it\'s true. else handles the other case.</string>
+    <string name="step_py_cond_1_pro">Conditionals: if/elif/else with indentation-defined blocks. Comparison operators: ==, !=, &lt;, &gt;.</string>
+    <string name="challenge_py_cond_kids">Use if/else so the console says grow! when sun is more than 5</string>
+    <string name="challenge_py_cond_teens">Write an if/else that prints grow! when sun &gt; 5</string>
+    <string name="challenge_py_cond_pro">Branch on sun &gt; 5; print grow! in the true case</string>
+    <string name="hint_py_cond_kids">if sun &gt; 5: then an indented print(\"grow!\") under it. Don\'t forget the colon!</string>
+    <string name="hint_py_cond_teens">if sun &gt; 5: newline, 4 spaces, print(\"grow!\"), then else: with its own print.</string>
+    <string name="hint_py_cond_pro">Colon after the condition; consistent 4-space indentation.</string>
+
+    <!-- L15: loops -->
+    <string name="lesson_py_loops_title">Loops: Rain Dance</string>
+    <string name="lesson_py_loops_desc">Repeat actions with for</string>
+    <string name="step_py_loops_1_kids">Loops repeat things so you don\'t have to! for i in range(3): does its indented lines three times — like three drops of rain.</string>
+    <string name="step_py_loops_1_teens">for i in range(n): repeats the block n times. i counts from 0 to n-1.</string>
+    <string name="step_py_loops_1_pro">for iterates over an iterable; range(n) yields 0..n-1. The loop body is the indented block.</string>
+    <string name="challenge_py_loops_kids">Make it rain! Print drip 3 times with a loop</string>
+    <string name="challenge_py_loops_teens">Use a for loop to print drip three times</string>
+    <string name="challenge_py_loops_pro">Loop 3 iterations printing drip</string>
+    <string name="hint_py_loops_kids">for i in range(3): then indented print(\"drip\")</string>
+    <string name="hint_py_loops_teens">range(3) gives you exactly three repetitions.</string>
+    <string name="hint_py_loops_pro">Single loop, single print in the body.</string>
+
+    <!-- L16: loop puzzle -->
+    <string name="lesson_py_loop_puzzle_title">Loop Builder</string>
+    <string name="lesson_py_loop_puzzle_desc">Assemble a counting loop</string>
+    <string name="step_py_loop_puzzle_1_kids">Let\'s build a loop out of blocks! Remember: the for line comes first, and the indented lines live inside it.</string>
+    <string name="step_py_loop_puzzle_1_teens">Assemble a loop with a counter. Watch which lines are indented — they run inside the loop.</string>
+    <string name="step_py_loop_puzzle_1_pro">Assemble a counting loop. One block is a decoy that would break the program.</string>
+    <string name="puzzle_py_loop_kids">Stack the blocks so the garden counts to three!</string>
+    <string name="puzzle_py_loop_teens">Order the blocks into a loop that prints 1, 2, 3.</string>
+    <string name="puzzle_py_loop_pro">Construct the counter loop; exclude the decoy statement.</string>
+
+    <!-- L17: lists -->
+    <string name="lesson_py_lists_title">Baskets: Lists</string>
+    <string name="lesson_py_lists_desc">Collect many things in one place</string>
+    <string name="step_py_lists_1_kids">A list is a basket that holds many things: seeds = [\"fern\", \"moss\", \"vine\"]. You can loop through the basket too!</string>
+    <string name="step_py_lists_1_teens">Lists hold ordered items: seeds = [\"fern\", \"moss\"]. Loop with: for s in seeds:</string>
+    <string name="step_py_lists_1_pro">Lists are ordered, mutable sequences. Iterate directly: for item in items: …</string>
+    <string name="challenge_py_lists_kids">Make a list of 3 plants and print each one with a loop</string>
+    <string name="challenge_py_lists_teens">Create a list of three items and print each using a for loop</string>
+    <string name="challenge_py_lists_pro">Define a 3-element list and iterate, printing each element</string>
+    <string name="hint_py_lists_kids">seeds = [\"fern\", \"moss\", \"vine\"] then for s in seeds: and print(s) indented!</string>
+    <string name="hint_py_lists_teens">List literal with brackets, then for…in, then an indented print.</string>
+    <string name="hint_py_lists_pro">Literal, iteration, element print.</string>
+
+    <!-- L18: functions -->
+    <string name="lesson_py_functions_title">Recipes: Functions</string>
+    <string name="lesson_py_functions_desc">Name a block of code and reuse it</string>
+    <string name="step_py_functions_1_kids">A function is a recipe with a name! def greet(): saves the steps. Calling greet() runs them — as many times as you like!</string>
+    <string name="step_py_functions_1_teens">def name(): defines a function. Call it with name(). Parameters let you pass values in.</string>
+    <string name="step_py_functions_1_pro">Functions encapsulate behavior: def f(param): … Call with arguments; return sends values back.</string>
+    <string name="challenge_py_functions_kids">Make a function called greet that prints namaste and call it</string>
+    <string name="challenge_py_functions_teens">Define greet() to print namaste, then call it</string>
+    <string name="challenge_py_functions_pro">Define and invoke greet() printing namaste</string>
+    <string name="hint_py_functions_kids">def greet(): with print(\"namaste\") indented, then greet() on its own line at the end!</string>
+    <string name="hint_py_functions_teens">Definition first, call after — unindented.</string>
+    <string name="hint_py_functions_pro">Define then call at module level.</string>
+
+    <!-- L19: debugging -->
+    <string name="lesson_py_debug_title">Bug Hunt</string>
+    <string name="lesson_py_debug_desc">Find and fix broken code</string>
+    <string name="step_py_debug_1_kids">Oh no — this code has a sneaky bug! Real coders LOVE finding bugs. Read the error, fix the line and make the garden happy again.</string>
+    <string name="step_py_debug_1_teens">This program crashes. Run it, read the error message, then fix the broken line.</string>
+    <string name="step_py_debug_1_pro">Debugging exercise: run, read the traceback, patch the defect, re-run to verify.</string>
+    <string name="challenge_py_debug_kids">Fix the bug so the code prints harvest time</string>
+    <string name="challenge_py_debug_teens">Fix the error so the program prints harvest time</string>
+    <string name="challenge_py_debug_pro">Repair the defect; expected output: harvest time</string>
+    <string name="hint_py_debug_kids">Look very closely at the spelling of print — computers need it exactly right!</string>
+    <string name="hint_py_debug_teens">The function name is misspelled. Python tells you the unknown name.</string>
+    <string name="hint_py_debug_pro">NameError: identifier typo on the call.</string>
+
+    <!-- =====================================================================
+         LESSON CONTENT — Riverbank (Intermediate)
+         ===================================================================== -->
+
+    <string name="lesson_css_layout_title">CSS Layouts</string>
+    <string name="lesson_css_layout_desc">Boxes, spacing and backgrounds</string>
+    <string name="step_css_layout_1_teens">Every HTML element is a box. CSS controls its size, padding and background. Let\'s style a card.</string>
+    <string name="step_css_layout_1_pro">The box model: content, padding, border, margin. Style a container with padding and background-color.</string>
+    <string name="challenge_css_layout_teens">Style a div with a background color and padding using CSS</string>
+    <string name="challenge_css_layout_pro">Apply background-color and padding to a div via a style block</string>
+    <string name="hint_css_layout_teens">div { background-color: lightgreen; padding: 16px; } inside a style block.</string>
+    <string name="hint_css_layout_pro">Selector div with two declarations.</string>
+
+    <string name="lesson_html_form_title">Forms</string>
+    <string name="lesson_html_form_desc">Collect input with form fields</string>
+    <string name="step_html_form_1_teens">Forms collect input. &lt;form&gt; wraps fields like &lt;input&gt; and a submit &lt;button&gt;.</string>
+    <string name="step_html_form_1_pro">Forms: form element wrapping labeled inputs and a button. Labels improve accessibility.</string>
+    <string name="challenge_html_form_teens">Build a form with an input and a button</string>
+    <string name="challenge_html_form_pro">Compose a form containing an input and a button element</string>
+    <string name="hint_html_form_teens">&lt;form&gt; &lt;input&gt; &lt;button&gt;Send&lt;/button&gt; &lt;/form&gt;</string>
+    <string name="hint_html_form_pro">Nest input and button inside form.</string>
+
+    <string name="lesson_py_logic_title">Logic Flow</string>
+    <string name="lesson_py_logic_desc">Nested decisions puzzle</string>
+    <string name="step_py_logic_1_teens">Conditions can live inside conditions. Trace the flow carefully before ordering the blocks.</string>
+    <string name="step_py_logic_1_pro">Nested conditionals: indentation depth defines scope. One decoy block included.</string>
+    <string name="puzzle_py_logic_teens">Order the nested if/else so the weather report makes sense.</string>
+    <string name="puzzle_py_logic_pro">Sequence the nested conditional; exclude the unreachable branch.</string>
+
+    <string name="lesson_py_data_title">Data Structures</string>
+    <string name="lesson_py_data_desc">Lists, indexing and len()</string>
+    <string name="step_py_data_1_teens">Lists have positions starting at 0. seeds[0] is the first item; len(seeds) counts them.</string>
+    <string name="step_py_data_1_pro">Sequence operations: zero-based indexing, len(), append(). Off-by-one errors live here.</string>
+    <string name="challenge_py_data_teens">Print the first item and the length of a list</string>
+    <string name="challenge_py_data_pro">Print element [0] and len() of a list</string>
+    <string name="hint_py_data_teens">print(seeds[0]) then print(len(seeds))</string>
+    <string name="hint_py_data_pro">Index access and len call.</string>
+
+    <string name="lesson_py_modules_title">Functions Working Together</string>
+    <string name="lesson_py_modules_desc">Compose functions with parameters and return</string>
+    <string name="step_py_modules_1_teens">Functions can take parameters and return results: def double(n): return n * 2. Then print(double(4)).</string>
+    <string name="step_py_modules_1_pro">Parameterized functions with return values compose into pipelines. Build double() and use it.</string>
+    <string name="challenge_py_modules_teens">Write double(n) that returns n * 2 and print double(4)</string>
+    <string name="challenge_py_modules_pro">Implement double(n) → n*2; print double(4)</string>
+    <string name="hint_py_modules_teens">def double(n): return n * 2 — then print(double(4)) prints 8.</string>
+    <string name="hint_py_modules_pro">Return, don\'t print, inside the function.</string>
+
+    <string name="lesson_project_card_title">Project: Profile Card</string>
+    <string name="lesson_project_card_desc">A styled card about you</string>
+    <string name="step_project_card_1_teens">Build a profile card: a heading with your name, a paragraph about you, and CSS to style it. River Builder badge awaits!</string>
+    <string name="step_project_card_1_pro">Compose a styled profile card: structure plus a style block. Completes the Riverbank path.</string>
+    <string name="challenge_project_card_teens">Build a card with a heading, paragraph and a style block</string>
+    <string name="challenge_project_card_pro">Card layout: h1 + p + CSS rules in one page</string>
+    <string name="hint_project_card_teens">Combine what you learned: h1, p, and style with background and padding.</string>
+    <string name="hint_project_card_pro">Structure + presentation in one document.</string>
+
+    <!-- =====================================================================
+         LESSON CONTENT — Canopy (Advanced)
+         ===================================================================== -->
+
+    <string name="lesson_adv_tools_title">Professional Tools</string>
+    <string name="lesson_adv_tools_desc">Pro editor, workspaces and clean code</string>
+    <string name="step_adv_tools_1_pro">Welcome to the Canopy. From here on you\'ll use the professional editor: line numbers, error panel, run history and saved workspaces. Treat every exercise like a real project.</string>
+    <string name="step_adv_tools_2_pro">Clean code principles: meaningful names, small functions, no duplication. Your future self is your most important teammate.</string>
+    <string name="step_adv_tools_3_pro">APIs let programs talk to each other — conceptually, a menu of requests. Consica Code stays fully offline, but the mental model matters for real-world work.</string>
+
+    <string name="lesson_adv_web_title">Multi-Section Page</string>
+    <string name="lesson_adv_web_desc">Header, main and footer composition</string>
+    <string name="step_adv_web_1_pro">Real pages are composed of regions: header, main, footer. Build all three with content inside each.</string>
+    <string name="challenge_adv_web_pro">Build a page with header, main and footer sections</string>
+    <string name="hint_adv_web_pro">Three semantic containers in order, each with content.</string>
+
+    <string name="lesson_adv_py_title">Script: Data Crunch</string>
+    <string name="lesson_adv_py_desc">Process a list with loops and conditions</string>
+    <string name="step_adv_py_1_pro">Combine a list, a loop, a condition and an accumulator: total rainfall above a threshold. This is the shape of real data processing.</string>
+    <string name="challenge_adv_py_pro">Sum only the values greater than 10 from the list and print the total</string>
+    <string name="hint_adv_py_pro">Initialize total = 0; loop; if value &gt; 10: total = total + value; print after the loop.</string>
+
+    <string name="lesson_adv_algo_title">Algorithm Assembly</string>
+    <string name="lesson_adv_algo_desc">Order a search algorithm correctly</string>
+    <string name="step_adv_algo_1_pro">Algorithms are precise sequences. Assemble a working linear search — two decoy blocks will try to sneak in.</string>
+    <string name="puzzle_adv_algo_pro">Order the linear search; exclude both decoys.</string>
+
+    <string name="lesson_adv_debug_title">Debugging Workflow</string>
+    <string name="lesson_adv_debug_desc">Systematic bug fixing</string>
+    <string name="step_adv_debug_1_pro">Professional debugging: reproduce, read the error, isolate, fix, verify. This script has two defects — find both.</string>
+    <string name="challenge_adv_debug_pro">Fix both bugs so the script prints: average: 20</string>
+    <string name="hint_adv_debug_pro">One typo\'d identifier, one wrong operator. The traceback finds the first; reasoning finds the second.</string>
+
+    <string name="lesson_adv_capstone_title">Capstone: Digital Garden</string>
+    <string name="lesson_adv_capstone_desc">Your portfolio-ready final project</string>
+    <string name="step_adv_capstone_1_pro">The capstone: a complete Digital Garden page — title, intro, a list of three projects, and styling. Ship it like a portfolio piece.</string>
+    <string name="challenge_adv_capstone_pro">Build the full page: heading, paragraph, 3-item list and a style block</string>
+    <string name="hint_adv_capstone_pro">Everything from this path, composed deliberately. Take your time.</string>
+
+    <!-- ===== Misc ===== -->
+    <string name="time_just_now">just now</string>
+    <string name="time_minutes_ago">%1$dm ago</string>
+    <string name="time_hours_ago">%1$dh ago</string>
+    <string name="time_days_ago">%1$dd ago</string>
+    <string name="empty_dash">—</string>
+</resources>
