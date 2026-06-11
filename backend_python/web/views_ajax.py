@@ -38,6 +38,8 @@ def ajax_create_reply(request, post_id):
     user_id = _get_user_id(request)
     if not user_id:
         return JsonResponse({'error': 'Please log in again.'}, status=401)
+    if _rate_limit(request, 'create_reply', 20, 60):
+        return JsonResponse({'error': 'Too many requests. Please slow down.'}, status=429)
     try:
         user = User.objects.get(pk=user_id)
     except User.DoesNotExist:
@@ -52,6 +54,8 @@ def ajax_create_reply(request, post_id):
         return JsonResponse({'error': 'Content required'}, status=400)
     if len(content) > 10000:
         return JsonResponse({'error': 'Content must be 10000 characters or fewer'}, status=400)
+    if parent_id and not Reply.objects.filter(pk=parent_id, post_id=post_id).exists():
+        return JsonResponse({'error': 'Invalid parent reply'}, status=400)
     result = services.create_reply(user, post_id, content, parent_id)
     if result:
         _clear_page_cache()
@@ -130,6 +134,8 @@ def ajax_create_post(request):
     user_id = _get_user_id(request)
     if not user_id:
         return JsonResponse({'error': 'Please log in again.'}, status=401)
+    if _rate_limit(request, 'create_post', 10, 60):
+        return JsonResponse({'error': 'Too many requests. Please slow down.'}, status=429)
     try:
         user = User.objects.get(pk=user_id)
     except User.DoesNotExist:
@@ -216,8 +222,21 @@ def ajax_bookmark_check(request):
     user_id = _get_user_id(request)
     if not user_id:
         return JsonResponse({'isBookmarked': False})
-    target_type = request.GET.get('target_type', '').strip()
-    target_id = request.GET.get('target_id', '').strip()
+    # Read from the POST JSON body first; fall back to GET query params for
+    # backwards compatibility with older clients.
+    target_type = ''
+    target_id = ''
+    if request.body:
+        try:
+            data = json.loads(request.body)
+            target_type = str(data.get('target_type', '') or '').strip()
+            target_id = str(data.get('target_id', '') or '').strip()
+        except (json.JSONDecodeError, AttributeError):
+            pass
+    if not target_type:
+        target_type = request.GET.get('target_type', '').strip()
+    if not target_id:
+        target_id = request.GET.get('target_id', '').strip()
     is_bookmarked = Bookmark.objects.filter(
         user_id=user_id, target_type=target_type, target_id=target_id
     ).exists()
@@ -228,6 +247,8 @@ def ajax_report(request):
     user_id = _get_user_id(request)
     if not user_id:
         return JsonResponse({'error': 'Please log in again.'}, status=401)
+    if _rate_limit(request, 'report', 10, 3600):
+        return JsonResponse({'error': 'Too many requests. Please try again later.'}, status=429)
     try:
         user = User.objects.get(pk=user_id)
     except User.DoesNotExist:
@@ -419,9 +440,14 @@ def ajax_delete_reply(request, reply_id):
     return JsonResponse({'success': True})
 
 def ajax_edit_history(request, target_type, target_id):
+    user_id = _get_user_id(request)
+    if not user_id:
+        return JsonResponse({'error': 'Please log in again.'}, status=401)
     if target_type not in ('post', 'reply'):
         return JsonResponse({'error': 'Invalid target type'}, status=400)
-    entries = EditHistory.objects.filter(target_type=target_type, target_id=target_id).select_related('edited_by')
+    entries = EditHistory.objects.filter(
+        target_type=target_type, target_id=target_id
+    ).select_related('edited_by').order_by('-edited_at')[:20]
     data = []
     for e in entries:
         data.append({
@@ -443,7 +469,7 @@ def ajax_reply_thread(request, reply_id):
         parent_data['authorFollowed'] = Follow.objects.filter(
             follower_id=user_id, following_id=parent.user_id
         ).exists()
-    all_descendants = Reply.objects.select_related('user').filter(
+    all_descendants = Reply.objects.select_related('user', 'post').filter(
         post_id=parent.post_id, parent_reply__isnull=False
     ).order_by('created_at')
     all_replies = _serialize_replies(all_descendants, user_id)
@@ -487,9 +513,9 @@ def ajax_user_popup(request, username):
         'badgeInfo': _user_badge_info(u),
     }
     if not is_private:
-        data['postCount'] = getattr(u, 'post_count', 0) or 0 or Post.objects.filter(user=u).count()
-        data['replyCount'] = getattr(u, 'reply_count', 0) or 0 or Reply.objects.filter(user=u).count()
-        data['followerCount'] = Follow.objects.filter(following_id=u.id).count()
+        data['postCount'] = getattr(u, 'post_count', 0) or 0
+        data['replyCount'] = getattr(u, 'reply_count', 0) or 0
+        data['followerCount'] = getattr(u, 'follower_count', 0) or 0
     else:
         data['postCount'] = 0
         data['replyCount'] = 0
@@ -503,6 +529,9 @@ def ajax_user_popup(request, username):
     return JsonResponse(data)
 
 def ajax_user_search(request):
+    by_ip = not _get_user_id(request)
+    if _rate_limit(request, 'user_search', 60, 60, by_ip=by_ip):
+        return JsonResponse({'error': 'Too many requests. Please slow down.'}, status=429)
     q = request.GET.get('q', '').strip()
     if len(q) < 2:
         return JsonResponse([], safe=False)
@@ -541,6 +570,8 @@ def ajax_follow_user(request, user_id):
     user_id_obj = _get_user_id(request)
     if not user_id_obj:
         return JsonResponse({'error': 'Please log in again.'}, status=401)
+    if _rate_limit(request, 'follow_user', 30, 60):
+        return JsonResponse({'error': 'Too many requests. Please slow down.'}, status=429)
     try:
         user = User.objects.get(pk=user_id_obj)
     except User.DoesNotExist:
@@ -728,6 +759,8 @@ def ajax_upload_post_image(request):
     user_id = _get_user_id(request)
     if not user_id:
         return JsonResponse({'error': 'Please log in again.'}, status=401)
+    if _rate_limit(request, 'upload_post_image', 20, 3600):
+        return JsonResponse({'error': 'Too many requests. Please try again later.'}, status=429)
     try:
         user = User.objects.get(pk=user_id)
     except User.DoesNotExist:
@@ -750,6 +783,8 @@ def ajax_poll_vote(request, poll_id):
     user_id = _get_user_id(request)
     if not user_id:
         return JsonResponse({'error': 'Please log in again.'}, status=401)
+    if _rate_limit(request, 'poll_vote', 30, 60):
+        return JsonResponse({'error': 'Too many requests. Please slow down.'}, status=429)
     try:
         user = User.objects.get(pk=user_id)
     except User.DoesNotExist:
