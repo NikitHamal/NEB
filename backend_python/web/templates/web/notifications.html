@@ -258,6 +258,7 @@
     if (!list) return;
     // Simple dedupe: if a row with this data-id already exists, skip
     if (payload.id && document.querySelector('.notif-item[data-id="' + CSS.escape(payload.id) + '"]')) return;
+    
     const verb = payload.verb || 'activity';
     const messages = {
       like_post: 'liked your post',
@@ -272,21 +273,73 @@
       resource_comment_reply: 'replied to your comment',
       system: payload.message || 'New announcement',
     };
-    const url = (payload.target_type === 'post' || payload.target_type === 'reply')
-      ? (payload.reference_id ? '/forum/post/' + encodeURIComponent(payload.target_id) + '/' : '/forum/post/' + encodeURIComponent(payload.target_id) + '/')
-      : (payload.target_type === 'user' ? '/profile/' + encodeURIComponent(payload.actor_id || '') + '/' : '#');
+
+    // Use URL computed by the backend if available
+    let url = payload.url;
+    if (!url) {
+      url = (payload.target_type === 'post' || payload.target_type === 'reply')
+        ? (payload.reference_id ? '/forum/post/' + encodeURIComponent(payload.target_id) + '/' : '/forum/post/' + encodeURIComponent(payload.target_id) + '/')
+        : (payload.target_type === 'user' ? '/profile/' + encodeURIComponent(payload.actor_id || '') + '/' : '#');
+    }
+
     const node = document.createElement('div');
     node.className = 'notif-item unread';
     node.dataset.id = payload.id || '';
     node.dataset.read = 'false';
     node.dataset.url = url;
     node.style.background = 'var(--md-secondary-container)';
-    node.innerHTML =
-      '<div class="notif-avatar" style="width:40px;height:40px;border-radius:50%;background:var(--md-surface-container);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><span class="material-symbols-outlined" style="font-size:22px;">notifications</span></div>' +
-      '<div class="notif-body"><div class="notif-text">' + escapeHtml(messages[verb] || 'New notification') + '</div>' +
-      '<div class="notif-time">just now</div></div>';
+
+    if (verb === 'system') {
+      node.innerHTML =
+        '<div class="notif-icon-avatar">' +
+          '<span class="material-symbols-outlined">campaign</span>' +
+        '</div>' +
+        '<div class="notif-body">' +
+          '<div class="notif-text">' + escapeHtml(payload.message || 'System notification') + '</div>' +
+          '<div class="notif-time">just now</div>' +
+        '</div>';
+    } else {
+      const actorName = payload.actor_name || 'Someone';
+      const actorPhotoUrl = payload.actor_photo_url || '';
+      const profileUrl = '/profile/' + encodeURIComponent(actorName) + '/';
+      const firstLetter = actorName.charAt(0).toUpperCase() || '?';
+
+      let avatarHtml = '';
+      if (actorPhotoUrl) {
+        avatarHtml = '<img src="' + escapeHtml(actorPhotoUrl) + '" alt="' + escapeHtml(actorName) + '" onerror="this.style.display=\'none\'; if(this.nextElementSibling) this.nextElementSibling.style.display=\'flex\';">' +
+                     '<span style="display:none;align-items:center;justify-content:center;width:100%;height:100%;">' + escapeHtml(firstLetter) + '</span>';
+      } else {
+        avatarHtml = escapeHtml(firstLetter);
+      }
+
+      let textHtml = '';
+      if (verb === 'follow') {
+        textHtml = '<strong><a class="notif-actor-link" href="' + profileUrl + '">' + escapeHtml(actorName) + '</a></strong> <span class="notif-verb">started following you</span>';
+      } else {
+        const verbLabel = messages[verb] || verb;
+        if (url && url !== '#') {
+          textHtml = '<strong><a class="notif-actor-link" href="' + profileUrl + '">' + escapeHtml(actorName) + '</a></strong>' +
+                     ' <a class="notif-target-link" href="' + url + '"><span class="notif-verb">' + escapeHtml(verbLabel) + '</span></a>';
+        } else {
+          textHtml = '<strong><a class="notif-actor-link" href="' + profileUrl + '">' + escapeHtml(actorName) + '</a></strong> <span class="notif-verb">' + escapeHtml(verbLabel) + '</span>';
+        }
+      }
+
+      node.innerHTML =
+        '<a class="notif-avatar-link" href="' + profileUrl + '" title="View ' + escapeHtml(actorName) + '\'s profile">' +
+          '<div class="notif-avatar">' + avatarHtml + '</div>' +
+        '</a>' +
+        '<div class="notif-body">' +
+          '<div class="notif-text">' + textHtml + '</div>' +
+          '<div class="notif-time">just now</div>' +
+        '</div>';
+    }
+
     list.insertBefore(node, list.firstChild);
-    node.addEventListener('click', function(e) { if (e.target.closest('a')) return; if (url !== '#') window.location.href = url; });
+    node.addEventListener('click', function(e) {
+      if (e.target.closest('a')) return;
+      if (url !== '#') window.location.href = url;
+    });
     setTimeout(function () { node.style.transition = 'background 1.5s'; node.style.background = ''; }, 1500);
     const markAllBtn = document.getElementById('markAllBtn');
     if (markAllBtn) markAllBtn.style.display = '';

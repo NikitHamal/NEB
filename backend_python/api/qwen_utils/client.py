@@ -196,33 +196,56 @@ class QwenClient:
 
         Returns (result_text, error_message). On success, error is None.
         On failure, result is None and error is a human-readable string.
+        Falls back to AI4Bharat Arena if Qwen fails.
         """
         chat_id = self.create_chat(model=model)
-        if not chat_id:
-            return None, 'Could not start AI session — try again'
+        result = None
+        if chat_id:
+            try:
+                if prepared.get('has_file') or prepared.get('is_image'):
+                    result = self.send_message(
+                        chat_id,
+                        file_prompt,
+                        model=model,
+                        parent_id=None,
+                        system_prompt=system_prompt,
+                        uploaded_files=prepared.get('uploaded_files') or [],
+                    )
+                else:
+                    full_text = text_prompt + "\n\n--- DOCUMENT CONTENT ---\n" + (prepared.get('text_content') or '') + "\n--- END ---"
+                    result = self.send_message(
+                        chat_id,
+                        full_text,
+                        model=model,
+                        parent_id=None,
+                        system_prompt=system_prompt,
+                    )
+            except Exception as e:
+                logger.warning("Qwen send_doc_task failed: %s", e)
 
-        if prepared.get('has_file') or prepared.get('is_image'):
-            result = self.send_message(
-                chat_id,
-                file_prompt,
-                model=model,
-                parent_id=None,
-                system_prompt=system_prompt,
-                uploaded_files=prepared.get('uploaded_files') or [],
-            )
-        else:
-            full_text = text_prompt + "\n\n--- DOCUMENT CONTENT ---\n" + (prepared.get('text_content') or '') + "\n--- END ---"
-            result = self.send_message(
-                chat_id,
-                full_text,
-                model=model,
-                parent_id=None,
-                system_prompt=system_prompt,
-            )
+        if result:
+            return result, None
 
-        if not result:
-            return None, 'AI returned an empty response'
-        return result, None
+        # Fallback to AI4Bharat Arena
+        logger.info("Qwen send_doc_task failed or was blocked. Falling back to AI4Bharat.")
+        from api import ai4bharat_proxy as arena
+        try:
+            text_content = prepared.get('text_content')
+            if text_content:
+                full_text = text_prompt + "\n\n--- DOCUMENT CONTENT ---\n" + text_content + "\n--- END ---"
+            else:
+                full_text = file_prompt
+            
+            res_fallback = arena.simple_chat(
+                user_message=full_text,
+                system_prompt=system_prompt,
+            )
+            if res_fallback:
+                return res_fallback, None
+            return None, 'Both Qwen and fallback AI returned empty responses'
+        except Exception as ex:
+            logger.error("Fallback AI4Bharat send_doc_task failed: %s", ex, exc_info=True)
+            return None, f"AI generation failed: Qwen error and fallback failed: {ex}"
 
     def two_turn_generation(
         self,
@@ -236,33 +259,84 @@ class QwenClient:
         """Run a 2-turn Qwen generation: outline first, then expand.
 
         Returns (final_result, error_message).
+        Falls back to AI4Bharat Arena if Qwen fails.
         """
         chat_id = self.create_chat(model=model)
-        if not chat_id:
-            return None, 'Could not start AI session — try again'
+        result = None
+        if chat_id:
+            try:
+                text_with_docs = outline_prompt + "\n\n--- DOCUMENTS ---\n" + combined_text + "\n--- END ---"
+                outline_result = self.send_message(
+                    chat_id, text_with_docs,
+                    model=model, parent_id=None,
+                    system_prompt=system_prompt,
+                )
+                if outline_result:
+                    expanded = full_prompt + "\n\n--- OUTLINE ---\n" + outline_result + "\n--- END ---\n\n--- DOCUMENTS ---\n" + combined_text + "\n--- END ---"
+                    if exclusion_text:
+                        expanded += "\n\n" + exclusion_text
 
-        text_with_docs = outline_prompt + "\n\n--- DOCUMENTS ---\n" + combined_text + "\n--- END ---"
-        outline_result = self.send_message(
-            chat_id, text_with_docs,
-            model=model, parent_id=None,
-            system_prompt=system_prompt,
-        )
-        if not outline_result:
-            return None, 'AI returned an empty response'
+                    result = self.send_message(
+                        chat_id, expanded,
+                        model=model, parent_id=None,
+                        system_prompt=system_prompt,
+                    )
+            except Exception as e:
+                logger.warning("Qwen two_turn_generation failed: %s", e)
 
-        expanded = full_prompt + "\n\n--- OUTLINE ---\n" + outline_result + "\n--- END ---\n\n--- DOCUMENTS ---\n" + combined_text + "\n--- END ---"
-        if exclusion_text:
-            expanded += "\n\n" + exclusion_text
+        if result:
+            return result, None
 
-        result = self.send_message(
-            chat_id, expanded,
-            model=model, parent_id=None,
-            system_prompt=system_prompt,
-        )
-        if not result:
-            return None, 'AI returned an empty response'
-
-        return result, None
+        # Fallback to AI4Bharat Arena
+        logger.info("Qwen two_turn_generation failed or was blocked. Falling back to AI4Bharat.")
+        from api import ai4bharat_proxy as arena
+        try:
+            entry = arena.acquire_token(require_low_budget=False)
+            token = entry['token']
+            models = arena.fetch_models_for_client(token)
+            pick = next((m for m in models if m['active'] and not m['random_only']), None)
+            if not pick:
+                return None, 'No active LLM model available from arena fallback'
+            arena_model_id = pick['id']
+            
+            sess = arena.create_session(token, arena_model_id)
+            session_id = sess['id']
+            
+            # Turn 1: Outline
+            u1, a1 = arena.new_message_id(), arena.new_message_id()
+            text_with_docs = outline_prompt + "\n\n--- DOCUMENTS ---\n" + combined_text + "\n--- END ---"
+            if system_prompt:
+                text_with_docs = f"[System Instructions]\n{system_prompt}\n\n[User Message]\n{text_with_docs}"
+                
+            outline_result = ''
+            for chunk in arena.stream_chat(token, session_id, text_with_docs, arena_model_id, u1, a1, []):
+                if chunk['type'] == 'content':
+                    outline_result += chunk['text']
+                elif chunk['type'] == 'error':
+                    return None, f"Arena outline error: {chunk['message']}"
+            
+            # Turn 2: Expansion
+            u2, a2 = arena.new_message_id(), arena.new_message_id()
+            expanded = full_prompt + "\n\n--- OUTLINE ---\n" + outline_result + "\n--- END ---\n\n--- DOCUMENTS ---\n" + combined_text + "\n--- END ---"
+            if exclusion_text:
+                expanded += "\n\n" + exclusion_text
+            if system_prompt:
+                expanded = f"[System Instructions]\n{system_prompt}\n\n[User Message]\n{expanded}"
+                
+            final_result = ''
+            for chunk in arena.stream_chat(token, session_id, expanded, arena_model_id, u2, a2, [a1]):
+                if chunk['type'] == 'content':
+                    final_result += chunk['text']
+                elif chunk['type'] == 'error':
+                    return None, f"Arena expansion error: {chunk['message']}"
+            
+            arena.commit_token_use(token, message_used=True, session_opened=True)
+            if final_result:
+                return final_result, None
+            return None, 'Arena fallback returned empty response'
+        except Exception as ex:
+            logger.error("Fallback AI4Bharat two_turn_generation failed: %s", ex, exc_info=True)
+            return None, f"AI generation failed: Qwen error and fallback failed: {ex}"
 
     def simple_chat(
         self,
@@ -270,15 +344,35 @@ class QwenClient:
         system_prompt: str = '',
         model: Optional[str] = None,
     ) -> Tuple[Optional[str], Optional[str]]:
-        """Send a single message to a fresh Qwen chat. Returns (result, error)."""
+        """Send a single message to a fresh Qwen chat. Returns (result, error).
+        Falls back to AI4Bharat Arena if Qwen fails.
+        """
         chat_id = self.create_chat(model=model)
-        if not chat_id:
-            return None, 'Could not start AI session — try again'
-        result = self.send_message(
-            chat_id, message,
-            model=model, parent_id=None,
-            system_prompt=system_prompt or None,
-        )
-        if not result:
-            return None, 'AI returned an empty response'
-        return result, None
+        result = None
+        if chat_id:
+            try:
+                result = self.send_message(
+                    chat_id, message,
+                    model=model, parent_id=None,
+                    system_prompt=system_prompt or None,
+                )
+            except Exception as e:
+                logger.warning("Qwen simple_chat failed: %s", e)
+
+        if result:
+            return result, None
+
+        # Fallback to AI4Bharat Arena
+        logger.info("Qwen simple_chat failed or was blocked. Falling back to AI4Bharat.")
+        from api import ai4bharat_proxy as arena
+        try:
+            res_fallback = arena.simple_chat(
+                user_message=message,
+                system_prompt=system_prompt,
+            )
+            if res_fallback:
+                return res_fallback, None
+            return None, 'Both Qwen and fallback AI returned empty responses'
+        except Exception as ex:
+            logger.error("Fallback AI4Bharat simple_chat failed: %s", ex, exc_info=True)
+            return None, f"AI generation failed: Qwen error and fallback failed: {ex}"

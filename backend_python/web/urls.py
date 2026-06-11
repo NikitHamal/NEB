@@ -87,6 +87,35 @@ urlpatterns = [
     path('ajax/neby-arena/qwen/sessions/', views.ajax_arena_create_qwen_session, name='ajax_arena_create_qwen_session'),
     path('ajax/neby-arena/qwen/sessions/<str:session_id>/messages/', views.ajax_arena_send_message_qwen, name='ajax_arena_send_message_qwen'),
 
+    # eGov Chat AI (Philippine government AI, file uploads)
+    path('ajax/neby-arena/egov/models/', views.ajax_arena_egov_models, name='ajax_arena_egov_models'),
+    path('ajax/neby-arena/egov/sessions/', views.ajax_arena_create_egov_session, name='ajax_arena_create_egov_session'),
+    path('ajax/neby-arena/egov/sessions/<str:session_id>/messages/', views.ajax_arena_send_message_egov, name='ajax_arena_send_message_egov'),
+
+    # DeepAI (multi-model chat, file uploads)
+    path('ajax/neby-arena/deepai/models/', views.ajax_arena_deepai_models, name='ajax_arena_deepai_models'),
+    path('ajax/neby-arena/deepai/sessions/', views.ajax_arena_create_deepai_session, name='ajax_arena_create_deepai_session'),
+    path('ajax/neby-arena/deepai/sessions/<str:session_id>/messages/', views.ajax_arena_send_message_deepai, name='ajax_arena_send_message_deepai'),
+
+    # EQing / EasyChat (OpenAI-compatible API with altcha PoW captcha)
+    path('ajax/neby-arena/eqing/models/', views.ajax_arena_eqing_models, name='ajax_arena_eqing_models'),
+    path('ajax/neby-arena/eqing/sessions/', views.ajax_arena_create_eqing_session, name='ajax_arena_create_eqing_session'),
+    path('ajax/neby-arena/eqing/sessions/<str:session_id>/messages/', views.ajax_arena_send_message_eqing, name='ajax_arena_send_message_eqing'),
+
+    # FreeGPT (OneAPI-backed, WASM PoW anti-bot, access code auth)
+    path('ajax/neby-arena/freegpt/models/', views.ajax_arena_freegpt_models, name='ajax_arena_freegpt_models'),
+    path('ajax/neby-arena/freegpt/sessions/', views.ajax_arena_create_freegpt_session, name='ajax_arena_create_freegpt_session'),
+    path('ajax/neby-arena/freegpt/sessions/<str:session_id>/messages/', views.ajax_arena_send_message_freegpt, name='ajax_arena_send_message_freegpt'),
+
+    # DeepSeek AI (deep-seek.ai, Laravel + OpenRouter proxy)
+    path('ajax/neby-arena/deepseekai/models/', views.ajax_arena_deepseekai_models, name='ajax_arena_deepseekai_models'),
+    path('ajax/neby-arena/deepseekai/sessions/', views.ajax_arena_create_deepseekai_session, name='ajax_arena_create_deepseekai_session'),
+    path('ajax/neby-arena/deepseekai/sessions/<str:session_id>/messages/', views.ajax_arena_send_message_deepseekai, name='ajax_arena_send_message_deepseekai'),
+
+    path('ajax/neby-arena/surfsense/models/', views.ajax_arena_surfsense_models, name='ajax_arena_surfsense_models'),
+    path('ajax/neby-arena/surfsense/sessions/', views.ajax_arena_create_surfsense_session, name='ajax_arena_create_surfsense_session'),
+    path('ajax/neby-arena/surfsense/sessions/<str:session_id>/messages/', views.ajax_arena_send_message_surfsense, name='ajax_arena_send_message_surfsense'),
+
     path('notifications/', views.notifications, name='notifications'),
     path('ajax/notifications/', views.ajax_notifications, name='ajax_notifications'),
     path('ajax/notifications/mark-read/', views.ajax_notifications_mark_read, name='ajax_notifications_mark_read'),
