@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Store — NEBians{% endblock %}
+{% block description %}Spend your NEBian points on app themes, profile banners, avatar borders, and flair badges in the NEBians Store.{% endblock %}
+{% block og_title %}NEBians Store{% endblock %}
+{% block og_description %}Unlock themes, banners, borders, and flair badges with your contribution points.{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'web/css/pages/store.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="store-page">
+  <div class="store-hero">
+    <div class="store-hero-text">
+      <h1><span class="material-symbols-outlined store-hero-icon">storefront</span>Store</h1>
+      <p>Spend your NEBian points on themes, banners, borders, and flair.</p>
+    </div>
+    {% if is_authenticated %}
+    <div class="store-balance-chip" id="store-balance-chip" title="Your points balance">
+      <span class="material-symbols-outlined">stars</span>
+      <span class="store-balance-value" id="store-balance-value">{{ points_balance|default:0 }}</span>
+      <span class="store-balance-label">pts</span>
+    </div>
+    {% else %}
+    <a href="/login/" class="md-btn md-btn-tonal store-signin-btn">
+      <span class="material-symbols-outlined">login</span>
+      Sign in to shop
+    </a>
+    {% endif %}
+  </div>
+
+  <div class="store-tabs" role="tablist" aria-label="Store categories">
+    {% for cat in store_categories %}
+    <button type="button" role="tab" class="store-tab{% if forloop.first %} active{% endif %}"
+      aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+      data-action="store-tab" data-tab="{{ cat.type }}">
+      {{ cat.label }}
+      <span class="store-tab-count">{{ cat.items|length }}</span>
+    </button>
+    {% endfor %}
+  </div>
+
+  {% for cat in store_categories %}
+  <div class="store-panel" data-panel="{{ cat.type }}" {% if not forloop.first %}hidden{% endif %}>
+    {% if cat.items %}
+    <div class="store-grid">
+      {% for item in cat.items %}
+      <div class="store-card rarity-{{ item.rarity }}" data-item-id="{{ item.id }}" data-item-type="{{ item.type }}" data-price="{{ item.price }}" data-item-name="{{ item.name }}">
+        <div class="store-preview store-preview-{{ item.type }}">
+          {% if item.type == 'theme' %}
+          <div class="store-theme-swatch">
+            {% for c in item.preview %}
+            <span class="store-swatch-color" style="background: {{ c }};"></span>
+            {% endfor %}
+          </div>
+          <button type="button" class="store-try-btn" data-action="store-try-theme" data-theme-id="{{ item.id }}" title="Preview this theme">
+            <span class="material-symbols-outlined">visibility</span>
+            <span class="store-try-label">Try</span>
+          </button>
+          {% elif item.type == 'banner' %}
+          <div class="store-banner-clip">
+            <div class="pf-card-banner" data-banner-type="{{ item.id }}">
+              <div class="pf-banner-holo-metallic"></div>
+              <div class="pf-banner-mesh-overlay"></div>
+              <div class="pf-banner-shine-overlay"></div>
+              <span class="pf-banner-deco-text"{% if item.text_color %} style="color: {{ item.text_color }};"{% endif %}>{{ item.deco_text }}</span>
+            </div>
+          </div>
+          {% elif item.type == 'border' %}
+          <div class="store-border-clip">
+            <div class="pf-avatar-overlap-wrap" data-avatar-border="{{ item.id }}">
+              <div class="pf-avatar-circle">
+                <div class="pf-avatar-initial">N</div>
+              </div>
+            </div>
+          </div>
+          {% elif item.type == 'badge' %}
+          <div class="store-badge-clip">
+            <span class="store-badge-sample-name">nebian_user</span>
+            <span class="flair-badge {{ item.id }}"><span class="material-symbols-outlined">{{ item.icon }}</span></span>
+          </div>
+          {% endif %}
+        </div>
+        <div class="store-card-body">
+          <div class="store-card-titlerow">
+            <span class="store-card-name">{{ item.name }}</span>
+            <span class="store-rarity-chip rarity-chip-{{ item.rarity }}">{{ item.rarity }}</span>
+          </div>
+          <p class="store-card-desc">{{ item.description }}</p>
+          <div class="store-card-footer">
+            <span class="store-price">
+              {% if item.price > 0 %}
+              <span class="material-symbols-outlined">stars</span>{{ item.price }}
+              {% else %}
+              <span class="store-price-free">Free</span>
+              {% endif %}
+            </span>
+            {% if is_authenticated %}
+            <button type="button" class="md-btn md-btn-tonal store-action-btn" data-action="store-card-action">
+              {% if item.id in owned_ids %}Equip{% elif item.price > 0 %}Buy · {{ item.price }} pts{% else %}Claim{% endif %}
+            </button>
+            {% else %}
+            <a href="/login/" class="md-btn md-btn-outlined store-action-btn">Sign in</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="store-empty">
+      <span class="material-symbols-outlined">storefront</span>
+      <h3>Nothing here yet</h3>
+      <p>New {{ cat.label|lower }} are on the way. Check back soon.</p>
+    </div>
+    {% endif %}
+  </div>
+  {% endfor %}
+</div>
+
+{{ owned_ids|json_script:"store-owned-ids" }}
+{{ equipped|json_script:"store-equipped" }}
+{{ points_balance|json_script:"store-points" }}
+{{ is_authenticated|json_script:"store-authed" }}
+{% endblock %}
+
+{% block extra_js %}
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/store.js' %}"></script>
+{% endblock %}

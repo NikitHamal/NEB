@@ -1,0 +1,188 @@
+/* Store avatar borders — cosmetic rings rendered around .pf-avatar-circle via wrap pseudo-elements */
+.pf-avatar-overlap-wrap[data-avatar-border="border-classic-ring"]::before,
+.pf-avatar-overlap-wrap[data-avatar-border="border-gradient-pulse"]::before,
+.pf-avatar-overlap-wrap[data-avatar-border="border-neon-ring"]::before,
+.pf-avatar-overlap-wrap[data-avatar-border="border-orbit"]::before,
+.pf-avatar-overlap-wrap[data-avatar-border="border-gold-luxe"]::before,
+.pf-avatar-overlap-wrap[data-avatar-border="border-pixel-frame"]::before,
+.pf-avatar-overlap-wrap[data-avatar-border="border-holo-prism"]::before {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 11;
+}
+
+.pf-avatar-overlap-wrap[data-avatar-border="border-gradient-pulse"]::after,
+.pf-avatar-overlap-wrap[data-avatar-border="border-neon-ring"]::after,
+.pf-avatar-overlap-wrap[data-avatar-border="border-orbit"]::after,
+.pf-avatar-overlap-wrap[data-avatar-border="border-gold-luxe"]::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 11;
+}
+
+/* border-classic-ring — clean 3px brand-blue ring with subtle outer glow */
+.pf-avatar-overlap-wrap[data-avatar-border="border-classic-ring"]::before {
+  inset: -5px;
+  border: 3px solid var(--md-primary, #1B6EF3);
+  box-shadow: 0 0 10px rgba(27, 110, 243, 0.35);
+}
+
+[data-theme="dark"] .pf-avatar-overlap-wrap[data-avatar-border="border-classic-ring"]::before {
+  box-shadow: 0 0 14px rgba(96, 165, 250, 0.55);
+}
+
+/* border-gradient-pulse — conic blue→violet→cyan ring with slow breathing glow layer */
+.pf-avatar-overlap-wrap[data-avatar-border="border-gradient-pulse"]::before {
+  background: conic-gradient(from 0deg, #1B6EF3, #7C3AED, #22D3EE, #1B6EF3);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 6px), #000 calc(100% - 5px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 6px), #000 calc(100% - 5px));
+}
+
+.pf-avatar-overlap-wrap[data-avatar-border="border-gradient-pulse"]::after {
+  inset: -10px;
+  background: conic-gradient(from 0deg, #1B6EF3, #7C3AED, #22D3EE, #1B6EF3);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 18px), #000 calc(100% - 9px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 18px), #000 calc(100% - 9px));
+  filter: blur(7px);
+  animation: store-border-breathe 5s ease-in-out infinite;
+}
+
+[data-theme="dark"] .pf-avatar-overlap-wrap[data-avatar-border="border-gradient-pulse"]::after {
+  filter: blur(9px);
+}
+
+@keyframes store-border-breathe {
+  0%, 100% { opacity: 0.35; transform: scale(1); }
+  50% { opacity: 0.75; transform: scale(1.04); }
+}
+
+/* border-neon-ring — electric cyan neon tube with soft bloom and gentle pulse */
+.pf-avatar-overlap-wrap[data-avatar-border="border-neon-ring"]::before {
+  background: #06B6D4;
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 7px), #000 calc(100% - 6px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 7px), #000 calc(100% - 6px));
+}
+
+.pf-avatar-overlap-wrap[data-avatar-border="border-neon-ring"]::after {
+  inset: -9px;
+  background: #22D3EE;
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 16px), #000 calc(100% - 8px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 16px), #000 calc(100% - 8px));
+  filter: blur(6px);
+  animation: store-border-neon 6s ease-in-out infinite;
+}
+
+[data-theme="dark"] .pf-avatar-overlap-wrap[data-avatar-border="border-neon-ring"]::before {
+  background: #22D3EE;
+}
+
+[data-theme="dark"] .pf-avatar-overlap-wrap[data-avatar-border="border-neon-ring"]::after {
+  filter: blur(8px);
+}
+
+@keyframes store-border-neon {
+  0%, 100% { opacity: 0.45; }
+  50% { opacity: 0.85; }
+}
+
+/* border-orbit — thin ring with two small dots orbiting the avatar */
+.pf-avatar-overlap-wrap[data-avatar-border="border-orbit"]::before {
+  inset: -4px;
+  background: var(--md-primary, #1B6EF3);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 2.5px), #000 calc(100% - 1.5px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 2.5px), #000 calc(100% - 1.5px));
+}
+
+.pf-avatar-overlap-wrap[data-avatar-border="border-orbit"]::after {
+  inset: -12px;
+  background:
+    radial-gradient(circle 3.5px at 50% 4.5px, var(--md-primary, #1B6EF3) 97%, transparent),
+    radial-gradient(circle 2.5px at 50% calc(100% - 4.5px), #22D3EE 97%, transparent);
+  animation: store-border-orbit 8s linear infinite;
+}
+
+[data-theme="dark"] .pf-avatar-overlap-wrap[data-avatar-border="border-orbit"]::after {
+  background:
+    radial-gradient(circle 3.5px at 50% 4.5px, #60A5FA 97%, transparent),
+    radial-gradient(circle 2.5px at 50% calc(100% - 4.5px), #67E8F9 97%, transparent);
+}
+
+@keyframes store-border-orbit {
+  to { transform: rotate(360deg); }
+}
+
+/* border-gold-luxe — brushed metallic gold ring with slow rotating specular sheen */
+.pf-avatar-overlap-wrap[data-avatar-border="border-gold-luxe"]::before {
+  background: conic-gradient(from 210deg,
+    #8A6A1D, #F6E27A 12%, #C9A227 24%, #FFF6C9 38%, #B8860B 52%,
+    #F1D97A 66%, #9C7A22 80%, #FCEBA4 92%, #8A6A1D);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 6px), #000 calc(100% - 5px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 6px), #000 calc(100% - 5px));
+}
+
+.pf-avatar-overlap-wrap[data-avatar-border="border-gold-luxe"]::after {
+  inset: -6px;
+  background: conic-gradient(from 0deg,
+    transparent 0deg 295deg, rgba(255, 255, 255, 0.55) 327deg, transparent 360deg);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 6px), #000 calc(100% - 5px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 6px), #000 calc(100% - 5px));
+  animation: store-border-sheen 9s linear infinite;
+}
+
+[data-theme="dark"] .pf-avatar-overlap-wrap[data-avatar-border="border-gold-luxe"]::after {
+  background: conic-gradient(from 0deg,
+    transparent 0deg 295deg, rgba(255, 248, 214, 0.7) 327deg, transparent 360deg);
+}
+
+@keyframes store-border-sheen {
+  to { transform: rotate(360deg); }
+}
+
+/* border-pixel-frame — static 8-bit blocky ring in hard-stop retro color segments */
+.pf-avatar-overlap-wrap[data-avatar-border="border-pixel-frame"]::before {
+  inset: -7px;
+  background: repeating-conic-gradient(
+    #FF004D 0deg 22.5deg, #FFA300 22.5deg 45deg,
+    #FFEC27 45deg 67.5deg, #00E436 67.5deg 90deg,
+    #29ADFF 90deg 112.5deg, #83769C 112.5deg 135deg,
+    #FF77A8 135deg 157.5deg, #00B543 157.5deg 180deg);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 7px), #000 calc(100% - 6.5px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 7px), #000 calc(100% - 6.5px));
+}
+
+[data-theme="dark"] .pf-avatar-overlap-wrap[data-avatar-border="border-pixel-frame"]::before {
+  filter: saturate(1.15) brightness(1.05);
+}
+
+/* border-holo-prism — holographic rainbow conic ring slowly rotating */
+.pf-avatar-overlap-wrap[data-avatar-border="border-holo-prism"]::before {
+  inset: -7px;
+  background: conic-gradient(
+    #FF5E5E, #FFB35C, #FFE55C, #5CFF8A, #5CE1FF, #5C7CFF, #D65CFF, #FF5E5E);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 6px), #000 calc(100% - 5px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 6px), #000 calc(100% - 5px));
+  animation: store-border-holo 10s linear infinite;
+}
+
+[data-theme="dark"] .pf-avatar-overlap-wrap[data-avatar-border="border-holo-prism"]::before {
+  filter: saturate(1.2);
+}
+
+@keyframes store-border-holo {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-avatar-overlap-wrap[data-avatar-border="border-gradient-pulse"]::after,
+  .pf-avatar-overlap-wrap[data-avatar-border="border-neon-ring"]::after,
+  .pf-avatar-overlap-wrap[data-avatar-border="border-orbit"]::after,
+  .pf-avatar-overlap-wrap[data-avatar-border="border-gold-luxe"]::after,
+  .pf-avatar-overlap-wrap[data-avatar-border="border-holo-prism"]::before {
+    animation: none;
+  }
+}

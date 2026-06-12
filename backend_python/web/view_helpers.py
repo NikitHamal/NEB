@@ -516,6 +516,13 @@ def _ctx(request, **extra):
             return (User.objects.filter(pk=_uid)
                     .values_list('unread_notification_count', flat=True).first()) or 0
         unread_notifications = cache.get_or_set(f'unread_count:{_uid}', _load_unread, 30)
+    app_theme = request.session.get('app_theme')
+    if app_theme is None:
+        app_theme = ''
+        if user and user.get('id'):
+            app_theme = (User.objects.filter(pk=user['id'])
+                         .values_list('equipped_theme', flat=True).first()) or ''
+            request.session['app_theme'] = app_theme
     ws_url = _get_ws_public_url()
     # When using a cross-domain tunnel (trycloudflare.com), the browser cannot
     # send the session cookie cross-domain. Append a short-lived signed ticket
@@ -532,6 +539,7 @@ def _ctx(request, **extra):
         'unread_notifications': unread_notifications,
         'csp_nonce': getattr(request, 'csp_nonce', ''),
         'ws_url': ws_url,
+        'app_theme': app_theme,
     }
     ctx.update(extra)
     return ctx

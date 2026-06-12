@@ -15,5 +15,6 @@ from .views_admin import *  # noqa: F401,F403
 from .views_arena import *  # noqa: F401,F403
 from .views_study_lab import *  # noqa: F401,F403
 from .views_interactive import *  # noqa: F401,F403
+from .views_store import *  # noqa: F401,F403
 
 __all__ = [name for name in globals() if not name.startswith("_")]

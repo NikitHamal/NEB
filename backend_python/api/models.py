@@ -75,6 +75,12 @@ class User(models.Model):
     # Denormalized notification counter
     unread_notification_count = models.PositiveIntegerField(default=0)
 
+    points_balance = models.PositiveIntegerField(default=0)
+    equipped_theme = models.CharField(max_length=64, blank=True, default='')
+    equipped_banner = models.CharField(max_length=64, blank=True, default='')
+    equipped_border = models.CharField(max_length=64, blank=True, default='')
+    equipped_badge = models.CharField(max_length=64, blank=True, default='')
+
     class Meta:
         db_table = 'users'
 
@@ -531,6 +537,27 @@ class Bookmark(models.Model):
 
     def __str__(self):
         return f"{self.user_id} bookmarked {self.target_type}:{self.target_id}"
+
+
+class UserCosmetic(models.Model):
+    """Cosmetic store items owned by a user (themes, banners, borders, badges)."""
+    id = models.CharField(max_length=36, primary_key=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='cosmetics')
+    item_id = models.CharField(max_length=64)
+    item_type = models.CharField(max_length=10)
+    price_paid = models.PositiveIntegerField(default=0)
+    acquired_at = models.BigIntegerField()
+
+    class Meta:
+        db_table = 'user_cosmetics'
+        ordering = ['-acquired_at']
+        unique_together = ('user', 'item_id')
+        indexes = [
+            models.Index(fields=['user_id', 'item_type'], name='user_cosmet_user_id_8b51f2_idx'),
+        ]
+
+    def __str__(self):
+        return f"{self.user_id} owns {self.item_type}:{self.item_id}"
 
 
 class Report(models.Model):

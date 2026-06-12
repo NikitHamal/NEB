@@ -1,0 +1,100 @@
+/* Store flair badges — cosmetic chips shown next to the username, sized to match .role-badge */
+.flair-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  margin-left: 4px;
+  line-height: 1;
+  width: 22px;
+  height: 22px;
+  min-width: 22px;
+  border-radius: 999px;
+  padding: 0;
+}
+
+.flair-badge .material-symbols-outlined {
+  font-size: 15px;
+  line-height: 1;
+  font-variation-settings: 'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 20;
+}
+
+/* badge-sprout — fresh green potted plant */
+.flair-badge.badge-sprout { background: rgba(34, 197, 94, 0.15); }
+.flair-badge.badge-sprout .material-symbols-outlined { color: #16A34A; }
+[data-theme="dark"] .flair-badge.badge-sprout { background: rgba(34, 197, 94, 0.25); }
+[data-theme="dark"] .flair-badge.badge-sprout .material-symbols-outlined { color: #4ADE80; }
+
+/* badge-night-owl — indigo moon */
+.flair-badge.badge-night-owl { background: rgba(99, 102, 241, 0.15); }
+.flair-badge.badge-night-owl .material-symbols-outlined { color: #4F46E5; }
+[data-theme="dark"] .flair-badge.badge-night-owl { background: rgba(99, 102, 241, 0.25); }
+[data-theme="dark"] .flair-badge.badge-night-owl .material-symbols-outlined { color: #A5B4FC; }
+
+/* badge-bolt — amber lightning */
+.flair-badge.badge-bolt { background: rgba(245, 158, 11, 0.15); }
+.flair-badge.badge-bolt .material-symbols-outlined { color: #D97706; }
+[data-theme="dark"] .flair-badge.badge-bolt { background: rgba(245, 158, 11, 0.25); }
+[data-theme="dark"] .flair-badge.badge-bolt .material-symbols-outlined { color: #FBBF24; }
+
+/* badge-heart — pink heart */
+.flair-badge.badge-heart { background: rgba(236, 72, 153, 0.15); }
+.flair-badge.badge-heart .material-symbols-outlined { color: #DB2777; }
+[data-theme="dark"] .flair-badge.badge-heart { background: rgba(236, 72, 153, 0.25); }
+[data-theme="dark"] .flair-badge.badge-heart .material-symbols-outlined { color: #F472B6; }
+
+/* badge-founder-star — gold star with slow shimmer sweep */
+.flair-badge.badge-founder-star {
+  background: linear-gradient(110deg,
+    rgba(245, 158, 11, 0.16) 30%, rgba(253, 230, 138, 0.65) 50%, rgba(245, 158, 11, 0.16) 70%);
+  background-size: 250% 100%;
+  background-position: 125% 0;
+  animation: flair-shimmer 4s linear infinite;
+}
+.flair-badge.badge-founder-star .material-symbols-outlined { color: #D97706; }
+[data-theme="dark"] .flair-badge.badge-founder-star {
+  background-image: linear-gradient(110deg,
+    rgba(245, 158, 11, 0.28) 30%, rgba(253, 230, 138, 0.5) 50%, rgba(245, 158, 11, 0.28) 70%);
+}
+[data-theme="dark"] .flair-badge.badge-founder-star .material-symbols-outlined { color: #FCD34D; }
+
+@keyframes flair-shimmer {
+  0% { background-position: 125% 0; }
+  100% { background-position: -125% 0; }
+}
+
+/* badge-flame — orange/red flame with gentle flicker */
+.flair-badge.badge-flame { background: rgba(249, 115, 22, 0.15); }
+.flair-badge.badge-flame .material-symbols-outlined {
+  color: #EA580C;
+  transform-origin: 50% 85%;
+  animation: flair-flicker 3.5s ease-in-out infinite;
+}
+[data-theme="dark"] .flair-badge.badge-flame { background: rgba(249, 115, 22, 0.25); }
+[data-theme="dark"] .flair-badge.badge-flame .material-symbols-outlined { color: #FB923C; }
+
+@keyframes flair-flicker {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  30% { transform: scale(1.06); opacity: 0.92; }
+  55% { transform: scale(0.97); opacity: 1; }
+  80% { transform: scale(1.04); opacity: 0.95; }
+}
+
+/* badge-crystal — cyan gem on prismatic gradient */
+.flair-badge.badge-crystal {
+  background: linear-gradient(135deg,
+    rgba(34, 211, 238, 0.22), rgba(167, 139, 250, 0.26) 55%, rgba(34, 211, 238, 0.18));
+}
+.flair-badge.badge-crystal .material-symbols-outlined { color: #0891B2; }
+[data-theme="dark"] .flair-badge.badge-crystal {
+  background: linear-gradient(135deg,
+    rgba(34, 211, 238, 0.3), rgba(167, 139, 250, 0.34) 55%, rgba(34, 211, 238, 0.24));
+}
+[data-theme="dark"] .flair-badge.badge-crystal .material-symbols-outlined { color: #67E8F9; }
+
+@media (prefers-reduced-motion: reduce) {
+  .flair-badge.badge-founder-star,
+  .flair-badge.badge-flame .material-symbols-outlined {
+    animation: none;
+  }
+}

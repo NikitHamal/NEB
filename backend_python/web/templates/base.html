@@ -1,7 +1,7 @@
 {% load static %}
 {% load web_extras %}
 <!DOCTYPE html>
-<html lang="en" {% if dark_mode %} data-theme="dark" {% endif %}>
+<html lang="en" {% if dark_mode %} data-theme="dark" {% endif %}{% if app_theme %} data-app-theme="{{ app_theme }}"{% endif %}>
 
 <head>
   <meta charset="UTF-8">
@@ -88,6 +88,7 @@
     href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0..1,0&display=swap">
   <link rel="stylesheet" href="{% static 'web/css/material3.css' %}">
   <link rel="stylesheet" href="{% static 'web/css/app.css' %}">
+  <link rel="stylesheet" href="{% static 'web/css/themes.css' %}">
   {% block extra_css %}{% endblock %}
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/delegated-events.js' %}"></script>
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/htmx.min.js' %}"></script>
@@ -142,6 +143,7 @@
       <a href="{% url 'web:home' %}" class="{% block nav_home %}{% endblock %}">Home</a>
       <a href="{% url 'web:library' %}" class="{% block nav_library %}{% endblock %}">Library</a>
       <a href="{% url 'web:forum' %}" class="{% block nav_forum %}{% endblock %}">Forum</a>
+      <a href="{% url 'web:store' %}" class="{% block nav_store %}{% endblock %}">Store</a>
     </nav>
     <div class="md-topbar-actions">
       <a href="{% url 'web:search' %}" class="md-btn-icon" aria-label="Search" title="Search">
@@ -197,6 +199,10 @@
           <a href="{% url 'web:bookmarks' %}">
             <span class="material-symbols-outlined">bookmark</span>
             <span>Bookmarks</span>
+          </a>
+          <a href="{% url 'web:store' %}">
+            <span class="material-symbols-outlined">storefront</span>
+            <span>Store</span>
           </a>
           <a href="{% url 'web:logout' %}" class="menu-logout">
             <span class="material-symbols-outlined">logout</span>
