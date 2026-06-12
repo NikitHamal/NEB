@@ -23,6 +23,7 @@ from .view_helpers import *  # noqa: F401,F403
 from api.models import (
     Bookmark,
     Follow,
+    GenerationJob,
     Notification,
     Post,
     PostLike,
@@ -51,6 +52,8 @@ from api.models import (
     StudySpaceFlashcardReview,
 )
 from api.utils import now_ms, uuid_str
+from api.generation import enqueue, serialize_job, get_job, mark_processing, mark_completed, mark_failed
+from api.generation_executors import EXECUTORS
 from api.qwen_utils.client import QwenClient
 from api.qwen_utils.file_upload import ALLOWED_EXTENSIONS, MAX_FILE_SIZE
 from api.qwen_utils.text_extraction import extract_text_from_file, MAX_TEXT_CHARS as QWEN_MAX_TEXT_CHARS
@@ -1123,29 +1126,87 @@ def ajax_space_upload(request, space_id):
     }, status=201)
 
 
+# ── Async generation job status ─────────────────────────────────────────────
+
+
+def ajax_generation_status(request, job_id):
+    """Poll the status of an async generation job."""
+    user_id = _get_user_id(request)
+    if not user_id:
+        return JsonResponse({'error': 'Unauthorized'}, status=401)
+
+    job = get_job(job_id)
+    if not job:
+        return JsonResponse({'error': 'Job not found'}, status=404)
+    if job.user_id != user_id:
+        return JsonResponse({'error': 'Forbidden'}, status=403)
+
+    return JsonResponse(serialize_job(job))
+
+
+def _enqueue_or_process(job_type, user_id, space_id, params, request):
+    """Enqueue a generation job and return 202, or process synchronously as fallback.
+
+    Returns (job, is_async). If is_async=True, the view should return 202 with
+    the job ID. If is_async=False, the job was processed inline and the result
+    is already stored in job.result.
+    """
+    job = enqueue(job_type, user_id, space_id=space_id, params=params)
+
+    # Try to process synchronously if no worker is likely running.
+    # This ensures the feature works even without a separate worker process.
+    worker_ping = cache.get('generation:worker:ping')
+    worker_alive = worker_ping and (now_ms() - int(worker_ping)) < 30000  # 30s grace
+
+    if not worker_alive:
+        # No worker detected — process inline (synchronous fallback)
+        executor = EXECUTORS.get(job_type)
+        if executor:
+            try:
+                mark_processing(job)
+                job.refresh_from_db()
+                executor(job)
+                job.refresh_from_db()
+            except Exception as e:
+                logger.exception('Inline generation failed for job %s: %s', job.id, e)
+                job.refresh_from_db()
+                if job.status == GenerationJob.STATUS_PROCESSING:
+                    mark_failed(job, str(e)[:2000])
+                    job.refresh_from_db()
+        return job, False
+
+    return job, True
+
+
+def _job_result(job):
+    """Extract the result dict from a completed GenerationJob."""
+    import json
+    if not job.result:
+        return {'error': 'No result'}
+    try:
+        return json.loads(job.result)
+    except (json.JSONDecodeError, TypeError):
+        return {'error': job.result}
+
+
 # ── Study Space generation views ─────────────────────────────────────────────
 
 
 def ajax_space_generate_summary(request, space_id):
-    """Generate a linked summary across all documents in the space (2-turn)."""
+    """Generate a linked summary across all documents in the space (async with sync fallback)."""
     user_id = _get_user_id(request)
     if not user_id:
         return JsonResponse({'error': 'Unauthorized'}, status=401)
-    if request.method != 'POST':
-        return JsonResponse({'error': 'Method not allowed'}, status=405)
-
-    throttled = _throttled(request, THROTTLE_GENERATE)
-    if throttled:
-        return throttled
-
-    space, err = _accessible_space(space_id, user_id, request)
-    if err:
-        return err
-    if not _space_permission_allows(space, user_id, 'generate_min_role'):
+    if request.method != 'POST':
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
+    throttled = _throttled(request, THROTTLE_GENERATE)
+    if throttled:
+        return throttled
+    space, err = _accessible_space(space_id, user_id, request)
+    if err:
+        return err
+    if not _space_permission_allows(space, user_id, 'generate_min_role'):
         return JsonResponse({'error': 'You do not have permission to generate content in this space'}, status=403)
-
-    body = _json_body(request)
-    mode = _summary_mode(body.get('mode'))
 
     texts, _parsing, _failed = _get_space_texts(space)
     if not texts:
@@ -1155,36 +1216,18 @@ def ajax_space_generate_summary(request, space_id):
             return JsonResponse({'error': 'Some documents failed to parse. Try re-uploading them or click retry.', 'parseStatus': 'failed'}, status=422)
         return JsonResponse({'error': 'No readable documents in this space'}, status=400)
 
-    combined = '\n\n'.join(
-        f"=== {t['title']} ===\n{t['content']}" for t in texts
+    body = _json_body(request)
+    mode = _summary_mode(body.get('mode'))
+
+    job, is_async = _enqueue_or_process(
+        GenerationJob.TYPE_SUMMARY, user_id, space_id=space_id,
+        params={'mode': mode}, request=request,
     )
-    if len(combined) > MAX_TEXT_CHARS:
-        combined = combined[:MAX_TEXT_CHARS]
-
-    result, err = _qwen().two_turn_generation(
-        summary_outline_prompt(mode), summary_full_prompt(mode), combined,
-        system_prompt=summary_system_prompt(mode),
-    )
-    if err:
-        return JsonResponse({'error': err}, status=502)
-
-    summary = normalize_formulas(clean_ai_markdown(result))
-
-    if mode == 'detailed':
-        space.link_summary_detailed = summary
-    else:
-        space.link_summary_compact = summary
-    space.link_summary_generated_at = now_ms()
-    space.updated_at = now_ms()
-    space.save(update_fields=['link_summary_compact', 'link_summary_detailed', 'link_summary_generated_at', 'updated_at'])
-
-    return JsonResponse({
-        'mode': mode,
-        'summary': summary,
-        'summaryCompact': space.link_summary_compact,
-        'summaryDetailed': space.link_summary_detailed,
-    })
-
+    if is_async:
+        return JsonResponse({'jobId': job.id, 'status': job.status, 'jobType': job.job_type}, status=202)
+    if job.status == GenerationJob.STATUS_FAILED:
+        return JsonResponse({'error': job.error or 'Generation failed'}, status=502)
+    return JsonResponse(_job_result(job))
 
 def ajax_space_update_summary(request, space_id):
     """Allow the owner to edit and save the linked summary."""
@@ -1222,21 +1265,19 @@ def ajax_space_update_summary(request, space_id):
 
 
 def ajax_space_generate_mindmap(request, space_id):
-    """Generate a linked mindmap across all documents in the space (2-turn)."""
+    """Generate a linked mindmap across all space documents (async with sync fallback)."""
     user_id = _get_user_id(request)
     if not user_id:
         return JsonResponse({'error': 'Unauthorized'}, status=401)
-    if request.method != 'POST':
-        return JsonResponse({'error': 'Method not allowed'}, status=405)
-
-    throttled = _throttled(request, THROTTLE_GENERATE)
-    if throttled:
-        return throttled
-
-    space, err = _accessible_space(space_id, user_id, request)
-    if err:
-        return err
-    if not _space_permission_allows(space, user_id, 'generate_min_role'):
+    if request.method != 'POST':
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
+    throttled = _throttled(request, THROTTLE_GENERATE)
+    if throttled:
+        return throttled
+    space, err = _accessible_space(space_id, user_id, request)
+    if err:
+        return err
+    if not _space_permission_allows(space, user_id, 'generate_min_role'):
         return JsonResponse({'error': 'You do not have permission to generate content in this space'}, status=403)
 
     texts, _parsing, _failed = _get_space_texts(space)
@@ -1247,48 +1288,30 @@ def ajax_space_generate_mindmap(request, space_id):
             return JsonResponse({'error': 'Some documents failed to parse. Try re-uploading them or click retry.', 'parseStatus': 'failed'}, status=422)
         return JsonResponse({'error': 'No readable documents in this space'}, status=400)
 
-    combined = '\n\n'.join(
-        f"=== {t['title']} ===\n{t['content']}" for t in texts
+    job, is_async = _enqueue_or_process(
+        GenerationJob.TYPE_MINDMAP, user_id, space_id=space_id,
+        params={}, request=request,
     )
-    if len(combined) > MAX_TEXT_CHARS:
-        combined = combined[:MAX_TEXT_CHARS]
-
-    result, err = _qwen().two_turn_generation(
-        MINDMAP_OUTLINE_PROMPT, MINDMAP_FULL_PROMPT, combined,
-        system_prompt=MINDMAP_SYSTEM_PROMPT,
-    )
-    if err:
-        return JsonResponse({'error': err}, status=502)
-
-    mindmap = parse_json_object_response(result)
-    if not mindmap:
-        return JsonResponse({'error': 'Could not parse mindmap from AI response'}, status=502)
-
-    normalized = _normalize_mindmap(mindmap, space)
-    space.link_mindmap_json = json.dumps(normalized, ensure_ascii=False)
-    space.link_mindmap_generated_at = now_ms()
-    space.updated_at = now_ms()
-    space.save(update_fields=['link_mindmap_json', 'link_mindmap_generated_at', 'updated_at'])
-
-    return JsonResponse({'mindmap': normalized})
-
+    if is_async:
+        return JsonResponse({'jobId': job.id, 'status': job.status, 'jobType': job.job_type}, status=202)
+    if job.status == GenerationJob.STATUS_FAILED:
+        return JsonResponse({'error': job.error or 'Generation failed'}, status=502)
+    return JsonResponse(_job_result(job))
 
 def ajax_space_generate_quiz(request, space_id):
-    """Generate a quiz across all documents in the space (2-turn)."""
+    """Generate a quiz across all space documents (async with sync fallback)."""
     user_id = _get_user_id(request)
     if not user_id:
         return JsonResponse({'error': 'Unauthorized'}, status=401)
-    if request.method != 'POST':
-        return JsonResponse({'error': 'Method not allowed'}, status=405)
-
-    throttled = _throttled(request, THROTTLE_GENERATE)
-    if throttled:
-        return throttled
-
-    space, err = _accessible_space(space_id, user_id, request)
-    if err:
-        return err
-    if not _space_permission_allows(space, user_id, 'generate_min_role'):
+    if request.method != 'POST':
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
+    throttled = _throttled(request, THROTTLE_GENERATE)
+    if throttled:
+        return throttled
+    space, err = _accessible_space(space_id, user_id, request)
+    if err:
+        return err
+    if not _space_permission_allows(space, user_id, 'generate_min_role'):
         return JsonResponse({'error': 'You do not have permission to generate content in this space'}, status=403)
 
     body = _json_body(request)
@@ -1302,96 +1325,15 @@ def ajax_space_generate_quiz(request, space_id):
             return JsonResponse({'error': 'Some documents failed to parse. Try re-uploading them or click retry.', 'parseStatus': 'failed'}, status=422)
         return JsonResponse({'error': 'No readable documents in this space'}, status=400)
 
-    combined = '\n\n'.join(
-        f"=== {t['title']} ===\n{t['content']}" for t in texts
+    job, is_async = _enqueue_or_process(
+        GenerationJob.TYPE_QUIZ, user_id, space_id=space_id,
+        params={'count': count}, request=request,
     )
-    if len(combined) > MAX_TEXT_CHARS:
-        combined = combined[:MAX_TEXT_CHARS]
-
-    existing = _space_quiz_exclusions(space)
-    exclusion_text = exclusion_block('Previously asked questions (do not repeat)', existing)
-
-    outline_prompt = (
-        f"Outline {count} multiple-choice quiz questions from these documents. "
-        "List the topics and key concepts to test. "
-        "Do not write the actual questions yet."
-    )
-    full_prompt = (
-        f"Create {count} multiple-choice quiz questions from these documents "
-        "based on the outline below. Each question must have exactly 4 options (A-D) "
-        "and one correct answer. Return only a JSON array.\n\n"
-        + exclusion_text
-    )
-
-    result, err = _qwen().two_turn_generation(
-        outline_prompt, full_prompt, combined,
-        system_prompt=QUIZ_SYSTEM_PROMPT.format(count=count),
-        exclusion_text=exclusion_text,
-    )
-    if err:
-        return JsonResponse({'error': err}, status=502)
-
-    items = parse_json_response(result)
-    existing_normalized = [q.lower() for q in existing]
-    items = dedupe_questions(items, existing_normalized)
-    items = items[:count]
-
-    if not items:
-        return JsonResponse({'error': 'Could not generate quiz questions'}, status=502)
-
-    now = now_ms()
-    with transaction.atomic():
-        quiz = StudySpaceQuiz.objects.create(
-            id=uuid_str(),
-            space=space,
-            user_id=user_id,
-            title=f"Quiz: {space.title or 'Study Space'}",
-            question_count=len(items),
-            created_at=now,
-        )
-        question_rows = []
-        for i, item in enumerate(items, 1):
-            options = item.get('options', [])
-            question_rows.append(StudySpaceQuizQuestion(
-                id=uuid_str(),
-                quiz=quiz,
-                question_number=i,
-                question_text=item.get('question', ''),
-                option_a=options[0] if len(options) > 0 else '',
-                option_b=options[1] if len(options) > 1 else '',
-                option_c=options[2] if len(options) > 2 else '',
-                option_d=options[3] if len(options) > 3 else '',
-                correct_answer=(item.get('correct_answer') or item.get('correctAnswer') or item.get('correct') or 'A').upper()[:1],
-                explanation=item.get('explanation', ''),
-            ))
-        StudySpaceQuizQuestion.objects.bulk_create(question_rows)
-
-        space.updated_at = now
-        space.save(update_fields=['updated_at'])
-
-    # NOTE: correctAnswer/explanation are intentionally omitted before
-    # submission — they come back in the quiz submit response.
-    return JsonResponse({
-        'quiz': {
-            'id': quiz.id,
-            'title': quiz.title,
-            'questionCount': quiz.question_count,
-            'createdAt': quiz.created_at,
-            'questions': [
-                {
-                    'id': q.id,
-                    'questionNumber': q.question_number,
-                    'questionText': q.question_text,
-                    'optionA': q.option_a,
-                    'optionB': q.option_b,
-                    'optionC': q.option_c,
-                    'optionD': q.option_d,
-                }
-                for q in question_rows
-            ],
-        },
-    }, status=201)
-
+    if is_async:
+        return JsonResponse({'jobId': job.id, 'status': job.status, 'jobType': job.job_type}, status=202)
+    if job.status == GenerationJob.STATUS_FAILED:
+        return JsonResponse({'error': job.error or 'Generation failed'}, status=502)
+    return JsonResponse(_job_result(job))
 
 def ajax_space_quiz_detail(request, quiz_id):
     """Get quiz detail with questions for a space-level quiz."""
@@ -1548,21 +1490,19 @@ def ajax_space_quiz_history(request, space_id):
 
 
 def ajax_space_generate_flashcards(request, space_id):
-    """Generate flashcards across all documents in the space (2-turn)."""
+    """Generate flashcards across all space documents (async with sync fallback)."""
     user_id = _get_user_id(request)
     if not user_id:
         return JsonResponse({'error': 'Unauthorized'}, status=401)
-    if request.method != 'POST':
-        return JsonResponse({'error': 'Method not allowed'}, status=405)
-
-    throttled = _throttled(request, THROTTLE_GENERATE)
-    if throttled:
-        return throttled
-
-    space, err = _accessible_space(space_id, user_id, request)
-    if err:
-        return err
-    if not _space_permission_allows(space, user_id, 'generate_min_role'):
+    if request.method != 'POST':
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
+    throttled = _throttled(request, THROTTLE_GENERATE)
+    if throttled:
+        return throttled
+    space, err = _accessible_space(space_id, user_id, request)
+    if err:
+        return err
+    if not _space_permission_allows(space, user_id, 'generate_min_role'):
         return JsonResponse({'error': 'You do not have permission to generate content in this space'}, status=403)
 
     body = _json_body(request)
@@ -1576,73 +1516,15 @@ def ajax_space_generate_flashcards(request, space_id):
             return JsonResponse({'error': 'Some documents failed to parse. Try re-uploading them or click retry.', 'parseStatus': 'failed'}, status=422)
         return JsonResponse({'error': 'No readable documents in this space'}, status=400)
 
-    combined = '\n\n'.join(
-        f"=== {t['title']} ===\n{t['content']}" for t in texts
+    job, is_async = _enqueue_or_process(
+        GenerationJob.TYPE_FLASHCARD, user_id, space_id=space_id,
+        params={'count': count}, request=request,
     )
-    if len(combined) > MAX_TEXT_CHARS:
-        combined = combined[:MAX_TEXT_CHARS]
-
-    existing = _space_flashcard_exclusions(space)
-    exclusion_text = exclusion_block('Previously generated flashcards (do not repeat)', existing)
-
-    outline_prompt = (
-        f"Outline {count} flashcard topics from these documents. "
-        "List the key concepts, terms, and definitions to cover. "
-        "Do not write the actual flashcards yet."
-    )
-    full_prompt = (
-        f"Create {count} flashcards from these documents based on the outline below. "
-        "Each flashcard must have a 'front' (question/term) and 'back' (answer/definition). "
-        "Return only a JSON array.\n\n"
-        + exclusion_text
-    )
-
-    result, err = _qwen().two_turn_generation(
-        outline_prompt, full_prompt, combined,
-        system_prompt=FLASHCARD_SYSTEM_PROMPT.format(count=count),
-        exclusion_text=exclusion_text,
-    )
-    if err:
-        return JsonResponse({'error': err}, status=502)
-
-    items = parse_json_response(result)
-    existing_normalized = [f.lower() for f in existing]
-    items = dedupe_flashcards(items, existing_normalized)
-    items = items[:count]
-
-    if not items:
-        return JsonResponse({'error': 'Could not generate flashcards'}, status=502)
-
-    now = now_ms()
-    card_rows = [
-        StudySpaceFlashcard(
-            id=uuid_str(),
-            space=space,
-            user_id=user_id,
-            front=item.get('front', ''),
-            back=item.get('back', ''),
-            card_number=i,
-            created_at=now,
-        )
-        for i, item in enumerate(items, 1)
-    ]
-    with transaction.atomic():
-        StudySpaceFlashcard.objects.bulk_create(card_rows)
-        space.updated_at = now
-        space.save(update_fields=['updated_at'])
-
-    cards = [
-        {
-            'id': fc.id,
-            'front': fc.front,
-            'back': fc.back,
-            'cardNumber': fc.card_number,
-        }
-        for fc in card_rows
-    ]
-
-    return JsonResponse({'flashcards': cards}, status=201)
-
+    if is_async:
+        return JsonResponse({'jobId': job.id, 'status': job.status, 'jobType': job.job_type}, status=202)
+    if job.status == GenerationJob.STATUS_FAILED:
+        return JsonResponse({'error': job.error or 'Generation failed'}, status=502)
+    return JsonResponse(_job_result(job))
 
 def ajax_space_flashcard_review(request, card_id):
     """Review (rate confidence for) a space-level flashcard."""

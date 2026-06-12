@@ -173,6 +173,27 @@ def broadcast_note_cursor(space_id: str, start: int, end: int, sender_id: str):
     })
 
 
+# ----------------------------------------------------------------------- generation jobs
+
+def broadcast_generation_event(job, event_name: str, data: Dict[str, Any]):
+    """Broadcast a generation event on the study space channel.
+
+    Events: generation.started, generation.progress, generation.completed, generation.failed
+    """
+    channel = None
+    if job.space_id:
+        channel = GRP_STUDY_SPACE_FMT.format(space_id=job.space_id)
+    if channel:
+        payload = {
+            'jobId': str(job.id),
+            'jobType': job.job_type,
+            'status': job.status,
+            'progress': job.progress,
+            **data,
+        }
+        _send(channel, event_name, payload)
+
+
 # ----------------------------------------------------------------------- health
 
 def get_health_snapshot() -> Dict[str, Any]:
