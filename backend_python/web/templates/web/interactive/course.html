@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% load static web_extras %}
+
+{% block title %}{{ course.title }} — Free Interactive Course{% endblock %}
+{% block description %}{{ course.tagline }} Free interactive course for ages {{ course.age_range }} with {{ course.lesson_count }} hands-on lessons, 3D models and simulations.{% endblock %}
+{% block keywords %}{{ course.category_label }}, interactive course, free education, Nepal, simulations, {{ course.title }}{% endblock %}
+{% block og_title %}{{ course.title }} — NEBians Interactive{% endblock %}
+{% block og_description %}{{ course.tagline }}{% endblock %}
+{% block nav_library %}md-nav-active{% endblock %}
+{% block canonical %}https://nebians.consica.com.np{{ request.path }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'web/css/pages/interactive.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="md-container ix-course-page" style="--ix-color: {{ course.color }};">
+  <nav class="ix-breadcrumb" aria-label="Breadcrumb">
+    <a href="{% url 'web:library' %}">Library</a>
+    <span class="material-symbols-outlined">chevron_right</span>
+    <a href="{% url 'web:library' %}?tab=interactive">Interactive</a>
+    <span class="material-symbols-outlined">chevron_right</span>
+    <span class="ix-bc-current">{{ course.title }}</span>
+  </nav>
+
+  <header class="ix-course-hero">
+    <span class="ix-course-hero-icon"><span class="material-symbols-outlined">{{ course.icon }}</span></span>
+    <div class="ix-course-hero-text">
+      <div class="ix-card-chips">
+        <span class="ix-chip ix-chip-cat">{{ course.category_label }}</span>
+        <span class="ix-chip ix-chip-age">Ages {{ course.age_range }}</span>
+        <span class="ix-chip ix-chip-level">{{ course.level }}</span>
+      </div>
+      <h1 class="ix-course-title">{{ course.title }}</h1>
+      <p class="ix-course-desc">{{ course.description }}</p>
+      {% if course.skills %}
+      <div class="ix-skills">
+        <span class="ix-skills-label">You will learn:</span>
+        {% for skill in course.skills %}
+        <span class="ix-skill-chip"><span class="material-symbols-outlined">check_circle</span>{{ skill }}</span>
+        {% endfor %}
+      </div>
+      {% endif %}
+      <div class="ix-course-hero-actions">
+        {% if course.lessons %}
+        <a href="{% url 'web:interactive_lesson' course.slug course.lessons.0.slug %}" class="md-btn md-btn-filled ix-start-btn" id="ix-start-btn" data-course-slug="{{ course.slug }}">
+          <span class="material-symbols-outlined">play_arrow</span>
+          <span id="ix-start-label">Start course</span>
+        </a>
+        {% endif %}
+        <span class="ix-card-meta"><span class="material-symbols-outlined">play_lesson</span>{{ course.lesson_count }} lessons</span>
+        <span class="ix-card-meta"><span class="material-symbols-outlined">schedule</span>~{{ course.total_minutes }} min total</span>
+      </div>
+    </div>
+  </header>
+
+  <section class="ix-lesson-list" aria-label="Lessons">
+    <h2 class="md-title-large ix-lessons-heading">Lessons</h2>
+    {% for lesson in course.lessons %}
+    <a href="{% url 'web:interactive_lesson' course.slug lesson.slug %}" class="ix-lesson-row" data-lesson-slug="{{ lesson.slug }}">
+      <span class="ix-lesson-num">{{ forloop.counter }}</span>
+      <span class="ix-lesson-icon"><span class="material-symbols-outlined">{{ lesson.icon }}</span></span>
+      <span class="ix-lesson-info">
+        <span class="ix-lesson-title">{{ lesson.title }}</span>
+        <span class="ix-lesson-summary">{{ lesson.summary }}</span>
+      </span>
+      <span class="ix-lesson-side">
+        <span class="ix-chip ix-chip-simtype ix-simtype-{{ lesson.sim_type }}">
+          {% if lesson.sim_type == '3d' %}3D model{% elif lesson.sim_type == 'lab' %}Virtual lab{% elif lesson.sim_type == 'coding' %}Coding game{% else %}Simulation{% endif %}
+        </span>
+        <span class="ix-lesson-mins">{{ lesson.minutes }} min</span>
+        <span class="material-symbols-outlined ix-lesson-done-icon" data-done-icon>check_circle</span>
+      </span>
+    </a>
+    {% endfor %}
+  </section>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script nonce="{{ csp_nonce }}">
+(function () {
+  var slug = '{{ course.slug|escapejs }}';
+  var store = {};
+  try { store = JSON.parse(localStorage.getItem('nebians_interactive_progress') || '{}'); } catch (e) {}
+  var rec = store[slug] || {};
+  var anyDone = false;
+  var firstUndone = null;
+  document.querySelectorAll('.ix-lesson-row').forEach(function (row) {
+    var ls = row.dataset.lessonSlug;
+    if (rec[ls] && rec[ls].done) {
+      row.classList.add('ix-done');
+      anyDone = true;
+    } else if (!firstUndone) {
+      firstUndone = row;
+    }
+  });
+  if (anyDone && firstUndone) {
+    var btn = document.getElementById('ix-start-btn');
+    var label = document.getElementById('ix-start-label');
+    if (btn && label) {
+      btn.href = firstUndone.href;
+      label.textContent = 'Continue course';
+    }
+  }
+})();
+</script>
+{% endblock %}

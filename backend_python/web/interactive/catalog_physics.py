@@ -1,0 +1,543 @@
+COURSES = [
+    {
+        'slug': 'playground-physics',
+        'title': 'Playground Physics',
+        'category': 'physics',
+        'age_range': '8-12',
+        'level': 'Beginner',
+        'icon': 'toys',
+        'color': '#F59E0B',
+        'tagline': 'Push boxes, race balls down ramps, bounce on the Moon and play with magnets!',
+        'description': 'Physics is hiding in every playground — in every push, slide, bounce and game of catch. In this course you get a virtual playground where YOU are in charge: push a friendly box around, race a ball down a ramp, drop bouncy balls on different planets and carry a magnet through a field of paperclips. Every toy here follows the real rules of physics, so the more you play, the more you discover!',
+        'skills': [
+            'Pushes, pulls and friction',
+            'Ramps, slopes and rolling races',
+            'Bouncing, gravity and energy',
+            'Magnets, poles and attraction',
+            'Making predictions like a scientist',
+        ],
+        'lessons': [
+            {
+                'slug': 'pushes-and-pulls',
+                'title': 'Pushes and Pulls',
+                'icon': 'back_hand',
+                'minutes': 10,
+                'sim': 'physics/forces-playground',
+                'sim_type': 'lab',
+                'summary': 'Push a friendly box around the playground, watch its force and speed arrows grow, and discover what friction really does.',
+                'objectives': [
+                    'Explain that a force is a push or a pull',
+                    'Show that a bigger force makes the box speed up faster',
+                    'Discover that friction is a force that slows moving things down',
+                    'Read the force arrow and the speed arrow on a moving object',
+                ],
+                'knowledge': [
+                    {
+                        'heading': 'Forces are pushes and pulls',
+                        'body': 'Every time you kick a football, open a door or pull your school bag, you are using a force. A force is simply a push or a pull, and scientists measure it in newtons (N) — named after Isaac Newton.\n\nIn the simulation, hold the big arrow buttons to push the box. The pink arrow shows your force, and the blue arrow shows how fast the box is moving. Watch how they are connected!',
+                    },
+                    {
+                        'heading': 'Bigger push, faster speed-up',
+                        'body': 'When you push something, it does not jump to full speed instantly — it speeds up little by little. Scientists call speeding up "acceleration". A bigger force makes things accelerate faster, and a heavier object needs a bigger push to speed up the same amount.\n\nTry the push strength slider: with a gentle 10 N push the box gets going slowly, but with a mighty 60 N push it zooms away in no time!',
+                    },
+                    {
+                        'heading': 'Friction: the invisible brake',
+                        'body': 'Stop pushing the box and it slowly comes to a stop. Why? Because of friction — a force between the box and the ground that always pushes against motion, like an invisible brake. Rough surfaces have lots of friction; smooth, slippery ones have very little.\n\nSwitch friction off in the simulation and the box glides on and on without stopping, like a puck on ice. Friction is also your friend: without it your shoes would slip with every step!',
+                    },
+                ],
+                'fun_fact': 'In space there is almost no friction at all — that is why a spacecraft can switch off its engines and still keep flying at the same speed for years and years!',
+                'quiz': [
+                    {
+                        'q': 'What is a force?',
+                        'options': ['A kind of energy drink', 'A push or a pull', 'Something only machines have', 'The speed of an object'],
+                        'answer': 1,
+                        'explain': 'A force is simply a push or a pull. Kicking a ball is a push, and dragging a bag is a pull — both are forces!',
+                    },
+                    {
+                        'q': 'You push the box with a BIGGER force. What happens?',
+                        'options': ['It speeds up faster', 'It gets heavier', 'Nothing changes', 'It shrinks'],
+                        'answer': 0,
+                        'explain': 'A bigger force gives more acceleration, so the box reaches a high speed more quickly. That is Newton\'s big idea: F = ma.',
+                    },
+                    {
+                        'q': 'You stop pushing and the box slowly stops. Which force did that?',
+                        'options': ['Gravity pulling it sideways', 'Magnetism', 'Friction with the ground', 'The wind'],
+                        'answer': 2,
+                        'explain': 'Friction acts between the box and the ground and always pushes against the motion — like a gentle invisible brake.',
+                    },
+                ],
+            },
+            {
+                'slug': 'ramps-and-rolling',
+                'title': 'Ramps and Rolling',
+                'icon': 'sports_score',
+                'minutes': 10,
+                'sim': 'physics/ramp-roller',
+                'sim_type': 'lab',
+                'summary': 'Race a ball down a ramp you control — tilt it steeper, add friction, and chase your best time to the finish line.',
+                'objectives': [
+                    'Show that a steeper ramp makes a ball speed up faster',
+                    'Explain that gravity is the force pulling the ball down the slope',
+                    'Discover that friction can slow the ball — or stop it rolling completely',
+                    'Use a timer to compare races like a real scientist',
+                ],
+                'knowledge': [
+                    {
+                        'heading': 'Why does the ball roll down?',
+                        'body': 'Gravity pulls everything straight down towards the centre of the Earth. On a ramp, part of that pull drags the ball along the slope, so the ball rolls downhill all by itself — no push needed!\n\nThe steeper the ramp, the bigger the share of gravity pulling along the slope, so the ball speeds up faster. On a totally flat floor the slope-pull is zero, and the ball just sits there.',
+                    },
+                    {
+                        'heading': 'Steeper means faster',
+                        'body': 'Try the angle slider and watch the race timer. At a gentle 10° the ball takes its time, but at 40° it finishes in a flash. The ramp angle controls the acceleration — how quickly the ball gains speed.\n\nThis is exactly why playground slides feel faster when they are steeper, and why cyclists in the hills of Nepal go whoosh on the way down but have to pedal hard on the way up!',
+                    },
+                    {
+                        'heading': 'Friction joins the race',
+                        'body': 'Friction acts between the ball and the ramp, pushing back up the slope against the rolling. A little friction just makes the race slower. But here is the cool part: if the friction is strong enough and the ramp is gentle enough, the ball will not move at all!\n\nSlide the friction up high and the angle down low, then press Go. The readout shows the acceleration dropping to zero — the ball is stuck. Now you know why rough surfaces are great for stopping things.',
+                    },
+                ],
+                'fun_fact': 'Around 400 years ago, Galileo rolled balls down ramps to discover how falling really works — ramps slowed everything down enough for him to time it with water clocks and his own heartbeat!',
+                'quiz': [
+                    {
+                        'q': 'Which force pulls the ball down the ramp?',
+                        'options': ['Friction', 'Magnetism', 'Electricity', 'Gravity'],
+                        'answer': 3,
+                        'explain': 'Gravity pulls the ball towards the Earth. On a slope, part of that pull drags the ball downhill — that is what makes it roll.',
+                    },
+                    {
+                        'q': 'You make the ramp steeper. What happens to the ball?',
+                        'options': ['It speeds up faster and finishes sooner', 'It rolls slower', 'It rolls uphill', 'Nothing changes'],
+                        'answer': 0,
+                        'explain': 'A steeper ramp gives gravity a bigger pull along the slope, so the ball accelerates more and wins the race in less time.',
+                    },
+                    {
+                        'q': 'With LOTS of friction and a very gentle ramp, the ball…',
+                        'options': ['Goes faster than ever', 'Might not move at all', 'Flies into the air', 'Becomes heavier'],
+                        'answer': 1,
+                        'explain': 'Friction pushes back up the slope. If it is strong enough to balance gravity\'s gentle pull, the ball just sits still — try it!',
+                    },
+                ],
+            },
+            {
+                'slug': 'bouncing-balls',
+                'title': 'Bouncing Balls',
+                'icon': 'sports_basketball',
+                'minutes': 10,
+                'sim': 'physics/bouncy-balls',
+                'sim_type': 'lab',
+                'summary': 'Tap to drop bouncy balls, tune how springy they are, and compare bouncing on Earth, the Moon and giant Jupiter.',
+                'objectives': [
+                    'Show that gravity pulls dropped balls down and makes them fall faster and faster',
+                    'Explain why each bounce is a little lower than the one before',
+                    'Compare how balls fall on Earth, the Moon and Jupiter',
+                    'Use the bounciness slider to change how much energy a ball keeps',
+                ],
+                'knowledge': [
+                    {
+                        'heading': 'Gravity never takes a break',
+                        'body': 'Drop a ball and gravity pulls it down, making it move faster and faster until — boing! — it hits the ground. Gravity does not switch off after the bounce either: it slows the ball on the way up, stops it for a tiny moment, then pulls it back down again.\n\nTap anywhere in the simulation to drop a ball right where you touch, and watch gravity do its work.',
+                    },
+                    {
+                        'heading': 'Why bounces get smaller',
+                        'body': 'Have you noticed a ball never bounces back quite as high as where it started? With every bounce, some of its movement energy turns into sound (the boing you hear!) and a tiny bit of heat in the squashed ball and floor.\n\nThe bounciness slider controls how much energy the ball keeps each bounce. At 95% it bounces almost forever, like a super-ball. At 30% it goes thud and settles quickly, like a ball of dough.',
+                    },
+                    {
+                        'heading': 'Bouncing on other worlds',
+                        'body': 'Gravity is not the same everywhere! The Moon is small, so its gravity is about six times weaker than Earth\'s — dropped balls fall slowly and bounce in graceful slow motion. Giant Jupiter pulls more than twice as hard as Earth, so balls slam down fast and bounce low and quick.\n\nUse the planet picker to travel between worlds. Same ball, same bounciness — completely different bouncing!',
+                    },
+                ],
+                'fun_fact': 'Astronaut David Scott dropped a hammer and a feather together on the Moon in 1971 — with no air to slow the feather, they hit the ground at exactly the same time!',
+                'quiz': [
+                    {
+                        'q': 'Why do bounces get smaller and smaller?',
+                        'options': ['The ball gets tired', 'Some energy is lost as sound and heat each bounce', 'Gravity gets stronger every bounce', 'The floor moves up'],
+                        'answer': 1,
+                        'explain': 'Every bounce turns a little movement energy into sound and heat, so the ball rises a bit less each time until it settles.',
+                    },
+                    {
+                        'q': 'You drop the same ball on the Moon. Compared to Earth it falls…',
+                        'options': ['Much faster', 'Exactly the same', 'Slower, because Moon gravity is weaker', 'Upwards'],
+                        'answer': 2,
+                        'explain': 'The Moon\'s gravity is about one sixth of Earth\'s, so the ball speeds up gently and everything bounces in slow motion.',
+                    },
+                    {
+                        'q': 'A ball with HIGH bounciness…',
+                        'options': ['Keeps most of its energy and bounces for a long time', 'Stops on the first bounce', 'Falls without gravity', 'Becomes bigger each bounce'],
+                        'answer': 0,
+                        'explain': 'High bounciness means the ball keeps most of its movement energy each bounce, so it bounces high again and again.',
+                    },
+                ],
+            },
+            {
+                'slug': 'magnet-magic',
+                'title': 'Magnet Magic',
+                'icon': 'explore',
+                'minutes': 10,
+                'sim': 'physics/magnet-play',
+                'sim_type': 'lab',
+                'summary': 'Carry a bar magnet through a field of paperclips, flip its poles, and feel how magnets pull together or push apart — without touching!',
+                'objectives': [
+                    'Name the two poles of a magnet: north and south',
+                    'Show that opposite poles attract and same poles repel',
+                    'Discover that magnets pull iron things like paperclips without touching them',
+                    'Notice that the magnetic pull gets stronger as things get closer',
+                ],
+                'knowledge': [
+                    {
+                        'heading': 'Every magnet has two poles',
+                        'body': 'Every magnet — big or small — has two ends called poles: a north pole (often painted red) and a south pole (often blue). You can never have a magnet with just one pole; cut a magnet in half and each piece grows its own pair!\n\nIn the simulation, the red end is north and the blue end is south. Press the flip button to swap them around.',
+                    },
+                    {
+                        'heading': 'The golden rule of magnets',
+                        'body': 'Bring two magnets together and you will feel the famous rule: opposite poles attract, same poles repel. North pulls on south, but north pushes north away — no matter how hard you try to force them together.\n\nDrag your magnet near the fixed one and let go. If the facing poles are different, they snap together. Flip the poles and the same magnet now pushes away, like an invisible spring!',
+                    },
+                    {
+                        'heading': 'Action at a distance',
+                        'body': 'The most magical thing about magnets is that they pull without touching. The space around a magnet where its force works is called its magnetic field — the curved hint lines in the simulation show roughly where it reaches.\n\nThe field is strongest right at the poles and fades quickly as you move away. That is why the paperclips only leap towards your magnet when you carry it close to them.',
+                    },
+                    {
+                        'heading': 'Magnets only grab some things',
+                        'body': 'Magnets attract things made of iron and steel — like paperclips, nails and fridge doors. They ignore plastic, wood, paper, glass and even most shiny metals like aluminium foil and copper coins.\n\nOur planet is a giant magnet too! That is why a compass needle, which is a tiny magnet, always swings around to point north — helpful for finding your way in the mountains.',
+                    },
+                ],
+                'fun_fact': 'The Earth itself is a giant magnet — its magnetic field reaches thousands of kilometres into space and shields us from harmful particles streaming out of the Sun!',
+                'quiz': [
+                    {
+                        'q': 'You bring a north pole near another north pole. What happens?',
+                        'options': ['They snap together', 'They push each other away', 'They melt', 'Nothing at all'],
+                        'answer': 1,
+                        'explain': 'Same poles always repel — north pushes north away and south pushes south away. Only opposite poles attract.',
+                    },
+                    {
+                        'q': 'Which of these will a magnet attract?',
+                        'options': ['A plastic spoon', 'A wooden pencil', 'An iron paperclip', 'A rubber band'],
+                        'answer': 2,
+                        'explain': 'Magnets attract iron and steel. Plastic, wood and rubber are not magnetic, so the magnet simply ignores them.',
+                    },
+                    {
+                        'q': 'Where is a magnet\'s pull the strongest?',
+                        'options': ['Right at its poles', 'In the exact middle', 'Far away from it', 'It is the same everywhere'],
+                        'answer': 0,
+                        'explain': 'The magnetic field is strongest at the two poles and gets weaker quickly with distance — that is why paperclips jump to the ends.',
+                    },
+                ],
+            },
+        ],
+    },
+    {
+        'slug': 'virtual-physics-lab',
+        'title': 'Virtual Physics Lab',
+        'category': 'physics',
+        'age_range': '12-19',
+        'level': 'Intermediate',
+        'icon': 'science',
+        'color': '#F59E0B',
+        'tagline': 'A real physics lab in your browser — swing pendulums, fire projectiles, bend light and wire circuits.',
+        'description': 'Run the classic experiments from the NEB physics syllabus without a single broken beaker. Every simulation in this course solves the real equations — the pendulum obeys its differential equation, rays follow the thin-lens formula, and circuits obey Ohm\'s law — so what you measure here is what you would measure in a real lab. Drag, fire, tune and graph your way to genuine physical intuition.',
+        'skills': [
+            'Simple harmonic motion and time period',
+            'Projectile motion in two dimensions',
+            'Wave properties, superposition and standing waves',
+            'Image formation by lenses and mirrors',
+            'Ohm\'s law, series and parallel circuits',
+            'Reading and interpreting live graphs',
+        ],
+        'lessons': [
+            {
+                'slug': 'pendulum-lab',
+                'title': 'Pendulum Lab',
+                'icon': 'av_timer',
+                'minutes': 15,
+                'sim': 'physics/pendulum-lab',
+                'sim_type': 'lab',
+                'summary': 'Drag a real simulated pendulum, change its length and even its planet, and discover exactly what controls its time period.',
+                'objectives': [
+                    'Measure the period of a pendulum and compare it with the formula T = 2π√(L/g)',
+                    'Show by experiment that the period depends on length and gravity — not on amplitude (for small swings) or mass',
+                    'See how damping slowly drains energy from an oscillator',
+                    'Read an angle-time graph and recognise simple harmonic motion',
+                ],
+                'knowledge': [
+                    {
+                        'heading': 'What makes a pendulum swing?',
+                        'body': 'Pull a pendulum bob to one side and gravity supplies a restoring force that always points back towards the lowest point. The bob accelerates towards the centre, overshoots, slows, and swings back — repeating forever if nothing steals its energy.\n\nFor small angles this restoring force is proportional to the displacement, which is the defining condition for simple harmonic motion (SHM). That is why a clock pendulum keeps such steady time: each swing takes the same duration regardless of how wide it is, a property called isochronism that Galileo first noticed in a swinging cathedral lamp.',
+                    },
+                    {
+                        'heading': 'The period formula',
+                        'body': 'For small swings the time period is T = 2π√(L/g), where L is the length from pivot to the centre of the bob and g is the acceleration due to gravity. Notice what is missing: the mass of the bob and the amplitude do not appear at all.\n\nDouble the length and the period grows by √2, about 1.41 times. Move the same pendulum to the Moon, where g is 1.62 m/s² instead of 9.81 m/s², and each swing takes about 2.5 times longer. The simulation lets you verify both predictions with a stopwatch.',
+                    },
+                    {
+                        'heading': 'Damping and real pendulums',
+                        'body': 'A real pendulum swings through air, and air resistance removes a little energy every swing. The amplitude decays gradually while — surprisingly — the period stays almost exactly the same. This is called damped oscillation.\n\nSwitch damping on in the simulation and watch the angle-time graph: the peaks shrink in a smooth exponential envelope, but the spacing between the peaks does not change. Clockmakers exploit this: they only need to top up the energy (with a spring or weights) and the timekeeping stays accurate.',
+                    },
+                    {
+                        'heading': 'Why large swings break the rule',
+                        'body': 'The formula T = 2π√(L/g) comes from approximating sin θ ≈ θ, which is only accurate for small angles (below roughly 15°). Swing the pendulum from 60° or more and each oscillation takes measurably longer than the formula predicts.\n\nThe simulation solves the exact equation of motion, α = −(g/L)sin θ, so you can test this yourself: set a large initial angle and compare the measured period against the theoretical value in the readouts. The gap you see is real physics, not an error.',
+                    },
+                ],
+                'fun_fact': 'The pendulum was the world\'s best timekeeper for almost 300 years — from Christiaan Huygens\' clock in 1656 until quartz clocks in the 1930s. Some pendulum clocks drifted by less than one second per day.',
+                'quiz': [
+                    {
+                        'q': 'Which change will increase the period of a pendulum?',
+                        'options': ['Using a heavier bob', 'Making the string longer', 'Swinging it with a bigger push', 'Painting the bob red'],
+                        'answer': 1,
+                        'explain': 'T = 2π√(L/g) — only length and gravity matter. A longer string means a longer period. Mass and (small) amplitude have no effect.',
+                    },
+                    {
+                        'q': 'You take a pendulum clock to the Moon (g = 1.62 m/s²). What happens?',
+                        'options': ['It runs fast', 'It runs slow', 'It keeps perfect time', 'It stops completely'],
+                        'answer': 1,
+                        'explain': 'Weaker gravity means a weaker restoring force, so each swing takes longer (T increases as g decreases). The clock runs slow.',
+                    },
+                    {
+                        'q': 'With damping on, what stays (almost) constant as the swings die down?',
+                        'options': ['The amplitude', 'The energy', 'The period', 'The maximum speed'],
+                        'answer': 2,
+                        'explain': 'Damping shrinks the amplitude and drains energy, but the time per oscillation barely changes — that is why damped clocks still keep time.',
+                    },
+                    {
+                        'q': 'For which starting angle is T = 2π√(L/g) most accurate?',
+                        'options': ['90°', '60°', '45°', '10°'],
+                        'answer': 3,
+                        'explain': 'The formula uses the small-angle approximation sin θ ≈ θ, which is excellent below about 15° and gets worse as the angle grows.',
+                    },
+                ],
+            },
+            {
+                'slug': 'projectile-motion',
+                'title': 'Projectile Motion',
+                'icon': 'rocket_launch',
+                'minutes': 15,
+                'sim': 'physics/projectile-motion',
+                'sim_type': 'lab',
+                'summary': 'Fire a cannon, trace the parabola, and discover why 45° gives the longest shot — and what air resistance ruins.',
+                'objectives': [
+                    'Split projectile motion into independent horizontal and vertical parts',
+                    'Predict range, maximum height and flight time from launch speed and angle',
+                    'Find the optimum launch angle by experiment',
+                    'See how air resistance shortens and distorts the ideal parabola',
+                ],
+                'knowledge': [
+                    {
+                        'heading': 'Two motions in one',
+                        'body': 'The secret of projectile motion is that the horizontal and vertical motions are completely independent. Horizontally, with no air resistance, nothing pushes or pulls the projectile, so it moves at constant velocity vₓ = v cos θ. Vertically, gravity decelerates it on the way up and accelerates it on the way down: v_y = v sin θ − gt.\n\nCombine a steady drift sideways with a uniformly accelerated rise-and-fall and you get a parabola. Galileo proved this in the 1600s, and the same mathematics guides every basketball shot, artillery shell and water fountain.',
+                    },
+                    {
+                        'heading': 'Range, height and time',
+                        'body': 'Three formulas summarise the ideal flight over level ground. Flight time: t = 2v sin θ / g, set by the vertical motion alone. Maximum height: H = v² sin²θ / 2g, reached when the vertical velocity hits zero. Range: R = v² sin 2θ / g.\n\nThe range formula contains sin 2θ, which peaks when 2θ = 90°, that is θ = 45°. Notice also that complementary angles such as 30° and 60° give exactly the same range — one shot flies low and fast, the other high and slow, but they land in the same spot.',
+                    },
+                    {
+                        'heading': 'What air resistance changes',
+                        'body': 'Real air pushes back against motion with a drag force that grows roughly with the square of speed. Drag steals horizontal speed throughout the flight, so the projectile falls more steeply than it rose: the path becomes a lopsided curve, shorter and lower than the ideal parabola.\n\nWith drag switched on, the best launch angle drops below 45° — typically 30° to 40° depending on speed — because spending less time in the air means losing less speed to drag. This is why shot-putters and footballers release below 45° in practice.',
+                    },
+                ],
+                'fun_fact': 'On the Moon in 1971, astronaut Alan Shepard hit a golf ball that flew far further than on Earth — gravity is six times weaker and there is no air at all, so the ideal parabola is real there.',
+                'quiz': [
+                    {
+                        'q': 'Ignoring air resistance, which launch angle gives the maximum range on level ground?',
+                        'options': ['30°', '45°', '60°', '90°'],
+                        'answer': 1,
+                        'explain': 'Range R = v² sin 2θ / g is largest when sin 2θ = 1, i.e. when θ = 45°.',
+                    },
+                    {
+                        'q': 'A projectile is at the top of its flight. What is true at that instant?',
+                        'options': ['Its velocity is zero', 'Its vertical velocity is zero', 'Its acceleration is zero', 'Gravity stops acting'],
+                        'answer': 1,
+                        'explain': 'Only the vertical component of velocity is zero at the peak. The horizontal velocity continues unchanged and gravity (g downward) acts the whole time.',
+                    },
+                    {
+                        'q': 'Two cannonballs are launched at the same speed, one at 30° and one at 60°. Without air resistance, which lands farther?',
+                        'options': ['The 30° shot', 'The 60° shot', 'They land at the same distance', 'It depends on the mass'],
+                        'answer': 2,
+                        'explain': 'Complementary angles give equal ranges because sin(2×30°) = sin(60°) = sin(2×60°) = sin(120°). The flights differ in height and time, not range.',
+                    },
+                    {
+                        'q': 'With air resistance, the best angle for maximum range is…',
+                        'options': ['Exactly 45°', 'A little below 45°', 'A little above 45°', 'Exactly 90°'],
+                        'answer': 1,
+                        'explain': 'Drag punishes long flight times, so launching slightly flatter (often 30°–40°) keeps more horizontal speed and lands farther.',
+                    },
+                ],
+            },
+            {
+                'slug': 'waves-and-sound',
+                'title': 'Waves & Sound',
+                'icon': 'graphic_eq',
+                'minutes': 16,
+                'sim': 'physics/waves-lab',
+                'sim_type': 'lab',
+                'summary': 'Shake a virtual string into travelling waves, standing waves and interference patterns, and connect frequency to musical pitch.',
+                'objectives': [
+                    'Identify amplitude, wavelength, frequency and speed on a moving wave',
+                    'Use v = fλ to predict how wavelength changes with frequency',
+                    'Build standing waves and locate their nodes and antinodes',
+                    'Superpose two waves and explain constructive and destructive interference',
+                ],
+                'knowledge': [
+                    {
+                        'heading': 'The anatomy of a wave',
+                        'body': 'A wave is a travelling disturbance that carries energy without carrying matter. Its amplitude is the maximum displacement from rest, the wavelength λ is the distance between successive crests, and the frequency f is how many complete oscillations pass a point each second, measured in hertz (Hz).\n\nThese are tied together by the wave equation v = fλ: speed equals frequency times wavelength. On a given string the speed is fixed by tension and mass, so raising the frequency must squeeze the wavelength shorter — exactly what you will see when you move the frequency slider.',
+                    },
+                    {
+                        'heading': 'Superposition and interference',
+                        'body': 'When two waves meet, they simply add: the displacement at every point is the sum of the individual displacements. This is the principle of superposition, and it produces interference.\n\nWhere crest meets crest, the waves reinforce into a bigger wave — constructive interference. Where crest meets trough, they cancel — destructive interference, possibly leaving the string momentarily flat even while both waves are present. Switch the simulation to interference mode and watch the faint component waves combine into the bold resultant. Noise-cancelling headphones use destructive interference to silence engine rumble in real time.',
+                    },
+                    {
+                        'heading': 'Standing waves',
+                        'body': 'Send a wave down a string fixed at both ends and it reflects back, overlapping with itself. At the right frequencies the two travelling waves lock into a standing wave: certain points called nodes never move at all, while the antinodes between them oscillate with maximum amplitude.\n\nOnly wavelengths that fit a whole number of half-wavelengths between the fixed ends survive — these are the harmonics. Every guitar string, sitar string and flute column plays notes selected by exactly this fitting condition, which is why instruments produce specific pitches rather than noise.',
+                    },
+                    {
+                        'heading': 'Frequency is pitch',
+                        'body': 'Sound is a wave of pressure travelling through air at roughly 343 m/s. What your ear perceives as pitch is simply frequency: a low rumble might be 60 Hz, the musical note A above middle C is 440 Hz, and a shrill whistle can exceed 4000 Hz. Humans hear from about 20 Hz to 20,000 Hz.\n\nLoudness, by contrast, corresponds to amplitude — a bigger pressure swing sounds louder at the same pitch. So the two sliders in this lab map directly onto music: frequency chooses the note, amplitude chooses the volume.',
+                    },
+                ],
+                'fun_fact': 'Earthquake surface waves and the waves on your string obey the same v = fλ relation — seismologists use it to work out the structure of the Earth\'s interior thousands of kilometres below any drill.',
+                'quiz': [
+                    {
+                        'q': 'A wave on a string travels at 8 m/s with a frequency of 4 Hz. What is its wavelength?',
+                        'options': ['32 m', '2 m', '0.5 m', '12 m'],
+                        'answer': 1,
+                        'explain': 'λ = v / f = 8 / 4 = 2 m. Speed equals frequency times wavelength.',
+                    },
+                    {
+                        'q': 'At a node of a standing wave, the string…',
+                        'options': ['Moves with maximum amplitude', 'Never moves at all', 'Moves only upward', 'Moves at the wave speed'],
+                        'answer': 1,
+                        'explain': 'Nodes are points of permanent destructive interference between the two travelling waves, so they stay still while antinodes oscillate strongly.',
+                    },
+                    {
+                        'q': 'Two identical waves arrive at a point exactly out of step (crest meets trough). The result is…',
+                        'options': ['A wave twice as big', 'Destructive interference — they cancel', 'A standing wave', 'A higher frequency'],
+                        'answer': 1,
+                        'explain': 'Superposition adds the displacements: +A plus −A gives zero. That is destructive interference.',
+                    },
+                    {
+                        'q': 'To make a sound higher in pitch you must increase its…',
+                        'options': ['Amplitude', 'Frequency', 'Wavelength', 'Loudness'],
+                        'answer': 1,
+                        'explain': 'Pitch is the ear\'s perception of frequency. Amplitude controls loudness, and at fixed speed a higher frequency actually means a shorter wavelength.',
+                    },
+                ],
+            },
+            {
+                'slug': 'optics-bench',
+                'title': 'Optics Bench',
+                'icon': 'flare',
+                'minutes': 18,
+                'sim': 'physics/optics-bench',
+                'sim_type': 'lab',
+                'summary': 'Drag an object along a ray-traced optics bench and watch lenses and mirrors form real and virtual images before your eyes.',
+                'objectives': [
+                    'Draw the three principal rays for lenses and curved mirrors',
+                    'Predict image position with the thin-lens/mirror equation 1/f = 1/v + 1/u',
+                    'Classify images as real or virtual, upright or inverted, magnified or reduced',
+                    'Explain how magnifying glasses, cameras and shaving mirrors work',
+                ],
+                'knowledge': [
+                    {
+                        'heading': 'Three rays find any image',
+                        'body': 'To locate an image you only need to trace three special rays from the tip of the object. Ray one travels parallel to the principal axis and is bent through the focal point. Ray two passes through the optical centre of a lens (or strikes the pole of a mirror) and continues with its direction unchanged (mirrors reflect it symmetrically). Ray three goes through the focal point first and emerges parallel to the axis.\n\nWherever the rays — or their backward extensions — cross, that is the image tip. The simulation draws all three live as you drag the object, so the geometric construction becomes second nature.',
+                    },
+                    {
+                        'heading': 'The lens and mirror equation',
+                        'body': 'Geometry compresses into one neat relation. Using the real-is-positive convention, 1/f = 1/v + 1/u, where u is the object distance, v the image distance and f the focal length. The magnification is m = v/u (with a sign telling you upright or inverted).\n\nA converging lens with the object beyond f gives a positive v: a real, inverted image you could catch on a screen. Move the object inside f and v turns negative: the rays diverge and only their extensions meet, creating a virtual, upright, magnified image — the principle of the magnifying glass.',
+                    },
+                    {
+                        'heading': 'Real versus virtual images',
+                        'body': 'A real image is formed where light rays actually converge. It can be projected on a screen — that is what happens on a cinema screen and on the retina of your eye. Real images from a single converging element are always inverted.\n\nA virtual image forms where rays only appear to come from; no light passes through it, so no screen can catch it, yet your eye sees it perfectly well. Plane mirrors, diverging lenses and convex mirrors give only virtual, upright images. A concave mirror gives either type, depending on whether the object sits beyond or inside its focal point.',
+                    },
+                    {
+                        'heading': 'Optics in daily life',
+                        'body': 'Every optical instrument is a story about focal lengths. A camera uses a converging lens with the object far beyond f, producing a small, real, inverted image on the sensor. A magnifying glass holds the object inside f for an enlarged virtual image. Your eye changes the focal length of its flexible lens to keep images sharp on the retina.\n\nConvex mirrors on vehicle wing mirrors and at road bends give wide-angle, reduced virtual images — hence the warning that objects are closer than they appear. Dentists and make-up mirrors are concave, used inside f for upright magnification.',
+                    },
+                ],
+                'fun_fact': 'The image on your retina is upside-down — a real, inverted image exactly as the thin-lens equation predicts. Your brain flips the picture for you, a correction so automatic you never notice it happening.',
+                'quiz': [
+                    {
+                        'q': 'An object is placed inside the focal length of a converging lens. The image is…',
+                        'options': ['Real, inverted and reduced', 'Real, upright and magnified', 'Virtual, upright and magnified', 'No image forms'],
+                        'answer': 2,
+                        'explain': 'Inside f the refracted rays diverge; their backward extensions meet on the object\'s side, giving a virtual, upright, enlarged image — a magnifying glass.',
+                    },
+                    {
+                        'q': 'Which image can be caught on a screen?',
+                        'options': ['Only a virtual image', 'Only a real image', 'Both kinds', 'Neither kind'],
+                        'answer': 1,
+                        'explain': 'A real image exists where rays physically converge, so a screen placed there shows the picture. Virtual images are only apparent ray origins.',
+                    },
+                    {
+                        'q': 'An object 30 cm from a converging lens forms an image 60 cm beyond it. The focal length is…',
+                        'options': ['90 cm', '30 cm', '20 cm', '15 cm'],
+                        'answer': 2,
+                        'explain': '1/f = 1/30 + 1/60 = 3/60, so f = 20 cm. The magnification is 60/30 = 2: the image is twice the size and inverted.',
+                    },
+                    {
+                        'q': 'A convex (diverging) mirror always produces an image that is…',
+                        'options': ['Real and inverted', 'Virtual, upright and reduced', 'Virtual, upright and magnified', 'Real and magnified'],
+                        'answer': 1,
+                        'explain': 'Convex mirrors spread rays out, so only diminished upright virtual images form — perfect for wide fields of view in vehicle mirrors.',
+                    },
+                ],
+            },
+            {
+                'slug': 'circuit-builder',
+                'title': 'Circuit Builder',
+                'icon': 'electric_bolt',
+                'minutes': 16,
+                'sim': 'physics/circuit-lab',
+                'sim_type': 'lab',
+                'summary': 'Crank the voltage, swap resistors between series and parallel, and watch animated electrons obey Ohm\'s law in real time.',
+                'objectives': [
+                    'Apply Ohm\'s law V = IR to predict current from voltage and resistance',
+                    'Combine resistors in series (R₁ + R₂) and parallel (product over sum)',
+                    'Explain why current is shared in parallel but voltage is shared in series',
+                    'Connect electric current to the motion of charge carriers',
+                ],
+                'knowledge': [
+                    {
+                        'heading': 'Ohm\'s law',
+                        'body': 'Current is the flow of electric charge, driven by a potential difference (voltage) and opposed by resistance. Georg Ohm found in 1827 that for metallic conductors at constant temperature the three are locked together: V = IR. Double the voltage and the current doubles; double the resistance and it halves.\n\nIn the simulation the ammeter reads I = V/R the instant you move a slider, and the drifting electron dots speed up or slow down to match. The bulb\'s brightness tracks the power delivered, P = VI = I²R, which is why dimming a light is really a resistance trick.',
+                    },
+                    {
+                        'heading': 'Series circuits',
+                        'body': 'In a series circuit the components form a single loop, so the same current must pass through every element — there is simply nowhere else for the charge to go. The resistances add up: R_total = R₁ + R₂, and the battery voltage divides itself across the resistors in proportion to their resistance (V₁ = IR₁, V₂ = IR₂).\n\nThe weakness of series wiring is that one break stops everything, which is why old strings of fairy lights died entirely when a single bulb blew. Adding more resistors in series always decreases the current.',
+                    },
+                    {
+                        'heading': 'Parallel circuits',
+                        'body': 'In parallel, both resistors connect directly across the battery, so each one feels the full battery voltage. The current divides between the branches — more current takes the easier (lower-resistance) path — and the branch currents add up to the total drawn from the battery.\n\nThe combined resistance is always less than the smallest branch: 1/R_total = 1/R₁ + 1/R₂. Two equal resistors in parallel halve the resistance and double the current. Homes are wired in parallel so every appliance gets the full mains voltage and each can be switched independently.',
+                    },
+                    {
+                        'heading': 'What is actually moving?',
+                        'body': 'In a metal wire the moving charges are free electrons, drifting from the negative terminal towards the positive — opposite to the conventional current direction that circuit diagrams use by historical accident. Their average drift speed is astonishingly slow, often well under a millimetre per second.\n\nYet a lamp lights the instant you flip the switch, because the electric field that pushes the electrons is established along the whole wire at nearly the speed of light. Think of a pipe already full of water: push at one end and water emerges at the other immediately.',
+                    },
+                ],
+                'fun_fact': 'The electrons in your phone-charger cable drift slower than a snail — but the electrical signal that sets them all moving races down the wire at close to the speed of light.',
+                'quiz': [
+                    {
+                        'q': 'A 12 V battery drives a 6 Ω resistor. What current flows?',
+                        'options': ['72 A', '0.5 A', '2 A', '6 A'],
+                        'answer': 2,
+                        'explain': 'Ohm\'s law: I = V/R = 12/6 = 2 A.',
+                    },
+                    {
+                        'q': 'Two 10 Ω resistors are connected in parallel. The combined resistance is…',
+                        'options': ['20 Ω', '10 Ω', '5 Ω', '100 Ω'],
+                        'answer': 2,
+                        'explain': 'Equal resistors in parallel give half the value: (10×10)/(10+10) = 5 Ω. Parallel combinations are always smaller than the smallest branch.',
+                    },
+                    {
+                        'q': 'In a series circuit with two different resistors, which quantity is the same for both?',
+                        'options': ['The voltage across each', 'The current through each', 'The power in each', 'The resistance of each'],
+                        'answer': 1,
+                        'explain': 'A single loop forces the same current through every component; the voltage divides in proportion to each resistance.',
+                    },
+                    {
+                        'q': 'Why are the lights in a house wired in parallel?',
+                        'options': ['It uses less copper wire', 'Each light gets full voltage and works independently', 'It makes the current smaller', 'Series wiring is illegal'],
+                        'answer': 1,
+                        'explain': 'Parallel branches each receive the full supply voltage, and switching one off (or one failing) leaves the others running.',
+                    },
+                ],
+            },
+        ],
+    },
+]
