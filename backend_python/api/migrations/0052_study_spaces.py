@@ -13,83 +13,160 @@ import django.db.migrations.operations as mops
 
 def create_tables(apps, schema_editor):
     cursor = schema_editor.connection.cursor()
+    vendor = schema_editor.connection.vendor
     charset = 'utf8mb4'
     collation = 'utf8mb4_unicode_ci'
 
-    tables_sql = [
-        f"""CREATE TABLE IF NOT EXISTS `study_spaces` (
-            `id` varchar(36) NOT NULL PRIMARY KEY,
-            `user_id` varchar(36) NOT NULL,
-            `title` varchar(200) NOT NULL DEFAULT '',
-            `description` longtext NOT NULL,
-            `share_token` varchar(64) NOT NULL,
-            `share_mode` varchar(20) NOT NULL DEFAULT 'private',
-            `shared_at` bigint NOT NULL DEFAULT 0,
-            `link_summary_compact` longtext NOT NULL,
-            `link_summary_detailed` longtext NOT NULL,
-            `link_summary_generated_at` bigint NOT NULL DEFAULT 0,
-            `link_mindmap_json` longtext NOT NULL,
-            `link_mindmap_generated_at` bigint NOT NULL DEFAULT 0,
-            `created_at` bigint NOT NULL DEFAULT 0,
-            `updated_at` bigint NOT NULL DEFAULT 0
-        ) ENGINE=InnoDB DEFAULT CHARSET={charset} COLLATE={collation}""",
-        f"""CREATE TABLE IF NOT EXISTS `study_space_shares` (
-            `id` varchar(36) NOT NULL PRIMARY KEY,
-            `space_id` varchar(36) NOT NULL,
-            `user_id` varchar(36) NOT NULL,
-            `granted_by_id` varchar(36) NOT NULL,
-            `created_at` bigint NOT NULL DEFAULT 0
-        ) ENGINE=InnoDB DEFAULT CHARSET={charset} COLLATE={collation}""",
-        f"""CREATE TABLE IF NOT EXISTS `study_space_quizzes` (
-            `id` varchar(36) NOT NULL PRIMARY KEY,
-            `space_id` varchar(36) NOT NULL,
-            `user_id` varchar(36) NOT NULL,
-            `title` varchar(500) NOT NULL DEFAULT '',
-            `question_count` int unsigned NOT NULL DEFAULT 0,
-            `created_at` bigint NOT NULL DEFAULT 0
-        ) ENGINE=InnoDB DEFAULT CHARSET={charset} COLLATE={collation}""",
-        f"""CREATE TABLE IF NOT EXISTS `study_space_quiz_questions` (
-            `id` varchar(36) NOT NULL PRIMARY KEY,
-            `quiz_id` varchar(36) NOT NULL,
-            `question_number` int unsigned NOT NULL DEFAULT 0,
-            `question_text` longtext NOT NULL,
-            `option_a` longtext NOT NULL DEFAULT '',
-            `option_b` longtext NOT NULL DEFAULT '',
-            `option_c` longtext NOT NULL DEFAULT '',
-            `option_d` longtext NOT NULL DEFAULT '',
-            `correct_answer` varchar(1) NOT NULL DEFAULT 'A',
-            `explanation` longtext NOT NULL DEFAULT ''
-        ) ENGINE=InnoDB DEFAULT CHARSET={charset} COLLATE={collation}""",
-        f"""CREATE TABLE IF NOT EXISTS `study_space_quiz_attempts` (
-            `id` varchar(36) NOT NULL PRIMARY KEY,
-            `quiz_id` varchar(36) NOT NULL,
-            `user_id` varchar(36) NOT NULL,
-            `score` int unsigned NOT NULL DEFAULT 0,
-            `total_questions` int unsigned NOT NULL DEFAULT 0,
-            `answers` longtext NOT NULL DEFAULT '',
-            `xp_earned` int unsigned NOT NULL DEFAULT 0,
-            `completed_at` bigint NOT NULL DEFAULT 0,
-            `created_at` bigint NOT NULL DEFAULT 0
-        ) ENGINE=InnoDB DEFAULT CHARSET={charset} COLLATE={collation}""",
-        f"""CREATE TABLE IF NOT EXISTS `study_space_flashcards` (
-            `id` varchar(36) NOT NULL PRIMARY KEY,
-            `space_id` varchar(36) NOT NULL,
-            `user_id` varchar(36) NOT NULL,
-            `front` longtext NOT NULL,
-            `back` longtext NOT NULL,
-            `card_number` int unsigned NOT NULL DEFAULT 0,
-            `created_at` bigint NOT NULL DEFAULT 0
-        ) ENGINE=InnoDB DEFAULT CHARSET={charset} COLLATE={collation}""",
-        f"""CREATE TABLE IF NOT EXISTS `study_space_flashcard_reviews` (
-            `id` varchar(36) NOT NULL PRIMARY KEY,
-            `flashcard_id` varchar(36) NOT NULL,
-            `user_id` varchar(36) NOT NULL,
-            `confidence` varchar(10) NOT NULL DEFAULT 'medium',
-            `review_count` int unsigned NOT NULL DEFAULT 0,
-            `last_reviewed_at` bigint NOT NULL DEFAULT 0,
-            `next_review_at` bigint NOT NULL DEFAULT 0
-        ) ENGINE=InnoDB DEFAULT CHARSET={charset} COLLATE={collation}""",
-    ]
+    if vendor == 'sqlite':
+        tables_sql = [
+            """CREATE TABLE IF NOT EXISTS `study_spaces` (
+                `id` varchar(36) NOT NULL PRIMARY KEY,
+                `user_id` varchar(36) NOT NULL,
+                `title` varchar(200) NOT NULL DEFAULT '',
+                `description` text NOT NULL,
+                `share_token` varchar(64) NOT NULL,
+                `share_mode` varchar(20) NOT NULL DEFAULT 'private',
+                `shared_at` bigint NOT NULL DEFAULT 0,
+                `link_summary_compact` text NOT NULL,
+                `link_summary_detailed` text NOT NULL,
+                `link_summary_generated_at` bigint NOT NULL DEFAULT 0,
+                `link_mindmap_json` text NOT NULL,
+                `link_mindmap_generated_at` bigint NOT NULL DEFAULT 0,
+                `created_at` bigint NOT NULL DEFAULT 0,
+                `updated_at` bigint NOT NULL DEFAULT 0
+            )""",
+            """CREATE TABLE IF NOT EXISTS `study_space_shares` (
+                `id` varchar(36) NOT NULL PRIMARY KEY,
+                `space_id` varchar(36) NOT NULL,
+                `user_id` varchar(36) NOT NULL,
+                `granted_by_id` varchar(36) NOT NULL,
+                `created_at` bigint NOT NULL DEFAULT 0
+            )""",
+            """CREATE TABLE IF NOT EXISTS `study_space_quizzes` (
+                `id` varchar(36) NOT NULL PRIMARY KEY,
+                `space_id` varchar(36) NOT NULL,
+                `user_id` varchar(36) NOT NULL,
+                `title` varchar(500) NOT NULL DEFAULT '',
+                `question_count` int unsigned NOT NULL DEFAULT 0,
+                `created_at` bigint NOT NULL DEFAULT 0
+            )""",
+            """CREATE TABLE IF NOT EXISTS `study_space_quiz_questions` (
+                `id` varchar(36) NOT NULL PRIMARY KEY,
+                `quiz_id` varchar(36) NOT NULL,
+                `question_number` int unsigned NOT NULL DEFAULT 0,
+                `question_text` text NOT NULL,
+                `option_a` text NOT NULL DEFAULT '',
+                `option_b` text NOT NULL DEFAULT '',
+                `option_c` text NOT NULL DEFAULT '',
+                `option_d` text NOT NULL DEFAULT '',
+                `correct_answer` varchar(1) NOT NULL DEFAULT 'A',
+                `explanation` text NOT NULL DEFAULT ''
+            )""",
+            """CREATE TABLE IF NOT EXISTS `study_space_quiz_attempts` (
+                `id` varchar(36) NOT NULL PRIMARY KEY,
+                `quiz_id` varchar(36) NOT NULL,
+                `user_id` varchar(36) NOT NULL,
+                `score` int unsigned NOT NULL DEFAULT 0,
+                `total_questions` int unsigned NOT NULL DEFAULT 0,
+                `answers` text NOT NULL DEFAULT '',
+                `xp_earned` int unsigned NOT NULL DEFAULT 0,
+                `completed_at` bigint NOT NULL DEFAULT 0,
+                `created_at` bigint NOT NULL DEFAULT 0
+            )""",
+            """CREATE TABLE IF NOT EXISTS `study_space_flashcards` (
+                `id` varchar(36) NOT NULL PRIMARY KEY,
+                `space_id` varchar(36) NOT NULL,
+                `user_id` varchar(36) NOT NULL,
+                `front` text NOT NULL,
+                `back` text NOT NULL,
+                `card_number` int unsigned NOT NULL DEFAULT 0,
+                `created_at` bigint NOT NULL DEFAULT 0
+            )""",
+            """CREATE TABLE IF NOT EXISTS `study_space_flashcard_reviews` (
+                `id` varchar(36) NOT NULL PRIMARY KEY,
+                `flashcard_id` varchar(36) NOT NULL,
+                `user_id` varchar(36) NOT NULL,
+                `confidence` varchar(10) NOT NULL DEFAULT 'medium',
+                `review_count` int unsigned NOT NULL DEFAULT 0,
+                `last_reviewed_at` bigint NOT NULL DEFAULT 0,
+                `next_review_at` bigint NOT NULL DEFAULT 0
+            )""",
+        ]
+    else:
+        tables_sql = [
+            f"""CREATE TABLE IF NOT EXISTS `study_spaces` (
+                `id` varchar(36) NOT NULL PRIMARY KEY,
+                `user_id` varchar(36) NOT NULL,
+                `title` varchar(200) NOT NULL DEFAULT '',
+                `description` longtext NOT NULL,
+                `share_token` varchar(64) NOT NULL,
+                `share_mode` varchar(20) NOT NULL DEFAULT 'private',
+                `shared_at` bigint NOT NULL DEFAULT 0,
+                `link_summary_compact` longtext NOT NULL,
+                `link_summary_detailed` longtext NOT NULL,
+                `link_summary_generated_at` bigint NOT NULL DEFAULT 0,
+                `link_mindmap_json` longtext NOT NULL,
+                `link_mindmap_generated_at` bigint NOT NULL DEFAULT 0,
+                `created_at` bigint NOT NULL DEFAULT 0,
+                `updated_at` bigint NOT NULL DEFAULT 0
+            ) ENGINE=InnoDB DEFAULT CHARSET={charset} COLLATE={collation}""",
+            f"""CREATE TABLE IF NOT EXISTS `study_space_shares` (
+                `id` varchar(36) NOT NULL PRIMARY KEY,
+                `space_id` varchar(36) NOT NULL,
+                `user_id` varchar(36) NOT NULL,
+                `granted_by_id` varchar(36) NOT NULL,
+                `created_at` bigint NOT NULL DEFAULT 0
+            ) ENGINE=InnoDB DEFAULT CHARSET={charset} COLLATE={collation}""",
+            f"""CREATE TABLE IF NOT EXISTS `study_space_quizzes` (
+                `id` varchar(36) NOT NULL PRIMARY KEY,
+                `space_id` varchar(36) NOT NULL,
+                `user_id` varchar(36) NOT NULL,
+                `title` varchar(500) NOT NULL DEFAULT '',
+                `question_count` int unsigned NOT NULL DEFAULT 0,
+                `created_at` bigint NOT NULL DEFAULT 0
+            ) ENGINE=InnoDB DEFAULT CHARSET={charset} COLLATE={collation}""",
+            f"""CREATE TABLE IF NOT EXISTS `study_space_quiz_questions` (
+                `id` varchar(36) NOT NULL PRIMARY KEY,
+                `quiz_id` varchar(36) NOT NULL,
+                `question_number` int unsigned NOT NULL DEFAULT 0,
+                `question_text` longtext NOT NULL,
+                `option_a` longtext NOT NULL DEFAULT '',
+                `option_b` longtext NOT NULL DEFAULT '',
+                `option_c` longtext NOT NULL DEFAULT '',
+                `option_d` longtext NOT NULL DEFAULT '',
+                `correct_answer` varchar(1) NOT NULL DEFAULT 'A',
+                `explanation` longtext NOT NULL DEFAULT ''
+            ) ENGINE=InnoDB DEFAULT CHARSET={charset} COLLATE={collation}""",
+            f"""CREATE TABLE IF NOT EXISTS `study_space_quiz_attempts` (
+                `id` varchar(36) NOT NULL PRIMARY KEY,
+                `quiz_id` varchar(36) NOT NULL,
+                `user_id` varchar(36) NOT NULL,
+                `score` int unsigned NOT NULL DEFAULT 0,
+                `total_questions` int unsigned NOT NULL DEFAULT 0,
+                `answers` longtext NOT NULL DEFAULT '',
+                `xp_earned` int unsigned NOT NULL DEFAULT 0,
+                `completed_at` bigint NOT NULL DEFAULT 0,
+                `created_at` bigint NOT NULL DEFAULT 0
+            ) ENGINE=InnoDB DEFAULT CHARSET={charset} COLLATE={collation}""",
+            f"""CREATE TABLE IF NOT EXISTS `study_space_flashcards` (
+                `id` varchar(36) NOT NULL PRIMARY KEY,
+                `space_id` varchar(36) NOT NULL,
+                `user_id` varchar(36) NOT NULL,
+                `front` longtext NOT NULL,
+                `back` longtext NOT NULL,
+                `card_number` int unsigned NOT NULL DEFAULT 0,
+                `created_at` bigint NOT NULL DEFAULT 0
+            ) ENGINE=InnoDB DEFAULT CHARSET={charset} COLLATE={collation}""",
+            f"""CREATE TABLE IF NOT EXISTS `study_space_flashcard_reviews` (
+                `id` varchar(36) NOT NULL PRIMARY KEY,
+                `flashcard_id` varchar(36) NOT NULL,
+                `user_id` varchar(36) NOT NULL,
+                `confidence` varchar(10) NOT NULL DEFAULT 'medium',
+                `review_count` int unsigned NOT NULL DEFAULT 0,
+                `last_reviewed_at` bigint NOT NULL DEFAULT 0,
+                `next_review_at` bigint NOT NULL DEFAULT 0
+            ) ENGINE=InnoDB DEFAULT CHARSET={charset} COLLATE={collation}""",
+        ]
 
     for sql in tables_sql:
         cursor.execute(sql)

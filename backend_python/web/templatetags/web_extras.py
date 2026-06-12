@@ -360,6 +360,13 @@ def split(value, key):
 
 
 @register.filter
+def paragraphs(value):
+    if not value:
+        return []
+    return [p.strip() for p in str(value).split('\n\n') if p.strip()]
+
+
+@register.filter
 def dict_get(d, key):
     """Get an item from a dict by key. Usage: {{ mydict|dict_get:key }}"""
     if not isinstance(d, dict):
