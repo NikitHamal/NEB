@@ -12,156 +12,161 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.CreateModel(
-            name='StudySpace',
-            fields=[
-                ('id', models.CharField(default=uuid.uuid4, max_length=36, primary_key=True, serialize=False)),
-                ('title', models.CharField(blank=True, default='', max_length=200)),
-                ('description', models.TextField(blank=True, default='')),
-                ('share_token', models.CharField(db_index=True, default=uuid.uuid4, max_length=64, unique=True)),
-                ('invite_code', models.CharField(blank=True, db_index=True, default='', max_length=12, unique=True)),
-                ('share_mode', models.CharField(choices=[('private', 'Private'), ('link', 'Invite link'), ('specific', 'Specific users')], db_index=True, default='private', max_length=20)),
-                ('visibility', models.CharField(choices=[('private', 'Private'), ('unlisted', 'Unlisted invite'), ('public', 'Public')], db_index=True, default='private', max_length=20)),
-                ('allow_join_by_code', models.BooleanField(default=True)),
-                ('shared_at', models.BigIntegerField(default=0)),
-                ('link_summary_compact', models.TextField(blank=True, default='')),
-                ('link_summary_detailed', models.TextField(blank=True, default='')),
-                ('link_summary_generated_at', models.BigIntegerField(default=0)),
-                ('link_mindmap_json', models.TextField(blank=True, default='')),
-                ('link_mindmap_generated_at', models.BigIntegerField(default=0)),
-                ('created_at', models.BigIntegerField(default=0)),
-                ('updated_at', models.BigIntegerField(default=0)),
+        migrations.SeparateDatabaseAndState(
+            state_operations=[
+                migrations.CreateModel(
+                    name='StudySpace',
+                    fields=[
+                        ('id', models.CharField(default=uuid.uuid4, max_length=36, primary_key=True, serialize=False)),
+                        ('title', models.CharField(blank=True, default='', max_length=200)),
+                        ('description', models.TextField(blank=True, default='')),
+                        ('share_token', models.CharField(db_index=True, default=uuid.uuid4, max_length=64, unique=True)),
+                        ('invite_code', models.CharField(blank=True, db_index=True, default='', max_length=12, unique=True)),
+                        ('share_mode', models.CharField(choices=[('private', 'Private'), ('link', 'Invite link'), ('specific', 'Specific users')], db_index=True, default='private', max_length=20)),
+                        ('visibility', models.CharField(choices=[('private', 'Private'), ('unlisted', 'Unlisted invite'), ('public', 'Public')], db_index=True, default='private', max_length=20)),
+                        ('allow_join_by_code', models.BooleanField(default=True)),
+                        ('shared_at', models.BigIntegerField(default=0)),
+                        ('link_summary_compact', models.TextField(blank=True, default='')),
+                        ('link_summary_detailed', models.TextField(blank=True, default='')),
+                        ('link_summary_generated_at', models.BigIntegerField(default=0)),
+                        ('link_mindmap_json', models.TextField(blank=True, default='')),
+                        ('link_mindmap_generated_at', models.BigIntegerField(default=0)),
+                        ('created_at', models.BigIntegerField(default=0)),
+                        ('updated_at', models.BigIntegerField(default=0)),
+                    ],
+                    options={
+                        'db_table': 'study_spaces',
+                        'ordering': ['-updated_at'],
+                    },
+                ),
+                migrations.CreateModel(
+                    name='StudySpaceFlashcard',
+                    fields=[
+                        ('id', models.CharField(default=uuid.uuid4, max_length=36, primary_key=True, serialize=False)),
+                        ('front', models.TextField()),
+                        ('back', models.TextField()),
+                        ('card_number', models.PositiveIntegerField(default=0)),
+                        ('created_at', models.BigIntegerField(default=0)),
+                    ],
+                    options={
+                        'db_table': 'study_space_flashcards',
+                        'ordering': ['card_number'],
+                    },
+                ),
+                migrations.CreateModel(
+                    name='StudySpaceFlashcardReview',
+                    fields=[
+                        ('id', models.CharField(default=uuid.uuid4, max_length=36, primary_key=True, serialize=False)),
+                        ('confidence', models.CharField(choices=[('easy', 'Easy'), ('medium', 'Medium'), ('hard', 'Hard')], default='medium', max_length=10)),
+                        ('review_count', models.PositiveIntegerField(default=0)),
+                        ('last_reviewed_at', models.BigIntegerField(default=0)),
+                        ('next_review_at', models.BigIntegerField(default=0)),
+                    ],
+                    options={
+                        'db_table': 'study_space_flashcard_reviews',
+                    },
+                ),
+                migrations.CreateModel(
+                    name='StudySpaceMember',
+                    fields=[
+                        ('id', models.CharField(default=uuid.uuid4, max_length=36, primary_key=True, serialize=False)),
+                        ('role', models.CharField(choices=[('owner', 'Owner'), ('admin', 'Admin'), ('moderator', 'Moderator'), ('member', 'Member')], db_index=True, default='member', max_length=20)),
+                        ('joined_at', models.BigIntegerField(default=0)),
+                        ('updated_at', models.BigIntegerField(default=0)),
+                    ],
+                    options={
+                        'db_table': 'study_space_members',
+                    },
+                ),
+                migrations.CreateModel(
+                    name='StudySpaceNote',
+                    fields=[
+                        ('id', models.CharField(default=uuid.uuid4, max_length=36, primary_key=True, serialize=False)),
+                        ('content', models.TextField(blank=True, default='')),
+                        ('version', models.PositiveIntegerField(default=1)),
+                        ('created_at', models.BigIntegerField(default=0)),
+                        ('updated_at', models.BigIntegerField(default=0)),
+                    ],
+                    options={
+                        'db_table': 'study_space_notes',
+                    },
+                ),
+                migrations.CreateModel(
+                    name='StudySpacePresence',
+                    fields=[
+                        ('id', models.CharField(default=uuid.uuid4, max_length=36, primary_key=True, serialize=False)),
+                        ('status', models.CharField(choices=[('inside', 'Inside'), ('reading', 'Reading'), ('typing', 'Typing'), ('generating', 'Generating'), ('editing', 'Editing'), ('idle', 'Idle')], db_index=True, default='inside', max_length=20)),
+                        ('current_tab', models.CharField(blank=True, default='', max_length=40)),
+                        ('current_document_id', models.CharField(blank=True, default='', max_length=36)),
+                        ('detail', models.CharField(blank=True, default='', max_length=120)),
+                        ('is_typing', models.BooleanField(default=False)),
+                        ('session_id', models.CharField(blank=True, default='', max_length=64)),
+                        ('last_seen_at', models.BigIntegerField(db_index=True, default=0)),
+                        ('updated_at', models.BigIntegerField(default=0)),
+                    ],
+                    options={
+                        'db_table': 'study_space_presence',
+                    },
+                ),
+                migrations.CreateModel(
+                    name='StudySpaceQuiz',
+                    fields=[
+                        ('id', models.CharField(default=uuid.uuid4, max_length=36, primary_key=True, serialize=False)),
+                        ('title', models.CharField(blank=True, default='', max_length=500)),
+                        ('question_count', models.PositiveIntegerField(default=0)),
+                        ('created_at', models.BigIntegerField(default=0)),
+                    ],
+                    options={
+                        'db_table': 'study_space_quizzes',
+                        'ordering': ['-created_at'],
+                    },
+                ),
+                migrations.CreateModel(
+                    name='StudySpaceQuizAttempt',
+                    fields=[
+                        ('id', models.CharField(default=uuid.uuid4, max_length=36, primary_key=True, serialize=False)),
+                        ('score', models.PositiveIntegerField(default=0)),
+                        ('total_questions', models.PositiveIntegerField(default=0)),
+                        ('answers', models.TextField(blank=True, default='')),
+                        ('xp_earned', models.PositiveIntegerField(default=0)),
+                        ('completed_at', models.BigIntegerField(default=0)),
+                        ('created_at', models.BigIntegerField(default=0)),
+                    ],
+                    options={
+                        'db_table': 'study_space_quiz_attempts',
+                        'ordering': ['-completed_at'],
+                    },
+                ),
+                migrations.CreateModel(
+                    name='StudySpaceQuizQuestion',
+                    fields=[
+                        ('id', models.CharField(default=uuid.uuid4, max_length=36, primary_key=True, serialize=False)),
+                        ('question_number', models.PositiveIntegerField(default=0)),
+                        ('question_text', models.TextField()),
+                        ('option_a', models.TextField(blank=True, default='')),
+                        ('option_b', models.TextField(blank=True, default='')),
+                        ('option_c', models.TextField(blank=True, default='')),
+                        ('option_d', models.TextField(blank=True, default='')),
+                        ('correct_answer', models.CharField(default='A', max_length=1)),
+                        ('explanation', models.TextField(blank=True, default='')),
+                    ],
+                    options={
+                        'db_table': 'study_space_quiz_questions',
+                        'ordering': ['question_number'],
+                    },
+                ),
+                migrations.CreateModel(
+                    name='StudySpaceShare',
+                    fields=[
+                        ('id', models.CharField(default=uuid.uuid4, max_length=36, primary_key=True, serialize=False)),
+                        ('created_at', models.BigIntegerField(default=0)),
+                    ],
+                    options={
+                        'db_table': 'study_space_shares',
+                    },
+                ),
             ],
-            options={
-                'db_table': 'study_spaces',
-                'ordering': ['-updated_at'],
-            },
-        ),
-        migrations.CreateModel(
-            name='StudySpaceFlashcard',
-            fields=[
-                ('id', models.CharField(default=uuid.uuid4, max_length=36, primary_key=True, serialize=False)),
-                ('front', models.TextField()),
-                ('back', models.TextField()),
-                ('card_number', models.PositiveIntegerField(default=0)),
-                ('created_at', models.BigIntegerField(default=0)),
-            ],
-            options={
-                'db_table': 'study_space_flashcards',
-                'ordering': ['card_number'],
-            },
-        ),
-        migrations.CreateModel(
-            name='StudySpaceFlashcardReview',
-            fields=[
-                ('id', models.CharField(default=uuid.uuid4, max_length=36, primary_key=True, serialize=False)),
-                ('confidence', models.CharField(choices=[('easy', 'Easy'), ('medium', 'Medium'), ('hard', 'Hard')], default='medium', max_length=10)),
-                ('review_count', models.PositiveIntegerField(default=0)),
-                ('last_reviewed_at', models.BigIntegerField(default=0)),
-                ('next_review_at', models.BigIntegerField(default=0)),
-            ],
-            options={
-                'db_table': 'study_space_flashcard_reviews',
-            },
-        ),
-        migrations.CreateModel(
-            name='StudySpaceMember',
-            fields=[
-                ('id', models.CharField(default=uuid.uuid4, max_length=36, primary_key=True, serialize=False)),
-                ('role', models.CharField(choices=[('owner', 'Owner'), ('admin', 'Admin'), ('moderator', 'Moderator'), ('member', 'Member')], db_index=True, default='member', max_length=20)),
-                ('joined_at', models.BigIntegerField(default=0)),
-                ('updated_at', models.BigIntegerField(default=0)),
-            ],
-            options={
-                'db_table': 'study_space_members',
-            },
-        ),
-        migrations.CreateModel(
-            name='StudySpaceNote',
-            fields=[
-                ('id', models.CharField(default=uuid.uuid4, max_length=36, primary_key=True, serialize=False)),
-                ('content', models.TextField(blank=True, default='')),
-                ('version', models.PositiveIntegerField(default=1)),
-                ('created_at', models.BigIntegerField(default=0)),
-                ('updated_at', models.BigIntegerField(default=0)),
-            ],
-            options={
-                'db_table': 'study_space_notes',
-            },
-        ),
-        migrations.CreateModel(
-            name='StudySpacePresence',
-            fields=[
-                ('id', models.CharField(default=uuid.uuid4, max_length=36, primary_key=True, serialize=False)),
-                ('status', models.CharField(choices=[('inside', 'Inside'), ('reading', 'Reading'), ('typing', 'Typing'), ('generating', 'Generating'), ('editing', 'Editing'), ('idle', 'Idle')], db_index=True, default='inside', max_length=20)),
-                ('current_tab', models.CharField(blank=True, default='', max_length=40)),
-                ('current_document_id', models.CharField(blank=True, default='', max_length=36)),
-                ('detail', models.CharField(blank=True, default='', max_length=120)),
-                ('is_typing', models.BooleanField(default=False)),
-                ('session_id', models.CharField(blank=True, default='', max_length=64)),
-                ('last_seen_at', models.BigIntegerField(db_index=True, default=0)),
-                ('updated_at', models.BigIntegerField(default=0)),
-            ],
-            options={
-                'db_table': 'study_space_presence',
-            },
-        ),
-        migrations.CreateModel(
-            name='StudySpaceQuiz',
-            fields=[
-                ('id', models.CharField(default=uuid.uuid4, max_length=36, primary_key=True, serialize=False)),
-                ('title', models.CharField(blank=True, default='', max_length=500)),
-                ('question_count', models.PositiveIntegerField(default=0)),
-                ('created_at', models.BigIntegerField(default=0)),
-            ],
-            options={
-                'db_table': 'study_space_quizzes',
-                'ordering': ['-created_at'],
-            },
-        ),
-        migrations.CreateModel(
-            name='StudySpaceQuizAttempt',
-            fields=[
-                ('id', models.CharField(default=uuid.uuid4, max_length=36, primary_key=True, serialize=False)),
-                ('score', models.PositiveIntegerField(default=0)),
-                ('total_questions', models.PositiveIntegerField(default=0)),
-                ('answers', models.TextField(blank=True, default='')),
-                ('xp_earned', models.PositiveIntegerField(default=0)),
-                ('completed_at', models.BigIntegerField(default=0)),
-                ('created_at', models.BigIntegerField(default=0)),
-            ],
-            options={
-                'db_table': 'study_space_quiz_attempts',
-                'ordering': ['-completed_at'],
-            },
-        ),
-        migrations.CreateModel(
-            name='StudySpaceQuizQuestion',
-            fields=[
-                ('id', models.CharField(default=uuid.uuid4, max_length=36, primary_key=True, serialize=False)),
-                ('question_number', models.PositiveIntegerField(default=0)),
-                ('question_text', models.TextField()),
-                ('option_a', models.TextField(blank=True, default='')),
-                ('option_b', models.TextField(blank=True, default='')),
-                ('option_c', models.TextField(blank=True, default='')),
-                ('option_d', models.TextField(blank=True, default='')),
-                ('correct_answer', models.CharField(default='A', max_length=1)),
-                ('explanation', models.TextField(blank=True, default='')),
-            ],
-            options={
-                'db_table': 'study_space_quiz_questions',
-                'ordering': ['question_number'],
-            },
-        ),
-        migrations.CreateModel(
-            name='StudySpaceShare',
-            fields=[
-                ('id', models.CharField(default=uuid.uuid4, max_length=36, primary_key=True, serialize=False)),
-                ('created_at', models.BigIntegerField(default=0)),
-            ],
-            options={
-                'db_table': 'study_space_shares',
-            },
+            database_operations=[]
         ),
         migrations.RenameIndex(
             model_name='studydocumentshare',
@@ -224,157 +229,162 @@ class Migration(migrations.Migration):
             name='upload_min_role',
             field=models.CharField(default='member', max_length=20),
         ),
-        migrations.AddField(
-            model_name='studyspace',
-            name='user',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='study_spaces', to='api.user'),
-        ),
-        migrations.AddField(
-            model_name='studydocument',
-            name='space',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='documents', to='api.studyspace'),
-        ),
-        migrations.AddIndex(
-            model_name='studydocument',
-            index=models.Index(fields=['space', '-updated_at'], name='study_docum_space_i_cf4c62_idx'),
-        ),
-        migrations.AddField(
-            model_name='studyspaceflashcard',
-            name='space',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='flashcards', to='api.studyspace'),
-        ),
-        migrations.AddField(
-            model_name='studyspaceflashcard',
-            name='user',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='study_space_flashcards', to='api.user'),
-        ),
-        migrations.AddField(
-            model_name='studyspaceflashcardreview',
-            name='flashcard',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='reviews', to='api.studyspaceflashcard'),
-        ),
-        migrations.AddField(
-            model_name='studyspaceflashcardreview',
-            name='user',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='study_space_flashcard_reviews', to='api.user'),
-        ),
-        migrations.AddField(
-            model_name='studyspacemember',
-            name='invited_by',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='study_space_invites_sent', to='api.user'),
-        ),
-        migrations.AddField(
-            model_name='studyspacemember',
-            name='space',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='members', to='api.studyspace'),
-        ),
-        migrations.AddField(
-            model_name='studyspacemember',
-            name='user',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='study_space_memberships', to='api.user'),
-        ),
-        migrations.AddField(
-            model_name='studyspacenote',
-            name='space',
-            field=models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='shared_note', to='api.studyspace'),
-        ),
-        migrations.AddField(
-            model_name='studyspacenote',
-            name='updated_by',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='study_space_notes_updated', to='api.user'),
-        ),
-        migrations.AddField(
-            model_name='studyspacepresence',
-            name='space',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='presence_rows', to='api.studyspace'),
-        ),
-        migrations.AddField(
-            model_name='studyspacepresence',
-            name='user',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='study_space_presence', to='api.user'),
-        ),
-        migrations.AddField(
-            model_name='studyspacequiz',
-            name='space',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='quizzes', to='api.studyspace'),
-        ),
-        migrations.AddField(
-            model_name='studyspacequiz',
-            name='user',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='study_space_quizzes', to='api.user'),
-        ),
-        migrations.AddField(
-            model_name='studyspacequizattempt',
-            name='quiz',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='attempts', to='api.studyspacequiz'),
-        ),
-        migrations.AddField(
-            model_name='studyspacequizattempt',
-            name='user',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='study_space_quiz_attempts', to='api.user'),
-        ),
-        migrations.AddField(
-            model_name='studyspacequizquestion',
-            name='quiz',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='questions', to='api.studyspacequiz'),
-        ),
-        migrations.AddField(
-            model_name='studyspaceshare',
-            name='granted_by',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='study_space_grants', to='api.user'),
-        ),
-        migrations.AddField(
-            model_name='studyspaceshare',
-            name='space',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='share_grants', to='api.studyspace'),
-        ),
-        migrations.AddField(
-            model_name='studyspaceshare',
-            name='user',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='study_space_shares', to='api.user'),
-        ),
-        migrations.AddIndex(
-            model_name='studyspace',
-            index=models.Index(fields=['user', '-updated_at'], name='study_space_user_id_b66e62_idx'),
-        ),
-        migrations.AddIndex(
-            model_name='studyspaceflashcardreview',
-            index=models.Index(fields=['user', 'flashcard'], name='study_space_user_id_375d45_idx'),
-        ),
-        migrations.AddIndex(
-            model_name='studyspacemember',
-            index=models.Index(fields=['space', 'role'], name='study_space_space_i_f0b99a_idx'),
-        ),
-        migrations.AddIndex(
-            model_name='studyspacemember',
-            index=models.Index(fields=['user', '-joined_at'], name='study_space_user_id_4684d5_idx'),
-        ),
-        migrations.AlterUniqueTogether(
-            name='studyspacemember',
-            unique_together={('space', 'user')},
-        ),
-        migrations.AddIndex(
-            model_name='studyspacepresence',
-            index=models.Index(fields=['space', '-last_seen_at'], name='study_space_space_i_0afd0d_idx'),
-        ),
-        migrations.AddIndex(
-            model_name='studyspacepresence',
-            index=models.Index(fields=['user', '-last_seen_at'], name='study_space_user_id_0f9015_idx'),
-        ),
-        migrations.AlterUniqueTogether(
-            name='studyspacepresence',
-            unique_together={('space', 'user')},
-        ),
-        migrations.AddIndex(
-            model_name='studyspaceshare',
-            index=models.Index(fields=['space', 'user'], name='study_space_space_i_2f4f4a_idx'),
-        ),
-        migrations.AddIndex(
-            model_name='studyspaceshare',
-            index=models.Index(fields=['user', '-created_at'], name='study_space_user_id_0ae118_idx'),
-        ),
-        migrations.AlterUniqueTogether(
-            name='studyspaceshare',
-            unique_together={('space', 'user')},
+        migrations.SeparateDatabaseAndState(
+            state_operations=[
+                migrations.AddField(
+                    model_name='studyspace',
+                    name='user',
+                    field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='study_spaces', to='api.user'),
+                ),
+                migrations.AddField(
+                    model_name='studydocument',
+                    name='space',
+                    field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='documents', to='api.studyspace'),
+                ),
+                migrations.AddIndex(
+                    model_name='studydocument',
+                    index=models.Index(fields=['space', '-updated_at'], name='study_docum_space_i_cf4c62_idx'),
+                ),
+                migrations.AddField(
+                    model_name='studyspaceflashcard',
+                    name='space',
+                    field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='flashcards', to='api.studyspace'),
+                ),
+                migrations.AddField(
+                    model_name='studyspaceflashcard',
+                    name='user',
+                    field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='study_space_flashcards', to='api.user'),
+                ),
+                migrations.AddField(
+                    model_name='studyspaceflashcardreview',
+                    name='flashcard',
+                    field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='reviews', to='api.studyspaceflashcard'),
+                ),
+                migrations.AddField(
+                    model_name='studyspaceflashcardreview',
+                    name='user',
+                    field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='study_space_flashcard_reviews', to='api.user'),
+                ),
+                migrations.AddField(
+                    model_name='studyspacemember',
+                    name='invited_by',
+                    field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='study_space_invites_sent', to='api.user'),
+                ),
+                migrations.AddField(
+                    model_name='studyspacemember',
+                    name='space',
+                    field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='members', to='api.studyspace'),
+                ),
+                migrations.AddField(
+                    model_name='studyspacemember',
+                    name='user',
+                    field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='study_space_memberships', to='api.user'),
+                ),
+                migrations.AddField(
+                    model_name='studyspacenote',
+                    name='space',
+                    field=models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='shared_note', to='api.studyspace'),
+                ),
+                migrations.AddField(
+                    model_name='studyspacenote',
+                    name='updated_by',
+                    field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='study_space_notes_updated', to='api.user'),
+                ),
+                migrations.AddField(
+                    model_name='studyspacepresence',
+                    name='space',
+                    field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='presence_rows', to='api.studyspace'),
+                ),
+                migrations.AddField(
+                    model_name='studyspacepresence',
+                    name='user',
+                    field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='study_space_presence', to='api.user'),
+                ),
+                migrations.AddField(
+                    model_name='studyspacequiz',
+                    name='space',
+                    field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='quizzes', to='api.studyspace'),
+                ),
+                migrations.AddField(
+                    model_name='studyspacequiz',
+                    name='user',
+                    field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='study_space_quizzes', to='api.user'),
+                ),
+                migrations.AddField(
+                    model_name='studyspacequizattempt',
+                    name='quiz',
+                    field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='attempts', to='api.studyspacequiz'),
+                ),
+                migrations.AddField(
+                    model_name='studyspacequizattempt',
+                    name='user',
+                    field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='study_space_quiz_attempts', to='api.user'),
+                ),
+                migrations.AddField(
+                    model_name='studyspacequizquestion',
+                    name='quiz',
+                    field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='questions', to='api.studyspacequiz'),
+                ),
+                migrations.AddField(
+                    model_name='studyspaceshare',
+                    name='granted_by',
+                    field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='study_space_grants', to='api.user'),
+                ),
+                migrations.AddField(
+                    model_name='studyspaceshare',
+                    name='space',
+                    field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='share_grants', to='api.studyspace'),
+                ),
+                migrations.AddField(
+                    model_name='studyspaceshare',
+                    name='user',
+                    field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='study_space_shares', to='api.user'),
+                ),
+                migrations.AddIndex(
+                    model_name='studyspace',
+                    index=models.Index(fields=['user', '-updated_at'], name='study_space_user_id_b66e62_idx'),
+                ),
+                migrations.AddIndex(
+                    model_name='studyspaceflashcardreview',
+                    index=models.Index(fields=['user', 'flashcard'], name='study_space_user_id_375d45_idx'),
+                ),
+                migrations.AddIndex(
+                    model_name='studyspacemember',
+                    index=models.Index(fields=['space', 'role'], name='study_space_space_i_f0b99a_idx'),
+                ),
+                migrations.AddIndex(
+                    model_name='studyspacemember',
+                    index=models.Index(fields=['user', '-joined_at'], name='study_space_user_id_4684d5_idx'),
+                ),
+                migrations.AlterUniqueTogether(
+                    name='studyspacemember',
+                    unique_together={('space', 'user')},
+                ),
+                migrations.AddIndex(
+                    model_name='studyspacepresence',
+                    index=models.Index(fields=['space', '-last_seen_at'], name='study_space_space_i_0afd0d_idx'),
+                ),
+                migrations.AddIndex(
+                    model_name='studyspacepresence',
+                    index=models.Index(fields=['user', '-last_seen_at'], name='study_space_user_id_0f9015_idx'),
+                ),
+                migrations.AlterUniqueTogether(
+                    name='studyspacepresence',
+                    unique_together={('space', 'user')},
+                ),
+                migrations.AddIndex(
+                    model_name='studyspaceshare',
+                    index=models.Index(fields=['space', 'user'], name='study_space_space_i_2f4f4a_idx'),
+                ),
+                migrations.AddIndex(
+                    model_name='studyspaceshare',
+                    index=models.Index(fields=['user', '-created_at'], name='study_space_user_id_0ae118_idx'),
+                ),
+                migrations.AlterUniqueTogether(
+                    name='studyspaceshare',
+                    unique_together={('space', 'user')},
+                ),
+            ],
+            database_operations=[]
         ),
     ]

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  html, body { margin: 0; padding: 0; height: 100%; font-family: system-ui, sans-serif; background: #fff; }
+  #user-root { min-height: 100%; }
+</style>
+</head>
+<body>
+<div id="user-root"></div>
+<script>
+(function () {
+  'use strict';
+  var root = document.getElementById('user-root');
+  var currentRunId = null;
+
+  function send(type, payload) {
+    try { parent.postMessage({ source: 'nebians-sandbox', type: type, runId: currentRunId, payload: payload || {} }, '*'); } catch (e) {}
+  }
+
+  var userTimeouts = [];
+  var userIntervals = [];
+  var userRafs = [];
+  var origSetTimeout = window.setTimeout;
+  var origSetInterval = window.setInterval;
+  var origRaf = window.requestAnimationFrame;
+  window.setTimeout = function () { var id = origSetTimeout.apply(window, arguments); userTimeouts.push(id); return id; };
+  window.setInterval = function () { var id = origSetInterval.apply(window, arguments); userIntervals.push(id); return id; };
+  window.requestAnimationFrame = function () { var id = origRaf.apply(window, arguments); userRafs.push(id); return id; };
+
+  function clearUserTasks() {
+    userTimeouts.forEach(function (id) { clearTimeout(id); });
+    userIntervals.forEach(function (id) { clearInterval(id); });
+    userRafs.forEach(function (id) { cancelAnimationFrame(id); });
+    userTimeouts = [];
+    userIntervals = [];
+    userRafs = [];
+  }
+
+  function serialize(value) {
+    try {
+      if (value === undefined) return 'undefined';
+      if (value === null) return 'null';
+      if (typeof value === 'string') return value;
+      if (typeof value === 'function') return value.toString();
+      return JSON.stringify(value, null, 2);
+    } catch (e) { return String(value); }
+  }
+
+  ['log', 'info', 'warn', 'error'].forEach(function (level) {
+    var orig = console[level];
+    console[level] = function () {
+      var parts = [];
+      for (var i = 0; i < arguments.length; i++) parts.push(serialize(arguments[i]));
+      send('console', { level: level, text: parts.join(' ') });
+      if (orig) orig.apply(console, arguments);
+    };
+  });
+
+  window.addEventListener('error', function (e) {
+    send('console', { level: 'error', text: String(e.message || 'Error') + (e.lineno ? ' (line ' + e.lineno + ')' : '') });
+  });
+
+  function runWeb(html, css, js) {
+    root.innerHTML = '';
+    document.querySelectorAll('style[data-user], script[data-user]').forEach(function (n) { n.remove(); });
+    if (css) {
+      var style = document.createElement('style');
+      style.setAttribute('data-user', '1');
+      style.textContent = css;
+      document.head.appendChild(style);
+    }
+    if (html) root.innerHTML = html;
+    if (js) {
+      var script = document.createElement('script');
+      script.setAttribute('data-user', '1');
+      script.textContent = 'try {\n' + js + '\n} catch (e) { console.error(e.message); }';
+      document.body.appendChild(script);
+    }
+    send('done', {});
+  }
+
+  function runJs(js) {
+    try {
+      var result = (new Function(js))();
+      if (result !== undefined) send('console', { level: 'log', text: serialize(result) });
+    } catch (e) {
+      send('console', { level: 'error', text: e.message });
+    }
+    send('done', {});
+  }
+
+  window.addEventListener('message', function (e) {
+    var data = e.data || {};
+    if (data.source !== 'nebians-host') return;
+    if (data.type === 'run-web' || data.type === 'run-js' || data.type === 'reset') {
+      clearUserTasks();
+      currentRunId = data.runId != null ? data.runId : null;
+    }
+    if (data.type === 'run-web') runWeb(data.payload.html || '', data.payload.css || '', data.payload.js || '');
+    else if (data.type === 'run-js') runJs(data.payload.code || '');
+    else if (data.type === 'reset') { root.innerHTML = ''; send('done', {}); }
+  });
+
+  send('ready', {});
+})();
+</script>
+</body>
+</html>

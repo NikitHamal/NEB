@@ -1,14 +1,14 @@
 {% extends "base.html" %}
 {% load static web_extras %}
 
-{% block title %}Study Resources Library{% endblock %}
-{% block description %}Browse study resources - notes, past papers, textbooks and more for students and teachers.{% endblock %}
-{% block keywords %}study resources, notes, past papers, textbooks, education, library{% endblock %}
-{% block og_title %}NEBians Library - Study Resources{% endblock %}
-{% block og_description %}Browse study resources - notes, past papers, textbooks and more.{% endblock %}
+{% block title %}{% if current_tab == 'interactive' %}Interactive Learning — Free 3D Models, Simulations & Coding Games{% else %}Study Resources Library{% endif %}{% endblock %}
+{% block description %}{% if current_tab == 'interactive' %}Explore free interactive lessons - real-time 3D models, virtual lab simulations and coding games for curious students.{% else %}Browse study resources - notes, past papers, textbooks and more for students and teachers.{% endif %}{% endblock %}
+{% block keywords %}{% if current_tab == 'interactive' %}interactive learning, 3D models, simulations, coding games, virtual labs, free education{% else %}study resources, notes, past papers, textbooks, education, library{% endif %}{% endblock %}
+{% block og_title %}{% if current_tab == 'interactive' %}NEBians Interactive — 3D Models, Simulations & Coding Games{% else %}NEBians Library - Study Resources{% endif %}{% endblock %}
+{% block og_description %}{% if current_tab == 'interactive' %}Explore free interactive lessons - 3D models, virtual labs and coding games.{% else %}Browse study resources - notes, past papers, textbooks and more.{% endif %}{% endblock %}
 {% block nav_library %}md-nav-active{% endblock %}
 {% block bnav_library %}md-nav-active{% endblock %}
-{% block canonical %}https://nebians.consica.com.np{{ request.path }}{% if page_obj and page_obj.number > 1 %}?page={{ page_obj.number }}{% endif %}{% endblock %}
+{% block canonical %}https://nebians.consica.com.np{{ request.path }}{% if current_tab == 'interactive' %}?tab=interactive{% elif page_obj and page_obj.number > 1 %}?page={{ page_obj.number }}{% endif %}{% endblock %}
 
 {% block bottomnav %}
 <nav class="md-bottomnav">
@@ -22,13 +22,15 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'web/css/pages/web-library.css' %}">
+{% if current_tab == 'interactive' %}<link rel="stylesheet" href="{% static 'web/css/pages/interactive.css' %}">{% endif %}
 {% endblock %}
 
 {% block content %}
 <div class="md-container">
   <!-- Header + Filter button -->
   <div class="lib-header-row" style="margin-bottom: 12px;">
-    <h1 class="md-headline-medium">Digital Library</h1>
+    <h1 class="md-headline-medium">{% if current_tab == 'interactive' %}Interactive Learning{% else %}Digital Library{% endif %}</h1>
+    {% if current_tab != 'interactive' %}
     <div class="lib-header-actions">
       <a href="{% url 'web:upload_resource' %}" class="md-btn md-btn-tonal" style="text-decoration:none;">
         <span class="material-symbols-outlined" style="font-size:20px">upload</span>
@@ -42,6 +44,7 @@
         {% endif %}
       </button>
     </div>
+    {% endif %}
   </div>
 
   <!-- Navigation Tabs -->
@@ -52,9 +55,15 @@
     <a href="?tab=categories{% for s in current_subjects %}&subject={{ s|urlencode }}{% endfor %}{% for g in current_grades %}&grade={{ g|urlencode }}{% endfor %}{% for t in current_types %}&type={{ t|urlencode }}{% endfor %}{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}" class="subj-tab-btn {% if current_tab == 'categories' %}active{% endif %}">
       Syllabus
     </a>
+    <a href="?tab=interactive{% for s in current_subjects %}&subject={{ s|urlencode }}{% endfor %}{% for g in current_grades %}&grade={{ g|urlencode }}{% endfor %}{% for t in current_types %}&type={{ t|urlencode }}{% endfor %}{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}" class="subj-tab-btn ix-tab-btn {% if current_tab == 'interactive' %}active{% endif %}">
+      <span class="material-symbols-outlined ix-tab-icon">stadia_controller</span>
+      Interactive
+    </a>
   </div>
 
-{% if current_tab == 'digital' %}
+{% if current_tab == 'interactive' %}
+  {% include "web/interactive/_hub_content.html" %}
+{% elif current_tab == 'digital' %}
   <div id="library-main">
     <!-- Active filter chips -->
     {% if current_subjects or current_grades or current_types %}
@@ -83,7 +92,7 @@
       <div class="lib-count">Showing <strong>{{ page_obj.start_index }}&ndash;{{ page_obj.end_index }}</strong> of <strong>{{ page_obj.paginator.count }}</strong> resources</div>
       <div class="lib-sort-controls">
         <span style="font-size:0.8125rem;color:var(--md-on-surface-variant);">Sort by:</span>
-        <select data-change-action="navigate-sort" hx-get="{% url 'web:library' %}" hx-target="#library-main" hx-swap="innerHTML" hx-push-url="true" hx-trigger="change" hx-include="#sort-params">
+        <select data-change-action="navigate-sort">
           <option value="relevant" {% if current_sort == 'relevant' %}selected{% endif %}>Most Relevant</option>
           <option value="trending" {% if current_sort == 'trending' %}selected{% endif %}>Trending</option>
           <option value="newest" {% if current_sort == 'newest' %}selected{% endif %}>Newest</option>

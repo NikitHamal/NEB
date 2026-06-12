@@ -114,8 +114,15 @@ def library(request):
     exam_types = [e.strip() for e in request.GET.getlist('exam_type') if e.strip()]
     sort_by = request.GET.get('sort', 'relevant')
     current_tab = request.GET.get('tab', 'digital')
-    if current_tab not in ['digital', 'community', 'categories']:
+    if current_tab not in ['digital', 'community', 'categories', 'interactive']:
         current_tab = 'digital'
+
+    interactive_categories = []
+    interactive_stats = None
+    if current_tab == 'interactive':
+        from . import interactive as interactive_catalog
+        interactive_categories = interactive_catalog.get_courses_by_category()
+        interactive_stats = interactive_catalog.get_stats()
 
     filtered = []
     page_obj = None
@@ -257,6 +264,8 @@ def library(request):
         current_tab=current_tab,
         page_obj=page_obj,
         categories_list=categories_list,
+        interactive_categories=interactive_categories,
+        interactive_stats=interactive_stats,
     )
 
     if getattr(request, 'htmx', False) and current_tab in ['digital', 'community']:
@@ -1412,7 +1421,14 @@ def sitemap_xml(request):
         {'loc': f'{base}/', 'changefreq': 'daily', 'priority': '1.0', 'lastmod': now},
         {'loc': f'{base}/library/', 'changefreq': 'daily', 'priority': '0.8', 'lastmod': now},
         {'loc': f'{base}/forum/', 'changefreq': 'daily', 'priority': '0.8', 'lastmod': now},
+        {'loc': f'{base}/library/?tab=interactive', 'changefreq': 'weekly', 'priority': '0.8', 'lastmod': now},
     ]
+
+    from . import interactive as interactive_catalog
+    for course in interactive_catalog.get_all_courses():
+        urls.append({'loc': f'{base}/interactive/{course["slug"]}/', 'changefreq': 'monthly', 'priority': '0.7', 'lastmod': now})
+        for lesson in course.get('lessons', []):
+            urls.append({'loc': f'{base}/interactive/{course["slug"]}/{lesson["slug"]}/', 'changefreq': 'monthly', 'priority': '0.6', 'lastmod': now})
 
     def _lastmod(ts):
         if isinstance(ts, int) and ts:

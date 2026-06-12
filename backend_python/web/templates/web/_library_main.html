@@ -26,7 +26,7 @@
   <div class="lib-count">Showing <strong>{{ page_obj.start_index }}&ndash;{{ page_obj.end_index }}</strong> of <strong>{{ page_obj.paginator.count }}</strong> resources</div>
   <div class="lib-sort-controls">
     <span style="font-size:0.8125rem;color:var(--md-on-surface-variant);">Sort by:</span>
-    <select data-change-action="navigate-sort" hx-get="{% url 'web:library' %}" hx-target="#library-main" hx-swap="innerHTML" hx-push-url="true" hx-trigger="change" hx-include="#sort-params">
+    <select data-change-action="navigate-sort">
       <option value="relevant" {% if current_sort == 'relevant' %}selected{% endif %}>Most Relevant</option>
       <option value="trending" {% if current_sort == 'trending' %}selected{% endif %}>Trending</option>
       <option value="newest" {% if current_sort == 'newest' %}selected{% endif %}>Newest</option>
