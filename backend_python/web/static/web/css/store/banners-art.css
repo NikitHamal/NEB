@@ -1,0 +1,525 @@
+/* ──────────────────────────────────────────────────────────────
+   NEBians Store — banner art presets, set 2 (data-banner-type)
+   Pattern follows store/banners.css + app/07-profile-banner.css.
+   All presets have light + dark variants, mobile + reduced-motion
+   fallbacks consolidated at the end of this file.
+
+   Performance contract:
+   - Animations use transform / opacity / background-position only
+   - will-change only on the single animating layer per preset
+   - Gradients only — no images, no filters
+   - All new keyframes are storeArt-prefixed (no collisions)
+   - Presets render correctly at 180px full-width banner AND the
+     small store preview (holo-metallic + mesh + shine + deco only)
+   ────────────────────────────────────────────────────────────── */
+
+/* ════════════════════════════════════════════════════════════
+   1. INK BRUSH (static) — sumi-e ink wash on rice paper,
+      hanko seal accent. No animation.
+   ════════════════════════════════════════════════════════════ */
+.pf-card-banner[data-banner-type="ink-brush"] .pf-banner-holo-metallic {
+  background:
+    conic-gradient(from 45deg,
+      rgba(157, 28, 36, 0.88) 0 25%,
+      rgba(196, 46, 52, 0.88) 25% 50%,
+      rgba(157, 28, 36, 0.88) 50% 75%,
+      rgba(196, 46, 52, 0.88) 75% 100%),
+    linear-gradient(118deg,
+      transparent 28%,
+      rgba(72, 70, 62, 0.16) 38%,
+      rgba(72, 70, 62, 0.05) 50%,
+      transparent 62%),
+    linear-gradient(98deg,
+      transparent 52%,
+      rgba(52, 50, 44, 0.12) 64%,
+      rgba(52, 50, 44, 0.03) 74%,
+      transparent 84%),
+    radial-gradient(ellipse 55% 70% at 18% 28%, rgba(88, 85, 76, 0.10) 0%, transparent 58%),
+    linear-gradient(160deg, #f7f3ea 0%, #f5f1e8 45%, #ece5d4 100%);
+  background-size: 24px 24px, 100% 100%, 100% 100%, 100% 100%, 100% 100%;
+  background-position: right 10% top 24%, center, center, center, center;
+  background-repeat: no-repeat;
+  animation: none;
+}
+[data-theme="dark"] .pf-card-banner[data-banner-type="ink-brush"] .pf-banner-holo-metallic {
+  background:
+    conic-gradient(from 45deg,
+      rgba(146, 30, 38, 0.75) 0 25%,
+      rgba(178, 44, 50, 0.75) 25% 50%,
+      rgba(146, 30, 38, 0.75) 50% 75%,
+      rgba(178, 44, 50, 0.75) 75% 100%),
+    linear-gradient(118deg,
+      transparent 28%,
+      rgba(216, 208, 190, 0.10) 38%,
+      rgba(216, 208, 190, 0.03) 50%,
+      transparent 62%),
+    linear-gradient(98deg,
+      transparent 52%,
+      rgba(228, 220, 200, 0.08) 64%,
+      rgba(228, 220, 200, 0.02) 74%,
+      transparent 84%),
+    radial-gradient(ellipse 55% 70% at 18% 28%, rgba(214, 207, 192, 0.06) 0%, transparent 58%),
+    linear-gradient(160deg, #211e1a 0%, #1c1a17 45%, #161412 100%);
+  background-size: 24px 24px, 100% 100%, 100% 100%, 100% 100%, 100% 100%;
+  background-position: right 10% top 24%, center, center, center, center;
+  background-repeat: no-repeat;
+}
+.pf-card-banner[data-banner-type="ink-brush"] .pf-banner-mesh-overlay {
+  opacity: 0;
+}
+.pf-card-banner[data-banner-type="ink-brush"] .pf-banner-shine-overlay {
+  animation: none;
+  background: none;
+}
+.pf-card-banner[data-banner-type="ink-brush"] .pf-banner-deco-text {
+  color: var(--banner-text-color, rgba(50, 48, 42, 0.16));
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.50), 0 0 30px rgba(72, 70, 62, 0.10);
+  letter-spacing: 0.30em;
+}
+[data-theme="dark"] .pf-card-banner[data-banner-type="ink-brush"] .pf-banner-deco-text {
+  color: rgba(228, 220, 200, 0.14);
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.45), 0 0 30px rgba(216, 208, 190, 0.06);
+}
+
+/* ════════════════════════════════════════════════════════════
+   2. KOI POND (animated) — deep teal water, drifting caustic
+      ripples, static lily pads
+   ════════════════════════════════════════════════════════════ */
+.pf-card-banner[data-banner-type="koi-pond"] .pf-banner-holo-metallic {
+  background:
+    radial-gradient(circle at 76% 26%, rgba(48, 168, 138, 0.50) 0 15px, transparent 16px),
+    radial-gradient(circle at 86% 38%, rgba(40, 152, 126, 0.42) 0 10px, transparent 11px),
+    radial-gradient(circle at 13% 72%, rgba(48, 168, 138, 0.38) 0 12px, transparent 13px),
+    radial-gradient(ellipse 90% 60% at 50% 0%, rgba(94, 234, 212, 0.16) 0%, transparent 60%),
+    linear-gradient(175deg, #0d5c55 0%, #0f766e 35%, #0b4f4a 70%, #083f3c 100%);
+  animation: none;
+}
+/* caustic ripple layer A — slow drift, background-position only */
+.pf-card-banner[data-banner-type="koi-pond"] .pf-banner-holo-metallic::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-radial-gradient(circle at 30% 40%,
+      rgba(153, 246, 228, 0.12) 0 1.5px,
+      transparent 1.5px 22px),
+    repeating-radial-gradient(circle at 62% 18%,
+      rgba(94, 234, 212, 0.08) 0 1.5px,
+      transparent 1.5px 34px);
+  will-change: background-position;
+  animation: storeArtCausticDrift 30s ease-in-out infinite alternate;
+}
+/* caustic ripple layer B — static, different scale and origin */
+.pf-card-banner[data-banner-type="koi-pond"] .pf-banner-holo-metallic::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-radial-gradient(circle at 72% 68%,
+      rgba(94, 234, 212, 0.09) 0 1.5px,
+      transparent 1.5px 28px);
+}
+[data-theme="dark"] .pf-card-banner[data-banner-type="koi-pond"] .pf-banner-holo-metallic {
+  background:
+    radial-gradient(circle at 76% 26%, rgba(38, 140, 116, 0.38) 0 15px, transparent 16px),
+    radial-gradient(circle at 86% 38%, rgba(32, 126, 104, 0.32) 0 10px, transparent 11px),
+    radial-gradient(circle at 13% 72%, rgba(38, 140, 116, 0.28) 0 12px, transparent 13px),
+    radial-gradient(ellipse 90% 60% at 50% 0%, rgba(94, 234, 212, 0.08) 0%, transparent 60%),
+    linear-gradient(175deg, #073a36 0%, #084c46 35%, #05312e 70%, #042524 100%);
+}
+[data-theme="dark"] .pf-card-banner[data-banner-type="koi-pond"] .pf-banner-holo-metallic::before {
+  background:
+    repeating-radial-gradient(circle at 30% 40%,
+      rgba(153, 246, 228, 0.08) 0 1.5px,
+      transparent 1.5px 22px),
+    repeating-radial-gradient(circle at 62% 18%,
+      rgba(94, 234, 212, 0.05) 0 1.5px,
+      transparent 1.5px 34px);
+}
+[data-theme="dark"] .pf-card-banner[data-banner-type="koi-pond"] .pf-banner-holo-metallic::after {
+  background:
+    repeating-radial-gradient(circle at 72% 68%,
+      rgba(94, 234, 212, 0.06) 0 1.5px,
+      transparent 1.5px 28px);
+}
+.pf-card-banner[data-banner-type="koi-pond"] .pf-banner-mesh-overlay {
+  opacity: 0.05;
+}
+.pf-card-banner[data-banner-type="koi-pond"] .pf-banner-deco-text {
+  color: var(--banner-text-color, rgba(204, 251, 241, 0.20));
+  text-shadow: 0 2px 20px rgba(13, 92, 85, 0.35), 0 0 40px rgba(94, 234, 212, 0.12);
+}
+[data-theme="dark"] .pf-card-banner[data-banner-type="koi-pond"] .pf-banner-deco-text {
+  color: rgba(153, 246, 228, 0.15);
+  text-shadow: 0 2px 20px rgba(4, 37, 36, 0.45), 0 0 40px rgba(94, 234, 212, 0.08);
+}
+
+/* ════════════════════════════════════════════════════════════
+   3. TOPO CONTOUR (static) — topographic map, evergreen base,
+      double contour line sets + peak marker. No animation.
+   ════════════════════════════════════════════════════════════ */
+.pf-card-banner[data-banner-type="topo-contour"] .pf-banner-holo-metallic {
+  background:
+    conic-gradient(from 150deg at 50% 0%,
+      rgba(167, 243, 208, 0.55) 0deg 60deg,
+      transparent 60deg),
+    repeating-radial-gradient(circle at 30% 60%,
+      transparent 0 22px,
+      rgba(110, 231, 183, 0.18) 22px 23.5px),
+    repeating-radial-gradient(circle at 85% 15%,
+      transparent 0 30px,
+      rgba(110, 231, 183, 0.12) 30px 31.5px),
+    linear-gradient(160deg, #064e3b 0%, #04382b 55%, #022c22 100%);
+  background-size: 16px 13px, 100% 100%, 100% 100%, 100% 100%;
+  background-position: 30% 38%, center, center, center;
+  background-repeat: no-repeat;
+  animation: none;
+}
+[data-theme="dark"] .pf-card-banner[data-banner-type="topo-contour"] .pf-banner-holo-metallic {
+  background:
+    conic-gradient(from 150deg at 50% 0%,
+      rgba(167, 243, 208, 0.40) 0deg 60deg,
+      transparent 60deg),
+    repeating-radial-gradient(circle at 30% 60%,
+      transparent 0 22px,
+      rgba(134, 239, 195, 0.12) 22px 23.5px),
+    repeating-radial-gradient(circle at 85% 15%,
+      transparent 0 30px,
+      rgba(134, 239, 195, 0.08) 30px 31.5px),
+    linear-gradient(160deg, #022c22 0%, #021e17 55%, #01140e 100%);
+  background-size: 16px 13px, 100% 100%, 100% 100%, 100% 100%;
+  background-position: 30% 38%, center, center, center;
+  background-repeat: no-repeat;
+}
+.pf-card-banner[data-banner-type="topo-contour"] .pf-banner-mesh-overlay {
+  opacity: 0;
+}
+.pf-card-banner[data-banner-type="topo-contour"] .pf-banner-shine-overlay {
+  animation: none;
+  background: none;
+}
+.pf-card-banner[data-banner-type="topo-contour"] .pf-banner-deco-text {
+  color: var(--banner-text-color, rgba(209, 250, 229, 0.18));
+  text-shadow: 0 2px 20px rgba(2, 44, 34, 0.40), 0 0 40px rgba(110, 231, 183, 0.10);
+  letter-spacing: 0.30em;
+}
+[data-theme="dark"] .pf-card-banner[data-banner-type="topo-contour"] .pf-banner-deco-text {
+  color: rgba(167, 243, 208, 0.14);
+  text-shadow: 0 2px 20px rgba(1, 20, 14, 0.50), 0 0 40px rgba(134, 239, 195, 0.07);
+}
+
+/* ════════════════════════════════════════════════════════════
+   4. PIXEL MEADOW (animated) — 8-bit banded sky, hard-stop
+      stepped clouds drifting one tile per loop, pixel grass +
+      flower dots. Dusk palette in dark mode.
+   ════════════════════════════════════════════════════════════ */
+.pf-card-banner[data-banner-type="pixel-meadow"] .pf-banner-holo-metallic {
+  background-image:
+    radial-gradient(circle, #ff7ba4 0 2px, transparent 2px),
+    radial-gradient(circle, #ffd166 0 2px, transparent 2px),
+    repeating-linear-gradient(90deg,
+      rgba(255, 255, 255, 0.05) 0 1px,
+      transparent 1px 14px),
+    linear-gradient(180deg,
+      #7ec8f2 0%, #7ec8f2 24%,
+      #93d4f7 24%, #93d4f7 46%,
+      #aadffb 46%, #aadffb 64%,
+      #d2eefd 64%, #d2eefd 70%,
+      #57a84e 70%, #57a84e 80%,
+      #438b3b 80%, #438b3b 90%,
+      #336e2d 90%, #336e2d 100%);
+  background-size: 64px 20px, 80px 16px, auto, 100% 100%;
+  background-position: 8px calc(100% - 22px), 36px calc(100% - 10px), left top, center;
+  background-repeat: repeat-x, repeat-x, repeat, no-repeat;
+  animation: none;
+}
+/* pixel clouds — shared 260px tile, drifts exactly one tile per loop */
+.pf-card-banner[data-banner-type="pixel-meadow"] .pf-banner-holo-metallic::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 58px 32px,
+      #ffffff 0 9px, rgba(255, 255, 255, 0.85) 9px 15px, transparent 15px),
+    radial-gradient(circle at 80px 36px,
+      #ffffff 0 7px, rgba(255, 255, 255, 0.85) 7px 12px, transparent 12px),
+    radial-gradient(circle at 42px 38px,
+      rgba(255, 255, 255, 0.92) 0 6px, rgba(255, 255, 255, 0.78) 6px 10px, transparent 10px),
+    radial-gradient(circle at 184px 54px,
+      rgba(255, 255, 255, 0.85) 0 7px, rgba(255, 255, 255, 0.68) 7px 12px, transparent 12px),
+    radial-gradient(circle at 203px 58px,
+      rgba(255, 255, 255, 0.80) 0 6px, transparent 9px);
+  background-size: 260px 100%, 260px 100%, 260px 100%, 260px 100%, 260px 100%;
+  background-repeat: repeat-x;
+  will-change: background-position;
+  animation: storeArtCloudDrift 40s linear infinite;
+}
+[data-theme="dark"] .pf-card-banner[data-banner-type="pixel-meadow"] .pf-banner-holo-metallic {
+  background-image:
+    radial-gradient(circle, #fbbf24 0 2px, transparent 2px),
+    radial-gradient(circle, #fde68a 0 2px, transparent 2px),
+    repeating-linear-gradient(90deg,
+      rgba(255, 255, 255, 0.03) 0 1px,
+      transparent 1px 14px),
+    linear-gradient(180deg,
+      #16204a 0%, #16204a 24%,
+      #1d2a5e 24%, #1d2a5e 46%,
+      #273875 46%, #273875 64%,
+      #34478c 64%, #34478c 70%,
+      #1d3a22 70%, #1d3a22 80%,
+      #152e19 80%, #152e19 90%,
+      #0f2412 90%, #0f2412 100%);
+  background-size: 64px 20px, 80px 16px, auto, 100% 100%;
+  background-position: 8px calc(100% - 22px), 36px calc(100% - 10px), left top, center;
+  background-repeat: repeat-x, repeat-x, repeat, no-repeat;
+}
+[data-theme="dark"] .pf-card-banner[data-banner-type="pixel-meadow"] .pf-banner-holo-metallic::before {
+  background-image:
+    radial-gradient(circle at 58px 32px,
+      rgba(190, 200, 235, 0.45) 0 9px, rgba(190, 200, 235, 0.32) 9px 15px, transparent 15px),
+    radial-gradient(circle at 80px 36px,
+      rgba(190, 200, 235, 0.45) 0 7px, rgba(190, 200, 235, 0.32) 7px 12px, transparent 12px),
+    radial-gradient(circle at 42px 38px,
+      rgba(190, 200, 235, 0.38) 0 6px, rgba(190, 200, 235, 0.26) 6px 10px, transparent 10px),
+    radial-gradient(circle at 184px 54px,
+      rgba(190, 200, 235, 0.32) 0 7px, rgba(190, 200, 235, 0.22) 7px 12px, transparent 12px),
+    radial-gradient(circle at 203px 58px,
+      rgba(190, 200, 235, 0.28) 0 6px, transparent 9px);
+  background-size: 260px 100%, 260px 100%, 260px 100%, 260px 100%, 260px 100%;
+  background-repeat: repeat-x;
+}
+.pf-card-banner[data-banner-type="pixel-meadow"] .pf-banner-mesh-overlay {
+  opacity: 0;
+}
+.pf-card-banner[data-banner-type="pixel-meadow"] .pf-banner-shine-overlay {
+  animation: none;
+  background: none;
+}
+.pf-card-banner[data-banner-type="pixel-meadow"] .pf-banner-deco-text {
+  color: var(--banner-text-color, rgba(255, 255, 255, 0.30));
+  text-shadow: 0 2px 0 rgba(51, 110, 45, 0.50);
+  letter-spacing: 0.4em;
+}
+[data-theme="dark"] .pf-card-banner[data-banner-type="pixel-meadow"] .pf-banner-deco-text {
+  color: rgba(190, 200, 235, 0.22);
+  text-shadow: 0 2px 0 rgba(8, 12, 30, 0.60);
+}
+
+/* ════════════════════════════════════════════════════════════
+   5. MOLTEN CORE (animated) — near-black rock, magma vein
+      cracks, slow ember glow pulse (opacity only, 0.5–0.9)
+   ════════════════════════════════════════════════════════════ */
+.pf-card-banner[data-banner-type="molten-core"] .pf-banner-holo-metallic {
+  background:
+    repeating-linear-gradient(63deg,
+      transparent 0 34px,
+      rgba(249, 115, 22, 0.16) 34px 35.5px,
+      rgba(220, 38, 38, 0.10) 35.5px 37px,
+      transparent 37px 70px),
+    repeating-linear-gradient(-48deg,
+      transparent 0 46px,
+      rgba(251, 146, 60, 0.13) 46px 47.5px,
+      transparent 47.5px 92px),
+    radial-gradient(ellipse 60% 50% at 22% 88%, rgba(234, 88, 12, 0.38) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 45% at 78% 82%, rgba(220, 38, 38, 0.28) 0%, transparent 60%),
+    linear-gradient(170deg, #0c0a09 0%, #18100b 55%, #200d07 100%);
+  animation: none;
+}
+/* pulsing ember glow — opacity-only animation */
+.pf-card-banner[data-banner-type="molten-core"] .pf-banner-holo-metallic::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 60% at 50% 96%, rgba(249, 115, 22, 0.32) 0%, transparent 65%),
+    radial-gradient(ellipse 40% 35% at 28% 86%, rgba(254, 160, 90, 0.26) 0%, transparent 60%);
+  opacity: 0.9;
+  will-change: opacity;
+  animation: storeArtMagmaPulse 4s ease-in-out infinite alternate;
+}
+[data-theme="dark"] .pf-card-banner[data-banner-type="molten-core"] .pf-banner-holo-metallic {
+  background:
+    repeating-linear-gradient(63deg,
+      transparent 0 34px,
+      rgba(249, 115, 22, 0.12) 34px 35.5px,
+      rgba(220, 38, 38, 0.07) 35.5px 37px,
+      transparent 37px 70px),
+    repeating-linear-gradient(-48deg,
+      transparent 0 46px,
+      rgba(251, 146, 60, 0.09) 46px 47.5px,
+      transparent 47.5px 92px),
+    radial-gradient(ellipse 60% 50% at 22% 88%, rgba(234, 88, 12, 0.28) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 45% at 78% 82%, rgba(220, 38, 38, 0.20) 0%, transparent 60%),
+    linear-gradient(170deg, #080606 0%, #120c08 55%, #180905 100%);
+}
+[data-theme="dark"] .pf-card-banner[data-banner-type="molten-core"] .pf-banner-holo-metallic::before {
+  background:
+    radial-gradient(ellipse 70% 60% at 50% 96%, rgba(249, 115, 22, 0.24) 0%, transparent 65%),
+    radial-gradient(ellipse 40% 35% at 28% 86%, rgba(254, 160, 90, 0.18) 0%, transparent 60%);
+}
+.pf-card-banner[data-banner-type="molten-core"] .pf-banner-mesh-overlay {
+  opacity: 0.04;
+}
+.pf-card-banner[data-banner-type="molten-core"] .pf-banner-deco-text {
+  color: var(--banner-text-color, rgba(255, 237, 213, 0.18));
+  text-shadow: 0 2px 20px rgba(234, 88, 12, 0.30), 0 0 40px rgba(220, 38, 38, 0.12);
+}
+[data-theme="dark"] .pf-card-banner[data-banner-type="molten-core"] .pf-banner-deco-text {
+  color: rgba(253, 186, 116, 0.15);
+  text-shadow: 0 2px 20px rgba(234, 88, 12, 0.26), 0 0 40px rgba(220, 38, 38, 0.08);
+}
+
+/* ════════════════════════════════════════════════════════════
+   6. PRISM CASCADE (legendary, animated) — holographic
+      spectrum bands + fine cascade lines + diagonal sheen
+      sweeping one tile per loop
+   ════════════════════════════════════════════════════════════ */
+.pf-card-banner[data-banner-type="prism-cascade"] .pf-banner-holo-metallic {
+  background:
+    repeating-linear-gradient(90deg,
+      rgba(255, 255, 255, 0.12) 0 1px,
+      transparent 1px 8px),
+    linear-gradient(100deg,
+      #fbcfdd 0%,
+      #fde7b8 14%,
+      #c8f2da 28%,
+      #c2ecf7 42%,
+      #ccd3f8 56%,
+      #ecd0f6 70%,
+      #fbcfdd 84%,
+      #fde7b8 100%);
+  animation: none;
+}
+/* diagonal sheen strip — background-position only, seamless loop */
+.pf-card-banner[data-banner-type="prism-cascade"] .pf-banner-holo-metallic::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0) 35%,
+    rgba(255, 255, 255, 0.16) 48%,
+    rgba(255, 255, 255, 0.34) 50%,
+    rgba(255, 255, 255, 0.16) 52%,
+    rgba(255, 255, 255, 0) 65%,
+    rgba(255, 255, 255, 0) 100%);
+  background-size: 250% 100%;
+  background-repeat: no-repeat;
+  will-change: background-position;
+  animation: storeArtPrismSheen 12s linear infinite;
+}
+[data-theme="dark"] .pf-card-banner[data-banner-type="prism-cascade"] .pf-banner-holo-metallic {
+  background:
+    repeating-linear-gradient(90deg,
+      rgba(255, 255, 255, 0.07) 0 1px,
+      transparent 1px 8px),
+    linear-gradient(100deg,
+      rgba(244, 63, 94, 0.32) 0%,
+      rgba(245, 158, 11, 0.30) 14%,
+      rgba(16, 185, 129, 0.30) 28%,
+      rgba(6, 182, 212, 0.30) 42%,
+      rgba(99, 102, 241, 0.34) 56%,
+      rgba(217, 70, 239, 0.32) 70%,
+      rgba(244, 63, 94, 0.32) 84%,
+      rgba(245, 158, 11, 0.30) 100%),
+    linear-gradient(170deg, #17181c 0%, #1d1e24 100%);
+}
+[data-theme="dark"] .pf-card-banner[data-banner-type="prism-cascade"] .pf-banner-holo-metallic::after {
+  background: linear-gradient(105deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0) 35%,
+    rgba(255, 255, 255, 0.07) 48%,
+    rgba(255, 255, 255, 0.16) 50%,
+    rgba(255, 255, 255, 0.07) 52%,
+    rgba(255, 255, 255, 0) 65%,
+    rgba(255, 255, 255, 0) 100%);
+  background-size: 250% 100%;
+  background-repeat: no-repeat;
+}
+.pf-card-banner[data-banner-type="prism-cascade"] .pf-banner-mesh-overlay {
+  opacity: 0.06;
+}
+/* base shine disabled — preset carries its own sheen layer */
+.pf-card-banner[data-banner-type="prism-cascade"] .pf-banner-shine-overlay {
+  animation: none;
+  background: none;
+}
+.pf-card-banner[data-banner-type="prism-cascade"] .pf-banner-deco-text {
+  color: var(--banner-text-color, rgba(255, 255, 255, 0.42));
+  text-shadow: 0 1px 2px rgba(110, 80, 140, 0.30), 0 0 40px rgba(255, 255, 255, 0.25);
+  letter-spacing: 0.28em;
+}
+[data-theme="dark"] .pf-card-banner[data-banner-type="prism-cascade"] .pf-banner-deco-text {
+  color: rgba(232, 222, 248, 0.20);
+  text-shadow: 0 2px 20px rgba(217, 70, 239, 0.22), 0 0 40px rgba(99, 102, 241, 0.12);
+}
+
+/* ════════════════════════════════════════════════════════════
+   Store art keyframes — seamless / alternate loops,
+   compositor-friendly (background-position / opacity only)
+   ════════════════════════════════════════════════════════════ */
+/* alternate direction — no seam to hide */
+@keyframes storeArtCausticDrift {
+  0%   { background-position: 0 0, 0 0; }
+  100% { background-position: 48px 30px, -36px 22px; }
+}
+
+/* clouds travel exactly one 260px tile per loop — invisible seam */
+@keyframes storeArtCloudDrift {
+  0%   { background-position: 0 0, 0 0, 0 0, 0 0, 0 0; }
+  100% { background-position: 260px 0, 260px 0, 260px 0, 260px 0, 260px 0; }
+}
+
+/* tasteful ember pulse — opacity 0.5–0.9, never strobes */
+@keyframes storeArtMagmaPulse {
+  0%   { opacity: 0.5; }
+  100% { opacity: 0.9; }
+}
+
+/* sheen gradient is wider than container — both ends off-screen */
+@keyframes storeArtPrismSheen {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ════════════════════════════════════════════════════════════
+   Mobile — pause/simplify heavy banner animations
+   (explicit per-preset rules: preset selectors out-specify the
+   base mobile pause in app/07-profile-banner.css)
+   ════════════════════════════════════════════════════════════ */
+@media (max-width: 600px) {
+  .pf-card-banner[data-banner-type="koi-pond"] .pf-banner-holo-metallic::before,
+  .pf-card-banner[data-banner-type="pixel-meadow"] .pf-banner-holo-metallic::before {
+    animation: none;
+  }
+  .pf-card-banner[data-banner-type="molten-core"] .pf-banner-holo-metallic::before {
+    animation-duration: 6s;
+  }
+  .pf-card-banner[data-banner-type="prism-cascade"] .pf-banner-holo-metallic::after {
+    animation-duration: 18s;
+  }
+  .pf-card-banner[data-banner-type="pixel-meadow"] .pf-banner-deco-text {
+    font-size: 1.3rem;
+    letter-spacing: 0.28em;
+  }
+  .pf-card-banner[data-banner-type="ink-brush"] .pf-banner-deco-text,
+  .pf-card-banner[data-banner-type="topo-contour"] .pf-banner-deco-text {
+    font-size: 1.3rem;
+    letter-spacing: 0.20em;
+  }
+}
+
+/* ════════════════════════════════════════════════════════════
+   Reduced motion — all store art banner animations off
+   ════════════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  .pf-card-banner[data-banner-type="koi-pond"] .pf-banner-holo-metallic::before,
+  .pf-card-banner[data-banner-type="pixel-meadow"] .pf-banner-holo-metallic::before,
+  .pf-card-banner[data-banner-type="molten-core"] .pf-banner-holo-metallic::before,
+  .pf-card-banner[data-banner-type="prism-cascade"] .pf-banner-holo-metallic::after {
+    animation: none !important;
+  }
+  .pf-card-banner[data-banner-type="molten-core"] .pf-banner-holo-metallic::before {
+    opacity: 0.7;
+  }
+}

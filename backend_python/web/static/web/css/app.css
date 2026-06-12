@@ -9,5 +9,6 @@
 @import url("app/08-profile-card-details.css");
 @import url("app/09-global-overrides-markdown-messaging.css");
 @import url("store/banners.css");
+@import url("store/banners-art.css");
 @import url("store/borders.css");
 @import url("store/badges.css");

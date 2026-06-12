@@ -207,6 +207,128 @@
 }
 
 /* ════════════════════════════════════════════════════════════
+   8. SAKURA RING (rare) — soft cherry blossom pinks with a
+      couple of lighter "petal" hard-ish stops (static)
+   ════════════════════════════════════════════════════════════ */
+.avatar-border-sakura-ring::after {
+  background: conic-gradient(from 320deg,
+    #FBCFE8 0deg, #F472B6 65deg, #FDF2F8 110deg 122deg,
+    #EC4899 175deg, #FBCFE8 230deg, #FDF2F8 268deg 280deg,
+    #F472B6 325deg, #FBCFE8 360deg);
+}
+[data-theme="dark"] .avatar-border-sakura-ring::after {
+  background: conic-gradient(from 320deg,
+    #F9A8D4 0deg, #EC4899 65deg, #FBCFE8 110deg 122deg,
+    #DB2777 175deg, #F9A8D4 230deg, #FBCFE8 268deg 280deg,
+    #EC4899 325deg, #F9A8D4 360deg);
+}
+
+/* ════════════════════════════════════════════════════════════
+   9. FROST HALO (rare) — glacial ice, icy whites and pale
+      blues, top-lit like glass-ring (static)
+   ════════════════════════════════════════════════════════════ */
+.avatar-border-frost-halo::after {
+  background:
+    linear-gradient(180deg,
+      #FFFFFF 0%,
+      #E0F2FE 32%,
+      #BAE6FD 64%,
+      #7DD3FC 100%);
+}
+[data-theme="dark"] .avatar-border-frost-halo::after {
+  background:
+    linear-gradient(180deg,
+      #E2E8F0 0%,
+      #BAE6FD 32%,
+      #7DD3FC 64%,
+      #38BDF8 100%);
+}
+
+/* ════════════════════════════════════════════════════════════
+   10. OCEAN SWIRL (rare, animated) — teal/azure currents
+       rotating, subtle aqua glow pulse on ::before
+   ════════════════════════════════════════════════════════════ */
+.avatar-border-ocean-swirl::after {
+  background: conic-gradient(from 0deg,
+    #0D9488 0deg, #2DD4BF 90deg, #0EA5E9 180deg,
+    #38BDF8 270deg, #0D9488 360deg);
+  will-change: transform;
+  animation: storeBorderSpin 9s linear infinite;
+}
+.avatar-border-ocean-swirl::before {
+  background: radial-gradient(circle,
+    transparent 54%,
+    rgba(45, 212, 191, 0.28) 68%,
+    rgba(56, 189, 248, 0.20) 78%,
+    transparent 88%);
+  opacity: 0.40;
+  animation: storeBorderGlowPulse 3s ease-in-out infinite alternate;
+}
+[data-theme="dark"] .avatar-border-ocean-swirl::after {
+  background: conic-gradient(from 0deg,
+    #14B8A6 0deg, #5EEAD4 90deg, #38BDF8 180deg,
+    #7DD3FC 270deg, #14B8A6 360deg);
+}
+[data-theme="dark"] .avatar-border-ocean-swirl::before {
+  opacity: 0.55;
+}
+
+/* ════════════════════════════════════════════════════════════
+   11. ROYAL LAUREL (epic) — royal purple segments with thin
+       gold separators, laurel-leaf rhythm, chunky 4px (static)
+   ════════════════════════════════════════════════════════════ */
+.avatar-border-royal-laurel::after {
+  padding: 4px;
+  background: repeating-conic-gradient(
+    #6D28D9 0deg 13deg,
+    #8B5CF6 13deg 26deg,
+    #F59E0B 26deg 30deg,
+    #FCD34D 30deg 34deg);
+}
+[data-theme="dark"] .avatar-border-royal-laurel::after {
+  background: repeating-conic-gradient(
+    #8B5CF6 0deg 13deg,
+    #A78BFA 13deg 26deg,
+    #FBBF24 26deg 30deg,
+    #FDE68A 30deg 34deg);
+}
+
+/* ════════════════════════════════════════════════════════════
+   12. GALAXY ORBIT (legendary, animated) — deep-space ring with
+       one bright white-violet "comet" hot spot orbiting via the
+       ring rotation + star-glow pulse on ::before
+   ════════════════════════════════════════════════════════════ */
+.avatar-border-galaxy-orbit::after {
+  background: conic-gradient(from 0deg,
+    #1E1B4B 0deg, #312E81 80deg, #4C1D95 160deg,
+    #312E81 240deg, #4C1D95 300deg,
+    #A78BFA 318deg, #FFFFFF 324deg, #C4B5FD 332deg,
+    #1E1B4B 340deg 360deg);
+  will-change: transform;
+  animation: storeBorderSpin 7s linear infinite;
+}
+.avatar-border-galaxy-orbit::before {
+  background: radial-gradient(circle,
+    transparent 50%,
+    rgba(167, 139, 250, 0.26) 62%,
+    rgba(196, 181, 253, 0.18) 74%,
+    rgba(255, 255, 255, 0.12) 84%,
+    transparent 92%);
+  opacity: 0.40;
+  animation: storeBorderGlowPulse 3.4s ease-in-out infinite alternate;
+}
+[data-theme="dark"] .avatar-border-galaxy-orbit::after {
+  background: conic-gradient(from 0deg,
+    #0F0D2E 0deg, #1E1B4B 80deg, #312E81 160deg,
+    #1E1B4B 240deg, #312E81 300deg,
+    #C4B5FD 318deg, #FFFFFF 324deg, #DDD6FE 332deg,
+    #0F0D2E 340deg 360deg);
+}
+[data-theme="dark"] .avatar-border-galaxy-orbit::before {
+  opacity: 0.60;
+}
+
+/* ════════════════════════════════════════════════════════════
    Keyframes — transform / opacity only
    ════════════════════════════════════════════════════════════ */
 @keyframes storeBorderSpin {
@@ -231,9 +353,17 @@
   .avatar-border-holo-prism::after {
     animation-duration: 16s;
   }
+  .avatar-border-ocean-swirl::after {
+    animation-duration: 14s;
+  }
+  .avatar-border-galaxy-orbit::after {
+    animation-duration: 12s;
+  }
   .avatar-border-neon-pulse::before,
   .avatar-border-gold-radiance::before,
-  .avatar-border-holo-prism::before {
+  .avatar-border-holo-prism::before,
+  .avatar-border-ocean-swirl::before,
+  .avatar-border-galaxy-orbit::before {
     animation: none;
     opacity: 0.45;
   }
@@ -246,14 +376,20 @@
   .avatar-border-ember-flame::after,
   .avatar-border-gold-radiance::after,
   .avatar-border-holo-prism::after,
+  .avatar-border-ocean-swirl::after,
+  .avatar-border-galaxy-orbit::after,
   .avatar-border-neon-pulse::before,
   .avatar-border-gold-radiance::before,
-  .avatar-border-holo-prism::before {
+  .avatar-border-holo-prism::before,
+  .avatar-border-ocean-swirl::before,
+  .avatar-border-galaxy-orbit::before {
     animation: none !important;
   }
   .avatar-border-neon-pulse::before,
   .avatar-border-gold-radiance::before,
-  .avatar-border-holo-prism::before {
+  .avatar-border-holo-prism::before,
+  .avatar-border-ocean-swirl::before,
+  .avatar-border-galaxy-orbit::before {
     opacity: 0.45;
   }
 }

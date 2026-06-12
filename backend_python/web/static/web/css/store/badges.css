@@ -126,6 +126,89 @@
 }
 
 /* ════════════════════════════════════════════════════════════
+   7. QUIZ WHIZ — teal
+   ════════════════════════════════════════════════════════════ */
+.flair-badge-quiz-whiz { background: rgba(20, 184, 166, 0.15); }
+.flair-badge-quiz-whiz .material-symbols-outlined { color: #14B8A6; }
+[data-theme="dark"] .flair-badge-quiz-whiz { background: rgba(20, 184, 166, 0.25); }
+[data-theme="dark"] .flair-badge-quiz-whiz .material-symbols-outlined { color: #2DD4BF; }
+
+/* ════════════════════════════════════════════════════════════
+   8. HELPING HAND — pink
+   ════════════════════════════════════════════════════════════ */
+.flair-badge-helping-hand { background: rgba(236, 72, 153, 0.15); }
+.flair-badge-helping-hand .material-symbols-outlined { color: #EC4899; }
+[data-theme="dark"] .flair-badge-helping-hand { background: rgba(236, 72, 153, 0.25); }
+[data-theme="dark"] .flair-badge-helping-hand .material-symbols-outlined { color: #F472B6; }
+
+/* ════════════════════════════════════════════════════════════
+   9. SUMMIT SEEKER — sky blue, tiny static white "snowcap" dot
+   ════════════════════════════════════════════════════════════ */
+.flair-badge-summit-seeker { background: rgba(2, 132, 199, 0.15); }
+.flair-badge-summit-seeker .material-symbols-outlined { color: #0284C7; }
+.flair-badge-summit-seeker::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  right: 4px;
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.95);
+  pointer-events: none;
+}
+[data-theme="dark"] .flair-badge-summit-seeker { background: rgba(2, 132, 199, 0.25); }
+[data-theme="dark"] .flair-badge-summit-seeker .material-symbols-outlined { color: #38BDF8; }
+[data-theme="dark"] .flair-badge-summit-seeker::after { background: rgba(255, 255, 255, 1); }
+
+/* ════════════════════════════════════════════════════════════
+   10. GOLDEN QUILL (animated) — warm amber gold gradient,
+       shimmer sweep strip (transform-only ::after)
+   ════════════════════════════════════════════════════════════ */
+.flair-badge-golden-quill {
+  background: linear-gradient(135deg, rgba(252, 211, 77, 0.26) 0%, rgba(245, 158, 11, 0.18) 55%, rgba(180, 83, 9, 0.24) 100%);
+}
+.flair-badge-golden-quill .material-symbols-outlined { color: #D97706; }
+.flair-badge-golden-quill::after {
+  content: '';
+  position: absolute;
+  top: -4px;
+  bottom: -4px;
+  left: -12px;
+  width: 10px;
+  background: linear-gradient(105deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.55) 50%,
+    rgba(255, 255, 255, 0) 100%);
+  pointer-events: none;
+  will-change: transform;
+  animation: storeFlairShimmer 2.8s linear infinite;
+}
+[data-theme="dark"] .flair-badge-golden-quill {
+  background: linear-gradient(135deg, rgba(252, 211, 77, 0.34) 0%, rgba(245, 158, 11, 0.24) 55%, rgba(180, 83, 9, 0.32) 100%);
+}
+[data-theme="dark"] .flair-badge-golden-quill .material-symbols-outlined { color: #FBBF24; }
+[data-theme="dark"] .flair-badge-golden-quill::after {
+  background: linear-gradient(105deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.40) 50%,
+    rgba(255, 255, 255, 0) 100%);
+}
+
+/* ════════════════════════════════════════════════════════════
+   11. COSMIC COMET (animated) — violet, gentle icon drift
+       (transform: translateY + scale on the inner icon only)
+   ════════════════════════════════════════════════════════════ */
+.flair-badge-cosmic-comet { background: rgba(139, 92, 246, 0.15); }
+.flair-badge-cosmic-comet .material-symbols-outlined {
+  color: #8B5CF6;
+  will-change: transform, opacity;
+  animation: storeFlairComet 2s ease-in-out infinite alternate;
+}
+[data-theme="dark"] .flair-badge-cosmic-comet { background: rgba(139, 92, 246, 0.25); }
+[data-theme="dark"] .flair-badge-cosmic-comet .material-symbols-outlined { color: #A78BFA; }
+
+/* ════════════════════════════════════════════════════════════
    Keyframes — transform / opacity only
    ════════════════════════════════════════════════════════════ */
 @keyframes storeFlairFlicker {
@@ -141,15 +224,24 @@
   100% { transform: translateX(46px); }
 }
 
+/* subtle comet drift — translate + scale + opacity only */
+@keyframes storeFlairComet {
+  0%   { transform: translateY(0) scale(1); opacity: 0.9; }
+  100% { transform: translateY(-1px) scale(1.06); opacity: 1; }
+}
+
 /* ════════════════════════════════════════════════════════════
    Reduced motion — stop flair animations
    ════════════════════════════════════════════════════════════ */
 @media (prefers-reduced-motion: reduce) {
   .flair-badge-flame-streak .material-symbols-outlined,
-  .flair-badge-diamond-mind::after {
+  .flair-badge-diamond-mind::after,
+  .flair-badge-golden-quill::after,
+  .flair-badge-cosmic-comet .material-symbols-outlined {
     animation: none !important;
   }
-  .flair-badge-diamond-mind::after {
+  .flair-badge-diamond-mind::after,
+  .flair-badge-golden-quill::after {
     opacity: 0;
   }
 }

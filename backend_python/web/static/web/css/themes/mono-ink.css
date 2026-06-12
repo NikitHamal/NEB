@@ -1,0 +1,77 @@
+/* Theme: Mono Ink — pure monochrome grayscale, minimalist ink on paper. Light + dark token overrides. */
+
+[data-app-theme="mono-ink"] {
+  --md-primary: #111827;
+  --md-on-primary: #ffffff;
+  --md-primary-container: #E5E7EB;
+  --md-on-primary-container: #030712;
+  --md-secondary: #374151;
+  --md-on-secondary: #ffffff;
+  --md-secondary-container: #EAECEF;
+  --md-on-secondary-container: #1F2937;
+  --md-tertiary: #52525B;
+  --md-on-tertiary: #ffffff;
+  --md-tertiary-container: #E4E4E7;
+  --md-on-tertiary-container: #18181B;
+  --md-background: #FAFAFA;
+  --md-on-background: #111827;
+  --md-surface: #FAFAFA;
+  --md-on-surface: #111827;
+  --md-surface-variant: #ECECEE;
+  --md-on-surface-variant: #4B5563;
+  --md-outline: #71717A;
+  --md-outline-variant: #DEDEE1;
+  --md-surface-dim: #DEDEE0;
+  --md-surface-bright: #FAFAFA;
+  --md-surface-container-lowest: #FFFFFF;
+  --md-surface-container-low: #F5F5F6;
+  --md-surface-container: #F0F0F1;
+  --md-surface-container-high: #EAEAEC;
+  --md-surface-container-highest: #E4E4E6;
+  --md-inverse-surface: #26272B;
+  --md-inverse-on-surface: #F4F4F5;
+  --md-inverse-primary: #E5E7EB;
+  --md-surface-tint: #111827;
+  --md-shadow: rgba(0, 0, 0, 0.06);
+  --md-shadow-lg: rgba(0, 0, 0, 0.12);
+  --md-surface-muted: #F2F2F3;
+  --md-border-subtle: #E6E6E8;
+}
+
+[data-app-theme="mono-ink"][data-theme="dark"] {
+  --md-primary: #E5E7EB;
+  --md-on-primary: #111827;
+  --md-primary-container: #374151;
+  --md-on-primary-container: #F3F4F6;
+  --md-secondary: #B6BCC6;
+  --md-on-secondary: #20242B;
+  --md-secondary-container: #383F4A;
+  --md-on-secondary-container: #E4E7EC;
+  --md-tertiary: #A1A1AA;
+  --md-on-tertiary: #26262B;
+  --md-tertiary-container: #3F3F46;
+  --md-on-tertiary-container: #E4E4E7;
+  --md-background: #0A0A0B;
+  --md-on-background: #ECECEE;
+  --md-surface: #0A0A0B;
+  --md-on-surface: #ECECEE;
+  --md-surface-variant: #46484D;
+  --md-on-surface-variant: #C6C6CA;
+  --md-outline: #909298;
+  --md-outline-variant: #36373B;
+  --md-surface-dim: #0A0A0B;
+  --md-surface-bright: #333438;
+  --md-surface-container-lowest: #060607;
+  --md-surface-container-low: #131315;
+  --md-surface-container: #18181A;
+  --md-surface-container-high: #202023;
+  --md-surface-container-highest: #2A2A2E;
+  --md-inverse-surface: #ECECEE;
+  --md-inverse-on-surface: #0A0A0B;
+  --md-inverse-primary: #111827;
+  --md-surface-tint: #E5E7EB;
+  --md-shadow: rgba(0, 0, 0, 0.45);
+  --md-shadow-lg: rgba(0, 0, 0, 0.55);
+  --md-surface-muted: #131315;
+  --md-border-subtle: #202023;
+}

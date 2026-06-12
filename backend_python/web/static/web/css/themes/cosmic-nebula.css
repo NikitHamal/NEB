@@ -1,0 +1,134 @@
+/* Theme: Cosmic Nebula — legendary violet and magenta cosmos with an ambient nebula mesh. Light + dark token overrides. */
+
+[data-app-theme="cosmic-nebula"] {
+  --md-primary: #7C3AED;
+  --md-on-primary: #ffffff;
+  --md-primary-container: #EADDFD;
+  --md-on-primary-container: #2E1065;
+  --md-secondary: #BE185D;
+  --md-on-secondary: #ffffff;
+  --md-secondary-container: #FBD8EA;
+  --md-on-secondary-container: #500724;
+  --md-tertiary: #5C5A86;
+  --md-on-tertiary: #ffffff;
+  --md-tertiary-container: #E2E0F4;
+  --md-on-tertiary-container: #1E1C42;
+  --md-background: #F7F5FC;
+  --md-on-background: #1A1033;
+  --md-surface: #F7F5FC;
+  --md-on-surface: #1A1033;
+  --md-surface-variant: #E9E3F3;
+  --md-on-surface-variant: #4A4458;
+  --md-outline: #79718A;
+  --md-outline-variant: #DCD4E8;
+  --md-surface-dim: #DED7EA;
+  --md-surface-bright: #F7F5FC;
+  --md-surface-container-lowest: #FFFFFF;
+  --md-surface-container-low: #F2EEF9;
+  --md-surface-container: #EDE8F6;
+  --md-surface-container-high: #E7E1F2;
+  --md-surface-container-highest: #E1DAED;
+  --md-inverse-surface: #2C2342;
+  --md-inverse-on-surface: #F0EAFB;
+  --md-inverse-primary: #C4B5FD;
+  --md-surface-tint: #7C3AED;
+  --md-shadow: rgba(46, 16, 101, 0.06);
+  --md-shadow-lg: rgba(46, 16, 101, 0.12);
+  --md-surface-muted: #F0EBF8;
+  --md-border-subtle: #E4DDEF;
+}
+
+[data-app-theme="cosmic-nebula"][data-theme="dark"] {
+  --md-primary: #C4B5FD;
+  --md-on-primary: #2E1065;
+  --md-primary-container: #5B21B6;
+  --md-on-primary-container: #EADDFD;
+  --md-secondary: #F9A8D4;
+  --md-on-secondary: #500724;
+  --md-secondary-container: #9D174D;
+  --md-on-secondary-container: #FBD8EA;
+  --md-tertiary: #C3C1DF;
+  --md-on-tertiary: #2D2B4D;
+  --md-tertiary-container: #444165;
+  --md-on-tertiary-container: #E2E0F4;
+  --md-background: #0D0A1A;
+  --md-on-background: #E8E1F6;
+  --md-surface: #0D0A1A;
+  --md-on-surface: #E8E1F6;
+  --md-surface-variant: #4A4458;
+  --md-on-surface-variant: #CDC5DB;
+  --md-outline: #948CA5;
+  --md-outline-variant: #423C52;
+  --md-surface-dim: #0D0A1A;
+  --md-surface-bright: #322B4C;
+  --md-surface-container-lowest: #080614;
+  --md-surface-container-low: #151024;
+  --md-surface-container: #1A142C;
+  --md-surface-container-high: #231C39;
+  --md-surface-container-highest: #2D2546;
+  --md-inverse-surface: #E8E1F6;
+  --md-inverse-on-surface: #0D0A1A;
+  --md-inverse-primary: #7C3AED;
+  --md-surface-tint: #C4B5FD;
+  --md-shadow: rgba(0, 0, 0, 0.45);
+  --md-shadow-lg: rgba(0, 0, 0, 0.55);
+  --md-surface-muted: #151024;
+  --md-border-subtle: #231C39;
+}
+
+/* Ambient nebula mesh background (very low alpha in light mode to preserve contrast) */
+[data-app-theme="cosmic-nebula"] body {
+  min-height: 100vh;
+  background:
+    radial-gradient(880px 600px at 14% -8%, rgba(124, 58, 237, 0.08), transparent 60%),
+    radial-gradient(800px 560px at 86% 4%, rgba(236, 72, 153, 0.06), transparent 60%),
+    radial-gradient(720px 540px at 50% 110%, rgba(99, 102, 241, 0.07), transparent 60%),
+    linear-gradient(180deg, #F7F5FC 0%, #F2EEF9 100%);
+  background-attachment: fixed;
+}
+
+[data-app-theme="cosmic-nebula"][data-theme="dark"] body {
+  background:
+    radial-gradient(880px 600px at 14% -8%, rgba(124, 58, 237, 0.22), transparent 60%),
+    radial-gradient(800px 560px at 86% 4%, rgba(236, 72, 153, 0.14), transparent 60%),
+    radial-gradient(720px 540px at 50% 110%, rgba(30, 27, 75, 0.55), transparent 60%),
+    linear-gradient(180deg, #0D0A1A 0%, #090714 100%);
+  background-attachment: fixed;
+}
+
+/* Cosmic component flair (dark mode only, kept subtle) */
+[data-app-theme="cosmic-nebula"][data-theme="dark"] .md-nav-pill a.md-nav-active {
+  position: relative;
+  overflow: hidden;
+  box-shadow: inset 0 0 12px rgba(196, 181, 253, 0.10);
+}
+
+[data-app-theme="cosmic-nebula"][data-theme="dark"] .md-nav-pill a.md-nav-active::after {
+  content: "";
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 3px;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, rgba(124, 58, 237, 0.0), #C4B5FD, #EC4899, rgba(236, 72, 153, 0.0));
+  background-size: 200% 100%;
+  will-change: background-position;
+  animation: cn-aurora-shift 5s linear infinite;
+}
+
+@keyframes cn-aurora-shift {
+  0% {
+    background-position: 0% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-app-theme="cosmic-nebula"][data-theme="dark"] .md-nav-pill a.md-nav-active::after {
+    animation: none;
+    will-change: auto;
+  }
+}

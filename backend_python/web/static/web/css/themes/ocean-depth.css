@@ -1,0 +1,77 @@
+/* Theme: Ocean Depth — deep marine blues with bright cyan currents. Light + dark token overrides. */
+
+[data-app-theme="ocean-depth"] {
+  --md-primary: #0369A1;
+  --md-on-primary: #ffffff;
+  --md-primary-container: #BAE6FD;
+  --md-on-primary-container: #082F49;
+  --md-secondary: #0E7490;
+  --md-on-secondary: #ffffff;
+  --md-secondary-container: #CFF0F6;
+  --md-on-secondary-container: #053842;
+  --md-tertiary: #4F6378;
+  --md-on-tertiary: #ffffff;
+  --md-tertiary-container: #D9E4EF;
+  --md-on-tertiary-container: #16222E;
+  --md-background: #F2F7FB;
+  --md-on-background: #0B1B27;
+  --md-surface: #F2F7FB;
+  --md-on-surface: #0B1B27;
+  --md-surface-variant: #DEE8F0;
+  --md-on-surface-variant: #3F4C58;
+  --md-outline: #6C7C8A;
+  --md-outline-variant: #D0DDE7;
+  --md-surface-dim: #D5E0E9;
+  --md-surface-bright: #F2F7FB;
+  --md-surface-container-lowest: #FFFFFF;
+  --md-surface-container-low: #EDF4F9;
+  --md-surface-container: #E7EFF6;
+  --md-surface-container-high: #E0E9F1;
+  --md-surface-container-highest: #D9E3EC;
+  --md-inverse-surface: #1D2E3C;
+  --md-inverse-on-surface: #E4F1FA;
+  --md-inverse-primary: #38BDF8;
+  --md-surface-tint: #0369A1;
+  --md-shadow: rgba(8, 47, 73, 0.06);
+  --md-shadow-lg: rgba(8, 47, 73, 0.12);
+  --md-surface-muted: #EBF2F8;
+  --md-border-subtle: #DCE7EF;
+}
+
+[data-app-theme="ocean-depth"][data-theme="dark"] {
+  --md-primary: #38BDF8;
+  --md-on-primary: #053048;
+  --md-primary-container: #0C4A6E;
+  --md-on-primary-container: #BAE6FD;
+  --md-secondary: #67E8F9;
+  --md-on-secondary: #043B43;
+  --md-secondary-container: #115E6C;
+  --md-on-secondary-container: #CFF0F6;
+  --md-tertiary: #B7C8DA;
+  --md-on-tertiary: #21303F;
+  --md-tertiary-container: #394C5E;
+  --md-on-tertiary-container: #D9E4EF;
+  --md-background: #06121E;
+  --md-on-background: #DBEAF6;
+  --md-surface: #06121E;
+  --md-on-surface: #DBEAF6;
+  --md-surface-variant: #3F4C58;
+  --md-on-surface-variant: #BECBD6;
+  --md-outline: #8698A6;
+  --md-outline-variant: #3F4C58;
+  --md-surface-dim: #06121E;
+  --md-surface-bright: #283A4B;
+  --md-surface-container-lowest: #030C15;
+  --md-surface-container-low: #0C1A28;
+  --md-surface-container: #11202F;
+  --md-surface-container-high: #1A2A3B;
+  --md-surface-container-highest: #243547;
+  --md-inverse-surface: #DBEAF6;
+  --md-inverse-on-surface: #06121E;
+  --md-inverse-primary: #0369A1;
+  --md-surface-tint: #38BDF8;
+  --md-shadow: rgba(0, 0, 0, 0.3);
+  --md-shadow-lg: rgba(0, 0, 0, 0.4);
+  --md-surface-muted: #0C1A28;
+  --md-border-subtle: #1A2A3B;
+}
