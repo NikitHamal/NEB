@@ -382,7 +382,11 @@ def admin_post_detail(request, post_id):
     if request.method == 'GET':
         return Response(PostSerializer(post, context={'request': request}).data)
 
-    post.delete()
+    from api.cleanup import delete_post_with_cleanup
+    try:
+        delete_post_with_cleanup(post_id)
+    except Post.DoesNotExist:
+        return Response({'error': 'Post not found'}, status=404)
     return Response({'success': True})
 
 
@@ -400,15 +404,11 @@ def admin_post_replies(request, post_id):
 def admin_reply_detail(request, reply_id):
     if not _check_admin(request):
         return _admin_error()
+    from api.cleanup import delete_reply_with_cleanup
     try:
-        reply = Reply.objects.get(pk=reply_id)
+        delete_reply_with_cleanup(reply_id)
     except Reply.DoesNotExist:
         return Response({'error': 'Reply not found'}, status=404)
-    from django.db import transaction
-    with transaction.atomic():
-        post_id = reply.post_id
-        reply.delete()
-        Post.objects.filter(pk=post_id, reply_count__gt=0).update(reply_count=F('reply_count') - 1)
     return Response({'success': True})
 
 

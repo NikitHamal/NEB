@@ -1,0 +1,431 @@
+{% load static web_extras %}
+<div id="search-results">
+  {% if query %}
+  <!-- Tab switcher -->
+  <div class="search-tabs" style="margin-top:16px;">
+    <a href="{% url 'web:search' %}?q={{ query }}{% if current_subject %}&subject={{ current_subject }}{% endif %}{% if current_grade %}&grade={{ current_grade }}{% endif %}{% if current_type %}&type={{ current_type }}{% endif %}" class="md-tab {% if tab == 'all' %}md-tab-active{% endif %}" hx-get="{% url 'web:search' %}?q={{ query }}{% if current_subject %}&subject={{ current_subject }}{% endif %}{% if current_grade %}&grade={{ current_grade }}{% endif %}{% if current_type %}&type={{ current_type }}{% endif %}&tab=all" hx-target="#search-results" hx-push-url="true">All</a>
+    <a href="{% url 'web:search' %}?q={{ query }}{% if current_subject %}&subject={{ current_subject }}{% endif %}{% if current_grade %}&grade={{ current_grade }}{% endif %}{% if current_type %}&type={{ current_type }}{% endif %}&tab=resources" class="md-tab {% if tab == 'resources' %}md-tab-active{% endif %}" hx-get="{% url 'web:search' %}?q={{ query }}{% if current_subject %}&subject={{ current_subject }}{% endif %}{% if current_grade %}&grade={{ current_grade }}{% endif %}{% if current_type %}&type={{ current_type }}{% endif %}&tab=resources" hx-target="#search-results" hx-push-url="true">
+      <span class="material-symbols-outlined">auto_stories</span>
+      Resources
+    </a>
+    <a href="{% url 'web:search' %}?q={{ query }}{% if current_subject %}&subject={{ current_subject }}{% endif %}{% if current_grade %}&grade={{ current_grade }}{% endif %}{% if current_type %}&type={{ current_type }}{% endif %}&tab=posts" class="md-tab {% if tab == 'posts' %}md-tab-active{% endif %}" hx-get="{% url 'web:search' %}?q={{ query }}{% if current_subject %}&subject={{ current_subject }}{% endif %}{% if current_grade %}&grade={{ current_grade }}{% endif %}{% if current_type %}&type={{ current_type }}{% endif %}&tab=posts" hx-target="#search-results" hx-push-url="true">
+      <span class="material-symbols-outlined">forum</span>
+      Posts
+    </a>
+    <a href="{% url 'web:search' %}?q={{ query }}{% if current_subject %}&subject={{ current_subject }}{% endif %}{% if current_grade %}&grade={{ current_grade }}{% endif %}{% if current_type %}&type={{ current_type }}{% endif %}&tab=users" class="md-tab {% if tab == 'users' %}md-tab-active{% endif %}" hx-get="{% url 'web:search' %}?q={{ query }}{% if current_subject %}&subject={{ current_subject }}{% endif %}{% if current_grade %}&grade={{ current_grade }}{% endif %}{% if current_type %}&type={{ current_type }}{% endif %}&tab=users" hx-target="#search-results" hx-push-url="true">
+      <span class="material-symbols-outlined">group</span>
+      Users
+    </a>
+  </div>
+
+  {% if tab == 'resources' %}
+    {% if resource_results %}
+    <div class="section">
+      <h3 class="md-title-medium" style="margin-bottom:16px;">{{ resource_results|length }} resource{{ resource_results|length|pluralize }}</h3>
+      <div class="resource-grid">
+        {% for r in resource_results %}
+        <a href="{% url 'web:reader' resource_id=r.id %}" class="resource-card subject-{{ r.subject|split:','|first|subject_slug }}">
+          <div class="resource-card-art">
+            {% if r.thumbnail_url %}
+              <img src="{{ r.thumbnail_url }}" alt="{{ r.title }}" class="resource-card-art-img" loading="lazy">
+            {% else %}
+              <svg viewBox="0 0 300 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="300" height="120" fill="var(--art-c1)"/>
+                <path d="M0,120 L0,70 Q40,20 100,55 Q160,90 220,45 Q270,10 300,50 L300,120Z" fill="var(--art-c2)" opacity="0.5"/>
+                <path d="M0,120 L0,85 Q60,40 130,70 Q200,100 260,60 L300,75 L300,120Z" fill="var(--art-c3)" opacity="0.35"/>
+                <path d="M0,120 L0,95 Q80,65 160,85 Q240,105 300,80 L300,120Z" fill="var(--art-c4)" opacity="0.2"/>
+              </svg>
+            {% endif %}
+            <span class="resource-card-type-pill">{{ r.type }}</span>
+            <span class="resource-card-art-icon material-symbols-outlined">{{ r.subject|split:','|first|subject_icon }}</span>
+          </div>
+          <div class="resource-card-info">
+            <div class="resource-card-subject-chip">
+              {% with subjs=r.subject|split:"," %}
+                {{ subjs|first }}
+                {% if subjs|length > 1 %}
+                  +{{ subjs|length|add:"-1" }} more
+                {% endif %}
+              {% endwith %}
+            </div>
+            <div class="resource-card-title">{% if r.highlight and r.highlight.title %}{{ r.highlight.title|safe }}{% else %}{{ r.title }}{% endif %}</div>
+            <div class="resource-card-meta">
+              {{ r.grade_level }}{% if r.file_size %} &middot; {{ r.file_size|file_size_human }}{% endif %}
+            </div>
+            <div class="resource-card-stats">
+              <span class="material-symbols-outlined">visibility</span> {{ r.view_count|short_number }} &middot; {{ r.added_at|time_ago }}
+            </div>
+          </div>
+        </a>
+        {% endfor %}
+      </div>
+    </div>
+    {% else %}
+    <div class="empty-state">
+      <span class="material-symbols-outlined">search_off</span>
+      <h3>No resources found</h3>
+      <p>Try different keywords or filters.</p>
+    </div>
+    {% endif %}
+
+  {% elif tab == 'posts' %}
+    {% if post_results %}
+    <div class="section">
+      <h3 class="md-title-medium" style="margin-bottom:16px;">{{ post_results|length }} post{{ post_results|length|pluralize }}</h3>
+      {% for post in post_results %}
+      <div class="post-card" data-action="open-post" data-post-url="{% url 'web:forum_post' post_id=post.id %}" style="cursor: pointer;">
+        <div class="post-card-header">
+          <div class="post-card-avatar">
+            {% if post.authorPhotoUrl %}
+            <img src="{{ post.authorPhotoUrl }}" alt="" data-fallback="inline-flex">
+            <span class="contributor-avatar-letter" style="display:none;">{{ post.authorName|truncate_chars:1|default:"?" }}</span>
+            {% else %}
+            <span class="contributor-avatar-letter">{{ post.authorName|truncate_chars:1|default:"?" }}</span>
+            {% endif %}
+          </div>
+          <div class="post-card-meta">
+            <div class="post-meta-line">
+              <a href="{% url 'web:profile' username=post.authorName %}" style="font-weight:700;cursor:pointer;text-decoration:none;color:inherit;">{{ post.authorName }}</a>
+              {% if post.authorBadgeInfo %}
+              <span class="role-badge role-badge-{{ post.authorBadgeInfo.type }}" title="{{ post.authorBadgeInfo.label }}"><span class="material-symbols-outlined">{{ post.authorBadgeInfo.icon }}</span></span>
+              {% endif %}
+            </div>
+            <div class="post-meta-sub">
+              <a href="{% url 'web:forum' %}?category={{ post.category }}" class="post-card-category-link">{{ post.category }}</a>
+              <span class="dot-sep">&middot;</span>
+              <span class="post-card-time">{{ post.createdAt|time_ago }}</span>
+            </div>
+          </div>
+          <div class="more-menu-wrapper">
+              <button class="more-btn" data-action="toggle-more-menu" data-menu-id="post-menu-search-{{ post.id }}" aria-label="More options"><span class="material-symbols-outlined">more_vert</span></button>
+              <div class="more-menu" id="post-menu-search-{{ post.id }}" style="display:none;" data-action="stop-propagation">
+                {% if is_authenticated %}
+                <button class="more-menu-item" data-action="toggle-bookmark" data-target-type="post" data-target-id="{{ post.id }}">
+                  <span class="material-symbols-outlined" id="bookmark-icon-post-{{ post.id }}"{% if post.isBookmarked %} style="font-variation-settings:'FILL' 1"{% endif %}>bookmark</span>
+                  <span id="bookmark-label-post-{{ post.id }}">{% if post.isBookmarked %}Remove{% else %}Bookmark{% endif %}</span>
+                </button>
+                {% endif %}
+                <button class="more-menu-item" data-action="share-post-url" data-path="{% url 'web:forum_post' post_id=post.id %}">
+                  <span class="material-symbols-outlined">share</span> Share
+                </button>
+              </div>
+            </div>
+          </div>
+          <h3><a href="{% url 'web:forum_post' post_id=post.id %}">{% if post.highlight and post.highlight.title %}{{ post.highlight.title|safe }}{% else %}{{ post.title }}{% endif %}</a></h3>
+          {% if post.images %}
+          <div class="post-card-images">
+            {% for img in post.images %}
+            {% if forloop.counter <= 3 %}
+            <img src="{{ img.imageUrl }}" alt="" loading="lazy" class="post-card-thumb">
+            {% endif %}
+            {% endfor %}
+          </div>
+          {% endif %}
+          {% if post.poll %}
+          <div class="post-card-poll-badge">
+            <span class="material-symbols-outlined" style="font-size:16px;">{% if post.poll.pollType == 'mcq' %}quiz{% else %}poll{% endif %}</span>
+            {% if post.poll.pollType == 'mcq' %}MCQ{% else %}Poll{% endif %}
+            Poll
+          </div>
+          {% endif %}
+          <div class="post-card-actions">
+            <button type="button" data-action="toggle-home-post-like" data-post-id="{{ post.id }}" class="{% if post.isThumbedUp %}liked{% endif %}" id="home-post-like-btn-{{ post.id }}">
+              <span class="material-symbols-outlined">thumb_up</span>
+              <span id="home-post-like-count-{{ post.id }}">{{ post.thumbsUpCount }}</span>
+            </button>
+            <a href="{% url 'web:forum_post' post_id=post.id %}" class="act-btn-stat">
+              <span class="material-symbols-outlined">chat_bubble_outline</span>
+              <span>{{ post.replyCount }} Replies</span>
+            </a>
+            <span class="fp-action-spacer" style="flex: 1;"></span>
+            <button type="button" class="{% if post.isBookmarked %}bookmark-active{% endif %}" data-action="toggle-bookmark" data-target-type="post" data-target-id="{{ post.id }}" id="search-post-bookmark-btn-{{ post.id }}" aria-label="Bookmark">
+              <span class="material-symbols-outlined" {% if post.isBookmarked %}style="font-variation-settings: 'FILL' 1;"{% endif %}>bookmark</span>
+            </button>
+            <button type="button" data-action="share-post-url" data-path="{% url 'web:forum_post' post_id=post.id %}" aria-label="Share">
+              <span class="material-symbols-outlined">share</span>
+            </button>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="empty-state">
+        <span class="material-symbols-outlined">search_off</span>
+        <h3>No posts found</h3>
+        <p>Try different keywords or filters.</p>
+      </div>
+      {% endif %}
+
+  {% elif tab == 'users' %}
+    {% if user_results %}
+    <div class="section">
+      <h3 class="md-title-medium" style="margin-bottom:16px;">{{ user_results|length }} user{{ user_results|length|pluralize }}</h3>
+      <div class="user-search-list">
+        {% for u in user_results %}
+        <div class="user-search-card">
+          <a href="{% url 'web:profile' username=u.username %}" class="user-search-avatar-link" title="View {{ u.displayName }}'s profile">
+            <div class="user-search-avatar">
+              {% if u.photoUrl %}
+              <img src="{{ u.photoUrl }}" alt="{{ u.displayName }}" data-fallback="flex">
+              <span class="user-search-initial" style="display:none;">{{ u.displayName|truncate_chars:1|default:"?" }}</span>
+              {% else %}
+              <span class="user-search-initial">{{ u.displayName|truncate_chars:1|default:"?" }}</span>
+              {% endif %}
+            </div>
+          </a>
+          <a href="{% url 'web:profile' username=u.username %}" class="user-search-info-link">
+            <div class="user-search-info">
+              <div class="user-search-line1">
+                <strong class="user-search-name">{{ u.displayName }}</strong>
+                {% if u.badgeInfo %}
+                <span class="role-badge role-badge-{{ u.badgeInfo.type }}" title="{{ u.badgeInfo.label }}"><span class="material-symbols-outlined">{{ u.badgeInfo.icon }}</span></span>
+                {% endif %}
+                <span class="user-search-handle">@{{ u.username }}</span>
+                <span class="user-search-dot">&middot;</span>
+                <span class="user-search-followers">
+                  <span class="material-symbols-outlined">group</span>
+                  {{ u.followerCount|default:0 }} follower{{ u.followerCount|default:0|pluralize }}
+                </span>
+              </div>
+              {% if u.bio %}
+              <div class="user-search-bio">{{ u.bio|truncate_chars:90 }}</div>
+              {% elif u.school or u.classLevel %}
+              <div class="user-search-bio">{% if u.classLevel %}{{ u.classLevel }}{% endif %}{% if u.classLevel and u.school %} &middot; {% endif %}{% if u.school %}{{ u.school }}{% endif %}</div>
+              {% endif %}
+            </div>
+          </a>
+          <div class="user-search-actions">
+            {% if is_authenticated and not u.isSelf %}
+              <button class="follow-btn-small {% if u.isFollowing %}following{% else %}not-following{% endif %}" data-user-id="{{ u.id }}" data-action="toggle-follow">{% if u.isFollowing %}Following{% else %}Follow{% endif %}</button>
+            {% elif u.isSelf %}
+              <a href="{% url 'web:profile' username=u.username %}" class="user-search-self-tag">You</a>
+            {% else %}
+              <a href="{% url 'web:login' %}?next={{ request.path }}" class="follow-btn-small not-following" style="text-decoration:none;">Follow</a>
+            {% endif %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% else %}
+    <div class="empty-state">
+      <span class="material-symbols-outlined">person_search</span>
+      <h3>No users found</h3>
+      <p>Try a different name or username.</p>
+    </div>
+    {% endif %}
+
+  {% else %}
+  {# tab == 'all' #}
+    {% if resource_results or post_results or user_results %}
+      {% if resource_results %}
+      <div class="section">
+        <div class="section-header">
+          <h2>Resources</h2>
+          <a href="{% url 'web:search' %}?q={{ query }}{% if current_subject %}&subject={{ current_subject }}{% endif %}{% if current_grade %}&grade={{ current_grade }}{% endif %}{% if current_type %}&type={{ current_type }}{% endif %}&tab=resources" class="md-btn md-btn-text">View all</a>
+        </div>
+        <div class="resource-grid">
+          {% for r in resource_results|slice:":6" %}
+          <a href="{% url 'web:reader' resource_id=r.id %}" class="resource-card subject-{{ r.subject|split:','|first|subject_slug }}">
+            <div class="resource-card-art">
+              {% if r.thumbnail_url %}
+                <img src="{{ r.thumbnail_url }}" alt="{{ r.title }}" class="resource-card-art-img" loading="lazy">
+              {% else %}
+                <svg viewBox="0 0 300 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="300" height="120" fill="var(--art-c1)"/>
+                  <path d="M0,120 L0,70 Q40,20 100,55 Q160,90 220,45 Q270,10 300,50 L300,120Z" fill="var(--art-c2)" opacity="0.5"/>
+                  <path d="M0,120 L0,85 Q60,40 130,70 Q200,100 260,60 L300,75 L300,120Z" fill="var(--art-c3)" opacity="0.35"/>
+                  <path d="M0,120 L0,95 Q80,65 160,85 Q240,105 300,80 L300,120Z" fill="var(--art-c4)" opacity="0.2"/>
+                </svg>
+              {% endif %}
+              <span class="resource-card-type-pill">{{ r.type }}</span>
+              <span class="resource-card-art-icon material-symbols-outlined">{{ r.subject|split:','|first|subject_icon }}</span>
+            </div>
+            <div class="resource-card-info">
+              <div class="resource-card-subject-chip">
+                {% with subjs=r.subject|split:"," %}
+                  {{ subjs|first }}
+                  {% if subjs|length > 1 %}
+                    +{{ subjs|length|add:"-1" }} more
+                  {% endif %}
+                {% endwith %}
+              </div>
+              <div class="resource-card-title">{% if r.highlight and r.highlight.title %}{{ r.highlight.title|safe }}{% else %}{{ r.title }}{% endif %}</div>
+              <div class="resource-card-meta">
+                {{ r.grade_level }}{% if r.file_size %} &middot; {{ r.file_size|file_size_human }}{% endif %}
+              </div>
+              <div class="resource-card-stats">
+                <span class="material-symbols-outlined">visibility</span> {{ r.view_count|short_number }} &middot; {{ r.added_at|time_ago }}
+              </div>
+            </div>
+          </a>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+
+      {% if user_results %}
+      <div class="section">
+        <div class="section-header">
+          <h2>Users</h2>
+          <a href="{% url 'web:search' %}?q={{ query }}{% if current_subject %}&subject={{ current_subject }}{% endif %}{% if current_grade %}&grade={{ current_grade }}{% endif %}{% if current_type %}&type={{ current_type }}{% endif %}&tab=users" class="md-btn md-btn-text">View all</a>
+        </div>
+        <div class="user-search-list">
+          {% for u in user_results|slice:":6" %}
+          <div class="user-search-card">
+            <a href="{% url 'web:profile' username=u.username %}" class="user-search-avatar-link" title="View {{ u.displayName }}'s profile">
+              <div class="user-search-avatar">
+                {% if u.photoUrl %}
+                <img src="{{ u.photoUrl }}" alt="{{ u.displayName }}" data-fallback="flex">
+                <span class="user-search-initial" style="display:none;">{{ u.displayName|truncate_chars:1|default:"?" }}</span>
+                {% else %}
+                <span class="user-search-initial">{{ u.displayName|truncate_chars:1|default:"?" }}</span>
+                {% endif %}
+              </div>
+            </a>
+            <a href="{% url 'web:profile' username=u.username %}" class="user-search-info-link">
+              <div class="user-search-info">
+                <div class="user-search-line1">
+                  <strong class="user-search-name">{{ u.displayName }}</strong>
+                  {% if u.badgeInfo %}
+                  <span class="role-badge role-badge-{{ u.badgeInfo.type }}" title="{{ u.badgeInfo.label }}"><span class="material-symbols-outlined">{{ u.badgeInfo.icon }}</span></span>
+                  {% endif %}
+                  <span class="user-search-handle">@{{ u.username }}</span>
+                  <span class="user-search-dot">&middot;</span>
+                  <span class="user-search-followers">
+                    <span class="material-symbols-outlined">group</span>
+                    {{ u.followerCount|default:0 }} follower{{ u.followerCount|default:0|pluralize }}
+                  </span>
+                </div>
+                {% if u.bio %}
+                <div class="user-search-bio">{{ u.bio|truncate_chars:90 }}</div>
+                {% elif u.school or u.classLevel %}
+                <div class="user-search-bio">{% if u.classLevel %}{{ u.classLevel }}{% endif %}{% if u.classLevel and u.school %} &middot; {% endif %}{% if u.school %}{{ u.school }}{% endif %}</div>
+                {% endif %}
+              </div>
+            </a>
+            <div class="user-search-actions">
+              {% if is_authenticated and not u.isSelf %}
+                <button class="follow-btn-small {% if u.isFollowing %}following{% else %}not-following{% endif %}" data-user-id="{{ u.id }}" data-action="toggle-follow">{% if u.isFollowing %}Following{% else %}Follow{% endif %}</button>
+              {% elif u.isSelf %}
+                <a href="{% url 'web:profile' username=u.username %}" class="user-search-self-tag">You</a>
+              {% else %}
+                <a href="{% url 'web:login' %}?next={{ request.path }}" class="follow-btn-small not-following" style="text-decoration:none;">Follow</a>
+              {% endif %}
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+
+      {% if post_results %}
+      <div class="section">
+        <div class="section-header">
+          <h2>Posts</h2>
+          <a href="{% url 'web:search' %}?q={{ query }}{% if current_subject %}&subject={{ current_subject }}{% endif %}{% if current_grade %}&grade={{ current_grade }}{% endif %}{% if current_type %}&type={{ current_type }}{% endif %}&tab=posts" class="md-btn md-btn-text">View all</a>
+        </div>
+        {% for post in post_results|slice:":3" %}
+        <div class="post-card" data-action="open-post" data-post-url="{% url 'web:forum_post' post_id=post.id %}" style="cursor: pointer;">
+          <div class="post-card-header">
+            <div class="post-card-avatar">
+              {% if post.authorPhotoUrl %}
+              <img src="{{ post.authorPhotoUrl }}" alt="" data-fallback="inline-flex">
+              <span class="contributor-avatar-letter" style="display:none;">{{ post.authorName|truncate_chars:1|default:"?" }}</span>
+              {% else %}
+              <span class="contributor-avatar-letter">{{ post.authorName|truncate_chars:1|default:"?" }}</span>
+              {% endif %}
+            </div>
+            <div class="post-card-meta">
+              <div class="post-meta-line">
+                <a href="{% url 'web:profile' username=post.authorName %}" style="font-weight:700;cursor:pointer;text-decoration:none;color:inherit;">{{ post.authorName }}</a>
+                {% if post.authorBadgeInfo %}
+                <span class="role-badge role-badge-{{ post.authorBadgeInfo.type }}" title="{{ post.authorBadgeInfo.label }}"><span class="material-symbols-outlined">{{ post.authorBadgeInfo.icon }}</span></span>
+                {% endif %}
+              </div>
+              <div class="post-meta-sub">
+                <a href="{% url 'web:forum' %}?category={{ post.category }}" class="post-card-category-link">{{ post.category }}</a>
+                <span class="dot-sep">&middot;</span>
+                <span class="post-card-time">{{ post.createdAt|time_ago }}</span>
+              </div>
+            </div>
+            <div class="more-menu-wrapper">
+              <button class="more-btn" data-action="toggle-more-menu" data-menu-id="post-menu-search2-{{ post.id }}" aria-label="More options"><span class="material-symbols-outlined">more_vert</span></button>
+              <div class="more-menu" id="post-menu-search2-{{ post.id }}" style="display:none;" data-action="stop-propagation">
+                {% if is_authenticated %}
+                <button class="more-menu-item" data-action="toggle-bookmark" data-target-type="post" data-target-id="{{ post.id }}">
+                  <span class="material-symbols-outlined" id="bookmark-icon-post-{{ post.id }}"{% if post.isBookmarked %} style="font-variation-settings:'FILL' 1"{% endif %}>bookmark</span>
+                  <span id="bookmark-label-post-{{ post.id }}">{% if post.isBookmarked %}Remove{% else %}Bookmark{% endif %}</span>
+                </button>
+                {% endif %}
+                <button class="more-menu-item" data-action="share-post-url" data-path="{% url 'web:forum_post' post_id=post.id %}">
+                  <span class="material-symbols-outlined">share</span> Share
+                </button>
+              </div>
+            </div>
+          </div>
+          <h3><a href="{% url 'web:forum_post' post_id=post.id %}">{% if post.highlight and post.highlight.title %}{{ post.highlight.title|safe }}{% else %}{{ post.title }}{% endif %}</a></h3>
+          {% if post.images %}
+          <div class="post-card-images">
+            {% for img in post.images %}
+            {% if forloop.counter <= 3 %}
+            <img src="{{ img.imageUrl }}" alt="" loading="lazy" class="post-card-thumb">
+            {% endif %}
+            {% endfor %}
+          </div>
+          {% endif %}
+          {% if post.poll %}
+          <div class="post-card-poll-badge">
+            <span class="material-symbols-outlined" style="font-size:16px;">{% if post.poll.pollType == 'mcq' %}quiz{% else %}poll{% endif %}</span>
+            {% if post.poll.pollType == 'mcq' %}MCQ{% else %}Poll{% endif %}
+            Poll
+          </div>
+          {% endif %}
+          <div class="post-card-actions">
+            <button type="button" data-action="toggle-home-post-like" data-post-id="{{ post.id }}" class="{% if post.isThumbedUp %}liked{% endif %}" id="home-post-like-btn-{{ post.id }}">
+              <span class="material-symbols-outlined">thumb_up</span>
+              <span id="home-post-like-count-{{ post.id }}">{{ post.thumbsUpCount }}</span>
+            </button>
+            <a href="{% url 'web:forum_post' post_id=post.id %}" class="act-btn-stat">
+              <span class="material-symbols-outlined">chat_bubble_outline</span>
+              <span>{{ post.replyCount }} Replies</span>
+            </a>
+            <span class="fp-action-spacer" style="flex: 1;"></span>
+            <button type="button" class="{% if post.isBookmarked %}bookmark-active{% endif %}" data-action="toggle-bookmark" data-target-type="post" data-target-id="{{ post.id }}" id="search2-post-bookmark-btn-{{ post.id }}" aria-label="Bookmark">
+              <span class="material-symbols-outlined" {% if post.isBookmarked %}style="font-variation-settings: 'FILL' 1;"{% endif %}>bookmark</span>
+            </button>
+            <button type="button" data-action="share-post-url" data-path="{% url 'web:forum_post' post_id=post.id %}" aria-label="Share">
+              <span class="material-symbols-outlined">share</span>
+            </button>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+    {% else %}
+    <div class="empty-state">
+      <span class="material-symbols-outlined">search_off</span>
+      <h3>No results found</h3>
+      <p>Try different keywords or filters.</p>
+      <a href="{% url 'web:library' %}" class="md-btn md-btn-filled mt-2">Browse Library</a>
+    </div>
+    {% endif %}
+  {% endif %}
+
+  {% else %}
+  {# No query — landing page #}
+  <div class="section" style="margin-top:8px;">
+    <h3 class="md-title-medium mb-2">Popular Searches</h3>
+    <div class="chip-group">
+      <a href="{% url 'web:search' %}?q=physics" class="md-chip">Physics</a>
+      <a href="{% url 'web:search' %}?q=chemistry" class="md-chip">Chemistry</a>
+      <a href="{% url 'web:search' %}?q=mathematics" class="md-chip">Mathematics</a>
+      <a href="{% url 'web:search' %}?q=biology" class="md-chip">Biology</a>
+      <a href="{% url 'web:search' %}?q=english" class="md-chip">English</a>
+      <a href="{% url 'web:search' %}?q=notes" class="md-chip">Notes</a>
+      <a href="{% url 'web:search' %}?q=textbook" class="md-chip">Textbook</a>
+      <a href="{% url 'web:search' %}?q=past+papers" class="md-chip">Past Papers</a>
+    </div>
+  </div>
+  {% endif %}
+</div>

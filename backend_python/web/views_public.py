@@ -274,79 +274,126 @@ def search(request):
     resource_results = []
     post_results = []
     user_results = []
-    all_subjects = []
-    all_grades = []
-    all_types = []
+
     if query:
-        import re
-        import operator
-        from functools import reduce
-        from django.db.models import Value, BooleanField, Case, When
+        from api.search import is_enabled as meilisearch_enabled, search_resources, search_posts, search_users
+        use_meili = meilisearch_enabled()
 
-        terms = [t for t in re.sub(r'[^\w\s]', ' ', query).split() if t]
-        if terms:
-            res_q_list = []
-            for term in terms:
-                res_q_list.append(
-                    Q(title__icontains=term) | Q(description__icontains=term) | Q(subject__icontains=term) |
-                    Q(faculty__icontains=term) | Q(program__icontains=term) | Q(school__icontains=term) | Q(tags__icontains=term)
-                )
-            resource_qs = Resource.objects.filter(
-                reduce(operator.and_, res_q_list),
-                approval_status='approved',
-                is_lead=True
-            )
-            exact_res_expr = Q(title__icontains=query) | Q(description__icontains=query) | Q(subject__icontains=query) | Q(tags__icontains=query)
-            resource_qs = resource_qs.annotate(
-                is_exact=Case(
-                    When(exact_res_expr, then=Value(True)),
-                    default=Value(False),
-                    output_field=BooleanField()
-                )
-            ).order_by('-is_exact', '-added_at')
+        if use_meili:
+            if tab in ('all', 'resources'):
+                meili_res = search_resources(query, subject=subject, grade=grade, rtype=rtype, limit=30)
+                if meili_res is not None:
+                    res_ids = [h['id'] for h in meili_res]
+                    res_map = {str(r.id): r for r in Resource.objects.filter(pk__in=res_ids)}
+                    resource_results = []
+                    for hit in meili_res:
+                        r = res_map.get(hit['id'])
+                        if r:
+                            formatted = _serialize_resource(r)
+                            formatted['highlight'] = hit.get('_formatted', {})
+                            resource_results.append(formatted)
+                else:
+                    use_meili = False
 
-            post_q_list = []
-            for term in terms:
-                post_q_list.append(
-                    Q(title__icontains=term) | Q(content__icontains=term)
-                )
-            post_qs = Post.objects.select_related('user').filter(
-                reduce(operator.and_, post_q_list)
-            ).filter(is_archived=False)
-            exact_post_expr = Q(title__icontains=query) | Q(content__icontains=query)
-            post_qs = post_qs.annotate(
-                is_exact=Case(
-                    When(exact_post_expr, then=Value(True)),
-                    default=Value(False),
-                    output_field=BooleanField()
-                )
-            ).order_by('-is_exact', '-created_at')
-        else:
-            resource_qs = Resource.objects.none()
-            post_qs = Post.objects.none()
+            if tab in ('all', 'posts') and (use_meili or not meilisearch_enabled()):
+                meili_posts = search_posts(query, category=subject, limit=20)
+                if meili_posts is not None:
+                    post_ids = [h['id'] for h in meili_posts]
+                    post_map = {str(p.id): p for p in Post.objects.filter(pk__in=post_ids).select_related('user')}
+                    post_results = []
+                    for hit in meili_posts:
+                        p = post_map.get(hit['id'])
+                        if p:
+                            formatted = _serialize_post(p, user_id)
+                            formatted['highlight'] = hit.get('_formatted', {})
+                            post_results.append(formatted)
+                else:
+                    use_meili = False
 
-        if subject:
-            resource_qs = resource_qs.filter(subject=subject)
-            post_qs = post_qs.filter(category__iexact=subject)
-        if grade:
-            resource_qs = resource_qs.filter(grade_level=grade)
-        if rtype:
-            resource_qs = resource_qs.filter(type=rtype)
+            if tab in ('all', 'users') and (use_meili or not meilisearch_enabled()):
+                meili_users = search_users(query, limit=30)
+                if meili_users is not None:
+                    u_ids = [h['id'] for h in meili_users]
+                    user_qs = User.objects.filter(pk__in=u_ids)
+                    user_results_list = _serialize_users_search(list(user_qs), user_id)
+                    hit_map = {h['id']: h.get('_formatted', {}) for h in meili_users}
+                    for item in user_results_list:
+                        item['_highlight'] = hit_map.get(item['id'], {})
+                    user_results = user_results_list
+                else:
+                    use_meili = False
 
-        if tab in ('all', 'resources'):
-            resource_results = _serialize_resources(resource_qs[:30])
-        if tab in ('all', 'posts'):
-            post_results = _serialize_posts(post_qs[:20], user_id)
-        if tab in ('all', 'users'):
-            user_qs = User.objects.filter(
-                Q(username__icontains=query) | Q(display_name__icontains=query)
-            ).filter(is_locked=False).order_by('-follower_count', 'username')[:30]
-            user_results = _serialize_users_search(user_qs, user_id)
+        if not use_meili or not meilisearch_enabled():
+            import re
+            import operator
+            from functools import reduce
+            from django.db.models import Value, BooleanField, Case, When
+
+            terms = [t for t in re.sub(r'[^\w\s]', ' ', query).split() if t]
+            if terms:
+                res_q_list = []
+                for term in terms:
+                    res_q_list.append(
+                        Q(title__icontains=term) | Q(description__icontains=term) | Q(subject__icontains=term) |
+                        Q(faculty__icontains=term) | Q(program__icontains=term) | Q(school__icontains=term) | Q(tags__icontains=term)
+                    )
+                resource_qs = Resource.objects.filter(
+                    reduce(operator.and_, res_q_list),
+                    approval_status='approved',
+                    is_lead=True
+                )
+                exact_res_expr = Q(title__icontains=query) | Q(description__icontains=query) | Q(subject__icontains=query) | Q(tags__icontains=query)
+                resource_qs = resource_qs.annotate(
+                    is_exact=Case(
+                        When(exact_res_expr, then=Value(True)),
+                        default=Value(False),
+                        output_field=BooleanField()
+                    )
+                ).order_by('-is_exact', '-added_at')
+
+                post_q_list = []
+                for term in terms:
+                    post_q_list.append(
+                        Q(title__icontains=term) | Q(content__icontains=term)
+                    )
+                post_qs = Post.objects.select_related('user').filter(
+                    reduce(operator.and_, post_q_list)
+                ).filter(is_archived=False)
+                exact_post_expr = Q(title__icontains=query) | Q(content__icontains=query)
+                post_qs = post_qs.annotate(
+                    is_exact=Case(
+                        When(exact_post_expr, then=Value(True)),
+                        default=Value(False),
+                        output_field=BooleanField()
+                    )
+                ).order_by('-is_exact', '-created_at')
+            else:
+                resource_qs = Resource.objects.none()
+                post_qs = Post.objects.none()
+
+            if subject:
+                resource_qs = resource_qs.filter(subject=subject)
+                post_qs = post_qs.filter(category__iexact=subject)
+            if grade:
+                resource_qs = resource_qs.filter(grade_level=grade)
+            if rtype:
+                resource_qs = resource_qs.filter(type=rtype)
+
+            if tab in ('all', 'resources'):
+                resource_results = _serialize_resources(resource_qs[:30])
+            if tab in ('all', 'posts'):
+                post_results = _serialize_posts(post_qs[:20], user_id)
+            if tab in ('all', 'users'):
+                user_qs = User.objects.filter(
+                    Q(username__icontains=query) | Q(display_name__icontains=query)
+                ).filter(is_locked=False).order_by('-follower_count', 'username')[:30]
+                user_results = _serialize_users_search(user_qs, user_id)
+
     filter_options = _get_library_filter_options()
     all_subjects = filter_options['subjects']
     all_grades = filter_options['grades']
     all_types = filter_options['types']
-    return render(request, 'web/search.html', _ctx(request,
+    ctx = _ctx(request,
         query=query,
         tab=tab,
         resource_results=resource_results,
@@ -358,7 +405,76 @@ def search(request):
         current_subject=subject,
         current_grade=grade,
         current_type=rtype,
-    ))
+        meilisearch_enabled=meilisearch_enabled() if query else False,
+    )
+    if getattr(request, 'htmx', False):
+        return render(request, 'web/_search_results.html', ctx)
+    return render(request, 'web/search.html', ctx)
+
+
+def ajax_instant_search(request):
+    """AJAX endpoint for instant search with Meilisearch (or DB fallback)."""
+    from django.http import JsonResponse
+    query = request.GET.get('q', '').strip()[:100]
+    tab = request.GET.get('tab', 'all')
+    subject = request.GET.get('subject', '')
+    grade = request.GET.get('grade', '')
+    rtype = request.GET.get('type', '')
+    if not query or len(query) < 2:
+        return JsonResponse({'results': {'resources': [], 'posts': [], 'users': []}})
+    user_id = _get_user_id(request)
+    resources = []
+    posts = []
+    users = []
+    from api.search import is_enabled as meilisearch_enabled, search_resources, search_posts, search_users
+    use_meili = meilisearch_enabled()
+    if use_meili:
+        if tab in ('all', 'resources'):
+            meili_res = search_resources(query, subject=subject, grade=grade, rtype=rtype, limit=10)
+            if meili_res is not None:
+                res_ids = [h['id'] for h in meili_res]
+                res_map = {str(r.id): r for r in Resource.objects.filter(pk__in=res_ids)}
+                for hit in meili_res:
+                    r = res_map.get(hit['id'])
+                    if r:
+                        resources.append({'id': r.id, 'title': r.title, 'description': (r.description or '')[:200], 'subject': r.subject or '', 'type': r.type or '', 'grade_level': r.grade_level or '', 'url': f'/reader/{r.id}/', 'highlight': hit.get('_formatted', {})})
+        if tab in ('all', 'posts'):
+            meili_posts = search_posts(query, category=subject, limit=10)
+            if meili_posts is not None:
+                post_ids = [h['id'] for h in meili_posts]
+                post_map = {str(p.id): p for p in Post.objects.filter(pk__in=post_ids).select_related('user')}
+                for hit in meili_posts:
+                    p = post_map.get(hit['id'])
+                    if p:
+                        posts.append({'id': p.id, 'title': p.title, 'content': p.content[:200], 'category': p.category or '', 'username': p.user.username if p.user else '', 'thumbs_up_count': p.thumbs_up_count, 'reply_count': p.reply_count, 'url': f'/forum/post/{p.id}/', 'highlight': hit.get('_formatted', {})})
+        if tab in ('all', 'users'):
+            meili_users = search_users(query, limit=10)
+            if meili_users is not None:
+                u_ids = [h['id'] for h in meili_users]
+                for u in User.objects.filter(pk__in=u_ids):
+                    users.append({'id': u.id, 'username': u.username, 'displayName': u.display_name or u.username, 'photoUrl': u.photo_url, 'url': f'/profile/{u.username}/'})
+    if not use_meili:
+        import re
+        import operator
+        from functools import reduce
+        terms = [t for t in re.sub(r'[^\w\s]', ' ', query).split() if t]
+        if terms:
+            if tab in ('all', 'resources'):
+                res_q_list = [Q(title__icontains=t) | Q(description__icontains=t) | Q(subject__icontains=t) | Q(tags__icontains=t) for t in terms]
+                qs = Resource.objects.filter(reduce(operator.and_, res_q_list), approval_status='approved', is_lead=True)[:10]
+                for r in qs:
+                    resources.append({'id': r.id, 'title': r.title, 'description': (r.description or '')[:200], 'subject': r.subject or '', 'type': r.type or '', 'grade_level': r.grade_level or '', 'url': f'/reader/{r.id}/'})
+            if tab in ('all', 'posts'):
+                post_q_list = [Q(title__icontains=t) | Q(content__icontains=t) for t in terms]
+                qs = Post.objects.select_related('user').filter(reduce(operator.and_, post_q_list), is_archived=False)[:10]
+                for p in qs:
+                    posts.append({'id': p.id, 'title': p.title, 'content': p.content[:200], 'category': p.category or '', 'username': p.user.username if p.user else '', 'thumbs_up_count': p.thumbs_up_count, 'reply_count': p.reply_count, 'url': f'/forum/post/{p.id}/'})
+            if tab in ('all', 'users'):
+                qs = User.objects.filter(Q(username__icontains=query) | Q(display_name__icontains=query), is_locked=False).order_by('-follower_count')[:10]
+                for u in qs:
+                    users.append({'id': u.id, 'username': u.username, 'displayName': u.display_name or u.username, 'photoUrl': u.photo_url, 'url': f'/profile/{u.username}/'})
+    return JsonResponse({'results': {'resources': resources, 'posts': posts, 'users': users}})
+
 
 def reader(request, resource_id):
     """Resource detail page — shows title, description, view/download/like actions, and comments."""

@@ -12,6 +12,7 @@ urlpatterns = [
     path('library/', views.library, name='library'),
     path('subject/<str:grade_slug>/<str:subject_slug>/', views.subject_page, name='subject_page'),
     path('search/', views.search, name='search'),
+    path('ajax/search/', views.ajax_instant_search, name='ajax_instant_search'),
     path('forum/', views.forum, name='forum'),
     path('forum/categories/', views.forum_categories, name='forum_categories'),
     path('forum/leaderboard/', views.leaderboard, name='leaderboard'),

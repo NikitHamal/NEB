@@ -344,3 +344,163 @@
   .about-detail-value {
     font-size: 0.875rem; font-weight: 500; color: var(--md-on-surface);
   }
+
+  /* ── Compact resource cards (profile Resources tab) ── */
+  .profile-tab-content .post-card {
+    padding: 10px 14px;
+    margin-bottom: 8px;
+    border-radius: 10px;
+  }
+  .profile-tab-content .post-card-header {
+    margin-bottom: 0;
+  }
+  .pf-res-desc {
+    margin-top: 6px;
+    font-size: 0.8125rem;
+    color: var(--md-on-surface-variant);
+    line-height: 1.45;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .pf-res-desc.expanded {
+    -webkit-line-clamp: unset;
+    display: block;
+  }
+  .pf-res-desc-toggle {
+    display: inline;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--md-primary);
+    cursor: pointer;
+    margin-left: 2px;
+    background: none;
+    border: none;
+    padding: 0;
+    font-family: inherit;
+    vertical-align: baseline;
+  }
+  .pf-res-desc-toggle:hover {
+    text-decoration: underline;
+  }
+  .pf-res-chips {
+    display: flex;
+    gap: 6px;
+    margin-top: 6px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .pf-res-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 10px;
+    border-radius: 14px;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 140px;
+  }
+  .pf-res-chip .material-symbols-outlined {
+    font-size: 13px;
+  }
+  .pf-res-chip-more {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 8px;
+    border-radius: 14px;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    background: var(--md-surface-container-high);
+    color: var(--md-on-surface-variant);
+    cursor: default;
+  }
+  .profile-tab-content .post-card-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 4px;
+    padding-top: 4px;
+    border-top: 1px solid var(--md-outline-variant);
+  }
+  .profile-tab-content .act-resource-card {
+    padding: 10px 12px;
+    margin-top: 6px;
+    gap: 10px;
+  }
+  .profile-tab-content .act-resource-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+  }
+  .profile-tab-content .act-resource-icon .material-symbols-outlined {
+    font-size: 20px;
+  }
+  .profile-tab-content .act-resource-name {
+    font-size: 0.8125rem;
+    margin-bottom: 2px;
+  }
+  .profile-tab-content .act-resource-meta {
+    font-size: 0.6875rem;
+  }
+  .profile-tab-content .act-resource-download-btn {
+    width: 32px;
+    height: 32px;
+  }
+  .profile-tab-content .act-resource-download-btn .material-symbols-outlined {
+    font-size: 18px;
+  }
+  .pf-res-image-preview {
+    margin-top: 6px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--md-outline-variant);
+  }
+  .pf-res-image-preview a {
+    display: block;
+    position: relative;
+    aspect-ratio: 16 / 9;
+    max-height: 180px;
+    overflow: hidden;
+  }
+  .pf-res-image-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .pf-res-image-preview .pf-res-preview-badge {
+    position: absolute;
+    bottom: 6px;
+    left: 6px;
+    background: rgba(0,0,0,0.6);
+    color: white;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-size: 0.6875rem;
+    font-weight: 500;
+  }
+  .user-badge-pending {
+    background: rgba(217, 119, 6, 0.12);
+    color: #D97706;
+    border: 1px solid rgba(217, 119, 6, 0.25);
+    text-transform: uppercase;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 12px;
+    margin-left: 8px;
+  }
+  .user-badge-rejected {
+    background: rgba(211, 47, 47, 0.12);
+    color: #D32F2F;
+    border: 1px solid rgba(211, 47, 47, 0.25);
+    text-transform: uppercase;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 12px;
+    margin-left: 8px;
+  }

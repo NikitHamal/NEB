@@ -210,6 +210,9 @@ SESSION_ENGINE = os.environ.get(
 )
 SESSION_CACHE_ALIAS = 'default'
 
+MEILISEARCH_URL = os.environ.get('MEILISEARCH_URL', '')
+MEILISEARCH_API_KEY = os.environ.get('MEILISEARCH_API_KEY', '')
+
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'api.authentication.AuthTokenAuthentication',

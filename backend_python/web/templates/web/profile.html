@@ -507,37 +507,37 @@
               {% for r in user_resources %}
               <div class="post-card" style="--subject-color: {{ r.subject|split:','|first|subject_color }}">
                 <!-- Card Header -->
-                <div class="post-card-header" style="display: flex; align-items: center;">
-                  <div class="post-card-avatar">
-                    {% if profile_user.photo_url %}
-                      <img src="{{ profile_user.photo_url }}" alt="{{ profile_user.display_name|default:profile_user.username }}" data-fallback="inline-flex">
-                      <span class="contributor-avatar-letter" style="display:none;">{{ profile_user.display_name|default:profile_user.username|slice:":1" }}</span>
-                    {% else %}
-                      <span class="contributor-avatar-letter">{{ profile_user.display_name|default:profile_user.username|slice:":1" }}</span>
-                    {% endif %}
-                  </div>
-                  <div class="post-card-meta" style="flex: 1; min-width: 0;">
-                    <div class="post-card-meta-line" style="display: flex; align-items: center;">
-                      <a href="{% url 'web:profile' username=profile_user.username %}" style="font-weight:700;cursor:pointer;text-decoration:none;color:inherit;">{{ profile_user.display_name|default:profile_user.username }}</a>
-                      {% if badge_info %}
-                      <span class="role-badge role-badge-{{ badge_info.type }}" title="{{ badge_info.label }}" style="margin-left: 4px;"><span class="material-symbols-outlined" style="font-size: 14px;">{{ badge_info.icon }}</span></span>
-                      {% endif %}
-                      
-                      <!-- Approval Status Badge for Profile Owner -->
-                      {% if stats.is_self %}
-                        {% if r.approval_status == 'pending' %}
-                          <span class="user-badge" style="background: rgba(217, 119, 6, 0.12); color: #D97706; border: 1px solid rgba(217, 119, 6, 0.25); text-transform: uppercase; font-size: 0.6875rem; font-weight: 700; padding: 2px 8px; border-radius: 12px; margin-left: 8px;">Pending Review</span>
-                        {% elif r.approval_status == 'rejected' %}
-                          <span class="user-badge" style="background: rgba(211, 47, 47, 0.12); color: #D32F2F; border: 1px solid rgba(211, 47, 47, 0.25); text-transform: uppercase; font-size: 0.6875rem; font-weight: 700; padding: 2px 8px; border-radius: 12px; margin-left: 8px;">Rejected{% if r.rejection_reason %}: {{ r.rejection_reason }}{% endif %}</span>
-                        {% endif %}
-                      {% endif %}
-                    </div>
-                    <div class="post-meta-sub" style="display: flex; align-items: center; font-size: 0.75rem; color: var(--md-on-surface-variant); margin-top: 2px;">
-                      <span class="post-card-time">{{ r.added_at|time_ago }}</span>
-                      <span class="dot-sep" style="margin: 0 4px; opacity: 0.3;">&middot;</span>
-                      <span>Shared a resource</span>
-                    </div>
-                  </div>
+<div class="post-card-header">
+                   <div class="post-card-avatar">
+                     {% if profile_user.photo_url %}
+                       <img src="{{ profile_user.photo_url }}" alt="{{ profile_user.display_name|default:profile_user.username }}" data-fallback="inline-flex">
+                       <span class="contributor-avatar-letter" style="display:none;">{{ profile_user.display_name|default:profile_user.username|slice:":1" }}</span>
+                     {% else %}
+                       <span class="contributor-avatar-letter">{{ profile_user.display_name|default:profile_user.username|slice:":1" }}</span>
+                     {% endif %}
+                   </div>
+                   <div class="post-card-meta">
+                     <div class="post-card-meta-line">
+                       <a href="{% url 'web:profile' username=profile_user.username %}" style="font-weight:700;cursor:pointer;text-decoration:none;color:inherit;">{{ profile_user.display_name|default:profile_user.username }}</a>
+                       {% if badge_info %}
+                       <span class="role-badge role-badge-{{ badge_info.type }}" title="{{ badge_info.label }}"><span class="material-symbols-outlined">{{ badge_info.icon }}</span></span>
+                       {% endif %}
+
+                       <!-- Approval Status Badge for Profile Owner -->
+                       {% if stats.is_self %}
+                         {% if r.approval_status == 'pending' %}
+                           <span class="user-badge user-badge-pending">Pending Review</span>
+                         {% elif r.approval_status == 'rejected' %}
+                           <span class="user-badge user-badge-rejected">Rejected{% if r.rejection_reason %}: {{ r.rejection_reason }}{% endif %}</span>
+                         {% endif %}
+                       {% endif %}
+                     </div>
+                     <div class="post-meta-sub">
+                       <span>Shared a resource</span>
+                       <span class="dot-sep">&middot;</span>
+                       <span class="post-card-time">{{ r.added_at|time_ago }}</span>
+                     </div>
+                   </div>
                   <div class="more-menu-wrapper">
                     <button class="more-btn" data-action="toggle-more-menu" data-menu-id="resource-menu-{{ r.id }}" aria-label="More options"><span class="material-symbols-outlined">more_vert</span></button>
                     <div class="more-menu" id="resource-menu-{{ r.id }}" style="display:none;" data-action="stop-propagation">
@@ -553,63 +553,68 @@
 
                 <!-- Description Text -->
                 {% if r.description %}
-                <div class="post-card-description" style="margin-top: 12px; font-size: 0.875rem; color: var(--md-on-surface); line-height: 1.5;">{{ r.description }}</div>
+                <div class="pf-res-desc" id="res-desc-{{ r.id }}">{{ r.description }}<button class="pf-res-desc-toggle" data-action="toggle-res-desc" data-desc-id="res-desc-{{ r.id }}" style="display:none;">…see more</button></div>
                 {% endif %}
 
                 <!-- Preview or Attachment Box -->
                 {% if r.thumbnail_url or r.type == 'Image' %}
-                <div class="act-resource-image-preview" style="margin-top: 12px;">
-                  <a href="{% url 'web:reader' resource_id=r.id %}" style="display: block; border-radius: 8px; overflow: hidden; background: var(--md-surface-container); border: 1px solid var(--md-outline-variant); position: relative; aspect-ratio: 16 / 9; max-height: 220px;">
-                    <img src="{{ r.thumbnail_url|default:r.file_url }}" alt="{{ r.title }}" style="width: 100%; height: 100%; object-fit: cover;">
-                    <span style="position: absolute; bottom: 8px; left: 8px; background: rgba(0,0,0,0.65); color: white; padding: 2px 8px; border-radius: 6px; font-size: 0.75rem; font-weight: 500;">Preview</span>
+                <div class="pf-res-image-preview">
+                  <a href="{% url 'web:reader' resource_id=r.id %}">
+                    <img src="{{ r.thumbnail_url|default:r.file_url }}" alt="{{ r.title }}">
+                    <span class="pf-res-preview-badge">Preview</span>
                   </a>
                 </div>
                 {% else %}
-                <div class="act-resource-card" style="background: var(--md-surface-container-low); border: 1px solid var(--md-outline-variant); border-radius: 8px; display: flex; align-items: center; padding: 16px; margin-top: 12px; transition: border-color 0.2s;">
-                  <div class="act-resource-icon" style="width: 40px; height: 40px; border-radius: 8px; background: color-mix(in srgb, {{ r.subject|split:','|first|subject_color }} 10%, var(--md-surface-container-high)); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                    <span class="material-symbols-outlined" style="color: {{ r.subject|split:','|first|subject_color }}; font-size: 22px;">{{ r.type|resource_type_icon }}</span>
+                <div class="act-resource-card">
+                  <div class="act-resource-icon" style="background: color-mix(in srgb, {{ r.subject|split:','|first|subject_color }} 10%, var(--md-surface-container-high));">
+                    <span class="material-symbols-outlined" style="color: {{ r.subject|split:','|first|subject_color }};">{{ r.type|resource_type_icon }}</span>
                   </div>
-                  <div class="act-resource-info" style="margin-left: 12px; flex: 1; min-width: 0;">
-                    <div class="act-resource-name" style="font-weight: 600; font-size: 0.875rem; color: var(--md-on-surface); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-                      <a href="{% url 'web:reader' resource_id=r.id %}" style="color: inherit; text-decoration: none;">{{ r.title }}</a>
+                  <div class="act-resource-info">
+                    <div class="act-resource-name">
+                      <a href="{% url 'web:reader' resource_id=r.id %}">{{ r.title }}</a>
                     </div>
-                    <div class="act-resource-meta" style="font-size: 0.75rem; color: var(--md-on-surface-variant); margin-top: 2px;">
+                    <div class="act-resource-meta">
                       {{ r.type }} &middot; {{ r.file_size|file_size_human|default:"2.4 MB" }}
                     </div>
                   </div>
-                  <a href="{% url 'web:reader' resource_id=r.id %}" class="act-resource-download-btn" style="width: 36px; height: 36px; border-radius: 50%; background: var(--md-surface-container-high); display: flex; align-items: center; justify-content: center; color: var(--md-on-surface); text-decoration: none; margin-left: 12px; transition: background 0.2s;" title="Download / Open">
-                    <span class="material-symbols-outlined" style="font-size: 20px;">download</span>
+                  <a href="{% url 'web:reader' resource_id=r.id %}" class="act-resource-download-btn" title="Download / Open">
+                    <span class="material-symbols-outlined">download</span>
                   </a>
                 </div>
                 {% endif %}
 
                 <!-- Chips / Tags -->
-                <div class="post-card-chips" style="display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap;">
+                <div class="pf-res-chips">
                   {% if r.grade_level %}
-                  <span class="resource-chip" style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 16px; background: var(--md-secondary-container); color: var(--md-on-secondary-container); font-size: 0.75rem; font-weight: 600;">
-                    <span class="material-symbols-outlined" style="font-size: 14px;">school</span>
+                  <span class="pf-res-chip" style="background: var(--md-secondary-container); color: var(--md-on-secondary-container);">
+                    <span class="material-symbols-outlined">school</span>
                     <span>Grade {{ r.grade_level }}</span>
                   </span>
                   {% endif %}
                   
                   {% with subjs=r.subject|split:"," %}
                     {% for subj in subjs %}
-                      <span class="resource-chip" style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 16px; background: color-mix(in srgb, {{ subj|subject_color }} 8%, var(--md-surface-container-high)); color: {{ subj|subject_color }}; border: 1px solid color-mix(in srgb, {{ subj|subject_color }} 15%, transparent); font-size: 0.75rem; font-weight: 600;">
-                        <span class="material-symbols-outlined" style="font-size: 14px;">{{ subj|subject_icon }}</span>
+                      {% if forloop.counter <= 2 %}
+                      <span class="pf-res-chip" style="background: color-mix(in srgb, {{ subj|subject_color }} 8%, var(--md-surface-container-high)); color: {{ subj|subject_color }}; border: 1px solid color-mix(in srgb, {{ subj|subject_color }} 15%, transparent);">
+                        <span class="material-symbols-outlined">{{ subj|subject_icon }}</span>
                         <span>{{ subj }}</span>
                       </span>
+                      {% endif %}
                     {% endfor %}
+                    {% if subjs|length > 2 %}
+                    <span class="pf-res-chip-more">+{{ subjs|length|add:"-2" }} more</span>
+                    {% endif %}
                   {% endwith %}
                 </div>
 
                 <!-- Footer Actions -->
-                <div class="post-card-actions" style="display: flex; align-items: center; gap: 16px; margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--md-outline-variant);">
-                  <button type="button" data-action="toggle-like-resource" data-resource-id="{{ r.id }}" class="{% if r.is_liked %}liked{% endif %}" id="profile-resource-like-btn-{{ r.id }}" style="display: inline-flex; align-items: center; gap: 6px; font-size: 0.8125rem; border: none; background: transparent; padding: 6px 12px; border-radius: 20px; cursor: pointer; color: var(--md-on-surface-variant); transition: background 0.2s;">
-                    <span class="material-symbols-outlined" style="font-size: 20px; {% if r.is_liked %}font-variation-settings: 'FILL' 1; color: var(--md-primary);{% endif %}">thumb_up</span>
+                <div class="post-card-actions">
+                  <button type="button" data-action="toggle-like-resource" data-resource-id="{{ r.id }}" class="{% if r.is_liked %}liked{% endif %}" id="profile-resource-like-btn-{{ r.id }}">
+                    <span class="material-symbols-outlined"{% if r.is_liked %} style="font-variation-settings: 'FILL' 1; color: var(--md-primary);"{% endif %}>thumb_up</span>
                     <span id="profile-resource-like-count-{{ r.id }}" style="font-weight: 500;">{{ r.like_count|default:0 }}</span>
                   </button>
-                  <a href="{% url 'web:reader' resource_id=r.id %}#comments" class="act-btn-stat" style="display: inline-flex; align-items: center; gap: 6px; font-size: 0.8125rem; padding: 6px 12px; border-radius: 20px; color: var(--md-on-surface-variant); text-decoration: none; transition: background 0.2s;">
-                    <span class="material-symbols-outlined" style="font-size: 20px;">chat_bubble_outline</span>
+                  <a href="{% url 'web:reader' resource_id=r.id %}#comments" class="act-btn-stat">
+                    <span class="material-symbols-outlined">chat_bubble_outline</span>
                     <span style="font-weight: 500;">{{ r.comment_count|default:0 }}</span>
                   </a>
                 </div>
@@ -877,6 +882,12 @@ document.addEventListener('DOMContentLoaded', function() {
     if (customColor) decoEl.style.color = customColor;
     if (customSize) decoEl.style.fontSize = customSize;
   }
+  document.querySelectorAll('.pf-res-desc').forEach(function(el) {
+    var btn = el.querySelector('.pf-res-desc-toggle');
+    if (btn && el.scrollHeight > el.clientHeight + 2) {
+      btn.style.display = 'inline';
+    }
+  });
 });
 
 // ── Real-time profile: follower count + post count updates live ──
@@ -1596,7 +1607,7 @@ registerActions({
   },
   'open-follow-modal': function(el) { openFollowModal(el.dataset.modalType); },
   'show-options-soon': function() { showSnackbar('More options coming soon'); },
-  'go-back': function(e) { e.preventDefault(); if (window.history.length > 1) { window.history.back(); } else { window.location.href = '{% url "web:home" %}'; } },
+  'go-back': function(el, e) { if (e) e.preventDefault(); if (window.history.length > 1) { window.history.back(); } else { window.location.href = '{% url "web:home" %}'; } },
   'toggle-more-menu': function(el) {
     var menuId = el.dataset.menuId;
     var menu = document.getElementById(menuId);
@@ -1694,6 +1705,12 @@ registerActions({
   'share-card-copy-link': function() {
     var url = getShareCardData().profileUrl;
     navigator.clipboard.writeText(url).then(function() { showSnackbar('Profile link copied!'); }).catch(function() { showSnackbar('Could not copy link'); });
+  },
+  'toggle-res-desc': function(el) {
+    var descEl = document.getElementById(el.dataset.descId);
+    if (!descEl) return;
+    descEl.classList.toggle('expanded');
+    el.textContent = descEl.classList.contains('expanded') ? ' see less' : '…see more';
   }
 });
 

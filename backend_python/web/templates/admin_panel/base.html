@@ -239,8 +239,9 @@
       },
       'confirm-delete': function(form, e) {
         var msg = form.dataset.confirmMsg || 'Are you sure?';
-        if (!confirm(msg)) {
-          e.preventDefault();
+        if (confirm(msg)) {
+          form.removeAttribute('data-action');
+          form.submit();
         }
       }
     });

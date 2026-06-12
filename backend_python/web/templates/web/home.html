@@ -157,112 +157,13 @@
       {% endif %}
     </div>
 
-    {% if recent_posts %}
+    {% if trending_posts %}
     <div class="section">
       <div class="section-header">
         <h2>Trending Discussions</h2>
         <a href="{% url 'web:forum' %}?sort=hot">View all</a>
       </div>
-      <div style="display:flex;flex-direction:column;gap:12px;">
-        {% for post in trending_posts %}
-        <div class="post-card" data-action="open-post" data-post-url="{% url 'web:forum_post' post_id=post.id %}"
-          style="cursor: pointer;">
-          <div class="post-card-header">
-            <div class="post-card-avatar">
-              {% if post.authorPhotoUrl %}
-              <img src="{{ post.authorPhotoUrl }}" alt="" data-fallback="inline-flex">
-              <span class="contributor-avatar-letter" style="display:none;">{{ post.authorName|truncate_chars:1|default:"?" }}</span>
-              {% else %}
-              <span class="contributor-avatar-letter">{{ post.authorName|truncate_chars:1|default:"?" }}</span>
-              {% endif %}
-            </div>
-            <div class="post-card-meta">
-              <div class="post-card-meta-line">
-                <strong><a href="{% url 'web:profile' username=post.authorName %}"
-                    style="cursor:pointer;text-decoration:none;color:inherit;">{{ post.authorName }}</a></strong>
-                {% if post.authorBadgeInfo %}
-                <span class="role-badge role-badge-{{ post.authorBadgeInfo.type }}"
-                  title="{{ post.authorBadgeInfo.label }}"><span class="material-symbols-outlined">{{ post.authorBadgeInfo.icon }}</span></span>
-                {% endif %}
-                {% if is_authenticated and post.authorId != user.id %}
-                <button
-                  class="follow-btn-small {% if post.isFollowingAuthor %}following{% else %}not-following{% endif %}"
-                  data-user-id="{{ post.authorId }}" data-action="toggle-follow">{% if post.isFollowingAuthor %}Following{% else %}Follow{% endif %}</button>
-                {% endif %}
-              </div>
-              <div class="post-meta-sub">
-                <span class="act-action-text">posted</span>
-                <span class="dot-sep">&middot;</span>
-                <a href="{% url 'web:forum' %}?category={{ post.category }}" class="post-card-category-link">{{ post.category }}</a>
-                <span class="dot-sep">&middot;</span>
-                <span class="post-card-time">{{ post.createdAt|time_ago }}</span>
-              </div>
-            </div>
-            <div class="more-menu-wrapper">
-              <button class="more-btn" data-action="toggle-more-menu" data-menu-id="post-menu-home-{{ post.id }}"
-                aria-label="More options"><span class="material-symbols-outlined">more_vert</span></button>
-              <div class="more-menu" id="post-menu-home-{{ post.id }}" style="display:none;"
-                data-action="stop-propagation">
-                {% if is_authenticated %}
-                <button class="more-menu-item" data-action="toggle-bookmark" data-target-type="post"
-                  data-target-id="{{ post.id }}">
-                  <span class="material-symbols-outlined" id="bookmark-icon-post-{{ post.id }}"{% if post.isBookmarked %} style="font-variation-settings:'FILL' 1"{% endif %}>bookmark</span>
-                  <span id="bookmark-label-post-{{ post.id }}">{% if post.isBookmarked %}Remove{% else %}Bookmark{% endif %}</span>
-                </button>
-                {% endif %}
-                <button class="more-menu-item" data-action="share-post-url"
-                  data-path="{% url 'web:forum_post' post_id=post.id %}">
-                  <span class="material-symbols-outlined">share</span> Share
-                </button>
-                {% if is_authenticated and post.authorId != user.id %}
-                <button class="more-menu-item" data-action="report-content" data-target-type="post"
-                  data-target-id="{{ post.id }}">
-                  <span class="material-symbols-outlined">flag</span> Report
-                </button>
-                {% endif %}
-              </div>
-            </div>
-          </div>
-          <h3><a href="{% url 'web:forum_post' post_id=post.id %}">{{ post.title }}</a></h3>
-          <div class="post-card-content">{{ post.content|render_content_inline }}</div>
-          {% if post.images %}
-          <div class="post-card-images">
-            {% for img in post.images %}
-            {% if forloop.counter <= 3 %} <img src="{{ img.imageUrl }}" alt="" loading="lazy" class="post-card-thumb">
-              {% endif %}
-              {% endfor %}
-          </div>
-          {% endif %}
-          {% if post.poll %}
-          <div class="post-card-poll-badge">
-            <span class="material-symbols-outlined" style="font-size:16px;">{% if post.poll.pollType == 'mcq' %}quiz{% else %}poll{% endif %}</span>
-            {% if post.poll.pollType == 'mcq' %}MCQ{% else %}Poll{% endif %}
-          </div>
-          {% endif %}
-          <div class="post-card-actions">
-            <button type="button" data-action="toggle-home-post-like" data-post-id="{{ post.id }}"
-              class="{% if post.isThumbedUp %}liked{% endif %}" id="home-post-like-btn-{{ post.id }}">
-              <span class="material-symbols-outlined">thumb_up</span>
-              <span id="home-post-like-count-{{ post.id }}">{{ post.thumbsUpCount }}</span>
-            </button>
-            <a href="{% url 'web:forum_post' post_id=post.id %}" class="act-btn-stat">
-              <span class="material-symbols-outlined">chat_bubble_outline</span>
-              <span>{{ post.replyCount }} Replies</span>
-            </a>
-            <span class="fp-action-spacer" style="flex: 1;"></span>
-            <button type="button" class="{% if post.isBookmarked %}bookmark-active{% endif %}"
-              data-action="toggle-bookmark" data-target-type="post" data-target-id="{{ post.id }}"
-              id="home-post-bookmark-btn-{{ post.id }}" aria-label="Bookmark">
-<span class="material-symbols-outlined"{% if post.isBookmarked %} style="font-variation-settings: 'FILL' 1;"{% endif %}>bookmark</span>
-            </button>
-            <button type="button" data-action="share-post-url" data-path="{% url 'web:forum_post' post_id=post.id %}"
-              aria-label="Share">
-              <span class="material-symbols-outlined">share</span>
-            </button>
-          </div>
-        </div>
-        {% endfor %}
-      </div>
+      {% include "web/_forum_posts.html" with posts=trending_posts %}
       <a href="{% url 'web:forum' %}?sort=hot" class="forum-cta">Join the Discussion</a>
     </div>
     {% endif %}
@@ -289,12 +190,12 @@
     }
     window.WS.on('forum.public:post.like_changed', function (data) {
       if (!data || !data.post_id) return;
-      const el = document.getElementById('home-post-like-count-' + data.post_id);
+      const el = document.getElementById('forum-post-like-count-' + data.post_id);
       if (el) el.textContent = data.thumbs_up_count;
     });
     window.WS.on('forum.public:reply.created', function (data) {
       if (!data || !data.post_id) return;
-      const el = document.getElementById('home-post-reply-count-' + data.post_id);
+      const el = document.getElementById('forum-post-reply-count-' + data.post_id);
       if (el) el.textContent = (parseInt(el.textContent || '0', 10) || 0) + 1;
     });
     window.WS.on('user:follow.changed', function (data) {
@@ -305,13 +206,14 @@
   });
 
   registerActions({
-    'toggle-home-post-like': async function (el) {
+    'toggle-forum-post-like': async function (el, e) {
+      if (e) e.stopPropagation();
       if (!IS_AUTHENTICATED) { window.location.href = '{% url "web:login" %}'; return; }
       var postId = el.dataset.postId;
       try {
         const result = await (await fetch('/ajax/like/post/' + postId + '/', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN }, credentials: 'same-origin' })).json();
         if (result && result.thumbsUpCount !== undefined) {
-          const countEl = document.getElementById('home-post-like-count-' + postId);
+          const countEl = document.getElementById('forum-post-like-count-' + postId);
           if (countEl) countEl.textContent = result.thumbsUpCount;
           const iconEl = el.querySelector('.material-symbols-outlined');
           if (iconEl) { iconEl.textContent = 'thumb_up'; iconEl.style.fontVariationSettings = result.isThumbedUp ? "'FILL' 1" : ''; }
@@ -319,7 +221,8 @@
         }
       } catch (e) { showSnackbar('Failed to like post'); }
     },
-    'toggle-follow': async function (el) {
+    'toggle-follow': async function (el, e) {
+      if (e) e.stopPropagation();
       if (!IS_AUTHENTICATED) { window.location.href = '{% url "web:login" %}'; return; }
       var userId = el.dataset.userId;
       el.disabled = true;
@@ -341,7 +244,8 @@
         }
       } catch (e) { el.disabled = false; showSnackbar('Error updating follow.'); }
     },
-    'toggle-more-menu': function (el) {
+    'toggle-more-menu': function (el, e) {
+      if (e) e.stopPropagation();
       var menuId = el.dataset.menuId;
       var menu = document.getElementById(menuId);
       if (!menu) return;
@@ -358,7 +262,8 @@
         setTimeout(function () { document.addEventListener('click', handler, true); }, 0);
       }
     },
-    'toggle-bookmark': async function (el) {
+    'toggle-bookmark': async function (el, e) {
+      if (e) e.stopPropagation();
       closeAllMenus();
       if (!IS_AUTHENTICATED) { window.location.href = '{% url "web:login" %}'; return; }
       var targetType = el.dataset.targetType;
@@ -375,28 +280,26 @@
           var labelEl = document.getElementById('bookmark-label-' + targetType + '-' + targetId);
           if (iconEl) { iconEl.textContent = 'bookmark'; iconEl.style.fontVariationSettings = d.isBookmarked ? "'FILL' 1" : ''; }
           if (labelEl) labelEl.textContent = d.isBookmarked ? 'Remove' : 'Bookmark';
-
-          // Update footer button
-          var footerBtn = document.getElementById('home-post-bookmark-btn-' + targetId);
+          var footerBtn = document.getElementById('forum-post-bookmark-btn-' + targetId);
           if (footerBtn) {
             footerBtn.classList.toggle('bookmark-active', d.isBookmarked);
             var footerIcon = footerBtn.querySelector('.material-symbols-outlined');
-            if (footerIcon) {
-              footerIcon.style.fontVariationSettings = d.isBookmarked ? "'FILL' 1" : '';
-            }
+            if (footerIcon) { footerIcon.style.fontVariationSettings = d.isBookmarked ? "'FILL' 1" : ''; }
           }
           showSnackbar(d.isBookmarked ? 'Bookmarked!' : 'Bookmark removed');
         } else { showSnackbar(d.error || 'Failed to toggle bookmark'); }
       } catch (e) { showSnackbar('Error toggling bookmark'); }
     },
-    'share-post-url': function (el) {
+    'share-post-url': function (el, e) {
+      if (e) e.stopPropagation();
       closeAllMenus();
       var path = el.dataset.path;
       var url = window.location.origin + path;
       if (navigator.share) { navigator.share({ title: document.title, url: url }).catch(function () { }); }
       else { navigator.clipboard.writeText(url).then(function () { showSnackbar('Link copied!'); }).catch(function () { showSnackbar('Could not copy link'); }); }
     },
-    'report-content': function (el) {
+    'report-content': function (el, e) {
+      if (e) e.stopPropagation();
       closeAllMenus();
       var targetType = el.dataset.targetType;
       var targetId = el.dataset.targetId;
@@ -409,7 +312,44 @@
         if (r.ok) showSnackbar('Report submitted. Thank you!');
         else r.json().then(d => showSnackbar(d.error || 'Failed to submit report')).catch(() => showSnackbar('Failed to submit report'));
       }).catch(() => showSnackbar('Failed to submit report'));
-    }
+    },
+    'edit-post-card': function (el, e) {
+      if (e) e.stopPropagation();
+      closeAllMenus();
+      window.location.href = el.dataset.postUrl;
+    },
+    'archive-post-card': async function (el, e) {
+      if (e) e.stopPropagation();
+      closeAllMenus();
+      var postId = el.dataset.postId;
+      if (!confirm(el.textContent.trim().includes('Unarchive') ? 'Unarchive this post?' : 'Archive this post? It will be hidden from public listings.')) return;
+      try {
+        const r = await fetch('/ajax/archive/post/' + postId + '/', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN }, credentials: 'same-origin' });
+        const d = await r.json();
+        if (d.is_archived !== undefined) {
+          showSnackbar(d.is_archived ? 'Post archived' : 'Post unarchived');
+          var card = el.closest('.post-card');
+          if (card && d.is_archived) { card.style.opacity = '0.5'; card.style.pointerEvents = 'none'; }
+          else if (card) { card.style.opacity = ''; card.style.pointerEvents = ''; }
+        } else { showSnackbar(d.error || 'Failed to archive'); }
+      } catch (e) { showSnackbar('Error archiving post'); }
+    },
+    'delete-post-card': async function (el, e) {
+      if (e) e.stopPropagation();
+      closeAllMenus();
+      var postId = el.dataset.postId;
+      if (!confirm('Delete this post? This cannot be undone.')) return;
+      try {
+        const r = await fetch('/ajax/delete/post/' + postId + '/', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN }, credentials: 'same-origin' });
+        const d = await r.json();
+        if (d.success) {
+          showSnackbar('Post deleted');
+          var card = el.closest('.post-card');
+          if (card) { card.style.opacity = '0'; card.style.maxHeight = '0'; card.style.overflow = 'hidden'; card.style.transition = 'all 0.3s ease'; }
+        } else { showSnackbar(d.error || 'Failed to delete'); }
+      } catch (e) { showSnackbar('Error deleting post'); }
+    },
+    'stop-propagation': function (el, e) { e.stopPropagation(); }
   });
 
   function closeAllMenus() {

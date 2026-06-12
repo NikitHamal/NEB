@@ -221,3 +221,11 @@
   .search-tabs .md-tab {
     flex-shrink: 0;
   }
+
+  mark.search-hl {
+    background: var(--md-primary-container, #d1e8ff);
+    color: var(--md-on-primary-container, #001d3b);
+    border-radius: 2px;
+    padding: 0 2px;
+    font-weight: 600;
+  }
