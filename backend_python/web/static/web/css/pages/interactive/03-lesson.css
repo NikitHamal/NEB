@@ -8,7 +8,9 @@
 
 .ix-lesson-layout { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 22px; align-items: start; }
 
-.ix-sim-column { display: flex; flex-direction: column; gap: 16px; position: sticky; top: 76px; }
+.ix-sim-column { display: flex; flex-direction: column; gap: 16px; }
+
+.ix-sim-shell { position: sticky; top: 76px; }
 
 .ix-learn-column { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
 
@@ -477,11 +479,11 @@
 
 .ix-quiz-result .material-symbols-outlined { font-size: 24px; color: var(--ix-color, var(--md-primary)); }
 
-.ix-lesson-nav { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 6px; flex-wrap: wrap; }
+.ix-lesson-nav { display: flex; flex-direction: column; gap: 10px; margin-top: 6px; }
 
-.ix-lesson-nav .md-btn { text-decoration: none; }
+.ix-lesson-nav .md-btn { text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 6px; width: 100%; }
 
-.ix-nav-label { max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ix-nav-label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
 #ix-complete-btn.ix-completed { background: color-mix(in srgb, #16A34A 16%, transparent); color: #15803D; }
 
@@ -489,7 +491,7 @@
 
 @media (max-width: 960px) {
   .ix-lesson-layout { grid-template-columns: 1fr; gap: 16px; }
-  .ix-sim-column { position: static; }
+  .ix-sim-shell { position: static; }
   .ix-sim-stage { aspect-ratio: 4 / 3.4; max-height: 62vh; }
 }
 
@@ -498,6 +500,5 @@
   .ix-sim-stage { aspect-ratio: 1 / 1.04; }
   .ix-ctrl-panel { width: min(250px, calc(100% - 20px)); max-height: 62%; }
   .ix-knowledge, .ix-quiz, .ix-objectives { padding: 15px 14px; }
-  .ix-nav-label { max-width: 90px; }
   .ix-sim-hint { font-size: 0.6875rem; }
 }
