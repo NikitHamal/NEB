@@ -1,6 +1,6 @@
 .ix-lesson-page[data-sim-type="coding"] .ix-sim-stage { aspect-ratio: auto; height: auto; min-height: 480px; max-height: none; }
 
-.ix-lesson-page[data-sim-type="coding"] .ix-sim-column { position: static; }
+.ix-lesson-page[data-sim-type="coding"] .ix-sim-shell { position: static; }
 
 .ix-sim-stage.ix-coding { background: linear-gradient(160deg, #eef2f9, #e3e9f4); overflow: visible; }
 

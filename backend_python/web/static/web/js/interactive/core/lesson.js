@@ -143,43 +143,60 @@ if (root) {
     const result = document.getElementById('ix-quiz-result');
     let answered = 0;
     let correct = 0;
+    const record = getRecord(courseSlug, lessonSlug);
+    const savedAnswers = record.quizAnswers || {};
 
-    questions.forEach((q) => {
+    function showResult() {
+      if (answered !== questions.length || !result) return;
+      result.hidden = false;
+      const pct = Math.round((correct / questions.length) * 100);
+      let msg, icon;
+      if (pct === 100) { icon = 'emoji_events'; msg = `Perfect! ${correct}/${questions.length} — you mastered this lesson!`; }
+      else if (pct >= 60) { icon = 'sentiment_very_satisfied'; msg = `Nice work! You scored ${correct}/${questions.length}.`; }
+      else { icon = 'replay'; msg = `You scored ${correct}/${questions.length}. Explore the simulation again and you'll get it!`; }
+      result.innerHTML = `<span class="material-symbols-outlined">${icon}</span><span>${msg}</span>`;
+      result.classList.toggle('ix-result-great', pct >= 60);
+      setRecord(courseSlug, lessonSlug, { quiz: pct, quizAnswers: savedAnswers });
+      if (pct >= 60) markDone(true);
+    }
+
+    function lockQuestion(q, chosenIdx) {
       const answer = parseInt(q.dataset.answer, 10);
       const explain = q.querySelector('.ix-quiz-explain');
       const opts = [...q.querySelectorAll('.ix-quiz-opt')];
-      let locked = false;
-      opts.forEach((opt) => {
-        opt.addEventListener('click', () => {
-          if (locked) return;
-          locked = true;
-          answered++;
-          const idx = parseInt(opt.dataset.index, 10);
-          const isCorrect = idx === answer;
-          if (isCorrect) correct++;
-          opt.classList.add(isCorrect ? 'correct' : 'wrong');
-          if (!isCorrect) opts[answer] && opts[answer].classList.add('correct');
-          opts.forEach((o) => {
-            o.classList.add('locked');
-            o.setAttribute('aria-disabled', 'true');
-            o.disabled = true;
-          });
-          if (explain) explain.hidden = false;
-          if (answered === questions.length && result) {
-            result.hidden = false;
-            const pct = Math.round((correct / questions.length) * 100);
-            let msg, icon;
-            if (pct === 100) { icon = 'emoji_events'; msg = `Perfect! ${correct}/${questions.length} — you mastered this lesson!`; }
-            else if (pct >= 60) { icon = 'sentiment_very_satisfied'; msg = `Nice work! You scored ${correct}/${questions.length}.`; }
-            else { icon = 'replay'; msg = `You scored ${correct}/${questions.length}. Explore the simulation again and you'll get it!`; }
-            result.innerHTML = `<span class="material-symbols-outlined">${icon}</span><span>${msg}</span>`;
-            result.classList.toggle('ix-result-great', pct >= 60);
-            setRecord(courseSlug, lessonSlug, { quiz: pct });
-            if (pct >= 60) markDone(true);
-            result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-          }
-        });
+      const isCorrect = chosenIdx === answer;
+      const chosenOpt = opts[chosenIdx];
+      if (chosenOpt) chosenOpt.classList.add(isCorrect ? 'correct' : 'wrong');
+      if (!isCorrect && opts[answer]) opts[answer].classList.add('correct');
+      opts.forEach((o) => {
+        o.classList.add('locked');
+        o.setAttribute('aria-disabled', 'true');
+        o.disabled = true;
       });
+      if (explain) explain.hidden = false;
+    }
+
+    questions.forEach((q, qi) => {
+      const opts = [...q.querySelectorAll('.ix-quiz-opt')];
+      if (qi in savedAnswers) {
+        answered++;
+        if (savedAnswers[qi] === parseInt(q.dataset.answer, 10)) correct++;
+        lockQuestion(q, savedAnswers[qi]);
+      } else {
+        opts.forEach((opt) => {
+          opt.addEventListener('click', () => {
+            const idx = parseInt(opt.dataset.index, 10);
+            answered++;
+            if (idx === parseInt(q.dataset.answer, 10)) correct++;
+            lockQuestion(q, idx);
+            savedAnswers[qi] = idx;
+            setRecord(courseSlug, lessonSlug, { quizAnswers: savedAnswers });
+            showResult();
+          });
+        });
+      }
     });
+
+    if (answered === questions.length) showResult();
   }
 }
