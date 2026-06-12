@@ -1,10 +1,10 @@
 """
-Qwen AI Proxy — calls chat.qwen.ai directly by spoofing a browser session.
+Qwen AI Proxy â€” calls chat.qwen.ai directly by spoofing a browser session.
 
 Ported from flashy/backend/providers/qwen_utils/ (fingerprint, cookies, bx-ua)
 but simplified for synchronous use with the standard `requests` library.
 
-No API key needed — this mimics a real Chrome browser session.
+No API key needed â€” this mimics a real Chrome browser session.
 """
 import base64
 import hashlib
@@ -16,19 +16,72 @@ import threading
 import time
 import uuid
 
-import requests
+# Prefer curl_cffi for TLS fingerprint spoofing (bypasses Aliyun WAF on chat.qwen.ai).
+# Fall back to plain requests if curl_cffi is not installed on the server.
+try:
+    from curl_cffi.requests import Session as _CurlSession
+    _USE_CURL_CFFI = True
+except ImportError:
+    import requests as _requests
+    _USE_CURL_CFFI = False
+
+import requests  # kept for midtoken helper which uses a plain requests.Session
 
 logger = logging.getLogger(__name__)
 
 QWEN_URL = "https://chat.qwen.ai"
 
+# Optional HTTP proxy to bypass Aliyun WAF IP blocks.
+# Set QWEN_PROXY_URL in the server .env, e.g.:
+#   QWEN_PROXY_URL=http://user:pass@proxyhost:port
+import os as _os
+QWEN_PROXY_URL = _os.environ.get("QWEN_PROXY_URL") or None
+
+
+def _check_waf_response(resp):
+    """Return an error string if the response looks like a WAF/captcha block."""
+    if resp.status_code == 403:
+        return "Access forbidden (WAF)"
+    if resp.status_code in (503, 520, 521, 522, 523, 524):
+        return f"WAF/CDN error (HTTP {resp.status_code})"
+    if resp.status_code == 200:
+        ct = resp.headers.get("content-type", "")
+        if "text/html" in ct:
+            try:
+                text = (resp.text if hasattr(resp, "text")
+                        else resp.content.decode("utf-8", "replace"))
+                if any(k in text for k in ("aliyun_waf_aa", "captcha", "Challenge")):
+                    return "Aliyun WAF JS challenge"
+            except Exception:
+                pass
+    return None
+
+
 # ========================= Fingerprint Generation =========================
 
 SCREEN_PRESETS = {
     "1920x1080": "1920|1080|283|1080|158|0|1920|1080|1920|922|0|0",
+    "1470x956":  "1470|956|283|797|158|0|1470|956|1470|798|0|0",
+    "2560x1440": "2560|1440|283|1440|158|0|2560|1440|2560|1282|0|0",
 }
 
 PLATFORM_PRESETS = {
+    "macIntel": {
+        "platform": "MacIntel",
+        "webglRenderer": (
+            "ANGLE (Apple, ANGLE Metal Renderer: Apple M4, Unspecified Version)"
+            "|Google Inc. (Apple)"
+        ),
+        "vendor": "Google Inc.",
+    },
+    "macM1": {
+        "platform": "MacIntel",
+        "webglRenderer": (
+            "ANGLE (Apple, ANGLE Metal Renderer: Apple M1, Unspecified Version)"
+            "|Google Inc. (Apple)"
+        ),
+        "vendor": "Google Inc.",
+    },
     "win64": {
         "platform": "Win32",
         "webglRenderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Direct3D11 vs_5_0 ps_5_0, D3D11)|Google Inc. (NVIDIA)",
@@ -54,36 +107,45 @@ def _generate_hash():
     return random.randint(0, 0xFFFFFFFF)
 
 
+_SCREEN_LIST = list(SCREEN_PRESETS.values())
+_PLATFORM_LIST = ["macIntel", "macM1", "win64"]
+
+
 def generate_fingerprint(options=None):
     if options is None:
         options = {}
+
+    # Default to MacIntel + zh-CN â€” looks like the typical Qwen web user,
+    # improves WAF bypass rate vs. Win32 + en-US.
+    platform_key = options.get("platform") or random.choice(["macIntel", "macM1"])
+    preset = PLATFORM_PRESETS.get(platform_key, PLATFORM_PRESETS["macIntel"])
+
     config = {
         "deviceId": _generate_device_id(),
         "sdkVersion": "websdk-2.3.15d",
         "initTimestamp": str(int(time.time() * 1000)),
         "field3": "91",
         "field4": "1|15",
-        "language": "en-US",
-        "timezoneOffset": "480",
+        "language": "zh-CN",
+        "timezoneOffset": "-480",
         "colorDepth": "16705151|12791",
-        "screenInfo": SCREEN_PRESETS["1920x1080"],
+        "screenInfo": random.choice(_SCREEN_LIST),
         "field9": "5",
-        "platform": "Win32",
+        "platform": preset["platform"],
         "field11": "10",
-        "webglRenderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Direct3D11 vs_5_0 ps_5_0, D3D11)|Google Inc. (NVIDIA)",
+        "webglRenderer": preset["webglRenderer"],
         "field13": "30|30",
         "field14": "0",
         "field15": "28",
         "pluginCount": "5",
-        "vendor": "Google Inc.",
+        "vendor": preset["vendor"],
         "field29": "8",
         "touchInfo": "-1|0|0|0|0",
         "field32": "11",
         "field35": "0",
         "mode": "P",
     }
-    if "platform" in options and options["platform"] in PLATFORM_PRESETS:
-        config.update(PLATFORM_PRESETS[options["platform"]])
+    config.update(options.get("custom", {}))
 
     current_timestamp = int(time.time() * 1000)
     plugin_hash = _generate_hash()
@@ -466,13 +528,21 @@ _pool_refill_thread_started = False
 
 
 def _create_fresh_session():
-    """Build a brand-new session with unique fingerprint and cookies."""
+    """Build a brand-new session with unique fingerprint and cookies.
+
+    Uses curl_cffi with impersonate='chrome' when available so that TLS
+    fingerprints match a real Chrome browser â€” this is the primary WAF
+    bypass mechanism for Aliyun WAF on chat.qwen.ai.
+    """
     cookies_data = generate_cookies()
     bx_ua = generate_bx_ua(cookies_data.get("rawData", ""))
     headers = build_session_headers(bx_ua)
 
-    session = requests.Session()
-    session.headers.update(headers)
+    if _USE_CURL_CFFI:
+        session = _CurlSession(impersonate="chrome", headers=headers, proxies={"https": QWEN_PROXY_URL, "http": QWEN_PROXY_URL} if QWEN_PROXY_URL else {})
+    else:
+        session = requests.Session()
+        session.headers.update(headers)
 
     cookie_dict = {
         "ssxmod_itna": cookies_data["ssxmod_itna"],
@@ -481,7 +551,11 @@ def _create_fresh_session():
     for k, v in cookie_dict.items():
         session.cookies.set(k, v, domain="chat.qwen.ai")
 
-    midtoken = get_midtoken(session)
+    # Use a plain requests session for the midtoken fetch (curl_cffi
+    # sessions are not reused across threads safely for this helper)
+    midtoken_session = requests.Session()
+    midtoken_session.headers.update(headers)
+    midtoken = get_midtoken(midtoken_session)
     if midtoken:
         session.headers["bx-umidtoken"] = midtoken
         session.headers["bx-v"] = "2.5.31"
@@ -489,8 +563,6 @@ def _create_fresh_session():
     try:
         warmup = session.get(f"{QWEN_URL}/", timeout=15, allow_redirects=True)
         logger.info(f"Qwen warmup: {warmup.status_code}")
-        for cookie in session.cookies:
-            pass
     except Exception as e:
         logger.warning(f"Qwen warmup failed: {e}")
 
@@ -607,7 +679,12 @@ def create_chat(session, model=None, _pool_session=None):
     }
     try:
         resp = session.post(f"{QWEN_URL}/api/v2/chats/new", json=payload, timeout=30)
-        resp.encoding = "utf-8"
+        waf_err = _check_waf_response(resp)
+        if waf_err:
+            logger.error(f"Qwen create_chat WAF blocked: {waf_err}")
+            if _pool_session:
+                _mark_failed(_pool_session)
+            return None
         if resp.status_code != 200:
             logger.error(f"Qwen chat creation failed: {resp.status_code} {resp.text[:300]}")
             if _pool_session:
@@ -673,14 +750,18 @@ def send_message(session, chat_id, message, model=None, parent_id=None,
 
 
 def _parse_stream(response, session=None):
-    response.encoding = "utf-8"
     full_text = ""
     reasoning_text = ""
-    buffer = ""
     parent_id = None
     had_quota_error = False
 
-    for line in response.iter_lines(decode_unicode=True):
+    # curl_cffi's iter_lines() returns bytes (decode_unicode=True is not
+    # supported), so we decode manually. plain requests returns strings.
+    for raw_line in response.iter_lines():
+        if isinstance(raw_line, bytes):
+            line = raw_line.decode("utf-8", errors="replace")
+        else:
+            line = raw_line
         if not line:
             continue
         line = line.strip()

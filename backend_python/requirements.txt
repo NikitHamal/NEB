@@ -10,6 +10,7 @@ whitenoise==6.7.0
 google-auth==2.53.0
 redis==5.2.1
 pycryptodome==3.21.0
+curl_cffi>=0.15.0
 pikepdf==9.5.1
 pypdf==4.2.0
 channels==4.2.0

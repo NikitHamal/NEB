@@ -22,6 +22,8 @@
   var EXAM_ACTIVE = false;
   var EXAM_DEADLINE = 0;
   var EXAM_TIMER = null;
+  var GENERATION_POLL_INTERVAL = 2000;
+  var GENERATION_POLLS = {};
 
   function csrf(){
     return document.querySelector('meta[name="csrf-token"]')?.content ||
@@ -35,6 +37,41 @@
 
   function esc(t){
     var d=document.createElement('div'); d.textContent=t; return d.innerHTML;
+  }
+
+  function pollGenerationJob(jobId, onProgress, onCompleted, onFailed){
+    if(GENERATION_POLLS[jobId]) return;
+    var poll = function(){
+      fetch('/ajax/study-space/generation/'+jobId+'/',{
+        headers:{'X-CSRFToken':csrf()},
+        credentials:'same-origin'
+      }).then(function(r){return r.json()}).then(function(data){
+        if(data.status==='completed'){
+          delete GENERATION_POLLS[jobId];
+          if(onCompleted) onCompleted(data);
+        } else if(data.status==='failed'||data.status==='cancelled'){
+          delete GENERATION_POLLS[jobId];
+          if(onFailed) onFailed(data.error||'Generation failed');
+        } else if(data.status==='processing'||data.status==='queued'){
+          if(onProgress) onProgress(data.progress||0, data.status==='queued'?'Waiting in queue...':'Generating...');
+          GENERATION_POLLS[jobId] = setTimeout(poll, GENERATION_POLL_INTERVAL);
+        } else {
+          delete GENERATION_POLLS[jobId];
+          if(onFailed) onFailed('Unexpected status: '+(data.status||'unknown'));
+        }
+      }).catch(function(e){
+        delete GENERATION_POLLS[jobId];
+        if(onFailed) onFailed('Connection error. Please try again.');
+      });
+    };
+    GENERATION_POLLS[jobId] = setTimeout(poll, GENERATION_POLL_INTERVAL);
+  }
+
+  function cancelAllGenerationPolls(){
+    Object.keys(GENERATION_POLLS).forEach(function(k){
+      clearTimeout(GENERATION_POLLS[k]);
+    });
+    GENERATION_POLLS = {};
   }
 
   function $(id){ return document.getElementById(id); }
@@ -811,6 +848,14 @@
     }).then(function(r){
       if(r.status===202){
         return r.json().then(function(data){
+          if(data.jobId){
+            pollGenerationJob(data.jobId,
+              function(pct,msg){ $('ssSummaryLoading').textContent = msg || ('Generating... '+pct+'%'); },
+              function(result){ handleSummaryResult(result); },
+              function(err){ $('ssSummaryLoading').style.display='none'; $('ssSummaryPrompt').style.display=''; showParseStatusMessage(err); }
+            );
+            return null;
+          }
           $('ssSummaryLoading').style.display='none';
           $('ssSummaryPrompt').style.display='';
           showParseStatusMessage(data.error||'Documents are still being parsed. Please wait a moment and try again.');
@@ -822,17 +867,20 @@
       if(!data) return;
       $('ssSummaryLoading').style.display='none';
       if(data.error){ $('ssSummaryPrompt').style.display=''; showParseStatusMessage(data.error); return; }
-      // The backend returns the actual stored per-mode fields; never
-      // cross-pollute the compact/detailed slots.
-      SPACE_DATA.linkSummaryCompact = data.summaryCompact || '';
-      SPACE_DATA.linkSummaryDetailed = data.summaryDetailed || '';
-      if(data.mode) { SUMMARY_MODE = data.mode; syncSummaryModeButtons(); }
-      renderSummaryPanel();
+      handleSummaryResult(data);
     }).catch(function(e){
       $('ssSummaryLoading').style.display='none';
       $('ssSummaryPrompt').style.display='';
       showParseStatusMessage('Failed to generate summary. Please try again.');
     });
+  }
+
+  function handleSummaryResult(data){
+    if(data.error){ $('ssSummaryPrompt').style.display=''; showParseStatusMessage(data.error); return; }
+    SPACE_DATA.linkSummaryCompact = data.summaryCompact || '';
+    SPACE_DATA.linkSummaryDetailed = data.summaryDetailed || '';
+    if(data.mode) { SUMMARY_MODE = data.mode; syncSummaryModeButtons(); }
+    renderSummaryPanel();
   }
 
   function showSummary(text){
@@ -996,6 +1044,14 @@
     }).then(function(r){
       if(r.status===202){
         return r.json().then(function(data){
+          if(data.jobId){
+            pollGenerationJob(data.jobId,
+              function(pct,msg){ $('ssMindmapLoading').textContent = msg || ('Generating... '+pct+'%'); },
+              function(result){ handleMindmapResult(result); },
+              function(err){ $('ssMindmapLoading').style.display='none'; $('ssMindmapPrompt').style.display=''; showParseStatusMessage(err); }
+            );
+            return null;
+          }
           $('ssMindmapLoading').style.display='none';
           $('ssMindmapPrompt').style.display='';
           showParseStatusMessage(data.error||'Documents are still being parsed. Please wait and try again.');
@@ -1007,13 +1063,18 @@
       if(!data) return;
       $('ssMindmapLoading').style.display='none';
       if(data.error){ $('ssMindmapPrompt').style.display=''; showParseStatusMessage(data.error); return; }
-      MINDMAP_DATA = data.mindmap;
-      showMindmap(data.mindmap);
+      handleMindmapResult(data);
     }).catch(function(e){
       $('ssMindmapLoading').style.display='none';
       $('ssMindmapPrompt').style.display='';
       showParseStatusMessage('Failed to generate mindmap. Please try again.');
     });
+  }
+
+  function handleMindmapResult(data){
+    if(data.error){ $('ssMindmapPrompt').style.display=''; showParseStatusMessage(data.error); return; }
+    MINDMAP_DATA = data.mindmap;
+    showMindmap(data.mindmap);
   }
 
   function showMindmap(data){
@@ -1044,6 +1105,14 @@
     }).then(function(r){
       if(r.status===202){
         return r.json().then(function(data){
+          if(data.jobId){
+            pollGenerationJob(data.jobId,
+              function(pct,msg){ $('ssQuizLoading').textContent = msg || ('Generating... '+pct+'%'); },
+              function(result){ handleQuizResult(result); },
+              function(err){ $('ssQuizLoading').style.display='none'; $('ssQuizPrompt').style.display=''; $('ssQuizHistorySection').style.display=''; showParseStatusMessage(err); }
+            );
+            return null;
+          }
           $('ssQuizLoading').style.display='none';
           $('ssQuizPrompt').style.display='';
           $('ssQuizHistorySection').style.display='';
@@ -1056,15 +1125,7 @@
       if(!data) return;
       $('ssQuizLoading').style.display='none';
       if(data.error){ $('ssQuizPrompt').style.display=''; $('ssQuizHistorySection').style.display=''; EXAM_PENDING_MINUTES=0; showParseStatusMessage(data.error); return; }
-      QUIZ_DATA = data.quiz;
-      QUIZ_ANSWERS = {};
-      QUIZ_CURRENT = 0;
-      renderQuiz();
-      if(EXAM_PENDING_MINUTES > 0){
-        startExamTimer(EXAM_PENDING_MINUTES);
-        toast('Exam started — '+EXAM_PENDING_MINUTES+' minutes on the clock.');
-        EXAM_PENDING_MINUTES = 0;
-      }
+      handleQuizResult(data);
     }).catch(function(e){
       $('ssQuizLoading').style.display='none';
       $('ssQuizPrompt').style.display='';
@@ -1072,6 +1133,19 @@
       EXAM_PENDING_MINUTES = 0;
       showParseStatusMessage('Failed to generate quiz. Please try again.');
     });
+  }
+
+  function handleQuizResult(data){
+    if(data.error){ $('ssQuizPrompt').style.display=''; $('ssQuizHistorySection').style.display=''; showParseStatusMessage(data.error); return; }
+    QUIZ_DATA = data.quiz;
+    QUIZ_ANSWERS = {};
+    QUIZ_CURRENT = 0;
+    renderQuiz();
+    if(EXAM_PENDING_MINUTES > 0){
+      startExamTimer(EXAM_PENDING_MINUTES);
+      toast('Exam started — '+EXAM_PENDING_MINUTES+' minutes on the clock.');
+      EXAM_PENDING_MINUTES = 0;
+    }
   }
 
   function answeredCount(){
@@ -1131,6 +1205,14 @@
     }).then(function(r){
       if(r.status===202){
         return r.json().then(function(data){
+          if(data.jobId){
+            pollGenerationJob(data.jobId,
+              function(pct,msg){ $('ssFlashLoading').textContent = msg || ('Generating... '+pct+'%'); },
+              function(result){ handleFlashcardResult(result); },
+              function(err){ $('ssFlashLoading').style.display='none'; $('ssFlashPrompt').style.display=''; showParseStatusMessage(err); }
+            );
+            return null;
+          }
           $('ssFlashLoading').style.display='none';
           $('ssFlashPrompt').style.display='';
           showParseStatusMessage(data.error||'Documents are still being parsed. Please wait and try again.');
@@ -1142,14 +1224,19 @@
       if(!data) return;
       $('ssFlashLoading').style.display='none';
       if(data.error){ $('ssFlashPrompt').style.display=''; showParseStatusMessage(data.error); return; }
-      FLASHCARDS = data.flashcards||[];
-      FLASH_INDEX = 0;
-      renderFlashcard();
+      handleFlashcardResult(data);
     }).catch(function(e){
       $('ssFlashLoading').style.display='none';
       $('ssFlashPrompt').style.display='';
       showParseStatusMessage('Failed to generate flashcards. Please try again.');
     });
+  }
+
+  function handleFlashcardResult(data){
+    if(data.error){ $('ssFlashPrompt').style.display=''; showParseStatusMessage(data.error); return; }
+    FLASHCARDS = data.flashcards||[];
+    FLASH_INDEX = 0;
+    renderFlashcard();
   }
 
   function renderFlashcard(){

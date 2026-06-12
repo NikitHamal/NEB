@@ -432,7 +432,7 @@ def admin_resources(request):
     })
 
 def admin_resource_create(request):
-    """Standalone admin resource creation page — full-featured form matching the public upload page."""
+    """Standalone admin resource creation page â€” full-featured form matching the public upload page."""
     redirect_response = _require_staff_admin(request)
     if redirect_response:
         return redirect_response
@@ -1498,3 +1498,72 @@ def admin_syllabus_export(request):
     response = JsonResponse(data, safe=False, json_dumps_params={'indent': 2, 'ensure_ascii': False})
     response['Content-Disposition'] = 'attachment; filename="syllabus_export.json"'
     return response
+
+
+# ==================== Study Spaces Admin ====================
+
+def admin_study_spaces(request):
+    """Admin: list all study spaces with stats, allow deletion."""
+    redirect_response = _require_staff_admin(request)
+    if redirect_response:
+        return redirect_response
+
+    from api.models import StudySpace, StudyDocument
+
+    if request.method == 'POST':
+        action = request.POST.get('action', '').strip()
+        space_id = request.POST.get('space_id', '').strip()
+        if action == 'delete' and space_id:
+            try:
+                StudySpace.objects.filter(id=space_id).delete()
+            except Exception:
+                pass
+        return redirect('web:admin_study_spaces')
+
+    search = request.GET.get('q', '').strip()
+    spaces_qs = StudySpace.objects.select_related('user').order_by('-created_at')
+    if search:
+        spaces_qs = spaces_qs.filter(
+            Q(name__icontains=search) |
+            Q(user__username__icontains=search)
+        )
+
+    total_spaces = StudySpace.objects.count()
+    total_documents = StudyDocument.objects.count()
+    public_spaces = StudySpace.objects.filter(visibility='public').count()
+
+    spaces = []
+    for sp in spaces_qs[:100]:
+        doc_count = sp.documents.count()
+        member_count = sp.members.count()
+        spaces.append({
+            'id': sp.id,
+            'name': sp.name,
+            'owner': sp.user,
+            'visibility': sp.visibility,
+            'doc_count': doc_count,
+            'member_count': member_count,
+            'created_at': sp.created_at,
+        })
+
+    return render(request, 'admin_panel/study_spaces.html', {
+        'is_admin': True,
+        'active_page': 'study_spaces',
+        'spaces': spaces,
+        'search': search,
+        'total_spaces': total_spaces,
+        'total_documents': total_documents,
+        'public_spaces': public_spaces,
+    })
+
+
+def admin_study_space_delete(request, space_id):
+    """Admin: delete a single study space."""
+    redirect_response = _require_staff_admin(request)
+    if redirect_response:
+        return redirect_response
+
+    from api.models import StudySpace
+    if request.method == 'POST':
+        StudySpace.objects.filter(id=space_id).delete()
+    return redirect('web:admin_study_spaces')
