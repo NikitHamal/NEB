@@ -1,0 +1,85 @@
+{% load static %}
+<div class="ix-hub">
+  <div class="ix-hero">
+    <div class="ix-hero-text">
+      <h2 class="ix-hero-title">Learn by doing — free, for everyone</h2>
+      <p class="ix-hero-sub">Real 3D models, hands-on simulations, virtual labs and coding games. Built to run fast on any phone or computer — no installs, no fees, ever.</p>
+      {% if interactive_stats %}
+      <div class="ix-hero-stats">
+        <span class="ix-stat"><span class="material-symbols-outlined">school</span>{{ interactive_stats.course_count }} courses</span>
+        <span class="ix-stat"><span class="material-symbols-outlined">play_lesson</span>{{ interactive_stats.lesson_count }} interactive lessons</span>
+        <span class="ix-stat"><span class="material-symbols-outlined">devices</span>Works on mobile &amp; PC</span>
+        <span class="ix-stat"><span class="material-symbols-outlined">volunteer_activism</span>100% free</span>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+  {% for cat in interactive_categories %}
+  <section class="ix-category" id="ix-{{ cat.key }}">
+    <div class="ix-cat-header">
+      <span class="ix-cat-icon" style="--ix-color: {{ cat.color }};">
+        <span class="material-symbols-outlined">{{ cat.icon }}</span>
+      </span>
+      <div>
+        <h3 class="ix-cat-title">{{ cat.label }}</h3>
+        <p class="ix-cat-blurb">{{ cat.blurb }}</p>
+      </div>
+    </div>
+    <div class="ix-course-grid">
+      {% for course in cat.courses %}
+      <a href="{% url 'web:interactive_course' course.slug %}" class="ix-course-card" style="--ix-color: {{ course.color }};" data-course-slug="{{ course.slug }}" data-lesson-count="{{ course.lesson_count }}">
+        <div class="ix-card-top">
+          <span class="ix-card-icon"><span class="material-symbols-outlined">{{ course.icon }}</span></span>
+          <div class="ix-card-chips">
+            <span class="ix-chip ix-chip-age">Ages {{ course.age_range }}</span>
+            <span class="ix-chip ix-chip-level">{{ course.level }}</span>
+          </div>
+        </div>
+        <div class="ix-card-body">
+          <h4 class="ix-card-title">{{ course.title }}</h4>
+          <p class="ix-card-tagline">{{ course.tagline }}</p>
+        </div>
+        <div class="ix-card-footer">
+          <span class="ix-card-meta">
+            <span class="material-symbols-outlined">play_lesson</span>{{ course.lesson_count }} lessons
+          </span>
+          <span class="ix-card-meta">
+            <span class="material-symbols-outlined">schedule</span>~{{ course.total_minutes }} min
+          </span>
+        </div>
+        <div class="ix-card-progress" data-progress-bar>
+          <div class="ix-card-progress-fill" style="width:0%"></div>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </section>
+  {% empty %}
+  <div class="empty-state">
+    <span class="material-symbols-outlined">stadia_controller</span>
+    <h3>Interactive courses are on the way</h3>
+    <p>We are building free 3D robotics, space, lab and coding courses. Check back soon!</p>
+  </div>
+  {% endfor %}
+</div>
+
+<script nonce="{{ csp_nonce }}">
+(function () {
+  var store = {};
+  try { store = JSON.parse(localStorage.getItem('nebians_interactive_progress') || '{}'); } catch (e) {}
+  document.querySelectorAll('.ix-course-card').forEach(function (card) {
+    var slug = card.dataset.courseSlug;
+    var total = parseInt(card.dataset.lessonCount || '0', 10);
+    var done = 0;
+    var rec = store[slug] || {};
+    Object.keys(rec).forEach(function (k) { if (rec[k] && rec[k].done) done++; });
+    if (total > 0 && done > 0) {
+      var pct = Math.min(100, Math.round(done / total * 100));
+      var fill = card.querySelector('.ix-card-progress-fill');
+      if (fill) fill.style.width = pct + '%';
+      card.querySelector('[data-progress-bar]').classList.add('visible');
+    }
+  });
+})();
+</script>
