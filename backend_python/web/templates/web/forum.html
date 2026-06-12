@@ -374,6 +374,42 @@ function reportContent(targetType, targetId) {
     'report-content': function(el, e) {
       if (e) e.stopPropagation();
       reportContent(el.dataset.targetType, el.dataset.targetId);
+    },
+    'edit-post-card': function(el, e) {
+      if (e) e.stopPropagation();
+      closeAllMenus();
+      window.location.href = el.dataset.postUrl;
+    },
+    'archive-post-card': async function(el, e) {
+      if (e) e.stopPropagation();
+      closeAllMenus();
+      var postId = el.dataset.postId;
+      if (!confirm(el.textContent.trim().includes('Unarchive') ? 'Unarchive this post?' : 'Archive this post? It will be hidden from public listings.')) return;
+      try {
+        const r = await fetch('/ajax/archive/post/' + postId + '/', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN }, credentials: 'same-origin' });
+        const d = await r.json();
+        if (d.is_archived !== undefined) {
+          showSnackbar(d.is_archived ? 'Post archived' : 'Post unarchived');
+          var card = el.closest('.post-card');
+          if (card && d.is_archived) { card.style.opacity = '0.5'; card.style.pointerEvents = 'none'; }
+          else if (card) { card.style.opacity = ''; card.style.pointerEvents = ''; }
+        } else { showSnackbar(d.error || 'Failed to archive'); }
+      } catch(e) { showSnackbar('Error archiving post'); }
+    },
+    'delete-post-card': async function(el, e) {
+      if (e) e.stopPropagation();
+      closeAllMenus();
+      var postId = el.dataset.postId;
+      if (!confirm('Delete this post? This cannot be undone.')) return;
+      try {
+        const r = await fetch('/ajax/delete/post/' + postId + '/', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN }, credentials: 'same-origin' });
+        const d = await r.json();
+        if (d.success) {
+          showSnackbar('Post deleted');
+          var card = el.closest('.post-card');
+          if (card) { card.style.opacity = '0'; card.style.maxHeight = '0'; card.style.overflow = 'hidden'; card.style.transition = 'all 0.3s ease'; }
+        } else { showSnackbar(d.error || 'Failed to delete'); }
+      } catch(e) { showSnackbar('Error deleting post'); }
     }
   });
 </script>
