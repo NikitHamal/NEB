@@ -1251,6 +1251,53 @@ class StudyFlashcardReview(models.Model):
         ]
 
 
+class GenerationJob(models.Model):
+    TYPE_SUMMARY = 'summary'
+    TYPE_MINDMAP = 'mindmap'
+    TYPE_QUIZ = 'quiz'
+    TYPE_FLASHCARD = 'flashcard'
+    TYPE_CHOICES = [
+        (TYPE_SUMMARY, 'Summary'),
+        (TYPE_MINDMAP, 'Mindmap'),
+        (TYPE_QUIZ, 'Quiz'),
+        (TYPE_FLASHCARD, 'Flashcard'),
+    ]
+    STATUS_QUEUED = 'queued'
+    STATUS_PROCESSING = 'processing'
+    STATUS_COMPLETED = 'completed'
+    STATUS_FAILED = 'failed'
+    STATUS_CANCELLED = 'cancelled'
+    STATUS_CHOICES = [
+        (STATUS_QUEUED, 'Queued'),
+        (STATUS_PROCESSING, 'Processing'),
+        (STATUS_COMPLETED, 'Completed'),
+        (STATUS_FAILED, 'Failed'),
+        (STATUS_CANCELLED, 'Cancelled'),
+    ]
+    id = models.CharField(max_length=36, primary_key=True, default=uuid.uuid4)
+    job_type = models.CharField(max_length=20, choices=TYPE_CHOICES, db_index=True)
+    status = models.CharField(max_length=12, choices=STATUS_CHOICES, default=STATUS_QUEUED, db_index=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='generation_jobs', db_index=True)
+    space = models.ForeignKey(StudySpace, on_delete=models.CASCADE, related_name='generation_jobs', null=True, blank=True)
+    document = models.ForeignKey(StudyDocument, on_delete=models.CASCADE, related_name='generation_jobs', null=True, blank=True)
+    params = models.TextField(blank=True, default='')
+    result = models.TextField(blank=True, default='')
+    error = models.TextField(blank=True, default='')
+    progress = models.PositiveSmallIntegerField(default=0)
+    created_at = models.BigIntegerField(default=0)
+    started_at = models.BigIntegerField(default=0)
+    completed_at = models.BigIntegerField(default=0)
+
+    class Meta:
+        db_table = 'generation_jobs'
+        ordering = ['-created_at']
+        indexes = [
+            models.Index(fields=['status', 'created_at']),
+            models.Index(fields=['user', '-created_at']),
+            models.Index(fields=['space', 'job_type', '-created_at']),
+        ]
+
+
 class TakedownRequest(models.Model):
     STATUS_CHOICES = [
         ('open', 'Open'),
