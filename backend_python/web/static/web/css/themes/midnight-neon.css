@@ -1,0 +1,130 @@
+/* Theme: Midnight Neon — cyberpunk cyan and magenta with subtle neon glow in dark mode. Light + dark token overrides. */
+
+[data-app-theme="midnight-neon"] {
+  --md-primary: #0891B2;
+  --md-on-primary: #ffffff;
+  --md-primary-container: #CCF1FA;
+  --md-on-primary-container: #00333F;
+  --md-secondary: #C026D3;
+  --md-on-secondary: #ffffff;
+  --md-secondary-container: #F8D8FC;
+  --md-on-secondary-container: #3C0044;
+  --md-tertiary: #5B5E6E;
+  --md-on-tertiary: #ffffff;
+  --md-tertiary-container: #E2E4EE;
+  --md-on-tertiary-container: #1A1C26;
+  --md-background: #F4F8FB;
+  --md-on-background: #0A1620;
+  --md-surface: #F4F8FB;
+  --md-on-surface: #0A1620;
+  --md-surface-variant: #E2EAF0;
+  --md-on-surface-variant: #41494F;
+  --md-outline: #6F7B84;
+  --md-outline-variant: #D3DEE5;
+  --md-surface-dim: #D6DFE5;
+  --md-surface-bright: #F4F8FB;
+  --md-surface-container-lowest: #FFFFFF;
+  --md-surface-container-low: #EEF4F8;
+  --md-surface-container: #E8EFF4;
+  --md-surface-container-high: #E2E9EF;
+  --md-surface-container-highest: #DCE4EA;
+  --md-inverse-surface: #1C2B36;
+  --md-inverse-on-surface: #E4F4FB;
+  --md-inverse-primary: #22D3EE;
+  --md-surface-tint: #0891B2;
+  --md-shadow: rgba(0, 51, 63, 0.06);
+  --md-shadow-lg: rgba(0, 51, 63, 0.12);
+  --md-surface-muted: #ECF2F6;
+  --md-border-subtle: #DDE6EC;
+}
+
+[data-app-theme="midnight-neon"][data-theme="dark"] {
+  --md-primary: #22D3EE;
+  --md-on-primary: #00363F;
+  --md-primary-container: #07515F;
+  --md-on-primary-container: #CCF1FA;
+  --md-secondary: #E879F9;
+  --md-on-secondary: #4E0058;
+  --md-secondary-container: #7A1287;
+  --md-on-secondary-container: #F8D8FC;
+  --md-tertiary: #C2C6D8;
+  --md-on-tertiary: #2B2F3D;
+  --md-tertiary-container: #444A5C;
+  --md-on-tertiary-container: #E2E4EE;
+  --md-background: #05080F;
+  --md-on-background: #DFF0F8;
+  --md-surface: #05080F;
+  --md-on-surface: #DFF0F8;
+  --md-surface-variant: #41494F;
+  --md-on-surface-variant: #BFCCD4;
+  --md-outline: #87939B;
+  --md-outline-variant: #3A444C;
+  --md-surface-dim: #05080F;
+  --md-surface-bright: #232E3C;
+  --md-surface-container-lowest: #02050A;
+  --md-surface-container-low: #0B111C;
+  --md-surface-container: #101724;
+  --md-surface-container-high: #18202F;
+  --md-surface-container-highest: #222B3C;
+  --md-inverse-surface: #DFF0F8;
+  --md-inverse-on-surface: #05080F;
+  --md-inverse-primary: #0891B2;
+  --md-surface-tint: #22D3EE;
+  --md-shadow: rgba(0, 0, 0, 0.45);
+  --md-shadow-lg: rgba(0, 0, 0, 0.55);
+  --md-surface-muted: #0B111C;
+  --md-border-subtle: #18202F;
+}
+
+/* Neon component flair (dark mode only, kept subtle) */
+[data-app-theme="midnight-neon"][data-theme="dark"] .md-topbar {
+  border-bottom: 1px solid rgba(34, 211, 238, 0.25);
+  box-shadow: 0 1px 18px rgba(34, 211, 238, 0.12);
+}
+
+[data-app-theme="midnight-neon"][data-theme="dark"] .md-nav-pill {
+  border-color: rgba(34, 211, 238, 0.18);
+}
+
+[data-app-theme="midnight-neon"][data-theme="dark"] .md-nav-pill a.md-nav-active {
+  position: relative;
+  overflow: hidden;
+  box-shadow: inset 0 0 12px rgba(34, 211, 238, 0.10);
+}
+
+[data-app-theme="midnight-neon"][data-theme="dark"] .md-nav-pill a.md-nav-active::after {
+  content: "";
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 3px;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, rgba(34, 211, 238, 0.0), #22D3EE, #E879F9, rgba(232, 121, 249, 0.0));
+  background-size: 200% 100%;
+  animation: mn-underline-shift 4s linear infinite;
+}
+
+[data-app-theme="midnight-neon"][data-theme="dark"] .md-fab {
+  box-shadow: var(--md-elevation-3), 0 0 18px rgba(34, 211, 238, 0.18);
+}
+
+[data-app-theme="midnight-neon"][data-theme="dark"] .profile-dropdown-menu {
+  border: 1px solid rgba(34, 211, 238, 0.16);
+  box-shadow: var(--md-elevation-3), 0 0 24px rgba(34, 211, 238, 0.08);
+}
+
+@keyframes mn-underline-shift {
+  0% {
+    background-position: 0% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-app-theme="midnight-neon"][data-theme="dark"] .md-nav-pill a.md-nav-active::after {
+    animation: none;
+  }
+}

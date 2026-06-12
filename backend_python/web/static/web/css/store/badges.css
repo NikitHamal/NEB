@@ -1,0 +1,155 @@
+/* ──────────────────────────────────────────────────────────────
+   NEBians Store — flair badges (flair-badge-<key>)
+   Usage:
+   <span class="flair-badge flair-badge-<key>" title="Name">
+     <span class="material-symbols-outlined">icon</span>
+   </span>
+   Base mirrors .role-badge (app/02-badges-actions.css): 22px
+   inline-flex pill, full radius, vertical-align middle. All keys
+   have light + dark variants; animations are transform/opacity
+   only and stop under prefers-reduced-motion.
+   ────────────────────────────────────────────────────────────── */
+
+.flair-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  margin-left: 4px;
+  line-height: 1;
+  width: 22px;
+  height: 22px;
+  min-width: 22px;
+  border-radius: 999px;
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+}
+.flair-badge .material-symbols-outlined {
+  font-size: 16px;
+  line-height: 1;
+  font-variation-settings: 'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 20;
+}
+
+/* ════════════════════════════════════════════════════════════
+   1. BOOK WORM — emerald
+   ════════════════════════════════════════════════════════════ */
+.flair-badge-book-worm { background: rgba(16, 185, 129, 0.15); }
+.flair-badge-book-worm .material-symbols-outlined { color: #10B981; }
+[data-theme="dark"] .flair-badge-book-worm { background: rgba(16, 185, 129, 0.25); }
+[data-theme="dark"] .flair-badge-book-worm .material-symbols-outlined { color: #34D399; }
+
+/* ════════════════════════════════════════════════════════════
+   2. NIGHT OWL — indigo, tiny static star sparkle
+   ════════════════════════════════════════════════════════════ */
+.flair-badge-night-owl { background: rgba(99, 102, 241, 0.15); }
+.flair-badge-night-owl .material-symbols-outlined { color: #6366F1; }
+.flair-badge-night-owl::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  right: 4px;
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: rgba(165, 180, 252, 0.95);
+  pointer-events: none;
+}
+[data-theme="dark"] .flair-badge-night-owl { background: rgba(99, 102, 241, 0.25); }
+[data-theme="dark"] .flair-badge-night-owl .material-symbols-outlined { color: #A5B4FC; }
+[data-theme="dark"] .flair-badge-night-owl::after { background: rgba(199, 210, 254, 1); }
+
+/* ════════════════════════════════════════════════════════════
+   3. STAR SCHOLAR — amber/gold, subtle gold gradient tint
+   ════════════════════════════════════════════════════════════ */
+.flair-badge-star-scholar {
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.22) 0%, rgba(245, 158, 11, 0.14) 55%, rgba(217, 119, 6, 0.20) 100%);
+}
+.flair-badge-star-scholar .material-symbols-outlined { color: #F59E0B; }
+[data-theme="dark"] .flair-badge-star-scholar {
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.30) 0%, rgba(245, 158, 11, 0.20) 55%, rgba(217, 119, 6, 0.28) 100%);
+}
+[data-theme="dark"] .flair-badge-star-scholar .material-symbols-outlined { color: #FBBF24; }
+
+/* ════════════════════════════════════════════════════════════
+   4. PIXEL PIONEER — violet, square "pixel" corners
+   ════════════════════════════════════════════════════════════ */
+.flair-badge-pixel-pioneer {
+  background: rgba(139, 92, 246, 0.15);
+  border-radius: 4px;
+}
+.flair-badge-pixel-pioneer .material-symbols-outlined { color: #8B5CF6; }
+[data-theme="dark"] .flair-badge-pixel-pioneer { background: rgba(139, 92, 246, 0.25); }
+[data-theme="dark"] .flair-badge-pixel-pioneer .material-symbols-outlined { color: #A78BFA; }
+
+/* ════════════════════════════════════════════════════════════
+   5. FLAME STREAK (animated) — orange, gentle icon flicker
+      (transform: scale + opacity on the inner icon only)
+   ════════════════════════════════════════════════════════════ */
+.flair-badge-flame-streak { background: rgba(249, 115, 22, 0.15); }
+.flair-badge-flame-streak .material-symbols-outlined {
+  color: #F97316;
+  will-change: transform, opacity;
+  animation: storeFlairFlicker 1.6s ease-in-out infinite alternate;
+}
+[data-theme="dark"] .flair-badge-flame-streak { background: rgba(249, 115, 22, 0.25); }
+[data-theme="dark"] .flair-badge-flame-streak .material-symbols-outlined { color: #FB923C; }
+
+/* ════════════════════════════════════════════════════════════
+   6. DIAMOND MIND (animated) — cyan, shimmer sweep strip
+      (transform-only ::after, clipped by overflow + radius)
+   ════════════════════════════════════════════════════════════ */
+.flair-badge-diamond-mind { background: rgba(6, 182, 212, 0.15); }
+.flair-badge-diamond-mind .material-symbols-outlined { color: #06B6D4; }
+.flair-badge-diamond-mind::after {
+  content: '';
+  position: absolute;
+  top: -4px;
+  bottom: -4px;
+  left: -12px;
+  width: 10px;
+  background: linear-gradient(105deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.55) 50%,
+    rgba(255, 255, 255, 0) 100%);
+  pointer-events: none;
+  will-change: transform;
+  animation: storeFlairShimmer 2.8s linear infinite;
+}
+[data-theme="dark"] .flair-badge-diamond-mind { background: rgba(6, 182, 212, 0.25); }
+[data-theme="dark"] .flair-badge-diamond-mind .material-symbols-outlined { color: #22D3EE; }
+[data-theme="dark"] .flair-badge-diamond-mind::after {
+  background: linear-gradient(105deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.40) 50%,
+    rgba(255, 255, 255, 0) 100%);
+}
+
+/* ════════════════════════════════════════════════════════════
+   Keyframes — transform / opacity only
+   ════════════════════════════════════════════════════════════ */
+@keyframes storeFlairFlicker {
+  0%   { transform: scale(1); opacity: 0.9; }
+  100% { transform: scale(1.08); opacity: 1; }
+}
+
+/* strip starts fully left of the pill and exits fully right —
+   loop boundary invisible */
+@keyframes storeFlairShimmer {
+  0%   { transform: translateX(0); }
+  60%  { transform: translateX(46px); }
+  100% { transform: translateX(46px); }
+}
+
+/* ════════════════════════════════════════════════════════════
+   Reduced motion — stop flair animations
+   ════════════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  .flair-badge-flame-streak .material-symbols-outlined,
+  .flair-badge-diamond-mind::after {
+    animation: none !important;
+  }
+  .flair-badge-diamond-mind::after {
+    opacity: 0;
+  }
+}

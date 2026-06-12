@@ -28,6 +28,7 @@ from api.security import (
     validate_resource_file_url, validate_and_save_resource_file,
 )
 from api.authentication import verify_google_token
+from api import store_services
 from api.utils import now_ms, uuid_str
 from api import services
 from api import counters as _counters
@@ -152,6 +153,17 @@ def _user_badge_info(user):
         badge['label'] = info['label']
         return badge
     return None
+
+def _user_flair_badge(user):
+    """Equipped store flair badge dict ({key, icon, color, label}) or None."""
+    key = getattr(user, 'equipped_badge', '') or ''
+    if not key:
+        return None
+    from api import store_catalog
+    item = store_catalog.get_item(key)
+    if not item or item['kind'] != 'badge':
+        return None
+    return {'key': key, 'icon': item['icon'], 'color': item['color'], 'label': item['name']}
 
 def _user_achievement_badges(user):
     """Parse comma-separated achievement badge keys into a list of dicts."""
@@ -509,6 +521,8 @@ def _ctx(request, **extra):
         user = _normalize_user_data(user)
     dark_mode = request.session.get('theme') == 'dark'
     unread_notifications = 0
+    app_theme = ''
+    equipped_border = ''
     if user and user.get('id'):
         _uid = user['id']
 
@@ -516,6 +530,11 @@ def _ctx(request, **extra):
             return (User.objects.filter(pk=_uid)
                     .values_list('unread_notification_count', flat=True).first()) or 0
         unread_notifications = cache.get_or_set(f'unread_count:{_uid}', _load_unread, 30)
+        _equips = store_services.get_equipped(_uid)
+        app_theme = _equips.get('theme', '')
+        equipped_border = _equips.get('border', '')
+        if request.session.get('app_theme') != app_theme:
+            request.session['app_theme'] = app_theme
     ws_url = _get_ws_public_url()
     # When using a cross-domain tunnel (trycloudflare.com), the browser cannot
     # send the session cookie cross-domain. Append a short-lived signed ticket
@@ -529,6 +548,8 @@ def _ctx(request, **extra):
         'is_authenticated': bool(token),
         'user': user,
         'dark_mode': dark_mode,
+        'app_theme': app_theme,
+        'equipped_border': equipped_border,
         'unread_notifications': unread_notifications,
         'csp_nonce': getattr(request, 'csp_nonce', ''),
         'ws_url': ws_url,

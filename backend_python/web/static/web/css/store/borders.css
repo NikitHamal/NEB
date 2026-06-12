@@ -1,0 +1,259 @@
+/* ──────────────────────────────────────────────────────────────
+   NEBians Store — avatar profile borders (avatar-border-<key>)
+   Usage: add `avatar-border avatar-border-<key>` to a circular
+   avatar wrapper (.pf-avatar-overlap-wrap 96px, .avatar-ring 36px,
+   or the 72px store preview circle).
+
+   Technique: masked gradient ring on ::after (size-agnostic via
+   inset/padding), glow pulses on ::before (opacity-only).
+   Ring z-index 11 sits above .pf-avatar-circle (its own 4px
+   border) but below .pf-avatar-badge (z-index 12); rings are
+   pointer-events: none so camera/badge buttons stay clickable.
+   ────────────────────────────────────────────────────────────── */
+
+.avatar-border {
+  position: relative;
+}
+
+.avatar-border::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  padding: 3px;
+  background: transparent;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: 11;
+}
+
+/* glow layer shared by animated presets — opacity is the only
+   property ever animated on it */
+.avatar-border::before {
+  content: '';
+  position: absolute;
+  inset: -10px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0;
+}
+
+/* ════════════════════════════════════════════════════════════
+   1. EMERALD VINE (free) — static conic greens
+   ════════════════════════════════════════════════════════════ */
+.avatar-border-emerald-vine::after {
+  background: conic-gradient(from 210deg,
+    #047857 0deg, #10b981 70deg, #34d399 130deg,
+    #6ee7b7 180deg, #10b981 240deg, #065f46 300deg, #047857 360deg);
+}
+[data-theme="dark"] .avatar-border-emerald-vine::after {
+  background: conic-gradient(from 210deg,
+    #059669 0deg, #34d399 70deg, #6ee7b7 130deg,
+    #a7f3d0 180deg, #34d399 240deg, #10b981 300deg, #059669 360deg);
+}
+
+/* ════════════════════════════════════════════════════════════
+   2. GLASS RING (rare) — frosted translucent white/blue,
+      top highlight (gradient only, no backdrop-filter)
+   ════════════════════════════════════════════════════════════ */
+.avatar-border-glass-ring::after {
+  background:
+    linear-gradient(180deg,
+      rgba(255, 255, 255, 0.85) 0%,
+      rgba(255, 255, 255, 0.35) 30%,
+      rgba(186, 230, 253, 0.30) 60%,
+      rgba(147, 197, 253, 0.45) 100%);
+}
+[data-theme="dark"] .avatar-border-glass-ring::after {
+  background:
+    linear-gradient(180deg,
+      rgba(255, 255, 255, 0.55) 0%,
+      rgba(203, 213, 225, 0.25) 30%,
+      rgba(125, 211, 252, 0.25) 60%,
+      rgba(96, 165, 250, 0.40) 100%);
+}
+
+/* ════════════════════════════════════════════════════════════
+   3. NEON PULSE (rare, animated) — cyan→magenta conic ring +
+      pulsing outer glow (opacity-only on ::before)
+   ════════════════════════════════════════════════════════════ */
+.avatar-border-neon-pulse::after {
+  background: conic-gradient(from 0deg,
+    #06b6d4 0deg, #22d3ee 80deg, #818cf8 160deg,
+    #e879f9 230deg, #ec4899 290deg, #06b6d4 360deg);
+}
+.avatar-border-neon-pulse::before {
+  background: radial-gradient(circle,
+    transparent 52%,
+    rgba(34, 211, 238, 0.35) 64%,
+    rgba(232, 121, 249, 0.25) 76%,
+    transparent 88%);
+  opacity: 0.45;
+  will-change: opacity;
+  animation: storeBorderGlowPulse 2.4s ease-in-out infinite alternate;
+}
+[data-theme="dark"] .avatar-border-neon-pulse::after {
+  background: conic-gradient(from 0deg,
+    #22d3ee 0deg, #67e8f9 80deg, #a5b4fc 160deg,
+    #f0abfc 230deg, #f472b6 290deg, #22d3ee 360deg);
+}
+[data-theme="dark"] .avatar-border-neon-pulse::before {
+  opacity: 0.60;
+}
+
+/* ════════════════════════════════════════════════════════════
+   4. EMBER FLAME (rare, animated) — rotating orange/red conic
+      hot spot (transform: rotate on the masked ring — GPU-cheap)
+   ════════════════════════════════════════════════════════════ */
+.avatar-border-ember-flame::after {
+  background: conic-gradient(from 0deg,
+    #7c2d12 0deg, #c2410c 60deg, #f97316 120deg,
+    #fbbf24 165deg, #f97316 210deg, #dc2626 280deg, #7c2d12 360deg);
+  will-change: transform;
+  animation: storeBorderSpin 6s linear infinite;
+}
+[data-theme="dark"] .avatar-border-ember-flame::after {
+  background: conic-gradient(from 0deg,
+    #9a3412 0deg, #ea580c 60deg, #fb923c 120deg,
+    #fcd34d 165deg, #fb923c 210deg, #ef4444 280deg, #9a3412 360deg);
+}
+
+/* ════════════════════════════════════════════════════════════
+   5. PIXEL FRAME (epic) — chunky hard-stop segments, square-ish
+      pixel feel on the ring (static)
+   ════════════════════════════════════════════════════════════ */
+.avatar-border-pixel-frame::after {
+  padding: 4px;
+  background: repeating-conic-gradient(
+    #8b5cf6 0deg 12deg,
+    #6d28d9 12deg 24deg,
+    #a78bfa 24deg 30deg,
+    #6d28d9 30deg 42deg,
+    #8b5cf6 42deg 48deg);
+}
+[data-theme="dark"] .avatar-border-pixel-frame::after {
+  background: repeating-conic-gradient(
+    #a78bfa 0deg 12deg,
+    #7c3aed 12deg 24deg,
+    #c4b5fd 24deg 30deg,
+    #7c3aed 30deg 42deg,
+    #a78bfa 42deg 48deg);
+}
+
+/* ════════════════════════════════════════════════════════════
+   6. GOLD RADIANCE (epic, animated) — luxurious golds, slow
+      rotation + tiny static-position glow with gentle pulse
+   ════════════════════════════════════════════════════════════ */
+.avatar-border-gold-radiance::after {
+  background: conic-gradient(from 45deg,
+    #92400e 0deg, #d97706 60deg, #fbbf24 120deg,
+    #fef3c7 150deg, #fbbf24 180deg, #d97706 250deg,
+    #b45309 310deg, #92400e 360deg);
+  will-change: transform;
+  animation: storeBorderSpin 10s linear infinite;
+}
+.avatar-border-gold-radiance::before {
+  background: radial-gradient(circle,
+    transparent 54%,
+    rgba(251, 191, 36, 0.30) 68%,
+    transparent 86%);
+  opacity: 0.40;
+  animation: storeBorderGlowPulse 3.2s ease-in-out infinite alternate;
+}
+[data-theme="dark"] .avatar-border-gold-radiance::after {
+  background: conic-gradient(from 45deg,
+    #b45309 0deg, #f59e0b 60deg, #fcd34d 120deg,
+    #fffbeb 150deg, #fcd34d 180deg, #f59e0b 250deg,
+    #d97706 310deg, #b45309 360deg);
+}
+[data-theme="dark"] .avatar-border-gold-radiance::before {
+  opacity: 0.55;
+}
+
+/* ════════════════════════════════════════════════════════════
+   7. HOLO PRISM (legendary, animated) — full-spectrum conic
+      rainbow shimmer rotation + faint prism glow pulse
+   ════════════════════════════════════════════════════════════ */
+.avatar-border-holo-prism::after {
+  background: conic-gradient(from 0deg,
+    #f43f5e 0deg, #f97316 50deg, #facc15 100deg,
+    #22c55e 150deg, #06b6d4 205deg, #6366f1 260deg,
+    #a855f7 310deg, #f43f5e 360deg);
+  will-change: transform;
+  animation: storeBorderSpin 8s linear infinite;
+}
+.avatar-border-holo-prism::before {
+  background: radial-gradient(circle,
+    transparent 50%,
+    rgba(168, 85, 247, 0.22) 62%,
+    rgba(6, 182, 212, 0.20) 74%,
+    rgba(244, 63, 94, 0.16) 84%,
+    transparent 92%);
+  opacity: 0.40;
+  animation: storeBorderGlowPulse 2.8s ease-in-out infinite alternate;
+}
+[data-theme="dark"] .avatar-border-holo-prism::after {
+  background: conic-gradient(from 0deg,
+    #fb7185 0deg, #fb923c 50deg, #fde047 100deg,
+    #4ade80 150deg, #22d3ee 205deg, #818cf8 260deg,
+    #c084fc 310deg, #fb7185 360deg);
+}
+[data-theme="dark"] .avatar-border-holo-prism::before {
+  opacity: 0.60;
+}
+
+/* ════════════════════════════════════════════════════════════
+   Keyframes — transform / opacity only
+   ════════════════════════════════════════════════════════════ */
+@keyframes storeBorderSpin {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes storeBorderGlowPulse {
+  0%   { opacity: 0.25; }
+  100% { opacity: 0.85; }
+}
+
+/* ════════════════════════════════════════════════════════════
+   Mobile — slow rotations, calm pulses (rings stay, they are
+   size-relative and render fine at 36px)
+   ════════════════════════════════════════════════════════════ */
+@media (max-width: 600px) {
+  .avatar-border-ember-flame::after {
+    animation-duration: 12s;
+  }
+  .avatar-border-gold-radiance::after,
+  .avatar-border-holo-prism::after {
+    animation-duration: 16s;
+  }
+  .avatar-border-neon-pulse::before,
+  .avatar-border-gold-radiance::before,
+  .avatar-border-holo-prism::before {
+    animation: none;
+    opacity: 0.45;
+  }
+}
+
+/* ════════════════════════════════════════════════════════════
+   Reduced motion — stop rotations and pulses
+   ════════════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  .avatar-border-ember-flame::after,
+  .avatar-border-gold-radiance::after,
+  .avatar-border-holo-prism::after,
+  .avatar-border-neon-pulse::before,
+  .avatar-border-gold-radiance::before,
+  .avatar-border-holo-prism::before {
+    animation: none !important;
+  }
+  .avatar-border-neon-pulse::before,
+  .avatar-border-gold-radiance::before,
+  .avatar-border-holo-prism::before {
+    opacity: 0.45;
+  }
+}

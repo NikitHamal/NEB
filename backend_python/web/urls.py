@@ -30,6 +30,10 @@ urlpatterns = [
     path('upload/success/', views.upload_success, name='upload_success'),
     path('requests/', views.resource_requests_page, name='resource_requests'),
 
+    path('store/', views.store, name='store'),
+    path('ajax/store/purchase/', views.ajax_store_purchase, name='ajax_store_purchase'),
+    path('ajax/store/equip/', views.ajax_store_equip, name='ajax_store_equip'),
+
     path('profile/edit/', views.edit_profile, name='edit_profile'),
     path('analytics/', views.analytics, name='analytics'),
     path('bookmarks/', views.bookmarks, name='bookmarks'),

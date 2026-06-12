@@ -1,7 +1,7 @@
 {% load static %}
 {% load web_extras %}
 <!DOCTYPE html>
-<html lang="en" {% if dark_mode %} data-theme="dark" {% endif %}>
+<html lang="en" {% if dark_mode %} data-theme="dark" {% endif %}{% if app_theme %} data-app-theme="{{ app_theme }}"{% endif %}>
 
 <head>
   <meta charset="UTF-8">
@@ -88,6 +88,7 @@
     href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0..1,0&display=swap">
   <link rel="stylesheet" href="{% static 'web/css/material3.css' %}">
   <link rel="stylesheet" href="{% static 'web/css/app.css' %}">
+  <link rel="stylesheet" href="{% static 'web/css/themes.css' %}">
   {% block extra_css %}{% endblock %}
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/delegated-events.js' %}"></script>
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/htmx.min.js' %}"></script>
@@ -153,7 +154,7 @@
       {% if is_authenticated %}
       <div class="profile-dropdown-container" id="profileDropdown">
         <button class="profile-dropdown-trigger" data-action="toggle-profile-dropdown" aria-label="Open user menu">
-          <span class="avatar-ring">
+          <span class="avatar-ring{% if equipped_border %} avatar-border avatar-border-{{ equipped_border }}{% endif %}">
             {% if user.avatar_url %}
             <img src="{{ user.avatar_url }}" alt="Profile">
             {% else %}
@@ -197,6 +198,10 @@
           <a href="{% url 'web:bookmarks' %}">
             <span class="material-symbols-outlined">bookmark</span>
             <span>Bookmarks</span>
+          </a>
+          <a href="{% url 'web:store' %}">
+            <span class="material-symbols-outlined">storefront</span>
+            <span>Store</span>
           </a>
           <a href="{% url 'web:logout' %}" class="menu-logout">
             <span class="material-symbols-outlined">logout</span>
@@ -281,8 +286,8 @@
         html.setAttribute('data-theme', isDark ? '' : 'dark');
         const themeIcon = document.getElementById('theme-icon');
         themeIcon.textContent = isDark ? 'dark_mode' : 'light_mode';
-        localStorage.setItem('theme', isDark ? 'light' : 'dark');
-        fetch('/ajax/theme/', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN } });
+      localStorage.setItem('theme', isDark ? 'light' : 'dark');
+      fetch('/ajax/theme/', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN }, body: JSON.stringify({ theme: isDark ? 'light' : 'dark' }) });
       },
       'toggle-profile-dropdown': function (el, e) {
         e.stopPropagation();
@@ -350,6 +355,14 @@
         document.documentElement.setAttribute('data-theme', 'dark');
         const themeIcon = document.getElementById('theme-icon');
         if (themeIcon) themeIcon.textContent = 'light_mode';
+      }
+      const serverAppTheme = document.documentElement.getAttribute('data-app-theme') || '';
+      if (IS_AUTHENTICATED) {
+        if (serverAppTheme) localStorage.setItem('appTheme', serverAppTheme);
+        else localStorage.removeItem('appTheme');
+      } else {
+        localStorage.removeItem('appTheme');
+        if (serverAppTheme) document.documentElement.removeAttribute('data-app-theme');
       }
     })();
 

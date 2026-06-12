@@ -1,0 +1,792 @@
+/* ──────────────────────────────────────────────────────────────
+   NEBians Store — banner art presets (data-banner-type)
+   Pattern follows app/07-profile-banner.css. All presets have
+   light + dark variants, mobile + reduced-motion fallbacks.
+
+   Performance contract:
+   - Animations use transform / opacity / background-position only
+   - will-change only on the single animating layer per preset
+   - All new keyframes are store-prefixed (no collisions)
+   - Consolidated mobile + reduced-motion blocks at end of file
+   ────────────────────────────────────────────────────────────── */
+
+/* ════════════════════════════════════════════════════════════
+   1. GEOMETRIC WAVES (rare) — layered chevrons, indigo/teal
+   ════════════════════════════════════════════════════════════ */
+.pf-card-banner[data-banner-type="geometric-waves"] .pf-banner-holo-metallic {
+  background:
+    repeating-linear-gradient(135deg,
+      rgba(45, 212, 191, 0.20) 0 18px,
+      transparent 18px 36px,
+      rgba(99, 102, 241, 0.18) 36px 54px,
+      transparent 54px 72px),
+    repeating-linear-gradient(45deg,
+      rgba(129, 140, 248, 0.16) 0 24px,
+      transparent 24px 48px,
+      rgba(20, 184, 166, 0.14) 48px 72px,
+      transparent 72px 96px),
+    linear-gradient(160deg, #312e81 0%, #4338ca 30%, #0f766e 65%, #115e59 100%);
+  background-size: 200% 200%, 200% 200%, 200% 200%;
+  will-change: background-position;
+  animation: storeGeoDrift 26s linear infinite;
+}
+[data-theme="dark"] .pf-card-banner[data-banner-type="geometric-waves"] .pf-banner-holo-metallic {
+  background:
+    repeating-linear-gradient(135deg,
+      rgba(45, 212, 191, 0.12) 0 18px,
+      transparent 18px 36px,
+      rgba(99, 102, 241, 0.12) 36px 54px,
+      transparent 54px 72px),
+    repeating-linear-gradient(45deg,
+      rgba(129, 140, 248, 0.10) 0 24px,
+      transparent 24px 48px,
+      rgba(20, 184, 166, 0.09) 48px 72px,
+      transparent 72px 96px),
+    linear-gradient(160deg, #1e1b4b 0%, #312e81 30%, #042f2e 65%, #134e4a 100%);
+  background-size: 200% 200%, 200% 200%, 200% 200%;
+}
+.pf-card-banner[data-banner-type="geometric-waves"] .pf-banner-mesh-overlay {
+  opacity: 0.06;
+}
+.pf-card-banner[data-banner-type="geometric-waves"] .pf-banner-deco-text {
+  color: var(--banner-text-color, rgba(255, 255, 255, 0.20));
+  text-shadow: 0 2px 20px rgba(45, 212, 191, 0.22), 0 0 40px rgba(99, 102, 241, 0.12);
+}
+[data-theme="dark"] .pf-card-banner[data-banner-type="geometric-waves"] .pf-banner-deco-text {
+  color: rgba(165, 180, 252, 0.18);
+  text-shadow: 0 2px 20px rgba(45, 212, 191, 0.20), 0 0 40px rgba(99, 102, 241, 0.10);
+}
+
+/* ════════════════════════════════════════════════════════════
+   2. HIMALAYA (rare) — mountain ridges at dusk + drifting mist
+   ════════════════════════════════════════════════════════════ */
+.pf-card-banner[data-banner-type="himalaya"] .pf-banner-holo-metallic {
+  background:
+    radial-gradient(ellipse 90% 70% at 50% 0%, rgba(186, 230, 253, 0.30) 0%, transparent 60%),
+    linear-gradient(180deg, #334155 0%, #475569 35%, #7795b4 65%, #cfe6f5 100%);
+  animation: none;
+}
+/* far ridge */
+.pf-card-banner[data-banner-type="himalaya"] .pf-banner-holo-metallic::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, #94a3b8 0%, #64748b 60%, #475569 100%);
+  clip-path: polygon(0% 72%, 10% 46%, 20% 62%, 32% 36%, 44% 58%, 56% 40%, 68% 60%, 80% 42%, 90% 58%, 100% 50%, 100% 100%, 0% 100%);
+}
+/* near ridge */
+.pf-card-banner[data-banner-type="himalaya"] .pf-banner-holo-metallic::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, #475569 0%, #334155 55%, #1e293b 100%);
+  clip-path: polygon(0% 92%, 8% 70%, 18% 84%, 30% 62%, 42% 82%, 54% 66%, 66% 84%, 78% 70%, 88% 82%, 100% 74%, 100% 100%, 0% 100%);
+}
+/* drifting mist band */
+.pf-card-banner[data-banner-type="himalaya"]::after {
+  content: '';
+  position: absolute;
+  left: -30%;
+  right: -30%;
+  bottom: 8%;
+  height: 34%;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.16) 22%,
+    rgba(255, 255, 255, 0.05) 40%,
+    rgba(255, 255, 255, 0.20) 58%,
+    rgba(255, 255, 255, 0.04) 76%,
+    transparent 100%);
+  will-change: transform;
+  animation: storeMistDrift 26s ease-in-out infinite;
+}
+[data-theme="dark"] .pf-card-banner[data-banner-type="himalaya"] .pf-banner-holo-metallic {
+  background:
+    radial-gradient(ellipse 90% 70% at 50% 0%, rgba(125, 211, 252, 0.12) 0%, transparent 60%),
+    linear-gradient(180deg, #0f172a 0%, #1e293b 35%, #33485e 65%, #557693 100%);
+}
+[data-theme="dark"] .pf-card-banner[data-banner-type="himalaya"] .pf-banner-holo-metallic::before {
+  background: linear-gradient(180deg, #475569 0%, #334155 60%, #1e293b 100%);
+}
+[data-theme="dark"] .pf-card-banner[data-banner-type="himalaya"] .pf-banner-holo-metallic::after {
+  background: linear-gradient(180deg, #1e293b 0%, #0f172a 55%, #020617 100%);
+}
+[data-theme="dark"] .pf-card-banner[data-banner-type="himalaya"]::after {
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(186, 213, 255, 0.09) 22%,
+    rgba(186, 213, 255, 0.03) 40%,
+    rgba(186, 213, 255, 0.12) 58%,
+    rgba(186, 213, 255, 0.02) 76%,
+    transparent 100%);
+}
+.pf-card-banner[data-banner-type="himalaya"] .pf-banner-mesh-overlay {
+  opacity: 0;
+}
+.pf-card-banner[data-banner-type="himalaya"] .pf-banner-deco-text {
+  color: var(--banner-text-color, rgba(255, 255, 255, 0.24));
+  text-shadow: 0 2px 20px rgba(15, 23, 42, 0.30), 0 0 40px rgba(255, 255, 255, 0.10);
+  letter-spacing: 0.26em;
+}
+[data-theme="dark"] .pf-card-banner[data-banner-type="himalaya"] .pf-banner-deco-text {
+  color: rgba(186, 213, 255, 0.18);
+  text-shadow: 0 2px 20px rgba(2, 6, 23, 0.40), 0 0 40px rgba(125, 211, 252, 0.08);
+}
+@media (max-width: 600px) {
+  .pf-card-banner[data-banner-type="himalaya"] .pf-banner-deco-text {
+    font-size: 1.25rem;
+    letter-spacing: 0.18em;
+  }
+}
+
+/* ════════════════════════════════════════════════════════════
+   3. STARFIELD (rare) — navy/violet space, twinkle + parallax
+   ════════════════════════════════════════════════════════════ */
+.pf-card-banner[data-banner-type="starfield"] .pf-banner-holo-metallic {
+  background:
+    radial-gradient(ellipse 70% 90% at 80% 10%, rgba(124, 58, 237, 0.30) 0%, transparent 60%),
+    radial-gradient(ellipse 80% 100% at 15% 90%, rgba(67, 56, 202, 0.28) 0%, transparent 55%),
+    linear-gradient(165deg, #0b1026 0%, #1e1b4b 45%, #2e1065 75%, #0b1026 100%);
+  animation: none;
+}
+/* slow parallax star layers — each layer travels exactly one tile per loop */
+.pf-card-banner[data-banner-type="starfield"] .pf-banner-holo-metallic::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(1.5px 1.5px at 25% 35%, rgba(255, 255, 255, 0.95), transparent 60%),
+    radial-gradient(1px 1px at 65% 70%, rgba(255, 255, 255, 0.75), transparent 60%),
+    radial-gradient(1px 1px at 40% 15%, rgba(199, 210, 254, 0.60), transparent 60%);
+  background-size: 160px 160px, 110px 110px, 70px 70px;
+  background-repeat: repeat;
+  will-change: background-position;
+  animation: storeStarParallax 70s linear infinite;
+}
+/* twinkle layer — opacity only */
+.pf-card-banner[data-banner-type="starfield"] .pf-banner-holo-metallic::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(1.5px 1.5px at 78% 28%, rgba(255, 255, 255, 0.9), transparent 60%),
+    radial-gradient(1px 1px at 18% 62%, rgba(221, 214, 254, 0.8), transparent 60%),
+    radial-gradient(1.5px 1.5px at 52% 82%, rgba(255, 255, 255, 0.7), transparent 60%);
+  background-size: 190px 130px, 130px 170px, 230px 150px;
+  background-repeat: repeat;
+  animation: storeTwinkle 3.4s ease-in-out infinite alternate;
+}
+[data-theme="dark"] .pf-card-banner[data-banner-type="starfield"] .pf-banner-holo-metallic {
+  background:
+    radial-gradient(ellipse 70% 90% at 80% 10%, rgba(91, 33, 182, 0.35) 0%, transparent 60%),
+    radial-gradient(ellipse 80% 100% at 15% 90%, rgba(49, 46, 129, 0.35) 0%, transparent 55%),
+    linear-gradient(165deg, #030712 0%, #11103a 45%, #1e1145 75%, #030712 100%);
+}
+.pf-card-banner[data-banner-type="starfield"] .pf-banner-mesh-overlay {
+  opacity: 0;
+}
+.pf-card-banner[data-banner-type="starfield"] .pf-banner-deco-text {
+  color: var(--banner-text-color, rgba(221, 214, 254, 0.20));
+  text-shadow: 0 2px 20px rgba(124, 58, 237, 0.28), 0 0 40px rgba(255, 255, 255, 0.10);
+}
+[data-theme="dark"] .pf-card-banner[data-banner-type="starfield"] .pf-banner-deco-text {
+  color: rgba(196, 181, 253, 0.18);
+  text-shadow: 0 2px 20px rgba(124, 58, 237, 0.30), 0 0 40px rgba(139, 92, 246, 0.08);
+}
+
+/* ════════════════════════════════════════════════════════════
+   4. SYNTHWAVE GRID (epic) — retro sun + moving perspective grid
+   ════════════════════════════════════════════════════════════ */
+.pf-card-banner[data-banner-type="synthwave-grid"] .pf-banner-holo-metallic {
+  background:
+    radial-gradient(circle at 50% 72%, rgba(253, 224, 71, 0.95) 0%, rgba(251, 146, 60, 0.90) 26%, rgba(236, 72, 153, 0.55) 38%, transparent 46%),
+    linear-gradient(180deg, #2e1065 0%, #701a75 40%, #be185d 68%, #4a044e 100%);
+  animation: none;
+}
+/* perspective grid floor — transform-only animation */
+.pf-card-banner[data-banner-type="synthwave-grid"] .pf-banner-holo-metallic::after {
+  content: '';
+  position: absolute;
+  left: -60%;
+  right: -60%;
+  top: 58%;
+  height: 110%;
+  transform-origin: 50% 0%;
+  background:
+    repeating-linear-gradient(to bottom,
+      rgba(244, 114, 182, 0.85) 0 2px,
+      transparent 2px 28px),
+    repeating-linear-gradient(to right,
+      rgba(244, 114, 182, 0.55) 0 2px,
+      transparent 2px 44px),
+    linear-gradient(180deg, #3b0764 0%, #1e1b4b 100%);
+  will-change: transform;
+  animation: storeSynthGridMove 1.6s linear infinite;
+}
+/* horizon glow line */
+.pf-card-banner[data-banner-type="synthwave-grid"] .pf-banner-holo-metallic::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 57%;
+  height: 3px;
+  background: linear-gradient(90deg, transparent 0%, rgba(251, 207, 232, 0.9) 30%, #fdf2f8 50%, rgba(251, 207, 232, 0.9) 70%, transparent 100%);
+  z-index: 1;
+}
+[data-theme="dark"] .pf-card-banner[data-banner-type="synthwave-grid"] .pf-banner-holo-metallic {
+  background:
+    radial-gradient(circle at 50% 72%, rgba(253, 224, 71, 0.80) 0%, rgba(234, 88, 12, 0.75) 26%, rgba(190, 24, 93, 0.45) 38%, transparent 46%),
+    linear-gradient(180deg, #1e1145 0%, #4a044e 40%, #831843 68%, #2e0233 100%);
+}
+[data-theme="dark"] .pf-card-banner[data-banner-type="synthwave-grid"] .pf-banner-holo-metallic::after {
+  background:
+    repeating-linear-gradient(to bottom,
+      rgba(219, 39, 119, 0.75) 0 2px,
+      transparent 2px 28px),
+    repeating-linear-gradient(to right,
+      rgba(219, 39, 119, 0.45) 0 2px,
+      transparent 2px 44px),
+    linear-gradient(180deg, #2e0a4f 0%, #11103a 100%);
+}
+.pf-card-banner[data-banner-type="synthwave-grid"] .pf-banner-mesh-overlay {
+  opacity: 0;
+}
+.pf-card-banner[data-banner-type="synthwave-grid"] .pf-banner-deco-text {
+  color: var(--banner-text-color, rgba(253, 242, 248, 0.26));
+  text-shadow: 0 2px 20px rgba(236, 72, 153, 0.35), 0 0 40px rgba(251, 146, 60, 0.15);
+  letter-spacing: 0.32em;
+}
+[data-theme="dark"] .pf-card-banner[data-banner-type="synthwave-grid"] .pf-banner-deco-text {
+  color: rgba(251, 207, 232, 0.20);
+  text-shadow: 0 2px 20px rgba(219, 39, 119, 0.35), 0 0 40px rgba(234, 88, 12, 0.12);
+}
+@media (max-width: 600px) {
+  .pf-card-banner[data-banner-type="synthwave-grid"] .pf-banner-deco-text {
+    font-size: 1.3rem;
+    letter-spacing: 0.22em;
+  }
+}
+
+/* ════════════════════════════════════════════════════════════
+   5. AURORA BOREALIS (epic) — swaying curtains over night sky
+   ════════════════════════════════════════════════════════════ */
+.pf-card-banner[data-banner-type="aurora-borealis"] .pf-banner-holo-metallic {
+  background:
+    radial-gradient(1px 1px at 22% 24%, rgba(255, 255, 255, 0.8), transparent 60%),
+    radial-gradient(1px 1px at 68% 40%, rgba(255, 255, 255, 0.6), transparent 60%),
+    radial-gradient(1.5px 1.5px at 84% 16%, rgba(255, 255, 255, 0.7), transparent 60%),
+    linear-gradient(180deg, #020617 0%, #0f172a 55%, #1e293b 100%);
+  background-size: 150px 120px, 110px 140px, 200px 160px, 100% 100%;
+  background-repeat: repeat, repeat, repeat, no-repeat;
+  animation: none;
+}
+/* curtain 1 — green/teal */
+.pf-card-banner[data-banner-type="aurora-borealis"] .pf-banner-holo-metallic::before {
+  content: '';
+  position: absolute;
+  top: -25%;
+  bottom: 10%;
+  left: -20%;
+  width: 90%;
+  background: linear-gradient(100deg,
+    transparent 12%,
+    rgba(52, 211, 153, 0.05) 26%,
+    rgba(52, 211, 153, 0.34) 44%,
+    rgba(45, 212, 191, 0.22) 58%,
+    rgba(45, 212, 191, 0.04) 74%,
+    transparent 88%);
+  will-change: transform;
+  animation: storeAuroraSwayA 17s ease-in-out infinite alternate;
+}
+/* curtain 2 — violet */
+.pf-card-banner[data-banner-type="aurora-borealis"] .pf-banner-holo-metallic::after {
+  content: '';
+  position: absolute;
+  top: -30%;
+  bottom: 18%;
+  right: -22%;
+  width: 80%;
+  background: linear-gradient(80deg,
+    transparent 14%,
+    rgba(167, 139, 250, 0.04) 30%,
+    rgba(167, 139, 250, 0.26) 48%,
+    rgba(94, 234, 212, 0.16) 62%,
+    transparent 84%);
+  animation: storeAuroraSwayB 21s ease-in-out infinite alternate;
+}
+[data-theme="dark"] .pf-card-banner[data-banner-type="aurora-borealis"] .pf-banner-holo-metallic {
+  background:
+    radial-gradient(1px 1px at 22% 24%, rgba(255, 255, 255, 0.7), transparent 60%),
+    radial-gradient(1px 1px at 68% 40%, rgba(255, 255, 255, 0.5), transparent 60%),
+    radial-gradient(1.5px 1.5px at 84% 16%, rgba(255, 255, 255, 0.6), transparent 60%),
+    linear-gradient(180deg, #010409 0%, #060d1c 55%, #0c1626 100%);
+  background-size: 150px 120px, 110px 140px, 200px 160px, 100% 100%;
+  background-repeat: repeat, repeat, repeat, no-repeat;
+}
+[data-theme="dark"] .pf-card-banner[data-banner-type="aurora-borealis"] .pf-banner-holo-metallic::before {
+  background: linear-gradient(100deg,
+    transparent 12%,
+    rgba(52, 211, 153, 0.04) 26%,
+    rgba(52, 211, 153, 0.28) 44%,
+    rgba(45, 212, 191, 0.18) 58%,
+    rgba(45, 212, 191, 0.03) 74%,
+    transparent 88%);
+}
+.pf-card-banner[data-banner-type="aurora-borealis"] .pf-banner-mesh-overlay {
+  opacity: 0;
+}
+.pf-card-banner[data-banner-type="aurora-borealis"] .pf-banner-deco-text {
+  color: var(--banner-text-color, rgba(167, 243, 208, 0.20));
+  text-shadow: 0 2px 20px rgba(52, 211, 153, 0.25), 0 0 40px rgba(167, 139, 250, 0.12);
+}
+[data-theme="dark"] .pf-card-banner[data-banner-type="aurora-borealis"] .pf-banner-deco-text {
+  color: rgba(167, 243, 208, 0.16);
+  text-shadow: 0 2px 20px rgba(52, 211, 153, 0.22), 0 0 40px rgba(167, 139, 250, 0.10);
+}
+
+/* ════════════════════════════════════════════════════════════
+   6. PIXEL SUNSET (epic) — 8-bit banded sky, box-shadow sun,
+      drifting blocky cloud
+   ════════════════════════════════════════════════════════════ */
+.pf-card-banner[data-banner-type="pixel-sunset"] .pf-banner-holo-metallic {
+  background: linear-gradient(180deg,
+    #7b2d8b 0%, #7b2d8b 14%,
+    #a13a7e 14%, #a13a7e 28%,
+    #c64a6e 28%, #c64a6e 42%,
+    #e35d5b 42%, #e35d5b 56%,
+    #f47950 56%, #f47950 70%,
+    #ff9e54 70%, #ff9e54 85%,
+    #ffba6b 85%, #ffba6b 100%);
+  animation: none;
+}
+/* blocky pixel sun — classic box-shadow grid (10px cells) */
+.pf-card-banner[data-banner-type="pixel-sunset"] .pf-banner-holo-metallic::before {
+  content: '';
+  position: absolute;
+  left: calc(50% - 30px);
+  top: 46%;
+  width: 10px;
+  height: 10px;
+  background: transparent;
+  box-shadow:
+    20px 0 0 0 #ffd87a, 30px 0 0 0 #ffd87a,
+    10px 10px 0 0 #ffd87a, 20px 10px 0 0 #ffe8a3, 30px 10px 0 0 #ffe8a3, 40px 10px 0 0 #ffd87a,
+    0 20px 0 0 #ffd87a, 10px 20px 0 0 #ffe8a3, 20px 20px 0 0 #fff3c4, 30px 20px 0 0 #fff3c4, 40px 20px 0 0 #ffe8a3, 50px 20px 0 0 #ffd87a,
+    0 30px 0 0 #ffd87a, 10px 30px 0 0 #ffe8a3, 20px 30px 0 0 #fff3c4, 30px 30px 0 0 #fff3c4, 40px 30px 0 0 #ffe8a3, 50px 30px 0 0 #ffd87a,
+    10px 40px 0 0 #ffd87a, 20px 40px 0 0 #ffe8a3, 30px 40px 0 0 #ffe8a3, 40px 40px 0 0 #ffd87a,
+    20px 50px 0 0 #ffd87a, 30px 50px 0 0 #ffd87a;
+}
+/* drifting blocky cloud — box-shadow grid (8px cells), transform only */
+.pf-card-banner[data-banner-type="pixel-sunset"] .pf-banner-holo-metallic::after {
+  content: '';
+  position: absolute;
+  left: 12%;
+  top: 24%;
+  width: 8px;
+  height: 8px;
+  background: transparent;
+  box-shadow:
+    8px 0 0 0 rgba(255, 244, 230, 0.85), 16px 0 0 0 rgba(255, 244, 230, 0.85), 24px 0 0 0 rgba(255, 244, 230, 0.85),
+    0 8px 0 0 rgba(255, 244, 230, 0.85), 8px 8px 0 0 rgba(255, 244, 230, 0.85), 16px 8px 0 0 rgba(255, 244, 230, 0.85),
+    24px 8px 0 0 rgba(255, 244, 230, 0.85), 32px 8px 0 0 rgba(255, 244, 230, 0.85),
+    96px 28px 0 0 rgba(255, 244, 230, 0.65), 104px 28px 0 0 rgba(255, 244, 230, 0.65),
+    88px 36px 0 0 rgba(255, 244, 230, 0.65), 96px 36px 0 0 rgba(255, 244, 230, 0.65), 112px 36px 0 0 rgba(255, 244, 230, 0.65);
+  will-change: transform;
+  animation: storePixelCloudDrift 16s ease-in-out infinite alternate;
+}
+[data-theme="dark"] .pf-card-banner[data-banner-type="pixel-sunset"] .pf-banner-holo-metallic {
+  background: linear-gradient(180deg,
+    #3f1747 0%, #3f1747 14%,
+    #561e44 14%, #561e44 28%,
+    #6e273f 28%, #6e273f 42%,
+    #8a3537 42%, #8a3537 56%,
+    #a44a30 56%, #a44a30 70%,
+    #bd652f 70%, #bd652f 85%,
+    #d28038 85%, #d28038 100%);
+}
+[data-theme="dark"] .pf-card-banner[data-banner-type="pixel-sunset"] .pf-banner-holo-metallic::before {
+  box-shadow:
+    20px 0 0 0 #e8b75e, 30px 0 0 0 #e8b75e,
+    10px 10px 0 0 #e8b75e, 20px 10px 0 0 #f2cd84, 30px 10px 0 0 #f2cd84, 40px 10px 0 0 #e8b75e,
+    0 20px 0 0 #e8b75e, 10px 20px 0 0 #f2cd84, 20px 20px 0 0 #fadfa6, 30px 20px 0 0 #fadfa6, 40px 20px 0 0 #f2cd84, 50px 20px 0 0 #e8b75e,
+    0 30px 0 0 #e8b75e, 10px 30px 0 0 #f2cd84, 20px 30px 0 0 #fadfa6, 30px 30px 0 0 #fadfa6, 40px 30px 0 0 #f2cd84, 50px 30px 0 0 #e8b75e,
+    10px 40px 0 0 #e8b75e, 20px 40px 0 0 #f2cd84, 30px 40px 0 0 #f2cd84, 40px 40px 0 0 #e8b75e,
+    20px 50px 0 0 #e8b75e, 30px 50px 0 0 #e8b75e;
+}
+.pf-card-banner[data-banner-type="pixel-sunset"] .pf-banner-mesh-overlay {
+  opacity: 0;
+}
+.pf-card-banner[data-banner-type="pixel-sunset"] .pf-banner-shine-overlay {
+  animation: none;
+  background: none;
+}
+.pf-card-banner[data-banner-type="pixel-sunset"] .pf-banner-deco-text {
+  color: var(--banner-text-color, rgba(255, 255, 255, 0.26));
+  text-shadow: 0 2px 0 rgba(123, 45, 139, 0.45);
+  letter-spacing: 0.4em;
+}
+[data-theme="dark"] .pf-card-banner[data-banner-type="pixel-sunset"] .pf-banner-deco-text {
+  color: rgba(250, 223, 166, 0.22);
+  text-shadow: 0 2px 0 rgba(20, 8, 24, 0.55);
+}
+@media (max-width: 600px) {
+  .pf-card-banner[data-banner-type="pixel-sunset"] .pf-banner-deco-text {
+    font-size: 1.3rem;
+    letter-spacing: 0.28em;
+  }
+}
+
+/* ════════════════════════════════════════════════════════════
+   7. PIXEL NIGHT (epic) — banded night sky, pixel stars,
+      hard-stop skyline, lit windows, slow cloud
+   ════════════════════════════════════════════════════════════ */
+.pf-card-banner[data-banner-type="pixel-night"] .pf-banner-holo-metallic {
+  background-image:
+    repeating-linear-gradient(90deg, #0d1430 0 22px, transparent 22px 36px),
+    repeating-linear-gradient(90deg, #111a3a 0 30px, transparent 30px 52px),
+    linear-gradient(#0a1028, #0a1028),
+    linear-gradient(180deg,
+      #050a1f 0%, #050a1f 25%,
+      #0a1230 25%, #0a1230 50%,
+      #101a40 50%, #101a40 75%,
+      #16224e 75%, #16224e 100%);
+  background-size: 100% 64px, 100% 42px, 100% 16px, 100% 100%;
+  background-position: left bottom, 14px bottom, left bottom, center;
+  background-repeat: no-repeat;
+  animation: none;
+}
+/* pixel stars — twinkle via opacity only */
+.pf-card-banner[data-banner-type="pixel-night"] .pf-banner-holo-metallic::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 2px;
+  height: 2px;
+  background: transparent;
+  box-shadow:
+    30px 18px 0 0 #e2e8f0, 84px 40px 0 0 #cbd5e1, 140px 14px 0 0 #f1f5f9,
+    196px 52px 0 0 #cbd5e1, 250px 26px 0 0 #e2e8f0, 308px 44px 0 0 #f1f5f9,
+    362px 16px 0 0 #cbd5e1, 416px 58px 0 0 #e2e8f0, 470px 30px 0 0 #f1f5f9,
+    524px 48px 0 0 #cbd5e1, 578px 20px 0 0 #e2e8f0, 632px 38px 0 0 #f1f5f9,
+    686px 12px 0 0 #cbd5e1, 740px 54px 0 0 #e2e8f0, 794px 28px 0 0 #f1f5f9,
+    58px 70px 0 0 #94a3b8, 172px 80px 0 0 #94a3b8, 286px 66px 0 0 #94a3b8,
+    400px 84px 0 0 #94a3b8, 514px 72px 0 0 #94a3b8, 628px 86px 0 0 #94a3b8;
+  animation: storeTwinkle 2.8s ease-in-out infinite alternate;
+}
+/* lit windows — static yellow pixels along skyline */
+.pf-card-banner[data-banner-type="pixel-night"] .pf-banner-holo-metallic::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 56px;
+  width: 3px;
+  height: 4px;
+  background: transparent;
+  opacity: 0.9;
+  box-shadow:
+    6px 14px 0 0 #fbbf24, 6px 26px 0 0 #fde68a, 13px 20px 0 0 #fbbf24,
+    42px 30px 0 0 #fde68a, 49px 18px 0 0 #fbbf24,
+    78px 24px 0 0 #fbbf24, 85px 36px 0 0 #fde68a,
+    120px 16px 0 0 #fde68a, 127px 30px 0 0 #fbbf24,
+    158px 28px 0 0 #fbbf24, 165px 14px 0 0 #fde68a,
+    196px 34px 0 0 #fbbf24, 203px 22px 0 0 #fde68a,
+    240px 18px 0 0 #fde68a, 247px 32px 0 0 #fbbf24,
+    278px 26px 0 0 #fbbf24, 285px 12px 0 0 #fde68a,
+    316px 30px 0 0 #fde68a, 323px 20px 0 0 #fbbf24,
+    360px 24px 0 0 #fbbf24, 367px 36px 0 0 #fde68a,
+    398px 16px 0 0 #fde68a, 405px 28px 0 0 #fbbf24,
+    436px 32px 0 0 #fbbf24, 443px 18px 0 0 #fde68a,
+    480px 22px 0 0 #fde68a, 487px 34px 0 0 #fbbf24,
+    518px 26px 0 0 #fbbf24, 525px 14px 0 0 #fde68a,
+    556px 30px 0 0 #fde68a, 563px 20px 0 0 #fbbf24,
+    600px 18px 0 0 #fbbf24, 607px 32px 0 0 #fde68a,
+    638px 24px 0 0 #fde68a, 645px 12px 0 0 #fbbf24,
+    676px 28px 0 0 #fbbf24, 683px 36px 0 0 #fde68a,
+    720px 20px 0 0 #fde68a, 727px 30px 0 0 #fbbf24,
+    758px 26px 0 0 #fbbf24, 765px 16px 0 0 #fde68a;
+}
+/* one slow pixel cloud */
+.pf-card-banner[data-banner-type="pixel-night"]::after {
+  content: '';
+  position: absolute;
+  left: 18%;
+  top: 20%;
+  width: 8px;
+  height: 8px;
+  z-index: 1;
+  pointer-events: none;
+  background: transparent;
+  box-shadow:
+    8px 0 0 0 rgba(148, 163, 184, 0.40), 16px 0 0 0 rgba(148, 163, 184, 0.40),
+    0 8px 0 0 rgba(148, 163, 184, 0.40), 8px 8px 0 0 rgba(148, 163, 184, 0.40),
+    16px 8px 0 0 rgba(148, 163, 184, 0.40), 24px 8px 0 0 rgba(148, 163, 184, 0.40);
+  will-change: transform;
+  animation: storePixelCloudDrift 22s ease-in-out infinite alternate;
+}
+[data-theme="dark"] .pf-card-banner[data-banner-type="pixel-night"] .pf-banner-holo-metallic {
+  background-image:
+    repeating-linear-gradient(90deg, #070c20 0 22px, transparent 22px 36px),
+    repeating-linear-gradient(90deg, #0a1129 0 30px, transparent 30px 52px),
+    linear-gradient(#04081a, #04081a),
+    linear-gradient(180deg,
+      #02040f 0%, #02040f 25%,
+      #050a1f 25%, #050a1f 50%,
+      #0a1230 50%, #0a1230 75%,
+      #101a40 75%, #101a40 100%);
+  background-size: 100% 64px, 100% 42px, 100% 16px, 100% 100%;
+  background-position: left bottom, 14px bottom, left bottom, center;
+  background-repeat: no-repeat;
+}
+.pf-card-banner[data-banner-type="pixel-night"] .pf-banner-mesh-overlay {
+  opacity: 0;
+}
+.pf-card-banner[data-banner-type="pixel-night"] .pf-banner-shine-overlay {
+  animation: none;
+  background: none;
+}
+.pf-card-banner[data-banner-type="pixel-night"] .pf-banner-deco-text {
+  color: var(--banner-text-color, rgba(226, 232, 240, 0.22));
+  text-shadow: 0 2px 0 rgba(2, 4, 15, 0.60);
+  letter-spacing: 0.4em;
+}
+[data-theme="dark"] .pf-card-banner[data-banner-type="pixel-night"] .pf-banner-deco-text {
+  color: rgba(148, 163, 184, 0.20);
+  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.65);
+}
+@media (max-width: 600px) {
+  .pf-card-banner[data-banner-type="pixel-night"] .pf-banner-deco-text {
+    font-size: 1.3rem;
+    letter-spacing: 0.28em;
+  }
+}
+
+/* ════════════════════════════════════════════════════════════
+   8. LIQUID FLOW (legendary) — iridescent lava-lamp blobs +
+      glass shine sweep
+   ════════════════════════════════════════════════════════════ */
+.pf-card-banner[data-banner-type="liquid-flow"] .pf-banner-holo-metallic {
+  background:
+    radial-gradient(ellipse 80% 110% at 15% 85%, rgba(56, 189, 248, 0.40) 0%, transparent 55%),
+    radial-gradient(ellipse 70% 100% at 85% 15%, rgba(167, 139, 250, 0.40) 0%, transparent 55%),
+    linear-gradient(160deg, #1e3a8a 0%, #4f46e5 30%, #7c3aed 55%, #2563eb 80%, #1e3a8a 100%);
+  background-size: 200% 200%;
+  animation: bannerGradientDrift 24s linear infinite;
+}
+/* lava-lamp blob layer A — transform only */
+.pf-card-banner[data-banner-type="liquid-flow"] .pf-banner-holo-metallic::before {
+  content: '';
+  position: absolute;
+  left: -25%;
+  top: -35%;
+  width: 150%;
+  height: 170%;
+  background:
+    radial-gradient(circle at 28% 38%, rgba(125, 211, 252, 0.45) 0%, rgba(125, 211, 252, 0.18) 18%, transparent 34%),
+    radial-gradient(circle at 72% 70%, rgba(196, 181, 253, 0.40) 0%, rgba(196, 181, 253, 0.15) 16%, transparent 30%);
+  will-change: transform;
+  animation: storeLiquidBlobA 24s ease-in-out infinite;
+}
+/* lava-lamp blob layer B — different phase */
+.pf-card-banner[data-banner-type="liquid-flow"] .pf-banner-holo-metallic::after {
+  content: '';
+  position: absolute;
+  left: -25%;
+  top: -35%;
+  width: 150%;
+  height: 170%;
+  background:
+    radial-gradient(circle at 60% 30%, rgba(99, 102, 241, 0.42) 0%, rgba(99, 102, 241, 0.16) 17%, transparent 32%),
+    radial-gradient(circle at 30% 75%, rgba(45, 212, 191, 0.30) 0%, rgba(45, 212, 191, 0.10) 14%, transparent 28%);
+  animation: storeLiquidBlobB 30s ease-in-out infinite;
+}
+/* glass shine sweep — reuses the proven bannerShimmer loop */
+.pf-card-banner[data-banner-type="liquid-flow"]::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(105deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0) 35%,
+    rgba(255, 255, 255, 0.12) 48%,
+    rgba(255, 255, 255, 0.26) 50%,
+    rgba(255, 255, 255, 0.12) 52%,
+    rgba(255, 255, 255, 0) 65%,
+    rgba(255, 255, 255, 0) 100%);
+  background-size: 250% 100%;
+  background-repeat: no-repeat;
+  animation: bannerShimmer 8s linear infinite;
+}
+[data-theme="dark"] .pf-card-banner[data-banner-type="liquid-flow"] .pf-banner-holo-metallic {
+  background:
+    radial-gradient(ellipse 80% 110% at 15% 85%, rgba(14, 116, 144, 0.45) 0%, transparent 55%),
+    radial-gradient(ellipse 70% 100% at 85% 15%, rgba(91, 33, 182, 0.45) 0%, transparent 55%),
+    linear-gradient(160deg, #0f1f4d 0%, #2a2580 30%, #441e87 55%, #16307a 80%, #0f1f4d 100%);
+  background-size: 200% 200%;
+}
+[data-theme="dark"] .pf-card-banner[data-banner-type="liquid-flow"] .pf-banner-holo-metallic::before {
+  background:
+    radial-gradient(circle at 28% 38%, rgba(56, 189, 248, 0.30) 0%, rgba(56, 189, 248, 0.12) 18%, transparent 34%),
+    radial-gradient(circle at 72% 70%, rgba(139, 92, 246, 0.28) 0%, rgba(139, 92, 246, 0.10) 16%, transparent 30%);
+}
+[data-theme="dark"] .pf-card-banner[data-banner-type="liquid-flow"] .pf-banner-holo-metallic::after {
+  background:
+    radial-gradient(circle at 60% 30%, rgba(79, 70, 229, 0.32) 0%, rgba(79, 70, 229, 0.12) 17%, transparent 32%),
+    radial-gradient(circle at 30% 75%, rgba(20, 184, 166, 0.22) 0%, rgba(20, 184, 166, 0.08) 14%, transparent 28%);
+}
+[data-theme="dark"] .pf-card-banner[data-banner-type="liquid-flow"]::after {
+  background: linear-gradient(105deg,
+    rgba(180, 197, 255, 0) 0%,
+    rgba(180, 197, 255, 0) 35%,
+    rgba(180, 197, 255, 0.07) 48%,
+    rgba(180, 197, 255, 0.16) 50%,
+    rgba(180, 197, 255, 0.07) 52%,
+    rgba(180, 197, 255, 0) 65%,
+    rgba(180, 197, 255, 0) 100%);
+  background-size: 250% 100%;
+  background-repeat: no-repeat;
+}
+.pf-card-banner[data-banner-type="liquid-flow"] .pf-banner-mesh-overlay {
+  opacity: 0.05;
+}
+.pf-card-banner[data-banner-type="liquid-flow"] .pf-banner-deco-text {
+  color: var(--banner-text-color, rgba(255, 255, 255, 0.24));
+  text-shadow: 0 2px 20px rgba(125, 211, 252, 0.28), 0 0 40px rgba(196, 181, 253, 0.15);
+}
+[data-theme="dark"] .pf-card-banner[data-banner-type="liquid-flow"] .pf-banner-deco-text {
+  color: rgba(196, 181, 253, 0.20);
+  text-shadow: 0 2px 20px rgba(56, 189, 248, 0.25), 0 0 40px rgba(139, 92, 246, 0.10);
+}
+
+/* ════════════════════════════════════════════════════════════
+   Store banner keyframes — seamless loops, compositor-friendly
+   (background-position / transform / opacity only)
+   ════════════════════════════════════════════════════════════ */
+@keyframes storeGeoDrift {
+  0%   { background-position: 0% 0%, 0% 0%, 0% 0%; }
+  50%  { background-position: 100% 50%, 60% 100%, 50% 100%; }
+  100% { background-position: 0% 0%, 0% 0%, 0% 0%; }
+}
+
+@keyframes storeMistDrift {
+  0%   { transform: translateX(0%); }
+  50%  { transform: translateX(-9%); }
+  100% { transform: translateX(0%); }
+}
+
+/* each layer moves exactly one tile per loop (160/110/70px) — invisible seam */
+@keyframes storeStarParallax {
+  0%   { background-position: 0 0, 0 0, 0 0; }
+  100% { background-position: 160px 0, 110px 0, 70px 0; }
+}
+
+@keyframes storeTwinkle {
+  0%   { opacity: 0.30; }
+  100% { opacity: 1; }
+}
+
+/* grid travels one full 28px row per loop — seamless */
+@keyframes storeSynthGridMove {
+  0%   { transform: perspective(220px) rotateX(62deg) translateY(0); }
+  100% { transform: perspective(220px) rotateX(62deg) translateY(28px); }
+}
+
+@keyframes storeAuroraSwayA {
+  0%   { transform: translateX(-4%) skewX(-8deg); }
+  100% { transform: translateX(5%) skewX(-15deg); }
+}
+
+@keyframes storeAuroraSwayB {
+  0%   { transform: translateX(4%) skewX(10deg); }
+  100% { transform: translateX(-5%) skewX(16deg); }
+}
+
+@keyframes storePixelCloudDrift {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(48px); }
+}
+
+@keyframes storeLiquidBlobA {
+  0%   { transform: translate(0, 0) scale(1); }
+  33%  { transform: translate(5%, -6%) scale(1.10); }
+  66%  { transform: translate(-4%, 5%) scale(0.94); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+
+@keyframes storeLiquidBlobB {
+  0%   { transform: translate(0, 0) scale(1); }
+  40%  { transform: translate(-6%, 4%) scale(1.08); }
+  70%  { transform: translate(4%, -5%) scale(0.95); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+
+/* ════════════════════════════════════════════════════════════
+   Mobile — pause/simplify heavy banner animations
+   (explicit per-preset rules: preset selectors out-specify the
+   base mobile pause in app/07-profile-banner.css)
+   ════════════════════════════════════════════════════════════ */
+@media (max-width: 600px) {
+  .pf-card-banner[data-banner-type="geometric-waves"] .pf-banner-holo-metallic,
+  .pf-card-banner[data-banner-type="liquid-flow"] .pf-banner-holo-metallic {
+    animation: none;
+  }
+  .pf-card-banner[data-banner-type="himalaya"]::after {
+    animation: none;
+  }
+  .pf-card-banner[data-banner-type="starfield"] .pf-banner-holo-metallic::before {
+    animation: none;
+  }
+  .pf-card-banner[data-banner-type="starfield"] .pf-banner-holo-metallic::after,
+  .pf-card-banner[data-banner-type="pixel-night"] .pf-banner-holo-metallic::before {
+    animation-duration: 5s;
+  }
+  .pf-card-banner[data-banner-type="synthwave-grid"] .pf-banner-holo-metallic::after {
+    animation: none;
+    transform: perspective(220px) rotateX(62deg) translateY(0);
+  }
+  .pf-card-banner[data-banner-type="aurora-borealis"] .pf-banner-holo-metallic::before,
+  .pf-card-banner[data-banner-type="aurora-borealis"] .pf-banner-holo-metallic::after {
+    animation: none;
+  }
+  .pf-card-banner[data-banner-type="pixel-sunset"] .pf-banner-holo-metallic::after,
+  .pf-card-banner[data-banner-type="pixel-night"]::after {
+    animation: none;
+  }
+  .pf-card-banner[data-banner-type="liquid-flow"] .pf-banner-holo-metallic::before,
+  .pf-card-banner[data-banner-type="liquid-flow"] .pf-banner-holo-metallic::after {
+    animation: none;
+  }
+  .pf-card-banner[data-banner-type="liquid-flow"]::after {
+    animation-duration: 12s;
+  }
+}
+
+/* ════════════════════════════════════════════════════════════
+   Reduced motion — all store banner animations off
+   ════════════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  .pf-card-banner[data-banner-type="geometric-waves"] .pf-banner-holo-metallic,
+  .pf-card-banner[data-banner-type="himalaya"]::after,
+  .pf-card-banner[data-banner-type="starfield"] .pf-banner-holo-metallic::before,
+  .pf-card-banner[data-banner-type="starfield"] .pf-banner-holo-metallic::after,
+  .pf-card-banner[data-banner-type="synthwave-grid"] .pf-banner-holo-metallic::after,
+  .pf-card-banner[data-banner-type="aurora-borealis"] .pf-banner-holo-metallic::before,
+  .pf-card-banner[data-banner-type="aurora-borealis"] .pf-banner-holo-metallic::after,
+  .pf-card-banner[data-banner-type="pixel-sunset"] .pf-banner-holo-metallic::after,
+  .pf-card-banner[data-banner-type="pixel-night"] .pf-banner-holo-metallic::before,
+  .pf-card-banner[data-banner-type="pixel-night"]::after,
+  .pf-card-banner[data-banner-type="liquid-flow"] .pf-banner-holo-metallic,
+  .pf-card-banner[data-banner-type="liquid-flow"] .pf-banner-holo-metallic::before,
+  .pf-card-banner[data-banner-type="liquid-flow"] .pf-banner-holo-metallic::after,
+  .pf-card-banner[data-banner-type="liquid-flow"]::after {
+    animation: none !important;
+  }
+  .pf-card-banner[data-banner-type="synthwave-grid"] .pf-banner-holo-metallic::after {
+    transform: perspective(220px) rotateX(62deg) translateY(0);
+  }
+}

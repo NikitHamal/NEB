@@ -80,7 +80,7 @@
           </div>
 
           <!-- Overlapping Circular Avatar -->
-          <div class="pf-avatar-overlap-wrap{% if profile_user.is_bot %} pf-avatar-bot{% endif %}">
+          <div class="pf-avatar-overlap-wrap{% if profile_user.is_bot %} pf-avatar-bot{% endif %}{% if profile_user.avatar_border %} avatar-border avatar-border-{{ profile_user.avatar_border }}{% endif %}">
             <div class="pf-avatar-circle" id="profilePageAvatar">
               {% if profile_user.photo_url %}
                 <img src="{{ profile_user.photo_url }}" alt="{{ profile_user.display_name|default:profile_user.username }}">
@@ -120,6 +120,11 @@
               {% if badge_info %}
                 <span class="role-badge role-badge-{{ badge_info.type }}" title="{{ badge_info.label }}">
                   <span class="material-symbols-outlined">{{ badge_info.icon }}</span>
+                </span>
+              {% endif %}
+              {% if profile_user.flair_badge %}
+                <span class="flair-badge flair-badge-{{ profile_user.flair_badge.key }}" title="{{ profile_user.flair_badge.label }}">
+                  <span class="material-symbols-outlined">{{ profile_user.flair_badge.icon }}</span>
                 </span>
               {% endif %}
             </h1>

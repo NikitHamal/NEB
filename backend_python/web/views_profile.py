@@ -1,6 +1,7 @@
 """Views Profile extracted from views.py."""
 from .view_helpers import *  # noqa: F401,F403
 from api.view_helpers import _profile_incomplete, _can_view_locked_profile
+from api import store_catalog
 from io import BytesIO
 from pathlib import Path
 
@@ -99,7 +100,14 @@ def profile(request, username):
     banner_type = ''
     banner_deco_text = 'nebian'
     banner_text_color = ''
-    if not profile_user.banner_url:
+    equipped_banner = getattr(profile_user, 'equipped_banner', '') or ''
+    if not profile_user.banner_url and equipped_banner:
+        banner_item = store_catalog.get_item(equipped_banner)
+        if banner_item and banner_item['kind'] == 'banner':
+            banner_type = equipped_banner
+            banner_deco_text = banner_item.get('deco_text') or 'nebian'
+            banner_text_color = banner_item.get('deco_color') or ''
+    if not profile_user.banner_url and not banner_type:
         if profile_user.is_bot:
             banner_type = 'gradient-bot'
             banner_deco_text = 'neby ai'
@@ -157,6 +165,8 @@ def profile(request, username):
         'achievement_badges': profile_user.achievement_badges,
         'badge_info': badge_info,
         'achievement_info': _user_achievement_badges(profile_user),
+        'flair_badge': _user_flair_badge(profile_user),
+        'avatar_border': getattr(profile_user, 'equipped_border', '') or '',
     }
 
     if profile_private:
@@ -309,6 +319,11 @@ def profile_achievements(request, username):
 
 
 def _profile_card_banner_style(user):
+    equipped_banner = getattr(user, 'equipped_banner', '') or ''
+    if equipped_banner:
+        card_style = store_catalog.banner_card_style(equipped_banner)
+        if card_style:
+            return card_style
     if user.is_admin:
         return ('ADMIN', (252, 177, 31), (120, 64, 0))
     if getattr(user, 'is_bot', False):

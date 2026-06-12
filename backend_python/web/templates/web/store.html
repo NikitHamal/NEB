@@ -1,0 +1,389 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Store · NEBians{% endblock %}
+{% block description %}Spend your contribution points on site themes, profile banners, avatar borders, and flair badges in the NEBians Store.{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'web/css/pages/store.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="md-container">
+
+  <!-- Hero -->
+  <section class="store-hero">
+    <div class="store-hero-text">
+      <h1 class="md-headline-medium store-hero-title">
+        <span class="material-symbols-outlined">storefront</span>
+        NEBians Store
+      </h1>
+      <p class="store-hero-sub">Customize your NEBians experience — earn points by contributing, spend them on style.</p>
+    </div>
+    {% if is_authenticated %}
+    <div class="store-balance-card">
+      <span class="material-symbols-outlined store-balance-icon">stars</span>
+      <div class="store-balance-meta">
+        <span class="store-balance-num" id="store-balance">{{ balance }}</span>
+        <span class="store-balance-label">points available</span>
+      </div>
+    </div>
+    {% else %}
+    <a href="{% url 'web:login' %}" class="store-signin-pill">
+      <span class="material-symbols-outlined">stars</span>
+      Sign in to start collecting points
+    </a>
+    {% endif %}
+  </section>
+
+  <!-- Category tabs -->
+  <div class="store-tabs" role="tablist" aria-label="Store categories">
+    <button class="store-tab active" data-action="store-tab" data-tab="theme" role="tab" aria-selected="true" aria-controls="store-section-theme">
+      <span class="material-symbols-outlined">palette</span>
+      Themes
+      <span class="store-tab-count">{{ store_data.kinds.theme|length|add:"1" }}</span>
+    </button>
+    <button class="store-tab" data-action="store-tab" data-tab="banner" role="tab" aria-selected="false" aria-controls="store-section-banner">
+      <span class="material-symbols-outlined">wallpaper</span>
+      Banners
+      <span class="store-tab-count">{{ store_data.kinds.banner|length }}</span>
+    </button>
+    <button class="store-tab" data-action="store-tab" data-tab="border" role="tab" aria-selected="false" aria-controls="store-section-border">
+      <span class="material-symbols-outlined">circles</span>
+      Borders
+      <span class="store-tab-count">{{ store_data.kinds.border|length }}</span>
+    </button>
+    <button class="store-tab" data-action="store-tab" data-tab="badge" role="tab" aria-selected="false" aria-controls="store-section-badge">
+      <span class="material-symbols-outlined">military_tech</span>
+      Badges
+      <span class="store-tab-count">{{ store_data.kinds.badge|length }}</span>
+    </button>
+  </div>
+
+  <!-- Themes -->
+  <section id="store-section-theme" class="store-section store-section-active" role="tabpanel" aria-label="Themes">
+    <div class="store-grid">
+      <article class="store-card store-card-owned" id="store-default-theme"
+        data-key="__default__" data-kind="theme" data-price="0" data-name="NEBians Classic">
+        <div class="store-card-preview">
+          <span class="store-rarity store-rarity-common">Default</span>
+          <div class="store-theme-preview" style="--sw1: #004AC6; --sw2: #2563EB; --sw3: #0EA5E9; --sw4: #DBE1FF;">
+            <div class="store-theme-preview-header">
+              <span class="store-theme-dot store-theme-dot-a"></span>
+              <span class="store-theme-dot store-theme-dot-b"></span>
+            </div>
+            <div class="store-theme-preview-body"></div>
+          </div>
+        </div>
+        <div class="store-card-body">
+          <h3 class="store-card-name">NEBians Classic</h3>
+          <p class="store-card-desc">The original NEBian blue — always yours, always free.</p>
+        </div>
+        <div class="store-card-actions">
+          <div class="store-price"><span class="store-free-chip">Free</span></div>
+          <button class="md-btn md-btn-outlined store-state-btn" data-action="store-unequip" data-kind="theme" aria-label="Apply NEBians Classic theme">Apply</button>
+        </div>
+      </article>
+
+      {% for item in store_data.kinds.theme %}
+      <article class="store-card{% if item.owned %} store-card-owned{% endif %}{% if item.equipped %} store-card-equipped{% endif %}"
+        data-key="{{ item.key }}" data-kind="theme" data-price="{{ item.price }}" data-name="{{ item.name }}">
+        <div class="store-card-preview">
+          <span class="store-rarity store-rarity-{{ item.rarity }}">{{ item.rarity|capfirst }}</span>
+          {% if item.animated %}<span class="store-anim-chip"><span class="material-symbols-outlined">animation</span>Animated</span>{% endif %}
+          <div class="store-theme-preview" style="--sw1: {{ item.swatches.0 }}; --sw2: {{ item.swatches.1 }}; --sw3: {{ item.swatches.2 }}; --sw4: {{ item.swatches.3 }};">
+            <div class="store-theme-preview-header">
+              <span class="store-theme-dot store-theme-dot-a"></span>
+              <span class="store-theme-dot store-theme-dot-b"></span>
+            </div>
+            <div class="store-theme-preview-body"></div>
+          </div>
+        </div>
+        <div class="store-card-body">
+          <h3 class="store-card-name">{{ item.name }}</h3>
+          <p class="store-card-desc">{{ item.description }}</p>
+        </div>
+        <div class="store-card-actions">
+          <div class="store-price">{% if item.price %}<span class="material-symbols-outlined">stars</span>{{ item.price }}{% else %}<span class="store-free-chip">Free</span>{% endif %}</div>
+          {% if item.equipped %}
+          <button class="md-btn md-btn-filled store-state-btn" data-action="store-unequip" data-kind="theme" title="Click to remove" aria-label="Remove {{ item.name }}"><span class="material-symbols-outlined">check</span>Applied</button>
+          {% elif item.owned %}
+          <button class="md-btn md-btn-outlined store-state-btn" data-action="store-equip" data-key="{{ item.key }}" aria-label="Apply {{ item.name }}">Apply</button>
+          {% else %}
+          <button class="md-btn md-btn-filled store-buy-btn store-state-btn" data-action="store-buy" data-key="{{ item.key }}" aria-label="Get {{ item.name }}">{% if item.price %}Buy{% else %}Get Free{% endif %}</button>
+          {% endif %}
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- Banners -->
+  <section id="store-section-banner" class="store-section" role="tabpanel" aria-label="Banners">
+    <div class="store-grid store-grid-banners">
+      {% for item in store_data.kinds.banner %}
+      <article class="store-card{% if item.owned %} store-card-owned{% endif %}{% if item.equipped %} store-card-equipped{% endif %}"
+        data-key="{{ item.key }}" data-kind="banner" data-price="{{ item.price }}" data-name="{{ item.name }}">
+        <div class="store-card-preview store-card-preview-banner">
+          <span class="store-rarity store-rarity-{{ item.rarity }}">{{ item.rarity|capfirst }}</span>
+          {% if item.animated %}<span class="store-anim-chip"><span class="material-symbols-outlined">animation</span>Animated</span>{% endif %}
+          <div class="pf-card-banner store-banner-preview" data-banner-type="{{ item.key }}">
+            <div class="pf-banner-holo-metallic"></div>
+            <div class="pf-banner-mesh-overlay"></div>
+            <div class="pf-banner-shine-overlay"></div>
+            <span class="pf-banner-deco-text">{{ item.deco_text }}</span>
+          </div>
+        </div>
+        <div class="store-card-body">
+          <h3 class="store-card-name">{{ item.name }}</h3>
+          <p class="store-card-desc">{{ item.description }}</p>
+        </div>
+        <div class="store-card-actions">
+          <div class="store-price">{% if item.price %}<span class="material-symbols-outlined">stars</span>{{ item.price }}{% else %}<span class="store-free-chip">Free</span>{% endif %}</div>
+          {% if item.equipped %}
+          <button class="md-btn md-btn-filled store-state-btn" data-action="store-unequip" data-kind="banner" title="Click to remove" aria-label="Unequip {{ item.name }}"><span class="material-symbols-outlined">check</span>Equipped</button>
+          {% elif item.owned %}
+          <button class="md-btn md-btn-outlined store-state-btn" data-action="store-equip" data-key="{{ item.key }}" aria-label="Equip {{ item.name }}">Equip</button>
+          {% else %}
+          <button class="md-btn md-btn-filled store-buy-btn store-state-btn" data-action="store-buy" data-key="{{ item.key }}" aria-label="Get {{ item.name }}">{% if item.price %}Buy{% else %}Get Free{% endif %}</button>
+          {% endif %}
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- Borders -->
+  <section id="store-section-border" class="store-section" role="tabpanel" aria-label="Avatar borders">
+    <div class="store-grid">
+      {% for item in store_data.kinds.border %}
+      <article class="store-card{% if item.owned %} store-card-owned{% endif %}{% if item.equipped %} store-card-equipped{% endif %}"
+        data-key="{{ item.key }}" data-kind="border" data-price="{{ item.price }}" data-name="{{ item.name }}">
+        <div class="store-card-preview">
+          <span class="store-rarity store-rarity-{{ item.rarity }}">{{ item.rarity|capfirst }}</span>
+          {% if item.animated %}<span class="store-anim-chip"><span class="material-symbols-outlined">animation</span>Animated</span>{% endif %}
+          <div class="store-border-demo avatar-border avatar-border-{{ item.key }}">
+            <span class="store-border-demo-letter">N</span>
+          </div>
+        </div>
+        <div class="store-card-body">
+          <h3 class="store-card-name">{{ item.name }}</h3>
+          <p class="store-card-desc">{{ item.description }}</p>
+        </div>
+        <div class="store-card-actions">
+          <div class="store-price">{% if item.price %}<span class="material-symbols-outlined">stars</span>{{ item.price }}{% else %}<span class="store-free-chip">Free</span>{% endif %}</div>
+          {% if item.equipped %}
+          <button class="md-btn md-btn-filled store-state-btn" data-action="store-unequip" data-kind="border" title="Click to remove" aria-label="Unequip {{ item.name }}"><span class="material-symbols-outlined">check</span>Equipped</button>
+          {% elif item.owned %}
+          <button class="md-btn md-btn-outlined store-state-btn" data-action="store-equip" data-key="{{ item.key }}" aria-label="Equip {{ item.name }}">Equip</button>
+          {% else %}
+          <button class="md-btn md-btn-filled store-buy-btn store-state-btn" data-action="store-buy" data-key="{{ item.key }}" aria-label="Get {{ item.name }}">{% if item.price %}Buy{% else %}Get Free{% endif %}</button>
+          {% endif %}
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- Badges -->
+  <section id="store-section-badge" class="store-section" role="tabpanel" aria-label="Flair badges">
+    <div class="store-grid">
+      {% for item in store_data.kinds.badge %}
+      <article class="store-card{% if item.owned %} store-card-owned{% endif %}{% if item.equipped %} store-card-equipped{% endif %}"
+        data-key="{{ item.key }}" data-kind="badge" data-price="{{ item.price }}" data-name="{{ item.name }}">
+        <div class="store-card-preview">
+          <span class="store-rarity store-rarity-{{ item.rarity }}">{{ item.rarity|capfirst }}</span>
+          {% if item.animated %}<span class="store-anim-chip"><span class="material-symbols-outlined">animation</span>Animated</span>{% endif %}
+          <div class="store-badge-wrap">
+            <span class="flair-badge flair-badge-{{ item.key }} store-badge-demo"><span class="material-symbols-outlined">{{ item.icon }}</span></span>
+            <span class="store-badge-demo-name">{{ item.name }}</span>
+          </div>
+        </div>
+        <div class="store-card-body">
+          <h3 class="store-card-name">{{ item.name }}</h3>
+          <p class="store-card-desc">{{ item.description }}</p>
+        </div>
+        <div class="store-card-actions">
+          <div class="store-price">{% if item.price %}<span class="material-symbols-outlined">stars</span>{{ item.price }}{% else %}<span class="store-free-chip">Free</span>{% endif %}</div>
+          {% if item.equipped %}
+          <button class="md-btn md-btn-filled store-state-btn" data-action="store-unequip" data-kind="badge" title="Click to remove" aria-label="Unequip {{ item.name }}"><span class="material-symbols-outlined">check</span>Equipped</button>
+          {% elif item.owned %}
+          <button class="md-btn md-btn-outlined store-state-btn" data-action="store-equip" data-key="{{ item.key }}" aria-label="Equip {{ item.name }}">Equip</button>
+          {% else %}
+          <button class="md-btn md-btn-filled store-buy-btn store-state-btn" data-action="store-buy" data-key="{{ item.key }}" aria-label="Get {{ item.name }}">{% if item.price %}Buy{% else %}Get Free{% endif %}</button>
+          {% endif %}
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- How to earn points -->
+  <div class="store-earn-note">
+    <span class="material-symbols-outlined">lightbulb</span>
+    <p><strong>How to earn points:</strong> +3 create a discussion · +2 reply · +2 receive a like · +1 give a like · +10 approved resource · +10 per correct first-try quiz answer</p>
+  </div>
+
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script nonce="{{ csp_nonce }}">
+  (function() {
+    var LOGIN_URL = "{% url 'web:login' %}";
+    var DEFAULT_KEY = '__default__';
+
+    function updateBalance(balance) {
+      if (typeof balance !== 'number') return;
+      var el = document.getElementById('store-balance');
+      if (el) el.textContent = balance;
+    }
+
+    function requireAuth() {
+      if (IS_AUTHENTICATED) return true;
+      showSnackbar('Sign in to get items');
+      setTimeout(function() { window.location.href = LOGIN_URL; }, 800);
+      return false;
+    }
+
+    function renderCardState(card, state) {
+      var key = card.dataset.key || '';
+      var kind = card.dataset.kind || '';
+      var name = card.dataset.name || '';
+      var price = parseInt(card.dataset.price || '0', 10);
+      var actions = card.querySelector('.store-card-actions');
+      if (!actions) return;
+      var equipLabel = kind === 'theme' ? 'Apply' : 'Equip';
+      var equippedLabel = kind === 'theme' ? 'Applied' : 'Equipped';
+      var priceHtml = price > 0
+        ? '<div class="store-price"><span class="material-symbols-outlined">stars</span>' + price + '</div>'
+        : '<div class="store-price"><span class="store-free-chip">Free</span></div>';
+      var btnHtml = '';
+      if (key === DEFAULT_KEY) {
+        if (state === 'equipped') {
+          btnHtml = '<button class="md-btn md-btn-filled store-state-btn" data-action="store-unequip" data-kind="theme" title="Default theme" aria-label="NEBians Classic applied"><span class="material-symbols-outlined">check</span>Applied</button>';
+        } else {
+          btnHtml = '<button class="md-btn md-btn-outlined store-state-btn" data-action="store-unequip" data-kind="theme" aria-label="Apply NEBians Classic theme">Apply</button>';
+        }
+      } else if (state === 'buy') {
+        btnHtml = '<button class="md-btn md-btn-filled store-buy-btn store-state-btn" data-action="store-buy" data-key="' + escapeHtml(key) + '" aria-label="Get ' + escapeHtml(name) + '">' + (price > 0 ? 'Buy' : 'Get Free') + '</button>';
+      } else if (state === 'owned') {
+        btnHtml = '<button class="md-btn md-btn-outlined store-state-btn" data-action="store-equip" data-key="' + escapeHtml(key) + '" aria-label="' + escapeHtml(equipLabel) + ' ' + escapeHtml(name) + '">' + equipLabel + '</button>';
+      } else if (state === 'equipped') {
+        btnHtml = '<button class="md-btn md-btn-filled store-state-btn" data-action="store-unequip" data-kind="' + escapeHtml(kind) + '" title="Click to remove" aria-label="Unequip ' + escapeHtml(name) + '"><span class="material-symbols-outlined">check</span>' + equippedLabel + '</button>';
+      }
+      actions.innerHTML = priceHtml + btnHtml;
+      card.classList.toggle('store-card-owned', state === 'owned' || state === 'equipped');
+      card.classList.toggle('store-card-equipped', state === 'equipped');
+    }
+
+    function demoteEquippedSiblings(kind, exceptCard) {
+      var equipped = document.querySelectorAll('.store-card[data-kind="' + kind + '"].store-card-equipped');
+      for (var i = 0; i < equipped.length; i++) {
+        if (equipped[i] !== exceptCard) renderCardState(equipped[i], 'owned');
+      }
+    }
+
+    function postJson(url, body, btn) {
+      btn.disabled = true;
+      return fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
+        credentials: 'same-origin',
+        body: JSON.stringify(body)
+      }).then(function(r) {
+        return r.json().then(function(d) { return { ok: r.ok, data: d }; });
+      }).finally(function() { btn.disabled = false; });
+    }
+
+    registerActions({
+      'store-tab': function(el) {
+        var tab = el.dataset.tab;
+        var tabs = document.querySelectorAll('.store-tab');
+        for (var i = 0; i < tabs.length; i++) {
+          var active = tabs[i] === el;
+          tabs[i].classList.toggle('active', active);
+          tabs[i].setAttribute('aria-selected', active ? 'true' : 'false');
+        }
+        var sections = document.querySelectorAll('.store-section');
+        for (var j = 0; j < sections.length; j++) {
+          sections[j].classList.toggle('store-section-active', sections[j].id === 'store-section-' + tab);
+        }
+      },
+
+      'store-buy': function(el) {
+        if (!requireAuth()) return;
+        var card = el.closest('.store-card');
+        if (!card || el.disabled) return;
+        postJson('/ajax/store/purchase/', { key: card.dataset.key }, el).then(function(res) {
+          if (res.ok && res.data.ok) {
+            showSnackbar('Added to your collection!');
+            updateBalance(res.data.balance);
+            renderCardState(card, 'owned');
+          } else {
+            showSnackbar(res.data.error || 'Something went wrong. Please try again.');
+          }
+        }).catch(function() {
+          showSnackbar('Network error. Please try again.');
+        });
+      },
+
+      'store-equip': function(el) {
+        if (!requireAuth()) return;
+        var card = el.closest('.store-card');
+        if (!card || el.disabled) return;
+        var key = el.dataset.key || card.dataset.key;
+        postJson('/ajax/store/equip/', { key: key }, el).then(function(res) {
+          if (res.ok && res.data.ok) {
+            var kind = res.data.kind || card.dataset.kind;
+            demoteEquippedSiblings(kind, card);
+            renderCardState(card, 'equipped');
+            updateBalance(res.data.balance);
+            if (kind === 'theme') {
+              document.documentElement.setAttribute('data-app-theme', key);
+              localStorage.setItem('appTheme', key);
+              var def = document.getElementById('store-default-theme');
+              if (def) renderCardState(def, 'owned');
+              showSnackbar('Theme applied!');
+            } else {
+              showSnackbar('Equipped! Visit your profile to see it!');
+            }
+          } else {
+            showSnackbar(res.data.error || 'Something went wrong. Please try again.');
+          }
+        }).catch(function() {
+          showSnackbar('Network error. Please try again.');
+        });
+      },
+
+      'store-unequip': function(el) {
+        if (!requireAuth()) return;
+        var kind = el.dataset.kind;
+        if (!kind || el.disabled) return;
+        postJson('/ajax/store/equip/', { kind: kind, unequip: true }, el).then(function(res) {
+          if (res.ok && res.data.ok) {
+            demoteEquippedSiblings(kind, null);
+            if (kind === 'theme') {
+              document.documentElement.removeAttribute('data-app-theme');
+              localStorage.removeItem('appTheme');
+              var def = document.getElementById('store-default-theme');
+              if (def) renderCardState(def, 'equipped');
+              showSnackbar('Back to NEBians Classic.');
+            } else {
+              showSnackbar('Unequipped.');
+            }
+          } else {
+            showSnackbar(res.data.error || 'Something went wrong. Please try again.');
+          }
+        }).catch(function() {
+          showSnackbar('Network error. Please try again.');
+        });
+      }
+    });
+
+    var equippedTheme = document.querySelector('#store-section-theme .store-card-equipped');
+    var defaultCard = document.getElementById('store-default-theme');
+    if (defaultCard && !equippedTheme) renderCardState(defaultCard, 'equipped');
+  })();
+</script>
+{% endblock %}

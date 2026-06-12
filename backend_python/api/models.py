@@ -75,6 +75,13 @@ class User(models.Model):
     # Denormalized notification counter
     unread_notification_count = models.PositiveIntegerField(default=0)
 
+    # Store cosmetics — spendable balance = contribution_score - points_spent
+    points_spent = models.PositiveIntegerField(default=0)
+    equipped_theme = models.CharField(max_length=40, blank=True, default='')
+    equipped_banner = models.CharField(max_length=40, blank=True, default='')
+    equipped_border = models.CharField(max_length=40, blank=True, default='')
+    equipped_badge = models.CharField(max_length=40, blank=True, default='')
+
     class Meta:
         db_table = 'users'
 
@@ -1342,3 +1349,6 @@ class SyllabusContent(models.Model):
         ordering = ['grade_level', 'subject', 'order']
         verbose_name = 'Syllabus Content'
         verbose_name_plural = 'Syllabus Contents'
+
+
+from .models_store import UserCosmetic, PointsLedger  # noqa: E402,F401
