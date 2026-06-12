@@ -1,19 +1,6 @@
 {% load static %}
 <div class="ix-hub">
-  <div class="ix-hero">
-    <div class="ix-hero-text">
-      <h2 class="ix-hero-title">Learn by doing — free, for everyone</h2>
-      <p class="ix-hero-sub">Real 3D models, hands-on simulations, virtual labs and coding games. Built to run fast on any phone or computer — no installs, no fees, ever.</p>
-      {% if interactive_stats %}
-      <div class="ix-hero-stats">
-        <span class="ix-stat"><span class="material-symbols-outlined">school</span>{{ interactive_stats.course_count }} courses</span>
-        <span class="ix-stat"><span class="material-symbols-outlined">play_lesson</span>{{ interactive_stats.lesson_count }} interactive lessons</span>
-        <span class="ix-stat"><span class="material-symbols-outlined">devices</span>Works on mobile &amp; PC</span>
-        <span class="ix-stat"><span class="material-symbols-outlined">volunteer_activism</span>100% free</span>
-      </div>
-      {% endif %}
-    </div>
-  </div>
+
 
   {% for cat in interactive_categories %}
   <section class="ix-category" id="ix-{{ cat.key }}">
@@ -32,7 +19,6 @@
         <div class="ix-card-top">
           <span class="ix-card-icon"><span class="material-symbols-outlined">{{ course.icon }}</span></span>
           <div class="ix-card-chips">
-            <span class="ix-chip ix-chip-age">Ages {{ course.age_range }}</span>
             <span class="ix-chip ix-chip-level">{{ course.level }}</span>
           </div>
         </div>

@@ -29,7 +29,7 @@
 <div class="md-container">
   <!-- Header + Filter button -->
   <div class="lib-header-row" style="margin-bottom: 12px;">
-    <h1 class="md-headline-medium">{% if current_tab == 'interactive' %}Interactive Learning{% else %}Digital Library{% endif %}</h1>
+    <h1 class="md-headline-medium">Digital Library</h1>
     {% if current_tab != 'interactive' %}
     <div class="lib-header-actions">
       <a href="{% url 'web:upload_resource' %}" class="md-btn md-btn-tonal" style="text-decoration:none;">
@@ -56,7 +56,6 @@
       Syllabus
     </a>
     <a href="?tab=interactive{% for s in current_subjects %}&subject={{ s|urlencode }}{% endfor %}{% for g in current_grades %}&grade={{ g|urlencode }}{% endfor %}{% for t in current_types %}&type={{ t|urlencode }}{% endfor %}{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}" class="subj-tab-btn ix-tab-btn {% if current_tab == 'interactive' %}active{% endif %}">
-      <span class="material-symbols-outlined ix-tab-icon">stadia_controller</span>
       Interactive
     </a>
   </div>
