@@ -63,18 +63,20 @@ class Command(BaseCommand):
     help = 'E2E test of BotConfig provider switcher (qwen / ai4bharat / custom)'
 
     def handle(self, *args, **options):
-        cfg = BotConfig.get_config()
+        cfg = BotConfig.objects.first()
         original_provider = cfg.provider
         original_api_url = cfg.api_url
         original_api_key = cfg.api_key
         original_model = cfg.model
-        self.stdout.write(f'original: provider={original_provider} model={original_model}')
+        original_enabled = cfg.enabled
+        self.stdout.write(f'original: provider={original_provider} model={original_model} enabled={original_enabled}')
 
         try:
             # 1) Qwen path
             self.stdout.write('\n[1] provider=qwen')
             cfg.provider = 'qwen'
             cfg.model = 'qwen3.7-plus'
+            cfg.enabled = True
             cfg.save()
             try:
                 out = _neby.call_ai_api('You are a test.', 'Say just the word OK.')
@@ -117,6 +119,7 @@ class Command(BaseCommand):
             cfg.api_url = original_api_url
             cfg.api_key = original_api_key
             cfg.model = original_model
+            cfg.enabled = original_enabled
             cfg.save()
             self.stdout.write(f'  restored: provider={cfg.provider} model={cfg.model}')
 
@@ -127,5 +130,6 @@ class Command(BaseCommand):
             cfg.api_url = original_api_url
             cfg.api_key = original_api_key
             cfg.model = original_model
+            cfg.enabled = original_enabled
             cfg.save()
             raise

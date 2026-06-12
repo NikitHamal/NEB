@@ -1,5 +1,20 @@
 # NEBians - Project Knowledge Base
 
+## Coding Conventions
+
+### Modular Approach (MANDATORY)
+- **Keep files under 500-600 lines** where possible. Split large files into focused modules.
+- **One responsibility per file.** If a file handles multiple concerns (e.g., job queue + job execution), split them.
+- **New features get their own module files.** Don't stuff new logic into existing catch-all files.
+- Examples of good modular splits: `api/generation.py` (queue) + `api/generation_executors.py` (per-type handlers) + `api/management/commands/run_generation_worker.py` (daemon).
+- When a file exceeds ~600 lines, consider extracting helpers/utilities/sub-features into separate files.
+
+### General
+- **No comments** unless explicitly requested.
+- Follow existing code style in each file.
+- Use existing libraries already in the codebase; don't assume third-party packages exist.
+- Always check `requirements.txt` before adding new dependencies.
+
 ## Overview
 
 NEBians is a Material 3 Android app for Nepali students (NEB curriculum). It provides study resources (ebooks, PDFs, notes), a discussion forum, and an advanced PDF viewer with annotation tools.
@@ -630,27 +645,35 @@ A trycloudflare URL looks like `https://abc123.trycloudflare.com` — different 
 ## Continuity Notes
 
 ### What Was Worked On (Current Session)
-**Fixed Study Lab 502 errors (Qwen document file rejection) + deployed to production**
+**Async AI Generation with Job Queue + Live Progress** (NEXT_LEVEL_IDEAS.md point #5)
 
-**Problem:** Qwen's chat completions API rejects `showType="file"` / `file_class="document"` file objects with `"Internal error!"`. Only `image`, `video`, and `audio` file classes are supported natively. This caused all PDF/TXT uploads to fail with 502.
+**Problem:** Generation endpoints (summary, mindmap, quiz, flashcards) block an LSAPI worker for up to 2×120s. Under public load this is the #1 scaling bottleneck.
 
-**Fix — Hybrid `_prepare_doc_for_qwen()` approach:**
-- Replaced `_upload_doc_to_qwen()` (which uploaded all file types to Qwen OSS) with `_prepare_doc_for_qwen()` in `web/views_study_lab.py`
-- **Image types** (`.png`, `.jpg`, `.gif`, `.webp`, `.bmp`, `.svg`) → uploaded to Qwen OSS via `upload_file_from_bytes()`, passed as `uploaded_files` to `send_message()`
-- **Document types** (`.pdf` via pypdf, `.txt` via UTF-8 decode) → text extracted locally, embedded directly in the prompt
-- All 3 generate views (`generate_summary`, `generate_quiz`, `generate_flashcards`) updated with if/else branches checking `prepared['is_image']`
-- Added `safety: {enabled: False}` and `extra: {disable_recitation_policy: True, skip_safety_check: True}` to `build_msg_payload()` in `message_builder.py` (ported from flashy patterns)
-- Added `_parse_json_response()` helper in `views_study_lab.py` to strip markdown code fences from Qwen JSON responses
+**Architecture:**
+- `GenerationJob` model (`api/models.py`) — DB-backed job queue with statuses: queued → processing → completed/failed/cancelled
+- `api/generation.py` — enqueue, get_job, serialize_job, mark_* helpers, WS broadcast on status changes
+- `api/generation_executors.py` — per-type handlers (summary, mindmap, quiz, flashcard) extracted from `views_study_lab.py`
+- `api/management/commands/run_generation_worker.py` — daemon that polls for pending jobs and processes them
+- `api/realtime.py` — added `broadcast_generation_event()` for WS push on studyspace channel
+- Views return HTTP 202 with `jobId` when worker is alive, fall back to synchronous processing when no worker is detected
+- Frontend (`study-space.js`) polls `GET /ajax/study-space/generation/<jobId>/` for status updates, shows progress text during generation
 
-**Deployed to production** via `deploy.ps1`:
-- ZIP upload successful; 73 static files copied; no migrations needed
-- LSAPI restarted; site returning 200 on `/`
-- **Change log includes:** `api/qwen_proxy.py`, `api/qwen_utils/`, `web/views_study_lab.py`, `web/views_arena.py`, all CSS/JS/templates
+**New files:**
+- `api/generation.py` — job queue module (enqueue, status, broadcast)
+- `api/generation_executors.py` — per-type generation handlers
+- `api/management/commands/run_generation_worker.py` — background daemon
+- `api/migrations/0061_generation_job.py` — GenerationJob model
 
-**Verified:**
-- Images confirmed working (200x200 PNG analyzed as "blue" via Qwen OSS upload)
-- Text extraction for documents working locally
-- `build_msg_payload()` includes safety/extra blocks
+**Modified files:**
+- `api/models.py` — added `GenerationJob` model
+- `api/realtime.py` — added `broadcast_generation_event()`
+- `web/views_study_lab.py` — 4 generation views now use `_enqueue_or_process()`, added `ajax_generation_status` and `_job_result` helpers
+- `web/urls.py` — added `/ajax/study-space/generation/<job_id>/` route
+- `web/static/web/js/study-space.js` — added `pollGenerationJob()`, `cancelAllGenerationPolls()`, `handleSummaryResult()`, `handleMindmapResult()`, `handleQuizResult()`, `handleFlashcardResult()`; all 4 generation functions now handle async 202 responses
+
+**Worker deployment:** Run `python manage.py run_generation_worker` as a background process (cron `@reboot` or systemd). If no worker is running, views process synchronously (backward compatible).
+
+**Not deployed yet.**
 
 ### Previous Session
 **Fixed double teacher/institution badge + added role-themed profile banners ("TUTOR" and "NEBIAN") + better teacher icon**
