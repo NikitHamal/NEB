@@ -184,7 +184,7 @@ export default function init(stage) {
         armPivotR.rotation.z = 0;
       } else {
         const lift = Math.min(p * 4, 1, (1 - p) * 4);
-        armPivotR.rotation.z = -2.4 * lift + Math.sin(waveT * 10) * 0.25 * lift;
+        armPivotR.rotation.z = 2.4 * lift + Math.sin(waveT * 10) * 0.25 * lift;
       }
     }
 
