@@ -71,24 +71,6 @@
         </ul>
       </div>
       {% endif %}
-    </div>
-
-    <div class="ix-learn-column">
-      {% for section in lesson.knowledge %}
-      <section class="ix-knowledge md-card md-card-outlined">
-        <h2 class="ix-section-title">{{ section.heading }}</h2>
-        {% for para in section.body|paragraphs %}
-        <p class="ix-knowledge-body">{{ para }}</p>
-        {% endfor %}
-      </section>
-      {% endfor %}
-
-      {% if lesson.fun_fact %}
-      <aside class="ix-fun-fact">
-        <span class="material-symbols-outlined">lightbulb</span>
-        <div><strong>Fun fact!</strong> {{ lesson.fun_fact }}</div>
-      </aside>
-      {% endif %}
 
       {% if lesson.quiz %}
       <section class="ix-quiz md-card md-card-filled" id="ix-quiz">
@@ -131,6 +113,24 @@
         </a>
         {% endif %}
       </div>
+    </div>
+
+    <div class="ix-learn-column">
+      {% for section in lesson.knowledge %}
+      <section class="ix-knowledge md-card md-card-outlined">
+        <h2 class="ix-section-title">{{ section.heading }}</h2>
+        {% for para in section.body|paragraphs %}
+        <p class="ix-knowledge-body">{{ para }}</p>
+        {% endfor %}
+      </section>
+      {% endfor %}
+
+      {% if lesson.fun_fact %}
+      <aside class="ix-fun-fact">
+        <span class="material-symbols-outlined">lightbulb</span>
+        <div><strong>Fun fact!</strong> {{ lesson.fun_fact }}</div>
+      </aside>
+      {% endif %}
     </div>
   </div>
 </div>
