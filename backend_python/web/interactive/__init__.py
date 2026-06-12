@@ -4,7 +4,7 @@ Course schema (each module exposes COURSES, a list of dicts):
 {
   'slug': str (unique across all catalogs),
   'title': str,
-  'category': 'robotics' | 'space' | 'physics' | 'chemistry' | 'coding',
+  'category': 'robotics' | 'space' | 'physics' | 'chemistry' | 'biology' | 'ai' | 'coding',
   'age_range': str (e.g. '8-11'),
   'level': 'Beginner' | 'Intermediate' | 'Advanced',
   'icon': str (Material Symbol name),
@@ -40,6 +40,10 @@ CATEGORIES = [
      'blurb': 'A virtual physics lab — pendulums, projectiles, waves, optics and circuits you can touch.'},
     {'key': 'chemistry', 'label': 'Chemistry Lab', 'icon': 'experiment', 'color': '#10B981',
      'blurb': 'Build atoms, spin real 3D molecules and run safe virtual experiments.'},
+    {'key': 'biology', 'label': 'Biology Lab', 'icon': 'microbiology', 'color': '#84CC16',
+     'blurb': 'Peer through a virtual microscope, watch cells divide and explore the living world hands-on.'},
+    {'key': 'ai', 'label': 'AI & Machine Learning', 'icon': 'neurology', 'color': '#6366F1',
+     'blurb': 'Train neurons, teach machines to see and discover how ChatGPT-style AI really works — by playing with it.'},
     {'key': 'coding', 'label': 'Coding Adventures', 'icon': 'code_blocks', 'color': '#EC4899',
      'blurb': 'Learn HTML, CSS, JavaScript and Python through games, drag-and-drop blocks and friendly guides.'},
 ]
@@ -48,8 +52,16 @@ CATEGORY_MAP = {c['key']: c for c in CATEGORIES}
 
 
 def _load_catalog_modules():
-    from . import catalog_robotics, catalog_space, catalog_physics, catalog_chemistry, catalog_coding
-    return [catalog_robotics, catalog_space, catalog_physics, catalog_chemistry, catalog_coding]
+    from . import (
+        catalog_robotics, catalog_space, catalog_physics, catalog_chemistry,
+        catalog_neb_physics, catalog_neb_chemistry, catalog_biology, catalog_ai,
+        catalog_coding,
+    )
+    return [
+        catalog_robotics, catalog_space, catalog_physics, catalog_chemistry,
+        catalog_neb_physics, catalog_neb_chemistry, catalog_biology, catalog_ai,
+        catalog_coding,
+    ]
 
 
 @lru_cache(maxsize=1)
