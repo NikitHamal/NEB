@@ -916,8 +916,9 @@ def admin_post_delete(request, post_id):
     redirect_response = _require_staff_admin(request)
     if redirect_response:
         return redirect_response
+    from api.cleanup import delete_post_with_cleanup
     try:
-        Post.objects.get(pk=post_id).delete()
+        delete_post_with_cleanup(post_id)
     except Post.DoesNotExist:
         pass
     return redirect('web:admin_posts')
@@ -927,11 +928,9 @@ def admin_reply_delete(request, reply_id):
     redirect_response = _require_staff_admin(request)
     if redirect_response:
         return redirect_response
+    from api.cleanup import delete_reply_with_cleanup
     try:
-        reply = Reply.objects.get(pk=reply_id)
-        post_id = reply.post_id
-        reply.delete()
-        Post.objects.filter(pk=post_id, reply_count__gt=0).update(reply_count=F('reply_count') - 1)
+        delete_reply_with_cleanup(reply_id)
     except Reply.DoesNotExist:
         pass
     return redirect('web:admin_posts')
