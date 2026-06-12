@@ -30,7 +30,10 @@
     border-bottom: 1px solid var(--md-outline-variant);
     margin-bottom: 24px;
     gap: 8px;
+    overflow-x: auto;
+    scrollbar-width: none;
   }
+  .subj-tabs::-webkit-scrollbar { display: none; }
   .subj-tab-btn {
     background: transparent;
     border: none;
@@ -46,10 +49,16 @@
     align-items: center;
     gap: 8px;
     text-decoration: none;
+    flex-shrink: 0;
   }
   .subj-tab-btn:hover { color: var(--md-primary); background: rgba(0, 74, 198, 0.04); text-decoration: none; }
   .subj-tab-btn.active { color: var(--md-primary); border-bottom-color: var(--md-primary); }
   .subj-tab-btn .material-symbols-outlined { font-size: 20px; }
+  .ix-tab-btn { display: inline-flex; align-items: center; gap: 6px; }
+  .ix-tab-icon { font-size: 18px; }
+  @media (max-width: 420px) {
+    .subj-tab-btn { padding: 10px 12px; font-size: 0.875rem; }
+  }
 
   /* Accordion styles for Syllabus Categories */
   .chapters-container { display: flex; flex-direction: column; gap: 12px; }

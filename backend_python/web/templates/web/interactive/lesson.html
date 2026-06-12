@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+{% load static web_extras %}
+
+{% block title %}{{ lesson.title }} — {{ course.title }}{% endblock %}
+{% block description %}{{ lesson.summary }} Free interactive lesson with {% if lesson.sim_type == '3d' %}a real-time 3D model{% elif lesson.sim_type == 'lab' %}a virtual lab simulation{% elif lesson.sim_type == 'coding' %}an interactive coding game{% else %}a live simulation{% endif %}.{% endblock %}
+{% block keywords %}{{ course.category_label }}, {{ lesson.title }}, interactive lesson, free education, simulation{% endblock %}
+{% block og_title %}{{ lesson.title }} — NEBians Interactive{% endblock %}
+{% block og_description %}{{ lesson.summary }}{% endblock %}
+{% block nav_library %}md-nav-active{% endblock %}
+{% block canonical %}https://nebians.consica.com.np{{ request.path }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'web/css/pages/interactive.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="md-container ix-lesson-page" id="ix-lesson-root"
+     style="--ix-color: {{ course.color }};"
+     data-course-slug="{{ course.slug }}"
+     data-lesson-slug="{{ lesson.slug }}"
+     data-sim-url="{% static sim_static_path %}"
+     data-sim-type="{{ lesson.sim_type }}">
+
+  <nav class="ix-breadcrumb" aria-label="Breadcrumb">
+    <a href="{% url 'web:library' %}?tab=interactive">Interactive</a>
+    <span class="material-symbols-outlined">chevron_right</span>
+    <a href="{% url 'web:interactive_course' course.slug %}">{{ course.title }}</a>
+    <span class="material-symbols-outlined">chevron_right</span>
+    <span class="ix-bc-current">{{ lesson.title }}</span>
+  </nav>
+
+  <header class="ix-lesson-header">
+    <div class="ix-lesson-header-text">
+      <h1 class="ix-lesson-page-title">{{ lesson.title }}</h1>
+      <div class="ix-lesson-header-meta">
+        <span class="ix-chip ix-chip-cat">Lesson {{ lesson_number }} of {{ course.lesson_count }}</span>
+        <span class="ix-chip ix-chip-simtype ix-simtype-{{ lesson.sim_type }}">
+          {% if lesson.sim_type == '3d' %}3D model{% elif lesson.sim_type == 'lab' %}Virtual lab{% elif lesson.sim_type == 'coding' %}Coding game{% else %}Simulation{% endif %}
+        </span>
+        <span class="ix-card-meta"><span class="material-symbols-outlined">schedule</span>{{ lesson.minutes }} min</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="ix-lesson-layout">
+    <div class="ix-sim-column">
+      <div class="ix-sim-shell" id="ix-sim-shell">
+        <div id="sim-stage" class="ix-sim-stage" role="application" aria-label="Interactive simulation">
+          <div class="ix-sim-loading" id="ix-sim-loading">
+            <div class="ix-spinner"></div>
+            <p>Loading simulation…</p>
+          </div>
+        </div>
+        <div class="ix-sim-toolbar">
+          <span class="ix-sim-hint" id="ix-sim-hint">
+            {% if lesson.sim_type == '3d' %}<span class="material-symbols-outlined">touch_app</span>Drag to rotate · pinch or scroll to zoom{% elif lesson.sim_type == 'coding' %}<span class="material-symbols-outlined">sports_esports</span>Play with the blocks and run your code{% else %}<span class="material-symbols-outlined">tune</span>Adjust the controls and watch what happens{% endif %}
+          </span>
+          <button class="md-btn md-btn-icon ix-fullscreen-btn" id="ix-fullscreen-btn" aria-label="Fullscreen" title="Fullscreen">
+            <span class="material-symbols-outlined">fullscreen</span>
+          </button>
+        </div>
+      </div>
+
+      {% if lesson.objectives %}
+      <div class="ix-objectives md-card md-card-filled">
+        <h2 class="ix-section-title"><span class="material-symbols-outlined">flag</span>What you'll discover</h2>
+        <ul class="ix-objectives-list">
+          {% for obj in lesson.objectives %}
+          <li><span class="material-symbols-outlined">arrow_forward</span>{{ obj }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+    </div>
+
+    <div class="ix-learn-column">
+      {% for section in lesson.knowledge %}
+      <section class="ix-knowledge md-card md-card-outlined">
+        <h2 class="ix-section-title">{{ section.heading }}</h2>
+        {% for para in section.body|paragraphs %}
+        <p class="ix-knowledge-body">{{ para }}</p>
+        {% endfor %}
+      </section>
+      {% endfor %}
+
+      {% if lesson.fun_fact %}
+      <aside class="ix-fun-fact">
+        <span class="material-symbols-outlined">lightbulb</span>
+        <div><strong>Fun fact!</strong> {{ lesson.fun_fact }}</div>
+      </aside>
+      {% endif %}
+
+      {% if lesson.quiz %}
+      <section class="ix-quiz md-card md-card-filled" id="ix-quiz">
+        <h2 class="ix-section-title"><span class="material-symbols-outlined">quiz</span>Check your knowledge</h2>
+        {% for q in lesson.quiz %}
+        <fieldset class="ix-quiz-q" data-answer="{{ q.answer }}">
+          <legend class="ix-quiz-question">{{ forloop.counter }}. {{ q.q }}</legend>
+          <div class="ix-quiz-options">
+            {% for opt in q.options %}
+            <button type="button" class="ix-quiz-opt" data-index="{{ forloop.counter0 }}">{{ opt }}</button>
+            {% endfor %}
+          </div>
+          <p class="ix-quiz-explain" aria-live="polite" hidden>{{ q.explain }}</p>
+        </fieldset>
+        {% endfor %}
+        <div class="ix-quiz-result" id="ix-quiz-result" role="status" aria-live="polite" hidden></div>
+      </section>
+      {% endif %}
+
+      <div class="ix-lesson-nav">
+        {% if prev_lesson %}
+        <a href="{% url 'web:interactive_lesson' course.slug prev_lesson.slug %}" class="md-btn md-btn-outlined ix-nav-prev">
+          <span class="material-symbols-outlined">arrow_back</span>
+          <span class="ix-nav-label">{{ prev_lesson.title }}</span>
+        </a>
+        {% else %}<span></span>{% endif %}
+        <button class="md-btn md-btn-tonal" id="ix-complete-btn">
+          <span class="material-symbols-outlined" id="ix-complete-icon">check</span>
+          <span id="ix-complete-label">Mark complete</span>
+        </button>
+        {% if next_lesson %}
+        <a href="{% url 'web:interactive_lesson' course.slug next_lesson.slug %}" class="md-btn md-btn-filled ix-nav-next">
+          <span class="ix-nav-label">{{ next_lesson.title }}</span>
+          <span class="material-symbols-outlined">arrow_forward</span>
+        </a>
+        {% else %}
+        <a href="{% url 'web:interactive_course' course.slug %}" class="md-btn md-btn-filled ix-nav-next">
+          <span class="ix-nav-label">Finish course</span>
+          <span class="material-symbols-outlined">celebration</span>
+        </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script type="module" src="{% static 'web/js/interactive/core/lesson.js' %}" nonce="{{ csp_nonce }}"></script>
+{% endblock %}

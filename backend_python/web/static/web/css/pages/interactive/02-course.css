@@ -1,0 +1,182 @@
+.ix-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+  font-size: 0.8125rem;
+}
+
+.ix-breadcrumb a { color: var(--md-primary); text-decoration: none; font-weight: 600; }
+
+.ix-breadcrumb a:hover { text-decoration: underline; }
+
+.ix-breadcrumb .material-symbols-outlined { font-size: 16px; color: var(--md-outline); }
+
+.ix-bc-current {
+  color: var(--md-on-surface-variant);
+  font-weight: 600;
+  max-width: 240px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ix-course-hero {
+  display: flex;
+  gap: 22px;
+  align-items: flex-start;
+  background:
+    radial-gradient(900px 360px at 0% -30%, color-mix(in srgb, var(--ix-color) 12%, transparent), transparent 60%),
+    linear-gradient(135deg, var(--md-surface-container-low), var(--md-surface-container));
+  border: 1px solid var(--md-outline-variant);
+  border-radius: var(--md-radius-lg);
+  padding: 28px 26px;
+  margin-bottom: 28px;
+}
+
+.ix-course-hero-icon {
+  flex-shrink: 0;
+  width: 76px;
+  height: 76px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--md-radius-lg);
+  background: color-mix(in srgb, var(--ix-color) 16%, transparent);
+  color: var(--ix-color);
+}
+
+.ix-course-hero-icon .material-symbols-outlined { font-size: 44px; }
+
+.ix-course-hero-text { flex: 1; min-width: 0; }
+
+.ix-course-hero-text .ix-card-chips { justify-content: flex-start; margin-bottom: 10px; }
+
+.ix-course-title {
+  margin: 0 0 8px;
+  font-size: 1.625rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--md-on-surface);
+}
+
+.ix-course-desc { margin: 0 0 14px; color: var(--md-on-surface-variant); font-size: 0.9063rem; line-height: 1.65; max-width: 680px; }
+
+.ix-skills { display: flex; flex-wrap: wrap; gap: 7px; align-items: center; margin-bottom: 18px; }
+
+.ix-skills-label { font-size: 0.8125rem; font-weight: 700; color: var(--md-on-surface); margin-right: 2px; }
+
+.ix-skill-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: var(--md-radius-full);
+  background: var(--md-surface-container-lowest);
+  border: 1px solid var(--md-outline-variant);
+  color: var(--md-on-surface-variant);
+}
+
+.ix-skill-chip .material-symbols-outlined { font-size: 15px; color: var(--ix-color); }
+
+.ix-course-hero-actions { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+
+.ix-start-btn { text-decoration: none; }
+
+.ix-lessons-heading { margin: 0 0 14px; }
+
+.ix-lesson-list { display: flex; flex-direction: column; }
+
+.ix-lesson-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  text-decoration: none;
+  background: var(--md-surface-container-lowest);
+  border: 1px solid var(--md-outline-variant);
+  border-radius: var(--md-radius-md);
+  margin-bottom: 10px;
+  transition: border-color var(--md-transition), transform var(--md-transition), box-shadow var(--md-transition);
+}
+
+.ix-lesson-row:hover {
+  border-color: color-mix(in srgb, var(--ix-color) 45%, transparent);
+  transform: translateX(3px);
+  box-shadow: var(--md-elevation-1);
+}
+
+.ix-lesson-num {
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--ix-color) 13%, transparent);
+  color: var(--ix-color);
+  font-size: 0.8125rem;
+  font-weight: 700;
+}
+
+.ix-lesson-icon { flex-shrink: 0; color: var(--md-on-surface-variant); display: flex; }
+
+.ix-lesson-icon .material-symbols-outlined { font-size: 24px; }
+
+.ix-lesson-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+
+.ix-lesson-title { font-size: 0.9063rem; font-weight: 700; color: var(--md-on-surface); }
+
+.ix-lesson-summary {
+  font-size: 0.7813rem;
+  color: var(--md-on-surface-variant);
+  line-height: 1.45;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.ix-lesson-side { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+
+.ix-lesson-mins { font-size: 0.75rem; font-weight: 600; color: var(--md-on-surface-variant); white-space: nowrap; }
+
+.ix-chip-simtype { background: var(--md-surface-variant); color: var(--md-on-surface-variant); }
+
+.ix-simtype-3d { background: color-mix(in srgb, #8B5CF6 14%, transparent); color: #7C3AED; }
+
+.ix-simtype-lab { background: color-mix(in srgb, #F59E0B 16%, transparent); color: #B45309; }
+
+.ix-simtype-coding { background: color-mix(in srgb, #EC4899 14%, transparent); color: #DB2777; }
+
+.ix-simtype-2d { background: color-mix(in srgb, #0EA5E9 14%, transparent); color: #0284C7; }
+
+[data-theme="dark"] .ix-simtype-3d { color: #C4B5FD; }
+
+[data-theme="dark"] .ix-simtype-lab { color: #FCD34D; }
+
+[data-theme="dark"] .ix-simtype-coding { color: #F9A8D4; }
+
+[data-theme="dark"] .ix-simtype-2d { color: #7DD3FC; }
+
+.ix-lesson-done-icon { font-size: 20px; color: var(--md-outline-variant); }
+
+.ix-lesson-row.ix-done .ix-lesson-done-icon { color: #16A34A; }
+
+[data-theme="dark"] .ix-lesson-row.ix-done .ix-lesson-done-icon { color: #4ADE80; }
+
+.ix-lesson-row.ix-done .ix-lesson-num { background: color-mix(in srgb, #16A34A 14%, transparent); color: #16A34A; }
+
+@media (max-width: 640px) {
+  .ix-course-hero { flex-direction: column; gap: 14px; padding: 20px 16px; }
+  .ix-course-hero-icon { width: 56px; height: 56px; }
+  .ix-course-hero-icon .material-symbols-outlined { font-size: 32px; }
+  .ix-course-title { font-size: 1.3125rem; }
+  .ix-lesson-row { padding: 12px; gap: 10px; }
+  .ix-lesson-side { flex-direction: column; align-items: flex-end; gap: 4px; }
+  .ix-chip-simtype { font-size: 0.625rem; }
+}
