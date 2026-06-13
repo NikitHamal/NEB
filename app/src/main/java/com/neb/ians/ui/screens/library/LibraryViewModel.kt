@@ -35,7 +35,7 @@ data class LibraryUiState(
             "Physics", "Chemistry", "Mathematics", "Biology",
             "English", "Nepali", "Computer Science", "Economics", "Accountancy"
         )
-        val GRADE_LEVELS = listOf("Grade 11", "Grade 12")
+        val GRADE_LEVELS = listOf("Class 11", "Class 12")
         val TYPES = listOf("Textbook", "Notes", "Past Papers", "Guide", "Solution")
 
         /** Exactly mirrors the web sort dropdown options. */

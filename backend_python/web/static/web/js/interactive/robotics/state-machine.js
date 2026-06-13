@@ -14,12 +14,22 @@ export default function init(stage) {
   let simSpeed = 1;
   let dockEnabled = true;
   let running = true;
+  let viewMode = '2d';
 
   const bot = { x: 0.3, y: 0.55, heading: 0.7, state: 'SEARCH', timer: 0, turnGoal: 0 };
   let battery = 100;
   const dock = { x: 0.12, y: 0.14 };
   let placed = false;
 
+  panel.select({
+    label: 'View',
+    options: [
+      { value: '2d', label: '2D' },
+      { value: '3d', label: '3D' },
+    ],
+    value: viewMode,
+    onChange: (v) => { viewMode = v; },
+  });
   panel.toggle({ label: 'Running', value: true, onChange: (v) => { running = v; } });
   panel.slider({
     label: 'Sim speed', min: 0.5, max: 3, step: 0.25, value: 1,
@@ -111,43 +121,113 @@ export default function init(stage) {
 
     ctx.clearRect(0, 0, w, h);
 
-    ctx.fillStyle = '#22344f';
-    roundRect(ctx, roomX - 6, roomY - 6, roomW + 12, roomH + 12, 12);
-    ctx.fill();
-    ctx.fillStyle = '#d9e2ee';
-    roundRect(ctx, roomX, roomY, roomW, roomH, 8);
-    ctx.fill();
+    if (viewMode === '3d') {
+      const room = [
+        projectRoom(0, 0, roomX, roomY, roomW, roomH),
+        projectRoom(1, 0, roomX, roomY, roomW, roomH),
+        projectRoom(1, 1, roomX, roomY, roomW, roomH),
+        projectRoom(0, 1, roomX, roomY, roomW, roomH),
+      ];
+      ctx.fillStyle = '#22344f';
+      ctx.beginPath();
+      ctx.moveTo(room[0].x, room[0].y - 8);
+      ctx.lineTo(room[1].x, room[1].y - 8);
+      ctx.lineTo(room[2].x, room[2].y + 8);
+      ctx.lineTo(room[3].x, room[3].y + 8);
+      ctx.closePath();
+      ctx.fill();
+      ctx.fillStyle = '#d9e2ee';
+      ctx.beginPath();
+      ctx.moveTo(room[0].x, room[0].y);
+      for (let i = 1; i < room.length; i++) ctx.lineTo(room[i].x, room[i].y);
+      ctx.closePath();
+      ctx.fill();
+      ctx.strokeStyle = 'rgba(16,21,31,0.25)';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
 
-    const dockPx = roomX + dock.x * roomW;
-    const dockPy = roomY + dock.y * roomH;
-    ctx.fillStyle = '#ff8a5c';
-    roundRect(ctx, dockPx - r * 0.9, dockPy - r * 0.9, r * 1.8, r * 1.8, 5);
-    ctx.fill();
-    ctx.fillStyle = '#5c2a10';
-    ctx.font = '700 ' + Math.round(r * 0.8) + 'px Poppins, sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText('⚡', dockPx, dockPy + r * 0.3);
+      const dockP = projectRoom(dock.x, dock.y, roomX, roomY, roomW, roomH, r * 0.35);
+      ctx.fillStyle = 'rgba(0,0,0,0.2)';
+      ctx.beginPath();
+      ctx.ellipse(dockP.x, dockP.y + r * 0.45, r * 1.1, r * 0.38, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = '#ff8a5c';
+      ctx.beginPath();
+      ctx.moveTo(dockP.x, dockP.y - r);
+      ctx.lineTo(dockP.x + r, dockP.y);
+      ctx.lineTo(dockP.x, dockP.y + r);
+      ctx.lineTo(dockP.x - r, dockP.y);
+      ctx.closePath();
+      ctx.fill();
+      ctx.fillStyle = '#5c2a10';
+      ctx.font = '700 ' + Math.round(r * 0.8) + 'px Poppins, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('⚡', dockP.x, dockP.y + r * 0.28);
 
-    const bx = roomX + bot.x * roomW;
-    const by = roomY + bot.y * roomH;
-    ctx.save();
-    ctx.translate(bx, by);
-    ctx.rotate(bot.heading);
-    ctx.beginPath();
-    ctx.arc(0, 0, r, 0, Math.PI * 2);
-    ctx.fillStyle = STATE_COLORS[bot.state];
-    ctx.fill();
-    ctx.strokeStyle = '#10151f';
-    ctx.lineWidth = 2.5;
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.moveTo(r * 1.1, 0);
-    ctx.lineTo(r * 0.4, -r * 0.5);
-    ctx.lineTo(r * 0.4, r * 0.5);
-    ctx.closePath();
-    ctx.fillStyle = '#10151f';
-    ctx.fill();
-    ctx.restore();
+      const bp = projectRoom(bot.x, bot.y, roomX, roomY, roomW, roomH, r * 0.5);
+      const hp = projectRoom(bot.x + Math.cos(bot.heading) * 0.08, bot.y + Math.sin(bot.heading) * 0.08, roomX, roomY, roomW, roomH, r * 0.5);
+      ctx.fillStyle = 'rgba(0,0,0,0.22)';
+      ctx.beginPath();
+      ctx.ellipse(bp.x, bp.y + r * 0.7, r * 1.1, r * 0.42, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.save();
+      ctx.translate(bp.x, bp.y);
+      ctx.rotate(Math.atan2(hp.y - bp.y, hp.x - bp.x));
+      ctx.scale(1, 0.74);
+      ctx.beginPath();
+      ctx.arc(0, 0, r, 0, Math.PI * 2);
+      ctx.fillStyle = STATE_COLORS[bot.state];
+      ctx.fill();
+      ctx.strokeStyle = '#10151f';
+      ctx.lineWidth = 2.5;
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(r * 1.1, 0);
+      ctx.lineTo(r * 0.4, -r * 0.5);
+      ctx.lineTo(r * 0.4, r * 0.5);
+      ctx.closePath();
+      ctx.fillStyle = '#10151f';
+      ctx.fill();
+      ctx.restore();
+    } else {
+      ctx.fillStyle = '#22344f';
+      roundRect(ctx, roomX - 6, roomY - 6, roomW + 12, roomH + 12, 12);
+      ctx.fill();
+      ctx.fillStyle = '#d9e2ee';
+      roundRect(ctx, roomX, roomY, roomW, roomH, 8);
+      ctx.fill();
+
+      const dockPx = roomX + dock.x * roomW;
+      const dockPy = roomY + dock.y * roomH;
+      ctx.fillStyle = '#ff8a5c';
+      roundRect(ctx, dockPx - r * 0.9, dockPy - r * 0.9, r * 1.8, r * 1.8, 5);
+      ctx.fill();
+      ctx.fillStyle = '#5c2a10';
+      ctx.font = '700 ' + Math.round(r * 0.8) + 'px Poppins, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('⚡', dockPx, dockPy + r * 0.3);
+
+      const bx = roomX + bot.x * roomW;
+      const by = roomY + bot.y * roomH;
+      ctx.save();
+      ctx.translate(bx, by);
+      ctx.rotate(bot.heading);
+      ctx.beginPath();
+      ctx.arc(0, 0, r, 0, Math.PI * 2);
+      ctx.fillStyle = STATE_COLORS[bot.state];
+      ctx.fill();
+      ctx.strokeStyle = '#10151f';
+      ctx.lineWidth = 2.5;
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(r * 1.1, 0);
+      ctx.lineTo(r * 0.4, -r * 0.5);
+      ctx.lineTo(r * 0.4, r * 0.5);
+      ctx.closePath();
+      ctx.fillStyle = '#10151f';
+      ctx.fill();
+      ctx.restore();
+    }
 
     const dgX = w * 0.70;
     const dgW = w * 0.27;
@@ -210,6 +290,14 @@ export default function init(stage) {
       ctx.fillText('battery low', dgX + dgW * 0.5, midGap + 9);
     }
   });
+
+  function projectRoom(nx, ny, roomX, roomY, roomW, roomH, z = 0) {
+    const cx = roomX + roomW * 0.5;
+    const cy = roomY + roomH * 0.5;
+    const x = roomX + nx * roomW;
+    const y = roomY + ny * roomH;
+    return { x: cx + (x - cx) * 0.92, y: cy + (y - cy) * 0.55 - z };
+  }
 
   function arrow(ctx, x1, y1, x2, y2) {
     ctx.beginPath();

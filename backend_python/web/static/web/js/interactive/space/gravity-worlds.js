@@ -21,6 +21,7 @@ export default function init(stage) {
   let ball = { h: DROP_HEIGHT, v: 0, falling: false, landedT: 0, bounces: 0 };
   let timer = 0;
   let running = false;
+  let viewMode = '2d';
 
   function world() { return WORLDS[worldKey]; }
 
@@ -44,6 +45,15 @@ export default function init(stage) {
   const timeBadge = hud.badge('Press DROP', '#9ec1ff');
 
   const panel = createPanel(stage, { title: 'Weight Lab' });
+  panel.select({
+    label: 'View',
+    options: [
+      { value: '2d', label: '2D' },
+      { value: '3d', label: '3D' },
+    ],
+    value: viewMode,
+    onChange: (v) => { viewMode = v; },
+  });
   panel.select({
     label: 'Pick a world',
     options: Object.keys(WORLDS).map((k) => ({ value: k, label: WORLDS[k].name })),
@@ -78,6 +88,7 @@ export default function init(stage) {
 
   sim.setUpdate((ctx, dt, w, h) => {
     const wd = world();
+    const is3d = viewMode === '3d';
     if (running && ball.falling) {
       timer += dt;
       ball.v += wd.g * dt;
@@ -112,7 +123,25 @@ export default function init(stage) {
 
     const groundY = h * 0.82;
     ctx.fillStyle = wd.ground;
-    ctx.fillRect(0, groundY, w, h - groundY);
+    if (is3d) {
+      ctx.beginPath();
+      ctx.moveTo(0, groundY);
+      ctx.lineTo(w, groundY);
+      ctx.lineTo(w, h);
+      ctx.lineTo(0, h);
+      ctx.closePath();
+      ctx.fill();
+      ctx.fillStyle = 'rgba(255,255,255,0.1)';
+      ctx.beginPath();
+      ctx.moveTo(w * 0.12, groundY + 10);
+      ctx.lineTo(w * 0.88, groundY + 10);
+      ctx.lineTo(w * 0.72, h);
+      ctx.lineTo(w * 0.28, h);
+      ctx.closePath();
+      ctx.fill();
+    } else {
+      ctx.fillRect(0, groundY, w, h - groundY);
+    }
     ctx.fillStyle = 'rgba(0,0,0,0.18)';
     for (let i = 0; i < 6; i++) {
       const bx = ((i * 173) % 100) / 100 * w;
@@ -129,6 +158,14 @@ export default function init(stage) {
     ctx.beginPath();
     ctx.moveTo(towerX, scaleTop);
     ctx.lineTo(towerX, groundY);
+    if (is3d) {
+      ctx.moveTo(towerX + 16, scaleTop + 10);
+      ctx.lineTo(towerX + 16, groundY + 8);
+      ctx.moveTo(towerX, scaleTop);
+      ctx.lineTo(towerX + 16, scaleTop + 10);
+      ctx.moveTo(towerX, groundY);
+      ctx.lineTo(towerX + 16, groundY + 8);
+    }
     ctx.stroke();
     ctx.font = '600 10px Poppins, sans-serif';
     ctx.fillStyle = 'rgba(232,238,251,0.7)';
@@ -144,10 +181,10 @@ export default function init(stage) {
     ctx.textAlign = 'left';
 
     const ballX = towerX + 36;
-    const ballY = groundY - ball.h * pxPerM - 10;
+    const ballY = groundY - ball.h * pxPerM - 10 + (is3d ? 4 : 0);
     ctx.fillStyle = 'rgba(0,0,0,0.3)';
     ctx.beginPath();
-    ctx.ellipse(ballX, groundY + 3, 12 * Math.max(0.4, 1 - ball.h / DROP_HEIGHT), 4, 0, 0, Math.PI * 2);
+    ctx.ellipse(ballX + (is3d ? 12 : 0), groundY + (is3d ? 11 : 3), 12 * Math.max(0.4, 1 - ball.h / DROP_HEIGHT), is3d ? 3 : 4, 0, 0, Math.PI * 2);
     ctx.fill();
     ctx.fillStyle = '#f9a8d4';
     ctx.beginPath();
@@ -159,7 +196,7 @@ export default function init(stage) {
     ctx.fill();
 
     const px = w * 0.62;
-    const py = groundY;
+    const py = groundY + (is3d ? 8 : 0);
     ctx.strokeStyle = '#e8eefb';
     ctx.lineWidth = 2.5;
     ctx.lineCap = 'round';

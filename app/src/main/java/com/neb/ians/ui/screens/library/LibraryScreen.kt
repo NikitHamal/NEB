@@ -2,16 +2,21 @@ package com.neb.ians.ui.screens.library
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
@@ -19,9 +24,10 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.FilterList
-import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -48,6 +54,8 @@ import androidx.compose.runtime.snapshotFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.input.nestedscroll.rememberNestedScrollInteropConnection
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -59,13 +67,12 @@ import com.neb.ians.ui.components.ErrorCard
 import com.neb.ians.ui.components.ShimmerLibraryGrid
 import com.neb.ians.ui.components.WebChip
 import com.neb.ians.ui.components.WebEmptyState
-import com.neb.ians.ui.components.WebOutlinedButton
 import com.neb.ians.ui.components.WebPanelShape
 import com.neb.ians.ui.components.WebPillShape
 import com.neb.ians.ui.components.WebResourceCard
 import com.neb.ians.ui.components.WebTopBar
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun LibraryScreen(
     onResourceClick: (String) -> Unit,
@@ -97,6 +104,17 @@ fun LibraryScreen(
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
+            val title = when (currentTab) {
+                "library" -> "Digital Library"
+                "syllabus" -> "Syllabus"
+                else -> "Interactive"
+            }
+            val subtitle = when (currentTab) {
+                "library" -> "Notes, past papers, textbooks, and guides."
+                "syllabus" -> "Browse subjects by grade level."
+                else -> "3D models, virtual labs, simulations, and coding games."
+            }
+
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -106,14 +124,14 @@ fun LibraryScreen(
             ) {
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
-                        text = if (currentTab == "library") "Digital Library" else "Syllabus",
+                        text = title,
                         style = MaterialTheme.typography.headlineSmall,
                         fontWeight = FontWeight.ExtraBold,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
                     Text(
-                        text = if (currentTab == "library") "Notes, past papers, textbooks, and guides." else "Browse subjects by grade level.",
+                        text = subtitle,
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         maxLines = 2,
@@ -142,12 +160,12 @@ fun LibraryScreen(
 
             if (currentTab == "library") {
                 if (hasActiveFilters) {
-                    Row(
+                    FlowRow(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 16.dp, vertical = 4.dp),
                         horizontalArrangement = Arrangement.spacedBy(6.dp),
-                        verticalAlignment = Alignment.CenterVertically
+                        verticalArrangement = Arrangement.spacedBy(6.dp)
                     ) {
                         uiState.selectedSubject?.let {
                             ActiveFilterChip(label = it, onRemove = { viewModel.selectSubject(it) })
@@ -171,13 +189,15 @@ fun LibraryScreen(
                     onSortSelected = viewModel::selectSort,
                     onLoadMore = viewModel::loadNextPage
                 )
-            } else {
+            } else if (currentTab == "syllabus") {
                 SyllabusContent(
                     onSubjectClick = { subject ->
                         currentTab = "library"
                         viewModel.selectSubject(subject)
                     }
                 )
+            } else {
+                InteractiveLibraryContent()
             }
         }
     }
@@ -219,15 +239,20 @@ private fun ActiveFilterChip(label: String, onRemove: () -> Unit) {
     }
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun FilterSheetContent(
     uiState: LibraryUiState,
     viewModel: LibraryViewModel,
     onApply: () -> Unit
 ) {
+    val scrollState = rememberScrollState()
     Column(
         modifier = Modifier
             .fillMaxWidth()
+            .nestedScroll(rememberNestedScrollInteropConnection())
+            .verticalScroll(scrollState)
+            .navigationBarsPadding()
             .padding(horizontal = 16.dp, vertical = 8.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
@@ -249,64 +274,59 @@ private fun FilterSheetContent(
             }
         }
 
-        Text(
-            text = "Subject",
-            style = MaterialTheme.typography.labelLarge,
-            fontWeight = FontWeight.SemiBold,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
+        FilterChipGroup(
+            title = "Subject",
+            options = LibraryUiState.SUBJECTS,
+            selectedOption = uiState.selectedSubject,
+            onOptionClick = viewModel::selectSubject
         )
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            LibraryUiState.SUBJECTS.forEach { subject ->
-                WebChip(
-                    text = subject,
-                    selected = uiState.selectedSubject == subject,
-                    onClick = { viewModel.selectSubject(subject) }
-                )
-            }
-        }
 
-        Text(
-            text = "Grade",
-            style = MaterialTheme.typography.labelLarge,
-            fontWeight = FontWeight.SemiBold,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
+        FilterChipGroup(
+            title = "Grade",
+            options = LibraryUiState.GRADE_LEVELS,
+            selectedOption = uiState.selectedGradeLevel,
+            onOptionClick = viewModel::selectGradeLevel
         )
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            LibraryUiState.GRADE_LEVELS.forEach { grade ->
-                WebChip(
-                    text = grade,
-                    selected = uiState.selectedGradeLevel == grade,
-                    onClick = { viewModel.selectGradeLevel(grade) }
-                )
-            }
-        }
 
-        Text(
-            text = "Type",
-            style = MaterialTheme.typography.labelLarge,
-            fontWeight = FontWeight.SemiBold,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
+        FilterChipGroup(
+            title = "Type",
+            options = LibraryUiState.TYPES,
+            selectedOption = uiState.selectedType,
+            onOptionClick = viewModel::selectType
         )
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            LibraryUiState.TYPES.forEach { type ->
-                WebChip(
-                    text = type,
-                    selected = uiState.selectedType == type,
-                    onClick = { viewModel.selectType(type) }
-                )
-            }
-        }
 
         Spacer(modifier = Modifier.height(16.dp))
+    }
+}
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+private fun FilterChipGroup(
+    title: String,
+    options: List<String>,
+    selectedOption: String?,
+    onOptionClick: (String?) -> Unit
+) {
+    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        Text(
+            text = title,
+            style = MaterialTheme.typography.labelLarge,
+            fontWeight = FontWeight.SemiBold,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+        FlowRow(
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            options.forEach { option ->
+                WebChip(
+                    text = option,
+                    selected = selectedOption == option,
+                    onClick = { onOptionClick(option) }
+                )
+            }
+        }
     }
 }
 
@@ -317,11 +337,13 @@ private fun LibraryTabs(
 ) {
     Column(modifier = Modifier.padding(horizontal = 16.dp)) {
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .horizontalScroll(rememberScrollState()),
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             TabButton(
-                text = "Library",
+                text = "Digital Library",
                 selected = currentTab == "library",
                 onClick = { onTabSelected("library") }
             )
@@ -329,6 +351,11 @@ private fun LibraryTabs(
                 text = "Syllabus",
                 selected = currentTab == "syllabus",
                 onClick = { onTabSelected("syllabus") }
+            )
+            TabButton(
+                text = "Interactive",
+                selected = currentTab == "interactive",
+                onClick = { onTabSelected("interactive") }
             )
         }
         HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
@@ -340,6 +367,7 @@ private fun TabButton(text: String, selected: Boolean, onClick: () -> Unit) {
     Column(
         modifier = Modifier
             .clickable(onClick = onClick)
+            .widthIn(min = 116.dp)
             .padding(horizontal = 16.dp, vertical = 12.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {

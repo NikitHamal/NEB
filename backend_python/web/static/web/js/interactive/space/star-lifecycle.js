@@ -45,6 +45,7 @@ export default function init(stage) {
   let nodes = [];
   let particles = [];
   let flash = 0;
+  let viewMode = '2d';
 
   const hud = createHud(stage);
   const stageBadge = hud.badge('Stage: Nebula', '#8d7bd4');
@@ -65,6 +66,15 @@ export default function init(stage) {
   }
 
   const panel = createPanel(stage, { title: 'Star Builder' });
+  panel.select({
+    label: 'View',
+    options: [
+      { value: '2d', label: '2D' },
+      { value: '3d', label: '3D' },
+    ],
+    value: viewMode,
+    onChange: (v) => { viewMode = v; },
+  });
   panel.slider({
     label: 'Starting mass',
     min: 0.5, max: 30, step: 0.5, value: 1,
@@ -137,14 +147,16 @@ export default function init(stage) {
     const color = frac < 0.5 ? s0.color : s1.color;
     const starX = w / 2;
     const starY = h * 0.36;
+    const is3d = viewMode === '3d';
 
     const isBH = s0.key === 'bh' || (s1.key === 'bh' && frac > 0.5);
     const curKey = frac < 0.5 ? s0.key : s1.key;
 
     if (curKey === 'nebula') {
       for (let i = 0; i < 9; i++) {
-        const bx = starX + Math.cos(i * 2.4) * radius * 0.85;
-        const by = starY + Math.sin(i * 1.7) * radius * 0.55;
+        const depth = is3d ? ((i % 3) - 1) * radius * 0.12 : 0;
+        const bx = starX + Math.cos(i * 2.4) * radius * 0.85 + depth;
+        const by = starY + Math.sin(i * 1.7) * radius * (is3d ? 0.38 : 0.55) - depth * 0.25;
         const br = radius * (0.45 + ((i * 29) % 40) / 100);
         const g = ctx.createRadialGradient(bx, by, 2, bx, by, br);
         g.addColorStop(0, 'rgba(141,123,212,0.28)');
@@ -186,10 +198,25 @@ export default function init(stage) {
       ctx.arc(starX, starY, radius * 2.4, 0, Math.PI * 2);
       ctx.fill();
       ctx.globalAlpha = 1;
-      ctx.fillStyle = color;
-      ctx.beginPath();
-      ctx.arc(starX, starY, radius, 0, Math.PI * 2);
-      ctx.fill();
+      if (is3d) {
+        const sg = ctx.createRadialGradient(starX - radius * 0.35, starY - radius * 0.38, radius * 0.12, starX, starY, radius);
+        sg.addColorStop(0, '#ffffff');
+        sg.addColorStop(0.18, color);
+        sg.addColorStop(1, lerpColor(s0.color, '#050814', 0.55));
+        ctx.fillStyle = 'rgba(0,0,0,0.26)';
+        ctx.beginPath();
+        ctx.ellipse(starX + radius * 0.2, starY + radius * 0.78, radius * 0.9, radius * 0.18, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = sg;
+        ctx.beginPath();
+        ctx.arc(starX, starY, radius, 0, Math.PI * 2);
+        ctx.fill();
+      } else {
+        ctx.fillStyle = color;
+        ctx.beginPath();
+        ctx.arc(starX, starY, radius, 0, Math.PI * 2);
+        ctx.fill();
+      }
     }
 
     for (let i = 0; i < particles.length; i++) {
@@ -216,13 +243,15 @@ export default function init(stage) {
     ctx.strokeStyle = 'rgba(255,255,255,0.2)';
     ctx.lineWidth = 2;
     ctx.beginPath();
-    ctx.moveTo(pad, tlY);
-    ctx.lineTo(w - pad, tlY);
+    ctx.moveTo(pad, tlY + (is3d ? 8 : 0));
+    ctx.lineTo(w - pad, tlY - (is3d ? 8 : 0));
     ctx.stroke();
     ctx.strokeStyle = '#8be9a8';
     ctx.beginPath();
-    ctx.moveTo(pad, tlY);
-    ctx.lineTo(pad + (w - pad * 2) * (progress / (stages.length - 1)), tlY);
+    const progX = pad + (w - pad * 2) * (progress / (stages.length - 1));
+    const progY = tlY + (is3d ? 8 - 16 * ((progX - pad) / (w - pad * 2)) : 0);
+    ctx.moveTo(pad, tlY + (is3d ? 8 : 0));
+    ctx.lineTo(progX, progY);
     ctx.stroke();
 
     ctx.font = '600 10px Poppins, sans-serif';
@@ -230,19 +259,21 @@ export default function init(stage) {
     for (let i = 0; i < stages.length; i++) {
       const st = stages[i];
       const x = pad + ((w - pad * 2) * i) / (stages.length - 1);
+      const y = tlY + (is3d ? 8 - 16 * (i / (stages.length - 1)) : 0);
       const reached = progress >= i - 0.001;
       const nr = i === idx && evolving ? 11 : 8;
-      nodes.push({ x, y: tlY, r: nr, stage: st });
+      nodes.push({ x, y, r: nr, stage: st });
       ctx.fillStyle = st.key === 'bh' ? '#2a2440' : st.color;
       ctx.globalAlpha = reached ? 1 : 0.32;
       ctx.beginPath();
-      ctx.arc(x, tlY, nr, 0, Math.PI * 2);
+      if (is3d) ctx.ellipse(x, y, nr * 1.15, nr * 0.75, 0, 0, Math.PI * 2);
+      else ctx.arc(x, y, nr, 0, Math.PI * 2);
       ctx.fill();
       ctx.globalAlpha = reached ? 0.95 : 0.45;
       ctx.fillStyle = '#e8eefb';
       const words = st.name.split(' ');
       for (let j = 0; j < words.length; j++) {
-        ctx.fillText(words[j], x, tlY + 24 + j * 12);
+        ctx.fillText(words[j], x, y + 24 + j * 12);
       }
       ctx.globalAlpha = 1;
     }

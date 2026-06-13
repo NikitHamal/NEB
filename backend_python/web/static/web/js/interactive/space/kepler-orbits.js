@@ -15,6 +15,7 @@ export default function init(stage) {
   let sweeps = [];
   let sweepStartM = 0;
   let bgStars = [];
+  let viewMode = '2d';
 
   sim.onResize((w, h) => {
     bgStars = [];
@@ -47,6 +48,15 @@ export default function init(stage) {
   const lawBadge = hud.badge('Equal areas in equal times', '#c4b5fd');
 
   const panel = createPanel(stage, { title: 'Kepler\u2019s Laws' });
+  panel.select({
+    label: 'View',
+    options: [
+      { value: '2d', label: '2D' },
+      { value: '3d', label: '3D' },
+    ],
+    value: viewMode,
+    onChange: (v) => { viewMode = v; },
+  });
   panel.slider({
     label: 'Eccentricity',
     min: 0, max: 0.85, step: 0.05, value: ecc,
@@ -94,7 +104,7 @@ export default function init(stage) {
     ctx.globalAlpha = 1;
 
     function toScreen(p) {
-      return { x: cx + p.x, y: cy - p.y };
+      return { x: cx + p.x, y: cy - p.y * (viewMode === '3d' ? 0.48 : 1) };
     }
 
     if (showSweep) {
@@ -121,7 +131,17 @@ export default function init(stage) {
     ctx.lineWidth = 1.5;
     ctx.beginPath();
     const bb = a * Math.sqrt(1 - e * e);
-    ctx.ellipse(cx - a * e, cy, a, bb, 0, 0, Math.PI * 2);
+    if (viewMode === '3d') {
+      const steps = 96;
+      for (let i = 0; i <= steps; i++) {
+        const th = (i / steps) * Math.PI * 2;
+        const p = toScreen({ x: Math.cos(th) * a - a * e, y: Math.sin(th) * bb });
+        if (i === 0) ctx.moveTo(p.x, p.y);
+        else ctx.lineTo(p.x, p.y);
+      }
+    } else {
+      ctx.ellipse(cx - a * e, cy, a, bb, 0, 0, Math.PI * 2);
+    }
     ctx.stroke();
 
     const sunR = 13;

@@ -25,6 +25,7 @@ export default function init(stage) {
   let drag = null;
   let colorIdx = 0;
   let bgStars = [];
+  let viewMode = '2d';
 
   sim.onResize((w, h) => {
     bgStars = [];
@@ -77,6 +78,15 @@ export default function init(stage) {
   const hintBadge = hud.badge('Drag anywhere to launch a planet', '#9ec1ff');
 
   const panel = createPanel(stage, { title: 'Gravity Sandbox' });
+  panel.select({
+    label: 'View',
+    options: [
+      { value: '2d', label: '2D' },
+      { value: '3d', label: '3D' },
+    ],
+    value: viewMode,
+    onChange: (v) => { viewMode = v; },
+  });
   panel.slider({
     label: 'Star mass',
     min: 1500, max: 14000, step: 100, value: starMass,
@@ -93,12 +103,14 @@ export default function init(stage) {
   function onDown(e) {
     if (e.target !== sim.canvas) return;
     sim.canvas.setPointerCapture && sim.canvas.setPointerCapture(e.pointerId);
-    const p = pointerPos(sim.canvas, e);
+    const raw = pointerPos(sim.canvas, e);
+    const p = unproject(raw.x, raw.y, sim.width, sim.height);
     drag = { sx: p.x, sy: p.y, cx: p.x, cy: p.y, id: e.pointerId };
   }
   function onMove(e) {
     if (!drag || e.pointerId !== drag.id) return;
-    const p = pointerPos(sim.canvas, e);
+    const raw = pointerPos(sim.canvas, e);
+    const p = unproject(raw.x, raw.y, sim.width, sim.height);
     drag.cx = p.x;
     drag.cy = p.y;
   }
@@ -117,6 +129,20 @@ export default function init(stage) {
   sim.canvas.addEventListener('pointermove', onMove);
   sim.canvas.addEventListener('pointerup', onUp);
   sim.canvas.addEventListener('pointercancel', onUp);
+
+  function project(x, y, w, h, z = 0) {
+    if (viewMode !== '3d') return { x, y };
+    const cx = w / 2;
+    const cy = h / 2;
+    return { x: cx + (x - cx) * 0.98, y: cy + (y - cy) * 0.52 - z };
+  }
+
+  function unproject(x, y, w, h) {
+    if (viewMode !== '3d') return { x, y };
+    const cx = w / 2;
+    const cy = h / 2;
+    return { x: cx + (x - cx) / 0.98, y: cy + (y - cy) / 0.52 };
+  }
 
   function physics(dt, w, h) {
     const cx = w / 2;
@@ -174,6 +200,13 @@ export default function init(stage) {
     ctx.globalAlpha = 1;
 
     const sr = starRadius();
+    if (viewMode === '3d') {
+      ctx.strokeStyle = 'rgba(158,193,255,0.2)';
+      ctx.lineWidth = 1.2;
+      ctx.beginPath();
+      ctx.ellipse(cx, cy, Math.min(w, h) * 0.43, Math.min(w, h) * 0.22, 0, 0, Math.PI * 2);
+      ctx.stroke();
+    }
     const grad = ctx.createRadialGradient(cx, cy, sr * 0.2, cx, cy, sr * 3.2);
     grad.addColorStop(0, 'rgba(255,200,90,0.95)');
     grad.addColorStop(0.3, 'rgba(255,160,60,0.35)');
@@ -202,18 +235,28 @@ export default function init(stage) {
           ctx.globalAlpha = (((j0 + j1) / 2) / b.trailLen) * 0.55;
           ctx.beginPath();
           let idx = (start + j0) % TRAIL_LEN;
-          ctx.moveTo(b.trail[idx * 2], b.trail[idx * 2 + 1]);
+          let tp = project(b.trail[idx * 2], b.trail[idx * 2 + 1], w, h);
+          ctx.moveTo(tp.x, tp.y);
           for (let j = j0 + 1; j <= j1; j++) {
             idx = (start + j) % TRAIL_LEN;
-            ctx.lineTo(b.trail[idx * 2], b.trail[idx * 2 + 1]);
+            tp = project(b.trail[idx * 2], b.trail[idx * 2 + 1], w, h);
+            ctx.lineTo(tp.x, tp.y);
           }
           ctx.stroke();
         }
         ctx.globalAlpha = 1;
       }
+      const bp = project(b.x, b.y, w, h, viewMode === '3d' ? b.r * 0.8 : 0);
+      if (viewMode === '3d') {
+        const sp = project(b.x, b.y, w, h);
+        ctx.fillStyle = 'rgba(0,0,0,0.22)';
+        ctx.beginPath();
+        ctx.ellipse(sp.x, sp.y + b.r * 0.5, b.r * 1.25, b.r * 0.45, 0, 0, Math.PI * 2);
+        ctx.fill();
+      }
       ctx.fillStyle = b.color;
       ctx.beginPath();
-      ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
+      ctx.arc(bp.x, bp.y, b.r, 0, Math.PI * 2);
       ctx.fill();
       if (showVectors) {
         drawArrow(ctx, b.x, b.y, b.x + b.vx * 0.25, b.y + b.vy * 0.25, '#ffffff', 0.7);
@@ -224,17 +267,19 @@ export default function init(stage) {
       const p = particles[i];
       ctx.globalAlpha = 1 - p.t / p.life;
       ctx.fillStyle = '#ffb347';
+      const pp = project(p.x, p.y, w, h, viewMode === '3d' ? 3 : 0);
       ctx.beginPath();
-      ctx.arc(p.x, p.y, 2.2, 0, Math.PI * 2);
+      ctx.arc(pp.x, pp.y, 2.2, 0, Math.PI * 2);
       ctx.fill();
     }
     ctx.globalAlpha = 1;
 
     if (drag) {
       drawArrow(ctx, drag.sx, drag.sy, drag.cx, drag.cy, '#8be9a8', 1);
+      const dp = project(drag.sx, drag.sy, w, h, viewMode === '3d' ? 5 : 0);
       ctx.fillStyle = '#8be9a8';
       ctx.beginPath();
-      ctx.arc(drag.sx, drag.sy, 5, 0, Math.PI * 2);
+      ctx.arc(dp.x, dp.y, 5, 0, Math.PI * 2);
       ctx.fill();
     }
 
@@ -242,23 +287,25 @@ export default function init(stage) {
   });
 
   function drawArrow(ctx, x0, y0, x1, y1, color, alpha) {
-    const dx = x1 - x0;
-    const dy = y1 - y0;
+    const p0 = project(x0, y0, sim.width, sim.height, viewMode === '3d' ? 5 : 0);
+    const p1 = project(x1, y1, sim.width, sim.height, viewMode === '3d' ? 5 : 0);
+    const dx = p1.x - p0.x;
+    const dy = p1.y - p0.y;
     const len = Math.hypot(dx, dy);
     if (len < 2) return;
     ctx.globalAlpha = alpha;
     ctx.strokeStyle = color;
     ctx.lineWidth = 2;
     ctx.beginPath();
-    ctx.moveTo(x0, y0);
-    ctx.lineTo(x1, y1);
+    ctx.moveTo(p0.x, p0.y);
+    ctx.lineTo(p1.x, p1.y);
     ctx.stroke();
     const a = Math.atan2(dy, dx);
     ctx.fillStyle = color;
     ctx.beginPath();
-    ctx.moveTo(x1, y1);
-    ctx.lineTo(x1 - Math.cos(a - 0.45) * 9, y1 - Math.sin(a - 0.45) * 9);
-    ctx.lineTo(x1 - Math.cos(a + 0.45) * 9, y1 - Math.sin(a + 0.45) * 9);
+    ctx.moveTo(p1.x, p1.y);
+    ctx.lineTo(p1.x - Math.cos(a - 0.45) * 9, p1.y - Math.sin(a - 0.45) * 9);
+    ctx.lineTo(p1.x - Math.cos(a + 0.45) * 9, p1.y - Math.sin(a + 0.45) * 9);
     ctx.closePath();
     ctx.fill();
     ctx.globalAlpha = 1;

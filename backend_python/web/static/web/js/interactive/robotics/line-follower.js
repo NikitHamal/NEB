@@ -20,10 +20,20 @@ export default function init(stage) {
   let turnStrength = 60;
   let lost = false;
   let lostTimer = 0;
+  let viewMode = '2d';
 
   const robot = { x: 0, y: 0, heading: 0 };
   let placed = false;
 
+  panel.select({
+    label: 'View',
+    options: [
+      { value: '2d', label: '2D' },
+      { value: '3d', label: '3D' },
+    ],
+    value: viewMode,
+    onChange: (v) => { viewMode = v; },
+  });
   panel.toggle({
     label: 'Run', value: false,
     onChange: (v) => {
@@ -126,26 +136,59 @@ export default function init(stage) {
     }
 
     ctx.clearRect(0, 0, w, h);
-    ctx.fillStyle = '#dbe4f0';
-    ctx.fillRect(w * 0.04, h * 0.04, w * 0.92, h * 0.92);
+    const is3d = viewMode === '3d';
+    if (is3d) {
+      ctx.fillStyle = '#b8c8db';
+      ctx.fillRect(0, 0, w, h);
+      const corners = [
+        project(w * 0.04, h * 0.04, w, h),
+        project(w * 0.96, h * 0.04, w, h),
+        project(w * 0.96, h * 0.96, w, h),
+        project(w * 0.04, h * 0.96, w, h),
+      ];
+      ctx.fillStyle = '#dbe4f0';
+      ctx.beginPath();
+      ctx.moveTo(corners[0].x, corners[0].y);
+      for (let i = 1; i < corners.length; i++) ctx.lineTo(corners[i].x, corners[i].y);
+      ctx.closePath();
+      ctx.fill();
+      ctx.strokeStyle = 'rgba(20,26,36,0.16)';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    } else {
+      ctx.fillStyle = '#dbe4f0';
+      ctx.fillRect(w * 0.04, h * 0.04, w * 0.92, h * 0.92);
+    }
 
     ctx.strokeStyle = '#141a24';
     ctx.lineWidth = lineW;
     ctx.lineJoin = 'round';
     ctx.beginPath();
     const start = trackPoint(0);
-    ctx.moveTo(start.x, start.y);
+    const ps = project(start.x, start.y, w, h);
+    ctx.moveTo(ps.x, ps.y);
     for (let i = 1; i <= trackPts.length; i++) {
       const p = trackPoint(i);
-      ctx.lineTo(p.x, p.y);
+      const pp = project(p.x, p.y, w, h);
+      ctx.lineTo(pp.x, pp.y);
     }
     ctx.closePath();
     ctx.stroke();
 
     const rw = lineW * 2.4;
+    const rp = project(robot.x, robot.y, w, h, is3d ? rw * 0.18 : 0);
+    const hp = project(robot.x + Math.cos(robot.heading) * 24, robot.y + Math.sin(robot.heading) * 24, w, h, is3d ? rw * 0.18 : 0);
     ctx.save();
-    ctx.translate(robot.x, robot.y);
-    ctx.rotate(robot.heading);
+    if (is3d) {
+      const sp = project(robot.x, robot.y, w, h);
+      ctx.fillStyle = 'rgba(16,21,31,0.22)';
+      ctx.beginPath();
+      ctx.ellipse(sp.x, sp.y + rw * 0.16, rw * 0.62, rw * 0.24, 0, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.translate(rp.x, rp.y);
+    ctx.rotate(Math.atan2(hp.y - rp.y, hp.x - rp.x));
+    if (is3d) ctx.scale(1, 0.84);
     ctx.fillStyle = lost ? '#e2484d' : '#0284C7';
     roundRect(ctx, -rw * 0.55, -rw * 0.42, rw * 1.1, rw * 0.84, 6);
     ctx.fill();
@@ -161,8 +204,8 @@ export default function init(stage) {
     ctx.fill();
     ctx.restore();
 
-    drawSensor(ctx, sensorL, onL);
-    drawSensor(ctx, sensorR, onR);
+    drawSensor(ctx, sensorL, onL, w, h);
+    drawSensor(ctx, sensorR, onR, w, h);
 
     ctx.fillStyle = 'rgba(20,26,36,0.78)';
     ctx.font = '600 12px Poppins, sans-serif';
@@ -175,9 +218,17 @@ export default function init(stage) {
     ctx.fillText(msg, w * 0.06, h * 0.09);
   });
 
-  function drawSensor(ctx, s, active) {
+  function project(x, y, w, h, z = 0) {
+    if (viewMode !== '3d') return { x, y };
+    const cx = w / 2;
+    const cy = h / 2;
+    return { x: cx + (x - cx) * 0.96, y: cy + (y - cy) * 0.58 - z };
+  }
+
+  function drawSensor(ctx, s, active, w, h) {
+    const p = project(s.x, s.y, w, h, viewMode === '3d' ? 5 : 0);
     ctx.beginPath();
-    ctx.arc(s.x, s.y, 6, 0, Math.PI * 2);
+    ctx.arc(p.x, p.y, 6, 0, Math.PI * 2);
     ctx.fillStyle = active ? '#ff4d5e' : '#7c8aa3';
     ctx.fill();
     ctx.strokeStyle = '#10151f';
@@ -185,7 +236,7 @@ export default function init(stage) {
     ctx.stroke();
     if (active) {
       ctx.beginPath();
-      ctx.arc(s.x, s.y, 11, 0, Math.PI * 2);
+      ctx.arc(p.x, p.y, 11, 0, Math.PI * 2);
       ctx.strokeStyle = 'rgba(255,77,94,0.5)';
       ctx.stroke();
     }

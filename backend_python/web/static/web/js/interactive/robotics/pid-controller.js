@@ -17,11 +17,21 @@ export default function init(stage) {
   let integral = 0;
   let prevError = targetPos - cart.pos;
   let disturbance = 0;
+  let viewMode = '2d';
   const history = new Float32Array(HISTORY);
   let histIdx = 0;
   let histFilled = 0;
   let sampleAcc = 0;
 
+  panel.select({
+    label: 'View',
+    options: [
+      { value: '2d', label: '2D' },
+      { value: '3d', label: '3D' },
+    ],
+    value: viewMode,
+    onChange: (v) => { viewMode = v; },
+  });
   const kpSlider = panel.slider({
     label: 'Kp (proportional)', min: 0, max: 30, step: 0.5, value: kp,
     format: (v) => v.toFixed(1),
@@ -110,13 +120,34 @@ export default function init(stage) {
     const trackY = h * 0.30;
     const scaleX = w * 0.18;
     const cx = w / 2;
+    const is3d = viewMode === '3d';
 
-    ctx.strokeStyle = '#33486b';
-    ctx.lineWidth = 4;
-    ctx.beginPath();
-    ctx.moveTo(cx - 2.4 * scaleX - 30, trackY + 26);
-    ctx.lineTo(cx + 2.4 * scaleX + 30, trackY + 26);
-    ctx.stroke();
+    if (is3d) {
+      const railW = 2.4 * scaleX + 30;
+      ctx.fillStyle = 'rgba(51,72,107,0.16)';
+      ctx.beginPath();
+      ctx.moveTo(cx - railW, trackY + 36);
+      ctx.lineTo(cx + railW, trackY + 36);
+      ctx.lineTo(cx + railW + 36, trackY + 62);
+      ctx.lineTo(cx - railW + 36, trackY + 62);
+      ctx.closePath();
+      ctx.fill();
+      ctx.strokeStyle = '#33486b';
+      ctx.lineWidth = 4;
+      ctx.beginPath();
+      ctx.moveTo(cx - railW, trackY + 23);
+      ctx.lineTo(cx + railW, trackY + 23);
+      ctx.moveTo(cx - railW + 30, trackY + 43);
+      ctx.lineTo(cx + railW + 30, trackY + 43);
+      ctx.stroke();
+    } else {
+      ctx.strokeStyle = '#33486b';
+      ctx.lineWidth = 4;
+      ctx.beginPath();
+      ctx.moveTo(cx - 2.4 * scaleX - 30, trackY + 26);
+      ctx.lineTo(cx + 2.4 * scaleX + 30, trackY + 26);
+      ctx.stroke();
+    }
 
     ctx.strokeStyle = '#35d07f';
     ctx.setLineDash([6, 6]);
@@ -132,14 +163,18 @@ export default function init(stage) {
     ctx.fillText('target', cx, trackY - 52);
 
     const cartX = cx + cart.pos * scaleX;
-    ctx.fillStyle = '#0EA5E9';
-    roundRect(ctx, cartX - 34, trackY - 24, 68, 38, 8);
-    ctx.fill();
-    ctx.fillStyle = '#1c2c44';
-    ctx.beginPath();
-    ctx.arc(cartX - 18, trackY + 18, 9, 0, Math.PI * 2);
-    ctx.arc(cartX + 18, trackY + 18, 9, 0, Math.PI * 2);
-    ctx.fill();
+    if (is3d) {
+      drawCart3d(ctx, cartX, trackY);
+    } else {
+      ctx.fillStyle = '#0EA5E9';
+      roundRect(ctx, cartX - 34, trackY - 24, 68, 38, 8);
+      ctx.fill();
+      ctx.fillStyle = '#1c2c44';
+      ctx.beginPath();
+      ctx.arc(cartX - 18, trackY + 18, 9, 0, Math.PI * 2);
+      ctx.arc(cartX + 18, trackY + 18, 9, 0, Math.PI * 2);
+      ctx.fill();
+    }
     if (disturbance) {
       ctx.fillStyle = '#ff8a5c';
       ctx.font = '700 14px Poppins, sans-serif';
@@ -184,6 +219,43 @@ export default function init(stage) {
     ctx.textAlign = 'left';
     ctx.fillText('cart position vs time →', gx + 10, gy + 16);
   });
+
+  function drawCart3d(ctx, x, y) {
+    const ox = 16;
+    const oy = -13;
+    ctx.fillStyle = 'rgba(0,0,0,0.22)';
+    ctx.beginPath();
+    ctx.ellipse(x + 8, y + 28, 48, 11, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.fillStyle = '#087bb1';
+    ctx.beginPath();
+    ctx.moveTo(x - 34, y + 14);
+    ctx.lineTo(x + 34, y + 14);
+    ctx.lineTo(x + 34 + ox, y + 14 + oy);
+    ctx.lineTo(x - 34 + ox, y + 14 + oy);
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.fillStyle = '#0EA5E9';
+    roundRect(ctx, x - 34, y - 24, 68, 38, 8);
+    ctx.fill();
+
+    ctx.fillStyle = '#38bdf8';
+    ctx.beginPath();
+    ctx.moveTo(x - 34, y - 24);
+    ctx.lineTo(x + 34, y - 24);
+    ctx.lineTo(x + 34 + ox, y - 24 + oy);
+    ctx.lineTo(x - 34 + ox, y - 24 + oy);
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.fillStyle = '#1c2c44';
+    ctx.beginPath();
+    ctx.ellipse(x - 18, y + 18, 9, 7, 0, 0, Math.PI * 2);
+    ctx.ellipse(x + 18, y + 18, 9, 7, 0, 0, Math.PI * 2);
+    ctx.fill();
+  }
 
   function roundRect(ctx, x, y, w, h, r) {
     ctx.beginPath();

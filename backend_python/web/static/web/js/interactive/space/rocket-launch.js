@@ -15,6 +15,7 @@ export default function init(stage) {
   let clouds = [];
   let stars = [];
   let confetti = [];
+  let viewMode = '2d';
 
   sim.onResize((w, h) => {
     clouds = [];
@@ -53,6 +54,15 @@ export default function init(stage) {
   const statusBadge = hud.badge('On the pad', '#9ec1ff');
 
   const panel = createPanel(stage, { title: 'Mission Control' });
+  panel.select({
+    label: 'View',
+    options: [
+      { value: '2d', label: '2D' },
+      { value: '3d', label: '3D' },
+    ],
+    value: viewMode,
+    onChange: (v) => { viewMode = v; },
+  });
   const thrustSlider = panel.slider({
     label: 'Thrust',
     min: 60, max: 420, step: 10, value: thrustKN,
@@ -175,7 +185,13 @@ export default function init(stage) {
     return h * 0.86 - (alt / viewTop) * h * 0.78;
   }
 
-  function drawRocket(ctx, x, y, scale, flame, hasBooster) {
+  function drawRocket(ctx, x, y, scale, flame, hasBooster, is3d = false) {
+    if (is3d) {
+      ctx.fillStyle = 'rgba(0,0,0,0.22)';
+      ctx.beginPath();
+      ctx.ellipse(x + 10 * scale, y + 24 * scale, 20 * scale, 5 * scale, 0, 0, Math.PI * 2);
+      ctx.fill();
+    }
     ctx.save();
     ctx.translate(x, y);
     ctx.scale(scale, scale);
@@ -199,6 +215,21 @@ export default function init(stage) {
       ctx.fillStyle = '#aab6c8';
       ctx.fillRect(-7, -2, 4, 16);
       ctx.fillRect(3, -2, 4, 16);
+      if (is3d) {
+        ctx.fillStyle = '#8793a4';
+        ctx.fillRect(7, -1, 4, 15);
+      }
+    }
+    if (is3d) {
+      ctx.fillStyle = '#aab6c8';
+      ctx.beginPath();
+      ctx.moveTo(7, -16);
+      ctx.quadraticCurveTo(14, -4, 13, 12);
+      ctx.lineTo(7, 14);
+      ctx.lineTo(7, 4);
+      ctx.quadraticCurveTo(7, -8, 0, -22);
+      ctx.closePath();
+      ctx.fill();
     }
     ctx.fillStyle = '#e8eefb';
     ctx.beginPath();
@@ -233,6 +264,7 @@ export default function init(stage) {
   sim.setUpdate((ctx, dt, w, h) => {
     physics(dt);
     const s = state;
+    const is3d = viewMode === '3d';
     const viewTop = Math.max(2200, s.alt * 1.9);
     const skyT = Math.min(1, s.alt / 80000);
     const r = Math.round(120 - 108 * skyT);
@@ -260,18 +292,37 @@ export default function init(stage) {
       const y = altToY(c.alt, h, viewTop);
       if (y < -40 || y > h) continue;
       ctx.beginPath();
-      ctx.ellipse(c.x * w, y, c.s, c.s * 0.32, 0, 0, Math.PI * 2);
+      ctx.ellipse(c.x * w + (is3d ? c.s * 0.18 : 0), y, c.s, c.s * (is3d ? 0.22 : 0.32), 0, 0, Math.PI * 2);
       ctx.fill();
     }
 
     const groundY = altToY(0, h, viewTop);
     if (groundY < h + 60) {
-      ctx.fillStyle = '#2e4d3a';
-      ctx.fillRect(0, groundY, w, h - groundY + 2);
-      ctx.fillStyle = '#3f6b4f';
-      ctx.fillRect(0, groundY, w, 5);
-      ctx.fillStyle = '#5b6573';
-      ctx.fillRect(w / 2 - 30, groundY - 6, 60, 6);
+      if (is3d) {
+        ctx.fillStyle = '#2e4d3a';
+        ctx.beginPath();
+        ctx.ellipse(w / 2, groundY + h * 0.14, w * 0.62, h * 0.18, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = '#3f6b4f';
+        ctx.beginPath();
+        ctx.ellipse(w / 2, groundY + 2, w * 0.34, 12, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = '#5b6573';
+        ctx.beginPath();
+        ctx.moveTo(w / 2 - 34, groundY - 5);
+        ctx.lineTo(w / 2 + 34, groundY - 5);
+        ctx.lineTo(w / 2 + 48, groundY + 6);
+        ctx.lineTo(w / 2 - 18, groundY + 8);
+        ctx.closePath();
+        ctx.fill();
+      } else {
+        ctx.fillStyle = '#2e4d3a';
+        ctx.fillRect(0, groundY, w, h - groundY + 2);
+        ctx.fillStyle = '#3f6b4f';
+        ctx.fillRect(0, groundY, w, 5);
+        ctx.fillStyle = '#5b6573';
+        ctx.fillRect(w / 2 - 30, groundY - 6, 60, 6);
+      }
     }
 
     const kline = altToY(TARGET_ALT, h, viewTop);
@@ -292,7 +343,7 @@ export default function init(stage) {
     if (s.booster) {
       const by = altToY(s.booster.alt, h, viewTop);
       ctx.save();
-      ctx.translate(w / 2 + s.booster.x, by);
+      ctx.translate(w / 2 + s.booster.x + (is3d ? 22 : 0), by + (is3d ? 10 : 0));
       ctx.rotate(s.booster.t * 0.8);
       ctx.fillStyle = '#8a96a8';
       ctx.fillRect(-4, -10, 8, 20);
@@ -300,7 +351,7 @@ export default function init(stage) {
     }
 
     const ry = altToY(s.alt, h, viewTop);
-    drawRocket(ctx, w / 2, ry, 1.15, s.flame, s.stage === 1);
+    drawRocket(ctx, w / 2, ry, 1.15, s.flame, s.stage === 1, is3d);
 
     for (let i = 0; i < confetti.length; i++) {
       const c = confetti[i];

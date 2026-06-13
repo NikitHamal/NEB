@@ -24,12 +24,22 @@ export default function init(stage) {
   const minExp = 3.9;
   const maxExp = 27.2;
   let pinch = null;
+  let viewMode = '2d';
 
   const hud = createHud(stage);
   const scaleBadge = hud.badge('View width: 10\u2074 m', '#8be9a8');
   const nameBadge = hud.badge('Mt. Everest \u2014 Sagarmatha', '#cdd9ec');
 
   const panel = createPanel(stage, { title: 'Cosmic Zoom' });
+  panel.select({
+    label: 'View',
+    options: [
+      { value: '2d', label: '2D' },
+      { value: '3d', label: '3D' },
+    ],
+    value: viewMode,
+    onChange: (v) => { viewMode = v; },
+  });
   const zoomSlider = panel.slider({
     label: 'Zoom (powers of ten)',
     min: minExp, max: maxExp, step: 0.05, value: exp,
@@ -104,6 +114,7 @@ export default function init(stage) {
 
   function drawObject(ctx, o, cx, cy, dpx, t) {
     const r = dpx / 2;
+    const is3d = viewMode === '3d';
     if (o.type === 'mountain') {
       ctx.fillStyle = '#5d6b80';
       ctx.beginPath();
@@ -112,6 +123,16 @@ export default function init(stage) {
       ctx.lineTo(cx + r, cy + r * 0.7);
       ctx.closePath();
       ctx.fill();
+      if (is3d) {
+        ctx.fillStyle = '#46546a';
+        ctx.beginPath();
+        ctx.moveTo(cx + r, cy + r * 0.7);
+        ctx.lineTo(cx + r * 1.18, cy + r * 0.52);
+        ctx.lineTo(cx + r * 0.18, cy - r * 0.86);
+        ctx.lineTo(cx, cy - r * 0.7);
+        ctx.closePath();
+        ctx.fill();
+      }
       ctx.fillStyle = '#e8eefb';
       ctx.beginPath();
       ctx.moveTo(cx - r * 0.28, cy - r * 0.31);
@@ -120,7 +141,19 @@ export default function init(stage) {
       ctx.closePath();
       ctx.fill();
     } else if (o.type === 'planet') {
-      ctx.fillStyle = o.color;
+      if (is3d) {
+        ctx.fillStyle = 'rgba(0,0,0,0.25)';
+        ctx.beginPath();
+        ctx.ellipse(cx + r * 0.12, cy + r * 0.72, r * 0.72, r * 0.14, 0, 0, Math.PI * 2);
+        ctx.fill();
+        const pg = ctx.createRadialGradient(cx - r * 0.35, cy - r * 0.4, r * 0.12, cx, cy, r);
+        pg.addColorStop(0, '#ffffff');
+        pg.addColorStop(0.2, o.color);
+        pg.addColorStop(1, '#18344f');
+        ctx.fillStyle = pg;
+      } else {
+        ctx.fillStyle = o.color;
+      }
       ctx.beginPath();
       ctx.arc(cx, cy, r, 0, Math.PI * 2);
       ctx.fill();
@@ -152,7 +185,8 @@ export default function init(stage) {
       ctx.setLineDash([6, 6]);
       ctx.lineWidth = 1.5;
       ctx.beginPath();
-      ctx.arc(cx, cy, r, 0, Math.PI * 2);
+      if (is3d) ctx.ellipse(cx, cy, r, r * 0.42, 0, 0, Math.PI * 2);
+      else ctx.arc(cx, cy, r, 0, Math.PI * 2);
       ctx.stroke();
       ctx.setLineDash([]);
       ctx.globalAlpha = 1;
@@ -190,7 +224,7 @@ export default function init(stage) {
         const ang = i * 2.62;
         const rr = r * (0.12 + ((i * 53) % 80) / 100);
         const gx = cx + Math.cos(ang) * rr;
-        const gy = cy + Math.sin(ang) * rr * 0.8;
+        const gy = cy + Math.sin(ang) * rr * (is3d ? 0.42 : 0.8);
         const gr = r * (i < 2 ? 0.09 : 0.035);
         ctx.fillStyle = i % 2 ? 'rgba(196,181,253,0.65)' : 'rgba(255,226,176,0.6)';
         ctx.save();
@@ -215,7 +249,7 @@ export default function init(stage) {
       for (let i = 0; i < 70; i++) {
         const ang = i * 2.39996;
         const rr = r * Math.sqrt(((i * 41) % 100) / 100);
-        ctx.fillRect(cx + Math.cos(ang) * rr, cy + Math.sin(ang) * rr * 0.96, 1.6, 1.6);
+        ctx.fillRect(cx + Math.cos(ang) * rr, cy + Math.sin(ang) * rr * (is3d ? 0.5 : 0.96), 1.6, 1.6);
       }
     }
   }
