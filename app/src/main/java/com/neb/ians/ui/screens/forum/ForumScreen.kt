@@ -142,13 +142,6 @@ fun ForumScreen(
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
-                    Text(
-                        text = "Ask questions, share solutions, and follow classroom discussions.",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        maxLines = 2,
-                        overflow = TextOverflow.Ellipsis
-                    )
                 }
                 WebOutlinedButton(
                     text = "New Post",
