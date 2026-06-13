@@ -1234,6 +1234,24 @@ interface ApiService {
         @Body request: ApiStudyFlashcardReviewRequest
     ): ApiStudyFlashcardReviewResponse
 
+    // --- Interactive Learning (public, no auth required) ---
+    @GET("api/interactive/categories/")
+    suspend fun getInteractiveCategories(): ApiInteractiveCategoriesResponse
+
+    @GET("api/interactive/courses/")
+    suspend fun getInteractiveCourses(): ApiInteractiveCoursesResponse
+
+    @GET("api/interactive/courses/{courseSlug}/")
+    suspend fun getInteractiveCourseDetail(
+        @Path("courseSlug") courseSlug: String
+    ): ApiInteractiveCourseDetailResponse
+
+    @GET("api/interactive/courses/{courseSlug}/{lessonSlug}/")
+    suspend fun getInteractiveLessonDetail(
+        @Path("courseSlug") courseSlug: String,
+        @Path("lessonSlug") lessonSlug: String
+    ): ApiInteractiveLessonDetailResponse
+
     companion object {
         private const val BASE_URL = "https://nebians.consica.com.np/"
 
@@ -1739,4 +1757,125 @@ data class ApiStudyFlashcardReviewResponse(
     val reviewCount: Int = 0,
     @SerialName("nextReviewAt") val nextReviewAt: Long = 0,
     val error: String? = null
+)
+
+@Serializable
+data class ApiInteractiveCategory(
+    val key: String = "",
+    val label: String = "",
+    val icon: String = "",
+    val color: String = "",
+    val blurb: String = "",
+    val courses: List<ApiInteractiveCourseSummary> = emptyList()
+)
+
+@Serializable
+data class ApiInteractiveCourseSummary(
+    val slug: String = "",
+    val title: String = "",
+    val category: String = "",
+    val ageRange: String = "",
+    val level: String = "",
+    val icon: String = "",
+    val color: String = "",
+    val tagline: String = "",
+    val lessonCount: Int = 0,
+    val totalMinutes: Int = 0
+)
+
+@Serializable
+data class ApiInteractiveCategoriesResponse(
+    val categories: List<ApiInteractiveCategory> = emptyList()
+)
+
+@Serializable
+data class ApiInteractiveCoursesResponse(
+    val courses: List<ApiInteractiveCourseSummary> = emptyList()
+)
+
+@Serializable
+data class ApiInteractiveCourseDetailResponse(
+    val slug: String = "",
+    val title: String = "",
+    val category: String = "",
+    val categoryLabel: String = "",
+    val ageRange: String = "",
+    val level: String = "",
+    val icon: String = "",
+    val color: String = "",
+    val tagline: String = "",
+    val description: String = "",
+    val skills: List<String> = emptyList(),
+    val lessons: List<ApiInteractiveLessonSummary> = emptyList(),
+    val lessonCount: Int = 0,
+    val totalMinutes: Int = 0
+)
+
+@Serializable
+data class ApiInteractiveLessonSummary(
+    val slug: String = "",
+    val title: String = "",
+    val icon: String = "",
+    val minutes: Int = 0,
+    val simType: String = "",
+    val summary: String = "",
+    val objectives: List<String> = emptyList()
+)
+
+@Serializable
+data class ApiInteractiveLessonDetailResponse(
+    val course: ApiInteractiveLessonCourseInfo = ApiInteractiveLessonCourseInfo(),
+    val lesson: ApiInteractiveLessonFull = ApiInteractiveLessonFull(),
+    val prevLesson: ApiInteractiveLessonNavInfo? = null,
+    val nextLesson: ApiInteractiveLessonNavInfo? = null,
+    val lessonIndex: Int = 0,
+    val totalLessons: Int = 0
+)
+
+@Serializable
+data class ApiInteractiveLessonCourseInfo(
+    val slug: String = "",
+    val title: String = "",
+    val category: String = "",
+    val icon: String = "",
+    val color: String = "",
+    val lessonCount: Int = 0
+)
+
+@Serializable
+data class ApiInteractiveLessonFull(
+    val slug: String = "",
+    val title: String = "",
+    val icon: String = "",
+    val minutes: Int = 0,
+    val simType: String = "",
+    val sim: String = "",
+    val summary: String = "",
+    val objectives: List<String> = emptyList(),
+    val knowledge: List<ApiInteractiveKnowledge> = emptyList(),
+    val funFact: String = "",
+    val quiz: List<ApiInteractiveQuizQuestion> = emptyList()
+)
+
+@Serializable
+data class ApiInteractiveKnowledge(
+    val heading: String = "",
+    val body: String = ""
+)
+
+@Serializable
+data class ApiInteractiveQuizQuestion(
+    val q: String = "",
+    val options: List<String> = emptyList(),
+    val answer: Int = 0,
+    val explain: String = ""
+)
+
+@Serializable
+data class ApiInteractiveLessonNavInfo(
+    val slug: String = "",
+    val title: String = "",
+    val icon: String = "",
+    val minutes: Int = 0,
+    val simType: String = ""
 )

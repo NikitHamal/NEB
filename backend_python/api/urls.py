@@ -91,6 +91,9 @@ urlpatterns = [
     # AI4Bharat Arena chat (Neby AI on Android)
     path('neby-arena/', include('api.arena_urls')),
 
+    # Interactive learning catalog
+    path('interactive/', include('api.interactive_urls')),
+
     # Admin API
     path('', include('api.admin_urls')),
 ]
