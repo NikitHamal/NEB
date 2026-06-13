@@ -23,6 +23,7 @@ COURSES = [
                 'icon': 'back_hand',
                 'minutes': 10,
                 'sim': 'physics/forces-playground',
+                'sim_3d': 'physics/forces-playground-3d',
                 'sim_type': 'lab',
                 'summary': 'Push a friendly box around the playground, watch its force and speed arrows grow, and discover what friction really does.',
                 'objectives': [
@@ -73,6 +74,7 @@ COURSES = [
                 'icon': 'sports_score',
                 'minutes': 10,
                 'sim': 'physics/ramp-roller',
+                'sim_3d': 'physics/ramp-roller-3d',
                 'sim_type': 'lab',
                 'summary': 'Race a ball down a ramp you control — tilt it steeper, add friction, and chase your best time to the finish line.',
                 'objectives': [
@@ -123,6 +125,7 @@ COURSES = [
                 'icon': 'sports_basketball',
                 'minutes': 10,
                 'sim': 'physics/bouncy-balls',
+                'sim_3d': 'physics/bouncy-balls-3d',
                 'sim_type': 'lab',
                 'summary': 'Tap to drop bouncy balls, tune how springy they are, and compare bouncing on Earth, the Moon and giant Jupiter.',
                 'objectives': [
@@ -173,6 +176,7 @@ COURSES = [
                 'icon': 'explore',
                 'minutes': 10,
                 'sim': 'physics/magnet-play',
+                'sim_3d': 'physics/magnet-play-3d',
                 'sim_type': 'lab',
                 'summary': 'Carry a bar magnet through a field of paperclips, flip its poles, and feel how magnets pull together or push apart — without touching!',
                 'objectives': [
@@ -248,6 +252,7 @@ COURSES = [
                 'icon': 'av_timer',
                 'minutes': 15,
                 'sim': 'physics/pendulum-lab',
+                'sim_3d': 'physics/pendulum-lab-3d',
                 'sim_type': 'lab',
                 'summary': 'Drag a real simulated pendulum, change its length and even its planet, and discover exactly what controls its time period.',
                 'objectives': [
@@ -308,6 +313,7 @@ COURSES = [
                 'icon': 'rocket_launch',
                 'minutes': 15,
                 'sim': 'physics/projectile-motion',
+                'sim_3d': 'physics/projectile-motion-3d',
                 'sim_type': 'lab',
                 'summary': 'Fire a cannon, trace the parabola, and discover why 45° gives the longest shot — and what air resistance ruins.',
                 'objectives': [
@@ -364,6 +370,7 @@ COURSES = [
                 'icon': 'graphic_eq',
                 'minutes': 16,
                 'sim': 'physics/waves-lab',
+                'sim_3d': 'physics/waves-lab-3d',
                 'sim_type': 'lab',
                 'summary': 'Shake a virtual string into travelling waves, standing waves and interference patterns, and connect frequency to musical pitch.',
                 'objectives': [
@@ -424,6 +431,7 @@ COURSES = [
                 'icon': 'flare',
                 'minutes': 18,
                 'sim': 'physics/optics-bench',
+                'sim_3d': 'physics/optics-bench-3d',
                 'sim_type': 'lab',
                 'summary': 'Drag an object along a ray-traced optics bench and watch lenses and mirrors form real and virtual images before your eyes.',
                 'objectives': [
@@ -484,6 +492,7 @@ COURSES = [
                 'icon': 'electric_bolt',
                 'minutes': 16,
                 'sim': 'physics/circuit-lab',
+                'sim_3d': 'physics/circuit-lab-3d',
                 'sim_type': 'lab',
                 'summary': 'Crank the voltage, swap resistors between series and parallel, and watch animated electrons obey Ohm\'s law in real time.',
                 'objectives': [

@@ -1037,6 +1037,10 @@ interface ApiService {
         @Query("limit") limit: Int = 10
     ): ApiProfileActivityResponse
 
+    // --- Interactive Catalog ---
+    @GET("interactive/api/catalog.json")
+    suspend fun getInteractiveCatalog(): ApiInteractiveCatalogResponse
+
     // --- Realtime ---
     @GET("api/realtime/config/")
     suspend fun getRealtimeConfig(): ApiRealtimeConfig
@@ -1739,4 +1743,49 @@ data class ApiStudyFlashcardReviewResponse(
     val reviewCount: Int = 0,
     @SerialName("nextReviewAt") val nextReviewAt: Long = 0,
     val error: String? = null
+)
+
+// -------------------------------------------------------------
+// INTERACTIVE CATALOG MODELS
+// -------------------------------------------------------------
+
+@Serializable
+data class ApiInteractiveLesson(
+    val slug: String = "",
+    val title: String = "",
+    val icon: String = "",
+    val minutes: Int = 0,
+    @SerialName("sim_type") val simType: String = "2d",
+    val summary: String = ""
+)
+
+@Serializable
+data class ApiInteractiveCourse(
+    val slug: String = "",
+    val title: String = "",
+    val category: String = "",
+    @SerialName("category_label") val categoryLabel: String = "",
+    val level: String = "",
+    val icon: String = "",
+    val color: String = "#004ac6",
+    val tagline: String = "",
+    @SerialName("age_range") val ageRange: String = "",
+    @SerialName("lesson_count") val lessonCount: Int = 0,
+    @SerialName("total_minutes") val totalMinutes: Int = 0,
+    val lessons: List<ApiInteractiveLesson> = emptyList()
+)
+
+@Serializable
+data class ApiInteractiveCategory(
+    val key: String = "",
+    val label: String = "",
+    val icon: String = "",
+    val color: String = "#004ac6",
+    val blurb: String = "",
+    val courses: List<ApiInteractiveCourse> = emptyList()
+)
+
+@Serializable
+data class ApiInteractiveCatalogResponse(
+    val categories: List<ApiInteractiveCategory> = emptyList()
 )

@@ -19,6 +19,7 @@
      data-course-slug="{{ course.slug }}"
      data-lesson-slug="{{ lesson.slug }}"
      data-sim-url="{% static sim_static_path %}"
+     {% if sim_3d_static_path %}data-sim-3d-url="{% static sim_3d_static_path %}"{% endif %}
      data-sim-type="{{ lesson.sim_type }}">
 
   <nav class="ix-breadcrumb" aria-label="Breadcrumb">
@@ -55,9 +56,17 @@
           <span class="ix-sim-hint" id="ix-sim-hint">
             {% if lesson.sim_type == '3d' %}<span class="material-symbols-outlined">touch_app</span>Drag to rotate · pinch or scroll to zoom{% elif lesson.sim_type == 'coding' %}<span class="material-symbols-outlined">sports_esports</span>Play with the blocks and run your code{% else %}<span class="material-symbols-outlined">tune</span>Adjust the controls and watch what happens{% endif %}
           </span>
-          <button class="md-btn md-btn-icon ix-fullscreen-btn" id="ix-fullscreen-btn" aria-label="Fullscreen" title="Fullscreen">
-            <span class="material-symbols-outlined">fullscreen</span>
-          </button>
+          <div class="ix-sim-toolbar-actions">
+            {% if sim_3d_static_path %}
+            <div class="ix-dim-switch" id="ix-dim-switch" role="group" aria-label="Switch between 2D and 3D view">
+              <button type="button" class="ix-dim-btn is-active" data-dim="2d" aria-pressed="true">2D</button>
+              <button type="button" class="ix-dim-btn" data-dim="3d" aria-pressed="false">3D</button>
+            </div>
+            {% endif %}
+            <button class="md-btn md-btn-icon ix-fullscreen-btn" id="ix-fullscreen-btn" aria-label="Fullscreen" title="Fullscreen">
+              <span class="material-symbols-outlined">fullscreen</span>
+            </button>
+          </div>
         </div>
       </div>
 

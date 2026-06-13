@@ -25,20 +25,48 @@ const root = document.getElementById('ix-lesson-root');
 if (root) {
   const courseSlug = root.dataset.courseSlug;
   const lessonSlug = root.dataset.lessonSlug;
-  const simUrl = root.dataset.simUrl;
+  const simUrl2d = root.dataset.simUrl;
+  const simUrl3d = root.dataset.sim3dUrl || null;
   const stage = document.getElementById('sim-stage');
   const loading = document.getElementById('ix-sim-loading');
+  const dimSwitch = document.getElementById('ix-dim-switch');
+  const DIM_KEY = 'nebians_interactive_dim';
   let simHandle = null;
   let simDisposed = false;
+  // Active view dimension. Restore the learner's last choice when a 3D companion exists.
+  let activeDim = '2d';
+  if (simUrl3d) {
+    try { if (localStorage.getItem(DIM_KEY) === '3d') activeDim = '3d'; } catch (e) {}
+  }
+
+  function currentSimUrl() {
+    return activeDim === '3d' && simUrl3d ? simUrl3d : simUrl2d;
+  }
+
+  function showLoading(msg) {
+    if (!loading) return;
+    loading.innerHTML = '<div class="ix-spinner"></div><p>' + (msg || 'Loading simulation…') + '</p>';
+    if (!loading.parentNode) stage.appendChild(loading);
+  }
+
+  function disposeSim() {
+    if (simHandle && typeof simHandle.dispose === 'function') {
+      try { simHandle.dispose(); } catch (e) {}
+    }
+    simHandle = null;
+  }
 
   function startSim() {
     simDisposed = false;
-    import(simUrl)
+    const url = currentSimUrl();
+    import(url)
       .then((mod) => {
+        // Guard against a switch/teardown that happened while importing.
+        if (simDisposed || url !== currentSimUrl()) return;
         if (loading && loading.parentNode) loading.remove();
         const init = mod.default || mod.init;
         if (typeof init === 'function') {
-          simHandle = init(stage, { courseSlug, lessonSlug }) || null;
+          simHandle = init(stage, { courseSlug, lessonSlug, dim: activeDim }) || null;
         }
       })
       .catch((err) => {
@@ -48,6 +76,41 @@ if (root) {
             '<p>The simulation could not load. Check your connection and refresh — the lesson text below still works!</p>';
         }
       });
+  }
+
+  function switchDim(dim) {
+    if (dim === activeDim || (dim === '3d' && !simUrl3d)) return;
+    activeDim = dim;
+    try { localStorage.setItem(DIM_KEY, dim); } catch (e) {}
+    if (dimSwitch) {
+      dimSwitch.querySelectorAll('.ix-dim-btn').forEach((b) => {
+        const on = b.dataset.dim === dim;
+        b.classList.toggle('is-active', on);
+        b.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
+    }
+    const hint = document.getElementById('ix-sim-hint');
+    if (hint) {
+      hint.innerHTML = dim === '3d'
+        ? '<span class="material-symbols-outlined">touch_app</span>Drag to rotate · pinch or scroll to zoom'
+        : '<span class="material-symbols-outlined">tune</span>Adjust the controls and watch what happens';
+    }
+    disposeSim();
+    showLoading();
+    startSim();
+  }
+
+  if (dimSwitch && simUrl3d) {
+    // Reflect the restored preference in the switch UI before first render.
+    dimSwitch.querySelectorAll('.ix-dim-btn').forEach((b) => {
+      const on = b.dataset.dim === activeDim;
+      b.classList.toggle('is-active', on);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    dimSwitch.addEventListener('click', (e) => {
+      const btn = e.target.closest('.ix-dim-btn');
+      if (btn) switchDim(btn.dataset.dim);
+    });
   }
 
   startSim();

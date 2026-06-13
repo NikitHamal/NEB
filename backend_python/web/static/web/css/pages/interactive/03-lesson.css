@@ -105,6 +105,43 @@
 
 .ix-fullscreen-btn { flex-shrink: 0; }
 
+.ix-sim-toolbar-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.ix-dim-switch {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px;
+  border-radius: 999px;
+  background: var(--md-surface-container-high, rgba(127, 127, 127, 0.12));
+  border: 1px solid var(--md-outline-variant);
+}
+
+.ix-dim-btn {
+  appearance: none;
+  border: none;
+  background: transparent;
+  color: var(--md-on-surface-variant);
+  font: 700 0.75rem/1 Poppins, system-ui, sans-serif;
+  letter-spacing: 0.02em;
+  padding: 6px 12px;
+  min-width: 38px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.18s ease, color 0.18s ease;
+}
+
+.ix-dim-btn:hover { color: var(--md-on-surface); }
+
+.ix-dim-btn.is-active {
+  background: var(--ix-color, var(--md-primary));
+  color: #fff;
+}
+
 .ix-fake-fullscreen {
   position: fixed !important;
   inset: 0;

@@ -18,6 +18,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -39,6 +40,7 @@ import com.neb.ians.ui.components.LiquidGlassBottomNav
 import com.neb.ians.ui.components.NebNavItem
 import com.neb.ians.ui.screens.home.HomeScreen
 import com.neb.ians.ui.screens.library.LibraryScreen
+import com.neb.ians.ui.screens.library.InteractiveWebViewScreen
 import com.neb.ians.ui.screens.forum.ForumScreen
 import com.neb.ians.ui.screens.forum.ForumPostDetailScreen
 import com.neb.ians.ui.screens.forum.CreatePostScreen
@@ -111,6 +113,9 @@ sealed class Screen(val route: String) {
     data object CreatePost : Screen("forum/create")
     data object Reply : Screen("forum/reply/{postId}/{replyToId}") {
         fun createRoute(postId: String, replyToId: String? = null) = "forum/reply/$postId/${replyToId ?: "none"}"
+    }
+    data object InteractiveLesson : Screen("interactive/{courseSlug}/{lessonSlug}") {
+        fun createRoute(courseSlug: String, lessonSlug: String) = "interactive/$courseSlug/$lessonSlug"
     }
 }
 
@@ -341,7 +346,27 @@ fun NEBiansNavHost(
                     onSearchClick = { navController.navigate(Screen.Search.route) },
                     onUploadClick = { navController.navigate(Screen.StudyLab.route) },
                     onNotificationsClick = { navController.navigate(Screen.Notifications.route) },
-                    onProfileClick = navigateToOwnProfile
+                    onProfileClick = navigateToOwnProfile,
+                    onInteractiveLessonClick = { courseSlug, lessonSlug, _, _ ->
+                        navController.navigate(Screen.InteractiveLesson.createRoute(courseSlug, lessonSlug))
+                    }
+                )
+            }
+            composable(
+                route = Screen.InteractiveLesson.route,
+                arguments = listOf(
+                    navArgument("courseSlug") { type = NavType.StringType },
+                    navArgument("lessonSlug") { type = NavType.StringType }
+                )
+            ) { backStackEntry ->
+                val courseSlug = backStackEntry.arguments?.getString("courseSlug") ?: return@composable
+                val lessonSlug = backStackEntry.arguments?.getString("lessonSlug") ?: return@composable
+                val lessonTitle = remember(courseSlug, lessonSlug) { lessonSlug.replace('-', ' ').split(' ')
+                    .joinToString(" ") { it.replaceFirstChar { c -> c.uppercase() } } }
+                InteractiveWebViewScreen(
+                    url = "https://nebians.consica.com.np/interactive/$courseSlug/$lessonSlug/",
+                    title = lessonTitle,
+                    onNavigateBack = { navController.popBackStack() }
                 )
             }
             composable(Screen.Forum.route) {

@@ -11,6 +11,7 @@ urlpatterns = [
     path('robots.txt', views.robots_txt, name='robots_txt'),
     path('library/', views.library, name='library'),
     path('interactive/', views.interactive_hub, name='interactive_hub'),
+    path('interactive/api/catalog.json', views.interactive_catalog_json, name='interactive_catalog_json'),
     path('interactive/sandbox/frame/', views.interactive_sandbox_frame, name='interactive_sandbox_frame'),
     path('interactive/<str:course_slug>/', views.interactive_course, name='interactive_course'),
     path('interactive/<str:course_slug>/<str:lesson_slug>/', views.interactive_lesson, name='interactive_lesson'),

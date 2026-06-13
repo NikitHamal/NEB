@@ -2,8 +2,11 @@ package com.neb.ians.ui.screens.library
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -19,6 +22,8 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.FilterList
 import androidx.compose.material.icons.outlined.Search
@@ -65,7 +70,7 @@ import com.neb.ians.ui.components.WebPillShape
 import com.neb.ians.ui.components.WebResourceCard
 import com.neb.ians.ui.components.WebTopBar
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun LibraryScreen(
     onResourceClick: (String) -> Unit,
@@ -73,6 +78,7 @@ fun LibraryScreen(
     onUploadClick: () -> Unit = {},
     onNotificationsClick: () -> Unit = {},
     onProfileClick: () -> Unit = {},
+    onInteractiveLessonClick: (courseSlug: String, lessonSlug: String, courseTitle: String, lessonTitle: String) -> Unit = { _, _, _, _ -> },
     viewModel: LibraryViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -106,14 +112,22 @@ fun LibraryScreen(
             ) {
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
-                        text = if (currentTab == "library") "Digital Library" else "Syllabus",
+                        text = when (currentTab) {
+                            "library" -> "Digital Library"
+                            "syllabus" -> "Syllabus"
+                            else -> "Interactive"
+                        },
                         style = MaterialTheme.typography.headlineSmall,
                         fontWeight = FontWeight.ExtraBold,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
                     Text(
-                        text = if (currentTab == "library") "Notes, past papers, textbooks, and guides." else "Browse subjects by grade level.",
+                        text = when (currentTab) {
+                            "library" -> "Notes, past papers, textbooks, and guides."
+                            "syllabus" -> "Browse subjects by grade level."
+                            else -> "3D & 2D simulations, virtual labs and coding."
+                        },
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         maxLines = 2,
@@ -140,44 +154,53 @@ fun LibraryScreen(
                 onTabSelected = { currentTab = it }
             )
 
-            if (currentTab == "library") {
-                if (hasActiveFilters) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp, vertical = 4.dp),
-                        horizontalArrangement = Arrangement.spacedBy(6.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        uiState.selectedSubject?.let {
-                            ActiveFilterChip(label = it, onRemove = { viewModel.selectSubject(it) })
-                        }
-                        uiState.selectedGradeLevel?.let {
-                            ActiveFilterChip(label = it, onRemove = { viewModel.selectGradeLevel(it) })
-                        }
-                        uiState.selectedType?.let {
-                            ActiveFilterChip(label = it, onRemove = { viewModel.selectType(it) })
-                        }
-                        TextButton(onClick = viewModel::clearFilters) {
-                            Text("Clear all", style = MaterialTheme.typography.labelSmall)
+            when (currentTab) {
+                "library" -> {
+                    if (hasActiveFilters) {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .horizontalScroll(rememberScrollState())
+                                .padding(horizontal = 16.dp, vertical = 4.dp),
+                            horizontalArrangement = Arrangement.spacedBy(6.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            uiState.selectedSubject?.let {
+                                ActiveFilterChip(label = it, onRemove = { viewModel.selectSubject(it) })
+                            }
+                            uiState.selectedGradeLevel?.let {
+                                ActiveFilterChip(label = it, onRemove = { viewModel.selectGradeLevel(it) })
+                            }
+                            uiState.selectedType?.let {
+                                ActiveFilterChip(label = it, onRemove = { viewModel.selectType(it) })
+                            }
+                            TextButton(onClick = viewModel::clearFilters) {
+                                Text("Clear all", style = MaterialTheme.typography.labelSmall)
+                            }
                         }
                     }
+                    LibraryContent(
+                        uiState = uiState,
+                        hasActiveFilters = hasActiveFilters,
+                        onResourceClick = onResourceClick,
+                        onRetry = { viewModel.refresh() },
+                        onSortSelected = viewModel::selectSort,
+                        onLoadMore = viewModel::loadNextPage
+                    )
                 }
-                LibraryContent(
-                    uiState = uiState,
-                    hasActiveFilters = hasActiveFilters,
-                    onResourceClick = onResourceClick,
-                    onRetry = { viewModel.refresh() },
-                    onSortSelected = viewModel::selectSort,
-                    onLoadMore = viewModel::loadNextPage
-                )
-            } else {
-                SyllabusContent(
-                    onSubjectClick = { subject ->
-                        currentTab = "library"
-                        viewModel.selectSubject(subject)
-                    }
-                )
+                "syllabus" -> {
+                    SyllabusContent(
+                        onSubjectClick = { subject ->
+                            currentTab = "library"
+                            viewModel.selectSubject(subject)
+                        }
+                    )
+                }
+                else -> {
+                    InteractiveContent(
+                        onLessonClick = onInteractiveLessonClick
+                    )
+                }
             }
         }
     }
@@ -219,15 +242,18 @@ private fun ActiveFilterChip(label: String, onRemove: () -> Unit) {
     }
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun FilterSheetContent(
     uiState: LibraryUiState,
     viewModel: LibraryViewModel,
     onApply: () -> Unit
 ) {
+    // Vertically scrollable so all sections + apply button are reachable on small screens.
     Column(
         modifier = Modifier
             .fillMaxWidth()
+            .verticalScroll(rememberScrollState())
             .padding(horizontal = 16.dp, vertical = 8.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
@@ -255,8 +281,10 @@ private fun FilterSheetContent(
             fontWeight = FontWeight.SemiBold,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
-        Row(
+        // FlowRow wraps chips to the next line instead of overflowing off-screen.
+        FlowRow(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier.fillMaxWidth()
         ) {
             LibraryUiState.SUBJECTS.forEach { subject ->
@@ -274,8 +302,9 @@ private fun FilterSheetContent(
             fontWeight = FontWeight.SemiBold,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
-        Row(
+        FlowRow(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier.fillMaxWidth()
         ) {
             LibraryUiState.GRADE_LEVELS.forEach { grade ->
@@ -293,8 +322,9 @@ private fun FilterSheetContent(
             fontWeight = FontWeight.SemiBold,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
-        Row(
+        FlowRow(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier.fillMaxWidth()
         ) {
             LibraryUiState.TYPES.forEach { type ->
@@ -316,8 +346,11 @@ private fun LibraryTabs(
     onTabSelected: (String) -> Unit
 ) {
     Column(modifier = Modifier.padding(horizontal = 16.dp)) {
+        // Horizontally scrollable so 3+ tabs fit comfortably on small screens.
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .horizontalScroll(rememberScrollState()),
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             TabButton(
@@ -329,6 +362,11 @@ private fun LibraryTabs(
                 text = "Syllabus",
                 selected = currentTab == "syllabus",
                 onClick = { onTabSelected("syllabus") }
+            )
+            TabButton(
+                text = "Interactive",
+                selected = currentTab == "interactive",
+                onClick = { onTabSelected("interactive") }
             )
         }
         HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
