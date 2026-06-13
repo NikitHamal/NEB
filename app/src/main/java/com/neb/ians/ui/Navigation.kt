@@ -57,6 +57,8 @@ import com.neb.ians.ui.screens.bookmarks.BookmarksScreen
 import com.neb.ians.ui.screens.ai.NebyAiScreen
 import com.neb.ians.ui.screens.study.StudyLabScreen
 import com.neb.ians.ui.screens.study.StudySpaceScreen
+import com.neb.ians.ui.screens.interactive.InteractiveCourseScreen
+import com.neb.ians.ui.screens.interactive.InteractiveLessonScreen
 import com.neb.ians.ui.screens.auth.SplashScreen
 import com.neb.ians.ui.screens.auth.LoginScreen
 import com.neb.ians.ui.screens.auth.EmailSignupScreen
@@ -87,6 +89,12 @@ sealed class Screen(val route: String) {
     data object StudyLab : Screen("study_lab")
     data object StudySpace : Screen("study_space/{spaceId}") {
         fun createRoute(spaceId: String) = "study_space/$spaceId"
+    }
+    data object InteractiveCourse : Screen("interactive/course/{courseSlug}") {
+        fun createRoute(courseSlug: String) = "interactive/course/$courseSlug"
+    }
+    data object InteractiveLesson : Screen("interactive/lesson/{courseSlug}/{lessonSlug}") {
+        fun createRoute(courseSlug: String, lessonSlug: String) = "interactive/lesson/$courseSlug/$lessonSlug"
     }
     data object NebyAi : Screen("neby_ai")
     data object Analytics : Screen("analytics")
@@ -341,7 +349,10 @@ fun NEBiansNavHost(
                     onSearchClick = { navController.navigate(Screen.Search.route) },
                     onUploadClick = { navController.navigate(Screen.StudyLab.route) },
                     onNotificationsClick = { navController.navigate(Screen.Notifications.route) },
-                    onProfileClick = navigateToOwnProfile
+                    onProfileClick = navigateToOwnProfile,
+                    onInteractiveCourseClick = { courseSlug ->
+                        navController.navigate(Screen.InteractiveCourse.createRoute(courseSlug))
+                    }
                 )
             }
             composable(Screen.Forum.route) {
@@ -402,6 +413,36 @@ fun NEBiansNavHost(
                 NebyAiScreen(
                     onNavigateBack = { navController.popBackStack() },
                     onSearchClick = { navController.navigate(Screen.Search.route) }
+                )
+            }
+            composable(
+                route = Screen.InteractiveCourse.route,
+                arguments = listOf(navArgument("courseSlug") { type = NavType.StringType })
+            ) { backStackEntry ->
+                val courseSlug = backStackEntry.arguments?.getString("courseSlug") ?: return@composable
+                InteractiveCourseScreen(
+                    courseSlug = courseSlug,
+                    onLessonClick = { cs, ls ->
+                        navController.navigate(Screen.InteractiveLesson.createRoute(cs, ls))
+                    },
+                    onNavigateBack = { navController.popBackStack() }
+                )
+            }
+            composable(
+                route = Screen.InteractiveLesson.route,
+                arguments = listOf(
+                    navArgument("courseSlug") { type = NavType.StringType },
+                    navArgument("lessonSlug") { type = NavType.StringType }
+                )
+            ) { backStackEntry ->
+                val courseSlug = backStackEntry.arguments?.getString("courseSlug") ?: return@composable
+                val lessonSlug = backStackEntry.arguments?.getString("lessonSlug") ?: return@composable
+                InteractiveLessonScreen(
+                    courseSlug = courseSlug,
+                    lessonSlug = lessonSlug,
+                    onNavigateBack = { navController.popBackStack() },
+                    isDark = isDarkMode,
+                    onToggleTheme = { settingsViewModel.setDarkMode(!isDarkMode) }
                 )
             }
             composable(Screen.Analytics.route) {

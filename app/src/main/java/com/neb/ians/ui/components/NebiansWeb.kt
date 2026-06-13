@@ -153,6 +153,7 @@ fun WebTopBar(
     avatarInitial: String? = null,
     avatarUrl: String? = null,
     unreadCount: Int = 0,
+    compactTitle: Boolean = false,
     actions: @Composable RowScope.() -> Unit = {},
     viewModel: TopBarViewModel = hiltViewModel()
 ) {
@@ -214,8 +215,8 @@ fun WebTopBar(
                     title?.let {
                         Text(
                             text = it,
-                            style = MaterialTheme.typography.titleMedium,
-                            fontWeight = FontWeight.Bold,
+                            style = if (compactTitle) MaterialTheme.typography.bodyMedium else MaterialTheme.typography.titleMedium,
+                            fontWeight = if (compactTitle) FontWeight.Normal else FontWeight.Bold,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis
                         )

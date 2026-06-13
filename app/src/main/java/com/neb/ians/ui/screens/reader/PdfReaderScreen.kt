@@ -76,9 +76,9 @@ fun PdfReaderScreen(
     Scaffold(
         topBar = {
             WebTopBar(
-                title = "Resource",
-                subtitle = pageState.resource?.title,
+                title = pageState.resource?.title,
                 showBack = true,
+                compactTitle = true,
                 onBackClick = onNavigateBack,
                 onSearchClick = {},
                 onNotificationsClick = {},
