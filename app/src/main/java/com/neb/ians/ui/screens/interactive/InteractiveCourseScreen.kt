@@ -222,9 +222,7 @@ private fun CourseDetailContent(
                     if (course.level.isNotBlank()) {
                         WebChip(text = course.level, selected = false)
                     }
-                    if (course.ageRange.isNotBlank()) {
-                        WebChip(text = "Ages ${course.ageRange}", selected = false)
-                    }
+                    
                     WebChip(text = "${course.lessonCount} lessons", selected = false)
                     if (course.totalMinutes > 0) {
                         WebChip(text = "${course.totalMinutes} min", selected = false)

@@ -842,18 +842,7 @@ private fun InteractiveCourseCard(
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
-                if (course.ageRange.isNotBlank()) {
-                    Text(
-                        text = "\u00B7",
-                        style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.3f)
-                    )
-                    Text(
-                        text = "Ages ${course.ageRange}",
-                        style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
+                
             }
         }
     }
