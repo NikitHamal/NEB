@@ -61,6 +61,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.neb.ians.R
 import com.neb.ians.data.api.ApiInteractiveCategory
+import com.neb.ians.data.api.ApiInteractiveCourseSummary
 import com.neb.ians.ui.components.ErrorCard
 import com.neb.ians.ui.components.ShimmerLibraryGrid
 import com.neb.ians.ui.components.WebChip
@@ -573,7 +574,8 @@ private fun SyllabusContent(
         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 18.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        items(LibraryUiState.GRADE_LEVELS, key = { it }) { grade ->
+        items(count = LibraryUiState.GRADE_LEVELS.size, key = { LibraryUiState.GRADE_LEVELS[it] }) { index ->
+            val grade = LibraryUiState.GRADE_LEVELS[index]
             Surface(
                 modifier = Modifier.fillMaxWidth(),
                 shape = WebPanelShape,

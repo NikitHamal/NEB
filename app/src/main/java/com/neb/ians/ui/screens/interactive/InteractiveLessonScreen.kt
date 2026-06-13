@@ -66,7 +66,7 @@ fun InteractiveLessonScreen(
                         allowFileAccess = false
                         allowContentAccess = false
                         cacheMode = WebSettings.LOAD_DEFAULT
-                        mixedContentMode = WebSettings.MIXED_CONTENT_NEVER
+                        mixedContentMode = 0 // MIXED_CONTENT_NEVER
                         userAgentString = userAgentString + " NEBiansAndroid"
                     }
                     webViewClient = object : WebViewClient() {
