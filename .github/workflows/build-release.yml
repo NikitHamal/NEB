@@ -8,6 +8,7 @@ on:
       - 'settings.gradle.kts'
       - 'gradle.properties'
       - 'gradle/**'
+      - '.github/workflows/build-release.yml'
   workflow_dispatch:
     inputs:
       build_legacy:
