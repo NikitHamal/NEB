@@ -51,8 +51,6 @@ import com.neb.ians.util.getSubjectColor
 fun ResourceDetailScreen(
     onNavigateBack: () -> Unit,
     onOpenPdf: (resourceId: String, fileUrl: String, title: String) -> Unit,
-    isDark: Boolean = false,
-    onToggleTheme: () -> Unit = {},
     viewModel: ResourceDetailViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -77,9 +75,7 @@ fun ResourceDetailScreen(
             NebTopBar(
                 showBrand = false,
                 title = "Resource",
-                onBack = onNavigateBack,
-                isDark = isDark,
-                onToggleTheme = onToggleTheme
+                onBack = onNavigateBack
             )
         },
         containerColor = MaterialTheme.colorScheme.surfaceContainerLowest

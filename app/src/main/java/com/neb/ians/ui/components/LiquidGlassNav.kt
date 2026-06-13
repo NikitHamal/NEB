@@ -21,8 +21,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
-import androidx.compose.material.icons.filled.DarkMode
-import androidx.compose.material.icons.filled.LightMode
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -67,8 +65,6 @@ fun NebTopBar(
     showBrand: Boolean = true,
     title: String? = null,
     onBack: (() -> Unit)? = null,
-    isDark: Boolean = false,
-    onToggleTheme: (() -> Unit)? = null,
     onSearch: (() -> Unit)? = null,
     isAuthenticated: Boolean = false,
     photoUrl: String? = null,
@@ -117,15 +113,8 @@ fun NebTopBar(
         if (actions != null) {
             actions()
         }
-        if (onSearch != null) {
+if (onSearch != null) {
             NebIconButton(Icons.Outlined.Search, "Search", onSearch)
-        }
-        if (onToggleTheme != null) {
-            NebIconButton(
-                if (isDark) Icons.Filled.LightMode else Icons.Filled.DarkMode,
-                "Toggle theme",
-                onToggleTheme
-            )
         }
         if (isAuthenticated && onProfile != null) {
             Spacer(Modifier.width(4.dp))

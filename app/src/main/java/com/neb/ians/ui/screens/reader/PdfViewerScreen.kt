@@ -28,8 +28,6 @@ import com.neb.ians.ui.components.NebTopBar
 @Composable
 fun PdfViewerScreen(
     onNavigateBack: () -> Unit,
-    isDark: Boolean = false,
-    onToggleTheme: () -> Unit = {},
     viewModel: PdfViewerViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -41,8 +39,6 @@ fun PdfViewerScreen(
                 showBrand = false,
                 title = uiState.title.ifBlank { "Document" },
                 onBack = onNavigateBack,
-                isDark = isDark,
-                onToggleTheme = onToggleTheme,
                 actions = {
                     IconButton(onClick = {
                         val url = viewModel.fileUrl()

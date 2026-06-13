@@ -151,7 +151,6 @@ fun NEBiansNavHost(
     authRepository: AuthRepository
 ) {
     val authState by settingsViewModel.authState.collectAsStateWithLifecycle()
-    val isDarkMode by settingsViewModel.isDarkMode.collectAsStateWithLifecycle()
     val userProfile by settingsViewModel.userProfile.collectAsStateWithLifecycle()
     val isAuthenticated = authState is AuthState.Authenticated
     LaunchedEffect(authState) {
@@ -440,9 +439,7 @@ fun NEBiansNavHost(
                 InteractiveLessonScreen(
                     courseSlug = courseSlug,
                     lessonSlug = lessonSlug,
-                    onNavigateBack = { navController.popBackStack() },
-                    isDark = isDarkMode,
-                    onToggleTheme = { settingsViewModel.setDarkMode(!isDarkMode) }
+                    onNavigateBack = { navController.popBackStack() }
                 )
             }
             composable(Screen.Analytics.route) {
@@ -508,9 +505,7 @@ fun NEBiansNavHost(
                 arguments = listOf(navArgument("resourceId") { type = NavType.StringType })
             ) {
                 PdfViewerScreen(
-                    onNavigateBack = { navController.popBackStack() },
-                    isDark = isDarkMode,
-                    onToggleTheme = { settingsViewModel.setDarkMode(!isDarkMode) }
+                    onNavigateBack = { navController.popBackStack() }
                 )
             }
             composable(
@@ -521,9 +516,7 @@ fun NEBiansNavHost(
                     onNavigateBack = { navController.popBackStack() },
                     onOpenPdf = { resourceId, fileUrl, title ->
                         navController.navigate(Screen.PdfViewer.createRoute(resourceId))
-                    },
-                    isDark = isDarkMode,
-                    onToggleTheme = { settingsViewModel.setDarkMode(!isDarkMode) }
+                    }
                 )
             }
             composable(
