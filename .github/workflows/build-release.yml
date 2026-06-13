@@ -38,7 +38,7 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
         with:
           cache-read-only: false
-          cache-cleanup: true
+          cache-cleanup: on-success
 
       - name: Inject Google Services JSON
         env:
