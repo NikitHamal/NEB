@@ -1510,6 +1510,31 @@ document.addEventListener('DOMContentLoaded', function() {
       const countEl = document.getElementById('post-like-count-' + data.post_id);
       if (countEl) countEl.textContent = data.thumbs_up_count;
     });
+    // Own like state changed (from user channel)
+    window.WS.on('user:post.like_changed', function (data) {
+      if (!data || !data.post_id || data.isThumbedUp === undefined) return;
+      if (data.post_id !== POST_ID) return;
+      const icon = document.querySelector('.post-action-bar .like-icon');
+      if (icon) {
+        icon.classList.toggle('material-symbols-filled', data.isThumbedUp);
+        icon.classList.toggle('material-symbols-outlined', !data.isThumbedUp);
+      }
+      const countEl = document.getElementById('post-like-count-' + data.post_id);
+      if (countEl) countEl.textContent = data.thumbs_up_count;
+    });
+    // Own reply like state changed (from user channel)
+    window.WS.on('user:reply.like_changed', function (data) {
+      if (!data || !data.reply_id || data.isThumbedUp === undefined) return;
+      const btn = document.getElementById('reply-like-btn-' + data.reply_id);
+      if (!btn) return;
+      const icon = btn.querySelector('.like-icon');
+      if (icon) {
+        icon.classList.toggle('material-symbols-filled', data.isThumbedUp);
+        icon.classList.toggle('material-symbols-outlined', !data.isThumbedUp);
+      }
+      const countEl = btn.querySelector('.fp-action-count, .count');
+      if (countEl) countEl.textContent = data.thumbs_up_count;
+    });
     // Live post updates (edit): refresh page since content changed substantially
     window.WS.on('post.' + POST_ID + ':post.updated', function () {
       // Lightweight: just show a snackbar; user can refresh if they want
