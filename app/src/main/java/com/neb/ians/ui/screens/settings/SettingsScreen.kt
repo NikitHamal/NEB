@@ -13,6 +13,7 @@ import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.ui.res.painterResource
+import androidx.compose.material.icons.outlined.Delete
 import com.neb.ians.R
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -32,6 +33,7 @@ import com.neb.ians.ui.components.Avatar
 fun SettingsScreen(
     settingsViewModel: SettingsViewModel,
     onNavigateToEditProfile: () -> Unit,
+    onNavigateToDeleteAccount: () -> Unit = {},
     onNavigateToLogin: () -> Unit = {}
 ) {
     val isDarkMode by settingsViewModel.isDarkMode.collectAsStateWithLifecycle()
@@ -299,6 +301,24 @@ fun SettingsScreen(
                     Text("Sign In", fontWeight = FontWeight.SemiBold)
                 }
             } else {
+                Spacer(modifier = Modifier.height(16.dp))
+                SettingsSectionLabel(label = "Danger Zone")
+                ListItem(
+                    modifier = Modifier.clickable { onNavigateToDeleteAccount() },
+                    headlineContent = { Text("Delete Account", color = MaterialTheme.colorScheme.error, fontWeight = FontWeight.Medium) },
+                    supportingContent = { Text("Permanently delete your profile and personal activity") },
+                    leadingContent = {
+                        Icon(
+                            imageVector = Icons.Outlined.Delete,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.error
+                        )
+                    },
+                    colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest)
+                )
+                HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f))
+                Spacer(modifier = Modifier.height(24.dp))
+
                 OutlinedButton(
                     onClick = { settingsViewModel.logout() },
                     modifier = Modifier

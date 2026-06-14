@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Deletion Scheduled{% endblock %}
+
+{% block content %}
+<div class="md-container-narrow" style="padding-top:48px; text-align: center;">
+  <div class="md-card p-4" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px;">
+    <div style="width: 64px; height: 64px; border-radius: 50%; background-color: var(--md-error-container, #F9DEDC); color: var(--md-error, #B3261E); display: flex; align-items: center; justify-content: center;">
+      <span class="material-symbols-outlined" style="font-size: 36px;">done</span>
+    </div>
+    
+    <h1 class="md-headline-small" style="margin-bottom: 8px;">Deletion Request Received</h1>
+    
+    <p style="font-size: 0.9375rem; color: var(--md-on-surface-variant); max-width: 400px; line-height: 1.6; margin-bottom: 24px;">
+      Your request to delete your account has been submitted. Your account data is scheduled to be permanently removed on <strong>{{ scheduled_date }}</strong>.
+    </p>
+
+    <p style="font-size: 0.8125rem; color: var(--md-outline); margin-bottom: 24px;">
+      You can cancel this request at any time by visiting your profile settings before the scheduled deletion date.
+    </p>
+    
+    <a href="{% url 'web:home' %}" class="md-btn md-btn-filled" style="text-decoration: none;">
+      Back to Home
+    </a>
+  </div>
+</div>
+{% endblock %}
