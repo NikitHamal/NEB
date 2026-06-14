@@ -233,6 +233,15 @@
       {% if has_password %}Change Password{% else %}Set Password{% endif %}
     </a>
   </div>
+
+  <div class="md-card p-3" style="margin-top:16px; border: 1px solid var(--md-error, #B3261E);">
+    <h3 style="margin-bottom:12px;font-size:1rem;font-weight:600;color:var(--md-error, #B3261E);">Danger Zone</h3>
+    <p style="font-size:0.875rem;color:var(--md-on-surface-variant);margin-bottom:16px;">Once you request deletion, your account and all associated personal details will be scheduled for permanent deletion within 30 days.</p>
+    <a href="{% url 'web:delete_account' %}" class="md-btn md-btn-outlined" style="width:100%;justify-content:center;text-decoration:none;color:var(--md-error, #B3261E);border-color:var(--md-error, #B3261E);">
+      <span class="material-symbols-outlined" style="font-size:18px;margin-right:8px;">delete_forever</span>
+      Request Account Deletion
+    </a>
+  </div>
 </div>
 
 <div class="subject-pick-overlay" id="subjects-pick-overlay" style="display:none">

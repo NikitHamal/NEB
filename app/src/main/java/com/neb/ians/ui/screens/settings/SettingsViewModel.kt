@@ -114,6 +114,55 @@ class SettingsViewModel @Inject constructor(
     fun resetPasswordState() {
         _passwordState.value = PasswordUiState.Idle
     }
+
+    private val _deletionRequestState = MutableStateFlow<DeletionRequestUiState>(DeletionRequestUiState.Idle)
+    val deletionRequestState: StateFlow<DeletionRequestUiState> = _deletionRequestState.asStateFlow()
+
+    fun fetchDeletionRequestStatus() {
+        viewModelScope.launch {
+            _deletionRequestState.value = DeletionRequestUiState.Loading
+            val response = authRepository.getDeleteAccountRequestStatus()
+            if (response != null) {
+                _deletionRequestState.value = DeletionRequestUiState.Loaded(
+                    hasPending = response.hasPending,
+                    request = response.request
+                )
+            } else {
+                _deletionRequestState.value = DeletionRequestUiState.Error("Failed to fetch account deletion status")
+            }
+        }
+    }
+
+    fun requestAccountDeletion(reason: String, onSuccess: () -> Unit = {}) {
+        viewModelScope.launch {
+            _deletionRequestState.value = DeletionRequestUiState.Loading
+            val response = authRepository.requestAccountDeletion(reason)
+            if (response != null && response.success) {
+                _deletionRequestState.value = DeletionRequestUiState.Loaded(
+                    hasPending = true,
+                    request = response.request
+                )
+                onSuccess()
+            } else {
+                _deletionRequestState.value = DeletionRequestUiState.Error(response?.error ?: "Failed to submit request")
+            }
+        }
+    }
+
+    fun cancelAccountDeletion() {
+        viewModelScope.launch {
+            _deletionRequestState.value = DeletionRequestUiState.Loading
+            val success = authRepository.cancelAccountDeletion()
+            if (success) {
+                _deletionRequestState.value = DeletionRequestUiState.Loaded(
+                    hasPending = false,
+                    request = null
+                )
+            } else {
+                _deletionRequestState.value = DeletionRequestUiState.Error("Failed to cancel account deletion request")
+            }
+        }
+    }
 }
 
 sealed class PasswordUiState {
@@ -122,3 +171,14 @@ sealed class PasswordUiState {
     object Success : PasswordUiState()
     data class Error(val message: String) : PasswordUiState()
 }
+
+sealed class DeletionRequestUiState {
+    object Idle : DeletionRequestUiState()
+    object Loading : DeletionRequestUiState()
+    data class Loaded(
+        val hasPending: Boolean,
+        val request: com.neb.ians.data.api.DeletionRequestInfo?
+    ) : DeletionRequestUiState()
+    data class Error(val message: String) : DeletionRequestUiState()
+}
+

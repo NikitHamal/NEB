@@ -90,6 +90,10 @@
       <span class="material-symbols-outlined">science</span>
       Study Spaces
     </a>
+    <a href="{% url 'web:admin_deletions' %}" class="{% if active_page == 'deletions' %}active{% endif %}">
+      <span class="material-symbols-outlined">delete_forever</span>
+      Account Deletions
+    </a>
     <div class="md-divider" style="margin:8px 16px;"></div>
     <a href="{% url 'web:home' %}" style="color:var(--md-on-surface-variant);">
       <span class="material-symbols-outlined">open_in_new</span>
@@ -165,6 +169,10 @@
       <a href="{% url 'web:admin_study_spaces' %}" class="{% if active_page == 'study_spaces' %}active{% endif %}">
         <span class="material-symbols-outlined">science</span>
         Study Spaces
+      </a>
+      <a href="{% url 'web:admin_deletions' %}" class="{% if active_page == 'deletions' %}active{% endif %}">
+        <span class="material-symbols-outlined">delete_forever</span>
+        Account Deletions
       </a>
       <div class="md-divider"></div>
       <a href="{% url 'web:home' %}" style="color:var(--md-on-surface-variant);">

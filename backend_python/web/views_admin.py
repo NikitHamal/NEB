@@ -1566,3 +1566,49 @@ def admin_study_space_delete(request, space_id):
     if request.method == 'POST':
         StudySpace.objects.filter(id=space_id).delete()
     return redirect('web:admin_study_spaces')
+
+
+def admin_deletions(request):
+    """Admin view to list pending account deletion requests."""
+    redirect_response = _require_staff_admin(request)
+    if redirect_response:
+        return redirect_response
+
+    from api.models import AccountDeletionRequest
+    pending_requests = AccountDeletionRequest.objects.filter(status=AccountDeletionRequest.STATUS_PENDING).select_related('user').order_by('-created_at')
+
+    return render(request, 'admin_panel/deletions.html', {
+        'is_admin': True,
+        'active_page': 'deletions',
+        'pending_requests': pending_requests,
+    })
+
+
+def admin_process_deletion(request, request_id):
+    """Admin view to execute (delete data) or reject/cancel a deletion request."""
+    redirect_response = _require_staff_admin(request)
+    if redirect_response:
+        return redirect_response
+
+    if request.method != 'POST':
+        return redirect('web:admin_deletions')
+
+    from api.models import AccountDeletionRequest
+    from api.services import delete_user_account
+
+    try:
+        del_request = AccountDeletionRequest.objects.get(pk=request_id)
+    except AccountDeletionRequest.DoesNotExist:
+        return redirect('web:admin_deletions')
+
+    action = request.POST.get('action', '').strip()
+    admin_user = getattr(request, 'user', None)
+
+    if action == 'delete':
+        # Execute the deletion service
+        delete_user_account(del_request.user_id, completed_by=admin_user)
+    elif action == 'reject':
+        # Just delete the request so user is not deleted
+        del_request.delete()
+
+    return redirect('web:admin_deletions')
