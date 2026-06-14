@@ -1,28 +1,20 @@
 package com.neb.ians.ui.screens.home
 
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -38,12 +30,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.neb.ians.R
 import com.neb.ians.ui.components.ErrorCard
+import com.neb.ians.ui.components.ForumPostCard
 import com.neb.ians.ui.components.ShimmerHomeScreen
 import com.neb.ians.ui.components.WebEmptyState
-import com.neb.ians.ui.components.WebOutlinedButton
-import com.neb.ians.ui.components.WebPanelShape
-import com.neb.ians.ui.components.WebPostCard
-import com.neb.ians.ui.components.WebPrimaryButton
 import com.neb.ians.ui.components.WebResourceCard
 import com.neb.ians.ui.components.WebSectionHeader
 import com.neb.ians.ui.components.WebTopBar
@@ -60,6 +49,7 @@ fun HomeScreen(
     onPostClick: (String) -> Unit = {},
     onNotificationsClick: () -> Unit = {},
     onProfileClick: () -> Unit = {},
+    onUserProfileClick: (String) -> Unit = {},
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -148,11 +138,15 @@ fun HomeScreen(
                             verticalArrangement = Arrangement.spacedBy(12.dp)
                         ) {
                             trendingPosts.forEach { post ->
-                                WebPostCard(
+                                ForumPostCard(
                                     post = post,
+                                    isOwnPost = uiState.currentUserId != null && post.authorId == uiState.currentUserId,
                                     onClick = { onPostClick(post.id) },
                                     onLikeClick = {},
-                                    compact = true
+                                    onBookmarkClick = {},
+                                    onShareClick = {},
+                                    onReportClick = {},
+                                    onAuthorClick = { onUserProfileClick(post.authorName) }
                                 )
                             }
                         }
