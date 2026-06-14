@@ -132,7 +132,7 @@ fun SettingsScreen(
                         Text("Guest Mode", fontWeight = FontWeight.SemiBold)
                     },
                     supportingContent = {
-                        Text("Sign in to back up annotations, join discussions, and vote.")
+                        Text("Sign in to join discussions and vote.")
                     },
                     leadingContent = {
                         Box(
