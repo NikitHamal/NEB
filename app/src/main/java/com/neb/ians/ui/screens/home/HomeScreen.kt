@@ -101,14 +101,7 @@ fun HomeScreen(
                     }
 
                     HomeHero(
-                        userName = uiState.userName,
-                        onLibraryClick = onViewAllClick,
-                        onForumClick = onForumClick
-                    )
-
-                    StudyLabHero(
-                        onClick = onStudyLabClick,
-                        onNebyAiClick = onNebyAiClick
+                        userName = uiState.userName
                     )
 
                     WebSectionHeader(
@@ -174,138 +167,36 @@ fun HomeScreen(
 
 @Composable
 private fun HomeHero(
-    userName: String,
-    onLibraryClick: () -> Unit,
-    onForumClick: () -> Unit
+    userName: String
 ) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 20.dp, vertical = 34.dp),
+            .padding(horizontal = 20.dp, vertical = 24.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
             text = if (userName.isBlank() || userName == "Student") "Welcome to NEBians" else "Hello, $userName!",
-            style = MaterialTheme.typography.headlineMedium,
+            style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.ExtraBold,
             color = MaterialTheme.colorScheme.onSurface,
             textAlign = TextAlign.Center,
             maxLines = 2,
             overflow = TextOverflow.Ellipsis
         )
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = Modifier.height(8.dp))
         Text(
             text = "Discover study resources, join discussions, and connect with learners and teachers of all classes and faculties.",
-            style = MaterialTheme.typography.bodyLarge,
+            style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center,
-            lineHeight = MaterialTheme.typography.bodyLarge.lineHeight,
+            lineHeight = MaterialTheme.typography.bodyMedium.lineHeight,
             modifier = Modifier
                 .fillMaxWidth()
                 .widthIn(max = 520.dp),
             maxLines = 4,
             overflow = TextOverflow.Ellipsis
         )
-        Spacer(modifier = Modifier.height(22.dp))
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(10.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            WebPrimaryButton(
-                text = "Browse",
-                painter = painterResource(id = R.drawable.ic_book),
-                onClick = onLibraryClick
-            )
-            WebOutlinedButton(
-                text = "Join",
-                painter = painterResource(id = R.drawable.ic_forum_outlined),
-                onClick = onForumClick
-            )
-        }
-    }
-}
-
-@Composable
-private fun StudyLabHero(
-    onClick: () -> Unit,
-    onNebyAiClick: () -> Unit
-) {
-    Column(
-        modifier = Modifier.padding(horizontal = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(10.dp)
-    ) {
-        Surface(
-            modifier = Modifier
-                .fillMaxWidth()
-                .clickable(onClick = onClick),
-            shape = WebPanelShape,
-            color = MaterialTheme.colorScheme.surfaceContainerLowest,
-            border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
-        ) {
-            Row(
-                modifier = Modifier.padding(18.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(14.dp)
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_science),
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.size(30.dp)
-                )
-                Column(modifier = Modifier.weight(1f)) {
-                    Text(
-                        text = "Study Lab",
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.Bold,
-                        maxLines = 1
-                    )
-                    Text(
-                        text = "Upload notes and PDFs. Get AI summaries, mindmaps, quizzes, and flashcards.",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        maxLines = 3,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                }
-            }
-        }
-
-        Surface(
-            modifier = Modifier
-                .fillMaxWidth()
-                .clickable(onClick = onNebyAiClick),
-            shape = WebPanelShape,
-            color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.45f),
-            border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
-        ) {
-            Row(
-                modifier = Modifier.padding(16.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                Icon(
-                    imageVector = Icons.Filled.Add,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.size(26.dp)
-                )
-                Column(modifier = Modifier.weight(1f)) {
-                    Text(
-                        text = "Neby AI",
-                        style = MaterialTheme.typography.titleSmall,
-                        fontWeight = FontWeight.Bold
-                    )
-                    Text(
-                        text = "Ask the new AI chat, continue sessions, and use Qwen file-aware models.",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        maxLines = 2,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                }
-            }
-        }
     }
 }
 

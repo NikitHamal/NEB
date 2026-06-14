@@ -293,6 +293,29 @@ fun NotificationItem(
     onClick: () -> Unit,
     onAvatarClick: () -> Unit = {}
 ) {
+    val isSystem = notification.actorName.isNullOrBlank() ||
+                   notification.actorName.equals("System", ignoreCase = true) ||
+                   notification.verb.equals("system", ignoreCase = true)
+
+    val displayMessage = if (notification.message.isNotBlank()) {
+        notification.message
+    } else {
+        val actor = notification.actorName?.takeIf { it.isNotBlank() } ?: "Someone"
+        when (notification.verb.lowercase()) {
+            "like_post" -> "$actor liked your post"
+            "like_reply" -> "$actor liked your reply"
+            "reply" -> "$actor replied to your post"
+            "reply_reply" -> "$actor replied to your comment"
+            "follow" -> "$actor started following you"
+            "mention" -> "$actor mentioned you"
+            "like_resource" -> "$actor liked your resource"
+            "like_resource_comment" -> "$actor liked your comment"
+            "resource_comment" -> "$actor commented on your resource"
+            "resource_comment_reply" -> "$actor replied to your comment"
+            else -> "New activity on your account"
+        }
+    }
+
     Surface(
         modifier = Modifier
             .fillMaxWidth()
@@ -309,15 +332,35 @@ fun NotificationItem(
             verticalAlignment = Alignment.Top,
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            Avatar(
-                name = notification.actorName ?: "?",
-                imageUrl = notification.actorPhotoUrl,
-                size = 40.dp,
-                modifier = Modifier.clickable(onClick = onAvatarClick)
-            )
+            if (isSystem) {
+                Surface(
+                    modifier = Modifier.size(40.dp),
+                    shape = CircleShape,
+                    color = MaterialTheme.colorScheme.primaryContainer
+                ) {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.Notifications,
+                            contentDescription = "System Notification",
+                            modifier = Modifier.size(20.dp),
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                    }
+                }
+            } else {
+                Avatar(
+                    name = notification.actorName ?: "?",
+                    imageUrl = notification.actorPhotoUrl,
+                    size = 40.dp,
+                    modifier = Modifier.clickable(onClick = onAvatarClick)
+                )
+            }
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = notification.message,
+                    text = displayMessage,
                     style = MaterialTheme.typography.bodyMedium,
                     fontWeight = if (!notification.isRead) FontWeight.SemiBold else FontWeight.Normal,
                     color = MaterialTheme.colorScheme.onSurface,

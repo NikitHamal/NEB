@@ -118,7 +118,7 @@ fun NebTopBar(
         if (actions != null) {
             actions()
         }
-if (onSearch != null) {
+        if (onSearch != null) {
             NebIconButton(Icons.Outlined.Search, "Search", onSearch)
         }
         if (isAuthenticated && onProfile != null) {
@@ -128,7 +128,9 @@ if (onSearch != null) {
                 if (unread > 0) {
                     UnreadCountBadge(
                         count = unread,
-                        modifier = Modifier.align(Alignment.TopEnd)
+                        modifier = Modifier
+                            .align(Alignment.TopEnd)
+                            .padding(top = 1.dp, end = 1.dp)
                     )
                 }
             }
@@ -154,7 +156,6 @@ fun LiquidGlassBottomNav(
     onSelect: (NebNavItem) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val isDark = MaterialTheme.colorScheme.surface.luminanceIsDark()
     val glassBase = MaterialTheme.colorScheme.surfaceContainerLowest
     val glassBrush = Brush.verticalGradient(
         listOf(
