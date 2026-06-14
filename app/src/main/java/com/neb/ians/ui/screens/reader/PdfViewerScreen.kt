@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.filled.OpenInNew
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -32,6 +33,7 @@ fun PdfViewerScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
+    var showMenu by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -40,13 +42,45 @@ fun PdfViewerScreen(
                 title = uiState.title.ifBlank { "Document" },
                 onBack = onNavigateBack,
                 actions = {
-                    IconButton(onClick = {
-                        val url = viewModel.fileUrl()
-                        if (url.isNotBlank()) {
-                            runCatching { context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url))) }
+                    if (uiState.isLocalFileReady) {
+                        Box {
+                            IconButton(onClick = { showMenu = true }) {
+                                Icon(Icons.Filled.MoreVert, contentDescription = "More options")
+                            }
+                            DropdownMenu(
+                                expanded = showMenu,
+                                onDismissRequest = { showMenu = false }
+                            ) {
+                                DropdownMenuItem(
+                                    text = { Text("Open in...") },
+                                    onClick = {
+                                        showMenu = false
+                                        val localFile = viewModel.getLocalFile()
+                                        if (localFile != null && localFile.exists()) {
+                                            runCatching {
+                                                val authority = "${context.packageName}.fileprovider"
+                                                val uri = androidx.core.content.FileProvider.getUriForFile(context, authority, localFile)
+                                                val intent = Intent(Intent.ACTION_VIEW).apply {
+                                                    setDataAndType(uri, "application/pdf")
+                                                    addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                                                }
+                                                context.startActivity(Intent.createChooser(intent, "Open PDF with"))
+                                            }.onFailure { e ->
+                                                android.widget.Toast.makeText(context, "Cannot open: ${e.message}", android.widget.Toast.LENGTH_SHORT).show()
+                                            }
+                                        } else {
+                                            android.widget.Toast.makeText(context, "File not available locally", android.widget.Toast.LENGTH_SHORT).show()
+                                        }
+                                    },
+                                    leadingIcon = {
+                                        Icon(
+                                            Icons.Filled.OpenInNew,
+                                            contentDescription = null
+                                        )
+                                    }
+                                )
+                            }
                         }
-                    }) {
-                        Icon(Icons.Filled.OpenInNew, contentDescription = "Open externally")
                     }
                 }
             )
