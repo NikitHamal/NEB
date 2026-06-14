@@ -1342,3 +1342,29 @@ class SyllabusContent(models.Model):
         ordering = ['grade_level', 'subject', 'order']
         verbose_name = 'Syllabus Content'
         verbose_name_plural = 'Syllabus Contents'
+
+
+class AccountDeletionRequest(models.Model):
+    STATUS_PENDING = 'pending'
+    STATUS_COMPLETED = 'completed'
+    STATUS_CANCELLED = 'cancelled'
+    STATUS_CHOICES = [
+        (STATUS_PENDING, 'Pending Review'),
+        (STATUS_COMPLETED, 'Completed'),
+        (STATUS_CANCELLED, 'Cancelled'),
+    ]
+    id = models.CharField(max_length=36, primary_key=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='deletion_requests')
+    reason = models.TextField(blank=True, default='')
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default=STATUS_PENDING, db_index=True)
+    created_at = models.BigIntegerField()
+    scheduled_delete_at = models.BigIntegerField()
+    completed_at = models.BigIntegerField(default=0)
+    completed_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='completed_deletions')
+
+    class Meta:
+        db_table = 'account_deletion_requests'
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"Deletion request for {self.user_id} ({self.status})"

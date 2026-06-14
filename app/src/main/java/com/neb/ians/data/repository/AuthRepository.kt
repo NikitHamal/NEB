@@ -493,6 +493,40 @@ class AuthRepository @Inject constructor(
             }
         } catch (_: Exception) {}
     }
+
+    suspend fun getDeleteAccountRequestStatus(): com.neb.ians.data.api.AccountDeletionRequestResponse? {
+        return try {
+            val bearer = getBearerToken() ?: return null
+            withContext(Dispatchers.IO) {
+                apiService.getDeleteAccountRequestStatus(bearer)
+            }
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    suspend fun requestAccountDeletion(reason: String): com.neb.ians.data.api.AccountDeletionSubmitResponse? {
+        return try {
+            val bearer = getBearerToken() ?: return null
+            withContext(Dispatchers.IO) {
+                apiService.requestAccountDeletion(bearer, com.neb.ians.data.api.AccountDeletionSubmitRequest(reason))
+            }
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    suspend fun cancelAccountDeletion(): Boolean {
+        return try {
+            val bearer = getBearerToken() ?: return false
+            val response = withContext(Dispatchers.IO) {
+                apiService.cancelAccountDeletion(bearer)
+            }
+            response.status == "success" || response.message.isNotEmpty()
+        } catch (e: Exception) {
+            false
+        }
+    }
 }
 
 sealed class PasswordResult {

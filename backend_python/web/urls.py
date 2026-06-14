@@ -31,6 +31,7 @@ urlpatterns = [
     path('requests/', views.resource_requests_page, name='resource_requests'),
 
     path('profile/edit/', views.edit_profile, name='edit_profile'),
+    path('settings/delete-account/', views.delete_account_page, name='delete_account'),
     path('analytics/', views.analytics, name='analytics'),
     path('bookmarks/', views.bookmarks, name='bookmarks'),
     path('profile/<str:username>/card.png', views.profile_card_image, name='profile_card_image'),
@@ -130,6 +131,8 @@ urlpatterns = [
     path('admin/dashboard/', views.admin_dashboard, name='admin_dashboard'),
     path('admin/logout/', views.admin_logout, name='admin_logout'),
     path('admin/users/', views.admin_users, name='admin_users'),
+    path('admin/deletions/', views.admin_deletions, name='admin_deletions'),
+    path('admin/deletions/<str:request_id>/process/', views.admin_process_deletion, name='admin_process_deletion'),
     path('admin/users/<str:user_id>/', views.admin_user_detail, name='admin_user_detail'),
     path('admin/resources/', views.admin_resources, name='admin_resources'),
     path('admin/resources/new/', views.admin_resource_create, name='admin_resource_create'),

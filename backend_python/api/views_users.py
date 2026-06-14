@@ -268,3 +268,68 @@ def user_photo_activate(request, photo_id):
 
     logger.info("user_photo_activate: user %s switched to photo %s", current_user.username, photo_id)
     return Response({'success': True, 'photo_url': photo.url, 'photo': UserPhotoSerializer(photo).data})
+
+
+@api_view(['GET', 'POST', 'DELETE'])
+def user_delete_account_request(request):
+    """
+    GET /api/users/me/delete-account/ - Get status of deletion request
+    POST /api/users/me/delete-account/ - Create deletion request
+    DELETE /api/users/me/delete-account/ - Cancel/delete pending deletion request
+    """
+    user, err = _require_user(request)
+    if err:
+        return err
+
+    from .models import AccountDeletionRequest
+    from .utils import now_ms, uuid_str
+
+    if request.method == 'GET':
+        req = AccountDeletionRequest.objects.filter(user=user, status=AccountDeletionRequest.STATUS_PENDING).first()
+        if req:
+            return Response({
+                'hasPending': True,
+                'request': {
+                    'id': req.id,
+                    'status': req.status,
+                    'reason': req.reason,
+                    'createdAt': req.created_at,
+                    'scheduledDeleteAt': req.scheduled_delete_at
+                }
+            })
+        return Response({'hasPending': False, 'request': None})
+
+    elif request.method == 'POST':
+        reason = request.data.get('reason', '').strip()
+        # Check if already has a pending request
+        req = AccountDeletionRequest.objects.filter(user=user, status=AccountDeletionRequest.STATUS_PENDING).first()
+        if not req:
+            created_at = now_ms()
+            scheduled_delete_at = created_at + 30 * 24 * 60 * 60 * 1000  # 30 days in ms
+            req = AccountDeletionRequest.objects.create(
+                id=uuid_str(),
+                user=user,
+                reason=reason,
+                status=AccountDeletionRequest.STATUS_PENDING,
+                created_at=created_at,
+                scheduled_delete_at=scheduled_delete_at
+            )
+            logger.info("user_delete_account_request: user %s requested deletion", user.username)
+        return Response({
+            'success': True,
+            'request': {
+                'id': req.id,
+                'status': req.status,
+                'reason': req.reason,
+                'createdAt': req.created_at,
+                'scheduledDeleteAt': req.scheduled_delete_at
+            }
+        }, status=201)
+
+    elif request.method == 'DELETE':
+        deleted_count, _ = AccountDeletionRequest.objects.filter(user=user, status=AccountDeletionRequest.STATUS_PENDING).delete()
+        if deleted_count > 0:
+            logger.info("user_delete_account_request: user %s cancelled deletion request", user.username)
+            return Response({'success': True, 'message': 'Account deletion request cancelled successfully'})
+        return Response({'error': 'No pending deletion request found'}, status=404)
+

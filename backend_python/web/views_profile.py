@@ -767,9 +767,63 @@ def edit_profile(request):
         'C Programming', 'C++ Programming', 'Python Programming', 'Java Programming',
         'Digital Logic', 'Operating Systems', 'Software Engineering',
         'Surveying', 'Estimating & Costing', 'Building Construction',
-        'Fluid Mechanics', 'Strength of Materials', 'Engineering Drawing',
-        'Purana Veda', 'Upanishad', 'Sanskrit', 'Maithili',
-    ]
-    db_subjects = _get_distinct_subjects()
-    subjects = sorted(set(_default_subjects + db_subjects))
-    return render(request, 'web/edit_profile.html', _ctx(request, has_password=has_password, profile_incomplete=profile_incomplete, subjects=subjects))
+        'Fluid Mechanics', 'Strength of Materials', 'Engineering Drawing',
+        'Purana Veda', 'Upanishad', 'Sanskrit', 'Maithili',
+    ]
+    db_subjects = _get_distinct_subjects()
+    subjects = sorted(set(_default_subjects + db_subjects))
+    return render(request, 'web/edit_profile.html', _ctx(request, has_password=has_password, profile_incomplete=profile_incomplete, subjects=subjects))
+
+
+def delete_account_page(request):
+    user_id = _get_user_id(request)
+    if not user_id:
+        return redirect('web:login')
+    try:
+        db_user = User.objects.get(pk=user_id)
+    except User.DoesNotExist:
+        return redirect('web:login')
+
+    from api.models import AccountDeletionRequest
+    from api.utils import now_ms, uuid_str
+    from datetime import datetime
+
+    pending_request = AccountDeletionRequest.objects.filter(
+        user=db_user,
+        status=AccountDeletionRequest.STATUS_PENDING
+    ).first()
+
+    if request.method == 'POST':
+        action = request.POST.get('action', '').strip()
+        if action == 'request':
+            reason = request.POST.get('reason', '').strip()
+            if not pending_request:
+                created_at = now_ms()
+                scheduled_delete_at = created_at + 30 * 24 * 60 * 60 * 1000  # 30 days in ms
+                pending_request = AccountDeletionRequest.objects.create(
+                    id=uuid_str(),
+                    user=db_user,
+                    reason=reason,
+                    status=AccountDeletionRequest.STATUS_PENDING,
+                    created_at=created_at,
+                    scheduled_delete_at=scheduled_delete_at
+                )
+            # Render success page
+            return render(request, 'web/delete_account_success.html', _ctx(request,
+                scheduled_date=datetime.fromtimestamp(pending_request.scheduled_delete_at / 1000.0).strftime('%B %d, %Y')
+            ))
+        elif action == 'cancel':
+            AccountDeletionRequest.objects.filter(
+                user=db_user,
+                status=AccountDeletionRequest.STATUS_PENDING
+            ).delete()
+            return redirect('web:delete_account')
+
+    scheduled_date_str = None
+    if pending_request:
+        scheduled_date_str = datetime.fromtimestamp(pending_request.scheduled_delete_at / 1000.0).strftime('%B %d, %Y')
+
+    return render(request, 'web/delete_account.html', _ctx(request,
+        pending_request=pending_request,
+        scheduled_date=scheduled_date_str
+    ))

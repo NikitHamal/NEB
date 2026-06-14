@@ -11,7 +11,7 @@ from django.db.models import F
 from django.core.exceptions import ValidationError as DjangoValidationError
 
 from .models import User, Post, PostLike, PostImage, Poll, PollOption, PollVote, Reply, ReplyLike, Follow, UserPhoto, EditHistory
-from .models import Resource, ResourceLike, ResourceComment, ResourceCommentLike
+from .models import Resource, ResourceLike, ResourceComment, ResourceCommentLike, Bookmark, Notification, FCMToken, ResourceRequest, AccountDeletionRequest
 from .security import hash_password, issue_auth_token, verify_password, validate_profile_photo_url, validate_external_https_url
 from .utils import now_ms, uuid_str
 from . import counters as _counters
@@ -502,3 +502,51 @@ def _serialize_resource_comment(comment):
         'isEdited': comment.is_edited,
         'createdAt': comment.created_at,
     }
+
+
+def delete_user_account(user_id, completed_by=None):
+    try:
+        user = User.objects.get(id=user_id)
+    except User.DoesNotExist:
+        return False
+
+    with transaction.atomic():
+        # 1. Anonymize Resources uploaded by this user
+        Resource.objects.filter(uploaded_by=user).update(
+            uploaded_by=None,
+            source_type='anonymous',
+            author_name='Anonymous'
+        )
+
+        # 2. Anonymize ResourceRequests
+        ResourceRequest.objects.filter(requested_by=user).update(
+            requested_by=None,
+            requester_name='Anonymous'
+        )
+
+        # 3. Bulk delete relations that do not have Meilisearch signals
+        Bookmark.objects.filter(user=user).delete()
+        Follow.objects.filter(follower=user).delete()
+        Follow.objects.filter(following=user).delete()
+        FCMToken.objects.filter(user=user).delete()
+        Notification.objects.filter(recipient=user).delete()
+        Notification.objects.filter(actor=user).delete()
+        PollVote.objects.filter(user=user).delete()
+        PostLike.objects.filter(user=user).delete()
+        ReplyLike.objects.filter(user=user).delete()
+        ResourceLike.objects.filter(user=user).delete()
+        ResourceCommentLike.objects.filter(user=user).delete()
+        ResourceComment.objects.filter(user=user).delete()
+        Reply.objects.filter(user=user).delete()
+        EditHistory.objects.filter(edited_by=user).delete()
+        UserPhoto.objects.filter(user=user).delete()
+
+        # 4. Delete the User's posts (fires Meilisearch post_delete signals)
+        posts = Post.objects.filter(user=user)
+        for post in posts:
+            post.delete()
+
+        # 5. Delete the User object itself (fires Meilisearch user_deleted signal)
+        user.delete()
+        
+        return True

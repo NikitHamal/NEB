@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Account Deletion{% endblock %}
+
+{% block content %}
+<div class="md-container-narrow" style="padding-top:24px;">
+  <div class="md-card p-3">
+    <h1 class="md-headline-small mb-3" style="color: var(--md-error, #B3261E); display: flex; align-items: center; gap: 8px;">
+      <span class="material-symbols-outlined" style="font-size: 28px;">warning</span>
+      Account Deletion Request
+    </h1>
+
+    {% if pending_request %}
+      <div style="background: var(--md-error-container, #F9DEDC); color: var(--md-on-error-container, #410E0B); padding: 16px; border-radius: 12px; margin-bottom: 24px;">
+        <h3 style="font-weight: 600; margin-bottom: 8px;">Deletion Scheduled</h3>
+        <p style="font-size: 0.875rem; margin-bottom: 12px;">
+          Your account is currently scheduled for permanent deletion on <strong>{{ scheduled_date }}</strong> (30 days from request date).
+        </p>
+        <p style="font-size: 0.875rem; margin-bottom: 0;">
+          If you change your mind, you can cancel this request at any time before this date to restore normal access.
+        </p>
+      </div>
+
+      <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="cancel">
+        <button type="submit" class="md-btn md-btn-filled" style="width: 100%; justify-content: center; background-color: var(--md-primary, #005FAF);">
+          Cancel Deletion Request
+        </button>
+      </form>
+    {% else %}
+      <p style="font-size: 0.875rem; color: var(--md-on-surface-variant); margin-bottom: 20px; line-height: 1.5;">
+        Before requesting account deletion, please read the following terms carefully:
+      </p>
+
+      <ul style="font-size: 0.875rem; color: var(--md-on-surface-variant); margin-left: 20px; margin-bottom: 24px; line-height: 1.6;">
+        <li>Your profile, posts, comments, replies, bookmarks, and follows will be <strong>permanently deleted</strong>.</li>
+        <li>Your uploaded resources will <strong>remain available</strong> in the library for educational purposes, but will be completely anonymized (authorship changed to "Anonymous").</li>
+        <li>Your account will be deactivated immediately and completely purged from our databases in <strong>30 days</strong>.</li>
+        <li>You can cancel the deletion request at any time during the 30-day grace period.</li>
+      </ul>
+
+      <form method="post" onsubmit="return confirm('Are you sure you want to request account deletion?');">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="request">
+
+        <div class="form-group mb-3">
+          <label class="md-label" for="reason">Why are you leaving? (Optional)</label>
+          <textarea id="reason" name="reason" class="md-textarea" rows="3" placeholder="Tell us if there is anything we could have done better..."></textarea>
+        </div>
+
+        <div class="form-group mb-4" style="display: flex; align-items: flex-start; gap: 12px;">
+          <input type="checkbox" id="confirm_delete" required style="margin-top: 4px;">
+          <label for="confirm_delete" class="md-label" style="margin-bottom: 0; font-weight: normal; cursor: pointer;">
+            I understand that my account details will be permanently deleted after 30 days and my resource contributions will be anonymized.
+          </label>
+        </div>
+
+        <div style="display: flex; gap: 12px;">
+          <button type="submit" class="md-btn md-btn-filled" style="background-color: var(--md-error, #B3261E); color: var(--md-on-error, #FFFFFF); flex: 1; justify-content: center;">
+            Confirm Request
+          </button>
+          <a href="{% url 'web:edit_profile' %}" class="md-btn md-btn-text" style="flex: 1; justify-content: center; text-decoration: none;">
+            Cancel
+          </a>
+        </div>
+      </form>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
