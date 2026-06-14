@@ -7,7 +7,6 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.room.Room
 import com.neb.ians.data.api.ApiService
-import com.neb.ians.data.local.dao.AnnotationDao
 import com.neb.ians.data.local.dao.BookmarkDao
 import com.neb.ians.data.local.database.NEBiansDatabase
 import dagger.Module
@@ -57,9 +56,6 @@ object AppModule {
             "nebians_database"
         ).fallbackToDestructiveMigration().build()
     }
-
-    @Provides
-    fun provideAnnotationDao(db: NEBiansDatabase): AnnotationDao = db.annotationDao()
 
     @Provides
     fun provideBookmarkDao(db: NEBiansDatabase): BookmarkDao = db.bookmarkDao()
