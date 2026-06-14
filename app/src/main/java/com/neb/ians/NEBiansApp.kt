@@ -9,9 +9,12 @@ import androidx.work.Configuration
 import com.neb.ians.util.NotificationHelper
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
+import coil.ImageLoader
+import coil.ImageLoaderFactory
+import okhttp3.OkHttpClient
 
 @HiltAndroidApp
-class NEBiansApp : Application(), Configuration.Provider {
+class NEBiansApp : Application(), Configuration.Provider, ImageLoaderFactory {
 
     @Inject
     lateinit var workerFactory: HiltWorkerFactory
@@ -20,6 +23,25 @@ class NEBiansApp : Application(), Configuration.Provider {
         get() = Configuration.Builder()
             .setWorkerFactory(workerFactory)
             .build()
+
+    override fun newImageLoader(): ImageLoader {
+        return ImageLoader.Builder(this)
+            .okHttpClient {
+                OkHttpClient.Builder()
+                    .addInterceptor { chain ->
+                        val request = chain.request().newBuilder()
+                            .header("User-Agent", "Mozilla/5.0 (Linux; Android 11; Build/RQ3A.210705.001) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Mobile Safari/537.36")
+                            .header("Accept", "image/webp,image/apng,image/*,*/*;q=0.8")
+                            .header("Accept-Language", "en-US,en;q=0.9")
+                            .header("Connection", "keep-alive")
+                            .build()
+                        chain.proceed(request)
+                    }
+                    .build()
+            }
+            .crossfade(true)
+            .build()
+    }
 
     override fun onCreate() {
         super.onCreate()
