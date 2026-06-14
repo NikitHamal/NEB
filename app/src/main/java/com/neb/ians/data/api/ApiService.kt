@@ -604,6 +604,33 @@ data class ApiPaginatedReplies(
     val previous: String? = null
 )
 
+@Serializable
+data class AccountDeletionSubmitRequest(
+    val reason: String
+)
+
+@Serializable
+data class DeletionRequestInfo(
+    val id: String,
+    val status: String,
+    val reason: String,
+    val createdAt: Long,
+    val scheduledDeleteAt: Long
+)
+
+@Serializable
+data class AccountDeletionRequestResponse(
+    val hasPending: Boolean,
+    val request: DeletionRequestInfo? = null
+)
+
+@Serializable
+data class AccountDeletionSubmitResponse(
+    val success: Boolean,
+    val request: DeletionRequestInfo? = null,
+    val error: String? = null
+)
+
 // -------------------------------------------------------------
 // RETROFIT API INTERFACE
 // -------------------------------------------------------------
@@ -982,6 +1009,23 @@ interface ApiService {
         @Header("Authorization") bearerToken: String?,
         @Body request: FcmTokenRequest
     )
+
+    // --- Account Deletion ---
+    @GET("api/users/me/delete-account/")
+    suspend fun getDeleteAccountRequestStatus(
+        @Header("Authorization") bearerToken: String
+    ): AccountDeletionRequestResponse
+
+    @POST("api/users/me/delete-account/")
+    suspend fun requestAccountDeletion(
+        @Header("Authorization") bearerToken: String,
+        @Body request: AccountDeletionSubmitRequest
+    ): AccountDeletionSubmitResponse
+
+    @DELETE("api/users/me/delete-account/")
+    suspend fun cancelAccountDeletion(
+        @Header("Authorization") bearerToken: String
+    ): GenericMessageResponse
 
     // --- Reports ---
     @POST("api/reports/")

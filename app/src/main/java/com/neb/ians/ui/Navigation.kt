@@ -137,6 +137,7 @@ sealed class Screen(val route: String) {
     }
     data object EditProfile : Screen("profile/edit")
     data object Settings : Screen("settings")
+    data object DeleteAccount : Screen("delete_account")
     data object PdfViewer : Screen("pdf/{resourceId}") {
         fun createRoute(resourceId: String) = "pdf/$resourceId"
     }
@@ -517,11 +518,18 @@ fun NEBiansNavHost(
                 SettingsScreen(
                     settingsViewModel = settingsViewModel,
                     onNavigateToEditProfile = { navController.navigate(Screen.EditProfile.route) },
+                    onNavigateToDeleteAccount = { navController.navigate(Screen.DeleteAccount.route) },
                     onNavigateToLogin = {
                         navController.navigate(Screen.Login.route) {
                             popUpTo(navController.graph.findStartDestination().id) { inclusive = true }
                         }
                     }
+                )
+            }
+            composable(Screen.DeleteAccount.route) {
+                com.neb.ians.ui.screens.settings.DeleteAccountScreen(
+                    viewModel = settingsViewModel,
+                    onNavigateBack = { navController.popBackStack() }
                 )
             }
 
