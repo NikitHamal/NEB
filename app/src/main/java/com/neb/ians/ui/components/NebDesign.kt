@@ -33,6 +33,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -285,27 +289,38 @@ fun NebAvatar(
 fun NebBadge(badge: ApiBadgeInfo?, modifier: Modifier = Modifier) {
     if (badge == null) return
     val (bg, fg, icon, drawableRes) = badgeStyle(badge)
-    Box(
-        modifier = modifier
-            .size(20.dp)
-            .clip(CircleShape)
-            .background(bg),
-        contentAlignment = Alignment.Center
-    ) {
+    if (badge.type == "admin") {
         if (drawableRes != null) {
             Icon(
                 painter = painterResource(id = drawableRes),
                 contentDescription = badge.label,
                 tint = fg,
-                modifier = Modifier.size(11.dp)
+                modifier = modifier.size(16.dp)
             )
-        } else if (icon != null) {
-            Icon(
-                imageVector = icon,
-                contentDescription = badge.label,
-                tint = fg,
-                modifier = Modifier.size(11.dp)
-            )
+        }
+    } else {
+        Box(
+            modifier = modifier
+                .size(20.dp)
+                .clip(CircleShape)
+                .background(bg),
+            contentAlignment = Alignment.Center
+        ) {
+            if (drawableRes != null) {
+                Icon(
+                    painter = painterResource(id = drawableRes),
+                    contentDescription = badge.label,
+                    tint = fg,
+                    modifier = Modifier.size(11.dp)
+                )
+            } else if (icon != null) {
+                Icon(
+                    imageVector = icon,
+                    contentDescription = badge.label,
+                    tint = fg,
+                    modifier = Modifier.size(11.dp)
+                )
+            }
         }
     }
 }
@@ -412,5 +427,48 @@ fun NebStat(icon: ImageVector, value: String, tint: Color = MaterialTheme.colorS
     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(3.dp)) {
         Icon(icon, null, tint = tint, modifier = Modifier.size(15.dp))
         Text(value, color = tint, fontSize = 12.sp, style = MaterialTheme.typography.labelMedium)
+    }
+}
+
+@Composable
+fun ExpandableText(
+    text: String,
+    modifier: Modifier = Modifier,
+    style: androidx.compose.ui.text.TextStyle = MaterialTheme.typography.bodyMedium,
+    color: Color = MaterialTheme.colorScheme.onSurfaceVariant,
+    fontSize: androidx.compose.ui.unit.TextUnit = 13.sp,
+    minimizedMaxLines: Int = 3
+) {
+    var isExpanded by remember { mutableStateOf(false) }
+    var hasOverflow by remember { mutableStateOf(false) }
+
+    androidx.compose.foundation.layout.Column(modifier = modifier) {
+        Text(
+            text = text,
+            style = style,
+            color = color,
+            fontSize = fontSize,
+            maxLines = if (isExpanded) Int.MAX_VALUE else minimizedMaxLines,
+            overflow = TextOverflow.Ellipsis,
+            onTextLayout = { textLayoutResult ->
+                if (!isExpanded) {
+                    hasOverflow = textLayoutResult.hasVisualOverflow
+                }
+            }
+        )
+        if (hasOverflow || isExpanded) {
+            Spacer(modifier = Modifier.height(2.dp))
+            Text(
+                text = if (isExpanded) "See less" else "See more",
+                style = style.copy(fontWeight = FontWeight.SemiBold),
+                color = MaterialTheme.colorScheme.primary,
+                fontSize = fontSize,
+                modifier = Modifier.clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = null,
+                    onClick = { isExpanded = !isExpanded }
+                )
+            )
+        }
     }
 }
