@@ -42,6 +42,13 @@ fun SettingsScreen(
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val isGuest = userProfile == null || userProfile?.id == "guest_user"
 
+    val context = androidx.compose.ui.platform.LocalContext.current
+    val permissionLauncher = androidx.activity.compose.rememberLauncherForActivityResult(
+        contract = androidx.activity.result.contract.ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        settingsViewModel.setNotificationsEnabled(isGranted)
+    }
+
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
@@ -197,7 +204,21 @@ fun SettingsScreen(
                 trailingContent = {
                     Switch(
                         checked = notificationsEnabled,
-                        onCheckedChange = { settingsViewModel.setNotificationsEnabled(it) }
+                        onCheckedChange = { enabled ->
+                            if (enabled && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+                                if (androidx.core.content.ContextCompat.checkSelfPermission(
+                                        context,
+                                        android.Manifest.permission.POST_NOTIFICATIONS
+                                    ) != android.content.pm.PackageManager.PERMISSION_GRANTED
+                                ) {
+                                    permissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
+                                } else {
+                                    settingsViewModel.setNotificationsEnabled(true)
+                                }
+                            } else {
+                                settingsViewModel.setNotificationsEnabled(enabled)
+                            }
+                        }
                     )
                 },
                 colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest)
