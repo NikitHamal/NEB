@@ -30,6 +30,7 @@ data class PdfViewerUiState(
     val isDownloading: Boolean = false,
     val downloadProgress: Int = 0,
     val needsDownload: Boolean = false,
+    val isLocalFileReady: Boolean = false,
     val error: String? = null
 )
 
@@ -114,7 +115,7 @@ class PdfViewerViewModel @Inject constructor(
                 fileDescriptor = ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY)
                 val renderer = PdfRenderer(fileDescriptor!!)
                 pdfRenderer = renderer
-                _uiState.update { it.copy(pageCount = renderer.pageCount, isLoading = false, error = null) }
+                _uiState.update { it.copy(pageCount = renderer.pageCount, isLoading = false, isLocalFileReady = true, error = null) }
             } catch (e: Exception) {
                 _uiState.update { it.copy(isLoading = false, error = "Unable to open PDF") }
             }
@@ -142,6 +143,10 @@ class PdfViewerViewModel @Inject constructor(
     }
 
     fun fileUrl(): String = fileUrl
+
+    fun getLocalFile(): File? {
+        return downloadManager.getLocalFile(resourceId, fileUrl)
+    }
 
     override fun onCleared() {
         super.onCleared()

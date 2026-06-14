@@ -49,7 +49,6 @@ import com.neb.ians.ui.screens.profile.EditProfileScreen
 import com.neb.ians.ui.screens.notifications.NotificationsScreen
 import com.neb.ians.ui.screens.settings.SettingsScreen
 import com.neb.ians.ui.screens.settings.SettingsViewModel
-import com.neb.ians.ui.screens.reader.PdfReaderScreen
 import com.neb.ians.ui.screens.reader.PdfViewerScreen
 import com.neb.ians.ui.screens.resource.ResourceDetailScreen
 import com.neb.ians.ui.screens.analytics.AnalyticsScreen
@@ -104,9 +103,6 @@ sealed class Screen(val route: String) {
     }
     data object EditProfile : Screen("profile/edit")
     data object Settings : Screen("settings")
-    data object PdfReader : Screen("reader/{resourceId}") {
-        fun createRoute(resourceId: String) = "reader/$resourceId"
-    }
     data object PdfViewer : Screen("pdf/{resourceId}") {
         fun createRoute(resourceId: String) = "pdf/$resourceId"
     }
@@ -490,16 +486,7 @@ fun NEBiansNavHost(
                     }
                 )
             }
-            composable(
-                route = Screen.PdfReader.route,
-                arguments = listOf(navArgument("resourceId") { type = NavType.StringType })
-            ) { backStackEntry ->
-                val resourceId = backStackEntry.arguments?.getString("resourceId") ?: return@composable
-                PdfReaderScreen(
-                    resourceId = resourceId,
-                    onNavigateBack = { navController.popBackStack() }
-                )
-            }
+
             composable(
                 route = Screen.PdfViewer.route,
                 arguments = listOf(navArgument("resourceId") { type = NavType.StringType })
