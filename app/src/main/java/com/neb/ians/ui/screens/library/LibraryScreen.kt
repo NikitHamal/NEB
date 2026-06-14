@@ -62,7 +62,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.neb.ians.R
 import com.neb.ians.data.api.ApiInteractiveCategory
 import com.neb.ians.data.api.ApiInteractiveCourseSummary
+import com.neb.ians.data.api.ApiErrorMapper
 import com.neb.ians.ui.components.ErrorCard
+import com.neb.ians.ui.components.WafWarningBanner
 import com.neb.ians.ui.components.ShimmerLibraryGrid
 import com.neb.ians.ui.components.WebChip
 import com.neb.ians.ui.components.WebEmptyState
@@ -424,11 +426,15 @@ private fun LibraryContent(
         else -> {
             Column(modifier = Modifier.fillMaxSize()) {
                 if (uiState.error != null) {
-                    ErrorCard(
-                        message = uiState.error ?: "Something went wrong",
-                        onRetry = onRetry,
-                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
-                    )
+                    if (uiState.error == ApiErrorMapper.WAF_ERROR_MESSAGE) {
+                        WafWarningBanner(modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp))
+                    } else {
+                        ErrorCard(
+                            message = uiState.error ?: "Something went wrong",
+                            onRetry = onRetry,
+                            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+                        )
+                    }
                 }
                 Surface(
                     modifier = Modifier
@@ -467,7 +473,7 @@ private fun LibraryContent(
                     }
                         .distinctUntilChanged()
                         .collect { (lastVisible, total) ->
-                            if (total > 0 && lastVisible >= total - 4) onLoadMore()
+                            if (total > 0 && lastVisible >= total - 4 && uiState.error != ApiErrorMapper.WAF_ERROR_MESSAGE) onLoadMore()
                         }
                 }
 

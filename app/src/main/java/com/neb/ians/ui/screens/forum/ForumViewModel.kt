@@ -3,6 +3,7 @@ package com.neb.ians.ui.screens.forum
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.neb.ians.data.api.ApiPost
+import com.neb.ians.data.api.ApiErrorMapper
 import com.neb.ians.data.realtime.RealtimeClient
 import com.neb.ians.data.repository.AuthRepository
 import com.neb.ians.data.repository.ForumRepository
@@ -147,7 +148,7 @@ class ForumViewModel @Inject constructor(
                     it.copy(
                         isLoading = false,
                         isLoadingMore = false,
-                        error = e.message ?: "Failed to load posts"
+                        error = ApiErrorMapper.mapException(e)
                     )
                 }
             }

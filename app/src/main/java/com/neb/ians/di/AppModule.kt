@@ -35,8 +35,11 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideApiService(dataStore: DataStore<Preferences>): ApiService {
-        return ApiService.create(tokenProvider = {
+    fun provideApiService(
+        @ApplicationContext context: Context,
+        dataStore: DataStore<Preferences>
+    ): ApiService {
+        return ApiService.create(context, tokenProvider = {
             try {
                 runBlocking(Dispatchers.IO) {
                     dataStore.data.map { it[stringPreferencesKey("auth_token")] }.first()

@@ -1,7 +1,12 @@
 package com.neb.ians.util
 
 import android.content.Context
+import android.os.Handler
+import android.os.Looper
+import android.widget.Toast
 import com.neb.ians.data.api.ApiResource
+import com.neb.ians.data.api.WafChallengeInterceptor
+import com.neb.ians.data.api.ApiClientException
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -13,6 +18,7 @@ import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.io.File
+import java.io.IOException
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -22,6 +28,7 @@ class ResourceDownloadManager @Inject constructor(
     @ApplicationContext private val context: Context
 ) {
     private val client = OkHttpClient.Builder()
+        .addInterceptor(WafChallengeInterceptor(context))
         .connectTimeout(30, TimeUnit.SECONDS)
         .readTimeout(60, TimeUnit.SECONDS)
         .build()
@@ -58,17 +65,16 @@ class ResourceDownloadManager @Inject constructor(
                 val response = client.newCall(request).execute()
 
                 if (!response.isSuccessful) {
-                    _downloadProgress.value = _downloadProgress.value.toMutableMap().apply {
-                        this[resource.id] = -1
-                    }
-                    return@launch
+                    throw IOException("HTTP error ${response.code}")
                 }
 
                 val body = response.body ?: run {
-                    _downloadProgress.value = _downloadProgress.value.toMutableMap().apply {
-                        this[resource.id] = -1
-                    }
-                    return@launch
+                    throw IOException("Empty response body")
+                }
+
+                val contentType = body.contentType()?.toString() ?: ""
+                if (contentType.contains("text/html", ignoreCase = true)) {
+                    throw IOException("NEBians server is temporarily protected by the hosting security filter. Please try again later.")
                 }
 
                 val dir = File(context.filesDir, "resources")
@@ -103,6 +109,11 @@ class ResourceDownloadManager @Inject constructor(
             } catch (e: Exception) {
                 _downloadProgress.value = _downloadProgress.value.toMutableMap().apply {
                     this[resource.id] = -1
+                }
+                if (e.message?.contains("hosting security filter") == true || e is ApiClientException) {
+                    Handler(Looper.getMainLooper()).post {
+                        Toast.makeText(context, "Server protected by security filter. Please try again later.", Toast.LENGTH_LONG).show()
+                    }
                 }
             } finally {
                 activeDownloads.remove(resource.id)

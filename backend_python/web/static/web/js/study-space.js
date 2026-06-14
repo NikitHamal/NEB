@@ -1330,7 +1330,7 @@
       + '<div class="ss-results-list">';
     (results||[]).forEach(function(r, idx){
       var ok = !!r.isCorrect;
-      var icon = ok ? 'check_circle' : 'cancel';
+      var icon = ok ? 'done' : 'cancel';
       var given = r.userAnswer || '—';
       var givenText = r.options && r.options[given] ? renderMarkdown(r.options[given]) : '';
       var correctText = r.options && r.options[r.correctAnswer] ? renderMarkdown(r.options[r.correctAnswer]) : '';
@@ -1821,7 +1821,7 @@
           + '<span class="ss-doc-select-title">'+esc(d.title)+'</span>'
           + (meta.length ? '<span class="ss-doc-select-meta">'+esc(meta.join(' · '))+'</span>' : '')
           + '</div>'
-          + (inSpace ? '<span class="material-symbols-outlined ss-doc-select-check">check_circle</span>' : '')
+          + (inSpace ? '<span class="material-symbols-outlined ss-doc-select-check">done</span>' : '')
           + '</div>';
       });
       list.innerHTML = html;

@@ -134,7 +134,7 @@ export function createPlayground(stage, config) {
       li.className = 'ix-pg-goal' + (g.met ? ' ix-pg-goal-met' : '');
       const icon = document.createElement('span');
       icon.className = 'material-symbols-outlined';
-      icon.textContent = g.met ? 'check_circle' : 'radio_button_unchecked';
+      icon.textContent = g.met ? 'done' : 'radio_button_unchecked';
       const label = document.createElement('span');
       label.textContent = g.label;
       li.appendChild(icon);

@@ -402,7 +402,7 @@
     Object.keys(attempt.results).forEach(function(num) {
       var r = attempt.results[num];
       var cls = r.isCorrect ? 'sl-result-correct' : 'sl-result-wrong';
-      var icon = r.isCorrect ? 'check_circle' : 'cancel';
+      var icon = r.isCorrect ? 'done' : 'cancel';
       var expl = r.explanation ? '<p class="sl-result-explanation">' + renderMarkdown(r.explanation) + '</p>' : '';
       html += '<div class="sl-result-item ' + cls + '"><span class="material-symbols-outlined">' + icon + '</span>' +
         '<div><strong>Q' + num + ': ' + (r.userAnswer || 'Skipped') + '</strong><span class="sl-result-answer">Correct: ' + r.correctAnswer + '</span>' +

@@ -16,7 +16,7 @@
   {% if import_result %}
   <div style="padding:16px;border-radius:12px;margin-bottom:20px;border:1px solid {% if import_result.success %}#2e7d32{% else %}var(--md-error, #ba1a1a){% endif %};background:{% if import_result.success %}color-mix(10%, #2e7d32, transparent){% else %}color-mix(10%, var(--md-error), transparent){% endif %};">
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
-      <span class="material-symbols-outlined" style="font-size:22px;color:{% if import_result.success %}#2e7d32{% else %}var(--md-error, #ba1a1a){% endif %};">{{ import_result.success|yesno:'check_circle,error' }}</span>
+      <span class="material-symbols-outlined" style="font-size:22px;color:{% if import_result.success %}#2e7d32{% else %}var(--md-error, #ba1a1a){% endif %};">{{ import_result.success|yesno:'done,error' }}</span>
       <strong style="color:{% if import_result.success %}#2e7d32{% else %}var(--md-error, #ba1a1a){% endif %};">{{ import_result.message }}</strong>
     </div>
     {% if import_result.success %}

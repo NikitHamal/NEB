@@ -166,7 +166,7 @@
           <span class="cp-poll-option-num">1</span>
           <input type="text" class="cp-poll-option-input" name="poll_option[]" placeholder="Option 1" maxlength="200">
           <button type="button" class="cp-poll-correct-toggle" data-action="toggle-correct" title="Mark as correct answer" style="display:none">
-            <span class="material-symbols-outlined">check_circle</span>
+            <span class="material-symbols-outlined">done</span>
           </button>
           <button type="button" class="cp-poll-option-remove" data-action="remove-poll-option"><span class="material-symbols-outlined">close</span></button>
         </div>
@@ -174,7 +174,7 @@
           <span class="cp-poll-option-num">2</span>
           <input type="text" class="cp-poll-option-input" name="poll_option[]" placeholder="Option 2" maxlength="200">
           <button type="button" class="cp-poll-correct-toggle" data-action="toggle-correct" title="Mark as correct answer" style="display:none">
-            <span class="material-symbols-outlined">check_circle</span>
+            <span class="material-symbols-outlined">done</span>
           </button>
           <button type="button" class="cp-poll-option-remove" data-action="remove-poll-option"><span class="material-symbols-outlined">close</span></button>
         </div>
@@ -633,7 +633,7 @@
     if (!isMcq) {
       pollOptions.querySelectorAll('.cp-poll-correct-toggle.correct').forEach(function(t) {
         t.classList.remove('correct');
-        t.querySelector('.material-symbols-outlined').textContent = 'check_circle';
+        t.querySelector('.material-symbols-outlined').textContent = 'done';
       });
     }
   }
@@ -653,10 +653,10 @@
       correctBtn.classList.toggle('correct');
       var icon = correctBtn.querySelector('.material-symbols-outlined');
       if (correctBtn.classList.contains('correct')) {
-        icon.textContent = 'check_circle';
+        icon.textContent = 'done';
         icon.style.fontVariationSettings = "'FILL' 1";
       } else {
-        icon.textContent = 'check_circle';
+        icon.textContent = 'done';
         icon.style.fontVariationSettings = '';
       }
       return;
@@ -692,7 +692,7 @@
     div.dataset.optionIndex = count;
     div.innerHTML = '<span class="cp-poll-option-num">' + (count + 1) + '</span>' +
       '<input type="text" class="cp-poll-option-input" name="poll_option[]" placeholder="Option ' + (count + 1) + '" maxlength="200">' +
-      (isMcq ? '<button type="button" class="cp-poll-correct-toggle" data-action="toggle-correct" title="Mark as correct answer"><span class="material-symbols-outlined">check_circle</span></button>' : '<button type="button" class="cp-poll-correct-toggle" data-action="toggle-correct" title="Mark as correct answer" style="display:none"><span class="material-symbols-outlined">check_circle</span></button>') +
+      (isMcq ? '<button type="button" class="cp-poll-correct-toggle" data-action="toggle-correct" title="Mark as correct answer"><span class="material-symbols-outlined">done</span></button>' : '<button type="button" class="cp-poll-correct-toggle" data-action="toggle-correct" title="Mark as correct answer" style="display:none"><span class="material-symbols-outlined">done</span></button>') +
       '<button type="button" class="cp-poll-option-remove" data-action="remove-poll-option"><span class="material-symbols-outlined">close</span></button>';
     pollOptions.appendChild(div);
   });
