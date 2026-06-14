@@ -6,6 +6,8 @@ import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 
 object ApiErrorMapper {
+    const val WAF_ERROR_MESSAGE = "NEBians server is temporarily protected by the hosting security filter. Please wait a few minutes and try again. If it keeps happening, switch networks or contact support."
+
     fun mapException(e: Throwable): String {
         return when (e) {
             is ApiClientException -> e.friendlyMessage
@@ -13,7 +15,7 @@ object ApiErrorMapper {
                 val code = e.code()
                 val isHtml = e.response()?.errorBody()?.contentType()?.toString()?.contains("text/html", ignoreCase = true) == true
                 if (code in listOf(403, 429, 503, 520, 522, 524) && isHtml) {
-                    "NEBians server is temporarily protected by the hosting security filter. Please wait a few minutes and try again. If it keeps happening, switch networks or contact support."
+                    WAF_ERROR_MESSAGE
                 } else {
                     e.message ?: "An unexpected server error occurred ($code)"
                 }
