@@ -120,23 +120,12 @@ fun UnreadCountBadge(
     modifier: Modifier = Modifier
 ) {
     if (count <= 0) return
-    val label = if (count > 9) "9+" else count.toString()
     Box(
         modifier = modifier
-            .defaultMinSize(minWidth = 16.dp, minHeight = 16.dp)
-            .background(MaterialTheme.colorScheme.error, WebPillShape)
-            .border(1.5.dp, MaterialTheme.colorScheme.surface, WebPillShape)
-            .padding(horizontal = 3.dp),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            text = label,
-            color = Color.White,
-            fontSize = 9.sp,
-            fontWeight = FontWeight.Bold,
-            maxLines = 1
-        )
-    }
+            .size(8.dp)
+            .background(Color(0xFFEF4444), CircleShape)
+            .border(1.dp, MaterialTheme.colorScheme.surface, CircleShape)
+    )
 }
 
 @Composable
@@ -253,7 +242,7 @@ fun WebTopBar(
                         count = badgeCount,
                         modifier = Modifier
                             .align(Alignment.TopEnd)
-                            .padding(top = 2.dp, end = 2.dp)
+                            .padding(top = 8.dp, end = 8.dp)
                     )
                 }
             }

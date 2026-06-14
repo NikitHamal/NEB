@@ -71,7 +71,10 @@ class HomeViewModel @Inject constructor(
     }
 
     val uiState: StateFlow<HomeUiState> = combine(
-        combine(settingsRepository.userName, authRepository.currentUserPhotoUrlFlow) { name, photo -> Pair(name, photo) },
+        combine(
+            authRepository.userProfileFlow.map { it?.displayName?.takeIf { name -> name.isNotBlank() } ?: it?.username ?: "Student" },
+            authRepository.currentUserPhotoUrlFlow
+        ) { name, photo -> Pair(name, photo) },
         _recentResources,
         _popularResources,
         _recentPosts,
