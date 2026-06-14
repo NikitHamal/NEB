@@ -7,6 +7,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -43,6 +44,7 @@ import com.neb.ians.ui.components.NebAvatar
 import com.neb.ians.ui.components.NebCard
 import com.neb.ians.ui.components.NebChip
 import com.neb.ians.ui.components.NebTopBar
+import com.neb.ians.ui.components.ExpandableText
 import com.neb.ians.util.formatTimeAgo
 import com.neb.ians.util.getSubjectColor
 
@@ -221,10 +223,11 @@ private fun HeroCard(
                 }
                 if (resource.description.isNotBlank()) {
                     Spacer(Modifier.height(14.dp))
-                    Text(
+                    ExpandableText(
                         text = resource.description,
                         style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        fontSize = 13.sp
                     )
                 }
                 if (!resource.authorName.isNullOrBlank()) {
@@ -250,6 +253,7 @@ private fun HeroCard(
 @Composable
 private fun FlowChips(resource: ApiResource, subjectColor: Color) {
     Row(
+        modifier = Modifier.horizontalScroll(rememberScrollState()),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -301,13 +305,11 @@ private fun MetaItem(icon: androidx.compose.ui.graphics.vector.ImageVector?, tex
 
 @Composable
 private fun LikeButton(isLiked: Boolean, count: Int, enabled: Boolean, onClick: () -> Unit) {
-    val container = if (isLiked) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceContainerHigh
-    val content = if (isLiked) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
+    val content = if (isLiked) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
     Row(
         modifier = Modifier
             .clip(RoundedCornerShape(50))
-            .background(container)
-            .then(if (enabled) Modifier.clickableNoRipple(onClick) else Modifier)
+            .then(if (enabled) Modifier.clickable(onClick = onClick) else Modifier)
             .padding(horizontal = 16.dp, vertical = 9.dp),
         horizontalArrangement = Arrangement.spacedBy(6.dp),
         verticalAlignment = Alignment.CenterVertically

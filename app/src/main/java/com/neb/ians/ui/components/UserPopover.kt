@@ -282,20 +282,20 @@ fun RoleBadgeChip(type: String, label: String, colorHex: String?, modifier: Modi
         "bot" -> Icons.Filled.AutoAwesome
         else -> Icons.Filled.Verified
     }
-    Surface(
-        modifier = modifier.size(22.dp),
-        shape = CircleShape,
-        color = color.copy(alpha = 0.15f)
-    ) {
-        Box(contentAlignment = Alignment.Center) {
-            if (type == "admin") {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_crown),
-                    contentDescription = label,
-                    tint = color,
-                    modifier = Modifier.size(13.dp)
-                )
-            } else {
+    if (type == "admin") {
+        Icon(
+            painter = painterResource(id = R.drawable.ic_crown),
+            contentDescription = label,
+            tint = color,
+            modifier = modifier.size(18.dp)
+        )
+    } else {
+        Surface(
+            modifier = modifier.size(22.dp),
+            shape = CircleShape,
+            color = color.copy(alpha = 0.15f)
+        ) {
+            Box(contentAlignment = Alignment.Center) {
                 Icon(
                     imageVector = icon,
                     contentDescription = label,
