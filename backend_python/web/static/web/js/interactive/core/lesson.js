@@ -121,7 +121,7 @@ if (root) {
     if (!completeBtn) return;
     completeBtn.classList.toggle('ix-completed', done);
     if (completeLabel) completeLabel.textContent = done ? 'Completed!' : 'Mark complete';
-    if (completeIcon) completeIcon.textContent = done ? 'task_alt' : 'check';
+    if (completeIcon) completeIcon.textContent = done ? 'done' : 'done';
   }
 
   function markDone(done) {

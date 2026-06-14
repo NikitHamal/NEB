@@ -53,9 +53,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.neb.ians.R
 import com.neb.ians.data.api.ApiPost
+import com.neb.ians.data.api.ApiErrorMapper
 import com.neb.ians.ui.components.ConfirmDeleteDialog
 import com.neb.ians.ui.components.EditContentDialog
 import com.neb.ians.ui.components.ErrorCard
+import com.neb.ians.ui.components.WafWarningBanner
 import com.neb.ians.ui.components.ForumPostCard
 import com.neb.ians.ui.components.ReportDialog
 import com.neb.ians.ui.components.ShimmerForumList
@@ -101,7 +103,7 @@ fun ForumScreen(
         derivedStateOf {
             val info = listState.layoutInfo
             val lastVisible = info.visibleItemsInfo.lastOrNull()?.index ?: 0
-            info.totalItemsCount > 0 && lastVisible >= info.totalItemsCount - 3
+            info.totalItemsCount > 0 && lastVisible >= info.totalItemsCount - 3 && uiState.error != ApiErrorMapper.WAF_ERROR_MESSAGE
         }
     }
     LaunchedEffect(shouldLoadMore, uiState.hasMore) {
@@ -198,10 +200,14 @@ fun ForumScreen(
                     ) {
                         if (uiState.error != null) {
                             item(key = "error_banner") {
-                                ErrorCard(
-                                    message = uiState.error ?: "Something went wrong",
-                                    onRetry = { viewModel.refresh() }
-                                )
+                                if (uiState.error == ApiErrorMapper.WAF_ERROR_MESSAGE) {
+                                    WafWarningBanner()
+                                } else {
+                                    ErrorCard(
+                                        message = uiState.error ?: "Something went wrong",
+                                        onRetry = { viewModel.refresh() }
+                                    )
+                                }
                             }
                         }
                         items(uiState.posts, key = { it.id }) { post ->

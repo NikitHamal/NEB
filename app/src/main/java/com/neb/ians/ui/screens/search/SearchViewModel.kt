@@ -6,6 +6,7 @@ import com.neb.ians.data.api.ApiResource
 import com.neb.ians.data.api.ApiPost
 import com.neb.ians.data.api.ApiUserSearchResult
 import com.neb.ians.data.api.ApiService
+import com.neb.ians.data.api.ApiErrorMapper
 import com.neb.ians.data.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -61,7 +62,7 @@ class SearchViewModel @Inject constructor(
                     )
                 }
             } catch (e: Exception) {
-                _uiState.update { it.copy(isSearching = false, error = e.message ?: "Search failed") }
+                _uiState.update { it.copy(isSearching = false, error = ApiErrorMapper.mapException(e)) }
             }
         }
     }
