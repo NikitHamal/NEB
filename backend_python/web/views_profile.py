@@ -239,7 +239,6 @@ def profile(request, username):
         badge_info=profile_data.get('badge_info'),
         badge_info_json=json.dumps(profile_data.get('badge_info')),
         achievement_info_json=json.dumps(profile_data.get('achievement_info', [])),
-        profile_user_json=json.dumps(profile_data),
     ))
 
 def profile_achievements(request, username):
