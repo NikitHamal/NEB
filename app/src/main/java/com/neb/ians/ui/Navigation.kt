@@ -620,23 +620,13 @@ fun NEBiansNavHost(
                     onDismissRequest = { showProfileDropdown = false },
                     properties = PopupProperties(focusable = true)
                 ) {
-                    val isDark = MaterialTheme.colorScheme.surface.luminanceIsDark()
-                    val glassBase = MaterialTheme.colorScheme.surfaceContainerLowest
-                    val glassBrush = Brush.verticalGradient(
-                        listOf(
-                            glassBase.copy(alpha = if (isDark) 0.94f else 0.88f),
-                            glassBase.copy(alpha = if (isDark) 0.85f else 0.78f),
-                        )
-                    )
-                    val borderColor = if (isDark) Color.White.copy(alpha = 0.12f) else Color.White.copy(alpha = 0.60f)
-
                     Column(
                         modifier = Modifier
                             .width(224.dp)
-                            .shadow(16.dp, RoundedCornerShape(16.dp), clip = false)
+                            .shadow(12.dp, RoundedCornerShape(16.dp))
                             .clip(RoundedCornerShape(16.dp))
-                            .background(glassBrush)
-                            .border(1.dp, borderColor, RoundedCornerShape(16.dp))
+                            .background(MaterialTheme.colorScheme.surfaceContainer)
+                            .border(1.dp, MaterialTheme.colorScheme.outlineVariant, RoundedCornerShape(16.dp))
                             .padding(8.dp)
                     ) {
                         // Header

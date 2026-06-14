@@ -795,8 +795,18 @@ fun Avatar(
     ) {
         val resolvedUrl = remember(imageUrl) {
             if (imageUrl.isNullOrBlank()) null
-            else if (imageUrl.startsWith("http://") || imageUrl.startsWith("https://")) imageUrl
-            else "https://nebians.consica.com.np${if (imageUrl.startsWith("/")) "" else "/"}$imageUrl"
+            else {
+                var url = imageUrl.trim()
+                if (url.startsWith("http://127.0.0.1:8000/") || url.startsWith("http://localhost:8000/")) {
+                    url = url.replace("http://127.0.0.1:8000/", "https://nebians.consica.com.np/")
+                             .replace("http://localhost:8000/", "https://nebians.consica.com.np/")
+                }
+                if (url.startsWith("http://") || url.startsWith("https://")) {
+                    url
+                } else {
+                    "https://nebians.consica.com.np${if (url.startsWith("/")) "" else "/"}$url"
+                }
+            }
         }
         if (!resolvedUrl.isNullOrBlank()) {
             AsyncImage(
