@@ -31,7 +31,7 @@ internal fun JsonObject.intField(key: String): Int? =
     try { (this[key] as? JsonPrimitive)?.intOrNull } catch (_: Exception) { null }
 
 internal fun JsonObject.boolField(key: String): Boolean? =
-    try { (this[key] as? JsonPrimitive)?.booleanOrNull } catch (_: Exception) { null }
+    try { (this[key] as? JsonPrimitive)?.let { it.contentOrNull?.toBooleanStrictOrNull() } } catch (_: Exception) { null }
 
 data class ForumUiState(
     val posts: List<ApiPost> = emptyList(),
