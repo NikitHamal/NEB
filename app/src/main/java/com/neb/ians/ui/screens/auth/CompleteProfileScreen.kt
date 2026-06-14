@@ -588,12 +588,9 @@ fun CompleteProfileScreen(
                                 }
                             }
                         }
-                        "explorer" -> {
-                            }
+                        "explorer" -> Unit
                         }
-                    }
 
-                    // Class / Level and Province
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.spacedBy(16.dp)
