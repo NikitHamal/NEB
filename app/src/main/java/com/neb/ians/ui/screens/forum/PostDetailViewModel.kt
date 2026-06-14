@@ -114,9 +114,14 @@ class PostDetailViewModel @Inject constructor(
                 "reply.like_changed" -> {
                     val replyId = payload.stringField("reply_id") ?: return
                     val count = payload.intField("thumbs_up_count") ?: return
+                    if (processingReplyLikes.contains(replyId)) return
+                    val isThumbedUp = payload.boolField("isThumbedUp")
                     _state.update { state ->
                         state.copy(replies = state.replies.map { reply ->
-                            if (reply.id == replyId) reply.copy(thumbsUpCount = count) else reply
+                            if (reply.id == replyId) {
+                                if (isThumbedUp != null) reply.copy(thumbsUpCount = count, isThumbedUp = isThumbedUp)
+                                else reply.copy(thumbsUpCount = count)
+                            } else reply
                         })
                     }
                 }
@@ -124,8 +129,11 @@ class PostDetailViewModel @Inject constructor(
                     val changedId = payload.stringField("post_id") ?: return
                     val count = payload.intField("thumbs_up_count") ?: return
                     if (changedId != postId) return
+                    if (isPostLikeBusy) return
+                    val isThumbedUp = payload.boolField("isThumbedUp")
                     _state.update { state ->
-                        state.copy(post = state.post?.copy(thumbsUpCount = count))
+                        if (isThumbedUp != null) state.copy(post = state.post?.copy(thumbsUpCount = count, isThumbedUp = isThumbedUp))
+                        else state.copy(post = state.post?.copy(thumbsUpCount = count))
                     }
                 }
                 "reply.deleted" -> {

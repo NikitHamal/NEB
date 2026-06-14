@@ -505,7 +505,6 @@ fun NEBiansNavHost(
                     },
                     onFollowerClick = { userId -> },
                     onAnalyticsClick = { navController.navigate(Screen.Analytics.route) },
-                    onBookmarksClick = { navController.navigate(Screen.Bookmarks.route) },
                     onSearchClick = { navController.navigate(Screen.Search.route) }
                 )
             }
@@ -518,6 +517,7 @@ fun NEBiansNavHost(
                 SettingsScreen(
                     settingsViewModel = settingsViewModel,
                     onNavigateToEditProfile = { navController.navigate(Screen.EditProfile.route) },
+                    onNavigateToBookmarks = { navController.navigate(Screen.Bookmarks.route) },
                     onNavigateToDeleteAccount = { navController.navigate(Screen.DeleteAccount.route) },
                     onNavigateToLogin = {
                         navController.navigate(Screen.Login.route) {

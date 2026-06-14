@@ -19,7 +19,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.neb.ians.data.repository.AuthRepository
 import com.neb.ians.data.repository.EmailAuthResult
 import kotlinx.coroutines.launch
@@ -78,7 +77,7 @@ fun EmailLoginScreen(
 
             Text(
                 text = "Sign In",
-                fontSize = 32.sp,
+                style = MaterialTheme.typography.headlineMedium,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onSurface,
                 textAlign = androidx.compose.ui.text.style.TextAlign.Center,
