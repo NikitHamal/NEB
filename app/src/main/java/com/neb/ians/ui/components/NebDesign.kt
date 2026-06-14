@@ -255,6 +255,23 @@ fun NebAvatar(
             .background(NebColors.brandBrush, CircleShape)
             .padding(2.dp)
     } else Modifier
+
+    val resolvedUrl = remember(photoUrl) {
+        if (photoUrl.isNullOrBlank()) null
+        else {
+            var url = photoUrl.trim()
+            if (url.startsWith("http://127.0.0.1:8000/") || url.startsWith("http://localhost:8000/")) {
+                url = url.replace("http://127.0.0.1:8000/", "https://nebians.consica.com.np/")
+                         .replace("http://localhost:8000/", "https://nebians.consica.com.np/")
+            }
+            if (url.startsWith("http://") || url.startsWith("https://")) {
+                url
+            } else {
+                "https://nebians.consica.com.np${if (url.startsWith("/")) "" else "/"}$url"
+            }
+        }
+    }
+
     Box(modifier = modifier.then(ringMod), contentAlignment = Alignment.Center) {
         Box(
             modifier = Modifier
@@ -263,9 +280,9 @@ fun NebAvatar(
                 .background(MaterialTheme.colorScheme.primaryContainer),
             contentAlignment = Alignment.Center
         ) {
-            if (!photoUrl.isNullOrBlank()) {
+            if (!resolvedUrl.isNullOrBlank()) {
                 AsyncImage(
-                    model = photoUrl,
+                    model = resolvedUrl,
                     contentDescription = name,
                     modifier = Modifier.size(size).clip(CircleShape)
                 )
