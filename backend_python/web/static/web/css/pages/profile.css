@@ -2,7 +2,6 @@
 @import url("profile/01-profile-shell-tabs-cards.css");
 @import url("profile/02-profile-modals-photo-bot.css");
 @import url("profile/03-profile-bot-details.css");
-@import url("profile/04-share-card.css");
 
 /* Desktop profile layout lock
    Keep the left profile card anchored in the same desktop position while
