@@ -40,7 +40,7 @@ fun InteractiveLessonScreen(
         if (pageProgress < 100) {
             LinearProgressIndicator(
                 progress = { pageProgress / 100f },
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier.fillMaxWidth(),
                 color = MaterialTheme.colorScheme.primary,
             )
         }
