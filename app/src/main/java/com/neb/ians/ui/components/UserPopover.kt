@@ -20,13 +20,14 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Crown
 import androidx.compose.material.icons.filled.Verified
 import androidx.compose.material.icons.filled.School
 import androidx.compose.material.icons.filled.AccountBalance
 import androidx.compose.material.icons.filled.Explore
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.outlined.Shield
+import androidx.compose.ui.res.painterResource
+import com.neb.ians.R
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -273,7 +274,6 @@ private fun PopoverStat(value: Int, label: String) {
 fun RoleBadgeChip(type: String, label: String, colorHex: String?, modifier: Modifier = Modifier) {
     val color = remember(colorHex) { parseHexColor(colorHex) ?: Color(0xFF1B9AF0) }
     val icon = when (type) {
-        "admin" -> Icons.Filled.Crown
         "moderator" -> Icons.Outlined.Shield
         "verified" -> Icons.Filled.Verified
         "teacher" -> Icons.Filled.School
@@ -288,12 +288,21 @@ fun RoleBadgeChip(type: String, label: String, colorHex: String?, modifier: Modi
         color = color.copy(alpha = 0.15f)
     ) {
         Box(contentAlignment = Alignment.Center) {
-            Icon(
-                imageVector = icon,
-                contentDescription = label,
-                tint = color,
-                modifier = Modifier.size(13.dp)
-            )
+            if (type == "admin") {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_crown),
+                    contentDescription = label,
+                    tint = color,
+                    modifier = Modifier.size(13.dp)
+                )
+            } else {
+                Icon(
+                    imageVector = icon,
+                    contentDescription = label,
+                    tint = color,
+                    modifier = Modifier.size(13.dp)
+                )
+            }
         }
     }
 }
