@@ -511,6 +511,17 @@ private fun PostContentSection(
                     )
                 }
             }
+            PostMoreMenu(
+                isOwn = isOwnPost,
+                isBookmarked = bookmarked,
+                isArchived = post.isArchived == true,
+                onBookmark = onBookmarkClick,
+                onShare = onShareClick,
+                onReport = onReportClick,
+                onEdit = onEditClick,
+                onArchive = onArchiveClick,
+                onDelete = onDeleteClick
+            )
         }
 
         Spacer(modifier = Modifier.height(12.dp))
@@ -605,17 +616,6 @@ private fun PostContentSection(
                     tint = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
-            PostMoreMenu(
-                isOwn = isOwnPost,
-                isBookmarked = bookmarked,
-                isArchived = post.isArchived == true,
-                onBookmark = onBookmarkClick,
-                onShare = onShareClick,
-                onReport = onReportClick,
-                onEdit = onEditClick,
-                onArchive = onArchiveClick,
-                onDelete = onDeleteClick
-            )
         }
     }
 }

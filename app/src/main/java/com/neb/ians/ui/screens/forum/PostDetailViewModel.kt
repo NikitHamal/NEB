@@ -63,6 +63,8 @@ class PostDetailViewModel @Inject constructor(
 
     private val _state = MutableStateFlow(PostDetailUiState())
     private var unsubscribePost: (() -> Unit)? = null
+    private var isPostLikeBusy = false
+    private val processingReplyLikes = mutableSetOf<String>()
     private val lenientJson = Json { ignoreUnknownKeys = true; coerceInputValues = true }
 
     val uiState: StateFlow<PostDetailUiState> = combine(
@@ -174,7 +176,9 @@ class PostDetailViewModel @Inject constructor(
     // ----- Likes (optimistic) -----
 
     fun toggleThumbsUp() {
+        if (isPostLikeBusy) return
         val current = _state.value.post ?: return
+        isPostLikeBusy = true
         val optimistic = current.copy(
             isThumbedUp = !current.isThumbedUp,
             thumbsUpCount = (current.thumbsUpCount + if (current.isThumbedUp) -1 else 1).coerceAtLeast(0)
@@ -191,11 +195,14 @@ class PostDetailViewModel @Inject constructor(
                     }
                 }
                 .onFailure { _state.update { it.copy(post = current) } }
+            isPostLikeBusy = false
         }
     }
 
     fun toggleReplyThumbsUp(replyId: String) {
+        if (processingReplyLikes.contains(replyId)) return
         val current = _state.value.replies.firstOrNull { it.id == replyId } ?: return
+        processingReplyLikes.add(replyId)
         val optimistic = current.copy(
             isThumbedUp = !current.isThumbedUp,
             thumbsUpCount = (current.thumbsUpCount + if (current.isThumbedUp) -1 else 1).coerceAtLeast(0)
@@ -213,6 +220,7 @@ class PostDetailViewModel @Inject constructor(
                     }
                 }
                 .onFailure { replaceReply(current) }
+            processingReplyLikes.remove(replyId)
         }
     }
 
