@@ -369,7 +369,8 @@ fun NEBiansNavHost(
                     onNebyAiClick = { navController.navigate(Screen.NebyAi.route) },
                     onPostClick = { postId -> navController.navigate(Screen.ForumPostDetail.createRoute(postId)) },
                     onNotificationsClick = { navController.navigate(Screen.Notifications.route) },
-                    onProfileClick = navigateToOwnProfile
+                    onProfileClick = navigateToOwnProfile,
+                    onUserProfileClick = { username -> navController.navigate(Screen.Profile.createRoute(username)) }
                 )
             }
             composable(
