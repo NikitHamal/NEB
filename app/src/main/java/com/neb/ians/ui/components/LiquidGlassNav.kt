@@ -156,6 +156,7 @@ fun LiquidGlassBottomNav(
     onSelect: (NebNavItem) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val isDark = MaterialTheme.colorScheme.surface.luminanceIsDark()
     val glassBase = MaterialTheme.colorScheme.surfaceContainerLowest
     val glassBrush = Brush.verticalGradient(
         listOf(

@@ -30,6 +30,32 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         handleIntent(intent)
 
+        // Request runtime permission for notifications on Android 13+ (Tiramisu, API 33)
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+            if (androidx.core.content.ContextCompat.checkSelfPermission(
+                    this,
+                    android.Manifest.permission.POST_NOTIFICATIONS
+                ) != android.content.pm.PackageManager.PERMISSION_GRANTED
+            ) {
+                androidx.core.app.ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(android.Manifest.permission.POST_NOTIFICATIONS),
+                    101
+                )
+            }
+        }
+
+        // Refresh profile and sync FCM token in background on startup if authenticated
+        lifecycleScope.launch {
+            try {
+                val token = authRepository.getToken()
+                if (token != null && token.isNotBlank()) {
+                    authRepository.refreshProfile()
+                    authRepository.syncFcmToken()
+                }
+            } catch (_: Exception) {}
+        }
+
         setContent {
             val settingsViewModel: SettingsViewModel = hiltViewModel()
             val isDarkMode by settingsViewModel.isDarkMode.collectAsState()

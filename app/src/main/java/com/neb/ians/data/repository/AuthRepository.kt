@@ -84,7 +84,9 @@ class AuthRepository @Inject constructor(
     val currentUserPhotoUrlFlow: Flow<String?> = dataStore.data.map { it[USER_PHOTO_URL] }
 
     val userProfileFlow: Flow<UserProfileCache?> = dataStore.data.map { preferences ->
-        val userId = preferences[USER_ID] ?: return@map null
+        val userId = preferences[USER_ID]
+        val status = preferences[AUTH_STATUS] ?: "unauthenticated"
+        if (userId.isNullOrBlank() || userId == "guest_user" || status != "authenticated") return@map null
         UserProfileCache(
             id = userId,
             username = preferences[USER_NAME] ?: "",
@@ -163,10 +165,12 @@ class AuthRepository @Inject constructor(
                 prefs[AUTH_STATUS] = "authenticated"
                 prefs[PROFILE_COMPLETED] = !isNewUser
                 prefs[USER_NAME] = username ?: ""
+                prefs.remove(USER_ID)
             }
             if (!username.isNullOrEmpty()) {
                 refreshProfile()
             }
+            syncFcmToken()
             true
         } catch (e: Exception) {
             false
@@ -209,6 +213,7 @@ class AuthRepository @Inject constructor(
                 prefs[USER_ACHIEVEMENT_BADGES] = user.achievementBadges ?: ""
             }
         }
+        syncFcmToken()
     }
 
     suspend fun continueAsGuest() {
@@ -465,8 +470,27 @@ class AuthRepository @Inject constructor(
             prefs[USER_FOLLOWER_COUNT] = 0
             prefs[USER_FOLLOWING_COUNT] = 0
             prefs[USER_CONTRIBUTION_SCORE] = 0
-            prefs[USER_ACHIEVEMENT_BADGES] = ""
         }
+    }
+
+    fun syncFcmToken() {
+        try {
+            com.google.firebase.messaging.FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val token = task.result
+                    if (!token.isNullOrBlank()) {
+                        kotlinx.coroutines.CoroutineScope(kotlinx.coroutines.Dispatchers.IO).launch {
+                            try {
+                                val bearer = getBearerToken()
+                                if (bearer != null) {
+                                    apiService.registerFcmToken(bearer, com.neb.ians.data.api.FcmTokenRequest(token))
+                                }
+                            } catch (_: Exception) {}
+                        }
+                    }
+                }
+            }
+        } catch (_: Exception) {}
     }
 }
 

@@ -53,6 +53,11 @@ class HomeViewModel @Inject constructor(
             _error.value = null
             try {
                 val token = authRepository.getBearerToken()
+                if (token != null) {
+                    try {
+                        authRepository.refreshProfile()
+                    } catch (_: Exception) {}
+                }
                 val resourcesResult = apiService.getResources(token, sort = "newest", page = 1)
                 val popularResult = apiService.getResources(token, sort = "relevant", page = 1)
                 val postsResult = apiService.getPosts(token)
