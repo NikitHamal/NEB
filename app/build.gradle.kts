@@ -28,9 +28,11 @@ android {
     signingConfigs {
         create("release") {
             storeFile = file("${rootProject.projectDir}/nebians-release.keystore")
-            storePassword = System.getenv("KEYSTORE_PASSWORD") ?: project.findProperty("KEYSTORE_PASSWORD") as? String ?: "***REMOVED***"
-            keyAlias = "nebians"
-            keyPassword = System.getenv("KEY_PASSWORD") ?: project.findProperty("KEY_PASSWORD") as? String ?: "***REMOVED***"
+            storePassword = System.getenv("KEYSTORE_PASSWORD") ?: project.findProperty("KEYSTORE_PASSWORD") as? String
+                ?: throw GradleException("KEYSTORE_PASSWORD not set")
+            keyAlias = System.getenv("KEY_ALIAS") ?: project.findProperty("KEY_ALIAS") as? String ?: "nebians"
+            keyPassword = System.getenv("KEY_PASSWORD") ?: project.findProperty("KEY_PASSWORD") as? String
+                ?: throw GradleException("KEY_PASSWORD not set")
         }
     }
 

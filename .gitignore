@@ -76,3 +76,6 @@ Resources/
 local.properties
 .kotlin/
 .opencode/
+
+# Release keystore (stored on GitHub Secrets, not in repo)
+nebians-release.keystore
