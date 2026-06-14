@@ -262,12 +262,6 @@ fun ForumPostCard(
                             Spacer(modifier = Modifier.width(5.dp))
                             NebBadge(badge)
                         }
-                        Text(
-                            text = "  posted",
-                            style = MaterialTheme.typography.labelMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            maxLines = 1
-                        )
                     }
                     Spacer(modifier = Modifier.height(2.dp))
                     Row(verticalAlignment = Alignment.CenterVertically) {
@@ -309,6 +303,17 @@ fun ForumPostCard(
                         )
                     }
                 }
+                PostMoreMenu(
+                    isOwn = isOwnPost,
+                    isBookmarked = bookmarked,
+                    isArchived = post.isArchived == true,
+                    onBookmark = onBookmarkClick,
+                    onShare = onShareClick,
+                    onReport = onReportClick,
+                    onEdit = onEditClick,
+                    onArchive = onArchiveClick,
+                    onDelete = onDeleteClick
+                )
             }
 
             Spacer(modifier = Modifier.height(10.dp))
@@ -404,17 +409,6 @@ fun ForumPostCard(
                     contentDescription = "Share",
                     onClick = onShareClick,
                     size = 34.dp
-                )
-                PostMoreMenu(
-                    isOwn = isOwnPost,
-                    isBookmarked = bookmarked,
-                    isArchived = post.isArchived == true,
-                    onBookmark = onBookmarkClick,
-                    onShare = onShareClick,
-                    onReport = onReportClick,
-                    onEdit = onEditClick,
-                    onArchive = onArchiveClick,
-                    onDelete = onDeleteClick
                 )
             }
         }
