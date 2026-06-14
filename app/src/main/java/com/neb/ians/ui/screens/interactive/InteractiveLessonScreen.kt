@@ -72,11 +72,6 @@ fun InteractiveLessonScreen(
                     }
                     loadUrl(lessonUrl)
                 }
-            },
-            update = { webView ->
-                if (pageProgress == 100) {
-                    webView.evaluateJavascript(ANDROID_INJECT_JS, null)
-                }
             }
         )
     }
@@ -89,67 +84,31 @@ private const val ANDROID_INJECT_JS = """
 
     var style = document.createElement('style');
     style.textContent = `
-        .md-topbar, .md-bottom-nav, .md-drawer-overlay, .md-side-drawer,
-        .ix-breadcrumb, .md-footer, .site-footer, .site-main > .md-container > :not(.ix-lesson-page) {
-            display: none !important;
-        }
-        .site-main {
-            padding-top: 0 !important;
-            padding-bottom: 0 !important;
-        }
-        .ix-lesson-page {
-            padding-top: 8px !important;
-            padding-bottom: 0 !important;
-        }
+        .md-topbar { display: none !important; }
+        .md-bottom-nav { display: none !important; }
+        .md-drawer-overlay, .md-side-drawer { display: none !important; }
+        .ix-breadcrumb { display: none !important; }
+        .md-footer, .site-footer { display: none !important; }
+        .ix-lesson-header { display: none !important; }
+        .site-main { padding: 0 !important; margin: 0 !important; }
+        .ix-lesson-page { padding: 8px 8px 0 8px !important; }
         .ix-lesson-layout {
             display: flex !important;
             flex-direction: column !important;
-            grid-template-columns: none !important;
+            grid-template-columns: 1fr !important;
+            gap: 16px !important;
         }
-        .ix-sim-column {
-            width: 100% !important;
-            max-width: 100% !important;
-            order: 1 !important;
-        }
-        .ix-learn-column {
-            width: 100% !important;
-            max-width: 100% !important;
-            order: 2 !important;
-        }
-        .ix-sim-shell {
-            position: relative !important;
-            top: auto !important;
-            border-radius: 12px !important;
-        }
+        .ix-sim-column { width: 100% !important; max-width: 100% !important; }
+        .ix-learn-column { width: 100% !important; max-width: 100% !important; }
+        .ix-sim-shell { position: relative !important; top: auto !important; }
         .ix-sim-stage {
             aspect-ratio: 4 / 3 !important;
-            max-height: 60vh !important;
+            max-height: 55vh !important;
             min-height: 200px !important;
         }
-        .ix-lesson-header {
-            display: none !important;
-        }
-        body {
-            overflow-x: hidden !important;
-        }
+        body { overflow-x: hidden !important; }
     `;
     document.head.appendChild(style);
-
-    var topbar = document.querySelector('.md-topbar');
-    if (topbar) topbar.remove();
-    var footer = document.querySelector('.md-footer') || document.querySelector('.site-footer');
-    if (footer) footer.remove();
-    var nav = document.querySelector('.md-bottom-nav');
-    if (nav) nav.remove();
-    var bc = document.querySelector('.ix-breadcrumb');
-    if (bc) bc.remove();
-    var header = document.querySelector('.ix-lesson-header');
-    if (header) header.remove();
-
-    var main = document.querySelector('.site-main');
-    if (main) {
-        main.style.paddingTop = '0';
-        main.style.paddingBottom = '0';
-    }
+    window.scrollTo(0, 0);
 })();
 """
