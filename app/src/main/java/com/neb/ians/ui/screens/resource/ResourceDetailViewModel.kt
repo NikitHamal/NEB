@@ -42,6 +42,8 @@ class ResourceDetailViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(ResourceDetailUiState())
     val uiState: StateFlow<ResourceDetailUiState> = _uiState.asStateFlow()
 
+    private var isLikeBusy = false
+
     init {
         load()
     }
@@ -65,7 +67,7 @@ class ResourceDetailViewModel @Inject constructor(
                     resourceRepository.viewResource(resourceId)
                 }
                 .onFailure { e ->
-                    _uiState.update { it.copy(isLoading = false, error = e.message) }
+                    _uiState.update { it.copy(isLoading = false, error = e.localizedMessage ?: "Unknown error") }
                 }
             loadComments()
         }
@@ -86,6 +88,8 @@ class ResourceDetailViewModel @Inject constructor(
 
     fun toggleLike() {
         if (!_uiState.value.isAuthenticated) return
+        if (isLikeBusy) return
+        isLikeBusy = true
         // Optimistic update
         val wasLiked = _uiState.value.isLiked
         val prevCount = _uiState.value.likeCount
@@ -100,6 +104,7 @@ class ResourceDetailViewModel @Inject constructor(
                 .onFailure {
                     _uiState.update { it.copy(isLiked = wasLiked, likeCount = prevCount) }
                 }
+            isLikeBusy = false
         }
     }
 

@@ -63,6 +63,7 @@ class ForumViewModel @Inject constructor(
 
     private val _forumState = MutableStateFlow(ForumUiState())
     private var searchJob: Job? = null
+    private val processingPostLikes = mutableSetOf<String>()
     private var loadJob: Job? = null
     private var unsubscribeForum: (() -> Unit)? = null
 
@@ -186,7 +187,9 @@ class ForumViewModel @Inject constructor(
 
     /** Optimistic like toggle — flip immediately, revert on failure. */
     fun toggleThumbsUp(postId: String) {
+        if (processingPostLikes.contains(postId)) return
         val current = _forumState.value.posts.firstOrNull { it.id == postId } ?: return
+        processingPostLikes.add(postId)
         val optimistic = current.copy(
             isThumbedUp = !current.isThumbedUp,
             thumbsUpCount = (current.thumbsUpCount + if (current.isThumbedUp) -1 else 1).coerceAtLeast(0)
@@ -204,6 +207,7 @@ class ForumViewModel @Inject constructor(
                     }
                 }
                 .onFailure { updatePostInList(current) }
+            processingPostLikes.remove(postId)
         }
     }
 
