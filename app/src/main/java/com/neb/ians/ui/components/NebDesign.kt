@@ -20,12 +20,13 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Verified
-import androidx.compose.material.icons.filled.Crown
 import androidx.compose.material.icons.filled.School
 import androidx.compose.material.icons.filled.AccountBalance
 import androidx.compose.material.icons.filled.Explore
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.outlined.Shield
+import androidx.compose.ui.res.painterResource
+import com.neb.ians.R
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
@@ -283,7 +284,7 @@ fun NebAvatar(
 @Composable
 fun NebBadge(badge: ApiBadgeInfo?, modifier: Modifier = Modifier) {
     if (badge == null) return
-    val (bg, fg, icon) = badgeStyle(badge)
+    val (bg, fg, icon, drawableRes) = badgeStyle(badge)
     Box(
         modifier = modifier
             .size(20.dp)
@@ -291,7 +292,14 @@ fun NebBadge(badge: ApiBadgeInfo?, modifier: Modifier = Modifier) {
             .background(bg),
         contentAlignment = Alignment.Center
     ) {
-        if (icon != null) {
+        if (drawableRes != null) {
+            Icon(
+                painter = painterResource(id = drawableRes),
+                contentDescription = badge.label,
+                tint = fg,
+                modifier = Modifier.size(11.dp)
+            )
+        } else if (icon != null) {
             Icon(
                 imageVector = icon,
                 contentDescription = badge.label,
@@ -302,17 +310,17 @@ fun NebBadge(badge: ApiBadgeInfo?, modifier: Modifier = Modifier) {
     }
 }
 
-private data class BadgeStyle(val bg: Color, val fg: Color, val icon: ImageVector?)
+private data class BadgeStyle(val bg: Color, val fg: Color, val icon: ImageVector? = null, val drawableRes: Int? = null)
 
 @Composable
 private fun badgeStyle(badge: ApiBadgeInfo): BadgeStyle = when (badge.type) {
-    "admin" -> BadgeStyle(Color(0xFFFEF3C7), Color(0xFF92400E), Icons.Filled.Crown)
-    "moderator" -> BadgeStyle(Color(0xFFDBEAFE), Color(0xFF1E40AF), Icons.Outlined.Shield)
-    "verified" -> BadgeStyle(Color(0xFFDBEAFE), Color(0xFF1E40AF), Icons.Filled.Verified)
-    "teacher" -> BadgeStyle(Color(0xFFD1FAE5), Color(0xFF047857), Icons.Filled.School)
-    "institution" -> BadgeStyle(Color(0xFFE0E7FF), Color(0xFF4338CA), Icons.Filled.AccountBalance)
-    "explorer" -> BadgeStyle(Color(0xFFFEF3C7), Color(0xFFB45309), Icons.Filled.Explore)
-    "bot" -> BadgeStyle(Color(0xFFF3E8FF), Color(0xFF7E22CE), Icons.Filled.AutoAwesome)
+    "admin" -> BadgeStyle(Color(0xFFFEF3C7), Color(0xFF92400E), drawableRes = R.drawable.ic_crown)
+    "moderator" -> BadgeStyle(Color(0xFFDBEAFE), Color(0xFF1E40AF), icon = Icons.Outlined.Shield)
+    "verified" -> BadgeStyle(Color(0xFFDBEAFE), Color(0xFF1E40AF), icon = Icons.Filled.Verified)
+    "teacher" -> BadgeStyle(Color(0xFFD1FAE5), Color(0xFF047857), icon = Icons.Filled.School)
+    "institution" -> BadgeStyle(Color(0xFFE0E7FF), Color(0xFF4338CA), icon = Icons.Filled.AccountBalance)
+    "explorer" -> BadgeStyle(Color(0xFFFEF3C7), Color(0xFFB45309), icon = Icons.Filled.Explore)
+    "bot" -> BadgeStyle(Color(0xFFF3E8FF), Color(0xFF7E22CE), icon = Icons.Filled.AutoAwesome)
     else -> BadgeStyle(
         MaterialTheme.colorScheme.secondaryContainer,
         MaterialTheme.colorScheme.onSecondaryContainer,
