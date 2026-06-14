@@ -1,5 +1,6 @@
 package com.neb.ians.data.api
 
+import android.content.Context
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import okhttp3.OkHttpClient
@@ -1255,13 +1256,14 @@ interface ApiService {
     companion object {
         private const val BASE_URL = "https://nebians.consica.com.np/"
 
-        fun create(tokenProvider: (() -> String?)? = null): ApiService {
+        fun create(context: Context, tokenProvider: (() -> String?)? = null): ApiService {
             val logger = HttpLoggingInterceptor().apply {
                 level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
             }
 
             val client = OkHttpClient.Builder()
                 .addInterceptor(logger)
+                .addInterceptor(WafChallengeInterceptor(context))
                 .addInterceptor { chain ->
                     val request = chain.request().newBuilder()
                     tokenProvider?.invoke()?.let { token ->
