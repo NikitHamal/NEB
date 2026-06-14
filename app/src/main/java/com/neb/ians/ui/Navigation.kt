@@ -18,10 +18,43 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Popup
+import androidx.compose.ui.window.PopupProperties
+import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.draw.clip
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Icon
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.filled.Bookmark
+import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material.icons.outlined.ExitToApp
+import com.neb.ians.ui.components.NebAvatar
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -174,10 +207,14 @@ fun NEBiansNavHost(
     val currentDestination = navBackStackEntry?.destination
     val currentRoute = currentDestination?.route?.substringBefore("?")
     val showBottomBar = currentRoute in glassNavItems.map { it.route }
+    var showProfileDropdown by remember { mutableStateOf(false) }
     val navigateToOwnProfile = {
         val username = userProfile?.username?.takeIf { it.isNotBlank() && it != "Guest" }
-        if (username != null) navController.navigate(Screen.Profile.createRoute(username))
-        else navController.navigate(Screen.Settings.route)
+        if (username != null) {
+            showProfileDropdown = !showProfileDropdown
+        } else {
+            navController.navigate(Screen.Settings.route)
+        }
     }
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -560,5 +597,166 @@ fun NEBiansNavHost(
                 modifier = Modifier.align(Alignment.BottomCenter)
             )
         }
+
+        if (showProfileDropdown) {
+            val profile = userProfile
+            if (profile != null) {
+                val density = LocalDensity.current
+                val offsetX = with(density) { (-16).dp.roundToPx() }
+                val offsetY = with(density) { 60.dp.roundToPx() }
+
+                Popup(
+                    alignment = Alignment.TopEnd,
+                    offset = IntOffset(offsetX, offsetY),
+                    onDismissRequest = { showProfileDropdown = false },
+                    properties = PopupProperties(focusable = true)
+                ) {
+                    val isDark = MaterialTheme.colorScheme.surface.luminanceIsDark()
+                    val glassBase = MaterialTheme.colorScheme.surfaceContainerLowest
+                    val glassBrush = Brush.verticalGradient(
+                        listOf(
+                            glassBase.copy(alpha = if (isDark) 0.94f else 0.88f),
+                            glassBase.copy(alpha = if (isDark) 0.85f else 0.78f),
+                        )
+                    )
+                    val borderColor = if (isDark) Color.White.copy(alpha = 0.12f) else Color.White.copy(alpha = 0.60f)
+
+                    Column(
+                        modifier = Modifier
+                            .width(224.dp)
+                            .shadow(16.dp, RoundedCornerShape(16.dp), clip = false)
+                            .clip(RoundedCornerShape(16.dp))
+                            .background(glassBrush)
+                            .border(1.dp, borderColor, RoundedCornerShape(16.dp))
+                            .padding(8.dp)
+                    ) {
+                        // Header
+                        Row(
+                            modifier = Modifier.padding(horizontal = 12.dp, vertical = 10.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(12.dp)
+                        ) {
+                            val name = profile.displayName?.takeIf { it.isNotBlank() } ?: profile.username
+                            NebAvatar(
+                                name = name.ifEmpty { "N" },
+                                photoUrl = profile.photoUrl,
+                                size = 38.dp
+                            )
+                            Column(modifier = Modifier.weight(1f)) {
+                                Text(
+                                    text = profile.username,
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    fontWeight = FontWeight.SemiBold,
+                                    color = MaterialTheme.colorScheme.onSurface,
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis
+                                )
+                                val roleText = when (profile.role) {
+                                    "teacher" -> "Teacher"
+                                    "institution" -> "Institution"
+                                    "explorer" -> "Explorer"
+                                    else -> "Student"
+                                }
+                                Text(
+                                    text = roleText,
+                                    style = MaterialTheme.typography.labelSmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            }
+                        }
+
+                        HorizontalDivider(
+                            modifier = Modifier.padding(vertical = 4.dp),
+                            color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
+                        )
+
+                        // View Profile
+                        ProfileDropdownItem(
+                            icon = Icons.Outlined.Person,
+                            text = "View Profile",
+                            onClick = {
+                                showProfileDropdown = false
+                                navController.navigate(Screen.Profile.createRoute(profile.username))
+                            }
+                        )
+
+                        // Bookmarks
+                        ProfileDropdownItem(
+                            icon = Icons.Filled.Bookmark,
+                            text = "Bookmarks",
+                            onClick = {
+                                showProfileDropdown = false
+                                navController.navigate(Screen.Bookmarks.route)
+                            }
+                        )
+
+                        // Settings
+                        ProfileDropdownItem(
+                            icon = Icons.Outlined.Settings,
+                            text = "Settings",
+                            onClick = {
+                                showProfileDropdown = false
+                                navController.navigate(Screen.Settings.route)
+                            }
+                        )
+
+                        HorizontalDivider(
+                            modifier = Modifier.padding(vertical = 4.dp),
+                            color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
+                        )
+
+                        // Sign Out
+                        ProfileDropdownItem(
+                            icon = Icons.Outlined.ExitToApp,
+                            text = "Sign Out",
+                            textColor = MaterialTheme.colorScheme.error,
+                            iconColor = MaterialTheme.colorScheme.error,
+                            onClick = {
+                                showProfileDropdown = false
+                                settingsViewModel.logout()
+                            }
+                        )
+                    }
+                }
+            }
+        }
     }
+}
+
+@Composable
+private fun ProfileDropdownItem(
+    icon: ImageVector,
+    text: String,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    iconColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
+    textColor: Color = MaterialTheme.colorScheme.onSurface
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(8.dp))
+            .clickable(onClick = onClick)
+            .padding(horizontal = 12.dp, vertical = 10.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(10.dp)
+    ) {
+        Icon(
+            imageVector = icon,
+            contentDescription = null,
+            modifier = Modifier.size(20.dp),
+            tint = iconColor
+        )
+        Text(
+            text = text,
+            style = MaterialTheme.typography.bodyMedium,
+            fontWeight = FontWeight.Medium,
+            color = textColor
+        )
+    }
+}
+
+private fun Color.luminanceIsDark(): Boolean {
+    val l = 0.299f * red + 0.587f * green + 0.114f * blue
+    return l < 0.5f
 }

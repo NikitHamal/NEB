@@ -58,11 +58,16 @@ class ProfileViewModel @Inject constructor(
             try {
                 val token = authRepository.getBearerToken()
                 val profile = apiService.getProfile(token, username)
+                var statsIsFollowing = profile.isFollowing ?: false
+                try {
+                    val stats = apiService.getProfileStats(token, username)
+                    statsIsFollowing = stats.isFollowing
+                } catch (_: Exception) {}
                 _uiState.update {
                     it.copy(
                         profile = profile,
                         isLoading = false,
-                        isFollowing = profile.isFollowing ?: false,
+                        isFollowing = statsIsFollowing,
                         followerCount = profile.followerCount
                     )
                 }
