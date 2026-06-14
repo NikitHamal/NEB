@@ -20,7 +20,11 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Verified
-import androidx.compose.material.icons.filled.WorkspacePremium
+import androidx.compose.material.icons.filled.Crown
+import androidx.compose.material.icons.filled.School
+import androidx.compose.material.icons.filled.AccountBalance
+import androidx.compose.material.icons.filled.Explore
+import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.outlined.Shield
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
@@ -280,16 +284,21 @@ fun NebAvatar(
 fun NebBadge(badge: ApiBadgeInfo?, modifier: Modifier = Modifier) {
     if (badge == null) return
     val (bg, fg, icon) = badgeStyle(badge)
-    Row(
+    Box(
         modifier = modifier
+            .size(20.dp)
             .clip(CircleShape)
-            .background(bg)
-            .padding(horizontal = 8.dp, vertical = 2.dp),
-        horizontalArrangement = Arrangement.spacedBy(3.dp),
-        verticalAlignment = Alignment.CenterVertically
+            .background(bg),
+        contentAlignment = Alignment.Center
     ) {
-        if (icon != null) Icon(icon, null, tint = fg, modifier = Modifier.size(12.dp))
-        Text(badge.label, color = fg, fontSize = 11.sp, fontWeight = FontWeight.SemiBold, maxLines = 1)
+        if (icon != null) {
+            Icon(
+                imageVector = icon,
+                contentDescription = badge.label,
+                tint = fg,
+                modifier = Modifier.size(11.dp)
+            )
+        }
     }
 }
 
@@ -297,12 +306,13 @@ private data class BadgeStyle(val bg: Color, val fg: Color, val icon: ImageVecto
 
 @Composable
 private fun badgeStyle(badge: ApiBadgeInfo): BadgeStyle = when (badge.type) {
-    "admin" -> BadgeStyle(Color(0xFFFEF3C7), Color(0xFF92400E), Icons.Filled.WorkspacePremium)
+    "admin" -> BadgeStyle(Color(0xFFFEF3C7), Color(0xFF92400E), Icons.Filled.Crown)
     "moderator" -> BadgeStyle(Color(0xFFDBEAFE), Color(0xFF1E40AF), Icons.Outlined.Shield)
     "verified" -> BadgeStyle(Color(0xFFDBEAFE), Color(0xFF1E40AF), Icons.Filled.Verified)
-    "teacher" -> BadgeStyle(Color(0xFFD1FAE5), Color(0xFF047857), Icons.Filled.Verified)
-    "institution" -> BadgeStyle(Color(0xFFE0E7FF), Color(0xFF4338CA), Icons.Filled.Verified)
-    "explorer" -> BadgeStyle(Color(0xFFFEF3C7), Color(0xFFB45309), null)
+    "teacher" -> BadgeStyle(Color(0xFFD1FAE5), Color(0xFF047857), Icons.Filled.School)
+    "institution" -> BadgeStyle(Color(0xFFE0E7FF), Color(0xFF4338CA), Icons.Filled.AccountBalance)
+    "explorer" -> BadgeStyle(Color(0xFFFEF3C7), Color(0xFFB45309), Icons.Filled.Explore)
+    "bot" -> BadgeStyle(Color(0xFFF3E8FF), Color(0xFF7E22CE), Icons.Filled.AutoAwesome)
     else -> BadgeStyle(
         MaterialTheme.colorScheme.secondaryContainer,
         MaterialTheme.colorScheme.onSecondaryContainer,

@@ -64,6 +64,7 @@ fun NebTopBar(
     modifier: Modifier = Modifier,
     showBrand: Boolean = true,
     title: String? = null,
+    titleFontWeight: FontWeight = FontWeight.Bold,
     onBack: (() -> Unit)? = null,
     onSearch: (() -> Unit)? = null,
     isAuthenticated: Boolean = false,
@@ -99,17 +100,21 @@ fun NebTopBar(
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onSurface
             )
+            Spacer(Modifier.weight(1f))
         } else if (title != null) {
             Text(
                 title,
+                modifier = Modifier.weight(1f),
                 style = MaterialTheme.typography.titleLarge,
-                fontWeight = FontWeight.Bold,
+                fontWeight = titleFontWeight,
                 color = MaterialTheme.colorScheme.onSurface,
                 maxLines = 1,
                 overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
             )
+            Spacer(Modifier.width(8.dp))
+        } else {
+            Spacer(Modifier.weight(1f))
         }
-        Spacer(Modifier.weight(1f))
         if (actions != null) {
             actions()
         }
@@ -117,7 +122,6 @@ if (onSearch != null) {
             NebIconButton(Icons.Outlined.Search, "Search", onSearch)
         }
         if (isAuthenticated && onProfile != null) {
-            Spacer(Modifier.width(4.dp))
             Box {
                 NebAvatar(photoUrl = photoUrl, name = username, size = 34.dp, ring = true,
                     modifier = Modifier.clickable(onClick = onProfile))
