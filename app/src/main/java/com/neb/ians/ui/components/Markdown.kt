@@ -13,6 +13,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.AnnotatedString
@@ -256,4 +261,55 @@ fun markdownToPlainPreview(markdown: String): String {
         .replace(Regex("[*_~`#>]+"), "")
         .replace(Regex("\\n{2,}"), "\n")
         .trim()
+}
+
+@Composable
+fun ExpandableMarkdownText(
+    markdown: String,
+    modifier: Modifier = Modifier,
+    style: TextStyle = MaterialTheme.typography.bodyMedium,
+    color: Color = MaterialTheme.colorScheme.onSurface,
+    onMentionClick: (String) -> Unit = {},
+    onLinkClick: (String) -> Unit = {},
+    minimizedMaxLines: Int = 3
+) {
+    var isExpanded by remember { mutableStateOf(false) }
+    var hasOverflow by remember { mutableStateOf(false) }
+
+    Column(modifier = modifier) {
+        if (isExpanded) {
+            MarkdownText(
+                markdown = markdown,
+                style = style,
+                color = color,
+                onMentionClick = onMentionClick,
+                onLinkClick = onLinkClick
+            )
+        } else {
+            val plainText = remember(markdown) { markdownToPlainPreview(markdown) }
+            Text(
+                text = plainText,
+                style = style,
+                color = color,
+                maxLines = minimizedMaxLines,
+                overflow = TextOverflow.Ellipsis,
+                onTextLayout = { textLayoutResult ->
+                    hasOverflow = textLayoutResult.hasVisualOverflow
+                }
+            )
+        }
+        if (hasOverflow || isExpanded) {
+            Spacer(modifier = Modifier.height(2.dp))
+            Text(
+                text = if (isExpanded) "See less" else "See more",
+                style = style.copy(fontWeight = FontWeight.SemiBold),
+                color = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = null,
+                    onClick = { isExpanded = !isExpanded }
+                )
+            )
+        }
+    }
 }

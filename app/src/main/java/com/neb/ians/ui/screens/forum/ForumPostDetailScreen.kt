@@ -68,6 +68,7 @@ import com.neb.ians.ui.components.EditContentDialog
 import com.neb.ians.ui.components.EditHistoryDialog
 import com.neb.ians.ui.components.LikePill
 import com.neb.ians.ui.components.MarkdownText
+import com.neb.ians.ui.components.ExpandableMarkdownText
 import com.neb.ians.ui.components.NebBadge
 import com.neb.ians.ui.components.PollView
 import com.neb.ians.ui.components.PostMoreMenu
@@ -523,9 +524,9 @@ private fun PostContentSection(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        MarkdownText(
+        ExpandableMarkdownText(
             markdown = post.content,
-            style = MaterialTheme.typography.bodyLarge,
+            style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurface,
             onMentionClick = onProfileClick,
             onLinkClick = onLinkClick
