@@ -272,6 +272,8 @@ fun NebAvatar(
         }
     }
 
+    var isError by remember(resolvedUrl) { mutableStateOf(false) }
+
     Box(modifier = modifier.then(ringMod), contentAlignment = Alignment.Center) {
         Box(
             modifier = Modifier
@@ -280,11 +282,12 @@ fun NebAvatar(
                 .background(MaterialTheme.colorScheme.primaryContainer),
             contentAlignment = Alignment.Center
         ) {
-            if (!resolvedUrl.isNullOrBlank()) {
+            if (!resolvedUrl.isNullOrBlank() && !isError) {
                 AsyncImage(
                     model = resolvedUrl,
                     contentDescription = name,
-                    modifier = Modifier.size(size).clip(CircleShape)
+                    modifier = Modifier.size(size).clip(CircleShape),
+                    onError = { isError = true }
                 )
             } else {
                 Text(
