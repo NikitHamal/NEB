@@ -193,6 +193,16 @@
       const el = document.getElementById('forum-post-like-count-' + data.post_id);
       if (el) el.textContent = data.thumbs_up_count;
     });
+    window.WS.on('user:post.like_changed', function (data) {
+      if (!data || !data.post_id || data.isThumbedUp === undefined) return;
+      const icon = document.querySelector('.forum-post-card[data-post-id="' + data.post_id + '"] .like-icon');
+      if (icon) {
+        icon.classList.toggle('material-symbols-filled', data.isThumbedUp);
+        icon.classList.toggle('material-symbols-outlined', !data.isThumbedUp);
+      }
+      const countEl = document.getElementById('forum-post-like-count-' + data.post_id);
+      if (countEl) countEl.textContent = data.thumbs_up_count;
+    });
     window.WS.on('forum.public:reply.created', function (data) {
       if (!data || !data.post_id) return;
       const el = document.getElementById('forum-post-reply-count-' + data.post_id);

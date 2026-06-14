@@ -164,7 +164,6 @@ fun ProfileScreen(
     onPostClick: (String) -> Unit,
     onFollowerClick: (String) -> Unit,
     onAnalyticsClick: () -> Unit = {},
-    onBookmarksClick: () -> Unit = {},
     onSearchClick: () -> Unit = {},
     onProfileClick: (String) -> Unit = {},
     viewModel: ProfileViewModel = hiltViewModel()
@@ -221,7 +220,6 @@ fun ProfileScreen(
                     uiState = uiState,
                     onEditProfile = onEditProfile,
                     onFollowClick = viewModel::toggleFollow,
-                    onBookmarksClick = onBookmarksClick,
                     onPostClick = onPostClick,
                     onTabSelected = viewModel::selectTab,
                     onLoadMorePosts = { viewModel.loadPosts(reset = false) },
@@ -248,7 +246,6 @@ private fun ProfileContent(
     uiState: ProfileUiState,
     onEditProfile: () -> Unit,
     onFollowClick: () -> Unit,
-    onBookmarksClick: () -> Unit,
     onPostClick: (String) -> Unit,
     onTabSelected: (Int) -> Unit,
     onLoadMorePosts: () -> Unit,
@@ -261,7 +258,7 @@ private fun ProfileContent(
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(16.dp),
-        verticalArrangement = Arrangement.spacedBy(14.dp)
+        verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
         item(key = "header") {
             ProfileHeaderCard(
@@ -270,7 +267,6 @@ private fun ProfileContent(
                 isFollowing = uiState.isFollowing,
                 onEditProfile = onEditProfile,
                 onFollowClick = onFollowClick,
-                onBookmarksClick = onBookmarksClick,
                 onAvatarClick = onAvatarClick
             )
         }
@@ -399,7 +395,7 @@ private fun ProfileContent(
         }
 
         item(key = "bottom_spacer") {
-            Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.height(24.dp))
         }
     }
 }
@@ -416,7 +412,6 @@ private fun ProfileHeaderCard(
     isFollowing: Boolean,
     onEditProfile: () -> Unit,
     onFollowClick: () -> Unit,
-    onBookmarksClick: () -> Unit,
     onAvatarClick: () -> Unit
 ) {
     val badge = remember(profile) { buildBadgeInfo(profile) }
@@ -453,7 +448,7 @@ private fun ProfileHeaderCard(
                     Avatar(
                         name = profile.displayName ?: profile.username,
                         imageUrl = profile.photoUrl,
-                        size = 84.dp,
+                        size = 72.dp,
                         modifier = Modifier
                             .clip(CircleShape)
                             .then(
@@ -465,7 +460,7 @@ private fun ProfileHeaderCard(
             }
 
             Column(modifier = Modifier.padding(16.dp)) {
-                Spacer(modifier = Modifier.height(42.dp))
+                Spacer(modifier = Modifier.height(36.dp))
 
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(
@@ -538,52 +533,38 @@ private fun ProfileHeaderCard(
                 }
 
                 Spacer(modifier = Modifier.height(14.dp))
-                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    if (isSelf) {
-                        OutlinedButton(
-                            onClick = onEditProfile,
-                            border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
-                        ) {
-                            Icon(
-                                Icons.Filled.Edit,
-                                contentDescription = null,
-                                modifier = Modifier.size(16.dp)
-                            )
-                            Spacer(modifier = Modifier.size(6.dp))
-                            Text("Edit Profile")
-                        }
-                    } else {
-                        OutlinedButton(
-                            onClick = onFollowClick,
-                            border = BorderStroke(
-                                1.dp,
-                                if (isFollowing) MaterialTheme.colorScheme.outline
-                                else MaterialTheme.colorScheme.primary
-                            ),
-                            colors = if (isFollowing)
-                                ButtonDefaults.outlinedButtonColors(
-                                    containerColor = MaterialTheme.colorScheme.surfaceVariant
-                                )
-                            else
-                                ButtonDefaults.outlinedButtonColors(
-                                    containerColor = MaterialTheme.colorScheme.primary,
-                                    contentColor = MaterialTheme.colorScheme.onPrimary
-                                )
-                        ) {
-                            Text(if (isFollowing) "Following" else "Follow", fontWeight = FontWeight.SemiBold)
-                        }
-                    }
+                if (isSelf) {
                     OutlinedButton(
-                        onClick = onBookmarksClick,
+                        onClick = onEditProfile,
                         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
                     ) {
                         Icon(
-                            painter = painterResource(id = R.drawable.ic_bookmark),
+                            Icons.Filled.Edit,
                             contentDescription = null,
                             modifier = Modifier.size(16.dp)
                         )
                         Spacer(modifier = Modifier.size(6.dp))
-                        Text("Bookmarks")
+                        Text("Edit Profile")
+                    }
+                } else {
+                    OutlinedButton(
+                        onClick = onFollowClick,
+                        border = BorderStroke(
+                            1.dp,
+                            if (isFollowing) MaterialTheme.colorScheme.outline
+                            else MaterialTheme.colorScheme.primary
+                        ),
+                        colors = if (isFollowing)
+                            ButtonDefaults.outlinedButtonColors(
+                                containerColor = MaterialTheme.colorScheme.surfaceVariant
+                            )
+                        else
+                            ButtonDefaults.outlinedButtonColors(
+                                containerColor = MaterialTheme.colorScheme.primary,
+                                contentColor = MaterialTheme.colorScheme.onPrimary
+                            )
+                    ) {
+                        Text(if (isFollowing) "Following" else "Follow", fontWeight = FontWeight.SemiBold)
                     }
                 }
             }

@@ -315,7 +315,7 @@ fun NebBadge(badge: ApiBadgeInfo?, modifier: Modifier = Modifier) {
                 painter = painterResource(id = drawableRes),
                 contentDescription = badge.label,
                 tint = fg,
-                modifier = modifier.size(16.dp)
+                modifier = modifier.size(22.dp)
             )
         }
     } else {
