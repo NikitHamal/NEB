@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.neb.ians.data.api.ApiResource
+import com.neb.ians.data.api.ApiErrorMapper
 import com.neb.ians.data.repository.ResourceRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -89,7 +90,7 @@ class LibraryViewModel @Inject constructor(
                     )
                 }
             }.onFailure { e ->
-                _uiState.update { it.copy(isLoading = false, error = e.message ?: "Failed to load resources") }
+                _uiState.update { it.copy(isLoading = false, error = ApiErrorMapper.mapException(e)) }
             }
         }
     }

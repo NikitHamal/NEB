@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.neb.ians.data.api.ApiResource
 import com.neb.ians.data.api.ApiPost
 import com.neb.ians.data.api.ApiService
+import com.neb.ians.data.api.ApiErrorMapper
 import com.neb.ians.data.repository.AuthRepository
 import com.neb.ians.data.repository.SettingsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -59,7 +60,7 @@ class HomeViewModel @Inject constructor(
                 _popularResources.value = popularResult.resources
                 _recentPosts.value = postsResult.posts
             } catch (e: Exception) {
-                _error.value = e.message ?: "Failed to load data"
+                _error.value = ApiErrorMapper.mapException(e)
             }
             _isLoading.value = false
         }

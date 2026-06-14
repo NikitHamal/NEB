@@ -155,11 +155,11 @@
              {% endif %}
            </div>
            {% if post.poll.pollType == 'mcq' and post.poll.userVote and opt.isCorrect %}
-           <span class="material-symbols-outlined fp-poll-option-correct-icon" style="font-variation-settings:'FILL' 1">check_circle</span>
+           <span class="material-symbols-outlined fp-poll-option-correct-icon" style="font-variation-settings:'FILL' 1">done</span>
            {% elif post.poll.pollType == 'mcq' and post.poll.userVote and post.poll.userVote == opt.id and not opt.isCorrect %}
            <span class="material-symbols-outlined fp-poll-option-wrong-icon">cancel</span>
            {% elif post.poll.userVote == opt.id or post.poll.userVote.0 == opt.id %}
-           <span class="material-symbols-outlined fp-poll-option-check" style="font-variation-settings:'FILL' 1">check_circle</span>
+           <span class="material-symbols-outlined fp-poll-option-check" style="font-variation-settings:'FILL' 1">done</span>
            {% endif %}
          </button>
          {% endfor %}
@@ -1625,11 +1625,11 @@ async function votePoll(btn) {
         if (isMcq && voted && !isCorrect) cls += ' fp-poll-option-wrong';
         var iconHtml = '';
         if (isMcq && voted && isCorrect) {
-          iconHtml = '<span class="material-symbols-outlined fp-poll-option-correct-icon" style="font-variation-settings:\'FILL\' 1">check_circle</span>';
+          iconHtml = '<span class="material-symbols-outlined fp-poll-option-correct-icon" style="font-variation-settings:\'FILL\' 1">done</span>';
         } else if (isMcq && voted && !isCorrect) {
           iconHtml = '<span class="material-symbols-outlined fp-poll-option-wrong-icon">cancel</span>';
         } else if (voted) {
-          iconHtml = '<span class="material-symbols-outlined fp-poll-option-check" style="font-variation-settings:\'FILL\' 1">check_circle</span>';
+          iconHtml = '<span class="material-symbols-outlined fp-poll-option-check" style="font-variation-settings:\'FILL\' 1">done</span>';
         }
         optionsHtml += '<button class="' + cls + '" disabled>' +
           '<div class="fp-poll-option-bar" style="width:' + pct + '%"></div>' +

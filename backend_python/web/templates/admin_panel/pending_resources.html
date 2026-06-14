@@ -64,7 +64,7 @@
               <input type="hidden" name="resource_id" value="{{ r.id }}">
               <input type="hidden" name="action" value="approve">
               <button type="submit" class="md-btn md-btn-tonal" style="background:color-mix(10%,#4caf50,transparent);color:#2e7d32">
-                <span class="material-symbols-outlined" style="font-size:18px">check_circle</span> Approve
+                <span class="material-symbols-outlined" style="font-size:18px">done</span> Approve
               </button>
             </form>
             <button type="button" class="md-btn md-btn-text" style="color:var(--md-error)" data-action="show-reject-form" data-resource-id="{{ r.id }}">
@@ -98,7 +98,7 @@
   {% else %}
   <div class="admin-empty">
     <div class="admin-empty-icon-wrap" style="background: color-mix(in srgb, #4caf50 12%, transparent); color: #2e7d32; border-color: color-mix(in srgb, #4caf50 25%, transparent);">
-      <span class="material-symbols-outlined">task_alt</span>
+      <span class="material-symbols-outlined">done</span>
     </div>
     <h3>All caught up!</h3>
     <p>There are no pending resources awaiting review. Excellent work keeping the library clean and up to date.</p>

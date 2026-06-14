@@ -61,6 +61,9 @@
         </div>
       </div>
 
+      </div>
+
+    <div class="ix-learn-column">
       {% if lesson.objectives %}
       <div class="ix-objectives md-card md-card-filled">
         <h2 class="ix-section-title"><span class="material-symbols-outlined">flag</span>What you'll discover</h2>
@@ -71,6 +74,46 @@
         </ul>
       </div>
       {% endif %}
+
+      {% for section in lesson.knowledge %}
+      <section class="ix-knowledge md-card md-card-outlined">
+        <h2 class="ix-section-title">{{ section.heading }}</h2>
+        {% for para in section.body|paragraphs %}
+        <p class="ix-knowledge-body">{{ para }}</p>
+        {% endfor %}
+      </section>
+      {% endfor %}
+
+      {% if lesson.fun_fact %}
+      <aside class="ix-fun-fact">
+        <span class="material-symbols-outlined">lightbulb</span>
+        <div><strong>Fun fact!</strong> {{ lesson.fun_fact }}</div>
+      </aside>
+      {% endif %}
+
+      <div class="ix-lesson-nav">
+        {% if prev_lesson %}
+        <a href="{% url 'web:interactive_lesson' course.slug prev_lesson.slug %}" class="md-btn md-btn-outlined ix-nav-prev">
+          <span class="material-symbols-outlined">arrow_back</span>
+          <span class="ix-nav-label">{{ prev_lesson.title }}</span>
+        </a>
+        {% else %}<span></span>{% endif %}
+        <button class="md-btn md-btn-tonal" id="ix-complete-btn">
+          <span class="material-symbols-outlined" id="ix-complete-icon">task_alt</span>
+          <span id="ix-complete-label">Mark complete</span>
+        </button>
+        {% if next_lesson %}
+        <a href="{% url 'web:interactive_lesson' course.slug next_lesson.slug %}" class="md-btn md-btn-filled ix-nav-next">
+          <span class="ix-nav-label">{{ next_lesson.title }}</span>
+          <span class="material-symbols-outlined">arrow_forward</span>
+        </a>
+        {% else %}
+        <a href="{% url 'web:interactive_course' course.slug %}" class="md-btn md-btn-filled ix-nav-next">
+          <span class="ix-nav-label">Finish course</span>
+          <span class="material-symbols-outlined">celebration</span>
+        </a>
+        {% endif %}
+      </div>
 
       {% if lesson.quiz %}
       <section class="ix-quiz md-card md-card-filled" id="ix-quiz">
@@ -88,48 +131,6 @@
         {% endfor %}
         <div class="ix-quiz-result" id="ix-quiz-result" role="status" aria-live="polite" hidden></div>
       </section>
-      {% endif %}
-
-      <div class="ix-lesson-nav">
-        {% if prev_lesson %}
-        <a href="{% url 'web:interactive_lesson' course.slug prev_lesson.slug %}" class="md-btn md-btn-outlined ix-nav-prev">
-          <span class="material-symbols-outlined">arrow_back</span>
-          <span class="ix-nav-label">{{ prev_lesson.title }}</span>
-        </a>
-        {% else %}<span></span>{% endif %}
-        <button class="md-btn md-btn-tonal" id="ix-complete-btn">
-          <span class="material-symbols-outlined" id="ix-complete-icon">check</span>
-          <span id="ix-complete-label">Mark complete</span>
-        </button>
-        {% if next_lesson %}
-        <a href="{% url 'web:interactive_lesson' course.slug next_lesson.slug %}" class="md-btn md-btn-filled ix-nav-next">
-          <span class="ix-nav-label">{{ next_lesson.title }}</span>
-          <span class="material-symbols-outlined">arrow_forward</span>
-        </a>
-        {% else %}
-        <a href="{% url 'web:interactive_course' course.slug %}" class="md-btn md-btn-filled ix-nav-next">
-          <span class="ix-nav-label">Finish course</span>
-          <span class="material-symbols-outlined">celebration</span>
-        </a>
-        {% endif %}
-      </div>
-    </div>
-
-    <div class="ix-learn-column">
-      {% for section in lesson.knowledge %}
-      <section class="ix-knowledge md-card md-card-outlined">
-        <h2 class="ix-section-title">{{ section.heading }}</h2>
-        {% for para in section.body|paragraphs %}
-        <p class="ix-knowledge-body">{{ para }}</p>
-        {% endfor %}
-      </section>
-      {% endfor %}
-
-      {% if lesson.fun_fact %}
-      <aside class="ix-fun-fact">
-        <span class="material-symbols-outlined">lightbulb</span>
-        <div><strong>Fun fact!</strong> {{ lesson.fun_fact }}</div>
-      </aside>
       {% endif %}
     </div>
   </div>
