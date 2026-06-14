@@ -40,6 +40,7 @@ fun PdfViewerScreen(
             NebTopBar(
                 showBrand = false,
                 title = uiState.title.ifBlank { "Document" },
+                titleFontWeight = androidx.compose.ui.text.font.FontWeight.Normal,
                 onBack = onNavigateBack,
                 actions = {
                     if (uiState.isLocalFileReady) {

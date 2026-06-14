@@ -19,6 +19,15 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Crown
+import androidx.compose.material.icons.filled.Verified
+import androidx.compose.material.icons.filled.School
+import androidx.compose.material.icons.filled.AccountBalance
+import androidx.compose.material.icons.filled.Explore
+import androidx.compose.material.icons.filled.AutoAwesome
+import androidx.compose.material.icons.outlined.Shield
+import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -263,31 +272,30 @@ private fun PopoverStat(value: Int, label: String) {
 @Composable
 fun RoleBadgeChip(type: String, label: String, colorHex: String?, modifier: Modifier = Modifier) {
     val color = remember(colorHex) { parseHexColor(colorHex) ?: Color(0xFF1B9AF0) }
+    val icon = when (type) {
+        "admin" -> Icons.Filled.Crown
+        "moderator" -> Icons.Outlined.Shield
+        "verified" -> Icons.Filled.Verified
+        "teacher" -> Icons.Filled.School
+        "institution" -> Icons.Filled.AccountBalance
+        "explorer" -> Icons.Filled.Explore
+        "bot" -> Icons.Filled.AutoAwesome
+        else -> Icons.Filled.Verified
+    }
     Surface(
         modifier = modifier.size(22.dp),
         shape = CircleShape,
         color = color.copy(alpha = 0.15f)
     ) {
         Box(contentAlignment = Alignment.Center) {
-            Text(
-                text = badgeGlyph(type),
-                style = MaterialTheme.typography.labelSmall,
-                color = color,
-                fontWeight = FontWeight.Bold
+            Icon(
+                imageVector = icon,
+                contentDescription = label,
+                tint = color,
+                modifier = Modifier.size(13.dp)
             )
         }
     }
-}
-
-internal fun badgeGlyph(type: String): String = when (type) {
-    "bot" -> "\u2726"          // ✦ AI sparkle
-    "admin" -> "\u265B"        // ♛ crown
-    "moderator" -> "\u2694"    // shield-ish
-    "teacher" -> "\uD83C\uDF93" // 🎓
-    "institution" -> "\uD83C\uDFDB" // 🏛
-    "explorer" -> "\u2316"     // ⌖ explore
-    "verified" -> "\u2713"     // ✓
-    else -> "\u2713"
 }
 
 internal fun parseHexColor(hex: String?): Color? {
