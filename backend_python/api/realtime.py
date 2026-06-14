@@ -72,9 +72,12 @@ def broadcast_post_deleted(post_id: str):
     _send(GRP_POST_FMT.format(post_id=post_id), 'post.deleted', {'post_id': post_id})
 
 
-def broadcast_post_like_changed(post_id: str, thumbs_up_count: int, is_thumbed_up_by_viewer_hint: Optional[bool] = None):
-    _send(GRP_FORUM_PUBLIC, 'post.like_changed', {'post_id': post_id, 'thumbs_up_count': thumbs_up_count})
-    _send(GRP_POST_FMT.format(post_id=post_id), 'post.like_changed', {'post_id': post_id, 'thumbs_up_count': thumbs_up_count})
+def broadcast_post_like_changed(post_id: str, thumbs_up_count: int, is_thumbed_up_by_viewer_hint: Optional[bool] = None, user_id: Optional[str] = None):
+    payload = {'post_id': post_id, 'thumbs_up_count': thumbs_up_count}
+    _send(GRP_FORUM_PUBLIC, 'post.like_changed', payload)
+    _send(GRP_POST_FMT.format(post_id=post_id), 'post.like_changed', payload)
+    if is_thumbed_up_by_viewer_hint is not None and user_id:
+        _send(GRP_USER_FMT.format(user_id=user_id), 'post.like_changed', {**payload, 'isThumbedUp': is_thumbed_up_by_viewer_hint})
 
 
 def broadcast_reply_created(post_id: str, reply_data: Dict[str, Any]):
@@ -90,10 +93,11 @@ def broadcast_reply_deleted(post_id: str, reply_id: str, deleted_by: str = 'self
     _send(GRP_POST_FMT.format(post_id=post_id), 'reply.deleted', {'post_id': post_id, 'reply_id': reply_id, 'deleted_by': deleted_by})
 
 
-def broadcast_reply_like_changed(post_id: str, reply_id: str, thumbs_up_count: int):
-    _send(GRP_POST_FMT.format(post_id=post_id), 'reply.like_changed', {
-        'post_id': post_id, 'reply_id': reply_id, 'thumbs_up_count': thumbs_up_count,
-    })
+def broadcast_reply_like_changed(post_id: str, reply_id: str, thumbs_up_count: int, is_thumbed_up_by_viewer_hint: Optional[bool] = None, user_id: Optional[str] = None):
+    payload = {'post_id': post_id, 'reply_id': reply_id, 'thumbs_up_count': thumbs_up_count}
+    _send(GRP_POST_FMT.format(post_id=post_id), 'reply.like_changed', payload)
+    if is_thumbed_up_by_viewer_hint is not None and user_id:
+        _send(GRP_USER_FMT.format(user_id=user_id), 'reply.like_changed', {**payload, 'isThumbedUp': is_thumbed_up_by_viewer_hint})
 
 
 # ----------------------------------------------------------------------- resources

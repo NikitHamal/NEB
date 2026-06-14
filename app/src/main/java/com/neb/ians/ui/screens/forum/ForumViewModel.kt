@@ -30,6 +30,9 @@ internal fun JsonObject.stringField(key: String): String? =
 internal fun JsonObject.intField(key: String): Int? =
     try { (this[key] as? JsonPrimitive)?.intOrNull } catch (_: Exception) { null }
 
+internal fun JsonObject.boolField(key: String): Boolean? =
+    try { (this[key] as? JsonPrimitive)?.booleanOrNull } catch (_: Exception) { null }
+
 data class ForumUiState(
     val posts: List<ApiPost> = emptyList(),
     val selectedCategory: String? = null,
@@ -99,9 +102,14 @@ class ForumViewModel @Inject constructor(
                 "post.like_changed" -> {
                     val postId = payload.stringField("post_id") ?: return
                     val count = payload.intField("thumbs_up_count") ?: return
+                    if (processingPostLikes.contains(postId)) return
+                    val isThumbedUp = payload.boolField("isThumbedUp")
                     _forumState.update { state ->
                         state.copy(posts = state.posts.map { post ->
-                            if (post.id == postId) post.copy(thumbsUpCount = count) else post
+                            if (post.id == postId) {
+                                if (isThumbedUp != null) post.copy(thumbsUpCount = count, isThumbedUp = isThumbedUp)
+                                else post.copy(thumbsUpCount = count)
+                            } else post
                         })
                     }
                 }
@@ -157,6 +165,29 @@ class ForumViewModel @Inject constructor(
     }
 
     fun refresh() = loadPosts(reset = true)
+
+    fun syncLikeStates() {
+        viewModelScope.launch {
+            val state = _forumState.value
+            if (state.posts.isEmpty()) return@launch
+            try {
+                forumRepository.getPosts(
+                    category = state.selectedCategory,
+                    page = state.page,
+                    sort = state.sort,
+                    search = state.searchQuery
+                ).onSuccess { result ->
+                    _forumState.update { current ->
+                        val merged = current.posts.map { existing ->
+                            val fresh = result.posts.firstOrNull { it.id == existing.id }
+                            fresh ?: existing
+                        }
+                        current.copy(posts = merged)
+                    }
+                }
+            } catch (_: Exception) {}
+        }
+    }
 
     fun loadMore() {
         val state = _forumState.value

@@ -20,16 +20,11 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.PathEffect
-import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.ui.layout.ContentScale
@@ -157,7 +152,7 @@ fun CompleteProfileScreen(
             ) {
                 Column(
                     modifier = Modifier.padding(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(20.dp)
+                    verticalArrangement = Arrangement.spacedBy(14.dp)
                 ) {
                     // Profile Picture Section
                     Column {
@@ -176,7 +171,7 @@ fun CompleteProfileScreen(
                         ) {
                             Box(
                                 modifier = Modifier
-                                    .size(80.dp)
+                                    .size(64.dp)
                                     .clip(CircleShape)
                                     .background(MaterialTheme.colorScheme.surfaceVariant)
                                     .border(1.dp, MaterialTheme.colorScheme.outlineVariant, CircleShape),
@@ -222,11 +217,11 @@ fun CompleteProfileScreen(
                                         modifier = Modifier.size(18.dp)
                                     )
                                     Spacer(modifier = Modifier.width(6.dp))
-                                    Text("Upload Photo", fontSize = 14.sp, fontWeight = FontWeight.SemiBold)
+                                    Text("Upload Photo", fontWeight = FontWeight.SemiBold)
                                 }
                                 Text(
                                     text = "JPG, PNG or WebP. Max 5MB.",
-                                    fontSize = 11.sp,
+                                    style = MaterialTheme.typography.labelSmall,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
                             }
@@ -266,8 +261,7 @@ fun CompleteProfileScreen(
                                         text = label,
                                         color = if (isSelected) MaterialTheme.colorScheme.onPrimaryContainer
                                                 else MaterialTheme.colorScheme.onSurface,
-                                        fontWeight = FontWeight.SemiBold,
-                                        fontSize = 14.sp
+                                        fontWeight = FontWeight.SemiBold
                                     )
                                 }
                             }
@@ -293,8 +287,7 @@ fun CompleteProfileScreen(
                             Text(
                                 text = "Explorer",
                                 color = if (isExplorerSelected) Color(0xFFEA580C) else MaterialTheme.colorScheme.onSurface,
-                                fontWeight = FontWeight.SemiBold,
-                                fontSize = 14.sp
+                                fontWeight = FontWeight.SemiBold
                             )
                         }
                     }
@@ -596,43 +589,6 @@ fun CompleteProfileScreen(
                             }
                         }
                         "explorer" -> {
-                            val outlineColor = MaterialTheme.colorScheme.outline
-                            Box(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .drawBehind {
-                                        val stroke = Stroke(
-                                            width = 1.dp.toPx(),
-                                            pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f, 10f), 0f)
-                                        )
-                                        drawRoundRect(
-                                            color = outlineColor,
-                                            style = stroke,
-                                            cornerRadius = CornerRadius(12.dp.toPx())
-                                        )
-                                    }
-                                    .background(
-                                        MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.2f),
-                                        shape = RoundedCornerShape(12.dp)
-                                    )
-                                    .padding(14.dp)
-                            ) {
-                                Row(
-                                    horizontalArrangement = Arrangement.spacedBy(10.dp),
-                                    verticalAlignment = Alignment.Top
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Default.TravelExplore,
-                                        contentDescription = null,
-                                        tint = MaterialTheme.colorScheme.tertiary,
-                                        modifier = Modifier.size(20.dp)
-                                    )
-                                    Text(
-                                        text = "You're exploring NEBians for now. You can update your role to Student, Teacher, or Institution anytime from this page.",
-                                        fontSize = 14.sp,
-                                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                                    )
-                                }
                             }
                         }
                     }
@@ -889,8 +845,7 @@ fun CompleteProfileScreen(
                     Text(
                         text = if (uiState.isEditing) "Save Profile" else "Register & Enter NEBians",
                         style = MaterialTheme.typography.labelLarge,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 15.sp
+                        fontWeight = FontWeight.Bold
                     )
                 }
             }

@@ -147,7 +147,7 @@ fun EmailSignupScreen(
                 // Title
                 Text(
                     text = "Create account",
-                    fontSize = 28.sp,
+                    style = MaterialTheme.typography.headlineMedium,
                     fontWeight = FontWeight.Bold,
                     color = if (isDark) Color(0xFFE5EEFF) else Color(0xFF0B1C30),
                     textAlign = TextAlign.Center
@@ -246,7 +246,7 @@ fun EmailSignupScreen(
                 // Step 2: Account Details Fields
                 Text(
                     text = "Join as $roleLabel",
-                    fontSize = 28.sp,
+                    style = MaterialTheme.typography.headlineMedium,
                     fontWeight = FontWeight.Bold,
                     color = if (isDark) Color(0xFFE5EEFF) else Color(0xFF0B1C30),
                     textAlign = TextAlign.Center
@@ -410,8 +410,7 @@ fun EmailSignupScreen(
                         Text(
                             text = "Create account",
                             style = MaterialTheme.typography.labelLarge,
-                            fontWeight = FontWeight.SemiBold,
-                            fontSize = 16.sp
+                            fontWeight = FontWeight.SemiBold
                         )
                     }
                 }
@@ -516,14 +515,14 @@ fun RoleSelectionCard(
         Column(modifier = Modifier.weight(1f)) {
             Text(
                 text = title,
-                fontSize = 16.sp,
+                style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
                 color = if (isDark) Color(0xFFE5EEFF) else Color(0xFF0B1C30)
             )
             Spacer(modifier = Modifier.height(2.dp))
             Text(
                 text = description,
-                fontSize = 13.sp,
+                style = MaterialTheme.typography.bodySmall,
                 color = if (isDark) Color(0xFFC3C6D7) else Color(0xFF737686)
             )
         }
@@ -569,14 +568,14 @@ fun ExplorerDashedCard(
         Column(modifier = Modifier.weight(1f)) {
             Text(
                 text = title,
-                fontSize = 16.sp,
+                style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
                 color = if (isDark) Color(0xFFE5EEFF) else Color(0xFF0B1C30)
             )
             Spacer(modifier = Modifier.height(2.dp))
             Text(
                 text = description,
-                fontSize = 13.sp,
+                style = MaterialTheme.typography.bodySmall,
                 color = if (isDark) Color(0xFFC3C6D7) else Color(0xFF737686)
             )
         }

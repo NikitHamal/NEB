@@ -132,7 +132,7 @@ fun ForgotPasswordScreen(
 
             Text(
                 text = "Reset password",
-                fontSize = 28.sp,
+                style = MaterialTheme.typography.headlineMedium,
                 fontWeight = FontWeight.Bold,
                 color = if (isDark) Color(0xFFE5EEFF) else Color(0xFF0B1C30),
                 textAlign = TextAlign.Center
@@ -228,8 +228,7 @@ fun ForgotPasswordScreen(
                         Text(
                             text = "Send code",
                             style = MaterialTheme.typography.labelLarge,
-                            fontWeight = FontWeight.SemiBold,
-                            fontSize = 16.sp
+                            fontWeight = FontWeight.SemiBold
                         )
                     }
                 }
@@ -415,8 +414,7 @@ fun ForgotPasswordScreen(
                         Text(
                             text = "Reset password",
                             style = MaterialTheme.typography.labelLarge,
-                            fontWeight = FontWeight.SemiBold,
-                            fontSize = 16.sp
+                            fontWeight = FontWeight.SemiBold
                         )
                     }
                 }

@@ -172,13 +172,12 @@ fun ProfileBanner(
                     }
             )
 
-            // Large uppercase deco watermark, centered-right (web: .pf-banner-deco).
+            // Large uppercase deco watermark, centered.
             if (decoText.isNotBlank()) {
                 Text(
                     text = decoText.uppercase(),
                     modifier = Modifier
-                        .align(Alignment.CenterEnd)
-                        .padding(end = 18.dp),
+                        .align(Alignment.Center),
                     color = Color.White.copy(alpha = decoAlphaFor(bannerType)),
                     fontFamily = Poppins,
                     fontWeight = FontWeight.ExtraBold,

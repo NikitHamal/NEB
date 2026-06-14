@@ -514,6 +514,7 @@ fun WebResourceCard(
     Card(
         modifier = modifier
             .then(if (minWidth != null) Modifier.width(minWidth) else Modifier.fillMaxWidth())
+            .clip(WebPanelShape)
             .clickable(onClick = onClick),
         shape = WebPanelShape,
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest),
@@ -524,6 +525,7 @@ fun WebResourceCard(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(4.dp)
+                .clip(RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp))
                 .background(subjectTheme.color)
         )
         Box(

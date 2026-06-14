@@ -199,6 +199,7 @@ private fun HeroCard(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(8.dp)
+                    .clip(RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp))
                     .background(subjectColor)
             )
             Column(modifier = Modifier.padding(20.dp)) {

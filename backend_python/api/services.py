@@ -46,7 +46,7 @@ def toggle_post_like(user, post_id):
             if post.user_id != user.id:
                 _counters.decrement_user_likes_received(post.user_id)
             _notif.notify_post_unliked(user.id, post_id)
-    _rt.broadcast_post_like_changed(post_id, current_count)
+    _rt.broadcast_post_like_changed(post_id, current_count, is_thumbed_up_by_viewer_hint=is_thumbed_up, user_id=str(user.id))
     return {'thumbsUpCount': current_count, 'isThumbedUp': is_thumbed_up}
 
 
@@ -74,7 +74,7 @@ def toggle_reply_like(user, reply_id):
             if reply.user_id != user.id:
                 _counters.decrement_user_likes_received(reply.user_id)
             _notif.notify_reply_unliked(user.id, reply_id)
-    _rt.broadcast_reply_like_changed(reply.post_id, reply_id, current_count)
+    _rt.broadcast_reply_like_changed(reply.post_id, reply_id, current_count, is_thumbed_up_by_viewer_hint=is_thumbed_up, user_id=str(user.id))
     return {'thumbsUpCount': current_count, 'isThumbedUp': is_thumbed_up}
 
 

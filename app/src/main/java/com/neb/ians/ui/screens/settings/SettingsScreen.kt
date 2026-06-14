@@ -8,13 +8,17 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.BookmarkBorder
+import androidx.compose.material.icons.outlined.DarkMode
+import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material.icons.outlined.Person
-import androidx.compose.ui.res.painterResource
-import androidx.compose.material.icons.outlined.Delete
-import com.neb.ians.R
+import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material.icons.outlined.Visibility
+import androidx.compose.material.icons.outlined.VisibilityOff
+import androidx.compose.material.icons.outlined.Wifi
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -33,6 +37,7 @@ import com.neb.ians.ui.components.Avatar
 fun SettingsScreen(
     settingsViewModel: SettingsViewModel,
     onNavigateToEditProfile: () -> Unit,
+    onNavigateToBookmarks: () -> Unit = {},
     onNavigateToDeleteAccount: () -> Unit = {},
     onNavigateToLogin: () -> Unit = {}
 ) {
@@ -54,15 +59,15 @@ fun SettingsScreen(
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
-            LargeTopAppBar(
+            MediumTopAppBar(
                 title = {
                     Text(
                         text = "Settings",
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.SemiBold
                     )
                 },
                 scrollBehavior = scrollBehavior,
-                colors = TopAppBarDefaults.largeTopAppBarColors(
+                colors = TopAppBarDefaults.mediumTopAppBarColors(
                     containerColor = MaterialTheme.colorScheme.surface,
                     scrolledContainerColor = MaterialTheme.colorScheme.surfaceContainer
                 )
@@ -86,17 +91,18 @@ fun SettingsScreen(
                     headlineContent = {
                         Text(
                             text = profile.displayName?.takeIf { it.isNotEmpty() } ?: profile.username,
-                            fontWeight = FontWeight.SemiBold
+                            fontWeight = FontWeight.SemiBold,
+                            style = MaterialTheme.typography.bodyLarge
                         )
                     },
                     supportingContent = {
-                        Text("@${profile.username}")
+                        Text("@${profile.username}", style = MaterialTheme.typography.bodySmall)
                     },
                     leadingContent = {
                         Avatar(
                             name = profile.username,
                             imageUrl = profile.photoUrl,
-                            size = 48.dp
+                            size = 40.dp
                         )
                     },
                     colors = ListItemDefaults.colors(
@@ -114,15 +120,19 @@ fun SettingsScreen(
                 }
 
                 ListItem(
-                    headlineContent = { Text("Profile Visibility", fontWeight = FontWeight.Medium) },
+                    headlineContent = { Text("Profile Visibility", style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium) },
                     supportingContent = {
-                        Text(if (profile.isLocked) "Private — only username visible to others" else "Public — your profile is visible")
+                        Text(
+                            if (profile.isLocked) "Private — only username visible" else "Public — profile visible to everyone",
+                            style = MaterialTheme.typography.bodySmall
+                        )
                     },
                     leadingContent = {
                         Icon(
-                            painter = painterResource(id = if (profile.isLocked) R.drawable.ic_visibility_off else R.drawable.ic_visibility),
+                            imageVector = if (profile.isLocked) Icons.Outlined.VisibilityOff else Icons.Outlined.Visibility,
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                            modifier = Modifier.size(22.dp)
                         )
                     },
                     trailingContent = {
@@ -135,18 +145,42 @@ fun SettingsScreen(
                         containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
                     )
                 )
+
+                HorizontalDivider(
+                    modifier = Modifier.padding(horizontal = 16.dp),
+                    color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
+                )
+
+                ListItem(
+                    modifier = Modifier.clickable { onNavigateToBookmarks() },
+                    headlineContent = { Text("Bookmarks", style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium) },
+                    supportingContent = {
+                        Text("Saved posts and resources", style = MaterialTheme.typography.bodySmall)
+                    },
+                    leadingContent = {
+                        Icon(
+                            imageVector = Icons.Outlined.BookmarkBorder,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                            modifier = Modifier.size(22.dp)
+                        )
+                    },
+                    colors = ListItemDefaults.colors(
+                        containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
+                    )
+                )
             } else {
                 ListItem(
                     headlineContent = {
-                        Text("Guest Mode", fontWeight = FontWeight.SemiBold)
+                        Text("Guest Mode", fontWeight = FontWeight.SemiBold, style = MaterialTheme.typography.bodyLarge)
                     },
                     supportingContent = {
-                        Text("Sign in to join discussions and vote.")
+                        Text("Sign in to join discussions and vote.", style = MaterialTheme.typography.bodySmall)
                     },
                     leadingContent = {
                         Box(
                             modifier = Modifier
-                                .size(48.dp)
+                                .size(40.dp)
                                 .clip(CircleShape)
                                 .background(MaterialTheme.colorScheme.surfaceContainerHigh),
                             contentAlignment = Alignment.Center
@@ -155,7 +189,7 @@ fun SettingsScreen(
                                 imageVector = Icons.Outlined.Person,
                                 contentDescription = null,
                                 tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                                modifier = Modifier.size(28.dp)
+                                modifier = Modifier.size(22.dp)
                             )
                         }
                     },
@@ -170,13 +204,14 @@ fun SettingsScreen(
             SettingsSectionLabel(label = "Preferences")
 
             ListItem(
-                headlineContent = { Text("Dark Theme", fontWeight = FontWeight.Medium) },
-                supportingContent = { Text(if (isDarkMode) "Enabled" else "Disabled") },
+                headlineContent = { Text("Dark Theme", style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium) },
+                supportingContent = { Text(if (isDarkMode) "On" else "Off", style = MaterialTheme.typography.bodySmall) },
                 leadingContent = {
                     Icon(
-                        painter = painterResource(id = R.drawable.ic_dark_mode),
+                        imageVector = Icons.Outlined.DarkMode,
                         contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.size(22.dp)
                     )
                 },
                 trailingContent = {
@@ -194,13 +229,14 @@ fun SettingsScreen(
             )
 
             ListItem(
-                headlineContent = { Text("Push Notifications", fontWeight = FontWeight.Medium) },
-                supportingContent = { Text(if (notificationsEnabled) "On" else "Off") },
+                headlineContent = { Text("Push Notifications", style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium) },
+                supportingContent = { Text(if (notificationsEnabled) "On" else "Off", style = MaterialTheme.typography.bodySmall) },
                 leadingContent = {
                     Icon(
                         imageVector = Icons.Outlined.Notifications,
                         contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.size(22.dp)
                     )
                 },
                 trailingContent = {
@@ -232,13 +268,14 @@ fun SettingsScreen(
             )
 
             ListItem(
-                headlineContent = { Text("Wi-Fi Only Downloads", fontWeight = FontWeight.Medium) },
-                supportingContent = { Text(if (downloadWifiOnly) "Only download on Wi-Fi" else "Download on any network") },
+                headlineContent = { Text("Wi-Fi Only Downloads", style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium) },
+                supportingContent = { Text(if (downloadWifiOnly) "Wi-Fi only" else "Any network", style = MaterialTheme.typography.bodySmall) },
                 leadingContent = {
                     Icon(
-                        painter = painterResource(id = R.drawable.ic_wifi),
+                        imageVector = Icons.Outlined.Wifi,
                         contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.size(22.dp)
                     )
                 },
                 trailingContent = {
@@ -255,13 +292,14 @@ fun SettingsScreen(
             SettingsSectionLabel(label = "About")
 
             ListItem(
-                headlineContent = { Text("Version", fontWeight = FontWeight.Medium) },
-                supportingContent = { Text("1.0.0 (Stable Release)") },
+                headlineContent = { Text("Version", style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium) },
+                supportingContent = { Text("1.0.0", style = MaterialTheme.typography.bodySmall) },
                 leadingContent = {
                     Icon(
                         imageVector = Icons.Outlined.Info,
                         contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.size(22.dp)
                     )
                 },
                 colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest)
@@ -273,13 +311,14 @@ fun SettingsScreen(
             )
 
             ListItem(
-                headlineContent = { Text("NEBians Network", fontWeight = FontWeight.Medium) },
-                supportingContent = { Text("Collaborative resources for Nepali students") },
+                headlineContent = { Text("NEBians Network", style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium) },
+                supportingContent = { Text("Collaborative resources for Nepali students", style = MaterialTheme.typography.bodySmall) },
                 leadingContent = {
                     Icon(
-                        painter = painterResource(id = R.drawable.ic_school),
+                        imageVector = Icons.Outlined.Settings,
                         contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.size(22.dp)
                     )
                 },
                 colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest)
@@ -294,7 +333,7 @@ fun SettingsScreen(
                     onClick = { onNavigateToLogin() },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(56.dp)
+                        .height(48.dp)
                         .padding(horizontal = 16.dp),
                     shape = CircleShape
                 ) {
@@ -305,13 +344,14 @@ fun SettingsScreen(
                 SettingsSectionLabel(label = "Danger Zone")
                 ListItem(
                     modifier = Modifier.clickable { onNavigateToDeleteAccount() },
-                    headlineContent = { Text("Delete Account", color = MaterialTheme.colorScheme.error, fontWeight = FontWeight.Medium) },
-                    supportingContent = { Text("Permanently delete your profile and personal activity") },
+                    headlineContent = { Text("Delete Account", color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium) },
+                    supportingContent = { Text("Permanently delete your profile and data", style = MaterialTheme.typography.bodySmall) },
                     leadingContent = {
                         Icon(
                             imageVector = Icons.Outlined.Delete,
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.error
+                            tint = MaterialTheme.colorScheme.error,
+                            modifier = Modifier.size(22.dp)
                         )
                     },
                     colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest)
@@ -323,7 +363,7 @@ fun SettingsScreen(
                     onClick = { settingsViewModel.logout() },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(56.dp)
+                        .height(48.dp)
                         .padding(horizontal = 16.dp),
                     shape = CircleShape,
                     colors = ButtonDefaults.outlinedButtonColors(
@@ -347,10 +387,10 @@ fun SettingsScreen(
 private fun SettingsSectionLabel(label: String) {
     Text(
         text = label,
-        style = MaterialTheme.typography.labelMedium,
+        style = MaterialTheme.typography.labelSmall,
         color = MaterialTheme.colorScheme.primary,
         fontWeight = FontWeight.SemiBold,
-        modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 20.dp, bottom = 4.dp)
+        modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 2.dp)
     )
 }
 
@@ -363,17 +403,22 @@ private fun PasswordSection(settingsViewModel: SettingsViewModel, hasPassword: B
         headlineContent = {
             Text(
                 if (hasPassword) "Change Password" else "Set Password",
+                style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight.Medium
             )
         },
         supportingContent = {
-            Text(if (hasPassword) "Update your account password" else "Add a password to sign in with email/username")
+            Text(
+                if (hasPassword) "Update your account password" else "Add a password for email sign-in",
+                style = MaterialTheme.typography.bodySmall
+            )
         },
         leadingContent = {
             Icon(
                 imageVector = Icons.Outlined.Lock,
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.onSurfaceVariant
+                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.size(22.dp)
             )
         },
         modifier = Modifier.clickable {
@@ -422,10 +467,10 @@ private fun SetPasswordDialog(
             Column {
                 Text(
                     "Add a password so you can also sign in with your email or username.",
-                    style = MaterialTheme.typography.bodyMedium,
+                    style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(12.dp))
                 OutlinedTextField(
                     value = password,
                     onValueChange = { password = it },
@@ -435,16 +480,17 @@ private fun SetPasswordDialog(
                     trailingIcon = {
                         IconButton(onClick = { passwordVisible = !passwordVisible }) {
                             Icon(
-                                painter = painterResource(id = if (passwordVisible) R.drawable.ic_visibility_off else R.drawable.ic_visibility),
-                                contentDescription = null
+                                imageVector = if (passwordVisible) Icons.Outlined.VisibilityOff else Icons.Outlined.Visibility,
+                                contentDescription = null,
+                                modifier = Modifier.size(20.dp)
                             )
                         }
                     },
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(12.dp),
-                    supportingText = { Text("At least 8 characters") }
+                    supportingText = { Text("At least 8 characters", style = MaterialTheme.typography.bodySmall) }
                 )
-                Spacer(modifier = Modifier.height(12.dp))
+                Spacer(modifier = Modifier.height(8.dp))
                 OutlinedTextField(
                     value = confirmPassword,
                     onValueChange = { confirmPassword = it },
@@ -456,7 +502,7 @@ private fun SetPasswordDialog(
                     isError = confirmPassword.isNotBlank() && password != confirmPassword,
                     supportingText = {
                         if (confirmPassword.isNotBlank() && password != confirmPassword) {
-                            Text("Passwords don't match", color = MaterialTheme.colorScheme.error)
+                            Text("Passwords don't match", color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodySmall)
                         }
                     }
                 )
@@ -501,15 +547,16 @@ private fun ChangePasswordDialog(
                     trailingIcon = {
                         IconButton(onClick = { currentVisible = !currentVisible }) {
                             Icon(
-                                painter = painterResource(id = if (currentVisible) R.drawable.ic_visibility_off else R.drawable.ic_visibility),
-                                contentDescription = null
+                                imageVector = if (currentVisible) Icons.Outlined.VisibilityOff else Icons.Outlined.Visibility,
+                                contentDescription = null,
+                                modifier = Modifier.size(20.dp)
                             )
                         }
                     },
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(12.dp)
                 )
-                Spacer(modifier = Modifier.height(12.dp))
+                Spacer(modifier = Modifier.height(8.dp))
                 OutlinedTextField(
                     value = newPassword,
                     onValueChange = { newPassword = it },
@@ -519,16 +566,17 @@ private fun ChangePasswordDialog(
                     trailingIcon = {
                         IconButton(onClick = { newVisible = !newVisible }) {
                             Icon(
-                                painter = painterResource(id = if (newVisible) R.drawable.ic_visibility_off else R.drawable.ic_visibility),
-                                contentDescription = null
+                                imageVector = if (newVisible) Icons.Outlined.VisibilityOff else Icons.Outlined.Visibility,
+                                contentDescription = null,
+                                modifier = Modifier.size(20.dp)
                             )
                         }
                     },
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(12.dp),
-                    supportingText = { Text("At least 8 characters") }
+                    supportingText = { Text("At least 8 characters", style = MaterialTheme.typography.bodySmall) }
                 )
-                Spacer(modifier = Modifier.height(12.dp))
+                Spacer(modifier = Modifier.height(8.dp))
                 OutlinedTextField(
                     value = confirmPassword,
                     onValueChange = { confirmPassword = it },
@@ -540,7 +588,7 @@ private fun ChangePasswordDialog(
                     isError = confirmPassword.isNotBlank() && newPassword != confirmPassword,
                     supportingText = {
                         if (confirmPassword.isNotBlank() && newPassword != confirmPassword) {
-                            Text("Passwords don't match", color = MaterialTheme.colorScheme.error)
+                            Text("Passwords don't match", color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodySmall)
                         }
                     }
                 )
