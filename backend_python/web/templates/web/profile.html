@@ -49,7 +49,6 @@
 
 {% block content %}
 <link rel="stylesheet" href="{% static 'web/css/pages/profile.css' %}">
-<script defer nonce="{{ csp_nonce }}" src="{% static 'web/js/html2canvas.min.js' %}"></script>
 
 <div class="profile-page">
   {% if profile_user %}
@@ -195,16 +194,12 @@
               {% if user and user.username == profile_user.username %}
                 <a href="{% url 'web:edit_profile' %}" class="pf-btn pf-btn-outlined pf-btn-primary">
                   <span class="material-symbols-outlined">edit</span>
-                  Edit Profile
+                  Edit
                 </a>
                 <a href="{% url 'web:analytics' %}" class="pf-btn pf-btn-outlined">
                   <span class="material-symbols-outlined">monitoring</span>
                   Analytics
                 </a>
-                <button class="pf-btn pf-btn-outlined" data-action="open-share-card-modal">
-                  <span class="material-symbols-outlined">share</span>
-                  Share
-                </button>
               {% else %}
                 {% if is_authenticated %}
                   <button id="btnFollowToggle" data-action="toggle-follow-user" data-user-id="{{ profile_user.id }}"
@@ -867,7 +862,6 @@
 
 {% include "web/profile/_photo_modal.html" %}
 {% include "web/profile/_follow_modal.html" %}
-{% include "web/profile/_share_card_modal.html" %}
 {% endblock %}
 
 {% block extra_js %}
@@ -1352,236 +1346,6 @@ function closeAllMenus() {
   document.querySelectorAll('.more-menu').forEach(function(m) { m.style.display = 'none'; });
 }
 
-// ── Share Profile Card ──
-var shareCardDataURL = null;
-
-function getShareCardData() {
-  var pu = {{ profile_user_json|safe }};
-  return {
-    displayName: pu.display_name || pu.username || 'NEBians User',
-    username: pu.username || '',
-    photoUrl: pu.photo_url || '',
-    bannerUrl: pu.banner_url || '',
-    bannerType: pu.banner_type || '',
-    bannerDecoText: pu.banner_deco_text || 'nebian',
-    bannerTextColor: pu.banner_text_color || '',
-    badgeInfo: {{ badge_info_json|default:'null'|safe }},
-    headline: getShareHeadline(pu),
-    bio: pu.bio || '',
-    isBot: pu.is_bot || false,
-    role: pu.role || 'student',
-    teacherVerified: pu.teacher_verified || false,
-    classLevel: pu.class_level || '',
-    school: pu.school || '',
-    subjects: pu.subjects || '',
-    teachingSubjects: pu.teaching_subjects || '',
-    institutionType: pu.institution_type || '',
-    stats: {
-      posts: {{ stats.post_count|default:0 }},
-      replies: {{ stats.reply_count|default:0 }},
-      followers: {{ stats.follower_count|default:0 }},
-      resources: {{ stats.uploaded_resources_count|default:0 }},
-      score: {{ stats.contribution_score|default:0 }}
-    },
-    logoUrl: window.location.origin + '{% static "web/img/n-logo-tight-no-outline.svg" %}',
-    profileUrl: window.location.origin + '/profile/' + encodeURIComponent(pu.username) + '/'
-  };
-}
-
-function getShareHeadline(pu) {
-  if (pu.is_bot) return 'AI Study Companion';
-  if (pu.role === 'teacher') {
-    var h = 'Teacher';
-    if (pu.teaching_subjects) h += ' \u00b7 ' + pu.teaching_subjects;
-    if (pu.school) h += ' \u00b7 ' + pu.school;
-    return h;
-  }
-  if (pu.role === 'institution') {
-    var t = 'Institution';
-    if (pu.institution_type === 'school') t = 'School';
-    else if (pu.institution_type === 'college') t = 'College';
-    else if (pu.institution_type === 'academy') t = 'Academy';
-    if (pu.school) t += ' \u00b7 ' + pu.school;
-    return t;
-  }
-  if (pu.role === 'explorer') {
-    if (pu.school) return pu.school;
-    if (pu.class_level) return pu.class_level;
-    return '';
-  }
-  if (pu.class_level) {
-    var cl = pu.class_level;
-    if (cl === '11') cl = 'Class 11';
-    else if (cl === '12') cl = 'Class 12';
-    else if (cl === 'Passout' || cl === '+2 Passout') cl = '+2 Passout';
-    else if (cl === 'Diploma') cl = 'Diploma';
-    else if (cl === 'Bachelors') cl = 'Bachelors';
-    return cl + (pu.school ? ' \u00b7 ' + pu.school : '');
-  }
-  return 'NEBians Member';
-}
-
-function buildShareCardHTML(data) {
-  var bannerStyle = '';
-  if (data.bannerUrl) {
-    bannerStyle = 'background-image:url(\'' + escapeHtml(data.bannerUrl) + '\');background-size:cover;background-position:center;';
-  } else {
-    var gradients = {
-      'gradient-admin': 'linear-gradient(135deg, #78350f 0%, #b45309 25%, #d97706 50%, #f59e0b 75%, #78350f 100%)',
-      'gradient-moderator': 'linear-gradient(135deg, #0f766e 0%, #0d9488 25%, #14b8a6 50%, #06b6d4 75%, #0f766e 100%)',
-      'gradient-verified': 'linear-gradient(135deg, #0369a1 0%, #0284c7 25%, #0ea5e9 50%, #38bdf8 75%, #0369a1 100%)',
-      'gradient-bot': 'linear-gradient(135deg, #4a148c 0%, #6200ea 25%, #7c4dff 50%, #b388ff 75%, #4a148c 100%)',
-      'gradient-tutor': 'linear-gradient(135deg, #064e3b 0%, #047857 25%, #10b981 50%, #34d399 75%, #064e3b 100%)',
-      'gradient-institution': 'linear-gradient(135deg, #312e81 0%, #4338ca 25%, #6366f1 50%, #818cf8 75%, #312e81 100%)',
-    };
-    var grad = gradients[data.bannerType] || 'linear-gradient(135deg, #004ac6 0%, #2563eb 25%, #4f46e5 50%, #0ea5e9 75%, #004ac6 100%)';
-    bannerStyle = 'background:' + grad + ';';
-  }
-  var decoText = data.bannerDecoText ? escapeHtml(data.bannerDecoText.toUpperCase()) : 'NEBIAN';
-
-  var avatarHTML;
-  if (data.photoUrl) {
-    avatarHTML = '<img src="' + escapeHtml(data.photoUrl) + '" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:50%;display:block;">';
-  } else {
-    avatarHTML = '<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:2rem;font-weight:700;color:#2563eb;background:#dbeafe;border-radius:50%;">' + escapeHtml(data.displayName.charAt(0).toUpperCase()) + '</div>';
-  }
-
-  var badgeHTML = '';
-  if (data.badgeInfo) {
-    var bi = data.badgeInfo;
-    var badgeColors = {
-      admin: { bg: '#FEF3C7', color: '#92400E' },
-      moderator: { bg: '#CCFBF1', color: '#0F766E' },
-      teacher: { bg: '#D1FAE5', color: '#065F46' },
-      institution: { bg: '#E0E7FF', color: '#3730A3' },
-      verified: { bg: '#DBEAFE', color: '#1E40AF' },
-      bot: { bg: '#EDE9FE', color: '#5B21B6' },
-      explorer: { bg: '#FEF3C7', color: '#B45309' }
-    };
-    var bc = badgeColors[bi.type] || badgeColors.verified;
-    var label = (bi.type === 'teacher' && data.teacherVerified) ? 'Verified Teacher' : (bi.label || bi.type);
-    badgeHTML = '<span style="display:inline-flex;align-items:center;padding:3px 8px;border-radius:100px;font-size:0.6875rem;font-weight:700;letter-spacing:0.04em;background:' + bc.bg + ';color:' + bc.color + ';">' + escapeHtml(label) + '</span>';
-  }
-
-
-  var bioLine = '';
-  if (data.bio) {
-    bioLine = '<p style="font-size:0.8125rem;color:#6B7280;margin:6px 0 0;line-height:1.4;">' + escapeHtml(data.bio.length > 120 ? data.bio.substring(0, 117) + '...' : data.bio) + '</p>';
-  }
-
-  var logoImg = '<img src="' + escapeHtml(data.logoUrl) + '" alt="NEBians" style="width:24px;height:24px;object-fit:contain;transform:translateY(-1px);">';
-
-  return '<div class="share-profile-card">' +
-    '<div class="share-card-banner" style="' + bannerStyle + '">' +
-      '<div class="share-card-banner-overlay"></div>' +
-      '<div class="share-card-deco">' + decoText + '</div>' +
-    '</div>' +
-    '<div class="share-card-body">' +
-      '<div class="share-card-avatar-wrap">' + avatarHTML + '</div>' +
-      '<div class="share-card-name-row">' +
-        '<h2 class="share-card-name">' + escapeHtml(data.displayName) + '</h2>' +
-        badgeHTML +
-      '</div>' +
-      '<p class="share-card-headline">' + escapeHtml(data.headline) + '</p>' +
-      bioLine +
-      '<div class="share-card-stats">' +
-        '<div class="share-card-stat"><div class="share-card-stat-num">' + data.stats.posts + '</div><div class="share-card-stat-label">Posts</div></div>' +
-        '<div class="share-card-stat"><div class="share-card-stat-num">' + data.stats.replies + '</div><div class="share-card-stat-label">Replies</div></div>' +
-        '<div class="share-card-stat"><div class="share-card-stat-num">' + data.stats.followers + '</div><div class="share-card-stat-label">Followers</div></div>' +
-        '<div class="share-card-stat"><div class="share-card-stat-num">' + data.stats.resources + '</div><div class="share-card-stat-label">Resources</div></div>' +
-        '<div class="share-card-stat"><div class="share-card-stat-num">' + data.stats.score + '</div><div class="share-card-stat-label">Score</div></div>' +
-      '</div>' +
-      '<div class="share-card-footer">' +
-        '<div class="share-card-brand">' + logoImg + '<div class="share-card-brand-text">NEBians</div></div>' +
-        '<div class="share-card-url">nebians.consica.com.np</div>' +
-      '</div>' +
-    '</div>' +
-  '</div>';
-}
-
-function openShareCardModal() {
-  var modal = document.getElementById('shareCardModal');
-  var preview = document.getElementById('shareCardPreview');
-  var caption = document.getElementById('shareCardCaption');
-  var data = getShareCardData();
-  preview.innerHTML = buildShareCardHTML(data);
-  var defaultCaption = 'This profile is from NEBians. Come join me on Nepal\'s learning community, explore resources, and learn together.\n' + data.profileUrl;
-  caption.textContent = defaultCaption;
-  modal.classList.add('active');
-  shareCardDataURL = null;
-  renderShareCardCanvas(function(dataURL) {
-  });
-}
-
-function closeShareCardModal() {
-  var modal = document.getElementById('shareCardModal');
-  modal.classList.remove('active');
-}
-
-function renderShareCardCanvas(callback) {
-  var renderEl = document.getElementById('shareCardRender');
-  var data = getShareCardData();
-  renderEl.innerHTML = buildShareCardHTML(data);
-  var card = renderEl.querySelector('.share-profile-card');
-  if (typeof html2canvas === 'undefined') {
-    showSnackbar('Image library not loaded yet. Please try again.');
-    return;
-  }
-  html2canvas(card, {
-    scale: 2,
-    backgroundColor: '#ffffff',
-    useCORS: true,
-    allowTaint: true,
-    logging: false,
-    width: 480,
-    height: card.scrollHeight || 480
-  }).then(function(canvas) {
-    shareCardDataURL = canvas.toDataURL('image/png');
-    if (callback) callback(shareCardDataURL);
-  }).catch(function() {
-    showSnackbar('Error generating card image.');
-  });
-}
-
-function downloadShareCard() {
-  if (shareCardDataURL) {
-    triggerDownload(shareCardDataURL);
-    return;
-  }
-  renderShareCardCanvas(function(dataURL) {
-    triggerDownload(dataURL);
-  });
-}
-
-function triggerDownload(dataURL) {
-  var a = document.createElement('a');
-  var data = getShareCardData();
-  a.href = dataURL;
-  a.download = 'nebians-' + data.username + '-profile.png';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  showSnackbar('Profile card saved!');
-}
-
-function shareCardToFacebook() {
-  var caption = document.getElementById('shareCardCaption');
-  var text = caption ? caption.textContent.trim() : '';
-  var data = getShareCardData();
-  var url = data.profileUrl;
-  // Facebook uses the shared URL's Open Graph card image; the caption is passed as a quote where supported.
-  window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url) + '&quote=' + encodeURIComponent(text), '_blank', 'width=680,height=520');
-}
-
-function shareCardToX() {
-  var caption = document.getElementById('shareCardCaption');
-  var text = caption ? caption.textContent.trim() : '';
-  var data = getShareCardData();
-  var url = data.profileUrl;
-  var cleanText = (text || 'This post is made from NEBians. Come join me on Nepal\'s learning community.').replace(url, '').trim();
-  window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(cleanText) + '&url=' + encodeURIComponent(url), '_blank', 'width=680,height=520');
-}
-
 registerActions({
   'switch-profile-tab': function(el) { switchProfileTab(el.dataset.tab); },
   'toggle-like-post': function(el) { toggleLikePost(el.dataset.postId, el); },
@@ -1695,17 +1459,7 @@ registerActions({
   'activate-past-photo': function(el) { activatePastPhoto(el.dataset.photoId, el.dataset.photoUrl); },
   'trigger-photo-upload': function() {},
   'upload-new-photo-url': function() { uploadNewPhotoUrl(); },
-  'noop': function() {},
-  'open-share-card-modal': function() { openShareCardModal(); },
-  'close-share-card-modal': function() { closeShareCardModal(); },
-  'close-share-card-modal-btn': function() { closeShareCardModal(); },
-  'share-card-facebook': function() { shareCardToFacebook(); },
-  'share-card-x': function() { shareCardToX(); },
-  'share-card-download': function() { downloadShareCard(); },
-  'share-card-copy-link': function() {
-    var url = getShareCardData().profileUrl;
-    navigator.clipboard.writeText(url).then(function() { showSnackbar('Profile link copied!'); }).catch(function() { showSnackbar('Could not copy link'); });
-  },
+'noop': function() {},
   'toggle-res-desc': function(el) {
     var descEl = document.getElementById(el.dataset.descId);
     if (!descEl) return;
