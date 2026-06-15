@@ -410,8 +410,8 @@ data class ApiReply(
 
 @Serializable
 data class LikeResponse(
-    @SerialName("thumbs_up_count") val thumbsUpCount: Int,
-    @SerialName("is_thumbed_up") val isThumbedUp: Boolean
+    @SerialName("thumbsUpCount") val thumbsUpCount: Int,
+    @SerialName("isThumbedUp") val isThumbedUp: Boolean
 )
 
 @Serializable

@@ -31,9 +31,15 @@ def _batch_fix_unread_counts(recipient_ids):
     """Recalculate unread_notification_count for affected recipients after notification deletion."""
     if not recipient_ids:
         return
+    from django.db.models import Count, Q
+    counts = dict(
+        Notification.objects.filter(
+            recipient_id__in=recipient_ids, is_read=False
+        ).values('recipient_id').annotate(cnt=Count('id')).values_list('recipient_id', 'cnt')
+    )
     for uid in recipient_ids:
-        count = Notification.objects.filter(recipient_id=uid, is_read=False).count()
-        User.objects.filter(pk=uid).update(unread_notification_count=count)
+        new_count = counts.get(uid, 0)
+        User.objects.filter(pk=uid).update(unread_notification_count=new_count)
         cache.delete(f'unread_count:{uid}')
 
 
@@ -41,18 +47,24 @@ logger = logging.getLogger(__name__)
 
 
 def _collect_descendant_reply_ids(reply_id):
-    all_ids = set()
+    """Collect all descendant reply IDs for a given reply, using a single query."""
+    reply = Reply.objects.filter(pk=reply_id).values('post_id').first()
+    if not reply:
+        return set()
+    post_id = reply['post_id']
+    all_replies = dict(
+        Reply.objects.filter(post_id=post_id).values_list('id', 'parent_reply_id')
+    )
+    descendant_ids = set()
     queue = [reply_id]
     while queue:
-        parent_id = queue.pop(0)
-        child_ids = set(
-            Reply.objects.filter(parent_reply_id=parent_id)
-            .values_list('id', flat=True)
-        )
-        new_ids = child_ids - all_ids
-        all_ids.update(new_ids)
-        queue.extend(new_ids)
-    return all_ids
+        pid = queue.pop(0)
+        for rid, parent in list(all_replies.items()):
+            if parent == pid and rid not in descendant_ids:
+                descendant_ids.add(rid)
+                queue.append(rid)
+                del all_replies[rid]
+    return descendant_ids
 
 
 def _collect_all_reply_ids_for_post(post_id):
@@ -114,33 +126,30 @@ def delete_post_with_cleanup(post_id):
 
     all_reply_ids = _collect_all_reply_ids_for_post(post_id)
 
+    reply_rows = list(
+        Reply.objects.filter(post_id=post_id).values_list('user_id', 'thumbs_up_count')
+    )
+
     like_giver_ids = set(
         PostLike.objects.filter(post_id=post_id).values_list('user_id', flat=True)
-    )
-    reply_author_ids = set(
-        Reply.objects.filter(post_id=post_id).values_list('user_id', flat=True)
     )
     reply_liker_ids = set(
         ReplyLike.objects.filter(reply_id__in=all_reply_ids).values_list('user_id', flat=True)
     )
 
-    reply_count_by_author = Counter(
-        Reply.objects.filter(post_id=post_id).values_list('user_id', flat=True)
-    )
-
+    reply_count_by_author = Counter()
+    reply_author_ids = set()
     likes_received_by_author = Counter()
     likes_received_by_author[post_author_id] += post_thumbs_up
-    reply_likes = (
-        Reply.objects.filter(post_id=post_id)
-        .values_list('user_id', 'thumbs_up_count')
-    )
-    for author_id, thumbs in reply_likes:
+    for author_id, thumbs in reply_rows:
+        reply_author_ids.add(author_id)
+        reply_count_by_author[author_id] += 1
         likes_received_by_author[author_id] += thumbs
 
     like_count_by_giver = Counter()
-    for uid in PostLike.objects.filter(post_id=post_id).values_list('user_id', flat=True):
+    for uid in like_giver_ids:
         like_count_by_giver[uid] += 1
-    for uid in ReplyLike.objects.filter(reply_id__in=all_reply_ids).values_list('user_id', flat=True):
+    for uid in reply_liker_ids:
         like_count_by_giver[uid] += 1
 
     all_like_giver_ids = like_giver_ids | reply_liker_ids
@@ -218,23 +227,19 @@ def delete_reply_with_cleanup(reply_id):
         Reply.objects.filter(id__in=all_ids).values_list('user_id', 'thumbs_up_count')
     )
 
-    reply_count_by_author = Counter(
-        Reply.objects.filter(id__in=all_ids).values_list('user_id', flat=True)
-    )
+    reply_count_by_author = Counter()
+    likes_received_by_author = Counter()
+    all_author_ids = set()
+    for author_id, thumbs in all_replies_data.items():
+        all_author_ids.add(author_id)
+        reply_count_by_author[author_id] += 1
+        likes_received_by_author[author_id] += thumbs
 
     like_giver_ids = set(
         ReplyLike.objects.filter(reply_id__in=all_ids).values_list('user_id', flat=True)
     )
 
-    like_count_by_giver = Counter(
-        ReplyLike.objects.filter(reply_id__in=all_ids).values_list('user_id', flat=True)
-    )
-
-    likes_received_by_author = Counter()
-    for author_id, thumbs in all_replies_data.items():
-        likes_received_by_author[author_id] += thumbs
-
-    all_author_ids = set(all_replies_data.keys())
+    like_count_by_giver = Counter(like_giver_ids)
 
     affected_recipient_ids = set(
         Notification.objects.filter(target_type='reply', target_id__in=all_ids).values_list('recipient_id', flat=True)
