@@ -219,6 +219,11 @@ def _paginated_response(request, queryset, serializer_class, *, context=None, de
             ctx['bookmarked_post_ids'] = set(Bookmark.objects.filter(
                 user=user, target_type='post', target_id__in=ids
             ).values_list('target_id', flat=True))
+            ctx['user_poll_votes'] = dict(
+                PollVote.objects.filter(
+                    poll__post_id__in=ids, user=user
+                ).values_list('poll_id', 'option_id')
+            )
         elif serializer_class == ReplySerializer:
             ids = [r.id for r in page]
             ctx['liked_reply_ids'] = set(ReplyLike.objects.filter(
@@ -275,8 +280,8 @@ def _build_stats(user):
         'username': user.username,
         'post_count': user.post_count,
         'reply_count': user.reply_count,
-        'follower_count': Follow.objects.filter(following_id=user.id).count(),
-        'following_count': Follow.objects.filter(follower_id=user.id).count(),
+        'follower_count': user.follower_count,
+        'following_count': user.following_count,
         'likes_received': user.likes_received_count,
         'likes_given': user.likes_given_count,
         'contribution_score': user.contribution_score,

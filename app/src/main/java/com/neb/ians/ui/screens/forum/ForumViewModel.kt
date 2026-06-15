@@ -67,6 +67,7 @@ class ForumViewModel @Inject constructor(
     private val _forumState = MutableStateFlow(ForumUiState())
     private var searchJob: Job? = null
     private val processingPostLikes = mutableSetOf<String>()
+    private val processingBookmarks = mutableSetOf<String>()
     private var loadJob: Job? = null
     private var unsubscribeForum: (() -> Unit)? = null
 
@@ -244,7 +245,9 @@ class ForumViewModel @Inject constructor(
 
     /** Optimistic bookmark toggle — flip immediately, revert on failure. */
     fun toggleBookmark(postId: String) {
+        if (processingBookmarks.contains(postId)) return
         val current = _forumState.value.posts.firstOrNull { it.id == postId } ?: return
+        processingBookmarks.add(postId)
         val optimistic = current.copy(isBookmarked = !(current.isBookmarked == true))
         updatePostInList(optimistic)
         viewModelScope.launch {
@@ -257,6 +260,7 @@ class ForumViewModel @Inject constructor(
                     }
                 }
                 .onFailure { updatePostInList(current) }
+            processingBookmarks.remove(postId)
         }
     }
 
