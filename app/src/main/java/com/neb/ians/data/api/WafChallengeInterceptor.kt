@@ -52,11 +52,12 @@ class WafChallengeInterceptor(private val context: Context) : Interceptor {
         val request = requestBuilder.build()
         val response = chain.proceed(request)
 
-        // Detect a potential WAF challenge
         val contentType = response.body?.contentType()?.toString() ?: ""
         val isHtml = contentType.contains("text/html", ignoreCase = true)
+        val isJson = contentType.contains("application/json", ignoreCase = true)
+        val isText = contentType.contains("text/plain", ignoreCase = true)
 
-        if (response.code in listOf(200, 403, 503, 429, 520, 522, 524) && isHtml) {
+        if (response.code in listOf(200, 403, 503, 429, 520, 522, 524) && (isHtml || isJson || isText)) {
             val bodyString = try {
                 response.peekBody(1024 * 50).string()
             } catch (e: Exception) {
@@ -70,7 +71,6 @@ class WafChallengeInterceptor(private val context: Context) : Interceptor {
                     bodyString.contains("window.toShowcaptcha", ignoreCase = true)
 
             if (isChallenge) {
-                // If it is already a retried request, we have failed to solve it, throw typed exception
                 if (originalRequest.header(RETRY_HEADER) != null) {
                     throw ApiClientException(
                         statusCode = response.code,
@@ -79,7 +79,6 @@ class WafChallengeInterceptor(private val context: Context) : Interceptor {
                     )
                 }
 
-                // Solve the challenge silently using a main-thread WebView
                 val solvedCookies = solveChallengeInWebView()
                 if (!solvedCookies.isNullOrEmpty()) {
                     cachedCookies = solvedCookies
@@ -90,7 +89,7 @@ class WafChallengeInterceptor(private val context: Context) : Interceptor {
                         .header("Accept-Language", "en-US,en;q=0.9")
                         .header("Connection", "keep-alive")
                         .header("Cookie", solvedCookies)
-                        .header(RETRY_HEADER, "true") // Mark request to prevent infinite loops
+                        .header(RETRY_HEADER, "true")
                         .build()
 
                     response.close()
@@ -102,8 +101,13 @@ class WafChallengeInterceptor(private val context: Context) : Interceptor {
                         friendlyMessage = "NEBians server is temporarily protected by the hosting security filter. Please wait a few minutes and try again. If it keeps happening, switch networks or contact support."
                     )
                 }
+            } else if (isHtml) {
+                throw ApiClientException(
+                    statusCode = response.code,
+                    isWafBlock = false,
+                    friendlyMessage = "The server returned an invalid response (HTML). Please check your internet connection or if you need to sign in to your network."
+                )
             } else if (response.code in listOf(403, 429, 503, 520, 522, 524)) {
-                // Non-challenge HTML error response from host
                 throw ApiClientException(
                     statusCode = response.code,
                     isWafBlock = true,

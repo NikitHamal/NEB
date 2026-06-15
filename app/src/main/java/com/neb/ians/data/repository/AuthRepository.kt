@@ -11,6 +11,7 @@ import kotlinx.coroutines.withContext
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Singleton
+import com.neb.ians.data.api.ApiErrorMapper
 
 sealed interface AuthState {
     object Loading : AuthState
@@ -142,7 +143,7 @@ class AuthRepository @Inject constructor(
             withContext(Dispatchers.IO) { cacheUser(response.user, authToken, response.isNewUser) }
             OAuthResult.Success(response.isNewUser)
         } catch (e: Exception) {
-            OAuthResult.Failure(e.localizedMessage ?: "Google sign-in failed")
+            OAuthResult.Failure(ApiErrorMapper.mapException(e))
         }
     }
 
@@ -155,7 +156,7 @@ class AuthRepository @Inject constructor(
             withContext(Dispatchers.IO) { cacheUser(response.user, authToken, response.isNewUser) }
             OAuthResult.Success(response.isNewUser)
         } catch (e: Exception) {
-            OAuthResult.Failure(e.localizedMessage ?: "GitHub sign-in failed")
+            OAuthResult.Failure(ApiErrorMapper.mapException(e))
         }
     }
 
@@ -238,7 +239,7 @@ class AuthRepository @Inject constructor(
                 EmailAuthResult.Failure("Signup failed")
             }
         } catch (e: Exception) {
-            EmailAuthResult.Failure(e.localizedMessage ?: "Signup failed")
+            EmailAuthResult.Failure(ApiErrorMapper.mapException(e))
         }
     }
 
@@ -256,7 +257,7 @@ class AuthRepository @Inject constructor(
                 EmailAuthResult.Failure("Verification failed")
             }
         } catch (e: Exception) {
-            EmailAuthResult.Failure(e.localizedMessage ?: "Verification failed")
+            EmailAuthResult.Failure(ApiErrorMapper.mapException(e))
         }
     }
 
@@ -265,7 +266,7 @@ class AuthRepository @Inject constructor(
             val response = withContext(Dispatchers.IO) { apiService.emailResendCode(com.neb.ians.data.api.EmailResendRequest(email)) }
             EmailAuthResult.Message(response.message.ifEmpty { "Code resent" })
         } catch (e: Exception) {
-            EmailAuthResult.Failure(e.localizedMessage ?: "Failed to resend code")
+            EmailAuthResult.Failure(ApiErrorMapper.mapException(e))
         }
     }
 
@@ -283,7 +284,7 @@ class AuthRepository @Inject constructor(
                 EmailAuthResult.Failure("Login failed")
             }
         } catch (e: Exception) {
-            EmailAuthResult.Failure(e.localizedMessage ?: "Login failed")
+            EmailAuthResult.Failure(ApiErrorMapper.mapException(e))
         }
     }
 
@@ -292,7 +293,7 @@ class AuthRepository @Inject constructor(
             val response = withContext(Dispatchers.IO) { apiService.emailForgotPassword(com.neb.ians.data.api.EmailForgotRequest(email)) }
             EmailAuthResult.Message(response.message.ifEmpty { "If an account exists, a code has been sent" })
         } catch (e: Exception) {
-            EmailAuthResult.Failure(e.localizedMessage ?: "Failed to send reset code")
+            EmailAuthResult.Failure(ApiErrorMapper.mapException(e))
         }
     }
 
@@ -310,7 +311,7 @@ class AuthRepository @Inject constructor(
                 EmailAuthResult.Failure("Password reset failed")
             }
         } catch (e: Exception) {
-            EmailAuthResult.Failure(e.localizedMessage ?: "Password reset failed")
+            EmailAuthResult.Failure(ApiErrorMapper.mapException(e))
         }
     }
 
@@ -325,7 +326,7 @@ class AuthRepository @Inject constructor(
                 PasswordResult.Failure(response.error ?: "Failed to set password")
             }
         } catch (e: Exception) {
-            PasswordResult.Failure(e.localizedMessage ?: "Failed to set password")
+            PasswordResult.Failure(ApiErrorMapper.mapException(e))
         }
     }
 
@@ -344,7 +345,7 @@ class AuthRepository @Inject constructor(
                 PasswordResult.Failure(response.error ?: "Failed to change password")
             }
         } catch (e: Exception) {
-            PasswordResult.Failure(e.localizedMessage ?: "Failed to change password")
+            PasswordResult.Failure(ApiErrorMapper.mapException(e))
         }
     }
 

@@ -6,6 +6,7 @@ import com.neb.ians.data.api.ApiPost
 import com.neb.ians.data.api.ApiService
 import com.neb.ians.data.api.ApiUserPhoto
 import com.neb.ians.data.api.UserProfileResponse
+import com.neb.ians.data.api.ApiErrorMapper
 import com.neb.ians.data.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -80,7 +81,7 @@ class ProfileViewModel @Inject constructor(
                     loadPosts(reset = true)
                 }
             } catch (e: Exception) {
-                _uiState.update { it.copy(isLoading = false, error = e.localizedMessage) }
+                _uiState.update { it.copy(isLoading = false, error = ApiErrorMapper.mapException(e)) }
             }
         }
     }
