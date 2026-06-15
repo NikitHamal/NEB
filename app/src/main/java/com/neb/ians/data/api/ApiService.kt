@@ -506,6 +506,20 @@ data class ApiProfileActivityResponse(
 )
 
 @Serializable
+data class ApiProfileRepliesResponse(
+    val replies: List<ApiReply> = emptyList(),
+    @SerialName("has_more") val hasMore: Boolean = false,
+    @SerialName("total_count") val totalCount: Int = 0
+)
+
+@Serializable
+data class ApiProfileResourcesResponse(
+    val resources: List<ApiResource> = emptyList(),
+    @SerialName("has_more") val hasMore: Boolean = false,
+    @SerialName("total_count") val totalCount: Int = 0
+)
+
+@Serializable
 data class ApiRealtimeConfig(
     @SerialName("ws_url") val wsUrl: String = "",
     @SerialName("heartbeat_interval") val heartbeatInterval: Int = 25
@@ -1102,6 +1116,22 @@ interface ApiService {
         @Query("offset") offset: Int = 0,
         @Query("limit") limit: Int = 10
     ): ApiProfileActivityResponse
+
+    @GET("ajax/profile/{username}/replies/")
+    suspend fun getProfileReplies(
+        @Header("Authorization") bearerToken: String?,
+        @Path("username") username: String,
+        @Query("offset") offset: Int = 0,
+        @Query("limit") limit: Int = 10
+    ): ApiProfileRepliesResponse
+
+    @GET("ajax/profile/{username}/resources/")
+    suspend fun getProfileResources(
+        @Header("Authorization") bearerToken: String?,
+        @Path("username") username: String,
+        @Query("offset") offset: Int = 0,
+        @Query("limit") limit: Int = 10
+    ): ApiProfileResourcesResponse
 
     // --- Realtime ---
     @GET("api/realtime/config/")

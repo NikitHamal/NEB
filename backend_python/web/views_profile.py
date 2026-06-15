@@ -660,6 +660,46 @@ def ajax_profile_replies(request, username):
         'total_count': total_count
     })
 
+def ajax_profile_resources(request, username):
+    user_id = _get_user_id(request)
+    try:
+        profile_user = User.objects.get(username=username)
+    except User.DoesNotExist:
+        return JsonResponse({'error': 'User not found'}, status=404)
+
+    viewer_user = None
+    if user_id:
+        try:
+            viewer_user = User.objects.get(pk=user_id)
+        except User.DoesNotExist:
+            viewer_user = None
+    if not _can_view_locked_profile(viewer_user, profile_user):
+        return JsonResponse({'error': 'This profile is private'}, status=403)
+
+    try:
+        offset = max(0, int(request.GET.get('offset', 0)))
+        limit = min(25, max(1, int(request.GET.get('limit', 10))))
+    except ValueError:
+        offset = 0
+        limit = 10
+
+    is_self = bool(viewer_user and viewer_user.pk == profile_user.pk)
+    if is_self:
+        resources_qs = Resource.objects.filter(uploaded_by_id=profile_user.id).order_by('-added_at')[offset:offset+limit]
+        total_count = Resource.objects.filter(uploaded_by_id=profile_user.id).count()
+    else:
+        resources_qs = Resource.objects.filter(uploaded_by_id=profile_user.id, approval_status='approved').order_by('-added_at')[offset:offset+limit]
+        total_count = Resource.objects.filter(uploaded_by_id=profile_user.id, approval_status='approved').count()
+
+    resources = _serialize_resources(resources_qs)
+    has_more = (offset + len(resources)) < total_count
+
+    return JsonResponse({
+        'resources': resources,
+        'has_more': has_more,
+        'total_count': total_count
+    })
+
 def edit_profile(request):
     token = api.get_session_token(request)
     if not token:

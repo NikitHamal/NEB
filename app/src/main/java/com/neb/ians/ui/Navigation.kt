@@ -504,6 +504,9 @@ fun NEBiansNavHost(
                     onPostClick = { postId ->
                         navController.navigate(Screen.ForumPostDetail.createRoute(postId))
                     },
+                    onResourceClick = { resourceId ->
+                        navController.navigate(Screen.ResourceDetail.createRoute(resourceId))
+                    },
                     onFollowerClick = { userId -> },
                     onAnalyticsClick = { navController.navigate(Screen.Analytics.route) },
                     onSearchClick = { navController.navigate(Screen.Search.route) }
