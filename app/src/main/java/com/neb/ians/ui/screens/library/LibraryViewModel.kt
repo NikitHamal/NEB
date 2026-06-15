@@ -39,11 +39,19 @@ data class LibraryUiState(
 ) {
     companion object {
         val SUBJECTS = listOf(
-            "Physics", "Chemistry", "Mathematics", "Biology",
-            "English", "Nepali", "Computer Science", "Economics", "Accountancy"
+            "Accountancy", "Biology", "Chemistry", "Computer Science", "Economics",
+            "English", "Exam Tips", "Mathematics", "Microbiology", "Nepali",
+            "Physics", "Physics - Technical Stream", "Science", "Social Studies",
+            "Software Engineering", "Software Engineering and Project Management",
+            "Visual Programming", "Zoology", "सामाजिक अध्ययन"
         )
-        val GRADE_LEVELS = listOf("Grade 11", "Grade 12")
-        val TYPES = listOf("Textbook", "Notes", "Past Papers", "Guide", "Solution")
+        val GRADE_LEVELS = listOf(
+            "Bachelor", "Class 10 / SEE", "Class 11", "Class 12", "Class 8",
+            "Entrance Prep", "Other"
+        )
+        val TYPES = listOf(
+            "Guide", "Image", "Notes", "Past Paper", "Past Papers", "PDF", "Solution", "Textbook"
+        )
 
         /** Exactly mirrors the web sort dropdown options. */
         val SORT_OPTIONS = listOf(

@@ -34,6 +34,7 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.ThumbUp
+import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -503,14 +504,68 @@ private fun ButtonIcon(painter: Painter?, imageVector: ImageVector?) {
 }
 
 @Composable
+private fun getSubjectIcon(subject: String): Int {
+    val normalized = subject.trim()
+    return when {
+        normalized.contains("Chemistry", ignoreCase = true) ||
+        normalized.contains("Biology", ignoreCase = true) ||
+        normalized.contains("Physics", ignoreCase = true) ||
+        normalized.contains("Science", ignoreCase = true) ||
+        normalized.contains("Microbiology", ignoreCase = true) ||
+        normalized.contains("Zoology", ignoreCase = true) -> R.drawable.ic_science
+
+        normalized.contains("Mathematics", ignoreCase = true) ||
+        normalized.contains("Math", ignoreCase = true) -> R.drawable.ic_school
+
+        normalized.contains("English", ignoreCase = true) ||
+        normalized.contains("Nepali", ignoreCase = true) ||
+        normalized.contains("अध्ययन", ignoreCase = true) ||
+        normalized.contains("Textbook", ignoreCase = true) -> R.drawable.ic_book
+
+        normalized.contains("Computer", ignoreCase = true) ||
+        normalized.contains("Software", ignoreCase = true) ||
+        normalized.contains("Programming", ignoreCase = true) -> R.drawable.ic_pen
+
+        normalized.contains("Social", ignoreCase = true) ||
+        normalized.contains("Economics", ignoreCase = true) ||
+        normalized.contains("Globe", ignoreCase = true) -> R.drawable.ic_globe
+
+        else -> R.drawable.ic_document
+    }
+}
+
+private fun formatFileSize(bytes: Long): String {
+    if (bytes <= 0) return "0 B"
+    val sizeKb = bytes / 1024.0
+    val sizeMb = sizeKb / 1024.0
+    return if (sizeMb >= 1.0) {
+        String.format("%.1f MB", sizeMb)
+    } else if (sizeKb >= 1.0) {
+        String.format("%.1f KB", sizeKb)
+    } else {
+        "$bytes B"
+    }
+}
+
+@Composable
 fun WebResourceCard(
     resource: ApiResource,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     minWidth: Dp? = 220.dp
 ) {
-    val subject = remember(resource.subject) { resource.subject.substringBefore(",").trim().ifBlank { "General" } }
-    val subjectTheme = getSubjectTheme(subject)
+    val subjectParts = remember(resource.subject) {
+        resource.subject.split(",").map { it.trim() }.filter { it.isNotBlank() }
+    }
+    val primarySubject = remember(subjectParts) { subjectParts.firstOrNull() ?: "General" }
+    val subjectTheme = getSubjectTheme(primarySubject)
+    val displaySubject = remember(subjectParts, primarySubject) {
+        if (subjectParts.size > 1) {
+            "${primarySubject.uppercase()} +${subjectParts.size - 1} MORE"
+        } else {
+            primarySubject.uppercase()
+        }
+    }
     Card(
         modifier = modifier
             .then(if (minWidth != null) Modifier.width(minWidth) else Modifier.fillMaxWidth())
@@ -520,14 +575,6 @@ fun WebResourceCard(
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest),
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
     ) {
-        // Web parity: thin subject-colored header strip (color-mix accent) at the very top.
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(4.dp)
-                .clip(RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp))
-                .background(subjectTheme.color)
-        )
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -555,7 +602,7 @@ fun WebResourceCard(
                 color = MaterialTheme.colorScheme.surfaceContainerLowest.copy(alpha = 0.92f)
             ) {
                 Text(
-                    text = resource.type,
+                    text = resource.type.uppercase(),
                     modifier = Modifier.padding(horizontal = 9.dp, vertical = 4.dp),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -563,11 +610,31 @@ fun WebResourceCard(
                     maxLines = 1
                 )
             }
+            Surface(
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(10.dp)
+                    .size(28.dp),
+                shape = CircleShape,
+                color = subjectTheme.color,
+                shadowElevation = 2.dp
+            ) {
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    Icon(
+                        painter = painterResource(id = getSubjectIcon(primarySubject)),
+                        contentDescription = null,
+                        modifier = Modifier.size(14.dp),
+                        tint = Color.White
+                    )
+                }
+            }
         }
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(subjectTheme.color.copy(alpha = 0.08f))
                 .padding(12.dp)
         ) {
             Surface(
@@ -575,7 +642,7 @@ fun WebResourceCard(
                 color = subjectTheme.container
             ) {
                 Text(
-                    text = subject,
+                    text = displaySubject,
                     modifier = Modifier.padding(horizontal = 9.dp, vertical = 3.dp),
                     style = MaterialTheme.typography.labelSmall,
                     fontWeight = FontWeight.Bold,
@@ -588,7 +655,7 @@ fun WebResourceCard(
             Text(
                 text = resource.title,
                 style = MaterialTheme.typography.bodyMedium,
-                fontWeight = FontWeight.SemiBold,
+                fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onSurface,
                 minLines = 2,
                 maxLines = 2,
@@ -596,19 +663,30 @@ fun WebResourceCard(
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = listOf(resource.gradeLevel, resource.type).filter { it.isNotBlank() }.joinToString(" - "),
+                text = "${resource.gradeLevel} · ${formatFileSize(resource.fileSize)}",
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(
-                text = "${compactCount(resource.viewCount)} views",
-                style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                maxLines = 1
-            )
+            Spacer(modifier = Modifier.height(6.dp))
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Outlined.Visibility,
+                    contentDescription = null,
+                    modifier = Modifier.size(14.dp),
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Text(
+                    text = "${resource.viewCount} · ${formatTimeAgo(resource.addedAt)}",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    maxLines = 1
+                )
+            }
         }
     }
 }

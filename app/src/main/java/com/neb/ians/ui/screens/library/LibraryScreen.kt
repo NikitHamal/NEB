@@ -101,7 +101,6 @@ fun LibraryScreen(
     var currentTab by remember { mutableStateOf("library") }
     var showFilterSheet by remember { mutableStateOf(false) }
     val hasActiveFilters = uiState.selectedSubject != null || uiState.selectedGradeLevel != null || uiState.selectedType != null
-    val sheetState = rememberModalBottomSheetState()
 
     Scaffold(
         topBar = {
@@ -214,17 +213,20 @@ fun LibraryScreen(
     }
 
     if (showFilterSheet) {
-        ModalBottomSheet(
+        com.neb.ians.ui.components.FilterDialog(
             onDismissRequest = { showFilterSheet = false },
-            sheetState = sheetState,
-            containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
-        ) {
-            FilterSheetContent(
-                uiState = uiState,
-                viewModel = viewModel,
-                onApply = { showFilterSheet = false }
-            )
-        }
+            selectedSubject = uiState.selectedSubject,
+            selectedGradeLevel = uiState.selectedGradeLevel,
+            selectedType = uiState.selectedType,
+            subjects = LibraryUiState.SUBJECTS,
+            gradeLevels = LibraryUiState.GRADE_LEVELS,
+            types = LibraryUiState.TYPES,
+            onSubjectSelected = viewModel::selectSubject,
+            onGradeLevelSelected = viewModel::selectGradeLevel,
+            onTypeSelected = viewModel::selectType,
+            onClearAll = viewModel::clearFilters,
+            onApply = { showFilterSheet = false }
+        )
     }
 }
 
@@ -247,114 +249,6 @@ private fun ActiveFilterChip(label: String, onRemove: () -> Unit) {
                 fontWeight = FontWeight.Medium
             )
         }
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
-@Composable
-private fun FilterSheetContent(
-    uiState: LibraryUiState,
-    viewModel: LibraryViewModel,
-    onApply: () -> Unit
-) {
-    LazyColumn(
-        modifier = Modifier.fillMaxWidth(),
-        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
-        item {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = "Filters",
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold
-                )
-                TextButton(onClick = {
-                    viewModel.clearFilters()
-                    onApply()
-                }) {
-                    Text("Clear all")
-                }
-            }
-        }
-
-        item {
-            Text(
-                text = "Subject",
-                style = MaterialTheme.typography.labelLarge,
-                fontWeight = FontWeight.SemiBold,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-        }
-
-        item {
-            FlowRow(
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                LibraryUiState.SUBJECTS.forEach { subject ->
-                    WebChip(
-                        text = subject,
-                        selected = uiState.selectedSubject == subject,
-                        onClick = { viewModel.selectSubject(subject) }
-                    )
-                }
-            }
-        }
-
-        item {
-            Text(
-                text = "Grade",
-                style = MaterialTheme.typography.labelLarge,
-                fontWeight = FontWeight.SemiBold,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-        }
-
-        item {
-            FlowRow(
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                LibraryUiState.GRADE_LEVELS.forEach { grade ->
-                    WebChip(
-                        text = grade,
-                        selected = uiState.selectedGradeLevel == grade,
-                        onClick = { viewModel.selectGradeLevel(grade) }
-                    )
-                }
-            }
-        }
-
-        item {
-            Text(
-                text = "Type",
-                style = MaterialTheme.typography.labelLarge,
-                fontWeight = FontWeight.SemiBold,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-        }
-
-        item {
-            FlowRow(
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                LibraryUiState.TYPES.forEach { type ->
-                    WebChip(
-                        text = type,
-                        selected = uiState.selectedType == type,
-                        onClick = { viewModel.selectType(type) }
-                    )
-                }
-            }
-        }
-
-        item { Spacer(modifier = Modifier.height(16.dp)) }
     }
 }
 
