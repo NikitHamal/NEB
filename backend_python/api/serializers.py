@@ -167,6 +167,12 @@ class PollSerializer(serializers.ModelSerializer):
         user = request.user
         if not isinstance(user, User):
             return None
+        user_poll_votes = self.context.get('user_poll_votes')
+        if user_poll_votes is not None:
+            vote = user_poll_votes.get(obj.id)
+            if vote is None:
+                return None
+            return str(vote)
         try:
             votes = list(PollVote.objects.filter(poll=obj, user=user).values_list('option_id', flat=True))
         except Exception:

@@ -24,19 +24,18 @@ def bookmark_toggle(request):
         if not Resource.objects.filter(pk=target_id).exists():
             return Response({'error': 'Resource not found'}, status=404)
     try:
-        with transaction.atomic():
-            existing = Bookmark.objects.select_for_update().filter(user=user, target_type=target_type, target_id=target_id).first()
-            if existing:
-                existing.delete()
-                return Response({'isBookmarked': False})
-            Bookmark.objects.create(
-                id=str(uuid.uuid4()),
-                user=user,
-                target_type=target_type,
-                target_id=target_id,
-                created_at=_now_ms(),
-            )
-            return Response({'isBookmarked': True})
+        existing = Bookmark.objects.filter(user=user, target_type=target_type, target_id=target_id).first()
+        if existing:
+            existing.delete()
+            return Response({'isBookmarked': False})
+        Bookmark.objects.create(
+            id=str(uuid.uuid4()),
+            user=user,
+            target_type=target_type,
+            target_id=target_id,
+            created_at=_now_ms(),
+        )
+        return Response({'isBookmarked': True})
     except IntegrityError:
         return Response({'isBookmarked': True})
 
@@ -48,7 +47,7 @@ def bookmark_list(request):
     if err:
         return err
     target_type = request.query_params.get('target_type', '').strip()
-    qs = Bookmark.objects.filter(user=user).select_related('user')
+    qs = Bookmark.objects.filter(user=user)
     if target_type:
         qs = qs.filter(target_type=target_type)
     return _paginated_response(request, qs, BookmarkSerializer, default_page_size=50)

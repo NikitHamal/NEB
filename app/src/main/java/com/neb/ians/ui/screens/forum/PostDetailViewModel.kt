@@ -64,7 +64,9 @@ class PostDetailViewModel @Inject constructor(
     private val _state = MutableStateFlow(PostDetailUiState())
     private var unsubscribePost: (() -> Unit)? = null
     private var isPostLikeBusy = false
+    private var isPostBookmarkBusy = false
     private val processingReplyLikes = mutableSetOf<String>()
+    private val processingReplyBookmarks = mutableSetOf<String>()
     private val lenientJson = Json { ignoreUnknownKeys = true; coerceInputValues = true }
 
     val uiState: StateFlow<PostDetailUiState> = combine(
@@ -76,7 +78,7 @@ class PostDetailViewModel @Inject constructor(
 
     init {
         loadPost()
-        unsubscribePost = realtimeClient.subscribe("post.$postId")
+        unsubscribePost = realtimeClient.subscribe("forum.post.$postId")
         viewModelScope.launch {
             realtimeClient.events.collect { event ->
                 if (event.channel == "forum.post.$postId" || event.channel == "post.$postId") {
@@ -235,7 +237,9 @@ class PostDetailViewModel @Inject constructor(
     // ----- Bookmarks (optimistic) -----
 
     fun togglePostBookmark() {
+        if (isPostBookmarkBusy) return
         val current = _state.value.post ?: return
+        isPostBookmarkBusy = true
         val optimistic = current.copy(isBookmarked = !(current.isBookmarked == true))
         _state.update { it.copy(post = optimistic) }
         viewModelScope.launch {
@@ -246,11 +250,14 @@ class PostDetailViewModel @Inject constructor(
                     }
                 }
                 .onFailure { _state.update { it.copy(post = current) } }
+            isPostBookmarkBusy = false
         }
     }
 
     fun toggleReplyBookmark(replyId: String) {
+        if (processingReplyBookmarks.contains(replyId)) return
         val current = _state.value.replies.firstOrNull { it.id == replyId } ?: return
+        processingReplyBookmarks.add(replyId)
         val optimistic = current.copy(isBookmarked = !(current.isBookmarked == true))
         replaceReply(optimistic)
         viewModelScope.launch {
@@ -263,6 +270,7 @@ class PostDetailViewModel @Inject constructor(
                     }
                 }
                 .onFailure { replaceReply(current) }
+            processingReplyBookmarks.remove(replyId)
         }
     }
 

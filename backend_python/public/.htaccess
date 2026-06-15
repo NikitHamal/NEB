@@ -4,8 +4,13 @@
 ServerSignature Off
 ServerTokens Prod
 
-# Block sensitive paths - return 404 instead of 403
 RewriteEngine On
+
+# HTTP → HTTPS redirect (fixes Google "alternate page with proper canonical tag")
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+# Block sensitive paths - return 404 instead of 403
 RewriteRule ^\.git - [R=404,L]
 RewriteRule ^\.env - [R=404,L]
 RewriteRule ^\.env\. - [R=404,L]

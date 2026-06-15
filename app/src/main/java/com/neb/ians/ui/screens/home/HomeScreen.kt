@@ -21,6 +21,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -36,6 +37,7 @@ import com.neb.ians.ui.components.WebEmptyState
 import com.neb.ians.ui.components.WebResourceCard
 import com.neb.ians.ui.components.WebSectionHeader
 import com.neb.ians.ui.components.WebTopBar
+import com.neb.ians.ui.components.sharePost
 
 @Composable
 fun HomeScreen(
@@ -53,6 +55,7 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val context = LocalContext.current
 
     Scaffold(
         topBar = {
@@ -142,9 +145,9 @@ fun HomeScreen(
                                     post = post,
                                     isOwnPost = uiState.currentUserId != null && post.authorId == uiState.currentUserId,
                                     onClick = { onPostClick(post.id) },
-                                    onLikeClick = {},
-                                    onBookmarkClick = {},
-                                    onShareClick = {},
+                                    onLikeClick = { viewModel.toggleThumbsUp(post.id) },
+                                    onBookmarkClick = { viewModel.toggleBookmark(post.id) },
+                                    onShareClick = { sharePost(context, post.id) },
                                     onReportClick = {},
                                     onAuthorClick = { onUserProfileClick(post.authorName) }
                                 )
