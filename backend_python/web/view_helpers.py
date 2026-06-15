@@ -436,28 +436,25 @@ def _resolve_ws_public_url():
 
     Priority:
       1. WS_PUBLIC_URL env var (explicit override)
-      2. The current trycloudflare.com URL (read from /tmp/cf_quick*.log)
-         — used when running behind a Cloudflare quick tunnel.
+      2. The current trycloudflare.com URL (read from cloudflared log files)
       3. Empty string (realtime.js falls back to same-origin /ws/).
     """
     explicit = os.environ.get('WS_PUBLIC_URL', '').strip()
     if explicit:
         return explicit
-    try:
-        import glob
-        for path in sorted(glob.glob('/tmp/cf_quick*.log'), reverse=True):
-            try:
-                with open(path) as f:
-                    content = f.read()
-                import re
-                m = re.search(r'https://([a-z0-9-]+\.trycloudflare\.com)', content)
-                if m:
-                    url = 'wss://' + m.group(1) + '/ws/'
-                    return url
-            except OSError:
-                continue
-    except Exception:  # noqa: BLE001
-        pass
+    import glob, re
+    log_paths = sorted(glob.glob('/tmp/cf_quick*.log'), reverse=True) + [
+        '/home/consicac/nebians_api/logs/cloudflared.log',
+    ]
+    for path in log_paths:
+        try:
+            with open(path) as f:
+                content = f.read()
+            m = re.search(r'https://([a-z0-9-]+\.trycloudflare\.com)', content)
+            if m:
+                return 'wss://' + m.group(1) + '/ws/'
+        except OSError:
+            continue
     return ''
 
 def _get_ws_public_url():
