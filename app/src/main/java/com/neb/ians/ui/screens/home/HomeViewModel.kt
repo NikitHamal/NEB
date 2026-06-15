@@ -13,6 +13,8 @@ import com.neb.ians.data.repository.SettingsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import kotlinx.serialization.json.contentOrNull
+import kotlinx.serialization.json.intOrNull
 import javax.inject.Inject
 
 data class HomeUiState(
@@ -72,8 +74,8 @@ class HomeViewModel @Inject constructor(
     private fun handleLikeEvent(data: kotlinx.serialization.json.JsonObject?) {
         try {
             val payload = data ?: return
-            val postId = payload.stringField("post_id") ?: return
-            val count = payload.intField("thumbs_up_count") ?: return
+            val postId = (payload["post_id"] as? kotlinx.serialization.json.JsonPrimitive)?.contentOrNull ?: return
+            val count = (payload["thumbs_up_count"] as? kotlinx.serialization.json.JsonPrimitive)?.intOrNull ?: return
             if (processingPostLikes.contains(postId)) return
             _recentPosts.update { posts ->
                 posts.map { post ->
