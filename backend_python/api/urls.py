@@ -42,6 +42,9 @@ urlpatterns = [
     path('resources/upload/', views.resource_upload, name='resource-upload'),
     path('resources/upload/anonymous/', views.resource_upload_anonymous, name='resource-upload-anonymous'),
 
+    # Syllabus categories for native apps
+    path('syllabus/categories/', views.syllabus_categories, name='syllabus-categories'),
+
     # Resource Requests
     path('resource-requests/', views.resource_requests_list, name='resource-requests-list'),
     path('resource-requests/create/', views.resource_request_create, name='resource-request-create'),
