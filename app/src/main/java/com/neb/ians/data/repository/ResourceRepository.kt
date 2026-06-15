@@ -46,7 +46,7 @@ class ResourceRepository @Inject constructor(
     ): Result<ResourcesResult> {
         return try {
             val token = getBearerToken()
-            val response = apiService.getResources(token, subject, grade, type, sort, page)
+            val response = apiService.getResources(token, subject, grade, type, sort, page, pageSize = 50)
             _cachedResources.value = if (append) {
                 val existingIds = _cachedResources.value.mapTo(HashSet()) { it.id }
                 _cachedResources.value + response.resources.filterNot { it.id in existingIds }

@@ -96,64 +96,124 @@ def fcm_register(request):
 @permission_classes([AllowAny])
 @throttle_classes([SearchRateThrottle])
 def search_all(request):
-    """GET /api/search?q=query — unified search across resources and posts."""
+    """GET /api/search?q=query — unified search across resources, posts and people."""
     query = request.query_params.get('q', '').strip()
+    tab = (request.query_params.get('tab') or 'all').strip().lower()
+    subject = (request.query_params.get('subject') or '').strip()
+    grade = (request.query_params.get('grade') or '').strip()
+    rtype = (request.query_params.get('type') or '').strip()
     if not query:
-        return Response({'resources': [], 'posts': []})
+        return Response({'resources': [], 'posts': [], 'users': []})
 
     import re
     import operator
     from functools import reduce
     from django.db.models import Value, BooleanField, Case, When
+    from .badges import user_badge_info
 
     terms = [t for t in re.sub(r'[^\w\s]', ' ', query).split() if t]
+    resources = Resource.objects.none()
+    posts = Post.objects.none()
+    users = User.objects.none()
+
     if terms:
-        res_q_list = []
-        for term in terms:
-            res_q_list.append(
-                Q(title__icontains=term) | Q(description__icontains=term) | Q(subject__icontains=term)
+        if tab in ('all', 'resources'):
+            res_q_list = []
+            for term in terms:
+                res_q_list.append(
+                    Q(title__icontains=term) | Q(description__icontains=term) | Q(subject__icontains=term) |
+                    Q(grade_level__icontains=term) | Q(faculty__icontains=term) | Q(program__icontains=term) |
+                    Q(school__icontains=term) | Q(tags__icontains=term)
+                )
+            resources = Resource.objects.filter(
+                reduce(operator.and_, res_q_list),
+                approval_status='approved',
+                is_lead=True
             )
-        resources = Resource.objects.filter(
-            reduce(operator.and_, res_q_list),
-            approval_status='approved',
-            is_lead=True
-        )
-        exact_res_expr = Q(title__icontains=query) | Q(description__icontains=query) | Q(subject__icontains=query)
-        resources = resources.annotate(
-            is_exact=Case(
-                When(exact_res_expr, then=Value(True)),
-                default=Value(False),
-                output_field=BooleanField()
+            if subject:
+                resources = resources.filter(subject__iexact=subject)
+            if grade:
+                resources = resources.filter(grade_level__iexact=grade)
+            if rtype:
+                resources = resources.filter(type__iexact=rtype)
+            exact_res_expr = (
+                Q(title__icontains=query) | Q(description__icontains=query) |
+                Q(subject__icontains=query) | Q(tags__icontains=query)
             )
-        ).order_by('-is_exact', '-added_at')
+            resources = resources.annotate(
+                is_exact=Case(
+                    When(exact_res_expr, then=Value(True)),
+                    default=Value(False),
+                    output_field=BooleanField()
+                )
+            ).order_by('-is_exact', '-added_at')
 
-        post_q_list = []
-        for term in terms:
-            post_q_list.append(
-                Q(title__icontains=term) | Q(content__icontains=term)
+        if tab in ('all', 'posts'):
+            post_q_list = []
+            for term in terms:
+                post_q_list.append(
+                    Q(title__icontains=term) | Q(content__icontains=term) | Q(category__icontains=term) |
+                    Q(user__username__icontains=term) | Q(user__display_name__icontains=term)
+                )
+            posts = Post.objects.select_related('user').filter(
+                reduce(operator.and_, post_q_list),
+                is_archived=False,
             )
-        posts = Post.objects.select_related('user').filter(
-            reduce(operator.and_, post_q_list),
-            is_archived=False,
-        )
-        exact_post_expr = Q(title__icontains=query) | Q(content__icontains=query)
-        posts = posts.annotate(
-            is_exact=Case(
-                When(exact_post_expr, then=Value(True)),
-                default=Value(False),
-                output_field=BooleanField()
-            )
-        ).order_by('-is_exact', '-created_at')
-    else:
-        resources = Resource.objects.none()
-        posts = Post.objects.none()
+            if subject:
+                posts = posts.filter(category__iexact=subject)
+            exact_post_expr = Q(title__icontains=query) | Q(content__icontains=query) | Q(category__icontains=query)
+            posts = posts.annotate(
+                is_exact=Case(
+                    When(exact_post_expr, then=Value(True)),
+                    default=Value(False),
+                    output_field=BooleanField()
+                )
+            ).order_by('-is_exact', '-created_at')
 
-    resource_page = _paginated_response(request, resources, ResourceSerializer, default_page_size=25, max_page_size=50)
-    post_page = _paginated_response(request, posts, PostSerializer, context={'request': request}, default_page_size=25, max_page_size=50)
+        if tab in ('all', 'people', 'users'):
+            user_q_list = []
+            for term in terms:
+                user_q_list.append(
+                    Q(username__icontains=term) | Q(display_name__icontains=term) | Q(bio__icontains=term) |
+                    Q(school__icontains=term) | Q(class_level__icontains=term) | Q(subjects__icontains=term)
+                )
+            users = User.objects.filter(reduce(operator.and_, user_q_list)).order_by('-follower_count', 'username')[:30]
+
+    resource_page = _paginated_response(
+        request, resources, ResourceSerializer, context={'request': request}, default_page_size=25, max_page_size=50
+    )
+    post_page = _paginated_response(
+        request, posts, PostSerializer, context={'request': request}, default_page_size=25, max_page_size=50
+    )
+
+    requesting_user = _get_user_from_request(request)
+    following_ids = set()
+    user_list = list(users)
+    if requesting_user and user_list:
+        following_ids = set(Follow.objects.filter(
+            follower=requesting_user, following_id__in=[u.id for u in user_list]
+        ).values_list('following_id', flat=True))
+
+    serialized_users = []
+    for user in user_list:
+        serialized_users.append({
+            'id': str(user.id),
+            'username': user.username,
+            'display_name': user.display_name or '',
+            'photo_url': user.photo_url or '',
+            'bio': user.bio or '',
+            'school': user.school or '',
+            'class_level': user.class_level or '',
+            'follower_count': user.follower_count or 0,
+            'is_following': bool(user.id in following_ids),
+            'is_self': bool(requesting_user and requesting_user.id == user.id),
+            'badge_info': user_badge_info(user),
+        })
 
     return Response({
         'resources': resource_page.data.get('results', []),
         'posts': post_page.data.get('results', []),
+        'users': serialized_users,
     })
 
 @api_view(['POST'])
