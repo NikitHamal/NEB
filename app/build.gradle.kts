@@ -8,6 +8,16 @@ plugins {
     id("com.google.gms.google-services")
 }
 
+val gitVersionCode = try {
+    val process = ProcessBuilder("git", "rev-list", "--count", "HEAD").start()
+    val reader = java.io.BufferedReader(java.io.InputStreamReader(process.inputStream))
+    val line = reader.readLine()?.trim()
+    process.waitFor()
+    line?.toInt() ?: 1
+} catch (e: Exception) {
+    1
+}
+
 android {
     namespace = "com.neb.ians"
     compileSdk = 35
@@ -16,7 +26,7 @@ android {
         applicationId = "com.neb.ians"
         minSdk = 24
         targetSdk = 35
-        versionCode = 1
+        versionCode = gitVersionCode
         versionName = "1.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
