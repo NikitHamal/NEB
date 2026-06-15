@@ -2,18 +2,22 @@
 from .view_helpers import *  # noqa: F401,F403
 
 @api_view(['GET'])
+@permission_classes([AllowAny])
 @throttle_classes([SearchRateThrottle])
 def resources_list(request):
-    """GET /api/resources — authenticated endpoint with enforced pagination."""
-    user, err = _require_user(request)
-    if err:
-        return err
+    """GET /api/resources — public, paginated library feed with web-parity filters/sort.
+
+    Android and the website both browse approved lead resources without forcing
+    sign-in. Keep this endpoint cheap: filter in SQL, sort in SQL, and only
+    serialize the requested page.
+    """
     resources = Resource.objects.filter(approval_status='approved', is_lead=True)
 
-    subject = request.query_params.get('subject')
-    grade = request.query_params.get('grade')
-    rtype = request.query_params.get('type')
-    search = request.query_params.get('search')
+    subject = (request.query_params.get('subject') or '').strip()
+    grade = (request.query_params.get('grade') or '').strip()
+    rtype = (request.query_params.get('type') or '').strip()
+    search = (request.query_params.get('search') or request.query_params.get('q') or '').strip()
+    sort = (request.query_params.get('sort') or 'relevant').strip().lower()
 
     if subject:
         resources = resources.filter(subject__iexact=subject)
@@ -23,10 +27,95 @@ def resources_list(request):
         resources = resources.filter(type__iexact=rtype)
     if search:
         resources = resources.filter(
-            Q(title__icontains=search) | Q(description__icontains=search)
+            Q(title__icontains=search) | Q(description__icontains=search) |
+            Q(subject__icontains=search) | Q(grade_level__icontains=search) |
+            Q(faculty__icontains=search) | Q(program__icontains=search) |
+            Q(school__icontains=search) | Q(tags__icontains=search)
         )
 
-    return _paginated_response(request, resources, ResourceSerializer)
+    if sort == 'newest':
+        resources = resources.order_by('-added_at', '-view_count')
+    elif sort == 'oldest':
+        resources = resources.order_by('added_at')
+    elif sort == 'liked':
+        resources = resources.order_by('-like_count', '-added_at')
+    elif sort == 'trending':
+        resources = resources.order_by('-view_count', '-like_count', '-added_at')
+    else:
+        resources = resources.order_by('-added_at', '-view_count')
+
+    return _paginated_response(
+        request,
+        resources,
+        ResourceSerializer,
+        context={'request': request},
+        default_page_size=50,
+        max_page_size=100,
+    )
+
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+@throttle_classes([SearchRateThrottle])
+def syllabus_categories(request):
+    """GET /api/syllabus/categories/ — compact syllabus accordion data for mobile.
+
+    Mirrors the website Library → Syllabus tab, driven by admin-created
+    SyllabusContent when present and falling back to CURRICULUM_MAP.
+    """
+    from collections import defaultdict
+    from api.models import SyllabusContent
+    try:
+        from web import curriculum
+    except Exception:
+        curriculum = None
+
+    education_levels = [
+        'Class 8', 'Class 9', 'Class 10 / SEE', 'Class 11', 'Class 12',
+        'Diploma', 'Bachelor', 'Master', 'PhD',
+        'Entrance Prep', 'Competitive Exam', 'Other',
+    ]
+    categories_map = defaultdict(set)
+    active_syllabus = SyllabusContent.objects.all().values('grade_level', 'subject')
+
+    if active_syllabus.exists():
+        for item in active_syllabus:
+            grade = (item.get('grade_level') or '').strip()
+            if grade.lower() == 'grade 12':
+                grade = 'Class 12'
+            elif grade.lower() == 'grade 11':
+                grade = 'Class 11'
+            subject_str = item.get('subject') or ''
+            if grade and subject_str:
+                for subj in subject_str.split(','):
+                    subj = subj.strip()
+                    if subj:
+                        categories_map[grade].add(subj)
+    elif curriculum is not None:
+        for (grade, subj) in getattr(curriculum, 'CURRICULUM_MAP', {}).keys():
+            if grade and subj:
+                categories_map[grade].add(subj)
+
+    def _slug(value):
+        return (value or '').lower().replace(' / see', '-see').replace('/', '-').replace(' ', '-')
+
+    grade_order = {value: idx for idx, value in enumerate(education_levels)}
+    categories = []
+    for grade, subjects in categories_map.items():
+        subject_items = []
+        for subj in sorted(subjects):
+            subject_items.append({
+                'name': subj,
+                'slug': _slug(subj),
+                'url': f"/subject/{_slug(grade)}/{_slug(subj)}/",
+            })
+        categories.append({
+            'grade': grade,
+            'subjects': subject_items,
+            'order': grade_order.get(grade, 999),
+        })
+    categories.sort(key=lambda item: item['order'])
+    return Response({'categories': categories})
 
 @api_view(['GET'])
 def resource_detail(request, resource_id):

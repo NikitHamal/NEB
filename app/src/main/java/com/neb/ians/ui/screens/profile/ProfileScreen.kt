@@ -265,6 +265,7 @@ private fun ProfileContent(
                 profile = profile,
                 isSelf = isSelf,
                 isFollowing = uiState.isFollowing,
+                followerCount = uiState.followerCount,
                 onEditProfile = onEditProfile,
                 onFollowClick = onFollowClick,
                 onAvatarClick = onAvatarClick
@@ -276,62 +277,6 @@ private fun ProfileContent(
                 PrivateProfileNotice()
             }
         } else {
-            item(key = "stats1") {
-                Row(horizontalArrangement = Arrangement.spacedBy(10.dp), modifier = Modifier.fillMaxWidth()) {
-                    WebKpiCard(
-                        label = "Followers",
-                        value = compactCount(uiState.followerCount),
-                        detail = "${compactCount(profile.followingCount)} following",
-                        painter = painterResource(id = R.drawable.ic_school),
-                        modifier = Modifier.weight(1f)
-                    )
-                    WebKpiCard(
-                        label = "Posts",
-                        value = compactCount(profile.postCount),
-                        detail = "${compactCount(profile.replyCount)} replies",
-                        painter = painterResource(id = R.drawable.ic_forum_outlined),
-                        modifier = Modifier.weight(1f)
-                    )
-                }
-            }
-            item(key = "stats2") {
-                Row(horizontalArrangement = Arrangement.spacedBy(10.dp), modifier = Modifier.fillMaxWidth()) {
-                    WebKpiCard(
-                        label = "Likes",
-                        value = compactCount(profile.likesReceivedCount),
-                        detail = "${compactCount(profile.likesGivenCount)} given",
-                        painter = painterResource(id = R.drawable.ic_bookmark),
-                        modifier = Modifier.weight(1f)
-                    )
-                    WebKpiCard(
-                        label = "Score",
-                        value = compactCount(profile.contributionScore),
-                        detail = "Contribution score",
-                        painter = painterResource(id = R.drawable.ic_science),
-                        modifier = Modifier.weight(1f)
-                    )
-                }
-            }
-            item(key = "level") {
-                Surface(
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = WebPillShape,
-                    color = MaterialTheme.colorScheme.secondaryContainer
-                ) {
-                    Text(
-                        text = contributionLevelTitle(profile.contributionScore),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 14.dp, vertical = 8.dp),
-                        style = MaterialTheme.typography.labelLarge,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onSecondaryContainer,
-                        textAlign = TextAlign.Center,
-                        maxLines = 1
-                    )
-                }
-            }
-
             item(key = "tabs") {
                 TabRow(
                     selectedTabIndex = uiState.selectedTab,
@@ -410,6 +355,7 @@ private fun ProfileHeaderCard(
     profile: UserProfileResponse,
     isSelf: Boolean,
     isFollowing: Boolean,
+    followerCount: Int,
     onEditProfile: () -> Unit,
     onFollowClick: () -> Unit,
     onAvatarClick: () -> Unit
@@ -508,6 +454,28 @@ private fun ProfileHeaderCard(
                     }
                 }
 
+                Spacer(modifier = Modifier.height(14.dp))
+                ProfileStatsStrip(
+                    followerCount = followerCount,
+                    followingCount = profile.followingCount,
+                    postCount = profile.postCount,
+                    score = profile.contributionScore
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Surface(
+                    shape = WebPillShape,
+                    color = MaterialTheme.colorScheme.secondaryContainer
+                ) {
+                    Text(
+                        text = contributionLevelTitle(profile.contributionScore),
+                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
+                        style = MaterialTheme.typography.labelMedium,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onSecondaryContainer,
+                        maxLines = 1
+                    )
+                }
+
                 if (achievements.isNotEmpty()) {
                     Spacer(modifier = Modifier.height(10.dp))
                     FlowRow(
@@ -569,6 +537,56 @@ private fun ProfileHeaderCard(
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun ProfileStatsStrip(
+    followerCount: Int,
+    followingCount: Int,
+    postCount: Int,
+    score: Int
+) {
+    Surface(
+        modifier = Modifier.fillMaxWidth(),
+        shape = WebPanelShape,
+        color = MaterialTheme.colorScheme.surfaceContainerLow,
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
+    ) {
+        Row(
+            modifier = Modifier.padding(horizontal = 8.dp, vertical = 12.dp),
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            ProfileStatCell("Followers", compactCount(followerCount), Modifier.weight(1f))
+            ProfileStatCell("Following", compactCount(followingCount), Modifier.weight(1f))
+            ProfileStatCell("Posts", compactCount(postCount), Modifier.weight(1f))
+            ProfileStatCell("Score", compactCount(score), Modifier.weight(1f))
+        }
+    }
+}
+
+@Composable
+private fun ProfileStatCell(label: String, value: String, modifier: Modifier = Modifier) {
+    Column(
+        modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(2.dp)
+    ) {
+        Text(
+            text = value,
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.ExtraBold,
+            color = MaterialTheme.colorScheme.onSurface,
+            maxLines = 1
+        )
+        Text(
+            text = label,
+            style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
+        )
     }
 }
 

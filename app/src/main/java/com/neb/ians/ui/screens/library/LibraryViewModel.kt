@@ -5,6 +5,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.neb.ians.data.api.ApiResource
 import com.neb.ians.data.api.ApiErrorMapper
+import com.neb.ians.data.api.ApiService
+import com.neb.ians.data.api.ApiSyllabusCategory
+import com.neb.ians.data.api.ApiSyllabusSubject
 import com.neb.ians.data.repository.ResourceRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -27,6 +30,9 @@ data class LibraryUiState(
     val selectedSubject: String? = null,
     val selectedGradeLevel: String? = null,
     val selectedType: String? = null,
+    val syllabusCategories: List<ApiSyllabusCategory> = emptyList(),
+    val isSyllabusLoading: Boolean = false,
+    val syllabusError: String? = null,
     val isLoading: Boolean = true,
     val isLoadingMore: Boolean = false,
     val error: String? = null
@@ -53,6 +59,7 @@ data class LibraryUiState(
 @HiltViewModel
 class LibraryViewModel @Inject constructor(
     private val resourceRepository: ResourceRepository,
+    private val apiService: ApiService,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -66,6 +73,41 @@ class LibraryViewModel @Inject constructor(
             _uiState.update { it.copy(selectedSubject = initialSubject) }
         }
         loadResources()
+        loadSyllabusCategories()
+    }
+
+    fun loadSyllabusCategories() {
+        viewModelScope.launch {
+            _uiState.update { it.copy(isSyllabusLoading = true, syllabusError = null) }
+            try {
+                val response = apiService.getSyllabusCategories()
+                val categories = response.categories.ifEmpty { fallbackSyllabusCategories() }
+                _uiState.update {
+                    it.copy(
+                        syllabusCategories = categories.sortedBy { category -> category.order },
+                        isSyllabusLoading = false
+                    )
+                }
+            } catch (e: Exception) {
+                _uiState.update {
+                    it.copy(
+                        syllabusCategories = fallbackSyllabusCategories(),
+                        isSyllabusLoading = false,
+                        syllabusError = ApiErrorMapper.mapException(e)
+                    )
+                }
+            }
+        }
+    }
+
+    private fun fallbackSyllabusCategories(): List<ApiSyllabusCategory> {
+        return LibraryUiState.GRADE_LEVELS.mapIndexed { index, grade ->
+            ApiSyllabusCategory(
+                grade = grade.replace("Grade", "Class"),
+                order = index,
+                subjects = LibraryUiState.SUBJECTS.map { subject -> ApiSyllabusSubject(name = subject) }
+            )
+        }
     }
 
     private fun loadResources() {

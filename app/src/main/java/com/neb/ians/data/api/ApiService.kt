@@ -439,6 +439,25 @@ data class ApiSearchResponse(
 )
 
 @Serializable
+data class ApiSyllabusCategoriesResponse(
+    val categories: List<ApiSyllabusCategory> = emptyList()
+)
+
+@Serializable
+data class ApiSyllabusCategory(
+    val grade: String = "",
+    val subjects: List<ApiSyllabusSubject> = emptyList(),
+    val order: Int = 999
+)
+
+@Serializable
+data class ApiSyllabusSubject(
+    val name: String = "",
+    val slug: String = "",
+    val url: String = ""
+)
+
+@Serializable
 data class ApiUserSearchResult(
     val id: String,
     val username: String,
@@ -740,7 +759,8 @@ interface ApiService {
         @Query("grade") grade: String? = null,
         @Query("type") type: String? = null,
         @Query("sort") sort: String? = null,
-        @Query("page") page: Int? = null
+        @Query("page") page: Int? = null,
+        @Query("page_size") pageSize: Int? = null
     ): ApiPaginatedResources
 
     @GET("api/resources/{resourceId}/")
@@ -881,7 +901,8 @@ interface ApiService {
         @Query("tab") tab: String? = null,
         @Query("subject") subject: String? = null,
         @Query("grade") grade: String? = null,
-        @Query("type") type: String? = null
+        @Query("type") type: String? = null,
+        @Query("page_size") pageSize: Int? = null
     ): ApiSearchResponse
 
     // --- Bookmarks ---
@@ -1278,6 +1299,10 @@ interface ApiService {
         @Path("cardId") cardId: String,
         @Body request: ApiStudyFlashcardReviewRequest
     ): ApiStudyFlashcardReviewResponse
+
+    // --- Syllabus (public, web-synced categories) ---
+    @GET("api/syllabus/categories/")
+    suspend fun getSyllabusCategories(): ApiSyllabusCategoriesResponse
 
     // --- Interactive Learning (public, no auth required) ---
     @GET("api/interactive/categories/")
