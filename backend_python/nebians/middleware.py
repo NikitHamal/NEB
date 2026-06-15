@@ -15,20 +15,19 @@ def _resolve_ws_public_url():
     ws_url = getattr(settings, 'WS_PUBLIC_URL', '') or ''
     if ws_url:
         return ws_url
-    try:
-        import glob as _glob
-        import re as _re
-        for path in sorted(_glob.glob('/tmp/cf_quick*.log'), reverse=True):
-            try:
-                with open(path) as f:
-                    content = f.read()
-                m = _re.search(r'https://([a-z0-9-]+\\.trycloudflare\\.com)', content)
-                if m:
-                    return 'wss://' + m.group(1) + '/ws/'
-            except OSError:
-                continue
-    except Exception:
-        pass
+    import glob as _glob, re as _re
+    log_paths = sorted(_glob.glob('/tmp/cf_quick*.log'), reverse=True) + [
+        '/home/consicac/nebians_api/logs/cloudflared.log',
+    ]
+    for path in log_paths:
+        try:
+            with open(path) as f:
+                content = f.read()
+            m = _re.search(r'https://([a-z0-9-]+\.trycloudflare\.com)', content)
+            if m:
+                return 'wss://' + m.group(1) + '/ws/'
+        except OSError:
+            continue
     return ''
 
 
@@ -157,23 +156,7 @@ class SecurityHeadersMiddleware:
         img_sources = "img-src 'self' data: https:;"
         connect_sources = ["'self'", "https://accounts.google.com"]
 
-        ws_url = getattr(settings, 'WS_PUBLIC_URL', '') or ''
-        if not ws_url:
-            try:
-                import glob as _glob
-                import re as _re
-                for path in sorted(_glob.glob('/tmp/cf_quick*.log'), reverse=True):
-                    try:
-                        with open(path) as f:
-                            content = f.read()
-                        m = _re.search(r'https://([a-z0-9-]+\.trycloudflare\.com)', content)
-                        if m:
-                            ws_url = 'wss://' + m.group(1) + '/ws/'
-                            break
-                    except OSError:
-                        continue
-            except Exception:
-                pass
+        ws_url = _get_ws_public_url_cached()
 
         if ws_url:
             import re as _re2
