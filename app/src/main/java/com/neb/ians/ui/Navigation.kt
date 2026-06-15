@@ -360,7 +360,7 @@ fun NEBiansNavHost(
                         navController.navigate(Screen.ResourceDetail.createRoute(resourceId))
                     },
                     onSearchClick = { navController.navigate(Screen.Search.route) },
-                    onViewAllClick = { navController.navigate(Screen.Library.route) },
+                    onViewAllClick = { navController.navigate(Screen.Library.createRoute()) },
                     onSubjectClick = { subject ->
                         navController.navigate(Screen.Library.createRoute(subject))
                     },
