@@ -3,6 +3,8 @@ package com.neb.ians.ui.screens.profile
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.neb.ians.data.api.ApiPost
+import com.neb.ians.data.api.ApiReply
+import com.neb.ians.data.api.ApiResource
 import com.neb.ians.data.api.ApiService
 import com.neb.ians.data.api.ApiUserPhoto
 import com.neb.ians.data.api.UserProfileResponse
@@ -27,14 +29,21 @@ data class ProfileUiState(
     val error: String? = null,
     val isFollowing: Boolean = false,
     val followerCount: Int = 0,
-    // Tabs: 0 = Posts, 1 = About
     val selectedTab: Int = 0,
-    // Posts tab (profile activity)
     val posts: List<ApiPost> = emptyList(),
     val postsLoading: Boolean = false,
     val postsHasMore: Boolean = false,
     val postsLoaded: Boolean = false,
-    // Photo gallery (own profile only)
+    val replies: List<ApiReply> = emptyList(),
+    val repliesLoading: Boolean = false,
+    val repliesHasMore: Boolean = false,
+    val repliesLoaded: Boolean = false,
+    val repliesCount: Int = 0,
+    val resources: List<ApiResource> = emptyList(),
+    val resourcesLoading: Boolean = false,
+    val resourcesHasMore: Boolean = false,
+    val resourcesLoaded: Boolean = false,
+    val resourcesCount: Int = 0,
     val showPhotoGallery: Boolean = false,
     val photos: List<ApiUserPhoto> = emptyList(),
     val photosLoading: Boolean = false,
@@ -61,9 +70,12 @@ class ProfileViewModel @Inject constructor(
                 val profile = apiService.getProfile(token, username)
                 var statsIsFollowing = profile.isFollowing ?: false
                 var profileWithStats = profile
+                var initialRepliesCount = profile.replyCount
+                var initialResourcesCount = 0
                 try {
                     val stats = apiService.getProfileStats(token, username)
                     statsIsFollowing = stats.isFollowing
+                    initialResourcesCount = stats.uploadedResourcesCount ?: 0
                     if (profile.isSelf == null) {
                         profileWithStats = profile.copy(isSelf = stats.isSelf)
                     }
@@ -73,7 +85,9 @@ class ProfileViewModel @Inject constructor(
                         profile = profileWithStats,
                         isLoading = false,
                         isFollowing = statsIsFollowing,
-                        followerCount = profileWithStats.followerCount
+                        followerCount = profileWithStats.followerCount,
+                        repliesCount = initialRepliesCount,
+                        resourcesCount = initialResourcesCount
                     )
                 }
                 val isPrivate = profile.isLocked == 1 && profile.isSelf != true
@@ -88,6 +102,26 @@ class ProfileViewModel @Inject constructor(
 
     fun selectTab(index: Int) {
         _uiState.update { it.copy(selectedTab = index) }
+        val isPrivate = _uiState.value.profile?.isLocked == 1 && _uiState.value.profile?.isSelf != true
+        if (!isPrivate) {
+            when (index) {
+                0 -> {
+                    if (!_uiState.value.postsLoaded) {
+                        loadPosts(reset = true)
+                    }
+                }
+                1 -> {
+                    if (!_uiState.value.repliesLoaded) {
+                        loadReplies(reset = true)
+                    }
+                }
+                2 -> {
+                    if (!_uiState.value.resourcesLoaded) {
+                        loadResources(reset = true)
+                    }
+                }
+            }
+        }
     }
 
     fun loadPosts(reset: Boolean = false) {
@@ -119,6 +153,74 @@ class ProfileViewModel @Inject constructor(
                 }
             } catch (_: Exception) {
                 _uiState.update { it.copy(postsLoading = false, postsLoaded = true) }
+            }
+        }
+    }
+
+    fun loadReplies(reset: Boolean = false) {
+        val state = _uiState.value
+        if (state.repliesLoading) return
+        if (!reset && state.repliesLoaded && !state.repliesHasMore) return
+        if (currentUsername.isBlank()) return
+        val username = currentUsername
+        viewModelScope.launch {
+            _uiState.update {
+                it.copy(
+                    repliesLoading = true,
+                    replies = if (reset) emptyList() else it.replies
+                )
+            }
+            try {
+                val token = authRepository.getBearerToken()
+                val offset = if (reset) 0 else _uiState.value.replies.size
+                val response = apiService.getProfileReplies(token, username, offset, POSTS_PAGE_SIZE)
+                _uiState.update {
+                    val merged = if (reset) response.replies
+                    else (it.replies + response.replies).distinctBy { r -> r.id }
+                    it.copy(
+                        replies = merged,
+                        repliesHasMore = response.hasMore,
+                        repliesCount = response.totalCount,
+                        repliesLoading = false,
+                        repliesLoaded = true
+                    )
+                }
+            } catch (_: Exception) {
+                _uiState.update { it.copy(repliesLoading = false, repliesLoaded = true) }
+            }
+        }
+    }
+
+    fun loadResources(reset: Boolean = false) {
+        val state = _uiState.value
+        if (state.resourcesLoading) return
+        if (!reset && state.resourcesLoaded && !state.resourcesHasMore) return
+        if (currentUsername.isBlank()) return
+        val username = currentUsername
+        viewModelScope.launch {
+            _uiState.update {
+                it.copy(
+                    resourcesLoading = true,
+                    resources = if (reset) emptyList() else it.resources
+                )
+            }
+            try {
+                val token = authRepository.getBearerToken()
+                val offset = if (reset) 0 else _uiState.value.resources.size
+                val response = apiService.getProfileResources(token, username, offset, POSTS_PAGE_SIZE)
+                _uiState.update {
+                    val merged = if (reset) response.resources
+                    else (it.resources + response.resources).distinctBy { r -> r.id }
+                    it.copy(
+                        resources = merged,
+                        resourcesHasMore = response.hasMore,
+                        resourcesCount = response.totalCount,
+                        resourcesLoading = false,
+                        resourcesLoaded = true
+                    )
+                }
+            } catch (_: Exception) {
+                _uiState.update { it.copy(resourcesLoading = false, resourcesLoaded = true) }
             }
         }
     }
