@@ -31,6 +31,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.Clear
+import androidx.compose.material.icons.outlined.FilterList
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -108,7 +109,7 @@ private fun getSubjectIcon(subject: String): Int {
     }
 }
 
-private val TAB_LABELS = listOf("All", "Resources", "Posts", "People")
+private val TAB_LABELS = listOf("All", "Resources", "Posts", "Users")
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -119,7 +120,8 @@ private fun SearchHeader(
     onQueryChange: (String) -> Unit,
     onClear: () -> Unit,
     onTabSelected: (Int) -> Unit,
-    onNavigateBack: () -> Unit
+    onNavigateBack: () -> Unit,
+    onFilterClick: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -153,7 +155,7 @@ private fun SearchHeader(
                     onValueChange = onQueryChange,
                     placeholder = {
                         Text(
-                            text = "Search resources, posts, people...",
+                            text = "Search resources and posts...",
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                             maxLines = 1,
@@ -168,11 +170,23 @@ private fun SearchHeader(
                         )
                     },
                     trailingIcon = {
-                        if (query.isNotEmpty()) {
-                            IconButton(onClick = onClear) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.padding(end = 4.dp)
+                        ) {
+                            if (query.isNotEmpty()) {
+                                IconButton(onClick = onClear) {
+                                    Icon(
+                                        imageVector = Icons.Outlined.Clear,
+                                        contentDescription = "Clear",
+                                        tint = MaterialTheme.colorScheme.onSurfaceVariant
+                                    )
+                                }
+                            }
+                            IconButton(onClick = onFilterClick) {
                                 Icon(
-                                    imageVector = Icons.Outlined.Clear,
-                                    contentDescription = "Clear",
+                                    imageVector = Icons.Outlined.FilterList,
+                                    contentDescription = "Filters",
                                     tint = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
                             }
@@ -229,6 +243,7 @@ fun SearchScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val focusRequester = remember { FocusRequester() }
     var selectedTab by remember { mutableStateOf(0) }
+    var showFilters by remember { mutableStateOf(false) }
 
     BackHandler { onNavigateBack() }
 
@@ -243,7 +258,8 @@ fun SearchScreen(
                 onQueryChange = viewModel::onQueryChange,
                 onClear = viewModel::clearSearch,
                 onTabSelected = { selectedTab = it },
-                onNavigateBack = onNavigateBack
+                onNavigateBack = onNavigateBack,
+                onFilterClick = { showFilters = true }
             )
         },
         containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
@@ -278,7 +294,7 @@ fun SearchScreen(
                             .padding(horizontal = 16.dp, vertical = 16.dp)
                     ) {
                         Text(
-                            text = "Suggestions",
+                            text = "Popular Searches",
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.SemiBold,
                             color = MaterialTheme.colorScheme.onSurface
@@ -341,7 +357,8 @@ fun SearchScreen(
                                 users = uiState.users,
                                 onResourceClick = onResourceClick,
                                 onPostClick = onPostClick,
-                                onProfileClick = onProfileClick
+                                onProfileClick = onProfileClick,
+                                onTabSelected = { selectedTab = it }
                             )
                             1 -> ResourcesTab(
                                 resources = uiState.resources,
@@ -361,6 +378,23 @@ fun SearchScreen(
             }
         }
     }
+
+    if (showFilters) {
+        com.neb.ians.ui.components.FilterDialog(
+            onDismissRequest = { showFilters = false },
+            selectedSubject = uiState.selectedSubject,
+            selectedGradeLevel = uiState.selectedGradeLevel,
+            selectedType = uiState.selectedType,
+            subjects = com.neb.ians.ui.screens.library.LibraryUiState.SUBJECTS,
+            gradeLevels = com.neb.ians.ui.screens.library.LibraryUiState.GRADE_LEVELS,
+            types = com.neb.ians.ui.screens.library.LibraryUiState.TYPES,
+            onSubjectSelected = viewModel::selectSubject,
+            onGradeLevelSelected = viewModel::selectGradeLevel,
+            onTypeSelected = viewModel::selectType,
+            onClearAll = viewModel::clearFilters,
+            onApply = { showFilters = false }
+        )
+    }
 }
 
 @Composable
@@ -370,7 +404,8 @@ private fun AllResultsTab(
     users: List<ApiUserSearchResult>,
     onResourceClick: (String) -> Unit,
     onPostClick: (String) -> Unit,
-    onProfileClick: (String) -> Unit
+    onProfileClick: (String) -> Unit,
+    onTabSelected: (Int) -> Unit
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -378,18 +413,20 @@ private fun AllResultsTab(
     ) {
         if (resources.isNotEmpty()) {
             item(key = "resources_header") {
-                SectionHeader("Resources")
+                SectionHeader("Resources", onViewAllClick = { onTabSelected(1) })
             }
             items(resources.take(3), key = { it.id }) { resource ->
-                SearchResultItem(
+                WebResourceCard(
                     resource = resource,
-                    onClick = { onResourceClick(resource.id) }
+                    onClick = { onResourceClick(resource.id) },
+                    minWidth = null,
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 6.dp)
                 )
             }
         }
         if (posts.isNotEmpty()) {
             item(key = "posts_header") {
-                SectionHeader("Posts")
+                SectionHeader("Posts", onViewAllClick = { onTabSelected(2) })
             }
             items(posts.take(3), key = { it.id }) { post ->
                 PostResultItem(
@@ -400,7 +437,7 @@ private fun AllResultsTab(
         }
         if (users.isNotEmpty()) {
             item(key = "people_header") {
-                SectionHeader("People")
+                SectionHeader("Users", onViewAllClick = { onTabSelected(3) })
             }
             items(users.take(3), key = { it.id }) { user ->
                 UserResultItem(
@@ -420,18 +457,16 @@ private fun ResourcesTab(
     if (resources.isEmpty()) {
         EmptyTabMessage("No resources found")
     } else {
-        LazyVerticalGrid(
-            columns = GridCells.Adaptive(minSize = 174.dp),
-            contentPadding = PaddingValues(start = 16.dp, top = 8.dp, end = 16.dp, bottom = 16.dp),
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
-            modifier = Modifier.fillMaxSize()
+        LazyColumn(
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = PaddingValues(vertical = 8.dp)
         ) {
             items(resources, key = { it.id }) { resource ->
                 WebResourceCard(
                     resource = resource,
                     onClick = { onResourceClick(resource.id) },
-                    minWidth = null
+                    minWidth = null,
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 6.dp)
                 )
             }
         }
@@ -483,14 +518,33 @@ private fun PeopleTab(
 }
 
 @Composable
-private fun SectionHeader(title: String) {
-    Text(
-        text = title,
-        style = MaterialTheme.typography.titleSmall,
-        fontWeight = FontWeight.Bold,
-        color = MaterialTheme.colorScheme.primary,
-        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
-    )
+private fun SectionHeader(
+    title: String,
+    onViewAllClick: (() -> Unit)? = null
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 8.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = title,
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.onSurface
+        )
+        if (onViewAllClick != null) {
+            Text(
+                text = "View all",
+                style = MaterialTheme.typography.labelLarge,
+                fontWeight = FontWeight.SemiBold,
+                color = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.clickable(onClick = onViewAllClick)
+            )
+        }
+    }
 }
 
 @Composable

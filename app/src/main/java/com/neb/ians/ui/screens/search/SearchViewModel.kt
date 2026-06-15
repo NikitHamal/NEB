@@ -21,12 +21,15 @@ data class SearchUiState(
     val posts: List<ApiPost> = emptyList(),
     val users: List<ApiUserSearchResult> = emptyList(),
     val isSearching: Boolean = false,
+    val selectedSubject: String? = null,
+    val selectedGradeLevel: String? = null,
+    val selectedType: String? = null,
     val error: String? = null
 ) {
     companion object {
         val SUGGESTIONS = listOf(
-            "Physics notes", "Chemistry textbook", "Math past papers",
-            "Biology guide", "English grammar", "Computer Science"
+            "Physics", "Chemistry", "Mathematics", "Biology",
+            "English", "Notes", "Textbook", "Past Papers"
         )
     }
 }
@@ -45,9 +48,35 @@ class SearchViewModel @Inject constructor(
     fun onQueryChange(query: String) {
         val normalized = query.trimStart()
         _uiState.update { it.copy(query = normalized) }
-        searchJob?.cancel()
+        triggerSearch(normalized)
+    }
 
-        if (normalized.length < 2) {
+    fun selectSubject(subject: String?) {
+        val newSubject = if (_uiState.value.selectedSubject == subject) null else subject
+        _uiState.update { it.copy(selectedSubject = newSubject) }
+        triggerSearch(_uiState.value.query)
+    }
+
+    fun selectGradeLevel(gradeLevel: String?) {
+        val newGrade = if (_uiState.value.selectedGradeLevel == gradeLevel) null else gradeLevel
+        _uiState.update { it.copy(selectedGradeLevel = newGrade) }
+        triggerSearch(_uiState.value.query)
+    }
+
+    fun selectType(type: String?) {
+        val newType = if (_uiState.value.selectedType == type) null else type
+        _uiState.update { it.copy(selectedType = newType) }
+        triggerSearch(_uiState.value.query)
+    }
+
+    fun clearFilters() {
+        _uiState.update { it.copy(selectedSubject = null, selectedGradeLevel = null, selectedType = null) }
+        triggerSearch(_uiState.value.query)
+    }
+
+    private fun triggerSearch(query: String) {
+        searchJob?.cancel()
+        if (query.length < 2) {
             _uiState.update {
                 it.copy(
                     resources = emptyList(),
@@ -62,7 +91,7 @@ class SearchViewModel @Inject constructor(
 
         searchJob = viewModelScope.launch {
             delay(260)
-            performSearch(normalized)
+            performSearch(query)
         }
     }
 
@@ -70,7 +99,15 @@ class SearchViewModel @Inject constructor(
         _uiState.update { it.copy(isSearching = true, error = null) }
         try {
             val token = authRepository.getBearerToken()
-            val response = apiService.search(token, query, pageSize = 30)
+            val state = _uiState.value
+            val response = apiService.search(
+                bearerToken = token,
+                query = query,
+                subject = state.selectedSubject,
+                grade = state.selectedGradeLevel,
+                type = state.selectedType,
+                pageSize = 30
+            )
             val users = response.users.ifEmpty {
                 runCatching { apiService.searchUsers(token, query) }.getOrDefault(emptyList())
             }

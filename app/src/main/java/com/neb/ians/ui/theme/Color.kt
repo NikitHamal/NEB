@@ -122,7 +122,21 @@ val SubjectColors = mapOf(
 )
 
 fun getSubjectTheme(subject: String): SubjectTheme {
-    return SubjectColors[subject] ?: SubjectColors["General"]!!
+    val normalized = subject.trim()
+    val resolvedKey = when {
+        normalized.contains("Physics", ignoreCase = true) -> "Physics"
+        normalized.contains("Chemistry", ignoreCase = true) -> "Chemistry"
+        normalized.contains("Mathematics", ignoreCase = true) || normalized.contains("Math", ignoreCase = true) -> "Mathematics"
+        normalized.contains("Biology", ignoreCase = true) || normalized.contains("Microbiology", ignoreCase = true) || normalized.contains("Zoology", ignoreCase = true) -> "Biology"
+        normalized.contains("English", ignoreCase = true) -> "English"
+        normalized.contains("Nepali", ignoreCase = true) || normalized.contains("अध्ययन", ignoreCase = true) -> "Nepali"
+        normalized.contains("Computer", ignoreCase = true) || normalized.contains("Software", ignoreCase = true) || normalized.contains("Programming", ignoreCase = true) -> "Computer Science"
+        normalized.contains("Economics", ignoreCase = true) -> "Economics"
+        normalized.contains("Accountancy", ignoreCase = true) -> "Accountancy"
+        normalized.contains("Exam Tips", ignoreCase = true) -> "Exam Tips"
+        else -> "General"
+    }
+    return SubjectColors[resolvedKey] ?: SubjectColors["General"]!!
 }
 
 fun getSubjectColor(subject: String): Color = getSubjectTheme(subject).color
