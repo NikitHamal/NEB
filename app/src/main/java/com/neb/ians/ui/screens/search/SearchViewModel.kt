@@ -9,6 +9,8 @@ import com.neb.ians.data.api.ApiService
 import com.neb.ians.data.api.ApiErrorMapper
 import com.neb.ians.data.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -38,36 +40,63 @@ class SearchViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(SearchUiState())
     val uiState: StateFlow<SearchUiState> = _uiState.asStateFlow()
 
+    private var searchJob: Job? = null
+
     fun onQueryChange(query: String) {
-        _uiState.update { it.copy(query = query) }
-        if (query.length >= 2) {
-            performSearch(query)
-        } else {
-            _uiState.update { it.copy(resources = emptyList(), posts = emptyList(), users = emptyList(), isSearching = false, error = null) }
+        val normalized = query.trimStart()
+        _uiState.update { it.copy(query = normalized) }
+        searchJob?.cancel()
+
+        if (normalized.length < 2) {
+            _uiState.update {
+                it.copy(
+                    resources = emptyList(),
+                    posts = emptyList(),
+                    users = emptyList(),
+                    isSearching = false,
+                    error = null
+                )
+            }
+            return
+        }
+
+        searchJob = viewModelScope.launch {
+            delay(260)
+            performSearch(normalized)
         }
     }
 
-    private fun performSearch(query: String) {
-        viewModelScope.launch {
-            _uiState.update { it.copy(isSearching = true, error = null) }
-            try {
-                val token = authRepository.getBearerToken()
-                val response = apiService.search(token, query)
-                _uiState.update {
-                    it.copy(
-                        resources = response.resources,
-                        posts = response.posts,
-                        users = response.users,
-                        isSearching = false
-                    )
-                }
-            } catch (e: Exception) {
+    private suspend fun performSearch(query: String) {
+        _uiState.update { it.copy(isSearching = true, error = null) }
+        try {
+            val token = authRepository.getBearerToken()
+            val response = apiService.search(token, query, pageSize = 30)
+            val users = response.users.ifEmpty {
+                runCatching { apiService.searchUsers(token, query) }.getOrDefault(emptyList())
+            }
+            if (_uiState.value.query != query) return
+            _uiState.update {
+                it.copy(
+                    resources = response.resources,
+                    posts = response.posts,
+                    users = users,
+                    isSearching = false
+                )
+            }
+        } catch (e: Exception) {
+            if (_uiState.value.query == query) {
                 _uiState.update { it.copy(isSearching = false, error = ApiErrorMapper.mapException(e)) }
             }
         }
     }
 
+    override fun onCleared() {
+        searchJob?.cancel()
+        super.onCleared()
+    }
+
     fun clearSearch() {
+        searchJob?.cancel()
         _uiState.value = SearchUiState()
     }
 }
