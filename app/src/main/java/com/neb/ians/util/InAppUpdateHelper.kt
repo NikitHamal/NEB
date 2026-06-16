@@ -46,17 +46,17 @@ class InAppUpdateHelper @Inject constructor(
             }
             InstallStatus.INSTALLED -> {
                 Log.d(TAG, "Update installed successfully")
-                appUpdateManager.unregisterListener(this)
+                appUpdateManager.unregisterListener(installStateListener)
             }
             InstallStatus.FAILED -> {
                 Log.w(TAG, "Update failed: ${state.installErrorCode()}")
-                appUpdateManager.unregisterListener(this)
+                appUpdateManager.unregisterListener(installStateListener)
                 updateInfo = null
                 isChecking = false
             }
             InstallStatus.CANCELED -> {
                 Log.w(TAG, "Update cancelled by user")
-                appUpdateManager.unregisterListener(this)
+                appUpdateManager.unregisterListener(installStateListener)
                 updateInfo = null
                 isChecking = false
             }
