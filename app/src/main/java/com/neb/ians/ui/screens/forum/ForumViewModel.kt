@@ -7,6 +7,7 @@ import com.neb.ians.data.api.ApiErrorMapper
 import com.neb.ians.data.realtime.RealtimeClient
 import com.neb.ians.data.repository.AuthRepository
 import com.neb.ians.data.repository.ForumRepository
+import com.neb.ians.data.repository.AppCache
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -61,10 +62,18 @@ data class ForumUiState(
 class ForumViewModel @Inject constructor(
     private val forumRepository: ForumRepository,
     private val authRepository: AuthRepository,
-    private val realtimeClient: RealtimeClient
+    private val realtimeClient: RealtimeClient,
+    private val appCache: AppCache
 ) : ViewModel() {
 
-    private val _forumState = MutableStateFlow(ForumUiState())
+    private val _forumState = MutableStateFlow(
+        ForumUiState(
+            posts = appCache.forumPosts,
+            hasMore = appCache.forumHasMore,
+            page = appCache.forumPage,
+            isLoading = appCache.forumPosts.isEmpty()
+        )
+    )
     private var searchJob: Job? = null
     private val processingPostLikes = mutableSetOf<String>()
     private val processingBookmarks = mutableSetOf<String>()
@@ -106,18 +115,28 @@ class ForumViewModel @Inject constructor(
                     if (processingPostLikes.contains(postId)) return
                     val isThumbedUp = payload.boolField("isThumbedUp")
                     _forumState.update { state ->
-                        state.copy(posts = state.posts.map { post ->
+                        val updated = state.posts.map { post ->
                             if (post.id == postId) {
                                 if (isThumbedUp != null) post.copy(thumbsUpCount = count, isThumbedUp = isThumbedUp)
                                 else post.copy(thumbsUpCount = count)
                             } else post
-                        })
+                        }
+                        val isDefaultQuery = state.selectedCategory == null && state.searchQuery.isBlank() && state.sort == "hot"
+                        if (isDefaultQuery) {
+                            appCache.forumPosts = updated
+                        }
+                        state.copy(posts = updated)
                     }
                 }
                 "post.deleted" -> {
                     val postId = payload.stringField("post_id") ?: payload.stringField("id") ?: return
                     _forumState.update { state ->
-                        state.copy(posts = state.posts.filterNot { it.id == postId })
+                        val updated = state.posts.filterNot { it.id == postId }
+                        val isDefaultQuery = state.selectedCategory == null && state.searchQuery.isBlank() && state.sort == "hot"
+                        if (isDefaultQuery) {
+                            appCache.forumPosts = updated
+                        }
+                        state.copy(posts = updated)
                     }
                 }
             }
@@ -130,8 +149,9 @@ class ForumViewModel @Inject constructor(
         loadJob = viewModelScope.launch {
             val state = _forumState.value
             val targetPage = if (reset) 1 else state.page + 1
+            val isDefaultQuery = state.selectedCategory == null && state.searchQuery.isBlank() && state.sort == "hot"
             if (reset) {
-                _forumState.update { it.copy(isLoading = it.posts.isEmpty(), error = null, page = 1) }
+                _forumState.update { it.copy(isLoading = if (isDefaultQuery) it.posts.isEmpty() else true, error = null, page = 1) }
             } else {
                 _forumState.update { it.copy(isLoadingMore = true) }
             }
@@ -142,10 +162,11 @@ class ForumViewModel @Inject constructor(
                 search = state.searchQuery
             ).onSuccess { result ->
                 _forumState.update { current ->
+                    val merged = if (reset) result.posts else current.posts + result.posts.filter { newPost ->
+                        current.posts.none { it.id == newPost.id }
+                    }
                     current.copy(
-                        posts = if (reset) result.posts else current.posts + result.posts.filter { newPost ->
-                            current.posts.none { it.id == newPost.id }
-                        },
+                        posts = merged,
                         page = result.page,
                         hasMore = result.hasMore,
                         isLoading = false,
@@ -153,12 +174,17 @@ class ForumViewModel @Inject constructor(
                         error = null
                     )
                 }
+                if (isDefaultQuery && reset) {
+                    appCache.forumPosts = result.posts
+                    appCache.forumHasMore = result.hasMore
+                    appCache.forumPage = result.page
+                }
             }.onFailure { e ->
                 _forumState.update {
                     it.copy(
                         isLoading = false,
                         isLoadingMore = false,
-                        error = ApiErrorMapper.mapException(e)
+                        error = if (it.posts.isEmpty()) ApiErrorMapper.mapException(e) else null
                     )
                 }
             }
@@ -182,6 +208,10 @@ class ForumViewModel @Inject constructor(
                         val merged = current.posts.map { existing ->
                             val fresh = result.posts.firstOrNull { it.id == existing.id }
                             fresh ?: existing
+                        }
+                        val isDefaultQuery = current.selectedCategory == null && current.searchQuery.isBlank() && current.sort == "hot"
+                        if (isDefaultQuery) {
+                            appCache.forumPosts = merged
                         }
                         current.copy(posts = merged)
                     }
@@ -231,11 +261,16 @@ class ForumViewModel @Inject constructor(
             forumRepository.toggleLikePost(postId)
                 .onSuccess { response ->
                     _forumState.update { state ->
-                        state.copy(posts = state.posts.map { post ->
+                        val updated = state.posts.map { post ->
                             if (post.id == postId) {
                                 post.copy(thumbsUpCount = response.thumbsUpCount, isThumbedUp = response.isThumbedUp)
                             } else post
-                        })
+                        }
+                        val isDefaultQuery = state.selectedCategory == null && state.searchQuery.isBlank() && state.sort == "hot"
+                        if (isDefaultQuery) {
+                            appCache.forumPosts = updated
+                        }
+                        state.copy(posts = updated)
                     }
                 }
                 .onFailure { updatePostInList(current) }
@@ -254,9 +289,14 @@ class ForumViewModel @Inject constructor(
             forumRepository.toggleBookmark("post", postId)
                 .onSuccess { response ->
                     _forumState.update { state ->
-                        state.copy(posts = state.posts.map { post ->
+                        val updated = state.posts.map { post ->
                             if (post.id == postId) post.copy(isBookmarked = response.isBookmarked) else post
-                        })
+                        }
+                        val isDefaultQuery = state.selectedCategory == null && state.searchQuery.isBlank() && state.sort == "hot"
+                        if (isDefaultQuery) {
+                            appCache.forumPosts = updated
+                        }
+                        state.copy(posts = updated)
                     }
                 }
                 .onFailure { updatePostInList(current) }
@@ -296,8 +336,13 @@ class ForumViewModel @Inject constructor(
             forumRepository.deletePost(postId)
                 .onSuccess {
                     _forumState.update { state ->
+                        val updated = state.posts.filterNot { it.id == postId }
+                        val isDefaultQuery = state.selectedCategory == null && state.searchQuery.isBlank() && state.sort == "hot"
+                        if (isDefaultQuery) {
+                            appCache.forumPosts = updated
+                        }
                         state.copy(
-                            posts = state.posts.filterNot { it.id == postId },
+                            posts = updated,
                             snackbarMessage = "Post deleted"
                         )
                     }
@@ -312,7 +357,12 @@ class ForumViewModel @Inject constructor(
 
     private fun updatePostInList(updated: ApiPost) {
         _forumState.update { state ->
-            state.copy(posts = state.posts.map { if (it.id == updated.id) updated else it })
+            val updatedList = state.posts.map { if (it.id == updated.id) updated else it }
+            val isDefaultQuery = state.selectedCategory == null && state.searchQuery.isBlank() && state.sort == "hot"
+            if (isDefaultQuery) {
+                appCache.forumPosts = updatedList
+            }
+            state.copy(posts = updatedList)
         }
     }
 }

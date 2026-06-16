@@ -50,6 +50,8 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
+import androidx.compose.ui.graphics.RectangleShape
+
 private fun buildBadgeInfo(p: UserProfileResponse): ApiBadgeInfo? = when {
     p.isBot -> ApiBadgeInfo(type = "bot", label = "AI", color = "#7C4DFF")
     p.isAdmin -> ApiBadgeInfo(type = "admin", label = "Admin", color = "#F59E0B")
@@ -185,7 +187,9 @@ fun ProfileHeaderCard(
     onFollowClick: () -> Unit,
     onAvatarClick: () -> Unit,
     onNavigateBack: () -> Unit,
-    onAnalyticsClick: () -> Unit
+    onAnalyticsClick: () -> Unit,
+    onFollowersClick: () -> Unit,
+    onFollowingClick: () -> Unit
 ) {
     val badge = remember(profile) { buildBadgeInfo(profile) }
     val achievements = remember(profile.achievementBadges) { parseAchievements(profile.achievementBadges) }
@@ -249,7 +253,7 @@ fun ProfileHeaderCard(
 
     Surface(
         modifier = Modifier.fillMaxWidth(),
-        shape = WebPanelShape,
+        shape = RectangleShape,
         color = MaterialTheme.colorScheme.surfaceContainerLowest,
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
     ) {
@@ -286,18 +290,42 @@ fun ProfileHeaderCard(
                         )
                     }
                 }
+                Surface(
+                    modifier = Modifier
+                        .align(Alignment.TopEnd)
+                        .padding(12.dp)
+                        .size(36.dp),
+                    shape = CircleShape,
+                    color = Color.White.copy(alpha = 0.85f),
+                    shadowElevation = 2.dp
+                ) {
+                    IconButton(
+                        onClick = {
+                            clipboard.setText(AnnotatedString("https://nebians.consica.com.np/profile/${profile.username}/"))
+                            Toast.makeText(context, "Profile link copied", Toast.LENGTH_SHORT).show()
+                        },
+                        modifier = Modifier.fillMaxSize()
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.Link,
+                            contentDescription = "Copy link",
+                            tint = Color.DarkGray,
+                            modifier = Modifier.size(20.dp)
+                        )
+                    }
+                }
                 Box(
                     modifier = Modifier
                         .align(Alignment.BottomStart)
                         .padding(start = 16.dp)
-                        .offset(y = 46.dp)
+                        .offset(y = 48.dp)
                         .background(MaterialTheme.colorScheme.surfaceContainerLowest, CircleShape)
                         .padding(4.dp)
                 ) {
                     Avatar(
                         name = profile.displayName ?: profile.username,
                         imageUrl = profile.photoUrl,
-                        size = 72.dp,
+                        size = 84.dp,
                         modifier = Modifier
                             .clip(CircleShape)
                             .then(
@@ -309,27 +337,7 @@ fun ProfileHeaderCard(
             }
 
             Column(modifier = Modifier.padding(16.dp)) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 4.dp),
-                    horizontalArrangement = Arrangement.End,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    IconButton(onClick = {
-                        clipboard.setText(AnnotatedString("https://nebians.consica.com.np/profile/${profile.username}/"))
-                        Toast.makeText(context, "Profile link copied", Toast.LENGTH_SHORT).show()
-                    }) {
-                        Icon(
-                            imageVector = Icons.Outlined.Link,
-                            contentDescription = "Copy link",
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                            modifier = Modifier.size(20.dp)
-                        )
-                    }
-                }
-
-                Spacer(modifier = Modifier.height(10.dp))
+                Spacer(modifier = Modifier.height(38.dp))
 
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(
@@ -370,11 +378,11 @@ fun ProfileHeaderCard(
                 ) {
                     if (profile.isBot) {
                         ProfileStatCell("Replies", compactCount(profile.replyCount))
-                        ProfileStatCell("Followers", compactCount(followerCount))
-                        ProfileStatCell("Following", compactCount(profile.followingCount))
+                        ProfileStatCell("Followers", compactCount(followerCount), onClick = onFollowersClick)
+                        ProfileStatCell("Following", compactCount(profile.followingCount), onClick = onFollowingClick)
                     } else {
-                        ProfileStatCell("Followers", compactCount(followerCount))
-                        ProfileStatCell("Following", compactCount(profile.followingCount))
+                        ProfileStatCell("Followers", compactCount(followerCount), onClick = onFollowersClick)
+                        ProfileStatCell("Following", compactCount(profile.followingCount), onClick = onFollowingClick)
                         ProfileStatCell("Posts", compactCount(profile.postCount))
                     }
                 }
@@ -598,9 +606,19 @@ fun ProfileHeaderCard(
 }
 
 @Composable
-fun ProfileStatCell(label: String, value: String, modifier: Modifier = Modifier) {
+fun ProfileStatCell(
+    label: String,
+    value: String,
+    modifier: Modifier = Modifier,
+    onClick: (() -> Unit)? = null
+) {
+    val cellModifier = if (onClick != null) {
+        modifier.clip(RoundedCornerShape(4.dp)).clickable(onClick = onClick)
+    } else {
+        modifier
+    }
     Column(
-        modifier = modifier,
+        modifier = cellModifier,
         horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {

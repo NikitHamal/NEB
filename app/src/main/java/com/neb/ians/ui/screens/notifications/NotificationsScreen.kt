@@ -51,6 +51,7 @@ import com.neb.ians.data.api.ApiNotificationMarkReadRequest
 import com.neb.ians.data.api.ApiService
 import com.neb.ians.data.realtime.RealtimeClient
 import com.neb.ians.data.repository.AuthRepository
+import com.neb.ians.data.repository.AppCache
 import com.neb.ians.ui.components.Avatar
 import com.neb.ians.util.formatTimeAgo
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -77,15 +78,23 @@ data class NotificationsUiState(
 class NotificationsViewModel @Inject constructor(
     private val apiService: ApiService,
     private val authRepository: AuthRepository,
-    private val realtimeClient: RealtimeClient
+    private val realtimeClient: RealtimeClient,
+    private val appCache: AppCache
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(NotificationsUiState())
+    private val _uiState = MutableStateFlow(
+        NotificationsUiState(
+            notifications = appCache.notifications,
+            hasMore = appCache.notificationsHasMore,
+            page = appCache.notificationsPage,
+            isLoading = appCache.notifications.isEmpty()
+        )
+    )
     val uiState: StateFlow<NotificationsUiState> = _uiState.asStateFlow()
 
     fun loadNotifications() {
         viewModelScope.launch {
-            _uiState.update { it.copy(isLoading = true, error = null) }
+            _uiState.update { it.copy(isLoading = it.notifications.isEmpty(), error = null) }
             try {
                 val token = authRepository.getBearerToken()
                 if (token == null) {
@@ -101,8 +110,15 @@ class NotificationsViewModel @Inject constructor(
                         hasMore = response.hasMore
                     )
                 }
+                appCache.notifications = response.notifications
+                appCache.notificationsHasMore = response.hasMore
+                appCache.notificationsPage = 1
             } catch (e: Exception) {
-                _uiState.update { it.copy(isLoading = false, error = e.localizedMessage) }
+                if (_uiState.value.notifications.isEmpty()) {
+                    _uiState.update { it.copy(isLoading = false, error = e.localizedMessage) }
+                } else {
+                    _uiState.update { it.copy(isLoading = false) }
+                }
             }
             realtimeClient.refreshUnreadCount()
         }
@@ -123,9 +139,15 @@ class NotificationsViewModel @Inject constructor(
                 val response = apiService.getNotifications(token, page = nextPage)
                 _uiState.update { current ->
                     val existingIds = current.notifications.mapTo(HashSet()) { it.id }
+                    val merged = current.notifications +
+                        response.notifications.filterNot { it.id in existingIds }
+                    
+                    appCache.notifications = merged
+                    appCache.notificationsHasMore = response.hasMore
+                    appCache.notificationsPage = nextPage
+                    
                     current.copy(
-                        notifications = current.notifications +
-                            response.notifications.filterNot { it.id in existingIds },
+                        notifications = merged,
                         page = nextPage,
                         hasMore = response.hasMore,
                         isLoadingMore = false
@@ -143,7 +165,9 @@ class NotificationsViewModel @Inject constructor(
                 val token = authRepository.getBearerToken() ?: return@launch
                 apiService.markNotificationsRead(token, ApiNotificationMarkReadRequest(markAll = true))
                 _uiState.update { current ->
-                    current.copy(notifications = current.notifications.map { it.copy(isRead = true) })
+                    val updated = current.notifications.map { it.copy(isRead = true) }
+                    appCache.notifications = updated
+                    current.copy(notifications = updated)
                 }
                 realtimeClient.setUnreadCount(0)
             } catch (_: Exception) {
@@ -157,11 +181,11 @@ class NotificationsViewModel @Inject constructor(
         if (target == null || target.isRead) return
         // Optimistic: tint change immediately + drop badge locally.
         _uiState.update { current ->
-            current.copy(
-                notifications = current.notifications.map {
-                    if (it.id == notificationId) it.copy(isRead = true) else it
-                }
-            )
+            val updated = current.notifications.map {
+                if (it.id == notificationId) it.copy(isRead = true) else it
+            }
+            appCache.notifications = updated
+            current.copy(notifications = updated)
         }
         realtimeClient.setUnreadCount(realtimeClient.unreadCount.value - 1)
         viewModelScope.launch {
