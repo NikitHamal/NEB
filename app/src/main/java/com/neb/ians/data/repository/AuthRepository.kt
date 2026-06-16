@@ -12,6 +12,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Singleton
 import com.neb.ians.data.api.ApiErrorMapper
+import dagger.hilt.android.qualifiers.ApplicationContext
 
 sealed interface AuthState {
     object Loading : AuthState
@@ -22,11 +23,29 @@ sealed interface AuthState {
 
 @Singleton
 class AuthRepository @Inject constructor(
+    @ApplicationContext private val appContext: Context,
     private val dataStore: DataStore<Preferences>,
     private val apiService: com.neb.ians.data.api.ApiService
 ) {
+    private val LEGACY_AUTH_TOKEN = stringPreferencesKey("auth_token")
+
+    init {
+        kotlinx.coroutines.CoroutineScope(kotlinx.coroutines.Dispatchers.IO).launch {
+            migratePlaintextTokenToSecurePrefs()
+        }
+    }
+
+    private suspend fun migratePlaintextTokenToSecurePrefs() {
+        try {
+            val prefs = dataStore.data.first()
+            val legacyToken = prefs[LEGACY_AUTH_TOKEN]
+            if (!legacyToken.isNullOrBlank()) {
+                SecurePrefs.setAuthToken(appContext, legacyToken)
+                dataStore.edit { it.remove(LEGACY_AUTH_TOKEN) }
+            }
+        } catch (_: Exception) { }
+    }
     companion object {
-        private val AUTH_TOKEN = stringPreferencesKey("auth_token")
         private val AUTH_STATUS = stringPreferencesKey("auth_status")
         private val PROFILE_COMPLETED = booleanPreferencesKey("profile_completed")
 
@@ -66,20 +85,20 @@ class AuthRepository @Inject constructor(
 
     val authState: Flow<AuthState> = dataStore.data.map { preferences ->
         val status = preferences[AUTH_STATUS] ?: "unauthenticated"
-        val token = preferences[AUTH_TOKEN]
+        val token = SecurePrefs.getAuthToken(appContext)
         val completed = preferences[PROFILE_COMPLETED] ?: false
 
         when (status) {
             "guest" -> AuthState.Guest
             "authenticated" -> {
-                if (token != null) AuthState.Authenticated(token, completed)
+                if (!token.isNullOrBlank()) AuthState.Authenticated(token, completed)
                 else AuthState.Unauthenticated
             }
             else -> AuthState.Unauthenticated
         }
     }
 
-    val tokenFlow: Flow<String?> = dataStore.data.map { it[AUTH_TOKEN] }
+    val tokenFlow: Flow<String?> = dataStore.data.map { SecurePrefs.getAuthToken(appContext) }
     val isProfileCompletedFlow: Flow<Boolean> = dataStore.data.map { it[PROFILE_COMPLETED] ?: false }
     val currentUserNameFlow: Flow<String> = dataStore.data.map { it[USER_NAME] ?: "Student" }
     val currentUserIdFlow: Flow<String?> = dataStore.data.map { it[USER_ID] }
@@ -121,11 +140,11 @@ class AuthRepository @Inject constructor(
         )
     }
 
-    suspend fun getToken(): String? = tokenFlow.first()
+    suspend fun getToken(): String? = SecurePrefs.getAuthToken(appContext)
 
     fun getTokenSync(): String? {
         return try {
-            kotlinx.coroutines.runBlocking { tokenFlow.first() }
+            SecurePrefs.getAuthToken(appContext)
         } catch (_: Exception) { null }
     }
 
@@ -162,8 +181,8 @@ class AuthRepository @Inject constructor(
 
     suspend fun signInWithWebToken(token: String, isNewUser: Boolean, username: String?): Boolean {
         return try {
+            SecurePrefs.setAuthToken(appContext, token)
             dataStore.edit { prefs ->
-                prefs[AUTH_TOKEN] = token
                 prefs[AUTH_STATUS] = "authenticated"
                 prefs[PROFILE_COMPLETED] = !isNewUser
                 prefs[USER_NAME] = username ?: ""
@@ -180,8 +199,8 @@ class AuthRepository @Inject constructor(
     }
 
     private suspend fun cacheUser(user: com.neb.ians.data.api.UserProfileResponse, authToken: String, isNewUser: Boolean) {
+        SecurePrefs.setAuthToken(appContext, authToken)
         dataStore.edit { prefs ->
-            prefs[AUTH_TOKEN] = authToken
             prefs[AUTH_STATUS] = "authenticated"
             prefs[USER_ID] = user.id
             prefs[USER_EMAIL] = user.email ?: ""
@@ -219,9 +238,9 @@ class AuthRepository @Inject constructor(
     }
 
     suspend fun continueAsGuest() {
+        SecurePrefs.clearAuthToken(appContext)
         dataStore.edit { prefs ->
             prefs[AUTH_STATUS] = "guest"
-            prefs[AUTH_TOKEN] = ""
             prefs[PROFILE_COMPLETED] = false
             prefs[USER_ID] = "guest_user"
             prefs[USER_NAME] = "Guest"
@@ -338,7 +357,7 @@ class AuthRepository @Inject constructor(
             }
             if (response.status == "success") {
                 response.authToken?.let { newToken ->
-                    dataStore.edit { prefs -> prefs[AUTH_TOKEN] = newToken }
+                    SecurePrefs.setAuthToken(appContext, newToken)
                 }
                 PasswordResult.Success
             } else {
@@ -441,9 +460,9 @@ class AuthRepository @Inject constructor(
     }
 
     suspend fun logout() {
+        SecurePrefs.clearAuthToken(appContext)
         dataStore.edit { prefs ->
             prefs[AUTH_STATUS] = "unauthenticated"
-            prefs[AUTH_TOKEN] = ""
             prefs[PROFILE_COMPLETED] = false
             prefs[USER_ID] = ""
             prefs[USER_NAME] = "Student"
