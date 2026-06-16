@@ -491,7 +491,7 @@ data class ApiBadgeInfo(
 @Serializable
 data class ApiFollowItem(
     val id: String,
-    @SerialName("created_at") val createdAt: String = "",
+    @SerialName("created_at") val createdAt: Long = 0,
     @SerialName("follower_username") val followerUsername: String? = null,
     @SerialName("follower_photo_url") val followerPhotoUrl: String? = null,
     @SerialName("follower_display_name") val followerDisplayName: String? = null,
