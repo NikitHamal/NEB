@@ -84,3 +84,7 @@ nebians-release.keystore
 nebiansnepal-firebase-adminsdk-*.json
 firebase-service-account.json
 
+# Scratch directories
+backend_python/scratch/
+
+

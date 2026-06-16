@@ -46,6 +46,14 @@
             </intent-filter>
         </activity>
 
+        <!-- Default notification icon and color for Firebase Cloud Messaging -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_notification" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/notification_icon_color" />
+
         <!-- Firebase Cloud Messaging Service -->
         <service
             android:name=".util.NEBiansFCMService"
