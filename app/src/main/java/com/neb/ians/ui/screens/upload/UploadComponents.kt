@@ -528,7 +528,7 @@ fun UploadSuccessScreen(
         Spacer(modifier = Modifier.height(24.dp))
         Text("Submitted for Review!", style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.ExtraBold)
         Spacer(modifier = Modifier.height(8.dp))
-        Text("Your resource will be reviewed before being published. This helps keep resources high quality.", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant, textAlign = androidx.compose.ui.text.TextAlign.Center)
+        Text("Your resource will be reviewed before being published. This helps keep resources high quality.", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant, textAlign = TextAlign.Center)
         Spacer(modifier = Modifier.height(32.dp))
         Button(
             onClick = onUploadAnother,

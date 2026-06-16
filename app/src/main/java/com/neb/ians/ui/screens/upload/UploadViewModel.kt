@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -22,7 +22,7 @@ import java.io.File
 import java.io.FileOutputStream
 import javax.inject.Inject
 
-private val TEXT_PLAIN: okhttp3.MediaType? = try { "text/plain".toMediaType() } catch (_: Exception) { null }
+private val TEXT_PLAIN: okhttp3.MediaType? = "text/plain".toMediaTypeOrNull()
 
 data class UploadFormState(
     val title: String = "",
@@ -322,9 +322,9 @@ class UploadViewModel @Inject constructor(
         }
     }
 
-    private fun contentTypeFromName(name: String): String {
+    private fun contentTypeFromName(name: String): okhttp3.MediaType? {
         val ext = name.substringAfterLast('.', "").lowercase()
-        return when (ext) {
+        val mime = when (ext) {
             "pdf" -> "application/pdf"
             "doc" -> "application/msword"
             "docx" -> "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
@@ -341,6 +341,7 @@ class UploadViewModel @Inject constructor(
             "zip" -> "application/zip"
             else -> "application/octet-stream"
         }
+        return mime.toMediaTypeOrNull()
     }
 
     fun getFileInfo(context: Context, uri: Uri): Pair<String, Long>? {
