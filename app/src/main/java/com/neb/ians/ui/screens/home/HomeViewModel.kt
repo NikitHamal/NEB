@@ -10,6 +10,7 @@ import com.neb.ians.data.realtime.RealtimeClient
 import com.neb.ians.data.repository.AuthRepository
 import com.neb.ians.data.repository.ForumRepository
 import com.neb.ians.data.repository.SettingsRepository
+import com.neb.ians.data.repository.AppCache
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -41,14 +42,15 @@ class HomeViewModel @Inject constructor(
     private val authRepository: AuthRepository,
     private val settingsRepository: SettingsRepository,
     private val forumRepository: ForumRepository,
-    private val realtimeClient: RealtimeClient
+    private val realtimeClient: RealtimeClient,
+    private val appCache: AppCache
 ) : ViewModel() {
 
-    private val _isLoading = MutableStateFlow(true)
+    private val _isLoading = MutableStateFlow(appCache.recentResources.isEmpty() && appCache.recentPosts.isEmpty())
     private val _error = MutableStateFlow<String?>(null)
-    private val _recentResources = MutableStateFlow<List<ApiResource>>(emptyList())
-    private val _popularResources = MutableStateFlow<List<ApiResource>>(emptyList())
-    private val _recentPosts = MutableStateFlow<List<ApiPost>>(emptyList())
+    private val _recentResources = MutableStateFlow<List<ApiResource>>(appCache.recentResources)
+    private val _popularResources = MutableStateFlow<List<ApiResource>>(appCache.popularResources)
+    private val _recentPosts = MutableStateFlow<List<ApiPost>>(appCache.recentPosts)
     private val processingPostLikes = mutableSetOf<String>()
     private val processingBookmarks = mutableSetOf<String>()
     private var unsubscribeForum: (() -> Unit)? = null
@@ -78,16 +80,17 @@ class HomeViewModel @Inject constructor(
             val count = (payload["thumbs_up_count"] as? kotlinx.serialization.json.JsonPrimitive)?.intOrNull ?: return
             if (processingPostLikes.contains(postId)) return
             _recentPosts.update { posts ->
-                posts.map { post ->
+                val updated = posts.map { post ->
                     if (post.id == postId) post.copy(thumbsUpCount = count) else post
                 }
+                appCache.recentPosts = updated
+                updated
             }
         } catch (_: Exception) {}
     }
 
     private fun loadData() {
         viewModelScope.launch {
-            _isLoading.value = true
             _error.value = null
             try {
                 val token = authRepository.getBearerToken()
@@ -99,11 +102,18 @@ class HomeViewModel @Inject constructor(
                 val resourcesResult = apiService.getResources(token, sort = "newest", page = 1)
                 val popularResult = apiService.getResources(token, sort = "relevant", page = 1)
                 val postsResult = apiService.getPosts(token)
+                
                 _recentResources.value = resourcesResult.resources
                 _popularResources.value = popularResult.resources
                 _recentPosts.value = postsResult.posts
+                
+                appCache.recentResources = resourcesResult.resources
+                appCache.popularResources = popularResult.resources
+                appCache.recentPosts = postsResult.posts
             } catch (e: Exception) {
-                _error.value = ApiErrorMapper.mapException(e)
+                if (_recentResources.value.isEmpty()) {
+                    _error.value = ApiErrorMapper.mapException(e)
+                }
             }
             _isLoading.value = false
         }
@@ -121,17 +131,29 @@ class HomeViewModel @Inject constructor(
             isThumbedUp = !current.isThumbedUp,
             thumbsUpCount = (current.thumbsUpCount + if (current.isThumbedUp) -1 else 1).coerceAtLeast(0)
         )
-        _recentPosts.update { posts -> posts.map { if (it.id == postId) optimistic else it } }
+        _recentPosts.update { posts ->
+            val updated = posts.map { if (it.id == postId) optimistic else it }
+            appCache.recentPosts = updated
+            updated
+        }
         viewModelScope.launch {
             forumRepository.toggleLikePost(postId)
                 .onSuccess { response ->
                     _recentPosts.update { posts ->
-                        posts.map { post ->
+                        val updated = posts.map { post ->
                             if (post.id == postId) post.copy(thumbsUpCount = response.thumbsUpCount, isThumbedUp = response.isThumbedUp) else post
                         }
+                        appCache.recentPosts = updated
+                        updated
                     }
                 }
-                .onFailure { _recentPosts.update { posts -> posts.map { if (it.id == postId) current else it } } }
+                .onFailure {
+                    _recentPosts.update { posts ->
+                        val updated = posts.map { if (it.id == postId) current else it }
+                        appCache.recentPosts = updated
+                        updated
+                    }
+                }
             processingPostLikes.remove(postId)
         }
     }
@@ -141,17 +163,29 @@ class HomeViewModel @Inject constructor(
         val current = _recentPosts.value.firstOrNull { it.id == postId } ?: return
         processingBookmarks.add(postId)
         val optimistic = current.copy(isBookmarked = !(current.isBookmarked == true))
-        _recentPosts.update { posts -> posts.map { if (it.id == postId) optimistic else it } }
+        _recentPosts.update { posts ->
+            val updated = posts.map { if (it.id == postId) optimistic else it }
+            appCache.recentPosts = updated
+            updated
+        }
         viewModelScope.launch {
             forumRepository.toggleBookmark("post", postId)
                 .onSuccess { response ->
                     _recentPosts.update { posts ->
-                        posts.map { post ->
+                        val updated = posts.map { post ->
                             if (post.id == postId) post.copy(isBookmarked = response.isBookmarked) else post
                         }
+                        appCache.recentPosts = updated
+                        updated
                     }
                 }
-                .onFailure { _recentPosts.update { posts -> posts.map { if (it.id == postId) current else it } } }
+                .onFailure {
+                    _recentPosts.update { posts ->
+                        val updated = posts.map { if (it.id == postId) current else it }
+                        appCache.recentPosts = updated
+                        updated
+                    }
+                }
             processingBookmarks.remove(postId)
         }
     }

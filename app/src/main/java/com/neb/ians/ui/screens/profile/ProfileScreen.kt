@@ -87,7 +87,9 @@ fun ProfileScreen(
                     onLoadMoreResources = { viewModel.loadResources(reset = false) },
                     onAvatarClick = viewModel::openPhotoGallery,
                     onNavigateBack = onNavigateBack,
-                    onAnalyticsClick = onAnalyticsClick
+                    onAnalyticsClick = onAnalyticsClick,
+                    onFollowersClick = viewModel::openFollowers,
+                    onFollowingClick = viewModel::openFollowing
                 )
             }
         }
@@ -101,6 +103,26 @@ fun ProfileScreen(
             onDismiss = viewModel::closePhotoGallery,
             onActivatePhoto = viewModel::activatePhoto,
             onUploadPhoto = viewModel::uploadPhoto
+        )
+    }
+
+    if (uiState.showFollowersList) {
+        FollowersDialog(
+            title = "Followers",
+            users = uiState.followersList,
+            isLoading = uiState.followersLoading,
+            onDismiss = viewModel::closeFollowers,
+            onUserClick = onFollowerClick
+        )
+    }
+
+    if (uiState.showFollowingList) {
+        FollowersDialog(
+            title = "Following",
+            users = uiState.followingList,
+            isLoading = uiState.followingLoading,
+            onDismiss = viewModel::closeFollowing,
+            onUserClick = onFollowerClick
         )
     }
 }
@@ -118,7 +140,9 @@ private fun ProfileContent(
     onLoadMoreResources: () -> Unit,
     onAvatarClick: () -> Unit,
     onNavigateBack: () -> Unit,
-    onAnalyticsClick: () -> Unit
+    onAnalyticsClick: () -> Unit,
+    onFollowersClick: () -> Unit,
+    onFollowingClick: () -> Unit
 ) {
     val profile = uiState.profile ?: return
     val isSelf = profile.isSelf == true
@@ -139,13 +163,17 @@ private fun ProfileContent(
                 onFollowClick = onFollowClick,
                 onAvatarClick = onAvatarClick,
                 onNavigateBack = onNavigateBack,
-                onAnalyticsClick = onAnalyticsClick
+                onAnalyticsClick = onAnalyticsClick,
+                onFollowersClick = onFollowersClick,
+                onFollowingClick = onFollowingClick
             )
         }
 
         if (isPrivate) {
             item(key = "private") {
-                PrivateProfileNotice()
+                Box(modifier = Modifier.padding(horizontal = 8.dp)) {
+                    PrivateProfileNotice()
+                }
             }
         } else {
             item(key = "tabs") {
@@ -208,80 +236,112 @@ private fun ProfileContent(
                 0 -> {
                     if (uiState.posts.isEmpty() && !uiState.postsLoading && uiState.postsLoaded) {
                         item(key = "posts_empty") {
-                            ProfileEmptyTabBox(
-                                title = "No activity yet",
-                                message = "Posts and replies will appear here",
-                                icon = Icons.Outlined.Edit
-                            )
+                            Box(modifier = Modifier.padding(horizontal = 8.dp)) {
+                                ProfileEmptyTabBox(
+                                    title = "No activity yet",
+                                    message = "Posts and replies will appear here",
+                                    icon = Icons.Outlined.Edit
+                                )
+                            }
                         }
                     }
                     items(uiState.posts.size, key = { idx -> "post_${uiState.posts[idx].id}" }) { idx ->
                         val post = uiState.posts[idx]
-                        ProfilePostCard(post = post, onClick = { onPostClick(post.id) })
+                        Box(modifier = Modifier.padding(horizontal = 8.dp)) {
+                            ProfilePostCard(post = post, onClick = { onPostClick(post.id) })
+                        }
                     }
                     if (uiState.postsLoading) {
                         item(key = "posts_loading") { ProfileProgressIndicator() }
                     } else if (uiState.postsHasMore) {
-                        item(key = "posts_more") { ProfileLoadMoreButton(onLoadMorePosts) }
+                        item(key = "posts_more") {
+                            Box(modifier = Modifier.padding(horizontal = 8.dp)) {
+                                ProfileLoadMoreButton(onLoadMorePosts)
+                            }
+                        }
                     }
                 }
                 1 -> {
                     if (uiState.replies.isEmpty() && !uiState.repliesLoading && uiState.repliesLoaded) {
                         item(key = "replies_empty") {
-                            ProfileEmptyTabBox(
-                                title = "No activity yet",
-                                message = "Posts and replies will appear here",
-                                icon = Icons.Outlined.ChatBubbleOutline
-                              )
+                            Box(modifier = Modifier.padding(horizontal = 8.dp)) {
+                                ProfileEmptyTabBox(
+                                    title = "No activity yet",
+                                    message = "Posts and replies will appear here",
+                                    icon = Icons.Outlined.ChatBubbleOutline
+                                )
+                            }
                         }
                     }
                     items(uiState.replies.size, key = { idx -> "reply_${uiState.replies[idx].id}" }) { idx ->
                         val reply = uiState.replies[idx]
-                        ProfileReplyCard(reply = reply, onClick = { onPostClick(reply.postId) })
+                        Box(modifier = Modifier.padding(horizontal = 8.dp)) {
+                            ProfileReplyCard(reply = reply, onClick = { onPostClick(reply.postId) })
+                        }
                     }
                     if (uiState.repliesLoading) {
                         item(key = "replies_loading") { ProfileProgressIndicator() }
                     } else if (uiState.repliesHasMore) {
-                        item(key = "replies_more") { ProfileLoadMoreButton(onLoadMoreReplies) }
+                        item(key = "replies_more") {
+                            Box(modifier = Modifier.padding(horizontal = 8.dp)) {
+                                ProfileLoadMoreButton(onLoadMoreReplies)
+                            }
+                        }
                     }
                 }
                 2 -> {
                     if (uiState.resources.isEmpty() && !uiState.resourcesLoading && uiState.resourcesLoaded) {
                         item(key = "resources_empty") {
-                            ProfileEmptyTabBox(
-                                title = "No activity yet",
-                                message = "Posts and replies will appear here",
-                                icon = Icons.Outlined.FolderOpen
-                            )
+                            Box(modifier = Modifier.padding(horizontal = 8.dp)) {
+                                ProfileEmptyTabBox(
+                                    title = "No activity yet",
+                                    message = "Posts and replies will appear here",
+                                    icon = Icons.Outlined.FolderOpen
+                                )
+                            }
                         }
                     }
                     items(uiState.resources.size, key = { idx -> "res_${uiState.resources[idx].id}" }) { idx ->
                         val resource = uiState.resources[idx]
-                        WebResourceCard(
-                            resource = resource,
-                            onClick = { onResourceClick(resource.id) },
-                            minWidth = null,
-                            modifier = Modifier.padding(vertical = 4.dp)
-                        )
+                        Box(modifier = Modifier.padding(horizontal = 8.dp)) {
+                            WebResourceCard(
+                                resource = resource,
+                                onClick = { onResourceClick(resource.id) },
+                                minWidth = null,
+                                modifier = Modifier.padding(vertical = 4.dp)
+                            )
+                        }
                     }
                     if (uiState.resourcesLoading) {
                         item(key = "resources_loading") { ProfileProgressIndicator() }
                     } else if (uiState.resourcesHasMore) {
-                        item(key = "resources_more") { ProfileLoadMoreButton(onLoadMoreResources) }
+                        item(key = "resources_more") {
+                            Box(modifier = Modifier.padding(horizontal = 8.dp)) {
+                                ProfileLoadMoreButton(onLoadMoreResources)
+                            }
+                        }
                     }
                 }
                 3 -> {
                     item(key = "about_stats") {
-                        AboutStatsCard(profile = profile)
+                        Box(modifier = Modifier.padding(horizontal = 8.dp)) {
+                            AboutStatsCard(profile = profile)
+                        }
                     }
                     item(key = "about_achievements") {
-                        AboutAchievementsCard(profile = profile)
+                        Box(modifier = Modifier.padding(horizontal = 8.dp)) {
+                            AboutAchievementsCard(profile = profile)
+                        }
                     }
                     item(key = "about_details") {
-                        AboutDetailsCard(profile = profile)
+                        Box(modifier = Modifier.padding(horizontal = 8.dp)) {
+                            AboutDetailsCard(profile = profile)
+                        }
                     }
                     item(key = "about_progress") {
-                        AboutProgressCard(profile = profile)
+                        Box(modifier = Modifier.padding(horizontal = 8.dp)) {
+                            AboutProgressCard(profile = profile)
+                        }
                     }
                 }
             }
