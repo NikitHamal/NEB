@@ -66,7 +66,7 @@ fun UploadScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
-    val scrollBehavior = TopAppBarDefaults.pinnedScrollState(rememberTopAppBarState())
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
 
     var showSubjectPicker by remember { mutableStateOf(false) }
     var showTagPicker by remember { mutableStateOf(false) }
@@ -167,9 +167,10 @@ fun UploadScreen(
             item {
                 UploadFileCard(
                     uiState = uiState,
-                    onPickFiles = { filePicker.launch("*/*") },
-                    onRemoveFile = viewModel::removeFileAt,
-                    onClearFiles = viewModel::clearFiles
+                    viewModel = viewModel,
+                    onPickFiles = onPickFiles,
+                    onRemoveFile = onRemoveFile,
+                    onClearFiles = onClearFiles
                 )
             }
 
@@ -390,6 +391,7 @@ private fun GradeAndExamRow(
 @Composable
 private fun UploadFileCard(
     uiState: UploadFormState,
+    viewModel: UploadViewModel,
     onPickFiles: () -> Unit,
     onRemoveFile: (Int) -> Unit,
     onClearFiles: () -> Unit
