@@ -1416,6 +1416,7 @@ interface ApiService {
 
             val client = OkHttpClient.Builder()
                 .addInterceptor(logger)
+                .addInterceptor(RetryInterceptor(maxRetries = 2, initialBackoffMs = 500))
                 .addInterceptor(WafChallengeInterceptor(context))
                 .addInterceptor { chain ->
                     val request = chain.request().newBuilder()
