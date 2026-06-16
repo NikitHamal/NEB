@@ -1,7 +1,6 @@
 package com.neb.ians.ui.screens.upload
 
 import androidx.compose.animation.animateContentSize
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -12,8 +11,9 @@ import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -23,20 +23,17 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.CloudUpload
-import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.ListItem
-import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
@@ -213,7 +210,7 @@ private fun FileList(
                 }
                 TextButton(onClick = onClear) {
                     Icon(
-                        imageVector = Icons.Filled.Delete,
+                        imageVector = Icons.Filled.Clear,
                         contentDescription = null,
                         modifier = Modifier.size(18.dp)
                     )
@@ -301,7 +298,6 @@ fun ChipPickerDialog(
             it.contains(searchQuery, ignoreCase = true)
         }
     }
-    val showCustomRow = allowCustom && (searchQuery.isNotBlank() || customInput.isNotBlank())
 
     Dialog(onDismissRequest = onDismiss) {
         Surface(
@@ -310,7 +306,9 @@ fun ChipPickerDialog(
             modifier = Modifier.fillMaxWidth(0.92f)
         ) {
             Column(
-                modifier = Modifier.padding(20.dp),
+                modifier = Modifier
+                    .padding(20.dp)
+                    .imePadding(),
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 Row(
@@ -358,24 +356,6 @@ fun ChipPickerDialog(
                     singleLine = true
                 )
 
-                if (showCustomRow) {
-                    CustomAddRow(
-                        value = customInput,
-                        onValueChange = { customInput = it },
-                        placeholder = customPlaceholder,
-                        onAdd = {
-                            val trimmed = customInput.trim()
-                            if (trimmed.isNotBlank() && !localSelected.any {
-                                it.equals(trimmed, ignoreCase = true)
-                            }) {
-                                localSelected = (localSelected + trimmed).toMutableList()
-                            }
-                            customInput = ""
-                            searchQuery = ""
-                        }
-                    )
-                }
-
                 if (localSelected.isNotEmpty()) {
                     FlowRow(
                         horizontalArrangement = Arrangement.spacedBy(6.dp),
@@ -422,40 +402,92 @@ fun ChipPickerDialog(
                 ) {
                     items(filteredItems, key = { it }) { item ->
                         val selected = localSelected.any { it.equals(item, ignoreCase = true) }
-                        ListItem(
-                            headlineContent = {
-                                Text(
-                                    text = item,
-                                    style = MaterialTheme.typography.bodyMedium,
-                                    fontWeight = if (selected) FontWeight.SemiBold else FontWeight.Normal
-                                )
-                            },
-                            leadingContent = {
-                                Checkbox(
-                                    checked = selected,
-                                    onCheckedChange = {
-                                        localSelected = if (selected) {
-                                            localSelected.filter { !it.equals(item, ignoreCase = true) }.toMutableList()
-                                        } else {
-                                            (localSelected + item).toMutableList()
-                                        }
-                                    }
-                                )
-                            },
+                        val toggle = {
+                            localSelected = if (selected) {
+                                localSelected.filter { !it.equals(item, ignoreCase = true) }.toMutableList()
+                            } else {
+                                (localSelected + item).toMutableList()
+                            }
+                        }
+                        Row(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .clip(RoundedCornerShape(12.dp))
-                                .clickable {
-                                    localSelected = if (selected) {
-                                        localSelected.filter { !it.equals(item, ignoreCase = true) }.toMutableList()
-                                    } else {
-                                        (localSelected + item).toMutableList()
-                                    }
-                                },
-                            colors = ListItemDefaults.colors(
-                                containerColor = if (selected) MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.3f) else Color.Transparent
+                                .clickable(onClick = toggle)
+                                .padding(horizontal = 8.dp, vertical = 10.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(12.dp)
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .size(24.dp)
+                                    .clip(CircleShape)
+                                    .background(if (selected) MaterialTheme.colorScheme.primary else Color.Transparent),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                if (selected) {
+                                    Icon(
+                                        imageVector = Icons.Filled.Check,
+                                        contentDescription = null,
+                                        tint = MaterialTheme.colorScheme.onPrimary,
+                                        modifier = Modifier.size(16.dp)
+                                    )
+                                }
+                            }
+                            Text(
+                                text = item,
+                                style = MaterialTheme.typography.bodyMedium,
+                                fontWeight = if (selected) FontWeight.SemiBold else FontWeight.Normal,
+                                color = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
                             )
-                        )
+                        }
+                    }
+                }
+
+                if (allowCustom) {
+                    Surface(
+                        shape = RoundedCornerShape(12.dp),
+                        color = MaterialTheme.colorScheme.surfaceContainerLow
+                    ) {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(8.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            OutlinedTextField(
+                                value = customInput,
+                                onValueChange = { customInput = it },
+                                placeholder = { Text(customPlaceholder) },
+                                modifier = Modifier.weight(1f),
+                                singleLine = true
+                            )
+                            Button(
+                                onClick = {
+                                    val trimmed = customInput.trim()
+                                    if (trimmed.isNotBlank() && !localSelected.any {
+                                        it.equals(trimmed, ignoreCase = true)
+                                    }) {
+                                        localSelected = (localSelected + trimmed).toMutableList()
+                                    }
+                                    customInput = ""
+                                },
+                                shape = CircleShape,
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                                    contentColor = MaterialTheme.colorScheme.onSecondaryContainer
+                                )
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Filled.Add,
+                                    contentDescription = "Add",
+                                    modifier = Modifier.size(18.dp)
+                                )
+                                Spacer(modifier = Modifier.width(4.dp))
+                                Text("Add")
+                            }
+                        }
                     }
                 }
 
@@ -472,43 +504,6 @@ fun ChipPickerDialog(
                     )
                 }
             }
-        }
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun CustomAddRow(
-    value: String,
-    onValueChange: (String) -> Unit,
-    placeholder: String,
-    onAdd: () -> Unit
-) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        OutlinedTextField(
-            value = value,
-            onValueChange = onValueChange,
-            label = { Text(placeholder) },
-            modifier = Modifier.weight(1f),
-            singleLine = true
-        )
-        Button(
-            onClick = onAdd,
-            shape = CircleShape,
-            colors = ButtonDefaults.buttonColors(
-                containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                contentColor = MaterialTheme.colorScheme.onSecondaryContainer
-            )
-        ) {
-            Icon(
-                imageVector = Icons.Filled.Add,
-                contentDescription = "Add",
-                modifier = Modifier.size(18.dp)
-            )
         }
     }
 }
