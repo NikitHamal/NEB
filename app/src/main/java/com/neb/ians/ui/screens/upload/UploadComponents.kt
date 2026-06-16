@@ -1,13 +1,14 @@
 package com.neb.ians.ui.screens.upload
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
@@ -25,13 +26,14 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material.icons.filled.ExpandMore
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MenuAnchorType
 import androidx.compose.material3.OutlinedTextField
@@ -45,9 +47,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -58,63 +59,53 @@ import com.neb.ians.ui.components.NebFilledButton
 import com.neb.ians.ui.theme.getSubjectColor
 
 @Composable
-fun StepHeader(
-    stepNumber: Int,
+fun StepTitle(
+    number: Int,
     title: String,
-    subtitle: String? = null,
+    subtitle: String,
     optional: Boolean = false
 ) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(12.dp)
-    ) {
-        Surface(
-            shape = CircleShape,
-            color = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.size(28.dp)
-        ) {
-            Box(contentAlignment = Alignment.Center) {
-                Text(
-                    text = stepNumber.toString(),
-                    color = MaterialTheme.colorScheme.onPrimary,
-                    fontWeight = FontWeight.Bold,
-                    style = MaterialTheme.typography.labelLarge
-                )
-            }
-        }
-        Column(modifier = Modifier.weight(1f)) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(
-                    text = title,
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onSurface
-                )
-                if (optional) {
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Surface(
-                        shape = RoundedCornerShape(6.dp),
-                        color = MaterialTheme.colorScheme.secondaryContainer
-                    ) {
-                        Text(
-                            text = "optional",
-                            style = MaterialTheme.typography.labelSmall,
-                            fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.colorScheme.onSecondaryContainer,
-                            modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
-                        )
-                    }
+    Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text(
+                text = "Step $number",
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.primary,
+                fontWeight = FontWeight.Bold,
+                maxLines = 1
+            )
+            if (optional) {
+                Spacer(modifier = Modifier.width(6.dp))
+                Surface(
+                    shape = RoundedCornerShape(4.dp),
+                    color = MaterialTheme.colorScheme.secondaryContainer
+                ) {
+                    Text(
+                        text = "OPTIONAL",
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onSecondaryContainer,
+                        fontWeight = FontWeight.Bold,
+                        maxLines = 1,
+                        modifier = Modifier.padding(horizontal = 5.dp, vertical = 1.dp)
+                    )
                 }
             }
-            if (subtitle != null) {
-                Text(
-                    text = subtitle,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            }
         }
+        Text(
+            text = title,
+            style = MaterialTheme.typography.titleLarge,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.onSurface,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
+        )
+        Text(
+            text = subtitle,
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
+        )
     }
 }
 
@@ -138,8 +129,8 @@ fun DropdownField(
             value = value,
             onValueChange = {},
             readOnly = true,
-            label = { Text(label) },
-            placeholder = placeholder?.let { { Text(it) } },
+            label = { Text(label, maxLines = 1, overflow = TextOverflow.Ellipsis) },
+            placeholder = placeholder?.let { { Text(it, maxLines = 1, overflow = TextOverflow.Ellipsis) } },
             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
             modifier = Modifier
                 .fillMaxWidth()
@@ -155,10 +146,13 @@ fun DropdownField(
                 DropdownMenuItem(
                     text = {
                         Text(
-                            option.ifBlank { "—" },
+                            text = option.ifBlank { "—" },
                             style = MaterialTheme.typography.bodyMedium,
                             fontWeight = if (option == value) FontWeight.SemiBold else FontWeight.Normal,
-                            color = if (option == value) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
+                            color = if (option == value) MaterialTheme.colorScheme.primary
+                            else MaterialTheme.colorScheme.onSurface,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
                         )
                     },
                     onClick = {
@@ -241,12 +235,18 @@ fun AttributeChipRow(
                 Text(
                     text = label,
                     style = MaterialTheme.typography.labelLarge,
-                    color = if (error != null) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurfaceVariant
+                    color = if (error != null) MaterialTheme.colorScheme.error
+                    else MaterialTheme.colorScheme.onSurfaceVariant,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.weight(1f)
                 )
                 Text(
                     text = if (values.isEmpty()) placeholder else "${values.size} selected",
                     style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f)
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
             }
 
@@ -274,6 +274,8 @@ fun AttributeChipRow(
                     text = error,
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.error,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
                     modifier = Modifier.padding(top = 2.dp)
                 )
             }
@@ -296,9 +298,9 @@ private fun SubjectChip(
         modifier = Modifier.height(32.dp)
     ) {
         Row(
-            modifier = Modifier.padding(start = 14.dp, end = 4.dp),
+            modifier = Modifier.padding(start = 12.dp, end = 4.dp),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(2.dp)
+            horizontalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             Surface(
                 shape = CircleShape,
@@ -312,17 +314,16 @@ private fun SubjectChip(
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
-            IconButton(
-                onClick = onRemove,
-                modifier = Modifier.size(24.dp)
-            ) {
-                Icon(
-                    imageVector = Icons.Filled.Clear,
-                    contentDescription = "Remove",
-                    tint = subjectColor.copy(alpha = 0.9f),
-                    modifier = Modifier.size(16.dp)
-                )
-            }
+            Icon(
+                imageVector = Icons.Filled.Clear,
+                contentDescription = "Remove",
+                tint = subjectColor.copy(alpha = 0.9f),
+                modifier = Modifier
+                    .size(24.dp)
+                    .clip(CircleShape)
+                    .clickable(onClick = onRemove)
+                    .padding(4.dp)
+            )
         }
     }
 }
@@ -337,7 +338,7 @@ private fun AddChip(onClick: () -> Unit) {
             .clickable(onClick = onClick)
     ) {
         Row(
-            modifier = Modifier.padding(horizontal = 14.dp),
+            modifier = Modifier.padding(horizontal = 12.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(4.dp)
         ) {
@@ -350,147 +351,408 @@ private fun AddChip(onClick: () -> Unit) {
             Text(
                 text = "Add",
                 style = MaterialTheme.typography.labelLarge,
-                color = MaterialTheme.colorScheme.onSecondaryContainer
+                color = MaterialTheme.colorScheme.onSecondaryContainer,
+                maxLines = 1
             )
         }
     }
 }
 
 @Composable
-fun MoreDetailsSection(
-    expanded: Boolean,
-    onToggle: () -> Unit,
-    faculty: String,
-    onFacultyChange: (String) -> Unit,
-    program: String,
-    onProgramChange: (String) -> Unit,
-    year: String,
-    onYearChange: (String) -> Unit,
-    school: String,
-    onSchoolChange: (String) -> Unit,
-    pradesh: String,
-    onPradeshChange: (String) -> Unit,
-    district: String,
-    onDistrictChange: (String) -> Unit
-) {
+fun StepCard(content: @Composable ColumnScope.() -> Unit) {
     NebCard(
-        shape = RoundedCornerShape(16.dp),
-        containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
-        border = null
+        shape = RoundedCornerShape(20.dp),
+        containerColor = MaterialTheme.colorScheme.surfaceContainerLowest,
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
+        modifier = Modifier.fillMaxWidth()
     ) {
-        Column(modifier = Modifier.fillMaxWidth()) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+                .animateContentSize(),
+            verticalArrangement = Arrangement.spacedBy(14.dp),
+            content = content
+        )
+    }
+}
+
+@Composable
+fun BasicsStep(
+    uiState: UploadFormState,
+    viewModel: UploadViewModel,
+    onOpenSubjectPicker: () -> Unit
+) {
+    StepCard {
+        StepTitle(
+            number = 1,
+            title = "Basics",
+            subtitle = "Title, subject and type"
+        )
+        OutlinedTextField(
+            value = uiState.title,
+            onValueChange = viewModel::updateTitle,
+            label = { Text("Title *", maxLines = 1) },
+            placeholder = {
+                Text(
+                    "e.g. Class 12 Computer Final Exam 2081",
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+            },
+            isError = uiState.titleError != null,
+            supportingText = uiState.titleError?.let { { Text(it, maxLines = 1) } },
+            modifier = Modifier.fillMaxWidth(),
+            singleLine = true
+        )
+
+        val subjects = uiState.subject.asCsvList()
+        AttributeChipRow(
+            label = "Subject *",
+            placeholder = "Choose at least one",
+            values = subjects,
+            onRemove = { removed ->
+                viewModel.updateSubject(subjects.filter { it != removed }.joinToString(", "))
+            },
+            onAddClick = onOpenSubjectPicker,
+            error = uiState.subjectError,
+            accentColor = subjects.firstOrNull()?.let { getSubjectColor(it) }
+        )
+
+        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Text(
+                text = "Resource type",
+                style = MaterialTheme.typography.labelLarge,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                maxLines = 1
+            )
+            ResourceTypeChips(
+                selected = uiState.type,
+                options = UploadViewModel.RESOURCE_TYPES,
+                onSelect = viewModel::updateType
+            )
+        }
+
+        GradeAndExamRow(uiState = uiState, viewModel = viewModel)
+    }
+}
+
+@Composable
+private fun GradeAndExamRow(
+    uiState: UploadFormState,
+    viewModel: UploadViewModel
+) {
+    val showExamType = uiState.type in listOf(
+        "Past Paper", "Model Paper", "Guide", "Solution", "Note", "PDF"
+    )
+    if (showExamType) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            DropdownField(
+                label = "Level / Grade",
+                value = uiState.gradeLevel,
+                options = UploadViewModel.GRADE_LEVELS,
+                onValueChange = viewModel::updateGradeLevel,
+                modifier = Modifier.weight(1f)
+            )
+            DropdownField(
+                label = "Exam Type",
+                value = uiState.examType,
+                options = UploadViewModel.EXAM_TYPES,
+                onValueChange = viewModel::updateExamType,
+                modifier = Modifier.weight(1f)
+            )
+        }
+    } else {
+        DropdownField(
+            label = "Level / Grade",
+            value = uiState.gradeLevel,
+            options = UploadViewModel.GRADE_LEVELS,
+            onValueChange = viewModel::updateGradeLevel,
+            modifier = Modifier.fillMaxWidth()
+        )
+    }
+}
+
+@Composable
+fun FilesStep(
+    uiState: UploadFormState,
+    viewModel: UploadViewModel,
+    onPickFiles: () -> Unit,
+    onRemoveFile: (Int) -> Unit,
+    onClearFiles: () -> Unit
+) {
+    StepCard {
+        StepTitle(
+            number = 2,
+            title = "Files",
+            subtitle = "Upload or paste a link"
+        )
+        FileDropzone(
+            selectedFiles = uiState.selectedFiles,
+            fileError = uiState.fileError,
+            onPickFiles = onPickFiles,
+            onRemoveFile = onRemoveFile,
+            onClearFiles = onClearFiles
+        )
+        LinkAlternativeFields(uiState = uiState, viewModel = viewModel)
+    }
+}
+
+@Composable
+private fun LinkAlternativeFields(
+    uiState: UploadFormState,
+    viewModel: UploadViewModel
+) {
+    val enabled = uiState.selectedFiles.isEmpty()
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        HorizontalDivider(modifier = Modifier.weight(1f))
+        Text(
+            text = "or paste a link",
+            style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            maxLines = 1
+        )
+        HorizontalDivider(modifier = Modifier.weight(1f))
+    }
+    OutlinedTextField(
+        value = uiState.fileUrl,
+        onValueChange = viewModel::updateFileUrl,
+        label = { Text("File URL", maxLines = 1) },
+        placeholder = {
+            Text(
+                "https://drive.google.com/...",
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+        },
+        modifier = Modifier.fillMaxWidth(),
+        singleLine = true,
+        enabled = enabled,
+        supportingText = if (!enabled) {
+            { Text("Remove selected files to use a link instead", maxLines = 1) }
+        } else null
+    )
+    OutlinedTextField(
+        value = uiState.thumbnailUrl,
+        onValueChange = viewModel::updateThumbnailUrl,
+        label = { Text("Thumbnail URL (optional)", maxLines = 1) },
+        placeholder = {
+            Text(
+                "https://... cover image",
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+        },
+        modifier = Modifier.fillMaxWidth(),
+        singleLine = true
+    )
+}
+
+@Composable
+fun DetailsStep(
+    uiState: UploadFormState,
+    viewModel: UploadViewModel,
+    onOpenTagPicker: () -> Unit
+) {
+    StepCard {
+        StepTitle(
+            number = 3,
+            title = "Details",
+            subtitle = "Description and tags",
+            optional = true
+        )
+        OutlinedTextField(
+            value = uiState.description,
+            onValueChange = viewModel::updateDescription,
+            label = { Text("Description", maxLines = 1) },
+            placeholder = {
+                Text(
+                    "Briefly describe this resource...",
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+            },
+            modifier = Modifier.fillMaxWidth(),
+            minLines = 3,
+            maxLines = 5
+        )
+        AttributeChipRow(
+            label = "Tags",
+            placeholder = "Add tags",
+            values = uiState.tags.asCsvList(),
+            onRemove = { removed ->
+                viewModel.updateTags(uiState.tags.asCsvList().filter { it != removed }.joinToString(", "))
+            },
+            onAddClick = onOpenTagPicker
+        )
+    }
+}
+
+@Composable
+fun AttributionStep(
+    uiState: UploadFormState,
+    viewModel: UploadViewModel
+) {
+    StepCard {
+        StepTitle(
+            number = 4,
+            title = "Attribution",
+            subtitle = "Credit the original source",
+            optional = true
+        )
+        OutlinedTextField(
+            value = uiState.authorName,
+            onValueChange = viewModel::updateAuthorName,
+            label = { Text("Author / Credit", maxLines = 1) },
+            placeholder = {
+                Text(
+                    "e.g. Prof. Sharma, Curriculum Board",
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+            },
+            modifier = Modifier.fillMaxWidth(),
+            singleLine = true
+        )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            OutlinedTextField(
+                value = uiState.sourceLabel,
+                onValueChange = viewModel::updateSourceLabel,
+                label = { Text("Source Label", maxLines = 1) },
+                placeholder = {
+                    Text(
+                        "e.g. Curriculum Board",
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                },
+                modifier = Modifier.weight(1f),
+                singleLine = true
+            )
+            OutlinedTextField(
+                value = uiState.sourceUrl,
+                onValueChange = viewModel::updateSourceUrl,
+                label = { Text("Source URL", maxLines = 1) },
+                placeholder = {
+                    Text("https://...", maxLines = 1, overflow = TextOverflow.Ellipsis)
+                },
+                modifier = Modifier.weight(1f),
+                singleLine = true
+            )
+        }
+    }
+}
+
+@Composable
+fun ReviewStep(
+    uiState: UploadFormState,
+    onEdit: (Int) -> Unit
+) {
+    StepCard {
+        StepTitle(
+            number = 5,
+            title = "Review",
+            subtitle = "Confirm and submit"
+        )
+        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            ReviewRow(label = "Title", value = uiState.title.ifBlank { "—" }, onEdit = { onEdit(0) })
+            ReviewRow(label = "Subject", value = uiState.subject.ifBlank { "—" }, onEdit = { onEdit(0) })
+            ReviewRow(label = "Type", value = uiState.type.ifBlank { "—" }, onEdit = { onEdit(0) })
+            ReviewRow(label = "Grade", value = uiState.gradeLevel.ifBlank { "—" }, onEdit = { onEdit(0) })
+            ReviewRow(
+                label = "Files",
+                value = if (uiState.selectedFiles.isNotEmpty())
+                    "${uiState.selectedFiles.size} file${if (uiState.selectedFiles.size == 1) "" else "s"}"
+                else uiState.fileUrl.ifBlank { "—" },
+                onEdit = { onEdit(1) }
+            )
+            ReviewRow(label = "Description", value = uiState.description.ifBlank { "—" }, onEdit = { onEdit(2) })
+            ReviewRow(label = "Tags", value = uiState.tags.ifBlank { "—" }, onEdit = { onEdit(2) })
+            ReviewRow(label = "Author", value = uiState.authorName.ifBlank { "—" }, onEdit = { onEdit(3) })
+        }
+        Surface(
+            shape = RoundedCornerShape(12.dp),
+            color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f),
+            modifier = Modifier.fillMaxWidth()
+        ) {
             Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable(onClick = onToggle)
-                    .padding(horizontal = 16.dp, vertical = 14.dp),
+                modifier = Modifier.padding(12.dp),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(10.dp)
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Surface(
-                    shape = CircleShape,
-                    color = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.size(28.dp)
-                ) {
-                    Box(contentAlignment = Alignment.Center) {
-                        Text(
-                            text = "+",
-                            color = MaterialTheme.colorScheme.onPrimary,
-                            fontWeight = FontWeight.Bold,
-                            style = MaterialTheme.typography.labelLarge
-                        )
-                    }
-                }
-                Column(modifier = Modifier.weight(1f)) {
-                    Text(
-                        text = "More Details",
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.Bold
-                    )
-                    Text(
-                        text = "Faculty, program, school, location",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
                 Icon(
-                    imageVector = Icons.Filled.ExpandMore,
-                    contentDescription = if (expanded) "Collapse" else "Expand",
-                    modifier = Modifier
-                        .size(22.dp)
-                        .rotate(if (expanded) 180f else 0f),
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                    imageVector = Icons.Default.Info,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.size(20.dp)
+                )
+                Text(
+                    text = "Your upload will be reviewed before being published.",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.weight(1f)
                 )
             }
-            AnimatedVisibility(visible = expanded) {
-                Column(
-                    modifier = Modifier.padding(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(14.dp)
-                ) {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(12.dp)
-                    ) {
-                        OutlinedTextField(
-                            value = faculty,
-                            onValueChange = onFacultyChange,
-                            label = { Text("Faculty / Stream") },
-                            placeholder = { Text("e.g. Science") },
-                            modifier = Modifier.weight(1f),
-                            singleLine = true
-                        )
-                        OutlinedTextField(
-                            value = program,
-                            onValueChange = onProgramChange,
-                            label = { Text("Program / Course") },
-                            placeholder = { Text("e.g. BSc CSIT") },
-                            modifier = Modifier.weight(1f),
-                            singleLine = true
-                        )
-                    }
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(12.dp)
-                    ) {
-                        OutlinedTextField(
-                            value = year,
-                            onValueChange = onYearChange,
-                            label = { Text("Year") },
-                            placeholder = { Text("e.g. 2081") },
-                            modifier = Modifier.weight(1f),
-                            singleLine = true
-                        )
-                        OutlinedTextField(
-                            value = school,
-                            onValueChange = onSchoolChange,
-                            label = { Text("School / College") },
-                            placeholder = { Text("e.g. St. Xavier's") },
-                            modifier = Modifier.weight(1f),
-                            singleLine = true
-                        )
-                    }
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(12.dp)
-                    ) {
-                        DropdownField(
-                            label = "Province",
-                            value = pradesh,
-                            options = UploadViewModel.PROVINCES,
-                            onValueChange = onPradeshChange,
-                            modifier = Modifier.weight(1f)
-                        )
-                        OutlinedTextField(
-                            value = district,
-                            onValueChange = onDistrictChange,
-                            label = { Text("District") },
-                            placeholder = { Text("e.g. Kathmandu") },
-                            modifier = Modifier.weight(1f),
-                            singleLine = true
-                        )
-                    }
-                }
-            }
+        }
+    }
+}
+
+@Composable
+private fun ReviewRow(
+    label: String,
+    value: String,
+    onEdit: () -> Unit
+) {
+    Surface(
+        shape = RoundedCornerShape(10.dp),
+        color = MaterialTheme.colorScheme.surfaceContainerLow,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 12.dp, vertical = 10.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Text(
+                text = label,
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                fontWeight = FontWeight.SemiBold,
+                maxLines = 1,
+                modifier = Modifier.width(80.dp)
+            )
+            Text(
+                text = value,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurface,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.weight(1f)
+            )
+            Icon(
+                imageVector = Icons.Filled.Edit,
+                contentDescription = "Edit",
+                tint = MaterialTheme.colorScheme.primary,
+                modifier = Modifier
+                    .size(20.dp)
+                    .clip(CircleShape)
+                    .clickable(onClick = onEdit)
+                    .padding(2.dp)
+            )
         }
     }
 }
@@ -526,14 +788,17 @@ fun UploadSuccessScreen(
             text = "Submitted for Review!",
             style = MaterialTheme.typography.headlineSmall,
             fontWeight = FontWeight.Bold,
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
+            maxLines = 1
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
             text = "Your resource will be reviewed before being published. This helps keep resources high quality.",
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
+            maxLines = 3,
+            overflow = TextOverflow.Ellipsis
         )
         Spacer(modifier = Modifier.height(32.dp))
         NebFilledButton(
@@ -546,7 +811,8 @@ fun UploadSuccessScreen(
             Text(
                 text = "Browse Library",
                 fontWeight = FontWeight.SemiBold,
-                style = MaterialTheme.typography.labelLarge
+                style = MaterialTheme.typography.labelLarge,
+                maxLines = 1
             )
         }
     }
