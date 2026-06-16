@@ -22,6 +22,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -69,6 +71,8 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.neb.ians.data.repository.AuthRepository
 import com.neb.ians.data.repository.AuthState
+import com.neb.ians.util.DeepLinkBus
+import kotlinx.coroutines.launch
 import com.neb.ians.ui.components.LiquidGlassBottomNav
 import com.neb.ians.ui.components.NebNavItem
 import com.neb.ians.ui.screens.home.HomeScreen
@@ -204,6 +208,27 @@ fun NEBiansNavHost(
                 }
             }
             else -> {}
+        }
+    }
+
+    val deepLinkScope = rememberCoroutineScope()
+    val pendingDeepLink by DeepLinkBus.pendingDeepLink.collectAsState()
+    LaunchedEffect(pendingDeepLink, isAuthenticated) {
+        if (!isAuthenticated) return@LaunchedEffect
+        val deepLink = pendingDeepLink ?: return@LaunchedEffect
+        DeepLinkBus.clear()
+        val route = deepLink.route ?: return@LaunchedEffect
+
+        navController.navigate(route) {
+            launchSingleTop = true
+        }
+
+        if (!deepLink.notificationId.isNullOrBlank()) {
+            deepLinkScope.launch {
+                try {
+                    authRepository.markNotificationRead(deepLink.notificationId)
+                } catch (_: Exception) {}
+            }
         }
     }
 
@@ -427,6 +452,9 @@ fun NEBiansNavHost(
                     },
                     onProfileClick = { username ->
                         navController.navigate(Screen.Profile.createRoute(username))
+                    },
+                    onResourceClick = { resourceId ->
+                        navController.navigate(Screen.ResourceDetail.createRoute(resourceId))
                     }
                 )
             }

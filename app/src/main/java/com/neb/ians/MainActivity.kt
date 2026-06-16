@@ -15,7 +15,9 @@ import com.neb.ians.data.repository.AuthRepository
 import com.neb.ians.ui.NEBiansNavHost
 import com.neb.ians.ui.theme.NEBiansTheme
 import com.neb.ians.ui.screens.settings.SettingsViewModel
+import com.neb.ians.util.DeepLinkBus
 import com.neb.ians.util.InAppUpdateHelper
+import com.neb.ians.util.NotificationDeepLink
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -33,7 +35,6 @@ class MainActivity : ComponentActivity() {
         handleIntent(intent)
         inAppUpdateHelper.checkForUpdate(this)
 
-        // Request runtime permission for notifications on Android 13+ (Tiramisu, API 33)
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
             if (androidx.core.content.ContextCompat.checkSelfPermission(
                     this,
@@ -48,7 +49,6 @@ class MainActivity : ComponentActivity() {
             }
         }
 
-        // Refresh profile and sync FCM token in background on startup if authenticated
         lifecycleScope.launch {
             try {
                 val token = authRepository.getToken()
@@ -122,8 +122,14 @@ class MainActivity : ComponentActivity() {
                     Toast.makeText(this, "Sign-in error: $error", Toast.LENGTH_LONG).show()
                 }
             }
-            
-            // Clear the intent data so it doesn't re-trigger on configuration changes
+
+            setIntent(Intent())
+            return
+        }
+
+        val notificationDeepLink = NotificationDeepLink.fromIntent(intent)
+        if (notificationDeepLink != null) {
+            DeepLinkBus.emit(notificationDeepLink)
             setIntent(Intent())
         }
     }
