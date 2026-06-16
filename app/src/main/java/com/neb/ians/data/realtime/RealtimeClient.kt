@@ -151,9 +151,15 @@ class RealtimeClient @Inject constructor(
                 continue
             }
             val token = authRepository.getToken()
+            val cookieManager = android.webkit.CookieManager.getInstance()
+            val currentCookies = cookieManager.getCookie("https://nebians.consica.com.np/")
             val request = Request.Builder()
                 .url(url)
-                .apply { if (!token.isNullOrBlank()) header("Authorization", "Bearer $token") }
+                .header("User-Agent", "Mozilla/5.0 (Linux; Android 11; Build/RQ3A.210705.001) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Mobile Safari/537.36")
+                .apply { 
+                    if (!token.isNullOrBlank()) header("Authorization", "Bearer $token")
+                    if (!currentCookies.isNullOrEmpty()) header("Cookie", currentCookies)
+                }
                 .build()
 
             val closed = kotlinx.coroutines.CompletableDeferred<Unit>()

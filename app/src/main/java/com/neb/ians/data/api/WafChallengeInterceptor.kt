@@ -35,7 +35,7 @@ class WafChallengeInterceptor(private val context: Context) : Interceptor {
 
         // Apply Chrome-like browser headers
         val requestBuilder = originalRequest.newBuilder()
-            .header("User-Agent", "NEBians-Android/1.0.0 (Linux; Android 11; Chrome/125.0.0.0)")
+            .header("User-Agent", "Mozilla/5.0 (Linux; Android 11; Build/RQ3A.210705.001) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Mobile Safari/537.36")
             .header("Accept", "application/json, text/plain, */*")
             .header("Accept-Language", "en-US,en;q=0.9")
             .header("Connection", "keep-alive")
@@ -84,7 +84,7 @@ class WafChallengeInterceptor(private val context: Context) : Interceptor {
                     cachedCookies = solvedCookies
 
                     val retriedRequest = originalRequest.newBuilder()
-                        .header("User-Agent", "NEBians-Android/1.0.0 (Linux; Android 11; Chrome/125.0.0.0)")
+                        .header("User-Agent", "Mozilla/5.0 (Linux; Android 11; Build/RQ3A.210705.001) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Mobile Safari/537.36")
                         .header("Accept", "application/json, text/plain, */*")
                         .header("Accept-Language", "en-US,en;q=0.9")
                         .header("Connection", "keep-alive")
@@ -129,7 +129,7 @@ class WafChallengeInterceptor(private val context: Context) : Interceptor {
                 settings.javaScriptEnabled = true
                 settings.domStorageEnabled = true
                 settings.databaseEnabled = true
-                settings.userAgentString = "NEBians-Android/1.0.0 (Linux; Android 11; Chrome/125.0.0.0)"
+                settings.userAgentString = "Mozilla/5.0 (Linux; Android 11; Build/RQ3A.210705.001) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Mobile Safari/537.36"
 
                 val cookieManager = CookieManager.getInstance()
                 cookieManager.setAcceptCookie(true)
