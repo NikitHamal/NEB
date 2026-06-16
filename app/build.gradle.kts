@@ -90,6 +90,10 @@ android {
     }
 }
 
+ksp {
+    arg("room.schemaLocation", "$projectDir/schemas")
+}
+
 dependencies {
     // Compose BOM
     val composeBom = platform("androidx.compose:compose-bom:2024.12.01")
@@ -139,6 +143,9 @@ dependencies {
 
 // DataStore Preferences
     implementation("androidx.datastore:datastore-preferences:1.1.1")
+
+// Encrypted SharedPreferences (auth token security)
+    implementation("androidx.security:security-crypto:1.1.0-alpha06")
 
 // WorkManager
     implementation("androidx.work:work-runtime-ktx:2.10.0")
