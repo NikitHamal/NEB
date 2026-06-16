@@ -10,7 +10,7 @@ import com.neb.ians.data.local.entity.BookmarkEntity
         BookmarkEntity::class
     ],
     version = 1,
-    exportSchema = false
+    exportSchema = true
 )
 abstract class NEBiansDatabase : RoomDatabase() {
     abstract fun bookmarkDao(): BookmarkDao
