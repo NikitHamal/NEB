@@ -481,6 +481,26 @@ data class ApiBadgeInfo(
     val color: String? = null
 )
 
+@Serializable
+data class ApiFollowItem(
+    val id: String,
+    @SerialName("created_at") val createdAt: String = "",
+    @SerialName("follower_username") val followerUsername: String? = null,
+    @SerialName("follower_photo_url") val followerPhotoUrl: String? = null,
+    @SerialName("follower_display_name") val followerDisplayName: String? = null,
+    @SerialName("following_username") val followingUsername: String? = null,
+    @SerialName("following_photo_url") val followingPhotoUrl: String? = null,
+    @SerialName("following_display_name") val followingDisplayName: String? = null
+)
+
+@Serializable
+data class ApiFollowListResponse(
+    val count: Int = 0,
+    val next: String? = null,
+    val previous: String? = null,
+    val results: List<ApiFollowItem> = emptyList()
+)
+
 /** Mini profile shown in the user popover (long-press a username/avatar). */
 @Serializable
 data class ApiUserPopup(
@@ -747,13 +767,13 @@ interface ApiService {
     suspend fun getFollowers(
         @Header("Authorization") bearerToken: String?,
         @Path("userId") userId: String
-    ): List<UserProfileResponse>
+    ): ApiFollowListResponse
 
     @GET("api/users/{userId}/following/")
     suspend fun getFollowing(
         @Header("Authorization") bearerToken: String?,
         @Path("userId") userId: String
-    ): List<UserProfileResponse>
+    ): ApiFollowListResponse
 
     @GET("api/users/me/photos/")
     suspend fun getUserPhotos(
