@@ -390,6 +390,7 @@ data class ApiPostImage(
 data class ApiReply(
     val id: String,
     @SerialName("postId") val postId: String,
+    @SerialName("postTitle") val postTitle: String = "",
     @SerialName("parentReplyId") val parentReplyId: String? = null,
     val content: String,
     @SerialName("authorName") val authorName: String,
