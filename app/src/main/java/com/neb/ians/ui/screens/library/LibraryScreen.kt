@@ -30,6 +30,7 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.CloudUpload
 import androidx.compose.material.icons.outlined.FilterList
 import androidx.compose.material.icons.outlined.ExpandMore
 import androidx.compose.material3.CircularProgressIndicator
@@ -78,7 +79,7 @@ import com.neb.ians.ui.components.WafWarningBanner
 import com.neb.ians.ui.components.ShimmerLibraryGrid
 import com.neb.ians.ui.components.WebChip
 import com.neb.ians.ui.components.WebEmptyState
-import com.neb.ians.ui.components.WebOutlinedButton
+
 import com.neb.ians.ui.components.WebPanelShape
 import com.neb.ians.ui.components.WebPillShape
 import com.neb.ians.ui.components.WebResourceCard
@@ -140,17 +141,41 @@ fun LibraryScreen(
                     )
                 }
                 if (currentTab == "library") {
-                    WebOutlinedButton(
-                        text = "Upload",
-                        onClick = onUploadClick,
-                        modifier = Modifier.heightIn(min = 40.dp)
-                    )
-                    WebOutlinedButton(
-                        text = if (hasActiveFilters) "Filters on" else "Filters",
-                        onClick = { showFilterSheet = true },
-                        modifier = Modifier.heightIn(min = 40.dp),
-                        imageVector = Icons.Outlined.FilterList
-                    )
+                    Surface(
+                        shape = CircleShape,
+                        color = Color.Transparent,
+                        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
+                        modifier = Modifier.size(40.dp)
+                    ) {
+                        IconButton(
+                            onClick = onUploadClick,
+                            modifier = Modifier.size(40.dp)
+                        ) {
+                            Icon(
+                                Icons.Outlined.CloudUpload,
+                                contentDescription = "Upload",
+                                modifier = Modifier.size(20.dp)
+                            )
+                        }
+                    }
+                    Surface(
+                        shape = CircleShape,
+                        color = if (hasActiveFilters) MaterialTheme.colorScheme.primaryContainer else Color.Transparent,
+                        border = BorderStroke(1.dp, if (hasActiveFilters) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline),
+                        modifier = Modifier.size(40.dp)
+                    ) {
+                        IconButton(
+                            onClick = { showFilterSheet = true },
+                            modifier = Modifier.size(40.dp)
+                        ) {
+                            Icon(
+                                Icons.Outlined.FilterList,
+                                contentDescription = "Filters",
+                                tint = if (hasActiveFilters) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
+                                modifier = Modifier.size(20.dp)
+                            )
+                        }
+                    }
                 }
             }
 
