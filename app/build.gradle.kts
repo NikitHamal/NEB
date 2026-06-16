@@ -168,6 +168,10 @@ dependencies {
 // Browser (Custom Tabs for GitHub OAuth)
     implementation("androidx.browser:browser:1.8.0")
 
+// Google Play In-App Update
+    implementation("com.google.android.play:app-update:2.1.0")
+    implementation("com.google.android.play:app-update-ktx:2.1.0")
+
     // Testing
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

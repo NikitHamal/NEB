@@ -15,6 +15,7 @@ import com.neb.ians.data.repository.AuthRepository
 import com.neb.ians.ui.NEBiansNavHost
 import com.neb.ians.ui.theme.NEBiansTheme
 import com.neb.ians.ui.screens.settings.SettingsViewModel
+import com.neb.ians.util.InAppUpdateHelper
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -24,11 +25,13 @@ class MainActivity : ComponentActivity() {
 
     @Inject lateinit var authRepository: AuthRepository
     @Inject lateinit var realtimeClient: RealtimeClient
+    @Inject lateinit var inAppUpdateHelper: InAppUpdateHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         handleIntent(intent)
+        inAppUpdateHelper.checkForUpdate(this)
 
         // Request runtime permission for notifications on Android 13+ (Tiramisu, API 33)
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
@@ -71,20 +74,32 @@ class MainActivity : ComponentActivity() {
 
     override fun onStart() {
         super.onStart()
-        // Live updates: posts/likes/replies/notifications over WebSocket.
+        inAppUpdateHelper.onResume(this)
         realtimeClient.start()
     }
 
     override fun onStop() {
         super.onStop()
-        // Save battery/data when the app is backgrounded; FCM covers pushes.
         realtimeClient.stop()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        inAppUpdateHelper.release()
     }
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         setIntent(intent)
         handleIntent(intent)
+    }
+
+    @Suppress("DEPRECATION")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == InAppUpdateHelper.REQUEST_CODE_UPDATE) {
+            inAppUpdateHelper.onActivityResult(resultCode)
+        }
     }
 
     private fun handleIntent(intent: Intent) {
