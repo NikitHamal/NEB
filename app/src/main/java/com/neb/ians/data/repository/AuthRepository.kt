@@ -476,6 +476,35 @@ class AuthRepository @Inject constructor(
     }
 
     fun syncFcmToken() {
+        kotlinx.coroutines.CoroutineScope(kotlinx.coroutines.Dispatchers.IO).launch {
+            try {
+                val fcmRefreshedKey = booleanPreferencesKey("fcm_project_refreshed_nebiansnepal_v2")
+                val prefs = dataStore.data.first()
+                val isRefreshed = prefs[fcmRefreshedKey] ?: false
+                if (!isRefreshed) {
+                    try {
+                        com.google.firebase.messaging.FirebaseMessaging.getInstance().deleteToken()
+                            .addOnCompleteListener { task ->
+                                kotlinx.coroutines.CoroutineScope(kotlinx.coroutines.Dispatchers.IO).launch {
+                                    try {
+                                        dataStore.edit { it[fcmRefreshedKey] = true }
+                                        fetchAndRegisterNewToken()
+                                    } catch (_: Exception) {}
+                                }
+                            }
+                    } catch (e: Exception) {
+                        fetchAndRegisterNewToken()
+                    }
+                } else {
+                    fetchAndRegisterNewToken()
+                }
+            } catch (e: Exception) {
+                fetchAndRegisterNewToken()
+            }
+        }
+    }
+
+    private fun fetchAndRegisterNewToken() {
         try {
             com.google.firebase.messaging.FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
                 if (task.isSuccessful) {

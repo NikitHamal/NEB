@@ -110,8 +110,8 @@ def _send_fcm_batch(tokens, title, body, data=None):
                 resp = session.post(url, json=payload, headers=headers, timeout=5)
                 if resp.status_code == 200:
                     logger.debug("FCM: Successfully sent to token %s...", fcm_token[:15])
-                elif resp.status_code in (404, 410):
-                    logger.info("FCM: Token is expired/invalid (status %d). Deleting from database.", resp.status_code)
+                elif resp.status_code in (404, 410) or (resp.status_code == 403 and "SENDER_ID_MISMATCH" in resp.text):
+                    logger.info("FCM: Token is expired/invalid/mismatched (status %d). Deleting from database.", resp.status_code)
                     from api.models import FCMToken
                     FCMToken.objects.filter(token=fcm_token).delete()
                 else:
