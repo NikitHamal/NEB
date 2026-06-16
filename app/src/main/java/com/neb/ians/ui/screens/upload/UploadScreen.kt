@@ -168,9 +168,9 @@ fun UploadScreen(
                 UploadFileCard(
                     uiState = uiState,
                     viewModel = viewModel,
-                    onPickFiles = onPickFiles,
-                    onRemoveFile = onRemoveFile,
-                    onClearFiles = onClearFiles
+                    onPickFiles = { filePicker.launch("application/*") },
+                    onRemoveFile = viewModel::removeFileAt,
+                    onClearFiles = viewModel::clearFiles
                 )
             }
 
