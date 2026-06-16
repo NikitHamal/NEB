@@ -83,6 +83,7 @@ import com.neb.ians.ui.components.WebPanelShape
 import com.neb.ians.ui.components.WebPillShape
 import com.neb.ians.ui.components.WebResourceCard
 import com.neb.ians.ui.components.WebTopBar
+import com.neb.ians.ui.components.getMaterialIcon
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -797,9 +798,11 @@ private fun InteractiveCategorySection(
                         .background(accent.copy(alpha = 0.12f), WebPanelShape),
                     contentAlignment = Alignment.Center
                 ) {
-                    Text(
-                        text = category.icon.ifBlank { "*" },
-                        style = MaterialTheme.typography.titleLarge
+                    Icon(
+                        imageVector = getMaterialIcon(category.icon),
+                        contentDescription = null,
+                        tint = accent,
+                        modifier = Modifier.size(24.dp)
                     )
                 }
                 Column(modifier = Modifier.weight(1f)) {
@@ -869,7 +872,12 @@ private fun InteractiveCourseCard(
                         .background(accent.copy(alpha = 0.12f), WebPanelShape),
                     contentAlignment = Alignment.Center
                 ) {
-                    Text(text = course.icon.ifBlank { "*" }, style = MaterialTheme.typography.titleMedium)
+                    Icon(
+                        imageVector = getMaterialIcon(course.icon),
+                        contentDescription = null,
+                        tint = accent,
+                        modifier = Modifier.size(22.dp)
+                    )
                 }
                 Surface(shape = WebPillShape, color = accent.copy(alpha = 0.12f)) {
                     Text(
