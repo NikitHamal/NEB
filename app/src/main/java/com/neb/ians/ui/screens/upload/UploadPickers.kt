@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -57,6 +56,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import com.neb.ians.ui.components.NebCard
 import com.neb.ians.ui.components.NebFilledButton
 
@@ -81,16 +81,16 @@ fun FileDropzone(
 
     NebCard(
         modifier = modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(20.dp),
+        shape = RoundedCornerShape(16.dp),
         containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
         border = null
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
+                .padding(12.dp)
                 .animateContentSize(),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+            verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             if (selectedFiles.isEmpty()) {
                 EmptyDropzone(
@@ -111,7 +111,9 @@ fun FileDropzone(
                 Text(
                     text = fileError,
                     color = MaterialTheme.colorScheme.error,
-                    style = MaterialTheme.typography.labelSmall
+                    style = MaterialTheme.typography.labelSmall,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis
                 )
             }
         }
@@ -124,11 +126,11 @@ private fun EmptyDropzone(
     dashStroke: Stroke,
     onClick: () -> Unit
 ) {
-    val cornerRadius = 16.dp
+    val cornerRadius = 14.dp
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .heightIn(min = 160.dp)
+            .heightIn(min = 140.dp)
             .drawBehind {
                 drawRoundRect(
                     color = dashedColor,
@@ -138,24 +140,24 @@ private fun EmptyDropzone(
             }
             .clip(RoundedCornerShape(cornerRadius))
             .clickable(onClick = onClick)
-            .padding(28.dp),
+            .padding(24.dp),
         contentAlignment = Alignment.Center
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(10.dp)
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Surface(
                 shape = CircleShape,
                 color = MaterialTheme.colorScheme.primaryContainer,
-                modifier = Modifier.size(64.dp)
+                modifier = Modifier.size(56.dp)
             ) {
                 Box(contentAlignment = Alignment.Center) {
                     Icon(
                         imageVector = Icons.Filled.CloudUpload,
                         contentDescription = null,
                         tint = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.size(32.dp)
+                        modifier = Modifier.size(28.dp)
                     )
                 }
             }
@@ -163,13 +165,16 @@ private fun EmptyDropzone(
                 text = "Tap to upload files",
                 style = MaterialTheme.typography.titleSmall,
                 fontWeight = FontWeight.SemiBold,
-                color = MaterialTheme.colorScheme.onSurface
+                color = MaterialTheme.colorScheme.onSurface,
+                maxLines = 1
             )
             Text(
                 text = "PDF, DOC, images, videos — up to 50 MB each, max 5 files",
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis
             )
         }
     }
@@ -184,7 +189,7 @@ private fun FileList(
 ) {
     Column(
         modifier = Modifier.fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(10.dp)
+        verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -194,7 +199,9 @@ private fun FileList(
             Text(
                 text = "${files.size} file${if (files.size == 1) "" else "s"} selected",
                 style = MaterialTheme.typography.labelLarge,
-                color = MaterialTheme.colorScheme.onSurface
+                color = MaterialTheme.colorScheme.onSurface,
+                fontWeight = FontWeight.SemiBold,
+                maxLines = 1
             )
             Row {
                 if (files.size < UploadViewModel.MAX_FILES) {
@@ -202,48 +209,48 @@ private fun FileList(
                         Icon(
                             imageVector = Icons.Filled.Add,
                             contentDescription = null,
-                            modifier = Modifier.size(18.dp)
+                            modifier = Modifier.size(16.dp)
                         )
                         Spacer(modifier = Modifier.width(4.dp))
-                        Text("Add more")
+                        Text("Add", maxLines = 1)
                     }
                 }
                 TextButton(onClick = onClear) {
                     Icon(
                         imageVector = Icons.Filled.Clear,
                         contentDescription = null,
-                        modifier = Modifier.size(18.dp)
+                        modifier = Modifier.size(16.dp)
                     )
                     Spacer(modifier = Modifier.width(4.dp))
-                    Text("Clear")
+                    Text("Clear", maxLines = 1)
                 }
             }
         }
 
         files.forEachIndexed { index, file ->
             NebCard(
-                shape = RoundedCornerShape(12.dp),
+                shape = RoundedCornerShape(10.dp),
                 containerColor = MaterialTheme.colorScheme.surfaceContainerHighest,
                 border = null
             ) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(12.dp),
+                        .padding(10.dp),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                    horizontalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     Surface(
-                        shape = RoundedCornerShape(10.dp),
+                        shape = RoundedCornerShape(8.dp),
                         color = MaterialTheme.colorScheme.primaryContainer,
-                        modifier = Modifier.size(44.dp)
+                        modifier = Modifier.size(40.dp)
                     ) {
                         Box(contentAlignment = Alignment.Center) {
                             Icon(
                                 imageVector = Icons.Filled.Description,
                                 contentDescription = null,
                                 tint = MaterialTheme.colorScheme.primary,
-                                modifier = Modifier.size(24.dp)
+                                modifier = Modifier.size(22.dp)
                             )
                         }
                     }
@@ -258,18 +265,19 @@ private fun FileList(
                         Text(
                             text = formatFileSize(file.size),
                             style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            maxLines = 1
                         )
                     }
                     IconButton(
                         onClick = { onRemove(index) },
-                        modifier = Modifier.size(36.dp)
+                        modifier = Modifier.size(32.dp)
                     ) {
                         Icon(
                             imageVector = Icons.Filled.Close,
                             contentDescription = "Remove",
                             tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                            modifier = Modifier.size(20.dp)
+                            modifier = Modifier.size(18.dp)
                         )
                     }
                 }
@@ -294,19 +302,24 @@ fun ChipPickerDialog(
     var localSelected by remember(selectedItems) { mutableStateOf(selectedItems.toMutableList()) }
 
     val filteredItems = remember(items, searchQuery) {
-        if (searchQuery.isBlank()) items else items.filter {
-            it.contains(searchQuery, ignoreCase = true)
-        }
+        if (searchQuery.isBlank()) items
+        else items.filter { it.contains(searchQuery, ignoreCase = true) }
     }
 
-    Dialog(onDismissRequest = onDismiss) {
+    Dialog(
+        onDismissRequest = onDismiss,
+        properties = DialogProperties(usePlatformDefaultWidth = false)
+    ) {
         Surface(
-            shape = RoundedCornerShape(28.dp),
+            shape = RoundedCornerShape(24.dp),
             color = MaterialTheme.colorScheme.surfaceContainerLowest,
-            modifier = Modifier.fillMaxWidth(0.92f)
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(12.dp)
         ) {
             Column(
                 modifier = Modifier
+                    .fillMaxWidth()
                     .padding(20.dp)
                     .imePadding(),
                 verticalArrangement = Arrangement.spacedBy(12.dp)
@@ -317,15 +330,17 @@ fun ChipPickerDialog(
                 ) {
                     Text(
                         text = title,
-                        style = MaterialTheme.typography.headlineSmall,
+                        style = MaterialTheme.typography.titleLarge,
                         fontWeight = FontWeight.Bold,
-                        modifier = Modifier.weight(1f)
+                        modifier = Modifier.weight(1f),
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
                     )
-                    IconButton(onClick = onDismiss) {
+                    IconButton(onClick = onDismiss, modifier = Modifier.size(36.dp)) {
                         Icon(
                             imageVector = Icons.Filled.Close,
                             contentDescription = "Close",
-                            modifier = Modifier.size(24.dp)
+                            modifier = Modifier.size(22.dp)
                         )
                     }
                 }
@@ -333,7 +348,7 @@ fun ChipPickerDialog(
                 OutlinedTextField(
                     value = searchQuery,
                     onValueChange = { searchQuery = it },
-                    label = { Text("Search") },
+                    label = { Text("Search", maxLines = 1) },
                     leadingIcon = {
                         Icon(
                             imageVector = Icons.Filled.Search,
@@ -343,11 +358,11 @@ fun ChipPickerDialog(
                     },
                     trailingIcon = if (searchQuery.isNotEmpty()) {
                         {
-                            IconButton(onClick = { searchQuery = "" }) {
+                            IconButton(onClick = { searchQuery = "" }, modifier = Modifier.size(20.dp)) {
                                 Icon(
                                     imageVector = Icons.Filled.Clear,
                                     contentDescription = "Clear",
-                                    modifier = Modifier.size(18.dp)
+                                    modifier = Modifier.size(16.dp)
                                 )
                             }
                         }
@@ -366,21 +381,26 @@ fun ChipPickerDialog(
                             Surface(
                                 shape = CircleShape,
                                 color = MaterialTheme.colorScheme.primaryContainer,
-                                modifier = Modifier.clickable {
-                                    localSelected = localSelected.filter {
-                                        !it.equals(selected, ignoreCase = true)
-                                    }.toMutableList()
-                                }
+                                modifier = Modifier
+                                    .heightIn(min = 32.dp)
+                                    .clip(CircleShape)
+                                    .clickable {
+                                        localSelected = localSelected.filter {
+                                            !it.equals(selected, ignoreCase = true)
+                                        }.toMutableList()
+                                    }
                             ) {
                                 Row(
-                                    modifier = Modifier.padding(start = 12.dp, end = 4.dp, top = 4.dp, bottom = 4.dp),
+                                    modifier = Modifier.padding(start = 10.dp, end = 4.dp, top = 4.dp, bottom = 4.dp),
                                     verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.spacedBy(2.dp)
+                                    horizontalArrangement = Arrangement.spacedBy(4.dp)
                                 ) {
                                     Text(
                                         text = selected,
                                         style = MaterialTheme.typography.labelLarge,
-                                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                                        color = MaterialTheme.colorScheme.onPrimaryContainer,
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis
                                     )
                                     Icon(
                                         imageVector = Icons.Filled.Clear,
@@ -397,7 +417,7 @@ fun ChipPickerDialog(
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .heightIn(max = 280.dp),
+                        .heightIn(max = 260.dp),
                     verticalArrangement = Arrangement.spacedBy(2.dp)
                 ) {
                     items(filteredItems, key = { it }) { item ->
@@ -412,7 +432,7 @@ fun ChipPickerDialog(
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .clip(RoundedCornerShape(12.dp))
+                                .clip(RoundedCornerShape(10.dp))
                                 .clickable(onClick = toggle)
                                 .padding(horizontal = 8.dp, vertical = 10.dp),
                             verticalAlignment = Alignment.CenterVertically,
@@ -420,9 +440,12 @@ fun ChipPickerDialog(
                         ) {
                             Box(
                                 modifier = Modifier
-                                    .size(24.dp)
+                                    .size(22.dp)
                                     .clip(CircleShape)
-                                    .background(if (selected) MaterialTheme.colorScheme.primary else Color.Transparent),
+                                    .background(
+                                        if (selected) MaterialTheme.colorScheme.primary
+                                        else Color.Transparent
+                                    ),
                                 contentAlignment = Alignment.Center
                             ) {
                                 if (selected) {
@@ -430,7 +453,7 @@ fun ChipPickerDialog(
                                         imageVector = Icons.Filled.Check,
                                         contentDescription = null,
                                         tint = MaterialTheme.colorScheme.onPrimary,
-                                        modifier = Modifier.size(16.dp)
+                                        modifier = Modifier.size(14.dp)
                                     )
                                 }
                             }
@@ -438,7 +461,10 @@ fun ChipPickerDialog(
                                 text = item,
                                 style = MaterialTheme.typography.bodyMedium,
                                 fontWeight = if (selected) FontWeight.SemiBold else FontWeight.Normal,
-                                color = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
+                                color = if (selected) MaterialTheme.colorScheme.primary
+                                else MaterialTheme.colorScheme.onSurface,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
                             )
                         }
                     }
@@ -446,8 +472,9 @@ fun ChipPickerDialog(
 
                 if (allowCustom) {
                     Surface(
-                        shape = RoundedCornerShape(12.dp),
-                        color = MaterialTheme.colorScheme.surfaceContainerLow
+                        shape = RoundedCornerShape(10.dp),
+                        color = MaterialTheme.colorScheme.surfaceContainerLow,
+                        modifier = Modifier.fillMaxWidth()
                     ) {
                         Row(
                             modifier = Modifier
@@ -459,7 +486,13 @@ fun ChipPickerDialog(
                             OutlinedTextField(
                                 value = customInput,
                                 onValueChange = { customInput = it },
-                                placeholder = { Text(customPlaceholder) },
+                                placeholder = {
+                                    Text(
+                                        customPlaceholder,
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis
+                                    )
+                                },
                                 modifier = Modifier.weight(1f),
                                 singleLine = true
                             )
@@ -467,8 +500,8 @@ fun ChipPickerDialog(
                                 onClick = {
                                     val trimmed = customInput.trim()
                                     if (trimmed.isNotBlank() && !localSelected.any {
-                                        it.equals(trimmed, ignoreCase = true)
-                                    }) {
+                                            it.equals(trimmed, ignoreCase = true)
+                                        }) {
                                         localSelected = (localSelected + trimmed).toMutableList()
                                     }
                                     customInput = ""
@@ -482,10 +515,10 @@ fun ChipPickerDialog(
                                 Icon(
                                     imageVector = Icons.Filled.Add,
                                     contentDescription = "Add",
-                                    modifier = Modifier.size(18.dp)
+                                    modifier = Modifier.size(16.dp)
                                 )
                                 Spacer(modifier = Modifier.width(4.dp))
-                                Text("Add")
+                                Text("Add", maxLines = 1)
                             }
                         }
                     }
@@ -496,7 +529,7 @@ fun ChipPickerDialog(
                     horizontalArrangement = Arrangement.End,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    TextButton(onClick = onDismiss) { Text("Cancel") }
+                    TextButton(onClick = onDismiss) { Text("Cancel", maxLines = 1) }
                     Spacer(modifier = Modifier.width(8.dp))
                     NebFilledButton(
                         text = "Done",
