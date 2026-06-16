@@ -32,36 +32,38 @@ class InAppUpdateHelper @Inject constructor(
     private var updateInfo: AppUpdateInfo? = null
     private var isChecking = false
 
-    private val installStateListener = InstallStateUpdatedListener { state ->
-        when (state.installStatus()) {
-            InstallStatus.DOWNLOADING -> {
-                Log.d(TAG, "Update downloading: ${state.bytesDownloaded()} / ${state.totalBytesToDownload()}")
-            }
-            InstallStatus.DOWNLOADED -> {
-                Log.d(TAG, "Update downloaded, ready to install")
-                appUpdateManager.completeUpdate()
-            }
-            InstallStatus.INSTALLING -> {
-                Log.d(TAG, "Update installing...")
-            }
-            InstallStatus.INSTALLED -> {
-                Log.d(TAG, "Update installed successfully")
-                appUpdateManager.unregisterListener(installStateListener)
-            }
-            InstallStatus.FAILED -> {
-                Log.w(TAG, "Update failed: ${state.installErrorCode()}")
-                appUpdateManager.unregisterListener(installStateListener)
-                updateInfo = null
-                isChecking = false
-            }
-            InstallStatus.CANCELED -> {
-                Log.w(TAG, "Update cancelled by user")
-                appUpdateManager.unregisterListener(installStateListener)
-                updateInfo = null
-                isChecking = false
-            }
-            else -> {
-                Log.d(TAG, "Install state: ${state.installStatus()}")
+    private val installStateListener: InstallStateUpdatedListener by lazy {
+        InstallStateUpdatedListener { state ->
+            when (state.installStatus()) {
+                InstallStatus.DOWNLOADING -> {
+                    Log.d(TAG, "Update downloading: ${state.bytesDownloaded()} / ${state.totalBytesToDownload()}")
+                }
+                InstallStatus.DOWNLOADED -> {
+                    Log.d(TAG, "Update downloaded, ready to install")
+                    appUpdateManager.completeUpdate()
+                }
+                InstallStatus.INSTALLING -> {
+                    Log.d(TAG, "Update installing...")
+                }
+                InstallStatus.INSTALLED -> {
+                    Log.d(TAG, "Update installed successfully")
+                    appUpdateManager.unregisterListener(installStateListener)
+                }
+                InstallStatus.FAILED -> {
+                    Log.w(TAG, "Update failed: ${state.installErrorCode()}")
+                    appUpdateManager.unregisterListener(installStateListener)
+                    updateInfo = null
+                    isChecking = false
+                }
+                InstallStatus.CANCELED -> {
+                    Log.w(TAG, "Update cancelled by user")
+                    appUpdateManager.unregisterListener(installStateListener)
+                    updateInfo = null
+                    isChecking = false
+                }
+                else -> {
+                    Log.d(TAG, "Install state: ${state.installStatus()}")
+                }
             }
         }
     }
