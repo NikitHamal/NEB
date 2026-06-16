@@ -25,6 +25,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.activity.compose.BackHandler
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -43,6 +44,15 @@ fun InteractiveLessonScreen(
     var pageProgress by remember { mutableStateOf(0) }
     var isFullscreen by remember { mutableStateOf(false) }
     val lessonUrl = "$BASE_URL/interactive/$courseSlug/$lessonSlug/"
+    var webView: WebView? by remember { mutableStateOf(null) }
+
+    BackHandler(enabled = true) {
+        if (webView?.canGoBack() == true) {
+            webView?.goBack()
+        } else {
+            onNavigateBack()
+        }
+    }
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column(modifier = Modifier.fillMaxSize()) {
@@ -50,7 +60,13 @@ fun InteractiveLessonScreen(
                 NebTopBar(
                     showBrand = false,
                     title = "Lesson",
-                    onBack = onNavigateBack
+                    onBack = {
+                        if (webView?.canGoBack() == true) {
+                            webView?.goBack()
+                        } else {
+                            onNavigateBack()
+                        }
+                    }
                 )
             }
 
@@ -66,6 +82,7 @@ fun InteractiveLessonScreen(
                 modifier = Modifier.fillMaxSize(),
                 factory = { ctx ->
                     WebView(ctx).apply {
+                        webView = this
                         settings.apply {
                             javaScriptEnabled = true
                             domStorageEnabled = true

@@ -828,9 +828,11 @@ private fun InteractiveCategorySection(
                 )
             }
             Spacer(modifier = Modifier.height(14.dp))
-            FlowRow(
-                horizontalArrangement = Arrangement.spacedBy(12.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp)
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .horizontalScroll(rememberScrollState()),
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 category.courses.forEach { course ->
                     InteractiveCourseCard(
@@ -853,8 +855,7 @@ private fun InteractiveCourseCard(
     val accent = parseWebColor(course.color.ifBlank { categoryColor })
     Surface(
         modifier = Modifier
-            .widthIn(min = 160.dp, max = 360.dp)
-            .fillMaxWidth(0.48f)
+            .width(260.dp)
             .clickable(onClick = onClick),
         shape = WebPanelShape,
         color = MaterialTheme.colorScheme.surface,
