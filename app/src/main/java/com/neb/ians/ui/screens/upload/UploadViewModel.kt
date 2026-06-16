@@ -14,13 +14,15 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 import java.io.FileOutputStream
 import javax.inject.Inject
+
+private val TEXT_PLAIN: okhttp3.MediaType? = try { "text/plain".toMediaType() } catch (_: Exception) { null }
 
 data class UploadFormState(
     val title: String = "",
@@ -209,7 +211,7 @@ class UploadViewModel @Inject constructor(
 
         viewModelScope.launch {
             try {
-                val token = authRepository.getAuthToken()
+                val token = authRepository.getToken()
                 if (token.isNullOrBlank()) {
                     _uiState.update { it.copy(isSubmitting = false, submitError = "Please sign in to upload resources") }
                     return@launch
@@ -243,24 +245,24 @@ class UploadViewModel @Inject constructor(
             val response = apiService.uploadResource(
                 bearerToken = bearerToken,
                 file = multipartPart,
-                title = state.title.toRequestBody("text/plain".toMediaTypeOrNull()),
-                subject = state.subject.toRequestBody("text/plain".toMediaTypeOrNull()),
-                description = (state.description.takeIf { it.isNotBlank() } ?: "").toRequestBody("text/plain".toMediaTypeOrNull()),
-                gradeLevel = (state.gradeLevel.takeIf { it.isNotBlank() } ?: "").toRequestBody("text/plain".toMediaTypeOrNull()),
-                type = (state.type.takeIf { it.isNotBlank() } ?: "PDF").toRequestBody("text/plain".toMediaTypeOrNull()),
-                examType = (state.examType.takeIf { it.isNotBlank() } ?: "").toRequestBody("text/plain".toMediaTypeOrNull()),
-                faculty = (state.faculty.takeIf { it.isNotBlank() } ?: "").toRequestBody("text/plain".toMediaTypeOrNull()),
-                program = (state.program.takeIf { it.isNotBlank() } ?: "").toRequestBody("text/plain".toMediaTypeOrNull()),
-                year = (state.year.takeIf { it.isNotBlank() } ?: "").toRequestBody("text/plain".toMediaTypeOrNull()),
-                school = (state.school.takeIf { it.isNotBlank() } ?: "").toRequestBody("text/plain".toMediaTypeOrNull()),
-                pradesh = (state.pradesh.takeIf { it.isNotBlank() } ?: "").toRequestBody("text/plain".toMediaTypeOrNull()),
-                district = (state.district.takeIf { it.isNotBlank() } ?: "").toRequestBody("text/plain".toMediaTypeOrNull()),
-                tags = (state.tags.takeIf { it.isNotBlank() } ?: "").toRequestBody("text/plain".toMediaTypeOrNull()),
+                title = state.title.toRequestBody(TEXT_PLAIN),
+                subject = state.subject.toRequestBody(TEXT_PLAIN),
+                description = (state.description.takeIf { it.isNotBlank() } ?: "").toRequestBody(TEXT_PLAIN),
+                gradeLevel = (state.gradeLevel.takeIf { it.isNotBlank() } ?: "").toRequestBody(TEXT_PLAIN),
+                type = (state.type.takeIf { it.isNotBlank() } ?: "PDF").toRequestBody(TEXT_PLAIN),
+                examType = (state.examType.takeIf { it.isNotBlank() } ?: "").toRequestBody(TEXT_PLAIN),
+                faculty = (state.faculty.takeIf { it.isNotBlank() } ?: "").toRequestBody(TEXT_PLAIN),
+                program = (state.program.takeIf { it.isNotBlank() } ?: "").toRequestBody(TEXT_PLAIN),
+                year = (state.year.takeIf { it.isNotBlank() } ?: "").toRequestBody(TEXT_PLAIN),
+                school = (state.school.takeIf { it.isNotBlank() } ?: "").toRequestBody(TEXT_PLAIN),
+                pradesh = (state.pradesh.takeIf { it.isNotBlank() } ?: "").toRequestBody(TEXT_PLAIN),
+                district = (state.district.takeIf { it.isNotBlank() } ?: "").toRequestBody(TEXT_PLAIN),
+                tags = (state.tags.takeIf { it.isNotBlank() } ?: "").toRequestBody(TEXT_PLAIN),
                 fileUrl = null,
-                thumbnailUrl = (state.thumbnailUrl.takeIf { it.isNotBlank() } ?: "").toRequestBody("text/plain".toMediaTypeOrNull()),
-                authorName = (state.authorName.takeIf { it.isNotBlank() } ?: "").toRequestBody("text/plain".toMediaTypeOrNull()),
-                sourceLabel = (state.sourceLabel.takeIf { it.isNotBlank() } ?: "").toRequestBody("text/plain".toMediaTypeOrNull()),
-                sourceUrl = (state.sourceUrl.takeIf { it.isNotBlank() } ?: "").toRequestBody("text/plain".toMediaTypeOrNull())
+                thumbnailUrl = (state.thumbnailUrl.takeIf { it.isNotBlank() } ?: "").toRequestBody(TEXT_PLAIN),
+                authorName = (state.authorName.takeIf { it.isNotBlank() } ?: "").toRequestBody(TEXT_PLAIN),
+                sourceLabel = (state.sourceLabel.takeIf { it.isNotBlank() } ?: "").toRequestBody(TEXT_PLAIN),
+                sourceUrl = (state.sourceUrl.takeIf { it.isNotBlank() } ?: "").toRequestBody(TEXT_PLAIN)
             )
 
             if (response.error != null) {
@@ -277,24 +279,24 @@ class UploadViewModel @Inject constructor(
         val response = apiService.uploadResource(
             bearerToken = bearerToken,
             file = null,
-            title = state.title.toRequestBody("text/plain".toMediaTypeOrNull()),
-            subject = state.subject.toRequestBody("text/plain".toMediaTypeOrNull()),
-            description = (state.description.takeIf { it.isNotBlank() } ?: "").toRequestBody("text/plain".toMediaTypeOrNull()),
-            gradeLevel = (state.gradeLevel.takeIf { it.isNotBlank() } ?: "").toRequestBody("text/plain".toMediaTypeOrNull()),
-            type = (state.type.takeIf { it.isNotBlank() } ?: "PDF").toRequestBody("text/plain".toMediaTypeOrNull()),
-            examType = (state.examType.takeIf { it.isNotBlank() } ?: "").toRequestBody("text/plain".toMediaTypeOrNull()),
-            faculty = (state.faculty.takeIf { it.isNotBlank() } ?: "").toRequestBody("text/plain".toMediaTypeOrNull()),
-            program = (state.program.takeIf { it.isNotBlank() } ?: "").toRequestBody("text/plain".toMediaTypeOrNull()),
-            year = (state.year.takeIf { it.isNotBlank() } ?: "").toRequestBody("text/plain".toMediaTypeOrNull()),
-            school = (state.school.takeIf { it.isNotBlank() } ?: "").toRequestBody("text/plain".toMediaTypeOrNull()),
-            pradesh = (state.pradesh.takeIf { it.isNotBlank() } ?: "").toRequestBody("text/plain".toMediaTypeOrNull()),
-            district = (state.district.takeIf { it.isNotBlank() } ?: "").toRequestBody("text/plain".toMediaTypeOrNull()),
-            tags = (state.tags.takeIf { it.isNotBlank() } ?: "").toRequestBody("text/plain".toMediaTypeOrNull()),
-            fileUrl = state.fileUrl.toRequestBody("text/plain".toMediaTypeOrNull()),
-            thumbnailUrl = (state.thumbnailUrl.takeIf { it.isNotBlank() } ?: "").toRequestBody("text/plain".toMediaTypeOrNull()),
-            authorName = (state.authorName.takeIf { it.isNotBlank() } ?: "").toRequestBody("text/plain".toMediaTypeOrNull()),
-            sourceLabel = (state.sourceLabel.takeIf { it.isNotBlank() } ?: "").toRequestBody("text/plain".toMediaTypeOrNull()),
-            sourceUrl = (state.sourceUrl.takeIf { it.isNotBlank() } ?: "").toRequestBody("text/plain".toMediaTypeOrNull())
+            title = state.title.toRequestBody(TEXT_PLAIN),
+            subject = state.subject.toRequestBody(TEXT_PLAIN),
+            description = (state.description.takeIf { it.isNotBlank() } ?: "").toRequestBody(TEXT_PLAIN),
+            gradeLevel = (state.gradeLevel.takeIf { it.isNotBlank() } ?: "").toRequestBody(TEXT_PLAIN),
+            type = (state.type.takeIf { it.isNotBlank() } ?: "PDF").toRequestBody(TEXT_PLAIN),
+            examType = (state.examType.takeIf { it.isNotBlank() } ?: "").toRequestBody(TEXT_PLAIN),
+            faculty = (state.faculty.takeIf { it.isNotBlank() } ?: "").toRequestBody(TEXT_PLAIN),
+            program = (state.program.takeIf { it.isNotBlank() } ?: "").toRequestBody(TEXT_PLAIN),
+            year = (state.year.takeIf { it.isNotBlank() } ?: "").toRequestBody(TEXT_PLAIN),
+            school = (state.school.takeIf { it.isNotBlank() } ?: "").toRequestBody(TEXT_PLAIN),
+            pradesh = (state.pradesh.takeIf { it.isNotBlank() } ?: "").toRequestBody(TEXT_PLAIN),
+            district = (state.district.takeIf { it.isNotBlank() } ?: "").toRequestBody(TEXT_PLAIN),
+            tags = (state.tags.takeIf { it.isNotBlank() } ?: "").toRequestBody(TEXT_PLAIN),
+            fileUrl = state.fileUrl.toRequestBody(TEXT_PLAIN),
+            thumbnailUrl = (state.thumbnailUrl.takeIf { it.isNotBlank() } ?: "").toRequestBody(TEXT_PLAIN),
+            authorName = (state.authorName.takeIf { it.isNotBlank() } ?: "").toRequestBody(TEXT_PLAIN),
+            sourceLabel = (state.sourceLabel.takeIf { it.isNotBlank() } ?: "").toRequestBody(TEXT_PLAIN),
+            sourceUrl = (state.sourceUrl.takeIf { it.isNotBlank() } ?: "").toRequestBody(TEXT_PLAIN)
         )
 
         if (response.error != null) {
@@ -321,7 +323,7 @@ class UploadViewModel @Inject constructor(
     }
 
     private fun contentTypeFromName(name: String): String {
-        val ext = name.substringAfterLast('.', '').lowercase()
+        val ext = name.substringAfterLast('.', "").lowercase()
         return when (ext) {
             "pdf" -> "application/pdf"
             "doc" -> "application/msword"
