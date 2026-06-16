@@ -3,8 +3,16 @@ package com.neb.ians.ui.screens.upload
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -12,14 +20,18 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.CloudUpload
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.Button
@@ -31,16 +43,18 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -51,8 +65,14 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.neb.ians.ui.components.NebCard
-import com.neb.ians.ui.theme.getSubjectColor
+
+private enum class UploadStep(val title: String, val subtitle: String, val optional: Boolean) {
+    Basics("Basics", "Title, subject and type", false),
+    Files("Files", "Upload or paste a link", false),
+    Details("Details", "Description and tags", true),
+    Attribution("Attribution", "Credit the original source", true),
+    Review("Review", "Confirm and submit", false)
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -65,9 +85,9 @@ fun UploadScreen(
     val context = LocalContext.current
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
 
+    var currentStep by rememberSaveable { mutableStateOf(0) }
     var showSubjectPicker by remember { mutableStateOf(false) }
     var showTagPicker by remember { mutableStateOf(false) }
-    var showMoreDetails by remember { mutableStateOf(false) }
 
     val filePicker = rememberLauncherForActivityResult(
         ActivityResultContracts.GetMultipleContents()
@@ -87,10 +107,19 @@ fun UploadScreen(
 
     if (uiState.submitSuccess) {
         UploadSuccessScreen(
-            onUploadAnother = { viewModel.resetSuccess() },
+            onUploadAnother = { viewModel.resetSuccess(); currentStep = 0 },
             onBrowseLibrary = onUploadSuccess
         )
         return
+    }
+
+    val steps = UploadStep.entries
+    val step = steps[currentStep]
+    val isLastStep = currentStep == steps.lastIndex
+    val canGoNext = when (step) {
+        UploadStep.Basics -> uiState.title.isNotBlank() && uiState.subject.isNotBlank()
+        UploadStep.Files -> uiState.selectedFiles.isNotEmpty() || uiState.fileUrl.isNotBlank()
+        else -> true
     }
 
     Scaffold(
@@ -119,78 +148,81 @@ fun UploadScreen(
                     containerColor = MaterialTheme.colorScheme.surface
                 )
             )
+        },
+        bottomBar = {
+            WizardBottomBar(
+                step = step,
+                stepIndex = currentStep,
+                totalSteps = steps.size,
+                isLastStep = isLastStep,
+                canGoNext = canGoNext,
+                isSubmitting = uiState.isSubmitting,
+                uploadProgress = uiState.uploadProgress,
+                fileCount = uiState.selectedFiles.size,
+                onBack = { if (currentStep > 0) currentStep-- },
+                onNext = { if (currentStep < steps.lastIndex) currentStep++ },
+                onSubmit = { viewModel.submit(context) }
+            )
         }
     ) { padding ->
-        LazyColumn(
+        Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
                 .imePadding()
-                .padding(horizontal = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+                .verticalScroll(rememberScrollState())
+                .padding(horizontal = 12.dp)
+                .navigationBarsPadding(),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            item { ErrorBanner(uiState.submitError) }
+            ErrorBanner(uiState.submitError)
 
-            item {
-                BasicsCard(
-                    uiState = uiState,
-                    viewModel = viewModel,
-                    onOpenSubjectPicker = { showSubjectPicker = true }
-                )
+            StepIndicator(
+                currentStep = currentStep,
+                totalSteps = steps.size,
+                stepTitles = steps.map { it.title }
+            )
+
+            AnimatedContent(
+                targetState = currentStep,
+                transitionSpec = {
+                    val direction = if (targetState > initialState) 1 else -1
+                    (slideInHorizontally(tween(220)) { it * direction } + fadeIn(tween(220))) togetherWith
+                        (slideOutHorizontally(tween(220)) { it * -direction } + fadeOut(tween(180)))
+                },
+                label = "stepTransition"
+            ) { stepIndex ->
+                Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                    when (steps[stepIndex]) {
+                        UploadStep.Basics -> BasicsStep(
+                            uiState = uiState,
+                            viewModel = viewModel,
+                            onOpenSubjectPicker = { showSubjectPicker = true }
+                        )
+                        UploadStep.Files -> FilesStep(
+                            uiState = uiState,
+                            viewModel = viewModel,
+                            onPickFiles = { filePicker.launch("application/*") },
+                            onRemoveFile = viewModel::removeFileAt,
+                            onClearFiles = viewModel::clearFiles
+                        )
+                        UploadStep.Details -> DetailsStep(
+                            uiState = uiState,
+                            viewModel = viewModel,
+                            onOpenTagPicker = { showTagPicker = true }
+                        )
+                        UploadStep.Attribution -> AttributionStep(
+                            uiState = uiState,
+                            viewModel = viewModel
+                        )
+                        UploadStep.Review -> ReviewStep(
+                            uiState = uiState,
+                            onEdit = { currentStep = it }
+                        )
+                    }
+                }
             }
-
-            item {
-                FilesCard(
-                    uiState = uiState,
-                    viewModel = viewModel,
-                    onPickFiles = { filePicker.launch("application/*") },
-                    onRemoveFile = viewModel::removeFileAt,
-                    onClearFiles = viewModel::clearFiles
-                )
-            }
-
-            item {
-                DescriptionAndTagsCard(
-                    uiState = uiState,
-                    viewModel = viewModel,
-                    onOpenTagPicker = { showTagPicker = true }
-                )
-            }
-
-            item {
-                MoreDetailsSection(
-                    expanded = showMoreDetails,
-                    onToggle = { showMoreDetails = !showMoreDetails },
-                    faculty = uiState.faculty,
-                    onFacultyChange = viewModel::updateFaculty,
-                    program = uiState.program,
-                    onProgramChange = viewModel::updateProgram,
-                    year = uiState.year,
-                    onYearChange = viewModel::updateYear,
-                    school = uiState.school,
-                    onSchoolChange = viewModel::updateSchool,
-                    pradesh = uiState.pradesh,
-                    onPradeshChange = viewModel::updatePradesh,
-                    district = uiState.district,
-                    onDistrictChange = viewModel::updateDistrict
-                )
-            }
-
-            item {
-                AttributionCard(
-                    uiState = uiState,
-                    viewModel = viewModel
-                )
-            }
-
-            item {
-                SubmitFooter(
-                    uiState = uiState,
-                    onSubmit = { viewModel.submit(context) }
-                )
-            }
-
-            item { Spacer(modifier = Modifier.height(32.dp)) }
+            Spacer(modifier = Modifier.height(8.dp))
         }
     }
 
@@ -226,6 +258,189 @@ fun UploadScreen(
 }
 
 @Composable
+private fun StepIndicator(
+    currentStep: Int,
+    totalSteps: Int,
+    stepTitles: List<String>
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        stepTitles.forEachIndexed { index, _ ->
+            val isCurrent = index == currentStep
+            val isDone = index < currentStep
+            val color = when {
+                isCurrent -> MaterialTheme.colorScheme.primary
+                isDone -> MaterialTheme.colorScheme.primary.copy(alpha = 0.6f)
+                else -> MaterialTheme.colorScheme.surfaceContainerHighest
+            }
+            val onColor = when {
+                isCurrent || isDone -> MaterialTheme.colorScheme.onPrimary
+                else -> MaterialTheme.colorScheme.onSurfaceVariant
+            }
+            Surface(
+                shape = CircleShape,
+                color = color,
+                modifier = Modifier.size(24.dp)
+            ) {
+                Box(contentAlignment = Alignment.Center) {
+                    if (isDone) {
+                        Icon(
+                            imageVector = Icons.Filled.Check,
+                            contentDescription = null,
+                            tint = onColor,
+                            modifier = Modifier.size(14.dp)
+                        )
+                    } else {
+                        Text(
+                            text = (index + 1).toString(),
+                            color = onColor,
+                            fontWeight = FontWeight.Bold,
+                            style = MaterialTheme.typography.labelSmall,
+                            maxLines = 1
+                        )
+                    }
+                }
+            }
+            if (index < totalSteps - 1) {
+                HorizontalDivider(
+                    modifier = Modifier.weight(1f),
+                    thickness = 2.dp,
+                    color = if (isDone) MaterialTheme.colorScheme.primary.copy(alpha = 0.6f)
+                    else MaterialTheme.colorScheme.surfaceContainerHighest
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun WizardBottomBar(
+    step: UploadStep,
+    stepIndex: Int,
+    totalSteps: Int,
+    isLastStep: Boolean,
+    canGoNext: Boolean,
+    isSubmitting: Boolean,
+    uploadProgress: Float,
+    fileCount: Int,
+    onBack: () -> Unit,
+    onNext: () -> Unit,
+    onSubmit: () -> Unit
+) {
+    Surface(
+        color = MaterialTheme.colorScheme.surface,
+        shadowElevation = 8.dp
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 12.dp, vertical = 10.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            if (stepIndex > 0) {
+                OutlinedButton(
+                    onClick = onBack,
+                    shape = CircleShape,
+                    enabled = !isSubmitting,
+                    modifier = Modifier.height(46.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = null,
+                        modifier = Modifier.size(18.dp)
+                    )
+                    Spacer(modifier = Modifier.width(6.dp))
+                    Text("Back", maxLines = 1, fontWeight = FontWeight.SemiBold)
+                }
+            }
+
+            Text(
+                text = "Step ${stepIndex + 1} of $totalSteps",
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.weight(1f)
+            )
+
+            if (isLastStep) {
+                Button(
+                    onClick = onSubmit,
+                    shape = CircleShape,
+                    enabled = !isSubmitting,
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.primary,
+                        contentColor = MaterialTheme.colorScheme.onPrimary
+                    ),
+                    modifier = Modifier.height(46.dp)
+                ) {
+                    if (isSubmitting) {
+                        CircularProgressIndicator(
+                            modifier = Modifier.size(18.dp),
+                            color = MaterialTheme.colorScheme.onPrimary,
+                            strokeWidth = 2.dp
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text(
+                            text = if (fileCount > 1)
+                                "${((uploadProgress * fileCount).toInt() + 1)}/$fileCount"
+                            else "Uploading...",
+                            maxLines = 1,
+                            fontWeight = FontWeight.SemiBold
+                        )
+                    } else {
+                        Icon(
+                            imageVector = Icons.Filled.CloudUpload,
+                            contentDescription = null,
+                            modifier = Modifier.size(18.dp)
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text("Submit", maxLines = 1, fontWeight = FontWeight.SemiBold)
+                    }
+                }
+            } else {
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(6.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    if (step.optional) {
+                        TextButton(
+                            onClick = onNext,
+                            shape = CircleShape,
+                            enabled = !isSubmitting
+                        ) {
+                            Text("Skip", maxLines = 1, fontWeight = FontWeight.SemiBold)
+                        }
+                    }
+                    Button(
+                        onClick = onNext,
+                        shape = CircleShape,
+                        enabled = canGoNext && !isSubmitting,
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colorScheme.primary,
+                            contentColor = MaterialTheme.colorScheme.onPrimary
+                        ),
+                        modifier = Modifier.height(46.dp)
+                    ) {
+                        Text("Next", maxLines = 1, fontWeight = FontWeight.SemiBold)
+                        Spacer(modifier = Modifier.width(6.dp))
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                            contentDescription = null,
+                            modifier = Modifier.size(18.dp)
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
 private fun ErrorBanner(error: String?) {
     AnimatedVisibility(visible = error != null) {
         Surface(
@@ -248,6 +463,8 @@ private fun ErrorBanner(error: String?) {
                     text = error ?: "",
                     color = MaterialTheme.colorScheme.onErrorContainer,
                     style = MaterialTheme.typography.bodyMedium,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
                     modifier = Modifier.weight(1f)
                 )
             }
@@ -255,373 +472,5 @@ private fun ErrorBanner(error: String?) {
     }
 }
 
-@Composable
-private fun BasicsCard(
-    uiState: UploadFormState,
-    viewModel: UploadViewModel,
-    onOpenSubjectPicker: () -> Unit
-) {
-    NebCard(
-        shape = RoundedCornerShape(20.dp),
-        containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
-        border = null
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            StepHeader(
-                stepNumber = 1,
-                title = "Basics",
-                subtitle = "Title, subject and type"
-            )
-
-            OutlinedTextField(
-                value = uiState.title,
-                onValueChange = viewModel::updateTitle,
-                label = { Text("Title *") },
-                placeholder = { Text("e.g. Class 12 Computer Final Exam 2081") },
-                isError = uiState.titleError != null,
-                supportingText = uiState.titleError?.let { { Text(it) } },
-                modifier = Modifier.fillMaxWidth(),
-                singleLine = true
-            )
-
-            val subjects = uiState.subject.asCsvList()
-            AttributeChipRow(
-                label = "Subject *",
-                placeholder = "Choose at least one",
-                values = subjects,
-                onRemove = { removed ->
-                    viewModel.updateSubject(subjects.filter { it != removed }.joinToString(", "))
-                },
-                onAddClick = onOpenSubjectPicker,
-                error = uiState.subjectError,
-                accentColor = subjects.firstOrNull()?.let { getSubjectColor(it) }
-            )
-
-            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                Text(
-                    text = "Resource type",
-                    style = MaterialTheme.typography.labelLarge,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-                ResourceTypeChips(
-                    selected = uiState.type,
-                    options = UploadViewModel.RESOURCE_TYPES,
-                    onSelect = viewModel::updateType
-                )
-            }
-
-            GradeAndExamRow(
-                uiState = uiState,
-                viewModel = viewModel
-            )
-        }
-    }
-}
-
-@Composable
-private fun GradeAndExamRow(
-    uiState: UploadFormState,
-    viewModel: UploadViewModel
-) {
-    val showExamType = uiState.type in listOf(
-        "Past Paper", "Model Paper", "Guide", "Solution", "Note", "PDF"
-    )
-    if (showExamType) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            DropdownField(
-                label = "Level / Grade",
-                value = uiState.gradeLevel,
-                options = UploadViewModel.GRADE_LEVELS,
-                onValueChange = viewModel::updateGradeLevel,
-                modifier = Modifier.weight(1f)
-            )
-            DropdownField(
-                label = "Exam Type",
-                value = uiState.examType,
-                options = UploadViewModel.EXAM_TYPES,
-                onValueChange = viewModel::updateExamType,
-                modifier = Modifier.weight(1f)
-            )
-        }
-    } else {
-        DropdownField(
-            label = "Level / Grade",
-            value = uiState.gradeLevel,
-            options = UploadViewModel.GRADE_LEVELS,
-            onValueChange = viewModel::updateGradeLevel,
-            modifier = Modifier.fillMaxWidth()
-        )
-    }
-}
-
-@Composable
-private fun FilesCard(
-    uiState: UploadFormState,
-    viewModel: UploadViewModel,
-    onPickFiles: () -> Unit,
-    onRemoveFile: (Int) -> Unit,
-    onClearFiles: () -> Unit
-) {
-    NebCard(
-        shape = RoundedCornerShape(20.dp),
-        containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
-        border = null
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            StepHeader(
-                stepNumber = 2,
-                title = "Files",
-                subtitle = "Upload or paste a link"
-            )
-
-            FileDropzone(
-                selectedFiles = uiState.selectedFiles,
-                fileError = uiState.fileError,
-                onPickFiles = onPickFiles,
-                onRemoveFile = onRemoveFile,
-                onClearFiles = onClearFiles
-            )
-
-            LinkAlternativeFields(
-                uiState = uiState,
-                viewModel = viewModel
-            )
-        }
-    }
-}
-
-@Composable
-private fun LinkAlternativeFields(
-    uiState: UploadFormState,
-    viewModel: UploadViewModel
-) {
-    val enabled = uiState.selectedFiles.isEmpty()
-
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(12.dp)
-    ) {
-        HorizontalDivider(modifier = Modifier.weight(1f))
-        Text(
-            text = "or paste a link",
-            style = MaterialTheme.typography.labelSmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
-        HorizontalDivider(modifier = Modifier.weight(1f))
-    }
-
-    OutlinedTextField(
-        value = uiState.fileUrl,
-        onValueChange = viewModel::updateFileUrl,
-        label = { Text("File URL") },
-        placeholder = { Text("https://drive.google.com/...") },
-        modifier = Modifier.fillMaxWidth(),
-        singleLine = true,
-        enabled = enabled,
-        supportingText = if (!enabled) {
-            { Text("Remove selected files to use a link instead") }
-        } else null
-    )
-
-    OutlinedTextField(
-        value = uiState.thumbnailUrl,
-        onValueChange = viewModel::updateThumbnailUrl,
-        label = { Text("Thumbnail URL (optional)") },
-        placeholder = { Text("https://... cover image") },
-        modifier = Modifier.fillMaxWidth(),
-        singleLine = true
-    )
-}
-
-@Composable
-private fun DescriptionAndTagsCard(
-    uiState: UploadFormState,
-    viewModel: UploadViewModel,
-    onOpenTagPicker: () -> Unit
-) {
-    NebCard(
-        shape = RoundedCornerShape(20.dp),
-        containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
-        border = null
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            StepHeader(
-                stepNumber = 3,
-                title = "Details",
-                subtitle = "Description and tags",
-                optional = true
-            )
-
-            OutlinedTextField(
-                value = uiState.description,
-                onValueChange = viewModel::updateDescription,
-                label = { Text("Description") },
-                placeholder = { Text("Briefly describe this resource...") },
-                modifier = Modifier.fillMaxWidth(),
-                minLines = 3,
-                maxLines = 5
-            )
-
-            AttributeChipRow(
-                label = "Tags",
-                placeholder = "Add tags",
-                values = uiState.tags.asCsvList(),
-                onRemove = { removed ->
-                    viewModel.updateTags(uiState.tags.asCsvList().filter { it != removed }.joinToString(", "))
-                },
-                onAddClick = onOpenTagPicker
-            )
-        }
-    }
-}
-
-@Composable
-private fun AttributionCard(
-    uiState: UploadFormState,
-    viewModel: UploadViewModel
-) {
-    NebCard(
-        shape = RoundedCornerShape(20.dp),
-        containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
-        border = null
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            StepHeader(
-                stepNumber = 4,
-                title = "Attribution",
-                subtitle = "Credit the original source",
-                optional = true
-            )
-
-            OutlinedTextField(
-                value = uiState.authorName,
-                onValueChange = viewModel::updateAuthorName,
-                label = { Text("Author / Credit") },
-                placeholder = { Text("e.g. Prof. Sharma, Curriculum Board") },
-                modifier = Modifier.fillMaxWidth(),
-                singleLine = true
-            )
-
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                OutlinedTextField(
-                    value = uiState.sourceLabel,
-                    onValueChange = viewModel::updateSourceLabel,
-                    label = { Text("Source Label") },
-                    placeholder = { Text("e.g. Curriculum Board") },
-                    modifier = Modifier.weight(1f),
-                    singleLine = true
-                )
-                OutlinedTextField(
-                    value = uiState.sourceUrl,
-                    onValueChange = viewModel::updateSourceUrl,
-                    label = { Text("Source URL") },
-                    placeholder = { Text("https://...") },
-                    modifier = Modifier.weight(1f),
-                    singleLine = true
-                )
-            }
-        }
-    }
-}
-
-@Composable
-private fun SubmitFooter(
-    uiState: UploadFormState,
-    onSubmit: () -> Unit
-) {
-    Surface(
-        shape = RoundedCornerShape(20.dp),
-        color = MaterialTheme.colorScheme.surfaceContainerLow,
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        Column(
-            modifier = Modifier.padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(14.dp)
-        ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(10.dp)
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Info,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.size(20.dp)
-                )
-                Text(
-                    text = "Your upload will be reviewed before being published.",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.weight(1f)
-                )
-            }
-
-            Button(
-                onClick = onSubmit,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(52.dp),
-                shape = CircleShape,
-                enabled = !uiState.isSubmitting,
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    contentColor = MaterialTheme.colorScheme.onPrimary
-                )
-            ) {
-                if (uiState.isSubmitting) {
-                    CircularProgressIndicator(
-                        modifier = Modifier.size(22.dp),
-                        color = MaterialTheme.colorScheme.onPrimary,
-                        strokeWidth = 2.dp
-                    )
-                    Spacer(modifier = Modifier.width(10.dp))
-                    Text(
-                        text = if (uiState.selectedFiles.size > 1)
-                            "Uploading ${((uiState.uploadProgress * uiState.selectedFiles.size).toInt() + 1)}/${uiState.selectedFiles.size}..."
-                        else "Uploading...",
-                        fontWeight = FontWeight.SemiBold
-                    )
-                } else {
-                    Icon(
-                        imageVector = Icons.Filled.CloudUpload,
-                        contentDescription = null,
-                        modifier = Modifier.size(22.dp)
-                    )
-                    Spacer(modifier = Modifier.width(10.dp))
-                    Text("Submit for Review", fontWeight = FontWeight.SemiBold)
-                }
-            }
-        }
-    }
-}
-
-private fun String.asCsvList(): List<String> =
+internal fun String.asCsvList(): List<String> =
     split(",").map { it.trim() }.filter { it.isNotBlank() }
