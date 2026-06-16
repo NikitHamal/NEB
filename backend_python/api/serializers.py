@@ -390,6 +390,12 @@ class FollowSerializer(serializers.ModelSerializer):
             'following_username', 'following_photo_url', 'following_display_name',
         ]
 
+    def to_representation(self, instance):
+        ret = super().to_representation(instance)
+        if 'id' in ret and ret['id'] is not None:
+            ret['id'] = str(ret['id'])
+        return ret
+
 
 class EditHistorySerializer(serializers.ModelSerializer):
     editedByUsername = serializers.CharField(source='edited_by.username', read_only=True)
