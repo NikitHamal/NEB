@@ -16,15 +16,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.CloudUpload
-import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -122,25 +119,40 @@ fun UploadScreen(
                     containerColor = MaterialTheme.colorScheme.surface
                 )
             )
-        }) { padding ->
+        }
+    ) { padding ->
         LazyColumn(
-            state = rememberLazyListState(),
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
                 .imePadding()
                 .padding(horizontal = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(20.dp)
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            item { IntroText() }
-
             item { ErrorBanner(uiState.submitError) }
 
             item {
-                BasicInfoCard(
+                BasicsCard(
                     uiState = uiState,
                     viewModel = viewModel,
-                    onOpenSubjectPicker = { showSubjectPicker = true },
+                    onOpenSubjectPicker = { showSubjectPicker = true }
+                )
+            }
+
+            item {
+                FilesCard(
+                    uiState = uiState,
+                    viewModel = viewModel,
+                    onPickFiles = { filePicker.launch("application/*") },
+                    onRemoveFile = viewModel::removeFileAt,
+                    onClearFiles = viewModel::clearFiles
+                )
+            }
+
+            item {
+                DescriptionAndTagsCard(
+                    uiState = uiState,
+                    viewModel = viewModel,
                     onOpenTagPicker = { showTagPicker = true }
                 )
             }
@@ -161,16 +173,6 @@ fun UploadScreen(
                     onPradeshChange = viewModel::updatePradesh,
                     district = uiState.district,
                     onDistrictChange = viewModel::updateDistrict
-                )
-            }
-
-            item {
-                UploadFileCard(
-                    uiState = uiState,
-                    viewModel = viewModel,
-                    onPickFiles = { filePicker.launch("application/*") },
-                    onRemoveFile = viewModel::removeFileAt,
-                    onClearFiles = viewModel::clearFiles
                 )
             }
 
@@ -224,16 +226,6 @@ fun UploadScreen(
 }
 
 @Composable
-private fun IntroText() {
-    Text(
-        text = "Help fellow learners by sharing study materials. Your contribution will be reviewed before publishing.",
-        style = MaterialTheme.typography.bodyMedium,
-        color = MaterialTheme.colorScheme.onSurfaceVariant,
-        modifier = Modifier.padding(top = 8.dp)
-    )
-}
-
-@Composable
 private fun ErrorBanner(error: String?) {
     AnimatedVisibility(visible = error != null) {
         Surface(
@@ -264,11 +256,10 @@ private fun ErrorBanner(error: String?) {
 }
 
 @Composable
-private fun BasicInfoCard(
+private fun BasicsCard(
     uiState: UploadFormState,
     viewModel: UploadViewModel,
-    onOpenSubjectPicker: () -> Unit,
-    onOpenTagPicker: () -> Unit
+    onOpenSubjectPicker: () -> Unit
 ) {
     NebCard(
         shape = RoundedCornerShape(20.dp),
@@ -281,16 +272,17 @@ private fun BasicInfoCard(
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            UploadSectionHeader(
-                icon = Icons.Filled.Description,
-                title = "Basic Info"
+            StepHeader(
+                stepNumber = 1,
+                title = "Basics",
+                subtitle = "Title, subject and type"
             )
 
             OutlinedTextField(
                 value = uiState.title,
                 onValueChange = viewModel::updateTitle,
                 label = { Text("Title *") },
-                placeholder = { Text("e.g. Class 12 Computer Engineering Final Exam 2081") },
+                placeholder = { Text("e.g. Class 12 Computer Final Exam 2081") },
                 isError = uiState.titleError != null,
                 supportingText = uiState.titleError?.let { { Text(it) } },
                 modifier = Modifier.fillMaxWidth(),
@@ -310,40 +302,22 @@ private fun BasicInfoCard(
                 accentColor = subjects.firstOrNull()?.let { getSubjectColor(it) }
             )
 
-            Text(
-                text = "Resource type",
-                style = MaterialTheme.typography.labelLarge,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-            ResourceTypeChips(
-                selected = uiState.type,
-                options = UploadViewModel.RESOURCE_TYPES,
-                onSelect = viewModel::updateType
-            )
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                Text(
+                    text = "Resource type",
+                    style = MaterialTheme.typography.labelLarge,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                ResourceTypeChips(
+                    selected = uiState.type,
+                    options = UploadViewModel.RESOURCE_TYPES,
+                    onSelect = viewModel::updateType
+                )
+            }
 
             GradeAndExamRow(
                 uiState = uiState,
                 viewModel = viewModel
-            )
-
-            OutlinedTextField(
-                value = uiState.description,
-                onValueChange = viewModel::updateDescription,
-                label = { Text("Description") },
-                placeholder = { Text("Briefly describe this resource...") },
-                modifier = Modifier.fillMaxWidth(),
-                minLines = 3,
-                maxLines = 5
-            )
-
-            AttributeChipRow(
-                label = "Tags",
-                placeholder = "Add tags",
-                values = uiState.tags.asCsvList(),
-                onRemove = { removed ->
-                    viewModel.updateTags(uiState.tags.asCsvList().filter { it != removed }.joinToString(", "))
-                },
-                onAddClick = onOpenTagPicker
             )
         }
     }
@@ -389,7 +363,7 @@ private fun GradeAndExamRow(
 }
 
 @Composable
-private fun UploadFileCard(
+private fun FilesCard(
     uiState: UploadFormState,
     viewModel: UploadViewModel,
     onPickFiles: () -> Unit,
@@ -407,9 +381,10 @@ private fun UploadFileCard(
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            UploadSectionHeader(
-                icon = Icons.Filled.CloudUpload,
-                title = "Upload File"
+            StepHeader(
+                stepNumber = 2,
+                title = "Files",
+                subtitle = "Upload or paste a link"
             )
 
             FileDropzone(
@@ -465,11 +440,58 @@ private fun LinkAlternativeFields(
     OutlinedTextField(
         value = uiState.thumbnailUrl,
         onValueChange = viewModel::updateThumbnailUrl,
-        label = { Text("Thumbnail URL") },
-        placeholder = { Text("https://... (optional cover image)") },
+        label = { Text("Thumbnail URL (optional)") },
+        placeholder = { Text("https://... cover image") },
         modifier = Modifier.fillMaxWidth(),
         singleLine = true
     )
+}
+
+@Composable
+private fun DescriptionAndTagsCard(
+    uiState: UploadFormState,
+    viewModel: UploadViewModel,
+    onOpenTagPicker: () -> Unit
+) {
+    NebCard(
+        shape = RoundedCornerShape(20.dp),
+        containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+        border = null
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            StepHeader(
+                stepNumber = 3,
+                title = "Details",
+                subtitle = "Description and tags",
+                optional = true
+            )
+
+            OutlinedTextField(
+                value = uiState.description,
+                onValueChange = viewModel::updateDescription,
+                label = { Text("Description") },
+                placeholder = { Text("Briefly describe this resource...") },
+                modifier = Modifier.fillMaxWidth(),
+                minLines = 3,
+                maxLines = 5
+            )
+
+            AttributeChipRow(
+                label = "Tags",
+                placeholder = "Add tags",
+                values = uiState.tags.asCsvList(),
+                onRemove = { removed ->
+                    viewModel.updateTags(uiState.tags.asCsvList().filter { it != removed }.joinToString(", "))
+                },
+                onAddClick = onOpenTagPicker
+            )
+        }
+    }
 }
 
 @Composable
@@ -488,9 +510,11 @@ private fun AttributionCard(
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            UploadSectionHeader(
-                icon = Icons.Filled.Person,
-                title = "Attribution"
+            StepHeader(
+                stepNumber = 4,
+                title = "Attribution",
+                subtitle = "Credit the original source",
+                optional = true
             )
 
             OutlinedTextField(
