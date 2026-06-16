@@ -419,7 +419,6 @@ fun CompleteProfileScreen(
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .padding(top = 4.dp)
-                                    .clickable { datePickerDialog.show() }
                             ) {
                                 OutlinedTextField(
                                     value = uiState.dob,
@@ -436,6 +435,11 @@ fun CompleteProfileScreen(
                                         disabledPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant
                                     ),
                                     shape = RoundedCornerShape(12.dp)
+                                )
+                                Box(
+                                    modifier = Modifier
+                                        .matchParentSize()
+                                        .clickable { datePickerDialog.show() }
                                 )
                             }
                         }

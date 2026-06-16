@@ -311,8 +311,18 @@ class ProfileViewModel @Inject constructor(
         viewModelScope.launch {
             _uiState.update { it.copy(photoBusy = true) }
             try {
+                val ext = when (mimeType) {
+                    "image/png" -> ".png"
+                    "image/webp" -> ".webp"
+                    "image/gif" -> ".gif"
+                    "image/jpeg", "image/jpg" -> ".jpg"
+                    else -> {
+                        val suffix = mimeType.substringAfter("/", "")
+                        if (suffix.isNotBlank()) ".$suffix" else ".jpg"
+                    }
+                }
                 val requestBody = bytes.toRequestBody(mimeType.toMediaTypeOrNull())
-                val filePart = MultipartBody.Part.createFormData("file", "profile_photo", requestBody)
+                val filePart = MultipartBody.Part.createFormData("file", "profile_photo$ext", requestBody)
                 // AuthRepository helper also updates the cached photo URL.
                 authRepository.uploadProfilePhoto(filePart)
                 authRepository.refreshProfile()

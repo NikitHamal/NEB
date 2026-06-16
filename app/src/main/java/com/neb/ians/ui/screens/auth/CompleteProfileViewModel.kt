@@ -207,8 +207,18 @@ class CompleteProfileViewModel @Inject constructor(
         _uiState.update { it.copy(isPhotoUploading = true) }
         viewModelScope.launch {
             try {
+                val ext = when (mimeType) {
+                    "image/png" -> ".png"
+                    "image/webp" -> ".webp"
+                    "image/gif" -> ".gif"
+                    "image/jpeg", "image/jpg" -> ".jpg"
+                    else -> {
+                        val suffix = mimeType.substringAfter("/", "")
+                        if (suffix.isNotBlank()) ".$suffix" else ".jpg"
+                    }
+                }
                 val requestBody = bytes.toRequestBody(mimeType.toMediaTypeOrNull())
-                val filePart = okhttp3.MultipartBody.Part.createFormData("file", fileName, requestBody)
+                val filePart = okhttp3.MultipartBody.Part.createFormData("file", "$fileName$ext", requestBody)
                 val url = authRepository.uploadProfilePhoto(filePart)
                 _uiState.update { it.copy(
                     isPhotoUploading = false,
