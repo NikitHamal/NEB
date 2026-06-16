@@ -87,6 +87,7 @@ import com.neb.ians.ui.screens.reader.PdfViewerScreen
 import com.neb.ians.ui.screens.resource.ResourceDetailScreen
 import com.neb.ians.ui.screens.analytics.AnalyticsScreen
 import com.neb.ians.ui.screens.bookmarks.BookmarksScreen
+import com.neb.ians.ui.screens.upload.UploadScreen
 import com.neb.ians.ui.screens.ai.NebyAiScreen
 import com.neb.ians.ui.screens.study.StudyLabScreen
 import com.neb.ians.ui.screens.study.StudySpaceScreen
@@ -132,6 +133,7 @@ sealed class Screen(val route: String) {
     data object NebyAi : Screen("neby_ai")
     data object Analytics : Screen("analytics")
     data object Bookmarks : Screen("bookmarks")
+    data object Upload : Screen("upload")
     data object Profile : Screen("profile/{username}") {
         fun createRoute(username: String) = "profile/${java.net.URLEncoder.encode(username, "UTF-8")}"
     }
@@ -382,7 +384,7 @@ fun NEBiansNavHost(
                         navController.navigate(Screen.ResourceDetail.createRoute(resourceId))
                     },
                     onSearchClick = { navController.navigate(Screen.Search.route) },
-                    onUploadClick = { navController.navigate(Screen.StudyLab.route) },
+                    onUploadClick = { navController.navigate(Screen.Upload.route) },
                     onNotificationsClick = { navController.navigate(Screen.Notifications.route) },
                     onProfileClick = navigateToOwnProfile,
                     onInteractiveCourseClick = { courseSlug ->
@@ -490,6 +492,12 @@ fun NEBiansNavHost(
                     onResourceClick = { resourceId -> navController.navigate(Screen.ResourceDetail.createRoute(resourceId)) },
                     onPostClick = { postId -> navController.navigate(Screen.ForumPostDetail.createRoute(postId)) },
                     onSearchClick = { navController.navigate(Screen.Search.route) }
+                )
+            }
+            composable(Screen.Upload.route) {
+                UploadScreen(
+                    onNavigateBack = { navController.popBackStack() },
+                    onUploadSuccess = { navController.navigate(Screen.Library.createRoute()) }
                 )
             }
             composable(
