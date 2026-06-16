@@ -6,17 +6,18 @@ import android.os.Looper
 import android.webkit.CookieManager
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import kotlinx.coroutines.CompletableDeferred
-import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.Response
-import java.io.IOException
+import java.util.concurrent.CountDownLatch
+import java.util.concurrent.TimeUnit
+import java.util.concurrent.atomic.AtomicReference
 
 class WafChallengeInterceptor(private val context: Context) : Interceptor {
 
     companion object {
         private const val BASE_URL = "https://nebians.consica.com.np/"
         private const val RETRY_HEADER = "X-Waf-Retried"
+        private const val CHALLENGE_TIMEOUT_SECONDS = 15L
 
         @Volatile
         private var cachedCookies: String? = null
@@ -25,7 +26,6 @@ class WafChallengeInterceptor(private val context: Context) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val originalRequest = chain.request()
 
-        // If this is a retried request, bypass WAF interception to prevent loops
         if (originalRequest.header(RETRY_HEADER) != null) {
             val strippedRequest = originalRequest.newBuilder()
                 .removeHeader(RETRY_HEADER)
@@ -33,7 +33,6 @@ class WafChallengeInterceptor(private val context: Context) : Interceptor {
             return chain.proceed(strippedRequest)
         }
 
-        // Apply Chrome-like browser headers
         val requestBuilder = originalRequest.newBuilder()
             .header("User-Agent", "Mozilla/5.0 (Linux; Android 11; Build/RQ3A.210705.001) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Mobile Safari/537.36")
             .header("Accept", "application/json, text/plain, */*")
@@ -43,7 +42,6 @@ class WafChallengeInterceptor(private val context: Context) : Interceptor {
             .header("Sec-Ch-Ua-Mobile", "?1")
             .header("Sec-Ch-Ua-Platform", "\"Android\"")
 
-        // Sync with CookieManager / in-memory cache
         val currentCookies = cachedCookies ?: CookieManager.getInstance().getCookie(BASE_URL)
         if (!currentCookies.isNullOrEmpty()) {
             requestBuilder.header("Cookie", currentCookies)
@@ -120,11 +118,14 @@ class WafChallengeInterceptor(private val context: Context) : Interceptor {
     }
 
     private fun solveChallengeInWebView(): String? {
-        val deferredCookies = CompletableDeferred<String?>()
+        val result = AtomicReference<String?>(null)
+        val latch = CountDownLatch(1)
+        var webViewRef: WebView? = null
 
         Handler(Looper.getMainLooper()).post {
             try {
                 val webView = WebView(context)
+                webViewRef = webView
                 val settings = webView.settings
                 settings.javaScriptEnabled = true
                 settings.domStorageEnabled = true
@@ -141,21 +142,20 @@ class WafChallengeInterceptor(private val context: Context) : Interceptor {
                     override fun onPageFinished(view: WebView?, url: String?) {
                         super.onPageFinished(view, url)
                         val cookies = cookieManager.getCookie(BASE_URL)
-                        // If we got WAF cookies (usually including revisit/shield or others), complete successfully
                         if (!cookies.isNullOrEmpty() && (cookies.contains("revisit") || cookies.contains("shield") || cookies.length > 20)) {
                             if (!isFinished) {
                                 isFinished = true
-                                deferredCookies.complete(cookies)
-                                webView.destroy()
+                                result.set(cookies)
+                                tryDestroyWebView(webViewRef)
+                                latch.countDown()
                             }
                         } else {
-                            // Delay slightly in case JavaScript takes a brief moment to set the cookies
                             Handler(Looper.getMainLooper()).postDelayed({
                                 if (!isFinished) {
-                                    val finalCookies = cookieManager.getCookie(BASE_URL)
                                     isFinished = true
-                                    deferredCookies.complete(finalCookies)
-                                    webView.destroy()
+                                    result.set(cookieManager.getCookie(BASE_URL))
+                                    tryDestroyWebView(webViewRef)
+                                    latch.countDown()
                                 }
                             }, 3000)
                         }
@@ -165,29 +165,32 @@ class WafChallengeInterceptor(private val context: Context) : Interceptor {
                         super.onReceivedError(view, errorCode, description, failingUrl)
                         if (!isFinished) {
                             isFinished = true
-                            deferredCookies.complete(null)
-                            webView.destroy()
+                            result.set(null)
+                            tryDestroyWebView(webViewRef)
+                            latch.countDown()
                         }
                     }
                 }
 
-                // Call a simple, fast API endpoint to trigger the security barrier
                 webView.loadUrl(BASE_URL + "api/realtime/config/")
             } catch (e: Exception) {
-                if (deferredCookies.isActive) {
-                    deferredCookies.complete(null)
-                }
+                result.set(null)
+                latch.countDown()
             }
         }
 
-        return runBlocking {
-            try {
-                kotlinx.coroutines.withTimeout(15000) {
-                    deferredCookies.await()
+        latch.await(CHALLENGE_TIMEOUT_SECONDS, TimeUnit.SECONDS)
+        tryDestroyWebView(webViewRef)
+        return result.get()
+    }
+
+    private fun tryDestroyWebView(webViewRef: WebView?) {
+        try {
+            webViewRef?.let {
+                Handler(Looper.getMainLooper()).post {
+                    try { it.destroy() } catch (_: Exception) {}
                 }
-            } catch (e: Exception) {
-                null
             }
-        }
+        } catch (_: Exception) {}
     }
 }
