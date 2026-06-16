@@ -155,6 +155,10 @@ class UploadViewModel @Inject constructor(
         _uiState.update { it.copy(fileUrl = fileUrl, fileError = null) }
     }
 
+    fun setFileError(message: String?) {
+        _uiState.update { it.copy(fileError = message) }
+    }
+
     fun updateThumbnailUrl(thumbnailUrl: String) {
         _uiState.update { it.copy(thumbnailUrl = thumbnailUrl) }
     }
