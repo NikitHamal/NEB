@@ -272,6 +272,7 @@ fun ProfileHeaderCard(
                 Surface(
                     modifier = Modifier
                         .align(Alignment.TopStart)
+                        .statusBarsPadding()
                         .padding(12.dp)
                         .size(36.dp),
                     shape = CircleShape,
@@ -293,6 +294,7 @@ fun ProfileHeaderCard(
                 Surface(
                     modifier = Modifier
                         .align(Alignment.TopEnd)
+                        .statusBarsPadding()
                         .padding(12.dp)
                         .size(36.dp),
                     shape = CircleShape,
