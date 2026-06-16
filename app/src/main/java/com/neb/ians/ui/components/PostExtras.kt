@@ -61,12 +61,12 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Surface
@@ -84,6 +84,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.font.FontWeight
@@ -474,7 +475,8 @@ fun PollBadge(isMcq: Boolean, modifier: Modifier = Modifier) {
     }
 }
 
-/** Three-dot dropdown menu for posts/replies. */
+/** Modern bottom sheet menu for posts/replies — like Instagram/Facebook. */
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PostMoreMenu(
     isOwn: Boolean,
@@ -488,63 +490,104 @@ fun PostMoreMenu(
     onDelete: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var expanded by remember { mutableStateOf(false) }
+    var showSheet by remember { mutableStateOf(false) }
     Box(modifier = modifier) {
         NebIconButton(
             icon = Icons.Filled.MoreVert,
             contentDescription = "More options",
-            onClick = { expanded = true },
+            onClick = { showSheet = true },
             size = 34.dp
         )
-        DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
-            DropdownMenuItem(
-                text = { Text(if (isBookmarked) "Remove bookmark" else "Bookmark") },
-                leadingIcon = {
-                    Icon(
-                        if (isBookmarked) Icons.Filled.Bookmark else Icons.Filled.BookmarkBorder,
-                        contentDescription = null
-                    )
-                },
-                onClick = { expanded = false; onBookmark() }
-            )
-            DropdownMenuItem(
-                text = { Text("Share") },
-                leadingIcon = { Icon(Icons.Outlined.Share, contentDescription = null) },
-                onClick = { expanded = false; onShare() }
-            )
-            if (!isOwn) {
-                DropdownMenuItem(
-                    text = { Text("Report") },
-                    leadingIcon = { Icon(Icons.Outlined.Flag, contentDescription = null) },
-                    onClick = { expanded = false; onReport() }
-                )
+    }
+    if (showSheet) {
+        ModalBottomSheet(
+            onDismissRequest = { showSheet = false },
+            containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+            dragHandle = {
+                Surface(
+                    modifier = Modifier.padding(vertical = 10.dp),
+                    color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f),
+                    shape = RoundedCornerShape(3.dp)
+                ) {
+                    Box(Modifier.size(width = 32.dp, height = 4.dp))
+                }
             }
-            if (isOwn) {
-                HorizontalDivider()
-                DropdownMenuItem(
-                    text = { Text("Edit") },
-                    leadingIcon = { Icon(Icons.Outlined.Edit, contentDescription = null) },
-                    onClick = { expanded = false; onEdit() }
+        ) {
+            Column(modifier = Modifier.padding(bottom = 8.dp)) {
+                BottomSheetItem(
+                    icon = if (isBookmarked) Icons.Filled.Bookmark else Icons.Filled.BookmarkBorder,
+                    label = if (isBookmarked) "Remove bookmark" else "Bookmark",
+                    onClick = { showSheet = false; onBookmark() }
                 )
-                DropdownMenuItem(
-                    text = { Text(if (isArchived) "Unarchive" else "Archive") },
-                    leadingIcon = {
-                        Icon(
-                            if (isArchived) Icons.Outlined.Unarchive else Icons.Outlined.Archive,
-                            contentDescription = null
-                        )
-                    },
-                    onClick = { expanded = false; onArchive() }
+                BottomSheetItem(
+                    icon = Icons.Outlined.Share,
+                    label = "Share",
+                    onClick = { showSheet = false; onShare() }
                 )
-                DropdownMenuItem(
-                    text = { Text("Delete", color = MaterialTheme.colorScheme.error) },
-                    leadingIcon = {
-                        Icon(Icons.Outlined.Delete, contentDescription = null, tint = MaterialTheme.colorScheme.error)
-                    },
-                    onClick = { expanded = false; onDelete() }
-                )
+                if (!isOwn) {
+                    BottomSheetItem(
+                        icon = Icons.Outlined.Flag,
+                        label = "Report",
+                        onClick = { showSheet = false; onReport() }
+                    )
+                }
+                if (isOwn) {
+                    HorizontalDivider(
+                        modifier = Modifier.padding(vertical = 4.dp, horizontal = 16.dp),
+                        color = MaterialTheme.colorScheme.outlineVariant
+                    )
+                    BottomSheetItem(
+                        icon = Icons.Outlined.Edit,
+                        label = "Edit",
+                        onClick = { showSheet = false; onEdit() }
+                    )
+                    BottomSheetItem(
+                        icon = if (isArchived) Icons.Outlined.Unarchive else Icons.Outlined.Archive,
+                        label = if (isArchived) "Unarchive" else "Archive",
+                        onClick = { showSheet = false; onArchive() }
+                    )
+                    BottomSheetItem(
+                        icon = Icons.Outlined.Delete,
+                        label = "Delete",
+                        isDestructive = true,
+                        onClick = { showSheet = false; onDelete() }
+                    )
+                }
             }
         }
+    }
+}
+
+@Composable
+private fun BottomSheetItem(
+    icon: ImageVector,
+    label: String,
+    isDestructive: Boolean = false,
+    onClick: () -> Unit
+) {
+    val tint = if (isDestructive) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurface
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick)
+            .padding(horizontal = 24.dp, vertical = 14.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        Icon(
+            imageVector = icon,
+            contentDescription = null,
+            tint = tint,
+            modifier = Modifier.size(22.dp)
+        )
+        Text(
+            text = label,
+            style = MaterialTheme.typography.bodyLarge,
+            color = tint,
+            fontWeight = FontWeight.Medium,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
+        )
     }
 }
 

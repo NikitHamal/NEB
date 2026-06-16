@@ -16,27 +16,30 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Info
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExposedDropdownMenuBox
-import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.MenuAnchorType
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -53,6 +56,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import com.neb.ians.ui.components.NebCard
 import com.neb.ians.ui.components.NebChip
 import com.neb.ians.ui.components.NebFilledButton
@@ -119,57 +125,152 @@ fun DropdownField(
     modifier: Modifier = Modifier,
     placeholder: String? = null
 ) {
-    var expanded by remember { mutableStateOf(false) }
-    ExposedDropdownMenuBox(
-        expanded = expanded,
-        onExpandedChange = { expanded = it },
+    var showDialog by remember { mutableStateOf(false) }
+
+    val fieldShape = RoundedCornerShape(14.dp)
+    val fieldColors = OutlinedTextFieldDefaults.colors(
+        focusedContainerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+        unfocusedContainerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+        focusedBorderColor = MaterialTheme.colorScheme.primary,
+        unfocusedBorderColor = MaterialTheme.colorScheme.outlineVariant
+    )
+
+    OutlinedTextField(
+        value = value.ifBlank { placeholder ?: "" },
+        onValueChange = {},
+        readOnly = true,
+        label = { Text(label, maxLines = 1, overflow = TextOverflow.Ellipsis) },
+        trailingIcon = {
+            Icon(
+                imageVector = Icons.Filled.ArrowDropDown,
+                contentDescription = null,
+                modifier = Modifier.size(20.dp),
+                tint = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        },
         modifier = modifier
+            .fillMaxWidth()
+            .clickable { showDialog = true },
+        singleLine = true,
+        shape = fieldShape,
+        colors = fieldColors,
+        textStyle = MaterialTheme.typography.bodyMedium
+    )
+
+    if (showDialog) {
+        SelectionDialog(
+            title = label,
+            options = options,
+            selectedValue = value,
+            onDismiss = { showDialog = false },
+            onSelect = {
+                onValueChange(it)
+                showDialog = false
+            }
+        )
+    }
+}
+
+@Composable
+fun SelectionDialog(
+    title: String,
+    options: List<String>,
+    selectedValue: String,
+    onDismiss: () -> Unit,
+    onSelect: (String) -> Unit
+) {
+    Dialog(
+        onDismissRequest = onDismiss,
+        properties = DialogProperties(usePlatformDefaultWidth = false, dismissOnClickOutside = true)
     ) {
-        OutlinedTextField(
-            value = value,
-            onValueChange = {},
-            readOnly = true,
-            label = { Text(label, maxLines = 1, overflow = TextOverflow.Ellipsis) },
-            placeholder = placeholder?.let { { Text(it, maxLines = 1, overflow = TextOverflow.Ellipsis) } },
-            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+        Surface(
+            shape = RoundedCornerShape(24.dp),
+            color = MaterialTheme.colorScheme.surfaceContainerLowest,
             modifier = Modifier
                 .fillMaxWidth()
-                .menuAnchor(MenuAnchorType.PrimaryNotEditable),
-            singleLine = true
-        )
-        ExposedDropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false },
-            containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
+                .padding(12.dp)
         ) {
-            options.forEach { option ->
-                DropdownMenuItem(
-                    text = {
-                        Text(
-                            text = option.ifBlank { "—" },
-                            style = MaterialTheme.typography.bodyMedium,
-                            fontWeight = if (option == value) FontWeight.SemiBold else FontWeight.Normal,
-                            color = if (option == value) MaterialTheme.colorScheme.primary
-                            else MaterialTheme.colorScheme.onSurface,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(20.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = title,
+                        style = MaterialTheme.typography.titleLarge,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.weight(1f),
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                    IconButton(onClick = onDismiss, modifier = Modifier.size(36.dp)) {
+                        Icon(
+                            imageVector = Icons.Filled.Close,
+                            contentDescription = "Close",
+                            modifier = Modifier.size(22.dp)
                         )
-                    },
-                    onClick = {
-                        onValueChange(option)
-                        expanded = false
-                    },
-                    leadingIcon = if (option == value) {
-                        {
-                            Icon(
-                                imageVector = Icons.Filled.Check,
-                                contentDescription = null,
-                                tint = MaterialTheme.colorScheme.primary,
-                                modifier = Modifier.size(20.dp)
+                    }
+                }
+
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .heightIn(max = 320.dp),
+                    verticalArrangement = Arrangement.spacedBy(2.dp)
+                ) {
+                    items(options, key = { it }) { option ->
+                        val selected = option == selectedValue
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clip(RoundedCornerShape(10.dp))
+                                .clickable { onSelect(option) }
+                                .padding(horizontal = 8.dp, vertical = 10.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(12.dp)
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .size(22.dp)
+                                    .clip(CircleShape)
+                                    .background(
+                                        if (selected) MaterialTheme.colorScheme.primary
+                                        else Color.Transparent
+                                    )
+                                    .then(
+                                        if (!selected) Modifier.border(
+                                            BorderStroke(2.dp, MaterialTheme.colorScheme.outline),
+                                            CircleShape
+                                        ) else Modifier
+                                    ),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                if (selected) {
+                                    Icon(
+                                        imageVector = Icons.Filled.Check,
+                                        contentDescription = null,
+                                        tint = MaterialTheme.colorScheme.onPrimary,
+                                        modifier = Modifier.size(14.dp)
+                                    )
+                                }
+                            }
+                            Text(
+                                text = option.ifBlank { "—" },
+                                style = MaterialTheme.typography.bodyMedium,
+                                fontWeight = if (selected) FontWeight.SemiBold else FontWeight.Normal,
+                                color = if (selected) MaterialTheme.colorScheme.primary
+                                else MaterialTheme.colorScheme.onSurface,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
                             )
                         }
-                    } else null
-                )
+                    }
+                }
             }
         }
     }
@@ -445,32 +546,19 @@ private fun GradeAndExamRow(
     val showExamType = uiState.type in listOf(
         "Past Paper", "Model Paper", "Guide", "Solution", "Note", "PDF"
     )
+    DropdownField(
+        label = "Level / Grade",
+        value = uiState.gradeLevel,
+        options = UploadViewModel.GRADE_LEVELS,
+        onValueChange = viewModel::updateGradeLevel,
+        modifier = Modifier.fillMaxWidth()
+    )
     if (showExamType) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            DropdownField(
-                label = "Level / Grade",
-                value = uiState.gradeLevel,
-                options = UploadViewModel.GRADE_LEVELS,
-                onValueChange = viewModel::updateGradeLevel,
-                modifier = Modifier.weight(1f)
-            )
-            DropdownField(
-                label = "Exam Type",
-                value = uiState.examType,
-                options = UploadViewModel.EXAM_TYPES,
-                onValueChange = viewModel::updateExamType,
-                modifier = Modifier.weight(1f)
-            )
-        }
-    } else {
         DropdownField(
-            label = "Level / Grade",
-            value = uiState.gradeLevel,
-            options = UploadViewModel.GRADE_LEVELS,
-            onValueChange = viewModel::updateGradeLevel,
+            label = "Exam Type",
+            value = uiState.examType,
+            options = UploadViewModel.EXAM_TYPES,
+            onValueChange = viewModel::updateExamType,
             modifier = Modifier.fillMaxWidth()
         )
     }
@@ -621,35 +709,30 @@ fun AttributionStep(
             modifier = Modifier.fillMaxWidth(),
             singleLine = true
         )
-        Row(
+        OutlinedTextField(
+            value = uiState.sourceLabel,
+            onValueChange = viewModel::updateSourceLabel,
+            label = { Text("Source Label", maxLines = 1) },
+            placeholder = {
+                Text(
+                    "e.g. Curriculum Board",
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+            },
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            OutlinedTextField(
-                value = uiState.sourceLabel,
-                onValueChange = viewModel::updateSourceLabel,
-                label = { Text("Source Label", maxLines = 1) },
-                placeholder = {
-                    Text(
-                        "e.g. Curriculum Board",
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                },
-                modifier = Modifier.weight(1f),
-                singleLine = true
-            )
-            OutlinedTextField(
-                value = uiState.sourceUrl,
-                onValueChange = viewModel::updateSourceUrl,
-                label = { Text("Source URL", maxLines = 1) },
-                placeholder = {
-                    Text("https://...", maxLines = 1, overflow = TextOverflow.Ellipsis)
-                },
-                modifier = Modifier.weight(1f),
-                singleLine = true
-            )
-        }
+            singleLine = true
+        )
+        OutlinedTextField(
+            value = uiState.sourceUrl,
+            onValueChange = viewModel::updateSourceUrl,
+            label = { Text("Source URL", maxLines = 1) },
+            placeholder = {
+                Text("https://...", maxLines = 1, overflow = TextOverflow.Ellipsis)
+            },
+            modifier = Modifier.fillMaxWidth(),
+            singleLine = true
+        )
     }
 }
 

@@ -8,8 +8,6 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -186,9 +184,7 @@ fun UploadScreen(
             AnimatedContent(
                 targetState = currentStep,
                 transitionSpec = {
-                    val direction = if (targetState > initialState) 1 else -1
-                    (slideInHorizontally(tween(220)) { it * direction } + fadeIn(tween(220))) togetherWith
-                        (slideOutHorizontally(tween(220)) { it * -direction } + fadeOut(tween(180)))
+                    fadeIn(tween(150)) togetherWith fadeOut(tween(100))
                 },
                 label = "stepTransition"
             ) { stepIndex ->
