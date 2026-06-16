@@ -440,6 +440,13 @@ data class ApiSearchResponse(
 )
 
 @Serializable
+data class ApiResourceUploadResponse(
+    val id: String = "",
+    val title: String = "",
+    val error: String? = null
+)
+
+@Serializable
 data class ApiSyllabusCategoriesResponse(
     val categories: List<ApiSyllabusCategory> = emptyList()
 )
@@ -785,6 +792,32 @@ interface ApiService {
         @Header("Authorization") bearerToken: String,
         @Path("photoId") photoId: Int
     ): GenericMessageResponse
+
+    // --- Resource Upload ---
+    @Multipart
+    @POST("api/resources/upload/")
+    suspend fun uploadResource(
+        @Header("Authorization") bearerToken: String,
+        @Part file: okhttp3.MultipartBody.Part?,
+        @Part("title") title: okhttp3.RequestBody,
+        @Part("subject") subject: okhttp3.RequestBody,
+        @Part("description") description: okhttp3.RequestBody?,
+        @Part("grade_level") gradeLevel: okhttp3.RequestBody?,
+        @Part("type") type: okhttp3.RequestBody?,
+        @Part("exam_type") examType: okhttp3.RequestBody?,
+        @Part("faculty") faculty: okhttp3.RequestBody?,
+        @Part("program") program: okhttp3.RequestBody?,
+        @Part("year") year: okhttp3.RequestBody?,
+        @Part("school") school: okhttp3.RequestBody?,
+        @Part("pradesh") pradesh: okhttp3.RequestBody?,
+        @Part("district") district: okhttp3.RequestBody?,
+        @Part("tags") tags: okhttp3.RequestBody?,
+        @Part("file_url") fileUrl: okhttp3.RequestBody?,
+        @Part("thumbnail_url") thumbnailUrl: okhttp3.RequestBody?,
+        @Part("author_name") authorName: okhttp3.RequestBody?,
+        @Part("source_label") sourceLabel: okhttp3.RequestBody?,
+        @Part("source_url") sourceUrl: okhttp3.RequestBody?
+    ): ApiResourceUploadResponse
 
     // --- Resources ---
     @GET("api/resources/")
