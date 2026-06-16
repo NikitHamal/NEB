@@ -9,6 +9,7 @@ import com.neb.ians.data.api.ApiService
 import com.neb.ians.data.api.ApiSyllabusCategory
 import com.neb.ians.data.api.ApiSyllabusSubject
 import com.neb.ians.data.repository.ResourceRepository
+import com.neb.ians.data.repository.AppCache
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -68,10 +69,19 @@ data class LibraryUiState(
 class LibraryViewModel @Inject constructor(
     private val resourceRepository: ResourceRepository,
     private val apiService: ApiService,
+    private val appCache: AppCache,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(LibraryUiState())
+    private val _uiState = MutableStateFlow(
+        LibraryUiState(
+            resources = appCache.libraryResources,
+            totalCount = appCache.libraryTotalCount,
+            totalPages = appCache.libraryTotalPages,
+            hasMore = appCache.libraryHasMore,
+            isLoading = appCache.libraryResources.isEmpty()
+        )
+    )
 
     val uiState: StateFlow<LibraryUiState> = _uiState.asStateFlow()
 
@@ -120,8 +130,10 @@ class LibraryViewModel @Inject constructor(
 
     private fun loadResources() {
         viewModelScope.launch {
-            _uiState.update { it.copy(isLoading = true, error = null) }
             val state = _uiState.value
+            val isDefaultQuery = state.selectedSubject == null && state.selectedGradeLevel == null && state.selectedType == null && state.sort == "relevant"
+            _uiState.update { it.copy(isLoading = if (isDefaultQuery) it.resources.isEmpty() else true, error = null) }
+            
             resourceRepository.getResources(
                 subject = state.selectedSubject,
                 grade = state.selectedGradeLevel,
@@ -139,8 +151,18 @@ class LibraryViewModel @Inject constructor(
                         isLoading = false
                     )
                 }
+                if (isDefaultQuery) {
+                    appCache.libraryResources = result.resources
+                    appCache.libraryTotalCount = result.totalCount
+                    appCache.libraryTotalPages = result.totalPages
+                    appCache.libraryHasMore = result.resources.size < result.totalCount
+                }
             }.onFailure { e ->
-                _uiState.update { it.copy(isLoading = false, error = ApiErrorMapper.mapException(e)) }
+                if (_uiState.value.resources.isEmpty()) {
+                    _uiState.update { it.copy(isLoading = false, error = ApiErrorMapper.mapException(e)) }
+                } else {
+                    _uiState.update { it.copy(isLoading = false) }
+                }
             }
         }
     }

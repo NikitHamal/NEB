@@ -10,6 +10,7 @@ import com.neb.ians.data.api.ApiUserPhoto
 import com.neb.ians.data.api.UserProfileResponse
 import com.neb.ians.data.api.ApiErrorMapper
 import com.neb.ians.data.repository.AuthRepository
+import com.neb.ians.data.repository.AppCache
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -47,13 +48,22 @@ data class ProfileUiState(
     val showPhotoGallery: Boolean = false,
     val photos: List<ApiUserPhoto> = emptyList(),
     val photosLoading: Boolean = false,
-    val photoBusy: Boolean = false
+    val photoBusy: Boolean = false,
+    
+    // Followers & Following Lists
+    val showFollowersList: Boolean = false,
+    val followersList: List<UserProfileResponse> = emptyList(),
+    val followersLoading: Boolean = false,
+    val showFollowingList: Boolean = false,
+    val followingList: List<UserProfileResponse> = emptyList(),
+    val followingLoading: Boolean = false
 )
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     private val apiService: ApiService,
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
+    private val appCache: AppCache
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(ProfileUiState())
@@ -62,9 +72,27 @@ class ProfileViewModel @Inject constructor(
     private var currentUsername: String = ""
 
     fun loadProfile(username: String) {
+        val cachedUser = if (appCache.lastProfileUsername == username) appCache.lastProfile else null
         currentUsername = username
         viewModelScope.launch {
-            _uiState.value = ProfileUiState(isLoading = true)
+            if (cachedUser != null) {
+                _uiState.value = ProfileUiState(
+                    profile = cachedUser,
+                    isLoading = false,
+                    isFollowing = appCache.lastProfileIsFollowing,
+                    followerCount = appCache.lastProfileFollowerCount,
+                    repliesCount = appCache.lastProfileRepliesCount,
+                    resourcesCount = appCache.lastProfileResourcesCount,
+                    posts = appCache.lastProfilePosts,
+                    replies = appCache.lastProfileReplies,
+                    resources = appCache.lastProfileResources,
+                    postsLoaded = appCache.lastProfilePosts.isNotEmpty(),
+                    repliesLoaded = appCache.lastProfileReplies.isNotEmpty(),
+                    resourcesLoaded = appCache.lastProfileResources.isNotEmpty()
+                )
+            } else {
+                _uiState.value = ProfileUiState(isLoading = true)
+            }
             try {
                 val token = authRepository.getBearerToken()
                 val profile = apiService.getProfile(token, username)
@@ -72,20 +100,20 @@ class ProfileViewModel @Inject constructor(
                 var profileWithStats = profile
                 var initialRepliesCount = profile.replyCount
                 var initialResourcesCount = 0
-                    val stats = apiService.getProfileStats(token, username)
-                    statsIsFollowing = stats.isFollowing
-                    initialResourcesCount = stats.uploadedResourcesCount
-                    profileWithStats = profile.copy(
-                        isSelf = stats.isSelf,
-                        postCount = stats.postCount,
-                        replyCount = stats.replyCount,
-                        followerCount = stats.followerCount,
-                        followingCount = stats.followingCount,
-                        likesReceivedCount = stats.likesReceived,
-                        likesGivenCount = stats.likesGiven,
-                        contributionScore = stats.contributionScore
-                    )
-                    initialRepliesCount = stats.replyCount
+                val stats = apiService.getProfileStats(token, username)
+                statsIsFollowing = stats.isFollowing
+                initialResourcesCount = stats.uploadedResourcesCount
+                profileWithStats = profile.copy(
+                    isSelf = stats.isSelf,
+                    postCount = stats.postCount,
+                    replyCount = stats.replyCount,
+                    followerCount = stats.followerCount,
+                    followingCount = stats.followingCount,
+                    likesReceivedCount = stats.likesReceived,
+                    likesGivenCount = stats.likesGiven,
+                    contributionScore = stats.contributionScore
+                )
+                initialRepliesCount = stats.replyCount
                 _uiState.update {
                     it.copy(
                         profile = profileWithStats,
@@ -96,13 +124,32 @@ class ProfileViewModel @Inject constructor(
                         resourcesCount = initialResourcesCount
                     )
                 }
+                saveToCache()
                 val isPrivate = profile.isLocked == 1 && profile.isSelf != true
                 if (!isPrivate) {
                     loadPosts(reset = true)
                 }
             } catch (e: Exception) {
-                _uiState.update { it.copy(isLoading = false, error = ApiErrorMapper.mapException(e)) }
+                if (_uiState.value.profile == null) {
+                    _uiState.update { it.copy(isLoading = false, error = ApiErrorMapper.mapException(e)) }
+                }
             }
+        }
+    }
+
+    private fun saveToCache() {
+        val state = _uiState.value
+        val profile = state.profile ?: return
+        if (currentUsername == profile.username) {
+            appCache.lastProfileUsername = currentUsername
+            appCache.lastProfile = profile
+            appCache.lastProfileIsFollowing = state.isFollowing
+            appCache.lastProfileFollowerCount = state.followerCount
+            appCache.lastProfileRepliesCount = state.repliesCount
+            appCache.lastProfileResourcesCount = state.resourcesCount
+            appCache.lastProfilePosts = state.posts
+            appCache.lastProfileReplies = state.replies
+            appCache.lastProfileResources = state.resources
         }
     }
 
@@ -157,6 +204,7 @@ class ProfileViewModel @Inject constructor(
                         postsLoaded = true
                     )
                 }
+                saveToCache()
             } catch (_: Exception) {
                 _uiState.update { it.copy(postsLoading = false, postsLoaded = true) }
             }
@@ -191,6 +239,7 @@ class ProfileViewModel @Inject constructor(
                         repliesLoaded = true
                     )
                 }
+                saveToCache()
             } catch (_: Exception) {
                 _uiState.update { it.copy(repliesLoading = false, repliesLoaded = true) }
             }
@@ -225,6 +274,7 @@ class ProfileViewModel @Inject constructor(
                         resourcesLoaded = true
                     )
                 }
+                saveToCache()
             } catch (_: Exception) {
                 _uiState.update { it.copy(resourcesLoading = false, resourcesLoaded = true) }
             }
@@ -244,8 +294,49 @@ class ProfileViewModel @Inject constructor(
                             ?: (it.followerCount + (if (response.isFollowing) 1 else -1))
                     )
                 }
+                saveToCache()
             } catch (_: Exception) { }
         }
+    }
+
+    // ----------------------------------------------------------------
+    // Followers & Following lists modal triggers
+    // ----------------------------------------------------------------
+
+    fun openFollowers() {
+        val profile = _uiState.value.profile ?: return
+        _uiState.update { it.copy(showFollowersList = true, followersLoading = true, followersList = emptyList()) }
+        viewModelScope.launch {
+            try {
+                val token = authRepository.getBearerToken()
+                val list = apiService.getFollowers(token, profile.id)
+                _uiState.update { it.copy(followersList = list, followersLoading = false) }
+            } catch (_: Exception) {
+                _uiState.update { it.copy(followersLoading = false) }
+            }
+        }
+    }
+
+    fun closeFollowers() {
+        _uiState.update { it.copy(showFollowersList = false) }
+    }
+
+    fun openFollowing() {
+        val profile = _uiState.value.profile ?: return
+        _uiState.update { it.copy(showFollowingList = true, followingLoading = true, followingList = emptyList()) }
+        viewModelScope.launch {
+            try {
+                val token = authRepository.getBearerToken()
+                val list = apiService.getFollowing(token, profile.id)
+                _uiState.update { it.copy(followingList = list, followingLoading = false) }
+            } catch (_: Exception) {
+                _uiState.update { it.copy(followingLoading = false) }
+            }
+        }
+    }
+
+    fun closeFollowing() {
+        _uiState.update { it.copy(showFollowingList = false) }
     }
 
     // ----------------------------------------------------------------
@@ -288,9 +379,7 @@ class ProfileViewModel @Inject constructor(
                     return@launch
                 }
                 apiService.activatePhoto(token, photoId)
-                // Refresh the locally cached profile (topbar avatar etc.)
                 authRepository.refreshProfile()
-                // Reload gallery + on-screen profile
                 val photos = try { apiService.getUserPhotos(token) } catch (_: Exception) { _uiState.value.photos }
                 val refreshed = try { apiService.getProfile(token, currentUsername) } catch (_: Exception) { null }
                 _uiState.update {
@@ -300,6 +389,7 @@ class ProfileViewModel @Inject constructor(
                         photoBusy = false
                     )
                 }
+                saveToCache()
             } catch (_: Exception) {
                 _uiState.update { it.copy(photoBusy = false) }
             }
@@ -323,7 +413,6 @@ class ProfileViewModel @Inject constructor(
                 }
                 val requestBody = bytes.toRequestBody(mimeType.toMediaTypeOrNull())
                 val filePart = MultipartBody.Part.createFormData("file", "profile_photo$ext", requestBody)
-                // AuthRepository helper also updates the cached photo URL.
                 authRepository.uploadProfilePhoto(filePart)
                 authRepository.refreshProfile()
                 val token = authRepository.getBearerToken()
@@ -340,6 +429,7 @@ class ProfileViewModel @Inject constructor(
                         photoBusy = false
                     )
                 }
+                saveToCache()
             } catch (_: Exception) {
                 _uiState.update { it.copy(photoBusy = false) }
             }
