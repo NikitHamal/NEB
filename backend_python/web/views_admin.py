@@ -1612,3 +1612,122 @@ def admin_process_deletion(request, request_id):
         del_request.delete()
 
     return redirect('web:admin_deletions')
+
+
+def admin_push_notifications(request):
+    """Admin page to filter users and send targeted push notifications."""
+    redirect_response = _require_staff_admin(request)
+    if redirect_response:
+        return redirect_response
+
+    import datetime
+    from django.db.models import Q
+    from django.http import JsonResponse
+    from api.models import User, FCMToken
+
+    # Parse parameters
+    class_level = request.POST.get('class_level', '').strip() if request.method == 'POST' else request.GET.get('class_level', '').strip()
+    gender = request.POST.get('gender', '').strip() if request.method == 'POST' else request.GET.get('gender', '').strip()
+    min_age = request.POST.get('min_age', '').strip() if request.method == 'POST' else request.GET.get('min_age', '').strip()
+    max_age = request.POST.get('max_age', '').strip() if request.method == 'POST' else request.GET.get('max_age', '').strip()
+    pradesh = request.POST.get('pradesh', '').strip() if request.method == 'POST' else request.GET.get('pradesh', '').strip()
+    district = request.POST.get('district', '').strip() if request.method == 'POST' else request.GET.get('district', '').strip()
+    school = request.POST.get('school', '').strip() if request.method == 'POST' else request.GET.get('school', '').strip()
+    usernames_or_ids = request.POST.get('usernames_or_ids', '').strip() if request.method == 'POST' else request.GET.get('usernames_or_ids', '').strip()
+
+    title = request.POST.get('title', '').strip()
+    body = request.POST.get('body', '').strip()
+
+    # Build matching users query
+    user_qs = User.objects.filter(is_bot=False)
+
+    if class_level:
+        user_qs = user_qs.filter(class_level__iexact=class_level)
+    if gender:
+        user_qs = user_qs.filter(gender__iexact=gender)
+    if pradesh:
+        user_qs = user_qs.filter(pradesh__icontains=pradesh)
+    if district:
+        user_qs = user_qs.filter(district__icontains=district)
+    if school:
+        user_qs = user_qs.filter(school__icontains=school)
+
+    today = datetime.date.today()
+    if min_age:
+        try:
+            min_age_val = int(min_age)
+            limit_year = today.year - min_age_val
+            dob_limit = f"{limit_year:04d}-{today.month:02d}-{today.day:02d}"
+            user_qs = user_qs.filter(dob__lte=dob_limit).exclude(dob='')
+        except ValueError:
+            pass
+
+    if max_age:
+        try:
+            max_age_val = int(max_age)
+            limit_year = today.year - max_age_val - 1
+            dob_limit = f"{limit_year:04d}-{today.month:02d}-{today.day:02d}"
+            user_qs = user_qs.filter(dob__gte=dob_limit).exclude(dob='')
+        except ValueError:
+            pass
+
+    if usernames_or_ids:
+        items = [x.strip() for x in usernames_or_ids.split(',') if x.strip()]
+        if items:
+            user_qs = user_qs.filter(Q(username__in=items) | Q(id__in=items))
+
+    matching_users_count = user_qs.count()
+    matching_tokens_count = FCMToken.objects.filter(user__in=user_qs).count()
+
+    # AJAX counter request
+    if request.GET.get('count_only') == '1' or (request.headers.get('X-Requested-With') == 'XMLHttpRequest' and request.method == 'GET'):
+        return JsonResponse({
+            'matching_users': matching_users_count,
+            'matching_tokens': matching_tokens_count,
+        })
+
+    success_message = None
+    error_message = None
+
+    if request.method == 'POST':
+        if not title or not body:
+            error_message = "Title and message body are required."
+        else:
+            tokens = list(FCMToken.objects.filter(user__in=user_qs).values_list('token', flat=True))
+            if not tokens:
+                error_message = f"No active devices/FCM tokens registered for the matching {matching_users_count} users."
+            else:
+                from api.fcm_utils import send_fcm_message
+                send_fcm_message(
+                    tokens=tokens,
+                    title=title,
+                    body=body,
+                    data={
+                        'verb': 'system',
+                        'target_type': 'broadcast',
+                        'target_id': '',
+                    }
+                )
+                success_message = f"Successfully queued notification to {len(tokens)} active devices of {matching_users_count} targeted users."
+                # Clear fields on success
+                title = ""
+                body = ""
+
+    return render(request, 'admin_panel/push_notifications.html', {
+        'is_admin': True,
+        'active_page': 'push_notifications',
+        'matching_users': matching_users_count,
+        'matching_tokens': matching_tokens_count,
+        'success_message': success_message,
+        'error_message': error_message,
+        'class_level': class_level,
+        'gender': gender,
+        'min_age': min_age,
+        'max_age': max_age,
+        'pradesh': pradesh,
+        'district': district,
+        'school': school,
+        'usernames_or_ids': usernames_or_ids,
+        'title_val': title,
+        'body_val': body,
+    })
