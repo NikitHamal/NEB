@@ -23,32 +23,44 @@ class NEBiansFCMService : FirebaseMessagingService() {
 
     override fun onNewToken(token: String) {
         super.onNewToken(token)
-        // Register token with the backend API in the background
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val userToken = authRepository.tokenFlow.first()
                 val bearer = userToken?.let { "Bearer $it" }
                 apiService.registerFcmToken(bearer, FcmTokenRequest(token))
             } catch (e: Exception) {
-                // Silently ignore during background token refreshing
             }
         }
     }
 
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
-        
-        // Extract title and body from the payload
-        val title = message.notification?.title ?: message.data["title"] ?: "NEBians Board Notification"
-        val body = message.notification?.body ?: message.data["message"] ?: "Check out new resources and updates."
-        val channelId = message.data["channel_id"] ?: "announcements"
 
-        // Trigger local notification delivery
+        val title = message.notification?.title ?: message.data["title"] ?: "NEBians"
+        val body = message.notification?.body ?: message.data["message"] ?: "New activity on your account"
+
+        val deepLink = NotificationDeepLink.fromFcmData(message.data)
+
+        val channelId = resolveChannelId(deepLink.verb, deepLink.targetType)
+
         NotificationHelper.sendImmediateNotification(
             context = this,
             title = title,
             message = body,
-            channelId = channelId
+            channelId = channelId,
+            deepLink = deepLink
         )
+    }
+
+    private fun resolveChannelId(verb: String, targetType: String): String {
+        if (verb == "system") return CHANNEL_ANNOUNCEMENTS
+        if (targetType == "resource" || targetType == "resource_comment") return CHANNEL_DOWNLOADS
+        return CHANNEL_FORUM
+    }
+
+    companion object {
+        const val CHANNEL_ANNOUNCEMENTS = "announcements"
+        const val CHANNEL_FORUM = "forum_activity"
+        const val CHANNEL_DOWNLOADS = "downloads"
     }
 }

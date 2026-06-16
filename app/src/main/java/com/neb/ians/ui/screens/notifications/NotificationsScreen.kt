@@ -207,6 +207,7 @@ class NotificationsViewModel @Inject constructor(
 fun NotificationsScreen(
     onPostClick: (String) -> Unit,
     onProfileClick: (String) -> Unit,
+    onResourceClick: (String) -> Unit = {},
     viewModel: NotificationsViewModel = hiltViewModel()
 ) {
     LaunchedEffect(Unit) {
@@ -266,16 +267,10 @@ fun NotificationsScreen(
                                 notification = notification,
                                 onClick = {
                                     viewModel.markOneRead(notification.id)
-                                    val targetId = notification.targetId
-                                    if (!targetId.isNullOrBlank()) {
-                                        when (notification.targetType) {
-                                            "post" -> onPostClick(targetId)
-                                            "user", "profile" -> onProfileClick(targetId)
-                                        }
-                                    }
+                                    handleNotificationClick(notification, onPostClick, onProfileClick, onResourceClick)
                                 },
                                 onAvatarClick = {
-                                    notification.actorId?.takeIf { it.isNotBlank() }?.let(onProfileClick)
+                                    notification.actorName?.takeIf { it.isNotBlank() }?.let(onProfileClick)
                                 }
                             )
                             HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
@@ -308,6 +303,42 @@ private fun verbIcon(verb: String): ImageVector {
         "follow" in v -> Icons.Outlined.PersonAdd
         "mention" in v -> Icons.Outlined.AlternateEmail
         else -> Icons.Outlined.Notifications
+    }
+}
+
+private fun handleNotificationClick(
+    notification: ApiNotification,
+    onPostClick: (String) -> Unit,
+    onProfileClick: (String) -> Unit,
+    onResourceClick: (String) -> Unit
+) {
+    val verb = notification.verb
+    val targetType = notification.targetType ?: ""
+    val targetId = notification.targetId ?: ""
+    val referenceType = notification.referenceType ?: ""
+    val referenceId = notification.referenceId ?: ""
+    val actorUsername = notification.actorName
+
+    when (verb) {
+        "follow" -> {
+            if (!actorUsername.isNullOrBlank()) onProfileClick(actorUsername)
+        }
+        else -> when (targetType) {
+            "post" -> if (targetId.isNotBlank()) onPostClick(targetId)
+            "reply" -> {
+                val postId = if (referenceType == "post") referenceId else ""
+                if (postId.isNotBlank()) onPostClick(postId)
+            }
+            "resource" -> if (targetId.isNotBlank()) onResourceClick(targetId)
+            "resource_comment" -> {
+                val resourceId = if (referenceType == "resource") referenceId else ""
+                if (resourceId.isNotBlank()) onResourceClick(resourceId)
+            }
+            "user" -> {
+                if (!actorUsername.isNullOrBlank()) onProfileClick(actorUsername)
+            }
+            else -> {}
+        }
     }
 }
 

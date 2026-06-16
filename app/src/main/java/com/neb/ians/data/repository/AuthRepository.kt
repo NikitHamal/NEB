@@ -576,6 +576,20 @@ class AuthRepository @Inject constructor(
             false
         }
     }
+
+    suspend fun markNotificationRead(notificationId: String) {
+        try {
+            val bearer = getBearerToken() ?: return
+            withContext(Dispatchers.IO) {
+                apiService.markNotificationsRead(
+                    bearer,
+                    com.neb.ians.data.api.ApiNotificationMarkReadRequest(
+                        notificationIds = listOf(notificationId)
+                    )
+                )
+            }
+        } catch (_: Exception) {}
+    }
 }
 
 sealed class PasswordResult {

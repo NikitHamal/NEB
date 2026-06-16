@@ -185,11 +185,14 @@ def _create_notification(*, recipient_id, actor_id, verb, target_type, target_id
                 title=title,
                 body=body,
                 data={
+                    'notification_id': notification.id,
                     'verb': verb,
                     'target_type': target_type,
                     'target_id': target_id,
                     'reference_type': reference_type,
                     'reference_id': reference_id,
+                    'actor_id': actor_id or '',
+                    'actor_username': actor_name or '',
                     'url': url
                 }
             )
@@ -393,6 +396,7 @@ def notify_system(recipient_id, message, target_type='system', target_id=''):
                 title="System Announcement",
                 body=message,
                 data={
+                    'notification_id': notif.id,
                     'verb': 'system',
                     'target_type': target_type,
                     'target_id': target_id,
