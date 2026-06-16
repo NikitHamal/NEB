@@ -309,8 +309,16 @@ class ProfileViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val token = authRepository.getBearerToken()
-                val list = apiService.getFollowers(token, profile.id)
-                _uiState.update { it.copy(followersList = list, followersLoading = false) }
+                val response = apiService.getFollowers(token, profile.id)
+                val mapped = response.results.map { item ->
+                    UserProfileResponse(
+                        id = "",
+                        username = item.followerUsername ?: "",
+                        photoUrl = item.followerPhotoUrl,
+                        displayName = item.followerDisplayName
+                    )
+                }
+                _uiState.update { it.copy(followersList = mapped, followersLoading = false) }
             } catch (_: Exception) {
                 _uiState.update { it.copy(followersLoading = false) }
             }
@@ -327,8 +335,16 @@ class ProfileViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val token = authRepository.getBearerToken()
-                val list = apiService.getFollowing(token, profile.id)
-                _uiState.update { it.copy(followingList = list, followingLoading = false) }
+                val response = apiService.getFollowing(token, profile.id)
+                val mapped = response.results.map { item ->
+                    UserProfileResponse(
+                        id = "",
+                        username = item.followingUsername ?: "",
+                        photoUrl = item.followingPhotoUrl,
+                        displayName = item.followingDisplayName
+                    )
+                }
+                _uiState.update { it.copy(followingList = mapped, followingLoading = false) }
             } catch (_: Exception) {
                 _uiState.update { it.copy(followingLoading = false) }
             }
