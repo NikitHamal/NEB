@@ -54,9 +54,11 @@ data class ProfileUiState(
     val showFollowersList: Boolean = false,
     val followersList: List<UserProfileResponse> = emptyList(),
     val followersLoading: Boolean = false,
+    val followersError: String? = null,
     val showFollowingList: Boolean = false,
     val followingList: List<UserProfileResponse> = emptyList(),
-    val followingLoading: Boolean = false
+    val followingLoading: Boolean = false,
+    val followingError: String? = null
 )
 
 @HiltViewModel
@@ -305,7 +307,7 @@ class ProfileViewModel @Inject constructor(
 
     fun openFollowers() {
         val profile = _uiState.value.profile ?: return
-        _uiState.update { it.copy(showFollowersList = true, followersLoading = true, followersList = emptyList()) }
+        _uiState.update { it.copy(showFollowersList = true, followersLoading = true, followersList = emptyList(), followersError = null) }
         viewModelScope.launch {
             try {
                 val token = authRepository.getBearerToken()
@@ -319,8 +321,8 @@ class ProfileViewModel @Inject constructor(
                     )
                 }
                 _uiState.update { it.copy(followersList = mapped, followersLoading = false) }
-            } catch (_: Exception) {
-                _uiState.update { it.copy(followersLoading = false) }
+            } catch (e: Exception) {
+                _uiState.update { it.copy(followersLoading = false, followersError = e.message ?: "Failed to load followers") }
             }
         }
     }
@@ -331,7 +333,7 @@ class ProfileViewModel @Inject constructor(
 
     fun openFollowing() {
         val profile = _uiState.value.profile ?: return
-        _uiState.update { it.copy(showFollowingList = true, followingLoading = true, followingList = emptyList()) }
+        _uiState.update { it.copy(showFollowingList = true, followingLoading = true, followingList = emptyList(), followingError = null) }
         viewModelScope.launch {
             try {
                 val token = authRepository.getBearerToken()
@@ -345,8 +347,8 @@ class ProfileViewModel @Inject constructor(
                     )
                 }
                 _uiState.update { it.copy(followingList = mapped, followingLoading = false) }
-            } catch (_: Exception) {
-                _uiState.update { it.copy(followingLoading = false) }
+            } catch (e: Exception) {
+                _uiState.update { it.copy(followingLoading = false, followingError = e.message ?: "Failed to load following") }
             }
         }
     }

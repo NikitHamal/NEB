@@ -25,6 +25,7 @@ fun FollowersDialog(
     title: String,
     users: List<UserProfileResponse>,
     isLoading: Boolean,
+    error: String? = null,
     onDismiss: () -> Unit,
     onUserClick: (String) -> Unit
 ) {
@@ -73,6 +74,19 @@ fun FollowersDialog(
                     when {
                         isLoading -> {
                             CircularProgressIndicator(modifier = Modifier.size(36.dp))
+                        }
+                        error != null -> {
+                            Column(
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalArrangement = Arrangement.spacedBy(8.dp)
+                            ) {
+                                Text(
+                                    text = error,
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    color = MaterialTheme.colorScheme.error,
+                                    textAlign = androidx.compose.ui.text.style.TextAlign.Center
+                                )
+                            }
                         }
                         users.isEmpty() -> {
                             Text(

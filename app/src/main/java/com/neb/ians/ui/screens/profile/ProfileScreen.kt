@@ -111,6 +111,7 @@ fun ProfileScreen(
             title = "Followers",
             users = uiState.followersList,
             isLoading = uiState.followersLoading,
+            error = uiState.followersError,
             onDismiss = viewModel::closeFollowers,
             onUserClick = onFollowerClick
         )
@@ -121,6 +122,7 @@ fun ProfileScreen(
             title = "Following",
             users = uiState.followingList,
             isLoading = uiState.followingLoading,
+            error = uiState.followingError,
             onDismiss = viewModel::closeFollowing,
             onUserClick = onFollowerClick
         )
