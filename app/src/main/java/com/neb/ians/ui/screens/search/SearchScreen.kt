@@ -45,7 +45,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SuggestionChip
 import androidx.compose.material3.SuggestionChipDefaults
 import androidx.compose.material3.Tab
-import androidx.compose.material3.TabRow
+import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -75,6 +75,7 @@ import com.neb.ians.ui.components.Avatar
 import com.neb.ians.ui.components.ErrorCard
 import com.neb.ians.ui.components.NebBadge
 import com.neb.ians.ui.components.WebResourceCard
+import com.neb.ians.ui.components.WebPostCard
 import com.neb.ians.ui.components.compactCount
 import com.neb.ians.util.formatTimeAgo
 import androidx.compose.material.icons.filled.ThumbUp
@@ -208,10 +209,11 @@ private fun SearchHeader(
             }
         }
         if (query.length >= 2) {
-            TabRow(
+            ScrollableTabRow(
                 selectedTabIndex = selectedTab,
                 containerColor = MaterialTheme.colorScheme.surface,
                 contentColor = MaterialTheme.colorScheme.onSurface,
+                edgePadding = 16.dp,
                 divider = { HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant) }
             ) {
                 TAB_LABELS.forEachIndexed { index, label ->
@@ -429,9 +431,12 @@ private fun AllResultsTab(
                 SectionHeader("Posts", onViewAllClick = { onTabSelected(2) })
             }
             items(posts.take(3), key = { it.id }) { post ->
-                PostResultItem(
+                WebPostCard(
                     post = post,
-                    onClick = { onPostClick(post.id) }
+                    onClick = { onPostClick(post.id) },
+                    onLikeClick = {},
+                    compact = true,
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 6.dp)
                 )
             }
         }
@@ -486,9 +491,12 @@ private fun PostsTab(
             contentPadding = PaddingValues(vertical = 8.dp)
         ) {
             items(posts, key = { it.id }) { post ->
-                PostResultItem(
+                WebPostCard(
                     post = post,
-                    onClick = { onPostClick(post.id) }
+                    onClick = { onPostClick(post.id) },
+                    onLikeClick = {},
+                    compact = false,
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 6.dp)
                 )
             }
         }

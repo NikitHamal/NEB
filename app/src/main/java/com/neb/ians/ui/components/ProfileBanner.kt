@@ -39,7 +39,7 @@ import com.neb.ians.ui.theme.Poppins
  * deco watermark text). When [bannerUrl] is set, the custom image wins.
  */
 
-private val BannerTopShape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)
+private val BannerTopShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)
 
 /** Per-preset gradient color stops, matching the web CSS presets exactly. */
 private fun bannerColorsFor(bannerType: String): List<Color> = when (bannerType) {
