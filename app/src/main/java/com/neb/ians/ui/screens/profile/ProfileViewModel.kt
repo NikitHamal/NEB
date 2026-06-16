@@ -72,14 +72,20 @@ class ProfileViewModel @Inject constructor(
                 var profileWithStats = profile
                 var initialRepliesCount = profile.replyCount
                 var initialResourcesCount = 0
-                try {
                     val stats = apiService.getProfileStats(token, username)
                     statsIsFollowing = stats.isFollowing
-                    initialResourcesCount = stats.uploadedResourcesCount ?: 0
-                    if (profile.isSelf == null) {
-                        profileWithStats = profile.copy(isSelf = stats.isSelf)
-                    }
-                } catch (_: Exception) {}
+                    initialResourcesCount = stats.uploadedResourcesCount
+                    profileWithStats = profile.copy(
+                        isSelf = stats.isSelf,
+                        postCount = stats.postCount,
+                        replyCount = stats.replyCount,
+                        followerCount = stats.followerCount,
+                        followingCount = stats.followingCount,
+                        likesReceivedCount = stats.likesReceived,
+                        likesGivenCount = stats.likesGiven,
+                        contributionScore = stats.contributionScore
+                    )
+                    initialRepliesCount = stats.replyCount
                 _uiState.update {
                     it.copy(
                         profile = profileWithStats,

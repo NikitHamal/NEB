@@ -42,6 +42,7 @@ import com.neb.ians.ui.components.ProfileBanner
 import com.neb.ians.ui.components.WebPanelShape
 import com.neb.ians.ui.components.WebPillShape
 import com.neb.ians.ui.components.WebResourceCard
+import com.neb.ians.ui.components.WebPostCard
 import com.neb.ians.ui.components.bannerPresetFor
 import com.neb.ians.ui.components.compactCount
 import com.neb.ians.util.formatTimeAgo
@@ -315,60 +316,16 @@ fun ProfileHeaderCard(
                     horizontalArrangement = Arrangement.End,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Spacer(modifier = Modifier.width(72.dp))
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(4.dp)
-                    ) {
-                        IconButton(onClick = {
-                            clipboard.setText(AnnotatedString("https://nebians.consica.com.np/profile/${profile.username}/"))
-                            Toast.makeText(context, "Profile link copied", Toast.LENGTH_SHORT).show()
-                        }) {
-                            Icon(
-                                imageVector = Icons.Outlined.Link,
-                                contentDescription = "Copy link",
-                                tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                                modifier = Modifier.size(20.dp)
-                            )
-                        }
-                        Box {
-                            IconButton(onClick = { showMenu = true }) {
-                                Icon(
-                                    imageVector = Icons.Outlined.MoreVert,
-                                    contentDescription = "More options",
-                                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                                    modifier = Modifier.size(20.dp)
-                                )
-                            }
-                            DropdownMenu(
-                                expanded = showMenu,
-                                onDismissRequest = { showMenu = false }
-                            ) {
-                                if (isSelf) {
-                                    DropdownMenuItem(
-                                        text = { Text("Edit Profile") },
-                                        onClick = {
-                                            showMenu = false
-                                            onEditProfile()
-                                        },
-                                        leadingIcon = {
-                                            Icon(Icons.Filled.Edit, contentDescription = null, modifier = Modifier.size(18.dp))
-                                        }
-                                    )
-                                } else {
-                                    DropdownMenuItem(
-                                        text = { Text("Report Profile") },
-                                        onClick = {
-                                            showMenu = false
-                                            Toast.makeText(context, "Reported profile", Toast.LENGTH_SHORT).show()
-                                        },
-                                        leadingIcon = {
-                                            Icon(Icons.Outlined.Flag, contentDescription = null, modifier = Modifier.size(18.dp))
-                                        }
-                                    )
-                                }
-                            }
-                        }
+                    IconButton(onClick = {
+                        clipboard.setText(AnnotatedString("https://nebians.consica.com.np/profile/${profile.username}/"))
+                        Toast.makeText(context, "Profile link copied", Toast.LENGTH_SHORT).show()
+                    }) {
+                        Icon(
+                            imageVector = Icons.Outlined.Link,
+                            contentDescription = "Copy link",
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                            modifier = Modifier.size(20.dp)
+                        )
                     }
                 }
 
@@ -710,46 +667,12 @@ fun PrivateProfileNotice() {
 
 @Composable
 fun ProfilePostCard(post: ApiPost, onClick: () -> Unit) {
-    val preview = remember(post.content) { plainTextPreview(post.content) }
-    Surface(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clip(WebPanelShape)
-            .clickable(onClick = onClick),
-        shape = WebPanelShape,
-        color = MaterialTheme.colorScheme.surfaceContainerLowest,
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
-    ) {
-        Column(modifier = Modifier.padding(14.dp)) {
-            Text(
-                text = post.title,
-                style = MaterialTheme.typography.titleSmall,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onSurface,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis
-            )
-            if (preview.isNotBlank()) {
-                Spacer(modifier = Modifier.height(4.dp))
-                Text(
-                    text = preview,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
-                )
-            }
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                text = "${post.category.ifBlank { "General" }} \u00B7 ${formatTimeAgo(post.createdAt)} \u00B7 " +
-                    "${compactCount(post.thumbsUpCount)} likes \u00B7 ${compactCount(post.replyCount)} replies",
-                style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
-        }
-    }
+    WebPostCard(
+        post = post,
+        onClick = onClick,
+        onLikeClick = {},
+        compact = true
+    )
 }
 
 @Composable

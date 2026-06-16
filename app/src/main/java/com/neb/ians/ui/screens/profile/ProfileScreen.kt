@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
@@ -22,7 +23,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Tab
-import androidx.compose.material3.TabRow
+import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -125,7 +126,7 @@ private fun ProfileContent(
 
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(16.dp),
+        contentPadding = PaddingValues(bottom = 16.dp),
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
         item(key = "header") {
@@ -148,9 +149,10 @@ private fun ProfileContent(
             }
         } else {
             item(key = "tabs") {
-                TabRow(
+                ScrollableTabRow(
                     selectedTabIndex = uiState.selectedTab,
                     containerColor = MaterialTheme.colorScheme.surface,
+                    edgePadding = 16.dp,
                     divider = { HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant) }
                 ) {
                     listOf("Posts", "Replies", "Resources", "About").forEachIndexed { index, label ->
@@ -181,11 +183,11 @@ private fun ProfileContent(
                                                     else MaterialTheme.colorScheme.surfaceContainerHigh,
                                             contentColor = if (isSelected) Color.White
                                                           else MaterialTheme.colorScheme.onSurfaceVariant,
-                                            modifier = Modifier.size(18.dp)
+                                            modifier = Modifier.defaultMinSize(minWidth = 18.dp, minHeight = 18.dp)
                                         ) {
                                             Box(
                                                 contentAlignment = Alignment.Center,
-                                                modifier = Modifier.fillMaxSize()
+                                                modifier = Modifier.padding(horizontal = 4.dp)
                                             ) {
                                                 Text(
                                                     text = count.toString(),
