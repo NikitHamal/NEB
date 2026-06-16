@@ -133,6 +133,69 @@ def _create_notification(*, recipient_id, actor_id, verb, target_type, target_id
         _rt.broadcast_unread_count(user.id, user.unread_notification_count)
     except Exception:  # noqa: BLE001
         pass
+
+    try:
+        from api.models import FCMToken
+        from api.fcm_utils import send_fcm_message
+        
+        tokens = list(FCMToken.objects.filter(user_id=recipient_id).values_list('token', flat=True))
+        if tokens:
+            title = "New Notification"
+            body = message or ""
+            
+            if not body:
+                actor_display = actor_name
+                if actor_id:
+                    try:
+                        actor = User.objects.get(pk=actor_id)
+                        actor_display = actor.display_name or actor.username
+                    except User.DoesNotExist:
+                        pass
+                
+                if verb == 'like_post':
+                    body = f"{actor_display} liked your post."
+                elif verb == 'like_reply':
+                    body = f"{actor_display} liked your reply."
+                elif verb == 'reply':
+                    body = f"{actor_display} replied to your post."
+                elif verb == 'reply_reply':
+                    body = f"{actor_display} replied to your comment."
+                elif verb == 'follow':
+                    body = f"{actor_display} started following you."
+                elif verb == 'like_resource':
+                    body = f"{actor_display} liked your resource."
+                elif verb == 'like_resource_comment':
+                    body = f"{actor_display} liked your comment."
+                elif verb == 'resource_comment':
+                    body = f"{actor_display} commented on your resource."
+                elif verb == 'resource_comment_reply':
+                    body = f"{actor_display} replied to your comment."
+                else:
+                    body = f"Interact from {actor_display}"
+            
+            if verb in ('like_post', 'like_reply', 'like_resource', 'like_resource_comment'):
+                title = "New Like"
+            elif verb in ('reply', 'reply_reply', 'resource_comment', 'resource_comment_reply'):
+                title = "New Reply"
+            elif verb == 'follow':
+                title = "New Follower"
+
+            send_fcm_message(
+                tokens=tokens,
+                title=title,
+                body=body,
+                data={
+                    'verb': verb,
+                    'target_type': target_type,
+                    'target_id': target_id,
+                    'reference_type': reference_type,
+                    'reference_id': reference_id,
+                    'url': url
+                }
+            )
+    except Exception as e:
+        logger.error("Failed to send FCM in _create_notification: %s", str(e))
+
     return notification
 
 
@@ -319,6 +382,26 @@ def notify_system(recipient_id, message, target_type='system', target_id=''):
         'message': message,
         'created_at': notif.created_at,
     })
+
+    try:
+        from api.models import FCMToken
+        from api.fcm_utils import send_fcm_message
+        tokens = list(FCMToken.objects.filter(user_id=recipient_id).values_list('token', flat=True))
+        if tokens:
+            send_fcm_message(
+                tokens=tokens,
+                title="System Announcement",
+                body=message,
+                data={
+                    'verb': 'system',
+                    'target_type': target_type,
+                    'target_id': target_id,
+                    'url': get_notification_url(notif)
+                }
+            )
+    except Exception as e:
+        logger.error("Failed to send FCM in notify_system: %s", str(e))
+
     return notif
 
 
@@ -357,6 +440,24 @@ def notify_system_broadcast(message, target_type='system', target_id=''):
             'created_at': now,
         })
     _rt.broadcast_system(message)
+
+    try:
+        from api.models import FCMToken
+        from api.fcm_utils import send_fcm_message
+        tokens = list(FCMToken.objects.all().values_list('token', flat=True))
+        if tokens:
+            send_fcm_message(
+                tokens=tokens,
+                title="System Broadcast",
+                body=message,
+                data={
+                    'verb': 'system',
+                    'target_type': target_type,
+                    'target_id': target_id,
+                }
+            )
+    except Exception as e:
+        logger.error("Failed to send FCM in notify_system_broadcast: %s", str(e))
 
 
 def notify_resource_liked(actor_id, resource_id):

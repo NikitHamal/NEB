@@ -130,6 +130,7 @@ urlpatterns = [
 
     path('admin/', views.admin_login, name='admin_login'),
     path('admin/dashboard/', views.admin_dashboard, name='admin_dashboard'),
+    path('admin/push-notifications/', views.admin_push_notifications, name='admin_push_notifications'),
     path('admin/logout/', views.admin_logout, name='admin_logout'),
     path('admin/users/', views.admin_users, name='admin_users'),
     path('admin/deletions/', views.admin_deletions, name='admin_deletions'),

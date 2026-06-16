@@ -1,0 +1,235 @@
+{% extends "admin_panel/base.html" %}
+{% load web_extras %}
+
+{% block title %}Push Notifications{% endblock %}
+
+{% block content %}
+<div class="admin-header-bar">
+  <h1 class="md-headline-medium">Push Notifications</h1>
+</div>
+
+{% if success_message %}
+  <div class="md-alert md-alert-success" style="margin-bottom:20px; background:#DEF7EC; color:#03543F; border:1px solid #BCF0DA; padding:16px; border-radius:12px; display:flex; align-items:center; gap:8px;">
+    <span class="material-symbols-outlined">check_circle</span>
+    <div>{{ success_message }}</div>
+  </div>
+{% endif %}
+
+{% if error_message %}
+  <div class="md-alert md-alert-error" style="margin-bottom:20px; background:#FDE8E8; color:#9B1C1C; border:1px solid #FBD5D5; padding:16px; border-radius:12px; display:flex; align-items:center; gap:8px;">
+    <span class="material-symbols-outlined">error</span>
+    <div>{{ error_message }}</div>
+  </div>
+{% endif %}
+
+<div class="admin-grid" style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px; align-items: start;">
+  <!-- Left Side: Compose and Filter Form -->
+  <form method="post" id="pushForm" class="md-card" style="padding: 24px; border-radius: 16px; background: var(--md-surface-container-low); border: 1px solid var(--md-outline-variant);">
+    {% csrf_token %}
+    
+    <h3 class="md-title-medium" style="margin-top: 0; margin-bottom: 16px; color: var(--md-primary);">1. Compose Message</h3>
+    
+    <div style="margin-bottom: 16px;">
+      <label for="title" style="display: block; margin-bottom: 8px; font-weight: 500; font-size: 0.875rem;">Notification Title</label>
+      <input type="text" id="title" name="title" value="{{ title_val|default:'' }}" required placeholder="e.g. New Syllabus Released!" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--md-outline); background: var(--md-surface); color: var(--md-on-surface); font-size: 0.9375rem; box-sizing: border-box;">
+    </div>
+    
+    <div style="margin-bottom: 24px;">
+      <label for="body" style="display: block; margin-bottom: 8px; font-weight: 500; font-size: 0.875rem;">Message Body</label>
+      <textarea id="body" name="body" rows="3" required placeholder="Type the message to send to users..." style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--md-outline); background: var(--md-surface); color: var(--md-on-surface); font-size: 0.9375rem; box-sizing: border-box; resize: vertical;">{{ body_val|default:'' }}</textarea>
+    </div>
+
+    <div class="md-divider" style="margin: 24px 0;"></div>
+
+    <h3 class="md-title-medium" style="margin-top: 0; margin-bottom: 16px; color: var(--md-primary);">2. Target Audience Filters</h3>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
+      <div>
+        <label for="class_level" style="display: block; margin-bottom: 8px; font-weight: 500; font-size: 0.875rem;">Class Level</label>
+        <select id="class_level" name="class_level" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--md-outline); background: var(--md-surface); color: var(--md-on-surface); font-size: 0.9375rem; box-sizing: border-box;">
+          <option value="" {% if not class_level %}selected{% endif %}>All Classes</option>
+          <option value="Class 8" {% if class_level == "Class 8" %}selected{% endif %}>Class 8</option>
+          <option value="Class 9" {% if class_level == "Class 9" %}selected{% endif %}>Class 9</option>
+          <option value="Class 10" {% if class_level == "Class 10" %}selected{% endif %}>Class 10 / SEE</option>
+          <option value="Class 11" {% if class_level == "Class 11" %}selected{% endif %}>Class 11</option>
+          <option value="Class 12" {% if class_level == "Class 12" %}selected{% endif %}>Class 12</option>
+          <option value="Bachelor" {% if class_level == "Bachelor" %}selected{% endif %}>Bachelor</option>
+          <option value="Master" {% if class_level == "Master" %}selected{% endif %}>Master</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="gender" style="display: block; margin-bottom: 8px; font-weight: 500; font-size: 0.875rem;">Gender</label>
+        <select id="gender" name="gender" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--md-outline); background: var(--md-surface); color: var(--md-on-surface); font-size: 0.9375rem; box-sizing: border-box;">
+          <option value="" {% if not gender %}selected{% endif %}>All Genders</option>
+          <option value="Male" {% if gender == "Male" %}selected{% endif %}>Male</option>
+          <option value="Female" {% if gender == "Female" %}selected{% endif %}>Female</option>
+          <option value="Other" {% if gender == "Other" %}selected{% endif %}>Other</option>
+        </select>
+      </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
+      <div>
+        <label for="min_age" style="display: block; margin-bottom: 8px; font-weight: 500; font-size: 0.875rem;">Minimum Age</label>
+        <input type="number" id="min_age" name="min_age" value="{{ min_age|default:'' }}" min="0" max="100" placeholder="Any" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--md-outline); background: var(--md-surface); color: var(--md-on-surface); font-size: 0.9375rem; box-sizing: border-box;">
+      </div>
+
+      <div>
+        <label for="max_age" style="display: block; margin-bottom: 8px; font-weight: 500; font-size: 0.875rem;">Maximum Age</label>
+        <input type="number" id="max_age" name="max_age" value="{{ max_age|default:'' }}" min="0" max="100" placeholder="Any" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--md-outline); background: var(--md-surface); color: var(--md-on-surface); font-size: 0.9375rem; box-sizing: border-box;">
+      </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
+      <div>
+        <label for="pradesh" style="display: block; margin-bottom: 8px; font-weight: 500; font-size: 0.875rem;">Pradesh (Province)</label>
+        <select id="pradesh" name="pradesh" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--md-outline); background: var(--md-surface); color: var(--md-on-surface); font-size: 0.9375rem; box-sizing: border-box;">
+          <option value="" {% if not pradesh %}selected{% endif %}>All Provinces</option>
+          <option value="Province 1" {% if pradesh == "Province 1" %}selected{% endif %}>Koshi (Province 1)</option>
+          <option value="Madhesh" {% if pradesh == "Madhesh" %}selected{% endif %}>Madhesh</option>
+          <option value="Bagmati" {% if pradesh == "Bagmati" %}selected{% endif %}>Bagmati</option>
+          <option value="Gandaki" {% if pradesh == "Gandaki" %}selected{% endif %}>Gandaki</option>
+          <option value="Lumbini" {% if pradesh == "Lumbini" %}selected{% endif %}>Lumbini</option>
+          <option value="Karnali" {% if pradesh == "Karnali" %}selected{% endif %}>Karnali</option>
+          <option value="Sudurpashchim" {% if pradesh == "Sudurpashchim" %}selected{% endif %}>Sudurpashchim</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="district" style="display: block; margin-bottom: 8px; font-weight: 500; font-size: 0.875rem;">District</label>
+        <input type="text" id="district" name="district" value="{{ district|default:'' }}" placeholder="e.g. Kathmandu" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--md-outline); background: var(--md-surface); color: var(--md-on-surface); font-size: 0.9375rem; box-sizing: border-box;">
+      </div>
+    </div>
+
+    <div style="margin-bottom: 16px;">
+      <label for="school" style="display: block; margin-bottom: 8px; font-weight: 500; font-size: 0.875rem;">School / College</label>
+      <input type="text" id="school" name="school" value="{{ school|default:'' }}" placeholder="e.g. St. Xavier's" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--md-outline); background: var(--md-surface); color: var(--md-on-surface); font-size: 0.9375rem; box-sizing: border-box;">
+    </div>
+
+    <div style="margin-bottom: 24px;">
+      <label for="usernames_or_ids" style="display: block; margin-bottom: 8px; font-weight: 500; font-size: 0.875rem;">Specific Usernames / IDs (comma-separated)</label>
+      <textarea id="usernames_or_ids" name="usernames_or_ids" rows="2" placeholder="e.g. admin, user123, 5f9b4c2..." style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--md-outline); background: var(--md-surface); color: var(--md-on-surface); font-size: 0.9375rem; box-sizing: border-box; resize: vertical;">{{ usernames_or_ids|default:'' }}</textarea>
+    </div>
+
+    <button type="submit" class="md-btn md-btn-filled" style="padding: 12px 24px; font-size: 0.9375rem; width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px;">
+      <span class="material-symbols-outlined">send</span> Send Push Notification
+    </button>
+  </form>
+
+  <!-- Right Side: Real-time Counts -->
+  <div style="display: flex; flex-direction: column; gap: 16px; position: sticky; top: 16px;">
+    <!-- Audience Card -->
+    <div class="md-card" style="padding: 20px; border-radius: 16px; background: var(--md-primary-container); color: var(--md-on-primary-container); border: none;">
+      <h3 class="md-title-medium" style="margin-top: 0; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+        <span class="material-symbols-outlined">group</span> Target Audience
+      </h3>
+      
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;">
+        <div style="background: rgba(255, 255, 255, 0.15); padding: 16px; border-radius: 12px; text-align: center;">
+          <div style="font-size: 2rem; font-weight: 700; line-height: 1;" id="count-matching-users">
+            {{ matching_users }}
+          </div>
+          <div style="font-size: 0.75rem; margin-top: 4px; opacity: 0.9;">Target Users</div>
+        </div>
+
+        <div style="background: rgba(255, 255, 255, 0.15); padding: 16px; border-radius: 12px; text-align: center;">
+          <div style="font-size: 2rem; font-weight: 700; line-height: 1;" id="count-matching-tokens">
+            {{ matching_tokens }}
+          </div>
+          <div style="font-size: 0.75rem; margin-top: 4px; opacity: 0.9;">Active Devices</div>
+        </div>
+      </div>
+
+      <div style="font-size: 0.8125rem; opacity: 0.85; line-height: 1.4;">
+        Matches are updated in real-time as you modify filters. Active devices represent registered FCM push tokens.
+      </div>
+    </div>
+
+    <!-- Info / Warning Card -->
+    <div class="md-card" style="padding: 20px; border-radius: 16px; background: var(--md-surface-container-high); border: 1px solid var(--md-outline-variant);">
+      <h3 class="md-title-small" style="margin-top: 0; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+        <span class="material-symbols-outlined" style="color:var(--md-primary);">info</span> Important Note
+      </h3>
+      <ul style="margin: 0; padding-left: 18px; font-size: 0.8125rem; line-height: 1.5; color: var(--md-on-surface-variant);">
+        <li style="margin-bottom: 8px;">Notifications will be delivered instantly to active mobile devices.</li>
+        <li style="margin-bottom: 8px;">Ensure the Google Service Account credentials are active. If missing, notifications will be skipped without error.</li>
+        <li>Expired or inactive push tokens are automatically pruned from the database when FCM returns delivery failures.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script nonce="{{ csp_nonce }}">
+  document.addEventListener('DOMContentLoaded', function() {
+    const fields = ['class_level', 'gender', 'min_age', 'max_age', 'pradesh', 'district', 'school', 'usernames_or_ids'];
+    const elements = fields.map(f => document.getElementById(f)).filter(Boolean);
+    let timeoutId = null;
+
+    function updateCounts() {
+      const params = new URLSearchParams();
+      params.set('count_only', '1');
+      fields.forEach(f => {
+        const el = document.getElementById(f);
+        if (el && el.value) {
+          params.set(f, el.value.trim());
+        }
+      });
+
+      const countUsersEl = document.getElementById('count-matching-users');
+      const countTokensEl = document.getElementById('count-matching-tokens');
+      
+      if (countUsersEl) countUsersEl.textContent = '...';
+      if (countTokensEl) countTokensEl.textContent = '...';
+
+      fetch('?' + params.toString(), {
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest'
+        }
+      })
+      .then(r => r.json())
+      .then(data => {
+        if (countUsersEl) countUsersEl.textContent = data.matching_users;
+        if (countTokensEl) countTokensEl.textContent = data.matching_tokens;
+      })
+      .catch(err => {
+        console.error('Error fetching target counts:', err);
+      });
+    }
+
+    elements.forEach(el => {
+      el.addEventListener('input', function() {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(updateCounts, 300); // Debounce typing
+      });
+      el.addEventListener('change', updateCounts);
+    });
+
+    // Handle submit confirmation
+    const form = document.getElementById('pushForm');
+    if (form) {
+      form.addEventListener('submit', function(e) {
+        const titleVal = document.getElementById('title').value.trim();
+        const bodyVal = document.getElementById('body').value.trim();
+        if (!titleVal || !bodyVal) {
+          e.preventDefault();
+          alert('Please enter title and message.');
+          return;
+        }
+        
+        const countTokensEl = document.getElementById('count-matching-tokens');
+        const tokenCount = countTokensEl ? countTokensEl.textContent : '0';
+        if (tokenCount === '0' || tokenCount === '...') {
+          if (!confirm('Target device count is 0. No one will receive this message. Are you sure you want to proceed?')) {
+            e.preventDefault();
+          }
+        } else {
+          if (!confirm(`Are you sure you want to send this push notification to ${tokenCount} devices?`)) {
+            e.preventDefault();
+          }
+        }
+      });
+    }
+  });
+</script>
+{% endblock %}
