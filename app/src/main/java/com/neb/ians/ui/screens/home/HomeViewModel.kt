@@ -12,6 +12,7 @@ import com.neb.ians.data.repository.ForumRepository
 import com.neb.ians.data.repository.SettingsRepository
 import com.neb.ians.data.repository.AppCache
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.contentOrNull

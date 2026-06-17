@@ -5,6 +5,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -386,7 +387,7 @@ fun ChipPickerDialog(
                             cursorBrush = androidx.compose.ui.graphics.SolidColor(
                                 MaterialTheme.colorScheme.primary
                             ),
-                            decorationBox = { innerTextField ->
+                            decorationBox = { innerTextField: @Composable () -> Unit ->
                                 if (searchQuery.isEmpty()) {
                                     Text(
                                         text = "Search",
