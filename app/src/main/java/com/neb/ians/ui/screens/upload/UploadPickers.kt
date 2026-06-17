@@ -356,34 +356,61 @@ fun ChipPickerDialog(
                     }
                 }
 
-                OutlinedTextField(
-                    value = searchQuery,
-                    onValueChange = { searchQuery = it },
-                    label = { Text("Search", maxLines = 1, fontSize = 13.sp) },
-                    leadingIcon = {
+                Surface(
+                    shape = RoundedCornerShape(14.dp),
+                    color = MaterialTheme.colorScheme.surfaceContainerLow,
+                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 12.dp, vertical = 8.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
                         Icon(
                             imageVector = Icons.Filled.Search,
                             contentDescription = null,
-                            modifier = Modifier.size(18.dp)
+                            modifier = Modifier.size(16.dp),
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant
                         )
-                    },
-                    trailingIcon = if (searchQuery.isNotEmpty()) {
-                        {
-                            IconButton(onClick = { searchQuery = "" }, modifier = Modifier.size(20.dp)) {
-                                Icon(
-                                    imageVector = Icons.Filled.Clear,
-                                    contentDescription = "Clear",
-                                    modifier = Modifier.size(14.dp)
-                                )
+                        BasicTextField(
+                            value = searchQuery,
+                            onValueChange = { searchQuery = it },
+                            modifier = Modifier.weight(1f),
+                            singleLine = true,
+                            textStyle = MaterialTheme.typography.bodySmall.copy(
+                                color = MaterialTheme.colorScheme.onSurface
+                            ),
+                            cursorBrush = androidx.compose.ui.graphics.SolidColor(
+                                MaterialTheme.colorScheme.primary
+                            ),
+                            decorationBox = { innerTextField ->
+                                if (searchQuery.isEmpty()) {
+                                    Text(
+                                        text = "Search",
+                                        style = MaterialTheme.typography.bodySmall,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f),
+                                        maxLines = 1
+                                    )
+                                }
+                                innerTextField()
                             }
+                        )
+                        if (searchQuery.isNotEmpty()) {
+                            Icon(
+                                imageVector = Icons.Filled.Clear,
+                                contentDescription = "Clear",
+                                modifier = Modifier
+                                    .size(16.dp)
+                                    .clip(CircleShape)
+                                    .clickable { searchQuery = "" },
+                                tint = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
                         }
-                    } else null,
-                    modifier = Modifier.fillMaxWidth(),
-                    singleLine = true,
-                    shape = smallFieldShape,
-                    colors = smallFieldColors,
-                    textStyle = MaterialTheme.typography.bodySmall
-                )
+                    }
+                }
 
                 if (localSelected.isNotEmpty()) {
                     FlowRow(
@@ -451,37 +478,38 @@ fun ChipPickerDialog(
                 }
 
                 if (allowCustom) {
-                    Surface(
-                        shape = RoundedCornerShape(14.dp),
-                        color = MaterialTheme.colorScheme.surfaceContainerLow,
-                        modifier = Modifier.fillMaxWidth()
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 0.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(6.dp),
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(6.dp)
+                        OutlinedTextField(
+                            value = customInput,
+                            onValueChange = { customInput = it },
+                            placeholder = {
+                                Text(
+                                    customPlaceholder,
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis,
+                                    fontSize = 13.sp
+                                )
+                            },
+                            modifier = Modifier.weight(1f),
+                            singleLine = true,
+                            shape = smallFieldShape,
+                            colors = smallFieldColors,
+                            textStyle = MaterialTheme.typography.bodySmall
+                        )
+                        Surface(
+                            shape = CircleShape,
+                            color = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.size(40.dp)
                         ) {
-                            OutlinedTextField(
-                                value = customInput,
-                                onValueChange = { customInput = it },
-                                placeholder = {
-                                    Text(
-                                        customPlaceholder,
-                                        maxLines = 1,
-                                        overflow = TextOverflow.Ellipsis,
-                                        fontSize = 13.sp
-                                    )
-                                },
-                                modifier = Modifier.weight(1f),
-                                singleLine = true,
-                                shape = smallFieldShape,
-                                colors = smallFieldColors,
-                                textStyle = MaterialTheme.typography.bodySmall
-                            )
-                            IconButton(
-                                onClick = {
+                            Box(
+                                contentAlignment = Alignment.Center,
+                                modifier = Modifier.clickable {
                                     val trimmed = customInput.trim()
                                     if (trimmed.isNotBlank() && !localSelected.any {
                                             it.equals(trimmed, ignoreCase = true)
@@ -489,14 +517,13 @@ fun ChipPickerDialog(
                                         localSelected = (localSelected + trimmed).toMutableList()
                                     }
                                     customInput = ""
-                                },
-                                modifier = Modifier.size(40.dp)
+                                }
                             ) {
                                 Icon(
                                     imageVector = Icons.Filled.Add,
                                     contentDescription = "Add",
                                     modifier = Modifier.size(20.dp),
-                                    tint = MaterialTheme.colorScheme.primary
+                                    tint = MaterialTheme.colorScheme.onPrimary
                                 )
                             }
                         }
