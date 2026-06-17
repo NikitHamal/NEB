@@ -172,7 +172,7 @@ class WafChallengeInterceptor(private val context: Context) : Interceptor {
                     }
                 }
 
-                webView.loadUrl(BASE_URL + "api/realtime/config/")
+                webView.loadUrl(BASE_URL)
             } catch (e: Exception) {
                 result.set(null)
                 latch.countDown()
