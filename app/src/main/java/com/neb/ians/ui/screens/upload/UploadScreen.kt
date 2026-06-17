@@ -354,14 +354,7 @@ private fun WizardBottomBar(
                 }
             }
 
-            Text(
-                text = "Step ${stepIndex + 1} of $totalSteps",
-                style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                modifier = Modifier.weight(1f)
-            )
+            Spacer(modifier = Modifier.weight(1f))
 
             if (isLastStep) {
                 Button(

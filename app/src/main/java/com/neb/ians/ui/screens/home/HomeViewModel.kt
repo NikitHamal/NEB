@@ -53,6 +53,9 @@ class HomeViewModel @Inject constructor(
     private val _recentPosts = MutableStateFlow<List<ApiPost>>(appCache.recentPosts)
     private val processingPostLikes = mutableSetOf<String>()
     private val processingBookmarks = mutableSetOf<String>()
+    private val processingDeletions = mutableSetOf<String>()
+    private val _snackbarMessage = MutableSharedFlow<String?>(extraBufferCapacity = 3, onBufferOverflow = BufferOverflow.DROP_OLDEST)
+    val snackbarMessage: Flow<String?> = _snackbarMessage.asSharedFlow()
     private var unsubscribeForum: (() -> Unit)? = null
 
     init {
@@ -187,6 +190,26 @@ class HomeViewModel @Inject constructor(
                     }
                 }
             processingBookmarks.remove(postId)
+        }
+    }
+
+    fun deletePost(postId: String) {
+        if (processingDeletions.contains(postId)) return
+        processingDeletions.add(postId)
+        viewModelScope.launch {
+            forumRepository.deletePost(postId)
+                .onSuccess {
+                    _recentPosts.update { posts ->
+                        val updated = posts.filterNot { it.id == postId }
+                        appCache.recentPosts = updated
+                        updated
+                    }
+                    _snackbarMessage.tryEmit("Post deleted")
+                }
+                .onFailure { e ->
+                    _snackbarMessage.tryEmit("Couldn't delete post: ${e.message ?: "Unknown error"}")
+                }
+            processingDeletions.remove(postId)
         }
     }
 
