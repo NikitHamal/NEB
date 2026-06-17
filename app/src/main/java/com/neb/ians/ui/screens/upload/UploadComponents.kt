@@ -2,8 +2,6 @@ package com.neb.ians.ui.screens.upload
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
@@ -29,7 +27,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowDropDown
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Edit
@@ -41,6 +38,8 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.RadioButton
+import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -132,31 +131,40 @@ fun DropdownField(
     val fieldColors = OutlinedTextFieldDefaults.colors(
         focusedContainerColor = MaterialTheme.colorScheme.surfaceContainerLow,
         unfocusedContainerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+        disabledContainerColor = MaterialTheme.colorScheme.surfaceContainerLow,
         focusedBorderColor = MaterialTheme.colorScheme.primary,
-        unfocusedBorderColor = MaterialTheme.colorScheme.outlineVariant
+        unfocusedBorderColor = MaterialTheme.colorScheme.outlineVariant,
+        disabledBorderColor = MaterialTheme.colorScheme.outlineVariant,
+        disabledTextColor = MaterialTheme.colorScheme.onSurface,
+        disabledLabelColor = MaterialTheme.colorScheme.onSurfaceVariant,
+        disabledTrailingIconColor = MaterialTheme.colorScheme.onSurfaceVariant
     )
 
-    OutlinedTextField(
-        value = value.ifBlank { placeholder ?: "" },
-        onValueChange = {},
-        readOnly = true,
-        label = { Text(label, maxLines = 1, overflow = TextOverflow.Ellipsis) },
-        trailingIcon = {
-            Icon(
-                imageVector = Icons.Filled.ArrowDropDown,
-                contentDescription = null,
-                modifier = Modifier.size(20.dp),
-                tint = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-        },
+    Box(
         modifier = modifier
             .fillMaxWidth()
-            .clickable { showDialog = true },
-        singleLine = true,
-        shape = fieldShape,
-        colors = fieldColors,
-        textStyle = MaterialTheme.typography.bodyMedium
-    )
+            .clickable { showDialog = true }
+    ) {
+        OutlinedTextField(
+            value = value.ifBlank { placeholder ?: "" },
+            onValueChange = {},
+            enabled = false,
+            label = { Text(label, maxLines = 1, overflow = TextOverflow.Ellipsis) },
+            trailingIcon = {
+                Icon(
+                    imageVector = Icons.Filled.ArrowDropDown,
+                    contentDescription = null,
+                    modifier = Modifier.size(20.dp),
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            },
+            modifier = Modifier.fillMaxWidth(),
+            singleLine = true,
+            shape = fieldShape,
+            colors = fieldColors,
+            textStyle = MaterialTheme.typography.bodyMedium
+        )
+    }
 
     if (showDialog) {
         SelectionDialog(
@@ -235,31 +243,15 @@ fun SelectionDialog(
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.spacedBy(12.dp)
                         ) {
-                            Box(
-                                modifier = Modifier
-                                    .size(22.dp)
-                                    .clip(CircleShape)
-                                    .background(
-                                        if (selected) MaterialTheme.colorScheme.primary
-                                        else Color.Transparent
-                                    )
-                                    .then(
-                                        if (!selected) Modifier.border(
-                                            BorderStroke(2.dp, MaterialTheme.colorScheme.outline),
-                                            CircleShape
-                                        ) else Modifier
-                                    ),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                if (selected) {
-                                    Icon(
-                                        imageVector = Icons.Filled.Check,
-                                        contentDescription = null,
-                                        tint = MaterialTheme.colorScheme.onPrimary,
-                                        modifier = Modifier.size(14.dp)
-                                    )
-                                }
-                            }
+                            RadioButton(
+                                selected = selected,
+                                onClick = { onSelect(option) },
+                                colors = RadioButtonDefaults.colors(
+                                    selectedColor = MaterialTheme.colorScheme.primary,
+                                    unselectedColor = MaterialTheme.colorScheme.outline
+                                ),
+                                modifier = Modifier.size(22.dp)
+                            )
                             Text(
                                 text = option.ifBlank { "—" },
                                 style = MaterialTheme.typography.bodyMedium,
