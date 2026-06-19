@@ -1,34 +1,47 @@
-/* Bottom Nav (pill segmented control) */
+/* Bottom Nav (Liquid Glass Capsule for Mobile) */
 .md-bottomnav {
   display: none;
   position: fixed;
-  bottom: 16px;
+  bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 100;
-  background: var(--md-surface-muted);
-  border-radius: var(--md-radius-full);
-  padding: 4px;
-  border: 1px solid var(--md-border-subtle);
+  z-index: 999;
+  width: calc(100% - 48px);
+  max-width: 320px;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-radius: 24px;
+  padding: 6px 8px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 74, 198, 0.04);
+}
+
+[data-theme="dark"] .md-bottomnav {
+  background: rgba(6, 15, 27, 0.75);
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .md-bottomnav-pill {
   display: flex;
-  gap: 0;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0;
+  gap: 4px;
 }
 
 .md-bottomnav-item {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 2px;
-  padding: 8px 20px;
-  color: var(--md-on-surface-variant);
+  justify-content: center;
+  height: 40px;
+  border-radius: 20px;
   text-decoration: none;
-  font-size: 0.8125rem;
-  font-weight: 600;
-  border-radius: var(--md-radius-full);
-  transition: background var(--md-transition), color var(--md-transition);
+  color: var(--md-on-surface-variant);
+  transition: all 0.25s cubic-bezier(0.2, 0, 0, 1);
+  padding: 0 10px;
 }
 
 .md-bottomnav-item:hover {
@@ -36,10 +49,43 @@
   color: var(--md-primary);
 }
 
+.md-bottomnav-icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+}
+
+.md-bottomnav-item .material-symbols-outlined {
+  font-size: 20px;
+  transition: font-variation-settings var(--md-transition);
+}
+
+.md-bottomnav-label {
+  display: none; /* Hidden by default */
+  font-family: var(--md-font);
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+  letter-spacing: 0.01em;
+  transition: color var(--md-transition);
+}
+
+/* Active State: horizontal pill container */
 .md-bottomnav-item.md-nav-active {
+  flex-direction: row;
+  gap: 6px;
   background: var(--md-primary-container);
-  color: var(--md-primary);
-  font-weight: 700;
+  color: var(--md-on-primary-container);
+  padding: 0 14px;
+}
+
+.md-bottomnav-item.md-nav-active .md-bottomnav-label {
+  display: inline-block; /* Show label only for active item */
+}
+
+.md-bottomnav-item.md-nav-active .material-symbols-outlined {
+  font-variation-settings: 'FILL' 1;
 }
 
 /* Nav pill (shared for topbar and bottomnav) */
@@ -95,7 +141,7 @@
 
 .md-fab:hover {
   box-shadow: var(--md-elevation-3);
-  transform: scale(1.05);
+  filter: brightness(1.06);
 }
 
 .md-fab svg {
