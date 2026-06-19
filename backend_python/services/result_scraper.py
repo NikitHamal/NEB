@@ -51,7 +51,7 @@ class SourceAdapter:
 class NtcNEBAdapter(SourceAdapter):
     """Scraper for neb.ntc.net.np (NEB Class 12)."""
     name = 'neb.ntc.net.np'
-    exam_label = 'NEB Class 12'
+    exam_label = '12'
     form_url = 'https://neb.ntc.net.np/'
     result_url = 'https://neb.ntc.net.np/results.php'
 
@@ -338,7 +338,7 @@ class NtcSEEAdapter(SourceAdapter):
 class SEEEdusanjalAdapter(SourceAdapter):
     """Scraper for see.edusanjal.com (SEE / Class 10, no DOB needed)."""
     name = 'see.edusanjal.com'
-    exam_label = 'SEE (Class 10)'
+    exam_label = '10'
     api_url = 'https://see.edusanjal.com/api/result'
 
     def get_form_token(self, batch: str = '') -> tuple[str, str]:
@@ -416,9 +416,21 @@ class SEEEdusanjalAdapter(SourceAdapter):
 
 # ── adapter registry ─────────────────────────────────────────────────
 
+class NtcNEBReexamAdapter(NtcNEBAdapter):
+    """Scraper for neb.ntc.net.np — NEB Class 12 Re-exam / Supplementary."""
+    exam_label = '12 (Re)'
+
+
+class SEEEdusanjalReexamAdapter(SEEEdusanjalAdapter):
+    """Scraper for see.edusanjal.com — SEE Supplementary / Grade Improvement."""
+    exam_label = '10 (Re)'
+
+
 ADAPTERS: dict[str, SourceAdapter] = {
     'neb': NtcNEBAdapter(),
+    'neb_reexam': NtcNEBReexamAdapter(),
     'see': SEEEdusanjalAdapter(),
+    'see_reexam': SEEEdusanjalReexamAdapter(),
 }
 
 EXAM_CHOICES = [(k, v.exam_label) for k, v in ADAPTERS.items()]
