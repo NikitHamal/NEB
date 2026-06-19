@@ -18,7 +18,7 @@ from django.core.cache import cache
 logger = logging.getLogger('nebians.services.result_scraper')
 
 CACHE_PREFIX = 'neb_result_'
-CACHE_TTL = 86400 * 7  # 7 days — results don't change after publication
+CACHE_TTL = None  # Results never change after publication; cache forever so lookups survive official site downtime.
 
 # ── source adapters ──────────────────────────────────────────────────
 
@@ -462,16 +462,24 @@ def check_result(exam: str, symbol: str, dob: str, batch: str = '') -> dict:
         import urllib.error
         if isinstance(e, urllib.error.HTTPError):
             if e.code == 404:
+                if cached := cache.get(cache_key):
+                    cached['_cached'] = True
+                    return {'success': True, 'data': cached, 'cached': True}
                 return {
                     'success': False,
                     'error': f'The result page for batch {batch} was not found on the official board. It might not be published yet.'
                 }
+            if cached := cache.get(cache_key):
+                cached['_cached'] = True
+                return {'success': True, 'data': cached, 'cached': True}
             return {'success': False, 'error': f'Official server error (HTTP {e.code}). Please try again later.'}
         elif isinstance(e, urllib.error.URLError):
-            return {
-                'success': False,
-                'error': 'Connection timed out or failed. The official result server may be overloaded or down.'
-            }
+            msg = 'Connection timed out or failed. The official result server may be overloaded or down.'
+            if cached := cache.get(cache_key):
+                msg += ' Serving previously cached result.'
+                cached['_cached'] = True
+                return {'success': True, 'data': cached, 'cached': True}
+            return {'success': False, 'error': msg}
         return {'success': False, 'error': f'Error fetching result: {str(e)}'}
 
     if result is None:
@@ -480,9 +488,10 @@ def check_result(exam: str, symbol: str, dob: str, batch: str = '') -> dict:
     # Tag with batch in result
     result['batch'] = batch
 
-    # Remove raw_html from cache (keep for response but don't cache large HTML)
-    result_for_cache = {k: v for k, v in result.items() if k != 'raw_html'}
-    cache.set(cache_key, result_for_cache, CACHE_TTL)
+    # Strip raw_html from everything — it's large, only needed for debugging
+    result.pop('raw_html', None)
+
+    cache.set(cache_key, result, CACHE_TTL)
 
     result['_cached'] = False
     return {'success': True, 'data': result, 'cached': False}

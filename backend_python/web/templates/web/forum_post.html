@@ -41,7 +41,7 @@
 
 <div class="md-container-narrow" style="padding-top:24px;">
   {% if post %}
-  <a href="{% url 'web:forum' %}" class="fp-back" onclick="if(document.referrer && document.referrer.includes(window.location.host)) { history.back(); return false; }">
+  <a href="{% url 'web:forum' %}" class="fp-back" data-action="go-back">
     <span class="material-symbols-outlined" style="font-size:18px">arrow_back</span>
     Back to Forum
   </a>

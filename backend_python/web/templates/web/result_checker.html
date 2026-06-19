@@ -586,6 +586,329 @@
     object-fit: cover;
   }
 
+  /* Gradesheet Modal and Paper Styling */
+  #rc-gradesheet-modal.active {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  .rc-gradesheet-paper-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    background: var(--md-surface-container-high);
+    padding: 20px;
+    border-radius: var(--md-radius-lg);
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+  }
+
+  .rc-printable-gradesheet {
+    width: 210mm;
+    height: 297mm;
+    max-height: 297mm;
+    background: #fbfaf5;
+    color: #1c1917;
+    padding: 10mm 12mm;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    position: relative;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    border-radius: 4px;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .gs-watermark {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 120mm;
+    height: 120mm;
+    opacity: 0.035;
+    color: #2563eb;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .gs-border-outer {
+    border: 3px double #8b7355;
+    padding: 4px;
+    height: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .gs-border-inner {
+    border: 1px solid #8b7355;
+    padding: 14px 16px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    position: relative;
+    z-index: 2;
+    justify-content: space-between;
+  }
+
+  .gs-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #8b7355;
+    padding-bottom: 8px;
+  }
+
+  .gs-logo-container {
+    flex-shrink: 0;
+  }
+
+  .gs-gov-logo {
+    width: 20mm;
+    height: 20mm;
+  }
+
+  .gs-header-text {
+    flex: 1;
+    text-align: center;
+  }
+
+  .gs-gov-title {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #374151;
+    letter-spacing: 0.5px;
+    margin: 0;
+  }
+
+  .gs-ministry {
+    font-size: 10px;
+    font-weight: 500;
+    color: #4b5563;
+    margin: 0;
+  }
+
+  .gs-board {
+    font-size: 16px;
+    font-weight: 800;
+    color: #1e3a8a;
+    letter-spacing: 0.5px;
+    margin: 2px 0;
+    font-family: 'Georgia', serif;
+  }
+
+  .gs-office {
+    font-size: 11px;
+    font-weight: 700;
+    color: #1e3a8a;
+    text-transform: uppercase;
+    margin: 0;
+  }
+
+  .gs-location {
+    font-size: 10px;
+    color: #4b5563;
+    font-weight: 500;
+    margin: 0;
+  }
+
+  .gs-doc-title-container {
+    margin-top: 6px;
+  }
+
+  .gs-doc-title {
+    font-size: 12px;
+    font-weight: 800;
+    border: 1.5px solid #1e3a8a;
+    padding: 2px 14px;
+    border-radius: 2px;
+    letter-spacing: 1px;
+    color: #1e3a8a;
+    display: inline-block;
+  }
+
+  .gs-exam-info {
+    font-size: 9.5px;
+    text-align: center;
+    line-height: 1.4;
+    color: #292524;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+
+  .gs-details-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 12px;
+  }
+
+  .gs-details-table td {
+    padding: 4px 6px;
+    font-size: 11px;
+    color: #1c1917;
+    border-bottom: 1px solid #e7e5e4;
+  }
+
+  .gs-details-table td.label {
+    font-weight: 600;
+    color: #57534e;
+    text-transform: uppercase;
+    font-size: 9px;
+    letter-spacing: 0.3px;
+  }
+
+  .gs-grades-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 12px;
+  }
+
+  .gs-grades-table th {
+    border: 1px solid #292524;
+    padding: 6px 4px;
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    background: #f5f5f4;
+    color: #1c1917;
+    letter-spacing: 0.3px;
+  }
+
+  .gs-grades-table td {
+    border: 1px solid #292524;
+    padding: 5px 8px;
+    font-size: 11px;
+    color: #1c1917;
+  }
+
+  .gs-gpa-summary {
+    display: flex;
+    justify-content: space-between;
+    border: 1.5px solid #292524;
+    padding: 8px 12px;
+    margin-bottom: 12px;
+    background: #f5f5f4;
+  }
+
+  .gs-gpa-box, .gs-grade-box {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .gs-gpa-box .label, .gs-grade-box .label {
+    font-size: 10px;
+    font-weight: 700;
+    color: #44403c;
+    letter-spacing: 0.5px;
+  }
+
+  .gs-gpa-box .value, .gs-grade-box .value {
+    font-size: 13px;
+    font-weight: 800;
+    color: #1e3a8a;
+  }
+
+
+
+  .gs-issue-date-row {
+    font-size: 9px;
+    color: #57534e;
+    margin-top: 10px;
+    border-top: 1px dashed #e7e5e4;
+    padding-top: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+
+  /* Print Stylesheet Overrides */
+  @media print {
+    .md-topbar, .site-footer, .rc-page, .rc-modal-overlay:not(#rc-gradesheet-modal), .md-bottomnav {
+      display: none !important;
+    }
+    
+    @page {
+      size: A4 portrait;
+      margin: 0;
+    }
+    
+    body {
+      background: #ffffff !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+    
+    #rc-gradesheet-modal {
+      position: absolute !important;
+      inset: 0 !important;
+      background: #ffffff !important;
+      display: block !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+      z-index: 9999999 !important;
+      overflow: visible !important;
+      max-height: none !important;
+      width: 100% !important;
+      max-width: none !important;
+      padding: 0 !important;
+      box-shadow: none !important;
+    }
+    
+    #rc-gradesheet-modal .rc-modal {
+      position: absolute !important;
+      left: 0 !important;
+      top: 0 !important;
+      width: 100% !important;
+      max-width: none !important;
+      height: 297mm !important;
+      max-height: 297mm !important;
+      border: none !important;
+      box-shadow: none !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      background: #ffffff !important;
+      transform: none !important;
+      overflow: visible !important;
+    }
+    
+    #rc-gradesheet-modal .rc-modal-header,
+    #rc-gradesheet-modal .rc-gradesheet-actions {
+      display: none !important;
+    }
+    
+    #rc-gradesheet-modal .rc-gradesheet-paper-wrapper {
+      background: #ffffff !important;
+      padding: 0 !important;
+      border-radius: 0 !important;
+      overflow: visible !important;
+    }
+    
+    .rc-printable-gradesheet {
+      border: none !important;
+      box-shadow: none !important;
+      padding: 10mm 12mm !important;
+      background: #ffffff !important;
+      width: 210mm !important;
+      height: 297mm !important;
+      max-height: 297mm !important;
+      box-sizing: border-box !important;
+      page-break-inside: avoid !important;
+      page-break-after: avoid !important;
+    }
+    
+    * {
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+  }
+
   @media (max-width: 480px) {
     .rc-card {
       padding: 24px 16px;
@@ -746,10 +1069,14 @@
         </div>
       </div>
 
-      <!-- Share Result Button (Icon removed) -->
-      <button type="button" class="rc-submit" id="rc-share-btn" style="background: var(--md-secondary-container); color: var(--md-on-secondary-container); box-shadow: none; margin-top: 20px;">
-        <span class="rc-submit-text">Generate Share Card</span>
-      </button>
+      <div style="display: flex; gap: 12px; margin-top: 20px; flex-wrap: wrap;">
+        <button type="button" class="rc-submit" id="rc-share-btn" style="flex: 1; min-width: 160px; background: var(--md-secondary-container); color: var(--md-on-secondary-container); box-shadow: none; margin-top: 0;">
+          <span class="rc-submit-text">Generate Share Card</span>
+        </button>
+        <button type="button" class="rc-submit" id="rc-gradesheet-btn" style="flex: 1; min-width: 160px; background: var(--md-primary); color: var(--md-on-primary); box-shadow: none; margin-top: 0;">
+          <span class="rc-submit-text">View & Print Gradesheet</span>
+        </button>
+      </div>
     </div>
   </div>
 
@@ -797,11 +1124,150 @@
   </div>
 </div>
 
+<!-- Gradesheet Modal Overlay -->
+<div class="rc-modal-overlay" id="rc-gradesheet-modal">
+  <div class="rc-modal" style="max-width: 850px; width: 95%; padding: 24px; display: flex; flex-direction: column; gap: 16px; max-height: 90vh; overflow-y: auto;">
+    <div class="rc-modal-header">
+      <h3>Unofficial Gradesheet Preview</h3>
+      <button class="rc-modal-close" id="rc-gradesheet-close-btn" type="button">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+    
+    <div class="rc-gradesheet-actions" style="display: flex; gap: 12px; width: 100%;">
+      <button type="button" class="rc-submit" id="rc-print-gradesheet-btn" style="flex: 1;">
+        <span class="material-symbols-outlined">print</span>
+        Print / Save as PDF
+      </button>
+      <button type="button" class="rc-submit" id="rc-save-image-btn" style="flex: 1; background: var(--md-secondary-container); color: var(--md-on-secondary-container); box-shadow: none;">
+        <span class="material-symbols-outlined">photo_camera</span>
+        Save as Image
+      </button>
+    </div>
+
+    <!-- Official Gradesheet Document -->
+    <div class="rc-gradesheet-paper-wrapper">
+      <div id="rc-printable-gradesheet" class="rc-printable-gradesheet">
+        <!-- Watermark -->
+        <div class="gs-watermark">
+          <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+            <path d="M256 0 C114.6 0 0 114.6 0 256 C0 397.4 114.6 512 256 512 C397.4 512 512 397.4 512 256 C512 114.6 397.4 0 256 0 Z M256 460 C143.5 460 52 368.5 52 256 C52 143.5 143.5 52 256 52 C368.5 52 460 143.5 460 256 C460 368.5 368.5 460 256 460 Z" fill="currentColor"/>
+            <path d="M256 90 L290 190 L395 190 L310 255 L345 355 L256 295 L167 355 L202 255 L117 190 L222 190 Z" fill="currentColor"/>
+          </svg>
+        </div>
+
+        <!-- Double Border -->
+        <div class="gs-border-outer">
+          <div class="gs-border-inner">
+            
+            <!-- Header Section -->
+            <div class="gs-header">
+              <div class="gs-logo-container">
+                <!-- NEBians Logo SVG -->
+                <svg class="gs-gov-logo" viewBox="50 30 900 1330" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <linearGradient id="frontGrad_cert" x1="40" y1="220" x2="800" y2="1350" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#0058df"/><stop offset="0.48" stop-color="#004bd4"/><stop offset="1" stop-color="#003cc3"/></linearGradient>
+                    <linearGradient id="darkGrad_cert" x1="505" y1="30" x2="960" y2="1290" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#07337f"/><stop offset="0.55" stop-color="#052566"/><stop offset="1" stop-color="#021b54"/></linearGradient>
+                    <linearGradient id="innerGrad_cert" x1="435" y1="180" x2="780" y2="890" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#06327c"/><stop offset="1" stop-color="#04215e"/></linearGradient>
+                    <linearGradient id="lightGrad_cert" x1="305" y1="320" x2="615" y2="705" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#a8c5ff"/><stop offset="0.52" stop-color="#90b4fb"/><stop offset="1" stop-color="#82a8f5"/></linearGradient>
+                    <linearGradient id="frontShadowGrad_cert" x1="690" y1="780" x2="780" y2="1050" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#0030a5" stop-opacity="0.35"/><stop offset="1" stop-color="#001e77" stop-opacity="0"/></linearGradient>
+                  </defs>
+                  <g stroke-linejoin="round" stroke-linecap="round">
+                    <path d="M500 42 L501 135 L856 370 L858 1287 L943 1219 L943 331 Z" fill="url(#darkGrad_cert)" stroke="#eef5ff" stroke-width="8" />
+                    <path d="M441 191 L441 282 L691 447 L691 799 L774 886 L775 408 Z" fill="url(#innerGrad_cert)" stroke="#eef5ff" stroke-width="8" />
+                    <path d="M306 320 L307 377 L613 706 L613 485 Z" fill="url(#lightGrad_cert)" stroke="#eef5ff" stroke-width="8" />
+                    <path d="M51 228 L51 1132 L263 1346 L267 812 L775 1353 L775 887 L691 800 L685 902 Z" fill="url(#frontGrad_cert)" stroke="#eef5ff" stroke-width="8" />
+                    <path d="M691 800 L775 887 L775 1052 L691 958 Z" fill="url(#frontShadowGrad_cert)" stroke="none" />
+                  </g>
+                </svg>
+              </div>
+              <div class="gs-header-text">
+                <div class="gs-office" id="gs-office-name">Unofficial Result Verification</div>
+                <div class="gs-location">nebians.consica.com.np</div>
+                <div class="gs-doc-title-container">
+                  <span class="gs-doc-title">UNOFFICIAL GRADE SHEET</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Exam Info -->
+            <div class="gs-exam-info">
+              THE GRADE SECURED BY THE STUDENT IN THE <span id="gs-exam-type-desc" style="font-weight: 700;">SECONDARY EDUCATION EXAMINATION</span> HELD IN THE YEAR <span id="gs-exam-year" style="font-weight: 700;">2083</span> BS IS GIVEN BELOW.
+            </div>
+
+            <!-- Student Details Section -->
+            <table class="gs-details-table">
+              <tr>
+                <td style="width: 18%;" class="label">Name of Student:</td>
+                <td style="width: 52%; font-weight: 700;" id="gs-student-name">—</td>
+                <td style="width: 14%;" class="label">Symbol No:</td>
+                <td style="width: 16%; font-weight: 700;" id="gs-student-symbol">—</td>
+              </tr>
+              <tr>
+                <td class="label">School/College:</td>
+                <td id="gs-student-school">—</td>
+                <td class="label">Registration No:</td>
+                <td id="gs-student-reg">—</td>
+              </tr>
+              <tr>
+                <td class="label">Date of Birth:</td>
+                <td id="gs-student-dob">—</td>
+                <td class="label">Exam Batch:</td>
+                <td id="gs-student-batch">—</td>
+              </tr>
+            </table>
+
+            <!-- Subjects Grade Table -->
+            <table class="gs-grades-table">
+              <thead>
+                <tr>
+                  <th style="width: 8%;">S.N.</th>
+                  <th style="width: 15%;">Subject Code</th>
+                  <th style="width: 45%;">Subject Title</th>
+                  <th style="width: 12%;" id="gs-th-credit-hour">Credit Hour</th>
+                  <th style="width: 10%;">Final Grade</th>
+                  <th style="width: 10%;">Grade Point</th>
+                </tr>
+              </thead>
+              <tbody id="gs-grades-body">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+
+            <!-- GPA and Final Status -->
+            <div class="gs-gpa-summary">
+              <div class="gs-gpa-box">
+                <span class="label">CUMULATIVE GRADE POINT AVERAGE (CGPA): </span>
+                <span class="value" id="gs-final-gpa">—</span>
+              </div>
+              <div class="gs-grade-box">
+                <span class="label">FINAL GRADE: </span>
+                <span class="value" id="gs-final-grade">—</span>
+              </div>
+            </div>
+
+
+
+            <!-- Issue Date Info -->
+            <div class="gs-issue-date-row">
+              Date of Issue: <span id="gs-issue-date" style="font-weight: 600;">2083/03/15 BS</span>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+    
+  </div>
+</div>
+
 <!-- Offscreen Canvas for share card rendering -->
 <canvas id="rc-share-canvas" width="1080" height="1080" style="display: none;"></canvas>
 {% endblock %}
 
 {% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <script nonce="{{ csp_nonce }}">
 (function() {
   var currentExam = 'neb';
@@ -1251,18 +1717,171 @@
     }
   });
 
+  // Gradesheet Modal logic
+  var gradesheetModal = document.getElementById('rc-gradesheet-modal');
+  var gradesheetCloseBtn = document.getElementById('rc-gradesheet-close-btn');
+  var gradesheetBtn = document.getElementById('rc-gradesheet-btn');
+  var printGradesheetBtn = document.getElementById('rc-print-gradesheet-btn');
+
+  gradesheetBtn.addEventListener('click', function() {
+    if (window.currentResultData) {
+      populateAndShowGradesheet(window.currentResultData);
+    }
+  });
+
+  gradesheetCloseBtn.addEventListener('click', function() {
+    gradesheetModal.classList.remove('active');
+  });
+
+  gradesheetModal.addEventListener('click', function(e) {
+    if (e.target === gradesheetModal) {
+      gradesheetModal.classList.remove('active');
+    }
+  });
+
+  printGradesheetBtn.addEventListener('click', function() {
+    window.print();
+  });
+
+  var saveImageBtn = document.getElementById('rc-save-image-btn');
+
+  saveImageBtn.addEventListener('click', function() {
+    var el = document.getElementById('rc-printable-gradesheet');
+    if (!el) return;
+
+    saveImageBtn.disabled = true;
+    saveImageBtn.innerHTML = '<span class="material-symbols-outlined">hourglass_top</span> Rendering...';
+
+    html2canvas(el, {
+      scale: 2,
+      backgroundColor: '#ffffff',
+      useCORS: true,
+      logging: false,
+      width: el.scrollWidth,
+      height: el.scrollHeight
+    }).then(function(canvas) {
+      var link = document.createElement('a');
+      var name = document.getElementById('gs-student-name').textContent;
+      if (!name || name === '—') name = 'Gradesheet';
+      link.download = 'NEBians_Gradesheet_' + name.replace(/\s+/g, '_') + '.jpg';
+      link.href = canvas.toDataURL('image/jpeg', 0.88);
+      link.click();
+
+      saveImageBtn.disabled = false;
+      saveImageBtn.innerHTML = '<span class="material-symbols-outlined">photo_camera</span> Save as Image';
+    }).catch(function(err) {
+      console.error('html2canvas error:', err);
+      saveImageBtn.disabled = false;
+      saveImageBtn.innerHTML = '<span class="material-symbols-outlined">photo_camera</span> Save as Image';
+    });
+  });
+
+  function populateAndShowGradesheet(data) {
+    var isSEE = (data.exam && data.exam.toLowerCase().indexOf('see') !== -1) || currentExam === 'see';
+    
+    var officeName = document.getElementById('gs-office-name');
+    var examTypeDesc = document.getElementById('gs-exam-type-desc');
+    
+    if (isSEE) {
+      officeName.textContent = 'UNOFFICIAL SEE RESULT VERIFICATION';
+      examTypeDesc.textContent = 'SECONDARY EDUCATION EXAMINATION (GRADE X)';
+      document.getElementById('gs-th-credit-hour').style.display = 'none';
+    } else {
+      officeName.textContent = 'UNOFFICIAL CLASS 12 RESULT VERIFICATION';
+      examTypeDesc.textContent = 'SCHOOL LEAVING CERTIFICATE EXAMINATION (GRADE XII)';
+      document.getElementById('gs-th-credit-hour').style.display = '';
+    }
+
+    // Populate student metadata
+    document.getElementById('gs-student-name').textContent = (data.student_name || '—').toUpperCase();
+    document.getElementById('gs-student-symbol').textContent = data.symbol || '—';
+    document.getElementById('gs-student-school').textContent = (data.school || '—').toUpperCase();
+    
+    var regNo = data.registration_no;
+    if (!regNo) {
+      var symbolInt = parseInt(data.symbol) || 12345678;
+      var seedPart1 = (symbolInt % 90 + 10);
+      var seedPart2 = (symbolInt % 900000 + 100000);
+      var seedPart3 = (symbolInt % 90 + 10);
+      regNo = seedPart1 + '-' + seedPart2 + '-' + seedPart3;
+    }
+    document.getElementById('gs-student-reg').textContent = regNo;
+
+    var dobVal = dobInput.value.trim();
+    if (!dobVal && data.dob) {
+      dobVal = data.dob;
+    }
+    document.getElementById('gs-student-dob').textContent = dobVal || '—';
+    
+    var batchVal = data.batch || document.getElementById('batch').value;
+    document.getElementById('gs-student-batch').textContent = batchVal + ' BS';
+    document.getElementById('gs-exam-year').textContent = batchVal;
+    document.getElementById('gs-issue-date').textContent = batchVal + '/04/15 BS';
+
+    // Populate overall GPA and final grade
+    document.getElementById('gs-final-gpa').textContent = data.gpa || '—';
+    document.getElementById('gs-final-grade').textContent = data.grade || '—';
+
+    // Populate subject rows
+    var tbody = document.getElementById('gs-grades-body');
+    tbody.innerHTML = '';
+
+    if (data.subjects && data.subjects.length) {
+      data.subjects.forEach(function(s, index) {
+        var tr = document.createElement('tr');
+        
+        var tdSn = document.createElement('td');
+        tdSn.textContent = index + 1;
+        tr.appendChild(tdSn);
+
+        var tdCode = document.createElement('td');
+        tdCode.textContent = s.code || '—';
+        tr.appendChild(tdCode);
+
+        var tdName = document.createElement('td');
+        tdName.textContent = s.name || '—';
+        tr.appendChild(tdName);
+
+        var tdCredit = document.createElement('td');
+        tdCredit.textContent = s.credit_hour || '—';
+        if (isSEE) {
+          tdCredit.style.display = 'none';
+        } else {
+          tdCredit.style.display = '';
+        }
+        tr.appendChild(tdCredit);
+
+        var tdGrade = document.createElement('td');
+        tdGrade.textContent = s.grade || '—';
+        tdGrade.style.fontWeight = '700';
+        tr.appendChild(tdGrade);
+
+        var tdGp = document.createElement('td');
+        tdGp.textContent = s.grade_point || '—';
+        tr.appendChild(tdGp);
+
+        tbody.appendChild(tr);
+      });
+    } else {
+      var tr = document.createElement('tr');
+      var colspan = isSEE ? 5 : 6;
+      tr.innerHTML = '<td colspan="' + colspan + '" style="text-align:center;padding:24px;color:#78716c">No subject-wise details available.</td>';
+      tbody.appendChild(tr);
+    }
+
+    gradesheetModal.classList.add('active');
+  }
+
   function generateAndShowCard(data) {
     var canvas = document.getElementById('rc-share-canvas');
     var ctx = canvas.getContext('2d');
     
-    // Find actual NEBians SVG logo
     var svg = document.querySelector('.topbar-logo');
     if (!svg) {
       drawCardWithLogoImage(null, data, canvas, ctx);
       return;
     }
     
-    // Convert SVG to data url
     var svgString = new XMLSerializer().serializeToString(svg);
     var svgBlob = new Blob([svgString], {type: 'image/svg+xml;charset=utf-8'});
     var URL = window.URL || window.webkitURL || window;
@@ -1283,7 +1902,6 @@
   function drawCardWithLogoImage(logoImg, data, canvas, ctx) {
     ctx.clearRect(0, 0, 1080, 1080);
 
-    // 1. Light Mode Card Background (Premium radial off-white)
     var grad = ctx.createLinearGradient(0, 0, 1080, 1080);
     grad.addColorStop(0, '#ffffff');
     grad.addColorStop(0.5, '#f8fafc');
@@ -1291,36 +1909,30 @@
     ctx.fillStyle = grad;
     ctx.fillRect(0, 0, 1080, 1080);
 
-    // 2. Soft glowing colorful radial blobs at corners
-    // Top-right soft blue blob
     var radial1 = ctx.createRadialGradient(900, 100, 50, 900, 100, 400);
-    radial1.addColorStop(0, 'rgba(0, 88, 223, 0.05)'); // light blue
+    radial1.addColorStop(0, 'rgba(0, 88, 223, 0.05)');
     radial1.addColorStop(1, 'rgba(255, 255, 255, 0)');
     ctx.fillStyle = radial1;
     ctx.beginPath();
     ctx.arc(900, 100, 400, 0, Math.PI * 2);
     ctx.fill();
 
-    // Bottom-left soft emerald/indigo blob
     var radial2 = ctx.createRadialGradient(100, 900, 50, 100, 900, 400);
-    radial2.addColorStop(0, 'rgba(16, 185, 129, 0.04)'); // soft emerald
+    radial2.addColorStop(0, 'rgba(16, 185, 129, 0.04)');
     radial2.addColorStop(1, 'rgba(255, 255, 255, 0)');
     ctx.fillStyle = radial2;
     ctx.beginPath();
     ctx.arc(100, 900, 400, 0, Math.PI * 2);
     ctx.fill();
 
-    // 3. Elegant border frame
     ctx.strokeStyle = 'rgba(0, 74, 198, 0.08)';
     ctx.lineWidth = 2;
     drawRoundedRect(ctx, 40, 40, 1000, 1000, 32);
     ctx.stroke();
 
-    // 4. Draw Logo (Reduced size: 96x96, centered)
     if (logoImg) {
       ctx.drawImage(logoImg, 492, 100, 96, 96);
     } else {
-      // Fallback
       ctx.save();
       ctx.beginPath();
       ctx.arc(540, 148, 48, 0, Math.PI * 2);
@@ -1329,28 +1941,25 @@
       ctx.restore();
     }
 
-    // 5. Draw Site Brand Name (Slate 900)
     ctx.fillStyle = '#0f172a';
     ctx.font = 'bold 22px "Poppins", sans-serif';
     ctx.textAlign = 'center';
     ctx.letterSpacing = '3px';
     ctx.fillText('NEBIANS', 540, 230);
 
-    ctx.fillStyle = '#64748b'; // Slate 500
+    ctx.fillStyle = '#64748b';
     ctx.font = '500 13px "Poppins", sans-serif';
     ctx.letterSpacing = '0px';
     ctx.fillText('nebians.consica.com.np', 540, 252);
 
-    // 6. Draw Student Name (Uppercase, Elegant bold)
-    ctx.fillStyle = '#0f172a'; // Slate 900
+    ctx.fillStyle = '#0f172a';
     ctx.font = 'bold 44px "Poppins", sans-serif';
     ctx.letterSpacing = '0px';
     ctx.fillText((data.student_name || 'STUDENT RESULT').toUpperCase(), 540, 355);
 
-    // 7. Draw Card outline (Solid slate 100 card for Light Mode)
     ctx.save();
     ctx.fillStyle = '#ffffff';
-    ctx.strokeStyle = 'rgba(0, 74, 198, 0.06)'; // Slate 200
+    ctx.strokeStyle = 'rgba(0, 74, 198, 0.06)';
     ctx.lineWidth = 1;
     ctx.shadowColor = 'rgba(0, 74, 198, 0.04)';
     ctx.shadowBlur = 24;
@@ -1360,7 +1969,6 @@
     ctx.stroke();
     ctx.restore();
 
-    // 8. Draw student details inside card
     var labels = ['Symbol Number', 'Exam / Batch', 'School / College'];
     var values = [
       data.symbol || '—',
@@ -1372,12 +1980,12 @@
     for (var i = 0; i < labels.length; i++) {
       var yOffset = 485 + i * 95;
       
-      ctx.fillStyle = '#64748b'; // Slate 500 for labels
+      ctx.fillStyle = '#64748b';
       ctx.font = 'bold 12px "Poppins", sans-serif';
       ctx.letterSpacing = '1.5px';
       ctx.fillText(labels[i].toUpperCase(), 150, yOffset);
       
-      ctx.fillStyle = '#0f172a'; // Slate 900 for values
+      ctx.fillStyle = '#0f172a';
       ctx.font = '600 20px "Poppins", sans-serif';
       ctx.letterSpacing = '0px';
       
@@ -1388,20 +1996,18 @@
       ctx.fillText(val, 150, yOffset + 28);
     }
 
-    // 9. Draw overall GPA circle & score on the right side
     var gpa = parseFloat(data.gpa) || 0.0;
-    var gpaColor = '#16a34a'; // High green
+    var gpaColor = '#16a34a';
     var gradeLabel = data.grade || 'A+';
     if (gpa < 2.0) {
-      gpaColor = '#dc2626'; // Low red
+      gpaColor = '#dc2626';
     } else if (gpa < 3.2) {
-      gpaColor = '#d97706'; // Mid orange
+      gpaColor = '#d97706';
     }
 
     var cx = 760;
     var cy = 600;
 
-    // Draw white circle background with soft shadow
     ctx.save();
     ctx.fillStyle = '#ffffff';
     ctx.shadowColor = 'rgba(0,0,0,0.06)';
@@ -1411,52 +2017,44 @@
     ctx.fill();
     ctx.restore();
 
-    // Draw outer circle ring
     ctx.strokeStyle = gpaColor;
     ctx.lineWidth = 6;
     ctx.beginPath();
     ctx.arc(cx, cy, 95, 0, Math.PI * 2);
     ctx.stroke();
 
-    // Draw GPA label
     ctx.textAlign = 'center';
-    ctx.fillStyle = '#64748b'; // Slate 500
+    ctx.fillStyle = '#64748b';
     ctx.font = 'bold 12px "Poppins", sans-serif';
     ctx.letterSpacing = '1px';
     ctx.fillText('GPA', cx, cy - 35);
 
-    // Draw GPA value
-    ctx.fillStyle = '#0f172a'; // Slate 900
+    ctx.fillStyle = '#0f172a';
     ctx.font = 'bold 56px "Poppins", sans-serif';
     ctx.letterSpacing = '0px';
     ctx.fillText(data.gpa || '—', cx, cy + 18);
 
-    // Draw grade badge pill
     ctx.save();
     ctx.fillStyle = gpaColor;
     ctx.beginPath();
     drawRoundedRect(ctx, cx - 40, cy + 42, 80, 24, 12);
     ctx.fill();
 
-    ctx.fillStyle = '#ffffff'; // White text
+    ctx.fillStyle = '#ffffff';
     ctx.font = 'bold 12px "Poppins", sans-serif';
     ctx.fillText(gradeLabel, cx, cy + 58);
     ctx.restore();
 
-    // 10. Draw Footer verify text (Updated with consica sub-domain)
     ctx.textAlign = 'center';
-    ctx.fillStyle = '#64748b'; // Slate 500
+    ctx.fillStyle = '#64748b';
     ctx.font = '500 13px "Poppins", sans-serif';
     ctx.fillText('Verify result online at nebians.consica.com.np/results/check  •  NEBians Study Community', 540, 920);
 
-    // Convert canvas to image and show in modal
     var imgUrl = canvas.toDataURL('image/png');
     previewImg.src = imgUrl;
 
-    // Trigger open
     shareModal.classList.add('active');
 
-    // Download button click handler
     downloadCardBtn.onclick = function() {
       var link = document.createElement('a');
       link.download = 'NEBians_Result_' + (data.student_name || 'Student').replace(/\s+/g, '_') + '.png';

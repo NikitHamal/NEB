@@ -10,7 +10,7 @@
 <div class="an-page">
   <header class="an-header">
     <div>
-      <a class="an-back" href="{% url 'web:profile' username=user.username %}" onclick="if(document.referrer && document.referrer.includes(window.location.host)) { history.back(); return false; }">
+      <a class="an-back" href="{% url 'web:profile' username=user.username %}" data-action="go-back">
         <span class="material-symbols-outlined">arrow_back</span>
         Back to profile
       </a>
@@ -290,3 +290,4 @@
   </section>
 </div>
 {% endblock %}
+

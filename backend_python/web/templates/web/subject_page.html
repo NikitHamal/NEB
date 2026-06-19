@@ -798,6 +798,12 @@
         if (r.ok) showSnackbar('Report submitted. Thank you!');
         else r.json().then(d => showSnackbar(d.error || 'Failed to submit report')).catch(() => showSnackbar('Failed to submit report'));
       }).catch(() => showSnackbar('Failed to submit report'));
+    },
+    'remove-ai-file': function(el) {
+      const idx = parseInt(el.dataset.idx);
+      if (typeof removeAIFile === 'function') {
+        removeAIFile(idx);
+      }
     }
   });
 
@@ -1215,7 +1221,7 @@
         <span class="material-symbols-outlined" style="font-size:16px;">${icon}</span>
         <span class="ai-file-chip-name">${escapeHtml(f.name)}</span>
         <span class="ai-file-chip-size">${sizeStr}</span>
-        <button type="button" class="ai-file-chip-remove" onclick="removeAIFile(${i})">×</button>
+        <button type="button" class="ai-file-chip-remove" data-action="remove-ai-file" data-idx="${i}">×</button>
       </div>`;
     }).join('');
   }
