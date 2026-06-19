@@ -11,10 +11,30 @@
 {% block bottomnav %}
 <nav class="md-bottomnav">
   <div class="md-bottomnav-pill">
-    <a href="{% url 'web:home' %}" class="md-bottomnav-item" aria-label="Home">Home</a>
-    <a href="{% url 'web:library' %}" class="md-bottomnav-item" aria-label="Library">Library</a>
-    <a href="{% url 'web:forum' %}" class="md-bottomnav-item md-nav-active" aria-label="Forum">Forum</a>
-    <a href="{% url 'web:news_list' %}" class="md-bottomnav-item" aria-label="News">News</a>
+    <a href="{% url 'web:home' %}" class="md-bottomnav-item" aria-label="Home">
+      <div class="md-bottomnav-icon-wrapper">
+        <span class="material-symbols-outlined">home</span>
+      </div>
+      <span class="md-bottomnav-label">Home</span>
+    </a>
+    <a href="{% url 'web:library' %}" class="md-bottomnav-item" aria-label="Library">
+      <div class="md-bottomnav-icon-wrapper">
+        <span class="material-symbols-outlined">menu_book</span>
+      </div>
+      <span class="md-bottomnav-label">Library</span>
+    </a>
+    <a href="{% url 'web:forum' %}" class="md-bottomnav-item md-nav-active" aria-label="Forum">
+      <div class="md-bottomnav-icon-wrapper">
+        <span class="material-symbols-outlined">forum</span>
+      </div>
+      <span class="md-bottomnav-label">Forum</span>
+    </a>
+    <a href="{% url 'web:news_list' %}" class="md-bottomnav-item" aria-label="News">
+      <div class="md-bottomnav-icon-wrapper">
+        <span class="material-symbols-outlined">newspaper</span>
+      </div>
+      <span class="md-bottomnav-label">News</span>
+    </a>
   </div>
 </nav>
 {% endblock %}
