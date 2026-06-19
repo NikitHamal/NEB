@@ -5,7 +5,7 @@
 
 {% block content %}
 <div class="md-container-narrow" style="padding-top:24px;">
-  <a href="{% url 'web:forum_post' post_id=post_id %}" class="md-btn md-btn-text mb-2" style="padding-left:0;">
+  <a href="{% url 'web:forum_post' post_id=post_id %}" class="md-btn md-btn-text mb-2" style="padding-left:0;" onclick="if(document.referrer && document.referrer.includes(window.location.host)) { history.back(); return false; }">
     <span class="material-symbols-outlined" style="font-size:18px">arrow_back</span>
     Back to Post
   </a>

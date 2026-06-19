@@ -10,7 +10,7 @@
 {% block content %}
 <div class="upload-page">
   <div style="margin-top: 8px; margin-bottom: 24px;">
-    <a href="{% url 'web:reader' resource_id=resource.id %}" class="back-link" style="margin-bottom: 12px; display: inline-flex;">
+    <a href="{% url 'web:reader' resource_id=resource.id %}" class="back-link" style="margin-bottom: 12px; display: inline-flex;" onclick="if(document.referrer && document.referrer.includes(window.location.host)) { history.back(); return false; }">
       <span class="material-symbols-outlined">arrow_back</span>
       Back to Resource
     </a>

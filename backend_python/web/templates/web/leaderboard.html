@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="{% static 'web/css/pages/web-leaderboard.css' %}">
 
 <div class="leaderboard-page-container">
-  <a href="{% url 'web:forum' %}" class="back-link">
+  <a href="{% url 'web:forum' %}" class="back-link" onclick="if(document.referrer && document.referrer.includes(window.location.host)) { history.back(); return false; }">
     <span class="material-symbols-outlined" style="font-size:18px">arrow_back</span>
     Back to Forum
   </a>

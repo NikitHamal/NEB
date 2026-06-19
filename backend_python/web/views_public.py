@@ -96,12 +96,24 @@ def home(request):
         if s and s not in seen:
             subjects.append(s)
             seen.add(s)
+    latest_news = cache.get('home_latest_news')
+    if latest_news is None:
+        from api.models import Announcement
+        news_qs = Announcement.objects.select_related('author').filter(
+            status='published'
+        ).order_by('-is_pinned', '-published_at')[:4]
+        latest_news = []
+        from .views_news import _serialize_announcement
+        for a in news_qs:
+            latest_news.append(_serialize_announcement(a))
+        cache.set('home_latest_news', latest_news, 120)
     return render(request, 'web/home.html', _ctx(request,
         recent_resources=recent,
         popular_resources=popular,
         recent_posts=recent_posts,
         trending_posts=trending_posts,
         subjects=subjects[:12],
+        latest_news=latest_news,
         hide_footer_links=True,
     ))
 

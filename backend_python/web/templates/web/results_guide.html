@@ -1,0 +1,315 @@
+{% extends "base.html" %}
+{% load static web_extras %}
+
+{% block title %}NEB Results Guide — Check Your Results{% endblock %}
+{% block description %}Step-by-step guide to check your NEB Class 11 & 12 results. Includes grade calculator, official links, and SMS/IVR instructions.{% endblock %}
+{% block og_title %}NEB Results Guide{% endblock %}
+{% block og_description %}Check your NEB results step by step. Includes grade calculator and official links.{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'web/css/pages/web-results.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="md-container results-page">
+  <div class="results-hero">
+    <div class="results-hero-content">
+      <span class="results-hero-badge">
+        <span class="material-symbols-outlined">fact_check</span>
+        NEB Results
+      </span>
+      <h1 class="md-headline-large">How to Check Your Results</h1>
+      <p class="md-body-medium">A complete, interactive guide for checking your NEB Class 11 and Class 12 examination results. Follow the steps, use the grade calculator, and access official links — all in one place.</p>
+      <a href="{% url 'web:result_check' %}" class="md-btn md-btn-filled" style="margin-top: 12px; width: fit-content; text-decoration: none;">
+        <span class="material-symbols-outlined">fact_check</span>
+        Check Results Instantly
+      </a>
+    </div>
+    <div class="results-hero-art">
+      <span class="material-symbols-outlined">school</span>
+    </div>
+  </div>
+
+  {% if pinned %}
+  <div class="results-pinned-news">
+    <div class="results-pinned-icon"><span class="material-symbols-outlined">push_pin</span></div>
+    <div class="results-pinned-body">
+      <span class="results-pinned-label">Latest Update</span>
+      <a href="{% url 'web:news_detail' slug=pinned.slug %}">
+        <strong>{{ pinned.title }}</strong>
+      </a>
+      <p>{{ pinned.summary }}</p>
+    </div>
+    <a href="{% url 'web:news_detail' slug=pinned.slug %}" class="md-btn md-btn-tonal results-pinned-btn">
+      Read More
+      <span class="material-symbols-outlined">arrow_forward</span>
+    </a>
+  </div>
+  {% endif %}
+
+  <div class="results-layout">
+    <div class="results-main">
+      <div class="results-section">
+        <h2 class="md-headline-small results-section-title">
+          <span class="material-symbols-outlined">checklist</span>
+          Step-by-Step Guide
+        </h2>
+        <div class="results-steps">
+          {% for step in steps %}
+          <div class="result-step" data-step="{{ step.num }}">
+            <div class="result-step-num">{{ step.num }}</div>
+            <div class="result-step-body">
+              <div class="result-step-header">
+                <span class="material-symbols-outlined result-step-icon">{{ step.icon }}</span>
+                <h3>{{ step.title }}</h3>
+              </div>
+              <div class="result-step-desc">{{ step.desc|safe }}</div>
+              {% if step.links %}
+              <div class="result-step-links">
+                {% for link in step.links %}
+                <a href="{{ link.url }}" target="_blank" rel="noopener" class="result-step-link">
+                  <span class="material-symbols-outlined">open_in_new</span>
+                  {{ link.label }}
+                </a>
+                {% endfor %}
+              </div>
+              {% endif %}
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="results-section">
+        <h2 class="md-headline-small results-section-title">
+          <span class="material-symbols-outlined">calculate</span>
+          Grade Calculator
+        </h2>
+        <p class="md-body-small results-section-desc">Enter your marks (0–100) for each subject to estimate your GPA and grade. This is an unofficial tool for estimation only.</p>
+        <div class="grade-calc" id="grade-calc">
+          <div class="grade-calc-subjects" id="grade-calc-subjects">
+            <div class="grade-calc-row">
+              <input type="text" class="grade-calc-name" placeholder="Subject name" value="English">
+              <input type="number" class="grade-calc-mark" min="0" max="100" placeholder="0–100" value="">
+              <span class="grade-calc-grade">—</span>
+              <button class="md-btn-icon grade-calc-remove" data-action="remove-subject" title="Remove">
+                <span class="material-symbols-outlined">close</span>
+              </button>
+            </div>
+            <div class="grade-calc-row">
+              <input type="text" class="grade-calc-name" placeholder="Subject name" value="Nepali">
+              <input type="number" class="grade-calc-mark" min="0" max="100" placeholder="0–100" value="">
+              <span class="grade-calc-grade">—</span>
+              <button class="md-btn-icon grade-calc-remove" data-action="remove-subject" title="Remove">
+                <span class="material-symbols-outlined">close</span>
+              </button>
+            </div>
+            <div class="grade-calc-row">
+              <input type="text" class="grade-calc-name" placeholder="Subject name" value="Physics">
+              <input type="number" class="grade-calc-mark" min="0" max="100" placeholder="0–100" value="">
+              <span class="grade-calc-grade">—</span>
+              <button class="md-btn-icon grade-calc-remove" data-action="remove-subject" title="Remove">
+                <span class="material-symbols-outlined">close</span>
+              </button>
+            </div>
+            <div class="grade-calc-row">
+              <input type="text" class="grade-calc-name" placeholder="Subject name" value="Chemistry">
+              <input type="number" class="grade-calc-mark" min="0" max="100" placeholder="0–100" value="">
+              <span class="grade-calc-grade">—</span>
+              <button class="md-btn-icon grade-calc-remove" data-action="remove-subject" title="Remove">
+                <span class="material-symbols-outlined">close</span>
+              </button>
+            </div>
+            <div class="grade-calc-row">
+              <input type="text" class="grade-calc-name" placeholder="Subject name" value="Mathematics">
+              <input type="number" class="grade-calc-mark" min="0" max="100" placeholder="0–100" value="">
+              <span class="grade-calc-grade">—</span>
+              <button class="md-btn-icon grade-calc-remove" data-action="remove-subject" title="Remove">
+                <span class="material-symbols-outlined">close</span>
+              </button>
+            </div>
+          </div>
+          <button class="md-btn md-btn-tonal grade-calc-add" data-action="add-subject">
+            <span class="material-symbols-outlined">add</span>
+            Add Subject
+          </button>
+          <div class="grade-calc-result" id="grade-calc-result">
+            <div class="grade-calc-gpa">
+              <span class="grade-calc-gpa-label">Estimated GPA</span>
+              <span class="grade-calc-gpa-value" id="grade-calc-gpa">—</span>
+            </div>
+            <div class="grade-calc-grade-display">
+              <span class="grade-calc-grade-label">Overall Grade</span>
+              <span class="grade-calc-grade-value" id="grade-calc-overall">—</span>
+            </div>
+            <div class="grade-calc-division">
+              <span class="grade-calc-division-label">Division</span>
+              <span class="grade-calc-division-value" id="grade-calc-division">—</span>
+            </div>
+          </div>
+          <p class="grade-calc-disclaimer">This is an unofficial estimation tool. Official results may differ based on NEB's internal grading. Always verify with your official result sheet.</p>
+        </div>
+      </div>
+
+      <div class="results-section">
+        <h2 class="md-headline-small results-section-title">
+          <span class="material-symbols-outlined">grading</span>
+          NEB Grading Scale
+        </h2>
+        <div class="grade-scale-table">
+          <div class="grade-scale-header">
+            <span>Grade</span>
+            <span>Marks (%)</span>
+            <span>GPA</span>
+            <span>Descriptor</span>
+          </div>
+          {% for g in grade_scale %}
+          <div class="grade-scale-row">
+            <span class="grade-scale-letter">{{ g.grade }}</span>
+            <span>{{ g.range }}</span>
+            <span>{{ g.gpa }}</span>
+            <span class="grade-scale-desc">{{ g.point }}</span>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <aside class="results-sidebar">
+      <div class="results-sidebar-card">
+        <h3><span class="material-symbols-outlined">links</span> Quick Links</h3>
+        <div class="results-quick-links">
+          {% for link in quick_links %}
+          <a href="{{ link.url }}" target="_blank" rel="noopener" class="results-quick-link">
+            <span class="material-symbols-outlined">{{ link.icon }}</span>
+            <span>{{ link.label }}</span>
+            <span class="material-symbols-outlined results-quick-link-arrow">open_in_new</span>
+          </a>
+          {% endfor %}
+        </div>
+      </div>
+
+      {% if recent_news %}
+      <div class="results-sidebar-card">
+        <h3><span class="material-symbols-outlined">newspaper</span> Latest News</h3>
+        <div class="results-sidebar-news">
+          {% for n in recent_news %}
+          <a href="{% url 'web:news_detail' slug=n.slug %}" class="results-sidebar-news-item">
+            <span class="material-symbols-outlined results-sidebar-news-icon" style="color:{{ n.category_color }}">{{ n.category_icon }}</span>
+            <div>
+              <span class="results-sidebar-news-title">{{ n.title }}</span>
+              <span class="results-sidebar-news-date">{{ n.published_at|time_ago }}</span>
+            </div>
+          </a>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+    </aside>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script nonce="{{ csp_nonce }}">
+  (function() {
+    var GRADE_MAP = [
+      { min: 90, grade: 'A+', gpa: 4.0 },
+      { min: 80, grade: 'A',  gpa: 3.6 },
+      { min: 70, grade: 'B+', gpa: 3.2 },
+      { min: 60, grade: 'B',  gpa: 2.8 },
+      { min: 50, grade: 'C+', gpa: 2.4 },
+      { min: 40, grade: 'C',  gpa: 2.0 },
+      { min: 30, grade: 'D+', gpa: 1.6 },
+      { min: 20, grade: 'D',  gpa: 1.2 },
+      { min: 0,  grade: 'E',  gpa: 0.8 },
+    ];
+
+    function markToGrade(mark) {
+      mark = parseFloat(mark);
+      if (isNaN(mark) || mark < 0 || mark > 100) return null;
+      for (var i = 0; i < GRADE_MAP.length; i++) {
+        if (mark >= GRADE_MAP[i].min) return GRADE_MAP[i];
+      }
+      return GRADE_MAP[GRADE_MAP.length - 1];
+    }
+
+    function recalc() {
+      var rows = document.querySelectorAll('#grade-calc-subjects .grade-calc-row');
+      var totalGpa = 0;
+      var count = 0;
+      var hasFailing = false;
+      rows.forEach(function(row) {
+        var markInput = row.querySelector('.grade-calc-mark');
+        var gradeSpan = row.querySelector('.grade-calc-grade');
+        var mark = markInput.value.trim();
+        if (mark === '') {
+          gradeSpan.textContent = '—';
+          gradeSpan.className = 'grade-calc-grade';
+          return;
+        }
+        var g = markToGrade(mark);
+        if (!g) {
+          gradeSpan.textContent = '?';
+          gradeSpan.className = 'grade-calc-grade grade-invalid';
+          return;
+        }
+        gradeSpan.textContent = g.grade;
+        gradeSpan.className = 'grade-calc-grade grade-' + g.grade.replace('+', 'plus');
+        totalGpa += g.gpa;
+        count++;
+        if (g.gpa < 1.6) hasFailing = true;
+      });
+      var gpaEl = document.getElementById('grade-calc-gpa');
+      var overallEl = document.getElementById('grade-calc-overall');
+      var divEl = document.getElementById('grade-calc-division');
+      if (count === 0) {
+        gpaEl.textContent = '—';
+        overallEl.textContent = '—';
+        divEl.textContent = '—';
+        return;
+      }
+      var avg = totalGpa / count;
+      gpaEl.textContent = avg.toFixed(2);
+      var overallGrade = GRADE_MAP.find(function(g) { return avg >= g.gpa; });
+      overallEl.textContent = overallGrade ? overallGrade.grade : '—';
+      var division;
+      if (hasFailing || avg < 1.6) division = 'Fail';
+      else if (avg >= 3.6) division = 'Distinction';
+      else if (avg >= 2.4) division = 'First Division';
+      else if (avg >= 1.6) division = 'Second Division';
+      else division = 'Fail';
+      divEl.textContent = division;
+    }
+
+    document.getElementById('grade-calc-subjects').addEventListener('input', function(e) {
+      if (e.target.classList.contains('grade-calc-mark') || e.target.classList.contains('grade-calc-name')) {
+        recalc();
+      }
+    });
+
+    registerActions({
+      'add-subject': function() {
+        var container = document.getElementById('grade-calc-subjects');
+        var row = document.createElement('div');
+        row.className = 'grade-calc-row';
+        row.innerHTML = '<input type="text" class="grade-calc-name" placeholder="Subject name">' +
+          '<input type="number" class="grade-calc-mark" min="0" max="100" placeholder="0–100">' +
+          '<span class="grade-calc-grade">—</span>' +
+          '<button class="md-btn-icon grade-calc-remove" data-action="remove-subject" title="Remove"><span class="material-symbols-outlined">close</span></button>';
+        container.appendChild(row);
+        row.querySelector('.grade-calc-name').focus();
+      },
+      'remove-subject': function(el) {
+        var row = el.closest('.grade-calc-row');
+        if (row) {
+          row.remove();
+          recalc();
+        }
+      }
+    });
+
+    recalc();
+  })();
+</script>
+{% endblock %}

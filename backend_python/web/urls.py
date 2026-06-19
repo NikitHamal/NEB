@@ -16,6 +16,11 @@ urlpatterns = [
     path('interactive/<str:course_slug>/<str:lesson_slug>/', views.interactive_lesson, name='interactive_lesson'),
     path('subject/<str:grade_slug>/<str:subject_slug>/', views.subject_page, name='subject_page'),
     path('search/', views.search, name='search'),
+    path('news/', views.news_list, name='news_list'),
+    path('news/<slug:slug>/', views.news_detail, name='news_detail'),
+    path('results/', views.results_guide, name='results_guide'),
+    path('results/check/', views.result_check_page, name='result_check'),
+    path('ajax/results/check/', views.ajax_check_result, name='ajax_check_result'),
     path('ajax/search/', views.ajax_instant_search, name='ajax_instant_search'),
     path('forum/', views.forum, name='forum'),
     path('forum/categories/', views.forum_categories, name='forum_categories'),
@@ -123,6 +128,10 @@ urlpatterns = [
     path('ajax/neby-arena/surfsense/sessions/', views.ajax_arena_create_surfsense_session, name='ajax_arena_create_surfsense_session'),
     path('ajax/neby-arena/surfsense/sessions/<str:session_id>/messages/', views.ajax_arena_send_message_surfsense, name='ajax_arena_send_message_surfsense'),
 
+    path('ajax/neby-arena/g4f/models/', views.ajax_arena_g4f_models, name='ajax_arena_g4f_models'),
+    path('ajax/neby-arena/g4f/sessions/', views.ajax_arena_create_g4f_session, name='ajax_arena_create_g4f_session'),
+    path('ajax/neby-arena/g4f/sessions/<str:session_id>/messages/', views.ajax_arena_send_message_g4f, name='ajax_arena_send_message_g4f'),
+
     path('notifications/', views.notifications, name='notifications'),
     path('ajax/notifications/', views.ajax_notifications, name='ajax_notifications'),
     path('ajax/notifications/mark-read/', views.ajax_notifications_mark_read, name='ajax_notifications_mark_read'),
@@ -159,6 +168,9 @@ urlpatterns = [
     path('admin/bots/<int:bot_id>/create-user/', views.admin_bot_create_user, name='admin_bot_create_user'),
     path('admin/study-spaces/', views.admin_study_spaces, name='admin_study_spaces'),
     path('admin/study-spaces/<str:space_id>/delete/', views.admin_study_space_delete, name='admin_study_space_delete'),
+    path('admin/announcements/', views.admin_announcements, name='admin_announcements'),
+    path('admin/announcements/new/', views.admin_announcement_edit, name='admin_announcement_new'),
+    path('admin/announcements/<str:announcement_id>/', views.admin_announcement_edit, name='admin_announcement_edit'),
 
     # Study Lab
     path('study-lab/', views.study_lab, name='study_lab'),

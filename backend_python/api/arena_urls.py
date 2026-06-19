@@ -11,6 +11,7 @@ from . import arena_eqing_views
 from . import arena_freegpt_views
 from . import arena_deepseekai_views
 from . import arena_surfsense_views
+from . import arena_g4f_views
 
 urlpatterns = [
     # AI4Bharat Arena (text-only, anonymous token pool)
@@ -58,4 +59,9 @@ urlpatterns = [
     path('surfsense/models/', arena_surfsense_views.arena_surfsense_models, name='arena-surfsense-models'),
     path('surfsense/sessions/', arena_surfsense_views.arena_create_surfsense_session, name='arena-surfsense-create-session'),
     path('surfsense/sessions/<str:session_id>/messages/', arena_surfsense_views.arena_send_message_surfsense, name='arena-surfsense-send-message'),
+
+    # G4F (g4f.space — 50+ models, auto-rotate on rate limits, OpenAI-compatible)
+    path('g4f/models/', arena_g4f_views.arena_g4f_models, name='arena-g4f-models'),
+    path('g4f/sessions/', arena_g4f_views.arena_create_g4f_session, name='arena-g4f-create-session'),
+    path('g4f/sessions/<str:session_id>/messages/', arena_g4f_views.arena_send_message_g4f, name='arena-g4f-send-message'),
 ]

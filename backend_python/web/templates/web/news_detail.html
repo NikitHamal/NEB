@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+{% load static web_extras %}
+
+{% block title %}{{ announcement.title }} — NEBians News{% endblock %}
+{% block description %}{{ announcement.summary|default:announcement.title }}{% endblock %}
+{% block og_title %}{{ announcement.title }}{% endblock %}
+{% block og_description %}{{ announcement.summary|default:announcement.title }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'web/css/pages/web-news.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="md-container news-detail-page">
+  <a href="{% url 'web:news_list' %}" class="back-link" onclick="if(document.referrer && document.referrer.includes(window.location.host)) { history.back(); return false; }">
+    <span class="material-symbols-outlined">arrow_back</span>
+    All News
+  </a>
+
+  <article class="news-detail">
+    <div class="news-detail-header">
+      <div class="news-detail-badges">
+        <span class="news-category-badge" style="background:{{ announcement.category_color }}">
+          <span class="material-symbols-outlined">{{ announcement.category_icon }}</span>
+          {{ announcement.category_label }}
+        </span>
+        {% if announcement.is_pinned %}<span class="news-pin-badge"><span class="material-symbols-outlined">push_pin</span> Pinned</span>{% endif %}
+      </div>
+      <h1 class="md-headline-medium news-detail-title">{{ announcement.title }}</h1>
+      {% if announcement.summary %}<p class="news-detail-summary">{{ announcement.summary }}</p>{% endif %}
+      <div class="news-detail-meta">
+        <span class="news-card-author">
+          {% if announcement.author_photo %}<img src="{{ announcement.author_photo }}" alt="">{% endif %}
+          {{ announcement.author_name }}
+        </span>
+        <span class="dot-sep">&middot;</span>
+        <span>{{ announcement.published_at|time_ago }}</span>
+        <span class="dot-sep">&middot;</span>
+        <span class="material-symbols-outlined icon-sm">visibility</span>
+        {{ announcement.view_count|short_number }} views
+      </div>
+    </div>
+
+    {% if announcement.cover_image_url %}
+    <div class="news-detail-cover">
+      <img src="{{ announcement.cover_image_url }}" alt="{{ announcement.title }}">
+    </div>
+    {% endif %}
+
+    <div class="news-detail-content md-content" id="news-content">{{ announcement.content|safe }}</div>
+
+    {% if announcement.external_url %}
+    <a href="{{ announcement.external_url }}" target="_blank" rel="noopener" class="md-btn md-btn-filled news-detail-cta">
+      <span class="material-symbols-outlined">open_in_new</span>
+      View Original Source
+    </a>
+    {% endif %}
+
+    <div class="news-detail-share">
+      <button class="md-btn md-btn-outlined" id="share-btn" data-action="share-news" data-url="{{ request.build_absolute_uri }}" data-title="{{ announcement.title }}">
+        <span class="material-symbols-outlined">share</span>
+        Share
+      </button>
+    </div>
+  </article>
+
+  {% if related %}
+  <div class="news-related">
+    <h2 class="md-headline-small">Related</h2>
+    <div class="news-related-grid">
+      {% for r in related %}
+      <a href="{% url 'web:news_detail' slug=r.slug %}" class="news-card news-card-compact">
+        {% if r.cover_image_url %}
+        <div class="news-card-cover">
+          <img src="{{ r.cover_image_url }}" alt="{{ r.title }}" loading="lazy">
+        </div>
+        {% else %}
+        <div class="news-card-cover news-card-cover-placeholder" style="background:linear-gradient(135deg, {{ r.category_color }}22, {{ r.category_color }}08);">
+          <span class="material-symbols-outlined news-card-cover-icon" style="color:{{ r.category_color }}">{{ r.category_icon }}</span>
+        </div>
+        {% endif %}
+        <div class="news-card-body">
+          <h3 class="news-card-title">{{ r.title }}</h3>
+          <div class="news-card-meta"><span>{{ r.published_at|time_ago }}</span></div>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script nonce="{{ csp_nonce }}">
+  (function() {
+    var content = document.getElementById('news-content');
+    if (content && typeof marked !== 'undefined') {
+      var raw = content.textContent.trim();
+      if (raw) {
+        var renderer = new marked.Renderer();
+        var origLink = renderer.link.bind(renderer);
+        renderer.link = function(token) {
+          var html = origLink(token);
+          if (token.href && !token.href.startsWith('/') && !token.href.startsWith(window.location.origin)) {
+            return html.replace('<a ', '<a target="_blank" rel="noopener noreferrer" ');
+          }
+          return html;
+        };
+        content.innerHTML = marked.parse(raw, { breaks: true, gfm: true, renderer: renderer });
+      }
+    }
+
+    registerActions({
+      'share-news': function(el, e) {
+        var url = el.dataset.url;
+        var title = el.dataset.title;
+        if (navigator.share) {
+          navigator.share({ title: title, url: url }).catch(function() {});
+        } else {
+          navigator.clipboard.writeText(url).then(function() {
+            showSnackbar('Link copied!');
+          }).catch(function() { showSnackbar('Could not copy link'); });
+        }
+      }
+    });
+  })();
+</script>
+{% endblock %}

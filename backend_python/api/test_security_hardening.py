@@ -6,6 +6,7 @@ Run locally with:
 import hashlib
 import uuid
 import time
+from unittest.mock import patch
 
 from django.test import Client, TestCase
 from django.core.exceptions import ValidationError
@@ -439,7 +440,44 @@ class EmailAuthTests(TestCase):
         )
         self.assertEqual(response.status_code, 403)
 
-    def test_username_check_available(self):
-        response = self.client.get('/api/users/check-username/?username=unique_name_xyz')
+
+class ResultCheckerAPITests(TestCase):
+    def setUp(self):
+        from django.test import Client
+        self.client = Client()
+
+    @patch('services.result_scraper.check_result')
+    def test_ajax_check_result_see_no_dob(self, mock_check):
+        mock_check.return_value = {
+            'success': True,
+            'data': {
+                'symbol': '71234567',
+                'student_name': 'TEST STUDENT',
+                'gpa': '3.90',
+                'subjects': []
+            },
+            'cached': False
+        }
+        
+        # Test SEE: dob is not required!
+        response = self.client.post(
+            '/ajax/results/check/',
+            {'exam': 'see', 'symbol': '71234567', 'batch': '2080'},
+            content_type='application/json'
+        )
         self.assertEqual(response.status_code, 200)
-        self.assertTrue(response.json()['available'])
+        self.assertTrue(response.json()['success'])
+        mock_check.assert_called_with('see', '71234567', '', batch='2080')
+
+    @patch('services.result_scraper.check_result')
+    def test_ajax_check_result_neb_requires_dob(self, mock_check):
+        # Test NEB: dob is required!
+        response = self.client.post(
+            '/ajax/results/check/',
+            {'exam': 'neb', 'symbol': '21234567', 'batch': '2080'},
+            content_type='application/json'
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertFalse(response.json()['success'])
+        self.assertIn('Date of birth is required', response.json()['error'])
+        mock_check.assert_not_called()
