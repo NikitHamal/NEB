@@ -77,6 +77,59 @@
     display: inline-block;
   }
 
+  .rc-reexam-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    margin: 12px 0 16px;
+    padding: 8px 16px;
+    background: var(--md-surface-container-high);
+    border-radius: var(--md-radius-full);
+  }
+  .rc-radio-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--md-on-surface-variant);
+    padding: 6px 12px;
+    border-radius: var(--md-radius-full);
+    transition: all 0.2s;
+    user-select: none;
+  }
+  .rc-radio-label input { display: none; }
+  .rc-radio-dot {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid var(--md-outline);
+    display: inline-block;
+    position: relative;
+    transition: all 0.2s;
+  }
+  .rc-radio-dot::after {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    border-radius: 50%;
+    background: var(--md-primary);
+    transform: scale(0);
+    transition: transform 0.2s cubic-bezier(0.2, 0, 0, 1);
+  }
+  .rc-radio-label input:checked ~ .rc-radio-dot {
+    border-color: var(--md-primary);
+  }
+  .rc-radio-label input:checked ~ .rc-radio-dot::after {
+    transform: scale(1);
+  }
+  .rc-radio-label input:checked ~ .rc-radio-dot,
+  .rc-radio-label:has(input:checked) {
+    color: var(--md-primary);
+  }
+
   /* Single vs Bulk check Mode selector */
   .rc-sub-tabs {
     display: flex;
@@ -927,9 +980,9 @@
 {% block content %}
 <div class="rc-page">
   <div class="rc-hero" style="text-align:left;padding:16px 16px 24px;">
-    <a href="/results/" class="md-button" style="display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:var(--md-radius-full);text-decoration:none;font-weight:600;font-size:13px;background:var(--md-surface-container-high);color:var(--md-on-surface-variant);margin-bottom:8px;">
+    <a href="{% url 'web:home' %}" class="md-button" data-action="go-back" style="display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:var(--md-radius-full);text-decoration:none;font-weight:600;font-size:13px;background:var(--md-surface-container-high);color:var(--md-on-surface-variant);margin-bottom:8px;">
       <span class="material-symbols-outlined" style="font-size:18px;">arrow_back</span>
-      Back to Results Guide
+      Go back
     </a>
     <h1 class="md-headline-medium" style="margin-top:8px;">Result Checker</h1>
     <p>Access your exam marksheet instantly. We cache lookup results so you can retrieve them even when the official boards are down.</p>
@@ -941,18 +994,23 @@
         <span class="material-symbols-outlined rc-tab-icon">school</span>
         12
       </button>
-      <button class="rc-tab" data-exam="neb_reexam" type="button">
-        <span class="material-symbols-outlined rc-tab-icon">refresh</span>
-        12 (Re)
-      </button>
       <button class="rc-tab" data-exam="see" type="button">
         <span class="material-symbols-outlined rc-tab-icon">auto_stories</span>
         10
       </button>
-      <button class="rc-tab" data-exam="see_reexam" type="button">
-        <span class="material-symbols-outlined rc-tab-icon">refresh</span>
-        10 (Re)
-      </button>
+    </div>
+
+    <div class="rc-reexam-toggle" id="rc-reexam-toggle">
+      <label class="rc-radio-label rc-radio-regular">
+        <input type="radio" name="examType" value="regular" checked>
+        <span class="rc-radio-dot"></span>
+        Regular
+      </label>
+      <label class="rc-radio-label rc-radio-reexam">
+        <input type="radio" name="examType" value="reexam">
+        <span class="rc-radio-dot"></span>
+        Re-exam
+      </label>
     </div>
 
     <!-- Mode Selector: Single vs Bulk -->
@@ -1282,11 +1340,15 @@
 <script nonce="{{ csp_nonce }}">
 (function() {
   var currentExam = 'neb';
+  var isReexam = false;
   var currentMode = 'single';
+
+  function getExamCode() { return isReexam ? currentExam + '_reexam' : currentExam; }
   
   var form = document.getElementById('rc-form');
   var tabs = document.getElementById('rc-tabs');
   var subTabs = document.getElementById('rc-sub-tabs');
+  var reexamToggle = document.getElementById('rc-reexam-toggle');
   var dobWrapper = document.getElementById('rc-field-dob-wrapper');
   var dobInput = document.getElementById('dob');
   var bulkField = document.getElementById('rc-field-bulk-wrapper');
@@ -1298,7 +1360,7 @@
   var bulkCancel = false;
 
   function needsDob() {
-    return currentExam === 'neb' || currentExam === 'neb_reexam';
+    return currentExam === 'neb';
   }
 
   // Initial Setup
@@ -1406,6 +1468,13 @@
     if (tab) switchMode(tab.dataset.mode);
   });
 
+  reexamToggle.addEventListener('change', function(e) {
+    isReexam = e.target.value === 'reexam';
+    updateFieldsForMode();
+    updateBulkHint();
+    resetOutputs();
+  });
+
   form.addEventListener('submit', function(e) {
     e.preventDefault();
     var batch = document.getElementById('batch').value;
@@ -1442,7 +1511,7 @@
       fetch('/ajax/results/check/', {
         method: 'POST',
         headers: headers,
-        body: JSON.stringify({ exam: currentExam, symbol: symbol, dob: dob, batch: batch })
+        body: JSON.stringify({ exam: getExamCode(), symbol: symbol, dob: dob, batch: batch })
       })
       .then(function(r) { return r.json(); })
       .then(function(resp) {
@@ -1612,7 +1681,7 @@
       fetch('/ajax/results/check/', {
         method: 'POST',
         headers: headers,
-        body: JSON.stringify({ exam: currentExam, symbol: symbol, dob: dob, batch: batch })
+        body: JSON.stringify({ exam: getExamCode(), symbol: symbol, dob: dob, batch: batch })
       })
       .then(function(r) { return r.json(); })
       .then(function(resp) {
@@ -1701,7 +1770,7 @@
       var link = document.createElement("a");
       var url = URL.createObjectURL(blob);
       link.setAttribute("href", url);
-      link.setAttribute("download", "Result_Export_" + currentExam + "_" + batch + ".csv");
+      link.setAttribute("download", "Result_Export_" + getExamCode() + "_" + batch + ".csv");
       link.style.visibility = 'hidden';
       document.body.appendChild(link);
       link.click();
@@ -1792,13 +1861,12 @@
   });
 
   function populateAndShowGradesheet(data) {
-    var isSEE = (data.exam && data.exam.toLowerCase().indexOf('see') !== -1) || currentExam === 'see' || currentExam === 'see_reexam';
-    var isReexam = currentExam === 'neb_reexam' || currentExam === 'see_reexam';
+    var isSee = currentExam === 'see';
     
     var officeName = document.getElementById('gs-office-name');
     var examTypeDesc = document.getElementById('gs-exam-type-desc');
     
-    if (isSEE) {
+    if (isSee) {
       officeName.textContent = 'UNOFFICIAL SEE RESULT' + (isReexam ? ' (SUPPLEMENTARY)' : '');
       examTypeDesc.textContent = 'SECONDARY EDUCATION EXAMINATION (GRADE X)' + (isReexam ? ' — SUPPLEMENTARY' : '');
       document.getElementById('gs-th-credit-hour').style.display = 'none';
@@ -1860,7 +1928,7 @@
 
         var tdCredit = document.createElement('td');
         tdCredit.textContent = s.credit_hour || '—';
-        if (isSEE) {
+        if (isSee) {
           tdCredit.style.display = 'none';
         } else {
           tdCredit.style.display = '';
@@ -1880,7 +1948,7 @@
       });
     } else {
       var tr = document.createElement('tr');
-      var colspan = isSEE ? 5 : 6;
+      var colspan = isSee ? 5 : 6;
       tr.innerHTML = '<td colspan="' + colspan + '" style="text-align:center;padding:24px;color:#78716c">No subject-wise details available.</td>';
       tbody.appendChild(tr);
     }
