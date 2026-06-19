@@ -1,0 +1,116 @@
+{% extends "admin_panel/base.html" %}
+{% load static %}
+
+{% block title %}{% if is_edit %}Edit{% else %}New{% endif %} Announcement{% endblock %}
+
+{% block content %}
+<div style="max-width:800px;margin:0 auto;">
+  <div style="margin-bottom:24px;">
+    <a href="{% url 'web:admin_announcements' %}" class="back-link" style="margin-bottom:12px;display:inline-flex;">
+      <span class="material-symbols-outlined">arrow_back</span>
+      Back to Announcements
+    </a>
+    <h1 class="md-headline-medium" style="margin:0;">{% if is_edit %}Edit{% else %}New{% endif %} Announcement</h1>
+  </div>
+
+  {% if errors %}
+  <div style="background:color-mix(10%,var(--md-error),transparent);border:1px solid color-mix(30%,var(--md-error),transparent);border-radius:12px;padding:12px 16px;margin-bottom:20px;">
+    {% for err in errors %}
+    <div style="color:var(--md-error);font-size:0.9375rem;display:flex;align-items:center;gap:8px;">
+      <span class="material-symbols-outlined" style="font-size:18px;">error</span>
+      {{ err }}
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <form method="post">
+    {% csrf_token %}
+
+    <div class="upload-section">
+      <div class="upload-section-header">
+        <span class="material-symbols-outlined">title</span>
+        <h2>Content</h2>
+      </div>
+      <div class="upload-field">
+        <label class="md-label">Title <span style="color:var(--md-error);">*</span></label>
+        <input type="text" name="title" class="md-input" value="{{ form_data.title|default:'' }}" required placeholder="e.g., NEB Class 12 Results Published" style="width:100%;">
+      </div>
+      <div class="upload-field">
+        <label class="md-label">Summary</label>
+        <input type="text" name="summary" class="md-input" value="{{ form_data.summary|default:'' }}" maxlength="500" placeholder="One-line summary shown in the news list (max 500 chars)" style="width:100%;">
+      </div>
+      <div class="upload-field">
+        <label class="md-label">Content (Markdown)</label>
+        <textarea name="content" class="md-input" rows="12" placeholder="Write the full announcement in Markdown..." style="width:100%;resize:vertical;font-family:'Poppins',sans-serif;font-size:0.9375rem;line-height:1.6;">{{ form_data.content|default:'' }}</textarea>
+        <div class="upload-hint">Supports Markdown: **bold**, *italic*, # headings, [links](url), - lists, &gt; quotes</div>
+      </div>
+    </div>
+
+    <div class="upload-section">
+      <div class="upload-section-header">
+        <span class="material-symbols-outlined">label</span>
+        <h2>Categorization</h2>
+      </div>
+      <div class="upload-row">
+        <div class="upload-field upload-field-half">
+          <label class="md-label">Category</label>
+          <select name="category" class="md-select" style="width:100%;">
+            {% for c in categories %}
+            <option value="{{ c.key }}" {% if form_data.category == c.key %}selected{% endif %}>{{ c.label }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="upload-field upload-field-half">
+          <label class="md-label">Status</label>
+          <select name="status" class="md-select" style="width:100%;">
+            <option value="draft" {% if form_data.status == 'draft' %}selected{% endif %}>Draft</option>
+            <option value="published" {% if form_data.status == 'published' %}selected{% endif %}>Published</option>
+            <option value="archived" {% if form_data.status == 'archived' %}selected{% endif %}>Archived</option>
+          </select>
+        </div>
+      </div>
+      <div class="upload-field">
+        <label class="md-label">Tags</label>
+        <input type="text" name="tags" class="md-input" value="{{ form_data.tags|default:'' }}" placeholder="comma-separated tags (e.g., NEB, Class 12, Results)" style="width:100%;">
+      </div>
+      <div class="upload-field">
+        <label class="md-label">Slug (URL)</label>
+        <input type="text" name="slug" class="md-input" value="{{ form_data.slug|default:'' }}" placeholder="auto-generated from title if left blank" style="width:100%;">
+        <div class="upload-hint">Leave blank to auto-generate from title. Must be unique.</div>
+      </div>
+      <div class="upload-field">
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+          <input type="checkbox" name="is_pinned" {% if form_data.is_pinned %}checked{% endif %}>
+          <span class="md-label" style="margin:0;">Pin this announcement to the top</span>
+        </label>
+        <div class="upload-hint">Pinned announcements appear first in the news list.</div>
+      </div>
+    </div>
+
+    <div class="upload-section">
+      <div class="upload-section-header">
+        <span class="material-symbols-outlined">image</span>
+        <h2>Cover &amp; Links (Optional)</h2>
+      </div>
+      <div class="upload-field">
+        <label class="md-label">Cover Image URL</label>
+        <input type="url" name="cover_image_url" class="md-input" value="{{ form_data.cover_image_url|default:'' }}" placeholder="https://... (HTTPS only)" style="width:100%;">
+      </div>
+      <div class="upload-field">
+        <label class="md-label">External Source URL</label>
+        <input type="url" name="external_url" class="md-input" value="{{ form_data.external_url|default:'' }}" placeholder="https://... link to original source (HTTPS only)" style="width:100%;">
+        <div class="upload-hint">If this announcement references an external source (e.g., NEB notice), add the link here.</div>
+      </div>
+    </div>
+
+    <div class="upload-actions">
+      <a href="{% url 'web:admin_announcements' %}" class="md-btn md-btn-text" style="text-decoration:none;">Cancel</a>
+      <button type="submit" class="md-btn md-btn-filled">
+        <span class="material-symbols-outlined">save</span>
+        {% if is_edit %}Save Changes{% else %}Publish Announcement{% endif %}
+      </button>
+    </div>
+  </form>
+</div>
+{% endblock %}

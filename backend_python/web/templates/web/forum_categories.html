@@ -11,7 +11,7 @@
 
 <div class="categories-container">
   <div class="categories-header">
-    <a href="{% url 'web:forum' %}" class="md-btn-icon" title="Back to Forum">
+    <a href="{% url 'web:forum' %}" class="md-btn-icon" title="Back to Forum" onclick="if(document.referrer && document.referrer.includes(window.location.host)) { history.back(); return false; }">
       <span class="material-symbols-outlined">arrow_back</span>
     </a>
     <h1 class="md-headline-medium" style="margin:0;">All Categories</h1>

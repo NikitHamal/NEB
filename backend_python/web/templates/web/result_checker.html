@@ -1,0 +1,1490 @@
+{% extends "base.html" %}
+{% load static web_extras %}
+
+{% block title %}NEB & SEE Result Checker — Check Your Results Instantly{% endblock %}
+{% block description %}Check your NEB Class 12 and SEE results instantly. Enter your symbol number and date of birth to view your gradesheet.{% endblock %}
+{% block og_title %}NEB & SEE Result Checker{% endblock %}
+{% block og_description %}Check your NEB and SEE results instantly. Fast, cached, and always available.{% endblock %}
+
+{% block extra_css %}
+<style nonce="{{ csp_nonce }}">
+  .rc-page {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 0 16px 80px;
+  }
+  .rc-hero {
+    text-align: center;
+    padding: 24px 16px 32px;
+  }
+  .rc-hero h1 {
+    margin: 12px 0 8px;
+    font-weight: 700;
+  }
+  .rc-hero p {
+    color: var(--md-on-surface-variant);
+    max-width: 460px;
+    margin: 0 auto;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .rc-card {
+    background: var(--md-surface-container-lowest);
+    border: 1px solid var(--md-outline-variant);
+    border-radius: var(--md-radius-xl);
+    padding: 32px 24px;
+    box-shadow: var(--md-elevation-1);
+    margin-bottom: 24px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .rc-tabs {
+    display: flex;
+    background: var(--md-surface-container-high);
+    border-radius: var(--md-radius-full);
+    padding: 4px;
+    margin-bottom: 16px;
+    gap: 4px;
+  }
+  .rc-tab {
+    flex: 1;
+    padding: 10px 16px;
+    text-align: center;
+    border-radius: var(--md-radius-full);
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--md-on-surface-variant);
+    transition: all 0.25s cubic-bezier(0.2, 0, 0, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    border: none;
+    background: transparent;
+  }
+  .rc-tab:hover {
+    color: var(--md-on-surface);
+  }
+  .rc-tab.active {
+    background: var(--md-primary);
+    color: var(--md-on-primary);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  }
+  .rc-tab-icon {
+    font-size: 18px;
+    display: inline-block;
+  }
+
+  /* Single vs Bulk check Mode selector */
+  .rc-sub-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid var(--md-outline-variant);
+    padding-bottom: 8px;
+  }
+  .rc-sub-tab {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--md-on-surface-variant);
+    cursor: pointer;
+    position: relative;
+    padding: 4px 8px;
+    transition: color 0.2s;
+    background: none;
+    border: none;
+  }
+  .rc-sub-tab:hover {
+    color: var(--md-on-surface);
+  }
+  .rc-sub-tab.active {
+    color: var(--md-primary);
+  }
+  .rc-sub-tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: -9px;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--md-primary);
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+  }
+
+  .rc-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .rc-field {
+    display: flex;
+    flex-direction: column;
+  }
+  .rc-field label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--md-primary);
+    margin-bottom: 6px;
+  }
+  .rc-field input, .rc-field select, .rc-field textarea {
+    width: 100%;
+    padding: 13px 16px;
+    border-radius: var(--md-radius-md);
+    border: 1px solid var(--md-outline-variant);
+    background: var(--md-surface-container-low);
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--md-on-surface);
+    outline: none;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+  }
+  .rc-field textarea {
+    font-family: monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    resize: vertical;
+  }
+  .rc-field input::placeholder, .rc-field textarea::placeholder {
+    color: var(--md-on-surface-variant);
+    opacity: 0.4;
+  }
+  .rc-field input:focus, .rc-field select:focus, .rc-field textarea:focus {
+    border-color: var(--md-primary);
+    background: var(--md-surface-container-lowest);
+    box-shadow: 0 0 0 3px rgba(0, 74, 198, 0.1);
+  }
+  .rc-field select {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23737686'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 20px;
+    padding-right: 40px;
+  }
+  .rc-field .hint {
+    font-size: 11px;
+    color: var(--md-on-surface-variant);
+    margin-top: 5px;
+    opacity: 0.8;
+  }
+
+  .rc-field-dob-wrapper {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.3s cubic-bezier(0.2, 0, 0, 1), opacity 0.2s ease, margin-bottom 0.3s ease;
+    margin-bottom: 0;
+  }
+  .rc-field-dob-wrapper.visible {
+    max-height: 120px;
+    opacity: 1;
+    margin-bottom: 0px;
+  }
+
+  .rc-submit {
+    width: 100%;
+    padding: 14px 24px;
+    border-radius: var(--md-radius-md);
+    border: none;
+    background: var(--md-primary);
+    color: var(--md-on-primary);
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    box-shadow: 0 4px 12px rgba(0, 74, 198, 0.12);
+  }
+  .rc-submit:hover:not(:disabled) {
+    background: var(--md-primary-container);
+    color: var(--md-on-primary-container);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(0, 74, 198, 0.16);
+  }
+  .rc-submit:active:not(:disabled) {
+    transform: translateY(0);
+  }
+  .rc-submit:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+
+  /* Inline loading spinner */
+  .rc-spinner {
+    display: none;
+    width: 18px;
+    height: 18px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-top-color: #ffffff;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  .rc-submit.loading .rc-spinner {
+    display: inline-block;
+  }
+  .rc-submit.loading .material-symbols-outlined {
+    display: none;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  .rc-error {
+    display: none;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 14px 16px;
+    border-radius: var(--md-radius-md);
+    background: var(--md-error-container);
+    color: var(--md-on-error-container);
+    border: 1px solid rgba(186, 26, 26, 0.15);
+    font-size: 13px;
+    line-height: 1.5;
+    margin-top: 20px;
+  }
+
+  /* Progress Bar for bulk checks */
+  .rc-progress-container {
+    background: var(--md-surface-container-high);
+    border-radius: var(--md-radius-full);
+    height: 8px;
+    overflow: hidden;
+    margin-top: 20px;
+    display: none;
+  }
+  .rc-progress-bar {
+    background: var(--md-primary);
+    height: 100%;
+    width: 0%;
+    transition: width 0.2s ease;
+  }
+  .rc-progress-text {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--md-on-surface-variant);
+    margin-top: 6px;
+    text-align: right;
+    display: none;
+  }
+
+  .rc-result-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--md-outline-variant);
+    padding-bottom: 12px;
+  }
+  .rc-result-header h2 {
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--md-on-surface);
+    margin: 0;
+  }
+
+  .rc-badge {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 4px 10px;
+    border-radius: var(--md-radius-full);
+    display: inline-flex;
+    align-items: center;
+  }
+  .rc-badge-cached {
+    background: rgba(86, 84, 90, 0.12);
+    color: var(--md-on-surface-variant);
+  }
+  .rc-badge-fresh {
+    background: rgba(0, 74, 198, 0.1);
+    color: var(--md-primary);
+  }
+
+  /* GPA Big Display badge */
+  .rc-gpa-container {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0 28px;
+  }
+  .rc-gpa-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 32px;
+    border-radius: var(--md-radius-lg);
+    background: var(--md-surface-container);
+    border: 1px solid var(--md-outline-variant);
+    min-width: 180px;
+    text-align: center;
+  }
+  .rc-gpa-card::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: calc(var(--md-radius-lg) + 1px);
+    background: var(--md-outline);
+    z-index: -1;
+    opacity: 0.15;
+  }
+  .rc-gpa-num {
+    font-size: 48px;
+    font-weight: 800;
+    color: var(--md-on-surface);
+    line-height: 1.1;
+  }
+  .rc-gpa-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--md-on-surface-variant);
+    margin-bottom: 2px;
+  }
+  .rc-gpa-grade {
+    font-size: 15px;
+    font-weight: 600;
+    margin-top: 6px;
+    padding: 2px 10px;
+    border-radius: var(--md-radius-full);
+    display: inline-block;
+  }
+
+  .rc-gpa-card.gpa-high .rc-gpa-num { color: #16a34a; }
+  .rc-gpa-card.gpa-high::before { background: #16a34a; opacity: 0.25; }
+  .rc-gpa-card.gpa-high .rc-gpa-grade { background: rgba(22, 163, 74, 0.12); color: #16a34a; }
+
+  .rc-gpa-card.gpa-mid .rc-gpa-num { color: #d97706; }
+  .rc-gpa-card.gpa-mid::before { background: #d97706; opacity: 0.25; }
+  .rc-gpa-card.gpa-mid .rc-gpa-grade { background: rgba(217, 119, 6, 0.12); color: #d97706; }
+
+  .rc-gpa-card.gpa-low .rc-gpa-num { color: #dc2626; }
+  .rc-gpa-card.gpa-low::before { background: #dc2626; opacity: 0.25; }
+  .rc-gpa-card.gpa-low .rc-gpa-grade { background: rgba(220, 38, 38, 0.12); color: #dc2626; }
+
+  /* Student Info Grid */
+  .rc-student-details {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 28px;
+    padding: 16px;
+    background: var(--md-surface-container-low);
+    border-radius: var(--md-radius-lg);
+    border: 1px solid var(--md-outline-variant);
+  }
+  .rc-detail-item {
+    display: flex;
+    flex-direction: column;
+  }
+  .rc-detail-item.full-width {
+    grid-column: span 2;
+  }
+  .rc-detail-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--md-on-surface-variant);
+    opacity: 0.8;
+  }
+  .rc-detail-value {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--md-on-surface);
+    margin-top: 2px;
+  }
+
+  /* Grades Table */
+  .rc-results-title {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--md-on-surface-variant);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .rc-subjects-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 24px;
+  }
+  .rc-subjects-table th {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--md-on-surface-variant);
+    padding: 8px 12px;
+    border-bottom: 2px solid var(--md-outline-variant);
+    text-align: left;
+  }
+  .rc-subjects-table td {
+    padding: 12px;
+    font-size: 13px;
+    border-bottom: 1px solid var(--md-outline-variant);
+    color: var(--md-on-surface);
+  }
+  .rc-subjects-table tr:last-child td {
+    border-bottom: none;
+  }
+  .subject-name {
+    font-weight: 600;
+    color: var(--md-on-surface);
+  }
+  .subject-code {
+    font-size: 10px;
+    color: var(--md-on-surface-variant);
+    margin-top: 2px;
+    opacity: 0.8;
+  }
+
+  .grade-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: var(--md-radius-full);
+    min-width: 38px;
+    text-align: center;
+  }
+  .grade-badge.Aplus { background: rgba(22, 163, 74, 0.12); color: #16a34a; }
+  .grade-badge.A { background: rgba(34, 197, 94, 0.12); color: #22c55e; }
+  .grade-badge.Bplus { background: rgba(101, 163, 13, 0.12); color: #65a30d; }
+  .grade-badge.B { background: rgba(202, 138, 4, 0.12); color: #ca8a04; }
+  .grade-badge.Cplus { background: rgba(217, 119, 6, 0.12); color: #d97706; }
+  .grade-badge.C { background: rgba(234, 88, 12, 0.12); color: #ea580c; }
+  .grade-badge.Dplus { background: rgba(220, 38, 38, 0.12); color: #dc2626; }
+  .grade-badge.D { background: rgba(185, 28, 28, 0.12); color: #b91c1c; }
+  .grade-badge.E { background: rgba(153, 27, 27, 0.12); color: #991b1b; }
+
+  /* Footer Attribution */
+  .rc-footer {
+    margin-top: 28px;
+    padding-top: 18px;
+    border-top: 1px dashed var(--md-outline-variant);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .rc-footer-info {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--md-on-surface-variant);
+  }
+  .rc-footer-info a {
+    font-weight: 600;
+    text-decoration: underline;
+  }
+  .rc-attribution {
+    font-size: 11px;
+    color: var(--md-on-surface-variant);
+    opacity: 0.7;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .rc-attribution a {
+    color: inherit;
+    font-weight: 700;
+    text-decoration: none;
+  }
+  .rc-attribution a:hover {
+    text-decoration: underline;
+  }
+
+  /* Share Card Modal styling */
+  .rc-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s cubic-bezier(0.2, 0, 0, 1);
+  }
+  .rc-modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+  }
+  .rc-modal {
+    background: var(--md-surface-container-lowest);
+    border-radius: var(--md-radius-xl);
+    border: 1px solid var(--md-outline-variant);
+    padding: 28px 24px;
+    max-width: 460px;
+    width: 90%;
+    box-shadow: var(--md-elevation-3);
+    transform: scale(0.92);
+    transition: transform 0.3s cubic-bezier(0.2, 0, 0, 1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+  .rc-modal-overlay.active .rc-modal {
+    transform: scale(1);
+  }
+  .rc-modal-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .rc-modal-header h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 700;
+  }
+  .rc-modal-close {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--md-on-surface-variant);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .rc-modal-preview {
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: var(--md-radius-lg);
+    overflow: hidden;
+    border: 1px solid var(--md-outline-variant);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  }
+  .rc-modal-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  @media (max-width: 480px) {
+    .rc-card {
+      padding: 24px 16px;
+    }
+    .rc-student-details {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+    .rc-detail-item.full-width {
+      grid-column: span 1;
+    }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="rc-page">
+  <div class="rc-hero">
+    <span class="material-symbols-outlined" style="font-size:44px;color:var(--md-primary)">workspace_premium</span>
+    <h1 class="md-headline-medium">Result Checker</h1>
+    <p>Access your exam marksheet instantly. We cache lookup results so you can retrieve them even when the official boards are down.</p>
+  </div>
+
+  <div class="rc-card">
+    <div class="rc-tabs" id="rc-tabs">
+      <button class="rc-tab active" data-exam="neb" type="button">
+        <span class="material-symbols-outlined rc-tab-icon">school</span>
+        Class 12
+      </button>
+      <button class="rc-tab" data-exam="see" type="button">
+        <span class="material-symbols-outlined rc-tab-icon">auto_stories</span>
+        SEE Class 10
+      </button>
+    </div>
+
+    <!-- Mode Selector: Single vs Bulk -->
+    <div class="rc-sub-tabs" id="rc-sub-tabs">
+      <button class="rc-sub-tab active" data-mode="single" type="button">Single Check</button>
+      <button class="rc-sub-tab" data-mode="bulk" type="button">Bulk Check</button>
+    </div>
+
+    <form id="rc-form" class="rc-form">
+      {% csrf_token %}
+      <div class="rc-field">
+        <label for="batch">Exam Batch</label>
+        <select id="batch" name="batch">
+          <option value="2083">2083 (Current)</option>
+          <option value="2082">2082</option>
+          <option value="2081">2081</option>
+          <option value="2080">2080</option>
+        </select>
+      </div>
+
+      <!-- Single Check Input Fields -->
+      <div class="rc-field">
+        <label for="symbol">Symbol Number</label>
+        <input type="text" id="symbol" name="symbol" placeholder="e.g. 12013825" maxlength="20" required autocomplete="off" autocorrect="off" spellcheck="false">
+        <div class="hint">Enter the symbol number on your admit card.</div>
+      </div>
+
+      <div class="rc-field-dob-wrapper" id="rc-field-dob-wrapper">
+        <div class="rc-field" style="margin-bottom: 20px;">
+          <label for="dob">Date of Birth</label>
+          <input type="text" id="dob" name="dob" placeholder="YYYY/MM/DD" maxlength="10" autocomplete="off">
+          <div class="hint">Required for NEB Class 12. Format: BS (e.g. 2065/03/15)</div>
+        </div>
+      </div>
+
+      <!-- Bulk Check Input Fields -->
+      <div class="rc-field" id="rc-field-bulk-wrapper" style="display: none;">
+        <label for="bulk-input">Symbol Numbers (Bulk List)</label>
+        <textarea id="bulk-input" rows="6" placeholder=""></textarea>
+        <div class="hint" id="rc-bulk-hint"></div>
+      </div>
+
+      <button type="submit" class="rc-submit" id="rc-submit-btn">
+        <span class="rc-spinner"></span>
+        <span class="material-symbols-outlined">search</span>
+        <span class="rc-submit-text" id="rc-submit-text">Check Result</span>
+      </button>
+    </form>
+
+    <!-- Progress indicator for Bulk Checking -->
+    <div class="rc-progress-container" id="rc-progress-container">
+      <div class="rc-progress-bar" id="rc-progress-bar"></div>
+    </div>
+    <div class="rc-progress-text" id="rc-progress-text">Checking results...</div>
+
+    <div id="rc-error" class="rc-error">
+      <span class="material-symbols-outlined" style="font-size: 20px;">error</span>
+      <span id="rc-error-msg"></span>
+    </div>
+  </div>
+
+  <!-- Single Result Container -->
+  <div id="rc-result-container" class="rc-result-container" style="display:none">
+    <div class="rc-card" style="margin-top: 24px;">
+      <div class="rc-result-header">
+        <h2>Your Marksheet</h2>
+      </div>
+
+      <div class="rc-gpa-container">
+        <div class="rc-gpa-card" id="rc-gpa-card">
+          <span class="rc-gpa-label">GPA</span>
+          <span class="rc-gpa-num" id="rc-gpa-num">—</span>
+          <span class="rc-gpa-grade" id="rc-grade">—</span>
+        </div>
+      </div>
+
+      <div class="rc-student-details">
+        <div class="rc-detail-item full-width">
+          <span class="rc-detail-label">Student Name</span>
+          <span class="rc-detail-value" id="rc-name">—</span>
+        </div>
+        <div class="rc-detail-item">
+          <span class="rc-detail-label">Exam Board</span>
+          <span class="rc-detail-value" id="rc-exam">—</span>
+        </div>
+        <div class="rc-detail-item">
+          <span class="rc-detail-label">Exam Year (BS)</span>
+          <span class="rc-detail-value" id="rc-batch">—</span>
+        </div>
+        <div class="rc-detail-item">
+          <span class="rc-detail-label">Symbol Number</span>
+          <span class="rc-detail-value" id="rc-symbol">—</span>
+        </div>
+        <div class="rc-detail-item">
+          <span class="rc-detail-label">School / College</span>
+          <span class="rc-detail-value" id="rc-school">—</span>
+        </div>
+      </div>
+
+      <span class="rc-results-title">
+        <span class="material-symbols-outlined" style="font-size:16px;">receipt_long</span>
+        Subject-wise Grades
+      </span>
+
+      <table class="rc-subjects-table">
+        <thead>
+          <tr>
+            <th>Subject</th>
+            <th>Credit</th>
+            <th>Grade</th>
+            <th>GP</th>
+          </tr>
+        </thead>
+        <tbody id="rc-subjects-body"></tbody>
+      </table>
+
+      <div class="rc-footer">
+        <div class="rc-footer-info">
+          <span class="material-symbols-outlined" style="font-size: 16px;">info</span>
+          <span>Result cached. Source page: <a id="rc-official-link" href="#" target="_blank" rel="noopener">official site</a></span>
+        </div>
+        <div class="rc-attribution">
+          <span>Powered by</span>
+          <a href="https://neb.ntc.net.np/" target="_blank" rel="noopener">Nepal Telecom / NEB</a>
+        </div>
+      </div>
+
+      <!-- Share Result Button (Icon removed) -->
+      <button type="button" class="rc-submit" id="rc-share-btn" style="background: var(--md-secondary-container); color: var(--md-on-secondary-container); box-shadow: none; margin-top: 20px;">
+        <span class="rc-submit-text">Generate Share Card</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Bulk Results Container -->
+  <div id="rc-bulk-results-container" class="rc-result-container" style="display:none">
+    <div class="rc-card" style="margin-top: 24px; max-width: 100%;">
+      <div class="rc-result-header">
+        <h2>Bulk Results</h2>
+        <button id="rc-btn-export" class="rc-badge rc-badge-fresh" style="border: none; cursor: pointer; font-weight: 700; padding: 6px 12px; font-size: 11px;" type="button">
+          <span class="material-symbols-outlined" style="font-size: 14px; margin-right: 4px; vertical-align: middle;">download</span>
+          Export CSV
+        </button>
+      </div>
+      <table class="rc-subjects-table" style="margin-bottom: 0;">
+        <thead>
+          <tr>
+            <th>Symbol</th>
+            <th>Student Name</th>
+            <th>GPA</th>
+            <th>Grade</th>
+          </tr>
+        </thead>
+        <tbody id="rc-bulk-results-body"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Canvas Share Modal overlay -->
+<div class="rc-modal-overlay" id="rc-share-modal">
+  <div class="rc-modal">
+    <div class="rc-modal-header">
+      <h3>Share Result Card</h3>
+      <button class="rc-modal-close" id="rc-modal-close-btn" type="button">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+    <div class="rc-modal-preview">
+      <img id="rc-share-preview-img" src="" alt="Result Share Card Preview">
+    </div>
+    <button type="button" class="rc-submit" id="rc-download-card-btn" style="width: 100%;">
+      <span class="material-symbols-outlined">download</span>
+      Download Image (1080x1080)
+    </button>
+  </div>
+</div>
+
+<!-- Offscreen Canvas for share card rendering -->
+<canvas id="rc-share-canvas" width="1080" height="1080" style="display: none;"></canvas>
+{% endblock %}
+
+{% block extra_js %}
+<script nonce="{{ csp_nonce }}">
+(function() {
+  var currentExam = 'neb';
+  var currentMode = 'single';
+  
+  var form = document.getElementById('rc-form');
+  var tabs = document.getElementById('rc-tabs');
+  var subTabs = document.getElementById('rc-sub-tabs');
+  var dobWrapper = document.getElementById('rc-field-dob-wrapper');
+  var dobInput = document.getElementById('dob');
+  var bulkField = document.getElementById('rc-field-bulk-wrapper');
+  var bulkInput = document.getElementById('bulk-input');
+  var submitBtn = document.getElementById('rc-submit-btn');
+  var submitText = document.getElementById('rc-submit-text');
+
+  var isCheckingBulk = false;
+  var bulkCancel = false;
+
+  // Initial Setup
+  updateFieldsForMode();
+  updateBulkHint();
+
+  function switchExam(exam) {
+    if (currentExam === exam) return;
+    currentExam = exam;
+
+    // Toggle active state in tabs
+    tabs.querySelectorAll('.rc-tab').forEach(function(t) {
+      t.classList.toggle('active', t.dataset.exam === exam);
+    });
+
+    updateFieldsForMode();
+    updateBulkHint();
+
+    // Clean outputs
+    resetOutputs();
+  }
+
+  function switchMode(mode) {
+    if (currentMode === mode) return;
+
+    if (isCheckingBulk) {
+      if (confirm('Cancel current bulk operation?')) {
+        bulkCancel = true;
+      } else {
+        return;
+      }
+    }
+
+    currentMode = mode;
+    subTabs.querySelectorAll('.rc-sub-tab').forEach(function(t) {
+      t.classList.toggle('active', t.dataset.mode === mode);
+    });
+
+    updateFieldsForMode();
+
+    // Clean outputs
+    resetOutputs();
+  }
+
+  function updateFieldsForMode() {
+    if (currentMode === 'bulk') {
+      // Hide single inputs
+      document.getElementById('symbol').required = false;
+      document.getElementById('symbol').parentElement.style.display = 'none';
+      dobWrapper.classList.remove('visible');
+      dobInput.required = false;
+
+      // Show bulk input
+      bulkField.style.display = 'block';
+      bulkInput.required = true;
+      submitText.textContent = 'Run Bulk Check';
+    } else {
+      // Show single inputs
+      document.getElementById('symbol').required = true;
+      document.getElementById('symbol').parentElement.style.display = 'block';
+      
+      if (currentExam === 'neb') {
+        dobWrapper.classList.add('visible');
+        dobInput.required = true;
+      } else {
+        dobWrapper.classList.remove('visible');
+        dobInput.required = false;
+        dobInput.value = '';
+      }
+
+      // Hide bulk input
+      bulkField.style.display = 'none';
+      bulkInput.required = false;
+      submitText.textContent = 'Check Result';
+    }
+  }
+
+  function updateBulkHint() {
+    var hint = document.getElementById('rc-bulk-hint');
+    if (currentExam === 'neb') {
+      hint.textContent = 'Class 12: Enter symbol,dob on each line. Format: symbol,YYYY/MM/DD (e.g. 20404641,2065/03/15)';
+      bulkInput.placeholder = 'e.g. 20404641,2065/03/15\n20404642,2065/03/16';
+    } else {
+      hint.textContent = 'SEE Class 10: Enter one symbol number per line.';
+      bulkInput.placeholder = 'e.g. 12013825\n12013826';
+    }
+  }
+
+  function resetOutputs() {
+    document.getElementById('rc-result-container').style.display = 'none';
+    document.getElementById('rc-bulk-results-container').style.display = 'none';
+    document.getElementById('rc-progress-container').style.display = 'none';
+    document.getElementById('rc-progress-text').style.display = 'none';
+    document.getElementById('rc-error').style.display = 'none';
+    window.currentResultData = null;
+  }
+
+  tabs.addEventListener('click', function(e) {
+    var tab = e.target.closest('.rc-tab');
+    if (tab) switchExam(tab.dataset.exam);
+  });
+
+  subTabs.addEventListener('click', function(e) {
+    var tab = e.target.closest('.rc-sub-tab');
+    if (tab) switchMode(tab.dataset.mode);
+  });
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    var batch = document.getElementById('batch').value;
+
+    if (currentMode === 'bulk') {
+      var text = bulkInput.value.trim();
+      if (!text) return;
+      var lines = text.split('\n').map(function(l) { return l.trim(); }).filter(function(l) { return l.length > 0; });
+      if (!lines.length) return;
+      
+      runBulkCheck(lines, batch);
+    } else {
+      var symbol = document.getElementById('symbol').value.trim();
+      var dob = dobInput.value.trim();
+
+      if (!symbol) return;
+      if (currentExam === 'neb' && !dob) {
+        dobInput.focus();
+        return;
+      }
+
+      var errorDiv = document.getElementById('rc-error');
+      var resultContainer = document.getElementById('rc-result-container');
+
+      submitBtn.disabled = true;
+      submitBtn.classList.add('loading');
+      errorDiv.style.display = 'none';
+      resultContainer.style.display = 'none';
+
+      var csrf = document.querySelector('[name=csrfmiddlewaretoken]');
+      var headers = { 'Content-Type': 'application/json' };
+      if (csrf) headers['X-CSRFToken'] = csrf.value;
+
+      fetch('/ajax/results/check/', {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify({ exam: currentExam, symbol: symbol, dob: dob, batch: batch })
+      })
+      .then(function(r) { return r.json(); })
+      .then(function(resp) {
+        submitBtn.disabled = false;
+        submitBtn.classList.remove('loading');
+
+        if (!resp.success) {
+          document.getElementById('rc-error-msg').textContent = resp.error || 'Failed to check result.';
+          errorDiv.style.display = 'flex';
+          return;
+        }
+
+        window.currentResultData = resp.data;
+        showResult(resp.data, resp.cached);
+      })
+      .catch(function(err) {
+        submitBtn.disabled = false;
+        submitBtn.classList.remove('loading');
+        document.getElementById('rc-error-msg').textContent = 'Network error. Please try again later.';
+        errorDiv.style.display = 'flex';
+      });
+    }
+  });
+
+  function showResult(data, cached) {
+    var container = document.getElementById('rc-result-container');
+    container.style.display = 'block';
+
+    // No status badge shown in app
+
+    var gpa = data.gpa || '—';
+    document.getElementById('rc-gpa-num').textContent = gpa;
+    document.getElementById('rc-grade').textContent = data.grade ? 'Grade: ' + data.grade : '—';
+
+    var gpaCard = document.getElementById('rc-gpa-card');
+    gpaCard.className = 'rc-gpa-card';
+    if (gpa !== '—' && !isNaN(parseFloat(gpa))) {
+      var score = parseFloat(gpa);
+      if (score >= 3.2) {
+        gpaCard.classList.add('gpa-high');
+      } else if (score >= 2.0) {
+        gpaCard.classList.add('gpa-mid');
+      } else {
+        gpaCard.classList.add('gpa-low');
+      }
+    }
+
+    document.getElementById('rc-name').textContent = data.student_name || '—';
+    document.getElementById('rc-exam').textContent = data.exam || '—';
+    document.getElementById('rc-batch').textContent = data.batch || document.getElementById('batch').value;
+    document.getElementById('rc-symbol').textContent = data.symbol || '—';
+    document.getElementById('rc-school').textContent = data.school || '—';
+
+    var tbody = document.getElementById('rc-subjects-body');
+    tbody.innerHTML = '';
+    
+    if (data.subjects && data.subjects.length) {
+      data.subjects.forEach(function(s) {
+        var tr = document.createElement('tr');
+        var gradeVal = s.grade || '';
+        var clean = gradeVal.replace('+', 'plus');
+        
+        tr.innerHTML = 
+          '<td>' +
+            '<div class="subject-name">' + escapeHtml(s.name) + '</div>' +
+            (s.code ? '<div class="subject-code">' + escapeHtml(s.code) + '</div>' : '') +
+          '</td>' +
+          '<td>' + escapeHtml(s.credit_hour || '—') + '</td>' +
+          '<td><span class="grade-badge ' + clean + '">' + escapeHtml(gradeVal || '—') + '</span></td>' +
+          '<td>' + escapeHtml(s.grade_point || '—') + '</td>';
+          
+        tbody.appendChild(tr);
+      });
+    } else {
+      tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;padding:24px;color:var(--md-on-surface-variant)">No subject-wise details available.</td></tr>';
+    }
+
+    var link = document.getElementById('rc-official-link');
+    if (data.source) {
+      link.href = 'https://' + data.source + '/';
+      link.textContent = data.source;
+    } else {
+      link.href = 'https://neb.ntc.net.np/';
+      link.textContent = 'neb.ntc.net.np';
+    }
+  }
+
+  function runBulkCheck(lines, batch) {
+    var tbody = document.getElementById('rc-bulk-results-body');
+    tbody.innerHTML = '';
+    
+    var container = document.getElementById('rc-bulk-results-container');
+    container.style.display = 'block';
+    
+    var progressContainer = document.getElementById('rc-progress-container');
+    var progressBar = document.getElementById('rc-progress-bar');
+    var progressText = document.getElementById('rc-progress-text');
+    var exportBtn = document.getElementById('rc-btn-export');
+
+    progressContainer.style.display = 'block';
+    progressText.style.display = 'block';
+    progressBar.style.width = '0%';
+    exportBtn.disabled = true;
+    exportBtn.style.opacity = '0.5';
+
+    var resultsData = [];
+    var total = lines.length;
+    var completed = 0;
+    
+    isCheckingBulk = true;
+    bulkCancel = false;
+
+    submitBtn.disabled = true;
+    submitBtn.classList.add('loading');
+
+    function checkNext(index) {
+      if (index >= total || bulkCancel) {
+        isCheckingBulk = false;
+        submitBtn.disabled = false;
+        submitBtn.classList.remove('loading');
+        exportBtn.disabled = false;
+        exportBtn.style.opacity = '1';
+        progressText.textContent = bulkCancel ? 'Bulk check cancelled.' : 'Bulk check complete! ' + completed + ' records processed.';
+        return;
+      }
+
+      var line = lines[index].trim();
+      if (!line) {
+        completed++;
+        updateProgress();
+        checkNext(index + 1);
+        return;
+      }
+
+      var symbol = '';
+      var dob = '';
+
+      if (currentExam === 'neb') {
+        var parts = line.split(',');
+        symbol = parts[0].trim();
+        if (parts[1]) dob = parts[1].trim();
+      } else {
+        symbol = line;
+      }
+
+      if (!symbol) {
+        completed++;
+        updateProgress();
+        checkNext(index + 1);
+        return;
+      }
+
+      // Add loading state row in bulk table
+      var tr = document.createElement('tr');
+      tr.id = 'bulk-row-' + index;
+      tr.innerHTML = 
+        '<td>' + escapeHtml(symbol) + '</td>' +
+        '<td class="bulk-name" style="opacity: 0.5;">Checking...</td>' +
+        '<td class="bulk-gpa">—</td>' +
+        '<td class="bulk-grade">—</td>';
+      tbody.appendChild(tr);
+
+      var csrf = document.querySelector('[name=csrfmiddlewaretoken]');
+      var headers = { 'Content-Type': 'application/json' };
+      if (csrf) headers['X-CSRFToken'] = csrf.value;
+
+      fetch('/ajax/results/check/', {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify({ exam: currentExam, symbol: symbol, dob: dob, batch: batch })
+      })
+      .then(function(r) { return r.json(); })
+      .then(function(resp) {
+        completed++;
+        updateProgress();
+        
+        var row = document.getElementById('bulk-row-' + index);
+        if (!row) return;
+
+        if (resp.success) {
+          var d = resp.data;
+          resultsData.push({
+            symbol: symbol,
+            name: d.student_name || '—',
+            gpa: d.gpa || '—',
+            grade: d.grade || '—',
+            status: resp.cached ? 'Cached' : 'Fresh'
+          });
+          
+          row.querySelector('.bulk-name').textContent = d.student_name || '—';
+          row.querySelector('.bulk-name').style.opacity = '1';
+          row.querySelector('.bulk-gpa').textContent = d.gpa || '—';
+          row.querySelector('.bulk-gpa').style.color = ''; // reset color
+          row.querySelector('.bulk-grade').textContent = d.grade || '—';
+        } else {
+          resultsData.push({
+            symbol: symbol,
+            name: '—',
+            gpa: '—',
+            grade: '—',
+            status: resp.error || 'Failed'
+          });
+          row.querySelector('.bulk-name').textContent = '—';
+          row.querySelector('.bulk-name').style.opacity = '1';
+          row.querySelector('.bulk-gpa').textContent = resp.error || 'Failed';
+          row.querySelector('.bulk-gpa').style.color = '#dc2626'; // Red color for failure
+          row.querySelector('.bulk-grade').textContent = '—';
+        }
+
+        var delay = resp.cached ? 0 : 500;
+        setTimeout(function() {
+          checkNext(index + 1);
+        }, delay);
+      })
+      .catch(function(err) {
+        completed++;
+        updateProgress();
+        resultsData.push({
+          symbol: symbol,
+          name: '—',
+          gpa: '—',
+          grade: '—',
+          status: 'Error'
+        });
+        
+        var row = document.getElementById('bulk-row-' + index);
+        if (row) {
+          row.querySelector('.bulk-name').textContent = '—';
+          row.querySelector('.bulk-gpa').textContent = 'Error';
+          row.querySelector('.bulk-gpa').style.color = '#dc2626'; // Red color for error
+          row.querySelector('.bulk-grade').textContent = '—';
+        }
+        setTimeout(function() {
+          checkNext(index + 1);
+        }, 500);
+      });
+    }
+
+    function updateProgress() {
+      var pct = Math.round((completed / total) * 100);
+      progressBar.style.width = pct + '%';
+      progressText.textContent = 'Checking: ' + completed + ' of ' + total + ' (' + pct + '%)';
+    }
+
+    checkNext(0);
+
+    exportBtn.onclick = function() {
+      var csv = 'Symbol Number,Student Name,GPA,Grade\n';
+      resultsData.forEach(function(row) {
+        csv += '"' + row.symbol.replace(/"/g, '""') + '",' +
+               '"' + row.name.replace(/"/g, '""') + '",' +
+               '"' + row.gpa.replace(/"/g, '""') + '",' +
+               '"' + row.grade.replace(/"/g, '""') + '"\n';
+      });
+      var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      var link = document.createElement("a");
+      var url = URL.createObjectURL(blob);
+      link.setAttribute("href", url);
+      link.setAttribute("download", "Result_Export_" + currentExam + "_" + batch + ".csv");
+      link.style.visibility = 'hidden';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    };
+  }
+
+  // Modal Share logic
+  var shareModal = document.getElementById('rc-share-modal');
+  var closeBtn = document.getElementById('rc-modal-close-btn');
+  var shareBtn = document.getElementById('rc-share-btn');
+  var downloadCardBtn = document.getElementById('rc-download-card-btn');
+  var previewImg = document.getElementById('rc-share-preview-img');
+
+  shareBtn.addEventListener('click', function() {
+    if (window.currentResultData) {
+      generateAndShowCard(window.currentResultData);
+    }
+  });
+
+  closeBtn.addEventListener('click', function() {
+    shareModal.classList.remove('active');
+  });
+
+  shareModal.addEventListener('click', function(e) {
+    if (e.target === shareModal) {
+      shareModal.classList.remove('active');
+    }
+  });
+
+  function generateAndShowCard(data) {
+    var canvas = document.getElementById('rc-share-canvas');
+    var ctx = canvas.getContext('2d');
+    
+    // Find actual NEBians SVG logo
+    var svg = document.querySelector('.topbar-logo');
+    if (!svg) {
+      drawCardWithLogoImage(null, data, canvas, ctx);
+      return;
+    }
+    
+    // Convert SVG to data url
+    var svgString = new XMLSerializer().serializeToString(svg);
+    var svgBlob = new Blob([svgString], {type: 'image/svg+xml;charset=utf-8'});
+    var URL = window.URL || window.webkitURL || window;
+    var blobURL = URL.createObjectURL(svgBlob);
+    
+    var image = new Image();
+    image.onload = function() {
+      drawCardWithLogoImage(image, data, canvas, ctx);
+      URL.revokeObjectURL(blobURL);
+    };
+    image.onerror = function() {
+      drawCardWithLogoImage(null, data, canvas, ctx);
+      URL.revokeObjectURL(blobURL);
+    };
+    image.src = blobURL;
+  }
+
+  function drawCardWithLogoImage(logoImg, data, canvas, ctx) {
+    ctx.clearRect(0, 0, 1080, 1080);
+
+    // 1. Light Mode Card Background (Premium radial off-white)
+    var grad = ctx.createLinearGradient(0, 0, 1080, 1080);
+    grad.addColorStop(0, '#ffffff');
+    grad.addColorStop(0.5, '#f8fafc');
+    grad.addColorStop(1, '#edf2f7');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, 1080, 1080);
+
+    // 2. Soft glowing colorful radial blobs at corners
+    // Top-right soft blue blob
+    var radial1 = ctx.createRadialGradient(900, 100, 50, 900, 100, 400);
+    radial1.addColorStop(0, 'rgba(0, 88, 223, 0.05)'); // light blue
+    radial1.addColorStop(1, 'rgba(255, 255, 255, 0)');
+    ctx.fillStyle = radial1;
+    ctx.beginPath();
+    ctx.arc(900, 100, 400, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Bottom-left soft emerald/indigo blob
+    var radial2 = ctx.createRadialGradient(100, 900, 50, 100, 900, 400);
+    radial2.addColorStop(0, 'rgba(16, 185, 129, 0.04)'); // soft emerald
+    radial2.addColorStop(1, 'rgba(255, 255, 255, 0)');
+    ctx.fillStyle = radial2;
+    ctx.beginPath();
+    ctx.arc(100, 900, 400, 0, Math.PI * 2);
+    ctx.fill();
+
+    // 3. Elegant border frame
+    ctx.strokeStyle = 'rgba(0, 74, 198, 0.08)';
+    ctx.lineWidth = 2;
+    drawRoundedRect(ctx, 40, 40, 1000, 1000, 32);
+    ctx.stroke();
+
+    // 4. Draw Logo (Reduced size: 96x96, centered)
+    if (logoImg) {
+      ctx.drawImage(logoImg, 492, 100, 96, 96);
+    } else {
+      // Fallback
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(540, 148, 48, 0, Math.PI * 2);
+      ctx.fillStyle = '#0058df';
+      ctx.fill();
+      ctx.restore();
+    }
+
+    // 5. Draw Site Brand Name (Slate 900)
+    ctx.fillStyle = '#0f172a';
+    ctx.font = 'bold 22px "Poppins", sans-serif';
+    ctx.textAlign = 'center';
+    ctx.letterSpacing = '3px';
+    ctx.fillText('NEBIANS', 540, 230);
+
+    ctx.fillStyle = '#64748b'; // Slate 500
+    ctx.font = '500 13px "Poppins", sans-serif';
+    ctx.letterSpacing = '0px';
+    ctx.fillText('nebians.consica.com.np', 540, 252);
+
+    // 6. Draw Student Name (Uppercase, Elegant bold)
+    ctx.fillStyle = '#0f172a'; // Slate 900
+    ctx.font = 'bold 44px "Poppins", sans-serif';
+    ctx.letterSpacing = '0px';
+    ctx.fillText((data.student_name || 'STUDENT RESULT').toUpperCase(), 540, 355);
+
+    // 7. Draw Card outline (Solid slate 100 card for Light Mode)
+    ctx.save();
+    ctx.fillStyle = '#ffffff';
+    ctx.strokeStyle = 'rgba(0, 74, 198, 0.06)'; // Slate 200
+    ctx.lineWidth = 1;
+    ctx.shadowColor = 'rgba(0, 74, 198, 0.04)';
+    ctx.shadowBlur = 24;
+    ctx.shadowOffsetY = 8;
+    drawRoundedRect(ctx, 100, 420, 880, 360, 24);
+    ctx.fill();
+    ctx.stroke();
+    ctx.restore();
+
+    // 8. Draw student details inside card
+    var labels = ['Symbol Number', 'Exam / Batch', 'School / College'];
+    var values = [
+      data.symbol || '—',
+      (data.exam || 'NEB Class 12') + '  •  ' + (data.batch || document.getElementById('batch').value) + ' BS',
+      data.school || '—'
+    ];
+    
+    ctx.textAlign = 'left';
+    for (var i = 0; i < labels.length; i++) {
+      var yOffset = 485 + i * 95;
+      
+      ctx.fillStyle = '#64748b'; // Slate 500 for labels
+      ctx.font = 'bold 12px "Poppins", sans-serif';
+      ctx.letterSpacing = '1.5px';
+      ctx.fillText(labels[i].toUpperCase(), 150, yOffset);
+      
+      ctx.fillStyle = '#0f172a'; // Slate 900 for values
+      ctx.font = '600 20px "Poppins", sans-serif';
+      ctx.letterSpacing = '0px';
+      
+      var val = values[i];
+      if (i === 2 && val.length > 38) {
+        ctx.font = '600 16px "Poppins", sans-serif';
+      }
+      ctx.fillText(val, 150, yOffset + 28);
+    }
+
+    // 9. Draw overall GPA circle & score on the right side
+    var gpa = parseFloat(data.gpa) || 0.0;
+    var gpaColor = '#16a34a'; // High green
+    var gradeLabel = data.grade || 'A+';
+    if (gpa < 2.0) {
+      gpaColor = '#dc2626'; // Low red
+    } else if (gpa < 3.2) {
+      gpaColor = '#d97706'; // Mid orange
+    }
+
+    var cx = 760;
+    var cy = 600;
+
+    // Draw white circle background with soft shadow
+    ctx.save();
+    ctx.fillStyle = '#ffffff';
+    ctx.shadowColor = 'rgba(0,0,0,0.06)';
+    ctx.shadowBlur = 12;
+    ctx.beginPath();
+    ctx.arc(cx, cy, 95, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+
+    // Draw outer circle ring
+    ctx.strokeStyle = gpaColor;
+    ctx.lineWidth = 6;
+    ctx.beginPath();
+    ctx.arc(cx, cy, 95, 0, Math.PI * 2);
+    ctx.stroke();
+
+    // Draw GPA label
+    ctx.textAlign = 'center';
+    ctx.fillStyle = '#64748b'; // Slate 500
+    ctx.font = 'bold 12px "Poppins", sans-serif';
+    ctx.letterSpacing = '1px';
+    ctx.fillText('GPA', cx, cy - 35);
+
+    // Draw GPA value
+    ctx.fillStyle = '#0f172a'; // Slate 900
+    ctx.font = 'bold 56px "Poppins", sans-serif';
+    ctx.letterSpacing = '0px';
+    ctx.fillText(data.gpa || '—', cx, cy + 18);
+
+    // Draw grade badge pill
+    ctx.save();
+    ctx.fillStyle = gpaColor;
+    ctx.beginPath();
+    drawRoundedRect(ctx, cx - 40, cy + 42, 80, 24, 12);
+    ctx.fill();
+
+    ctx.fillStyle = '#ffffff'; // White text
+    ctx.font = 'bold 12px "Poppins", sans-serif';
+    ctx.fillText(gradeLabel, cx, cy + 58);
+    ctx.restore();
+
+    // 10. Draw Footer verify text (Updated with consica sub-domain)
+    ctx.textAlign = 'center';
+    ctx.fillStyle = '#64748b'; // Slate 500
+    ctx.font = '500 13px "Poppins", sans-serif';
+    ctx.fillText('Verify result online at nebians.consica.com.np/results/check  •  NEBians Study Community', 540, 920);
+
+    // Convert canvas to image and show in modal
+    var imgUrl = canvas.toDataURL('image/png');
+    previewImg.src = imgUrl;
+
+    // Trigger open
+    shareModal.classList.add('active');
+
+    // Download button click handler
+    downloadCardBtn.onclick = function() {
+      var link = document.createElement('a');
+      link.download = 'NEBians_Result_' + (data.student_name || 'Student').replace(/\s+/g, '_') + '.png';
+      link.href = imgUrl;
+      link.click();
+    };
+  }
+
+  function drawRoundedRect(ctx, x, y, width, height, radius) {
+    ctx.beginPath();
+    ctx.moveTo(x + radius, y);
+    ctx.lineTo(x + width - radius, y);
+    ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+    ctx.lineTo(x + width, y + height - radius);
+    ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+    ctx.lineTo(x + radius, y + height);
+    ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+    ctx.lineTo(x, y + radius);
+    ctx.quadraticCurveTo(x, y, x + radius, y);
+    ctx.closePath();
+  }
+
+  function escapeHtml(str) {
+    if (!str) return '';
+    var d = document.createElement('div');
+    d.textContent = str;
+    return d.innerHTML;
+  }
+})();
+</script>
+{% endblock %}
