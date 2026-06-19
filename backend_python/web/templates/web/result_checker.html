@@ -926,9 +926,12 @@
 
 {% block content %}
 <div class="rc-page">
-  <div class="rc-hero">
-    <span class="material-symbols-outlined" style="font-size:44px;color:var(--md-primary)">workspace_premium</span>
-    <h1 class="md-headline-medium">Result Checker</h1>
+  <div class="rc-hero" style="text-align:left;padding:16px 16px 24px;">
+    <a href="/results/" class="md-button" style="display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:var(--md-radius-full);text-decoration:none;font-weight:600;font-size:13px;background:var(--md-surface-container-high);color:var(--md-on-surface-variant);margin-bottom:8px;">
+      <span class="material-symbols-outlined" style="font-size:18px;">arrow_back</span>
+      Back to Results Guide
+    </a>
+    <h1 class="md-headline-medium" style="margin-top:8px;">Result Checker</h1>
     <p>Access your exam marksheet instantly. We cache lookup results so you can retrieve them even when the official boards are down.</p>
   </div>
 
@@ -936,11 +939,19 @@
     <div class="rc-tabs" id="rc-tabs">
       <button class="rc-tab active" data-exam="neb" type="button">
         <span class="material-symbols-outlined rc-tab-icon">school</span>
-        Class 12
+        12
+      </button>
+      <button class="rc-tab" data-exam="neb_reexam" type="button">
+        <span class="material-symbols-outlined rc-tab-icon">refresh</span>
+        12 (Re)
       </button>
       <button class="rc-tab" data-exam="see" type="button">
         <span class="material-symbols-outlined rc-tab-icon">auto_stories</span>
-        SEE Class 10
+        10
+      </button>
+      <button class="rc-tab" data-exam="see_reexam" type="button">
+        <span class="material-symbols-outlined rc-tab-icon">refresh</span>
+        10 (Re)
       </button>
     </div>
 
@@ -973,7 +984,7 @@
         <div class="rc-field" style="margin-bottom: 20px;">
           <label for="dob">Date of Birth</label>
           <input type="text" id="dob" name="dob" placeholder="YYYY/MM/DD" maxlength="10" autocomplete="off">
-          <div class="hint">Required for NEB Class 12. Format: BS (e.g. 2065/03/15)</div>
+          <div class="hint">Required for Class 12. Format: BS (e.g. 2065/03/15)</div>
         </div>
       </div>
 
@@ -1286,6 +1297,10 @@
   var isCheckingBulk = false;
   var bulkCancel = false;
 
+  function needsDob() {
+    return currentExam === 'neb' || currentExam === 'neb_reexam';
+  }
+
   // Initial Setup
   updateFieldsForMode();
   updateBulkHint();
@@ -1345,7 +1360,7 @@
       document.getElementById('symbol').required = true;
       document.getElementById('symbol').parentElement.style.display = 'block';
       
-      if (currentExam === 'neb') {
+      if (needsDob()) {
         dobWrapper.classList.add('visible');
         dobInput.required = true;
       } else {
@@ -1363,14 +1378,13 @@
 
   function updateBulkHint() {
     var hint = document.getElementById('rc-bulk-hint');
-    if (currentExam === 'neb') {
-      hint.textContent = 'Class 12: Enter symbol,dob on each line. Format: symbol,YYYY/MM/DD (e.g. 20404641,2065/03/15)';
+    if (needsDob()) {
+      hint.textContent = '12: Enter symbol,dob on each line. Format: symbol,YYYY/MM/DD (e.g. 20404641,2065/03/15)';
       bulkInput.placeholder = 'e.g. 20404641,2065/03/15\n20404642,2065/03/16';
     } else {
-      hint.textContent = 'SEE Class 10: Enter one symbol number per line.';
+      hint.textContent = '10: Enter one symbol number per line.';
       bulkInput.placeholder = 'e.g. 12013825\n12013826';
     }
-  }
 
   function resetOutputs() {
     document.getElementById('rc-result-container').style.display = 'none';
@@ -1407,7 +1421,7 @@
       var dob = dobInput.value.trim();
 
       if (!symbol) return;
-      if (currentExam === 'neb' && !dob) {
+      if (needsDob() && !dob) {
         dobInput.focus();
         return;
       }
@@ -1565,7 +1579,7 @@
       var symbol = '';
       var dob = '';
 
-      if (currentExam === 'neb') {
+      if (needsDob()) {
         var parts = line.split(',');
         symbol = parts[0].trim();
         if (parts[1]) dob = parts[1].trim();
@@ -1777,18 +1791,19 @@
   });
 
   function populateAndShowGradesheet(data) {
-    var isSEE = (data.exam && data.exam.toLowerCase().indexOf('see') !== -1) || currentExam === 'see';
+    var isSEE = (data.exam && data.exam.toLowerCase().indexOf('see') !== -1) || currentExam === 'see' || currentExam === 'see_reexam';
+    var isReexam = currentExam === 'neb_reexam' || currentExam === 'see_reexam';
     
     var officeName = document.getElementById('gs-office-name');
     var examTypeDesc = document.getElementById('gs-exam-type-desc');
     
     if (isSEE) {
-      officeName.textContent = 'UNOFFICIAL SEE RESULT';
-      examTypeDesc.textContent = 'SECONDARY EDUCATION EXAMINATION (GRADE X)';
+      officeName.textContent = 'UNOFFICIAL SEE RESULT' + (isReexam ? ' (SUPPLEMENTARY)' : '');
+      examTypeDesc.textContent = 'SECONDARY EDUCATION EXAMINATION (GRADE X)' + (isReexam ? ' — SUPPLEMENTARY' : '');
       document.getElementById('gs-th-credit-hour').style.display = 'none';
     } else {
-      officeName.textContent = 'UNOFFICIAL CLASS 12 RESULT';
-      examTypeDesc.textContent = 'SCHOOL LEAVING CERTIFICATE EXAMINATION (GRADE XII)';
+      officeName.textContent = 'UNOFFICIAL CLASS 12 RESULT' + (isReexam ? ' (RE-EXAM)' : '');
+      examTypeDesc.textContent = 'SCHOOL LEAVING CERTIFICATE EXAMINATION (GRADE XII)' + (isReexam ? ' — RE-EXAM' : '');
       document.getElementById('gs-th-credit-hour').style.display = '';
     }
 
@@ -1972,7 +1987,7 @@
     var labels = ['Symbol Number', 'Exam / Batch', 'School / College'];
     var values = [
       data.symbol || '—',
-      (data.exam || 'NEB Class 12') + '  •  ' + (data.batch || document.getElementById('batch').value) + ' BS',
+      (data.exam || '12') + '  •  ' + (data.batch || document.getElementById('batch').value) + ' BS',
       data.school || '—'
     ];
     

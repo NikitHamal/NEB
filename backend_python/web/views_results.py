@@ -39,7 +39,7 @@ def ajax_check_result(request):
         return JsonResponse({'success': False, 'error': 'Exam type is required'})
     if not symbol:
         return JsonResponse({'success': False, 'error': 'Symbol number is required'})
-    if exam == 'neb' and not dob:
+    if exam in ('neb', 'neb_reexam') and not dob:
         return JsonResponse({'success': False, 'error': 'Date of birth is required'})
 
     result = result_scraper.check_result(exam, symbol, dob or '', batch=batch)
