@@ -988,7 +988,7 @@ def admin_bot_edit(request, bot_id=None):
         config.display_name = request.POST.get('display_name', '').strip()[:100]
         config.avatar_url = request.POST.get('avatar_url', '').strip()
         provider = (request.POST.get('provider') or 'qwen').strip().lower()
-        if provider not in ('qwen', 'ai4bharat', 'egov', 'deepai', 'eqing', 'freegpt', 'deepseekai', 'surfsense', 'custom'):
+        if provider not in ('qwen', 'ai4bharat', 'egov', 'deepai', 'eqing', 'freegpt', 'deepseekai', 'surfsense', 'g4f', 'custom'):
             provider = 'qwen'
         config.provider = provider
         config.api_url = request.POST.get('api_url', config.api_url).strip()

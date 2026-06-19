@@ -6,7 +6,7 @@
 <div class="md-container" style="padding-top:0;">
   {% if resource %}
   <div class="flex items-center gap-1 mb-2" style="padding-top:16px;">
-    <a href="{% url 'web:library' %}" class="md-btn md-btn-text" style="padding-left:0;">
+    <a href="{% url 'web:library' %}" class="md-btn md-btn-text" style="padding-left:0;" onclick="if(document.referrer && document.referrer.includes(window.location.host)) { history.back(); return false; }">
       <span class="material-symbols-outlined" style="font-size:18px">arrow_back</span>
       Library
     </a>

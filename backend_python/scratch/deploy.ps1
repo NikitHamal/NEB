@@ -39,9 +39,9 @@ if (Test-Path $zipPath) {
 Write-Host "Creating local ZIP archive of deployment files..."
 Push-Location $projectDir
 # Clean local __pycache__ before zipping
-Get-ChildItem -Path api, nebians, web -Directory -Recurse -Filter '__pycache__' -ErrorAction SilentlyContinue | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue
+Get-ChildItem -Path api, nebians, web, services -Directory -Recurse -Filter '__pycache__' -ErrorAction SilentlyContinue | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue
 
-Compress-Archive -Path api, nebians, web, public, manage.py, requirements.txt, passenger_wsgi.py -DestinationPath $zipPath -Force
+Compress-Archive -Path api, nebians, web, services, public, manage.py, requirements.txt, passenger_wsgi.py -DestinationPath $zipPath -Force
 Pop-Location
 
 # Upload the ZIP file

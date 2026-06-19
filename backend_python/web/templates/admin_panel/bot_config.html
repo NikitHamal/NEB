@@ -81,6 +81,7 @@
           <option value="freegpt"   {% if config.provider == 'freegpt' %}selected{% endif %}>FreeGPT (standalone.freegpt.win:3001)</option>
           <option value="deepseekai" {% if config.provider == 'deepseekai' %}selected{% endif %}>DeepSeek AI (deep-seek.ai)</option>
           <option value="surfsense" {% if config.provider == 'surfsense' %}selected{% endif %}>SurfSense (surfsense.com)</option>
+          <option value="g4f" {% if config.provider == 'g4f' %}selected{% endif %}>G4F (g4f.space — 50+ models)</option>
           <option value="custom"    {% if config.provider == 'custom' %}selected{% endif %}>Custom (any OpenAI-compatible endpoint)</option>
         </select>
         <p style="font-size:0.75rem;color:var(--md-on-surface-variant);margin:4px 0 0;" id="id_provider_help">
@@ -287,6 +288,25 @@
       options: [
         { value: 'gpt-5.4-mini-no-login', label: 'GPT 5.4 Mini' },
         { value: 'gpt-o4-mini-no-login', label: 'GPT O4 Mini (reasoning)' },
+      ],
+    },
+    g4f: {
+      urlLabel: 'API URL',
+      urlHelp: 'G4F endpoint (leave default).',
+      urlDefault: 'https://g4f.space/v1',
+      modelControl: 'select',
+      modelHelp: 'Pick a G4F model.',
+      options: [
+        { value: 'openai', label: 'GPT-5.4 Nano (Fast)' },
+        { value: 'deepseek', label: 'DeepSeek' },
+        { value: 'gpt-5.4-nano', label: 'GPT-5.4 Nano' },
+        { value: 'grok', label: 'Grok' },
+        { value: 'claude', label: 'Claude' },
+        { value: 'kimi', label: 'Kimi' },
+        { value: 'gemini-2.5-flash', label: 'Gemini 2.5 Flash' },
+        { value: 'deepseek-v4-flash', label: 'DeepSeek V4 Flash' },
+        { value: 'glm-5.1', label: 'GLM 5.1' },
+        { value: 'gpt-4o-mini', label: 'GPT-4o Mini' },
       ],
     },
   };

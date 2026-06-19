@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+{% load static web_extras %}
+
+{% block title %}News &amp; Announcements{% endblock %}
+{% block description %}Latest news, announcements, exam result updates, and notices from the NEBians community and NEB.{% endblock %}
+{% block og_title %}NEBians — News &amp; Announcements{% endblock %}
+{% block og_description %}Latest news, exam result updates, and notices from the NEBians community.{% endblock %}
+
+{% block nav_news %}md-nav-active{% endblock %}
+{% block bnav_news %}md-nav-active{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'web/css/pages/web-news.css' %}">
+{% endblock %}
+
+{% block bottomnav %}
+<nav class="md-bottomnav">
+  <div class="md-bottomnav-pill">
+    <a href="{% url 'web:home' %}" class="md-bottomnav-item" aria-label="Home">Home</a>
+    <a href="{% url 'web:library' %}" class="md-bottomnav-item" aria-label="Library">Library</a>
+    <a href="{% url 'web:forum' %}" class="md-bottomnav-item" aria-label="Forum">Forum</a>
+    <a href="{% url 'web:news_list' %}" class="md-bottomnav-item md-nav-active" aria-label="News">News</a>
+  </div>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div class="md-container news-page">
+  <div class="news-header">
+    <div class="news-header-content">
+      <h1 class="md-headline-large">News &amp; Announcements</h1>
+      <p class="md-body-medium news-subtitle">Exam results, official notices, events, and platform updates — all in one place.</p>
+    </div>
+    <a href="{% url 'web:result_check' %}" class="md-btn md-btn-filled md-hide-mobile">
+      <span class="material-symbols-outlined">fact_check</span>
+      Result Checker
+    </a>
+  </div>
+
+  <div class="news-layout">
+    <div class="news-main">
+      <div class="news-filter-bar md-hide-desktop">
+        <a href="{% url 'web:news_list' %}" class="md-chip {% if not current_category %}md-chip-active{% endif %}">All</a>
+        {% for c in categories %}
+        <a href="{% url 'web:news_list' %}?category={{ c.key }}" class="md-chip {% if current_category == c.key %}md-chip-active{% endif %}" style="--chip-color:{{ c.color }}">
+          <span class="material-symbols-outlined" style="font-size:16px;">{{ c.icon }}</span>
+          {{ c.label }}
+        </a>
+        {% endfor %}
+      </div>
+
+      {% if announcements %}
+      <div class="news-list">
+        {% for a in announcements %}
+        <a href="{% url 'web:news_detail' slug=a.slug %}" class="news-card {% if a.is_pinned %}news-card-pinned{% endif %}">
+          {% if a.cover_image_url %}
+          <div class="news-card-cover">
+            <img src="{{ a.cover_image_url }}" alt="{{ a.title }}" loading="lazy">
+            <span class="news-category-badge" style="background:{{ a.category_color }}">
+              <span class="material-symbols-outlined">{{ a.category_icon }}</span>
+              {{ a.category_label }}
+            </span>
+          </div>
+          {% else %}
+          <div class="news-card-cover news-card-cover-placeholder" style="background:linear-gradient(135deg, {{ a.category_color }}22, {{ a.category_color }}08);">
+            <span class="material-symbols-outlined news-card-cover-icon" style="color:{{ a.category_color }}">{{ a.category_icon }}</span>
+            <span class="news-category-badge" style="background:{{ a.category_color }}">
+              <span class="material-symbols-outlined">{{ a.category_icon }}</span>
+              {{ a.category_label }}
+            </span>
+            {% if a.is_pinned %}<span class="news-pin-badge"><span class="material-symbols-outlined">push_pin</span></span>{% endif %}
+          </div>
+          {% endif %}
+          <div class="news-card-body">
+            <h2 class="news-card-title">{{ a.title }}</h2>
+            {% if a.summary %}<p class="news-card-summary">{{ a.summary }}</p>{% endif %}
+            <div class="news-card-meta">
+              <span class="news-card-author">
+                {% if a.author_photo %}<img src="{{ a.author_photo }}" alt="">{% endif %}
+                {{ a.author_name }}
+              </span>
+              <span class="dot-sep">&middot;</span>
+              <span>{{ a.published_at|time_ago }}</span>
+              <span class="dot-sep">&middot;</span>
+              <span class="material-symbols-outlined icon-sm">visibility</span>
+              {{ a.view_count|short_number }}
+            </div>
+          </div>
+        </a>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="empty-state">
+        <span class="material-symbols-outlined">newspaper</span>
+        <h3>No announcements yet</h3>
+        <p>Check back soon for news and updates.</p>
+      </div>
+      {% endif %}
+    </div>
+
+    <aside class="news-sidebar md-hide-mobile">
+      <div class="news-sidebar-card">
+        <h3>Categories</h3>
+        <div class="news-sidebar-categories">
+          <a href="{% url 'web:news_list' %}" class="news-sidebar-cat {% if not current_category %}active{% endif %}">
+            <span class="material-symbols-outlined">apps</span>
+            <span>All</span>
+          </a>
+          {% for c in categories %}
+          <a href="{% url 'web:news_list' %}?category={{ c.key }}" class="news-sidebar-cat {% if current_category == c.key %}active{% endif %}" style="--cat-color:{{ c.color }}">
+            <span class="material-symbols-outlined">{{ c.icon }}</span>
+            <span>{{ c.label }}</span>
+          </a>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="news-sidebar-card news-sidebar-cta">
+        <div class="news-sidebar-cta-icon-wrapper">
+          <span class="material-symbols-outlined">fact_check</span>
+        </div>
+        <h4>Result Checker</h4>
+        <p>Check Class 11 &amp; 12 NEB or SEE results instantly. Print, export, or generate premium social sharing cards.</p>
+        <a href="{% url 'web:result_check' %}" class="md-btn md-btn-filled">
+          Check Results
+          <span class="material-symbols-outlined">arrow_forward</span>
+        </a>
+      </div>
+    </aside>
+  </div>
+</div>
+{% endblock %}
