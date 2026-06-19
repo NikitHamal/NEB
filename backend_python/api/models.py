@@ -684,6 +684,7 @@ class BotConfig(models.Model):
         ('freegpt', 'FreeGPT (standalone.freegpt.win:3001)'),
         ('deepseekai', 'DeepSeek AI (deep-seek.ai)'),
         ('surfsense', 'SurfSense (surfsense.com)'),
+        ('g4f', 'G4F (g4f.space / Pollinations AI)'),
         ('custom', 'Custom OpenAI-compatible endpoint'),
     ]
     id = models.AutoField(primary_key=True)
@@ -801,6 +802,7 @@ class ArenaChatSession(models.Model):
         ('freegpt', 'FreeGPT (standalone.freegpt.win:3001)'),
         ('deepseekai', 'DeepSeek AI (deep-seek.ai)'),
         ('surfsense', 'SurfSense (surfsense.com)'),
+        ('g4f', 'G4F (g4f.space / Pollinations AI)'),
     ]
     id = models.CharField(max_length=36, primary_key=True)
     user = models.ForeignKey(
@@ -1342,6 +1344,51 @@ class SyllabusContent(models.Model):
         ordering = ['grade_level', 'subject', 'order']
         verbose_name = 'Syllabus Content'
         verbose_name_plural = 'Syllabus Contents'
+
+
+class Announcement(models.Model):
+    """News, announcements, and important notices (e.g., NEB result publication)."""
+    CATEGORY_CHOICES = [
+        ('exam_results', 'Exam Results'),
+        ('notice', 'Notice'),
+        ('event', 'Event'),
+        ('update', 'Update'),
+        ('alert', 'Alert'),
+        ('general', 'General'),
+    ]
+    STATUS_CHOICES = [
+        ('draft', 'Draft'),
+        ('published', 'Published'),
+        ('archived', 'Archived'),
+    ]
+    id = models.CharField(max_length=36, primary_key=True)
+    title = models.CharField(max_length=255)
+    slug = models.SlugField(max_length=280, unique=True, db_index=True)
+    summary = models.CharField(max_length=500, blank=True, default='')
+    content = models.TextField(blank=True, default='')
+    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, default='general', db_index=True)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='draft', db_index=True)
+    is_pinned = models.BooleanField(default=False, db_index=True)
+    cover_image_url = models.TextField(blank=True, default='')
+    external_url = models.TextField(blank=True, default='')
+    tags = models.CharField(max_length=500, blank=True, default='')
+    author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='announcements')
+    published_at = models.BigIntegerField(default=0, db_index=True)
+    created_at = models.BigIntegerField(default=0)
+    updated_at = models.BigIntegerField(default=0)
+    view_count = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        db_table = 'announcements'
+        ordering = ['-is_pinned', '-published_at', '-created_at']
+        indexes = [
+            models.Index(fields=['status', '-published_at']),
+            models.Index(fields=['category', 'status']),
+            models.Index(fields=['-is_pinned', '-published_at']),
+        ]
+
+    def __str__(self):
+        return self.title
 
 
 class AccountDeletionRequest(models.Model):

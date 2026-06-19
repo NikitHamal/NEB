@@ -34,7 +34,7 @@
 {% block content %}
 <div class="md-container-narrow" style="padding-top:24px;">
   {% if resource %}
-  <a href="{% url 'web:library' %}" class="rd-back">
+  <a href="{% url 'web:library' %}" class="rd-back" onclick="if(document.referrer && document.referrer.includes(window.location.host)) { history.back(); return false; }">
     <span class="material-symbols-outlined icon-sm">arrow_back</span>
     Back to Library
   </a>

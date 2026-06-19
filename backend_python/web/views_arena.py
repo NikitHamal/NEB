@@ -1855,3 +1855,207 @@ def ajax_arena_send_message_surfsense(request, session_id):
     response['X-Accel-Buffering'] = 'no'
     response['Connection'] = 'keep-alive'
     return response
+
+
+# ========================= G4F (g4f.space) =========================
+
+def ajax_arena_g4f_models(request):
+    from api import g4f_proxy
+    models = g4f_proxy.get_models()
+    return JsonResponse({'models': models, 'provider': 'g4f'})
+
+
+def ajax_arena_create_g4f_session(request):
+    user_id = _get_user_id(request)
+    if not user_id:
+        return JsonResponse({'error': 'Unauthorized'}, status=401)
+    try:
+        user = User.objects.get(pk=user_id)
+    except User.DoesNotExist:
+        return JsonResponse({'error': 'User not found'}, status=404)
+
+    import json as _json
+    body = _json.loads(request.body or '{}')
+    model_id = (body.get('modelId') or 'openai').strip()
+    title = (body.get('title') or '').strip()[:200]
+
+    from api import g4f_proxy
+    model_info = None
+    for m in g4f_proxy.MODELS:
+        if m['id'] == model_id:
+            model_info = m
+            break
+
+    display_name = (model_info or {}).get('name', f'G4F {model_id}')
+
+    import secrets as _secrets
+    now = now_ms()
+    sess = ArenaChatSession.objects.create(
+        id=uuid_str(),
+        user=user,
+        provider='g4f',
+        arena_session_id=f'g4f:{_secrets.token_hex(16)}',
+        arena_token_id='',
+        qwen_chat_id='',
+        model_id=model_id,
+        model_code=model_id,
+        model_display_name=title or display_name,
+        title=title or display_name,
+        is_active=True,
+        message_count=0,
+        last_message_at=0,
+        created_at=now,
+        updated_at=now,
+    )
+
+    return JsonResponse({
+        'session': {
+            'id': sess.id,
+            'title': sess.title,
+            'modelId': sess.model_id,
+            'modelCode': sess.model_code,
+            'modelName': sess.model_display_name,
+            'provider': 'g4f',
+            'vision': (model_info or {}).get('vision', False),
+            'thinking': (model_info or {}).get('reasoning', False),
+            'tools': False,
+            'messageCount': 0,
+            'createdAt': sess.created_at,
+            'updatedAt': sess.updated_at,
+        },
+    })
+
+
+def ajax_arena_send_message_g4f(request, session_id):
+    user_id = _get_user_id(request)
+    if not user_id:
+        return JsonResponse({'error': 'Unauthorized'}, status=401)
+    try:
+        user = User.objects.get(pk=user_id)
+    except User.DoesNotExist:
+        return JsonResponse({'error': 'User not found'}, status=404)
+
+    try:
+        sess = ArenaChatSession.objects.get(pk=session_id)
+    except ArenaChatSession.DoesNotExist:
+        return JsonResponse({'error': 'Session not found'}, status=404)
+    if sess.user_id != user.id:
+        return JsonResponse({'error': 'Forbidden'}, status=403)
+    if sess.provider != 'g4f':
+        return JsonResponse({'error': 'This endpoint only works with G4F sessions.'}, status=400)
+
+    import json as _json
+    body = _json.loads(request.body or '{}')
+    content = (body.get('content') or '').strip()
+    if not content:
+        return JsonResponse({'error': 'content is required'}, status=400)
+    if len(content) > 32000:
+        return JsonResponse({'error': 'Message too long (max 32000 chars)'}, status=400)
+
+    prev_messages = list(sess.messages.order_by('created_at'))
+    history = []
+    for m in prev_messages:
+        if m.role in ('user', 'assistant'):
+            history.append({'role': m.role, 'content': m.content})
+
+    now = now_ms()
+    user_msg_id = uuid_str()
+    asst_msg_id = uuid_str()
+    asst_started_at = now_ms()
+
+    ArenaChatMessage.objects.create(
+        id=user_msg_id, session=sess, role='user',
+        content=content, parent_id='',
+        arena_message_id='', finish_reason='', error='',
+        duration_ms=0, created_at=now,
+    )
+
+    from api import g4f_proxy
+
+    def _stream_g4f():
+        yield _sse_format({
+            'choices': [{
+                'index': 0,
+                'delta': {'role': 'assistant', 'messageId': asst_msg_id, 'userMessageId': user_msg_id},
+            }],
+        })
+
+        ArenaChatMessage.objects.create(
+            id=asst_msg_id, session=sess, role='assistant',
+            content='', parent_id=user_msg_id,
+            arena_message_id='', finish_reason='', error='',
+            duration_ms=0, created_at=asst_started_at,
+        )
+
+        collected_text = ''
+        collected_thinking = ''
+        finish_reason = 'stop'
+        error_text = ''
+
+        try:
+            for chunk in g4f_proxy.stream_chat(
+                messages=history + [{'role': 'user', 'content': content}],
+                model=sess.model_id,
+            ):
+                t = chunk.get('type')
+                if t == 'text':
+                    text = chunk.get('content', '')
+                    collected_text += text
+                    yield _sse_format({
+                        'choices': [{'index': 0, 'delta': {'content': text}}],
+                    })
+                elif t == 'thinking':
+                    thinking = chunk.get('content', '')
+                    collected_thinking += thinking
+                    yield _sse_format({
+                        'choices': [{'index': 0, 'delta': {'reasoning_content': thinking}}],
+                    })
+                elif t == 'done':
+                    finish_reason = chunk.get('finish_reason', 'stop')
+                elif t == 'error':
+                    error_text = chunk.get('error', 'upstream error')
+                    logger.warning("g4f stream: upstream error: %s", error_text)
+                    yield _sse_format({
+                        'error': {'message': error_text, 'code': 'upstream'},
+                    })
+                    break
+        except Exception as e:
+            logger.exception("g4f stream: unexpected error: %s", e)
+            yield _sse_format({
+                'error': {'message': 'Internal streaming error', 'code': 'server'},
+            })
+            error_text = str(e)
+
+        duration_ms = max(0, now_ms() - asst_started_at)
+        try:
+            ArenaChatMessage.objects.filter(pk=asst_msg_id).update(
+                content=collected_text,
+                finish_reason=finish_reason,
+                error=error_text[:200],
+                duration_ms=duration_ms,
+                arena_message_id=asst_msg_id,
+            )
+        except Exception as e:
+            logger.exception("g4f: failed to finalize assistant row: %s", e)
+
+        if not error_text:
+            try:
+                ArenaChatSession.objects.filter(pk=sess.id).update(
+                    message_count=sess.message_count + 1,
+                    last_message_at=now_ms(),
+                    updated_at=now_ms(),
+                )
+            except Exception as e:
+                logger.warning("g4f: counter commit failed: %s", e)
+
+        if not error_text:
+            yield _sse_format({
+                'choices': [{'index': 0, 'delta': {}, 'finish_reason': finish_reason}],
+            })
+        yield _sse_done_marker()
+
+    response = StreamingHttpResponse(_stream_g4f(), content_type='text/event-stream')
+    response['Cache-Control'] = 'no-cache'
+    response['X-Accel-Buffering'] = 'no'
+    response['Connection'] = 'keep-alive'
+    return response

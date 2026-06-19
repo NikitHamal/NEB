@@ -142,11 +142,13 @@
       <a href="{% url 'web:home' %}" class="{% block nav_home %}{% endblock %}">Home</a>
       <a href="{% url 'web:library' %}" class="{% block nav_library %}{% endblock %}">Library</a>
       <a href="{% url 'web:forum' %}" class="{% block nav_forum %}{% endblock %}">Forum</a>
+      <a href="{% url 'web:news_list' %}" class="{% block nav_news %}{% endblock %}">News</a>
     </nav>
     <div class="md-topbar-actions">
       <a href="{% url 'web:search' %}" class="md-btn-icon" aria-label="Search" title="Search">
         <span class="material-symbols-outlined">search</span>
       </a>
+
       <button class="md-btn-icon" data-action="toggle-theme" title="Toggle dark mode" aria-label="Toggle dark mode">
         <span class="material-symbols-outlined" id="theme-icon">dark_mode</span>
       </button>
@@ -198,6 +200,14 @@
             <span class="material-symbols-outlined">bookmark</span>
             <span>Bookmarks</span>
           </a>
+          <a href="{% url 'web:result_check' %}">
+            <span class="material-symbols-outlined">fact_check</span>
+            <span>Result Checker</span>
+          </a>
+          <a href="{% url 'web:news_list' %}">
+            <span class="material-symbols-outlined">newspaper</span>
+            <span>News &amp; Updates</span>
+          </a>
           <a href="{% url 'web:logout' %}" class="menu-logout">
             <span class="material-symbols-outlined">logout</span>
             <span>Sign Out</span>
@@ -206,7 +216,7 @@
       </div>
       {% else %}
       <a href="{% url 'web:login' %}" class="md-btn md-btn-outlined" aria-label="Sign in">Sign In</a>
-      <a href="{% url 'web:email_signup' %}" class="md-btn md-btn-filled" aria-label="Register">Register</a>
+      <a href="{% url 'web:email_signup' %}" class="md-btn md-btn-filled md-hide-mobile" aria-label="Register">Register</a>
       {% endif %}
     </div>
   </header>
@@ -228,9 +238,11 @@
   <footer class="site-footer">
     {% if not hide_footer_links %}
     <div class="site-footer-links">
+      <a href="{% url 'web:news_list' %}">News &amp; Updates</a>
+      <a href="{% url 'web:result_check' %}">Result Checker</a>
       <a href="{% url 'web:privacy_policy' %}">Privacy Policy</a>
       <a href="{% url 'web:terms_of_service' %}">Terms of Service</a>
-      <a href="{% url 'web:copyright_takedown' %}">Copyright Policy & Takedown</a>
+      <a href="{% url 'web:copyright_takedown' %}">Copyright Policy &amp; Takedown</a>
     </div>
     {% endif %}
     <p>&copy; 2026 NEBians. All rights reserved.</p>
