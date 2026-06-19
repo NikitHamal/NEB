@@ -41,10 +41,10 @@
 
 <div class="md-container-narrow" style="padding-top:24px;">
   {% if post %}
-  <a href="{% url 'web:forum' %}" class="fp-back" data-action="go-back">
-    <span class="material-symbols-outlined" style="font-size:18px">arrow_back</span>
-    Back to Forum
-  </a>
+    <a href="{% url 'web:forum' %}" class="fp-back" data-action="go-back">
+      <span class="material-symbols-outlined">arrow_back</span>
+      Go back
+    </a>
 
   <!-- Post Content -->
   <div class="fp-post">
@@ -268,7 +268,7 @@
   <div class="fp-empty">
     <span class="material-symbols-outlined">error_outline</span>
     <h3>Post not found</h3>
-    <a href="{% url 'web:forum' %}" class="md-btn md-btn-filled" style="margin-top:12px;">Back to Forum</a>
+    <a href="{% url 'web:forum' %}" class="md-btn md-btn-filled" style="margin-top:12px;" data-action="go-back">Go back</a>
   </div>
   {% endif %}
 </div>
