@@ -13,10 +13,30 @@
 {% block bottomnav %}
 <nav class="md-bottomnav">
   <div class="md-bottomnav-pill">
-    <a href="{% url 'web:home' %}" class="md-bottomnav-item md-nav-active" aria-label="Home">Home</a>
-    <a href="{% url 'web:library' %}" class="md-bottomnav-item" aria-label="Library">Library</a>
-    <a href="{% url 'web:forum' %}" class="md-bottomnav-item" aria-label="Forum">Forum</a>
-    <a href="{% url 'web:news_list' %}" class="md-bottomnav-item" aria-label="News">News</a>
+    <a href="{% url 'web:home' %}" class="md-bottomnav-item md-nav-active" aria-label="Home">
+      <div class="md-bottomnav-icon-wrapper">
+        <span class="material-symbols-outlined">home</span>
+      </div>
+      <span class="md-bottomnav-label">Home</span>
+    </a>
+    <a href="{% url 'web:library' %}" class="md-bottomnav-item" aria-label="Library">
+      <div class="md-bottomnav-icon-wrapper">
+        <span class="material-symbols-outlined">menu_book</span>
+      </div>
+      <span class="md-bottomnav-label">Library</span>
+    </a>
+    <a href="{% url 'web:forum' %}" class="md-bottomnav-item" aria-label="Forum">
+      <div class="md-bottomnav-icon-wrapper">
+        <span class="material-symbols-outlined">forum</span>
+      </div>
+      <span class="md-bottomnav-label">Forum</span>
+    </a>
+    <a href="{% url 'web:news_list' %}" class="md-bottomnav-item" aria-label="News">
+      <div class="md-bottomnav-icon-wrapper">
+        <span class="material-symbols-outlined">newspaper</span>
+      </div>
+      <span class="md-bottomnav-label">News</span>
+    </a>
   </div>
 </nav>
 {% endblock %}
@@ -71,27 +91,33 @@
         <div class="home-news-card-header">
           <span class="home-news-cat-badge" style="background:{{ n.category_color }}">
             <span class="material-symbols-outlined">{{ n.category_icon }}</span>
-            {{ n.category_label }}
+            <span class="home-news-cat-label">{{ n.category_label }}</span>
           </span>
           {% if n.is_pinned %}
           <span class="home-news-pinned-badge">
             <span class="material-symbols-outlined">push_pin</span>
-            Pinned
+            <span class="home-news-pinned-label-text">Pinned</span>
           </span>
           {% endif %}
         </div>
-        <span class="home-news-title">{{ n.title }}</span>
-        {% if n.summary %}
-        <span class="home-news-summary">{{ n.summary }}</span>
-        {% endif %}
-        <span class="home-news-meta">{{ n.published_at|time_ago }}</span>
+        <div class="home-news-card-body">
+          <span class="home-news-title">{{ n.title }}</span>
+          {% if n.summary %}
+          <span class="home-news-summary">{{ n.summary }}</span>
+          {% endif %}
+          <span class="home-news-meta">{{ n.published_at|time_ago }}</span>
+        </div>
       </a>
       {% endfor %}
       <a href="{% url 'web:result_check' %}" class="home-news-card home-news-card-cta" style="--accent-color: var(--md-primary)">
-        <span class="material-symbols-outlined">fact_check</span>
-        <span class="home-news-title">Check Exam Results</span>
-        <span class="home-news-summary">Quickly check Class 12, Class 11, or SEE results in bulk, export gradesheets, or generate custom success share cards.</span>
-        <span class="home-news-meta">Explore tool &rarr;</span>
+        <div class="home-news-card-header">
+          <span class="material-symbols-outlined">fact_check</span>
+        </div>
+        <div class="home-news-card-body">
+          <span class="home-news-title">Check Exam Results</span>
+          <span class="home-news-summary">Quickly check Class 12, Class 11, or SEE results in bulk, export gradesheets, or generate custom success share cards.</span>
+          <span class="home-news-meta">Explore tool &rarr;</span>
+        </div>
       </a>
     </div>
   </div>

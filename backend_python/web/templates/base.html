@@ -314,7 +314,14 @@
         }
       },
       'reload-page': function () { location.reload(); },
-      'go-back': function () { history.back(); },
+      'go-back': function (el, e) {
+        e.preventDefault();
+        if (document.referrer && document.referrer.includes(window.location.host)) {
+          history.back();
+        } else {
+          window.location.href = el.getAttribute('href') || '/';
+        }
+      },
       'stop-propagation': function (el, e) {
         if (e) {
           e.stopPropagation();
