@@ -1,0 +1,30 @@
+Core runtime and UI
+- web/static/web/js/interactive/core/real-lab-3d.js
+- web/static/web/js/interactive/core/engine.js
+- web/static/web/css/pages/interactive.css
+- web/static/web/css/pages/interactive/12-production-lab3d.css
+- web/templates/web/interactive/lesson.html
+
+NEB catalogs
+- web/interactive/catalog_neb_physics.py
+- web/interactive/catalog_neb_physics_12.py
+- web/interactive/catalog_neb_chemistry.py
+- web/interactive/catalog_neb_chemistry_12.py
+
+NEB practical wrappers
+- web/static/web/js/interactive/nebphysics/*.js except lab-utils.js
+- web/static/web/js/interactive/nebchemistry/*.js except chem-utils.js
+
+Database performance
+- api/models.py
+- api/migrations/0066_performance_indexes_hot_paths.py
+
+Collected/staticfiles copies for immediate deployment compatibility
+- staticfiles/web/js/interactive/**
+- staticfiles/web/css/pages/interactive.css
+- staticfiles/web/css/pages/interactive/12-production-lab3d.css
+
+Docs
+- docs/NEB_3D_SIMULATION_PRODUCTION_PASS.md
+- docs/PRODUCTION_PERFORMANCE_AUDIT.md
+- docs/CHANGED_FILES_3D_PASS.txt

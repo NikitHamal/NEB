@@ -12,6 +12,8 @@ import androidx.compose.material.icons.automirrored.filled.MenuBook
 import androidx.compose.material.icons.automirrored.outlined.MenuBook
 import androidx.compose.material.icons.filled.Forum
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.outlined.Newspaper
+import androidx.compose.material.icons.filled.Newspaper
 import androidx.compose.material.icons.outlined.Forum
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -104,6 +106,9 @@ import com.neb.ians.ui.screens.auth.EmailLoginScreen
 import com.neb.ians.ui.screens.auth.EmailVerificationScreen
 import com.neb.ians.ui.screens.auth.ForgotPasswordScreen
 import com.neb.ians.ui.screens.auth.CompleteProfileScreen
+import com.neb.ians.ui.screens.results.ResultCheckerScreen
+import com.neb.ians.ui.screens.news.NewsDetailScreen
+import com.neb.ians.ui.screens.news.NewsScreen
 
 sealed class Screen(val route: String) {
     data object Splash : Screen("splash")
@@ -122,6 +127,11 @@ sealed class Screen(val route: String) {
         fun createRoute(subject: String? = null) = if (subject != null) "library?subject=$subject" else "library"
     }
     data object Forum : Screen("forum")
+    data object News : Screen("news")
+    data object NewsDetail : Screen("news/{slug}") {
+        fun createRoute(slug: String) = "news/${java.net.URLEncoder.encode(slug, "UTF-8")}"
+    }
+    data object ResultChecker : Screen("results/check")
     data object Search : Screen("search")
     data object Notifications : Screen("notifications")
     data object StudyLab : Screen("study_lab")
@@ -177,6 +187,12 @@ val glassNavItems = listOf(
         label = "Forum",
         selectedIcon = Icons.Filled.Forum,
         unselectedIcon = Icons.Outlined.Forum,
+    ),
+    NebNavItem(
+        route = Screen.News.route,
+        label = "News",
+        selectedIcon = Icons.Filled.Newspaper,
+        unselectedIcon = Icons.Outlined.Newspaper,
     ),
 )
 
@@ -394,6 +410,9 @@ fun NEBiansNavHost(
                     onForumClick = { navController.navigate(Screen.Forum.route) },
                     onStudyLabClick = { navController.navigate(Screen.StudyLab.route) },
                     onNebyAiClick = { navController.navigate(Screen.NebyAi.route) },
+                    onNewsClick = { navController.navigate(Screen.News.route) },
+                    onResultCheckerClick = { navController.navigate(Screen.ResultChecker.route) },
+                    onNewsItemClick = { slug -> navController.navigate(Screen.NewsDetail.createRoute(slug)) },
                     onPostClick = { postId -> navController.navigate(Screen.ForumPostDetail.createRoute(postId)) },
                     onNotificationsClick = { navController.navigate(Screen.Notifications.route) },
                     onProfileClick = navigateToOwnProfile,
@@ -429,6 +448,31 @@ fun NEBiansNavHost(
                     onUserProfileClick = { username ->
                         navController.navigate(Screen.Profile.createRoute(username))
                     }
+                )
+            }
+            composable(Screen.News.route) {
+                NewsScreen(
+                    onNewsClick = { slug -> navController.navigate(Screen.NewsDetail.createRoute(slug)) },
+                    onResultCheckerClick = { navController.navigate(Screen.ResultChecker.route) },
+                    onSearchClick = { navController.navigate(Screen.Search.route) },
+                    onNotificationsClick = { navController.navigate(Screen.Notifications.route) },
+                    onProfileClick = navigateToOwnProfile
+                )
+            }
+            composable(
+                route = Screen.NewsDetail.route,
+                arguments = listOf(navArgument("slug") { type = NavType.StringType })
+            ) { backStackEntry ->
+                val slug = backStackEntry.arguments?.getString("slug") ?: return@composable
+                NewsDetailScreen(
+                    slug = slug,
+                    onNavigateBack = { navController.popBackStack() },
+                    onRelatedNewsClick = { relatedSlug -> navController.navigate(Screen.NewsDetail.createRoute(relatedSlug)) }
+                )
+            }
+            composable(Screen.ResultChecker.route) {
+                ResultCheckerScreen(
+                    onNavigateBack = { navController.popBackStack() }
                 )
             }
             composable(Screen.Search.route) {
