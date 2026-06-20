@@ -1,0 +1,10 @@
+web/interactive/catalog_biology.py
+web/templates/web/interactive/course.html
+web/static/web/css/pages/interactive/12-production-lab3d.css
+web/static/web/js/interactive/biology/neb-bio3d.js
+web/static/web/js/interactive/core/bio3d-data.js
+web/static/web/js/interactive/core/bio3d-models.js
+web/static/web/js/interactive/core/bio3d-runtime.js
+docs/NEB_BIOLOGY_3D_PRODUCTION_PASS_V5.md
+docs/BIOLOGY_MODEL_QA_43_LABS_V5.md
+docs/CHANGED_FILES_BIOLOGY_V5.txt

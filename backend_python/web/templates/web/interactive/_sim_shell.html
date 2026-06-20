@@ -1,0 +1,19 @@
+    <div class="ix-sim-column">
+      <div class="ix-sim-shell" id="ix-sim-shell">
+        <div id="sim-stage" class="ix-sim-stage" role="application" aria-label="Interactive simulation">
+          <div class="ix-sim-loading" id="ix-sim-loading">
+            <div class="ix-spinner"></div>
+            <p>Loading simulation…</p>
+          </div>
+        </div>
+        <div class="ix-sim-toolbar">
+          <span class="ix-sim-hint" id="ix-sim-hint">
+            {% if lesson.sim_type == '3d' or lesson.sim_type == 'lab3d' %}<span class="material-symbols-outlined">touch_app</span>Drag to rotate · pinch or scroll to zoom · controls change real measurements{% elif lesson.sim_type == 'coding' %}<span class="material-symbols-outlined">sports_esports</span>Play with the blocks and run your code{% else %}<span class="material-symbols-outlined">tune</span>Adjust the controls and watch what happens{% endif %}
+          </span>
+          <button class="md-btn md-btn-icon ix-fullscreen-btn" id="ix-fullscreen-btn" aria-label="Fullscreen" title="Fullscreen">
+            <span class="material-symbols-outlined">fullscreen</span>
+          </button>
+        </div>
+      </div>
+
+      </div>

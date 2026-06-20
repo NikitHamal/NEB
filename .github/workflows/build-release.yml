@@ -1,9 +1,10 @@
-name: Build Release APKs & AAB
+name: Build Student + Admin Release APKs & AAB
 
 on:
   push:
     paths:
       - 'app/**'
+      - 'admin/**'
       - 'build.gradle.kts'
       - 'settings.gradle.kts'
       - 'gradle.properties'
@@ -22,7 +23,7 @@ on:
 
 jobs:
   build:
-    name: Build Release APK & AAB
+    name: Build Student + Admin Release APKs & AAB
     runs-on: ubuntu-latest
 
     steps:
@@ -65,9 +66,31 @@ jobs:
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
 
+      - name: Build Admin Modern Release APK
+        run: ./gradlew :admin:assembleModernRelease --build-cache
+        env:
+          GRADLE_OPTS: -Dorg.gradle.jvmargs="-Xmx4g -XX:+UseParallelGC -XX:MaxMetaspaceSize=1g" -Dorg.gradle.parallel=true -Dorg.gradle.caching=true -Dorg.gradle.configuration-cache=true
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+
+      - name: Build Admin Modern Release AAB
+        run: ./gradlew :admin:bundleModernRelease --build-cache
+        env:
+          GRADLE_OPTS: -Dorg.gradle.jvmargs="-Xmx4g -XX:+UseParallelGC -XX:MaxMetaspaceSize=1g" -Dorg.gradle.parallel=true -Dorg.gradle.caching=true -Dorg.gradle.configuration-cache=true
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+
       - name: Build Legacy Release APK
         if: github.event_name == 'workflow_dispatch' && github.event.inputs.build_legacy == 'true'
         run: ./gradlew assembleLegacyRelease --build-cache
+        env:
+          GRADLE_OPTS: -Dorg.gradle.jvmargs="-Xmx4g -XX:+UseParallelGC -XX:MaxMetaspaceSize=1g" -Dorg.gradle.parallel=true -Dorg.gradle.caching=true -Dorg.gradle.configuration-cache=true
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+
+      - name: Build Admin Legacy Release APK
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.build_legacy == 'true'
+        run: ./gradlew :admin:assembleLegacyRelease --build-cache
         env:
           GRADLE_OPTS: -Dorg.gradle.jvmargs="-Xmx4g -XX:+UseParallelGC -XX:MaxMetaspaceSize=1g" -Dorg.gradle.parallel=true -Dorg.gradle.caching=true -Dorg.gradle.configuration-cache=true
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
@@ -77,8 +100,10 @@ jobs:
         id: info
         run: |
           VERSION=$(grep 'versionName' app/build.gradle.kts | head -1 | sed 's/.*versionName\s*=\s*"\(.*\)"/\1/')
+          ADMIN_VERSION=$(grep 'versionName' admin/build.gradle.kts | head -1 | sed 's/.*versionName\s*=\s*"\(.*\)"/\1/')
           HASH=$(echo "${{ github.sha }}" | cut -c1-7)
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "admin_version=$ADMIN_VERSION" >> "$GITHUB_OUTPUT"
           echo "hash=$HASH" >> "$GITHUB_OUTPUT"
 
       - name: Upload Modern APK
@@ -95,10 +120,31 @@ jobs:
           path: app/build/outputs/bundle/modernRelease/*.aab
           retention-days: 30
 
+      - name: Upload Admin Modern APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: NEBians-admin-modern-v${{ steps.info.outputs.admin_version }}-${{ steps.info.outputs.hash }}
+          path: admin/build/outputs/apk/modern/release/*.apk
+          retention-days: 30
+
+      - name: Upload Admin Modern AAB
+        uses: actions/upload-artifact@v4
+        with:
+          name: NEBians-admin-modern-aab-v${{ steps.info.outputs.admin_version }}-${{ steps.info.outputs.hash }}
+          path: admin/build/outputs/bundle/modernRelease/*.aab
+          retention-days: 30
+
       - name: Upload Legacy APK
         if: github.event_name == 'workflow_dispatch' && github.event.inputs.build_legacy == 'true'
         uses: actions/upload-artifact@v4
         with:
           name: NEBians-legacy-v${{ steps.info.outputs.version }}-${{ steps.info.outputs.hash }}
           path: app/build/outputs/apk/legacy/release/*.apk
+          retention-days: 30
+      - name: Upload Admin Legacy APK
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.build_legacy == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: NEBians-admin-legacy-v${{ steps.info.outputs.admin_version }}-${{ steps.info.outputs.hash }}
+          path: admin/build/outputs/apk/legacy/release/*.apk
           retention-days: 30

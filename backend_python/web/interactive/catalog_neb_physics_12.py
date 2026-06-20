@@ -23,7 +23,7 @@ COURSES = [
                 'icon': 'graphic_eq',
                 'minutes': 16,
                 'sim': 'nebphysics/resonance-tube',
-                'sim_type': 'lab',
+                'sim_type': 'lab3d',
                 'summary': 'Strike a tuning fork, slide the water level down the tube and catch the two loudness peaks — then v = 2f(l₂ − l₁) gives the speed of sound in the room.',
                 'objectives': [
                     'Explain resonance of a closed air column at odd quarter-wavelengths',
@@ -73,7 +73,7 @@ COURSES = [
                 'icon': 'music_note',
                 'minutes': 16,
                 'sim': 'nebphysics/sonometer',
-                'sim_type': 'lab',
+                'sim_type': 'lab3d',
                 'summary': 'Slide the bridge and pile on weights until the paper rider leaps off the wire — resonance! — then verify that f×L stays constant for each fork.',
                 'objectives': [
                     'State the laws of length and tension for vibrating strings',
@@ -123,7 +123,7 @@ COURSES = [
                 'icon': 'electric_bolt',
                 'minutes': 16,
                 'sim': 'nebphysics/ohms-law',
-                'sim_type': 'lab',
+                'sim_type': 'lab3d',
                 'summary': 'Slide the rheostat, log ammeter-voltmeter pairs into a table, draw the V-I line and turn its slope into the resistivity of the wire on your bench.',
                 'objectives': [
                     'Verify Ohm\u2019s law from a straight V-I graph',
@@ -179,7 +179,7 @@ COURSES = [
                 'icon': 'balance',
                 'minutes': 15,
                 'sim': 'nebphysics/meter-bridge',
-                'sim_type': 'lab',
+                'sim_type': 'lab3d',
                 'summary': 'Tap the jockey along a one-metre wire until the galvanometer sits dead on zero, then let X = R(100 − l)/l expose the unknown resistor.',
                 'objectives': [
                     'Explain the Wheatstone bridge balance condition',
@@ -229,7 +229,7 @@ COURSES = [
                 'icon': 'settings_input_component',
                 'minutes': 16,
                 'sim': 'nebphysics/potentiometer',
-                'sim_type': 'lab',
+                'sim_type': 'lab3d',
                 'summary': 'Balance two cells one after another on a four-metre wire and let E₁/E₂ = l₁/l₂ compare their EMFs — without drawing a single microamp from either.',
                 'objectives': [
                     'Explain the principle of the potentiometer (potential drop ∝ length)',
@@ -279,7 +279,7 @@ COURSES = [
                 'icon': 'speed',
                 'minutes': 14,
                 'sim': 'nebphysics/galvanometer',
-                'sim_type': 'lab',
+                'sim_type': 'lab3d',
                 'summary': 'Feed a galvanometer tiny known currents through a high-resistance box, read the deflection in divisions, and compute k = I/θ — the current behind each division.',
                 'objectives': [
                     'Define figure of merit k = I/θ and current sensitivity',
@@ -329,7 +329,7 @@ COURSES = [
                 'icon': 'center_focus_strong',
                 'minutes': 17,
                 'sim': 'nebphysics/focal-length',
-                'sim_type': 'lab',
+                'sim_type': 'lab3d',
                 'summary': 'Slide pins along an optical bench, kill the parallax between pin and image, log u-v pairs and let both the formula and the 1/v-1/u graph reveal f.',
                 'objectives': [
                     'Apply the mirror/lens formula through the u-v method',
@@ -385,7 +385,7 @@ COURSES = [
                 'icon': 'change_history',
                 'minutes': 17,
                 'sim': 'nebphysics/prism-deviation',
-                'sim_type': 'lab',
+                'sim_type': 'lab3d',
                 'summary': 'Sweep the incident ray across a 60° prism, watch the deviation dip through a minimum, and convert Dₘ into the refractive index of the glass.',
                 'objectives': [
                     'Trace a ray through a prism using Snell\u2019s law at both faces',

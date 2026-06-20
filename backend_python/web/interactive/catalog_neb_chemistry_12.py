@@ -25,7 +25,7 @@ COURSES = [
                 'icon': 'water_drop',
                 'minutes': 20,
                 'sim': 'nebchemistry/redox-titration',
-                'sim_type': 'lab',
+                'sim_type': 'lab3d',
                 'summary': 'Standardise potassium permanganate against oxalic acid: heat the flask to 60-70 °C (skip it and watch the trial fail), titrate to the first permanent pink, and calculate the molarity from the 2:5 mole ratio.',
                 'objectives': [
                     'Explain why KMnO₄ needs no separate indicator',
@@ -82,7 +82,7 @@ COURSES = [
                 'icon': 'account_tree',
                 'minutes': 20,
                 'sim': 'nebchemistry/salt-analysis',
-                'sim_type': 'lab',
+                'sim_type': 'lab3d',
                 'summary': 'A genuinely unknown salt, the full systematic scheme: preliminary observations, dry heating, flame test, then group reagents I to VI in strict order until a precipitate betrays the cation — finish with the confirmatory test.',
                 'objectives': [
                     'Use preliminary observations (colour, dry heating, flame) to shortlist cations',
@@ -139,7 +139,7 @@ COURSES = [
                 'icon': 'bolt',
                 'minutes': 16,
                 'sim': 'nebchemistry/electrolysis',
-                'sim_type': 'lab',
+                'sim_type': 'lab3d',
                 'summary': 'Pass a measured current through copper sulphate solution between copper electrodes, watch Cu²⁺ ions migrate, weigh the cathode before and after, and verify Faraday\'s first law: m = ZIt.',
                 'objectives': [
                     'Describe the electrode reactions at copper anode and cathode',
@@ -196,7 +196,7 @@ COURSES = [
                 'icon': 'palette',
                 'minutes': 15,
                 'sim': 'nebchemistry/ph-indicators',
-                'sim_type': 'lab',
+                'sim_type': 'lab3d',
                 'summary': 'Measure the pH of eleven solutions from dilute HCl to NaOH using litmus, universal indicator, pH paper and a digital meter — then add acid drops to blood and discover what a buffer really does.',
                 'objectives': [
                     'Rank common household and lab solutions on the pH scale',
@@ -253,7 +253,7 @@ COURSES = [
                 'icon': 'hub',
                 'minutes': 18,
                 'sim': 'nebchemistry/functional-groups',
-                'sim_type': 'lab',
+                'sim_type': 'lab3d',
                 'summary': 'Four unlabelled organic liquids — alcohol, aldehyde, carboxylic acid, phenol. Run sodium metal, Tollens\', Fehling\'s, NaHCO₃, FeCl₃ and ester tests in any order, cross-check the results and name the functional group.',
                 'objectives': [
                     'Perform and interpret the sodium metal test for the −OH group',
@@ -310,7 +310,7 @@ COURSES = [
                 'icon': 'device_thermostat',
                 'minutes': 16,
                 'sim': 'nebchemistry/thermochemistry',
-                'sim_type': 'lab',
+                'sim_type': 'lab3d',
                 'summary': 'Mix measured HCl and NaOH in a polystyrene calorimeter, catch the temperature peak on a live graph, compute ΔH = −mcΔT/n, and discover why a weak acid releases measurably less heat.',
                 'objectives': [
                     'Define heat (enthalpy) of neutralization and state its value for strong acid-strong base',
@@ -367,7 +367,7 @@ COURSES = [
                 'icon': 'join_inner',
                 'minutes': 18,
                 'sim': 'nebchemistry/lassaigne-test',
-                'sim_type': 'lab',
+                'sim_type': 'lab3d',
                 'summary': 'Fuse an unknown organic compound with sodium metal, prepare the sodium extract, and run the classic detective tests — Prussian blue for nitrogen, violet nitroprusside for sulphur, silver halide precipitates for Cl and Br.',
                 'objectives': [
                     'Explain why sodium fusion is needed before testing organic compounds for N, S and halogens',

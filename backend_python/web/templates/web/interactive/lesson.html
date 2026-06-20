@@ -2,7 +2,7 @@
 {% load static web_extras %}
 
 {% block title %}{{ lesson.title }} — {{ course.title }}{% endblock %}
-{% block description %}{{ lesson.summary }} Free interactive lesson with {% if lesson.sim_type == '3d' %}a real-time 3D model{% elif lesson.sim_type == 'lab' %}a virtual lab simulation{% elif lesson.sim_type == 'coding' %}an interactive coding game{% else %}a live simulation{% endif %}.{% endblock %}
+{% block description %}{{ lesson.summary }} Free interactive lesson with {% if lesson.sim_type == '3d' %}a real-time 3D model{% elif lesson.sim_type == 'lab3d' %}a realistic 3D virtual lab{% elif lesson.sim_type == 'lab' %}a virtual lab simulation{% elif lesson.sim_type == 'coding' %}an interactive coding game{% else %}a live simulation{% endif %}.{% endblock %}
 {% block keywords %}{{ course.category_label }}, {{ lesson.title }}, interactive lesson, free education, simulation{% endblock %}
 {% block og_title %}{{ lesson.title }} — NEBians Interactive{% endblock %}
 {% block og_description %}{{ lesson.summary }}{% endblock %}
@@ -35,7 +35,7 @@
       <div class="ix-lesson-header-meta">
         <span class="ix-chip ix-chip-cat">Lesson {{ lesson_number }} of {{ course.lesson_count }}</span>
         <span class="ix-chip ix-chip-simtype ix-simtype-{{ lesson.sim_type }}">
-          {% if lesson.sim_type == '3d' %}3D model{% elif lesson.sim_type == 'lab' %}Virtual lab{% elif lesson.sim_type == 'coding' %}Coding game{% else %}Simulation{% endif %}
+          {% if lesson.sim_type == '3d' %}3D model{% elif lesson.sim_type == 'lab3d' %}3D virtual lab{% elif lesson.sim_type == 'lab' %}Virtual lab{% elif lesson.sim_type == 'coding' %}Coding game{% else %}Simulation{% endif %}
         </span>
         <span class="ix-card-meta"><span class="material-symbols-outlined">schedule</span>{{ lesson.minutes }} min</span>
       </div>
@@ -43,25 +43,7 @@
   </header>
 
   <div class="ix-lesson-layout">
-    <div class="ix-sim-column">
-      <div class="ix-sim-shell" id="ix-sim-shell">
-        <div id="sim-stage" class="ix-sim-stage" role="application" aria-label="Interactive simulation">
-          <div class="ix-sim-loading" id="ix-sim-loading">
-            <div class="ix-spinner"></div>
-            <p>Loading simulation…</p>
-          </div>
-        </div>
-        <div class="ix-sim-toolbar">
-          <span class="ix-sim-hint" id="ix-sim-hint">
-            {% if lesson.sim_type == '3d' %}<span class="material-symbols-outlined">touch_app</span>Drag to rotate · pinch or scroll to zoom{% elif lesson.sim_type == 'coding' %}<span class="material-symbols-outlined">sports_esports</span>Play with the blocks and run your code{% else %}<span class="material-symbols-outlined">tune</span>Adjust the controls and watch what happens{% endif %}
-          </span>
-          <button class="md-btn md-btn-icon ix-fullscreen-btn" id="ix-fullscreen-btn" aria-label="Fullscreen" title="Fullscreen">
-            <span class="material-symbols-outlined">fullscreen</span>
-          </button>
-        </div>
-      </div>
-
-      </div>
+    {% include "web/interactive/_sim_shell.html" %}
 
     <div class="ix-learn-column">
       {% if lesson.objectives %}

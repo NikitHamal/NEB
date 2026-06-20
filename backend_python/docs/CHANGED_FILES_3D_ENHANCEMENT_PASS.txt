@@ -1,0 +1,4 @@
+web/static/web/js/interactive/core/real-lab-3d.js
+web/static/web/css/pages/interactive/12-production-lab3d.css
+docs/NEB_3D_SIMULATION_ENHANCEMENT_PASS.md
+docs/CHANGED_FILES_3D_ENHANCEMENT_PASS.txt

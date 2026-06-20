@@ -1,0 +1,508 @@
+.ix-lesson-page[data-sim-type="lab3d"] .ix-sim-shell {
+  position: sticky;
+  top: 70px;
+}
+.ix-lesson-page[data-sim-type="lab3d"] .ix-sim-stage {
+  min-height: clamp(520px, 72vh, 860px);
+  max-height: none;
+  aspect-ratio: 16 / 10;
+  background:
+    radial-gradient(circle at 50% 12%, rgba(96,165,250,.22), transparent 34%),
+    radial-gradient(circle at 18% 80%, rgba(16,185,129,.16), transparent 28%),
+    #050816;
+  isolation: isolate;
+}
+.ix-simtype-lab3d {
+  background: linear-gradient(135deg, rgba(16,185,129,.18), rgba(59,130,246,.14));
+  color: #d1fae5;
+  border-color: rgba(16,185,129,.36);
+}
+.ix-sim-stage .ix-sim-canvas {
+  contain: strict;
+  image-rendering: auto;
+  touch-action: none;
+}
+.ix-ctrl-panel,
+.ix-ctrl-panel * {
+  box-sizing: border-box;
+  min-width: 0;
+}
+.ix-lesson-page[data-sim-type="lab3d"] .ix-ctrl-panel {
+  width: clamp(300px, 28vw, 390px);
+  max-width: calc(100% - 20px);
+  max-height: calc(100% - 20px);
+  overflow: hidden;
+  overscroll-behavior: contain;
+  scrollbar-gutter: auto;
+  background: rgba(7, 15, 31, .88);
+  border: 1px solid rgba(148, 163, 184, .24);
+  border-radius: 18px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, .38);
+  backdrop-filter: blur(18px) saturate(1.1);
+}
+.ix-lesson-page[data-sim-type="lab3d"] .ix-ctrl-panel.collapsed {
+  max-height: 54px;
+  overflow: hidden;
+}
+.ix-lesson-page[data-sim-type="lab3d"] .ix-ctrl-header {
+  padding: 10px 14px;
+  gap: 10px;
+}
+.ix-lesson-page[data-sim-type="lab3d"] .ix-ctrl-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ix-lesson-page[data-sim-type="lab3d"] .ix-ctrl-body {
+  padding: 4px 14px 14px;
+  gap: 10px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: calc(100% - 46px);
+}
+.ix-ctrl-info {
+  line-height: 1.45;
+}
+.ix-ctrl-label-row,
+.ix-ctrl-readout,
+.ix-ctrl-toggle {
+  gap: 10px;
+}
+.ix-ctrl-label,
+.ix-ctrl-value,
+.ix-readout-value {
+  overflow-wrap: anywhere;
+}
+.ix-ctrl-section {
+  color: #93c5fd;
+  font-size: .72rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  margin-top: .45rem;
+}
+.ix-ctrl-readout {
+  background: linear-gradient(180deg, rgba(15, 23, 42, .72), rgba(15, 23, 42, .46));
+  border: 1px solid rgba(148, 163, 184, .16);
+  border-radius: 12px;
+  padding: .52rem .64rem;
+}
+.ix-readout-value {
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  flex-shrink: 0;
+  max-width: 52%;
+}
+.ix-hud {
+  gap: .45rem;
+  flex-wrap: wrap;
+  max-width: min(680px, calc(100% - 24px));
+  pointer-events: none;
+}
+.ix-hud-badge {
+  backdrop-filter: blur(12px) saturate(1.15);
+  border-color: color-mix(in srgb, var(--ix-hud-color, #60a5fa) 44%, rgba(255,255,255,.1));
+  box-shadow: 0 10px 26px rgba(0, 0, 0, .18);
+  white-space: normal;
+  max-width: 100%;
+}
+.ix-lab-data-card {
+  margin: .55rem 0 .7rem;
+  border: 1px solid rgba(148, 163, 184, .18);
+  border-radius: 14px;
+  overflow: hidden;
+  background: rgba(2, 6, 23, .42);
+}
+.ix-lab-data-title {
+  padding: .55rem .65rem .38rem;
+  color: #bfdbfe;
+  font-size: .76rem;
+  font-weight: 700;
+}
+.ix-lab-table-scroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-width: 100%;
+  -webkit-overflow-scrolling: touch;
+}
+.ix-lab-data-table {
+  width: 100%;
+  min-width: 310px;
+  border-collapse: collapse;
+  font-size: .72rem;
+  font-variant-numeric: tabular-nums;
+}
+.ix-lab-data-table th,
+.ix-lab-data-table td {
+  padding: .42rem .52rem;
+  text-align: left;
+  border-top: 1px solid rgba(148, 163, 184, .12);
+  white-space: nowrap;
+}
+.ix-lab-data-table th {
+  color: #93c5fd;
+  font-weight: 700;
+  background: rgba(15, 23, 42, .54);
+}
+.ix-lab-data-table td {
+  color: rgba(241, 245, 249, .92);
+}
+.ix-ctrl-btn-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(108px, 1fr));
+  gap: .45rem;
+  align-items: stretch;
+}
+.ix-ctrl-btn-row .ix-ctrl-btn,
+.ix-ctrl-btn {
+  min-height: 38px;
+  width: 100%;
+  min-width: 0;
+  padding: 8px 10px;
+  border-radius: 16px;
+  line-height: 1.15;
+  white-space: normal;
+  word-break: normal;
+  overflow-wrap: anywhere;
+}
+.ix-ctrl-btn .material-symbols-outlined {
+  flex: 0 0 auto;
+}
+.ix-info-card {
+  max-width: min(420px, calc(100% - 24px));
+  line-height: 1.45;
+  background: rgba(7, 15, 31, .92);
+  border-color: rgba(148, 163, 184, .22);
+  box-shadow: 0 24px 72px rgba(0, 0, 0, .38);
+}
+@media (min-width: 1180px) {
+  .ix-lesson-page[data-sim-type="lab3d"] .ix-lesson-layout {
+    grid-template-columns: minmax(0, 8fr) minmax(330px, 4fr);
+  }
+}
+@media (max-width: 960px) {
+  .ix-lesson-page[data-sim-type="lab3d"] .ix-sim-shell {
+    position: static;
+  }
+  .ix-lesson-page[data-sim-type="lab3d"] .ix-sim-stage {
+    min-height: clamp(500px, 68vh, 720px);
+    aspect-ratio: 4 / 3.3;
+  }
+  .ix-lesson-page[data-sim-type="lab3d"] .ix-ctrl-panel {
+    width: min(94vw, 520px);
+    max-height: 54%;
+  }
+  .ix-lab-data-table {
+    font-size: .68rem;
+  }
+}
+@media (max-width: 720px) {
+  .ix-sim-toolbar .ix-sim-hint { font-size: 0.76rem; }
+  .ix-lesson-page[data-sim-type="lab3d"] .ix-sim-stage {
+    min-height: 520px;
+    aspect-ratio: 1 / 1.12;
+  }
+  .ix-lesson-page[data-sim-type="lab3d"] .ix-ctrl-panel {
+    left: .55rem;
+    right: .55rem;
+    bottom: .55rem;
+    width: auto;
+    max-width: none;
+    max-height: 48%;
+    border-radius: 16px;
+  }
+  .ix-lesson-page[data-sim-type="lab3d"] .ix-ctrl-body {
+    padding-inline: 12px;
+  }
+  .ix-hud {
+    transform: scale(.94);
+    transform-origin: top left;
+  }
+}
+@media (max-width: 430px) {
+  .ix-lesson-page[data-sim-type="lab3d"] .ix-sim-stage {
+    min-height: 560px;
+  }
+  .ix-lesson-page[data-sim-type="lab3d"] .ix-ctrl-panel {
+    max-height: 46%;
+  }
+  .ix-ctrl-btn-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .ix-ctrl-btn-row .ix-ctrl-btn,
+  .ix-ctrl-btn {
+    font-size: .72rem;
+    padding-inline: 7px;
+  }
+}
+.ix-fake-fullscreen .ix-ctrl-panel,
+.ix-sim-shell:fullscreen .ix-ctrl-panel {
+  max-height: calc(100% - 20px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .ix-sim-stage *, .ix-hud-badge { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
+
+/* v4 mobile/performance polish: no horizontal cut-off, compact lab controls, readable chips */
+.ix-lesson-page[data-sim-type="lab3d"],
+.ix-lesson-page[data-sim-type="lab3d"] * {
+  min-width: 0;
+}
+.ix-lesson-page[data-sim-type="lab3d"] {
+  overflow-x: clip;
+}
+.ix-lesson-page[data-sim-type="lab3d"] .ix-sim-column,
+.ix-lesson-page[data-sim-type="lab3d"] .ix-sim-shell,
+.ix-lesson-page[data-sim-type="lab3d"] .ix-sim-stage {
+  width: 100%;
+  max-width: 100%;
+}
+.ix-lesson-page[data-sim-type="lab3d"] .ix-sim-stage canvas {
+  max-width: 100%;
+}
+.ix-lesson-page[data-sim-type="lab3d"] .ix-simtype-lab3d,
+.ix-chip.ix-simtype-lab3d {
+  background: #dcfce7;
+  color: #065f46;
+  border: 1px solid rgba(5, 150, 105, .32);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.38);
+}
+[data-theme="dark"] .ix-lesson-page[data-sim-type="lab3d"] .ix-simtype-lab3d,
+[data-theme="dark"] .ix-chip.ix-simtype-lab3d {
+  background: rgba(16,185,129,.18);
+  color: #bbf7d0;
+  border-color: rgba(52,211,153,.36);
+}
+.ix-lesson-page[data-sim-type="lab3d"] .ix-lesson-header-meta {
+  gap: 7px;
+}
+.ix-lesson-page[data-sim-type="lab3d"] .ix-chip {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ix-lesson-page[data-sim-type="lab3d"] .ix-ctrl-panel {
+  right: 12px;
+  bottom: 12px;
+  width: clamp(280px, 25vw, 340px);
+  max-width: calc(100% - 24px);
+  max-height: min(560px, calc(100% - 24px));
+  border-radius: 16px;
+}
+.ix-lesson-page[data-sim-type="lab3d"] .ix-ctrl-header {
+  min-height: 44px;
+}
+.ix-lesson-page[data-sim-type="lab3d"] .ix-ctrl-title {
+  font-size: .78rem;
+}
+.ix-lesson-page[data-sim-type="lab3d"] .ix-ctrl-info {
+  font-size: .69rem;
+  margin-bottom: 0;
+}
+.ix-lesson-page[data-sim-type="lab3d"] .ix-ctrl-label,
+.ix-lesson-page[data-sim-type="lab3d"] .ix-ctrl-value,
+.ix-lesson-page[data-sim-type="lab3d"] .ix-readout-value {
+  font-size: .7rem;
+}
+.ix-lesson-page[data-sim-type="lab3d"] .ix-ctrl-slider input[type="range"] {
+  height: 3px;
+}
+.ix-lesson-page[data-sim-type="lab3d"] .ix-ctrl-slider input[type="range"]::-webkit-slider-thumb {
+  width: 16px;
+  height: 16px;
+}
+.ix-lesson-page[data-sim-type="lab3d"] .ix-ctrl-slider input[type="range"]::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+}
+.ix-lesson-page[data-sim-type="lab3d"] .ix-ctrl-btn-row {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.ix-lesson-page[data-sim-type="lab3d"] .ix-ctrl-btn {
+  min-height: 34px;
+  border-radius: 13px;
+  padding: 7px 8px;
+  font-size: .69rem;
+  gap: 4px;
+}
+.ix-lesson-page[data-sim-type="lab3d"] .ix-ctrl-btn .material-symbols-outlined {
+  font-size: 15px;
+}
+.ix-lesson-page[data-sim-type="lab3d"] .ix-lab-data-card {
+  margin: .32rem 0 .45rem;
+}
+.ix-lesson-page[data-sim-type="lab3d"] .ix-lab-data-title {
+  padding: .42rem .55rem .28rem;
+  font-size: .68rem;
+}
+.ix-lesson-page[data-sim-type="lab3d"] .ix-lab-table-scroll {
+  max-height: 130px;
+  overflow: auto;
+}
+.ix-lesson-page[data-sim-type="lab3d"] .ix-lab-data-table {
+  min-width: 260px;
+  font-size: .66rem;
+}
+.ix-lesson-page[data-sim-type="lab3d"] .ix-lab-data-table th,
+.ix-lesson-page[data-sim-type="lab3d"] .ix-lab-data-table td {
+  padding: .32rem .42rem;
+}
+.ix-lesson-page[data-sim-type="lab3d"] .ix-hud {
+  right: 10px;
+  max-width: calc(100% - 20px);
+}
+.ix-lesson-page[data-sim-type="lab3d"] .ix-hud-badge {
+  font-size: .66rem;
+  padding: 4px 9px;
+}
+@media (max-width: 720px) {
+  .ix-lesson-page[data-sim-type="lab3d"] {
+    padding-inline: 10px;
+  }
+  .ix-lesson-page[data-sim-type="lab3d"] .ix-lesson-layout {
+    gap: 14px;
+  }
+  .ix-lesson-page[data-sim-type="lab3d"] .ix-sim-stage {
+    height: clamp(520px, 74svh, 640px);
+    min-height: 0;
+    aspect-ratio: auto;
+    max-height: none;
+  }
+  .ix-lesson-page[data-sim-type="lab3d"] .ix-ctrl-panel {
+    left: max(8px, env(safe-area-inset-left));
+    right: max(8px, env(safe-area-inset-right));
+    bottom: max(8px, env(safe-area-inset-bottom));
+    width: auto;
+    max-width: none;
+    max-height: min(44svh, 330px);
+    border-radius: 16px;
+    box-shadow: 0 -18px 48px rgba(0,0,0,.46);
+  }
+  .ix-lesson-page[data-sim-type="lab3d"] .ix-ctrl-panel.collapsed {
+    max-height: 46px;
+  }
+  .ix-lesson-page[data-sim-type="lab3d"] .ix-ctrl-header {
+    padding: 8px 12px;
+  }
+  .ix-lesson-page[data-sim-type="lab3d"] .ix-ctrl-body {
+    padding: 2px 10px 10px;
+    gap: 7px;
+  }
+  .ix-lesson-page[data-sim-type="lab3d"] .ix-ctrl-info {
+    display: none;
+  }
+  .ix-lesson-page[data-sim-type="lab3d"] .ix-ctrl-btn-row {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: .35rem;
+  }
+  .ix-lesson-page[data-sim-type="lab3d"] .ix-ctrl-btn {
+    min-height: 32px;
+    font-size: .65rem;
+    padding: 6px 5px;
+  }
+  .ix-lesson-page[data-sim-type="lab3d"] .ix-ctrl-btn .material-symbols-outlined {
+    display: none;
+  }
+  .ix-lesson-page[data-sim-type="lab3d"] .ix-ctrl-section {
+    font-size: .64rem;
+    margin-top: .2rem;
+  }
+  .ix-lesson-page[data-sim-type="lab3d"] .ix-ctrl-readout {
+    padding: .4rem .5rem;
+  }
+  .ix-lesson-page[data-sim-type="lab3d"] .ix-hud {
+    top: 8px;
+    left: 8px;
+    right: 8px;
+    max-width: none;
+    transform: none;
+  }
+  .ix-lesson-page[data-sim-type="lab3d"] .ix-hud-badge:nth-child(n+2) {
+    display: none;
+  }
+  .ix-lesson-page[data-sim-type="lab3d"] .ix-sim-toolbar {
+    align-items: flex-start;
+  }
+  .ix-lesson-page[data-sim-type="lab3d"] .ix-sim-hint {
+    white-space: normal;
+    line-height: 1.35;
+    overflow: visible;
+  }
+}
+@media (max-width: 430px) {
+  .ix-lesson-page[data-sim-type="lab3d"] {
+    padding-inline: 8px;
+  }
+  .ix-lesson-page[data-sim-type="lab3d"] .ix-sim-stage {
+    height: clamp(500px, 72svh, 610px);
+  }
+  .ix-lesson-page[data-sim-type="lab3d"] .ix-ctrl-panel {
+    max-height: min(40svh, 300px);
+  }
+  .ix-lesson-page[data-sim-type="lab3d"] .ix-ctrl-btn-row {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .ix-lesson-page[data-sim-type="lab3d"] .ix-lab-data-card,
+  .ix-lesson-page[data-sim-type="lab3d"] .ix-ctrl-toggle {
+    display: none;
+  }
+}
+
+/* v5 biology 3D practical pass: compact, readable, mobile-safe. */
+.bio3d-stage {
+  background:
+    radial-gradient(circle at 28% 16%, rgba(34, 197, 94, .16), transparent 32%),
+    radial-gradient(circle at 78% 74%, rgba(14, 165, 233, .12), transparent 34%),
+    #050816;
+  overflow: hidden;
+}
+.bio3d-stage .ix-ctrl-panel {
+  width: clamp(276px, 24vw, 340px);
+  max-height: min(520px, calc(100% - 24px));
+}
+.bio3d-stage .ix-ctrl-info {
+  font-size: .68rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.bio3d-stage .ix-ctrl-readout {
+  padding: .42rem .52rem;
+}
+.bio3d-stage .bio3d-book .ix-lab-table-scroll {
+  max-height: 124px;
+  overflow: auto;
+}
+.bio3d-stage .bio3d-book .ix-lab-data-table {
+  min-width: 300px;
+}
+.bio3d-stage .ix-info-card {
+  max-width: min(420px, calc(100% - 18px));
+}
+.ix-lesson-page[data-sim-type="lab3d"] .ix-card-meta,
+.ix-lesson-page[data-sim-type="lab3d"] .ix-chip {
+  min-width: 0;
+}
+@media (max-width: 720px) {
+  .bio3d-stage .ix-ctrl-panel {
+    max-height: min(38svh, 284px);
+  }
+  .bio3d-stage .ix-ctrl-info {
+    display: none;
+  }
+  .bio3d-stage .ix-ctrl-body {
+    gap: 6px;
+  }
+  .bio3d-stage .bio3d-book .ix-lab-table-scroll {
+    max-height: 86px;
+  }
+}
+@media (max-width: 430px) {
+  .bio3d-stage .ix-ctrl-panel {
+    max-height: min(34svh, 252px);
+  }
+  .bio3d-stage .ix-ctrl-slider:nth-of-type(n+4),
+  .bio3d-stage .bio3d-book {
+    display: none;
+  }
+}

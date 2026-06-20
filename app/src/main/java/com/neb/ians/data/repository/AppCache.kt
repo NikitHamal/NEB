@@ -5,6 +5,7 @@ import com.neb.ians.data.api.ApiPost
 import com.neb.ians.data.api.ApiReply
 import com.neb.ians.data.api.ApiNotification
 import com.neb.ians.data.api.UserProfileResponse
+import com.neb.ians.data.news.NewsAnnouncement
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -14,6 +15,7 @@ class AppCache @Inject constructor() {
     var recentResources: List<ApiResource> = emptyList()
     var popularResources: List<ApiResource> = emptyList()
     var recentPosts: List<ApiPost> = emptyList()
+    var latestNews: List<NewsAnnouncement> = emptyList()
     
     // Library Screen Cache
     var libraryResources: List<ApiResource> = emptyList()

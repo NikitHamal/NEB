@@ -8,6 +8,7 @@ function el(tag, className, text) {
 export function createPanel(stage, opts = {}) {
   const panel = el('div', 'ix-ctrl-panel');
   if (opts.side === 'left') panel.classList.add('ix-ctrl-left');
+  if (opts.compact) panel.classList.add('ix-ctrl-compact');
 
   const header = el('div', 'ix-ctrl-header');
   const title = el('span', 'ix-ctrl-title', opts.title || 'Controls');
@@ -24,6 +25,7 @@ export function createPanel(stage, opts = {}) {
 
   function toggle() { panel.classList.toggle('collapsed'); }
   header.addEventListener('click', toggle);
+  collapseBtn.addEventListener('click', (event) => { event.stopPropagation(); toggle(); });
 
   if (opts.startCollapsed || (window.innerWidth < 640 && opts.collapseOnMobile !== false)) {
     panel.classList.add('collapsed');

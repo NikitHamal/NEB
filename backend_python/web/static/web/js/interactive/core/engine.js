@@ -7,9 +7,11 @@ export function detectQuality() {
   const mobile = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent) || ((navigator.maxTouchPoints || 0) > 1 && smallViewport);
   const mem = navigator.deviceMemory || 4;
   const cores = navigator.hardwareConcurrency || 4;
+  const saveData = !!(navigator.connection && navigator.connection.saveData);
+  const reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   let tier = 'high';
-  if (mobile && (mem <= 2 || cores <= 4)) tier = 'low';
-  else if (mobile || mem <= 4) tier = 'medium';
+  if (saveData || reducedMotion || (mobile && (mem <= 2 || cores <= 4))) tier = 'low';
+  else if (mobile || mem <= 4 || cores <= 4) tier = 'medium';
   return {
     mobile,
     tier,
@@ -17,6 +19,8 @@ export function detectQuality() {
     antialias: tier !== 'low',
     shadows: tier === 'high',
     segments: tier === 'low' ? 16 : tier === 'medium' ? 24 : 48,
+    saveData,
+    reducedMotion,
   };
 }
 
@@ -27,13 +31,18 @@ export function createEngine(stage, opts = {}) {
     renderer = new THREE.WebGLRenderer({
       antialias: quality.antialias,
       alpha: opts.alpha !== false,
-      powerPreference: 'high-performance',
+      powerPreference: quality.tier === 'low' ? 'default' : 'high-performance',
+      stencil: false,
+      depth: true,
+      preserveDrawingBuffer: false,
     });
   } catch (e) {
     showWebGLFallback(stage);
     return null;
   }
   renderer.setPixelRatio(quality.pixelRatio);
+  if (renderer.outputColorSpace !== undefined && THREE.SRGBColorSpace) renderer.outputColorSpace = THREE.SRGBColorSpace;
+  if (renderer.toneMapping !== undefined && THREE.ACESFilmicToneMapping) renderer.toneMapping = THREE.ACESFilmicToneMapping;
   if (quality.shadows && opts.shadows) {
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -243,6 +252,16 @@ export function createOrbitControls(camera, dom, opts = {}) {
     setAutoRotate(speed) { autoRotate = speed; },
     setTarget(v) { targetGoal.copy(v); },
     setDistance(d) { sphericalGoal.radius = d; clampSpherical(sphericalGoal); },
+    setView(position, newTarget = targetGoal) {
+      target.copy(newTarget);
+      targetGoal.copy(newTarget);
+      spherical.setFromVector3(position.clone().sub(newTarget));
+      sphericalGoal.copy(spherical);
+      clampSpherical(spherical);
+      clampSpherical(sphericalGoal);
+      camera.position.copy(position);
+      camera.lookAt(target);
+    },
     update(dt) {
       if (autoRotate) sphericalGoal.theta += autoRotate * (dt || 0.016);
       const t = 1 - Math.pow(1 - damping, (dt || 0.016) * 60);

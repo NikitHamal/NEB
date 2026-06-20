@@ -50,6 +50,17 @@ fun getMaterialIcon(name: String): ImageVector {
         "book" -> Icons.Filled.Book
         "menu_book" -> Icons.Filled.MenuBook
         "auto_stories" -> Icons.Filled.AutoStories
+        "fact_check" -> Icons.Filled.FactCheck
+        "campaign" -> Icons.Filled.Campaign
+        "event" -> Icons.Filled.Event
+        "upgrade" -> Icons.Filled.Upgrade
+        "warning" -> Icons.Filled.Warning
+        "info" -> Icons.Filled.Info
+        "newspaper" -> Icons.Filled.Newspaper
+        "apps" -> Icons.Filled.Apps
+        "push_pin" -> Icons.Filled.PushPin
+        "receipt_long" -> Icons.Filled.ReceiptLong
+        "download" -> Icons.Filled.Download
         "construction" -> Icons.Filled.Construction
         "calculate" -> Icons.Filled.Calculate
         "account_tree" -> Icons.Filled.AccountTree

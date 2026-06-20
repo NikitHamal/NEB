@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Adaptive icon foreground: NEBians N logo centered in the safe zone. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="1024"
+    android:viewportHeight="1024">
+    <group
+        android:translateX="277"
+        android:translateY="182"
+        android:scaleX="0.473"
+        android:scaleY="0.473">
+
+        <path
+            android:pathData="M500,42 L501,135 L856,370 L858,1287 L943,1219 L943,331 Z"
+            android:strokeColor="#ffffff"
+            android:strokeAlpha="0.85"
+            android:strokeWidth="16"
+            android:strokeLineJoin="round"
+            android:strokeLineCap="round" />
+        <path
+            android:pathData="M441,191 L441,282 L691,447 L691,799 L774,886 L775,408 Z"
+            android:strokeColor="#ffffff"
+            android:strokeAlpha="0.85"
+            android:strokeWidth="16"
+            android:strokeLineJoin="round"
+            android:strokeLineCap="round" />
+        <path
+            android:pathData="M306,320 L307,377 L613,706 L613,485 Z"
+            android:strokeColor="#ffffff"
+            android:strokeAlpha="0.85"
+            android:strokeWidth="16"
+            android:strokeLineJoin="round"
+            android:strokeLineCap="round" />
+        <path
+            android:pathData="M51,228 L51,1132 L263,1346 L267,812 L775,1353 L775,887 L691,800 L685,902 Z"
+            android:strokeColor="#ffffff"
+            android:strokeAlpha="0.85"
+            android:strokeWidth="16"
+            android:strokeLineJoin="round"
+            android:strokeLineCap="round" />
+
+        <path
+            android:pathData="M500,42 L501,135 L856,370 L858,1287 L943,1219 L943,331 Z">
+            <aapt:attr name="android:fillColor">
+                <gradient android:type="linear"
+                    android:startX="505" android:startY="30"
+                    android:endX="960" android:endY="1290">
+                    <item android:offset="0" android:color="#07337f" />
+                    <item android:offset="0.55" android:color="#052566" />
+                    <item android:offset="1" android:color="#021b54" />
+                </gradient>
+            </aapt:attr>
+        </path>
+        <path
+            android:pathData="M441,191 L441,282 L691,447 L691,799 L774,886 L775,408 Z">
+            <aapt:attr name="android:fillColor">
+                <gradient android:type="linear"
+                    android:startX="435" android:startY="180"
+                    android:endX="780" android:endY="890">
+                    <item android:offset="0" android:color="#06327c" />
+                    <item android:offset="1" android:color="#04215e" />
+                </gradient>
+            </aapt:attr>
+        </path>
+        <path
+            android:pathData="M306,320 L307,377 L613,706 L613,485 Z">
+            <aapt:attr name="android:fillColor">
+                <gradient android:type="linear"
+                    android:startX="305" android:startY="320"
+                    android:endX="615" android:endY="705">
+                    <item android:offset="0" android:color="#a8c5ff" />
+                    <item android:offset="0.52" android:color="#90b4fb" />
+                    <item android:offset="1" android:color="#82a8f5" />
+                </gradient>
+            </aapt:attr>
+        </path>
+        <path
+            android:pathData="M51,228 L51,1132 L263,1346 L267,812 L775,1353 L775,887 L691,800 L685,902 Z">
+            <aapt:attr name="android:fillColor">
+                <gradient android:type="linear"
+                    android:startX="40" android:startY="220"
+                    android:endX="800" android:endY="1350">
+                    <item android:offset="0" android:color="#0058df" />
+                    <item android:offset="0.48" android:color="#004bd4" />
+                    <item android:offset="1" android:color="#003cc3" />
+                </gradient>
+            </aapt:attr>
+        </path>
+    </group>
+</vector>

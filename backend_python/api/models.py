@@ -245,6 +245,8 @@ class ResourceRequest(models.Model):
         ordering = ['-created_at']
         indexes = [
             models.Index(fields=['status', '-upvote_count']),
+            models.Index(fields=['status', '-created_at'], name='resreq_status_created_idx'),
+            models.Index(fields=['requested_by', '-created_at'], name='resreq_user_created_idx'),
             models.Index(fields=['subject']),
             models.Index(fields=['grade_level']),
         ]
@@ -288,6 +290,7 @@ class Post(models.Model):
             models.Index(fields=['-thumbs_up_count']),
             models.Index(fields=['-view_count']),
             models.Index(fields=['category', 'is_archived', '-created_at'], name='post_cat_arch_created_idx'),
+            models.Index(fields=['is_archived', '-thumbs_up_count', '-created_at'], name='post_arch_rank_idx'),
         ]
 
     def __str__(self):
@@ -411,6 +414,8 @@ class Reply(models.Model):
         indexes = [
             models.Index(fields=['post_id', 'created_at']),
             models.Index(fields=['parent_reply_id', 'created_at']),
+            models.Index(fields=['post_id', 'is_archived', '-thumbs_up_count', 'created_at'], name='reply_post_rank_idx'),
+            models.Index(fields=['user_id', '-created_at'], name='reply_user_created_idx'),
         ]
 
     def __str__(self):
@@ -644,6 +649,8 @@ class ResourceComment(models.Model):
         indexes = [
             models.Index(fields=['resource_id', 'created_at']),
             models.Index(fields=['parent_comment_id', 'created_at']),
+            models.Index(fields=['resource_id', '-like_count', 'created_at'], name='rescomm_rank_idx'),
+            models.Index(fields=['user_id', '-created_at'], name='rescomm_user_created_idx'),
         ]
 
     def __str__(self):
@@ -935,6 +942,8 @@ class StudySpace(models.Model):
         ordering = ['-updated_at']
         indexes = [
             models.Index(fields=['user', '-updated_at']),
+            models.Index(fields=['visibility', '-updated_at'], name='space_visibility_updated_idx'),
+            models.Index(fields=['user', 'visibility', '-updated_at'], name='space_user_vis_updated_idx'),
         ]
 
 
@@ -1150,6 +1159,8 @@ class StudyDocument(models.Model):
         indexes = [
             models.Index(fields=['user', '-updated_at']),
             models.Index(fields=['space', '-updated_at']),
+            models.Index(fields=['user', 'status', '-updated_at'], name='studydoc_user_status_idx'),
+            models.Index(fields=['space', 'status', '-updated_at'], name='studydoc_space_status_idx'),
         ]
 
 
