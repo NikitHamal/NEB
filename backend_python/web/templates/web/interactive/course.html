@@ -66,7 +66,7 @@
       </span>
       <span class="ix-lesson-side">
         <span class="ix-chip ix-chip-simtype ix-simtype-{{ lesson.sim_type }}">
-          {% if lesson.sim_type == '3d' %}3D model{% elif lesson.sim_type == 'lab' %}Virtual lab{% elif lesson.sim_type == 'coding' %}Coding game{% else %}Simulation{% endif %}
+          {% if lesson.sim_type == '3d' %}3D model{% elif lesson.sim_type == 'lab3d' %}3D virtual lab{% elif lesson.sim_type == 'lab' %}Virtual lab{% elif lesson.sim_type == 'coding' %}Coding game{% else %}Simulation{% endif %}
         </span>
         <span class="ix-lesson-mins">{{ lesson.minutes }} min</span>
         <span class="material-symbols-outlined ix-lesson-done-icon" data-done-icon>done</span>
