@@ -196,7 +196,7 @@ def auth_google(request):
 @api_view(['POST'])
 @authentication_classes([])
 @permission_classes([AllowAny])
-@throttle_classes([AuthRateThrottle])
+@throttle_classes([SignupRateThrottle])
 def auth_email_signup(request):
     """
     POST /api/auth/email/signup
