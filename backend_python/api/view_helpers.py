@@ -47,6 +47,7 @@ from .email_utils import send_verification_email
 from .throttles import (
     AuthRateThrottle, ReportRateThrottle, SearchRateThrottle, UploadRateThrottle,
     VerificationRateThrottle, ViewIncrementRateThrottle, WriteActionRateThrottle,
+    SignupRateThrottle,
 )
 from .models import User, Resource, ResourceRequest, ResourceRequestUpvote, Post, PostLike, PostImage, Poll, PollOption, PollVote, Reply, ReplyLike, FCMToken, Follow, UserPhoto, EditHistory, Report, Bookmark, Notification
 from .utils import now_ms, uuid_str

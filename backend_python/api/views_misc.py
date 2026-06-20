@@ -102,6 +102,7 @@ def search_all(request):
     subject = (request.query_params.get('subject') or '').strip()
     grade = (request.query_params.get('grade') or '').strip()
     rtype = (request.query_params.get('type') or '').strip()
+    requesting_user = _get_user_from_request(request)
     if not query:
         return Response({'resources': [], 'posts': [], 'users': []})
 
@@ -170,14 +171,14 @@ def search_all(request):
                 )
             ).order_by('-is_exact', '-created_at')
 
-        if tab in ('all', 'people', 'users'):
+        if tab in ('all', 'people', 'users') and requesting_user and requesting_user.is_authenticated:
             user_q_list = []
             for term in terms:
                 user_q_list.append(
                     Q(username__icontains=term) | Q(display_name__icontains=term) | Q(bio__icontains=term) |
                     Q(school__icontains=term) | Q(class_level__icontains=term) | Q(subjects__icontains=term)
                 )
-            users = User.objects.filter(reduce(operator.and_, user_q_list)).order_by('-follower_count', 'username')[:30]
+            users = User.objects.filter(reduce(operator.and_, user_q_list), is_locked=False).order_by('-follower_count', 'username')[:30]
 
     resource_page = _paginated_response(
         request, resources, ResourceSerializer, context={'request': request}, default_page_size=25, max_page_size=50
@@ -186,7 +187,6 @@ def search_all(request):
         request, posts, PostSerializer, context={'request': request}, default_page_size=25, max_page_size=50
     )
 
-    requesting_user = _get_user_from_request(request)
     following_ids = set()
     user_list = list(users)
     if requesting_user and user_list:
