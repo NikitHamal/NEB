@@ -56,3 +56,7 @@ class ArenaChatRateThrottle(_IdentityThrottle):
 class ArenaListRateThrottle(_IdentityThrottle):
     """Cheaper to call (cached model list), but still rate-limited."""
     scope = 'arena_list'
+
+
+class SignupRateThrottle(_IdentityThrottle):
+    scope = 'signup'
