@@ -658,6 +658,9 @@
 
   .rc-printable-gradesheet {
     width: 210mm;
+    min-width: 210mm;
+    max-width: none;
+    flex-shrink: 0;
     height: 297mm;
     max-height: 297mm;
     background: #fbfaf5;
@@ -881,6 +884,23 @@
     letter-spacing: 0.3px;
   }
 
+  .rc-gradesheet-modal-content {
+    max-width: 850px;
+    width: 95%;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .rc-gradesheet-actions {
+    display: flex;
+    gap: 12px;
+    width: 100%;
+  }
+
   /* Print Stylesheet Overrides */
   @media print {
     .md-topbar, .site-footer, .rc-page, .rc-modal-overlay:not(#rc-gradesheet-modal), .md-bottomnav {
@@ -941,6 +961,7 @@
       padding: 0 !important;
       border-radius: 0 !important;
       overflow: visible !important;
+      height: auto !important;
     }
     
     .rc-printable-gradesheet {
@@ -954,6 +975,7 @@
       box-sizing: border-box !important;
       page-break-inside: avoid !important;
       page-break-after: avoid !important;
+      transform: none !important;
     }
     
     * {
@@ -972,6 +994,21 @@
     }
     .rc-detail-item.full-width {
       grid-column: span 1;
+    }
+    .rc-gradesheet-modal-content {
+      padding: 16px 12px;
+      gap: 12px;
+    }
+    .rc-gradesheet-paper-wrapper {
+      padding: 10px;
+    }
+    .rc-gradesheet-actions {
+      flex-direction: column;
+      gap: 8px;
+    }
+    .rc-gradesheet-actions button {
+      padding: 12px 16px;
+      font-size: 14px;
     }
   }
 </style>
@@ -1195,7 +1232,7 @@
 
 <!-- Gradesheet Modal Overlay -->
 <div class="rc-modal-overlay" id="rc-gradesheet-modal">
-  <div class="rc-modal" style="max-width: 850px; width: 95%; padding: 24px; display: flex; flex-direction: column; gap: 16px; max-height: 90vh; overflow-y: auto;">
+  <div class="rc-modal rc-gradesheet-modal-content">
     <div class="rc-modal-header">
       <h3>Unofficial Gradesheet Preview</h3>
       <button class="rc-modal-close" id="rc-gradesheet-close-btn" type="button">
@@ -1203,7 +1240,7 @@
       </button>
     </div>
     
-    <div class="rc-gradesheet-actions" style="display: flex; gap: 12px; width: 100%;">
+    <div class="rc-gradesheet-actions">
       <button type="button" class="rc-submit" id="rc-print-gradesheet-btn" style="flex: 1;">
         <span class="material-symbols-outlined">print</span>
         Print / Save as PDF
@@ -1836,6 +1873,23 @@
     saveImageBtn.disabled = true;
     saveImageBtn.innerHTML = '<span class="material-symbols-outlined">hourglass_top</span> Rendering...';
 
+    var oldTransform = el.style.transform;
+    var oldTransformOrigin = el.style.transformOrigin;
+    var oldMargin = el.style.margin;
+    var wrapper = document.querySelector('.rc-gradesheet-paper-wrapper');
+    var oldWrapperHeight = wrapper ? wrapper.style.height : '';
+    var oldWrapperOverflowX = wrapper ? wrapper.style.overflowX : '';
+
+    if (wrapper) {
+      el.style.transform = 'none';
+      el.style.transformOrigin = '';
+      el.style.margin = '0';
+      wrapper.style.height = '';
+      wrapper.style.overflowX = 'auto';
+    }
+
+    void el.offsetWidth;
+
     html2canvas(el, {
       scale: 2,
       backgroundColor: '#ffffff',
@@ -1851,10 +1905,25 @@
       link.href = canvas.toDataURL('image/jpeg', 0.88);
       link.click();
 
+      if (wrapper) {
+        el.style.transform = oldTransform;
+        el.style.transformOrigin = oldTransformOrigin;
+        el.style.margin = oldMargin;
+        wrapper.style.height = oldWrapperHeight;
+        wrapper.style.overflowX = oldWrapperOverflowX;
+      }
+
       saveImageBtn.disabled = false;
       saveImageBtn.innerHTML = '<span class="material-symbols-outlined">photo_camera</span> Save as Image';
     }).catch(function(err) {
       console.error('html2canvas error:', err);
+      if (wrapper) {
+        el.style.transform = oldTransform;
+        el.style.transformOrigin = oldTransformOrigin;
+        el.style.margin = oldMargin;
+        wrapper.style.height = oldWrapperHeight;
+        wrapper.style.overflowX = oldWrapperOverflowX;
+      }
       saveImageBtn.disabled = false;
       saveImageBtn.innerHTML = '<span class="material-symbols-outlined">photo_camera</span> Save as Image';
     });
@@ -1954,6 +2023,7 @@
     }
 
     gradesheetModal.classList.add('active');
+    setTimeout(scaleGradesheet, 50);
   }
 
   function generateAndShowCard(data) {
@@ -2160,6 +2230,38 @@
     ctx.quadraticCurveTo(x, y, x + radius, y);
     ctx.closePath();
   }
+
+  function scaleGradesheet() {
+    var wrapper = document.querySelector('.rc-gradesheet-paper-wrapper');
+    var paper = document.getElementById('rc-printable-gradesheet');
+    if (!wrapper || !paper) return;
+    
+    paper.style.transform = '';
+    paper.style.transformOrigin = '';
+    wrapper.style.height = '';
+    
+    var wrapperWidth = wrapper.getBoundingClientRect().width;
+    var style = window.getComputedStyle(wrapper);
+    var paddingLeft = parseFloat(style.paddingLeft) || 20;
+    var paddingRight = parseFloat(style.paddingRight) || 20;
+    var padding = paddingLeft + paddingRight;
+    
+    var availableWidth = wrapperWidth - padding;
+    var paperWidth = paper.offsetWidth || 794;
+    var paperHeight = paper.offsetHeight || 1123;
+    
+    if (availableWidth < paperWidth) {
+      var scale = availableWidth / paperWidth;
+      paper.style.transform = 'scale(' + scale + ')';
+      paper.style.transformOrigin = 'top center';
+      wrapper.style.height = (paperHeight * scale + padding) + 'px';
+      wrapper.style.overflowX = 'hidden';
+    } else {
+      wrapper.style.overflowX = 'auto';
+    }
+  }
+
+  window.addEventListener('resize', scaleGradesheet);
 
   function escapeHtml(str) {
     if (!str) return '';
