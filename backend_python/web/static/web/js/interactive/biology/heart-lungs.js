@@ -48,12 +48,30 @@ export default function init(stage) {
   // ---- Lungs (left + right), each a group we can scale to "inflate" ----
   function makeLung(x) {
     const lung = new THREE.Group();
-    const mat = new THREE.MeshStandardMaterial({ color: 0xe08aa8, roughness: 0.5, transparent: true, opacity: 0.85,
+    const mat = new THREE.MeshStandardMaterial({ color: 0xe08aa8, roughness: 0.58, transparent: true, opacity: 0.88,
       emissive: 0x6a2a40, emissiveIntensity: 0.1 });
-    const geo = new THREE.SphereGeometry(0.75, 24, 24); geo.scale(0.85, 1.5, 0.8);
+    const geo = new THREE.SphereGeometry(0.75, 32, 24); geo.scale(0.82, 1.54, 0.78);
     const mesh = new THREE.Mesh(geo, mat); mesh.castShadow = true; lung.add(mesh);
+    // lobes/fissures as darker curved bands on the pleural surface
+    const fissureMat = new THREE.LineBasicMaterial({ color: 0x7f1d3a, transparent: true, opacity: 0.42 });
+    for (let i = 0; i < 3; i++) {
+      const pts = [];
+      for (let k = 0; k < 18; k++) {
+        const t = -0.65 + k * 0.075;
+        pts.push(new THREE.Vector3(Math.sin(t * 2.1) * 0.18, 0.36 - i * 0.42 + t * 0.25, 0.63));
+      }
+      lung.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), fissureMat));
+    }
     lung.position.set(x, 0.7, 0);
     return { lung, mesh };
+  }
+  function cylBetween(a, b, r, material, radial = 10) {
+    const va = new THREE.Vector3(...a); const vb = new THREE.Vector3(...b);
+    const mid = va.clone().add(vb).multiplyScalar(0.5);
+    const mesh = new THREE.Mesh(new THREE.CylinderGeometry(r, r, va.distanceTo(vb), radial), material);
+    mesh.position.copy(mid);
+    mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), vb.clone().sub(va).normalize());
+    mesh.castShadow = true; return mesh;
   }
   const left = makeLung(-0.95); const right = makeLung(0.95);
   root.add(left.lung); root.add(right.lung);
@@ -64,12 +82,28 @@ export default function init(stage) {
     new THREE.MeshStandardMaterial({ color: 0xd7c3b0, roughness: 0.6 })
   );
   trachea.position.set(0, 2.1, 0); root.add(trachea);
+  const airwayMat = new THREE.MeshStandardMaterial({ color: 0xd7c3b0, roughness: 0.6 });
   [-0.4, 0.4].forEach((bx, i) => {
+    const side = i === 0 ? -1 : 1;
     const bronchus = new THREE.Mesh(
       new THREE.CylinderGeometry(0.07, 0.07, 0.6, 10),
-      new THREE.MeshStandardMaterial({ color: 0xd7c3b0, roughness: 0.6 })
+      airwayMat
     );
     bronchus.position.set(bx * 1.2, 1.55, 0); bronchus.rotation.z = i === 0 ? 0.9 : -0.9; root.add(bronchus);
+    for (let b = 0; b < 4; b++) {
+      const y = 1.35 - b * 0.22;
+      root.add(cylBetween([side * 0.47, y + 0.20, 0.02], [side * (0.62 + b * 0.07), y, 0.12], 0.026 - b * 0.003, airwayMat, 8));
+      root.add(cylBetween([side * 0.47, y + 0.20, 0.02], [side * (0.74 + b * 0.04), y + 0.02, -0.14], 0.020 - b * 0.002, airwayMat, 8));
+    }
+  });
+  const alveolusMat = new THREE.MeshStandardMaterial({ color: 0xf7b2c4, roughness: 0.65, transparent: true, opacity: 0.78 });
+  [-1, 1].forEach((side) => {
+    for (let i = 0; i < 18; i++) {
+      const a = i * 2.399; const r = 0.10 + (i % 3) * 0.055;
+      const alv = new THREE.Mesh(new THREE.SphereGeometry(0.035, 10, 8), alveolusMat);
+      alv.position.set(side * (0.82 + Math.cos(a) * r), 0.06 + (i % 6) * 0.22, Math.sin(a) * 0.22);
+      root.add(alv);
+    }
   });
 
   // ---- Blood particle flow (oxygen-rich red, oxygen-poor blue) ----

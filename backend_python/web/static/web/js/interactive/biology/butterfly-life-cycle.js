@@ -56,6 +56,14 @@ export default function init(stage) {
   leafGeo.scale(1, 0.5, 1);
   const leafMesh = new THREE.Mesh(leafGeo, leafMat);
   leafMesh.position.set(1.2, 0.4, 0); leafMesh.rotation.set(-0.5, 0, 0.4); leafMesh.castShadow = true; scene.add(leafMesh);
+  const leafVeinMat = new THREE.LineBasicMaterial({ color: 0x1b5e20, transparent: true, opacity: 0.55 });
+  for (let i = -2; i <= 2; i++) {
+    const vein = new THREE.BufferGeometry().setFromPoints([
+      new THREE.Vector3(1.2, 0.43, 0.025),
+      new THREE.Vector3(1.2 + i * 0.18, 0.46 + Math.abs(i) * 0.05, 0.025),
+    ]);
+    const line = new THREE.Line(vein, leafVeinMat); line.rotation.set(-0.5, 0, 0.4); scene.add(line);
+  }
 
   const root = new THREE.Group(); scene.add(root);
 
@@ -91,6 +99,16 @@ export default function init(stage) {
     const eye = new THREE.Mesh(new THREE.SphereGeometry(0.04, 8, 8), new THREE.MeshStandardMaterial({ color: 0x111111 }));
     eye.position.set(-0.05, 0.6, dz); catGroup.add(eye);
   });
+  // true larval detail: thoracic legs plus abdominal prolegs
+  const legMat = new THREE.MeshStandardMaterial({ color: 0x1b4332, roughness: 0.75 });
+  for (let i = 1; i < 8; i++) {
+    [-1, 1].forEach((side) => {
+      const leg = new THREE.Mesh(new THREE.CylinderGeometry(0.014, 0.010, 0.22, 6), legMat);
+      leg.position.set(0.18 + i * 0.32, 0.36, side * 0.10);
+      leg.rotation.x = side * 0.65; leg.rotation.z = i < 4 ? -0.25 : 0.18;
+      catGroup.add(leg);
+    });
+  }
   // antennae
   [-0.08, 0.08].forEach((dz) => {
     const ant = new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.012, 0.3, 6), new THREE.MeshStandardMaterial({ color: 0x222222 }));
@@ -141,11 +159,18 @@ export default function init(stage) {
   const wlUp = makeWing(-1, true); const wrUp = makeWing(1, true);
   const wlDn = makeWing(-1, false); const wrDn = makeWing(1, false);
   [wlUp, wrUp, wlDn, wrDn].forEach((w) => { bfGroup.add(w); wings.push(w); });
-  // spots on wings
+  // realistic wing veins and eyespots
+  const veinMat = new THREE.LineBasicMaterial({ color: 0x24111d, transparent: true, opacity: 0.55 });
   [-1, 1].forEach((side) => {
-    const spot = new THREE.Mesh(new THREE.CircleGeometry(0.14, 16),
-      new THREE.MeshStandardMaterial({ color: 0xffeb3b, side: THREE.DoubleSide }));
-    spot.position.set(side * 0.75, 0.45, 0.01); bfGroup.add(spot);
+    for (let i = 0; i < 5; i++) {
+      const y = -0.25 + i * 0.22;
+      const vein = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0, 0, 0.018), new THREE.Vector3(side * (0.58 + i * 0.13), y, 0.018)]);
+      bfGroup.add(new THREE.Line(vein, veinMat));
+    }
+    [[0.72,0.45,0.14,0xffeb3b],[1.08,0.18,0.09,0x111827],[0.58,-0.28,0.10,0xfff7ed]].forEach(([x,y,r,c]) => {
+      const spot = new THREE.Mesh(new THREE.CircleGeometry(r, 18), new THREE.MeshStandardMaterial({ color: c, side: THREE.DoubleSide }));
+      spot.position.set(side * x, y, 0.024); bfGroup.add(spot);
+    });
   });
   // antennae
   [-1, 1].forEach((side) => {

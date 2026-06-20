@@ -506,3 +506,30 @@
     display: none;
   }
 }
+
+/* v6 biology realism pass: keep dense scientific models readable on phones and tablets. */
+.bio3d-stage .ix-sim-canvas {
+  image-rendering: auto;
+  touch-action: none;
+}
+.bio3d-stage .ix-hud-badge,
+.bio3d-stage .ix-ctrl-panel,
+.bio3d-stage .ix-info-card {
+  backdrop-filter: blur(14px) saturate(1.12);
+}
+.bio3d-stage .ix-ctrl-panel {
+  box-shadow: 0 20px 60px rgba(0, 0, 0, .38), inset 0 1px rgba(255, 255, 255, .08);
+}
+.bio3d-stage .ix-ctrl-readout strong,
+.bio3d-stage .ix-lab-data-title {
+  letter-spacing: .01em;
+}
+@media (orientation: landscape) and (max-height: 540px) {
+  .bio3d-stage .ix-ctrl-panel {
+    max-height: calc(100svh - 22px);
+    width: min(315px, 38vw);
+  }
+  .bio3d-stage .bio3d-book {
+    display: none;
+  }
+}

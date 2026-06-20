@@ -13,27 +13,27 @@ const ORGANS = [
   },
   {
     id: 'heart', name: 'Heart', color: 0xc0392b,
-    pos: [0.45, 1.5, 0.4],
+    pos: [0.16, 1.56, 0.34],
     info: 'A muscular pump the size of your fist. It beats around 100,000 times a day, pushing blood through a network of vessels that would wrap around the Earth more than twice.',
   },
   {
     id: 'lungs', name: 'Lungs', color: 0xe08aa8,
-    pos: [-0.9, 1.9, 0], second: [1.9, 1.9, 0],
+    pos: [-0.48, 1.92, 0.12], second: [0.48, 1.92, 0.12],
     info: 'Your breathing organs. They take in the oxygen every cell needs and breathe out waste carbon dioxide. Unfolded, their air sacs would cover about half a tennis court.',
   },
   {
     id: 'liver', name: 'Liver', color: 0x7c3a23,
-    pos: [0.6, 0.4, 0.3],
+    pos: [0.34, 0.58, 0.26],
     info: 'The body\'s chemical factory. The liver cleans the blood, stores energy, and helps turn food into fuel. It does over 500 different jobs — the busiest organ you have.',
   },
   {
     id: 'stomach', name: 'Stomach', color: 0xd98b5f,
-    pos: [-0.7, 0.3, 0.4],
+    pos: [-0.43, 0.38, 0.34],
     info: 'A stretchy muscular bag that churns food into a soup with strong acid and squeezing waves. The soup then flows into the intestines, where the goodness is absorbed.',
   },
   {
     id: 'intestines', name: 'Intestines', color: 0xc9a86b,
-    pos: [0, -1.1, 0.3],
+    pos: [0, -0.78, 0.30],
     info: 'A long coiled tube — about 7 metres if stretched out. The small intestine soaks up nutrients from food; the large intestine reclaims water and packs up what is left.',
   },
 ];
@@ -123,29 +123,77 @@ export default function init(stage) {
   bone(longBone(2.1), 0.55, -0.8, 0); bone(longBone(2.1), -0.55, -0.8, 0);   // femur
   bone(longBone(2.0), 0.55, -3.0, 0); bone(longBone(2.0), -0.55, -3.0, 0);   // tibia/fibula
 
-  // Organs
+  // Organs: built as anatomical groups rather than colored blobs. Each visible mesh is raycastable.
   const organs = new THREE.Group();
   const organMeshes = [];
+  function organMat(o, rough = 0.55) {
+    const m = new THREE.MeshStandardMaterial({ color: o.color, roughness: rough, metalness: 0.03 });
+    m.emissive = new THREE.Color(o.color);
+    m.emissiveIntensity = 0;
+    return m;
+  }
+  function addOrganMesh(mesh, o) { mesh.castShadow = true; mesh.receiveShadow = true; mesh.userData.organ = o; organs.add(mesh); organMeshes.push(mesh); return mesh; }
+  function ellipsoid(o, rx, ry, rz, x, y, z, material = organMat(o), detail = seg) {
+    const geo = new THREE.SphereGeometry(1, detail, Math.max(12, Math.floor(detail / 2)));
+    geo.scale(rx, ry, rz);
+    const mesh = new THREE.Mesh(geo, material);
+    mesh.position.set(x, y, z);
+    return addOrganMesh(mesh, o);
+  }
+  function cylBetween(o, a, b, r, material = organMat(o), radial = 12) {
+    const va = new THREE.Vector3(...a); const vb = new THREE.Vector3(...b);
+    const mid = va.clone().add(vb).multiplyScalar(0.5);
+    const mesh = new THREE.Mesh(new THREE.CylinderGeometry(r, r, va.distanceTo(vb), radial), material);
+    mesh.position.copy(mid);
+    mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), vb.clone().sub(va).normalize());
+    return addOrganMesh(mesh, o);
+  }
+  function tubeOrgan(o, pts, r, material = organMat(o), tubularSeg = 48) {
+    const curve = new THREE.CatmullRomCurve3(pts.map((v) => new THREE.Vector3(...v)));
+    const mesh = new THREE.Mesh(new THREE.TubeGeometry(curve, tubularSeg, r, 8, false), material);
+    return addOrganMesh(mesh, o);
+  }
   ORGANS.forEach((o) => {
-    const geo = o.id === 'brain' ? new THREE.SphereGeometry(0.6, seg, seg)
-      : o.id === 'heart' ? new THREE.SphereGeometry(0.38, seg, seg)
-      : o.id === 'lungs' ? new THREE.SphereGeometry(0.42, seg, seg)
-      : o.id === 'liver' ? new THREE.SphereGeometry(0.55, seg, seg)
-      : o.id === 'stomach' ? new THREE.SphereGeometry(0.42, seg, seg)
-      : new THREE.SphereGeometry(0.5, seg, seg);
-    if (o.id === 'brain') geo.scale(1, 0.85, 1.1);
-    if (o.id === 'lungs') geo.scale(0.7, 1.6, 0.9);
-    if (o.id === 'liver') geo.scale(1.3, 0.7, 0.9);
-    if (o.id === 'stomach') geo.scale(0.9, 1.2, 0.9);
-    if (o.id === 'intestines') geo.scale(1.7, 0.8, 0.7);
-    const mat = new THREE.MeshStandardMaterial({ color: o.color, roughness: 0.55, metalness: 0.05 });
-    mat.emissive = new THREE.Color(o.color); mat.emissiveIntensity = 0.0;
-    const mesh = new THREE.Mesh(geo, mat);
-    mesh.position.set(...o.pos); mesh.castShadow = true; mesh.userData.organ = o;
-    organs.add(mesh); organMeshes.push(mesh);
-    if (o.second) {
-      const m2 = new THREE.Mesh(geo.clone(), mat.clone()); m2.position.set(...o.second); m2.castShadow = true; m2.userData.organ = o;
-      organs.add(m2); organMeshes.push(m2);
+    const m = organMat(o);
+    if (o.id === 'brain') {
+      ellipsoid(o, 0.42, 0.30, 0.34, -0.22, 4.22, 0.02, m);
+      ellipsoid(o, 0.42, 0.30, 0.34, 0.22, 4.22, 0.02, m);
+      ellipsoid(o, 0.22, 0.15, 0.18, 0.00, 4.00, -0.10, organMat(o, 0.7), 24);
+      for (let i = -3; i <= 3; i++) {
+        const ridge = tubeOrgan(o, [[i * 0.08, 4.34, 0.28], [i * 0.10, 4.24, 0.35], [i * 0.08, 4.12, 0.25]], 0.009, new THREE.MeshStandardMaterial({ color: 0xd987a6, roughness: 0.8 }), 12);
+        ridge.userData.organ = o;
+      }
+    } else if (o.id === 'lungs') {
+      const lm = organMat(o, 0.66);
+      ellipsoid(o, 0.34, 0.78, 0.26, o.pos[0], o.pos[1], o.pos[2], lm);
+      ellipsoid(o, 0.34, 0.78, 0.26, o.second[0], o.second[1], o.second[2], lm);
+      const trachea = new THREE.MeshStandardMaterial({ color: 0xf3e7d7, roughness: 0.58 });
+      cylBetween(o, [0, 2.98, 0.06], [0, 2.12, 0.08], 0.055, trachea, 16);
+      cylBetween(o, [0, 2.14, 0.08], [-0.36, 1.88, 0.10], 0.035, trachea, 12);
+      cylBetween(o, [0, 2.14, 0.08], [0.36, 1.88, 0.10], 0.035, trachea, 12);
+    } else if (o.id === 'heart') {
+      const hm = organMat(o, 0.42);
+      ellipsoid(o, 0.28, 0.34, 0.24, o.pos[0] - 0.09, o.pos[1] + 0.05, o.pos[2], hm);
+      ellipsoid(o, 0.26, 0.32, 0.24, o.pos[0] + 0.12, o.pos[1] + 0.02, o.pos[2], hm);
+      const apex = new THREE.Mesh(new THREE.ConeGeometry(0.22, 0.42, 24), hm);
+      apex.position.set(o.pos[0] + 0.04, o.pos[1] - 0.35, o.pos[2]); apex.rotation.x = Math.PI; addOrganMesh(apex, o);
+      cylBetween(o, [o.pos[0], o.pos[1] + 0.34, o.pos[2]], [o.pos[0] - 0.04, o.pos[1] + 0.72, o.pos[2]], 0.055, new THREE.MeshStandardMaterial({ color: 0xb91c1c, roughness: 0.48 }), 16);
+      cylBetween(o, [o.pos[0] + 0.15, o.pos[1] + 0.28, o.pos[2]], [o.pos[0] + 0.40, o.pos[1] + 0.55, o.pos[2] + 0.02], 0.045, new THREE.MeshStandardMaterial({ color: 0x2563eb, roughness: 0.48 }), 16);
+    } else if (o.id === 'liver') {
+      const mesh = ellipsoid(o, 0.72, 0.28, 0.34, o.pos[0], o.pos[1], o.pos[2], organMat(o, 0.62));
+      mesh.rotation.z = -0.10;
+      ellipsoid(o, 0.14, 0.09, 0.09, o.pos[0] - 0.36, o.pos[1] - 0.03, o.pos[2] + 0.20, new THREE.MeshStandardMaterial({ color: 0x236b38, roughness: 0.62 }), 16);
+    } else if (o.id === 'stomach') {
+      const st = ellipsoid(o, 0.30, 0.46, 0.22, o.pos[0], o.pos[1], o.pos[2], organMat(o, 0.55));
+      st.rotation.z = -0.45;
+      tubeOrgan(o, [[o.pos[0] + .12, o.pos[1] + .30, o.pos[2]], [o.pos[0] + .32, o.pos[1] + .12, o.pos[2]], [o.pos[0] + .18, o.pos[1] - .25, o.pos[2]]], .055, organMat(o, 0.58), 28);
+    } else if (o.id === 'intestines') {
+      const im = organMat(o, 0.78);
+      for (let row = 0; row < 4; row++) {
+        tubeOrgan(o, [[-0.50, -0.47 - row * 0.18, o.pos[2]], [-0.20, -0.58 - row * 0.18, o.pos[2]], [0.20, -0.44 - row * 0.18, o.pos[2]], [0.50, -0.56 - row * 0.18, o.pos[2]]], 0.055, im, 28);
+      }
+      const colon = tubeOrgan(o, [[-0.66, -0.36, o.pos[2] - .02], [-0.70, -1.20, o.pos[2] - .02], [0.70, -1.20, o.pos[2] - .02], [0.66, -0.36, o.pos[2] - .02]], 0.080, new THREE.MeshStandardMaterial({ color: 0xb99054, roughness: 0.76 }), 52);
+      colon.userData.organ = o;
     }
   });
 
