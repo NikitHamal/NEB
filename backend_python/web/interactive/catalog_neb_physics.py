@@ -25,7 +25,7 @@ COURSES = [
                 'icon': 'straighten',
                 'minutes': 15,
                 'sim': 'nebphysics/vernier-calipers',
-                'sim_type': 'lab',
+                'sim_type': '3d',
                 'summary': 'Grip a sphere, cylinder or beaker in virtual vernier jaws, find the coincident division on the magnified scale and compute the reading — with random zero errors to keep you honest.',
                 'objectives': [
                     'State and compute the least count of a vernier calipers',
@@ -82,7 +82,7 @@ COURSES = [
                 'icon': 'cyclone',
                 'minutes': 14,
                 'sim': 'nebphysics/screw-gauge',
-                'sim_type': 'lab',
+                'sim_type': '3d',
                 'summary': 'Rotate the thimble until the ratchet clicks on a wire, sheet or even a human hair, then combine the linear and circular scales to read down to 0.01 mm.',
                 'objectives': [
                     'Relate pitch and number of circular divisions to least count',
@@ -132,7 +132,7 @@ COURSES = [
                 'icon': 'lens_blur',
                 'minutes': 15,
                 'sim': 'nebphysics/spherometer',
-                'sim_type': 'lab',
+                'sim_type': '3d',
                 'summary': 'Lower the central screw till it kisses a plane glass, then a watch glass, read the sagitta h on the disc scale and compute R = l²/6h + h/2.',
                 'objectives': [
                     'Explain how a spherometer measures tiny vertical heights',
@@ -182,7 +182,7 @@ COURSES = [
                 'icon': 'timer',
                 'minutes': 18,
                 'sim': 'nebphysics/pendulum-g',
-                'sim_type': 'lab',
+                'sim_type': '3d',
                 'summary': 'Time 20 oscillations with a stopwatch that obeys YOUR reflexes, tabulate L and T², plot the graph and pull g out of the slope.',
                 'objectives': [
                     'Use T = 2π√(L/g) to design a measurement of g',
@@ -239,7 +239,7 @@ COURSES = [
                 'icon': 'open_with',
                 'minutes': 15,
                 'sim': 'nebphysics/parallelogram-forces',
-                'sim_type': 'lab',
+                'sim_type': '3d',
                 'summary': 'Load three hangers on a Gravesand apparatus, watch the knot settle into equilibrium, and check that the parallelogram of P and Q really balances R.',
                 'objectives': [
                     'State the parallelogram law of vector addition',
@@ -289,7 +289,7 @@ COURSES = [
                 'icon': 'sledding',
                 'minutes': 14,
                 'sim': 'nebphysics/friction-incline',
-                'sim_type': 'lab',
+                'sim_type': '3d',
                 'summary': 'Tilt an incline until the block just slips to capture the angle of repose, then switch to a spring-balance pull and confirm μ two independent ways.',
                 'objectives': [
                     'Define static and kinetic coefficients of friction',
@@ -339,7 +339,7 @@ COURSES = [
                 'icon': 'waves',
                 'minutes': 15,
                 'sim': 'nebphysics/hookes-law',
-                'sim_type': 'lab',
+                'sim_type': '3d',
                 'summary': 'Load a spring 50 g at a time, read the pointer on a mm scale, plot F against x and read k off the slope — then test series and parallel combinations.',
                 'objectives': [
                     'State Hooke\u2019s law and its limit of proportionality',
@@ -389,7 +389,7 @@ COURSES = [
                 'icon': 'thermostat',
                 'minutes': 18,
                 'sim': 'nebphysics/specific-heat',
-                'sim_type': 'lab',
+                'sim_type': '3d',
                 'summary': 'Heat a metal piece to 100 °C, drop it into a calorimeter and chase the thermometer to its peak — then balance the heat equation to identify the metal.',
                 'objectives': [
                     'State the principle of calorimetry (heat lost = heat gained)',
