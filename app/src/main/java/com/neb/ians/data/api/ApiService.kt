@@ -197,6 +197,46 @@ data class ReportRequest(
 @Serializable
 data class FcmTokenRequest(val token: String)
 
+@Serializable
+data class ResultCheckRequest(
+    val exam: String,
+    val symbol: String,
+    val dob: String = "",
+    val batch: String = "2083"
+)
+
+@Serializable
+data class ResultCheckResponse(
+    val success: Boolean = false,
+    val error: String? = null,
+    val cached: Boolean = false,
+    val data: ResultPayload? = null
+)
+
+@Serializable
+data class ResultPayload(
+    @SerialName("student_name") val studentName: String = "",
+    val exam: String = "",
+    val batch: String = "",
+    val symbol: String = "",
+    val school: String = "",
+    val gpa: String = "",
+    val grade: String = "",
+    @SerialName("registration_no") val registrationNo: String = "",
+    val dob: String = "",
+    val source: String = "",
+    val subjects: List<ResultSubject> = emptyList()
+)
+
+@Serializable
+data class ResultSubject(
+    val code: String = "",
+    val name: String = "",
+    @SerialName("credit_hour") val creditHour: String = "",
+    val grade: String = "",
+    @SerialName("grade_point") val gradePoint: String = ""
+)
+
 // -------------------------------------------------------------
 // RESPONSE MODELS
 // -------------------------------------------------------------
@@ -874,7 +914,8 @@ interface ApiService {
         @Query("page") page: Int? = null,
         @Query("sort") sort: String? = null,
         @Query("search") search: String? = null,
-        @Query("username") username: String? = null
+        @Query("username") username: String? = null,
+        @Query("page_size") pageSize: Int? = null
     ): ApiPaginatedPosts
 
     @GET("api/posts/{postId}/")
@@ -960,6 +1001,23 @@ interface ApiService {
         @Path("targetType") targetType: String,
         @Path("targetId") targetId: String
     ): List<ApiEditHistory>
+
+    // --- News / Announcements (public web parity) ---
+    @GET("news/")
+    suspend fun getNewsPage(
+        @Query("category") category: String? = null
+    ): ResponseBody
+
+    @GET("news/{slug}/")
+    suspend fun getNewsDetailPage(
+        @Path("slug") slug: String
+    ): ResponseBody
+
+    // --- Result Checker (same endpoint as the live website) ---
+    @POST("ajax/results/check/")
+    suspend fun checkResult(
+        @Body request: ResultCheckRequest
+    ): ResultCheckResponse
 
     // --- Search ---
     @GET("api/search/")

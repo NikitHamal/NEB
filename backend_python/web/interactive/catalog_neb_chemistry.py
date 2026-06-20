@@ -26,7 +26,7 @@ COURSES = [
                 'icon': 'science',
                 'minutes': 14,
                 'sim': 'nebchemistry/lab-apparatus',
-                'sim_type': 'lab',
+                'sim_type': 'lab3d',
                 'summary': 'Tour a virtual lab bench: tap every apparatus to learn its name and use, beat the "find the apparatus" quiz, then spot the four safety hazards hiding on the bench.',
                 'objectives': [
                     'Identify the common apparatus: beaker, conical flask, burette, pipette, test tube, Bunsen burner, tripod, funnel, wash bottle and watch glass',
@@ -83,7 +83,7 @@ COURSES = [
                 'icon': 'filter_alt',
                 'minutes': 16,
                 'sim': 'nebchemistry/separation-lab',
-                'sim_type': 'lab',
+                'sim_type': 'lab3d',
                 'summary': 'Take five different mixtures apart with the right sequence of techniques — filtration, evaporation, sublimation, distillation and paper chromatography — and watch each apparatus work.',
                 'objectives': [
                     'Choose the correct separation technique from the properties of the components',
@@ -140,7 +140,7 @@ COURSES = [
                 'icon': 'colorize',
                 'minutes': 20,
                 'sim': 'nebchemistry/titration',
-                'sim_type': 'lab',
+                'sim_type': 'lab3d',
                 'summary': 'Perform a complete titration of unknown NaOH against standard 0.10 M HCl: rinse, fill, pipette, titrate drop by drop to a genuinely over-shootable endpoint, record concordant trials and calculate the concentration.',
                 'objectives': [
                     'Carry out the full titration procedure in the correct order, including rinsing the burette with the titrant',
@@ -197,7 +197,7 @@ COURSES = [
                 'icon': 'local_fire_department',
                 'minutes': 14,
                 'sim': 'nebchemistry/flame-tests',
-                'sim_type': 'lab',
+                'sim_type': 'lab3d',
                 'summary': 'Clean a platinum loop in concentrated HCl, dip it into salt samples and read the flame colours — then identify unknown salts from colour alone, watching out for the sodium contamination trap.',
                 'objectives': [
                     'Perform a flame test with the correct clean-dip-flame technique',
@@ -254,7 +254,7 @@ COURSES = [
                 'icon': 'biotech',
                 'minutes': 16,
                 'sim': 'nebchemistry/anion-tests',
-                'sim_type': 'lab',
+                'sim_type': 'lab3d',
                 'summary': 'A white unknown salt sits on your bench. Run the dilute acid test, silver nitrate test, barium chloride test and the brown ring test — read the precipitates and gases like an analyst and name the anion.',
                 'objectives': [
                     'Test for carbonate with dilute acid and lime water',
@@ -311,7 +311,7 @@ COURSES = [
                 'icon': 'bubble_chart',
                 'minutes': 16,
                 'sim': 'nebchemistry/gas-preparation',
-                'sim_type': 'lab',
+                'sim_type': 'lab3d',
                 'summary': 'Set up the classic generators for hydrogen, oxygen and carbon dioxide, collect each gas by the correct method, and confirm its identity with the pop test, glowing splint and lime water.',
                 'objectives': [
                     'Prepare H₂ from zinc and dilute HCl, O₂ from H₂O₂ with MnO₂, and CO₂ from marble chips and dilute HCl',
@@ -368,7 +368,7 @@ COURSES = [
                 'icon': 'scale',
                 'minutes': 18,
                 'sim': 'nebchemistry/water-crystallization',
-                'sim_type': 'lab',
+                'sim_type': 'lab3d',
                 'summary': 'Weigh hydrated copper sulphate into a crucible, heat it until the blue turns white, and reweigh repeatedly until constant mass — then calculate x in CuSO₄·xH₂O from your own readings.',
                 'objectives': [
                     'Define water of crystallization and hydrated versus anhydrous salts',

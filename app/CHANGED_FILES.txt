@@ -1,0 +1,16 @@
+CHANGED_FILES_MANIFEST.md
+GAP_REPORT_AND_PRODUCTION_NOTES.md
+src/main/java/com/neb/ians/data/api/ApiService.kt
+src/main/java/com/neb/ians/data/news/NewsAnnouncement.kt
+src/main/java/com/neb/ians/data/repository/AppCache.kt
+src/main/java/com/neb/ians/data/repository/NewsRepository.kt
+src/main/java/com/neb/ians/ui/Navigation.kt
+src/main/java/com/neb/ians/ui/components/MaterialIconMapper.kt
+src/main/java/com/neb/ians/ui/screens/home/HomeNewsComponents.kt
+src/main/java/com/neb/ians/ui/screens/home/HomeScreen.kt
+src/main/java/com/neb/ians/ui/screens/home/HomeViewModel.kt
+src/main/java/com/neb/ians/ui/screens/news/NewsDetailScreen.kt
+src/main/java/com/neb/ians/ui/screens/news/NewsScreen.kt
+src/main/java/com/neb/ians/ui/screens/news/NewsViewModel.kt
+src/main/java/com/neb/ians/ui/screens/results/ResultCheckerScreen.kt
+src/main/java/com/neb/ians/ui/screens/web/WebPortalScreen.kt

@@ -1,5 +1,12 @@
 package com.neb.ians.ui.screens.home
 
+import androidx.compose.material.icons.filled.Forum
+import androidx.compose.material.icons.filled.FactCheck
+import androidx.compose.material.icons.filled.MenuBook
+import androidx.compose.material.icons.Icons
+import androidx.compose.ui.draw.clip
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -8,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -54,6 +62,9 @@ fun HomeScreen(
     onForumClick: () -> Unit = {},
     onStudyLabClick: () -> Unit = {},
     onNebyAiClick: () -> Unit = {},
+    onNewsClick: () -> Unit = {},
+    onResultCheckerClick: () -> Unit = {},
+    onNewsItemClick: (String) -> Unit = {},
     onPostClick: (String) -> Unit = {},
     onNotificationsClick: () -> Unit = {},
     onProfileClick: () -> Unit = {},
@@ -109,8 +120,22 @@ fun HomeScreen(
                     }
 
                     HomeHero(
-                        userName = uiState.userName
+                        userName = uiState.userName,
+                        onLibraryClick = onViewAllClick,
+                        onForumClick = onForumClick,
+                        onResultCheckerClick = onResultCheckerClick
                     )
+
+                    HomeNewsSection(
+                        items = uiState.latestNews,
+                        onViewAllClick = onNewsClick,
+                        onNewsClick = { news -> onNewsItemClick(news.slug) },
+                        onResultCheckerClick = onResultCheckerClick
+                    )
+
+                    if (uiState.latestNews.isNotEmpty()) {
+                        Spacer(modifier = Modifier.height(18.dp))
+                    }
 
                     WebSectionHeader(
                         title = "Recent Resources",
@@ -191,7 +216,10 @@ fun HomeScreen(
 
 @Composable
 private fun HomeHero(
-    userName: String
+    userName: String,
+    onLibraryClick: () -> Unit,
+    onForumClick: () -> Unit,
+    onResultCheckerClick: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -221,6 +249,68 @@ private fun HomeHero(
             maxLines = 4,
             overflow = TextOverflow.Ellipsis
         )
+        Spacer(modifier = Modifier.height(18.dp))
+        androidx.compose.foundation.layout.Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .horizontalScroll(rememberScrollState()),
+            horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            HeroActionButton(
+                text = "Browse Library",
+                icon = androidx.compose.material.icons.Icons.Filled.MenuBook,
+                filled = true,
+                onClick = onLibraryClick
+            )
+            HeroActionButton(
+                text = "Join Forum",
+                icon = androidx.compose.material.icons.Icons.Filled.Forum,
+                onClick = onForumClick
+            )
+            HeroActionButton(
+                text = "Check Results",
+                icon = androidx.compose.material.icons.Icons.Filled.FactCheck,
+                onClick = onResultCheckerClick
+            )
+        }
+    }
+}
+
+@Composable
+private fun HeroActionButton(
+    text: String,
+    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    filled: Boolean = false,
+    onClick: () -> Unit
+) {
+    androidx.compose.material3.Surface(
+        modifier = Modifier
+            .clip(com.neb.ians.ui.components.WebPillShape)
+            .clickable(onClick = onClick),
+        shape = com.neb.ians.ui.components.WebPillShape,
+        color = if (filled) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceContainerLowest,
+        border = if (filled) null else androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
+    ) {
+        androidx.compose.foundation.layout.Row(
+            modifier = Modifier.padding(horizontal = 14.dp, vertical = 10.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(6.dp)
+        ) {
+            androidx.compose.material3.Icon(
+                imageVector = icon,
+                contentDescription = null,
+                modifier = Modifier.size(18.dp),
+                tint = if (filled) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.primary
+            )
+            Text(
+                text = text,
+                style = MaterialTheme.typography.labelLarge,
+                fontWeight = FontWeight.SemiBold,
+                color = if (filled) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.primary,
+                maxLines = 1
+            )
+        }
     }
 }
 

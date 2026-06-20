@@ -6,18 +6,24 @@ import com.neb.ians.data.api.ApiResource
 import com.neb.ians.data.api.ApiPost
 import com.neb.ians.data.api.ApiService
 import com.neb.ians.data.api.ApiErrorMapper
+import com.neb.ians.data.news.NewsAnnouncement
 import com.neb.ians.data.realtime.RealtimeClient
 import com.neb.ians.data.repository.AuthRepository
 import com.neb.ians.data.repository.ForumRepository
 import com.neb.ians.data.repository.SettingsRepository
 import com.neb.ians.data.repository.AppCache
+import com.neb.ians.data.repository.NewsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.contentOrNull
 import kotlinx.serialization.json.intOrNull
 import javax.inject.Inject
+
+private data class Quad<A, B, C, D>(val first: A, val second: B, val third: C, val fourth: D)
 
 data class HomeUiState(
     val userName: String = "Student",
@@ -26,6 +32,7 @@ data class HomeUiState(
     val recentResources: List<ApiResource> = emptyList(),
     val popularResources: List<ApiResource> = emptyList(),
     val recentPosts: List<ApiPost> = emptyList(),
+    val latestNews: List<NewsAnnouncement> = emptyList(),
     val isLoading: Boolean = true,
     val error: String? = null
 ) {
@@ -43,6 +50,7 @@ class HomeViewModel @Inject constructor(
     private val authRepository: AuthRepository,
     private val settingsRepository: SettingsRepository,
     private val forumRepository: ForumRepository,
+    private val newsRepository: NewsRepository,
     private val realtimeClient: RealtimeClient,
     private val appCache: AppCache
 ) : ViewModel() {
@@ -52,6 +60,7 @@ class HomeViewModel @Inject constructor(
     private val _recentResources = MutableStateFlow<List<ApiResource>>(appCache.recentResources)
     private val _popularResources = MutableStateFlow<List<ApiResource>>(appCache.popularResources)
     private val _recentPosts = MutableStateFlow<List<ApiPost>>(appCache.recentPosts)
+    private val _latestNews = MutableStateFlow<List<NewsAnnouncement>>(appCache.latestNews)
     private val processingPostLikes = mutableSetOf<String>()
     private val processingBookmarks = mutableSetOf<String>()
     private val processingDeletions = mutableSetOf<String>()
@@ -103,17 +112,23 @@ class HomeViewModel @Inject constructor(
                         authRepository.refreshProfile()
                     } catch (_: Exception) {}
                 }
-                val resourcesResult = apiService.getResources(token, sort = "newest", page = 1)
-                val popularResult = apiService.getResources(token, sort = "relevant", page = 1)
-                val postsResult = apiService.getPosts(token)
-                
+                val (resourcesResult, popularResult, postsResult, newsResult) = coroutineScope {
+                    val resources = async { apiService.getResources(token, sort = "newest", page = 1, pageSize = 12) }
+                    val popular = async { apiService.getResources(token, sort = "relevant", page = 1, pageSize = 12) }
+                    val posts = async { apiService.getPosts(token, page = 1, pageSize = 8) }
+                    val news = async { newsRepository.getAnnouncements().getOrDefault(appCache.latestNews) }
+                    Quad(resources.await(), popular.await(), posts.await(), news.await())
+                }
+
                 _recentResources.value = resourcesResult.resources
                 _popularResources.value = popularResult.resources
                 _recentPosts.value = postsResult.posts
-                
+                _latestNews.value = newsResult
+
                 appCache.recentResources = resourcesResult.resources
                 appCache.popularResources = popularResult.resources
                 appCache.recentPosts = postsResult.posts
+                appCache.latestNews = newsResult
             } catch (e: Exception) {
                 if (_recentResources.value.isEmpty()) {
                     _error.value = ApiErrorMapper.mapException(e)
@@ -223,8 +238,15 @@ class HomeViewModel @Inject constructor(
         _recentResources,
         _popularResources,
         _recentPosts,
+        _latestNews,
         combine(_isLoading, _error) { isLoading, error -> Pair(isLoading, error) }
-    ) { user, recentResources, popularResources, recentPosts, loadingError ->
+    ) { values ->
+        val user = values[0] as Triple<String, String?, String?>
+        @Suppress("UNCHECKED_CAST") val recentResources = values[1] as List<ApiResource>
+        @Suppress("UNCHECKED_CAST") val popularResources = values[2] as List<ApiResource>
+        @Suppress("UNCHECKED_CAST") val recentPosts = values[3] as List<ApiPost>
+        @Suppress("UNCHECKED_CAST") val latestNews = values[4] as List<NewsAnnouncement>
+        @Suppress("UNCHECKED_CAST") val loadingError = values[5] as Pair<Boolean, String?>
         HomeUiState(
             userName = user.first,
             userPhotoUrl = user.second,
@@ -232,6 +254,7 @@ class HomeViewModel @Inject constructor(
             recentResources = recentResources,
             popularResources = popularResources,
             recentPosts = recentPosts,
+            latestNews = latestNews,
             isLoading = loadingError.first,
             error = loadingError.second
         )
