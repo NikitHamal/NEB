@@ -1,7 +1,9 @@
 import { THREE, createEngine, createOrbitControls, basicLights, makeLabelSprite } from '../core/engine.js';
 import { createPanel, createHud, showInfoCard } from '../core/sim-ui.js';
+import { addScanGradeEnhancement } from '../core/bio3d-scan-grade.js';
 
 export default function init(stage) {
+  stage.classList.add('bio-beginner-stage', 'bio-heart-lungs-stage');
   const engine = createEngine(stage, { shadows: true });
   if (!engine) return null;
   const { scene, camera, quality } = engine;
@@ -106,6 +108,20 @@ export default function init(stage) {
     }
   });
 
+  // Diaphragm dome: contracts downward during inspiration and relaxes upward during expiration.
+  const diaphragmGeo = new THREE.SphereGeometry(1, 36, 12, 0, Math.PI * 2, 0, Math.PI / 2);
+  diaphragmGeo.scale(1.85, 0.42, 0.70);
+  const diaphragm = new THREE.Mesh(
+    diaphragmGeo,
+    new THREE.MeshStandardMaterial({ color: 0xfda4af, roughness: 0.58, transparent: true, opacity: 0.52, side: THREE.DoubleSide })
+  );
+  diaphragm.position.set(0, -0.72, 0);
+  diaphragm.rotation.x = Math.PI;
+  root.add(diaphragm);
+  root.add(makeLabelSprite('diaphragm', { scale: 0.35, fontSize: 28 }));
+  root.children[root.children.length - 1].position.set(0, -1.25, 0.1);
+  addScanGradeEnhancement(root, { kind: 'heartLungs', quality, seed: 'heart-lungs-model' });
+
   // ---- Blood particle flow (oxygen-rich red, oxygen-poor blue) ----
   const MAX_BLOOD = 160;
   const bPos = new Float32Array(MAX_BLOOD * 3);
@@ -142,27 +158,34 @@ export default function init(stage) {
   let activity = 0.0; // 0 = rest, 1 = hard exercise
   function bpm() { return 70 + activity * 90; }       // ~70 to ~160
   function breathsPerMin() { return 12 + activity * 32; } // ~12 to ~44
+  function strokeVolumeMl() { return 70 + activity * 45; }
+  function cardiacOutputLMin() { return (bpm() * strokeVolumeMl()) / 1000; }
+  function tidalVolumeMl() { return 500 + activity * 1700; }
+  function minuteVentilationLMin() { return (breathsPerMin() * tidalVolumeMl()) / 1000; }
 
   const hud = createHud(stage);
   const heartBadge = hud.badge('♥ 70 bpm', '#ef4444');
   const lungBadge = hud.badge('🫁 12 breaths/min', '#60a5fa');
 
   const panel = createPanel(stage, { title: 'Heart & Lungs' });
-  panel.info('Your heart pumps blood to the lungs to collect oxygen, then out to the body. Raise the activity to watch both heartbeat and breathing speed up.');
+  panel.info('The heart-lung model now links heart rate, stroke volume, breathing rate, tidal volume and diaphragm motion. Raise activity to see cardiac output and minute ventilation increase together.');
   const actSlider = panel.slider({
     label: 'Activity level', min: 0, max: 100, step: 1, value: 0,
     format: (v) => v < 25 ? 'Resting' : v < 60 ? 'Walking' : v < 85 ? 'Running' : 'Sprinting',
-    onChange: (v) => { activity = v / 100; },
+    onChange: (v) => { activity = v / 100; refreshBadges(); },
   });
   panel.divider();
   const bpmOut = panel.readout({ label: 'Heart rate', value: '70 bpm' });
   const breathOut = panel.readout({ label: 'Breathing rate', value: '12 /min' });
-  panel.readout({ label: 'Blood pumped/day', value: '~7,000 litres' });
+  const strokeOut = panel.readout({ label: 'Stroke volume', value: '70 mL/beat' });
+  const coOut = panel.readout({ label: 'Cardiac output', value: '4.9 L/min' });
+  const tidalOut = panel.readout({ label: 'Tidal volume', value: '500 mL' });
+  const ventOut = panel.readout({ label: 'Minute ventilation', value: '6.0 L/min' });
   panel.readout({ label: 'Alveoli (air sacs)', value: '~480 million' });
   panel.button({ label: 'Why does exercise make you puff?', icon: 'menu_book', variant: 'ghost', onClick: () => {
     showInfoCard(stage, {
       title: 'Eat now, breathe faster',
-      body: 'When you run, your muscles burn glucose for energy faster, needing more oxygen and producing more CO₂. Sensors in your body tell the heart to beat faster and the lungs to breathe deeper, so more oxygen reaches every working cell.',
+      body: 'Exercise raises ATP demand. Cardiac output = heart rate × stroke volume, and minute ventilation = breathing rate × tidal volume. The diaphragm contracts downward to expand the thoracic cavity, bringing in more oxygen and removing more CO₂.',
       color: '#ef4444',
     });
   } });
@@ -173,6 +196,10 @@ export default function init(stage) {
     const b = Math.round(bpm()); const br = Math.round(breathsPerMin());
     heartBadge.set(`♥ ${b} bpm`); lungBadge.set(`🫁 ${br} breaths/min`);
     bpmOut.set(`${b} bpm`); breathOut.set(`${br} /min`);
+    strokeOut.set(`${Math.round(strokeVolumeMl())} mL/beat`);
+    coOut.set(`${cardiacOutputLMin().toFixed(1)} L/min`);
+    tidalOut.set(`${Math.round(tidalVolumeMl())} mL`);
+    ventOut.set(`${minuteVentilationLMin().toFixed(1)} L/min`);
   }
   refreshBadges();
 
@@ -199,8 +226,10 @@ export default function init(stage) {
     right.lung.scale.set(lungScale, lungScale * 0.95, lungScale);
     left.mesh.material.emissiveIntensity = 0.1 + inflate * 0.25;
     right.mesh.material.emissiveIntensity = 0.1 + inflate * 0.25;
-    // trachea subtly rises with breath
+    // trachea subtly rises with breath; diaphragm moves opposite to lung inflation.
     trachea.position.y = 2.1 + inflate * 0.06;
+    diaphragm.position.y = -0.54 - inflate * 0.34;
+    diaphragm.scale.y = 1.10 - inflate * 0.42;
 
     // Blood flow: speed scales with heart rate
     const speed = (b / 70) * 0.25;

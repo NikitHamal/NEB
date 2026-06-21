@@ -1,4 +1,6 @@
 import { THREE, makeLabelSprite } from './engine.js';
+import { getBiologyMetricRows, getBiologyFormula } from './bio3d-science.js';
+import { addScanGradeEnhancement, disposeScanGradeAssets } from './bio3d-scan-grade.js';
 
 // Production-grade procedural biology models for NEB practicals.
 // No external meshes are required: every model is generated from optimized Three.js primitives,
@@ -415,6 +417,37 @@ function addSkeleton(group, state = {}, health = false) {
 }
 function addCockroach(group,state={}){ addTray(group,'cockroach external morphology'); addCockroachLike(group,[0,1.32,0],1.40,0x7c2d12); leader(group,'head',[-1.35,2.18,-.50],[-.78,1.42,0]); leader(group,'thorax',[-.35,2.28,.55],[-.10,1.34,0]); leader(group,'abdomen',[.86,2.18,-.55],[.68,1.32,0]); leader(group,'three pairs of legs',[1.55,1.68,.75],[.20,1.22,.72]); leader(group,'antennae',[-1.65,2.55,.44],[-1.08,1.66,.36]); label(group,`view: ${state.view||'dorsal'} / focus ${state.zoomPart||'thorax'}`,[0,2.76,0],{scale:.145}); }
 
+
+function addMetricPlaque(group, config, state) {
+  const rows = getBiologyMetricRows(config, state, 0).slice(0, 4);
+  const g = new THREE.Group();
+  g.position.set(2.72, 1.18, 1.72);
+  g.rotation.y = -0.48;
+  g.add(box(1.92, 1.18, 0.055, mat(0x020617, { opacity: 0.88, roughness: 0.34 }), [0, 0, 0]));
+  g.add(box(1.82, 0.055, 0.065, mat(0x22c55e, { emissive: 0x16a34a, emissiveIntensity: 0.24 }), [0, 0.49, 0.035]));
+  label(g, 'verified live readings', [0, 0.72, 0.06], { scale: 0.075, fontSize: 16, bg: 'rgba(21,128,61,.82)' });
+  rows.forEach((row, i) => {
+    const y = 0.30 - i * 0.20;
+    label(g, `${row[0]}: ${row[1]}`, [-0.02, y, 0.07], { scale: 0.061, fontSize: 14, bg: 'rgba(15,23,42,.72)' });
+  });
+  const formula = getBiologyFormula(config, state);
+  label(g, formula.length > 48 ? `${formula.slice(0, 46)}...` : formula, [0, -0.62, 0.07], { scale: 0.052, fontSize: 13, bg: 'rgba(30,41,59,.82)' });
+  group.add(g);
+}
+function addCalibrationReference(group, kind) {
+  if (['microscope','mitosis','plasmolysis','stomata','anatomyTS','animalTissue','animalMitosis','frogDev','microscopeParts'].includes(kind)) {
+    addDimensionBar(group, 'ocular field scale', 1.15, 2.62, 0.88);
+    return;
+  }
+  if (['quadrat','quadrat2','pond','pondZoo','conservation'].includes(kind)) {
+    addDimensionBar(group, 'field scale reference', -1.8, 1.8, 0.88);
+    return;
+  }
+  if (['osmosis','transpiration','respiration','anaerobic','suction','amylase','bloodSugar'].includes(kind)) {
+    addDimensionBar(group, 'graduated reading scale', -0.9, 1.25, 0.88);
+  }
+}
+
 export function buildBiologyModel(root, config, state, actors = {}) {
   addBench(root);
   const kind = config.kind;
@@ -448,10 +481,14 @@ export function buildBiologyModel(root, config, state, actors = {}) {
   else if (kind === 'skeletonHealth') addSkeleton(root, state, true);
   else if (kind === 'cockroach') addCockroach(root, state);
   else { addTray(root, 'biology practical model'); label(root, config.title, [0,2.3,0], { scale:.16 }); }
-  addStamp(root, 'scientific 3D model - responsive/optimized');
+  addMetricPlaque(root, config, state);
+  addCalibrationReference(root, kind);
+  addStamp(root, 'scan-grade scientific PBR - responsive/optimized');
+  addScanGradeEnhancement(root, { kind, config, state, quality: actors.quality, seed: config.slug || kind });
 }
 
 export function disposeBioMaterials() {
   MATERIAL_CACHE.forEach((m) => m.dispose());
   MATERIAL_CACHE.clear();
+  disposeScanGradeAssets();
 }
