@@ -1,5 +1,6 @@
 import { THREE, createEngine, createOrbitControls, basicLights, makeLabelSprite } from '../core/engine.js';
 import { createPanel, createHud, showInfoCard, hideInfoCard } from '../core/sim-ui.js';
+import { addScanGradeEnhancement } from '../core/bio3d-scan-grade.js';
 
 // Body layers, outside -> inside. Each part has a 3D representation + a real description.
 const LAYERS = ['skin', 'muscle', 'skeleton', 'organs'];
@@ -43,6 +44,7 @@ const SKELETON_INFO = 'Your frame of 206 bones. It holds you upright, protects s
 const SKIN_INFO = 'Your body\'s largest organ and its waterproof suit. Skin keeps water in, germs out, and lets you feel the world through millions of nerve endings. It also cools you by sweating.';
 
 export default function init(stage) {
+  stage.classList.add('bio-beginner-stage', 'bio-human-body-stage');
   const engine = createEngine(stage, { shadows: true });
   if (!engine) return null;
   const { scene, camera, quality } = engine;
@@ -125,14 +127,23 @@ export default function init(stage) {
 
   // Organs: built as anatomical groups rather than colored blobs. Each visible mesh is raycastable.
   const organs = new THREE.Group();
+  const vascular = new THREE.Group();
+  const nerves = new THREE.Group();
   const organMeshes = [];
+  const organObjects = new Map();
   function organMat(o, rough = 0.55) {
     const m = new THREE.MeshStandardMaterial({ color: o.color, roughness: rough, metalness: 0.03 });
     m.emissive = new THREE.Color(o.color);
     m.emissiveIntensity = 0;
     return m;
   }
-  function addOrganMesh(mesh, o) { mesh.castShadow = true; mesh.receiveShadow = true; mesh.userData.organ = o; organs.add(mesh); organMeshes.push(mesh); return mesh; }
+  function addOrganMesh(mesh, o) {
+    mesh.castShadow = true; mesh.receiveShadow = true; mesh.userData.organ = o;
+    organs.add(mesh); organMeshes.push(mesh);
+    if (!organObjects.has(o.id)) organObjects.set(o.id, []);
+    organObjects.get(o.id).push(mesh);
+    return mesh;
+  }
   function ellipsoid(o, rx, ry, rz, x, y, z, material = organMat(o), detail = seg) {
     const geo = new THREE.SphereGeometry(1, detail, Math.max(12, Math.floor(detail / 2)));
     geo.scale(rx, ry, rz);
@@ -152,6 +163,13 @@ export default function init(stage) {
     const curve = new THREE.CatmullRomCurve3(pts.map((v) => new THREE.Vector3(...v)));
     const mesh = new THREE.Mesh(new THREE.TubeGeometry(curve, tubularSeg, r, 8, false), material);
     return addOrganMesh(mesh, o);
+  }
+  function addTube(target, pts, r, material, tubularSeg = 42) {
+    const curve = new THREE.CatmullRomCurve3(pts.map((v) => new THREE.Vector3(...v)));
+    const mesh = new THREE.Mesh(new THREE.TubeGeometry(curve, tubularSeg, r, 8, false), material);
+    mesh.castShadow = true; mesh.receiveShadow = true;
+    target.add(mesh);
+    return mesh;
   }
   ORGANS.forEach((o) => {
     const m = organMat(o);
@@ -197,7 +215,28 @@ export default function init(stage) {
     }
   });
 
-  root.add(skin); root.add(muscle); root.add(skeleton); root.add(organs);
+  // Vascular and nervous overlays: tube curves follow major anatomical routes for context.
+  const arteryMat = new THREE.MeshStandardMaterial({ color: 0xe11d48, roughness: 0.42, emissive: 0x7f1d1d, emissiveIntensity: 0.10 });
+  const veinMat = new THREE.MeshStandardMaterial({ color: 0x2563eb, roughness: 0.45, emissive: 0x1e3a8a, emissiveIntensity: 0.08 });
+  const nerveMat = new THREE.MeshStandardMaterial({ color: 0xfacc15, roughness: 0.50, emissive: 0xf59e0b, emissiveIntensity: 0.12 });
+  addTube(vascular, [[0.10,2.10,0.32],[0.12,1.52,0.34],[0.04,0.55,0.22],[0,-0.60,0.12]], 0.035, arteryMat, 54);
+  addTube(vascular, [[-0.08,2.00,0.20],[-0.10,1.36,0.22],[-0.05,0.45,0.13],[0,-0.64,0.06]], 0.032, veinMat, 54);
+  [-1, 1].forEach((side) => {
+    addTube(vascular, [[0.08,1.60,0.28],[side*0.50,1.54,0.22],[side*1.28,1.05,0.10],[side*1.70,-0.36,0.04]], 0.022, arteryMat, 44);
+    addTube(vascular, [[-0.04,1.34,0.18],[side*0.42,1.38,0.14],[side*1.20,0.82,0.02],[side*1.62,-0.50,-0.02]], 0.020, veinMat, 44);
+    addTube(vascular, [[0.02,-0.55,0.12],[side*0.34,-0.85,0.08],[side*0.50,-2.10,0.02],[side*0.52,-3.85,0.00]], 0.026, arteryMat, 48);
+    addTube(vascular, [[-0.02,-0.55,0.06],[side*0.25,-0.90,0.00],[side*0.42,-2.10,-0.02],[side*0.45,-3.82,-0.06]], 0.022, veinMat, 48);
+    addTube(nerves, [[0,3.82,-0.12],[side*0.42,2.70,-0.10],[side*1.22,1.24,-0.08],[side*1.70,-0.72,-0.04]], 0.014, nerveMat, 48);
+    addTube(nerves, [[0,1.40,-0.12],[side*0.34,0.50,-0.10],[side*0.54,-1.54,-0.10],[side*0.56,-3.82,-0.10]], 0.014, nerveMat, 48);
+  });
+  addTube(nerves, [[0,4.00,-0.12],[0,2.80,-0.14],[0,1.35,-0.16],[0,-0.60,-0.12]], 0.020, nerveMat, 64);
+  const vLabel = makeLabelSprite('arteries + veins', { scale: 0.42, fontSize: 28, bg: 'rgba(127,29,29,.72)' });
+  vLabel.position.set(0.92, 2.78, 0.30); vascular.add(vLabel);
+  const nLabel = makeLabelSprite('spinal cord + nerves', { scale: 0.42, fontSize: 28, bg: 'rgba(113,63,18,.72)' });
+  nLabel.position.set(-1.00, 3.05, -0.22); nerves.add(nLabel);
+
+  root.add(skin); root.add(muscle); root.add(skeleton); root.add(organs); root.add(vascular); root.add(nerves);
+  addScanGradeEnhancement(root, { kind: 'humanBody', quality, seed: 'human-body-explorer' });
 
   // Labels (sprites) for organs, shown only on organs layer
   const labels = ORGANS.map((o) => {
@@ -218,6 +257,8 @@ export default function init(stage) {
     muscle.visible = (layer === 'muscle');
     skeleton.visible = (layer === 'skeleton' || layer === 'organs');
     organs.visible = (layer === 'organs');
+    vascular.visible = (layer === 'organs');
+    nerves.visible = (layer === 'organs' || layer === 'skeleton');
     labels.forEach((l) => { l.visible = (layer === 'organs'); });
     // Make skin translucent overlay when deeper layers shown, to keep context
     if (layer !== 'skin') {
@@ -233,6 +274,11 @@ export default function init(stage) {
   const hud = createHud(stage);
   const layerBadge = hud.badge('Organs', '#84CC16');
   const partBadge = hud.badge('Tap an organ!', '#a3e635');
+  let activity = 20;
+  function bodyHeartRate() { return Math.round(70 + activity * 0.9); }
+  function bodyBreathingRate() { return Math.round(12 + activity * 0.28); }
+  function bodyCardiacOutput() { return (bodyHeartRate() * (70 + activity * 0.45)) / 1000; }
+  function bodyVentilation() { return (bodyBreathingRate() * (500 + activity * 14)) / 1000; }
 
   // Pulse highlight on hovered/selected organ
   let selected = null;
@@ -262,34 +308,67 @@ export default function init(stage) {
       const o = hits[0].object; const data = o.userData.organ;
       selected = o; highlight(o);
       partBadge.set(data.name);
-      showInfoCard(stage, { title: data.name, body: data.info, color: '#84CC16' });
+      if (selectedOut) selectedOut.set(data.name);
+      showInfoCard(stage, { title: data.name, body: `${data.info} Live physiology: at the current activity setting, heart rate is ${bodyHeartRate()} bpm and estimated cardiac output is ${bodyCardiacOutput().toFixed(1)} L/min.`, color: '#84CC16' });
     }
   }
   engine.canvas.addEventListener('pointerdown', onDown);
   engine.canvas.addEventListener('pointerup', onUp);
 
   // ---- Panel ----
+  let heartRateOut = null;
+  let breathRateOut = null;
+  let cardiacOut = null;
+  let ventilationOut = null;
+  let selectedOut = null;
+  function updatePhysiologyReadouts() {
+    if (!heartRateOut) return;
+    heartRateOut.set(`${bodyHeartRate()} bpm`);
+    breathRateOut.set(`${bodyBreathingRate()} /min`);
+    cardiacOut.set(`${bodyCardiacOutput().toFixed(1)} L/min`);
+    ventilationOut.set(`${bodyVentilation().toFixed(1)} L/min`);
+  }
+
   const panel = createPanel(stage, { title: 'Human Body Explorer' });
   panel.info('Drag the body to rotate. Use the slider to peel back the layers, then tap any organ to learn its job.');
   const slider = panel.slider({
     label: 'Body layer', min: 0, max: LAYERS.length - 1, step: 1, value: LAYERS.indexOf(currentLayer),
     format: (v) => LAYER_LABEL[LAYERS[v]],
-    onChange: (v) => { setLayer(LAYERS[v]); selected = null; highlight(null); partBadge.set('Tap an organ!'); hideInfoCard(stage); },
+    onChange: (v) => { setLayer(LAYERS[v]); selected = null; highlight(null); partBadge.set('Tap an organ!'); if (selectedOut) selectedOut.set(LAYER_LABEL[LAYERS[v]]); hideInfoCard(stage); },
+  });
+  panel.slider({
+    label: 'Physiology activity', min: 0, max: 100, step: 1, value: activity,
+    format: (v) => v < 25 ? 'Rest' : v < 60 ? 'Active' : v < 85 ? 'Running' : 'Sprinting',
+    onChange: (v) => { activity = v; updatePhysiologyReadouts(); },
   });
   panel.divider();
+  selectedOut = panel.readout({ label: 'Selected system', value: 'Whole body' });
+  heartRateOut = panel.readout({ label: 'Heart rate', value: `${bodyHeartRate()} bpm` });
+  breathRateOut = panel.readout({ label: 'Breathing rate', value: `${bodyBreathingRate()} /min` });
+  cardiacOut = panel.readout({ label: 'Cardiac output', value: `${bodyCardiacOutput().toFixed(1)} L/min` });
+  ventilationOut = panel.readout({ label: 'Minute ventilation', value: `${bodyVentilation().toFixed(1)} L/min` });
   panel.readout({ label: 'Bones', value: '206' });
   panel.readout({ label: 'Muscles', value: '600+' });
-  panel.readout({ label: 'Heart beats/day', value: '~100,000' });
   panel.toggle({ label: 'Slow spin', value: true, onChange: (v) => { spin = v; } });
 
   let spin = true;
   setLayer('organs');
+  updatePhysiologyReadouts();
 
   engine.setUpdate((dt) => {
     if (spin) root.rotation.y += dt * 0.18;
-    // gentle breathing on organs
+    // gentle breathing plus activity-linked heart and lung pulsation
     const t = performance.now() * 0.001;
-    organs.scale.setScalar(1 + Math.sin(t * 1.2) * 0.012);
+    const breath = Math.sin(t * (bodyBreathingRate() / 60) * Math.PI * 2) * 0.5 + 0.5;
+    organs.scale.setScalar(1 + Math.sin(t * 1.2) * 0.008);
+    (organObjects.get('lungs') || []).forEach((m) => { m.scale.setScalar(1 + breath * 0.055); });
+    const beat = Math.sin(t * (bodyHeartRate() / 60) * Math.PI * 2);
+    (organObjects.get('heart') || []).forEach((m) => {
+      const s = 1 + Math.max(0, beat) * 0.075;
+      m.scale.setScalar(s);
+      m.material.emissiveIntensity = 0.04 + Math.max(0, beat) * 0.24;
+    });
+    vascular.children.forEach((child) => { if (child.material && child.material.emissiveIntensity !== undefined) child.material.emissiveIntensity = 0.06 + Math.max(0, beat) * 0.16; });
     if (selected) selected.material.emissiveIntensity = 0.25 + Math.sin(t * 4) * 0.12;
     controls.update(dt);
   });
