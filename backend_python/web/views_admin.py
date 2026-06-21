@@ -534,6 +534,13 @@ def admin_resource_create(request):
         thumbnail_url = request.POST.get('thumbnail_url', '').strip()
         view_count = int(request.POST.get('view_count', '0') or '0')
         approval_status = request.POST.get('approval_status', 'approved').strip() or 'approved'
+        behalf_username = request.POST.get('behalf_username', '').strip().lstrip('@')
+        behalf_user = None
+        if behalf_username:
+            try:
+                behalf_user = User.objects.get(username__iexact=behalf_username)
+            except User.DoesNotExist:
+                errors.append(f"No platform user found with username '@{behalf_username}'.")
 
         uploaded_files = request.FILES.getlist('file')
         file_url = request.POST.get('file_url', '').strip()
@@ -596,6 +603,10 @@ def admin_resource_create(request):
                 except User.DoesNotExist:
                     pass
 
+            effective_uploader = behalf_user or admin_user
+            if behalf_user:
+                source_type = 'user'
+
             created_count = 0
             if saved_files:
                 import os
@@ -636,7 +647,7 @@ def admin_resource_create(request):
                         view_count=view_count,
                         author_name=author_name,
                         source_type=source_type,
-                        uploaded_by=admin_user,
+                        uploaded_by=effective_uploader,
                         source_url=source_url,
                         source_label=source_label,
                         approval_status=approval_status,
@@ -671,7 +682,7 @@ def admin_resource_create(request):
                     view_count=view_count,
                     author_name=author_name,
                     source_type=source_type,
-                    uploaded_by=admin_user,
+                    uploaded_by=effective_uploader,
                     source_url=source_url,
                     source_label=source_label,
                     approval_status=approval_status,
@@ -742,6 +753,15 @@ def admin_resource_edit(request, resource_id):
         st = request.POST.get('source_type', '').strip()
         if st in ('admin', 'user', 'anonymous', 'external'):
             resource_obj.source_type = st
+        behalf_username = request.POST.get('behalf_username', '').strip().lstrip('@')
+        if behalf_username:
+            try:
+                resource_obj.uploaded_by = User.objects.get(username__iexact=behalf_username)
+                resource_obj.source_type = 'user'
+            except User.DoesNotExist:
+                pass
+        elif request.POST.get('clear_behalf') == '1':
+            resource_obj.uploaded_by = None
         if request.POST.get('view_count', '').strip():
             resource_obj.view_count = int(request.POST.get('view_count', '0'))
         new_status = request.POST.get('approval_status', '').strip()
@@ -846,8 +866,12 @@ def admin_resource_edit(request, resource_id):
     resource_data['rejection_reason'] = resource_obj.rejection_reason or ''
     if resource_obj.uploaded_by:
         resource_data['uploaded_by_name'] = resource_obj.uploaded_by.display_name or resource_obj.uploaded_by.username
+        resource_data['uploaded_by_username'] = resource_obj.uploaded_by.username
+        resource_data['uploaded_by_photo'] = resource_obj.uploaded_by.photo_url or ''
     else:
         resource_data['uploaded_by_name'] = ''
+        resource_data['uploaded_by_username'] = ''
+        resource_data['uploaded_by_photo'] = ''
     return render(request, 'admin_panel/resource_edit.html', {
         'is_admin': True,
         'resource': resource_data,
@@ -1523,7 +1547,7 @@ def admin_study_spaces(request):
     spaces_qs = StudySpace.objects.select_related('user').order_by('-created_at')
     if search:
         spaces_qs = spaces_qs.filter(
-            Q(name__icontains=search) |
+            Q(title__icontains=search) |
             Q(user__username__icontains=search)
         )
 
@@ -1537,7 +1561,7 @@ def admin_study_spaces(request):
         member_count = sp.members.count()
         spaces.append({
             'id': sp.id,
-            'name': sp.name,
+            'name': sp.title,
             'owner': sp.user,
             'visibility': sp.visibility,
             'doc_count': doc_count,
