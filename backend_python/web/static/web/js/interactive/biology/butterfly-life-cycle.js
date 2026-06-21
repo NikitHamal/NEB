@@ -1,26 +1,28 @@
 import { THREE, createEngine, createOrbitControls, basicLights, makeLabelSprite } from '../core/engine.js';
 import { createPanel, createHud, showInfoCard } from '../core/sim-ui.js';
+import { addScanGradeEnhancement } from '../core/bio3d-scan-grade.js';
 
 const STAGES = [
   {
-    id: 'egg', name: 'Egg', color: '#fde68a',
+    id: 'egg', name: 'Egg', color: '#fde68a', duration: '3-5 days', dayRange: 'day 0-4', key: 'embryo develops inside chorion',
     info: 'The journey begins as a tiny egg, no bigger than a pinhead, glued to the underside of a leaf by the mother butterfly. She chooses the leaf carefully — it must be a plant her caterpillars can eat. Inside, a tiny embryo grows.',
   },
   {
-    id: 'caterpillar', name: 'Caterpillar', color: '#86efac',
+    id: 'caterpillar', name: 'Caterpillar', color: '#86efac', duration: '10-14 days', dayRange: 'day 4-18', key: 'larva feeds, moults through instars',
     info: 'Out hatches the larva — a caterpillar whose only job is to eat. It can grow to 100 times its birth weight in two weeks, shedding its skin several times as it outgrows it, storing energy for the transformation ahead.',
   },
   {
-    id: 'chrysalis', name: 'Chrysalis', color: '#c4b5fd',
+    id: 'chrysalis', name: 'Chrysalis', color: '#c4b5fd', duration: '7-14 days', dayRange: 'day 18-30', key: 'pupa remodels tissues into adult organs',
     info: 'The caterpillar anchors to a twig and becomes a pupa. It looks still, but inside, enzymes break the body into a nutrient soup and special cells rebuild the wings, legs and eyes of the adult. A total rebuild.',
   },
   {
-    id: 'butterfly', name: 'Adult Butterfly', color: '#f9a8d4',
-    info: 'The adult emerges, pumps fluid into its crumpled wings, and flies off to find a mate and lay the next generation of eggs. It no longer eats leaves — it sips liquid nectar through a long tube called a proboscis.',
+    id: 'butterfly', name: 'Adult Butterfly', color: '#f9a8d4', duration: '2-6 weeks', dayRange: 'adult phase', key: 'wings expand; feeding and reproduction',
+    info: 'The adult emerges, pumps haemolymph into its crumpled wings, and flies off to find a mate and lay the next generation of eggs. It no longer eats leaves — it sips liquid nectar through a long tube called a proboscis.',
   },
 ];
 
 export default function init(stage) {
+  stage.classList.add('bio-beginner-stage', 'bio-butterfly-stage');
   const engine = createEngine(stage, { shadows: true });
   if (!engine) return null;
   const { scene, camera, quality } = engine;
@@ -179,10 +181,43 @@ export default function init(stage) {
     const tip = new THREE.Mesh(new THREE.SphereGeometry(0.04, 8, 8), bodyMat);
     tip.position.set(0.75, 0.35, side * 0.1); bfGroup.add(tip);
   });
+  // coiled proboscis and six legs, so the adult model reads as an insect rather than a decorative icon.
+  const probPts = [];
+  for (let i = 0; i < 34; i++) {
+    const a = i * 0.36; const r = 0.22 - i * 0.0035;
+    probPts.push(new THREE.Vector3(0.52 + Math.cos(a) * r, -0.05 + Math.sin(a) * r, 0.03));
+  }
+  const prob = new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(probPts), 44, 0.010, 6, false), bodyMat);
+  bfGroup.add(prob);
+  [-1, 1].forEach((side) => {
+    for (let i = 0; i < 3; i++) {
+      const leg = new THREE.Mesh(new THREE.CylinderGeometry(0.010, 0.010, 0.45, 6), bodyMat);
+      leg.position.set(-0.20 + i * 0.18, -0.12, side * 0.08);
+      leg.rotation.x = side * 0.95; leg.rotation.z = 0.55 - i * 0.30;
+      bfGroup.add(leg);
+    }
+  });
   builders.butterfly.add(bfGroup);
 
   // Add all stage groups
   Object.values(builders).forEach((g) => { root.add(g); g.visible = false; });
+  addScanGradeEnhancement(root, { kind: 'butterflyLifeCycle', quality, seed: 'butterfly-life-cycle' });
+
+  // 3D timeline with one segment per life stage. The active segment glows in showStage().
+  const timeline = new THREE.Group();
+  const timelineSegments = [];
+  const stageColors = STAGES.map((s) => new THREE.Color(s.color).getHex());
+  STAGES.forEach((s, i) => {
+    const mat = new THREE.MeshStandardMaterial({ color: stageColors[i], roughness: 0.42, emissive: stageColors[i], emissiveIntensity: 0.05 });
+    const bar = new THREE.Mesh(new THREE.BoxGeometry(0.85, 0.07, 0.12), mat);
+    bar.position.set(-1.35 + i * 0.90, -1.72, 0.05);
+    timeline.add(bar);
+    const tag = makeLabelSprite(s.name, { scale: 0.22, fontSize: 20, bg: 'rgba(15,23,42,.70)' });
+    tag.position.set(bar.position.x, -1.50, 0.08);
+    timeline.add(tag);
+    timelineSegments.push(bar);
+  });
+  scene.add(timeline);
 
   // Labels (sprite) for current stage
   let labelSprite = null;
@@ -192,12 +227,22 @@ export default function init(stage) {
   const hintBadge = hud.badge('Drag the slider to change stage', '#a3e635');
 
   let current = 'butterfly';
+  let durationOut = null;
+  let timelineOut = null;
+  let keyOut = null;
   function showStage(id) {
     current = id;
     Object.entries(builders).forEach(([k, g]) => { g.visible = (k === id); });
     const s = STAGES.find((x) => x.id === id);
     stageBadge.set(s.name);
     stageBadge.el.style.setProperty('--ix-hud-color', s.color);
+    timelineSegments.forEach((bar, i) => {
+      bar.material.emissiveIntensity = STAGES[i].id === id ? 0.55 : 0.05;
+      bar.scale.y = STAGES[i].id === id ? 1.8 : 1.0;
+    });
+    if (durationOut) durationOut.set(s.duration);
+    if (timelineOut) timelineOut.set(s.dayRange);
+    if (keyOut) keyOut.set(s.key);
     if (labelSprite) root.remove(labelSprite);
     labelSprite = makeLabelSprite(s.name, { scale: 0.7, fontSize: 40 });
     labelSprite.position.set(0, 2.4, 0);
@@ -220,8 +265,12 @@ export default function init(stage) {
     });
   });
   panel.divider();
+  durationOut = panel.readout({ label: 'Stage duration', value: STAGES[3].duration });
+  timelineOut = panel.readout({ label: 'Timeline', value: STAGES[3].dayRange });
+  keyOut = panel.readout({ label: 'Main process', value: STAGES[3].key });
   panel.readout({ label: 'Stages', value: '4 (complete metamorphosis)' });
   panel.readout({ label: 'Caterpillar growth', value: 'up to 100× birth weight' });
+  panel.readout({ label: 'Model rule', value: 'egg → larva → pupa → adult' });
   panel.toggle({ label: 'Gentle spin', value: true, onChange: (v) => { spin = v; } });
 
   let spin = true;
