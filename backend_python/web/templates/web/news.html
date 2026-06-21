@@ -97,7 +97,7 @@
             <div class="news-card-meta">
               <span class="news-card-author">
                 {% if a.author_photo %}<img src="{{ a.author_photo }}" alt="">{% endif %}
-                {{ a.author_name }}
+                {{ a.author_name|mention_links_plain }}
               </span>
               <span class="dot-sep">&middot;</span>
               <span>{{ a.published_at|time_ago }}</span>
