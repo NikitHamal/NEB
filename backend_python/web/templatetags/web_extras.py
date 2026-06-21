@@ -281,6 +281,27 @@ def mention_links(value, usernames=None):
     return _render_user_content(str(value))
 
 
+_MENTION_ONLY_RE = re.compile(r'@([A-Za-z0-9_]+)')
+
+
+@register.filter
+def mention_links_plain(value):
+    """Like mention_links but ONLY links @username mentions — no markdown.
+    Safe for short credit lines (e.g. resource author_name) where markdown
+    would surprise-render (Dr. *Smith* -> italic)."""
+    if not value:
+        return mark_safe('')
+    text = str(value)
+
+    def repl(m):
+        username = m.group(1)
+        safe_user = escape(username)
+        return f'<a href="/profile/{quote(username)}/" class="author-mention">@{safe_user}</a>'
+
+    html = _MENTION_ONLY_RE.sub(repl, escape(text))
+    return mark_safe(html)
+
+
 @register.filter
 def render_content(value):
     """Render markdown formatting and @mention links for post card previews. Truncates to ~50 words."""

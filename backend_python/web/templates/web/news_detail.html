@@ -31,7 +31,7 @@
       <div class="news-detail-meta">
         <span class="news-card-author">
           {% if announcement.author_photo %}<img src="{{ announcement.author_photo }}" alt="">{% endif %}
-          {{ announcement.author_name }}
+          {{ announcement.author_name|mention_links_plain }}
         </span>
         <span class="dot-sep">&middot;</span>
         <span>{{ announcement.published_at|time_ago }}</span>

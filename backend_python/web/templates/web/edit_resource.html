@@ -219,7 +219,8 @@
 
       <div class="upload-field">
         <label class="md-label" for="author_name">Author / Credit</label>
-        <input class="md-input" type="text" id="author_name" name="author_name" value="{{ resource.author_name|default:'' }}" placeholder="e.g. Prof. Sharma, Curriculum Board">
+        <input class="md-input" type="text" id="author_name" name="author_name" value="{{ resource.author_name|default:'' }}" placeholder="e.g. Prof. Sharma, Curriculum Board" data-mention-user="1">
+        <div class="upload-hint">Tip: type @ to tag a platform user (e.g. @ram_sharma).</div>
       </div>
 
       <div class="upload-field">
@@ -326,9 +327,11 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'web/css/pages/web-edit-resource.css' %}">
+<link rel="stylesheet" href="{% static 'web/css/pages/resource-attribution.css' %}">
 {% endblock %}
 
 {% block extra_js %}
+<script src="{% static 'web/js/author-mention-picker.js' %}" nonce="{{ csp_nonce }}"></script>
 <script nonce="{{ csp_nonce }}">
 (function() {
   var EXAM_TYPES = ['Past Paper', 'Model Paper', 'Guide', 'Solution', 'Note', 'PDF'];
