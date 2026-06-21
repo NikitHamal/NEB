@@ -103,7 +103,7 @@
         {% if resource.author_name %}
         <span class="rd-meta-item">
           <span class="material-symbols-outlined">person</span>
-          {{ resource.author_name }}
+          {{ resource.author_name|mention_links_plain }}
         </span>
         {% endif %}
       {% endif %}

@@ -205,10 +205,34 @@
         <h2>Attribution</h2>
       </div>
 
+      <div class="upload-field">
+        <label class="md-label">Add on behalf of a user</label>
+        <div class="behalf-picker" id="behalf-picker">
+          <input type="hidden" name="behalf_username" id="behalf-username" value="{{ form_data.behalf_username|default:'' }}">
+          <div class="behalf-selection" id="behalf-selection" style="display:none;">
+            <span class="behalf-avatar" id="behalf-avatar"></span>
+            <span class="behalf-info">
+              <span class="behalf-name" id="behalf-name"></span>
+              <span class="behalf-handle" id="behalf-handle"></span>
+            </span>
+            <button type="button" class="behalf-clear" id="behalf-clear" title="Remove">
+              <span class="material-symbols-outlined">close</span>
+            </button>
+          </div>
+          <div class="behalf-search-row" id="behalf-search-row">
+            <span class="material-symbols-outlined behalf-search-icon">search</span>
+            <input class="md-input behalf-search-input" type="text" id="behalf-search" placeholder="Search by username to credit this resource to them…" autocomplete="off">
+          </div>
+          <div class="behalf-results" id="behalf-results" style="display:none;"></div>
+          <div class="upload-hint">Optional. When set, the resource appears as this user's upload (counts toward their profile). Author/Credit below stays as the displayed credit line.</div>
+        </div>
+      </div>
+
       <div class="upload-row">
         <div class="upload-field upload-field-half">
           <label class="md-label" for="author_name">Author / Credit</label>
-          <input class="md-input" type="text" id="author_name" name="author_name" value="{{ form_data.author_name|default:'' }}" placeholder="e.g. Prof. Sharma, Curriculum Board">
+          <input class="md-input" type="text" id="author_name" name="author_name" value="{{ form_data.author_name|default:'' }}" placeholder="e.g. Prof. Sharma, Curriculum Board" data-mention-user="1">
+          <div class="upload-hint">Tip: type @ to tag a platform user (e.g. @ram_sharma).</div>
         </div>
         <div class="upload-field upload-field-half">
           <label class="md-label" for="source_type">Source Type</label>
@@ -351,9 +375,12 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'web/css/pages/admin-resource-create.css' %}">
+<link rel="stylesheet" href="{% static 'web/css/pages/resource-attribution.css' %}">
 {% endblock %}
 
 {% block extra_js %}
+<script src="{% static 'web/js/resource-behalf-picker.js' %}" nonce="{{ csp_nonce }}"></script>
+<script src="{% static 'web/js/author-mention-picker.js' %}" nonce="{{ csp_nonce }}"></script>
 <script nonce="{{ csp_nonce }}">
 (function() {
   var EXAM_TYPES = ['Past Paper', 'Model Paper', 'Guide', 'Solution', 'Note', 'PDF'];

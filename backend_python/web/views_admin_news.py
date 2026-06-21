@@ -1,6 +1,7 @@
 """Admin views for the Announcement (news) system."""
 from .view_helpers import *  # noqa: F401,F403
 from .views_news import _slugify, _unique_slug, CATEGORY_META
+from api.models import Announcement
 
 
 def _clear_news_cache():
