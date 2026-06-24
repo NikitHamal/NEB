@@ -4,108 +4,111 @@
 {% block title %}Study Spaces{% endblock %}
 
 {% block content %}
-<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:12px;">
+<div class="admin-header-bar">
   <div>
-    <h1 class="md-headline-medium" style="margin:0;">Study Spaces</h1>
-    <p class="md-body-small" style="color:var(--md-on-surface-variant);margin:4px 0 0;">All collaborative study spaces created on the platform.</p>
+    <h1 class="md-headline-medium">Study Spaces</h1>
+    <p class="md-body-small admin-text-secondary">All collaborative study spaces on the platform.</p>
   </div>
-  <form method="get" style="display:flex;align-items:center;gap:8px;">
-    <div class="md-search" style="position:relative;display:flex;align-items:center;">
-      <span class="material-symbols-outlined" style="position:absolute;left:10px;font-size:20px;color:var(--md-on-surface-variant);">search</span>
-      <input class="md-input" type="text" name="q" value="{{ search }}" placeholder="Search spaces or owners…" style="padding-left:38px;width:240px;">
+  <form method="get" class="admin-flex-row">
+    <div class="search-bar" style="margin-bottom:0;">
+      <span class="material-symbols-outlined">search</span>
+      <input type="text" name="q" value="{{ search }}" placeholder="Search spaces or owners…" class="admin-search-input">
     </div>
     {% if search %}
     <a href="{% url 'web:admin_study_spaces' %}" class="md-btn-icon" title="Clear search">
       <span class="material-symbols-outlined">close</span>
     </a>
     {% endif %}
-    <button type="submit" class="md-btn md-btn-tonal">
+    <button type="submit" class="md-btn md-btn-filled" style="padding:8px 16px;">
       <span class="material-symbols-outlined">search</span>
       Search
     </button>
   </form>
 </div>
 
-<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:24px;">
-  <div class="admin-stat-card" style="background:var(--md-surface-container-high);border-radius:16px;padding:16px;">
-    <div style="display:flex;align-items:center;gap:10px;">
-      <span class="material-symbols-outlined" style="color:var(--md-primary);">science</span>
+<div class="admin-grid-3" style="margin-bottom:24px;">
+  <div class="admin-stat-card">
+    <div class="admin-flex-row">
+      <span class="material-symbols-outlined" style="color:var(--md-primary);font-size:28px;">science</span>
       <div>
-        <div style="font-size:1.5rem;font-weight:600;line-height:1;">{{ total_spaces }}</div>
-        <div class="md-body-small" style="color:var(--md-on-surface-variant);">Total Spaces</div>
+        <div style="font-size:1.5rem;font-weight:600;line-height:1.2;">{{ total_spaces }}</div>
+        <div class="admin-text-secondary admin-text-sm">Total Spaces</div>
       </div>
     </div>
   </div>
-  <div class="admin-stat-card" style="background:var(--md-surface-container-high);border-radius:16px;padding:16px;">
-    <div style="display:flex;align-items:center;gap:10px;">
-      <span class="material-symbols-outlined" style="color:#059669;">public</span>
+  <div class="admin-stat-card">
+    <div class="admin-flex-row">
+      <span class="material-symbols-outlined" style="color:#059669;font-size:28px;">public</span>
       <div>
-        <div style="font-size:1.5rem;font-weight:600;line-height:1;">{{ public_spaces }}</div>
-        <div class="md-body-small" style="color:var(--md-on-surface-variant);">Public Spaces</div>
+        <div style="font-size:1.5rem;font-weight:600;line-height:1.2;">{{ public_spaces }}</div>
+        <div class="admin-text-secondary admin-text-sm">Public Spaces</div>
       </div>
     </div>
   </div>
-  <div class="admin-stat-card" style="background:var(--md-surface-container-high);border-radius:16px;padding:16px;">
-    <div style="display:flex;align-items:center;gap:10px;">
-      <span class="material-symbols-outlined" style="color:#7c3aed;">description</span>
+  <div class="admin-stat-card">
+    <div class="admin-flex-row">
+      <span class="material-symbols-outlined" style="color:#7c3aed;font-size:28px;">description</span>
       <div>
-        <div style="font-size:1.5rem;font-weight:600;line-height:1;">{{ total_documents }}</div>
-        <div class="md-body-small" style="color:var(--md-on-surface-variant);">Total Documents</div>
+        <div style="font-size:1.5rem;font-weight:600;line-height:1.2;">{{ total_documents }}</div>
+        <div class="admin-text-secondary admin-text-sm">Total Documents</div>
       </div>
     </div>
   </div>
 </div>
 
 {% if spaces %}
-<div class="admin-table-wrap">
-  <table class="admin-table">
+<div class="md-table-responsive">
+  <table class="md-table" style="font-size:0.875rem;">
     <thead>
       <tr>
         <th>Space</th>
         <th>Owner</th>
         <th>Visibility</th>
-        <th>Documents</th>
-        <th>Members</th>
+        <th style="text-align:center;">Docs</th>
+        <th style="text-align:center;">Members</th>
         <th>Created</th>
-        <th>Actions</th>
+        <th style="text-align:right;">Actions</th>
       </tr>
     </thead>
     <tbody>
       {% for sp in spaces %}
       <tr>
         <td>
-          <a href="{% url 'web:study_space_page' space_id=sp.id %}" target="_blank" style="font-weight:500;">
-            {% if sp.name %}{{ sp.name }}{% else %}<span style="color:var(--md-on-surface-variant);font-style:italic;">Untitled space</span>{% endif %}
-          </a>
-          <div class="md-body-small" style="color:var(--md-on-surface-variant);font-family:monospace;">{{ sp.id }}</div>
+          <div class="admin-cell-title" style="max-width:280px;">
+            <a href="{% url 'web:study_space_page' space_id=sp.id %}" target="_blank">
+              {% if sp.name %}{{ sp.name }}{% else %}<span class="admin-text-secondary" style="font-style:italic;">Untitled</span>{% endif %}
+            </a>
+          </div>
+          <div class="admin-text-xs admin-text-secondary" style="font-family:monospace;">{{ sp.id|truncatechars:24 }}</div>
         </td>
         <td>
           {% if sp.owner %}
-            <div style="font-weight:500;">{{ sp.owner.display_name|default:sp.owner.username }}</div>
-            <div class="md-body-small" style="color:var(--md-on-surface-variant);">@{{ sp.owner.username }}</div>
+            <div class="admin-font-medium">{{ sp.owner.display_name|default:sp.owner.username }}</div>
+            <div class="admin-text-sm admin-text-secondary">@{{ sp.owner.username }}</div>
           {% else %}
-            <span style="color:var(--md-on-surface-variant);">—</span>
+            <span class="admin-text-secondary">—</span>
           {% endif %}
         </td>
         <td>
           {% if sp.visibility == 'public' %}
-            <span class="admin-chip admin-chip-published">{{ sp.visibility|title }}</span>
+            <span class="md-badge" style="background:#059669;color:#fff;">Public</span>
           {% elif sp.visibility == 'unlisted' %}
-            <span class="admin-chip admin-chip-archived">{{ sp.visibility|title }}</span>
+            <span class="md-badge" style="background:var(--md-surface-variant);color:var(--md-on-surface-variant);">Unlisted</span>
           {% else %}
-            <span class="admin-chip">{{ sp.visibility|title }}</span>
+            <span class="md-badge" style="background:var(--md-surface-variant);color:var(--md-on-surface-variant);">{{ sp.visibility|title }}</span>
           {% endif %}
         </td>
-        <td>{{ sp.doc_count }}</td>
-        <td>{{ sp.member_count }}</td>
-        <td class="md-body-small" style="color:var(--md-on-surface-variant);">
+        <td style="text-align:center;font-weight:600;">{{ sp.doc_count }}</td>
+        <td style="text-align:center;font-weight:600;">{{ sp.member_count }}</td>
+        <td class="admin-text-sm admin-text-secondary">
           {% if sp.created_at %}{{ sp.created_at|time_ago }}{% else %}—{% endif %}
         </td>
-        <td>
+        <td style="text-align:right;">
           <form method="post" action="{% url 'web:admin_study_space_delete' space_id=sp.id %}" style="display:inline;" data-action="confirm-delete" data-confirm-msg="Delete study space '{{ sp.name|default:'Untitled' }}'? All documents, members, quizzes, and flashcards will be removed. This cannot be undone.">
             {% csrf_token %}
-            <button type="submit" class="md-btn-icon" title="Delete space" style="color:var(--md-error);">
-              <span class="material-symbols-outlined">delete</span>
+            <button type="submit" class="md-btn md-btn-text" style="color:var(--md-error);padding:4px 8px;font-size:0.8125rem;text-transform:none;">
+              <span class="material-symbols-outlined" style="font-size:16px;">delete</span>
+              Delete
             </button>
           </form>
         </td>
@@ -115,13 +118,13 @@
   </table>
 </div>
 {% if spaces|length == 100 and not search %}
-<p class="md-body-small" style="color:var(--md-on-surface-variant);margin-top:12px;">Showing the 100 most recent spaces. Use search to find older ones.</p>
+<p class="admin-text-sm admin-text-secondary" style="margin-top:12px;">Showing the 100 most recent spaces. Use search to find older ones.</p>
 {% endif %}
 {% else %}
 <div class="empty-state" style="padding:48px 24px;text-align:center;">
   <span class="material-symbols-outlined" style="font-size:48px;color:var(--md-on-surface-variant);">science</span>
   <h3>{% if search %}No spaces match "{{ search }}"{% else %}No study spaces yet{% endif %}</h3>
-  <p style="color:var(--md-on-surface-variant);">
+  <p class="admin-text-secondary">
     {% if search %}Try a different search term.{% else %}Study spaces created by users will appear here.{% endif %}
   </p>
   {% if search %}
