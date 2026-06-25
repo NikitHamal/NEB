@@ -13,7 +13,7 @@ import androidx.compose.material.icons.automirrored.outlined.MenuBook
 import androidx.compose.material.icons.filled.Forum
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.outlined.Newspaper
-import androidx.compose.material.icons.filled.Newspaper
+import androidx.compose.material.icons.outlined.FactCheck
 import androidx.compose.material.icons.outlined.Forum
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -187,12 +187,6 @@ val glassNavItems = listOf(
         label = "Forum",
         selectedIcon = Icons.Filled.Forum,
         unselectedIcon = Icons.Outlined.Forum,
-    ),
-    NebNavItem(
-        route = Screen.News.route,
-        label = "News",
-        selectedIcon = Icons.Filled.Newspaper,
-        unselectedIcon = Icons.Outlined.Newspaper,
     ),
 )
 
@@ -772,6 +766,26 @@ fun NEBiansNavHost(
                             onClick = {
                                 showProfileDropdown = false
                                 navController.navigate(Screen.Bookmarks.route)
+                            }
+                        )
+
+                        // News
+                        ProfileDropdownItem(
+                            icon = Icons.Outlined.Newspaper,
+                            text = "News & Announcements",
+                            onClick = {
+                                showProfileDropdown = false
+                                navController.navigate(Screen.News.route)
+                            }
+                        )
+
+                        // Check Results
+                        ProfileDropdownItem(
+                            icon = Icons.Outlined.FactCheck,
+                            text = "Check Results",
+                            onClick = {
+                                showProfileDropdown = false
+                                navController.navigate(Screen.ResultChecker.route)
                             }
                         )
 
