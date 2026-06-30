@@ -3,6 +3,7 @@ import re
 import time
 from datetime import datetime, timezone
 from django import template
+from django.utils.html import escape
 from django.utils.safestring import mark_safe
 from urllib.parse import quote
 import markdown as md_lib
