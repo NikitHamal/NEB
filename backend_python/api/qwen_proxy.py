@@ -465,18 +465,20 @@ def build_session_headers(bx_ua=""):
         "content-type": "application/json",
         "origin": QWEN_URL,
         "referer": f"{QWEN_URL}/",
-        "sec-ch-ua": '"Google Chrome";v="136", "Chromium";v="136", "Not.A/Brand";v="99"',
+        "sec-ch-ua": '"Google Chrome";v="138", "Chromium";v="138", "Not.A/Brand";v="99"',
         "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": '"Windows"',
+        "sec-ch-ua-platform": '"Linux"',
         "sec-fetch-dest": "empty",
         "sec-fetch-mode": "cors",
         "sec-fetch-site": "same-origin",
         "user-agent": (
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
-            "(KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36"
+            "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
+            "(KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
         ),
         "x-requested-with": "XMLHttpRequest",
-        "x-source": "web",
+        "source": "web",
+        "version": "0.2.63",
+        "X-Accel-Buffering": "no",
     }
     if bx_ua:
         headers["bx-ua"] = bx_ua
@@ -558,7 +560,8 @@ def _create_fresh_session():
     midtoken = get_midtoken(midtoken_session)
     if midtoken:
         session.headers["bx-umidtoken"] = midtoken
-        session.headers["bx-v"] = "2.5.31"
+        session.headers["bx-v"] = "2.5.36"
+    session.headers["x-request-id"] = str(uuid.uuid4())
 
     try:
         warmup = session.get(f"{QWEN_URL}/", timeout=15, allow_redirects=True)
@@ -670,12 +673,14 @@ def create_chat(session, model=None, _pool_session=None):
     if model is None:
         from .qwen_utils.models import get_default_model
         model = get_default_model()
+    now = int(time.time() * 1000)
     payload = {
         "title": "New Chat",
         "models": [model],
         "chat_mode": "normal",
         "chat_type": "t2t",
-        "timestamp": int(time.time() * 1000),
+        "timestamp": now,
+        "project_id": "",
     }
     try:
         resp = session.post(f"{QWEN_URL}/api/v2/chats/new", json=payload, timeout=30)
@@ -850,7 +855,8 @@ def call_qwen(system_prompt, user_message, model="qwen3.7-plus", max_tokens=500,
             midtoken = get_midtoken(session, force_refresh=(attempt > 0))
             if midtoken:
                 session.headers["bx-umidtoken"] = midtoken
-                session.headers["bx-v"] = "2.5.31"
+                session.headers["bx-v"] = "2.5.36"
+            session.headers["x-request-id"] = str(uuid.uuid4())
 
             # Upload files if provided
             uploaded_files = []

@@ -5,6 +5,7 @@ including file attachments and feature configuration.
 Ported from flashy/backend/providers/qwen_utils/message_builder.py but
 simplified for the NEBians use case (no tools/pass-through).
 """
+import time
 import uuid
 from typing import Any, Dict, List, Optional
 
@@ -56,9 +57,12 @@ def build_msg_payload(
     msg_id = str(uuid.uuid4())
     if feature_config is None:
         feature_config = build_feature_config(thinking_enabled=False)
+    now = int(time.time() * 1000)
     return {
         "stream": stream,
         "incremental_output": stream,
+        "version": "2.1",
+        "timestamp": now,
         "chat_id": chat_id,
         "chat_mode": chat_mode,
         "model": model,
@@ -76,10 +80,14 @@ def build_msg_payload(
                 "chat_type": chat_type,
                 "feature_config": feature_config,
                 "sub_chat_type": chat_type,
+                "timestamp": now,
                 "safety": {
                     "enabled": False,
                 },
                 "extra": {
+                    "meta": {
+                        "subChatType": chat_type,
+                    },
                     "disable_recitation_policy": True,
                     "skip_safety_check": True,
                 },
