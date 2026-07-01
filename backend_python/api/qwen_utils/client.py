@@ -14,6 +14,7 @@ Usage:
 """
 import logging
 import os
+import uuid
 from typing import Dict, List, Optional, Tuple
 
 from api import qwen_proxy
@@ -52,7 +53,8 @@ class QwenClient:
             midtoken = qwen_proxy.get_midtoken(self._session)
             if midtoken:
                 self._session.headers['bx-umidtoken'] = midtoken
-                self._session.headers['bx-v'] = '2.5.31'
+                self._session.headers['bx-v'] = '2.5.36'
+            self._session.headers['x-request-id'] = str(uuid.uuid4())
             self._headers = dict(self._session.headers)
         return self._session, self._headers
 

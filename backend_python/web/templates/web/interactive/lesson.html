@@ -120,5 +120,13 @@
 {% endblock %}
 
 {% block extra_js %}
+<script type="importmap" nonce="{{ csp_nonce }}">
+{
+  "imports": {
+    "three": "{% static 'web/js/vendor/three.module.min.js' %}",
+    "three/addons/": "{% static 'web/js/vendor/' %}"
+  }
+}
+</script>
 <script type="module" src="{% static 'web/js/interactive/core/lesson.js' %}" nonce="{{ csp_nonce }}"></script>
 {% endblock %}

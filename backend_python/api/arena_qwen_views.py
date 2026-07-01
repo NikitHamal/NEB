@@ -10,6 +10,7 @@ import json
 import logging
 import os
 import tempfile
+import uuid
 
 from django.http import StreamingHttpResponse
 from rest_framework import status
@@ -159,7 +160,8 @@ def arena_create_qwen_session(request):
     midtoken = qwen_proxy.get_midtoken(qwen_session)
     if midtoken:
         qwen_session.headers['bx-umidtoken'] = midtoken
-        qwen_session.headers['bx-v'] = '2.5.31'
+        qwen_session.headers['bx-v'] = '2.5.36'
+    qwen_session.headers['x-request-id'] = str(uuid.uuid4())
 
     chat_id = qwen_proxy.create_chat(qwen_session, model=model_id, _pool_session=qwen_session)
     if not chat_id:
@@ -250,7 +252,8 @@ def arena_send_message_qwen(request, session_id):
         midtoken = qwen_proxy.get_midtoken(qwen_session)
         if midtoken:
             qwen_session.headers['bx-umidtoken'] = midtoken
-            qwen_session.headers['bx-v'] = '2.5.31'
+            qwen_session.headers['bx-v'] = '2.5.36'
+        qwen_session.headers['x-request-id'] = str(uuid.uuid4())
         req_headers = dict(qwen_session.headers)
 
         uploaded_file_objs = _upload_files_to_qwen(clean_files, qwen_session, req_headers)
@@ -297,7 +300,8 @@ def arena_send_message_qwen(request, session_id):
         midtoken = qwen_proxy.get_midtoken(qwen_session)
         if midtoken:
             qwen_session.headers['bx-umidtoken'] = midtoken
-            qwen_session.headers['bx-v'] = '2.5.31'
+            qwen_session.headers['bx-v'] = '2.5.36'
+        qwen_session.headers['x-request-id'] = str(uuid.uuid4())
 
         chat_id = sess.qwen_chat_id
         model = sess.model_id or 'qwen3.7-plus'
@@ -417,7 +421,8 @@ def arena_send_message_qwen_sse(request, session_id):
         midtoken = qwen_proxy.get_midtoken(qwen_session)
         if midtoken:
             qwen_session.headers['bx-umidtoken'] = midtoken
-            qwen_session.headers['bx-v'] = '2.5.31'
+            qwen_session.headers['bx-v'] = '2.5.36'
+        qwen_session.headers['x-request-id'] = str(uuid.uuid4())
         req_headers = dict(qwen_session.headers)
 
         import base64
@@ -483,7 +488,8 @@ def arena_send_message_qwen_sse(request, session_id):
         midtoken = qwen_proxy.get_midtoken(qwen_session)
         if midtoken:
             qwen_session.headers['bx-umidtoken'] = midtoken
-            qwen_session.headers['bx-v'] = '2.5.31'
+            qwen_session.headers['bx-v'] = '2.5.36'
+        qwen_session.headers['x-request-id'] = str(uuid.uuid4())
 
         chat_id = sess.qwen_chat_id
         model = sess.model_id or 'qwen3.7-plus'
