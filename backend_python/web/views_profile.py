@@ -1,6 +1,7 @@
 """Views Profile extracted from views.py."""
 from .view_helpers import *  # noqa: F401,F403
 from api.view_helpers import _profile_incomplete, _can_view_locked_profile
+from api.models import FollowRequest
 from io import BytesIO
 from pathlib import Path
 
@@ -91,8 +92,10 @@ def profile(request, username):
     is_self = bool(viewer_user and viewer_user.pk == profile_user.pk)
     profile_private = not _can_view_locked_profile(viewer_user, profile_user)
     is_following_profile = False
+    is_requested_profile = False
     if viewer_user and not is_self:
         is_following_profile = Follow.objects.filter(follower_id=viewer_user.pk, following_id=profile_user.pk).exists()
+        is_requested_profile = FollowRequest.objects.filter(sender_id=viewer_user.pk, receiver_id=profile_user.pk).exists()
 
     badge_info = _user_badge_info(profile_user)
 
@@ -165,23 +168,22 @@ def profile(request, username):
             'subjects': '', 'pradesh': '', 'district': '', 'school': '',
         })
 
-    stats = _build_local_stats(profile_user) if not profile_private else {
-        'post_count': 0, 'reply_count': 0, 'likes_given': 0, 'likes_received': 0, 'contribution_score': 0,
-    }
-    follower_count = (getattr(profile_user, 'follower_count', 0) or 0) if not profile_private else 0
-    following_count = (getattr(profile_user, 'following_count', 0) or 0) if not profile_private else 0
-    stats['follower_count'] = follower_count
-    stats['following_count'] = following_count
-    stats['is_following'] = is_following_profile
+    stats = _build_local_stats(profile_user) if not profile_private else {
+        'post_count': 0, 'reply_count': 0, 'likes_given': 0, 'likes_received': 0, 'contribution_score': 0,
+    }
+
+    follower_count = (getattr(profile_user, 'follower_count', 0) or 0) if not profile_private else 0
+    following_count = (getattr(profile_user, 'following_count', 0) or 0) if not profile_private else 0
+    stats['follower_count'] = follower_count
+    stats['following_count'] = following_count
+    stats['is_following'] = is_following_profile
+    stats['is_requested'] = is_requested_profile
     stats['is_self'] = is_self
 
-    if not profile_private:
-        if is_self:
-            uploaded_resources_count = Resource.objects.filter(uploaded_by_id=profile_user.id).count()
-        else:
-            uploaded_resources_count = Resource.objects.filter(uploaded_by_id=profile_user.id, approval_status='approved').count()
+    if is_self:
+        uploaded_resources_count = Resource.objects.filter(uploaded_by_id=profile_user.id, is_lead=True).count()
     else:
-        uploaded_resources_count = 0
+        uploaded_resources_count = Resource.objects.filter(uploaded_by_id=profile_user.id, approval_status='approved', is_lead=True).count()
     stats['uploaded_resources_count'] = uploaded_resources_count
 
     user_posts_qs = Post.objects.none() if profile_private else Post.objects.select_related('user').filter(user_id=profile_user.id).order_by('-created_at')[:10]
@@ -190,42 +192,56 @@ def profile(request, username):
     user_replies_qs = Reply.objects.none() if profile_private else Reply.objects.select_related('user', 'post').filter(user_id=profile_user.id).order_by('-created_at')[:10]
     user_replies = _serialize_replies(user_replies_qs, user_id)
 
-    user_resources = []
-    if not profile_private:
-        if is_self:
-            user_resources_qs = list(Resource.objects.filter(uploaded_by_id=profile_user.id).order_by('-added_at')[:60])
-        else:
-            user_resources_qs = list(Resource.objects.filter(uploaded_by_id=profile_user.id, approval_status='approved').order_by('-added_at')[:60])
-
-        liked_res_ids = set()
-        if user_id and user_resources_qs:
-            liked_res_ids = set(ResourceLike.objects.filter(
-                resource_id__in=[r.id for r in user_resources_qs], user_id=user_id
-            ).values_list('resource_id', flat=True))
+    user_resources = []
+    if is_self:
+        user_resources_qs = list(Resource.objects.filter(uploaded_by_id=profile_user.id, is_lead=True).order_by('-added_at')[:60])
+    else:
+        user_resources_qs = list(Resource.objects.filter(uploaded_by_id=profile_user.id, approval_status='approved', is_lead=True).order_by('-added_at')[:60])
 
-        for r in user_resources_qs:
-            user_resources.append({
-                'id': r.id,
-                'title': r.title,
-                'description': r.description or '',
-                'subject': r.subject,
-                'grade_level': r.grade_level,
-                'type': r.type,
-                'file_url': r.file_url or '',
-                'thumbnail_url': r.thumbnail_url or '',
-                'file_size': r.file_size,
-                'added_at': r.added_at,
-                'view_count': r.view_count,
-                'like_count': r.like_count,
-                'comment_count': r.comment_count,
-                'approval_status': r.approval_status,
-                'rejection_reason': r.rejection_reason or '',
-                'is_liked': r.id in liked_res_ids,
-            })
+    liked_res_ids = set()
+    if user_id and user_resources_qs:
+        liked_res_ids = set(ResourceLike.objects.filter(
+            resource_id__in=[r.id for r in user_resources_qs], user_id=user_id
+        ).values_list('resource_id', flat=True))
+
+    for r in user_resources_qs:
+        user_resources.append({
+            'id': r.id,
+            'title': r.title,
+            'description': r.description or '',
+            'subject': r.subject,
+            'grade_level': r.grade_level,
+            'type': r.type,
+            'file_url': r.file_url or '',
+            'thumbnail_url': r.thumbnail_url or '',
+            'file_size': r.file_size,
+            'added_at': r.added_at,
+            'view_count': r.view_count,
+            'like_count': r.like_count,
+            'comment_count': r.comment_count,
+            'approval_status': r.approval_status,
+            'rejection_reason': r.rejection_reason or '',
+            'is_liked': r.id in liked_res_ids,
+        })
 
     user_photos = []
     if user_id and user_id == profile_user.id:
         user_photos = list(UserPhoto.objects.filter(user_id=profile_user.id).values('id', 'url', 'uploaded_at', 'is_current'))
+
+    # Retrieve pending requests if profile is locked and it is the owner
+    pending_requests = []
+    pending_requests_count = 0
+    if is_self and profile_user.is_locked:
+        pending_requests_qs = FollowRequest.objects.select_related('sender').filter(receiver_id=profile_user.id).order_by('-created_at')
+        pending_requests_count = pending_requests_qs.count()
+        for req in pending_requests_qs:
+            pending_requests.append({
+                'id': req.id,
+                'sender_id': req.sender.id,
+                'sender_username': req.sender.username,
+                'sender_display_name': req.sender.display_name or req.sender.username,
+                'sender_photo': req.sender.photo_url or '',
+            })
 
     return render(request, 'web/profile.html', _ctx(request,
         profile_user=profile_data,
@@ -239,6 +255,8 @@ def profile(request, username):
         badge_info=profile_data.get('badge_info'),
         badge_info_json=json.dumps(profile_data.get('badge_info')),
         achievement_info_json=json.dumps(profile_data.get('achievement_info', [])),
+        pending_requests=pending_requests,
+        pending_requests_count=pending_requests_count,
     ))
 
 def profile_achievements(request, username):

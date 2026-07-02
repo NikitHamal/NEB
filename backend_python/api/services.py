@@ -10,7 +10,7 @@ from django.db import transaction
 from django.db.models import F
 from django.core.exceptions import ValidationError as DjangoValidationError
 
-from .models import User, Post, PostLike, PostImage, Poll, PollOption, PollVote, Reply, ReplyLike, Follow, UserPhoto, EditHistory
+from .models import User, Post, PostLike, PostImage, Poll, PollOption, PollVote, Reply, ReplyLike, Follow, UserPhoto, EditHistory, FollowRequest
 from .models import Resource, ResourceLike, ResourceComment, ResourceCommentLike, Bookmark, Notification, FCMToken, ResourceRequest, AccountDeletionRequest
 from .security import hash_password, issue_auth_token, verify_password, validate_profile_photo_url, validate_external_https_url
 from .utils import now_ms, uuid_str
@@ -243,11 +243,10 @@ def vote_poll(user, poll_id, option_ids):
 
 
 def toggle_follow(user, target_user_id, desired=None):
-    """Follow/unfollow a user.
+    """Follow/unfollow a user or send/cancel follow request for private accounts.
 
     desired may be "follow" or "unfollow" for idempotent UI calls. When omitted,
-    the legacy toggle behavior is preserved. Counts are recalculated from the
-    Follow table so stale denormalized counters cannot make profiles show 0.
+    the toggle behavior is preserved.
     """
     desired = (desired or '').strip().lower() or None
     if desired not in (None, 'follow', 'unfollow'):
@@ -259,24 +258,64 @@ def toggle_follow(user, target_user_id, desired=None):
     except User.DoesNotExist:
         return {'error': 'User not found'}, 404
 
+    is_following = False
+    requested = False
     notify_follow = False
     notify_unfollow = False
+    
     with transaction.atomic():
-        existing = Follow.objects.select_for_update().filter(follower=user, following=target_user).first()
-        if existing:
-            if desired == 'follow':
-                is_following = True
+        # Check if already following
+        existing_follow = Follow.objects.select_for_update().filter(follower=user, following=target_user).first()
+        
+        # Check if there is a pending request
+        existing_request = FollowRequest.objects.select_for_update().filter(sender=user, receiver=target_user).first()
+        
+        if target_user.is_locked:
+            # For private profiles:
+            if existing_follow:
+                # If already following, we can unfollow
+                if desired == 'follow':
+                    is_following = True
+                else:
+                    existing_follow.delete()
+                    is_following = False
+                    notify_unfollow = True
+            elif existing_request:
+                # If there's a pending request, we can cancel it
+                if desired == 'follow':
+                    requested = True
+                else:
+                    existing_request.delete()
+                    requested = False
             else:
-                existing.delete()
-                is_following = False
-                notify_unfollow = True
+                # Neither exists
+                if desired == 'unfollow':
+                    pass
+                else:
+                    # Create a new follow request
+                    FollowRequest.objects.create(
+                        id=uuid_str(),
+                        sender=user,
+                        receiver=target_user,
+                        created_at=now_ms()
+                    )
+                    requested = True
         else:
-            if desired == 'unfollow':
-                is_following = False
+            # For public profiles (standard logic):
+            if existing_follow:
+                if desired == 'follow':
+                    is_following = True
+                else:
+                    existing_follow.delete()
+                    is_following = False
+                    notify_unfollow = True
             else:
-                Follow.objects.create(follower=user, following=target_user, created_at=now_ms())
-                is_following = True
-                notify_follow = True
+                if desired == 'unfollow':
+                    pass
+                else:
+                    Follow.objects.create(follower=user, following=target_user, created_at=now_ms())
+                    is_following = True
+                    notify_follow = True
 
         follower_count = Follow.objects.filter(following=target_user).count()
         following_count = Follow.objects.filter(follower=user).count()
@@ -288,9 +327,12 @@ def toggle_follow(user, target_user_id, desired=None):
         _notif.notify_new_follow(user.id, target_user.id)
     elif notify_unfollow:
         _notif.notify_unfollow(user.id, target_user.id)
+        
     _rt.broadcast_follow_changed(target_user.id, follower_count)
+    
     return {
         'is_following': is_following,
+        'requested': requested,
         'follower_count': follower_count,
         'following_count': following_count,
         'is_mutual': is_mutual,

@@ -493,6 +493,26 @@ class Follow(models.Model):
         return f"{self.follower_id} → {self.following_id}"
 
 
+class FollowRequest(models.Model):
+    """Instagram-style follow request for private accounts."""
+    id = models.CharField(max_length=36, primary_key=True)
+    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sent_follow_requests')
+    receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name='received_follow_requests')
+    created_at = models.BigIntegerField()
+
+    class Meta:
+        db_table = 'follow_requests'
+        ordering = ['-created_at']
+        unique_together = ('sender', 'receiver')
+        indexes = [
+            models.Index(fields=['receiver_id']),
+            models.Index(fields=['sender_id']),
+        ]
+
+    def __str__(self):
+        return f"{self.sender_id} requested to follow {self.receiver_id}"
+
+
 class EditHistory(models.Model):
     """Tracks edit history for posts and replies."""
     id = models.CharField(max_length=36, primary_key=True)
