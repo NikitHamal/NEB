@@ -203,9 +203,9 @@
               {% else %}
                 {% if is_authenticated %}
                   <button id="btnFollowToggle" data-action="toggle-follow-user" data-user-id="{{ profile_user.id }}"
-                          class="pf-btn {% if stats.is_following %}pf-btn-outlined{% else %}pf-btn-filled{% endif %}">
-                    <span class="material-symbols-outlined">{% if stats.is_following %}check{% else %}add{% endif %}</span>
-                    <span id="followText">{% if stats.is_following %}Following{% else %}Follow{% endif %}</span>
+                          class="pf-btn {% if stats.is_following or stats.is_requested %}pf-btn-outlined{% else %}pf-btn-filled{% endif %}">
+                    <span class="material-symbols-outlined">{% if stats.is_following %}check{% elif stats.is_requested %}pending{% else %}add{% endif %}</span>
+                    <span id="followText">{% if stats.is_following %}Following{% elif stats.is_requested %}Requested{% else %}Follow{% endif %}</span>
                   </button>
                 {% else %}
                   <a href="{% url 'web:login' %}?next={{ request.path }}" class="pf-btn pf-btn-filled" style="text-decoration:none;">
@@ -298,7 +298,19 @@
 
       <!-- Right Column: Tabs and Interactive Feeds -->
       <div class="profile-right-col">
-        {% if profile_user.is_bot %}
+        {% if profile_private %}
+          <!-- Private Account Lock Placeholder -->
+          <div class="pf-card" style="text-align: center; padding: 64px 32px; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 350px; font-family: 'Poppins', sans-serif;">
+            <div style="width: 72px; height: 72px; border-radius: 50%; border: 2px solid var(--md-outline); display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+              <span class="material-symbols-outlined" style="font-size: 36px; color: var(--md-on-surface-variant); opacity: 0.8;">lock</span>
+            </div>
+            <h2 style="font-size: 1.25rem; font-weight: 700; color: var(--md-on-surface); margin: 0 0 8px;">This Account is Private</h2>
+            <p style="font-size: 0.875rem; color: var(--md-on-surface-variant); max-width: 280px; margin: 0; line-height: 1.5;">
+              Follow this account to see their posts, replies, and resources.
+            </p>
+          </div>
+        {% else %}
+          {% if profile_user.is_bot %}
           <!-- Bot: Try @neby CTA card -->
           <div class="pf-bot-cta-card">
             <div class="pf-bot-cta-content">
@@ -333,6 +345,12 @@
           <button class="profile-tab" data-tab="about" data-action="switch-profile-tab">
             About
           </button>
+          {% if stats.is_self and profile_user.is_locked %}
+          <button class="profile-tab" data-tab="requests" data-action="switch-profile-tab" id="tabBtnRequests">
+            Requests
+            <span class="tab-count" id="cntRequestsBadge">{{ pending_requests_count|default:0 }}</span>
+          </button>
+          {% endif %}
         </div>
 
         <!-- Tab: Posts -->
@@ -632,6 +650,45 @@
             </div>
         </div>
 
+        <!-- Tab: Follow Requests (visible only to self if private) -->
+        {% if stats.is_self and profile_user.is_locked %}
+        <div class="profile-tab-content" id="tabRequests">
+          <div class="activity-list" id="requestsFeed">
+            {% if pending_requests %}
+              {% for req in pending_requests %}
+              <div class="pf-request-item" id="request-{{ req.id }}" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; background: var(--md-surface-container-low); border-radius: 8px; margin-bottom: 8px;">
+                <div style="display: flex; align-items: center; gap: 12px; min-width: 0;">
+                  <div style="width: 40px; height: 40px; border-radius: 50%; overflow: hidden; background: var(--md-primary); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                    {% if req.sender_photo %}
+                      <img src="{{ req.sender_photo }}" alt="" style="width: 100%; height: 100%; object-fit: cover;">
+                    {% else %}
+                      <span style="font-weight: 600; color: var(--md-on-primary);">{{ req.sender_display_name|slice:":1" }}</span>
+                    {% endif %}
+                  </div>
+                  <div style="min-width: 0;">
+                    <a href="{% url 'web:profile' username=req.sender_username %}" style="font-weight: 600; color: var(--md-on-surface); text-decoration: none; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ req.sender_display_name }}</a>
+                    <span style="font-size: 0.75rem; color: var(--md-on-surface-variant);">@{{ req.sender_username }}</span>
+                  </div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 8px; flex-shrink: 0;">
+                  <button class="md-btn md-btn-filled" data-action="accept-request" data-request-id="{{ req.id }}" style="min-height: 32px; height: 32px; font-size: 0.75rem; padding: 0 12px;">Confirm</button>
+                  <button class="md-btn md-btn-outlined" data-action="reject-request" data-request-id="{{ req.id }}" style="min-height: 32px; height: 32px; font-size: 0.75rem; padding: 0 12px;">Delete</button>
+                </div>
+              </div>
+              {% endfor %}
+            {% else %}
+              <div class="activity-empty">
+                <span class="activity-empty-icon material-symbols-outlined">group_add</span>
+                <div class="activity-empty-text">
+                  <strong>No follow requests</strong>
+                  <span>When people request to follow you, they'll show up here.</span>
+                </div>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+        {% endif %}
+
         <!-- Tab: About -->
         <div class="profile-tab-content" id="tabAbout">
           <!-- Stats summary in about -->
@@ -847,7 +904,7 @@
           </div>
           {% endif %}
         </div>
-
+        {% endif %}
       </div> <!-- End of .profile-right-col -->
     </div> <!-- End of .profile-grid-container -->
   {% else %}
@@ -1239,12 +1296,17 @@ async function toggleFollowUser(uid) {
     btn.disabled = false;
     if (d && d.error) { showSnackbar(d.error); return; }
     if (d) {
-      if (d.is_mutual && PROFILE_PRIVATE && d.is_following) {
+      if (PROFILE_PRIVATE && !d.is_following && !d.requested) {
         window.location.reload();
         return;
       }
-      btn.className = d.is_following ? 'pf-btn pf-btn-outlined' : 'pf-btn pf-btn-filled';
-      btn.innerHTML = `<span class="material-symbols-outlined">${d.is_following ? 'check' : 'add'}</span><span id="followText">${d.is_following ? 'Following' : 'Follow'}</span>`;
+      if (d.requested) {
+        btn.className = 'pf-btn pf-btn-outlined';
+        btn.innerHTML = `<span class="material-symbols-outlined">pending</span><span id="followText">Requested</span>`;
+      } else {
+        btn.className = d.is_following ? 'pf-btn pf-btn-outlined' : 'pf-btn pf-btn-filled';
+        btn.innerHTML = `<span class="material-symbols-outlined">${d.is_following ? 'check' : 'add'}</span><span id="followText">${d.is_following ? 'Following' : 'Follow'}</span>`;
+      }
       const c = document.getElementById('cntFollowers');
       if (c) c.textContent = d.follower_count;
       const c_about = document.getElementById('cntFollowers_About');
@@ -1341,12 +1403,89 @@ function switchProfileTab(tabName) {
   }
 }
 
+async function acceptFollowRequest(reqId, btn) {
+  btn.disabled = true;
+  try {
+    const r = await fetch(`/ajax/follow-requests/${encodeURIComponent(reqId)}/accept/`, {
+      method: 'POST',
+      headers: {'X-CSRFToken': CSRF_TOKEN},
+      credentials: 'same-origin'
+    });
+    const d = await r.json();
+    if (d && d.error) { showSnackbar(d.error); btn.disabled = false; return; }
+    const item = document.getElementById('request-' + reqId);
+    if (item) item.remove();
+    const badge = document.getElementById('cntRequestsBadge');
+    if (badge) {
+      const current = parseInt(badge.textContent) || 0;
+      const nextCount = Math.max(0, current - 1);
+      badge.textContent = nextCount;
+      if (nextCount === 0) {
+        const feed = document.getElementById('requestsFeed');
+        if (feed) {
+          feed.innerHTML = `
+            <div class="activity-empty">
+              <span class="activity-empty-icon material-symbols-outlined">group_add</span>
+              <div class="activity-empty-text">
+                <strong>No follow requests</strong>
+                <span>When people request to follow you, they'll show up here.</span>
+              </div>
+            </div>`;
+        }
+      }
+    }
+    showSnackbar('Follow request accepted');
+  } catch(e) {
+    btn.disabled = false;
+    showSnackbar('Error accepting request');
+  }
+}
+
+async function rejectFollowRequest(reqId, btn) {
+  btn.disabled = true;
+  try {
+    const r = await fetch(`/ajax/follow-requests/${encodeURIComponent(reqId)}/reject/`, {
+      method: 'POST',
+      headers: {'X-CSRFToken': CSRF_TOKEN},
+      credentials: 'same-origin'
+    });
+    const d = await r.json();
+    if (d && d.error) { showSnackbar(d.error); btn.disabled = false; return; }
+    const item = document.getElementById('request-' + reqId);
+    if (item) item.remove();
+    const badge = document.getElementById('cntRequestsBadge');
+    if (badge) {
+      const current = parseInt(badge.textContent) || 0;
+      const nextCount = Math.max(0, current - 1);
+      badge.textContent = nextCount;
+      if (nextCount === 0) {
+        const feed = document.getElementById('requestsFeed');
+        if (feed) {
+          feed.innerHTML = `
+            <div class="activity-empty">
+              <span class="activity-empty-icon material-symbols-outlined">group_add</span>
+              <div class="activity-empty-text">
+                <strong>No follow requests</strong>
+                <span>When people request to follow you, they'll show up here.</span>
+              </div>
+            </div>`;
+        }
+      }
+    }
+    showSnackbar('Follow request deleted');
+  } catch(e) {
+    btn.disabled = false;
+    showSnackbar('Error rejecting request');
+  }
+}
 
 function closeAllMenus() {
   document.querySelectorAll('.more-menu').forEach(function(m) { m.style.display = 'none'; });
 }
 
 registerActions({
+  'accept-request': function(el) { acceptFollowRequest(el.dataset.requestId, el); },
+  'reject-request': function(el) { rejectFollowRequest(el.dataset.requestId, el); },
   'switch-profile-tab': function(el) { switchProfileTab(el.dataset.tab); },
   'toggle-like-post': function(el) { toggleLikePost(el.dataset.postId, el); },
   'toggle-like-reply': function(el) { toggleLikeReply(el.dataset.replyId, el); },
