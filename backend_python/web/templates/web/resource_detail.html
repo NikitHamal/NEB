@@ -132,27 +132,70 @@
     <div class="rd-description">{{ resource.description }}</div>
     {% endif %}
 
+    <!-- Files List Section -->
+    <div class="rd-files-section">
+      <h3 class="rd-files-title">
+        <span class="material-symbols-outlined">description</span>
+        Available Files ({{ resource_files|length }})
+      </h3>
+      <div class="rd-files-grid">
+        {% for file in resource_files %}
+        <div class="rd-file-card">
+          <div class="rd-file-info">
+            <span class="material-symbols-outlined rd-file-icon">
+              {{ file.type|resource_type_icon }}
+            </span>
+            <div class="rd-file-details">
+              <div class="rd-file-name" title="{{ file.title }}">{{ file.title }}</div>
+              <div class="rd-file-meta">
+                <span class="rd-file-badge">{{ file.type }}</span>
+                {% if file.file_size %}
+                <span class="rd-file-size">&middot; {{ file.file_size|file_size_human }}</span>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+          <div class="rd-file-actions">
+            {% if file.id == resource.id %}
+              {% if resource.safe_file_url %}
+                <a href="{{ resource.safe_file_url }}" target="_blank" rel="noopener noreferrer" class="rd-file-btn btn-read">
+                  <span class="material-symbols-outlined">visibility</span>
+                  Read
+                </a>
+                <a href="{{ resource.safe_file_url }}" download class="rd-file-btn btn-download">
+                  <span class="material-symbols-outlined">download</span>
+                  Download
+                </a>
+              {% elif resource.file_url %}
+                <a href="{{ resource.file_url }}" target="_blank" rel="noopener noreferrer" class="rd-file-btn btn-read">
+                  <span class="material-symbols-outlined">visibility</span>
+                  Read
+                </a>
+                <a href="{{ resource.file_url }}" download class="rd-file-btn btn-download">
+                  <span class="material-symbols-outlined">download</span>
+                  Download
+                </a>
+              {% endif %}
+            {% else %}
+              <a href="{% url 'web:reader' resource_id=file.id %}" class="rd-file-btn btn-read">
+                <span class="material-symbols-outlined">menu_book</span>
+                Read
+              </a>
+              {% if file.file_url %}
+                <a href="{{ file.file_url }}" download class="rd-file-btn btn-download">
+                  <span class="material-symbols-outlined">download</span>
+                  Download
+                </a>
+              {% endif %}
+            {% endif %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
     <!-- Actions -->
     <div class="rd-actions">
-      {% if resource.safe_file_url %}
-      <a href="{{ resource.safe_file_url }}" target="_blank" rel="noopener noreferrer" class="rd-action-btn rd-btn-view">
-        <span class="material-symbols-outlined">open_in_new</span>
-        <span class="rd-btn-label">View {{ resource.type }}</span>
-      </a>
-      <a href="{{ resource.safe_file_url }}" download class="rd-action-btn rd-btn-download">
-        <span class="material-symbols-outlined">download</span>
-        <span class="rd-btn-label">Download</span>
-      </a>
-      {% elif resource.file_url %}
-      <a href="{{ resource.file_url }}" target="_blank" rel="noopener noreferrer" class="rd-action-btn rd-btn-view">
-        <span class="material-symbols-outlined">open_in_new</span>
-        <span class="rd-btn-label">View {{ resource.type }}</span>
-      </a>
-      <a href="{{ resource.file_url }}" download class="rd-action-btn rd-btn-download">
-        <span class="material-symbols-outlined">download</span>
-        <span class="rd-btn-label">Download</span>
-      </a>
-      {% endif %}
       <span class="rd-action-spacer"></span>
       <button data-action="toggle-resource-like" data-resource-id="{{ resource.id }}" class="rd-action-btn rd-btn-like {% if is_liked %}liked{% endif %}" id="resource-like-btn">
         <span class="material-symbols-outlined"{% if is_liked %} style="font-variation-settings:'FILL' 1"{% endif %}>thumb_up</span>
@@ -174,34 +217,6 @@
       </button>
     </div>
   </div>
-
-  <!-- Bundle Files Panel (if any) -->
-  {% if group_resources and group_resources|length > 1 %}
-  <div class="rd-bundle-panel">
-    <div class="rd-bundle-header">
-      <span class="material-symbols-outlined">library_books</span>
-      Files in this Bundle ({{ group_resources|length }})
-    </div>
-    <div class="rd-bundle-list">
-      {% for gr in group_resources %}
-      <a href="{% url 'web:reader' resource_id=gr.id %}" class="rd-bundle-item {% if gr.id == resource.id %}active{% endif %}">
-        <span class="material-symbols-outlined rd-bundle-item-icon">
-          {{ gr.type|resource_type_icon }}
-        </span>
-        <div style="flex: 1; min-width: 0;">
-          <div class="rd-bundle-item-title" title="{{ gr.title }}">{{ gr.title }}</div>
-          <div class="rd-bundle-item-meta">
-            {{ gr.type }}{% if gr.file_size %} &middot; {{ gr.file_size|file_size_human }}{% endif %}
-          </div>
-        </div>
-        {% if gr.id == resource.id %}
-        <span class="material-symbols-outlined" style="font-size: 20px; color: var(--md-primary);">done</span>
-        {% endif %}
-      </a>
-      {% endfor %}
-    </div>
-  </div>
-  {% endif %}
 
   <!-- Media Preview (inline) -->
   {% if resource.safe_file_url %}
@@ -230,23 +245,6 @@
   <div class="rd-section-title">
     Comments <span class="count">({{ comment_count }})</span>
   </div>
-
-  {% if is_authenticated %}
-  <div class="rd-compose" id="comment-compose">
-    <div class="rd-compose-header">Add a comment</div>
-    <div class="reply-input-wrapper">
-      <textarea id="comment-input" placeholder="Share your thoughts about this resource..." rows="3"></textarea>
-      <button class="reply-send-btn" id="comment-submit-btn" data-action="submit-comment" disabled>
-        <span class="material-symbols-outlined">arrow_upward</span>
-      </button>
-    </div>
-  </div>
-  {% else %}
-  <div class="rd-login-prompt">
-    <span class="material-symbols-outlined" style="font-size:36px;opacity:.4;margin-bottom:8px;display:block;">login</span>
-    <p><a href="{% url 'web:login' %}" style="color:var(--md-primary);font-weight:600;">Sign in</a> to leave a comment</p>
-  </div>
-  {% endif %}
 
   <!-- Comment list -->
   <div id="comment-list">
@@ -347,12 +345,29 @@
       </div>
       {% endfor %}
     {% else %}
-    <div class="rd-empty-comments" id="empty-comments">
+    <div class="rd-empty-comments" id="empty-comments" style="margin-bottom: 24px;">
       <span class="material-symbols-outlined">chat_bubble_outline</span>
       <p>No comments yet. Be the first to share your thoughts!</p>
     </div>
     {% endif %}
   </div>
+
+  {% if is_authenticated %}
+  <div class="rd-compose" id="comment-compose" style="margin-top: 16px;">
+    <div class="rd-compose-header">Add a comment</div>
+    <div class="reply-input-wrapper">
+      <textarea id="comment-input" placeholder="Share your thoughts about this resource..." rows="3"></textarea>
+      <button class="reply-send-btn" id="comment-submit-btn" data-action="submit-comment" disabled>
+        <span class="material-symbols-outlined">arrow_upward</span>
+      </button>
+    </div>
+  </div>
+  {% else %}
+  <div class="rd-login-prompt" style="margin-top: 16px;">
+    <span class="material-symbols-outlined" style="font-size:36px;opacity:.4;margin-bottom:8px;display:block;">login</span>
+    <p><a href="{% url 'web:login' %}" style="color:var(--md-primary);font-weight:600;">Sign in</a> to leave a comment</p>
+  </div>
+  {% endif %}
 
   <!-- Related Resources -->
   {% if related_resources %}

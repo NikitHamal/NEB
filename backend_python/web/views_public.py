@@ -611,6 +611,8 @@ def reader(request, resource_id):
             group_qs = group_qs.filter(approval_status='approved')
         group_resources = _serialize_resources(group_qs)
 
+    resource_files = group_resources if group_resources else [resource]
+
     return render(request, 'web/resource_detail.html', _ctx(request,
         resource=resource,
         resource_id=resource_id,
@@ -623,6 +625,7 @@ def reader(request, resource_id):
         comment_count=resource_obj.comment_count,
         related_resources=related_resources,
         group_resources=group_resources,
+        resource_files=resource_files,
     ))
 
 def resource_requests_page(request):
