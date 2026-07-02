@@ -806,3 +806,55 @@ def ajax_poll_vote(request, poll_id):
         if 'error' in result:
             return JsonResponse(result, status=status_code)
     return JsonResponse(result)
+
+
+@require_POST
+def ajax_accept_follow_request(request, request_id):
+    user_id = _get_user_id(request)
+    if not user_id:
+        return JsonResponse({'error': 'Please log in again.'}, status=401)
+    
+    from api.models import FollowRequest, Follow
+    from api.utils import now_ms
+    try:
+        req = FollowRequest.objects.get(pk=request_id, receiver_id=user_id)
+    except FollowRequest.DoesNotExist:
+        return JsonResponse({'error': 'Follow request not found.'}, status=404)
+        
+    sender = req.sender
+    receiver = req.receiver
+    
+    with transaction.atomic():
+        req.delete()
+        Follow.objects.get_or_create(
+            follower=sender,
+            following=receiver,
+            defaults={'created_at': now_ms()}
+        )
+        follower_count = Follow.objects.filter(following=receiver).count()
+        following_count = Follow.objects.filter(follower=sender).count()
+        User.objects.filter(pk=receiver.id).update(follower_count=follower_count)
+        User.objects.filter(pk=sender.id).update(following_count=following_count)
+        
+    from api import notifications as _notif
+    from api import realtime as _rt
+    _notif.notify_new_follow(sender.id, receiver.id)
+    _rt.broadcast_follow_changed(receiver.id, follower_count)
+    
+    return JsonResponse({'status': 'success'})
+
+
+@require_POST
+def ajax_reject_follow_request(request, request_id):
+    user_id = _get_user_id(request)
+    if not user_id:
+        return JsonResponse({'error': 'Please log in again.'}, status=401)
+        
+    from api.models import FollowRequest
+    try:
+        req = FollowRequest.objects.get(pk=request_id, receiver_id=user_id)
+    except FollowRequest.DoesNotExist:
+        return JsonResponse({'error': 'Follow request not found.'}, status=404)
+        
+    req.delete()
+    return JsonResponse({'status': 'success'})

@@ -112,14 +112,16 @@ def _is_mutual_follow(viewer, target_user):
 
 
 def _can_view_locked_profile(viewer, target_user):
-    """Owner and mutual followers can view a locked profile."""
+    """Owner and followers can view a locked profile."""
     if not target_user:
         return False
     if not getattr(target_user, 'is_locked', False):
         return True
     if viewer and getattr(viewer, 'pk', None) == getattr(target_user, 'pk', None):
         return True
-    return _is_mutual_follow(viewer, target_user)
+    if not viewer:
+        return False
+    return Follow.objects.filter(follower_id=viewer.pk, following_id=target_user.pk).exists()
 
 
 def _get_user_from_request(request):
