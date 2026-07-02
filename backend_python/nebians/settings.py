@@ -56,6 +56,15 @@ if not ADMIN_API_SALT:
     else:
         raise ImproperlyConfigured('ADMIN_API_SALT must be set when DEBUG=False')
 
+# Shared secret for the Consica app AI bridge endpoint.
+# Must be set in .env for both dev and production.
+CONSICA_BRIDGE_KEY = os.environ.get('CONSICA_BRIDGE_KEY', '')
+if not CONSICA_BRIDGE_KEY:
+    if DEBUG:
+        CONSICA_BRIDGE_KEY = 'dev-consica-bridge-key-change-in-prod'
+    else:
+        raise ImproperlyConfigured('CONSICA_BRIDGE_KEY must be set when DEBUG=False')
+
 ALLOWED_HOSTS = env_list(
     'ALLOWED_HOSTS',
     'localhost,127.0.0.1,nebians.consica.com.np,www.nebians.consica.com.np',

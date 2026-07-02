@@ -98,6 +98,9 @@ urlpatterns = [
     # Interactive learning catalog
     path('interactive/', include('api.interactive_urls')),
 
+    # Consica app AI bridge (non-guessable path, key-authenticated)
+    path('consica-bridge/', include('api.consica_bridge_urls')),
+
     # Admin API
     path('', include('api.admin_urls')),
 ]
