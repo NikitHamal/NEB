@@ -731,6 +731,7 @@ fun ForumPostDetailScreen(
             }
         }
     }
+}
 
 @Composable
 private fun ReplySortPill(
