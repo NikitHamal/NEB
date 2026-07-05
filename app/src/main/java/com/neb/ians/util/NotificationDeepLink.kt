@@ -39,14 +39,30 @@ data class NotificationDeepLink(
         const val EXTRA_ACTOR_USERNAME = "neb_extra_actor_username"
 
         fun fromIntent(intent: Intent): NotificationDeepLink? {
-            if (!intent.getBooleanExtra(EXTRA_IS_NOTIFICATION, false)) return null
-            val verb = intent.getStringExtra(EXTRA_VERB) ?: ""
-            val targetType = intent.getStringExtra(EXTRA_TARGET_TYPE) ?: ""
-            val targetId = intent.getStringExtra(EXTRA_TARGET_ID) ?: ""
-            val referenceType = intent.getStringExtra(EXTRA_REFERENCE_TYPE) ?: ""
-            val referenceId = intent.getStringExtra(EXTRA_REFERENCE_ID) ?: ""
+            val isNotification = intent.getBooleanExtra(EXTRA_IS_NOTIFICATION, false) ||
+                    intent.hasExtra("verb") || intent.hasExtra("target_type")
+            if (!isNotification) return null
+
+            val verb = intent.getStringExtra(EXTRA_VERB) 
+                ?: intent.getStringExtra("verb") 
+                ?: ""
+            val targetType = intent.getStringExtra(EXTRA_TARGET_TYPE)
+                ?: intent.getStringExtra("target_type")
+                ?: ""
+            val targetId = intent.getStringExtra(EXTRA_TARGET_ID)
+                ?: intent.getStringExtra("target_id")
+                ?: ""
+            val referenceType = intent.getStringExtra(EXTRA_REFERENCE_TYPE)
+                ?: intent.getStringExtra("reference_type")
+                ?: ""
+            val referenceId = intent.getStringExtra(EXTRA_REFERENCE_ID)
+                ?: intent.getStringExtra("reference_id")
+                ?: ""
             val notificationId = intent.getStringExtra(EXTRA_NOTIFICATION_ID)
+                ?: intent.getStringExtra("notification_id")
             val actorUsername = intent.getStringExtra(EXTRA_ACTOR_USERNAME)
+                ?: intent.getStringExtra("actor_username")
+
             val route = resolveRoute(verb, targetType, targetId, referenceType, referenceId, actorUsername)
             return NotificationDeepLink(
                 notificationId = notificationId,

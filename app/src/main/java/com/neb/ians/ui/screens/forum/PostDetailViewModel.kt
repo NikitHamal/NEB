@@ -1,19 +1,26 @@
 package com.neb.ians.ui.screens.forum
 
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.neb.ians.data.api.ApiPost
 import com.neb.ians.data.api.ApiReply
+import com.neb.ians.data.api.ApiUserSearchResult
 import com.neb.ians.data.realtime.RealtimeClient
 import com.neb.ians.data.repository.AuthRepository
 import com.neb.ians.data.repository.ForumRepository
 import com.neb.ians.ui.components.PollUi
 import com.neb.ians.ui.components.toPollUi
+import com.neb.ians.ui.components.applyMention
+import com.neb.ians.ui.components.mentionQueryAt
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
@@ -380,6 +387,117 @@ class PostDetailViewModel @Inject constructor(
     private fun replaceReply(updated: ApiReply) {
         _state.update { state ->
             state.copy(replies = state.replies.map { if (it.id == updated.id) updated else it })
+        }
+    }
+
+    // ----- Reply Compose State and Methods -----
+    private val _mainReplyText = MutableStateFlow(TextFieldValue(""))
+    val mainReplyText: StateFlow<TextFieldValue> = _mainReplyText.asStateFlow()
+
+    private val _mainMentionSuggestions = MutableStateFlow<List<ApiUserSearchResult>>(emptyList())
+    val mainMentionSuggestions: StateFlow<List<ApiUserSearchResult>> = _mainMentionSuggestions.asStateFlow()
+
+    private var mainMentionJob: Job? = null
+
+    private val _threadReplyText = MutableStateFlow(TextFieldValue(""))
+    val threadReplyText: StateFlow<TextFieldValue> = _threadReplyText.asStateFlow()
+
+    private val _threadMentionSuggestions = MutableStateFlow<List<ApiUserSearchResult>>(emptyList())
+    val threadMentionSuggestions: StateFlow<List<ApiUserSearchResult>> = _threadMentionSuggestions.asStateFlow()
+
+    private var threadMentionJob: Job? = null
+
+    private val _isSubmittingReply = MutableStateFlow(false)
+    val isSubmittingReply: StateFlow<Boolean> = _isSubmittingReply.asStateFlow()
+
+    fun onMainReplyChange(value: TextFieldValue) {
+        if (value.text.length > 10000) return
+        _mainReplyText.value = value
+        
+        mainMentionJob?.cancel()
+        val query = mentionQueryAt(value)
+        if (query == null) {
+            _mainMentionSuggestions.value = emptyList()
+            return
+        }
+        mainMentionJob = viewModelScope.launch {
+            delay(300)
+            forumRepository.searchUsers(query)
+                .onSuccess { users ->
+                    if (mentionQueryAt(_mainReplyText.value) == query) {
+                        _mainMentionSuggestions.value = users.take(8)
+                    }
+                }
+                .onFailure {
+                    _mainMentionSuggestions.value = emptyList()
+                }
+        }
+    }
+
+    fun selectMainMention(user: ApiUserSearchResult) {
+        _mainReplyText.value = applyMention(_mainReplyText.value, user.username)
+        _mainMentionSuggestions.value = emptyList()
+    }
+
+    fun onThreadReplyChange(value: TextFieldValue) {
+        if (value.text.length > 10000) return
+        _threadReplyText.value = value
+
+        threadMentionJob?.cancel()
+        val query = mentionQueryAt(value)
+        if (query == null) {
+            _threadMentionSuggestions.value = emptyList()
+            return
+        }
+        threadMentionJob = viewModelScope.launch {
+            delay(300)
+            forumRepository.searchUsers(query)
+                .onSuccess { users ->
+                    if (mentionQueryAt(_threadReplyText.value) == query) {
+                        _threadMentionSuggestions.value = users.take(8)
+                    }
+                }
+                .onFailure {
+                    _threadMentionSuggestions.value = emptyList()
+                }
+        }
+    }
+
+    fun selectThreadMention(user: ApiUserSearchResult) {
+        _threadReplyText.value = applyMention(_threadReplyText.value, user.username)
+        _threadMentionSuggestions.value = emptyList()
+    }
+
+    fun submitReply(
+        content: String,
+        parentReplyId: String?,
+        onSuccess: () -> Unit
+    ) {
+        if (content.isBlank() || _isSubmittingReply.value) return
+        viewModelScope.launch {
+            _isSubmittingReply.value = true
+            forumRepository.createReply(
+                postId = postId,
+                content = content,
+                parentReplyId = parentReplyId
+            ).onSuccess { reply ->
+                _isSubmittingReply.value = false
+                if (parentReplyId.isNullOrBlank()) {
+                    _mainReplyText.value = TextFieldValue("")
+                } else {
+                    _threadReplyText.value = TextFieldValue("")
+                }
+                // Add the newly created reply to state if not already there,
+                // matching the websocket event.
+                _state.update { state ->
+                    if (state.replies.any { it.id == reply.id }) state
+                    else state.copy(replies = state.replies + reply)
+                }
+                onSuccess()
+            }.onFailure { e ->
+                _isSubmittingReply.value = false
+                _state.update { it.copy(snackbarMessage = e.message ?: "Failed to submit reply") }
+            }
         }
     }
 }
