@@ -6,9 +6,12 @@ ServerTokens Prod
 
 RewriteEngine On
 
-# HTTP → HTTPS redirect (fixes Google "alternate page with proper canonical tag")
-RewriteCond %{HTTPS} off
-RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+# HTTP → HTTPS + WWW → non-WWW in a single 301 hop
+# Handles all variants: http://, https://www., http://www.
+RewriteCond %{HTTPS} off [OR]
+RewriteCond %{HTTP_HOST} ^www\. [NC]
+RewriteCond %{HTTP_HOST} ^(?:www\.)?(.+)$ [NC]
+RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
 
 # Block sensitive paths - return 404 instead of 403
 RewriteRule ^\.git - [R=404,L]
