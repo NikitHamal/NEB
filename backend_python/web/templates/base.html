@@ -28,20 +28,20 @@
   <meta property="og:description"
     content="{% block og_description %}A Nepali learning community for students, teachers, and learners to share resources, discuss questions, and study smarter with AI tools.{% endblock %}">
   <meta property="og:type" content="{% block og_type %}website{% endblock %}">
-  <meta property="og:url" content="{{ request.build_absolute_uri }}">
+  <meta property="og:url" content="https://nebians.consica.com.np{{ request.path }}">
   <meta property="og:site_name" content="NEBians">
   <meta property="og:locale" content="en_NP">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="{% block tw_title %}NEBians — Nepali Learning Community{% endblock %}">
   <meta name="twitter:description"
     content="{% block tw_description %}A Nepali learning community for students, teachers, and learners to share resources, discuss questions, and study smarter with AI tools.{% endblock %}">
-  <meta property="og:image" content="{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'web/img/n-logo-social-1200.png' %}{% endblock %}">
-  <meta property="og:image:secure_url" content="{% block og_image_secure %}{{ request.scheme }}://{{ request.get_host }}{% static 'web/img/n-logo-social-1200.png' %}{% endblock %}">
+  <meta property="og:image" content="{% block og_image %}https://nebians.consica.com.np{% static 'web/img/n-logo-social-1200.png' %}{% endblock %}">
+  <meta property="og:image:secure_url" content="{% block og_image_secure %}https://nebians.consica.com.np{% static 'web/img/n-logo-social-1200.png' %}{% endblock %}">
   <meta property="og:image:type" content="{% block og_image_type %}image/png{% endblock %}">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="{% block og_image_alt %}NEBians logo{% endblock %}">
-  <meta name="twitter:image" content="{% block tw_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'web/img/n-logo-social-1200.png' %}{% endblock %}">
+  <meta name="twitter:image" content="{% block tw_image %}https://nebians.consica.com.np{% static 'web/img/n-logo-social-1200.png' %}{% endblock %}">
   <meta name="twitter:image:alt" content="{% block tw_image_alt %}NEBians logo{% endblock %}">
   <title>{% block title %}NEBians — Nepali Learning Community{% endblock %}</title>
   {# Sitewide structured data: the canonical Organization entity and WebSite search action. #}
