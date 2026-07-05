@@ -772,7 +772,7 @@ fun NEBiansNavHost(
                         // News
                         ProfileDropdownItem(
                             icon = Icons.Outlined.Newspaper,
-                            text = "News & Announcements",
+                            text = "News",
                             onClick = {
                                 showProfileDropdown = false
                                 navController.navigate(Screen.News.route)
