@@ -63,7 +63,9 @@ import coil.compose.AsyncImage
 import com.neb.ians.ui.components.MarkdownText
 import com.neb.ians.ui.components.MarkdownToolbar
 import com.neb.ians.ui.components.MentionSuggestions
+import com.neb.ians.ui.components.MentionsVisualTransformation
 import com.neb.ians.ui.components.WebPillShape
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -190,7 +192,8 @@ fun CreatePostScreen(
                             .fillMaxWidth()
                             .heightIn(min = 180.dp),
                         shape = RoundedCornerShape(12.dp),
-                        enabled = !uiState.isSubmitting
+                        enabled = !uiState.isSubmitting,
+                        visualTransformation = MentionsVisualTransformation(MaterialTheme.colorScheme.primary)
                     )
                     MentionSuggestions(
                         users = uiState.mentionSuggestions,
