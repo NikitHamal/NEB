@@ -44,6 +44,7 @@ urlpatterns = [
 
     # Syllabus categories for native apps
     path('syllabus/categories/', views.syllabus_categories, name='syllabus-categories'),
+    path('syllabus/subjects/<str:grade_slug>/<str:subject_slug>/', views.syllabus_subject_detail, name='syllabus-subject-detail'),
 
     # Resource Requests
     path('resource-requests/', views.resource_requests_list, name='resource-requests-list'),

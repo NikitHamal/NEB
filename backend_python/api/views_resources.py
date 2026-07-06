@@ -117,6 +117,227 @@ def syllabus_categories(request):
     categories.sort(key=lambda item: item['order'])
     return Response({'categories': categories})
 
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+@throttle_classes([SearchRateThrottle])
+def syllabus_subject_detail(request, grade_slug, subject_slug):
+    from api.models import SyllabusContent
+    try:
+        from web import curriculum
+        from web.view_helpers import parse_sections, parse_qas
+    except Exception:
+        curriculum = None
+        parse_sections = None
+        parse_qas = None
+
+    def slugify(value):
+        if curriculum is not None:
+            return curriculum.slugify_tag(value)
+        return (value or '').lower().replace(' / see', '-see').replace('/', '-').replace(' ', '-')
+
+    if curriculum is not None:
+        grade_db_val = curriculum.get_grade_db_value(grade_slug)
+        subject_db_val = curriculum.get_subject_db_value(subject_slug)
+    else:
+        grade_db_val = (grade_slug or '').replace('-', ' ').title()
+        subject_db_val = (subject_slug or '').replace('-', ' ').title()
+
+    def sections(value):
+        if parse_sections is None:
+            return []
+        return parse_sections(value or '')
+
+    def qas(value):
+        if parse_qas is None:
+            return []
+        return parse_qas(value or '')
+
+    resources_qs = Resource.objects.filter(
+        approval_status='approved',
+        is_lead=True,
+        grade_level__iexact=grade_db_val,
+        subject__icontains=subject_db_val,
+    )
+
+    syllabus_entries = SyllabusContent.objects.filter(
+        grade_level__iexact=grade_db_val,
+        subject__iexact=subject_db_val,
+    ).order_by('order')
+
+    grouped_resources = []
+    chapter_map = {}
+
+    if syllabus_entries.exists():
+        for entry in syllabus_entries:
+            qa_sections = sections(entry.question_answers)
+            parsed_qas = qas(entry.question_answers)
+            if not qa_sections and parsed_qas:
+                qa_sections = [{
+                    'title': 'Solved Q&As',
+                    'content': entry.question_answers or '',
+                    'id': 'solved-qas',
+                    'parsed_items': parsed_qas,
+                }]
+            chapter = {
+                'id': entry.chapter_id,
+                'name': entry.chapter_title,
+                'keywords': [entry.chapter_title.lower(), entry.chapter_id.replace('-', ' ')],
+                'guide_sections': sections(entry.text_content),
+                'qa_sections': qa_sections,
+                'notes': [],
+                'solutions': [],
+                'papers': [],
+                'textbooks': [],
+                'other': [],
+                'count': 0,
+            }
+            grouped_resources.append(chapter)
+            chapter_map[entry.chapter_id] = chapter
+    elif curriculum is not None:
+        for chapter_item in curriculum.get_chapters_for_subject(grade_db_val, subject_db_val):
+            chapter = {
+                'id': chapter_item['id'],
+                'name': chapter_item['name'],
+                'keywords': chapter_item['keywords'],
+                'guide_sections': [],
+                'qa_sections': [],
+                'notes': [],
+                'solutions': [],
+                'papers': [],
+                'textbooks': [],
+                'other': [],
+                'count': 0,
+            }
+            grouped_resources.append(chapter)
+            chapter_map[chapter_item['id']] = chapter
+
+    general_resources = {
+        'id': 'general',
+        'name': 'General & Reference Resources',
+        'keywords': [],
+        'guide_sections': [],
+        'qa_sections': [],
+        'notes': [],
+        'solutions': [],
+        'papers': [],
+        'textbooks': [],
+        'other': [],
+        'count': 0,
+    }
+
+    serializer_context = {'request': request}
+    total_count = 0
+    for resource in resources_qs:
+        total_count += 1
+        serialized = ResourceSerializer(resource, context=serializer_context).data
+        matched_ch_id = None
+        res_tags = [tag.strip().lower() for tag in (resource.tags or '').split(',') if tag.strip()]
+        for chapter in grouped_resources:
+            if any(keyword.lower() in res_tags for keyword in chapter.get('keywords', [])):
+                matched_ch_id = chapter['id']
+                break
+        if not matched_ch_id:
+            title = resource.title.lower()
+            description = (resource.description or '').lower()
+            tags = (resource.tags or '').lower()
+            for chapter in grouped_resources:
+                if any(keyword.lower() in title or keyword.lower() in description or keyword.lower() in tags for keyword in chapter.get('keywords', [])):
+                    matched_ch_id = chapter['id']
+                    break
+        target = chapter_map.get(matched_ch_id) if matched_ch_id else general_resources
+        resource_type = (resource.type or '').lower().strip()
+        exam_type = (resource.exam_type or '').lower().strip()
+        title = resource.title.lower()
+        tags = (resource.tags or '').lower()
+        is_solution = any(value in title or value in tags for value in ['solution', 'exercise', 'question answer', 'q&a', 'answers'])
+        is_paper = exam_type in ['board', 'final', 'mock', 'entrance', 'see'] or any(value in title or value in tags for value in ['past paper', 'model paper', 'question paper', 'exam paper'])
+        if is_solution:
+            target['solutions'].append(serialized)
+        elif is_paper:
+            target['papers'].append(serialized)
+        elif resource_type == 'note' or exam_type == 'notes':
+            target['notes'].append(serialized)
+        elif resource_type == 'textbook' or exam_type == 'reference' or 'textbook' in title:
+            target['textbooks'].append(serialized)
+        else:
+            target['other'].append(serialized)
+        target['count'] += 1
+
+    if general_resources['count'] > 0:
+        grouped_resources.append(general_resources)
+
+    has_syllabus = SyllabusContent.objects.exists()
+    active_subjects = set()
+    if has_syllabus:
+        for subject_value in SyllabusContent.objects.filter(grade_level__iexact=grade_db_val).values_list('subject', flat=True).distinct():
+            for item in (subject_value or '').split(','):
+                item = item.strip()
+                if item:
+                    active_subjects.add(item)
+        if not active_subjects and curriculum is not None:
+            for grade_value, subject_value in curriculum.CURRICULUM_MAP.keys():
+                if grade_value.lower() == grade_db_val.lower():
+                    active_subjects.add(subject_value)
+    elif curriculum is not None:
+        for grade_value, subject_value in curriculum.CURRICULUM_MAP.keys():
+            if grade_value.lower() == grade_db_val.lower():
+                active_subjects.add(subject_value)
+
+    active_grades = {grade_db_val}
+    if has_syllabus:
+        for grade_value in SyllabusContent.objects.values_list('grade_level', flat=True).distinct():
+            item = (grade_value or '').strip()
+            if item:
+                if item.lower() == 'grade 12':
+                    item = 'Class 12'
+                elif item.lower() == 'grade 11':
+                    item = 'Class 11'
+                active_grades.add(item)
+    elif curriculum is not None:
+        for grade_value, _ in curriculum.CURRICULUM_MAP.keys():
+            item = (grade_value or '').strip()
+            if item:
+                if item.lower() == 'grade 12':
+                    item = 'Class 12'
+                elif item.lower() == 'grade 11':
+                    item = 'Class 11'
+                active_grades.add(item)
+
+    education_levels = [
+        'Class 8', 'Class 9', 'Class 10 / SEE', 'Class 11', 'Class 12',
+        'Diploma', 'Bachelor', 'Master', 'PhD',
+        'Entrance Prep', 'Competitive Exam', 'Other',
+    ]
+    grade_order = {value.lower(): index for index, value in enumerate(education_levels)}
+    grade_list = [{'name': item, 'slug': slugify(item)} for item in sorted(active_grades, key=lambda value: grade_order.get(value.lower(), 999))]
+    subject_list = [{'name': item, 'slug': slugify(item)} for item in sorted(active_subjects)]
+
+    def clean_chapter(chapter):
+        return {
+            'id': chapter['id'],
+            'name': chapter['name'],
+            'guide_sections': chapter.get('guide_sections', []),
+            'qa_sections': chapter.get('qa_sections', []),
+            'notes': chapter.get('notes', []),
+            'solutions': chapter.get('solutions', []),
+            'papers': chapter.get('papers', []),
+            'textbooks': chapter.get('textbooks', []),
+            'other': chapter.get('other', []),
+            'count': chapter.get('count', 0),
+        }
+
+    return Response({
+        'grade': grade_db_val,
+        'subject': subject_db_val,
+        'grade_slug': slugify(grade_db_val),
+        'subject_slug': slugify(subject_db_val),
+        'grade_list': grade_list,
+        'subject_list': subject_list,
+        'chapters': [clean_chapter(chapter) for chapter in grouped_resources],
+        'total_count': total_count,
+    })
+
 @api_view(['GET'])
 def resource_detail(request, resource_id):
     """GET /api/resources/<resourceId> — get a single resource (authenticated)."""
