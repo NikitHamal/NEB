@@ -49,7 +49,7 @@ from .throttles import (
     VerificationRateThrottle, ViewIncrementRateThrottle, WriteActionRateThrottle,
     SignupRateThrottle,
 )
-from .models import User, Resource, ResourceRequest, ResourceRequestUpvote, Post, PostLike, PostImage, Poll, PollOption, PollVote, Reply, ReplyLike, FCMToken, Follow, UserPhoto, EditHistory, Report, Bookmark, Notification
+from .models import User, Resource, ResourceLike, ResourceRequest, ResourceRequestUpvote, Post, PostLike, PostImage, Poll, PollOption, PollVote, Reply, ReplyLike, FCMToken, Follow, UserPhoto, EditHistory, Report, Bookmark, Notification
 from .utils import now_ms, uuid_str
 import uuid
 _now_ms = now_ms
@@ -234,6 +234,14 @@ def _paginated_response(request, queryset, serializer_class, *, context=None, de
             ).values_list('reply_id', flat=True))
             ctx['bookmarked_reply_ids'] = set(Bookmark.objects.filter(
                 user=user, target_type='reply', target_id__in=ids
+            ).values_list('target_id', flat=True))
+        elif serializer_class == ResourceSerializer:
+            ids = [r.id for r in page]
+            ctx['liked_resource_ids'] = set(ResourceLike.objects.filter(
+                user=user, resource_id__in=ids
+            ).values_list('resource_id', flat=True))
+            ctx['bookmarked_resource_ids'] = set(Bookmark.objects.filter(
+                user=user, target_type='resource', target_id__in=[str(value) for value in ids]
             ).values_list('target_id', flat=True))
 
     serializer = serializer_class(page, many=True, context=ctx)

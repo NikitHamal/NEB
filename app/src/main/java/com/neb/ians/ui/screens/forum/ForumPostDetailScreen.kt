@@ -95,7 +95,6 @@ import com.neb.ians.ui.components.UserPopoverDialog
 import com.neb.ians.ui.components.WebPillShape
 import com.neb.ians.ui.components.resolveMediaUrl
 import com.neb.ians.ui.components.sharePost
-import com.neb.ians.ui.components.shareText
 import com.neb.ians.ui.components.MentionsVisualTransformation
 import com.neb.ians.ui.components.MentionSuggestions
 import com.neb.ians.ui.theme.getSubjectTheme
@@ -349,9 +348,6 @@ fun ForumPostDetailScreen(
                             onThumbsUpClick = { viewModel.toggleReplyThumbsUp(reply.id) },
                             onReplyClick = { activeThreadParent = reply },
                             onBookmarkClick = { viewModel.toggleReplyBookmark(reply.id) },
-                            onShareClick = {
-                                shareText(context, "https://nebians.consica.com.np/forum/post/$postId/")
-                            },
                             onReportClick = { reportTarget = "reply" to reply.id },
                             onEditClick = { editingReply = reply },
                             onArchiveClick = { viewModel.archiveReply(reply.id) },
@@ -524,9 +520,6 @@ fun ForumPostDetailScreen(
                             onThumbsUpClick = { viewModel.toggleReplyThumbsUp(parent.id) },
                             onReplyClick = { activeThreadTargetReply = parent },
                             onBookmarkClick = { viewModel.toggleReplyBookmark(parent.id) },
-                            onShareClick = {
-                                shareText(context, "https://nebians.consica.com.np/forum/post/$postId/")
-                            },
                             onReportClick = { reportTarget = "reply" to parent.id },
                             onEditClick = { editingReply = parent },
                             onArchiveClick = { viewModel.archiveReply(parent.id) },
@@ -570,9 +563,6 @@ fun ForumPostDetailScreen(
                                     onThumbsUpClick = { viewModel.toggleReplyThumbsUp(child.id) },
                                     onReplyClick = { activeThreadTargetReply = child },
                                     onBookmarkClick = { viewModel.toggleReplyBookmark(child.id) },
-                                    onShareClick = {
-                                        shareText(context, "https://nebians.consica.com.np/forum/post/$postId/")
-                                    },
                                     onReportClick = { reportTarget = "reply" to child.id },
                                     onEditClick = { editingReply = child },
                                     onArchiveClick = { viewModel.archiveReply(child.id) },
@@ -914,14 +904,6 @@ private fun PostContentSection(
                     else MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
-            IconButton(onClick = onShareClick, modifier = Modifier.size(36.dp)) {
-                Icon(
-                    imageVector = Icons.Outlined.Share,
-                    contentDescription = "Share",
-                    modifier = Modifier.size(20.dp),
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            }
         }
     }
 }
@@ -934,7 +916,6 @@ private fun ReplyItem(
     onThumbsUpClick: () -> Unit,
     onReplyClick: () -> Unit,
     onBookmarkClick: () -> Unit,
-    onShareClick: () -> Unit,
     onReportClick: () -> Unit,
     onEditClick: () -> Unit,
     onArchiveClick: () -> Unit,
@@ -1015,7 +996,6 @@ private fun ReplyItem(
                     isBookmarked = reply.isBookmarked == true,
                     isArchived = reply.isArchived == true,
                     onBookmark = onBookmarkClick,
-                    onShare = onShareClick,
                     onReport = onReportClick,
                     onEdit = onEditClick,
                     onArchive = onArchiveClick,
@@ -1128,14 +1108,6 @@ private fun ReplyItem(
                         contentDescription = "Bookmark",
                         modifier = Modifier.size(18.dp),
                         tint = if (reply.isBookmarked == true) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-                IconButton(onClick = onShareClick, modifier = Modifier.size(32.dp)) {
-                    Icon(
-                        imageVector = Icons.Outlined.Share,
-                        contentDescription = "Share",
-                        modifier = Modifier.size(18.dp),
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
             }

@@ -7,6 +7,7 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -21,11 +22,8 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Article
 import androidx.compose.material.icons.outlined.Check
-import androidx.compose.material.icons.outlined.Description
 import androidx.compose.material.icons.outlined.ExpandMore
-import androidx.compose.material.icons.outlined.Folder
 import androidx.compose.material.icons.outlined.MenuBook
 import androidx.compose.material.icons.outlined.Quiz
 import androidx.compose.material3.DropdownMenu
@@ -45,13 +43,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.neb.ians.R
-import com.neb.ians.data.api.ApiResource
 import com.neb.ians.data.api.ApiSyllabusChapter
 import com.neb.ians.data.api.ApiSyllabusNavItem
 import com.neb.ians.data.api.ApiSyllabusQaItem
@@ -61,7 +57,6 @@ import com.neb.ians.ui.components.MarkdownText
 import com.neb.ians.ui.components.WebEmptyState
 import com.neb.ians.ui.components.WebPanelShape
 import com.neb.ians.ui.components.WebPillShape
-import com.neb.ians.ui.components.WebResourceCard
 
 @Composable
 fun SyllabusSubjectDetail(
@@ -82,8 +77,8 @@ fun SyllabusSubjectDetail(
 
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(14.dp)
+        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 12.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         item(key = "breadcrumbs") {
             SyllabusBreadcrumbs(
@@ -97,9 +92,6 @@ fun SyllabusSubjectDetail(
             item(key = "detail_error") {
                 ErrorCard(message = error, onRetry = onRetry)
             }
-        }
-        item(key = "subject_title") {
-            SyllabusSubjectHeader(detail = detail)
         }
         if (chapters.isNotEmpty()) {
             item(key = "chapter_picker") {
@@ -127,7 +119,7 @@ fun SyllabusSubjectDetail(
                 )
             }
         }
-        item(key = "bottom_spacer") { Spacer(modifier = Modifier.height(92.dp)) }
+        item(key = "bottom_spacer") { Spacer(modifier = Modifier.height(20.dp)) }
     }
 }
 
@@ -141,6 +133,7 @@ private fun SyllabusBreadcrumbs(
     Row(
         modifier = Modifier
             .fillMaxWidth()
+            .padding(top = 2.dp)
             .horizontalScroll(rememberScrollState()),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -174,7 +167,7 @@ private fun BreadcrumbLink(text: String, onClick: () -> Unit) {
         modifier = Modifier.clickable(onClick = onClick),
         style = MaterialTheme.typography.labelMedium,
         color = MaterialTheme.colorScheme.primary,
-        fontWeight = FontWeight.SemiBold,
+        fontWeight = FontWeight.Medium,
         maxLines = 1
     )
 }
@@ -274,47 +267,6 @@ private fun BreadcrumbDropdown(
 }
 
 @Composable
-private fun SyllabusSubjectHeader(detail: ApiSyllabusSubjectDetailResponse) {
-    Surface(
-        modifier = Modifier.fillMaxWidth(),
-        shape = WebPanelShape,
-        color = MaterialTheme.colorScheme.surfaceContainerLowest,
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
-    ) {
-        Column(
-            modifier = Modifier.padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(6.dp)
-        ) {
-            Text(
-                text = detail.subject.ifBlank { "Subject" },
-                style = MaterialTheme.typography.headlineSmall,
-                fontWeight = FontWeight.ExtraBold,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis
-            )
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
-                Surface(shape = WebPillShape, color = MaterialTheme.colorScheme.secondaryContainer) {
-                    Text(
-                        text = detail.grade.ifBlank { "Syllabus" },
-                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp),
-                        style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.onSecondaryContainer,
-                        fontWeight = FontWeight.Bold
-                    )
-                }
-                Text(
-                    text = "${detail.chapters.size} chapters · ${detail.totalCount} files",
-                    style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
-            }
-        }
-    }
-}
-
-@Composable
 private fun ChapterPicker(
     chapters: List<ApiSyllabusChapter>,
     selectedChapterId: String,
@@ -322,42 +274,39 @@ private fun ChapterPicker(
 ) {
     Surface(
         modifier = Modifier.fillMaxWidth(),
-        shape = WebPanelShape,
         color = MaterialTheme.colorScheme.surfaceContainerLow,
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
+        shape = WebPanelShape
     ) {
-        Column(modifier = Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
-            Text(
-                text = "CHAPTERS & TOPICS",
-                style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                fontWeight = FontWeight.Bold,
-                letterSpacing = MaterialTheme.typography.labelSmall.letterSpacing
-            )
-            Row(
-                modifier = Modifier.horizontalScroll(rememberScrollState()),
-                horizontalArrangement = Arrangement.spacedBy(6.dp)
-            ) {
-                chapters.forEach { chapter ->
-                    val selected = chapter.id == selectedChapterId
-                    Surface(
-                        modifier = Modifier
-                            .widthIn(min = 120.dp, max = 230.dp)
-                            .clickable { onSelect(chapter.id) },
-                        shape = WebPillShape,
-                        color = if (selected) MaterialTheme.colorScheme.primaryContainer else Color.Transparent,
-                        border = BorderStroke(1.dp, if (selected) MaterialTheme.colorScheme.primary.copy(alpha = 0.35f) else MaterialTheme.colorScheme.outlineVariant)
-                    ) {
-                        Text(
-                            text = chapter.name,
-                            modifier = Modifier.padding(horizontal = 14.dp, vertical = 9.dp),
-                            style = MaterialTheme.typography.labelMedium,
-                            color = if (selected) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant,
-                            fontWeight = if (selected) FontWeight.Bold else FontWeight.Medium,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis
-                        )
-                    }
+        Row(
+            modifier = Modifier
+                .horizontalScroll(rememberScrollState())
+                .padding(horizontal = 12.dp, vertical = 8.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            chapters.forEach { chapter ->
+                val selected = chapter.id == selectedChapterId
+                Surface(
+                    modifier = Modifier
+                        .widthIn(min = 108.dp, max = 240.dp)
+                        .clickable { onSelect(chapter.id) },
+                    shape = WebPillShape,
+                    color = if (selected) MaterialTheme.colorScheme.primaryContainer else Color.Transparent,
+                    border = BorderStroke(
+                        1.dp,
+                        if (selected) Color.Transparent else MaterialTheme.colorScheme.outlineVariant
+                    )
+                ) {
+                    Text(
+                        text = chapter.name,
+                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 7.dp),
+                        style = MaterialTheme.typography.labelMedium,
+                        color = if (selected) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant,
+                        fontWeight = if (selected) FontWeight.SemiBold else FontWeight.Medium,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
                 }
             }
         }
@@ -376,12 +325,13 @@ private fun ChapterViewer(
         color = MaterialTheme.colorScheme.surfaceContainerLowest,
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
     ) {
-        Column(modifier = Modifier.padding(16.dp)) {
+        Column(modifier = Modifier.padding(22.dp)) {
             Text(
                 text = chapter.name,
                 style = MaterialTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.onSurface,
                 fontWeight = FontWeight.Bold,
-                maxLines = 2,
+                maxLines = 3,
                 overflow = TextOverflow.Ellipsis
             )
             Spacer(modifier = Modifier.height(16.dp))
@@ -414,17 +364,19 @@ private fun ChapterSubtabs(selected: String, onSelect: (String) -> Unit) {
     ) {
         tabs.forEach { (key, label) ->
             Column(
-                modifier = Modifier.clickable { onSelect(key) },
+                modifier = Modifier
+                    .width(IntrinsicSize.Min)
+                    .clickable { onSelect(key) },
                 horizontalAlignment = Alignment.Start
             ) {
                 Text(
                     text = label,
+                    modifier = Modifier.padding(vertical = 8.dp),
                     style = MaterialTheme.typography.labelLarge,
                     color = if (selected == key) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
-                    fontWeight = FontWeight.Bold,
+                    fontWeight = FontWeight.SemiBold,
                     maxLines = 1
                 )
-                Spacer(modifier = Modifier.height(8.dp))
                 Surface(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -509,20 +461,38 @@ private fun SectionToc(labels: List<String>) {
 
 @Composable
 private fun ChapterQas(chapter: ApiSyllabusChapter) {
-    val items = chapter.qaSections.flatMap { section ->
-        val parsed = section.parsedItems
-        if (parsed.isNotEmpty()) parsed else listOf(ApiSyllabusQaItem(question = section.title, answer = section.content))
-    }.filter { it.question.isNotBlank() || it.answer.isNotBlank() }
-    if (items.isEmpty()) {
+    val groups = chapter.qaSections.mapNotNull { section ->
+        val parsedItems = if (section.parsedItems.isNotEmpty()) {
+            section.parsedItems
+        } else if (section.title.isNotBlank() || section.content.isNotBlank()) {
+            listOf(ApiSyllabusQaItem(question = section.title, answer = section.content))
+        } else {
+            emptyList()
+        }
+        val items = parsedItems.filter { it.question.isNotBlank() || it.answer.isNotBlank() }
+        if (items.isEmpty()) null else section.title to items
+    }
+    if (groups.isEmpty()) {
         EmptyChapterBlock(
             icon = Icons.Outlined.Quiz,
             message = "No solved textbook question-answers are available yet."
         )
         return
     }
-    Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-        items.forEach { qa ->
-            QaAccordion(qa = qa)
+    Column(verticalArrangement = Arrangement.spacedBy(18.dp)) {
+        groups.forEach { (title, items) ->
+            Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                if (title.isNotBlank()) {
+                    Text(
+                        text = title,
+                        style = MaterialTheme.typography.titleSmall,
+                        color = MaterialTheme.colorScheme.primary,
+                        fontWeight = FontWeight.Bold
+                    )
+                    HorizontalDivider(color = MaterialTheme.colorScheme.primaryContainer, thickness = 2.dp)
+                }
+                items.forEach { qa -> QaAccordion(qa = qa) }
+            }
         }
     }
 }

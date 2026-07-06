@@ -3,11 +3,13 @@ package com.neb.ians.ui.screens.resource
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.neb.ians.data.api.ApiErrorMapper
 import com.neb.ians.data.api.ApiResource
 import com.neb.ians.data.api.ApiResourceComment
 import com.neb.ians.data.repository.AuthRepository
 import com.neb.ians.data.repository.ResourceRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -22,12 +24,14 @@ data class ResourceDetailUiState(
     val error: String? = null,
     val isLiked: Boolean = false,
     val likeCount: Int = 0,
+    val isBookmarked: Boolean = false,
     val isAuthenticated: Boolean = false,
     val currentUserId: String? = null,
     val comments: List<ApiResourceComment> = emptyList(),
     val commentsLoading: Boolean = false,
     val commentDraft: String = "",
-    val isPostingComment: Boolean = false
+    val isPostingComment: Boolean = false,
+    val snackbarMessage: String? = null
 )
 
 @HiltViewModel
@@ -42,17 +46,20 @@ class ResourceDetailViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(ResourceDetailUiState())
     val uiState: StateFlow<ResourceDetailUiState> = _uiState.asStateFlow()
 
-    private var isLikeBusy = false
+    private var likeJob: Job? = null
+    private var pendingLikeToggles = 0
+    private var bookmarkJob: Job? = null
+    private var pendingBookmarkToggles = 0
 
     init {
         load()
     }
 
-    private fun load() {
+    fun load() {
         viewModelScope.launch {
             val token = authRepository.getToken()
             val userId = authRepository.currentUserIdFlow.first()
-            _uiState.update { it.copy(isAuthenticated = token != null, currentUserId = userId) }
+            _uiState.update { it.copy(isAuthenticated = token != null, currentUserId = userId, isLoading = true, error = null) }
 
             resourceRepository.getResource(resourceId)
                 .onSuccess { resource ->
@@ -61,15 +68,36 @@ class ResourceDetailViewModel @Inject constructor(
                             resource = resource,
                             isLoading = false,
                             isLiked = resource.isLiked ?: false,
-                            likeCount = resource.likeCount
+                            likeCount = resource.likeCount,
+                            isBookmarked = resource.isBookmarked ?: false
                         )
                     }
                     resourceRepository.viewResource(resourceId)
                 }
                 .onFailure { e ->
-                    _uiState.update { it.copy(isLoading = false, error = e.localizedMessage ?: "Unknown error") }
+                    _uiState.update {
+                        it.copy(
+                            isLoading = false,
+                            error = ApiErrorMapper.mapException(e)
+                        )
+                    }
                 }
             loadComments()
+        }
+    }
+
+    private fun refreshResourceState() {
+        viewModelScope.launch {
+            resourceRepository.getResource(resourceId).onSuccess { resource ->
+                _uiState.update {
+                    it.copy(
+                        resource = resource,
+                        isLiked = resource.isLiked ?: it.isLiked,
+                        likeCount = resource.likeCount,
+                        isBookmarked = resource.isBookmarked ?: it.isBookmarked
+                    )
+                }
+            }
         }
     }
 
@@ -87,24 +115,67 @@ class ResourceDetailViewModel @Inject constructor(
     }
 
     fun toggleLike() {
-        if (!_uiState.value.isAuthenticated) return
-        if (isLikeBusy) return
-        isLikeBusy = true
-        // Optimistic update
-        val wasLiked = _uiState.value.isLiked
-        val prevCount = _uiState.value.likeCount
-        _uiState.update {
-            it.copy(isLiked = !wasLiked, likeCount = if (wasLiked) (prevCount - 1).coerceAtLeast(0) else prevCount + 1)
+        if (!_uiState.value.isAuthenticated) {
+            _uiState.update { it.copy(snackbarMessage = "Please sign in to like resources") }
+            return
         }
-        viewModelScope.launch {
+        val current = _uiState.value
+        val nextLiked = !current.isLiked
+        _uiState.update {
+            it.copy(
+                isLiked = nextLiked,
+                likeCount = if (nextLiked) it.likeCount + 1 else (it.likeCount - 1).coerceAtLeast(0)
+            )
+        }
+        pendingLikeToggles += 1
+        if (likeJob?.isActive != true) {
+            likeJob = viewModelScope.launch { drainLikeToggles() }
+        }
+    }
+
+    private suspend fun drainLikeToggles() {
+        while (pendingLikeToggles > 0) {
+            pendingLikeToggles -= 1
             resourceRepository.toggleLike(resourceId)
                 .onSuccess { resp ->
-                    _uiState.update { it.copy(isLiked = resp.isLiked, likeCount = resp.likeCount) }
+                    if (pendingLikeToggles == 0) {
+                        _uiState.update { it.copy(isLiked = resp.isLiked, likeCount = resp.likeCount) }
+                    }
                 }
-                .onFailure {
-                    _uiState.update { it.copy(isLiked = wasLiked, likeCount = prevCount) }
+                .onFailure { e ->
+                    pendingLikeToggles = 0
+                    _uiState.update { it.copy(snackbarMessage = ApiErrorMapper.mapException(e)) }
+                    refreshResourceState()
                 }
-            isLikeBusy = false
+        }
+    }
+
+    fun toggleBookmark() {
+        if (!_uiState.value.isAuthenticated) {
+            _uiState.update { it.copy(snackbarMessage = "Please sign in to save resources") }
+            return
+        }
+        _uiState.update { it.copy(isBookmarked = !it.isBookmarked) }
+        pendingBookmarkToggles += 1
+        if (bookmarkJob?.isActive != true) {
+            bookmarkJob = viewModelScope.launch { drainBookmarkToggles() }
+        }
+    }
+
+    private suspend fun drainBookmarkToggles() {
+        while (pendingBookmarkToggles > 0) {
+            pendingBookmarkToggles -= 1
+            resourceRepository.toggleBookmark(resourceId)
+                .onSuccess { bookmarked ->
+                    if (pendingBookmarkToggles == 0) {
+                        _uiState.update { it.copy(isBookmarked = bookmarked) }
+                    }
+                }
+                .onFailure { e ->
+                    pendingBookmarkToggles = 0
+                    _uiState.update { it.copy(snackbarMessage = ApiErrorMapper.mapException(e)) }
+                    refreshResourceState()
+                }
         }
     }
 
@@ -115,32 +186,51 @@ class ResourceDetailViewModel @Inject constructor(
     fun postComment() {
         val draft = _uiState.value.commentDraft.trim()
         if (draft.isEmpty() || _uiState.value.isPostingComment) return
+        if (!_uiState.value.isAuthenticated) {
+            _uiState.update { it.copy(snackbarMessage = "Please sign in to comment") }
+            return
+        }
         _uiState.update { it.copy(isPostingComment = true) }
         viewModelScope.launch {
             resourceRepository.createComment(resourceId, draft)
                 .onSuccess { comment ->
-                    _uiState.update {
-                        it.copy(
-                            comments = it.comments + comment,
+                    _uiState.update { state ->
+                        val currentResource = state.resource
+                        state.copy(
+                            comments = state.comments + comment,
                             commentDraft = "",
-                            isPostingComment = false
+                            isPostingComment = false,
+                            resource = currentResource?.copy(commentCount = currentResource.commentCount + 1)
                         )
                     }
                 }
-                .onFailure {
-                    _uiState.update { it.copy(isPostingComment = false) }
+                .onFailure { e ->
+                    _uiState.update {
+                        it.copy(
+                            isPostingComment = false,
+                            snackbarMessage = ApiErrorMapper.mapException(e)
+                        )
+                    }
                 }
         }
     }
 
     fun deleteComment(commentId: String) {
+        val current = _uiState.value.comments
+        _uiState.update { state ->
+            state.copy(comments = state.comments.filterNot { it.id == commentId })
+        }
         viewModelScope.launch {
             resourceRepository.deleteComment(resourceId, commentId)
-                .onSuccess {
-                    _uiState.update { state ->
-                        state.copy(comments = state.comments.filterNot { it.id == commentId })
+                .onFailure { e ->
+                    _uiState.update {
+                        it.copy(comments = current, snackbarMessage = ApiErrorMapper.mapException(e))
                     }
                 }
         }
+    }
+
+    fun consumeSnackbar() {
+        _uiState.update { it.copy(snackbarMessage = null) }
     }
 }

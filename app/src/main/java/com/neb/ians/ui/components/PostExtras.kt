@@ -483,7 +483,7 @@ fun PostMoreMenu(
     isBookmarked: Boolean,
     isArchived: Boolean,
     onBookmark: () -> Unit,
-    onShare: () -> Unit,
+    onShare: (() -> Unit)? = null,
     onReport: () -> Unit,
     onEdit: () -> Unit,
     onArchive: () -> Unit,
@@ -519,11 +519,13 @@ fun PostMoreMenu(
                     label = if (isBookmarked) "Remove bookmark" else "Bookmark",
                     onClick = { showSheet = false; onBookmark() }
                 )
-                BottomSheetItem(
-                    icon = Icons.Outlined.Share,
-                    label = "Share",
-                    onClick = { showSheet = false; onShare() }
-                )
+                if (onShare != null) {
+                    BottomSheetItem(
+                        icon = Icons.Outlined.Share,
+                        label = "Share",
+                        onClick = { showSheet = false; onShare() }
+                    )
+                }
                 if (!isOwn) {
                     BottomSheetItem(
                         icon = Icons.Outlined.Flag,
