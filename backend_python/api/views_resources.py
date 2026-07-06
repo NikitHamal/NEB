@@ -339,18 +339,106 @@ def syllabus_subject_detail(request, grade_slug, subject_slug):
     })
 
 @api_view(['GET'])
+@permission_classes([AllowAny])
 def resource_detail(request, resource_id):
-    """GET /api/resources/<resourceId> — get a single resource (authenticated)."""
-    user, err = _require_user(request)
-    if err:
-        return err
+    """GET /api/resources/<resourceId> — get a single resource."""
     try:
         resource = Resource.objects.get(pk=resource_id)
     except Resource.DoesNotExist:
         return Response({'error': 'Resource not found'}, status=404)
     if resource.approval_status != 'approved':
         return Response({'error': 'Resource not found'}, status=404)
-    return Response(ResourceSerializer(resource).data)
+    return Response(ResourceSerializer(resource, context={'request': request}).data)
+
+
+def _resource_comment_payload(comment, viewer=None):
+    user = getattr(comment, 'user', None)
+    is_liked = False
+    if viewer:
+        from api.models import ResourceCommentLike
+        is_liked = ResourceCommentLike.objects.filter(comment_id=comment.id, user_id=viewer.id).exists()
+    author_name = user.username if user else ''
+    author_photo = user.photo_url if user else ''
+    return {
+        'id': comment.id,
+        'resource_id': comment.resource_id,
+        'resourceId': comment.resource_id,
+        'user_id': comment.user_id,
+        'authorId': comment.user_id,
+        'user_name': author_name,
+        'authorName': author_name,
+        'user_photo_url': author_photo,
+        'authorPhoto': author_photo,
+        'parent_comment_id': comment.parent_comment_id,
+        'parentCommentId': comment.parent_comment_id or '',
+        'content': comment.content,
+        'like_count': comment.like_count,
+        'likeCount': comment.like_count,
+        'reply_count': comment.reply_count,
+        'replyCount': comment.reply_count,
+        'is_liked': is_liked,
+        'isLiked': is_liked,
+        'is_edited': comment.is_edited,
+        'isEdited': comment.is_edited,
+        'created_at': comment.created_at,
+        'createdAt': comment.created_at,
+    }
+
+
+@api_view(['POST'])
+@throttle_classes([WriteActionRateThrottle])
+def resource_like(request, resource_id):
+    user, err = _require_user(request)
+    if err:
+        return err
+    try:
+        result = services.toggle_resource_like(user, resource_id)
+    except Resource.DoesNotExist:
+        return Response({'error': 'Resource not found'}, status=404)
+    like_count = result.get('likeCount', result.get('like_count', 0))
+    is_liked = result.get('isLiked', result.get('is_liked', False))
+    return Response({
+        'like_count': like_count,
+        'likeCount': like_count,
+        'is_liked': is_liked,
+        'isLiked': is_liked,
+    })
+
+
+@api_view(['GET', 'POST'])
+@permission_classes([AllowAny])
+def resource_comments(request, resource_id):
+    from api.models import ResourceComment
+    if request.method == 'GET':
+        viewer = _get_user_from_request(request)
+        comments = ResourceComment.objects.filter(resource_id=resource_id).select_related('user').order_by('created_at')
+        return Response({'comments': [_resource_comment_payload(comment, viewer) for comment in comments]})
+
+    user, err = _require_user(request)
+    if err:
+        return err
+    content = (request.data.get('content') or '').strip()
+    parent_id = request.data.get('parent_comment_id') or request.data.get('parentCommentId')
+    if not content:
+        return Response({'error': 'Content required'}, status=400)
+    result = services.create_resource_comment(user, resource_id, content, parent_id)
+    if not result:
+        return Response({'error': 'Failed to create comment'}, status=400)
+    comment = ResourceComment.objects.select_related('user').get(pk=result['id'])
+    return Response(_resource_comment_payload(comment, user), status=201)
+
+
+@api_view(['DELETE'])
+def resource_comment_detail(request, resource_id, comment_id):
+    user, err = _require_user(request)
+    if err:
+        return err
+    is_admin = bool(getattr(user, 'is_admin', False))
+    ok = services.delete_resource_comment(user, comment_id, is_admin=is_admin)
+    if ok:
+        return Response({'success': True})
+    return Response({'error': 'Permission denied or comment not found'}, status=403)
+
 
 @api_view(['POST'])
 @permission_classes([AllowAny])

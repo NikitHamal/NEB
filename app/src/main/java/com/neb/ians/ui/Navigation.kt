@@ -245,7 +245,11 @@ fun NEBiansNavHost(
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
     val currentRoute = currentDestination?.route?.substringBefore("?")
-    val showBottomBar = currentRoute in glassNavItems.map { it.route }
+    var hideLibraryDetailChrome by remember { mutableStateOf(false) }
+    LaunchedEffect(currentRoute) {
+        if (currentRoute != "library") hideLibraryDetailChrome = false
+    }
+    val showBottomBar = currentRoute in glassNavItems.map { it.route } && !hideLibraryDetailChrome
     var showProfileDropdown by remember { mutableStateOf(false) }
     val navigateToOwnProfile = {
         val username = userProfile?.username?.takeIf { it.isNotBlank() && it != "Guest" }
@@ -427,7 +431,8 @@ fun NEBiansNavHost(
                     onProfileClick = navigateToOwnProfile,
                     onInteractiveCourseClick = { courseSlug ->
                         navController.navigate(Screen.InteractiveCourse.createRoute(courseSlug))
-                    }
+                    },
+                    onSyllabusDetailChromeChanged = { hideLibraryDetailChrome = it }
                 )
             }
             composable(Screen.Forum.route) {

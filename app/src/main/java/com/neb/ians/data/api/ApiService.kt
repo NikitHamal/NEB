@@ -457,9 +457,14 @@ data class LikeResponse(
 
 @Serializable
 data class ResourceLikeResponse(
-    @SerialName("like_count") val likeCount: Int,
-    @SerialName("is_liked") val isLiked: Boolean
-)
+    @SerialName("like_count") val likeCountSnake: Int? = null,
+    @SerialName("likeCount") val likeCountCamel: Int? = null,
+    @SerialName("is_liked") val isLikedSnake: Boolean? = null,
+    @SerialName("isLiked") val isLikedCamel: Boolean? = null
+) {
+    val likeCount: Int get() = likeCountSnake ?: likeCountCamel ?: 0
+    val isLiked: Boolean get() = isLikedSnake ?: isLikedCamel ?: false
+}
 
 @Serializable
 data class BookmarkResponse(
@@ -704,18 +709,39 @@ data class ApiEditHistory(
 @Serializable
 data class ApiResourceComment(
     val id: String,
-    @SerialName("resource_id") val resourceId: String,
-    @SerialName("user_id") val userId: String,
-    @SerialName("user_name") val userName: String,
-    @SerialName("user_photo_url") val userPhotoUrl: String? = null,
-    val content: String,
-    @SerialName("like_count") val likeCount: Int = 0,
-    @SerialName("reply_count") val replyCount: Int = 0,
-    @SerialName("is_liked") val isLiked: Boolean? = null,
-    @SerialName("parent_comment_id") val parentCommentId: String? = null,
-    @SerialName("is_edited") val isEdited: Boolean? = null,
-    @SerialName("created_at") val createdAt: Long
-)
+    @SerialName("resource_id") val resourceIdSnake: String? = null,
+    @SerialName("resourceId") val resourceIdCamel: String? = null,
+    @SerialName("user_id") val userIdSnake: String? = null,
+    @SerialName("authorId") val userIdCamel: String? = null,
+    @SerialName("user_name") val userNameSnake: String? = null,
+    @SerialName("authorName") val userNameCamel: String? = null,
+    @SerialName("user_photo_url") val userPhotoUrlSnake: String? = null,
+    @SerialName("authorPhoto") val userPhotoUrlCamel: String? = null,
+    val content: String = "",
+    @SerialName("like_count") val likeCountSnake: Int? = null,
+    @SerialName("likeCount") val likeCountCamel: Int? = null,
+    @SerialName("reply_count") val replyCountSnake: Int? = null,
+    @SerialName("replyCount") val replyCountCamel: Int? = null,
+    @SerialName("is_liked") val isLikedSnake: Boolean? = null,
+    @SerialName("isLiked") val isLikedCamel: Boolean? = null,
+    @SerialName("parent_comment_id") val parentCommentIdSnake: String? = null,
+    @SerialName("parentCommentId") val parentCommentIdCamel: String? = null,
+    @SerialName("is_edited") val isEditedSnake: Boolean? = null,
+    @SerialName("isEdited") val isEditedCamel: Boolean? = null,
+    @SerialName("created_at") val createdAtSnake: Long? = null,
+    @SerialName("createdAt") val createdAtCamel: Long? = null
+) {
+    val resourceId: String get() = resourceIdSnake ?: resourceIdCamel ?: ""
+    val userId: String get() = userIdSnake ?: userIdCamel ?: ""
+    val userName: String get() = userNameSnake ?: userNameCamel ?: ""
+    val userPhotoUrl: String? get() = userPhotoUrlSnake ?: userPhotoUrlCamel
+    val likeCount: Int get() = likeCountSnake ?: likeCountCamel ?: 0
+    val replyCount: Int get() = replyCountSnake ?: replyCountCamel ?: 0
+    val isLiked: Boolean? get() = isLikedSnake ?: isLikedCamel
+    val parentCommentId: String? get() = parentCommentIdSnake ?: parentCommentIdCamel
+    val isEdited: Boolean? get() = isEditedSnake ?: isEditedCamel
+    val createdAt: Long get() = createdAtSnake ?: createdAtCamel ?: 0L
+}
 
 @Serializable
 data class ApiResourceCommentCreateRequest(
@@ -1535,8 +1561,8 @@ interface ApiService {
 
             val client = OkHttpClient.Builder()
                 .addInterceptor(logger)
-                .addInterceptor(RetryInterceptor(maxRetries = 2, initialBackoffMs = 500))
                 .addInterceptor(WafChallengeInterceptor(context))
+                .addInterceptor(RetryInterceptor(maxRetries = 2, initialBackoffMs = 500))
                 .addInterceptor { chain ->
                     val request = chain.request().newBuilder()
                     tokenProvider?.invoke()?.let { token ->

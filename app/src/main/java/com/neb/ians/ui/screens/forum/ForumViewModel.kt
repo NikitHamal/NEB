@@ -75,7 +75,8 @@ class ForumViewModel @Inject constructor(
         )
     )
     private var searchJob: Job? = null
-    private val processingPostLikes = mutableSetOf<String>()
+    private val pendingPostLikeToggles = mutableMapOf<String, Int>()
+    private val postLikeJobs = mutableMapOf<String, Job>()
     private val processingBookmarks = mutableSetOf<String>()
     private var loadJob: Job? = null
     private var unsubscribeForum: (() -> Unit)? = null
@@ -112,7 +113,7 @@ class ForumViewModel @Inject constructor(
                 "post.like_changed" -> {
                     val postId = payload.stringField("post_id") ?: return
                     val count = payload.intField("thumbs_up_count") ?: return
-                    if (processingPostLikes.contains(postId)) return
+                    if ((pendingPostLikeToggles[postId] ?: 0) > 0 || postLikeJobs[postId]?.isActive == true) return
                     val isThumbedUp = payload.boolField("isThumbedUp")
                     _forumState.update { state ->
                         val updated = state.posts.map { post ->
@@ -247,35 +248,44 @@ class ForumViewModel @Inject constructor(
         }
     }
 
-    /** Optimistic like toggle — flip immediately, revert on failure. */
+    /** Optimistic like toggle — every fast tap is queued and reconciled with the server. */
     fun toggleThumbsUp(postId: String) {
-        if (processingPostLikes.contains(postId)) return
         val current = _forumState.value.posts.firstOrNull { it.id == postId } ?: return
-        processingPostLikes.add(postId)
         val optimistic = current.copy(
             isThumbedUp = !current.isThumbedUp,
             thumbsUpCount = (current.thumbsUpCount + if (current.isThumbedUp) -1 else 1).coerceAtLeast(0)
         )
         updatePostInList(optimistic)
-        viewModelScope.launch {
+        pendingPostLikeToggles[postId] = (pendingPostLikeToggles[postId] ?: 0) + 1
+        if (postLikeJobs[postId]?.isActive != true) {
+            postLikeJobs[postId] = viewModelScope.launch { drainPostLikeToggles(postId) }
+        }
+    }
+
+    private suspend fun drainPostLikeToggles(postId: String) {
+        while ((pendingPostLikeToggles[postId] ?: 0) > 0) {
+            pendingPostLikeToggles[postId] = ((pendingPostLikeToggles[postId] ?: 1) - 1).coerceAtLeast(0)
             forumRepository.toggleLikePost(postId)
                 .onSuccess { response ->
-                    _forumState.update { state ->
-                        val updated = state.posts.map { post ->
-                            if (post.id == postId) {
-                                post.copy(thumbsUpCount = response.thumbsUpCount, isThumbedUp = response.isThumbedUp)
-                            } else post
+                    if ((pendingPostLikeToggles[postId] ?: 0) == 0) {
+                        _forumState.update { state ->
+                            val updated = state.posts.map { post ->
+                                if (post.id == postId) post.copy(thumbsUpCount = response.thumbsUpCount, isThumbedUp = response.isThumbedUp) else post
+                            }
+                            val isDefaultQuery = state.selectedCategory == null && state.searchQuery.isBlank() && state.sort == "hot"
+                            if (isDefaultQuery) appCache.forumPosts = updated
+                            state.copy(posts = updated)
                         }
-                        val isDefaultQuery = state.selectedCategory == null && state.searchQuery.isBlank() && state.sort == "hot"
-                        if (isDefaultQuery) {
-                            appCache.forumPosts = updated
-                        }
-                        state.copy(posts = updated)
                     }
                 }
-                .onFailure { updatePostInList(current) }
-            processingPostLikes.remove(postId)
+                .onFailure {
+                    pendingPostLikeToggles[postId] = 0
+                    syncLikeStates()
+                    _forumState.update { it.copy(snackbarMessage = "Couldn't update like") }
+                }
         }
+        pendingPostLikeToggles.remove(postId)
+        postLikeJobs.remove(postId)
     }
 
     /** Optimistic bookmark toggle — flip immediately, revert on failure. */
