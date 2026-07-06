@@ -152,13 +152,6 @@ private fun NewsHeader(onResultCheckerClick: () -> Unit) {
                     fontWeight = FontWeight.ExtraBold,
                     color = MaterialTheme.colorScheme.onSurface
                 )
-                Spacer(modifier = Modifier.height(5.dp))
-                Text(
-                    text = "Exam results, official notices, events, and platform updates — all in one place.",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    lineHeight = MaterialTheme.typography.bodyMedium.lineHeight
-                )
             }
             Button(
                 onClick = onResultCheckerClick,
