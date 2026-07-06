@@ -27,6 +27,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.outlined.Reply
 import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.BookmarkBorder
 import androidx.compose.material.icons.outlined.ChatBubbleOutline
@@ -59,6 +60,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.focus.FocusRequester
@@ -165,9 +167,9 @@ fun ForumPostDetailScreen(
             if (uiState.currentUserId != null && uiState.post != null) {
                 Surface(
                     modifier = Modifier.fillMaxWidth(),
-                    tonalElevation = 8.dp,
-                    shadowElevation = 16.dp,
-                    color = MaterialTheme.colorScheme.surface
+                    tonalElevation = 0.dp,
+                    shadowElevation = 0.dp,
+                    color = Color.Transparent
                 ) {
                     Column(
                         modifier = Modifier
@@ -190,15 +192,16 @@ fun ForumPostDetailScreen(
                             OutlinedTextField(
                                 value = mainReplyText,
                                 onValueChange = viewModel::onMainReplyChange,
-                                placeholder = { Text("Write a comment...") },
+                                placeholder = { Text("Write a comment...", style = MaterialTheme.typography.bodyMedium) },
                                 modifier = Modifier
                                     .weight(1f)
                                     .focusRequester(mainFocusRequester),
+                                textStyle = MaterialTheme.typography.bodyMedium,
                                 maxLines = 4,
                                 shape = RoundedCornerShape(24.dp),
                                 colors = OutlinedTextFieldDefaults.colors(
-                                    focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f),
-                                    unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.1f),
+                                    focusedContainerColor = Color.Transparent,
+                                    unfocusedContainerColor = Color.Transparent,
                                     focusedBorderColor = MaterialTheme.colorScheme.primary,
                                     unfocusedBorderColor = MaterialTheme.colorScheme.outlineVariant
                                 ),
@@ -340,71 +343,26 @@ fun ForumPostDetailScreen(
 
                     items(topLevel, key = { it.id }) { reply ->
                         val children = uiState.childrenOf(reply.id)
-                        Column {
-                            ReplyItem(
-                                reply = reply,
-                                isOwn = uiState.currentUserId != null && reply.authorId == uiState.currentUserId,
-                                onThumbsUpClick = { viewModel.toggleReplyThumbsUp(reply.id) },
-                                onReplyClick = { activeThreadParent = reply },
-                                onBookmarkClick = { viewModel.toggleReplyBookmark(reply.id) },
-                                onShareClick = {
-                                    shareText(context, "https://nebians.consica.com.np/forum/post/$postId/")
-                                },
-                                onReportClick = { reportTarget = "reply" to reply.id },
-                                onEditClick = { editingReply = reply },
-                                onArchiveClick = { viewModel.archiveReply(reply.id) },
-                                onDeleteClick = { deletingReplyId = reply.id },
-                                onEditedClick = { historyTarget = "reply" to reply.id },
-                                onProfileClick = onProfileClick,
-                                onAuthorLongPress = { popoverUsername = reply.authorName },
-                                onLinkClick = openLink
-                            )
-                            if (children.isNotEmpty()) {
-                                Row(
-                                    modifier = Modifier
-                                        .padding(start = 24.dp, top = 8.dp)
-                                        .height(IntrinsicSize.Min)
-                                ) {
-                                    Box(
-                                        modifier = Modifier
-                                            .width(2.dp)
-                                            .fillMaxHeight()
-                                            .background(MaterialTheme.colorScheme.outlineVariant)
-                                    )
-                                    Column(
-                                        modifier = Modifier
-                                            .padding(start = 10.dp)
-                                            .weight(1f),
-                                        verticalArrangement = Arrangement.spacedBy(8.dp)
-                                    ) {
-                                        children.forEach { child ->
-                                            ReplyItem(
-                                                reply = child,
-                                                isOwn = uiState.currentUserId != null && child.authorId == uiState.currentUserId,
-                                                onThumbsUpClick = { viewModel.toggleReplyThumbsUp(child.id) },
-                                                onReplyClick = { activeThreadParent = reply },
-                                                onBookmarkClick = { viewModel.toggleReplyBookmark(child.id) },
-                                                onShareClick = {
-                                                    shareText(context, "https://nebians.consica.com.np/forum/post/$postId/")
-                                                },
-                                                onReportClick = { reportTarget = "reply" to child.id },
-                                                onEditClick = { editingReply = child },
-                                                onArchiveClick = { viewModel.archiveReply(child.id) },
-                                                onDeleteClick = { deletingReplyId = child.id },
-                                                onEditedClick = { historyTarget = "reply" to child.id },
-                                                onProfileClick = onProfileClick,
-                                                onAuthorLongPress = { popoverUsername = child.authorName },
-                                                onLinkClick = openLink,
-                                                replyingToUsername = if (child.parentReplyId != reply.id) {
-                                                    val parentOfChild = uiState.replies.firstOrNull { it.id == child.parentReplyId }
-                                                    parentOfChild?.authorName
-                                                } else null
-                                            )
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                        ReplyItem(
+                            reply = reply,
+                            isOwn = uiState.currentUserId != null && reply.authorId == uiState.currentUserId,
+                            onThumbsUpClick = { viewModel.toggleReplyThumbsUp(reply.id) },
+                            onReplyClick = { activeThreadParent = reply },
+                            onBookmarkClick = { viewModel.toggleReplyBookmark(reply.id) },
+                            onShareClick = {
+                                shareText(context, "https://nebians.consica.com.np/forum/post/$postId/")
+                            },
+                            onReportClick = { reportTarget = "reply" to reply.id },
+                            onEditClick = { editingReply = reply },
+                            onArchiveClick = { viewModel.archiveReply(reply.id) },
+                            onDeleteClick = { deletingReplyId = reply.id },
+                            onEditedClick = { historyTarget = "reply" to reply.id },
+                            onProfileClick = onProfileClick,
+                            onAuthorLongPress = { popoverUsername = reply.authorName },
+                            onLinkClick = openLink,
+                            children = children,
+                            onRepliesBarClick = { activeThreadParent = reply }
+                        )
                         Spacer(modifier = Modifier.height(10.dp))
                     }
 
@@ -601,8 +559,8 @@ fun ForumPostDetailScreen(
                     } else {
                         items(threadReplies, key = { it.id }) { child ->
                             Column(modifier = Modifier.padding(bottom = 12.dp)) {
+                                val parentOfChild = uiState.replies.firstOrNull { it.id == child.parentReplyId }
                                 val replyingTo = if (child.parentReplyId != parent.id) {
-                                    val parentOfChild = uiState.replies.firstOrNull { it.id == child.parentReplyId }
                                     parentOfChild?.authorName
                                 } else null
 
@@ -623,7 +581,8 @@ fun ForumPostDetailScreen(
                                     onProfileClick = onProfileClick,
                                     onAuthorLongPress = { popoverUsername = child.authorName },
                                     onLinkClick = openLink,
-                                    replyingToUsername = replyingTo
+                                    replyingToUsername = replyingTo,
+                                    quotedContent = parentOfChild?.content
                                 )
                             }
                         }
@@ -686,15 +645,17 @@ fun ForumPostDetailScreen(
                                 onValueChange = viewModel::onThreadReplyChange,
                                 placeholder = {
                                     Text(
-                                        text = if (activeThreadTargetReply != null) "Reply to @${activeThreadTargetReply?.authorName}..." else "Write a reply..."
+                                        text = if (activeThreadTargetReply != null) "Reply to @${activeThreadTargetReply?.authorName}..." else "Write a reply...",
+                                        style = MaterialTheme.typography.bodyMedium
                                     )
                                 },
                                 modifier = Modifier.weight(1f),
+                                textStyle = MaterialTheme.typography.bodyMedium,
                                 maxLines = 4,
                                 shape = RoundedCornerShape(24.dp),
                                 colors = OutlinedTextFieldDefaults.colors(
-                                    focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f),
-                                    unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.1f),
+                                    focusedContainerColor = Color.Transparent,
+                                    unfocusedContainerColor = Color.Transparent,
                                     focusedBorderColor = MaterialTheme.colorScheme.primary,
                                     unfocusedBorderColor = MaterialTheme.colorScheme.outlineVariant
                                 ),
@@ -982,7 +943,10 @@ private fun ReplyItem(
     onProfileClick: (String) -> Unit,
     onAuthorLongPress: () -> Unit,
     onLinkClick: (String) -> Unit,
-    replyingToUsername: String? = null
+    replyingToUsername: String? = null,
+    quotedContent: String? = null,
+    children: List<ApiReply> = emptyList(),
+    onRepliesBarClick: (() -> Unit)? = null
 ) {
     Surface(
         shape = RoundedCornerShape(12.dp),
@@ -1061,7 +1025,38 @@ private fun ReplyItem(
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            if (!replyingToUsername.isNullOrBlank()) {
+            if (!quotedContent.isNullOrBlank()) {
+                Surface(
+                    shape = RoundedCornerShape(8.dp),
+                    color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 8.dp)
+                ) {
+                    Row(
+                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(6.dp)
+                    ) {
+                        Text(
+                            text = "“",
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                        Text(
+                            text = quotedContent,
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                            modifier = Modifier.weight(1f)
+                        )
+                    }
+                }
+            }
+
+            if (!replyingToUsername.isNullOrBlank() && quotedContent.isNullOrBlank()) {
                 Surface(
                     shape = RoundedCornerShape(4.dp),
                     color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
@@ -1098,13 +1093,14 @@ private fun ReplyItem(
 
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(10.dp)
+                modifier = Modifier.fillMaxWidth()
             ) {
                 LikePill(
                     count = reply.thumbsUpCount,
                     liked = reply.isThumbedUp,
                     onClick = onThumbsUpClick
                 )
+                Spacer(modifier = Modifier.width(12.dp))
                 Row(
                     modifier = Modifier
                         .clip(WebPillShape)
@@ -1114,15 +1110,67 @@ private fun ReplyItem(
                     horizontalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
                     Icon(
-                        imageVector = Icons.Outlined.ChatBubbleOutline,
+                        imageVector = Icons.AutoMirrored.Outlined.Reply,
                         contentDescription = "Reply",
-                        modifier = Modifier.size(14.dp),
+                        modifier = Modifier.size(16.dp),
                         tint = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                     Text(
                         text = "Reply",
                         style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+                Spacer(modifier = Modifier.weight(1f))
+                IconButton(onClick = onBookmarkClick, modifier = Modifier.size(32.dp)) {
+                    Icon(
+                        imageVector = if (reply.isBookmarked == true) Icons.Filled.Bookmark else Icons.Filled.BookmarkBorder,
+                        contentDescription = "Bookmark",
+                        modifier = Modifier.size(18.dp),
+                        tint = if (reply.isBookmarked == true) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+                IconButton(onClick = onShareClick, modifier = Modifier.size(32.dp)) {
+                    Icon(
+                        imageVector = Icons.Outlined.Share,
+                        contentDescription = "Share",
+                        modifier = Modifier.size(18.dp),
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+            }
+
+            if (children.isNotEmpty() && onRepliesBarClick != null) {
+                Spacer(modifier = Modifier.height(8.dp))
+                HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
+                Spacer(modifier = Modifier.height(8.dp))
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(8.dp))
+                        .clickable(onClick = onRepliesBarClick)
+                        .padding(vertical = 4.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    val firstChild = children.first()
+                    Avatar(
+                        name = firstChild.authorName,
+                        imageUrl = firstChild.authorPhotoUrl,
+                        size = 20.dp
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = "${children.size} ${if (children.size == 1) "reply" else "replies"}",
+                        style = MaterialTheme.typography.labelMedium,
+                        fontWeight = FontWeight.SemiBold,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                    Spacer(modifier = Modifier.weight(1f))
+                    Icon(
+                        imageVector = Icons.Outlined.ChatBubbleOutline,
+                        contentDescription = "View thread",
+                        modifier = Modifier.size(16.dp),
+                        tint = MaterialTheme.colorScheme.primary
                     )
                 }
             }
