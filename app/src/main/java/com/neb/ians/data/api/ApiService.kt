@@ -505,6 +505,61 @@ data class ApiSyllabusSubject(
     val url: String = ""
 )
 
+
+
+@Serializable
+data class ApiSyllabusSubjectDetailResponse(
+    val grade: String = "",
+    val subject: String = "",
+    @SerialName("grade_slug") val gradeSlug: String = "",
+    @SerialName("subject_slug") val subjectSlug: String = "",
+    @SerialName("grade_list") val gradeList: List<ApiSyllabusNavItem> = emptyList(),
+    @SerialName("subject_list") val subjectList: List<ApiSyllabusNavItem> = emptyList(),
+    val chapters: List<ApiSyllabusChapter> = emptyList(),
+    @SerialName("total_count") val totalCount: Int = 0
+)
+
+@Serializable
+data class ApiSyllabusNavItem(
+    val name: String = "",
+    val slug: String = ""
+)
+
+@Serializable
+data class ApiSyllabusChapter(
+    val id: String = "",
+    val name: String = "",
+    @SerialName("guide_sections") val guideSections: List<ApiSyllabusSection> = emptyList(),
+    @SerialName("qa_sections") val qaSections: List<ApiSyllabusQaSection> = emptyList(),
+    val notes: List<ApiResource> = emptyList(),
+    val solutions: List<ApiResource> = emptyList(),
+    val papers: List<ApiResource> = emptyList(),
+    val textbooks: List<ApiResource> = emptyList(),
+    val other: List<ApiResource> = emptyList(),
+    val count: Int = 0
+)
+
+@Serializable
+data class ApiSyllabusSection(
+    val title: String = "",
+    val content: String = "",
+    val id: String = ""
+)
+
+@Serializable
+data class ApiSyllabusQaSection(
+    val title: String = "",
+    val content: String = "",
+    val id: String = "",
+    @SerialName("parsed_items") val parsedItems: List<ApiSyllabusQaItem> = emptyList()
+)
+
+@Serializable
+data class ApiSyllabusQaItem(
+    val question: String = "",
+    val answer: String = ""
+)
+
 @Serializable
 data class ApiUserSearchResult(
     val id: String,
@@ -1445,6 +1500,12 @@ interface ApiService {
     // --- Syllabus (public, web-synced categories) ---
     @GET("api/syllabus/categories/")
     suspend fun getSyllabusCategories(): ApiSyllabusCategoriesResponse
+
+    @GET("api/syllabus/subjects/{gradeSlug}/{subjectSlug}/")
+    suspend fun getSyllabusSubjectDetail(
+        @Path("gradeSlug") gradeSlug: String,
+        @Path("subjectSlug") subjectSlug: String
+    ): ApiSyllabusSubjectDetailResponse
 
     // --- Interactive Learning (public, no auth required) ---
     @GET("api/interactive/categories/")

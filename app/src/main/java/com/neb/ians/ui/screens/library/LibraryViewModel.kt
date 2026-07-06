@@ -7,7 +7,9 @@ import com.neb.ians.data.api.ApiResource
 import com.neb.ians.data.api.ApiErrorMapper
 import com.neb.ians.data.api.ApiService
 import com.neb.ians.data.api.ApiSyllabusCategory
+import com.neb.ians.data.api.ApiSyllabusNavItem
 import com.neb.ians.data.api.ApiSyllabusSubject
+import com.neb.ians.data.api.ApiSyllabusSubjectDetailResponse
 import com.neb.ians.data.repository.ResourceRepository
 import com.neb.ians.data.repository.AppCache
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -32,6 +34,11 @@ data class LibraryUiState(
     val selectedGradeLevel: String? = null,
     val selectedType: String? = null,
     val syllabusCategories: List<ApiSyllabusCategory> = emptyList(),
+    val selectedSyllabusDetail: ApiSyllabusSubjectDetailResponse? = null,
+    val selectedSyllabusGradeSlug: String? = null,
+    val selectedSyllabusSubjectSlug: String? = null,
+    val isSyllabusSubjectLoading: Boolean = false,
+    val syllabusSubjectError: String? = null,
     val isSyllabusLoading: Boolean = false,
     val syllabusError: String? = null,
     val isLoading: Boolean = true,
@@ -126,6 +133,76 @@ class LibraryViewModel @Inject constructor(
                 subjects = LibraryUiState.SUBJECTS.map { subject -> ApiSyllabusSubject(name = subject) }
             )
         }
+    }
+
+
+
+    fun openSyllabusSubject(grade: String, subject: ApiSyllabusSubject) {
+        val gradeSlug = syllabusSlug(grade)
+        val subjectSlug = subject.slug.ifBlank { syllabusSlug(subject.name) }
+        loadSyllabusSubject(gradeSlug, subjectSlug)
+    }
+
+    fun switchSyllabusGrade(item: ApiSyllabusNavItem) {
+        val subjectSlug = _uiState.value.selectedSyllabusSubjectSlug ?: _uiState.value.selectedSyllabusDetail?.subjectSlug ?: return
+        loadSyllabusSubject(item.slug, subjectSlug)
+    }
+
+    fun switchSyllabusSubject(item: ApiSyllabusNavItem) {
+        val gradeSlug = _uiState.value.selectedSyllabusGradeSlug ?: _uiState.value.selectedSyllabusDetail?.gradeSlug ?: return
+        loadSyllabusSubject(gradeSlug, item.slug)
+    }
+
+    fun closeSyllabusSubject() {
+        _uiState.update {
+            it.copy(
+                selectedSyllabusDetail = null,
+                selectedSyllabusGradeSlug = null,
+                selectedSyllabusSubjectSlug = null,
+                syllabusSubjectError = null,
+                isSyllabusSubjectLoading = false
+            )
+        }
+    }
+
+    private fun loadSyllabusSubject(gradeSlug: String, subjectSlug: String) {
+        viewModelScope.launch {
+            _uiState.update {
+                it.copy(
+                    selectedSyllabusGradeSlug = gradeSlug,
+                    selectedSyllabusSubjectSlug = subjectSlug,
+                    selectedSyllabusDetail = null,
+                    isSyllabusSubjectLoading = true,
+                    syllabusSubjectError = null
+                )
+            }
+            try {
+                val detail = apiService.getSyllabusSubjectDetail(gradeSlug, subjectSlug)
+                _uiState.update {
+                    it.copy(
+                        selectedSyllabusDetail = detail,
+                        selectedSyllabusGradeSlug = detail.gradeSlug.ifBlank { gradeSlug },
+                        selectedSyllabusSubjectSlug = detail.subjectSlug.ifBlank { subjectSlug },
+                        isSyllabusSubjectLoading = false
+                    )
+                }
+            } catch (e: Exception) {
+                _uiState.update {
+                    it.copy(
+                        isSyllabusSubjectLoading = false,
+                        syllabusSubjectError = ApiErrorMapper.mapException(e)
+                    )
+                }
+            }
+        }
+    }
+
+    private fun syllabusSlug(value: String): String {
+        return value.lowercase()
+            .replace(" / see", "-see")
+            .replace("/", "-")
+            .replace(Regex("[^a-z0-9]+"), "-")
+            .trim('-')
     }
 
     private fun loadResources() {
