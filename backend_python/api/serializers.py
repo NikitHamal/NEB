@@ -2,7 +2,7 @@
 DRF serializers for all NEBians API resources.
 """
 from rest_framework import serializers
-from .models import User, Resource, ResourceRequest, ResourceRequestUpvote, Post, PostImage, Poll, PollOption, PollVote, Reply, FCMToken, UserPhoto, Follow, EditHistory, Report, Bookmark, Notification
+from .models import User, Resource, ResourceLike, ResourceRequest, ResourceRequestUpvote, Post, PostImage, Poll, PollOption, PollVote, Reply, FCMToken, UserPhoto, Follow, EditHistory, Report, Bookmark, Notification
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -56,6 +56,10 @@ class ResourceSerializer(serializers.ModelSerializer):
     commentCount = serializers.IntegerField(source='comment_count', read_only=True)
     approvalStatus = serializers.CharField(source='approval_status', read_only=True)
     fileUrl = serializers.SerializerMethodField()
+    is_liked = serializers.SerializerMethodField()
+    isLiked = serializers.SerializerMethodField()
+    is_bookmarked = serializers.SerializerMethodField()
+    isBookmarked = serializers.SerializerMethodField()
 
     class Meta:
         model = Resource
@@ -69,6 +73,7 @@ class ResourceSerializer(serializers.ModelSerializer):
             'source_type', 'sourceType', 'source_url', 'sourceUrl',
             'source_label', 'sourceLabel', 'likeCount', 'commentCount',
             'approval_status', 'approvalStatus',
+            'is_liked', 'isLiked', 'is_bookmarked', 'isBookmarked',
         ]
 
     def get_fileUrl(self, obj):
@@ -78,6 +83,41 @@ class ResourceSerializer(serializers.ModelSerializer):
                 return request.build_absolute_uri(obj.file.url)
             return obj.file.url
         return obj.file_url or ''
+
+    def _viewer(self):
+        request = self.context.get('request')
+        user = getattr(request, 'user', None) if request is not None else None
+        return user if isinstance(user, User) else None
+
+    def get_is_liked(self, obj):
+        user = self._viewer()
+        if not user:
+            return False
+        liked_ids = self.context.get('liked_resource_ids')
+        if liked_ids is not None:
+            return obj.pk in liked_ids
+        prefetched = getattr(obj, '_viewer_liked', None)
+        if prefetched is not None:
+            return bool(prefetched)
+        return ResourceLike.objects.filter(resource_id=obj.pk, user_id=user.pk).exists()
+
+    def get_isLiked(self, obj):
+        return self.get_is_liked(obj)
+
+    def get_is_bookmarked(self, obj):
+        user = self._viewer()
+        if not user:
+            return False
+        bookmarked_ids = self.context.get('bookmarked_resource_ids')
+        if bookmarked_ids is not None:
+            return str(obj.pk) in bookmarked_ids
+        prefetched = getattr(obj, '_viewer_bookmarked', None)
+        if prefetched is not None:
+            return bool(prefetched)
+        return Bookmark.objects.filter(target_type='resource', target_id=str(obj.pk), user_id=user.pk).exists()
+
+    def get_isBookmarked(self, obj):
+        return self.get_is_bookmarked(obj)
 
 
 class ResourceRequestSerializer(serializers.ModelSerializer):

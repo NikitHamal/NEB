@@ -51,6 +51,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -97,6 +98,7 @@ fun LibraryScreen(
     onNotificationsClick: () -> Unit = {},
     onProfileClick: () -> Unit = {},
     onInteractiveCourseClick: (String) -> Unit = {},
+    onSyllabusDetailChromeChanged: (Boolean) -> Unit = {},
     viewModel: LibraryViewModel = hiltViewModel(),
     interactiveViewModel: InteractiveViewModel = hiltViewModel()
 ) {
@@ -105,15 +107,30 @@ fun LibraryScreen(
     var currentTab by rememberSaveable { mutableStateOf("library") }
     var showFilterSheet by remember { mutableStateOf(false) }
     val hasActiveFilters = uiState.selectedSubject != null || uiState.selectedGradeLevel != null || uiState.selectedType != null
+    val isSyllabusDetailMode = currentTab == "syllabus" && (
+        uiState.selectedSyllabusDetail != null ||
+            uiState.isSyllabusSubjectLoading ||
+            uiState.selectedSyllabusGradeSlug != null ||
+            uiState.selectedSyllabusSubjectSlug != null
+        )
+
+    LaunchedEffect(isSyllabusDetailMode) {
+        onSyllabusDetailChromeChanged(isSyllabusDetailMode)
+    }
+    DisposableEffect(Unit) {
+        onDispose { onSyllabusDetailChromeChanged(false) }
+    }
 
     Scaffold(
         topBar = {
-            WebTopBar(
-                onSearchClick = onSearchClick,
-                onNotificationsClick = onNotificationsClick,
-                onProfileClick = onProfileClick,
-                avatarInitial = "N"
-            )
+            if (!isSyllabusDetailMode) {
+                WebTopBar(
+                    onSearchClick = onSearchClick,
+                    onNotificationsClick = onNotificationsClick,
+                    onProfileClick = onProfileClick,
+                    avatarInitial = "N"
+                )
+            }
         },
         containerColor = MaterialTheme.colorScheme.surface
     ) { paddingValues ->
@@ -122,69 +139,71 @@ fun LibraryScreen(
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 12.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                Column(modifier = Modifier.weight(1f)) {
-                    Text(
-                        text = when (currentTab) {
-                            "library" -> "Digital Library"
-                            "syllabus" -> "Syllabus"
-                            else -> "Interactive"
-                        },
-                        style = MaterialTheme.typography.headlineSmall,
-                        fontWeight = FontWeight.ExtraBold,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                }
-                if (currentTab == "library") {
-                    Surface(
-                        shape = CircleShape,
-                        color = Color.Transparent,
-                        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
-                        modifier = Modifier.size(40.dp)
-                    ) {
-                        IconButton(
-                            onClick = onUploadClick,
+            if (!isSyllabusDetailMode) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 12.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(
+                            text = when (currentTab) {
+                                "library" -> "Digital Library"
+                                "syllabus" -> "Syllabus"
+                                else -> "Interactive"
+                            },
+                            style = MaterialTheme.typography.headlineSmall,
+                            fontWeight = FontWeight.ExtraBold,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                    }
+                    if (currentTab == "library") {
+                        Surface(
+                            shape = CircleShape,
+                            color = Color.Transparent,
+                            border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
                             modifier = Modifier.size(40.dp)
                         ) {
-                            Icon(
-                                Icons.Outlined.CloudUpload,
-                                contentDescription = "Upload",
-                                modifier = Modifier.size(20.dp)
-                            )
+                            IconButton(
+                                onClick = onUploadClick,
+                                modifier = Modifier.size(40.dp)
+                            ) {
+                                Icon(
+                                    Icons.Outlined.CloudUpload,
+                                    contentDescription = "Upload",
+                                    modifier = Modifier.size(20.dp)
+                                )
+                            }
                         }
-                    }
-                    Surface(
-                        shape = CircleShape,
-                        color = if (hasActiveFilters) MaterialTheme.colorScheme.primaryContainer else Color.Transparent,
-                        border = BorderStroke(1.dp, if (hasActiveFilters) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline),
-                        modifier = Modifier.size(40.dp)
-                    ) {
-                        IconButton(
-                            onClick = { showFilterSheet = true },
+                        Surface(
+                            shape = CircleShape,
+                            color = if (hasActiveFilters) MaterialTheme.colorScheme.primaryContainer else Color.Transparent,
+                            border = BorderStroke(1.dp, if (hasActiveFilters) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline),
                             modifier = Modifier.size(40.dp)
                         ) {
-                            Icon(
-                                Icons.Outlined.FilterList,
-                                contentDescription = "Filters",
-                                tint = if (hasActiveFilters) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
-                                modifier = Modifier.size(20.dp)
-                            )
+                            IconButton(
+                                onClick = { showFilterSheet = true },
+                                modifier = Modifier.size(40.dp)
+                            ) {
+                                Icon(
+                                    Icons.Outlined.FilterList,
+                                    contentDescription = "Filters",
+                                    tint = if (hasActiveFilters) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
+                                    modifier = Modifier.size(20.dp)
+                                )
+                            }
                         }
                     }
                 }
-            }
 
-            LibraryTabs(
-                currentTab = currentTab,
-                onTabSelected = { currentTab = it }
-            )
+                LibraryTabs(
+                    currentTab = currentTab,
+                    onTabSelected = { currentTab = it }
+                )
+            }
 
             when (currentTab) {
                 "library" -> {
