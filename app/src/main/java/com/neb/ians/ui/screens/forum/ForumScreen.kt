@@ -137,6 +137,18 @@ fun ForumScreen(
                 avatarUrl = uiState.userPhotoUrl
             )
         },
+        floatingActionButton = {
+            androidx.compose.material3.FloatingActionButton(
+                onClick = onCreatePostClick,
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.onPrimary
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.Add,
+                    contentDescription = "New Post"
+                )
+            }
+        },
         snackbarHost = { SnackbarHost(snackbarHostState) },
         containerColor = MaterialTheme.colorScheme.surface
     ) { paddingValues ->
@@ -145,29 +157,6 @@ fun ForumScreen(
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            // ----- Page header -----
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 12.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                Column(modifier = Modifier.weight(1f)) {
-                    Text(
-                        text = "Forum",
-                        style = MaterialTheme.typography.headlineSmall,
-                        fontWeight = FontWeight.ExtraBold,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                }
-                WebOutlinedButton(
-                    text = "New Post",
-                    imageVector = Icons.Filled.Add,
-                    onClick = onCreatePostClick
-                )
-            }
 
             // ----- Sort tabs (Hot / New / Top / Discussed) -----
             Row(

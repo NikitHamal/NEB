@@ -100,11 +100,15 @@ class WafChallengeInterceptor(private val context: Context) : Interceptor {
                     )
                 }
             } else if (isHtml) {
-                throw ApiClientException(
-                    statusCode = response.code,
-                    isWafBlock = false,
-                    friendlyMessage = "The server returned an invalid response (HTML). Please check your internet connection or if you need to sign in to your network."
-                )
+                val path = originalRequest.url.encodedPath
+                val isNewsRequest = path.contains("/news/")
+                if (!isNewsRequest) {
+                    throw ApiClientException(
+                        statusCode = response.code,
+                        isWafBlock = false,
+                        friendlyMessage = "The server returned an invalid response (HTML). Please check your internet connection or if you need to sign in to your network."
+                    )
+                }
             } else if (response.code in listOf(403, 429, 503, 520, 522, 524)) {
                 throw ApiClientException(
                     statusCode = response.code,

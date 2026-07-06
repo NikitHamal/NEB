@@ -21,6 +21,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
@@ -405,7 +406,7 @@ private fun ResultCard(
                 Button(onClick = onGradesheet, modifier = Modifier.weight(1f), shape = WebPillShape) {
                     Icon(Icons.Filled.Print, contentDescription = null, modifier = Modifier.size(18.dp))
                     Spacer(modifier = Modifier.width(6.dp))
-                    Text("Gradesheet")
+                    Text("Print")
                 }
             }
         }
@@ -628,13 +629,24 @@ private fun GradesheetDialog(
                                 }
                             }
                         }
+                        item {
+                            val examName = if (exam == ResultExam.Class10) "SECONDARY EDUCATION EXAMINATION" else "CLASS 12 EXAMINATION${if (examType == ResultExamType.ReExam) " (RE-EXAM)" else ""}"
+                            Text(
+                                text = "THE GRADE SECURED BY THE STUDENT IN THE $examName HELD IN THE YEAR ${payload.batch.ifBlank { batch }} BS IS GIVEN BELOW.",
+                                style = MaterialTheme.typography.labelSmall,
+                                color = Color(0xFF292524),
+                                modifier = Modifier.padding(vertical = 4.dp),
+                                textAlign = androidx.compose.ui.text.style.TextAlign.Center
+                            )
+                        }
                         item { GradesheetDetails(payload, batch, dob) }
-                        items(payload.subjects) { subject ->
+                        itemsIndexed(payload.subjects) { index, subject ->
                             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                                Text((index + 1).toString(), modifier = Modifier.weight(0.4f), color = Color(0xFF1C1917), style = MaterialTheme.typography.labelSmall)
                                 Text(subject.code.ifBlank { "—" }, modifier = Modifier.weight(0.8f), color = Color(0xFF1C1917), style = MaterialTheme.typography.labelSmall)
                                 Text(subject.name.ifBlank { "—" }, modifier = Modifier.weight(2f), color = Color(0xFF1C1917), style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.SemiBold)
                                 Text(subject.creditHour.ifBlank { "—" }, modifier = Modifier.weight(0.7f), color = Color(0xFF1C1917), style = MaterialTheme.typography.labelSmall)
-                                Text(subject.grade.ifBlank { "—" }, modifier = Modifier.weight(0.6f), color = Color(0xFF1C1917), style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold)
+                                Text(subject.grade.ifBlank { "—" }, modifier = Modifier.weight(0.7f), color = Color(0xFF1C1917), style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold)
                                 Text(subject.gradePoint.ifBlank { "—" }, modifier = Modifier.weight(0.6f), color = Color(0xFF1C1917), style = MaterialTheme.typography.labelSmall)
                             }
                             HorizontalDivider(color = Color(0xFFE7E5E4))
@@ -657,19 +669,44 @@ private fun GradesheetDialog(
 
 @Composable
 private fun GradesheetDetails(payload: ResultPayload, batch: String, dob: String) {
-    Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
-        CertificateLine("Student", payload.studentName.uppercase().ifBlank { "—" })
-        CertificateLine("Symbol", payload.symbol.ifBlank { "—" })
-        CertificateLine("Registration", payload.registrationNumberOrFallback())
-        CertificateLine("DOB", dob.ifBlank { payload.dob.ifBlank { "—" } })
-        CertificateLine("School", payload.school.uppercase().ifBlank { "—" })
-        CertificateLine("Exam Year", "${payload.batch.ifBlank { batch }} BS")
+    Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+        Row(modifier = Modifier.fillMaxWidth()) {
+            Column(modifier = Modifier.weight(1.2f)) {
+                Text("NAME OF STUDENT", color = Color(0xFF57534E), style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold)
+                Text(payload.studentName.uppercase().ifBlank { "—" }, color = Color(0xFF1C1917), style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold)
+            }
+            Column(modifier = Modifier.weight(0.8f)) {
+                Text("SYMBOL NO", color = Color(0xFF57534E), style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold)
+                Text(payload.symbol.ifBlank { "—" }, color = Color(0xFF1C1917), style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold)
+            }
+        }
+        Row(modifier = Modifier.fillMaxWidth()) {
+            Column(modifier = Modifier.weight(1.2f)) {
+                Text("SCHOOL/COLLEGE", color = Color(0xFF57534E), style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold)
+                Text(payload.school.uppercase().ifBlank { "—" }, color = Color(0xFF1C1917), style = MaterialTheme.typography.labelSmall)
+            }
+            Column(modifier = Modifier.weight(0.8f)) {
+                Text("REGISTRATION NO", color = Color(0xFF57534E), style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold)
+                Text(payload.registrationNumberOrFallback(), color = Color(0xFF1C1917), style = MaterialTheme.typography.labelSmall)
+            }
+        }
+        Row(modifier = Modifier.fillMaxWidth()) {
+            Column(modifier = Modifier.weight(1.2f)) {
+                Text("DATE OF BIRTH", color = Color(0xFF57534E), style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold)
+                Text(dob.ifBlank { payload.dob.ifBlank { "—" } }, color = Color(0xFF1C1917), style = MaterialTheme.typography.labelSmall)
+            }
+            Column(modifier = Modifier.weight(0.8f)) {
+                Text("EXAM YEAR / BATCH", color = Color(0xFF57534E), style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold)
+                Text("${payload.batch.ifBlank { batch }} BS", color = Color(0xFF1C1917), style = MaterialTheme.typography.labelSmall)
+            }
+        }
         HorizontalDivider(color = Color(0xFF8B7355), thickness = 1.dp, modifier = Modifier.padding(vertical = 6.dp))
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+            Text("S.N.", modifier = Modifier.weight(0.4f), color = Color(0xFF292524), fontWeight = FontWeight.ExtraBold, style = MaterialTheme.typography.labelSmall)
             Text("CODE", modifier = Modifier.weight(0.8f), color = Color(0xFF292524), fontWeight = FontWeight.ExtraBold, style = MaterialTheme.typography.labelSmall)
-            Text("SUBJECT", modifier = Modifier.weight(2f), color = Color(0xFF292524), fontWeight = FontWeight.ExtraBold, style = MaterialTheme.typography.labelSmall)
+            Text("SUBJECT TITLE", modifier = Modifier.weight(2f), color = Color(0xFF292524), fontWeight = FontWeight.ExtraBold, style = MaterialTheme.typography.labelSmall)
             Text("CH", modifier = Modifier.weight(0.7f), color = Color(0xFF292524), fontWeight = FontWeight.ExtraBold, style = MaterialTheme.typography.labelSmall)
-            Text("GR", modifier = Modifier.weight(0.6f), color = Color(0xFF292524), fontWeight = FontWeight.ExtraBold, style = MaterialTheme.typography.labelSmall)
+            Text("GRADE", modifier = Modifier.weight(0.7f), color = Color(0xFF292524), fontWeight = FontWeight.ExtraBold, style = MaterialTheme.typography.labelSmall)
             Text("GP", modifier = Modifier.weight(0.6f), color = Color(0xFF292524), fontWeight = FontWeight.ExtraBold, style = MaterialTheme.typography.labelSmall)
         }
     }
