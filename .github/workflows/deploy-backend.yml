@@ -57,8 +57,12 @@ jobs:
             
             echo "Resolving cPanel static files two-location copies..."
             mkdir -p public/static/web/css
-            cp -f web/static/web/css/app.css public/static/web/css/app.css
-            cp -f web/static/web/css/material3.css public/static/web/css/material3.css
+            mkdir -p public/static/web/js
+            mkdir -p public/static/web/img
+            cp -rf web/static/web/css/* public/static/web/css/
+            cp -rf web/static/web/js/* public/static/web/js/
+            cp -rf web/static/web/img/* public/static/web/img/
+            cp -f web/static/web/manifest.json public/static/web/manifest.json
             
             echo "Restarting Phusion Passenger application..."
             rm -rf tmp/*
