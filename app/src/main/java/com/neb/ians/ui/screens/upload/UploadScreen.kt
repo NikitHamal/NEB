@@ -198,7 +198,7 @@ fun UploadScreen(
                         UploadStep.Files -> FilesStep(
                             uiState = uiState,
                             viewModel = viewModel,
-                            onPickFiles = { filePicker.launch("application/*") },
+                            onPickFiles = { filePicker.launch("*/*") },
                             onRemoveFile = viewModel::removeFileAt,
                             onClearFiles = viewModel::clearFiles
                         )

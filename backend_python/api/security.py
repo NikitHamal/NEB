@@ -414,12 +414,12 @@ def save_post_image_upload(request, file_obj, order=0) -> str:
 
 RESOURCE_ALLOWED_EXTENSIONS = {
     '.pdf', '.doc', '.docx', '.ppt', '.pptx', '.xls', '.xlsx',
-    '.txt', '.rtf', '.odt', '.ods', '.odp',
+    '.txt', '.rtf', '.odt', '.ods', '.odp', '.csv',
     '.zip', '.rar', '.7z',
     # NOTE: .svg intentionally excluded — SVG can carry scripts (stored XSS).
-    '.jpg', '.jpeg', '.png', '.gif', '.webp', '.bmp',
-    '.mp4', '.mkv', '.avi', '.mov', '.webm',
-    '.mp3', '.wav', '.ogg', '.flac', '.aac',
+    '.jpg', '.jpeg', '.png', '.gif', '.webp', '.bmp', '.heic', '.heif',
+    '.mp4', '.mkv', '.avi', '.mov', '.webm', '.wmv', '.flv', '.3gp',
+    '.mp3', '.wav', '.ogg', '.flac', '.aac', '.m4a', '.wma',
     '.epub', '.mobi',
 }
 RESOURCE_ALLOWED_MIME_PREFIXES = (
@@ -429,6 +429,7 @@ RESOURCE_ALLOWED_MIME_PREFIXES = (
     'text/', 'image/', 'video/', 'audio/',
     'application/zip', 'application/x-rar', 'application/x-7z',
     'application/epub', 'application/x-mobipocket',
+    'application/octet-stream',
 )
 RESOURCE_MAX_BYTES = 50 * 1024 * 1024  # 50 MB
 
