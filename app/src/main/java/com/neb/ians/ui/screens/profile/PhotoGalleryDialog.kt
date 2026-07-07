@@ -33,6 +33,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -46,6 +50,7 @@ import coil.compose.AsyncImage
 import com.neb.ians.data.api.ApiUserPhoto
 import com.neb.ians.ui.components.WebPanelShape
 import com.neb.ians.ui.components.WebPrimaryButton
+import com.neb.ians.ui.components.ZoomableImageDialog
 
 /**
  * Own-profile photo gallery — mirrors the web profile photo modal:
@@ -62,6 +67,7 @@ fun PhotoGalleryDialog(
     onUploadPhoto: (ByteArray, String) -> Unit
 ) {
     val context = LocalContext.current
+    var previewUrl by remember { mutableStateOf<String?>(null) }
     val imagePickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
     ) { uri ->
@@ -137,7 +143,7 @@ fun PhotoGalleryDialog(
                                 photo = photo,
                                 enabled = !isBusy,
                                 onClick = {
-                                    if (!photo.isCurrent) onActivatePhoto(photo.id)
+                                    if (photo.isCurrent) previewUrl = photo.url else onActivatePhoto(photo.id)
                                 }
                             )
                         }
@@ -153,6 +159,14 @@ fun PhotoGalleryDialog(
                 )
             }
         }
+    }
+
+    previewUrl?.let { url ->
+        ZoomableImageDialog(
+            imageUrl = url,
+            contentDescription = "Profile photo",
+            onDismiss = { previewUrl = null }
+        )
     }
 }
 
