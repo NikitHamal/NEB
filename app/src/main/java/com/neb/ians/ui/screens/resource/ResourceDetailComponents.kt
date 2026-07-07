@@ -59,7 +59,7 @@ import com.neb.ians.data.api.ApiResource
 import com.neb.ians.data.api.ApiResourceComment
 import com.neb.ians.ui.components.ExpandableText
 import com.neb.ians.ui.components.NebAvatar
-import com.neb.ians.ui.components.NebCommentComposerBar
+
 import com.neb.ians.util.formatTimeAgo
 import com.neb.ians.util.getSubjectColor
 
@@ -507,26 +507,6 @@ fun ResourceCommentItem(
             Text(comment.content, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurface, lineHeight = 20.sp)
         }
     }
-}
-
-@Composable
-fun ResourceCommentComposerBar(
-    isAuthenticated: Boolean,
-    draft: String,
-    posting: Boolean,
-    onDraftChange: (String) -> Unit,
-    onPost: () -> Unit
-) {
-    NebCommentComposerBar(
-        value = draft,
-        onValueChange = onDraftChange,
-        placeholder = if (isAuthenticated) "Write a comment..." else "Sign in to comment",
-        enabled = isAuthenticated && !posting,
-        canSend = isAuthenticated && draft.isNotBlank() && !posting,
-        posting = posting,
-        sendContentDescription = "Post comment",
-        onSend = onPost
-    )
 }
 
 private fun fileSizeHuman(bytes: Long): String {

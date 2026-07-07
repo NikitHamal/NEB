@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
+import com.neb.ians.ui.components.NebCommentComposerBar
 import com.neb.ians.ui.components.NebTopBar
 import com.neb.ians.ui.components.ZoomableImageDialog
 
@@ -75,12 +76,15 @@ fun ResourceDetailScreen(
         },
         bottomBar = {
             if (uiState.resource != null) {
-                ResourceCommentComposerBar(
-                    isAuthenticated = uiState.isAuthenticated,
-                    draft = uiState.commentDraft,
+                NebCommentComposerBar(
+                    value = uiState.commentDraft,
+                    onValueChange = viewModel::onCommentDraftChange,
+                    placeholder = if (uiState.isAuthenticated) "Write a comment..." else "Sign in to comment",
+                    enabled = uiState.isAuthenticated && !uiState.isPostingComment,
+                    canSend = uiState.isAuthenticated && uiState.commentDraft.isNotBlank() && !uiState.isPostingComment,
                     posting = uiState.isPostingComment,
-                    onDraftChange = viewModel::onCommentDraftChange,
-                    onPost = viewModel::postComment
+                    sendContentDescription = "Post comment",
+                    onSend = viewModel::postComment
                 )
             }
         },
