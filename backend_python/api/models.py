@@ -1107,6 +1107,57 @@ class StudySpaceNote(models.Model):
         db_table = 'study_space_notes'
 
 
+class PageView(models.Model):
+    path = models.TextField()
+    full_url = models.TextField(blank=True, default='')
+    referrer = models.TextField(blank=True, default='')
+    referrer_domain = models.CharField(max_length=255, blank=True, default='')
+    referrer_type = models.CharField(max_length=20, blank=True, default='')
+    utm_source = models.CharField(max_length=255, blank=True, default='')
+    utm_medium = models.CharField(max_length=255, blank=True, default='')
+    utm_campaign = models.CharField(max_length=255, blank=True, default='')
+    user_agent = models.TextField(blank=True, default='')
+    source = models.CharField(max_length=10, default='web')
+    platform = models.CharField(max_length=30, blank=True, default='')
+    ip_address = models.GenericIPAddressField(blank=True, null=True)
+    session_key = models.CharField(max_length=40, blank=True, default='')
+    user_id = models.BigIntegerField(blank=True, null=True)
+    country = models.CharField(max_length=100, blank=True, default='')
+    city = models.CharField(max_length=100, blank=True, default='')
+    created_at = models.BigIntegerField(default=0)
+
+    class Meta:
+        db_table = 'page_views'
+        indexes = [
+            models.Index(fields=['created_at']),
+            models.Index(fields=['referrer_type']),
+            models.Index(fields=['source']),
+            models.Index(fields=['user_id']),
+        ]
+
+
+class DailyStat(models.Model):
+    date = models.DateField(unique=True)
+    total_visits = models.PositiveIntegerField(default=0)
+    unique_visitors = models.PositiveIntegerField(default=0)
+    new_users = models.PositiveIntegerField(default=0)
+    web_visits = models.PositiveIntegerField(default=0)
+    app_visits = models.PositiveIntegerField(default=0)
+    direct_visits = models.PositiveIntegerField(default=0)
+    search_visits = models.PositiveIntegerField(default=0)
+    social_visits = models.PositiveIntegerField(default=0)
+    referral_visits = models.PositiveIntegerField(default=0)
+    internal_visits = models.PositiveIntegerField(default=0)
+    new_posts = models.PositiveIntegerField(default=0)
+    new_resources = models.PositiveIntegerField(default=0)
+    new_replies = models.PositiveIntegerField(default=0)
+    created_at = models.BigIntegerField(default=0)
+
+    class Meta:
+        db_table = 'daily_stats'
+        ordering = ['-date']
+
+
 class StudySpacePresence(models.Model):
     STATUS_INSIDE = 'inside'
     STATUS_READING = 'reading'
