@@ -129,7 +129,7 @@ private fun NebCommentComposerBarFrame(
         modifier = modifier.fillMaxWidth(),
         tonalElevation = 0.dp,
         shadowElevation = 0.dp,
-        color = MaterialTheme.colorScheme.surface
+        color = MaterialTheme.colorScheme.surfaceContainerLowest
     ) {
         Column(
             modifier = Modifier
@@ -178,9 +178,9 @@ private fun NebCommentComposerBarFrame(
 
 @Composable
 private fun NebCommentTextFieldColors() = OutlinedTextFieldDefaults.colors(
-    focusedContainerColor = MaterialTheme.colorScheme.surface,
-    unfocusedContainerColor = MaterialTheme.colorScheme.surface,
-    disabledContainerColor = MaterialTheme.colorScheme.surface,
+    focusedContainerColor = MaterialTheme.colorScheme.surfaceContainerLowest,
+    unfocusedContainerColor = MaterialTheme.colorScheme.surfaceContainerLowest,
+    disabledContainerColor = MaterialTheme.colorScheme.surfaceContainerLowest,
     focusedBorderColor = MaterialTheme.colorScheme.primary,
     unfocusedBorderColor = MaterialTheme.colorScheme.outlineVariant,
     disabledBorderColor = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.55f)
