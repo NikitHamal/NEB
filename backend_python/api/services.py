@@ -266,6 +266,8 @@ def toggle_follow(user, target_user_id, desired=None):
     requested = False
     notify_follow = False
     notify_unfollow = False
+    notify_request = False
+    notify_cancel_request = False
     
     with transaction.atomic():
         # Check if already following
@@ -291,6 +293,7 @@ def toggle_follow(user, target_user_id, desired=None):
                 else:
                     existing_request.delete()
                     requested = False
+                    notify_cancel_request = True
             else:
                 # Neither exists
                 if desired == 'unfollow':
@@ -304,6 +307,7 @@ def toggle_follow(user, target_user_id, desired=None):
                         created_at=now_ms()
                     )
                     requested = True
+                    notify_request = True
         else:
             # For public profiles (standard logic):
             if existing_follow:
@@ -331,6 +335,10 @@ def toggle_follow(user, target_user_id, desired=None):
         _notif.notify_new_follow(user.id, target_user.id)
     elif notify_unfollow:
         _notif.notify_unfollow(user.id, target_user.id)
+    elif notify_request:
+        _notif.notify_new_follow_request(user.id, target_user.id)
+    elif notify_cancel_request:
+        _notif.notify_cancel_follow_request(user.id, target_user.id)
         
     _rt.broadcast_follow_changed(target_user.id, follower_count)
     

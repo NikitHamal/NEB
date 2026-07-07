@@ -1,11 +1,14 @@
 package com.neb.ians.ui.screens.ai
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.provider.OpenableColumns
 import android.util.Base64
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import java.io.ByteArrayOutputStream
 import com.neb.ians.data.api.ApiArenaCreateSessionRequest
 import com.neb.ians.data.api.ApiArenaMessage
 import com.neb.ians.data.api.ApiArenaModel
@@ -327,9 +330,40 @@ class NebyAiViewModel @Inject constructor(
     }
 
     private fun readBase64(uri: Uri): String {
+        val mimeType = appContext.contentResolver.getType(uri) ?: ""
+        if (mimeType.startsWith("image/")) {
+            return readBase64Image(uri)
+        }
         val bytes = appContext.contentResolver.openInputStream(uri)?.use { it.readBytes() }
             ?: throw IllegalStateException("Could not read file")
         return Base64.encodeToString(bytes, Base64.NO_WRAP)
+    }
+
+    private fun readBase64Image(uri: Uri, maxDimension: Int = 1024): String {
+        val opts = BitmapFactory.Options().apply { inJustDecodeBounds = true }
+        appContext.contentResolver.openInputStream(uri)?.use {
+            BitmapFactory.decodeStream(it, null, opts)
+        }
+        val rawW = opts.outWidth.coerceAtLeast(1)
+        val rawH = opts.outHeight.coerceAtLeast(1)
+        var sampleSize = 1
+        while (rawW / (sampleSize * 2) >= maxDimension || rawH / (sampleSize * 2) >= maxDimension) {
+            sampleSize *= 2
+        }
+        val decodeOpts = BitmapFactory.Options().apply {
+            inSampleSize = sampleSize
+            inPreferredConfig = Bitmap.Config.RGB_565
+        }
+        val bitmap = appContext.contentResolver.openInputStream(uri)?.use {
+            BitmapFactory.decodeStream(it, null, decodeOpts)
+        } ?: throw IllegalStateException("Could not decode image")
+        return try {
+            val out = ByteArrayOutputStream()
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 85, out)
+            Base64.encodeToString(out.toByteArray(), Base64.NO_WRAP)
+        } finally {
+            bitmap.recycle()
+        }
     }
 
     // ------------------------------------------------------------------

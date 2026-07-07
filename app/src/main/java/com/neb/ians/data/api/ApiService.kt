@@ -170,7 +170,7 @@ data class PostUpdateRequest(
 @Serializable
 data class ReplyCreateRequest(
     val content: String,
-    @SerialName("parent_reply_id") val parentReplyId: String? = null
+    @SerialName("parentReplyId") val parentReplyId: String? = null
 )
 
 @Serializable
@@ -315,6 +315,7 @@ data class UserProfileResponse(
     @SerialName("likes_received_count") val likesReceivedCount: Int = 0,
     @SerialName("contribution_score") val contributionScore: Int = 0,
     @SerialName("is_following") val isFollowing: Boolean? = null,
+    @SerialName("is_requested") val isRequested: Boolean? = null,
     @SerialName("is_self") val isSelf: Boolean? = null,
     @SerialName("achievement_badges") val achievementBadges: String? = null
 )
@@ -483,7 +484,8 @@ data class BookmarkResponse(
 @Serializable
 data class FollowResponse(
     @SerialName("is_following") val isFollowing: Boolean,
-    @SerialName("follower_count") val followerCount: Int? = null
+    @SerialName("follower_count") val followerCount: Int? = null,
+    @SerialName("requested") val requested: Boolean? = null
 )
 
 @Serializable
@@ -615,6 +617,21 @@ data class ApiFollowListResponse(
     val next: String? = null,
     val previous: String? = null,
     val results: List<ApiFollowItem> = emptyList()
+)
+
+@Serializable
+data class ApiFollowRequestItem(
+    val id: String,
+    val sender: ApiFollowRequestUser,
+    @SerialName("created_at") val createdAt: Long
+)
+
+@Serializable
+data class ApiFollowRequestUser(
+    val id: String,
+    val username: String,
+    @SerialName("display_name") val displayName: String,
+    @SerialName("photo_url") val photoUrl: String = ""
 )
 
 /** Mini profile shown in the user popover (long-press a username/avatar). */
@@ -916,6 +933,23 @@ interface ApiService {
         @Header("Authorization") bearerToken: String?,
         @Path("userId") userId: String
     ): ApiFollowListResponse
+
+    @GET("api/users/me/follow-requests/")
+    suspend fun getFollowRequests(
+        @Header("Authorization") bearerToken: String
+    ): List<ApiFollowRequestItem>
+
+    @POST("api/users/follow-requests/{requestId}/accept/")
+    suspend fun acceptFollowRequest(
+        @Header("Authorization") bearerToken: String,
+        @Path("requestId") requestId: String
+    ): GenericMessageResponse
+
+    @POST("api/users/follow-requests/{requestId}/reject/")
+    suspend fun rejectFollowRequest(
+        @Header("Authorization") bearerToken: String,
+        @Path("requestId") requestId: String
+    ): GenericMessageResponse
 
     @GET("api/users/me/photos/")
     suspend fun getUserPhotos(
@@ -1728,6 +1762,8 @@ data class ApiProfileStats(
     @SerialName("contribution_score") val contributionScore: Int = 0,
     @SerialName("uploaded_resources_count") val uploadedResourcesCount: Int = 0,
     @SerialName("is_following") val isFollowing: Boolean = false,
+    @SerialName("is_requested") val isRequested: Boolean = false,
+    @SerialName("follow_requests_count") val followRequestsCount: Int = 0,
     @SerialName("is_self") val isSelf: Boolean = false,
     @SerialName("is_private") val isPrivate: Boolean = false
 )

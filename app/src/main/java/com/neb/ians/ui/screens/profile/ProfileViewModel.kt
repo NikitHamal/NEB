@@ -7,6 +7,7 @@ import com.neb.ians.data.api.ApiReply
 import com.neb.ians.data.api.ApiResource
 import com.neb.ians.data.api.ApiService
 import com.neb.ians.data.api.ApiUserPhoto
+import com.neb.ians.data.api.ApiFollowRequestItem
 import com.neb.ians.data.api.UserProfileResponse
 import com.neb.ians.data.api.ApiErrorMapper
 import com.neb.ians.data.repository.AuthRepository
@@ -29,6 +30,7 @@ data class ProfileUiState(
     val isLoading: Boolean = false,
     val error: String? = null,
     val isFollowing: Boolean = false,
+    val isRequested: Boolean = false,
     val followerCount: Int = 0,
     val selectedTab: Int = 0,
     val posts: List<ApiPost> = emptyList(),
@@ -60,7 +62,14 @@ data class ProfileUiState(
     val showFollowingList: Boolean = false,
     val followingList: List<UserProfileResponse> = emptyList(),
     val followingLoading: Boolean = false,
-    val followingError: String? = null
+    val followingError: String? = null,
+
+    // Follow Requests
+    val showFollowRequestsList: Boolean = false,
+    val followRequestsList: List<ApiFollowRequestItem> = emptyList(),
+    val followRequestsLoading: Boolean = false,
+    val followRequestsCount: Int = 0,
+    val followRequestsError: String? = null
 )
 
 @HiltViewModel
@@ -84,6 +93,7 @@ class ProfileViewModel @Inject constructor(
                     profile = cachedUser,
                     isLoading = false,
                     isFollowing = appCache.lastProfileIsFollowing,
+                    isRequested = appCache.lastProfileIsRequested,
                     followerCount = appCache.lastProfileFollowerCount,
                     repliesCount = maxOf(appCache.lastProfileRepliesCount, appCache.lastProfileReplies.size),
                     resourcesCount = maxOf(appCache.lastProfileResourcesCount, appCache.lastProfileResources.size),
@@ -106,6 +116,7 @@ class ProfileViewModel @Inject constructor(
                 var initialResourcesCount = 0
                 val stats = apiService.getProfileStats(token, username)
                 statsIsFollowing = stats.isFollowing
+                val statsIsRequested = stats.isRequested
                 initialResourcesCount = stats.uploadedResourcesCount
                 profileWithStats = profile.copy(
                     isSelf = stats.isSelf,
@@ -123,6 +134,8 @@ class ProfileViewModel @Inject constructor(
                         profile = profileWithStats,
                         isLoading = false,
                         isFollowing = statsIsFollowing,
+                        isRequested = statsIsRequested,
+                        followRequestsCount = stats.followRequestsCount,
                         followerCount = profileWithStats.followerCount,
                         repliesCount = maxOf(initialRepliesCount, it.replies.size),
                         resourcesCount = maxOf(initialResourcesCount, it.resources.size)
@@ -148,6 +161,7 @@ class ProfileViewModel @Inject constructor(
             appCache.lastProfileUsername = currentUsername
             appCache.lastProfile = profile
             appCache.lastProfileIsFollowing = state.isFollowing
+            appCache.lastProfileIsRequested = state.isRequested
             appCache.lastProfileFollowerCount = state.followerCount
             appCache.lastProfileRepliesCount = state.repliesCount
             appCache.lastProfileResourcesCount = state.resourcesCount
@@ -311,6 +325,7 @@ class ProfileViewModel @Inject constructor(
                 _uiState.update {
                     it.copy(
                         isFollowing = response.isFollowing,
+                        isRequested = response.requested == true,
                         followerCount = response.followerCount
                             ?: (it.followerCount + (if (response.isFollowing) 1 else -1))
                     )
@@ -470,6 +485,61 @@ class ProfileViewModel @Inject constructor(
             } catch (_: Exception) {
                 _uiState.update { it.copy(photoBusy = false) }
             }
+        }
+    }
+
+    // ----------------------------------------------------------------
+    // Follow Requests
+    // ----------------------------------------------------------------
+
+    fun openFollowRequests() {
+        _uiState.update { it.copy(showFollowRequestsList = true, followRequestsLoading = true, followRequestsList = emptyList(), followRequestsError = null) }
+        viewModelScope.launch {
+            try {
+                val token = authRepository.getBearerToken() ?: return@launch
+                val requests = apiService.getFollowRequests(token)
+                _uiState.update { it.copy(followRequestsList = requests, followRequestsLoading = false) }
+            } catch (e: Exception) {
+                _uiState.update { it.copy(followRequestsLoading = false, followRequestsError = e.message ?: "Failed to load follow requests") }
+            }
+        }
+    }
+
+    fun closeFollowRequests() {
+        _uiState.update { it.copy(showFollowRequestsList = false) }
+    }
+
+    fun acceptFollowRequest(requestId: String) {
+        viewModelScope.launch {
+            try {
+                val token = authRepository.getBearerToken() ?: return@launch
+                apiService.acceptFollowRequest(token, requestId)
+                _uiState.update { state ->
+                    val filtered = state.followRequestsList.filterNot { it.id == requestId }
+                    val nextCount = maxOf(0, state.followRequestsCount - 1)
+                    state.copy(
+                        followRequestsList = filtered,
+                        followRequestsCount = nextCount
+                    )
+                }
+            } catch (_: Exception) { }
+        }
+    }
+
+    fun rejectFollowRequest(requestId: String) {
+        viewModelScope.launch {
+            try {
+                val token = authRepository.getBearerToken() ?: return@launch
+                apiService.rejectFollowRequest(token, requestId)
+                _uiState.update { state ->
+                    val filtered = state.followRequestsList.filterNot { it.id == requestId }
+                    val nextCount = maxOf(0, state.followRequestsCount - 1)
+                    state.copy(
+                        followRequestsList = filtered,
+                        followRequestsCount = nextCount
+                    )
+                }
+            } catch (_: Exception) { }
         }
     }
 }
