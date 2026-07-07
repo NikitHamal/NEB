@@ -330,10 +330,7 @@ fun ProfileHeaderCard(
                         size = 84.dp,
                         modifier = Modifier
                             .clip(CircleShape)
-                            .then(
-                                if (isSelf) Modifier.clickable(onClick = onAvatarClick)
-                                else Modifier
-                            )
+                            .clickable(onClick = onAvatarClick)
                     )
                 }
             }

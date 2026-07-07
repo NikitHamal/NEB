@@ -3,6 +3,7 @@ package com.neb.ians.ui.screens.auth
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.neb.ians.data.api.ApiService
+import com.neb.ians.data.api.ApiUserPhoto
 import com.neb.ians.data.api.UserProfileRequest
 import com.neb.ians.data.repository.AuthRepository
 import com.neb.ians.data.repository.UserProfileCache
@@ -39,7 +40,11 @@ data class CompleteProfileUiState(
     val usernameError: String? = null,
     val isSubmitting: Boolean = false,
     val submissionResult: Boolean? = null,
-    val isEditing: Boolean = false
+    val isEditing: Boolean = false,
+    val showPhotoGallery: Boolean = false,
+    val photos: List<ApiUserPhoto> = emptyList(),
+    val photosLoading: Boolean = false,
+    val photoBusy: Boolean = false
 )
 
 @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
@@ -82,7 +87,7 @@ class CompleteProfileViewModel @Inject constructor(
                         school = cached.school ?: "",
                         photoUrl = cached.photoUrl ?: "",
                         bannerUrl = cached.bannerUrl ?: "",
-                        isLocked = cached.isLocked
+                        isLocked = cached.isLocked == 1
                     )
                 }
             }
@@ -203,8 +208,58 @@ class CompleteProfileViewModel @Inject constructor(
         _uiState.update { it.copy(bannerUrl = value.trim()) }
     }
 
+
+    fun openPhotoGallery() {
+        _uiState.update { it.copy(showPhotoGallery = true) }
+        loadPhotos()
+    }
+
+    fun closePhotoGallery() {
+        _uiState.update { it.copy(showPhotoGallery = false) }
+    }
+
+    private fun loadPhotos() {
+        viewModelScope.launch {
+            _uiState.update { it.copy(photosLoading = true) }
+            try {
+                val token = authRepository.getBearerToken() ?: run {
+                    _uiState.update { it.copy(photosLoading = false) }
+                    return@launch
+                }
+                val photos = apiService.getUserPhotos(token)
+                _uiState.update { it.copy(photos = photos, photosLoading = false) }
+            } catch (_: Exception) {
+                _uiState.update { it.copy(photosLoading = false) }
+            }
+        }
+    }
+
+    fun activatePhoto(photoId: Int) {
+        if (_uiState.value.photoBusy) return
+        viewModelScope.launch {
+            _uiState.update { it.copy(photoBusy = true) }
+            try {
+                val token = authRepository.getBearerToken() ?: run {
+                    _uiState.update { it.copy(photoBusy = false) }
+                    return@launch
+                }
+                apiService.activatePhoto(token, photoId)
+                authRepository.refreshProfile()
+                val photos = try { apiService.getUserPhotos(token) } catch (_: Exception) { _uiState.value.photos }
+                val current = photos.firstOrNull { it.isCurrent }?.url ?: _uiState.value.photoUrl
+                _uiState.update { it.copy(photos = photos, photoUrl = current, photoBusy = false) }
+            } catch (_: Exception) {
+                _uiState.update { it.copy(photoBusy = false) }
+            }
+        }
+    }
+
+    fun uploadPhoto(bytes: ByteArray, mimeType: String) {
+        uploadProfilePhoto(bytes, "profile_photo", mimeType)
+    }
+
     fun uploadProfilePhoto(bytes: ByteArray, fileName: String, mimeType: String) {
-        _uiState.update { it.copy(isPhotoUploading = true) }
+        _uiState.update { it.copy(isPhotoUploading = true, photoBusy = true) }
         viewModelScope.launch {
             try {
                 val ext = when (mimeType) {
@@ -220,12 +275,19 @@ class CompleteProfileViewModel @Inject constructor(
                 val requestBody = bytes.toRequestBody(mimeType.toMediaTypeOrNull())
                 val filePart = okhttp3.MultipartBody.Part.createFormData("file", "$fileName$ext", requestBody)
                 val url = authRepository.uploadProfilePhoto(filePart)
+                authRepository.refreshProfile()
+                val token = authRepository.getBearerToken()
+                val photos = if (token != null) {
+                    try { apiService.getUserPhotos(token) } catch (_: Exception) { _uiState.value.photos }
+                } else _uiState.value.photos
                 _uiState.update { it.copy(
                     isPhotoUploading = false,
-                    photoUrl = url ?: it.photoUrl
+                    photoBusy = false,
+                    photos = photos,
+                    photoUrl = url ?: photos.firstOrNull { photo -> photo.isCurrent }?.url ?: it.photoUrl
                 ) }
             } catch (e: Exception) {
-                _uiState.update { it.copy(isPhotoUploading = false) }
+                _uiState.update { it.copy(isPhotoUploading = false, photoBusy = false) }
             }
         }
     }

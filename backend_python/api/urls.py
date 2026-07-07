@@ -27,6 +27,7 @@ urlpatterns = [
 
     # Users — photo history (auth required)
     path('users/me/photos/', views.user_photos, name='user-photos'),
+    path('users/me/analytics/', views.user_private_analytics, name='user-private-analytics'),
     path('users/me/photos/<int:photo_id>/activate/', views.user_photo_activate, name='user-photo-activate'),
     path('users/me/delete-account/', views.user_delete_account_request, name='user-delete-account-request'),
 
