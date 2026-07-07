@@ -26,17 +26,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 
-/**
- * Shared transparent bottom composer used by post replies, resource comments, and any
- * future comment-style surfaces.  Keep this as the single source of truth so the
- * library/resource UI stays visually aligned with the forum post detail composer.
- */
 @Composable
 fun NebCommentComposerBar(
     value: String,
@@ -135,7 +129,7 @@ private fun NebCommentComposerBarFrame(
         modifier = modifier.fillMaxWidth(),
         tonalElevation = 0.dp,
         shadowElevation = 0.dp,
-        color = Color.Transparent
+        color = MaterialTheme.colorScheme.surface
     ) {
         Column(
             modifier = Modifier
@@ -184,9 +178,9 @@ private fun NebCommentComposerBarFrame(
 
 @Composable
 private fun NebCommentTextFieldColors() = OutlinedTextFieldDefaults.colors(
-    focusedContainerColor = Color.Transparent,
-    unfocusedContainerColor = Color.Transparent,
-    disabledContainerColor = Color.Transparent,
+    focusedContainerColor = MaterialTheme.colorScheme.surface,
+    unfocusedContainerColor = MaterialTheme.colorScheme.surface,
+    disabledContainerColor = MaterialTheme.colorScheme.surface,
     focusedBorderColor = MaterialTheme.colorScheme.primary,
     unfocusedBorderColor = MaterialTheme.colorScheme.outlineVariant,
     disabledBorderColor = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.55f)
