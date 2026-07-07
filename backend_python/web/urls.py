@@ -141,6 +141,7 @@ urlpatterns = [
 
     path('admin/', views.admin_login, name='admin_login'),
     path('admin/dashboard/', views.admin_dashboard, name='admin_dashboard'),
+    path('admin/analytics/', views.admin_analytics, name='admin_analytics'),
     path('admin/push-notifications/', views.admin_push_notifications, name='admin_push_notifications'),
     path('admin/logout/', views.admin_logout, name='admin_logout'),
     path('admin/users/', views.admin_users, name='admin_users'),

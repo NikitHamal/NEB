@@ -104,6 +104,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_htmx.middleware.HtmxMiddleware',
     'nebians.middleware.SecurityHeadersMiddleware',
+    'nebians.middleware.PageViewTrackingMiddleware',
 ]
 
 ROOT_URLCONF = 'nebians.urls'

@@ -89,6 +89,9 @@ urlpatterns = [
     path('notifications/mark-read/', views.notifications_mark_read, name='notifications-mark-read'),
     path('notifications/unread-count/', views.notifications_unread_count, name='notifications-unread-count'),
 
+    # Analytics tracking (mobile app)
+    path('analytics/track/', views.analytics_track, name='analytics-track'),
+
     # Reports
     path('reports/', views.report_create, name='report-create'),
 

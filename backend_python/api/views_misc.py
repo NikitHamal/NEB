@@ -379,3 +379,71 @@ def realtime_config(request):
         except Exception:
             ws_url = ''
     return Response({'ws_url': ws_url, 'heartbeat_interval': 25})
+
+
+@api_view(['POST'])
+@authentication_classes([])
+@permission_classes([AllowAny])
+def analytics_track(request):
+    """
+    POST /api/analytics/track/
+
+    Mobile app analytics tracking endpoint. Called by the Android app
+    when a user views a screen (since the middleware only captures web requests).
+    Body: { path, referrer?, utm_source?, utm_medium?, utm_campaign?, platform? }
+    """
+    import time as _time
+    try:
+        path = request.data.get('path', '') or ''
+        if not path or len(path) > 2000:
+            return Response({'status': 'ignored'})
+        referrer = request.data.get('referrer', '') or ''
+        utm_source = request.data.get('utm_source', '') or ''
+        utm_medium = request.data.get('utm_medium', '') or ''
+        utm_campaign = request.data.get('utm_campaign', '') or ''
+        app_platform = request.data.get('platform', '') or ''
+
+        from nebians.middleware import _classify_referrer, _detect_platform
+        from urllib.parse import urlparse
+
+        own_domain = request.get_host().split(':')[0].lower()
+        referrer_domain = ''
+        if referrer:
+            try:
+                referrer_domain = urlparse(referrer).hostname or ''
+            except Exception:
+                pass
+        referrer_type = _classify_referrer(referrer_domain, own_domain)
+        platform = app_platform or _detect_platform(request.META.get('HTTP_USER_AGENT', ''))
+
+        user_agent = request.META.get('HTTP_USER_AGENT', '') or ''
+
+        user_id = None
+        user, _ = _require_user(request)
+        if user and not isinstance(user, Response):
+            try:
+                user_id = int(user.id) if str(user.id).isdigit() else None
+            except (ValueError, TypeError):
+                pass
+
+        from api.models import PageView
+        PageView.objects.create(
+            path=path[:2000],
+            full_url=request.build_absolute_uri(),
+            referrer=referrer[:2000],
+            referrer_domain=referrer_domain[:255],
+            referrer_type=referrer_type,
+            utm_source=utm_source[:255],
+            utm_medium=utm_medium[:255],
+            utm_campaign=utm_campaign[:255],
+            user_agent=user_agent[:2000],
+            source='app',
+            platform=platform[:30],
+            ip_address=request.META.get('REMOTE_ADDR'),
+            session_key='',
+            user_id=user_id,
+            created_at=int(_time.time() * 1000),
+        )
+        return Response({'status': 'ok'})
+    except Exception:
+        return Response({'status': 'error'}, status=500)

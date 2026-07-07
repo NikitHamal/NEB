@@ -26,6 +26,7 @@
   <link rel="stylesheet" href="{% static 'web/css/material3.css' %}">
   <link rel="stylesheet" href="{% static 'web/css/app.css' %}">
   <link rel="stylesheet" href="{% static 'web/css/admin.css' %}">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js" nonce="{{ csp_nonce }}"></script>
   {% block extra_css %}{% endblock %}
 </head>
 <body>
@@ -107,6 +108,10 @@
       Account Deletions
     </a>
     <div class="md-divider" style="margin:8px 16px;"></div>
+    <a href="{% url 'web:admin_analytics' %}" class="{% if active_page == 'analytics' %}active{% endif %}">
+      <span class="material-symbols-outlined">insights</span>
+      Analytics
+    </a>
     <a href="{% url 'web:home' %}" style="color:var(--md-on-surface-variant);">
       <span class="material-symbols-outlined">open_in_new</span>
       View Site
@@ -199,6 +204,10 @@
         Account Deletions
       </a>
       <div class="md-divider"></div>
+      <a href="{% url 'web:admin_analytics' %}" class="{% if active_page == 'analytics' %}active{% endif %}">
+        <span class="material-symbols-outlined">insights</span>
+        Analytics
+      </a>
       <a href="{% url 'web:home' %}" style="color:var(--md-on-surface-variant);">
         <span class="material-symbols-outlined">open_in_new</span>
         View Site
