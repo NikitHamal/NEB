@@ -755,7 +755,7 @@ private fun PostContentSection(
                         modifier = Modifier
                             .fillMaxWidth()
                             .clip(RoundedCornerShape(12.dp))
-                            .clickable { onImageClick(resolveMediaUrl(image.imageUrl)) },
+                            .clickable { resolveMediaUrl(image.imageUrl)?.let(onImageClick) },
                         contentScale = ContentScale.FillWidth
                     )
                 }
