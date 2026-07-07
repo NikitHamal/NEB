@@ -2,6 +2,8 @@ package com.neb.ians.ui.screens.auth
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -65,7 +67,7 @@ fun EmailLoginScreen(
                 .padding(16.dp)
                 .clip(RoundedCornerShape(24.dp))
                 .background(cardColor)
-                .verticalScroll(androidx.compose.foundation.rememberScrollState())
+                .verticalScroll(rememberScrollState())
                 .padding(32.dp)
         ) {
             Row(
