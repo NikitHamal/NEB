@@ -20,6 +20,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowUpward
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.filled.MenuBook
@@ -481,56 +482,59 @@ fun ResourceCommentComposerBar(
     onDraftChange: (String) -> Unit,
     onPost: () -> Unit
 ) {
+    val keyboardController = LocalSoftwareKeyboardController.current
     Surface(
         modifier = Modifier.fillMaxWidth(),
-        color = MaterialTheme.colorScheme.surface.copy(alpha = 0.98f),
-        tonalElevation = 3.dp,
-        shadowElevation = 10.dp
+        tonalElevation = 0.dp,
+        shadowElevation = 0.dp,
+        color = Color.Transparent
     ) {
-        Row(
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 14.dp, vertical = 9.dp)
-                .navigationBarsPadding(),
-            verticalAlignment = Alignment.Bottom,
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                .padding(horizontal = 16.dp, vertical = 8.dp)
+                .navigationBarsPadding()
         ) {
-            OutlinedTextField(
-                value = draft,
-                onValueChange = onDraftChange,
-                enabled = isAuthenticated && !posting,
-                placeholder = { Text(if (isAuthenticated) "Write a comment..." else "Sign in to comment") },
-                modifier = Modifier.weight(1f),
-                maxLines = 4,
-                textStyle = MaterialTheme.typography.bodyMedium,
-                shape = RoundedCornerShape(24.dp),
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedContainerColor = Color.Transparent,
-                    unfocusedContainerColor = Color.Transparent,
-                    disabledContainerColor = Color.Transparent,
-                    focusedBorderColor = MaterialTheme.colorScheme.primary,
-                    unfocusedBorderColor = MaterialTheme.colorScheme.outlineVariant,
-                    disabledBorderColor = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.55f)
-                )
-            )
-            IconButton(
-                onClick = onPost,
-                enabled = isAuthenticated && draft.isNotBlank() && !posting,
-                modifier = Modifier
-                    .size(48.dp)
-                    .clip(CircleShape)
-                    .background(
-                        if (isAuthenticated && draft.isNotBlank() && !posting) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceVariant,
-                        CircleShape
-                    )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                if (posting) {
-                    CircularProgressIndicator(modifier = Modifier.size(20.dp), strokeWidth = 2.dp, color = MaterialTheme.colorScheme.onPrimary)
-                } else {
+                OutlinedTextField(
+                    value = draft,
+                    onValueChange = onDraftChange,
+                    enabled = isAuthenticated && !posting,
+                    placeholder = { Text("Write a comment...", style = MaterialTheme.typography.bodyMedium) },
+                    modifier = Modifier.weight(1f),
+                    textStyle = MaterialTheme.typography.bodyMedium,
+                    maxLines = 4,
+                    shape = RoundedCornerShape(24.dp),
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedContainerColor = Color.Transparent,
+                        unfocusedContainerColor = Color.Transparent,
+                        disabledContainerColor = Color.Transparent,
+                        focusedBorderColor = MaterialTheme.colorScheme.primary,
+                        unfocusedBorderColor = MaterialTheme.colorScheme.outlineVariant,
+                        disabledBorderColor = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.55f)
+                    )
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                IconButton(
+                    onClick = {
+                        keyboardController?.hide()
+                        onPost()
+                    },
+                    enabled = isAuthenticated && draft.isNotBlank() && !posting,
+                    modifier = Modifier
+                        .size(48.dp)
+                        .background(
+                            if (isAuthenticated && draft.isNotBlank() && !posting) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceVariant,
+                            CircleShape
+                        )
+                ) {
                     Icon(
                         Icons.Filled.ArrowUpward,
-                        contentDescription = "Post comment",
-                        tint = if (isAuthenticated && draft.isNotBlank()) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.45f)
+                        contentDescription = "Send",
+                        tint = if (isAuthenticated && draft.isNotBlank() && !posting) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f)
                     )
                 }
             }
