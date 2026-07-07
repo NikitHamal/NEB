@@ -253,9 +253,10 @@ fun ProfileHeaderCard(
 
     Surface(
         modifier = Modifier.fillMaxWidth(),
-        shape = RectangleShape,
+        shape = RoundedCornerShape(8.dp),
         color = MaterialTheme.colorScheme.surfaceContainerLowest,
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
+        clip = true
     ) {
         Column {
             Box(
