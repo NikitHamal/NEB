@@ -163,6 +163,9 @@ def auth_google(request):
 
     try:
         user = User.objects.get(pk=user_id)
+        if not user.email_verified:
+            user.email_verified = True
+            user.save(update_fields=['email_verified'])
         auth_token = issue_auth_token(user)
         logger.info("auth_google: existing user signed in: %s", user.username or user.id)
         return Response({
@@ -181,6 +184,7 @@ def auth_google(request):
             email=email,
             display_name=display_name,
             photo_url=photo_url,
+            email_verified=True,
             created_at=_now_ms()
         )
         user.auth_token = hash_auth_token(auth_token)

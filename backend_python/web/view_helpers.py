@@ -740,6 +740,9 @@ def _link_oauth_user(request, email, user_pk, display_name, photo_url, provider_
     if email:
         try:
             existing = User.objects.get(email__iexact=email)
+            if not existing.email_verified:
+                existing.email_verified = True
+                existing.save(update_fields=['email_verified'])
             token = issue_auth_token(existing)
             user_data = _normalize_user_data(UserSerializer(existing).data)
             user_data['isNewUser'] = False
