@@ -19,7 +19,7 @@ def check_username(request):
 @api_view(['POST'])
 def user_profile_create_or_update(request):
     """POST /api/users/profile — create or update the authenticated user's profile."""
-    user, err = _require_user(request)
+    user, err = _require_verified_user(request)
     if err:
         return err
 

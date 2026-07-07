@@ -656,7 +656,7 @@ def _build_local_stats_fallback(user_id):
     }
 
 def _build_contributors_batch():
-    users = User.objects.order_by('-contribution_score').only(
+    users = User.objects.filter(email_verified=True).order_by('-contribution_score').only(
         'id', 'username', 'display_name', 'photo_url',
         'contribution_score', 'post_count', 'reply_count',
         'likes_given_count', 'likes_received_count',

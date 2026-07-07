@@ -776,6 +776,8 @@ def edit_profile(request):
         db_user = User.objects.get(id=user.get('id'))
     except User.DoesNotExist:
         return redirect('web:login')
+    if not getattr(db_user, 'email_verified', False):
+        return redirect('web:login')
     has_password = bool(db_user.password_hash)
     if request.method == 'POST':
         username = request.POST.get('username', '').strip()

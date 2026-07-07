@@ -141,6 +141,8 @@ def ajax_create_post(request):
         user = User.objects.get(pk=user_id)
     except User.DoesNotExist:
         return JsonResponse({'error': 'Please log in again.'}, status=401)
+    if not getattr(user, 'email_verified', False):
+        return JsonResponse({'error': 'Please verify your email before posting.'}, status=403)
     try:
         data = json.loads(request.body)
     except json.JSONDecodeError:

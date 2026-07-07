@@ -68,7 +68,7 @@ def home(request):
     if resources is None:
         resources = _serialize_resources(Resource.objects.filter(approval_status='approved', is_lead=True)[:50])
         cache.set('home_resources', resources, 60)
-    posts_qs = Post.objects.select_related('user').filter(is_archived=False).order_by('-created_at')[:20]
+    posts_qs = Post.objects.select_related('user').filter(is_archived=False, user__email_verified=True).order_by('-created_at')[:20]
     all_posts = _serialize_posts(posts_qs, user_id)
 
     import math as _math
@@ -141,7 +141,7 @@ def library(request):
 
     if current_tab in ['digital', 'community']:
         is_lead_val = (current_tab == 'digital')
-        qs = Resource.objects.filter(approval_status='approved', is_lead=is_lead_val)
+        qs = Resource.objects.filter(approval_status='approved', is_lead=is_lead_val, uploaded_by__email_verified=True)
         if subjects:
             q = Q()
             for s in subjects:
@@ -407,7 +407,7 @@ def search(request):
             if tab in ('all', 'users'):
                 user_qs = User.objects.filter(
                     Q(username__icontains=query) | Q(display_name__icontains=query)
-                ).filter(is_locked=False).order_by('-follower_count', 'username')[:30]
+                ).filter(is_locked=False, email_verified=True).order_by('-follower_count', 'username')[:30]
                 user_results = _serialize_users_search(user_qs, user_id)
 
     filter_options = _get_library_filter_options()
@@ -491,7 +491,7 @@ def ajax_instant_search(request):
                 for p in qs:
                     posts.append({'id': p.id, 'title': p.title, 'content': p.content[:200], 'category': p.category or '', 'username': p.user.username if p.user else '', 'thumbs_up_count': p.thumbs_up_count, 'reply_count': p.reply_count, 'url': f'/forum/post/{p.id}/'})
             if tab in ('all', 'users'):
-                qs = User.objects.filter(Q(username__icontains=query) | Q(display_name__icontains=query), is_locked=False).order_by('-follower_count')[:10]
+                qs = User.objects.filter(Q(username__icontains=query) | Q(display_name__icontains=query), is_locked=False, email_verified=True).order_by('-follower_count')[:10]
                 for u in qs:
                     users.append({'id': u.id, 'username': u.username, 'displayName': u.display_name or u.username, 'photoUrl': u.photo_url, 'url': f'/profile/{u.username}/'})
     return JsonResponse({'results': {'resources': resources, 'posts': posts, 'users': users}})
@@ -725,6 +725,8 @@ def upload_resource(request):
             user = User.objects.get(pk=user_id)
         except User.DoesNotExist:
             pass
+    if user and not getattr(user, 'email_verified', False):
+        user = None
 
     _default_subjects = [
         'Physics', 'Chemistry', 'Mathematics', 'Biology', 'English', 'Nepali',

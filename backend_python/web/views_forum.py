@@ -16,7 +16,7 @@ def forum(request):
     if sort not in valid_sorts:
         sort = 'hot'
 
-    qs = Post.objects.select_related('user').filter(is_archived=False)
+    qs = Post.objects.select_related('user').filter(is_archived=False, user__email_verified=True)
 
     if category:
         qs = qs.filter(category__iexact=category)
@@ -214,6 +214,8 @@ def create_post(request):
         user = User.objects.get(pk=user_id)
     except User.DoesNotExist:
         return redirect('web:login')
+    if not getattr(user, 'email_verified', False):
+        return redirect('web:login')
     if request.method == 'POST':
         title = request.POST.get('title', '').strip()
         content = request.POST.get('content', '').strip()
@@ -261,6 +263,8 @@ def reply_post(request, post_id):
     try:
         user = User.objects.get(pk=user_id)
     except User.DoesNotExist:
+        return redirect('web:login')
+    if not getattr(user, 'email_verified', False):
         return redirect('web:login')
     try:
         post_obj = Post.objects.select_related('user').get(pk=post_id)
