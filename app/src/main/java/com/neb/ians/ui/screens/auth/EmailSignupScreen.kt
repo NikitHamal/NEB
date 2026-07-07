@@ -99,7 +99,8 @@ fun EmailSignupScreen(
             .fillMaxSize()
             .background(cardColor)
             .statusBarsPadding()
-            .navigationBarsPadding(),
+            .navigationBarsPadding()
+            .imePadding(),
         contentAlignment = Alignment.TopCenter
     ) {
         Column(

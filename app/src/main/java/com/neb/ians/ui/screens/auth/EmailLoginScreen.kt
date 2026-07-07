@@ -54,7 +54,8 @@ fun EmailLoginScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(bgGradient)
-            .systemBarsPadding(),
+            .systemBarsPadding()
+            .imePadding(),
         contentAlignment = Alignment.Center
     ) {
         Column(
@@ -64,6 +65,7 @@ fun EmailLoginScreen(
                 .padding(16.dp)
                 .clip(RoundedCornerShape(24.dp))
                 .background(cardColor)
+                .verticalScroll(androidx.compose.foundation.rememberScrollState())
                 .padding(32.dp)
         ) {
             Row(
