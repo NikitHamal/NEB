@@ -40,6 +40,7 @@ data class CompleteProfileUiState(
     val usernameError: String? = null,
     val isSubmitting: Boolean = false,
     val submissionResult: Boolean? = null,
+    val submissionError: String? = null,
     val isEditing: Boolean = false,
     val showPhotoGallery: Boolean = false,
     val photos: List<ApiUserPhoto> = emptyList(),
@@ -208,9 +209,7 @@ class CompleteProfileViewModel @Inject constructor(
         _uiState.update { it.copy(isLocked = locked) }
     }
 
-    fun onBannerUrlChange(value: String) {
-        _uiState.update { it.copy(bannerUrl = value.trim()) }
-    }
+
 
 
     fun openPhotoGallery() {
@@ -300,7 +299,7 @@ class CompleteProfileViewModel @Inject constructor(
         val state = _uiState.value
         if (state.isSubmitting) return
 
-        _uiState.update { it.copy(isSubmitting = true, submissionResult = null) }
+        _uiState.update { it.copy(isSubmitting = true, submissionResult = null, submissionError = null) }
 
         viewModelScope.launch {
             val cachedUser = authRepository.userProfileFlow.first()
@@ -320,12 +319,18 @@ class CompleteProfileViewModel @Inject constructor(
                 district = state.district,
                 school = state.school,
                 isLocked = state.isLocked,
-                bannerUrl = state.bannerUrl.trim(),
+                bannerUrl = "",
                 bio = state.bio
             )
 
-            val success = authRepository.completeProfile(request)
-            _uiState.update { it.copy(isSubmitting = false, submissionResult = success) }
+            val errorMsg = authRepository.completeProfile(request)
+            _uiState.update {
+                it.copy(
+                    isSubmitting = false,
+                    submissionResult = errorMsg == null,
+                    submissionError = errorMsg
+                )
+            }
         }
     }
 }

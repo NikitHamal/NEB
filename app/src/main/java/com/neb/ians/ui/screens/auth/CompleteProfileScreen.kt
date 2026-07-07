@@ -60,16 +60,17 @@ fun CompleteProfileScreen(
     val context = LocalContext.current
     val scrollState = rememberScrollState()
 
-    val isBannerUrlValid = uiState.bannerUrl.isBlank() || uiState.bannerUrl.startsWith("https://")
-
     val isFormValid = uiState.username.length >= 3 &&
         (uiState.usernameAvailable == true || (uiState.isEditing && uiState.username.isNotEmpty())) &&
         uiState.dob.isNotEmpty() &&
         uiState.displayName.isNotEmpty() &&
-        isBannerUrlValid &&
         (uiState.role != "student" || uiState.classLevel.isNotEmpty()) &&
         (uiState.role != "teacher" || uiState.teachingSubjects.isNotEmpty()) &&
         (uiState.role != "institution" || uiState.school.isNotEmpty())
+
+    val isUsernameServerError = uiState.submissionError?.contains("username", ignoreCase = true) == true
+    val isDobServerError = uiState.submissionError?.contains("date of birth", ignoreCase = true) == true || uiState.submissionError?.contains("dob", ignoreCase = true) == true
+    val isDisplayNameServerError = uiState.submissionError?.contains("display name", ignoreCase = true) == true
 
     LaunchedEffect(uiState.submissionResult) {
         when (uiState.submissionResult) {
@@ -258,12 +259,13 @@ fun CompleteProfileScreen(
                                         Icon(Icons.Default.Warning, contentDescription = null, tint = MaterialTheme.colorScheme.error)
                                 }
                             },
-                            isError = uiState.usernameError != null || uiState.usernameAvailable == false,
+                            isError = uiState.usernameError != null || uiState.usernameAvailable == false || isUsernameServerError,
                             supportingText = {
                                 when {
                                     uiState.usernameError != null -> Text(uiState.usernameError!!)
                                     uiState.usernameAvailable == true -> Text("Username is available", color = MaterialTheme.colorScheme.primary)
                                     uiState.usernameAvailable == false -> Text("Username is already taken", color = MaterialTheme.colorScheme.error)
+                                    isUsernameServerError -> Text(uiState.submissionError!!, color = MaterialTheme.colorScheme.error)
                                 }
                             },
                             singleLine = true,
@@ -286,6 +288,10 @@ fun CompleteProfileScreen(
                             value = uiState.displayName,
                             onValueChange = viewModel::onDisplayNameChange,
                             placeholder = { Text("Your full name") },
+                            isError = isDisplayNameServerError,
+                            supportingText = if (isDisplayNameServerError) {
+                                { Text(uiState.submissionError!!, color = MaterialTheme.colorScheme.error) }
+                            } else null,
                             singleLine = true,
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -369,13 +375,17 @@ fun CompleteProfileScreen(
                                     readOnly = true,
                                     placeholder = { Text("YYYY-MM-DD", maxLines = 1) },
                                     trailingIcon = { Icon(Icons.Default.DateRange, contentDescription = null) },
+                                    isError = isDobServerError,
+                                    supportingText = if (isDobServerError) {
+                                        { Text(uiState.submissionError!!, color = MaterialTheme.colorScheme.error) }
+                                    } else null,
                                     modifier = Modifier.fillMaxWidth(),
                                     enabled = false,
                                     singleLine = true,
                                     colors = OutlinedTextFieldDefaults.colors(
                                         disabledTextColor = MaterialTheme.colorScheme.onSurface,
-                                        disabledBorderColor = MaterialTheme.colorScheme.outline,
-                                        disabledTrailingIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                                        disabledBorderColor = if (isDobServerError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.outline,
+                                        disabledTrailingIconColor = if (isDobServerError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurfaceVariant,
                                         disabledPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant
                                     ),
                                     shape = RoundedCornerShape(12.dp)
@@ -684,63 +694,7 @@ fun CompleteProfileScreen(
                         )
                     }
 
-                    // Profile appearance — live banner preview + banner URL
-                    Column {
-                        Text(
-                            text = "Profile appearance",
-                            style = MaterialTheme.typography.bodyMedium,
-                            fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.colorScheme.onSurface
-                        )
-                        Spacer(modifier = Modifier.height(8.dp))
 
-                        // Live preview: entered URL if valid, otherwise the
-                        // role-themed animated gradient preset.
-                        val previewProfile = remember(uiState.role) {
-                            UserProfileResponse(id = "", role = uiState.role)
-                        }
-                        val previewPreset = remember(uiState.role) { bannerPresetFor(previewProfile) }
-                        val previewUrl = uiState.bannerUrl.takeIf {
-                            it.isNotBlank() && it.startsWith("https://")
-                        }
-                        ProfileBanner(
-                            bannerUrl = previewUrl,
-                            bannerType = previewPreset.first,
-                            decoText = previewPreset.second,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(100.dp)
-                        )
-
-                        Spacer(modifier = Modifier.height(10.dp))
-                        Text(
-                            text = "Banner image URL",
-                            style = MaterialTheme.typography.bodyMedium,
-                            fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.colorScheme.onSurface
-                        )
-                        OutlinedTextField(
-                            value = uiState.bannerUrl,
-                            onValueChange = viewModel::onBannerUrlChange,
-                            placeholder = { Text("https://example.com/banner.jpg (optional)") },
-                            isError = !isBannerUrlValid,
-                            supportingText = {
-                                if (!isBannerUrlValid) {
-                                    Text(
-                                        "Banner URL must start with https://",
-                                        color = MaterialTheme.colorScheme.error
-                                    )
-                                } else {
-                                    Text("Leave blank for the role-themed gradient banner.")
-                                }
-                            },
-                            singleLine = true,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(top = 4.dp),
-                            shape = RoundedCornerShape(12.dp)
-                        )
-                    }
 
                     // Lock Profile Switch Toggle
                     Row(
