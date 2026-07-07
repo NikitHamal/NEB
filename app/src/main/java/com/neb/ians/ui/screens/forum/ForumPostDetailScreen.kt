@@ -3,6 +3,7 @@ package com.neb.ians.ui.screens.forum
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
@@ -98,6 +99,7 @@ fun ForumPostDetailScreen(
     postId: String,
     onNavigateBack: () -> Unit,
     onReplyClick: (String?) -> Unit,
+    onEditPostClick: (String) -> Unit = {},
     onProfileClick: (String) -> Unit = {},
     viewModel: PostDetailViewModel = hiltViewModel()
 ) {
@@ -119,7 +121,6 @@ fun ForumPostDetailScreen(
 
     // Dialog state
     var reportTarget by remember { mutableStateOf<Pair<String, String>?>(null) } // type to id
-    var editingPost by remember { mutableStateOf(false) }
     var editingReply by remember { mutableStateOf<ApiReply?>(null) }
     var deletingPost by remember { mutableStateOf(false) }
     var deletingReplyId by remember { mutableStateOf<String?>(null) }
@@ -229,7 +230,7 @@ fun ForumPostDetailScreen(
                             onBookmarkClick = viewModel::togglePostBookmark,
                             onShareClick = { sharePost(context, post.id) },
                             onReportClick = { reportTarget = "post" to post.id },
-                            onEditClick = { editingPost = true },
+                            onEditClick = { onEditPostClick(post.id) },
                             onArchiveClick = viewModel::archivePost,
                             onDeleteClick = { deletingPost = true },
                             onReplyClick = { mainFocusRequester.requestFocus() },
@@ -327,21 +328,6 @@ fun ForumPostDetailScreen(
                 reportTarget = null
             }
         )
-    }
-
-    if (editingPost) {
-        uiState.post?.let { post ->
-            EditContentDialog(
-                dialogTitle = "Edit post",
-                initialTitle = post.title,
-                initialContent = post.content,
-                onDismiss = { editingPost = false },
-                onSave = { title, content ->
-                    viewModel.editPost(title ?: post.title, content)
-                    editingPost = false
-                }
-            )
-        }
     }
 
     editingReply?.let { reply ->
@@ -837,8 +823,9 @@ private fun ReplyItem(
     onRepliesBarClick: (() -> Unit)? = null
 ) {
     Surface(
-        shape = RoundedCornerShape(12.dp),
+        shape = RoundedCornerShape(8.dp),
         color = MaterialTheme.colorScheme.surfaceContainerLowest,
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
         modifier = Modifier.fillMaxWidth()
     ) {
         Column(modifier = Modifier.padding(12.dp)) {
@@ -1009,14 +996,6 @@ private fun ReplyItem(
                     )
                 }
                 Spacer(modifier = Modifier.weight(1f))
-                IconButton(onClick = onBookmarkClick, modifier = Modifier.size(32.dp)) {
-                    Icon(
-                        imageVector = if (reply.isBookmarked == true) Icons.Filled.Bookmark else Icons.Filled.BookmarkBorder,
-                        contentDescription = "Bookmark",
-                        modifier = Modifier.size(18.dp),
-                        tint = if (reply.isBookmarked == true) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
             }
 
             if (children.isNotEmpty() && onRepliesBarClick != null) {
