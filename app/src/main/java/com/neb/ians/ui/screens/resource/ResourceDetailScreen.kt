@@ -32,6 +32,7 @@ import com.neb.ians.ui.components.NebTopBar
 fun ResourceDetailScreen(
     onNavigateBack: () -> Unit,
     onOpenPdf: (resourceId: String, fileUrl: String, title: String) -> Unit,
+    onUserProfileClick: (String) -> Unit = {},
     viewModel: ResourceDetailViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -82,7 +83,7 @@ fun ResourceDetailScreen(
         containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
     ) { padding ->
         when {
-            uiState.isLoading -> Box(
+            uiState.isLoading && uiState.resource == null -> Box(
                 Modifier.fillMaxSize().padding(padding),
                 contentAlignment = Alignment.Center
             ) { CircularProgressIndicator() }
@@ -118,7 +119,8 @@ fun ResourceDetailScreen(
                             onDownload = { openExternal(resource.fileUrl) },
                             onLike = viewModel::toggleLike,
                             onBookmark = viewModel::toggleBookmark,
-                            onShare = { share(resource.title, resource.id) }
+                            onShare = { share(resource.title, resource.id) },
+                            onUserProfileClick = onUserProfileClick
                         )
                     }
 
@@ -148,7 +150,8 @@ fun ResourceDetailScreen(
                             ResourceCommentItem(
                                 comment = comment,
                                 canDelete = comment.userId == uiState.currentUserId,
-                                onDelete = { viewModel.deleteComment(comment.id) }
+                                onDelete = { viewModel.deleteComment(comment.id) },
+                                onAuthorClick = { userName -> onUserProfileClick(userName) }
                             )
                         }
                     }

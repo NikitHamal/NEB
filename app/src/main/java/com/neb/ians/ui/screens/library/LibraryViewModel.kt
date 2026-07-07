@@ -205,7 +205,7 @@ class LibraryViewModel @Inject constructor(
             .trim('-')
     }
 
-    private fun loadResources() {
+    private fun loadResources(forceRefresh: Boolean = false) {
         viewModelScope.launch {
             val state = _uiState.value
             val isDefaultQuery = state.selectedSubject == null && state.selectedGradeLevel == null && state.selectedType == null && state.sort == "relevant"
@@ -216,7 +216,8 @@ class LibraryViewModel @Inject constructor(
                 grade = state.selectedGradeLevel,
                 type = state.selectedType,
                 sort = state.sort,
-                page = 1
+                page = 1,
+                forceRefresh = forceRefresh
             ).onSuccess { result ->
                 _uiState.update {
                     it.copy(
@@ -278,7 +279,7 @@ class LibraryViewModel @Inject constructor(
     }
 
     fun refresh() {
-        loadResources()
+        loadResources(forceRefresh = true)
     }
 
     /** Changes the sort key and reloads from page 1 (filters preserved). */

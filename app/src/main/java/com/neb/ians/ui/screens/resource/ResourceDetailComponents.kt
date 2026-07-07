@@ -1,5 +1,6 @@
 package com.neb.ians.ui.screens.resource
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -51,6 +52,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -86,7 +88,8 @@ fun ResourceHeroCard(
     onDownload: () -> Unit,
     onLike: () -> Unit,
     onBookmark: () -> Unit,
-    onShare: () -> Unit
+    onShare: () -> Unit,
+    onUserProfileClick: (String) -> Unit = {}
 ) {
     val subject = resource.subject.split(",").firstOrNull()?.trim().orEmpty().ifBlank { "General" }
     val subjectColor = Color(getSubjectColor(subject))
@@ -94,7 +97,7 @@ fun ResourceHeroCard(
         modifier = Modifier.fillMaxWidth(),
         color = MaterialTheme.colorScheme.surfaceContainerLowest,
         shape = RoundedCornerShape(8.dp),
-        border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
         tonalElevation = 0.dp,
         shadowElevation = 0.dp
     ) {
@@ -111,7 +114,7 @@ fun ResourceHeroCard(
                     color = MaterialTheme.colorScheme.onSurface
                 )
                 Spacer(Modifier.height(10.dp))
-                ResourceMetaBar(resource = resource)
+                ResourceMetaBar(resource = resource, onUserProfileClick = onUserProfileClick)
                 if (resource.description.isNotBlank()) {
                     Spacer(Modifier.height(18.dp))
                     ExpandableText(
@@ -208,7 +211,7 @@ private fun ResourceChip(
 }
 
 @Composable
-private fun ResourceMetaBar(resource: ApiResource) {
+private fun ResourceMetaBar(resource: ApiResource, onUserProfileClick: (String) -> Unit) {
     Row(
         modifier = Modifier.horizontalScroll(rememberScrollState()),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -220,7 +223,17 @@ private fun ResourceMetaBar(resource: ApiResource) {
             "user" -> ResourceMetaItem(Icons.Outlined.CloudUpload, "Community", highlight = Color(0xFF0D652D))
             else -> ResourceMetaItem(Icons.Outlined.Verified, "NEBians Team", highlight = MaterialTheme.colorScheme.primary)
         }
-        if (!resource.authorName.isNullOrBlank()) ResourceMetaItem(null, resource.authorName)
+        val uploadUsername = resource.uploadedByUsername.ifBlank { resource.authorName.orEmpty() }
+        if (resource.sourceType == "user" && uploadUsername.isNotBlank()) {
+            ResourceMetaItem(
+                icon = null,
+                text = uploadUsername,
+                highlight = MaterialTheme.colorScheme.primary,
+                onClick = { onUserProfileClick(uploadUsername) }
+            )
+        } else if (!resource.authorName.isNullOrBlank()) {
+            ResourceMetaItem(null, resource.authorName)
+        }
         ResourceDot()
         ResourceMetaItem(Icons.Outlined.Schedule, formatTimeAgo(resource.addedAt))
         ResourceDot()
@@ -233,11 +246,25 @@ private fun ResourceMetaBar(resource: ApiResource) {
 }
 
 @Composable
-private fun ResourceMetaItem(icon: ImageVector?, text: String, highlight: Color? = null) {
+private fun ResourceMetaItem(icon: ImageVector?, text: String, highlight: Color? = null, onClick: (() -> Unit)? = null) {
     val color = highlight ?: MaterialTheme.colorScheme.onSurfaceVariant
-    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+    val modifier = if (onClick != null) {
+        Modifier
+            .clip(RoundedCornerShape(999.dp))
+            .clickable(onClick = onClick)
+            .padding(horizontal = 3.dp, vertical = 2.dp)
+    } else {
+        Modifier
+    }
+    Row(modifier = modifier, verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(4.dp)) {
         if (icon != null) Icon(icon, null, tint = color, modifier = Modifier.size(16.dp))
-        Text(text, style = MaterialTheme.typography.labelMedium, color = color, fontWeight = if (highlight != null) FontWeight.SemiBold else FontWeight.Medium)
+        Text(
+            text = text,
+            style = MaterialTheme.typography.labelMedium,
+            color = color,
+            fontWeight = if (highlight != null) FontWeight.SemiBold else FontWeight.Medium,
+            textDecoration = if (onClick != null) TextDecoration.Underline else null
+        )
     }
 }
 
@@ -444,19 +471,33 @@ fun ResourceEmptyComments() {
 }
 
 @Composable
-fun ResourceCommentItem(comment: ApiResourceComment, canDelete: Boolean, onDelete: () -> Unit) {
+fun ResourceCommentItem(
+    comment: ApiResourceComment,
+    canDelete: Boolean,
+    onDelete: () -> Unit,
+    onAuthorClick: (String) -> Unit = {}
+) {
     Surface(
         modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp),
         color = MaterialTheme.colorScheme.surfaceContainerLowest,
         shape = RoundedCornerShape(8.dp),
-        border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
         tonalElevation = 0.dp
     ) {
-        Column(modifier = Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        Column(modifier = Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                NebAvatar(photoUrl = comment.userPhotoUrl, name = comment.userName, size = 34.dp)
-                Column(modifier = Modifier.weight(1f)) {
-                    Text(comment.userName, style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.Bold, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                NebAvatar(
+                    photoUrl = comment.userPhotoUrl,
+                    name = comment.userName,
+                    size = 34.dp,
+                    modifier = Modifier.clickable(enabled = comment.userName.isNotBlank()) { onAuthorClick(comment.userName) }
+                )
+                Column(
+                    modifier = Modifier
+                        .weight(1f)
+                        .clickable(enabled = comment.userName.isNotBlank()) { onAuthorClick(comment.userName) }
+                ) {
+                    Text(comment.userName, style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface, maxLines = 1, overflow = TextOverflow.Ellipsis)
                     Text(formatTimeAgo(comment.createdAt), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
                 if (canDelete) {
@@ -465,7 +506,7 @@ fun ResourceCommentItem(comment: ApiResourceComment, canDelete: Boolean, onDelet
                     }
                 }
             }
-            Text(comment.content, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant, lineHeight = 20.sp)
+            Text(comment.content, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurface, lineHeight = 20.sp)
         }
     }
 }

@@ -60,6 +60,10 @@ class ResourceSerializer(serializers.ModelSerializer):
     isLiked = serializers.SerializerMethodField()
     is_bookmarked = serializers.SerializerMethodField()
     isBookmarked = serializers.SerializerMethodField()
+    uploaded_by_username = serializers.SerializerMethodField()
+    uploadedByUsername = serializers.SerializerMethodField()
+    author_username = serializers.SerializerMethodField()
+    authorUsername = serializers.SerializerMethodField()
 
     class Meta:
         model = Resource
@@ -73,6 +77,8 @@ class ResourceSerializer(serializers.ModelSerializer):
             'source_type', 'sourceType', 'source_url', 'sourceUrl',
             'source_label', 'sourceLabel', 'likeCount', 'commentCount',
             'approval_status', 'approvalStatus',
+            'uploaded_by_username', 'uploadedByUsername',
+            'author_username', 'authorUsername',
             'is_liked', 'isLiked', 'is_bookmarked', 'isBookmarked',
         ]
 
@@ -118,6 +124,26 @@ class ResourceSerializer(serializers.ModelSerializer):
 
     def get_isBookmarked(self, obj):
         return self.get_is_bookmarked(obj)
+
+    def get_uploaded_by_username(self, obj):
+        user = getattr(obj, 'uploaded_by', None)
+        return user.username if user else ''
+
+    def get_uploadedByUsername(self, obj):
+        return self.get_uploaded_by_username(obj)
+
+    def get_author_username(self, obj):
+        return self.get_uploaded_by_username(obj)
+
+    def get_authorUsername(self, obj):
+        return self.get_uploaded_by_username(obj)
+
+    def to_representation(self, obj):
+        data = super().to_representation(obj)
+        user = getattr(obj, 'uploaded_by', None)
+        if obj.source_type == 'user' and user is not None and not data.get('author_name'):
+            data['author_name'] = user.username
+        return data
 
 
 class ResourceRequestSerializer(serializers.ModelSerializer):

@@ -50,11 +50,7 @@
 {% block content %}
 <div class="md-container">
   <div class="hero">
-    {% if user %}
-    <h1>Hello, {{ user.display_name|default:user.username }}!</h1>
-    {% else %}
     <h1>Welcome to NEBians</h1>
-    {% endif %}
     <p>Discover study resources, join discussions, and connect with learners and teachers of all classes and faculties.
     </p>
     <div class="hero-actions">

@@ -346,9 +346,15 @@ data class ApiResource(
     @SerialName("source_type") val sourceType: String? = null,
     @SerialName("source_url") val sourceUrl: String? = null,
     @SerialName("source_label") val sourceLabel: String? = null,
+    @SerialName("uploaded_by_username") val uploadedByUsernameSnake: String? = null,
+    @SerialName("uploadedByUsername") val uploadedByUsernameCamel: String? = null,
+    @SerialName("author_username") val authorUsernameSnake: String? = null,
+    @SerialName("authorUsername") val authorUsernameCamel: String? = null,
     @SerialName("is_liked") val isLiked: Boolean? = null,
     @SerialName("is_bookmarked") val isBookmarked: Boolean? = null
-)
+) {
+    val uploadedByUsername: String get() = uploadedByUsernameSnake ?: uploadedByUsernameCamel ?: authorUsernameSnake ?: authorUsernameCamel ?: ""
+}
 
 @Serializable
 data class ApiPost(

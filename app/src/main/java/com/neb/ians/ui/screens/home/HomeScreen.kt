@@ -213,7 +213,7 @@ private fun HomeHero(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = if (userName.isBlank() || userName == "Student") "Welcome to NEBians" else "Hello, $userName!",
+            text = "Welcome to NEBians",
             style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.ExtraBold,
             color = MaterialTheme.colorScheme.onSurface,

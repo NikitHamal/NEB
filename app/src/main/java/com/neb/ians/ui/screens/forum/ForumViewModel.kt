@@ -88,7 +88,7 @@ class ForumViewModel @Inject constructor(
         authRepository.currentUserIdFlow
     ) { state, name, photo, userId ->
         state.copy(userName = name, userPhotoUrl = photo, currentUserId = userId)
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), ForumUiState())
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), _forumState.value)
 
     init {
         loadPosts(reset = true)
@@ -145,7 +145,7 @@ class ForumViewModel @Inject constructor(
         }
     }
 
-    private fun loadPosts(reset: Boolean) {
+    private fun loadPosts(reset: Boolean, forceRefresh: Boolean = false) {
         loadJob?.cancel()
         loadJob = viewModelScope.launch {
             val state = _forumState.value
@@ -160,7 +160,8 @@ class ForumViewModel @Inject constructor(
                 category = state.selectedCategory,
                 page = targetPage,
                 sort = state.sort,
-                search = state.searchQuery
+                search = state.searchQuery,
+                forceRefresh = forceRefresh
             ).onSuccess { result ->
                 _forumState.update { current ->
                     val merged = if (reset) result.posts else current.posts + result.posts.filter { newPost ->
@@ -192,7 +193,7 @@ class ForumViewModel @Inject constructor(
         }
     }
 
-    fun refresh() = loadPosts(reset = true)
+    fun refresh() = loadPosts(reset = true, forceRefresh = true)
 
     fun syncLikeStates() {
         viewModelScope.launch {
@@ -203,7 +204,8 @@ class ForumViewModel @Inject constructor(
                     category = state.selectedCategory,
                     page = state.page,
                     sort = state.sort,
-                    search = state.searchQuery
+                    search = state.searchQuery,
+                    forceRefresh = true
                 ).onSuccess { result ->
                     _forumState.update { current ->
                         val merged = current.posts.map { existing ->
@@ -229,13 +231,13 @@ class ForumViewModel @Inject constructor(
 
     fun selectSort(sort: String) {
         if (_forumState.value.sort == sort) return
-        _forumState.update { it.copy(sort = sort, isLoading = true, posts = it.posts) }
+        _forumState.update { it.copy(sort = sort, isLoading = it.posts.isEmpty()) }
         loadPosts(reset = true)
     }
 
     fun selectCategory(category: String?) {
         val newCategory = if (_forumState.value.selectedCategory == category) null else category
-        _forumState.update { it.copy(selectedCategory = newCategory, isLoading = true) }
+        _forumState.update { it.copy(selectedCategory = newCategory, isLoading = it.posts.isEmpty()) }
         loadPosts(reset = true)
     }
 

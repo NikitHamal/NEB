@@ -1,6 +1,7 @@
 package com.neb.ians.data.repository
 
 import com.neb.ians.data.api.ApiResource
+import com.neb.ians.data.api.ApiResourceComment
 import com.neb.ians.data.api.ApiPost
 import com.neb.ians.data.api.ApiReply
 import com.neb.ians.data.api.ApiNotification
@@ -27,6 +28,11 @@ class AppCache @Inject constructor() {
     var forumPosts: List<ApiPost> = emptyList()
     var forumHasMore: Boolean = false
     var forumPage: Int = 1
+
+    var resourceDetails: MutableMap<String, ApiResource> = mutableMapOf()
+    var resourceComments: MutableMap<String, List<ApiResourceComment>> = mutableMapOf()
+    var postDetails: MutableMap<String, ApiPost> = mutableMapOf()
+    var postReplies: MutableMap<String, List<ApiReply>> = mutableMapOf()
     
     // Notifications Screen Cache
     var notifications: List<ApiNotification> = emptyList()
