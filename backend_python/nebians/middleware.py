@@ -288,7 +288,7 @@ class SecurityHeadersMiddleware:
 
         nonce = getattr(request, 'csp_nonce', '')
         img_sources = "img-src 'self' data: https:;"
-        connect_sources = ["'self'", "https://accounts.google.com"]
+        connect_sources = ["'self'", "https://accounts.google.com", "https://cdn.jsdelivr.net"]
 
         ws_url = _get_ws_public_url_cached()
 
