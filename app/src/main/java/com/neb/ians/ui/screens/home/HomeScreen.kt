@@ -197,7 +197,6 @@ fun HomeScreen(
                 }
             }
         }
-        } // end Column
         } // end PullToRefreshBox
     }
 
