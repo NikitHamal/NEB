@@ -56,10 +56,13 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.launch
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.Modifier
@@ -106,6 +109,8 @@ fun LibraryScreen(
     val interactiveState by interactiveViewModel.uiState.collectAsStateWithLifecycle()
     var currentTab by rememberSaveable { mutableStateOf("library") }
     var showFilterSheet by remember { mutableStateOf(false) }
+    val scope = rememberCoroutineScope()
+    var isRefreshing by remember { mutableStateOf(false) }
     val hasActiveFilters = uiState.selectedSubject != null || uiState.selectedGradeLevel != null || uiState.selectedType != null
     val isSyllabusDetailMode = currentTab == "syllabus" && (
         uiState.selectedSyllabusDetail != null ||
@@ -134,10 +139,22 @@ fun LibraryScreen(
         },
         containerColor = MaterialTheme.colorScheme.surface
     ) { paddingValues ->
-        Column(
+        PullToRefreshBox(
+            isRefreshing = isRefreshing,
+            onRefresh = {
+                scope.launch {
+                    isRefreshing = true
+                    viewModel.refresh()
+                    isRefreshing = false
+                }
+            },
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
+        ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
         ) {
             if (!isSyllabusDetailMode) {
                 Row(
@@ -257,7 +274,8 @@ fun LibraryScreen(
                     )
                 }
             }
-        }
+        } // end Column
+        } // end PullToRefreshBox
     }
 
     if (showFilterSheet) {

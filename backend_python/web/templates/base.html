@@ -120,13 +120,13 @@
     (function() {
       var banner = document.getElementById('app-promo-banner');
       var closeBtn = document.getElementById('close-app-banner');
-      if (localStorage.getItem('app-banner-dismissed') !== 'true') {
+      if (localStorage.getItem('app-banner-live-dismissed') !== 'true') {
         banner.style.display = 'flex';
       }
       if (closeBtn && banner) {
         closeBtn.addEventListener('click', function() {
           banner.style.display = 'none';
-          localStorage.setItem('app-banner-dismissed', 'true');
+          localStorage.setItem('app-banner-live-dismissed', 'true');
         });
       }
     })();

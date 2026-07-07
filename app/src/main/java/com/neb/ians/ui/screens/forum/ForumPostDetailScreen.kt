@@ -65,10 +65,13 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material.icons.filled.Close
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import kotlinx.coroutines.launch
+import androidx.compose.runtime.rememberCoroutineScope
 import coil.compose.AsyncImage
 import com.neb.ians.data.api.ApiPost
 import com.neb.ians.data.api.ApiReply
@@ -115,6 +118,8 @@ fun ForumPostDetailScreen(
     val snackbarHostState = remember { SnackbarHostState() }
     val mainFocusRequester = remember { FocusRequester() }
     val keyboardController = LocalSoftwareKeyboardController.current
+    val scope = rememberCoroutineScope()
+    var isRefreshing by remember { mutableStateOf(false) }
 
     // Bottom sheet state for thread
     var activeThreadParent by remember { mutableStateOf<ApiReply?>(null) }
@@ -216,10 +221,22 @@ fun ForumPostDetailScreen(
                 val isOwnPost = uiState.currentUserId != null && post.authorId == uiState.currentUserId
                 val topLevel = uiState.topLevelReplies
 
-                LazyColumn(
+                PullToRefreshBox(
+                    isRefreshing = isRefreshing,
+                    onRefresh = {
+                        scope.launch {
+                            isRefreshing = true
+                            viewModel.refresh()
+                            isRefreshing = false
+                        }
+                    },
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(paddingValues),
+                        .padding(paddingValues)
+                ) {
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize(),
                     contentPadding = PaddingValues(16.dp)
                 ) {
                     item(key = "post_header") {
@@ -318,6 +335,7 @@ fun ForumPostDetailScreen(
                         Spacer(modifier = Modifier.height(72.dp))
                     }
                 }
+                } // end PullToRefreshBox
             }
         }
     }

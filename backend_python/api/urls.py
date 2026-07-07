@@ -32,6 +32,9 @@ urlpatterns = [
     path('users/me/delete-account/', views.user_delete_account_request, name='user-delete-account-request'),
 
     # Users — follow system
+    path('users/me/follow-requests/', views.user_follow_requests_list, name='user-follow-requests'),
+    path('users/follow-requests/<str:request_id>/accept/', views.user_follow_request_accept, name='user-follow-request-accept'),
+    path('users/follow-requests/<str:request_id>/reject/', views.user_follow_request_reject, name='user-follow-request-reject'),
     path('users/<str:user_id>/follow/', views.user_follow_toggle, name='user-follow'),
     path('users/<str:user_id>/followers/', views.user_followers_list, name='user-followers'),
     path('users/<str:user_id>/following/', views.user_following_list, name='user-following'),

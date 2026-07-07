@@ -117,8 +117,11 @@ def user_profile_stats(request, username):
     requesting_user = _get_user_from_request(request)
     is_owner = bool(requesting_user and requesting_user.pk == user.pk)
     is_following = False
+    is_requested = False
     if requesting_user and requesting_user.pk != user.pk:
         is_following = Follow.objects.filter(follower=requesting_user, following=user).exists()
+        from .models import FollowRequest
+        is_requested = FollowRequest.objects.filter(sender=requesting_user, receiver=user).exists()
 
     if not _can_view_locked_profile(requesting_user, user):
         return Response({
@@ -131,6 +134,7 @@ def user_profile_stats(request, username):
             'following_count': 0,
             'uploaded_resources_count': 0,
             'is_following': is_following,
+            'is_requested': is_requested,
             'is_self': is_owner,
             'is_private': True,
         })
@@ -145,8 +149,12 @@ def user_profile_stats(request, username):
         **public_resource_filter
     ).count()
     stats['is_following'] = is_following
+    stats['is_requested'] = is_requested
     stats['is_self'] = is_owner
     stats['is_private'] = False
+    if is_owner and user.is_locked:
+        from .models import FollowRequest
+        stats['follow_requests_count'] = FollowRequest.objects.filter(receiver=user).count()
     return Response(stats)
 
 
@@ -515,4 +523,85 @@ def user_delete_account_request(request):
             logger.info("user_delete_account_request: user %s cancelled deletion request", user.username)
             return Response({'success': True, 'message': 'Account deletion request cancelled successfully'})
         return Response({'error': 'No pending deletion request found'}, status=404)
+
+
+@api_view(['GET'])
+def user_follow_requests_list(request):
+    current_user, err = _require_user(request)
+    if err:
+        return err
+    
+    from .models import FollowRequest
+    reqs = FollowRequest.objects.filter(receiver=current_user).select_related('sender')
+    data = []
+    for r in reqs:
+        data.append({
+            'id': r.id,
+            'sender': {
+                'id': r.sender.id,
+                'username': r.sender.username,
+                'display_name': r.sender.display_name or r.sender.username,
+                'photo_url': r.sender.photo_url or '',
+            },
+            'created_at': r.created_at
+        })
+    return Response(data)
+
+
+@api_view(['POST'])
+def user_follow_request_accept(request, request_id):
+    current_user, err = _require_user(request)
+    if err:
+        return err
+    
+    from .models import FollowRequest, Follow
+    from .utils import now_ms
+    try:
+        req = FollowRequest.objects.get(pk=request_id, receiver=current_user)
+    except FollowRequest.DoesNotExist:
+        return Response({'error': 'Follow request not found.'}, status=404)
+        
+    sender = req.sender
+    receiver = req.receiver
+    
+    with transaction.atomic():
+        req.delete()
+        Follow.objects.get_or_create(
+            follower=sender,
+            following=receiver,
+            defaults={'created_at': now_ms()}
+        )
+        follower_count = Follow.objects.filter(following=receiver).count()
+        following_count = Follow.objects.filter(follower=sender).count()
+        User.objects.filter(pk=receiver.id).update(follower_count=follower_count)
+        User.objects.filter(pk=sender.id).update(following_count=following_count)
+        
+    from api import notifications as _notif
+    from api import realtime as _rt
+    _notif.notify_cancel_follow_request(sender.id, receiver.id)
+    _notif.notify_new_follow(sender.id, receiver.id)
+    _rt.broadcast_follow_changed(receiver.id, follower_count)
+    
+    return Response({'status': 'success'})
+
+
+@api_view(['POST'])
+def user_follow_request_reject(request, request_id):
+    current_user, err = _require_user(request)
+    if err:
+        return err
+    
+    from .models import FollowRequest
+    try:
+        req = FollowRequest.objects.get(pk=request_id, receiver=current_user)
+    except FollowRequest.DoesNotExist:
+        return Response({'error': 'Follow request not found.'}, status=404)
+        
+    sender_id = req.sender_id
+    req.delete()
+    
+    from api import notifications as _notif
+    _notif.notify_cancel_follow_request(sender_id, current_user.id)
+    
+    return Response({'status': 'success'})
 

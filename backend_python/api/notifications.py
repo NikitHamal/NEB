@@ -162,6 +162,8 @@ def _create_notification(*, recipient_id, actor_id, verb, target_type, target_id
                     body = f"{actor_display} replied to your comment."
                 elif verb == 'follow':
                     body = f"{actor_display} started following you."
+                elif verb == 'follow_request':
+                    body = f"{actor_display} requested to follow you."
                 elif verb == 'like_resource':
                     body = f"{actor_display} liked your resource."
                 elif verb == 'like_resource_comment':
@@ -179,6 +181,8 @@ def _create_notification(*, recipient_id, actor_id, verb, target_type, target_id
                 title = "New Reply"
             elif verb == 'follow':
                 title = "New Follower"
+            elif verb == 'follow_request':
+                title = "New Follow Request"
 
             send_fcm_message(
                 tokens=tokens,
@@ -344,6 +348,28 @@ def notify_unfollow(actor_id, target_user_id):
         recipient_id=target_user_id,
         actor_id=actor_id,
         verb='follow',
+        target_type='user',
+        target_id=target_user_id,
+    )
+
+
+def notify_new_follow_request(actor_id, target_user_id):
+    """Called when someone requests to follow a user."""
+    return _create_notification(
+        recipient_id=target_user_id,
+        actor_id=actor_id,
+        verb='follow_request',
+        target_type='user',
+        target_id=target_user_id,
+    )
+
+
+def notify_cancel_follow_request(actor_id, target_user_id):
+    """Called when someone cancels a follow request."""
+    _delete_notification(
+        recipient_id=target_user_id,
+        actor_id=actor_id,
+        verb='follow_request',
         target_type='user',
         target_id=target_user_id,
     )

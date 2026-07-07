@@ -22,7 +22,6 @@ import androidx.compose.material.icons.outlined.AlternateEmail
 import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material.icons.outlined.PersonAdd
 import androidx.compose.material.icons.outlined.ThumbUp
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -32,10 +31,16 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
+import kotlinx.coroutines.launch
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -216,6 +221,8 @@ fun NotificationsScreen(
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val listState = rememberLazyListState()
+    val scope = rememberCoroutineScope()
+    var isRefreshing by remember { mutableStateOf(false) }
 
     // Infinite scroll: load the next page when the last loaded item becomes visible.
     LaunchedEffect(listState) {
@@ -249,41 +256,53 @@ fun NotificationsScreen(
             )
         }
     ) { padding ->
-        Box(modifier = Modifier.fillMaxSize().padding(padding)) {
-            when {
-                uiState.isLoading && uiState.notifications.isEmpty() ->
-                    CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
-                uiState.error != null && uiState.notifications.isEmpty() ->
-                    Text("Error: ${uiState.error}", modifier = Modifier.padding(16.dp))
-                uiState.notifications.isEmpty() ->
-                    Text("No notifications yet", modifier = Modifier.padding(16.dp))
-                else -> {
-                    LazyColumn(
-                        state = listState,
-                        modifier = Modifier.fillMaxSize()
-                    ) {
-                        items(uiState.notifications, key = { it.id }) { notification ->
-                            NotificationItem(
-                                notification = notification,
-                                onClick = {
-                                    viewModel.markOneRead(notification.id)
-                                    handleNotificationClick(notification, onPostClick, onProfileClick, onResourceClick)
-                                },
-                                onAvatarClick = {
-                                    notification.actorName?.takeIf { it.isNotBlank() }?.let(onProfileClick)
-                                }
-                            )
-                            HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
-                        }
-                        if (uiState.isLoadingMore) {
-                            item(key = "loading_footer") {
-                                Box(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(vertical = 16.dp),
-                                    contentAlignment = Alignment.Center
-                                ) {
-                                    CircularProgressIndicator(modifier = Modifier.size(26.dp))
+        PullToRefreshBox(
+            isRefreshing = isRefreshing,
+            onRefresh = {
+                scope.launch {
+                    isRefreshing = true
+                    viewModel.loadNotifications()
+                    isRefreshing = false
+                }
+            },
+            modifier = Modifier.fillMaxSize().padding(padding)
+        ) {
+            Box(modifier = Modifier.fillMaxSize()) {
+                when {
+                    uiState.isLoading && uiState.notifications.isEmpty() ->
+                        CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+                    uiState.error != null && uiState.notifications.isEmpty() ->
+                        Text("Error: ${uiState.error}", modifier = Modifier.padding(16.dp))
+                    uiState.notifications.isEmpty() ->
+                        Text("No notifications yet", modifier = Modifier.padding(16.dp))
+                    else -> {
+                        LazyColumn(
+                            state = listState,
+                            modifier = Modifier.fillMaxSize()
+                        ) {
+                            items(uiState.notifications, key = { it.id }) { notification ->
+                                NotificationItem(
+                                    notification = notification,
+                                    onClick = {
+                                        viewModel.markOneRead(notification.id)
+                                        handleNotificationClick(notification, onPostClick, onProfileClick, onResourceClick)
+                                    },
+                                    onAvatarClick = {
+                                        notification.actorName?.takeIf { it.isNotBlank() }?.let(onProfileClick)
+                                    }
+                                )
+                                HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
+                            }
+                            if (uiState.isLoadingMore) {
+                                item(key = "loading_footer") {
+                                    Box(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(vertical = 16.dp),
+                                        contentAlignment = Alignment.Center
+                                    ) {
+                                        CircularProgressIndicator(modifier = Modifier.size(26.dp))
+                                    }
                                 }
                             }
                         }
@@ -320,7 +339,7 @@ private fun handleNotificationClick(
     val actorUsername = notification.actorName
 
     when (verb) {
-        "follow" -> {
+        "follow", "follow_request" -> {
             if (!actorUsername.isNullOrBlank()) onProfileClick(actorUsername)
         }
         else -> when (targetType) {
@@ -362,6 +381,7 @@ fun NotificationItem(
             "reply" -> "$actor replied to your post"
             "reply_reply" -> "$actor replied to your comment"
             "follow" -> "$actor started following you"
+            "follow_request" -> "$actor requested to follow you"
             "mention" -> "$actor mentioned you"
             "like_resource" -> "$actor liked your resource"
             "like_resource_comment" -> "$actor liked your comment"

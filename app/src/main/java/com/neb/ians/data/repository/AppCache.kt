@@ -43,6 +43,7 @@ class AppCache @Inject constructor() {
     var lastProfileUsername: String? = null
     var lastProfile: UserProfileResponse? = null
     var lastProfileIsFollowing: Boolean = false
+    var lastProfileIsRequested: Boolean = false
     var lastProfileFollowerCount: Int = 0
     var lastProfileRepliesCount: Int = 0
     var lastProfileResourcesCount: Int = 0

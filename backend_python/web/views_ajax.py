@@ -891,6 +891,7 @@ def ajax_accept_follow_request(request, request_id):
         
     from api import notifications as _notif
     from api import realtime as _rt
+    _notif.notify_cancel_follow_request(sender.id, receiver.id)
     _notif.notify_new_follow(sender.id, receiver.id)
     _rt.broadcast_follow_changed(receiver.id, follower_count)
     
@@ -909,5 +910,10 @@ def ajax_reject_follow_request(request, request_id):
     except FollowRequest.DoesNotExist:
         return JsonResponse({'error': 'Follow request not found.'}, status=404)
         
+    sender_id = req.sender_id
     req.delete()
+    
+    from api import notifications as _notif
+    _notif.notify_cancel_follow_request(sender_id, user_id)
+    
     return JsonResponse({'status': 'success'})
