@@ -17,7 +17,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -61,20 +60,12 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.rememberModalBottomSheetState
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
-import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.ArrowUpward
-import androidx.compose.material.icons.filled.Send
-import androidx.compose.ui.graphics.Color
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
@@ -97,6 +88,7 @@ import com.neb.ians.ui.components.resolveMediaUrl
 import com.neb.ians.ui.components.sharePost
 import com.neb.ians.ui.components.MentionsVisualTransformation
 import com.neb.ians.ui.components.MentionSuggestions
+import com.neb.ians.ui.components.NebCommentComposerBar
 import com.neb.ians.ui.theme.getSubjectTheme
 import com.neb.ians.util.formatTimeAgo
 
@@ -164,74 +156,30 @@ fun ForumPostDetailScreen(
         },
         bottomBar = {
             if (uiState.currentUserId != null && uiState.post != null) {
-                Surface(
-                    modifier = Modifier.fillMaxWidth(),
-                    tonalElevation = 0.dp,
-                    shadowElevation = 0.dp,
-                    color = Color.Transparent
+                NebCommentComposerBar(
+                    value = mainReplyText,
+                    onValueChange = viewModel::onMainReplyChange,
+                    placeholder = "Write a comment...",
+                    enabled = !isSubmittingReply,
+                    canSend = mainReplyText.text.isNotBlank() && !isSubmittingReply,
+                    posting = isSubmittingReply,
+                    textFieldModifier = Modifier.focusRequester(mainFocusRequester),
+                    visualTransformation = MentionsVisualTransformation(MaterialTheme.colorScheme.primary),
+                    onSend = {
+                        keyboardController?.hide()
+                        viewModel.submitReply(
+                            content = mainReplyText.text,
+                            parentReplyId = null,
+                            onSuccess = {}
+                        )
+                    }
                 ) {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp, vertical = 8.dp)
-                            .navigationBarsPadding()
-                    ) {
-                        if (mainMentionSuggestions.isNotEmpty()) {
-                            MentionSuggestions(
-                                users = mainMentionSuggestions,
-                                onSelect = viewModel::selectMainMention,
-                                modifier = Modifier.padding(bottom = 8.dp)
-                            )
-                        }
-                        
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            OutlinedTextField(
-                                value = mainReplyText,
-                                onValueChange = viewModel::onMainReplyChange,
-                                placeholder = { Text("Write a comment...", style = MaterialTheme.typography.bodyMedium) },
-                                modifier = Modifier
-                                    .weight(1f)
-                                    .focusRequester(mainFocusRequester),
-                                textStyle = MaterialTheme.typography.bodyMedium,
-                                maxLines = 4,
-                                shape = RoundedCornerShape(24.dp),
-                                colors = OutlinedTextFieldDefaults.colors(
-                                    focusedContainerColor = Color.Transparent,
-                                    unfocusedContainerColor = Color.Transparent,
-                                    focusedBorderColor = MaterialTheme.colorScheme.primary,
-                                    unfocusedBorderColor = MaterialTheme.colorScheme.outlineVariant
-                                ),
-                                enabled = !isSubmittingReply,
-                                visualTransformation = MentionsVisualTransformation(MaterialTheme.colorScheme.primary)
-                            )
-                            Spacer(modifier = Modifier.width(8.dp))
-                            IconButton(
-                                onClick = {
-                                    keyboardController?.hide()
-                                    viewModel.submitReply(
-                                        content = mainReplyText.text,
-                                        parentReplyId = null,
-                                        onSuccess = {}
-                                    )
-                                },
-                                enabled = mainReplyText.text.isNotBlank() && !isSubmittingReply,
-                                modifier = Modifier
-                                    .size(48.dp)
-                                    .background(
-                                        color = if (mainReplyText.text.isNotBlank() && !isSubmittingReply) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceVariant,
-                                        shape = CircleShape
-                                    )
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Filled.ArrowUpward,
-                                    contentDescription = "Send",
-                                    tint = if (mainReplyText.text.isNotBlank() && !isSubmittingReply) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f)
-                                )
-                            }
-                        }
+                    if (mainMentionSuggestions.isNotEmpty()) {
+                        MentionSuggestions(
+                            users = mainMentionSuggestions,
+                            onSelect = viewModel::selectMainMention,
+                            modifier = Modifier.padding(bottom = 8.dp)
+                        )
                     }
                 }
             }
@@ -581,11 +529,24 @@ fun ForumPostDetailScreen(
 
                 if (uiState.currentUserId != null) {
                     HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp, vertical = 8.dp)
-                            .navigationBarsPadding()
+                    NebCommentComposerBar(
+                        value = threadReplyText,
+                        onValueChange = viewModel::onThreadReplyChange,
+                        placeholder = if (activeThreadTargetReply != null) "Reply to @${activeThreadTargetReply?.authorName}..." else "Write a reply...",
+                        enabled = !isSubmittingReply,
+                        canSend = threadReplyText.text.isNotBlank() && !isSubmittingReply,
+                        posting = isSubmittingReply,
+                        visualTransformation = MentionsVisualTransformation(MaterialTheme.colorScheme.primary),
+                        onSend = {
+                            val targetId = activeThreadTargetReply?.id ?: parent.id
+                            viewModel.submitReply(
+                                content = threadReplyText.text,
+                                parentReplyId = targetId,
+                                onSuccess = {
+                                    activeThreadTargetReply = null
+                                }
+                            )
+                        }
                     ) {
                         if (threadMentionSuggestions.isNotEmpty()) {
                             MentionSuggestions(
@@ -622,60 +583,6 @@ fun ForumPostDetailScreen(
                                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                                     maxLines = 1,
                                     overflow = TextOverflow.Ellipsis
-                                )
-                            }
-                        }
-
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            OutlinedTextField(
-                                value = threadReplyText,
-                                onValueChange = viewModel::onThreadReplyChange,
-                                placeholder = {
-                                    Text(
-                                        text = if (activeThreadTargetReply != null) "Reply to @${activeThreadTargetReply?.authorName}..." else "Write a reply...",
-                                        style = MaterialTheme.typography.bodyMedium
-                                    )
-                                },
-                                modifier = Modifier.weight(1f),
-                                textStyle = MaterialTheme.typography.bodyMedium,
-                                maxLines = 4,
-                                shape = RoundedCornerShape(24.dp),
-                                colors = OutlinedTextFieldDefaults.colors(
-                                    focusedContainerColor = Color.Transparent,
-                                    unfocusedContainerColor = Color.Transparent,
-                                    focusedBorderColor = MaterialTheme.colorScheme.primary,
-                                    unfocusedBorderColor = MaterialTheme.colorScheme.outlineVariant
-                                ),
-                                enabled = !isSubmittingReply,
-                                visualTransformation = MentionsVisualTransformation(MaterialTheme.colorScheme.primary)
-                            )
-                            Spacer(modifier = Modifier.width(8.dp))
-                            IconButton(
-                                onClick = {
-                                    val targetId = activeThreadTargetReply?.id ?: parent.id
-                                    viewModel.submitReply(
-                                        content = threadReplyText.text,
-                                        parentReplyId = targetId,
-                                        onSuccess = {
-                                            activeThreadTargetReply = null
-                                        }
-                                    )
-                                },
-                                enabled = threadReplyText.text.isNotBlank() && !isSubmittingReply,
-                                modifier = Modifier
-                                    .size(48.dp)
-                                    .background(
-                                        color = if (threadReplyText.text.isNotBlank() && !isSubmittingReply) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceVariant,
-                                        shape = CircleShape
-                                    )
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Filled.ArrowUpward,
-                                    contentDescription = "Send",
-                                    tint = if (threadReplyText.text.isNotBlank() && !isSubmittingReply) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f)
                                 )
                             }
                         }
