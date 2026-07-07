@@ -30,6 +30,9 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.neb.ians.data.repository.AuthRepository
@@ -368,24 +371,21 @@ fun LoginScreen(
             Spacer(modifier = Modifier.height(28.dp))
 
             // Footer (Register link)
-            androidx.compose.foundation.layout.FlowRow(
+            Row(
                 horizontalArrangement = Arrangement.Center,
-                verticalArrangement = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
-                    text = "Don't have an account? ",
+                    text = buildAnnotatedString {
+                        append("Don't have an account? ")
+                        withStyle(SpanStyle(color = webPrimary, fontWeight = FontWeight.SemiBold)) {
+                            append("Register now.")
+                        }
+                    },
                     fontSize = 14.sp,
-                    color = if (isDark) Color(0xFFC3C6D7) else Color(0xFF434655)
-                )
-                Text(
-                    text = "Register now.",
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = webPrimary,
-                    modifier = Modifier.clickable {
-                        onNavigateToEmailSignup()
-                    }
+                    color = if (isDark) Color(0xFFC3C6D7) else Color(0xFF434655),
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.clickable { onNavigateToEmailSignup() }
                 )
             }
         }
