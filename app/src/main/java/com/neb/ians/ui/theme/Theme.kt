@@ -123,8 +123,6 @@ fun NEBiansTheme(
             val activity = view.context.findActivity()
             activity?.let { act ->
                 val window = act.window
-                window.statusBarColor = colorScheme.surface.toArgb()
-                window.navigationBarColor = colorScheme.surfaceContainer.toArgb()
                 val insetsController = WindowCompat.getInsetsController(window, view)
                 insetsController.isAppearanceLightStatusBars = !darkTheme
                 insetsController.isAppearanceLightNavigationBars = !darkTheme
