@@ -178,7 +178,7 @@ def search_all(request):
                     Q(username__icontains=term) | Q(display_name__icontains=term) | Q(bio__icontains=term) |
                     Q(school__icontains=term) | Q(class_level__icontains=term) | Q(subjects__icontains=term)
                 )
-            users = User.objects.filter(reduce(operator.and_, user_q_list), is_locked=False).order_by('-follower_count', 'username')[:30]
+            users = User.objects.filter(reduce(operator.and_, user_q_list), is_locked=False, email_verified=True).order_by('-follower_count', 'username')[:30]
 
     resource_page = _paginated_response(
         request, resources, ResourceSerializer, context={'request': request}, default_page_size=25, max_page_size=50

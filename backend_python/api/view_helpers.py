@@ -112,10 +112,12 @@ def _is_mutual_follow(viewer, target_user):
 
 
 def _can_view_locked_profile(viewer, target_user):
-    """Owner and followers can view a locked profile."""
+    """Owner and followers can view a locked profile. Unverified accounts are treated as locked."""
     if not target_user:
         return False
-    if not getattr(target_user, 'is_locked', False):
+    is_locked = getattr(target_user, 'is_locked', False)
+    is_verified = getattr(target_user, 'email_verified', True)
+    if not is_locked and is_verified:
         return True
     if viewer and getattr(viewer, 'pk', None) == getattr(target_user, 'pk', None):
         return True
@@ -142,6 +144,18 @@ def _require_user(request):
     user = _get_user_from_request(request)
     if user is None:
         return None, Response({'error': 'Unauthorized — please sign in again'}, status=401)
+    return user, None
+
+def _require_verified_user(request):
+    """
+    Returns (user, error_response) tuple. If user is authenticated AND
+    email_verified is True, returns (user, None). Otherwise returns (None, Response).
+    """
+    user, err = _require_user(request)
+    if err:
+        return None, err
+    if not getattr(user, 'email_verified', False):
+        return None, Response({'error': 'Please verify your email before doing that'}, status=403)
     return user, None
 
 def _validate_text_length(value, max_length, field_name):
