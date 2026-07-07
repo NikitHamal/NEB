@@ -637,6 +637,9 @@ fun NEBiansNavHost(
                     onNavigateBack = { navController.popBackStack() },
                     onOpenPdf = { resourceId, fileUrl, title ->
                         navController.navigate(Screen.PdfViewer.createRoute(resourceId))
+                    },
+                    onUserProfileClick = { username ->
+                        navController.navigate(Screen.Profile.createRoute(username))
                     }
                 )
             }

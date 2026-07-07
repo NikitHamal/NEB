@@ -4,6 +4,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.neb.ians.data.api.ApiErrorMapper
 import com.neb.ians.data.api.ApiPost
 import com.neb.ians.data.api.ApiReply
 import com.neb.ians.data.api.ApiUserSearchResult
@@ -67,8 +68,17 @@ class PostDetailViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val postId: String = savedStateHandle.get<String>("postId") ?: ""
+    private val cachedPost = forumRepository.peekPost(postId)
+    private val cachedReplies = forumRepository.peekReplies(postId).orEmpty()
 
-    private val _state = MutableStateFlow(PostDetailUiState())
+    private val _state = MutableStateFlow(
+        PostDetailUiState(
+            post = cachedPost,
+            replies = cachedReplies,
+            poll = cachedPost?.poll?.toPollUi(),
+            isLoading = cachedPost == null
+        )
+    )
     private var unsubscribePost: (() -> Unit)? = null
     private var isPostLikeBusy = false
     private var isPostBookmarkBusy = false
@@ -81,7 +91,7 @@ class PostDetailViewModel @Inject constructor(
         authRepository.currentUserIdFlow
     ) { state, userId ->
         state.copy(currentUserId = userId)
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), PostDetailUiState())
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), _state.value)
 
     init {
         loadPost()
@@ -158,23 +168,28 @@ class PostDetailViewModel @Inject constructor(
 
     private fun quietRefreshReplies() {
         viewModelScope.launch {
-            forumRepository.getReplies(postId).onSuccess { replies ->
+            forumRepository.getReplies(postId, forceRefresh = true).onSuccess { replies ->
                 _state.update { it.copy(replies = replies) }
             }
         }
     }
 
-    private fun loadPost() {
+    private fun loadPost(forceRefresh: Boolean = false) {
         viewModelScope.launch {
-            _state.update { it.copy(isLoading = true) }
-            forumRepository.getPost(postId)
+            val hasPost = _state.value.post != null
+            _state.update { it.copy(isLoading = !hasPost, error = null) }
+            forumRepository.getPost(postId, forceRefresh = forceRefresh)
                 .onSuccess { post ->
-                    _state.update { it.copy(post = post, poll = post.poll?.toPollUi()) }
+                    _state.update { it.copy(post = post, poll = post.poll?.toPollUi(), error = null) }
                 }
                 .onFailure { e ->
-                    _state.update { it.copy(error = e.message ?: "Failed to load post", isLoading = false) }
+                    val message = ApiErrorMapper.mapException(e)
+                    _state.update {
+                        if (it.post == null) it.copy(error = message, isLoading = false)
+                        else it.copy(snackbarMessage = message, isLoading = false)
+                    }
                 }
-            forumRepository.getReplies(postId)
+            forumRepository.getReplies(postId, forceRefresh = forceRefresh)
                 .onSuccess { replies ->
                     _state.update { it.copy(replies = replies, isLoading = false) }
                 }
@@ -184,7 +199,7 @@ class PostDetailViewModel @Inject constructor(
         }
     }
 
-    fun refresh() = loadPost()
+    fun refresh() = loadPost(forceRefresh = true)
 
     fun setReplySort(sort: String) {
         _state.update { it.copy(replySort = sort) }
@@ -496,7 +511,7 @@ class PostDetailViewModel @Inject constructor(
                 onSuccess()
             }.onFailure { e ->
                 _isSubmittingReply.value = false
-                _state.update { it.copy(snackbarMessage = e.message ?: "Failed to submit reply") }
+                _state.update { it.copy(snackbarMessage = ApiErrorMapper.mapException(e)) }
             }
         }
     }

@@ -5,6 +5,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.room.Room
 import com.neb.ians.data.api.ApiService
+import com.neb.ians.data.local.dao.ApiCacheDao
 import com.neb.ians.data.local.dao.BookmarkDao
 import com.neb.ians.data.local.database.DatabaseMigrations
 import com.neb.ians.data.local.database.NEBiansDatabase
@@ -53,4 +54,7 @@ object AppModule {
 
     @Provides
     fun provideBookmarkDao(db: NEBiansDatabase): BookmarkDao = db.bookmarkDao()
+
+    @Provides
+    fun provideApiCacheDao(db: NEBiansDatabase): ApiCacheDao = db.apiCacheDao()
 }

@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.neb.ians.data.api.ApiResource
 import com.neb.ians.data.api.ApiPost
-import com.neb.ians.data.api.ApiService
 import com.neb.ians.data.api.ApiErrorMapper
 import com.neb.ians.data.news.NewsAnnouncement
 import com.neb.ians.data.realtime.RealtimeClient
@@ -13,6 +12,9 @@ import com.neb.ians.data.repository.ForumRepository
 import com.neb.ians.data.repository.SettingsRepository
 import com.neb.ians.data.repository.AppCache
 import com.neb.ians.data.repository.NewsRepository
+import com.neb.ians.data.repository.ResourceRepository
+import com.neb.ians.data.repository.ResourcesResult
+import com.neb.ians.data.repository.ForumPostsResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.*
@@ -23,7 +25,12 @@ import kotlinx.serialization.json.contentOrNull
 import kotlinx.serialization.json.intOrNull
 import javax.inject.Inject
 
-private data class Quad<A, B, C, D>(val first: A, val second: B, val third: C, val fourth: D)
+private data class HomeLoadResults(
+    val resources: Result<ResourcesResult>,
+    val popular: Result<ResourcesResult>,
+    val posts: Result<ForumPostsResult>,
+    val news: List<NewsAnnouncement>
+)
 
 data class HomeUiState(
     val userName: String = "Student",
@@ -46,10 +53,10 @@ data class HomeUiState(
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val apiService: ApiService,
     private val authRepository: AuthRepository,
     private val settingsRepository: SettingsRepository,
     private val forumRepository: ForumRepository,
+    private val resourceRepository: ResourceRepository,
     private val newsRepository: NewsRepository,
     private val realtimeClient: RealtimeClient,
     private val appCache: AppCache
@@ -102,35 +109,48 @@ class HomeViewModel @Inject constructor(
         } catch (_: Exception) {}
     }
 
-    private fun loadData() {
+    private fun loadData(forceRefresh: Boolean = false) {
         viewModelScope.launch {
             _error.value = null
             try {
-                val token = authRepository.getBearerToken()
-                if (token != null) {
+                if (authRepository.getBearerToken() != null) {
                     try {
                         authRepository.refreshProfile()
                     } catch (_: Exception) {}
                 }
-                val (resourcesResult, popularResult, postsResult, newsResult) = coroutineScope {
-                    val resources = async { apiService.getResources(token, sort = "newest", page = 1, pageSize = 12) }
-                    val popular = async { apiService.getResources(token, sort = "relevant", page = 1, pageSize = 12) }
-                    val posts = async { apiService.getPosts(token, page = 1, pageSize = 8) }
+                val results = coroutineScope {
+                    val resources = async { resourceRepository.getResources(sort = "newest", page = 1, forceRefresh = forceRefresh) }
+                    val popular = async { resourceRepository.getResources(sort = "relevant", page = 1, forceRefresh = forceRefresh) }
+                    val posts = async { forumRepository.getPosts(page = 1, forceRefresh = forceRefresh) }
                     val news = async { newsRepository.getAnnouncements().getOrDefault(appCache.latestNews) }
-                    Quad(resources.await(), popular.await(), posts.await(), news.await())
+                    HomeLoadResults(resources.await(), popular.await(), posts.await(), news.await())
                 }
 
-                _recentResources.value = resourcesResult.resources
-                _popularResources.value = popularResult.resources
-                _recentPosts.value = postsResult.posts
-                _latestNews.value = newsResult
+                val resources = results.resources.getOrNull()?.resources ?: appCache.recentResources
+                val popular = results.popular.getOrNull()?.resources ?: appCache.popularResources
+                val posts = results.posts.getOrNull()?.posts ?: appCache.recentPosts
+                val news = results.news
 
-                appCache.recentResources = resourcesResult.resources
-                appCache.popularResources = popularResult.resources
-                appCache.recentPosts = postsResult.posts
-                appCache.latestNews = newsResult
+                _recentResources.value = resources
+                _popularResources.value = popular
+                _recentPosts.value = posts
+                _latestNews.value = news
+
+                appCache.recentResources = resources
+                appCache.popularResources = popular
+                appCache.recentPosts = posts
+                appCache.latestNews = news
+
+                val firstFailure = listOf(
+                    results.resources.exceptionOrNull(),
+                    results.popular.exceptionOrNull(),
+                    results.posts.exceptionOrNull()
+                ).firstOrNull()
+                if (resources.isEmpty() && popular.isEmpty() && posts.isEmpty() && firstFailure != null) {
+                    _error.value = ApiErrorMapper.mapException(firstFailure)
+                }
             } catch (e: Exception) {
-                if (_recentResources.value.isEmpty()) {
+                if (_recentResources.value.isEmpty() && _recentPosts.value.isEmpty()) {
                     _error.value = ApiErrorMapper.mapException(e)
                 }
             }
@@ -139,7 +159,7 @@ class HomeViewModel @Inject constructor(
     }
 
     fun refresh() {
-        loadData()
+        loadData(forceRefresh = true)
     }
 
     fun toggleThumbsUp(postId: String) {
