@@ -33,10 +33,10 @@ class Migration(migrations.Migration):
             options={
                 'db_table': 'page_views',
                 'indexes': [
-                    models.Index(fields=['created_at']),
-                    models.Index(fields=['referrer_type']),
-                    models.Index(fields=['source']),
-                    models.Index(fields=['user_id']),
+                    models.Index(fields=['created_at'], name='pv_created_at_idx'),
+                    models.Index(fields=['referrer_type'], name='pv_referrer_type_idx'),
+                    models.Index(fields=['source'], name='pv_source_idx'),
+                    models.Index(fields=['user_id'], name='pv_user_id_idx'),
                 ],
             },
         ),
