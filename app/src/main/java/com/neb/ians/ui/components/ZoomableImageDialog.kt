@@ -86,9 +86,35 @@ fun ZoomableImageDialog(
 }
 
 fun resolveZoomableImageUrl(url: String): String {
-    return if (url.startsWith("http://") || url.startsWith("https://")) {
+    val cleanUrl = if (url.startsWith("http://") || url.startsWith("https://")) {
         url
     } else {
         "https://nebians.consica.com.np${if (url.startsWith("/")) "" else "/"}$url"
     }
+    
+    // Upgrade Google profile pictures to original resolution (s0)
+    if (cleanUrl.contains("googleusercontent.com")) {
+        val suffixRegex = "(=s\\d+(-[c])?)$".toRegex()
+        if (suffixRegex.containsMatchIn(cleanUrl)) {
+            return cleanUrl.replace(suffixRegex, "=s0")
+        }
+        val pathRegex = "/s\\d+(-[c])?/".toRegex()
+        if (pathRegex.containsMatchIn(cleanUrl)) {
+            return cleanUrl.replace(pathRegex, "/s0/")
+        }
+    } 
+    // Upgrade GitHub profile pictures to high resolution (s=512)
+    else if (cleanUrl.contains("avatars.githubusercontent.com")) {
+        return if (cleanUrl.contains("?")) {
+            if (cleanUrl.contains("s=")) {
+                cleanUrl.replace("s=\\d+".toRegex(), "s=512")
+            } else {
+                "$cleanUrl&s=512"
+            }
+        } else {
+            "$cleanUrl?s=512"
+        }
+    }
+    
+    return cleanUrl
 }
