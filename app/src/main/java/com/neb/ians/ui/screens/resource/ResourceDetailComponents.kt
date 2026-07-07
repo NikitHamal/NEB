@@ -31,6 +31,10 @@ import androidx.compose.material.icons.outlined.CloudUpload
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Description
 import androidx.compose.material.icons.outlined.Folder
+import androidx.compose.material.icons.outlined.Image
+import androidx.compose.material.icons.outlined.PlayCircle
+import androidx.compose.material.icons.outlined.Headphones
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.outlined.Public
 import androidx.compose.material.icons.outlined.Schedule
 import androidx.compose.material.icons.outlined.ThumbUp
@@ -63,7 +67,7 @@ import com.neb.ians.ui.components.NebAvatar
 import com.neb.ians.util.formatTimeAgo
 import com.neb.ians.util.getSubjectColor
 
-enum class ResourceMediaType { Pdf, Image, Other }
+enum class ResourceMediaType { Pdf, Image, Video, Audio, Other }
 
 fun detectResourceMedia(fileUrl: String, type: String): ResourceMediaType {
     val lowerUrl = fileUrl.lowercase()
@@ -71,6 +75,8 @@ fun detectResourceMedia(fileUrl: String, type: String): ResourceMediaType {
     return when {
         lowerType.contains("pdf") || lowerUrl.endsWith(".pdf") -> ResourceMediaType.Pdf
         lowerType.contains("image") || Regex("\\.(png|jpe?g|gif|webp|bmp)$", RegexOption.IGNORE_CASE).containsMatchIn(fileUrl) -> ResourceMediaType.Image
+        lowerType.contains("video") || Regex("\\.(mp4|mkv|avi|mov|webm|3gp|wmv|flv)$", RegexOption.IGNORE_CASE).containsMatchIn(fileUrl) -> ResourceMediaType.Video
+        lowerType.contains("audio") || Regex("\\.(mp3|wav|ogg|flac|aac|m4a|wma)$", RegexOption.IGNORE_CASE).containsMatchIn(fileUrl) -> ResourceMediaType.Audio
         else -> ResourceMediaType.Other
     }
 }
@@ -310,8 +316,15 @@ private fun ResourceFileCard(resource: ApiResource, onRead: () -> Unit, onDownlo
                         .background(MaterialTheme.colorScheme.surfaceContainerHighest),
                     contentAlignment = Alignment.Center
                 ) {
+                    val cardIcon = when (mediaType) {
+                        ResourceMediaType.Pdf -> Icons.Outlined.Description
+                        ResourceMediaType.Image -> Icons.Outlined.Image
+                        ResourceMediaType.Video -> Icons.Outlined.PlayCircle
+                        ResourceMediaType.Audio -> Icons.Outlined.Headphones
+                        else -> Icons.Outlined.Folder
+                    }
                     Icon(
-                        imageVector = if (mediaType == ResourceMediaType.Pdf) Icons.Outlined.Description else Icons.Outlined.Folder,
+                        imageVector = cardIcon,
                         contentDescription = null,
                         tint = MaterialTheme.colorScheme.onSurfaceVariant,
                         modifier = Modifier.size(25.dp)
@@ -349,9 +362,21 @@ private fun ResourceFileCard(resource: ApiResource, onRead: () -> Unit, onDownlo
                     shape = RoundedCornerShape(999.dp),
                     contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 14.dp, vertical = 10.dp)
                 ) {
-                    Icon(if (mediaType == ResourceMediaType.Pdf) Icons.Filled.MenuBook else Icons.Filled.OpenInNew, null, modifier = Modifier.size(17.dp))
+                    val buttonIcon = when (mediaType) {
+                        ResourceMediaType.Pdf -> Icons.Filled.MenuBook
+                        ResourceMediaType.Image -> Icons.Outlined.Image
+                        ResourceMediaType.Video, ResourceMediaType.Audio -> Icons.Outlined.PlayCircle
+                        else -> Icons.Filled.OpenInNew
+                    }
+                    val buttonText = when (mediaType) {
+                        ResourceMediaType.Pdf -> "Read"
+                        ResourceMediaType.Image -> "View"
+                        ResourceMediaType.Video, ResourceMediaType.Audio -> "Play"
+                        else -> "Open"
+                    }
+                    Icon(buttonIcon, null, modifier = Modifier.size(17.dp))
                     Spacer(Modifier.width(7.dp))
-                    Text(if (mediaType == ResourceMediaType.Pdf) "Read" else "Open", fontWeight = FontWeight.Bold)
+                    Text(buttonText, fontWeight = FontWeight.Bold)
                 }
                 Button(
                     onClick = onDownload,

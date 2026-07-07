@@ -181,10 +181,14 @@
           </div>
           <div class="upload-files-list" id="upload-files-list" style="display:none">
             <div class="upload-files-items" id="upload-files-items"></div>
-            <div class="upload-files-actions" style="margin-top: 12px; display: flex; justify-content: center; z-index: 4; position: relative;">
+            <div class="upload-files-actions" style="margin-top: 12px; display: flex; gap: 16px; justify-content: center; z-index: 4; position: relative;">
               <button type="button" class="md-btn md-btn-text" id="add-more-files-btn" style="font-size: 0.875rem;">
                 <span class="material-symbols-outlined" style="font-size: 18px;">add</span>
                 Add more files
+              </button>
+              <button type="button" class="md-btn md-btn-text" id="clear-all-files-btn" style="font-size: 0.875rem; color: var(--md-error, #b71c1c);">
+                <span class="material-symbols-outlined" style="font-size: 18px;">delete</span>
+                Clear all
               </button>
             </div>
           </div>
@@ -719,9 +723,47 @@
         var item = document.createElement('div');
         item.className = 'upload-file-item';
         
-        var icon = document.createElement('span');
-        icon.className = 'material-symbols-outlined upload-file-icon';
-        icon.textContent = 'description';
+        var previewContainer = document.createElement('div');
+        previewContainer.style.width = '36px';
+        previewContainer.style.height = '36px';
+        previewContainer.style.borderRadius = '8px';
+        previewContainer.style.overflow = 'hidden';
+        previewContainer.style.border = '1px solid var(--md-outline-variant)';
+        previewContainer.style.background = 'var(--md-surface-container-high)';
+        previewContainer.style.display = 'flex';
+        previewContainer.style.alignItems = 'center';
+        previewContainer.style.justifyContent = 'center';
+        previewContainer.style.flexShrink = '0';
+
+        var ext = file.name.split('.').pop().toLowerCase();
+        var isImage = ['png','jpg','jpeg','gif','webp','bmp'].indexOf(ext) >= 0;
+
+        if (isImage) {
+          var img = document.createElement('img');
+          img.style.width = '100%';
+          img.style.height = '100%';
+          img.style.objectFit = 'cover';
+          img.src = URL.createObjectURL(file);
+          img.onload = function() {
+            URL.revokeObjectURL(this.src);
+          };
+          previewContainer.appendChild(img);
+        } else {
+          var icon = document.createElement('span');
+          icon.className = 'material-symbols-outlined';
+          icon.style.fontSize = '22px';
+          icon.style.color = 'var(--md-primary)';
+          if (['mp4','mkv','avi','mov','webm','3gp','wmv','flv'].indexOf(ext) >= 0) {
+            icon.textContent = 'play_circle';
+          } else if (['mp3','wav','ogg','flac','aac','m4a','wma'].indexOf(ext) >= 0) {
+            icon.textContent = 'headphones';
+          } else if (ext === 'pdf') {
+            icon.textContent = 'picture_as_pdf';
+          } else {
+            icon.textContent = 'description';
+          }
+          previewContainer.appendChild(icon);
+        }
         
         var info = document.createElement('div');
         info.className = 'upload-file-info';
@@ -750,7 +792,7 @@
           removeFileAt(idx);
         });
         
-        item.appendChild(icon);
+        item.appendChild(previewContainer);
         item.appendChild(info);
         item.appendChild(removeBtn);
         
@@ -797,6 +839,15 @@
     e.stopPropagation();
     fileInput.click();
   });
+
+  var clearAllBtn = document.getElementById('clear-all-files-btn');
+  if (clearAllBtn) {
+    clearAllBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      clearAllFiles();
+    });
+  }
 
   dropzone.addEventListener('click', function(e) {
     if (selectedFiles.length > 0) return;
