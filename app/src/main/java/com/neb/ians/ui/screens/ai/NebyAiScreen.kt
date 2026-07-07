@@ -41,6 +41,11 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import android.content.Intent
+import android.net.Uri
+import coil.compose.AsyncImage
+import androidx.compose.material.icons.outlined.PlayCircle
+import androidx.compose.material.icons.outlined.Headphones
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedTextField
@@ -167,6 +172,7 @@ fun NebyAiScreen(
                     onValueChange = { input = it },
                     onAttach = { filePicker.launch("*/*") },
                     onRemoveFile = viewModel::removeFile,
+                    onClearFiles = viewModel::clearPendingFiles,
                     onSend = {
                         val message = input
                         input = ""
@@ -825,6 +831,7 @@ private fun ChatInput(
     onValueChange: (String) -> Unit,
     onAttach: () -> Unit,
     onRemoveFile: (PendingFile) -> Unit,
+    onClearFiles: () -> Unit,
     onSend: () -> Unit
 ) {
     Surface(color = MaterialTheme.colorScheme.surface, tonalElevation = 0.dp) {
@@ -833,12 +840,27 @@ private fun ChatInput(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .horizontalScroll(rememberScrollState())
                         .padding(horizontal = 12.dp, vertical = 4.dp),
-                    horizontalArrangement = Arrangement.spacedBy(6.dp)
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    pendingFiles.forEach { file ->
-                        PendingFileChip(file = file, onRemove = { onRemoveFile(file) })
+                    Row(
+                        modifier = Modifier
+                            .weight(1f)
+                            .horizontalScroll(rememberScrollState()),
+                        horizontalArrangement = Arrangement.spacedBy(6.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        pendingFiles.forEach { file ->
+                            PendingFileChip(file = file, onRemove = { onRemoveFile(file) })
+                        }
+                    }
+                    TextButton(
+                        onClick = onClearFiles,
+                        contentPadding = PaddingValues(horizontal = 8.dp, vertical = 2.dp),
+                        modifier = Modifier.align(Alignment.CenterVertically)
+                    ) {
+                        Text("Clear", style = MaterialTheme.typography.labelMedium)
                     }
                 }
             }
@@ -891,20 +913,55 @@ private fun PendingFileChip(
     file: PendingFile,
     onRemove: () -> Unit
 ) {
+    val context = LocalContext.current
+    val ext = file.name.substringAfterLast('.', "").lowercase()
+    val isImage = ext in listOf("png", "jpg", "jpeg", "webp", "gif", "bmp")
+
     Row(
         modifier = Modifier
             .clip(WebPillShape)
             .background(MaterialTheme.colorScheme.secondaryContainer)
-            .padding(start = 10.dp, end = 4.dp, top = 3.dp, bottom = 3.dp),
+            .clickable {
+                runCatching {
+                    val intent = Intent(Intent.ACTION_VIEW).apply {
+                        setDataAndType(file.uri, context.contentResolver.getType(file.uri) ?: "*/*")
+                        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                    }
+                    context.startActivity(Intent.createChooser(intent, "Open file"))
+                }
+            }
+            .padding(start = 8.dp, end = 4.dp, top = 3.dp, bottom = 3.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(4.dp)
     ) {
-        Icon(
-            imageVector = Icons.Outlined.Description,
-            contentDescription = null,
-            modifier = Modifier.size(14.dp),
-            tint = MaterialTheme.colorScheme.onSecondaryContainer
-        )
+        if (isImage) {
+            Box(
+                modifier = Modifier
+                    .size(16.dp)
+                    .clip(RoundedCornerShape(4.dp))
+                    .background(Color.LightGray)
+            ) {
+                AsyncImage(
+                    model = file.uri,
+                    contentDescription = null,
+                    modifier = Modifier.fillMaxSize(),
+                    contentScale = androidx.compose.ui.layout.ContentScale.Crop
+                )
+            }
+        } else {
+            val icon = when {
+                ext == "pdf" -> Icons.Outlined.Description
+                ext in listOf("mp4", "mkv", "avi", "mov", "webm", "3gp", "wmv", "flv") -> Icons.Outlined.PlayCircle
+                ext in listOf("mp3", "wav", "ogg", "flac", "aac", "m4a", "wma") -> Icons.Outlined.Headphones
+                else -> Icons.Outlined.Description
+            }
+            Icon(
+                imageVector = icon,
+                contentDescription = null,
+                modifier = Modifier.size(14.dp),
+                tint = MaterialTheme.colorScheme.onSecondaryContainer
+            )
+        }
         Text(
             text = file.name,
             style = MaterialTheme.typography.labelSmall,
