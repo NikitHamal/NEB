@@ -8,7 +8,7 @@ from . import services
 @throttle_classes([WriteActionRateThrottle])
 def posts_create(request):
     """POST /api/posts"""
-    user, err = _require_user(request)
+    user, err = _require_verified_user(request)
     if err:
         return err
 
@@ -188,7 +188,7 @@ def post_like(request, post_id):
 @throttle_classes([WriteActionRateThrottle])
 def replies_create(request, post_id):
     """POST /api/posts/<postId>/replies"""
-    user, err = _require_user(request)
+    user, err = _require_verified_user(request)
     if err:
         return err
 

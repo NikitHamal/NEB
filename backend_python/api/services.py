@@ -79,6 +79,8 @@ def toggle_reply_like(user, reply_id):
 
 
 def create_reply(user, post_id, content, parent_reply_id=None):
+    if not getattr(user, 'email_verified', False):
+        return None
     try:
         post = Post.objects.get(pk=post_id)
     except Post.DoesNotExist:
@@ -116,6 +118,8 @@ def create_reply(user, post_id, content, parent_reply_id=None):
 
 
 def create_post(user, title, content, category, image_urls=None, poll_data=None):
+    if not getattr(user, 'email_verified', False):
+        return None
     title = title.strip()
     content = content.strip()
     category = category.strip()
