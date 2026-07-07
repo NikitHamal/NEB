@@ -1,0 +1,103 @@
+{% extends "admin_panel/base.html" %}
+{% load web_extras %}
+
+{% block title %}Reports{% endblock %}
+
+{% block content %}
+<div class="admin-header-bar">
+  <div>
+    <h1 class="md-headline-medium">Reports</h1>
+    <p class="md-body-medium" style="color:var(--md-on-surface-variant);margin-top:4px;">Review detailed reports from Android and the website.</p>
+  </div>
+  <form method="get" style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+    <div class="search-bar" style="margin-bottom:0;">
+      <span class="material-symbols-outlined">search</span>
+      <input type="text" name="q" value="{{ search }}" placeholder="Search reports..." style="border:none;background:transparent;outline:none;color:var(--md-on-surface);font-family:var(--md-font);font-size:0.875rem;padding:8px 0;">
+    </div>
+    <select name="status" class="md-chip" style="border:1px solid var(--md-outline-variant);background:var(--md-surface);padding:8px 12px;">
+      <option value="">All statuses</option>
+      {% for value,label in status_choices %}
+      <option value="{{ value }}" {% if status_filter == value %}selected{% endif %}>{{ label }}</option>
+      {% endfor %}
+    </select>
+    <select name="type" class="md-chip" style="border:1px solid var(--md-outline-variant);background:var(--md-surface);padding:8px 12px;">
+      <option value="">All targets</option>
+      {% for value,label in type_choices %}
+      <option value="{{ value }}" {% if type_filter == value %}selected{% endif %}>{{ label }}</option>
+      {% endfor %}
+    </select>
+    <button type="submit" class="md-btn md-btn-filled" style="padding:8px 16px;">Filter</button>
+  </form>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:18px;">
+  <div class="md-card p-2"><div class="md-label-small">Open</div><strong>{{ counts.open }}</strong></div>
+  <div class="md-card p-2"><div class="md-label-small">Reviewing</div><strong>{{ counts.reviewing }}</strong></div>
+  <div class="md-card p-2"><div class="md-label-small">Resolved</div><strong>{{ counts.resolved }}</strong></div>
+  <div class="md-card p-2"><div class="md-label-small">Dismissed</div><strong>{{ counts.dismissed }}</strong></div>
+  <div class="md-card p-2"><div class="md-label-small">Total</div><strong>{{ counts.total }}</strong></div>
+</div>
+
+{% if reports %}
+<div class="md-table-responsive">
+  <table class="md-table">
+    <thead>
+      <tr>
+        <th>Report</th>
+        <th>Target</th>
+        <th>Reporter</th>
+        <th>Reason</th>
+        <th>Status</th>
+        <th>Created</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in reports %}
+      {% with r=row.report t=row.target %}
+      <tr>
+        <td style="max-width:220px;">
+          <a href="{% url 'web:admin_report_detail' report_id=r.id %}" style="font-weight:700;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ r.id }}</a>
+          {% if r.description %}<div class="md-body-small" style="color:var(--md-on-surface-variant);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:220px;">{{ r.description }}</div>{% endif %}
+        </td>
+        <td style="max-width:280px;">
+          <span class="md-chip" style="font-size:0.75rem;">{{ r.target_type }}</span>
+          {% if t.exists %}
+            <div style="font-weight:600;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ t.title }}</div>
+            {% if t.author_name %}<div class="md-body-small" style="color:var(--md-on-surface-variant);">by {{ t.author_name }}</div>{% endif %}
+          {% else %}
+            <div style="font-weight:600;margin-top:4px;color:var(--md-error);">Target missing</div>
+          {% endif %}
+        </td>
+        <td>{{ r.reporter.username|default:"Unknown" }}</td>
+        <td><span class="md-chip" style="font-size:0.75rem;">{{ r.reason }}</span></td>
+        <td><span class="md-chip" style="font-size:0.75rem;">{{ r.status }}</span></td>
+        <td style="font-size:0.75rem;">{{ r.created_at|time_ago }}</td>
+        <td><a href="{% url 'web:admin_report_detail' report_id=r.id %}" class="md-btn md-btn-text" style="padding:4px 8px;font-size:0.75rem;">Open</a></td>
+      </tr>
+      {% endwith %}
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% if page_obj.has_other_pages %}
+<div class="admin-pagination">
+  {% if page_obj.has_previous %}<a href="?page={{ page_obj.previous_page_number }}{% if search %}&q={{ search }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}{% if type_filter %}&type={{ type_filter }}{% endif %}" class="md-btn md-btn-text">&laquo; Previous</a>{% else %}<span class="disabled">&laquo; Previous</span>{% endif %}
+  {% for num in page_obj.paginator.page_range %}
+    {% if page_obj.number == num %}<span class="active">{{ num }}</span>{% else %}<a href="?page={{ num }}{% if search %}&q={{ search }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}{% if type_filter %}&type={{ type_filter }}{% endif %}">{{ num }}</a>{% endif %}
+  {% endfor %}
+  {% if page_obj.has_next %}<a href="?page={{ page_obj.next_page_number }}{% if search %}&q={{ search }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}{% if type_filter %}&type={{ type_filter }}{% endif %}" class="md-btn md-btn-text">Next &raquo;</a>{% else %}<span class="disabled">Next &raquo;</span>{% endif %}
+</div>
+{% endif %}
+<div class="admin-pagination-info">Showing {{ page_obj.start_index }}&ndash;{{ page_obj.end_index }} of {{ page_obj.paginator.count }}</div>
+{% else %}
+<div class="admin-empty">
+  <div class="admin-empty-icon-wrap" style="background: color-mix(in srgb, var(--md-primary) 12%, transparent); color: var(--md-primary); border-color: color-mix(in srgb, var(--md-primary) 25%, transparent);">
+    <span class="material-symbols-outlined">flag</span>
+  </div>
+  <h3>No reports found</h3>
+  <p>Reports from the app and website will appear here with reason, details, reporter, target, and context.</p>
+</div>
+{% endif %}
+{% endblock %}

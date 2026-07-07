@@ -1,6 +1,7 @@
 """Views Ajax extracted from views.py."""
 from .view_helpers import *  # noqa: F401,F403
 from api.view_helpers import _can_view_locked_profile
+from api.security import POST_IMAGE_MAX_COUNT
 
 @require_POST
 def ajax_like_post(request, post_id):
@@ -257,10 +258,10 @@ def ajax_report(request):
         data = json.loads(request.body)
     except json.JSONDecodeError:
         return JsonResponse({'error': 'Invalid request'}, status=400)
-    target_type = data.get('target_type', '').strip()
-    target_id = data.get('target_id', '').strip()
-    reason = data.get('reason', 'other').strip()
-    description = data.get('description', '').strip()
+    target_type = str(data.get('target_type', '') or '').strip()
+    target_id = str(data.get('target_id', '') or '').strip()
+    reason = str(data.get('reason', 'other') or 'other').strip()
+    description = str(data.get('description', '') or '').strip()
     valid_types = {'post', 'reply', 'user', 'resource'}
     if target_type not in valid_types:
         return JsonResponse({'error': 'Invalid target type'}, status=400)
@@ -268,6 +269,26 @@ def ajax_report(request):
         return JsonResponse({'error': 'target_id required'}, status=400)
     if reason not in dict(Report.REASON_CHOICES):
         return JsonResponse({'error': 'Invalid reason'}, status=400)
+
+    target_exists = {
+        'post': lambda pk: Post.objects.filter(pk=pk).exists(),
+        'reply': lambda pk: Reply.objects.filter(pk=pk).exists(),
+        'user': lambda pk: User.objects.filter(pk=pk).exists(),
+        'resource': lambda pk: Resource.objects.filter(pk=pk).exists(),
+    }[target_type](target_id)
+    if not target_exists:
+        return JsonResponse({'error': 'Reported target no longer exists'}, status=404)
+
+    detail_lines = []
+    if description:
+        detail_lines.append(description)
+    context_path = str(data.get('context_path', '') or request.META.get('HTTP_REFERER', '') or '').strip()
+    if context_path:
+        detail_lines.append(f'Context: {context_path[:300]}')
+    user_agent = str(request.META.get('HTTP_USER_AGENT', '') or '').strip()
+    if user_agent:
+        detail_lines.append(f'User-Agent: {user_agent[:300]}')
+    description = '\n\n'.join(detail_lines)
     if len(description) > 2000:
         return JsonResponse({'error': 'Description must be 2000 characters or fewer'}, status=400)
     report = Report.objects.create(
@@ -337,28 +358,57 @@ def ajax_edit_post(request, post_id):
         return JsonResponse({'error': 'Post not found'}, status=404)
     if post.user_id != user_id:
         return JsonResponse({'error': 'Forbidden'}, status=403)
+    if 'title' in data and len(str(data['title']).strip()) > 200:
+        return JsonResponse({'error': 'Title must be 200 characters or fewer'}, status=400)
+    if 'content' in data and len(str(data['content']).strip()) > 20000:
+        return JsonResponse({'error': 'Content must be 20000 characters or fewer'}, status=400)
+    image_urls = data.get('image_urls', data.get('images', None))
+    cleaned_image_urls = None
+    if image_urls is not None:
+        if not isinstance(image_urls, list):
+            return JsonResponse({'error': 'image_urls must be a list'}, status=400)
+        cleaned_image_urls = [str(url or '').strip() for url in image_urls if str(url or '').strip()]
+        if len(cleaned_image_urls) > POST_IMAGE_MAX_COUNT:
+            return JsonResponse({'error': f'Maximum {POST_IMAGE_MAX_COUNT} images per post'}, status=400)
+
     now = now_ms()
     if 'title' in data:
+        title = str(data['title']).strip()
         EditHistory.objects.create(
             id=uuid_str(), target_type='post', target_id=post.id,
-            field='title', old_value=post.title, new_value=data['title'].strip(),
+            field='title', old_value=post.title, new_value=title,
             edited_by_id=user_id, edited_at=now
         )
-        post.title = data['title'].strip()
+        post.title = title
     if 'content' in data:
+        content = str(data['content']).strip()
         EditHistory.objects.create(
             id=uuid_str(), target_type='post', target_id=post.id,
-            field='content', old_value=post.content, new_value=data['content'].strip(),
+            field='content', old_value=post.content, new_value=content,
             edited_by_id=user_id, edited_at=now
         )
-        post.content = data['content'].strip()
+        post.content = content
     if 'category' in data:
+        category = str(data['category']).strip()
         EditHistory.objects.create(
             id=uuid_str(), target_type='post', target_id=post.id,
-            field='category', old_value=post.category, new_value=data['category'].strip(),
+            field='category', old_value=post.category, new_value=category,
             edited_by_id=user_id, edited_at=now
         )
-        post.category = data['category'].strip()
+        post.category = category
+    if cleaned_image_urls is not None:
+        old_urls = list(PostImage.objects.filter(post=post).order_by('order', 'created_at').values_list('image_url', flat=True))
+        if old_urls != cleaned_image_urls:
+            EditHistory.objects.create(
+                id=uuid_str(), target_type='post', target_id=post.id,
+                field='images', old_value='\n'.join(old_urls), new_value='\n'.join(cleaned_image_urls),
+                edited_by_id=user_id, edited_at=now
+            )
+            PostImage.objects.filter(post=post).delete()
+            for order, url in enumerate(cleaned_image_urls):
+                PostImage.objects.create(
+                    id=uuid_str(), post=post, image_url=url, order=order, created_at=now
+                )
     post.is_edited = True
     post.edited_at = now
     post.save()
@@ -366,6 +416,7 @@ def ajax_edit_post(request, post_id):
     _rt.broadcast_post_updated(post.id, {
         'title': post.title, 'content': post.content, 'category': post.category,
         'is_edited': True, 'edited_at': now,
+        'images': _serialize_post_images(post.id),
     })
     return JsonResponse(_serialize_post(post, user_id))
 

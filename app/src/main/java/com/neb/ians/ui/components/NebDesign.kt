@@ -308,21 +308,32 @@ fun NebAvatar(
 @Composable
 fun NebBadge(badge: ApiBadgeInfo?, modifier: Modifier = Modifier) {
     if (badge == null) return
-    val (_, fg, icon, drawableRes) = badgeStyle(badge)
-    if (drawableRes != null) {
-        Icon(
-            painter = painterResource(id = drawableRes),
-            contentDescription = badge.label,
-            tint = fg,
-            modifier = modifier.size(20.dp)
-        )
-    } else if (icon != null) {
-        Icon(
-            imageVector = icon,
-            contentDescription = badge.label,
-            tint = fg,
-            modifier = modifier.size(20.dp)
-        )
+    val (bg, fg, icon, drawableRes) = badgeStyle(badge)
+    val badgeSize = 20.dp
+    val iconSize = 14.dp
+
+    Surface(
+        modifier = modifier.size(badgeSize),
+        shape = CircleShape,
+        color = bg,
+        contentColor = fg
+    ) {
+        Box(contentAlignment = Alignment.Center) {
+            when {
+                drawableRes != null -> Icon(
+                    painter = painterResource(id = drawableRes),
+                    contentDescription = badge.label,
+                    tint = fg,
+                    modifier = Modifier.size(iconSize)
+                )
+                icon != null -> Icon(
+                    imageVector = icon,
+                    contentDescription = badge.label,
+                    tint = fg,
+                    modifier = Modifier.size(iconSize)
+                )
+            }
+        }
     }
 }
 

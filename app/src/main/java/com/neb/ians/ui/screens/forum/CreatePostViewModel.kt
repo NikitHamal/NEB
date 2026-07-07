@@ -38,6 +38,12 @@ data class PollOptionDraft(
     val isCorrect: Boolean = false
 )
 
+data class ExistingPostImageDraft(
+    val id: String,
+    val imageUrl: String,
+    val order: Int = 0
+)
+
 data class CreatePostUiState(
     val title: String = "",
     val content: TextFieldValue = TextFieldValue(""),
@@ -46,9 +52,15 @@ data class CreatePostUiState(
     val isCustomCategory: Boolean = false,
     val showPreview: Boolean = false,
     val images: List<Uri> = emptyList(),
+    val existingImages: List<ExistingPostImageDraft> = emptyList(),
+    val removedExistingImageIds: Set<String> = emptySet(),
     val isSubmitting: Boolean = false,
+    val isLoadingPost: Boolean = false,
+    val isEditMode: Boolean = false,
+    val editingPostId: String? = null,
     val error: String? = null,
-    // Poll builder
+    // Poll builder. Existing polls are intentionally not edited here because
+    // votes and answer state need server-side migration/validation semantics.
     val pollEnabled: Boolean = false,
     val pollType: String = "voting", // "voting" | "mcq"
     val pollQuestion: String = "",
@@ -61,6 +73,15 @@ data class CreatePostUiState(
 ) {
     val effectiveCategory: String
         get() = if (isCustomCategory) customCategory.trim() else selectedCategory
+
+    val visibleExistingImages: List<ExistingPostImageDraft>
+        get() = existingImages.filterNot { it.id in removedExistingImageIds }.sortedBy { it.order }
+
+    val activeImageCount: Int
+        get() = visibleExistingImages.size + images.size
+
+    val remainingExistingImageUrls: List<String>
+        get() = visibleExistingImages.map { it.imageUrl }
 
     companion object {
         const val OTHER_CATEGORY = "Other..."
@@ -88,6 +109,56 @@ class CreatePostViewModel @Inject constructor(
     val uiState: StateFlow<CreatePostUiState> = _uiState.asStateFlow()
 
     private var mentionJob: Job? = null
+    private var loadedEditPostId: String? = null
+
+    fun loadForEdit(postId: String) {
+        if (loadedEditPostId == postId && _uiState.value.editingPostId == postId) return
+        loadedEditPostId = postId
+        _uiState.update {
+            it.copy(
+                isEditMode = true,
+                editingPostId = postId,
+                isLoadingPost = true,
+                isSubmitting = false,
+                error = null
+            )
+        }
+        viewModelScope.launch {
+            forumRepository.getPost(postId)
+                .onSuccess { post ->
+                    val knownCategory = post.category in CreatePostUiState.CATEGORIES
+                    _uiState.update {
+                        it.copy(
+                            title = post.title,
+                            content = TextFieldValue(post.content),
+                            selectedCategory = if (knownCategory) post.category else "General",
+                            customCategory = if (knownCategory) "" else post.category,
+                            isCustomCategory = !knownCategory,
+                            images = emptyList(),
+                            existingImages = post.images.map { image ->
+                                ExistingPostImageDraft(
+                                    id = image.id,
+                                    imageUrl = image.imageUrl,
+                                    order = image.order
+                                )
+                            },
+                            removedExistingImageIds = emptySet(),
+                            pollEnabled = false,
+                            isLoadingPost = false,
+                            error = null
+                        )
+                    }
+                }
+                .onFailure { e ->
+                    _uiState.update {
+                        it.copy(
+                            isLoadingPost = false,
+                            error = e.message ?: "Couldn't load post for editing"
+                        )
+                    }
+                }
+        }
+    }
 
     fun onTitleChange(title: String) {
         if (title.length <= MAX_POST_TITLE) _uiState.update { it.copy(title = title) }
@@ -112,7 +183,6 @@ class CreatePostViewModel @Inject constructor(
             delay(300)
             forumRepository.searchUsers(query)
                 .onSuccess { users ->
-                    // Only show if the query is still active at the cursor.
                     if (mentionQueryAt(_uiState.value.content) == query) {
                         _uiState.update { it.copy(mentionSuggestions = users.take(8)) }
                     }
@@ -153,7 +223,7 @@ class CreatePostViewModel @Inject constructor(
     fun addImage(uri: Uri?) {
         if (uri == null) return
         val state = _uiState.value
-        if (state.images.size >= MAX_POST_IMAGES) {
+        if (state.activeImageCount >= MAX_POST_IMAGES) {
             _uiState.update { it.copy(error = "Maximum $MAX_POST_IMAGES images per post") }
             return
         }
@@ -167,6 +237,10 @@ class CreatePostViewModel @Inject constructor(
 
     fun removeImage(uri: Uri) {
         _uiState.update { it.copy(images = it.images - uri) }
+    }
+
+    fun removeExistingImage(imageId: String) {
+        _uiState.update { it.copy(removedExistingImageIds = it.removedExistingImageIds + imageId) }
     }
 
     private fun imageSizeBytes(uri: Uri): Long? {
@@ -249,7 +323,7 @@ class CreatePostViewModel @Inject constructor(
         }
 
         var pollCreate: ApiPollCreate? = null
-        if (state.pollEnabled) {
+        if (!state.isEditMode && state.pollEnabled) {
             val options = state.pollOptions.filter { it.text.isNotBlank() }
             if (options.size < 2) {
                 _uiState.update { it.copy(error = "Poll needs at least 2 options") }
@@ -278,46 +352,36 @@ class CreatePostViewModel @Inject constructor(
         viewModelScope.launch {
             _uiState.update { it.copy(isSubmitting = true, error = null) }
 
-            // Upload images first (max 3, 10MB each).
-            val imageUrls = mutableListOf<String>()
+            val imageUrls = state.remainingExistingImageUrls.toMutableList()
             for ((index, uri) in state.images.withIndex()) {
-                val bytes = withContext(Dispatchers.IO) {
-                    try {
-                        appContext.contentResolver.openInputStream(uri)?.use { it.readBytes() }
-                    } catch (_: Exception) {
-                        null
-                    }
-                }
-                if (bytes == null) {
-                    _uiState.update { it.copy(isSubmitting = false, error = "Couldn't read image ${index + 1}") }
-                    return@launch
-                }
-                if (bytes.size > MAX_IMAGE_BYTES) {
-                    _uiState.update { it.copy(isSubmitting = false, error = "Image ${index + 1} is too large (max 10MB)") }
-                    return@launch
-                }
-                val mime = appContext.contentResolver.getType(uri) ?: "image/*"
-                val extension = when (mime) {
-                    "image/png" -> "png"
-                    "image/webp" -> "webp"
-                    "image/gif" -> "gif"
-                    else -> "jpg"
-                }
-                val part = MultipartBody.Part.createFormData(
-                    "image",
-                    "image_$index.$extension",
-                    bytes.toRequestBody(mime.toMediaType())
-                )
-                val result = forumRepository.uploadPostImage(part)
+                val result = uploadImage(uri, index)
                 val url = result.getOrNull()
                 if (url == null) {
-                    _uiState.update { it.copy(isSubmitting = false, error = "Image upload failed") }
+                    _uiState.update {
+                        it.copy(
+                            isSubmitting = false,
+                            error = result.exceptionOrNull()?.message ?: "Image upload failed"
+                        )
+                    }
                     return@launch
                 }
                 imageUrls.add(url)
             }
 
-            val result = if (pollCreate != null || imageUrls.isNotEmpty()) {
+            val result = if (state.isEditMode) {
+                val postId = state.editingPostId
+                if (postId.isNullOrBlank()) {
+                    Result.failure(IllegalStateException("Missing post id"))
+                } else {
+                    forumRepository.updatePost(
+                        postId = postId,
+                        title = title,
+                        content = content,
+                        category = category,
+                        imageUrls = imageUrls
+                    )
+                }
+            } else if (pollCreate != null || imageUrls.isNotEmpty()) {
                 forumRepository.createPostWeb(
                     WebPostCreateRequest(
                         title = title,
@@ -335,9 +399,36 @@ class CreatePostViewModel @Inject constructor(
                 _uiState.update { it.copy(isSubmitting = false) }
                 onSuccess()
             }.onFailure { e ->
-                _uiState.update { it.copy(isSubmitting = false, error = e.message ?: "Failed to post") }
+                _uiState.update { it.copy(isSubmitting = false, error = e.message ?: "Failed to save post") }
             }
         }
+    }
+
+    private suspend fun uploadImage(uri: Uri, index: Int): Result<String> {
+        val bytes = withContext(Dispatchers.IO) {
+            try {
+                appContext.contentResolver.openInputStream(uri)?.use { it.readBytes() }
+            } catch (_: Exception) {
+                null
+            }
+        } ?: return Result.failure(IllegalStateException("Couldn't read image ${index + 1}"))
+
+        if (bytes.size > MAX_IMAGE_BYTES) {
+            return Result.failure(IllegalStateException("Image ${index + 1} is too large (max 10MB)"))
+        }
+        val mime = appContext.contentResolver.getType(uri) ?: "image/*"
+        val extension = when (mime) {
+            "image/png" -> "png"
+            "image/webp" -> "webp"
+            "image/gif" -> "gif"
+            else -> "jpg"
+        }
+        val part = MultipartBody.Part.createFormData(
+            "image",
+            "image_$index.$extension",
+            bytes.toRequestBody(mime.toMediaType())
+        )
+        return forumRepository.uploadPostImage(part)
     }
 
     fun clearError() {
