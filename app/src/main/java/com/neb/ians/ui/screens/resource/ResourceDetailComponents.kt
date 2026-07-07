@@ -52,7 +52,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -262,8 +261,7 @@ private fun ResourceMetaItem(icon: ImageVector?, text: String, highlight: Color?
             text = text,
             style = MaterialTheme.typography.labelMedium,
             color = color,
-            fontWeight = if (highlight != null) FontWeight.SemiBold else FontWeight.Medium,
-            textDecoration = if (onClick != null) TextDecoration.Underline else null
+            fontWeight = if (highlight != null) FontWeight.SemiBold else FontWeight.Medium
         )
     }
 }
