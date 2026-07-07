@@ -258,7 +258,7 @@ def user_private_analytics(request):
             if cleaned:
                 subject_counter[cleaned] += 1
 
-    summaries_count = study_docs.filter(Q(summary_compact__gt='') | Q(summary_detailed__gt='') | Q(summary__gt='')).count()
+    summaries_count = study_docs.filter(Q(summary_compact__gt='') | Q(summary_detailed__gt='')).count()
     mindmaps_count = study_docs.exclude(mindmap_json='').count()
 
     suggestions = []
