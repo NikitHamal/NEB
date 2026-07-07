@@ -91,7 +91,8 @@ fun LoginScreen(
             .fillMaxSize()
             .background(cardColor)
             .statusBarsPadding()
-            .navigationBarsPadding(),
+            .navigationBarsPadding()
+            .imePadding(),
         contentAlignment = Alignment.TopCenter
     ) {
         Column(
@@ -305,6 +306,7 @@ fun LoginScreen(
                     modifier = Modifier
                         .weight(1f)
                         .height(48.dp),
+                    contentPadding = PaddingValues(horizontal = 8.dp),
                     shape = RoundedCornerShape(10.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = if (isDark) Color(0xFF1C1C20) else Color(0xFFFFFFFF),
@@ -337,6 +339,7 @@ fun LoginScreen(
                     modifier = Modifier
                         .weight(1f)
                         .height(48.dp),
+                    contentPadding = PaddingValues(horizontal = 8.dp),
                     shape = RoundedCornerShape(10.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = if (isDark) Color(0xFF1C1C20) else Color(0xFFFFFFFF),
@@ -365,9 +368,9 @@ fun LoginScreen(
             Spacer(modifier = Modifier.height(28.dp))
 
             // Footer (Register link)
-            Row(
+            androidx.compose.foundation.layout.FlowRow(
                 horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically,
+                verticalArrangement = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(

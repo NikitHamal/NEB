@@ -108,6 +108,7 @@ fun CompleteProfileScreen(
                 .fillMaxSize()
                 .padding(paddingValues)
                 .padding(horizontal = 16.dp)
+                .imePadding()
                 .verticalScroll(scrollState)
         ) {
             if (!uiState.isEditing) {
