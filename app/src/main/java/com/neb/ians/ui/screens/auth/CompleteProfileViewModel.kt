@@ -68,9 +68,10 @@ class CompleteProfileViewModel @Inject constructor(
                 if (cached.username.isNotEmpty()) {
                     cachedUsername = cached.username
                 }
+                val isCompleted = authRepository.isProfileCompletedFlow.first()
                 _uiState.update { state ->
                     state.copy(
-                        isEditing = cached.username.isNotEmpty(),
+                        isEditing = isCompleted,
                         username = cached.username,
                         displayName = cached.displayName ?: "",
                         email = cached.email ?: "",
@@ -89,6 +90,9 @@ class CompleteProfileViewModel @Inject constructor(
                         bannerUrl = cached.bannerUrl ?: "",
                         isLocked = cached.isLocked
                     )
+                }
+                if (cached.username.isNotEmpty()) {
+                    _usernameQuery.value = cached.username
                 }
             }
         }
@@ -116,7 +120,7 @@ class CompleteProfileViewModel @Inject constructor(
                     }
                     if (query == cachedUsername) {
                         _uiState.update { it.copy(
-                            usernameAvailable = null,
+                            usernameAvailable = true,
                             usernameError = null,
                             isCheckingUsername = false
                         )}

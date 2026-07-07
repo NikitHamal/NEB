@@ -210,7 +210,7 @@ class AuthRepository @Inject constructor(
             prefs[USER_BIO] = user.bio ?: ""
             if (isNewUser) {
                 prefs[PROFILE_COMPLETED] = false
-                prefs[USER_NAME] = ""
+                prefs[USER_NAME] = user.username
             } else {
                 prefs[PROFILE_COMPLETED] = true
                 prefs[USER_NAME] = user.username
