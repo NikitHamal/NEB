@@ -10,20 +10,25 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RenameIndex(
-            model_name='announcement',
-            new_name='announcemen_status_03b481_idx',
-            old_name='ann_stat_pub_idx',
-        ),
-        migrations.RenameIndex(
-            model_name='announcement',
-            new_name='announcemen_categor_1b56b5_idx',
-            old_name='ann_cat_stat_idx',
-        ),
-        migrations.RenameIndex(
-            model_name='announcement',
-            new_name='announcemen_is_pinn_05ad76_idx',
-            old_name='ann_pin_pub_idx',
+        migrations.SeparateDatabaseAndState(
+            state_operations=[
+                migrations.RenameIndex(
+                    model_name='announcement',
+                    new_name='announcemen_status_03b481_idx',
+                    old_name='ann_stat_pub_idx',
+                ),
+                migrations.RenameIndex(
+                    model_name='announcement',
+                    new_name='announcemen_categor_1b56b5_idx',
+                    old_name='ann_cat_stat_idx',
+                ),
+                migrations.RenameIndex(
+                    model_name='announcement',
+                    new_name='announcemen_is_pinn_05ad76_idx',
+                    old_name='ann_pin_pub_idx',
+                ),
+            ],
+            database_operations=[],
         ),
         migrations.AlterField(
             model_name='arenachatsession',
