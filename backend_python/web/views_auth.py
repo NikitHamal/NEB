@@ -202,6 +202,7 @@ def google_oauth_callback(request):
         email=email,
         display_name=display_name,
         photo_url=photo_url,
+        email_verified=True,
         created_at=now_ms()
     )
     db_user.auth_token = hash_auth_token(auth_token)
@@ -341,6 +342,7 @@ def github_callback(request):
         email=email,
         display_name=display_name,
         photo_url=photo_url,
+        email_verified=True,
         created_at=now_ms(),
     )
     db_user.auth_token = hash_auth_token(auth_token)
