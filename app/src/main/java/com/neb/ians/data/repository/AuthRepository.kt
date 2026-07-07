@@ -368,9 +368,9 @@ class AuthRepository @Inject constructor(
         }
     }
 
-    suspend fun completeProfile(profile: com.neb.ians.data.api.UserProfileRequest): Boolean {
+    suspend fun completeProfile(profile: com.neb.ians.data.api.UserProfileRequest): String? {
         return try {
-            val bearer = getBearerToken() ?: return false
+            val bearer = getBearerToken() ?: return "Not authenticated"
             val response = withContext(Dispatchers.IO) {
                 apiService.updateProfile(bearer, profile)
             }
@@ -399,8 +399,10 @@ class AuthRepository @Inject constructor(
                     prefs[USER_HAS_PASSWORD] = user.hasPassword
                 }
             }
-            true
-        } catch (_: Exception) { false }
+            null
+        } catch (e: Exception) {
+            ApiErrorMapper.mapException(e)
+        }
     }
 
     suspend fun uploadProfilePhoto(filePart: okhttp3.MultipartBody.Part): String? {

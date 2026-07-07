@@ -147,26 +147,6 @@
         </div>
         {% endif %}
 
-        <div class="form-group">
-          <label class="md-label" for="banner_url">Banner Image URL</label>
-          <input type="url" id="banner_url" name="banner_url" class="md-input" value="{{ user_detail.banner_url|default:'' }}" placeholder="https://example.com/banner.jpg">
-          {% if user_detail.banner_url %}
-          <div style="margin-top:8px;">
-            <img src="{{ user_detail.banner_url }}" alt="banner preview" style="width:100%; max-width:340px; aspect-ratio:11/2.8; border-radius:8px; object-fit:cover; border:1px solid var(--md-outline-variant);" data-fallback="none">
-          </div>
-          {% endif %}
-          <div class="md-body-small" style="color:var(--md-on-surface-variant);margin-top:4px;">
-            Wide banner, 1500x380 or larger recommended. Submit empty to fall back to the default role-based banner.
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label class="md-label" for="banner_upload">Or upload a banner file</label>
-          <input type="file" id="banner_upload" name="banner_upload" class="md-input" accept="image/png,image/jpeg,image/webp">
-          <div class="md-body-small" style="color:var(--md-on-surface-variant);margin-top:4px;">
-            Wide banner, 11:2.8 aspect ratio. Max 10 MB. Accepted: PNG, JPG, WEBP.
-          </div>
-        </div>
       </div>
 
       <div class="admin-badge-section">
