@@ -86,6 +86,10 @@
       <span class="material-symbols-outlined">forum</span>
       Forum Posts
     </a>
+    <a href="{% url 'web:admin_reports' %}" class="{% if active_page == 'reports' %}active{% endif %}">
+      <span class="material-symbols-outlined">flag</span>
+      Reports
+    </a>
     <a href="{% url 'web:admin_announcements' %}" class="{% if active_page == 'announcements' %}active{% endif %}">
       <span class="material-symbols-outlined">newspaper</span>
       News &amp; Announcements
@@ -173,6 +177,10 @@
       <a href="{% url 'web:admin_posts' %}" class="{% if active_page == 'posts' %}active{% endif %}">
         <span class="material-symbols-outlined">forum</span>
         Forum Posts
+      </a>
+      <a href="{% url 'web:admin_reports' %}" class="{% if active_page == 'reports' %}active{% endif %}">
+        <span class="material-symbols-outlined">flag</span>
+        Reports
       </a>
       <a href="{% url 'web:admin_announcements' %}" class="{% if active_page == 'announcements' %}active{% endif %}">
         <span class="material-symbols-outlined">newspaper</span>

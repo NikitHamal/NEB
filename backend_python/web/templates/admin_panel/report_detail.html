@@ -1,0 +1,76 @@
+{% extends "admin_panel/base.html" %}
+{% load web_extras %}
+
+{% block title %}Report Detail{% endblock %}
+
+{% block content %}
+<div class="admin-back-link">
+  <a href="{% url 'web:admin_reports' %}" class="md-btn md-btn-text" style="padding-left:0;">
+    <span class="material-symbols-outlined" style="font-size:18px;">arrow_back</span>
+    Back to Reports
+  </a>
+</div>
+
+<div class="md-card-elevated p-3 mb-3">
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+    <div>
+      <h1 class="md-headline-small" style="margin:0 0 6px;">Report {{ report.id }}</h1>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <span class="md-chip">{{ report.status }}</span>
+        <span class="md-chip">{{ report.reason }}</span>
+        <span class="md-chip">{{ report.target_type }}</span>
+      </div>
+    </div>
+    <form method="post" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+      {% csrf_token %}
+      <select name="status" class="md-chip" style="border:1px solid var(--md-outline-variant);background:var(--md-surface);padding:8px 12px;">
+        {% for value,label in status_choices %}
+        <option value="{{ value }}" {% if report.status == value %}selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+      </select>
+      <button type="submit" class="md-btn md-btn-filled">Update status</button>
+    </form>
+  </div>
+</div>
+
+<div style="display:grid;grid-template-columns:minmax(0,1.4fr) minmax(280px,.8fr);gap:16px;">
+  <div class="md-card-elevated p-3">
+    <h2 class="md-title-large" style="margin-bottom:12px;">Reported target</h2>
+    {% if target.exists %}
+      <div style="font-weight:700;font-size:1.05rem;margin-bottom:6px;">{{ target.title }}</div>
+      {% if target.author_name %}<div class="md-body-small" style="color:var(--md-on-surface-variant);margin-bottom:12px;">Author: {{ target.author_name }}</div>{% endif %}
+      {% if target.summary %}<div class="md-body-medium md-content" style="white-space:pre-wrap;margin:12px 0;">{{ target.summary }}</div>{% endif %}
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;">
+        {% if target.admin_url %}<a href="{{ target.admin_url }}" class="md-btn md-btn-filled-tonal">Open in admin</a>{% endif %}
+        {% if target.public_url %}<a href="{{ target.public_url }}" class="md-btn md-btn-text" target="_blank" rel="noopener">Open public page</a>{% endif %}
+      </div>
+    {% else %}
+      <div class="admin-empty" style="padding:24px;">
+        <span class="material-symbols-outlined">error_outline</span>
+        <h3>Target missing</h3>
+        <p>The reported {{ report.target_type }} with id {{ report.target_id }} no longer exists.</p>
+      </div>
+    {% endif %}
+  </div>
+
+  <aside class="md-card-elevated p-3">
+    <h2 class="md-title-medium" style="margin-bottom:12px;">Report metadata</h2>
+    <div style="display:grid;gap:10px;">
+      <div><strong>Reporter</strong><br>{{ report.reporter.username|default:"Unknown" }}</div>
+      <div><strong>Target ID</strong><br><code>{{ report.target_id }}</code></div>
+      <div><strong>Created</strong><br>{{ report.created_at|time_ago }}</div>
+      {% if report.resolved_at %}<div><strong>Resolved</strong><br>{{ report.resolved_at|time_ago }}</div>{% endif %}
+      {% if report.resolved_by %}<div><strong>Resolved by</strong><br>{{ report.resolved_by.username }}</div>{% endif %}
+    </div>
+  </aside>
+</div>
+
+<div class="md-card-elevated p-3 mt-3">
+  <h2 class="md-title-large" style="margin-bottom:12px;">Report details</h2>
+  {% if report.description %}
+    <pre style="white-space:pre-wrap;font-family:var(--md-font);background:var(--md-surface-container-low);border:1px solid var(--md-outline-variant);border-radius:12px;padding:14px;margin:0;">{{ report.description }}</pre>
+  {% else %}
+    <p class="md-body-medium" style="color:var(--md-on-surface-variant);">No extra description was provided.</p>
+  {% endif %}
+</div>
+{% endblock %}

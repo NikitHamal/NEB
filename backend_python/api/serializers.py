@@ -454,15 +454,111 @@ class BookmarkSerializer(serializers.ModelSerializer):
 
 class ReportSerializer(serializers.ModelSerializer):
     reporter_username = serializers.CharField(source='reporter.username', read_only=True, allow_null=True)
+    reporter_display_name = serializers.CharField(source='reporter.display_name', read_only=True, allow_null=True)
+    reporter_photo_url = serializers.CharField(source='reporter.photo_url', read_only=True, allow_null=True)
+    target_summary = serializers.SerializerMethodField()
+    target_author_username = serializers.SerializerMethodField()
+    target_author_id = serializers.SerializerMethodField()
+    target_url = serializers.SerializerMethodField()
+    target_exists = serializers.SerializerMethodField()
 
     class Meta:
         model = Report
         fields = [
-            'id', 'reporter', 'reporter_username', 'target_type', 'target_id',
-            'reason', 'description', 'status', 'created_at', 'resolved_at',
+            'id', 'reporter', 'reporter_username', 'reporter_display_name', 'reporter_photo_url',
+            'target_type', 'target_id', 'target_summary', 'target_author_username', 'target_author_id',
+            'target_url', 'target_exists', 'reason', 'description', 'status', 'created_at', 'resolved_at',
             'resolved_by',
         ]
-        read_only_fields = ['id', 'reporter', 'status', 'created_at', 'resolved_at', 'resolved_by']
+        read_only_fields = [
+            'id', 'reporter', 'status', 'created_at', 'resolved_at', 'resolved_by',
+            'reporter_username', 'reporter_display_name', 'reporter_photo_url', 'target_summary',
+            'target_author_username', 'target_author_id', 'target_url', 'target_exists',
+        ]
+
+    def _target_obj(self, obj):
+        cache_attr = '_report_target_cache'
+        if hasattr(obj, cache_attr):
+            return getattr(obj, cache_attr)
+        target = None
+        try:
+            if obj.target_type == 'post':
+                target = Post.objects.select_related('user').get(pk=obj.target_id)
+            elif obj.target_type == 'reply':
+                target = Reply.objects.select_related('user', 'post').get(pk=obj.target_id)
+            elif obj.target_type == 'resource':
+                target = Resource.objects.select_related('uploaded_by').get(pk=obj.target_id)
+            elif obj.target_type == 'user':
+                target = User.objects.get(pk=obj.target_id)
+        except (Post.DoesNotExist, Reply.DoesNotExist, Resource.DoesNotExist, User.DoesNotExist):
+            target = None
+        setattr(obj, cache_attr, target)
+        return target
+
+    @staticmethod
+    def _truncate(value, limit=240):
+        value = (value or '').strip()
+        if len(value) <= limit:
+            return value
+        return value[: limit - 1].rstrip() + '…'
+
+    def get_target_exists(self, obj):
+        return self._target_obj(obj) is not None
+
+    def get_target_summary(self, obj):
+        target = self._target_obj(obj)
+        if target is None:
+            return ''
+        if obj.target_type == 'post':
+            return self._truncate(f'{target.title}\n\n{target.content}')
+        if obj.target_type == 'reply':
+            post_title = getattr(target.post, 'title', '') if getattr(target, 'post', None) else ''
+            return self._truncate(f'Reply on: {post_title}\n\n{target.content}')
+        if obj.target_type == 'resource':
+            return self._truncate(f'{target.title}\n\n{target.description}')
+        if obj.target_type == 'user':
+            return self._truncate(target.display_name or target.username)
+        return ''
+
+    def get_target_author_username(self, obj):
+        target = self._target_obj(obj)
+        if target is None:
+            return None
+        if obj.target_type in ('post', 'reply'):
+            return target.user.username if getattr(target, 'user', None) else None
+        if obj.target_type == 'resource':
+            if getattr(target, 'uploaded_by', None):
+                return target.uploaded_by.username
+            return target.author_name or None
+        if obj.target_type == 'user':
+            return target.username
+        return None
+
+    def get_target_author_id(self, obj):
+        target = self._target_obj(obj)
+        if target is None:
+            return None
+        if obj.target_type in ('post', 'reply'):
+            return str(target.user_id) if getattr(target, 'user_id', None) else None
+        if obj.target_type == 'resource':
+            return str(target.uploaded_by_id) if getattr(target, 'uploaded_by_id', None) else None
+        if obj.target_type == 'user':
+            return str(target.id)
+        return None
+
+    def get_target_url(self, obj):
+        target = self._target_obj(obj)
+        if target is None:
+            return ''
+        if obj.target_type == 'post':
+            return f'/forum/post/{target.id}/'
+        if obj.target_type == 'reply':
+            return f'/forum/post/{target.post_id}/#reply-{target.id}'
+        if obj.target_type == 'resource':
+            return f'/reader/{target.id}/'
+        if obj.target_type == 'user':
+            return f'/profile/{target.username}/'
+        return ''
 
 
 class NotificationSerializer(serializers.ModelSerializer):

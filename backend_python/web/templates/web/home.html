@@ -382,15 +382,7 @@
       closeAllMenus();
       var targetType = el.dataset.targetType;
       var targetId = el.dataset.targetId;
-      fetch('/ajax/report/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
-        credentials: 'same-origin',
-        body: JSON.stringify({ target_type: targetType, target_id: targetId, reason: 'other', description: '' })
-      }).then(r => {
-        if (r.ok) showSnackbar('Report submitted. Thank you!');
-        else r.json().then(d => showSnackbar(d.error || 'Failed to submit report')).catch(() => showSnackbar('Failed to submit report'));
-      }).catch(() => showSnackbar('Failed to submit report'));
+      if (window.openReportDialog) window.openReportDialog(targetType, targetId);
     },
     'edit-post-card': function (el, e) {
       if (e) e.stopPropagation();

@@ -124,10 +124,16 @@ class ForumRepository @Inject constructor(
         }
     }
 
-    suspend fun updatePost(postId: String, title: String? = null, content: String? = null, category: String? = null): Result<ApiPost> {
+    suspend fun updatePost(
+        postId: String,
+        title: String? = null,
+        content: String? = null,
+        category: String? = null,
+        imageUrls: List<String>? = null
+    ): Result<ApiPost> {
         return try {
             val token = getBearerToken() ?: return Result.failure(IllegalStateException("Not authenticated"))
-            val post = apiService.updatePost(token, postId, PostUpdateRequest(title, content, category))
+            val post = apiService.updatePost(token, postId, PostUpdateRequest(title, content, category, imageUrls))
             Result.success(post)
         } catch (e: Exception) {
             Result.failure(e)
@@ -194,7 +200,16 @@ class ForumRepository @Inject constructor(
     ): Result<Unit> {
         return try {
             val token = getBearerToken() ?: return Result.failure(IllegalStateException("Not authenticated"))
-            apiService.createReport(token, ReportRequest(targetType, targetId, reason, description?.takeIf { it.isNotBlank() }))
+            apiService.createReport(
+                token,
+                ReportRequest(
+                    targetType = targetType,
+                    targetId = targetId,
+                    reason = reason,
+                    description = description?.takeIf { it.isNotBlank() },
+                    contextPath = "$targetType/$targetId"
+                )
+            )
             Result.success(Unit)
         } catch (e: Exception) {
             Result.failure(e)

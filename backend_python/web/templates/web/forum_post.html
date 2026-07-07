@@ -1410,17 +1410,8 @@ function shareReply(replyId) {
 }
 
 // ---- Report ----
-async function reportContent(targetType, targetId) {
-  try {
-    const r = await fetch('/ajax/report/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
-      credentials: 'same-origin',
-      body: JSON.stringify({ target_type: targetType, target_id: targetId, reason: 'other', description: '' })
-    });
-    if (r.ok) showSnackbar('Report submitted. Thank you!');
-    else { const d = await r.json().catch(() => ({})); showSnackbar(d.error || 'Failed to submit report'); }
-  } catch(e) { showSnackbar('Failed to submit report'); }
+function reportContent(targetType, targetId) {
+  if (window.openReportDialog) window.openReportDialog(targetType, targetId);
 }
 
 // ---- Archive reply ----

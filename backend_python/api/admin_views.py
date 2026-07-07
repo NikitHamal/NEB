@@ -448,5 +448,14 @@ def admin_report_detail(request, report_id):
         report.status = new_status
         if new_status in ('resolved', 'dismissed'):
             report.resolved_at = int(time.time() * 1000)
+            django_user = _django_user_from_request(request)
+            if getattr(django_user, 'is_authenticated', False):
+                try:
+                    report.resolved_by = User.objects.get(username=django_user.username)
+                except User.DoesNotExist:
+                    report.resolved_by = None
+        elif new_status in ('open', 'reviewing'):
+            report.resolved_at = 0
+            report.resolved_by = None
     report.save()
     return Response(ReportSerializer(report).data)

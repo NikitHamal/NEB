@@ -164,6 +164,9 @@ sealed class Screen(val route: String) {
         fun createRoute(postId: String) = "forum/post/$postId"
     }
     data object CreatePost : Screen("forum/create")
+    data object EditPost : Screen("forum/edit/{postId}") {
+        fun createRoute(postId: String) = "forum/edit/${java.net.URLEncoder.encode(postId, "UTF-8")}"
+    }
     data object Reply : Screen("forum/reply/{postId}/{replyToId}") {
         fun createRoute(postId: String, replyToId: String? = null) = "forum/reply/$postId/${replyToId ?: "none"}"
     }
@@ -648,6 +651,9 @@ fun NEBiansNavHost(
                     onReplyClick = { replyToId ->
                         navController.navigate(Screen.Reply.createRoute(postId, replyToId))
                     },
+                    onEditPostClick = { editPostId ->
+                        navController.navigate(Screen.EditPost.createRoute(editPostId))
+                    },
                     onProfileClick = { userId ->
                         navController.navigate(Screen.Profile.createRoute(userId))
                     }
@@ -655,6 +661,17 @@ fun NEBiansNavHost(
             }
             composable(Screen.CreatePost.route) {
                 CreatePostScreen(
+                    onNavigateBack = { navController.popBackStack() },
+                    onPostCreated = { navController.popBackStack() }
+                )
+            }
+            composable(
+                route = Screen.EditPost.route,
+                arguments = listOf(navArgument("postId") { type = NavType.StringType })
+            ) { backStackEntry ->
+                val editPostId = backStackEntry.arguments?.getString("postId") ?: return@composable
+                CreatePostScreen(
+                    postId = editPostId,
                     onNavigateBack = { navController.popBackStack() },
                     onPostCreated = { navController.popBackStack() }
                 )

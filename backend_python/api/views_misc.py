@@ -224,10 +224,10 @@ def report_create(request):
     if err:
         return err
 
-    target_type = request.data.get('target_type', '').strip()
-    target_id = request.data.get('target_id', '').strip()
-    reason = request.data.get('reason', 'other').strip()
-    description = request.data.get('description', '').strip()
+    target_type = str(request.data.get('target_type', '') or '').strip()
+    target_id = str(request.data.get('target_id', '') or '').strip()
+    reason = str(request.data.get('reason', 'other') or 'other').strip()
+    description = str(request.data.get('description', '') or '').strip()
 
     valid_types = {'post', 'reply', 'user', 'resource'}
     if target_type not in valid_types:
@@ -236,6 +236,29 @@ def report_create(request):
         return Response({'error': 'target_id is required'}, status=400)
     if reason not in dict(Report.REASON_CHOICES):
         return Response({'error': 'Invalid reason'}, status=400)
+
+    target_exists = {
+        'post': lambda pk: Post.objects.filter(pk=pk).exists(),
+        'reply': lambda pk: Reply.objects.filter(pk=pk).exists(),
+        'user': lambda pk: User.objects.filter(pk=pk).exists(),
+        'resource': lambda pk: Resource.objects.filter(pk=pk).exists(),
+    }[target_type](target_id)
+    if not target_exists:
+        return Response({'error': 'Reported target no longer exists'}, status=404)
+
+    detail_lines = []
+    if description:
+        detail_lines.append(description)
+    context_path = str(request.data.get('context_path', '') or request.data.get('screen', '') or '').strip()
+    app_version = str(request.data.get('app_version', '') or '').strip()
+    platform = str(request.data.get('platform', '') or 'android').strip()
+    if context_path:
+        detail_lines.append(f'Context: {context_path[:300]}')
+    if platform:
+        detail_lines.append(f'Platform: {platform[:80]}')
+    if app_version:
+        detail_lines.append(f'App version: {app_version[:80]}')
+    description = '\n\n'.join(detail_lines)
 
     err = _validate_text_length(description, MAX_REPORT_DESCRIPTION_LENGTH, 'Description')
     if err:

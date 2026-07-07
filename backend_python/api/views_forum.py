@@ -73,35 +73,63 @@ def post_detail(request, post_id):
             return Response({'error': 'Forbidden'}, status=403)
         data = request.data
         if 'title' in data:
-            err = _validate_text_length(data['title'].strip(), MAX_POST_TITLE_LENGTH, 'Title')
+            err = _validate_text_length(str(data['title']).strip(), MAX_POST_TITLE_LENGTH, 'Title')
             if err:
                 return err
         if 'content' in data:
-            err = _validate_text_length(data['content'].strip(), MAX_POST_CONTENT_LENGTH, 'Content')
+            err = _validate_text_length(str(data['content']).strip(), MAX_POST_CONTENT_LENGTH, 'Content')
             if err:
                 return err
+        image_urls = data.get('image_urls', data.get('images', None))
+        cleaned_image_urls = None
+        if image_urls is not None:
+            if not isinstance(image_urls, list):
+                return Response({'error': 'image_urls must be a list'}, status=400)
+            cleaned_image_urls = []
+            for raw_url in image_urls:
+                url = str(raw_url or '').strip()
+                if url:
+                    cleaned_image_urls.append(url)
+            if len(cleaned_image_urls) > POST_IMAGE_MAX_COUNT:
+                return Response({'error': f'Maximum {POST_IMAGE_MAX_COUNT} images per post'}, status=400)
         now = _now_ms()
         if 'title' in data:
+            title = str(data['title']).strip()
             EditHistory.objects.create(
                 id=str(uuid.uuid4()), target_type='post', target_id=post.id,
-                field='title', old_value=post.title, new_value=data['title'].strip(),
+                field='title', old_value=post.title, new_value=title,
                 edited_by=user, edited_at=now
             )
-            post.title = data['title'].strip()
+            post.title = title
         if 'content' in data:
+            content = str(data['content']).strip()
             EditHistory.objects.create(
                 id=str(uuid.uuid4()), target_type='post', target_id=post.id,
-                field='content', old_value=post.content, new_value=data['content'].strip(),
+                field='content', old_value=post.content, new_value=content,
                 edited_by=user, edited_at=now
             )
-            post.content = data['content'].strip()
+            post.content = content
         if 'category' in data:
+            category = str(data['category']).strip()
             EditHistory.objects.create(
                 id=str(uuid.uuid4()), target_type='post', target_id=post.id,
-                field='category', old_value=post.category, new_value=data['category'].strip(),
+                field='category', old_value=post.category, new_value=category,
                 edited_by=user, edited_at=now
             )
-            post.category = data['category'].strip()
+            post.category = category
+        if cleaned_image_urls is not None:
+            old_urls = list(PostImage.objects.filter(post=post).order_by('order', 'created_at').values_list('image_url', flat=True))
+            if old_urls != cleaned_image_urls:
+                EditHistory.objects.create(
+                    id=str(uuid.uuid4()), target_type='post', target_id=post.id,
+                    field='images', old_value='\n'.join(old_urls), new_value='\n'.join(cleaned_image_urls),
+                    edited_by=user, edited_at=now
+                )
+                PostImage.objects.filter(post=post).delete()
+                for order, url in enumerate(cleaned_image_urls):
+                    PostImage.objects.create(
+                        id=str(uuid.uuid4()), post=post, image_url=url, order=order, created_at=now
+                    )
         post.is_edited = True
         post.edited_at = now
         post.save()

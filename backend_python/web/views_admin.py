@@ -897,6 +897,152 @@ def admin_resource_delete(request, resource_id):
         pass
     return redirect('web:admin_resources')
 
+def _admin_report_target_context(report):
+    target = None
+    target_url = ''
+    admin_url = ''
+    public_url = ''
+    author_name = ''
+    author_id = ''
+    summary = ''
+    title = ''
+    exists = True
+    try:
+        if report.target_type == 'post':
+            target = Post.objects.select_related('user').get(pk=report.target_id)
+            title = target.title
+            summary = target.content
+            author_name = target.user.username if target.user else ''
+            author_id = str(target.user_id or '')
+            target_url = reverse('web:admin_post_detail', kwargs={'post_id': target.id})
+            admin_url = target_url
+            public_url = reverse('web:forum_post', kwargs={'post_id': target.id})
+        elif report.target_type == 'reply':
+            target = Reply.objects.select_related('user', 'post').get(pk=report.target_id)
+            title = 'Reply on ' + (target.post.title if target.post else 'forum post')
+            summary = target.content
+            author_name = target.user.username if target.user else ''
+            author_id = str(target.user_id or '')
+            target_url = reverse('web:admin_post_detail', kwargs={'post_id': target.post_id})
+            admin_url = target_url
+            public_url = reverse('web:forum_post', kwargs={'post_id': target.post_id}) + '#reply-' + target.id
+        elif report.target_type == 'resource':
+            target = Resource.objects.select_related('uploaded_by').get(pk=report.target_id)
+            title = target.title
+            summary = target.description
+            author_name = target.uploaded_by.username if target.uploaded_by else (target.author_name or '')
+            author_id = str(target.uploaded_by_id or '')
+            target_url = reverse('web:admin_resource_edit', kwargs={'resource_id': target.id})
+            admin_url = target_url
+            public_url = reverse('web:reader', kwargs={'resource_id': target.id})
+        elif report.target_type == 'user':
+            target = User.objects.get(pk=report.target_id)
+            title = target.display_name or target.username
+            summary = target.bio
+            author_name = target.username
+            author_id = str(target.id)
+            target_url = reverse('web:admin_user_detail', kwargs={'user_id': target.id})
+            admin_url = target_url
+            public_url = reverse('web:profile', kwargs={'username': target.username})
+    except Exception:
+        exists = False
+    return {
+        'exists': exists,
+        'title': title or report.target_id,
+        'summary': (summary or '')[:500],
+        'author_name': author_name,
+        'author_id': author_id,
+        'target_url': target_url,
+        'admin_url': admin_url,
+        'public_url': public_url,
+    }
+
+
+def admin_reports(request):
+    redirect_response = _require_staff_admin(request)
+    if redirect_response:
+        return redirect_response
+
+    status_filter = request.GET.get('status', '').strip()
+    type_filter = request.GET.get('type', '').strip()
+    search = request.GET.get('q', '').strip()
+    qs = Report.objects.select_related('reporter', 'resolved_by').all().order_by('-created_at')
+    if status_filter:
+        qs = qs.filter(status=status_filter)
+    if type_filter:
+        qs = qs.filter(target_type=type_filter)
+    if search:
+        qs = qs.filter(
+            Q(id__icontains=search) |
+            Q(target_id__icontains=search) |
+            Q(description__icontains=search) |
+            Q(reporter__username__icontains=search)
+        )
+    counts = {
+        'open': Report.objects.filter(status='open').count(),
+        'reviewing': Report.objects.filter(status='reviewing').count(),
+        'resolved': Report.objects.filter(status='resolved').count(),
+        'dismissed': Report.objects.filter(status='dismissed').count(),
+        'total': Report.objects.count(),
+    }
+    paginator = Paginator(qs, 30)
+    page_obj = paginator.get_page(request.GET.get('page'))
+    reports = []
+    for report in page_obj:
+        reports.append({
+            'report': report,
+            'target': _admin_report_target_context(report),
+        })
+    return render(request, 'admin_panel/reports.html', {
+        'is_admin': True,
+        'active_page': 'reports',
+        'reports': reports,
+        'page_obj': page_obj,
+        'status_filter': status_filter,
+        'type_filter': type_filter,
+        'search': search,
+        'counts': counts,
+        'status_choices': Report.STATUS_CHOICES,
+        'type_choices': [('post', 'Post'), ('reply', 'Reply'), ('resource', 'Resource'), ('user', 'User')],
+    })
+
+
+def admin_report_detail(request, report_id):
+    redirect_response = _require_staff_admin(request)
+    if redirect_response:
+        return redirect_response
+    try:
+        report = Report.objects.select_related('reporter', 'resolved_by').get(pk=report_id)
+    except Report.DoesNotExist:
+        return redirect('web:admin_reports')
+
+    if request.method == 'POST':
+        status = request.POST.get('status', '').strip()
+        if status in dict(Report.STATUS_CHOICES):
+            report.status = status
+            if status in ('resolved', 'dismissed'):
+                report.resolved_at = now_ms()
+                admin_user = None
+                if hasattr(request, 'user') and request.user.is_authenticated:
+                    try:
+                        admin_user = User.objects.get(username=request.user.username)
+                    except User.DoesNotExist:
+                        admin_user = None
+                report.resolved_by = admin_user
+            elif status in ('open', 'reviewing'):
+                report.resolved_at = 0
+                report.resolved_by = None
+            report.save()
+        return redirect('web:admin_report_detail', report_id=report.id)
+
+    return render(request, 'admin_panel/report_detail.html', {
+        'is_admin': True,
+        'active_page': 'reports',
+        'report': report,
+        'target': _admin_report_target_context(report),
+        'status_choices': Report.STATUS_CHOICES,
+    })
+
 def admin_posts(request):
     redirect_response = _require_staff_admin(request)
     if redirect_response:

@@ -163,7 +163,8 @@ data class UploadImageResponse(
 data class PostUpdateRequest(
     val title: String? = null,
     val content: String? = null,
-    val category: String? = null
+    val category: String? = null,
+    @SerialName("image_urls") val imageUrls: List<String>? = null
 )
 
 @Serializable
@@ -191,7 +192,9 @@ data class ReportRequest(
     @SerialName("target_type") val targetType: String,
     @SerialName("target_id") val targetId: String,
     val reason: String,
-    val description: String? = null
+    val description: String? = null,
+    @SerialName("context_path") val contextPath: String? = null,
+    val platform: String = "android"
 )
 
 @Serializable

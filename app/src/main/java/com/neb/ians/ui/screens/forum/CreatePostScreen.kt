@@ -46,6 +46,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -64,6 +65,7 @@ import com.neb.ians.ui.components.MarkdownText
 import com.neb.ians.ui.components.MarkdownToolbar
 import com.neb.ians.ui.components.MentionSuggestions
 import com.neb.ians.ui.components.MentionsVisualTransformation
+import com.neb.ians.ui.components.resolveMediaUrl
 import com.neb.ians.ui.components.WebPillShape
 
 
@@ -72,9 +74,11 @@ import com.neb.ians.ui.components.WebPillShape
 fun CreatePostScreen(
     onNavigateBack: () -> Unit,
     onPostCreated: () -> Unit,
+    postId: String? = null,
     viewModel: CreatePostViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val isEditing = postId != null || uiState.isEditMode
     var categoryExpanded by remember { mutableStateOf(false) }
     var durationExpanded by remember { mutableStateOf(false) }
 
@@ -82,10 +86,14 @@ fun CreatePostScreen(
         contract = ActivityResultContracts.GetContent()
     ) { uri -> viewModel.addImage(uri) }
 
+    LaunchedEffect(postId) {
+        if (postId != null) viewModel.loadForEdit(postId)
+    }
+
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("New Discussion") },
+                title = { Text(if (isEditing) "Edit Discussion" else "New Discussion") },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
@@ -98,14 +106,24 @@ fun CreatePostScreen(
         },
         containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
     ) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-                .verticalScroll(rememberScrollState())
-                .padding(horizontal = 16.dp, vertical = 8.dp),
-            verticalArrangement = Arrangement.spacedBy(14.dp)
-        ) {
+        if (uiState.isLoadingPost) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator()
+            }
+        } else {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues)
+                    .verticalScroll(rememberScrollState())
+                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                verticalArrangement = Arrangement.spacedBy(14.dp)
+            ) {
             // ----- Title -----
             OutlinedTextField(
                 value = uiState.title,
@@ -234,13 +252,42 @@ fun CreatePostScreen(
                         modifier = Modifier.weight(1f)
                     )
                     Text(
-                        text = "${uiState.images.size}/$MAX_POST_IMAGES",
+                        text = "${uiState.activeImageCount}/$MAX_POST_IMAGES",
                         style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
                 Spacer(modifier = Modifier.height(8.dp))
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    uiState.visibleExistingImages.forEach { image ->
+                        Box {
+                            AsyncImage(
+                                model = resolveMediaUrl(image.imageUrl),
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .size(80.dp)
+                                    .clip(RoundedCornerShape(8.dp)),
+                                contentScale = ContentScale.Crop
+                            )
+                            Box(
+                                modifier = Modifier
+                                    .align(Alignment.TopEnd)
+                                    .padding(3.dp)
+                                    .size(20.dp)
+                                    .clip(CircleShape)
+                                    .background(Color.Black.copy(alpha = 0.6f))
+                                    .clickable { viewModel.removeExistingImage(image.id) },
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Filled.Close,
+                                    contentDescription = "Remove image",
+                                    modifier = Modifier.size(13.dp),
+                                    tint = Color.White
+                                )
+                            }
+                        }
+                    }
                     uiState.images.forEach { uri ->
                         Box {
                             AsyncImage(
@@ -270,7 +317,7 @@ fun CreatePostScreen(
                             }
                         }
                     }
-                    if (uiState.images.size < MAX_POST_IMAGES) {
+                    if (uiState.activeImageCount < MAX_POST_IMAGES) {
                         Box(
                             modifier = Modifier
                                 .size(80.dp)
@@ -297,13 +344,14 @@ fun CreatePostScreen(
             }
 
             // ----- Poll builder -----
-            Surface(
-                modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(12.dp),
-                color = MaterialTheme.colorScheme.surfaceContainerLow,
-                border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
-            ) {
-                Column(modifier = Modifier.padding(12.dp)) {
+            if (!isEditing) {
+                Surface(
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(12.dp),
+                    color = MaterialTheme.colorScheme.surfaceContainerLow,
+                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
+                ) {
+                    Column(modifier = Modifier.padding(12.dp)) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Icon(
                             imageVector = Icons.Outlined.Poll,
@@ -466,6 +514,7 @@ fun CreatePostScreen(
                     }
                 }
             }
+            }
 
             // ----- Error -----
             uiState.error?.let { error ->
@@ -485,7 +534,7 @@ fun CreatePostScreen(
                 shape = RoundedCornerShape(50),
                 enabled = uiState.title.isNotBlank() && uiState.content.text.isNotBlank() &&
                     (!uiState.isCustomCategory || uiState.customCategory.isNotBlank()) &&
-                    !uiState.isSubmitting
+                    !uiState.isSubmitting && !uiState.isLoadingPost
             ) {
                 if (uiState.isSubmitting) {
                     CircularProgressIndicator(
@@ -495,9 +544,10 @@ fun CreatePostScreen(
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                 }
-                Text(if (uiState.isSubmitting) "Posting..." else "Post Discussion")
+                Text(if (uiState.isSubmitting) { if (isEditing) "Saving..." else "Posting..." } else { if (isEditing) "Save Changes" else "Post Discussion" })
             }
             Spacer(modifier = Modifier.height(16.dp))
+            }
         }
     }
 }
