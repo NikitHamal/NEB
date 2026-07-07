@@ -13,6 +13,9 @@ import androidx.compose.material.icons.outlined.DarkMode
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Lock
+import androidx.compose.material.icons.outlined.Description
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Settings
@@ -291,12 +294,66 @@ fun SettingsScreen(
 
             SettingsSectionLabel(label = "About")
 
+            val appVersionName = remember(context) {
+                runCatching {
+                    context.packageManager.getPackageInfo(context.packageName, 0).versionName
+                }.getOrNull() ?: "1.0.5"
+            }
+
             ListItem(
                 headlineContent = { Text("Version", style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium) },
-                supportingContent = { Text("1.0.0", style = MaterialTheme.typography.bodySmall) },
+                supportingContent = { Text(appVersionName, style = MaterialTheme.typography.bodySmall) },
                 leadingContent = {
                     Icon(
                         imageVector = Icons.Outlined.Info,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.size(22.dp)
+                    )
+                },
+                colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest)
+            )
+
+            HorizontalDivider(
+                modifier = Modifier.padding(horizontal = 16.dp),
+                color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
+            )
+
+            ListItem(
+                modifier = Modifier.clickable {
+                    runCatching {
+                        context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://nebians.consica.com.np/privacy/")))
+                    }
+                },
+                headlineContent = { Text("Privacy Policy", style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium) },
+                supportingContent = { Text("How we protect your data", style = MaterialTheme.typography.bodySmall) },
+                leadingContent = {
+                    Icon(
+                        imageVector = Icons.Outlined.Lock,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.size(22.dp)
+                    )
+                },
+                colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest)
+            )
+
+            HorizontalDivider(
+                modifier = Modifier.padding(horizontal = 16.dp),
+                color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
+            )
+
+            ListItem(
+                modifier = Modifier.clickable {
+                    runCatching {
+                        context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://nebians.consica.com.np/terms/")))
+                    }
+                },
+                headlineContent = { Text("Terms of Service", style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium) },
+                supportingContent = { Text("Rules and guidelines for usage", style = MaterialTheme.typography.bodySmall) },
+                leadingContent = {
+                    Icon(
+                        imageVector = Icons.Outlined.Description,
                         contentDescription = null,
                         tint = MaterialTheme.colorScheme.onSurfaceVariant,
                         modifier = Modifier.size(22.dp)
