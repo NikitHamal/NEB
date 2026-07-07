@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -19,7 +18,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowUpward
 import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.filled.MenuBook
@@ -44,8 +42,6 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -62,6 +58,7 @@ import com.neb.ians.data.api.ApiResource
 import com.neb.ians.data.api.ApiResourceComment
 import com.neb.ians.ui.components.ExpandableText
 import com.neb.ians.ui.components.NebAvatar
+import com.neb.ians.ui.components.NebCommentComposerBar
 import com.neb.ians.util.formatTimeAgo
 import com.neb.ians.util.getSubjectColor
 
@@ -481,61 +478,16 @@ fun ResourceCommentComposerBar(
     onDraftChange: (String) -> Unit,
     onPost: () -> Unit
 ) {
-    Surface(
-        modifier = Modifier.fillMaxWidth(),
-        color = MaterialTheme.colorScheme.surface.copy(alpha = 0.98f),
-        tonalElevation = 3.dp,
-        shadowElevation = 10.dp
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 14.dp, vertical = 9.dp)
-                .navigationBarsPadding(),
-            verticalAlignment = Alignment.Bottom,
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            OutlinedTextField(
-                value = draft,
-                onValueChange = onDraftChange,
-                enabled = isAuthenticated && !posting,
-                placeholder = { Text(if (isAuthenticated) "Write a comment..." else "Sign in to comment") },
-                modifier = Modifier.weight(1f),
-                maxLines = 4,
-                textStyle = MaterialTheme.typography.bodyMedium,
-                shape = RoundedCornerShape(24.dp),
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedContainerColor = Color.Transparent,
-                    unfocusedContainerColor = Color.Transparent,
-                    disabledContainerColor = Color.Transparent,
-                    focusedBorderColor = MaterialTheme.colorScheme.primary,
-                    unfocusedBorderColor = MaterialTheme.colorScheme.outlineVariant,
-                    disabledBorderColor = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.55f)
-                )
-            )
-            IconButton(
-                onClick = onPost,
-                enabled = isAuthenticated && draft.isNotBlank() && !posting,
-                modifier = Modifier
-                    .size(48.dp)
-                    .clip(CircleShape)
-                    .background(
-                        if (isAuthenticated && draft.isNotBlank() && !posting) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceVariant,
-                        CircleShape
-                    )
-            ) {
-                if (posting) {
-                    CircularProgressIndicator(modifier = Modifier.size(20.dp), strokeWidth = 2.dp, color = MaterialTheme.colorScheme.onPrimary)
-                } else {
-                    Icon(
-                        Icons.Filled.ArrowUpward,
-                        contentDescription = "Post comment",
-                        tint = if (isAuthenticated && draft.isNotBlank()) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.45f)
-                    )
-                }
-            }
-        }
-    }
+    NebCommentComposerBar(
+        value = draft,
+        onValueChange = onDraftChange,
+        placeholder = if (isAuthenticated) "Write a comment..." else "Sign in to comment",
+        enabled = isAuthenticated && !posting,
+        canSend = isAuthenticated && draft.isNotBlank() && !posting,
+        posting = posting,
+        sendContentDescription = "Post comment",
+        onSend = onPost
+    )
 }
 
 private fun fileSizeHuman(bytes: Long): String {
