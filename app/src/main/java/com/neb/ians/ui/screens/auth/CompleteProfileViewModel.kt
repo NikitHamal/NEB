@@ -87,7 +87,7 @@ class CompleteProfileViewModel @Inject constructor(
                         school = cached.school ?: "",
                         photoUrl = cached.photoUrl ?: "",
                         bannerUrl = cached.bannerUrl ?: "",
-                        isLocked = cached.isLocked == 1
+                        isLocked = cached.isLocked
                     )
                 }
             }
