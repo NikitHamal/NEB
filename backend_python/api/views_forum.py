@@ -327,7 +327,7 @@ def posts_endpoint(request):
       page     — page number for pagination (endpoint is always paginated)
     """
     if request.method == 'GET':
-        posts = Post.objects.select_related('user').filter(is_archived=False)
+        posts = Post.objects.select_related('user').filter(is_archived=False, user__email_verified=True)
 
         username = request.query_params.get('username')
         category = request.query_params.get('category')
@@ -425,7 +425,7 @@ def replies_endpoint(request, post_id):
     POST /api/posts/<postId>/replies  → create reply
     """
     if request.method == 'GET':
-        replies = Reply.objects.filter(post_id=post_id).select_related('user')
+        replies = Reply.objects.filter(post_id=post_id, user__email_verified=True).select_related('user')
         return _paginated_response(request, replies, ReplySerializer, context={'request': request})
 
     # POST — create reply

@@ -154,7 +154,7 @@ def sitemap_entries() -> Iterator[Dict[str, str]]:
         }
 
     users = (User.objects
-             .filter(is_locked=False, is_bot=False)
+             .filter(is_locked=False, is_bot=False, email_verified=True)
              .order_by('-contribution_score', '-follower_count', '-created_at')[:_MAX_PROFILES])
     for user in users:
         if not has_public_profile_signal(user):

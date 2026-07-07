@@ -143,7 +143,7 @@ def sync_users(queryset=None):
     if not client:
         return 0
     from api.models import User
-    qs = queryset if queryset is not None else User.objects.filter(is_locked=False)
+    qs = queryset if queryset is not None else User.objects.filter(is_locked=False, email_verified=True)
     docs = [_serialize_user(u) for u in qs.iterator()]
     if not docs:
         return 0

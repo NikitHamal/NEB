@@ -589,7 +589,7 @@ def ajax_user_search(request):
     if len(q) < 2:
         return JsonResponse([], safe=False)
     users = User.objects.filter(
-        username__icontains=q
+        username__icontains=q, is_locked=False, email_verified=True
     ).values('id', 'username', 'display_name', 'photo_url')[:8]
     results = []
     for u in users:

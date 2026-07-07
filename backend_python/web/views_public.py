@@ -335,7 +335,7 @@ def search(request):
                 meili_users = search_users(query, limit=30)
                 if meili_users is not None:
                     u_ids = [h['id'] for h in meili_users]
-                    user_qs = User.objects.filter(pk__in=u_ids)
+                    user_qs = User.objects.filter(pk__in=u_ids, email_verified=True)
                     user_results_list = _serialize_users_search(list(user_qs), user_id)
                     hit_map = {h['id']: h.get('_formatted', {}) for h in meili_users}
                     for item in user_results_list:
@@ -472,7 +472,7 @@ def ajax_instant_search(request):
             meili_users = search_users(query, limit=10)
             if meili_users is not None:
                 u_ids = [h['id'] for h in meili_users]
-                for u in User.objects.filter(pk__in=u_ids):
+                for u in User.objects.filter(pk__in=u_ids, email_verified=True):
                     users.append({'id': u.id, 'username': u.username, 'displayName': u.display_name or u.username, 'photoUrl': u.photo_url, 'url': f'/profile/{u.username}/'})
     if not use_meili:
         import re
@@ -1500,7 +1500,7 @@ def sitemap_xml(request):
         })
 
     users = (User.objects
-             .filter(is_locked=False, is_bot=False)
+             .filter(is_locked=False, is_bot=False, email_verified=True)
              .exclude(username='')
              .order_by('-contribution_score', 'username')[:500])
     for u in users:
