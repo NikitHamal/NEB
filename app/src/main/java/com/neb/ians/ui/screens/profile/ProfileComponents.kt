@@ -252,8 +252,11 @@ fun ProfileHeaderCard(
     }
 
     Surface(
-        modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(8.dp)),
-        shape = RoundedCornerShape(8.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 16.dp)
+            .clip(RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)),
+        shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp),
         color = MaterialTheme.colorScheme.surfaceContainerLowest,
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
     ) {
