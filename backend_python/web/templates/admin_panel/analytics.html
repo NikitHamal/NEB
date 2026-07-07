@@ -1,0 +1,382 @@
+{% extends "admin_panel/base.html" %}
+{% load static web_extras %}
+
+{% block title %}Analytics{% endblock %}
+
+{% block content %}
+<h1 class="md-headline-medium mb-3">Analytics &amp; Insights</h1>
+
+{% if not has_data %}
+<div class="md-card-elevated" style="padding:40px;text-align:center;margin-bottom:24px;">
+  <span class="material-symbols-outlined" style="font-size:64px;color:var(--md-on-surface-variant);opacity:0.4;margin-bottom:16px;">insights</span>
+  <h2 class="md-title-large" style="margin:0 0 8px;">No data yet</h2>
+  <p class="md-body-medium" style="color:var(--md-on-surface-variant);max-width:480px;margin:0 auto;">
+    Page view tracking was just enabled. Data will appear here as visitors browse the site.
+  </p>
+</div>
+{% endif %}
+
+{% if has_data %}
+<!-- ── Today's Snapshot ── -->
+<h2 class="md-title-medium mb-2"><span class="material-symbols-outlined" style="font-size:20px;vertical-align:middle;margin-right:4px;">today</span> Today</h2>
+<div class="stats-grid mb-3">
+  <div class="md-card-elevated stat-card">
+    <div class="stat-icon" style="background:var(--md-primary-container);color:var(--md-on-primary-container);">
+      <span class="material-symbols-outlined">visibility</span>
+    </div>
+    <div class="stat-value">{{ today_visits }}</div>
+    <div class="stat-label">Visits</div>
+    <div class="stat-trend" style="{% if visit_delta > 0 %}color:var(--md-tertiary);{% elif visit_delta < 0 %}color:var(--md-error);{% endif %}">
+      {% if visit_delta > 0 %}+{% endif %}{{ visit_delta }} vs yesterday
+    </div>
+  </div>
+  <div class="md-card-elevated stat-card">
+    <div class="stat-icon" style="background:#E8DEF8;color:#4F378B;">
+      <span class="material-symbols-outlined">person</span>
+    </div>
+    <div class="stat-value">{{ today_unique }}</div>
+    <div class="stat-label">Unique Visitors</div>
+    <div class="stat-trend">{{ today_new_users }} new users</div>
+  </div>
+  <div class="md-card-elevated stat-card">
+    <div class="stat-icon" style="background:#D0EFFF;color:#006A6B;">
+      <span class="material-symbols-outlined">group_add</span>
+    </div>
+    <div class="stat-value">{{ today_users_active }}</div>
+    <div class="stat-label">Active Users</div>
+    <div class="stat-trend">{{ total_users }} total users</div>
+  </div>
+  <div class="md-card-elevated stat-card">
+    <div class="stat-icon" style="background:#FFDDB3;color:#7A5900;">
+      <span class="material-symbols-outlined">language</span>
+    </div>
+    <div class="stat-value">{{ today_web }}</div>
+    <div class="stat-label">Web Visits</div>
+    <div class="stat-trend">{{ total_pageviews }} all time</div>
+  </div>
+  <div class="md-card-elevated stat-card">
+    <div class="stat-icon" style="background:#CFF0E5;color:#006B55;">
+      <span class="material-symbols-outlined">phone_android</span>
+    </div>
+    <div class="stat-value">{{ today_app }}</div>
+    <div class="stat-label">App Visits</div>
+    <div class="stat-trend">{% if today_app > 0 %}{% widthratio today_app today_visits 100 %}% of traffic{% else %}—{% endif %}</div>
+  </div>
+  <div class="md-card-elevated stat-card">
+    <div class="stat-icon" style="background:#FFE0E0;color:#B3261E;">
+      <span class="material-symbols-outlined">bar_chart</span>
+    </div>
+    <div class="stat-value">{{ today_visits|default:"0" }}</div>
+    <div class="stat-label">Total Page Views</div>
+    <div class="stat-trend">{{ yesterday_visits }} yesterday</div>
+  </div>
+</div>
+
+<!-- ── Charts Row ── -->
+<div class="admin-grid-2 mb-3">
+  <!-- 7-Day Visit Trend -->
+  <div class="md-card-elevated" style="padding:20px;">
+    <h3 class="md-title-medium" style="margin:0 0 16px;">7-Day Visit Trend</h3>
+    <canvas id="chart7d" height="200"></canvas>
+  </div>
+
+  <!-- 30-Day Visit Trend -->
+  <div class="md-card-elevated" style="padding:20px;">
+    <h3 class="md-title-medium" style="margin:0 0 16px;">30-Day Visit Trend</h3>
+    <canvas id="chart30d" height="200"></canvas>
+  </div>
+</div>
+
+<!-- ── More Charts Row ── -->
+<div class="admin-grid-2 mb-3">
+  <!-- Source Breakdown -->
+  <div class="md-card-elevated" style="padding:20px;">
+    <h3 class="md-title-medium" style="margin:0 0 16px;">Traffic Source (30 days)</h3>
+    <canvas id="chartSource" height="220"></canvas>
+  </div>
+
+  <!-- Referrer Type Breakdown -->
+  <div class="md-card-elevated" style="padding:20px;">
+    <h3 class="md-title-medium" style="margin:0 0 16px;">Referrer Type (30 days)</h3>
+    <canvas id="chartReferrer" height="220"></canvas>
+  </div>
+</div>
+
+<!-- ── User & Content Growth ── -->
+<div class="md-card-elevated" style="padding:20px;margin-bottom:24px;">
+  <h3 class="md-title-medium" style="margin:0 0 16px;">User &amp; Content Growth (7 days)</h3>
+  <canvas id="chartGrowth" height="200"></canvas>
+</div>
+{% endif %}
+
+<!-- ── Tables ── -->
+<div class="admin-grid-2 mb-3">
+  <!-- Top Referrer Domains -->
+  <div class="md-card-elevated" style="padding:20px;">
+    <h3 class="md-title-medium" style="margin:0 0 16px;">Top Referrer Domains (30 days)</h3>
+    {% if top_domains %}
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>Domain</th>
+          <th style="text-align:right;">Visits</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for d in top_domains %}
+        <tr>
+          <td>{{ d.referrer_domain }}</td>
+          <td style="text-align:right;font-weight:600;">{{ d.count }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p class="md-body-medium" style="color:var(--md-on-surface-variant);">No external referrer data yet.</p>
+    {% endif %}
+  </div>
+
+  <!-- Top Landing Pages -->
+  <div class="md-card-elevated" style="padding:20px;">
+    <h3 class="md-title-medium" style="margin:0 0 16px;">Top Pages (30 days)</h3>
+    {% if top_pages %}
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>Page</th>
+          <th style="text-align:right;">Visits</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for p in top_pages %}
+        <tr>
+          <td><code style="font-size:0.75rem;">{{ p.path }}</code></td>
+          <td style="text-align:right;font-weight:600;">{{ p.count }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p class="md-body-medium" style="color:var(--md-on-surface-variant);">No page data yet.</p>
+    {% endif %}
+  </div>
+</div>
+
+<!-- ── Referrer Details Table ── -->
+<div class="md-card-elevated" style="padding:20px;margin-bottom:24px;">
+  <h3 class="md-title-medium" style="margin:0 0 16px;">Referrer Details (30 days)</h3>
+  {% if referrer_details %}
+  <table class="admin-table">
+    <thead>
+      <tr>
+        <th>Domain</th>
+        <th>Type</th>
+        <th style="text-align:right;">Visits</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for r in referrer_details %}
+      <tr>
+        <td>{{ r.referrer_domain|default:"(direct)" }}</td>
+        <td><span class="ref-type-badge ref-type-{{ r.referrer_type }}">{{ r.referrer_type }}</span></td>
+        <td style="text-align:right;font-weight:600;">{{ r.count }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p class="md-body-medium" style="color:var(--md-on-surface-variant);">No referrer data yet.</p>
+  {% endif %}
+</div>
+
+<!-- ── Platform Breakdown ── -->
+{% if platform_data %}
+<div class="md-card-elevated" style="padding:20px;margin-bottom:24px;">
+  <h3 class="md-title-medium" style="margin:0 0 16px;">Platform Breakdown (30 days)</h3>
+  <table class="admin-table">
+    <thead>
+      <tr>
+        <th>Platform</th>
+        <th style="text-align:right;">Visits</th>
+        <th style="text-align:right;">Share</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for p in platform_data %}
+      <tr>
+        <td>{{ p.platform|title }}</td>
+        <td style="text-align:right;font-weight:600;">{{ p.count }}</td>
+        <td style="text-align:right;color:var(--md-on-surface-variant);">{% if source_web > 0 %}{% widthratio p.count source_web 100 %}%{% else %}—{% endif %}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endif %}
+
+{% endblock %}
+
+{% block extra_css %}
+<style nonce="{{ csp_nonce }}">
+.admin-table { width:100%; border-collapse:collapse; }
+.admin-table th { text-align:left; padding:8px 4px; font-size:0.75rem; font-weight:600; color:var(--md-on-surface-variant); border-bottom:1px solid var(--md-outline-variant); }
+.admin-table td { padding:8px 4px; font-size:0.8125rem; border-bottom:1px solid var(--md-outline-variant); }
+.admin-table tbody tr:hover { background:var(--md-surface-container-high); }
+.ref-type-badge { display:inline-block; padding:2px 8px; border-radius:4px; font-size:0.6875rem; font-weight:600; text-transform:uppercase; }
+.ref-type-direct { background:#E8DEF8; color:#4F378B; }
+.ref-type-search { background:#D0EFFF; color:#006A6B; }
+.ref-type-social { background:#FFD8E4; color:#9C4146; }
+.ref-type-referral { background:#FFDDB3; color:#7A5900; }
+.ref-type-internal { background:#CFF0E5; color:#006B55; }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script nonce="{{ csp_nonce }}">
+(function() {
+  {% if has_data %}
+  // ── 7-Day Visit Trend ──
+  var ctx7d = document.getElementById('chart7d');
+  if (ctx7d) {
+    new Chart(ctx7d, {
+      type: 'line',
+      data: {
+        labels: {{ day_labels|safe }},
+        datasets: [{
+          label: 'Visits',
+          data: {{ day_visits|safe }},
+          borderColor: '#2563EB',
+          backgroundColor: 'rgba(37,99,235,0.1)',
+          fill: true,
+          tension: 0.3,
+          pointRadius: 4,
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { display: false } },
+        scales: {
+          y: { beginAtZero: true, ticks: { stepSize: 1, precision: 0 } },
+          x: { grid: { display: false } }
+        }
+      }
+    });
+  }
+
+  // ── 30-Day Visit Trend ──
+  var ctx30d = document.getElementById('chart30d');
+  if (ctx30d) {
+    new Chart(ctx30d, {
+      type: 'line',
+      data: {
+        labels: {{ month_labels|safe }},
+        datasets: [{
+          label: 'Visits',
+          data: {{ month_visits|safe }},
+          borderColor: '#7C3AED',
+          backgroundColor: 'rgba(124,58,237,0.08)',
+          fill: true,
+          tension: 0.3,
+          pointRadius: 2,
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { display: false } },
+        scales: {
+          y: { beginAtZero: true, ticks: { stepSize: 1, precision: 0 } },
+          x: { grid: { display: false }, ticks: { maxTicksLimit: 10 } }
+        }
+      }
+    });
+  }
+
+  // ── Source Breakdown (Pie) ──
+  var ctxSource = document.getElementById('chartSource');
+  if (ctxSource) {
+    new Chart(ctxSource, {
+      type: 'doughnut',
+      data: {
+        labels: ['Web', 'App'],
+        datasets: [{
+          data: [{{ source_web }}, {{ source_app }}],
+          backgroundColor: ['#2563EB', '#10B981'],
+          borderWidth: 2,
+          borderColor: 'var(--md-surface)',
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { position: 'bottom', labels: { padding: 16, font: { size: 12 } } },
+        }
+      }
+    });
+  }
+
+  // ── Referrer Type Breakdown (Pie) ──
+  var ctxRef = document.getElementById('chartReferrer');
+  if (ctxRef) {
+    var refTotal = {{ ref_direct }} + {{ ref_search }} + {{ ref_social }} + {{ ref_referral }} + {{ ref_internal }};
+    new Chart(ctxRef, {
+      type: 'doughnut',
+      data: {
+        labels: ['Direct', 'Search', 'Social', 'Referral', 'Internal'],
+        datasets: [{
+          data: [{{ ref_direct }}, {{ ref_search }}, {{ ref_social }}, {{ ref_referral }}, {{ ref_internal }}],
+          backgroundColor: ['#8B5CF6', '#3B82F6', '#EC4899', '#F59E0B', '#10B981'],
+          borderWidth: 2,
+          borderColor: 'var(--md-surface)',
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { position: 'bottom', labels: { padding: 12, font: { size: 11 } } },
+        }
+      }
+    });
+  }
+
+  // ── User & Content Growth ──
+  var ctxGrowth = document.getElementById('chartGrowth');
+  if (ctxGrowth) {
+    new Chart(ctxGrowth, {
+      type: 'bar',
+      data: {
+        labels: {{ day_labels|safe }},
+        datasets: [
+          {
+            label: 'New Users',
+            data: {{ day_users|safe }},
+            backgroundColor: 'rgba(37,99,235,0.7)',
+            borderRadius: 4,
+          },
+          {
+            label: 'New Posts',
+            data: {{ day_posts|safe }},
+            backgroundColor: 'rgba(16,185,129,0.7)',
+            borderRadius: 4,
+          },
+          {
+            label: 'New Resources',
+            data: {{ day_resources|safe }},
+            backgroundColor: 'rgba(245,158,11,0.7)',
+            borderRadius: 4,
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { position: 'bottom', labels: { padding: 12, font: { size: 11 } } } },
+        scales: {
+          y: { beginAtZero: true, ticks: { stepSize: 1, precision: 0 } },
+          x: { grid: { display: false } }
+        }
+      }
+    });
+  }
+  {% endif %}
+})();
+</script>
+{% endblock %}
