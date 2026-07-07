@@ -751,7 +751,7 @@ fun CompleteProfileScreen(
             if (uiState.submissionResult == false) {
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = "Failed to submit profile. Please check required fields.",
+                    text = uiState.submissionError ?: "Failed to submit profile. Please check required fields.",
                     color = MaterialTheme.colorScheme.error,
                     style = MaterialTheme.typography.bodySmall,
                     modifier = Modifier.align(Alignment.CenterHorizontally)

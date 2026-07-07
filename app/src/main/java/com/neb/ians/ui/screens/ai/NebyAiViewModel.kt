@@ -311,6 +311,10 @@ class NebyAiViewModel @Inject constructor(
         }
     }
 
+    fun clearPendingFiles() {
+        _uiState.update { it.copy(pendingFiles = emptyList()) }
+    }
+
     private fun queryFileMeta(uri: Uri): Pair<String, Long> {
         var name = uri.lastPathSegment?.substringAfterLast('/') ?: "file"
         var size = 0L
