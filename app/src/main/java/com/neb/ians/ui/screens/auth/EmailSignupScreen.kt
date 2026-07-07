@@ -40,6 +40,14 @@ import androidx.compose.ui.unit.sp
 import com.neb.ians.data.repository.AuthRepository
 import com.neb.ians.data.repository.EmailAuthResult
 import kotlinx.coroutines.launch
+import androidx.compose.foundation.text.ClickableText
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.platform.LocalContext
+import android.content.Intent
+import android.net.Uri
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -415,6 +423,51 @@ fun EmailSignupScreen(
                         )
                     }
                 }
+
+                Spacer(modifier = Modifier.height(14.dp))
+
+                val context = LocalContext.current
+                val termsUrl = "https://nebians.consica.com.np/terms/"
+                val privacyUrl = "https://nebians.consica.com.np/privacy/"
+
+                val privacyTermsText = buildAnnotatedString {
+                    append("By creating an account, you agree to our ")
+                    pushStringAnnotation(tag = "terms", annotation = termsUrl)
+                    withStyle(style = SpanStyle(color = webPrimary, fontWeight = FontWeight.Bold, textDecoration = TextDecoration.Underline)) {
+                        append("Terms of Service")
+                    }
+                    pop()
+                    append(" and ")
+                    pushStringAnnotation(tag = "privacy", annotation = privacyUrl)
+                    withStyle(style = SpanStyle(color = webPrimary, fontWeight = FontWeight.Bold, textDecoration = TextDecoration.Underline)) {
+                        append("Privacy Policy")
+                    }
+                    pop()
+                    append(".")
+                }
+
+                ClickableText(
+                    text = privacyTermsText,
+                    style = MaterialTheme.typography.bodySmall.copy(
+                        color = if (isDark) Color(0xFF8D90A1) else Color(0xFF5C5F6F),
+                        textAlign = TextAlign.Center
+                    ),
+                    modifier = Modifier.padding(horizontal = 12.dp),
+                    onClick = { offset ->
+                        privacyTermsText.getStringAnnotations(tag = "terms", start = offset, end = offset)
+                            .firstOrNull()?.let { annotation ->
+                                runCatching {
+                                    context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(annotation.item)))
+                                }
+                            }
+                        privacyTermsText.getStringAnnotations(tag = "privacy", start = offset, end = offset)
+                            .firstOrNull()?.let { annotation ->
+                                runCatching {
+                                    context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(annotation.item)))
+                                }
+                            }
+                    }
+                )
 
                 Spacer(modifier = Modifier.height(16.dp))
 

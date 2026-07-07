@@ -57,11 +57,46 @@ object ApiErrorMapper {
 
     private fun parseServerMessage(body: String): String? {
         return try {
-            val errorObject = Json.parseToJsonElement(body).jsonObject
-            val raw = errorObject["error"]?.jsonPrimitive?.content
-                ?: errorObject["message"]?.jsonPrimitive?.content
-                ?: errorObject["detail"]?.jsonPrimitive?.content
-            sanitize(raw)
+            val jsonElement = Json.parseToJsonElement(body)
+            val errorObject = jsonElement.jsonObject
+            
+            // 1. Try standard keys
+            val raw = try {
+                errorObject["error"]?.jsonPrimitive?.content
+                    ?: errorObject["message"]?.jsonPrimitive?.content
+                    ?: errorObject["detail"]?.jsonPrimitive?.content
+            } catch (_: Exception) { null }
+            
+            if (raw != null) {
+                return sanitize(raw)
+            }
+            
+            // 2. Try parsing field errors dictionary
+            val fieldErrors = mutableListOf<String>()
+            for ((key, value) in errorObject) {
+                val errors = when (value) {
+                    is kotlinx.serialization.json.JsonArray -> {
+                        value.mapNotNull { 
+                            try { it.jsonPrimitive.content } catch (_: Exception) { null }
+                        }.filter { it.isNotBlank() }
+                    }
+                    is kotlinx.serialization.json.JsonPrimitive -> {
+                        try {
+                            val content = value.content
+                            if (content.isNotBlank()) listOf(content) else emptyList()
+                        } catch (_: Exception) { emptyList() }
+                    }
+                    else -> emptyList()
+                }
+                if (errors.isNotEmpty()) {
+                    fieldErrors.add("$key: ${errors.joinToString(", ")}")
+                }
+            }
+            
+            if (fieldErrors.isNotEmpty()) {
+                return sanitize(fieldErrors.joinToString("; "))
+            }
+            null
         } catch (_: Exception) {
             null
         }
