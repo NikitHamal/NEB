@@ -42,8 +42,20 @@ class ResourceDetailViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val resourceId: String = savedStateHandle.get<String>("resourceId") ?: ""
+    private val cachedResource = resourceRepository.peekResource(resourceId)
+    private val cachedComments = resourceRepository.peekComments(resourceId).orEmpty()
 
-    private val _uiState = MutableStateFlow(ResourceDetailUiState())
+    private val _uiState = MutableStateFlow(
+        ResourceDetailUiState(
+            resource = cachedResource,
+            isLoading = cachedResource == null,
+            isLiked = cachedResource?.isLiked ?: false,
+            likeCount = cachedResource?.likeCount ?: 0,
+            isBookmarked = cachedResource?.isBookmarked ?: false,
+            comments = cachedComments,
+            commentsLoading = cachedResource != null && cachedComments.isEmpty()
+        )
+    )
     val uiState: StateFlow<ResourceDetailUiState> = _uiState.asStateFlow()
 
     private var likeJob: Job? = null
@@ -55,13 +67,14 @@ class ResourceDetailViewModel @Inject constructor(
         load()
     }
 
-    fun load() {
+    fun load(forceRefresh: Boolean = false) {
         viewModelScope.launch {
             val token = authRepository.getToken()
             val userId = authRepository.currentUserIdFlow.first()
-            _uiState.update { it.copy(isAuthenticated = token != null, currentUserId = userId, isLoading = true, error = null) }
+            val hasResource = _uiState.value.resource != null
+            _uiState.update { it.copy(isAuthenticated = token != null, currentUserId = userId, isLoading = !hasResource, error = null) }
 
-            resourceRepository.getResource(resourceId)
+            resourceRepository.getResource(resourceId, forceRefresh = forceRefresh)
                 .onSuccess { resource ->
                     _uiState.update {
                         it.copy(
@@ -69,26 +82,26 @@ class ResourceDetailViewModel @Inject constructor(
                             isLoading = false,
                             isLiked = resource.isLiked ?: false,
                             likeCount = resource.likeCount,
-                            isBookmarked = resource.isBookmarked ?: false
+                            isBookmarked = resource.isBookmarked ?: false,
+                            error = null
                         )
                     }
                     resourceRepository.viewResource(resourceId)
                 }
                 .onFailure { e ->
+                    val message = ApiErrorMapper.mapException(e)
                     _uiState.update {
-                        it.copy(
-                            isLoading = false,
-                            error = ApiErrorMapper.mapException(e)
-                        )
+                        if (it.resource == null) it.copy(isLoading = false, error = message)
+                        else it.copy(isLoading = false, snackbarMessage = message)
                     }
                 }
-            loadComments()
+            loadComments(forceRefresh = forceRefresh)
         }
     }
 
     private fun refreshResourceState() {
         viewModelScope.launch {
-            resourceRepository.getResource(resourceId).onSuccess { resource ->
+            resourceRepository.getResource(resourceId, forceRefresh = true).onSuccess { resource ->
                 _uiState.update {
                     it.copy(
                         resource = resource,
@@ -101,10 +114,11 @@ class ResourceDetailViewModel @Inject constructor(
         }
     }
 
-    private fun loadComments() {
+    private fun loadComments(forceRefresh: Boolean = false) {
         viewModelScope.launch {
-            _uiState.update { it.copy(commentsLoading = true) }
-            resourceRepository.getComments(resourceId)
+            val hasComments = _uiState.value.comments.isNotEmpty()
+            _uiState.update { it.copy(commentsLoading = !hasComments) }
+            resourceRepository.getComments(resourceId, forceRefresh = forceRefresh)
                 .onSuccess { comments ->
                     _uiState.update { it.copy(comments = comments, commentsLoading = false) }
                 }
@@ -197,7 +211,7 @@ class ResourceDetailViewModel @Inject constructor(
                     _uiState.update { state ->
                         val currentResource = state.resource
                         state.copy(
-                            comments = state.comments + comment,
+                            comments = state.comments.filterNot { it.id == comment.id } + comment,
                             commentDraft = "",
                             isPostingComment = false,
                             resource = currentResource?.copy(commentCount = currentResource.commentCount + 1)

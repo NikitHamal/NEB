@@ -11,7 +11,7 @@ def resources_list(request):
     sign-in. Keep this endpoint cheap: filter in SQL, sort in SQL, and only
     serialize the requested page.
     """
-    resources = Resource.objects.filter(approval_status='approved', is_lead=True)
+    resources = Resource.objects.filter(approval_status='approved', is_lead=True).select_related('uploaded_by')
 
     subject = (request.query_params.get('subject') or '').strip()
     grade = (request.query_params.get('grade') or '').strip()
@@ -343,7 +343,7 @@ def syllabus_subject_detail(request, grade_slug, subject_slug):
 def resource_detail(request, resource_id):
     """GET /api/resources/<resourceId> — get a single resource."""
     try:
-        resource = Resource.objects.get(pk=resource_id)
+        resource = Resource.objects.select_related('uploaded_by').get(pk=resource_id)
     except Resource.DoesNotExist:
         return Response({'error': 'Resource not found'}, status=404)
     if resource.approval_status != 'approved':
@@ -351,12 +351,15 @@ def resource_detail(request, resource_id):
     return Response(ResourceSerializer(resource, context={'request': request}).data)
 
 
-def _resource_comment_payload(comment, viewer=None):
+def _resource_comment_payload(comment, viewer=None, liked_comment_ids=None):
     user = getattr(comment, 'user', None)
     is_liked = False
     if viewer:
-        from api.models import ResourceCommentLike
-        is_liked = ResourceCommentLike.objects.filter(comment_id=comment.id, user_id=viewer.id).exists()
+        if liked_comment_ids is not None:
+            is_liked = comment.id in liked_comment_ids
+        else:
+            from api.models import ResourceCommentLike
+            is_liked = ResourceCommentLike.objects.filter(comment_id=comment.id, user_id=viewer.id).exists()
     author_name = user.username if user else ''
     author_photo = user.photo_url if user else ''
     return {
@@ -408,11 +411,19 @@ def resource_like(request, resource_id):
 @api_view(['GET', 'POST'])
 @permission_classes([AllowAny])
 def resource_comments(request, resource_id):
-    from api.models import ResourceComment
+    from api.models import ResourceComment, ResourceCommentLike
     if request.method == 'GET':
         viewer = _get_user_from_request(request)
-        comments = ResourceComment.objects.filter(resource_id=resource_id).select_related('user').order_by('created_at')
-        return Response({'comments': [_resource_comment_payload(comment, viewer) for comment in comments]})
+        comments = list(ResourceComment.objects.filter(resource_id=resource_id).select_related('user').order_by('created_at'))
+        liked_comment_ids = set()
+        if viewer and comments:
+            liked_comment_ids = set(
+                ResourceCommentLike.objects.filter(
+                    user_id=viewer.id,
+                    comment_id__in=[comment.id for comment in comments]
+                ).values_list('comment_id', flat=True)
+            )
+        return Response({'comments': [_resource_comment_payload(comment, viewer, liked_comment_ids) for comment in comments]})
 
     user, err = _require_user(request)
     if err:
@@ -449,7 +460,7 @@ def resource_view(request, resource_id):
         resource = Resource.objects.get(pk=resource_id)
     except Resource.DoesNotExist:
         return Response({'error': 'Resource not found'}, status=404)
-    Resource.objects.filter(pk=resource_id).update(view_count=F('view_count') + 1)
+    Resource.objects.filter(pk=resource_id, approval_status='approved').update(view_count=F('view_count') + 1)
     return Response({'view_count': resource.view_count + 1})
 
 @api_view(['POST'])
