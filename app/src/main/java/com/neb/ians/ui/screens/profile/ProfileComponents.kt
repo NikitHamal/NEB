@@ -182,6 +182,8 @@ fun ProfileHeaderCard(
     profile: UserProfileResponse,
     isSelf: Boolean,
     isFollowing: Boolean,
+    isRequested: Boolean,
+    followRequestsCount: Int,
     followerCount: Int,
     onEditProfile: () -> Unit,
     onFollowClick: () -> Unit,
@@ -189,7 +191,8 @@ fun ProfileHeaderCard(
     onNavigateBack: () -> Unit,
     onAnalyticsClick: () -> Unit,
     onFollowersClick: () -> Unit,
-    onFollowingClick: () -> Unit
+    onFollowingClick: () -> Unit,
+    onFollowRequestsClick: () -> Unit
 ) {
     val badge = remember(profile) { buildBadgeInfo(profile) }
     val achievements = remember(profile.achievementBadges) { parseAchievements(profile.achievementBadges) }
@@ -441,21 +444,35 @@ fun ProfileHeaderCard(
                             modifier = Modifier.weight(1f),
                             shape = CircleShape,
                             colors = ButtonDefaults.buttonColors(
-                                containerColor = if (isFollowing) MaterialTheme.colorScheme.surfaceVariant
-                                                else MaterialTheme.colorScheme.primary,
-                                contentColor = if (isFollowing) MaterialTheme.colorScheme.onSurfaceVariant
-                                              else Color.White
+                                containerColor = when {
+                                    isFollowing -> MaterialTheme.colorScheme.surfaceVariant
+                                    isRequested -> MaterialTheme.colorScheme.secondaryContainer
+                                    else -> MaterialTheme.colorScheme.primary
+                                },
+                                contentColor = when {
+                                    isFollowing -> MaterialTheme.colorScheme.onSurfaceVariant
+                                    isRequested -> MaterialTheme.colorScheme.onSecondaryContainer
+                                    else -> Color.White
+                                }
                             ),
                             contentPadding = PaddingValues(vertical = 12.dp)
                         ) {
                             Icon(
-                                imageVector = if (isFollowing) Icons.Outlined.Check else Icons.Outlined.Add,
+                                imageVector = when {
+                                    isFollowing -> Icons.Outlined.Check
+                                    isRequested -> Icons.Outlined.HourglassTop
+                                    else -> Icons.Outlined.Add
+                                },
                                 contentDescription = null,
                                 modifier = Modifier.size(16.dp)
                             )
                             Spacer(modifier = Modifier.width(6.dp))
                             Text(
-                                text = if (isFollowing) "Following" else "Follow",
+                                text = when {
+                                    isFollowing -> "Following"
+                                    isRequested -> "Requested"
+                                    else -> "Follow"
+                                },
                                 fontWeight = FontWeight.Bold
                             )
                         }
@@ -483,6 +500,29 @@ fun ProfileHeaderCard(
                                 color = MaterialTheme.colorScheme.onSurface
                             )
                         }
+                    }
+                }
+
+                if (isSelf && profile.isLocked == 1) {
+                    Spacer(modifier = Modifier.height(12.dp))
+                    OutlinedButton(
+                        onClick = onFollowRequestsClick,
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = CircleShape,
+                        border = BorderStroke(1.dp, MaterialTheme.colorScheme.secondary),
+                        colors = ButtonDefaults.outlinedButtonColors(
+                            contentColor = MaterialTheme.colorScheme.secondary
+                        ),
+                        contentPadding = PaddingValues(vertical = 12.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.GroupAdd,
+                            contentDescription = null,
+                            modifier = Modifier.size(16.dp)
+                        )
+                        Spacer(modifier = Modifier.width(6.dp))
+                        val label = if (followRequestsCount > 0) "Follow Requests ($followRequestsCount)" else "Follow Requests"
+                        Text(label, fontWeight = FontWeight.Bold)
                     }
                 }
 

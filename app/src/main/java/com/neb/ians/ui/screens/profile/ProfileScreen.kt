@@ -20,6 +20,7 @@ import androidx.compose.material.icons.outlined.ChatBubbleOutline
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.FolderOpen
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -27,9 +28,15 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Tab
 import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.material3.Text
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
+import kotlinx.coroutines.launch
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -43,6 +50,7 @@ import com.neb.ians.ui.components.WebEmptyState
 import com.neb.ians.ui.components.WebResourceCard
 import com.neb.ians.ui.components.ZoomableImageDialog
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(
     username: String,
@@ -61,15 +69,28 @@ fun ProfileScreen(
     }
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val scope = rememberCoroutineScope()
+    var isRefreshing by remember { mutableStateOf(false) }
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.surface,
         contentWindowInsets = WindowInsets(0, 0, 0, 0)
     ) { padding ->
-        Box(
+        PullToRefreshBox(
+            isRefreshing = isRefreshing,
+            onRefresh = {
+                scope.launch {
+                    isRefreshing = true
+                    viewModel.loadProfile(username)
+                    isRefreshing = false
+                }
+            },
             modifier = Modifier
                 .fillMaxSize()
-                .padding(padding),
+                .padding(padding)
+        ) {
+        Box(
+            modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
             when {
@@ -95,10 +116,13 @@ fun ProfileScreen(
                     onNavigateBack = onNavigateBack,
                     onAnalyticsClick = onAnalyticsClick,
                     onFollowersClick = viewModel::openFollowers,
-                    onFollowingClick = viewModel::openFollowing
+                    onFollowingClick = viewModel::openFollowing,
+                    onFollowRequestsClick = viewModel::openFollowRequests
                 )
             }
         }
+        } // end Box
+        } // end PullToRefreshBox
     }
 
     if (uiState.showPhotoGallery) {
@@ -141,6 +165,18 @@ fun ProfileScreen(
             onUserClick = onFollowerClick
         )
     }
+
+    if (uiState.showFollowRequestsList) {
+        FollowRequestsDialog(
+            requests = uiState.followRequestsList,
+            isLoading = uiState.followRequestsLoading,
+            error = uiState.followRequestsError,
+            onDismiss = viewModel::closeFollowRequests,
+            onAccept = viewModel::acceptFollowRequest,
+            onReject = viewModel::rejectFollowRequest,
+            onUserClick = onFollowerClick
+        )
+    }
 }
 
 @Composable
@@ -158,7 +194,8 @@ private fun ProfileContent(
     onNavigateBack: () -> Unit,
     onAnalyticsClick: () -> Unit,
     onFollowersClick: () -> Unit,
-    onFollowingClick: () -> Unit
+    onFollowingClick: () -> Unit,
+    onFollowRequestsClick: () -> Unit
 ) {
     val profile = uiState.profile ?: return
     val isSelf = profile.isSelf == true
@@ -174,6 +211,8 @@ private fun ProfileContent(
                 profile = profile,
                 isSelf = isSelf,
                 isFollowing = uiState.isFollowing,
+                isRequested = uiState.isRequested,
+                followRequestsCount = uiState.followRequestsCount,
                 followerCount = uiState.followerCount,
                 onEditProfile = onEditProfile,
                 onFollowClick = onFollowClick,
@@ -181,7 +220,8 @@ private fun ProfileContent(
                 onNavigateBack = onNavigateBack,
                 onAnalyticsClick = onAnalyticsClick,
                 onFollowersClick = onFollowersClick,
-                onFollowingClick = onFollowingClick
+                onFollowingClick = onFollowingClick,
+                onFollowRequestsClick = onFollowRequestsClick
             )
         }
 
