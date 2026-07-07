@@ -3,7 +3,7 @@
 
 {% block title %}{{ resource.title|default:"Resource" }}{% endblock %}
 {% block description %}{{ resource.description|truncatechars:160|default:"Study resource on NEBians" }}{% endblock %}
-{% block keywords %}NEBians, {{ resource.subject }}, {{ resource.type }}, {{ resource.grade_level }}, study resource{% endblock %}
+{% block keywords %}NEBians, {{ resource.subject }}, {{ resource.tags|default:"" }}, {{ resource.type }}, {{ resource.grade_level }}, study resource{% endblock %}
 {% block og_title %}{{ resource.title|default:"Resource" }} - NEBians{% endblock %}
 {% block og_description %}{{ resource.description|truncatechars:200|default:"Study resource on NEBians" }}{% endblock %}
 {% block og_type %}article{% endblock %}
@@ -12,6 +12,13 @@
 
 
 {% block head_extra %}
+{% with tags_list=resource.tags|default:""|add:","|add:resource.subject %}
+<meta property="article:tag" content="{{ resource.type }}">
+<meta property="article:tag" content="{{ resource.grade_level }}">
+{% for tag in tags_list|split:"," %}
+<meta property="article:tag" content="{{ tag }}">
+{% endfor %}
+{% endwith %}
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
