@@ -47,6 +47,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import android.content.Intent
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.icons.outlined.Description
+import androidx.compose.material.icons.outlined.PlayCircle
+import androidx.compose.material.icons.outlined.Headphones
+import androidx.compose.material.icons.outlined.Folder
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
@@ -232,10 +240,28 @@ private fun FileList(
         }
 
         files.forEachIndexed { index, file ->
+            val context = LocalContext.current
+            val ext = file.name.substringAfterLast('.', "").lowercase()
+            val isImage = ext in listOf("png", "jpg", "jpeg", "webp", "gif", "bmp")
+            val icon = when {
+                ext == "pdf" -> Icons.Outlined.Description
+                ext in listOf("mp4", "mkv", "avi", "mov", "webm", "3gp", "wmv", "flv") -> Icons.Outlined.PlayCircle
+                ext in listOf("mp3", "wav", "ogg", "flac", "aac", "m4a", "wma") -> Icons.Outlined.Headphones
+                else -> Icons.Outlined.Folder
+            }
             NebCard(
                 shape = RoundedCornerShape(10.dp),
                 containerColor = MaterialTheme.colorScheme.surfaceContainerHighest,
-                border = null
+                border = null,
+                onClick = {
+                    runCatching {
+                        val intent = Intent(Intent.ACTION_VIEW).apply {
+                            setDataAndType(file.uri, context.contentResolver.getType(file.uri) ?: "*/*")
+                            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                        }
+                        context.startActivity(Intent.createChooser(intent, "Open file"))
+                    }
+                }
             ) {
                 Row(
                     modifier = Modifier
@@ -250,12 +276,21 @@ private fun FileList(
                         modifier = Modifier.size(40.dp)
                     ) {
                         Box(contentAlignment = Alignment.Center) {
-                            Icon(
-                                imageVector = Icons.Filled.Description,
-                                contentDescription = null,
-                                tint = MaterialTheme.colorScheme.primary,
-                                modifier = Modifier.size(22.dp)
-                            )
+                            if (isImage) {
+                                coil.compose.AsyncImage(
+                                    model = file.uri,
+                                    contentDescription = null,
+                                    modifier = Modifier.fillMaxSize(),
+                                    contentScale = androidx.compose.ui.layout.ContentScale.Crop
+                                )
+                            } else {
+                                Icon(
+                                    imageVector = icon,
+                                    contentDescription = null,
+                                    tint = MaterialTheme.colorScheme.primary,
+                                    modifier = Modifier.size(22.dp)
+                                )
+                            }
                         }
                     }
                     Column(modifier = Modifier.weight(1f)) {

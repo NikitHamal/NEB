@@ -164,30 +164,51 @@
           </div>
           <div class="rd-file-actions">
             {% if file.id == resource.id %}
-              {% if resource.safe_file_url %}
-                <a href="{{ resource.safe_file_url }}" target="_blank" rel="noopener noreferrer" class="rd-file-btn btn-read">
-                  <span class="material-symbols-outlined">visibility</span>
-                  Read
+              {% with f_url=resource.safe_file_url|default:resource.file_url %}
+              {% if f_url %}
+                <a href="{{ f_url }}" target="_blank" rel="noopener noreferrer" class="rd-file-btn btn-read">
+                  {% if resource.media_type == 'pdf' %}
+                    <span class="material-symbols-outlined">visibility</span>
+                    Read
+                  {% elif resource.media_type == 'image' %}
+                    <span class="material-symbols-outlined">image</span>
+                    View
+                  {% elif resource.media_type == 'video' or resource.media_type == 'audio' %}
+                    <span class="material-symbols-outlined">play_circle</span>
+                    Play
+                  {% else %}
+                    <span class="material-symbols-outlined">open_in_new</span>
+                    Open
+                  {% endif %}
                 </a>
-                <a href="{{ resource.safe_file_url }}" download class="rd-file-btn btn-download">
-                  <span class="material-symbols-outlined">download</span>
-                  Download
-                </a>
-              {% elif resource.file_url %}
-                <a href="{{ resource.file_url }}" target="_blank" rel="noopener noreferrer" class="rd-file-btn btn-read">
-                  <span class="material-symbols-outlined">visibility</span>
-                  Read
-                </a>
-                <a href="{{ resource.file_url }}" download class="rd-file-btn btn-download">
+                <a href="{{ f_url }}" download class="rd-file-btn btn-download">
                   <span class="material-symbols-outlined">download</span>
                   Download
                 </a>
               {% endif %}
+              {% endwith %}
             {% else %}
-              <a href="{% url 'web:reader' resource_id=file.id %}" class="rd-file-btn btn-read">
-                <span class="material-symbols-outlined">menu_book</span>
-                Read
-              </a>
+              {% if file.media_type == 'pdf' %}
+                <a href="{% url 'web:reader' resource_id=file.id %}" class="rd-file-btn btn-read">
+                  <span class="material-symbols-outlined">menu_book</span>
+                  Read
+                </a>
+              {% else %}
+                {% if file.file_url %}
+                  <a href="{{ file.file_url }}" target="_blank" rel="noopener noreferrer" class="rd-file-btn btn-read">
+                    {% if file.media_type == 'image' %}
+                      <span class="material-symbols-outlined">image</span>
+                      View
+                    {% elif file.media_type == 'video' or file.media_type == 'audio' %}
+                      <span class="material-symbols-outlined">play_circle</span>
+                      Play
+                    {% else %}
+                      <span class="material-symbols-outlined">open_in_new</span>
+                      Open
+                    {% endif %}
+                  </a>
+                {% endif %}
+              {% endif %}
               {% if file.file_url %}
                 <a href="{{ file.file_url }}" download class="rd-file-btn btn-download">
                   <span class="material-symbols-outlined">download</span>

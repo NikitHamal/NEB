@@ -59,6 +59,17 @@ def _serialize_resource(r, _uploaded_by_map=None):
     file_url = r.file_url or ''
     if r.file:
         file_url = r.file.url
+    rtype_lower = (r.type or '').lower().strip()
+    if rtype_lower == 'pdf':
+        media_type = 'pdf'
+    elif rtype_lower == 'video':
+        media_type = 'video'
+    elif rtype_lower == 'audio':
+        media_type = 'audio'
+    elif rtype_lower == 'image':
+        media_type = 'image'
+    else:
+        media_type = 'document'
     return {
         'id': r.id, 'title': r.title, 'description': r.description or '',
         'subject': r.subject, 'gradeLevel': r.grade_level, 'grade_level': r.grade_level,
@@ -67,7 +78,8 @@ def _serialize_resource(r, _uploaded_by_map=None):
         'pradesh': r.pradesh or '', 'district': r.district or '',
         'school': r.school or '',
         'tags': r.tags or '',
-        'type': r.type, 'fileUrl': file_url, 'file_url': file_url,
+        'type': r.type, 'mediaType': media_type, 'media_type': media_type,
+        'fileUrl': file_url, 'file_url': file_url,
         'thumbnailUrl': r.thumbnail_url, 'thumbnail_url': r.thumbnail_url,
         'fileSize': r.file_size, 'file_size': r.file_size,
         'addedAt': r.added_at, 'added_at': r.added_at,
