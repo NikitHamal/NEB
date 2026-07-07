@@ -1,5 +1,8 @@
 """Views Users extracted from views.py."""
 from .view_helpers import *  # noqa: F401,F403
+from collections import Counter
+from django.db.models import Avg, Max, Q, Sum
+from .models import Bookmark, Notification, ResourceComment, StudyDocument, StudyQuiz, StudyQuizAttempt, StudyFlashcard, StudyFlashcardReview
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
@@ -133,10 +136,190 @@ def user_profile_stats(request, username):
         })
 
     stats = _build_stats(user)
+    public_resource_filter = {} if is_owner else {'approval_status': 'approved'}
+    stats['post_count'] = Post.objects.filter(user=user, is_archived=False).count()
+    stats['reply_count'] = Reply.objects.filter(user=user, is_archived=False).count()
+    stats['uploaded_resources_count'] = Resource.objects.filter(
+        uploaded_by=user,
+        is_lead=True,
+        **public_resource_filter
+    ).count()
     stats['is_following'] = is_following
     stats['is_self'] = is_owner
     stats['is_private'] = False
     return Response(stats)
+
+
+
+def _analytics_counter_rows(counter, limit=5):
+    if not counter:
+        return []
+    rows = counter.most_common(limit)
+    max_count = max([count for _, count in rows] or [1])
+    return [
+        {'label': label or 'General', 'count': count, 'width': max(8, round((count / max_count) * 100))}
+        for label, count in rows
+    ]
+
+
+def _analytics_short_post(post):
+    return {
+        'id': post.id,
+        'title': post.title,
+        'category': post.category,
+        'view_count': post.view_count,
+        'like_count': post.thumbs_up_count,
+        'reply_count': post.reply_count,
+        'created_at': post.created_at,
+    }
+
+
+def _analytics_short_resource(resource):
+    return {
+        'id': resource.id,
+        'title': resource.title,
+        'subject': resource.subject,
+        'type': resource.type,
+        'view_count': resource.view_count,
+        'like_count': resource.like_count,
+        'comment_count': resource.comment_count,
+        'added_at': resource.added_at,
+    }
+
+
+@api_view(['GET'])
+def user_private_analytics(request):
+    user, err = _require_user(request)
+    if err:
+        return err
+
+    now = now_ms()
+    day_ms = 86400000
+    cutoff_30 = now - 30 * day_ms
+    today_start = now - (now % day_ms)
+
+    posts = Post.objects.filter(user=user, is_archived=False)
+    replies = Reply.objects.filter(user=user, is_archived=False)
+    resources = Resource.objects.filter(uploaded_by=user, is_lead=True)
+    resource_comments = ResourceComment.objects.filter(user=user)
+    study_docs = StudyDocument.objects.filter(user=user)
+    quizzes = StudyQuiz.objects.filter(user=user)
+    quiz_attempts = StudyQuizAttempt.objects.filter(user=user)
+    flashcards = StudyFlashcard.objects.filter(user=user)
+    flash_reviews = StudyFlashcardReview.objects.filter(user=user)
+
+    post_views = posts.aggregate(total=Sum('view_count')).get('total') or 0
+    post_likes_received = posts.aggregate(total=Sum('thumbs_up_count')).get('total') or 0
+    post_replies_received = posts.aggregate(total=Sum('reply_count')).get('total') or 0
+    resource_views = resources.aggregate(total=Sum('view_count')).get('total') or 0
+    resource_likes_received = resources.aggregate(total=Sum('like_count')).get('total') or 0
+    resource_comments_received = resources.aggregate(total=Sum('comment_count')).get('total') or 0
+    quiz_stats = quiz_attempts.aggregate(avg=Avg('score'), best=Max('score'), xp=Sum('xp_earned'))
+    total_attempt_questions = quiz_attempts.aggregate(total=Sum('total_questions')).get('total') or 0
+    total_attempt_score = quiz_attempts.aggregate(total=Sum('score')).get('total') or 0
+    quiz_accuracy = round((total_attempt_score / total_attempt_questions) * 100) if total_attempt_questions else 0
+
+    easy_reviews = flash_reviews.filter(confidence='easy').count()
+    medium_reviews = flash_reviews.filter(confidence='medium').count()
+    hard_reviews = flash_reviews.filter(confidence='hard').count()
+    reviewed_total = easy_reviews + medium_reviews + hard_reviews
+
+    activity_days = []
+    max_activity = 1
+    for i in range(13, -1, -1):
+        start = today_start - i * day_ms
+        end = start + day_ms
+        counts = {
+            'posts': posts.filter(created_at__gte=start, created_at__lt=end).count(),
+            'replies': replies.filter(created_at__gte=start, created_at__lt=end).count(),
+            'resources': resources.filter(added_at__gte=start, added_at__lt=end).count(),
+            'study': quiz_attempts.filter(completed_at__gte=start, completed_at__lt=end).count()
+                + flash_reviews.filter(last_reviewed_at__gte=start, last_reviewed_at__lt=end).count(),
+        }
+        total = sum(counts.values())
+        max_activity = max(max_activity, total)
+        activity_days.append({
+            'label': 'Today' if i == 0 else f'{i}d',
+            'total': total,
+            'posts': counts['posts'],
+            'replies': counts['replies'],
+            'resources': counts['resources'],
+            'study': counts['study'],
+            'height': 0,
+        })
+    for day in activity_days:
+        day['height'] = max(8, round((day['total'] / max_activity) * 100)) if day['total'] else 8
+
+    category_counter = Counter(posts.values_list('category', flat=True))
+    subject_counter = Counter()
+    for subject in resources.values_list('subject', flat=True):
+        for part in (subject or '').split(','):
+            cleaned = part.strip()
+            if cleaned:
+                subject_counter[cleaned] += 1
+
+    summaries_count = study_docs.filter(Q(summary_compact__gt='') | Q(summary_detailed__gt='') | Q(summary__gt='')).count()
+    mindmaps_count = study_docs.exclude(mindmap_json='').count()
+
+    suggestions = []
+    docs_count = study_docs.count()
+    if docs_count and summaries_count < docs_count:
+        suggestions.append('Generate compact summaries for documents that still have no summary.')
+    if docs_count and mindmaps_count < docs_count:
+        suggestions.append('Create mindmaps for your main notes to see topic relationships faster.')
+    if quizzes.count() and not quiz_attempts.exists():
+        suggestions.append('Take at least one generated quiz to start tracking exam readiness.')
+    if quiz_attempts.exists() and quiz_accuracy < 70:
+        suggestions.append('Review hard flashcards, then generate a fresh quiz from the same document.')
+    if hard_reviews:
+        suggestions.append(f'Revisit {hard_reviews} hard flashcard review{"" if hard_reviews == 1 else "s"} today.')
+    if not resources.exists():
+        suggestions.append('Upload one useful resource to build your contribution footprint.')
+    if not suggestions:
+        suggestions.append('Keep using Study Lab regularly; your recent learning loop looks healthy.')
+
+    return Response({
+        'username': user.username,
+        'stats': {
+            'posts': posts.count(),
+            'replies': replies.count(),
+            'postViews': post_views,
+            'postLikesReceived': post_likes_received,
+            'postRepliesReceived': post_replies_received,
+            'resources': resources.count(),
+            'resourceViews': resource_views,
+            'resourceLikesReceived': resource_likes_received,
+            'resourceCommentsReceived': resource_comments_received,
+            'resourceCommentsMade': resource_comments.count(),
+            'followers': Follow.objects.filter(following=user).count(),
+            'following': Follow.objects.filter(follower=user).count(),
+            'bookmarks': Bookmark.objects.filter(user=user).count(),
+            'notificationsUnread': Notification.objects.filter(recipient=user, is_read=False).count(),
+            'studyDocs': docs_count,
+            'summaries': summaries_count,
+            'mindmaps': mindmaps_count,
+            'quizzes': quizzes.count(),
+            'quizAttempts': quiz_attempts.count(),
+            'quizAccuracy': quiz_accuracy,
+            'quizXp': quiz_stats.get('xp') or 0,
+            'flashcards': flashcards.count(),
+            'flashReviews': reviewed_total,
+            'easyReviews': easy_reviews,
+            'mediumReviews': medium_reviews,
+            'hardReviews': hard_reviews,
+            'recentPosts': posts.filter(created_at__gte=cutoff_30).count(),
+            'recentReplies': replies.filter(created_at__gte=cutoff_30).count(),
+            'recentStudyActions': quiz_attempts.filter(completed_at__gte=cutoff_30).count() + flash_reviews.filter(last_reviewed_at__gte=cutoff_30).count(),
+            'contributionScore': user.contribution_score,
+            'likesGiven': user.likes_given_count,
+        },
+        'activityDays': activity_days,
+        'topCategories': _analytics_counter_rows(category_counter),
+        'topSubjects': _analytics_counter_rows(subject_counter),
+        'topPosts': [_analytics_short_post(p) for p in posts.order_by('-view_count', '-thumbs_up_count')[:5]],
+        'topResources': [_analytics_short_resource(r) for r in resources.order_by('-view_count', '-like_count')[:5]],
+        'suggestions': suggestions[:5],
+    })
 
 @api_view(['POST'])
 @throttle_classes([AuthRateThrottle])

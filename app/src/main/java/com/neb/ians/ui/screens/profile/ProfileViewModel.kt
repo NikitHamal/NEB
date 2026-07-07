@@ -49,6 +49,8 @@ data class ProfileUiState(
     val photos: List<ApiUserPhoto> = emptyList(),
     val photosLoading: Boolean = false,
     val photoBusy: Boolean = false,
+    val showAvatarPreview: Boolean = false,
+    val avatarPreviewUrl: String = "",
     
     // Followers & Following Lists
     val showFollowersList: Boolean = false,
@@ -83,8 +85,8 @@ class ProfileViewModel @Inject constructor(
                     isLoading = false,
                     isFollowing = appCache.lastProfileIsFollowing,
                     followerCount = appCache.lastProfileFollowerCount,
-                    repliesCount = appCache.lastProfileRepliesCount,
-                    resourcesCount = appCache.lastProfileResourcesCount,
+                    repliesCount = maxOf(appCache.lastProfileRepliesCount, appCache.lastProfileReplies.size),
+                    resourcesCount = maxOf(appCache.lastProfileResourcesCount, appCache.lastProfileResources.size),
                     posts = appCache.lastProfilePosts,
                     replies = appCache.lastProfileReplies,
                     resources = appCache.lastProfileResources,
@@ -122,8 +124,8 @@ class ProfileViewModel @Inject constructor(
                         isLoading = false,
                         isFollowing = statsIsFollowing,
                         followerCount = profileWithStats.followerCount,
-                        repliesCount = initialRepliesCount,
-                        resourcesCount = initialResourcesCount
+                        repliesCount = maxOf(initialRepliesCount, it.replies.size),
+                        resourcesCount = maxOf(initialResourcesCount, it.resources.size)
                     )
                 }
                 saveToCache()
@@ -201,6 +203,9 @@ class ProfileViewModel @Inject constructor(
                     else (it.posts + response.posts).distinctBy { p -> p.id }
                     it.copy(
                         posts = merged,
+                        profile = it.profile?.let { profile ->
+                            profile.copy(postCount = maxOf(profile.postCount, response.totalCount))
+                        },
                         postsHasMore = response.hasMore,
                         postsLoading = false,
                         postsLoaded = true
@@ -235,8 +240,11 @@ class ProfileViewModel @Inject constructor(
                     else (it.replies + response.replies).distinctBy { r -> r.id }
                     it.copy(
                         replies = merged,
+                        profile = it.profile?.let { profile ->
+                            profile.copy(replyCount = maxOf(profile.replyCount, response.totalCount))
+                        },
                         repliesHasMore = response.hasMore,
-                        repliesCount = response.totalCount,
+                        repliesCount = maxOf(response.totalCount, merged.size),
                         repliesLoading = false,
                         repliesLoaded = true
                     )
@@ -271,7 +279,7 @@ class ProfileViewModel @Inject constructor(
                     it.copy(
                         resources = merged,
                         resourcesHasMore = response.hasMore,
-                        resourcesCount = response.totalCount,
+                        resourcesCount = maxOf(response.totalCount, merged.size),
                         resourcesLoading = false,
                         resourcesLoaded = true
                     )
@@ -281,6 +289,17 @@ class ProfileViewModel @Inject constructor(
                 _uiState.update { it.copy(resourcesLoading = false, resourcesLoaded = true) }
             }
         }
+    }
+
+
+    fun openAvatarPreview() {
+        val url = _uiState.value.profile?.photoUrl.orEmpty()
+        if (url.isBlank()) return
+        _uiState.update { it.copy(showAvatarPreview = true, avatarPreviewUrl = url) }
+    }
+
+    fun closeAvatarPreview() {
+        _uiState.update { it.copy(showAvatarPreview = false, avatarPreviewUrl = "") }
     }
 
     fun toggleFollow() {

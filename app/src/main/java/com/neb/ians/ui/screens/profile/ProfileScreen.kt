@@ -41,6 +41,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.neb.ians.R
 import com.neb.ians.ui.components.WebEmptyState
 import com.neb.ians.ui.components.WebResourceCard
+import com.neb.ians.ui.components.ZoomableImageDialog
 
 @Composable
 fun ProfileScreen(
@@ -88,7 +89,9 @@ fun ProfileScreen(
                     onLoadMorePosts = { viewModel.loadPosts(reset = false) },
                     onLoadMoreReplies = { viewModel.loadReplies(reset = false) },
                     onLoadMoreResources = { viewModel.loadResources(reset = false) },
-                    onAvatarClick = viewModel::openPhotoGallery,
+                    onAvatarClick = {
+                        if (uiState.profile?.isSelf == true) viewModel.openPhotoGallery() else viewModel.openAvatarPreview()
+                    },
                     onNavigateBack = onNavigateBack,
                     onAnalyticsClick = onAnalyticsClick,
                     onFollowersClick = viewModel::openFollowers,
@@ -106,6 +109,14 @@ fun ProfileScreen(
             onDismiss = viewModel::closePhotoGallery,
             onActivatePhoto = viewModel::activatePhoto,
             onUploadPhoto = viewModel::uploadPhoto
+        )
+    }
+
+    if (uiState.showAvatarPreview && uiState.avatarPreviewUrl.isNotBlank()) {
+        ZoomableImageDialog(
+            imageUrl = uiState.avatarPreviewUrl,
+            contentDescription = "Profile photo",
+            onDismiss = viewModel::closeAvatarPreview
         )
     }
 
@@ -155,8 +166,8 @@ private fun ProfileContent(
 
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(bottom = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(10.dp)
+        contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 24.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         item(key = "header") {
             ProfileHeaderCard(

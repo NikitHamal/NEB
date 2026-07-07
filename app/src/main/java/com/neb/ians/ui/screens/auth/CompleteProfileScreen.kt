@@ -1,8 +1,6 @@
 package com.neb.ians.ui.screens.auth
 
 import android.app.DatePickerDialog
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -32,6 +30,7 @@ import coil.compose.rememberAsyncImagePainter
 import com.neb.ians.data.api.UserProfileResponse
 import com.neb.ians.ui.components.ProfileBanner
 import com.neb.ians.ui.components.bannerPresetFor
+import com.neb.ians.ui.screens.profile.PhotoGalleryDialog
 import java.util.*
 
 private val PRADESH_LIST = listOf("Koshi", "Madhesh", "Bagmati", "Gandaki", "Lumbini", "Karnali", "Sudurpashchim")
@@ -72,19 +71,6 @@ fun CompleteProfileScreen(
         (uiState.role != "teacher" || uiState.teachingSubjects.isNotEmpty()) &&
         (uiState.role != "institution" || uiState.school.isNotEmpty())
 
-    val imagePickerLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.GetContent()
-    ) { uri ->
-        uri?.let {
-            val inputStream = context.contentResolver.openInputStream(it)
-            val bytes = inputStream?.readBytes()
-            if (bytes != null) {
-                val mimeType = context.contentResolver.getType(it) ?: "image/jpeg"
-                viewModel.uploadProfilePhoto(bytes, "profile_photo", mimeType)
-            }
-        }
-    }
-
     LaunchedEffect(uiState.submissionResult) {
         when (uiState.submissionResult) {
             true -> {
@@ -115,7 +101,7 @@ fun CompleteProfileScreen(
                 )
             }
         },
-        containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
+        containerColor = MaterialTheme.colorScheme.surface
     ) { paddingValues ->
         Column(
             modifier = Modifier
@@ -144,15 +130,15 @@ fun CompleteProfileScreen(
 
             Card(
                 colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.surface
+                    containerColor = Color.White
                 ),
-                shape = RoundedCornerShape(16.dp),
-                border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)),
+                shape = RoundedCornerShape(22.dp),
+                border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Column(
-                    modifier = Modifier.padding(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(14.dp)
+                    modifier = Modifier.padding(18.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     // Profile Picture Section
                     Column {
@@ -174,7 +160,8 @@ fun CompleteProfileScreen(
                                     .size(64.dp)
                                     .clip(CircleShape)
                                     .background(MaterialTheme.colorScheme.surfaceVariant)
-                                    .border(1.dp, MaterialTheme.colorScheme.outlineVariant, CircleShape),
+                                    .border(1.dp, MaterialTheme.colorScheme.outlineVariant, CircleShape)
+                                    .clickable { viewModel.openPhotoGallery() },
                                 contentAlignment = Alignment.Center
                             ) {
                                 if (uiState.photoUrl.isNotEmpty()) {
@@ -206,7 +193,7 @@ fun CompleteProfileScreen(
                                 verticalArrangement = Arrangement.spacedBy(6.dp)
                             ) {
                                 OutlinedButton(
-                                    onClick = { imagePickerLauncher.launch("image/*") },
+                                    onClick = { viewModel.openPhotoGallery() },
                                     shape = RoundedCornerShape(20.dp),
                                     contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
                                     border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
@@ -217,7 +204,7 @@ fun CompleteProfileScreen(
                                         modifier = Modifier.size(18.dp)
                                     )
                                     Spacer(modifier = Modifier.width(6.dp))
-                                    Text("Upload Photo", fontWeight = FontWeight.SemiBold)
+                                    Text("Manage photos", fontWeight = FontWeight.SemiBold, maxLines = 1)
                                 }
                                 Text(
                                     text = "JPG, PNG or WebP. Max 5MB.",
@@ -236,59 +223,16 @@ fun CompleteProfileScreen(
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.onSurface
                         )
-                        Row(
+                        Column(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(top = 8.dp),
-                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                            verticalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
-                            listOf("student", "teacher", "institution").forEach { r ->
-                                val isSelected = uiState.role == r
-                                val label = r.replaceFirstChar { it.uppercase() }
-                                Box(
-                                    modifier = Modifier
-                                        .weight(1f)
-                                        .clip(RoundedCornerShape(24.dp))
-                                        .background(
-                                            if (isSelected) MaterialTheme.colorScheme.primaryContainer
-                                            else MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
-                                        )
-                                        .clickable { viewModel.onRoleChange(r) }
-                                        .padding(vertical = 12.dp, horizontal = 8.dp),
-                                    contentAlignment = Alignment.Center
-                                ) {
-                                    Text(
-                                        text = label,
-                                        color = if (isSelected) MaterialTheme.colorScheme.onPrimaryContainer
-                                                else MaterialTheme.colorScheme.onSurface,
-                                        fontWeight = FontWeight.SemiBold
-                                    )
-                                }
-                            }
-                        }
-                        Spacer(modifier = Modifier.height(8.dp))
-                        val isExplorerSelected = uiState.role == "explorer"
-                        Box(
-                            modifier = Modifier
-                                .clip(RoundedCornerShape(24.dp))
-                                .background(
-                                    if (isExplorerSelected) Color(0xFFFFF7ED)
-                                    else MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
-                                )
-                                .border(
-                                    width = 1.dp,
-                                    color = if (isExplorerSelected) Color(0xFFF97316) else Color.Transparent,
-                                    shape = RoundedCornerShape(24.dp)
-                                )
-                                .clickable { viewModel.onRoleChange("explorer") }
-                                .padding(vertical = 12.dp, horizontal = 24.dp),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text(
-                                text = "Explorer",
-                                color = if (isExplorerSelected) Color(0xFFEA580C) else MaterialTheme.colorScheme.onSurface,
-                                fontWeight = FontWeight.SemiBold
-                            )
+                            ProfileRoleOption("Student", "Learn, ask, and save resources", uiState.role == "student") { viewModel.onRoleChange("student") }
+                            ProfileRoleOption("Teacher", "Teach, guide, and share resources", uiState.role == "teacher") { viewModel.onRoleChange("teacher") }
+                            ProfileRoleOption("Institution", "Represent a school, college, or academy", uiState.role == "institution") { viewModel.onRoleChange("institution") }
+                            ProfileRoleOption("Explorer", "Browse first and complete details later", uiState.role == "explorer") { viewModel.onRoleChange("explorer") }
                         }
                     }
 
@@ -390,13 +334,11 @@ fun CompleteProfileScreen(
                         )
                     }
 
-                    // Date of Birth * and Gender *
-                    Row(
+                    Column(
                         modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(16.dp)
+                        verticalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
-                        // Date of Birth
-                        Column(modifier = Modifier.weight(1f)) {
+                        Column {
                             Text(
                                 text = "Date of Birth *",
                                 style = MaterialTheme.typography.bodyMedium,
@@ -424,10 +366,11 @@ fun CompleteProfileScreen(
                                     value = uiState.dob,
                                     onValueChange = {},
                                     readOnly = true,
-                                    placeholder = { Text("YYYY-MM-DD") },
+                                    placeholder = { Text("YYYY-MM-DD", maxLines = 1) },
                                     trailingIcon = { Icon(Icons.Default.DateRange, contentDescription = null) },
                                     modifier = Modifier.fillMaxWidth(),
                                     enabled = false,
+                                    singleLine = true,
                                     colors = OutlinedTextFieldDefaults.colors(
                                         disabledTextColor = MaterialTheme.colorScheme.onSurface,
                                         disabledBorderColor = MaterialTheme.colorScheme.outline,
@@ -444,9 +387,8 @@ fun CompleteProfileScreen(
                             }
                         }
 
-                        // Gender
                         var genderExpanded by remember { mutableStateOf(false) }
-                        Column(modifier = Modifier.weight(1f)) {
+                        Column {
                             Text(
                                 text = "Gender *",
                                 style = MaterialTheme.typography.bodyMedium,
@@ -462,7 +404,7 @@ fun CompleteProfileScreen(
                                     value = uiState.gender,
                                     onValueChange = {},
                                     readOnly = true,
-                                    placeholder = { Text("Select gender") },
+                                    placeholder = { Text("Select gender", maxLines = 1) },
                                     trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = genderExpanded) },
                                     modifier = Modifier
                                         .menuAnchor()
@@ -595,9 +537,9 @@ fun CompleteProfileScreen(
                         "explorer" -> Unit
                         }
 
-                    Row(
+                    Column(
                         modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(16.dp)
+                        verticalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
                         // Class / Level
                         var classExpanded by remember { mutableStateOf(false) }
@@ -605,7 +547,7 @@ fun CompleteProfileScreen(
                         val classLabel = if (isStudent) "Class *" else "Class / Level"
                         val classOptions = if (isStudent) STUDENT_CLASS_OPTIONS else TEACHER_CLASS_OPTIONS
 
-                        Column(modifier = Modifier.weight(1f)) {
+                        Column {
                             Text(
                                 text = classLabel,
                                 style = MaterialTheme.typography.bodyMedium,
@@ -648,7 +590,7 @@ fun CompleteProfileScreen(
 
                         // Province
                         var pradeshExpanded by remember { mutableStateOf(false) }
-                        Column(modifier = Modifier.weight(1f)) {
+                        Column {
                             Text(
                                 text = "Province",
                                 style = MaterialTheme.typography.bodyMedium,
@@ -862,6 +804,46 @@ fun CompleteProfileScreen(
             }
 
             Spacer(modifier = Modifier.height(48.dp))
+        }
+    }
+
+    if (uiState.showPhotoGallery) {
+        PhotoGalleryDialog(
+            photos = uiState.photos,
+            isLoading = uiState.photosLoading,
+            isBusy = uiState.photoBusy || uiState.isPhotoUploading,
+            onDismiss = viewModel::closePhotoGallery,
+            onActivatePhoto = viewModel::activatePhoto,
+            onUploadPhoto = viewModel::uploadPhoto
+        )
+    }
+
+}
+@Composable
+private fun ProfileRoleOption(
+    title: String,
+    subtitle: String,
+    selected: Boolean,
+    onClick: () -> Unit
+) {
+    Surface(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick),
+        shape = RoundedCornerShape(16.dp),
+        color = if (selected) MaterialTheme.colorScheme.primaryContainer else Color.White,
+        border = BorderStroke(1.dp, if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outlineVariant)
+    ) {
+        Row(
+            modifier = Modifier.padding(horizontal = 14.dp, vertical = 12.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            RadioButton(selected = selected, onClick = onClick)
+            Column(modifier = Modifier.weight(1f)) {
+                Text(title, fontWeight = FontWeight.Bold, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                Text(subtitle, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1, overflow = TextOverflow.Ellipsis)
+            }
         }
     }
 }

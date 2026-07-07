@@ -224,6 +224,7 @@ fun ForumPostCard(
     val categoryTheme = getSubjectTheme(category)
     val preview = remember(post.content) { markdownToPlainPreview(post.content) }
     val bookmarked = post.isBookmarked == true
+    var zoomImageUrl by remember { mutableStateOf<String?>(null) }
 
     NebCard(
         modifier = modifier.fillMaxWidth(),
@@ -348,11 +349,20 @@ fun ForumPostCard(
                             modifier = Modifier
                                 .weight(1f)
                                 .height(80.dp)
-                                .clip(RoundedCornerShape(8.dp)),
+                                .clip(RoundedCornerShape(8.dp))
+                                .clickable { zoomImageUrl = resolveMediaUrl(image.imageUrl) },
                             contentScale = ContentScale.Crop
                         )
                     }
                 }
+            }
+
+            zoomImageUrl?.let { url ->
+                ZoomableImageDialog(
+                    imageUrl = url,
+                    contentDescription = "Post image preview",
+                    onDismiss = { zoomImageUrl = null }
+                )
             }
 
             // ----- Poll badge -----

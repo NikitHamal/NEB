@@ -189,7 +189,7 @@ def profile(request, username):
     user_posts_qs = Post.objects.none() if profile_private else Post.objects.select_related('user').filter(user_id=profile_user.id).order_by('-created_at')[:10]
     user_posts = _serialize_posts(user_posts_qs, user_id)
 
-    user_replies_qs = Reply.objects.none() if profile_private else Reply.objects.select_related('user', 'post').filter(user_id=profile_user.id).order_by('-created_at')[:10]
+    user_replies_qs = Reply.objects.none() if profile_private else Reply.objects.select_related('user', 'post').filter(user_id=profile_user.id, is_archived=False).order_by('-created_at')[:10]
     user_replies = _serialize_replies(user_replies_qs, user_id)
 
     user_resources = []
@@ -450,46 +450,83 @@ def _profile_card_avatar(user, size=152):
 
 def profile_card_image(request, username):
     """Open Graph/social card PNG for profile sharing.
-
-    Two-panel: left = role-colored with large avatar, right = white with name, handle, bio, branding.
-    """
-    if _rate_limit(request, 'profile_card_image', 30, 60, by_ip=True):
-        return JsonResponse({'error': 'Too many requests. Please slow down.'}, status=429)
-    try:
-        from PIL import Image, ImageDraw, ImageFilter
-    except Exception:
+
+
+    Two-panel: left = role-colored with large avatar, right = white with name, handle, bio, branding.
+
+    """
+
+    if _rate_limit(request, 'profile_card_image', 30, 60, by_ip=True):
+
+        return JsonResponse({'error': 'Too many requests. Please slow down.'}, status=429)
+
+    try:
+
+        from PIL import Image, ImageDraw, ImageFilter
+
+    except Exception:
+
         raise Http404('Image support is unavailable')
     try:
         profile_user = User.objects.get(username=username)
-    except User.DoesNotExist:
-        raise Http404('User not found')
-
-    # Cache the rendered PNG keyed on the username + a hash of all fields
-    # that influence the rendering (photo, name, role, verification fields).
-    import hashlib as _hashlib
-    _sig_src = '|'.join([
-        str(profile_user.photo_url or ''),
-        str(profile_user.display_name or ''),
-        str(profile_user.username or ''),
-        str(getattr(profile_user, 'role', '') or ''),
-        str(profile_user.is_admin),
-        str(getattr(profile_user, 'is_bot', False)),
-        str(getattr(profile_user, 'moderator_level', 0) or 0),
-        str(getattr(profile_user, 'verification_level', 0) or 0),
-        str(getattr(profile_user, 'teacher_verified', False)),
-    ])
-    _sig = _hashlib.sha256(_sig_src.encode('utf-8')).hexdigest()[:20]
-    cache_key = f'profile_card_png:{username}:{_sig}'
-    cached_png = cache.get(cache_key)
-    if cached_png is not None:
-        resp = HttpResponse(cached_png, content_type='image/png')
-        resp['Cache-Control'] = 'public, max-age=3600'
-        resp['X-Content-Type-Options'] = 'nosniff'
-        return resp
-
-    W, H = 1200, 630
-    deco, c1, c2 = _profile_card_banner_style(profile_user)
-
+    except User.DoesNotExist:
+
+        raise Http404('User not found')
+
+
+
+    # Cache the rendered PNG keyed on the username + a hash of all fields
+
+    # that influence the rendering (photo, name, role, verification fields).
+
+    import hashlib as _hashlib
+
+    _sig_src = '|'.join([
+
+        str(profile_user.photo_url or ''),
+
+        str(profile_user.display_name or ''),
+
+        str(profile_user.username or ''),
+
+        str(getattr(profile_user, 'role', '') or ''),
+
+        str(profile_user.is_admin),
+
+        str(getattr(profile_user, 'is_bot', False)),
+
+        str(getattr(profile_user, 'moderator_level', 0) or 0),
+
+        str(getattr(profile_user, 'verification_level', 0) or 0),
+
+        str(getattr(profile_user, 'teacher_verified', False)),
+
+    ])
+
+    _sig = _hashlib.sha256(_sig_src.encode('utf-8')).hexdigest()[:20]
+
+    cache_key = f'profile_card_png:{username}:{_sig}'
+
+    cached_png = cache.get(cache_key)
+
+    if cached_png is not None:
+
+        resp = HttpResponse(cached_png, content_type='image/png')
+
+        resp['Cache-Control'] = 'public, max-age=3600'
+
+        resp['X-Content-Type-Options'] = 'nosniff'
+
+        return resp
+
+
+
+    W, H = 1200, 630
+
+    deco, c1, c2 = _profile_card_banner_style(profile_user)
+
+
+
     img = Image.new('RGB', (W, H), (255, 255, 255))
     d = ImageDraw.Draw(img)
 
@@ -558,16 +595,26 @@ def profile_card_image(request, username):
     brand = 'NEBians'
     bw = d.textlength(brand, font=brand_font)
     d.text((logo_x - bw - 10, logo_y + (logo_size - 36) // 2), brand, font=brand_font, fill=(100, 116, 139))
-
-    buf = BytesIO()
-    img.save(buf, format='PNG', optimize=True)
-    png_bytes = buf.getvalue()
-    cache.set(cache_key, png_bytes, 3600)
-    resp = HttpResponse(png_bytes, content_type='image/png')
-    resp['Cache-Control'] = 'public, max-age=3600'
-    resp['X-Content-Type-Options'] = 'nosniff'
-    return resp
-
+
+
+    buf = BytesIO()
+
+    img.save(buf, format='PNG', optimize=True)
+
+    png_bytes = buf.getvalue()
+
+    cache.set(cache_key, png_bytes, 3600)
+
+    resp = HttpResponse(png_bytes, content_type='image/png')
+
+    resp['Cache-Control'] = 'public, max-age=3600'
+
+    resp['X-Content-Type-Options'] = 'nosniff'
+
+    return resp
+
+
+
 
 def _draw_text_ellipsis_multiline(draw, xy, text, font, fill, max_width, max_lines=3):
     """Draw text that wraps across multiple lines with ellipsis on the last line."""
@@ -666,10 +713,10 @@ def ajax_profile_replies(request, username):
         offset = 0
         limit = 10
 
-    replies_qs = Reply.objects.select_related('user', 'post').filter(user_id=profile_user.id).order_by('-created_at')[offset:offset+limit]
+    replies_qs = Reply.objects.select_related('user', 'post').filter(user_id=profile_user.id, is_archived=False).order_by('-created_at')[offset:offset+limit]
     replies = _serialize_replies(replies_qs, user_id)
 
-    total_count = Reply.objects.filter(user_id=profile_user.id).count()
+    total_count = Reply.objects.filter(user_id=profile_user.id, is_archived=False).count()
     has_more = (offset + len(replies)) < total_count
 
     return JsonResponse({
@@ -703,11 +750,11 @@ def ajax_profile_resources(request, username):
 
     is_self = bool(viewer_user and viewer_user.pk == profile_user.pk)
     if is_self:
-        resources_qs = Resource.objects.filter(uploaded_by_id=profile_user.id).order_by('-added_at')[offset:offset+limit]
-        total_count = Resource.objects.filter(uploaded_by_id=profile_user.id).count()
+        resources_qs = Resource.objects.filter(uploaded_by_id=profile_user.id, is_lead=True).order_by('-added_at')[offset:offset+limit]
+        total_count = Resource.objects.filter(uploaded_by_id=profile_user.id, is_lead=True).count()
     else:
-        resources_qs = Resource.objects.filter(uploaded_by_id=profile_user.id, approval_status='approved').order_by('-added_at')[offset:offset+limit]
-        total_count = Resource.objects.filter(uploaded_by_id=profile_user.id, approval_status='approved').count()
+        resources_qs = Resource.objects.filter(uploaded_by_id=profile_user.id, approval_status='approved', is_lead=True).order_by('-added_at')[offset:offset+limit]
+        total_count = Resource.objects.filter(uploaded_by_id=profile_user.id, approval_status='approved', is_lead=True).count()
 
     resources = _serialize_resources(resources_qs)
     has_more = (offset + len(resources)) < total_count

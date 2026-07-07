@@ -84,6 +84,7 @@ import com.neb.ians.ui.components.PollView
 import com.neb.ians.ui.components.PostMoreMenu
 import com.neb.ians.ui.components.ReportDialog
 import com.neb.ians.ui.components.UserPopoverDialog
+import com.neb.ians.ui.components.ZoomableImageDialog
 import com.neb.ians.ui.components.WebPillShape
 import com.neb.ians.ui.components.resolveMediaUrl
 import com.neb.ians.ui.components.sharePost
@@ -118,6 +119,7 @@ fun ForumPostDetailScreen(
     // Bottom sheet state for thread
     var activeThreadParent by remember { mutableStateOf<ApiReply?>(null) }
     var activeThreadTargetReply by remember { mutableStateOf<ApiReply?>(null) }
+    var zoomImageUrl by remember { mutableStateOf<String?>(null) }
 
     // Dialog state
     var reportTarget by remember { mutableStateOf<Pair<String, String>?>(null) } // type to id
@@ -385,6 +387,14 @@ fun ForumPostDetailScreen(
     }
 
     // ----- Thread Bottom Sheet -----
+    zoomImageUrl?.let { url ->
+        ZoomableImageDialog(
+            imageUrl = url,
+            contentDescription = "Post image",
+            onDismiss = { zoomImageUrl = null }
+        )
+    }
+
     activeThreadParent?.let { parent ->
         val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
         val threadReplies = uiState.childrenOf(parent.id)
@@ -742,7 +752,8 @@ private fun PostContentSection(
                         contentDescription = null,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .clip(RoundedCornerShape(12.dp)),
+                            .clip(RoundedCornerShape(12.dp))
+                            .clickable { zoomImageUrl = resolveMediaUrl(image.imageUrl) },
                         contentScale = ContentScale.FillWidth
                     )
                 }

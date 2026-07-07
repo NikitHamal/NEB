@@ -894,6 +894,11 @@ interface ApiService {
         @Path("username") username: String
     ): ApiProfileStats
 
+    @GET("api/users/me/analytics/")
+    suspend fun getPrivateAnalytics(
+        @Header("Authorization") bearerToken: String
+    ): ApiPrivateAnalyticsResponse
+
     @POST("api/users/{userId}/follow/")
     suspend fun toggleFollow(
         @Header("Authorization") bearerToken: String,
@@ -1621,6 +1626,94 @@ data class ApiPaginatedBookmarks(
     @SerialName("count") val totalCount: Int = 0,
     val next: String? = null,
     val previous: String? = null
+)
+
+@Serializable
+data class ApiAnalyticsStats(
+    val posts: Int = 0,
+    val replies: Int = 0,
+    @SerialName("postViews") val postViews: Int = 0,
+    @SerialName("postLikesReceived") val postLikesReceived: Int = 0,
+    @SerialName("postRepliesReceived") val postRepliesReceived: Int = 0,
+    val resources: Int = 0,
+    @SerialName("resourceViews") val resourceViews: Int = 0,
+    @SerialName("resourceLikesReceived") val resourceLikesReceived: Int = 0,
+    @SerialName("resourceCommentsReceived") val resourceCommentsReceived: Int = 0,
+    @SerialName("resourceCommentsMade") val resourceCommentsMade: Int = 0,
+    val followers: Int = 0,
+    val following: Int = 0,
+    val bookmarks: Int = 0,
+    @SerialName("notificationsUnread") val notificationsUnread: Int = 0,
+    @SerialName("studyDocs") val studyDocs: Int = 0,
+    val summaries: Int = 0,
+    val mindmaps: Int = 0,
+    val quizzes: Int = 0,
+    @SerialName("quizAttempts") val quizAttempts: Int = 0,
+    @SerialName("quizAccuracy") val quizAccuracy: Int = 0,
+    @SerialName("quizXp") val quizXp: Int = 0,
+    val flashcards: Int = 0,
+    @SerialName("flashReviews") val flashReviews: Int = 0,
+    @SerialName("easyReviews") val easyReviews: Int = 0,
+    @SerialName("mediumReviews") val mediumReviews: Int = 0,
+    @SerialName("hardReviews") val hardReviews: Int = 0,
+    @SerialName("recentPosts") val recentPosts: Int = 0,
+    @SerialName("recentReplies") val recentReplies: Int = 0,
+    @SerialName("recentStudyActions") val recentStudyActions: Int = 0,
+    @SerialName("contributionScore") val contributionScore: Int = 0,
+    @SerialName("likesGiven") val likesGiven: Int = 0
+)
+
+@Serializable
+data class ApiAnalyticsDay(
+    val label: String = "",
+    val total: Int = 0,
+    val posts: Int = 0,
+    val replies: Int = 0,
+    val resources: Int = 0,
+    val study: Int = 0,
+    val height: Int = 8
+)
+
+@Serializable
+data class ApiAnalyticsTopic(
+    val label: String = "",
+    val count: Int = 0,
+    val width: Int = 0
+)
+
+@Serializable
+data class ApiAnalyticsPost(
+    val id: String = "",
+    val title: String = "",
+    val category: String = "",
+    @SerialName("view_count") val viewCount: Int = 0,
+    @SerialName("like_count") val likeCount: Int = 0,
+    @SerialName("reply_count") val replyCount: Int = 0,
+    @SerialName("created_at") val createdAt: Long = 0
+)
+
+@Serializable
+data class ApiAnalyticsResource(
+    val id: String = "",
+    val title: String = "",
+    val subject: String = "",
+    val type: String = "",
+    @SerialName("view_count") val viewCount: Int = 0,
+    @SerialName("like_count") val likeCount: Int = 0,
+    @SerialName("comment_count") val commentCount: Int = 0,
+    @SerialName("added_at") val addedAt: Long = 0
+)
+
+@Serializable
+data class ApiPrivateAnalyticsResponse(
+    val username: String = "",
+    val stats: ApiAnalyticsStats = ApiAnalyticsStats(),
+    @SerialName("activityDays") val activityDays: List<ApiAnalyticsDay> = emptyList(),
+    @SerialName("topCategories") val topCategories: List<ApiAnalyticsTopic> = emptyList(),
+    @SerialName("topSubjects") val topSubjects: List<ApiAnalyticsTopic> = emptyList(),
+    @SerialName("topPosts") val topPosts: List<ApiAnalyticsPost> = emptyList(),
+    @SerialName("topResources") val topResources: List<ApiAnalyticsResource> = emptyList(),
+    val suggestions: List<String> = emptyList()
 )
 
 @Serializable
