@@ -104,6 +104,34 @@
     window.WS_CONFIG.url = "{{ ws_url|escapejs }}";
     {% endif %}
   </script>
+
+  <!-- Google Play Store App Promo Banner -->
+  <div class="app-banner" id="app-promo-banner" style="display: none;">
+    <div class="app-banner-content">
+      <span class="material-symbols-outlined app-banner-icon">smartphone</span>
+      <span class="app-banner-text">NEBians is now live on the Google Play Store! Study smarter with our new Android app.</span>
+      <a href="https://play.google.com/store/apps/details?id=com.neb.ians" target="_blank" rel="noopener" class="app-banner-btn">Get the App</a>
+    </div>
+    <button class="app-banner-close" aria-label="Dismiss banner" id="close-app-banner">
+      <span class="material-symbols-outlined">close</span>
+    </button>
+  </div>
+  <script nonce="{{ csp_nonce }}">
+    (function() {
+      var banner = document.getElementById('app-promo-banner');
+      var closeBtn = document.getElementById('close-app-banner');
+      if (localStorage.getItem('app-banner-dismissed') !== 'true') {
+        banner.style.display = 'flex';
+      }
+      if (closeBtn && banner) {
+        closeBtn.addEventListener('click', function() {
+          banner.style.display = 'none';
+          localStorage.setItem('app-banner-dismissed', 'true');
+        });
+      }
+    })();
+  </script>
+
   <!-- Top Navigation Bar -->
   {% block topbar %}
   <header class="md-topbar">

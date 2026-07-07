@@ -434,3 +434,104 @@
 .profile-dropdown-menu a.menu-logout:hover .material-symbols-outlined {
   color: var(--md-error);
 }
+
+/* App Promo Banner */
+.app-banner {
+  background: linear-gradient(90deg, #0058df 0%, #004bd4 50%, #003cc3 100%);
+  color: #ffffff;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 101; /* above topbar */
+  font-size: 0.875rem;
+  font-weight: 500;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.app-banner-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  text-align: center;
+  padding-right: 32px; /* make room for close button */
+}
+
+.app-banner-icon {
+  font-size: 20px;
+  color: #a8c5ff;
+}
+
+.app-banner-text {
+  letter-spacing: -0.01em;
+}
+
+.app-banner-btn {
+  background: #ffffff;
+  color: #004bd4;
+  padding: 4px 12px;
+  border-radius: 16px;
+  text-decoration: none;
+  font-size: 0.8rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.app-banner-btn:hover {
+  background: #eef5ff;
+  color: #003cc3;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+  text-decoration: none;
+}
+
+.app-banner-close {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  padding: 4px;
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.app-banner-close:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+}
+
+.app-banner-close span {
+  font-size: 18px;
+}
+
+/* Responsiveness */
+@media (max-width: 600px) {
+  .app-banner {
+    padding: 10px 12px;
+  }
+  .app-banner-content {
+    gap: 8px;
+    font-size: 0.8rem;
+  }
+  .app-banner-btn {
+    padding: 3px 10px;
+    font-size: 0.75rem;
+  }
+  .app-banner-close {
+    right: 6px;
+  }
+}
