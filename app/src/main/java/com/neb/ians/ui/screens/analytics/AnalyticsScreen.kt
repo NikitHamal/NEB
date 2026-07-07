@@ -6,6 +6,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -650,7 +651,7 @@ private fun EmptyDashboardText(text: String) {
 }
 
 @Composable
-private fun AnalyticsCard(modifier: Modifier = Modifier, content: @Composable Column.() -> Unit) {
+private fun AnalyticsCard(modifier: Modifier = Modifier, content: @Composable ColumnScope.() -> Unit) {
     Surface(
         modifier = modifier.fillMaxWidth(),
         shape = WebPanelShape,

@@ -240,7 +240,8 @@ fun ForumPostDetailScreen(
                             onEditedClick = { historyTarget = "post" to post.id },
                             onProfileClick = onProfileClick,
                             onAuthorLongPress = { popoverUsername = post.authorName },
-                            onLinkClick = openLink
+                            onLinkClick = openLink,
+                            onImageClick = { url -> zoomImageUrl = url }
                         )
                     }
 
@@ -633,7 +634,8 @@ private fun PostContentSection(
     onEditedClick: () -> Unit,
     onProfileClick: (String) -> Unit,
     onAuthorLongPress: () -> Unit,
-    onLinkClick: (String) -> Unit
+    onLinkClick: (String) -> Unit,
+    onImageClick: (String) -> Unit
 ) {
     val category = post.category.ifBlank { "General" }
     val categoryTheme = getSubjectTheme(category)
@@ -753,7 +755,7 @@ private fun PostContentSection(
                         modifier = Modifier
                             .fillMaxWidth()
                             .clip(RoundedCornerShape(12.dp))
-                            .clickable { zoomImageUrl = resolveMediaUrl(image.imageUrl) },
+                            .clickable { onImageClick(resolveMediaUrl(image.imageUrl)) },
                         contentScale = ContentScale.FillWidth
                     )
                 }
