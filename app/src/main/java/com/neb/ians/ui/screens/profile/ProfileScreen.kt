@@ -123,7 +123,6 @@ fun ProfileScreen(
         }
         } // end Box
         } // end PullToRefreshBox
-    }
 
     if (uiState.showPhotoGallery) {
         PhotoGalleryDialog(
