@@ -149,8 +149,9 @@ sealed class Screen(val route: String) {
     data object Analytics : Screen("analytics")
     data object Bookmarks : Screen("bookmarks")
     data object Upload : Screen("upload")
-    data object Profile : Screen("profile/{username}") {
-        fun createRoute(username: String) = "profile/${java.net.URLEncoder.encode(username, "UTF-8")}"
+    data object Profile : Screen("profile/{username}?showRequests={showRequests}") {
+        fun createRoute(username: String, showRequests: Boolean = false) =
+            "profile/${java.net.URLEncoder.encode(username, "UTF-8")}?showRequests=$showRequests"
     }
     data object EditProfile : Screen("profile/edit")
     data object Settings : Screen("settings")
@@ -583,11 +584,22 @@ fun NEBiansNavHost(
             }
             composable(
                 route = Screen.Profile.route,
-                arguments = listOf(navArgument("username") { type = NavType.StringType })
+                arguments = listOf(
+                    navArgument("username") { type = NavType.StringType },
+                    navArgument("showRequests") { type = NavType.BoolType; defaultValue = false }
+                )
             ) { backStackEntry ->
-                val username = backStackEntry.arguments?.getString("username") ?: ""
+                val usernameArg = backStackEntry.arguments?.getString("username") ?: ""
+                val showRequests = backStackEntry.arguments?.getBoolean("showRequests") ?: false
+                val ownUsername = userProfile?.username?.takeIf { it.isNotBlank() && it != "Guest" }
+                val username = if (usernameArg == "me" || usernameArg == ownUsername) {
+                    ownUsername ?: ""
+                } else {
+                    usernameArg
+                }
                 ProfileScreen(
                     username = username,
+                    showRequests = showRequests,
                     onNavigateBack = { navController.popBackStack() },
                     onEditProfile = { navController.navigate(Screen.EditProfile.route) },
                     onPostClick = { postId ->

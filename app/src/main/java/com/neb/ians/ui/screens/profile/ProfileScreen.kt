@@ -54,6 +54,7 @@ import com.neb.ians.ui.components.ZoomableImageDialog
 @Composable
 fun ProfileScreen(
     username: String,
+    showRequests: Boolean = false,
     onNavigateBack: () -> Unit,
     onEditProfile: () -> Unit,
     onPostClick: (String) -> Unit,
@@ -69,6 +70,12 @@ fun ProfileScreen(
     }
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(uiState.profile, showRequests) {
+        if (showRequests && uiState.profile != null && uiState.profile?.isSelf == true) {
+            viewModel.openFollowRequests()
+        }
+    }
     val scope = rememberCoroutineScope()
     var isRefreshing by remember { mutableStateOf(false) }
 

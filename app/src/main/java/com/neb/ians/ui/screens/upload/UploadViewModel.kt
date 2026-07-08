@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.neb.ians.data.api.ApiResourceUploadResponse
 import com.neb.ians.data.api.ApiService
 import com.neb.ians.data.repository.AuthRepository
+import com.neb.ians.data.api.ApiErrorMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -229,7 +230,7 @@ class UploadViewModel @Inject constructor(
                     uploadWithUrl(bearerToken, state)
                 }
             } catch (e: Exception) {
-                _uiState.update { it.copy(isSubmitting = false, submitError = e.message ?: "Upload failed") }
+                _uiState.update { it.copy(isSubmitting = false, submitError = ApiErrorMapper.mapException(e)) }
             }
         }
     }

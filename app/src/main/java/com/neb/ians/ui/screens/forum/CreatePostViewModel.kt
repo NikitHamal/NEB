@@ -10,6 +10,7 @@ import com.neb.ians.data.api.ApiPollOptionCreate
 import com.neb.ians.data.api.ApiUserSearchResult
 import com.neb.ians.data.api.WebPostCreateRequest
 import com.neb.ians.data.repository.ForumRepository
+import com.neb.ians.data.api.ApiErrorMapper
 import com.neb.ians.ui.components.applyMention
 import com.neb.ians.ui.components.mentionQueryAt
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -153,7 +154,7 @@ class CreatePostViewModel @Inject constructor(
                     _uiState.update {
                         it.copy(
                             isLoadingPost = false,
-                            error = e.message ?: "Couldn't load post for editing"
+                            error = ApiErrorMapper.mapException(e)
                         )
                     }
                 }
@@ -399,7 +400,7 @@ class CreatePostViewModel @Inject constructor(
                 _uiState.update { it.copy(isSubmitting = false) }
                 onSuccess()
             }.onFailure { e ->
-                _uiState.update { it.copy(isSubmitting = false, error = e.message ?: "Failed to save post") }
+                _uiState.update { it.copy(isSubmitting = false, error = ApiErrorMapper.mapException(e)) }
             }
         }
     }
