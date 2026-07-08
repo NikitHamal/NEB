@@ -142,9 +142,6 @@
   font-weight: 800;
   color: var(--md-on-surface);
   margin: 0 0 4px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
   line-height: 1.25;
 }
 
