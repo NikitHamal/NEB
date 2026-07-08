@@ -4,6 +4,7 @@ All paths are relative to /api/ (prefix added in nebians/urls.py).
 """
 from django.urls import path, include
 from . import views
+from . import views_presence
 
 urlpatterns = [
     # Auth
@@ -91,6 +92,9 @@ urlpatterns = [
 
     # Analytics tracking (mobile app)
     path('analytics/track/', views.analytics_track, name='analytics-track'),
+
+    # Presence heartbeat (mobile app)
+    path('presence/heartbeat/', views_presence.presence_heartbeat, name='presence-heartbeat'),
 
     # Reports
     path('reports/', views.report_create, name='report-create'),

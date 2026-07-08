@@ -56,6 +56,7 @@ class User(models.Model):
     likes_given_count = models.PositiveIntegerField(default=0)
     likes_received_count = models.PositiveIntegerField(default=0)
     contribution_score = models.PositiveIntegerField(default=0)
+    last_active = models.BigIntegerField(default=0)
 
     # Badge / role fields
     # verification_level: 0=none, 1=blue (standard), 2=green (expert), 3=gold (premium), 4=black (elite)
@@ -1122,6 +1123,7 @@ class PageView(models.Model):
     ip_address = models.GenericIPAddressField(blank=True, null=True)
     session_key = models.CharField(max_length=40, blank=True, default='')
     user_id = models.BigIntegerField(blank=True, null=True)
+    user_identifier = models.CharField(max_length=255, blank=True, default='')
     country = models.CharField(max_length=100, blank=True, default='')
     city = models.CharField(max_length=100, blank=True, default='')
     created_at = models.BigIntegerField(default=0)
@@ -1129,10 +1131,10 @@ class PageView(models.Model):
     class Meta:
         db_table = 'page_views'
         indexes = [
-            models.Index(fields=['created_at']),
-            models.Index(fields=['referrer_type']),
-            models.Index(fields=['source']),
-            models.Index(fields=['user_id']),
+            models.Index(fields=['created_at'], name='pv_created_at_idx'),
+            models.Index(fields=['referrer_type'], name='pv_referrer_type_idx'),
+            models.Index(fields=['source'], name='pv_source_idx'),
+            models.Index(fields=['user_id'], name='pv_user_id_idx'),
         ]
 
 
@@ -1151,6 +1153,11 @@ class DailyStat(models.Model):
     new_posts = models.PositiveIntegerField(default=0)
     new_resources = models.PositiveIntegerField(default=0)
     new_replies = models.PositiveIntegerField(default=0)
+    avg_session_duration = models.FloatField(default=0.0)
+    bounce_count = models.PositiveIntegerField(default=0)
+    total_sessions = models.PositiveIntegerField(default=0)
+    pages_per_session = models.FloatField(default=0.0)
+    peak_hour = models.IntegerField(default=0)
     created_at = models.BigIntegerField(default=0)
 
     class Meta:
