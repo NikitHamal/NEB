@@ -17,10 +17,10 @@ class UserSerializer(serializers.ModelSerializer):
             'pradesh', 'district', 'school', 'bio', 'is_locked', 'created_at',
             'email_verified', 'hasPassword',
             'verification_level', 'moderator_level', 'is_admin', 'achievement_badges',
-            'is_bot', 'teacher_verified',
+            'is_bot', 'teacher_verified', 'institution_verified',
         ]
         read_only_fields = ['id', 'created_at', 'email_verified', 'hasPassword',
-                            'verification_level', 'moderator_level', 'is_admin', 'achievement_badges', 'is_bot', 'teacher_verified']
+                            'verification_level', 'moderator_level', 'is_admin', 'achievement_badges', 'is_bot', 'teacher_verified', 'institution_verified']
 
     def get_hasPassword(self, obj):
         return bool(obj.password_hash)
@@ -39,7 +39,7 @@ class UserPublicSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'username', 'display_name', 'photo_url', 'banner_url', 'bio', 'is_locked',
-                  'role', 'verification_level', 'moderator_level', 'is_admin', 'achievement_badges', 'is_bot', 'teacher_verified']
+                  'role', 'verification_level', 'moderator_level', 'is_admin', 'achievement_badges', 'is_bot', 'teacher_verified', 'institution_verified']
 
     def to_representation(self, instance):
         ret = super().to_representation(instance)

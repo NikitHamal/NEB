@@ -142,7 +142,7 @@ def _user_badge_info(user):
         badge['type'] = 'institution'
         badge['icon'] = 'account_balance'
         badge['color'] = '#6366F1'
-        badge['label'] = 'Institution'
+        badge['label'] = 'Verified Institution' if getattr(user, 'institution_verified', False) else 'Institution'
         return badge
     if getattr(user, 'role', 'student') == 'explorer':
         badge['type'] = 'explorer'
@@ -673,7 +673,7 @@ def _build_contributors_batch():
         'contribution_score', 'post_count', 'reply_count',
         'likes_given_count', 'likes_received_count',
         'is_bot', 'is_admin', 'moderator_level', 'verification_level',
-        'role', 'teacher_verified',
+        'role', 'teacher_verified', 'institution_verified',
     )[:50]
     contributors = []
     for u in users:

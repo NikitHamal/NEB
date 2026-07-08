@@ -73,6 +73,9 @@ class User(models.Model):
     # Teacher verification — admin-verified teachers get a special badge
     teacher_verified = models.BooleanField(default=False, db_index=True)
 
+    # Institution verification — admin-verified institutions get a special badge
+    institution_verified = models.BooleanField(default=False, db_index=True)
+
     # Denormalized notification counter
     unread_notification_count = models.PositiveIntegerField(default=0)
 

@@ -157,6 +157,7 @@ def profile(request, username):
         'is_admin': profile_user.is_admin,
         'is_bot': profile_user.is_bot,
         'teacher_verified': profile_user.teacher_verified,
+        'institution_verified': profile_user.institution_verified,
         'achievement_badges': profile_user.achievement_badges,
         'badge_info': badge_info,
         'achievement_info': _user_achievement_badges(profile_user),
@@ -300,6 +301,7 @@ def profile_achievements(request, username):
         'moderator_level': profile_user.moderator_level,
         'is_admin': profile_user.is_admin,
         'teacher_verified': profile_user.teacher_verified,
+        'institution_verified': profile_user.institution_verified,
         'achievement_badges': profile_user.achievement_badges,
         'badge_info': _user_badge_info(profile_user),
         'achievement_info': _user_achievement_badges(profile_user),
@@ -500,6 +502,8 @@ def profile_card_image(request, username):
         str(getattr(profile_user, 'verification_level', 0) or 0),
 
         str(getattr(profile_user, 'teacher_verified', False)),
+
+        str(getattr(profile_user, 'institution_verified', False)),
 
     ])
 

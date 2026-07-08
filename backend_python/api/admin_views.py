@@ -162,6 +162,8 @@ def admin_user_detail(request, user_id):
             user.is_bot = bool(data['is_bot'])
         if 'teacher_verified' in data:
             user.teacher_verified = bool(data['teacher_verified'])
+        if 'institution_verified' in data:
+            user.institution_verified = bool(data['institution_verified'])
         if 'role' in data:
             if data['role'] in ('student', 'teacher', 'institution', 'explorer'):
                 user.role = data['role']

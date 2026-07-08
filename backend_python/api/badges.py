@@ -39,7 +39,10 @@ def user_badge_info(user):
                 'label': 'Verified Teacher' if getattr(user, 'teacher_verified', False) else 'Teacher',
             }
         if role == 'institution':
-            return {'type': 'institution', 'icon': 'account_balance', 'color': '#6366F1', 'label': 'Institution'}
+            return {
+                'type': 'institution', 'icon': 'account_balance', 'color': '#6366F1',
+                'label': 'Verified Institution' if getattr(user, 'institution_verified', False) else 'Institution',
+            }
         if role == 'explorer':
             return {'type': 'explorer', 'icon': 'travel_explore', 'color': '#F59E0B', 'label': 'Explorer'}
         if user.verification_level and user.verification_level > 0:
