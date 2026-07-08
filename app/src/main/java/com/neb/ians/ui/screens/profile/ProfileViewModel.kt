@@ -356,7 +356,7 @@ class ProfileViewModel @Inject constructor(
                 }
                 _uiState.update { it.copy(followersList = mapped, followersLoading = false) }
             } catch (e: Exception) {
-                _uiState.update { it.copy(followersLoading = false, followersError = e.message ?: "Failed to load followers") }
+                _uiState.update { it.copy(followersLoading = false, followersError = ApiErrorMapper.mapException(e)) }
             }
         }
     }
@@ -382,7 +382,7 @@ class ProfileViewModel @Inject constructor(
                 }
                 _uiState.update { it.copy(followingList = mapped, followingLoading = false) }
             } catch (e: Exception) {
-                _uiState.update { it.copy(followingLoading = false, followingError = e.message ?: "Failed to load following") }
+                _uiState.update { it.copy(followingLoading = false, followingError = ApiErrorMapper.mapException(e)) }
             }
         }
     }
@@ -500,7 +500,7 @@ class ProfileViewModel @Inject constructor(
                 val requests = apiService.getFollowRequests(token)
                 _uiState.update { it.copy(followRequestsList = requests, followRequestsLoading = false) }
             } catch (e: Exception) {
-                _uiState.update { it.copy(followRequestsLoading = false, followRequestsError = e.message ?: "Failed to load follow requests") }
+                _uiState.update { it.copy(followRequestsLoading = false, followRequestsError = ApiErrorMapper.mapException(e)) }
             }
         }
     }

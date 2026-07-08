@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.neb.ians.data.api.ApiUserSearchResult
 import com.neb.ians.data.repository.ForumRepository
+import com.neb.ians.data.api.ApiErrorMapper
 import com.neb.ians.ui.components.applyMention
 import com.neb.ians.ui.components.mentionQueryAt
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -103,7 +104,7 @@ class ReplyViewModel @Inject constructor(
                 _uiState.update { it.copy(isSubmitting = false) }
                 onSuccess()
             }.onFailure { e ->
-                _uiState.update { it.copy(isSubmitting = false, error = e.message ?: "Failed to submit reply") }
+                _uiState.update { it.copy(isSubmitting = false, error = ApiErrorMapper.mapException(e)) }
             }
         }
     }

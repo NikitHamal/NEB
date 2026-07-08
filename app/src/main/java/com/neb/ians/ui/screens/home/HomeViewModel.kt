@@ -243,7 +243,7 @@ class HomeViewModel @Inject constructor(
                     _snackbarMessage.tryEmit("Post deleted")
                 }
                 .onFailure { e ->
-                    _snackbarMessage.tryEmit("Couldn't delete post: ${e.message ?: "Unknown error"}")
+                    _snackbarMessage.tryEmit("Couldn't delete post: ${ApiErrorMapper.mapException(e)}")
                 }
             processingDeletions.remove(postId)
         }

@@ -122,7 +122,6 @@ fun ResultCheckerScreen(
             contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 120.dp),
             verticalArrangement = Arrangement.spacedBy(18.dp)
         ) {
-            item { ResultHero() }
             item {
                 LookupCard(
                     state = state,
@@ -297,7 +296,9 @@ private fun LookupCard(
                 if (state.needsDob) {
                     OutlinedTextField(
                         value = state.dob,
-                        onValueChange = onDobChange,
+                        onValueChange = { newVal ->
+                            onDobChange(formatDobInput(newVal, state.dob))
+                        },
                         label = { Text("Date of Birth") },
                         placeholder = { Text("YYYY/MM/DD") },
                         leadingIcon = { Icon(Icons.Outlined.Cake, contentDescription = null) },
@@ -851,4 +852,22 @@ private fun StringBuilder.appendCsv(value: String) {
     append('"')
     append(value.replace("\"", "\"\""))
     append('"')
+}
+
+private fun formatDobInput(input: String, previous: String): String {
+    val clean = input.filter { it.isDigit() || it == '/' }
+    if (clean.length < previous.length) {
+        return clean
+    }
+    val digits = clean.filter { it.isDigit() }
+    val sb = StringBuilder()
+    for (i in digits.indices) {
+        sb.append(digits[i])
+        if (i == 3) {
+            sb.append('/')
+        } else if (i == 5) {
+            sb.append('/')
+        }
+    }
+    return sb.toString().take(10)
 }

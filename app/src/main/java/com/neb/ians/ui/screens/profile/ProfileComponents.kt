@@ -257,9 +257,10 @@ fun ProfileHeaderCard(
     Surface(
         modifier = Modifier
             .fillMaxWidth()
+            .statusBarsPadding()
             .padding(top = 16.dp)
-            .clip(RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)),
-        shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp),
+            .clip(RoundedCornerShape(24.dp)),
+        shape = RoundedCornerShape(24.dp),
         color = MaterialTheme.colorScheme.surfaceContainerLowest,
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
     ) {
@@ -278,7 +279,6 @@ fun ProfileHeaderCard(
                 Surface(
                     modifier = Modifier
                         .align(Alignment.TopStart)
-                        .statusBarsPadding()
                         .padding(12.dp)
                         .size(36.dp),
                     shape = CircleShape,
@@ -300,7 +300,6 @@ fun ProfileHeaderCard(
                 Surface(
                     modifier = Modifier
                         .align(Alignment.TopEnd)
-                        .statusBarsPadding()
                         .padding(12.dp)
                         .size(36.dp),
                     shape = CircleShape,
@@ -353,7 +352,7 @@ fun ProfileHeaderCard(
                         overflow = TextOverflow.Ellipsis,
                         modifier = Modifier.weight(1f, fill = false)
                     )
-                    if (profile.verificationLevel > 0) {
+                    if (profile.verificationLevel > 0 && badge?.type != "verified") {
                         Spacer(modifier = Modifier.width(6.dp))
                         Icon(
                             imageVector = Icons.Filled.Verified,

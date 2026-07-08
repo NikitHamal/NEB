@@ -9,6 +9,7 @@ import com.neb.ians.data.results.ResultExam
 import com.neb.ians.data.results.ResultExamType
 import com.neb.ians.data.results.ResultLookup
 import com.neb.ians.data.results.ResultMode
+import com.neb.ians.data.api.ApiErrorMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -93,7 +94,7 @@ class ResultCheckerViewModel @Inject constructor(
             ).onSuccess { lookup ->
                 _uiState.update { it.copy(isChecking = false, result = lookup, error = null) }
             }.onFailure { error ->
-                _uiState.update { it.copy(isChecking = false, error = error.message ?: "Result not found") }
+                _uiState.update { it.copy(isChecking = false, error = ApiErrorMapper.mapException(error)) }
             }
         }
     }
@@ -158,7 +159,7 @@ class ResultCheckerViewModel @Inject constructor(
                             grade = "—",
                             status = "Failed",
                             success = false,
-                            error = error.message ?: "Failed"
+                            error = ApiErrorMapper.mapException(error)
                         )
                     )
                     delay(450)

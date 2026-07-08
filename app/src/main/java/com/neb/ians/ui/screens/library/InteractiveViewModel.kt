@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.neb.ians.data.api.ApiInteractiveCategory
 import com.neb.ians.data.api.ApiInteractiveCourseSummary
 import com.neb.ians.data.api.ApiService
+import com.neb.ians.data.api.ApiErrorMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -38,7 +39,7 @@ class InteractiveViewModel @Inject constructor(
                 val response = apiService.getInteractiveCategories()
                 _uiState.update { it.copy(categories = response.categories, isLoading = false) }
             } catch (e: Exception) {
-                _uiState.update { it.copy(isLoading = false, error = e.message ?: "Failed to load interactive content") }
+                _uiState.update { it.copy(isLoading = false, error = ApiErrorMapper.mapException(e)) }
             }
         }
     }

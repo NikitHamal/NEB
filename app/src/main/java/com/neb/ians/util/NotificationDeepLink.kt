@@ -129,6 +129,9 @@ data class NotificationDeepLink(
             referenceId: String,
             actorUsername: String? = null
         ): String? {
+            if (verb == "follow_request") {
+                return Screen.Profile.createRoute("me", showRequests = true)
+            }
             if (targetId.isBlank() && actorUsername.isNullOrBlank()) return null
 
             return when (verb) {
