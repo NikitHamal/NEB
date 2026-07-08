@@ -56,6 +56,7 @@ fun HomeScreen(
     onResultCheckerClick: () -> Unit = {},
     onNewsItemClick: (String) -> Unit = {},
     onPostClick: (String) -> Unit = {},
+    onEditPostClick: (String) -> Unit = {},
     onNotificationsClick: () -> Unit = {},
     onProfileClick: () -> Unit = {},
     onUserProfileClick: (String) -> Unit = {},
@@ -186,6 +187,7 @@ fun HomeScreen(
                                     onBookmarkClick = { viewModel.toggleBookmark(post.id) },
                                     onShareClick = { sharePost(context, post.id) },
                                     onReportClick = {},
+                                    onEditClick = { onEditPostClick(post.id) },
                                     onDeleteClick = { deletingPostId = post.id },
                                     onAuthorClick = { onUserProfileClick(post.authorName) }
                                 )
