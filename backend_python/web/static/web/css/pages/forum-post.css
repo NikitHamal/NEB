@@ -11,6 +11,8 @@
   .fp-meta-top .author{font-weight:600;color:var(--md-on-surface);cursor:pointer;text-decoration:none}
   .fp-meta-top .author:hover{color:var(--md-primary)}
   .fp-meta-time{display:flex;align-items:center;gap:6px;margin-top:2px;font-size:.8125rem;color:var(--md-on-surface-variant)}
+  .fp-views{display:inline-flex;align-items:center;gap:4px;vertical-align:middle}
+  .fp-views .material-symbols-outlined{font-size:14px !important;line-height:1}
   .fp-category{display:inline-block;padding:2px 8px;border-radius:6px;font-size:.75rem;font-weight:600;background:rgba(27,110,243,.08);color:var(--md-primary);text-decoration:none;border:1px solid rgba(27,110,243,.12);transition:background .15s}
   .fp-category:hover{background:rgba(27,110,243,.15);text-decoration:none}
   .fp-post-title{font-size:1.25rem;font-weight:700;color:var(--md-on-surface);margin:0 0 8px;line-height:1.4}
