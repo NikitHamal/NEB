@@ -145,6 +145,13 @@
   line-height: 1.25;
 }
 
+.pf-card-username {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--md-on-surface-variant);
+  margin: -2px 0 10px;
+}
+
 .pf-card-star {
   font-size: 1.125rem;
   user-select: none;
