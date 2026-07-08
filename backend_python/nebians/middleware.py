@@ -134,7 +134,7 @@ class AllowedHostMiddleware:
 
 
 _SKIP_PREFIXES = (
-    '/static/', '/admin/', '/ajax/', '/api/',
+    '/static/', '/ajax/', '/api/',
     '/manifest.json', '/robots.txt', '/sitemap.xml',
     '/favicon.ico',
 )
