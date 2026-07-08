@@ -160,14 +160,14 @@ fun NewsDetailScreen(
                                 markdown = detail.content.ifBlank { detail.announcement.summary.ifBlank { detail.announcement.title } },
                                 modifier = Modifier.padding(18.dp),
                                 style = MaterialTheme.typography.bodyLarge,
-                                onLinkClick = { url -> uriHandler.openUri(url) }
+                                onLinkClick = { url -> safeOpenUri(uriHandler, context, url) }
                             )
                         }
                     }
                     if (detail.externalUrl.isNotBlank()) {
                         item {
                             Button(
-                                onClick = { uriHandler.openUri(detail.externalUrl) },
+                                onClick = { safeOpenUri(uriHandler, context, detail.externalUrl) },
                                 modifier = Modifier
                                     .padding(16.dp)
                                     .fillMaxWidth(),
@@ -296,5 +296,30 @@ private fun NewsDetailSkeleton(modifier: Modifier = Modifier) {
                     .background(MaterialTheme.colorScheme.surfaceContainerHigh)
             )
         }
+    }
+}
+
+private fun safeOpenUri(uriHandler: androidx.compose.ui.platform.UriHandler, context: android.content.Context, url: String) {
+    if (url.isBlank()) return
+    val trimmed = url.trim()
+    try {
+        val uri = android.net.Uri.parse(trimmed)
+        val scheme = uri.scheme?.lowercase() ?: ""
+        if (scheme == "http" || scheme == "https") {
+            uriHandler.openUri(trimmed)
+        } else {
+            val intent = Intent(Intent.ACTION_VIEW, uri).apply {
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
+            if (intent.resolveActivity(context.packageManager) != null) {
+                context.startActivity(intent)
+            } else {
+                android.widget.Toast.makeText(context, "No app found to open link", android.widget.Toast.LENGTH_SHORT).show()
+            }
+        }
+    } catch (e: Exception) {
+        try {
+            android.widget.Toast.makeText(context, "Invalid link", android.widget.Toast.LENGTH_SHORT).show()
+        } catch (_: Exception) {}
     }
 }
