@@ -1909,6 +1909,339 @@ def admin_analytics(request):
     if redirect_response:
         return redirect_response
 
+    from django.db.models import Count
+    from django.core.cache import cache
+    from api.models import PageView, DailyStat, User as UserModel
+    from api import views_presence
+    _now = now_ms()
+    _today_start = _now - (_now % 86400000)
+    _yesterday_start = _today_start - 86400000
+    _30d_ago = _today_start - 30 * 86400000
+
+    # ── Today ──
+    qs_today = PageView.objects.filter(created_at__gte=_today_start)
+    today_visits = qs_today.count()
+    today_unique = qs_today.values('session_key').distinct().count() if today_visits else 0
+    today_new_users = UserModel.objects.filter(created_at__gte=_today_start).count()
+    today_web = qs_today.filter(source='web').count()
+    today_app = qs_today.filter(source='app').count()
+
+    # ── Yesterday ──
+    qs_yesterday = PageView.objects.filter(created_at__gte=_yesterday_start, created_at__lt=_today_start)
+    yesterday_visits = qs_yesterday.count()
+
+    # ── Session metrics (today) ──
+    session_data = list(
+        qs_today.values('session_key')
+               .annotate(pages=Count('id'))
+               .order_by()
+    )
+    total_sessions = len(session_data)
+    bounce_count = sum(1 for s in session_data if s['pages'] == 1) if session_data else 0
+    total_pages = sum(s['pages'] for s in session_data) if session_data else 0
+    pages_per_session = round(total_pages / total_sessions, 1) if total_sessions else 0.0
+    bounce_rate = round((bounce_count / total_sessions) * 100, 1) if total_sessions else 0.0
+
+    # ── 7-day trend ──
+    day_labels = []
+    day_visits = []
+    day_users = []
+    day_posts = []
+    day_resources = []
+    for i in range(6, -1, -1):
+        ds = _today_start - i * 86400000
+        de = ds + 86400000
+        from datetime import datetime
+        day_labels.append(datetime.utcfromtimestamp(ds / 1000).strftime('%a'))
+        day_visits.append(PageView.objects.filter(created_at__gte=ds, created_at__lt=de).count())
+        day_users.append(UserModel.objects.filter(created_at__gte=ds, created_at__lt=de).count())
+        day_posts.append(Post.objects.filter(created_at__gte=ds, created_at__lt=de).count())
+        day_resources.append(Resource.objects.filter(added_at__gte=ds, added_at__lt=de).count())
+
+    # ── 30-day trend ──
+    month_labels = []
+    month_visits = []
+    month_7d_avg = []
+    from datetime import datetime
+    for i in range(29, -1, -1):
+        ds = _today_start - i * 86400000
+        de = ds + 86400000
+        month_labels.append(datetime.utcfromtimestamp(ds / 1000).strftime('%b %d'))
+        month_visits.append(PageView.objects.filter(created_at__gte=ds, created_at__lt=de).count())
+
+    for i in range(30):
+        start_idx = max(0, i - 6)
+        window = month_visits[start_idx:i+1]
+        month_7d_avg.append(round(sum(window) / len(window), 1))
+
+    # ── Hourly breakdown (today) ──
+    hourly_labels = []
+    hourly_visits = []
+    current_hour = datetime.utcfromtimestamp(_now / 1000).hour
+    for h in range(24):
+        hs = _today_start + h * 3600000
+        he = hs + 3600000
+        count = PageView.objects.filter(created_at__gte=hs, created_at__lt=he).count() if h <= current_hour else 0
+        hourly_labels.append(f'{h:02d}:00')
+        hourly_visits.append(count)
+
+    # ── Peak hours (30 days aggregated by hour) ──
+    peak_hour_labels = []
+    peak_hour_data = []
+    for h in range(24):
+        total = 0
+        for day_offset in range(30):
+            day_start = _today_start - day_offset * 86400000
+            hour_start = day_start + h * 3600000
+            hour_end = hour_start + 3600000
+            total += PageView.objects.filter(created_at__gte=hour_start, created_at__lt=hour_end).count()
+        peak_hour_labels.append(f'{h:02d}:00')
+        peak_hour_data.append(total)
+
+    # ── Day-of-week breakdown ──
+    dow_labels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+    dow_data = [0] * 7
+    for i in range(30):
+        ds = _today_start - i * 86400000
+        de = ds + 86400000
+        from datetime import datetime as dt2
+        dow = dt2.utcfromtimestamp(ds / 1000).weekday()
+        count = PageView.objects.filter(created_at__gte=ds, created_at__lt=de).count()
+        dow_data[dow] += count
+
+    # ── Source breakdown (30d) ──
+    qs_30d = PageView.objects.filter(created_at__gte=_30d_ago)
+    source_web = qs_30d.filter(source='web').count()
+    source_app = qs_30d.filter(source='app').count()
+
+    # ── Device class breakdown (30d) ──
+    device_data = list(
+        qs_30d.filter(source='web')
+              .exclude(platform='')
+              .values('platform')
+              .annotate(count=Count('id'))
+              .order_by('-count')
+    )
+    device_mobile = sum(d['count'] for d in device_data if d['platform'] in ('android', 'iphone', 'ios'))
+    device_desktop = sum(d['count'] for d in device_data if d['platform'] in ('windows', 'mac', 'linux', 'chromeos'))
+    device_tablet = sum(d['count'] for d in device_data if d['platform'] in ('ipad',))
+    device_other = sum(d['count'] for d in device_data if d['platform'] not in ('android', 'iphone', 'ios', 'windows', 'mac', 'linux', 'chromeos', 'ipad'))
+
+    platform_data = device_data
+
+    # ── Referrer type breakdown (30d) ──
+    ref_direct = qs_30d.filter(referrer_type='direct').count()
+    ref_search = qs_30d.filter(referrer_type='search').count()
+    ref_social = qs_30d.filter(referrer_type='social').count()
+    ref_referral = qs_30d.filter(referrer_type='referral').count()
+    ref_internal = qs_30d.filter(referrer_type='internal').count()
+
+    top_domains = list(
+        qs_30d.exclude(referrer_type__in=['direct', 'internal', ''])
+              .exclude(referrer_domain='')
+              .values('referrer_domain')
+              .annotate(count=Count('id'))
+              .order_by('-count')[:15]
+    )
+
+    top_pages = list(
+        qs_30d.values('path')
+              .annotate(count=Count('id'))
+              .order_by('-count')[:15]
+    )
+
+    referrer_details = list(
+        qs_30d.exclude(referrer='')
+              .values('referrer_domain', 'referrer_type')
+              .annotate(count=Count('id'))
+              .order_by('-count')[:20]
+    )
+
+    # ── Online users ──
+    online_users, online_count = views_presence.get_online_users()
+    online_user_details = []
+    online_user_ids = [u['user_id'] for u in online_users]
+    if online_user_ids:
+        user_map = {str(u.id): u for u in UserModel.objects.filter(pk__in=online_user_ids).only('id', 'username', 'photo_url', 'role', 'display_name')}
+        for u in online_users:
+            usr = user_map.get(u['user_id'])
+            if usr:
+                online_user_details.append({
+                    'user_id': u['user_id'],
+                    'username': usr.username,
+                    'display_name': usr.display_name or usr.username,
+                    'photo_url': usr.photo_url,
+                    'role': usr.role,
+                    'screen': u.get('screen', ''),
+                })
+
+    # ── User stats ──
+    total_users = UserModel.objects.count()
+    total_pageviews = PageView.objects.count()
+    today_users_active = qs_today.values('user_id').distinct().count()
+
+    # ── DailyStat records (last 30 days) ──
+    daily_stat_records = list(
+        DailyStat.objects.filter(date__gte=(datetime.utcfromtimestamp(_30d_ago / 1000).date()))
+        .order_by('-date')[:31]
+    )
+
+    data = {
+        'total_users': total_users,
+        'total_pageviews': total_pageviews,
+        'today_visits': today_visits,
+        'today_unique': today_unique,
+        'today_new_users': today_new_users,
+        'today_web': today_web,
+        'today_app': today_app,
+        'today_users_active': today_users_active,
+        'yesterday_visits': yesterday_visits,
+        'visit_delta': today_visits - yesterday_visits,
+        'total_sessions': total_sessions,
+        'bounce_count': bounce_count,
+        'bounce_rate': bounce_rate,
+        'pages_per_session': pages_per_session,
+        'day_labels': day_labels,
+        'day_visits': day_visits,
+        'day_users': day_users,
+        'day_posts': day_posts,
+        'day_resources': day_resources,
+        'month_labels': month_labels,
+        'month_visits': month_visits,
+        'month_7d_avg': month_7d_avg,
+        'hourly_labels': hourly_labels,
+        'hourly_visits': hourly_visits,
+        'peak_hour_labels': peak_hour_labels,
+        'peak_hour_data': peak_hour_data,
+        'dow_labels': dow_labels,
+        'dow_data': dow_data,
+        'source_web': source_web,
+        'source_app': source_app,
+        'device_mobile': device_mobile,
+        'device_desktop': device_desktop,
+        'device_tablet': device_tablet,
+        'device_other': device_other,
+        'ref_direct': ref_direct,
+        'ref_search': ref_search,
+        'ref_social': ref_social,
+        'ref_referral': ref_referral,
+        'ref_internal': ref_internal,
+        'top_domains': top_domains,
+        'top_pages': top_pages,
+        'referrer_details': referrer_details,
+        'platform_data': platform_data,
+        'online_user_details': online_user_details,
+        'online_count': online_count,
+        'daily_stat_records': daily_stat_records,
+        'has_data': total_pageviews > 0,
+    }
+
+    return render(request, 'admin_panel/analytics.html', {
+        'is_admin': True,
+        'active_page': 'analytics',
+        **data,
+    })
+
+
+def admin_analytics_online_users(request):
+    redirect_response = _require_staff_admin(request)
+    if redirect_response:
+        return JsonResponse({'error': 'unauthorized'}, status=403)
+
+    from api import views_presence
+    from api.models import User as UserModel
+
+    online_users, online_count = views_presence.get_online_users()
+    online_user_ids = [u['user_id'] for u in online_users]
+    user_map = {}
+    if online_user_ids:
+        for u in UserModel.objects.filter(pk__in=online_user_ids).only('id', 'username', 'photo_url', 'role', 'display_name'):
+            user_map[str(u.id)] = {
+                'username': u.username,
+                'display_name': u.display_name or u.username,
+                'photo_url': u.photo_url,
+                'role': u.role,
+            }
+    details = []
+    for u in online_users:
+        usr = user_map.get(u['user_id'], {})
+        details.append({
+            'user_id': u['user_id'],
+            'username': usr.get('username', '?'),
+            'display_name': usr.get('display_name', '?'),
+            'photo_url': usr.get('photo_url'),
+            'role': usr.get('role', ''),
+            'screen': u.get('screen', ''),
+        })
+
+    return JsonResponse({'online_count': online_count, 'users': details})
+
+
+def admin_analytics_refresh(request):
+    redirect_response = _require_staff_admin(request)
+    if redirect_response:
+        return JsonResponse({'error': 'unauthorized'}, status=403)
+
+    from api.models import PageView
+    from api import views_presence
+    _now = now_ms()
+    _today_start = _now - (_now % 86400000)
+    _yesterday_start = _today_start - 86400000
+
+    qs_today = PageView.objects.filter(created_at__gte=_today_start)
+    today_visits = qs_today.count()
+    yesterday_visits = PageView.objects.filter(created_at__gte=_yesterday_start, created_at__lt=_today_start).count()
+
+    online_users, online_count = views_presence.get_online_users()
+
+    return JsonResponse({
+        'today_visits': today_visits,
+        'yesterday_visits': yesterday_visits,
+        'visit_delta': today_visits - yesterday_visits,
+        'online_count': online_count,
+        'server_time': _now,
+    })
+
+
+def admin_analytics_export_csv(request):
+    redirect_response = _require_staff_admin(request)
+    if redirect_response:
+        return redirect_response
+
+    import csv
+    from django.http import HttpResponse
+    from api.models import DailyStat
+
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="nebians_analytics_export.csv"'
+
+    writer = csv.writer(response)
+    writer.writerow([
+        'Date', 'Total Visits', 'Unique Visitors', 'New Users',
+        'Web Visits', 'App Visits', 'Direct', 'Search', 'Social',
+        'Referral', 'Internal', 'New Posts', 'New Resources', 'New Replies',
+        'Avg Session Duration', 'Bounce Count', 'Total Sessions',
+        'Pages Per Session', 'Peak Hour'
+    ])
+
+    for stat in DailyStat.objects.all().order_by('-date'):
+        writer.writerow([
+            stat.date.isoformat(), stat.total_visits, stat.unique_visitors,
+            stat.new_users, stat.web_visits, stat.app_visits,
+            stat.direct_visits, stat.search_visits, stat.social_visits,
+            stat.referral_visits, stat.internal_visits,
+            stat.new_posts, stat.new_resources, stat.new_replies,
+            stat.avg_session_duration, stat.bounce_count,
+            stat.total_sessions, stat.pages_per_session, stat.peak_hour,
+        ])
+
+    return response
+
+def admin_analytics(request):
+    redirect_response = _require_staff_admin(request)
+    if redirect_response:
+        return redirect_response
+
     data = cache.get('admin_analytics_data')
     if data is not None:
         return render(request, 'admin_panel/analytics.html', {

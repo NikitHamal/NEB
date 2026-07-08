@@ -80,6 +80,44 @@ class Command(BaseCommand):
                 created_at__lt=day_end_ms,
             ).count()
 
+            # ── New session analytics ──
+            session_data = list(
+                qs.values('session_key')
+                  .annotate(pages=Count('id'))
+                  .order_by()
+            )
+            total_sessions = len(session_data)
+            bounce_count = sum(1 for s in session_data if s['pages'] == 1) if session_data else 0
+            pages_per_session = round(total / total_sessions, 1) if total_sessions else 0.0
+
+            # ── Peak hour ──
+            peak_hour = 0
+            peak_hour_max = 0
+            for h in range(24):
+                hs = day_start_ms + h * 3600000
+                he = hs + 3600000
+                h_count = qs.filter(created_at__gte=hs, created_at__lt=he).count()
+                if h_count > peak_hour_max:
+                    peak_hour_max = h_count
+                    peak_hour = h
+
+            # ── Avg session duration ──
+            avg_session_duration = 0.0
+            if total_sessions > 0:
+                # For each session, compute duration from first to last page view
+                durations = []
+                for key_info in session_data[:50]:  # limit to 50 sessions for performance
+                    skey = key_info['session_key']
+                    times = list(
+                        qs.filter(session_key=skey)
+                          .values_list('created_at', flat=True)
+                          .order_by('created_at')[:2]
+                    )
+                    if len(times) >= 2:
+                        durations.append((times[-1] - times[0]) / 1000.0)
+                if durations:
+                    avg_session_duration = round(sum(durations) / len(durations), 1)
+
             DailyStat.objects.update_or_create(
                 date=target_date,
                 defaults={
@@ -96,6 +134,11 @@ class Command(BaseCommand):
                     'new_posts': new_posts,
                     'new_resources': new_resources,
                     'new_replies': new_replies,
+                    'total_sessions': total_sessions,
+                    'bounce_count': bounce_count,
+                    'pages_per_session': pages_per_session,
+                    'peak_hour': peak_hour,
+                    'avg_session_duration': avg_session_duration,
                     'created_at': now_ms,
                 }
             )
