@@ -33,15 +33,15 @@ def user_badge_info(user):
             info = _MOD_LEVELS.get(user.moderator_level, _MOD_LEVELS[1])
             return {'type': 'moderator', **info}
         role = getattr(user, 'role', 'student')
-        if role == 'teacher':
+        if role == 'teacher' and getattr(user, 'teacher_verified', False):
             return {
                 'type': 'teacher', 'icon': 'school', 'color': '#10B981',
-                'label': 'Verified Teacher' if getattr(user, 'teacher_verified', False) else 'Teacher',
+                'label': 'Verified Teacher',
             }
-        if role == 'institution':
+        if role == 'institution' and getattr(user, 'institution_verified', False):
             return {
                 'type': 'institution', 'icon': 'account_balance', 'color': '#6366F1',
-                'label': 'Verified Institution' if getattr(user, 'institution_verified', False) else 'Institution',
+                'label': 'Verified Institution',
             }
         if role == 'explorer':
             return {'type': 'explorer', 'icon': 'travel_explore', 'color': '#F59E0B', 'label': 'Explorer'}

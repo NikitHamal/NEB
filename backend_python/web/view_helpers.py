@@ -132,17 +132,17 @@ def _user_badge_info(user):
         badge['color'] = info['color']
         badge['label'] = info['label']
         return badge
-    if getattr(user, 'role', 'student') == 'teacher':
+    if getattr(user, 'role', 'student') == 'teacher' and getattr(user, 'teacher_verified', False):
         badge['type'] = 'teacher'
         badge['icon'] = 'school'
         badge['color'] = '#10B981'
-        badge['label'] = 'Verified Teacher' if getattr(user, 'teacher_verified', False) else 'Teacher'
+        badge['label'] = 'Verified Teacher'
         return badge
-    if getattr(user, 'role', 'student') == 'institution':
+    if getattr(user, 'role', 'student') == 'institution' and getattr(user, 'institution_verified', False):
         badge['type'] = 'institution'
         badge['icon'] = 'account_balance'
         badge['color'] = '#6366F1'
-        badge['label'] = 'Verified Institution' if getattr(user, 'institution_verified', False) else 'Institution'
+        badge['label'] = 'Verified Institution'
         return badge
     if getattr(user, 'role', 'student') == 'explorer':
         badge['type'] = 'explorer'
