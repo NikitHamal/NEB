@@ -206,6 +206,8 @@ fun ProfileHeaderCard(
             profile.bio
         } else if (profile.isBot) {
             "Your friendly AI study buddy. Always learning, always here to help."
+        } else if (profile.role == "institution") {
+            "${profile.displayName ?: "An institution"} on NEBians."
         } else {
             val builder = StringBuilder()
             builder.append(profile.displayName?.takeIf { it.isNotBlank() } ?: "A NEBians member")
@@ -365,6 +367,15 @@ fun ProfileHeaderCard(
                         Spacer(modifier = Modifier.width(8.dp))
                         NebBadge(badge)
                     }
+                }
+
+                if (!profile.displayName.isNullOrBlank()) {
+                    Spacer(modifier = Modifier.height(2.dp))
+                    Text(
+                        text = "@${profile.username}",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
                 }
 
                 Text(

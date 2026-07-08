@@ -123,6 +123,10 @@
               {% endif %}
             </h1>
 
+            {% if profile_user.display_name %}
+              <div class="pf-card-username">@{{ profile_user.username }}</div>
+            {% endif %}
+
             <!-- Student Subtitle / Role Headline -->
             <p class="pf-card-headline">
               {% if profile_user.is_bot %}
@@ -240,6 +244,8 @@
                 {% else %}
                   {% if profile_user.is_bot %}
                     Your friendly AI study buddy. Always learning, always here to help.
+                  {% elif profile_user.role == 'institution' %}
+                    <strong>{{ profile_user.display_name|default:"An institution" }}</strong> on NEBians.
                   {% else %}
                     {% if profile_user.display_name %}{{ profile_user.display_name }}{% else %}A NEBians member{% endif %}
                     {% if profile_user.school %} at <strong>{{ profile_user.school }}</strong>{% endif %}.
