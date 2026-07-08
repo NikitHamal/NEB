@@ -423,6 +423,17 @@ def analytics_track(request):
         if user and not isinstance(user, Response):
             try:
                 user_id = int(user.id) if str(user.id).isdigit() else None
+                if user_id is not None:
+                    try:
+                        from api.models import User as UserModel
+                        now_ms = int(_time.time() * 1000)
+                        UserModel.objects.filter(pk=str(user_id)).update(last_active=now_ms)
+                        from django.core.cache import cache
+                        cache.sadd('presence:online', str(user_id))
+                        cache.expire('presence:online', 300)
+                        cache.set(f'presence:user:{str(user_id)}', now_ms, 300)
+                    except Exception:
+                        pass
             except (ValueError, TypeError):
                 pass
 
@@ -442,6 +453,7 @@ def analytics_track(request):
             ip_address=request.META.get('REMOTE_ADDR'),
             session_key='',
             user_id=user_id,
+            user_identifier=str(user_id) if user_id else '',
             created_at=int(_time.time() * 1000),
         )
         return Response({'status': 'ok'})

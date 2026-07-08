@@ -234,9 +234,21 @@ class PageViewTrackingMiddleware:
         ip_address = request.META.get('REMOTE_ADDR', None)
         session_key = request.session.session_key or ''
         user_id = None
+        user_identifier = ''
         if hasattr(request, 'user') and request.user.is_authenticated:
             try:
                 user_id = int(request.user.id) if str(request.user.id).isdigit() else None
+                if user_id is not None:
+                    from api.models import User as UserModel
+                    try:
+                        uid_str = str(request.user.id)
+                        user_identifier = uid_str[:255]
+                        UserModel.objects.filter(pk=uid_str).update(last_active=now)
+                        cache.sadd('presence:online', uid_str)
+                        cache.expire('presence:online', 300)
+                        cache.set(f'presence:user:{uid_str}', now, 300)
+                    except Exception:
+                        pass
             except (ValueError, TypeError):
                 pass
 
@@ -257,6 +269,7 @@ class PageViewTrackingMiddleware:
                 ip_address=ip_address,
                 session_key=session_key[:40],
                 user_id=user_id,
+                user_identifier=user_identifier,
                 created_at=now,
             )
         except Exception:
