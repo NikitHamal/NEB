@@ -32,6 +32,9 @@
   <a href="{% url 'web:admin_users' %}?role=teacher_verified{% if search %}&q={{ search }}{% endif %}" class="md-btn {% if role_filter == 'teacher_verified' %}md-btn-filled{% else %}md-btn-outlined{% endif %}" style="padding:6px 14px;font-size:0.8125rem;background:{% if role_filter == 'teacher_verified' %}#10B981;color:#fff{% else %}transparent;color:#10B981{% endif %};border-color:#10B981;">
     <span class="material-symbols-outlined" style="font-size:16px;">verified</span> Verified Teachers
   </a>
+  <a href="{% url 'web:admin_users' %}?role=institution_verified{% if search %}&q={{ search }}{% endif %}" class="md-btn {% if role_filter == 'institution_verified' %}md-btn-filled{% else %}md-btn-outlined{% endif %}" style="padding:6px 14px;font-size:0.8125rem;background:{% if role_filter == 'institution_verified' %}#6366F1;color:#fff{% else %}transparent;color:#6366F1{% endif %};border-color:#6366F1;">
+    <span class="material-symbols-outlined" style="font-size:16px;">verified</span> Verified Institutions
+  </a>
 </div>
 
 {% if users %}
@@ -83,7 +86,7 @@
             {% if u.role == 'teacher' %}
               <span style="color:#10B981;font-weight:600;">Teacher{% if u.teacher_verified %} ✓{% endif %}</span>
             {% elif u.role == 'institution' %}
-              <span style="color:#6366F1;font-weight:600;">Institution</span>
+              <span style="color:#6366F1;font-weight:600;">Institution{% if u.institution_verified %} ✓{% endif %}</span>
             {% elif u.role == 'explorer' %}
               <span style="color:#F59E0B;font-weight:600;">Explorer</span>
             {% endif %}

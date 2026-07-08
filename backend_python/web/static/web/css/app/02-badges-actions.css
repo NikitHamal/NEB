@@ -30,8 +30,10 @@
 [data-theme="dark"] .role-badge-teacher .material-symbols-outlined { color: #34D399; }
 .role-badge-institution { background: rgba(99, 102, 241, 0.15); }
 .role-badge-institution .material-symbols-outlined { color: #6366F1; }
+.role-badge-institution-verified { background: rgba(99, 102, 241, 0.22); }
 [data-theme="dark"] .role-badge-institution { background: rgba(99, 102, 241, 0.25); }
 [data-theme="dark"] .role-badge-institution .material-symbols-outlined { color: #A5B4FC; }
+[data-theme="dark"] .role-badge-institution-verified { background: rgba(99, 102, 241, 0.35); }
 .role-badge-explorer { background: rgba(245, 158, 11, 0.15); }
 .role-badge-explorer .material-symbols-outlined { color: #F59E0B; }
 [data-theme="dark"] .role-badge-explorer { background: rgba(245, 158, 11, 0.25); }
