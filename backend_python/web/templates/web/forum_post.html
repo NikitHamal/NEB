@@ -70,6 +70,8 @@
         </div>
         <div class="fp-meta-time">
           <span>{{ post.createdAt|time_ago }}</span>
+          <span class="dot-sep">&middot;</span>
+          <span class="fp-views"><span class="material-symbols-outlined icon-sm">visibility</span> {{ post.viewCount|short_number }} views</span>
           {% if post.isEdited %}
             <span class="fp-edited" data-action="show-edit-history" data-target-type="post" data-target-id="{{ post.id }}">
               <span class="material-symbols-outlined">edit</span> edited
