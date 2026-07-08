@@ -133,6 +133,18 @@ class ForumRepository @Inject constructor(
         }
     }
 
+    suspend fun viewPost(postId: String): Result<Unit> {
+        if (!networkMonitor.isOnline()) {
+            return Result.failure(OfflineException())
+        }
+        return try {
+            apiService.viewPost(postId)
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
     suspend fun getReplies(postId: String, forceRefresh: Boolean = false): Result<List<ApiReply>> {
         val cacheKey = repliesCacheKey(postId)
         if (!forceRefresh) {

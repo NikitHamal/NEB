@@ -264,6 +264,7 @@ def _serialize_posts(posts_qs, user_id=None):
             'authorIsBot': p.user.is_bot,
             'authorId': p.user_id, 'thumbsUpCount': p.thumbs_up_count, 'thumbs_up_count': p.thumbs_up_count,
             'replyCount': p.reply_count, 'reply_count': p.reply_count,
+            'viewCount': p.view_count, 'view_count': p.view_count,
             'createdAt': p.created_at, 'updatedAt': p.edited_at or p.created_at,
             'isEdited': p.is_edited, 'editedAt': p.edited_at, 'isArchived': p.is_archived,
             'isThumbedUp': p.id in liked_ids,
