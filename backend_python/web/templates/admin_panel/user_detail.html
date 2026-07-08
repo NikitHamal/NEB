@@ -194,6 +194,20 @@
           </div>
         </div>
 
+        <div class="form-group admin-switch-row" id="institution-verified-row" style="{% if user_detail.role == 'institution' %}{% else %}display:none;{% endif %}">
+          <label class="md-switch">
+            <input type="checkbox" name="institution_verified" id="institution_verified" {% if user_detail.institution_verified %}checked{% endif %}>
+            <span class="slider"></span>
+          </label>
+          <div>
+            <label for="institution_verified" class="md-label admin-switch-label">Verified Institution</label>
+            <div class="md-body-small admin-switch-desc">
+              <span class="material-symbols-outlined admin-role-icon" style="font-size:14px;color:#6366F1;">account_balance</span>
+              Indigo verified institution badge — confirms this is a real institution
+            </div>
+          </div>
+        </div>
+
         <div class="form-group admin-switch-row">
           <label class="md-switch">
             <input type="checkbox" name="is_bot" id="is_bot" {% if user_detail.is_bot %}checked{% endif %}>
@@ -444,6 +458,8 @@ registerActions({
 document.getElementById('role').addEventListener('change', function() {
   var tvRow = document.getElementById('teacher-verified-row');
   tvRow.style.display = this.value === 'teacher' ? '' : 'none';
+  var ivRow = document.getElementById('institution-verified-row');
+  ivRow.style.display = this.value === 'institution' ? '' : 'none';
 });
 </script>
 {% endblock %}

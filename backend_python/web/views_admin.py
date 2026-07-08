@@ -264,6 +264,8 @@ def admin_users(request):
         )
     if role_filter == 'teacher_verified':
         users_qs = users_qs.filter(role='teacher', teacher_verified=True)
+    elif role_filter == 'institution_verified':
+        users_qs = users_qs.filter(role='institution', institution_verified=True)
     elif role_filter in ('student', 'teacher', 'institution', 'explorer'):
         users_qs = users_qs.filter(role=role_filter)
     paginator = Paginator(users_qs, 20)
@@ -327,6 +329,7 @@ def admin_user_detail(request, user_id):
         if role in ('student', 'teacher', 'institution', 'explorer'):
             user_obj.role = role
         user_obj.teacher_verified = request.POST.get('teacher_verified') == 'on'
+        user_obj.institution_verified = request.POST.get('institution_verified') == 'on'
         user_obj.achievement_badges = request.POST.get('achievement_badges', '')
         user_obj.save()
     user_data = UserSerializer(user_obj).data
