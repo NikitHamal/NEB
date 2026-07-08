@@ -268,6 +268,13 @@
   text-decoration: none !important;
 }
 
+.act-btn-stat.no-hover,
+.act-btn-stat.no-hover:hover {
+  background: transparent;
+  color: var(--md-on-surface-variant);
+  cursor: default;
+}
+
 .post-card-actions button.liked,
 .post-card-actions a.liked,
 .act-btn-stat[data-liked="true"] {
