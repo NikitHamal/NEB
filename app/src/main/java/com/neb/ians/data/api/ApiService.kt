@@ -1053,6 +1053,11 @@ interface ApiService {
         @Path("postId") postId: String
     ): ApiPost
 
+    @POST("api/posts/{postId}/view/")
+    suspend fun viewPost(
+        @Path("postId") postId: String
+    )
+
     @POST("api/posts/")
     suspend fun createPost(
         @Header("Authorization") bearerToken: String,
