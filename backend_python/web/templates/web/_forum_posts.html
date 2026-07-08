@@ -90,7 +90,7 @@
       </a>
       <span class="act-btn-stat no-hover">
         <span class="material-symbols-outlined">visibility</span>
-        <span>{{ post.viewCount|short_number }} Views</span>
+        <span>{{ post.viewCount|short_number }}</span>
       </span>
       <span class="fp-action-spacer" style="flex: 1;"></span>
       <button type="button" class="{% if post.isBookmarked %}bookmark-active{% endif %}" data-action="toggle-bookmark" data-target-type="post" data-target-id="{{ post.id }}" id="forum-post-bookmark-btn-{{ post.id }}" aria-label="Bookmark">

@@ -297,6 +297,8 @@
 .post-card-actions a .material-symbols-outlined,
 .act-btn-stat .material-symbols-outlined {
   font-size: 16px;
+  line-height: 1;
+  vertical-align: middle;
 }
 
 .filter-bar {
