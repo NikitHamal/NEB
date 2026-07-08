@@ -62,10 +62,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.neb.ians.R
-import com.neb.ians.data.api.ApiPost
 import com.neb.ians.data.api.ApiErrorMapper
 import com.neb.ians.ui.components.ConfirmDeleteDialog
-import com.neb.ians.ui.components.EditContentDialog
 import com.neb.ians.ui.components.ErrorCard
 import com.neb.ians.ui.components.WafWarningBanner
 import com.neb.ians.ui.components.ForumPostCard
@@ -88,6 +86,7 @@ fun ForumScreen(
     onNotificationsClick: () -> Unit = {},
     onProfileClick: () -> Unit = {},
     onUserProfileClick: (String) -> Unit = {},
+    onEditPostClick: (String) -> Unit = {},
     viewModel: ForumViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -112,7 +111,6 @@ fun ForumScreen(
 
     // Dialog state
     var reportPostId by remember { mutableStateOf<String?>(null) }
-    var editingPost by remember { mutableStateOf<ApiPost?>(null) }
     var deletingPostId by remember { mutableStateOf<String?>(null) }
     var popoverUsername by remember { mutableStateOf<String?>(null) }
 
@@ -251,7 +249,7 @@ fun ForumScreen(
                                 onBookmarkClick = { viewModel.toggleBookmark(post.id) },
                                 onShareClick = { sharePost(context, post.id) },
                                 onReportClick = { reportPostId = post.id },
-                                onEditClick = { editingPost = post },
+                                onEditClick = { onEditPostClick(post.id) },
                                 onArchiveClick = { viewModel.archivePost(post.id) },
                                 onDeleteClick = { deletingPostId = post.id },
                                 onAuthorClick = { onUserProfileClick(post.authorName) },
@@ -284,19 +282,6 @@ fun ForumScreen(
             onSubmit = { reason, description ->
                 viewModel.reportPost(postId, reason, description)
                 reportPostId = null
-            }
-        )
-    }
-
-    editingPost?.let { post ->
-        EditContentDialog(
-            dialogTitle = "Edit post",
-            initialTitle = post.title,
-            initialContent = post.content,
-            onDismiss = { editingPost = null },
-            onSave = { title, content ->
-                viewModel.editPost(post.id, title ?: post.title, content)
-                editingPost = null
             }
         )
     }

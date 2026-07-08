@@ -416,6 +416,9 @@ fun NEBiansNavHost(
                     onResultCheckerClick = { navController.navigate(Screen.ResultChecker.route) },
                     onNewsItemClick = { slug -> navController.navigate(Screen.NewsDetail.createRoute(slug)) },
                     onPostClick = { postId -> navController.navigate(Screen.ForumPostDetail.createRoute(postId)) },
+                    onEditPostClick = { editPostId ->
+                        navController.navigate(Screen.EditPost.createRoute(editPostId))
+                    },
                     onNotificationsClick = { navController.navigate(Screen.Notifications.route) },
                     onProfileClick = navigateToOwnProfile,
                     onUserProfileClick = { username -> navController.navigate(Screen.Profile.createRoute(username)) }
@@ -450,6 +453,9 @@ fun NEBiansNavHost(
                     onProfileClick = navigateToOwnProfile,
                     onUserProfileClick = { username ->
                         navController.navigate(Screen.Profile.createRoute(username))
+                    },
+                    onEditPostClick = { editPostId ->
+                        navController.navigate(Screen.EditPost.createRoute(editPostId))
                     }
                 )
             }
