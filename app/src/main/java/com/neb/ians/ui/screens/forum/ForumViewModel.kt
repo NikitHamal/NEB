@@ -11,9 +11,6 @@ import com.neb.ians.data.repository.AppCache
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.joinAll
-import kotlinx.coroutines.NonCancellable
-import kotlinx.coroutines.withContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -21,9 +18,11 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.contentOrNull
+import kotlinx.serialization.json.decodeFromJsonElement
 import kotlinx.serialization.json.intOrNull
 import javax.inject.Inject
 
@@ -116,7 +115,7 @@ class ForumViewModel @Inject constructor(
             val payload = data ?: return
             when (event) {
                 "post.created" -> {
-                    val newPost = try { postJson.decodeFromJsonElement(com.neb.ians.data.api.ApiPost.serializer(), payload) } catch (_: Exception) { return }
+                    val newPost = try { postJson.decodeFromJsonElement<ApiPost>(payload) } catch (_: Exception) { return }
                     _forumState.update { state ->
                         if (state.posts.any { it.id == newPost.id }) return@update state
                         state.copy(posts = listOf(newPost) + state.posts, snackbarMessage = "New post from @" + newPost.authorName)
