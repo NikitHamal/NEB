@@ -1,7 +1,7 @@
 """Views Profile extracted from views.py."""
 from .view_helpers import *  # noqa: F401,F403
 from api.view_helpers import _profile_incomplete, _can_view_locked_profile
-from api.models import FollowRequest
+from api.models import FollowRequest, NEPAL_DISTRICTS
 from io import BytesIO
 from pathlib import Path
 
@@ -818,7 +818,10 @@ def edit_profile(request):
         db_user.teaching_subjects = request.POST.get('teaching_subjects', '') or db_user.teaching_subjects or ''
         db_user.institution_type = request.POST.get('institution_type', '') or db_user.institution_type or ''
         db_user.pradesh = request.POST.get('pradesh', '') or db_user.pradesh or ''
-        db_user.district = request.POST.get('district', '').strip() or db_user.district or ''
+        district_val = request.POST.get('district', '').strip()
+        if district_val and district_val not in NEPAL_DISTRICTS:
+            district_val = ''
+        db_user.district = district_val or db_user.district or ''
         db_user.school = request.POST.get('school', '').strip() or db_user.school or ''
         db_user.bio = request.POST.get('bio', '').strip()
         db_user.is_locked = request.POST.get('is_locked') == 'on'

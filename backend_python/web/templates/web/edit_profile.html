@@ -203,7 +203,12 @@
 
       <div class="form-group">
         <label class="md-label" for="district">District</label>
-        <input type="text" id="district" name="district" class="md-input" value="{{ user.district|default:'' }}" placeholder="Your district">
+        <select id="district" name="district" class="md-select">
+          <option value="">Select district</option>
+          {% for d in nepal_districts %}
+          <option value="{{ d }}" {% if user.district == d %}selected{% endif %}>{{ d }}</option>
+          {% endfor %}
+        </select>
       </div>
 
       <div class="form-group">

@@ -11,7 +11,7 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from .security import verify_internal_admin_signature, validate_resource_file_url
-from .models import User, Resource, ResourceRequest, Post, Reply, FCMToken, Report
+from .models import User, Resource, ResourceRequest, Post, Reply, FCMToken, Report, NEPAL_DISTRICTS
 from .serializers import UserSerializer, ResourceSerializer, ResourceRequestSerializer, PostSerializer, ReplySerializer, ReportSerializer
 
 logger = logging.getLogger(__name__)
@@ -143,7 +143,10 @@ def admin_user_detail(request, user_id):
         data = request.data
         for field in ['username', 'email', 'display_name', 'gender', 'class_level', 'subjects', 'pradesh', 'district', 'school', 'photo_url', 'banner_url', 'dob']:
             if field in data:
-                setattr(user, field, data[field])
+                val = data[field]
+                if field == 'district' and val and val not in NEPAL_DISTRICTS:
+                    val = ''
+                setattr(user, field, val)
         if 'isLocked' in data:
             user.is_locked = bool(data['isLocked'])
         if 'verification_level' in data:

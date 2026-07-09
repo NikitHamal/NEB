@@ -2,7 +2,7 @@
 from .view_helpers import *  # noqa: F401,F403
 from collections import Counter
 from django.db.models import Avg, Max, Q, Sum
-from .models import Bookmark, Notification, ResourceComment, StudyDocument, StudyQuiz, StudyQuizAttempt, StudyFlashcard, StudyFlashcardReview
+from .models import Bookmark, Notification, NEPAL_DISTRICTS, ResourceComment, StudyDocument, StudyQuiz, StudyQuizAttempt, StudyFlashcard, StudyFlashcardReview
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
@@ -57,6 +57,8 @@ def user_profile_create_or_update(request):
     subjects = data.get('subjects', '')
     pradesh = data.get('pradesh', '')
     district = data.get('district', '')
+    if district and district not in NEPAL_DISTRICTS:
+        district = ''
     school = data.get('school', '')
     bio = data.get('bio', '')
     is_locked = bool(data.get('isLocked', data.get('is_locked', False)))

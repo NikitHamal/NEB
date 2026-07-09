@@ -98,6 +98,30 @@ cp -f web/static/web/img/favicon.ico public/favicon.ico
 echo 'Deploying .htaccess security rules...'
 cp -f public/.htaccess public/.htaccess
 
+echo 'Resolving current WebSocket tunnel URL...'
+python3 << 'PYEOF'
+import glob, re, os
+paths = sorted(glob.glob('/tmp/cf_quick*.log'), reverse=True) + ['/home/consicac/nebians_api/logs/cloudflared.log']
+for p in paths:
+    try:
+        with open(p) as f:
+            c = f.read()
+        m = re.search(r'https://([a-z0-9-]+\.trycloudflare\.com)', c)
+        if m:
+            u = 'wss://' + m.group(1) + '/ws/'
+            with open('ws_url.txt', 'w') as wf:
+                wf.write(u + '\n')
+            print('WS URL:', u)
+            break
+    except Exception:
+        continue
+else:
+    print('WARNING: could not resolve WS tunnel URL')
+    if not os.path.exists('ws_url.txt'):
+        with open('ws_url.txt', 'w') as wf:
+            wf.write('\n')
+PYEOF
+
 echo 'Restarting Phusion Passenger application...'
 rm -rf tmp/*
 touch tmp/restart.txt
