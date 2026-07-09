@@ -67,6 +67,11 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.contentOrNull
+import kotlinx.serialization.json.jsonPrimitive
+import kotlinx.serialization.json.decodeFromJsonElement
 import javax.inject.Inject
 
 data class NotificationsUiState(
@@ -97,6 +102,39 @@ class NotificationsViewModel @Inject constructor(
         )
     )
     val uiState: StateFlow<NotificationsUiState> = _uiState.asStateFlow()
+    private var unsubscribeUser: (() -> Unit)? = null
+    private val notifJson = Json { ignoreUnknownKeys = true }
+
+    init {
+        unsubscribeUser = realtimeClient.subscribe("user")
+        viewModelScope.launch {
+            realtimeClient.events.collect { event ->
+                if (event.channel == "user") handleUserEvent(event.event, event.data)
+            }
+        }
+    }
+
+    override fun onCleared() {
+        unsubscribeUser?.invoke()
+        unsubscribeUser = null
+        super.onCleared()
+    }
+
+    private fun handleUserEvent(event: String, data: JsonObject?) {
+        when (event) {
+            "notification.new" -> {
+                try {
+                    val notif = notifJson.decodeFromJsonElement<ApiNotification>(data ?: return)
+                    _uiState.update { state ->
+                        val updated = listOf(notif) + state.notifications
+                        appCache.notifications = updated
+                        appCache.notificationsHasMore = true
+                        state.copy(notifications = updated, hasMore = true)
+                    }
+                } catch (_: Exception) {}
+            }
+        }
+    }
 
     fun loadNotifications() {
         viewModelScope.launch {

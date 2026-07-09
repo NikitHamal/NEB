@@ -21,8 +21,11 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
+import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.contentOrNull
 import kotlinx.serialization.json.intOrNull
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.decodeFromJsonElement
 import javax.inject.Inject
 
 private data class HomeLoadResults(
@@ -75,13 +78,18 @@ class HomeViewModel @Inject constructor(
     val snackbarMessage: Flow<String?> = _snackbarMessage.asSharedFlow()
     private var unsubscribeForum: (() -> Unit)? = null
 
+    private val postJson = Json { ignoreUnknownKeys = true; coerceInputValues = true }
+
     init {
         loadData()
         unsubscribeForum = realtimeClient.subscribe("forum.public")
         viewModelScope.launch {
             realtimeClient.events.collect { event ->
-                if (event.channel == "forum.public" && event.event == "post.like_changed") {
-                    handleLikeEvent(event.data)
+                when {
+                    event.channel == "forum.public" && event.event == "post.like_changed" ->
+                        handleLikeEvent(event.data)
+                    event.channel == "forum.public" && event.event == "post.created" ->
+                        handlePostCreated(event.data)
                 }
             }
         }
@@ -91,6 +99,19 @@ class HomeViewModel @Inject constructor(
         unsubscribeForum?.invoke()
         unsubscribeForum = null
         super.onCleared()
+    }
+
+    private fun handlePostCreated(data: JsonObject?) {
+        try {
+            val payload = data ?: return
+            val newPost = postJson.decodeFromJsonElement<ApiPost>(payload)
+            _recentPosts.update { posts ->
+                if (posts.any { it.id == newPost.id }) return@update posts
+                val updated = listOf(newPost) + posts
+                appCache.recentPosts = updated
+                updated
+            }
+        } catch (_: Exception) {}
     }
 
     private fun handleLikeEvent(data: kotlinx.serialization.json.JsonObject?) {
