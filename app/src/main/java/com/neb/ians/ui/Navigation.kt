@@ -501,6 +501,7 @@ fun NEBiansNavHost(
             }
             composable(Screen.Notifications.route) {
                 NotificationsScreen(
+                    onNavigateBack = { navController.popBackStack() },
                     onPostClick = { postId ->
                         navController.navigate(Screen.ForumPostDetail.createRoute(postId))
                     },
@@ -622,6 +623,7 @@ fun NEBiansNavHost(
             }
             composable(Screen.Settings.route) {
                 SettingsScreen(
+                    onNavigateBack = { navController.popBackStack() },
                     settingsViewModel = settingsViewModel,
                     onNavigateToEditProfile = { navController.navigate(Screen.EditProfile.route) },
                     onNavigateToBookmarks = { navController.navigate(Screen.Bookmarks.route) },
