@@ -448,9 +448,10 @@ def _resolve_ws_public_url():
     """Resolve the public WebSocket URL (uncached).
 
     Priority:
-      1. WS_PUBLIC_URL env var (explicit override)
-      2. The current trycloudflare.com URL (read from cloudflared log files)
-      3. Empty string (realtime.js falls back to same-origin /ws/).
+       1. WS_PUBLIC_URL env var (explicit override)
+       2. The current trycloudflare.com URL (read from cloudflared log files)
+       3. ws_url.txt in the project directory (written by deploy/cron as fallback)
+       4. Empty string (realtime.js falls back to same-origin /ws/).
     """
     explicit = os.environ.get('WS_PUBLIC_URL', '').strip()
     if explicit:
@@ -458,6 +459,7 @@ def _resolve_ws_public_url():
     import glob, re
     log_paths = sorted(glob.glob('/tmp/cf_quick*.log'), reverse=True) + [
         '/home/consicac/nebians_api/logs/cloudflared.log',
+        os.path.join(settings.BASE_DIR, 'ws_url.txt'),
     ]
     for path in log_paths:
         try:
@@ -471,8 +473,18 @@ def _resolve_ws_public_url():
     return ''
 
 def _get_ws_public_url():
-    """Return the public WebSocket URL, cached for 60s to avoid per-request file I/O."""
-    return cache.get_or_set('ws_public_url_resolved', _resolve_ws_public_url, 60)
+    """Return the public WebSocket URL, cached for 60s to avoid per-request file I/O.
+
+    If the resolution returns an empty string, we do NOT cache it so the
+    next request retries immediately (the log file may have been rotated).
+    """
+    url = cache.get('ws_public_url_resolved')
+    if url is not None:
+        return url
+    url = _resolve_ws_public_url()
+    if url:
+        cache.set('ws_public_url_resolved', url, 60)
+    return url
 
 def _client_ip(request):
     forwarded = request.META.get('HTTP_X_FORWARDED_FOR', '')
@@ -535,6 +547,7 @@ def _ctx(request, **extra):
         ticket = TimestampSigner(salt='ws-ticket').sign(str(user['id']))
         separator = '&' if '?' in ws_url else '?'
         ws_url = f'{ws_url}{separator}ticket={ticket}'
+    from api.models import NEPAL_DISTRICTS
     ctx = {
         'is_authenticated': bool(token),
         'user': user,
@@ -542,6 +555,7 @@ def _ctx(request, **extra):
         'unread_notifications': unread_notifications,
         'csp_nonce': getattr(request, 'csp_nonce', ''),
         'ws_url': ws_url,
+        'nepal_districts': NEPAL_DISTRICTS,
     }
     ctx.update(extra)
     return ctx
