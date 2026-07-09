@@ -169,7 +169,7 @@ fun ForumScreen(
             onRefresh = {
                 scope.launch {
                     isRefreshing = true
-                    viewModel.refresh()
+                    viewModel.refresh().join()
                     isRefreshing = false
                 }
             },

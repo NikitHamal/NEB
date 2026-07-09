@@ -11,6 +11,9 @@ import com.neb.ians.data.repository.AppCache
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.joinAll
+import kotlinx.coroutines.NonCancellable
+import kotlinx.coroutines.withContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -154,7 +157,7 @@ class ForumViewModel @Inject constructor(
         }
     }
 
-    private fun loadPosts(reset: Boolean, forceRefresh: Boolean = false) {
+    private fun loadPosts(reset: Boolean, forceRefresh: Boolean = false): Job {
         loadJob?.cancel()
         loadJob = viewModelScope.launch {
             val state = _forumState.value
@@ -200,9 +203,10 @@ class ForumViewModel @Inject constructor(
                 }
             }
         }
+        return loadJob
     }
 
-    fun refresh() = loadPosts(reset = true, forceRefresh = true)
+    fun refresh(): Job = loadPosts(reset = true, forceRefresh = true)
 
     fun syncLikeStates() {
         viewModelScope.launch {
