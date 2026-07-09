@@ -237,7 +237,7 @@ REST_FRAMEWORK = {
     'DEFAULT_THROTTLE_RATES': {
         'anon': os.environ.get('DRF_ANON_THROTTLE', '100/hour'),
         'user': os.environ.get('DRF_USER_THROTTLE', '1000/hour'),
-        'auth': os.environ.get('DRF_AUTH_THROTTLE', '20/minute'),
+        'auth': os.environ.get('DRF_AUTH_THROTTLE', '60/minute'),
         'verification': os.environ.get('DRF_VERIFICATION_THROTTLE', '6/hour'),
         'write_action': os.environ.get('DRF_WRITE_ACTION_THROTTLE', '30/minute'),
         'report': os.environ.get('DRF_REPORT_THROTTLE', '10/hour'),

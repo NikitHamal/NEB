@@ -334,11 +334,13 @@ def admin_user_detail(request, user_id):
         user_obj.save()
     user_data = UserSerializer(user_obj).data
     achievement_badges_list = _user_achievement_badges(user_obj)
+    from api.models import NEPAL_DISTRICTS
     return render(request, 'admin_panel/user_detail.html', {
         'is_admin': True,
         'user_detail': user_data,
         'achievement_badges_list': achievement_badges_list,
         'active_page': 'users',
+        'nepal_districts': NEPAL_DISTRICTS,
     })
 
 def admin_resources(request):
@@ -1912,6 +1914,8 @@ def admin_analytics(request):
     if redirect_response:
         return redirect_response
 
+    import re as _re
+    from datetime import datetime, timedelta
     from django.db.models import Count
     from django.core.cache import cache
     from api.models import PageView, DailyStat, User as UserModel
@@ -1919,6 +1923,31 @@ def admin_analytics(request):
     _now = now_ms()
     _today_start = _now - (_now % 86400000)
     _yesterday_start = _today_start - 86400000
+
+    # ── Parse optional date range from query params ──
+    date_from_str = request.GET.get('from', '').strip()
+    date_to_str = request.GET.get('to', '').strip()
+    is_custom_range = bool(date_from_str and date_to_str)
+    if is_custom_range:
+        try:
+            dt_from = datetime.strptime(date_from_str, '%Y-%m-%d')
+            dt_to = datetime.strptime(date_to_str, '%Y-%m-%d')
+            if dt_from > dt_to:
+                dt_from, dt_to = dt_to, dt_from
+            dt_to = dt_to + timedelta(days=1)  # inclusive end
+            _range_start = int(dt_from.timestamp() * 1000)
+            _range_end = int(dt_to.timestamp() * 1000)
+            range_label = f'{dt_from.strftime("%b %d, %Y")} — {date_to_str}'
+        except ValueError:
+            is_custom_range = False
+            _range_start = _today_start - 30 * 86400000
+            _range_end = _today_start
+            range_label = 'Last 30 Days'
+    else:
+        _range_start = _today_start - 30 * 86400000
+        _range_end = _today_start
+        range_label = 'Last 30 Days'
+
     _30d_ago = _today_start - 30 * 86400000
 
     # ── Today ──
@@ -1933,97 +1962,88 @@ def admin_analytics(request):
     qs_yesterday = PageView.objects.filter(created_at__gte=_yesterday_start, created_at__lt=_today_start)
     yesterday_visits = qs_yesterday.count()
 
-    # ── Session metrics (today) ──
-    session_data = list(
-        qs_today.values('session_key')
-               .annotate(pages=Count('id'))
-               .order_by()
-    )
-    total_sessions = len(session_data)
-    bounce_count = sum(1 for s in session_data if s['pages'] == 1) if session_data else 0
-    total_pages = sum(s['pages'] for s in session_data) if session_data else 0
-    pages_per_session = round(total_pages / total_sessions, 1) if total_sessions else 0.0
-    bounce_rate = round((bounce_count / total_sessions) * 100, 1) if total_sessions else 0.0
+    # ── Range / today snapshot ──
+    qs_range = PageView.objects.filter(created_at__gte=_range_start, created_at__lt=_range_end)
+    range_visits = qs_range.count()
+    range_unique = qs_range.values('session_key').distinct().count() if range_visits else 0
+    range_web = qs_range.filter(source='web').count()
+    range_app = qs_range.filter(source='app').count()
 
-    # ── 7-day trend ──
+    # ── Session metrics (range) ──
+    session_data_range = list(
+        qs_range.values('session_key')
+                .annotate(pages=Count('id'))
+                .order_by()
+    )
+    range_sessions = len(session_data_range)
+    range_bounce_count = sum(1 for s in session_data_range if s['pages'] == 1) if session_data_range else 0
+    range_pages = sum(s['pages'] for s in session_data_range) if session_data_range else 0
+    range_pages_per_session = round(range_pages / range_sessions, 1) if range_sessions else 0.0
+    range_bounce_rate = round((range_bounce_count / range_sessions) * 100, 1) if range_sessions else 0.0
+
+    range_days_count = max(1, (_range_end - _range_start) // 86400000)
+
+    # ── Daily trend over range ──
     day_labels = []
     day_visits = []
     day_users = []
     day_posts = []
     day_resources = []
-    for i in range(6, -1, -1):
-        ds = _today_start - i * 86400000
+    for i in range(range_days_count - 1, -1, -1):
+        ds = _range_end - (i + 1) * 86400000
         de = ds + 86400000
-        from datetime import datetime
-        day_labels.append(datetime.utcfromtimestamp(ds / 1000).strftime('%a'))
+        if ds < _range_start:
+            continue
+        from datetime import datetime as dtfmt
+        day_labels.append(dtfmt.utcfromtimestamp(ds / 1000).strftime('%a %m/%d'))
         day_visits.append(PageView.objects.filter(created_at__gte=ds, created_at__lt=de).count())
         day_users.append(UserModel.objects.filter(created_at__gte=ds, created_at__lt=de).count())
         day_posts.append(Post.objects.filter(created_at__gte=ds, created_at__lt=de).count())
         day_resources.append(Resource.objects.filter(added_at__gte=ds, added_at__lt=de).count())
 
-    # ── 30-day trend ──
-    month_labels = []
-    month_visits = []
-    month_7d_avg = []
-    from datetime import datetime
-    for i in range(29, -1, -1):
-        ds = _today_start - i * 86400000
-        de = ds + 86400000
-        month_labels.append(datetime.utcfromtimestamp(ds / 1000).strftime('%b %d'))
-        month_visits.append(PageView.objects.filter(created_at__gte=ds, created_at__lt=de).count())
-
-    for i in range(30):
-        start_idx = max(0, i - 6)
-        window = month_visits[start_idx:i+1]
-        month_7d_avg.append(round(sum(window) / len(window), 1))
-
-    # ── Hourly breakdown (today) ──
+    # ── Hourly breakdown (aggregated over range) ──
     hourly_labels = []
     hourly_visits = []
-    current_hour = datetime.utcfromtimestamp(_now / 1000).hour
     for h in range(24):
-        hs = _today_start + h * 3600000
-        he = hs + 3600000
-        count = PageView.objects.filter(created_at__gte=hs, created_at__lt=he).count() if h <= current_hour else 0
+        total_h = 0
+        for day_offset in range(range_days_count):
+            day_start = _range_end - (day_offset + 1) * 86400000
+            if day_start < _range_start:
+                continue
+            hs = day_start + h * 3600000
+            he = hs + 3600000
+            total_h += PageView.objects.filter(created_at__gte=hs, created_at__lt=he).count()
         hourly_labels.append(f'{h:02d}:00')
-        hourly_visits.append(count)
+        hourly_visits.append(total_h)
 
-    # ── Peak hours (30 days aggregated by hour) ──
-    peak_hour_labels = []
-    peak_hour_data = []
-    for h in range(24):
-        total = 0
-        for day_offset in range(30):
-            day_start = _today_start - day_offset * 86400000
-            hour_start = day_start + h * 3600000
-            hour_end = hour_start + 3600000
-            total += PageView.objects.filter(created_at__gte=hour_start, created_at__lt=hour_end).count()
-        peak_hour_labels.append(f'{h:02d}:00')
-        peak_hour_data.append(total)
+    # ── Peak hours (aggregated over range) ──
+    peak_hour_labels = hourly_labels[:]
+    peak_hour_data = hourly_visits[:]
 
     # ── Day-of-week breakdown ──
     dow_labels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
     dow_data = [0] * 7
-    for i in range(30):
-        ds = _today_start - i * 86400000
+    for day_offset in range(range_days_count):
+        ds = _range_end - (day_offset + 1) * 86400000
+        if ds < _range_start:
+            continue
         de = ds + 86400000
         from datetime import datetime as dt2
         dow = dt2.utcfromtimestamp(ds / 1000).weekday()
         count = PageView.objects.filter(created_at__gte=ds, created_at__lt=de).count()
         dow_data[dow] += count
 
-    # ── Source breakdown (30d) ──
-    qs_30d = PageView.objects.filter(created_at__gte=_30d_ago)
-    source_web = qs_30d.filter(source='web').count()
-    source_app = qs_30d.filter(source='app').count()
+    # ── Source breakdown (range) ──
+    source_web = qs_range.filter(source='web').count()
+    source_app = qs_range.filter(source='app').count()
 
-    # ── Device class breakdown (30d) ──
+    # ── Device class breakdown (range) ──
     device_data = list(
-        qs_30d.filter(source='web')
-              .exclude(platform='')
-              .values('platform')
-              .annotate(count=Count('id'))
-              .order_by('-count')
+        qs_range.filter(source='web')
+                .exclude(platform='')
+                .values('platform')
+                .annotate(count=Count('id'))
+                .order_by('-count')
     )
     device_mobile = sum(d['count'] for d in device_data if d['platform'] in ('android', 'iphone', 'ios'))
     device_desktop = sum(d['count'] for d in device_data if d['platform'] in ('windows', 'mac', 'linux', 'chromeos'))
@@ -2032,35 +2052,78 @@ def admin_analytics(request):
 
     platform_data = device_data
 
-    # ── Referrer type breakdown (30d) ──
-    ref_direct = qs_30d.filter(referrer_type='direct').count()
-    ref_search = qs_30d.filter(referrer_type='search').count()
-    ref_social = qs_30d.filter(referrer_type='social').count()
-    ref_referral = qs_30d.filter(referrer_type='referral').count()
-    ref_internal = qs_30d.filter(referrer_type='internal').count()
+    # ── Referrer type breakdown (range) ──
+    ref_direct = qs_range.filter(referrer_type='direct').count()
+    ref_search = qs_range.filter(referrer_type='search').count()
+    ref_social = qs_range.filter(referrer_type='social').count()
+    ref_referral = qs_range.filter(referrer_type='referral').count()
+    ref_internal = qs_range.filter(referrer_type='internal').count()
 
-    top_domains = list(
-        qs_30d.exclude(referrer_type__in=['direct', 'internal', ''])
-              .exclude(referrer_domain='')
-              .values('referrer_domain')
-              .annotate(count=Count('id'))
-              .order_by('-count')[:15]
+    _EXCLUDED_REFERRER_DOMAINS = (
+        'accounts.google.com',
+        'accounts.youtube.com',
+        'login.facebook.com',
     )
+
+    def _normalize_domain(domain):
+        d = domain.lower().strip()
+        d = _re.sub(r'^(www|m|l|web|en|api)\.', '', d)
+        return d
+
+    top_domains_raw = list(
+        qs_range.exclude(referrer_type__in=['direct', 'internal', ''])
+                .exclude(referrer_domain='')
+                .values('referrer_domain')
+                .annotate(count=Count('id'))
+                .order_by('-count')[:50]
+    )
+    top_domains_map = {}
+    for d in top_domains_raw:
+        domain = d['referrer_domain']
+        skip = False
+        for ex in _EXCLUDED_REFERRER_DOMAINS:
+            if ex in domain:
+                skip = True
+                break
+        if skip:
+            continue
+        norm = _normalize_domain(domain)
+        top_domains_map[norm] = top_domains_map.get(norm, 0) + d['count']
+    top_domains = sorted(top_domains_map.items(), key=lambda x: -x[1])[:15]
+    top_domains = [{'referrer_domain': k, 'count': v} for k, v in top_domains]
 
     top_pages = list(
-        qs_30d.values('path')
-              .annotate(count=Count('id'))
-              .order_by('-count')[:15]
+        qs_range.values('path')
+                .annotate(count=Count('id'))
+                .order_by('-count')[:15]
     )
 
-    referrer_details = list(
-        qs_30d.exclude(referrer='')
-              .values('referrer_domain', 'referrer_type')
-              .annotate(count=Count('id'))
-              .order_by('-count')[:20]
+    referrer_details_raw = list(
+        qs_range.exclude(referrer='')
+                .values('referrer_domain', 'referrer_type')
+                .annotate(count=Count('id'))
+                .order_by('-count')[:50]
     )
+    referrer_details_map = {}
+    for d in referrer_details_raw:
+        domain = d['referrer_domain'] or ''
+        rtype = d['referrer_type'] or ''
+        skip = False
+        for ex in _EXCLUDED_REFERRER_DOMAINS:
+            if ex in domain:
+                skip = True
+                break
+        if skip:
+            continue
+        norm = _normalize_domain(domain) if domain else ''
+        key = (norm, rtype)
+        referrer_details_map[key] = referrer_details_map.get(key, 0) + d['count']
+    referrer_details = sorted(
+        [{'referrer_domain': k[0], 'referrer_type': k[1], 'count': v} for k, v in referrer_details_map.items()],
+        key=lambda x: -x['count']
+    )[:20]
 
-    # ── Online users ──
+    # ── Online users (always live) ──
     online_users, online_count = views_presence.get_online_users()
     online_user_details = []
     online_user_ids = [u['user_id'] for u in online_users]
@@ -2083,13 +2146,41 @@ def admin_analytics(request):
     total_pageviews = PageView.objects.count()
     today_users_active = qs_today.values('user_id').distinct().count()
 
-    # ── DailyStat records (last 30 days) ──
+    # ── DailyStat records (range) — auto-fill missing ──
+    range_date_from = datetime.utcfromtimestamp(_range_start / 1000).date()
+    range_date_to = datetime.utcfromtimestamp((_range_end - 1) / 1000).date()
     daily_stat_records = list(
-        DailyStat.objects.filter(date__gte=(datetime.utcfromtimestamp(_30d_ago / 1000).date()))
-        .order_by('-date')[:31]
+        DailyStat.objects.filter(date__gte=range_date_from, date__lte=range_date_to)
+        .order_by('-date')
     )
+    existing_dates = {r.date for r in daily_stat_records}
+    missing_dates = []
+    d = range_date_from
+    while d <= range_date_to:
+        if d not in existing_dates:
+            missing_dates.append(d)
+        d += timedelta(days=1)
+    if missing_dates:
+        try:
+            from api.management.commands.aggregate_daily_stats import aggregate_date as _agg_date
+            for md in missing_dates:
+                try:
+                    _agg_date(md)
+                except Exception:
+                    pass
+            daily_stat_records = list(
+                DailyStat.objects.filter(date__gte=range_date_from, date__lte=range_date_to)
+                .order_by('-date')
+            )
+        except ImportError:
+            pass
 
     data = {
+        'is_custom_range': is_custom_range,
+        'date_from': date_from_str if is_custom_range else '',
+        'date_to': date_to_str if is_custom_range else '',
+        'range_label': range_label,
+        'range_days': range_days_count,
         'total_users': total_users,
         'total_pageviews': total_pageviews,
         'today_visits': today_visits,
@@ -2100,18 +2191,19 @@ def admin_analytics(request):
         'today_users_active': today_users_active,
         'yesterday_visits': yesterday_visits,
         'visit_delta': today_visits - yesterday_visits,
-        'total_sessions': total_sessions,
-        'bounce_count': bounce_count,
-        'bounce_rate': bounce_rate,
-        'pages_per_session': pages_per_session,
+        'range_visits': range_visits,
+        'range_unique': range_unique,
+        'range_web': range_web,
+        'range_app': range_app,
+        'range_sessions': range_sessions,
+        'range_bounce_count': range_bounce_count,
+        'range_bounce_rate': range_bounce_rate,
+        'range_pages_per_session': range_pages_per_session,
         'day_labels': day_labels,
         'day_visits': day_visits,
         'day_users': day_users,
         'day_posts': day_posts,
         'day_resources': day_resources,
-        'month_labels': month_labels,
-        'month_visits': month_visits,
-        'month_7d_avg': month_7d_avg,
         'hourly_labels': hourly_labels,
         'hourly_visits': hourly_visits,
         'peak_hour_labels': peak_hour_labels,

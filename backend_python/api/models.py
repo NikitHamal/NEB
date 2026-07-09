@@ -7,6 +7,44 @@ import uuid
 from django.db import models
 from .security import generate_numeric_code
 
+NEPAL_DISTRICTS = [
+    'Achham', 'Arghakhanchi', 'Baglung', 'Baitadi', 'Bajhang', 'Bajura',
+    'Banke', 'Bara', 'Bardiya', 'Bhaktapur', 'Bhojpur', 'Chitwan',
+    'Dadeldhura', 'Dailekh', 'Dang', 'Darchula', 'Dhading', 'Dhankuta',
+    'Dhanusha', 'Dolakha', 'Dolpa', 'Doti', 'Gorkha', 'Gulmi',
+    'Humla', 'Ilam', 'Jajarkot', 'Jhapa', 'Jumla', 'Kailali',
+    'Kalikot', 'Kanchanpur', 'Kapilvastu', 'Kaski', 'Kathmandu',
+    'Kavrepalanchok', 'Khotang', 'Lalitpur', 'Lamjung', 'Mahottari',
+    'Makwanpur', 'Manang', 'Morang', 'Mugu', 'Mustang', 'Myagdi',
+    'Nawalparasi East', 'Nawalparasi West', 'Nuwakot', 'Okhaldhunga',
+    'Palpa', 'Panchthar', 'Parbat', 'Parsa', 'Pyuthan', 'Ramechhap',
+    'Rasuwa', 'Rautahat', 'Rolpa', 'Rukum East', 'Rukum West',
+    'Rupandehi', 'Salyan', 'Sankhuwasabha', 'Saptari', 'Sarlahi',
+    'Sindhuli', 'Sindhupalchok', 'Siraha', 'Solukhumbu', 'Sunsari',
+    'Surkhet', 'Syangja', 'Tanahu', 'Taplejung', 'Terhathum',
+    'Udayapur',
+]
+
+DISTRICTS_BY_PROVINCE = {
+    '1': ['Bhojpur', 'Dhankuta', 'Ilam', 'Jhapa', 'Khotang', 'Morang',
+          'Okhaldhunga', 'Panchthar', 'Sankhuwasabha', 'Solukhumbu',
+          'Sunsari', 'Taplejung', 'Terhathum', 'Udayapur'],
+    '2': ['Bara', 'Dhanusha', 'Mahottari', 'Parsa', 'Rautahat',
+          'Saptari', 'Sarlahi', 'Siraha'],
+    '3': ['Bhaktapur', 'Chitwan', 'Dhading', 'Dolakha', 'Kathmandu',
+          'Kavrepalanchok', 'Lalitpur', 'Makwanpur', 'Nuwakot',
+          'Ramechhap', 'Rasuwa', 'Sindhuli', 'Sindhupalchok'],
+    '4': ['Baglung', 'Gorkha', 'Kaski', 'Lamjung', 'Manang', 'Mustang',
+          'Myagdi', 'Nawalparasi East', 'Parbat', 'Syangja', 'Tanahu'],
+    '5': ['Arghakhanchi', 'Banke', 'Bardiya', 'Dang', 'Gulmi',
+          'Kapilvastu', 'Palpa', 'Pyuthan', 'Rolpa', 'Rukum East',
+          'Nawalparasi West', 'Rupandehi'],
+    '6': ['Dailekh', 'Dolpa', 'Humla', 'Jajarkot', 'Jumla', 'Kalikot',
+          'Mugu', 'Salyan', 'Surkhet', 'Rukum West'],
+    '7': ['Achham', 'Baitadi', 'Bajhang', 'Bajura', 'Dadeldhura',
+          'Darchula', 'Doti', 'Kailali', 'Kanchanpur'],
+}
+
 
 class User(models.Model):
     ROLE_STUDENT = 'student'

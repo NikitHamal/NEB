@@ -84,11 +84,25 @@
       <div class="form-row">
         <div class="form-group">
           <label class="md-label" for="pradesh">Province</label>
-          <input type="text" id="pradesh" name="pradesh" class="md-input" value="{{ user_detail.pradesh|default:'' }}">
+          <select id="pradesh" name="pradesh" class="md-select">
+            <option value="">Select</option>
+            <option value="1" {% if user_detail.pradesh == '1' %}selected{% endif %}>Koshi</option>
+            <option value="2" {% if user_detail.pradesh == '2' %}selected{% endif %}>Madhesh</option>
+            <option value="3" {% if user_detail.pradesh == '3' %}selected{% endif %}>Bagmati</option>
+            <option value="4" {% if user_detail.pradesh == '4' %}selected{% endif %}>Gandaki</option>
+            <option value="5" {% if user_detail.pradesh == '5' %}selected{% endif %}>Lumbini</option>
+            <option value="6" {% if user_detail.pradesh == '6' %}selected{% endif %}>Karnali</option>
+            <option value="7" {% if user_detail.pradesh == '7' %}selected{% endif %}>Sudurpashchim</option>
+          </select>
         </div>
         <div class="form-group">
           <label class="md-label" for="district">District</label>
-          <input type="text" id="district" name="district" class="md-input" value="{{ user_detail.district|default:'' }}">
+          <select id="district" name="district" class="md-select">
+            <option value="">Select district</option>
+            {% for d in nepal_districts %}
+            <option value="{{ d }}" {% if user_detail.district == d %}selected{% endif %}>{{ d }}</option>
+            {% endfor %}
+          </select>
         </div>
       </div>
       <div class="form-group">

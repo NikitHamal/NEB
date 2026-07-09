@@ -84,7 +84,7 @@ class BearerCsrfExemptMiddleware:
 
     def __call__(self, request):
         auth = request.META.get('HTTP_AUTHORIZATION', '')
-        if auth.startswith('Bearer ') and not request.COOKIES.get('sessionid'):
+        if auth.startswith('Bearer '):
             request._dont_enforce_csrf_checks = True
         return self.get_response(request)
 
@@ -135,6 +135,7 @@ class AllowedHostMiddleware:
 
 _SKIP_PREFIXES = (
     '/static/', '/ajax/', '/api/',
+    '/admin/analytics/',
     '/manifest.json', '/robots.txt', '/sitemap.xml',
     '/favicon.ico',
 )
@@ -188,7 +189,7 @@ class PageViewTrackingMiddleware:
 
         if request.method != 'GET':
             return response
-        if response.status_code >= 400:
+        if response.status_code != 200:
             return response
 
         path = request.path.lower()

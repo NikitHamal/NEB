@@ -23,7 +23,7 @@ from django.core.signing import BadSignature, SignatureExpired, TimestampSigner
 from api.authentication import get_user_by_auth_token
 
 WS_TICKET_SALT = 'ws-ticket'
-WS_TICKET_MAX_AGE = 300  # seconds
+WS_TICKET_MAX_AGE = 86400  # seconds (24h) — page may stay open a long time; reconnect should still auth
 
 logger = logging.getLogger(__name__)
 
