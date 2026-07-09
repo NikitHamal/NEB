@@ -17,6 +17,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.outlined.Reply
 import androidx.compose.material.icons.outlined.AlternateEmail
 import androidx.compose.material.icons.outlined.Notifications
@@ -251,6 +252,7 @@ class NotificationsViewModel @Inject constructor(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NotificationsScreen(
+    onNavigateBack: () -> Unit,
     onPostClick: (String) -> Unit,
     onProfileClick: (String) -> Unit,
     onResourceClick: (String) -> Unit = {},
@@ -282,6 +284,14 @@ fun NotificationsScreen(
         topBar = {
             TopAppBar(
                 title = { Text("Notifications") },
+                navigationIcon = {
+                    IconButton(onClick = onNavigateBack) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "Back"
+                        )
+                    }
+                },
                 actions = {
                     if (uiState.hasUnread) {
                         TextButton(onClick = viewModel::markAllRead) {
