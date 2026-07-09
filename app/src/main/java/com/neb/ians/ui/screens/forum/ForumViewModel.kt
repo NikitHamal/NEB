@@ -202,7 +202,7 @@ class ForumViewModel @Inject constructor(
                 }
             }
         }
-        return loadJob
+        return loadJob!!
     }
 
     fun refresh(): Job = loadPosts(reset = true, forceRefresh = true)
