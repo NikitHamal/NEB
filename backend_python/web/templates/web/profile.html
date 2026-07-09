@@ -13,7 +13,7 @@
 {% block og_image_alt %}{{ profile_user.display_name|default:profile_user.username }} profile card on NEBians{% endblock %}
 {% block tw_image %}https://nebians.consica.com.np{% url 'web:profile_card_image' username=profile_user.username %}?v=13{% endblock %}
 {% block tw_image_alt %}{{ profile_user.display_name|default:profile_user.username }} profile card on NEBians{% endblock %}
-{% block robots %}<meta name="robots" content="noindex, nofollow">{% endblock %}
+{% block robots %}{% if profile_private or profile_user.is_bot %}<meta name="robots" content="noindex,nofollow">{% endif %}{% endblock %}
 
 {% block head_extra %}
 {% if not profile_private and not profile_user.is_bot %}
