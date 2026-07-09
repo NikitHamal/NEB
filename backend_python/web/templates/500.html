@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block title %}Server Error{% endblock %}
+{% block robots %}<meta name="robots" content="noindex, nofollow">{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'web/css/pages/500.css' %}">
