@@ -1499,20 +1499,7 @@ def sitemap_xml(request):
             'lastmod': _lastmod(post.created_at),
         })
 
-    users = (User.objects
-             .filter(is_locked=False, is_bot=False, email_verified=True)
-             .exclude(username='')
-             .order_by('-contribution_score', 'username')[:500])
-    for u in users:
-        uname = (u.username or '').strip()
-        if not uname or any(term in uname.lower() for term in ('test', 'demo', 'dummy', 'adminadmin')):
-            continue
-        urls.append({
-            'loc': f'{base}/profile/{uname}/',
-            'changefreq': 'weekly',
-            'priority': '0.4',
-            'lastmod': _lastmod(getattr(u, 'created_at', None)),
-        })
+
 
     xml_content = '<?xml version="1.0" encoding="UTF-8"?>\n'
     xml_content += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
@@ -1540,6 +1527,7 @@ def robots_txt(request):
         'Disallow: /login/',
         'Disallow: /logout/',
         'Disallow: /profile/edit/',
+        'Disallow: /profile/',
         '',
         'Sitemap: https://nebians.consica.com.np/sitemap.xml',
     ]

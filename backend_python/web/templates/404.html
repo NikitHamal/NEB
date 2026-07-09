@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block title %}Page Not Found{% endblock %}
+{% block robots %}<meta name="robots" content="noindex, nofollow">{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'web/css/pages/404.css' %}">
