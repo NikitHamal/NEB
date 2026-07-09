@@ -66,6 +66,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
@@ -136,8 +137,8 @@ class NotificationsViewModel @Inject constructor(
         }
     }
 
-    fun loadNotifications() {
-        viewModelScope.launch {
+    fun loadNotifications(): Job {
+        val job = viewModelScope.launch {
             _uiState.update { it.copy(isLoading = it.notifications.isEmpty(), error = null) }
             try {
                 val token = authRepository.getBearerToken()
@@ -166,6 +167,7 @@ class NotificationsViewModel @Inject constructor(
             }
             realtimeClient.refreshUnreadCount()
         }
+        return job
     }
 
     fun loadNextPage() {
@@ -300,7 +302,7 @@ fun NotificationsScreen(
             onRefresh = {
                 scope.launch {
                     isRefreshing = true
-                    viewModel.loadNotifications()
+                    viewModel.loadNotifications().join()
                     isRefreshing = false
                 }
             },

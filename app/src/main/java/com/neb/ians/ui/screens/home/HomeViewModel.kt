@@ -18,6 +18,7 @@ import com.neb.ians.data.repository.ForumPostsResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
@@ -130,8 +131,8 @@ class HomeViewModel @Inject constructor(
         } catch (_: Exception) {}
     }
 
-    private fun loadData(forceRefresh: Boolean = false) {
-        viewModelScope.launch {
+    private fun loadData(forceRefresh: Boolean = false): Job {
+        val job = viewModelScope.launch {
             _error.value = null
             try {
                 if (authRepository.getBearerToken() != null) {
@@ -177,11 +178,10 @@ class HomeViewModel @Inject constructor(
             }
             _isLoading.value = false
         }
+        return job
     }
 
-    fun refresh() {
-        loadData(forceRefresh = true)
-    }
+    fun refresh(): Job = loadData(forceRefresh = true)
 
     fun toggleThumbsUp(postId: String) {
         if (processingPostLikes.contains(postId)) return

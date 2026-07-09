@@ -93,7 +93,7 @@ fun HomeScreen(
             onRefresh = {
                 scope.launch {
                     isRefreshing = true
-                    viewModel.refresh()
+                    viewModel.refresh().join()
                     isRefreshing = false
                 }
             },
