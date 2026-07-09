@@ -106,10 +106,19 @@ class ForumViewModel @Inject constructor(
         super.onCleared()
     }
 
+    private val postJson = Json { ignoreUnknownKeys = true; coerceInputValues = true }
+
     private fun handleRealtimeEvent(event: String, data: JsonObject?) {
         try {
             val payload = data ?: return
             when (event) {
+                "post.created" -> {
+                    val newPost = try { postJson.decodeFromJsonElement(com.neb.ians.data.api.ApiPost.serializer(), payload) } catch (_: Exception) { return }
+                    _forumState.update { state ->
+                        if (state.posts.any { it.id == newPost.id }) return@update state
+                        state.copy(posts = listOf(newPost) + state.posts, snackbarMessage = "New post from @" + newPost.authorName)
+                    }
+                }
                 "post.like_changed" -> {
                     val postId = payload.stringField("post_id") ?: return
                     val count = payload.intField("thumbs_up_count") ?: return
