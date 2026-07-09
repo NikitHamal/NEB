@@ -32,8 +32,7 @@ object AppModule {
     @Provides
     @Singleton
     fun provideApiService(
-        @ApplicationContext context: Context,
-        dataStore: DataStore<Preferences>
+        @ApplicationContext context: Context
     ): ApiService {
         return ApiService.create(context, tokenProvider = {
             SecurePrefs.getAuthToken(context)
