@@ -13,7 +13,7 @@
 {% block og_image_alt %}{{ profile_user.display_name|default:profile_user.username }} profile card on NEBians{% endblock %}
 {% block tw_image %}https://nebians.consica.com.np{% url 'web:profile_card_image' username=profile_user.username %}?v=13{% endblock %}
 {% block tw_image_alt %}{{ profile_user.display_name|default:profile_user.username }} profile card on NEBians{% endblock %}
-{% block robots %}{% if profile_private or profile_user.is_bot %}<meta name="robots" content="noindex,nofollow">{% endif %}{% endblock %}
+{% block robots %}<meta name="robots" content="noindex, nofollow">{% endblock %}
 
 {% block head_extra %}
 {% if not profile_private and not profile_user.is_bot %}
@@ -114,14 +114,16 @@
             </div>
 
             <!-- User Name with Dynamic Badge -->
-            <h1 class="pf-card-name">
-              {{ profile_user.display_name|default:profile_user.username }}
+            <div class="pf-card-name-row" style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-bottom: 4px;">
+              <h1 class="pf-card-name" style="margin: 0;">
+                {{ profile_user.display_name|default:profile_user.username }}
+              </h1>
               {% if badge_info %}
                 <span class="role-badge role-badge-{{ badge_info.type }}" title="{{ badge_info.label }}">
                   <span class="material-symbols-outlined">{{ badge_info.icon }}</span>
                 </span>
               {% endif %}
-            </h1>
+            </div>
 
             {% if profile_user.display_name %}
               <div class="pf-card-username">@{{ profile_user.username }}</div>
