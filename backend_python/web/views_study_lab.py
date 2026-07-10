@@ -2933,6 +2933,15 @@ def _serialize_space_detail(space, user_id):
     _ensure_space_owner_member(space)
     _prune_space_presence(space)
     note = _ensure_space_note(space)
+    try:
+        cu = User.objects.get(pk=user_id)
+    except User.DoesNotExist:
+        cu = None
+    current_user_data = {
+        'id': cu.id if cu else '',
+        'username': cu.username if cu else '',
+        'displayName': cu.display_name or cu.username if cu else 'Anonymous',
+    }
     docs = space.documents.all().order_by('-updated_at')
     doc_list = []
     for d in docs:
@@ -3040,6 +3049,7 @@ def _serialize_space_detail(space, user_id):
             'canInvite': _space_permission_allows(space, user_id, 'invite_min_role'),
             'canPublish': _space_permission_allows(space, user_id, 'publish_min_role'),
         },
+        'currentUser': current_user_data,
         'owner': {
             'id': owner.id if owner else space.user_id,
             'username': owner.username if owner else '',

@@ -1,0 +1,347 @@
+/* Collaborative Board — infinite canvas for Study Space "Board" tab */
+
+.cb-container {
+  position: relative;
+  width: 100%;
+  height: calc(100vh - 112px);
+  overflow: hidden;
+  background: var(--md-surface-container-lowest, #fafafa);
+  border-radius: 12px;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+[data-theme="dark"] .cb-container {
+  background: var(--md-surface-container-lowest, #0e0e0e);
+}
+
+.cb-container canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: crosshair;
+}
+.cb-container canvas.cb-cursor-grab { cursor: grab; }
+.cb-container canvas.cb-cursor-grabbing { cursor: grabbing; }
+.cb-container canvas.cb-cursor-default { cursor: default; }
+.cb-container canvas.cb-cursor-move { cursor: move; }
+.cb-container canvas.cb-cursor-text { cursor: text; }
+
+/* ── Floating toolbar ── */
+.cb-toolbar {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 4px 6px;
+  background: var(--md-surface-container, rgba(255,255,255,0.88));
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--md-outline-variant, rgba(0,0,0,0.1));
+  border-radius: 14px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08), 0 0 0 1px rgba(0,0,0,0.03);
+  z-index: 20;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: calc(100% - 24px);
+}
+[data-theme="dark"] .cb-toolbar {
+  background: rgba(30,30,30,0.9);
+  border-color: rgba(255,255,255,0.08);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+}
+
+.cb-toolbar-sep {
+  width: 1px;
+  height: 24px;
+  background: var(--md-outline-variant, rgba(0,0,0,0.1));
+  margin: 0 4px;
+  flex-shrink: 0;
+}
+
+.cb-tool-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--md-on-surface-variant, #5f6368);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  flex-shrink: 0;
+  position: relative;
+}
+.cb-tool-btn:hover {
+  background: var(--md-surface-container-high, rgba(0,0,0,0.06));
+}
+.cb-tool-btn.cb-active {
+  background: var(--md-primary-container, #d3e3fd);
+  color: var(--md-on-primary-container, #041e49);
+}
+[data-theme="dark"] .cb-tool-btn.cb-active {
+  background: var(--md-primary-container, #004a77);
+  color: var(--md-on-primary-container, #d3e3fd);
+}
+.cb-tool-btn .material-symbols-outlined {
+  font-size: 20px;
+}
+
+/* ── Color picker ── */
+.cb-color-picker {
+  display: none;
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--md-surface-container, #fff);
+  border: 1px solid var(--md-outline-variant, rgba(0,0,0,0.1));
+  border-radius: 12px;
+  padding: 8px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+  z-index: 30;
+  display: none;
+  gap: 4px;
+  flex-wrap: wrap;
+  width: 156px;
+}
+[data-theme="dark"] .cb-color-picker {
+  background: rgba(30,30,30,0.95);
+  border-color: rgba(255,255,255,0.08);
+}
+.cb-color-picker.cb-open {
+  display: flex;
+}
+.cb-color-swatch {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: transform 0.12s, border-color 0.12s;
+}
+.cb-color-swatch:hover {
+  transform: scale(1.15);
+}
+.cb-color-swatch.cb-swatch-active {
+  border-color: var(--md-primary, #1a73e8);
+  transform: scale(1.15);
+}
+
+/* ── Stroke width picker ── */
+.cb-stroke-picker {
+  display: none;
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--md-surface-container, #fff);
+  border: 1px solid var(--md-outline-variant, rgba(0,0,0,0.1));
+  border-radius: 12px;
+  padding: 8px 12px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+  z-index: 30;
+  gap: 6px;
+  align-items: center;
+}
+[data-theme="dark"] .cb-stroke-picker {
+  background: rgba(30,30,30,0.95);
+  border-color: rgba(255,255,255,0.08);
+}
+.cb-stroke-picker.cb-open {
+  display: flex;
+}
+.cb-stroke-opt {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  background: var(--md-surface-container-high, #f0f0f0);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.12s;
+}
+.cb-stroke-opt.cb-stroke-active {
+  border-color: var(--md-primary, #1a73e8);
+}
+.cb-stroke-opt span {
+  display: block;
+  border-radius: 99px;
+  background: var(--md-on-surface, #1f1f1f);
+}
+
+/* ── Zoom controls ── */
+.cb-zoom-controls {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 4px;
+  background: var(--md-surface-container, rgba(255,255,255,0.88));
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--md-outline-variant, rgba(0,0,0,0.1));
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  z-index: 20;
+}
+[data-theme="dark"] .cb-zoom-controls {
+  background: rgba(30,30,30,0.9);
+  border-color: rgba(255,255,255,0.08);
+}
+.cb-zoom-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--md-on-surface-variant, #5f6368);
+  cursor: pointer;
+  transition: background 0.12s;
+}
+.cb-zoom-btn:hover {
+  background: var(--md-surface-container-high, rgba(0,0,0,0.06));
+}
+.cb-zoom-btn .material-symbols-outlined {
+  font-size: 18px;
+}
+.cb-zoom-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--md-on-surface-variant, #5f6368);
+  min-width: 36px;
+  text-align: center;
+  user-select: none;
+}
+
+/* ── Status bar ── */
+.cb-status {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  background: var(--md-surface-container, rgba(255,255,255,0.88));
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--md-outline-variant, rgba(0,0,0,0.1));
+  border-radius: 10px;
+  font-size: 11px;
+  color: var(--md-on-surface-variant, #5f6368);
+  z-index: 20;
+}
+[data-theme="dark"] .cb-status {
+  background: rgba(30,30,30,0.9);
+  border-color: rgba(255,255,255,0.08);
+}
+.cb-status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #34a853;
+  flex-shrink: 0;
+}
+.cb-status-dot.cb-offline {
+  background: #ea4335;
+}
+
+/* ── Remote cursors ── */
+.cb-cursors {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 15;
+  overflow: hidden;
+}
+.cb-remote-cursor {
+  position: absolute;
+  pointer-events: none;
+  transition: left 0.08s linear, top 0.08s linear;
+  z-index: 15;
+}
+.cb-remote-cursor-arrow {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 10px solid var(--cur-color, #e53e3e);
+  transform: rotate(-30deg);
+}
+.cb-remote-cursor-name {
+  position: absolute;
+  top: 10px;
+  left: 8px;
+  font-size: 10px;
+  font-weight: 600;
+  color: #fff;
+  background: var(--cur-color, #e53e3e);
+  padding: 1px 6px;
+  border-radius: 4px;
+  white-space: nowrap;
+  line-height: 1.4;
+}
+
+/* ── Inline text editor overlay ── */
+.cb-text-input {
+  position: absolute;
+  z-index: 25;
+  border: 2px solid var(--md-primary, #1a73e8);
+  border-radius: 4px;
+  background: transparent;
+  color: var(--md-on-surface, #1f1f1f);
+  font-family: 'Poppins', sans-serif;
+  outline: none;
+  resize: none;
+  overflow: hidden;
+  padding: 4px 6px;
+  min-width: 60px;
+  min-height: 28px;
+  box-shadow: 0 0 0 3px rgba(26,115,232,0.15);
+}
+
+/* ── Selection handles ── */
+.cb-selection-info {
+  position: absolute;
+  z-index: 22;
+  pointer-events: none;
+}
+
+/* ── Mobile adjustments ── */
+@media (max-width: 600px) {
+  .cb-toolbar {
+    top: 8px;
+    padding: 3px 4px;
+    gap: 1px;
+    border-radius: 12px;
+  }
+  .cb-tool-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+  }
+  .cb-tool-btn .material-symbols-outlined {
+    font-size: 18px;
+  }
+  .cb-toolbar-sep {
+    height: 20px;
+    margin: 0 2px;
+  }
+  .cb-container {
+    height: calc(100vh - 104px);
+    border-radius: 8px;
+  }
+}

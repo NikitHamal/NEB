@@ -315,6 +315,10 @@ class RealtimeConsumer(AsyncWebsocketConsumer):
             await self._handle_note_content(msg)
         elif action == 'note_cursor':
             await self._handle_note_cursor(msg)
+        elif action == 'yjs_update':
+            await self._handle_yjs_update(msg)
+        elif action == 'yjs_awareness':
+            await self._handle_yjs_awareness(msg)
         else:
             await self._send_json({'type': 'error', 'code': 'unknown_action', 'message': f'unknown: {action}'})
 
@@ -466,6 +470,52 @@ class RealtimeConsumer(AsyncWebsocketConsumer):
                     'data': {
                         'start': start,
                         'end': end,
+                        'senderId': self._user_id,
+                    },
+                }
+            )
+
+    # ------------------------------------------------------------------ Yjs CRDT collaboration
+
+    async def _handle_yjs_update(self, msg):
+        """Receive Yjs incremental update from a StudySpace member and relay to others."""
+        space_id = msg.get('spaceId')
+        update_b64 = msg.get('update', '')
+        if not space_id or not update_b64 or not isinstance(update_b64, str):
+            return
+        if len(update_b64) > 500000:
+            return
+        group = f'studyspace.{space_id}'
+        if group in self._groups:
+            await self.channel_layer.group_send(
+                group,
+                {
+                    'type': 'realtime.event',
+                    'channel': group,
+                    'event': 'yjs_update',
+                    'data': {
+                        'update': update_b64,
+                        'senderId': self._user_id,
+                    },
+                }
+            )
+
+    async def _handle_yjs_awareness(self, msg):
+        """Broadcast Yjs awareness (cursor/selection) to other StudySpace members."""
+        space_id = msg.get('spaceId')
+        state = msg.get('state', {})
+        if not space_id or not isinstance(state, dict):
+            return
+        group = f'studyspace.{space_id}'
+        if group in self._groups:
+            await self.channel_layer.group_send(
+                group,
+                {
+                    'type': 'realtime.event',
+                    'channel': group,
+                    'event': 'yjs_awareness',
+                    'data': {
+                        'state': state,
                         'senderId': self._user_id,
                     },
                 }

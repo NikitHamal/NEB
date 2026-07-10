@@ -919,6 +919,37 @@
   .ss-sidebar-head { display: none; }
 }
 
+/* ── Remote cursors (Yjs collaboration) ── */
+.ss-remote-cursors {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.ss-remote-cursor {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  color: var(--md-on-surface-variant);
+  padding: 2px 6px;
+  border-radius: 12px;
+  background: var(--md-surface-container);
+  border-left: 3px solid var(--cur-color, var(--md-primary));
+}
+.ss-remote-cursor-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.ss-remote-cursor-label {
+  max-width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 /* ── Reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
   .ss-sidebar { transition: none; }
