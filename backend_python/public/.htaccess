@@ -1,8 +1,8 @@
 # Security hardening for LiteSpeed
 
 # Remove Server header identity
-ServerSignature Off
-ServerTokens Prod
+# ServerSignature Off
+# ServerTokens Prod
 
 RewriteEngine On
 
