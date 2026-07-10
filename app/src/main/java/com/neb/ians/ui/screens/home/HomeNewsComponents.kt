@@ -1,7 +1,6 @@
 package com.neb.ians.ui.screens.home
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -9,16 +8,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Campaign
 import androidx.compose.material.icons.filled.Event
@@ -56,7 +51,6 @@ fun HomeNewsSection(
     items: List<NewsAnnouncement>,
     onViewAllClick: () -> Unit,
     onNewsClick: (NewsAnnouncement) -> Unit,
-    onResultCheckerClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     if (items.isEmpty()) return
@@ -75,12 +69,6 @@ fun HomeNewsSection(
                 HomeNewsCard(
                     item = news,
                     onClick = { onNewsClick(news) },
-                    modifier = Modifier.fillParentMaxWidth(0.78f)
-                )
-            }
-            item(key = "result-checker-cta") {
-                ResultCheckerCtaCard(
-                    onClick = onResultCheckerClick,
                     modifier = Modifier.fillParentMaxWidth(0.78f)
                 )
             }
@@ -175,78 +163,6 @@ private fun HomeNewsCard(
                 fontWeight = FontWeight.Medium,
                 maxLines = 1
             )
-        }
-    }
-}
-
-@Composable
-private fun ResultCheckerCtaCard(
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    val accent = MaterialTheme.colorScheme.primary
-    Card(
-        modifier = modifier
-            .height(154.dp)
-            .clip(WebCardShape)
-            .clickable(onClick = onClick),
-        shape = WebCardShape,
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest),
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
-    ) {
-        Row(modifier = Modifier.fillMaxWidth()) {
-            Box(
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .width(68.dp)
-                    .background(MaterialTheme.colorScheme.primaryContainer),
-                contentAlignment = Alignment.Center
-            ) {
-                Surface(
-                    modifier = Modifier.size(42.dp),
-                    shape = CircleShape,
-                    color = accent.copy(alpha = 0.10f)
-                ) {
-                    Box(contentAlignment = Alignment.Center) {
-                        Icon(
-                            imageVector = Icons.Filled.FactCheck,
-                            contentDescription = null,
-                            tint = accent,
-                            modifier = Modifier.size(22.dp)
-                        )
-                    }
-                }
-            }
-            Column(
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(14.dp),
-                verticalArrangement = Arrangement.Center
-            ) {
-                Text(
-                    text = "Check Exam Results",
-                    style = MaterialTheme.typography.titleSmall,
-                    fontWeight = FontWeight.SemiBold,
-                    color = accent,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
-                Spacer(modifier = Modifier.height(5.dp))
-                Text(
-                    text = "Class 12, re-exam, SEE, bulk checks, exports and share cards.",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    maxLines = 3,
-                    overflow = TextOverflow.Ellipsis
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = "Explore tool →",
-                    style = MaterialTheme.typography.labelMedium,
-                    color = accent,
-                    fontWeight = FontWeight.SemiBold
-                )
-            }
         }
     }
 }
