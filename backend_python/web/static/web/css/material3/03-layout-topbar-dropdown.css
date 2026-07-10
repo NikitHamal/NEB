@@ -439,35 +439,36 @@
 .app-banner {
   background: linear-gradient(90deg, #0058df 0%, #004bd4 50%, #003cc3 100%);
   color: #ffffff;
-  padding: 8px 16px;
+  padding: 10px 40px 10px 16px;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
-  z-index: 101; /* above topbar */
+  z-index: 101;
   font-size: 0.875rem;
   font-weight: 500;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
+  min-height: 44px;
 }
 
 .app-banner-content {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   flex-wrap: wrap;
   justify-content: center;
   text-align: center;
-  padding-right: 32px; /* make room for close button */
 }
 
 .app-banner-icon {
   font-size: 20px;
   color: #a8c5ff;
+  flex-shrink: 0;
 }
 
 .app-banner-text {
   letter-spacing: -0.01em;
+  white-space: nowrap;
 }
 
 .app-banner-btn {
@@ -482,6 +483,8 @@
   display: inline-flex;
   align-items: center;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .app-banner-btn:hover {
@@ -499,7 +502,7 @@
   cursor: pointer;
   padding: 4px;
   position: absolute;
-  right: 12px;
+  right: 8px;
   top: 50%;
   transform: translateY(-50%);
   display: flex;
@@ -515,23 +518,46 @@
 }
 
 .app-banner-close span {
-  font-size: 18px;
+  font-size: 20px;
 }
 
-/* Responsiveness */
 @media (max-width: 600px) {
   .app-banner {
-    padding: 10px 12px;
+    padding: 10px 36px 10px 12px;
   }
   .app-banner-content {
-    gap: 8px;
+    gap: 6px;
     font-size: 0.8rem;
+    width: 100%;
+  }
+  .app-banner-text {
+    white-space: normal;
   }
   .app-banner-btn {
     padding: 3px 10px;
     font-size: 0.75rem;
   }
   .app-banner-close {
-    right: 6px;
+    right: 4px;
+  }
+}
+
+@media (max-width: 380px) {
+  .app-banner {
+    padding: 10px 32px 10px 10px;
+    font-size: 0.75rem;
+  }
+  .app-banner-content {
+    gap: 4px;
+  }
+  .app-banner-icon {
+    display: none;
+  }
+  .app-banner-btn {
+    font-size: 0.7rem;
+    padding: 2px 8px;
+  }
+  .app-banner-close {
+    right: 2px;
   }
 }
