@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="{% static 'web/css/pages/upload.css' %}">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" nonce="{{ csp_nonce }}">
 <link rel="stylesheet" href="{% static 'web/css/pages/study-space.css' %}">
+<link rel="stylesheet" href="{% static 'web/css/pages/collab-board.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -104,7 +105,7 @@
           <span class="material-symbols-outlined">style</span> Flashcards
         </button>
         <button class="ss-tab" data-tab="notes" data-action="ss-switch-tab">
-          <span class="material-symbols-outlined">edit_note</span> Notes
+          <span class="material-symbols-outlined">draw</span> Board
         </button>
         <button class="ss-tab" data-tab="tutor" data-action="ss-switch-tab">
           <span class="material-symbols-outlined">school</span> AI Tutor
@@ -238,18 +239,20 @@
 
 
       <div class="ss-tab-content" id="ssTabNotes">
-        <div class="ss-collab-wrap">
-          <div class="ss-notes-toolbar">
-            <div>
-              <div style="font-weight:700;">Collaborative notes</div>
-              <div class="ss-text-xs" id="ssNotesMeta">Autosaves for everyone in this StudySpace.</div>
-            </div>
-            <div class="ss-inline-meta">
-              <span class="ss-chip" id="ssNotesPresenceHint">Live collaboration</span>
-              <button class="md-btn md-btn-tonal" data-action="ss-save-notes">Save now</button>
-            </div>
+        <div class="cb-container" id="cbContainer">
+          <div class="cb-toolbar" id="cbToolbar"></div>
+          <canvas id="cbCanvas"></canvas>
+          <div class="cb-cursors" id="cbCursors"></div>
+          <div class="cb-zoom-controls">
+            <button class="cb-zoom-btn" onclick="CollabBoard.zoomOut()" title="Zoom out"><span class="material-symbols-outlined">remove</span></button>
+            <span class="cb-zoom-label" id="cbZoomLabel">100%</span>
+            <button class="cb-zoom-btn" onclick="CollabBoard.zoomIn()" title="Zoom in"><span class="material-symbols-outlined">add</span></button>
+            <button class="cb-zoom-btn" onclick="CollabBoard.zoomFit()" title="Reset view"><span class="material-symbols-outlined">fit_screen</span></button>
           </div>
-          <textarea class="ss-notes-textarea" id="ssNotesTextarea" placeholder="Write shared notes, revision plans, class summaries, and collaborative explanations..."></textarea>
+          <div class="cb-status">
+            <div class="cb-status-dot" id="cbStatusDot"></div>
+            <span id="cbStatusText">Synced</span>
+          </div>
         </div>
       </div>
 
@@ -548,6 +551,9 @@
 <script nonce="{{ csp_nonce }}" src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 <script nonce="{{ csp_nonce }}" src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/mhchem.min.js"></script>
 <script nonce="{{ csp_nonce }}" src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/yjs.bundle.js' %}"></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/yjs-provider.js' %}"></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/collab-board.js' %}"></script>
 <script nonce="{{ csp_nonce }}" src="{% static 'web/js/study-mindmap.js' %}"></script>
 <script nonce="{{ csp_nonce }}" src="{% static 'web/js/study-space.js' %}"></script>
 {% endblock %}
