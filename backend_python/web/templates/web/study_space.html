@@ -244,10 +244,10 @@
           <canvas id="cbCanvas"></canvas>
           <div class="cb-cursors" id="cbCursors"></div>
           <div class="cb-zoom-controls">
-            <button class="cb-zoom-btn" onclick="CollabBoard.zoomOut()" title="Zoom out"><span class="material-symbols-outlined">remove</span></button>
+            <button class="cb-zoom-btn" data-action="cb-zoom-out" title="Zoom out"><span class="material-symbols-outlined">remove</span></button>
             <span class="cb-zoom-label" id="cbZoomLabel">100%</span>
-            <button class="cb-zoom-btn" onclick="CollabBoard.zoomIn()" title="Zoom in"><span class="material-symbols-outlined">add</span></button>
-            <button class="cb-zoom-btn" onclick="CollabBoard.zoomFit()" title="Reset view"><span class="material-symbols-outlined">fit_screen</span></button>
+            <button class="cb-zoom-btn" data-action="cb-zoom-in" title="Zoom in"><span class="material-symbols-outlined">add</span></button>
+            <button class="cb-zoom-btn" data-action="cb-zoom-fit" title="Reset view"><span class="material-symbols-outlined">fit_screen</span></button>
           </div>
           <div class="cb-status">
             <div class="cb-status-dot" id="cbStatusDot"></div>
@@ -516,27 +516,27 @@
 
 <!-- Upload progress -->
 <!-- Collaborative Board File Picker Modal -->
-<div class="modal-overlay" id="cbFilePickerModal" style="display:none; z-index: 1000;" onclick="if(event.target===this)this.style.display='none'">
+<div class="modal-overlay" id="cbFilePickerModal" style="display:none; z-index: 1000;">
   <div class="modal-box" style="max-width:560px;">
     <div class="modal-header">
       <h3 class="modal-title">Place File on Board</h3>
-      <button class="modal-close" onclick="document.getElementById('cbFilePickerModal').style.display='none'"><span class="material-symbols-outlined">close</span></button>
+      <button class="modal-close" data-action="cb-close-file-picker"><span class="material-symbols-outlined">close</span></button>
     </div>
     <div class="modal-body" style="padding-bottom:16px;">
       <div class="ss-doc-select-tabs" id="cbFileTabs" style="margin-bottom:12px; display: flex; gap: 8px; border-bottom: 1px solid var(--md-outline-variant, rgba(0,0,0,0.1)); padding-bottom: 8px;">
-        <button class="ss-doc-tab ss-doc-tab-active" id="cbTabLocal" style="background:transparent; border:none; padding:8px 12px; font-weight:600; cursor:pointer;" onclick="CollabBoard.switchFileTab('local')">Upload Local</button>
-        <button class="ss-doc-tab" id="cbTabSpace" style="background:transparent; border:none; padding:8px 12px; font-weight:600; cursor:pointer;" onclick="CollabBoard.switchFileTab('space')">This Space</button>
-        <button class="ss-doc-tab" id="cbTabCommunity" style="background:transparent; border:none; padding:8px 12px; font-weight:600; cursor:pointer;" onclick="CollabBoard.switchFileTab('community')">Community Library</button>
+        <button class="ss-doc-tab ss-doc-tab-active" id="cbTabLocal" style="background:transparent; border:none; padding:8px 12px; font-weight:600; cursor:pointer;" data-action="cb-file-tab" data-tab="local">Upload Local</button>
+        <button class="ss-doc-tab" id="cbTabSpace" style="background:transparent; border:none; padding:8px 12px; font-weight:600; cursor:pointer;" data-action="cb-file-tab" data-tab="space">This Space</button>
+        <button class="ss-doc-tab" id="cbTabCommunity" style="background:transparent; border:none; padding:8px 12px; font-weight:600; cursor:pointer;" data-action="cb-file-tab" data-tab="community">Community Library</button>
       </div>
       
       <!-- Local Tab -->
       <div class="cb-file-pane" id="cbPaneLocal">
-        <div style="border:2px dashed var(--md-outline-variant, rgba(0,0,0,0.12)); border-radius:12px; padding:32px 16px; text-align:center; cursor:pointer;" onclick="document.getElementById('cbLocalFileInput').click()">
+        <div style="border:2px dashed var(--md-outline-variant, rgba(0,0,0,0.12)); border-radius:12px; padding:32px 16px; text-align:center; cursor:pointer;" data-action="cb-trigger-local-upload">
           <span class="material-symbols-outlined" style="font-size:48px; color:var(--md-primary, #1a73e8);">upload_file</span>
-          <p style="margin:8px 0 0; font-weight:600;">Click to upload an image from your device</p>
-          <p style="margin:4px 0 0; font-size:11px; color:var(--md-on-surface-variant, #5f6368);">Supports PNG, JPG, GIF, WebP</p>
+          <p style="margin:8px 0 0; font-weight:600;">Click to upload a file from your device</p>
+          <p style="margin:4px 0 0; font-size:11px; color:var(--md-on-surface-variant, #5f6368);">Images, PDFs, Word documents, videos, etc.</p>
         </div>
-        <input type="file" id="cbLocalFileInput" accept="image/*" style="display:none;">
+        <input type="file" id="cbLocalFileInput" accept="image/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain,video/*" style="display:none;">
       </div>
       
       <!-- Space Tab -->

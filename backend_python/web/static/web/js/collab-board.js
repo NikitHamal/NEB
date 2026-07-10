@@ -613,6 +613,7 @@
     this._boundHandlers.touchstart = function(e) { self._onTouchStart(e); };
     this._boundHandlers.touchmove = function(e) { self._onTouchMove(e); };
     this._boundHandlers.touchend = function(e) { self._onTouchEnd(e); };
+    this._boundHandlers.contextmenu = function(e) { e.preventDefault(); };
 
     this.canvas.addEventListener('mousedown', this._boundHandlers.mousedown);
     this.canvas.addEventListener('mousemove', this._boundHandlers.mousemove);
@@ -621,6 +622,7 @@
     this.canvas.addEventListener('touchstart', this._boundHandlers.touchstart, { passive: false });
     this.canvas.addEventListener('touchmove', this._boundHandlers.touchmove, { passive: false });
     this.canvas.addEventListener('touchend', this._boundHandlers.touchend);
+    this.canvas.addEventListener('contextmenu', this._boundHandlers.contextmenu);
     window.addEventListener('keydown', this._boundHandlers.keydown);
     window.addEventListener('keyup', this._boundHandlers.keyup);
     window.addEventListener('resize', this._boundHandlers.resize);
@@ -635,6 +637,7 @@
     this.canvas.removeEventListener('touchstart', this._boundHandlers.touchstart);
     this.canvas.removeEventListener('touchmove', this._boundHandlers.touchmove);
     this.canvas.removeEventListener('touchend', this._boundHandlers.touchend);
+    this.canvas.removeEventListener('contextmenu', this._boundHandlers.contextmenu);
     window.removeEventListener('keydown', this._boundHandlers.keydown);
     window.removeEventListener('keyup', this._boundHandlers.keyup);
     window.removeEventListener('resize', this._boundHandlers.resize);
@@ -660,7 +663,7 @@
   };
 
   CollabBoard.prototype._onPointerDown = function(e) {
-    if (e.button === 1 || (e.button === 0 && (this.tool === 'pan' || this._spaceHeld))) {
+    if (e.button === 2 || e.button === 1 || (e.button === 0 && (this.tool === 'pan' || this._spaceHeld))) {
       this._panning = true;
       this._panStart = { x: e.clientX, y: e.clientY };
       this._panCameraStart = { x: this.camera.x, y: this.camera.y };
@@ -1337,7 +1340,8 @@
         var html = '';
         spaceDocs.forEach(function(d) {
           var size = d.fileSize ? (d.fileSize / 1024).toFixed(0) + ' KB' : 'PDF';
-          html += '<div class="ss-doc-select-item" onclick="CollabBoard.selectFileItem(\'' + d.id + '\', \'studydoc\', \'' + esc(d.title) + '\', \'' + (d.fileUrl || '/study-space/' + self.spaceId + '/document/' + d.id + '/') + '\', \'' + size + '\')">'
+          var url = d.fileUrl || '/study-space/' + self.spaceId + '/document/' + d.id + '/';
+          html += '<div class="ss-doc-select-item" data-action="cb-select-file" data-id="' + d.id + '" data-type="studydoc" data-title="' + esc(d.title) + '" data-url="' + url + '" data-size="' + size + '">'
             + '<span class="material-symbols-outlined">description</span>'
             + '<div class="ss-doc-select-info">'
             + '<span class="ss-doc-select-title">' + esc(d.title) + '</span>'
@@ -1370,7 +1374,8 @@
         resources.forEach(function(r) {
           var size = r.fileSize ? (r.fileSize / 1024).toFixed(0) + ' KB' : (r.type || 'PDF');
           var icon = r.type === 'PDF' ? 'picture_as_pdf' : r.type === 'Video' ? 'play_circle' : 'article';
-          html += '<div class="ss-doc-select-item" onclick="CollabBoard.selectFileItem(\'' + r.id + '\', \'resource\', \'' + esc(r.title) + '\', \'' + (r.fileUrl || '/library/resource/' + r.id + '/') + '\', \'' + size + '\')">'
+          var url = r.fileUrl || '/library/resource/' + r.id + '/';
+          html += '<div class="ss-doc-select-item" data-action="cb-select-file" data-id="' + r.id + '" data-type="resource" data-title="' + esc(r.title) + '" data-url="' + url + '" data-size="' + size + '">'
             + '<span class="material-symbols-outlined">' + icon + '</span>'
             + '<div class="ss-doc-select-info">'
             + '<span class="ss-doc-select-title">' + esc(r.title) + '</span>'

@@ -420,6 +420,37 @@
       case 'ss-close-select-doc':
         $('ssSelectDocModal').style.display = 'none';
         break;
+      case 'cb-zoom-out':
+        if (typeof CollabBoard !== 'undefined') CollabBoard.zoomOut();
+        break;
+      case 'cb-zoom-in':
+        if (typeof CollabBoard !== 'undefined') CollabBoard.zoomIn();
+        break;
+      case 'cb-zoom-fit':
+        if (typeof CollabBoard !== 'undefined') CollabBoard.zoomFit();
+        break;
+      case 'cb-file-tab':
+        if (typeof CollabBoard !== 'undefined') CollabBoard.switchFileTab(el.dataset.tab);
+        break;
+      case 'cb-close-file-picker':
+        var cbModal = $('cbFilePickerModal');
+        if (cbModal) cbModal.style.display = 'none';
+        break;
+      case 'cb-trigger-local-upload':
+        var cbInput = $('cbLocalFileInput');
+        if (cbInput) cbInput.click();
+        break;
+      case 'cb-select-file':
+        if (typeof CollabBoard !== 'undefined') {
+          CollabBoard.selectFileItem(
+            el.dataset.id,
+            el.dataset.type,
+            el.dataset.title,
+            el.dataset.url,
+            el.dataset.size
+          );
+        }
+        break;
       case 'ss-submit-select-doc':
         submitDocSelection();
         break;
