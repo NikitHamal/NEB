@@ -519,24 +519,39 @@
     window._verifyFrom = (panel === 'verify') ? (window._verifyFrom || 'email-signup') : window._verifyFrom;
   };
 
+  function getSafeRedirectUrl() {
+    var urlParams = new URLSearchParams(window.location.search);
+    var nextUrl = urlParams.get('next');
+    if (nextUrl && nextUrl.startsWith('/') && !nextUrl.startsWith('//')) {
+      return nextUrl;
+    }
+    return '{% url "web:home" %}';
+  }
+
   window.nebEmailLoginSuccess = function (data) {
     if (data.authToken && data.user) {
-      var redirectUrl = (data.profileIncomplete || data.isNewUser) ? '{% url "web:edit_profile" %}' : '{% url "web:home" %}';
+      var redirectUrl = (data.profileIncomplete || data.isNewUser) ? '{% url "web:edit_profile" %}' : getSafeRedirectUrl();
       fetch('{% url "web:google_auth" %}', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
         body: JSON.stringify({ emailAuthToken: data.authToken, emailUser: data })
       }).then(function (res) { return res.json(); }).then(function (sessionData) {
         if (sessionData.profileIncomplete || sessionData.isNewUser) {
-          window.location.href = '{% url "web:edit_profile" %}';
+          var nextParam = '';
+          var urlParams = new URLSearchParams(window.location.search);
+          var nextUrl = urlParams.get('next');
+          if (nextUrl && nextUrl.startsWith('/') && !nextUrl.startsWith('//')) {
+            nextParam = '?next=' + encodeURIComponent(nextUrl);
+          }
+          window.location.href = '{% url "web:edit_profile" %}' + nextParam;
         } else {
-          window.location.href = '{% url "web:home" %}';
+          window.location.href = getSafeRedirectUrl();
         }
       }).catch(function () {
         window.location.href = redirectUrl;
       });
     } else {
-      window.location.href = '{% url "web:home" %}';
+      window.location.href = getSafeRedirectUrl();
     }
   };
 
@@ -882,6 +897,16 @@
       setTimeout(function () {
         window.showPanel(panel);
       }, 0);
+    }
+    // Append next parameter to social buttons
+    var nextUrl = urlParams.get('next');
+    if (nextUrl) {
+      document.querySelectorAll('.auth-btn-social').forEach(function (btn) {
+        var href = btn.getAttribute('href');
+        if (href) {
+          btn.setAttribute('href', href + (href.indexOf('?') === -1 ? '?' : '&') + 'next=' + encodeURIComponent(nextUrl));
+        }
+      });
     }
   })();
 </script>
