@@ -414,7 +414,7 @@ fun NEBiansNavHost(
                     onStudyLabClick = { navController.navigate(Screen.StudyLab.route) },
                     onNebyAiClick = { navController.navigate(Screen.NebyAi.route) },
                     onNewsClick = { navController.navigate(Screen.News.route) },
-                    onResultCheckerClick = { navController.navigate(Screen.ResultChecker.route) },
+                    onUploadClick = { navController.navigate(Screen.Upload.route) },
                     onNewsItemClick = { slug -> navController.navigate(Screen.NewsDetail.createRoute(slug)) },
                     onPostClick = { postId -> navController.navigate(Screen.ForumPostDetail.createRoute(postId)) },
                     onEditPostClick = { editPostId ->
