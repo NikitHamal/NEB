@@ -91,7 +91,9 @@ import com.neb.ians.ui.screens.notifications.NotificationsScreen
 import com.neb.ians.ui.screens.settings.SettingsScreen
 import com.neb.ians.ui.screens.settings.SettingsViewModel
 import com.neb.ians.ui.screens.reader.PdfViewerScreen
+import com.neb.ians.ui.screens.reader.MediaPlayerScreen
 import com.neb.ians.ui.screens.resource.ResourceDetailScreen
+import com.neb.ians.ui.screens.resource.ResourceRequestsScreen
 import com.neb.ians.ui.screens.analytics.AnalyticsScreen
 import com.neb.ians.ui.screens.bookmarks.BookmarksScreen
 import com.neb.ians.ui.screens.upload.UploadScreen
@@ -159,9 +161,13 @@ sealed class Screen(val route: String) {
     data object PdfViewer : Screen("pdf/{resourceId}") {
         fun createRoute(resourceId: String) = "pdf/$resourceId"
     }
+    data object MediaPlayer : Screen("media/{resourceId}") {
+        fun createRoute(resourceId: String) = "media/$resourceId"
+    }
     data object ResourceDetail : Screen("resource/{resourceId}") {
         fun createRoute(resourceId: String) = "resource/$resourceId"
     }
+    data object ResourceRequests : Screen("resource/requests")
     data object ForumPostDetail : Screen("forum/post/{postId}") {
         fun createRoute(postId: String) = "forum/post/$postId"
     }
@@ -440,7 +446,8 @@ fun NEBiansNavHost(
                     onInteractiveCourseClick = { courseSlug ->
                         navController.navigate(Screen.InteractiveCourse.createRoute(courseSlug))
                     },
-                    onSyllabusDetailChromeChanged = { hideLibraryDetailChrome = it }
+                    onSyllabusDetailChromeChanged = { hideLibraryDetailChrome = it },
+                    onRequestResourceClick = { navController.navigate(Screen.ResourceRequests.route) }
                 )
             }
             composable(Screen.Forum.route) {
@@ -651,6 +658,14 @@ fun NEBiansNavHost(
                 )
             }
             composable(
+                route = Screen.MediaPlayer.route,
+                arguments = listOf(navArgument("resourceId") { type = NavType.StringType })
+            ) {
+                MediaPlayerScreen(
+                    onNavigateBack = { navController.popBackStack() }
+                )
+            }
+            composable(
                 route = Screen.ResourceDetail.route,
                 arguments = listOf(navArgument("resourceId") { type = NavType.StringType })
             ) {
@@ -659,9 +674,17 @@ fun NEBiansNavHost(
                     onOpenPdf = { resourceId, fileUrl, title ->
                         navController.navigate(Screen.PdfViewer.createRoute(resourceId))
                     },
+                    onOpenMedia = { resourceId ->
+                        navController.navigate(Screen.MediaPlayer.createRoute(resourceId))
+                    },
                     onUserProfileClick = { username ->
                         navController.navigate(Screen.Profile.createRoute(username))
                     }
+                )
+            }
+            composable(Screen.ResourceRequests.route) {
+                ResourceRequestsScreen(
+                    onNavigateBack = { navController.popBackStack() }
                 )
             }
             composable(

@@ -1,0 +1,145 @@
+{% load web_extras %}
+{% if resource.media_type == 'video' %}
+<div class="nmp nmp-video rd-preview" id="rd-media"
+     data-nmp data-kind="video"
+     data-src="{{ resource.safe_file_url }}"
+     data-mime="{{ resource.mime_type }}"
+     data-resource-id="{{ resource.id }}"
+     data-title="{{ resource.title }}"
+     data-provider="direct"
+     tabindex="0"
+     style="--subject-color: {{ resource.subject|split:','|first|subject_color }}">
+
+  <div class="nmp-header">
+    <div class="nmp-header-left">
+      <span class="nmp-kind-pill"><span class="material-symbols-outlined">videocam</span> Video</span>
+      <span class="nmp-header-title">{{ resource.title }}</span>
+    </div>
+    <div class="nmp-header-actions">
+      <a href="{{ resource.safe_file_url }}" download class="nmp-icon-btn nmp-icon-btn-sm" aria-label="Download" title="Download">
+        <span class="material-symbols-outlined">download</span>
+      </a>
+      <a href="{{ resource.safe_file_url }}" target="_blank" rel="noopener noreferrer" class="nmp-icon-btn nmp-icon-btn-sm" aria-label="Open in new tab" title="Open in new tab">
+        <span class="material-symbols-outlined">open_in_new</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="nmp-stage">
+    <video class="nmp-el nmp-el-video" preload="metadata" playsinline></video>
+    <div class="nmp-poster"><div class="nmp-poster-veil"></div><button class="nmp-big-play" data-nmp-big-play aria-label="Play"><span class="material-symbols-outlined">play_arrow</span></button></div>
+    <div class="nmp-buffer"></div>
+    <div class="nmp-error">
+      <span class="material-symbols-outlined">error_outline</span>
+      <p>Playback unavailable</p>
+      <a href="{{ resource.safe_file_url }}" target="_blank" rel="noopener noreferrer">Open file directly</a>
+    </div>
+    <div class="nmp-resume" data-nmp-resume>
+      <span data-nmp-resume-label></span>
+      <button data-nmp-resume-go>Resume</button>
+      <button class="nmp-resume-dismiss" data-nmp-resume-skip aria-label="Dismiss"><span class="material-symbols-outlined" style="font-size:16px;">close</span></button>
+    </div>
+  </div>
+
+  <div class="nmp-controls">
+    <div class="nmp-progress" data-nmp-progress tabindex="0" role="slider" aria-label="Seek">
+      <div class="nmp-progress-track"><div class="nmp-progress-buf" data-nmp-buf></div><div class="nmp-progress-fill" data-nmp-fill></div><div class="nmp-progress-thumb" data-nmp-thumb></div></div>
+    </div>
+    <div class="nmp-bar">
+      <button class="nmp-icon-btn" data-nmp-play aria-label="Play"><span class="material-symbols-outlined">play_arrow</span></button>
+      <button class="nmp-icon-btn nmp-icon-btn-sm" data-nmp-back aria-label="Rewind 10s"><span class="material-symbols-outlined">replay_10</span></button>
+      <button class="nmp-icon-btn nmp-icon-btn-sm" data-nmp-fwd aria-label="Forward 10s"><span class="material-symbols-outlined">forward_10</span></button>
+      <span class="nmp-time"><b data-nmp-current>0:00</b> / <span data-nmp-duration>0:00</span></span>
+      <span class="nmp-spacer"></span>
+      <div class="nmp-volume">
+        <button class="nmp-icon-btn" data-nmp-mute aria-label="Mute" aria-pressed="false"><span class="material-symbols-outlined">volume_up</span></button>
+        <input class="nmp-volume-range" data-nmp-volume type="range" min="0" max="1" step="0.05" value="1" aria-label="Volume">
+      </div>
+      <div class="nmp-speed">
+        <button class="nmp-speed-btn" data-nmp-speed-btn aria-label="Speed" aria-expanded="false">1x</button>
+        <div class="nmp-speed-menu" data-nmp-speed-menu role="menu">
+          <button class="nmp-speed-option" data-speed="2" role="menuitem">2x</button>
+          <button class="nmp-speed-option" data-speed="1.75" role="menuitem">1.75x</button>
+          <button class="nmp-speed-option" data-speed="1.5" role="menuitem">1.5x</button>
+          <button class="nmp-speed-option" data-speed="1.25" role="menuitem">1.25x</button>
+          <button class="nmp-speed-option is-active" data-speed="1" role="menuitem">1x</button>
+          <button class="nmp-speed-option" data-speed="0.75" role="menuitem">0.75x</button>
+          <button class="nmp-speed-option" data-speed="0.5" role="menuitem">0.5x</button>
+        </div>
+      </div>
+      <button class="nmp-icon-btn" data-nmp-pip aria-label="Picture in Picture" hidden><span class="material-symbols-outlined">picture_in_picture</span></button>
+      <button class="nmp-icon-btn" data-nmp-fs aria-label="Fullscreen"><span class="material-symbols-outlined">fullscreen</span></button>
+    </div>
+  </div>
+</div>
+
+{% elif resource.media_type == 'audio' %}
+<div class="nmp nmp-audio rd-preview" id="rd-media"
+     data-nmp data-kind="audio"
+     data-src="{{ resource.safe_file_url }}"
+     data-mime="{{ resource.mime_type }}"
+     data-resource-id="{{ resource.id }}"
+     data-title="{{ resource.title }}"
+     data-provider="direct"
+     tabindex="0"
+     style="--subject-color: {{ resource.subject|split:','|first|subject_color }}">
+
+  <div class="nmp-header">
+    <div class="nmp-header-left">
+      <span class="nmp-kind-pill"><span class="material-symbols-outlined">podcasts</span> Audio</span>
+      <span class="nmp-header-title">{{ resource.title }}</span>
+    </div>
+    <div class="nmp-header-actions">
+      <a href="{{ resource.safe_file_url }}" download class="nmp-icon-btn nmp-icon-btn-sm" aria-label="Download" title="Download">
+        <span class="material-symbols-outlined">download</span>
+      </a>
+      <a href="{{ resource.safe_file_url }}" target="_blank" rel="noopener noreferrer" class="nmp-icon-btn nmp-icon-btn-sm" aria-label="Open in new tab" title="Open in new tab">
+        <span class="material-symbols-outlined">open_in_new</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="nmp-audio">
+    <div class="nmp-audio-art">
+      <div class="nmp-audio-disc"><span class="material-symbols-outlined">music_note</span></div>
+      <div class="nmp-bars"><span></span><span></span><span></span><span></span><span></span></div>
+    </div>
+    <div class="nmp-audio-body">
+      <h3 class="nmp-audio-title">{{ resource.title }}</h3>
+      <div class="nmp-audio-meta">
+        {% if resource.author_name %}<span>{{ resource.author_name }}</span><span class="dot-sep">·</span>{% endif %}
+        <span>{{ resource.type }} · {{ resource.grade_level }}</span>
+      </div>
+      <audio class="nmp-el nmp-el-audio" preload="metadata"></audio>
+      <div class="nmp-controls">
+        <div class="nmp-progress" data-nmp-progress tabindex="0" role="slider" aria-label="Seek">
+          <div class="nmp-progress-track"><div class="nmp-progress-buf" data-nmp-buf></div><div class="nmp-progress-fill" data-nmp-fill></div><div class="nmp-progress-thumb" data-nmp-thumb></div></div>
+        </div>
+        <div class="nmp-bar">
+          <button class="nmp-icon-btn" data-nmp-play aria-label="Play"><span class="material-symbols-outlined">play_arrow</span></button>
+          <button class="nmp-icon-btn nmp-icon-btn-sm" data-nmp-back aria-label="Rewind 10s"><span class="material-symbols-outlined">replay_10</span></button>
+          <button class="nmp-icon-btn nmp-icon-btn-sm" data-nmp-fwd aria-label="Forward 10s"><span class="material-symbols-outlined">forward_10</span></button>
+          <span class="nmp-time"><b data-nmp-current>0:00</b> / <span data-nmp-duration>0:00</span></span>
+          <span class="nmp-spacer"></span>
+          <div class="nmp-volume">
+            <button class="nmp-icon-btn" data-nmp-mute aria-label="Mute" aria-pressed="false"><span class="material-symbols-outlined">volume_up</span></button>
+            <input class="nmp-volume-range" data-nmp-volume type="range" min="0" max="1" step="0.05" value="1" aria-label="Volume">
+          </div>
+          <div class="nmp-speed">
+            <button class="nmp-speed-btn" data-nmp-speed-btn aria-label="Speed" aria-expanded="false">1x</button>
+            <div class="nmp-speed-menu" data-nmp-speed-menu role="menu">
+              <button class="nmp-speed-option" data-speed="2" role="menuitem">2x</button>
+              <button class="nmp-speed-option" data-speed="1.75" role="menuitem">1.75x</button>
+              <button class="nmp-speed-option" data-speed="1.5" role="menuitem">1.5x</button>
+              <button class="nmp-speed-option" data-speed="1.25" role="menuitem">1.25x</button>
+              <button class="nmp-speed-option is-active" data-speed="1" role="menuitem">1x</button>
+              <button class="nmp-speed-option" data-speed="0.75" role="menuitem">0.75x</button>
+              <button class="nmp-speed-option" data-speed="0.5" role="menuitem">0.5x</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}

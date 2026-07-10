@@ -39,6 +39,175 @@ from . import api_client as api
 logger = logging.getLogger(__name__)
 
 import math
+from urllib.parse import urlparse, parse_qs
+
+_VIDEO_EXTS = ('.mp4', '.webm', '.mkv', '.mov', '.m4v', '.3gp', '.ogv', '.avi')
+_AUDIO_EXTS = ('.mp3', '.wav', '.ogg', '.oga', '.flac', '.aac', '.m4a', '.opus', '.wma')
+_IMAGE_EXTS = ('.png', '.jpg', '.jpeg', '.gif', '.webp', '.bmp', '.svg', '.avif')
+_PDF_EXTS = ('.pdf',)
+_MIME_BY_EXT = {
+    '.mp4': 'video/mp4', '.webm': 'video/webm', '.mkv': 'video/x-matroska',
+    '.mov': 'video/quicktime', '.m4v': 'video/x-m4v', '.3gp': 'video/3gpp',
+    '.ogv': 'video/ogg', '.avi': 'video/x-msvideo',
+    '.mp3': 'audio/mpeg', '.wav': 'audio/wav', '.ogg': 'audio/ogg',
+    '.oga': 'audio/ogg', '.flac': 'audio/flac', '.aac': 'audio/aac',
+    '.m4a': 'audio/mp4', '.opus': 'audio/opus', '.wma': 'audio/x-ms-wma',
+}
+
+
+def _url_path_lower(url):
+    if not url:
+        return ''
+    try:
+        return urlparse(url).path.lower()
+    except Exception:
+        return (url or '').lower().split('?')[0]
+
+
+def _file_ext(url):
+    path = _url_path_lower(url)
+    if not path:
+        return ''
+    _, ext = os.path.splitext(path)
+    return ext
+
+
+def _youtube_id(url):
+    if not url:
+        return ''
+    try:
+        parsed = urlparse(url)
+        host = (parsed.hostname or '').lower()
+        if host in ('youtu.be', 'www.youtu.be'):
+            return (parsed.path or '').strip('/').split('/')[0]
+        if 'youtube.com' in host or 'youtube-nocookie.com' in host:
+            qs = parse_qs(parsed.query or '')
+            if qs.get('v'):
+                return qs['v'][0]
+            parts = [p for p in (parsed.path or '').split('/') if p]
+            if parts and parts[0] in ('embed', 'shorts', 'live', 'v') and len(parts) > 1:
+                return parts[1]
+    except Exception:
+        return ''
+    return ''
+
+
+def _vimeo_id(url):
+    if not url:
+        return ''
+    try:
+        parsed = urlparse(url)
+        host = (parsed.hostname or '').lower()
+        if 'vimeo.com' not in host:
+            return ''
+        parts = [p for p in (parsed.path or '').split('/') if p and p.isdigit()]
+        return parts[0] if parts else ''
+    except Exception:
+        return ''
+
+
+def _drive_file_id(url):
+    if not url:
+        return ''
+    try:
+        parsed = urlparse(url)
+        host = (parsed.hostname or '').lower()
+        if 'drive.google.com' not in host and 'docs.google.com' not in host:
+            return ''
+        parts = [p for p in (parsed.path or '').split('/') if p]
+        if 'd' in parts:
+            i = parts.index('d')
+            if i + 1 < len(parts):
+                return parts[i + 1]
+        qs = parse_qs(parsed.query or '')
+        if qs.get('id'):
+            return qs['id'][0]
+    except Exception:
+        return ''
+    return ''
+
+
+def classify_resource_media(rtype='', file_url=''):
+    """Classify a resource for reader rendering.
+
+    Returns dict with:
+      media_type: pdf|video|audio|image|document
+      provider: direct|youtube|vimeo|drive|external
+      mime_type: best-effort MIME for <source type>
+      embed_url: optional iframe/embed URL for hosted providers
+    """
+    t = (rtype or '').lower().strip()
+    url = (file_url or '').strip()
+    ext = _file_ext(url)
+    host = ''
+    try:
+        host = (urlparse(url).hostname or '').lower()
+    except Exception:
+        host = ''
+
+    yt = _youtube_id(url)
+    if yt:
+        return {
+            'media_type': 'video',
+            'provider': 'youtube',
+            'mime_type': '',
+            'embed_url': f'https://www.youtube-nocookie.com/embed/{yt}?rel=0&modestbranding=1&playsinline=1',
+        }
+
+    vim = _vimeo_id(url)
+    if vim:
+        return {
+            'media_type': 'video',
+            'provider': 'vimeo',
+            'mime_type': '',
+            'embed_url': f'https://player.vimeo.com/video/{vim}?title=0&byline=0&portrait=0',
+        }
+
+    drive_id = _drive_file_id(url)
+    if drive_id:
+        kind = 'document'
+        if t == 'video' or ext in _VIDEO_EXTS:
+            kind = 'video'
+        elif t == 'audio' or ext in _AUDIO_EXTS:
+            kind = 'audio'
+        elif t == 'image' or ext in _IMAGE_EXTS:
+            kind = 'image'
+        elif t == 'pdf' or ext in _PDF_EXTS:
+            kind = 'pdf'
+        return {
+            'media_type': kind,
+            'provider': 'drive',
+            'mime_type': _MIME_BY_EXT.get(ext, ''),
+            'embed_url': f'https://drive.google.com/file/d/{drive_id}/preview',
+        }
+
+    if t == 'video' or ext in _VIDEO_EXTS:
+        media_type = 'video'
+    elif t == 'audio' or ext in _AUDIO_EXTS:
+        media_type = 'audio'
+    elif t == 'image' or ext in _IMAGE_EXTS:
+        media_type = 'image'
+    elif t == 'pdf' or ext in _PDF_EXTS:
+        media_type = 'pdf'
+    else:
+        media_type = 'document'
+
+    provider = 'direct'
+    if url and media_type in ('video', 'audio', 'image') and ext not in (
+        _VIDEO_EXTS + _AUDIO_EXTS + _IMAGE_EXTS
+    ) and t not in ('video', 'audio', 'image'):
+        provider = 'external'
+    elif url and media_type in ('video', 'audio') and not ext and t in ('video', 'audio'):
+        if host and host not in ('',):
+            provider = 'direct'
+
+    return {
+        'media_type': media_type,
+        'provider': provider,
+        'mime_type': _MIME_BY_EXT.get(ext, ''),
+        'embed_url': '',
+    }
+
 
 def _serialize_resource(r, _uploaded_by_map=None):
     source_type = r.source_type or 'admin'
@@ -59,17 +228,8 @@ def _serialize_resource(r, _uploaded_by_map=None):
     file_url = r.file_url or ''
     if r.file:
         file_url = r.file.url
-    rtype_lower = (r.type or '').lower().strip()
-    if rtype_lower == 'pdf':
-        media_type = 'pdf'
-    elif rtype_lower == 'video':
-        media_type = 'video'
-    elif rtype_lower == 'audio':
-        media_type = 'audio'
-    elif rtype_lower == 'image':
-        media_type = 'image'
-    else:
-        media_type = 'document'
+    media = classify_resource_media(r.type, file_url)
+    media_type = media['media_type']
     return {
         'id': r.id, 'title': r.title, 'description': r.description or '',
         'subject': r.subject, 'gradeLevel': r.grade_level, 'grade_level': r.grade_level,
@@ -79,6 +239,9 @@ def _serialize_resource(r, _uploaded_by_map=None):
         'school': r.school or '',
         'tags': r.tags or '',
         'type': r.type, 'mediaType': media_type, 'media_type': media_type,
+        'mediaProvider': media['provider'], 'media_provider': media['provider'],
+        'mimeType': media['mime_type'], 'mime_type': media['mime_type'],
+        'embedUrl': media['embed_url'], 'embed_url': media['embed_url'],
         'fileUrl': file_url, 'file_url': file_url,
         'thumbnailUrl': r.thumbnail_url, 'thumbnail_url': r.thumbnail_url,
         'fileSize': r.file_size, 'file_size': r.file_size,

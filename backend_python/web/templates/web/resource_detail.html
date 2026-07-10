@@ -36,6 +36,7 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'web/css/pages/web-resource-detail.css' %}">
+<link rel="stylesheet" href="{% static 'web/css/pages/media-player.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -252,20 +253,8 @@
   <div class="rd-preview">
     <img src="{{ resource.safe_file_url }}" alt="{{ resource.title }}" class="rd-preview-image" loading="lazy">
   </div>
-  {% elif resource.media_type == 'video' %}
-  <div class="rd-preview">
-    <video controls preload="metadata" class="rd-preview-video">
-      <source src="{{ resource.safe_file_url }}">
-      Your browser does not support video playback.
-    </video>
-  </div>
-  {% elif resource.media_type == 'audio' %}
-  <div class="rd-preview" style="padding:16px;">
-    <audio controls preload="metadata" class="rd-preview-audio" style="padding:0;">
-      <source src="{{ resource.safe_file_url }}">
-      Your browser does not support audio playback.
-    </audio>
-  </div>
+  {% elif resource.media_type == 'video' or resource.media_type == 'audio' %}
+  {% include "web/partials/nmp_player.html" %}
   {% endif %}
   {% endif %}
 
@@ -446,6 +435,7 @@
 {% endblock %}
 
 {% block extra_js %}
+<script src="{% static 'web/js/media-player.js' %}" nonce="{{ csp_nonce }}"></script>
 <script nonce="{{ csp_nonce }}">
 var RESOURCE_ID = '{{ resource.id|default:"" }}';
 var IS_AUTH = {{ is_authenticated|yesno:"true,false" }};
