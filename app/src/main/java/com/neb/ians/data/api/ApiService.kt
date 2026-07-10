@@ -839,6 +839,37 @@ data class AccountDeletionSubmitResponse(
     val error: String? = null
 )
 
+@Serializable
+data class ApiResourceRequest(
+    val id: String,
+    val title: String,
+    val description: String? = null,
+    val subject: String? = null,
+    @SerialName("grade_level") val gradeLevel: String? = null,
+    val status: String,
+    @SerialName("upvote_count") val upvoteCountDb: Int = 0,
+    val upvoteCount: Int = 0,
+    val isUpvoted: Boolean = false,
+    val requestedByName: String? = null,
+    val requestedByPhoto: String? = null,
+    val requestedByUsername: String? = null,
+    @SerialName("created_at") val createdAt: Long = 0L
+)
+
+@Serializable
+data class ApiResourceRequestCreate(
+    val title: String,
+    val description: String? = null,
+    val subject: String? = null,
+    @SerialName("grade_level") val gradeLevel: String? = null
+)
+
+@Serializable
+data class ApiResourceRequestUpvoteResponse(
+    val upvoted: Boolean,
+    @SerialName("upvote_count") val upvoteCount: Int
+)
+
 // -------------------------------------------------------------
 // RETROFIT API INTERFACE
 // -------------------------------------------------------------
@@ -1027,6 +1058,32 @@ interface ApiService {
         @Path("resourceId") resourceId: String,
         @Body request: ApiResourceCommentCreateRequest
     ): ApiResourceComment
+
+    // --- Resource Requests ---
+    @GET("api/resource-requests/")
+    suspend fun getResourceRequests(
+        @Header("Authorization") bearerToken: String?,
+        @Query("status") status: String?,
+        @Query("subject") subject: String?,
+        @Query("grade") grade: String?
+    ): List<ApiResourceRequest>
+
+    @POST("api/resource-requests/")
+    suspend fun createResourceRequest(
+        @Header("Authorization") bearerToken: String?,
+        @Body request: ApiResourceRequestCreate
+    ): ApiResourceRequest
+
+    @POST("api/resource-requests/anonymous/")
+    suspend fun createResourceRequestAnonymous(
+        @Body request: ApiResourceRequestCreate
+    ): ApiResourceRequest
+
+    @POST("api/resource-requests/{requestId}/upvote/")
+    suspend fun toggleResourceRequestUpvote(
+        @Header("Authorization") bearerToken: String?,
+        @Path("requestId") requestId: String
+    ): ApiResourceRequestUpvoteResponse
 
     @DELETE("api/resources/{resourceId}/comments/{commentId}/")
     suspend fun deleteResourceComment(

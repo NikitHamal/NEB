@@ -2,10 +2,49 @@
 {% load web_extras %}
 {% block title %}Resource Requests — NEBians{% endblock %}
 {% block description %}Request study resources you need and upvote requests from other members.{% endblock %}
+{% block nav_library %}md-nav-active{% endblock %}
+{% block bnav_library %}md-nav-active{% endblock %}
+
+{% block bottomnav %}
+<nav class="md-bottomnav">
+  <div class="md-bottomnav-pill">
+    <a href="{% url 'web:home' %}" class="md-bottomnav-item" aria-label="Home">
+      <div class="md-bottomnav-icon-wrapper">
+        <span class="material-symbols-outlined">home</span>
+      </div>
+      <span class="md-bottomnav-label">Home</span>
+    </a>
+    <a href="{% url 'web:library' %}" class="md-bottomnav-item md-nav-active" aria-label="Library">
+      <div class="md-bottomnav-icon-wrapper">
+        <span class="material-symbols-outlined">menu_book</span>
+      </div>
+      <span class="md-bottomnav-label">Library</span>
+    </a>
+    <a href="{% url 'web:forum' %}" class="md-bottomnav-item" aria-label="Forum">
+      <div class="md-bottomnav-icon-wrapper">
+        <span class="material-symbols-outlined">forum</span>
+      </div>
+      <span class="md-bottomnav-label">Forum</span>
+    </a>
+    <a href="{% url 'web:news_list' %}" class="md-bottomnav-item" aria-label="News">
+      <div class="md-bottomnav-icon-wrapper">
+        <span class="material-symbols-outlined">newspaper</span>
+      </div>
+      <span class="md-bottomnav-label">News</span>
+    </a>
+  </div>
+</nav>
+{% endblock %}
 
 {% block content %}
-<div class="requests-page">
-  <div class="requests-header">
+<div class="md-container-narrow" style="padding-top: 16px;">
+  <a href="{% url 'web:library' %}" class="back-link" data-action="go-back">
+    <span class="material-symbols-outlined">arrow_back</span>
+    Back to Library
+  </a>
+
+  <div class="requests-page" style="padding: 0 0 48px;">
+    <div class="requests-header">
     <div class="requests-header-content">
       <h1>Resource Requests</h1>
       <p>Can't find what you need? Request it here and the community will help.</p>
@@ -99,13 +138,32 @@
     {% endfor %}
   </div>
 </div>
+</div>
 {% endblock %}
 
 {% block extra_css %}
 <style>
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 0;
+  color: var(--md-on-surface-variant);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.15s;
+  margin-bottom: 16px;
+}
+.back-link:hover {
+  color: var(--md-primary);
+}
+.back-link .material-symbols-outlined {
+  font-size: 18px;
+}
 .requests-page { max-width: 720px; margin: 0 auto; padding: 24px 16px 48px; }
-.requests-header { background: linear-gradient(135deg, var(--md-primary-container), var(--md-surface-container)); border-radius: 20px; padding: 28px 24px; margin-bottom: 20px; }
-.requests-header h1 { font-size: 1.5rem; font-weight: 700; margin: 0 0 6px; }
+.requests-header { background: var(--md-surface-container-high); border-radius: 20px; padding: 28px 24px; margin-bottom: 20px; border: 1px solid var(--md-outline-variant); }
+.requests-header h1 { font-size: 1.5rem; font-weight: 700; color: var(--md-on-surface); margin: 0 0 6px; }
 .requests-header p { color: var(--md-on-surface-variant); margin: 0 0 16px; font-size: 0.9375rem; }
 .request-form-hidden { display: none; }
 .request-form-card { background: var(--md-surface-container-low); border: 1px solid var(--md-outline-variant); border-radius: 16px; padding: 20px; margin-bottom: 20px; }
@@ -146,7 +204,16 @@ function toggleUpvote(requestId) {
     method: 'POST',
     headers: {'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN},
     credentials: 'same-origin'
-  }).then(function(r) { return r.json(); }).then(function(data) {
+  }).then(function(r) {
+    if (r.status === 401) {
+      window.location.href = '/login/';
+      throw new Error('Unauthorized');
+    }
+    if (!r.ok) {
+      throw new Error('HTTP error ' + r.status);
+    }
+    return r.json();
+  }).then(function(data) {
     var card = document.querySelector('[data-id="' + requestId + '"]');
     if (!card) return;
     var btn = card.querySelector('.vote-btn');
@@ -157,7 +224,8 @@ function toggleUpvote(requestId) {
       btn.classList.remove('vote-btn-active');
     }
     count.textContent = data.upvote_count;
-  }).catch(function() {
+  }).catch(function(err) {
+    console.error('Error toggling upvote:', err);
     if (!IS_AUTHENTICATED) {
       window.location.href = '/login/';
     }

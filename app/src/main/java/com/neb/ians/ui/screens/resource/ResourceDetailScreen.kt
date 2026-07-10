@@ -37,6 +37,7 @@ import com.neb.ians.ui.components.ZoomableImageDialog
 fun ResourceDetailScreen(
     onNavigateBack: () -> Unit,
     onOpenPdf: (resourceId: String, fileUrl: String, title: String) -> Unit,
+    onOpenMedia: (resourceId: String) -> Unit = {},
     onUserProfileClick: (String) -> Unit = {},
     viewModel: ResourceDetailViewModel = hiltViewModel()
 ) {
@@ -122,8 +123,11 @@ fun ResourceDetailScreen(
                             canLike = uiState.isAuthenticated,
                             canBookmark = uiState.isAuthenticated,
                             onRead = {
-                                if (mediaType == ResourceMediaType.Pdf) onOpenPdf(resource.id, resource.fileUrl, resource.title)
-                                else openExternal(resource.fileUrl)
+                                when (mediaType) {
+                                    ResourceMediaType.Pdf -> onOpenPdf(resource.id, resource.fileUrl, resource.title)
+                                    ResourceMediaType.Video, ResourceMediaType.Audio -> onOpenMedia(resource.id)
+                                    else -> openExternal(resource.fileUrl)
+                                }
                             },
                             onDownload = { openExternal(resource.fileUrl) },
                             onLike = viewModel::toggleLike,
