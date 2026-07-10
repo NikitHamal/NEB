@@ -12,6 +12,9 @@ def deep_link(url):
 
 def login_page(request):
     if api.get_session_token(request):
+        next_url = request.GET.get('next') or request.POST.get('next')
+        if next_url and next_url.startswith('/') and not next_url.startswith('//'):
+            return redirect(next_url)
         return redirect('web:home')
     stats = cache.get('login_stats')
     if stats is None:
@@ -114,6 +117,10 @@ def google_login(request):
         return HttpResponse('Google OAuth is not configured.', status=501)
     redirect_uri = _https_redirect_uri(request, '/auth/google/callback/')
     state = request.GET.get('state', '')
+    if not state:
+        next_url = request.GET.get('next')
+        if next_url and next_url.startswith('/') and not next_url.startswith('//'):
+            state = f"next:{next_url}"
     authorize_url = (
         f'https://accounts.google.com/o/oauth2/v2/auth'
         f'?client_id={client_id}'
@@ -131,6 +138,9 @@ def google_oauth_callback(request):
     """Handle Google OAuth2 code → exchange for tokens → verify id_token → login/signup."""
     state = request.GET.get('state', '')
     is_mobile = state == 'mobile_google'
+    next_url = None
+    if state and state.startswith('next:'):
+        next_url = state[5:]
     code = request.GET.get('code')
     if not code:
         if is_mobile:
@@ -184,6 +194,8 @@ def google_oauth_callback(request):
         logger.info('google_oauth_callback: existing user signed in: %s', db_user.username or db_user.id)
         if is_mobile:
             return deep_link(f'nebians://auth-callback?authToken={token}&isNewUser=false&username={db_user.username}')
+        if next_url:
+            return redirect(next_url)
         return redirect('web:home')
     except User.DoesNotExist:
         pass
@@ -193,6 +205,8 @@ def google_oauth_callback(request):
             linked_token = api.get_session_token(request) or ''
             linked_user = User.objects.get(email__iexact=email)
             return deep_link(f'nebians://auth-callback?authToken={linked_token}&isNewUser=false&username={linked_user.username}')
+        if next_url:
+            return redirect(next_url)
         return redirect_result
     auth_token = User.generate_token()
     temp_username = f"user_{user_id[:8]}"
@@ -214,6 +228,8 @@ def google_oauth_callback(request):
     logger.info('google_oauth_callback: new user created: %s (temp_username=%s)', user_id, temp_username)
     if is_mobile:
         return deep_link(f'nebians://auth-callback?authToken={auth_token}&isNewUser=true&username={temp_username}')
+    if next_url:
+        return redirect(f"{reverse('web:edit_profile')}?next={next_url}")
     return redirect('web:edit_profile')
 
 def github_login(request):
@@ -226,7 +242,11 @@ def github_login(request):
     if state == '1':
         state = 'mobile_github'
     else:
-        state = ''
+        next_url = request.GET.get('next')
+        if next_url and next_url.startswith('/') and not next_url.startswith('//'):
+            state = f"next:{next_url}"
+        else:
+            state = ''
     authorize_url = (
         f'https://github.com/login/oauth/authorize'
         f'?client_id={client_id}'
@@ -242,6 +262,9 @@ def github_callback(request):
     """Handle GitHub OAuth callback — exchange code for token, fetch user, create/login."""
     state = request.GET.get('state', '')
     is_mobile = state == 'mobile_github'
+    next_url = None
+    if state and state.startswith('next:'):
+        next_url = state[5:]
     code = request.GET.get('code')
     if not code:
         if is_mobile:
@@ -319,6 +342,8 @@ def github_callback(request):
         logger.info('github_callback: existing user signed in: %s', db_user.username or db_user.id)
         if is_mobile:
             return deep_link(f'nebians://auth-callback?authToken={token}&isNewUser=false&username={db_user.username}')
+        if next_url:
+            return redirect(next_url)
         return redirect('web:home')
     except User.DoesNotExist:
         pass
@@ -328,6 +353,8 @@ def github_callback(request):
             linked_token = api.get_session_token(request) or ''
             linked_user = User.objects.get(email__iexact=email)
             return deep_link(f'nebians://auth-callback?authToken={linked_token}&isNewUser=false&username={linked_user.username}')
+        if next_url:
+            return redirect(next_url)
         return redirect_result
     auth_token = User.generate_token()
     temp_username = f"github_{github_id[:8]}"
@@ -354,6 +381,8 @@ def github_callback(request):
     logger.info('github_callback: new user created: %s', user_pk)
     if is_mobile:
         return deep_link(f'nebians://auth-callback?authToken={auth_token}&isNewUser=true&username={temp_username}')
+    if next_url:
+        return redirect(f"{reverse('web:edit_profile')}?next={next_url}")
     return redirect('web:edit_profile')
 
 def logout(request):

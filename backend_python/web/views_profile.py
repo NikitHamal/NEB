@@ -772,16 +772,16 @@ def ajax_profile_resources(request, username):
 def edit_profile(request):
     token = api.get_session_token(request)
     if not token:
-        return redirect('web:login')
+        return redirect(f"{reverse('web:login')}?next={request.get_full_path()}")
     user = api.get_session_user(request)
     if not user:
-        return redirect('web:login')
+        return redirect(f"{reverse('web:login')}?next={request.get_full_path()}")
     try:
         db_user = User.objects.get(id=user.get('id'))
     except User.DoesNotExist:
-        return redirect('web:login')
+        return redirect(f"{reverse('web:login')}?next={request.get_full_path()}")
     if not getattr(db_user, 'email_verified', False):
-        return redirect('web:login')
+        return redirect(f"{reverse('web:login')}?next={request.get_full_path()}")
     has_password = bool(db_user.password_hash)
     if request.method == 'POST':
         username = request.POST.get('username', '').strip()
@@ -849,6 +849,9 @@ def edit_profile(request):
             'created_at': db_user.created_at,
         }
         api.set_session_auth(request, token, updated_data)
+        next_url = request.GET.get('next') or request.POST.get('next')
+        if next_url and next_url.startswith('/') and not next_url.startswith('//'):
+            return redirect(next_url)
         return redirect('web:home')
     profile_incomplete = _profile_incomplete(db_user)
     _default_subjects = [
