@@ -145,12 +145,36 @@
   };
 
   SSYjs.prototype._handleEvent = function(msg) {
-    if (msg.event === 'yjs_update' && msg.data) {
-      if (msg.data.senderId === this.userId) return;
+    var self = this;
+
+    function processUpdate(data) {
+      if (!data || data.senderId === self.userId) return;
       try {
-        var update = base64ToArray(msg.data.update);
-        Y.applyUpdate(this.doc, update, 'remote');
+        var update = base64ToArray(data.update);
+        Y.applyUpdate(self.doc, update, 'remote');
       } catch(e) {}
+    }
+
+    function processAwareness(data, senderId) {
+      var s = data.state || {};
+      if (s.cursorStart === undefined || s.cursorEnd === undefined) {
+        delete self._remoteCursors[senderId];
+      } else {
+        self._remoteCursors[senderId] = {
+          start: s.cursorStart,
+          end: s.cursorEnd,
+          name: s.name || 'Someone',
+          color: s.color || pickColor(senderId),
+        };
+      }
+    }
+
+    if (msg.event === 'yjs_update' && msg.data) {
+      if (msg.batched && Array.isArray(msg.data)) {
+        msg.data.forEach(processUpdate);
+      } else {
+        processUpdate(msg.data);
+      }
       if (this._boundTextarea) {
         this._boundTextarea.value = this.ytext.toString();
       }
@@ -159,17 +183,16 @@
       }
     }
     if (msg.event === 'yjs_awareness' && msg.data) {
-      if (msg.data.senderId === this.userId) return;
-      var s = msg.data.state || {};
-      if (s.cursorStart === undefined || s.cursorEnd === undefined) {
-        delete this._remoteCursors[msg.data.senderId];
+      if (msg.batched && Array.isArray(msg.data)) {
+        msg.data.forEach(function(item) {
+          if (item && item.senderId !== self.userId) {
+            processAwareness(item, item.senderId);
+          }
+        });
       } else {
-        this._remoteCursors[msg.data.senderId] = {
-          start: s.cursorStart,
-          end: s.cursorEnd,
-          name: s.name || 'Someone',
-          color: s.color || pickColor(msg.data.senderId),
-        };
+        if (msg.data.senderId !== this.userId) {
+          processAwareness(msg.data, msg.data.senderId);
+        }
       }
       if (this._onRemoteCursor) {
         this._onRemoteCursor(this._remoteCursors);
