@@ -15,6 +15,19 @@
 
   var _board = null;
 
+  function getCsrfToken() {
+    var meta = document.querySelector('meta[name="csrf-token"]');
+    if (meta && meta.content) return meta.content;
+    var cookies = document.cookie.split(';');
+    for (var i = 0; i < cookies.length; i++) {
+      var c = cookies[i].trim();
+      if (c.indexOf('csrftoken=') === 0) {
+        return c.substring('csrftoken='.length);
+      }
+    }
+    return '';
+  }
+
   function CollabBoard() {
     this.canvas = null;
     this.ctx = null;
@@ -855,8 +868,7 @@
   CollabBoard.prototype._saveToServer = function() {
     if (!this.spaceId) return;
     var content = this.serialize();
-    var csrfEl = document.querySelector('meta[name="csrf-token"]');
-    var csrf = csrfEl ? csrfEl.content : '';
+    var csrf = getCsrfToken();
     fetch('/ajax/study-space/' + this.spaceId + '/notes/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrf },
@@ -942,8 +954,7 @@
       var file = inp.files[0];
       var fd = new FormData();
       fd.append('file', file);
-      var csrfEl = document.querySelector('meta[name="csrf-token"]');
-      var csrf = csrfEl ? csrfEl.content : '';
+      var csrf = getCsrfToken();
       fetch('/ajax/study-space/' + self.spaceId + '/upload/', {
         method: 'POST',
         headers: { 'X-CSRFToken': csrf },
