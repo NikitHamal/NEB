@@ -1071,7 +1071,7 @@ def ajax_space_upload(request, space_id):
     if throttled:
         return throttled
 
-    space, err = _manageable_space(space_id, user_id)
+    space, err = _accessible_space(space_id, user_id, request)
     if err:
         return err
     if not _space_permission_allows(space, user_id, 'upload_min_role'):

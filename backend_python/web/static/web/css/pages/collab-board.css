@@ -300,17 +300,17 @@
   position: absolute;
   z-index: 25;
   border: 2px solid var(--md-primary, #1a73e8);
-  border-radius: 4px;
-  background: transparent;
+  border-radius: 6px;
+  background: var(--md-surface-container-high, #f0f4f9);
   color: var(--md-on-surface, #1f1f1f);
   font-family: 'Poppins', sans-serif;
   outline: none;
   resize: none;
   overflow: hidden;
-  padding: 4px 6px;
-  min-width: 60px;
-  min-height: 28px;
-  box-shadow: 0 0 0 3px rgba(26,115,232,0.15);
+  padding: 6px 8px;
+  min-width: 80px;
+  min-height: 32px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
 /* ── Selection handles ── */
