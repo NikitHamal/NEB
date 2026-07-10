@@ -262,7 +262,8 @@ fun LibraryScreen(
                         onResourceClick = onResourceClick,
                         onRetry = { viewModel.refresh() },
                         onSortSelected = viewModel::selectSort,
-                        onLoadMore = viewModel::loadNextPage
+                        onLoadMore = viewModel::loadNextPage,
+                        onRequestResourceClick = onRequestResourceClick
                     )
                 }
                 "syllabus" -> {
@@ -386,7 +387,8 @@ private fun LibraryContent(
     onResourceClick: (String) -> Unit,
     onRetry: () -> Unit,
     onSortSelected: (String) -> Unit,
-    onLoadMore: () -> Unit
+    onLoadMore: () -> Unit,
+    onRequestResourceClick: () -> Unit
 ) {
     when {
         uiState.isLoading -> ShimmerLibraryGrid()
