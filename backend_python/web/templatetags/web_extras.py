@@ -213,6 +213,26 @@ def resource_media_type(rtype):
 
 
 @register.filter
+def resource_media_type_from(resource):
+    """Classify a resource dict/object using type + file URL."""
+    if not resource:
+        return 'document'
+    if isinstance(resource, dict):
+        if resource.get('media_type') or resource.get('mediaType'):
+            return resource.get('media_type') or resource.get('mediaType')
+        rtype = resource.get('type') or ''
+        url = resource.get('file_url') or resource.get('fileUrl') or ''
+    else:
+        rtype = getattr(resource, 'type', '') or ''
+        url = getattr(resource, 'file_url', '') or ''
+    try:
+        from web.view_helpers import classify_resource_media
+        return classify_resource_media(rtype, url)['media_type']
+    except Exception:
+        return resource_media_type(rtype)
+
+
+@register.filter
 def file_size_human(bytes_val):
     try:
         b = int(bytes_val)

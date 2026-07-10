@@ -176,6 +176,9 @@ dependencies {
 // Browser (Custom Tabs for GitHub OAuth)
     implementation("androidx.browser:browser:1.8.0")
 
+// Media3 (ExoPlayer) for video/audio playback
+    implementation("androidx.media3:media3-exoplayer:1.5.1")
+
 // Google Play In-App Update
     implementation("com.google.android.play:app-update:2.1.0")
     implementation("com.google.android.play:app-update-ktx:2.1.0")
