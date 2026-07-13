@@ -206,8 +206,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 28px;
-  height: 28px;
+  width: 24px;
+  height: 24px;
   border-radius: 4px;
   border: none;
   text-decoration: none;
@@ -223,6 +223,22 @@
   color: var(--md-on-surface, #1c1b1f) !important;
 }
 
+/* Brand Colors on Hover */
+.pf-social-link-btn.platform-instagram:hover { color: #E4405F !important; }
+.pf-social-link-btn.platform-facebook:hover { color: #1877F2 !important; }
+.pf-social-link-btn.platform-twitter:hover,
+.pf-social-link-btn.platform-x:hover { color: #000000 !important; }
+.pf-social-link-btn.platform-youtube:hover { color: #FF0000 !important; }
+.pf-social-link-btn.platform-tiktok:hover { color: #000000 !important; }
+.pf-social-link-btn.platform-linkedin:hover { color: #0A66C2 !important; }
+.pf-social-link-btn.platform-github:hover { color: #24292e !important; }
+.pf-social-link-btn.platform-telegram:hover { color: #26A5E4 !important; }
+.pf-social-link-btn.platform-whatsapp:hover { color: #25D366 !important; }
+.pf-social-link-btn.platform-discord:hover { color: #5865F2 !important; }
+.pf-social-link-btn.platform-snapchat:hover { color: #D4C900 !important; }
+.pf-social-link-btn.platform-pinterest:hover { color: #E60023 !important; }
+.pf-social-link-btn.platform-reddit:hover { color: #FF4500 !important; }
+
 .pf-social-link-btn .material-symbols-outlined {
   font-size: 20px !important;
   color: #fff;
@@ -232,18 +248,18 @@
   position: absolute;
   bottom: calc(100% + 6px);
   left: 50%;
-  transform: translateX(-50%) scale(0.9);
-  background: var(--md-surface-container-high);
-  color: var(--md-on-surface);
-  font-size: 0.75rem;
-  font-weight: 600;
-  padding: 4px 10px;
-  border-radius: 6px;
+  transform: translateX(-50%) scale(0.95);
+  background: #313033;
+  color: #f4f0f4;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  padding: 4px 8px;
+  border-radius: 4px;
   white-space: nowrap;
   pointer-events: none;
   opacity: 0;
-  transition: opacity 0.15s, transform 0.15s;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+  transition: opacity 0.1s, transform 0.1s;
+  box-shadow: none;
   z-index: 5;
 }
 
@@ -255,7 +271,8 @@
 /* Platform brand colors */
 .pf-social-link-btn.platform-instagram  { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
 .pf-social-link-btn.platform-facebook    { background: #1877F2; }
-.pf-social-link-btn.platform-twitter     { background: #000000; }
+.pf-social-link-btn.platform-twitter,
+.pf-social-link-btn.platform-x     { background: #000000; }
 .pf-social-link-btn.platform-youtube     { background: #FF0000; }
 .pf-social-link-btn.platform-tiktok      { background: #000000; }
 .pf-social-link-btn.platform-linkedin    { background: #0A66C2; }
@@ -266,7 +283,8 @@
 .pf-social-link-btn.platform-snapchat    { background: #FFFC00; }
 .pf-social-link-btn.platform-pinterest   { background: #E60023; }
 .pf-social-link-btn.platform-reddit      { background: #FF4500; }
-.pf-social-link-btn.platform-website     { background: var(--md-primary); }
+.pf-social-link-btn.platform-website,
+.pf-social-link-btn.platform-language     { background: var(--md-primary); }
 
 /* Snapchat needs dark icon */
 .pf-social-link-btn.platform-snapchat .material-symbols-outlined {
@@ -336,6 +354,7 @@
 .platform-instagram .material-symbols-outlined,
 .platform-facebook .material-symbols-outlined,
 .platform-twitter .material-symbols-outlined,
+.platform-x .material-symbols-outlined,
 .platform-youtube .material-symbols-outlined,
 .platform-tiktok .material-symbols-outlined,
 .platform-linkedin .material-symbols-outlined,
@@ -350,11 +369,10 @@
 }
 
 .pf-social-link-btn[class*="platform-"]::before,
-.social-link-icon[class*="platform-"]::before {
+.social-link-icon[class*="platform-"]::before,
+.pf-social-overflow-icon[class*="platform-"]::before {
   content: "";
   display: block;
-  width: 20px;
-  height: 20px;
   background-color: currentColor;
   -webkit-mask-image: var(--social-icon);
   mask-image: var(--social-icon);
@@ -364,6 +382,15 @@
   mask-position: center;
   -webkit-mask-size: contain;
   mask-size: contain;
+}
+.pf-social-link-btn[class*="platform-"]::before,
+.social-link-icon[class*="platform-"]::before {
+  width: 16px;
+  height: 16px;
+}
+.pf-social-overflow-icon[class*="platform-"]::before {
+  width: 20px;
+  height: 20px;
 }
 
 .social-link-icon[class*="platform-"]::before {
@@ -377,7 +404,8 @@
 .platform-facebook {
   --social-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23fff' d='M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z'/%3E%3C/svg%3E");
 }
-.platform-twitter {
+.platform-twitter,
+.platform-x {
   --social-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23fff' d='M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z'/%3E%3C/svg%3E");
 }
 .platform-youtube {
@@ -411,10 +439,242 @@
   --social-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23fff' d='M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-.762 1.151c.014.153.02.308.02.463 0 2.296-2.617 4.16-5.83 4.16-3.214 0-5.83-1.864-5.83-4.16 0-.155.006-.31.02-.463a1.252 1.252 0 0 1-.762-1.151c0-.688.562-1.25 1.25-1.25.437 0 .817.228 1.036.571a14.28 14.28 0 0 1 3.513-1.027l.745-2.348 2.032.443c.032.53.468.955 1.007.955.556 0 1.008-.452 1.008-1.008s-.452-1.008-1.008-1.008c-.476 0-.875.333-.978.78l-2.22-.485a.256.256 0 0 0-.294.164l-.82 2.585a14.163 14.163 0 0 0-3.535 1.027c.22-.343.6-.571 1.037-.571zm-5.01 5.378c-.688 0-1.25.562-1.25 1.25s.562 1.25 1.25 1.25 1.25-.562 1.25-1.25-.562-1.25-1.25-1.25zm5.01 0c-.688 0-1.25.562-1.25 1.25s.562 1.25 1.25 1.25 1.25-.562 1.25-1.25-.562-1.25-1.25-1.25z'/%3E%3C/svg%3E");
 }
 
-.platform-website::before,
-.pf-social-link-btn.platform-website::before,
-.social-link-icon.platform-website::before,
-.social-link-item.platform-website .social-link-icon::before {
+.platform-language::before,
+.pf-social-link-btn.platform-language::before,
+.social-link-icon.platform-language::before,
+.social-link-item.platform-language .social-link-icon::before,
+.pf-social-overflow-icon.platform-language::before {
   display: none !important;
+}
+
+/* Grayscale and alignment for website favicon images */
+.pf-social-link-btn img {
+  display: block;
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  border-radius: 2px;
+  filter: grayscale(1) opacity(0.7);
+  transition: filter 0.15s, opacity 0.15s;
+}
+
+.pf-social-link-btn:hover img {
+  filter: grayscale(0) opacity(1);
+}
+
+.social-link-icon img {
+  display: block;
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  border-radius: 2px;
+  filter: grayscale(1) opacity(0.85);
+}
+
+/* ===== Social Links "More" Button ===== */
+.pf-more-social {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  min-width: 48px;
+  height: 24px;
+  border: none;
+  border-radius: 12px;
+  background: var(--md-surface-container-high);
+  color: var(--md-on-surface-variant);
+  cursor: pointer;
+  flex-shrink: 0;
+  padding: 0 6px;
+  transition: background 0.15s;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  gap: 1px;
+}
+.pf-more-social:hover {
+  background: var(--md-surface-container-highest);
+  color: var(--md-on-surface);
+}
+.pf-more-social .material-symbols-outlined {
+  font-size: 14px !important;
+  font-variation-settings: 'FILL' 0, 'wght' 600;
+}
+
+/* ===== Social Links Overflow Bottom Sheet ===== */
+.pf-modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.42);
+  z-index: 1001;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+.pf-modal-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+.pf-modal-bottom-sheet {
+  background: var(--md-surface-container-lowest);
+  border-radius: 16px 16px 0 0;
+  width: 100%;
+  max-width: 480px;
+  max-height: 70vh;
+  overflow-y: auto;
+  transform: translateY(100%);
+  transition: transform 0.25s cubic-bezier(0.32, 0.72, 0, 1);
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
+  scrollbar-width: thin;
+  scrollbar-color: var(--md-outline-variant) transparent;
+}
+.pf-modal-overlay.active .pf-modal-bottom-sheet {
+  transform: translateY(0);
+}
+.pf-modal-handle {
+  width: 40px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--md-outline-variant);
+  margin: 6px auto 0;
+  position: sticky;
+  top: 6px;
+  z-index: 3;
+}
+.pf-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--md-outline-variant);
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: var(--md-surface-container-lowest);
+}
+.pf-modal-header h3 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--md-on-surface);
+}
+.pf-modal-close {
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: var(--md-on-surface-variant);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+  flex-shrink: 0;
+}
+.pf-modal-close:hover {
+  background: var(--md-surface-container-high);
+}
+.pf-modal-close .material-symbols-outlined {
+  font-size: 20px !important;
+}
+.pf-modal-body {
+  padding: 12px 20px 20px;
+}
+
+/* ===== Social Links Overflow List ===== */
+.pf-social-overflow-list {
+  display: flex;
+  flex-direction: column;
+}
+.pf-social-overflow-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 0;
+  text-decoration: none;
+  border-bottom: 1px solid var(--md-outline-variant);
+  color: var(--md-on-surface);
+  transition: opacity 0.15s;
+}
+.pf-social-overflow-item:last-child {
+  border-bottom: none;
+}
+.pf-social-overflow-item:hover {
+  background: var(--md-surface-container-high);
+  border-radius: 8px;
+}
+.pf-social-overflow-item:active {
+  background: var(--md-surface-container-highest);
+}
+.pf-social-overflow-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: var(--md-primary-container);
+  color: #fff;
+}
+.pf-social-overflow-icon .material-symbols-outlined {
+  font-size: 16px !important;
+  color: #fff !important;
+}
+.pf-social-overflow-icon img {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  border-radius: 2px;
+  filter: grayscale(1) opacity(0.85);
+}
+.pf-social-overflow-label {
+  flex: 1;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--md-on-surface);
+}
+.pf-social-overflow-item .material-symbols-outlined:last-child {
+  font-size: 18px;
+  color: var(--md-on-surface-variant);
+}
+
+@media (max-width: 600px) {
+  .pf-modal-bottom-sheet {
+    max-height: 85vh;
+  }
+  .pf-modal-header {
+    padding: 14px 16px;
+  }
+  .pf-modal-header h3 {
+    font-size: 0.9375rem;
+  }
+  .pf-modal-body {
+    padding: 8px 16px 16px;
+  }
+  .pf-social-overflow-item {
+    gap: 12px;
+    padding: 10px 0;
+  }
+  .pf-social-overflow-item:hover {
+    border-radius: 6px;
+  }
+  .pf-social-overflow-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+  }
+  .pf-social-overflow-label {
+    font-size: 0.8125rem;
+  }
+  .pf-social-overflow-item .material-symbols-outlined:last-child {
+    font-size: 16px;
+  }
+  .pf-social-overflow-icon[class*="platform-"]::before {
+    width: 16px;
+    height: 16px;
+  }
 }
 

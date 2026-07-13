@@ -294,11 +294,11 @@
             {% if social_links %}
             <div class="pf-social-links-section">
               <div class="pf-dotted-divider"></div>
-              <div class="pf-social-links-row">
+              <div class="pf-social-links-row" id="pfSocialRow">
                 {% for link in social_links %}
                 <a href="{{ link.url }}" target="_blank" rel="noopener noreferrer" class="pf-social-link-btn platform-{{ link.icon }}" title="{{ link.platform_label }}">
                   {% if link.platform == 'website' and link.website_domain %}
-                    <img src="https://www.google.com/s2/favicons?domain={{ link.website_domain }}&sz=32" style="width:16px;height:16px;object-fit:contain;border-radius:2px;" alt="" onerror="this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='inline-block';">
+                    <img src="https://www.google.com/s2/favicons?domain={{ link.website_domain }}&sz=64" style="width:16px;height:16px;object-fit:contain;border-radius:2px;" alt="" onerror="this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='inline-block';">
                     <span class="material-symbols-outlined" style="display:none;font-size:16px !important;">language</span>
                   {% else %}
                     <span class="material-symbols-outlined">{{ link.icon }}</span>
@@ -306,6 +306,9 @@
                   <span class="social-tooltip">{{ link.platform_label }}</span>
                 </a>
                 {% endfor %}
+                <button class="pf-more-social" id="pfMoreSocialBtn" data-action="open-social-overflow" style="display:none" title="More links">
+                  <span class="material-symbols-outlined">more_horiz</span>
+                </button>
               </div>
             </div>
             {% endif %}
@@ -951,6 +954,16 @@
   {% endif %}
 </div>
 
+<div class="pf-modal-overlay" id="socialOverflowOverlay" data-action="close-social-overflow">
+  <div class="pf-modal-bottom-sheet" data-action-stop>
+    <div class="pf-modal-handle"></div>
+    <div class="pf-modal-header">
+      <h3>Social Links</h3>
+      <button class="pf-modal-close" data-action="close-social-overflow"><span class="material-symbols-outlined">close</span></button>
+    </div>
+    <div class="pf-modal-body" id="socialOverflowBody"></div>
+  </div>
+</div>
 {% include "web/profile/_photo_modal.html" %}
 {% include "web/profile/_follow_modal.html" %}
 {% endblock %}
@@ -974,6 +987,95 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 });
+
+// ── Social links overflow: hide wrapped items, show more button + bottom sheet ──
+(function() {
+  var row = document.getElementById('pfSocialRow');
+  var moreBtn = document.getElementById('pfMoreSocialBtn');
+  if (!row || !moreBtn) return;
+  var items = Array.from(row.querySelectorAll('.pf-social-link-btn'));
+  if (items.length < 2) return;
+
+  function checkOverflow() {
+    items.forEach(function(el) { el.style.display = ''; });
+    moreBtn.style.display = 'none';
+    row.style.flexWrap = 'wrap';
+    row.style.overflow = '';
+
+    requestAnimationFrame(function() {
+      row.style.flexWrap = 'nowrap';
+      row.style.overflow = 'hidden';
+      var cw = row.clientWidth;
+      if (row.scrollWidth <= cw) {
+        row.style.flexWrap = '';
+        row.style.overflow = '';
+        return;
+      }
+      var perSlot = 24 + 8;
+      var itemsThatFit = Math.floor((cw - 24) / perSlot);
+      var hiddenCount = Math.max(0, items.length - itemsThatFit);
+      if (hiddenCount > 0) {
+        for (var j = itemsThatFit; j < items.length; j++) items[j].style.display = 'none';
+        moreBtn.style.display = 'inline-flex';
+        moreBtn.innerHTML = '<span class="material-symbols-outlined" style="font-size:14px!important;margin-right:2px">add</span>+' + hiddenCount;
+      }
+    });
+  }
+
+  checkOverflow();
+  var rt; window.addEventListener('resize', function() { clearTimeout(rt); rt = setTimeout(checkOverflow, 150); });
+
+  var PLATFORM_COLORS = {
+    instagram:'#E4405F', facebook:'#1877F2', x:'#000000',
+    youtube:'#FF0000', tiktok:'#000000', linkedin:'#0A66C2',
+    github:'#181717', telegram:'#26A5E4', whatsapp:'#25D366',
+    discord:'#5865F2', snapchat:'#FFFC00', pinterest:'#E60023',
+    reddit:'#FF4500', website:'#1B6EF3', language:'#1B6EF3'
+  };
+
+  function buildOverflowList() {
+    var html = '<div class="pf-social-overflow-list">';
+    items.forEach(function(el) {
+      var href = el.getAttribute('href');
+      var label = el.getAttribute('title') || 'Link';
+      var platform = 'website';
+      var m = el.className.match(/platform-(\S+)/);
+      if (m) platform = m[1] || 'website';
+      var bgColor = PLATFORM_COLORS[platform] || '#1B6EF3';
+      var isWebsite = (platform === 'website' || platform === 'language');
+      html += '<a href="' + href.replace(/"/g,'&quot;') + '" target="_blank" rel="noopener noreferrer" class="pf-social-overflow-item">';
+      if (isWebsite) {
+        html += '<span class="pf-social-overflow-icon platform-language" style="background:' + bgColor + '">';
+        html += '<span class="material-symbols-outlined">language</span></span>';
+      } else {
+        html += '<span class="pf-social-overflow-icon platform-' + platform.replace(/[^a-z0-9_-]/g,'') + '" style="background:' + bgColor + '"></span>';
+      }
+      html += '<span class="pf-social-overflow-label">' + label.replace(/</g,'&lt;') + '</span>';
+      html += '<span class="material-symbols-outlined">open_in_new</span>';
+      html += '</a>';
+    });
+    html += '</div>';
+    return html;
+  }
+
+  window.openSocialOverflow = function() {
+    var overlay = document.getElementById('socialOverflowOverlay');
+    var body = document.getElementById('socialOverflowBody');
+    if (!overlay || !body) return;
+    body.innerHTML = buildOverflowList();
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  };
+  window.closeSocialOverflow = function() {
+    var overlay = document.getElementById('socialOverflowOverlay');
+    if (!overlay) return;
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+  };
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeSocialOverflow();
+  });
+})();
 
 // ── Real-time profile: follower count + post count updates live ──
 (function() {
@@ -1544,6 +1646,8 @@ registerActions({
   },
   'open-follow-modal': function(el) { openFollowModal(el.dataset.modalType); },
   'show-options-soon': function() { showSnackbar('More options coming soon'); },
+  'open-social-overflow': function() { openSocialOverflow(); },
+  'close-social-overflow': function() { closeSocialOverflow(); },
   'go-back': function(el, e) { if (e) e.preventDefault(); if (window.history.length > 1) { window.history.back(); } else { window.location.href = '{% url "web:home" %}'; } },
   'toggle-more-menu': function(el) {
     var menuId = el.dataset.menuId;
