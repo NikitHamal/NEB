@@ -12,11 +12,13 @@ import com.neb.ians.data.api.ApiSyllabusSubject
 import com.neb.ians.data.api.ApiSyllabusSubjectDetailResponse
 import com.neb.ians.data.repository.ResourceRepository
 import com.neb.ians.data.repository.AppCache
+import com.neb.ians.data.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
