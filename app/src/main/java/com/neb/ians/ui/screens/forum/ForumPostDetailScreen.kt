@@ -131,7 +131,6 @@ fun ForumPostDetailScreen(
     var editingReply by remember { mutableStateOf<ApiReply?>(null) }
     var deletingPost by remember { mutableStateOf(false) }
     var deletingReplyId by remember { mutableStateOf<String?>(null) }
-    var historyTarget by remember { mutableStateOf<Pair<String, String>?>(null) }
     var popoverUsername by remember { mutableStateOf<String?>(null) }
 
     LaunchedEffect(uiState.snackbarMessage) {
@@ -254,7 +253,6 @@ fun ForumPostDetailScreen(
                             onDeleteClick = { deletingPost = true },
                             onReplyClick = { mainFocusRequester.requestFocus() },
                             onVote = viewModel::votePoll,
-                            onEditedClick = { historyTarget = "post" to post.id },
                             onProfileClick = onProfileClick,
                             onAuthorLongPress = { popoverUsername = post.authorName },
                             onLinkClick = openLink,
@@ -331,7 +329,6 @@ fun ForumPostDetailScreen(
                             onEditClick = { editingReply = reply },
                             onArchiveClick = { viewModel.archiveReply(reply.id) },
                             onDeleteClick = { deletingReplyId = reply.id },
-                            onEditedClick = { historyTarget = "reply" to reply.id },
                             onProfileClick = onProfileClick,
                             onAuthorLongPress = { popoverUsername = reply.authorName },
                             onLinkClick = openLink,
@@ -393,14 +390,6 @@ fun ForumPostDetailScreen(
                 viewModel.deleteReply(replyId)
                 deletingReplyId = null
             }
-        )
-    }
-
-    historyTarget?.let { (type, id) ->
-        EditHistoryDialog(
-            targetType = type,
-            targetId = id,
-            onDismiss = { historyTarget = null }
         )
     }
 
@@ -510,7 +499,6 @@ fun ForumPostDetailScreen(
                             onEditClick = { editingReply = parent },
                             onArchiveClick = { viewModel.archiveReply(parent.id) },
                             onDeleteClick = { deletingReplyId = parent.id },
-                            onEditedClick = { historyTarget = "reply" to parent.id },
                             onProfileClick = onProfileClick,
                             onAuthorLongPress = { popoverUsername = parent.authorName },
                             onLinkClick = openLink
@@ -566,7 +554,6 @@ fun ForumPostDetailScreen(
                                     onEditClick = { editingReply = child },
                                     onArchiveClick = { viewModel.archiveReply(child.id) },
                                     onDeleteClick = { deletingReplyId = child.id },
-                                    onEditedClick = { historyTarget = "reply" to child.id },
                                     onProfileClick = onProfileClick,
                                     onAuthorLongPress = { popoverUsername = child.authorName },
                                     onLinkClick = openLink,
@@ -685,7 +672,6 @@ private fun PostContentSection(
     onDeleteClick: () -> Unit,
     onReplyClick: () -> Unit,
     onVote: (List<String>) -> Unit,
-    onEditedClick: () -> Unit,
     onProfileClick: (String) -> Unit,
     onAuthorLongPress: () -> Unit,
     onLinkClick: (String) -> Unit,
@@ -756,17 +742,7 @@ private fun PostContentSection(
                         style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
-                    if (post.isEdited == true) {
-                        Text(
-                            text = " · edited",
-                            style = MaterialTheme.typography.labelSmall.copy(textDecoration = TextDecoration.Underline),
-                            color = MaterialTheme.colorScheme.primary,
-                            modifier = Modifier.clickable(onClick = onEditedClick)
-                        )
-                    }
-                }
-            }
-            if (post.isArchived == true) {
+                    if (post.isArchived == true) {
                 Surface(shape = WebPillShape, color = MaterialTheme.colorScheme.surfaceContainerHigh) {
                     Text(
                         text = "Archived",
@@ -891,7 +867,6 @@ private fun ReplyItem(
     onEditClick: () -> Unit,
     onArchiveClick: () -> Unit,
     onDeleteClick: () -> Unit,
-    onEditedClick: () -> Unit,
     onProfileClick: (String) -> Unit,
     onAuthorLongPress: () -> Unit,
     onLinkClick: (String) -> Unit,
@@ -957,14 +932,6 @@ private fun ReplyItem(
                             style = MaterialTheme.typography.labelSmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
-                        if (reply.isEdited == true) {
-                            Text(
-                                text = " · edited",
-                                style = MaterialTheme.typography.labelSmall.copy(textDecoration = TextDecoration.Underline),
-                                color = MaterialTheme.colorScheme.primary,
-                                modifier = Modifier.clickable(onClick = onEditedClick)
-                            )
-                        }
                         if (reply.isArchived == true) {
                             Text(
                                 text = " · archived",
