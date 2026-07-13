@@ -52,7 +52,7 @@ class NewsViewModel @Inject constructor(
                     _uiState.update {
                         it.copy(
                             isLoading = false,
-                            error = error.message ?: "Couldn't load news. Please try again."
+                            error = error.message ?: "Couldn't load blog posts. Please try again."
                         )
                     }
                 }

@@ -43,6 +43,31 @@ class SearchViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(SearchUiState())
     val uiState: StateFlow<SearchUiState> = _uiState.asStateFlow()
 
+    init {
+        viewModelScope.launch {
+            try {
+                val profile = authRepository.userProfileFlow.first()
+                if (profile != null) {
+                    val gradePref = mapProfileGrade(profile.classLevel)
+                    _uiState.update { it.copy(selectedGradeLevel = gradePref) }
+                }
+            } catch (_: Exception) {}
+        }
+    }
+
+    private fun mapProfileGrade(classLevel: String?): String? {
+        if (classLevel.isNullOrBlank()) return null
+        val clean = classLevel.trim().lowercase()
+        return when (clean) {
+            "11", "grade 11", "class 11" -> "Class 11"
+            "12", "grade 12", "class 12" -> "Class 12"
+            "10", "see", "class 10", "class 10 / see" -> "Class 10 / SEE"
+            "9", "class 9" -> "Class 9"
+            "8", "class 8" -> "Class 8"
+            else -> classLevel
+        }
+    }
+
     private var searchJob: Job? = null
 
     fun onQueryChange(query: String) {

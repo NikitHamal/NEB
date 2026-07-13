@@ -244,7 +244,18 @@ fun ForumPostCard(
                         onLongClick = onAuthorLongPress
                     )
                 ) {
-                    Avatar(name = post.authorName, imageUrl = post.authorPhotoUrl, size = 38.dp)
+                    val level = remember(post.authorBadgeInfo) {
+                        if (post.authorBadgeInfo?.type == "verified") {
+                            when (post.authorBadgeInfo.color?.trim()?.lowercase()) {
+                                "#1b9af0" -> 1
+                                "#2e7d32" -> 2
+                                "#f59e0b" -> 3
+                                "#1a1a1a" -> 4
+                                else -> 1
+                            }
+                        } else 0
+                    }
+                    Avatar(name = post.authorName, imageUrl = post.authorPhotoUrl, size = 38.dp, verificationLevel = level)
                 }
                 Column(modifier = Modifier.weight(1f)) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
@@ -1213,10 +1224,22 @@ fun MentionSuggestions(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
+                    val level = remember(user.badgeInfo) {
+                        if (user.badgeInfo?.type == "verified") {
+                            when (user.badgeInfo.color?.trim()?.lowercase()) {
+                                "#1b9af0" -> 1
+                                "#2e7d32" -> 2
+                                "#f59e0b" -> 3
+                                "#1a1a1a" -> 4
+                                else -> 1
+                            }
+                        } else 0
+                    }
                     Avatar(
                         name = user.displayName?.ifBlank { user.username } ?: user.username,
                         imageUrl = user.photoUrl,
-                        size = 30.dp
+                        size = 30.dp,
+                        verificationLevel = level
                     )
                     Column(modifier = Modifier.weight(1f)) {
                         Text(

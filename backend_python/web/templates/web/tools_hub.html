@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load static web_extras %}
+
+{% block title %}Tools — NEBians{% endblock %}
+{% block description %}Access all the useful study and utility tools on NEBians, including the official SEE/NEB Result Checker.{% endblock %}
+
+{% block content %}
+<div class="md-container" style="padding: 24px 16px; max-width: 960px; margin: 0 auto; min-height: 70vh;">
+  <header style="margin-bottom: 24px; display: flex; align-items: center; gap: 12px;">
+    <a href="{% url 'web:home' %}" class="md-btn-icon" style="color: var(--md-on-surface); text-decoration: none; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;" title="Back" data-action="go-back">
+      <span class="material-symbols-outlined">arrow_back</span>
+    </a>
+    <div>
+      <p style="font-size: 0.875rem; color: var(--md-primary); font-weight: 600; margin: 0 0 4px 0; text-transform: uppercase; letter-spacing: 0.5px;">Available Utilities</p>
+      <h1 class="md-headline-large" style="margin: 0; line-height: 1.2;">Tools</h1>
+    </div>
+  </header>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px;">
+    <!-- Result Checker Card -->
+    <a href="{% url 'web:result_check' %}" class="md-card tools-card" style="display: flex; flex-direction: column; text-decoration: none; color: inherit; padding: 20px; border-radius: 12px; border: 1px solid var(--md-outline-variant); background: var(--md-surface-container-lowest); cursor: pointer; transition: background var(--md-transition), border-color var(--md-transition);">
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+        <span class="material-symbols-outlined" style="font-size: 32px; color: var(--md-primary);">fact_check</span>
+        <h2 class="md-title-large" style="margin: 0; font-size: 1.25rem; font-weight: 600;">Result Checker</h2>
+      </div>
+      <p class="md-body-medium" style="color: var(--md-on-surface-variant); margin: 0 0 16px 0; flex-grow: 1;">
+        Quickly check and track SEE/Class 11/12 exam gradesheets and statistics.
+      </p>
+      <div style="display: flex; align-items: center; justify-content: flex-end; color: var(--md-primary); font-weight: 600; font-size: 0.875rem; gap: 4px;">
+        Open Tool <span class="material-symbols-outlined" style="font-size: 18px;">arrow_forward</span>
+      </div>
+    </a>
+  </div>
+</div>
+
+<style nonce="{{ csp_nonce }}">
+  .tools-card:hover {
+    background: var(--md-surface-variant) !important;
+    border-color: var(--md-primary) !important;
+  }
+</style>
+{% endblock %}

@@ -10,7 +10,7 @@
   position: relative;
   overflow: hidden;
   isolation: isolate;
-  padding: calc(64px + 56px) 24px 70px;
+  padding: calc(64px + 40px) 24px 50px;
   background:
     radial-gradient(circle at 14% 20%, rgba(255, 255, 255, 0.82), transparent 27%),
     linear-gradient(180deg, var(--home-sky-deep) 0%, var(--home-sky) 58%, #f7fbfe 100%);
@@ -439,6 +439,10 @@
 }
 
 .home-page .site-main > .md-container {
-  padding-top: 48px;
+  padding-top: 32px;
+}
+
+.home-page .section {
+  margin-bottom: 24px;
 }
 

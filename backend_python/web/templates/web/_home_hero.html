@@ -24,8 +24,9 @@
           Join a discussion
         </a>
         {% else %}
-        <a href="{% url 'web:email_signup' %}" class="home-hero-button home-hero-button-secondary">
-          Join NEBians
+        <a href="{% url 'web:upload_resource' %}" class="home-hero-button home-hero-button-secondary">
+          <span class="material-symbols-outlined">upload</span>
+          Upload resources
         </a>
         {% endif %}
       </div>

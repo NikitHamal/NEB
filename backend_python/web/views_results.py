@@ -15,6 +15,12 @@ def result_check_page(request):
     return render(request, 'web/result_checker.html', _ctx(request))
 
 
+@require_GET
+def tools_hub(request):
+    """Render the tools hub page listing available utilities."""
+    return render(request, 'web/tools_hub.html', _ctx(request))
+
+
 @require_POST
 def ajax_check_result(request):
     """API endpoint to check a result.

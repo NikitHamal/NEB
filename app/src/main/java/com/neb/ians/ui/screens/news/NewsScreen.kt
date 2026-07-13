@@ -108,7 +108,7 @@ fun NewsScreen(
                 uiState.error != null && uiState.items.isEmpty() -> {
                     item {
                         ErrorCard(
-                            message = uiState.error ?: "Couldn't load news",
+                            message = uiState.error ?: "Couldn't load blog posts",
                             onRetry = viewModel::retry,
                             modifier = Modifier.padding(16.dp)
                         )
@@ -147,7 +147,7 @@ private fun NewsHeader(onResultCheckerClick: () -> Unit) {
         ) {
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = "News & Announcements",
+                    text = "Blog & Updates",
                     style = MaterialTheme.typography.headlineSmall,
                     fontWeight = FontWeight.ExtraBold,
                     color = MaterialTheme.colorScheme.onSurface
@@ -404,14 +404,14 @@ private fun EmptyNewsCard() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "No announcements yet",
+            text = "No blog posts yet",
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onSurface
         )
         Spacer(modifier = Modifier.height(6.dp))
         Text(
-            text = "Check back soon for news and updates.",
+            text = "Check back soon for articles and updates.",
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )

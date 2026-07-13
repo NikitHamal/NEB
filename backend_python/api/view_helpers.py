@@ -333,6 +333,22 @@ def _build_stats_batch(user_qs):
         }
     return result
 
+def map_profile_grade(class_level):
+    if not class_level:
+        return None
+    val = class_level.strip().lower()
+    if val in ('11', 'grade 11', 'class 11'):
+        return 'Class 11'
+    elif val in ('12', 'grade 12', 'class 12'):
+        return 'Class 12'
+    elif val in ('10', 'see', 'class 10', 'class 10 / see'):
+        return 'Class 10 / SEE'
+    elif val in ('9', 'class 9'):
+        return 'Class 9'
+    elif val in ('8', 'class 8'):
+        return 'Class 8'
+    return class_level
+
 # Star imports from this module are intentional: split view modules need the
 # same helper functions and imported framework symbols that the former monolith
 # exposed as globals. Keep this broad to avoid changing runtime behavior.

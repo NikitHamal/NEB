@@ -20,6 +20,7 @@ urlpatterns = [
     path('news/<slug:slug>/', views.news_detail, name='news_detail'),
     path('results/', views.results_guide, name='results_guide'),
     path('results/check/', views.result_check_page, name='result_check'),
+    path('tools/', views.tools_hub, name='tools_hub'),
     path('ajax/results/check/', views.ajax_check_result, name='ajax_check_result'),
     path('ajax/search/', views.ajax_instant_search, name='ajax_instant_search'),
     path('forum/', views.forum, name='forum'),

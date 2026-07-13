@@ -170,7 +170,7 @@
       <a href="{% url 'web:home' %}" class="{% block nav_home %}{% endblock %}">Home</a>
       <a href="{% url 'web:library' %}" class="{% block nav_library %}{% endblock %}">Library</a>
       <a href="{% url 'web:forum' %}" class="{% block nav_forum %}{% endblock %}">Forum</a>
-      <a href="{% url 'web:news_list' %}" class="{% block nav_news %}{% endblock %}">News</a>
+      <a href="{% url 'web:news_list' %}" class="{% block nav_news %}{% endblock %}">Blog</a>
     </nav>
     <div class="md-topbar-actions">
       <a href="{% url 'web:search' %}" class="md-btn-icon" aria-label="Search" title="Search">
@@ -197,24 +197,23 @@
           {% endif %}
         </button>
         <div class="profile-dropdown-menu" id="profileMenu">
-          <div class="profile-dropdown-header">
-            <span class="profile-dropdown-avatar">
-              {% if user.avatar_url %}
-              <img src="{{ user.avatar_url }}" alt="Profile">
-              {% else %}
-              {{ user.username|first|upper }}
-              {% endif %}
-            </span>
-            <div class="profile-dropdown-info">
-              <span class="profile-dropdown-name">{{ user.username }}</span>
-              <span class="profile-dropdown-role">{% if user.role == 'teacher' %}Teacher{% elif user.role == 'institution' %}Institution{% elif user.role == 'explorer' %}Explorer{% else %}Student{% endif %}</span>
+          <a href="{% url 'web:profile' username=user.username %}" class="profile-dropdown-header-link">
+            <div class="profile-dropdown-header">
+              <span class="profile-dropdown-avatar">
+                {% if user.avatar_url %}
+                <img src="{{ user.avatar_url }}" alt="Profile">
+                {% else %}
+                {{ user.username|first|upper }}
+                {% endif %}
+              </span>
+              <div class="profile-dropdown-info" style="flex-grow: 1;">
+                <span class="profile-dropdown-name">{{ user.username }}</span>
+                <span class="profile-dropdown-role">{% if user.role == 'teacher' %}Teacher{% elif user.role == 'institution' %}Institution{% elif user.role == 'explorer' %}Explorer{% else %}Student{% endif %}</span>
+              </div>
+              <span class="material-symbols-outlined dropdown-header-view-icon" style="color: var(--md-on-surface-variant); font-size: 20px; margin-left: auto;">visibility</span>
             </div>
-          </div>
-          <div class="menu-divider"></div>
-          <a href="{% url 'web:profile' username=user.username %}">
-            <span class="material-symbols-outlined">account_circle</span>
-            <span>View Profile</span>
           </a>
+          <div class="menu-divider"></div>
           <a href="{% url 'web:notifications' %}" class="profile-dropdown-notif-link">
             <span class="material-symbols-outlined">notifications</span>
             <span>Notifications</span>
@@ -228,13 +227,13 @@
             <span class="material-symbols-outlined">bookmark</span>
             <span>Bookmarks</span>
           </a>
-          <a href="{% url 'web:result_check' %}">
-            <span class="material-symbols-outlined">fact_check</span>
-            <span>Result Checker</span>
+          <a href="{% url 'web:tools_hub' %}">
+            <span class="material-symbols-outlined">build</span>
+            <span>Tools</span>
           </a>
           <a href="{% url 'web:news_list' %}">
             <span class="material-symbols-outlined">newspaper</span>
-            <span>News &amp; Updates</span>
+            <span>Blog</span>
           </a>
           <a href="{% url 'web:logout' %}" class="menu-logout">
             <span class="material-symbols-outlined">logout</span>
@@ -266,7 +265,7 @@
   <footer class="site-footer">
     {% if not hide_footer_links %}
     <div class="site-footer-links">
-      <a href="{% url 'web:news_list' %}">News &amp; Updates</a>
+      <a href="{% url 'web:news_list' %}">Blog</a>
       <a href="{% url 'web:result_check' %}">Result Checker</a>
       <a href="{% url 'web:privacy_policy' %}">Privacy Policy</a>
       <a href="{% url 'web:terms_of_service' %}">Terms of Service</a>
