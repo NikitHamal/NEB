@@ -119,7 +119,7 @@ fun HomeScreen(
         ) {
             when {
                 uiState.isLoading -> ShimmerHomeScreen()
-                uiState.error != null && uiState.recentResources.isEmpty() && uiState.recentPosts.isEmpty() -> {
+                uiState.error != null && uiState.popularResources.isEmpty() && uiState.recentPosts.isEmpty() -> {
                     ErrorCard(
                         message = uiState.error ?: "Something went wrong",
                         onRetry = { viewModel.refresh() },
@@ -185,25 +185,13 @@ fun HomeScreen(
                     Spacer(modifier = Modifier.height(18.dp))
 
                     WebSectionHeader(
-                        title = "Recent Resources",
-                        actionLabel = "View all",
-                        onActionClick = onViewAllClick
-                    )
-                    ResourceRow(
-                        resources = uiState.recentResources,
-                        emptyMessage = "No resources yet. Check the Library to explore.",
-                        onResourceClick = onResourceClick
-                    )
-
-                    Spacer(modifier = Modifier.height(18.dp))
-                    WebSectionHeader(
-                        title = "Popular Resources",
+                        title = "Trending Resources",
                         actionLabel = "View all",
                         onActionClick = onViewAllClick
                     )
                     ResourceRow(
                         resources = uiState.popularResources,
-                        emptyMessage = "Popular resources will appear here.",
+                        emptyMessage = "Trending resources will appear here.",
                         onResourceClick = onResourceClick
                     )
 
