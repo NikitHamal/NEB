@@ -1362,6 +1362,12 @@ interface ApiService {
         @Body request: FcmTokenRequest
     )
 
+    @POST("api/fcm/unregister/")
+    suspend fun unregisterFcmToken(
+        @Header("Authorization") bearerToken: String?,
+        @Body request: FcmTokenRequest
+    )
+
     // --- Account Deletion ---
     @GET("api/users/me/delete-account/")
     suspend fun getDeleteAccountRequestStatus(
