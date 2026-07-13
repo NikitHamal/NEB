@@ -85,6 +85,7 @@ urlpatterns = [
 
     # FCM
     path('fcm/register/', views.fcm_register, name='fcm-register'),
+    path('fcm/unregister/', views.fcm_unregister, name='fcm-unregister'),
 
     # Notifications
     path('notifications/', views.notifications_list, name='notifications-list'),

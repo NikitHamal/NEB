@@ -92,6 +92,20 @@ def fcm_register(request):
 
     return Response({'success': True})
 
+@api_view(['POST'])
+@throttle_classes([AuthRateThrottle])
+def fcm_unregister(request):
+    """POST /api/fcm/unregister — remove FCM token(s) from the current user on logout."""
+    user, err = _require_user(request)
+    if err:
+        return err
+    token = request.data.get('token', '').strip()
+    if token:
+        FCMToken.objects.filter(token=token, user=user).delete()
+    else:
+        FCMToken.objects.filter(user=user).delete()
+    return Response({'success': True})
+
 @api_view(['GET'])
 @permission_classes([AllowAny])
 @throttle_classes([SearchRateThrottle])
