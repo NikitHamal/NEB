@@ -1,4 +1,4 @@
-"""Views Profile extracted from views.py."""
+﻿"""Views Profile extracted from views.py."""
 from .view_helpers import *  # noqa: F401,F403
 from api.view_helpers import _profile_incomplete, _can_view_locked_profile
 from api.models import FollowRequest, NEPAL_DISTRICTS, SocialLink
@@ -43,14 +43,14 @@ def bookmarks(request):
             title = obj.title or 'Untitled discussion'
             url = reverse('web:forum_post', kwargs={'post_id': obj.id})
             excerpt = obj.content or ''
-            meta = f'{obj.user.display_name or obj.user.username} · {obj.reply_count} replies'
+            meta = f'{obj.user.display_name or obj.user.username} Â· {obj.reply_count} replies'
         elif bm.target_type == 'reply' and bm.target_id in replies:
             obj = replies[bm.target_id]
             data = _serialize_reply(obj, user_id=user_id, _bookmarked_ids={obj.id})
             title = f"Reply on {obj.post.title if obj.post else 'discussion'}"
             url = reverse('web:forum_post', kwargs={'post_id': obj.post_id}) + f"#reply-{obj.id}"
             excerpt = obj.content or ''
-            meta = f'{obj.user.display_name or obj.user.username} · Reply'
+            meta = f'{obj.user.display_name or obj.user.username} Â· Reply'
         elif bm.target_type == 'resource' and bm.target_id in resources:
             obj = resources[bm.target_id]
             if obj.approval_status != 'approved' and obj.uploaded_by_id != user_id:
@@ -59,7 +59,7 @@ def bookmarks(request):
             title = obj.title or 'Untitled resource'
             url = reverse('web:reader', kwargs={'resource_id': obj.id})
             excerpt = obj.description or ''
-            meta = f"{obj.subject or 'Resource'} · {obj.grade_level or 'All levels'}"
+            meta = f"{obj.subject or 'Resource'} Â· {obj.grade_level or 'All levels'}"
         else:
             continue
         counts['all'] += 1
@@ -392,7 +392,7 @@ def _draw_text_ellipsis(draw, xy, text, font, fill, max_width):
     if draw.textlength(text, font=font) <= max_width:
         draw.text(xy, text, font=font, fill=fill)
         return text
-    ell = '…'
+    ell = 'â€¦'
     while text and draw.textlength(text + ell, font=font) > max_width:
         text = text[:-1]
     draw.text(xy, text + ell, font=font, fill=fill)
@@ -545,7 +545,7 @@ def profile_card_image(request, username):
     img = Image.new('RGB', (W, H), (255, 255, 255))
     d = ImageDraw.Draw(img)
 
-    # ── Left panel: role-colored background with avatar ──
+    # â”€â”€ Left panel: role-colored background with avatar â”€â”€
     panel_w = 440
     for y in range(H):
         t = y / max(1, H - 1)
@@ -561,7 +561,7 @@ def profile_card_image(request, username):
     img = img_rgba.convert('RGB')
     d = ImageDraw.Draw(img)
 
-    # Avatar — centered in the left panel
+    # Avatar â€” centered in the left panel
     avatar_size = 240
     avatar = _profile_card_avatar(profile_user, avatar_size)
     ring_size = avatar_size + 16
@@ -575,11 +575,11 @@ def profile_card_image(request, username):
     img.paste(ring, (av_x, av_y), ring)
     d = ImageDraw.Draw(img)
 
-    # ── Right panel: white with name, handle, NEBians logo ──
+    # â”€â”€ Right panel: white with name, handle, NEBians logo â”€â”€
     right_x = panel_w + 70
     right_w = W - right_x - 60
 
-    # Name — big, bold, centered in space above the logo
+    # Name â€” big, bold, centered in space above the logo
     display = profile_user.display_name or profile_user.username
     name_font = _load_profile_card_font('bold', 88)
     handle = '@' + (profile_user.username or 'nebian')
@@ -595,7 +595,7 @@ def profile_card_image(request, username):
     _draw_text_ellipsis(d, (right_x, block_y), display, name_font, (15, 23, 42), right_w)
     _draw_text_ellipsis(d, (right_x, block_y + name_h + gap), handle, handle_font, (100, 116, 139), right_w)
 
-    # NEBians logo + text — bottom-right corner
+    # NEBians logo + text â€” bottom-right corner
     logo_path = Path(settings.BASE_DIR) / 'web/static/web/img/n-logo-512.png'
     logo_size = 72
     try:
@@ -987,3 +987,124 @@ def settings_page(request):
     ).first()
 
     return render(request, 'web/settings.html', _ctx(request, has_password=has_password, pending_request=pending_request))
+
+
+@require_POST
+def ajax_toggle_profile_visibility(request):
+    user_id = _get_user_id(request)
+    if not user_id:
+        return JsonResponse({'error': 'Please log in again.'}, status=401)
+    try:
+        db_user = User.objects.get(pk=user_id)
+    except User.DoesNotExist:
+        return JsonResponse({'error': 'User not found.'}, status=404)
+
+    try:
+        data = json.loads(request.body)
+        is_locked = bool(data.get('is_locked', False))
+        db_user.is_locked = is_locked
+        db_user.save()
+        _clear_page_cache()
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=400)
+
+    return JsonResponse({'status': 'ok', 'is_locked': db_user.is_locked})
+
+def _require_auth_user(request):
+    user_id = _get_user_id(request)
+    if not user_id:
+        return None, JsonResponse({'error': 'Authentication required'}, status=401)
+    try:
+        return User.objects.get(pk=user_id), None
+    except User.DoesNotExist:
+        return None, JsonResponse({'error': 'User not found'}, status=404)
+
+
+def ajax_social_links_list(request):
+    user, err = _require_auth_user(request)
+    if err:
+        return err
+    return JsonResponse({'links': get_all_user_links(user.id)})
+
+
+def ajax_social_links_create(request):
+    user, err = _require_auth_user(request)
+    if err:
+        return err
+    if request.method != 'POST':
+        return JsonResponse({'error': 'POST required'}, status=405)
+    import json as _json
+    try:
+        data = _json.loads(request.body)
+    except (ValueError, KeyError):
+        data = request.POST
+    platform = (data.get('platform') or 'website').strip().lower()
+    url = (data.get('url') or '').strip()
+    label = (data.get('label') or '').strip()
+    try:
+        link = _create_social_link(user.id, platform, url, label)
+        _clear_page_cache()
+        return JsonResponse({'ok': True, 'link': link})
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=400)
+
+
+def ajax_social_links_update(request, link_id):
+    user, err = _require_auth_user(request)
+    if err:
+        return err
+    if request.method != 'POST':
+        return JsonResponse({'error': 'POST required'}, status=405)
+    import json as _json
+    try:
+        data = _json.loads(request.body)
+    except (ValueError, KeyError):
+        data = request.POST
+    try:
+        link = _update_social_link(
+            user.id, link_id,
+            platform=data.get('platform'),
+            url=data.get('url'),
+            label=data.get('label'),
+        )
+        _clear_page_cache()
+        return JsonResponse({'ok': True, 'link': link})
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=400)
+
+
+def ajax_social_links_delete(request, link_id):
+    user, err = _require_auth_user(request)
+    if err:
+        return err
+    if request.method != 'POST':
+        return JsonResponse({'error': 'POST required'}, status=405)
+    try:
+        _delete_social_link(user.id, link_id)
+        _clear_page_cache()
+        return JsonResponse({'ok': True})
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=400)
+
+
+def ajax_social_links_reorder(request):
+    user, err = _require_auth_user(request)
+    if err:
+        return err
+    if request.method != 'POST':
+        return JsonResponse({'error': 'POST required'}, status=405)
+    import json as _json
+    try:
+        data = _json.loads(request.body)
+        ordered_ids = data.get('ordered_ids', [])
+    except (ValueError, KeyError):
+        return JsonResponse({'error': 'Invalid request'}, status=400)
+    if not isinstance(ordered_ids, list):
+        return JsonResponse({'error': 'ordered_ids must be a list'}, status=400)
+    try:
+        links = _reorder_social_links(user.id, ordered_ids)
+        _clear_page_cache()
+        return JsonResponse({'ok': True, 'links': links})
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=400)
+

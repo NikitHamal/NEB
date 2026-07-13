@@ -38,10 +38,9 @@ class Migration(migrations.Migration):
             options={
                 'db_table': 'social_links',
                 'ordering': ['sort_order', 'created_at'],
+                'indexes': [
+                    models.Index(fields=['user_id', 'sort_order'], name='api_social_user_sort_idx'),
+                ],
             },
-        ),
-        migrations.AddIndex(
-            model_name='sociallink',
-            index=models.Index(fields=['user_id', 'sort_order'], name='api_social_user_sort_idx'),
         ),
     ]
