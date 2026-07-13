@@ -8,6 +8,7 @@
 {% block tw_title %}NEBians — Nepali Learning Community{% endblock %}
 {% block tw_description %}A Nepali learning community for students, teachers, and lifelong learners.{% endblock %}
 {% block nav_home %}md-nav-active{% endblock %}
+{% block body_class %}home-page{% endblock %}
 {% block bnav_home %}md-nav-active{% endblock %}
 
 {% block bottomnav %}
@@ -48,25 +49,9 @@
 {% endblock %}
 
 {% block content %}
+{% include "web/_home_hero.html" %}
+
 <div class="md-container">
-  <div class="hero">
-    <h1>Welcome to NEBians</h1>
-    <p>Discover study resources, join discussions, and connect with learners and teachers of all classes and faculties.
-    </p>
-    <div class="hero-actions">
-      <a href="{% url 'web:upload_resource' %}" class="hero-btn-primary">
-        <span class="material-symbols-outlined" style="font-size:20px">upload</span>
-        Upload Resources
-      </a>
-    </div>
-    <p style="font-size:0.8125rem; margin-top:24px; margin-bottom:0;"><a href="{% url 'web:privacy_policy' %}"
-        style="color:var(--md-on-surface-variant); text-decoration:underline;">Privacy Policy</a> &middot; <a
-        href="{% url 'web:terms_of_service' %}"
-        style="color:var(--md-on-surface-variant); text-decoration:underline;">Terms of Service</a></p>
-  </div>
-
-
-
   {% if latest_news %}
   <div class="section home-news-section">
     <div class="section-header">
@@ -113,14 +98,14 @@
 
   <div class="home-bento">
     <div>
-      {% if recent_resources %}
+      {% if trending_resources %}
       <div class="section">
         <div class="section-header">
-          <h2>Recent Resources</h2>
+          <h2>Trending Resources</h2>
           <a href="{% url 'web:library' %}">View all</a>
         </div>
         <div class="hscroll">
-          {% for r in recent_resources %}
+          {% for r in trending_resources %}
           <a href="{% url 'web:reader' resource_id=r.id %}"
             class="resource-card subject-{{ r.subject|split:','|first|subject_slug }}">
             <div class="resource-card-art">
@@ -134,7 +119,6 @@
                 <path d="M0,120 L0,85 Q60,40 130,70 Q200,100 260,60 L300,75 L300,120Z" fill="var(--art-c3)"
                   opacity="0.35" />
                 <path d="M0,120 L0,95 Q80,65 160,85 Q240,105 300,80 L300,120Z" fill="var(--art-c4)" opacity="0.2" />
-
               </svg>
               {% endif %}
               <span class="resource-card-type-pill">{{ r.type }}</span>
@@ -162,56 +146,6 @@
         </div>
       </div>
       {% endif %}
-
-      {% if popular_resources %}
-      <div class="section">
-        <div class="section-header">
-          <h2>Popular Resources</h2>
-          <a href="{% url 'web:library' %}">View all</a>
-        </div>
-        <div class="hscroll">
-          {% for r in popular_resources %}
-          <a href="{% url 'web:reader' resource_id=r.id %}"
-            class="resource-card subject-{{ r.subject|split:','|first|subject_slug }}">
-            <div class="resource-card-art">
-              {% if r.thumbnail_url %}
-              <img src="{{ r.thumbnail_url }}" alt="{{ r.title }}" class="resource-card-art-img" loading="lazy">
-              {% else %}
-              <svg viewBox="0 0 300 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-                <rect width="300" height="120" fill="var(--art-c1)" />
-                <path d="M0,120 L0,70 Q40,20 100,55 Q160,90 220,45 Q270,10 300,50 L300,120Z" fill="var(--art-c2)"
-                  opacity="0.5" />
-                <path d="M0,120 L0,85 Q60,40 130,70 Q200,100 260,60 L300,75 L300,120Z" fill="var(--art-c3)"
-                  opacity="0.35" />
-                <path d="M0,120 L0,95 Q80,65 160,85 Q240,105 300,80 L300,120Z" fill="var(--art-c4)" opacity="0.2" />
-
-              </svg>
-              {% endif %}
-              <span class="resource-card-type-pill">{{ r.type }}</span>
-              <span class="resource-card-art-icon material-symbols-outlined">{{ r.subject|split:','|first|subject_icon }}</span>
-            </div>
-            <div class="resource-card-info">
-              <div class="resource-card-subject-chip">
-                {% with subjs=r.subject|split:"," %}
-                {{ subjs|first }}
-                {% if subjs|length > 1 %}
-                +{{ subjs|length|add:"-1" }} more
-                {% endif %}
-                {% endwith %}
-              </div>
-              <div class="resource-card-title">{{ r.title }}</div>
-              <div class="resource-card-meta">
-                {{ r.grade_level }} &middot; {{ r.type }}
-              </div>
-              <div class="resource-card-stats">
-                <span class="material-symbols-outlined">visibility</span> {{ r.view_count|short_number }} &middot; {{ r.added_at|time_ago }}
-              </div>
-            </div>
-          </a>
-          {% endfor %}
-        </div>
-      </div>
-      {% endif %}
     </div>
 
     {% if trending_posts %}
@@ -226,7 +160,7 @@
     {% endif %}
   </div>
 
-  {% if not recent_resources and not popular_resources and not recent_posts %}
+  {% if not trending_resources and not trending_posts %}
   <div class="empty-state">
     <span class="material-symbols-outlined">auto_stories</span>
     <h3>Welcome to NEBians</h3>

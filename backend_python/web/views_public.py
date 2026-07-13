@@ -70,7 +70,6 @@ def home(request):
         cache.set('home_resources', resources, 60)
     posts_qs = Post.objects.select_related('user').filter(is_archived=False, user__email_verified=True).order_by('-created_at')[:20]
     all_posts = _serialize_posts(posts_qs, user_id)
-
     import math as _math
     _now_ms = now_ms()
     def _post_hot(p):
@@ -85,9 +84,7 @@ def home(request):
         return _math.log2(max(engagement, 1)) - age_hours / 168.0
     all_posts.sort(key=_post_hot, reverse=True)
 
-    recent = resources[:5]
-    popular = sorted(resources, key=lambda r: r.get('view_count', 0), reverse=True)[:5]
-    recent_posts = all_posts[:3]
+    trending_resources = sorted(resources, key=lambda r: r.get('view_count', 0), reverse=True)[:8]
     trending_posts = all_posts[:3]
     subjects = []
     seen = set()
@@ -107,14 +104,22 @@ def home(request):
         for a in news_qs:
             latest_news.append(_serialize_announcement(a))
         cache.set('home_latest_news', latest_news, 120)
+    home_stats = cache.get('home_stats_v2')
+    if home_stats is None:
+        home_stats = {
+            'resources': Resource.objects.filter(approval_status='approved').count(),
+            'members': User.objects.filter(email_verified=True, is_locked=False, is_bot=False).count(),
+            'discussions': Post.objects.filter(is_archived=False, user__email_verified=True).count(),
+            'replies': Reply.objects.filter(is_archived=False, user__email_verified=True).count(),
+        }
+        cache.set('home_stats_v2', home_stats, 600)
     return render(request, 'web/home.html', _ctx(request,
-        recent_resources=recent,
-        popular_resources=popular,
-        recent_posts=recent_posts,
+        trending_resources=trending_resources,
         trending_posts=trending_posts,
         subjects=subjects[:12],
         latest_news=latest_news,
-        hide_footer_links=True,
+        home_stats=home_stats,
+        hide_footer_links=False,
     ))
 
 def library(request):

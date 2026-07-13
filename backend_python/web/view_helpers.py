@@ -959,7 +959,7 @@ def _normalize_user_data(user):
 
 def _clear_page_cache():
     cache.delete_many([
-        'home_resources', 'home_posts', 'library_all_resources',
+        'home_resources', 'home_posts', 'home_stats_v2', 'library_all_resources',
         'forum_all_posts', 'forum_contributors', 'admin_stats', 'sitemap_xml',
         'distinct_subjects', 'library_filter_options',
     ])
