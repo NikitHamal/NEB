@@ -12,13 +12,11 @@ import com.neb.ians.data.api.ApiSyllabusSubject
 import com.neb.ians.data.api.ApiSyllabusSubjectDetailResponse
 import com.neb.ians.data.repository.ResourceRepository
 import com.neb.ians.data.repository.AppCache
-import com.neb.ians.data.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -80,7 +78,6 @@ class LibraryViewModel @Inject constructor(
     private val resourceRepository: ResourceRepository,
     private val apiService: ApiService,
     private val appCache: AppCache,
-    private val authRepository: AuthRepository,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -101,35 +98,8 @@ class LibraryViewModel @Inject constructor(
         if (!initialSubject.isNullOrBlank()) {
             _uiState.update { it.copy(selectedSubject = initialSubject) }
         }
-        viewModelScope.launch {
-            try {
-                val profile = authRepository.userProfileFlow.first()
-                if (profile != null) {
-                    val gradePref = mapProfileGrade(profile.classLevel)
-                    _uiState.update { state ->
-                        state.copy(
-                            selectedGradeLevel = state.selectedGradeLevel ?: gradePref,
-                            selectedSubject = state.selectedSubject ?: (profile.subjects?.split(",")?.firstOrNull()?.trim()?.ifBlank { null })
-                        )
-                    }
-                }
-            } catch (_: Exception) {}
-            loadResources()
-        }
+        viewModelScope.launch { loadResources() }
         loadSyllabusCategories()
-    }
-
-    private fun mapProfileGrade(classLevel: String?): String? {
-        if (classLevel.isNullOrBlank()) return null
-        val clean = classLevel.trim().lowercase()
-        return when (clean) {
-            "11", "grade 11", "class 11" -> "Class 11"
-            "12", "grade 12", "class 12" -> "Class 12"
-            "10", "see", "class 10", "class 10 / see" -> "Class 10 / SEE"
-            "9", "class 9" -> "Class 9"
-            "8", "class 8" -> "Class 8"
-            else -> classLevel
-        }
     }
 
     fun loadSyllabusCategories() {

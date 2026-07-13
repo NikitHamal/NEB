@@ -396,6 +396,14 @@ def search(request):
     grade = request.GET.get('grade', '')
     rtype = request.GET.get('type', '')
 
+    # Auto-set grade filter for specific students
+    if not grade and user_profile:
+        from api.view_helpers import is_global_user, map_profile_grade
+        if not is_global_user(user_profile):
+            auto_grade = map_profile_grade(user_profile.class_level)
+            if auto_grade:
+                grade = auto_grade
+
     resource_results = []
     post_results = []
     user_results = []

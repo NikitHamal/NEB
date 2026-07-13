@@ -22,7 +22,10 @@
         hx-trigger="keyup changed delay:400ms, search"
         hx-target="#search-results"
         hx-push-url="true"
-        hx-include="[name='q'],[name='tab']">
+        hx-include="[name='q'],[name='subject'],[name='grade'],[name='type'],[name='tab']">
+      {% if current_subject %}<input type="hidden" name="subject" value="{{ current_subject }}">{% endif %}
+      {% if current_grade %}<input type="hidden" name="grade" value="{{ current_grade }}">{% endif %}
+      {% if current_type %}<input type="hidden" name="type" value="{{ current_type }}">{% endif %}
       {% if tab and tab != 'all' %}<input type="hidden" name="tab" value="{{ tab }}">{% endif %}
     </form>
     <div class="bar-actions">
@@ -31,10 +34,83 @@
         <span class="material-symbols-outlined" style="font-size:20px">close</span>
       </a>
       {% endif %}
+      <button data-action="open-filter-dialog" class="{% if current_subject or current_grade or current_type %}has-filters{% endif %}" title="Filters">
+        <span class="material-symbols-outlined" style="font-size:22px">tune</span>
+      </button>
     </div>
   </div>
 
+  <!-- Active filter chips -->
+  {% if current_subject or current_grade or current_type %}
+  <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;">
+    {% if current_subject %}
+    <a href="{% url 'web:search' %}?q={{ query }}{% if current_grade %}&grade={{ current_grade }}{% endif %}{% if current_type %}&type={{ current_type }}{% endif %}{% if tab and tab != 'all' %}&tab={{ tab }}{% endif %}" class="search-filter-chip">
+      {{ current_subject }} <span class="material-symbols-outlined">close</span>
+    </a>
+    {% endif %}
+    {% if current_grade %}
+    <a href="{% url 'web:search' %}?q={{ query }}{% if current_subject %}&subject={{ current_subject }}{% endif %}{% if current_type %}&type={{ current_type }}{% endif %}{% if tab and tab != 'all' %}&tab={{ tab }}{% endif %}" class="search-filter-chip">
+      {{ current_grade }} <span class="material-symbols-outlined">close</span>
+    </a>
+    {% endif %}
+    {% if current_type %}
+    <a href="{% url 'web:search' %}?q={{ query }}{% if current_subject %}&subject={{ current_subject }}{% endif %}{% if current_grade %}&grade={{ current_grade }}{% endif %}{% if tab and tab != 'all' %}&tab={{ tab }}{% endif %}" class="search-filter-chip">
+      {{ current_type }} <span class="material-symbols-outlined">close</span>
+    </a>
+    {% endif %}
+    <a href="{% url 'web:search' %}?q={{ query }}{% if tab and tab != 'all' %}&tab={{ tab }}{% endif %}" style="font-size:0.75rem;color:var(--md-primary);text-decoration:none;align-self:center;">Clear all</a>
+  </div>
+  {% endif %}
 
+  <!-- Filter dialog -->
+  <div id="filter-dialog" class="filter-overlay" style="display:none;" data-action="close-filter-dialog">
+    <div class="filter-dialog">
+      <h3>Filters</h3>
+      <div class="filter-dialog-scroll">
+      {% if tab == 'users' %}
+        <p style="color:var(--md-on-surface-variant);font-size:0.875rem;text-align:center;padding:24px 8px;margin:0;">Filters don't apply to user search.</p>
+      {% else %}
+        {% if all_subjects %}
+        <div class="filter-section">
+          <div class="filter-section-label">Subject</div>
+          <div class="chip-group" id="filter-subjects">
+            {% for s in all_subjects %}
+            <button type="button" class="filter-chip-select {% if s == current_subject %}selected{% endif %}" data-value="{{ s }}" data-action="toggle-search-filter">{{ s }}</button>
+            {% endfor %}
+          </div>
+        </div>
+        {% endif %}
+
+        {% if all_grades %}
+        <div class="filter-section">
+          <div class="filter-section-label">Grade</div>
+          <div class="chip-group" id="filter-grades">
+            {% for g in all_grades %}
+            <button type="button" class="filter-chip-select {% if g == current_grade %}selected{% endif %}" data-value="{{ g }}" data-action="toggle-search-filter">{{ g }}</button>
+            {% endfor %}
+          </div>
+        </div>
+        {% endif %}
+
+        {% if all_types %}
+        <div class="filter-section">
+          <div class="filter-section-label">Type</div>
+          <div class="chip-group" id="filter-types">
+            {% for t in all_types %}
+            <button type="button" class="filter-chip-select {% if t == current_type %}selected{% endif %}" data-value="{{ t }}" data-action="toggle-search-filter">{{ t }}</button>
+            {% endfor %}
+          </div>
+        </div>
+        {% endif %}
+      {% endif %}
+      </div>
+
+      <div class="filter-dialog-actions">
+        <a href="{% url 'web:search' %}?q={{ query }}{% if tab and tab != 'all' %}&tab={{ tab }}{% endif %}" class="md-btn md-btn-text" style="min-height:36px;">Clear all</a>
+        <button class="md-btn md-btn-filled" data-action="apply-search-filters" style="min-height:36px;">Apply</button>
+      </div>
+    </div>
+  </div>
 
   <!-- Search results (HTMX target) -->
   {% include "web/_search_results.html" %}
@@ -44,6 +120,22 @@
 {% block extra_js %}
 <script nonce="{{ csp_nonce }}">
   registerActions({
+    'toggle-search-filter': function(el) {
+      el.classList.toggle('selected');
+    },
+    'open-filter-dialog': function() {
+      document.getElementById('filter-dialog').style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    },
+    'close-filter-dialog': function(el, e) {
+      if (e.target === el) {
+        el.style.display = 'none';
+        document.body.style.overflow = '';
+      }
+    },
+    'apply-search-filters': function() {
+      applySearchFilters();
+    },
     'toggle-follow': async function(el) {
       if (!IS_AUTHENTICATED) { window.location.href = '{% url "web:login" %}'; return; }
       var userId = el.dataset.userId;
@@ -151,6 +243,23 @@
       } catch (e) { showSnackbar('Failed to like post'); }
     }
   });
+
+  function applySearchFilters() {
+    var params = new URLSearchParams();
+    var q = document.querySelector('.search-page-bar input[name="q"]').value.trim();
+    if (q) params.set('q', q);
+    {% if tab and tab != 'all' %}params.set('tab', '{{ tab|escapejs }}');{% endif %}
+
+    var subjectEls = document.querySelectorAll('#filter-subjects .filter-chip-select.selected');
+    if (subjectEls.length === 1) params.set('subject', subjectEls[0].dataset.value);
+    var gradeEls = document.querySelectorAll('#filter-grades .filter-chip-select.selected');
+    if (gradeEls.length === 1) params.set('grade', gradeEls[0].dataset.value);
+    var typeEls = document.querySelectorAll('#filter-types .filter-chip-select.selected');
+    if (typeEls.length === 1) params.set('type', typeEls[0].dataset.value);
+
+    var qs = params.toString();
+    window.location.href = '{% url "web:search" %}' + (qs ? '?' + qs : '');
+  }
 
   function closeAllMenus() {
     document.querySelectorAll('.more-menu').forEach(function(m) { m.style.display = 'none'; });
