@@ -34,7 +34,7 @@ from api import counters as _counters
 from api import notifications as _notif
 from api import cleanup as _cleanup
 from api import realtime as _rt
-from api.view_helpers import map_profile_grade
+from api.view_helpers import map_profile_grade, is_global_user
 from . import api_client as api
 
 logger = logging.getLogger(__name__)
