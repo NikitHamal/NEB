@@ -552,12 +552,15 @@ class AuthRepository @Inject constructor(
                                 if (bearer != null) {
                                     apiService.registerFcmToken(bearer, com.neb.ians.data.api.FcmTokenRequest(token))
                                     dataStore.edit { it[USER_FCM_TOKEN] = token }
-                            } catch (_: Exception) {}
+                                }
+                            } catch (_: Exception) {
+                            }
                         }
                     }
                 }
             }
-        } catch (_: Exception) {}
+        } catch (_: Exception) {
+        }
     }
 
     suspend fun getDeleteAccountRequestStatus(): com.neb.ians.data.api.AccountDeletionRequestResponse? {
