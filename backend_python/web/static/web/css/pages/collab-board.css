@@ -308,6 +308,9 @@
   resize: none;
   overflow: hidden;
   padding: 6px 8px;
+  user-select: text;
+  -webkit-user-select: text;
+  pointer-events: auto;
   min-width: 80px;
   min-height: 32px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
