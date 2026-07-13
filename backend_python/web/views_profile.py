@@ -249,6 +249,10 @@ def profile(request, username):
                 'sender_photo': req.sender.photo_url or '',
             })
 
+    social_links_data = []
+    if not profile_private and not profile_user.is_bot:
+        social_links_data = get_user_links(profile_user.id)
+
     return render(request, 'web/profile.html', _ctx(request,
         profile_user=profile_data,
         username=username,
@@ -263,6 +267,8 @@ def profile(request, username):
         achievement_info_json=json.dumps(profile_data.get('achievement_info', [])),
         pending_requests=pending_requests,
         pending_requests_count=pending_requests_count,
+        social_links=social_links_data,
+        social_links_json=json.dumps(social_links_data),
     ))
 
 def profile_achievements(request, username):
@@ -893,7 +899,16 @@ def edit_profile(request):
     ]
     db_subjects = _get_distinct_subjects()
     subjects = sorted(set(_default_subjects + db_subjects))
-    return render(request, 'web/edit_profile.html', _ctx(request, has_password=has_password, profile_incomplete=profile_incomplete, subjects=subjects))
+    existing_social_links = get_all_user_links(db_user.id)
+    from api.models import SOCIAL_PLATFORMS
+    return render(request, 'web/edit_profile.html', _ctx(request,
+        has_password=has_password,
+        profile_incomplete=profile_incomplete,
+        subjects=subjects,
+        existing_social_links=existing_social_links,
+        existing_social_links_json=json.dumps(existing_social_links),
+        social_platforms=SOCIAL_PLATFORMS,
+    ))
 
 
 def delete_account_page(request):
