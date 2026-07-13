@@ -1,26 +1,4 @@
 {% load web_extras %}
-<!-- Active filter chips -->
-{% if current_subjects or current_grades or current_types %}
-<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;align-items:center;">
-  {% for s in current_subjects %}
-  <a href="{% url 'web:library' %}?tab={{ current_tab }}{% for ss in current_subjects %}{% if ss != s %}&subject={{ ss|urlencode }}{% endif %}{% endfor %}{% for g in current_grades %}&grade={{ g|urlencode }}{% endfor %}{% for t in current_types %}&type={{ t|urlencode }}{% endfor %}{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}" class="search-filter-chip" hx-get="{% url 'web:library' %}?tab={{ current_tab }}{% for ss in current_subjects %}{% if ss != s %}&subject={{ ss|urlencode }}{% endif %}{% endfor %}{% for g in current_grades %}&grade={{ g|urlencode }}{% endfor %}{% for t in current_types %}&type={{ t|urlencode }}{% endfor %}{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}" hx-target="#library-main" hx-swap="innerHTML" hx-push-url="true">
-    {{ s }} <span class="material-symbols-outlined">close</span>
-  </a>
-  {% endfor %}
-  {% for g in current_grades %}
-  <a href="{% url 'web:library' %}?tab={{ current_tab }}{% for s in current_subjects %}&subject={{ s|urlencode }}{% endfor %}{% for gg in current_grades %}{% if gg != g %}&grade={{ gg|urlencode }}{% endif %}{% endfor %}{% for t in current_types %}&type={{ t|urlencode }}{% endfor %}{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}" class="search-filter-chip" hx-get="{% url 'web:library' %}?tab={{ current_tab }}{% for s in current_subjects %}&subject={{ s|urlencode }}{% endfor %}{% for gg in current_grades %}{% if gg != g %}&grade={{ gg|urlencode }}{% endif %}{% endfor %}{% for t in current_types %}&type={{ t|urlencode }}{% endfor %}{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}" hx-target="#library-main" hx-swap="innerHTML" hx-push-url="true">
-    {{ g }} <span class="material-symbols-outlined">close</span>
-  </a>
-  {% endfor %}
-  {% for t in current_types %}
-  <a href="{% url 'web:library' %}?tab={{ current_tab }}{% for s in current_subjects %}&subject={{ s|urlencode }}{% endfor %}{% for g in current_grades %}&grade={{ g|urlencode }}{% endfor %}{% for tt in current_types %}{% if tt != t %}&type={{ tt|urlencode }}{% endif %}{% endfor %}{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}" class="search-filter-chip" hx-get="{% url 'web:library' %}?tab={{ current_tab }}{% for s in current_subjects %}&subject={{ s|urlencode }}{% endfor %}{% for g in current_grades %}&grade={{ g|urlencode }}{% endfor %}{% for tt in current_types %}{% if tt != t %}&type={{ tt|urlencode }}{% endif %}{% endfor %}{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}" hx-target="#library-main" hx-swap="innerHTML" hx-push-url="true">
-    {{ t }} <span class="material-symbols-outlined">close</span>
-  </a>
-  {% endfor %}
-  <a href="{% url 'web:library' %}?tab={{ current_tab }}{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}" style="font-size:0.8125rem;color:var(--md-primary);text-decoration:none;font-weight:600;" hx-get="{% url 'web:library' %}?tab={{ current_tab }}{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}" hx-target="#library-main" hx-swap="innerHTML" hx-push-url="true">Clear all</a>
-</div>
-{% endif %}
-
 <!-- Sort bar -->
 <div class="lib-sort-bar">
   <div class="lib-count">Showing <strong>{{ page_obj.start_index }}&ndash;{{ page_obj.end_index }}</strong> of <strong>{{ page_obj.paginator.count }}</strong> resources</div>
@@ -33,7 +11,6 @@
       <option value="liked" {% if current_sort == 'liked' %}selected{% endif %}>Most Liked</option>
       <option value="oldest" {% if current_sort == 'oldest' %}selected{% endif %}>Oldest</option>
     </select>
-    <span id="sort-params" style="display:none;" data-tab="{{ current_tab }}" data-subjects="{{ current_subjects|join:',' }}" data-grades="{{ current_grades|join:',' }}" data-types="{{ current_types|join:',' }}"></span>
   </div>
 </div>
 

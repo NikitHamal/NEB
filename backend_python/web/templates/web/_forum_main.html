@@ -17,27 +17,7 @@
   </div>
 </div>
 
-<!-- Mobile Category Filters (chips scroll bar with fade overlay) -->
-{% if categories_data %}
-<div class="filter-bar-container md-hide-desktop">
-  <div class="filter-bar">
-    <a href="{% url 'web:forum' %}?sort={{ current_sort }}" class="md-chip {% if not current_category %}md-chip-active{% endif %}" hx-get="{% url 'web:forum' %}?sort={{ current_sort }}" hx-target="#forum-main" hx-swap="innerHTML" hx-push-url="true">All</a>
-    {% for c in categories_data %}
-    <a href="{% url 'web:forum' %}?sort={{ current_sort }}&category={{ c.name }}" class="md-chip {% if current_category == c.name %}md-chip-active{% endif %}" hx-get="{% url 'web:forum' %}?sort={{ current_sort }}&category={{ c.name }}" hx-target="#forum-main" hx-swap="innerHTML" hx-push-url="true">{{ c.name }}</a>
-    {% endfor %}
-  </div>
-</div>
-{% endif %}
 
-<!-- Active filter chips -->
-{% if current_category %}
-<div class="forum-active-filters">
-  <span class="search-filter-chip">
-    {{ current_category }}
-    <a href="{% url 'web:forum' %}?sort={{ current_sort }}" class="search-filter-chip-remove" hx-get="{% url 'web:forum' %}?sort={{ current_sort }}" hx-target="#forum-main" hx-swap="innerHTML" hx-push-url="true">&times;</a>
-  </span>
-</div>
-{% endif %}
 
 <!-- Dual-Column Responsive Grid Layout -->
 <div class="forum-layout">

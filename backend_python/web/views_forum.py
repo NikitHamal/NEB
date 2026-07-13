@@ -16,6 +16,33 @@ def forum(request):
     if sort not in valid_sorts:
         sort = 'hot'
 
+    # Load user profile for relevance ranking
+    user_profile = None
+    if user_id:
+        try:
+            from api.models import User as _User
+            user_profile = _User.objects.get(id=user_id)
+        except _User.DoesNotExist:
+            pass
+
+    global_user = user_profile and is_global_user(user_profile)
+
+    # Map user subjects to post categories for relevance boost
+    subject_category_map = []
+    if user_profile and not global_user and user_profile.subjects:
+        subjects_raw = [s.strip().lower() for s in user_profile.subjects.split(',') if s.strip()]
+        for s in subjects_raw:
+            if any(kw in s for kw in ['physics', 'chemistry', 'biology', 'science', 'computer', 'environment', 'geology', 'botany', 'zoology']):
+                subject_category_map.append('Science')
+            elif any(kw in s for kw in ['math', 'statistics', 'calculus', 'algebra', 'geometry']):
+                subject_category_map.append('Math')
+            elif any(kw in s for kw in ['exam', 'entrance', 'prep', 'preparation', 'test']):
+                subject_category_map.append('Exam Prep')
+                subject_category_map.append('Entrance Exams')
+            else:
+                subject_category_map.append('General')
+        subject_category_map = list(set(subject_category_map))
+
     qs = Post.objects.select_related('user').filter(is_archived=False, user__email_verified=True)
 
     if category:
@@ -28,21 +55,43 @@ def forum(request):
                 q |= Q(title__icontains=term) | Q(content__icontains=term)
             qs = qs.filter(q)
 
+    # Relevance annotation for non-global students with subjects
+    has_relevance = bool(subject_category_map)
+    if has_relevance:
+        from django.db.models import Case, When, Value, IntegerField
+        cat_q = Q()
+        for c in subject_category_map:
+            cat_q |= Q(category__iexact=c)
+        qs = qs.annotate(
+            relevance_score=Case(
+                When(cat_q, then=Value(1)),
+                default=Value(0),
+                output_field=IntegerField(),
+            )
+        )
+
     if sort == 'hot' and not search:
-        # Hot-rank a capped window of the most recent 500 posts (minimal
-        # fields), cache the ranked ID list for 60s, then paginate over the
-        # ranked IDs and fetch page objects preserving order.
+        # Home-grown hot rank, boost relevance for matching categories
         hot_cache_key = f'forum_hot_ids:{(category or "all").strip().lower()}'
         ranked_ids = cache.get(hot_cache_key)
-        if ranked_ids is None:
+        if ranked_ids is None or has_relevance:
+            # When has_relevance, don't use cache (per-user)
             window = list(
                 qs.select_related(None).order_by('-created_at')
-                .only('id', 'created_at', 'thumbs_up_count', 'reply_count', 'view_count')[:500]
+                .only('id', 'created_at', 'thumbs_up_count', 'reply_count', 'view_count', 'category')[:500]
             )
             _now = now_ms()
-            window.sort(key=lambda p: _compute_hot_score(p, _now), reverse=True)
+            if has_relevance:
+                def _combined_score(p):
+                    hot = _compute_hot_score(p, _now)
+                    rel = getattr(p, 'relevance_score', 0) or 0
+                    return hot + (rel * 50)  # relevance boost of up to 50 points
+                window.sort(key=_combined_score, reverse=True)
+            else:
+                window.sort(key=lambda p: _compute_hot_score(p, _now), reverse=True)
             ranked_ids = [p.id for p in window]
-            cache.set(hot_cache_key, ranked_ids, 60)
+            if not has_relevance:
+                cache.set(hot_cache_key, ranked_ids, 60)
 
         paginator = Paginator(ranked_ids, 20)
         try:
@@ -56,14 +105,24 @@ def forum(request):
         posts_qs = [posts_by_id[pid] for pid in page_ids if pid in posts_by_id]
         posts = _serialize_posts(posts_qs, user_id)
     else:
-        if sort == 'new':
-            qs = qs.order_by('-created_at')
-        elif sort == 'top':
-            qs = qs.order_by('-thumbs_up_count', '-created_at')
-        elif sort == 'discussed':
-            qs = qs.order_by('-reply_count', '-created_at')
+        if has_relevance:
+            if sort == 'new':
+                qs = qs.order_by('-relevance_score', '-created_at')
+            elif sort == 'top':
+                qs = qs.order_by('-relevance_score', '-thumbs_up_count', '-created_at')
+            elif sort == 'discussed':
+                qs = qs.order_by('-relevance_score', '-reply_count', '-created_at')
+            else:
+                qs = qs.order_by('-relevance_score', '-created_at')
         else:
-            qs = qs.order_by('-created_at')
+            if sort == 'new':
+                qs = qs.order_by('-created_at')
+            elif sort == 'top':
+                qs = qs.order_by('-thumbs_up_count', '-created_at')
+            elif sort == 'discussed':
+                qs = qs.order_by('-reply_count', '-created_at')
+            else:
+                qs = qs.order_by('-created_at')
 
         paginator = Paginator(qs, 20)
         try:
@@ -77,7 +136,15 @@ def forum(request):
         if sort == 'hot' and posts_qs:
             _now = now_ms()
             scored = list(zip(posts_qs, posts))
-            scored.sort(key=lambda x: _compute_hot_score(x[0], _now), reverse=True)
+            if has_relevance:
+                def _combined_score_post(pair):
+                    p = pair[0]
+                    hot = _compute_hot_score(p, _now)
+                    rel = getattr(p, 'relevance_score', 0) or 0
+                    return hot + (rel * 50)
+                scored.sort(key=_combined_score_post, reverse=True)
+            else:
+                scored.sort(key=lambda x: _compute_hot_score(x[0], _now), reverse=True)
             posts = [s[1] for s in scored]
 
     category_counts = dict(

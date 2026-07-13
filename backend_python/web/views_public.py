@@ -91,7 +91,7 @@ def home(request):
         return _math.log2(max(engagement, 1)) - age_hours / 168.0
     all_posts.sort(key=_post_hot, reverse=True)
 
-    if user_profile and (user_profile.class_level or user_profile.subjects):
+    if user_profile and not is_global_user(user_profile) and (user_profile.class_level or user_profile.subjects):
         grade_pref = (user_profile.class_level or '').strip().lower()
         subject_prefs = [s.strip().lower() for s in (user_profile.subjects or '').split(',') if s.strip()]
         
@@ -173,15 +173,6 @@ def library(request):
     subjects = [s.strip() for s in request.GET.getlist('subject') if s.strip()]
     grades = [g.strip() for g in request.GET.getlist('grade') if g.strip()]
 
-    # Auto-filter by profile if visiting the Library page directly (no parameters)
-    if not request.GET and user_profile:
-        mapped_grade = map_profile_grade(user_profile.class_level)
-        if mapped_grade:
-            grades = [mapped_grade]
-        profile_subjects = [s.strip() for s in (user_profile.subjects or '').split(',') if s.strip()]
-        if profile_subjects:
-            subjects = profile_subjects
-
     types = [t.strip() for t in request.GET.getlist('type') if t.strip()]
     faculties = [f.strip() for f in request.GET.getlist('faculty') if f.strip()]
     exam_types = [e.strip() for e in request.GET.getlist('exam_type') if e.strip()]
@@ -237,10 +228,12 @@ def library(request):
             except User.DoesNotExist:
                 pass
 
-        if user_profile and (user_profile.class_level or user_profile.subjects):
+        global_user = user_profile and is_global_user(user_profile)
+
+        if user_profile and not global_user and (user_profile.class_level or user_profile.subjects):
             grade_pref = user_profile.class_level
             subject_prefs = [s.strip().lower() for s in (user_profile.subjects or '').split(',') if s.strip()]
-            
+
             grade_match = Q(grade_level__iexact=grade_pref) if grade_pref else Q(pk__in=[])
             subject_match = Q(pk__in=[])
             if subject_prefs:
@@ -248,7 +241,7 @@ def library(request):
                 for s in subject_prefs:
                     q_subj |= Q(subject__icontains=s)
                 subject_match = q_subj
-                
+
             from django.db.models import Case, When, Value, IntegerField
             qs = qs.annotate(
                 relevance_score=Case(
@@ -403,11 +396,6 @@ def search(request):
     grade = request.GET.get('grade', '')
     rtype = request.GET.get('type', '')
 
-    # Auto-filter search by user profile class level if not overridden/cleared
-    if user_profile and not request.GET.get('subject') and not request.GET.get('grade') and not request.GET.get('clear'):
-        mapped_grade = map_profile_grade(user_profile.class_level)
-        if mapped_grade:
-            grade = mapped_grade
     resource_results = []
     post_results = []
     user_results = []
