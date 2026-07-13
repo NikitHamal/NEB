@@ -111,7 +111,6 @@ def auth_github(request):
             'user': UserSerializer(linked).data
         })
 
-    auth_token = User.generate_token()
     temp_username = f"github_{github_id[:8]}"
     base_username = temp_username
     suffix = 1
@@ -126,8 +125,8 @@ def auth_github(request):
         photo_url=photo_url,
         created_at=_now_ms()
     )
-    user.auth_token = hash_auth_token(auth_token)
     user.save()
+    auth_token = issue_auth_token(user)
     logger.info('auth_github: new user created: %s', user_pk)
     return Response({
         'status': 'success',
@@ -176,7 +175,6 @@ def auth_google(request):
         })
     except User.DoesNotExist:
         # New user — create with auth token, temporary username placeholder
-        auth_token = User.generate_token()
         temp_username = f"user_{user_id[:8]}"
         user = User(
             pk=user_id,
@@ -187,8 +185,8 @@ def auth_google(request):
             email_verified=True,
             created_at=_now_ms()
         )
-        user.auth_token = hash_auth_token(auth_token)
         user.save()
+        auth_token = issue_auth_token(user)
         logger.info("auth_google: new user created: %s (temp_username=%s)", user_id, temp_username)
         return Response({
             'status': 'success',
