@@ -48,7 +48,7 @@
 
 {% block content %}
 <div class="md-container">
-  <!-- Header + Filter button -->
+  <!-- Header + Upload button -->
   <div class="lib-header-row" style="margin-bottom: 12px;">
     <h1 class="md-headline-medium">Digital Library</h1>
     {% if current_tab != 'interactive' %}
@@ -57,26 +57,19 @@
         <span class="material-symbols-outlined" style="font-size:20px">upload</span>
         <span class="md-btn-text-responsive">Upload</span>
       </a>
-      <button data-action="open-filter-dialog" class="md-btn md-btn-outlined">
-        <span class="material-symbols-outlined" style="font-size:20px">tune</span>
-        <span class="md-btn-text-responsive">Filters</span>
-        {% if current_subjects or current_grades or current_types %}
-        <span class="filter-dot"></span>
-        {% endif %}
-      </button>
     </div>
     {% endif %}
   </div>
 
   <!-- Navigation Tabs -->
   <div class="subj-tabs" style="margin-bottom: 20px;">
-    <a href="?tab=digital{% for s in current_subjects %}&subject={{ s|urlencode }}{% endfor %}{% for g in current_grades %}&grade={{ g|urlencode }}{% endfor %}{% for t in current_types %}&type={{ t|urlencode }}{% endfor %}{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}" class="subj-tab-btn {% if current_tab == 'digital' %}active{% endif %}">
+    <a href="?tab=digital{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}" class="subj-tab-btn {% if current_tab == 'digital' %}active{% endif %}">
       Library
     </a>
-    <a href="?tab=categories{% for s in current_subjects %}&subject={{ s|urlencode }}{% endfor %}{% for g in current_grades %}&grade={{ g|urlencode }}{% endfor %}{% for t in current_types %}&type={{ t|urlencode }}{% endfor %}{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}" class="subj-tab-btn {% if current_tab == 'categories' %}active{% endif %}">
+    <a href="?tab=categories{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}" class="subj-tab-btn {% if current_tab == 'categories' %}active{% endif %}">
       Syllabus
     </a>
-    <a href="?tab=interactive{% for s in current_subjects %}&subject={{ s|urlencode }}{% endfor %}{% for g in current_grades %}&grade={{ g|urlencode }}{% endfor %}{% for t in current_types %}&type={{ t|urlencode }}{% endfor %}{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}" class="subj-tab-btn ix-tab-btn {% if current_tab == 'interactive' %}active{% endif %}">
+    <a href="?tab=interactive{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}" class="subj-tab-btn ix-tab-btn {% if current_tab == 'interactive' %}active{% endif %}">
       Interactive
     </a>
   </div>
@@ -159,62 +152,7 @@
 </div>
 </div>
 
-<!-- Filter Dialog -->
-<div id="filter-dialog" class="filter-overlay" style="display:none;" data-action="close-filter-dialog">
-  <div class="filter-dialog">
-    <h3>Filters</h3>
-    <div class="filter-dialog-scroll">
 
-    {% if all_grades %}
-    <div class="filter-section">
-      <div class="filter-section-label">Grade</div>
-      <div class="chip-group" id="filter-grades">
-        {% for g in all_grades %}
-        <button type="button" class="filter-chip-select {% if g in current_grades %}selected{% endif %}" data-value="{{ g }}" data-action="toggle-filter-chip">
-          <span class="material-symbols-outlined check-icon">check</span>
-          {{ g }}
-        </button>
-        {% endfor %}
-      </div>
-    </div>
-    {% endif %}
-
-    {% if all_subjects %}
-    <div class="filter-section">
-      <div class="filter-section-label">Subject</div>
-      <div class="chip-group" id="filter-subjects">
-        {% for s in all_subjects %}
-        <button type="button" class="filter-chip-select {% if s in current_subjects %}selected{% endif %}" data-value="{{ s }}" data-action="toggle-filter-chip">
-          <span class="material-symbols-outlined check-icon">check</span>
-          {{ s }}
-        </button>
-        {% endfor %}
-      </div>
-    </div>
-    {% endif %}
-
-    {% if all_types %}
-    <div class="filter-section">
-      <div class="filter-section-label">Type</div>
-      <div class="chip-group" id="filter-types">
-        {% for t in all_types %}
-        <button type="button" class="filter-chip-select {% if t in current_types %}selected{% endif %}" data-value="{{ t }}" data-action="toggle-filter-chip">
-          <span class="material-symbols-outlined check-icon">check</span>
-          {{ t }}
-        </button>
-        {% endfor %}
-      </div>
-    </div>
-    {% endif %}
-
-    </div>
-
-    <div class="filter-dialog-actions">
-      <a href="{% url 'web:library' %}{% if current_sort and current_sort != 'relevant' %}?sort={{ current_sort }}{% endif %}" class="md-btn md-btn-text" style="min-height:36px;">Clear all</a>
-      <button class="md-btn md-btn-filled" data-action="apply-filters" style="min-height:36px;">Apply</button>
-    </div>
-  </div>
-</div>
 {% endblock %}
 
 {% block extra_js %}
@@ -232,47 +170,12 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 
-function openFilterDialog() {
-  document.getElementById('filter-dialog').style.display = 'flex';
-  document.body.style.overflow = 'hidden';
-}
-
-function applyFilters() {
-  var params = new URLSearchParams();
-  params.set('tab', '{{ current_tab }}');
-  {% if current_sort and current_sort != 'relevant' %}params.set('sort', '{{ current_sort }}');{% endif %}
-
-  document.querySelectorAll('#filter-subjects .filter-chip-select.selected').forEach(function(el) {
-    params.append('subject', el.dataset.value);
-  });
-  document.querySelectorAll('#filter-grades .filter-chip-select.selected').forEach(function(el) {
-    params.append('grade', el.dataset.value);
-  });
-  document.querySelectorAll('#filter-types .filter-chip-select.selected').forEach(function(el) {
-    params.append('type', el.dataset.value);
-  });
-
-  var qs = params.toString();
-  var url = '{% url "web:library" %}' + (qs ? '?' + qs : '');
-  htmx.ajax('GET', url, '#library-main', {swap: 'innerHTML'});
-  history.pushState({}, '', url);
-  document.getElementById('filter-dialog').style.display = 'none';
-  document.body.style.overflow = '';
-}
-
 registerActions({
-  'open-filter-dialog': function() { openFilterDialog(); },
-  'close-filter-dialog': function(el, e) { if (e.target === el) { el.style.display = 'none'; document.body.style.overflow = ''; } },
-  'toggle-filter-chip': function(el) { el.classList.toggle('selected'); },
-  'apply-filters': function() { applyFilters(); },
   'navigate-sort': function(el) {
     var sortVal = el.value;
     var params = new URLSearchParams();
     params.set('tab', '{{ current_tab }}');
     params.set('sort', sortVal);
-    {% for s in current_subjects %}params.append('subject', '{{ s }}');{% endfor %}
-    {% for g in current_grades %}params.append('grade', '{{ g }}');{% endfor %}
-    {% for t in current_types %}params.append('type', '{{ t }}');{% endfor %}
     var qs = params.toString();
     var url = '{% url "web:library" %}?' + qs;
     htmx.ajax('GET', url, '#library-main', {swap: 'innerHTML'});
