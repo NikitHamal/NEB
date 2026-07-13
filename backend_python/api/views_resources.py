@@ -20,10 +20,6 @@ def resources_list(request):
     sort = (request.query_params.get('sort') or 'relevant').strip().lower()
 
     user = request.user
-    if user and user.is_authenticated and not subject and not grade and not request.query_params.get('clear'):
-        mapped_grade = map_profile_grade(user.class_level)
-        if mapped_grade:
-            grade = mapped_grade
 
     if subject:
         resources = resources.filter(subject__iexact=subject)
@@ -40,7 +36,7 @@ def resources_list(request):
         )
 
     user = request.user
-    if user and user.is_authenticated:
+    if user and user.is_authenticated and not is_global_user(user):
         grade_pref = user.class_level
         subject_prefs = [s.strip().lower() for s in (user.subjects or '').split(',') if s.strip()]
         

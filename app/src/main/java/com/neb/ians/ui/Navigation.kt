@@ -113,7 +113,6 @@ import com.neb.ians.ui.screens.results.ResultCheckerScreen
 import com.neb.ians.ui.screens.results.ToolsScreen
 import com.neb.ians.ui.screens.news.NewsDetailScreen
 import com.neb.ians.ui.screens.news.NewsScreen
-import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.material.icons.outlined.Build
 
 sealed class Screen(val route: String) {
@@ -828,12 +827,6 @@ fun NEBiansNavHost(
                                     color = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
                             }
-                            Icon(
-                                imageVector = Icons.Outlined.Visibility,
-                                contentDescription = "View Profile",
-                                tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
-                                modifier = Modifier.size(20.dp)
-                            )
                         }
 
                         HorizontalDivider(

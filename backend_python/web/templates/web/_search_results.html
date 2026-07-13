@@ -3,16 +3,16 @@
   {% if query %}
   <!-- Tab switcher -->
   <div class="search-tabs" style="margin-top:16px;">
-    <a href="{% url 'web:search' %}?q={{ query }}{% if current_subject %}&subject={{ current_subject }}{% endif %}{% if current_grade %}&grade={{ current_grade }}{% endif %}{% if current_type %}&type={{ current_type }}{% endif %}" class="md-tab {% if tab == 'all' %}md-tab-active{% endif %}" hx-get="{% url 'web:search' %}?q={{ query }}{% if current_subject %}&subject={{ current_subject }}{% endif %}{% if current_grade %}&grade={{ current_grade }}{% endif %}{% if current_type %}&type={{ current_type }}{% endif %}&tab=all" hx-target="#search-results" hx-push-url="true">All</a>
-    <a href="{% url 'web:search' %}?q={{ query }}{% if current_subject %}&subject={{ current_subject }}{% endif %}{% if current_grade %}&grade={{ current_grade }}{% endif %}{% if current_type %}&type={{ current_type }}{% endif %}&tab=resources" class="md-tab {% if tab == 'resources' %}md-tab-active{% endif %}" hx-get="{% url 'web:search' %}?q={{ query }}{% if current_subject %}&subject={{ current_subject }}{% endif %}{% if current_grade %}&grade={{ current_grade }}{% endif %}{% if current_type %}&type={{ current_type }}{% endif %}&tab=resources" hx-target="#search-results" hx-push-url="true">
+    <a href="{% url 'web:search' %}?q={{ query }}" class="md-tab {% if tab == 'all' %}md-tab-active{% endif %}" hx-get="{% url 'web:search' %}?q={{ query }}&tab=all" hx-target="#search-results" hx-push-url="true">All</a>
+    <a href="{% url 'web:search' %}?q={{ query }}&tab=resources" class="md-tab {% if tab == 'resources' %}md-tab-active{% endif %}" hx-get="{% url 'web:search' %}?q={{ query }}&tab=resources" hx-target="#search-results" hx-push-url="true">
       <span class="material-symbols-outlined">auto_stories</span>
       Resources
     </a>
-    <a href="{% url 'web:search' %}?q={{ query }}{% if current_subject %}&subject={{ current_subject }}{% endif %}{% if current_grade %}&grade={{ current_grade }}{% endif %}{% if current_type %}&type={{ current_type }}{% endif %}&tab=posts" class="md-tab {% if tab == 'posts' %}md-tab-active{% endif %}" hx-get="{% url 'web:search' %}?q={{ query }}{% if current_subject %}&subject={{ current_subject }}{% endif %}{% if current_grade %}&grade={{ current_grade }}{% endif %}{% if current_type %}&type={{ current_type }}{% endif %}&tab=posts" hx-target="#search-results" hx-push-url="true">
+    <a href="{% url 'web:search' %}?q={{ query }}&tab=posts" class="md-tab {% if tab == 'posts' %}md-tab-active{% endif %}" hx-get="{% url 'web:search' %}?q={{ query }}&tab=posts" hx-target="#search-results" hx-push-url="true">
       <span class="material-symbols-outlined">forum</span>
       Posts
     </a>
-    <a href="{% url 'web:search' %}?q={{ query }}{% if current_subject %}&subject={{ current_subject }}{% endif %}{% if current_grade %}&grade={{ current_grade }}{% endif %}{% if current_type %}&type={{ current_type }}{% endif %}&tab=users" class="md-tab {% if tab == 'users' %}md-tab-active{% endif %}" hx-get="{% url 'web:search' %}?q={{ query }}{% if current_subject %}&subject={{ current_subject }}{% endif %}{% if current_grade %}&grade={{ current_grade }}{% endif %}{% if current_type %}&type={{ current_type }}{% endif %}&tab=users" hx-target="#search-results" hx-push-url="true">
+    <a href="{% url 'web:search' %}?q={{ query }}&tab=users" class="md-tab {% if tab == 'users' %}md-tab-active{% endif %}" hx-get="{% url 'web:search' %}?q={{ query }}&tab=users" hx-target="#search-results" hx-push-url="true">
       <span class="material-symbols-outlined">group</span>
       Users
     </a>
@@ -222,7 +222,7 @@
       <div class="section">
         <div class="section-header">
           <h2>Resources</h2>
-          <a href="{% url 'web:search' %}?q={{ query }}{% if current_subject %}&subject={{ current_subject }}{% endif %}{% if current_grade %}&grade={{ current_grade }}{% endif %}{% if current_type %}&type={{ current_type }}{% endif %}&tab=resources" class="md-btn md-btn-text">View all</a>
+          <a href="{% url 'web:search' %}?q={{ query }}&tab=resources" class="md-btn md-btn-text">View all</a>
         </div>
         <div class="resource-grid">
           {% for r in resource_results|slice:":6" %}
@@ -268,7 +268,7 @@
       <div class="section">
         <div class="section-header">
           <h2>Users</h2>
-          <a href="{% url 'web:search' %}?q={{ query }}{% if current_subject %}&subject={{ current_subject }}{% endif %}{% if current_grade %}&grade={{ current_grade }}{% endif %}{% if current_type %}&type={{ current_type }}{% endif %}&tab=users" class="md-btn md-btn-text">View all</a>
+          <a href="{% url 'web:search' %}?q={{ query }}&tab=users" class="md-btn md-btn-text">View all</a>
         </div>
         <div class="user-search-list">
           {% for u in user_results|slice:":6" %}
@@ -323,7 +323,7 @@
       <div class="section">
         <div class="section-header">
           <h2>Posts</h2>
-          <a href="{% url 'web:search' %}?q={{ query }}{% if current_subject %}&subject={{ current_subject }}{% endif %}{% if current_grade %}&grade={{ current_grade }}{% endif %}{% if current_type %}&type={{ current_type }}{% endif %}&tab=posts" class="md-btn md-btn-text">View all</a>
+          <a href="{% url 'web:search' %}?q={{ query }}&tab=posts" class="md-btn md-btn-text">View all</a>
         </div>
         {% for post in post_results|slice:":3" %}
         <div class="post-card" data-action="open-post" data-post-url="{% url 'web:forum_post' post_id=post.id %}" style="cursor: pointer;">

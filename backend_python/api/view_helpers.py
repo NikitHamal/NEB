@@ -375,4 +375,4 @@ def is_global_user(user):
 __all__ = [
     name for name in globals()
     if not name.startswith('__') and name not in {'annotations'}
-]
+] + ['is_global_user']
