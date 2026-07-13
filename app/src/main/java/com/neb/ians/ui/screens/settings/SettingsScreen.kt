@@ -372,25 +372,6 @@ fun SettingsScreen(
                 colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest)
             )
 
-            HorizontalDivider(
-                modifier = Modifier.padding(horizontal = 16.dp),
-                color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
-            )
-
-            ListItem(
-                headlineContent = { Text("NEBians Network", style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium) },
-                supportingContent = { Text("Collaborative resources for Nepali students", style = MaterialTheme.typography.bodySmall) },
-                leadingContent = {
-                    Icon(
-                        imageVector = Icons.Outlined.Settings,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier.size(22.dp)
-                    )
-                },
-                colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest)
-            )
-
             HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f))
 
             Spacer(modifier = Modifier.height(16.dp))

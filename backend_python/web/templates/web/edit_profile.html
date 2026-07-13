@@ -5,6 +5,44 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'web/css/pages/web-edit-profile.css' %}">
+<link rel="stylesheet" href="{% static 'web/css/app/10-social-links.css' %}?v=1.1">
+<style nonce="{{ csp_nonce }}">
+  .md-input-picker {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    border: 1px solid var(--md-outline, #79747e);
+    border-radius: 12px;
+    font-family: inherit;
+    font-size: 0.9375rem;
+    background: var(--md-surface-container-lowest, #fff);
+    color: var(--md-on-surface, #1d1b20);
+    cursor: pointer;
+    min-height: 44px;
+    box-sizing: border-box;
+    user-select: none;
+    transition: border-color 0.15s, background-color 0.15s;
+  }
+  .md-input-picker:hover {
+    border-color: var(--md-primary, #005FAF);
+    background-color: rgba(var(--md-primary-rgb, 0, 95, 175), 0.04);
+  }
+  .subject-pick-item.active {
+    background: rgba(var(--md-primary-rgb, 0, 95, 175), 0.12) !important;
+  }
+  .subject-pick-item-single {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .subject-pick-item-single:hover {
+    background: rgba(var(--md-primary-rgb, 0, 95, 175), 0.08);
+  }
+</style>
 {% endblock %}
 
 {% block content %}
@@ -161,59 +199,58 @@
       </div>
 
       <!-- Explorer fields -->
-      <div id="role-fields-explorer" class="role-fields" style="{% if user.role == 'explorer' %}{% else %}display:none;{% endif %}">
-        <div class="form-group" style="padding: 12px 14px; border-radius: 12px; background: var(--md-surface-container-low, #f8f7fc); border: 1px dashed var(--md-outline, #79747e); color: var(--md-on-surface-variant, #49454f); font-size: 0.875rem; display: flex; gap: 10px; align-items: flex-start;">
-          <span class="material-symbols-outlined" style="font-size:20px;color:var(--md-tertiary,#7d5260);">travel_explore</span>
-          <span>You're exploring NEBians for now. You can update your role to Student, Teacher, or Institution anytime from this page.</span>
-        </div>
-      </div>
+      <div id="role-fields-explorer" class="role-fields" style="display:none;"></div>
 
       <div class="form-row">
         <div class="form-group">
-          <label class="md-label" for="class_level">Class / Level</label>
-          <select id="class_level" name="class_level" class="md-select">
-            <option value="">Select class</option>
-            <option value="Class 8" {% if user.class_level == 'Class 8' %}selected{% endif %}>Class 8</option>
-            <option value="Class 9" {% if user.class_level == 'Class 9' %}selected{% endif %}>Class 9</option>
-            <option value="Class 10 / SEE" {% if user.class_level == 'Class 10 / SEE' %}selected{% endif %}>Class 10 / SEE</option>
-            <option value="11" {% if user.class_level == '11' %}selected{% endif %}>Class 11</option>
-            <option value="12" {% if user.class_level == '12' %}selected{% endif %}>Class 12</option>
-            <option value="+2 Passout" {% if user.class_level == '+2 Passout' %}selected{% endif %}>+2 Passout</option>
-            <option value="Diploma" {% if user.class_level == 'Diploma' %}selected{% endif %}>Diploma</option>
-            <option value="Bachelors" {% if user.class_level == 'Bachelors' %}selected{% endif %}>Bachelors</option>
-            <option value="Masters" {% if user.class_level == 'Masters' %}selected{% endif %}>Masters</option>
-            <option value="PhD" {% if user.class_level == 'PhD' %}selected{% endif %}>PhD</option>
-            <option value="Other" {% if user.class_level == 'Other' %}selected{% endif %}>Other</option>
-          </select>
+          <label class="md-label" id="class-label-el">Class / Level</label>
+          <div class="md-input-picker" id="class_level_picker_trigger">
+            <span id="class_level_selected_text">
+              {% if user.class_level %}
+                {% if user.class_level == '11' %}Class 11
+                {% elif user.class_level == '12' %}Class 12
+                {% else %}{{ user.class_level }}{% endif %}
+              {% else %}Select class{% endif %}
+            </span>
+            <span class="material-symbols-outlined">arrow_drop_down</span>
+          </div>
+          <input type="hidden" id="class_level" name="class_level" value="{{ user.class_level|default:'' }}">
         </div>
         <div class="form-group" id="province-district-group">
-          <label class="md-label" for="pradesh">Province</label>
-          <select id="pradesh" name="pradesh" class="md-select">
-            <option value="">Select</option>
-            <option value="1" {% if user.pradesh == '1' %}selected{% endif %}>Koshi</option>
-            <option value="2" {% if user.pradesh == '2' %}selected{% endif %}>Madhesh</option>
-            <option value="3" {% if user.pradesh == '3' %}selected{% endif %}>Bagmati</option>
-            <option value="4" {% if user.pradesh == '4' %}selected{% endif %}>Gandaki</option>
-            <option value="5" {% if user.pradesh == '5' %}selected{% endif %}>Lumbini</option>
-            <option value="6" {% if user.pradesh == '6' %}selected{% endif %}>Karnali</option>
-            <option value="7" {% if user.pradesh == '7' %}selected{% endif %}>Sudurpashchim</option>
-          </select>
+          <label class="md-label">Province</label>
+          <div class="md-input-picker" id="pradesh_picker_trigger">
+            <span id="pradesh_selected_text">
+              {% if user.pradesh == '1' %}Koshi
+              {% elif user.pradesh == '2' %}Madhesh
+              {% elif user.pradesh == '3' %}Bagmati
+              {% elif user.pradesh == '4' %}Gandaki
+              {% elif user.pradesh == '5' %}Lumbini
+              {% elif user.pradesh == '6' %}Karnali
+              {% elif user.pradesh == '7' %}Sudurpashchim
+              {% else %}Select province{% endif %}
+            </span>
+            <span class="material-symbols-outlined">arrow_drop_down</span>
+          </div>
+          <input type="hidden" id="pradesh" name="pradesh" value="{{ user.pradesh|default:'' }}">
         </div>
       </div>
 
       <div class="form-group">
-        <label class="md-label" for="district">District</label>
-        <select id="district" name="district" class="md-select">
-          <option value="">Select district</option>
-          {% for d in nepal_districts %}
-          <option value="{{ d }}" {% if user.district == d %}selected{% endif %}>{{ d }}</option>
-          {% endfor %}
-        </select>
+        <label class="md-label">District</label>
+        <div class="md-input-picker" id="district_picker_trigger">
+          <span id="district_selected_text">{{ user.district|default:'Select district' }}</span>
+          <span class="material-symbols-outlined">arrow_drop_down</span>
+        </div>
+        <input type="hidden" id="district" name="district" value="{{ user.district|default:'' }}">
       </div>
 
       <div class="form-group">
-        <label class="md-label" for="school" id="school-label">School/College</label>
-        <input type="text" id="school" name="school" class="md-input" value="{{ user.school|default:'' }}" placeholder="Your school or college name">
+        <label class="md-label" id="school-label">School/College</label>
+        <div class="md-input-picker" id="school_picker_trigger">
+          <span id="school_selected_text">{{ user.school|default:'Select school/college' }}</span>
+          <span class="material-symbols-outlined">arrow_drop_down</span>
+        </div>
+        <input type="hidden" id="school" name="school" value="{{ user.school|default:'' }}">
       </div>
 
       <div class="form-group" style="display:flex;align-items:center;gap:12px;">
@@ -224,11 +261,78 @@
         <label for="is_locked" class="md-label" style="margin-bottom:0;">Lock Profile (private)</label>
       </div>
 
+      <!-- Social Media Links Section -->
+      <div class="md-card p-3" style="margin-top:16px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+          <h3 style="margin:0;font-size:1rem;font-weight:600;display:flex;align-items:center;gap:8px;">
+            <span class="material-symbols-outlined" style="font-size:20px;">link</span>
+            Social Media Links
+          </h3>
+          <button type="button" class="md-btn md-btn-tonal md-btn-small" id="add-social-link-btn" data-action="open-social-link-dialog">
+            <span class="material-symbols-outlined">add</span>
+            Add Link
+          </button>
+        </div>
+        <div id="social-links-container">
+          <div id="social-links-list" style="display:flex;flex-direction:column;gap:8px;"></div>
+          <div id="social-links-empty" style="text-align:center;padding:24px 16px;color:var(--md-on-surface-variant);font-size:0.875rem;">
+            <span class="material-symbols-outlined" style="font-size:32px;opacity:0.4;display:block;margin-bottom:8px;">link_off</span>
+            No social media links yet. Add your Instagram, YouTube, GitHub, or any website.
+          </div>
+        </div>
+      </div>
+
       <div class="form-actions">
         <button type="submit" class="md-btn md-btn-filled">Save Profile</button>
         <a href="{% url 'web:home' %}" class="md-btn md-btn-text">Cancel</a>
       </div>
     </form>
+  </div>
+</div>
+
+<!-- Social Links Dialog Overlay -->
+<div class="social-link-overlay" id="social-link-overlay" style="display:none">
+  <div class="social-link-dialog">
+    <div class="social-link-dialog-header">
+      <h3 id="social-link-dialog-title">Add Social Link</h3>
+      <button type="button" class="social-link-dialog-close" id="social-link-dialog-close">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+    <div class="social-link-dialog-body">
+      <div class="form-group">
+        <label class="md-label" for="social-link-platform">Platform</label>
+        <select id="social-link-platform" class="md-select">
+          <option value="instagram">Instagram</option>
+          <option value="facebook">Facebook</option>
+          <option value="twitter">X (Twitter)</option>
+          <option value="youtube">YouTube</option>
+          <option value="tiktok">TikTok</option>
+          <option value="linkedin">LinkedIn</option>
+          <option value="github">GitHub</option>
+          <option value="telegram">Telegram</option>
+          <option value="whatsapp">WhatsApp</option>
+          <option value="discord">Discord</option>
+          <option value="snapchat">Snapchat</option>
+          <option value="pinterest">Pinterest</option>
+          <option value="reddit">Reddit</option>
+          <option value="website" selected>Website / Custom</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="md-label" for="social-link-url" id="social-link-url-label">Username or Link</label>
+        <input type="text" id="social-link-url" class="md-input" placeholder="e.g. username or https://..." autocomplete="off">
+        <span id="social-link-url-hint" style="font-weight:400;opacity:0.7;font-size:0.8125rem;margin-top:4px;display:block;color:var(--md-on-surface-variant);"></span>
+      </div>
+      <div class="form-group" id="social-link-label-group" style="display:none;">
+        <label class="md-label" for="social-link-label">Label (optional)</label>
+        <input type="text" id="social-link-label" class="md-input" placeholder="e.g. My Portfolio" maxlength="100">
+      </div>
+    </div>
+    <div class="social-link-dialog-footer">
+      <button type="button" class="md-btn md-btn-text" id="social-link-cancel">Cancel</button>
+      <button type="button" class="md-btn md-btn-filled" id="social-link-save">Save</button>
+    </div>
   </div>
 </div>
 
@@ -268,10 +372,40 @@
     </div>
   </div>
 </div>
+
+<div class="subject-pick-overlay" id="generic-picker-overlay" style="display:none">
+  <div class="subject-pick-dialog">
+    <div class="subject-pick-header">
+      <h3 id="generic-picker-title">Select Option</h3>
+      <button type="button" class="subject-pick-close" id="generic-picker-close">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+    <div class="subject-pick-search" id="generic-picker-search-container">
+      <span class="material-symbols-outlined">search</span>
+      <input type="text" id="generic-picker-search" placeholder="Search..." autocomplete="off">
+    </div>
+    <div class="subject-pick-list" id="generic-picker-list">
+      <!-- Options dynamically populated by JS -->
+    </div>
+    <div class="subject-pick-add" id="generic-picker-add-container" style="display:none; padding: 12px 16px; border-top: 1px solid var(--md-outline-variant); gap: 8px; align-items: center;">
+      <input type="text" id="generic-picker-custom" placeholder="Add custom value..." autocomplete="off" style="flex: 1;" class="md-input">
+      <button type="button" class="md-btn md-btn-tonal" id="generic-picker-add-btn" style="flex-shrink:0;">
+        <span class="material-symbols-outlined">add</span>
+        Add
+      </button>
+    </div>
+    <div class="subject-pick-actions">
+      <button type="button" class="md-btn md-btn-text" id="generic-picker-cancel">Cancel</button>
+    </div>
+  </div>
+</div>
 {% endblock %}
 
 {% block extra_js %}
 <script nonce="{{ csp_nonce }}">
+var existingSocialLinks = {{ existing_social_links_json|safe }};
+
 function handleEditPhotoUpload(event) {
   var file = event.target.files[0];
   if (!file) return;
@@ -624,12 +758,217 @@ var teachingSubjectPicker = (function() {
   } catch(e) { console.error('teachingSubjectPicker error:', e); return { addItem: function(){}, removeItem: function(){} }; }
 })();
 
+// ===== Social Links Management =====
+(function() {
+  var overlay = document.getElementById('social-link-overlay');
+  var platformSelect = document.getElementById('social-link-platform');
+  var urlInput = document.getElementById('social-link-url');
+  var labelInput = document.getElementById('social-link-label');
+  var labelGroup = document.getElementById('social-link-label-group');
+  var urlHint = document.getElementById('social-link-url-hint');
+  var dialogTitle = document.getElementById('social-link-dialog-title');
+  var linksList = document.getElementById('social-links-list');
+  var linksEmpty = document.getElementById('social-links-empty');
+  var editingLinkId = null;
+  var currentLinks = [];
+
+  var platformPrompts = {
+    instagram: { label: 'Username or Link', placeholder: 'e.g. username or https://...', hint: 'We will automatically format this into an Instagram profile link.' },
+    facebook: { label: 'Username or Link', placeholder: 'e.g. username or https://...', hint: 'We will format this into a Facebook profile link.' },
+    twitter: { label: 'Username or Link', placeholder: 'e.g. username or https://...', hint: 'X (Twitter) handle or full URL.' },
+    youtube: { label: 'Channel Username or Link', placeholder: 'e.g. channel_name or https://...', hint: 'YouTube username or channel URL.' },
+    tiktok: { label: 'Username or Link', placeholder: 'e.g. username or https://...', hint: 'TikTok username or profile URL.' },
+    linkedin: { label: 'Username or Link', placeholder: 'e.g. username or https://...', hint: 'LinkedIn profile link or username.' },
+    github: { label: 'Username or Link', placeholder: 'e.g. username or https://...', hint: 'GitHub username or link.' },
+    telegram: { label: 'Username or Link', placeholder: 'e.g. username or https://...', hint: 'Telegram username or link.' },
+    whatsapp: { label: 'Phone Number or Link', placeholder: 'e.g. 98XXXXXXXX or https://...', hint: 'WhatsApp phone number or direct chat link.' },
+    snapchat: { label: 'Username or Link', placeholder: 'e.g. username or https://...', hint: 'Snapchat username or link.' },
+    pinterest: { label: 'Username or Link', placeholder: 'e.g. username or https://...', hint: 'Pinterest username or link.' },
+    reddit: { label: 'Username or Link', placeholder: 'e.g. username or https://...', hint: 'Reddit username or link.' },
+    website: { label: 'Website URL', placeholder: 'e.g. https://mywebsite.com', hint: 'Enter your full custom website URL.' }
+  };
+
+  function updatePlatformHint() {
+    var p = platformSelect.value;
+    var prompt = platformPrompts[p] || platformPrompts.website;
+    
+    document.getElementById('social-link-url-label').textContent = prompt.label;
+    urlInput.placeholder = prompt.placeholder;
+    urlHint.textContent = prompt.hint;
+    labelGroup.style.display = (p === 'website') ? '' : 'none';
+  }
+
+  platformSelect.addEventListener('change', updatePlatformHint);
+
+  function renderLinks() {
+    linksList.innerHTML = '';
+    if (currentLinks.length === 0) {
+      linksEmpty.style.display = '';
+      return;
+    }
+    linksEmpty.style.display = 'none';
+    currentLinks.forEach(function(link, idx) {
+      var item = document.createElement('div');
+      item.className = 'social-link-item platform-' + link.icon;
+      item.setAttribute('data-link-id', link.id);
+      var iconBg = link.color || '#1B6EF3';
+      var onColor = (link.color === '#FFFC00') ? '#000' : '#fff';
+      
+      var innerIcon = '';
+      if (link.platform === 'website') {
+        var domain = '';
+        try {
+          var parsed = new URL(link.url);
+          domain = parsed.hostname;
+        } catch(e) {
+          var match = link.url.match(/^(?:https?:\/\/)?(?:www\.)?([^\/]+)/i);
+          domain = match ? match[1] : '';
+        }
+        if (domain && domain.toLowerCase().indexOf('www.') === 0) {
+          domain = domain.substring(4);
+        }
+        innerIcon = '<img src="https://www.google.com/s2/favicons?domain=' + encodeURIComponent(domain) + '&sz=32" style="width:18px;height:18px;object-fit:contain;border-radius:2px;" alt="" onerror="this.style.display=\'none\'; if(this.nextElementSibling) this.nextElementSibling.style.display=\'inline-block\';">' +
+                    '<span class="material-symbols-outlined" style="display:none;font-size:18px !important;">language</span>';
+      } else {
+        innerIcon = '<span class="material-symbols-outlined">' + link.icon + '</span>';
+      }
+
+      item.innerHTML =
+        '<div class="social-link-icon platform-' + link.icon + '" style="background:' + iconBg + ';color:' + onColor + '">' +
+          innerIcon +
+        '</div>' +
+        '<div class="social-link-info">' +
+          '<div class="social-link-label">' + escapeHtml(link.platform_label) + '</div>' +
+          '<a href="' + safeClientUrl(link.url) + '" target="_blank" rel="noopener noreferrer" class="social-link-url">' + escapeHtml(link.url) + '</a>' +
+        '</div>' +
+        '<div class="social-link-actions">' +
+          '<button type="button" class="social-link-move-handle" title="Drag to reorder"><span class="material-symbols-outlined">drag_indicator</span></button>' +
+          '<button type="button" class="social-link-edit-btn" data-link-id="' + link.id + '" title="Edit"><span class="material-symbols-outlined">edit</span></button>' +
+          '<button type="button" class="social-link-delete-btn" data-link-id="' + link.id + '" title="Delete"><span class="material-symbols-outlined">delete</span></button>' +
+        '</div>';
+      linksList.appendChild(item);
+    });
+    // Attach event listeners
+    linksList.querySelectorAll('.social-link-edit-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() { openEditDialog(this.getAttribute('data-link-id')); });
+    });
+    linksList.querySelectorAll('.social-link-delete-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() { confirmDelete(this.getAttribute('data-link-id')); });
+    });
+  }
+
+  function openAddDialog() {
+    editingLinkId = null;
+    dialogTitle.textContent = 'Add Social Link';
+    platformSelect.value = 'website';
+    urlInput.value = '';
+    labelInput.value = '';
+    updatePlatformHint();
+    overlay.style.display = '';
+    document.body.style.overflow = 'hidden';
+    urlInput.focus();
+  }
+
+  function openEditDialog(linkId) {
+    var link = currentLinks.find(function(l) { return l.id === linkId; });
+    if (!link) return;
+    editingLinkId = linkId;
+    dialogTitle.textContent = 'Edit Social Link';
+    platformSelect.value = link.platform;
+    urlInput.value = link.url;
+    labelInput.value = link.label || '';
+    updatePlatformHint();
+    overlay.style.display = '';
+    document.body.style.overflow = 'hidden';
+    urlInput.focus();
+  }
+
+  function closeDialog() {
+    overlay.style.display = 'none';
+    document.body.style.overflow = '';
+    editingLinkId = null;
+  }
+
+  function saveLink() {
+    var platform = platformSelect.value;
+    var url = urlInput.value.trim();
+    var label = labelInput.value.trim();
+    if (!url) {
+      showSnackbar('Please enter a URL');
+      urlInput.focus();
+      return;
+    }
+    var payload = { platform: platform, url: url, label: label };
+    var urlPath = editingLinkId
+      ? '/ajax/social-links/' + editingLinkId + '/update/'
+      : '/ajax/social-links/create/';
+    fetch(urlPath, {
+      method: 'POST',
+      headers: {
+        'X-CSRFToken': CSRF_TOKEN,
+        'Content-Type': 'application/json'
+      },
+      credentials: 'same-origin',
+      body: JSON.stringify(payload)
+    }).then(function(resp) { return resp.json(); }).then(function(data) {
+      if (data.ok) {
+        if (editingLinkId) {
+          var idx = currentLinks.findIndex(function(l) { return l.id === editingLinkId; });
+          if (idx >= 0) currentLinks[idx] = data.link;
+        } else {
+          currentLinks.push(data.link);
+        }
+        renderLinks();
+        closeDialog();
+        showSnackbar(editingLinkId ? 'Link updated' : 'Link added');
+      } else {
+        showSnackbar(data.error || 'Failed to save link');
+      }
+    }).catch(function() {
+      showSnackbar('Error saving link');
+    });
+  }
+
+  function confirmDelete(linkId) {
+    if (!confirm('Remove this social link?')) return;
+    fetch('/ajax/social-links/' + linkId + '/delete/', {
+      method: 'POST',
+      headers: { 'X-CSRFToken': CSRF_TOKEN },
+      credentials: 'same-origin'
+    }).then(function(resp) { return resp.json(); }).then(function(data) {
+      if (data.ok) {
+        currentLinks = currentLinks.filter(function(l) { return l.id !== linkId; });
+        renderLinks();
+        showSnackbar('Link removed');
+      } else {
+        showSnackbar(data.error || 'Failed to delete');
+      }
+    }).catch(function() {
+      showSnackbar('Error deleting link');
+    });
+  }
+
+  // Event bindings
+  document.getElementById('add-social-link-btn').addEventListener('click', openAddDialog);
+  document.getElementById('social-link-dialog-close').addEventListener('click', closeDialog);
+  document.getElementById('social-link-cancel').addEventListener('click', closeDialog);
+  document.getElementById('social-link-save').addEventListener('click', saveLink);
+  overlay.addEventListener('click', function(e) {
+    if (e.target === overlay) closeDialog();
+  });
+
+  // Initialize from server data
+  try {
+    currentLinks = typeof existingSocialLinks !== 'undefined' ? existingSocialLinks : [];
+    renderLinks();
+  } catch(e) { renderLinks(); }
+})();
+
 registerActions({
   'trigger-photo-upload': function() { document.getElementById('photo_file').click(); },
   'edit-photo-upload': function(el, e) { handleEditPhotoUpload(e); }
 });
 
-// Role selector toggle
 (function() {
   try {
   var roleCards = document.querySelectorAll('.role-radio-card');
@@ -678,25 +1017,15 @@ registerActions({
     if (!classLevelSelect) return;
     var currentValue = classLevelSelect.value;
     var options = (role === 'student') ? studentOptions : teacherOptions;
-    classLevelSelect.innerHTML = '';
-    options.forEach(function(opt) {
-      var option = document.createElement('option');
-      option.value = opt.value;
-      option.textContent = opt.text;
-      classLevelSelect.appendChild(option);
-    });
-    // Restore previous value if it exists in new options
+    
     var found = options.some(function(opt) { return opt.value === currentValue; });
-    if (found) {
-      classLevelSelect.value = currentValue;
+    if (!found) {
+      classLevelSelect.value = '';
+      var textEl = document.getElementById('class_level_selected_text');
+      if (textEl) textEl.textContent = (role === 'student') ? 'Select class' : 'Select level';
     }
-    // Update required/label
-    if (classLevelLabel) classLevelLabel.textContent = classLabels[role] || 'Class';
-    if (role === 'student') {
-      classLevelSelect.setAttribute('required', 'required');
-    } else {
-      classLevelSelect.removeAttribute('required');
-    }
+    var labelEl = document.getElementById('class-label-el');
+    if (labelEl) labelEl.textContent = classLabels[role] || 'Class';
   }
 
   function showRoleFields(role) {
@@ -706,7 +1035,6 @@ registerActions({
       }
     });
     if (schoolLabel) schoolLabel.textContent = schoolLabels[role] || 'School/College';
-    if (schoolInput) schoolInput.placeholder = schoolPlaceholders[role] || '';
     updateClassOptions(role);
   }
 
@@ -722,6 +1050,260 @@ registerActions({
     });
   });
   } catch(e) { console.error('role toggle error:', e); }
+
+  // Generic Single-Select Dialog Picker
+  function openSingleSelectPicker(config) {
+    var overlay = document.getElementById('generic-picker-overlay');
+    var titleEl = document.getElementById('generic-picker-title');
+    var searchInput = document.getElementById('generic-picker-search');
+    var searchContainer = document.getElementById('generic-picker-search-container');
+    var listContainer = document.getElementById('generic-picker-list');
+    var addContainer = document.getElementById('generic-picker-add-container');
+    var customInput = document.getElementById('generic-picker-custom');
+    var addBtn = document.getElementById('generic-picker-add-btn');
+    var closeBtn = document.getElementById('generic-picker-close');
+    var cancelBtn = document.getElementById('generic-picker-cancel');
+
+    titleEl.textContent = config.title || 'Select Option';
+    searchInput.placeholder = config.searchPlaceholder || 'Search...';
+    searchInput.value = '';
+    customInput.value = '';
+
+    if (config.showSearch !== false) {
+      searchContainer.style.display = 'flex';
+    } else {
+      searchContainer.style.display = 'none';
+    }
+
+    if (config.allowCustom) {
+      addContainer.style.display = 'flex';
+      customInput.placeholder = config.customPlaceholder || 'Add custom value...';
+    } else {
+      addContainer.style.display = 'none';
+    }
+
+    function render(filterText) {
+      listContainer.innerHTML = '';
+      var query = (filterText || '').toLowerCase().trim();
+      var filtered = config.options.filter(function(opt) {
+        return opt.text.toLowerCase().indexOf(query) >= 0 || opt.value.toLowerCase().indexOf(query) >= 0;
+      });
+
+      filtered.forEach(function(opt) {
+        var isSelected = opt.value === config.selectedValue;
+        var item = document.createElement('div');
+        item.className = 'subject-pick-item-single';
+        if (isSelected) {
+          item.style.background = 'rgba(var(--md-primary-rgb, 0, 95, 175), 0.12)';
+        }
+        item.style.display = 'flex';
+        item.style.alignItems = 'center';
+        item.style.justifyContent = 'space-between';
+        item.style.padding = '12px 16px';
+        item.style.borderRadius = '8px';
+        item.style.cursor = 'pointer';
+        
+        var label = document.createElement('span');
+        label.className = 'subject-pick-label';
+        label.textContent = opt.text;
+        item.appendChild(label);
+
+        if (isSelected) {
+          var check = document.createElement('span');
+          check.className = 'material-symbols-outlined';
+          check.textContent = 'check';
+          check.style.color = 'var(--md-primary)';
+          check.style.fontSize = '20px';
+          item.appendChild(check);
+        }
+
+        item.addEventListener('click', function() {
+          config.onSelect(opt.value, opt.text);
+          close();
+        });
+
+        listContainer.appendChild(item);
+      });
+    }
+
+    function close() {
+      overlay.style.display = 'none';
+      document.body.style.overflow = '';
+      searchInput.removeEventListener('input', onSearchInput);
+      addBtn.removeEventListener('click', onAddCustom);
+      closeBtn.removeEventListener('click', close);
+      cancelBtn.removeEventListener('click', close);
+    }
+
+    function onSearchInput() {
+      render(searchInput.value);
+    }
+
+    function onAddCustom() {
+      var val = customInput.value.trim();
+      if (val) {
+        config.onSelect(val, val);
+        close();
+      }
+    }
+
+    searchInput.addEventListener('input', onSearchInput);
+    addBtn.addEventListener('click', onAddCustom);
+    closeBtn.addEventListener('click', close);
+    cancelBtn.addEventListener('click', close);
+
+    overlay.style.display = '';
+    document.body.style.overflow = 'hidden';
+    render();
+    if (config.showSearch !== false) {
+      searchInput.focus();
+    }
+  }
+
+  // Wire Triggers
+  var classTrigger = document.getElementById('class_level_picker_trigger');
+  var classInput = document.getElementById('class_level');
+  var classText = document.getElementById('class_level_selected_text');
+  if (classTrigger) {
+    classTrigger.addEventListener('click', function() {
+      var activeRoleCard = document.querySelector('.role-radio-card.role-radio-active');
+      var activeRole = activeRoleCard ? activeRoleCard.querySelector('input[type="radio"]').value : 'student';
+      var options = activeRole === 'student' ? studentOptions : teacherOptions;
+      var listOpts = options.filter(function(o) { return o.value !== ''; });
+
+      openSingleSelectPicker({
+        title: activeRole === 'student' ? 'Select Class' : 'Select Level',
+        options: listOpts,
+        selectedValue: classInput.value,
+        allowCustom: false,
+        onSelect: function(val, text) {
+          classInput.value = val;
+          classText.textContent = text;
+        }
+      });
+    });
+  }
+
+  var pradeshTrigger = document.getElementById('pradesh_picker_trigger');
+  var pradeshInput = document.getElementById('pradesh');
+  var pradeshText = document.getElementById('pradesh_selected_text');
+  var pradeshOptions = [
+    { value: '1', text: 'Koshi' },
+    { value: '2', text: 'Madhesh' },
+    { value: '3', text: 'Bagmati' },
+    { value: '4', text: 'Gandaki' },
+    { value: '5', text: 'Lumbini' },
+    { value: '6', text: 'Karnali' },
+    { value: '7', text: 'Sudurpashchim' }
+  ];
+  if (pradeshTrigger) {
+    pradeshTrigger.addEventListener('click', function() {
+      openSingleSelectPicker({
+        title: 'Select Province',
+        options: pradeshOptions,
+        selectedValue: pradeshInput.value,
+        allowCustom: false,
+        onSelect: function(val, text) {
+          pradeshInput.value = val;
+          pradeshText.textContent = text;
+        }
+      });
+    });
+  }
+
+  var districtTrigger = document.getElementById('district_picker_trigger');
+  var districtInput = document.getElementById('district');
+  var districtText = document.getElementById('district_selected_text');
+  var districtOptions = [{% for d in nepal_districts %}{ value: '{{ d|escapejs }}', text: '{{ d|escapejs }}' },{% endfor %}];
+  if (districtTrigger) {
+    districtTrigger.addEventListener('click', function() {
+      openSingleSelectPicker({
+        title: 'Select District',
+        options: districtOptions,
+        selectedValue: districtInput.value,
+        allowCustom: false,
+        onSelect: function(val, text) {
+          districtInput.value = val;
+          districtText.textContent = text;
+        }
+      });
+    });
+  }
+
+  var schoolTrigger = document.getElementById('school_picker_trigger');
+  var schoolInput = document.getElementById('school');
+  var schoolText = document.getElementById('school_selected_text');
+  var schoolOptions = [
+    { value: "St. Xavier's College", text: "St. Xavier's College" },
+    { value: "Budhanilkantha School", text: "Budhanilkantha School" },
+    { value: "Trinity International College", text: "Trinity International College" },
+    { value: "Kathmandu World School", text: "Kathmandu World School" },
+    { value: "Chelsea International Academy", text: "Chelsea International Academy" },
+    { value: "Little Angels' School", text: "Little Angels' School" },
+    { value: "DAV Sushil Kedia School", text: "DAV Sushil Kedia School" },
+    { value: "Rato Bangala School", text: "Rato Bangala School" },
+    { value: "Gems School", text: "Gems School" },
+    { value: "Kathmandu Model College (KMC)", text: "Kathmandu Model College (KMC)" },
+    { value: "Prasadi Academy", text: "Prasadi Academy" },
+    { value: "Saint Mary's School", text: "Saint Mary's School" },
+    { value: "Sainik Awasiya Mahavidyalaya", text: "Sainik Awasiya Mahavidyalaya" },
+    { value: "Apex College", text: "Apex College" },
+    { value: "Ace Institute of Management", text: "Ace Institute of Management" },
+    { value: "United Academy", text: "United Academy" },
+    { value: "GoldenGate International College", text: "GoldenGate International College" },
+    { value: "Orchid International College", text: "Orchid International College" },
+    { value: "Texas International College", text: "Texas International College" },
+    { value: "British College", text: "British College" },
+    { value: "Islington College", text: "Islington College" }
+  ];
+  if (schoolTrigger) {
+    schoolTrigger.addEventListener('click', function() {
+      var activeRoleCard = document.querySelector('.role-radio-card.role-radio-active');
+      var activeRole = activeRoleCard ? activeRoleCard.querySelector('input[type="radio"]').value : 'student';
+      var title = schoolLabels[activeRole] || 'School/College';
+
+      openSingleSelectPicker({
+        title: title,
+        searchPlaceholder: 'Search school...',
+        customPlaceholder: 'Type custom name...',
+        options: schoolOptions,
+        selectedValue: schoolInput.value,
+        allowCustom: true,
+        onSelect: function(val, text) {
+          schoolInput.value = val;
+          schoolText.textContent = text || 'Select school/college';
+        }
+      });
+    });
+  }
+
+  document.querySelector('form').addEventListener('submit', function(e) {
+    var activeRoleCard = document.querySelector('.role-radio-card.role-radio-active');
+    var role = activeRoleCard ? activeRoleCard.querySelector('input[type="radio"]').value : 'student';
+    
+    if (role === 'student') {
+      var classVal = document.getElementById('class_level').value;
+      if (!classVal) {
+        e.preventDefault();
+        showSnackbar('Class / Level is required for students.');
+        return;
+      }
+    } else if (role === 'teacher') {
+      var teachingSubj = document.getElementById('teaching-subjects-hidden').value;
+      if (!teachingSubj || !teachingSubj.trim()) {
+        e.preventDefault();
+        showSnackbar('Teaching subjects are required for teachers.');
+        return;
+      }
+    } else if (role === 'institution') {
+      var schoolVal = document.getElementById('school').value;
+      if (!schoolVal || !schoolVal.trim()) {
+        e.preventDefault();
+        showSnackbar('Institution Name is required.');
+        return;
+      }
+    }
+  });
 })();
 </script>
 {% endblock %}

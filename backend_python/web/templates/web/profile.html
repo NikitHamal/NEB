@@ -48,6 +48,7 @@
 {% block bottomnav %}{% endblock %}
 
 {% block content %}
+<link rel="stylesheet" href="{% static 'web/css/app/10-social-links.css' %}?v=1.1">
 <link rel="stylesheet" href="{% static 'web/css/pages/profile.css' %}">
 
 <div class="profile-page">
@@ -287,6 +288,26 @@
                   </div>
                 {% endif %}
               </div>
+            {% endif %}
+
+            <!-- Social Media Links -->
+            {% if social_links %}
+            <div class="pf-social-links-section">
+              <div class="pf-dotted-divider"></div>
+              <div class="pf-social-links-row">
+                {% for link in social_links %}
+                <a href="{{ link.url }}" target="_blank" rel="noopener noreferrer" class="pf-social-link-btn platform-{{ link.icon }}" title="{{ link.platform_label }}">
+                  {% if link.platform == 'website' and link.website_domain %}
+                    <img src="https://www.google.com/s2/favicons?domain={{ link.website_domain }}&sz=32" style="width:16px;height:16px;object-fit:contain;border-radius:2px;" alt="" onerror="this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='inline-block';">
+                    <span class="material-symbols-outlined" style="display:none;font-size:16px !important;">language</span>
+                  {% else %}
+                    <span class="material-symbols-outlined">{{ link.icon }}</span>
+                  {% endif %}
+                  <span class="social-tooltip">{{ link.platform_label }}</span>
+                </a>
+                {% endfor %}
+              </div>
+            </div>
             {% endif %}
 
             <div class="pf-info-joined">

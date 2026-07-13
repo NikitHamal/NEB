@@ -4,7 +4,7 @@
 {% block robots %}<meta name="robots" content="noindex, nofollow">{% endblock %}
 
 {% block content %}
-<div class="md-container-narrow" style="padding-top:24px; max-width: 600px; margin: 0 auto;">
+<div class="md-container-narrow" style="padding-top:24px; padding-bottom: 48px;">
   <div style="text-align:left;margin-bottom:24px;">
     <a href="{% url 'web:profile' username=user.username %}" class="md-btn md-btn-text" style="padding:4px 8px;margin:-4px -8px;text-decoration:none;" data-action="go-back">
       <span class="material-symbols-outlined" style="font-size:20px;vertical-align:middle;">arrow_back</span> Back to Profile
@@ -13,57 +13,330 @@
 
   <div style="margin-bottom: 24px;">
     <h1 style="font-size:1.75rem;font-weight:600;margin:0;">Settings</h1>
-    <p style="font-size:0.875rem;color:var(--md-on-surface-variant);margin:4px 0 0;">Manage your account credentials, security, and profile deletion preferences.</p>
+    <p style="font-size:0.875rem;color:var(--md-on-surface-variant);margin:4px 0 0;">Manage your preferences, security, and account settings.</p>
   </div>
 
-  <!-- Security Card -->
-  <div class="md-card p-3" style="margin-bottom:16px;">
-    <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
-      <div style="width:40px;height:40px;border-radius:var(--md-radius-md);background:var(--md-primary-container);display:flex;align-items:center;justify-content:center;">
-        <span class="material-symbols-outlined" style="color:var(--md-on-primary-container);font-size:20px;">lock</span>
+  <!-- Account Section -->
+  <div style="margin-bottom: 24px;">
+    <h2 style="font-size:0.875rem;font-weight:600;color:var(--md-primary);text-transform:uppercase;letter-spacing:0.5px;margin:0 0 12px 4px;">Account</h2>
+    <div class="md-card" style="overflow:hidden; display: flex; flex-direction: column; gap: 0;">
+      <!-- Profile Header / Navigation -->
+      <a href="{% url 'web:edit_profile' %}" style="display:flex;align-items:center;padding:16px;text-decoration:none;color:inherit;transition:background 0.2s;" class="settings-item-hover">
+        <span class="avatar-ring" style="width:40px;height:40px;margin-right:16px;">
+          {% if user.avatar_url %}
+          <img src="{{ user.avatar_url }}" alt="Profile">
+          {% else %}
+          <span>{{ user.username|first|upper }}</span>
+          {% endif %}
+        </span>
+        <div style="flex-grow:1;">
+          <h4 style="margin:0;font-size:1rem;font-weight:600;">{{ user.display_name|default:user.username }}</h4>
+          <p style="margin:2px 0 0;font-size:0.8125rem;color:var(--md-on-surface-variant);">@{{ user.username }} · Edit profile info</p>
+        </div>
+        <span class="material-symbols-outlined" style="color:var(--md-on-surface-variant);">chevron_right</span>
+      </a>
+      
+      <div style="height:1px;background:var(--md-outline-variant);opacity:0.5;margin:0 16px;"></div>
+
+      <!-- Password / Security -->
+      <a href="{% url 'web:password' %}" style="display:flex;align-items:center;padding:16px;text-decoration:none;color:inherit;transition:background 0.2s;" class="settings-item-hover">
+        <div style="width:40px;height:40px;display:flex;align-items:center;justify-content:center;margin-right:16px;color:var(--md-on-surface-variant);">
+          <span class="material-symbols-outlined">lock</span>
+        </div>
+        <div style="flex-grow:1;">
+          <h4 style="margin:0;font-size:0.9375rem;font-weight:600;">Security</h4>
+          <p style="margin:2px 0 0;font-size:0.8125rem;color:var(--md-on-surface-variant);">{% if has_password %}Change account password{% else %}Set account password{% endif %}</p>
+        </div>
+        <span class="material-symbols-outlined" style="color:var(--md-on-surface-variant);">chevron_right</span>
+      </a>
+
+      <div style="height:1px;background:var(--md-outline-variant);opacity:0.5;margin:0 16px;"></div>
+
+      <!-- Profile Visibility (Private) -->
+      <div style="display:flex;align-items:center;padding:16px;justify-content:space-between;">
+        <div style="display:flex;align-items:center;flex-grow:1;margin-right:16px;">
+          <div style="width:40px;height:40px;display:flex;align-items:center;justify-content:center;margin-right:16px;color:var(--md-on-surface-variant);">
+            <span class="material-symbols-outlined" id="visibility-icon">{% if user.is_locked %}visibility_off{% else %}visibility{% endif %}</span>
+          </div>
+          <div>
+            <h4 style="margin:0;font-size:0.9375rem;font-weight:600;">Profile Visibility</h4>
+            <p style="margin:2px 0 0;font-size:0.8125rem;color:var(--md-on-surface-variant);" id="visibility-desc">
+              {% if user.is_locked %}Private — only username visible{% else %}Public — profile visible to everyone{% endif %}
+            </p>
+          </div>
+        </div>
+        <label class="md-switch">
+          <input type="checkbox" id="visibility-switch" {% if user.is_locked %}checked{% endif %}>
+          <span class="slider"></span>
+        </label>
       </div>
-      <div>
-        <h3 style="margin:0;font-size:1rem;font-weight:600;">Security</h3>
-        <p style="margin:2px 0 0;font-size:0.8125rem;color:var(--md-on-surface-variant);">Update your password to keep your account secure.</p>
-      </div>
+
+      <div style="height:1px;background:var(--md-outline-variant);opacity:0.5;margin:0 16px;"></div>
+
+      <!-- Bookmarks Redirect -->
+      <a href="{% url 'web:bookmarks' %}" style="display:flex;align-items:center;padding:16px;text-decoration:none;color:inherit;transition:background 0.2s;" class="settings-item-hover">
+        <div style="width:40px;height:40px;display:flex;align-items:center;justify-content:center;margin-right:16px;color:var(--md-on-surface-variant);">
+          <span class="material-symbols-outlined">bookmark_border</span>
+        </div>
+        <div style="flex-grow:1;">
+          <h4 style="margin:0;font-size:0.9375rem;font-weight:600;">Bookmarks</h4>
+          <p style="margin:2px 0 0;font-size:0.8125rem;color:var(--md-on-surface-variant);">Saved posts and study resources</p>
+        </div>
+        <span class="material-symbols-outlined" style="color:var(--md-on-surface-variant);">chevron_right</span>
+      </a>
     </div>
-    
-    <a href="{% url 'web:password' %}" class="md-btn md-btn-outlined" style="width:100%;justify-content:center;text-decoration:none;">
-      <span class="material-symbols-outlined" style="font-size:18px;margin-right:8px;">lock_reset</span>
-      {% if has_password %}Change Password{% else %}Set Password{% endif %}
-    </a>
   </div>
 
-  <!-- Danger Zone Card -->
-  <div class="md-card p-3" style="border: 1px solid var(--md-error, #B3261E);">
-    <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
-      <div style="width:40px;height:40px;border-radius:var(--md-radius-md);background:var(--md-error-container, #F9DEDC);display:flex;align-items:center;justify-content:center;">
-        <span class="material-symbols-outlined" style="color:var(--md-on-error-container, #410E0B);font-size:20px;">warning</span>
+  <!-- Preferences Section -->
+  <div style="margin-bottom: 24px;">
+    <h2 style="font-size:0.875rem;font-weight:600;color:var(--md-primary);text-transform:uppercase;letter-spacing:0.5px;margin:0 0 12px 4px;">Preferences</h2>
+    <div class="md-card" style="overflow:hidden; display: flex; flex-direction: column; gap: 0;">
+      <!-- Dark Theme -->
+      <div style="display:flex;align-items:center;padding:16px;justify-content:space-between;">
+        <div style="display:flex;align-items:center;flex-grow:1;margin-right:16px;">
+          <div style="width:40px;height:40px;display:flex;align-items:center;justify-content:center;margin-right:16px;color:var(--md-on-surface-variant);">
+            <span class="material-symbols-outlined">dark_mode</span>
+          </div>
+          <div>
+            <h4 style="margin:0;font-size:0.9375rem;font-weight:600;">Dark Theme</h4>
+            <p style="margin:2px 0 0;font-size:0.8125rem;color:var(--md-on-surface-variant);" id="theme-status">Off</p>
+          </div>
+        </div>
+        <label class="md-switch">
+          <input type="checkbox" id="theme-switch">
+          <span class="slider"></span>
+        </label>
       </div>
-      <div>
-        <h3 style="margin:0;font-size:1rem;font-weight:600;color:var(--md-error, #B3261E);">Danger Zone</h3>
-        {% if pending_request %}
-        <p style="margin:2px 0 0;font-size:0.8125rem;color:var(--md-error, #B3261E);font-weight: 500;">Account deletion requested.</p>
-        {% else %}
-        <p style="margin:2px 0 0;font-size:0.8125rem;color:var(--md-on-surface-variant);">Delete your account and permanently remove your data.</p>
-        {% endif %}
+
+      <div style="height:1px;background:var(--md-outline-variant);opacity:0.5;margin:0 16px;"></div>
+
+      <!-- Push Notifications -->
+      <div style="display:flex;align-items:center;padding:16px;justify-content:space-between;">
+        <div style="display:flex;align-items:center;flex-grow:1;margin-right:16px;">
+          <div style="width:40px;height:40px;display:flex;align-items:center;justify-content:center;margin-right:16px;color:var(--md-on-surface-variant);">
+            <span class="material-symbols-outlined">notifications</span>
+          </div>
+          <div>
+            <h4 style="margin:0;font-size:0.9375rem;font-weight:600;">Push Notifications</h4>
+            <p style="margin:2px 0 0;font-size:0.8125rem;color:var(--md-on-surface-variant);" id="notif-status">Off</p>
+          </div>
+        </div>
+        <label class="md-switch">
+          <input type="checkbox" id="notif-switch">
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div style="height:1px;background:var(--md-outline-variant);opacity:0.5;margin:0 16px;"></div>
+
+      <!-- Wi-Fi Only Downloads -->
+      <div style="display:flex;align-items:center;padding:16px;justify-content:space-between;">
+        <div style="display:flex;align-items:center;flex-grow:1;margin-right:16px;">
+          <div style="width:40px;height:40px;display:flex;align-items:center;justify-content:center;margin-right:16px;color:var(--md-on-surface-variant);">
+            <span class="material-symbols-outlined">wifi</span>
+          </div>
+          <div>
+            <h4 style="margin:0;font-size:0.9375rem;font-weight:600;">Wi-Fi Only Downloads</h4>
+            <p style="margin:2px 0 0;font-size:0.8125rem;color:var(--md-on-surface-variant);" id="wifi-status">Any network</p>
+          </div>
+        </div>
+        <label class="md-switch">
+          <input type="checkbox" id="wifi-switch">
+          <span class="slider"></span>
+        </label>
       </div>
     </div>
+  </div>
 
-    {% if pending_request %}
-    <div style="background: var(--md-error-container, #F9DEDC); color: var(--md-on-error-container, #410E0B); padding: 12px; border-radius: 8px; margin-bottom: 16px; font-size: 0.8125rem;">
-      Your account is scheduled for permanent deletion.
+  <!-- About Section -->
+  <div style="margin-bottom: 24px;">
+    <h2 style="font-size:0.875rem;font-weight:600;color:var(--md-primary);text-transform:uppercase;letter-spacing:0.5px;margin:0 0 12px 4px;">About</h2>
+    <div class="md-card" style="overflow:hidden; display: flex; flex-direction: column; gap: 0;">
+      <!-- Version -->
+      <div style="display:flex;align-items:center;padding:16px;">
+        <div style="width:40px;height:40px;display:flex;align-items:center;justify-content:center;margin-right:16px;color:var(--md-on-surface-variant);">
+          <span class="material-symbols-outlined">info</span>
+        </div>
+        <div>
+          <h4 style="margin:0;font-size:0.9375rem;font-weight:600;">Version</h4>
+          <p style="margin:2px 0 0;font-size:0.8125rem;color:var(--md-on-surface-variant);">1.0.5</p>
+        </div>
+      </div>
+
+      <div style="height:1px;background:var(--md-outline-variant);opacity:0.5;margin:0 16px;"></div>
+
+      <!-- Privacy Policy -->
+      <a href="{% url 'web:privacy_policy' %}" style="display:flex;align-items:center;padding:16px;text-decoration:none;color:inherit;transition:background 0.2s;" class="settings-item-hover">
+        <div style="width:40px;height:40px;display:flex;align-items:center;justify-content:center;margin-right:16px;color:var(--md-on-surface-variant);">
+          <span class="material-symbols-outlined">lock</span>
+        </div>
+        <div style="flex-grow:1;">
+          <h4 style="margin:0;font-size:0.9375rem;font-weight:600;">Privacy Policy</h4>
+          <p style="margin:2px 0 0;font-size:0.8125rem;color:var(--md-on-surface-variant);">How we protect your data</p>
+        </div>
+        <span class="material-symbols-outlined" style="color:var(--md-on-surface-variant);">chevron_right</span>
+      </a>
+
+      <div style="height:1px;background:var(--md-outline-variant);opacity:0.5;margin:0 16px;"></div>
+
+      <!-- Terms of Service -->
+      <a href="{% url 'web:terms_of_service' %}" style="display:flex;align-items:center;padding:16px;text-decoration:none;color:inherit;transition:background 0.2s;" class="settings-item-hover">
+        <div style="width:40px;height:40px;display:flex;align-items:center;justify-content:center;margin-right:16px;color:var(--md-on-surface-variant);">
+          <span class="material-symbols-outlined">description</span>
+        </div>
+        <div style="flex-grow:1;">
+          <h4 style="margin:0;font-size:0.9375rem;font-weight:600;">Terms of Service</h4>
+          <p style="margin:2px 0 0;font-size:0.8125rem;color:var(--md-on-surface-variant);">Rules and guidelines for usage</p>
+        </div>
+        <span class="material-symbols-outlined" style="color:var(--md-on-surface-variant);">chevron_right</span>
+      </a>
+
     </div>
-    {% else %}
-    <p style="font-size:0.8125rem;color:var(--md-on-surface-variant);margin-bottom:16px;line-height:1.4;">
-      Once requested, all profile data, posts, replies, and follows will be scheduled for permanent deletion in 30 days. Shared resources will be anonymized.
-    </p>
-    {% endif %}
+  </div>
 
-    <a href="{% url 'web:delete_account' %}" class="md-btn md-btn-outlined" style="width:100%;justify-content:center;text-decoration:none;color:var(--md-error, #B3261E);border-color:var(--md-error, #B3261E);">
-      <span class="material-symbols-outlined" style="font-size:18px;margin-right:8px;">{% if pending_request %}restore{% else %}delete_forever{% endif %}</span>
-      {% if pending_request %}Manage Deletion Request{% else %}Request Account Deletion{% endif %}
-    </a>
+  <!-- Danger Zone Section -->
+  <div style="margin-bottom: 24px;">
+    <h2 style="font-size:0.875rem;font-weight:600;color:var(--md-error);text-transform:uppercase;letter-spacing:0.5px;margin:0 0 12px 4px;">Danger Zone</h2>
+    <div class="md-card" style="overflow:hidden; display: flex; flex-direction: column; gap: 0; border: 1px solid var(--md-error, #B3261E);">
+      <!-- Request Delete -->
+      <a href="{% url 'web:delete_account' %}" style="display:flex;align-items:center;padding:16px;text-decoration:none;color:inherit;transition:background 0.2s;" class="settings-item-hover">
+        <div style="width:40px;height:40px;display:flex;align-items:center;justify-content:center;margin-right:16px;color:var(--md-error);">
+          <span class="material-symbols-outlined">delete_forever</span>
+        </div>
+        <div style="flex-grow:1;">
+          <h4 style="margin:0;font-size:0.9375rem;font-weight:600;color:var(--md-error);">Delete Account</h4>
+          <p style="margin:2px 0 0;font-size:0.8125rem;color:var(--md-on-surface-variant);">Permanently delete your profile and data</p>
+        </div>
+        <span class="material-symbols-outlined" style="color:var(--md-on-surface-variant);">chevron_right</span>
+      </a>
+
+      <div style="height:1px;background:var(--md-outline-variant);opacity:0.5;margin:0 16px;"></div>
+
+      <!-- Sign Out -->
+      <a href="{% url 'web:logout' %}" style="display:flex;align-items:center;padding:16px;text-decoration:none;color:inherit;transition:background 0.2s;" class="settings-item-hover">
+        <div style="width:40px;height:40px;display:flex;align-items:center;justify-content:center;margin-right:16px;color:var(--md-error);">
+          <span class="material-symbols-outlined">logout</span>
+        </div>
+        <div style="flex-grow:1;">
+          <h4 style="margin:0;font-size:0.9375rem;font-weight:600;color:var(--md-error);">Sign Out</h4>
+          <p style="margin:2px 0 0;font-size:0.8125rem;color:var(--md-on-surface-variant);">Log out of your current session</p>
+        </div>
+        <span class="material-symbols-outlined" style="color:var(--md-on-surface-variant);">chevron_right</span>
+      </a>
+    </div>
   </div>
 </div>
+
+<style nonce="{{ csp_nonce }}">
+  .settings-item-hover:hover {
+    background: rgba(var(--md-primary-rgb, 0, 95, 175), 0.08) !important;
+  }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script nonce="{{ csp_nonce }}">
+  document.addEventListener('DOMContentLoaded', function () {
+    // 1. Toggle Visibility (Private Profile)
+    const visibilitySwitch = document.getElementById('visibility-switch');
+    const visibilityIcon = document.getElementById('visibility-icon');
+    const visibilityDesc = document.getElementById('visibility-desc');
+
+    if (visibilitySwitch) {
+      visibilitySwitch.addEventListener('change', function () {
+        const isLocked = visibilitySwitch.checked;
+        
+        fetch('{% url "web:ajax_toggle_profile_visibility" %}', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': CSRF_TOKEN
+          },
+          body: JSON.stringify({ is_locked: isLocked })
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.error) {
+            visibilitySwitch.checked = !isLocked;
+            alert(data.error);
+          } else {
+            visibilityIcon.textContent = data.is_locked ? 'visibility_off' : 'visibility';
+            visibilityDesc.textContent = data.is_locked 
+              ? 'Private — only username visible' 
+              : 'Public — profile visible to everyone';
+          }
+        })
+        .catch(() => {
+          visibilitySwitch.checked = !isLocked;
+          alert('Failed to update visibility setting.');
+        });
+      });
+    }
+
+    // 2. Dark Theme Sync
+    const themeSwitch = document.getElementById('theme-switch');
+    const themeStatus = document.getElementById('theme-status');
+    const htmlEl = document.documentElement;
+
+    function updateThemeUI() {
+      const isDark = htmlEl.getAttribute('data-theme') === 'dark';
+      if (themeSwitch) themeSwitch.checked = isDark;
+      if (themeStatus) themeStatus.textContent = isDark ? 'On' : 'Off';
+    }
+
+    updateThemeUI();
+
+    if (themeSwitch) {
+      themeSwitch.addEventListener('change', function () {
+        const isDark = themeSwitch.checked;
+        htmlEl.setAttribute('data-theme', isDark ? 'dark' : '');
+        const themeIcon = document.getElementById('theme-icon');
+        if (themeIcon) {
+          themeIcon.textContent = isDark ? 'light_mode' : 'dark_mode';
+        }
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        if (themeStatus) themeStatus.textContent = isDark ? 'On' : 'Off';
+        
+        fetch('/ajax/theme/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': CSRF_TOKEN
+          },
+          body: JSON.stringify({ theme: isDark ? 'dark' : 'light' })
+        });
+      });
+    }
+
+    // 3. LocalStorage Preferences: Push Notifications & Wi-Fi Only
+    const notifSwitch = document.getElementById('notif-switch');
+    const notifStatus = document.getElementById('notif-status');
+    const wifiSwitch = document.getElementById('wifi-switch');
+    const wifiStatus = document.getElementById('wifi-status');
+
+    const notifEnabled = localStorage.getItem('web_push_notifications') === 'true';
+    if (notifSwitch) notifSwitch.checked = notifEnabled;
+    if (notifStatus) notifStatus.textContent = notifEnabled ? 'On' : 'Off';
+
+    const wifiEnabled = localStorage.getItem('web_wifi_only_downloads') === 'true';
+    if (wifiSwitch) wifiSwitch.checked = wifiEnabled;
+    if (wifiStatus) wifiStatus.textContent = wifiEnabled ? 'Wi-Fi only' : 'Any network';
+
+    if (notifSwitch) {
+      notifSwitch.addEventListener('change', function () {
+        const val = notifSwitch.checked;
+        localStorage.setItem('web_push_notifications', val);
+        if (notifStatus) notifStatus.textContent = val ? 'On' : 'Off';
+      });
+    }
+
+    if (wifiSwitch) {
+      wifiSwitch.addEventListener('change', function () {
+        const val = wifiSwitch.checked;
+        localStorage.setItem('web_wifi_only_downloads', val);
+        if (wifiStatus) wifiStatus.textContent = val ? 'Wi-Fi only' : 'Any network';
+      });
+    }
+  });
+</script>
 {% endblock %}
