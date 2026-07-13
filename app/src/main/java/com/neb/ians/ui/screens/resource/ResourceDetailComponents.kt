@@ -61,8 +61,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.neb.ians.data.api.ApiResource
 import com.neb.ians.data.api.ApiResourceComment
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.runtime.remember
+import androidx.compose.ui.text.style.TextDecoration
 import com.neb.ians.ui.components.ExpandableText
 import com.neb.ians.ui.components.NebAvatar
+import com.neb.ians.ui.components.Avatar
+import com.neb.ians.ui.components.LikePill
+import com.neb.ians.ui.components.NebBadge
 
 import com.neb.ians.util.formatTimeAgo
 import com.neb.ians.util.getSubjectColor
@@ -493,13 +499,27 @@ fun ResourceEmptyComments() {
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ResourceCommentItem(
     comment: ApiResourceComment,
     canDelete: Boolean,
     onDelete: () -> Unit,
+    onThumbsUpClick: () -> Unit,
     onAuthorClick: (String) -> Unit = {}
 ) {
+    val badgeLevel = remember(comment.authorBadgeInfo) {
+        if (comment.authorBadgeInfo?.type == "verified") {
+            when (comment.authorBadgeInfo.color?.trim()?.lowercase()) {
+                "#1b9af0" -> 1
+                "#2e7d32" -> 2
+                "#f59e0b" -> 3
+                "#1a1a1a" -> 4
+                else -> 1
+            }
+        } else 0
+    }
+
     Surface(
         modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp),
         color = MaterialTheme.colorScheme.surfaceContainerLowest,
@@ -507,12 +527,16 @@ fun ResourceCommentItem(
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
         tonalElevation = 0.dp
     ) {
-        Column(modifier = Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                NebAvatar(
-                    photoUrl = comment.userPhotoUrl,
+        Column(modifier = Modifier.padding(12.dp)) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Avatar(
                     name = comment.userName,
-                    size = 34.dp,
+                    imageUrl = comment.userPhotoUrl,
+                    size = 28.dp,
+                    verificationLevel = badgeLevel,
                     modifier = Modifier.clickable(enabled = comment.userName.isNotBlank()) { onAuthorClick(comment.userName) }
                 )
                 Column(
@@ -520,16 +544,55 @@ fun ResourceCommentItem(
                         .weight(1f)
                         .clickable(enabled = comment.userName.isNotBlank()) { onAuthorClick(comment.userName) }
                 ) {
-                    Text(comment.userName, style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface, maxLines = 1, overflow = TextOverflow.Ellipsis)
-                    Text(formatTimeAgo(comment.createdAt), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text(
+                            text = comment.userName,
+                            style = MaterialTheme.typography.labelMedium,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.onSurface,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                        comment.authorBadgeInfo?.let { badge ->
+                            Spacer(modifier = Modifier.width(5.dp))
+                            NebBadge(badge)
+                        }
+                    }
+                    Text(
+                        text = formatTimeAgo(comment.createdAt),
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
                 }
                 if (canDelete) {
                     IconButton(onClick = onDelete, modifier = Modifier.size(32.dp)) {
-                        Icon(Icons.Outlined.Delete, contentDescription = "Delete", tint = MaterialTheme.colorScheme.error, modifier = Modifier.size(18.dp))
+                        Icon(
+                            imageVector = Icons.Outlined.Delete,
+                            contentDescription = "Delete",
+                            tint = MaterialTheme.colorScheme.error,
+                            modifier = Modifier.size(18.dp)
+                        )
                     }
                 }
             }
-            Text(comment.content, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurface, lineHeight = 20.sp)
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = comment.content,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurface,
+                lineHeight = 20.sp
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                LikePill(
+                    count = comment.likeCount,
+                    liked = comment.isLiked == true,
+                    onClick = onThumbsUpClick
+                )
+            }
         }
     }
 }

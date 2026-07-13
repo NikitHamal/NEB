@@ -165,6 +165,7 @@ fun ResourceDetailScreen(
                                 comment = comment,
                                 canDelete = comment.userId == uiState.currentUserId,
                                 onDelete = { viewModel.deleteComment(comment.id) },
+                                onThumbsUpClick = { viewModel.toggleCommentLike(comment.id) },
                                 onAuthorClick = { userName -> onUserProfileClick(userName) }
                             )
                         }
