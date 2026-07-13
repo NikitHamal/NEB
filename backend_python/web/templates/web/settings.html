@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %}Settings — NEBians{% endblock %}
+{% block robots %}<meta name="robots" content="noindex, nofollow">{% endblock %}
+
+{% block content %}
+<div class="md-container-narrow" style="padding-top:24px; max-width: 600px; margin: 0 auto;">
+  <div style="text-align:left;margin-bottom:24px;">
+    <a href="{% url 'web:profile' username=user.username %}" class="md-btn md-btn-text" style="padding:4px 8px;margin:-4px -8px;text-decoration:none;" data-action="go-back">
+      <span class="material-symbols-outlined" style="font-size:20px;vertical-align:middle;">arrow_back</span> Back to Profile
+    </a>
+  </div>
+
+  <div style="margin-bottom: 24px;">
+    <h1 style="font-size:1.75rem;font-weight:600;margin:0;">Settings</h1>
+    <p style="font-size:0.875rem;color:var(--md-on-surface-variant);margin:4px 0 0;">Manage your account credentials, security, and profile deletion preferences.</p>
+  </div>
+
+  <!-- Security Card -->
+  <div class="md-card p-3" style="margin-bottom:16px;">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+      <div style="width:40px;height:40px;border-radius:var(--md-radius-md);background:var(--md-primary-container);display:flex;align-items:center;justify-content:center;">
+        <span class="material-symbols-outlined" style="color:var(--md-on-primary-container);font-size:20px;">lock</span>
+      </div>
+      <div>
+        <h3 style="margin:0;font-size:1rem;font-weight:600;">Security</h3>
+        <p style="margin:2px 0 0;font-size:0.8125rem;color:var(--md-on-surface-variant);">Update your password to keep your account secure.</p>
+      </div>
+    </div>
+    
+    <a href="{% url 'web:password' %}" class="md-btn md-btn-outlined" style="width:100%;justify-content:center;text-decoration:none;">
+      <span class="material-symbols-outlined" style="font-size:18px;margin-right:8px;">lock_reset</span>
+      {% if has_password %}Change Password{% else %}Set Password{% endif %}
+    </a>
+  </div>
+
+  <!-- Danger Zone Card -->
+  <div class="md-card p-3" style="border: 1px solid var(--md-error, #B3261E);">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+      <div style="width:40px;height:40px;border-radius:var(--md-radius-md);background:var(--md-error-container, #F9DEDC);display:flex;align-items:center;justify-content:center;">
+        <span class="material-symbols-outlined" style="color:var(--md-on-error-container, #410E0B);font-size:20px;">warning</span>
+      </div>
+      <div>
+        <h3 style="margin:0;font-size:1rem;font-weight:600;color:var(--md-error, #B3261E);">Danger Zone</h3>
+        {% if pending_request %}
+        <p style="margin:2px 0 0;font-size:0.8125rem;color:var(--md-error, #B3261E);font-weight: 500;">Account deletion requested.</p>
+        {% else %}
+        <p style="margin:2px 0 0;font-size:0.8125rem;color:var(--md-on-surface-variant);">Delete your account and permanently remove your data.</p>
+        {% endif %}
+      </div>
+    </div>
+
+    {% if pending_request %}
+    <div style="background: var(--md-error-container, #F9DEDC); color: var(--md-on-error-container, #410E0B); padding: 12px; border-radius: 8px; margin-bottom: 16px; font-size: 0.8125rem;">
+      Your account is scheduled for permanent deletion.
+    </div>
+    {% else %}
+    <p style="font-size:0.8125rem;color:var(--md-on-surface-variant);margin-bottom:16px;line-height:1.4;">
+      Once requested, all profile data, posts, replies, and follows will be scheduled for permanent deletion in 30 days. Shared resources will be anonymized.
+    </p>
+    {% endif %}
+
+    <a href="{% url 'web:delete_account' %}" class="md-btn md-btn-outlined" style="width:100%;justify-content:center;text-decoration:none;color:var(--md-error, #B3261E);border-color:var(--md-error, #B3261E);">
+      <span class="material-symbols-outlined" style="font-size:18px;margin-right:8px;">{% if pending_request %}restore{% else %}delete_forever{% endif %}</span>
+      {% if pending_request %}Manage Deletion Request{% else %}Request Account Deletion{% endif %}
+    </a>
+  </div>
+</div>
+{% endblock %}

@@ -1545,3 +1545,44 @@ class AccountDeletionRequest(models.Model):
 
     def __str__(self):
         return f"Deletion request for {self.user_id} ({self.status})"
+
+
+SOCIAL_PLATFORMS = {
+    'instagram':  {'label': 'Instagram',  'icon': 'instagram',   'color': '#E4405F', 'base_url': 'instagram.com'},
+    'facebook':   {'label': 'Facebook',   'icon': 'facebook',    'color': '#1877F2', 'base_url': 'facebook.com'},
+    'twitter':    {'label': 'X (Twitter)','icon': 'x',            'color': '#000000', 'base_url': 'x.com'},
+    'youtube':    {'label': 'YouTube',    'icon': 'youtube',      'color': '#FF0000', 'base_url': 'youtube.com'},
+    'tiktok':     {'label': 'TikTok',     'icon': 'tiktok',       'color': '#000000', 'base_url': 'tiktok.com'},
+    'linkedin':   {'label': 'LinkedIn',   'icon': 'linkedin',     'color': '#0A66C2', 'base_url': 'linkedin.com'},
+    'github':     {'label': 'GitHub',     'icon': 'github',       'color': '#181717', 'base_url': 'github.com'},
+    'telegram':   {'label': 'Telegram',   'icon': 'telegram',     'color': '#26A5E4', 'base_url': 't.me'},
+    'whatsapp':   {'label': 'WhatsApp',   'icon': 'whatsapp',     'color': '#25D366', 'base_url': 'wa.me'},
+    'discord':    {'label': 'Discord',    'icon': 'discord',      'color': '#5865F2', 'base_url': 'discord.com'},
+    'snapchat':   {'label': 'Snapchat',   'icon': 'snapchat',     'color': '#FFFC00', 'base_url': 'snapchat.com'},
+    'pinterest':  {'label': 'Pinterest',  'icon': 'pinterest',    'color': '#E60023', 'base_url': 'pinterest.com'},
+    'reddit':     {'label': 'Reddit',     'icon': 'reddit',       'color': '#FF4500', 'base_url': 'reddit.com'},
+    'website':    {'label': 'Website',    'icon': 'language',     'color': '#1B6EF3', 'base_url': ''},
+}
+
+
+class SocialLink(models.Model):
+    PLATFORM_CHOICES = [(k, v['label']) for k, v in SOCIAL_PLATFORMS.items()]
+
+    id = models.CharField(max_length=36, primary_key=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='social_links')
+    platform = models.CharField(max_length=20, choices=PLATFORM_CHOICES, default='website')
+    url = models.TextField()
+    label = models.CharField(max_length=100, blank=True, default='')
+    sort_order = models.PositiveSmallIntegerField(default=0)
+    is_visible = models.BooleanField(default=True)
+    created_at = models.BigIntegerField(default=0)
+
+    class Meta:
+        db_table = 'social_links'
+        ordering = ['sort_order', 'created_at']
+        indexes = [
+            models.Index(fields=['user_id', 'sort_order']),
+        ]
+
+    def __str__(self):
+        return f"{self.user_id} - {self.platform}: {self.url[:50]}"
