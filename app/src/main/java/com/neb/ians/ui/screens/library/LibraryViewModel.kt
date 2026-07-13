@@ -19,6 +19,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -235,8 +236,8 @@ class LibraryViewModel @Inject constructor(
             .trim('-')
     }
 
-    private fun loadResources(forceRefresh: Boolean = false) {
-        viewModelScope.launch {
+    private fun loadResources(forceRefresh: Boolean = false): Job {
+        return viewModelScope.launch {
             val state = _uiState.value
             val isDefaultQuery = state.selectedSubject == null && state.selectedGradeLevel == null && state.selectedType == null && state.sort == "relevant"
             _uiState.update { it.copy(isLoading = if (isDefaultQuery) it.resources.isEmpty() else true, error = null) }
@@ -308,8 +309,8 @@ class LibraryViewModel @Inject constructor(
         }
     }
 
-    fun refresh() {
-        loadResources(forceRefresh = true)
+    fun refresh(): Job {
+        return loadResources(forceRefresh = true)
     }
 
     /** Changes the sort key and reloads from page 1 (filters preserved). */

@@ -55,6 +55,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -89,8 +90,8 @@ class BookmarksViewModel @Inject constructor(
         _uiState.update { it.copy(selectedType = type) }
     }
 
-    fun load() {
-        viewModelScope.launch {
+    fun load(): Job {
+        return viewModelScope.launch {
             val token = authRepository.getBearerToken()
             if (token == null) {
                 _uiState.update { it.copy(isLoading = false, error = "Sign in to view bookmarks") }
@@ -179,7 +180,7 @@ fun BookmarksScreen(
             onRefresh = {
                 scope.launch {
                     isRefreshing = true
-                    viewModel.load()
+                    viewModel.load().join()
                     isRefreshing = false
                 }
             },

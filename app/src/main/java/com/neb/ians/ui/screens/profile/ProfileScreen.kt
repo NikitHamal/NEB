@@ -88,7 +88,7 @@ fun ProfileScreen(
             onRefresh = {
                 scope.launch {
                     isRefreshing = true
-                    viewModel.loadProfile(username)
+                    viewModel.loadProfile(username).join()
                     isRefreshing = false
                 }
             },

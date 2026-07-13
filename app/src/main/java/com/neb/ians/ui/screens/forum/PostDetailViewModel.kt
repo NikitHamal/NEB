@@ -54,9 +54,25 @@ data class PostDetailUiState(
             }
         }
 
-    /** Children of a given reply, oldest first. */
-    fun childrenOf(replyId: String): List<ApiReply> =
-        replies.filter { it.parentReplyId == replyId }.sortedBy { it.createdAt }
+    /** Children and descendants of a given reply, oldest first. */
+    fun childrenOf(replyId: String): List<ApiReply> {
+        val result = mutableListOf<ApiReply>()
+        val descendants = mutableSetOf<String>()
+        var addedAny: Boolean
+        do {
+            addedAny = false
+            for (r in replies) {
+                if (r.parentReplyId != null && !descendants.contains(r.id)) {
+                    if (r.parentReplyId == replyId || descendants.contains(r.parentReplyId)) {
+                        descendants.add(r.id)
+                        result.add(r)
+                        addedAny = true
+                    }
+                }
+            }
+        } while (addedAny)
+        return result.sortedBy { it.createdAt }
+    }
 }
 
 @HiltViewModel
@@ -174,7 +190,7 @@ class PostDetailViewModel @Inject constructor(
         }
     }
 
-    private fun loadPost(forceRefresh: Boolean = false) {
+    private fun loadPost(forceRefresh: Boolean = false): Job =
         viewModelScope.launch {
             val hasPost = _state.value.post != null
             _state.update { it.copy(isLoading = !hasPost, error = null) }
@@ -200,9 +216,8 @@ class PostDetailViewModel @Inject constructor(
                     _state.update { it.copy(isLoading = false) }
                 }
         }
-    }
 
-    fun refresh() = loadPost(forceRefresh = true)
+    fun refresh(): Job = loadPost(forceRefresh = true)
 
     fun setReplySort(sort: String) {
         _state.update { it.copy(replySort = sort) }

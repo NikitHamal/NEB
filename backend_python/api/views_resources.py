@@ -414,6 +414,10 @@ def _resource_comment_payload(comment, viewer=None, liked_comment_ids=None):
             is_liked = ResourceCommentLike.objects.filter(comment_id=comment.id, user_id=viewer.id).exists()
     author_name = user.username if user else ''
     author_photo = user.photo_url if user else ''
+    author_badge = None
+    if user:
+        from .badges import user_badge_info
+        author_badge = user_badge_info(user)
     return {
         'id': comment.id,
         'resource_id': comment.resource_id,
@@ -437,6 +441,7 @@ def _resource_comment_payload(comment, viewer=None, liked_comment_ids=None):
         'isEdited': comment.is_edited,
         'created_at': comment.created_at,
         'createdAt': comment.created_at,
+        'authorBadgeInfo': author_badge,
     }
 
 
@@ -501,6 +506,24 @@ def resource_comment_detail(request, resource_id, comment_id):
     if ok:
         return Response({'success': True})
     return Response({'error': 'Permission denied or comment not found'}, status=403)
+
+
+@api_view(['POST'])
+def resource_comment_like(request, resource_id, comment_id):
+    user, err = _require_user(request)
+    if err:
+        return err
+    try:
+        from api.models import ResourceComment
+        result = services.toggle_resource_comment_like(user, comment_id)
+    except ResourceComment.DoesNotExist:
+        return Response({'error': 'Comment not found'}, status=404)
+    return Response({
+        'like_count': result['likeCount'],
+        'likeCount': result['likeCount'],
+        'is_liked': result['isLiked'],
+        'isLiked': result['isLiked'],
+    })
 
 
 @api_view(['POST'])

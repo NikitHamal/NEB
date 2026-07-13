@@ -244,6 +244,33 @@ class ResourceDetailViewModel @Inject constructor(
         }
     }
 
+    fun toggleCommentLike(commentId: String) {
+        viewModelScope.launch {
+            val comments = _uiState.value.comments
+            val comment = comments.firstOrNull { it.id == commentId } ?: return@launch
+            val wasLiked = comment.isLiked == true
+            val nextLiked = !wasLiked
+            val nextCount = (comment.likeCount + if (nextLiked) 1 else -1).coerceAtLeast(0)
+            
+            val optimistic = comments.map {
+                if (it.id == commentId) {
+                    it.copy(
+                        isLikedSnake = nextLiked,
+                        isLikedCamel = nextLiked,
+                        likeCountSnake = nextCount,
+                        likeCountCamel = nextCount
+                    )
+                } else it
+            }
+            _uiState.update { it.copy(comments = optimistic) }
+            
+            resourceRepository.toggleCommentLike(resourceId, commentId)
+                .onFailure { e ->
+                    _uiState.update { it.copy(comments = comments, snackbarMessage = ApiErrorMapper.mapException(e)) }
+                }
+        }
+    }
+
     fun consumeSnackbar() {
         _uiState.update { it.copy(snackbarMessage = null) }
     }

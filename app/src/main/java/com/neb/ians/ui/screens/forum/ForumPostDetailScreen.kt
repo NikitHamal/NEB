@@ -226,7 +226,7 @@ fun ForumPostDetailScreen(
                     onRefresh = {
                         scope.launch {
                             isRefreshing = true
-                            viewModel.refresh()
+                            viewModel.refresh().join()
                             isRefreshing = false
                         }
                     },
@@ -315,7 +315,17 @@ fun ForumPostDetailScreen(
                             reply = reply,
                             isOwn = uiState.currentUserId != null && reply.authorId == uiState.currentUserId,
                             onThumbsUpClick = { viewModel.toggleReplyThumbsUp(reply.id) },
-                            onReplyClick = { activeThreadParent = reply },
+                            onReplyClick = {
+                                activeThreadParent = reply
+                                activeThreadTargetReply = reply
+                                val tag = "@${reply.authorName} "
+                                viewModel.onThreadReplyChange(
+                                    androidx.compose.ui.text.input.TextFieldValue(
+                                        text = tag,
+                                        selection = androidx.compose.ui.text.TextRange(tag.length)
+                                    )
+                                )
+                            },
                             onBookmarkClick = { viewModel.toggleReplyBookmark(reply.id) },
                             onReportClick = { reportTarget = "reply" to reply.id },
                             onEditClick = { editingReply = reply },
@@ -481,7 +491,20 @@ fun ForumPostDetailScreen(
                             reply = parent,
                             isOwn = uiState.currentUserId != null && parent.authorId == uiState.currentUserId,
                             onThumbsUpClick = { viewModel.toggleReplyThumbsUp(parent.id) },
-                            onReplyClick = { activeThreadTargetReply = parent },
+                             onReplyClick = {
+                                 activeThreadTargetReply = parent
+                                 val currentText = threadReplyText.text
+                                 val tag = "@${parent.authorName} "
+                                 if (!currentText.startsWith(tag)) {
+                                     val newText = tag + currentText.removePrefix(tag)
+                                     viewModel.onThreadReplyChange(
+                                         androidx.compose.ui.text.input.TextFieldValue(
+                                             text = newText,
+                                             selection = androidx.compose.ui.text.TextRange(newText.length)
+                                         )
+                                     )
+                                 }
+                             },
                             onBookmarkClick = { viewModel.toggleReplyBookmark(parent.id) },
                             onReportClick = { reportTarget = "reply" to parent.id },
                             onEditClick = { editingReply = parent },
@@ -524,7 +547,20 @@ fun ForumPostDetailScreen(
                                     reply = child,
                                     isOwn = uiState.currentUserId != null && child.authorId == uiState.currentUserId,
                                     onThumbsUpClick = { viewModel.toggleReplyThumbsUp(child.id) },
-                                    onReplyClick = { activeThreadTargetReply = child },
+                                     onReplyClick = {
+                                         activeThreadTargetReply = child
+                                         val currentText = threadReplyText.text
+                                         val tag = "@${child.authorName} "
+                                         if (!currentText.startsWith(tag)) {
+                                             val newText = tag + currentText.removePrefix(tag)
+                                             viewModel.onThreadReplyChange(
+                                                 androidx.compose.ui.text.input.TextFieldValue(
+                                                     text = newText,
+                                                     selection = androidx.compose.ui.text.TextRange(newText.length)
+                                                 )
+                                             )
+                                         }
+                                     },
                                     onBookmarkClick = { viewModel.toggleReplyBookmark(child.id) },
                                     onReportClick = { reportTarget = "reply" to child.id },
                                     onEditClick = { editingReply = child },

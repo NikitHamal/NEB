@@ -9,6 +9,7 @@ import com.neb.ians.data.api.ApiService
 import com.neb.ians.data.api.BookmarkToggleRequest
 import com.neb.ians.data.api.OfflineException
 import com.neb.ians.data.api.ResourceLikeResponse
+import com.neb.ians.data.api.ApiResourceCommentLikeResponse
 import com.neb.ians.data.network.NetworkMonitor
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -216,6 +217,29 @@ class ResourceRepository @Inject constructor(
             appCache.resourceComments[resourceId] = updated
             offlineCacheStore.write(commentsCacheKey(resourceId), ApiResourceCommentsResponse(updated))
             Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun toggleCommentLike(resourceId: String, commentId: String): Result<ApiResourceCommentLikeResponse> {
+        return try {
+            val token = getBearerToken() ?: return Result.failure(IllegalStateException("Not authenticated"))
+            val response = apiService.toggleResourceCommentLike(token, resourceId, commentId)
+            val currentList = appCache.resourceComments[resourceId].orEmpty()
+            val updatedList = currentList.map { comment ->
+                if (comment.id == commentId) {
+                    comment.copy(
+                        likeCountSnake = response.likeCount,
+                        likeCountCamel = response.likeCount,
+                        isLikedSnake = response.isLiked,
+                        isLikedCamel = response.isLiked
+                    )
+                } else comment
+            }
+            appCache.resourceComments[resourceId] = updatedList
+            offlineCacheStore.write(commentsCacheKey(resourceId), ApiResourceCommentsResponse(updatedList))
+            Result.success(response)
         } catch (e: Exception) {
             Result.failure(e)
         }
