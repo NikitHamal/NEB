@@ -78,7 +78,6 @@ import com.neb.ians.data.api.ApiReply
 import com.neb.ians.ui.components.Avatar
 import com.neb.ians.ui.components.ConfirmDeleteDialog
 import com.neb.ians.ui.components.EditContentDialog
-import com.neb.ians.ui.components.EditHistoryDialog
 import com.neb.ians.ui.components.LikePill
 import com.neb.ians.ui.components.MarkdownText
 import com.neb.ians.ui.components.ExpandableMarkdownText
