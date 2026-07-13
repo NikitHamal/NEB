@@ -79,7 +79,7 @@
           </div>
 
           <!-- Overlapping Circular Avatar -->
-          <div class="pf-avatar-overlap-wrap{% if profile_user.is_bot %} pf-avatar-bot{% endif %}">
+          <div class="pf-avatar-overlap-wrap{% if profile_user.is_bot %} pf-avatar-bot{% endif %} {% if profile_user.verification_level and profile_user.verification_level > 0 %}avatar-container-verified{% endif %}">
             <div class="pf-avatar-circle" id="profilePageAvatar">
               {% if profile_user.photo_url %}
                 <img src="{{ profile_user.photo_url }}" alt="{{ profile_user.display_name|default:profile_user.username }}">
@@ -87,6 +87,11 @@
                 <div class="pf-avatar-initial">{{ profile_user.display_name|default:profile_user.username|slice:":1" }}</div>
               {% endif %}
             </div>
+            {% if profile_user.verification_level and profile_user.verification_level > 0 %}
+              <span class="avatar-badge-overlay" style="--badge-bg: {% if profile_user.verification_level == 1 %}#1B9AF0{% elif profile_user.verification_level == 2 %}#2E7D32{% elif profile_user.verification_level == 3 %}#F59E0B{% else %}#1A1A1A{% endif %};" title="Verified User">
+                <span class="material-symbols-outlined">verified</span>
+              </span>
+            {% endif %}
             {% if user and user.username == profile_user.username and not profile_user.is_bot %}
               <div class="pf-avatar-cam" data-action="open-photo-history-modal" title="Change photo">
                 <span class="material-symbols-outlined">camera_alt</span>

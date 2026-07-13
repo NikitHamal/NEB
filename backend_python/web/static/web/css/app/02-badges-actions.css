@@ -335,3 +335,54 @@
   color: var(--md-on-surface-variant);
   flex-wrap: wrap;
 }
+
+.avatar-container-verified {
+  position: relative !important;
+  overflow: visible !important;
+}
+
+.avatar-container-verified img,
+.avatar-container-verified .contributor-avatar-letter {
+  border-radius: 50% !important;
+}
+
+.avatar-badge-overlay {
+  position: absolute !important;
+  bottom: -2px !important;
+  right: -2px !important;
+  width: 14px !important;
+  height: 14px !important;
+  border-radius: 50% !important;
+  background: var(--badge-bg, #1B9AF0) !important;
+  border: 1.5px solid var(--md-surface, #ffffff) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 5 !important;
+  color: #ffffff !important;
+  pointer-events: none;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="dark"] .avatar-badge-overlay {
+  border-color: var(--md-surface-container, #1e293b) !important;
+}
+
+.avatar-badge-overlay .material-symbols-outlined {
+  font-size: 10px !important;
+  font-variation-settings: 'FILL' 1, 'wght' 700;
+  line-height: 1 !important;
+}
+
+/* Specific position adjustments for larger profile page avatar */
+.pf-avatar-overlap-wrap.avatar-container-verified .avatar-badge-overlay {
+  width: 26px !important;
+  height: 26px !important;
+  bottom: 4px !important;
+  right: 4px !important;
+  border-width: 2.5px !important;
+}
+
+.pf-avatar-overlap-wrap.avatar-container-verified .avatar-badge-overlay .material-symbols-outlined {
+  font-size: 16px !important;
+}

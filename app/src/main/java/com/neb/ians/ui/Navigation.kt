@@ -110,8 +110,11 @@ import com.neb.ians.ui.screens.auth.EmailVerificationScreen
 import com.neb.ians.ui.screens.auth.ForgotPasswordScreen
 import com.neb.ians.ui.screens.auth.CompleteProfileScreen
 import com.neb.ians.ui.screens.results.ResultCheckerScreen
+import com.neb.ians.ui.screens.results.ToolsScreen
 import com.neb.ians.ui.screens.news.NewsDetailScreen
 import com.neb.ians.ui.screens.news.NewsScreen
+import androidx.compose.material.icons.outlined.Visibility
+import androidx.compose.material.icons.outlined.Build
 
 sealed class Screen(val route: String) {
     data object Splash : Screen("splash")
@@ -135,6 +138,7 @@ sealed class Screen(val route: String) {
         fun createRoute(slug: String) = "news/${java.net.URLEncoder.encode(slug, "UTF-8")}"
     }
     data object ResultChecker : Screen("results/check")
+    data object Tools : Screen("tools")
     data object Search : Screen("search")
     data object Notifications : Screen("notifications")
     data object StudyLab : Screen("study_lab")
@@ -492,6 +496,12 @@ fun NEBiansNavHost(
                     onNavigateBack = { navController.popBackStack() }
                 )
             }
+            composable(Screen.Tools.route) {
+                ToolsScreen(
+                    onNavigateBack = { navController.popBackStack() },
+                    onNavigateToResultChecker = { navController.navigate(Screen.ResultChecker.route) }
+                )
+            }
             composable(Screen.Search.route) {
                 SearchScreen(
                     onResourceClick = { resourceId ->
@@ -778,9 +788,16 @@ fun NEBiansNavHost(
                             .border(1.dp, MaterialTheme.colorScheme.outlineVariant, RoundedCornerShape(16.dp))
                             .padding(8.dp)
                     ) {
-                        // Header
+                        // Header (clickable, with visibility view icon on the right)
                         Row(
-                            modifier = Modifier.padding(horizontal = 12.dp, vertical = 10.dp),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clip(RoundedCornerShape(8.dp))
+                                .clickable {
+                                    showProfileDropdown = false
+                                    navController.navigate(Screen.Profile.createRoute(profile.username))
+                                }
+                                .padding(horizontal = 12.dp, vertical = 10.dp),
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.spacedBy(12.dp)
                         ) {
@@ -811,21 +828,17 @@ fun NEBiansNavHost(
                                     color = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
                             }
+                            Icon(
+                                imageVector = Icons.Outlined.Visibility,
+                                contentDescription = "View Profile",
+                                tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
+                                modifier = Modifier.size(20.dp)
+                            )
                         }
 
                         HorizontalDivider(
                             modifier = Modifier.padding(vertical = 4.dp),
                             color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
-                        )
-
-                        // View Profile
-                        ProfileDropdownItem(
-                            icon = Icons.Outlined.Person,
-                            text = "View Profile",
-                            onClick = {
-                                showProfileDropdown = false
-                                navController.navigate(Screen.Profile.createRoute(profile.username))
-                            }
                         )
 
                         // Bookmarks
@@ -838,23 +851,23 @@ fun NEBiansNavHost(
                             }
                         )
 
-                        // News
+                        // Blog
                         ProfileDropdownItem(
                             icon = Icons.Outlined.Newspaper,
-                            text = "News",
+                            text = "Blog",
                             onClick = {
                                 showProfileDropdown = false
                                 navController.navigate(Screen.News.route)
                             }
                         )
 
-                        // Check Results
+                        // Tools
                         ProfileDropdownItem(
-                            icon = Icons.Outlined.FactCheck,
-                            text = "Check Results",
+                            icon = Icons.Outlined.Build,
+                            text = "Tools",
                             onClick = {
                                 showProfileDropdown = false
-                                navController.navigate(Screen.ResultChecker.route)
+                                navController.navigate(Screen.Tools.route)
                             }
                         )
 

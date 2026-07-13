@@ -36,14 +36,14 @@ class NewsDetailViewModel @Inject constructor(
 
     private fun load(forceRefresh: Boolean = false) {
         if (slug.isBlank()) {
-            _uiState.update { it.copy(isLoading = false, error = "News article not found") }
+            _uiState.update { it.copy(isLoading = false, error = "Blog post not found") }
             return
         }
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true, error = null) }
             newsRepository.getAnnouncementDetail(slug, forceRefresh)
                 .onSuccess { detail -> _uiState.update { it.copy(detail = detail, isLoading = false, error = null) } }
-                .onFailure { error -> _uiState.update { it.copy(isLoading = false, error = error.message ?: "Couldn't load news") } }
+                .onFailure { error -> _uiState.update { it.copy(isLoading = false, error = error.message ?: "Couldn't load blog post") } }
         }
     }
 }

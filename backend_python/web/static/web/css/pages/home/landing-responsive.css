@@ -30,7 +30,7 @@
 
 @media (max-width: 900px) {
   .home-landing {
-    padding-top: calc(64px + 40px);
+    padding-top: calc(64px + 32px);
   }
 
   .home-preview-body {
@@ -40,7 +40,7 @@
 
 @media (max-width: 700px) {
   .home-landing {
-    padding: calc(64px + 28px) 16px 58px;
+    padding: calc(64px + 20px) 16px 42px;
   }
 
   .home-hero-copy h1 {
@@ -80,7 +80,11 @@
   }
 
   .home-page .site-main > .md-container {
-    padding-top: 32px;
+    padding-top: 20px;
+  }
+
+  .home-page .section {
+    margin-bottom: 16px;
   }
 }
 

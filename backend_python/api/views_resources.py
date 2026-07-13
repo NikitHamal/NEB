@@ -19,6 +19,12 @@ def resources_list(request):
     search = (request.query_params.get('search') or request.query_params.get('q') or '').strip()
     sort = (request.query_params.get('sort') or 'relevant').strip().lower()
 
+    user = request.user
+    if user and user.is_authenticated and not subject and not grade and not request.query_params.get('clear'):
+        mapped_grade = map_profile_grade(user.class_level)
+        if mapped_grade:
+            grade = mapped_grade
+
     if subject:
         resources = resources.filter(subject__iexact=subject)
     if grade:
@@ -33,16 +39,62 @@ def resources_list(request):
             Q(school__icontains=search) | Q(tags__icontains=search)
         )
 
-    if sort == 'newest':
-        resources = resources.order_by('-added_at', '-view_count')
-    elif sort == 'oldest':
-        resources = resources.order_by('added_at')
-    elif sort == 'liked':
-        resources = resources.order_by('-like_count', '-added_at')
-    elif sort == 'trending':
-        resources = resources.order_by('-view_count', '-like_count', '-added_at')
+    user = request.user
+    if user and user.is_authenticated:
+        grade_pref = user.class_level
+        subject_prefs = [s.strip().lower() for s in (user.subjects or '').split(',') if s.strip()]
+        
+        if grade_pref or subject_prefs:
+            grade_match = Q(grade_level__iexact=grade_pref) if grade_pref else Q(pk__in=[])
+            subject_match = Q(pk__in=[])
+            if subject_prefs:
+                q_subj = Q()
+                for s in subject_prefs:
+                    q_subj |= Q(subject__icontains=s)
+                subject_match = q_subj
+                
+            from django.db.models import Case, When, Value, IntegerField
+            resources = resources.annotate(
+                relevance_score=Case(
+                    When(grade_match & subject_match, then=Value(4)),
+                    When(grade_match, then=Value(3)),
+                    When(subject_match, then=Value(2)),
+                    default=Value(1),
+                    output_field=IntegerField(),
+                )
+            )
+            if sort == 'newest':
+                resources = resources.order_by('-relevance_score', '-added_at', '-view_count')
+            elif sort == 'oldest':
+                resources = resources.order_by('-relevance_score', 'added_at')
+            elif sort == 'liked':
+                resources = resources.order_by('-relevance_score', '-like_count', '-added_at')
+            elif sort == 'trending':
+                resources = resources.order_by('-relevance_score', '-view_count', '-like_count', '-added_at')
+            else:
+                resources = resources.order_by('-relevance_score', '-added_at', '-view_count')
+        else:
+            if sort == 'newest':
+                resources = resources.order_by('-added_at', '-view_count')
+            elif sort == 'oldest':
+                resources = resources.order_by('added_at')
+            elif sort == 'liked':
+                resources = resources.order_by('-like_count', '-added_at')
+            elif sort == 'trending':
+                resources = resources.order_by('-view_count', '-like_count', '-added_at')
+            else:
+                resources = resources.order_by('-added_at', '-view_count')
     else:
-        resources = resources.order_by('-added_at', '-view_count')
+        if sort == 'newest':
+            resources = resources.order_by('-added_at', '-view_count')
+        elif sort == 'oldest':
+            resources = resources.order_by('added_at')
+        elif sort == 'liked':
+            resources = resources.order_by('-like_count', '-added_at')
+        elif sort == 'trending':
+            resources = resources.order_by('-view_count', '-like_count', '-added_at')
+        else:
+            resources = resources.order_by('-added_at', '-view_count')
 
     return _paginated_response(
         request,

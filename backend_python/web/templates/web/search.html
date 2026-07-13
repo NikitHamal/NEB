@@ -44,21 +44,21 @@
   {% if current_subject or current_grade or current_type %}
   <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;">
     {% if current_subject %}
-    <a href="{% url 'web:search' %}?q={{ query }}{% if current_grade %}&grade={{ current_grade }}{% endif %}{% if current_type %}&type={{ current_type }}{% endif %}{% if tab and tab != 'all' %}&tab={{ tab }}{% endif %}" class="search-filter-chip">
+    <a href="{% url 'web:search' %}?q={{ query }}{% if current_grade %}&grade={{ current_grade }}{% endif %}{% if current_type %}&type={{ current_type }}{% endif %}{% if tab and tab != 'all' %}&tab={{ tab }}{% endif %}{% if not current_grade and not current_type %}&clear=1{% endif %}" class="search-filter-chip">
       {{ current_subject }} <span class="material-symbols-outlined">close</span>
     </a>
     {% endif %}
     {% if current_grade %}
-    <a href="{% url 'web:search' %}?q={{ query }}{% if current_subject %}&subject={{ current_subject }}{% endif %}{% if current_type %}&type={{ current_type }}{% endif %}{% if tab and tab != 'all' %}&tab={{ tab }}{% endif %}" class="search-filter-chip">
+    <a href="{% url 'web:search' %}?q={{ query }}{% if current_subject %}&subject={{ current_subject }}{% endif %}{% if current_type %}&type={{ current_type }}{% endif %}{% if tab and tab != 'all' %}&tab={{ tab }}{% endif %}{% if not current_subject and not current_type %}&clear=1{% endif %}" class="search-filter-chip">
       {{ current_grade }} <span class="material-symbols-outlined">close</span>
     </a>
     {% endif %}
     {% if current_type %}
-    <a href="{% url 'web:search' %}?q={{ query }}{% if current_subject %}&subject={{ current_subject }}{% endif %}{% if current_grade %}&grade={{ current_grade }}{% endif %}{% if tab and tab != 'all' %}&tab={{ tab }}{% endif %}" class="search-filter-chip">
+    <a href="{% url 'web:search' %}?q={{ query }}{% if current_subject %}&subject={{ current_subject }}{% endif %}{% if current_grade %}&grade={{ current_grade }}{% endif %}{% if tab and tab != 'all' %}&tab={{ tab }}{% endif %}{% if not current_subject and not current_grade %}&clear=1{% endif %}" class="search-filter-chip">
       {{ current_type }} <span class="material-symbols-outlined">close</span>
     </a>
     {% endif %}
-    <a href="{% url 'web:search' %}?q={{ query }}{% if tab and tab != 'all' %}&tab={{ tab }}{% endif %}" style="font-size:0.75rem;color:var(--md-primary);text-decoration:none;align-self:center;">Clear all</a>
+    <a href="{% url 'web:search' %}?q={{ query }}{% if tab and tab != 'all' %}&tab={{ tab }}{% endif %}&clear=1" style="font-size:0.75rem;color:var(--md-primary);text-decoration:none;align-self:center;">Clear all</a>
   </div>
   {% endif %}
 
@@ -106,7 +106,7 @@
       </div>
 
       <div class="filter-dialog-actions">
-        <a href="{% url 'web:search' %}?q={{ query }}{% if tab and tab != 'all' %}&tab={{ tab }}{% endif %}" class="md-btn md-btn-text" style="min-height:36px;">Clear all</a>
+        <a href="{% url 'web:search' %}?q={{ query }}{% if tab and tab != 'all' %}&tab={{ tab }}{% endif %}&clear=1" class="md-btn md-btn-text" style="min-height:36px;">Clear all</a>
         <button class="md-btn md-btn-filled" data-action="apply-search-filters" style="min-height:36px;">Apply</button>
       </div>
     </div>

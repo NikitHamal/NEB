@@ -57,7 +57,7 @@ fun HomeNewsSection(
 
     Column(modifier = modifier) {
         WebSectionHeader(
-            title = "News & Announcements",
+            title = "Blog & Updates",
             actionLabel = "View all",
             onActionClick = onViewAllClick
         )
@@ -65,7 +65,7 @@ fun HomeNewsSection(
             contentPadding = PaddingValues(horizontal = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            items(items.take(4), key = { it.id }) { news ->
+            items(items.take(5), key = { it.id }) { news ->
                 HomeNewsCard(
                     item = news,
                     onClick = { onNewsClick(news) },

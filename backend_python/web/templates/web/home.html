@@ -52,50 +52,6 @@
 {% include "web/_home_hero.html" %}
 
 <div class="md-container">
-  {% if latest_news %}
-  <div class="section home-news-section">
-    <div class="section-header">
-      <h2>News &amp; Announcements</h2>
-      <a href="{% url 'web:news_list' %}">View all</a>
-    </div>
-    <div class="home-news-grid">
-      {% for n in latest_news %}
-      <a href="{% url 'web:news_detail' slug=n.slug %}" class="home-news-card {% if n.is_pinned %}home-news-card-pinned{% endif %}" style="--accent-color: {{ n.category_color }}">
-        <div class="home-news-card-header">
-          <span class="home-news-cat-badge" style="background:{{ n.category_color }}">
-            <span class="material-symbols-outlined">{{ n.category_icon }}</span>
-            <span class="home-news-cat-label">{{ n.category_label }}</span>
-          </span>
-          {% if n.is_pinned %}
-          <span class="home-news-pinned-badge">
-            <span class="material-symbols-outlined">push_pin</span>
-            <span class="home-news-pinned-label-text">Pinned</span>
-          </span>
-          {% endif %}
-        </div>
-        <div class="home-news-card-body">
-          <span class="home-news-title">{{ n.title }}</span>
-          {% if n.summary %}
-          <span class="home-news-summary">{{ n.summary }}</span>
-          {% endif %}
-          <span class="home-news-meta">{{ n.published_at|time_ago }}</span>
-        </div>
-      </a>
-      {% endfor %}
-      <a href="{% url 'web:result_check' %}" class="home-news-card home-news-card-cta" style="--accent-color: var(--md-primary)">
-        <div class="home-news-card-header">
-          <span class="material-symbols-outlined">fact_check</span>
-        </div>
-        <div class="home-news-card-body">
-          <span class="home-news-title">Check Exam Results</span>
-          <span class="home-news-summary">Quickly check Class 12, Class 11, or SEE results in bulk, export gradesheets, or generate custom success share cards.</span>
-          <span class="home-news-meta">Explore tool &rarr;</span>
-        </div>
-      </a>
-    </div>
-  </div>
-  {% endif %}
-
   <div class="home-bento">
     <div>
       {% if trending_resources %}
@@ -147,6 +103,50 @@
       </div>
       {% endif %}
     </div>
+
+    {% if latest_news %}
+    <div class="section home-news-section">
+      <div class="section-header">
+        <h2>Blog &amp; Updates</h2>
+        <a href="{% url 'web:news_list' %}">View all</a>
+      </div>
+      <div class="home-news-grid">
+        {% for n in latest_news %}
+        <a href="{% url 'web:news_detail' slug=n.slug %}" class="home-news-card {% if n.is_pinned %}home-news-card-pinned{% endif %}" style="--accent-color: {{ n.category_color }}">
+          <div class="home-news-card-header">
+            <span class="home-news-cat-badge" style="background:{{ n.category_color }}">
+              <span class="material-symbols-outlined">{{ n.category_icon }}</span>
+              <span class="home-news-cat-label">{{ n.category_label }}</span>
+            </span>
+            {% if n.is_pinned %}
+            <span class="home-news-pinned-badge">
+              <span class="material-symbols-outlined">push_pin</span>
+              <span class="home-news-pinned-label-text">Pinned</span>
+            </span>
+            {% endif %}
+          </div>
+          <div class="home-news-card-body">
+            <span class="home-news-title">{{ n.title }}</span>
+            {% if n.summary %}
+            <span class="home-news-summary">{{ n.summary }}</span>
+            {% endif %}
+            <span class="home-news-meta">{{ n.published_at|time_ago }}</span>
+          </div>
+        </a>
+        {% endfor %}
+        <a href="{% url 'web:result_check' %}" class="home-news-card home-news-card-cta" style="--accent-color: var(--md-primary)">
+          <div class="home-news-card-header">
+            <span class="material-symbols-outlined">fact_check</span>
+          </div>
+          <div class="home-news-card-body">
+            <span class="home-news-title">Check Exam Results</span>
+            <span class="home-news-summary">Quickly check Class 12, Class 11, or SEE results in bulk, export gradesheets, or generate custom success share cards.</span>
+            <span class="home-news-meta">Explore tool &rarr;</span>
+          </div>
+        </a>
+      </div>
+    </div>
+    {% endif %}
 
     {% if trending_posts %}
     <div class="section">

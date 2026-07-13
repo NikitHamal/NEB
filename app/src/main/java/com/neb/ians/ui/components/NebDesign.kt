@@ -248,6 +248,7 @@ fun NebAvatar(
     name: String,
     size: Dp = 40.dp,
     ring: Boolean = false,
+    verificationLevel: Int = 0,
     modifier: Modifier = Modifier,
 ) {
     val ringMod = if (ring) {
@@ -295,6 +296,32 @@ fun NebAvatar(
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
                     fontWeight = FontWeight.SemiBold,
                     fontSize = (size.value * 0.4f).sp
+                )
+            }
+        }
+
+        if (verificationLevel > 0) {
+            val badgeColor = when (verificationLevel) {
+                1 -> Color(0xFF1B9AF0)
+                2 -> Color(0xFF2E7D32)
+                3 -> Color(0xFFF59E0B)
+                else -> Color(0xFF1A1A1A)
+            }
+            val badgeSize = size * 0.35f
+            Box(
+                modifier = Modifier
+                    .size(badgeSize)
+                    .align(Alignment.BottomEnd)
+                    .background(Color.White, CircleShape)
+                    .padding(1.dp)
+                    .background(badgeColor, CircleShape),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.Verified,
+                    contentDescription = "Verified",
+                    tint = Color.White,
+                    modifier = Modifier.size(badgeSize * 0.85f)
                 )
             }
         }
