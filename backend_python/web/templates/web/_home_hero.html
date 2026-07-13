@@ -55,7 +55,7 @@
             <a href="{% url 'web:library' %}">View library</a>
           </div>
           <div class="home-preview-resource-list">
-            {% for r in recent_resources|slice:":2" %}
+            {% for r in trending_resources|slice:":2" %}
             <a href="{% url 'web:reader' resource_id=r.id %}" class="home-preview-resource">
               <span class="home-preview-resource-icon subject-{{ r.subject|split:','|first|subject_slug }}">
                 <span class="material-symbols-outlined">{{ r.subject|split:','|first|subject_icon }}</span>
