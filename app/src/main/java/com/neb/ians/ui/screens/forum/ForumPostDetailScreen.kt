@@ -741,7 +741,9 @@ private fun PostContentSection(
                         style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
-                    if (post.isArchived == true) {
+                }
+            }
+            if (post.isArchived == true) {
                 Surface(shape = WebPillShape, color = MaterialTheme.colorScheme.surfaceContainerHigh) {
                     Text(
                         text = "Archived",
