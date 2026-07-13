@@ -77,6 +77,7 @@ class AuthRepository @Inject constructor(
         val USER_FOLLOWING_COUNT = intPreferencesKey("user_following_count")
         val USER_CONTRIBUTION_SCORE = intPreferencesKey("user_contribution_score")
         val USER_ACHIEVEMENT_BADGES = stringPreferencesKey("user_achievement_badges")
+        val USER_FCM_TOKEN = stringPreferencesKey("user_fcm_token")
 
         const val GOOGLE_SERVER_CLIENT_ID = "68143624035-que25r0vmrke4agasr715j5u9p8gic2s.apps.googleusercontent.com"
         const val GITHUB_CLIENT_ID = "Ov23lii7dRW1FhLQ09w7"
@@ -465,8 +466,8 @@ class AuthRepository @Inject constructor(
         try {
             val bearer = getBearerToken()
             if (bearer != null) {
-                val fcmPrefs = dataStore.data.first()
-                val savedToken = fcmPrefs[stringPreferencesKey("fcm_token")] ?: ""
+                val prefs = dataStore.data.first()
+                val savedToken = prefs[USER_FCM_TOKEN] ?: ""
                 if (savedToken.isNotBlank()) {
                     kotlinx.coroutines.CoroutineScope(kotlinx.coroutines.Dispatchers.IO).launch {
                         try {
@@ -550,8 +551,7 @@ class AuthRepository @Inject constructor(
                                 val bearer = getBearerToken()
                                 if (bearer != null) {
                                     apiService.registerFcmToken(bearer, com.neb.ians.data.api.FcmTokenRequest(token))
-                                }
-                                dataStore.edit { it[stringPreferencesKey("fcm_token")] = token }
+                                    dataStore.edit { it[USER_FCM_TOKEN] = token }
                             } catch (_: Exception) {}
                         }
                     }

@@ -12,6 +12,7 @@ import com.neb.ians.BuildConfig
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.ResponseBody
+import com.neb.ians.data.repository.SecurePrefs
 
 // -------------------------------------------------------------
 // REQUEST MODELS
@@ -1699,6 +1700,17 @@ interface ApiService {
                         request.header("Authorization", "Bearer $token")
                     }
                     chain.proceed(request.build())
+                }
+                .addInterceptor { chain ->
+                    val response = chain.proceed(chain.request())
+                    if (response.code == 401) {
+                        val hadToken = tokenProvider?.invoke() != null
+                        if (hadToken) {
+                            SecurePrefs.clearAuthToken(context)
+                            AuthExpiryBus.events.tryEmit(Unit)
+                        }
+                    }
+                    response
                 }
                 .connectTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
                 .readTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
