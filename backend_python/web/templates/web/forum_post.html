@@ -72,11 +72,6 @@
           <span>{{ post.createdAt|time_ago }}</span>
           <span class="dot-sep">&middot;</span>
           <span class="fp-views"><span class="material-symbols-outlined icon-sm">visibility</span> {{ post.viewCount|short_number }} views</span>
-          {% if post.isEdited %}
-            <span class="fp-edited" data-action="show-edit-history" data-target-type="post" data-target-id="{{ post.id }}">
-              <span class="material-symbols-outlined">edit</span> edited
-            </span>
-          {% endif %}
         </div>
       </div>
       <div class="more-menu-wrapper">
@@ -217,17 +212,6 @@
           <button class="md-btn md-btn-text" data-action="close-edit-post-modal">Cancel</button>
           <button class="md-btn md-btn-filled" data-action="submit-edit-post">Save</button>
         </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Edit History Modal -->
-  <div class="modal-overlay" id="editHistoryModal">
-    <div class="modal-box">
-      <h3>Edit History</h3>
-      <div id="editHistoryContent"><p style="color:var(--md-on-surface-variant);">Loading...</p></div>
-      <div style="text-align:right;margin-top:16px;">
-        <button class="md-btn md-btn-text" data-action="close-edit-history-modal">Close</button>
       </div>
     </div>
   </div>
@@ -570,33 +554,6 @@ async function confirmDelete() {
   } catch(e) { showSnackbar('Error deleting.'); }
 }
 
-async function showEditHistory(targetType, targetId) {
-  document.getElementById('editHistoryModal').classList.add('active');
-  document.getElementById('editHistoryContent').innerHTML = '<p style="color:var(--md-on-surface-variant);">Loading...</p>';
-  try {
-    const r = await fetch('/ajax/edit-history/' + targetType + '/' + targetId + '/');
-    const entries = await r.json();
-    if (!entries.length) {
-      document.getElementById('editHistoryContent').innerHTML = '<p style="color:var(--md-on-surface-variant);">No edit history.</p>';
-      return;
-    }
-    let html = '';
-    entries.forEach(e => {
-      const date = new Date(e.editedAt);
-      const timeStr = date.toLocaleString();
-      html += '<div class="history-entry">';
-      html += '<div class="history-field">' + e.field + '</div>';
-      html += '<div class="history-diff"><del>' + escapeHtml(e.oldValue) + '</del> &rarr; <ins>' + escapeHtml(e.newValue) + '</ins></div>';
-      html += '<div class="history-meta">Edited by ' + escapeHtml(e.editedByUsername) + ' &middot; ' + timeStr + '</div>';
-      html += '</div>';
-    });
-    document.getElementById('editHistoryContent').innerHTML = html;
-  } catch(e) {
-    document.getElementById('editHistoryContent').innerHTML = '<p style="color:var(--md-error);">Failed to load edit history.</p>';
-  }
-}
-function closeEditHistoryModal() { document.getElementById('editHistoryModal').classList.remove('active'); }
-
 async function submitMainReply(e) {
   e.preventDefault();
   const content = document.getElementById('mainReplyContent').value.trim();
@@ -821,7 +778,6 @@ function renderThreadParent(parent) {
   const likedClass = parent.isThumbedUp ? 'liked' : '';
   const likedFill = parent.isThumbedUp ? " style=\"font-variation-settings:'FILL' 1\"" : '';
   const likeIcon = 'thumb_up';
-  const editedBadge = parent.isEdited ? ' <span class="fp-edited" data-action="show-edit-history" data-target-type="reply" data-target-id="' + escapeHtml(parent.id) + '"><span class="material-symbols-outlined">edit</span> edited</span>' : '';
   const ownerBtns = (IS_AUTH && parent.authorId === USER_ID)
     ? '<span class="fp-reply-owner"><button class="fp-owner-btn" data-action="edit-reply" data-reply-id="' + escapeHtml(parent.id) + '"><span class="material-symbols-outlined" style="font-size:12px;">edit</span></button><button class="fp-owner-btn danger" data-action="delete-reply" data-reply-id="' + escapeHtml(parent.id) + '"><span class="material-symbols-outlined" style="font-size:12px;">delete</span></button></span>'
     : '';
@@ -837,7 +793,7 @@ function renderThreadParent(parent) {
         '<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">' +
           '<a href="/profile/' + encodeURIComponent(parent.authorName || '') + '/" class="fp-reply-author">' + escapeHtml(parent.authorName || 'Unknown') + '</a>' +
           (parent.authorBadgeInfo ? '<span class="role-badge role-badge-' + escapeHtml(parent.authorBadgeInfo.type) + '" title="' + escapeHtml(parent.authorBadgeInfo.label) + '"><span class="material-symbols-outlined">' + escapeHtml(parent.authorBadgeInfo.icon) + '</span></span>' : '') +
-          followBtn + editedBadge + ownerBtns +
+          followBtn + ownerBtns +
         '</div>' +
         '<div class="fp-reply-time">' + (parent.createdAt ? formatTimeAgo(parent.createdAt) : '') + '</div>' +
       '</div>' +
@@ -883,7 +839,6 @@ function renderThreadReply(reply, parentInfo, depth) {
   const likedClass = reply.isThumbedUp ? 'liked' : '';
   const likedFill = reply.isThumbedUp ? " style=\"font-variation-settings:'FILL' 1\"" : '';
   const likeIcon = 'thumb_up';
-  const editedBadge = reply.isEdited ? ' <span class="fp-edited" data-action="show-edit-history" data-target-type="reply" data-target-id="' + escapeHtml(reply.id) + '"><span class="material-symbols-outlined">edit</span> edited</span>' : '';
   const ownerBtns = (IS_AUTH && reply.authorId === USER_ID)
     ? '<span class="fp-reply-owner"><button class="fp-owner-btn" data-action="edit-reply" data-reply-id="' + escapeHtml(reply.id) + '"><span class="material-symbols-outlined" style="font-size:12px;">edit</span></button><button class="fp-owner-btn danger" data-action="delete-reply" data-reply-id="' + escapeHtml(reply.id) + '"><span class="material-symbols-outlined" style="font-size:12px;">delete</span></button></span>'
     : '';
@@ -916,7 +871,7 @@ function renderThreadReply(reply, parentInfo, depth) {
         '<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">' +
           '<a href="/profile/' + encodeURIComponent(reply.authorName) + '/" class="fp-reply-author">' + escapeHtml(reply.authorName) + '</a>' +
           (reply.authorBadgeInfo ? '<span class="role-badge role-badge-' + escapeHtml(reply.authorBadgeInfo.type) + '" title="' + escapeHtml(reply.authorBadgeInfo.label) + '"><span class="material-symbols-outlined">' + escapeHtml(reply.authorBadgeInfo.icon) + '</span></span>' : '') +
-          followBtn + editedBadge + ownerBtns +
+          followBtn + ownerBtns +
         '</div>' +
         '<div class="fp-reply-time">' + formatTimeAgo(reply.createdAt) + '</div>' +
       '</div>' +
@@ -1550,7 +1505,6 @@ document.addEventListener('DOMContentLoaded', function() {
 registerActions({
   'scroll-to-reply': function(el) { scrollToReply(el.dataset.targetReplyId); },
   'toggle-follow-post': function() { toggleFollowPost(); },
-  'show-edit-history': function(el) { showEditHistory(el.dataset.targetType, el.dataset.targetId); },
   'toggle-more-menu': function(el) { toggleMoreMenu(el.dataset.menuId, el); },
   'toggle-bookmark': async function(el) { closeAllMenus(); await toggleBookmark(el.dataset.targetType, el.dataset.targetId, el); },
   'share-post': function(el) { closeAllMenus(); sharePost(el.dataset.postId); },
@@ -1561,7 +1515,6 @@ registerActions({
   'toggle-post-like': function(el) { togglePostLike(el.dataset.postId); },
   'close-edit-post-modal': function() { closeEditPostModal(); },
   'submit-edit-post': function() { submitEditPost(); },
-  'close-edit-history-modal': function() { closeEditHistoryModal(); },
   'toggle-follow': async function(el) { await toggleFollowBtn(el, el.dataset.userId); },
   'toggle-reply-like': function(el) { toggleReplyLike(el.dataset.replyId); },
   'open-thread-reply': function(el) { openThreadReply(el.dataset.replyId, el.dataset.authorName); },

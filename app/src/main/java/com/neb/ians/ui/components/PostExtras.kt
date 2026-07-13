@@ -98,7 +98,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import coil.compose.AsyncImage
-import com.neb.ians.data.api.ApiEditHistory
+
 import com.neb.ians.data.api.ApiPoll
 import com.neb.ians.data.api.ApiPollVoteResponse
 import com.neb.ians.data.api.ApiPost
@@ -965,123 +965,6 @@ fun ReportDialog(
             TextButton(onClick = onDismiss) { Text("Cancel") }
         }
     )
-}
-
-// ---------------------------------------------------------------------------
-// Edit history dialog
-// ---------------------------------------------------------------------------
-
-data class EditHistoryState(
-    val entries: List<ApiEditHistory> = emptyList(),
-    val isLoading: Boolean = true,
-    val error: String? = null
-)
-
-@HiltViewModel
-class EditHistoryViewModel @Inject constructor(
-    private val forumRepository: ForumRepository
-) : ViewModel() {
-    private val _state = MutableStateFlow(EditHistoryState())
-    val state: StateFlow<EditHistoryState> = _state.asStateFlow()
-
-    fun load(targetType: String, targetId: String) {
-        _state.value = EditHistoryState(isLoading = true)
-        viewModelScope.launch {
-            forumRepository.getEditHistory(targetType, targetId)
-                .onSuccess { _state.value = EditHistoryState(entries = it, isLoading = false) }
-                .onFailure { _state.value = EditHistoryState(isLoading = false, error = "Couldn't load edit history") }
-        }
-    }
-}
-
-@Composable
-fun EditHistoryDialog(
-    targetType: String,
-    targetId: String,
-    onDismiss: () -> Unit,
-    viewModel: EditHistoryViewModel = hiltViewModel()
-) {
-    val state by viewModel.state.collectAsState()
-    LaunchedEffect(targetType, targetId) { viewModel.load(targetType, targetId) }
-
-    Dialog(onDismissRequest = onDismiss) {
-        Surface(
-            shape = WebPanelShape,
-            color = MaterialTheme.colorScheme.surfaceContainerLowest,
-            border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Column(modifier = Modifier.padding(18.dp)) {
-                Text(
-                    text = "Edit history",
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold
-                )
-                Spacer(modifier = Modifier.height(10.dp))
-                when {
-                    state.isLoading -> Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(110.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        CircularProgressIndicator(modifier = Modifier.size(26.dp), strokeWidth = 3.dp)
-                    }
-                    state.error != null -> Text(
-                        text = state.error ?: "",
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                    state.entries.isEmpty() -> Text(
-                        text = "No edit history recorded.",
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                    else -> LazyColumn(
-                        modifier = Modifier.heightIn(max = 420.dp),
-                        verticalArrangement = Arrangement.spacedBy(12.dp)
-                    ) {
-                        items(state.entries, key = { it.id }) { entry ->
-                            Column {
-                                Text(
-                                    text = entry.field.replaceFirstChar { it.uppercase() },
-                                    style = MaterialTheme.typography.labelLarge,
-                                    fontWeight = FontWeight.Bold
-                                )
-                                Spacer(modifier = Modifier.height(3.dp))
-                                if (entry.oldValue.isNotBlank()) {
-                                    Text(
-                                        text = entry.oldValue,
-                                        style = MaterialTheme.typography.bodySmall.copy(textDecoration = TextDecoration.LineThrough),
-                                        color = MaterialTheme.colorScheme.error,
-                                        maxLines = 4,
-                                        overflow = TextOverflow.Ellipsis
-                                    )
-                                }
-                                Text(
-                                    text = entry.newValue,
-                                    style = MaterialTheme.typography.bodySmall,
-                                    color = MaterialTheme.colorScheme.primary,
-                                    maxLines = 4,
-                                    overflow = TextOverflow.Ellipsis
-                                )
-                                Spacer(modifier = Modifier.height(3.dp))
-                                Text(
-                                    text = "${entry.editedByUsername} · ${formatTimeAgo(entry.editedAt)}",
-                                    style = MaterialTheme.typography.labelSmall,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                            }
-                        }
-                    }
-                }
-                Spacer(modifier = Modifier.height(8.dp))
-                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-                    TextButton(onClick = onDismiss) { Text("Close") }
-                }
-            }
-        }
-    }
 }
 
 // ---------------------------------------------------------------------------

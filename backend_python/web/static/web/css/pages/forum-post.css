@@ -28,10 +28,6 @@
   .fp-owner-btn:hover{background:var(--md-surface-container-high)}
   .fp-owner-btn.danger{color:var(--md-error);border-color:var(--md-error)}
   .fp-owner-btn.danger:hover{background:var(--md-error-container)}
-  .fp-edited{display:inline-flex;align-items:center;gap:2px;font-size:.6875rem;color:var(--md-on-surface-variant);cursor:pointer;padding:2px 6px;border-radius:4px;transition:background .15s}
-  .fp-edited:hover{background:var(--md-surface-container-high)}
-  .fp-edited .material-symbols-outlined{font-size:12px}
-
   .fp-section-title{font-size:1.125rem;font-weight:700;color:var(--md-on-surface);margin-bottom:16px}
   .fp-reply-sort{display:flex;align-items:center;gap:6px}
   .fp-reply-sort-btn{font-size:0.8125rem;font-weight:500;color:var(--md-on-surface-variant);text-decoration:none;padding:4px 10px;border-radius:100px;transition:all 0.15s}
@@ -120,14 +116,6 @@
   .edit-form textarea:focus,.edit-form input[type="text"]:focus{border-color:var(--md-primary)}
   .edit-form label{display:block;font-size:.8125rem;font-weight:600;color:var(--md-on-surface-variant);margin-bottom:4px}
   .edit-form .form-actions{display:flex;gap:8px;justify-content:flex-end}
-  .history-entry{padding:12px 0;border-bottom:1px solid var(--md-outline-variant)}
-  .history-entry:last-child{border-bottom:none}
-  .history-field{font-size:.75rem;font-weight:600;color:var(--md-primary);text-transform:uppercase;margin-bottom:4px}
-  .history-diff{font-size:.8125rem;color:var(--md-on-surface-variant)}
-  .history-diff del{color:var(--md-error);opacity:.7}
-  .history-diff ins{color:var(--md-primary);text-decoration:none}
-  .history-meta{font-size:.6875rem;color:var(--md-on-surface-variant);margin-top:4px}
-
   /* Thread sidebar (desktop) */
   .fp-thread-sidebar{position:fixed;top:0;right:0;width:440px;height:100vh;background:var(--md-surface);border-left:1px solid var(--md-outline-variant);z-index:900;transform:translateX(100%);transition:transform .3s cubic-bezier(.2,0,0,1);display:flex;flex-direction:column}
   .fp-thread-sidebar.open{transform:translateX(0)}
