@@ -47,12 +47,23 @@ class SearchViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val profile = authRepository.userProfileFlow.first()
-                if (profile != null) {
+                if (profile != null && !isGlobalUser(profile)) {
                     val gradePref = mapProfileGrade(profile.classLevel)
-                    _uiState.update { it.copy(selectedGradeLevel = gradePref) }
+                    if (gradePref != null) {
+                        _uiState.update { it.copy(selectedGradeLevel = gradePref) }
+                    }
                 }
             } catch (_: Exception) {}
         }
+    }
+
+    private fun isGlobalUser(profile: com.neb.ians.data.repository.UserProfileCache): Boolean {
+        val role = profile.role?.trim()?.lowercase() ?: ""
+        if (role in listOf("teacher", "institution", "explorer")) return true
+        val classLevel = profile.classLevel?.trim()?.lowercase() ?: ""
+        val globalClasses = setOf("+2 passout", "+2 passout / bachelor", "bachelor", "bachelor's", "master", "master's", "phd", "diploma")
+        if (classLevel in globalClasses) return true
+        return false
     }
 
     private fun mapProfileGrade(classLevel: String?): String? {
@@ -64,7 +75,7 @@ class SearchViewModel @Inject constructor(
             "10", "see", "class 10", "class 10 / see" -> "Class 10 / SEE"
             "9", "class 9" -> "Class 9"
             "8", "class 8" -> "Class 8"
-            else -> classLevel
+            else -> null
         }
     }
 

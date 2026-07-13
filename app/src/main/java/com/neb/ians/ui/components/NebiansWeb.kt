@@ -750,7 +750,7 @@ fun WebPostCard(
         Column(modifier = Modifier.padding(14.dp)) {
             Row(
                 verticalAlignment = Alignment.Top,
-                horizontalArrangement = Arrangement.spacedBy(10.dp)
+            horizontalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 Avatar(
                     name = post.authorName,

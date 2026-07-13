@@ -11,8 +11,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -22,8 +20,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -32,7 +28,6 @@ import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.CloudUpload
-import androidx.compose.material.icons.outlined.FilterList
 import androidx.compose.material.icons.outlined.ExpandMore
 import androidx.compose.material.icons.outlined.ContactSupport
 import androidx.compose.material.icons.outlined.Inventory2
@@ -53,12 +48,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MenuAnchorType
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -118,10 +110,8 @@ fun LibraryScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val interactiveState by interactiveViewModel.uiState.collectAsStateWithLifecycle()
     var currentTab by rememberSaveable { mutableStateOf("library") }
-    var showFilterSheet by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
     var isRefreshing by remember { mutableStateOf(false) }
-    val hasActiveFilters = uiState.selectedSubject != null || uiState.selectedGradeLevel != null || uiState.selectedType != null
     val isSyllabusDetailMode = currentTab == "syllabus" && (
         uiState.selectedSyllabusDetail != null ||
             uiState.isSyllabusSubjectLoading ||
@@ -205,24 +195,6 @@ fun LibraryScreen(
                                 )
                             }
                         }
-                        Surface(
-                            shape = CircleShape,
-                            color = if (hasActiveFilters) MaterialTheme.colorScheme.primaryContainer else Color.Transparent,
-                            border = BorderStroke(1.dp, if (hasActiveFilters) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline),
-                            modifier = Modifier.size(40.dp)
-                        ) {
-                            IconButton(
-                                onClick = { showFilterSheet = true },
-                                modifier = Modifier.size(40.dp)
-                            ) {
-                                Icon(
-                                    Icons.Outlined.FilterList,
-                                    contentDescription = "Filters",
-                                    tint = if (hasActiveFilters) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
-                                    modifier = Modifier.size(20.dp)
-                                )
-                            }
-                        }
                     }
                 }
 
@@ -234,31 +206,8 @@ fun LibraryScreen(
 
             when (currentTab) {
                 "library" -> {
-                    if (hasActiveFilters) {
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 16.dp, vertical = 4.dp),
-                            horizontalArrangement = Arrangement.spacedBy(6.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            uiState.selectedSubject?.let {
-                                ActiveFilterChip(label = it, onRemove = { viewModel.selectSubject(it) })
-                            }
-                            uiState.selectedGradeLevel?.let {
-                                ActiveFilterChip(label = it, onRemove = { viewModel.selectGradeLevel(it) })
-                            }
-                            uiState.selectedType?.let {
-                                ActiveFilterChip(label = it, onRemove = { viewModel.selectType(it) })
-                            }
-                            TextButton(onClick = viewModel::clearFilters) {
-                                Text("Clear all", style = MaterialTheme.typography.labelSmall)
-                            }
-                        }
-                    }
                     LibraryContent(
                         uiState = uiState,
-                        hasActiveFilters = hasActiveFilters,
                         onResourceClick = onResourceClick,
                         onRetry = { viewModel.refresh() },
                         onSortSelected = viewModel::selectSort,
@@ -289,44 +238,6 @@ fun LibraryScreen(
         } // end PullToRefreshBox
     }
 
-    if (showFilterSheet) {
-        com.neb.ians.ui.components.FilterDialog(
-            onDismissRequest = { showFilterSheet = false },
-            selectedSubject = uiState.selectedSubject,
-            selectedGradeLevel = uiState.selectedGradeLevel,
-            selectedType = uiState.selectedType,
-            subjects = LibraryUiState.SUBJECTS,
-            gradeLevels = LibraryUiState.GRADE_LEVELS,
-            types = LibraryUiState.TYPES,
-            onSubjectSelected = viewModel::selectSubject,
-            onGradeLevelSelected = viewModel::selectGradeLevel,
-            onTypeSelected = viewModel::selectType,
-            onClearAll = viewModel::clearFilters,
-            onApply = { showFilterSheet = false }
-        )
-    }
-}
-
-@Composable
-private fun ActiveFilterChip(label: String, onRemove: () -> Unit) {
-    Surface(
-        shape = WebPillShape,
-        color = MaterialTheme.colorScheme.primaryContainer,
-        modifier = Modifier.clickable { onRemove() }
-    ) {
-        Row(
-            modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(4.dp)
-        ) {
-            Text(
-                text = label,
-                style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.onPrimaryContainer,
-                fontWeight = FontWeight.Medium
-            )
-        }
-    }
 }
 
 @Composable
@@ -383,7 +294,6 @@ private fun TabButton(text: String, selected: Boolean, onClick: () -> Unit) {
 @Composable
 private fun LibraryContent(
     uiState: LibraryUiState,
-    hasActiveFilters: Boolean,
     onResourceClick: (String) -> Unit,
     onRetry: () -> Unit,
     onSortSelected: (String) -> Unit,
@@ -402,7 +312,7 @@ private fun LibraryContent(
         uiState.resources.isEmpty() -> {
             WebEmptyState(
                 title = "No resources found",
-                message = if (hasActiveFilters) "Try adjusting your filters." else "Resources will appear here once available.",
+                message = "Resources will appear here once available.",
                 icon = painterResource(id = R.drawable.ic_document),
                 modifier = Modifier.padding(16.dp)
             )
