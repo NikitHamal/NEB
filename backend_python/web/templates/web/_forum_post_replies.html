@@ -21,11 +21,6 @@
           {% if is_authenticated and reply.authorId != user.id %}
             <button class="follow-btn-inline {% if reply.isFollowed %}following{% else %}not-following{% endif %}" data-user-id="{{ reply.authorId }}" data-action="toggle-follow" data-user-id="{{ reply.authorId }}">{% if reply.isFollowed %}Following{% else %}Follow{% endif %}</button>
           {% endif %}
-{% if reply.isEdited %}
-            <span class="fp-edited" data-action="show-edit-history" data-target-type="reply" data-target-id="{{ reply.id }}">
-              <span class="material-symbols-outlined">edit</span> edited
-            </span>
-          {% endif %}
         </div>
         <div class="fp-reply-time">{{ reply.createdAt|time_ago }}</div>
       </div>
