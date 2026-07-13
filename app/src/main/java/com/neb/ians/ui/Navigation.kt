@@ -780,7 +780,7 @@ fun NEBiansNavHost(
                 ) {
                     Column(
                         modifier = Modifier
-                            .width(224.dp)
+                            .width(200.dp)
                             .shadow(12.dp, RoundedCornerShape(16.dp))
                             .clip(RoundedCornerShape(16.dp))
                             .background(MaterialTheme.colorScheme.surfaceContainer)
