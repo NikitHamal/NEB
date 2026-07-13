@@ -96,7 +96,7 @@
   <meta name="htmx-config" content='{"historyEnabled":true,"refreshOnHistoryMiss":true}'>
 </head>
 
-<body{% if ws_url %} data-ws-url="{{ ws_url }}"{% endif %}>
+<body class="{% block body_class %}{% endblock %}"{% if ws_url %} data-ws-url="{{ ws_url }}"{% endif %}>
   {# WebSocket configuration. realtime.js reads window.WS_CONFIG.url. #}
   <script nonce="{{ csp_nonce }}">
     window.WS_CONFIG = window.WS_CONFIG || {};
