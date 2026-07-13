@@ -967,14 +967,49 @@ def ajax_space_add_document(request, space_id):
     except StudyDocument.DoesNotExist:
         return JsonResponse({'error': 'Document not found'}, status=404)
 
+    now = now_ms()
+
+    if doc.space_id == space_id:
+        # Already attached to this space. Treat as success so repeated clicks or
+        # stale UI state do not produce a confusing 400.
+        return JsonResponse(_serialize_space_detail(space, user_id))
+
     if doc.space_id and doc.space_id != space_id:
-        return JsonResponse({'error': 'Document is already in another space'}, status=400)
+        # A StudyDocument belongs to one space, but users expect "Select existing
+        # file" to re-use/copy a file from another space. Clone metadata and any
+        # parsed AI-ready text so the new space can use it immediately without
+        # moving/removing the original document.
+        doc = StudyDocument.objects.create(
+            id=uuid_str(),
+            space=space,
+            user_id=user_id,
+            title=doc.title,
+            file_url=doc.file_url,
+            file_name=doc.file_name,
+            file_size=doc.file_size,
+            mime_type=doc.mime_type,
+            page_count=doc.page_count,
+            status=doc.status,
+            parse_status=doc.parse_status,
+            parsed_text=doc.parsed_text,
+            parsed_at=doc.parsed_at,
+            parse_error=doc.parse_error,
+            qwen_file_id=doc.qwen_file_id,
+            summary_compact=doc.summary_compact,
+            summary_detailed=doc.summary_detailed,
+            summary_generated_at=doc.summary_generated_at,
+            summary_updated_at=doc.summary_updated_at,
+            mindmap_json=doc.mindmap_json,
+            mindmap_generated_at=doc.mindmap_generated_at,
+            created_at=now,
+            updated_at=now,
+        )
+    else:
+        doc.space = space
+        doc.updated_at = now
+        doc.save(update_fields=['space', 'updated_at'])
 
-    doc.space = space
-    doc.updated_at = now_ms()
-    doc.save(update_fields=['space', 'updated_at'])
-
-    space.updated_at = now_ms()
+    space.updated_at = now
     space.save(update_fields=['updated_at'])
 
     return JsonResponse(_serialize_space_detail(space, user_id))
@@ -1096,8 +1131,16 @@ def ajax_space_upload(request, space_id):
 
     file_name = uploaded_file.name
     safe_name = f"study/{user_id}/{uuid_str()}{ext}"
-    saved_path = default_storage.save(safe_name, ContentFile(uploaded_file.read()))
-    file_url = f"/media/{saved_path}"
+    try:
+        saved_path = default_storage.save(safe_name, ContentFile(uploaded_file.read()))
+    except Exception as e:  # noqa: BLE001
+        logger.exception('StudySpace upload storage failed for user=%s space=%s file=%s', user_id, space_id, file_name)
+        return JsonResponse({'error': 'Could not save uploaded file. Please try again.'}, status=500)
+
+    try:
+        file_url = default_storage.url(saved_path)
+    except Exception:  # noqa: BLE001
+        file_url = f"/media/{saved_path}"
 
     now = now_ms()
     doc = StudyDocument.objects.create(
@@ -1117,12 +1160,22 @@ def ajax_space_upload(request, space_id):
     space.updated_at = now
     space.save(update_fields=['updated_at'])
 
-    start_parse(doc.id)
+    try:
+        start_parse(doc.id)
+    except Exception as e:  # noqa: BLE001
+        # Upload itself succeeded; parsing can be retried from the UI. Do not
+        # turn a successful file placement into a 500 for the board picker.
+        logger.exception('StudySpace upload parse start failed for doc=%s: %s', doc.id, e)
 
     return JsonResponse({
         'success': True,
         'document': _serialize_study_doc_list_item(doc),
         'space': _serialize_space_detail(space, user_id),
+        # Board file picker expects these flat fields.
+        'fileUrl': file_url,
+        'file_url': file_url,
+        'fileName': file_name,
+        'fileSize': uploaded_file.size,
     }, status=201)
 
 
