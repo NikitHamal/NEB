@@ -2,15 +2,22 @@ package com.neb.ians.util
 
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import android.content.Context
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.preferencesDataStore
 import com.neb.ians.data.api.ApiService
 import com.neb.ians.data.api.FcmTokenRequest
 import com.neb.ians.data.repository.AuthRepository
+import com.neb.ians.util.NotificationHelper
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
+private val Context.fcmDataStore by preferencesDataStore(name = "fcm")
 
 @AndroidEntryPoint
 class NEBiansFCMService : FirebaseMessagingService() {

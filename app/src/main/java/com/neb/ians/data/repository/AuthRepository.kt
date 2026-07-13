@@ -462,6 +462,20 @@ class AuthRepository @Inject constructor(
     }
 
     suspend fun logout() {
+        try {
+            val bearer = getBearerToken()
+            if (bearer != null) {
+                val fcmPrefs = dataStore.data.first()
+                val savedToken = fcmPrefs[stringPreferencesKey("fcm_token")] ?: ""
+                if (savedToken.isNotBlank()) {
+                    kotlinx.coroutines.CoroutineScope(kotlinx.coroutines.Dispatchers.IO).launch {
+                        try {
+                            apiService.unregisterFcmToken(bearer, com.neb.ians.data.api.FcmTokenRequest(savedToken))
+                        } catch (_: Exception) {}
+                    }
+                }
+            }
+        } catch (_: Exception) {}
         SecurePrefs.clearAuthToken(appContext)
         dataStore.edit { prefs ->
             prefs[AUTH_STATUS] = "unauthenticated"
@@ -537,6 +551,7 @@ class AuthRepository @Inject constructor(
                                 if (bearer != null) {
                                     apiService.registerFcmToken(bearer, com.neb.ians.data.api.FcmTokenRequest(token))
                                 }
+                                dataStore.edit { it[stringPreferencesKey("fcm_token")] = token }
                             } catch (_: Exception) {}
                         }
                     }
