@@ -349,6 +349,26 @@ def map_profile_grade(class_level):
         return 'Class 8'
     return class_level
 
+def is_global_user(user):
+    """Users who should see global/unfiltered content (no profile-based filtering)."""
+    if not user:
+        return True
+    if user.role in ('teacher', 'institution', 'explorer'):
+        return True
+    if not user.class_level:
+        return False
+    cl = user.class_level.strip().lower()
+    global_classes = {
+        '+2', '+2 passout', 'passout', 'graduate', 'graduated',
+        'bachelor', 'bachelors', 'bachelor\'s', 'ba', 'bsc', 'bbs',
+        'master', 'masters', 'master\'s', 'ma', 'msc',
+        'diploma', 'phd', 'ph.d', 'doctorate',
+        'entrance prep', 'competitive exam', 'other', 'all',
+    }
+    if cl in global_classes:
+        return True
+    return False
+
 # Star imports from this module are intentional: split view modules need the
 # same helper functions and imported framework symbols that the former monolith
 # exposed as globals. Keep this broad to avoid changing runtime behavior.

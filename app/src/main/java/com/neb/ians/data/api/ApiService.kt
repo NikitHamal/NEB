@@ -755,7 +755,8 @@ data class ApiResourceComment(
     @SerialName("is_edited") val isEditedSnake: Boolean? = null,
     @SerialName("isEdited") val isEditedCamel: Boolean? = null,
     @SerialName("created_at") val createdAtSnake: Long? = null,
-    @SerialName("createdAt") val createdAtCamel: Long? = null
+    @SerialName("createdAt") val createdAtCamel: Long? = null,
+    @SerialName("authorBadgeInfo") val authorBadgeInfo: ApiBadgeInfo? = null
 ) {
     val resourceId: String get() = resourceIdSnake ?: resourceIdCamel ?: ""
     val userId: String get() = userIdSnake ?: userIdCamel ?: ""
@@ -778,6 +779,12 @@ data class ApiResourceCommentCreateRequest(
 @Serializable
 data class ApiResourceCommentsResponse(
     val comments: List<ApiResourceComment> = emptyList()
+)
+
+@Serializable
+data class ApiResourceCommentLikeResponse(
+    @SerialName("likeCount") val likeCount: Int,
+    @SerialName("isLiked") val isLiked: Boolean
 )
 
 @Serializable
@@ -1091,6 +1098,13 @@ interface ApiService {
         @Path("resourceId") resourceId: String,
         @Path("commentId") commentId: String
     )
+
+    @POST("api/resources/{resourceId}/comments/{commentId}/like/")
+    suspend fun toggleResourceCommentLike(
+        @Header("Authorization") bearerToken: String,
+        @Path("resourceId") resourceId: String,
+        @Path("commentId") commentId: String
+    ): ApiResourceCommentLikeResponse
 
     // --- Posts ---
     @GET("api/posts/")

@@ -17,6 +17,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -84,10 +85,10 @@ class ProfileViewModel @Inject constructor(
 
     private var currentUsername: String = ""
 
-    fun loadProfile(username: String) {
+    fun loadProfile(username: String): Job {
         val cachedUser = if (appCache.lastProfileUsername == username) appCache.lastProfile else null
         currentUsername = username
-        viewModelScope.launch {
+        return viewModelScope.launch {
             if (cachedUser != null) {
                 _uiState.value = ProfileUiState(
                     profile = cachedUser,
