@@ -1762,18 +1762,25 @@
         var html = '';
         docs.forEach(function (d) {
           var icon = d.status === 'ready' ? 'description' : 'error';
-          var inSpace = d.spaceId === SPACE_ID;
-          var selClass = inSpace ? ' selected' : '';
+          var inThisSpace = d.spaceId === SPACE_ID;
+          var inAnotherSpace = !!d.spaceId && d.spaceId !== SPACE_ID;
+          var stateClass = inThisSpace ? ' ss-doc-in-current-space' : (inAnotherSpace ? ' ss-doc-in-other-space' : '');
           var meta = [];
           if (d.fileName) meta.push(d.fileName);
           if (d.fileSize) meta.push((d.fileSize / 1024).toFixed(0) + 'KB');
-          html += '<div class="ss-doc-select-item' + selClass + '" data-doc-id="' + d.id + '" data-doc-type="studydoc" data-action="ss-select-doc-item">'
+          if (inThisSpace) meta.push('Already in this space');
+          else if (inAnotherSpace) meta.push('Will copy from another space');
+          var badge = inThisSpace
+            ? '<span class="ss-doc-select-badge ss-doc-select-badge-current">Added</span>'
+            : (inAnotherSpace ? '<span class="ss-doc-select-badge">Copy</span>' : '');
+          html += '<div class="ss-doc-select-item' + stateClass + '" data-doc-id="' + d.id + '" data-doc-type="studydoc" data-doc-in-current="' + (inThisSpace ? '1' : '0') + '" data-action="ss-select-doc-item">'
             + '<span class="material-symbols-outlined">' + icon + '</span>'
             + '<div class="ss-doc-select-info">'
             + '<span class="ss-doc-select-title">' + esc(d.title) + '</span>'
             + (meta.length ? '<span class="ss-doc-select-meta">' + esc(meta.join(' · ')) + '</span>' : '')
             + '</div>'
-            + (inSpace ? '<span class="material-symbols-outlined ss-doc-select-check">done</span>' : '')
+            + badge
+            + '<span class="material-symbols-outlined ss-doc-select-check">done</span>'
             + '</div>';
         });
         list.innerHTML = html;
@@ -1815,8 +1822,14 @@
 
   function submitDocSelection() {
     if (!selectedDocId) { toast('Please select an item'); return; }
-    var selectedItem = document.querySelector('.ss-doc-select-item.selected');
+    var selectedItem = document.querySelector('#ssSelectDocModal .ss-doc-select-item.selected');
     var docType = selectedItem ? selectedItem.dataset.docType : 'studydoc';
+    if (selectedItem && selectedItem.dataset.docInCurrent === '1') {
+      toast('Document is already in this space');
+      $('ssSelectDocModal').style.display = 'none';
+      loadSpace();
+      return;
+    }
     var url, body;
     if (docType === 'resource') {
       url = '/ajax/study-space/' + SPACE_ID + '/resource/add/';
@@ -1839,8 +1852,8 @@
 
   document.addEventListener('click', function (e) {
     var item = e.target.closest('.ss-doc-select-item');
-    if (item) {
-      $$('.ss-doc-select-item').forEach(function (i) { i.classList.remove('selected'); });
+    if (item && item.closest('#ssSelectDocModal')) {
+      $$('#ssSelectDocModal .ss-doc-select-item').forEach(function (i) { i.classList.remove('selected'); });
       item.classList.add('selected');
       selectedDocId = item.dataset.docId || item.dataset.resourceId;
       return;

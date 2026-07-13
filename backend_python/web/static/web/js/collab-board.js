@@ -68,6 +68,7 @@
     this._cursorTimer = null;
     this._textInput = null;
     this._editingIdx = -1;
+    this._textEditTimer = null;
     this._resizeHandle = null;
     this._spaceHeld = false;
     this._panning = false;
@@ -80,6 +81,9 @@
     this._lastClickTime = 0;
     this._lastClickIdx = -1;
     this._filePlaceCoords = { x: 0, y: 0 };
+    this._dpr = 1;
+    this._viewportWidth = 0;
+    this._viewportHeight = 0;
   }
 
   CollabBoard.prototype.init = function(spaceId, yjsInst, savedContent) {
@@ -192,6 +196,7 @@
     this.rafId = null;
     if (this._saveTimer) clearTimeout(this._saveTimer);
     if (this._cursorTimer) clearTimeout(this._cursorTimer);
+    if (this._textEditTimer) clearTimeout(this._textEditTimer);
     this._unbindEvents();
     this._removeTextInput();
     this._remoteCursors = {};
@@ -220,16 +225,20 @@
 
   CollabBoard.prototype._render = function() {
     var ctx = this.ctx;
-    var w = this.canvas.width;
-    var h = this.canvas.height;
+    var dpr = this._dpr || window.devicePixelRatio || 1;
+    var w = this._viewportWidth || (this.canvas.width / dpr);
+    var h = this._viewportHeight || (this.canvas.height / dpr);
     var cam = this.camera;
 
-    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    // Draw in CSS pixels while the backing store remains device-pixel sized.
+    // This keeps pointer coordinates and rendered strokes aligned on HiDPI and
+    // browser-zoomed screens.
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.clearRect(0, 0, w, h);
 
     this._drawGrid(ctx, w, h, cam);
 
-    ctx.setTransform(cam.zoom, 0, 0, cam.zoom, cam.x, cam.y);
+    ctx.setTransform(dpr * cam.zoom, 0, 0, dpr * cam.zoom, dpr * cam.x, dpr * cam.y);
 
     for (var i = 0; i < this.elements.length; i++) {
       this._drawElement(ctx, this.elements[i], i === this.selectedIdx);
@@ -647,11 +656,13 @@
     if (!this.canvas || !this.container) return;
     var dpr = window.devicePixelRatio || 1;
     var r = this.container.getBoundingClientRect();
-    this.canvas.width = r.width * dpr;
-    this.canvas.height = r.height * dpr;
-    this.ctx.scale(dpr, dpr);
-    this.canvas.style.width = r.width + 'px';
-    this.canvas.style.height = r.height + 'px';
+    this._dpr = dpr;
+    this._viewportWidth = Math.max(1, r.width);
+    this._viewportHeight = Math.max(1, r.height);
+    this.canvas.width = Math.round(this._viewportWidth * dpr);
+    this.canvas.height = Math.round(this._viewportHeight * dpr);
+    this.canvas.style.width = this._viewportWidth + 'px';
+    this.canvas.style.height = this._viewportHeight + 'px';
     this.dirty = true;
   };
 
@@ -1086,6 +1097,19 @@
     input.focus();
 
     var self = this;
+    input.addEventListener('input', function() {
+      var liveEl = self.elements[idx];
+      if (!liveEl) return;
+      liveEl.text = input.value;
+      self.dirty = true;
+      if (self._textEditTimer) clearTimeout(self._textEditTimer);
+      self._textEditTimer = setTimeout(function() {
+        self._textEditTimer = null;
+        if (self._editingIdx === idx && self.elements[idx]) {
+          self._updateElement(idx, self.elements[idx]);
+        }
+      }, 450);
+    });
     input.addEventListener('blur', function() {
       self._commitTextEdit();
     });
@@ -1113,6 +1137,7 @@
   };
 
   CollabBoard.prototype._removeTextInput = function() {
+    if (this._textEditTimer) { clearTimeout(this._textEditTimer); this._textEditTimer = null; }
     if (this._textInput && this._textInput.parentNode) {
       this._textInput.parentNode.removeChild(this._textInput);
     }

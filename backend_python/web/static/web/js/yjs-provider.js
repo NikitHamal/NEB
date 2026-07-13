@@ -46,6 +46,7 @@
     this._remoteCursors = {};
     this._onRemoteCursor = null;
     this._connected = false;
+    this._pendingUpdates = [];
     this._boundTextarea = null;
     this._boundFns = { input: null, mouseup: null, keyup: null };
   }
@@ -100,7 +101,10 @@
     } catch(e) { return; }
 
     this.ws.onopen = function() {
-      self._connected = true;
+      // Wait for the server's `subscribed` ack before treating the transport as
+      // usable. Messages sent before group_add completes can be dropped by the
+      // consumer because it intentionally only relays updates to joined groups.
+      self._connected = false;
       try {
         self.ws.send(JSON.stringify({ action: 'subscribe', channel: 'studyspace.' + self.spaceId }));
       } catch(e) {}
@@ -110,14 +114,36 @@
     this.ws.onmessage = function(e) {
       try {
         var msg = JSON.parse(e.data);
+        if (msg.type === 'ping') {
+          // The Django Channels consumer uses an application-level heartbeat.
+          // If we don't answer, the server closes the socket after ~30s, which
+          // makes collaboration appear to work briefly and then only update
+          // after refresh/HTTP save.
+          try { self.ws.send(JSON.stringify({ action: 'pong' })); } catch(_) {}
+          return;
+        }
         if (msg.type === 'ready') {
           self.userId = msg.user_id;
           self.color = pickColor(self.userId || self.spaceId);
+        } else if (msg.type === 'subscribed') {
+          self._connected = true;
+          if (self._pendingUpdates.length) {
+            var pending = self._pendingUpdates.splice(0, self._pendingUpdates.length);
+            pending.forEach(function(updateB64) {
+              try {
+                self.ws.send(JSON.stringify({
+                  action: 'yjs_update',
+                  spaceId: self.spaceId,
+                  update: updateB64,
+                }));
+              } catch(_) {}
+            });
+          }
         } else if (msg.type === 'event') {
           self._handleEvent(msg);
         }
       } catch(err) {}
-    };
+    }; 
 
     this.ws.onclose = function() {
       self._connected = false;
@@ -201,14 +227,25 @@
   };
 
   SSYjs.prototype._sendUpdate = function(update) {
-    if (!this._connected || !this.ws) return;
+    var updateB64 = arrayToBase64(update);
+    if (!this._connected || !this.ws || this.ws.readyState !== WebSocket.OPEN) {
+      // Keep a small offline/early-subscribe buffer so fast first strokes or
+      // short reconnects don't vanish. Yjs updates are idempotent; duplicates
+      // are safe, but we cap the queue to avoid unbounded memory use.
+      this._pendingUpdates.push(updateB64);
+      if (this._pendingUpdates.length > 200) this._pendingUpdates.shift();
+      return;
+    }
     try {
       this.ws.send(JSON.stringify({
         action: 'yjs_update',
         spaceId: this.spaceId,
-        update: arrayToBase64(update),
+        update: updateB64,
       }));
-    } catch(e) {}
+    } catch(e) {
+      this._pendingUpdates.push(updateB64);
+      if (this._pendingUpdates.length > 200) this._pendingUpdates.shift();
+    }
   };
 
   SSYjs.prototype._sendAwareness = function(start, end) {
