@@ -1,7 +1,12 @@
 """Views Profile extracted from views.py."""
 from .view_helpers import *  # noqa: F401,F403
 from api.view_helpers import _profile_incomplete, _can_view_locked_profile
-from api.models import FollowRequest, NEPAL_DISTRICTS
+from api.models import FollowRequest, NEPAL_DISTRICTS, SocialLink
+from api.social_links import (
+    get_user_links, get_all_user_links, create_link as _create_social_link,
+    update_link as _update_social_link, delete_link as _delete_social_link,
+    reorder_links as _reorder_social_links,
+)
 from io import BytesIO
 from pathlib import Path
 
@@ -943,3 +948,27 @@ def delete_account_page(request):
         pending_request=pending_request,
         scheduled_date=scheduled_date_str
     ))
+
+
+def settings_page(request):
+    token = api.get_session_token(request)
+    if not token:
+        return redirect(f"{reverse('web:login')}?next={request.get_full_path()}")
+    user = api.get_session_user(request)
+    if not user:
+        return redirect(f"{reverse('web:login')}?next={request.get_full_path()}")
+    try:
+        db_user = User.objects.get(id=user.get('id'))
+    except User.DoesNotExist:
+        return redirect(f"{reverse('web:login')}?next={request.get_full_path()}")
+    if not getattr(db_user, 'email_verified', False):
+        return redirect(f"{reverse('web:login')}?next={request.get_full_path()}")
+    has_password = bool(db_user.password_hash)
+
+    from api.models import AccountDeletionRequest
+    pending_request = AccountDeletionRequest.objects.filter(
+        user=db_user,
+        status=AccountDeletionRequest.STATUS_PENDING
+    ).first()
+
+    return render(request, 'web/settings.html', _ctx(request, has_password=has_password, pending_request=pending_request))
