@@ -671,7 +671,18 @@ private fun PostContentSection(
                     onLongClick = onAuthorLongPress
                 )
             ) {
-                Avatar(name = post.authorName, imageUrl = post.authorPhotoUrl, size = 38.dp)
+                val postLevel = remember(post.authorBadgeInfo) {
+                    if (post.authorBadgeInfo?.type == "verified") {
+                        when (post.authorBadgeInfo.color?.trim()?.lowercase()) {
+                            "#1b9af0" -> 1
+                            "#2e7d32" -> 2
+                            "#f59e0b" -> 3
+                            "#1a1a1a" -> 4
+                            else -> 1
+                        }
+                    } else 0
+                }
+                Avatar(name = post.authorName, imageUrl = post.authorPhotoUrl, size = 38.dp, verificationLevel = postLevel)
             }
             Column(modifier = Modifier.weight(1f)) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
@@ -870,7 +881,18 @@ private fun ReplyItem(
                         onLongClick = onAuthorLongPress
                     )
                 ) {
-                    Avatar(name = reply.authorName, imageUrl = reply.authorPhotoUrl, size = 28.dp)
+                    val replyLevel = remember(reply.authorBadgeInfo) {
+                        if (reply.authorBadgeInfo?.type == "verified") {
+                            when (reply.authorBadgeInfo.color?.trim()?.lowercase()) {
+                                "#1b9af0" -> 1
+                                "#2e7d32" -> 2
+                                "#f59e0b" -> 3
+                                "#1a1a1a" -> 4
+                                else -> 1
+                            }
+                        } else 0
+                    }
+                    Avatar(name = reply.authorName, imageUrl = reply.authorPhotoUrl, size = 28.dp, verificationLevel = replyLevel)
                 }
                 Column(modifier = Modifier.weight(1f)) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
@@ -1042,10 +1064,22 @@ private fun ReplyItem(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     val firstChild = children.first()
+                    val childLevel = remember(firstChild.authorBadgeInfo) {
+                        if (firstChild.authorBadgeInfo?.type == "verified") {
+                            when (firstChild.authorBadgeInfo.color?.trim()?.lowercase()) {
+                                "#1b9af0" -> 1
+                                "#2e7d32" -> 2
+                                "#f59e0b" -> 3
+                                "#1a1a1a" -> 4
+                                else -> 1
+                            }
+                        } else 0
+                    }
                     Avatar(
                         name = firstChild.authorName,
                         imageUrl = firstChild.authorPhotoUrl,
-                        size = 20.dp
+                        size = 20.dp,
+                        verificationLevel = childLevel
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(

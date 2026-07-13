@@ -76,7 +76,7 @@ fun NewsDetailScreen(
         topBar = {
             WebTopBar(
                 showBack = true,
-                title = "News",
+                title = "Blog",
                 subtitle = uiState.detail?.announcement?.title,
                 onBackClick = onNavigateBack,
                 compactTitle = true,
@@ -88,7 +88,7 @@ fun NewsDetailScreen(
                                 putExtra(Intent.EXTRA_SUBJECT, detail.announcement.title)
                                 putExtra(Intent.EXTRA_TEXT, detail.announcement.url)
                             }
-                            context.startActivity(Intent.createChooser(intent, "Share News"))
+                            context.startActivity(Intent.createChooser(intent, "Share Post"))
                         }) {
                             Icon(Icons.Filled.Share, contentDescription = "Share")
                         }
@@ -104,7 +104,7 @@ fun NewsDetailScreen(
             }
             uiState.error != null -> {
                 ErrorCard(
-                    message = uiState.error ?: "Couldn't load news",
+                    message = uiState.error ?: "Couldn't load blog post",
                     onRetry = viewModel::retry,
                     modifier = Modifier
                         .padding(innerPadding)
@@ -128,7 +128,7 @@ fun NewsDetailScreen(
                                     putExtra(Intent.EXTRA_SUBJECT, detail.announcement.title)
                                     putExtra(Intent.EXTRA_TEXT, detail.announcement.url)
                                 }
-                                context.startActivity(Intent.createChooser(intent, "Share News"))
+                                context.startActivity(Intent.createChooser(intent, "Share Post"))
                             }
                         )
                     }

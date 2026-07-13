@@ -91,6 +91,7 @@ fun HomeScreen(
         topBar = {
             WebTopBar(
                 onSearchClick = onSearchClick,
+                onUploadClick = onUploadClick,
                 onNotificationsClick = onNotificationsClick,
                 onProfileClick = onProfileClick,
                 avatarInitial = uiState.userName,
@@ -135,54 +136,7 @@ fun HomeScreen(
                         )
                     }
 
-                    HomeNewsSection(
-                        items = uiState.latestNews,
-                        onViewAllClick = onNewsClick,
-                        onNewsClick = { news -> onNewsItemClick(news.slug) }
-                    )
-
-                    if (uiState.latestNews.isNotEmpty()) {
-                        Spacer(modifier = Modifier.height(18.dp))
-                    }
-
-                    Surface(
-                        onClick = onUploadClick,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp, vertical = 8.dp),
-                        shape = RoundedCornerShape(16.dp),
-                        color = MaterialTheme.colorScheme.primaryContainer
-                    ) {
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 16.dp, vertical = 14.dp),
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(12.dp)
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.Upload,
-                                contentDescription = null,
-                                tint = MaterialTheme.colorScheme.onPrimaryContainer,
-                                modifier = Modifier.size(24.dp)
-                            )
-                            Column {
-                                Text(
-                                    text = "Upload Resources",
-                                    style = MaterialTheme.typography.titleSmall,
-                                    fontWeight = FontWeight.SemiBold,
-                                    color = MaterialTheme.colorScheme.onPrimaryContainer
-                                )
-                                Text(
-                                    text = "Share your study materials with the community",
-                                    style = MaterialTheme.typography.bodySmall,
-                                    color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.7f)
-                                )
-                            }
-                        }
-                    }
-
-                    Spacer(modifier = Modifier.height(18.dp))
+                    Spacer(modifier = Modifier.height(12.dp))
 
                     WebSectionHeader(
                         title = "Trending Resources",
@@ -195,7 +149,16 @@ fun HomeScreen(
                         onResourceClick = onResourceClick
                     )
 
-                    Spacer(modifier = Modifier.height(18.dp))
+                    if (uiState.latestNews.isNotEmpty()) {
+                        Spacer(modifier = Modifier.height(12.dp))
+                        HomeNewsSection(
+                            items = uiState.latestNews,
+                            onViewAllClick = onNewsClick,
+                            onNewsClick = { news -> onNewsItemClick(news.slug) }
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(12.dp))
                     WebSectionHeader(
                         title = "Trending Discussions",
                         actionLabel = "View all",
@@ -210,10 +173,10 @@ fun HomeScreen(
                             modifier = Modifier.padding(horizontal = 16.dp)
                         )
                     } else {
-                        val trendingPosts = remember(uiState.recentPosts) { uiState.recentPosts.take(4) }
+                        val trendingPosts = remember(uiState.recentPosts) { uiState.recentPosts.take(3) }
                         Column(
                             modifier = Modifier.padding(horizontal = 16.dp),
-                            verticalArrangement = Arrangement.spacedBy(12.dp)
+                            verticalArrangement = Arrangement.spacedBy(10.dp)
                         ) {
                             trendingPosts.forEach { post ->
                                 ForumPostCard(
@@ -232,7 +195,7 @@ fun HomeScreen(
                         }
                     }
 
-                    Spacer(modifier = Modifier.height(110.dp))
+                    Spacer(modifier = Modifier.height(72.dp))
                 }
             }
         }
@@ -265,7 +228,7 @@ private fun ResourceRow(
             modifier = Modifier.padding(horizontal = 16.dp)
         )
     } else {
-        val rowItems = remember(resources) { resources.take(12) }
+        val rowItems = remember(resources) { resources.take(5) }
         LazyRow(
             contentPadding = PaddingValues(horizontal = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp)

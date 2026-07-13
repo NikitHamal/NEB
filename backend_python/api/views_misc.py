@@ -103,6 +103,12 @@ def search_all(request):
     grade = (request.query_params.get('grade') or '').strip()
     rtype = (request.query_params.get('type') or '').strip()
     requesting_user = _get_user_from_request(request)
+
+    # Auto-filter search by requesting user's profile class level if not overridden/cleared
+    if requesting_user and not subject and not grade and not request.query_params.get('clear'):
+        mapped_grade = map_profile_grade(requesting_user.class_level)
+        if mapped_grade:
+            grade = mapped_grade
     if not query:
         return Response({'resources': [], 'posts': [], 'users': []})
 

@@ -1,17 +1,17 @@
 {% extends "admin_panel/base.html" %}
 {% load static web_extras %}
 
-{% block title %}News &amp; Announcements{% endblock %}
+{% block title %}Blog &amp; Updates{% endblock %}
 
 {% block content %}
 <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:12px;">
   <div>
-    <h1 class="md-headline-medium" style="margin:0;">News &amp; Announcements</h1>
-    <p class="md-body-small" style="color:var(--md-on-surface-variant);margin:4px 0 0;">Publish news, exam result updates, and notices for the NEBians community.</p>
+    <h1 class="md-headline-medium" style="margin:0;">Blog &amp; Updates</h1>
+    <p class="md-body-small" style="color:var(--md-on-surface-variant);margin:4px 0 0;">Publish blog articles, exam result updates, and notices for the NEBians community.</p>
   </div>
   <a href="{% url 'web:admin_announcement_new' %}" class="md-btn md-btn-filled">
     <span class="material-symbols-outlined">add</span>
-    New Announcement
+    New Blog Post
   </a>
 </div>
 

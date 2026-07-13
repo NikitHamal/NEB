@@ -31,10 +31,12 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Verified
 import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.ThumbUp
 import androidx.compose.material.icons.outlined.Visibility
+import androidx.compose.material.icons.outlined.Upload
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -141,6 +143,7 @@ fun WebTopBar(
     onBackClick: () -> Unit = {},
     onLogoClick: () -> Unit = {},
     onSearchClick: () -> Unit = {},
+    onUploadClick: () -> Unit = {},
     onNotificationsClick: () -> Unit = {},
     onProfileClick: () -> Unit = {},
     avatarInitial: String? = null,
@@ -234,6 +237,11 @@ fun WebTopBar(
                 imageVector = Icons.Outlined.Search,
                 contentDescription = "Search",
                 onClick = onSearchClick
+            )
+            WebIconButton(
+                imageVector = Icons.Outlined.Upload,
+                contentDescription = "Upload",
+                onClick = onUploadClick
             )
             Box {
                 WebIconButton(
@@ -869,44 +877,73 @@ fun Avatar(
     name: String,
     imageUrl: String?,
     modifier: Modifier = Modifier,
-    size: Dp = 40.dp
+    size: Dp = 40.dp,
+    verificationLevel: Int = 0
 ) {
-    Surface(
-        modifier = modifier.size(size),
-        shape = CircleShape,
-        color = MaterialTheme.colorScheme.primary
-    ) {
-        val resolvedUrl = remember(imageUrl) {
-            if (imageUrl.isNullOrBlank()) null
-            else {
-                var url = imageUrl.trim()
-                if (url.startsWith("http://127.0.0.1:8000/") || url.startsWith("http://localhost:8000/")) {
-                    url = url.replace("http://127.0.0.1:8000/", "https://nebians.consica.com.np/")
-                             .replace("http://localhost:8000/", "https://nebians.consica.com.np/")
+    Box(modifier = modifier.size(size)) {
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            shape = CircleShape,
+            color = MaterialTheme.colorScheme.primary
+        ) {
+            val resolvedUrl = remember(imageUrl) {
+                if (imageUrl.isNullOrBlank()) null
+                else {
+                    var url = imageUrl.trim()
+                    if (url.startsWith("http://127.0.0.1:8000/") || url.startsWith("http://localhost:8000/")) {
+                        url = url.replace("http://127.0.0.1:8000/", "https://nebians.consica.com.np/")
+                                 .replace("http://localhost:8000/", "https://nebians.consica.com.np/")
+                    }
+                    if (url.startsWith("http://") || url.startsWith("https://")) {
+                        url
+                    } else {
+                        "https://nebians.consica.com.np${if (url.startsWith("/")) "" else "/"}$url"
+                    }
                 }
-                if (url.startsWith("http://") || url.startsWith("https://")) {
-                    url
-                } else {
-                    "https://nebians.consica.com.np${if (url.startsWith("/")) "" else "/"}$url"
+            }
+            var isError by remember(resolvedUrl) { mutableStateOf(false) }
+            if (!resolvedUrl.isNullOrBlank() && !isError) {
+                AsyncImage(
+                    model = resolvedUrl,
+                    contentDescription = name,
+                    modifier = Modifier.fillMaxSize(),
+                    contentScale = ContentScale.Crop,
+                    onError = { isError = true }
+                )
+            } else {
+                Box(contentAlignment = Alignment.Center) {
+                    Text(
+                        text = name.firstOrNull()?.uppercase() ?: "?",
+                        style = MaterialTheme.typography.labelLarge,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onPrimary
+                    )
                 }
             }
         }
-        var isError by remember(resolvedUrl) { mutableStateOf(false) }
-        if (!resolvedUrl.isNullOrBlank() && !isError) {
-            AsyncImage(
-                model = resolvedUrl,
-                contentDescription = name,
-                modifier = Modifier.fillMaxSize(),
-                contentScale = ContentScale.Crop,
-                onError = { isError = true }
-            )
-        } else {
-            Box(contentAlignment = Alignment.Center) {
-                Text(
-                    text = name.firstOrNull()?.uppercase() ?: "?",
-                    style = MaterialTheme.typography.labelLarge,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onPrimary
+
+        if (verificationLevel > 0) {
+            val badgeColor = when (verificationLevel) {
+                1 -> Color(0xFF1B9AF0)
+                2 -> Color(0xFF2E7D32)
+                3 -> Color(0xFFF59E0B)
+                else -> Color(0xFF1A1A1A)
+            }
+            val badgeSize = size * 0.35f
+            Box(
+                modifier = Modifier
+                    .size(badgeSize)
+                    .align(Alignment.BottomEnd)
+                    .background(Color.White, CircleShape)
+                    .padding(1.dp)
+                    .background(badgeColor, CircleShape),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.Verified,
+                    contentDescription = "Verified",
+                    tint = Color.White,
+                    modifier = Modifier.size(badgeSize * 0.85f)
                 )
             }
         }

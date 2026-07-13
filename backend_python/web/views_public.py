@@ -68,6 +68,13 @@ def home(request):
     if resources is None:
         resources = _serialize_resources(Resource.objects.filter(approval_status='approved', is_lead=True)[:50])
         cache.set('home_resources', resources, 60)
+    user_profile = None
+    if user_id:
+        try:
+            from api.models import User
+            user_profile = User.objects.get(id=user_id)
+        except User.DoesNotExist:
+            pass
     posts_qs = Post.objects.select_related('user').filter(is_archived=False, user__email_verified=True).order_by('-created_at')[:20]
     all_posts = _serialize_posts(posts_qs, user_id)
     import math as _math
@@ -84,7 +91,38 @@ def home(request):
         return _math.log2(max(engagement, 1)) - age_hours / 168.0
     all_posts.sort(key=_post_hot, reverse=True)
 
-    trending_resources = sorted(resources, key=lambda r: r.get('view_count', 0), reverse=True)[:8]
+    if user_profile and (user_profile.class_level or user_profile.subjects):
+        grade_pref = (user_profile.class_level or '').strip().lower()
+        subject_prefs = [s.strip().lower() for s in (user_profile.subjects or '').split(',') if s.strip()]
+        
+        def get_relevance_score(r):
+            r_grade = (r.get('grade_level') or '').strip().lower()
+            r_subject = (r.get('subject') or '').strip().lower()
+            
+            grade_match = (r_grade == grade_pref) if grade_pref else False
+            subject_match = False
+            if subject_prefs:
+                for s in subject_prefs:
+                    if s in r_subject:
+                        subject_match = True
+                        break
+            if grade_match and subject_match:
+                return 4
+            elif grade_match:
+                return 3
+            elif subject_match:
+                return 2
+            else:
+                return 1
+
+        curated_resources = sorted(
+            resources,
+            key=lambda r: (get_relevance_score(r), r.get('view_count', 0)),
+            reverse=True
+        )
+        trending_resources = curated_resources[:5]
+    else:
+        trending_resources = sorted(resources, key=lambda r: r.get('view_count', 0), reverse=True)[:5]
     trending_posts = all_posts[:3]
     subjects = []
     seen = set()
@@ -93,17 +131,17 @@ def home(request):
         if s and s not in seen:
             subjects.append(s)
             seen.add(s)
-    latest_news = cache.get('home_latest_news')
+    latest_news = cache.get('home_latest_news_v3')
     if latest_news is None:
         from api.models import Announcement
         news_qs = Announcement.objects.select_related('author').filter(
             status='published'
-        ).order_by('-is_pinned', '-published_at')[:4]
+        ).order_by('-is_pinned', '-published_at')[:5]
         latest_news = []
         from .views_news import _serialize_announcement
         for a in news_qs:
             latest_news.append(_serialize_announcement(a))
-        cache.set('home_latest_news', latest_news, 120)
+        cache.set('home_latest_news_v3', latest_news, 120)
     home_stats = cache.get('home_stats_v2')
     if home_stats is None:
         home_stats = {
@@ -124,8 +162,26 @@ def home(request):
 
 def library(request):
     user_id = _get_user_id(request)
+    user_profile = None
+    if user_id:
+        try:
+            from api.models import User
+            user_profile = User.objects.get(id=user_id)
+        except User.DoesNotExist:
+            pass
+
     subjects = [s.strip() for s in request.GET.getlist('subject') if s.strip()]
     grades = [g.strip() for g in request.GET.getlist('grade') if g.strip()]
+
+    # Auto-filter by profile if visiting the Library page directly (no parameters)
+    if not request.GET and user_profile:
+        mapped_grade = map_profile_grade(user_profile.class_level)
+        if mapped_grade:
+            grades = [mapped_grade]
+        profile_subjects = [s.strip() for s in (user_profile.subjects or '').split(',') if s.strip()]
+        if profile_subjects:
+            subjects = profile_subjects
+
     types = [t.strip() for t in request.GET.getlist('type') if t.strip()]
     faculties = [f.strip() for f in request.GET.getlist('faculty') if f.strip()]
     exam_types = [e.strip() for e in request.GET.getlist('exam_type') if e.strip()]
@@ -173,16 +229,57 @@ def library(request):
                 q |= Q(exam_type__iexact=e)
             qs = qs.filter(q)
             
-        if sort_by == 'newest':
-            qs = qs.order_by('-added_at')
-        elif sort_by == 'oldest':
-            qs = qs.order_by('added_at')
-        elif sort_by == 'liked':
-            qs = qs.order_by('-like_count', '-added_at')
-        elif sort_by == 'trending':
-            qs = qs.order_by('-added_at')
+        user_profile = None
+        if user_id:
+            try:
+                from api.models import User
+                user_profile = User.objects.get(id=user_id)
+            except User.DoesNotExist:
+                pass
+
+        if user_profile and (user_profile.class_level or user_profile.subjects):
+            grade_pref = user_profile.class_level
+            subject_prefs = [s.strip().lower() for s in (user_profile.subjects or '').split(',') if s.strip()]
+            
+            grade_match = Q(grade_level__iexact=grade_pref) if grade_pref else Q(pk__in=[])
+            subject_match = Q(pk__in=[])
+            if subject_prefs:
+                q_subj = Q()
+                for s in subject_prefs:
+                    q_subj |= Q(subject__icontains=s)
+                subject_match = q_subj
+                
+            from django.db.models import Case, When, Value, IntegerField
+            qs = qs.annotate(
+                relevance_score=Case(
+                    When(grade_match & subject_match, then=Value(4)),
+                    When(grade_match, then=Value(3)),
+                    When(subject_match, then=Value(2)),
+                    default=Value(1),
+                    output_field=IntegerField(),
+                )
+            )
+            if sort_by == 'newest':
+                qs = qs.order_by('-relevance_score', '-added_at')
+            elif sort_by == 'oldest':
+                qs = qs.order_by('-relevance_score', 'added_at')
+            elif sort_by == 'liked':
+                qs = qs.order_by('-relevance_score', '-like_count', '-added_at')
+            elif sort_by == 'trending':
+                qs = qs.order_by('-relevance_score', '-added_at')
+            else:
+                qs = qs.order_by('-relevance_score', '-view_count', '-added_at')
         else:
-            qs = qs.order_by('-view_count', '-added_at')
+            if sort_by == 'newest':
+                qs = qs.order_by('-added_at')
+            elif sort_by == 'oldest':
+                qs = qs.order_by('added_at')
+            elif sort_by == 'liked':
+                qs = qs.order_by('-like_count', '-added_at')
+            elif sort_by == 'trending':
+                qs = qs.order_by('-added_at')
+            else:
+                qs = qs.order_by('-view_count', '-added_at')
             
         from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
         page_num = request.GET.get('page', 1)
@@ -292,11 +389,25 @@ def library(request):
 
 def search(request):
     user_id = _get_user_id(request)
+    user_profile = None
+    if user_id:
+        try:
+            from api.models import User
+            user_profile = User.objects.get(id=user_id)
+        except User.DoesNotExist:
+            pass
+
     query = request.GET.get('q', '').strip()
     tab = request.GET.get('tab', 'all')
     subject = request.GET.get('subject', '')
     grade = request.GET.get('grade', '')
     rtype = request.GET.get('type', '')
+
+    # Auto-filter search by user profile class level if not overridden/cleared
+    if user_profile and not request.GET.get('subject') and not request.GET.get('grade') and not request.GET.get('clear'):
+        mapped_grade = map_profile_grade(user_profile.class_level)
+        if mapped_grade:
+            grade = mapped_grade
     resource_results = []
     post_results = []
     user_results = []
