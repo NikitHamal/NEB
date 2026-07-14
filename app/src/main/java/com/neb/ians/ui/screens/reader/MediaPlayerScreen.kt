@@ -17,6 +17,10 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.Canvas
@@ -38,7 +42,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.filled.ArrowBack
+import kotlinx.coroutines.delay
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Download
@@ -121,40 +131,194 @@ fun MediaPlayerScreen(
 
     fun toggleFullscreen(fs: Boolean) {
         isFullscreen = fs
-        activity?.window?.let { w ->
-            val decor = w.decorView
-            if (fs) {
-                if (android.os.Build.VERSION.SDK_INT >= 35) {
-                    val ctrl = decor.windowInsetsController
-                    ctrl?.hide(WindowInsets.Type.systemBars())
-                    ctrl?.systemBarsBehavior = WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-                } else {
-                    @Suppress("DEPRECATION")
-                    decor.systemUiVisibility = (View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                        or View.SYSTEM_UI_FLAG_FULLSCREEN
-                        or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)
-                }
+        activity?.let { act ->
+            act.requestedOrientation = if (fs) {
+                android.content.pm.ActivityInfo.SCREEN_ORIENTATION_SENSOR
             } else {
-                if (android.os.Build.VERSION.SDK_INT >= 35) {
-                    decor.windowInsetsController?.show(WindowInsets.Type.systemBars())
+                android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+            }
+            act.window?.let { w ->
+                val decor = w.decorView
+                if (fs) {
+                    if (android.os.Build.VERSION.SDK_INT >= 35) {
+                        val ctrl = decor.windowInsetsController
+                        ctrl?.hide(WindowInsets.Type.systemBars())
+                        ctrl?.systemBarsBehavior = WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+                    } else {
+                        @Suppress("DEPRECATION")
+                        decor.systemUiVisibility = (View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                            or View.SYSTEM_UI_FLAG_FULLSCREEN
+                            or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)
+                    }
                 } else {
-                    @Suppress("DEPRECATION")
-                    decor.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
+                    if (android.os.Build.VERSION.SDK_INT >= 35) {
+                        decor.windowInsetsController?.show(WindowInsets.Type.systemBars())
+                    } else {
+                        @Suppress("DEPRECATION")
+                        decor.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
+                    }
                 }
             }
         }
     }
 
     if (isFullscreen) {
-        Box(modifier = Modifier.fillMaxSize().background(Color.Black).clickable { toggleFullscreen(false) }) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.Black)
+        ) {
             AndroidView(
                 factory = { ctx ->
-                    FrameLayout(ctx).apply {
-                        setBackgroundColor(android.graphics.Color.BLACK)
-                    }
+                    android.view.SurfaceView(ctx)
+                },
+                update = { sv ->
+                    player?.setVideoSurfaceView(sv)
                 },
                 modifier = Modifier.fillMaxSize()
             )
+
+            var showControls by remember { mutableStateOf(true) }
+            LaunchedEffect(showControls) {
+                if (showControls) {
+                    delay(4000L)
+                    showControls = false
+                }
+            }
+
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .clickable { showControls = !showControls }
+            ) {
+                AnimatedVisibility(
+                    visible = showControls,
+                    enter = fadeIn(),
+                    exit = fadeOut()
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(Color.Black.copy(alpha = 0.5f))
+                    ) {
+                        IconButton(
+                            onClick = { toggleFullscreen(false) },
+                            modifier = Modifier
+                                .align(Alignment.TopStart)
+                                .padding(16.dp)
+                                .statusBarsPadding()
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.ArrowBack,
+                                contentDescription = "Exit Fullscreen",
+                                tint = Color.White
+                            )
+                        }
+
+                        IconButton(
+                            onClick = { viewModel.togglePlay() },
+                            modifier = Modifier
+                                .align(Alignment.Center)
+                                .size(64.dp)
+                                .background(Color.Black.copy(alpha = 0.4f), CircleShape)
+                        ) {
+                            Icon(
+                                imageVector = if (uiState.isPlaying) Icons.Filled.Pause else Icons.Filled.PlayArrow,
+                                contentDescription = if (uiState.isPlaying) "Pause" else "Play",
+                                tint = Color.White,
+                                modifier = Modifier.size(36.dp)
+                            )
+                        }
+
+                        Column(
+                            modifier = Modifier
+                                .align(Alignment.BottomCenter)
+                                .navigationBarsPadding()
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp, vertical = 8.dp)
+                        ) {
+                            NmpProgressBar(
+                                currentMs = uiState.currentTimeMs,
+                                durationMs = uiState.durationMs,
+                                bufferedPercent = uiState.bufferedPercent,
+                                subjectColor = sc,
+                                onSeek = { ratio -> viewModel.seekToRatio(ratio) }
+                            )
+
+                            Spacer(modifier = Modifier.height(4.dp))
+
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                IconButton(onClick = { viewModel.seekBy(-10000L) }) {
+                                    Icon(Icons.Filled.Replay10, "Rewind 10s", tint = Color.White)
+                                }
+
+                                IconButton(onClick = { viewModel.seekBy(10000L) }) {
+                                    Icon(Icons.Filled.Forward10, "Forward 10s", tint = Color.White)
+                                }
+
+                                Spacer(modifier = Modifier.width(8.dp))
+
+                                Text(
+                                    text = "${fmtTime(uiState.currentTimeMs)} / ${fmtTime(uiState.durationMs)}",
+                                    color = Color.White,
+                                    fontSize = 13.sp
+                                )
+
+                                Spacer(modifier = Modifier.weight(1f))
+
+                                var speedExpanded by remember { mutableStateOf(false) }
+                                Box {
+                                    Button(
+                                        onClick = { speedExpanded = true },
+                                        colors = ButtonDefaults.buttonColors(
+                                            containerColor = Color.Transparent,
+                                            contentColor = Color.White
+                                        ),
+                                        border = BorderStroke(1.dp, Color.White.copy(alpha = 0.5f)),
+                                        shape = RoundedCornerShape(999.dp),
+                                        contentPadding = PaddingValues(horizontal = 8.dp, vertical = 0.dp),
+                                        modifier = Modifier.height(32.dp)
+                                    ) {
+                                        Text(
+                                            text = if (uiState.speed == 1f) "1x" else "${uiState.speed}x",
+                                            fontWeight = FontWeight.Bold,
+                                            fontSize = 12.sp
+                                        )
+                                    }
+
+                                    DropdownMenu(
+                                        expanded = speedExpanded,
+                                        onDismissRequest = { speedExpanded = false }
+                                    ) {
+                                        listOf(0.5f, 0.75f, 1f, 1.25f, 1.5f, 1.75f, 2f).forEach { speed ->
+                                            DropdownMenuItem(
+                                                text = { Text("${speed}x") },
+                                                onClick = {
+                                                    viewModel.setSpeed(speed)
+                                                    speedExpanded = false
+                                                }
+                                            )
+                                        }
+                                    }
+                                }
+
+                                Spacer(modifier = Modifier.width(12.dp))
+
+                                IconButton(onClick = { toggleFullscreen(false) }) {
+                                    Icon(
+                                        imageVector = Icons.Filled.Fullscreen,
+                                        contentDescription = "Exit Fullscreen",
+                                        tint = Color.White
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
         return
     }
@@ -230,8 +394,6 @@ fun MediaPlayerScreen(
                             currentTimeMs = uiState.currentTimeMs,
                             durationMs = uiState.durationMs,
                             bufferedPercent = uiState.bufferedPercent,
-                            volume = uiState.volume,
-                            isMuted = uiState.isMuted,
                             speed = uiState.speed,
                             speedMenuOpen = uiState.speedMenuOpen,
                             showFullscreen = uiState.isVideo,
@@ -240,8 +402,6 @@ fun MediaPlayerScreen(
                             onBack = { viewModel.seekBy(-SEEK_MS) },
                             onFwd = { viewModel.seekBy(SEEK_MS) },
                             onSeekRatio = { viewModel.seekToRatio(it) },
-                            onVolumeChange = { viewModel.setVolume(it) },
-                            onMuteToggle = { viewModel.toggleMute() },
                             onSpeedToggle = { viewModel.toggleSpeedMenu() },
                             onSpeedSelect = { viewModel.setSpeed(it) },
                             onDismissSpeed = { viewModel.dismissSpeedMenu() },
@@ -595,8 +755,6 @@ private fun NmpControls(
     currentTimeMs: Long,
     durationMs: Long,
     bufferedPercent: Int,
-    volume: Float,
-    isMuted: Boolean,
     speed: Float,
     speedMenuOpen: Boolean,
     showFullscreen: Boolean,
@@ -605,8 +763,6 @@ private fun NmpControls(
     onBack: () -> Unit,
     onFwd: () -> Unit,
     onSeekRatio: (Float) -> Unit,
-    onVolumeChange: (Float) -> Unit,
-    onMuteToggle: () -> Unit,
     onSpeedToggle: () -> Unit,
     onSpeedSelect: (Float) -> Unit,
     onDismissSpeed: () -> Unit,
@@ -644,24 +800,6 @@ private fun NmpControls(
                 fontSize = 12.sp, fontWeight = FontWeight.Medium, color = MaterialTheme.colorScheme.onSurfaceVariant
             )
             Spacer(Modifier.weight(1f))
-
-            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(2.dp)) {
-                val volIcon = when {
-                    isMuted || volume == 0f -> Icons.Filled.VolumeOff
-                    volume < 0.4f -> Icons.Filled.VolumeDown
-                    else -> Icons.Filled.VolumeUp
-                }
-                IconButton(onClick = onMuteToggle, modifier = Modifier.size(36.dp)) {
-                    Icon(volIcon, "Volume", tint = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.size(20.dp))
-                }
-                Slider(
-                    value = if (isMuted) 0f else volume,
-                    onValueChange = onVolumeChange,
-                    valueRange = 0f..1f,
-                    modifier = Modifier.width(72.dp).height(24.dp),
-                    colors = SliderDefaults.colors(thumbColor = subjectColor, activeTrackColor = subjectColor, inactiveTrackColor = MaterialTheme.colorScheme.surfaceContainerHigh)
-                )
-            }
 
             Box {
                 Button(
