@@ -37,6 +37,7 @@ import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.ThumbUp
 import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.material.icons.outlined.Upload
+import androidx.compose.material.icons.outlined.Shield
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -113,6 +114,8 @@ class TopBarViewModel @Inject constructor(
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
     val verificationLevel = authRepository.currentUserVerificationLevelFlow
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0)
+    val isAdmin = authRepository.currentUserIsAdminFlow
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
 
     /** Live unread notification count (web parity: topbar badge). */
     val unreadCount: kotlinx.coroutines.flow.StateFlow<Int> = realtimeClient.unreadCount
@@ -159,6 +162,7 @@ fun WebTopBar(
     val dbUserPhotoUrl by viewModel.userPhotoUrl.collectAsStateWithLifecycle()
     val vmUnreadCount by viewModel.unreadCount.collectAsStateWithLifecycle()
     val verificationLevel by viewModel.verificationLevel.collectAsStateWithLifecycle()
+    val isAdmin by viewModel.isAdmin.collectAsStateWithLifecycle()
 
     val name = (avatarInitial ?: dbUserName).ifEmpty { "N" }
     val photo = avatarUrl ?: dbUserPhotoUrl
@@ -266,7 +270,8 @@ fun WebTopBar(
                 imageUrl = photo,
                 modifier = Modifier.clickable(onClick = onProfileClick),
                 size = 40.dp,
-                verificationLevel = verificationLevel
+                verificationLevel = verificationLevel,
+                isAdmin = isAdmin
             )
         }
     }
@@ -884,7 +889,8 @@ fun Avatar(
     imageUrl: String?,
     modifier: Modifier = Modifier,
     size: Dp = 40.dp,
-    verificationLevel: Int = 0
+    verificationLevel: Int = 0,
+    isAdmin: Boolean = false
 ) {
     Box(modifier = modifier.size(size)) {
         Surface(
@@ -928,7 +934,25 @@ fun Avatar(
             }
         }
 
-        if (verificationLevel > 0) {
+        if (isAdmin) {
+            val badgeSize = size * 0.35f
+            Box(
+                modifier = Modifier
+                    .size(badgeSize)
+                    .align(Alignment.BottomEnd)
+                    .background(Color.White, CircleShape)
+                    .padding(1.dp)
+                    .background(Color(0xFFF59E0B), CircleShape),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_crown),
+                    contentDescription = "Admin",
+                    tint = Color.White,
+                    modifier = Modifier.size(badgeSize * 0.7f)
+                )
+            }
+        } else if (verificationLevel > 0) {
             val badgeColor = when (verificationLevel) {
                 1 -> Color(0xFF1B9AF0)
                 2 -> Color(0xFF2E7D32)
