@@ -25,6 +25,7 @@ urlpatterns = [
     path('users/profile/', views.user_profile_create_or_update, name='profile-create-update'),
     path('users/profile/<str:username>/', views.user_profile_get, name='profile-get'),
     path('users/profile/<str:username>/stats/', views.user_profile_stats, name='profile-stats'),
+    path('users/institutions/', views.institutions_list, name='institutions-list'),
 
     # Users — photo history (auth required)
     path('users/me/photos/', views.user_photos, name='user-photos'),

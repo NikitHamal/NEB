@@ -27,6 +27,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.ui.layout.ContentScale
 import coil.compose.rememberAsyncImagePainter
+import coil.compose.AsyncImage
 import com.neb.ians.data.api.UserProfileResponse
 import com.neb.ians.ui.components.ProfileBanner
 import com.neb.ians.ui.components.bannerPresetFor
@@ -74,17 +75,27 @@ private val TEACHER_CLASS_OPTIONS = listOf(
 fun CompleteProfileScreen(
     onNavigateToHome: () -> Unit,
     onNavigateBack: (() -> Unit)? = null,
+    isEditing: Boolean = false,
     viewModel: CompleteProfileViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
     val scrollState = rememberScrollState()
 
+    LaunchedEffect(isEditing) {
+        viewModel.setIsEditing(isEditing)
+    }
+
+    LaunchedEffect(Unit) {
+        viewModel.fetchInstitutions()
+    }
+
     var showGenderDialog by remember { mutableStateOf(false) }
     var showClassDialog by remember { mutableStateOf(false) }
     var showProvinceDialog by remember { mutableStateOf(false) }
     var showDistrictDialog by remember { mutableStateOf(false) }
     var showInstTypeDialog by remember { mutableStateOf(false) }
+    var showSchoolDialog by remember { mutableStateOf(false) }
 
     val isFormValid = uiState.username.length >= 3 &&
         (uiState.usernameAvailable == true || (uiState.isEditing && uiState.username.isNotEmpty())) &&
@@ -722,16 +733,39 @@ fun CompleteProfileScreen(
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.onSurface
                         )
-                        OutlinedTextField(
-                            value = uiState.school,
-                            onValueChange = viewModel::onSchoolChange,
-                            placeholder = { Text(schoolPlaceholder) },
-                            singleLine = true,
+                        Box(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(top = 4.dp),
-                            shape = RoundedCornerShape(12.dp)
-                        )
+                                .padding(top = 4.dp)
+                                .clickable { showSchoolDialog = true }
+                        ) {
+                            OutlinedTextField(
+                                value = uiState.school,
+                                onValueChange = {},
+                                readOnly = true,
+                                enabled = false,
+                                placeholder = { Text(schoolPlaceholder) },
+                                trailingIcon = { Icon(Icons.Default.ArrowDropDown, null) },
+                                modifier = Modifier.fillMaxWidth(),
+                                colors = OutlinedTextFieldDefaults.colors(
+                                    disabledTextColor = MaterialTheme.colorScheme.onSurface,
+                                    disabledBorderColor = MaterialTheme.colorScheme.outline,
+                                    disabledTrailingIconColor = MaterialTheme.colorScheme.onSurfaceVariant
+                                ),
+                                singleLine = true,
+                                shape = RoundedCornerShape(12.dp)
+                            )
+                        }
+                        if (showSchoolDialog) {
+                            SchoolSelectionDialog(
+                                institutions = uiState.institutions,
+                                initialValue = uiState.school,
+                                onDismiss = { showSchoolDialog = false },
+                                onSelect = { name, username ->
+                                    viewModel.onSchoolChange(name, username)
+                                }
+                            )
+                        }
                     }
 
 
@@ -1049,6 +1083,123 @@ private fun SelectionDialog(
         confirmButton = {
             TextButton(onClick = onDismiss) {
                 Text("Cancel")
+            }
+        }
+    )
+}
+
+@Composable
+private fun SchoolSelectionDialog(
+    institutions: List<com.neb.ians.data.api.ApiInstitution>,
+    initialValue: String,
+    onDismiss: () -> Unit,
+    onSelect: (schoolName: String, username: String) -> Unit
+) {
+    var searchQuery by remember { mutableStateOf("") }
+    var customName by remember { mutableStateOf(initialValue) }
+
+    val filtered = remember(searchQuery, institutions) {
+        institutions.filter {
+            it.displayName.contains(searchQuery, ignoreCase = true) ||
+            it.username.contains(searchQuery, ignoreCase = true)
+        }
+    }
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text("Select School / Institution", fontWeight = FontWeight.Bold) },
+        text = {
+            Column(
+                modifier = Modifier.fillMaxWidth().heightIn(max = 350.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                OutlinedTextField(
+                    value = searchQuery,
+                    onValueChange = { searchQuery = it },
+                    placeholder = { Text("Search institutions...") },
+                    leadingIcon = { Icon(Icons.Default.Search, null) },
+                    singleLine = true,
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(12.dp)
+                )
+
+                LazyColumn(
+                    modifier = Modifier.weight(1f).fillMaxWidth(),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    items(filtered) { inst ->
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable {
+                                    onSelect(inst.displayName, inst.username)
+                                    onDismiss()
+                                }
+                                .padding(8.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            AsyncImage(
+                                model = inst.photoUrl.ifBlank { "https://nebians.consica.com.np/static/web/images/default_avatar.png" },
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .size(40.dp)
+                                    .clip(CircleShape)
+                                    .background(MaterialTheme.colorScheme.surfaceVariant),
+                                contentScale = ContentScale.Crop
+                            )
+                            Spacer(modifier = Modifier.width(12.dp))
+                            Column {
+                                Text(inst.displayName, fontWeight = FontWeight.Bold, style = MaterialTheme.typography.bodyMedium)
+                                Text("@${inst.username}", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                            }
+                        }
+                    }
+                    if (filtered.isEmpty() && searchQuery.isNotBlank()) {
+                        item {
+                            Text(
+                                text = "No platform institutions match search.",
+                                style = MaterialTheme.typography.bodySmall,
+                                modifier = Modifier.padding(8.dp),
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
+                    }
+                }
+
+                Box(modifier = Modifier.fillMaxWidth().height(1.dp).background(MaterialTheme.colorScheme.outlineVariant))
+
+                Column {
+                    Text("Or type custom school name:", style = MaterialTheme.typography.bodySmall, fontWeight = FontWeight.Bold)
+                    Row(
+                        modifier = Modifier.fillMaxWidth().padding(top = 4.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        OutlinedTextField(
+                            value = customName,
+                            onValueChange = { customName = it },
+                            placeholder = { Text("Custom school/college name") },
+                            singleLine = true,
+                            modifier = Modifier.weight(1f),
+                            shape = RoundedCornerShape(12.dp)
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Button(
+                            onClick = {
+                                onSelect(customName, "")
+                                onDismiss()
+                            },
+                            enabled = customName.isNotBlank()
+                        ) {
+                            Text("Use")
+                        }
+                    }
+                }
+            }
+        },
+        confirmButton = {},
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text("Close")
             }
         }
     )

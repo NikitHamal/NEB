@@ -194,7 +194,8 @@ fun ProfileHeaderCard(
     onAnalyticsClick: () -> Unit,
     onFollowersClick: () -> Unit,
     onFollowingClick: () -> Unit,
-    onFollowRequestsClick: () -> Unit
+    onFollowRequestsClick: () -> Unit,
+    onProfileClick: (String) -> Unit = {}
 ) {
     val badge = remember(profile) { buildBadgeInfo(profile) }
     val achievements = remember(profile.achievementBadges) { parseAchievements(profile.achievementBadges) }
@@ -617,20 +618,23 @@ fun ProfileHeaderCard(
                         }
 
                         if (!profile.school.isNullOrBlank()) {
+                            val hasLinkedSchool = !profile.schoolUsername.isNullOrBlank()
                             Row(
                                 verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                                modifier = if (hasLinkedSchool) Modifier.clickable { onProfileClick(profile.schoolUsername!!) } else Modifier
                             ) {
                                 Icon(
                                     painter = painterResource(id = R.drawable.ic_school),
                                     contentDescription = null,
                                     modifier = Modifier.size(16.dp),
-                                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                                    tint = if (hasLinkedSchool) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
                                 )
                                 Text(
                                     text = profile.school,
                                     style = MaterialTheme.typography.bodyMedium,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                    color = if (hasLinkedSchool) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
+                                    textDecoration = if (hasLinkedSchool) androidx.compose.ui.text.style.TextDecoration.Underline else androidx.compose.ui.text.style.TextDecoration.None
                                 )
                             }
                         }
@@ -1074,7 +1078,7 @@ private fun AchievementBadgePill(label: String, color: Color, icon: ImageVector)
 }
 
 @Composable
-fun AboutDetailsCard(profile: UserProfileResponse) {
+fun AboutDetailsCard(profile: UserProfileResponse, onProfileClick: (String) -> Unit = {}) {
     val pradesh = profile.pradesh
     val district = profile.district
     val joinedText = formatJoined(profile.createdAt)
@@ -1136,14 +1140,20 @@ fun AboutDetailsCard(profile: UserProfileResponse) {
                         "Bachelors" -> "Bachelors"
                         else -> profile.classLevel
                     }
-                    AboutDetailRow(icon = Icons.Outlined.School, label = "Class", value = classStr)
+                    AboutDetailRow(icon = Icons.Outlined.School, label = "Class", value = classStr ?: "")
                 }
                 if (!profile.subjects.isNullOrBlank()) {
                     val formattedSubjects = profile.subjects.split(",").joinToString(", ") { it.trim() }
                     AboutDetailRow(icon = Icons.Outlined.MenuBook, label = "Subjects", value = formattedSubjects)
                 }
                 if (!profile.school.isNullOrBlank()) {
-                    AboutDetailRow(icon = Icons.Outlined.Apartment, label = "School", value = profile.school)
+                    val hasLinkedSchool = !profile.schoolUsername.isNullOrBlank()
+                    AboutDetailRow(
+                        icon = Icons.Outlined.Apartment,
+                        label = "School",
+                        value = profile.school ?: "",
+                        onClick = if (hasLinkedSchool) ({ onProfileClick(profile.schoolUsername!!) }) else null
+                    )
                 }
                 if (location.isNotBlank()) {
                     AboutDetailRow(icon = Icons.Outlined.LocationOn, label = "Location", value = location)
@@ -1152,7 +1162,7 @@ fun AboutDetailsCard(profile: UserProfileResponse) {
                     AboutDetailRow(icon = Icons.Outlined.CalendarMonth, label = "Joined", value = joinedText)
                 }
                 if (!profile.gender.isNullOrBlank()) {
-                    AboutDetailRow(icon = Icons.Outlined.Person, label = "Gender", value = profile.gender)
+                    AboutDetailRow(icon = Icons.Outlined.Person, label = "Gender", value = profile.gender ?: "")
                 }
             }
         }
@@ -1160,16 +1170,19 @@ fun AboutDetailsCard(profile: UserProfileResponse) {
 }
 
 @Composable
-private fun AboutDetailRow(icon: ImageVector, label: String, value: String) {
+private fun AboutDetailRow(icon: ImageVector, label: String, value: String, onClick: (() -> Unit)? = null) {
+    val isClickable = onClick != null
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .then(if (isClickable) Modifier.clickable { onClick?.invoke() } else Modifier),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         Icon(
             imageVector = icon,
             contentDescription = null,
-            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+            tint = if (isClickable) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.size(20.dp)
         )
         Text(
@@ -1182,7 +1195,8 @@ private fun AboutDetailRow(icon: ImageVector, label: String, value: String) {
         Text(
             text = value,
             style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurface,
+            color = if (isClickable) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface,
+            textDecoration = if (isClickable) androidx.compose.ui.text.style.TextDecoration.Underline else androidx.compose.ui.text.style.TextDecoration.None,
             modifier = Modifier.weight(1f)
         )
     }

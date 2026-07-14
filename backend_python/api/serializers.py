@@ -15,7 +15,7 @@ class UserSerializer(serializers.ModelSerializer):
             'id', 'username', 'email', 'photo_url', 'banner_url', 'display_name',
             'role', 'dob', 'gender', 'class_level', 'subjects', 'teaching_subjects',
             'institution_type',
-            'pradesh', 'district', 'school', 'bio', 'is_locked', 'created_at',
+            'pradesh', 'district', 'school', 'school_username', 'bio', 'is_locked', 'created_at',
             'email_verified', 'hasPassword',
             'verification_level', 'moderator_level', 'is_admin', 'achievement_badges',
             'is_bot', 'teacher_verified', 'institution_verified',
@@ -45,7 +45,8 @@ class UserPublicSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'username', 'display_name', 'photo_url', 'banner_url', 'bio', 'is_locked',
-                  'role', 'verification_level', 'moderator_level', 'is_admin', 'achievement_badges', 'is_bot', 'teacher_verified', 'institution_verified']
+                  'role', 'verification_level', 'moderator_level', 'is_admin', 'achievement_badges', 'is_bot', 'teacher_verified', 'institution_verified',
+                  'school', 'school_username']
 
     def to_representation(self, instance):
         ret = super().to_representation(instance)

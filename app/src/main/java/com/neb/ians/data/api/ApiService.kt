@@ -85,6 +85,7 @@ data class UserProfileRequest(
     val pradesh: String? = null,
     val district: String? = null,
     val school: String? = null,
+    @SerialName("school_username") val schoolUsername: String? = null,
     @SerialName("is_locked") val isLocked: Boolean? = null,
     @SerialName("banner_url") val bannerUrl: String? = null,
     val bio: String? = null
@@ -298,6 +299,7 @@ data class UserProfileResponse(
     val pradesh: String? = null,
     val district: String? = null,
     val school: String? = null,
+    @SerialName("school_username") val schoolUsername: String? = null,
     val bio: String? = null,
     @SerialName("is_locked") val isLocked: Int = 0,
     @SerialName("created_at") val createdAt: Long = 0,
@@ -1710,6 +1712,9 @@ interface ApiService {
         @Path("id") linkId: String
     ): CommonOkResponse
 
+    @GET("api/users/institutions/")
+    suspend fun getInstitutions(): ApiInstitutionsResponse
+
     companion object {
         private const val BASE_URL = "https://nebians.consica.com.np/"
 
@@ -2464,4 +2469,17 @@ data class CreateSocialLinkResponse(
 data class CommonOkResponse(
     val ok: Boolean = false,
     val error: String? = null
+)
+
+@Serializable
+data class ApiInstitution(
+    val id: String = "",
+    val username: String = "",
+    val displayName: String = "",
+    @SerialName("photoUrl") val photoUrl: String = ""
+)
+
+@Serializable
+data class ApiInstitutionsResponse(
+    val institutions: List<ApiInstitution> = emptyList()
 )
