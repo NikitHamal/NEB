@@ -346,8 +346,7 @@
   }
   .about-detail-link {
     color: var(--md-primary);
-    text-decoration: underline;
-    text-underline-offset: 2px;
+    text-decoration: none;
     transition: opacity 0.15s;
   }
   .about-detail-link:hover {
