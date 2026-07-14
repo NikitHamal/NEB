@@ -115,27 +115,12 @@ fun ResourceDetailScreen(
                         resource.subject.split(",").firstOrNull()?.trim().orEmpty().ifBlank { "General" }
                     )
                 )
-                Column(
+                LazyColumn(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(top = padding.calculateTopPadding())
+                        .padding(top = padding.calculateTopPadding()),
+                    contentPadding = PaddingValues(start = 16.dp, top = 4.dp, end = 16.dp, bottom = padding.calculateBottomPadding() + 18.dp)
                 ) {
-                    if (mediaType == ResourceMediaType.Video || mediaType == ResourceMediaType.Audio) {
-                        EmbeddedMediaPlayer(
-                            resourceId = resource.id,
-                            fileUrl = resource.fileUrl,
-                            isVideo = mediaType == ResourceMediaType.Video,
-                            subjectColor = subjectColor,
-                            title = resource.title,
-                            onFullscreenClick = { onOpenMedia(resource.id) },
-                            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
-                        )
-                    }
-
-                    LazyColumn(
-                        modifier = Modifier.fillMaxSize(),
-                        contentPadding = PaddingValues(start = 16.dp, top = 4.dp, end = 16.dp, bottom = padding.calculateBottomPadding() + 18.dp)
-                    ) {
                         item(key = "hero") {
                         ResourceHeroCard(
                             resource = resource,
@@ -157,6 +142,20 @@ fun ResourceDetailScreen(
                             onShare = { share(resource.title, resource.id) },
                             onUserProfileClick = onUserProfileClick
                         )
+                    }
+
+                    if (mediaType == ResourceMediaType.Video || mediaType == ResourceMediaType.Audio) {
+                        item(key = "embedded_player") {
+                            EmbeddedMediaPlayer(
+                                resourceId = resource.id,
+                                fileUrl = resource.fileUrl,
+                                isVideo = mediaType == ResourceMediaType.Video,
+                                subjectColor = subjectColor,
+                                title = resource.title,
+                                onFullscreenClick = { onOpenMedia(resource.id) },
+                                modifier = Modifier.padding(top = 16.dp)
+                            )
+                        }
                     }
 
                     if (mediaType == ResourceMediaType.Image && resource.fileUrl.isNotBlank()) {
@@ -195,7 +194,6 @@ fun ResourceDetailScreen(
                 }
             }
         }
-    }
     }
 
     zoomImageUrl?.let { url ->
