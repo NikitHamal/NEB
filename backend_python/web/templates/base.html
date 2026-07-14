@@ -189,7 +189,11 @@
             {% else %}
             <span>{{ user.username|first|upper }}</span>
             {% endif %}
-            {% if user.verification_level and user.verification_level > 0 %}
+            {% if user.is_admin %}
+              <span class="avatar-badge-overlay" style="--badge-bg: #F59E0B;" title="Admin">
+                <span class="material-symbols-outlined">crown</span>
+              </span>
+            {% elif user.verification_level and user.verification_level > 0 %}
               <span class="avatar-badge-overlay" style="--badge-bg: {% if user.verification_level == 1 %}#1B9AF0{% elif user.verification_level == 2 %}#2E7D32{% elif user.verification_level == 3 %}#F59E0B{% else %}#1A1A1A{% endif %};" title="Verified User">
                 <span class="material-symbols-outlined">verified</span>
               </span>
@@ -210,14 +214,16 @@
                 {% else %}
                 {{ user.username|first|upper }}
                 {% endif %}
-                {% if user.verification_level and user.verification_level > 0 %}
-                  <span class="avatar-badge-overlay" style="--badge-bg: {% if user.verification_level == 1 %}#1B9AF0{% elif user.verification_level == 2 %}#2E7D32{% elif user.verification_level == 3 %}#F59E0B{% else %}#1A1A1A{% endif %};" title="Verified User">
-                    <span class="material-symbols-outlined">verified</span>
-                  </span>
-                {% endif %}
               </span>
               <div class="profile-dropdown-info" style="flex-grow: 1;">
-                <span class="profile-dropdown-name">{{ user.username }}</span>
+                <div class="profile-dropdown-name-row" style="display: flex; align-items: center; gap: 4px; flex-wrap: wrap;">
+                  <span class="profile-dropdown-name">{{ user.username }}</span>
+                  {% if badge_info %}
+                    <span class="role-badge role-badge-{{ badge_info.type }}" title="{{ badge_info.label }}">
+                      <span class="material-symbols-outlined" style="font-size: 14px;">{{ badge_info.icon }}</span>
+                    </span>
+                  {% endif %}
+                </div>
                 <span class="profile-dropdown-role">{% if user.role == 'teacher' %}Teacher{% elif user.role == 'institution' %}Institution{% elif user.role == 'explorer' %}Explorer{% else %}Student{% endif %}</span>
               </div>
             </div>

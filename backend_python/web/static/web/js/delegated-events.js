@@ -18,11 +18,14 @@
 
   document.addEventListener('click', function(e) {
     var el = getActionEl(e.target);
-    if (!el) return;
-    var action = el.dataset.action;
-    if (actions[action]) {
+    if (el && el.dataset.action && actions[el.dataset.action]) {
       e.preventDefault();
-      actions[action](el, e);
+      actions[el.dataset.action](el, e);
+      return;
+    }
+    var linkEl = e.target.closest('a[data-link-id]');
+    if (linkEl && linkEl.dataset.trackClick !== 'false') {
+      trackSocialLinkClick(linkEl);
     }
   });
 
@@ -107,5 +110,15 @@
     for (var key in map) {
       if (map.hasOwnProperty(key)) actions[key] = map[key];
     }
+  };
+
+  window.trackSocialLinkClick = function(linkEl) {
+    var payload = JSON.stringify({
+      link_id: linkEl.dataset.linkId,
+      user_id: linkEl.dataset.linkUserId,
+      platform: linkEl.dataset.linkPlatform,
+      url: linkEl.dataset.linkUrl,
+    });
+    navigator.sendBeacon('/ajax/social-links/track-click/', payload);
   };
 })();

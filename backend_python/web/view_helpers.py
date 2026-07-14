@@ -691,8 +691,19 @@ def _get_distinct_subjects():
 def _ctx(request, **extra):
     token = api.get_session_token(request)
     user = api.get_session_user(request)
+    badge_info = None
     if user:
         user = _normalize_user_data(user)
+        if user.get('id'):
+            db_user = User.objects.filter(pk=user['id']).first()
+            if db_user:
+                user['is_admin'] = db_user.is_admin
+                user['verification_level'] = db_user.verification_level
+                user['moderator_level'] = db_user.moderator_level
+                if db_user.photo_url:
+                    user['photo_url'] = db_user.photo_url
+                    user['avatar_url'] = db_user.photo_url
+                badge_info = _user_badge_info(db_user)
     dark_mode = request.session.get('theme') == 'dark'
     unread_notifications = 0
     if user and user.get('id'):
@@ -715,6 +726,7 @@ def _ctx(request, **extra):
     ctx = {
         'is_authenticated': bool(token),
         'user': user,
+        'badge_info': badge_info,
         'dark_mode': dark_mode,
         'unread_notifications': unread_notifications,
         'csp_nonce': getattr(request, 'csp_nonce', ''),

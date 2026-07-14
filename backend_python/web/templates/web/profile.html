@@ -296,7 +296,7 @@
               <div class="pf-dotted-divider"></div>
               <div class="pf-social-links-row" id="pfSocialRow">
                 {% for link in social_links %}
-                <a href="{{ link.url }}" target="_blank" rel="noopener noreferrer" class="pf-social-link-btn platform-{{ link.icon }}" title="{{ link.platform_label }}">
+                <a href="{{ link.url }}" target="_blank" rel="noopener noreferrer" class="pf-social-link-btn platform-{{ link.icon }}" title="{{ link.platform_label }}" data-link-id="{{ link.id }}" data-link-user-id="{{ profile_user.id }}" data-link-platform="{{ link.icon }}" data-link-url="{{ link.url }}">
                   {% if link.platform == 'website' and link.website_domain %}
                     <img src="https://www.google.com/s2/favicons?domain={{ link.website_domain }}&sz=64" style="width:16px;height:16px;object-fit:contain;border-radius:2px;" alt="" onerror="this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='inline-block';">
                     <span class="material-symbols-outlined" style="display:none;font-size:16px !important;">language</span>
@@ -1043,7 +1043,10 @@ document.addEventListener('DOMContentLoaded', function() {
       if (m) platform = m[1] || 'website';
       var bgColor = PLATFORM_COLORS[platform] || '#1B6EF3';
       var isWebsite = (platform === 'website' || platform === 'language');
-      html += '<a href="' + href.replace(/"/g,'&quot;') + '" target="_blank" rel="noopener noreferrer" class="pf-social-overflow-item">';
+      var linkId = el.dataset.linkId || '';
+      var linkUserId = '{{ profile_user.id|escapejs }}';
+      var linkPlatform = platform.replace(/[^a-z0-9_-]/g,'');
+      html += '<a href="' + href.replace(/"/g,'&quot;') + '" target="_blank" rel="noopener noreferrer" class="pf-social-overflow-item" data-link-id="' + linkId.replace(/"/g,'&quot;') + '" data-link-user-id="' + linkUserId.replace(/"/g,'&quot;') + '" data-link-platform="' + linkPlatform.replace(/"/g,'&quot;') + '" data-link-url="' + href.replace(/"/g,'&quot;') + '">';
       if (isWebsite) {
         html += '<span class="pf-social-overflow-icon platform-language" style="background:' + bgColor + '">';
         html += '<span class="material-symbols-outlined">language</span></span>';

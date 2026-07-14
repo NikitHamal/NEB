@@ -318,7 +318,22 @@ data class UserProfileResponse(
     @SerialName("is_following") val isFollowing: Boolean? = null,
     @SerialName("is_requested") val isRequested: Boolean? = null,
     @SerialName("is_self") val isSelf: Boolean? = null,
-    @SerialName("achievement_badges") val achievementBadges: String? = null
+    @SerialName("achievement_badges") val achievementBadges: String? = null,
+    @SerialName("social_links") val socialLinks: List<ApiSocialLink> = emptyList()
+)
+
+@Serializable
+data class ApiSocialLink(
+    val id: Int,
+    val platform: String,
+    @SerialName("platform_label") val platformLabel: String,
+    val icon: String,
+    val color: String,
+    val url: String,
+    val label: String,
+    @SerialName("sort_order") val sortOrder: Int,
+    @SerialName("is_visible") val isVisible: Boolean,
+    @SerialName("website_domain") val websiteDomain: String = ""
 )
 
 @Serializable

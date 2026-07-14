@@ -100,6 +100,7 @@ urlpatterns = [
     path('ajax/social-links/<str:link_id>/update/', views.ajax_social_links_update, name='ajax_social_links_update'),
     path('ajax/social-links/<str:link_id>/delete/', views.ajax_social_links_delete, name='ajax_social_links_delete'),
     path('ajax/social-links/reorder/', views.ajax_social_links_reorder, name='ajax_social_links_reorder'),
+    path('ajax/social-links/track-click/', views.ajax_social_links_track_click, name='ajax_social_links_track_click'),
     path('ajax/set-password/', views.ajax_set_password, name='ajax_set_password'),
     path('ajax/change-password/', views.ajax_change_password, name='ajax_change_password'),
     path('ajax/settings/toggle-visibility/', views.ajax_toggle_profile_visibility, name='ajax_toggle_profile_visibility'),

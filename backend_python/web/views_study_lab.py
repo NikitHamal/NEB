@@ -50,6 +50,7 @@ from api.models import (
     StudySpaceQuizAttempt,
     StudySpaceFlashcard,
     StudySpaceFlashcardReview,
+    SocialLinkClick,
 )
 from api.utils import now_ms, uuid_str
 from api.generation import enqueue, serialize_job, get_job, mark_processing, mark_completed, mark_failed
@@ -1772,6 +1773,32 @@ def analytics(request):
         latest_attempt=latest_attempt,
         suggestions=suggestions[:5],
     )
+
+    # Social link click analytics
+    link_clicks = SocialLinkClick.objects.filter(user=user)
+    total_link_clicks = link_clicks.count()
+    link_clicks_30d = link_clicks.filter(created_at__gte=cutoff_30).count()
+    link_clicks_by_platform = list(
+        link_clicks.values('platform')
+        .annotate(total=Count('id'))
+        .order_by('-total')[:10]
+    )
+    link_clicks_by_day_14 = []
+    for i in range(13, -1, -1):
+        start = today_start - i * day_ms
+        end = start + day_ms
+        link_clicks_by_day_14.append(
+            link_clicks.filter(created_at__gte=start, created_at__lt=end).count()
+        )
+    max_link_clicks_day = max(link_clicks_by_day_14) if link_clicks_by_day_14 else 1
+
+    ctx.update({
+        'link_clicks_total': total_link_clicks,
+        'link_clicks_30d': link_clicks_30d,
+        'link_clicks_by_platform': link_clicks_by_platform,
+        'link_clicks_by_day_14': link_clicks_by_day_14,
+        'max_link_clicks_day': max_link_clicks_day,
+    })
     return render(request, 'web/analytics.html', ctx)
 
 

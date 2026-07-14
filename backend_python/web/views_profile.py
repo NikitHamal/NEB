@@ -1,7 +1,7 @@
 ﻿"""Views Profile extracted from views.py."""
 from .view_helpers import *  # noqa: F401,F403
 from api.view_helpers import _profile_incomplete, _can_view_locked_profile
-from api.models import FollowRequest, NEPAL_DISTRICTS, SocialLink
+from api.models import FollowRequest, NEPAL_DISTRICTS, SocialLink, SocialLinkClick
 from api.social_links import (
     get_user_links, get_all_user_links, create_link as _create_social_link,
     update_link as _update_social_link, delete_link as _delete_social_link,
@@ -9,6 +9,8 @@ from api.social_links import (
 )
 from io import BytesIO
 from pathlib import Path
+from django.views.decorators.http import require_POST
+from django.views.decorators.csrf import csrf_exempt
 
 
 def bookmarks(request):
@@ -1108,3 +1110,30 @@ def ajax_social_links_reorder(request):
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=400)
 
+
+@csrf_exempt
+@require_POST
+def ajax_social_links_track_click(request):
+    from api.utils import now_ms
+    import json as _json
+    try:
+        data = _json.loads(request.body)
+    except (ValueError, KeyError):
+        data = request.POST
+    link_id = data.get('link_id')
+    target_user_id = data.get('user_id')
+    platform = (data.get('platform') or '').strip()
+    url = (data.get('url') or '').strip()
+    if not link_id or not target_user_id or not platform:
+        return JsonResponse({'error': 'Missing required fields'}, status=400)
+    try:
+        link = SocialLink.objects.get(id=link_id, user_id=target_user_id)
+    except SocialLink.DoesNotExist:
+        return JsonResponse({'error': 'Link not found'}, status=404)
+    clicker_id = _get_user_id(request)
+    SocialLinkClick.objects.create(
+        link=link, user=link.user,
+        clicker_id=clicker_id, platform=platform,
+        url=url, created_at=now_ms(),
+    )
+    return JsonResponse({'ok': True})

@@ -43,6 +43,8 @@ import com.neb.ians.ui.components.WebPanelShape
 import com.neb.ians.ui.components.WebPillShape
 import com.neb.ians.ui.components.WebResourceCard
 import com.neb.ians.ui.components.WebPostCard
+import coil.compose.AsyncImage
+import androidx.compose.ui.platform.LocalUriHandler
 import com.neb.ians.ui.components.bannerPresetFor
 import com.neb.ians.ui.components.compactCount
 import com.neb.ians.util.formatTimeAgo
@@ -199,6 +201,7 @@ fun ProfileHeaderCard(
     val preset = remember(profile) { bannerPresetFor(profile) }
     val clipboard = LocalClipboardManager.current
     val context = LocalContext.current
+    val uriHandler = LocalUriHandler.current
     var showMenu by remember { mutableStateOf(false) }
 
     val bioText = remember(profile) {
@@ -647,6 +650,48 @@ fun ProfileHeaderCard(
                                     text = joinedText,
                                     style = MaterialTheme.typography.bodyMedium,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                        }
+                    }
+                }
+
+                if (profile.socialLinks.isNotEmpty()) {
+                    Spacer(modifier = Modifier.height(14.dp))
+                    @OptIn(ExperimentalLayoutApi::class)
+                    FlowRow(
+                        horizontalArrangement = Arrangement.spacedBy(10.dp),
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        profile.socialLinks.forEach { link ->
+                            val domain = if (link.platform == "website") {
+                                link.websiteDomain.takeIf { it.isNotBlank() } ?: "google.com"
+                            } else {
+                                when (link.platform) {
+                                    "telegram" -> "telegram.org"
+                                    "twitter" -> "x.com"
+                                    else -> link.platform + ".com"
+                                }
+                            }
+                            val faviconUrl = "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://$domain&size=64"
+                            
+                            Box(
+                                modifier = Modifier
+                                    .size(32.dp)
+                                    .clip(CircleShape)
+                                    .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
+                                    .clickable {
+                                        try {
+                                            uriHandler.openUri(link.url)
+                                        } catch (e: Exception) {
+                                            Toast.makeText(context, "Invalid link", Toast.LENGTH_SHORT).show()
+                                        }
+                                    },
+                                contentAlignment = Alignment.Center
+                            ) {
+                                AsyncImage(
+                                    model = faviconUrl,
+                                    contentDescription = link.platformLabel,
+                                    modifier = Modifier.size(18.dp)
                                 )
                             }
                         }

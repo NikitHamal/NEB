@@ -720,6 +720,32 @@ fun CompleteProfileScreen(
                 }
             }
 
+            if (uiState.isEditing) {
+                Spacer(modifier = Modifier.height(16.dp))
+                OutlinedButton(
+                    onClick = {
+                        val customTabsIntent = androidx.browser.customtabs.CustomTabsIntent.Builder().build()
+                        customTabsIntent.launchUrl(context, android.net.Uri.parse("https://nebians.consica.com.np/profile/edit/"))
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(48.dp),
+                    shape = RoundedCornerShape(24.dp),
+                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary),
+                    colors = ButtonDefaults.outlinedButtonColors(
+                        contentColor = MaterialTheme.colorScheme.primary
+                    )
+                ) {
+                    Icon(
+                        imageVector = Icons.Outlined.Share,
+                        contentDescription = null,
+                        modifier = Modifier.size(18.dp)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text("Manage Social Links", fontWeight = FontWeight.Bold)
+                }
+            }
+
             Spacer(modifier = Modifier.height(24.dp))
 
             Button(
