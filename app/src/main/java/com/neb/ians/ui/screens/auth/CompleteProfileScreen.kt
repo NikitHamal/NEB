@@ -699,6 +699,7 @@ fun CompleteProfileScreen(
                                 showSearch = true,
                                 onDismiss = { showDistrictDialog = false },
                                 onSelect = viewModel::onDistrictChange
+                            )
                         }
                     }
 
