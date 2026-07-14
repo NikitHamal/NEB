@@ -639,7 +639,10 @@ fun NEBiansNavHost(
                         navController.navigate(Screen.Profile.createRoute(targetUsername))
                     },
                     onAnalyticsClick = { navController.navigate(Screen.Analytics.route) },
-                    onSearchClick = { navController.navigate(Screen.Search.route) }
+                    onSearchClick = { navController.navigate(Screen.Search.route) },
+                    onProfileClick = { targetUsername ->
+                        navController.navigate(Screen.Profile.createRoute(targetUsername))
+                    }
                 )
             }
             composable(Screen.EditProfile.route) {

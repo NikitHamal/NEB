@@ -357,11 +357,11 @@ class CompleteProfileViewModel @Inject constructor(
         }
     }
 
-    fun addSocialLink(platform: String, url: String) {
+    fun addSocialLink(platform: String, url: String, label: String = "") {
         viewModelScope.launch {
             _uiState.update { it.copy(photoBusy = true) }
             runCatching {
-                apiService.createSocialLink(CreateSocialLinkRequest(platform = platform, url = url))
+                apiService.createSocialLink(CreateSocialLinkRequest(platform = platform, url = url, label = label))
             }.onSuccess { response ->
                 _uiState.update { it.copy(photoBusy = false) }
                 if (response.ok) {
