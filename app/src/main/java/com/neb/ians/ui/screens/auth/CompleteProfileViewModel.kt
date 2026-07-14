@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import com.neb.ians.data.api.ApiSocialLink
 import com.neb.ians.data.api.CreateSocialLinkRequest
+import javax.inject.Inject
 
 data class CompleteProfileUiState(
     val username: String = "",
