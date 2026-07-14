@@ -656,6 +656,7 @@ data class UserProfileCache(
     val pradesh: String?,
     val district: String?,
     val school: String?,
+    val schoolUsername: String? = null,
     val bio: String?,
     val isLocked: Boolean,
     val hasPassword: Boolean = false,

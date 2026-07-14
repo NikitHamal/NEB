@@ -634,7 +634,7 @@ fun ProfileHeaderCard(
                                     text = profile.school,
                                     style = MaterialTheme.typography.bodyMedium,
                                     color = if (hasLinkedSchool) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
-                                    textDecoration = if (hasLinkedSchool) androidx.compose.ui.text.style.TextDecoration.Underline else androidx.compose.ui.text.style.TextDecoration.None
+                                    textDecoration = androidx.compose.ui.text.style.TextDecoration.None
                                 )
                             }
                         }
@@ -1196,7 +1196,7 @@ private fun AboutDetailRow(icon: ImageVector, label: String, value: String, onCl
             text = value,
             style = MaterialTheme.typography.bodyMedium,
             color = if (isClickable) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface,
-            textDecoration = if (isClickable) androidx.compose.ui.text.style.TextDecoration.Underline else androidx.compose.ui.text.style.TextDecoration.None,
+            textDecoration = androidx.compose.ui.text.style.TextDecoration.None,
             modifier = Modifier.weight(1f)
         )
     }
