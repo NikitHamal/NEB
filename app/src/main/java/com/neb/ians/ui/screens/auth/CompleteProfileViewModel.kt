@@ -12,9 +12,8 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.RequestBody.Companion.toRequestBody
-import javax.inject.Inject
+import com.neb.ians.data.api.ApiSocialLink
+import com.neb.ians.data.api.CreateSocialLinkRequest
 
 data class CompleteProfileUiState(
     val username: String = "",
@@ -45,7 +44,8 @@ data class CompleteProfileUiState(
     val showPhotoGallery: Boolean = false,
     val photos: List<ApiUserPhoto> = emptyList(),
     val photosLoading: Boolean = false,
-    val photoBusy: Boolean = false
+    val photoBusy: Boolean = false,
+    val socialLinks: List<ApiSocialLink> = emptyList()
 )
 
 @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
@@ -94,6 +94,9 @@ class CompleteProfileViewModel @Inject constructor(
                 }
                 if (cached.username.isNotEmpty()) {
                     _usernameQuery.value = cached.username
+                }
+                if (isCompleted) {
+                    fetchSocialLinks()
                 }
             }
         }
@@ -330,6 +333,54 @@ class CompleteProfileViewModel @Inject constructor(
                     submissionResult = errorMsg == null,
                     submissionError = errorMsg
                 )
+            }
+        }
+    }
+
+    fun fetchSocialLinks() {
+        viewModelScope.launch {
+            runCatching {
+                apiService.getSocialLinks()
+            }.onSuccess { response ->
+                _uiState.update { it.copy(socialLinks = response.links) }
+            }.onFailure { e ->
+                _uiState.update { it.copy(submissionError = e.localizedMessage) }
+            }
+        }
+    }
+
+    fun addSocialLink(platform: String, url: String) {
+        viewModelScope.launch {
+            _uiState.update { it.copy(photoBusy = true) }
+            runCatching {
+                apiService.createSocialLink(CreateSocialLinkRequest(platform = platform, url = url))
+            }.onSuccess { response ->
+                _uiState.update { it.copy(photoBusy = false) }
+                if (response.ok) {
+                    fetchSocialLinks()
+                } else {
+                    _uiState.update { it.copy(submissionError = response.error ?: "Failed to add link") }
+                }
+            }.onFailure { e ->
+                _uiState.update { it.copy(photoBusy = false, submissionError = e.localizedMessage) }
+            }
+        }
+    }
+
+    fun deleteSocialLink(linkId: String) {
+        viewModelScope.launch {
+            _uiState.update { it.copy(photoBusy = true) }
+            runCatching {
+                apiService.deleteSocialLink(linkId)
+            }.onSuccess { response ->
+                _uiState.update { it.copy(photoBusy = false) }
+                if (response.ok) {
+                    fetchSocialLinks()
+                } else {
+                    _uiState.update { it.copy(submissionError = response.error ?: "Failed to delete link") }
+                }
+            }.onFailure { e ->
+                _uiState.update { it.copy(photoBusy = false, submissionError = e.localizedMessage) }
             }
         }
     }

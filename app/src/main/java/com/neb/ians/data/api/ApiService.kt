@@ -1697,6 +1697,19 @@ interface ApiService {
         @Path("lessonSlug") lessonSlug: String
     ): ApiInteractiveLessonDetailResponse
 
+    @GET("ajax/social-links/")
+    suspend fun getSocialLinks(): SocialLinksListResponse
+
+    @POST("ajax/social-links/create/")
+    suspend fun createSocialLink(
+        @Body request: CreateSocialLinkRequest
+    ): CreateSocialLinkResponse
+
+    @POST("ajax/social-links/{id}/delete/")
+    suspend fun deleteSocialLink(
+        @Path("id") linkId: String
+    ): CommonOkResponse
+
     companion object {
         private const val BASE_URL = "https://nebians.consica.com.np/"
 
@@ -2426,4 +2439,29 @@ data class ApiInteractiveLessonNavInfo(
     val icon: String = "",
     val minutes: Int = 0,
     val simType: String = ""
+)
+
+@Serializable
+data class SocialLinksListResponse(
+    val links: List<ApiSocialLink> = emptyList()
+)
+
+@Serializable
+data class CreateSocialLinkRequest(
+    val platform: String,
+    val url: String,
+    val label: String = ""
+)
+
+@Serializable
+data class CreateSocialLinkResponse(
+    val ok: Boolean = false,
+    val link: ApiSocialLink? = null,
+    val error: String? = null
+)
+
+@Serializable
+data class CommonOkResponse(
+    val ok: Boolean = false,
+    val error: String? = null
 )
