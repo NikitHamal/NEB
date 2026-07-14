@@ -33,7 +33,27 @@ import com.neb.ians.ui.components.bannerPresetFor
 import com.neb.ians.ui.screens.profile.PhotoGalleryDialog
 import java.util.*
 
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Link
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Code
+import androidx.compose.material.icons.filled.ArrowDropDown
+
 private val PRADESH_LIST = listOf("Koshi", "Madhesh", "Bagmati", "Gandaki", "Lumbini", "Karnali", "Sudurpashchim")
+
+private val DISTRICTS_LIST = listOf(
+    "Achham", "Arghakhanchi", "Baglung", "Baitadi", "Bajhang", "Bajura", "Banke", "Bara", "Bardiya", "Bhaktapur",
+    "Bhojpur", "Chitwan", "Dadeldhura", "Dailekh", "Dang", "Darchula", "Dhading", "Dhankuta", "Dhanusha", "Dolakha",
+    "Dolpa", "Doti", "Gorkha", "Gulmi", "Humla", "Ilam", "Jajarkot", "Jhapa", "Jumla", "Kailali", "Kalikot",
+    "Kanchanpur", "Kapilvastu", "Kaski", "Kathmandu", "Kavrepalanchok", "Khotang", "Lalitpur", "Lamjung", "Mahottari",
+    "Makwanpur", "Manang", "Mustang", "Myagdi", "Nawalpur", "Nuwakot", "Okhaldhunga", "Palpa", "Panchthar", "Parasi",
+    "Parbat", "Parsa", "Pyuthan", "Ramechhap", "Rasuwa", "Rautahat", "Rolpa", "Rukum East", "Rukum West", "Rupandehi",
+    "Salyan", "Sankhuwasabha", "Saptari", "Sarlahi", "Sindhuli", "Sindhupalchok", "Siraha", "Solukhumbu", "Sunsari",
+    "Surkhet", "Syangja", "Tanahun", "Taplejung", "Terhathum", "Udayapur"
+)
 
 private val SUBJECTS_LIST = listOf(
     "English", "Nepali", "Mathematics", "Physics", "Chemistry",
@@ -59,6 +79,12 @@ fun CompleteProfileScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
     val scrollState = rememberScrollState()
+
+    var showGenderDialog by remember { mutableStateOf(false) }
+    var showClassDialog by remember { mutableStateOf(false) }
+    var showProvinceDialog by remember { mutableStateOf(false) }
+    var showDistrictDialog by remember { mutableStateOf(false) }
+    var showInstTypeDialog by remember { mutableStateOf(false) }
 
     val isFormValid = uiState.username.length >= 3 &&
         (uiState.usernameAvailable == true || (uiState.isEditing && uiState.username.isNotEmpty())) &&
@@ -398,7 +424,6 @@ fun CompleteProfileScreen(
                             }
                         }
 
-                        var genderExpanded by remember { mutableStateOf(false) }
                         Column {
                             Text(
                                 text = "Gender *",
@@ -406,37 +431,36 @@ fun CompleteProfileScreen(
                                 fontWeight = FontWeight.Bold,
                                 color = MaterialTheme.colorScheme.onSurface
                             )
-                            ExposedDropdownMenuBox(
-                                expanded = genderExpanded,
-                                onExpandedChange = { genderExpanded = !genderExpanded },
-                                modifier = Modifier.padding(top = 4.dp)
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(top = 4.dp)
+                                    .clickable { showGenderDialog = true }
                             ) {
                                 OutlinedTextField(
                                     value = uiState.gender,
                                     onValueChange = {},
                                     readOnly = true,
+                                    enabled = false,
                                     placeholder = { Text("Select gender", maxLines = 1) },
-                                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = genderExpanded) },
-                                    modifier = Modifier
-                                        .menuAnchor()
-                                        .fillMaxWidth(),
+                                    trailingIcon = { Icon(Icons.Default.ArrowDropDown, null) },
+                                    modifier = Modifier.fillMaxWidth(),
+                                    colors = OutlinedTextFieldDefaults.colors(
+                                        disabledTextColor = MaterialTheme.colorScheme.onSurface,
+                                        disabledBorderColor = MaterialTheme.colorScheme.outline,
+                                        disabledTrailingIconColor = MaterialTheme.colorScheme.onSurfaceVariant
+                                    ),
                                     singleLine = true,
                                     shape = RoundedCornerShape(12.dp)
                                 )
-                                ExposedDropdownMenu(
-                                    expanded = genderExpanded,
-                                    onDismissRequest = { genderExpanded = false }
-                                ) {
-                                    listOf("Male", "Female", "Other").forEach { g ->
-                                        DropdownMenuItem(
-                                            text = { Text(g) },
-                                            onClick = {
-                                                viewModel.onGenderChange(g)
-                                                genderExpanded = false
-                                            }
-                                        )
-                                    }
-                                }
+                            }
+                            if (showGenderDialog) {
+                                SelectionDialog(
+                                    title = "Select Gender",
+                                    options = listOf("Male", "Female", "Other"),
+                                    onDismiss = { showGenderDialog = false },
+                                    onSelect = viewModel::onGenderChange
+                                )
                             }
                         }
                     }
@@ -502,7 +526,6 @@ fun CompleteProfileScreen(
                             }
                         }
                         "institution" -> {
-                            var instTypeExpanded by remember { mutableStateOf(false) }
                             Column {
                                 Text(
                                     text = "Institution Type *",
@@ -510,38 +533,37 @@ fun CompleteProfileScreen(
                                     fontWeight = FontWeight.Bold,
                                     color = MaterialTheme.colorScheme.onSurface
                                 )
-                                ExposedDropdownMenuBox(
-                                    expanded = instTypeExpanded,
-                                    onExpandedChange = { instTypeExpanded = !instTypeExpanded },
-                                    modifier = Modifier.padding(top = 4.dp)
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(top = 4.dp)
+                                        .clickable { showInstTypeDialog = true }
                                 ) {
                                     val displayedText = uiState.institutionType.replaceFirstChar { it.uppercase() }
                                     OutlinedTextField(
                                         value = displayedText,
                                         onValueChange = {},
                                         readOnly = true,
+                                        enabled = false,
                                         placeholder = { Text("Select type") },
-                                        trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = instTypeExpanded) },
-                                        modifier = Modifier
-                                            .menuAnchor()
-                                            .fillMaxWidth(),
+                                        trailingIcon = { Icon(Icons.Default.ArrowDropDown, null) },
+                                        modifier = Modifier.fillMaxWidth(),
+                                        colors = OutlinedTextFieldDefaults.colors(
+                                            disabledTextColor = MaterialTheme.colorScheme.onSurface,
+                                            disabledBorderColor = MaterialTheme.colorScheme.outline,
+                                            disabledTrailingIconColor = MaterialTheme.colorScheme.onSurfaceVariant
+                                        ),
                                         singleLine = true,
                                         shape = RoundedCornerShape(12.dp)
                                     )
-                                    ExposedDropdownMenu(
-                                        expanded = instTypeExpanded,
-                                        onDismissRequest = { instTypeExpanded = false }
-                                    ) {
-                                        listOf("school", "college", "academy", "other").forEach { t ->
-                                            DropdownMenuItem(
-                                                text = { Text(t.replaceFirstChar { it.uppercase() }) },
-                                                onClick = {
-                                                    viewModel.onInstitutionTypeChange(t)
-                                                    instTypeExpanded = false
-                                                }
-                                            )
-                                        }
-                                    }
+                                }
+                                if (showInstTypeDialog) {
+                                    SelectionDialog(
+                                        title = "Select Institution Type",
+                                        options = listOf("school", "college", "academy", "other").map { it.replaceFirstChar { c -> c.uppercase() } },
+                                        onDismiss = { showInstTypeDialog = false },
+                                        onSelect = { viewModel.onInstitutionTypeChange(it.lowercase()) }
+                                    )
                                 }
                             }
                         }
@@ -553,7 +575,6 @@ fun CompleteProfileScreen(
                         verticalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
                         // Class / Level
-                        var classExpanded by remember { mutableStateOf(false) }
                         val isStudent = uiState.role == "student"
                         val classLabel = if (isStudent) "Class *" else "Class / Level"
                         val classOptions = if (isStudent) STUDENT_CLASS_OPTIONS else TEACHER_CLASS_OPTIONS
@@ -565,42 +586,40 @@ fun CompleteProfileScreen(
                                 fontWeight = FontWeight.Bold,
                                 color = MaterialTheme.colorScheme.onSurface
                             )
-                            ExposedDropdownMenuBox(
-                                expanded = classExpanded,
-                                onExpandedChange = { classExpanded = !classExpanded },
-                                modifier = Modifier.padding(top = 4.dp)
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(top = 4.dp)
+                                    .clickable { showClassDialog = true }
                             ) {
                                 OutlinedTextField(
                                     value = uiState.classLevel,
                                     onValueChange = {},
                                     readOnly = true,
+                                    enabled = false,
                                     placeholder = { Text("Select class") },
-                                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = classExpanded) },
-                                    modifier = Modifier
-                                        .menuAnchor()
-                                        .fillMaxWidth(),
+                                    trailingIcon = { Icon(Icons.Default.ArrowDropDown, null) },
+                                    modifier = Modifier.fillMaxWidth(),
+                                    colors = OutlinedTextFieldDefaults.colors(
+                                        disabledTextColor = MaterialTheme.colorScheme.onSurface,
+                                        disabledBorderColor = MaterialTheme.colorScheme.outline,
+                                        disabledTrailingIconColor = MaterialTheme.colorScheme.onSurfaceVariant
+                                    ),
                                     singleLine = true,
                                     shape = RoundedCornerShape(12.dp)
                                 )
-                                ExposedDropdownMenu(
-                                    expanded = classExpanded,
-                                    onDismissRequest = { classExpanded = false }
-                                ) {
-                                    classOptions.forEach { opt ->
-                                        DropdownMenuItem(
-                                            text = { Text(opt) },
-                                            onClick = {
-                                                viewModel.onClassChange(opt)
-                                                classExpanded = false
-                                            }
-                                        )
-                                    }
-                                }
+                            }
+                            if (showClassDialog) {
+                                SelectionDialog(
+                                    title = "Select Class / Level",
+                                    options = classOptions,
+                                    onDismiss = { showClassDialog = false },
+                                    onSelect = viewModel::onClassChange
+                                )
                             }
                         }
 
                         // Province
-                        var pradeshExpanded by remember { mutableStateOf(false) }
                         Column {
                             Text(
                                 text = "Province",
@@ -608,37 +627,36 @@ fun CompleteProfileScreen(
                                 fontWeight = FontWeight.Bold,
                                 color = MaterialTheme.colorScheme.onSurface
                             )
-                            ExposedDropdownMenuBox(
-                                expanded = pradeshExpanded,
-                                onExpandedChange = { pradeshExpanded = !pradeshExpanded },
-                                modifier = Modifier.padding(top = 4.dp)
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(top = 4.dp)
+                                    .clickable { showProvinceDialog = true }
                             ) {
                                 OutlinedTextField(
                                     value = uiState.pradesh,
                                     onValueChange = {},
                                     readOnly = true,
+                                    enabled = false,
                                     placeholder = { Text("Select") },
-                                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = pradeshExpanded) },
-                                    modifier = Modifier
-                                        .menuAnchor()
-                                        .fillMaxWidth(),
+                                    trailingIcon = { Icon(Icons.Default.ArrowDropDown, null) },
+                                    modifier = Modifier.fillMaxWidth(),
+                                    colors = OutlinedTextFieldDefaults.colors(
+                                        disabledTextColor = MaterialTheme.colorScheme.onSurface,
+                                        disabledBorderColor = MaterialTheme.colorScheme.outline,
+                                        disabledTrailingIconColor = MaterialTheme.colorScheme.onSurfaceVariant
+                                    ),
                                     singleLine = true,
                                     shape = RoundedCornerShape(12.dp)
                                 )
-                                ExposedDropdownMenu(
-                                    expanded = pradeshExpanded,
-                                    onDismissRequest = { pradeshExpanded = false }
-                                ) {
-                                    PRADESH_LIST.forEach { pradesh ->
-                                        DropdownMenuItem(
-                                            text = { Text(pradesh) },
-                                            onClick = {
-                                                viewModel.onPradeshChange(pradesh)
-                                                pradeshExpanded = false
-                                            }
-                                        )
-                                    }
-                                }
+                            }
+                            if (showProvinceDialog) {
+                                SelectionDialog(
+                                    title = "Select Province",
+                                    options = PRADESH_LIST,
+                                    onDismiss = { showProvinceDialog = false },
+                                    onSelect = viewModel::onPradeshChange
+                                )
                             }
                         }
                     }
@@ -651,16 +669,37 @@ fun CompleteProfileScreen(
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.onSurface
                         )
-                        OutlinedTextField(
-                            value = uiState.district,
-                            onValueChange = viewModel::onDistrictChange,
-                            placeholder = { Text("Your district") },
-                            singleLine = true,
+                        Box(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(top = 4.dp),
-                            shape = RoundedCornerShape(12.dp)
-                        )
+                                .padding(top = 4.dp)
+                                .clickable { showDistrictDialog = true }
+                        ) {
+                            OutlinedTextField(
+                                value = uiState.district,
+                                onValueChange = {},
+                                readOnly = true,
+                                enabled = false,
+                                placeholder = { Text("Select District") },
+                                trailingIcon = { Icon(Icons.Default.ArrowDropDown, null) },
+                                modifier = Modifier.fillMaxWidth(),
+                                colors = OutlinedTextFieldDefaults.colors(
+                                    disabledTextColor = MaterialTheme.colorScheme.onSurface,
+                                    disabledBorderColor = MaterialTheme.colorScheme.outline,
+                                    disabledTrailingIconColor = MaterialTheme.colorScheme.onSurfaceVariant
+                                ),
+                                singleLine = true,
+                                shape = RoundedCornerShape(12.dp)
+                            )
+                        }
+                        if (showDistrictDialog) {
+                            SelectionDialog(
+                                title = "Select District",
+                                options = DISTRICTS_LIST,
+                                showSearch = true,
+                                onDismiss = { showDistrictDialog = false },
+                                onSelect = viewModel::onDistrictChange
+                        }
                     }
 
                     // School/College
@@ -721,28 +760,157 @@ fun CompleteProfileScreen(
             }
 
             if (uiState.isEditing) {
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(24.dp))
+                Text(
+                    text = "Social Links",
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+
+                if (uiState.socialLinks.isEmpty()) {
+                    Text(
+                        text = "No social links added yet.",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                } else {
+                    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                        uiState.socialLinks.forEach { link ->
+                            Surface(
+                                shape = RoundedCornerShape(12.dp),
+                                color = MaterialTheme.colorScheme.surfaceContainerLow,
+                                border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
+                            ) {
+                                Row(
+                                    modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 8.dp),
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Icon(
+                                        imageVector = when (link.platform.lowercase()) {
+                                            "github" -> Icons.Default.Code
+                                            else -> Icons.Default.Link
+                                        },
+                                        contentDescription = null,
+                                        tint = MaterialTheme.colorScheme.primary,
+                                        modifier = Modifier.size(20.dp)
+                                    )
+                                    Spacer(modifier = Modifier.width(8.dp))
+                                    Column(modifier = Modifier.weight(1f)) {
+                                        Text(
+                                            text = link.platformLabel.ifBlank { link.platform.replaceFirstChar { it.uppercase() } },
+                                            fontWeight = FontWeight.Bold,
+                                            style = MaterialTheme.typography.bodyMedium
+                                        )
+                                        Text(
+                                            text = link.url,
+                                            style = MaterialTheme.typography.bodySmall,
+                                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                            maxLines = 1,
+                                            overflow = TextOverflow.Ellipsis
+                                        )
+                                    }
+                                    IconButton(
+                                        onClick = { viewModel.deleteSocialLink(link.id) },
+                                        modifier = Modifier.size(36.dp)
+                                    ) {
+                                        Icon(
+                                            imageVector = Icons.Default.Delete,
+                                            contentDescription = "Delete link",
+                                            tint = MaterialTheme.colorScheme.error,
+                                            modifier = Modifier.size(20.dp)
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(12.dp))
+
+                var showAddLinkDialog by remember { mutableStateOf(false) }
                 OutlinedButton(
-                    onClick = {
-                        val customTabsIntent = androidx.browser.customtabs.CustomTabsIntent.Builder().build()
-                        customTabsIntent.launchUrl(context, android.net.Uri.parse("https://nebians.consica.com.np/profile/edit/"))
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(48.dp),
-                    shape = RoundedCornerShape(24.dp),
-                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary),
-                    colors = ButtonDefaults.outlinedButtonColors(
-                        contentColor = MaterialTheme.colorScheme.primary
-                    )
+                    onClick = { showAddLinkDialog = true },
+                    modifier = Modifier.fillMaxWidth().height(44.dp),
+                    shape = RoundedCornerShape(22.dp)
                 ) {
-                    Icon(
-                        imageVector = Icons.Default.Edit,
-                        contentDescription = null,
-                        modifier = Modifier.size(18.dp)
+                    Icon(Icons.Default.Add, null, modifier = Modifier.size(18.dp))
+                    Spacer(modifier = Modifier.width(6.dp))
+                    Text("Add Social Link", fontWeight = FontWeight.Bold)
+                }
+
+                if (showAddLinkDialog) {
+                    var selectedPlatform by remember { mutableStateOf("instagram") }
+                    var urlOrUsername by remember { mutableStateOf("") }
+                    var showPlatformDropdown by remember { mutableStateOf(false) }
+
+                    AlertDialog(
+                        onDismissRequest = { showAddLinkDialog = false },
+                        title = { Text("Add Social Link", fontWeight = FontWeight.Bold) },
+                        text = {
+                            Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .clickable { showPlatformDropdown = true }
+                                ) {
+                                    OutlinedTextField(
+                                        value = selectedPlatform.replaceFirstChar { it.uppercase() },
+                                        onValueChange = {},
+                                        readOnly = true,
+                                        enabled = false,
+                                        label = { Text("Platform") },
+                                        trailingIcon = { Icon(Icons.Default.ArrowDropDown, null) },
+                                        modifier = Modifier.fillMaxWidth(),
+                                        colors = OutlinedTextFieldDefaults.colors(
+                                            disabledTextColor = MaterialTheme.colorScheme.onSurface,
+                                            disabledBorderColor = MaterialTheme.colorScheme.outline,
+                                            disabledTrailingIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                                            disabledLabelColor = MaterialTheme.colorScheme.onSurfaceVariant
+                                        ),
+                                        shape = RoundedCornerShape(12.dp)
+                                    )
+                                }
+                                if (showPlatformDropdown) {
+                                    SelectionDialog(
+                                        title = "Select Platform",
+                                        options = listOf("instagram", "facebook", "github", "linkedin", "telegram", "website"),
+                                        onDismiss = { showPlatformDropdown = false },
+                                        onSelect = { selectedPlatform = it }
+                                    )
+                                }
+
+                                OutlinedTextField(
+                                    value = urlOrUsername,
+                                    onValueChange = { urlOrUsername = it },
+                                    label = { Text("URL or Username") },
+                                    placeholder = { Text("e.g. nikithamal or https://instagram.com/nikithamal") },
+                                    singleLine = true,
+                                    modifier = Modifier.fillMaxWidth(),
+                                    shape = RoundedCornerShape(12.dp)
+                                )
+                            }
+                        },
+                        confirmButton = {
+                            Button(
+                                onClick = {
+                                    if (urlOrUsername.isNotBlank()) {
+                                        viewModel.addSocialLink(selectedPlatform, urlOrUsername)
+                                        showAddLinkDialog = false
+                                    }
+                                }
+                            ) {
+                                Text("Add")
+                            }
+                        },
+                        dismissButton = {
+                            TextButton(onClick = { showAddLinkDialog = false }) {
+                                Text("Cancel")
+                            }
+                        }
                     )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text("Manage Social Links", fontWeight = FontWeight.Bold)
                 }
             }
 
@@ -827,4 +995,60 @@ private fun ProfileRoleOption(
             }
         }
     }
+}
+
+@Composable
+private fun SelectionDialog(
+    title: String,
+    options: List<String>,
+    onDismiss: () -> Unit,
+    onSelect: (String) -> Unit,
+    showSearch: Boolean = false
+) {
+    var searchQuery by remember { mutableStateOf("") }
+    val filteredOptions = remember(searchQuery, options) {
+        if (showSearch) {
+            options.filter { it.contains(searchQuery, ignoreCase = true) }
+        } else {
+            options
+        }
+    }
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text(title, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold) },
+        text = {
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                if (showSearch) {
+                    OutlinedTextField(
+                        value = searchQuery,
+                        onValueChange = { searchQuery = it },
+                        placeholder = { Text("Search...") },
+                        singleLine = true,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+                LazyColumn(modifier = Modifier.heightIn(max = 280.dp)) {
+                    items(filteredOptions) { opt ->
+                        Text(
+                            text = opt,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable {
+                                    onSelect(opt)
+                                    onDismiss()
+                                }
+                                .padding(vertical = 12.dp, horizontal = 4.dp),
+                            style = MaterialTheme.typography.bodyLarge
+                        )
+                    }
+                }
+            }
+        },
+        confirmButton = {
+            TextButton(onClick = onDismiss) {
+                Text("Cancel")
+            }
+        }
+    )
 }
