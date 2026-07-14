@@ -654,8 +654,9 @@ fun ProfileHeaderCard(
                         }
                     }
                 }
+            }
 
-                if (profile.socialLinks.isNotEmpty()) {
+            if (profile.socialLinks.isNotEmpty()) {
                     Spacer(modifier = Modifier.height(14.dp))
                     @OptIn(ExperimentalLayoutApi::class)
                     FlowRow(

@@ -737,7 +737,7 @@ fun CompleteProfileScreen(
                     )
                 ) {
                     Icon(
-                        imageVector = Icons.Outlined.Share,
+                        imageVector = Icons.Default.Edit,
                         contentDescription = null,
                         modifier = Modifier.size(18.dp)
                     )
