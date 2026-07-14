@@ -453,12 +453,6 @@ fun ForumPostCard(
                     tint = if (bookmarked) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
                     size = 34.dp
                 )
-                NebIconButton(
-                    icon = Icons.Outlined.Share,
-                    contentDescription = "Share",
-                    onClick = onShareClick,
-                    size = 34.dp
-                )
             }
         }
     }
