@@ -284,7 +284,11 @@
                 {% if profile_user.school %}
                   <div class="pf-meta-row">
                     <span class="material-symbols-outlined">school</span>
-                    <span>{{ profile_user.school }}</span>
+                    {% if profile_user.school_username %}
+                      <a href="/profile/{{ profile_user.school_username }}/" class="pf-meta-school-link">{{ profile_user.school }}</a>
+                    {% else %}
+                      <span>{{ profile_user.school }}</span>
+                    {% endif %}
                   </div>
                 {% endif %}
               </div>
@@ -878,7 +882,11 @@
                 <div class="about-detail-row">
                   <span class="material-symbols-outlined">apartment</span>
                   <span class="about-detail-label">School</span>
-                  <span class="about-detail-value">{{ profile_user.school }}</span>
+                  {% if profile_user.school_username %}
+                    <a href="/profile/{{ profile_user.school_username }}/" class="about-detail-value about-detail-link">{{ profile_user.school }}</a>
+                  {% else %}
+                    <span class="about-detail-value">{{ profile_user.school }}</span>
+                  {% endif %}
                 </div>
                 {% endif %}
                 {% if profile_user.district or profile_user.pradesh %}
