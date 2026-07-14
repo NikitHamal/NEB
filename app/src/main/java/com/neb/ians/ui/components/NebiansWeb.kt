@@ -111,6 +111,8 @@ class TopBarViewModel @Inject constructor(
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), "Student")
     val userPhotoUrl = authRepository.currentUserPhotoUrlFlow
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
+    val verificationLevel = authRepository.currentUserVerificationLevelFlow
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0)
 
     /** Live unread notification count (web parity: topbar badge). */
     val unreadCount: kotlinx.coroutines.flow.StateFlow<Int> = realtimeClient.unreadCount
@@ -156,6 +158,7 @@ fun WebTopBar(
     val dbUserName by viewModel.userName.collectAsStateWithLifecycle()
     val dbUserPhotoUrl by viewModel.userPhotoUrl.collectAsStateWithLifecycle()
     val vmUnreadCount by viewModel.unreadCount.collectAsStateWithLifecycle()
+    val verificationLevel by viewModel.verificationLevel.collectAsStateWithLifecycle()
 
     val name = (avatarInitial ?: dbUserName).ifEmpty { "N" }
     val photo = avatarUrl ?: dbUserPhotoUrl
@@ -262,7 +265,8 @@ fun WebTopBar(
                 name = name,
                 imageUrl = photo,
                 modifier = Modifier.clickable(onClick = onProfileClick),
-                size = 40.dp
+                size = 40.dp,
+                verificationLevel = verificationLevel
             )
         }
     }
@@ -275,11 +279,12 @@ fun WebIconButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    IconButton(
-        onClick = onClick,
+    Box(
         modifier = modifier
             .size(40.dp)
             .clip(CircleShape)
+            .clickable(onClick = onClick),
+        contentAlignment = Alignment.Center
     ) {
         Icon(
             imageVector = imageVector,
@@ -296,11 +301,12 @@ fun WebIconButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    IconButton(
-        onClick = onClick,
+    Box(
         modifier = modifier
             .size(40.dp)
             .clip(CircleShape)
+            .clickable(onClick = onClick),
+        contentAlignment = Alignment.Center
     ) {
         Icon(
             painter = painter,

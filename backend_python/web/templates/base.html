@@ -189,6 +189,11 @@
             {% else %}
             <span>{{ user.username|first|upper }}</span>
             {% endif %}
+            {% if user.verification_level and user.verification_level > 0 %}
+              <span class="avatar-badge-overlay" style="--badge-bg: {% if user.verification_level == 1 %}#1B9AF0{% elif user.verification_level == 2 %}#2E7D32{% elif user.verification_level == 3 %}#F59E0B{% else %}#1A1A1A{% endif %};" title="Verified User">
+                <span class="material-symbols-outlined">verified</span>
+              </span>
+            {% endif %}
           </span>
           {% if unread_notifications > 0 %}
           <span class="notif-dot" id="profile-notif-dot"></span>
@@ -204,6 +209,11 @@
                 <img src="{{ user.avatar_url }}" alt="Profile">
                 {% else %}
                 {{ user.username|first|upper }}
+                {% endif %}
+                {% if user.verification_level and user.verification_level > 0 %}
+                  <span class="avatar-badge-overlay" style="--badge-bg: {% if user.verification_level == 1 %}#1B9AF0{% elif user.verification_level == 2 %}#2E7D32{% elif user.verification_level == 3 %}#F59E0B{% else %}#1A1A1A{% endif %};" title="Verified User">
+                    <span class="material-symbols-outlined">verified</span>
+                  </span>
                 {% endif %}
               </span>
               <div class="profile-dropdown-info" style="flex-grow: 1;">
