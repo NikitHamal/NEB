@@ -5,7 +5,7 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('api', '0074_social_links'),
+        ('api', '0075_merge_20260713_2208'),
     ]
 
     operations = [
