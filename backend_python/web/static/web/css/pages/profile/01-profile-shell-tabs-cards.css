@@ -344,6 +344,15 @@
   .about-detail-value {
     font-size: 0.875rem; font-weight: 500; color: var(--md-on-surface);
   }
+  .about-detail-link {
+    color: var(--md-primary);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    transition: opacity 0.15s;
+  }
+  .about-detail-link:hover {
+    opacity: 0.75;
+  }
 
   /* ── Compact resource cards (profile Resources tab) ── */
   .profile-tab-content .post-card {

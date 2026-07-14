@@ -350,6 +350,18 @@
   text-decoration: underline;
 }
 
+.pf-meta-school-link {
+  color: var(--md-primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  font-weight: 500;
+  transition: opacity 0.15s;
+}
+
+.pf-meta-school-link:hover {
+  opacity: 0.75;
+}
+
 /* Responsive grid media queries */
 @media (max-width: 900px) {
   .profile-grid-container {
