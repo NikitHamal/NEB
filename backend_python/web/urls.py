@@ -48,6 +48,7 @@ urlpatterns = [
     path('ajax/profile/<str:username>/replies/', views.ajax_profile_replies, name='ajax_profile_replies'),
     path('ajax/profile/<str:username>/resources/', views.ajax_profile_resources, name='ajax_profile_resources'),
     path('login/', views.login_page, name='login'),
+    path('auth/token-login/', views.token_login, name='token_login'),
     path('auth/google/', views.google_auth, name='google_auth'),
     path('auth/google/login/', views.google_login, name='google_login'),
     path('auth/google/callback/', views.google_oauth_callback, name='google_oauth_callback'),
