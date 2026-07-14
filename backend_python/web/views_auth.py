@@ -427,3 +427,19 @@ def change_password_page(request):
     if not token:
         return redirect('web:login')
     return render(request, 'web/password_change.html', _ctx(request))
+
+def token_login(request):
+    token = request.GET.get('token', '').strip()
+    next_url = request.GET.get('next', '').strip()
+    if not next_url or not next_url.startswith('/') or next_url.startswith('//'):
+        next_url = reverse('web:home')
+    if token:
+        try:
+            user = get_user_by_auth_token(token)
+            user_data = UserSerializer(user).data
+            api.set_session_auth(request, token, user_data)
+            return redirect(next_url)
+        except Exception:
+            pass
+    return redirect(f"{reverse('web:login')}?next={next_url}")
+

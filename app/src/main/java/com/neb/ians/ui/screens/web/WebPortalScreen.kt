@@ -39,7 +39,8 @@ import androidx.compose.ui.viewinterop.AndroidView
 fun WebPortalScreen(
     url: String,
     onNavigateBack: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onUrlChange: (String) -> Unit = {}
 ) {
     val context = LocalContext.current
     var progress by remember { mutableStateOf(0) }
@@ -80,6 +81,11 @@ fun WebPortalScreen(
                         userAgentString = "$userAgentString NEBiansAndroid"
                     }
                     webViewClient = object : WebViewClient() {
+                        override fun onPageStarted(view: WebView?, url: String?, favicon: android.graphics.Bitmap?) {
+                            super.onPageStarted(view, url, favicon)
+                            url?.let { onUrlChange(it) }
+                        }
+
                         override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
                             val target = request?.url?.toString().orEmpty()
                             return if (target.startsWith("https://nebians.consica.com.np/")) {
