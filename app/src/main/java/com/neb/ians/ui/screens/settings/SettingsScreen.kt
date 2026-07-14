@@ -426,7 +426,7 @@ fun SettingsScreen(
                 }
             }
 
-            Spacer(modifier = Modifier.height(40.dp))
+            Spacer(modifier = Modifier.navigationBarsPadding().height(96.dp))
         }
     }
 }
