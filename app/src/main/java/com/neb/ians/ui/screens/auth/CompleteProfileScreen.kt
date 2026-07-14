@@ -745,16 +745,37 @@ fun CompleteProfileScreen(
                                 readOnly = true,
                                 enabled = false,
                                 placeholder = { Text(schoolPlaceholder) },
-                                trailingIcon = { Icon(Icons.Default.ArrowDropDown, null) },
                                 modifier = Modifier.fillMaxWidth(),
                                 colors = OutlinedTextFieldDefaults.colors(
                                     disabledTextColor = MaterialTheme.colorScheme.onSurface,
-                                    disabledBorderColor = MaterialTheme.colorScheme.outline,
-                                    disabledTrailingIconColor = MaterialTheme.colorScheme.onSurfaceVariant
+                                    disabledBorderColor = MaterialTheme.colorScheme.outline
                                 ),
                                 singleLine = true,
                                 shape = RoundedCornerShape(12.dp)
                             )
+                            if (uiState.school.isNotEmpty()) {
+                                IconButton(
+                                    onClick = { viewModel.onSchoolChange("", "") },
+                                    modifier = Modifier
+                                        .align(Alignment.CenterEnd)
+                                        .padding(end = 4.dp)
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Default.Clear,
+                                        contentDescription = "Clear School",
+                                        tint = MaterialTheme.colorScheme.onSurfaceVariant
+                                    )
+                                }
+                            } else {
+                                Icon(
+                                    imageVector = Icons.Default.ArrowDropDown,
+                                    contentDescription = null,
+                                    modifier = Modifier
+                                        .align(Alignment.CenterEnd)
+                                        .padding(end = 12.dp),
+                                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            }
                         }
                         if (showSchoolDialog) {
                             SchoolSelectionDialog(
@@ -823,9 +844,9 @@ fun CompleteProfileScreen(
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
                                     Icon(
-                                        imageVector = when (link.platform.lowercase()) {
-                                            "github" -> Icons.Default.Code
-                                            else -> Icons.Default.Link
+                                        painter = when (link.platform.lowercase()) {
+                                            "github" -> painterResource(id = R.drawable.ic_github)
+                                            else -> painterResource(id = R.drawable.ic_globe)
                                         },
                                         contentDescription = null,
                                         tint = MaterialTheme.colorScheme.primary,
@@ -877,9 +898,36 @@ fun CompleteProfileScreen(
                 }
 
                 if (showAddLinkDialog) {
-                    var selectedPlatform by remember { mutableStateOf("instagram") }
+                    var selectedPlatformDisplay by remember { mutableStateOf("Instagram") }
+                    val selectedPlatformKey = remember(selectedPlatformDisplay) {
+                        when (selectedPlatformDisplay) {
+                            "X (Twitter)" -> "twitter"
+                            "Website / Custom" -> "website"
+                            else -> selectedPlatformDisplay.lowercase()
+                        }
+                    }
                     var urlOrUsername by remember { mutableStateOf("") }
+                    var label by remember { mutableStateOf("") }
                     var showPlatformDropdown by remember { mutableStateOf(false) }
+
+                    val prompt = remember(selectedPlatformKey) {
+                        when (selectedPlatformKey) {
+                            "instagram" -> Triple("Username or Link", "e.g. username or https://...", "We will automatically format this into an Instagram profile link.")
+                            "facebook" -> Triple("Username or Link", "e.g. username or https://...", "We will format this into a Facebook profile link.")
+                            "twitter" -> Triple("Username or Link", "e.g. username or https://...", "X (Twitter) handle or full URL.")
+                            "youtube" -> Triple("Channel Username or Link", "e.g. channel_name or https://...", "YouTube username or channel URL.")
+                            "tiktok" -> Triple("Username or Link", "e.g. username or https://...", "TikTok username or profile URL.")
+                            "linkedin" -> Triple("Username or Link", "e.g. username or https://...", "LinkedIn profile link or username.")
+                            "github" -> Triple("Username or Link", "e.g. username or https://...", "GitHub username or link.")
+                            "telegram" -> Triple("Username or Link", "e.g. username or https://...", "Telegram username or link.")
+                            "whatsapp" -> Triple("Phone Number or Link", "e.g. 98XXXXXXXX or https://...", "WhatsApp phone number or direct chat link.")
+                            "discord" -> Triple("Invite Link or Username", "e.g. username or https://...", "Discord server invite link or username.")
+                            "snapchat" -> Triple("Username or Link", "e.g. username or https://...", "Snapchat username or profile link.")
+                            "pinterest" -> Triple("Username or Link", "e.g. username or https://...", "Pinterest username or profile link.")
+                            "reddit" -> Triple("Username or Link", "e.g. username or https://...", "Reddit username or profile link.")
+                            else -> Triple("Website URL", "e.g. https://mywebsite.com", "Enter your full custom website URL.")
+                        }
+                    }
 
                     AlertDialog(
                         onDismissRequest = { showAddLinkDialog = false },
@@ -892,7 +940,7 @@ fun CompleteProfileScreen(
                                         .clickable { showPlatformDropdown = true }
                                 ) {
                                     OutlinedTextField(
-                                        value = selectedPlatform.replaceFirstChar { it.uppercase() },
+                                        value = selectedPlatformDisplay,
                                         onValueChange = {},
                                         readOnly = true,
                                         enabled = false,
@@ -911,28 +959,46 @@ fun CompleteProfileScreen(
                                 if (showPlatformDropdown) {
                                     SelectionDialog(
                                         title = "Select Platform",
-                                        options = listOf("instagram", "facebook", "github", "linkedin", "telegram", "website"),
+                                        options = listOf("Instagram", "Facebook", "X (Twitter)", "YouTube", "TikTok", "LinkedIn", "GitHub", "Telegram", "WhatsApp", "Discord", "Snapchat", "Pinterest", "Reddit", "Website / Custom"),
                                         onDismiss = { showPlatformDropdown = false },
-                                        onSelect = { selectedPlatform = it }
+                                        onSelect = { selectedPlatformDisplay = it }
                                     )
                                 }
 
                                 OutlinedTextField(
                                     value = urlOrUsername,
                                     onValueChange = { urlOrUsername = it },
-                                    label = { Text("URL or Username") },
-                                    placeholder = { Text("e.g. nikithamal or https://instagram.com/nikithamal") },
+                                    label = { Text(prompt.first) },
+                                    placeholder = { Text(prompt.second) },
                                     singleLine = true,
                                     modifier = Modifier.fillMaxWidth(),
                                     shape = RoundedCornerShape(12.dp)
                                 )
+
+                                Text(
+                                    text = prompt.third,
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+
+                                if (selectedPlatformKey == "website") {
+                                    OutlinedTextField(
+                                        value = label,
+                                        onValueChange = { label = it },
+                                        label = { Text("Label (optional)") },
+                                        placeholder = { Text("e.g. My Portfolio") },
+                                        singleLine = true,
+                                        modifier = Modifier.fillMaxWidth(),
+                                        shape = RoundedCornerShape(12.dp)
+                                    )
+                                }
                             }
                         },
                         confirmButton = {
                             Button(
                                 onClick = {
                                     if (urlOrUsername.isNotBlank()) {
-                                        viewModel.addSocialLink(selectedPlatform, urlOrUsername)
+                                        viewModel.addSocialLink(selectedPlatformKey, urlOrUsername, label)
                                         showAddLinkDialog = false
                                     }
                                 }
@@ -1196,7 +1262,18 @@ private fun SchoolSelectionDialog(
                 }
             }
         },
-        confirmButton = {},
+        confirmButton = {
+            if (initialValue.isNotBlank()) {
+                TextButton(
+                    onClick = {
+                        onSelect("", "")
+                        onDismiss()
+                    }
+                ) {
+                    Text("Clear Selection", color = MaterialTheme.colorScheme.error)
+                }
+            }
+        },
         dismissButton = {
             TextButton(onClick = onDismiss) {
                 Text("Close")
