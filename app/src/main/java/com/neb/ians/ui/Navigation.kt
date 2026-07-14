@@ -182,6 +182,9 @@ sealed class Screen(val route: String) {
     data object Reply : Screen("forum/reply/{postId}/{replyToId}") {
         fun createRoute(postId: String, replyToId: String? = null) = "forum/reply/$postId/${replyToId ?: "none"}"
     }
+    data object WebPortal : Screen("web_portal/{url}") {
+        fun createRoute(url: String) = "web_portal/${java.net.URLEncoder.encode(url, "UTF-8")}"
+    }
 }
 
 val glassNavItems = listOf(
@@ -644,6 +647,16 @@ fun NEBiansNavHost(
                     onNavigateBack = { navController.popBackStack() }
                 )
             }
+            composable(
+                route = Screen.WebPortal.route,
+                arguments = listOf(navArgument("url") { type = NavType.StringType })
+            ) { backStackEntry ->
+                val url = backStackEntry.arguments?.getString("url") ?: ""
+                com.neb.ians.ui.screens.web.WebPortalScreen(
+                    url = url,
+                    onNavigateBack = { navController.popBackStack() }
+                )
+            }
             composable(Screen.Settings.route) {
                 SettingsScreen(
                     onNavigateBack = { navController.popBackStack() },
@@ -655,6 +668,9 @@ fun NEBiansNavHost(
                         navController.navigate(Screen.Login.route) {
                             popUpTo(navController.graph.findStartDestination().id) { inclusive = true }
                         }
+                    },
+                    onNavigateToWebPortal = { url ->
+                        navController.navigate(Screen.WebPortal.createRoute(url))
                     }
                 )
             }

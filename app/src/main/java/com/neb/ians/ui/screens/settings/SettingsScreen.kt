@@ -44,7 +44,8 @@ fun SettingsScreen(
     onNavigateToEditProfile: () -> Unit,
     onNavigateToBookmarks: () -> Unit = {},
     onNavigateToDeleteAccount: () -> Unit = {},
-    onNavigateToLogin: () -> Unit = {}
+    onNavigateToLogin: () -> Unit = {},
+    onNavigateToWebPortal: (String) -> Unit = {}
 ) {
     val isDarkMode by settingsViewModel.isDarkMode.collectAsStateWithLifecycle()
     val notificationsEnabled by settingsViewModel.notificationsEnabled.collectAsStateWithLifecycle()
@@ -331,9 +332,7 @@ fun SettingsScreen(
 
             ListItem(
                 modifier = Modifier.clickable {
-                    runCatching {
-                        context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://nebians.consica.com.np/privacy/")))
-                    }
+                    onNavigateToWebPortal("https://nebians.consica.com.np/privacy/")
                 },
                 headlineContent = { Text("Privacy Policy", style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium) },
                 supportingContent = { Text("How we protect your data", style = MaterialTheme.typography.bodySmall) },
@@ -355,9 +354,7 @@ fun SettingsScreen(
 
             ListItem(
                 modifier = Modifier.clickable {
-                    runCatching {
-                        context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://nebians.consica.com.np/terms/")))
-                    }
+                    onNavigateToWebPortal("https://nebians.consica.com.np/terms/")
                 },
                 headlineContent = { Text("Terms of Service", style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium) },
                 supportingContent = { Text("Rules and guidelines for usage", style = MaterialTheme.typography.bodySmall) },
