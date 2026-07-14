@@ -352,8 +352,7 @@
 
 .pf-meta-school-link {
   color: var(--md-primary);
-  text-decoration: underline;
-  text-underline-offset: 2px;
+  text-decoration: none;
   font-weight: 500;
   transition: opacity 0.15s;
 }
