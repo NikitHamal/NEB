@@ -48,7 +48,9 @@ data class CompleteProfileUiState(
     val photos: List<ApiUserPhoto> = emptyList(),
     val photosLoading: Boolean = false,
     val photoBusy: Boolean = false,
-    val socialLinks: List<ApiSocialLink> = emptyList()
+    val socialLinks: List<ApiSocialLink> = emptyList(),
+    val schoolUsername: String = "",
+    val institutions: List<com.neb.ians.data.api.ApiInstitution> = emptyList()
 )
 
 @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
@@ -90,6 +92,7 @@ class CompleteProfileViewModel @Inject constructor(
                         pradesh = cached.pradesh ?: "Bagmati",
                         district = cached.district ?: "Kathmandu",
                         school = cached.school ?: "",
+                        schoolUsername = cached.schoolUsername ?: "",
                         photoUrl = cached.photoUrl ?: "",
                         bannerUrl = cached.bannerUrl ?: "",
                         isLocked = cached.isLocked
@@ -98,6 +101,7 @@ class CompleteProfileViewModel @Inject constructor(
                 if (cached.username.isNotEmpty()) {
                     _usernameQuery.value = cached.username
                 }
+                fetchInstitutions()
                 if (isCompleted) {
                     fetchSocialLinks()
                 }
@@ -324,6 +328,7 @@ class CompleteProfileViewModel @Inject constructor(
                 pradesh = state.pradesh,
                 district = state.district,
                 school = state.school,
+                schoolUsername = state.schoolUsername,
                 isLocked = state.isLocked,
                 bannerUrl = "",
                 bio = state.bio
@@ -384,6 +389,25 @@ class CompleteProfileViewModel @Inject constructor(
                 }
             }.onFailure { e ->
                 _uiState.update { it.copy(photoBusy = false, submissionError = e.localizedMessage) }
+            }
+        }
+    }
+
+    fun setIsEditing(editing: Boolean) {
+        _uiState.update { it.copy(isEditing = editing) }
+    }
+
+    fun onSchoolChange(schoolName: String, username: String = "") {
+        _uiState.update { it.copy(school = schoolName, schoolUsername = username) }
+    }
+
+    fun fetchInstitutions() {
+        viewModelScope.launch {
+            try {
+                val response = apiService.getInstitutions()
+                _uiState.update { it.copy(institutions = response.institutions) }
+            } catch (e: Exception) {
+                // Ignore
             }
         }
     }

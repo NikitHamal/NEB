@@ -74,6 +74,7 @@ class User(models.Model):
     pradesh = models.CharField(max_length=100, blank=True, null=True)
     district = models.CharField(max_length=100, blank=True, null=True)
     school = models.CharField(max_length=200, blank=True, null=True)
+    school_username = models.CharField(max_length=50, blank=True, default='')
     bio = models.TextField(blank=True, default='')
     is_locked = models.BooleanField(default=False)
     password_hash = models.CharField(max_length=255, blank=True, null=True)

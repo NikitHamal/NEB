@@ -9,6 +9,7 @@ fun EditProfileScreen(
 ) {
     CompleteProfileScreen(
         onNavigateToHome = {},
-        onNavigateBack = onNavigateBack
+        onNavigateBack = onNavigateBack,
+        isEditing = true
     )
 }

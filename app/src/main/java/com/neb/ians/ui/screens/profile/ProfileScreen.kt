@@ -125,7 +125,8 @@ fun ProfileScreen(
                     onAnalyticsClick = onAnalyticsClick,
                     onFollowersClick = viewModel::openFollowers,
                     onFollowingClick = viewModel::openFollowing,
-                    onFollowRequestsClick = viewModel::openFollowRequests
+                    onFollowRequestsClick = viewModel::openFollowRequests,
+                    onProfileClick = onProfileClick
                 )
             }
         }
@@ -202,7 +203,8 @@ private fun ProfileContent(
     onAnalyticsClick: () -> Unit,
     onFollowersClick: () -> Unit,
     onFollowingClick: () -> Unit,
-    onFollowRequestsClick: () -> Unit
+    onFollowRequestsClick: () -> Unit,
+    onProfileClick: (String) -> Unit = {}
 ) {
     val profile = uiState.profile ?: return
     val isSelf = profile.isSelf == true
@@ -228,7 +230,8 @@ private fun ProfileContent(
                 onAnalyticsClick = onAnalyticsClick,
                 onFollowersClick = onFollowersClick,
                 onFollowingClick = onFollowingClick,
-                onFollowRequestsClick = onFollowRequestsClick
+                onFollowRequestsClick = onFollowRequestsClick,
+                onProfileClick = onProfileClick
             )
         }
 
@@ -398,7 +401,7 @@ private fun ProfileContent(
                     }
                     item(key = "about_details") {
                         Box(modifier = Modifier.padding(horizontal = 8.dp)) {
-                            AboutDetailsCard(profile = profile)
+                            AboutDetailsCard(profile = profile, onProfileClick = onProfileClick)
                         }
                     }
                     item(key = "about_progress") {
