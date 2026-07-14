@@ -324,15 +324,15 @@ data class UserProfileResponse(
 
 @Serializable
 data class ApiSocialLink(
-    val id: Int,
-    val platform: String,
-    @SerialName("platform_label") val platformLabel: String,
-    val icon: String,
-    val color: String,
-    val url: String,
-    val label: String,
-    @SerialName("sort_order") val sortOrder: Int,
-    @SerialName("is_visible") val isVisible: Boolean,
+    val id: String = "",
+    val platform: String = "",
+    @SerialName("platform_label") val platformLabel: String = "",
+    val icon: String = "",
+    val color: String = "",
+    val url: String = "",
+    val label: String = "",
+    @SerialName("sort_order") val sortOrder: Int = 0,
+    @SerialName("is_visible") val isVisible: Boolean = true,
     @SerialName("website_domain") val websiteDomain: String = ""
 )
 
