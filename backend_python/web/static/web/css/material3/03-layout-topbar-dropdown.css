@@ -368,7 +368,8 @@
   justify-content: center;
   font-size: 1rem;
   font-weight: 700;
-  overflow: hidden;
+  overflow: visible;
+  position: relative;
   flex-shrink: 0;
 }
 
