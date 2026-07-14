@@ -104,6 +104,7 @@ class AuthRepository @Inject constructor(
     val currentUserNameFlow: Flow<String> = dataStore.data.map { it[USER_NAME] ?: "Student" }
     val currentUserIdFlow: Flow<String?> = dataStore.data.map { it[USER_ID] }
     val currentUserPhotoUrlFlow: Flow<String?> = dataStore.data.map { it[USER_PHOTO_URL] }
+    val currentUserVerificationLevelFlow: Flow<Int> = dataStore.data.map { it[USER_VERIFICATION_LEVEL] ?: 0 }
 
     val userProfileFlow: Flow<UserProfileCache?> = dataStore.data.map { preferences ->
         val userId = preferences[USER_ID]
