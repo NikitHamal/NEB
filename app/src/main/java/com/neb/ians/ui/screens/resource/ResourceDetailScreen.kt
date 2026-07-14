@@ -196,6 +196,7 @@ fun ResourceDetailScreen(
             }
         }
     }
+    }
 
     zoomImageUrl?.let { url ->
         ZoomableImageDialog(
