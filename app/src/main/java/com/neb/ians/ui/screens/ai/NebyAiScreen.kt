@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
@@ -835,7 +836,11 @@ private fun ChatInput(
     onClearFiles: () -> Unit,
     onSend: () -> Unit
 ) {
-    Surface(color = MaterialTheme.colorScheme.surface, tonalElevation = 0.dp) {
+    Surface(
+        color = MaterialTheme.colorScheme.surface,
+        tonalElevation = 0.dp,
+        modifier = Modifier.navigationBarsPadding()
+    ) {
         Column(modifier = Modifier.fillMaxWidth()) {
             if (pendingFiles.isNotEmpty()) {
                 Row(

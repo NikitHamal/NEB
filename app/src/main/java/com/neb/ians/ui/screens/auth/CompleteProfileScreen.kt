@@ -113,7 +113,7 @@ fun CompleteProfileScreen(
                 .verticalScroll(scrollState)
         ) {
             if (!uiState.isEditing) {
-                Spacer(modifier = Modifier.height(24.dp))
+                Spacer(modifier = Modifier.statusBarsPadding().height(24.dp))
                 Text(
                     text = "Complete Your Profile",
                     style = MaterialTheme.typography.headlineMedium,
@@ -784,7 +784,7 @@ fun CompleteProfileScreen(
                 )
             }
 
-            Spacer(modifier = Modifier.height(48.dp))
+            Spacer(modifier = Modifier.navigationBarsPadding().height(48.dp))
         }
     }
 
