@@ -142,7 +142,7 @@ class HomeViewModel @Inject constructor(
                 }
                 val results = coroutineScope {
                     val resources = async { resourceRepository.getResources(sort = "newest", page = 1, forceRefresh = forceRefresh) }
-                    val popular = async { resourceRepository.getResources(sort = "relevant", page = 1, forceRefresh = forceRefresh) }
+                    val popular = async { resourceRepository.getResources(sort = "trending", page = 1, forceRefresh = forceRefresh) }
                     val posts = async { forumRepository.getPosts(page = 1, forceRefresh = forceRefresh) }
                     val news = async { newsRepository.getAnnouncements().getOrDefault(appCache.latestNews) }
                     HomeLoadResults(resources.await(), popular.await(), posts.await(), news.await())
