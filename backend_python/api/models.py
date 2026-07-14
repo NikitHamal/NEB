@@ -1586,3 +1586,22 @@ class SocialLink(models.Model):
 
     def __str__(self):
         return f"{self.user_id} - {self.platform}: {self.url[:50]}"
+
+
+class SocialLinkClick(models.Model):
+    link = models.ForeignKey(SocialLink, on_delete=models.CASCADE, related_name='clicks')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='link_clicks')
+    clicker_id = models.BigIntegerField(blank=True, null=True)
+    platform = models.CharField(max_length=20, db_index=True)
+    url = models.TextField()
+    created_at = models.BigIntegerField(default=0)
+
+    class Meta:
+        db_table = 'social_link_clicks'
+        indexes = [
+            models.Index(fields=['user_id', 'created_at']),
+            models.Index(fields=['platform']),
+        ]
+
+    def __str__(self):
+        return f"click {self.platform} on user {self.user_id}"

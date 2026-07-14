@@ -249,6 +249,44 @@
       <article class="an-card">
         <div class="an-card-head compact">
           <div>
+            <h2>Social link clicks</h2>
+            <p>How often visitors interact with your profile links.</p>
+          </div>
+          <span class="an-mini-stat">{{ link_clicks_30d|short_number }} in 30d</span>
+        </div>
+        <div class="an-metric-list">
+          <div><span>Total clicks</span><strong>{{ link_clicks_total|short_number }}</strong></div>
+          <div><span>Clicks (30d)</span><strong>{{ link_clicks_30d|short_number }}</strong></div>
+        </div>
+        {% if link_clicks_by_platform %}
+        <div class="an-topic-block" style="margin-top:12px;">
+          <h3>By platform</h3>
+          {% for row in link_clicks_by_platform %}
+            {% widthratio row.total link_clicks_total 100 as pct %}
+            <div class="an-topic-row">
+              <div><span>{{ row.platform|capfirst }}</span><strong>{{ row.total }}</strong></div>
+              <span class="an-topic-track"><i style="width: {{ pct }}%;"></i></span>
+            </div>
+          {% endfor %}
+        </div>
+        {% endif %}
+        {% if link_clicks_by_day_14 %}
+        <div class="an-bars" style="margin-top:12px;height:40px;" role="img" aria-label="Link clicks per day">
+          {% for day_count in link_clicks_by_day_14 %}
+            <div class="an-bar-item" title="{{ day_count }} clicks">
+              <div class="an-bar-track" style="height:32px;">
+                <span class="an-bar-fill" style="height: {% widthratio day_count max_link_clicks_day 100 %}%;background:var(--md-primary);"></span>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+        <p style="font-size:0.6875rem;color:var(--md-on-surface-variant);margin:4px 0 0;text-align:center;">14-day click activity</p>
+        {% endif %}
+      </article>
+
+      <article class="an-card">
+        <div class="an-card-head compact">
+          <div>
             <h2>Top content</h2>
             <p>Most viewed posts and resources.</p>
           </div>

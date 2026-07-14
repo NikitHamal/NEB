@@ -370,7 +370,7 @@
 
 .avatar-badge-overlay .material-symbols-outlined {
   font-size: 10px !important;
-  font-variation-settings: 'FILL' 1, 'wght' 700;
+  font-variation-settings: 'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 20;
   line-height: 1 !important;
 }
 
