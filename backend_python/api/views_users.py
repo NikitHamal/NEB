@@ -60,6 +60,7 @@ def user_profile_create_or_update(request):
     if district and district not in NEPAL_DISTRICTS:
         district = ''
     school = data.get('school', '')
+    school_username = data.get('schoolUsername', data.get('school_username', ''))
     bio = data.get('bio', '')
     is_locked = bool(data.get('isLocked', data.get('is_locked', False)))
     role = data.get('role', '').strip().lower() or user.role
@@ -78,6 +79,7 @@ def user_profile_create_or_update(request):
     user.pradesh = pradesh
     user.district = district
     user.school = school
+    user.school_username = school_username
     user.bio = bio
     user.is_locked = is_locked
     if role in ('student', 'teacher', 'institution', 'explorer'):
@@ -606,4 +608,20 @@ def user_follow_request_reject(request, request_id):
     _notif.notify_cancel_follow_request(sender_id, current_user.id)
     
     return Response({'status': 'success'})
+
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def institutions_list(request):
+    """GET /api/users/institutions/"""
+    insts = User.objects.filter(role='institution')
+    data = []
+    for inst in insts:
+        data.append({
+            'id': inst.id,
+            'username': inst.username,
+            'displayName': inst.display_name or inst.username,
+            'photoUrl': inst.photo_url or ''
+        })
+    return Response({'institutions': data})
 

@@ -65,6 +65,7 @@ class AuthRepository @Inject constructor(
         val USER_PRADESH = stringPreferencesKey("user_pradesh")
         val USER_DISTRICT = stringPreferencesKey("user_district")
         val USER_SCHOOL = stringPreferencesKey("user_school")
+        val USER_SCHOOL_USERNAME = stringPreferencesKey("user_school_username")
         val USER_BIO = stringPreferencesKey("user_bio")
         val USER_LOCKED = booleanPreferencesKey("user_locked")
         val USER_HAS_PASSWORD = booleanPreferencesKey("user_has_password")
@@ -128,6 +129,7 @@ class AuthRepository @Inject constructor(
             pradesh = preferences[USER_PRADESH],
             district = preferences[USER_DISTRICT],
             school = preferences[USER_SCHOOL],
+            schoolUsername = preferences[USER_SCHOOL_USERNAME],
             bio = preferences[USER_BIO],
             isLocked = preferences[USER_LOCKED] ?: false,
             hasPassword = preferences[USER_HAS_PASSWORD] ?: false,
@@ -224,6 +226,7 @@ class AuthRepository @Inject constructor(
                 prefs[USER_PRADESH] = user.pradesh ?: ""
                 prefs[USER_DISTRICT] = user.district ?: ""
                 prefs[USER_SCHOOL] = user.school ?: ""
+                prefs[USER_SCHOOL_USERNAME] = user.schoolUsername ?: ""
                 prefs[USER_LOCKED] = user.isLocked == 1
                 prefs[USER_HAS_PASSWORD] = user.hasPassword
                 prefs[USER_IS_ADMIN] = user.isAdmin
@@ -397,6 +400,7 @@ class AuthRepository @Inject constructor(
                     prefs[USER_PRADESH] = user.pradesh ?: ""
                     prefs[USER_DISTRICT] = user.district ?: ""
                     prefs[USER_SCHOOL] = user.school ?: ""
+                    prefs[USER_SCHOOL_USERNAME] = user.schoolUsername ?: ""
                     prefs[USER_BIO] = user.bio ?: ""
                     prefs[USER_LOCKED] = user.isLocked == 1
                     prefs[USER_HAS_PASSWORD] = user.hasPassword
@@ -447,6 +451,7 @@ class AuthRepository @Inject constructor(
                     prefs[USER_PRADESH] = response.pradesh ?: ""
                     prefs[USER_DISTRICT] = response.district ?: ""
                     prefs[USER_SCHOOL] = response.school ?: ""
+                    prefs[USER_SCHOOL_USERNAME] = response.schoolUsername ?: ""
                     prefs[USER_BIO] = response.bio ?: ""
                     prefs[USER_LOCKED] = response.isLocked == 1
                     prefs[USER_HAS_PASSWORD] = response.hasPassword
@@ -499,6 +504,7 @@ class AuthRepository @Inject constructor(
             prefs[USER_PRADESH] = ""
             prefs[USER_DISTRICT] = ""
             prefs[USER_SCHOOL] = ""
+            prefs[USER_SCHOOL_USERNAME] = ""
             prefs[USER_BIO] = ""
             prefs[USER_LOCKED] = false
             prefs[USER_HAS_PASSWORD] = false
