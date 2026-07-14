@@ -240,29 +240,34 @@ fun WebTopBar(
 
             actions()
 
-            WebIconButton(
-                imageVector = Icons.Outlined.Search,
-                contentDescription = "Search",
-                onClick = onSearchClick
-            )
-            WebIconButton(
-                imageVector = Icons.Outlined.Upload,
-                contentDescription = "Upload",
-                onClick = onUploadClick
-            )
-            Box {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(2.dp)
+            ) {
                 WebIconButton(
-                    imageVector = Icons.Outlined.Notifications,
-                    contentDescription = "Notifications",
-                    onClick = onNotificationsClick
+                    imageVector = Icons.Outlined.Search,
+                    contentDescription = "Search",
+                    onClick = onSearchClick
                 )
-                if (badgeCount > 0) {
-                    UnreadCountBadge(
-                        count = badgeCount,
-                        modifier = Modifier
-                            .align(Alignment.TopEnd)
-                            .padding(top = 8.dp, end = 8.dp)
+                WebIconButton(
+                    imageVector = Icons.Outlined.Upload,
+                    contentDescription = "Upload",
+                    onClick = onUploadClick
+                )
+                Box {
+                    WebIconButton(
+                        imageVector = Icons.Outlined.Notifications,
+                        contentDescription = "Notifications",
+                        onClick = onNotificationsClick
                     )
+                    if (badgeCount > 0) {
+                        UnreadCountBadge(
+                            count = badgeCount,
+                            modifier = Modifier
+                                .align(Alignment.TopEnd)
+                                .padding(top = 8.dp, end = 8.dp)
+                        )
+                    }
                 }
             }
             Avatar(
