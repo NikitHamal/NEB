@@ -5,6 +5,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('api', '0074_social_links'),
+        ('api', '0074_study_space_board_content'),
     ]
 
     operations = [
