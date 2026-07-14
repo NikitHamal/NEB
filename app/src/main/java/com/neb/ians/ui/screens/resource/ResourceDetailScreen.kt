@@ -8,8 +8,10 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.ui.graphics.Color
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -108,13 +110,33 @@ fun ResourceDetailScreen(
             else -> {
                 val resource = uiState.resource!!
                 val mediaType = detectResourceMedia(resource.fileUrl, resource.type)
-                LazyColumn(
+                val subjectColor = Color(
+                    com.neb.ians.util.getSubjectColor(
+                        resource.subject.split(",").firstOrNull()?.trim().orEmpty().ifBlank { "General" }
+                    )
+                )
+                Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(top = padding.calculateTopPadding()),
-                    contentPadding = PaddingValues(start = 16.dp, top = 12.dp, end = 16.dp, bottom = padding.calculateBottomPadding() + 18.dp)
+                        .padding(top = padding.calculateTopPadding())
                 ) {
-                    item(key = "hero") {
+                    if (mediaType == ResourceMediaType.Video || mediaType == ResourceMediaType.Audio) {
+                        EmbeddedMediaPlayer(
+                            resourceId = resource.id,
+                            fileUrl = resource.fileUrl,
+                            isVideo = mediaType == ResourceMediaType.Video,
+                            subjectColor = subjectColor,
+                            title = resource.title,
+                            onFullscreenClick = { onOpenMedia(resource.id) },
+                            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+                        )
+                    }
+
+                    LazyColumn(
+                        modifier = Modifier.fillMaxSize(),
+                        contentPadding = PaddingValues(start = 16.dp, top = 4.dp, end = 16.dp, bottom = padding.calculateBottomPadding() + 18.dp)
+                    ) {
+                        item(key = "hero") {
                         ResourceHeroCard(
                             resource = resource,
                             isLiked = uiState.isLiked,

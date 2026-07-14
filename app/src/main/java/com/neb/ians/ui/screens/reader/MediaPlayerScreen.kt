@@ -357,9 +357,7 @@ private fun NmpVideoStage(
     ) {
         AndroidView(
             factory = { ctx ->
-                android.view.SurfaceView(ctx).also { sv ->
-                    sv.setBackgroundColor(android.graphics.Color.BLACK)
-                }
+                android.view.SurfaceView(ctx)
             },
             update = { sv -> player?.setVideoSurfaceView(sv) },
             modifier = Modifier.fillMaxSize()
