@@ -1,4 +1,4 @@
-﻿"""Views Profile extracted from views.py."""
+"""Views Profile extracted from views.py."""
 from .view_helpers import *  # noqa: F401,F403
 from api.view_helpers import _profile_incomplete, _can_view_locked_profile
 from api.models import FollowRequest, NEPAL_DISTRICTS, SocialLink, SocialLinkClick
@@ -156,6 +156,7 @@ def profile(request, username):
         'pradesh': profile_user.pradesh,
         'district': profile_user.district,
         'school': profile_user.school,
+        'school_username': profile_user.school_username,
         'bio': profile_user.bio,
         'is_locked': 1 if profile_user.is_locked else 0,
         'created_at': profile_user.created_at,
@@ -836,6 +837,7 @@ def edit_profile(request):
             district_val = ''
         db_user.district = district_val or db_user.district or ''
         db_user.school = request.POST.get('school', '').strip() or db_user.school or ''
+        db_user.school_username = request.POST.get('school_username', '').strip() or ''
         db_user.bio = request.POST.get('bio', '').strip()
         db_user.is_locked = request.POST.get('is_locked') == 'on'
         db_user.save()
@@ -857,6 +859,7 @@ def edit_profile(request):
             'pradesh': db_user.pradesh,
             'district': db_user.district,
             'school': db_user.school,
+            'school_username': db_user.school_username,
             'bio': db_user.bio,
             'is_locked': 1 if db_user.is_locked else 0,
             'created_at': db_user.created_at,

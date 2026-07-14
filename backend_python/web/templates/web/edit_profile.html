@@ -251,6 +251,7 @@
           <span class="material-symbols-outlined">arrow_drop_down</span>
         </div>
         <input type="hidden" id="school" name="school" value="{{ user.school|default:'' }}">
+        <input type="hidden" id="school_username" name="school_username" value="{{ user.school_username|default:'' }}">
       </div>
 
       <div class="form-group" style="display:flex;align-items:center;gap:12px;">
@@ -1232,48 +1233,146 @@ registerActions({
 
   var schoolTrigger = document.getElementById('school_picker_trigger');
   var schoolInput = document.getElementById('school');
+  var schoolUsernameInput = document.getElementById('school_username');
   var schoolText = document.getElementById('school_selected_text');
-  var schoolOptions = [
-    { value: "St. Xavier's College", text: "St. Xavier's College" },
-    { value: "Budhanilkantha School", text: "Budhanilkantha School" },
-    { value: "Trinity International College", text: "Trinity International College" },
-    { value: "Kathmandu World School", text: "Kathmandu World School" },
-    { value: "Chelsea International Academy", text: "Chelsea International Academy" },
-    { value: "Little Angels' School", text: "Little Angels' School" },
-    { value: "DAV Sushil Kedia School", text: "DAV Sushil Kedia School" },
-    { value: "Rato Bangala School", text: "Rato Bangala School" },
-    { value: "Gems School", text: "Gems School" },
-    { value: "Kathmandu Model College (KMC)", text: "Kathmandu Model College (KMC)" },
-    { value: "Prasadi Academy", text: "Prasadi Academy" },
-    { value: "Saint Mary's School", text: "Saint Mary's School" },
-    { value: "Sainik Awasiya Mahavidyalaya", text: "Sainik Awasiya Mahavidyalaya" },
-    { value: "Apex College", text: "Apex College" },
-    { value: "Ace Institute of Management", text: "Ace Institute of Management" },
-    { value: "United Academy", text: "United Academy" },
-    { value: "GoldenGate International College", text: "GoldenGate International College" },
-    { value: "Orchid International College", text: "Orchid International College" },
-    { value: "Texas International College", text: "Texas International College" },
-    { value: "British College", text: "British College" },
-    { value: "Islington College", text: "Islington College" }
-  ];
+  var _cachedInstitutions = null;
+
+  function openSchoolPicker(title) {
+    function doOpen(institutions) {
+      var overlay = document.getElementById('generic-picker-overlay');
+      var titleEl = document.getElementById('generic-picker-title');
+      var searchInput = document.getElementById('generic-picker-search');
+      var searchContainer = document.getElementById('generic-picker-search-container');
+      var listContainer = document.getElementById('generic-picker-list');
+      var addContainer = document.getElementById('generic-picker-add-container');
+      var customInput = document.getElementById('generic-picker-custom');
+      var addBtn = document.getElementById('generic-picker-add-btn');
+      var closeBtn = document.getElementById('generic-picker-close');
+      var cancelBtn = document.getElementById('generic-picker-cancel');
+
+      titleEl.textContent = title || 'Select School / Institution';
+      searchInput.placeholder = 'Search institutions...';
+      searchInput.value = '';
+      customInput.value = '';
+      searchContainer.style.display = 'flex';
+      addContainer.style.display = 'flex';
+      customInput.placeholder = 'Type custom school name...';
+
+      function renderList(filterText) {
+        listContainer.innerHTML = '';
+        var query = (filterText || '').toLowerCase().trim();
+        var filtered = institutions.filter(function(inst) {
+          return inst.displayName.toLowerCase().indexOf(query) >= 0 ||
+                 inst.username.toLowerCase().indexOf(query) >= 0;
+        });
+
+        if (filtered.length === 0 && query) {
+          var emptyMsg = document.createElement('div');
+          emptyMsg.style.cssText = 'padding:16px;text-align:center;color:var(--md-on-surface-variant);font-size:13px;';
+          emptyMsg.textContent = 'No platform institutions match. Use the custom field below.';
+          listContainer.appendChild(emptyMsg);
+          return;
+        }
+
+        filtered.forEach(function(inst) {
+          var isSelected = inst.displayName === schoolInput.value;
+          var item = document.createElement('div');
+          item.style.cssText = 'display:flex;align-items:center;gap:12px;padding:10px 16px;border-radius:10px;cursor:pointer;transition:background 0.15s;' + (isSelected ? 'background:rgba(var(--md-primary-rgb,0,95,175),0.12);' : '');
+          item.addEventListener('mouseover', function() { if (!isSelected) item.style.background = 'var(--md-surface-container)'; });
+          item.addEventListener('mouseout', function() { if (!isSelected) item.style.background = ''; });
+
+          var avatarUrl = (inst.photoUrl && inst.photoUrl.trim()) ? inst.photoUrl : 'https://nebians.consica.com.np/static/web/images/default_avatar.png';
+          var avatar = document.createElement('img');
+          avatar.src = avatarUrl;
+          avatar.alt = '';
+          avatar.style.cssText = 'width:38px;height:38px;border-radius:50%;object-fit:cover;flex-shrink:0;border:1px solid var(--md-outline-variant);';
+
+          var info = document.createElement('div');
+          info.style.cssText = 'flex:1;min-width:0;';
+          var nameEl = document.createElement('div');
+          nameEl.style.cssText = 'font-weight:600;font-size:14px;color:var(--md-on-surface);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;';
+          nameEl.textContent = inst.displayName;
+          var usernameEl = document.createElement('div');
+          usernameEl.style.cssText = 'font-size:12px;color:var(--md-on-surface-variant);';
+          usernameEl.textContent = '@' + inst.username;
+          info.appendChild(nameEl);
+          info.appendChild(usernameEl);
+
+          if (isSelected) {
+            var check = document.createElement('span');
+            check.className = 'material-symbols-outlined';
+            check.textContent = 'check';
+            check.style.cssText = 'color:var(--md-primary);font-size:20px;flex-shrink:0;';
+            item.appendChild(avatar);
+            item.appendChild(info);
+            item.appendChild(check);
+          } else {
+            item.appendChild(avatar);
+            item.appendChild(info);
+          }
+
+          item.addEventListener('click', function() {
+            schoolInput.value = inst.displayName;
+            schoolUsernameInput.value = inst.username;
+            schoolText.textContent = inst.displayName;
+            closeOverlay();
+          });
+          listContainer.appendChild(item);
+        });
+      }
+
+      function closeOverlay() {
+        overlay.style.display = 'none';
+        document.body.style.overflow = '';
+        searchInput.removeEventListener('input', onSearch);
+        addBtn.removeEventListener('click', onCustomAdd);
+        closeBtn.removeEventListener('click', closeOverlay);
+        cancelBtn.removeEventListener('click', closeOverlay);
+      }
+      function onSearch() { renderList(searchInput.value); }
+      function onCustomAdd() {
+        var val = customInput.value.trim();
+        if (val) {
+          schoolInput.value = val;
+          schoolUsernameInput.value = '';
+          schoolText.textContent = val;
+          closeOverlay();
+        }
+      }
+      searchInput.addEventListener('input', onSearch);
+      addBtn.addEventListener('click', onCustomAdd);
+      closeBtn.addEventListener('click', closeOverlay);
+      cancelBtn.addEventListener('click', closeOverlay);
+      overlay.addEventListener('click', function(e) { if (e.target === overlay) closeOverlay(); });
+
+      renderList('');
+      overlay.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      setTimeout(function() { searchInput.focus(); }, 50);
+    }
+
+    if (_cachedInstitutions) {
+      doOpen(_cachedInstitutions);
+    } else {
+      fetch('/api/users/institutions/', { credentials: 'same-origin' })
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          _cachedInstitutions = data.institutions || [];
+          doOpen(_cachedInstitutions);
+        })
+        .catch(function() {
+          _cachedInstitutions = [];
+          doOpen([]);
+        });
+    }
+  }
+
   if (schoolTrigger) {
     schoolTrigger.addEventListener('click', function() {
       var activeRoleCard = document.querySelector('.role-radio-card.role-radio-active');
       var activeRole = activeRoleCard ? activeRoleCard.querySelector('input[type="radio"]').value : 'student';
       var title = schoolLabels[activeRole] || 'School/College';
-
-      openSingleSelectPicker({
-        title: title,
-        searchPlaceholder: 'Search school...',
-        customPlaceholder: 'Type custom name...',
-        options: schoolOptions,
-        selectedValue: schoolInput.value,
-        allowCustom: true,
-        onSelect: function(val, text) {
-          schoolInput.value = val;
-          schoolText.textContent = text || 'Select school/college';
-        }
-      });
+      openSchoolPicker(title);
     });
   }
 
