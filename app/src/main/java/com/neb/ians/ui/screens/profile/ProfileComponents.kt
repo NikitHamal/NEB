@@ -195,7 +195,8 @@ fun ProfileHeaderCard(
     onFollowersClick: () -> Unit,
     onFollowingClick: () -> Unit,
     onFollowRequestsClick: () -> Unit,
-    onProfileClick: (String) -> Unit = {}
+    onProfileClick: (String) -> Unit = {},
+    onSocialLinkClick: ((ApiSocialLink) -> Unit)? = null
 ) {
     val badge = remember(profile) { buildBadgeInfo(profile) }
     val achievements = remember(profile.achievementBadges) { parseAchievements(profile.achievementBadges) }
@@ -685,6 +686,7 @@ fun ProfileHeaderCard(
                                     .clip(CircleShape)
                                     .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
                                     .clickable {
+                                        onSocialLinkClick?.invoke(link)
                                         try {
                                             uriHandler.openUri(link.url)
                                         } catch (e: Exception) {

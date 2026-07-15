@@ -254,10 +254,28 @@
           </div>
           <span class="an-mini-stat">{{ link_clicks_30d|short_number }} in 30d</span>
         </div>
-        <div class="an-metric-list">
-          <div><span>Total clicks</span><strong>{{ link_clicks_total|short_number }}</strong></div>
-          <div><span>Clicks (30d)</span><strong>{{ link_clicks_30d|short_number }}</strong></div>
+        <div class="an-metric-list" style="grid-template-columns:repeat(3,1fr);">
+          <div><span>Total</span><strong>{{ link_clicks_total|short_number }}</strong></div>
+          <div><span>Unique clickers</span><strong>{{ link_clicks_unique|short_number }}</strong></div>
+          <div><span>30 days</span><strong>{{ link_clicks_30d|short_number }}</strong></div>
         </div>
+        {% if link_clicks_by_follower %}
+        <div class="an-topic-block" style="margin-top:12px;">
+          <h3>Audience</h3>
+          {% for row in link_clicks_by_follower %}
+            {% widthratio row.total link_clicks_total 100 as pct %}
+            <div class="an-topic-row">
+              <div>
+                <span>
+                  {% if row.is_follower == True %}Follower{% elif row.is_follower == False %}Non-follower{% else %}Not signed in{% endif %}
+                </span>
+                <strong>{{ row.total }}</strong>
+              </div>
+              <span class="an-topic-track"><i style="width: {{ pct }}%;background:{% if row.is_follower == True %}var(--md-tertiary){% elif row.is_follower == False %}var(--md-error){% else %}var(--md-on-surface-variant){% endif %};"></i></span>
+            </div>
+          {% endfor %}
+        </div>
+        {% endif %}
         {% if link_clicks_by_platform %}
         <div class="an-topic-block" style="margin-top:12px;">
           <h3>By platform</h3>
@@ -266,6 +284,46 @@
             <div class="an-topic-row">
               <div><span>{{ row.platform|capfirst }}</span><strong>{{ row.total }}</strong></div>
               <span class="an-topic-track"><i style="width: {{ pct }}%;"></i></span>
+            </div>
+          {% endfor %}
+        </div>
+        {% endif %}
+        {% if link_clicks_by_country %}
+        <div class="an-topic-block" style="margin-top:12px;">
+          <h3>Top countries</h3>
+          {% for row in link_clicks_by_country %}
+            {% widthratio row.total link_clicks_total 100 as pct %}
+            <div class="an-topic-row">
+              <div><span>{{ row.clicker_country }}</span><strong>{{ row.total }}</strong></div>
+              <span class="an-topic-track"><i style="width: {{ pct }}%;background:var(--md-secondary);"></i></span>
+            </div>
+          {% endfor %}
+        </div>
+        {% endif %}
+        {% if link_clicks_by_gender %}
+        <div class="an-topic-block" style="margin-top:12px;">
+          <h3>By gender</h3>
+          {% for row in link_clicks_by_gender %}
+            {% widthratio row.total link_clicks_total 100 as pct %}
+            <div class="an-topic-row">
+              <div>
+                <span>{{ row.clicker_gender|title|default:"Unknown" }}</span>
+                <strong>{{ row.total }} ({{ pct }}%)</strong>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+        {% endif %}
+        {% if link_clicks_by_age_group %}
+        <div class="an-topic-block" style="margin-top:12px;">
+          <h3>By age group</h3>
+          {% for row in link_clicks_by_age_group %}
+            {% widthratio row.total link_clicks_total 100 as pct %}
+            <div class="an-topic-row">
+              <div>
+                <span>{{ row.group }}</span>
+                <strong>{{ row.total }} ({{ pct }}%)</strong>
+              </div>
             </div>
           {% endfor %}
         </div>

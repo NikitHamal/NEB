@@ -1712,6 +1712,11 @@ interface ApiService {
         @Path("id") linkId: String
     ): CommonOkResponse
 
+    @POST("ajax/social-links/track-click/")
+    suspend fun trackSocialClick(
+        @Body request: TrackSocialClickRequest
+    ): CommonOkResponse
+
     @GET("api/users/institutions/")
     suspend fun getInstitutions(): ApiInstitutionsResponse
 
@@ -2463,6 +2468,14 @@ data class CreateSocialLinkResponse(
     val ok: Boolean = false,
     val link: ApiSocialLink? = null,
     val error: String? = null
+)
+
+@Serializable
+data class TrackSocialClickRequest(
+    @SerialName("link_id") val linkId: String,
+    @SerialName("user_id") val userId: String,
+    val platform: String,
+    val url: String
 )
 
 @Serializable

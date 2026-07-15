@@ -1,7 +1,7 @@
 """Views Profile extracted from views.py."""
 from .view_helpers import *  # noqa: F401,F403
 from api.view_helpers import _profile_incomplete, _can_view_locked_profile
-from api.models import FollowRequest, NEPAL_DISTRICTS, SocialLink, SocialLinkClick
+from api.models import Follow, FollowRequest, NEPAL_DISTRICTS, SocialLink, SocialLinkClick
 from api.social_links import (
     get_user_links, get_all_user_links, create_link as _create_social_link,
     update_link as _update_social_link, delete_link as _delete_social_link,
@@ -1118,6 +1118,7 @@ def ajax_social_links_reorder(request):
 @require_POST
 def ajax_social_links_track_click(request):
     from api.utils import now_ms
+    from datetime import date
     import json as _json
     try:
         data = _json.loads(request.body)
@@ -1134,9 +1135,35 @@ def ajax_social_links_track_click(request):
     except SocialLink.DoesNotExist:
         return JsonResponse({'error': 'Link not found'}, status=404)
     clicker_id = _get_user_id(request)
+    if clicker_id is not None and int(clicker_id) == int(link.user_id):
+        return JsonResponse({'ok': True})
+    is_follower = None
+    clicker_gender = ''
+    clicker_age = None
+    if clicker_id is not None:
+        is_follower = Follow.objects.filter(follower_id=clicker_id, following_id=link.user_id).exists()
+        try:
+            clicker_user = User.objects.get(pk=clicker_id)
+            clicker_gender = clicker_user.gender or ''
+            if clicker_user.dob:
+                try:
+                    parts = clicker_user.dob.split('-')
+                    if len(parts) == 3:
+                        bd = date(int(parts[0]), int(parts[1]), int(parts[2]))
+                        today = date.today()
+                        clicker_age = today.year - bd.year - ((today.month, today.day) < (bd.month, bd.day))
+                except (ValueError, IndexError):
+                    pass
+        except User.DoesNotExist:
+            pass
+    clicker_country = (request.META.get('HTTP_CF_IPCOUNTRY') or '').strip().upper()
     SocialLinkClick.objects.create(
         link=link, user=link.user,
         clicker_id=clicker_id, platform=platform,
         url=url, created_at=now_ms(),
+        is_follower=is_follower,
+        clicker_country=clicker_country,
+        clicker_gender=clicker_gender,
+        clicker_age=clicker_age,
     )
     return JsonResponse({'ok': True})

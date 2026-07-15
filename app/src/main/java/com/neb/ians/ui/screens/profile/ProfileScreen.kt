@@ -231,7 +231,8 @@ private fun ProfileContent(
                 onFollowersClick = onFollowersClick,
                 onFollowingClick = onFollowingClick,
                 onFollowRequestsClick = onFollowRequestsClick,
-                onProfileClick = onProfileClick
+                onProfileClick = onProfileClick,
+                onSocialLinkClick = { link -> viewModel.trackSocialClick(link, profile.id) }
             )
         }
 
