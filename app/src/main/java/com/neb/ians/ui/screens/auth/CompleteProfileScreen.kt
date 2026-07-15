@@ -28,6 +28,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.ui.layout.ContentScale
 import coil.compose.rememberAsyncImagePainter
 import coil.compose.AsyncImage
+import androidx.compose.ui.res.painterResource
+import com.neb.ians.R
 import com.neb.ians.data.api.UserProfileResponse
 import com.neb.ians.ui.components.ProfileBanner
 import com.neb.ians.ui.components.bannerPresetFor
