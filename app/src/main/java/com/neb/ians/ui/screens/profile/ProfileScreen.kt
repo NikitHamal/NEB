@@ -517,7 +517,7 @@ private fun ProfileContent(
                         tint = if (showSolidTopBar) MaterialTheme.colorScheme.onSurface else Color.White
                     )
                 }
-            }
         }
+    }
     }
 }
