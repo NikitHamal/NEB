@@ -82,6 +82,7 @@ import com.neb.ians.data.realtime.RealtimeClient
 import com.neb.ians.data.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -117,7 +118,7 @@ class TopBarViewModel @Inject constructor(
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
 
     /** Live unread notification count (web parity: topbar badge). */
-    val unreadCount: kotlinx.coroutines.flow.StateFlow<Int> = realtimeClient.unreadCount
+    val unreadCount: StateFlow<Int> = realtimeClient.unreadCount
 }
 
 /**
