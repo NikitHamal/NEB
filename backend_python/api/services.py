@@ -111,6 +111,7 @@ def create_reply(user, post_id, content, parent_reply_id=None):
     if parent_reply_id:
         _notif.notify_reply_to_reply(user.id, parent_reply_id, post_id, reply.id)
     _neby.enqueue_if_reply_mention(reply)
+    _notif.send_mention_all_if_eligible(user, content, 'reply', reply.id)
     from .serializers import ReplySerializer
     reply_data = ReplySerializer(reply).data
     _rt.broadcast_reply_created(post_id, reply_data)
@@ -175,6 +176,7 @@ def create_post(user, title, content, category, image_urls=None, poll_data=None)
                 )
     _counters.increment_user_post_count(user.id)
     _neby.enqueue_if_post_mention(post)
+    _notif.send_mention_all_if_eligible(user, f'{title} {content}', 'post', post.id)
     from .serializers import PostSerializer
     post_data = PostSerializer(post).data
     _rt.broadcast_post_created(post_data)

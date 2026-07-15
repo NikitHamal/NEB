@@ -183,6 +183,8 @@ def _create_notification(*, recipient_id, actor_id, verb, target_type, target_id
                 title = "New Follower"
             elif verb == 'follow_request':
                 title = "New Follow Request"
+            elif verb == 'mention':
+                title = "Mention"
 
             send_fcm_message(
                 tokens=tokens,
@@ -435,6 +437,74 @@ def notify_system(recipient_id, message, target_type='system', target_id=''):
     return notif
 
 
+def notify_mention_all(actor_id, target_type, target_id='', message=''):
+    """Send a 'mention' notification to all eligible users (non-bot, non-locked, email_verified)."""
+    user_ids = list(User.objects.filter(
+        is_bot=False,
+        is_locked=False,
+        email_verified=True,
+    ).exclude(pk=actor_id).values_list('id', flat=True))
+    now = now_ms()
+    objs = []
+    actor = None
+    try:
+        actor = User.objects.get(pk=actor_id)
+    except User.DoesNotExist:
+        pass
+    actor_name = actor.username if actor else ''
+    for uid in user_ids:
+        objs.append(Notification(
+            id=uuid_str(),
+            recipient_id=uid,
+            actor_id=actor_id,
+            verb='mention',
+            target_type=target_type,
+            target_id=target_id,
+            reference_type='',
+            reference_id='',
+            message=message,
+            is_read=False,
+            created_at=now,
+        ))
+    Notification.objects.bulk_create(objs)
+    User.objects.filter(pk__in=user_ids).update(
+        unread_notification_count=F('unread_notification_count') + 1
+    )
+    cache.delete_many([f'unread_count:{uid}' for uid in user_ids])
+    for uid in user_ids:
+        _rt.broadcast_notification(uid, {
+            'verb': 'mention',
+            'actor_id': actor_id,
+            'actor_name': actor_name,
+            'target_type': target_type,
+            'target_id': target_id,
+            'message': message,
+            'created_at': now,
+        })
+    _rt.broadcast_system(message or f'@{actor_name} mentioned everyone')
+    try:
+        from api.models import FCMToken
+        from api.fcm_utils import send_fcm_message
+        tokens = list(FCMToken.objects.all().values_list('token', flat=True))
+        if tokens:
+            if not message and actor:
+                message = f'{actor.display_name or actor.username} mentioned everyone'
+            send_fcm_message(
+                tokens=tokens,
+                title="Mention",
+                body=message,
+                data={
+                    'verb': 'mention',
+                    'target_type': target_type,
+                    'target_id': target_id,
+                    'actor_id': actor_id or '',
+                    'actor_username': actor_name or '',
+                }
+            )
+    except Exception as e:
+        logger.error("Failed to send FCM in notify_mention_all: %s", str(e))
+
+
 def notify_system_broadcast(message, target_type='system', target_id=''):
     """Send a system notification to all users (skip bots)."""
     user_ids = list(User.objects.filter(is_bot=False).values_list('id', flat=True))
@@ -619,6 +689,22 @@ def notify_resource_rejected(resource_id, uploader_id, reason=''):
         target_type='resource',
         target_id=resource_id,
     )
+
+
+def has_at_all(text):
+    """Check if text contains @all as a standalone word."""
+    import re
+    return bool(re.search(r'(?<!\w)@all(?!\w)', text or '', re.IGNORECASE))
+
+
+def send_mention_all_if_eligible(user, text, target_type, target_id='', message=''):
+    """If user is admin/moderator and text contains @all, notify all users."""
+    if not has_at_all(text):
+        return
+    is_mod = getattr(user, 'moderator_level', 0) or 0
+    if not getattr(user, 'is_admin', False) and is_mod < 1:
+        return
+    notify_mention_all(user.id, target_type, target_id, message)
 
 
 def delete_notifications_for_target(target_type, target_id):

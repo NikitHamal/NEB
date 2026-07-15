@@ -1,6 +1,7 @@
 """Views Forum extracted from views.py."""
 from .view_helpers import *  # noqa: F401,F403
 from .models import PostImage, Poll, PollOption, PollVote
+from . import notifications as _notif
 from .security import save_post_image_upload, POST_IMAGE_MAX_COUNT
 from . import services
 
@@ -39,6 +40,7 @@ def posts_create(request):
 
     logger.info("posts_create: created post %s by user %s", post.id, user.username)
     _counters.increment_user_post_count(user.id)
+    _notif.send_mention_all_if_eligible(user, f'{title} {content}', 'post', post.id)
     _rt.broadcast_post_created(PostSerializer(post, context={'request': request}).data)
     return Response(PostSerializer(post, context={'request': request}).data, status=201)
 
@@ -229,6 +231,7 @@ def replies_create(request, post_id):
     _notif.notify_new_reply(user.id, post_id, reply.id)
     if parent_reply_id:
         _notif.notify_reply_to_reply(user.id, parent_reply_id, post_id, reply.id)
+    _notif.send_mention_all_if_eligible(user, content, 'reply', reply.id)
     _rt.broadcast_reply_created(post_id, ReplySerializer(reply, context={'request': request}).data)
     return Response(ReplySerializer(reply, context={'request': request}).data, status=201)
 
@@ -475,6 +478,7 @@ def replies_endpoint(request, post_id):
         enqueue_if_reply_mention(reply)
     except Exception:
         pass
+    _notif.send_mention_all_if_eligible(user, content, 'reply', reply.id)
     _rt.broadcast_reply_created(post_id, ReplySerializer(reply, context={'request': request}).data)
     return Response(ReplySerializer(reply, context={'request': request}).data, status=201)
 

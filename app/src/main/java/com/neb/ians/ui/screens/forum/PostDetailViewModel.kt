@@ -455,15 +455,15 @@ class PostDetailViewModel @Inject constructor(
         }
         mainMentionJob = viewModelScope.launch {
             delay(300)
+            val results = mutableListOf<ApiUserSearchResult>()
+            if (query == "all") {
+                results.add(ApiUserSearchResult(id = "@all", username = "all", displayName = "Everyone"))
+            }
             forumRepository.searchUsers(query)
-                .onSuccess { users ->
-                    if (mentionQueryAt(_mainReplyText.value) == query) {
-                        _mainMentionSuggestions.value = users.take(8)
-                    }
-                }
-                .onFailure {
-                    _mainMentionSuggestions.value = emptyList()
-                }
+                .onSuccess { users -> results.addAll(users.take(8)) }
+            if (mentionQueryAt(_mainReplyText.value) == query) {
+                _mainMentionSuggestions.value = results
+            }
         }
     }
 
@@ -484,15 +484,15 @@ class PostDetailViewModel @Inject constructor(
         }
         threadMentionJob = viewModelScope.launch {
             delay(300)
+            val results = mutableListOf<ApiUserSearchResult>()
+            if (query == "all") {
+                results.add(ApiUserSearchResult(id = "@all", username = "all", displayName = "Everyone"))
+            }
             forumRepository.searchUsers(query)
-                .onSuccess { users ->
-                    if (mentionQueryAt(_threadReplyText.value) == query) {
-                        _threadMentionSuggestions.value = users.take(8)
-                    }
-                }
-                .onFailure {
-                    _threadMentionSuggestions.value = emptyList()
-                }
+                .onSuccess { users -> results.addAll(users.take(8)) }
+            if (mentionQueryAt(_threadReplyText.value) == query) {
+                _threadMentionSuggestions.value = results
+            }
         }
     }
 
