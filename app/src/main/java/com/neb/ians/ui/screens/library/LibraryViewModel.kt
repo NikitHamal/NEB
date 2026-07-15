@@ -211,6 +211,34 @@ class LibraryViewModel @Inject constructor(
             val state = _uiState.value
             val isDefaultQuery = state.selectedSubject == null && state.selectedGradeLevel == null && state.selectedType == null && state.sort == "relevant"
             _uiState.update { it.copy(isLoading = if (isDefaultQuery) it.resources.isEmpty() else true, error = null) }
+
+            if (!forceRefresh) {
+                resourceRepository.getResources(
+                    subject = state.selectedSubject,
+                    grade = state.selectedGradeLevel,
+                    type = state.selectedType,
+                    sort = state.sort,
+                    page = 1,
+                    cacheOnly = true
+                ).onSuccess { result ->
+                    _uiState.update {
+                        it.copy(
+                            resources = result.resources,
+                            totalCount = result.totalCount,
+                            currentPage = 1,
+                            totalPages = result.totalPages,
+                            hasMore = result.resources.size < result.totalCount,
+                            isLoading = false
+                        )
+                    }
+                    if (isDefaultQuery) {
+                        appCache.libraryResources = result.resources
+                        appCache.libraryTotalCount = result.totalCount
+                        appCache.libraryTotalPages = result.totalPages
+                        appCache.libraryHasMore = result.resources.size < result.totalCount
+                    }
+                }
+            }
             
             resourceRepository.getResources(
                 subject = state.selectedSubject,
