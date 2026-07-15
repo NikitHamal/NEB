@@ -211,7 +211,7 @@ private fun ProfileContent(
 ) {
     val profile = uiState.profile ?: return
     val isSelf = profile.isSelf == true
-    val isPrivate = profile.isLocked == 1 && !isSelf
+    val isPrivate = profile.isLocked == 1 && !isSelf && !uiState.isFollowing
 
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
