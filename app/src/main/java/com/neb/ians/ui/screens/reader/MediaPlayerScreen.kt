@@ -482,7 +482,6 @@ private fun FullscreenPlayer(
         contentAlignment = Alignment.Center
     ) {
         AndroidView(
-            key = "fs_surface_view",
             factory = { ctx -> android.view.SurfaceView(ctx) },
             update = { sv -> player?.setVideoSurfaceView(sv) },
             modifier = Modifier
@@ -946,7 +945,6 @@ private fun NmpVideoStage(
         contentAlignment = Alignment.Center
     ) {
         AndroidView(
-            key = "portrait_surface_view",
             factory = { ctx -> android.view.SurfaceView(ctx) },
             update = { sv -> player?.setVideoSurfaceView(sv) },
             modifier = Modifier

@@ -264,7 +264,6 @@ private fun EmbeddedVideoStage(
             }
     ) {
         AndroidView(
-            key = "embedded_surface",
             factory = { ctx -> SurfaceView(ctx) },
             update = { sv -> player?.setVideoSurfaceView(sv) },
             modifier = Modifier.fillMaxSize()
