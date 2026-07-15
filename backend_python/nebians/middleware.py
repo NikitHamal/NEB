@@ -135,7 +135,7 @@ class AllowedHostMiddleware:
 
 _SKIP_PREFIXES = (
     '/static/', '/ajax/', '/api/',
-    '/admin/analytics/',
+    '/admin/',
     '/manifest.json', '/robots.txt', '/sitemap.xml',
     '/favicon.ico',
 )
@@ -159,6 +159,32 @@ def _classify_referrer(referrer_domain, own_domain):
         if sd in rd:
             return 'social'
     return 'referral'
+
+
+def _resolve_geo(ip_address):
+    """Resolve country/city from IP using ip-api.com (free, no key needed).
+    Results are cached in Redis for 30 days to avoid repeated API calls."""
+    if not ip_address or ip_address in ('127.0.0.1', '::1', '0.0.0.0'):
+        return '', ''
+    cache_key = f'geo:{ip_address}'
+    cached = cache.get(cache_key)
+    if cached:
+        parts = cached.split('|', 1)
+        return parts[0] if parts else '', parts[1] if len(parts) > 1 else ''
+    try:
+        import urllib.request as _urlopen
+        url = f'http://ip-api.com/json/{ip_address}?fields=country,city'
+        req = _urlopen.Request(url, headers={'User-Agent': 'NEBians/1.0'})
+        with _urlopen(req, timeout=3) as resp:
+            data = __import__('json').loads(resp.read().decode())
+            if data.get('status') == 'success':
+                country = data.get('country', '') or ''
+                city = data.get('city', '') or ''
+                cache.set(cache_key, f'{country}|{city}', 2592000)  # 30 days
+                return country, city
+    except Exception:
+        pass
+    return '', ''
 
 
 def _detect_platform(user_agent):
@@ -255,6 +281,13 @@ class PageViewTrackingMiddleware:
 
         try:
             from api.models import PageView
+            # Resolve geo-IP for web visitors
+            geo_country, geo_city = '', ''
+            if ip_address:
+                try:
+                    geo_country, geo_city = _resolve_geo(ip_address)
+                except Exception:
+                    pass
             PageView.objects.create(
                 path=request.path,
                 full_url=request.build_absolute_uri(),
@@ -271,6 +304,8 @@ class PageViewTrackingMiddleware:
                 session_key=session_key[:40],
                 user_id=user_id,
                 user_identifier=user_identifier,
+                country=geo_country,
+                city=geo_city,
                 created_at=now,
             )
         except Exception:

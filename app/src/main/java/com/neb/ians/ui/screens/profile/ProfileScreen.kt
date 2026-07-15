@@ -461,8 +461,9 @@ private fun ProfileContent(
             modifier = Modifier
                 .fillMaxWidth()
                 .statusBarsPadding()
+                .padding(top = 16.dp)
                 .height(56.dp)
-                .padding(horizontal = 4.dp),
+                .padding(horizontal = 28.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Surface(

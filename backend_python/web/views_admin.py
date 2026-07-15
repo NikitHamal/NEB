@@ -2052,6 +2052,33 @@ def admin_analytics(request):
 
     platform_data = device_data
 
+    # ── Demographics: country, city, gender ──
+    # Country breakdown (from PageView geo data)
+    country_qs = qs_range.exclude(country='').values('country').annotate(count=Count('id')).order_by('-count')[:15]
+    country_data = list(country_qs)
+
+    # City breakdown (from PageView geo data)
+    city_qs = qs_range.exclude(city='').values('city').annotate(count=Count('id')).order_by('-count')[:15]
+    city_data = list(city_qs)
+
+    # Gender breakdown (join with User model for authenticated visitors)
+    gender_counts = {'male': 0, 'female': 0, 'other': 0, 'unknown': 0}
+    gender_qs = qs_range.filter(user_id__isnull=False).values('user_id').distinct()
+    if gender_qs.exists():
+        user_ids = list(gender_qs.values_list('user_id', flat=True))
+        gender_map = dict(UserModel.objects.filter(id__in=user_ids).values_list('id', 'gender'))
+        for uid in user_ids:
+            g = gender_map.get(uid, '')
+            if g == 'male':
+                gender_counts['male'] += 1
+            elif g == 'female':
+                gender_counts['female'] += 1
+            elif g == 'other':
+                gender_counts['other'] += 1
+            else:
+                gender_counts['unknown'] += 1
+    gender_data = [{'gender': k, 'count': v} for k, v in gender_counts.items()]
+
     # ── Referrer type breakdown (range) ──
     ref_direct = qs_range.filter(referrer_type='direct').count()
     ref_search = qs_range.filter(referrer_type='search').count()
@@ -2063,11 +2090,15 @@ def admin_analytics(request):
         'accounts.google.com',
         'accounts.youtube.com',
         'login.facebook.com',
+        'lm.facebook.com',
     )
 
     def _normalize_domain(domain):
         d = domain.lower().strip()
-        d = _re.sub(r'^(www|m|l|web|en|api)\.', '', d)
+        prev = None
+        while d != prev:
+            prev = d
+            d = _re.sub(r'^(www|m|l|web|en|api|fb|lm)\.', '', d)
         return d
 
     top_domains_raw = list(
@@ -2093,7 +2124,10 @@ def admin_analytics(request):
     top_domains = [{'referrer_domain': k, 'count': v} for k, v in top_domains]
 
     top_pages = list(
-        qs_range.values('path')
+        qs_range.exclude(path__startswith='/admin/')
+                .exclude(path__startswith='/api/')
+                .exclude(path__startswith='/ajax/')
+                .values('path')
                 .annotate(count=Count('id'))
                 .order_by('-count')[:15]
     )
@@ -2225,6 +2259,10 @@ def admin_analytics(request):
         'top_pages': top_pages,
         'referrer_details': referrer_details,
         'platform_data': platform_data,
+        # Demographics
+        'country_data': country_data,
+        'city_data': city_data,
+        'gender_data': gender_data,
         'online_user_details': online_user_details,
         'online_count': online_count,
         'daily_stat_records': daily_stat_records,
