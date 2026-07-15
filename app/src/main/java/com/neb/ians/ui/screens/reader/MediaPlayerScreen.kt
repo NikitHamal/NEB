@@ -103,9 +103,17 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.neb.ians.ui.components.NebTopBar
 import com.neb.ians.util.getSubjectColor
+import kotlin.math.abs
+import androidx.compose.material.icons.filled.ScreenRotation
+import androidx.compose.material.icons.filled.StayCurrentPortrait
+import androidx.compose.material.icons.filled.StayCurrentLandscape
+import androidx.compose.material.icons.filled.BrightnessMedium
+import androidx.compose.material.icons.filled.FastForward
+import androidx.compose.runtime.mutableLongStateOf
 
 private val SPEEDS = listOf(0.5f, 0.75f, 1f, 1.25f, 1.5f, 1.75f, 2f)
 private const val SEEK_MS = 10_000L
+private enum class GestureType { BRIGHTNESS, VOLUME, SEEK }
 
 @OptIn(androidx.compose.material3.ExperimentalMaterial3Api::class)
 @Composable
@@ -190,10 +198,106 @@ fun MediaPlayerScreen(
             16f / 9f
         }
 
+        var showControls by remember { mutableStateOf(true) }
+        LaunchedEffect(showControls) {
+            if (showControls) {
+                delay(4000L)
+                showControls = false
+            }
+        }
+
+        var orientationMode by remember { mutableIntStateOf(0) }
+        val orientationModes = listOf(
+            android.content.pm.ActivityInfo.SCREEN_ORIENTATION_SENSOR,
+            android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT,
+            android.content.pm.ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+        )
+        val orientationIcons = listOf(
+            Icons.Filled.ScreenRotation,
+            Icons.Filled.StayCurrentPortrait,
+            Icons.Filled.StayCurrentLandscape
+        )
+        val orientationLabels = listOf("Auto", "Portrait", "Landscape")
+
+        fun cycleOrientation() {
+            orientationMode = (orientationMode + 1) % 3
+            activity?.requestedOrientation = orientationModes[orientationMode]
+        }
+
+        var gestureType by remember { mutableStateOf<GestureType?>(null) }
+        var gestureDelta by remember { mutableFloatStateOf(0f) }
+        var gestureStartBrightness by remember { mutableFloatStateOf(0.5f) }
+        var gestureStartVolume by remember { mutableFloatStateOf(0.5f) }
+        var gestureStartPosition by remember { mutableLongStateOf(0L) }
+
+        fun applyBrightness(fraction: Float) {
+            val lp = activity?.window?.attributes
+            if (lp != null) {
+                lp.screenBrightness = fraction.coerceIn(0.01f, 1f)
+                activity?.window?.attributes = lp
+            }
+        }
+
+        var screenWidth by remember { mutableFloatStateOf(1f) }
+
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.Black),
+                .background(Color.Black)
+                .onSizeChanged { screenWidth = it.width.toFloat() }
+                .pointerInput(Unit) {
+                    detectDragGestures(
+                        onDragStart = { offset ->
+                            gestureStartPosition = player?.currentPosition ?: 0L
+                            val lp = activity?.window?.attributes
+                            gestureStartBrightness = if (lp?.screenBrightness ?: -1f < 0f) 0.5f else lp?.screenBrightness ?: 0.5f
+                            gestureStartVolume = viewModel.getVolumeFraction()
+                            gestureDelta = 0f
+                            gestureType = when {
+                                abs(offset.x - screenWidth / 2) < screenWidth * 0.15f -> GestureType.SEEK
+                                offset.x < screenWidth / 2 -> GestureType.BRIGHTNESS
+                                else -> GestureType.VOLUME
+                            }
+                        },
+                        onDrag = { change, dragAmount ->
+                            change.consume()
+                            val totalHeight = size.height.toFloat().coerceAtLeast(1f)
+                            when (gestureType) {
+                                GestureType.SEEK -> {
+                                    gestureDelta += dragAmount.x
+                                    val p = player ?: return@detectDragGestures
+                                    val d = p.duration.coerceAtLeast(0)
+                                    if (d > 0) {
+                                        val seekPct = gestureDelta / screenWidth.coerceAtLeast(1f)
+                                        val newPos = (gestureStartPosition + (seekPct * d).toLong()).coerceIn(0, d)
+                                        p.seekTo(newPos)
+                                    }
+                                }
+                                GestureType.BRIGHTNESS -> {
+                                    val deltaNorm = -dragAmount.y / totalHeight
+                                    gestureDelta += deltaNorm
+                                    val frac = (gestureStartBrightness + gestureDelta).coerceIn(0f, 1f)
+                                    applyBrightness(frac)
+                                }
+                                GestureType.VOLUME -> {
+                                    val deltaNorm = -dragAmount.y / totalHeight
+                                    gestureDelta += deltaNorm
+                                    val frac = (gestureStartVolume + gestureDelta).coerceIn(0f, 1f)
+                                    viewModel.setVolumeFraction(frac)
+                                }
+                                null -> {}
+                            }
+                        },
+                        onDragEnd = {
+                            gestureType = null
+                            gestureDelta = 0f
+                        },
+                        onDragCancel = {
+                            gestureType = null
+                            gestureDelta = 0f
+                        }
+                    )
+                },
             contentAlignment = Alignment.Center
         ) {
             AndroidView(
@@ -208,18 +312,13 @@ fun MediaPlayerScreen(
                     .align(Alignment.Center)
             )
 
-            var showControls by remember { mutableStateOf(true) }
-            LaunchedEffect(showControls) {
-                if (showControls) {
-                    delay(4000L)
-                    showControls = false
-                }
-            }
-
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .clickable { showControls = !showControls }
+                    .clickable(
+                        indication = null,
+                        interactionSource = remember { androidx.compose.foundation.interaction.MutableInteractionSource() }
+                    ) { showControls = !showControls }
             ) {
                 AnimatedVisibility(
                     visible = showControls,
@@ -243,6 +342,25 @@ fun MediaPlayerScreen(
                                 contentDescription = "Exit Fullscreen",
                                 tint = Color.White
                             )
+                        }
+
+                        IconButton(
+                            onClick = { cycleOrientation() },
+                            modifier = Modifier
+                                .align(Alignment.TopEnd)
+                                .padding(16.dp)
+                                .statusBarsPadding()
+                                .size(40.dp)
+                                .background(Color.Black.copy(alpha = 0.4f), CircleShape)
+                        ) {
+                            Box(contentAlignment = Alignment.Center) {
+                                Icon(
+                                    imageVector = orientationIcons[orientationMode],
+                                    contentDescription = orientationLabels[orientationMode],
+                                    tint = Color.White,
+                                    modifier = Modifier.size(20.dp)
+                                )
+                            }
                         }
 
                         IconButton(
@@ -345,6 +463,53 @@ fun MediaPlayerScreen(
                                     )
                                 }
                             }
+                        }
+                    }
+                }
+
+                // Gesture indicator overlay
+                if (gestureType != null) {
+                    val icon = when (gestureType) {
+                        GestureType.BRIGHTNESS -> Icons.Filled.BrightnessMedium
+                        GestureType.VOLUME -> Icons.Filled.VolumeUp
+                        GestureType.SEEK -> Icons.Filled.FastForward
+                        null -> null
+                    }
+                    val label = when (gestureType) {
+                        GestureType.BRIGHTNESS -> "Brightness"
+                        GestureType.VOLUME -> "Volume"
+                        GestureType.SEEK -> "Seek"
+                        null -> ""
+                    }
+                    val pct = when (gestureType) {
+                        GestureType.BRIGHTNESS -> ((gestureStartBrightness + gestureDelta).coerceIn(0f, 1f) * 100).toInt()
+                        GestureType.VOLUME -> ((gestureStartVolume + gestureDelta).coerceIn(0f, 1f) * 100).toInt()
+                        GestureType.SEEK -> 50
+                        null -> 0
+                    }
+                    Box(
+                        modifier = Modifier
+                            .align(Alignment.Center)
+                            .size(120.dp)
+                            .background(Color.Black.copy(alpha = 0.6f), RoundedCornerShape(16.dp)),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            icon?.let {
+                                Icon(
+                                    imageVector = it,
+                                    contentDescription = label,
+                                    tint = Color.White,
+                                    modifier = Modifier.size(32.dp)
+                                )
+                            }
+                            Spacer(modifier = Modifier.height(4.dp))
+                            Text(
+                                text = if (gestureType == GestureType.SEEK) "↔" else "${pct}%",
+                                color = Color.White,
+                                fontSize = 18.sp,
+                                fontWeight = FontWeight.Bold
+                            )
                         }
                     }
                 }

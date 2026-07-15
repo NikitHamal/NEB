@@ -1,6 +1,8 @@
 package com.neb.ians.ui.screens.reader
 
 import android.app.Application
+import android.content.Context
+import android.media.AudioManager
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -61,6 +63,9 @@ class MediaPlayerViewModel @Inject constructor(
     private var player: ExoPlayer? = null
     private var tickJob: Job? = null
     private var playWhenReady: Boolean = false
+    private val audioManager: AudioManager =
+        application.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+    private val maxVolume: Int = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
 
     companion object {
         private const val SAVE_INTERVAL_MS = 2500L
@@ -162,6 +167,9 @@ class MediaPlayerViewModel @Inject constructor(
 
     fun play() {
         player?.let { p ->
+            if (p.playbackState == Player.STATE_ENDED) {
+                p.seekTo(0)
+            }
             p.playWhenReady = true
             _uiState.update { it.copy(isPlaying = true) }
         }
@@ -177,7 +185,15 @@ class MediaPlayerViewModel @Inject constructor(
 
     fun togglePlay() {
         val p = player ?: return
-        if (p.playWhenReady) pause() else play()
+        if (p.playbackState == Player.STATE_ENDED) {
+            p.seekTo(0)
+            p.playWhenReady = true
+            _uiState.update { it.copy(isPlaying = true) }
+        } else if (p.playWhenReady) {
+            pause()
+        } else {
+            play()
+        }
     }
 
     fun seekBy(deltaMs: Long) {
@@ -301,6 +317,16 @@ class MediaPlayerViewModel @Inject constructor(
 
     private fun clearSavedPosition() {
         application.getSharedPreferences(PREFS_NAME, 0).edit().remove("pos_$resourceId").apply()
+    }
+
+    fun setVolumeFraction(fraction: Float) {
+        val vol = (fraction.coerceIn(0f, 1f) * maxVolume).toInt()
+        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, vol, 0)
+    }
+
+    fun getVolumeFraction(): Float {
+        val cur = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
+        return if (maxVolume > 0) cur.toFloat() / maxVolume else 0.5f
     }
 
     fun getPlayer(): ExoPlayer? = player
