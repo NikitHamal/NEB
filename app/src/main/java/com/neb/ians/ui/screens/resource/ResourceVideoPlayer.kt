@@ -47,7 +47,6 @@ fun EmbeddedMediaPlayer(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val player = viewModel.getPlayer()
-    var speedMenuOpen by remember { mutableStateOf(false) }
 
     Surface(
         modifier = modifier
@@ -179,43 +178,6 @@ fun EmbeddedMediaPlayer(
                     )
 
                     Spacer(modifier = Modifier.weight(1f))
-
-                    Box {
-                        Button(
-                            onClick = { speedMenuOpen = true },
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = Color.Transparent,
-                                contentColor = MaterialTheme.colorScheme.onSurfaceVariant
-                            ),
-                            shape = RoundedCornerShape(999.dp),
-                            border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
-                            contentPadding = PaddingValues(horizontal = 8.dp, vertical = 0.dp),
-                            modifier = Modifier.height(32.dp)
-                        ) {
-                            Text(
-                                text = if (uiState.speed == 1f) "1x" else "${uiState.speed}x",
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 12.sp
-                            )
-                        }
-
-                        DropdownMenu(
-                            expanded = speedMenuOpen,
-                            onDismissRequest = { speedMenuOpen = false }
-                        ) {
-                            listOf(0.5f, 0.75f, 1f, 1.25f, 1.5f, 1.75f, 2f).forEach { speed ->
-                                DropdownMenuItem(
-                                    text = { Text("${speed}x") },
-                                    onClick = {
-                                        viewModel.setSpeed(speed)
-                                        speedMenuOpen = false
-                                    }
-                                )
-                            }
-                        }
-                    }
-
-                    Spacer(modifier = Modifier.width(8.dp))
 
                     IconButton(onClick = onFullscreenClick) {
                         Icon(

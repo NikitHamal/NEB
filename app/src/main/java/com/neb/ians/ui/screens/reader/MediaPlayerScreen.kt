@@ -25,6 +25,7 @@ import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -110,13 +111,36 @@ private const val SEEK_MS = 10_000L
 @Composable
 fun MediaPlayerScreen(
     onNavigateBack: () -> Unit,
+    startFullscreen: Boolean = false,
     viewModel: MediaPlayerViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
     val activity = context as? android.app.Activity
     val player = viewModel.getPlayer()
-    var isFullscreen by remember { mutableStateOf(false) }
+    var isFullscreen by remember { mutableStateOf(startFullscreen) }
+
+    LaunchedEffect(Unit) {
+        if (startFullscreen) {
+            // Need to run toggleFullscreen(true) to configure orientation & system bars
+            activity?.let { act ->
+                act.requestedOrientation = android.content.pm.ActivityInfo.SCREEN_ORIENTATION_SENSOR
+                act.window?.let { w ->
+                    val decor = w.decorView
+                    if (android.os.Build.VERSION.SDK_INT >= 35) {
+                        val ctrl = decor.windowInsetsController
+                        ctrl?.hide(WindowInsets.Type.systemBars())
+                        ctrl?.systemBarsBehavior = WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+                    } else {
+                        @Suppress("DEPRECATION")
+                        decor.systemUiVisibility = (View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                            or View.SYSTEM_UI_FLAG_FULLSCREEN
+                            or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)
+                    }
+                }
+            }
+        }
+    }
 
     val subjectName = uiState.resource?.subject?.split(",")?.firstOrNull()?.trim().orEmpty().ifBlank { "General" }
     val sc = Color(getSubjectColor(subjectName))
@@ -160,10 +184,17 @@ fun MediaPlayerScreen(
     }
 
     if (isFullscreen) {
+        val aspectRatio = if (uiState.videoWidth > 0 && uiState.videoHeight > 0) {
+            uiState.videoWidth.toFloat() / uiState.videoHeight.toFloat()
+        } else {
+            16f / 9f
+        }
+
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.Black)
+                .background(Color.Black),
+            contentAlignment = Alignment.Center
         ) {
             AndroidView(
                 factory = { ctx ->
@@ -172,7 +203,9 @@ fun MediaPlayerScreen(
                 update = { sv ->
                     player?.setVideoSurfaceView(sv)
                 },
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier
+                    .aspectRatio(aspectRatio)
+                    .align(Alignment.Center)
             )
 
             var showControls by remember { mutableStateOf(true) }
@@ -371,6 +404,8 @@ fun MediaPlayerScreen(
                                     context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
                                 },
                                 onDoubleTap = { toggleFullscreen(true) },
+                                videoWidth = uiState.videoWidth,
+                                videoHeight = uiState.videoHeight,
                                 modifier = Modifier.weight(1f)
                             )
                         } else {
@@ -494,10 +529,17 @@ private fun NmpVideoStage(
     onSkipResume: () -> Unit,
     onOpenExternal: (String) -> Unit,
     onDoubleTap: () -> Unit,
+    videoWidth: Int,
+    videoHeight: Int,
     modifier: Modifier = Modifier
 ) {
     val showResume = resumePositionMs > 8000L
     var stageSize by remember { mutableStateOf(IntSize.Zero) }
+    val aspectRatio = if (videoWidth > 0 && videoHeight > 0) {
+        videoWidth.toFloat() / videoHeight.toFloat()
+    } else {
+        16f / 9f
+    }
 
     Box(
         modifier = modifier
@@ -517,7 +559,9 @@ private fun NmpVideoStage(
                 android.view.SurfaceView(ctx)
             },
             update = { sv -> player?.setVideoSurfaceView(sv) },
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                .aspectRatio(aspectRatio)
+                .align(Alignment.Center)
         )
 
         if (!hasError) {
