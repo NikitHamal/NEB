@@ -27,6 +27,7 @@ data class ResourceDetailUiState(
     val isBookmarked: Boolean = false,
     val isAuthenticated: Boolean = false,
     val currentUserId: String? = null,
+    val currentUsername: String = "",
     val comments: List<ApiResourceComment> = emptyList(),
     val commentsLoading: Boolean = false,
     val commentDraft: String = "",
@@ -71,8 +72,9 @@ class ResourceDetailViewModel @Inject constructor(
         viewModelScope.launch {
             val token = authRepository.getToken()
             val userId = authRepository.currentUserIdFlow.first()
+            val username = authRepository.currentUserNameFlow.first()
             val hasResource = _uiState.value.resource != null
-            _uiState.update { it.copy(isAuthenticated = token != null, currentUserId = userId, isLoading = !hasResource, error = null) }
+            _uiState.update { it.copy(isAuthenticated = token != null, currentUserId = userId, currentUsername = username, isLoading = !hasResource, error = null) }
 
             resourceRepository.getResource(resourceId, forceRefresh = forceRefresh)
                 .onSuccess { resource ->
