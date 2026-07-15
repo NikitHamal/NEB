@@ -613,6 +613,36 @@
         setTimeout(function () { if (!wsOnline) startPolling(); }, 6000);
       };
       boot();
+
+      // ── Presence heartbeat (web users) ──────────────────────────────
+      var PRESENCE_URL = '/api/presence/heartbeat/';
+      var PRESENCE_INTERVAL = 30000; // 30s
+      var presTimer = null;
+      var presActive = true;
+
+      function sendPresence() {
+        if (!presActive) return;
+        try {
+          fetch(PRESENCE_URL, {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ screen: window.location.pathname }),
+          }).catch(function () { });
+        } catch (e) { /* ignore */ }
+      }
+
+      document.addEventListener('visibilitychange', function () {
+        if (document.visibilityState === 'visible') {
+          presActive = true;
+          sendPresence();
+        } else {
+          presActive = false;
+        }
+      });
+
+      sendPresence(); // fire immediately on load
+      presTimer = setInterval(sendPresence, PRESENCE_INTERVAL);
     })();
     {% endif %}
 

@@ -288,7 +288,53 @@
 </div>
 {% endif %}
 
-<!-- ── DailyStat Records Table ── -->
+<!-- 
+── Demographics: Country ── -->
+{% if country_data %}
+<div class="md-card-elevated" style="padding:20px;margin-bottom:24px;">
+  <h3 class="md-title-medium" style="margin:0 0 16px;">Top Countries{% if is_custom_range %} ({{ range_label }}){% endif %}</h3>
+  <table class="admin-table">
+    <thead><tr><th>Country</th><th style="text-align:right;">Visits</th></tr></thead>
+    <tbody>
+      {% for c in country_data %}
+      <tr><td>{{ c.country }}</td><td style="text-align:right;font-weight:600;">{{ c.count }}</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endif %}
+
+── Demographics: City ── -->
+{% if city_data %}
+<div class="md-card-elevated" style="padding:20px;margin-bottom:24px;">
+  <h3 class="md-title-medium" style="margin:0 0 16px;">Top Cities{% if is_custom_range %} ({{ range_label }}){% endif %}</h3>
+  <table class="admin-table">
+    <thead><tr><th>City</th><th style="text-align:right;">Visits</th></tr></thead>
+    <tbody>
+      {% for c in city_data %}
+      <tr><td>{{ c.city }}</td><td style="text-align:right;font-weight:600;">{{ c.count }}</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endif %}
+
+── Demographics: Gender ── -->
+{% if gender_data %}
+<div class="md-card-elevated" style="padding:20px;margin-bottom:24px;">
+  <h3 class="md-title-medium" style="margin:0 0 16px;">Gender Distribution</h3>
+  <table class="admin-table">
+    <thead><tr><th>Gender</th><th style="text-align:right;">Visits</th></tr></thead>
+    <tbody>
+      {% for g in gender_data %}
+      <tr><td>{{ g.gender|title }}</td><td style="text-align:right;font-weight:600;">{{ g.count }}</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endif %}
+
+── DailyStat Records Table ──
 {% if daily_stat_records %}
 <div class="md-card-elevated" style="padding:20px;margin-bottom:24px;">
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
