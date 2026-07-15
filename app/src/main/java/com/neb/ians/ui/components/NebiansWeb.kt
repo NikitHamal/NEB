@@ -201,8 +201,6 @@ fun WebTopBar(
                     isAdmin = isAdmin
                 )
 
-                Spacer(modifier = Modifier.width(4.dp))
-
                 Column(
                     modifier = Modifier.weight(1f),
                     verticalArrangement = Arrangement.Center

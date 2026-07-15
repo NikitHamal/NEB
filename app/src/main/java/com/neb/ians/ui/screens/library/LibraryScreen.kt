@@ -129,12 +129,11 @@ fun LibraryScreen(
     Scaffold(
         topBar = {
             if (!isSyllabusDetailMode) {
-                WebTopBar(
-                    onSearchClick = onSearchClick,
-                    onNotificationsClick = onNotificationsClick,
-                    onProfileClick = onProfileClick,
-                    avatarInitial = "N"
-                )
+            WebTopBar(
+                onSearchClick = onSearchClick,
+                onNotificationsClick = onNotificationsClick,
+                onProfileClick = onProfileClick
+            )
             }
         },
         containerColor = MaterialTheme.colorScheme.surface
