@@ -6,6 +6,8 @@ import com.neb.ians.data.api.ApiPost
 import com.neb.ians.data.api.ApiReply
 import com.neb.ians.data.api.ApiResource
 import com.neb.ians.data.api.ApiService
+import com.neb.ians.data.api.ApiSocialLink
+import com.neb.ians.data.api.TrackSocialClickRequest
 import com.neb.ians.data.api.ApiUserPhoto
 import com.neb.ians.data.api.ApiFollowRequestItem
 import com.neb.ians.data.api.UserProfileResponse
@@ -523,6 +525,21 @@ class ProfileViewModel @Inject constructor(
                         followRequestsCount = nextCount
                     )
                 }
+            } catch (_: Exception) { }
+        }
+    }
+
+    fun trackSocialClick(link: ApiSocialLink, profileOwnerId: String) {
+        viewModelScope.launch {
+            try {
+                apiService.trackSocialClick(
+                    TrackSocialClickRequest(
+                        linkId = link.id,
+                        userId = profileOwnerId,
+                        platform = link.platform,
+                        url = link.url
+                    )
+                )
             } catch (_: Exception) { }
         }
     }
