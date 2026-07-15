@@ -37,6 +37,21 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Icon
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Link
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.draw.clip
+import android.widget.Toast
 import kotlinx.coroutines.launch
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -213,31 +228,44 @@ private fun ProfileContent(
     val isSelf = profile.isSelf == true
     val isPrivate = profile.isLocked == 1 && !isSelf && !uiState.isFollowing
 
-    LazyColumn(
-        modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 24.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
-    ) {
-        item(key = "header") {
-            ProfileHeaderCard(
-                profile = profile,
-                isSelf = isSelf,
-                isFollowing = uiState.isFollowing,
-                isRequested = uiState.isRequested,
-                followRequestsCount = uiState.followRequestsCount,
-                followerCount = uiState.followerCount,
-                onEditProfile = onEditProfile,
-                onFollowClick = onFollowClick,
-                onAvatarClick = onAvatarClick,
-                onNavigateBack = onNavigateBack,
-                onAnalyticsClick = onAnalyticsClick,
-                onFollowersClick = onFollowersClick,
-                onFollowingClick = onFollowingClick,
-                onFollowRequestsClick = onFollowRequestsClick,
-                onProfileClick = onProfileClick,
-                onSocialLinkClick = { link -> viewModel?.trackSocialClick(link, profile.id) }
-            )
+    val lazyListState = rememberLazyListState()
+    val showSolidTopBar by remember {
+        derivedStateOf {
+            val firstItemIndex = lazyListState.firstVisibleItemIndex
+            val firstItemOffset = lazyListState.firstVisibleItemScrollOffset
+            firstItemIndex > 0 || firstItemOffset > 250
         }
+    }
+    val clipboard = LocalClipboardManager.current
+    val context = LocalContext.current
+
+    Box(modifier = Modifier.fillMaxSize()) {
+        LazyColumn(
+            state = lazyListState,
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 24.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            item(key = "header") {
+                ProfileHeaderCard(
+                    profile = profile,
+                    isSelf = isSelf,
+                    isFollowing = uiState.isFollowing,
+                    isRequested = uiState.isRequested,
+                    followRequestsCount = uiState.followRequestsCount,
+                    followerCount = uiState.followerCount,
+                    onEditProfile = onEditProfile,
+                    onFollowClick = onFollowClick,
+                    onAvatarClick = onAvatarClick,
+                    onNavigateBack = onNavigateBack,
+                    onAnalyticsClick = onAnalyticsClick,
+                    onFollowersClick = onFollowersClick,
+                    onFollowingClick = onFollowingClick,
+                    onFollowRequestsClick = onFollowRequestsClick,
+                    onProfileClick = onProfileClick,
+                    onSocialLinkClick = { link -> viewModel?.trackSocialClick(link, profile.id) }
+                )
+            }
 
         if (isPrivate) {
             item(key = "private") {
@@ -419,6 +447,77 @@ private fun ProfileContent(
 
         item(key = "bottom_spacer") {
             Spacer(modifier = Modifier.navigationBarsPadding().height(96.dp))
+        }
+    }
+
+    // Overlayed Top Bar
+    Surface(
+        modifier = Modifier.fillMaxWidth(),
+        color = if (showSolidTopBar) MaterialTheme.colorScheme.surface else Color.Transparent,
+        tonalElevation = if (showSolidTopBar) 4.dp else 0.dp
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .statusBarsPadding()
+                .height(56.dp)
+                .padding(horizontal = 4.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Surface(
+                shape = CircleShape,
+                color = if (showSolidTopBar) Color.Transparent else Color.Black.copy(alpha = 0.4f),
+                modifier = Modifier.size(36.dp)
+            ) {
+                IconButton(onClick = onNavigateBack) {
+                    Icon(
+                        imageVector = Icons.Default.ArrowBack,
+                        contentDescription = "Back",
+                        tint = if (showSolidTopBar) MaterialTheme.colorScheme.onSurface else Color.White
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.width(12.dp))
+
+            AnimatedVisibility(
+                visible = showSolidTopBar,
+                enter = fadeIn(),
+                exit = fadeOut(),
+                modifier = Modifier.weight(1f)
+            ) {
+                Text(
+                    text = profile.displayName.takeIf { !it.isNullOrBlank() } ?: profile.username,
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
+
+            if (!showSolidTopBar) {
+                Spacer(modifier = Modifier.weight(1f))
+            }
+
+            Surface(
+                shape = CircleShape,
+                color = if (showSolidTopBar) Color.Transparent else Color.Black.copy(alpha = 0.4f),
+                modifier = Modifier.size(36.dp)
+            ) {
+                IconButton(
+                    onClick = {
+                        clipboard.setText(AnnotatedString("https://nebians.consica.com.np/profile/${profile.username}/"))
+                        Toast.makeText(context, "Profile link copied", Toast.LENGTH_SHORT).show()
+                    }
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Link,
+                        contentDescription = "Copy link",
+                        tint = if (showSolidTopBar) MaterialTheme.colorScheme.onSurface else Color.White
+                    )
+                }
+            }
         }
     }
 }

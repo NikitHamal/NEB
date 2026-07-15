@@ -284,51 +284,6 @@ fun ProfileHeaderCard(
                     decoText = preset.second,
                     modifier = Modifier.fillMaxWidth()
                 )
-                Surface(
-                    modifier = Modifier
-                        .align(Alignment.TopStart)
-                        .padding(12.dp)
-                        .size(36.dp),
-                    shape = CircleShape,
-                    color = Color.White.copy(alpha = 0.85f),
-                    shadowElevation = 2.dp
-                ) {
-                    IconButton(
-                        onClick = onNavigateBack,
-                        modifier = Modifier.fillMaxSize()
-                    ) {
-                        Icon(
-                            imageVector = Icons.Outlined.ArrowBack,
-                            contentDescription = "Back",
-                            tint = Color.DarkGray,
-                            modifier = Modifier.size(20.dp)
-                        )
-                    }
-                }
-                Surface(
-                    modifier = Modifier
-                        .align(Alignment.TopEnd)
-                        .padding(12.dp)
-                        .size(36.dp),
-                    shape = CircleShape,
-                    color = Color.White.copy(alpha = 0.85f),
-                    shadowElevation = 2.dp
-                ) {
-                    IconButton(
-                        onClick = {
-                            clipboard.setText(AnnotatedString("https://nebians.consica.com.np/profile/${profile.username}/"))
-                            Toast.makeText(context, "Profile link copied", Toast.LENGTH_SHORT).show()
-                        },
-                        modifier = Modifier.fillMaxSize()
-                    ) {
-                        Icon(
-                            imageVector = Icons.Outlined.Link,
-                            contentDescription = "Copy link",
-                            tint = Color.DarkGray,
-                            modifier = Modifier.size(20.dp)
-                        )
-                    }
-                }
                 Box(
                     modifier = Modifier
                         .align(Alignment.BottomStart)
