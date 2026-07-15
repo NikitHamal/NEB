@@ -10,6 +10,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
@@ -17,44 +18,47 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.filled.ArrowBack
-import kotlinx.coroutines.delay
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.BrightnessMedium
 import androidx.compose.material.icons.filled.Download
+import androidx.compose.material.icons.filled.FastForward
 import androidx.compose.material.icons.filled.Forward10
 import androidx.compose.material.icons.filled.Fullscreen
+import androidx.compose.material.icons.filled.FullscreenExit
 import androidx.compose.material.icons.filled.OpenInNew
 import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Replay10
+import androidx.compose.material.icons.filled.ScreenRotation
+import androidx.compose.material.icons.filled.StayCurrentLandscape
+import androidx.compose.material.icons.filled.StayCurrentPortrait
 import androidx.compose.material.icons.filled.VolumeDown
 import androidx.compose.material.icons.filled.VolumeOff
 import androidx.compose.material.icons.filled.VolumeUp
@@ -69,32 +73,34 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Slider
-import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -104,12 +110,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.neb.ians.ui.components.NebTopBar
 import com.neb.ians.util.getSubjectColor
 import kotlin.math.abs
-import androidx.compose.material.icons.filled.ScreenRotation
-import androidx.compose.material.icons.filled.StayCurrentPortrait
-import androidx.compose.material.icons.filled.StayCurrentLandscape
-import androidx.compose.material.icons.filled.BrightnessMedium
-import androidx.compose.material.icons.filled.FastForward
-import androidx.compose.runtime.mutableLongStateOf
+import kotlinx.coroutines.delay
 
 private val SPEEDS = listOf(0.5f, 0.75f, 1f, 1.25f, 1.5f, 1.75f, 2f)
 private const val SEEK_MS = 10_000L
@@ -130,12 +131,11 @@ fun MediaPlayerScreen(
 
     LaunchedEffect(Unit) {
         if (startFullscreen) {
-            // Need to run toggleFullscreen(true) to configure orientation & system bars
             activity?.let { act ->
-                act.requestedOrientation = android.content.pm.ActivityInfo.SCREEN_ORIENTATION_SENSOR
+                act.requestedOrientation = android.content.pm.ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
                 act.window?.let { w ->
                     val decor = w.decorView
-                    if (android.os.Build.VERSION.SDK_INT >= 35) {
+                    if (android.os.Build.VERSION.SDK_INT >= 30) {
                         val ctrl = decor.windowInsetsController
                         ctrl?.hide(WindowInsets.Type.systemBars())
                         ctrl?.systemBarsBehavior = WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
@@ -162,14 +162,14 @@ fun MediaPlayerScreen(
         isFullscreen = fs
         activity?.let { act ->
             act.requestedOrientation = if (fs) {
-                android.content.pm.ActivityInfo.SCREEN_ORIENTATION_SENSOR
+                android.content.pm.ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
             } else {
                 android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
             }
             act.window?.let { w ->
                 val decor = w.decorView
                 if (fs) {
-                    if (android.os.Build.VERSION.SDK_INT >= 35) {
+                    if (android.os.Build.VERSION.SDK_INT >= 30) {
                         val ctrl = decor.windowInsetsController
                         ctrl?.hide(WindowInsets.Type.systemBars())
                         ctrl?.systemBarsBehavior = WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
@@ -180,7 +180,7 @@ fun MediaPlayerScreen(
                             or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)
                     }
                 } else {
-                    if (android.os.Build.VERSION.SDK_INT >= 35) {
+                    if (android.os.Build.VERSION.SDK_INT >= 30) {
                         decor.windowInsetsController?.show(WindowInsets.Type.systemBars())
                     } else {
                         @Suppress("DEPRECATION")
@@ -192,332 +192,27 @@ fun MediaPlayerScreen(
     }
 
     if (isFullscreen) {
-        val aspectRatio = if (uiState.videoWidth > 0 && uiState.videoHeight > 0) {
-            uiState.videoWidth.toFloat() / uiState.videoHeight.toFloat()
-        } else {
-            16f / 9f
-        }
-
-        var showControls by remember { mutableStateOf(true) }
-        LaunchedEffect(showControls) {
-            if (showControls) {
-                delay(4000L)
-                showControls = false
-            }
-        }
-
-        var orientationMode by remember { mutableIntStateOf(0) }
-        val orientationModes = listOf(
-            android.content.pm.ActivityInfo.SCREEN_ORIENTATION_SENSOR,
-            android.content.pm.ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE,
-            android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        FullscreenPlayer(
+            uiState = uiState,
+            player = player,
+            subjectColor = sc,
+            activity = activity,
+            onExitFullscreen = {
+                toggleFullscreen(false)
+            },
+            onNavigateBack = {
+                toggleFullscreen(false)
+                onNavigateBack()
+            },
+            onTogglePlay = { viewModel.togglePlay() },
+            onSeekBy = { viewModel.seekBy(it) },
+            onSeekRatio = { viewModel.seekToRatio(it) },
+            onSetSpeed = { viewModel.setSpeed(it) },
+            onToggleSpeedMenu = { viewModel.toggleSpeedMenu() },
+            onDismissSpeedMenu = { viewModel.dismissSpeedMenu() },
+            onSetVolumeFraction = { viewModel.setVolumeFraction(it) },
+            onGetVolumeFraction = { viewModel.getVolumeFraction() }
         )
-        val orientationIcons = listOf(
-            Icons.Filled.ScreenRotation,
-            Icons.Filled.StayCurrentLandscape,
-            Icons.Filled.StayCurrentPortrait
-        )
-        val orientationLabels = listOf("Auto", "Landscape", "Portrait")
-
-        fun cycleOrientation() {
-            orientationMode = (orientationMode + 1) % 3
-            activity?.requestedOrientation = orientationModes[orientationMode]
-        }
-
-        var gestureType by remember { mutableStateOf<GestureType?>(null) }
-        var gestureDelta by remember { mutableFloatStateOf(0f) }
-        var gestureStartBrightness by remember { mutableFloatStateOf(0.5f) }
-        var gestureStartVolume by remember { mutableFloatStateOf(0.5f) }
-        var gestureStartPosition by remember { mutableLongStateOf(0L) }
-
-        fun applyBrightness(fraction: Float) {
-            val lp = activity?.window?.attributes
-            if (lp != null) {
-                lp.screenBrightness = fraction.coerceIn(0.01f, 1f)
-                activity?.window?.attributes = lp
-            }
-        }
-
-        var screenWidth by remember { mutableFloatStateOf(1f) }
-
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color.Black)
-                .onSizeChanged { screenWidth = it.width.toFloat() }
-                .pointerInput(Unit) {
-                    detectDragGestures(
-                        onDragStart = { offset ->
-                            gestureStartPosition = player?.currentPosition ?: 0L
-                            val lp = activity?.window?.attributes
-                            gestureStartBrightness = if (lp?.screenBrightness ?: -1f < 0f) 0.5f else lp?.screenBrightness ?: 0.5f
-                            gestureStartVolume = viewModel.getVolumeFraction()
-                            gestureDelta = 0f
-                            gestureType = when {
-                                abs(offset.x - screenWidth / 2) < screenWidth * 0.15f -> GestureType.SEEK
-                                offset.x < screenWidth / 2 -> GestureType.BRIGHTNESS
-                                else -> GestureType.VOLUME
-                            }
-                        },
-                        onDrag = { change, dragAmount ->
-                            change.consume()
-                            val totalHeight = size.height.toFloat().coerceAtLeast(1f)
-                            when (gestureType) {
-                                GestureType.SEEK -> {
-                                    gestureDelta += dragAmount.x
-                                    val p = player ?: return@detectDragGestures
-                                    val d = p.duration.coerceAtLeast(0)
-                                    if (d > 0) {
-                                        val seekPct = gestureDelta / screenWidth.coerceAtLeast(1f)
-                                        val newPos = (gestureStartPosition + (seekPct * d).toLong()).coerceIn(0, d)
-                                        p.seekTo(newPos)
-                                    }
-                                }
-                                GestureType.BRIGHTNESS -> {
-                                    val deltaNorm = -dragAmount.y / totalHeight
-                                    gestureDelta += deltaNorm
-                                    val frac = (gestureStartBrightness + gestureDelta).coerceIn(0f, 1f)
-                                    applyBrightness(frac)
-                                }
-                                GestureType.VOLUME -> {
-                                    val deltaNorm = -dragAmount.y / totalHeight
-                                    gestureDelta += deltaNorm
-                                    val frac = (gestureStartVolume + gestureDelta).coerceIn(0f, 1f)
-                                    viewModel.setVolumeFraction(frac)
-                                }
-                                null -> {}
-                            }
-                        },
-                        onDragEnd = {
-                            gestureType = null
-                            gestureDelta = 0f
-                        },
-                        onDragCancel = {
-                            gestureType = null
-                            gestureDelta = 0f
-                        }
-                    )
-                },
-            contentAlignment = Alignment.Center
-        ) {
-            AndroidView(
-                factory = { ctx ->
-                    android.view.SurfaceView(ctx)
-                },
-                update = { sv ->
-                    player?.setVideoSurfaceView(sv)
-                },
-                modifier = Modifier
-                    .aspectRatio(aspectRatio)
-                    .align(Alignment.Center)
-            )
-
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .clickable(
-                        indication = null,
-                        interactionSource = remember { androidx.compose.foundation.interaction.MutableInteractionSource() }
-                    ) { showControls = !showControls }
-            ) {
-                AnimatedVisibility(
-                    visible = showControls,
-                    enter = fadeIn(),
-                    exit = fadeOut()
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(Color.Black.copy(alpha = 0.5f))
-                    ) {
-                        IconButton(
-                            onClick = {
-                                toggleFullscreen(false)
-                                onNavigateBack()
-                            },
-                            modifier = Modifier
-                                .align(Alignment.TopStart)
-                                .padding(16.dp)
-                                .statusBarsPadding()
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.ArrowBack,
-                                contentDescription = "Back",
-                                tint = Color.White
-                            )
-                        }
-
-                        IconButton(
-                            onClick = { cycleOrientation() },
-                            modifier = Modifier
-                                .align(Alignment.TopEnd)
-                                .padding(16.dp)
-                                .statusBarsPadding()
-                                .size(40.dp)
-                                .background(Color.Black.copy(alpha = 0.4f), CircleShape)
-                        ) {
-                            Box(contentAlignment = Alignment.Center) {
-                                Icon(
-                                    imageVector = orientationIcons[orientationMode],
-                                    contentDescription = orientationLabels[orientationMode],
-                                    tint = Color.White,
-                                    modifier = Modifier.size(20.dp)
-                                )
-                            }
-                        }
-
-                        IconButton(
-                            onClick = { viewModel.togglePlay() },
-                            modifier = Modifier
-                                .align(Alignment.Center)
-                                .size(64.dp)
-                                .background(Color.Black.copy(alpha = 0.4f), CircleShape)
-                        ) {
-                            Icon(
-                                imageVector = if (uiState.isPlaying) Icons.Filled.Pause else Icons.Filled.PlayArrow,
-                                contentDescription = if (uiState.isPlaying) "Pause" else "Play",
-                                tint = Color.White,
-                                modifier = Modifier.size(36.dp)
-                            )
-                        }
-
-                        Column(
-                            modifier = Modifier
-                                .align(Alignment.BottomCenter)
-                                .navigationBarsPadding()
-                                .fillMaxWidth()
-                                .padding(horizontal = 16.dp, vertical = 8.dp)
-                        ) {
-                            NmpProgressBar(
-                                currentMs = uiState.currentTimeMs,
-                                durationMs = uiState.durationMs,
-                                bufferedPercent = uiState.bufferedPercent,
-                                subjectColor = sc,
-                                onSeek = { ratio -> viewModel.seekToRatio(ratio) }
-                            )
-
-                            Spacer(modifier = Modifier.height(4.dp))
-
-                            Row(
-                                modifier = Modifier.fillMaxWidth(),
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                IconButton(onClick = { viewModel.seekBy(-10000L) }) {
-                                    Icon(Icons.Filled.Replay10, "Rewind 10s", tint = Color.White)
-                                }
-
-                                IconButton(onClick = { viewModel.seekBy(10000L) }) {
-                                    Icon(Icons.Filled.Forward10, "Forward 10s", tint = Color.White)
-                                }
-
-                                Spacer(modifier = Modifier.width(8.dp))
-
-                                Text(
-                                    text = "${fmtTime(uiState.currentTimeMs)} / ${fmtTime(uiState.durationMs)}",
-                                    color = Color.White,
-                                    fontSize = 13.sp
-                                )
-
-                                Spacer(modifier = Modifier.weight(1f))
-
-                                var speedExpanded by remember { mutableStateOf(false) }
-                                Box {
-                                    Button(
-                                        onClick = { speedExpanded = true },
-                                        colors = ButtonDefaults.buttonColors(
-                                            containerColor = Color.Transparent,
-                                            contentColor = Color.White
-                                        ),
-                                        border = BorderStroke(1.dp, Color.White.copy(alpha = 0.5f)),
-                                        shape = RoundedCornerShape(999.dp),
-                                        contentPadding = PaddingValues(horizontal = 8.dp, vertical = 0.dp),
-                                        modifier = Modifier.height(32.dp)
-                                    ) {
-                                        Text(
-                                            text = if (uiState.speed == 1f) "1x" else "${uiState.speed}x",
-                                            fontWeight = FontWeight.Bold,
-                                            fontSize = 12.sp
-                                        )
-                                    }
-
-                                    DropdownMenu(
-                                        expanded = speedExpanded,
-                                        onDismissRequest = { speedExpanded = false }
-                                    ) {
-                                        listOf(0.5f, 0.75f, 1f, 1.25f, 1.5f, 1.75f, 2f).forEach { speed ->
-                                            DropdownMenuItem(
-                                                text = { Text("${speed}x") },
-                                                onClick = {
-                                                    viewModel.setSpeed(speed)
-                                                    speedExpanded = false
-                                                }
-                                            )
-                                        }
-                                    }
-                                }
-
-                                Spacer(modifier = Modifier.width(12.dp))
-
-                                IconButton(onClick = { toggleFullscreen(false) }) {
-                                    Icon(
-                                        imageVector = Icons.Filled.Fullscreen,
-                                        contentDescription = "Exit Fullscreen",
-                                        tint = Color.White
-                                    )
-                                }
-                            }
-                        }
-                    }
-                }
-
-                // Gesture indicator overlay
-                if (gestureType != null) {
-                    val icon = when (gestureType) {
-                        GestureType.BRIGHTNESS -> Icons.Filled.BrightnessMedium
-                        GestureType.VOLUME -> Icons.Filled.VolumeUp
-                        GestureType.SEEK -> Icons.Filled.FastForward
-                        null -> null
-                    }
-                    val label = when (gestureType) {
-                        GestureType.BRIGHTNESS -> "Brightness"
-                        GestureType.VOLUME -> "Volume"
-                        GestureType.SEEK -> "Seek"
-                        null -> ""
-                    }
-                    val pct = when (gestureType) {
-                        GestureType.BRIGHTNESS -> ((gestureStartBrightness + gestureDelta).coerceIn(0f, 1f) * 100).toInt()
-                        GestureType.VOLUME -> ((gestureStartVolume + gestureDelta).coerceIn(0f, 1f) * 100).toInt()
-                        GestureType.SEEK -> 50
-                        null -> 0
-                    }
-                    Box(
-                        modifier = Modifier
-                            .align(Alignment.Center)
-                            .size(120.dp)
-                            .background(Color.Black.copy(alpha = 0.6f), RoundedCornerShape(16.dp)),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                            icon?.let {
-                                Icon(
-                                    imageVector = it,
-                                    contentDescription = label,
-                                    tint = Color.White,
-                                    modifier = Modifier.size(32.dp)
-                                )
-                            }
-                            Spacer(modifier = Modifier.height(4.dp))
-                            Text(
-                                text = if (gestureType == GestureType.SEEK) "↔" else "${pct}%",
-                                color = Color.White,
-                                fontSize = 18.sp,
-                                fontWeight = FontWeight.Bold
-                            )
-                        }
-                    }
-                }
-            }
-        }
         return
     }
 
@@ -624,6 +319,534 @@ fun MediaPlayerScreen(
 }
 
 @Composable
+private fun FullscreenPlayer(
+    uiState: MediaPlayerUiState,
+    player: androidx.media3.exoplayer.ExoPlayer?,
+    subjectColor: Color,
+    activity: android.app.Activity?,
+    onExitFullscreen: () -> Unit,
+    onNavigateBack: () -> Unit,
+    onTogglePlay: () -> Unit,
+    onSeekBy: (Long) -> Unit,
+    onSeekRatio: (Float) -> Unit,
+    onSetSpeed: (Float) -> Unit,
+    onToggleSpeedMenu: () -> Unit,
+    onDismissSpeedMenu: () -> Unit,
+    onSetVolumeFraction: (Float) -> Unit,
+    onGetVolumeFraction: () -> Float
+) {
+    val aspectRatio = if (uiState.videoWidth > 0 && uiState.videoHeight > 0) {
+        uiState.videoWidth.toFloat() / uiState.videoHeight.toFloat()
+    } else {
+        16f / 9f
+    }
+
+    var showControls by remember { mutableStateOf(true) }
+
+    LaunchedEffect(showControls, uiState.isPlaying) {
+        if (showControls && uiState.isPlaying) {
+            delay(4000L)
+            showControls = false
+        }
+    }
+
+    LaunchedEffect(uiState.isPlaying) {
+        if (!uiState.isPlaying) showControls = true
+    }
+
+    var orientationMode by remember { mutableIntStateOf(0) }
+    val orientationModes = listOf(
+        android.content.pm.ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE,
+        android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT,
+        android.content.pm.ActivityInfo.SCREEN_ORIENTATION_SENSOR
+    )
+    val orientationIcons = listOf(
+        Icons.Filled.StayCurrentLandscape,
+        Icons.Filled.StayCurrentPortrait,
+        Icons.Filled.ScreenRotation
+    )
+    val orientationLabels = listOf("Landscape", "Portrait", "Auto")
+
+    fun cycleOrientation() {
+        orientationMode = (orientationMode + 1) % 3
+        activity?.requestedOrientation = orientationModes[orientationMode]
+        showControls = true
+    }
+
+    var gestureType by remember { mutableStateOf<GestureType?>(null) }
+    var gestureDelta by remember { mutableFloatStateOf(0f) }
+    var gestureStartBrightness by remember { mutableFloatStateOf(0.5f) }
+    var gestureStartVolume by remember { mutableFloatStateOf(0.5f) }
+    var gestureStartPosition by remember { mutableLongStateOf(0L) }
+    var gestureSeekPosition by remember { mutableLongStateOf(0L) }
+    var seekBadge by remember { mutableStateOf<Int?>(null) }
+    var seekBadgeVisible by remember { mutableStateOf(false) }
+
+    fun applyBrightness(fraction: Float) {
+        val lp = activity?.window?.attributes
+        if (lp != null) {
+            lp.screenBrightness = fraction.coerceIn(0.01f, 1f)
+            activity.window?.attributes = lp
+        }
+    }
+
+    var screenWidth by remember { mutableFloatStateOf(1f) }
+
+    LaunchedEffect(seekBadgeVisible) {
+        if (seekBadgeVisible) {
+            delay(700L)
+            seekBadgeVisible = false
+        }
+    }
+
+    val progress by remember(uiState.currentTimeMs, uiState.durationMs) {
+        derivedStateOf {
+            if (uiState.durationMs > 0) (uiState.currentTimeMs.toFloat() / uiState.durationMs).coerceIn(0f, 1f) else 0f
+        }
+    }
+    val remainingMs = (uiState.durationMs - uiState.currentTimeMs).coerceAtLeast(0L)
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Black)
+            .onSizeChanged { screenWidth = it.width.toFloat() }
+            .pointerInput(Unit) {
+                detectTapGestures(
+                    onTap = { showControls = !showControls },
+                    onDoubleTap = { offset ->
+                        val isLeft = offset.x < screenWidth / 2f
+                        val delta = if (isLeft) -10_000L else 10_000L
+                        onSeekBy(delta)
+                        seekBadge = if (isLeft) -10 else 10
+                        seekBadgeVisible = true
+                        showControls = true
+                    }
+                )
+            }
+            .pointerInput(Unit) {
+                detectDragGestures(
+                    onDragStart = { offset ->
+                        gestureStartPosition = player?.currentPosition ?: 0L
+                        gestureSeekPosition = gestureStartPosition
+                        val lp = activity?.window?.attributes
+                        gestureStartBrightness = if (lp?.screenBrightness ?: -1f < 0f) 0.5f else lp?.screenBrightness ?: 0.5f
+                        gestureStartVolume = onGetVolumeFraction()
+                        gestureDelta = 0f
+                        gestureType = when {
+                            abs(offset.x - screenWidth / 2) < screenWidth * 0.15f -> GestureType.SEEK
+                            offset.x < screenWidth / 2 -> GestureType.BRIGHTNESS
+                            else -> GestureType.VOLUME
+                        }
+                    },
+                    onDrag = { change, dragAmount ->
+                        change.consume()
+                        val totalHeight = size.height.toFloat().coerceAtLeast(1f)
+                        when (gestureType) {
+                            GestureType.SEEK -> {
+                                gestureDelta += dragAmount.x
+                                val p = player ?: return@detectDragGestures
+                                val d = p.duration.coerceAtLeast(0)
+                                if (d > 0) {
+                                    val seekPct = gestureDelta / screenWidth.coerceAtLeast(1f)
+                                    val newPos = (gestureStartPosition + (seekPct * d).toLong()).coerceIn(0, d)
+                                    gestureSeekPosition = newPos
+                                    p.seekTo(newPos)
+                                }
+                            }
+                            GestureType.BRIGHTNESS -> {
+                                val deltaNorm = -dragAmount.y / totalHeight
+                                gestureDelta += deltaNorm
+                                val frac = (gestureStartBrightness + gestureDelta).coerceIn(0f, 1f)
+                                applyBrightness(frac)
+                            }
+                            GestureType.VOLUME -> {
+                                val deltaNorm = -dragAmount.y / totalHeight
+                                gestureDelta += deltaNorm
+                                val frac = (gestureStartVolume + gestureDelta).coerceIn(0f, 1f)
+                                onSetVolumeFraction(frac)
+                            }
+                            null -> {}
+                        }
+                    },
+                    onDragEnd = {
+                        gestureType = null
+                        gestureDelta = 0f
+                    },
+                    onDragCancel = {
+                        gestureType = null
+                        gestureDelta = 0f
+                    }
+                )
+            },
+        contentAlignment = Alignment.Center
+    ) {
+        AndroidView(
+            key = "fs_surface_view",
+            factory = { ctx -> android.view.SurfaceView(ctx) },
+            update = { sv -> player?.setVideoSurfaceView(sv) },
+            modifier = Modifier
+                .aspectRatio(aspectRatio)
+                .align(Alignment.Center)
+        )
+
+        if (uiState.isBuffering) {
+            CircularProgressIndicator(
+                color = Color.White,
+                strokeWidth = 2.5.dp,
+                trackColor = Color.White.copy(alpha = 0.2f),
+                modifier = Modifier.size(36.dp)
+            )
+        }
+
+        AnimatedVisibility(
+            visible = showControls,
+            enter = fadeIn(tween(200)),
+            exit = fadeOut(tween(300)),
+            modifier = Modifier.fillMaxSize()
+        ) {
+            Box(modifier = Modifier.fillMaxSize()) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(140.dp)
+                        .align(Alignment.TopCenter)
+                        .background(
+                            Brush.verticalGradient(
+                                colors = listOf(Color.Black.copy(alpha = 0.75f), Color.Transparent)
+                            )
+                        )
+                )
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(180.dp)
+                        .align(Alignment.BottomCenter)
+                        .background(
+                            Brush.verticalGradient(
+                                colors = listOf(Color.Transparent, Color.Black.copy(alpha = 0.85f))
+                            )
+                        )
+                )
+
+                Row(
+                    modifier = Modifier
+                        .align(Alignment.TopStart)
+                        .statusBarsPadding()
+                        .padding(horizontal = 4.dp, vertical = 4.dp)
+                        .fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    IconButton(onClick = onNavigateBack) {
+                        Icon(
+                            imageVector = Icons.Default.ArrowBack,
+                            contentDescription = "Back",
+                            tint = Color.White
+                        )
+                    }
+                    Text(
+                        text = uiState.title,
+                        color = Color.White,
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 14.sp,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier.weight(1f)
+                    )
+                    Spacer(Modifier.width(4.dp))
+                    IconButton(
+                        onClick = { cycleOrientation() },
+                        modifier = Modifier
+                            .size(40.dp)
+                            .background(Color.Black.copy(alpha = 0.35f), CircleShape)
+                    ) {
+                        Icon(
+                            imageVector = orientationIcons[orientationMode],
+                            contentDescription = orientationLabels[orientationMode],
+                            tint = Color.White,
+                            modifier = Modifier.size(20.dp)
+                        )
+                    }
+                    Spacer(Modifier.width(4.dp))
+                }
+
+                Row(
+                    modifier = Modifier.align(Alignment.Center),
+                    horizontalArrangement = Arrangement.spacedBy(28.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    IconButton(
+                        onClick = { onSeekBy(-SEEK_MS); showControls = true },
+                        modifier = Modifier.size(48.dp)
+                    ) {
+                        Icon(Icons.Filled.Replay10, "Rewind 10s", tint = Color.White, modifier = Modifier.size(28.dp))
+                    }
+                    IconButton(
+                        onClick = { onTogglePlay(); showControls = true },
+                        modifier = Modifier
+                            .size(68.dp)
+                            .background(Color.White.copy(alpha = 0.15f), CircleShape)
+                            .border(1.5.dp, Color.White.copy(alpha = 0.3f), CircleShape)
+                    ) {
+                        Icon(
+                            imageVector = if (uiState.isPlaying) Icons.Filled.Pause else Icons.Filled.PlayArrow,
+                            contentDescription = if (uiState.isPlaying) "Pause" else "Play",
+                            tint = Color.White,
+                            modifier = Modifier.size(38.dp)
+                        )
+                    }
+                    IconButton(
+                        onClick = { onSeekBy(SEEK_MS); showControls = true },
+                        modifier = Modifier.size(48.dp)
+                    ) {
+                        Icon(Icons.Filled.Forward10, "Forward 10s", tint = Color.White, modifier = Modifier.size(28.dp))
+                    }
+                }
+
+                Column(
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                        .navigationBarsPadding()
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 10.dp),
+                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    NmpProgressBarFullscreen(
+                        currentMs = uiState.currentTimeMs,
+                        durationMs = uiState.durationMs,
+                        bufferedPercent = uiState.bufferedPercent,
+                        subjectColor = subjectColor,
+                        onSeek = { ratio ->
+                            onSeekRatio(ratio)
+                            showControls = true
+                        }
+                    )
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = fmtTime(uiState.currentTimeMs),
+                            color = Color.White,
+                            fontSize = 12.sp,
+                            fontFamily = FontFamily.Monospace,
+                            fontWeight = FontWeight.Medium
+                        )
+                        Text(
+                            text = " / -${fmtTime(remainingMs)}",
+                            color = Color.White.copy(alpha = 0.55f),
+                            fontSize = 12.sp,
+                            fontFamily = FontFamily.Monospace
+                        )
+
+                        Spacer(modifier = Modifier.weight(1f))
+
+                        var speedExpanded by remember { mutableStateOf(false) }
+                        Box {
+                            Button(
+                                onClick = { speedExpanded = !speedExpanded; showControls = true },
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = Color.White.copy(alpha = 0.12f),
+                                    contentColor = Color.White
+                                ),
+                                border = BorderStroke(1.dp, Color.White.copy(alpha = 0.3f)),
+                                shape = RoundedCornerShape(999.dp),
+                                contentPadding = PaddingValues(horizontal = 10.dp, vertical = 0.dp),
+                                modifier = Modifier.height(30.dp)
+                            ) {
+                                Text(
+                                    text = if (uiState.speed == 1f) "1×" else "${uiState.speed}×",
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 12.sp
+                                )
+                            }
+                            SpeedDropdown(
+                                visible = speedExpanded,
+                                currentSpeed = uiState.speed,
+                                subjectColor = subjectColor,
+                                onSelect = { s ->
+                                    onSetSpeed(s)
+                                    speedExpanded = false
+                                    showControls = true
+                                },
+                                onDismiss = { speedExpanded = false },
+                                modifier = Modifier
+                                    .align(Alignment.BottomEnd)
+                                    .padding(bottom = 36.dp)
+                            )
+                        }
+
+                        Spacer(modifier = Modifier.width(8.dp))
+
+                        IconButton(
+                            onClick = { onExitFullscreen(); showControls = true },
+                            modifier = Modifier.size(36.dp)
+                        ) {
+                            Icon(
+                                imageVector = Icons.Filled.FullscreenExit,
+                                contentDescription = "Exit Fullscreen",
+                                tint = Color.White,
+                                modifier = Modifier.size(22.dp)
+                            )
+                        }
+                    }
+                }
+            }
+        }
+
+        AnimatedVisibility(
+            visible = seekBadgeVisible,
+            enter = fadeIn(tween(120)),
+            exit = fadeOut(tween(350)),
+            modifier = Modifier.align(
+                if ((seekBadge ?: 0) < 0) Alignment.CenterStart else Alignment.CenterEnd
+            )
+        ) {
+            Box(
+                modifier = Modifier
+                    .padding(horizontal = 32.dp)
+                    .background(Color.Black.copy(alpha = 0.55f), RoundedCornerShape(10.dp))
+                    .padding(horizontal = 16.dp, vertical = 10.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = if ((seekBadge ?: 0) < 0) "−10s" else "+10s",
+                    color = Color.White,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 16.sp
+                )
+            }
+        }
+
+        if (gestureType != null) {
+            val icon = when (gestureType) {
+                GestureType.BRIGHTNESS -> Icons.Filled.BrightnessMedium
+                GestureType.VOLUME -> {
+                    val frac = (gestureStartVolume + gestureDelta).coerceIn(0f, 1f)
+                    if (frac == 0f) Icons.Filled.VolumeOff else if (frac < 0.5f) Icons.Filled.VolumeDown else Icons.Filled.VolumeUp
+                }
+                GestureType.SEEK -> Icons.Filled.FastForward
+                null -> null
+            }
+            val label = when (gestureType) {
+                GestureType.BRIGHTNESS -> {
+                    val pct = ((gestureStartBrightness + gestureDelta).coerceIn(0f, 1f) * 100).toInt()
+                    "$pct%"
+                }
+                GestureType.VOLUME -> {
+                    val pct = ((gestureStartVolume + gestureDelta).coerceIn(0f, 1f) * 100).toInt()
+                    "$pct%"
+                }
+                GestureType.SEEK -> fmtTime(gestureSeekPosition)
+                null -> ""
+            }
+            Box(
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .background(Color.Black.copy(alpha = 0.65f), RoundedCornerShape(14.dp))
+                    .padding(horizontal = 20.dp, vertical = 14.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                    icon?.let {
+                        Icon(imageVector = it, contentDescription = null, tint = Color.White, modifier = Modifier.size(28.dp))
+                    }
+                    Text(
+                        text = label,
+                        color = Color.White,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold,
+                        fontFamily = if (gestureType == GestureType.SEEK) FontFamily.Monospace else FontFamily.Default
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun NmpProgressBarFullscreen(
+    currentMs: Long,
+    durationMs: Long,
+    bufferedPercent: Int,
+    subjectColor: Color,
+    onSeek: (Float) -> Unit
+) {
+    var barWidth by remember { mutableIntStateOf(0) }
+    var isDragging by remember { mutableStateOf(false) }
+    val progress by remember(currentMs, durationMs) {
+        derivedStateOf {
+            if (durationMs > 0) (currentMs.toFloat() / durationMs).coerceIn(0f, 1f) else 0f
+        }
+    }
+    val thumbScale by animateFloatAsState(
+        targetValue = if (isDragging) 1.5f else 1f,
+        animationSpec = tween(150),
+        label = "fsThumbScale"
+    )
+
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(28.dp)
+            .pointerInput(barWidth) {
+                detectTapGestures { offset ->
+                    val w = barWidth.coerceAtLeast(1).toFloat()
+                    onSeek((offset.x / w).coerceIn(0f, 1f))
+                }
+            }
+            .pointerInput(barWidth) {
+                detectDragGestures(
+                    onDragStart = { offset ->
+                        isDragging = true
+                        val w = barWidth.coerceAtLeast(1).toFloat()
+                        onSeek((offset.x / w).coerceIn(0f, 1f))
+                    },
+                    onDrag = { change, _ ->
+                        change.consume()
+                        val w = barWidth.coerceAtLeast(1).toFloat()
+                        onSeek((change.position.x / w).coerceIn(0f, 1f))
+                    },
+                    onDragEnd = { isDragging = false },
+                    onDragCancel = { isDragging = false }
+                )
+            }
+            .onSizeChanged { barWidth = it.width },
+        contentAlignment = Alignment.CenterStart
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(3.dp)
+                .clip(RoundedCornerShape(2.dp))
+                .background(Color.White.copy(alpha = 0.25f))
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .fillMaxWidth((bufferedPercent / 100f).coerceIn(0f, 1f))
+                    .background(Color.White.copy(alpha = 0.40f))
+            )
+            Box(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .fillMaxWidth(progress)
+                    .background(subjectColor)
+            )
+        }
+        val thumbSizeDp = 14.dp * thumbScale
+        Box(
+            modifier = Modifier
+                .offset { IntOffset(x = ((progress * barWidth) - (thumbSizeDp.toPx() / 2)).toInt().coerceAtLeast(0), y = 0) }
+                .size(thumbSizeDp)
+                .clip(CircleShape)
+                .background(Color.White)
+        )
+    }
+}
+
+@Composable
 private fun NmpHeader(
     isVideo: Boolean,
     title: String,
@@ -723,9 +946,8 @@ private fun NmpVideoStage(
         contentAlignment = Alignment.Center
     ) {
         AndroidView(
-            factory = { ctx ->
-                android.view.SurfaceView(ctx)
-            },
+            key = "portrait_surface_view",
+            factory = { ctx -> android.view.SurfaceView(ctx) },
             update = { sv -> player?.setVideoSurfaceView(sv) },
             modifier = Modifier
                 .aspectRatio(aspectRatio)
@@ -763,9 +985,8 @@ private fun NmpVideoStage(
         if (isBuffering && !hasError) {
             CircularProgressIndicator(
                 modifier = Modifier
-                    .size(28.dp)
-                    .align(Alignment.TopEnd)
-                    .padding(12.dp),
+                    .size(32.dp)
+                    .align(Alignment.Center),
                 color = Color.White,
                 strokeWidth = 2.5.dp,
                 trackColor = Color.White.copy(alpha = 0.25f)
@@ -805,13 +1026,12 @@ private fun NmpVideoStage(
                     text = "Resume from ${fmtTime(resumePositionMs)}",
                     color = Color.White,
                     fontSize = 12.sp,
-                    fontWeight = FontWeight.SemiBold
+                    fontWeight = FontWeight.SemiBold,
+                    fontFamily = FontFamily.Monospace
                 )
                 Button(
                     onClick = onResume,
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = subjectColor.copy(alpha = 0.90f)
-                    ),
+                    colors = ButtonDefaults.buttonColors(containerColor = subjectColor.copy(alpha = 0.90f)),
                     contentPadding = PaddingValues(horizontal = 10.dp, vertical = 5.dp),
                     shape = RoundedCornerShape(999.dp),
                     modifier = Modifier.height(28.dp)
@@ -977,6 +1197,7 @@ private fun NmpControls(
     onDismissSpeed: () -> Unit,
     onFullscreen: () -> Unit
 ) {
+    val remainingMs = (durationMs - currentTimeMs).coerceAtLeast(0L)
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -1005,8 +1226,17 @@ private fun NmpControls(
                 Icon(Icons.Filled.Forward10, "Forward 10s", tint = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.size(18.dp))
             }
             Text(
-                text = "${fmtTime(currentTimeMs)} / ${fmtTime(durationMs)}",
-                fontSize = 12.sp, fontWeight = FontWeight.Medium, color = MaterialTheme.colorScheme.onSurfaceVariant
+                text = fmtTime(currentTimeMs),
+                fontSize = 12.sp,
+                fontWeight = FontWeight.Medium,
+                fontFamily = FontFamily.Monospace,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            Text(
+                text = " / -${fmtTime(remainingMs)}",
+                fontSize = 11.sp,
+                fontFamily = FontFamily.Monospace,
+                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.55f)
             )
             Spacer(Modifier.weight(1f))
 
@@ -1017,9 +1247,9 @@ private fun NmpControls(
                     shape = RoundedCornerShape(999.dp),
                     border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
                     contentPadding = PaddingValues(horizontal = 8.dp, vertical = 0.dp),
-                    modifier = Modifier.height(32.dp)
+                    modifier = Modifier.height(30.dp)
                 ) {
-                    Text(text = if (speed == 1f) "1x" else "${speed}x", fontWeight = FontWeight.Bold, fontSize = 12.sp)
+                    Text(text = if (speed == 1f) "1×" else "${speed}×", fontWeight = FontWeight.Bold, fontSize = 12.sp)
                 }
                 SpeedDropdown(
                     visible = speedMenuOpen,
@@ -1027,7 +1257,7 @@ private fun NmpControls(
                     subjectColor = subjectColor,
                     onSelect = onSpeedSelect,
                     onDismiss = onDismissSpeed,
-                    modifier = Modifier.align(Alignment.TopEnd).padding(top = 36.dp)
+                    modifier = Modifier.align(Alignment.TopEnd).padding(top = 34.dp)
                 )
             }
 
@@ -1048,9 +1278,19 @@ private fun NmpProgressBar(
     subjectColor: Color,
     onSeek: (Float) -> Unit
 ) {
-    val density = LocalDensity.current
     var barWidth by remember { mutableIntStateOf(0) }
-    val progress = if (durationMs > 0) (currentMs.toFloat() / durationMs).coerceIn(0f, 1f) else 0f
+    var isDragging by remember { mutableStateOf(false) }
+    val progress by remember(currentMs, durationMs) {
+        derivedStateOf {
+            if (durationMs > 0) (currentMs.toFloat() / durationMs).coerceIn(0f, 1f) else 0f
+        }
+    }
+    val thumbScale by animateFloatAsState(
+        targetValue = if (isDragging) 1.4f else 1f,
+        animationSpec = tween(150),
+        label = "portraitThumbScale"
+    )
+    val density = androidx.compose.ui.platform.LocalDensity.current
 
     Box(
         modifier = Modifier
@@ -1058,12 +1298,25 @@ private fun NmpProgressBar(
             .height(28.dp)
             .pointerInput(barWidth) {
                 detectDragGestures(
-                    onDragStart = { offset -> val w = barWidth.coerceAtLeast(1).toFloat(); onSeek((offset.x / w).coerceIn(0f, 1f)) },
-                    onDrag = { change, _ -> change.consume(); val w = barWidth.coerceAtLeast(1).toFloat(); onSeek((change.position.x / w).coerceIn(0f, 1f)) }
+                    onDragStart = { offset ->
+                        isDragging = true
+                        val w = barWidth.coerceAtLeast(1).toFloat()
+                        onSeek((offset.x / w).coerceIn(0f, 1f))
+                    },
+                    onDrag = { change, _ ->
+                        change.consume()
+                        val w = barWidth.coerceAtLeast(1).toFloat()
+                        onSeek((change.position.x / w).coerceIn(0f, 1f))
+                    },
+                    onDragEnd = { isDragging = false },
+                    onDragCancel = { isDragging = false }
                 )
             }
             .pointerInput(barWidth) {
-                detectTapGestures { offset -> val w = barWidth.coerceAtLeast(1).toFloat(); onSeek((offset.x / w).coerceIn(0f, 1f)) }
+                detectTapGestures { offset ->
+                    val w = barWidth.coerceAtLeast(1).toFloat()
+                    onSeek((offset.x / w).coerceIn(0f, 1f))
+                }
             }
             .onSizeChanged { barWidth = it.width },
         contentAlignment = Alignment.CenterStart
@@ -1072,10 +1325,13 @@ private fun NmpProgressBar(
             Box(modifier = Modifier.fillMaxHeight().fillMaxWidth((bufferedPercent / 100f).coerceIn(0f, 1f)).clip(RoundedCornerShape(2.dp)).background(MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.28f)))
             Box(modifier = Modifier.fillMaxHeight().fillMaxWidth(progress).clip(RoundedCornerShape(2.dp)).background(subjectColor))
         }
+        val thumbSizeDp = 12.dp * thumbScale
         Box(
             modifier = Modifier
-                .offset(x = with(density) { ((progress * barWidth) - 6.dp.toPx()).coerceAtLeast(0f) }.dp)
-                .size(12.dp).clip(CircleShape).background(subjectColor)
+                .offset { IntOffset(x = ((progress * barWidth) - (thumbSizeDp.toPx() / 2)).toInt().coerceAtLeast(0), y = 0) }
+                .size(thumbSizeDp)
+                .clip(CircleShape)
+                .background(subjectColor)
         )
     }
 }
@@ -1097,7 +1353,7 @@ private fun SpeedDropdown(
     ) {
         Column(
             modifier = Modifier
-                .width(96.dp)
+                .width(100.dp)
                 .clip(RoundedCornerShape(10.dp))
                 .background(MaterialTheme.colorScheme.surfaceContainerLowest)
                 .border(1.dp, MaterialTheme.colorScheme.outlineVariant, RoundedCornerShape(10.dp))
@@ -1106,13 +1362,13 @@ private fun SpeedDropdown(
             SPEEDS.forEach { s ->
                 val isActive = s == currentSpeed
                 Text(
-                    text = if (s == 1f) "Normal" else "${s}x",
+                    text = if (s == 1f) "Normal" else "${s}×",
                     modifier = Modifier
                         .fillMaxWidth()
                         .clip(RoundedCornerShape(6.dp))
                         .then(if (isActive) Modifier.background(subjectColor.copy(alpha = 0.10f)) else Modifier)
                         .clickable { onSelect(s) }
-                        .padding(horizontal = 12.dp, vertical = 8.dp),
+                        .padding(horizontal = 12.dp, vertical = 9.dp),
                     color = if (isActive) subjectColor else MaterialTheme.colorScheme.onSurface,
                     fontWeight = FontWeight.SemiBold,
                     fontSize = 13.sp

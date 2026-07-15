@@ -119,6 +119,7 @@ class AuthRepository @Inject constructor(
         .stateIn(ioScope, SharingStarted.Eagerly,
             try { runBlocking(Dispatchers.IO) { firstName(dataStore.data.first()) } }
             catch (_: Exception) { "Student" })
+    val currentUsernameHandleFlow: Flow<String> = dataStore.data.map { it[USER_NAME] ?: "" }
     val currentUserIdFlow: Flow<String?> = dataStore.data.map { it[USER_ID] }
     val currentUserPhotoUrlFlow: Flow<String?> = dataStore.data.map { it[USER_PHOTO_URL] }
     val currentUserVerificationLevelFlow: Flow<Int> = dataStore.data.map { it[USER_VERIFICATION_LEVEL] ?: 0 }
@@ -483,6 +484,13 @@ class AuthRepository @Inject constructor(
                 }
             }
         } catch (_: Exception) { }
+    }
+
+    suspend fun getPublicProfile(username: String): com.neb.ians.data.api.UserProfileResponse? {
+        return try {
+            val bearer = getBearerToken()
+            withContext(Dispatchers.IO) { apiService.getProfile(bearer, username) }
+        } catch (_: Exception) { null }
     }
 
     suspend fun logout() {

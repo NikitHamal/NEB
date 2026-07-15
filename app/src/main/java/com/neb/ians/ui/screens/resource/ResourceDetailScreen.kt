@@ -266,7 +266,7 @@ private fun VideoYouTubeLayout(
 
                 NebAvatar(
                     name = authorLabel.ifEmpty { "N" },
-                    photoUrl = null,
+                    photoUrl = uiState.authorPhotoUrl,
                     size = 40.dp
                 )
                 Column(modifier = Modifier.weight(1f)) {
