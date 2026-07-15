@@ -955,7 +955,6 @@ private fun ProfileDropdownItem(
         )
     }
 }
-}
 
 private fun Color.luminanceIsDark(): Boolean {
     val l = 0.299f * red + 0.587f * green + 0.114f * blue
