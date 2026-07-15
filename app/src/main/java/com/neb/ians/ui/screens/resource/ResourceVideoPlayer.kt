@@ -43,17 +43,18 @@ fun EmbeddedMediaPlayer(
     title: String,
     onFullscreenClick: () -> Unit,
     modifier: Modifier = Modifier,
+    fullWidth: Boolean = false,
     viewModel: MediaPlayerViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val player = viewModel.getPlayer()
 
+    val shape = if (fullWidth) RoundedCornerShape(0.dp) else RoundedCornerShape(12.dp)
     Surface(
-        modifier = modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(12.dp))
-            .border(1.dp, MaterialTheme.colorScheme.outlineVariant, RoundedCornerShape(12.dp)),
-        color = MaterialTheme.colorScheme.surfaceContainerLowest
+        modifier = modifier.fillMaxWidth(),
+        color = if (fullWidth) Color.Black else MaterialTheme.colorScheme.surfaceContainerLowest,
+        shape = shape,
+        border = if (fullWidth) null else BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
     ) {
         Column(modifier = Modifier.fillMaxWidth()) {
             if (uiState.isLoading) {

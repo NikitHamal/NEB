@@ -31,6 +31,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Verified
 import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material.icons.outlined.Search
@@ -58,6 +59,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.painter.Painter
@@ -630,6 +632,11 @@ fun WebResourceCard(
             primarySubject.uppercase()
         }
     }
+    val isVideo = remember(resource.type, resource.fileUrl) {
+        resource.type.contains("video", ignoreCase = true) ||
+            Regex("\\.(mp4|mkv|webm|3gp|mov)$", RegexOption.IGNORE_CASE).containsMatchIn(resource.fileUrl)
+    }
+
     Card(
         modifier = modifier
             .then(if (minWidth != null) Modifier.width(minWidth) else Modifier.fillMaxWidth())
@@ -658,6 +665,34 @@ fun WebResourceCard(
                     modifier = Modifier.fillMaxSize()
                 )
             }
+
+            if (isVideo) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color.Black.copy(alpha = 0.22f)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Surface(
+                        shape = CircleShape,
+                        color = Color.White.copy(alpha = 0.9f),
+                        shadowElevation = 4.dp
+                    ) {
+                        Box(
+                            modifier = Modifier.size(40.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Icon(
+                                imageVector = Icons.Filled.PlayArrow,
+                                contentDescription = "Play",
+                                modifier = Modifier.size(28.dp),
+                                tint = Color.Black
+                            )
+                        }
+                    }
+                }
+            }
+
             Surface(
                 modifier = Modifier
                     .align(Alignment.TopStart)
