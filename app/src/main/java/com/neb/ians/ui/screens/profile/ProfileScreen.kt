@@ -47,6 +47,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.neb.ians.R
+import com.neb.ians.data.api.ApiSocialLink
 import com.neb.ians.ui.components.WebEmptyState
 import com.neb.ians.ui.components.WebResourceCard
 import com.neb.ians.ui.components.ZoomableImageDialog
@@ -126,7 +127,8 @@ fun ProfileScreen(
                     onFollowersClick = viewModel::openFollowers,
                     onFollowingClick = viewModel::openFollowing,
                     onFollowRequestsClick = viewModel::openFollowRequests,
-                    onProfileClick = onProfileClick
+                    onProfileClick = onProfileClick,
+                    viewModel = viewModel
                 )
             }
         }
@@ -204,7 +206,8 @@ private fun ProfileContent(
     onFollowersClick: () -> Unit,
     onFollowingClick: () -> Unit,
     onFollowRequestsClick: () -> Unit,
-    onProfileClick: (String) -> Unit = {}
+    onProfileClick: (String) -> Unit = {},
+    viewModel: ProfileViewModel? = null
 ) {
     val profile = uiState.profile ?: return
     val isSelf = profile.isSelf == true
@@ -232,7 +235,7 @@ private fun ProfileContent(
                 onFollowingClick = onFollowingClick,
                 onFollowRequestsClick = onFollowRequestsClick,
                 onProfileClick = onProfileClick,
-                onSocialLinkClick = { link -> viewModel.trackSocialClick(link, profile.id) }
+                onSocialLinkClick = { link -> viewModel?.trackSocialClick(link, profile.id) }
             )
         }
 
