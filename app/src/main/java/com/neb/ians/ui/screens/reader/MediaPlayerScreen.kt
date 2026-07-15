@@ -209,15 +209,15 @@ fun MediaPlayerScreen(
         var orientationMode by remember { mutableIntStateOf(0) }
         val orientationModes = listOf(
             android.content.pm.ActivityInfo.SCREEN_ORIENTATION_SENSOR,
-            android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT,
-            android.content.pm.ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+            android.content.pm.ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE,
+            android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         )
         val orientationIcons = listOf(
             Icons.Filled.ScreenRotation,
-            Icons.Filled.StayCurrentPortrait,
-            Icons.Filled.StayCurrentLandscape
+            Icons.Filled.StayCurrentLandscape,
+            Icons.Filled.StayCurrentPortrait
         )
-        val orientationLabels = listOf("Auto", "Portrait", "Landscape")
+        val orientationLabels = listOf("Auto", "Landscape", "Portrait")
 
         fun cycleOrientation() {
             orientationMode = (orientationMode + 1) % 3
@@ -331,7 +331,10 @@ fun MediaPlayerScreen(
                             .background(Color.Black.copy(alpha = 0.5f))
                     ) {
                         IconButton(
-                            onClick = { toggleFullscreen(false) },
+                            onClick = {
+                                toggleFullscreen(false)
+                                onNavigateBack()
+                            },
                             modifier = Modifier
                                 .align(Alignment.TopStart)
                                 .padding(16.dp)
@@ -339,7 +342,7 @@ fun MediaPlayerScreen(
                         ) {
                             Icon(
                                 imageVector = Icons.Default.ArrowBack,
-                                contentDescription = "Exit Fullscreen",
+                                contentDescription = "Back",
                                 tint = Color.White
                             )
                         }

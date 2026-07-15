@@ -109,19 +109,16 @@ fun ResourceDetailScreen(
         },
         bottomBar = {
             if (uiState.resource != null) {
-                val isVideo = detectResourceMedia(uiState.resource!!.fileUrl, uiState.resource!!.type) == ResourceMediaType.Video
-                if (!isVideo) {
-                    NebCommentComposerBar(
-                        value = uiState.commentDraft,
-                        onValueChange = viewModel::onCommentDraftChange,
-                        placeholder = if (uiState.isAuthenticated) "Write a comment..." else "Sign in to comment",
-                        enabled = uiState.isAuthenticated && !uiState.isPostingComment,
-                        canSend = uiState.isAuthenticated && uiState.commentDraft.isNotBlank() && !uiState.isPostingComment,
-                        posting = uiState.isPostingComment,
-                        sendContentDescription = "Post comment",
-                        onSend = viewModel::postComment
-                    )
-                }
+                NebCommentComposerBar(
+                    value = uiState.commentDraft,
+                    onValueChange = viewModel::onCommentDraftChange,
+                    placeholder = if (uiState.isAuthenticated) "Write a comment..." else "Sign in to comment",
+                    enabled = uiState.isAuthenticated && !uiState.isPostingComment,
+                    canSend = uiState.isAuthenticated && uiState.commentDraft.isNotBlank() && !uiState.isPostingComment,
+                    posting = uiState.isPostingComment,
+                    sendContentDescription = "Post comment",
+                    onSend = viewModel::postComment
+                )
             }
         },
         snackbarHost = { SnackbarHost(snackbarHostState) },
@@ -264,6 +261,8 @@ private fun VideoYouTubeLayout(
             ) {
                 val uploadUsername = resource.uploadedByUsername.ifBlank { resource.authorName.orEmpty() }
                 val authorLabel = uploadUsername.ifBlank { resource.authorName ?: "NEBians Team" }
+                val isSelf = uploadUsername.isNotBlank() && uploadUsername.equals(uiState.currentUsername, ignoreCase = true)
+
                 NebAvatar(
                     name = authorLabel.ifEmpty { "N" },
                     photoUrl = null,
@@ -284,19 +283,9 @@ private fun VideoYouTubeLayout(
                         )
                     }
                 }
-                if (uploadUsername.isNotBlank()) {
-                    Surface(
-                        onClick = { onUserProfileClick(uploadUsername) },
-                        shape = RoundedCornerShape(999.dp),
-                        color = MaterialTheme.colorScheme.primary,
-                        contentColor = MaterialTheme.colorScheme.onPrimary
-                    ) {
-                        Text(
-                            text = "View Profile",
-                            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-                            style = MaterialTheme.typography.labelMedium,
-                            fontWeight = FontWeight.Bold
-                        )
+                if (uploadUsername.isNotBlank() && !isSelf) {
+                    TextButton(onClick = { onUserProfileClick(uploadUsername) }) {
+                        Text("Follow", fontWeight = FontWeight.Bold, fontSize = 13.sp)
                     }
                 }
             }
