@@ -1778,6 +1778,7 @@ def analytics(request):
     link_clicks = SocialLinkClick.objects.filter(user=user)
     total_link_clicks = link_clicks.count()
     link_clicks_30d = link_clicks.filter(created_at__gte=cutoff_30).count()
+    link_clicks_unique = link_clicks.exclude(clicker_id__isnull=True).values('clicker_id').distinct().count()
     link_clicks_by_platform = list(
         link_clicks.values('platform')
         .annotate(total=Count('id'))
@@ -1792,10 +1793,42 @@ def analytics(request):
         )
     max_link_clicks_day = max(link_clicks_by_day_14) if link_clicks_by_day_14 else 1
 
+    link_clicks_by_follower = list(
+        link_clicks.values('is_follower')
+        .annotate(total=Count('id'))
+        .order_by('-total')
+    )
+    link_clicks_by_country = list(
+        link_clicks.exclude(clicker_country='')
+        .values('clicker_country')
+        .annotate(total=Count('id'))
+        .order_by('-total')[:10]
+    )
+    link_clicks_by_gender = list(
+        link_clicks.exclude(clicker_gender='')
+        .values('clicker_gender')
+        .annotate(total=Count('id'))
+        .order_by('-total')
+    )
+    link_clicks_by_age_group = []
+    age_groups = [('13-17', 13, 17), ('18-24', 18, 24), ('25-34', 25, 34), ('35-44', 35, 44), ('45+', 45, 200)]
+    for label, lo, hi in age_groups:
+        cnt = link_clicks.filter(clicker_age__gte=lo, clicker_age__lte=hi).count()
+        if cnt:
+            link_clicks_by_age_group.append({'group': label, 'total': cnt})
+    lt13 = link_clicks.filter(clicker_age__lt=13, clicker_age__isnull=False).count()
+    if lt13:
+        link_clicks_by_age_group.insert(0, {'group': '<13', 'total': lt13})
+
     ctx.update({
         'link_clicks_total': total_link_clicks,
         'link_clicks_30d': link_clicks_30d,
+        'link_clicks_unique': link_clicks_unique,
         'link_clicks_by_platform': link_clicks_by_platform,
+        'link_clicks_by_follower': link_clicks_by_follower,
+        'link_clicks_by_country': link_clicks_by_country,
+        'link_clicks_by_gender': link_clicks_by_gender,
+        'link_clicks_by_age_group': link_clicks_by_age_group,
         'link_clicks_by_day_14': link_clicks_by_day_14,
         'max_link_clicks_day': max_link_clicks_day,
     })
