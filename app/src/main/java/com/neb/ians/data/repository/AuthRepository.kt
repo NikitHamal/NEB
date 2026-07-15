@@ -102,7 +102,9 @@ class AuthRepository @Inject constructor(
 
     val tokenFlow: Flow<String?> = dataStore.data.map { SecurePrefs.getAuthToken(appContext) }
     val isProfileCompletedFlow: Flow<Boolean> = dataStore.data.map { it[PROFILE_COMPLETED] ?: false }
-    val currentUserNameFlow: Flow<String> = dataStore.data.map { it[USER_NAME] ?: "Student" }
+    val currentUserNameFlow: Flow<String> = dataStore.data.map {
+        it[USER_DISPLAY_NAME].takeIf { !it.isNullOrBlank() } ?: it[USER_NAME] ?: "Student"
+    }
     val currentUserIdFlow: Flow<String?> = dataStore.data.map { it[USER_ID] }
     val currentUserPhotoUrlFlow: Flow<String?> = dataStore.data.map { it[USER_PHOTO_URL] }
     val currentUserVerificationLevelFlow: Flow<Int> = dataStore.data.map { it[USER_VERIFICATION_LEVEL] ?: 0 }
