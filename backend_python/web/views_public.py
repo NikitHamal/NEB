@@ -71,7 +71,6 @@ def home(request):
     user_profile = None
     if user_id:
         try:
-            from api.models import User
             user_profile = User.objects.get(id=user_id)
         except User.DoesNotExist:
             pass
@@ -161,13 +160,13 @@ def home(request):
     ))
 
 def library(request):
+    from api.models import User as _LocalUser
     user_id = _get_user_id(request)
     user_profile = None
     if user_id:
         try:
-            from api.models import User
-            user_profile = User.objects.get(id=user_id)
-        except User.DoesNotExist:
+            user_profile = _LocalUser.objects.get(id=user_id)
+        except _LocalUser.DoesNotExist:
             pass
 
     subjects = [s.strip() for s in request.GET.getlist('subject') if s.strip()]
@@ -220,12 +219,12 @@ def library(request):
                 q |= Q(exam_type__iexact=e)
             qs = qs.filter(q)
             
+        from api.models import User as _LocalUser
         user_profile = None
         if user_id:
             try:
-                from api.models import User
-                user_profile = User.objects.get(id=user_id)
-            except User.DoesNotExist:
+                user_profile = _LocalUser.objects.get(id=user_id)
+            except _LocalUser.DoesNotExist:
                 pass
 
         global_user = user_profile and is_global_user(user_profile)
@@ -381,13 +380,13 @@ def library(request):
     return render(request, 'web/library.html', ctx)
 
 def search(request):
+    from api.models import User as _LocalUser
     user_id = _get_user_id(request)
     user_profile = None
     if user_id:
         try:
-            from api.models import User
-            user_profile = User.objects.get(id=user_id)
-        except User.DoesNotExist:
+            user_profile = _LocalUser.objects.get(id=user_id)
+        except _LocalUser.DoesNotExist:
             pass
 
     query = request.GET.get('q', '').strip()
