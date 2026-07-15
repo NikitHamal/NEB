@@ -30,17 +30,13 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Popup
-import androidx.compose.ui.window.PopupProperties
-import androidx.compose.ui.unit.IntOffset
-import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.rememberModalBottomSheetState
+import androidx.compose.material3.SheetValue
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.draw.clip
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.layout.width
@@ -802,48 +798,41 @@ fun NEBiansNavHost(
         if (showProfileDropdown) {
             val profile = userProfile
             if (profile != null) {
-                val density = LocalDensity.current
-                val offsetX = with(density) { (-16).dp.roundToPx() }
-                val offsetY = with(density) { 60.dp.roundToPx() }
-
-                Popup(
-                    alignment = Alignment.TopEnd,
-                    offset = IntOffset(offsetX, offsetY),
+                val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+                ModalBottomSheet(
                     onDismissRequest = { showProfileDropdown = false },
-                    properties = PopupProperties(focusable = true)
+                    sheetState = sheetState,
+                    containerColor = MaterialTheme.colorScheme.surfaceContainer,
+                    shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)
                 ) {
                     Column(
                         modifier = Modifier
-                            .width(200.dp)
-                            .shadow(12.dp, RoundedCornerShape(16.dp))
-                            .clip(RoundedCornerShape(16.dp))
-                            .background(MaterialTheme.colorScheme.surfaceContainer)
-                            .border(1.dp, MaterialTheme.colorScheme.outlineVariant, RoundedCornerShape(16.dp))
-                            .padding(8.dp)
+                            .fillMaxWidth()
+                            .padding(bottom = 32.dp)
                     ) {
-                        // Header (clickable, with visibility view icon on the right)
+                        // Header (clickable profile card)
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .clip(RoundedCornerShape(8.dp))
                                 .clickable {
                                     showProfileDropdown = false
                                     navController.navigate(Screen.Profile.createRoute(profile.username))
                                 }
-                                .padding(horizontal = 12.dp, vertical = 10.dp),
+                                .padding(horizontal = 24.dp, vertical = 16.dp),
                             verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(12.dp)
+                            horizontalArrangement = Arrangement.spacedBy(16.dp)
                         ) {
                             val name = profile.displayName?.takeIf { it.isNotBlank() } ?: profile.username
                             NebAvatar(
                                 name = name.ifEmpty { "N" },
                                 photoUrl = profile.photoUrl,
-                                size = 38.dp
+                                size = 48.dp
                             )
                             Column(modifier = Modifier.weight(1f)) {
+                                val displayName = profile.displayName?.takeIf { it.isNotBlank() } ?: profile.username
                                 Text(
-                                    text = profile.username,
-                                    style = MaterialTheme.typography.bodyMedium,
+                                    text = displayName,
+                                    style = MaterialTheme.typography.titleMedium,
                                     fontWeight = FontWeight.SemiBold,
                                     color = MaterialTheme.colorScheme.onSurface,
                                     maxLines = 1,
@@ -856,15 +845,20 @@ fun NEBiansNavHost(
                                     else -> "Student"
                                 }
                                 Text(
-                                    text = roleText,
-                                    style = MaterialTheme.typography.labelSmall,
+                                    text = "@${profile.username} · $roleText",
+                                    style = MaterialTheme.typography.bodySmall,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
                             }
+                            Icon(
+                                imageVector = Icons.Outlined.Person,
+                                contentDescription = "View Profile",
+                                tint = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
                         }
 
                         HorizontalDivider(
-                            modifier = Modifier.padding(vertical = 4.dp),
+                            modifier = Modifier.padding(horizontal = 24.dp),
                             color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
                         )
 
@@ -909,7 +903,7 @@ fun NEBiansNavHost(
                         )
 
                         HorizontalDivider(
-                            modifier = Modifier.padding(vertical = 4.dp),
+                            modifier = Modifier.padding(horizontal = 24.dp),
                             color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
                         )
 
@@ -943,25 +937,24 @@ private fun ProfileDropdownItem(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(8.dp))
             .clickable(onClick = onClick)
-            .padding(horizontal = 12.dp, vertical = 10.dp),
+            .padding(horizontal = 24.dp, vertical = 14.dp),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(10.dp)
+        horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         Icon(
             imageVector = icon,
-            contentDescription = null,
-            modifier = Modifier.size(20.dp),
+            contentDescription = text,
+            modifier = Modifier.size(22.dp),
             tint = iconColor
         )
         Text(
             text = text,
-            style = MaterialTheme.typography.bodyMedium,
-            fontWeight = FontWeight.Medium,
+            style = MaterialTheme.typography.bodyLarge,
             color = textColor
         )
     }
+}
 }
 
 private fun Color.luminanceIsDark(): Boolean {
