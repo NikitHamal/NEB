@@ -190,6 +190,46 @@ fun WebTopBar(
                         contentDescription = "Back"
                     )
                 }
+            } else if (title == null) {
+                // Home screen specific dashboard header layout (Avatar on left,Greeting,Name)
+                Avatar(
+                    name = name,
+                    imageUrl = photo,
+                    modifier = Modifier.clickable(onClick = onProfileClick),
+                    size = 40.dp,
+                    verificationLevel = verificationLevel,
+                    isAdmin = isAdmin
+                )
+
+                Spacer(modifier = Modifier.width(4.dp))
+
+                Column(
+                    modifier = Modifier.weight(1f),
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    val greeting = remember {
+                        val hour = java.util.Calendar.getInstance().get(java.util.Calendar.HOUR_OF_DAY)
+                        when (hour) {
+                            in 0..11 -> "Good Morning,"
+                            in 12..16 -> "Good Afternoon,"
+                            else -> "Good Evening,"
+                        }
+                    }
+                    val firstName = remember(name) {
+                        name.trim().split(Regex("\\s+")).firstOrNull().orEmpty().ifBlank { "User" }
+                    }
+                    Text(
+                        text = greeting,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    Text(
+                        text = firstName,
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                }
             } else {
                 Row(
                     modifier = Modifier
@@ -210,20 +250,18 @@ fun WebTopBar(
                 }
             }
 
-            if (title != null || subtitle != null) {
+            if (title != null) {
                 Column(
                     modifier = Modifier.weight(1f),
                     verticalArrangement = Arrangement.Center
                 ) {
-                    title?.let {
-                        Text(
-                            text = it,
-                            style = if (compactTitle) MaterialTheme.typography.bodyMedium else MaterialTheme.typography.titleMedium,
-                            fontWeight = if (compactTitle) FontWeight.Normal else FontWeight.Bold,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis
-                        )
-                    }
+                    Text(
+                        text = title,
+                        style = if (compactTitle) MaterialTheme.typography.bodyMedium else MaterialTheme.typography.titleMedium,
+                        fontWeight = if (compactTitle) FontWeight.Normal else FontWeight.Bold,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
                     subtitle?.let {
                         Text(
                             text = it,
@@ -234,7 +272,7 @@ fun WebTopBar(
                         )
                     }
                 }
-            } else {
+            } else if (showBack) {
                 Spacer(modifier = Modifier.weight(1f))
             }
 
@@ -270,14 +308,17 @@ fun WebTopBar(
                     }
                 }
             }
-            Avatar(
-                name = name,
-                imageUrl = photo,
-                modifier = Modifier.clickable(onClick = onProfileClick),
-                size = 40.dp,
-                verificationLevel = verificationLevel,
-                isAdmin = isAdmin
-            )
+
+            if (showBack || title != null) {
+                Avatar(
+                    name = name,
+                    imageUrl = photo,
+                    modifier = Modifier.clickable(onClick = onProfileClick),
+                    size = 40.dp,
+                    verificationLevel = verificationLevel,
+                    isAdmin = isAdmin
+                )
+            }
         }
     }
 }
