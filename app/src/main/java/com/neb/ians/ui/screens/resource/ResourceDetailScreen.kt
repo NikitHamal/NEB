@@ -39,7 +39,7 @@ import com.neb.ians.ui.components.ZoomableImageDialog
 fun ResourceDetailScreen(
     onNavigateBack: () -> Unit,
     onOpenPdf: (resourceId: String, fileUrl: String, title: String) -> Unit,
-    onOpenMedia: (resourceId: String) -> Unit = {},
+    onOpenMedia: (resourceId: String, startFullscreen: Boolean) -> Unit = { _, _ -> },
     onUserProfileClick: (String) -> Unit = {},
     viewModel: ResourceDetailViewModel = hiltViewModel()
 ) {
@@ -132,7 +132,7 @@ fun ResourceDetailScreen(
                             onRead = {
                                 when (mediaType) {
                                     ResourceMediaType.Pdf -> onOpenPdf(resource.id, resource.fileUrl, resource.title)
-                                    ResourceMediaType.Video, ResourceMediaType.Audio -> onOpenMedia(resource.id)
+                                    ResourceMediaType.Video, ResourceMediaType.Audio -> onOpenMedia(resource.id, false)
                                     else -> openExternal(resource.fileUrl)
                                 }
                             },
@@ -152,7 +152,7 @@ fun ResourceDetailScreen(
                                 isVideo = mediaType == ResourceMediaType.Video,
                                 subjectColor = subjectColor,
                                 title = resource.title,
-                                onFullscreenClick = { onOpenMedia(resource.id) },
+                                onFullscreenClick = { onOpenMedia(resource.id, true) },
                                 modifier = Modifier.padding(top = 16.dp)
                             )
                         }
