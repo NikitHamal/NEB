@@ -132,13 +132,18 @@ fun EmbeddedMediaPlayer(
                     }
                 }
 
+                val trackColor = if (fullWidth) Color.White.copy(alpha = 0.2f) else MaterialTheme.colorScheme.surfaceContainerHigh
                 EmbeddedProgressBar(
                     currentMs = uiState.currentTimeMs,
                     durationMs = uiState.durationMs,
                     bufferedPercent = uiState.bufferedPercent,
                     subjectColor = subjectColor,
-                    onSeek = { ratio -> viewModel.seekToRatio(ratio) }
+                    onSeek = { ratio -> viewModel.seekToRatio(ratio) },
+                    trackColor = trackColor
                 )
+
+                val iconTint = if (fullWidth) Color.White else MaterialTheme.colorScheme.onSurface
+                val timeColor = if (fullWidth) Color.White.copy(alpha = 0.85f) else MaterialTheme.colorScheme.onSurfaceVariant
 
                 Row(
                     modifier = Modifier
@@ -150,7 +155,7 @@ fun EmbeddedMediaPlayer(
                         Icon(
                             imageVector = if (uiState.isPlaying) Icons.Filled.Pause else Icons.Filled.PlayArrow,
                             contentDescription = if (uiState.isPlaying) "Pause" else "Play",
-                            tint = MaterialTheme.colorScheme.onSurface
+                            tint = iconTint
                         )
                     }
 
@@ -158,7 +163,7 @@ fun EmbeddedMediaPlayer(
                         Icon(
                             imageVector = Icons.Filled.Replay10,
                             contentDescription = "Rewind 10s",
-                            tint = MaterialTheme.colorScheme.onSurface
+                            tint = iconTint
                         )
                     }
 
@@ -166,7 +171,7 @@ fun EmbeddedMediaPlayer(
                         Icon(
                             imageVector = Icons.Filled.Forward10,
                             contentDescription = "Forward 10s",
-                            tint = MaterialTheme.colorScheme.onSurface
+                            tint = iconTint
                         )
                     }
 
@@ -175,7 +180,7 @@ fun EmbeddedMediaPlayer(
                     Text(
                         text = "${fmtTime(uiState.currentTimeMs)} / ${fmtTime(uiState.durationMs)}",
                         style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        color = timeColor
                     )
 
                     Spacer(modifier = Modifier.weight(1f))
@@ -184,7 +189,7 @@ fun EmbeddedMediaPlayer(
                         Icon(
                             imageVector = Icons.Filled.Fullscreen,
                             contentDescription = "Fullscreen",
-                            tint = MaterialTheme.colorScheme.onSurface
+                            tint = iconTint
                         )
                     }
                 }
@@ -199,7 +204,8 @@ private fun EmbeddedProgressBar(
     durationMs: Long,
     bufferedPercent: Int,
     subjectColor: Color,
-    onSeek: (Float) -> Unit
+    onSeek: (Float) -> Unit,
+    trackColor: Color = MaterialTheme.colorScheme.surfaceContainerHigh
 ) {
     var barWidth by remember { mutableStateOf(0) }
     val progress = if (durationMs > 0) (currentMs.toFloat() / durationMs).coerceIn(0f, 1f) else 0f
@@ -239,7 +245,7 @@ private fun EmbeddedProgressBar(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(4.dp)
-                .background(MaterialTheme.colorScheme.surfaceContainerHigh)
+                .background(trackColor)
         ) {
             Box(
                 modifier = Modifier
