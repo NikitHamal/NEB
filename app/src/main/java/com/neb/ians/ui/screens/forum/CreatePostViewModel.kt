@@ -182,15 +182,15 @@ class CreatePostViewModel @Inject constructor(
         }
         mentionJob = viewModelScope.launch {
             delay(300)
+            val results = mutableListOf<ApiUserSearchResult>()
+            if (query == "all") {
+                results.add(ApiUserSearchResult(id = "@all", username = "all", displayName = "Everyone"))
+            }
             forumRepository.searchUsers(query)
-                .onSuccess { users ->
-                    if (mentionQueryAt(_uiState.value.content) == query) {
-                        _uiState.update { it.copy(mentionSuggestions = users.take(8)) }
-                    }
-                }
-                .onFailure {
-                    _uiState.update { it.copy(mentionSuggestions = emptyList()) }
-                }
+                .onSuccess { users -> results.addAll(users.take(8)) }
+            if (mentionQueryAt(_uiState.value.content) == query) {
+                _uiState.update { it.copy(mentionSuggestions = results) }
+            }
         }
     }
 

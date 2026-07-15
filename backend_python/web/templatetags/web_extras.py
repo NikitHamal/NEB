@@ -361,7 +361,11 @@ def _render_user_content(value):
         for m in mention_re.finditer(text):
             if m.start() > last:
                 parts.append(text[last:m.start()])
-            parts.append('[@' + m.group(1) + '](/profile/' + quote(m.group(1)) + '/)')
+            uname = m.group(1)
+            if uname.lower() == 'all':
+                parts.append('<span class="mention-all">@all</span>')
+            else:
+                parts.append('[@' + uname + '](/profile/' + quote(uname) + '/)')
             last = m.end()
         if last < len(text):
             parts.append(text[last:])
