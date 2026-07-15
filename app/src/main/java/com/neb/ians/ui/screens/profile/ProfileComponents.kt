@@ -35,6 +35,7 @@ import com.neb.ians.R
 import com.neb.ians.data.api.ApiBadgeInfo
 import com.neb.ians.data.api.ApiPost
 import com.neb.ians.data.api.ApiReply
+import com.neb.ians.data.api.ApiSocialLink
 import com.neb.ians.data.api.UserProfileResponse
 import com.neb.ians.ui.components.Avatar
 import com.neb.ians.ui.components.NebBadge
