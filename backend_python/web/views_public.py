@@ -1657,7 +1657,95 @@ def robots_txt(request):
     return HttpResponse('\n'.join(lines), content_type='text/plain')
 
 def custom_404(request, exception):
-    return render(request, '404.html', _ctx(request), status=404)
+    is_api = request.path.startswith('/api/') or 'application/json' in request.headers.get('Accept', '')
+    if is_api:
+        from django.http import JsonResponse
+        return JsonResponse({'detail': 'Not found.'}, status=404)
+        
+    try:
+        ctx = _ctx(request)
+    except Exception:
+        ctx = {}
+    try:
+        return render(request, '404.html', ctx, status=404)
+    except Exception:
+        from django.http import HttpResponse
+        return HttpResponse("<h1>404 Not Found</h1>", status=404, content_type="text/html")
 
 def custom_500(request):
-    return render(request, '500.html', _ctx(request), status=500)
+    is_api = request.path.startswith('/api/') or 'application/json' in request.headers.get('Accept', '')
+    if is_api:
+        from django.http import JsonResponse
+        return JsonResponse({'detail': 'Internal server error. We are experiencing technical difficulties.'}, status=500)
+
+    try:
+        ctx = _ctx(request)
+    except Exception:
+        ctx = {}
+    try:
+        return render(request, '500.html', ctx, status=500)
+    except Exception:
+        from django.http import HttpResponse
+        html = """<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Technical Difficulties - NEBians</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f7f9fc;
+            color: #1a1c1e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .container {
+            max-width: 480px;
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+        h1 {
+            color: #004bd4;
+            font-size: 24px;
+            margin-top: 0;
+            margin-bottom: 16px;
+        }
+        p {
+            font-size: 16px;
+            line-height: 1.5;
+            color: #43474e;
+            margin-bottom: 24px;
+        }
+        .btn {
+            display: inline-block;
+            background-color: #004bd4;
+            color: white;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 100px;
+            font-weight: 500;
+            transition: opacity 0.2s;
+        }
+        .btn:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Technical Difficulties</h1>
+        <p>NEBians is currently experiencing some technical issues. We are already on it and working to bring the service back to full health.</p>
+        <a href="/" class="btn">Try Again</a>
+    </div>
+</body>
+</html>"""
+        return HttpResponse(html, status=500, content_type="text/html")
