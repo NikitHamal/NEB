@@ -26,8 +26,7 @@ class SettingsViewModel @Inject constructor(
     val isDarkMode: StateFlow<Boolean> = settingsRepository.isDarkMode
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
 
-    val userName: StateFlow<String> = settingsRepository.userName
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), "Student")
+    val userName: StateFlow<String> = authRepository.currentUserNameFlow
 
     val notificationsEnabled: StateFlow<Boolean> = settingsRepository.notificationsEnabled
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), true)
