@@ -299,5 +299,7 @@ class HomeViewModel @Inject constructor(
             isLoading = loadingError.first,
             error = loadingError.second
         )
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), HomeUiState())
+    }.stateIn(viewModelScope, SharingStarted.Eagerly, HomeUiState(
+        userName = (authRepository.currentUserNameFlow as StateFlow).value
+    ))
 }

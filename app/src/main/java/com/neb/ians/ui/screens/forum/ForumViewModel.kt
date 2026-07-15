@@ -90,7 +90,9 @@ class ForumViewModel @Inject constructor(
         authRepository.currentUserIdFlow
     ) { state, name, photo, userId ->
         state.copy(userName = name, userPhotoUrl = photo, currentUserId = userId)
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), _forumState.value)
+    }.stateIn(viewModelScope, SharingStarted.Eagerly, _forumState.value.copy(
+        userName = authRepository.currentUserNameFlow.value
+    ))
 
     init {
         loadPosts(reset = true)

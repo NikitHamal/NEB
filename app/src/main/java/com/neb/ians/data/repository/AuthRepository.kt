@@ -6,9 +6,15 @@ import androidx.datastore.preferences.core.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 import javax.inject.Singleton
 import com.neb.ians.data.api.ApiErrorMapper
@@ -102,9 +108,17 @@ class AuthRepository @Inject constructor(
 
     val tokenFlow: Flow<String?> = dataStore.data.map { SecurePrefs.getAuthToken(appContext) }
     val isProfileCompletedFlow: Flow<Boolean> = dataStore.data.map { it[PROFILE_COMPLETED] ?: false }
-    val currentUserNameFlow: Flow<String> = dataStore.data.map {
-        it[USER_DISPLAY_NAME].takeIf { !it.isNullOrBlank() } ?: it[USER_NAME] ?: "Student"
-    }
+    private val ioScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
+
+    private fun firstName(prefs: Preferences): String =
+        prefs[USER_DISPLAY_NAME]?.split(Regex("\\s+"))?.firstOrNull()?.takeIf { it.isNotBlank() }
+            ?: prefs[USER_NAME]?.takeIf { it.isNotBlank() }
+            ?: "Student"
+
+    val currentUserNameFlow: StateFlow<String> = dataStore.data.map { firstName(it) }
+        .stateIn(ioScope, SharingStarted.Eagerly,
+            try { runBlocking(Dispatchers.IO) { firstName(dataStore.data.first()) } }
+            catch (_: Exception) { "Student" })
     val currentUserIdFlow: Flow<String?> = dataStore.data.map { it[USER_ID] }
     val currentUserPhotoUrlFlow: Flow<String?> = dataStore.data.map { it[USER_PHOTO_URL] }
     val currentUserVerificationLevelFlow: Flow<Int> = dataStore.data.map { it[USER_VERIFICATION_LEVEL] ?: 0 }

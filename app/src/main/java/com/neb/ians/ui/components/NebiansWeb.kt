@@ -108,8 +108,7 @@ class TopBarViewModel @Inject constructor(
     authRepository: AuthRepository,
     realtimeClient: RealtimeClient
 ) : ViewModel() {
-    val userName = authRepository.currentUserNameFlow
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), "Student")
+    val userName: StateFlow<String> = authRepository.currentUserNameFlow
     val userPhotoUrl = authRepository.currentUserPhotoUrlFlow
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
     val verificationLevel = authRepository.currentUserVerificationLevelFlow
