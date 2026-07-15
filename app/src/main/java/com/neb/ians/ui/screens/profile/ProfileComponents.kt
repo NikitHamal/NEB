@@ -265,7 +265,6 @@ fun ProfileHeaderCard(
     Surface(
         modifier = Modifier
             .fillMaxWidth()
-            .statusBarsPadding()
             .padding(top = 16.dp)
             .clip(RoundedCornerShape(24.dp)),
         shape = RoundedCornerShape(24.dp),
