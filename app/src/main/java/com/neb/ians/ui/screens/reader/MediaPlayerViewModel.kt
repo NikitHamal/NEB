@@ -41,7 +41,9 @@ data class MediaPlayerUiState(
     val speed: Float = 1f,
     val speedMenuOpen: Boolean = false,
     val resumePositionMs: Long = 0,
-    val subjectColorArgb: Int = 0
+    val subjectColorArgb: Int = 0,
+    val videoWidth: Int = 0,
+    val videoHeight: Int = 0
 )
 
 @HiltViewModel
@@ -137,6 +139,15 @@ class MediaPlayerViewModel @Inject constructor(
 
             override fun onPlayerError(error: PlaybackException) {
                 _uiState.update { it.copy(hasError = true, errorMessage = error.localizedMessage) }
+            }
+
+            override fun onVideoSizeChanged(videoSize: androidx.media3.common.VideoSize) {
+                _uiState.update {
+                    it.copy(
+                        videoWidth = videoSize.width,
+                        videoHeight = videoSize.height
+                    )
+                }
             }
 
             override fun onIsPlayingChanged(isPlaying: Boolean) {
