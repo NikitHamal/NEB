@@ -134,6 +134,28 @@ class HomeViewModel @Inject constructor(
     private fun loadData(forceRefresh: Boolean = false): Job {
         val job = viewModelScope.launch {
             _error.value = null
+
+            if (!forceRefresh) {
+                resourceRepository.getResources(sort = "newest", page = 1, cacheOnly = true)
+                    .onSuccess { result ->
+                        appCache.recentResources = result.resources
+                        _recentResources.value = result.resources
+                    }
+                resourceRepository.getResources(sort = "trending", page = 1, cacheOnly = true)
+                    .onSuccess { result ->
+                        appCache.popularResources = result.resources
+                        _popularResources.value = result.resources
+                    }
+                forumRepository.getPosts(page = 1, cacheOnly = true)
+                    .onSuccess { result ->
+                        appCache.recentPosts = result.posts
+                        _recentPosts.value = result.posts
+                    }
+                if (_recentResources.value.isNotEmpty() || _recentPosts.value.isNotEmpty()) {
+                    _isLoading.value = false
+                }
+            }
+
             try {
                 if (authRepository.getBearerToken() != null) {
                     try {
