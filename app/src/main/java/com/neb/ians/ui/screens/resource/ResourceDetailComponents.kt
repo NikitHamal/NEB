@@ -506,7 +506,8 @@ fun ResourceCommentItem(
     canDelete: Boolean,
     onDelete: () -> Unit,
     onThumbsUpClick: () -> Unit,
-    onAuthorClick: (String) -> Unit = {}
+    onAuthorClick: (String) -> Unit = {},
+    modifier: Modifier = Modifier
 ) {
     val badgeLevel = remember(comment.authorBadgeInfo) {
         if (comment.authorBadgeInfo?.type == "verified") {
@@ -521,7 +522,7 @@ fun ResourceCommentItem(
     }
 
     Surface(
-        modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp),
+        modifier = modifier.fillMaxWidth().padding(bottom = 10.dp),
         color = MaterialTheme.colorScheme.surfaceContainerLowest,
         shape = RoundedCornerShape(8.dp),
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
