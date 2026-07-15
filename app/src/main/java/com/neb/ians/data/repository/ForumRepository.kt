@@ -23,6 +23,10 @@ import com.neb.ians.data.network.NetworkMonitor
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -46,6 +50,7 @@ class ForumRepository @Inject constructor(
 ) {
     private val _cachedPosts = MutableStateFlow<List<ApiPost>>(emptyList())
     val cachedPosts: Flow<List<ApiPost>> = _cachedPosts.asStateFlow()
+    private val bgScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
 
     private val listTtlMs = 90 * 1000L
     private val detailTtlMs = 5 * 60 * 1000L
@@ -69,28 +74,47 @@ class ForumRepository @Inject constructor(
         page: Int? = null,
         sort: String? = null,
         search: String? = null,
-        forceRefresh: Boolean = false
+        forceRefresh: Boolean = false,
+        cacheOnly: Boolean = false
     ): Result<ForumPostsResult> {
         val currentPage = page ?: 1
         val normalizedSearch = search?.takeIf { it.isNotBlank() }
         val cacheKey = postsCacheKey(category, currentPage, sort, normalizedSearch)
-        if (!forceRefresh) {
-            offlineCacheStore.readFresh<ApiPaginatedPosts>(cacheKey, listTtlMs)?.let { response ->
-                return Result.success(applyPostsResponse(response, currentPage))
+
+        if (cacheOnly) {
+            val cached = offlineCacheStore.read<ApiPaginatedPosts>(cacheKey)
+            if (cached != null) return Result.success(applyPostsResponse(cached, currentPage))
+            return Result.failure(OfflineException())
+        }
+
+        if (forceRefresh) {
+            if (!networkMonitor.isOnline()) {
+                return cachedPostsResult(cacheKey, currentPage) ?: Result.failure(OfflineException())
             }
+            return fetchAndCachePosts(category, page, sort, normalizedSearch, cacheKey, currentPage)
         }
-        if (!networkMonitor.isOnline()) {
-            return cachedPostsResult(cacheKey, currentPage) ?: Result.failure(OfflineException())
+
+        val cached = offlineCacheStore.read<ApiPaginatedPosts>(cacheKey)
+        if (cached != null) {
+            if (networkMonitor.isOnline()) {
+                bgScope.launch {
+                    try { fetchAndCachePosts(category, page, sort, normalizedSearch, cacheKey, currentPage) } catch (_: Exception) {}
+                }
+            }
+            return Result.success(applyPostsResponse(cached, currentPage))
         }
+
+        if (!networkMonitor.isOnline()) return Result.failure(OfflineException())
+        return fetchAndCachePosts(category, page, sort, normalizedSearch, cacheKey, currentPage)
+    }
+
+    private suspend fun fetchAndCachePosts(
+        category: String?, page: Int?, sort: String?, search: String?,
+        cacheKey: String, currentPage: Int
+    ): Result<ForumPostsResult> {
+        val token = getBearerToken()
         return try {
-            val token = getBearerToken()
-            val response = apiService.getPosts(
-                bearerToken = token,
-                category = category,
-                page = page,
-                sort = sort,
-                search = normalizedSearch
-            )
+            val response = apiService.getPosts(bearerToken = token, category = category, page = page, sort = sort, search = search)
             offlineCacheStore.write(cacheKey, response)
             offlineCacheStore.trim(maxCacheAgeMs)
             Result.success(applyPostsResponse(response, currentPage))
@@ -99,16 +123,10 @@ class ForumRepository @Inject constructor(
         }
     }
 
-    suspend fun getPost(postId: String, forceRefresh: Boolean = false): Result<ApiPost> {
+    suspend fun getPost(postId: String, forceRefresh: Boolean = false, cacheOnly: Boolean = false): Result<ApiPost> {
         val cacheKey = postCacheKey(postId)
-        if (!forceRefresh) {
-            peekPost(postId)?.let { return Result.success(it) }
-            offlineCacheStore.readFresh<ApiPost>(cacheKey, detailTtlMs)?.let { post ->
-                appCache.postDetails[postId] = post
-                return Result.success(post)
-            }
-        }
-        if (!networkMonitor.isOnline()) {
+
+        if (cacheOnly) {
             val cached = offlineCacheStore.read<ApiPost>(cacheKey)
             if (cached != null) {
                 appCache.postDetails[postId] = cached
@@ -116,6 +134,26 @@ class ForumRepository @Inject constructor(
             }
             return Result.failure(OfflineException())
         }
+
+        peekPost(postId)?.let { return Result.success(it) }
+
+        val cached = offlineCacheStore.read<ApiPost>(cacheKey)
+        if (cached != null && !forceRefresh) {
+            appCache.postDetails[postId] = cached
+            if (networkMonitor.isOnline()) {
+                bgScope.launch {
+                    try {
+                        val token = getBearerToken()
+                        val post = apiService.getPost(token, postId)
+                        appCache.postDetails[postId] = post
+                        offlineCacheStore.write(cacheKey, post)
+                    } catch (_: Exception) {}
+                }
+            }
+            return Result.success(cached)
+        }
+
+        if (!networkMonitor.isOnline()) return Result.failure(OfflineException())
         return try {
             val token = getBearerToken()
             val post = apiService.getPost(token, postId)
@@ -123,10 +161,10 @@ class ForumRepository @Inject constructor(
             offlineCacheStore.write(cacheKey, post)
             Result.success(post)
         } catch (e: Exception) {
-            val cached = offlineCacheStore.read<ApiPost>(cacheKey)
-            if (cached != null) {
-                appCache.postDetails[postId] = cached
-                Result.success(cached)
+            val fallback = offlineCacheStore.read<ApiPost>(cacheKey)
+            if (fallback != null) {
+                appCache.postDetails[postId] = fallback
+                Result.success(fallback)
             } else {
                 Result.failure(e)
             }
@@ -145,16 +183,10 @@ class ForumRepository @Inject constructor(
         }
     }
 
-    suspend fun getReplies(postId: String, forceRefresh: Boolean = false): Result<List<ApiReply>> {
+    suspend fun getReplies(postId: String, forceRefresh: Boolean = false, cacheOnly: Boolean = false): Result<List<ApiReply>> {
         val cacheKey = repliesCacheKey(postId)
-        if (!forceRefresh) {
-            appCache.postReplies[postId]?.let { return Result.success(it) }
-            offlineCacheStore.readFresh<ApiPaginatedReplies>(cacheKey, repliesTtlMs)?.let { response ->
-                appCache.postReplies[postId] = response.replies
-                return Result.success(response.replies)
-            }
-        }
-        if (!networkMonitor.isOnline()) {
+
+        if (cacheOnly) {
             val cached = offlineCacheStore.read<ApiPaginatedReplies>(cacheKey)
             if (cached != null) {
                 appCache.postReplies[postId] = cached.replies
@@ -162,6 +194,26 @@ class ForumRepository @Inject constructor(
             }
             return Result.failure(OfflineException())
         }
+
+        appCache.postReplies[postId]?.let { return Result.success(it) }
+
+        val cached = offlineCacheStore.read<ApiPaginatedReplies>(cacheKey)
+        if (cached != null && !forceRefresh) {
+            appCache.postReplies[postId] = cached.replies
+            if (networkMonitor.isOnline()) {
+                bgScope.launch {
+                    try {
+                        val token = getBearerToken()
+                        val response = apiService.getReplies(token, postId)
+                        appCache.postReplies[postId] = response.replies
+                        offlineCacheStore.write(cacheKey, response)
+                    } catch (_: Exception) {}
+                }
+            }
+            return Result.success(cached.replies)
+        }
+
+        if (!networkMonitor.isOnline()) return Result.failure(OfflineException())
         return try {
             val token = getBearerToken()
             val response = apiService.getReplies(token, postId)
@@ -169,10 +221,10 @@ class ForumRepository @Inject constructor(
             offlineCacheStore.write(cacheKey, response)
             Result.success(response.replies)
         } catch (e: Exception) {
-            val cached = offlineCacheStore.read<ApiPaginatedReplies>(cacheKey)
-            if (cached != null) {
-                appCache.postReplies[postId] = cached.replies
-                Result.success(cached.replies)
+            val fallback = offlineCacheStore.read<ApiPaginatedReplies>(cacheKey)
+            if (fallback != null) {
+                appCache.postReplies[postId] = fallback.replies
+                Result.success(fallback.replies)
             } else {
                 Result.failure(e)
             }

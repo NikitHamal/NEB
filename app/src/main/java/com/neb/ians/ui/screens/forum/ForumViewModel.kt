@@ -165,10 +165,28 @@ class ForumViewModel @Inject constructor(
             val targetPage = if (reset) 1 else state.page + 1
             val isDefaultQuery = state.selectedCategory == null && state.searchQuery.isBlank() && state.sort == "hot"
             if (reset) {
-                _forumState.update { it.copy(isLoading = if (isDefaultQuery) it.posts.isEmpty() else true, error = null, page = 1) }
+                _forumState.update { it.copy(isLoading = true, error = null, page = 1) }
             } else {
                 _forumState.update { it.copy(isLoadingMore = true) }
             }
+
+            if (!forceRefresh && reset) {
+                forumRepository.getPosts(
+                    category = state.selectedCategory,
+                    page = 1,
+                    sort = state.sort,
+                    search = state.searchQuery,
+                    cacheOnly = true
+                ).onSuccess { cached ->
+                    _forumState.update { it.copy(posts = cached.posts, hasMore = cached.hasMore, isLoading = false) }
+                    if (isDefaultQuery) {
+                        appCache.forumPosts = cached.posts
+                        appCache.forumHasMore = cached.hasMore
+                        appCache.forumPage = cached.page
+                    }
+                }
+            }
+
             forumRepository.getPosts(
                 category = state.selectedCategory,
                 page = targetPage,

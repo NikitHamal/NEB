@@ -194,6 +194,18 @@ class PostDetailViewModel @Inject constructor(
         viewModelScope.launch {
             val hasPost = _state.value.post != null
             _state.update { it.copy(isLoading = !hasPost, error = null) }
+
+            if (!forceRefresh) {
+                forumRepository.getPost(postId, cacheOnly = true)
+                    .onSuccess { post ->
+                        _state.update { it.copy(post = post, poll = post.poll?.toPollUi(), error = null) }
+                    }
+                forumRepository.getReplies(postId, cacheOnly = true)
+                    .onSuccess { replies ->
+                        _state.update { it.copy(replies = replies, isLoading = false) }
+                    }
+            }
+
             if (!forceRefresh && !hasPost) {
                 forumRepository.viewPost(postId)
             }
