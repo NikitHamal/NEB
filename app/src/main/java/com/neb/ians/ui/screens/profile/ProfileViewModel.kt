@@ -145,7 +145,7 @@ class ProfileViewModel @Inject constructor(
                     )
                 }
                 saveToCache()
-                val isPrivate = profile.isLocked == 1 && profile.isSelf != true
+                val isPrivate = profile.isLocked == 1 && profile.isSelf != true && !_uiState.value.isFollowing
                 if (!isPrivate) {
                     loadPosts(reset = true)
                 }
@@ -176,7 +176,7 @@ class ProfileViewModel @Inject constructor(
 
     fun selectTab(index: Int) {
         _uiState.update { it.copy(selectedTab = index) }
-        val isPrivate = _uiState.value.profile?.isLocked == 1 && _uiState.value.profile?.isSelf != true
+        val isPrivate = _uiState.value.profile?.isLocked == 1 && _uiState.value.profile?.isSelf != true && !_uiState.value.isFollowing
         if (!isPrivate) {
             when (index) {
                 0 -> {
