@@ -98,8 +98,7 @@ fun ProfileScreen(
     var isRefreshing by remember { mutableStateOf(false) }
 
     Scaffold(
-        containerColor = MaterialTheme.colorScheme.surface,
-        contentWindowInsets = WindowInsets(0, 0, 0, 0)
+        containerColor = MaterialTheme.colorScheme.surface
     ) { padding ->
         PullToRefreshBox(
             isRefreshing = isRefreshing,
@@ -460,7 +459,6 @@ private fun ProfileContent(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .statusBarsPadding()
                 .padding(top = 16.dp)
                 .height(56.dp)
                 .padding(horizontal = 28.dp),
