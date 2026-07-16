@@ -351,6 +351,10 @@ class RealtimeConsumer(AsyncWebsocketConsumer):
             await self._handle_yjs_update(msg)
         elif action == 'yjs_awareness':
             await self._handle_yjs_awareness(msg)
+        elif action == 'yjs_snapshot':
+            await self._handle_yjs_snapshot(msg)
+        elif action == 'yjs_sync_request':
+            await self._handle_yjs_sync_request(msg)
         else:
             await self._send_json({'type': 'error', 'code': 'unknown_action', 'message': f'unknown: {action}'})
 
@@ -401,6 +405,16 @@ class RealtimeConsumer(AsyncWebsocketConsumer):
         self._client_subscriptions[group_name] = channel
 
         await self._send_json({'type': 'subscribed', 'channel': channel})
+        if channel.startswith('studyspace.'):
+            space_id = channel[len('studyspace.'):]
+            snapshot = cache.get(f'yjs:snapshot:{space_id}')
+            if snapshot:
+                await self._send_json({
+                    'type': 'event',
+                    'channel': channel,
+                    'event': 'yjs_snapshot',
+                    'data': {'update': snapshot, 'senderId': 'server'},
+                })
 
     async def _handle_unsubscribe(self, channel: str):
         if not channel:
@@ -527,10 +541,57 @@ class RealtimeConsumer(AsyncWebsocketConsumer):
                     'event': 'yjs_update',
                     'data': {
                         'update': update_b64,
-                        'senderId': self._user_id,
+                        'senderId': msg.get('clientId') or self._user_id,
                     },
                 }
             )
+
+    async def _handle_yjs_snapshot(self, msg):
+        space_id = msg.get('spaceId')
+        update_b64 = msg.get('update', '')
+        if not space_id or not update_b64 or not isinstance(update_b64, str):
+            return
+        if len(update_b64) > 2000000:
+            return
+        group = f'studyspace.{space_id}'
+        if group not in self._groups:
+            return
+        cache.set(f'yjs:snapshot:{space_id}', update_b64, timeout=604800)
+        await self.channel_layer.group_send(
+            group,
+            {
+                'type': 'realtime.event',
+                'channel': group,
+                'event': 'yjs_snapshot',
+                'data': {'update': update_b64, 'senderId': msg.get('clientId') or self._user_id},
+            }
+        )
+
+    async def _handle_yjs_sync_request(self, msg):
+        space_id = msg.get('spaceId')
+        if not space_id:
+            return
+        group = f'studyspace.{space_id}'
+        if group not in self._groups:
+            return
+        snapshot = cache.get(f'yjs:snapshot:{space_id}')
+        if snapshot:
+            await self._send_json({
+                'type': 'event',
+                'channel': group,
+                'event': 'yjs_snapshot',
+                'data': {'update': snapshot, 'senderId': 'server'},
+            })
+            return
+        await self.channel_layer.group_send(
+            group,
+            {
+                'type': 'realtime.event',
+                'channel': group,
+                'event': 'yjs_sync_request',
+                'data': {'senderId': msg.get('clientId') or self._user_id},
+            }
+        )
 
     async def _handle_yjs_awareness(self, msg):
         """Broadcast Yjs awareness (cursor/selection) to other StudySpace members."""
@@ -548,7 +609,7 @@ class RealtimeConsumer(AsyncWebsocketConsumer):
                     'event': 'yjs_awareness',
                     'data': {
                         'state': state,
-                        'senderId': self._user_id,
+                        'senderId': msg.get('clientId') or self._user_id,
                     },
                 }
             )

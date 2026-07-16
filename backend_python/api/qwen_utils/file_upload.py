@@ -37,6 +37,7 @@ _FILE_TYPE_MAP = {
     ".mp4": ("video", "video", "video"),
     ".avi": ("video", "video", "video"),
     ".mov": ("video", "video", "video"),
+    ".m4v": ("video", "video", "video"),
     ".mkv": ("video", "video", "video"),
     ".webm": ("video", "video", "video"),
     ".mp3": ("audio", "audio", "audio"),

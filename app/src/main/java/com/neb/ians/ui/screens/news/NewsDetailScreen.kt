@@ -21,6 +21,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.outlined.Forum
 import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -39,13 +40,16 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.neb.ians.data.news.NewsAnnouncement
+import com.neb.ians.data.news.NewsComment
 import com.neb.ians.data.news.toSafeColor
 import com.neb.ians.ui.components.ErrorCard
+import com.neb.ians.ui.components.NebCommentComposerBar
 import com.neb.ians.ui.components.MarkdownText
 import com.neb.ians.ui.components.WebCardShape
 import com.neb.ians.ui.components.WebPillShape
 import com.neb.ians.ui.screens.home.NewsCategoryBadge
 import com.neb.ians.ui.screens.home.newsIcon
+import com.neb.ians.util.formatTimeAgo
 
 @Composable
 fun NewsDetailScreen(
@@ -58,6 +62,13 @@ fun NewsDetailScreen(
     val context = LocalContext.current
     val uriHandler = LocalUriHandler.current
     var showMoreMenu by remember { mutableStateOf(false) }
+    val snackbarHostState = remember { SnackbarHostState() }
+
+    LaunchedEffect(uiState.snackbarMessage) {
+        val message = uiState.snackbarMessage ?: return@LaunchedEffect
+        snackbarHostState.showSnackbar(message)
+        viewModel.consumeSnackbar()
+    }
 
     Scaffold(
         topBar = {
@@ -93,21 +104,25 @@ fun NewsDetailScreen(
                                 },
                                 leadingIcon = { Icon(Icons.Filled.Share, null) }
                             )
-                            DropdownMenuItem(
-                                text = { Text("Bookmark") },
-                                onClick = { showMoreMenu = false },
-                                leadingIcon = { Icon(Icons.Filled.BookmarkBorder, null) }
-                            )
-                            DropdownMenuItem(
-                                text = { Text("Report") },
-                                onClick = { showMoreMenu = false },
-                                leadingIcon = { Icon(Icons.Filled.Report, null) }
-                            )
                         }
                     }
                 }
             }
         },
+        bottomBar = {
+            if (uiState.detail != null) {
+                NebCommentComposerBar(
+                    value = uiState.commentDraft,
+                    onValueChange = viewModel::onCommentDraftChange,
+                    placeholder = "Join the discussion",
+                    enabled = !uiState.isPostingComment,
+                    canSend = uiState.commentDraft.isNotBlank(),
+                    posting = uiState.isPostingComment,
+                    onSend = viewModel::postComment
+                )
+            }
+        },
+        snackbarHost = { SnackbarHost(snackbarHostState) },
         containerColor = MaterialTheme.colorScheme.surface
     ) { innerPadding ->
         when {
@@ -129,7 +144,6 @@ fun NewsDetailScreen(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(innerPadding)
-                        .padding(bottom = 112.dp)
                         .verticalScroll(rememberScrollState())
                 ) {
                     NewsArticleHeader(item = detail.announcement)
@@ -159,7 +173,6 @@ fun NewsDetailScreen(
                     HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
                     Spacer(modifier = Modifier.height(12.dp))
 
-                    // Share button at bottom
                     OutlinedButton(
                         onClick = {
                             val intent = Intent(Intent.ACTION_SEND).apply {
@@ -194,8 +207,15 @@ fun NewsDetailScreen(
                         }
                     }
 
+                    Spacer(modifier = Modifier.height(28.dp))
+                    BlogCommentsSection(
+                        comments = uiState.comments,
+                        isLoading = uiState.commentsLoading,
+                        modifier = Modifier.padding(horizontal = 16.dp)
+                    )
+
                     if (detail.related.isNotEmpty()) {
-                        Spacer(modifier = Modifier.height(24.dp))
+                        Spacer(modifier = Modifier.height(28.dp))
                         Text(
                             text = "Related",
                             style = MaterialTheme.typography.titleLarge,
@@ -212,6 +232,143 @@ fun NewsDetailScreen(
                         }
                     }
                 }
+            }
+        }
+    }
+}
+
+
+@Composable
+private fun BlogCommentsSection(
+    comments: List<NewsComment>,
+    isLoading: Boolean,
+    modifier: Modifier = Modifier
+) {
+    Column(modifier = modifier.fillMaxWidth()) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text(
+                text = "Comments",
+                style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.Bold
+            )
+            Spacer(Modifier.width(8.dp))
+            Surface(
+                shape = WebPillShape,
+                color = MaterialTheme.colorScheme.surfaceContainerHigh
+            ) {
+                Text(
+                    text = comments.size.toString(),
+                    style = MaterialTheme.typography.labelMedium,
+                    modifier = Modifier.padding(horizontal = 9.dp, vertical = 4.dp)
+                )
+            }
+        }
+        Spacer(Modifier.height(12.dp))
+        when {
+            isLoading -> {
+                repeat(2) {
+                    Surface(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 5.dp),
+                        shape = WebCardShape,
+                        color = MaterialTheme.colorScheme.surfaceContainerLow
+                    ) {
+                        Row(modifier = Modifier.padding(14.dp), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                            Box(
+                                Modifier
+                                    .size(38.dp)
+                                    .clip(androidx.compose.foundation.shape.CircleShape)
+                                    .background(MaterialTheme.colorScheme.surfaceContainerHighest)
+                            )
+                            Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                                Box(Modifier.fillMaxWidth(0.35f).height(12.dp).clip(WebPillShape).background(MaterialTheme.colorScheme.surfaceContainerHighest))
+                                Box(Modifier.fillMaxWidth().height(14.dp).clip(WebPillShape).background(MaterialTheme.colorScheme.surfaceContainerHighest))
+                            }
+                        }
+                    }
+                }
+            }
+            comments.isEmpty() -> {
+                Surface(
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = WebCardShape,
+                    color = MaterialTheme.colorScheme.surfaceContainerLow,
+                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
+                ) {
+                    Column(
+                        modifier = Modifier.padding(24.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        Icon(Icons.Outlined.Forum, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
+                        Text("No comments yet", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
+                        Text(
+                            "Be the first NEBian to share a thought.",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                }
+            }
+            else -> comments.forEach { comment ->
+                BlogCommentCard(comment = comment)
+                Spacer(Modifier.height(10.dp))
+            }
+        }
+    }
+}
+
+@Composable
+private fun BlogCommentCard(comment: NewsComment) {
+    Surface(
+        modifier = Modifier.fillMaxWidth(),
+        shape = WebCardShape,
+        color = MaterialTheme.colorScheme.surfaceContainerLowest,
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
+    ) {
+        Row(
+            modifier = Modifier.padding(14.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
+            verticalAlignment = Alignment.Top
+        ) {
+            if (comment.authorPhoto.isNotBlank()) {
+                AsyncImage(
+                    model = comment.authorPhoto,
+                    contentDescription = comment.authorName,
+                    modifier = Modifier
+                        .size(38.dp)
+                        .clip(androidx.compose.foundation.shape.CircleShape),
+                    contentScale = ContentScale.Crop
+                )
+            } else {
+                Surface(
+                    modifier = Modifier.size(38.dp),
+                    shape = androidx.compose.foundation.shape.CircleShape,
+                    color = MaterialTheme.colorScheme.primaryContainer
+                ) {
+                    Box(contentAlignment = Alignment.Center) {
+                        Text(
+                            comment.authorInitials.take(2),
+                            style = MaterialTheme.typography.labelMedium,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.onPrimaryContainer
+                        )
+                    }
+                }
+            }
+            Column(Modifier.weight(1f)) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(comment.authorName, style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.SemiBold)
+                    Spacer(Modifier.width(8.dp))
+                    Text(
+                        formatTimeAgo(comment.createdAt),
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+                Spacer(Modifier.height(5.dp))
+                Text(comment.text, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurface)
             }
         }
     }

@@ -1124,6 +1124,13 @@ interface ApiService {
         @Path("commentId") commentId: String
     ): ApiResourceCommentLikeResponse
 
+    @POST("api/resources/{resourceId}/pdf-assistant/")
+    suspend fun askPdfAssistant(
+        @Header("Authorization") bearerToken: String,
+        @Path("resourceId") resourceId: String,
+        @Body request: PdfAssistantRequest
+    ): PdfAssistantResponse
+
     // --- Posts ---
     @GET("api/posts/")
     suspend fun getPosts(
@@ -1235,6 +1242,17 @@ interface ApiService {
     suspend fun getNewsDetailPage(
         @Path("slug") slug: String
     ): ResponseBody
+
+    @GET("ajax/news/{slug}/comments/")
+    suspend fun getNewsComments(
+        @Path("slug") slug: String
+    ): com.neb.ians.data.news.NewsCommentsResponse
+
+    @POST("ajax/news/comment/")
+    suspend fun createNewsComment(
+        @Header("Authorization") bearerToken: String,
+        @Body request: com.neb.ians.data.news.NewsCommentRequest
+    ): com.neb.ians.data.news.NewsCommentResponse
 
     // --- Result Checker (same endpoint as the live website) ---
     @POST("ajax/results/check/")

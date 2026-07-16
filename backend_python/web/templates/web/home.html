@@ -46,6 +46,13 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'web/css/pages/web-home.css' %}">
+{% if hero_bg_filename %}
+<style nonce="{{ csp_nonce }}">
+  .home-landing {
+    --home-landing-bg: url("{% static 'web/img/' %}{{ hero_bg_filename }}");
+  }
+</style>
+{% endif %}
 {% endblock %}
 
 {% block content %}

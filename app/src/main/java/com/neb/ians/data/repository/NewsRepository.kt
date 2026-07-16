@@ -1,10 +1,14 @@
 package com.neb.ians.data.repository
 
+import android.content.Context
 import android.text.Html
 import com.neb.ians.data.api.ApiService
 import com.neb.ians.data.news.NewsAnnouncement
 import com.neb.ians.data.news.NewsCategories
 import com.neb.ians.data.news.NewsDetail
+import com.neb.ians.data.news.NewsComment
+import com.neb.ians.data.news.NewsCommentRequest
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -12,7 +16,8 @@ import javax.inject.Singleton
 
 @Singleton
 class NewsRepository @Inject constructor(
-    private val apiService: ApiService
+    private val apiService: ApiService,
+    @ApplicationContext private val context: Context
 ) {
     private data class CacheEntry(val createdAtMs: Long, val items: List<NewsAnnouncement>)
     private data class DetailCacheEntry(val createdAtMs: Long, val item: NewsDetail)
@@ -44,6 +49,29 @@ class NewsRepository @Inject constructor(
                 val parsed = parseNewsDetail(slug, html)
                 detailCache[slug] = DetailCacheEntry(now, parsed)
                 parsed
+            }
+        }
+
+    suspend fun getComments(slug: String): Result<List<NewsComment>> =
+        withContext(Dispatchers.IO) {
+            runCatching {
+                val response = apiService.getNewsComments(slug)
+                if (!response.ok) error(response.error ?: "Couldn't load comments")
+                response.comments
+            }
+        }
+
+    suspend fun postComment(slug: String, text: String): Result<NewsComment> =
+        withContext(Dispatchers.IO) {
+            runCatching {
+                val token = SecurePrefs.getAuthToken(context)?.takeIf { it.isNotBlank() }
+                    ?: error("Please sign in to comment")
+                val response = apiService.createNewsComment(
+                    "Bearer $token",
+                    NewsCommentRequest(slug = slug, text = text)
+                )
+                if (!response.ok) error(response.error ?: "Couldn't post comment")
+                response.comment ?: error("Comment was not returned")
             }
         }
 

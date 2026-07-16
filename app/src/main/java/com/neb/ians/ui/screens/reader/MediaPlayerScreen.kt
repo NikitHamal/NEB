@@ -6,6 +6,7 @@ import android.view.View
 import android.view.WindowInsets
 import android.view.WindowInsetsController
 import android.widget.FrameLayout
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
@@ -106,6 +107,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.core.view.WindowCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.neb.ians.ui.components.NebTopBar
 import com.neb.ians.util.getSubjectColor
@@ -132,6 +134,7 @@ fun MediaPlayerScreen(
     LaunchedEffect(Unit) {
         if (startFullscreen) {
             activity?.let { act ->
+                WindowCompat.setDecorFitsSystemWindows(act.window, false)
                 act.requestedOrientation = android.content.pm.ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
                 act.window?.let { w ->
                     val decor = w.decorView
@@ -161,10 +164,11 @@ fun MediaPlayerScreen(
     fun toggleFullscreen(fs: Boolean) {
         isFullscreen = fs
         activity?.let { act ->
+            WindowCompat.setDecorFitsSystemWindows(act.window, !fs)
             act.requestedOrientation = if (fs) {
                 android.content.pm.ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
             } else {
-                android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+                android.content.pm.ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
             }
             act.window?.let { w ->
                 val decor = w.decorView
@@ -186,6 +190,23 @@ fun MediaPlayerScreen(
                         @Suppress("DEPRECATION")
                         decor.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
                     }
+                }
+            }
+        }
+    }
+
+    BackHandler(enabled = isFullscreen) { toggleFullscreen(false) }
+
+    DisposableEffect(activity) {
+        onDispose {
+            activity?.let { act ->
+                WindowCompat.setDecorFitsSystemWindows(act.window, true)
+                act.requestedOrientation = android.content.pm.ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+                if (android.os.Build.VERSION.SDK_INT >= 30) {
+                    act.window.decorView.windowInsetsController?.show(WindowInsets.Type.systemBars())
+                } else {
+                    @Suppress("DEPRECATION")
+                    run { act.window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE }
                 }
             }
         }

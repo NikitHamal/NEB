@@ -2369,3 +2369,102 @@ def admin_analytics_export_csv(request):
         ])
 
     return response
+
+
+def admin_hero_backgrounds(request):
+    redirect_response = _require_staff_admin(request)
+    if redirect_response:
+        return redirect_response
+    
+    from api.models import HeroBackground
+    import time
+    from django.core.cache import cache
+    
+    if request.method == 'POST':
+        action = request.POST.get('action')
+        
+        if action == 'activate':
+            bg_id = request.POST.get('bg_id')
+            try:
+                bg = HeroBackground.objects.get(id=bg_id)
+                HeroBackground.objects.all().update(is_active=False)
+                bg.is_active = True
+                bg.save()
+                cache.delete('active_hero_background_filename')
+                messages.success(request, f"Background '{bg.name}' activated successfully.")
+            except HeroBackground.DoesNotExist:
+                messages.error(request, "Background not found.")
+                
+        elif action == 'delete':
+            bg_id = request.POST.get('bg_id')
+            try:
+                bg = HeroBackground.objects.get(id=bg_id)
+                if bg.is_active:
+                    messages.error(request, "Cannot delete the active background.")
+                else:
+                    bg.delete()
+                    messages.success(request, f"Background '{bg.name}' deleted successfully.")
+            except HeroBackground.DoesNotExist:
+                messages.error(request, "Background not found.")
+                
+        elif action == 'add':
+            name = request.POST.get('name', '').strip()
+            uploaded_file = request.FILES.get('background_file')
+            
+            if not name or not uploaded_file:
+                messages.error(request, "Name and file are required.")
+            else:
+                filename = uploaded_file.name
+                import os
+                safe_filename = os.path.basename(filename)
+                ext = os.path.splitext(safe_filename)[1].lower()
+                
+                if ext != '.svg':
+                    messages.error(request, "Only SVG files (.svg) are allowed for hero backgrounds.")
+                elif safe_filename != filename:
+                    messages.error(request, "Invalid filename format.")
+                else:
+                    from django.conf import settings
+                    file_content = uploaded_file.read()
+                    
+                    # 1. Write to local/repo static folder
+                    local_dir = os.path.join(settings.BASE_DIR, 'web', 'static', 'web', 'img')
+                    os.makedirs(local_dir, exist_ok=True)
+                    local_path = os.path.join(local_dir, safe_filename)
+                    with open(local_path, 'wb') as f:
+                        f.write(file_content)
+                        
+                    # 2. Write to public static folder for immediate serving (production)
+                    public_dir = os.path.join(settings.BASE_DIR, 'public', 'static', 'web', 'img')
+                    if os.path.exists(os.path.join(settings.BASE_DIR, 'public')):
+                        os.makedirs(public_dir, exist_ok=True)
+                        public_path = os.path.join(public_dir, safe_filename)
+                        with open(public_path, 'wb') as f:
+                            f.write(file_content)
+                            
+                    # 3. Write to staticfiles/ root
+                    staticfiles_dir = os.path.join(settings.BASE_DIR, 'staticfiles', 'web', 'img')
+                    if os.path.exists(staticfiles_dir):
+                        staticfiles_path = os.path.join(staticfiles_dir, safe_filename)
+                        with open(staticfiles_path, 'wb') as f:
+                            f.write(file_content)
+                    
+                    try:
+                        max_sort = HeroBackground.objects.order_by('-sort_order').first()
+                        next_sort = (max_sort.sort_order + 1) if max_sort else 1
+                        HeroBackground.objects.create(
+                            name=name,
+                            filename=safe_filename,
+                            is_active=False,
+                            sort_order=next_sort,
+                            created_at=int(time.time() * 1000)
+                        )
+                        messages.success(request, f"Background '{name}' uploaded and added successfully.")
+                    except Exception as e:
+                        messages.error(request, f"Error adding background: {str(e)}")
+        
+        return redirect('/admin/hero-backgrounds/')
+
+    backgrounds = HeroBackground.objects.all().order_by('sort_order', 'id')
+    ctx = _ctx(request, active_page='hero_backgrounds', backgrounds=backgrounds)
+    return render(request, 'admin_panel/hero_backgrounds.html', ctx)
