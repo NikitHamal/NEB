@@ -239,6 +239,12 @@ def forum_post(request, post_id):
         Post.objects.filter(pk=post_id).update(view_count=F('view_count') + 1)
         request.session[view_key] = True
         post_obj.view_count += 1
+    if user_id and user_id != post_obj.user_id:
+        from api.models import PostView
+        recent = PostView.objects.filter(post_id=post_id, user_id=user_id, viewed_at__gt=int(time.time() * 1000) - 300000).exists()
+        if not recent:
+            import uuid
+            PostView.objects.create(id=str(uuid.uuid4()), post_id=post_id, user_id=user_id, viewed_at=int(time.time() * 1000))
     post = _serialize_post(post_obj, user_id)
     reply_sort = request.GET.get('sort', 'oldest')
     if reply_sort not in ('oldest', 'newest', 'top'):

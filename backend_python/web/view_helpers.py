@@ -629,9 +629,9 @@ def _resolve_ws_public_url():
         try:
             with open(path) as f:
                 content = f.read()
-            matches = re.findall(r'https://([a-z0-9-]+\.trycloudflare\.com)', content)
+            matches = re.findall(r'(?:wss?|https?)://([a-z0-9-]+\.trycloudflare\.com)', content)
             if matches:
-                return 'wss://' + matches[-1] + '/ws/'
+                return 'wss://' + matches[-1].rstrip('/').rstrip('/ws').rstrip('/') + '/ws/'
         except OSError:
             continue
     return ''

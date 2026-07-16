@@ -28,9 +28,9 @@ def _resolve_ws_public_url():
         try:
             with open(path) as f:
                 content = f.read()
-            matches = _re.findall(r'https://([a-z0-9-]+\.trycloudflare\.com)', content)
+            matches = _re.findall(r'(?:wss?|https?)://([a-z0-9-]+\.trycloudflare\.com)', content)
             if matches:
-                return 'wss://' + matches[-1] + '/ws/'
+                return 'wss://' + matches[-1].rstrip('/').rstrip('/ws').rstrip('/') + '/ws/'
         except OSError:
             continue
     return ''
@@ -340,7 +340,7 @@ class SecurityHeadersMiddleware:
 
         nonce = getattr(request, 'csp_nonce', '')
         img_sources = "img-src 'self' data: https:;"
-        connect_sources = ["'self'", "https://accounts.google.com", "https://cdn.jsdelivr.net"]
+        connect_sources = ["'self'", "https://accounts.google.com", "https://cdn.jsdelivr.net", "wss://*.trycloudflare.com", "https://*.trycloudflare.com"]
 
         ws_url = _get_ws_public_url_cached()
 
