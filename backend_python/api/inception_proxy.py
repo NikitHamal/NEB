@@ -1,6 +1,7 @@
 """Proxy for chat.inceptionlabs.ai (Inception Mercury 2 diffusion LLM)."""
 import json
 import logging
+import threading
 import time
 import uuid
 from typing import Dict, Generator, List, Optional
@@ -22,6 +23,7 @@ MODEL_MAP = {m["id"]: m for m in MODELS}
 
 _SESSION_TOKEN: Optional[str] = None
 _SESSION_EXPIRES: float = 0
+_SESSION_LOCK = threading.Lock()
 
 
 def _make_id() -> str:
@@ -30,25 +32,50 @@ def _make_id() -> str:
 
 def _ensure_session() -> str:
     global _SESSION_TOKEN, _SESSION_EXPIRES
+
     now = time.time()
     if _SESSION_TOKEN and _SESSION_EXPIRES > now + 60:
         return _SESSION_TOKEN
-    headers = {
-        "accept": "*/*",
-        "referer": f"{INCEPTION_URL}/",
-        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
-    }
-    resp = requests.get(SESSION_URL, headers=headers, timeout=15)
-    if resp.status_code != 200:
-        raise RuntimeError(f"Inception session failed: HTTP {resp.status_code}")
-    data = resp.json()
-    token = data.get("token", "")
-    if not token:
-        raise RuntimeError(f"Inception session returned no token: {data}")
-    _SESSION_TOKEN = token
-    _SESSION_EXPIRES = now + 3600
-    logger.info("Inception: new session token obtained")
-    return token
+
+    with _SESSION_LOCK:
+        now = time.time()
+        if _SESSION_TOKEN and _SESSION_EXPIRES > now + 60:
+            return _SESSION_TOKEN
+
+        headers = {
+            "accept": "*/*",
+            "referer": f"{INCEPTION_URL}/",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+        }
+        max_retries = 3
+        for attempt in range(max_retries):
+            try:
+                resp = requests.get(SESSION_URL, headers=headers, timeout=15)
+            except requests.RequestException as exc:
+                if attempt < max_retries - 1:
+                    time.sleep(2 ** attempt)
+                    continue
+                raise RuntimeError(f"Inception session failed: {exc}")
+
+            if resp.status_code == 429 and attempt < max_retries - 1:
+                retry_after = int(resp.headers.get("retry-after", 2 ** attempt))
+                logger.warning("Inception rate-limited (429), retrying in %ds", retry_after)
+                time.sleep(retry_after)
+                continue
+
+            if resp.status_code != 200:
+                raise RuntimeError(f"Inception session failed: HTTP {resp.status_code}")
+
+            data = resp.json()
+            token = data.get("token", "")
+            if not token:
+                raise RuntimeError(f"Inception session returned no token: {data}")
+            _SESSION_TOKEN = token
+            _SESSION_EXPIRES = now + 3600
+            logger.info("Inception: new session token obtained")
+            return token
+
+        raise RuntimeError("Inception session failed: exhausted retries")
 
 
 def get_models() -> List[Dict]:
@@ -134,8 +161,9 @@ def stream_chat(
         return
 
     if resp.status_code == 403:
-        global _SESSION_TOKEN
-        _SESSION_TOKEN = None
+        with _SESSION_LOCK:
+            global _SESSION_TOKEN
+            _SESSION_TOKEN = None
         yield {"type": "error", "error": "Session expired (403). Retrying will refresh."}
         return
 
