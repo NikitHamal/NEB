@@ -1,62 +1,68 @@
 package com.neb.ians.ui.screens.resource
 
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.net.Uri
+import android.view.View
+import android.view.WindowInsets
+import android.view.WindowInsetsController
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Bookmark
-import androidx.compose.material.icons.filled.Download
-import androidx.compose.material.icons.filled.Share
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.outlined.BookmarkBorder
 import androidx.compose.material.icons.outlined.ThumbUp
-import androidx.compose.material.icons.filled.ThumbUp
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.media3.common.Player
 import coil.compose.AsyncImage
 import com.neb.ians.data.api.ApiResource
 import com.neb.ians.ui.components.ExpandableText
@@ -64,20 +70,26 @@ import com.neb.ians.ui.components.NebAvatar
 import com.neb.ians.ui.components.NebCommentComposerBar
 import com.neb.ians.ui.components.NebTopBar
 import com.neb.ians.ui.components.ZoomableImageDialog
+import com.neb.ians.ui.screens.reader.MediaPlayerUiState
+import com.neb.ians.ui.screens.reader.MediaPlayerViewModel
 import com.neb.ians.util.formatTimeAgo
+import kotlinx.coroutines.delay
+import kotlin.math.abs
 
 @Composable
 fun ResourceDetailScreen(
     onNavigateBack: () -> Unit,
     onOpenPdf: (resourceId: String, fileUrl: String, title: String) -> Unit,
-    onOpenMedia: (resourceId: String, startFullscreen: Boolean) -> Unit = { _, _ -> },
     onUserProfileClick: (String) -> Unit = {},
     viewModel: ResourceDetailViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
+    val activity = context as? android.app.Activity
     val snackbarHostState = remember { SnackbarHostState() }
     var zoomImageUrl by remember { mutableStateOf<String?>(null) }
+    var isFullscreen by remember { mutableStateOf(false) }
+    val mediaViewModel: MediaPlayerViewModel = hiltViewModel()
 
     fun openExternal(url: String) {
         if (url.isBlank()) return
@@ -93,6 +105,42 @@ fun ResourceDetailScreen(
         runCatching { context.startActivity(Intent.createChooser(intent, "Share resource")) }
     }
 
+    fun enterFullscreen() {
+        isFullscreen = true
+        activity?.let { act ->
+            act.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+            val decor = act.window?.decorView
+            if (decor != null) {
+                if (android.os.Build.VERSION.SDK_INT >= 30) {
+                    val ctrl = decor.windowInsetsController
+                    ctrl?.hide(WindowInsets.Type.systemBars())
+                    ctrl?.systemBarsBehavior = WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+                } else {
+                    @Suppress("DEPRECATION")
+                    decor.systemUiVisibility = (View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                        or View.SYSTEM_UI_FLAG_FULLSCREEN
+                        or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)
+                }
+            }
+        }
+    }
+
+    fun exitFullscreen() {
+        isFullscreen = false
+        activity?.let { act ->
+            act.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+            val decor = act.window?.decorView
+            if (decor != null) {
+                if (android.os.Build.VERSION.SDK_INT >= 30) {
+                    decor.windowInsetsController?.show(WindowInsets.Type.systemBars())
+                } else {
+                    @Suppress("DEPRECATION")
+                    decor.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
+                }
+            }
+        }
+    }
+
     LaunchedEffect(uiState.snackbarMessage) {
         uiState.snackbarMessage?.let { message ->
             snackbarHostState.showSnackbar(message)
@@ -100,90 +148,107 @@ fun ResourceDetailScreen(
         }
     }
 
-    Scaffold(
-        topBar = {
-            NebTopBar(
-                showBrand = false,
-                title = if (uiState.resource != null && detectResourceMedia(uiState.resource!!.fileUrl, uiState.resource!!.type) == ResourceMediaType.Video) "Video" else "Resource",
-                onBack = onNavigateBack
-            )
-        },
-        bottomBar = {
-            if (uiState.resource != null) {
-                NebCommentComposerBar(
-                    value = uiState.commentDraft,
-                    onValueChange = viewModel::onCommentDraftChange,
-                    placeholder = if (uiState.isAuthenticated) "Write a comment..." else "Sign in to comment",
-                    enabled = uiState.isAuthenticated && !uiState.isPostingComment,
-                    canSend = uiState.isAuthenticated && uiState.commentDraft.isNotBlank() && !uiState.isPostingComment,
-                    posting = uiState.isPostingComment,
-                    sendContentDescription = "Post comment",
-                    onSend = viewModel::postComment
-                )
-            }
-        },
-        snackbarHost = { SnackbarHost(snackbarHostState) },
-        containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
-    ) { padding ->
-        when {
-            uiState.isLoading && uiState.resource == null -> Box(
-                Modifier.fillMaxSize().padding(padding),
-                contentAlignment = Alignment.Center
-            ) { CircularProgressIndicator() }
-
-            uiState.resource == null -> Box(
-                Modifier.fillMaxSize().padding(padding),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(uiState.error ?: "Resource not found", color = MaterialTheme.colorScheme.onSurfaceVariant)
-            }
-
-            else -> {
-                val resource = uiState.resource!!
-                val mediaType = detectResourceMedia(resource.fileUrl, resource.type)
-                val subject = resource.subject.split(",").firstOrNull()?.trim().orEmpty().ifBlank { "General" }
-                val subjectColor = Color(com.neb.ians.util.getSubjectColor(subject))
-
-                if (mediaType == ResourceMediaType.Video) {
-                    VideoYouTubeLayout(
-                        resource = resource,
-                        subjectColor = subjectColor,
-                        uiState = uiState,
-                        viewModel = viewModel,
-                        onOpenMedia = onOpenMedia,
-                        onUserProfileClick = onUserProfileClick,
-                        share = ::share,
-                        openExternal = ::openExternal,
-                        padding = padding
+    Box(modifier = Modifier.fillMaxSize()) {
+        Scaffold(
+            topBar = {
+                if (!isFullscreen) {
+                    NebTopBar(
+                        showBrand = false,
+                        title = if (uiState.resource != null && detectResourceMedia(uiState.resource!!.fileUrl, uiState.resource!!.type) == ResourceMediaType.Video) "Video" else "Resource",
+                        onBack = onNavigateBack
                     )
-                } else {
-                    NonVideoLayout(
-                        resource = resource,
-                        mediaType = mediaType,
-                        subjectColor = subjectColor,
-                        uiState = uiState,
-                        viewModel = viewModel,
-                        onOpenPdf = onOpenPdf,
-                        onOpenMedia = onOpenMedia,
-                        onUserProfileClick = onUserProfileClick,
-                        share = ::share,
-                        openExternal = ::openExternal,
-                        padding = padding,
-                        onZoomImage = { zoomImageUrl = it }
+                }
+            },
+            bottomBar = {
+                if (!isFullscreen && uiState.resource != null) {
+                    NebCommentComposerBar(
+                        value = uiState.commentDraft,
+                        onValueChange = viewModel::onCommentDraftChange,
+                        placeholder = if (uiState.isAuthenticated) "Write a comment..." else "Sign in to comment",
+                        enabled = uiState.isAuthenticated && !uiState.isPostingComment,
+                        canSend = uiState.isAuthenticated && uiState.commentDraft.isNotBlank() && !uiState.isPostingComment,
+                        posting = uiState.isPostingComment,
+                        sendContentDescription = "Post comment",
+                        onSend = viewModel::postComment
                     )
+                }
+            },
+            snackbarHost = { if (!isFullscreen) SnackbarHost(snackbarHostState) },
+            containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
+        ) { padding ->
+            if (!isFullscreen) {
+                when {
+                    uiState.isLoading && uiState.resource == null -> Box(
+                        Modifier.fillMaxSize().padding(padding),
+                        contentAlignment = Alignment.Center
+                    ) { CircularProgressIndicator() }
+
+                    uiState.resource == null -> Box(
+                        Modifier.fillMaxSize().padding(padding),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(uiState.error ?: "Resource not found", color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    }
+
+                    else -> {
+                        val resource = uiState.resource!!
+                        val mediaType = detectResourceMedia(resource.fileUrl, resource.type)
+                        val subject = resource.subject.split(",").firstOrNull()?.trim().orEmpty().ifBlank { "General" }
+                        val subjectColor = Color(com.neb.ians.util.getSubjectColor(subject))
+
+                        if (mediaType == ResourceMediaType.Video) {
+                            VideoYouTubeLayout(
+                                resource = resource,
+                                subjectColor = subjectColor,
+                                uiState = uiState,
+                                viewModel = viewModel,
+                                mediaViewModel = mediaViewModel,
+                                onFullscreenClick = ::enterFullscreen,
+                                onUserProfileClick = onUserProfileClick,
+                                share = ::share,
+                                openExternal = ::openExternal,
+                                padding = padding
+                            )
+                        } else {
+                            NonVideoLayout(
+                                resource = resource,
+                                mediaType = mediaType,
+                                subjectColor = subjectColor,
+                                uiState = uiState,
+                                viewModel = viewModel,
+                                onOpenPdf = onOpenPdf,
+                                onUserProfileClick = onUserProfileClick,
+                                share = ::share,
+                                openExternal = ::openExternal,
+                                padding = padding,
+                                onZoomImage = { zoomImageUrl = it }
+                            )
+                        }
+                    }
                 }
             }
         }
-    }
 
-    zoomImageUrl?.let { url ->
-        ZoomableImageDialog(
-            imageUrl = url,
-            contentDescription = uiState.resource?.title,
-            onDismiss = { zoomImageUrl = null }
-        )
-    }
+        if (isFullscreen) {
+            val mediaState by mediaViewModel.uiState.collectAsStateWithLifecycle()
+            FullscreenVideoOverlay(
+                viewModel = mediaViewModel,
+                uiState = mediaState,
+                onExit = ::exitFullscreen,
+                subjectColor = Color(com.neb.ians.util.getSubjectColor(
+                    mediaState.resource?.subject?.split(",")?.firstOrNull()?.trim().orEmpty().ifBlank { "General" }
+                ))
+            )
+        }
 
+        zoomImageUrl?.let { url ->
+            ZoomableImageDialog(
+                imageUrl = url,
+                contentDescription = uiState.resource?.title,
+                onDismiss = { zoomImageUrl = null }
+            )
+        }
+    }
 }
 
 @Composable
@@ -192,7 +257,8 @@ private fun VideoYouTubeLayout(
     subjectColor: Color,
     uiState: ResourceDetailUiState,
     viewModel: ResourceDetailViewModel,
-    onOpenMedia: (String, Boolean) -> Unit,
+    mediaViewModel: MediaPlayerViewModel,
+    onFullscreenClick: () -> Unit,
     onUserProfileClick: (String) -> Unit,
     share: (String, String) -> Unit,
     openExternal: (String) -> Unit,
@@ -211,7 +277,8 @@ private fun VideoYouTubeLayout(
                 isVideo = true,
                 subjectColor = subjectColor,
                 title = resource.title,
-                onFullscreenClick = { onOpenMedia(resource.id, true) },
+                onFullscreenClick = onFullscreenClick,
+                viewModel = mediaViewModel,
                 fullWidth = true
             )
         }
@@ -378,7 +445,6 @@ private fun NonVideoLayout(
     uiState: ResourceDetailUiState,
     viewModel: ResourceDetailViewModel,
     onOpenPdf: (resourceId: String, fileUrl: String, title: String) -> Unit,
-    onOpenMedia: (resourceId: String, startFullscreen: Boolean) -> Unit,
     onUserProfileClick: (String) -> Unit,
     share: (String, String) -> Unit,
     openExternal: (String) -> Unit,
@@ -402,7 +468,6 @@ private fun NonVideoLayout(
                 onRead = {
                     when (mediaType) {
                         ResourceMediaType.Pdf -> onOpenPdf(resource.id, resource.fileUrl, resource.title)
-                        ResourceMediaType.Video, ResourceMediaType.Audio -> onOpenMedia(resource.id, false)
                         else -> openExternal(resource.fileUrl)
                     }
                 },
@@ -422,7 +487,7 @@ private fun NonVideoLayout(
                     isVideo = false,
                     subjectColor = subjectColor,
                     title = resource.title,
-                    onFullscreenClick = { onOpenMedia(resource.id, true) },
+                    onFullscreenClick = {},
                     modifier = Modifier.padding(top = 16.dp)
                 )
             }
@@ -462,6 +527,369 @@ private fun NonVideoLayout(
             }
         }
     }
+}
+
+private val FS_SPEEDS = listOf(0.5f, 0.75f, 1f, 1.25f, 1.5f, 1.75f, 2f)
+private const val FS_SEEK_MS = 10_000L
+private enum class FsGestureType { BRIGHTNESS, VOLUME, SEEK }
+
+@Composable
+private fun FullscreenVideoOverlay(
+    viewModel: MediaPlayerViewModel,
+    uiState: MediaPlayerUiState,
+    onExit: () -> Unit,
+    subjectColor: Color
+) {
+    val player = viewModel.getPlayer()
+    var showControls by remember { mutableStateOf(true) }
+    var gestureType by remember { mutableStateOf<FsGestureType?>(null) }
+    var gestureDelta by remember { mutableFloatStateOf(0f) }
+    var gestureStartBrightness by remember { mutableFloatStateOf(0.5f) }
+    var gestureStartVolume by remember { mutableFloatStateOf(0.5f) }
+    var gestureStartPosition by remember { mutableLongStateOf(0L) }
+    var gestureSeekPosition by remember { mutableLongStateOf(0L) }
+    var seekBadge by remember { mutableStateOf<Int?>(null) }
+    var seekBadgeVisible by remember { mutableStateOf(false) }
+    var screenWidth by remember { mutableFloatStateOf(1f) }
+    var speedExpanded by remember { mutableStateOf(false) }
+    val activity = LocalContext.current as? android.app.Activity
+
+    val aspectRatio = if (uiState.videoWidth > 0 && uiState.videoHeight > 0) {
+        uiState.videoWidth.toFloat() / uiState.videoHeight.toFloat()
+    } else {
+        16f / 9f
+    }
+
+    val progress by remember(uiState.currentTimeMs, uiState.durationMs) {
+        derivedStateOf {
+            if (uiState.durationMs > 0) (uiState.currentTimeMs.toFloat() / uiState.durationMs).coerceIn(0f, 1f) else 0f
+        }
+    }
+    val remainingMs = (uiState.durationMs - uiState.currentTimeMs).coerceAtLeast(0L)
+
+    LaunchedEffect(showControls, uiState.isPlaying) {
+        if (showControls && uiState.isPlaying) {
+            delay(4000L)
+            showControls = false
+        }
+    }
+    LaunchedEffect(uiState.isPlaying) {
+        if (!uiState.isPlaying) showControls = true
+    }
+    LaunchedEffect(seekBadgeVisible) {
+        if (seekBadgeVisible) { delay(700L); seekBadgeVisible = false }
+    }
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Black)
+            .onSizeChanged { screenWidth = it.width.toFloat() }
+            .pointerInput(Unit) {
+                detectTapGestures(
+                    onTap = { showControls = !showControls },
+                    onDoubleTap = { offset ->
+                        val delta = if (offset.x < screenWidth / 2f) -10_000L else 10_000L
+                        viewModel.seekBy(delta)
+                        seekBadge = if (delta < 0) -10 else 10
+                        seekBadgeVisible = true
+                        showControls = true
+                    }
+                )
+            }
+            .pointerInput(Unit) {
+                detectDragGestures(
+                    onDragStart = { offset ->
+                        gestureStartPosition = player?.currentPosition ?: 0L
+                        gestureSeekPosition = gestureStartPosition
+                        val lp = activity?.window?.attributes
+                        gestureStartBrightness = if (lp?.screenBrightness ?: -1f < 0f) 0.5f else lp?.screenBrightness ?: 0.5f
+                        gestureStartVolume = viewModel.getVolumeFraction()
+                        gestureDelta = 0f
+                        gestureType = when {
+                            abs(offset.x - screenWidth / 2) < screenWidth * 0.15f -> FsGestureType.SEEK
+                            offset.x < screenWidth / 2 -> FsGestureType.BRIGHTNESS
+                            else -> FsGestureType.VOLUME
+                        }
+                    },
+                    onDrag = { change, dragAmount ->
+                        change.consume()
+                        val totalHeight = size.height.toFloat().coerceAtLeast(1f)
+                        when (gestureType) {
+                            FsGestureType.SEEK -> {
+                                gestureDelta += dragAmount.x
+                                val p = player ?: return@detectDragGestures
+                                val d = p.duration.coerceAtLeast(0)
+                                if (d > 0) {
+                                    val seekPct = gestureDelta / screenWidth.coerceAtLeast(1f)
+                                    val newPos = (gestureStartPosition + (seekPct * d).toLong()).coerceIn(0, d)
+                                    gestureSeekPosition = newPos
+                                    p.seekTo(newPos)
+                                }
+                            }
+                            FsGestureType.BRIGHTNESS -> {
+                                gestureDelta += -dragAmount.y / totalHeight
+                                val frac = (gestureStartBrightness + gestureDelta).coerceIn(0f, 1f)
+                                val lp = activity?.window?.attributes
+                                if (lp != null) { lp.screenBrightness = frac; activity?.window?.attributes = lp }
+                            }
+                            FsGestureType.VOLUME -> {
+                                gestureDelta += -dragAmount.y / totalHeight
+                                val frac = (gestureStartVolume + gestureDelta).coerceIn(0f, 1f)
+                                viewModel.setVolumeFraction(frac)
+                            }
+                            null -> {}
+                        }
+                    },
+                    onDragEnd = { gestureType = null; gestureDelta = 0f },
+                    onDragCancel = { gestureType = null; gestureDelta = 0f }
+                )
+            },
+        contentAlignment = Alignment.Center
+    ) {
+        AndroidView(
+            factory = { ctx -> android.view.SurfaceView(ctx) },
+            update = { sv -> player?.setVideoSurfaceView(sv) },
+            modifier = Modifier.aspectRatio(aspectRatio).align(Alignment.Center)
+        )
+
+        if (uiState.isBuffering) {
+            CircularProgressIndicator(
+                color = Color.White, strokeWidth = 2.5.dp,
+                trackColor = Color.White.copy(alpha = 0.2f),
+                modifier = Modifier.size(36.dp)
+            )
+        }
+
+        AnimatedVisibility(
+            visible = showControls,
+            enter = fadeIn(tween(200)),
+            exit = fadeOut(tween(300)),
+            modifier = Modifier.fillMaxSize()
+        ) {
+            Box(modifier = Modifier.fillMaxSize()) {
+                // Gradient overlays
+                Box(Modifier.fillMaxWidth().height(140.dp).align(Alignment.TopCenter)
+                    .background(Brush.verticalGradient(listOf(Color.Black.copy(alpha = 0.75f), Color.Transparent))))
+                Box(Modifier.fillMaxWidth().height(180.dp).align(Alignment.BottomCenter)
+                    .background(Brush.verticalGradient(listOf(Color.Transparent, Color.Black.copy(alpha = 0.85f)))))
+
+                // Top bar: back + title
+                Row(
+                    Modifier.align(Alignment.TopStart).statusBarsPadding()
+                        .padding(horizontal = 4.dp, vertical = 4.dp).fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    IconButton(onClick = onExit) {
+                        Icon(Icons.Default.ArrowBack, "Back", tint = Color.White)
+                    }
+                    Text(
+                        text = uiState.title,
+                        color = Color.White, fontWeight = FontWeight.SemiBold,
+                        fontSize = 14.sp, maxLines = 2, overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier.weight(1f)
+                    )
+                }
+
+                // Center play/pause
+                Row(
+                    Modifier.align(Alignment.Center),
+                    horizontalArrangement = Arrangement.spacedBy(28.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    IconButton(onClick = { viewModel.seekBy(-FS_SEEK_MS); showControls = true }, modifier = Modifier.size(48.dp)) {
+                        Icon(Icons.Filled.Replay10, "Rewind 10s", tint = Color.White, modifier = Modifier.size(28.dp))
+                    }
+                    IconButton(
+                        onClick = { viewModel.togglePlay(); showControls = true },
+                        modifier = Modifier.size(68.dp)
+                            .background(Color.White.copy(alpha = 0.15f), CircleShape)
+                            .border(1.5.dp, Color.White.copy(alpha = 0.3f), CircleShape)
+                    ) {
+                        Icon(
+                            imageVector = if (uiState.isPlaying) Icons.Filled.Pause else Icons.Filled.PlayArrow,
+                            contentDescription = if (uiState.isPlaying) "Pause" else "Play",
+                            tint = Color.White, modifier = Modifier.size(38.dp)
+                        )
+                    }
+                    IconButton(onClick = { viewModel.seekBy(FS_SEEK_MS); showControls = true }, modifier = Modifier.size(48.dp)) {
+                        Icon(Icons.Filled.Forward10, "Forward 10s", tint = Color.White, modifier = Modifier.size(28.dp))
+                    }
+                }
+
+                // Bottom bar: progress + time + speed + exit
+                Column(
+                    Modifier.align(Alignment.BottomCenter).navigationBarsPadding()
+                        .fillMaxWidth().padding(horizontal = 16.dp, vertical = 10.dp),
+                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    FsProgressBar(
+                        currentMs = uiState.currentTimeMs,
+                        durationMs = uiState.durationMs,
+                        bufferedPercent = uiState.bufferedPercent,
+                        subjectColor = subjectColor,
+                        onSeek = { viewModel.seekToRatio(it); showControls = true }
+                    )
+                    Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                        Text(
+                            text = fmtTime(uiState.currentTimeMs),
+                            color = Color.White, fontSize = 12.sp,
+                            fontFamily = FontFamily.Monospace, fontWeight = FontWeight.Medium
+                        )
+                        Text(
+                            text = " / -${fmtTime(remainingMs)}",
+                            color = Color.White.copy(alpha = 0.55f), fontSize = 12.sp,
+                            fontFamily = FontFamily.Monospace
+                        )
+                        Spacer(Modifier.weight(1f))
+                        // Speed button
+                            Box {
+                                Button(
+                                    onClick = { speedExpanded = !speedExpanded; showControls = true },
+                                    colors = ButtonDefaults.buttonColors(
+                                        containerColor = Color.White.copy(alpha = 0.12f),
+                                        contentColor = Color.White
+                                    ),
+                                    border = BorderStroke(1.dp, Color.White.copy(alpha = 0.3f)),
+                                    shape = RoundedCornerShape(999.dp),
+                                    contentPadding = PaddingValues(horizontal = 10.dp, vertical = 0.dp),
+                                    modifier = Modifier.height(30.dp)
+                                ) {
+                                    Text(
+                                        text = if (uiState.speed == 1f) "1×" else "${uiState.speed}×",
+                                        fontWeight = FontWeight.Bold, fontSize = 12.sp
+                                    )
+                                }
+                                AnimatedVisibility(
+                                    visible = speedExpanded,
+                                    enter = fadeIn() + slideInVertically(initialOffsetY = { it / 2 }),
+                                    exit = fadeOut(),
+                                    modifier = Modifier.align(Alignment.BottomEnd).padding(bottom = 36.dp)
+                                ) {
+                                    Column(
+                                        Modifier.width(100.dp).clip(RoundedCornerShape(10.dp))
+                                            .background(Color(0xFF1E1E1E)).border(1.dp, Color.White.copy(alpha = 0.12f), RoundedCornerShape(10.dp))
+                                            .padding(4.dp)
+                                    ) {
+                                        FS_SPEEDS.forEach { s ->
+                                            val isActive = s == uiState.speed
+                                            Text(
+                                                text = if (s == 1f) "Normal" else "${s}×",
+                                                modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(6.dp))
+                                                    .then(if (isActive) Modifier.background(subjectColor.copy(alpha = 0.20f)) else Modifier)
+                                                    .clickable { viewModel.setSpeed(s); speedExpanded = false; showControls = true }
+                                                    .padding(horizontal = 12.dp, vertical = 9.dp),
+                                                color = if (isActive) subjectColor else Color.White.copy(alpha = 0.85f),
+                                                fontWeight = FontWeight.SemiBold, fontSize = 13.sp
+                                            )
+                                        }
+                                    }
+                                }
+                            }
+                        Spacer(Modifier.width(8.dp))
+                        IconButton(onClick = { onExit() }, modifier = Modifier.size(36.dp)) {
+                            Icon(Icons.Filled.FullscreenExit, "Exit Fullscreen", tint = Color.White, modifier = Modifier.size(22.dp))
+                        }
+                    }
+                }
+            }
+        }
+
+        // Seek badge
+        AnimatedVisibility(
+            visible = seekBadgeVisible,
+            enter = fadeIn(tween(120)), exit = fadeOut(tween(350)),
+            modifier = Modifier.align(if ((seekBadge ?: 0) < 0) Alignment.CenterStart else Alignment.CenterEnd)
+        ) {
+            Box(
+                Modifier.padding(horizontal = 32.dp)
+                    .background(Color.Black.copy(alpha = 0.55f), RoundedCornerShape(10.dp))
+                    .padding(horizontal = 16.dp, vertical = 10.dp)
+            ) {
+                Text(
+                    text = if ((seekBadge ?: 0) < 0) "−10s" else "+10s",
+                    color = Color.White, fontWeight = FontWeight.Bold, fontSize = 16.sp
+                )
+            }
+        }
+
+        // Gesture indicator
+        if (gestureType != null) {
+            val icon = when (gestureType) {
+                FsGestureType.BRIGHTNESS -> Icons.Filled.BrightnessMedium
+                FsGestureType.VOLUME -> Icons.Filled.VolumeUp
+                FsGestureType.SEEK -> Icons.Filled.FastForward
+                null -> null
+            }
+            val label = when (gestureType) {
+                FsGestureType.BRIGHTNESS -> "${((gestureStartBrightness + gestureDelta).coerceIn(0f, 1f) * 100).toInt()}%"
+                FsGestureType.VOLUME -> "${((gestureStartVolume + gestureDelta).coerceIn(0f, 1f) * 100).toInt()}%"
+                FsGestureType.SEEK -> fmtTime(gestureSeekPosition)
+                null -> ""
+            }
+            Box(
+                Modifier.align(Alignment.Center)
+                    .background(Color.Black.copy(alpha = 0.65f), RoundedCornerShape(14.dp))
+                    .padding(horizontal = 20.dp, vertical = 14.dp)
+            ) {
+                Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                    icon?.let { Icon(it, null, tint = Color.White, modifier = Modifier.size(28.dp)) }
+                    Text(text = label, color = Color.White, fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun FsProgressBar(
+    currentMs: Long, durationMs: Long, bufferedPercent: Int,
+    subjectColor: Color, onSeek: (Float) -> Unit
+) {
+    var barWidth by remember { mutableIntStateOf(0) }
+    var isDragging by remember { mutableStateOf(false) }
+    val progress by remember(currentMs, durationMs) {
+        derivedStateOf {
+            if (durationMs > 0) (currentMs.toFloat() / durationMs).coerceIn(0f, 1f) else 0f
+        }
+    }
+    val thumbScale by animateFloatAsState(
+        targetValue = if (isDragging) 1.5f else 1f,
+        animationSpec = tween(150), label = "fsThumb"
+    )
+
+    Box(
+        modifier = Modifier.fillMaxWidth().height(28.dp)
+            .pointerInput(barWidth) { detectTapGestures { offset -> val w = barWidth.coerceAtLeast(1).toFloat(); onSeek((offset.x / w).coerceIn(0f, 1f)) } }
+            .pointerInput(barWidth) {
+                detectDragGestures(
+                    onDragStart = { offset -> isDragging = true; val w = barWidth.coerceAtLeast(1).toFloat(); onSeek((offset.x / w).coerceIn(0f, 1f)) },
+                    onDrag = { change, _ -> change.consume(); val w = barWidth.coerceAtLeast(1).toFloat(); onSeek((change.position.x / w).coerceIn(0f, 1f)) },
+                    onDragEnd = { isDragging = false }, onDragCancel = { isDragging = false }
+                )
+            }
+            .onSizeChanged { barWidth = it.width },
+        contentAlignment = Alignment.CenterStart
+    ) {
+        Box(Modifier.fillMaxWidth().height(3.dp).clip(RoundedCornerShape(2.dp)).background(Color.White.copy(alpha = 0.25f))) {
+            Box(Modifier.fillMaxHeight().fillMaxWidth((bufferedPercent / 100f).coerceIn(0f, 1f)).background(Color.White.copy(alpha = 0.40f)))
+            Box(Modifier.fillMaxHeight().fillMaxWidth(progress).background(subjectColor))
+        }
+        val thumbSizeDp = 14.dp * thumbScale
+        Box(
+            Modifier.offset { IntOffset(x = ((progress * barWidth) - (thumbSizeDp.toPx() / 2)).toInt().coerceAtLeast(0), y = 0) }
+                .size(thumbSizeDp).clip(CircleShape).background(Color.White)
+        )
+    }
+}
+
+private fun fmtTime(ms: Long): String {
+    if (ms <= 0) return "0:00"
+    val totalSec = ms / 1000
+    val h = totalSec / 3600
+    val m = (totalSec % 3600) / 60
+    val s = totalSec % 60
+    return if (h > 0) "%d:%02d:%02d".format(h, m, s) else "%d:%02d".format(m, s)
 }
 
 @Composable
