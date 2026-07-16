@@ -49,8 +49,4 @@ class Migration(migrations.Migration):
             model_name='studydocument',
             index=models.Index(fields=['user', 'status', '-updated_at'], name='studydoc_user_status_idx'),
         ),
-        migrations.AddIndex(
-            model_name='studydocument',
-            index=models.Index(fields=['space', 'status', '-updated_at'], name='studydoc_space_status_idx'),
-        ),
     ]

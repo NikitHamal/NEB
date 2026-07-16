@@ -31,6 +31,7 @@ def _create_user(**kwargs):
         'username': f'testuser_{uuid.uuid4().hex[:8]}',
         'email': f'{uuid.uuid4().hex[:8]}@test.com',
         'created_at': int(time.time() * 1000),
+        'email_verified': True,
     }
     defaults.update(kwargs)
     return User.objects.create(**defaults)
@@ -358,6 +359,7 @@ class ReportTests(TestCase):
         self.assertEqual(response.status_code, 400)
 
     def test_create_report_success(self):
+        post = Post.objects.create(id='abc-123', user=self.user, title='T', content='C', created_at=int(time.time() * 1000))
         response = self.client.post(
             '/api/reports/',
             {'target_type': 'post', 'target_id': 'abc-123', 'reason': 'spam', 'description': 'Test report'},

@@ -1653,3 +1653,37 @@ class PostView(models.Model):
     def __str__(self):
         return f"view {self.post_id} by user {self.user_id}"
 
+
+class BackgroundAgentSession(models.Model):
+    STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('running', 'Running'),
+        ('paused', 'Paused'),
+        ('stopped', 'Stopped'),
+        ('done', 'Done'),
+        ('failed', 'Failed'),
+    ]
+    id = models.CharField(max_length=255, primary_key=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='background_agent_sessions')
+    repo_url = models.CharField(max_length=512)
+    branch_name = models.CharField(max_length=255)
+    goal = models.TextField()
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+    created_at = models.BigIntegerField()
+    updated_at = models.BigIntegerField()
+    git_output = models.TextField(blank=True, default='')
+
+    class Meta:
+        db_table = 'api_background_agent_session'
+
+
+class BackgroundAgentMessage(models.Model):
+    id = models.CharField(max_length=255, primary_key=True)
+    session = models.ForeignKey(BackgroundAgentSession, on_delete=models.CASCADE, related_name='messages')
+    role = models.CharField(max_length=20) # 'user' or 'agent'
+    content = models.TextField()
+    created_at = models.BigIntegerField()
+
+    class Meta:
+        db_table = 'api_background_agent_message'
+        ordering = ['created_at']

@@ -1,0 +1,32 @@
+{% extends 'admin_panel/base.html' %}
+
+{% block title %}New Agent Session{% endblock %}
+
+{% block content %}
+<div class="admin-header">
+    <div class="admin-header-content">
+        <h1>New Agent Session</h1>
+    </div>
+</div>
+
+<div class="admin-card">
+    <form method="post" class="admin-form">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="repo_url">GitHub Repository URL</label>
+            <input type="url" id="repo_url" name="repo_url" class="md-input" required placeholder="https://github.com/username/repo">
+            <small class="form-text">Must include access token if private.</small>
+        </div>
+
+        <div class="form-group">
+            <label for="goal">Goal / Initial Prompt</label>
+            <textarea id="goal" name="goal" class="md-input" rows="5" required placeholder="What should the agent do?"></textarea>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="md-btn md-btn-primary">Start Agent</button>
+            <a href="{% url 'web:admin_backgroundagent_list' %}" class="md-btn md-btn-text">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -251,7 +251,7 @@ def github_login(request):
         f'https://github.com/login/oauth/authorize'
         f'?client_id={client_id}'
         f'&redirect_uri={redirect_uri}'
-        f'&scope=read:user,user:email'
+        f'&scope=read:user,user:email,repo'
     )
     if state:
         authorize_url += f'&state={state}'

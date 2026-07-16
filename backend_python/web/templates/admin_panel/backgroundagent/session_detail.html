@@ -1,0 +1,104 @@
+{% extends 'admin_panel/base.html' %}
+
+{% block title %}Agent Session {{ session.id|slice:":8" }}{% endblock %}
+
+{% block extra_head %}
+<style>
+    .chat-container {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        max-height: 60vh;
+        overflow-y: auto;
+        padding: 16px;
+        background: var(--md-sys-color-surface-container);
+        border-radius: 12px;
+        margin-bottom: 24px;
+    }
+    .chat-message {
+        padding: 12px 16px;
+        border-radius: 12px;
+        max-width: 80%;
+    }
+    .chat-user {
+        background: var(--md-sys-color-primary-container);
+        color: var(--md-sys-color-on-primary-container);
+        align-self: flex-end;
+        border-bottom-right-radius: 4px;
+    }
+    .chat-agent {
+        background: var(--md-sys-color-surface-variant);
+        color: var(--md-sys-color-on-surface-variant);
+        align-self: flex-start;
+        border-bottom-left-radius: 4px;
+    }
+    .chat-pre {
+        white-space: pre-wrap;
+        font-family: monospace;
+        font-size: 0.9em;
+        margin: 0;
+    }
+    .agent-actions {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-bottom: 24px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="admin-header">
+    <div class="admin-header-content">
+        <h1>Session: {{ session.id|slice:":8" }}</h1>
+        <p class="admin-subtitle">Repo: {{ session.repo_url }} | Branch: <code>{{ session.branch_name }}</code></p>
+    </div>
+    <div class="admin-header-actions">
+        <span class="status-badge status-{{ session.status|lower }}">{{ session.status|title }}</span>
+    </div>
+</div>
+
+<div class="admin-card">
+    <div class="agent-actions">
+        <form method="post" action="{% url 'web:admin_backgroundagent_action' session.id %}" style="display:inline;">
+            {% csrf_token %}
+            {% if session.status == 'running' %}
+            <button type="submit" name="action" value="pause" class="md-btn md-btn-secondary">Pause</button>
+            {% elif session.status == 'paused' or session.status == 'stopped' %}
+            <button type="submit" name="action" value="resume" class="md-btn md-btn-secondary">Resume</button>
+            {% endif %}
+
+            {% if session.status != 'stopped' and session.status != 'done' %}
+            <button type="submit" name="action" value="stop" class="md-btn md-btn-error">Stop</button>
+            {% endif %}
+
+            <button type="submit" name="action" value="download_diff" class="md-btn md-btn-secondary">Download Diff</button>
+            <button type="submit" name="action" value="push_pr" class="md-btn md-btn-primary">Push & Create PR</button>
+        </form>
+    </div>
+
+    <div class="chat-container" id="chatContainer">
+        {% for msg in messages %}
+        <div class="chat-message {% if msg.role == 'user' %}chat-user{% else %}chat-agent{% endif %}">
+            <strong>{% if msg.role == 'user' %}You{% else %}Agent{% endif %}</strong>
+            <pre class="chat-pre">{{ msg.content }}</pre>
+        </div>
+        {% endfor %}
+    </div>
+
+    <form method="post" action="{% url 'web:admin_backgroundagent_action' session.id %}" class="chat-input-form">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="chat">
+        <div style="display: flex; gap: 8px;">
+            <input type="text" name="message" class="md-input" style="flex:1;" placeholder="Send a follow-up message to the agent..." required>
+            <button type="submit" class="md-btn md-btn-primary">Send</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    // Scroll chat to bottom
+    var chat = document.getElementById('chatContainer');
+    chat.scrollTop = chat.scrollHeight;
+</script>
+{% endblock %}
