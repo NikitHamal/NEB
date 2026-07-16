@@ -9,7 +9,10 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.gestures.draggable
+import androidx.compose.foundation.gestures.rememberDraggableState
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -32,6 +35,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.IntOffset
@@ -51,11 +55,13 @@ fun EmbeddedMediaPlayer(
     subjectColor: Color,
     title: String,
     onFullscreenClick: () -> Unit,
+    onMinimize: () -> Unit = {},
     modifier: Modifier = Modifier,
     fullWidth: Boolean = false,
     viewModel: MediaPlayerViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    LaunchedEffect(resourceId) { viewModel.setResource(resourceId) }
     val player = viewModel.getPlayer()
 
     val shape = if (fullWidth) RoundedCornerShape(0.dp) else RoundedCornerShape(12.dp)
@@ -105,7 +111,8 @@ fun EmbeddedMediaPlayer(
                         onSeekBy = { viewModel.seekBy(it) },
                         onSeekRatio = { viewModel.seekToRatio(it) },
                         onToggleMute = { viewModel.toggleMute() },
-                        onFullscreenClick = onFullscreenClick
+                        onFullscreenClick = onFullscreenClick,
+                        onMinimize = onMinimize
                     )
                 } else {
                     Box(
@@ -214,11 +221,15 @@ private fun EmbeddedVideoStage(
     onSeekBy: (Long) -> Unit,
     onSeekRatio: (Float) -> Unit,
     onToggleMute: () -> Unit,
-    onFullscreenClick: () -> Unit
+    onFullscreenClick: () -> Unit,
+    onMinimize: () -> Unit
 ) {
     var showControls by remember { mutableStateOf(true) }
     var seekBadge by remember { mutableStateOf<Int?>(null) }
     var seekBadgeVisible by remember { mutableStateOf(false) }
+    var minimizeDragY by remember { mutableFloatStateOf(0f) }
+    val minimizeThreshold = with(LocalDensity.current) { 48.dp.toPx() }
+    val minimizeDragState = rememberDraggableState { delta -> minimizeDragY += delta }
 
     LaunchedEffect(showControls, isPlaying) {
         if (showControls && isPlaying) {
@@ -266,6 +277,15 @@ private fun EmbeddedVideoStage(
                     }
                 )
             }
+            .draggable(
+                state = minimizeDragState,
+                orientation = Orientation.Vertical,
+                onDragStarted = { minimizeDragY = 0f },
+                onDragStopped = {
+                    if (minimizeDragY > minimizeThreshold) onMinimize()
+                    minimizeDragY = 0f
+                }
+            )
     ) {
         AndroidView(
             factory = { ctx -> SurfaceView(ctx) },

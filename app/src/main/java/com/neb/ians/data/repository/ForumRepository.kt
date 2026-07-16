@@ -135,7 +135,9 @@ class ForumRepository @Inject constructor(
             return Result.failure(OfflineException())
         }
 
-        peekPost(postId)?.let { return Result.success(it) }
+        if (!forceRefresh) {
+            peekPost(postId)?.let { return Result.success(it) }
+        }
 
         val cached = offlineCacheStore.read<ApiPost>(cacheKey)
         if (cached != null && !forceRefresh) {
@@ -195,7 +197,9 @@ class ForumRepository @Inject constructor(
             return Result.failure(OfflineException())
         }
 
-        appCache.postReplies[postId]?.let { return Result.success(it) }
+        if (!forceRefresh) {
+            appCache.postReplies[postId]?.let { return Result.success(it) }
+        }
 
         val cached = offlineCacheStore.read<ApiPaginatedReplies>(cacheKey)
         if (cached != null && !forceRefresh) {
