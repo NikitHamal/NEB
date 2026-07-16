@@ -34,6 +34,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
@@ -41,10 +42,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.neb.ians.data.news.NewsAnnouncement
 import com.neb.ians.data.news.toSafeColor
-import com.neb.ians.ui.components.WebCardShape
-import com.neb.ians.ui.components.WebPanelShape
 import com.neb.ians.ui.components.WebPillShape
-import com.neb.ians.ui.components.WebSectionHeader
 
 @Composable
 fun HomeNewsSection(
@@ -55,9 +53,10 @@ fun HomeNewsSection(
 ) {
     if (items.isEmpty()) return
 
-    Column(modifier = modifier) {
-        WebSectionHeader(
-            title = "Blog & Updates",
+    Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(10.dp)) {
+        HomeSectionTitle(
+            title = "News & updates",
+            subtitle = "Important notices and stories from NEBians",
             actionLabel = "View all",
             onActionClick = onViewAllClick
         )
@@ -83,12 +82,13 @@ private fun HomeNewsCard(
     modifier: Modifier = Modifier
 ) {
     val accent = remember(item.categoryColorHex) { item.categoryColorHex.toSafeColor() }
+    val shape = RoundedCornerShape(24.dp)
     Card(
         modifier = modifier
-            .height(154.dp)
-            .clip(WebCardShape)
+            .height(164.dp)
+            .clip(shape)
             .clickable(onClick = onClick),
-        shape = WebCardShape,
+        shape = shape,
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest),
         border = BorderStroke(1.dp, if (item.isPinned) accent else MaterialTheme.colorScheme.outlineVariant)
     ) {

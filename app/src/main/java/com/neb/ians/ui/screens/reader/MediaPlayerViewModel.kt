@@ -58,13 +58,15 @@ class MediaPlayerViewModel @Inject constructor(
     private val downloadManager: ResourceDownloadManager
 ) : ViewModel() {
 
-    private val resourceId: String = savedStateHandle.get<String>("resourceId") ?: ""
+    private val initialResourceId: String = savedStateHandle.get<String>("resourceId") ?: ""
+    private var activeResourceId: String = ""
 
     private val _uiState = MutableStateFlow(MediaPlayerUiState())
     val uiState: StateFlow<MediaPlayerUiState> = _uiState.asStateFlow()
 
     private var player: ExoPlayer? = null
     private var tickJob: Job? = null
+    private var loadJob: Job? = null
     private var playWhenReady: Boolean = false
     private val audioManager: AudioManager =
         application.getSystemService(Context.AUDIO_SERVICE) as AudioManager
@@ -78,14 +80,22 @@ class MediaPlayerViewModel @Inject constructor(
     }
 
     init {
-        loadResource()
+        if (initialResourceId.isNotBlank()) setResource(initialResourceId)
     }
 
-    private fun loadResource() {
-        viewModelScope.launch {
+    fun setResource(resourceId: String) {
+        if (resourceId.isBlank()) return
+        if (activeResourceId == resourceId && _uiState.value.resource != null) return
+        savePosition()
+        releasePlayer()
+        loadJob?.cancel()
+        activeResourceId = resourceId
+        _uiState.value = MediaPlayerUiState(isLoading = true)
+        loadJob = viewModelScope.launch {
             val downloaded = downloadManager.findDownloaded(resourceId)
             val localFile = downloaded?.localPath?.let { java.io.File(it) }?.takeIf { it.exists() }
             if (downloaded != null && localFile != null) {
+                if (activeResourceId != resourceId) return@launch
                 val offlineResource = ApiResource(
                     id = downloaded.resourceId,
                     title = downloaded.title,
@@ -106,6 +116,7 @@ class MediaPlayerViewModel @Inject constructor(
 
             resourceRepository.getResource(resourceId)
                 .onSuccess { resource ->
+                    if (activeResourceId != resourceId) return@onSuccess
                     val cachedFile = downloadManager.getLocalFile(resource.id, resource.fileUrl)?.takeIf { it.exists() }
                     val playableUri = cachedFile?.let { Uri.fromFile(it).toString() } ?: resource.fileUrl
                     if (playableUri.isBlank()) {
@@ -115,6 +126,7 @@ class MediaPlayerViewModel @Inject constructor(
                     }
                 }
                 .onFailure { e ->
+                    if (activeResourceId != resourceId) return@onFailure
                     _uiState.update {
                         it.copy(isLoading = false, hasError = true, errorMessage = ApiErrorMapper.mapException(e))
                     }
@@ -130,8 +142,8 @@ class MediaPlayerViewModel @Inject constructor(
             resource.subject.split(",").firstOrNull()?.trim().orEmpty()
         )
         val prefs = application.getSharedPreferences(PREFS_NAME, 0)
-        val resumeMs = prefs.getLong("pos_$resourceId", 0L)
-        val savedSpeed = prefs.getFloat("speed_$resourceId", 1f)
+        val resumeMs = prefs.getLong("pos_$activeResourceId", 0L)
+        val savedSpeed = prefs.getFloat("speed_$activeResourceId", 1f)
         _uiState.update {
             it.copy(
                 resource = resource,
@@ -153,6 +165,7 @@ class MediaPlayerViewModel @Inject constructor(
         player = exoPlayer
 
         exoPlayer.setMediaItem(MediaItem.fromUri(fileUrl))
+        exoPlayer.setPlaybackSpeed(_uiState.value.speed)
         exoPlayer.prepare()
 
         val resume = _uiState.value.resumePositionMs
@@ -261,7 +274,9 @@ class MediaPlayerViewModel @Inject constructor(
     fun setSpeed(speed: Float) {
         player?.setPlaybackSpeed(speed)
         _uiState.update { it.copy(speed = speed, speedMenuOpen = false) }
-        application.getSharedPreferences(PREFS_NAME, 0).edit().putFloat("speed_$resourceId", speed).apply()
+        if (activeResourceId.isNotBlank()) {
+            application.getSharedPreferences(PREFS_NAME, 0).edit().putFloat("speed_$activeResourceId", speed).apply()
+        }
     }
 
     fun toggleSpeedMenu() {
@@ -321,7 +336,6 @@ class MediaPlayerViewModel @Inject constructor(
     private var lastSaveMs = 0L
 
     private fun savePositionDebounced() {
-        val st = _uiState.value
         val p = player ?: return
         if (!p.playWhenReady) return
         val now = System.currentTimeMillis()
@@ -337,14 +351,16 @@ class MediaPlayerViewModel @Inject constructor(
         if (d <= 0) return
         val prefs = application.getSharedPreferences(PREFS_NAME, 0)
         if (t > RESUME_MIN_MS && t < d - RESUME_END_PAD_MS) {
-            prefs.edit().putLong("pos_$resourceId", t).apply()
+            prefs.edit().putLong("pos_$activeResourceId", t).apply()
         } else if (t >= d - RESUME_END_PAD_MS) {
-            prefs.edit().remove("pos_$resourceId").apply()
+            prefs.edit().remove("pos_$activeResourceId").apply()
         }
     }
 
     private fun clearSavedPosition() {
-        application.getSharedPreferences(PREFS_NAME, 0).edit().remove("pos_$resourceId").apply()
+        if (activeResourceId.isNotBlank()) {
+            application.getSharedPreferences(PREFS_NAME, 0).edit().remove("pos_$activeResourceId").apply()
+        }
     }
 
     fun setVolumeFraction(fraction: Float) {
@@ -359,11 +375,26 @@ class MediaPlayerViewModel @Inject constructor(
 
     fun getPlayer(): ExoPlayer? = player
 
-    override fun onCleared() {
-        super.onCleared()
+    fun stopPlayback() {
         savePosition()
+        loadJob?.cancel()
+        loadJob = null
+        activeResourceId = ""
+        releasePlayer()
+        _uiState.value = MediaPlayerUiState(isLoading = false)
+    }
+
+    private fun releasePlayer() {
+        stopTick()
+        player?.clearVideoSurface()
         player?.stop()
         player?.release()
         player = null
+    }
+
+    override fun onCleared() {
+        savePosition()
+        releasePlayer()
+        super.onCleared()
     }
 }

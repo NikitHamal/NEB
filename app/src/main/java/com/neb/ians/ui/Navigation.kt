@@ -13,12 +13,9 @@ import androidx.compose.material.icons.automirrored.filled.MenuBook
 import androidx.compose.material.icons.automirrored.outlined.MenuBook
 import androidx.compose.material.icons.filled.Forum
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.outlined.Newspaper
-import androidx.compose.material.icons.outlined.FactCheck
 import androidx.compose.material.icons.outlined.Forum
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -30,34 +27,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.rememberModalBottomSheetState
-import androidx.compose.material3.SheetValue
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.draw.clip
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Text
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Icon
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.material.icons.outlined.Person
-import androidx.compose.material.icons.filled.Bookmark
-import androidx.compose.material.icons.filled.Download
-import androidx.compose.material.icons.outlined.Settings
-import androidx.compose.material.icons.outlined.ExitToApp
-import com.neb.ians.ui.components.NebAvatar
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -75,6 +44,7 @@ import com.neb.ians.data.repository.AuthState
 import com.neb.ians.util.DeepLinkBus
 import kotlinx.coroutines.launch
 import com.neb.ians.ui.components.LiquidGlassBottomNav
+import com.neb.ians.ui.components.LiquidGlassProfileSheet
 import com.neb.ians.ui.components.NebNavItem
 import com.neb.ians.ui.screens.home.HomeScreen
 import com.neb.ians.ui.screens.library.LibraryScreen
@@ -89,6 +59,8 @@ import com.neb.ians.ui.screens.notifications.NotificationsScreen
 import com.neb.ians.ui.screens.settings.SettingsScreen
 import com.neb.ians.ui.screens.settings.SettingsViewModel
 import com.neb.ians.ui.screens.reader.PdfViewerScreen
+import com.neb.ians.ui.screens.reader.MediaPlayerViewModel
+import com.neb.ians.ui.screens.reader.MiniMediaPlayer
 
 import com.neb.ians.ui.screens.resource.ResourceDetailScreen
 import com.neb.ians.ui.screens.resource.ResourceRequestsScreen
@@ -112,7 +84,6 @@ import com.neb.ians.ui.screens.results.ResultCheckerScreen
 import com.neb.ians.ui.screens.results.ToolsScreen
 import com.neb.ians.ui.screens.news.NewsDetailScreen
 import com.neb.ians.ui.screens.news.NewsScreen
-import androidx.compose.material.icons.outlined.Build
 
 sealed class Screen(val route: String) {
     data object Splash : Screen("splash")
@@ -213,11 +184,16 @@ fun NEBiansNavHost(
 ) {
     val authState by settingsViewModel.authState.collectAsStateWithLifecycle()
     val userProfile by settingsViewModel.userProfile.collectAsStateWithLifecycle()
+    val mediaPlayerViewModel: MediaPlayerViewModel = hiltViewModel()
+    val mediaPlayerState by mediaPlayerViewModel.uiState.collectAsStateWithLifecycle()
+    var showMiniPlayer by remember { mutableStateOf(false) }
     val isAuthenticated = authState is AuthState.Authenticated
     LaunchedEffect(authState) {
         val state = authState
         when (state) {
             is AuthState.Unauthenticated -> {
+                showMiniPlayer = false
+                mediaPlayerViewModel.stopPlayback()
                 navController.navigate(Screen.Login.route) {
                     popUpTo(navController.graph.findStartDestination().id) { inclusive = true }
                 }
@@ -270,6 +246,15 @@ fun NEBiansNavHost(
         if (currentRoute != "library") hideLibraryDetailChrome = false
     }
     val showBottomBar = currentRoute in glassNavItems.map { it.route } && !hideLibraryDetailChrome
+    LaunchedEffect(currentRoute, mediaPlayerState.resource?.id, mediaPlayerState.isPlaying, mediaPlayerState.currentTimeMs) {
+        showMiniPlayer = when {
+            currentRoute == Screen.ResourceDetail.route -> false
+            mediaPlayerState.resource == null -> false
+            mediaPlayerState.isPlaying -> true
+            mediaPlayerState.currentTimeMs > 0L -> true
+            else -> showMiniPlayer
+        }
+    }
     var showProfileDropdown by remember { mutableStateOf(false) }
     val navigateToOwnProfile = {
         val username = userProfile?.username?.takeIf { it.isNotBlank() && it != "Guest" }
@@ -698,20 +683,35 @@ fun NEBiansNavHost(
             composable(
                 route = Screen.ResourceDetail.route,
                 arguments = listOf(navArgument("resourceId") { type = NavType.StringType })
-            ) {
+            ) { backStackEntry ->
+                val resourceId = backStackEntry.arguments?.getString("resourceId") ?: return@composable
                 ResourceDetailScreen(
-                    onNavigateBack = { navController.popBackStack() },
-                    onOpenPdf = { resourceId, fileUrl, title ->
-                        navController.navigate(Screen.PdfViewer.createRoute(resourceId))
+                    onNavigateBack = {
+                        val keepPlayback = mediaPlayerState.resource?.id == resourceId &&
+                            (mediaPlayerState.isPlaying || mediaPlayerState.currentTimeMs > 0L)
+                        if (keepPlayback) {
+                            showMiniPlayer = true
+                        } else if (mediaPlayerState.resource?.id == resourceId) {
+                            mediaPlayerViewModel.stopPlayback()
+                        }
+                        navController.popBackStack()
+                    },
+                    onOpenPdf = { pdfResourceId, _, _ ->
+                        navController.navigate(Screen.PdfViewer.createRoute(pdfResourceId))
                     },
                     onUserProfileClick = { username ->
                         navController.navigate(Screen.Profile.createRoute(username))
                     },
-                    onRelatedResourceClick = { resourceId ->
-                        navController.navigate(Screen.ResourceDetail.createRoute(resourceId)) {
+                    onRelatedResourceClick = { relatedResourceId ->
+                        navController.navigate(Screen.ResourceDetail.createRoute(relatedResourceId)) {
                             launchSingleTop = true
                         }
-                    }
+                    },
+                    onMinimizeVideo = {
+                        showMiniPlayer = true
+                        navController.popBackStack()
+                    },
+                    mediaViewModel = mediaPlayerViewModel
                 )
             }
             composable(Screen.ResourceRequests.route) {
@@ -788,177 +788,67 @@ fun NEBiansNavHost(
             )
         }
 
-        if (showProfileDropdown) {
-            val profile = userProfile
-            if (profile != null) {
-                val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-                ModalBottomSheet(
-                    onDismissRequest = { showProfileDropdown = false },
-                    sheetState = sheetState,
-                    containerColor = MaterialTheme.colorScheme.surfaceContainer,
-                    shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)
-                ) {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(bottom = 32.dp)
-                    ) {
-                        // Header (clickable profile card)
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clickable {
-                                    showProfileDropdown = false
-                                    navController.navigate(Screen.Profile.createRoute(profile.username))
-                                }
-                                .padding(horizontal = 24.dp, vertical = 16.dp),
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(16.dp)
-                        ) {
-                            val name = profile.displayName?.takeIf { it.isNotBlank() } ?: profile.username
-                            NebAvatar(
-                                name = name.ifEmpty { "N" },
-                                photoUrl = profile.photoUrl,
-                                size = 48.dp
-                            )
-                            Column(modifier = Modifier.weight(1f)) {
-                                val displayName = profile.displayName?.takeIf { it.isNotBlank() } ?: profile.username
-                                Text(
-                                    text = displayName,
-                                    style = MaterialTheme.typography.titleMedium,
-                                    fontWeight = FontWeight.SemiBold,
-                                    color = MaterialTheme.colorScheme.onSurface,
-                                    maxLines = 1,
-                                    overflow = TextOverflow.Ellipsis
-                                )
-                                val roleText = when (profile.role) {
-                                    "teacher" -> "Teacher"
-                                    "institution" -> "Institution"
-                                    "explorer" -> "Explorer"
-                                    else -> "Student"
-                                }
-                                Text(
-                                    text = "@${profile.username} · $roleText",
-                                    style = MaterialTheme.typography.bodySmall,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                            }
-                            Icon(
-                                imageVector = Icons.Outlined.Person,
-                                contentDescription = "View Profile",
-                                tint = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
+        if (showMiniPlayer && currentRoute != Screen.ResourceDetail.route && mediaPlayerState.resource != null) {
+            MiniMediaPlayer(
+                uiState = mediaPlayerState,
+                viewModel = mediaPlayerViewModel,
+                onExpand = {
+                    mediaPlayerState.resource?.id?.let { resourceId ->
+                        showMiniPlayer = false
+                        navController.navigate(Screen.ResourceDetail.createRoute(resourceId)) {
+                            launchSingleTop = true
                         }
-
-                        HorizontalDivider(
-                            modifier = Modifier.padding(horizontal = 24.dp),
-                            color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
-                        )
-
-                        // Bookmarks
-                        ProfileDropdownItem(
-                            icon = Icons.Filled.Bookmark,
-                            text = "Bookmarks",
-                            onClick = {
-                                showProfileDropdown = false
-                                navController.navigate(Screen.Bookmarks.route)
-                            }
-                        )
-
-                        ProfileDropdownItem(
-                            icon = Icons.Filled.Download,
-                            text = "Downloads",
-                            onClick = {
-                                showProfileDropdown = false
-                                navController.navigate(Screen.Downloads.route)
-                            }
-                        )
-
-                        // Blog
-                        ProfileDropdownItem(
-                            icon = Icons.Outlined.Newspaper,
-                            text = "Blog",
-                            onClick = {
-                                showProfileDropdown = false
-                                navController.navigate(Screen.News.route)
-                            }
-                        )
-
-                        // Tools
-                        ProfileDropdownItem(
-                            icon = Icons.Outlined.Build,
-                            text = "Tools",
-                            onClick = {
-                                showProfileDropdown = false
-                                navController.navigate(Screen.Tools.route)
-                            }
-                        )
-
-                        // Settings
-                        ProfileDropdownItem(
-                            icon = Icons.Outlined.Settings,
-                            text = "Settings",
-                            onClick = {
-                                showProfileDropdown = false
-                                navController.navigate(Screen.Settings.route)
-                            }
-                        )
-
-                        HorizontalDivider(
-                            modifier = Modifier.padding(horizontal = 24.dp),
-                            color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
-                        )
-
-                        // Sign Out
-                        ProfileDropdownItem(
-                            icon = Icons.Outlined.ExitToApp,
-                            text = "Sign Out",
-                            textColor = MaterialTheme.colorScheme.error,
-                            iconColor = MaterialTheme.colorScheme.error,
-                            onClick = {
-                                showProfileDropdown = false
-                                settingsViewModel.logout()
-                            }
-                        )
                     }
-                }
+                },
+                onClose = {
+                    showMiniPlayer = false
+                    mediaPlayerViewModel.stopPlayback()
+                },
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(bottom = if (showBottomBar) 92.dp else 12.dp)
+            )
+        }
+
+        if (showProfileDropdown) {
+            userProfile?.let { profile ->
+                val displayName = profile.displayName?.takeIf { it.isNotBlank() } ?: profile.username
+                LiquidGlassProfileSheet(
+                    displayName = displayName,
+                    username = profile.username,
+                    role = profile.role,
+                    photoUrl = profile.photoUrl,
+                    onDismiss = { showProfileDropdown = false },
+                    onProfileClick = {
+                        showProfileDropdown = false
+                        navController.navigate(Screen.Profile.createRoute(profile.username))
+                    },
+                    onBookmarksClick = {
+                        showProfileDropdown = false
+                        navController.navigate(Screen.Bookmarks.route)
+                    },
+                    onDownloadsClick = {
+                        showProfileDropdown = false
+                        navController.navigate(Screen.Downloads.route)
+                    },
+                    onBlogClick = {
+                        showProfileDropdown = false
+                        navController.navigate(Screen.News.route)
+                    },
+                    onToolsClick = {
+                        showProfileDropdown = false
+                        navController.navigate(Screen.Tools.route)
+                    },
+                    onSettingsClick = {
+                        showProfileDropdown = false
+                        navController.navigate(Screen.Settings.route)
+                    },
+                    onSignOutClick = {
+                        showProfileDropdown = false
+                        settingsViewModel.logout()
+                    }
+                )
             }
         }
     }
-}
-
-@Composable
-private fun ProfileDropdownItem(
-    icon: ImageVector,
-    text: String,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier,
-    iconColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
-    textColor: Color = MaterialTheme.colorScheme.onSurface
-) {
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .clickable(onClick = onClick)
-            .padding(horizontal = 24.dp, vertical = 14.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
-        Icon(
-            imageVector = icon,
-            contentDescription = text,
-            modifier = Modifier.size(22.dp),
-            tint = iconColor
-        )
-        Text(
-            text = text,
-            style = MaterialTheme.typography.bodyLarge,
-            color = textColor
-        )
-    }
-}
-
-private fun Color.luminanceIsDark(): Boolean {
-    val l = 0.299f * red + 0.587f * green + 0.114f * blue
-    return l < 0.5f
 }

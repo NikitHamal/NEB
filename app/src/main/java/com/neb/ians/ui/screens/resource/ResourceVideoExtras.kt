@@ -2,6 +2,7 @@ package com.neb.ians.ui.screens.resource
 
 import android.app.Activity
 import android.content.pm.ActivityInfo
+import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -16,12 +17,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PlayCircle
 import androidx.compose.material.icons.filled.ScreenRotation
-import androidx.compose.material.icons.filled.StayCurrentLandscape
-import androidx.compose.material.icons.filled.StayCurrentPortrait
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -31,6 +31,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -101,30 +102,24 @@ internal fun UpNextVideoCard(
 
 @Composable
 internal fun FullscreenOrientationControls(activity: Activity?) {
-    Row(
+    val orientation = LocalConfiguration.current.orientation
+    IconButton(
+        onClick = {
+            activity?.requestedOrientation = if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+            } else {
+                ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+            }
+        },
         modifier = Modifier
-            .clip(RoundedCornerShape(999.dp))
-            .background(Color.Black.copy(alpha = 0.35f))
-            .padding(horizontal = 2.dp),
-        verticalAlignment = Alignment.CenterVertically
+            .size(40.dp)
+            .background(Color.Black.copy(alpha = 0.35f), CircleShape)
     ) {
-        IconButton(
-            onClick = { activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT },
-            modifier = Modifier.size(34.dp)
-        ) {
-            Icon(Icons.Filled.StayCurrentPortrait, contentDescription = "Portrait", tint = Color.White, modifier = Modifier.size(18.dp))
-        }
-        IconButton(
-            onClick = { activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED },
-            modifier = Modifier.size(34.dp)
-        ) {
-            Icon(Icons.Filled.ScreenRotation, contentDescription = "Auto rotate", tint = Color.White, modifier = Modifier.size(18.dp))
-        }
-        IconButton(
-            onClick = { activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE },
-            modifier = Modifier.size(34.dp)
-        ) {
-            Icon(Icons.Filled.StayCurrentLandscape, contentDescription = "Landscape", tint = Color.White, modifier = Modifier.size(18.dp))
-        }
+        Icon(
+            imageVector = Icons.Filled.ScreenRotation,
+            contentDescription = "Rotate video",
+            tint = Color.White,
+            modifier = Modifier.size(20.dp)
+        )
     }
 }
