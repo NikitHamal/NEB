@@ -24,18 +24,10 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Apps
-import androidx.compose.material.icons.filled.FactCheck
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.PushPin
 import androidx.compose.material.icons.outlined.Visibility
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -57,14 +49,13 @@ import com.neb.ians.ui.components.ErrorCard
 import com.neb.ians.ui.components.WebChip
 import com.neb.ians.ui.components.WebPanelShape
 import com.neb.ians.ui.components.WebPillShape
-import com.neb.ians.ui.components.WebTopBar
 import com.neb.ians.ui.screens.home.NewsCategoryBadge
 import com.neb.ians.ui.screens.home.newsIcon
 
 @Composable
 fun NewsScreen(
     onNewsClick: (String) -> Unit,
-    onResultCheckerClick: () -> Unit,
+    onNavigateBack: () -> Unit,
     onSearchClick: () -> Unit,
     onNotificationsClick: () -> Unit,
     onProfileClick: () -> Unit,
@@ -73,13 +64,6 @@ fun NewsScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     Scaffold(
-        topBar = {
-            WebTopBar(
-                onSearchClick = onSearchClick,
-                onNotificationsClick = onNotificationsClick,
-                onProfileClick = onProfileClick
-            )
-        },
         containerColor = MaterialTheme.colorScheme.surface
     ) { innerPadding ->
         LazyColumn(
@@ -89,7 +73,7 @@ fun NewsScreen(
             contentPadding = PaddingValues(bottom = 112.dp)
         ) {
             item {
-                NewsHeader(onResultCheckerClick = onResultCheckerClick)
+                NewsHeader(onNavigateBack = onNavigateBack)
             }
             item {
                 CategoryFilterRow(
@@ -134,40 +118,22 @@ fun NewsScreen(
 }
 
 @Composable
-private fun NewsHeader(onResultCheckerClick: () -> Unit) {
-    Column(
+private fun NewsHeader(onNavigateBack: () -> Unit) {
+    Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 20.dp, vertical = 18.dp)
+            .padding(horizontal = 8.dp, vertical = 8.dp),
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(14.dp)
-        ) {
-            Column(modifier = Modifier.weight(1f)) {
-                Text(
-                    text = "Blog & Updates",
-                    style = MaterialTheme.typography.headlineSmall,
-                    fontWeight = FontWeight.ExtraBold,
-                    color = MaterialTheme.colorScheme.onSurface
-                )
-            }
-            Button(
-                onClick = onResultCheckerClick,
-                shape = WebPillShape,
-                contentPadding = PaddingValues(horizontal = 14.dp, vertical = 10.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
-            ) {
-                Icon(
-                    imageVector = Icons.Filled.FactCheck,
-                    contentDescription = null,
-                    modifier = Modifier.size(18.dp)
-                )
-                Spacer(modifier = Modifier.width(6.dp))
-                Text("Results", maxLines = 1)
-            }
+        IconButton(onClick = onNavigateBack) {
+            Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
         }
+        Text(
+            text = "Blog & Updates",
+            style = MaterialTheme.typography.headlineSmall,
+            fontWeight = FontWeight.ExtraBold,
+            color = MaterialTheme.colorScheme.onSurface
+        )
     }
 }
 

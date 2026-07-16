@@ -156,47 +156,6 @@ fun LibraryScreen(
                 .fillMaxSize()
         ) {
             if (!isSyllabusDetailMode) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 12.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(12.dp)
-                ) {
-                    Column(modifier = Modifier.weight(1f)) {
-                        Text(
-                            text = when (currentTab) {
-                                "library" -> "Digital Library"
-                                "syllabus" -> "Syllabus"
-                                else -> "Interactive"
-                            },
-                            style = MaterialTheme.typography.headlineSmall,
-                            fontWeight = FontWeight.ExtraBold,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis
-                        )
-                    }
-                    if (currentTab == "library") {
-                        Surface(
-                            shape = CircleShape,
-                            color = Color.Transparent,
-                            border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
-                            modifier = Modifier.size(40.dp)
-                        ) {
-                            IconButton(
-                                onClick = onUploadClick,
-                                modifier = Modifier.size(40.dp)
-                            ) {
-                                Icon(
-                                    Icons.Outlined.CloudUpload,
-                                    contentDescription = "Upload",
-                                    modifier = Modifier.size(20.dp)
-                                )
-                            }
-                        }
-                    }
-                }
-
                 LibraryTabs(
                     currentTab = currentTab,
                     onTabSelected = { currentTab = it }

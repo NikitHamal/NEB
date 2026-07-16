@@ -8,14 +8,170 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'web/css/pages/web-news.css' %}">
+<style>
+.news-detail-header {
+  position: relative;
+}
+.news-detail-more-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  color: var(--md-on-surface-variant);
+  border-radius: 50%;
+}
+.news-detail-more-btn:hover {
+  background: var(--md-state-hover);
+}
+.news-detail-content {
+  margin-top: 20px;
+  line-height: 1.7;
+  font-size: 1.05rem;
+}
+.news-detail-content h1, .news-detail-content h2, .news-detail-content h3 {
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+}
+.news-detail-content p {
+  margin-bottom: 1em;
+}
+.news-detail-content ul, .news-detail-content ol {
+  margin-bottom: 1em;
+  padding-left: 1.5em;
+}
+.news-detail-content blockquote {
+  border-left: 3px solid var(--md-primary);
+  padding-left: 1em;
+  margin-left: 0;
+  color: var(--md-on-surface-variant);
+}
+.news-detail-content img {
+  max-width: 100%;
+  border-radius: 12px;
+  margin: 1em 0;
+}
+.news-comments {
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid var(--md-outline-variant);
+}
+.news-comments h2 {
+  margin-bottom: 16px;
+}
+.comment-input-row {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+.comment-input-row textarea {
+  flex: 1;
+  resize: vertical;
+  min-height: 60px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--md-outline);
+  background: var(--md-surface);
+  color: var(--md-on-surface);
+  font-family: inherit;
+  font-size: 0.95rem;
+}
+.comment-input-row textarea:focus {
+  outline: 2px solid var(--md-primary);
+  outline-offset: -1px;
+}
+.comment-item {
+  display: flex;
+  gap: 10px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--md-outline-variant);
+}
+.comment-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--md-primary-container);
+  color: var(--md-on-primary-container);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+.comment-body {
+  flex: 1;
+  min-width: 0;
+}
+.comment-author {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+.comment-time {
+  font-size: 0.8rem;
+  color: var(--md-on-surface-variant);
+}
+.comment-text {
+  margin-top: 4px;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+.news-share-bottom {
+  margin-top: 24px;
+  display: flex;
+  gap: 8px;
+}
+.more-menu-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(0,0,0,0.3);
+}
+.more-menu-sheet {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 101;
+  background: var(--md-surface-container-high);
+  border-radius: 20px 20px 0 0;
+  padding: 8px 0 24px;
+  animation: slideUp 0.2s ease;
+}
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+.more-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 20px;
+  cursor: pointer;
+  color: var(--md-on-surface);
+  font-size: 1rem;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+}
+.more-menu-item:hover {
+  background: var(--md-state-hover);
+}
+.more-menu-handle {
+  width: 32px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--md-outline);
+  margin: 8px auto 12px;
+}
+</style>
 {% endblock %}
 
 {% block content %}
 <div class="md-container news-detail-page">
-  <a href="{% url 'web:news_list' %}" class="back-link" data-action="go-back">
-    <span class="material-symbols-outlined">arrow_back</span>
-    Back to Blog
-  </a>
 
   <article class="news-detail">
     <div class="news-detail-header">
@@ -27,6 +183,11 @@
         {% if announcement.is_pinned %}<span class="news-pin-badge"><span class="material-symbols-outlined">push_pin</span> Pinned</span>{% endif %}
       </div>
       <h1 class="md-headline-medium news-detail-title">{{ announcement.title }}</h1>
+
+      <button class="news-detail-more-btn" id="news-more-btn" aria-label="More options">
+        <span class="material-symbols-outlined">more_vert</span>
+      </button>
+
       {% if announcement.summary %}<p class="news-detail-summary">{{ announcement.summary }}</p>{% endif %}
       <div class="news-detail-meta">
         <span class="news-card-author">
@@ -49,18 +210,51 @@
 
     <div class="news-detail-content md-content" id="news-content">{{ announcement.content|safe }}</div>
 
+    <div class="news-share-bottom">
+      <button class="md-btn md-btn-outlined" id="share-btn" data-action="share-news" data-url="{{ request.build_absolute_uri }}" data-title="{{ announcement.title }}">
+        <span class="material-symbols-outlined">share</span>
+        Share this article
+      </button>
+    </div>
+
     {% if announcement.external_url %}
-    <a href="{{ announcement.external_url }}" target="_blank" rel="noopener" class="md-btn md-btn-filled news-detail-cta">
+    <a href="{{ announcement.external_url }}" target="_blank" rel="noopener" class="md-btn md-btn-filled news-detail-cta" style="margin-top:12px">
       <span class="material-symbols-outlined">open_in_new</span>
       View Original Source
     </a>
     {% endif %}
 
-    <div class="news-detail-share">
-      <button class="md-btn md-btn-outlined" id="share-btn" data-action="share-news" data-url="{{ request.build_absolute_uri }}" data-title="{{ announcement.title }}">
-        <span class="material-symbols-outlined">share</span>
-        Share
-      </button>
+    <div class="news-comments" id="news-comments">
+      <h2 class="md-title-medium" style="font-weight:600">Comments</h2>
+
+      {% if user.is_authenticated %}
+      <form class="comment-input-row" id="comment-form" data-slug="{{ announcement.slug }}">
+        {% csrf_token %}
+        <textarea id="comment-input" placeholder="Write a comment..." rows="2"></textarea>
+        <button type="submit" class="md-btn md-btn-filled" style="align-self:flex-end;white-space:nowrap">Post</button>
+      </form>
+      {% else %}
+      <p style="color:var(--md-on-surface-variant);margin-bottom:16px">
+        <a href="{% url 'web:login' %}" style="color:var(--md-primary)">Sign in</a> to leave a comment.
+      </p>
+      {% endif %}
+
+      <div id="comments-list">
+        {% for comment in announcement.comments %}
+        <div class="comment-item">
+          <div class="comment-avatar">{{ comment.author_initials|default:"?" }}</div>
+          <div class="comment-body">
+            <div>
+              <span class="comment-author">{{ comment.author_name }}</span>
+              <span class="comment-time">&middot; {{ comment.created_at|time_ago }}</span>
+            </div>
+            <div class="comment-text">{{ comment.text }}</div>
+          </div>
+        </div>
+        {% empty %}
+        <p style="color:var(--md-on-surface-variant)" id="no-comments-msg">No comments yet. Be the first to share your thoughts!</p>
+        {% endfor %}
+      </div>
     </div>
   </article>
 
@@ -89,41 +283,125 @@
   </div>
   {% endif %}
 </div>
+
+<!-- More options bottom sheet -->
+<div id="more-menu-overlay" class="more-menu-overlay" style="display:none" onclick="closeMoreMenu()"></div>
+<div id="more-menu-sheet" class="more-menu-sheet" style="display:none">
+  <div class="more-menu-handle"></div>
+  <button class="more-menu-item" onclick="shareNews(); closeMoreMenu();">
+    <span class="material-symbols-outlined">share</span> Share
+  </button>
+  <button class="more-menu-item" onclick="bookmarkNews(); closeMoreMenu();">
+    <span class="material-symbols-outlined">bookmark</span> Bookmark
+  </button>
+  <button class="more-menu-item" onclick="reportNews(); closeMoreMenu();">
+    <span class="material-symbols-outlined">flag</span> Report
+  </button>
+</div>
 {% endblock %}
 
 {% block extra_js %}
 <script nonce="{{ csp_nonce }}">
-  (function() {
-    var content = document.getElementById('news-content');
-    if (content && typeof marked !== 'undefined') {
-      var raw = content.textContent.trim();
-      if (raw) {
-        var renderer = new marked.Renderer();
-        var origLink = renderer.link.bind(renderer);
-        renderer.link = function(token) {
-          var html = origLink(token);
-          if (token.href && !token.href.startsWith('/') && !token.href.startsWith(window.location.origin)) {
-            return html.replace('<a ', '<a target="_blank" rel="noopener noreferrer" ');
-          }
-          return html;
-        };
-        content.innerHTML = marked.parse(raw, { breaks: true, gfm: true, renderer: renderer });
-      }
-    }
-
-    registerActions({
-      'share-news': function(el, e) {
-        var url = el.dataset.url;
-        var title = el.dataset.title;
-        if (navigator.share) {
-          navigator.share({ title: title, url: url }).catch(function() {});
-        } else {
-          navigator.clipboard.writeText(url).then(function() {
-            showSnackbar('Link copied!');
-          }).catch(function() { showSnackbar('Could not copy link'); });
+(function() {
+  var content = document.getElementById('news-content');
+  if (content) {
+    var raw = content.textContent.trim();
+    if (raw && typeof marked !== 'undefined') {
+      var renderer = new marked.Renderer();
+      var origLink = renderer.link.bind(renderer);
+      renderer.link = function(token) {
+        var html = origLink(token);
+        if (token.href && !token.href.startsWith('/') && !token.href.startsWith(window.location.origin)) {
+          return html.replace('<a ', '<a target="_blank" rel="noopener noreferrer" ');
         }
-      }
+        return html;
+      };
+      content.innerHTML = marked.parse(raw, { breaks: true, gfm: true, renderer: renderer });
+    }
+  }
+
+  function shareNews() {
+    var url = window.location.href;
+    var title = document.querySelector('.news-detail-title')?.textContent || '';
+    if (navigator.share) {
+      navigator.share({ title: title, url: url }).catch(function() {});
+    } else {
+      navigator.clipboard.writeText(url).then(function() {
+        showSnackbar('Link copied!');
+      }).catch(function() { showSnackbar('Could not copy link'); });
+    }
+  }
+  function bookmarkNews() {
+    showSnackbar('Bookmarking coming soon');
+  }
+  function reportNews() {
+    showSnackbar('Reporting coming soon');
+  }
+  function closeMoreMenu() {
+    document.getElementById('more-menu-overlay').style.display = 'none';
+    document.getElementById('more-menu-sheet').style.display = 'none';
+  }
+
+  document.getElementById('news-more-btn')?.addEventListener('click', function() {
+    document.getElementById('more-menu-overlay').style.display = 'block';
+    document.getElementById('more-menu-sheet').style.display = 'block';
+  });
+
+  document.getElementById('share-btn')?.addEventListener('click', function(e) {
+    var btn = e.currentTarget;
+    var url = btn.dataset.url;
+    var title = btn.dataset.title;
+    if (navigator.share) {
+      navigator.share({ title: title, url: url }).catch(function() {});
+    } else {
+      navigator.clipboard.writeText(url).then(function() {
+        showSnackbar('Link copied!');
+      }).catch(function() { showSnackbar('Could not copy link'); });
+    }
+  });
+
+  // Comment form
+  var commentForm = document.getElementById('comment-form');
+  if (commentForm) {
+    commentForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      var input = document.getElementById('comment-input');
+      var text = input.value.trim();
+      if (!text) return;
+      var csrf = commentForm.querySelector('[name=csrfmiddlewaretoken]').value;
+      var slug = commentForm.dataset.slug;
+      fetch('/ajax/news/comment/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'X-CSRFToken': csrf },
+        body: 'slug=' + encodeURIComponent(slug) + '&text=' + encodeURIComponent(text)
+      }).then(function(r) { return r.json(); }).then(function(data) {
+        if (data.ok) {
+          input.value = '';
+          var list = document.getElementById('comments-list');
+          document.getElementById('no-comments-msg')?.remove();
+          var div = document.createElement('div');
+          div.className = 'comment-item';
+          div.innerHTML = '<div class="comment-avatar">' + (data.author_initials || '?') + '</div><div class="comment-body"><div><span class="comment-author">' + escapeHtml(data.author_name) + '</span><span class="comment-time"> &middot; just now</span></div><div class="comment-text">' + escapeHtml(text) + '</div></div>';
+          list.prepend(div);
+          showSnackbar('Comment posted!');
+        } else {
+          showSnackbar(data.error || 'Could not post comment');
+        }
+      }).catch(function() { showSnackbar('Network error'); });
     });
-  })();
+  }
+
+  function escapeHtml(str) {
+    var div = document.createElement('div');
+    div.appendChild(document.createTextNode(str));
+    return div.innerHTML;
+  }
+
+  registerActions({
+    'share-news': function(el, e) {
+      shareNews();
+    }
+  });
+})();
 </script>
 {% endblock %}

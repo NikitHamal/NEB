@@ -476,7 +476,7 @@ fun NEBiansNavHost(
             composable(Screen.News.route) {
                 NewsScreen(
                     onNewsClick = { slug -> navController.navigate(Screen.NewsDetail.createRoute(slug)) },
-                    onResultCheckerClick = { navController.navigate(Screen.ResultChecker.route) },
+                    onNavigateBack = { navController.popBackStack() },
                     onSearchClick = { navController.navigate(Screen.Search.route) },
                     onNotificationsClick = { navController.navigate(Screen.Notifications.route) },
                     onProfileClick = navigateToOwnProfile
