@@ -153,6 +153,7 @@ def get_models():
             "provider": "deepai",
             "vision": m.get("vision", False),
             "thinking": m.get("thinking", False),
+            "reasoning_levels": ["low", "medium", "high"] if m.get("thinking", False) else [],
             "locked": m.get("locked", False),
         }
         for m in ALL_MODELS
