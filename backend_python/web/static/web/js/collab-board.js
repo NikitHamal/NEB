@@ -175,7 +175,8 @@
             var size = file.size ? (file.size / 1024).toFixed(0) + ' KB' : 'File';
             self._addElement({
               type: 'document_card', x: coords.x - 100, y: coords.y - 32,
-              w: 200, h: 64, title: file.name, url: url, sizeText: size, id: self._uid()
+              w: 200, h: 64, title: file.name, url: url, sizeText: size,
+              mimeType: data.mimeType || file.type || '', id: self._uid()
             });
           }
           var modal = document.getElementById('cbFilePickerModal');

@@ -191,8 +191,8 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = (BASE_DIR / 'public' / 'media') if (BASE_DIR / 'public').exists() else (BASE_DIR / 'media')
 PROFILE_PHOTO_MAX_BYTES = int(os.environ.get('PROFILE_PHOTO_MAX_BYTES', str(5 * 1024 * 1024)))
-FILE_UPLOAD_MAX_MEMORY_SIZE = int(os.environ.get('FILE_UPLOAD_MAX_MEMORY_SIZE', str(50 * 1024 * 1024)))
-DATA_UPLOAD_MAX_MEMORY_SIZE = int(os.environ.get('DATA_UPLOAD_MAX_MEMORY_SIZE', str(50 * 1024 * 1024)))
+FILE_UPLOAD_MAX_MEMORY_SIZE = int(os.environ.get('FILE_UPLOAD_MAX_MEMORY_SIZE', str(110 * 1024 * 1024)))
+DATA_UPLOAD_MAX_MEMORY_SIZE = int(os.environ.get('DATA_UPLOAD_MAX_MEMORY_SIZE', str(110 * 1024 * 1024)))
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 

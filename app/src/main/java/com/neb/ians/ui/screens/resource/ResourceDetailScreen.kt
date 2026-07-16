@@ -6,6 +6,7 @@ import android.net.Uri
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowInsetsController
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -46,6 +47,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.core.view.WindowCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.media3.common.Player
 import coil.compose.AsyncImage
@@ -66,6 +68,7 @@ fun ResourceDetailScreen(
     onNavigateBack: () -> Unit,
     onOpenPdf: (resourceId: String, fileUrl: String, title: String) -> Unit,
     onUserProfileClick: (String) -> Unit = {},
+    onRelatedResourceClick: (String) -> Unit = {},
     viewModel: ResourceDetailViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -93,6 +96,7 @@ fun ResourceDetailScreen(
     fun enterFullscreen() {
         isFullscreen = true
         activity?.let { act ->
+            WindowCompat.setDecorFitsSystemWindows(act.window, false)
             act.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
             val decor = act.window?.decorView
             if (decor != null) {
@@ -114,6 +118,7 @@ fun ResourceDetailScreen(
         isFullscreen = false
         activity?.let { act ->
             act.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+            WindowCompat.setDecorFitsSystemWindows(act.window, true)
             val decor = act.window?.decorView
             if (decor != null) {
                 if (android.os.Build.VERSION.SDK_INT >= 30) {
@@ -121,6 +126,23 @@ fun ResourceDetailScreen(
                 } else {
                     @Suppress("DEPRECATION")
                     decor.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
+                }
+            }
+        }
+    }
+
+    BackHandler(enabled = isFullscreen, onBack = ::exitFullscreen)
+
+    DisposableEffect(activity) {
+        onDispose {
+            activity?.let { act ->
+                act.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+                WindowCompat.setDecorFitsSystemWindows(act.window, true)
+                if (android.os.Build.VERSION.SDK_INT >= 30) {
+                    act.window.decorView.windowInsetsController?.show(WindowInsets.Type.systemBars())
+                } else {
+                    @Suppress("DEPRECATION")
+                    run { act.window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE }
                 }
             }
         }
@@ -190,6 +212,7 @@ fun ResourceDetailScreen(
                                 mediaViewModel = mediaViewModel,
                                 onFullscreenClick = ::enterFullscreen,
                                 onUserProfileClick = onUserProfileClick,
+                                onRelatedResourceClick = onRelatedResourceClick,
                                 share = ::share,
                                 openExternal = ::openExternal,
                                 padding = padding
@@ -245,6 +268,7 @@ private fun VideoYouTubeLayout(
     mediaViewModel: MediaPlayerViewModel,
     onFullscreenClick: () -> Unit,
     onUserProfileClick: (String) -> Unit,
+    onRelatedResourceClick: (String) -> Unit,
     share: (String, String) -> Unit,
     openExternal: (String) -> Unit,
     padding: PaddingValues
@@ -374,10 +398,14 @@ private fun VideoYouTubeLayout(
                     onClick = { share(resource.title, resource.id) }
                 )
                 VideoActionIcon(
-                    icon = Icons.Filled.Download,
-                    selected = false,
-                    contentDescription = "Download",
-                    onClick = { openExternal(resource.fileUrl) }
+                    icon = when {
+                        uiState.isDownloaded -> Icons.Filled.DownloadDone
+                        uiState.downloadProgress != null && uiState.downloadProgress in 0..99 -> Icons.Filled.Downloading
+                        else -> Icons.Filled.Download
+                    },
+                    selected = uiState.isDownloaded,
+                    contentDescription = if (uiState.isDownloaded) "Downloaded" else "Download for offline playback",
+                    onClick = viewModel::downloadResource
                 )
             }
         }
@@ -393,6 +421,30 @@ private fun VideoYouTubeLayout(
                 )
                 HorizontalDivider(
                     modifier = Modifier.padding(top = 8.dp),
+                    color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
+                )
+            }
+        }
+
+        if (uiState.suggestedVideos.isNotEmpty()) {
+            item(key = "up_next_title") {
+                Text(
+                    "Up next",
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)
+                )
+            }
+            items(uiState.suggestedVideos, key = { "up_${it.id}" }) { suggested ->
+                UpNextVideoCard(
+                    resource = suggested,
+                    onClick = { onRelatedResourceClick(suggested.id) },
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 5.dp)
+                )
+            }
+            item(key = "up_next_divider") {
+                HorizontalDivider(
+                    modifier = Modifier.padding(top = 10.dp),
                     color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
                 )
             }
@@ -456,7 +508,7 @@ private fun NonVideoLayout(
                         else -> openExternal(resource.fileUrl)
                     }
                 },
-                onDownload = { openExternal(resource.fileUrl) },
+                onDownload = viewModel::downloadResource,
                 onLike = viewModel::toggleLike,
                 onBookmark = viewModel::toggleBookmark,
                 onShare = { share(resource.title, resource.id) },
@@ -674,6 +726,7 @@ private fun FullscreenVideoOverlay(
                         fontSize = 14.sp, maxLines = 2, overflow = TextOverflow.Ellipsis,
                         modifier = Modifier.weight(1f)
                     )
+                    FullscreenOrientationControls(activity = activity)
                 }
 
                 // Center play/pause

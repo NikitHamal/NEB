@@ -216,7 +216,7 @@ private fun EmbeddedVideoStage(
     onToggleMute: () -> Unit,
     onFullscreenClick: () -> Unit
 ) {
-    var showControls by remember { mutableStateOf(false) }
+    var showControls by remember { mutableStateOf(true) }
     var seekBadge by remember { mutableStateOf<Int?>(null) }
     var seekBadgeVisible by remember { mutableStateOf(false) }
 
@@ -225,6 +225,10 @@ private fun EmbeddedVideoStage(
             delay(3000L)
             showControls = false
         }
+    }
+
+    LaunchedEffect(isPlaying) {
+        if (!isPlaying) showControls = true
     }
 
     LaunchedEffect(seekBadgeVisible) {

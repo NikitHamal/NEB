@@ -3,6 +3,7 @@ package com.neb.ians.ui.screens.reader
 import android.app.Application
 import android.content.Context
 import android.media.AudioManager
+import android.net.Uri
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -13,6 +14,7 @@ import androidx.media3.exoplayer.ExoPlayer
 import com.neb.ians.data.api.ApiResource
 import com.neb.ians.data.repository.ResourceRepository
 import com.neb.ians.data.api.ApiErrorMapper
+import com.neb.ians.util.ResourceDownloadManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -53,6 +55,7 @@ class MediaPlayerViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val application: Application,
     private val resourceRepository: ResourceRepository,
+    private val downloadManager: ResourceDownloadManager
 ) : ViewModel() {
 
     private val resourceId: String = savedStateHandle.get<String>("resourceId") ?: ""
@@ -80,36 +83,35 @@ class MediaPlayerViewModel @Inject constructor(
 
     private fun loadResource() {
         viewModelScope.launch {
+            val downloaded = downloadManager.findDownloaded(resourceId)
+            val localFile = downloaded?.localPath?.let { java.io.File(it) }?.takeIf { it.exists() }
+            if (downloaded != null && localFile != null) {
+                val offlineResource = ApiResource(
+                    id = downloaded.resourceId,
+                    title = downloaded.title,
+                    subject = "Downloaded",
+                    gradeLevel = "",
+                    type = downloaded.type,
+                    fileUrl = downloaded.fileUrl,
+                    thumbnailUrl = downloaded.thumbnailUrl,
+                    fileSize = downloaded.sizeBytes
+                )
+                configureResource(
+                    resource = offlineResource,
+                    playableUri = Uri.fromFile(localFile).toString(),
+                    mimeHint = downloaded.mimeType
+                )
+                return@launch
+            }
+
             resourceRepository.getResource(resourceId)
                 .onSuccess { resource ->
-                    val isVideo = when {
-                        resource.type.contains("video", ignoreCase = true) -> true
-                        resource.fileUrl.contains(".mp4", ignoreCase = true) ||
-                            resource.fileUrl.contains(".webm", ignoreCase = true) ||
-                            resource.fileUrl.contains(".mkv", ignoreCase = true) -> true
-                        else -> false
-                    }
-                    val subjectColor = com.neb.ians.util.getSubjectColor(
-                        resource.subject.split(",").firstOrNull()?.trim().orEmpty()
-                    )
-                    val prefs = application.getSharedPreferences(PREFS_NAME, 0)
-                    val resumeMs = prefs.getLong("pos_$resourceId", 0L)
-                    val savedSpeed = prefs.getFloat("speed_$resourceId", 1f)
-                    _uiState.update {
-                        it.copy(
-                            resource = resource,
-                            title = resource.title,
-                            isVideo = isVideo,
-                            isLoading = false,
-                            resumePositionMs = resumeMs,
-                            speed = savedSpeed,
-                            subjectColorArgb = subjectColor.hashCode()
-                        )
-                    }
-                    if (resource.fileUrl.isNotBlank()) {
-                        initPlayer(resource.fileUrl)
+                    val cachedFile = downloadManager.getLocalFile(resource.id, resource.fileUrl)?.takeIf { it.exists() }
+                    val playableUri = cachedFile?.let { Uri.fromFile(it).toString() } ?: resource.fileUrl
+                    if (playableUri.isBlank()) {
+                        _uiState.update { it.copy(isLoading = false, hasError = true, errorMessage = "No file available") }
                     } else {
-                        _uiState.update { it.copy(hasError = true, errorMessage = "No file available") }
+                        configureResource(resource, playableUri)
                     }
                 }
                 .onFailure { e ->
@@ -118,6 +120,32 @@ class MediaPlayerViewModel @Inject constructor(
                     }
                 }
         }
+    }
+
+    private fun configureResource(resource: ApiResource, playableUri: String, mimeHint: String = "") {
+        val mediaHint = "$mimeHint ${resource.type} ${resource.fileUrl} $playableUri".lowercase()
+        val isVideo = mediaHint.contains("video/") || listOf(".mp4", ".webm", ".mkv", ".mov", ".m4v", ".avi", ".ogv")
+            .any(mediaHint::contains)
+        val subjectColor = com.neb.ians.util.getSubjectColor(
+            resource.subject.split(",").firstOrNull()?.trim().orEmpty()
+        )
+        val prefs = application.getSharedPreferences(PREFS_NAME, 0)
+        val resumeMs = prefs.getLong("pos_$resourceId", 0L)
+        val savedSpeed = prefs.getFloat("speed_$resourceId", 1f)
+        _uiState.update {
+            it.copy(
+                resource = resource,
+                title = resource.title,
+                isVideo = isVideo,
+                isLoading = false,
+                hasError = false,
+                errorMessage = null,
+                resumePositionMs = resumeMs,
+                speed = savedSpeed,
+                subjectColorArgb = subjectColor.hashCode()
+            )
+        }
+        initPlayer(playableUri)
     }
 
     private fun initPlayer(fileUrl: String) {

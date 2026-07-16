@@ -1,4 +1,5 @@
 """News / Announcements + interactive Results guide views."""
+import json
 import re
 import unicodedata
 from django.core.cache import cache
@@ -7,7 +8,7 @@ from django.http import Http404, JsonResponse
 from django.shortcuts import render, redirect
 from django.views.decorators.http import require_GET, require_POST
 
-from api.models import Announcement, BlogComment
+from api.models import Announcement, BlogComment, User
 from api.utils import now_ms, uuid_str
 
 from .view_helpers import _ctx, _get_user_id
@@ -128,22 +129,41 @@ def _serialize_comments(announcement):
         'author_initials': (c.author.display_name or c.author.username)[:2].upper(),
         'text': c.text,
         'created_at': c.created_at,
+        'author_photo': c.author.photo_url or '',
     } for c in qs]
 
 
-@require_POST
-def ajax_blog_comment(request):
-    user = request.user
-    if not user.is_authenticated:
-        return JsonResponse({'ok': False, 'error': 'Please sign in to comment'}, status=401)
-    slug = request.POST.get('slug', '').strip()
-    text = request.POST.get('text', '').strip()
-    if not slug or not text:
-        return JsonResponse({'ok': False, 'error': 'Missing slug or text'}, status=400)
+@require_GET
+def ajax_blog_comments(request, slug):
     try:
         announcement = Announcement.objects.get(slug=slug, status='published')
     except Announcement.DoesNotExist:
         return JsonResponse({'ok': False, 'error': 'Announcement not found'}, status=404)
+    return JsonResponse({'ok': True, 'comments': _serialize_comments(announcement)})
+
+
+@require_POST
+def ajax_blog_comment(request):
+    user_id = _get_user_id(request)
+    if not user_id:
+        return JsonResponse({'ok': False, 'error': 'Please sign in to comment'}, status=401)
+    try:
+        payload = json.loads(request.body.decode('utf-8')) if request.content_type == 'application/json' else request.POST
+    except (ValueError, UnicodeDecodeError):
+        payload = request.POST
+    slug = str(payload.get('slug', '')).strip()
+    text = str(payload.get('text', '')).strip()
+    if not slug or not text:
+        return JsonResponse({'ok': False, 'error': 'Missing slug or text'}, status=400)
+    if len(text) > 4000:
+        return JsonResponse({'ok': False, 'error': 'Comment is too long'}, status=400)
+    try:
+        announcement = Announcement.objects.get(slug=slug, status='published')
+        user = User.objects.get(pk=user_id)
+    except Announcement.DoesNotExist:
+        return JsonResponse({'ok': False, 'error': 'Announcement not found'}, status=404)
+    except User.DoesNotExist:
+        return JsonResponse({'ok': False, 'error': 'User not found'}, status=401)
     comment = BlogComment.objects.create(
         id=uuid_str(),
         announcement=announcement,
@@ -153,8 +173,14 @@ def ajax_blog_comment(request):
     )
     return JsonResponse({
         'ok': True,
-        'author_name': user.display_name or user.username,
-        'author_initials': (user.display_name or user.username)[:2].upper(),
+        'comment': {
+            'id': comment.id,
+            'author_name': user.display_name or user.username,
+            'author_initials': (user.display_name or user.username)[:2].upper(),
+            'author_photo': user.photo_url or '',
+            'text': comment.text,
+            'created_at': comment.created_at,
+        },
     })
 
 

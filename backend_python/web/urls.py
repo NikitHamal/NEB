@@ -24,6 +24,7 @@ urlpatterns = [
     path('tools/', views.tools_hub, name='tools_hub'),
     path('ajax/results/check/', views.ajax_check_result, name='ajax_check_result'),
     path('ajax/news/comment/', views.ajax_blog_comment, name='ajax_blog_comment'),
+    path('ajax/news/<slug:slug>/comments/', views.ajax_blog_comments, name='ajax_blog_comments'),
     path('ajax/search/', views.ajax_instant_search, name='ajax_instant_search'),
     path('forum/', views.forum, name='forum'),
     path('forum/categories/', views.forum_categories, name='forum_categories'),

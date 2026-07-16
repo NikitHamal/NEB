@@ -384,19 +384,21 @@ private fun ResourceFileCard(resource: ApiResource, onRead: () -> Unit, onDownlo
                     Spacer(Modifier.width(7.dp))
                     Text(buttonText, fontWeight = FontWeight.Bold)
                 }
-                Button(
-                    onClick = onDownload,
-                    modifier = Modifier.weight(1f),
-                    shape = RoundedCornerShape(999.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                        contentColor = MaterialTheme.colorScheme.onSecondaryContainer
-                    ),
-                    contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 14.dp, vertical = 10.dp)
-                ) {
-                    Icon(Icons.Filled.Download, null, modifier = Modifier.size(17.dp))
-                    Spacer(Modifier.width(7.dp))
-                    Text("Download", fontWeight = FontWeight.Bold)
+                if (mediaType != ResourceMediaType.Pdf) {
+                    Button(
+                        onClick = onDownload,
+                        modifier = Modifier.weight(1f),
+                        shape = RoundedCornerShape(999.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                            contentColor = MaterialTheme.colorScheme.onSecondaryContainer
+                        ),
+                        contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 14.dp, vertical = 10.dp)
+                    ) {
+                        Icon(Icons.Filled.Download, null, modifier = Modifier.size(17.dp))
+                        Spacer(Modifier.width(7.dp))
+                        Text("Download", fontWeight = FontWeight.Bold)
+                    }
                 }
             }
         }

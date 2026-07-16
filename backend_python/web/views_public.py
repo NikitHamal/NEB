@@ -64,6 +64,19 @@ def home(request):
         if user_data and (not user_data.get('display_name') or not user_data.get('gender') or not user_data.get('class_level')):
             return redirect('web:edit_profile')
     user_id = _get_user_id(request)
+    
+    hero_bg_filename = cache.get('active_hero_background_filename')
+    if hero_bg_filename is None:
+        try:
+            from api.models import HeroBackground
+            active_bg = HeroBackground.objects.filter(is_active=True).first()
+            if active_bg:
+                hero_bg_filename = active_bg.filename
+            else:
+                hero_bg_filename = "paper_sky_hero_background.svg"
+        except Exception:
+            hero_bg_filename = "paper_sky_hero_background.svg"
+        cache.set('active_hero_background_filename', hero_bg_filename, 60)
     resources = cache.get('home_resources')
     if resources is None:
         resources = _serialize_resources(Resource.objects.filter(approval_status='approved', is_lead=True)[:50])
@@ -156,6 +169,7 @@ def home(request):
         subjects=subjects[:12],
         latest_news=latest_news,
         home_stats=home_stats,
+        hero_bg_filename=hero_bg_filename,
         hide_footer_links=False,
     ))
 

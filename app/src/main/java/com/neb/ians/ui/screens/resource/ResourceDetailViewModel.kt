@@ -8,6 +8,7 @@ import com.neb.ians.data.api.ApiResource
 import com.neb.ians.data.api.ApiResourceComment
 import com.neb.ians.data.repository.AuthRepository
 import com.neb.ians.data.repository.ResourceRepository
+import com.neb.ians.util.ResourceDownloadManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -31,8 +32,11 @@ data class ResourceDetailUiState(
     val authorPhotoUrl: String? = null,
     val comments: List<ApiResourceComment> = emptyList(),
     val commentsLoading: Boolean = false,
+    val suggestedVideos: List<ApiResource> = emptyList(),
     val commentDraft: String = "",
     val isPostingComment: Boolean = false,
+    val downloadProgress: Int? = null,
+    val isDownloaded: Boolean = false,
     val snackbarMessage: String? = null
 )
 
@@ -40,11 +44,24 @@ data class ResourceDetailUiState(
 class ResourceDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val resourceRepository: ResourceRepository,
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
+    private val downloadManager: ResourceDownloadManager
 ) : ViewModel() {
 
     private val resourceId: String = savedStateHandle.get<String>("resourceId") ?: ""
-    private val cachedResource = resourceRepository.peekResource(resourceId)
+    private val downloadedResource = downloadManager.findDownloaded(resourceId)?.let { item ->
+        ApiResource(
+            id = item.resourceId,
+            title = item.title,
+            subject = "Downloaded",
+            gradeLevel = "",
+            type = item.type,
+            fileUrl = item.fileUrl,
+            thumbnailUrl = item.thumbnailUrl,
+            fileSize = item.sizeBytes
+        )
+    }
+    private val cachedResource = resourceRepository.peekResource(resourceId) ?: downloadedResource
     private val cachedComments = resourceRepository.peekComments(resourceId).orEmpty()
 
     private val _uiState = MutableStateFlow(
@@ -67,6 +84,28 @@ class ResourceDetailViewModel @Inject constructor(
 
     init {
         load()
+        viewModelScope.launch {
+            downloadManager.downloads.collect { downloads ->
+                _uiState.update { state ->
+                    state.copy(isDownloaded = downloads.any { it.resourceId == resourceId })
+                }
+            }
+        }
+        viewModelScope.launch {
+            downloadManager.downloadProgress.collect { progress ->
+                _uiState.update { it.copy(downloadProgress = progress[resourceId]) }
+            }
+        }
+    }
+
+    fun downloadResource() {
+        val resource = _uiState.value.resource ?: return
+        if (_uiState.value.isDownloaded) {
+            _uiState.update { it.copy(snackbarMessage = "Available offline in Downloads") }
+            return
+        }
+        downloadManager.downloadResourceFromApi(resource)
+        _uiState.update { it.copy(snackbarMessage = "Downloading inside NEBians") }
     }
 
     fun load(forceRefresh: Boolean = false) {
@@ -90,6 +129,9 @@ class ResourceDetailViewModel @Inject constructor(
                         )
                     }
                     resourceRepository.viewResource(resourceId)
+                    if (resource.type.contains("video", ignoreCase = true) || resource.fileUrl.contains(".mp4", ignoreCase = true)) {
+                        loadSuggestedVideos(resource)
+                    }
                     val authorUsername = resource.uploadedByUsername
                     if (authorUsername.isNotBlank()) {
                         fetchAuthorPhoto(authorUsername)
@@ -103,6 +145,23 @@ class ResourceDetailViewModel @Inject constructor(
                     }
                 }
             loadComments(forceRefresh = forceRefresh)
+        }
+    }
+
+    private fun loadSuggestedVideos(resource: ApiResource) {
+        viewModelScope.launch {
+            val subject = resource.subject.split(",").firstOrNull()?.trim().orEmpty().takeIf { it.isNotBlank() }
+            resourceRepository.getResources(subject = subject, type = "Video", sort = "popular")
+                .onSuccess { result ->
+                    _uiState.update {
+                        it.copy(
+                            suggestedVideos = result.resources
+                                .filterNot { candidate -> candidate.id == resource.id }
+                                .filter { candidate -> candidate.type.contains("video", true) || candidate.fileUrl.contains(".mp4", true) }
+                                .take(8)
+                        )
+                    }
+                }
         }
     }
 

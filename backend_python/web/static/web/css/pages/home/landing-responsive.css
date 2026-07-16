@@ -1,12 +1,15 @@
 [data-theme="dark"] .home-landing {
-  --home-sky: #183552;
-  --home-sky-deep: #1b5883;
   --home-ink: #eff6ff;
   --home-muted: #c0d0df;
   background:
-    radial-gradient(circle at 14% 20%, rgba(73, 112, 151, 0.32), transparent 27%),
-    linear-gradient(180deg, var(--home-sky-deep) 0%, var(--home-sky) 58%, #0f2237 100%);
+    var(--home-landing-bg, url("../../../img/paper_sky_hero_background.svg")) center top / cover no-repeat;
+  filter: brightness(0.7) saturate(0.85);
 }
+
+[data-theme="dark"] .home-landing-inner {
+  filter: brightness(1.43) saturate(1.18);
+}
+
 
 [data-theme="dark"] .home-title-chip-resource {
   color: #ddd4ff;
@@ -40,7 +43,7 @@
 
 @media (max-width: 700px) {
   .home-landing {
-    padding: calc(64px + 20px) 16px 42px;
+    padding: calc(64px + 20px) 16px 60px;
   }
 
   .home-hero-copy h1 {

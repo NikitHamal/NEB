@@ -54,6 +54,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.filled.Bookmark
+import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.ExitToApp
 import com.neb.ians.ui.components.NebAvatar
@@ -93,6 +94,7 @@ import com.neb.ians.ui.screens.resource.ResourceDetailScreen
 import com.neb.ians.ui.screens.resource.ResourceRequestsScreen
 import com.neb.ians.ui.screens.analytics.AnalyticsScreen
 import com.neb.ians.ui.screens.bookmarks.BookmarksScreen
+import com.neb.ians.ui.screens.downloads.DownloadsScreen
 import com.neb.ians.ui.screens.upload.UploadScreen
 import com.neb.ians.ui.screens.ai.NebyAiScreen
 import com.neb.ians.ui.screens.study.StudyLabScreen
@@ -150,6 +152,7 @@ sealed class Screen(val route: String) {
     data object NebyAi : Screen("neby_ai")
     data object Analytics : Screen("analytics")
     data object Bookmarks : Screen("bookmarks")
+    data object Downloads : Screen("downloads")
     data object Upload : Screen("upload")
     data object Profile : Screen("profile/{username}?showRequests={showRequests}") {
         fun createRoute(username: String, showRequests: Boolean = false) =
@@ -596,6 +599,13 @@ fun NEBiansNavHost(
                     onSearchClick = { navController.navigate(Screen.Search.route) }
                 )
             }
+            composable(Screen.Downloads.route) {
+                DownloadsScreen(
+                    onNavigateBack = { navController.popBackStack() },
+                    onOpenPdf = { resourceId -> navController.navigate(Screen.PdfViewer.createRoute(resourceId)) },
+                    onOpenMedia = { resourceId -> navController.navigate(Screen.ResourceDetail.createRoute(resourceId)) }
+                )
+            }
             composable(Screen.Upload.route) {
                 UploadScreen(
                     onNavigateBack = { navController.popBackStack() },
@@ -696,6 +706,11 @@ fun NEBiansNavHost(
                     },
                     onUserProfileClick = { username ->
                         navController.navigate(Screen.Profile.createRoute(username))
+                    },
+                    onRelatedResourceClick = { resourceId ->
+                        navController.navigate(Screen.ResourceDetail.createRoute(resourceId)) {
+                            launchSingleTop = true
+                        }
                     }
                 )
             }
@@ -847,6 +862,15 @@ fun NEBiansNavHost(
                             onClick = {
                                 showProfileDropdown = false
                                 navController.navigate(Screen.Bookmarks.route)
+                            }
+                        )
+
+                        ProfileDropdownItem(
+                            icon = Icons.Filled.Download,
+                            text = "Downloads",
+                            onClick = {
+                                showProfileDropdown = false
+                                navController.navigate(Screen.Downloads.route)
                             }
                         )
 
