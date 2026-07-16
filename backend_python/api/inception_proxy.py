@@ -6,7 +6,7 @@ import time
 import uuid
 from typing import Dict, Generator, List, Optional
 
-import requests
+from curl_cffi.requests import Session as CurlSession
 
 logger = logging.getLogger(__name__)
 
@@ -20,6 +20,21 @@ MODELS = [
 ]
 
 MODEL_MAP = {m["id"]: m for m in MODELS}
+
+_BROWSER_HEADERS = {
+    "accept": "*/*",
+    "accept-language": "en-US,en;q=0.9",
+    "content-type": "application/json",
+    "origin": INCEPTION_URL,
+    "referer": f"{INCEPTION_URL}/",
+    "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+    "sec-ch-ua": '"Not;A=Brand";v="8", "Chromium";v="150", "Google Chrome";v="150"',
+    "sec-ch-ua-mobile": "?0",
+    "sec-ch-ua-platform": '"Windows"',
+    "sec-fetch-dest": "empty",
+    "sec-fetch-mode": "cors",
+    "sec-fetch-site": "same-origin",
+}
 
 _SESSION_TOKEN: Optional[str] = None
 _SESSION_EXPIRES: float = 0
@@ -42,38 +57,34 @@ def _ensure_session() -> str:
         if _SESSION_TOKEN and _SESSION_EXPIRES > now + 60:
             return _SESSION_TOKEN
 
-        headers = {
-            "accept": "*/*",
-            "referer": f"{INCEPTION_URL}/",
-            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
-        }
-        max_retries = 3
-        for attempt in range(max_retries):
-            try:
-                resp = requests.get(SESSION_URL, headers=headers, timeout=15)
-            except requests.RequestException as exc:
-                if attempt < max_retries - 1:
-                    time.sleep(2 ** attempt)
+        with CurlSession(headers=_BROWSER_HEADERS, impersonate="chrome") as session:
+            max_retries = 3
+            for attempt in range(max_retries):
+                try:
+                    resp = session.get(SESSION_URL, timeout=15)
+                except Exception as exc:
+                    if attempt < max_retries - 1:
+                        time.sleep(2 ** attempt)
+                        continue
+                    raise RuntimeError(f"Inception session failed: {exc}")
+
+                if resp.status_code == 429 and attempt < max_retries - 1:
+                    retry_after = int(resp.headers.get("retry-after", 2 ** attempt))
+                    logger.warning("Inception rate-limited (429), retrying in %ds", retry_after)
+                    time.sleep(retry_after)
                     continue
-                raise RuntimeError(f"Inception session failed: {exc}")
 
-            if resp.status_code == 429 and attempt < max_retries - 1:
-                retry_after = int(resp.headers.get("retry-after", 2 ** attempt))
-                logger.warning("Inception rate-limited (429), retrying in %ds", retry_after)
-                time.sleep(retry_after)
-                continue
+                if resp.status_code != 200:
+                    raise RuntimeError(f"Inception session failed: HTTP {resp.status_code}")
 
-            if resp.status_code != 200:
-                raise RuntimeError(f"Inception session failed: HTTP {resp.status_code}")
-
-            data = resp.json()
-            token = data.get("token", "")
-            if not token:
-                raise RuntimeError(f"Inception session returned no token: {data}")
-            _SESSION_TOKEN = token
-            _SESSION_EXPIRES = now + 3600
-            logger.info("Inception: new session token obtained")
-            return token
+                data = resp.json()
+                token = data.get("token", "")
+                if not token:
+                    raise RuntimeError(f"Inception session returned no token: {data}")
+                _SESSION_TOKEN = token
+                _SESSION_EXPIRES = now + 3600
+                logger.info("Inception: new session token obtained")
+                return token
 
         raise RuntimeError("Inception session failed: exhausted retries")
 
@@ -137,26 +148,19 @@ def stream_chat(
         "trigger": "submit-message",
     }
 
-    headers = {
-        "accept": "*/*",
-        "accept-language": "en-US,en;q=0.9",
-        "content-type": "application/json",
-        "origin": INCEPTION_URL,
-        "referer": f"{INCEPTION_URL}/",
-        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
-        "x-session-token": token,
-        "cookie": f"session={token}",
-    }
+    headers = dict(_BROWSER_HEADERS)
+    headers["x-session-token"] = token
+    headers["cookie"] = f"session={token}"
 
     try:
-        resp = requests.post(
+        session = CurlSession(headers=headers, impersonate="chrome")
+        resp = session.post(
             CHAT_URL,
             json=payload,
-            headers=headers,
             stream=True,
             timeout=REQUEST_TIMEOUT,
         )
-    except requests.RequestException as exc:
+    except Exception as exc:
         yield {"type": "error", "error": f"request failed: {exc}"}
         return
 
@@ -173,10 +177,14 @@ def stream_chat(
         return
 
     buffer = ""
-    for raw_line in resp.iter_lines(decode_unicode=True):
+    for raw_line in resp.iter_lines(decode_unicode=False):
         if raw_line is None:
             continue
-        buffer += raw_line
+        try:
+            line = raw_line.decode("utf-8")
+        except UnicodeDecodeError:
+            continue
+        buffer += line
         if "\n\n" not in buffer:
             continue
         parts = buffer.split("\n\n")
