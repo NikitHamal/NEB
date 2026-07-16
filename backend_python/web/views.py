@@ -12,6 +12,7 @@ from .views_auth import *  # noqa: F401,F403
 from .views_ajax import *  # noqa: F401,F403
 from .views_notifications import *  # noqa: F401,F403
 from .views_admin import *  # noqa: F401,F403
+from .views_background_agent import *  # noqa: F401,F403
 from .views_arena import *  # noqa: F401,F403
 from .views_study_lab import *  # noqa: F401,F403
 from .views_interactive import *  # noqa: F401,F403
