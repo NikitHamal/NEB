@@ -1,0 +1,233 @@
+{% extends 'admin_panel/base.html' %}
+{% load static %}
+
+{% block title %}Background Agent{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'web/css/pages/background-agent.css' %}">
+{% endblock %}
+
+{% block content %}
+<div id="background-agent-app"
+     class="ba-app"
+     data-state-url="{% url 'web:background_agent_state' %}"
+     data-repositories-url="{% url 'web:background_agent_repositories' %}"
+     data-branches-url="{% url 'web:background_agent_branches' %}"
+     data-projects-url="{% url 'web:background_agent_create_project' %}"
+     data-sessions-url="{% url 'web:background_agent_create_session' %}"
+     data-connect-url="{% url 'web:background_agent_github_connect' %}"
+     data-disconnect-url="{% url 'web:background_agent_github_disconnect' %}">
+
+  <header class="ba-header">
+    <div>
+      <div class="ba-eyebrow"><span class="ba-live-dot"></span> Durable server-side coding</div>
+      <h1>Background Agent</h1>
+      <p>Assign repository work, close the browser, and return to a complete branch, patch, ZIP, or pull request.</p>
+    </div>
+    <div class="ba-header-actions">
+      <div id="ba-worker-status" class="ba-worker-pill" title="The worker runs independently of this browser tab">
+        <span class="material-symbols-outlined">cloud_sync</span>
+        <span>Background queue</span>
+      </div>
+      <a id="ba-connect-button" class="ba-btn ba-btn-primary" href="{% url 'web:background_agent_github_connect' %}">
+        <span class="material-symbols-outlined">hub</span>
+        Connect GitHub
+      </a>
+      <button id="ba-disconnect-button" class="ba-btn ba-btn-ghost" type="button" hidden>
+        <span class="material-symbols-outlined">link_off</span>
+        Disconnect
+      </button>
+    </div>
+  </header>
+
+  {% if messages %}
+    <div class="ba-server-messages">
+      {% for message in messages %}<div class="ba-server-message {{ message.tags }}">{{ message }}</div>{% endfor %}
+    </div>
+  {% endif %}
+
+  <section id="ba-connect-empty" class="ba-connect-empty" {% if github_connected %}hidden{% endif %}>
+    <div class="ba-connect-visual">
+      <span class="material-symbols-outlined">account_tree</span>
+    </div>
+    <div>
+      <span class="ba-kicker">One-time setup</span>
+      <h2>Give the agent repository access</h2>
+      <p>Use a dedicated GitHub OAuth grant. Tokens are encrypted at rest and are only used by the worker for repositories you explicitly add.</p>
+      <a class="ba-btn ba-btn-primary ba-btn-large" href="{% url 'web:background_agent_github_connect' %}">
+        <span class="material-symbols-outlined">login</span>
+        Authorize with GitHub
+      </a>
+    </div>
+  </section>
+
+  <div id="ba-workspace" class="ba-workspace" {% if not github_connected %}hidden{% endif %}>
+    <aside class="ba-sidebar">
+      <div class="ba-sidebar-head">
+        <div>
+          <span class="ba-kicker">Codebases</span>
+          <h2>Projects</h2>
+        </div>
+        <button id="ba-add-project" class="ba-icon-btn" type="button" title="Add GitHub repository" aria-label="Add GitHub repository">
+          <span class="material-symbols-outlined">add</span>
+        </button>
+      </div>
+      <div id="ba-github-account" class="ba-account-card"></div>
+      <div id="ba-project-list" class="ba-project-list"></div>
+      <div class="ba-sidebar-divider"></div>
+      <div class="ba-sidebar-head ba-sessions-heading">
+        <div>
+          <span class="ba-kicker">Recent work</span>
+          <h2>Sessions</h2>
+        </div>
+        <span id="ba-session-count" class="ba-count">0</span>
+      </div>
+      <div id="ba-session-list" class="ba-session-list"></div>
+    </aside>
+
+    <main class="ba-main">
+      <section class="ba-composer-card">
+        <div class="ba-composer-top">
+          <div class="ba-agent-avatar"><span class="material-symbols-outlined">robot_2</span></div>
+          <div>
+            <span class="ba-kicker">New autonomous task</span>
+            <h2>What should the agent build?</h2>
+          </div>
+          <div class="ba-autonomy-chip"><span class="material-symbols-outlined">schedule</span> Runs after you leave</div>
+        </div>
+        <textarea id="ba-goal" rows="7" placeholder="Describe the outcome, constraints, acceptance criteria, and tests. The agent will inspect the selected codebase, create a dedicated branch, implement the work, and validate it."></textarea>
+        <div class="ba-composer-controls">
+          <label class="ba-field ba-field-project">
+            <span>Repository</span>
+            <select id="ba-project-select"><option value="">Choose a project</option></select>
+          </label>
+          <label class="ba-field">
+            <span>Base branch</span>
+            <select id="ba-branch-select"><option value="">Select repository first</option></select>
+          </label>
+          <label class="ba-field">
+            <span>AI provider</span>
+            <select id="ba-provider-select"></select>
+          </label>
+          <label class="ba-field ba-field-small">
+            <span>Iterations</span>
+            <input id="ba-max-iterations" type="number" min="5" max="100" value="30">
+          </label>
+          <button id="ba-start" class="ba-btn ba-btn-primary ba-start-btn" type="button">
+            <span class="material-symbols-outlined">rocket_launch</span>
+            Start task
+          </button>
+        </div>
+        <div class="ba-composer-foot">
+          <span><span class="material-symbols-outlined">call_split</span> Never edits the base branch</span>
+          <span><span class="material-symbols-outlined">shield_lock</span> Workspace-jail tools</span>
+          <span><span class="material-symbols-outlined">download</span> Patch + changed-files ZIP</span>
+        </div>
+      </section>
+
+      <section id="ba-session-empty" class="ba-detail-empty">
+        <div class="ba-orbit"><span class="material-symbols-outlined">terminal</span></div>
+        <h2>Select a session</h2>
+        <p>Live progress, agent conversation, tool calls, changed files, diff, downloads, push, and pull request controls appear here.</p>
+      </section>
+
+      <section id="ba-session-detail" class="ba-detail" hidden>
+        <div class="ba-detail-header">
+          <div class="ba-detail-title-wrap">
+            <div id="ba-status-icon" class="ba-status-icon"><span class="material-symbols-outlined">pending</span></div>
+            <div>
+              <div class="ba-detail-meta"><span id="ba-detail-repo"></span><span>•</span><span id="ba-detail-branch"></span></div>
+              <h2 id="ba-detail-title"></h2>
+            </div>
+          </div>
+          <div class="ba-detail-actions">
+            <button id="ba-pause" class="ba-btn ba-btn-ghost" type="button"><span class="material-symbols-outlined">pause</span>Pause</button>
+            <button id="ba-resume" class="ba-btn ba-btn-ghost" type="button" hidden><span class="material-symbols-outlined">play_arrow</span>Resume</button>
+            <button id="ba-stop" class="ba-icon-btn ba-danger" type="button" title="Stop session"><span class="material-symbols-outlined">stop_circle</span></button>
+            <button id="ba-more" class="ba-icon-btn" type="button" title="Refresh"><span class="material-symbols-outlined">refresh</span></button>
+          </div>
+        </div>
+
+        <div class="ba-progress-shell">
+          <div class="ba-progress-copy"><span id="ba-progress-label">Queued</span><strong id="ba-progress-value">0%</strong></div>
+          <div class="ba-progress-track"><div id="ba-progress-bar" class="ba-progress-bar"></div></div>
+          <div class="ba-progress-sub"><span id="ba-provider-label"></span><span id="ba-iteration-label"></span><span id="ba-updated-label"></span></div>
+        </div>
+
+        <div class="ba-tabs" role="tablist">
+          <button class="ba-tab active" data-tab="activity" type="button"><span class="material-symbols-outlined">forum</span>Agent</button>
+          <button class="ba-tab" data-tab="files" type="button"><span class="material-symbols-outlined">folder_open</span>Files <span id="ba-file-count" class="ba-tab-count">0</span></button>
+          <button class="ba-tab" data-tab="diff" type="button"><span class="material-symbols-outlined">difference</span>Diff</button>
+          <button class="ba-tab" data-tab="delivery" type="button"><span class="material-symbols-outlined">publish</span>Deliver</button>
+        </div>
+
+        <div id="ba-tab-activity" class="ba-tab-panel active">
+          <div id="ba-conversation" class="ba-conversation"></div>
+          <div class="ba-interrupt-box">
+            <textarea id="ba-followup" rows="2" placeholder="Interrupt, refine, or add a follow-up…"></textarea>
+            <button id="ba-send-followup" class="ba-icon-btn ba-send" type="button" title="Send follow-up"><span class="material-symbols-outlined">arrow_upward</span></button>
+          </div>
+        </div>
+
+        <div id="ba-tab-files" class="ba-tab-panel">
+          <div id="ba-changed-files" class="ba-changed-files"></div>
+        </div>
+
+        <div id="ba-tab-diff" class="ba-tab-panel">
+          <div class="ba-code-toolbar"><span>Unified diff</span><button id="ba-copy-diff" class="ba-btn ba-btn-ghost" type="button"><span class="material-symbols-outlined">content_copy</span>Copy</button></div>
+          <pre id="ba-diff" class="ba-diff"><code>No diff available yet.</code></pre>
+        </div>
+
+        <div id="ba-tab-delivery" class="ba-tab-panel">
+          <div class="ba-delivery-grid">
+            <article class="ba-delivery-card">
+              <span class="material-symbols-outlined">archive</span>
+              <h3>Download changes</h3>
+              <p>A ZIP containing only changed files, a manifest, and the full patch.</p>
+              <div id="ba-download-actions" class="ba-delivery-actions"></div>
+            </article>
+            <article class="ba-delivery-card">
+              <span class="material-symbols-outlined">cloud_upload</span>
+              <h3>Push task branch</h3>
+              <p>Commit the current workspace and push only the dedicated task branch.</p>
+              <button id="ba-push" class="ba-btn ba-btn-secondary" type="button">Push to GitHub</button>
+            </article>
+            <article class="ba-delivery-card ba-delivery-primary">
+              <span class="material-symbols-outlined">merge</span>
+              <h3>Open pull request</h3>
+              <p>Push the branch and open a pull request against the original base branch.</p>
+              <button id="ba-open-pr" class="ba-btn ba-btn-primary" type="button">Open pull request</button>
+            </article>
+          </div>
+          <div id="ba-action-history" class="ba-action-history"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <dialog id="ba-repo-dialog" class="ba-dialog">
+    <div class="ba-dialog-head">
+      <div><span class="ba-kicker">GitHub</span><h2>Add a repository</h2></div>
+      <button class="ba-icon-btn" data-close-dialog type="button"><span class="material-symbols-outlined">close</span></button>
+    </div>
+    <div class="ba-dialog-search">
+      <span class="material-symbols-outlined">search</span>
+      <input id="ba-repo-search" type="search" placeholder="Search repositories">
+      <button id="ba-repo-refresh" class="ba-icon-btn" type="button" title="Refresh"><span class="material-symbols-outlined">refresh</span></button>
+    </div>
+    <div id="ba-repo-results" class="ba-repo-results"></div>
+    <div id="ba-repo-config" class="ba-repo-config" hidden>
+      <button id="ba-repo-back" class="ba-btn ba-btn-ghost" type="button"><span class="material-symbols-outlined">arrow_back</span>Back</button>
+      <div class="ba-selected-repo"><span class="material-symbols-outlined">folder_open</span><strong id="ba-selected-repo-name"></strong></div>
+      <label class="ba-field"><span>Default task base</span><select id="ba-repo-base-branch"></select></label>
+      <button id="ba-save-project" class="ba-btn ba-btn-primary" type="button"><span class="material-symbols-outlined">add_circle</span>Add project</button>
+    </div>
+  </dialog>
+
+  <div id="ba-toast-region" class="ba-toast-region" aria-live="polite"></div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/background-agent.js' %}"></script>
+{% endblock %}
