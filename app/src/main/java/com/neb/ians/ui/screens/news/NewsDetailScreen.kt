@@ -17,25 +17,14 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.OpenInNew
-import androidx.compose.material.icons.filled.PushPin
-import androidx.compose.material.icons.filled.Share
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.outlined.Visibility
-import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -55,9 +44,7 @@ import com.neb.ians.data.news.toSafeColor
 import com.neb.ians.ui.components.ErrorCard
 import com.neb.ians.ui.components.MarkdownText
 import com.neb.ians.ui.components.WebCardShape
-import com.neb.ians.ui.components.WebPanelShape
 import com.neb.ians.ui.components.WebPillShape
-import com.neb.ians.ui.components.WebTopBar
 import com.neb.ians.ui.screens.home.NewsCategoryBadge
 import com.neb.ians.ui.screens.home.newsIcon
 
@@ -71,30 +58,56 @@ fun NewsDetailScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
     val uriHandler = LocalUriHandler.current
+    var showMoreMenu by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
-            WebTopBar(
-                showBack = true,
-                title = "Blog",
-                subtitle = uiState.detail?.announcement?.title,
-                onBackClick = onNavigateBack,
-                compactTitle = true,
-                actions = {
-                    uiState.detail?.let { detail ->
-                        androidx.compose.material3.IconButton(onClick = {
-                            val intent = Intent(Intent.ACTION_SEND).apply {
-                                type = "text/plain"
-                                putExtra(Intent.EXTRA_SUBJECT, detail.announcement.title)
-                                putExtra(Intent.EXTRA_TEXT, detail.announcement.url)
-                            }
-                            context.startActivity(Intent.createChooser(intent, "Share Post"))
-                        }) {
-                            Icon(Icons.Filled.Share, contentDescription = "Share")
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 4.dp, vertical = 4.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                IconButton(onClick = onNavigateBack) {
+                    Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                }
+                Spacer(Modifier.weight(1f))
+                uiState.detail?.let { detail ->
+                    Box {
+                        IconButton(onClick = { showMoreMenu = true }) {
+                            Icon(Icons.Filled.MoreVert, contentDescription = "More")
+                        }
+                        DropdownMenu(
+                            expanded = showMoreMenu,
+                            onDismissRequest = { showMoreMenu = false }
+                        ) {
+                            DropdownMenuItem(
+                                text = { Text("Share") },
+                                onClick = {
+                                    showMoreMenu = false
+                                    val intent = Intent(Intent.ACTION_SEND).apply {
+                                        type = "text/plain"
+                                        putExtra(Intent.EXTRA_SUBJECT, detail.announcement.title)
+                                        putExtra(Intent.EXTRA_TEXT, detail.announcement.url)
+                                    }
+                                    context.startActivity(Intent.createChooser(intent, "Share Post"))
+                                },
+                                leadingIcon = { Icon(Icons.Filled.Share, null) }
+                            )
+                            DropdownMenuItem(
+                                text = { Text("Bookmark") },
+                                onClick = { showMoreMenu = false },
+                                leadingIcon = { Icon(Icons.Filled.BookmarkBorder, null) }
+                            )
+                            DropdownMenuItem(
+                                text = { Text("Report") },
+                                onClick = { showMoreMenu = false },
+                                leadingIcon = { Icon(Icons.Filled.Report, null) }
+                            )
                         }
                     }
                 }
-            )
+            }
         },
         containerColor = MaterialTheme.colorScheme.surface
     ) { innerPadding ->
@@ -113,82 +126,85 @@ fun NewsDetailScreen(
             }
             uiState.detail != null -> {
                 val detail = uiState.detail!!
-                LazyColumn(
+                Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(innerPadding),
+                        .padding(innerPadding)
+                        .verticalScroll(rememberScrollState()),
                     contentPadding = PaddingValues(bottom = 112.dp)
                 ) {
-                    item {
-                        NewsArticleHeader(
-                            item = detail.announcement,
-                            onShare = {
-                                val intent = Intent(Intent.ACTION_SEND).apply {
-                                    type = "text/plain"
-                                    putExtra(Intent.EXTRA_SUBJECT, detail.announcement.title)
-                                    putExtra(Intent.EXTRA_TEXT, detail.announcement.url)
-                                }
-                                context.startActivity(Intent.createChooser(intent, "Share Post"))
-                            }
-                        )
-                    }
+                    NewsArticleHeader(item = detail.announcement)
+
                     if (detail.announcement.coverImageUrl.isNotBlank()) {
-                        item {
-                            AsyncImage(
-                                model = detail.announcement.coverImageUrl,
-                                contentDescription = detail.announcement.title,
-                                modifier = Modifier
-                                    .padding(horizontal = 16.dp)
-                                    .fillMaxWidth()
-                                    .aspectRatio(16f / 9f)
-                                    .clip(WebPanelShape),
-                                contentScale = ContentScale.Crop
-                            )
-                            Spacer(modifier = Modifier.height(18.dp))
-                        }
+                        AsyncImage(
+                            model = detail.announcement.coverImageUrl,
+                            contentDescription = detail.announcement.title,
+                            modifier = Modifier
+                                .padding(horizontal = 16.dp)
+                                .fillMaxWidth()
+                                .aspectRatio(16f / 9f)
+                                .clip(WebPillShape),
+                            contentScale = ContentScale.Crop
+                        )
+                        Spacer(modifier = Modifier.height(18.dp))
                     }
-                    item {
-                        Card(
+
+                    MarkdownText(
+                        markdown = detail.content.ifBlank { detail.announcement.summary.ifBlank { detail.announcement.title } },
+                        modifier = Modifier.padding(horizontal = 16.dp),
+                        style = MaterialTheme.typography.bodyLarge,
+                        onLinkClick = { url -> safeOpenUri(uriHandler, context, url) }
+                    )
+
+                    Spacer(modifier = Modifier.height(16.dp))
+                    HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    // Share button at bottom
+                    OutlinedButton(
+                        onClick = {
+                            val intent = Intent(Intent.ACTION_SEND).apply {
+                                type = "text/plain"
+                                putExtra(Intent.EXTRA_SUBJECT, detail.announcement.title)
+                                putExtra(Intent.EXTRA_TEXT, detail.announcement.url)
+                            }
+                            context.startActivity(Intent.createChooser(intent, "Share Post"))
+                        },
+                        modifier = Modifier
+                            .padding(horizontal = 16.dp)
+                            .fillMaxWidth(),
+                        shape = WebPillShape
+                    ) {
+                        Icon(Icons.Filled.Share, contentDescription = null, modifier = Modifier.size(18.dp))
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text("Share this article")
+                    }
+
+                    if (detail.externalUrl.isNotBlank()) {
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Button(
+                            onClick = { safeOpenUri(uriHandler, context, detail.externalUrl) },
                             modifier = Modifier
                                 .padding(horizontal = 16.dp)
                                 .fillMaxWidth(),
-                            shape = WebPanelShape,
-                            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest),
-                            border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
+                            shape = WebPillShape
                         ) {
-                            MarkdownText(
-                                markdown = detail.content.ifBlank { detail.announcement.summary.ifBlank { detail.announcement.title } },
-                                modifier = Modifier.padding(18.dp),
-                                style = MaterialTheme.typography.bodyLarge,
-                                onLinkClick = { url -> safeOpenUri(uriHandler, context, url) }
-                            )
+                            Icon(Icons.Filled.OpenInNew, contentDescription = null, modifier = Modifier.size(18.dp))
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text("View Original Source")
                         }
                     }
-                    if (detail.externalUrl.isNotBlank()) {
-                        item {
-                            Button(
-                                onClick = { safeOpenUri(uriHandler, context, detail.externalUrl) },
-                                modifier = Modifier
-                                    .padding(16.dp)
-                                    .fillMaxWidth(),
-                                shape = WebPillShape
-                            ) {
-                                Icon(Icons.Filled.OpenInNew, contentDescription = null, modifier = Modifier.size(18.dp))
-                                Spacer(modifier = Modifier.width(8.dp))
-                                Text("View Original Source")
-                            }
-                        }
-                    }
+
                     if (detail.related.isNotEmpty()) {
-                        item {
-                            Text(
-                                text = "Related",
-                                style = MaterialTheme.typography.titleLarge,
-                                fontWeight = FontWeight.Bold,
-                                modifier = Modifier.padding(horizontal = 16.dp, vertical = 18.dp)
-                            )
-                        }
-                        items(detail.related, key = { it.id }) { related ->
+                        Spacer(modifier = Modifier.height(24.dp))
+                        Text(
+                            text = "Related",
+                            style = MaterialTheme.typography.titleLarge,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier.padding(horizontal = 16.dp)
+                        )
+                        Spacer(modifier = Modifier.height(12.dp))
+                        detail.related.forEach { related ->
                             RelatedNewsCard(
                                 item = related,
                                 onClick = { onRelatedNewsClick(related.slug) },
@@ -203,13 +219,13 @@ fun NewsDetailScreen(
 }
 
 @Composable
-private fun NewsArticleHeader(item: NewsAnnouncement, onShare: () -> Unit) {
+private fun NewsArticleHeader(item: NewsAnnouncement) {
     val accent = remember(item.categoryColorHex) { item.categoryColorHex.toSafeColor() }
     Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp)) {
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
             NewsCategoryBadge(label = item.categoryLabel, icon = item.categoryIcon.newsIcon(), accent = accent)
             if (item.isPinned) {
-                androidx.compose.material3.Surface(shape = WebPillShape, color = MaterialTheme.colorScheme.primary.copy(alpha = 0.10f)) {
+                Surface(shape = WebPillShape, color = MaterialTheme.colorScheme.primary.copy(alpha = 0.10f)) {
                     Row(modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp), verticalAlignment = Alignment.CenterVertically) {
                         Icon(Icons.Filled.PushPin, contentDescription = null, modifier = Modifier.size(13.dp), tint = MaterialTheme.colorScheme.primary)
                         Spacer(modifier = Modifier.width(4.dp))
@@ -234,12 +250,6 @@ private fun NewsArticleHeader(item: NewsAnnouncement, onShare: () -> Unit) {
                 Icon(Icons.Outlined.Visibility, contentDescription = null, modifier = Modifier.size(15.dp), tint = MaterialTheme.colorScheme.onSurfaceVariant)
                 Text("${item.viewCount} views", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
-        }
-        Spacer(modifier = Modifier.height(16.dp))
-        OutlinedButton(onClick = onShare, shape = WebPillShape) {
-            Icon(Icons.Filled.Share, contentDescription = null, modifier = Modifier.size(18.dp))
-            Spacer(modifier = Modifier.width(8.dp))
-            Text("Share")
         }
     }
 }

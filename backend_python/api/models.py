@@ -1514,6 +1514,21 @@ class Announcement(models.Model):
         return self.title
 
 
+class BlogComment(models.Model):
+    id = models.CharField(max_length=36, primary_key=True)
+    announcement = models.ForeignKey(Announcement, on_delete=models.CASCADE, related_name='comments')
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='blog_comments')
+    text = models.TextField()
+    created_at = models.BigIntegerField(default=0)
+
+    class Meta:
+        db_table = 'blog_comments'
+        ordering = ['created_at']
+
+    def __str__(self):
+        return f"Comment by {self.author_id} on {self.announcement_id}"
+
+
 class AccountDeletionRequest(models.Model):
     STATUS_PENDING = 'pending'
     STATUS_COMPLETED = 'completed'

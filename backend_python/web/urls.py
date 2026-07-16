@@ -23,6 +23,7 @@ urlpatterns = [
     path('results/check/', views.result_check_page, name='result_check'),
     path('tools/', views.tools_hub, name='tools_hub'),
     path('ajax/results/check/', views.ajax_check_result, name='ajax_check_result'),
+    path('ajax/news/comment/', views.ajax_blog_comment, name='ajax_blog_comment'),
     path('ajax/search/', views.ajax_instant_search, name='ajax_instant_search'),
     path('forum/', views.forum, name='forum'),
     path('forum/categories/', views.forum_categories, name='forum_categories'),

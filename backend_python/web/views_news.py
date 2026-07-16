@@ -3,14 +3,14 @@ import re
 import unicodedata
 from django.core.cache import cache
 from django.db.models import F
-from django.http import Http404
+from django.http import Http404, JsonResponse
 from django.shortcuts import render, redirect
-from django.views.decorators.http import require_GET
+from django.views.decorators.http import require_GET, require_POST
 
-from api.models import Announcement
+from api.models import Announcement, BlogComment
 from api.utils import now_ms, uuid_str
 
-from .view_helpers import _ctx, _get_user_id, _is_staff_admin
+from .view_helpers import _ctx, _get_user_id
 
 
 CATEGORY_META = {
@@ -107,6 +107,7 @@ def news_detail(request, slug):
         a.view_count += 1
 
     item = _serialize_announcement(a, include_content=True)
+    item['comments'] = _serialize_comments(a)
 
     related = Announcement.objects.filter(
         status='published', category=a.category
@@ -117,6 +118,44 @@ def news_detail(request, slug):
         announcement=item,
         related=related_items,
     ))
+
+
+def _serialize_comments(announcement):
+    qs = BlogComment.objects.filter(announcement=announcement).select_related('author').order_by('created_at')
+    return [{
+        'id': c.id,
+        'author_name': c.author.display_name or c.author.username,
+        'author_initials': (c.author.display_name or c.author.username)[:2].upper(),
+        'text': c.text,
+        'created_at': c.created_at,
+    } for c in qs]
+
+
+@require_POST
+def ajax_blog_comment(request):
+    user = request.user
+    if not user.is_authenticated:
+        return JsonResponse({'ok': False, 'error': 'Please sign in to comment'}, status=401)
+    slug = request.POST.get('slug', '').strip()
+    text = request.POST.get('text', '').strip()
+    if not slug or not text:
+        return JsonResponse({'ok': False, 'error': 'Missing slug or text'}, status=400)
+    try:
+        announcement = Announcement.objects.get(slug=slug, status='published')
+    except Announcement.DoesNotExist:
+        return JsonResponse({'ok': False, 'error': 'Announcement not found'}, status=404)
+    comment = BlogComment.objects.create(
+        id=uuid_str(),
+        announcement=announcement,
+        author=user,
+        text=text,
+        created_at=now_ms(),
+    )
+    return JsonResponse({
+        'ok': True,
+        'author_name': user.display_name or user.username,
+        'author_initials': (user.display_name or user.username)[:2].upper(),
+    })
 
 
 def results_guide(request):

@@ -20,10 +20,10 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.FilterList
 import androidx.compose.material.icons.filled.Whatshot
 import androidx.compose.material.icons.outlined.ChatBubbleOutline
 import androidx.compose.material.icons.outlined.Schedule
-
 import androidx.compose.material.icons.outlined.ThumbUp
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
@@ -70,7 +70,6 @@ import com.neb.ians.ui.components.ForumPostCard
 import com.neb.ians.ui.components.ReportDialog
 import com.neb.ians.ui.components.ShimmerForumList
 import com.neb.ians.ui.components.UserPopoverDialog
-import com.neb.ians.ui.components.WebChipRow
 import com.neb.ians.ui.components.WebEmptyState
 import com.neb.ians.ui.components.WebOutlinedButton
 import com.neb.ians.ui.components.WebPillShape
@@ -113,6 +112,7 @@ fun ForumScreen(
     var reportPostId by remember { mutableStateOf<String?>(null) }
     var deletingPostId by remember { mutableStateOf<String?>(null) }
     var popoverUsername by remember { mutableStateOf<String?>(null) }
+    var showFilterDialog by remember { mutableStateOf(false) }
 
     // Snackbar messages from the ViewModel
     LaunchedEffect(uiState.snackbarMessage) {
@@ -182,27 +182,34 @@ fun ForumScreen(
                 .fillMaxSize()
         ) {
 
-            // ----- Sort tabs (Hot / New / Top / Discussed) -----
+            // ----- Sort tabs (Hot / New / Top / Discussed) + filter -----
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .horizontalScroll(rememberScrollState())
                     .padding(horizontal = 16.dp, vertical = 10.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                SortTab("Hot", "hot", Icons.Filled.Whatshot, uiState.sort, viewModel::selectSort)
-                SortTab("New", "new", Icons.Outlined.Schedule, uiState.sort, viewModel::selectSort)
-                SortTab("Top", "top", Icons.Outlined.ThumbUp, uiState.sort, viewModel::selectSort)
-                SortTab("Discussed", "discussed", Icons.Outlined.ChatBubbleOutline, uiState.sort, viewModel::selectSort)
+                Row(
+                    modifier = Modifier
+                        .weight(1f)
+                        .horizontalScroll(rememberScrollState()),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    SortTab("Hot", "hot", Icons.Filled.Whatshot, uiState.sort, viewModel::selectSort)
+                    SortTab("New", "new", Icons.Outlined.Schedule, uiState.sort, viewModel::selectSort)
+                    SortTab("Top", "top", Icons.Outlined.ThumbUp, uiState.sort, viewModel::selectSort)
+                    SortTab("Discussed", "discussed", Icons.Outlined.ChatBubbleOutline, uiState.sort, viewModel::selectSort)
+                }
+                IconButton(onClick = { showFilterDialog = !showFilterDialog }) {
+                    Icon(
+                        Icons.Filled.FilterList,
+                        contentDescription = "Filter",
+                        tint = if (uiState.selectedCategory != null) MaterialTheme.colorScheme.primary
+                               else MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
             }
-
-            // ----- Category chips -----
-            WebChipRow(
-                items = ForumUiState.CATEGORIES,
-                selectedItem = uiState.selectedCategory,
-                onItemClick = viewModel::selectCategory,
-                modifier = Modifier.padding(bottom = 8.dp)
-            )
 
             when {
                 uiState.isLoading -> ShimmerForumList()
@@ -305,6 +312,49 @@ fun ForumScreen(
                 popoverUsername = null
                 onUserProfileClick(profileUsername)
             }
+        )
+    }
+
+    // ----- Filter dialog -----
+    if (showFilterDialog) {
+        androidx.compose.material3.AlertDialog(
+            onDismissRequest = { showFilterDialog = false },
+            title = { Text("Filter by Category", fontWeight = FontWeight.Bold) },
+            text = {
+                Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                    TextButton(
+                        onClick = {
+                            viewModel.selectCategory(null)
+                            showFilterDialog = false
+                        },
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text(
+                            "All Categories",
+                            fontWeight = if (uiState.selectedCategory == null) FontWeight.Bold else FontWeight.Normal,
+                            color = if (uiState.selectedCategory == null) MaterialTheme.colorScheme.primary
+                                    else MaterialTheme.colorScheme.onSurface
+                        )
+                    }
+                    ForumUiState.CATEGORIES.forEach { cat ->
+                        TextButton(
+                            onClick = {
+                                viewModel.selectCategory(cat)
+                                showFilterDialog = false
+                            },
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Text(
+                                cat,
+                                fontWeight = if (uiState.selectedCategory == cat) FontWeight.Bold else FontWeight.Normal,
+                                color = if (uiState.selectedCategory == cat) MaterialTheme.colorScheme.primary
+                                        else MaterialTheme.colorScheme.onSurface
+                            )
+                        }
+                    }
+                }
+            },
+            confirmButton = {}
         )
     }
 }
