@@ -1,31 +1,19 @@
 package com.neb.ians.ui.screens.home
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Upload
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -34,25 +22,21 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import kotlinx.coroutines.launch
 import com.neb.ians.R
 import com.neb.ians.ui.components.ConfirmDeleteDialog
 import com.neb.ians.ui.components.ErrorCard
 import com.neb.ians.ui.components.ForumPostCard
 import com.neb.ians.ui.components.ShimmerHomeScreen
 import com.neb.ians.ui.components.WebEmptyState
-import com.neb.ians.ui.components.WebResourceCard
-import com.neb.ians.ui.components.WebSectionHeader
 import com.neb.ians.ui.components.WebTopBar
 import com.neb.ians.ui.components.sharePost
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -77,8 +61,8 @@ fun HomeScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
     val snackbarHostState = remember { SnackbarHostState() }
-    var deletingPostId by remember { mutableStateOf<String?>(null) }
     val scope = rememberCoroutineScope()
+    var deletingPostId by remember { mutableStateOf<String?>(null) }
     var isRefreshing by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
@@ -114,72 +98,139 @@ fun HomeScreen(
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-        ) {
             when {
                 uiState.isLoading -> ShimmerHomeScreen()
                 uiState.error != null && uiState.popularResources.isEmpty() && uiState.recentPosts.isEmpty() -> {
-                    ErrorCard(
-                        message = uiState.error ?: "Something went wrong",
-                        onRetry = { viewModel.refresh() },
-                        modifier = Modifier.padding(16.dp)
-                    )
-                }
-                else -> {
-                    if (uiState.error != null) {
+                    Box(modifier = Modifier.fillMaxSize().padding(16.dp)) {
                         ErrorCard(
                             message = uiState.error ?: "Something went wrong",
-                            onRetry = { viewModel.refresh() },
-                            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+                            onRetry = { viewModel.refresh() }
                         )
                     }
+                }
+                else -> {
+                    LazyColumn(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalArrangement = Arrangement.spacedBy(18.dp)
+                    ) {
+                        item(key = "top_spacing") { Spacer(Modifier.height(2.dp)) }
 
-                    Spacer(modifier = Modifier.height(12.dp))
+                        item(key = "welcome") {
+                            HomeWelcomePanel(
+                                userName = uiState.userName,
+                                onSearchClick = onSearchClick,
+                                onStudyLabClick = onStudyLabClick
+                            )
+                        }
 
-                    WebSectionHeader(
-                        title = "Trending Resources",
-                        actionLabel = "View all",
-                        onActionClick = onViewAllClick
-                    )
-                    ResourceRow(
-                        resources = uiState.popularResources,
-                        emptyMessage = "Trending resources will appear here.",
-                        onResourceClick = onResourceClick
-                    )
+                        item(key = "quick_actions") {
+                            HomeQuickActions(
+                                onStudyLabClick = onStudyLabClick,
+                                onNebyAiClick = onNebyAiClick,
+                                onForumClick = onForumClick,
+                                onUploadClick = onUploadClick
+                            )
+                        }
 
-                    if (uiState.latestNews.isNotEmpty()) {
-                        Spacer(modifier = Modifier.height(12.dp))
-                        HomeNewsSection(
-                            items = uiState.latestNews,
-                            onViewAllClick = onNewsClick,
-                            onNewsClick = { news -> onNewsItemClick(news.slug) }
-                        )
-                    }
+                        item(key = "subjects_title") {
+                            HomeSectionTitle(
+                                title = "Browse by subject",
+                                subtitle = "Jump directly into the topics you need"
+                            )
+                        }
+                        item(key = "subjects") {
+                            HomeSubjectStrip(
+                                subjects = HomeUiState.SUBJECTS,
+                                onSubjectClick = onSubjectClick
+                            )
+                        }
 
-                    Spacer(modifier = Modifier.height(12.dp))
-                    WebSectionHeader(
-                        title = "Trending Discussions",
-                        actionLabel = "View all",
-                        onActionClick = onForumClick
-                    )
+                        if (uiState.error != null) {
+                            item(key = "partial_error") {
+                                ErrorCard(
+                                    message = uiState.error ?: "Some content could not be loaded",
+                                    onRetry = { viewModel.refresh() },
+                                    modifier = Modifier.padding(horizontal = 16.dp)
+                                )
+                            }
+                        }
 
-                    if (uiState.recentPosts.isEmpty()) {
-                        WebEmptyState(
-                            title = "No discussions yet",
-                            message = "Start a question or browse the forum when posts appear.",
-                            icon = painterResource(id = R.drawable.ic_forum_outlined),
-                            modifier = Modifier.padding(horizontal = 16.dp)
-                        )
-                    } else {
-                        val trendingPosts = remember(uiState.recentPosts) { uiState.recentPosts.take(3) }
-                        Column(
-                            modifier = Modifier.padding(horizontal = 16.dp),
-                            verticalArrangement = Arrangement.spacedBy(10.dp)
-                        ) {
-                            trendingPosts.forEach { post ->
+                        item(key = "fresh_title") {
+                            HomeSectionTitle(
+                                title = "Fresh for you",
+                                subtitle = "Recently added learning material",
+                                actionLabel = "Library",
+                                onActionClick = onViewAllClick
+                            )
+                        }
+                        if (uiState.recentResources.isEmpty()) {
+                            item(key = "fresh_empty") {
+                                WebEmptyState(
+                                    title = "New resources are on the way",
+                                    message = "Browse the library or pull down to check again.",
+                                    icon = painterResource(id = R.drawable.ic_document),
+                                    modifier = Modifier.padding(horizontal = 16.dp)
+                                )
+                            }
+                        } else {
+                            item(key = "fresh_resources") {
+                                HomeResourceCarousel(
+                                    resources = uiState.recentResources,
+                                    onResourceClick = onResourceClick
+                                )
+                            }
+                        }
+
+                        if (uiState.popularResources.isNotEmpty()) {
+                            item(key = "trending_title") {
+                                HomeSectionTitle(
+                                    title = "Trending now",
+                                    subtitle = "What NEBians learners are opening most",
+                                    actionLabel = "View all",
+                                    onActionClick = onViewAllClick
+                                )
+                            }
+                            item(key = "trending_resources") {
+                                HomeResourceCarousel(
+                                    resources = uiState.popularResources,
+                                    onResourceClick = onResourceClick
+                                )
+                            }
+                        }
+
+                        if (uiState.latestNews.isNotEmpty()) {
+                            item(key = "news") {
+                                HomeNewsSection(
+                                    items = uiState.latestNews,
+                                    onViewAllClick = onNewsClick,
+                                    onNewsClick = { news -> onNewsItemClick(news.slug) }
+                                )
+                            }
+                        }
+
+                        item(key = "discussion_title") {
+                            HomeSectionTitle(
+                                title = "Trending discussions",
+                                subtitle = "Questions and answers from the community",
+                                actionLabel = "Forum",
+                                onActionClick = onForumClick
+                            )
+                        }
+
+                        if (uiState.recentPosts.isEmpty()) {
+                            item(key = "discussion_empty") {
+                                WebEmptyState(
+                                    title = "No discussions yet",
+                                    message = "Start a question or browse the forum when posts appear.",
+                                    icon = painterResource(id = R.drawable.ic_forum_outlined),
+                                    modifier = Modifier.padding(horizontal = 16.dp)
+                                )
+                            }
+                        } else {
+                            items(
+                                items = uiState.recentPosts.take(3),
+                                key = { "discussion_${it.id}" }
+                            ) { post ->
                                 ForumPostCard(
                                     post = post,
                                     isOwnPost = uiState.currentUserId != null && post.authorId == uiState.currentUserId,
@@ -190,17 +241,19 @@ fun HomeScreen(
                                     onReportClick = {},
                                     onEditClick = { onEditPostClick(post.id) },
                                     onDeleteClick = { deletingPostId = post.id },
-                                    onAuthorClick = { onUserProfileClick(post.authorName) }
+                                    onAuthorClick = { onUserProfileClick(post.authorName) },
+                                    modifier = Modifier.padding(horizontal = 16.dp)
                                 )
                             }
                         }
-                    }
 
-                    Spacer(modifier = Modifier.navigationBarsPadding().height(96.dp))
+                        item(key = "bottom_spacing") {
+                            Spacer(Modifier.navigationBarsPadding().height(96.dp))
+                        }
+                    }
                 }
             }
         }
-        } // end PullToRefreshBox
     }
 
     deletingPostId?.let { postId ->
@@ -212,35 +265,5 @@ fun HomeScreen(
                 deletingPostId = null
             }
         )
-    }
-}
-
-@Composable
-private fun ResourceRow(
-    resources: List<com.neb.ians.data.api.ApiResource>,
-    emptyMessage: String,
-    onResourceClick: (String) -> Unit
-) {
-    if (resources.isEmpty()) {
-        WebEmptyState(
-            title = "Nothing here yet",
-            message = emptyMessage,
-            icon = painterResource(id = R.drawable.ic_document),
-            modifier = Modifier.padding(horizontal = 16.dp)
-        )
-    } else {
-        val rowItems = remember(resources) { resources.take(5) }
-        LazyRow(
-            contentPadding = PaddingValues(horizontal = 16.dp),
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            items(rowItems, key = { it.id }) { resource ->
-                WebResourceCard(
-                    resource = resource,
-                    onClick = { onResourceClick(resource.id) },
-                    minWidth = 224.dp
-                )
-            }
-        }
     }
 }

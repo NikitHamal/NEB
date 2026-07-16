@@ -58,8 +58,6 @@ import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Replay10
 import androidx.compose.material.icons.filled.ScreenRotation
-import androidx.compose.material.icons.filled.StayCurrentLandscape
-import androidx.compose.material.icons.filled.StayCurrentPortrait
 import androidx.compose.material.icons.filled.VolumeDown
 import androidx.compose.material.icons.filled.VolumeOff
 import androidx.compose.material.icons.filled.VolumeUp
@@ -97,6 +95,7 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -375,22 +374,14 @@ private fun FullscreenPlayer(
         if (!uiState.isPlaying) showControls = true
     }
 
-    var orientationMode by remember { mutableIntStateOf(0) }
-    val orientationModes = listOf(
-        android.content.pm.ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE,
-        android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT,
-        android.content.pm.ActivityInfo.SCREEN_ORIENTATION_SENSOR
-    )
-    val orientationIcons = listOf(
-        Icons.Filled.StayCurrentLandscape,
-        Icons.Filled.StayCurrentPortrait,
-        Icons.Filled.ScreenRotation
-    )
-    val orientationLabels = listOf("Landscape", "Portrait", "Auto")
+    val orientation = LocalConfiguration.current.orientation
 
-    fun cycleOrientation() {
-        orientationMode = (orientationMode + 1) % 3
-        activity?.requestedOrientation = orientationModes[orientationMode]
+    fun rotateVideo() {
+        activity?.requestedOrientation = if (orientation == android.content.res.Configuration.ORIENTATION_LANDSCAPE) {
+            android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        } else {
+            android.content.pm.ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+        }
         showControls = true
     }
 
@@ -575,14 +566,14 @@ private fun FullscreenPlayer(
                     )
                     Spacer(Modifier.width(4.dp))
                     IconButton(
-                        onClick = { cycleOrientation() },
+                        onClick = { rotateVideo() },
                         modifier = Modifier
                             .size(40.dp)
                             .background(Color.Black.copy(alpha = 0.35f), CircleShape)
                     ) {
                         Icon(
-                            imageVector = orientationIcons[orientationMode],
-                            contentDescription = orientationLabels[orientationMode],
+                            imageVector = Icons.Filled.ScreenRotation,
+                            contentDescription = "Rotate video",
                             tint = Color.White,
                             modifier = Modifier.size(20.dp)
                         )

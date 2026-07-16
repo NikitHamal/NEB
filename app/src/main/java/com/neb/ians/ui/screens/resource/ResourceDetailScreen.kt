@@ -69,6 +69,8 @@ fun ResourceDetailScreen(
     onOpenPdf: (resourceId: String, fileUrl: String, title: String) -> Unit,
     onUserProfileClick: (String) -> Unit = {},
     onRelatedResourceClick: (String) -> Unit = {},
+    onMinimizeVideo: () -> Unit = {},
+    mediaViewModel: MediaPlayerViewModel = hiltViewModel(),
     viewModel: ResourceDetailViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -77,7 +79,6 @@ fun ResourceDetailScreen(
     val snackbarHostState = remember { SnackbarHostState() }
     var zoomImageUrl by remember { mutableStateOf<String?>(null) }
     var isFullscreen by remember { mutableStateOf(false) }
-    val mediaViewModel: MediaPlayerViewModel = hiltViewModel()
 
     fun openExternal(url: String) {
         if (url.isBlank()) return
@@ -132,6 +133,7 @@ fun ResourceDetailScreen(
     }
 
     BackHandler(enabled = isFullscreen, onBack = ::exitFullscreen)
+    BackHandler(enabled = !isFullscreen, onBack = onNavigateBack)
 
     DisposableEffect(activity) {
         onDispose {
@@ -211,6 +213,7 @@ fun ResourceDetailScreen(
                                 viewModel = viewModel,
                                 mediaViewModel = mediaViewModel,
                                 onFullscreenClick = ::enterFullscreen,
+                                onMinimizeVideo = onMinimizeVideo,
                                 onUserProfileClick = onUserProfileClick,
                                 onRelatedResourceClick = onRelatedResourceClick,
                                 share = ::share,
@@ -224,6 +227,7 @@ fun ResourceDetailScreen(
                                 subjectColor = subjectColor,
                                 uiState = uiState,
                                 viewModel = viewModel,
+                                mediaViewModel = mediaViewModel,
                                 onOpenPdf = onOpenPdf,
                                 onUserProfileClick = onUserProfileClick,
                                 share = ::share,
@@ -267,6 +271,7 @@ private fun VideoYouTubeLayout(
     viewModel: ResourceDetailViewModel,
     mediaViewModel: MediaPlayerViewModel,
     onFullscreenClick: () -> Unit,
+    onMinimizeVideo: () -> Unit,
     onUserProfileClick: (String) -> Unit,
     onRelatedResourceClick: (String) -> Unit,
     share: (String, String) -> Unit,
@@ -287,6 +292,7 @@ private fun VideoYouTubeLayout(
                 subjectColor = subjectColor,
                 title = resource.title,
                 onFullscreenClick = onFullscreenClick,
+                onMinimize = onMinimizeVideo,
                 viewModel = mediaViewModel,
                 fullWidth = true
             )
@@ -481,6 +487,7 @@ private fun NonVideoLayout(
     subjectColor: Color,
     uiState: ResourceDetailUiState,
     viewModel: ResourceDetailViewModel,
+    mediaViewModel: MediaPlayerViewModel,
     onOpenPdf: (resourceId: String, fileUrl: String, title: String) -> Unit,
     onUserProfileClick: (String) -> Unit,
     share: (String, String) -> Unit,
@@ -525,7 +532,8 @@ private fun NonVideoLayout(
                     subjectColor = subjectColor,
                     title = resource.title,
                     onFullscreenClick = {},
-                    modifier = Modifier.padding(top = 16.dp)
+                    modifier = Modifier.padding(top = 16.dp),
+                    viewModel = mediaViewModel
                 )
             }
         }
