@@ -276,6 +276,24 @@ fun markdownToPlainPreview(markdown: String): String {
         .trim()
 }
 
+/** Find @all mentions in plain text and build an AnnotatedString with error highlight. */
+private fun highlightAllMentions(text: String, errorBg: Color, errorFg: Color): AnnotatedString {
+    val pattern = Regex("@[Aa][Ll][Ll]")
+    return buildAnnotatedString {
+        var cursor = 0
+        pattern.findAll(text).forEach { match ->
+            if (match.range.first > cursor) {
+                append(text.substring(cursor, match.range.first))
+            }
+            pushStyle(SpanStyle(background = errorBg, color = errorFg, fontWeight = FontWeight.Bold))
+            append("@all")
+            pop()
+            cursor = match.range.last + 1
+        }
+        if (cursor < text.length) append(text.substring(cursor))
+    }
+}
+
 @Composable
 fun ExpandableMarkdownText(
     markdown: String,
@@ -300,8 +318,13 @@ fun ExpandableMarkdownText(
             )
         } else {
             val plainText = remember(markdown) { markdownToPlainPreview(markdown) }
+            val errorBg = MaterialTheme.colorScheme.errorContainer
+            val errorFg = MaterialTheme.colorScheme.onErrorContainer
+            val annotated = remember(plainText, errorBg, errorFg) {
+                highlightAllMentions(plainText, errorBg, errorFg)
+            }
             Text(
-                text = plainText,
+                text = annotated,
                 style = style,
                 color = color,
                 maxLines = minimizedMaxLines,
