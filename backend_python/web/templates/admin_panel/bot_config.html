@@ -77,11 +77,7 @@
           <option value="ai4bharat" {% if config.provider == 'ai4bharat' %}selected{% endif %}>AI4Bharat Arena (Indic LLM Arena)</option>
           <option value="egov"      {% if config.provider == 'egov' %}selected{% endif %}>eGov Chat AI (Philippines)</option>
           <option value="deepai"    {% if config.provider == 'deepai' %}selected{% endif %}>DeepAI (deepai.org)</option>
-          <option value="eqing"     {% if config.provider == 'eqing' %}selected{% endif %}>EQing / EasyChat (chat3.eqing.tech)</option>
-          <option value="freegpt"   {% if config.provider == 'freegpt' %}selected{% endif %}>FreeGPT (standalone.freegpt.win:3001)</option>
-          <option value="deepseekai" {% if config.provider == 'deepseekai' %}selected{% endif %}>DeepSeek AI (deep-seek.ai)</option>
-          <option value="surfsense" {% if config.provider == 'surfsense' %}selected{% endif %}>SurfSense (surfsense.com)</option>
-          <option value="g4f" {% if config.provider == 'g4f' %}selected{% endif %}>G4F (g4f.space — 50+ models)</option>
+          <option value="inception" {% if config.provider == 'inception' %}selected{% endif %}>Inception Labs (Mercury 2)</option>
           <option value="custom"    {% if config.provider == 'custom' %}selected{% endif %}>Custom (any OpenAI-compatible endpoint)</option>
         </select>
         <p style="font-size:0.75rem;color:var(--md-on-surface-variant);margin:4px 0 0;" id="id_provider_help">
@@ -236,77 +232,15 @@
         { value: 'qwen3-30b-a3b', label: 'Qwen3 30B' },
       ],
     },
-    eqing: {
+    inception: {
       urlLabel: 'API URL',
-      urlHelp: 'EQing / EasyChat endpoint (leave default).',
-      urlDefault: 'https://easy-api-eo.llm99.com',
+      urlHelp: 'Inception Labs endpoint (leave default).',
+      urlDefault: 'https://api.inceptionlabs.ai/v1',
       modelControl: 'select',
-      modelHelp: 'Pick an EQing model.',
+      modelHelp: 'Pick a Mercury 2 model.',
       options: [
-        { value: 'gpt-4o-mini', label: 'GPT-4o Mini (Free)' },
-        { value: 'gpt-5-free', label: 'GPT-5 Free' },
-        { value: 'grok-4.1-fast-free', label: 'Grok 4.1 Fast Free' },
-        { value: 'gemini-3-flash', label: 'Gemini 3 Flash' },
-        { value: 'code-claude-3.5-sonnet-free', label: 'Claude 3.5 Sonnet Free' },
-        { value: 'code-claude-3-opus', label: 'Claude 3 Opus Free' },
-      ],
-    },
-    freegpt: {
-      urlLabel: 'API URL',
-      urlHelp: 'FreeGPT endpoint (leave default).',
-      urlDefault: 'https://standalone.freegpt.win:3001',
-      modelControl: 'select',
-      modelHelp: 'Pick a FreeGPT model.',
-      options: [
-        { value: 'gpt-5-nano', label: 'GPT-5 Nano' },
-        { value: 'gpt-5.4', label: 'GPT-5.4' },
-        { value: 'deepseek-chat', label: 'DeepSeek Chat' },
-        { value: 'claude-sonnet-4-6', label: 'Claude Sonnet 4.6' },
-        { value: 'gemini-2.5-pro', label: 'Gemini 2.5 Pro' },
-        { value: 'gpt-4o', label: 'GPT-4o' },
-        { value: 'o4-mini', label: 'o4 Mini' },
-      ],
-    },
-    deepseekai: {
-      urlLabel: 'API URL',
-      urlHelp: 'DeepSeek AI endpoint (leave default).',
-      urlDefault: 'https://deep-seek.ai',
-      modelControl: 'select',
-      modelHelp: 'Pick a DeepSeek AI model.',
-      options: [
-        { value: 'deepseek/deepseek-v4-flash', label: 'DeepSeek-V4 Flash' },
-        { value: 'deepseek/deepseek-r1', label: 'DeepSeek-R1 (reasoning)' },
-        { value: 'deepseek/deepseek-v3.2', label: 'DeepSeek-V3.2' },
-      ],
-    },
-    surfsense: {
-      urlLabel: 'API URL',
-      urlHelp: 'SurfSense endpoint (leave default).',
-      urlDefault: 'https://api.surfsense.com',
-      modelControl: 'select',
-      modelHelp: 'Pick a SurfSense model.',
-      options: [
-        { value: 'gpt-5.4-mini-no-login', label: 'GPT 5.4 Mini' },
-        { value: 'gpt-o4-mini-no-login', label: 'GPT O4 Mini (reasoning)' },
-      ],
-    },
-    g4f: {
-      urlLabel: 'API URL',
-      urlHelp: 'G4F endpoint (leave default).',
-      urlDefault: 'https://g4f.space/v1',
-      modelControl: 'select',
-      modelHelp: 'Pick a G4F model.',
-      options: [
-        { value: 'openai', label: 'GPT-5.4 Nano (Fast)' },
-        { value: 'deepseek', label: 'DeepSeek' },
-        { value: 'gpt-5.4-nano', label: 'GPT-5.4 Nano' },
-        { value: 'grok', label: 'Grok' },
-        { value: 'claude', label: 'Claude' },
-        { value: 'kimi', label: 'Kimi' },
-        { value: 'gemini-2.5-flash', label: 'Gemini 2.5 Flash' },
-        { value: 'deepseek-v4-flash', label: 'DeepSeek V4 Flash' },
-        { value: 'glm-5.1', label: 'GLM 5.1' },
-        { value: 'gpt-4o-mini', label: 'GPT-4o Mini' },
+        { value: 'mercury-2', label: 'Mercury 2 (default)' },
+        { value: 'mercury-2-mini', label: 'Mercury 2 Mini' },
       ],
     },
   };

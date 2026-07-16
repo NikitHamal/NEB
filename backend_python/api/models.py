@@ -750,11 +750,6 @@ class BotConfig(models.Model):
         ('ai4bharat', 'AI4Bharat Arena (Indic LLM Arena)'),
         ('egov', 'eGov Chat AI (Philippines)'),
         ('deepai', 'DeepAI (deepai.org)'),
-        ('eqing', 'EQing / EasyChat (chat3.eqing.tech)'),
-        ('freegpt', 'FreeGPT (standalone.freegpt.win:3001)'),
-        ('deepseekai', 'DeepSeek AI (deep-seek.ai)'),
-        ('surfsense', 'SurfSense (surfsense.com)'),
-        ('g4f', 'G4F (g4f.space / Pollinations AI)'),
         ('inception', 'Inception Labs (Mercury 2)'),
         ('custom', 'Custom OpenAI-compatible endpoint'),
     ]
@@ -869,11 +864,6 @@ class ArenaChatSession(models.Model):
         ('qwen', 'Qwen (chat.qwen.ai)'),
         ('egov', 'eGov Chat AI (Philippines)'),
         ('deepai', 'DeepAI (deepai.org)'),
-        ('eqing', 'EQing / EasyChat (chat3.eqing.tech)'),
-        ('freegpt', 'FreeGPT (standalone.freegpt.win:3001)'),
-        ('deepseekai', 'DeepSeek AI (deep-seek.ai)'),
-        ('surfsense', 'SurfSense (surfsense.com)'),
-        ('g4f', 'G4F (g4f.space / Pollinations AI)'),
         ('inception', 'Inception Labs (Mercury 2)'),
     ]
     id = models.CharField(max_length=36, primary_key=True)
