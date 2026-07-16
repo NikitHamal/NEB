@@ -173,6 +173,7 @@ def call_ai_api(system_prompt, user_message, config=None):
       - 'qwen'      → Qwen web chat (chat.qwen.ai), via qwen_proxy.call_qwen
       - 'ai4bharat' → AI4Bharat Indic LLM Arena, via ai4bharat_proxy.simple_chat
       - 'egov'      → eGov Chat AI (Philippines), via egov_proxy.simple_chat
+      - 'inception' → Inception Labs (Mercury 2 diffusion LLM)
       - 'custom'    → any OpenAI-compatible /chat/completions endpoint
     Returns response text or None.
     """
@@ -234,6 +235,14 @@ def call_ai_api(system_prompt, user_message, config=None):
             model=config.model or 'gpt-5.4-mini-no-login',
             system_prompt=system_prompt or '',
             web_search=True,
+        )
+    if provider == 'inception':
+        from . import inception_proxy
+        return inception_proxy.simple_chat(
+            user_message=user_message,
+            model=config.model or 'mercury-2',
+            system_prompt=system_prompt or '',
+            reasoning_effort=getattr(config, 'reasoning_effort', 'high'),
         )
     if provider == 'custom':
         from .custom_provider import call_custom

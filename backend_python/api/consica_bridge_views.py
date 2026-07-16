@@ -124,6 +124,7 @@ def _generate_with_fallback(system_prompt: str, user_prompt: str):
         ('qwen_direct', None, None),
         ('g4f',         'g4f',        'gpt-4o-mini'),
         ('deepseekai',  'deepseekai', 'deepseek/deepseek-v4-flash'),
+        ('inception',   'inception',  'mercury-2'),
         ('eqing',       'eqing',      'gpt-4o-mini'),
         ('freegpt',     'freegpt',    'gpt-5-nano'),
     ]
