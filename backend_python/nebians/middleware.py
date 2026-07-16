@@ -1,3 +1,4 @@
+import os
 import time
 import secrets
 from urllib.parse import urlparse
@@ -18,16 +19,18 @@ def _resolve_ws_public_url():
     if ws_url:
         return ws_url
     import glob as _glob, re as _re
-    log_paths = sorted(_glob.glob('/tmp/cf_quick*.log'), reverse=True) + [
+    ws_url_txt = getattr(settings, 'WS_URL_TXT', '') or os.path.join(
+        getattr(settings, 'BASE_DIR', ''), 'ws_url.txt')
+    log_paths = [ws_url_txt] + [
         '/home/consicac/nebians_api/logs/cloudflared.log',
-    ]
+    ] + sorted(_glob.glob('/tmp/cf_quick*.log'), reverse=True)
     for path in log_paths:
         try:
             with open(path) as f:
                 content = f.read()
-            m = _re.search(r'https://([a-z0-9-]+\.trycloudflare\.com)', content)
-            if m:
-                return 'wss://' + m.group(1) + '/ws/'
+            matches = _re.findall(r'https://([a-z0-9-]+\.trycloudflare\.com)', content)
+            if matches:
+                return 'wss://' + matches[-1] + '/ws/'
         except OSError:
             continue
     return ''

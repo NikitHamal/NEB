@@ -1,12 +1,14 @@
 """Views Presence — heartbeat and online user tracking."""
 from django.core.cache import cache
-from rest_framework.decorators import api_view, throttle_classes
+from rest_framework.decorators import api_view, throttle_classes, permission_classes
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from .view_helpers import _require_user
 from .throttles import WriteActionRateThrottle
 
 
 @api_view(['POST'])
+@permission_classes([AllowAny])
 @throttle_classes([WriteActionRateThrottle])
 def presence_heartbeat(request):
     """
