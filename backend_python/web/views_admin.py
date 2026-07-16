@@ -1079,10 +1079,25 @@ def admin_post_detail(request, post_id):
     post_data = PostSerializer(post_obj, context={}).data
     replies_qs = Reply.objects.filter(post_id=post_id).select_related('user')
     replies_data = [ReplySerializer(r, context={}).data for r in replies_qs]
+    from api.models import PostView
+    viewers_qs = PostView.objects.filter(post_id=post_id).select_related('user').order_by('-viewed_at')[:50]
+    viewers = [
+        {
+            'userId': v.user_id,
+            'username': v.user.username,
+            'displayName': v.user.display_name,
+            'photoUrl': v.user.photo_url or '',
+            'viewedAt': v.viewed_at,
+        }
+        for v in viewers_qs
+    ]
+    viewer_count = PostView.objects.filter(post_id=post_id).count()
     return render(request, 'admin_panel/post_detail.html', {
         'is_admin': True,
         'post': post_data,
         'replies': replies_data,
+        'viewers': viewers,
+        'viewer_count': viewer_count,
         'active_page': 'posts',
     })
 

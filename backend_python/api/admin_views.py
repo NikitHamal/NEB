@@ -385,7 +385,21 @@ def admin_post_detail(request, post_id):
         return Response({'error': 'Post not found'}, status=404)
 
     if request.method == 'GET':
-        return Response(PostSerializer(post, context={'request': request}).data)
+        data = PostSerializer(post, context={'request': request}).data
+        from api.models import PostView, User
+        viewers_qs = PostView.objects.filter(post_id=post_id).select_related('user').order_by('-viewed_at')[:50]
+        data['viewers'] = [
+            {
+                'userId': v.user_id,
+                'username': v.user.username,
+                'displayName': v.user.display_name,
+                'photoUrl': v.user.photo_url or '',
+                'viewedAt': v.viewed_at,
+            }
+            for v in viewers_qs
+        ]
+        data['viewerCount'] = PostView.objects.filter(post_id=post_id).count()
+        return Response(data)
 
     from api.cleanup import delete_post_with_cleanup
     try:

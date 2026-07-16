@@ -1634,3 +1634,22 @@ class HeroBackground(models.Model):
     def __str__(self):
         return f"{self.name} ({self.filename}){' [ACTIVE]' if self.is_active else ''}"
 
+
+class PostView(models.Model):
+    """Record of who viewed a forum post (admin-only analytics)."""
+    id = models.CharField(max_length=36, primary_key=True)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='views')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='post_views')
+    viewed_at = models.BigIntegerField()
+
+    class Meta:
+        db_table = 'post_views'
+        unique_together = ('post', 'user', 'viewed_at')
+        indexes = [
+            models.Index(fields=['post_id', '-viewed_at']),
+            models.Index(fields=['user_id']),
+        ]
+
+    def __str__(self):
+        return f"view {self.post_id} by user {self.user_id}"
+

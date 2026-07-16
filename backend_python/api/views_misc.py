@@ -383,9 +383,10 @@ def realtime_config(request):
         ws_url_txt = _os.path.join(_os.path.dirname(_os.path.dirname(__file__)), 'ws_url.txt')
         try:
             with open(ws_url_txt, 'r', errors='ignore') as fh:
-                url = fh.read().strip()
+                url = fh.read().strip().rstrip('/')
                 if url:
-                    ws_url = url.replace('https://', 'wss://') + '/ws/'
+                    base = url.replace('https://', 'wss://')
+                    ws_url = base.rstrip('/ws').rstrip('/') + '/ws/'
         except (OSError, IOError):
             pass
     if not ws_url:
