@@ -88,7 +88,7 @@ import com.neb.ians.ui.screens.notifications.NotificationsScreen
 import com.neb.ians.ui.screens.settings.SettingsScreen
 import com.neb.ians.ui.screens.settings.SettingsViewModel
 import com.neb.ians.ui.screens.reader.PdfViewerScreen
-import com.neb.ians.ui.screens.reader.MediaPlayerScreen
+
 import com.neb.ians.ui.screens.resource.ResourceDetailScreen
 import com.neb.ians.ui.screens.resource.ResourceRequestsScreen
 import com.neb.ians.ui.screens.analytics.AnalyticsScreen
@@ -160,9 +160,6 @@ sealed class Screen(val route: String) {
     data object DeleteAccount : Screen("delete_account")
     data object PdfViewer : Screen("pdf/{resourceId}") {
         fun createRoute(resourceId: String) = "pdf/$resourceId"
-    }
-    data object MediaPlayer : Screen("media/{resourceId}?fullscreen={fullscreen}") {
-        fun createRoute(resourceId: String, fullscreen: Boolean = false) = "media/$resourceId?fullscreen=$fullscreen"
     }
     data object ResourceDetail : Screen("resource/{resourceId}") {
         fun createRoute(resourceId: String) = "resource/$resourceId"
@@ -689,22 +686,6 @@ fun NEBiansNavHost(
                 )
             }
             composable(
-                route = Screen.MediaPlayer.route,
-                arguments = listOf(
-                    navArgument("resourceId") { type = NavType.StringType },
-                    navArgument("fullscreen") {
-                        type = NavType.BoolType
-                        defaultValue = false
-                    }
-                )
-            ) { backStackEntry ->
-                val fullscreen = backStackEntry.arguments?.getBoolean("fullscreen") ?: false
-                MediaPlayerScreen(
-                    onNavigateBack = { navController.popBackStack() },
-                    startFullscreen = fullscreen
-                )
-            }
-            composable(
                 route = Screen.ResourceDetail.route,
                 arguments = listOf(navArgument("resourceId") { type = NavType.StringType })
             ) {
@@ -712,9 +693,6 @@ fun NEBiansNavHost(
                     onNavigateBack = { navController.popBackStack() },
                     onOpenPdf = { resourceId, fileUrl, title ->
                         navController.navigate(Screen.PdfViewer.createRoute(resourceId))
-                    },
-                    onOpenMedia = { resourceId, startFullscreen ->
-                        navController.navigate(Screen.MediaPlayer.createRoute(resourceId, startFullscreen))
                     },
                     onUserProfileClick = { username ->
                         navController.navigate(Screen.Profile.createRoute(username))
