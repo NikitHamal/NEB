@@ -207,35 +207,6 @@ def call_ai_api(system_prompt, user_message, config=None):
             model=config.model or 'standard',
             system_prompt=system_prompt or '',
         )
-    if provider == 'eqing':
-        from . import eqing_proxy
-        return eqing_proxy.simple_chat(
-            user_message=user_message,
-            model=config.model or 'gpt-4o-mini',
-            system_prompt=system_prompt or '',
-        )
-    if provider == 'freegpt':
-        from . import freegpt_proxy
-        return freegpt_proxy.simple_chat(
-            prompt=user_message,
-            model=config.model or 'gpt-5-nano',
-            access_code=getattr(config, 'api_key', '') or '',
-        )
-    if provider == 'deepseekai':
-        from . import deepseekai_proxy
-        return deepseekai_proxy.simple_chat(
-            user_message=user_message,
-            model=config.model or 'deepseek/deepseek-v4-flash',
-            system_prompt=system_prompt or '',
-        )
-    if provider == 'surfsense':
-        from . import surfsense_proxy
-        return surfsense_proxy.simple_chat(
-            user_message=user_message,
-            model=config.model or 'gpt-5.4-mini-no-login',
-            system_prompt=system_prompt or '',
-            web_search=True,
-        )
     if provider == 'inception':
         from . import inception_proxy
         return inception_proxy.simple_chat(
