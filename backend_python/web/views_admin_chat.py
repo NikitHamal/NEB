@@ -2,7 +2,7 @@ import json, uuid
 from django.shortcuts import render
 from django.http import StreamingHttpResponse, JsonResponse
 from django.views.decorators.http import require_POST
-from .view_helpers import _require_admin
+from .view_helpers import _require_staff_admin
 
 def _sse(obj):
     return f"data: {json.dumps(obj, ensure_ascii=False)}\n\n"
@@ -32,137 +32,17 @@ MODEL_OPTIONS = {
 }
 
 def admin_chat(request):
-    admin = _require_admin(request)
-    if isinstance(admin, JsonResponse):
-        return admin
+    redirect_response = _require_staff_admin(request)
+    if redirect_response:
+        return redirect_response
     ctx = {'active_page': 'chat', 'providers': PROVIDERS, 'model_options': json.dumps(MODEL_OPTIONS)}
     return render(request, 'admin_panel/chat.html', ctx)
 
-def _stream_from_provider(provider, model, message, history, reasoning, web_search, files):
-    """Normalize provider streaming to a common SSE format."""
-    if provider == 'qwen':
-        from api import qwen_proxy
-        try:
-            file_paths = [f.name for f in files] if files else None
-            result = qwen_proxy.call_qwen(
-                system_prompt='You are a helpful assistant.',
-                user_message=message,
-                model=model or 'qwen3.7-plus',
-                max_tokens=2000,
-                file_paths=file_paths,
-            )
-            if result:
-                yield _sse({'type': 'text', 'content': result})
-            else:
-                yield _sse({'type': 'error', 'message': 'Empty response from Qwen'})
-        except Exception as e:
-            yield _sse({'type': 'error', 'message': str(e)})
-
-    elif provider == 'ai4bharat':
-        from api import ai4bharat_proxy
-        try:
-            result = ai4bharat_proxy.simple_chat(
-                user_message=message,
-                model_id=model or None,
-                system_prompt='You are a helpful assistant.',
-                max_tokens=2000,
-            )
-            if result:
-                yield _sse({'type': 'text', 'content': result})
-            else:
-                yield _sse({'type': 'error', 'message': 'Empty response from AI4Bharat'})
-        except Exception as e:
-            yield _sse({'type': 'error', 'message': str(e)})
-
-    elif provider == 'egov':
-        from api import egov_proxy
-        try:
-            for chunk in egov_proxy.stream_chat(
-                user_message=message,
-                model=model or 'AI1',
-                history=history or [],
-                system_prompt='You are a helpful assistant.',
-            ):
-                t = chunk.get('type')
-                if t == 'content':
-                    yield _sse({'type': 'text', 'content': chunk.get('text', '')})
-                elif t == 'done':
-                    break
-                elif t == 'error':
-                    yield _sse({'type': 'error', 'message': chunk.get('message', 'upstream error')})
-                    break
-        except Exception as e:
-            yield _sse({'type': 'error', 'message': str(e)})
-
-    elif provider == 'deepai':
-        from api import deepai_proxy
-        try:
-            for chunk in deepai_proxy.stream_chat(
-                user_message=message,
-                model=model or 'standard',
-                history=history or [],
-                system_prompt='You are a helpful assistant.',
-            ):
-                t = chunk.get('type')
-                if t == 'content':
-                    yield _sse({'type': 'text', 'content': chunk.get('text', '')})
-                elif t == 'done':
-                    break
-                elif t == 'error':
-                    yield _sse({'type': 'error', 'message': chunk.get('message', 'upstream error')})
-                    break
-        except Exception as e:
-            yield _sse({'type': 'error', 'message': str(e)})
-
-    elif provider == 'inception':
-        from api import inception_proxy
-        try:
-            msgs = (history or []) + [{'role': 'user', 'content': message}]
-            for chunk in inception_proxy.stream_chat(
-                messages=msgs,
-                model=model or 'mercury-2',
-                reasoning_effort='high' if reasoning else 'low',
-                web_search=web_search,
-            ):
-                t = chunk.get('type')
-                if t == 'text':
-                    yield _sse({'type': 'text', 'content': chunk.get('content', '')})
-                elif t == 'done':
-                    break
-                elif t == 'error':
-                    yield _sse({'type': 'error', 'message': chunk.get('error', 'upstream error')})
-                    break
-        except Exception as e:
-            yield _sse({'type': 'error', 'message': str(e)})
-
-    elif provider == 'custom':
-        from api.custom_provider import call_custom
-        api_url = request.POST.get('api_url', '')
-        api_key = request.POST.get('api_key', '')
-        if not api_url:
-            yield _sse({'type': 'error', 'message': 'Custom provider requires an API URL'})
-            return
-        try:
-            result = call_custom(
-                api_url=api_url,
-                api_key=api_key,
-                model=model or '',
-                system_prompt='You are a helpful assistant.',
-                user_message=message,
-                max_tokens=2000,
-            )
-            if result:
-                yield _sse({'type': 'text', 'content': result})
-            else:
-                yield _sse({'type': 'error', 'message': 'Empty response from custom endpoint'})
-        except Exception as e:
-            yield _sse({'type': 'error', 'message': str(e)})
-
 @require_POST
 def ajax_admin_chat_send(request):
-    admin = _require_admin(request)
-    if isinstance(admin, JsonResponse):
-        return admin
+    redirect_response = _require_staff_admin(request)
+    if redirect_response:
+        return JsonResponse({'error': 'Unauthorized'}, status=401)
 
     provider = (request.POST.get('provider') or '').strip().lower()
     model = (request.POST.get('model') or '').strip()
