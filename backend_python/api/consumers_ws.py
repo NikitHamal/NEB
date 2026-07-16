@@ -387,6 +387,11 @@ class RealtimeConsumer(AsyncWebsocketConsumer):
         elif channel.startswith('studyspace.'):
             space_id = channel[len('studyspace.'):]
             ok = await self._can_see_study_space(space_id) if self._user_id else False
+        elif channel.startswith('codingagent.'):
+            ok = bool(self._user_id and (
+                getattr(self.scope.get('user'), 'is_staff', False) or
+                getattr(self.scope.get('user'), 'is_admin', False)
+            ))
         else:
             await self._send_json({'type': 'error', 'code': 'unknown_channel', 'message': f'unsupported: {channel}'})
             return

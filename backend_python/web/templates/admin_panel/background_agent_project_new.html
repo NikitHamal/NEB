@@ -1,0 +1,109 @@
+{% extends "admin_panel/base.html" %}
+{% load static %}
+
+{% block title %}New Project — Background Agent{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'web/css/background-agent.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="ba-container">
+  <div class="ba-header">
+    <div>
+      <h1 class="ba-title">
+        <span class="material-symbols-outlined" style="font-size:32px;color:var(--md-primary);">add_link</span>
+        Connect GitHub Repository
+      </h1>
+      <p class="ba-subtitle">Link a GitHub repository for the coding agent to work on.</p>
+    </div>
+    <a href="{% url 'web:ba_dashboard' %}" class="md-btn md-btn-text">
+      <span class="material-symbols-outlined">arrow_back</span>
+      Back
+    </a>
+  </div>
+
+  {% if not github_authorized %}
+  <div class="ba-warning-box">
+    <span class="material-symbols-outlined" style="font-size:24px;color:#f59e0b;">warning</span>
+    <div>
+      <p style="margin:0 0 8px 0;"><strong>GitHub not authorized yet.</strong></p>
+      <p style="margin:0 0 8px 0;color:var(--md-on-surface-variant);">You need to connect your GitHub account with <code>repo</code> scope so the agent can clone, push, and create PRs.</p>
+      <a href="{% url 'web:ba_github_connect' %}" class="md-btn md-btn-filled">
+        <span class="material-symbols-outlined">link</span>
+        Connect GitHub Account
+      </a>
+    </div>
+  </div>
+  {% endif %}
+
+  <div class="ba-form-card">
+    <form id="ba-project-form" method="post" action="{% url 'web:ba_project_create' %}">
+      {% csrf_token %}
+      <div class="ba-form-group">
+        <label for="repo_url" class="ba-form-label">GitHub Repository URL *</label>
+        <input type="url" id="repo_url" name="repo_url" class="ba-form-input" placeholder="https://github.com/owner/repo" required>
+        <p class="ba-form-hint">The HTTPS URL of the repository you want the agent to work on.</p>
+      </div>
+
+      <div class="ba-form-group">
+        <label for="repo_full_name" class="ba-form-label">Repository Full Name</label>
+        <input type="text" id="repo_full_name" name="repo_full_name" class="ba-form-input" placeholder="owner/repo (auto-detected from URL if left blank)">
+        <p class="ba-form-hint">Format: owner/repository-name. Will be auto-detected from the URL if not specified.</p>
+      </div>
+
+      <div class="ba-form-group">
+        <label for="default_branch" class="ba-form-label">Default Branch</label>
+        <input type="text" id="default_branch" name="default_branch" class="ba-form-input" value="main" placeholder="main">
+        <p class="ba-form-hint">The base branch the agent will branch from (e.g. main, master, develop).</p>
+      </div>
+
+      <div style="display:flex;gap:12px;margin-top:24px;">
+        <button type="submit" class="md-btn md-btn-filled">
+          <span class="material-symbols-outlined">add</span>
+          Create Project
+        </button>
+        <a href="{% url 'web:ba_dashboard' %}" class="md-btn md-btn-text">Cancel</a>
+      </div>
+    </form>
+  </div>
+
+  <div class="ba-info-box" style="margin-top:24px;">
+    <h3><span class="material-symbols-outlined" style="font-size:20px;vertical-align:middle;">lightbulb</span> Tips</h3>
+    <ul>
+      <li>The repository must be accessible with your GitHub token (public repos work automatically, private repos need the token to have access).</li>
+      <li>The agent will create a shallow clone (depth=1) to save space and time.</li>
+      <li>Each task creates its own branch — the default branch is never modified directly.</li>
+      <li>You can connect multiple repositories as separate projects.</li>
+    </ul>
+  </div>
+</div>
+
+<script nonce="{{ csp_nonce }}">
+document.getElementById('ba-project-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const form = e.target;
+  const formData = new FormData(form);
+  try {
+    const resp = await fetch(form.action, {
+      method: 'POST',
+      headers: {'X-CSRFToken': CSRF_TOKEN},
+      body: JSON.stringify({
+        repo_url: formData.get('repo_url'),
+        repo_full_name: formData.get('repo_full_name'),
+        default_branch: formData.get('default_branch'),
+      }),
+    });
+    const data = await resp.json();
+    if (resp.ok) {
+      showSnackbar('Project created successfully!');
+      setTimeout(() => window.location.href = '{% url 'web:ba_dashboard' %}', 1000);
+    } else {
+      showSnackbar(data.error || 'Failed to create project');
+    }
+  } catch (err) {
+    showSnackbar('Error: ' + err.message);
+  }
+});
+</script>
+{% endblock %}

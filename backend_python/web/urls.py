@@ -2,6 +2,7 @@ from django.urls import path
 from django.views.generic import RedirectView
 from . import views
 from . import views_admin_chat
+from . import views_background_agent as ba
 
 app_name = 'web'
 
@@ -174,6 +175,22 @@ urlpatterns = [
     path('admin/chat/', views_admin_chat.admin_chat, name='admin_chat'),
     path('admin/chat/send/', views_admin_chat.ajax_admin_chat_send, name='admin_chat_send'),
     path('admin/hero-backgrounds/', views.admin_hero_backgrounds, name='admin_hero_backgrounds'),
+
+    # Background Coding Agent
+    path('backgroundagent/', ba.ba_dashboard, name='ba_dashboard'),
+    path('backgroundagent/github-connect/', ba.ba_github_connect, name='ba_github_connect'),
+    path('backgroundagent/github/callback/', ba.ba_github_callback, name='ba_github_callback'),
+    path('backgroundagent/project/new/', ba.ba_project_create, name='ba_project_create'),
+    path('backgroundagent/project/<str:project_id>/', ba.ba_project_detail, name='ba_project_detail'),
+    path('backgroundagent/task/<str:task_id>/', ba.ba_task_detail, name='ba_task_detail'),
+    path('backgroundagent/ajax/project/<str:project_id>/create-task/', ba.ba_ajax_create_task, name='ba_ajax_create_task'),
+    path('backgroundagent/ajax/task/<str:task_id>/action/', ba.ba_ajax_task_action, name='ba_ajax_task_action'),
+    path('backgroundagent/ajax/task/<str:task_id>/send-message/', ba.ba_ajax_send_message, name='ba_ajax_send_message'),
+    path('backgroundagent/ajax/task/<str:task_id>/status/', ba.ba_ajax_task_status, name='ba_ajax_task_status'),
+    path('backgroundagent/ajax/task/<str:task_id>/diff/', ba.ba_ajax_task_diff, name='ba_ajax_task_diff'),
+    path('backgroundagent/ajax/task/<str:task_id>/download-zip/', ba.ba_ajax_download_zip, name='ba_ajax_download_zip'),
+    path('backgroundagent/ajax/task/<str:task_id>/push-github/', ba.ba_ajax_push_github, name='ba_ajax_push_github'),
+    path('backgroundagent/ajax/models/', ba.ba_ajax_list_models, name='ba_ajax_list_models'),
 
     # Study Lab
     path('study-lab/', views.study_lab, name='study_lab'),

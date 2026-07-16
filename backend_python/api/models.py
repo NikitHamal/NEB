@@ -1653,3 +1653,161 @@ class PostView(models.Model):
     def __str__(self):
         return f"view {self.post_id} by user {self.user_id}"
 
+
+# ========================= Background Coding Agent =========================
+
+class CodingProject(models.Model):
+    """A GitHub repository connected to the background coding agent."""
+    STATUS_ACTIVE = 'active'
+    STATUS_ARCHIVED = 'archived'
+    STATUS_CHOICES = [
+        (STATUS_ACTIVE, 'Active'),
+        (STATUS_ARCHIVED, 'Archived'),
+    ]
+    id = models.CharField(max_length=36, primary_key=True, default=uuid.uuid4)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='coding_projects', db_index=True)
+    repo_full_name = models.CharField(max_length=255, help_text='e.g. NikitHamal/NEB')
+    repo_url = models.URLField(max_length=500)
+    default_branch = models.CharField(max_length=100, default='main')
+    github_token = models.TextField(blank=True, default='', help_text='Encrypted GitHub access token with repo scope')
+    workspace_dir = models.CharField(max_length=500, blank=True, default='')
+    clone_status = models.CharField(max_length=20, default='pending', help_text='pending/ready/failed')
+    clone_error = models.TextField(blank=True, default='')
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default=STATUS_ACTIVE, db_index=True)
+    created_at = models.BigIntegerField(default=0)
+    updated_at = models.BigIntegerField(default=0)
+
+    class Meta:
+        db_table = 'coding_projects'
+        ordering = ['-updated_at']
+        indexes = [
+            models.Index(fields=['owner', '-updated_at']),
+            models.Index(fields=['status']),
+        ]
+
+    def __str__(self):
+        return f"CodingProject({self.repo_full_name})"
+
+
+class CodingTask(models.Model):
+    """A single coding task/session within a project. Each task uses its own branch."""
+    STATUS_QUEUED = 'queued'
+    STATUS_RUNNING = 'running'
+    STATUS_PAUSED = 'paused'
+    STATUS_COMPLETED = 'completed'
+    STATUS_FAILED = 'failed'
+    STATUS_STOPPED = 'stopped'
+    STATUS_CHOICES = [
+        (STATUS_QUEUED, 'Queued'),
+        (STATUS_RUNNING, 'Running'),
+        (STATUS_PAUSED, 'Paused'),
+        (STATUS_COMPLETED, 'Completed'),
+        (STATUS_FAILED, 'Failed'),
+        (STATUS_STOPPED, 'Stopped'),
+    ]
+    id = models.CharField(max_length=36, primary_key=True, default=uuid.uuid4)
+    project = models.ForeignKey(CodingProject, on_delete=models.CASCADE, related_name='tasks', db_index=True)
+    title = models.CharField(max_length=300)
+    goal = models.TextField(help_text='The coding task description/goal for the AI agent')
+    branch_name = models.CharField(max_length=200, help_text='Branch the agent works on (never main)')
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default=STATUS_QUEUED, db_index=True)
+    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='coding_tasks', null=True, blank=True)
+    provider = models.CharField(max_length=50, default='ai4bharat', help_text='AI provider: ai4bharat/qwen/deepai/egov')
+    model_id = models.CharField(max_length=100, blank=True, default='')
+    iteration = models.IntegerField(default=0, help_text='How many AI turns have been completed')
+    max_iterations = models.IntegerField(default=50)
+    last_thought = models.TextField(blank=True, default='')
+    pr_url = models.URLField(max_length=500, blank=True, default='')
+    pr_number = models.IntegerField(null=True, blank=True)
+    created_at = models.BigIntegerField(default=0)
+    started_at = models.BigIntegerField(default=0)
+    completed_at = models.BigIntegerField(default=0)
+    paused_at = models.BigIntegerField(default=0)
+    updated_at = models.BigIntegerField(default=0)
+
+    class Meta:
+        db_table = 'coding_tasks'
+        ordering = ['-updated_at']
+        indexes = [
+            models.Index(fields=['status']),
+            models.Index(fields=['project', '-updated_at']),
+            models.Index(fields=['created_by', '-created_at']),
+        ]
+
+    def __str__(self):
+        return f"CodingTask({self.title[:50]} status={self.status})"
+
+
+class CodingTaskMessage(models.Model):
+    """Conversation messages within a coding task (user instructions + AI responses + tool results)."""
+    ROLE_USER = 'user'
+    ROLE_ASSISTANT = 'assistant'
+    ROLE_SYSTEM = 'system'
+    ROLE_TOOL_RESULT = 'tool_result'
+    ROLE_CHOICES = [
+        (ROLE_USER, 'User'),
+        (ROLE_ASSISTANT, 'Assistant'),
+        (ROLE_SYSTEM, 'System'),
+        (ROLE_TOOL_RESULT, 'Tool Result'),
+    ]
+    id = models.CharField(max_length=36, primary_key=True, default=uuid.uuid4)
+    task = models.ForeignKey(CodingTask, on_delete=models.CASCADE, related_name='messages', db_index=True)
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES, db_index=True)
+    content = models.TextField(blank=True, default='')
+    tool_actions = models.TextField(blank=True, default='', help_text='JSON array of tool calls the AI made')
+    tool_results = models.TextField(blank=True, default='', help_text='JSON array of tool execution results')
+    thoughts = models.TextField(blank=True, default='', help_text='AI reasoning/thinking text')
+    status_flag = models.CharField(max_length=20, blank=True, default='', help_text='working/done/need_input/error')
+    created_at = models.BigIntegerField(default=0)
+
+    class Meta:
+        db_table = 'coding_task_messages'
+        ordering = ['created_at']
+        indexes = [
+            models.Index(fields=['task', 'created_at']),
+            models.Index(fields=['role']),
+        ]
+
+    def __str__(self):
+        return f"CodingMsg({self.role} task={self.task_id[:8]}...)"
+
+
+class CodingActionLog(models.Model):
+    """Log of individual actions performed by the coding agent (file reads, writes, commands, git ops)."""
+    ACTION_READ = 'read'
+    ACTION_WRITE = 'write'
+    ACTION_LIST = 'list'
+    ACTION_SEARCH = 'search'
+    ACTION_COMMAND = 'command'
+    ACTION_GIT = 'git'
+    ACTION_STATUS = 'status'
+    ACTION_CHOICES = [
+        (ACTION_READ, 'Read File'),
+        (ACTION_WRITE, 'Write File'),
+        (ACTION_LIST, 'List Files'),
+        (ACTION_SEARCH, 'Search'),
+        (ACTION_COMMAND, 'Run Command'),
+        (ACTION_GIT, 'Git Operation'),
+        (ACTION_STATUS, 'Status Update'),
+    ]
+    id = models.CharField(max_length=36, primary_key=True, default=uuid.uuid4)
+    task = models.ForeignKey(CodingTask, on_delete=models.CASCADE, related_name='action_logs', db_index=True)
+    iteration = models.IntegerField(default=0)
+    action_type = models.CharField(max_length=20, choices=ACTION_CHOICES, db_index=True)
+    description = models.TextField(blank=True, default='')
+    file_path = models.CharField(max_length=500, blank=True, default='')
+    content_diff = models.TextField(blank=True, default='')
+    status = models.CharField(max_length=20, default='ok', help_text='ok/error')
+    created_at = models.BigIntegerField(default=0)
+
+    class Meta:
+        db_table = 'coding_action_logs'
+        ordering = ['created_at']
+        indexes = [
+            models.Index(fields=['task', 'created_at']),
+            models.Index(fields=['action_type']),
+        ]
+
+    def __str__(self):
+        return f"CodingAction({self.action_type} task={self.task_id[:8]}...)"
+

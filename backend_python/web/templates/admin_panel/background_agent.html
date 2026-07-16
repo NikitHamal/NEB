@@ -1,0 +1,145 @@
+{% extends "admin_panel/base.html" %}
+{% load static %}
+
+{% block title %}Background Coding Agent{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'web/css/background-agent.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="ba-container">
+  <div class="ba-header">
+    <div>
+      <h1 class="ba-title">
+        <span class="material-symbols-outlined" style="font-size:32px;color:var(--md-primary);">smart_toy</span>
+        Background Coding Agent
+      </h1>
+      <p class="ba-subtitle">Autonomous AI coding agent that clones repos, creates branches, writes code, and opens PRs — all in the background.</p>
+    </div>
+    <div class="ba-header-actions">
+      {% if github_connected %}
+        {% if github_authorized %}
+          <span class="ba-badge ba-badge-success">
+            <span class="material-symbols-outlined" style="font-size:18px;">check_circle</span>
+            GitHub Connected
+          </span>
+        {% else %}
+          <a href="{% url 'web:ba_github_connect' %}" class="md-btn md-btn-tonal">
+            <span class="material-symbols-outlined">link</span>
+            Connect GitHub
+          </a>
+        {% endif %}
+      {% else %}
+        <span class="ba-badge ba-badge-warning">
+          <span class="material-symbols-outlined" style="font-size:18px;">warning</span>
+          GitHub OAuth not configured
+        </span>
+      {% endif %}
+      <a href="{% url 'web:ba_project_create' %}" class="md-btn md-btn-filled">
+        <span class="material-symbols-outlined">add</span>
+        New Project
+      </a>
+    </div>
+  </div>
+
+  <div class="ba-stats-grid">
+    <div class="ba-stat-card">
+      <span class="material-symbols-outlined ba-stat-icon" style="color:var(--md-primary);">folder</span>
+      <div class="ba-stat-value">{{ stats.total_projects }}</div>
+      <div class="ba-stat-label">Projects</div>
+    </div>
+    <div class="ba-stat-card">
+      <span class="material-symbols-outlined ba-stat-icon" style="color:#f59e0b;">play_circle</span>
+      <div class="ba-stat-value">{{ stats.active_tasks }}</div>
+      <div class="ba-stat-label">Active Tasks</div>
+    </div>
+    <div class="ba-stat-card">
+      <span class="material-symbols-outlined ba-stat-icon" style="color:#10b981;">check_circle</span>
+      <div class="ba-stat-value">{{ stats.completed_tasks }}</div>
+      <div class="ba-stat-label">Completed</div>
+    </div>
+    <div class="ba-stat-card">
+      <span class="material-symbols-outlined ba-stat-icon" style="color:#ef4444;">error</span>
+      <div class="ba-stat-value">{{ stats.failed_tasks }}</div>
+      <div class="ba-stat-label">Failed</div>
+    </div>
+  </div>
+
+  <div class="ba-section">
+    <h2 class="ba-section-title">Projects</h2>
+    {% if projects %}
+    <div class="ba-projects-grid">
+      {% for project in projects %}
+      <a href="{% url 'web:ba_project_detail' project.id %}" class="ba-project-card">
+        <div class="ba-project-card-header">
+          <span class="material-symbols-outlined" style="font-size:24px;color:var(--md-primary);">folder_git</span>
+          <span class="ba-project-name">{{ project.repoFullName }}</span>
+        </div>
+        <div class="ba-project-meta">
+          <span class="ba-project-badge ba-badge-{% if project.cloneStatus == 'ready' %}success{% elif project.cloneStatus == 'failed' %}error{% else %}warning{% endif %}">
+            {{ project.cloneStatus|default:'pending' }}
+          </span>
+          <span class="ba-project-badge">{{ project.taskCount }} tasks</span>
+          <span class="ba-project-badge">branch: {{ project.defaultBranch }}</span>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="ba-empty-state">
+      <span class="material-symbols-outlined" style="font-size:48px;color:var(--md-outline);">folder_off</span>
+      <p>No projects yet. Connect a GitHub repository to get started.</p>
+      <a href="{% url 'web:ba_project_create' %}" class="md-btn md-btn-filled">
+        <span class="material-symbols-outlined">add</span>
+        Create First Project
+      </a>
+    </div>
+    {% endif %}
+  </div>
+
+  <div class="ba-section">
+    <h2 class="ba-section-title">Recent Tasks</h2>
+    {% if tasks %}
+    <div class="ba-tasks-list">
+      {% for task in tasks %}
+      <a href="{% url 'web:ba_task_detail' task.id %}" class="ba-task-row">
+        <div class="ba-task-row-info">
+          <span class="ba-task-status-dot ba-status-{{ task.status }}"></span>
+          <div>
+            <div class="ba-task-row-title">{{ task.title }}</div>
+            <div class="ba-task-row-meta">
+              {{ task.branchName }} &middot; iter {{ task.iteration }}/{{ task.maxIterations }} &middot; {{ task.provider }}
+            </div>
+          </div>
+        </div>
+        <span class="ba-task-status-badge ba-status-badge-{{ task.status }}">{{ task.status }}</span>
+      </a>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="ba-empty-state">
+      <span class="material-symbols-outlined" style="font-size:48px;color:var(--md-outline);">inbox</span>
+      <p>No tasks yet. Create a project and start a coding task.</p>
+    </div>
+    {% endif %}
+  </div>
+
+  <div class="ba-info-box">
+    <h3><span class="material-symbols-outlined" style="font-size:20px;vertical-align:middle;">info</span> How it works</h3>
+    <ol>
+      <li><strong>Connect GitHub</strong> — Authorize with GitHub OAuth (repo scope) to allow the agent to clone, push, and create PRs.</li>
+      <li><strong>Create a Project</strong> — Link a GitHub repository. The agent will clone it to a server-side workspace.</li>
+      <li><strong>Start a Task</strong> — Describe what you want the agent to do. It creates its own branch (never touches main).</li>
+      <li><strong>Agent Works</strong> — The AI explores the codebase, writes code, runs tests, and iterates until the goal is achieved. This runs in the background — you can close the browser.</li>
+      <li><strong>Review &amp; Merge</strong> — Download changes as ZIP, push to GitHub manually, or let the agent open a PR automatically.</li>
+    </ol>
+    <p style="margin-top:12px;color:var(--md-on-surface-variant);font-size:0.85rem;">
+      <strong>AI Providers:</strong> Uses the existing Neby AI providers (AI4Bharat Arena, Qwen, DeepAI) with prompt-based tool calling — no native function-call support needed. The agent uses a structured JSON output format that works with any LLM.
+    </p>
+    <p style="margin-top:8px;color:var(--md-on-surface-variant);font-size:0.85rem;">
+      <strong>Worker:</strong> Run <code>python manage.py run_coding_agent_worker</code> as a background process to process tasks. Tasks persist in the database and survive server restarts.
+    </p>
+  </div>
+</div>
+{% endblock %}

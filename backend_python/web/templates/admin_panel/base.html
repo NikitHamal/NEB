@@ -107,6 +107,10 @@
       <span class="material-symbols-outlined">chat</span>
       AI Chat Test
     </a>
+    <a href="{% url 'web:ba_dashboard' %}" class="{% if active_page == 'background_agent' %}active{% endif %}">
+      <span class="material-symbols-outlined">smart_toy</span>
+      Background Agent
+    </a>
     <a href="{% url 'web:admin_study_spaces' %}" class="{% if active_page == 'study_spaces' %}active{% endif %}">
       <span class="material-symbols-outlined">science</span>
       Study Spaces
@@ -210,6 +214,10 @@
       <a href="{% url 'web:admin_chat' %}" class="{% if active_page == 'chat' %}active{% endif %}">
         <span class="material-symbols-outlined">chat</span>
         AI Chat Test
+      </a>
+      <a href="{% url 'web:ba_dashboard' %}" class="{% if active_page == 'background_agent' %}active{% endif %}">
+        <span class="material-symbols-outlined">smart_toy</span>
+        Background Agent
       </a>
       <a href="{% url 'web:admin_study_spaces' %}" class="{% if active_page == 'study_spaces' %}active{% endif %}">
         <span class="material-symbols-outlined">science</span>

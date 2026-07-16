@@ -284,6 +284,11 @@ GOOGLE_CLIENT_SECRET = os.environ.get('GOOGLE_CLIENT_SECRET', '')
 # GitHub OAuth.
 GITHUB_CLIENT_ID = os.environ.get('GITHUB_CLIENT_ID', '')
 GITHUB_CLIENT_SECRET = os.environ.get('GITHUB_CLIENT_SECRET', '')
+
+# Background Coding Agent.
+CODING_AGENT_WORKSPACE_DIR = os.environ.get('CODING_AGENT_WORKSPACE_DIR', '/tmp/coding_workspaces')
+CODING_AGENT_MAX_ITERATIONS = int(os.environ.get('CODING_AGENT_MAX_ITERATIONS', '50'))
+
 FIREBASE_API_KEY = os.environ.get('FIREBASE_API_KEY', '')
 FIREBASE_AUTH_DOMAIN = os.environ.get('FIREBASE_AUTH_DOMAIN', '')
 FIREBASE_PROJECT_ID = os.environ.get('FIREBASE_PROJECT_ID', '')

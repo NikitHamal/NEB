@@ -1,0 +1,161 @@
+{% extends "admin_panel/base.html" %}
+{% load static %}
+
+{% block title %}{{ project.repoFullName }} — Background Agent{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'web/css/background-agent.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="ba-container">
+  <div class="ba-header">
+    <div>
+      <h1 class="ba-title">
+        <span class="material-symbols-outlined" style="font-size:32px;color:var(--md-primary);">folder_git</span>
+        {{ project.repoFullName }}
+      </h1>
+      <p class="ba-subtitle">
+        <a href="{{ project.repoUrl }}" target="_blank" style="color:var(--md-primary);">{{ project.repoUrl }}</a>
+        &middot; branch: {{ project.defaultBranch }} &middot; clone: {{ project.cloneStatus }}
+      </p>
+    </div>
+    <a href="{% url 'web:ba_dashboard' %}" class="md-btn md-btn-text">
+      <span class="material-symbols-outlined">arrow_back</span>
+      Back
+    </a>
+  </div>
+
+  <div class="ba-project-info-grid">
+    <div class="ba-info-item">
+      <span class="ba-info-label">Repository</span>
+      <span class="ba-info-value">{{ project.repoFullName }}</span>
+    </div>
+    <div class="ba-info-item">
+      <span class="ba-info-label">Default Branch</span>
+      <span class="ba-info-value">{{ project.defaultBranch }}</span>
+    </div>
+    <div class="ba-info-item">
+      <span class="ba-info-label">Clone Status</span>
+      <span class="ba-info-value">
+        <span class="ba-badge ba-badge-{% if project.cloneStatus == 'ready' %}success{% elif project.cloneStatus == 'failed' %}error{% else %}warning{% endif %}">{{ project.cloneStatus }}</span>
+      </span>
+    </div>
+    <div class="ba-info-item">
+      <span class="ba-info-label">GitHub Token</span>
+      <span class="ba-info-value">
+        {% if project.hasToken %}<span class="ba-badge ba-badge-success">configured</span>{% else %}<span class="ba-badge ba-badge-error">missing</span>{% endif %}
+      </span>
+    </div>
+    <div class="ba-info-item">
+      <span class="ba-info-label">Tasks</span>
+      <span class="ba-info-value">{{ project.taskCount }}</span>
+    </div>
+    <div class="ba-info-item">
+      <span class="ba-info-label">Workspace</span>
+      <span class="ba-info-value" style="font-size:0.8rem;font-family:monospace;">{{ project.workspaceDir|default:'not cloned yet' }}</span>
+    </div>
+  </div>
+
+  <div class="ba-section">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+      <h2 class="ba-section-title" style="margin:0;">Create New Task</h2>
+    </div>
+    <div class="ba-form-card">
+      <div class="ba-form-group">
+        <label for="task-title" class="ba-form-label">Task Title *</label>
+        <input type="text" id="task-title" class="ba-form-input" placeholder="e.g. Add user authentication with JWT">
+      </div>
+      <div class="ba-form-group">
+        <label for="task-goal" class="ba-form-label">Task Description / Goal *</label>
+        <textarea id="task-goal" class="ba-form-textarea" rows="5" placeholder="Describe in detail what you want the AI agent to accomplish. Be specific about features, files to modify, behavior expected, etc."></textarea>
+        <p class="ba-form-hint">The more detailed the description, the better the agent can work autonomously.</p>
+      </div>
+      <div class="ba-form-row">
+        <div class="ba-form-group" style="flex:1;">
+          <label for="task-provider" class="ba-form-label">AI Provider</label>
+          <select id="task-provider" class="ba-form-input">
+            {% for p in providers %}
+            <option value="{{ p.id }}">{{ p.name }} — {{ p.description }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="ba-form-group" style="flex:1;">
+          <label for="task-model" class="ba-form-label">Model (optional)</label>
+          <input type="text" id="task-model" class="ba-form-input" placeholder="auto-select if blank">
+        </div>
+      </div>
+      <div style="display:flex;gap:12px;margin-top:20px;">
+        <button type="button" class="md-btn md-btn-filled" onclick="createTask()">
+          <span class="material-symbols-outlined">rocket_launch</span>
+          Start Task
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="ba-section">
+    <h2 class="ba-section-title">Tasks ({{ tasks|length }})</h2>
+    {% if tasks %}
+    <div class="ba-tasks-list">
+      {% for task in tasks %}
+      <a href="{% url 'web:ba_task_detail' task.id %}" class="ba-task-row">
+        <div class="ba-task-row-info">
+          <span class="ba-task-status-dot ba-status-{{ task.status }}"></span>
+          <div>
+            <div class="ba-task-row-title">{{ task.title }}</div>
+            <div class="ba-task-row-meta">
+              {{ task.branchName }} &middot; iter {{ task.iteration }}/{{ task.maxIterations }} &middot; {{ task.provider }}
+              {% if task.prUrl %} &middot; <span style="color:#10b981;">PR opened</span>{% endif %}
+            </div>
+          </div>
+        </div>
+        <span class="ba-task-status-badge ba-status-badge-{{ task.status }}">{{ task.status }}</span>
+      </a>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="ba-empty-state">
+      <span class="material-symbols-outlined" style="font-size:48px;color:var(--md-outline);">inbox</span>
+      <p>No tasks yet. Create a task above to get started.</p>
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+<script nonce="{{ csp_nonce }}">
+const PROJECT_ID = '{{ project.id }}';
+
+async function createTask() {
+  const title = document.getElementById('task-title').value.trim();
+  const goal = document.getElementById('task-goal').value.trim();
+  const provider = document.getElementById('task-provider').value;
+  const modelId = document.getElementById('task-model').value.trim();
+  
+  if (!title || !goal) {
+    showSnackbar('Title and goal are required');
+    return;
+  }
+  
+  try {
+    const resp = await fetch(`/backgroundagent/ajax/project/${PROJECT_ID}/create-task/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': CSRF_TOKEN,
+      },
+      body: JSON.stringify({ title, goal, provider, model_id: modelId }),
+    });
+    const data = await resp.json();
+    if (resp.ok) {
+      showSnackbar('Task created! Agent will start working shortly.');
+      setTimeout(() => window.location.href = `/backgroundagent/task/${data.id}/`, 1500);
+    } else {
+      showSnackbar(data.error || 'Failed to create task');
+    }
+  } catch (err) {
+    showSnackbar('Error: ' + err.message);
+  }
+}
+</script>
+{% endblock %}
