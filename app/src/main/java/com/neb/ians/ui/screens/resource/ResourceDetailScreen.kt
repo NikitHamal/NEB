@@ -18,22 +18,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -742,50 +727,13 @@ private fun FullscreenVideoOverlay(
                             fontFamily = FontFamily.Monospace
                         )
                         Spacer(Modifier.weight(1f))
-                        // Speed button
-                            Box {
-                                Button(
-                                    onClick = { speedExpanded = !speedExpanded; showControls = true },
-                                    colors = ButtonDefaults.buttonColors(
-                                        containerColor = Color.White.copy(alpha = 0.12f),
-                                        contentColor = Color.White
-                                    ),
-                                    border = BorderStroke(1.dp, Color.White.copy(alpha = 0.3f)),
-                                    shape = RoundedCornerShape(999.dp),
-                                    contentPadding = PaddingValues(horizontal = 10.dp, vertical = 0.dp),
-                                    modifier = Modifier.height(30.dp)
-                                ) {
-                                    Text(
-                                        text = if (uiState.speed == 1f) "1×" else "${uiState.speed}×",
-                                        fontWeight = FontWeight.Bold, fontSize = 12.sp
-                                    )
-                                }
-                                AnimatedVisibility(
-                                    visible = speedExpanded,
-                                    enter = fadeIn() + slideInVertically(initialOffsetY = { it / 2 }),
-                                    exit = fadeOut(),
-                                    modifier = Modifier.align(Alignment.BottomEnd).padding(bottom = 36.dp)
-                                ) {
-                                    Column(
-                                        Modifier.width(100.dp).clip(RoundedCornerShape(10.dp))
-                                            .background(Color(0xFF1E1E1E)).border(1.dp, Color.White.copy(alpha = 0.12f), RoundedCornerShape(10.dp))
-                                            .padding(4.dp)
-                                    ) {
-                                        FS_SPEEDS.forEach { s ->
-                                            val isActive = s == uiState.speed
-                                            Text(
-                                                text = if (s == 1f) "Normal" else "${s}×",
-                                                modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(6.dp))
-                                                    .then(if (isActive) Modifier.background(subjectColor.copy(alpha = 0.20f)) else Modifier)
-                                                    .clickable { viewModel.setSpeed(s); speedExpanded = false; showControls = true }
-                                                    .padding(horizontal = 12.dp, vertical = 9.dp),
-                                                color = if (isActive) subjectColor else Color.White.copy(alpha = 0.85f),
-                                                fontWeight = FontWeight.SemiBold, fontSize = 13.sp
-                                            )
-                                        }
-                                    }
-                                }
-                            }
+                        FsSpeedSelector(
+                            speedExpanded = speedExpanded,
+                            currentSpeed = uiState.speed,
+                            subjectColor = subjectColor,
+                            onToggle = { speedExpanded = !speedExpanded; showControls = true },
+                            onSelect = { viewModel.setSpeed(it); speedExpanded = false; showControls = true }
+                        )
                         Spacer(Modifier.width(8.dp))
                         IconButton(onClick = { onExit() }, modifier = Modifier.size(36.dp)) {
                             Icon(Icons.Filled.FullscreenExit, "Exit Fullscreen", tint = Color.White, modifier = Modifier.size(22.dp))
@@ -835,6 +783,59 @@ private fun FullscreenVideoOverlay(
                 Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(4.dp)) {
                     icon?.let { Icon(it, null, tint = Color.White, modifier = Modifier.size(28.dp)) }
                     Text(text = label, color = Color.White, fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun FsSpeedSelector(
+    speedExpanded: Boolean,
+    currentSpeed: Float,
+    subjectColor: Color,
+    onToggle: () -> Unit,
+    onSelect: (Float) -> Unit,
+) {
+    Box {
+        Button(
+            onClick = onToggle,
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color.White.copy(alpha = 0.12f),
+                contentColor = Color.White
+            ),
+            border = BorderStroke(1.dp, Color.White.copy(alpha = 0.3f)),
+            shape = RoundedCornerShape(999.dp),
+            contentPadding = PaddingValues(horizontal = 10.dp, vertical = 0.dp),
+            modifier = Modifier.height(30.dp)
+        ) {
+            Text(
+                text = if (currentSpeed == 1f) "1×" else "${currentSpeed}×",
+                fontWeight = FontWeight.Bold, fontSize = 12.sp
+            )
+        }
+        AnimatedVisibility(
+            visible = speedExpanded,
+            enter = fadeIn() + slideInVertically(initialOffsetY = { it / 2 }),
+            exit = fadeOut(),
+            modifier = Modifier.align(Alignment.BottomEnd).padding(bottom = 36.dp)
+        ) {
+            Column(
+                Modifier.width(100.dp).clip(RoundedCornerShape(10.dp))
+                    .background(Color(0xFF1E1E1E)).border(1.dp, Color.White.copy(alpha = 0.12f), RoundedCornerShape(10.dp))
+                    .padding(4.dp)
+            ) {
+                FS_SPEEDS.forEach { s ->
+                    val isActive = s == currentSpeed
+                    Text(
+                        text = if (s == 1f) "Normal" else "${s}×",
+                        modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(6.dp))
+                            .then(if (isActive) Modifier.background(subjectColor.copy(alpha = 0.20f)) else Modifier)
+                            .clickable { onSelect(s) }
+                            .padding(horizontal = 12.dp, vertical = 9.dp),
+                        color = if (isActive) subjectColor else Color.White.copy(alpha = 0.85f),
+                        fontWeight = FontWeight.SemiBold, fontSize = 13.sp
+                    )
                 }
             }
         }
