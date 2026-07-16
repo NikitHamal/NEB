@@ -1,6 +1,7 @@
 from django.urls import path
 from django.views.generic import RedirectView
 from . import views
+from . import views_admin_chat
 
 app_name = 'web'
 
@@ -168,6 +169,8 @@ urlpatterns = [
     path('admin/announcements/', views.admin_announcements, name='admin_announcements'),
     path('admin/announcements/new/', views.admin_announcement_edit, name='admin_announcement_new'),
     path('admin/announcements/<str:announcement_id>/', views.admin_announcement_edit, name='admin_announcement_edit'),
+    path('admin/chat/', views_admin_chat.admin_chat, name='admin_chat'),
+    path('admin/chat/send/', views_admin_chat.ajax_admin_chat_send, name='admin_chat_send'),
 
     # Study Lab
     path('study-lab/', views.study_lab, name='study_lab'),
