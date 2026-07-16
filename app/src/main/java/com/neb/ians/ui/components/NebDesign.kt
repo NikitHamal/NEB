@@ -41,6 +41,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
@@ -288,6 +289,7 @@ fun NebAvatar(
                     model = resolvedUrl,
                     contentDescription = name,
                     modifier = Modifier.size(size).clip(CircleShape),
+                    contentScale = ContentScale.Crop,
                     onError = { isError = true }
                 )
             } else {
