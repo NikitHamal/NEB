@@ -228,7 +228,9 @@ path('ajax/study-space/<str:space_id>/summary/', views.ajax_space_generate_summa
     path('ajax/study-space/<str:space_id>/quizzes/', views.ajax_space_quiz_history, name='ajax_space_quiz_history'),
     path('ajax/study-space/<str:space_id>/flashcards/', views.ajax_space_generate_flashcards, name='ajax_space_generate_flashcards'),
     path('ajax/study-space/generation/<str:job_id>/', views.ajax_generation_status, name='ajax_generation_status'),
-    path('ajax/study-space/quiz/<str:quiz_id>/', views.ajax_space_quiz_detail, name='ajax_space_quiz_detail'),
-    path('ajax/study-space/quiz/<str:quiz_id>/submit/', views.ajax_space_quiz_submit, name='ajax_space_quiz_submit'),
     path('ajax/study-space/flashcard/<str:card_id>/review/', views.ajax_space_flashcard_review, name='ajax_space_flashcard_review'),
+
+    # Background Coding Agent - Admin Web Interface
+    path('admin/background-agent/', views_admin.admin_background_agent, name='admin_background_agent'),
+    path('admin/background-agent/sessions/<str:session_id>/', views_admin.admin_session_detail, name='admin_session_detail'),
 ]

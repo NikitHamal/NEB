@@ -6,6 +6,7 @@ from django.urls import path, include
 from . import views
 from . import views_presence
 from . import pdf_assistant_views
+from . import views_bg_agent
 
 urlpatterns = [
     # Auth
@@ -120,6 +121,20 @@ urlpatterns = [
 
     # Consica app AI bridge (non-guessable path, key-authenticated)
     path('consica-bridge/', include('api.consica_bridge_urls')),
+
+    # Background Coding Agent (GitHub integration)
+    path('bg-agent/github/connect/', views_bg_agent.github_connect, name='bg-agent-github-connect'),
+    path('bg-agent/github/install/', views_bg_agent.github_install_app, name='bg-agent-github-install'),
+    path('bg-agent/projects/', views_bg_agent.projects_list, name='bg-agent-projects-list'),
+    path('bg-agent/projects/<str:project_id>/sessions/', views_bg_agent.sessions_list, name='bg-agent-sessions-list'),
+    path('bg-agent/sessions/', views_bg_agent.sessions_list, name='bg-agent-sessions-list-all'),
+    path('bg-agent/sessions/<str:session_id>/', views_bg_agent.session_detail, name='bg-agent-session-detail'),
+    path('bg-agent/sessions/<str:session_id>/message/', views_bg_agent.session_message, name='bg-agent-session-message'),
+    path('bg-agent/sessions/<str:session_id>/control/', views_bg_agent.session_control, name='bg-agent-session-control'),
+    path('bg-agent/sessions/<str:session_id>/download/', views_bg_agent.download_changes, name='bg-agent-download-changes'),
+    path('bg-agent/sessions/<str:session_id>/files/<str:change_id>/', views_bg_agent.file_change_detail, name='bg-agent-file-change-detail'),
+    path('bg-agent/sessions/<str:session_id>/push/', views_bg_agent.push_to_github, name='bg-agent-push-to-github'),
+    path('bg-agent/admin/dashboard/', views_bg_agent.admin_sessions_dashboard, name='bg-agent-admin-dashboard'),
 
     # Admin API
     path('', include('api.admin_urls')),
