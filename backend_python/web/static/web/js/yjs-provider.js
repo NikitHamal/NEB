@@ -19,6 +19,11 @@
     return u8;
   }
 
+  function makeClientId() {
+    if (window.crypto && typeof window.crypto.randomUUID === 'function') return window.crypto.randomUUID();
+    return 'client-' + Math.random().toString(36).slice(2) + Date.now().toString(36);
+  }
+
   function pickColor(userId) {
     var hash = 0;
     for (var i = 0; i < userId.length; i++) {
@@ -37,6 +42,7 @@
     this.spaceId = null;
     this.userId = null;
     this.userName = '';
+    this.clientId = makeClientId();
     this.color = '';
     this._onRemoteChange = null;
     this._onSave = null;
@@ -47,6 +53,7 @@
     this._onRemoteCursor = null;
     this._connected = false;
     this._pendingUpdates = [];
+    this._snapshotTimer = null;
     this._boundTextarea = null;
     this._boundFns = { input: null, mouseup: null, keyup: null };
   }
@@ -55,6 +62,10 @@
     var self = this;
     this.spaceId = spaceId;
     this.userName = userName || 'Anonymous';
+    if (typeof window.Y === 'undefined') {
+      console.warn('SSYjs: Yjs library not loaded');
+      return;
+    }
     this.doc = new Y.Doc();
     this.ytext = this.doc.getText('content');
 
@@ -76,11 +87,6 @@
         self._onRemoteChange(self.ytext.toString());
       }
     });
-
-    if (typeof window.Y === 'undefined') {
-      console.warn('SSYjs: Yjs library not loaded');
-      return;
-    }
 
     this.connectWS();
   };
@@ -108,7 +114,7 @@
       try {
         self.ws.send(JSON.stringify({ action: 'subscribe', channel: 'studyspace.' + self.spaceId }));
       } catch(e) {}
-      self.color = pickColor(self.userId || self.spaceId);
+      self.color = pickColor(self.userId || self.clientId || self.spaceId);
     };
 
     this.ws.onmessage = function(e) {
@@ -124,9 +130,11 @@
         }
         if (msg.type === 'ready') {
           self.userId = msg.user_id;
-          self.color = pickColor(self.userId || self.spaceId);
+          self.color = pickColor(self.userId || self.clientId || self.spaceId);
         } else if (msg.type === 'subscribed') {
           self._connected = true;
+          self._setStatus(true);
+          try { self.ws.send(JSON.stringify({ action: 'yjs_sync_request', spaceId: self.spaceId, clientId: self.clientId })); } catch(_) {}
           if (self._pendingUpdates.length) {
             var pending = self._pendingUpdates.splice(0, self._pendingUpdates.length);
             pending.forEach(function(updateB64) {
@@ -135,6 +143,7 @@
                   action: 'yjs_update',
                   spaceId: self.spaceId,
                   update: updateB64,
+                  clientId: self.clientId,
                 }));
               } catch(_) {}
             });
@@ -147,6 +156,7 @@
 
     this.ws.onclose = function() {
       self._connected = false;
+      self._setStatus(false);
       if (self._reconnectTimer) return;
       self._reconnectTimer = setTimeout(function() {
         self._reconnectTimer = null;
@@ -156,6 +166,7 @@
 
     this.ws.onerror = function() {
       self._connected = false;
+      self._setStatus(false);
     };
   };
 
@@ -163,6 +174,7 @@
     if (this._reconnectTimer) { clearTimeout(this._reconnectTimer); this._reconnectTimer = null; }
     if (this._awarenessTimer) { clearTimeout(this._awarenessTimer); this._awarenessTimer = null; }
     if (this._cursorTimer) { clearTimeout(this._cursorTimer); this._cursorTimer = null; }
+    if (this._snapshotTimer) { clearTimeout(this._snapshotTimer); this._snapshotTimer = null; }
     if (this.ws) { try { this.ws.close(); } catch(e) {} this.ws = null; }
     this._connected = false;
     this._unbindTextarea();
@@ -174,7 +186,7 @@
     var self = this;
 
     function processUpdate(data) {
-      if (!data || data.senderId === self.userId) return;
+      if (!data || data.senderId === self.clientId) return;
       try {
         var update = base64ToArray(data.update);
         Y.applyUpdate(self.doc, update, 'remote');
@@ -195,7 +207,7 @@
       }
     }
 
-    if (msg.event === 'yjs_update' && msg.data) {
+    if ((msg.event === 'yjs_update' || msg.event === 'yjs_snapshot') && msg.data) {
       if (msg.batched && Array.isArray(msg.data)) {
         msg.data.forEach(processUpdate);
       } else {
@@ -208,15 +220,18 @@
         this._onRemoteChange(this.ytext.toString());
       }
     }
+    if (msg.event === 'yjs_sync_request' && msg.data && msg.data.senderId !== this.clientId) {
+      this._sendSnapshot();
+    }
     if (msg.event === 'yjs_awareness' && msg.data) {
       if (msg.batched && Array.isArray(msg.data)) {
         msg.data.forEach(function(item) {
-          if (item && item.senderId !== self.userId) {
+          if (item && item.senderId !== self.clientId) {
             processAwareness(item, item.senderId);
           }
         });
       } else {
-        if (msg.data.senderId !== this.userId) {
+        if (msg.data.senderId !== this.clientId) {
           processAwareness(msg.data, msg.data.senderId);
         }
       }
@@ -228,6 +243,7 @@
 
   SSYjs.prototype._sendUpdate = function(update) {
     var updateB64 = arrayToBase64(update);
+    this._scheduleSnapshot();
     if (!this._connected || !this.ws || this.ws.readyState !== WebSocket.OPEN) {
       // Keep a small offline/early-subscribe buffer so fast first strokes or
       // short reconnects don't vanish. Yjs updates are idempotent; duplicates
@@ -241,11 +257,40 @@
         action: 'yjs_update',
         spaceId: this.spaceId,
         update: updateB64,
+        clientId: this.clientId,
       }));
     } catch(e) {
       this._pendingUpdates.push(updateB64);
       if (this._pendingUpdates.length > 200) this._pendingUpdates.shift();
     }
+  };
+
+  SSYjs.prototype._scheduleSnapshot = function() {
+    if (this._snapshotTimer) clearTimeout(this._snapshotTimer);
+    var self = this;
+    this._snapshotTimer = setTimeout(function() {
+      self._snapshotTimer = null;
+      self._sendSnapshot();
+    }, 450);
+  };
+
+  SSYjs.prototype._sendSnapshot = function() {
+    if (!this.doc || !this._connected || !this.ws || this.ws.readyState !== WebSocket.OPEN) return;
+    try {
+      this.ws.send(JSON.stringify({
+        action: 'yjs_snapshot',
+        spaceId: this.spaceId,
+        update: arrayToBase64(Y.encodeStateAsUpdate(this.doc)),
+        clientId: this.clientId
+      }));
+    } catch(e) {}
+  };
+
+  SSYjs.prototype._setStatus = function(online) {
+    var dot = document.getElementById('cbStatusDot');
+    var text = document.getElementById('cbStatusText');
+    if (dot) dot.classList.toggle('cb-offline', !online);
+    if (text) text.textContent = online ? 'Live' : 'Reconnecting…';
   };
 
   SSYjs.prototype._sendAwareness = function(start, end) {
@@ -254,6 +299,7 @@
       this.ws.send(JSON.stringify({
         action: 'yjs_awareness',
         spaceId: this.spaceId,
+        clientId: this.clientId,
         state: {
           cursorStart: start,
           cursorEnd: end,

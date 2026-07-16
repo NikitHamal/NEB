@@ -1618,3 +1618,19 @@ class SocialLinkClick(models.Model):
 
     def __str__(self):
         return f"click {self.platform} on user {self.user_id}"
+
+
+class HeroBackground(models.Model):
+    name = models.CharField(max_length=100)
+    filename = models.CharField(max_length=255, unique=True)
+    is_active = models.BooleanField(default=False)
+    sort_order = models.IntegerField(default=0)
+    created_at = models.BigIntegerField(default=0)
+
+    class Meta:
+        db_table = 'hero_backgrounds'
+        ordering = ['sort_order', 'id']
+
+    def __str__(self):
+        return f"{self.name} ({self.filename}){' [ACTIVE]' if self.is_active else ''}"
+

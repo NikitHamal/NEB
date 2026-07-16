@@ -1124,16 +1124,16 @@ def ajax_space_upload(request, space_id):
     if ext not in ALLOWED_EXTENSIONS:
         return JsonResponse({'error': f'File type {ext} is not supported'}, status=400)
 
-    if uploaded_file.size > MAX_FILE_SIZE:
-        return JsonResponse({'error': 'File is too large (max 50 MB)'}, status=400)
+    if uploaded_file.size > SPACE_UPLOAD_MAX_FILE_SIZE:
+        return JsonResponse({'error': f'File is too large (max {SPACE_UPLOAD_MAX_FILE_SIZE // (1024 * 1024)} MB)'}, status=400)
 
     from django.core.files.storage import default_storage
-    from django.core.files.base import ContentFile
 
     file_name = uploaded_file.name
     safe_name = f"study/{user_id}/{uuid_str()}{ext}"
     try:
-        saved_path = default_storage.save(safe_name, ContentFile(uploaded_file.read()))
+        uploaded_file.seek(0)
+        saved_path = default_storage.save(safe_name, uploaded_file)
     except Exception as e:  # noqa: BLE001
         logger.exception('StudySpace upload storage failed for user=%s space=%s file=%s', user_id, space_id, file_name)
         return JsonResponse({'error': 'Could not save uploaded file. Please try again.'}, status=500)
@@ -1161,22 +1161,22 @@ def ajax_space_upload(request, space_id):
     space.updated_at = now
     space.save(update_fields=['updated_at'])
 
-    try:
-        start_parse(doc.id)
-    except Exception as e:  # noqa: BLE001
-        # Upload itself succeeded; parsing can be retried from the UI. Do not
-        # turn a successful file placement into a 500 for the board picker.
-        logger.exception('StudySpace upload parse start failed for doc=%s: %s', doc.id, e)
+    is_media = doc.mime_type.startswith('video/') or doc.mime_type.startswith('audio/') or ext in SPACE_MEDIA_EXTENSIONS
+    if not is_media:
+        try:
+            start_parse(doc.id)
+        except Exception as e:  # noqa: BLE001
+            logger.exception('StudySpace upload parse start failed for doc=%s: %s', doc.id, e)
 
     return JsonResponse({
         'success': True,
         'document': _serialize_study_doc_list_item(doc),
         'space': _serialize_space_detail(space, user_id),
-        # Board file picker expects these flat fields.
         'fileUrl': file_url,
         'file_url': file_url,
         'fileName': file_name,
         'fileSize': uploaded_file.size,
+        'mimeType': uploaded_file.content_type or 'application/octet-stream',
     }, status=201)
 
 
@@ -2780,6 +2780,8 @@ def _normalize_node(node):
 
 MAX_SPACES_PER_USER = 5
 MAX_DOCS_PER_SPACE = 5
+SPACE_UPLOAD_MAX_FILE_SIZE = 100 * 1024 * 1024
+SPACE_MEDIA_EXTENSIONS = {'.mp4', '.avi', '.mov', '.m4v', '.mkv', '.webm', '.mp3', '.wav', '.ogg', '.flac', '.aac', '.m4a'}
 
 
 def _generate_unique_invite_code():

@@ -5,6 +5,7 @@ All paths are relative to /api/ (prefix added in nebians/urls.py).
 from django.urls import path, include
 from . import views
 from . import views_presence
+from . import pdf_assistant_views
 
 urlpatterns = [
     # Auth
@@ -51,6 +52,7 @@ urlpatterns = [
     path('resources/<str:resource_id>/comments/', views.resource_comments, name='resource-comments'),
     path('resources/<str:resource_id>/comments/<str:comment_id>/', views.resource_comment_detail, name='resource-comment-detail'),
     path('resources/<str:resource_id>/comments/<str:comment_id>/like/', views.resource_comment_like, name='resource-comment-like'),
+    path('resources/<str:resource_id>/pdf-assistant/', pdf_assistant_views.resource_pdf_assistant, name='resource-pdf-assistant'),
 
     # Syllabus categories for native apps
     path('syllabus/categories/', views.syllabus_categories, name='syllabus-categories'),
