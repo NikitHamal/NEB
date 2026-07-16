@@ -27,7 +27,7 @@ MODEL_OPTIONS = {
     'ai4bharat': [],
     'egov':      [{'id': 'AI1', 'label': 'eGov AI1 (Global)'}, {'id': 'AI1-ph', 'label': 'eGov AI1 (Philippines)'}, {'id': 'AI2', 'label': 'eGov AI2 (Global)'}, {'id': 'AI2-ph', 'label': 'eGov AI2 (Philippines)'}],
     'deepai':    [{'id': 'standard', 'label': 'DeepAI Standard'}, {'id': 'deepseek-v3.2', 'label': 'DeepSeek V3.2'}, {'id': 'gemma-4', 'label': 'Gemma 4'}, {'id': 'gpt-4.1-nano', 'label': 'GPT-4.1 Nano'}, {'id': 'gpt-5-nano', 'label': 'GPT-5 Nano'}, {'id': 'gemini-2.5-flash-lite', 'label': 'Gemini 2.5 Flash Lite'}, {'id': 'llama-3.3-70b-instruct', 'label': 'Llama 3.3 70B'}, {'id': 'o4-mini', 'label': 'o4 Mini'}, {'id': 'gpt-4o-mini', 'label': 'GPT-4o Mini'}, {'id': 'gpt-oss-120b', 'label': 'GPT OSS 120B (Reasoning)'}],
-    'inception': [{'id': 'mercury-2', 'label': 'Mercury 2 (default)'}, {'id': 'mercury-2-mini', 'label': 'Mercury 2 Mini'}],
+    'inception': [{'id': 'mercury-2', 'label': 'Mercury 2'}],
     'custom':    [],
 }
 

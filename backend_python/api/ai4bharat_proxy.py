@@ -485,12 +485,14 @@ def fetch_models_for_client(token: str) -> list:
     raw = list_models(token, model_type='LLM')
     out = []
     for m in raw:
+        is_thinking = bool(m.get('is_thinking_model'))
         out.append({
             'id': m.get('id'),
             'code': m.get('model_code'),
             'name': m.get('display_name'),
             'provider': m.get('provider'),
-            'thinking': bool(m.get('is_thinking_model')),
+            'thinking': is_thinking,
+            'reasoning_levels': ['low', 'medium', 'high'] if is_thinking else [],
             'random_only': bool(m.get('random_only')),
             'active': bool(m.get('is_active', True)),
         })
