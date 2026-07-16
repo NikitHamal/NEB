@@ -16,7 +16,7 @@ CHAT_URL = f"{INCEPTION_URL}/api/chat"
 REQUEST_TIMEOUT = 180
 
 MODELS = [
-    {"id": "mercury-2", "name": "Mercury 2", "reasoning": True, "web_search": True},
+    {"id": "mercury-2", "name": "Mercury 2", "reasoning": True, "reasoning_levels": ["low", "medium", "high"], "web_search": True},
 ]
 
 MODEL_MAP = {m["id"]: m for m in MODELS}
@@ -99,6 +99,7 @@ def get_models() -> List[Dict]:
                 "stream": True,
                 "vision": False,
                 "thinking": m.get("reasoning", False),
+                "reasoning_levels": m.get("reasoning_levels", []),
                 "tools": False,
                 "web_search": m.get("web_search", False),
             },
@@ -177,19 +178,12 @@ def stream_chat(
         return
 
     buffer = ""
-    for raw_line in resp.iter_lines(decode_unicode=False):
-        if raw_line is None:
+    for chunk_bytes in resp.iter_content():
+        if chunk_bytes is None:
             continue
-        try:
-            line = raw_line.decode("utf-8")
-        except UnicodeDecodeError:
-            continue
-        buffer += line
-        if "\n\n" not in buffer:
-            continue
-        parts = buffer.split("\n\n")
-        buffer = parts.pop()
-        for event_str in parts:
+        buffer += chunk_bytes.decode("utf-8", errors="ignore")
+        while "\n\n" in buffer:
+            event_str, buffer = buffer.split("\n\n", 1)
             event_str = event_str.strip()
             if not event_str:
                 continue
