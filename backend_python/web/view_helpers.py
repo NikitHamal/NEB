@@ -621,17 +621,17 @@ def _resolve_ws_public_url():
     if explicit:
         return explicit
     import glob, re
-    log_paths = sorted(glob.glob('/tmp/cf_quick*.log'), reverse=True) + [
-        '/home/consicac/nebians_api/logs/cloudflared.log',
+    log_paths = [
         os.path.join(settings.BASE_DIR, 'ws_url.txt'),
-    ]
+        '/home/consicac/nebians_api/logs/cloudflared.log',
+    ] + sorted(glob.glob('/tmp/cf_quick*.log'), reverse=True)
     for path in log_paths:
         try:
             with open(path) as f:
                 content = f.read()
-            m = re.search(r'https://([a-z0-9-]+\.trycloudflare\.com)', content)
-            if m:
-                return 'wss://' + m.group(1) + '/ws/'
+            matches = re.findall(r'https://([a-z0-9-]+\.trycloudflare\.com)', content)
+            if matches:
+                return 'wss://' + matches[-1] + '/ws/'
         except OSError:
             continue
     return ''

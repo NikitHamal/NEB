@@ -380,10 +380,18 @@ def realtime_config(request):
     import os as _os
     ws_url = _os.environ.get('WS_PUBLIC_URL', '').strip()
     if not ws_url:
+        ws_url_txt = _os.path.join(_os.path.dirname(_os.path.dirname(__file__)), 'ws_url.txt')
         try:
-            import glob as _glob
-            import re as _re
-            for path in sorted(_glob.glob('/tmp/cf_quick*.log'), reverse=True):
+            with open(ws_url_txt, 'r', errors='ignore') as fh:
+                url = fh.read().strip()
+                if url:
+                    ws_url = url.replace('https://', 'wss://') + '/ws/'
+        except (OSError, IOError):
+            pass
+    if not ws_url:
+        try:
+            import glob as _glob, re as _re
+            for path in [_os.path.join(_os.path.dirname(_os.path.dirname(__file__)), 'logs', 'cloudflared.log')] + sorted(_glob.glob('/tmp/cf_quick*.log'), reverse=True):
                 try:
                     with open(path, 'r', errors='ignore') as fh:
                         matches = _re.findall(r'https://[a-z0-9-]+\.trycloudflare\.com', fh.read())

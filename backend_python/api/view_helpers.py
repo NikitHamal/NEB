@@ -134,6 +134,15 @@ def _get_user_from_request(request):
     user = getattr(request, 'user', None)
     if isinstance(user, User):
         return user
+    
+    # Fallback to session auth token for web browser API requests
+    token = request.session.get('auth_token') if hasattr(request, 'session') else None
+    if token:
+        try:
+            from .security import get_user_by_auth_token
+            return get_user_by_auth_token(token)
+        except Exception:
+            pass
     return None
 
 def _require_user(request):

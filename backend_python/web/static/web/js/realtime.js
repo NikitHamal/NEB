@@ -48,6 +48,8 @@
   var paused = false;
   var healthListeners = new Set();
   var lastEventTs = 0;
+  var baseWsUrl = null; // extracted from wsUrl (without query string)
+  var haveRefetched = false; // prevent infinite refetch loops
 
   // ----- URL derivation -----------------------------------------------------
 
@@ -118,6 +120,10 @@
 
   function connect() {
     setState(STATE.CONNECTING);
+    if (!baseWsUrl) {
+      var qidx = wsUrl.indexOf('?');
+      baseWsUrl = qidx >= 0 ? wsUrl.substring(0, qidx) : wsUrl;
+    }
     try {
       socket = new WebSocket(wsUrl);
     } catch (e) {
@@ -153,6 +159,34 @@
     });
   }
 
+  function refetchWsUrl(callback) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/api/realtime/config/', true);
+    xhr.withCredentials = true;
+    xhr.onload = function () {
+      if (xhr.status >= 200 && xhr.status < 400) {
+        try {
+          var data = JSON.parse(xhr.responseText);
+          if (data.ws_url) {
+            baseWsUrl = data.ws_url;
+            var ticket = getTicketFromUrl(wsUrl);
+            wsUrl = baseWsUrl + (ticket ? ticket : '');
+            if (global.WS_CONFIG) global.WS_CONFIG.url = wsUrl;
+            if (document.body) document.body.setAttribute('data-ws-url', wsUrl);
+          }
+        } catch (e) { /* ignore parse errors */ }
+      }
+      callback();
+    };
+    xhr.onerror = function () { callback(); };
+    xhr.send();
+  }
+
+  function getTicketFromUrl(url) {
+    var idx = url.indexOf('?');
+    return idx >= 0 ? url.substring(idx) : '';
+  }
+
   function scheduleReconnect() {
     if (paused) return;
     if (reconnectTimer) return;
@@ -161,7 +195,11 @@
     reconnectTimer = setTimeout(function () {
       reconnectTimer = null;
       reconnectDelay = Math.min(reconnectDelay * 2, maxReconnectDelay);
-      connect();
+      // Refetch the WS URL from the server before reconnecting, so we get
+      // the latest tunnel URL if cloudflared has restarted since page load.
+      refetchWsUrl(function () {
+        connect();
+      });
     }, delay);
   }
 
