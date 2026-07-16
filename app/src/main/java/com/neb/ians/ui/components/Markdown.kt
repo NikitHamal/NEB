@@ -139,8 +139,10 @@ private fun InlineMdText(
     onMentionClick: (String) -> Unit,
     onLinkClick: (String) -> Unit
 ) {
-    val annotated = remember(text, color, primary, codeBg) {
-        buildInlineAnnotatedString(text, color, primary, codeBg)
+    val errorBg = MaterialTheme.colorScheme.errorContainer
+    val errorFg = MaterialTheme.colorScheme.onErrorContainer
+    val annotated = remember(text, color, primary, codeBg, errorBg, errorFg) {
+        buildInlineAnnotatedString(text, color, primary, codeBg, errorBg, errorFg)
     }
     ClickableText(
         text = annotated,
@@ -216,7 +218,9 @@ internal fun buildInlineAnnotatedString(
     text: String,
     baseColor: Color,
     primary: Color,
-    codeBg: Color
+    codeBg: Color,
+    errorBg: Color = Color.Transparent,
+    errorFg: Color = Color.Transparent
 ): AnnotatedString = buildAnnotatedString {
     var cursor = 0
     inlinePattern.findAll(text).forEach { match ->
@@ -238,9 +242,17 @@ internal fun buildInlineAnnotatedString(
                 pop()
             }
             g[13] != null -> {
-                pushStringAnnotation("mention", g[13]!!.value)
-                withStyleAppend(SpanStyle(color = primary, fontWeight = FontWeight.Medium), "@${g[13]!!.value}")
-                pop()
+                val isAll = g[13]!!.value.equals("all", ignoreCase = true)
+                if (isAll) {
+                    withStyleAppend(
+                        SpanStyle(background = errorBg, color = errorFg, fontWeight = FontWeight.Bold),
+                        "@all"
+                    )
+                } else {
+                    pushStringAnnotation("mention", g[13]!!.value)
+                    withStyleAppend(SpanStyle(color = primary, fontWeight = FontWeight.Medium), "@${g[13]!!.value}")
+                    pop()
+                }
             }
         }
         cursor = match.range.last + 1
