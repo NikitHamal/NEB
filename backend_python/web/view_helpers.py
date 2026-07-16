@@ -947,7 +947,9 @@ def _link_oauth_user(request, email, user_pk, display_name, photo_url, provider_
 @require_GET
 def _https_redirect_uri(request, path):
     """Build an HTTPS redirect URI, even when behind a proxy that terminates SSL."""
-    host = request.get_host()
+    host = getattr(settings, 'GITHUB_REDIRECT_URI_HOST', '')
+    if not host:
+        host = request.get_host()
     return f'https://{host}{path}'
 
 def _normalize_user_data(user):

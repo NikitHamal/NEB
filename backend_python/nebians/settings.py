@@ -284,6 +284,7 @@ GOOGLE_CLIENT_SECRET = os.environ.get('GOOGLE_CLIENT_SECRET', '')
 # GitHub OAuth.
 GITHUB_CLIENT_ID = os.environ.get('GITHUB_CLIENT_ID', '')
 GITHUB_CLIENT_SECRET = os.environ.get('GITHUB_CLIENT_SECRET', '')
+GITHUB_REDIRECT_URI_HOST = os.environ.get('GITHUB_REDIRECT_URI_HOST', '')
 
 # Background Coding Agent.
 CODING_AGENT_WORKSPACE_DIR = os.environ.get('CODING_AGENT_WORKSPACE_DIR', '/tmp/coding_workspaces')

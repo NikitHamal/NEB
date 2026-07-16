@@ -81,12 +81,15 @@
           </select>
         </div>
         <div class="ba-form-group" style="flex:1;">
-          <label for="task-model" class="ba-form-label">Model (optional)</label>
-          <input type="text" id="task-model" class="ba-form-input" placeholder="auto-select if blank">
+          <label for="task-model" class="ba-form-label">Model</label>
+          <select id="task-model" class="ba-form-input">
+            <option value="">— auto-select —</option>
+          </select>
+          <p class="ba-form-hint" id="model-hint" style="display:none;">Loading models…</p>
         </div>
       </div>
       <div style="display:flex;gap:12px;margin-top:20px;">
-        <button type="button" class="md-btn md-btn-filled" onclick="createTask()">
+        <button type="button" class="md-btn md-btn-filled" id="btn-create-task">
           <span class="material-symbols-outlined">rocket_launch</span>
           Start Task
         </button>
@@ -126,17 +129,43 @@
 <script nonce="{{ csp_nonce }}">
 const PROJECT_ID = '{{ project.id }}';
 
+async function loadModelsForProvider(providerId) {
+  const modelSelect = document.getElementById('task-model');
+  const hint = document.getElementById('model-hint');
+  modelSelect.innerHTML = '<option value="">— auto-select —</option>';
+  if (!providerId) return;
+
+  hint.style.display = '';
+  try {
+    const resp = await fetch('/backgroundagent/ajax/models/?provider=' + encodeURIComponent(providerId), {
+      headers: { 'X-CSRFToken': CSRF_TOKEN },
+    });
+    const data = await resp.json();
+    hint.style.display = 'none';
+    if (resp.ok && data.models && data.models.length) {
+      data.models.forEach(function(m) {
+        const opt = document.createElement('option');
+        opt.value = m.id;
+        opt.textContent = m.name;
+        modelSelect.appendChild(opt);
+      });
+    }
+  } catch (e) {
+    hint.style.display = 'none';
+  }
+}
+
 async function createTask() {
   const title = document.getElementById('task-title').value.trim();
   const goal = document.getElementById('task-goal').value.trim();
   const provider = document.getElementById('task-provider').value;
   const modelId = document.getElementById('task-model').value.trim();
-  
+
   if (!title || !goal) {
     showSnackbar('Title and goal are required');
     return;
   }
-  
+
   try {
     const resp = await fetch(`/backgroundagent/ajax/project/${PROJECT_ID}/create-task/`, {
       method: 'POST',
@@ -157,5 +186,18 @@ async function createTask() {
     showSnackbar('Error: ' + err.message);
   }
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+  var btnCreate = document.getElementById('btn-create-task');
+  if (btnCreate) btnCreate.addEventListener('click', createTask);
+
+  var providerSelect = document.getElementById('task-provider');
+  if (providerSelect) {
+    providerSelect.addEventListener('change', function() {
+      loadModelsForProvider(this.value);
+    });
+    loadModelsForProvider(providerSelect.value);
+  }
+});
 </script>
 {% endblock %}

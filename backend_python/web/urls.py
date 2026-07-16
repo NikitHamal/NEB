@@ -191,6 +191,8 @@ urlpatterns = [
     path('backgroundagent/ajax/task/<str:task_id>/download-zip/', ba.ba_ajax_download_zip, name='ba_ajax_download_zip'),
     path('backgroundagent/ajax/task/<str:task_id>/push-github/', ba.ba_ajax_push_github, name='ba_ajax_push_github'),
     path('backgroundagent/ajax/models/', ba.ba_ajax_list_models, name='ba_ajax_list_models'),
+    path('backgroundagent/ajax/github-repos/', ba.ba_ajax_github_repos, name='ba_ajax_github_repos'),
+    path('backgroundagent/ajax/github-repo-branches/', ba.ba_ajax_github_repo_branches, name='ba_ajax_github_repo_branches'),
 
     # Study Lab
     path('study-lab/', views.study_lab, name='study_lab'),

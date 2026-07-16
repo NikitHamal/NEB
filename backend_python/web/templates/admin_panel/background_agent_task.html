@@ -29,17 +29,17 @@
   </div>
 
   <div class="ba-task-controls">
-    <button class="md-btn md-btn-outlined ba-btn-pause" onclick="taskAction('pause')" 
+    <button class="md-btn md-btn-outlined ba-btn-pause" id="ba-btn-pause" 
             {% if task.status != 'running' %}disabled{% endif %}>
       <span class="material-symbols-outlined">pause</span>
       Pause
     </button>
-    <button class="md-btn md-btn-outlined ba-btn-resume" onclick="taskAction('resume')"
+    <button class="md-btn md-btn-outlined ba-btn-resume" id="ba-btn-resume"
             {% if task.status != 'paused' and task.status != 'stopped' %}disabled{% endif %}>
       <span class="material-symbols-outlined">play_arrow</span>
       Resume
     </button>
-    <button class="md-btn md-btn-outlined ba-btn-stop" onclick="taskAction('stop')"
+    <button class="md-btn md-btn-outlined ba-btn-stop" id="ba-btn-stop"
             {% if task.status == 'completed' or task.status == 'failed' %}disabled{% endif %}>
       <span class="material-symbols-outlined">stop</span>
       Stop
@@ -49,12 +49,12 @@
       <span class="material-symbols-outlined">download</span>
       Download ZIP
     </a>
-    <button class="md-btn md-btn-outlined" onclick="pushToGithub(false)"
+    <button class="md-btn md-btn-outlined" id="ba-btn-push"
             {% if task.status == 'completed' %}disabled{% endif %}>
       <span class="material-symbols-outlined">cloud_upload</span>
       Push to GitHub
     </button>
-    <button class="md-btn md-btn-filled" onclick="pushToGithub(true)"
+    <button class="md-btn md-btn-filled" id="ba-btn-push-pr"
             {% if task.status == 'completed' %}disabled{% endif %}>
       <span class="material-symbols-outlined">pull_request</span>
       Push &amp; Create PR
@@ -71,15 +71,15 @@
   <div class="ba-task-layout">
     <div class="ba-task-main">
       <div class="ba-tabs">
-        <button class="ba-tab active" data-tab="chat" onclick="switchTab('chat')">
+        <button class="ba-tab active" data-tab="chat">
           <span class="material-symbols-outlined" style="font-size:18px;">chat</span>
           Conversation
         </button>
-        <button class="ba-tab" data-tab="logs" onclick="switchTab('logs')">
+        <button class="ba-tab" data-tab="logs">
           <span class="material-symbols-outlined" style="font-size:18px;">list_alt</span>
           Action Log
         </button>
-        <button class="ba-tab" data-tab="diff" onclick="switchTab('diff')">
+        <button class="ba-tab" data-tab="diff">
           <span class="material-symbols-outlined" style="font-size:18px;">difference</span>
           Changes
         </button>
@@ -119,7 +119,7 @@
         </div>
         <div class="ba-chat-input-area">
           <textarea id="chat-input" class="ba-chat-input" placeholder="Send a message to the agent (interrupt, ask a question, give a follow-up instruction)..." rows="2"></textarea>
-          <button class="md-btn md-btn-filled" onclick="sendMessage()">
+          <button class="md-btn md-btn-filled" id="ba-btn-send">
             <span class="material-symbols-outlined">send</span>
             Send
           </button>
@@ -160,7 +160,7 @@
       <div class="ba-tab-content" id="tab-diff">
         <div class="ba-diff-header">
           <h3>Changed Files</h3>
-          <button class="md-btn md-btn-text" onclick="refreshDiff()">
+          <button class="md-btn md-btn-text" id="ba-btn-refresh-diff">
             <span class="material-symbols-outlined" style="font-size:18px;">refresh</span>
             Refresh
           </button>

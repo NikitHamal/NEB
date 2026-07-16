@@ -261,6 +261,9 @@ def github_login(request):
 def github_callback(request):
     """Handle GitHub OAuth callback — exchange code for token, fetch user, create/login."""
     state = request.GET.get('state', '')
+    if state == 'ba_connect':
+        from .views_background_agent import ba_github_callback
+        return ba_github_callback(request)
     is_mobile = state == 'mobile_github'
     next_url = None
     if state and state.startswith('next:'):

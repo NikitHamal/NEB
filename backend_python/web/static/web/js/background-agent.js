@@ -14,12 +14,37 @@
     formatTimestamps();
     startPolling();
     connectWebSocket();
-    
+
     document.getElementById('chat-input').addEventListener('keydown', function(e) {
       if (e.key === 'Enter' && !e.shiftKey) {
         e.preventDefault();
         sendMessage();
       }
+    });
+
+    var btnSend = document.getElementById('ba-btn-send');
+    if (btnSend) btnSend.addEventListener('click', sendMessage);
+
+    var btnPause = document.getElementById('ba-btn-pause');
+    if (btnPause) btnPause.addEventListener('click', function() { taskAction('pause'); });
+
+    var btnResume = document.getElementById('ba-btn-resume');
+    if (btnResume) btnResume.addEventListener('click', function() { taskAction('resume'); });
+
+    var btnStop = document.getElementById('ba-btn-stop');
+    if (btnStop) btnStop.addEventListener('click', function() { taskAction('stop'); });
+
+    var btnPush = document.getElementById('ba-btn-push');
+    if (btnPush) btnPush.addEventListener('click', function() { pushToGithub(false); });
+
+    var btnPushPr = document.getElementById('ba-btn-push-pr');
+    if (btnPushPr) btnPushPr.addEventListener('click', function() { pushToGithub(true); });
+
+    var btnRefreshDiff = document.getElementById('ba-btn-refresh-diff');
+    if (btnRefreshDiff) btnRefreshDiff.addEventListener('click', refreshDiff);
+
+    document.querySelectorAll('.ba-tab').forEach(function(tab) {
+      tab.addEventListener('click', function() { switchTab(tab.dataset.tab); });
     });
   }
   
@@ -42,7 +67,7 @@
       c.classList.toggle('active', c.id === 'tab-' + tab);
     });
   }
-  window.switchTab = switchTab;
+
   
   function startPolling() {
     if (pollInterval) clearInterval(pollInterval);

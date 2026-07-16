@@ -40,22 +40,50 @@
   <div class="ba-form-card">
     <form id="ba-project-form" method="post" action="{% url 'web:ba_project_create' %}">
       {% csrf_token %}
-      <div class="ba-form-group">
-        <label for="repo_url" class="ba-form-label">GitHub Repository URL *</label>
-        <input type="url" id="repo_url" name="repo_url" class="ba-form-input" placeholder="https://github.com/owner/repo" required>
-        <p class="ba-form-hint">The HTTPS URL of the repository you want the agent to work on.</p>
-      </div>
+      
+      {% if github_authorized %}
+      <div id="ba-github-select-section" style="margin-bottom: 24px; padding-bottom: 20px; border-bottom: 1px solid var(--md-outline-variant);">
+        <div class="ba-form-group">
+          <label for="repo_select" class="ba-form-label">Select GitHub Repository</label>
+          <select id="repo_select" class="ba-form-input" style="width:100%; height: 50px; background-color: var(--md-surface); color: var(--md-on-surface); border: 1px solid var(--md-outline); border-radius: 8px; padding: 0 16px;">
+            <option value="">-- Choose a repository --</option>
+          </select>
+        </div>
 
-      <div class="ba-form-group">
-        <label for="repo_full_name" class="ba-form-label">Repository Full Name</label>
-        <input type="text" id="repo_full_name" name="repo_full_name" class="ba-form-input" placeholder="owner/repo (auto-detected from URL if left blank)">
-        <p class="ba-form-hint">Format: owner/repository-name. Will be auto-detected from the URL if not specified.</p>
+        <div class="ba-form-group" id="branch_select_group" style="display:none; margin-top: 16px;">
+          <label for="branch_select" class="ba-form-label">Select Branch</label>
+          <select id="branch_select" class="ba-form-input" style="width:100%; height: 50px; background-color: var(--md-surface); color: var(--md-on-surface); border: 1px solid var(--md-outline); border-radius: 8px; padding: 0 16px;">
+            <option value="">-- Choose a branch --</option>
+          </select>
+        </div>
+        
+        <div style="margin-top: 16px;">
+          <button type="button" id="toggle-manual-btn" class="md-btn md-btn-text" style="padding:0;">
+            <span class="material-symbols-outlined">edit</span>
+            Configure manually
+          </button>
+        </div>
       </div>
+      {% endif %}
 
-      <div class="ba-form-group">
-        <label for="default_branch" class="ba-form-label">Default Branch</label>
-        <input type="text" id="default_branch" name="default_branch" class="ba-form-input" value="main" placeholder="main">
-        <p class="ba-form-hint">The base branch the agent will branch from (e.g. main, master, develop).</p>
+      <div id="manual-fields-container" {% if github_authorized %}style="display:none;"{% endif %}>
+        <div class="ba-form-group">
+          <label for="repo_url" class="ba-form-label">GitHub Repository URL *</label>
+          <input type="url" id="repo_url" name="repo_url" class="ba-form-input" placeholder="https://github.com/owner/repo" {% if not github_authorized %}required{% endif %}>
+          <p class="ba-form-hint">The HTTPS URL of the repository you want the agent to work on.</p>
+        </div>
+
+        <div class="ba-form-group">
+          <label for="repo_full_name" class="ba-form-label">Repository Full Name</label>
+          <input type="text" id="repo_full_name" name="repo_full_name" class="ba-form-input" placeholder="owner/repo (auto-detected from URL if left blank)">
+          <p class="ba-form-hint">Format: owner/repository-name. Will be auto-detected from the URL if not specified.</p>
+        </div>
+
+        <div class="ba-form-group">
+          <label for="default_branch" class="ba-form-label">Default Branch</label>
+          <input type="text" id="default_branch" name="default_branch" class="ba-form-input" value="main" placeholder="main">
+          <p class="ba-form-hint">The base branch the agent will branch from (e.g. main, master, develop).</p>
+        </div>
       </div>
 
       <div style="display:flex;gap:12px;margin-top:24px;">
@@ -80,24 +108,126 @@
 </div>
 
 <script nonce="{{ csp_nonce }}">
+{% if github_authorized %}
+const repoSelect = document.getElementById('repo_select');
+const branchSelectGroup = document.getElementById('branch_select_group');
+const branchSelect = document.getElementById('branch_select');
+const toggleManualBtn = document.getElementById('toggle-manual-btn');
+const manualFieldsContainer = document.getElementById('manual-fields-container');
+
+let manualMode = false;
+
+if (toggleManualBtn) {
+  toggleManualBtn.addEventListener('click', () => {
+    manualMode = !manualMode;
+    if (manualMode) {
+      manualFieldsContainer.style.display = 'block';
+      toggleManualBtn.innerHTML = '<span class="material-symbols-outlined">visibility</span> Use dropdown select';
+      document.getElementById('repo_url').required = true;
+    } else {
+      manualFieldsContainer.style.display = 'none';
+      toggleManualBtn.innerHTML = '<span class="material-symbols-outlined">edit</span> Configure manually';
+      if (!repoSelect.value) {
+        document.getElementById('repo_url').required = false;
+      }
+    }
+  });
+}
+
+// Fetch repositories on load
+async function loadRepos() {
+  try {
+    const resp = await fetch('{% url 'web:ba_ajax_github_repos' %}');
+    if (!resp.ok) throw new Error('Failed to fetch repositories');
+    const data = await resp.json();
+    repoSelect.innerHTML = '<option value="">-- Choose a repository --</option>';
+    data.repositories.forEach(repo => {
+      const opt = document.createElement('option');
+      opt.value = repo.full_name;
+      opt.dataset.url = repo.html_url;
+      opt.dataset.defaultBranch = repo.default_branch;
+      opt.textContent = `${repo.full_name}${repo.private ? ' (Private)' : ''}`;
+      repoSelect.appendChild(opt);
+    });
+  } catch (err) {
+    showSnackbar('Error loading repositories: ' + err.message);
+    repoSelect.innerHTML = '<option value="">Failed to load repositories</option>';
+  }
+}
+
+repoSelect.addEventListener('change', async function() {
+  const selectedRepo = repoSelect.value;
+  if (!selectedRepo) {
+    branchSelectGroup.style.display = 'none';
+    document.getElementById('repo_url').required = manualMode;
+    return;
+  }
+  
+  const opt = repoSelect.options[repoSelect.selectedIndex];
+  document.getElementById('repo_url').value = opt.dataset.url;
+  document.getElementById('repo_full_name').value = selectedRepo;
+  document.getElementById('default_branch').value = opt.dataset.defaultBranch;
+  document.getElementById('repo_url').required = true;
+  
+  branchSelect.innerHTML = '<option value="">Loading branches...</option>';
+  branchSelectGroup.style.display = 'block';
+  
+  try {
+    const resp = await fetch(`{% url 'web:ba_ajax_github_repo_branches' %}?repo_full_name=${encodeURIComponent(selectedRepo)}`);
+    if (!resp.ok) throw new Error('Failed to fetch branches');
+    const data = await resp.json();
+    branchSelect.innerHTML = '';
+    data.branches.forEach(b => {
+      const opt = document.createElement('option');
+      opt.value = b;
+      opt.textContent = b;
+      if (b === document.getElementById('default_branch').value) {
+        opt.selected = true;
+      }
+      branchSelect.appendChild(opt);
+    });
+  } catch (err) {
+    showSnackbar('Error loading branches: ' + err.message);
+    branchSelect.innerHTML = '<option value="main">main (fallback)</option>';
+  }
+});
+
+branchSelect.addEventListener('change', function() {
+  if (branchSelect.value) {
+    document.getElementById('default_branch').value = branchSelect.value;
+  }
+});
+
+loadRepos();
+{% endif %}
+
 document.getElementById('ba-project-form').addEventListener('submit', async function(e) {
   e.preventDefault();
   const form = e.target;
-  const formData = new FormData(form);
+  
+  const repoUrl = document.getElementById('repo_url').value;
+  if (!repoUrl) {
+    showSnackbar('Repository URL is required');
+    return;
+  }
+
   try {
     const resp = await fetch(form.action, {
       method: 'POST',
-      headers: {'X-CSRFToken': CSRF_TOKEN},
+      headers: {
+        'X-CSRFToken': CSRF_TOKEN,
+        'Content-Type': 'application/json'
+      },
       body: JSON.stringify({
-        repo_url: formData.get('repo_url'),
-        repo_full_name: formData.get('repo_full_name'),
-        default_branch: formData.get('default_branch'),
+        repo_url: repoUrl,
+        repo_full_name: document.getElementById('repo_full_name').value,
+        default_branch: document.getElementById('default_branch').value,
       }),
     });
     const data = await resp.json();
     if (resp.ok) {
       showSnackbar('Project created successfully!');
-      setTimeout(() => window.location.href = '{% url 'web:ba_dashboard' %}', 1000);
+      setTimeout(() => window.location.href = '{% url "web:ba_dashboard" %}', 1000);
     } else {
       showSnackbar(data.error || 'Failed to create project');
     }

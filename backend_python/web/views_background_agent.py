@@ -78,7 +78,7 @@ def ba_github_connect(request):
     if not client_id:
         return HttpResponse('GitHub OAuth is not configured. Set GITHUB_CLIENT_ID and GITHUB_CLIENT_SECRET in the environment.', status=501)
 
-    redirect_uri = _https_redirect_uri(request, '/backgroundagent/github/callback/')
+    redirect_uri = _https_redirect_uri(request, '/auth/github/callback/')
     state = 'ba_connect'
     authorize_url = (
         f'https://github.com/login/oauth/authorize'
@@ -110,7 +110,7 @@ def ba_github_callback(request):
         'client_id': settings.GITHUB_CLIENT_ID,
         'client_secret': settings.GITHUB_CLIENT_SECRET,
         'code': code,
-        'redirect_uri': _https_redirect_uri(request, '/backgroundagent/github/callback/'),
+        'redirect_uri': _https_redirect_uri(request, '/auth/github/callback/'),
     }
     try:
         resp = _req.post(token_url, json=data, headers={'Accept': 'application/json'}, timeout=10)
@@ -149,9 +149,18 @@ def ba_project_create(request):
         return r
 
     if request.method == 'POST':
-        repo_url = request.POST.get('repo_url', '').strip()
-        repo_full_name = request.POST.get('repo_full_name', '').strip()
-        default_branch = request.POST.get('default_branch', 'main').strip() or 'main'
+        # Load body from JSON if application/json, otherwise fall back to POST dict
+        if request.content_type == 'application/json':
+            try:
+                data = json.loads(request.body)
+            except Exception:
+                data = {}
+        else:
+            data = request.POST
+
+        repo_url = data.get('repo_url', '').strip()
+        repo_full_name = data.get('repo_full_name', '').strip()
+        default_branch = data.get('default_branch', 'main').strip() or 'main'
 
         if not repo_url:
             return JsonResponse({'error': 'Repository URL is required'}, status=400)
@@ -174,7 +183,16 @@ def ba_project_create(request):
         try:
             admin_user = User.objects.get(username=request.user.username)
         except User.DoesNotExist:
-            admin_user = None
+            from api.utils import now_ms as _now_ms
+            admin_user = User.objects.create(
+                id=f"admin_{request.user.username}",
+                username=request.user.username,
+                email=getattr(request.user, 'email', '') or f"{request.user.username}@nebians.com",
+                display_name=f"Admin {request.user.username.capitalize()}",
+                role='student',
+                created_at=_now_ms(),
+                is_locked=True,
+            )
 
         project = CodingProject.objects.create(
             repo_full_name=repo_full_name,
@@ -502,33 +520,121 @@ def ba_ajax_push_github(request, task_id):
 
 @require_GET
 def ba_ajax_list_models(request):
-    """AJAX: List available AI models from the active providers."""
+    """AJAX: List available AI models for a given provider."""
     r = _require_staff_admin(request)
     if r:
         return JsonResponse({'error': 'Admin access required'}, status=403)
 
+    provider_id = request.GET.get('provider', 'ai4bharat').strip()
     models = []
+
     try:
-        from api.ai4bharat_proxy import acquire_token, fetch_models_for_client
-        entry = acquire_token(require_low_budget=False)
-        raw = fetch_models_for_client(entry['token'])
-        for m in raw:
-            if m.get('active') and not m.get('random_only'):
-                models.append({
-                    'id': m['id'],
-                    'name': m['name'],
-                    'provider': 'ai4bharat',
-                    'code': m.get('code', ''),
-                })
+        if provider_id == 'ai4bharat':
+            from api.ai4bharat_proxy import acquire_token, fetch_models_for_client
+            entry = acquire_token(require_low_budget=False)
+            raw = fetch_models_for_client(entry['token'])
+            for m in raw:
+                if m.get('active') and not m.get('random_only'):
+                    models.append({'id': m['id'], 'name': m['name']})
+
+        elif provider_id == 'qwen':
+            from api.qwen_utils.models import fetch_models
+            raw = fetch_models()
+            for m in raw:
+                models.append({'id': m.get('id', ''), 'name': m.get('name', m.get('id', ''))})
+
+        elif provider_id == 'egov':
+            from api.egov_proxy import get_models
+            for m in get_models():
+                models.append({'id': m['id'], 'name': m['name']})
+
+        elif provider_id == 'deepai':
+            from api.deepai_proxy import get_models
+            for m in get_models():
+                if not m.get('locked'):
+                    models.append({'id': m['id'], 'name': m['name']})
+
+        elif provider_id == 'inception':
+            from api.inception_proxy import get_models
+            for m in get_models():
+                models.append({'id': m['id'], 'name': m['name']})
+
     except Exception as e:
-        models.append({
-            'id': '',
-            'name': f'AI4Bharat (error: {str(e)[:50]})',
-            'provider': 'ai4bharat',
-            'code': '',
-        })
+        return JsonResponse({'models': [], 'error': str(e)[:100]})
 
     return JsonResponse({'models': models})
+
+
+@require_GET
+def ba_ajax_github_repos(request):
+    """AJAX: List current user's GitHub repositories."""
+    r = _require_staff_admin(request)
+    if r:
+        return JsonResponse({'error': 'Admin access required'}, status=403)
+
+    token = _get_admin_github_token(request)
+    if not token:
+        return JsonResponse({'error': 'GitHub not authorized'}, status=401)
+
+    import requests as _req
+    repos = []
+    try:
+        headers = {
+            'Authorization': f'Bearer {token}',
+            'Accept': 'application/vnd.github+json',
+        }
+        url = 'https://api.github.com/user/repos?per_page=100&sort=updated'
+        resp = _req.get(url, headers=headers, timeout=10)
+        if resp.status_code == 200:
+            for repo in resp.json():
+                repos.append({
+                    'name': repo.get('name'),
+                    'full_name': repo.get('full_name'),
+                    'html_url': repo.get('html_url'),
+                    'default_branch': repo.get('default_branch', 'main'),
+                    'private': repo.get('private', False),
+                })
+        else:
+            return JsonResponse({'error': f'GitHub API error: {resp.status_code}'}, status=502)
+    except Exception as e:
+        return JsonResponse({'error': f'Failed to fetch repositories: {e}'}, status=502)
+
+    return JsonResponse({'repositories': repos})
+
+
+@require_GET
+def ba_ajax_github_repo_branches(request):
+    """AJAX: List branches for a specific repository."""
+    r = _require_staff_admin(request)
+    if r:
+        return JsonResponse({'error': 'Admin access required'}, status=403)
+
+    token = _get_admin_github_token(request)
+    if not token:
+        return JsonResponse({'error': 'GitHub not authorized'}, status=401)
+
+    repo_full_name = request.GET.get('repo_full_name', '').strip()
+    if not repo_full_name:
+        return JsonResponse({'error': 'Repository full name is required'}, status=400)
+
+    import requests as _req
+    branches = []
+    try:
+        headers = {
+            'Authorization': f'Bearer {token}',
+            'Accept': 'application/vnd.github+json',
+        }
+        url = f'https://api.github.com/repos/{repo_full_name}/branches?per_page=100'
+        resp = _req.get(url, headers=headers, timeout=10)
+        if resp.status_code == 200:
+            for branch in resp.json():
+                branches.append(branch.get('name'))
+        else:
+            return JsonResponse({'error': f'GitHub API error: {resp.status_code}'}, status=502)
+    except Exception as e:
+        return JsonResponse({'error': f'Failed to fetch branches: {e}'}, status=502)
+
+    return JsonResponse({'branches': branches})
 
 
 def _serialize_project(project):
@@ -561,9 +667,11 @@ def _get_admin_github_token(request):
 def _get_providers():
     """Get list of available AI providers."""
     return [
-        {'id': 'ai4bharat', 'name': 'AI4Bharat Arena', 'description': 'Indic LLM Arena (free, token-pooled)'},
-        {'id': 'qwen', 'name': 'Qwen', 'description': 'Qwen chat (document-capable)'},
-        {'id': 'deepai', 'name': 'DeepAI', 'description': 'DeepAI multi-model chat'},
+        {'id': 'ai4bharat', 'name': 'AI4Bharat Arena', 'description': 'Indic LLM Arena — token-pooled, free'},
+        {'id': 'qwen', 'name': 'Qwen', 'description': 'Alibaba Qwen — vision & document capable'},
+        {'id': 'egov', 'name': 'eGov AI', 'description': 'Philippine Government AI — vision & PDF'},
+        {'id': 'deepai', 'name': 'DeepAI', 'description': 'DeepAI — multi-model, image capable'},
+        {'id': 'inception', 'name': 'Inception', 'description': 'Inception AI — reasoning & web search'},
     ]
 
 
