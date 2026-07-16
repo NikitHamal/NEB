@@ -1,0 +1,112 @@
+{% extends "admin_panel/base.html" %}
+{% load static %}
+{% block title %}Background Coding Agent{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'web/css/coding-agent.css' %}">
+{% endblock %}
+
+{% block content %}
+{% include "coding_agent/_partials.html" %}
+<div class="agent-shell" data-page="projects">
+  <header class="agent-shell-header">
+    <div>
+      <h1>
+        <span class="material-symbols-outlined agent-shell-icon">code_blocks</span>
+        Background Coding Agent
+      </h1>
+      <p class="agent-shell-subtitle">
+        Each session gets its own isolated branch in a clone of the connected GitHub repo. The agent runs in the background; close your browser and the work continues.
+      </p>
+    </div>
+    <div class="agent-shell-actions">
+      <a href="{% url 'web:admin_bots' %}" class="md-btn md-btn-outlined" title="Provider / model configuration">
+        <span class="material-symbols-outlined" style="font-size:18px;">smart_toy</span>
+        AI Providers
+      </a>
+      <a href="{% url 'coding_agent:project_new' %}" class="md-btn md-btn-filled">
+        <span class="material-symbols-outlined" style="font-size:18px;">add</span>
+        New project
+      </a>
+    </div>
+  </header>
+
+  <nav class="agent-shell-tabs">
+    <a href="{% url 'coding_agent:project_list' %}" class="agent-tab {% if active_tab == 'projects' %}active{% endif %}">
+      <span class="material-symbols-outlined" style="font-size:18px;">folder</span> Projects
+      {% if projects %}<span class="agent-tab-badge">{{ projects|length }}</span>{% endif %}
+    </a>
+    <a href="{% url 'coding_agent:session_list' %}" class="agent-tab {% if active_tab == 'sessions' %}active{% endif %}">
+      <span class="material-symbols-outlined" style="font-size:18px;">schedule</span> Sessions
+      {% if sessions_recent %}<span class="agent-tab-badge">{{ sessions_recent|length }}</span>{% endif %}
+    </a>
+  </nav>
+
+  {% if projects %}
+  <section class="agent-section">
+    <h2 class="agent-section-title">Connected projects</h2>
+    <div class="agent-project-grid">
+      {% for project in projects %}
+      <article class="agent-project-card" data-project-id="{{ project.id }}">
+        <header class="agent-project-card-head">
+          <div>
+            <h3 class="agent-project-title">
+              <a href="{% url 'coding_agent:project_detail' project.id %}">{{ project.repo_full_name }}</a>
+            </h3>
+            <div class="agent-project-meta">
+              <span class="agent-chip agent-chip-{% if project.is_private %}private{% else %}public{% endif %}">{% if project.is_private %}private{% else %}public{% endif %}</span>
+              <span class="agent-chip">branch: <strong>{{ project.default_branch }}</strong></span>
+              <span class="agent-chip">scope: <strong>{{ project.token_scope|default:'repo' }}</strong></span>
+            </div>
+          </div>
+          <div class="agent-project-actions">
+            <button class="md-btn md-btn-outlined agent-btn-sm" data-action="refresh-project" data-project-id="{{ project.id }}">
+              <span class="material-symbols-outlined" style="font-size:16px;">refresh</span> Refresh
+            </button>
+            <a href="{% url 'coding_agent:project_detail' project.id %}" class="md-btn md-btn-text">Open</a>
+          </div>
+        </header>
+        {% if project.repo_description %}
+        <p class="agent-project-description">{{ project.repo_description }}</p>
+        {% endif %}
+      </article>
+      {% endfor %}
+    </div>
+  </section>
+  {% else %}
+  <div class="agent-empty">
+    <span class="material-symbols-outlined agent-empty-icon">developer_board</span>
+    <h3>No connected projects yet</h3>
+    <p>Connect a GitHub account to start a session.</p>
+    <a href="{% url 'coding_agent:project_new' %}" class="md-btn md-btn-filled">
+      <span class="material-symbols-outlined" style="font-size:18px;">add</span>
+      Add your first project
+    </a>
+  </div>
+  {% endif %}
+
+  {% if sessions_recent %}
+  <section class="agent-section">
+    <h2 class="agent-section-title">Recent sessions</h2>
+    <div class="agent-recent-table">
+      <div class="agent-recent-row agent-recent-head">
+        <div>Title</div>
+        <div>Project</div>
+        <div>Status</div>
+        <div>Updated</div>
+      </div>
+      {% for s in sessions_recent %}
+      <a class="agent-recent-row" href="{% url 'coding_agent:session_detail' s.id %}">
+        <div class="agent-recent-cell agent-recent-title">{{ s.title|default:s.task|truncatechars:60 }}</div>
+        <div class="agent-recent-cell">{{ s.project.repo_full_name }}</div>
+        <div class="agent-recent-cell">
+          <span class="agent-status-pill agent-status-{{ s.status }}">{{ s.get_status_display }}</span>
+        </div>
+        <div class="agent-recent-cell">{{ s.updated_at }}</div>
+      </a>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+</div>
+{% endblock %}

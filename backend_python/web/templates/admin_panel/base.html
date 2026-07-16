@@ -115,6 +115,10 @@
       <span class="material-symbols-outlined">delete_forever</span>
       Account Deletions
     </a>
+    <a href="{% url 'coding_agent:project_list' %}" class="{% if active_page == 'coding_agent' %}active{% endif %}">
+      <span class="material-symbols-outlined">code_blocks</span>
+      Coding Agent
+    </a>
     <div class="md-divider" style="margin:8px 16px;"></div>
     <a href="{% url 'web:admin_analytics' %}" class="{% if active_page == 'analytics' %}active{% endif %}">
       <span class="material-symbols-outlined">insights</span>
@@ -218,6 +222,10 @@
       <a href="{% url 'web:admin_deletions' %}" class="{% if active_page == 'deletions' %}active{% endif %}">
         <span class="material-symbols-outlined">delete_forever</span>
         Account Deletions
+      </a>
+      <a href="{% url 'coding_agent:project_list' %}" class="{% if active_page == 'coding_agent' or active_page == 'coding_agent_sessions' %}active{% endif %}">
+        <span class="material-symbols-outlined">code_blocks</span>
+        Coding Agent
       </a>
       <div class="md-divider"></div>
       <a href="{% url 'web:admin_analytics' %}" class="{% if active_page == 'analytics' %}active{% endif %}">

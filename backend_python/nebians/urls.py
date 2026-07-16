@@ -14,4 +14,5 @@ urlpatterns = [
     path('admin-django/', admin.site.urls),
     path('api/', include('api.urls')),
     path('', include('web.urls')),
+    path('admin/background-agent/', include('api.coding_agent.urls', namespace='coding_agent')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

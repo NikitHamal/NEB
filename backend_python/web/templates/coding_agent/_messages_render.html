@@ -1,0 +1,37 @@
+{% for m in messages %}
+<div class="agent-message agent-message-{{ m.role }} agent-message-{{ m.kind }}" data-message-id="{{ m.id }}" data-sequence="{{ m.sequence }}">
+  {% if m.role != 'system' %}
+  <header class="agent-message-head">
+    {% if m.role == 'user' %}
+    <span class="material-symbols-outlined agent-message-icon">person</span>
+    <span class="agent-message-role">You</span>
+    {% elif m.role == 'assistant' %}
+    <span class="material-symbols-outlined agent-message-icon">smart_toy</span>
+    <span class="agent-message-role">Agent {{ m.iteration|default:'' }}</span>
+    {% elif m.role == 'tool' %}
+    <span class="material-symbols-outlined agent-message-icon">build</span>
+    <span class="agent-message-role">{{ m.tool_name|default:'Tool' }}</span>
+    {% endif %}
+    <span class="agent-message-time">#{{ m.sequence|default:'?' }}</span>
+  </header>
+  {% endif %}
+  <div class="agent-message-body">
+    {% if m.kind == 'message' %}
+      {% if m.content %}<pre class="agent-message-text">{{ m.content }}</pre>{% endif %}
+    {% elif m.kind == 'tool_call' %}
+      <div class="agent-tool-card agent-tool-call">
+        <header><span class="material-symbols-outlined">play_arrow</span> {{ m.tool_name }}</header>
+        {% if m.tool_args_json %}<pre class="agent-tool-args">{{ m.tool_args_json|truncatechars:2000 }}</pre>{% endif %}
+      </div>
+    {% elif m.kind == 'tool_result' %}
+      <div class="agent-tool-card agent-tool-result agent-tool-status-{{ m.tool_status }}">
+        <header>
+          <span class="material-symbols-outlined">{% if m.tool_status == 'ok' %}check_circle{% elif m.tool_status == 'error' %}error{% elif m.tool_status == 'timeout' %}timer_off{% else %}pending{% endif %}</span>
+          {{ m.tool_name }} — {{ m.tool_status|default:'pending' }}
+        </header>
+        {% if m.tool_result_json %}<pre class="agent-tool-result-text">{{ m.tool_result_json|truncatechars:4000 }}</pre>{% endif %}
+      </div>
+    {% endif %}
+  </div>
+</div>
+{% endfor %}

@@ -1,0 +1,64 @@
+{% extends "admin_panel/base.html" %}
+{% load static %}
+{% block title %}All sessions | Background Coding Agent{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'web/css/coding-agent.css' %}">
+{% endblock %}
+
+{% block content %}
+{% include "coding_agent/_partials.html" %}
+<div class="agent-shell" data-page="sessions">
+  <header class="agent-shell-header">
+    <div>
+      <h1>
+        <span class="material-symbols-outlined agent-shell-icon">schedule</span>
+        All sessions
+      </h1>
+      <p class="agent-shell-subtitle">
+        Every session the agent has ever run, regardless of project. Filter by status to focus on what's running right now.
+      </p>
+    </div>
+  </header>
+
+  <nav class="agent-shell-tabs">
+    <a href="{% url 'coding_agent:project_list' %}" class="agent-tab">
+      <span class="material-symbols-outlined" style="font-size:18px;">folder</span> Projects
+    </a>
+    <a href="{% url 'coding_agent:session_list' %}" class="agent-tab {% if active_tab == 'sessions' %}active{% endif %}">
+      <span class="material-symbols-outlined" style="font-size:18px;">schedule</span> Sessions
+      {% if sessions %}<span class="agent-tab-badge">{{ sessions|length }}</span>{% endif %}
+    </a>
+  </nav>
+
+  {% if sessions %}
+  <section class="agent-section">
+    <div class="agent-recent-table">
+      <div class="agent-recent-row agent-recent-head">
+        <div>Title</div>
+        <div>Project</div>
+        <div>Status</div>
+        <div>Branch</div>
+        <div>Updated</div>
+      </div>
+      {% for s in sessions %}
+      <a class="agent-recent-row" href="{% url 'coding_agent:session_detail' s.id %}">
+        <div class="agent-recent-cell">{{ s.title|default:s.task|truncatechars:60 }}</div>
+        <div class="agent-recent-cell">{{ s.project.repo_full_name }}</div>
+        <div class="agent-recent-cell"><span class="agent-status-pill agent-status-{{ s.status }}">{{ s.get_status_display }}</span></div>
+        <div class="agent-recent-cell"><code>{{ s.branch|default:'—' }}</code></div>
+        <div class="agent-recent-cell">{{ s.updated_at }}</div>
+      </a>
+      {% endfor %}
+    </div>
+  </section>
+  {% else %}
+  <div class="agent-empty">
+    <span class="material-symbols-outlined agent-empty-icon">history_toggle_off</span>
+    <h3>No sessions yet</h3>
+    <p>Open a project and start one.</p>
+    <a href="{% url 'coding_agent:project_list' %}" class="md-btn md-btn-outlined">Browse projects</a>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,110 @@
+{% extends "admin_panel/base.html" %}
+{% load static %}
+{% block title %}{{ project.repo_full_name }} | Background Coding Agent{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'web/css/coding-agent.css' %}">
+{% endblock %}
+
+{% block content %}
+{% include "coding_agent/_partials.html" %}
+<div class="agent-shell" data-page="project-detail" data-project-id="{{ project.id }}">
+  <header class="agent-shell-header">
+    <div>
+      <a class="agent-back" href="{% url 'coding_agent:project_list' %}">
+        <span class="material-symbols-outlined" style="font-size:18px;">arrow_back</span>
+        Projects
+      </a>
+      <h1>
+        <span class="material-symbols-outlined agent-shell-icon">folder_open</span>
+        {{ project.repo_full_name }}
+        <span class="agent-chip">branch: {{ project.default_branch }}</span>
+      </h1>
+      {% if project.repo_description %}<p class="agent-shell-subtitle">{{ project.repo_description }}</p>{% endif %}
+    </div>
+    <div class="agent-shell-actions">
+      <button class="md-btn md-btn-outlined" data-action="refresh-project" data-project-id="{{ project.id }}">
+        <span class="material-symbols-outlined" style="font-size:18px;">refresh</span> Refresh
+      </button>
+      <button class="md-btn md-btn-text" data-action="archive-project" data-project-id="{{ project.id }}" style="color:var(--md-error);">
+        <span class="material-symbols-outlined" style="font-size:18px;">archive</span> Archive
+      </button>
+      <button class="md-btn md-btn-filled" data-action="open-new-session" data-project-id="{{ project.id }}">
+        <span class="material-symbols-outlined" style="font-size:18px;">add_task</span> New session
+      </button>
+    </div>
+  </header>
+
+  <section class="agent-card agent-form-card">
+    <h2 class="agent-card-title">Start a new session</h2>
+    <div class="agent-form-grid">
+      <label class="agent-form-field agent-form-wide">
+        <span class="agent-form-label">Task</span>
+        <textarea id="agent_new_task" rows="4" placeholder="e.g. Add a /status endpoint that returns JSON cache stats and wire it into the admin nav..."></textarea>
+      </label>
+      <label class="agent-form-field">
+        <span class="agent-form-label">Title (optional)</span>
+        <input type="text" id="agent_new_title" placeholder="Auto-filled from the task if left blank">
+      </label>
+      <label class="agent-form-field">
+        <span class="agent-form-label">Provider override</span>
+        <select id="agent_new_provider">
+          <option value="">Inherit project default</option>
+          <option value="qwen">Qwen</option>
+          <option value="ai4bharat">AI4Bharat</option>
+          <option value="inception">Inception</option>
+          <option value="deepai">DeepAI</option>
+          <option value="egov">eGov</option>
+          <option value="custom">Custom</option>
+        </select>
+      </label>
+      <label class="agent-form-field">
+        <span class="agent-form-label">Model override</span>
+        <input type="text" id="agent_new_model" placeholder="leave empty for provider default">
+      </label>
+    </div>
+    <div class="agent-form-actions">
+      <button class="md-btn md-btn-filled" id="agent_new_session_btn">
+        <span class="material-symbols-outlined" style="font-size:18px;">rocket_launch</span>
+        Start in background
+      </button>
+      <span class="agent-form-note">
+        <span class="material-symbols-outlined" style="font-size:14px;vertical-align:-2px;">info</span>
+        You can close this page — the worker keeps running. Open the session detail to watch progress.
+      </span>
+    </div>
+  </section>
+
+  <section class="agent-section">
+    <h2 class="agent-section-title">Sessions
+      <span class="agent-tab-badge">{{ sessions|length }}</span>
+    </h2>
+    {% if sessions %}
+    <div class="agent-recent-table">
+      <div class="agent-recent-row agent-recent-head">
+        <div>Title</div>
+        <div>Status</div>
+        <div>Branch</div>
+        <div>Iterations</div>
+        <div>Created</div>
+      </div>
+      {% for s in sessions %}
+      <a class="agent-recent-row" href="{% url 'coding_agent:session_detail' s.id %}">
+        <div class="agent-recent-cell">{{ s.title }}</div>
+        <div class="agent-recent-cell"><span class="agent-status-pill agent-status-{{ s.status }}">{{ s.get_status_display }}</span></div>
+        <div class="agent-recent-cell"><code>{{ s.branch|default:'—' }}</code></div>
+        <div class="agent-recent-cell">{{ s.iterations }}</div>
+        <div class="agent-recent-cell">{{ s.created_at }}</div>
+      </a>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="agent-empty">
+      <span class="material-symbols-outlined agent-empty-icon">history_toggle_off</span>
+      <h3>No sessions yet</h3>
+      <p>Pick a task above and start one. The agent will branch off <code>{{ project.default_branch }}</code>, do the work, and surface back here.</p>
+    </div>
+    {% endif %}
+  </section>
+</div>
+{% endblock %}

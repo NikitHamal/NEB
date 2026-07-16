@@ -1,0 +1,162 @@
+{% extends "admin_panel/base.html" %}
+{% load static %}
+{% block title %}{{ session.title|default:session.task|truncatechars:60 }} | Coding Agent{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'web/css/coding-agent.css' %}">
+{% endblock %}
+
+{% block content %}
+{% include "coding_agent/_partials.html" %}
+{% include "coding_agent/_session_data.html" %}
+<div class="agent-shell agent-session-shell" data-page="session-detail" data-session-id="{{ session.id }}">
+  <header class="agent-shell-header agent-detail-header">
+    <div>
+      <a class="agent-back" href="{% url 'coding_agent:project_detail' session.project.id %}">
+        <span class="material-symbols-outlined" style="font-size:18px;">arrow_back</span>
+        {{ session.project.repo_full_name }}
+      </a>
+      <h1>
+        <span class="material-symbols-outlined agent-shell-icon">code_blocks</span>
+        {{ session.title|default:session.task|truncatechars:60 }}
+      </h1>
+      <p class="agent-shell-subtitle">
+        Task: {{ session.task }}
+      </p>
+    </div>
+    <div class="agent-shell-actions agent-session-actions">
+      <span id="agent-status-pill" class="agent-status-pill agent-status-{{ session.status }}">{{ session.get_status_display }}</span>
+      <button class="md-btn md-btn-outlined" data-action="pause-session" data-session-id="{{ session.id }}">
+        <span class="material-symbols-outlined" style="font-size:16px;">pause</span> Pause
+      </button>
+      <button class="md-btn md-btn-filled" data-action="resume-session" data-session-id="{{ session.id }}">
+        <span class="material-symbols-outlined" style="font-size:16px;">play_arrow</span> Resume
+      </button>
+      <button class="md-btn md-btn-text" data-action="stop-session" data-session-id="{{ session.id }}" style="color:var(--md-error);">
+        <span class="material-symbols-outlined" style="font-size:16px;">stop</span> Stop
+      </button>
+    </div>
+  </header>
+
+  <section class="agent-session-meta">
+    <div class="agent-meta-cell">
+      <span class="agent-meta-label">Branch</span>
+      <code id="agent_meta_branch">{{ session.branch }}</code>
+      <span class="agent-meta-sub">from {{ session.project.default_branch }}@{{ session.base_ref|slice:":8" }}</span>
+    </div>
+    <div class="agent-meta-cell">
+      <span class="agent-meta-label">Model</span>
+      <span>{{ session.provider|default:'?' }} · {{ session.model|default:'auto' }}</span>
+    </div>
+    <div class="agent-meta-cell">
+      <span class="agent-meta-label">Iterations</span>
+      <span id="agent_meta_iterations">{{ session.iterations }}</span>
+      <span class="agent-meta-sub">tool calls: <span id="agent_meta_tool_calls">{{ session.tool_calls_count }}</span></span>
+    </div>
+    <div class="agent-meta-cell">
+      <span class="agent-meta-label">Tokens (est)</span>
+      <span>{{ session.input_tokens_estimate }} in · {{ session.output_tokens_estimate }} out</span>
+    </div>
+    {% if session.pr_url %}
+    <div class="agent-meta-cell">
+      <span class="agent-meta-label">Pull request</span>
+      <a href="{{ session.pr_url }}" target="_blank" rel="noopener" class="agent-pr-link">{{ session.pr_url }}</a>
+    </div>
+    {% endif %}
+  </section>
+
+  <div class="agent-session-grid">
+    <section class="agent-panel agent-panel-chat" id="agent_chat_panel">
+      <header class="agent-panel-header">
+        <h2>Conversation</h2>
+        <div class="agent-panel-actions">
+          <span id="agent_connection_state" class="agent-conn-state">
+            <span class="agent-conn-dot" data-state="connecting"></span>
+            <span id="agent_connection_label">connecting…</span>
+          </span>
+        </div>
+      </header>
+      <div id="agent_messages" class="agent-messages">
+        {% include "coding_agent/_messages_render.html" %}
+      </div>
+      <form id="agent_chat_form" class="agent-chat-form" autocomplete="off">
+        <textarea id="agent_chat_input" placeholder="Interrupt the agent, ask a follow-up, or steer direction. Press ⌘/Ctrl+Enter to send." rows="3"></textarea>
+        <div class="agent-chat-actions">
+          <span class="agent-chat-hint">
+            <span class="material-symbols-outlined" style="font-size:14px;vertical-align:-2px;">info</span>
+            Anything you write becomes part of the conversation. The agent will pick it up on the next iteration.
+          </span>
+          <button class="md-btn md-btn-filled" type="submit" id="agent_chat_send">
+            <span class="material-symbols-outlined" style="font-size:18px;">send</span>
+            Send
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <aside class="agent-panel agent-panel-side">
+      <section class="agent-side-block">
+        <header><span class="material-symbols-outlined">timeline</span><h3>Activity timeline</h3></header>
+        <div id="agent_timeline" class="agent-timeline">
+          {% for ev in events_recent %}
+          <div class="agent-timeline-row timeline-{{ ev.event_type }}">
+            <span class="agent-timeline-dot"></span>
+            <div>
+              <div class="agent-timeline-summary">{{ ev.summary }}</div>
+              {% if ev.detail %}<div class="agent-timeline-detail">{{ ev.detail|truncatechars:200 }}</div>{% endif %}
+              <div class="agent-timeline-time">{{ ev.created_at }}</div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </section>
+
+      <section class="agent-side-block">
+        <header><span class="material-symbols-outlined">layers</span><h3>Files changed</h3></header>
+        <div id="agent_file_changes" class="agent-file-changes">
+          {% for fc in files_recent %}
+          <div class="agent-file-row" data-path="{{ fc.path }}" data-op="{{ fc.op }}">
+            <span class="agent-file-op agent-file-op-{{ fc.op }}">{{ fc.get_op_display }}</span>
+            <span class="agent-file-path" title="{{ fc.path }}">{{ fc.path }}</span>
+            <span class="agent-file-stats">+{{ fc.additions }}/-{{ fc.deletions }}</span>
+            <span class="agent-file-committed {% if fc.committed %}committed{% else %}uncommitted{% endif %}">
+              <span class="material-symbols-outlined" style="font-size:14px;">{% if fc.committed %}check_circle{% else %}pending{% endif %}</span>
+            </span>
+          </div>
+          {% endfor %}
+          {% if not files_recent %}<div class="agent-empty-inline">No file changes yet.</div>{% endif %}
+        </div>
+      </section>
+
+      <section class="agent-side-block">
+        <header><span class="material-symbols-outlined">download</span><h3>Export changes</h3></header>
+        <p class="agent-hint">Download everything the agent has produced, commit, push to your repo, or open a PR. Each step is reversible.</p>
+        <div class="agent-side-actions">
+          <a href="{% url 'coding_agent:ajax_session_download' session.id %}" class="md-btn md-btn-outlined">
+            <span class="material-symbols-outlined" style="font-size:16px;">folder_zip</span> Download .zip
+          </a>
+          <button class="md-btn md-btn-outlined" data-action="reload-diff" data-session-id="{{ session.id }}">
+            <span class="material-symbols-outlined" style="font-size:16px;">difference</span> Show diff
+          </button>
+          <button class="md-btn md-btn-outlined" data-action="push-branch" data-session-id="{{ session.id }}">
+            <span class="material-symbols-outlined" style="font-size:16px;">upload</span> Push branch
+          </button>
+          <button class="md-btn md-btn-filled" data-action="open-pr" data-session-id="{{ session.id }}">
+            <span class="material-symbols-outlined" style="font-size:16px;">merge</span> Open PR
+          </button>
+        </div>
+        <pre id="agent_diff_view" class="agent-diff-view" hidden></pre>
+      </section>
+    </aside>
+  </div>
+</div>
+<script nonce="{{ csp_nonce }}">
+window.AGENT_SESSION = {
+  id: "{{ session.id }}",
+  branch: "{{ session.branch|escapejs }}",
+  status: "{{ session.status }}",
+  wsGroup: "agent.{{ session.id }}",
+  userWsGroup: "agent.user.{{ request.user.id }}"
+};
+</script>
+{% endblock %}

@@ -1,0 +1,100 @@
+{% extends "admin_panel/base.html" %}
+{% load static %}
+{% block title %}Add project | Background Coding Agent{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'web/css/coding-agent.css' %}">
+{% endblock %}
+
+{% block content %}
+{% include "coding_agent/_partials.html" %}
+<div class="agent-shell" data-page="project-new">
+  <header class="agent-shell-header">
+    <div>
+      <a class="agent-back" href="{% url 'coding_agent:project_list' %}">
+        <span class="material-symbols-outlined" style="font-size:18px;">arrow_back</span>
+        Back
+      </a>
+      <h1>
+        <span class="material-symbols-outlined agent-shell-icon">add_link</span>
+        Connect a GitHub repository
+      </h1>
+      <p class="agent-shell-subtitle">
+        Connect with the GitHub OAuth scope that lets the agent create branches, push commits and open PRs on your behalf. We never write to <code>main</code>; every session works on its own branch.
+      </p>
+    </div>
+  </header>
+
+  {% if not request.session.coding_agent_gh_access_token %}
+  <div class="agent-card">
+    <h2 class="agent-card-title">Step 1 — Connect GitHub</h2>
+    <p>The background agent uses the same GitHub OAuth flow NEBians already supports for sign-in. Scope <code>repo</code> lets it push branches and open PRs on your behalf.</p>
+    <a href="{% url 'coding_agent:github_oauth_start' %}" class="md-btn md-btn-filled agent-github-btn">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.6.5.5 5.6.5 12c0 5.1 3.3 9.4 7.8 11 .6.1.8-.2.8-.6v-2.2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.5-.3-5.2-1.3-5.2-5.6 0-1.2.4-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2 1-.3 2-.4 3.1-.4 1 0 2 .1 3.1.4 2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.9 1.2 3.1 0 4.3-2.7 5.3-5.2 5.6.4.4.8 1.1.8 2.2v3.3c0 .4.2.7.8.6 4.5-1.6 7.8-5.9 7.8-11C23.5 5.6 18.4.5 12 .5z"/></svg>
+      Connect GitHub
+    </a>
+    <p class="agent-hint">
+      Make sure the GitHub App / OAuth app on this server is configured (GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET env vars). If the server hasn't configured GitHub OAuth yet, ask an admin to add these env vars first.
+    </p>
+  </div>
+  {% else %}
+  <div class="agent-card">
+    <h2 class="agent-card-title">Step 2 — Pick a repository</h2>
+    <p>
+      Connected as <strong>@{{ request.session.coding_agent_gh_login|default:'your GitHub account' }}</strong> ·
+      Scope: <span class="agent-chip">{{ request.session.coding_agent_gh_scope|default:'repo' }}</span>
+    </p>
+
+    <div class="agent-reposearch">
+      <span class="material-symbols-outlined" style="font-size:18px;color:var(--md-on-surface-variant);">search</span>
+      <input type="search" id="agent_repo_search" placeholder="Filter your repos (e.g. NEB)" autocomplete="off">
+      <button class="md-btn md-btn-outlined agent-btn-sm" id="agent_repo_refresh" type="button">Refresh list</button>
+    </div>
+
+    <div id="agent_repo_results" class="agent-repo-list" data-loading="true">
+      <div class="agent-empty">
+        <span class="material-symbols-outlined agent-empty-icon">progress_activity</span>
+        <p>Loading your repositories&hellip;</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="agent-card agent-card-secondary">
+    <h2 class="agent-card-title">Step 3 — Optional provider override</h2>
+    <p>By default the session inherits the project's default AI provider. Pick a specific one below if you want this project to always go through it.</p>
+    <div class="agent-form-grid">
+      <label class="agent-form-field">
+        <span class="agent-form-label">Provider</span>
+        <select id="agent_project_provider">
+          <option value="">Inherit default</option>
+          <option value="qwen">Qwen (chat.qwen.ai)</option>
+          <option value="ai4bharat">AI4Bharat Arena</option>
+          <option value="inception">Inception (Mercury 2)</option>
+          <option value="deepai">DeepAI</option>
+          <option value="egov">eGov Chat AI</option>
+          <option value="custom">Custom OpenAI-compatible</option>
+        </select>
+      </label>
+      <label class="agent-form-field">
+        <span class="agent-form-label">Model</span>
+        <input type="text" id="agent_project_model" placeholder="leave empty to use provider default">
+      </label>
+      <label class="agent-form-field agent-form-wide">
+        <span class="agent-form-label">Project-specific system prompt (optional)</span>
+        <textarea id="agent_project_system_prompt" rows="3" placeholder="e.g. &quot;Always respond in Nepali. Prefer ESM modules.&quot;"></textarea>
+      </label>
+    </div>
+    <div class="agent-form-actions">
+      <button class="md-btn md-btn-filled" id="agent_project_create_btn" disabled>
+        <span class="material-symbols-outlined" style="font-size:18px;">add</span>
+        Connect this repository
+      </button>
+    </div>
+  </div>
+  {% endif %}
+</div>
+
+<script nonce="{{ csp_nonce }}">
+window.AGENT_GH_CONNECTED = {% if request.session.coding_agent_gh_access_token %}true{% else %}false{% endif %};
+</script>
+{% endblock %}
