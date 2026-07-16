@@ -755,6 +755,7 @@ class BotConfig(models.Model):
         ('deepseekai', 'DeepSeek AI (deep-seek.ai)'),
         ('surfsense', 'SurfSense (surfsense.com)'),
         ('g4f', 'G4F (g4f.space / Pollinations AI)'),
+        ('inception', 'Inception Labs (Mercury 2)'),
         ('custom', 'Custom OpenAI-compatible endpoint'),
     ]
     id = models.AutoField(primary_key=True)
@@ -873,6 +874,7 @@ class ArenaChatSession(models.Model):
         ('deepseekai', 'DeepSeek AI (deep-seek.ai)'),
         ('surfsense', 'SurfSense (surfsense.com)'),
         ('g4f', 'G4F (g4f.space / Pollinations AI)'),
+        ('inception', 'Inception Labs (Mercury 2)'),
     ]
     id = models.CharField(max_length=36, primary_key=True)
     user = models.ForeignKey(
