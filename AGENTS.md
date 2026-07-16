@@ -645,41 +645,36 @@ A trycloudflare URL looks like `https://abc123.trycloudflare.com` — different 
 ## Continuity Notes
 
 ### What Was Worked On (Current Session)
-**Yjs CRDT real-time collaboration for study space notes** — replaces last-write-wins with conflict-free replicated data type (CRDT) via Yjs.
+**Blog comment system (web + backend) + Android UI cleanup (library/forum/news screens)**
 
-**Problem:** The old collaborative notes used last-write-wins: server persisted full content, WS broadcast overwrote the textarea. Concurrent edits from two users caused data loss.
+**Blog Comment System (Web):**
+- Added `BlogComment` model in `api/models.py` — links to `Announcement` + `User`, stores text/created_at
+- Migration `0080_blog_comment_model.py` creates `blog_comments` table
+- `web/views_news.py`: `news_detail()` now serializes comments via `_serialize_comments()`; added `ajax_blog_comment` POST endpoint (auth-only)
+- `web/urls.py`: added `/ajax/news/comment/` route
+- `web/templates/web/news_detail.html`: complete rewrite — removed content card wrapper, removed markdown rendering, added 3-dot bottom sheet menu (share/bookmark/report), share at bottom, comment section with AJAX submission (`fetch()` + `showSnackbar()`), `escapeHtml()` sanitization
 
-**Architecture:**
-- **Backend WS actions:** Added `yjs_update` and `yjs_awareness` handlers in `api/consumers_ws.py` — relays base64-encoded Yjs binary updates to `studyspace.{id}` group.
-- **`yjs-provider.js`:** New `SSYjs` class — creates local `Y.Doc`/`Y.Text`, connects WS, sends/receives `yjs_update` and `yjs_awareness`. Textarea binding uses common-prefix/suffix diff to apply local edits to Y.Text.
-- **`study-space.js`:** Replaced `connectNotesWS`/`sendNoteContentViaWS`/`handleNotesWSEvent`/`trackNoteCursor` with `initCollabNotes()`/`destroyCollabNotes()`. `saveNotes()` reads from `SSYjs.getContent()`.
-- **Remote cursors:** Cursor position awareness broadcast via `yjs_awareness`; rendered as colored dots with name labels in `#ssRemoteCursors` container.
-- **`_serialize_space_detail()`:** Now returns `currentUser` (id, username, displayName) for display name in remote cursor labels.
+**Android UI Changes:**
+- **LibraryScreen:** Removed upload FAB icon, removed "Digital Library" headline title
+- **ForumScreen:** Removed category chips below topbar, added filter icon button in topbar
+- **NewsScreen:** Removed results/practice CTA button, removed topbar entirely, added back navigation with `ArrowBack` icon
+- **NewsDetailScreen:** Removed topbar, added 3-dot `MoreVert` overflow menu with Share/Bookmark/Report options, removed content card wrapper, removed markdown, share button at bottom, comment section UI (avatar + input + list)
 
-**Critical issue — Yjs loading fix:**
-- The Yjs npm package (`yjs@13.6.31`) has NO UMD/IIFE build — only `dist/yjs.cjs` (CommonJS `require()`) and `dist/yjs.mjs` (ESM with bare specifier imports). Neither works with a plain `<script>` tag.
-- The CDN URL `https://cdn.jsdelivr.net/npm/yjs@13.6.21/dist/yjs.min.js` returned 404 — no such file exists on the CDN.
-- `window.Y` was never defined → `typeof window.Y === 'undefined'` guard in `yjs-provider.js` bailed → notes used plain textarea auto-save only (no CRDT, no live WS sync).
-- **Fix:** Bundled Yjs locally using esbuild:
-  ```
-  npx esbuild node_modules/yjs/dist/yjs.mjs --bundle --global-name=Y --outfile=yjs.bundle.js
-  ```
-  Result is a 295KB standalone IIFE that sets `window.Y`. Saved to `web/static/web/js/yjs.bundle.js`.
-- Template changed from CDN `<script>` to `{% static 'web/js/yjs.bundle.js' %}`.
-- No CSP changes needed — served from `'self'`.
+**Files modified (Android):**
+- `app/.../Navigation.kt` — router updates for NewsScreen/NewsDetailScreen
+- `app/.../LibraryScreen.kt` — removed icon + title
+- `app/.../ForumScreen.kt` — removed chips, added filter icon
+- `app/.../NewsScreen.kt` — removed topbar/CTA, added back nav
+- `app/.../NewsDetailScreen.kt` — 3-dot menu, share bottom, comments
 
-**New files:**
-- `web/static/web/js/yjs-provider.js` — SSYjs class (custom Yjs WS provider + textarea diff binding + remote cursor tracking)
-- `web/static/web/js/yjs.bundle.js` — esbuild-bundled Yjs IIFE (295KB)
+**Files modified (Web):**
+- `api/models.py` — added `BlogComment` model
+- `api/migrations/0080_blog_comment_model.py` — new migration
+- `web/views_news.py` — comment serialization + AJAX endpoint
+- `web/urls.py` — comment route
+- `web/templates/web/news_detail.html` — full rewrite
 
-**Modified files:**
-- `api/consumers_ws.py` — added `yjs_update` and `yjs_awareness` WS action handlers
-- `web/views_study_lab.py` — `_serialize_space_detail()` returns `currentUser` for display name
-- `web/static/web/js/study-space.js` — replaced old WS notes with `initCollabNotes()`/`destroyCollabNotes()`
-- `web/templates/web/study_space.html` — Yjs CDN URL → `yjs.bundle.js` static file; added `yjs-provider.js` script; added `#ssRemoteCursors` container
-- `web/static/web/css/pages/study-space.css` — remote cursor styles (dots + labels)
-
-**Deployment note:** Deploy via `backend_python/scratch/deploy.ps1`. After deploy, verify live collaboration by opening the same study space in two browser tabs and typing simultaneously.
+**Not deployed yet.**
 
 ### Previous Session
 **Async AI Generation with Job Queue + Live Progress** (NEXT_LEVEL_IDEAS.md point #5)
