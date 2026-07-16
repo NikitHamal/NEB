@@ -1,0 +1,369 @@
+{% extends "admin_panel/base.html" %}
+{% load static %}
+{% block title %}AI Chat Test{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'web/css/pages/admin-chat.css' %}">
+{% endblock %}
+{% block content %}
+<div id="admin-chat" class="admin-chat">
+  <div class="chat-sidebar">
+    <h2 class="chat-sidebar-title">
+      <span class="material-symbols-outlined">smart_toy</span>
+      AI Provider Test
+    </h2>
+    <div class="chat-config-section">
+      <label class="chat-label">Provider</label>
+      <select id="chat-provider" class="chat-select" data-action="provider-change">
+        {% for p in providers %}
+        <option value="{{ p.id }}" data-stream="{{ p.stream|yesno:'true,false' }}"
+                data-thinking="{{ p.thinking|yesno:'true,false' }}"
+                data-websearch="{{ p.web_search|yesno:'true,false' }}"
+                data-files="{{ p.files|yesno:'true,false' }}">{{ p.label }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="chat-config-section">
+      <label class="chat-label">Model</label>
+      <select id="chat-model" class="chat-select"></select>
+    </div>
+    <div class="chat-config-section" id="chat-custom-url-row" style="display:none;">
+      <label class="chat-label">API URL</label>
+      <input type="url" id="chat-api-url" class="chat-input" placeholder="https://api.openai.com/v1/chat/completions">
+    </div>
+    <div class="chat-config-section" id="chat-custom-key-row" style="display:none;">
+      <label class="chat-label">API Key</label>
+      <input type="password" id="chat-api-key" class="chat-input" placeholder="sk-...">
+    </div>
+    <div class="chat-config-divider"></div>
+    <div class="chat-config-section">
+      <label class="md-switch-label">
+        <span class="md-switch">
+          <input type="checkbox" id="chat-reasoning" checked>
+          <span class="slider"></span>
+        </span>
+        <span>Reasoning / Thinking</span>
+      </label>
+    </div>
+    <div class="chat-config-section">
+      <label class="md-switch-label">
+        <span class="md-switch">
+          <input type="checkbox" id="chat-websearch">
+          <span class="slider"></span>
+        </span>
+        <span>Web Search</span>
+      </label>
+    </div>
+    <div class="chat-config-divider"></div>
+    <div class="chat-config-section">
+      <button id="chat-clear-btn" class="md-btn md-btn-outlined" style="width:100%;">
+        <span class="material-symbols-outlined" style="font-size:18px;">delete_sweep</span>
+        Clear Chat
+      </button>
+    </div>
+    <div class="chat-config-section" style="margin-top:auto;">
+      <div class="chat-provider-tags" id="chat-provider-info">
+        <span class="chat-tag chat-tag-stream">stream</span>
+        <span class="chat-tag chat-tag-thinking">thinking</span>
+        <span class="chat-tag chat-tag-search">search</span>
+        <span class="chat-tag chat-tag-files">files</span>
+      </div>
+    </div>
+  </div>
+  <div class="chat-main">
+    <div class="chat-messages" id="chat-messages">
+      <div class="chat-welcome">
+        <span class="material-symbols-outlined" style="font-size:48px;color:var(--md-primary);">smart_toy</span>
+        <h3>AI Provider Test Chat</h3>
+        <p>Select a provider and model from the sidebar, type a message, and hit Enter to test.</p>
+      </div>
+    </div>
+    <div class="chat-input-area">
+      <label class="chat-file-btn" id="chat-file-btn" title="Attach file" style="display:none;">
+        <span class="material-symbols-outlined">attach_file</span>
+        <input type="file" id="chat-file-input" multiple hidden>
+      </label>
+      <textarea id="chat-input" class="chat-input-field" rows="1" placeholder="Type a message…" data-action="chat-send-enter"></textarea>
+      <button id="chat-send-btn" class="md-btn md-btn-filled chat-send-btn" title="Send">
+        <span class="material-symbols-outlined">send</span>
+      </button>
+    </div>
+    <div class="chat-status" id="chat-status"></div>
+  </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script nonce="{{ csp_nonce }}">
+const MODEL_OPTIONS = {{ model_options|safe }};
+const PROVIDER_CAPS = {};
+document.querySelectorAll('#chat-provider option').forEach(function(opt) {
+  PROVIDER_CAPS[opt.value] = {
+    stream: opt.dataset.stream === 'true',
+    thinking: opt.dataset.thinking === 'true',
+    webSearch: opt.dataset.websearch === 'true',
+    files: opt.dataset.files === 'true',
+  };
+});
+
+const messagesEl = document.getElementById('chat-messages');
+const inputEl = document.getElementById('chat-input');
+const sendBtn = document.getElementById('chat-send-btn');
+const providerEl = document.getElementById('chat-provider');
+const modelEl = document.getElementById('chat-model');
+const reasoningEl = document.getElementById('chat-reasoning');
+const websearchEl = document.getElementById('chat-websearch');
+const clearBtn = document.getElementById('chat-clear-btn');
+const statusEl = document.getElementById('chat-status');
+const fileBtn = document.getElementById('chat-file-btn');
+const fileInput = document.getElementById('chat-file-input');
+const customUrlRow = document.getElementById('chat-custom-url-row');
+const customKeyRow = document.getElementById('chat-custom-key-row');
+const apiUrlEl = document.getElementById('chat-api-url');
+const apiKeyEl = document.getElementById('chat-api-key');
+const infoEl = document.getElementById('chat-provider-info');
+
+let history = [];
+let isStreaming = false;
+let currentAbort = null;
+
+function updateModelOptions() {
+  const p = providerEl.value;
+  const opts = MODEL_OPTIONS[p] || [];
+  modelEl.innerHTML = '';
+  if (opts.length === 0) {
+    var o = document.createElement('option');
+    o.value = '';
+    o.textContent = '— auto —';
+    modelEl.appendChild(o);
+  } else {
+    opts.forEach(function(m) {
+      var o = document.createElement('option');
+      o.value = m.id;
+      o.textContent = m.label;
+      modelEl.appendChild(o);
+    });
+  }
+  // Update cap tags
+  var caps = PROVIDER_CAPS[p] || {};
+  var tags = [];
+  if (caps.stream) tags.push('<span class="chat-tag chat-tag-stream">stream</span>');
+  if (caps.thinking) tags.push('<span class="chat-tag chat-tag-thinking">thinking</span>');
+  if (caps.webSearch) tags.push('<span class="chat-tag chat-tag-search">search</span>');
+  if (caps.files) tags.push('<span class="chat-tag chat-tag-files">files</span>');
+  infoEl.innerHTML = tags.join(' ') || '<span class="chat-tag">basic</span>';
+  // Show/hide reasoning toggle
+  reasoningEl.closest('.chat-config-section').style.display = caps.thinking ? '' : 'none';
+  // Show/hide web search toggle
+  websearchEl.closest('.chat-config-section').style.display = caps.webSearch ? '' : 'none';
+  // Show/hide file upload
+  fileBtn.style.display = caps.files ? '' : 'none';
+  // Show/hide custom URL/key
+  customUrlRow.style.display = p === 'custom' ? '' : 'none';
+  customKeyRow.style.display = p === 'custom' ? '' : 'none';
+  // Auto-uncheck websearch if not supported
+  if (!caps.webSearch) websearchEl.checked = false;
+}
+providerEl.addEventListener('change', updateModelOptions);
+updateModelOptions();
+
+function addMessage(role, content, extra) {
+  extra = extra || {};
+  var bubble = document.createElement('div');
+  bubble.className = 'chat-bubble chat-bubble-' + role;
+  var inner = document.createElement('div');
+  inner.className = 'chat-bubble-content';
+  if (extra.thinking) {
+    var tw = document.createElement('details');
+    tw.className = 'chat-thinking';
+    var ts = document.createElement('summary');
+    ts.textContent = 'Thinking...';
+    var tb = document.createElement('div');
+    tb.className = 'chat-thinking-body';
+    tw.appendChild(ts);
+    tw.appendChild(tb);
+    inner.appendChild(tw);
+  }
+  var textEl = document.createElement('div');
+  textEl.className = 'chat-text';
+  textEl.textContent = content || '';
+  inner.appendChild(textEl);
+  if (role === 'user' && extra.files && extra.files.length) {
+    var fl = document.createElement('div');
+    fl.className = 'chat-file-list';
+    extra.files.forEach(function(f) {
+      var fc = document.createElement('span');
+      fc.className = 'chat-file-chip';
+      fc.innerHTML = '<span class="material-symbols-outlined" style="font-size:14px;">attach_file</span> ' + f.name;
+      fl.appendChild(fc);
+    });
+    inner.appendChild(fl);
+  }
+  bubble.appendChild(inner);
+  var meta = document.createElement('div');
+  meta.className = 'chat-meta';
+  meta.textContent = role === 'user' ? 'You' : 'Assistant';
+  bubble.appendChild(meta);
+  messagesEl.appendChild(bubble);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+  return textEl;
+}
+
+function showStatus(msg, isError) {
+  statusEl.textContent = msg;
+  statusEl.style.color = isError ? 'var(--md-error)' : 'var(--md-on-surface-variant)';
+  statusEl.style.display = msg ? '' : 'none';
+}
+
+function scrollToBottom() {
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+}
+
+async function sendMessage() {
+  var text = inputEl.value.trim();
+  if (!text || isStreaming) return;
+
+  var p = providerEl.value;
+  var m = modelEl.value;
+
+  var caps = PROVIDER_CAPS[p] || {};
+  var reasoning = caps.thinking && reasoningEl.checked;
+  var websearch = caps.webSearch && websearchEl.checked;
+
+  var files = [];
+  if (fileInput.files && fileInput.files.length) {
+    for (var i = 0; i < fileInput.files.length; i++) {
+      files.push(fileInput.files[i]);
+    }
+  }
+
+  // Add user message to UI
+  addMessage('user', text, { files: files });
+  inputEl.value = '';
+  inputEl.style.height = 'auto';
+  fileInput.value = '';
+  history.push({ role: 'user', content: text });
+
+  // Assistant placeholder
+  var asstTextEl = addMessage('assistant', '', { thinking: reasoning });
+  isStreaming = true;
+  sendBtn.disabled = true;
+  showStatus('Streaming…');
+
+  var formData = new FormData();
+  formData.append('provider', p);
+  formData.append('model', m);
+  formData.append('message', text);
+  formData.append('reasoning', reasoning ? 'true' : 'false');
+  formData.append('web_search', websearch ? 'true' : 'false');
+  formData.append('history', JSON.stringify(history.slice(0, -1)));
+  if (p === 'custom') {
+    formData.append('api_url', apiUrlEl.value.trim());
+    formData.append('api_key', apiKeyEl.value.trim());
+  }
+  for (var fi = 0; fi < files.length; fi++) {
+    formData.append('files', files[fi]);
+  }
+
+  var collected = '';
+  var done = false;
+
+  try {
+    var resp = await fetch('/admin/chat/send/', {
+      method: 'POST',
+      body: formData,
+      headers: { 'X-CSRFToken': CSRF_TOKEN },
+    });
+    if (!resp.ok) {
+      showStatus('HTTP ' + resp.status + ': ' + resp.statusText, true);
+      isStreaming = false;
+      sendBtn.disabled = false;
+      return;
+    }
+    var reader = resp.body.getReader();
+    var decoder = new TextDecoder();
+    var buffer = '';
+
+    while (true) {
+      var result = await reader.read();
+      if (result.done) break;
+      buffer += decoder.decode(result.value, { stream: true });
+      var lines = buffer.split('\n');
+      buffer = lines.pop() || '';
+      for (var li = 0; li < lines.length; li++) {
+        var line = lines[li].trim();
+        if (!line || !line.startsWith('data: ')) continue;
+        var payload = line.slice(6).trim();
+        if (payload === '[DONE]') { done = true; break; }
+        try {
+          var ev = JSON.parse(payload);
+          if (ev.type === 'text') {
+            collected += ev.content;
+            asstTextEl.textContent = collected;
+            scrollToBottom();
+          } else if (ev.type === 'thinking') {
+            var dt = asstTextEl.previousElementSibling;
+            if (dt && dt.tagName === 'DETAILS') {
+              var db = dt.querySelector('.chat-thinking-body');
+              if (db) db.textContent += ev.content;
+            }
+          } else if (ev.type === 'error') {
+            showStatus('Error: ' + (ev.message || 'unknown'), true);
+            asstTextEl.textContent = '[Error] ' + (ev.message || 'Stream failed');
+            done = true;
+          } else if (ev.type === 'done') {
+            done = true;
+          }
+        } catch(e) { /* skip malformed JSON */ }
+      }
+      if (done) break;
+    }
+  } catch (err) {
+    showStatus('Connection error: ' + err.message, true);
+    asstTextEl.textContent = '[Connection Error] ' + err.message;
+  }
+
+  isStreaming = false;
+  sendBtn.disabled = false;
+  showStatus('');
+  if (collected) {
+    history.push({ role: 'assistant', content: collected });
+  }
+}
+
+function clearChat() {
+  if (history.length === 0 && !messagesEl.querySelector('.chat-welcome')) return;
+  messagesEl.innerHTML = '';
+  var w = document.createElement('div');
+  w.className = 'chat-welcome';
+  w.innerHTML = '<span class="material-symbols-outlined" style="font-size:48px;color:var(--md-primary);">smart_toy</span>' +
+    '<h3>AI Provider Test Chat</h3><p>Select a provider and model from the sidebar, type a message, and hit Enter to test.</p>';
+  messagesEl.appendChild(w);
+  history = [];
+}
+
+// Auto-resize textarea
+inputEl.addEventListener('input', function() {
+  this.style.height = 'auto';
+  this.style.height = Math.min(this.scrollHeight, 200) + 'px';
+});
+
+// Send on Enter (Shift+Enter for newline)
+inputEl.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendMessage();
+  }
+});
+sendBtn.addEventListener('click', sendMessage);
+clearBtn.addEventListener('click', clearChat);
+
+// Register actions for delegated-events.js compatibility
+registerActions({
+  'provider-change': function(el, e) {
+    updateModelOptions();
+  },
+  'chat-send-enter': function(el, e) {
+    if (e.key === 'Enter' && !e.shiftKey) sendMessage();
+  },
+});
+</script>
+{% endblock %}
