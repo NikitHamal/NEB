@@ -7,7 +7,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
@@ -130,8 +129,8 @@ fun NewsDetailScreen(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(innerPadding)
-                        .verticalScroll(rememberScrollState()),
-                    contentPadding = PaddingValues(bottom = 112.dp)
+                        .padding(bottom = 112.dp)
+                        .verticalScroll(rememberScrollState())
                 ) {
                     NewsArticleHeader(item = detail.announcement)
 
