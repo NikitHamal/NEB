@@ -1,6 +1,23 @@
 # NEBians Background Agent — production deployment
 
-The admin-only UI is available at `/backgroundagent`. Sessions are database-backed and execute in a separate worker, so browser closure or client disconnection does not stop a task.
+The admin-only UI is available at `/backgroundagent`. The dashboard lists projects + sessions; each session opens on its own dedicated page at `/backgroundagent/session/<id>` so the agent transcript is uncluttered. Sessions are database-backed and execute in a separate worker, so closing the browser or disconnecting does not stop a task.
+
+## What the agent can do
+
+The agent works on a dedicated task branch (never the base branch) and has a full toolset. There is **no iteration cap** — it keeps working until the goal is genuinely complete, it explicitly asks for input, an admin pauses/stops it, or an unrecoverable error occurs.
+
+| Category | Tools |
+| --- | --- |
+| Read / explore | `list_files`, `read_file`, `search_text` |
+| Edit | `edit_file`, `multi_edit` (robust search-and-replace, tolerant to whitespace drift, with helpful "closest match" errors), `write_file`, `apply_patch` (forgiving: 3-way → recount → GNU `patch --merge --fuzz`), `delete_file` |
+| Filesystem | `copy_file`, `move_file`, `create_directory` |
+| Git | `git_status`, `git_diff`, `git_log`, `git_stage`, `git_commit`, `git_push`, `git_pull`, `git_restore` |
+| Validate | `run_command` (argv array, sandboxed) |
+
+Every tool call renders as a **single clean line** in the transcript (e.g. `Read src/app.py`, `Edit api/models.py`, `Run python -m pytest`) with an expandable result panel — no more start/result/completed triple.
+
+### Why `edit_file` is preferred over `apply_patch`
+Raw unified patches require exact context, which is why "the patch tool almost always failed" — the model drifts on whitespace/line counts. `edit_file`/`multi_edit` use exact-byte matching first, then fall back to whitespace-normalised matching, and return the closest line range when the block can't be found so the agent can re-read and retry. `apply_patch` is still available and now tries three progressively more forgiving strategies before giving up.
 
 ## 1. Apply the database migration
 
@@ -19,6 +36,8 @@ https://YOUR_DOMAIN/backgroundagent/github/callback
 ```
 
 Set `BACKGROUND_AGENT_GITHUB_CLIENT_ID` and `BACKGROUND_AGENT_GITHUB_CLIENT_SECRET`. The requested scopes are configured through `BACKGROUND_AGENT_GITHUB_SCOPES`. The default supports private repositories, workflow-file changes, organization repositories and email identity.
+
+The OAuth flow stores the connection per Django staff user. The dashboard reflects the live connection state from the server on every load (no stale connect/authorize buttons when already authorized).
 
 ## 3. Build the execution sandbox
 
@@ -51,34 +70,9 @@ python manage.py run_background_agent_worker --interval 2
 Multiple worker processes are supported. Database row locking prevents duplicate claims, and a per-project filesystem lock serializes Git mirror mutations. Stale sessions and actions are re-queued when a worker restarts.
 Each process also writes a database heartbeat every ten seconds; the admin UI reports the queue as offline when no recent worker heartbeat is present.
 
-Example systemd unit:
+## Frontend
 
-```ini
-[Unit]
-Description=NEBians Background Agent Worker
-After=network-online.target docker.service
-Requires=docker.service
+- **Dashboard** (`/backgroundagent`): GitHub connection, project sidebar, composer (repository / base branch / provider — no iteration control), and a sessions list. Each session links to its own page.
+- **Session page** (`/backgroundagent/session/<id>`): full-screen transcript with smart auto-scroll (sticks to bottom while you're reading the latest, stops if you scroll up to inspect history, and snaps to bottom again when the session completes), single-line tool rows with expandable results, Files / Diff / Deliver tabs, and push / pull-request controls.
 
-[Service]
-Type=simple
-User=nebians
-Group=nebians
-WorkingDirectory=/srv/nebians/backend
-EnvironmentFile=/srv/nebians/backend/.env
-ExecStart=/srv/nebians/venv/bin/python manage.py run_background_agent_worker --interval 2 --recover-after 900
-Restart=always
-RestartSec=5
-TimeoutStopSec=60
-
-[Install]
-WantedBy=multi-user.target
-```
-
-## 6. Operational notes
-
-- The source branch is treated as a read-only base. Every task gets a generated `nebians-agent/...` branch.
-- Push and pull-request creation are explicit asynchronous actions from the session UI.
-- Changed-file ZIPs include a manifest and `changes.patch`; deleted files are represented in the patch and manifest.
-- Provider output is never executed directly. Providers without native tool calling must return the strict JSON action protocol; malformed output moves the session to a safe waiting state.
-- Keep the web process and workers on hosts that can see the same database and `BACKGROUND_AGENT_ROOT`.
-- Monitor `background_agent_sessions.last_heartbeat_at`, failed actions, worker logs and disk usage. Apply normal artifact-retention and repository-cache cleanup policies for your deployment.
+Both screens are built on the project Material 3 design system (`material3.css`, Poppins, Material Symbols, the project `--md-primary` blue) and support light + dark themes.

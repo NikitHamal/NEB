@@ -96,6 +96,25 @@ def background_agent_page(request):
 
 
 @require_GET
+def background_agent_session_page(request, session_id):
+    """Dedicated, full-screen session view (separate from the dashboard)."""
+    redirect_response = _require_staff_admin(request)
+    if redirect_response:
+        return redirect_response
+    session = _session_for_user(request, session_id)
+    credential = _credential(request)
+    providers = BotConfig.objects.filter(enabled=True).order_by('name', 'id')
+    return render(request, 'admin_panel/background_agent_session.html', {
+        'active_page': 'background_agent',
+        'is_admin': True,
+        'session_id': str(session.id),
+        'session_title': session.title or (session.goal[:80] + '…' if len(session.goal) > 80 else session.goal),
+        'github_connected': bool(credential and credential.is_connected),
+        'providers': providers,
+    })
+
+
+@require_GET
 def background_agent_github_connect(request):
     redirect_response = _require_staff_admin(request)
     if redirect_response:
@@ -309,7 +328,10 @@ def background_agent_create_session(request):
         provider = BotConfig.objects.filter(pk=provider_id, enabled=True).first() if provider_id else BotConfig.objects.filter(enabled=True).first()
         if not provider:
             return _json_error('No enabled AI provider is configured', 409)
-        max_iterations = max(5, min(int(payload.get('maxIterations') or 30), 100))
+        # No iteration cap — the agent works until completion, needs_input, or
+        # an admin pause/stop. max_iterations is kept at 0 (unlimited) for
+        # backward compatibility with the column and existing serializers.
+        max_iterations = 0
         title = (payload.get('title') or goal.splitlines()[0])[:255]
         now = now_ms()
         session = BackgroundAgentSession.objects.create(
@@ -401,9 +423,8 @@ def background_agent_session_message(request, session_id):
             session.completed_at = 0
             session.last_error = ''
             session.progress_label = 'Queued with new guidance'
-            session.max_iterations = max(session.max_iterations + 15, session.iteration + 15)
             session.updated_at = now_ms()
-            session.save(update_fields=['status', 'control_state', 'completed_at', 'last_error', 'progress_label', 'max_iterations', 'updated_at'])
+            session.save(update_fields=['status', 'control_state', 'completed_at', 'last_error', 'progress_label', 'updated_at'])
             emit(session, 'session.resumed', 'Session resumed with new guidance')
         return JsonResponse({'ok': True, 'message': _serialize_message(message), 'status': session.status})
     except ValueError as exc:
@@ -448,9 +469,8 @@ def background_agent_session_control(request, session_id):
             session.completed_at = 0
             session.last_error = ''
             session.progress_label = 'Queued to resume'
-            session.max_iterations = max(session.max_iterations + 15, session.iteration + 15)
             session.updated_at = now_ms()
-            session.save(update_fields=['status', 'control_state', 'completed_at', 'last_error', 'progress_label', 'max_iterations', 'updated_at'])
+            session.save(update_fields=['status', 'control_state', 'completed_at', 'last_error', 'progress_label', 'updated_at'])
             emit(session, 'session.resumed', 'Resume requested')
         elif session.status in ('queued', 'preparing', 'running'):
             return _json_error('The session is already active', 409)
@@ -625,6 +645,7 @@ def _serialize_message(message):
         'id': str(message.id),
         'role': message.role,
         'content': message.content,
+        'label': metadata.get('label') or '',
         'metadata': metadata,
         'createdAt': message.created_at,
     }

@@ -134,6 +134,7 @@ urlpatterns = [
 
     # Admin-only durable background coding agent
     path('backgroundagent', views.background_agent_page, name='background_agent'),
+    path('backgroundagent/session/<str:session_id>', views.background_agent_session_page, name='background_agent_session_page'),
     path('backgroundagent/github/connect', views.background_agent_github_connect, name='background_agent_github_connect'),
     path('backgroundagent/github/callback', views.background_agent_github_callback, name='background_agent_github_callback'),
     path('backgroundagent/github/disconnect', views.background_agent_github_disconnect, name='background_agent_github_disconnect'),

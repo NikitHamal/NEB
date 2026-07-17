@@ -11,6 +11,7 @@ from dataclasses import dataclass
 from django.conf import settings
 
 from api.background_agent.events import add_message, emit
+from api.background_agent.labels import tool_label
 from api.background_agent.workspace import GitWorkspace, ToolExecutor, WorkspaceError
 from api.models import BackgroundAgentSession, BotConfig
 from api.neby import call_ai_api
@@ -18,6 +19,8 @@ from api.utils import now_ms
 
 logger = logging.getLogger(__name__)
 
+# A turn may carry several tool calls, but keep each step focused.
+_MAX_ACTIONS_PER_TURN = 12
 
 SYSTEM_PROMPT = r'''
 You are NEBians Background Agent, a senior autonomous software engineer operating in a real Git repository.
@@ -25,33 +28,46 @@ You do not have native function calling. Every response MUST be one valid JSON o
 
 Response schema:
 {
-  "thought": "brief engineering reasoning safe to show in the activity log",
+  "thought": "brief engineering reasoning shown in the activity log",
   "actions": [
     {"tool": "list_files", "arguments": {"path": ".", "depth": 3}},
     {"tool": "read_file", "arguments": {"path": "path/to/file", "start_line": 1, "end_line": 400}},
     {"tool": "search_text", "arguments": {"query": "needle", "path": "."}},
+    {"tool": "edit_file", "arguments": {"path": "path/to/file", "old_text": "exact existing block", "new_text": "replacement block", "replace_all": false}},
+    {"tool": "multi_edit", "arguments": {"path": "path/to/file", "edits": [{"old_text": "...", "new_text": "..."}]}},
     {"tool": "write_file", "arguments": {"path": "path/to/file", "content": "complete file content"}},
-    {"tool": "apply_patch", "arguments": {"patch": "unified git patch"}},
+    {"tool": "apply_patch", "arguments": {"patch": "unified git diff"}},
     {"tool": "delete_file", "arguments": {"path": "path/to/file"}},
+    {"tool": "copy_file", "arguments": {"source": "a", "destination": "b"}},
+    {"tool": "move_file", "arguments": {"source": "a", "destination": "b"}},
+    {"tool": "create_directory", "arguments": {"path": "lib/util"}},
     {"tool": "run_command", "arguments": {"argv": ["python", "-m", "pytest"], "cwd": ".", "timeout": 300}},
     {"tool": "git_status", "arguments": {}},
-    {"tool": "git_diff", "arguments": {}}
+    {"tool": "git_diff", "arguments": {}},
+    {"tool": "git_log", "arguments": {"limit": 20}},
+    {"tool": "git_stage", "arguments": {"paths": ["src/app.py"]}},
+    {"tool": "git_commit", "arguments": {"message": "concise conventional message"}},
+    {"tool": "git_push", "arguments": {"branch": "nebians-agent/..."}},
+    {"tool": "git_pull", "arguments": {}},
+    {"tool": "git_restore", "arguments": {"paths": ["src/app.py"], "staged": false}}
   ],
-  "final": "only set when the requested goal is complete; summarize implementation and tests",
+  "final": "set ONLY when the goal is genuinely complete; summarize the implementation and validation",
   "needs_input": false,
-  "summary": "compact durable state for the next iteration"
+  "summary": "compact durable state for the next turn (what is done, what remains, key decisions)"
 }
 
+How to edit code (in order of preference):
+1. edit_file / multi_edit — the most reliable. Provide old_text copied verbatim from read_file, with enough surrounding lines to be unique. It tolerates incidental whitespace drift and tells you the closest line if it cannot match.
+2. write_file — for brand-new files or full rewrites.
+3. apply_patch — unified diff. Use only for bulk changes; it is less forgiving than edit_file.
+
 Rules:
-- Inspect before editing. Preserve the repository's existing architecture, style, security boundaries, and UX.
-- Work only in the supplied task branch. Never switch, merge, reset, rebase, force-push, or modify the source/default branch.
-- Never read or expose secrets, .env files, credentials, SSH material, browser profiles, or paths outside the workspace.
-- Prefer precise patches over rewriting large files. Do not modify .git.
-- Use run_command with an argv array; never depend on shell operators, pipes, redirection, or command substitution.
-- Use the dedicated git_status and git_diff tools for Git inspection. Git history and repository credentials are not exposed inside command sandboxes.
-- Run relevant tests, linters, type checks, or builds before declaring completion.
-- Do not fabricate successful test results. When a command fails, inspect and fix it or report the exact limitation.
-- Keep each response focused: at most 8 actions. Continue iteratively until the goal is genuinely complete.
+- Inspect before editing (list_files / read_file / search_text). Preserve the repository's architecture, style, conventions, security boundaries and UX.
+- Work only in the supplied task branch. Never switch, merge, reset, rebase, force-push or modify the source/default branch.
+- Never read or expose secrets, .env files, credentials, SSH material, or paths outside the workspace.
+- run_command takes an argv array only — no shell operators, pipes, redirection or substitution.
+- Run relevant tests, linters, type checks or builds before declaring completion. Do not fabricate results; when a command fails, inspect and fix it, or report the exact limitation.
+- There is no iteration budget. Work iteratively until the goal is truly complete, then set "final". If you genuinely need a decision from the operator, set "needs_input": true with no actions.
 - If the user interrupts with a follow-up, treat the newest user message as a higher-priority refinement unless it conflicts with safety.
 '''.strip()
 
@@ -109,12 +125,14 @@ class BackgroundAgentRunner:
             emit(self.session, 'session.failed', str(exc)[:1000], {'trace': traceback.format_exc()[-6000:]})
 
     def _loop(self):
-        while self.session.iteration < self.session.max_iterations:
+        # No iteration cap: the agent works until it reports completion, asks for
+        # input, is paused/stopped, or hits an unrecoverable error.
+        while True:
             self._check_control()
-            self.session.refresh_from_db(fields=['control_state', 'status', 'iteration', 'max_iterations'])
+            self.session.refresh_from_db(fields=['control_state', 'status', 'iteration'])
             iteration = self.session.iteration + 1
             prompt = self._build_prompt(iteration)
-            self._heartbeat(progress=min(88, 12 + iteration * 3), label=f'Agent iteration {iteration}')
+            self._heartbeat(progress=min(92, 12 + iteration * 2), label=f'Agent iteration {iteration}')
             emit(self.session, 'model.requested', f'Calling AI provider for iteration {iteration}')
             raw = self._call_provider(prompt)
             parsed = parse_model_response(raw)
@@ -123,8 +141,7 @@ class BackgroundAgentRunner:
                 if parsed.summary != 'Provider returned non-JSON output; waiting for administrator guidance.':
                     break
                 emit(self.session, 'model.format_retry', 'Provider output was not valid JSON; requesting a schema repair', {
-                    'iteration': iteration,
-                    'retry': retry_index + 1,
+                    'iteration': iteration, 'retry': retry_index + 1,
                 })
                 repair_prompt = f'''{prompt}
 
@@ -154,20 +171,7 @@ PRIOR OUTPUT
             self.session.save(update_fields=['iteration', 'agent_state', 'updated_at'])
 
             if parsed.actions:
-                for index, action in enumerate(parsed.actions[:8], 1):
-                    self._check_control()
-                    tool_name = action.get('tool') or 'unknown'
-                    emit(self.session, 'tool.started', f'{tool_name}', {'iteration': iteration, 'index': index})
-                    result = self.tools.execute(action)
-                    serialized_result = json.dumps(result, ensure_ascii=False)
-                    if len(serialized_result) > 120000:
-                        serialized_result = serialized_result[:120000] + '\n[tool result truncated in conversation log]'
-                    add_message(self.session, 'tool', serialized_result, {
-                        'iteration': iteration,
-                        'tool': tool_name,
-                        'ok': result.get('ok', False),
-                    })
-                    emit(self.session, 'tool.completed' if result.get('ok') else 'tool.failed', tool_name, result)
+                self._run_actions(parsed.actions[:_MAX_ACTIONS_PER_TURN], iteration)
                 continue
 
             if parsed.final:
@@ -178,8 +182,40 @@ PRIOR OUTPUT
             emit(self.session, 'session.waiting', parsed.thought or 'The agent needs additional direction')
             return
 
-        self._set_status('waiting', self.session.progress, 'Iteration limit reached')
-        emit(self.session, 'session.waiting', 'Iteration limit reached. Send guidance and resume to continue.')
+    def _run_actions(self, actions, iteration):
+        for index, action in enumerate(actions, 1):
+            self._check_control()
+            tool_name = (action.get('tool') or 'unknown').strip()
+            arguments = action.get('arguments') or {}
+            result = self.tools.execute(action)
+            ok = bool(result.get('ok', False))
+            label = tool_label(tool_name, arguments, ok=ok)
+            compact = self._compact_result(result)
+            add_message(self.session, 'tool', compact, {
+                'iteration': iteration,
+                'index': index,
+                'tool': tool_name,
+                'label': label,
+                'ok': ok,
+            })
+            emit(
+                self.session,
+                'tool.executed' if ok else 'tool.failed',
+                label,
+                {'iteration': iteration, 'index': index, 'tool': tool_name, 'label': label, 'ok': ok,
+                 'error': result.get('error', '')[:1000]},
+            )
+
+    @staticmethod
+    def _compact_result(result):
+        """Serialise a tool result for the transcript / expandable UI panel."""
+        try:
+            encoded = json.dumps(result, ensure_ascii=False)
+        except (TypeError, ValueError):
+            encoded = str(result)
+        if len(encoded) > 120000:
+            encoded = encoded[:120000] + '\n[tool result truncated in conversation log]'
+        return encoded
 
     def _call_provider(self, prompt: str) -> str:
         config = self.session.bot_config or BotConfig.objects.filter(enabled=True).first()
@@ -207,10 +243,8 @@ PRIOR OUTPUT
                     break
                 delay = min(30, 2 ** attempt)
                 emit(self.session, 'model.retrying', f'Provider attempt {attempt} failed; retrying in {delay}s', {
-                    'provider': config.provider,
-                    'model': config.model,
-                    'error': str(exc)[:1000],
-                    'attempt': attempt,
+                    'provider': config.provider, 'model': config.model,
+                    'error': str(exc)[:1000], 'attempt': attempt,
                 })
                 for _ in range(delay):
                     time.sleep(1)
@@ -249,7 +283,7 @@ Repository: {self.session.project.repo_full_name}
 Source branch (read-only base): {self.session.source_branch}
 Task branch: {self.session.work_branch}
 Goal: {self.session.goal}
-Iteration: {iteration}/{self.session.max_iterations}
+Iteration: {iteration} (no cap — keep going until the goal is complete)
 
 DURABLE STATE
 {json.dumps(state, ensure_ascii=False)}
@@ -263,12 +297,12 @@ INITIAL REPOSITORY MAP
 RECENT CONVERSATION AND TOOL RESULTS
 {chr(10).join(transcript) or '(none)'}
 
-Decide the next smallest set of high-value actions. Return exactly one JSON object matching the required schema.
+Decide the next smallest set of high-value actions. Prefer edit_file/multi_edit over apply_patch. Return exactly one JSON object matching the required schema.
 '''.strip()
 
     def _complete(self, final: str):
         self._check_control()
-        self._heartbeat(92, 'Building diff and downloadable artifacts')
+        self._heartbeat(95, 'Building diff and downloadable artifacts')
         diff = self.workspace.diff(max_chars=1_000_000)
         changed = self.workspace.changed_files()
         artifacts = self.workspace.build_artifacts()
@@ -291,8 +325,7 @@ Decide the next smallest set of high-value actions. Return exactly one JSON obje
             'updated_at', 'last_heartbeat_at',
         ])
         emit(self.session, 'session.completed', final[:1000], {
-            'changedFiles': changed,
-            'artifacts': artifacts,
+            'changedFiles': changed, 'artifacts': artifacts,
         })
 
     def _test_summary(self):
@@ -302,9 +335,10 @@ Decide the next smallest set of high-value actions. Return exactly one JSON obje
                 payload = json.loads(message.content)
             except (TypeError, json.JSONDecodeError):
                 continue
-            if payload.get('tool') != 'run_command':
+            tool = payload.get('tool')
+            result = payload.get('result') or payload
+            if tool != 'run_command':
                 continue
-            result = payload.get('result') or {}
             argv = result.get('argv') or []
             command = ' '.join(str(part) for part in argv)
             returncode = result.get('returncode')
@@ -374,8 +408,6 @@ def parse_model_response(raw: str) -> ParsedResponse:
         except json.JSONDecodeError:
             continue
     if payload is None:
-        # A provider that ignores formatting still gets a safe waiting state,
-        # preserving its response for the administrator instead of executing it.
         return ParsedResponse(
             thought=text[:12000],
             actions=[],
@@ -389,7 +421,7 @@ def parse_model_response(raw: str) -> ParsedResponse:
     normalized = [a for a in actions if isinstance(a, dict) and isinstance(a.get('tool'), str)]
     return ParsedResponse(
         thought=str(payload.get('thought') or '')[:20000],
-        actions=normalized[:8],
+        actions=normalized[:_MAX_ACTIONS_PER_TURN],
         final=str(payload.get('final') or '')[:30000],
         needs_input=bool(payload.get('needs_input', False)),
         summary=str(payload.get('summary') or '')[:12000],
