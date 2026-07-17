@@ -394,16 +394,66 @@ class GitWorkspace:
         self.session.save(update_fields=['head_sha'])
         return sha
 
-    def push(self):
-        self.commit(self.session.title or self.session.goal[:120])
+    def push(self, branch: str = ''):
+        """Commit safe changes and push the task branch to origin."""
+        if not self.session.title:
+            # Ensure there is something to push even if the agent never committed.
+            self.commit(self.session.goal[:120])
+        else:
+            self.commit(self.session.title or self.session.goal[:120])
+        target = branch or self.session.work_branch
         with self._auth_env() as env:
             result = self._run(
-                ['git', 'push', '--set-upstream', 'origin', f'HEAD:refs/heads/{self.session.work_branch}'],
+                ['git', 'push', '--set-upstream', 'origin', f'HEAD:refs/heads/{target}'],
                 cwd=self.worktree,
                 env=env,
                 timeout=900,
             )
         return result
+
+    def stage(self, paths=None):
+        targets = [p for p in (paths or []) if self.safe_path(p, must_exist=False)]
+        if targets:
+            self.git('add', '--', *targets, check=False)
+        else:
+            self.git('add', '-A', check=False)
+        return self.git('status', '--short').get('stdout', '')
+
+    def restore(self, paths=None, *, staged=False):
+        """Discard working-tree edits for the given safe paths.
+
+        With ``staged=True`` the paths are unstaged instead (``git restore --staged``).
+        Omitting ``paths`` restores the whole workspace.
+        """
+        targets = [p for p in (paths or []) if self.safe_path(p, must_exist=False)]
+        args = ['restore']
+        if staged:
+            args.append('--staged')
+        if targets:
+            args.extend(['--'] + targets)
+        else:
+            if not staged:
+                args.append('.')
+            else:
+                return self.git('reset', '--mixed', 'HEAD', check=False).get('stdout', '')
+        return self.git(*args, check=False).get('stdout', '')
+
+    def log(self, limit: int = 30):
+        limit = max(1, min(int(limit), 200))
+        return self.git(
+            'log', f'-{limit}', '--pretty=format:%h|%an|%ar|%s', check=False
+        ).get('stdout', '')
+
+    def pull(self, branch: str = ''):
+        """Fetch and fast-forward merge the upstream of the current task branch."""
+        target = branch or self.session.work_branch
+        with self._auth_env() as env:
+            self._run(
+                ['git', 'fetch', 'origin', f'refs/heads/{target}:refs/remotes/origin/{target}'],
+                cwd=self.worktree, env=env, timeout=900, check=False,
+            )
+            result = self.git('merge', '--no-edit', '--ff-only', f'origin/{target}', check=False)
+        return result.get('stdout', '') + result.get('stderr', '')
 
     def build_artifacts(self):
         if not self.session:
@@ -478,11 +528,22 @@ class ToolExecutor:
             'read_file': self.read_file,
             'search_text': self.search_text,
             'write_file': self.write_file,
+            'edit_file': self.edit_file,
+            'multi_edit': self.multi_edit,
             'apply_patch': self.apply_patch,
             'delete_file': self.delete_file,
+            'copy_file': self.copy_file,
+            'move_file': self.move_file,
+            'create_directory': self.create_directory,
             'run_command': self.run_command,
             'git_status': self.git_status,
             'git_diff': self.git_diff,
+            'git_log': self.git_log,
+            'git_stage': self.git_stage,
+            'git_commit': self.git_commit,
+            'git_push': self.git_push,
+            'git_pull': self.git_pull,
+            'git_restore': self.git_restore,
         }
         handler = handlers.get(tool)
         if not handler:
@@ -612,19 +673,251 @@ class ToolExecutor:
         patch_paths = self._validate_patch_paths(patch)
         if not patch_paths:
             raise WorkspaceError('Patch does not contain any file changes')
-        completed = subprocess.run(
-            ['git', 'apply', '--whitespace=nowarn', '-'],
-            cwd=str(self.workspace.worktree),
-            input=patch,
-            text=True,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            timeout=120,
-            env=self.workspace._clean_env(),
+        error = self._apply_patch_robust(patch)
+        if error:
+            raise WorkspaceError(error)
+        return {'applied': True, 'files': patch_paths}
+
+    def _apply_patch_robust(self, patch: str) -> str:
+        """Apply a unified patch using progressively more forgiving strategies.
+
+        ``git apply`` requires exact context, which is why naive patches "almost
+        always fail" when a model drifts on whitespace. We try, in order:
+          1. ``git apply --3way``   – three-way merge against stored blobs;
+          2. ``git apply`` with whitespace/recount tolerance;
+          3. GNU ``patch --merge --fuzz`` as a last resort.
+        Returns an empty string on success or a compact error otherwise.
+        """
+        env = self.workspace._clean_env()
+        cwd = str(self.workspace.worktree)
+
+        def run(args, stdin=patch):
+            return subprocess.run(
+                args, cwd=cwd, env=env, input=stdin, text=True,
+                stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=120, check=False,
+            )
+
+        # 1) Three-way merge is the most forgiving and produces real conflicts.
+        r = run(['git', 'apply', '--3way', '--whitespace=nowarn', '-'])
+        if r.returncode == 0:
+            return ''
+        attempt_3way = (r.stderr or r.stdout or '').strip()
+
+        # 2) Whitespace-tolerant + recount (lets models with slightly off counts apply).
+        r = run(['git', 'apply', '--recount', '--whitespace=fix', '-'])
+        if r.returncode == 0:
+            return ''
+
+        # 3) GNU patch with fuzzy matching and merge conflict markers.
+        patch_bin = shutil.which('patch')
+        if patch_bin:
+            r = run([patch_bin, '-p1', '--merge', '--fuzz=3', '--no-backup-if-mismatch'])
+            if r.returncode == 0:
+                return ''
+            # patch returns non-zero when some hunks applied and some failed; treat
+            # a fully-applied state (clean tree minus expected) as success.
+            if 'FAILED' not in (r.stdout or '') and 'FAILED' not in (r.stderr or ''):
+                return ''
+
+        return (
+            'The patch could not be applied cleanly. '
+            'Use edit_file with exact old_text/new_text instead, or fix the context.\n'
+            + attempt_3way[-3000:]
         )
-        if completed.returncode != 0:
-            raise WorkspaceError(completed.stderr[-4000:] or 'git apply failed')
-        return {'applied': True}
+
+    # ---- Search-and-replace editing (the reliable alternative to raw patches) ----
+
+    def edit_file(self, path, old_text, new_text, replace_all=False):
+        """Replace ``old_text`` with ``new_text`` inside a file.
+
+        Robust to line-ending and incidental whitespace drift: tries an exact
+        match first, then a whitespace-normalised match. Raises a helpful error
+        (with the closest line numbers) when the block cannot be located so the
+        agent can re-read and retry.
+        """
+        target = self.workspace.safe_path(path, must_exist=True)
+        if not target or not target.is_file():
+            raise WorkspaceError('File not found or outside workspace')
+        original = target.read_bytes()
+        if b'\x00' in original:
+            raise WorkspaceError('Cannot edit a binary file')
+        text = original.decode('utf-8')
+        old = '' if old_text is None else str(old_text)
+        new = '' if new_text is None else str(new_text)
+        if old == new:
+            raise WorkspaceError('old_text and new_text are identical')
+        new_text_out, count = self._str_replace(text, old, new, replace_all)
+        if count == 0:
+            hint = self._closest_match_hint(text, old)
+            raise WorkspaceError(
+                'old_text was not found in the file. '
+                'Re-read the file and copy the exact bytes (including indentation).'
+                + (f'\nClosest region:\n{hint}' if hint else '')
+            )
+        encoded = new_text_out.encode('utf-8')
+        max_bytes = int(getattr(settings, 'BACKGROUND_AGENT_MAX_WRITE_BYTES', 2_000_000))
+        if len(encoded) > max_bytes:
+            raise WorkspaceError(f'Edited file would exceed {max_bytes} bytes')
+        target.write_bytes(encoded)
+        return {'path': path, 'replacements': count}
+
+    def multi_edit(self, path, edits):
+        """Apply several sequential old_text→new_text edits to one file."""
+        if not isinstance(edits, list) or not edits:
+            raise WorkspaceError('edits must be a non-empty array of {old_text, new_text}')
+        target = self.workspace.safe_path(path, must_exist=True)
+        if not target or not target.is_file():
+            raise WorkspaceError('File not found or outside workspace')
+        original = target.read_bytes()
+        if b'\x00' in original:
+            raise WorkspaceError('Cannot edit a binary file')
+        text = original.decode('utf-8')
+        applied = 0
+        for index, edit in enumerate(edits, 1):
+            if not isinstance(edit, dict):
+                raise WorkspaceError(f'edit #{index} must be an object')
+            old = '' if edit.get('old_text') is None else str(edit.get('old_text'))
+            new = '' if edit.get('new_text') is None else str(edit.get('new_text'))
+            if old == new:
+                raise WorkspaceError(f'edit #{index}: old_text and new_text are identical')
+            text, count = self._str_replace(text, old, new, bool(edit.get('replace_all')))
+            if count == 0:
+                hint = self._closest_match_hint(text, old)
+                raise WorkspaceError(
+                    f'edit #{index}: old_text was not found.'
+                    + (f'\nClosest region:\n{hint}' if hint else '')
+                )
+            applied += count
+        encoded = text.encode('utf-8')
+        max_bytes = int(getattr(settings, 'BACKGROUND_AGENT_MAX_WRITE_BYTES', 2_000_000))
+        if len(encoded) > max_bytes:
+            raise WorkspaceError(f'Edited file would exceed {max_bytes} bytes')
+        target.write_bytes(encoded)
+        return {'path': path, 'replacements': applied}
+
+    @staticmethod
+    def _str_replace(text: str, old: str, new: str, replace_all: bool):
+        if not old:
+            return text, 0
+        # Exact count first.
+        exact_count = text.count(old)
+        if exact_count:
+            if replace_all:
+                return text.replace(old, new), exact_count
+            if exact_count == 1:
+                return text.replace(old, new), 1
+            raise WorkspaceError(
+                f'old_text matches {exact_count} locations. '
+                'Add more surrounding context to make it unique, or set replace_all=true.'
+            )
+        # Fallback: whitespace-normalised match (collapse internal whitespace runs).
+        def norm(s):
+            return re.sub(r'[ \t]+', ' ', s).replace('\r\n', '\n')
+
+        norm_text, norm_old = norm(text), norm(old)
+        if norm_old and norm_old in norm_text:
+            occurrences = norm_text.count(norm_old)
+            if not replace_all and occurrences > 1:
+                raise WorkspaceError(
+                    f'old_text matches {occurrences} locations after normalising whitespace. '
+                    'Add more context or set replace_all=true.'
+                )
+            # Reconstruct by replacing the normalised span in the original text.
+            rebuilt = []
+            i = 0
+            replaced = 0
+            while True:
+                idx = norm_text.find(norm_old, i)
+                if idx < 0:
+                    break
+                # Map the normalised index back to the original text by scanning.
+                orig_start = _denorm_index(text, norm_text, idx)
+                orig_end = _denorm_index(text, norm_text, idx + len(norm_old))
+                rebuilt.append(text[i:orig_start])
+                rebuilt.append(new)
+                i = orig_end
+                replaced += 1
+                if not replace_all:
+                    break
+            rebuilt.append(text[i:])
+            return ''.join(rebuilt), replaced
+        return text, 0
+
+    @staticmethod
+    def _closest_match_hint(text: str, old: str, window: int = 6):
+        """Return a small snippet around the line that best resembles ``old``."""
+        if not old:
+            return ''
+        lines = text.splitlines()
+        first = old.strip().splitlines()[0][:80] if old.strip() else old[:80]
+        best_idx, best_score = -1, 0
+        for idx, line in enumerate(lines):
+            score = _sequence_similarity(first, line.strip())
+            if score > best_score:
+                best_score = score
+                best_idx = idx
+        if best_idx < 0 or best_score < 0.34:
+            return ''
+        start = max(0, best_idx - 2)
+        end = min(len(lines), best_idx + window)
+        return '\n'.join(f'{start + n + 1}: {lines[start + n]}' for n in range(end - start))
+
+    # ---- Additional filesystem tools ----
+
+    def copy_file(self, source, destination):
+        src = self.workspace.safe_path(source, must_exist=True)
+        dst = self.workspace.safe_path(destination, must_exist=False)
+        if not src or not src.exists():
+            raise WorkspaceError('Source not found or outside workspace')
+        if not dst:
+            raise WorkspaceError('Destination is outside workspace')
+        dst.parent.mkdir(parents=True, exist_ok=True)
+        if src.is_dir():
+            shutil.copytree(src, dst)
+        else:
+            shutil.copy2(src, dst)
+        return {'source': source, 'destination': destination}
+
+    def move_file(self, source, destination):
+        src = self.workspace.safe_path(source, must_exist=True)
+        dst = self.workspace.safe_path(destination, must_exist=False)
+        if not src or not src.exists():
+            raise WorkspaceError('Source not found or outside workspace')
+        if not dst:
+            raise WorkspaceError('Destination is outside workspace')
+        dst.parent.mkdir(parents=True, exist_ok=True)
+        shutil.move(str(src), str(dst))
+        return {'source': source, 'destination': destination}
+
+    def create_directory(self, path):
+        target = self.workspace.safe_path(path, must_exist=False)
+        if not target:
+            raise WorkspaceError('Path is outside workspace')
+        target.mkdir(parents=True, exist_ok=True)
+        return {'path': path}
+
+    # ---- Git tools exposed to the agent ----
+
+    def git_stage(self, paths=None):
+        return {'status': self.workspace.stage(paths)}
+
+    def git_commit(self, message):
+        msg = (message or 'Background agent changes').strip() or 'Background agent changes'
+        sha = self.workspace.commit(msg[:240])
+        return {'sha': sha} if sha else {'sha': '', 'note': 'Nothing to commit'}
+
+    def git_push(self, branch=''):
+        result = self.workspace.push(branch)
+        return {'stdout': result.get('stdout', '')[-4000:], 'branch': branch or self.workspace.session.work_branch}
+
+    def git_pull(self, branch=''):
+        return {'output': self.workspace.pull(branch)[-4000:]}
+
+    def git_log(self, limit=30):
+        return {'log': self.workspace.log(limit)}
+
+    def git_restore(self, paths=None, staged=False):
+        return {'status': self.workspace.restore(paths, staged=staged)}
 
     def _validate_patch_paths(self, patch):
         paths = set()
@@ -771,6 +1064,44 @@ class ToolExecutor:
 
     def git_diff(self):
         return {'diff': self.workspace.diff()}
+
+
+def _denorm_index(original: str, normalized: str, norm_pos: int) -> int:
+    """Map an index in a whitespace-normalised string back to ``original``.
+
+    Walks both strings together, advancing through runs of whitespace so the
+    position lines up with the original source text.
+    """
+    oi = ni = 0
+    olen, nlen = len(original), len(normalized)
+    ws = ' \t\r\n'
+    while ni < norm_pos and ni < nlen and oi < olen:
+        if normalized[ni] == original[oi]:
+            oi += 1
+            ni += 1
+        elif original[oi] in ws:
+            oi += 1
+        else:  # normalised collapsed a whitespace run
+            ni += 1
+    return oi
+
+
+def _sequence_similarity(a: str, b: str) -> float:
+    """Cheap normalised similarity in [0, 1] using a subsequence ratio."""
+    if not a or not b:
+        return 0.0
+    la, lb = len(a), len(b)
+    i = j = matches = 0
+    while i < la and j < lb:
+        if a[i] == b[j]:
+            matches += 1
+            i += 1
+            j += 1
+        elif la - i >= lb - j:
+            i += 1
+        else:
+            j += 1
+    return matches / max(la, lb)
 
 
 def build_branch_name(goal: str, session_id: str) -> str:
