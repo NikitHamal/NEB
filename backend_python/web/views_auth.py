@@ -257,10 +257,46 @@ def github_login(request):
         authorize_url += f'&state={state}'
     return redirect(authorize_url)
 
+def _background_agent_github_callback(request, state):
+    """Finish the Background Agent GitHub OAuth via the shared callback URL.
+
+    Verifies the signed ``bg::`` state against the currently signed-in agent
+    admin, exchanges the code for a broad-scope token, and stores it on that
+    admin's credential. Reuses the same client/secret and redirect URI as the
+    public GitHub sign-in so only one callback URL is registered.
+    """
+    from django.contrib import messages
+    from django.shortcuts import redirect
+    from .background_agent_auth import get_bg_admin
+    from api.background_agent.oauth import parse_state, exchange_and_store
+
+    code = request.GET.get('code', '')
+    admin_id = parse_state(state)
+    admin = get_bg_admin(request)
+    if not admin or not admin_id or str(admin.id) != str(admin_id):
+        # The agent admin must be signed in and match the OAuth initiator.
+        messages.error(request, 'Sign in to the Background Agent before connecting GitHub.')
+        return redirect('web:background_agent_login')
+    redirect_uri = _https_redirect_uri(request, '/auth/github/callback/')
+    login, error = exchange_and_store(admin, code=code, redirect_uri=redirect_uri)
+    if error:
+        messages.error(request, error)
+    else:
+        messages.success(request, f'GitHub connected as {login}.')
+    return redirect('web:background_agent')
+
+
 @require_GET
 def github_callback(request):
-    """Handle GitHub OAuth callback — exchange code for token, fetch user, create/login."""
+    """Handle GitHub OAuth callback — exchange code for token, fetch user, create/login.
+
+    Also serves the Background Agent: when ``state`` is a ``bg::`` marker, the
+    code is exchanged for a broad-scope token and stored against the signed-in
+    admin's agent credential (no NEBians account is created/changed).
+    """
     state = request.GET.get('state', '')
+    if state.startswith('bg::'):
+        return _background_agent_github_callback(request, state)
     is_mobile = state == 'mobile_github'
     next_url = None
     if state and state.startswith('next:'):
