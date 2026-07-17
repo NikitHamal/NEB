@@ -1,6 +1,16 @@
 # NEBians Background Agent — production deployment
 
-The admin-only UI is available at `/backgroundagent`. The dashboard lists projects + sessions; each session opens on its own dedicated page at `/backgroundagent/session/<id>` so the agent transcript is uncluttered. Sessions are database-backed and execute in a separate worker, so closing the browser or disconnecting does not stop a task.
+The Background Agent is a **standalone product**, separate from the Django admin panel. It lives at `/backgroundagent` with its own login screen at `/backgroundagent/login`. Admins sign in with their **platform account** (`api.User`) using a username **or** email plus a password (only accounts with `is_admin` are admitted). The dashboard lists projects + sessions; each session opens on its own dedicated page at `/backgroundagent/session/<id>`. Sessions are database-backed and execute in a separate worker, so closing the browser does not stop a task.
+
+## Authentication model
+
+- Sign-in is independent of Django's `auth.User` / the `/admin/` staff login (left untouched) and of the public site's bearer-token auth.
+- The signed-in admin is kept in the session and surfaced as `request.bg_admin`. GitHub OAuth credentials are bound to this same `api.User` account, so the same admin **does not re-authorize when signing in from another device**.
+- The existing `/admin/` username login continues to work unchanged for the rest of the admin panel; the agent simply no longer appears in the admin sidebar.
+
+## GitHub OAuth (single callback URL)
+
+The agent authorizes with broad repository scopes (`repo workflow read:org user:email`) but reuses the **existing** `/auth/github/callback/` redirect URI (one registered URL in your GitHub OAuth App). The agent marks its request with a signed `bg::` state; the shared callback recognises it, exchanges the code, and stores the token against the signed-in admin's `BackgroundAgentCredential` — no NEBians account is created or changed.
 
 ## What the agent can do
 
@@ -19,13 +29,13 @@ Every tool call renders as a **single clean line** in the transcript (e.g. `Read
 ### Why `edit_file` is preferred over `apply_patch`
 Raw unified patches require exact context, which is why "the patch tool almost always failed" — the model drifts on whitespace/line counts. `edit_file`/`multi_edit` use exact-byte matching first, then fall back to whitespace-normalised matching, and return the closest line range when the block can't be found so the agent can re-read and retry. `apply_patch` is still available and now tries three progressively more forgiving strategies before giving up.
 
-## 1. Apply the database migration
+## 1. Apply the database migrations
 
 ```bash
 python manage.py migrate
 ```
 
-The feature adds project, session, message, event, artifact, credential and action tables. GitHub OAuth tokens are encrypted with AES-GCM using key material derived from Django's `SECRET_KEY`. Keep that key stable; changing it invalidates retained credentials.
+Two background-agent migrations exist: `0083` creates the tables, and `0084` re-points the ownership fields (`admin_user`/`requested_by`) from Django's `auth.User` to the platform account model (`api.User`) so the agent authenticates platform admins and binds the GitHub credential to their account. GitHub OAuth tokens are encrypted with AES-GCM using key material derived from Django's `SECRET_KEY`. Keep that key stable; changing it invalidates retained credentials.
 
 ## 2. Configure GitHub OAuth
 

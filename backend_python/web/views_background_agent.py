@@ -1,4 +1,10 @@
-"""Admin-only web/API surface for the durable background coding agent."""
+"""Web/API surface for the standalone Background Agent.
+
+The Background Agent is its own product (outside the Django admin panel). Admins
+authenticate with their platform account (api.User) through
+``web.background_agent_auth``; the signed-in admin is on ``request.bg_admin``.
+GitHub OAuth credentials are bound to that account and reused across devices.
+"""
 from __future__ import annotations
 
 import json
@@ -7,15 +13,15 @@ from pathlib import Path
 
 from django.conf import settings
 from django.contrib import messages
-from django.core.signing import BadSignature, SignatureExpired, TimestampSigner
 from django.http import FileResponse, Http404, JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.views.decorators.http import require_GET, require_POST
 
-from api.background_agent.crypto import decrypt_secret, encrypt_secret
+from api.background_agent.crypto import decrypt_secret
 from api.background_agent.events import add_message, emit
 from api.background_agent.github import GitHubClient, GitHubError
+from api.background_agent.oauth import build_authorize_url, make_state
 from api.models import (
     BackgroundAgentAction,
     BackgroundAgentArtifact,
@@ -27,10 +33,16 @@ from api.models import (
     BotConfig,
 )
 from api.utils import now_ms, uuid_str
-from .view_helpers import _require_staff_admin
+from .background_agent_auth import (
+    authenticate_bg_admin,
+    get_bg_admin,
+    login_bg_admin,
+    logout_bg_admin,
+    require_bg_admin,
+    require_bg_admin_json,
+)
 
 logger = logging.getLogger(__name__)
-_STATE_SALT = 'background-agent-github-oauth'
 
 
 def _json_body(request):
@@ -44,8 +56,14 @@ def _json_error(message, status=400):
     return JsonResponse({'ok': False, 'error': str(message)}, status=status)
 
 
+def _admin(request):
+    """The signed-in platform admin (api.User). Caller has already authorized."""
+    return get_bg_admin(request)
+
+
 def _credential(request, required=False):
-    credential = BackgroundAgentCredential.objects.filter(admin_user=request.user, revoked_at=0).first()
+    admin = _admin(request)
+    credential = BackgroundAgentCredential.objects.filter(admin_user=admin, revoked_at=0).first()
     if required and (not credential or not credential.is_connected):
         raise GitHubError('Connect a GitHub account first')
     return credential
@@ -56,125 +74,141 @@ def _github_client(request):
     return GitHubClient(decrypt_secret(credential.encrypted_access_token)), credential
 
 
-def _project_for_user(request, project_id):
+def _project_for_admin(request, project_id):
+    admin = _admin(request)
     try:
-        return BackgroundAgentProject.objects.select_related('credential').get(pk=project_id, admin_user=request.user)
+        return BackgroundAgentProject.objects.select_related('credential').get(pk=project_id, admin_user=admin)
     except BackgroundAgentProject.DoesNotExist:
         raise Http404('Project not found')
 
 
-def _session_for_user(request, session_id):
+def _session_for_admin(request, session_id):
+    admin = _admin(request)
     try:
         return BackgroundAgentSession.objects.select_related(
             'project', 'project__credential', 'bot_config'
-        ).get(pk=session_id, admin_user=request.user)
+        ).get(pk=session_id, admin_user=admin)
     except BackgroundAgentSession.DoesNotExist:
         raise Http404('Session not found')
 
 
-def _absolute_https_uri(request, route_name):
-    uri = request.build_absolute_uri(reverse(route_name))
+def _absolute_https_uri(request, route_name, args=None):
+    uri = request.build_absolute_uri(reverse(route_name, args=args))
     if request.headers.get('X-Forwarded-Proto') == 'https' and uri.startswith('http://'):
         uri = 'https://' + uri[len('http://'):]
     return uri
 
 
+def _base_context(request, **extra):
+    admin = get_bg_admin(request)
+    ctx = {
+        'csp_nonce': getattr(request, 'csp_nonce', ''),
+        'bg_admin': {
+            'username': admin.username,
+            'display_name': admin.display_name or admin.username,
+            'photo_url': admin.photo_url or '',
+        } if admin else None,
+    }
+    ctx.update(extra)
+    return ctx
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Auth (login / logout)
+# ─────────────────────────────────────────────────────────────────────────────
+
+def background_agent_login(request):
+    """Standalone sign-in: username OR email + password, platform admins only."""
+    admin = get_bg_admin(request)
+    if admin:
+        return redirect(request.GET.get('next') or 'web:background_agent')
+    if request.method == 'POST':
+        identifier = request.POST.get('identifier', '').strip()
+        password = request.POST.get('password', '')
+        next_url = request.POST.get('next') or reverse('web:background_agent')
+        # Only allow same-origin relative redirects.
+        if not (str(next_url).startswith('/') and not str(next_url).startswith('//')):
+            next_url = reverse('web:background_agent')
+        user, error = authenticate_bg_admin(identifier, password)
+        if user:
+            login_bg_admin(request, user)
+            return redirect(next_url)
+        return render(request, 'background_agent/login.html', {
+            'csp_nonce': getattr(request, 'csp_nonce', ''),
+            'error': error or 'Sign in failed.',
+            'next': next_url,
+        })
+    return render(request, 'background_agent/login.html', {
+        'csp_nonce': getattr(request, 'csp_nonce', ''),
+        'next': request.GET.get('next', ''),
+    })
+
+
+@require_POST
+def background_agent_logout(request):
+    logout_bg_admin(request)
+    return redirect('web:background_agent_login')
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Pages
+# ─────────────────────────────────────────────────────────────────────────────
+
 @require_GET
 def background_agent_page(request):
-    redirect_response = _require_staff_admin(request)
+    redirect_response = require_bg_admin(request)
     if redirect_response:
         return redirect_response
     credential = _credential(request)
     providers = BotConfig.objects.filter(enabled=True).order_by('name', 'id')
-    return render(request, 'admin_panel/background_agent.html', {
-        'active_page': 'background_agent',
-        'is_admin': True,
-        'github_connected': bool(credential and credential.is_connected),
-        'github_login': credential.github_login if credential else '',
-        'providers': providers,
-    })
+    return render(request, 'background_agent/dashboard.html', _base_context(request,
+        github_connected=bool(credential and credential.is_connected),
+        github_login=credential.github_login if credential else '',
+        providers=providers,
+    ))
 
 
 @require_GET
 def background_agent_session_page(request, session_id):
     """Dedicated, full-screen session view (separate from the dashboard)."""
-    redirect_response = _require_staff_admin(request)
+    redirect_response = require_bg_admin(request)
     if redirect_response:
         return redirect_response
-    session = _session_for_user(request, session_id)
+    session = _session_for_admin(request, session_id)
     credential = _credential(request)
     providers = BotConfig.objects.filter(enabled=True).order_by('name', 'id')
-    return render(request, 'admin_panel/background_agent_session.html', {
-        'active_page': 'background_agent',
-        'is_admin': True,
-        'session_id': str(session.id),
-        'session_title': session.title or (session.goal[:80] + '…' if len(session.goal) > 80 else session.goal),
-        'github_connected': bool(credential and credential.is_connected),
-        'providers': providers,
-    })
+    return render(request, 'background_agent/session.html', _base_context(request,
+        session_id=str(session.id),
+        session_title=session.title or (session.goal[:80] + '…' if len(session.goal) > 80 else session.goal),
+        github_connected=bool(credential and credential.is_connected),
+        providers=providers,
+    ))
 
+
+# ─────────────────────────────────────────────────────────────────────────────
+# GitHub OAuth (connect via the shared /auth/github/callback/ redirect URI)
+# ─────────────────────────────────────────────────────────────────────────────
 
 @require_GET
 def background_agent_github_connect(request):
-    redirect_response = _require_staff_admin(request)
+    redirect_response = require_bg_admin(request)
     if redirect_response:
         return redirect_response
-    client_id = getattr(settings, 'BACKGROUND_AGENT_GITHUB_CLIENT_ID', '')
-    if not client_id:
-        messages.error(request, 'Background-agent GitHub OAuth is not configured.')
+    if not (getattr(settings, 'BACKGROUND_AGENT_GITHUB_CLIENT_ID', '') or getattr(settings, 'GITHUB_CLIENT_ID', '')):
+        messages.error(request, 'GitHub OAuth is not configured.')
         return redirect('web:background_agent')
-    state = TimestampSigner(salt=_STATE_SALT).sign(str(request.user.pk))
-    redirect_uri = _absolute_https_uri(request, 'web:background_agent_github_callback')
-    return redirect(GitHubClient.authorize_url(state=state, redirect_uri=redirect_uri))
-
-
-@require_GET
-def background_agent_github_callback(request):
-    redirect_response = _require_staff_admin(request)
-    if redirect_response:
-        return redirect_response
-    state = request.GET.get('state', '')
-    code = request.GET.get('code', '')
-    if not state or not code:
-        messages.error(request, 'GitHub authorization was cancelled or incomplete.')
-        return redirect('web:background_agent')
-    try:
-        owner_id = TimestampSigner(salt=_STATE_SALT).unsign(state, max_age=600)
-        if str(owner_id) != str(request.user.pk):
-            raise BadSignature('OAuth user mismatch')
-        redirect_uri = _absolute_https_uri(request, 'web:background_agent_github_callback')
-        token, scopes = GitHubClient.exchange_code(code=code, redirect_uri=redirect_uri)
-        github_user = GitHubClient(token).current_user()
-        now = now_ms()
-        credential, _ = BackgroundAgentCredential.objects.get_or_create(
-            admin_user=request.user,
-            defaults={'created_at': now},
-        )
-        credential.github_user_id = github_user.get('id') or 0
-        credential.github_login = github_user.get('login') or ''
-        credential.github_avatar_url = github_user.get('avatar_url') or ''
-        credential.encrypted_access_token = encrypt_secret(token)
-        credential.token_scopes = scopes
-        credential.updated_at = now
-        credential.last_validated_at = now
-        credential.revoked_at = 0
-        credential.save(update_fields=[
-            'github_user_id', 'github_login', 'github_avatar_url',
-            'encrypted_access_token', 'token_scopes', 'updated_at',
-            'last_validated_at', 'revoked_at',
-        ])
-        messages.success(request, f"GitHub connected as {github_user.get('login') or 'account'}.")
-    except (BadSignature, SignatureExpired, GitHubError, ValueError) as exc:
-        logger.warning('Background agent GitHub connection failed: %s', exc)
-        messages.error(request, str(exc))
-    return redirect('web:background_agent')
+    admin = _admin(request)
+    state = make_state(admin.id)
+    # Reuse the main app's registered callback URL — single redirect URI.
+    redirect_uri = _absolute_https_uri(request, 'web:github_callback')
+    return redirect(build_authorize_url(state=state, redirect_uri=redirect_uri))
 
 
 @require_POST
 def background_agent_github_disconnect(request):
-    redirect_response = _require_staff_admin(request)
-    if redirect_response:
-        return _json_error('Admin authentication required', 403)
+    guard = require_bg_admin_json(request)
+    if guard:
+        return guard[1]
     credential = _credential(request)
     if credential:
         credential.encrypted_access_token = ''
@@ -184,14 +218,19 @@ def background_agent_github_disconnect(request):
     return JsonResponse({'ok': True})
 
 
+# ─────────────────────────────────────────────────────────────────────────────
+# API: state, repositories, branches, projects, sessions
+# ─────────────────────────────────────────────────────────────────────────────
+
 @require_GET
 def background_agent_state(request):
-    redirect_response = _require_staff_admin(request)
-    if redirect_response:
-        return _json_error('Admin authentication required', 403)
+    guard = require_bg_admin_json(request)
+    if guard:
+        return guard[1]
+    admin = _admin(request)
     credential = _credential(request)
-    projects = BackgroundAgentProject.objects.filter(admin_user=request.user).order_by('-updated_at')[:100]
-    sessions = BackgroundAgentSession.objects.filter(admin_user=request.user).select_related('project', 'bot_config').order_by('-created_at')[:100]
+    projects = BackgroundAgentProject.objects.filter(admin_user=admin).order_by('-updated_at')[:100]
+    sessions = BackgroundAgentSession.objects.filter(admin_user=admin).select_related('project', 'bot_config').order_by('-created_at')[:100]
     providers = BotConfig.objects.filter(enabled=True).order_by('name', 'id')
     worker_cutoff = now_ms() - 30000
     workers = list(BackgroundAgentWorker.objects.filter(
@@ -231,9 +270,9 @@ def background_agent_state(request):
 
 @require_GET
 def background_agent_repositories(request):
-    redirect_response = _require_staff_admin(request)
-    if redirect_response:
-        return _json_error('Admin authentication required', 403)
+    guard = require_bg_admin_json(request)
+    if guard:
+        return guard[1]
     try:
         client, _ = _github_client(request)
         repos = client.list_repositories(
@@ -248,9 +287,9 @@ def background_agent_repositories(request):
 
 @require_GET
 def background_agent_branches(request):
-    redirect_response = _require_staff_admin(request)
-    if redirect_response:
-        return _json_error('Admin authentication required', 403)
+    guard = require_bg_admin_json(request)
+    if guard:
+        return guard[1]
     full_name = request.GET.get('repo', '')
     try:
         client, _ = _github_client(request)
@@ -267,9 +306,9 @@ def background_agent_branches(request):
 
 @require_POST
 def background_agent_create_project(request):
-    redirect_response = _require_staff_admin(request)
-    if redirect_response:
-        return _json_error('Admin authentication required', 403)
+    guard = require_bg_admin_json(request)
+    if guard:
+        return guard[1]
     try:
         payload = _json_body(request)
         full_name = (payload.get('repoFullName') or '').strip()
@@ -283,7 +322,7 @@ def background_agent_create_project(request):
         now = now_ms()
         canonical_name = repo.get('full_name') or full_name
         project, created = BackgroundAgentProject.objects.get_or_create(
-            admin_user=request.user,
+            admin_user=_admin(request),
             repo_full_name=canonical_name,
             defaults={
                 'id': uuid_str(),
@@ -314,12 +353,12 @@ def background_agent_create_project(request):
 
 @require_POST
 def background_agent_create_session(request):
-    redirect_response = _require_staff_admin(request)
-    if redirect_response:
-        return _json_error('Admin authentication required', 403)
+    guard = require_bg_admin_json(request)
+    if guard:
+        return guard[1]
     try:
         payload = _json_body(request)
-        project = _project_for_user(request, payload.get('projectId'))
+        project = _project_for_admin(request, payload.get('projectId'))
         goal = (payload.get('goal') or '').strip()
         if len(goal) < 10:
             return _json_error('Describe the coding task in at least 10 characters')
@@ -329,15 +368,13 @@ def background_agent_create_session(request):
         if not provider:
             return _json_error('No enabled AI provider is configured', 409)
         # No iteration cap — the agent works until completion, needs_input, or
-        # an admin pause/stop. max_iterations is kept at 0 (unlimited) for
-        # backward compatibility with the column and existing serializers.
-        max_iterations = 0
+        # an admin pause/stop. max_iterations stays 0 (unlimited).
         title = (payload.get('title') or goal.splitlines()[0])[:255]
         now = now_ms()
         session = BackgroundAgentSession.objects.create(
             id=uuid_str(),
             project=project,
-            admin_user=request.user,
+            admin_user=_admin(request),
             bot_config=provider,
             title=title,
             goal=goal,
@@ -345,7 +382,7 @@ def background_agent_create_session(request):
             status='queued',
             progress=0,
             progress_label='Queued for worker',
-            max_iterations=max_iterations,
+            max_iterations=0,
             created_at=now,
             updated_at=now,
         )
@@ -362,19 +399,19 @@ def background_agent_create_session(request):
 
 @require_GET
 def background_agent_session_detail(request, session_id):
-    redirect_response = _require_staff_admin(request)
-    if redirect_response:
-        return _json_error('Admin authentication required', 403)
-    session = _session_for_user(request, session_id)
+    guard = require_bg_admin_json(request)
+    if guard:
+        return guard[1]
+    session = _session_for_admin(request, session_id)
     return JsonResponse({'ok': True, 'session': _serialize_session_detail(session)})
 
 
 @require_GET
 def background_agent_session_events(request, session_id):
-    redirect_response = _require_staff_admin(request)
-    if redirect_response:
-        return _json_error('Admin authentication required', 403)
-    session = _session_for_user(request, session_id)
+    guard = require_bg_admin_json(request)
+    if guard:
+        return guard[1]
+    session = _session_for_admin(request, session_id)
     try:
         after = max(0, int(request.GET.get('after', '0') or 0))
     except ValueError:
@@ -405,10 +442,10 @@ def background_agent_session_events(request, session_id):
 
 @require_POST
 def background_agent_session_message(request, session_id):
-    redirect_response = _require_staff_admin(request)
-    if redirect_response:
-        return _json_error('Admin authentication required', 403)
-    session = _session_for_user(request, session_id)
+    guard = require_bg_admin_json(request)
+    if guard:
+        return guard[1]
+    session = _session_for_admin(request, session_id)
     try:
         payload = _json_body(request)
         content = (payload.get('content') or '').strip()
@@ -433,10 +470,10 @@ def background_agent_session_message(request, session_id):
 
 @require_POST
 def background_agent_session_control(request, session_id):
-    redirect_response = _require_staff_admin(request)
-    if redirect_response:
-        return _json_error('Admin authentication required', 403)
-    session = _session_for_user(request, session_id)
+    guard = require_bg_admin_json(request)
+    if guard:
+        return guard[1]
+    session = _session_for_admin(request, session_id)
     try:
         command = (_json_body(request).get('command') or '').strip().lower()
     except ValueError as exc:
@@ -484,10 +521,10 @@ def background_agent_session_control(request, session_id):
 
 @require_POST
 def background_agent_session_action(request, session_id):
-    redirect_response = _require_staff_admin(request)
-    if redirect_response:
-        return _json_error('Admin authentication required', 403)
-    session = _session_for_user(request, session_id)
+    guard = require_bg_admin_json(request)
+    if guard:
+        return guard[1]
+    session = _session_for_admin(request, session_id)
     try:
         payload = _json_body(request)
     except ValueError as exc:
@@ -502,7 +539,7 @@ def background_agent_session_action(request, session_id):
     action = BackgroundAgentAction.objects.create(
         id=uuid_str(),
         session=session,
-        requested_by=request.user,
+        requested_by=_admin(request),
         action=action_name,
         status='queued',
         payload=json.dumps(payload.get('payload') or {}, ensure_ascii=False),
@@ -514,10 +551,10 @@ def background_agent_session_action(request, session_id):
 
 @require_GET
 def background_agent_download_artifact(request, session_id, kind):
-    redirect_response = _require_staff_admin(request)
+    redirect_response = require_bg_admin(request)
     if redirect_response:
         raise Http404
-    session = _session_for_user(request, session_id)
+    session = _session_for_admin(request, session_id)
     try:
         artifact = BackgroundAgentArtifact.objects.get(session=session, kind=kind)
     except BackgroundAgentArtifact.DoesNotExist:
@@ -533,6 +570,10 @@ def background_agent_download_artifact(request, session_id, kind):
     content_type = 'application/zip' if kind == 'changes_zip' else 'text/x-diff'
     return FileResponse(path.open('rb'), as_attachment=True, filename=artifact.file_name, content_type=content_type)
 
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Serializers
+# ─────────────────────────────────────────────────────────────────────────────
 
 def _serialize_repo(repo):
     permissions = repo.get('permissions') or {}

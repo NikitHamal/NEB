@@ -132,11 +132,12 @@ urlpatterns = [
     path('ajax/notifications/unread-count/', views.ajax_notifications_unread_count, name='ajax_notifications_unread_count'),
 
 
-    # Admin-only durable background coding agent
+    # Standalone durable background coding agent (auth via platform api.User)
+    path('backgroundagent/login', views.background_agent_login, name='background_agent_login'),
+    path('backgroundagent/logout', views.background_agent_logout, name='background_agent_logout'),
     path('backgroundagent', views.background_agent_page, name='background_agent'),
     path('backgroundagent/session/<str:session_id>', views.background_agent_session_page, name='background_agent_session_page'),
     path('backgroundagent/github/connect', views.background_agent_github_connect, name='background_agent_github_connect'),
-    path('backgroundagent/github/callback', views.background_agent_github_callback, name='background_agent_github_callback'),
     path('backgroundagent/github/disconnect', views.background_agent_github_disconnect, name='background_agent_github_disconnect'),
     path('backgroundagent/api/state', views.background_agent_state, name='background_agent_state'),
     path('backgroundagent/api/repositories', views.background_agent_repositories, name='background_agent_repositories'),

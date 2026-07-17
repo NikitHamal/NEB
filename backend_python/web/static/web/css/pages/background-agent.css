@@ -1,7 +1,7 @@
 /* NEBians Background Agent — built on the project Material 3 design system.
    Accent follows --md-primary (project blue). Supports light + dark themes. */
 
-.ba-app, .ba-session-app {
+.ba-app, .ba-session-app, .ba-content {
   --ba-accent: var(--md-primary);
   --ba-accent-2: color-mix(in srgb, var(--md-primary) 62%, #ffffff);
   --ba-on-accent: var(--md-on-primary);
@@ -274,4 +274,38 @@
   .ba-session-header { flex-direction: column; align-items: flex-start; }
   .ba-tabs { overflow: auto; }
   .ba-conversation { max-height: none; }
+}
+
+/* ---------------- Standalone shell (topbar + content) ---------------- */
+.ba-topbar {
+  display: flex; align-items: center; gap: 16px; padding: 12px 22px;
+  background: var(--md-surface-container); border-bottom: 1px solid var(--ba-border);
+  position: sticky; top: 0; z-index: 20;
+}
+.ba-topbar-brand { display: inline-flex; align-items: center; gap: 11px; text-decoration: none; color: var(--md-on-surface); }
+.ba-topbar-logo { width: 30px; height: 30px; }
+.ba-topbar-titles { display: flex; flex-direction: column; line-height: 1.1; }
+.ba-topbar-titles strong { font-size: .92rem; }
+.ba-topbar-titles .ba-kicker { font-size: .58rem; }
+.ba-topbar-actions { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+.ba-content { padding: 22px clamp(14px, 4vw, 40px) 60px; max-width: 1320px; margin: 0 auto; width: 100%; box-sizing: border-box; }
+.skip-link { position: absolute; left: -9999px; }
+.skip-link:focus { left: 12px; top: 12px; z-index: 99; background: var(--ba-accent); color: var(--ba-on-accent); padding: 8px 14px; border-radius: 8px; }
+
+/* ---------------- Login page ---------------- */
+.ba-login-body { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 24px; }
+.ba-login-card { width: 100%; max-width: 410px; border: 1px solid var(--ba-border); border-radius: 22px; background: var(--md-surface-container-low); padding: 36px 32px; display: flex; flex-direction: column; align-items: center; text-align: center; }
+.ba-login-brand { margin-bottom: 14px; }
+.ba-login-title { font-size: 1.7rem; letter-spacing: -.03em; margin: 8px 0 4px; }
+.ba-login-sub { color: var(--md-on-surface-variant); font-size: .85rem; margin: 0 0 22px; line-height: 1.5; }
+.ba-login-card form { width: 100%; display: grid; gap: 14px; }
+.ba-login-card .ba-field { text-align: left; }
+.ba-login-card .ba-btn { width: 100%; margin-top: 4px; }
+.ba-login-error { width: 100%; display: flex; align-items: center; gap: 9px; text-align: left; background: color-mix(in srgb, var(--ba-bad) 12%, var(--md-surface-container)); border: 1px solid color-mix(in srgb, var(--ba-bad) 45%, var(--ba-border)); color: var(--ba-bad); border-radius: 12px; padding: 11px 13px; font-size: .8rem; margin-bottom: 6px; }
+.ba-login-error .material-symbols-outlined { font-size: 19px; }
+.ba-login-foot { color: var(--md-on-surface-variant); font-size: .68rem; margin: 18px 0 0; }
+
+@media (max-width: 760px) {
+  .ba-topbar { padding: 10px 14px; }
+  .ba-topbar-actions .ba-account-inline span { display: none; }
 }

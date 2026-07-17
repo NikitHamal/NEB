@@ -12,9 +12,16 @@
     control: app.dataset.controlUrl,
     action: app.dataset.actionUrl,
     dashboard: app.dataset.dashboardUrl,
+    loginUrl: app.dataset.loginUrl || '/backgroundagent/login',
   };
 
+  // Defensive helpers: a missing element must never crash the whole session.
   const $ = (id) => document.getElementById(id);
+  const on = (el, evt, fn) => { if (el) el.addEventListener(evt, fn); };
+  const setHTML = (el, html) => { if (el) el.innerHTML = html; };
+  const setText = (el, text) => { if (el) el.textContent = text; };
+  const setHidden = (el, hidden) => { if (el) el.hidden = !!hidden; };
+
   const els = {
     statusBadge: $('bs-status-badge'),
     statusIcon: $('bs-status-icon'),
@@ -72,6 +79,7 @@
   }
 
   function toast(message, type) {
+    if (!els.toastRegion) return;
     const node = document.createElement('div');
     node.className = 'ba-toast' + (type === 'error' ? ' error' : '');
     node.textContent = message;
@@ -99,6 +107,11 @@
     const response = await fetch(url, opts);
     let data;
     try { data = await response.json(); } catch (_) { data = { ok: false, error: 'Server returned an invalid response.' }; }
+    if (response.status === 401 || data.authRequired) {
+      const next = encodeURIComponent(window.location.pathname + window.location.search);
+      window.location.href = urls.loginUrl + '?next=' + next;
+      throw new Error('Session expired. Redirecting to sign in…');
+    }
     if (!response.ok || data.ok === false) throw new Error(data.error || `Request failed (${response.status})`);
     return data;
   }
@@ -124,12 +137,14 @@
   // ---- smart auto-scroll ----
   function nearBottom() {
     const el = els.conversation;
+    if (!el) return true;
     return el.scrollHeight - el.scrollTop - el.clientHeight < 90;
   }
-  els.conversation.addEventListener('scroll', () => { model.stickToBottom = nearBottom(); });
+  on(els.conversation, 'scroll', () => { model.stickToBottom = nearBottom(); });
 
   function scrollToBottom() {
     const el = els.conversation;
+    if (!el) return;
     el.scrollTop = el.scrollHeight;
     model.stickToBottom = true;
   }
@@ -199,27 +214,25 @@
     const session = model.detail;
     if (!session) return;
 
-    els.statusBadge.className = `ba-status-badge ${escapeHtml(session.status)}`;
-    els.statusBadge.textContent = statusLabel(session.status);
-    els.statusIcon.className = `ba-status-icon ${escapeHtml(session.status)}`;
-    els.statusIcon.innerHTML = `<span class="material-symbols-outlined">${statusIconName(session.status)}</span>`;
-    els.detailRepo.textContent = session.repoFullName || '';
-    els.detailBranch.textContent = session.workBranch || session.sourceBranch || '';
-    els.progressLabel.textContent = session.progressLabel || statusLabel(session.status);
-    els.progressValue.textContent = `${session.progress || 0}%`;
-    els.progressBar.style.width = `${session.progress || 0}%`;
-    els.providerLabel.textContent = session.provider ? `${session.provider.provider}/${session.provider.model}` : '';
-    els.iterationLabel.textContent = `Iteration ${session.iteration || 0}`;
-    els.updatedLabel.textContent = `Updated ${formatTime(session.updatedAt || session.createdAt)}`;
+    if (els.statusBadge) { els.statusBadge.className = `ba-status-badge ${escapeHtml(session.status)}`; els.statusBadge.textContent = statusLabel(session.status); }
+    if (els.statusIcon) { els.statusIcon.className = `ba-status-icon ${escapeHtml(session.status)}`; els.statusIcon.innerHTML = `<span class="material-symbols-outlined">${statusIconName(session.status)}</span>`; }
+    setText(els.detailRepo, session.repoFullName || '');
+    setText(els.detailBranch, session.workBranch || session.sourceBranch || '');
+    setText(els.progressLabel, session.progressLabel || statusLabel(session.status));
+    setText(els.progressValue, `${session.progress || 0}%`);
+    if (els.progressBar) els.progressBar.style.width = `${session.progress || 0}%`;
+    setText(els.providerLabel, session.provider ? `${session.provider.provider}/${session.provider.model}` : '');
+    setText(els.iterationLabel, `Iteration ${session.iteration || 0}`);
+    setText(els.updatedLabel, `Updated ${formatTime(session.updatedAt || session.createdAt)}`);
 
     const active = ['queued', 'preparing', 'running'].includes(session.status);
-    els.pause.hidden = !active;
-    els.resume.hidden = !['paused', 'waiting', 'failed', 'completed'].includes(session.status);
-    els.stop.disabled = ['completed', 'cancelled'].includes(session.status);
+    setHidden(els.pause, !active);
+    setHidden(els.resume, !['paused', 'waiting', 'failed', 'completed'].includes(session.status));
+    if (els.stop) els.stop.disabled = ['completed', 'cancelled'].includes(session.status);
 
     renderConversation(session);
     renderFiles(session.changedFiles || []);
-    els.diff.textContent = session.diff || 'No diff available yet. It appears when the agent finishes or rebuilds artifacts.';
+    setText(els.diff, session.diff || 'No diff available yet. It appears when the agent finishes or rebuilds artifacts.');
     renderDelivery(session);
 
     // Stop polling once the session has settled into a terminal state.
@@ -229,6 +242,7 @@
   }
 
   function renderConversation(session) {
+    if (!els.conversation) return;
     const messages = session.messages || [];
     // Signature so we skip no-op re-renders (preserves the user's scroll position).
     const signature = messages.map(m => `${m.id}:${m.createdAt}`).join('|');
@@ -295,8 +309,8 @@
   }
 
   function renderFiles(files) {
-    els.fileCount.textContent = String(files.length);
-    els.changedFiles.innerHTML = files.length ? files.map(path => `<div class="ba-file-row"><span class="material-symbols-outlined">description</span><span>${escapeHtml(path)}</span></div>`).join('') : '<div class="ba-empty-small">No changed files recorded yet.</div>';
+    setText(els.fileCount, String(files.length));
+    setHTML(els.changedFiles, files.length ? files.map(path => `<div class="ba-file-row"><span class="material-symbols-outlined">description</span><span>${escapeHtml(path)}</span></div>`).join('') : '<div class="ba-empty-small">No changed files recorded yet.</div>');
   }
 
   function renderDelivery(session) {
@@ -305,16 +319,16 @@
     if (artifacts.changes_zip) buttons.push(`<a class="ba-btn ba-btn-primary" href="${escapeHtml(artifacts.changes_zip.downloadUrl)}"><span class="material-symbols-outlined">folder_zip</span>ZIP</a>`);
     if (artifacts.patch) buttons.push(`<a class="ba-btn ba-btn-ghost" href="${escapeHtml(artifacts.patch.downloadUrl)}"><span class="material-symbols-outlined">difference</span>Patch</a>`);
     if (!buttons.length) buttons.push('<button class="ba-btn ba-btn-ghost" type="button" data-rebuild-artifacts><span class="material-symbols-outlined">refresh</span>Build artifacts</button>');
-    els.downloadActions.innerHTML = buttons.join('');
+    setHTML(els.downloadActions, buttons.join(''));
     const hasWorkspace = !!session.workBranch;
     const running = ['queued', 'preparing', 'running'].includes(session.status);
-    els.push.disabled = !hasWorkspace || running;
-    els.openPr.disabled = !hasWorkspace || running;
+    if (els.push) els.push.disabled = !hasWorkspace || running;
+    if (els.openPr) els.openPr.disabled = !hasWorkspace || running;
     const actions = session.actions || [];
-    els.actionHistory.innerHTML = actions.length ? actions.map(action => {
+    setHTML(els.actionHistory, actions.length ? actions.map(action => {
       const link = action.result && action.result.url ? `<a href="${escapeHtml(action.result.url)}" target="_blank" rel="noopener">Open on GitHub</a>` : '';
       return `<div class="ba-action-row"><span><strong>${escapeHtml(action.action.replace('_', ' '))}</strong> · ${escapeHtml(action.status)}${action.error ? ` · ${escapeHtml(action.error)}` : ''}</span>${link}</div>`;
-    }).join('') : '';
+    }).join('') : '');
   }
 
   // ---- actions ----
@@ -327,19 +341,19 @@
   }
 
   async function sendFollowup() {
-    const content = els.followup.value.trim();
+    const content = els.followup ? els.followup.value.trim() : '';
     if (!content) return;
-    els.sendFollowup.disabled = true;
+    if (els.sendFollowup) els.sendFollowup.disabled = true;
     try {
       await api(urls.message, { method: 'POST', body: { content, resume: true } });
-      els.followup.value = '';
+      if (els.followup) els.followup.value = '';
       model.terminalStatusSeen = false; // a resume may restart the loop
       model.stickToBottom = true;
       await loadDetail(true);
       startPolling();
       toast('Guidance sent to the agent.');
     } catch (error) { toast(error.message, 'error'); }
-    finally { els.sendFollowup.disabled = false; }
+    finally { if (els.sendFollowup) els.sendFollowup.disabled = false; }
   }
 
   async function queueAction(action, payload) {
@@ -362,22 +376,25 @@
     }, 2500);
   }
 
-  // ---- events ----
-  els.pause.addEventListener('click', () => control('pause'));
-  els.resume.addEventListener('click', () => control('resume'));
-  els.stop.addEventListener('click', () => { if (confirm('Stop this session? The task branch and workspace will be preserved.')) control('stop'); });
-  els.refresh.addEventListener('click', () => loadDetail(false));
-  els.sendFollowup.addEventListener('click', sendFollowup);
-  els.followup.addEventListener('keydown', event => { if ((event.metaKey || event.ctrlKey) && event.key === 'Enter') sendFollowup(); });
-  els.copyDiff.addEventListener('click', async () => { try { await navigator.clipboard.writeText((model.detail && model.detail.diff) || ''); toast('Diff copied.'); } catch (_) { toast('Could not copy the diff.', 'error'); } });
-  els.push.addEventListener('click', () => queueAction('push'));
-  els.openPr.addEventListener('click', () => queueAction('open_pr'));
-  els.downloadActions.addEventListener('click', event => { if (event.target.closest('[data-rebuild-artifacts]')) queueAction('artifacts'); });
+  // ---- events (each guarded so one missing node never breaks the page) ----
+  on(els.pause, 'click', () => control('pause'));
+  on(els.resume, 'click', () => control('resume'));
+  on(els.stop, 'click', () => { if (confirm('Stop this session? The task branch and workspace will be preserved.')) control('stop'); });
+  on(els.refresh, 'click', () => loadDetail(false));
+  on(els.sendFollowup, 'click', sendFollowup);
+  on(els.followup, 'keydown', event => { if ((event.metaKey || event.ctrlKey) && event.key === 'Enter') sendFollowup(); });
+  on(els.copyDiff, 'click', async () => { try { await navigator.clipboard.writeText((model.detail && model.detail.diff) || ''); toast('Diff copied.'); } catch (_) { toast('Could not copy the diff.', 'error'); } });
+  on(els.push, 'click', () => queueAction('push'));
+  on(els.openPr, 'click', () => queueAction('open_pr'));
+  on(els.downloadActions, 'click', event => { if (event.target.closest('[data-rebuild-artifacts]')) queueAction('artifacts'); });
   document.querySelectorAll('.ba-tab').forEach(tab => tab.addEventListener('click', () => activateTab(tab.dataset.tab)));
   // Toggle tool result expansion (event delegation for dynamically rendered rows).
-  els.conversation.addEventListener('click', event => {
+  on(els.conversation, 'click', event => {
     const line = event.target.closest('[data-toggle]');
-    if (line) document.getElementById(line.dataset.toggle).classList.toggle('open');
+    if (line) {
+      const target = document.getElementById(line.dataset.toggle);
+      if (target) target.classList.toggle('open');
+    }
   });
   document.addEventListener('visibilitychange', () => { if (!document.hidden && model.detail) loadDetail(true); });
 

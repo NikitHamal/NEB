@@ -1661,14 +1661,16 @@ class PostView(models.Model):
 # ─────────────────────────────────────────────────────────────────────────────
 
 class BackgroundAgentCredential(models.Model):
-    """Encrypted GitHub OAuth credential owned by a Django staff user.
+    """Encrypted GitHub OAuth credential owned by a platform admin (api.User).
 
     This is intentionally separate from the public-site GitHub sign-in token:
     repository automation needs broader, explicitly granted scopes and the
-    token must be retained for durable background work.
+    token must be retained for durable background work. The credential is
+    bound to the platform account, so the same admin does not re-authorize
+    when they sign in from another device.
     """
     admin_user = models.OneToOneField(
-        settings.AUTH_USER_MODEL,
+        User,
         on_delete=models.CASCADE,
         related_name='background_agent_credential',
     )
@@ -1700,7 +1702,7 @@ class BackgroundAgentProject(models.Model):
     ]
     id = models.CharField(max_length=36, primary_key=True, default=uuid.uuid4)
     admin_user = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
+        User,
         on_delete=models.CASCADE,
         related_name='background_agent_projects',
     )
@@ -1761,7 +1763,7 @@ class BackgroundAgentSession(models.Model):
         related_name='sessions',
     )
     admin_user = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
+        User,
         on_delete=models.CASCADE,
         related_name='background_agent_sessions',
     )
@@ -1902,7 +1904,7 @@ class BackgroundAgentAction(models.Model):
         related_name='actions',
     )
     requested_by = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
+        User,
         on_delete=models.CASCADE,
         related_name='background_agent_actions',
     )
