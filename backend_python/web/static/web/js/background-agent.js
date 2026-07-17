@@ -11,13 +11,20 @@
     projects: app.dataset.projectsUrl,
     sessions: app.dataset.sessionsUrl,
     disconnect: app.dataset.disconnectUrl,
+    loginUrl: app.dataset.loginUrl || '/backgroundagent/login',
     sessionPage: app.dataset.sessionPageBase, // base like ".../session/"
   };
 
+  // Element lookup that tolerates a missing node (defensive: one missing id
+  // must never kill the whole dashboard).
   const $ = (id) => document.getElementById(id);
+  const on = (el, evt, fn) => { if (el) el.addEventListener(evt, fn); };
+  const setHTML = (el, html) => { if (el) el.innerHTML = html; };
+  const setText = (el, text) => { if (el) el.textContent = text; };
+  const setHidden = (el, hidden) => { if (el) el.hidden = !!hidden; };
+
   const els = {
     workerStatus: $('ba-worker-status'),
-    accountInline: $('ba-account-inline'),
     disconnect: $('ba-disconnect-button'),
     connectEmpty: $('ba-connect-empty'),
     workspace: $('ba-workspace'),
@@ -64,6 +71,7 @@
   }
 
   function toast(message, type) {
+    if (!els.toastRegion) return;
     const node = document.createElement('div');
     node.className = 'ba-toast' + (type === 'error' ? ' error' : '');
     node.textContent = message;
@@ -91,6 +99,12 @@
     const response = await fetch(url, opts);
     let data;
     try { data = await response.json(); } catch (_) { data = { ok: false, error: 'Server returned an invalid response.' }; }
+    if (response.status === 401 || data.authRequired) {
+      // Session expired — send the admin back to the standalone login.
+      const next = encodeURIComponent(window.location.pathname + window.location.search);
+      window.location.href = urls.loginUrl + '?next=' + next;
+      throw new Error('Session expired. Redirecting to sign in…');
+    }
     if (!response.ok || data.ok === false) throw new Error(data.error || `Request failed (${response.status})`);
     return data;
   }
@@ -129,56 +143,62 @@
 
   function renderState() {
     const online = Number(model.worker.online || 0);
-    els.workerStatus.classList.toggle('online', !!online);
-    els.workerStatus.classList.toggle('offline', !online);
-    els.workerStatus.querySelector('.material-symbols-outlined').textContent = online ? 'cloud_done' : 'cloud_off';
-    els.workerStatus.querySelector('.ba-worker-label').textContent = online ? `${online} worker${online === 1 ? '' : 's'} online` : 'Worker offline';
+    if (els.workerStatus) {
+      els.workerStatus.classList.toggle('online', !!online);
+      els.workerStatus.classList.toggle('offline', !online);
+      const icon = els.workerStatus.querySelector('.material-symbols-outlined');
+      const label = els.workerStatus.querySelector('.ba-worker-label');
+      if (icon) icon.textContent = online ? 'cloud_done' : 'cloud_off';
+      if (label) label.textContent = online ? `${online} worker${online === 1 ? '' : 's'} online` : 'Worker offline';
+    }
 
     const connected = !!model.github.connected;
-    els.connectEmpty.hidden = connected;
-    els.workspace.hidden = !connected;
-    els.disconnect.hidden = !connected;
-    els.accountInline.hidden = !connected;
+    setHidden(els.connectEmpty, connected);
+    setHidden(els.workspace, !connected);
+    setHidden(els.disconnect, !connected);
     if (connected) {
       const avatar = model.github.avatarUrl
         ? `<img src="${escapeHtml(model.github.avatarUrl)}" alt="">`
         : `<span class="ba-ai"><span class="material-symbols-outlined">person</span></span>`;
-      els.accountInline.innerHTML = `${avatar}<span>@${escapeHtml(model.github.login || 'github')}</span>`;
-      els.account.innerHTML = `${avatar}<div><strong>@${escapeHtml(model.github.login || 'github')}</strong><span>Repository access connected</span></div>`;
+      setHTML(els.account, `${avatar}<div><strong>@${escapeHtml(model.github.login || 'github')}</strong><span>Repository access connected</span></div>`);
     }
     if (!connected) return;
 
-    els.projectList.innerHTML = model.projects.length ? model.projects.map(project => `
+    setHTML(els.projectList, model.projects.length ? model.projects.map(project => `
       <button class="ba-project-item ${project.id === model.selectedProjectId ? 'active' : ''}" type="button" data-project-id="${escapeHtml(project.id)}">
         <span class="ba-repo-icon"><span class="material-symbols-outlined">${project.private ? 'lock' : 'folder_open'}</span></span>
         <span class="ba-project-copy"><strong>${escapeHtml(project.repoFullName)}</strong><span>${escapeHtml(project.preferredBaseBranch || project.defaultBranch)} · ${escapeHtml(project.status)}</span></span>
-      </button>`).join('') : '<div class="ba-empty-small">Add a repository to create a codebase.</div>';
+      </button>`).join('') : '<div class="ba-empty-small">Add a repository to create a codebase.</div>');
 
-    els.sessionCount.textContent = String(model.sessions.length);
-    els.sessionList.innerHTML = model.sessions.length ? model.sessions.map(session => `
+    setText(els.sessionCount, String(model.sessions.length));
+    setHTML(els.sessionList, model.sessions.length ? model.sessions.map(session => `
       <a class="ba-session-item" href="${escapeHtml(urls.sessionPage + encodeURIComponent(session.id))}">
         <span class="ba-mini-status ${escapeHtml(session.status)}"></span>
         <span class="ba-session-copy"><strong>${escapeHtml(session.title || session.goal)}</strong><span>${escapeHtml(session.repoFullName)} · ${statusLabel(session.status)}</span></span>
         <span class="ba-session-time">${escapeHtml(formatTime(session.updatedAt || session.createdAt))}</span>
         <span class="ba-session-open"><span class="material-symbols-outlined">chevron_right</span></span>
-      </a>`).join('') : '<div class="ba-empty-small">No tasks yet — describe one above and start it.</div>';
+      </a>`).join('') : '<div class="ba-empty-small">No tasks yet — describe one above and start it.</div>');
 
-    const projectValue = model.selectedProjectId;
-    els.projectSelect.innerHTML = '<option value="">Choose a project</option>' + model.projects.map(project => `<option value="${escapeHtml(project.id)}" ${project.id === projectValue ? 'selected' : ''}>${escapeHtml(project.repoFullName)}</option>`).join('');
-    const providerValue = els.providerSelect.value;
-    els.providerSelect.innerHTML = model.providers.length ? model.providers.map((provider, index) => `<option value="${escapeHtml(provider.id)}" ${(String(provider.id) === String(providerValue) || (!providerValue && index === 0)) ? 'selected' : ''}>${escapeHtml(provider.label)}</option>`).join('') : '<option value="">No enabled provider</option>';
+    if (els.projectSelect) {
+      const projectValue = model.selectedProjectId;
+      els.projectSelect.innerHTML = '<option value="">Choose a project</option>' + model.projects.map(project => `<option value="${escapeHtml(project.id)}" ${project.id === projectValue ? 'selected' : ''}>${escapeHtml(project.repoFullName)}</option>`).join('');
+    }
+    if (els.providerSelect) {
+      const providerValue = els.providerSelect.value;
+      els.providerSelect.innerHTML = model.providers.length ? model.providers.map((provider, index) => `<option value="${escapeHtml(provider.id)}" ${(String(provider.id) === String(providerValue) || (!providerValue && index === 0)) ? 'selected' : ''}>${escapeHtml(provider.label)}</option>`).join('') : '<option value="">No enabled provider</option>';
+    }
 
-    els.start.disabled = !model.projects.length || !model.providers.length;
+    if (els.start) els.start.disabled = !model.projects.length || !model.providers.length;
   }
 
   async function loadProjectBranches(projectId, force) {
     const project = model.projects.find(item => item.id === projectId);
     if (!project) {
-      els.branchSelect.innerHTML = '<option value="">Select repository first</option>';
+      setHTML(els.branchSelect, '<option value="">Select repository first</option>');
       return;
     }
     const sameProject = model.branchProjectId === projectId;
-    const currentBranch = sameProject ? els.branchSelect.value : '';
+    const currentBranch = sameProject ? (els.branchSelect && els.branchSelect.value) : '';
     model.selectedProjectId = projectId;
     model.branchProjectId = projectId;
     renderState();
@@ -189,18 +209,19 @@
       renderBranchOptions(cached, selected);
       return;
     }
-    els.branchSelect.innerHTML = '<option>Loading branches…</option>';
+    setHTML(els.branchSelect, '<option>Loading branches…</option>');
     try {
       const data = await api(`${urls.branches}?repo=${encodeURIComponent(repo)}`);
       model.branchCache.set(repo, data.branches || []);
       renderBranchOptions(data.branches || [], project.preferredBaseBranch || data.defaultBranch);
     } catch (error) {
-      els.branchSelect.innerHTML = `<option value="${escapeHtml(project.preferredBaseBranch || project.defaultBranch)}">${escapeHtml(project.preferredBaseBranch || project.defaultBranch)}</option>`;
+      setHTML(els.branchSelect, `<option value="${escapeHtml(project.preferredBaseBranch || project.defaultBranch)}">${escapeHtml(project.preferredBaseBranch || project.defaultBranch)}</option>`);
       toast(error.message, 'error');
     }
   }
 
   function renderBranchOptions(branches, selected) {
+    if (!els.branchSelect) return;
     if (!branches.length) {
       els.branchSelect.innerHTML = `<option value="${escapeHtml(selected || 'main')}">${escapeHtml(selected || 'main')}</option>`;
       return;
@@ -209,15 +230,15 @@
   }
 
   async function startSession() {
-    const goal = els.goal.value.trim();
-    const projectId = els.projectSelect.value;
-    const sourceBranch = els.branchSelect.value;
-    const providerId = els.providerSelect.value;
+    const goal = els.goal ? els.goal.value.trim() : '';
+    const projectId = els.projectSelect ? els.projectSelect.value : '';
+    const sourceBranch = els.branchSelect ? els.branchSelect.value : '';
+    const providerId = els.providerSelect ? els.providerSelect.value : '';
     if (!projectId) return toast('Choose a repository project.', 'error');
     if (goal.length < 10) return toast('Describe the task in a little more detail.', 'error');
-    els.start.disabled = true;
-    const original = els.start.innerHTML;
-    els.start.innerHTML = '<span class="material-symbols-outlined">progress_activity</span>Queuing…';
+    if (els.start) els.start.disabled = true;
+    const original = els.start ? els.start.innerHTML : '';
+    if (els.start) els.start.innerHTML = '<span class="material-symbols-outlined">progress_activity</span>Queuing…';
     try {
       const data = await api(urls.sessions, { method: 'POST', body: { projectId, sourceBranch, providerId, goal } });
       // Open the dedicated session page (sessions are separate, uncluttered).
@@ -225,89 +246,88 @@
     } catch (error) {
       toast(error.message, 'error');
     } finally {
-      els.start.disabled = false;
-      els.start.innerHTML = original;
+      if (els.start) { els.start.disabled = false; els.start.innerHTML = original; }
     }
   }
 
   async function loadRepositories() {
-    els.repoResults.innerHTML = '<div class="ba-empty-small">Loading repositories…</div>';
-    els.repoConfig.hidden = true;
-    els.repoResults.hidden = false;
+    setHTML(els.repoResults, '<div class="ba-empty-small">Loading repositories…</div>');
+    setHidden(els.repoConfig, true);
+    setHidden(els.repoResults, false);
     try {
-      const q = els.repoSearch.value.trim();
+      const q = els.repoSearch ? els.repoSearch.value.trim() : '';
       const data = await api(`${urls.repositories}?per_page=100&q=${encodeURIComponent(q)}`);
       model.repositoryResults = data.repositories || [];
       renderRepositories();
     } catch (error) {
-      els.repoResults.innerHTML = `<div class="ba-empty-small">${escapeHtml(error.message)}</div>`;
+      setHTML(els.repoResults, `<div class="ba-empty-small">${escapeHtml(error.message)}</div>`);
     }
   }
 
   function renderRepositories() {
     const repos = model.repositoryResults;
-    els.repoResults.innerHTML = repos.length ? repos.map(repo => `
+    setHTML(els.repoResults, repos.length ? repos.map(repo => `
       <button class="ba-repo-result" type="button" data-repo-name="${escapeHtml(repo.fullName)}">
         <span class="ba-repo-icon"><span class="material-symbols-outlined">${repo.private ? 'lock' : 'folder_open'}</span></span>
         <span class="ba-repo-result-copy"><strong>${escapeHtml(repo.fullName)}</strong><p>${escapeHtml(repo.description || `Default branch: ${repo.defaultBranch}`)}</p></span>
         <span class="ba-repo-badges"><span class="ba-repo-badge">${repo.private ? 'Private' : 'Public'}</span>${repo.canPush ? '<span class="ba-repo-badge">Write</span>' : '<span class="ba-repo-badge">Read</span>'}</span>
-      </button>`).join('') : '<div class="ba-empty-small">No matching repositories were returned by GitHub.</div>';
+      </button>`).join('') : '<div class="ba-empty-small">No matching repositories were returned by GitHub.</div>');
   }
 
   async function selectRepository(fullName) {
     const repo = model.repositoryResults.find(item => item.fullName === fullName);
     if (!repo) return;
     model.selectedRepo = repo;
-    els.repoResults.hidden = true;
-    els.repoConfig.hidden = false;
-    els.selectedRepoName.textContent = repo.fullName;
-    els.repoBaseBranch.innerHTML = `<option>${escapeHtml(repo.defaultBranch)}</option>`;
+    setHidden(els.repoResults, true);
+    setHidden(els.repoConfig, false);
+    setText(els.selectedRepoName, repo.fullName);
+    setHTML(els.repoBaseBranch, `<option>${escapeHtml(repo.defaultBranch)}</option>`);
     try {
       const data = await api(`${urls.branches}?repo=${encodeURIComponent(repo.fullName)}`);
-      els.repoBaseBranch.innerHTML = (data.branches || []).map(branch => `<option value="${escapeHtml(branch.name)}" ${branch.name === repo.defaultBranch ? 'selected' : ''}>${escapeHtml(branch.name)}</option>`).join('');
+      setHTML(els.repoBaseBranch, (data.branches || []).map(branch => `<option value="${escapeHtml(branch.name)}" ${branch.name === repo.defaultBranch ? 'selected' : ''}>${escapeHtml(branch.name)}</option>`).join(''));
     } catch (error) { toast(error.message, 'error'); }
   }
 
   async function saveProject() {
     if (!model.selectedRepo) return;
-    els.saveProject.disabled = true;
+    if (els.saveProject) els.saveProject.disabled = true;
     try {
-      const data = await api(urls.projects, { method: 'POST', body: { repoFullName: model.selectedRepo.fullName, baseBranch: els.repoBaseBranch.value } });
-      els.dialog.close();
+      await api(urls.projects, { method: 'POST', body: { repoFullName: model.selectedRepo.fullName, baseBranch: els.repoBaseBranch ? els.repoBaseBranch.value : '' } });
+      if (els.dialog) els.dialog.close();
       await loadState();
       toast('Repository added.');
     } catch (error) { toast(error.message, 'error'); }
-    finally { els.saveProject.disabled = false; }
+    finally { if (els.saveProject) els.saveProject.disabled = false; }
   }
 
   function openRepositoryDialog() {
     model.selectedRepo = null;
-    els.repoConfig.hidden = true;
-    els.repoResults.hidden = false;
-    els.dialog.showModal();
+    setHidden(els.repoConfig, true);
+    setHidden(els.repoResults, false);
+    if (els.dialog) els.dialog.showModal();
     loadRepositories();
   }
 
-  // ---- events ----
-  els.addProject.addEventListener('click', openRepositoryDialog);
-  els.disconnect.addEventListener('click', async () => {
+  // ---- events (each guarded so one missing node never breaks the page) ----
+  on(els.addProject, 'click', openRepositoryDialog);
+  on(els.disconnect, 'click', async () => {
     if (!confirm('Disconnect GitHub? Running sessions may fail when they next access the repository.')) return;
     try { await api(urls.disconnect, { method: 'POST', body: {} }); window.location.reload(); } catch (error) { toast(error.message, 'error'); }
   });
-  els.projectList.addEventListener('click', event => {
+  on(els.projectList, 'click', event => {
     const button = event.target.closest('[data-project-id]');
     if (button) loadProjectBranches(button.dataset.projectId, false);
   });
-  els.projectSelect.addEventListener('change', () => loadProjectBranches(els.projectSelect.value, false));
-  els.start.addEventListener('click', startSession);
-  els.goal.addEventListener('keydown', event => { if ((event.metaKey || event.ctrlKey) && event.key === 'Enter') startSession(); });
-  els.dialog.querySelectorAll('[data-close-dialog]').forEach(button => button.addEventListener('click', () => els.dialog.close()));
-  els.repoRefresh.addEventListener('click', loadRepositories);
+  on(els.projectSelect, 'change', () => loadProjectBranches(els.projectSelect.value, false));
+  on(els.start, 'click', startSession);
+  on(els.goal, 'keydown', event => { if ((event.metaKey || event.ctrlKey) && event.key === 'Enter') startSession(); });
+  if (els.dialog) els.dialog.querySelectorAll('[data-close-dialog]').forEach(button => button.addEventListener('click', () => els.dialog.close()));
+  on(els.repoRefresh, 'click', loadRepositories);
   let searchTimer;
-  els.repoSearch.addEventListener('input', () => { clearTimeout(searchTimer); searchTimer = setTimeout(loadRepositories, 350); });
-  els.repoResults.addEventListener('click', event => { const button = event.target.closest('[data-repo-name]'); if (button) selectRepository(button.dataset.repoName); });
-  els.repoBack.addEventListener('click', () => { model.selectedRepo = null; els.repoConfig.hidden = true; els.repoResults.hidden = false; });
-  els.saveProject.addEventListener('click', saveProject);
+  on(els.repoSearch, 'input', () => { clearTimeout(searchTimer); searchTimer = setTimeout(loadRepositories, 350); });
+  on(els.repoResults, 'click', event => { const button = event.target.closest('[data-repo-name]'); if (button) selectRepository(button.dataset.repoName); });
+  on(els.repoBack, 'click', () => { model.selectedRepo = null; setHidden(els.repoConfig, true); setHidden(els.repoResults, false); });
+  on(els.saveProject, 'click', saveProject);
 
   // ---- boot ----
   loadState();

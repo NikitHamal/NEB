@@ -1,0 +1,112 @@
+{% extends 'background_agent/base.html' %}
+{% load static %}
+
+{% block title %}Session · Background Agent{% endblock %}
+
+{% block content %}
+<div id="background-agent-session"
+     class="ba-session-app"
+     data-session-id="{{ session_id }}"
+     data-detail-url="{% url 'web:background_agent_session_detail' session_id %}"
+     data-events-url="{% url 'web:background_agent_session_events' session_id %}"
+     data-message-url="{% url 'web:background_agent_session_message' session_id %}"
+     data-control-url="{% url 'web:background_agent_session_control' session_id %}"
+     data-action-url="{% url 'web:background_agent_session_action' session_id %}"
+     data-dashboard-url="{% url 'web:background_agent' %}"
+     data-login-url="{% url 'web:background_agent_login' %}">
+
+  <div class="ba-session-topbar">
+    <a class="ba-back-link" href="{% url 'web:background_agent' %}">
+      <span class="material-symbols-outlined">arrow_back</span> Background Agent
+    </a>
+    <div class="ba-session-topbar-meta">
+      <span id="bs-status-badge" class="ba-status-badge queued">Loading…</span>
+    </div>
+  </div>
+
+  <section class="ba-session-header">
+    <div class="ba-detail-title-wrap">
+      <div id="bs-status-icon" class="ba-status-icon"><span class="material-symbols-outlined">progress_activity</span></div>
+      <div class="ba-detail-title-text">
+        <div class="ba-detail-meta"><span id="bs-detail-repo"></span><span class="ba-dot">•</span><span id="bs-detail-branch"></span></div>
+        <h1 id="bs-detail-title">{{ session_title }}</h1>
+      </div>
+    </div>
+    <div class="ba-detail-actions">
+      <button id="bs-pause" class="ba-btn ba-btn-ghost" type="button" hidden><span class="material-symbols-outlined">pause</span>Pause</button>
+      <button id="bs-resume" class="ba-btn ba-btn-ghost" type="button" hidden><span class="material-symbols-outlined">play_arrow</span>Resume</button>
+      <button id="bs-stop" class="ba-icon-btn ba-danger" type="button" title="Stop session" aria-label="Stop session"><span class="material-symbols-outlined">stop_circle</span></button>
+      <button id="bs-refresh" class="ba-icon-btn" type="button" title="Refresh" aria-label="Refresh"><span class="material-symbols-outlined">refresh</span></button>
+    </div>
+  </section>
+
+  <div class="ba-progress-shell">
+    <div class="ba-progress-copy">
+      <span id="bs-progress-label" class="ba-progress-label">Queued</span>
+      <strong id="bs-progress-value">0%</strong>
+    </div>
+    <div class="ba-progress-track"><div id="bs-progress-bar" class="ba-progress-bar"></div></div>
+    <div class="ba-progress-sub">
+      <span id="bs-provider-label"></span>
+      <span id="bs-iteration-label"></span>
+      <span id="bs-updated-label"></span>
+    </div>
+  </div>
+
+  <div class="ba-tabs" role="tablist">
+    <button class="ba-tab active" data-tab="activity" type="button"><span class="material-symbols-outlined">forum</span>Agent</button>
+    <button class="ba-tab" data-tab="files" type="button"><span class="material-symbols-outlined">folder_open</span>Files <span id="bs-file-count" class="ba-tab-count">0</span></button>
+    <button class="ba-tab" data-tab="diff" type="button"><span class="material-symbols-outlined">difference</span>Diff</button>
+    <button class="ba-tab" data-tab="delivery" type="button"><span class="material-symbols-outlined">publish</span>Deliver</button>
+  </div>
+
+  <div class="ba-tab-panels">
+    <div id="bs-tab-activity" class="ba-tab-panel active">
+      <div id="bs-conversation" class="ba-conversation"></div>
+      <div class="ba-interrupt-box">
+        <textarea id="bs-followup" rows="2" placeholder="Interrupt, refine, or add a follow-up…  (⌘/Ctrl + Enter to send)"></textarea>
+        <button id="bs-send-followup" class="ba-icon-btn ba-send" type="button" title="Send follow-up" aria-label="Send follow-up"><span class="material-symbols-outlined">arrow_upward</span></button>
+      </div>
+    </div>
+
+    <div id="bs-tab-files" class="ba-tab-panel">
+      <div id="bs-changed-files" class="ba-changed-files"></div>
+    </div>
+
+    <div id="bs-tab-diff" class="ba-tab-panel">
+      <div class="ba-code-toolbar"><span>Unified diff</span><button id="bs-copy-diff" class="ba-btn ba-btn-ghost" type="button"><span class="material-symbols-outlined">content_copy</span>Copy</button></div>
+      <pre id="bs-diff" class="ba-diff"><code>No diff available yet.</code></pre>
+    </div>
+
+    <div id="bs-tab-delivery" class="ba-tab-panel">
+      <div class="ba-delivery-grid">
+        <article class="ba-delivery-card">
+          <span class="material-symbols-outlined">archive</span>
+          <h3>Download changes</h3>
+          <p>A ZIP of only the changed files, a manifest, and the full patch.</p>
+          <div id="bs-download-actions" class="ba-delivery-actions"></div>
+        </article>
+        <article class="ba-delivery-card">
+          <span class="material-symbols-outlined">cloud_upload</span>
+          <h3>Push task branch</h3>
+          <p>Commit the workspace and push only the dedicated task branch.</p>
+          <button id="bs-push" class="ba-btn ba-btn-secondary" type="button">Push to GitHub</button>
+        </article>
+        <article class="ba-delivery-card ba-delivery-primary">
+          <span class="material-symbols-outlined">merge</span>
+          <h3>Open pull request</h3>
+          <p>Push the branch and open a pull request against the base branch.</p>
+          <button id="bs-open-pr" class="ba-btn ba-btn-primary" type="button">Open pull request</button>
+        </article>
+      </div>
+      <div id="bs-action-history" class="ba-action-history"></div>
+    </div>
+  </div>
+
+  <div id="bs-toast-region" class="ba-toast-region" aria-live="polite"></div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/background-agent-session.js' %}"></script>
+{% endblock %}
