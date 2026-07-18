@@ -1,112 +1,95 @@
 {% extends 'background_agent/base.html' %}
 {% load static %}
 
-{% block title %}Session · Background Agent{% endblock %}
+{% block title %}{{ session_title }}{% endblock %}
+{% block topbar_center %}<div class="ba-session-breadcrumb"><span id="bs-repo-short"></span><span class="material-symbols-outlined">chevron_right</span><strong id="bs-branch-short"></strong></div>{% endblock %}
 
 {% block content %}
 <div id="background-agent-session"
-     class="ba-session-app"
+     class="ba-session-shell"
      data-session-id="{{ session_id }}"
      data-detail-url="{% url 'web:background_agent_session_detail' session_id %}"
      data-events-url="{% url 'web:background_agent_session_events' session_id %}"
      data-message-url="{% url 'web:background_agent_session_message' session_id %}"
+     data-files-url="{% url 'web:background_agent_session_files' session_id %}"
+     data-file-url="{% url 'web:background_agent_session_file' session_id %}"
      data-control-url="{% url 'web:background_agent_session_control' session_id %}"
      data-action-url="{% url 'web:background_agent_session_action' session_id %}"
-     data-dashboard-url="{% url 'web:background_agent' %}"
-     data-login-url="{% url 'web:background_agent_login' %}">
+     data-dashboard-url="{% url 'web:background_agent' %}">
 
-  <div class="ba-session-topbar">
-    <a class="ba-back-link" href="{% url 'web:background_agent' %}">
-      <span class="material-symbols-outlined">arrow_back</span> Background Agent
-    </a>
-    <div class="ba-session-topbar-meta">
-      <span id="bs-status-badge" class="ba-status-badge queued">Loading…</span>
+  <header class="ba-session-commandbar">
+    <div class="ba-session-title-block">
+      <a class="ba-icon-button ba-icon-button-quiet" href="{% url 'web:background_agent' %}" aria-label="Back to dashboard"><span class="material-symbols-outlined">arrow_back</span></a>
+      <div><span id="bs-status-badge" class="ba-status-badge queued">Loading</span><h1 id="bs-title">{{ session_title }}</h1></div>
     </div>
-  </div>
+    <div class="ba-session-actions">
+      <button id="bs-pause" class="ba-button ba-button-secondary" type="button" hidden><span class="material-symbols-outlined">pause</span>Pause</button>
+      <button id="bs-resume" class="ba-button ba-button-secondary" type="button" hidden><span class="material-symbols-outlined">play_arrow</span>Resume</button>
+      <button id="bs-stop" class="ba-icon-button ba-danger-button" type="button" title="Stop task" aria-label="Stop task"><span class="material-symbols-outlined">stop_circle</span></button>
+      <button id="bs-refresh" class="ba-icon-button" type="button" title="Refresh" aria-label="Refresh"><span class="material-symbols-outlined">refresh</span></button>
+    </div>
+  </header>
 
-  <section class="ba-session-header">
-    <div class="ba-detail-title-wrap">
-      <div id="bs-status-icon" class="ba-status-icon"><span class="material-symbols-outlined">progress_activity</span></div>
-      <div class="ba-detail-title-text">
-        <div class="ba-detail-meta"><span id="bs-detail-repo"></span><span class="ba-dot">•</span><span id="bs-detail-branch"></span></div>
-        <h1 id="bs-detail-title">{{ session_title }}</h1>
+  <div class="ba-session-workspace">
+    <section class="ba-agent-pane">
+      <div class="ba-run-overview">
+        <div class="ba-run-progress-row"><div><strong id="bs-progress-label">Preparing</strong><span id="bs-updated-label"></span></div><span id="bs-progress-value">0%</span></div>
+        <div class="ba-progress-track"><span id="bs-progress-bar"></span></div>
+        <div class="ba-run-meta">
+          <span><span class="material-symbols-outlined">memory</span>Qwen 3.7 Plus</span>
+          <span id="bs-iteration-label"><span class="material-symbols-outlined">repeat</span>Iteration 0</span>
+          <div class="ba-context-meter" title="Estimated model context usage"><span>Context</span><div><i id="bs-context-bar"></i></div><strong id="bs-context-value">0%</strong></div>
+        </div>
       </div>
-    </div>
-    <div class="ba-detail-actions">
-      <button id="bs-pause" class="ba-btn ba-btn-ghost" type="button" hidden><span class="material-symbols-outlined">pause</span>Pause</button>
-      <button id="bs-resume" class="ba-btn ba-btn-ghost" type="button" hidden><span class="material-symbols-outlined">play_arrow</span>Resume</button>
-      <button id="bs-stop" class="ba-icon-btn ba-danger" type="button" title="Stop session" aria-label="Stop session"><span class="material-symbols-outlined">stop_circle</span></button>
-      <button id="bs-refresh" class="ba-icon-btn" type="button" title="Refresh" aria-label="Refresh"><span class="material-symbols-outlined">refresh</span></button>
-    </div>
-  </section>
 
-  <div class="ba-progress-shell">
-    <div class="ba-progress-copy">
-      <span id="bs-progress-label" class="ba-progress-label">Queued</span>
-      <strong id="bs-progress-value">0%</strong>
-    </div>
-    <div class="ba-progress-track"><div id="bs-progress-bar" class="ba-progress-bar"></div></div>
-    <div class="ba-progress-sub">
-      <span id="bs-provider-label"></span>
-      <span id="bs-iteration-label"></span>
-      <span id="bs-updated-label"></span>
-    </div>
-  </div>
+      <div id="bs-conversation" class="ba-conversation" aria-live="polite"></div>
 
-  <div class="ba-tabs" role="tablist">
-    <button class="ba-tab active" data-tab="activity" type="button"><span class="material-symbols-outlined">forum</span>Agent</button>
-    <button class="ba-tab" data-tab="files" type="button"><span class="material-symbols-outlined">folder_open</span>Files <span id="bs-file-count" class="ba-tab-count">0</span></button>
-    <button class="ba-tab" data-tab="diff" type="button"><span class="material-symbols-outlined">difference</span>Diff</button>
-    <button class="ba-tab" data-tab="delivery" type="button"><span class="material-symbols-outlined">publish</span>Deliver</button>
-  </div>
-
-  <div class="ba-tab-panels">
-    <div id="bs-tab-activity" class="ba-tab-panel active">
-      <div id="bs-conversation" class="ba-conversation"></div>
-      <div class="ba-interrupt-box">
-        <textarea id="bs-followup" rows="2" placeholder="Interrupt, refine, or add a follow-up…  (⌘/Ctrl + Enter to send)"></textarea>
-        <button id="bs-send-followup" class="ba-icon-btn ba-send" type="button" title="Send follow-up" aria-label="Send follow-up"><span class="material-symbols-outlined">arrow_upward</span></button>
+      <div class="ba-followup-wrap" id="bs-followup-wrap">
+        <div id="bs-attachment-list" class="ba-attachment-list" hidden></div>
+        <textarea id="bs-followup" rows="2" maxlength="50000" placeholder="Give feedback, add context, or attach a reference…"></textarea>
+        <input id="bs-file-input" type="file" multiple hidden accept="image/*,audio/*,video/*,.pdf,.txt,.md,.markdown,.json,.jsonl,.yaml,.yml,.csv,.tsv,.doc,.docx,.py,.js,.jsx,.ts,.tsx,.html,.css,.java,.kt,.go,.rs,.c,.cpp,.h,.hpp,.xml,.toml,.ini,.log,.sql,.sh,.ps1">
+        <div class="ba-followup-toolbar">
+          <button id="bs-attach" class="ba-tool-button" type="button"><span class="material-symbols-outlined">attach_file</span></button>
+          <span>⌘/Ctrl + Enter to send</span>
+          <button id="bs-send" class="ba-send-button" type="button" aria-label="Send follow-up"><span class="material-symbols-outlined">arrow_upward</span></button>
+        </div>
       </div>
-    </div>
+    </section>
 
-    <div id="bs-tab-files" class="ba-tab-panel">
-      <div id="bs-changed-files" class="ba-changed-files"></div>
-    </div>
+    <aside class="ba-review-pane">
+      <nav class="ba-review-tabs" role="tablist">
+        <button class="active" data-review-tab="changes" type="button">Changes <span id="bs-file-count">0</span></button>
+        <button data-review-tab="files" type="button">Files</button>
+        <button data-review-tab="deliver" type="button">Deliver</button>
+      </nav>
 
-    <div id="bs-tab-diff" class="ba-tab-panel">
-      <div class="ba-code-toolbar"><span>Unified diff</span><button id="bs-copy-diff" class="ba-btn ba-btn-ghost" type="button"><span class="material-symbols-outlined">content_copy</span>Copy</button></div>
-      <pre id="bs-diff" class="ba-diff"><code>No diff available yet.</code></pre>
-    </div>
+      <section id="bs-panel-changes" class="ba-review-panel active">
+        <div class="ba-review-toolbar"><div><strong>Working changes</strong><span id="bs-diff-summary">No changes yet</span></div><button id="bs-copy-diff" class="ba-icon-button ba-icon-button-quiet" type="button" title="Copy full diff"><span class="material-symbols-outlined">content_copy</span></button></div>
+        <div id="bs-stacked-diff" class="ba-stacked-diff"></div>
+      </section>
 
-    <div id="bs-tab-delivery" class="ba-tab-panel">
-      <div class="ba-delivery-grid">
-        <article class="ba-delivery-card">
-          <span class="material-symbols-outlined">archive</span>
-          <h3>Download changes</h3>
-          <p>A ZIP of only the changed files, a manifest, and the full patch.</p>
-          <div id="bs-download-actions" class="ba-delivery-actions"></div>
-        </article>
-        <article class="ba-delivery-card">
-          <span class="material-symbols-outlined">cloud_upload</span>
-          <h3>Push task branch</h3>
-          <p>Commit the workspace and push only the dedicated task branch.</p>
-          <button id="bs-push" class="ba-btn ba-btn-secondary" type="button">Push to GitHub</button>
-        </article>
-        <article class="ba-delivery-card ba-delivery-primary">
-          <span class="material-symbols-outlined">merge</span>
-          <h3>Open pull request</h3>
-          <p>Push the branch and open a pull request against the base branch.</p>
-          <button id="bs-open-pr" class="ba-btn ba-btn-primary" type="button">Open pull request</button>
-        </article>
-      </div>
-      <div id="bs-action-history" class="ba-action-history"></div>
-    </div>
+      <section id="bs-panel-files" class="ba-review-panel">
+        <div class="ba-file-workbench">
+          <div class="ba-file-browser"><div class="ba-file-browser-head"><strong>Repository</strong><button id="bs-refresh-files" class="ba-icon-button ba-icon-button-quiet" type="button" title="Refresh files"><span class="material-symbols-outlined">refresh</span></button></div><input id="bs-file-search" class="ba-file-search" type="search" placeholder="Find a file"><div id="bs-file-list" class="ba-file-list"></div></div>
+          <div class="ba-file-viewer"><header><div><span id="bs-viewer-icon" class="material-symbols-outlined">description</span><strong id="bs-viewer-name">Select a file</strong></div><span id="bs-viewer-meta"></span></header><div id="bs-viewer-content" class="ba-viewer-content"><div class="ba-empty-view"><span class="material-symbols-outlined">draft</span><p>Select a repository file or message attachment to preview it.</p></div></div></div>
+        </div>
+      </section>
+
+      <section id="bs-panel-deliver" class="ba-review-panel">
+        <div class="ba-deliver-page">
+          <div class="ba-deliver-intro"><span class="ba-eyebrow">Review and ship</span><h2>Deliver the finished work</h2><p>Download only changed files, push the isolated branch, or open a pull request.</p></div>
+          <div class="ba-delivery-actions-grid">
+            <article><span class="material-symbols-outlined">folder_zip</span><div><h3>Changed files</h3><p>Production-ready ZIP and patch.</p></div><div id="bs-download-actions"></div></article>
+            <article><span class="material-symbols-outlined">cloud_upload</span><div><h3>Push branch</h3><p>Commit and push the task branch.</p></div><button id="bs-push" class="ba-button ba-button-secondary" type="button">Push</button></article>
+            <article><span class="material-symbols-outlined">merge</span><div><h3>Pull request</h3><p>Open a PR against the source branch.</p></div><button id="bs-open-pr" class="ba-button ba-button-primary" type="button">Open PR</button></article>
+          </div>
+          <div class="ba-test-summary"><h3>Validation</h3><div id="bs-test-summary">No validation has been recorded yet.</div></div>
+          <div id="bs-action-history" class="ba-action-history"></div>
+        </div>
+      </section>
+    </aside>
   </div>
-
-  <div id="bs-toast-region" class="ba-toast-region" aria-live="polite"></div>
 </div>
 {% endblock %}
 
-{% block extra_js %}
-<script nonce="{{ csp_nonce }}" src="{% static 'web/js/background-agent-session.js' %}"></script>
-{% endblock %}
+{% block extra_js %}<script nonce="{{ csp_nonce }}" src="{% static 'web/js/background-agent-session.js' %}"></script>{% endblock %}
