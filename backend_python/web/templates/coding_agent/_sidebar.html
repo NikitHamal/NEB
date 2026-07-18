@@ -1,0 +1,68 @@
+<aside class="agent-sidebar">
+  <div class="agent-sidebar-top">
+    <div class="agent-workspace-selector">
+      <div class="agent-workspace-avatar">N</div>
+      <span class="agent-workspace-name">{{ admin_user.username|default:"Nikit" }}'s Workspace</span>
+      <span class="material-symbols-outlined agent-workspace-arrow">unfold_more</span>
+      <a href="{% url 'coding_agent:project_new' %}" class="agent-workspace-add" title="New project / repo">+</a>
+    </div>
+
+    <nav class="agent-nav-menu">
+      <a href="{% url 'coding_agent:project_list' %}" class="agent-nav-item {% if active_tab == 'projects' and not request.resolver_match.url_name == 'session_detail' %}active{% endif %}">
+        <span class="material-symbols-outlined">home</span>
+        <span>Home</span>
+      </a>
+      <a href="{% url 'coding_agent:session_list' %}" class="agent-nav-item {% if active_tab == 'sessions' %}active{% endif %}">
+        <span class="material-symbols-outlined">subtitles</span>
+        <span>Sessions</span>
+      </a>
+      <a href="{% url 'coding_agent:agent_list' %}" class="agent-nav-item {% if active_tab == 'agents' %}active{% endif %}">
+        <span class="material-symbols-outlined">smart_toy</span>
+        <span>Agents</span>
+      </a>
+    </nav>
+
+    <div class="agent-recent-section">
+      <div class="agent-recent-header">
+        <span>Recent</span>
+        <div class="agent-recent-actions">
+          <span class="material-symbols-outlined">search</span>
+          <span class="material-symbols-outlined">filter_list</span>
+        </div>
+      </div>
+      <div class="agent-recent-list">
+        {% if sessions_recent %}
+          {% for s in sessions_recent %}
+          <a href="{% url 'coding_agent:session_detail' s.id %}" class="agent-recent-item {% if session and session.id == s.id %}active{% endif %}">
+            <div class="agent-recent-item-title">{{ s.title|default:s.task|truncatechars:32 }}</div>
+            <div class="agent-recent-item-meta">
+              <span class="agent-time">18h</span>
+              <span class="material-symbols-outlined agent-branch-icon">call_split</span>
+              <span class="agent-diff-plus">+4,827</span>
+              <span class="agent-diff-minus">-1</span>
+            </div>
+          </a>
+          {% endfor %}
+        {% else %}
+          <div class="agent-recent-empty">No recent sessions</div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <div class="agent-sidebar-bottom">
+    <a href="{% url 'web:settings' %}" class="agent-sidebar-link">
+      <span class="material-symbols-outlined">settings</span>
+      <span>Settings</span>
+    </a>
+    <a href="https://github.com/NikitHamal/NEB" target="_blank" rel="noopener" class="agent-sidebar-link">
+      <span class="material-symbols-outlined">help</span>
+      <span>Help</span>
+    </a>
+    <a href="{% url 'coding_agent:project_list' %}" class="agent-sidebar-link">
+      <span class="material-symbols-outlined">language</span>
+      <span>Resources</span>
+      <span class="agent-dot-indicator"></span>
+    </a>
+  </div>
+</aside>

@@ -1,0 +1,6 @@
+{% load static %}
+{% if request.user.is_staff %}
+<div id="agent_modal_root"></div>
+<div id="agent_toast_root" aria-live="polite"></div>
+<script src="{% static 'web/js/coding-agent.js' %}" nonce="{{ csp_nonce }}" defer></script>
+{% endif %}

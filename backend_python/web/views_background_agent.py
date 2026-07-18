@@ -144,7 +144,6 @@ def background_agent_login(request):
     })
 
 
-@require_POST
 def background_agent_logout(request):
     logout_bg_admin(request)
     return redirect('web:background_agent_login')

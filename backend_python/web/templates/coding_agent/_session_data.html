@@ -1,0 +1,8 @@
+{% load static %}
+<div id="agent_session_data"
+     data-session-id="{{ session.id }}"
+     data-initial-messages="{{ messages_initial|default:'[]'|escape }}"
+     data-initial-events="{{ events_initial|default:'[]'|escape }}"
+     data-initial-files="{{ files_initial|default:'[]'|escape }}"
+     data-base-diff=""
+></div>

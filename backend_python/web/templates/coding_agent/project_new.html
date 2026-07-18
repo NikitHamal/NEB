@@ -1,0 +1,82 @@
+{% extends "admin_panel/base.html" %}
+{% load static %}
+{% block title %}Connect GitHub Repository | Background Coding Agent{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'web/css/coding-agent.css' %}">
+{% endblock %}
+
+{% block content %}
+{% include "coding_agent/_partials.html" %}
+<div class="agent-layout" data-page="project-new">
+  {% include "coding_agent/_sidebar.html" %}
+
+  <main class="agent-main-content">
+    <header class="agent-top-header">
+      <div class="agent-header-left">
+        <a class="agent-back-btn" href="{% url 'coding_agent:project_list' %}">
+          <span class="material-symbols-outlined">chevron_left</span>
+        </a>
+        <h1>Connect GitHub Repository</h1>
+        <p class="agent-subtitle">Link a repository via GitHub OAuth so NEB Agent can create branches, commit code, and submit pull requests.</p>
+      </div>
+    </header>
+
+    <div class="agent-container">
+      {% if not request.session.coding_agent_gh_access_token %}
+      <div class="agent-prompt-card">
+        <h3>Step 1 — Authorize GitHub Access</h3>
+        <p class="agent-hint">Click below to connect your GitHub account. Scope <code>repo</code> allows creating feature branches and opening pull requests.</p>
+        <a href="{% url 'coding_agent:github_oauth_start' %}" class="onboarding-action-btn grey" style="display:inline-flex; width:auto; padding:10px 20px; gap:8px;">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.6.5.5 5.6.5 12c0 5.1 3.3 9.4 7.8 11 .6.1.8-.2.8-.6v-2.2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.5-.3-5.2-1.3-5.2-5.6 0-1.2.4-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2 1-.3 2-.4 3.1-.4 1 0 2 .1 3.1.4 2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.9 1.2 3.1 0 4.3-2.7 5.3-5.2 5.6.4.4.8 1.1.8 2.2v3.3c0 .4.2.7.8.6 4.5-1.6 7.8-5.9 7.8-11C23.5 5.6 18.4.5 12 .5z"/></svg>
+          Connect GitHub Account
+        </a>
+      </div>
+      {% else %}
+      <div class="agent-prompt-card">
+        <h3>Step 2 — Select Repository</h3>
+        <p class="agent-hint">Connected as <strong>@{{ request.session.coding_agent_gh_login|default:'your GitHub account' }}</strong></p>
+
+        <div class="agent-reposearch">
+          <span class="material-symbols-outlined">search</span>
+          <input type="search" id="agent_repo_search" placeholder="Filter repositories (e.g. NEB)" autocomplete="off">
+          <button class="agent-btn-secondary" id="agent_repo_refresh" type="button">Refresh</button>
+        </div>
+
+        <div id="agent_repo_results" class="agent-repo-list" data-loading="true">
+          <div class="file-tree-loading">Loading your repositories...</div>
+        </div>
+      </div>
+
+      <div class="agent-prompt-card" style="margin-top:16px;">
+        <h3>Step 3 — Configure Engine Options</h3>
+        <div class="agent-form-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:12px;">
+          <label class="agent-form-field">
+            <span class="agent-form-label">Provider</span>
+            <select id="agent_project_provider" style="background:#18181c; border:1px solid #2e2e34; color:#e4e4e7; padding:8px; border-radius:6px;">
+              <option value="qwen" selected>Qwen (qwen3.7-plus)</option>
+              <option value="ai4bharat">AI4Bharat Arena</option>
+              <option value="inception">Inception Labs</option>
+              <option value="deepai">DeepAI</option>
+            </select>
+          </label>
+          <label class="agent-form-field">
+            <span class="agent-form-label">Model</span>
+            <input type="text" id="agent_project_model" value="qwen3.7-plus" style="background:#18181c; border:1px solid #2e2e34; color:#e4e4e7; padding:8px; border-radius:6px;">
+          </label>
+        </div>
+        <div class="agent-form-actions" style="margin-top:16px;">
+          <button class="onboarding-action-btn orange" id="agent_project_create_btn" disabled style="width:auto; padding:10px 24px;">
+            Connect Repository
+          </button>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </main>
+</div>
+
+<script nonce="{{ csp_nonce }}">
+window.AGENT_GH_CONNECTED = {% if request.session.coding_agent_gh_access_token %}true{% else %}false{% endif %};
+</script>
+{% endblock %}

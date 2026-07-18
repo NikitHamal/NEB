@@ -1,0 +1,160 @@
+{% extends "admin_panel/base.html" %}
+{% load static %}
+{% block title %}Background Coding Agent | Tembo AI Surface{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'web/css/coding-agent.css' %}">
+{% endblock %}
+
+{% block content %}
+{% include "coding_agent/_partials.html" %}
+<div class="agent-layout">
+  {% include "coding_agent/_sidebar.html" %}
+
+  <main class="agent-main-content">
+    <div class="agent-home-container">
+      <div class="agent-banner-alert warning">
+        <div class="agent-banner-left">
+          <span class="material-symbols-outlined icon-alert">warning</span>
+          <span><strong>Active Engine:</strong> Qwen 3.7 Plus is powered by high-capacity reverse proxy. Ready for background tasks.</span>
+        </div>
+        <a href="{% url 'coding_agent:agent_list' %}" class="agent-banner-btn">Manage Agents</a>
+      </div>
+
+      <div class="agent-prompt-card">
+        <form id="agent_home_session_form" autocomplete="off">
+          <textarea id="agent_home_task_input" placeholder="Plan a new session for NEB Agent to handle... (use &quot;@&quot; for files or &quot;/&quot; for tools)" rows="4" required></textarea>
+
+          <div id="agent_home_attachments_preview" class="agent-attachment-preview-row" hidden></div>
+
+          <div class="agent-prompt-toolbar">
+            <div class="agent-model-selector-wrapper">
+              <button type="button" class="agent-model-pill" id="agent_model_dropdown_btn">
+                <span class="material-symbols-outlined agent-model-icon">terminal</span>
+                <span id="agent_selected_model_label">OpenCode: Qwen 3.7 Plus</span>
+                <span class="material-symbols-outlined dropdown-arrow">unfold_more</span>
+              </button>
+
+              <div class="agent-model-popover" id="agent_model_popover" hidden>
+                <div class="agent-model-search-box">
+                  <span class="material-symbols-outlined">search</span>
+                  <input type="text" id="agent_model_search_input" placeholder="Search agents...">
+                </div>
+                <div class="agent-model-list">
+                  <div class="agent-model-option active" data-provider="qwen" data-model="qwen3.7-plus">
+                    <span class="material-symbols-outlined opt-check">check</span>
+                    <span class="material-symbols-outlined opt-icon">terminal</span>
+                    <div class="opt-text">
+                      <div class="opt-name">OpenCode</div>
+                      <div class="opt-sub">Qwen 3.7 Plus (Default)</div>
+                    </div>
+                  </div>
+                  <div class="agent-model-option" data-provider="ai4bharat" data-model="gemini-3.1-flash-lite-preview">
+                    <span class="material-symbols-outlined opt-check"></span>
+                    <span class="material-symbols-outlined opt-icon">smart_toy</span>
+                    <div class="opt-text">
+                      <div class="opt-name">Pi</div>
+                      <div class="opt-sub">Indic AI Arena</div>
+                    </div>
+                  </div>
+                  <div class="agent-model-option" data-provider="inception" data-model="mercury-2">
+                    <span class="material-symbols-outlined opt-check"></span>
+                    <span class="material-symbols-outlined opt-icon">code</span>
+                    <div class="opt-text">
+                      <div class="opt-name">Claude Code</div>
+                      <div class="opt-sub">Mercury 2 Engine</div>
+                    </div>
+                  </div>
+                  <div class="agent-model-option" data-provider="deepai" data-model="gpt-4.1-nano">
+                    <span class="material-symbols-outlined opt-check"></span>
+                    <span class="material-symbols-outlined opt-icon">memory</span>
+                    <div class="opt-text">
+                      <div class="opt-name">Codex</div>
+                      <div class="opt-sub">DeepAI Speed Tier</div>
+                    </div>
+                  </div>
+                  <div class="agent-model-option" data-provider="custom" data-model="gpt-4o-mini">
+                    <span class="material-symbols-outlined opt-check"></span>
+                    <span class="material-symbols-outlined opt-icon">desktop_windows</span>
+                    <div class="opt-text">
+                      <div class="opt-name">Cursor</div>
+                      <div class="opt-sub">OpenAI Compatible</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="agent-prompt-actions">
+              <input type="file" id="agent_home_file_input" multiple hidden>
+              <button type="button" class="agent-action-btn icon-only" id="agent_home_attach_btn" title="Attach image or file">
+                <span class="material-symbols-outlined">add</span>
+              </button>
+              <button type="submit" class="agent-action-btn submit-btn" id="agent_home_submit_btn" title="Start Session">
+                <span class="material-symbols-outlined">arrow_forward</span>
+              </button>
+            </div>
+          </div>
+        </form>
+
+        <div class="agent-prompt-footer">
+          <div class="agent-repo-picker">
+            <span class="material-symbols-outlined repo-icon">code</span>
+            <select id="agent_home_project_select">
+              {% for p in projects %}
+              <option value="{{ p.id }}" {% if forloop.first %}selected{% endif %}>{{ p.repo_full_name }}</option>
+              {% empty %}
+              <option value="">No GitHub Repos Connected</option>
+              {% endfor %}
+            </select>
+            <span class="material-symbols-outlined branch-icon">call_split</span>
+            <select id="agent_home_branch_select">
+              <option value="main">main</option>
+            </select>
+          </div>
+
+          <div class="agent-tools-connect">
+            <span>Connect your tools:</span>
+            <a href="{% url 'coding_agent:project_new' %}" class="tool-badge">
+              <span class="material-symbols-outlined">code</span> GitHub
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="agent-onboarding-section">
+        <div class="onboarding-head">
+          <h2>Get Started</h2>
+          <p>Start your journey with NEB Agent by completing your onboarding</p>
+        </div>
+
+        <div class="onboarding-cards-grid">
+          <div class="onboarding-card">
+            <span class="close-card-btn">&times;</span>
+            <div class="onboarding-icon">👋</div>
+            <h3>Welcome Nikit!</h3>
+            <p>Explore the platform by discovering how its capabilities will be valuable to your team and codebase.</p>
+            <a href="https://github.com/NikitHamal/NEB" target="_blank" rel="noopener" class="onboarding-action-btn orange">Read Docs</a>
+          </div>
+
+          <div class="onboarding-card">
+            <span class="close-card-btn">&times;</span>
+            <div class="onboarding-icon"><span class="material-symbols-outlined">code</span></div>
+            <h3>Link your GitHub account</h3>
+            <p>Log in with GitHub so pull requests are authored by you instead of a bot.</p>
+            <a href="{% url 'coding_agent:github_oauth_start' %}" class="onboarding-action-btn grey">Log in with GitHub</a>
+          </div>
+
+          <div class="onboarding-card">
+            <span class="close-card-btn">&times;</span>
+            <div class="onboarding-icon"><span class="material-symbols-outlined">group_add</span></div>
+            <h3>Invite teammates</h3>
+            <p>Collaborate with your team members to improve code quality directly from NEB Agent.</p>
+            <a href="{% url 'web:admin_users' %}" class="onboarding-action-btn grey">Invite teammates</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+{% endblock %}

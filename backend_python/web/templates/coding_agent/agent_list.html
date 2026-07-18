@@ -1,0 +1,94 @@
+{% extends "admin_panel/base.html" %}
+{% load static %}
+{% block title %}Agents & Models | Background Coding Agent{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'web/css/coding-agent.css' %}">
+{% endblock %}
+
+{% block content %}
+{% include "coding_agent/_partials.html" %}
+<div class="agent-layout">
+  {% include "coding_agent/_sidebar.html" %}
+
+  <main class="agent-main-content">
+    <header class="agent-top-header">
+      <div class="agent-header-left">
+        <h1>Agents & Models</h1>
+        <p class="agent-subtitle">Configure autonomous agent models, prompt templates, and execution capabilities.</p>
+      </div>
+    </header>
+
+    <div class="agent-container">
+      <div class="agent-card primary-agent-card">
+        <div class="agent-card-header">
+          <div class="agent-badge-pill active">
+            <span class="material-symbols-outlined">star</span> Primary Active Model
+          </div>
+          <span class="agent-model-tag">Default Engine</span>
+        </div>
+        <div class="agent-info-grid">
+          <div class="agent-info-item">
+            <label>Provider</label>
+            <div class="agent-val">Qwen (chat.qwen.ai)</div>
+          </div>
+          <div class="agent-info-item">
+            <label>Selected Model</label>
+            <div class="agent-val highlight">Qwen 3.7 Plus (qwen3.7-plus)</div>
+          </div>
+          <div class="agent-info-item">
+            <label>Capabilities</label>
+            <div class="agent-val">Vision, File Uploads, Long Context, Tool Execution</div>
+          </div>
+          <div class="agent-info-item">
+            <label>Status</label>
+            <div class="agent-val green"><span class="agent-status-dot online"></span> Operational</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="agent-section-header">
+        <h2>Available Agent Engines</h2>
+      </div>
+
+      <div class="agent-grid">
+        <div class="agent-grid-card active">
+          <div class="agent-icon-box"><span class="material-symbols-outlined">terminal</span></div>
+          <h3>OpenCode (Qwen 3.7 Plus)</h3>
+          <p>High-capacity reasoning and coding model optimized for deep repo analysis, file manipulation, and git workflows.</p>
+          <div class="agent-card-footer">
+            <span class="status-badge selected">Active</span>
+          </div>
+        </div>
+
+        <div class="agent-grid-card">
+          <div class="agent-icon-box"><span class="material-symbols-outlined">smart_toy</span></div>
+          <h3>Pi (Indic / AI4Bharat)</h3>
+          <p>Multi-lingual conversational and code translation assistant.</p>
+          <div class="agent-card-footer">
+            <span class="status-badge">Available</span>
+          </div>
+        </div>
+
+        <div class="agent-grid-card">
+          <div class="agent-icon-box"><span class="material-symbols-outlined">code</span></div>
+          <h3>Claude Code Adapter</h3>
+          <p>Iterative code generation and unit test synthesis adapter.</p>
+          <div class="agent-card-footer">
+            <span class="status-badge">Available</span>
+          </div>
+        </div>
+
+        <div class="agent-grid-card">
+          <div class="agent-icon-box"><span class="material-symbols-outlined">memory</span></div>
+          <h3>Codex / DeepAI</h3>
+          <p>Fast lightweight code generation for small snippets and utility scripts.</p>
+          <div class="agent-card-footer">
+            <span class="status-badge">Available</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+{% endblock %}

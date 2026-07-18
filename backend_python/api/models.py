@@ -5,7 +5,6 @@ Schema is the source of truth — keep in sync with the Kotlin app's ApiService.
 import time
 import uuid
 from django.db import models
-from django.conf import settings
 from .security import generate_numeric_code
 
 NEPAL_DISTRICTS = [
@@ -1655,25 +1654,8 @@ class PostView(models.Model):
         return f"view {self.post_id} by user {self.user_id}"
 
 
-
-# ─────────────────────────────────────────────────────────────────────────────
-# Background coding agent
-# ─────────────────────────────────────────────────────────────────────────────
-
 class BackgroundAgentCredential(models.Model):
-    """Encrypted GitHub OAuth credential owned by a platform admin (api.User).
-
-    This is intentionally separate from the public-site GitHub sign-in token:
-    repository automation needs broader, explicitly granted scopes and the
-    token must be retained for durable background work. The credential is
-    bound to the platform account, so the same admin does not re-authorize
-    when they sign in from another device.
-    """
-    admin_user = models.OneToOneField(
-        User,
-        on_delete=models.CASCADE,
-        related_name='background_agent_credential',
-    )
+    admin_user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='background_agent_credential')
     github_user_id = models.BigIntegerField(default=0)
     github_login = models.CharField(max_length=255, blank=True, default='')
     github_avatar_url = models.TextField(blank=True, default='')
@@ -1689,28 +1671,17 @@ class BackgroundAgentCredential(models.Model):
 
     @property
     def is_connected(self):
-        return bool(self.encrypted_access_token and not self.revoked_at)
+        return bool(self.encrypted_access_token) and not self.revoked_at
 
 
 class BackgroundAgentProject(models.Model):
     STATUS_CHOICES = [
-        ('new', 'New'),
-        ('syncing', 'Syncing'),
-        ('ready', 'Ready'),
-        ('error', 'Error'),
-        ('archived', 'Archived'),
+        ('new', 'New'), ('syncing', 'Syncing'), ('ready', 'Ready'),
+        ('error', 'Error'), ('archived', 'Archived'),
     ]
-    id = models.CharField(max_length=36, primary_key=True, default=uuid.uuid4)
-    admin_user = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        related_name='background_agent_projects',
-    )
-    credential = models.ForeignKey(
-        BackgroundAgentCredential,
-        on_delete=models.PROTECT,
-        related_name='projects',
-    )
+    id = models.CharField(max_length=36, primary_key=True)
+    admin_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='background_agent_projects')
+    credential = models.ForeignKey(BackgroundAgentCredential, on_delete=models.PROTECT, related_name='projects')
     github_repo_id = models.BigIntegerField(default=0)
     repo_full_name = models.CharField(max_length=255)
     repo_html_url = models.TextField(blank=True, default='')
@@ -1729,10 +1700,7 @@ class BackgroundAgentProject(models.Model):
         db_table = 'background_agent_projects'
         ordering = ['-updated_at']
         constraints = [
-            models.UniqueConstraint(
-                fields=['admin_user', 'repo_full_name'],
-                name='uniq_bg_agent_admin_repo',
-            ),
+            models.UniqueConstraint(fields=['admin_user', 'repo_full_name'], name='uniq_bg_agent_admin_repo'),
         ]
         indexes = [
             models.Index(fields=['admin_user', '-updated_at'], name='bg_project_admin_updated_idx'),
@@ -1742,38 +1710,17 @@ class BackgroundAgentProject(models.Model):
 
 class BackgroundAgentSession(models.Model):
     STATUS_CHOICES = [
-        ('queued', 'Queued'),
-        ('preparing', 'Preparing'),
-        ('running', 'Running'),
-        ('paused', 'Paused'),
-        ('waiting', 'Waiting for input'),
-        ('completed', 'Completed'),
-        ('failed', 'Failed'),
-        ('cancelled', 'Cancelled'),
+        ('queued', 'Queued'), ('preparing', 'Preparing'), ('running', 'Running'),
+        ('paused', 'Paused'), ('waiting', 'Waiting for input'), ('completed', 'Completed'),
+        ('failed', 'Failed'), ('cancelled', 'Cancelled'),
     ]
     CONTROL_CHOICES = [
-        ('', 'None'),
-        ('pause', 'Pause'),
-        ('stop', 'Stop'),
+        ('', 'None'), ('pause', 'Pause'), ('stop', 'Stop'),
     ]
-    id = models.CharField(max_length=36, primary_key=True, default=uuid.uuid4)
-    project = models.ForeignKey(
-        BackgroundAgentProject,
-        on_delete=models.CASCADE,
-        related_name='sessions',
-    )
-    admin_user = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        related_name='background_agent_sessions',
-    )
-    bot_config = models.ForeignKey(
-        BotConfig,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        related_name='background_agent_sessions',
-    )
+    id = models.CharField(max_length=36, primary_key=True)
+    project = models.ForeignKey(BackgroundAgentProject, on_delete=models.CASCADE, related_name='sessions')
+    admin_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='background_agent_sessions')
+    bot_config = models.ForeignKey('BotConfig', on_delete=models.SET_NULL, null=True, blank=True, related_name='background_agent_sessions')
     title = models.CharField(max_length=255, blank=True, default='')
     goal = models.TextField()
     source_branch = models.CharField(max_length=255)
@@ -1794,7 +1741,7 @@ class BackgroundAgentSession(models.Model):
     test_summary = models.TextField(blank=True, default='')
     last_error = models.TextField(blank=True, default='')
     worker_id = models.CharField(max_length=128, blank=True, default='')
-    last_heartbeat_at = models.BigIntegerField(default=0, db_index=True)
+    last_heartbeat_at = models.BigIntegerField(db_index=True, default=0)
     created_at = models.BigIntegerField(default=0)
     started_at = models.BigIntegerField(default=0)
     updated_at = models.BigIntegerField(default=0)
@@ -1812,17 +1759,10 @@ class BackgroundAgentSession(models.Model):
 
 class BackgroundAgentMessage(models.Model):
     ROLE_CHOICES = [
-        ('system', 'System'),
-        ('user', 'User'),
-        ('assistant', 'Assistant'),
-        ('tool', 'Tool'),
+        ('system', 'System'), ('user', 'User'), ('assistant', 'Assistant'), ('tool', 'Tool'),
     ]
-    id = models.CharField(max_length=36, primary_key=True, default=uuid.uuid4)
-    session = models.ForeignKey(
-        BackgroundAgentSession,
-        on_delete=models.CASCADE,
-        related_name='messages',
-    )
+    id = models.CharField(max_length=36, primary_key=True)
+    session = models.ForeignKey(BackgroundAgentSession, on_delete=models.CASCADE, related_name='messages')
     role = models.CharField(max_length=12, choices=ROLE_CHOICES, db_index=True)
     content = models.TextField()
     metadata = models.TextField(blank=True, default='{}')
@@ -1838,15 +1778,11 @@ class BackgroundAgentMessage(models.Model):
 
 class BackgroundAgentEvent(models.Model):
     id = models.BigAutoField(primary_key=True)
-    session = models.ForeignKey(
-        BackgroundAgentSession,
-        on_delete=models.CASCADE,
-        related_name='events',
-    )
+    session = models.ForeignKey(BackgroundAgentSession, on_delete=models.CASCADE, related_name='events')
     event_type = models.CharField(max_length=64, db_index=True)
     message = models.TextField(blank=True, default='')
     payload = models.TextField(blank=True, default='{}')
-    created_at = models.BigIntegerField(default=0, db_index=True)
+    created_at = models.BigIntegerField(db_index=True, default=0)
 
     class Meta:
         db_table = 'background_agent_events'
@@ -1862,12 +1798,8 @@ class BackgroundAgentArtifact(models.Model):
         ('patch', 'Git patch'),
         ('log', 'Execution log'),
     ]
-    id = models.CharField(max_length=36, primary_key=True, default=uuid.uuid4)
-    session = models.ForeignKey(
-        BackgroundAgentSession,
-        on_delete=models.CASCADE,
-        related_name='artifacts',
-    )
+    id = models.CharField(max_length=36, primary_key=True)
+    session = models.ForeignKey(BackgroundAgentSession, on_delete=models.CASCADE, related_name='artifacts')
     kind = models.CharField(max_length=20, choices=KIND_CHOICES, db_index=True)
     file_path = models.TextField()
     file_name = models.CharField(max_length=255)
@@ -1891,23 +1823,12 @@ class BackgroundAgentAction(models.Model):
         ('artifacts', 'Rebuild artifacts'),
     ]
     STATUS_CHOICES = [
-        ('queued', 'Queued'),
-        ('processing', 'Processing'),
-        ('completed', 'Completed'),
-        ('failed', 'Failed'),
-        ('cancelled', 'Cancelled'),
+        ('queued', 'Queued'), ('processing', 'Processing'),
+        ('completed', 'Completed'), ('failed', 'Failed'), ('cancelled', 'Cancelled'),
     ]
-    id = models.CharField(max_length=36, primary_key=True, default=uuid.uuid4)
-    session = models.ForeignKey(
-        BackgroundAgentSession,
-        on_delete=models.CASCADE,
-        related_name='actions',
-    )
-    requested_by = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        related_name='background_agent_actions',
-    )
+    id = models.CharField(max_length=36, primary_key=True)
+    session = models.ForeignKey(BackgroundAgentSession, on_delete=models.CASCADE, related_name='actions')
+    requested_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='background_agent_actions')
     action = models.CharField(max_length=20, choices=ACTION_CHOICES)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='queued', db_index=True)
     payload = models.TextField(blank=True, default='{}')
@@ -1929,10 +1850,8 @@ class BackgroundAgentAction(models.Model):
 
 class BackgroundAgentWorker(models.Model):
     STATUS_CHOICES = [
-        ('starting', 'Starting'),
-        ('idle', 'Idle'),
-        ('busy', 'Busy'),
-        ('stopping', 'Stopping'),
+        ('starting', 'Starting'), ('idle', 'Idle'),
+        ('busy', 'Busy'), ('stopping', 'Stopping'),
     ]
     worker_id = models.CharField(max_length=255, primary_key=True)
     hostname = models.CharField(max_length=255, blank=True, default='')
@@ -1941,7 +1860,7 @@ class BackgroundAgentWorker(models.Model):
     current_kind = models.CharField(max_length=20, blank=True, default='')
     current_id = models.CharField(max_length=36, blank=True, default='')
     started_at = models.BigIntegerField(default=0)
-    last_heartbeat_at = models.BigIntegerField(default=0, db_index=True)
+    last_heartbeat_at = models.BigIntegerField(db_index=True, default=0)
 
     class Meta:
         db_table = 'background_agent_workers'
@@ -1949,3 +1868,4 @@ class BackgroundAgentWorker(models.Model):
         indexes = [
             models.Index(fields=['status', '-last_heartbeat_at'], name='bg_worker_status_heartbeat_idx'),
         ]
+
