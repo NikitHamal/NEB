@@ -1,4 +1,5 @@
 """Views Forum extracted from views.py."""
+import time
 from .view_helpers import *  # noqa: F401,F403
 from api import services
 
