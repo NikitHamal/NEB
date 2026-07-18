@@ -37,6 +37,12 @@ class CommandResult(dict):
     def ok(self):
         return self.get('returncode') == 0
 
+    def __getattr__(self, name):
+        try:
+            return self[name]
+        except KeyError:
+            raise AttributeError(name)
+
 
 class GitWorkspace:
     SENSITIVE_DIR_NAMES = {
