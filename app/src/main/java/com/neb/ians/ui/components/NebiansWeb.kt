@@ -618,7 +618,8 @@ fun WebResourceCard(
     resource: ApiResource,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    minWidth: Dp? = 220.dp
+    minWidth: Dp? = 220.dp,
+    shape: RoundedCornerShape = WebPanelShape
 ) {
     val subjectParts = remember(resource.subject) {
         resource.subject.split(",").map { it.trim() }.filter { it.isNotBlank() }
@@ -640,9 +641,9 @@ fun WebResourceCard(
     Card(
         modifier = modifier
             .then(if (minWidth != null) Modifier.width(minWidth) else Modifier.fillMaxWidth())
-            .clip(WebPanelShape)
+            .clip(shape)
             .clickable(onClick = onClick),
-        shape = WebPanelShape,
+        shape = shape,
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest),
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
     ) {
