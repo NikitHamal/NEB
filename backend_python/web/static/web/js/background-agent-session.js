@@ -4,7 +4,7 @@
   var root = BA.qs('#background-agent-session');
   if (!root) return;
 
-  var state = { session: null, lastEvent: 0, messages: new Map(), files: [], activeFile: '', poll: null, detailTimer: null, diff: '' };
+  var state = { session: null, lastEvent: 0, messages: new Map(), files: [], activeFile: '', poll: null, detailTimer: null, diff: '', lifecycleAction: '' };
   var els = {
     title: BA.qs('#bs-title'), status: BA.qs('#bs-status-badge'), repoShort: BA.qs('#bs-repo-short'), branchShort: BA.qs('#bs-branch-short'),
     progressLabel: BA.qs('#bs-progress-label'), progressValue: BA.qs('#bs-progress-value'), progressBar: BA.qs('#bs-progress-bar'), updated: BA.qs('#bs-updated-label'),
@@ -13,7 +13,9 @@
     followup: BA.qs('#bs-followup'), send: BA.qs('#bs-send'), attach: BA.qs('#bs-attach'), fileInput: BA.qs('#bs-file-input'), attachmentList: BA.qs('#bs-attachment-list'), followupWrap: BA.qs('#bs-followup-wrap'),
     fileCount: BA.qs('#bs-file-count'), diffSummary: BA.qs('#bs-diff-summary'), stackedDiff: BA.qs('#bs-stacked-diff'), copyDiff: BA.qs('#bs-copy-diff'),
     fileList: BA.qs('#bs-file-list'), fileSearch: BA.qs('#bs-file-search'), refreshFiles: BA.qs('#bs-refresh-files'), viewerIcon: BA.qs('#bs-viewer-icon'), viewerName: BA.qs('#bs-viewer-name'), viewerMeta: BA.qs('#bs-viewer-meta'), viewerContent: BA.qs('#bs-viewer-content'),
-    downloads: BA.qs('#bs-download-actions'), push: BA.qs('#bs-push'), openPr: BA.qs('#bs-open-pr'), actions: BA.qs('#bs-action-history'), tests: BA.qs('#bs-test-summary')
+    downloads: BA.qs('#bs-download-actions'), push: BA.qs('#bs-push'), openPr: BA.qs('#bs-open-pr'), actions: BA.qs('#bs-action-history'), tests: BA.qs('#bs-test-summary'),
+    more: BA.qs('#bs-more'), moreMenu: BA.qs('#bs-more-menu'), lifecycleDialog: BA.qs('#bs-lifecycle-dialog'), lifecycleTitle: BA.qs('#bs-lifecycle-title'),
+    lifecycleCopy: BA.qs('#bs-lifecycle-copy'), lifecycleIcon: BA.qs('#bs-lifecycle-icon'), lifecycleCancel: BA.qs('#bs-lifecycle-cancel'), lifecycleConfirm: BA.qs('#bs-lifecycle-confirm')
   };
   var attachments = BA.createAttachmentController({ input: els.fileInput, list: els.attachmentList, dropZone: els.followupWrap });
 
@@ -49,6 +51,18 @@
     if (current.actions) renderActions(current.actions);
     if (current.summary && current.status === 'completed') renderSummary(current.summary);
     if (previousStatus !== current.status && current.status === 'completed') { loadDetail(); loadFiles(); }
+    var lifecycleArchive = BA.qs('[data-session-action="archive"], [data-session-action="restore"]', els.moreMenu);
+    var lifecycleDelete = BA.qs('[data-session-action="delete"]', els.moreMenu);
+    if (lifecycleArchive) {
+      lifecycleArchive.innerHTML = '<span class="material-symbols-outlined">' + (current.archived ? 'unarchive' : 'archive') + '</span>' + (current.archived ? 'Restore session' : 'Archive session');
+      lifecycleArchive.dataset.sessionAction = current.archived ? 'restore' : 'archive';
+      lifecycleArchive.disabled = active && !current.archived;
+      lifecycleArchive.title = lifecycleArchive.disabled ? 'Stop this task before archiving it' : '';
+    }
+    if (lifecycleDelete) {
+      lifecycleDelete.disabled = active;
+      lifecycleDelete.title = active ? 'Stop this task before deleting it' : '';
+    }
   }
   function renderSummary(summary) {
     var existing = BA.qs('[data-final-summary]', els.conversation);
@@ -169,6 +183,41 @@
     else { var binary = document.createElement('div'); binary.className = 'ba-binary-view'; binary.innerHTML = '<span class="material-symbols-outlined">draft</span><p>This file type cannot be rendered in the browser.</p><a target="_blank" rel="noopener">Open file</a>'; binary.querySelector('a').href = file.previewUrl; els.viewerContent.appendChild(binary); }
     if (file.truncated) { var note = document.createElement('div'); note.className = 'ba-truncated-note'; note.textContent = 'Preview truncated for performance.'; els.viewerContent.appendChild(note); }
   }
+  function openLifecycleDialog(action) {
+    state.lifecycleAction = action;
+    var deleting = action === 'delete';
+    var restoring = action === 'restore';
+    els.lifecycleIcon.textContent = deleting ? 'delete' : (restoring ? 'unarchive' : 'archive');
+    els.lifecycleTitle.textContent = deleting ? 'Delete this session?' : (restoring ? 'Restore this session?' : 'Archive this session?');
+    els.lifecycleCopy.textContent = deleting
+      ? 'This permanently removes the task history, attachments, generated artifacts, and local worktree. This cannot be undone.'
+      : (restoring ? 'The session will return to recent work.' : 'The session will move out of recent work without deleting its history or artifacts.');
+    els.lifecycleConfirm.textContent = deleting ? 'Delete permanently' : (restoring ? 'Restore' : 'Archive');
+    els.lifecycleConfirm.classList.toggle('ba-button-danger', deleting);
+    els.lifecycleDialog.showModal();
+  }
+  async function applyLifecycle() {
+    var actionName = state.lifecycleAction;
+    if (!actionName) return;
+    setButtonBusy(els.lifecycleConfirm, true);
+    try {
+      if (actionName === 'delete') {
+        await BA.api(root.dataset.lifecycleUrl, { method: 'DELETE' });
+        window.location.assign(root.dataset.dashboardUrl);
+        return;
+      }
+      var data = await BA.json(root.dataset.lifecycleUrl, { action: actionName });
+      updateSession(data.session);
+      els.lifecycleDialog.close();
+      BA.toast(actionName === 'restore' ? 'Session restored.' : 'Session archived.', 'success');
+      if (actionName === 'archive') window.location.assign(root.dataset.dashboardUrl);
+    } catch (error) {
+      BA.toast(error.message, 'error');
+    } finally {
+      setButtonBusy(els.lifecycleConfirm, false);
+      state.lifecycleAction = '';
+    }
+  }
   async function sendFollowup() {
     var content = els.followup.value.trim(); var files = attachments.files(); if (!content && !files.length) return;
     var form = new FormData(); form.append('content', content); form.append('resume', 'true'); files.forEach(function (file) { form.append('files', file, file.name); }); setButtonBusy(els.send, true);
@@ -193,6 +242,12 @@
   }
 
   BA.qsa('[data-review-tab]').forEach(function (button) { button.addEventListener('click', function () { openReviewTab(button.dataset.reviewTab); }); });
+  els.more.addEventListener('click', function (event) { event.stopPropagation(); var opening = els.moreMenu.hidden; els.moreMenu.hidden = !opening; els.more.setAttribute('aria-expanded', opening ? 'true' : 'false'); });
+  els.moreMenu.addEventListener('click', function (event) { var button = event.target.closest('[data-session-action]'); if (!button) return; els.moreMenu.hidden = true; els.more.setAttribute('aria-expanded', 'false'); openLifecycleDialog(button.dataset.sessionAction); });
+  document.addEventListener('click', function (event) { if (!event.target.closest('.ba-session-command-menu-wrap')) { els.moreMenu.hidden = true; els.more.setAttribute('aria-expanded', 'false'); } });
+  els.lifecycleCancel.addEventListener('click', function () { els.lifecycleDialog.close(); });
+  els.lifecycleConfirm.addEventListener('click', applyLifecycle);
+  els.lifecycleDialog.addEventListener('click', function (event) { if (event.target === els.lifecycleDialog) els.lifecycleDialog.close(); });
   els.pause.addEventListener('click', function () { control('pause'); }); els.resume.addEventListener('click', function () { control('resume'); }); els.stop.addEventListener('click', function () { if (window.confirm('Stop this task?')) control('stop'); });
   els.refresh.addEventListener('click', function () { loadDetail(); loadFiles(); }); els.attach.addEventListener('click', function () { els.fileInput.click(); }); els.send.addEventListener('click', sendFollowup);
   els.followup.addEventListener('keydown', function (event) { if ((event.metaKey || event.ctrlKey) && event.key === 'Enter') { event.preventDefault(); sendFollowup(); } });

@@ -86,3 +86,24 @@ Each process also writes a database heartbeat every ten seconds; the admin UI re
 - **Session page** (`/backgroundagent/session/<id>`): full-screen transcript with smart auto-scroll (sticks to bottom while you're reading the latest, stops if you scroll up to inspect history, and snaps to bottom again when the session completes), single-line tool rows with expandable results, Files / Diff / Deliver tabs, and push / pull-request controls.
 
 Both screens are built on the project Material 3 design system (`material3.css`, Poppins, Material Symbols, the project `--md-primary` blue) and support light + dark themes.
+
+## Session lifecycle
+
+Finished, failed, cancelled, paused, and waiting sessions can be archived, restored, or permanently deleted from the dashboard, session page, and mobile API. Queued, preparing, or running sessions must be stopped before archive or deletion. Permanent deletion removes the database session and its worktree, generated artifacts, and uploaded attachments only when those paths resolve inside `BACKGROUND_AGENT_ROOT`.
+
+## Zeus mobile integration
+
+Zeus uses the device authorization flow under `/api/background-agent/mobile/` rather than sharing browser cookies or GitHub credentials with the APK.
+
+1. Zeus requests a one-time device code from `POST /api/background-agent/mobile/pair/start/`.
+2. The admin opens `/backgroundagent/mobile/authorize/`, signs into the standalone Background Agent if necessary, and approves the displayed code.
+3. Zeus exchanges the high-entropy device code once at `POST /api/background-agent/mobile/pair/token/`.
+4. The server stores only an HMAC-SHA-256 digest of the bearer token. Zeus encrypts the raw token with Android Keystore and reuses it across app restarts until the device is explicitly disconnected or revoked.
+
+Device tokens are limited to active, unlocked platform administrators. API responses are private and non-cacheable. Artifact download URLs are same-origin, authenticated, and resolved only under `BACKGROUND_AGENT_ROOT`. Set `BACKGROUND_AGENT_PUBLIC_URL=https://nebians.consica.com.np` when the proxy does not expose the original HTTPS scheme; otherwise the API safely uses HTTPS for non-local authorization links.
+
+The mobile API supports repository and branch discovery, project registration, task creation with attachments, live session state, follow-up guidance, pause/resume/stop, push and pull-request actions, artifact downloads, and archive/restore/delete. Zeus can also clone the task branch into its private workspace and use its native JGit pull, commit, and push workflow.
+
+## Current migrations
+
+The production Background Agent schema spans its original session/project migrations plus later context, attachment, migration-state repair, and mobile-device migrations. Apply the full graph with `python manage.py migrate`; do not target migration numbers manually.

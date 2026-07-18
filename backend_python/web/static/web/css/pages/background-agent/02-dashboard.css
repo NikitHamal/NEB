@@ -95,27 +95,53 @@
 .ba-section-heading > div { display: flex; align-items: baseline; gap: 10px; }
 .ba-section-heading .ba-eyebrow { margin: 0; }
 .ba-section-heading h2 { margin: 0; font-size: 16px; letter-spacing: -.025em; }
-.ba-session-grid { display: grid; gap: 1px; background: var(--ba-border); }
+.ba-session-grid { display: grid; gap: 12px; background: transparent; }
 .ba-session-card {
+  position: relative;
   min-width: 0;
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
-  gap: 14px;
-  padding: 16px 5px 16px 2px;
-  background: var(--ba-bg);
+  align-items: center;
+  overflow: visible;
+  border: 1px solid var(--ba-border);
+  border-radius: 16px;
+  background: var(--ba-panel);
   color: var(--ba-text);
-  text-decoration: none;
-  transition: background var(--md-transition), padding var(--md-transition);
+  box-shadow: var(--ba-shadow);
+  transition: background var(--md-transition), border-color var(--md-transition), box-shadow var(--md-transition);
 }
-.ba-session-card:hover { padding-left: 9px; background: color-mix(in srgb, var(--ba-panel) 72%, var(--ba-bg)); }
-.ba-session-card-main { min-width: 0; display: grid; gap: 6px; }
-.ba-session-card-title { display: flex; align-items: center; gap: 8px; min-width: 0; }
-.ba-session-card-title strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12px; }
-.ba-session-card p { margin: 0; color: var(--ba-muted); font-size: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.ba-session-card-meta { display: flex; align-items: center; gap: 10px; color: var(--ba-faint); font-size: 9px; }
+.ba-session-card:hover { background: var(--ba-panel-hover); border-color: var(--ba-border-strong); box-shadow: 0 10px 28px color-mix(in srgb, var(--ba-text) 8%, transparent); }
+.ba-session-card-link {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 18px;
+  padding: 18px 8px 18px 18px;
+  color: inherit;
+  text-decoration: none;
+}
+.ba-session-card-main { min-width: 0; display: grid; gap: 7px; }
+.ba-session-card-title { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.ba-session-card-title strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 14px; line-height: 1.35; }
+.ba-session-card p { margin: 0; color: var(--ba-muted); font-size: 11px; line-height: 1.5; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ba-session-card-meta { display: flex; align-items: center; gap: 12px; color: var(--ba-faint); font-size: 10px; min-width: 0; }
+.ba-session-card-meta span { min-width: 0; max-width: 36%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .ba-session-card-side { display: flex; align-items: center; gap: 12px; }
-.ba-session-progress { width: 72px; height: 3px; border-radius: var(--md-radius-full); background: var(--ba-border); overflow: hidden; }
-.ba-session-progress span { display: block; height: 100%; background: var(--ba-accent); }
+.ba-session-progress { width: 88px; height: 4px; border-radius: var(--md-radius-full); background: var(--ba-border); overflow: hidden; }
+.ba-session-progress span { display: block; height: 100%; border-radius: inherit; background: var(--ba-accent); }
+.ba-session-menu-wrap { position: relative; padding-right: 8px; }
+.ba-session-menu-trigger { opacity: .72; }
+.ba-session-card:hover .ba-session-menu-trigger, .ba-session-menu-trigger[aria-expanded="true"] { opacity: 1; }
+.ba-session-menu { position: absolute; z-index: 30; top: calc(100% + 4px); right: 8px; width: 202px; padding: 7px; border: 1px solid var(--ba-border); border-radius: var(--md-radius-md); background: var(--ba-panel); box-shadow: var(--ba-shadow-lg); }
+.ba-session-menu button { width: 100%; min-height: 40px; display: flex; align-items: center; gap: 9px; padding: 8px 10px; border: 0; border-radius: 9px; background: transparent; color: var(--ba-text); font: inherit; font-size: 11px; text-align: left; cursor: pointer; }
+.ba-session-menu button:hover, .ba-session-menu button:focus-visible { background: var(--ba-panel-hover); outline: none; }
+.ba-session-menu button.danger { color: var(--ba-danger); }
+.ba-session-menu .material-symbols-outlined { font-size: 18px; }
+.ba-section-heading-actions { display: flex; align-items: center; gap: 10px; }
+.ba-section-heading-actions .ba-text-button { min-height: 34px; padding: 0 11px; }
+.ba-section-heading-actions .ba-text-button.active { background: var(--ba-accent-soft); color: var(--ba-on-accent-soft); }
+
 .ba-status-pill { display: inline-flex; align-items: center; gap: 5px; height: 22px; padding: 0 7px; border-radius: var(--md-radius-full); background: var(--ba-panel-subtle); color: var(--ba-muted); font-size: 8px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; }
 .ba-status-pill.running, .ba-status-pill.preparing, .ba-status-pill.queued { background: var(--ba-accent-soft); color: var(--ba-on-accent-soft); }
 .ba-status-pill.completed { background: color-mix(in srgb, var(--ba-success) 12%, transparent); color: var(--ba-success); }
@@ -171,3 +197,4 @@
   .ba-session-card-side .ba-session-progress { display: none; }
   .ba-session-card-meta { gap: 7px; }
 }
+.ba-session-menu button:disabled { opacity: .42; cursor: not-allowed; background: transparent; }
