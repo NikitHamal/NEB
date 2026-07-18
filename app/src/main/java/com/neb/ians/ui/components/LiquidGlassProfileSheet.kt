@@ -19,7 +19,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ExitToApp
 import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.Download
-import androidx.compose.material.icons.outlined.ArrowForward
 import androidx.compose.material.icons.outlined.Build
 import androidx.compose.material.icons.outlined.Newspaper
 import androidx.compose.material.icons.outlined.Settings
@@ -119,12 +118,13 @@ fun LiquidGlassProfileSheet(
                 Box(
                     modifier = Modifier
                         .size(38.dp)
-                        .background(MaterialTheme.colorScheme.primaryContainer, CircleShape),
+                        .background(MaterialTheme.colorScheme.primaryContainer, CircleShape)
+                        .clickable(onClick = onSettingsClick),
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
-                        imageVector = Icons.Outlined.ArrowForward,
-                        contentDescription = "View profile",
+                        imageVector = Icons.Outlined.Settings,
+                        contentDescription = "Settings",
                         tint = MaterialTheme.colorScheme.onPrimaryContainer,
                         modifier = Modifier.size(19.dp)
                     )
@@ -158,7 +158,6 @@ fun LiquidGlassProfileSheet(
             ) {
                 ProfileGlassRow(Icons.Outlined.Newspaper, "Blog", onBlogClick)
                 ProfileGlassRow(Icons.Outlined.Build, "Tools", onToolsClick)
-                ProfileGlassRow(Icons.Outlined.Settings, "Settings", onSettingsClick)
                 HorizontalDivider(
                     modifier = Modifier.padding(horizontal = 16.dp),
                     color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.42f)
