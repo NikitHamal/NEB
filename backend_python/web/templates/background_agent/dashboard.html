@@ -34,39 +34,40 @@
 
     <div class="ba-sidebar-footer">
       <div id="ba-worker-state" class="ba-worker-state"><span class="ba-worker-dot"></span><span>Checking worker…</span></div>
-      <p>Each task runs in an isolated worktree and dedicated branch.</p>
+      <p>Tasks run in isolated worktrees and dedicated branches.</p>
     </div>
   </aside>
 
   <section class="ba-dashboard-main">
     <section id="ba-connect-panel" class="ba-connect-panel" {% if github_connected %}hidden{% endif %}>
       <div class="ba-connect-icon"><span class="material-symbols-outlined">account_tree</span></div>
-      <span class="ba-eyebrow">One-time setup</span>
-      <h2>Connect GitHub to delegate repository work</h2>
-      <p>The agent needs repository access to create isolated branches, inspect code, run validation, and return reviewable changes.</p>
-      <a class="ba-button ba-button-primary" href="{% url 'web:background_agent_github_connect' %}"><span class="material-symbols-outlined">link</span>Authorize with GitHub</a>
+      <span class="ba-eyebrow">GitHub connection</span>
+      <h2>Connect a repository</h2>
+      <p>Authorize GitHub once to create projects and run coding tasks in isolated branches.</p>
+      <a class="ba-button ba-button-primary" href="{% url 'web:background_agent_github_connect' %}"><span class="material-symbols-outlined">link</span>Connect GitHub</a>
     </section>
 
     <div id="ba-connected-workspace" {% if not github_connected %}hidden{% endif %}>
       <header class="ba-page-heading">
-        <div><span class="ba-eyebrow">Delegate engineering work</span><h2>What should the agent change?</h2></div>
-        <div class="ba-capability-row"><span>Reads code</span><span>Edits files</span><span>Runs tests</span><span>Builds a PR</span></div>
+        <div>
+          <h2>What should the agent change?</h2>
+          <p>Describe the outcome, constraints, and validation you expect.</p>
+        </div>
       </header>
 
       <section class="ba-task-composer" id="ba-task-composer">
-        <textarea id="ba-goal" rows="8" maxlength="50000" placeholder="Describe the outcome, constraints, relevant paths, acceptance criteria, and validation you expect…"></textarea>
+        <textarea id="ba-goal" rows="8" maxlength="50000" placeholder="Describe the task, relevant paths, acceptance criteria, and expected checks…"></textarea>
         <div id="ba-attachment-list" class="ba-attachment-list" hidden></div>
         <input id="ba-file-input" type="file" multiple hidden accept="image/*,audio/*,video/*,.pdf,.txt,.md,.markdown,.json,.jsonl,.yaml,.yml,.csv,.tsv,.doc,.docx,.py,.js,.jsx,.ts,.tsx,.html,.css,.java,.kt,.go,.rs,.c,.cpp,.h,.hpp,.xml,.toml,.ini,.log,.sql,.sh,.ps1">
         <div class="ba-composer-toolbar">
           <div class="ba-composer-tools">
-            <button id="ba-attach" class="ba-tool-button" type="button"><span class="material-symbols-outlined">attach_file</span>Attach</button>
+            <button id="ba-attach" class="ba-tool-button" type="button"><span class="material-symbols-outlined">attach_file</span>Attach files</button>
             <span id="ba-drop-hint" class="ba-drop-hint">Drop files or paste an image</span>
           </div>
-          <div class="ba-context-note"><span class="material-symbols-outlined">auto_awesome</span>Auto-compacts at 80% context</div>
         </div>
         <div class="ba-composer-footer">
-          <label class="ba-select-field ba-select-wide"><span>Repository</span><select id="ba-project-select"><option value="">Select a repository</option></select></label>
-          <label class="ba-select-field"><span>Base branch</span><select id="ba-branch-select"><option value="">Select repository first</option></select></label>
+          <div id="ba-project-picker" class="ba-picker-field ba-picker-wide" data-label="Repository" data-placeholder="Select a repository" data-icon="folder_open" data-search-placeholder="Search projects"></div>
+          <div id="ba-branch-picker" class="ba-picker-field" data-label="Base branch" data-placeholder="Select a branch" data-icon="account_tree" data-search-placeholder="Search branches"></div>
           <div class="ba-fixed-model"><span>Model</span><strong><i></i>Qwen 3.7 Plus</strong></div>
           <button id="ba-start" class="ba-button ba-button-primary ba-start-button" type="button"><span>Start task</span><span class="material-symbols-outlined">arrow_forward</span></button>
         </div>
@@ -79,20 +80,42 @@
     </div>
   </section>
 
-  <dialog id="ba-repo-dialog" class="ba-dialog">
-    <header><div><span class="ba-eyebrow">GitHub repositories</span><h2>Add a project</h2></div><button data-close-dialog class="ba-icon-button" type="button" aria-label="Close"><span class="material-symbols-outlined">close</span></button></header>
-    <div id="ba-repo-search-view">
-      <div class="ba-search-box"><span class="material-symbols-outlined">search</span><input id="ba-repo-search" type="search" placeholder="Search repositories"><button id="ba-repo-refresh" class="ba-icon-button ba-icon-button-quiet" type="button" aria-label="Refresh"><span class="material-symbols-outlined">refresh</span></button></div>
-      <div id="ba-repo-results" class="ba-repo-results"></div>
-    </div>
-    <div id="ba-repo-config" hidden>
-      <button id="ba-repo-back" class="ba-text-button" type="button"><span class="material-symbols-outlined">arrow_back</span>Back</button>
-      <div class="ba-selected-repository"><span class="material-symbols-outlined">folder_open</span><div><small>Selected repository</small><strong id="ba-selected-repo-name"></strong></div></div>
-      <label class="ba-select-field ba-select-full"><span>Default base branch</span><select id="ba-repo-base-branch"></select></label>
-      <button id="ba-save-project" class="ba-button ba-button-primary ba-dialog-submit" type="button">Add project</button>
+  <dialog id="ba-repo-dialog" class="ba-dialog" aria-labelledby="ba-repo-dialog-title">
+    <div class="ba-dialog-shell">
+      <header class="ba-dialog-header">
+        <div class="ba-dialog-title-group">
+          <div class="ba-dialog-icon"><span class="material-symbols-outlined">account_tree</span></div>
+          <div><span class="ba-eyebrow">GitHub repositories</span><h2 id="ba-repo-dialog-title">Add a project</h2></div>
+        </div>
+        <button data-close-dialog class="ba-icon-button" type="button" aria-label="Close project picker"><span class="material-symbols-outlined">close</span></button>
+      </header>
+
+      <div id="ba-repo-search-view" class="ba-dialog-view">
+        <div class="ba-repo-search-row">
+          <div class="ba-search-box"><span class="material-symbols-outlined">search</span><input id="ba-repo-search" type="search" autocomplete="off" aria-label="Search repositories" placeholder="Search repositories"><button id="ba-repo-refresh" class="ba-icon-button ba-icon-button-quiet" type="button" aria-label="Refresh repositories" title="Refresh repositories"><span class="material-symbols-outlined">refresh</span></button></div>
+          <span id="ba-repo-count" class="ba-result-count">0 repositories</span>
+        </div>
+        <div id="ba-repo-results" class="ba-repo-results"></div>
+      </div>
+
+      <div id="ba-repo-config" class="ba-dialog-view ba-repo-config" hidden>
+        <button id="ba-repo-back" class="ba-text-button" type="button"><span class="material-symbols-outlined">arrow_back</span>Choose another repository</button>
+        <div class="ba-selected-repository">
+          <div class="ba-selected-repository-icon"><span class="material-symbols-outlined">folder_open</span></div>
+          <div><small>Selected repository</small><strong id="ba-selected-repo-name"></strong><span id="ba-selected-repo-description"></span></div>
+        </div>
+        <div id="ba-repo-base-picker" class="ba-picker-field ba-picker-full" data-label="Default base branch" data-placeholder="Select a branch" data-icon="account_tree" data-search-placeholder="Search branches"></div>
+        <div class="ba-dialog-actions">
+          <button id="ba-cancel-project" class="ba-button ba-button-secondary" type="button">Cancel</button>
+          <button id="ba-save-project" class="ba-button ba-button-primary" type="button"><span class="material-symbols-outlined">add</span>Add project</button>
+        </div>
+      </div>
     </div>
   </dialog>
 </div>
 {% endblock %}
 
-{% block extra_js %}<script nonce="{{ csp_nonce }}" src="{% static 'web/js/background-agent.js' %}"></script>{% endblock %}
+{% block extra_js %}
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/background-agent-picker.js' %}"></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/background-agent.js' %}"></script>
+{% endblock %}

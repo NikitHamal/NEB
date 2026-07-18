@@ -4,10 +4,11 @@
 <head>
   <script nonce="{{ csp_nonce }}">
     (function () {
-      var saved = localStorage.getItem('ba-theme');
-      if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-        document.documentElement.setAttribute('data-theme', 'dark');
-      }
+      try {
+        var saved = localStorage.getItem('ba-theme');
+        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (saved === 'dark' || (!saved && prefersDark)) document.documentElement.setAttribute('data-theme', 'dark');
+      } catch (error) {}
     })();
   </script>
   <meta charset="UTF-8">
@@ -16,7 +17,7 @@
   <title>{% block title %}Background Agent{% endblock %} · NEBians</title>
   <link rel="icon" type="image/png" sizes="32x32" href="{% static 'web/img/n-logo-32.png' %}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;650;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,400,0,0&display=swap">
   <link rel="stylesheet" href="{% static 'web/css/material3.css' %}">
   <link rel="stylesheet" href="{% static 'web/css/app.css' %}">
@@ -24,7 +25,6 @@
   {% block extra_css %}{% endblock %}
 </head>
 <body class="ba-body">
-  <a href="#ba-main-content" class="skip-link">Skip to content</a>
   <header class="ba-global-bar">
     <a class="ba-brand" href="{% url 'web:background_agent' %}" aria-label="NEBians Background Agent home">
       <img src="{% static 'web/img/n-logo-32.png' %}" alt="">
@@ -32,18 +32,17 @@
     </a>
     <div class="ba-global-center">{% block topbar_center %}{% endblock %}</div>
     <div class="ba-global-actions">
-      <span class="ba-model-badge" title="The background agent always uses Qwen 3.7 Plus">
+      <span class="ba-model-badge" title="Qwen 3.7 Plus">
         <span class="ba-model-dot"></span>Qwen 3.7 Plus
       </span>
-      <button class="ba-icon-button" type="button" data-ba-theme aria-label="Toggle color theme" title="Toggle theme">
-        <span class="material-symbols-outlined">contrast</span>
+      <button class="ba-icon-button" type="button" data-ba-theme aria-label="Use dark theme" title="Use dark theme">
+        <span class="material-symbols-outlined" data-ba-theme-icon>dark_mode</span>
       </button>
       {% if bg_admin %}
-      <div class="ba-user-menu">
+      <div class="ba-user-menu" title="{{ bg_admin.display_name|default:bg_admin.username }}">
         {% if bg_admin.photo_url %}<img src="{{ bg_admin.photo_url }}" alt="">{% else %}<span class="ba-user-fallback">{{ bg_admin.display_name|default:bg_admin.username|first|upper }}</span>{% endif %}
         <span>{{ bg_admin.display_name|default:bg_admin.username }}</span>
       </div>
-      <a class="ba-icon-button" href="{% url 'web:background_agent_logout' %}" aria-label="Sign out" title="Sign out"><span class="material-symbols-outlined">logout</span></a>
       {% endif %}
     </div>
   </header>
@@ -51,12 +50,28 @@
   <div id="ba-global-toast" class="ba-toast-region" aria-live="polite"></div>
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/background-agent-core.js' %}"></script>
   <script nonce="{{ csp_nonce }}">
-    document.querySelector('[data-ba-theme]')?.addEventListener('click', function () {
-      var html = document.documentElement;
-      var dark = html.getAttribute('data-theme') === 'dark';
-      if (dark) html.removeAttribute('data-theme'); else html.setAttribute('data-theme', 'dark');
-      localStorage.setItem('ba-theme', dark ? 'light' : 'dark');
-    });
+    (function () {
+      var button = document.querySelector('[data-ba-theme]');
+      var icon = document.querySelector('[data-ba-theme-icon]');
+      if (!button || !icon) return;
+
+      function syncThemeControl() {
+        var dark = document.documentElement.getAttribute('data-theme') === 'dark';
+        icon.textContent = dark ? 'light_mode' : 'dark_mode';
+        button.setAttribute('aria-label', dark ? 'Use light theme' : 'Use dark theme');
+        button.setAttribute('title', dark ? 'Use light theme' : 'Use dark theme');
+      }
+
+      button.addEventListener('click', function () {
+        var html = document.documentElement;
+        var dark = html.getAttribute('data-theme') === 'dark';
+        if (dark) html.removeAttribute('data-theme'); else html.setAttribute('data-theme', 'dark');
+        try { localStorage.setItem('ba-theme', dark ? 'light' : 'dark'); } catch (error) {}
+        syncThemeControl();
+      });
+
+      syncThemeControl();
+    })();
   </script>
   {% block extra_js %}{% endblock %}
 </body>
