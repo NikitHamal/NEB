@@ -1,0 +1,48 @@
+{% for m in messages %}
+  {% if m.role == 'user' and m.kind == 'message' %}
+  <div class="tembo-user-card" data-message-id="{{ m.id }}">
+    <div class="tembo-user-avatar">u</div>
+    <div class="tembo-user-content-box">
+      <div class="tembo-user-text">{{ m.content }}</div>
+      
+      {% if m.attachments_json and m.attachments_json != '[]' %}
+      <div class="tembo-msg-attachments">
+        <!-- Render attachment previews -->
+        <span class="tembo-att-badge"><span class="material-symbols-outlined">attach_file</span> Attached files</span>
+      </div>
+      {% endif %}
+      
+      <div class="tembo-user-time">Jul 16</div>
+    </div>
+  </div>
+
+  <div class="tembo-tools-summary-badge">
+    <span class="material-symbols-outlined arrow">expand_more</span>
+    <span>8 tools</span>
+    <span class="dot">•</span>
+    <span>33m 25s</span>
+  </div>
+
+  <div class="tembo-setup-block">
+    <div class="setup-header">:: Setup complete</div>
+    <div class="setup-sub">Environment, repository, and integrations ready</div>
+  </div>
+
+  {% elif m.role == 'assistant' and m.kind == 'message' %}
+  <div class="tembo-assistant-card" data-message-id="{{ m.id }}">
+    <div class="tembo-assistant-text markdown-rendered">{{ m.content }}</div>
+  </div>
+
+  {% elif m.kind == 'tool_call' or m.role == 'tool' %}
+  <div class="tembo-tool-item" data-tool-name="{{ m.tool_name }}">
+    <span class="material-symbols-outlined tool-icon">terminal</span>
+    <span class="tool-label">Executing: {{ m.tool_name }}</span>
+    <code class="tool-cmd">{{ m.tool_args_json|truncatechars:80 }}</code>
+  </div>
+  {% endif %}
+{% empty %}
+  <div class="tembo-setup-block">
+    <div class="setup-header">:: Session initialized</div>
+    <div class="setup-sub">Workspace, repo branch, and agent engine ready.</div>
+  </div>
+{% endfor %}

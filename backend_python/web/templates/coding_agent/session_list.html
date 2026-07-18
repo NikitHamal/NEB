@@ -1,0 +1,51 @@
+{% extends "admin_panel/base.html" %}
+{% load static %}
+{% block title %}All Sessions | Background Coding Agent{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'web/css/coding-agent.css' %}">
+{% endblock %}
+
+{% block content %}
+{% include "coding_agent/_partials.html" %}
+<div class="agent-layout" data-page="sessions">
+  {% include "coding_agent/_sidebar.html" %}
+
+  <main class="agent-main-content">
+    <header class="agent-top-header">
+      <div class="agent-header-left">
+        <h1>All Agent Sessions</h1>
+        <p class="agent-subtitle">View and monitor every autonomous task running in the background.</p>
+      </div>
+    </header>
+
+    <div class="agent-container">
+      {% if sessions %}
+      <div class="agent-sessions-list">
+        {% for s in sessions %}
+        <a class="agent-session-row-card" href="{% url 'coding_agent:session_detail' s.id %}">
+          <div class="session-card-left">
+            <span class="material-symbols-outlined">call_split</span>
+            <div class="session-title-box">
+              <div class="session-title-text">{{ s.title|default:s.task }}</div>
+              <div class="session-branch-text">{{ s.project.repo_full_name }} • {{ s.branch|default:"main" }}</div>
+            </div>
+          </div>
+          <div class="session-card-right">
+            <span class="agent-status-pill agent-status-{{ s.status }}">{{ s.get_status_display }}</span>
+            <span class="session-iter">{{ s.iterations }} iters</span>
+          </div>
+        </a>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="agent-empty-diff">
+        <span class="material-symbols-outlined">subtitles</span>
+        <p>No sessions found. Start a new task from the Home screen.</p>
+        <a href="{% url 'coding_agent:project_list' %}" class="agent-btn-secondary" style="margin-top:12px; display:inline-flex;">Go to Home</a>
+      </div>
+      {% endif %}
+    </div>
+  </main>
+</div>
+{% endblock %}

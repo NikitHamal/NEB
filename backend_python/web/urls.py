@@ -1,7 +1,8 @@
-from django.urls import path
+from django.urls import path, include
 from django.views.generic import RedirectView
 from . import views
 from . import views_admin_chat
+from . import views_background_agent as ba_views
 
 app_name = 'web'
 
@@ -131,26 +132,6 @@ urlpatterns = [
     path('ajax/notifications/mark-read/', views.ajax_notifications_mark_read, name='ajax_notifications_mark_read'),
     path('ajax/notifications/unread-count/', views.ajax_notifications_unread_count, name='ajax_notifications_unread_count'),
 
-
-    # Standalone durable background coding agent (auth via platform api.User)
-    path('backgroundagent/login', views.background_agent_login, name='background_agent_login'),
-    path('backgroundagent/logout', views.background_agent_logout, name='background_agent_logout'),
-    path('backgroundagent', views.background_agent_page, name='background_agent'),
-    path('backgroundagent/session/<str:session_id>', views.background_agent_session_page, name='background_agent_session_page'),
-    path('backgroundagent/github/connect', views.background_agent_github_connect, name='background_agent_github_connect'),
-    path('backgroundagent/github/disconnect', views.background_agent_github_disconnect, name='background_agent_github_disconnect'),
-    path('backgroundagent/api/state', views.background_agent_state, name='background_agent_state'),
-    path('backgroundagent/api/repositories', views.background_agent_repositories, name='background_agent_repositories'),
-    path('backgroundagent/api/branches', views.background_agent_branches, name='background_agent_branches'),
-    path('backgroundagent/api/projects', views.background_agent_create_project, name='background_agent_create_project'),
-    path('backgroundagent/api/sessions', views.background_agent_create_session, name='background_agent_create_session'),
-    path('backgroundagent/api/sessions/<str:session_id>', views.background_agent_session_detail, name='background_agent_session_detail'),
-    path('backgroundagent/api/sessions/<str:session_id>/events', views.background_agent_session_events, name='background_agent_session_events'),
-    path('backgroundagent/api/sessions/<str:session_id>/messages', views.background_agent_session_message, name='background_agent_session_message'),
-    path('backgroundagent/api/sessions/<str:session_id>/control', views.background_agent_session_control, name='background_agent_session_control'),
-    path('backgroundagent/api/sessions/<str:session_id>/actions', views.background_agent_session_action, name='background_agent_session_action'),
-    path('backgroundagent/api/sessions/<str:session_id>/artifacts/<str:kind>', views.background_agent_download_artifact, name='background_agent_download_artifact'),
-
     path('admin/', views.admin_login, name='admin_login'),
     path('admin/dashboard/', views.admin_dashboard, name='admin_dashboard'),
     path('admin/analytics/', views.admin_analytics, name='admin_analytics'),
@@ -251,4 +232,23 @@ path('ajax/study-space/<str:space_id>/summary/', views.ajax_space_generate_summa
     path('ajax/study-space/quiz/<str:quiz_id>/', views.ajax_space_quiz_detail, name='ajax_space_quiz_detail'),
     path('ajax/study-space/quiz/<str:quiz_id>/submit/', views.ajax_space_quiz_submit, name='ajax_space_quiz_submit'),
     path('ajax/study-space/flashcard/<str:card_id>/review/', views.ajax_space_flashcard_review, name='ajax_space_flashcard_review'),
+
+    # Background Agent (standalone, not admin-panel)
+    path('backgroundagent/login/', ba_views.background_agent_login, name='background_agent_login'),
+    path('backgroundagent/logout/', ba_views.background_agent_logout, name='background_agent_logout'),
+    path('backgroundagent/', ba_views.background_agent_page, name='background_agent'),
+    path('backgroundagent/session/<str:session_id>/', ba_views.background_agent_session_page, name='background_agent_session_page'),
+    path('backgroundagent/github/connect/', ba_views.background_agent_github_connect, name='background_agent_github_connect'),
+    path('backgroundagent/github/disconnect/', ba_views.background_agent_github_disconnect, name='background_agent_github_disconnect'),
+    path('backgroundagent/api/state/', ba_views.background_agent_state, name='background_agent_state'),
+    path('backgroundagent/api/repositories/', ba_views.background_agent_repositories, name='background_agent_repositories'),
+    path('backgroundagent/api/branches/', ba_views.background_agent_branches, name='background_agent_branches'),
+    path('backgroundagent/api/projects/', ba_views.background_agent_create_project, name='background_agent_create_project'),
+    path('backgroundagent/api/sessions/', ba_views.background_agent_create_session, name='background_agent_create_session'),
+    path('backgroundagent/api/sessions/<str:session_id>/', ba_views.background_agent_session_detail, name='background_agent_session_detail'),
+    path('backgroundagent/api/sessions/<str:session_id>/events/', ba_views.background_agent_session_events, name='background_agent_session_events'),
+    path('backgroundagent/api/sessions/<str:session_id>/messages/', ba_views.background_agent_session_message, name='background_agent_session_message'),
+    path('backgroundagent/api/sessions/<str:session_id>/control/', ba_views.background_agent_session_control, name='background_agent_session_control'),
+    path('backgroundagent/api/sessions/<str:session_id>/actions/', ba_views.background_agent_session_action, name='background_agent_session_action'),
+    path('backgroundagent/api/sessions/<str:session_id>/artifacts/<str:kind>/', ba_views.background_agent_download_artifact, name='background_agent_download_artifact'),
 ]

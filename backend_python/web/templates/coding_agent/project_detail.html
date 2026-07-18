@@ -1,0 +1,90 @@
+{% extends "admin_panel/base.html" %}
+{% load static %}
+{% block title %}{{ project.repo_full_name }} | Background Coding Agent{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'web/css/coding-agent.css' %}">
+{% endblock %}
+
+{% block content %}
+{% include "coding_agent/_partials.html" %}
+<div class="agent-layout" data-page="project-detail" data-project-id="{{ project.id }}">
+  {% include "coding_agent/_sidebar.html" %}
+
+  <main class="agent-main-content">
+    <header class="agent-top-header">
+      <div class="agent-header-left">
+        <a class="agent-back-btn" href="{% url 'coding_agent:project_list' %}">
+          <span class="material-symbols-outlined">chevron_left</span>
+        </a>
+        <h1>{{ project.repo_full_name }}</h1>
+        <span class="agent-badge-pill">branch: {{ project.default_branch }}</span>
+      </div>
+      <div class="agent-header-actions">
+        <button class="agent-btn-secondary" data-action="refresh-project" data-project-id="{{ project.id }}">
+          <span class="material-symbols-outlined">refresh</span> Refresh
+        </button>
+        <button class="agent-btn-danger" data-action="archive-project" data-project-id="{{ project.id }}">
+          <span class="material-symbols-outlined">archive</span> Archive
+        </button>
+      </div>
+    </header>
+
+    <div class="agent-container">
+      <div class="agent-prompt-card">
+        <h3>Start a new session on {{ project.repo_full_name }}</h3>
+        <form id="agent_project_session_form">
+          <textarea id="agent_new_task" placeholder="Plan a task for Qwen 3.7 Plus to execute on branch off {{ project.default_branch }}..." rows="4" required></textarea>
+          
+          <div id="agent_detail_attachments_preview" class="agent-attachment-preview-row" hidden></div>
+
+          <div class="agent-prompt-toolbar">
+            <div class="agent-model-pill small">
+              <span class="material-symbols-outlined agent-model-icon">terminal</span>
+              <span>OpenCode: Qwen 3.7 Plus</span>
+            </div>
+
+            <div class="agent-prompt-actions">
+              <input type="file" id="agent_detail_file_input" multiple hidden>
+              <button type="button" class="agent-action-btn icon-only" id="agent_detail_attach_btn" title="Attach file or image">
+                <span class="material-symbols-outlined">add</span>
+              </button>
+              <button type="button" class="agent-action-btn submit-btn" id="agent_new_session_btn" title="Start Session">
+                <span class="material-symbols-outlined">arrow_forward</span>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="agent-section">
+        <h2>Active & Past Sessions</h2>
+        {% if sessions %}
+        <div class="agent-sessions-list">
+          {% for s in sessions %}
+          <a class="agent-session-row-card" href="{% url 'coding_agent:session_detail' s.id %}">
+            <div class="session-card-left">
+              <span class="material-symbols-outlined">call_split</span>
+              <div class="session-title-box">
+                <div class="session-title-text">{{ s.title|default:s.task }}</div>
+                <div class="session-branch-text">{{ s.branch|default:"main" }}</div>
+              </div>
+            </div>
+            <div class="session-card-right">
+              <span class="agent-status-pill agent-status-{{ s.status }}">{{ s.get_status_display }}</span>
+              <span class="session-iter">{{ s.iterations }} iters</span>
+            </div>
+          </a>
+          {% endfor %}
+        </div>
+        {% else %}
+        <div class="agent-empty-diff">
+          <span class="material-symbols-outlined">history</span>
+          <p>No active sessions on this project yet. Write a task above to begin.</p>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </main>
+</div>
+{% endblock %}

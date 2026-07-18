@@ -1,0 +1,264 @@
+{% extends "admin_panel/base.html" %}
+{% load static %}
+{% block title %}{{ session.title|default:session.task|truncatechars:60 }} | Session | Tembo AI Surface{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'web/css/coding-agent.css' %}">
+{% endblock %}
+
+{% block content %}
+{% include "coding_agent/_partials.html" %}
+{% include "coding_agent/_session_data.html" %}
+<div class="agent-layout split-layout">
+  {% include "coding_agent/_sidebar.html" %}
+
+  <main class="agent-session-main">
+    <header class="agent-session-topbar">
+      <div class="topbar-left">
+        <a class="agent-back-btn" href="{% url 'coding_agent:project_detail' session.project.id %}" title="Back to project">
+          <span class="material-symbols-outlined">chevron_left</span>
+        </a>
+        <div class="agent-task-title-box">
+          <span class="material-symbols-outlined task-icon">call_split</span>
+          <span class="task-title-text">{{ session.title|default:session.task }}</span>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <button type="button" class="topbar-icon-btn" title="More options">
+          <span class="material-symbols-outlined">more_horiz</span>
+        </button>
+        <button type="button" class="topbar-icon-btn active" id="toggle_right_pane_btn" title="Toggle Side Pane">
+          <span class="material-symbols-outlined">vertical_split</span>
+        </button>
+      </div>
+    </header>
+
+    <div class="agent-session-viewport" id="agent_session_viewport">
+      <div class="agent-chat-column">
+        <div id="agent_messages" class="agent-messages-container">
+          {% include "coding_agent/_messages_render.html" %}
+        </div>
+
+        <div class="agent-bottom-chat-box">
+          <form id="agent_chat_form" autocomplete="off">
+            <textarea id="agent_chat_input" placeholder="Follow up with anything..." rows="3"></textarea>
+
+            <div id="agent_chat_attachments_preview" class="agent-attachment-preview-row" hidden></div>
+
+            <div class="agent-chat-toolbar">
+              <div class="agent-model-pill small" id="agent_session_model_pill">
+                <span class="material-symbols-outlined agent-model-icon">terminal</span>
+                <span>OpenCode: {{ session.model|default:"Qwen 3.7 Plus" }}</span>
+                <span class="material-symbols-outlined dropdown-arrow">unfold_more</span>
+              </div>
+
+              <div class="agent-chat-actions">
+                <input type="file" id="agent_session_file_input" multiple hidden>
+                <button type="button" class="agent-action-btn icon-only" id="agent_session_attach_btn" title="Attach file or image">
+                  <span class="material-symbols-outlined">add</span>
+                </button>
+                <button type="submit" class="agent-action-btn submit-btn" id="agent_chat_send" title="Send message">
+                  <span class="material-symbols-outlined">arrow_upward</span>
+                </button>
+              </div>
+            </div>
+          </form>
+
+          <div class="agent-chat-footer">
+            <div class="footer-repo-info">
+              <span class="material-symbols-outlined repo-icon">code</span>
+              <span>{{ session.project.repo_name }}</span>
+              <span class="material-symbols-outlined branch-icon">call_split</span>
+              <span>{{ session.branch|truncatechars:20 }}</span>
+            </div>
+            <div class="footer-vm-status">
+              <span class="vm-status-badge {{ session.status }}">
+                <span class="vm-dot"></span>
+                {% if session.status == 'running' %}VM Running{% elif session.status == 'finished' or session.status == 'stopped' %}VM Stopped{% else %}VM Idle{% endif %}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="agent-right-pane" id="agent_right_pane">
+        <div class="right-pane-tabs-header">
+          <div class="tab-list">
+            <button type="button" class="pane-tab active" data-tab="changes">Changes</button>
+            <button type="button" class="pane-tab" data-tab="files">Files</button>
+            <button type="button" class="pane-tab" data-tab="artifacts">Artifacts</button>
+            <button type="button" class="pane-tab" data-tab="terminal">Terminal</button>
+            <button type="button" class="pane-tab" data-tab="logs">VM logs</button>
+          </div>
+          <div class="pane-tab-actions">
+            <div class="pane-add-view-dropdown">
+              <button type="button" class="pane-tab-add-btn" id="pane_add_view_btn" title="Add view">+</button>
+              <div class="pane-add-view-menu" id="pane_add_view_menu" hidden>
+                <div class="add-view-item" data-tab="artifacts"><span class="material-symbols-outlined">description</span> Artifacts</div>
+                <div class="add-view-item" data-tab="computer"><span class="material-symbols-outlined">computer</span> Computer</div>
+                <div class="add-view-item" data-tab="files"><span class="material-symbols-outlined">folder</span> Files</div>
+                <div class="add-view-item" data-tab="terminal"><span class="material-symbols-outlined">terminal</span> Terminal</div>
+                <div class="add-view-item" data-tab="logs"><span class="material-symbols-outlined">view_list</span> VM logs</div>
+              </div>
+            </div>
+            <span class="material-symbols-outlined pane-resize-handle">code</span>
+          </div>
+        </div>
+
+        <div class="right-pane-body">
+          <!-- Changes Tab Content -->
+          <div class="tab-content active" id="tab_changes_content">
+            <div class="pr-status-banner">
+              <div class="pr-status-top">
+                <span class="pr-open-pill">
+                  <span class="material-symbols-outlined">call_split</span> Open
+                </span>
+                <span class="pr-repo-ref">{{ session.project.repo_full_name }} #{{ session.pr_number|default:"30" }}</span>
+              </div>
+              <h3 class="pr-banner-title">{{ session.title|default:session.task }}</h3>
+              <div class="pr-actions-row">
+                <button type="button" class="review-beta-btn" data-action="open-pr" data-session-id="{{ session.id }}">
+                  Go to Review Beta <span class="material-symbols-outlined">unfold_more</span>
+                </button>
+                <a href="{% url 'coding_agent:ajax_session_download' session.id %}" class="pr-settings-btn" title="Download ZIP">
+                  <span class="material-symbols-outlined">folder_zip</span>
+                </a>
+                <button type="button" class="pr-settings-btn" data-action="push-branch" data-session-id="{{ session.id }}" title="Push to Remote">
+                  <span class="material-symbols-outlined">upload</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="diff-cards-list" id="agent_diff_cards_list">
+              {% for fc in files_recent %}
+              <div class="diff-file-card" data-path="{{ fc.path }}">
+                <div class="diff-card-header">
+                  <span class="material-symbols-outlined toggle-chevron">expand_more</span>
+                  <span class="diff-file-path" title="{{ fc.path }}">{{ fc.path }}</span>
+                  <div class="diff-card-meta">
+                    <span class="diff-stats-plus">+{{ fc.additions }}</span>
+                    <span class="diff-bar-preview"></span>
+                    <label class="viewed-checkbox-label">
+                      <input type="checkbox" class="viewed-checkbox">
+                      <span>Viewed</span>
+                    </label>
+                  </div>
+                </div>
+                <div class="diff-card-body">
+                  {% if fc.patch %}
+                  <pre class="diff-patch-code"><code>{{ fc.patch }}</code></pre>
+                  {% else %}
+                  <div class="no-changes-msg">No changes or binary content</div>
+                  {% endif %}
+                </div>
+              </div>
+              {% empty %}
+              <div class="agent-empty-diff">
+                <span class="material-symbols-outlined">rule</span>
+                <p>No uncommitted or branch diffs yet.</p>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+
+          <!-- Files Tab Content (Inbuilt File Viewer: Markdown, Code, Image) -->
+          <div class="tab-content" id="tab_files_content">
+            <div class="file-browser-shell">
+              <div class="file-tree-toolbar">
+                <span class="material-symbols-outlined">folder</span>
+                <span class="file-tree-title">Workspace Repository Files</span>
+                <button type="button" class="file-tree-refresh-btn" id="refresh_files_tree_btn">
+                  <span class="material-symbols-outlined">refresh</span>
+                </button>
+              </div>
+              <div class="file-tree-container" id="file_tree_container">
+                <div class="file-tree-loading">Loading workspace files...</div>
+              </div>
+
+              <div class="inbuilt-file-viewer" id="inbuilt_file_viewer" hidden>
+                <div class="viewer-header">
+                  <span class="material-symbols-outlined viewer-icon" id="viewer_file_icon">description</span>
+                  <span class="viewer-filename" id="viewer_filename">README.md</span>
+                  <div class="viewer-actions">
+                    <button type="button" class="viewer-mode-btn active" id="viewer_mode_rendered">Rendered</button>
+                    <button type="button" class="viewer-mode-btn" id="viewer_mode_source">Source</button>
+                  </div>
+                </div>
+                <div class="viewer-body" id="viewer_content_body">
+                  <div class="markdown-preview" id="viewer_md_preview"></div>
+                  <pre class="code-preview" id="viewer_code_preview" hidden><code></code></pre>
+                  <div class="image-preview" id="viewer_img_preview" hidden><img src="" alt="File Preview"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Artifacts Tab Content -->
+          <div class="tab-content" id="tab_artifacts_content">
+            <div class="artifacts-list" id="artifacts_list_container">
+              <div class="artifacts-header">
+                <h4>Generated Code & Output Artifacts</h4>
+              </div>
+              {% for fc in files_recent %}
+              <div class="artifact-item" data-path="{{ fc.path }}">
+                <span class="material-symbols-outlined">code</span>
+                <div class="artifact-info">
+                  <div class="artifact-name">{{ fc.path }}</div>
+                  <div class="artifact-sub">Added +{{ fc.additions }} / Deleted -{{ fc.deletions }}</div>
+                </div>
+                <button type="button" class="artifact-view-btn" onclick="openFileInViewer('{{ fc.path }}')">View</button>
+              </div>
+              {% empty %}
+              <div class="agent-empty-inline">No artifacts generated yet.</div>
+              {% endfor %}
+            </div>
+          </div>
+
+          <!-- Terminal Tab Content -->
+          <div class="tab-content" id="tab_terminal_content">
+            <div class="terminal-shell">
+              <div class="terminal-header">
+                <span class="material-symbols-outlined">terminal</span>
+                <span>Workspace Terminal Execution Session</span>
+              </div>
+              <pre class="terminal-body" id="terminal_output_log">$ agent daemon worker connected.
+$ workspace initialized at {{ session.workspace_path|default:"/tmp/coding_agent_workspaces" }}
+$ branch: {{ session.branch }}</pre>
+            </div>
+          </div>
+
+          <!-- VM Logs Tab Content -->
+          <div class="tab-content" id="tab_logs_content">
+            <div class="vmlogs-shell">
+              <div class="vmlogs-header">
+                <span class="material-symbols-outlined">receipt_long</span>
+                <span>Agent Background Execution Logs</span>
+              </div>
+              <div class="vmlogs-body" id="vm_logs_container">
+                {% for ev in events_recent %}
+                <div class="log-entry {{ ev.event_type }}">
+                  <span class="log-time">{{ ev.created_at }}</span>
+                  <span class="log-summary">[{{ ev.event_type|upper }}] {{ ev.summary }}</span>
+                  {% if ev.detail %}<pre class="log-detail">{{ ev.detail }}</pre>{% endif %}
+                </div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
+</div>
+
+<script nonce="{{ csp_nonce }}">
+window.AGENT_SESSION = {
+  id: "{{ session.id }}",
+  branch: "{{ session.branch|escapejs }}",
+  status: "{{ session.status }}",
+  workspacePath: "{{ session.workspace_path|escapejs }}",
+  wsGroup: "agent.{{ session.id }}",
+  userWsGroup: "agent.user.{{ request.user.id }}"
+};
+</script>
+{% endblock %}
