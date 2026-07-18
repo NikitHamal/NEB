@@ -12,6 +12,7 @@
      data-projects-url="{% url 'web:background_agent_create_project' %}"
      data-sessions-url="{% url 'web:background_agent_create_session' %}"
      data-session-url-template="{% url 'web:background_agent_session_page' '__SESSION__' %}"
+     data-lifecycle-url-template="{% url 'web:background_agent_session_lifecycle' '__SESSION__' %}"
      data-disconnect-url="{% url 'web:background_agent_github_disconnect' %}"
      data-connect-url="{% url 'web:background_agent_github_connect' %}"
      data-initial-connected="{{ github_connected|yesno:'true,false' }}">
@@ -74,7 +75,7 @@
       </section>
 
       <section class="ba-recent-section">
-        <div class="ba-section-heading"><div><span class="ba-eyebrow">Recent work</span><h2>Sessions</h2></div><span id="ba-session-count" class="ba-count-badge">0</span></div>
+        <div class="ba-section-heading"><div><span class="ba-eyebrow">Recent work</span><h2 id="ba-session-heading">Sessions</h2></div><div class="ba-section-heading-actions"><button id="ba-toggle-archived" class="ba-text-button" type="button"><span class="material-symbols-outlined">archive</span><span>Archived</span></button><span id="ba-session-count" class="ba-count-badge">0</span></div></div>
         <div id="ba-session-list" class="ba-session-grid"></div>
       </section>
     </div>
@@ -109,6 +110,30 @@
           <button id="ba-cancel-project" class="ba-button ba-button-secondary" type="button">Cancel</button>
           <button id="ba-save-project" class="ba-button ba-button-primary" type="button"><span class="material-symbols-outlined">add</span>Add project</button>
         </div>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog id="ba-disconnect-dialog" class="ba-dialog ba-confirm-dialog" aria-labelledby="ba-disconnect-title">
+    <div class="ba-dialog-shell ba-confirm-shell">
+      <div class="ba-confirm-icon ba-confirm-icon-danger"><span class="material-symbols-outlined">link_off</span></div>
+      <h2 id="ba-disconnect-title">Disconnect GitHub?</h2>
+      <p>This removes the Background Agent GitHub connection. Existing tasks remain available, but new repository actions will be unavailable until you reconnect.</p>
+      <div class="ba-dialog-actions">
+        <button id="ba-disconnect-cancel" class="ba-button ba-button-secondary" type="button">Cancel</button>
+        <button id="ba-disconnect-confirm" class="ba-button ba-button-danger" type="button">Disconnect</button>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog id="ba-session-lifecycle-dialog" class="ba-dialog ba-confirm-dialog" aria-labelledby="ba-session-lifecycle-title">
+    <div class="ba-dialog-shell ba-confirm-shell">
+      <div class="ba-confirm-icon"><span class="material-symbols-outlined" id="ba-session-lifecycle-icon">archive</span></div>
+      <h2 id="ba-session-lifecycle-title">Archive session?</h2>
+      <p id="ba-session-lifecycle-copy"></p>
+      <div class="ba-dialog-actions">
+        <button id="ba-session-lifecycle-cancel" class="ba-button ba-button-secondary" type="button">Cancel</button>
+        <button id="ba-session-lifecycle-confirm" class="ba-button ba-button-primary" type="button">Archive</button>
       </div>
     </div>
   </dialog>

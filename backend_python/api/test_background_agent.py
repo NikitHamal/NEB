@@ -505,3 +505,34 @@ class BackgroundAgentAdminViewTests(TestCase):
         login_background_admin(other, self.other_admin)
         detail = reverse('web:background_agent_session_detail', args=[session_id])
         self.assertEqual(other.get(detail).status_code, 404)
+
+    def test_admin_can_archive_restore_and_delete_finished_session(self):
+        session = BackgroundAgentSession.objects.create(
+            id=uuid_str(),
+            project=self.project,
+            admin_user=self.admin,
+            bot_config=self.provider,
+            title='Finished task',
+            goal='Finish the requested production task safely.',
+            source_branch='main',
+            status='completed',
+            created_at=now_ms(),
+            updated_at=now_ms(),
+        )
+        client = Client()
+        login_background_admin(client, self.admin)
+        url = reverse('web:background_agent_session_lifecycle', args=[session.id])
+
+        archived = client.post(url, data=json.dumps({'action': 'archive'}), content_type='application/json')
+        self.assertEqual(archived.status_code, 200)
+        session.refresh_from_db()
+        self.assertGreater(session.archived_at, 0)
+
+        restored = client.post(url, data=json.dumps({'action': 'restore'}), content_type='application/json')
+        self.assertEqual(restored.status_code, 200)
+        session.refresh_from_db()
+        self.assertEqual(session.archived_at, 0)
+
+        deleted = client.delete(url)
+        self.assertEqual(deleted.status_code, 200)
+        self.assertFalse(BackgroundAgentSession.objects.filter(pk=session.id).exists())

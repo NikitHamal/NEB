@@ -5,7 +5,7 @@
   var root = BA.qs('#background-agent-app');
   if (!root) return;
 
-  var state = { github: null, projects: [], sessions: [], model: null, selectedProject: '', repositories: [], selectedRepo: null };
+  var state = { github: null, projects: [], sessions: [], model: null, selectedProject: '', repositories: [], selectedRepo: null, archivedMode: false, lifecycleTarget: null, lifecycleAction: '' };
   var els = {
     connect: BA.qs('#ba-connect-panel'), workspace: BA.qs('#ba-connected-workspace'), githubCard: BA.qs('#ba-github-connected'),
     githubLogin: BA.qs('#ba-github-login'), disconnect: BA.qs('#ba-disconnect'), addRepo: BA.qs('#ba-open-repo-dialog'),
@@ -16,7 +16,11 @@
     repoConfig: BA.qs('#ba-repo-config'), repoBack: BA.qs('#ba-repo-back'), selectedRepoName: BA.qs('#ba-selected-repo-name'),
     selectedRepoDescription: BA.qs('#ba-selected-repo-description'), repoBasePicker: BA.qs('#ba-repo-base-picker'),
     saveProject: BA.qs('#ba-save-project'), cancelProject: BA.qs('#ba-cancel-project'), fileInput: BA.qs('#ba-file-input'),
-    attachmentList: BA.qs('#ba-attachment-list'), composer: BA.qs('#ba-task-composer'), attach: BA.qs('#ba-attach')
+    attachmentList: BA.qs('#ba-attachment-list'), composer: BA.qs('#ba-task-composer'), attach: BA.qs('#ba-attach'),
+    archivedToggle: BA.qs('#ba-toggle-archived'), sessionHeading: BA.qs('#ba-session-heading'), lifecycleDialog: BA.qs('#ba-session-lifecycle-dialog'),
+    lifecycleTitle: BA.qs('#ba-session-lifecycle-title'), lifecycleCopy: BA.qs('#ba-session-lifecycle-copy'), lifecycleIcon: BA.qs('#ba-session-lifecycle-icon'),
+    lifecycleCancel: BA.qs('#ba-session-lifecycle-cancel'), lifecycleConfirm: BA.qs('#ba-session-lifecycle-confirm'),
+    disconnectDialog: BA.qs('#ba-disconnect-dialog'), disconnectCancel: BA.qs('#ba-disconnect-cancel'), disconnectConfirm: BA.qs('#ba-disconnect-confirm')
   };
 
   var projectPicker = BA.createPicker({
@@ -29,6 +33,7 @@
   var attachments = BA.createAttachmentController({ input: els.fileInput, list: els.attachmentList, dropZone: els.composer });
 
   function sessionUrl(id) { return root.dataset.sessionUrlTemplate.replace('__SESSION__', encodeURIComponent(id)); }
+  function lifecycleUrl(id) { return root.dataset.lifecycleUrlTemplate.replace('__SESSION__', encodeURIComponent(id)); }
   function statusLabel(value) { return String(value || 'queued').replace(/_/g, ' '); }
 
   function setBusy(button, busy) {
@@ -105,28 +110,106 @@
 
   function renderSessions() {
     els.sessionCount.textContent = state.sessions.length;
+    els.sessionHeading.textContent = state.archivedMode ? 'Archived sessions' : 'Sessions';
+    els.archivedToggle.classList.toggle('active', state.archivedMode);
+    els.archivedToggle.querySelector('span:last-child').textContent = state.archivedMode ? 'Recent' : 'Archived';
+    els.archivedToggle.querySelector('.material-symbols-outlined').textContent = state.archivedMode ? 'history' : 'archive';
     els.sessionList.innerHTML = '';
     if (!state.sessions.length) {
-      els.sessionList.innerHTML = '<div class="ba-empty-state"><span class="material-symbols-outlined">history</span><p>Your tasks will appear here.</p></div>';
+      var message = state.archivedMode ? 'No archived sessions.' : 'Your tasks will appear here.';
+      els.sessionList.innerHTML = '<div class="ba-empty-state"><span class="material-symbols-outlined">' + (state.archivedMode ? 'inventory_2' : 'history') + '</span><p>' + message + '</p></div>';
       return;
     }
     state.sessions.forEach(function (session) {
-      var link = document.createElement('a');
-      link.href = sessionUrl(session.id);
-      link.className = 'ba-session-card';
+      var row = document.createElement('article');
+      row.className = 'ba-session-card';
       var title = session.title || session.goal || 'Untitled task';
-      link.innerHTML = '<div class="ba-session-card-main"><div class="ba-session-card-title"><span class="ba-status-pill"></span><strong></strong></div><p></p><div class="ba-session-card-meta"><span class="repo"></span><span class="branch"></span><span class="time"></span></div></div><div class="ba-session-card-side"><div class="ba-session-progress"><span></span></div><span class="material-symbols-outlined">chevron_right</span></div>';
-      var pill = link.querySelector('.ba-status-pill');
+      row.innerHTML = '<a class="ba-session-card-link"><div class="ba-session-card-main"><div class="ba-session-card-title"><span class="ba-status-pill"></span><strong></strong></div><p></p><div class="ba-session-card-meta"><span class="repo"></span><span class="branch"></span><span class="time"></span></div></div><div class="ba-session-card-side"><div class="ba-session-progress"><span></span></div><span class="material-symbols-outlined">chevron_right</span></div></a><div class="ba-session-menu-wrap"><button class="ba-icon-button ba-icon-button-quiet ba-session-menu-trigger" type="button" aria-label="Session actions" aria-haspopup="menu" aria-expanded="false"><span class="material-symbols-outlined">more_vert</span></button><div class="ba-session-menu" role="menu" hidden></div></div>';
+      var link = row.querySelector('.ba-session-card-link');
+      link.href = sessionUrl(session.id);
+      var pill = row.querySelector('.ba-status-pill');
       pill.className += ' ' + session.status;
       pill.textContent = statusLabel(session.status);
-      link.querySelector('strong').textContent = title;
-      link.querySelector('p').textContent = session.progressLabel || session.summary || session.goal;
-      link.querySelector('.repo').textContent = session.repoFullName;
-      link.querySelector('.branch').textContent = session.workBranch || session.sourceBranch;
-      link.querySelector('.time').textContent = BA.timeAgo(session.updatedAt || session.createdAt);
-      link.querySelector('.ba-session-progress span').style.width = Math.max(2, Number(session.progress || 0)) + '%';
-      els.sessionList.appendChild(link);
+      row.querySelector('strong').textContent = title;
+      row.querySelector('p').textContent = session.progressLabel || session.summary || session.goal;
+      row.querySelector('.repo').textContent = session.repoFullName;
+      row.querySelector('.branch').textContent = session.workBranch || session.sourceBranch;
+      row.querySelector('.time').textContent = BA.timeAgo(session.updatedAt || session.createdAt);
+      row.querySelector('.ba-session-progress span').style.width = Math.max(2, Number(session.progress || 0)) + '%';
+      var menu = row.querySelector('.ba-session-menu');
+      var primaryAction = state.archivedMode ? 'restore' : 'archive';
+      var activeSession = ['queued', 'preparing', 'running'].includes(session.status);
+      menu.innerHTML = '<button type="button" role="menuitem" data-action="' + primaryAction + '"><span class="material-symbols-outlined">' + (state.archivedMode ? 'unarchive' : 'archive') + '</span>' + (state.archivedMode ? 'Restore session' : 'Archive session') + '</button><button type="button" role="menuitem" data-action="delete" class="danger"><span class="material-symbols-outlined">delete</span>Delete permanently</button>';
+      if (activeSession) {
+        BA.qsa('button', menu).forEach(function (button) {
+          button.disabled = true;
+          button.title = 'Stop this task before archiving or deleting it';
+        });
+      }
+      var trigger = row.querySelector('.ba-session-menu-trigger');
+      trigger.addEventListener('click', function (event) {
+        event.stopPropagation();
+        closeSessionMenus(menu);
+        var open = menu.hidden;
+        menu.hidden = !open;
+        trigger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+      menu.addEventListener('click', function (event) {
+        var button = event.target.closest('[data-action]');
+        if (!button) return;
+        menu.hidden = true;
+        trigger.setAttribute('aria-expanded', 'false');
+        openLifecycleDialog(session, button.dataset.action);
+      });
+      els.sessionList.appendChild(row);
     });
+  }
+
+  function closeSessionMenus(except) {
+    BA.qsa('.ba-session-menu').forEach(function (menu) {
+      if (menu !== except) menu.hidden = true;
+    });
+    BA.qsa('.ba-session-menu-trigger').forEach(function (button) {
+      if (!except || button.parentElement.querySelector('.ba-session-menu') !== except) button.setAttribute('aria-expanded', 'false');
+    });
+  }
+
+  function openLifecycleDialog(session, action) {
+    state.lifecycleTarget = session;
+    state.lifecycleAction = action;
+    var deleting = action === 'delete';
+    var restoring = action === 'restore';
+    els.lifecycleIcon.textContent = deleting ? 'delete' : (restoring ? 'unarchive' : 'archive');
+    els.lifecycleTitle.textContent = deleting ? 'Delete this session?' : (restoring ? 'Restore this session?' : 'Archive this session?');
+    els.lifecycleCopy.textContent = deleting
+      ? 'This permanently removes the task history, attachments, generated artifacts, and local worktree. This cannot be undone.'
+      : (restoring ? 'The session will return to your recent work list.' : 'The session will move out of recent work without deleting its history or artifacts.');
+    els.lifecycleConfirm.textContent = deleting ? 'Delete permanently' : (restoring ? 'Restore' : 'Archive');
+    els.lifecycleConfirm.classList.toggle('ba-button-danger', deleting);
+    els.lifecycleDialog.showModal();
+  }
+
+  async function applyLifecycle() {
+    var session = state.lifecycleTarget;
+    var action = state.lifecycleAction;
+    if (!session || !action) return;
+    setBusy(els.lifecycleConfirm, true);
+    try {
+      if (action === 'delete') {
+        await BA.api(lifecycleUrl(session.id), { method: 'DELETE' });
+      } else {
+        await BA.json(lifecycleUrl(session.id), { action: action });
+      }
+      els.lifecycleDialog.close();
+      BA.toast(action === 'delete' ? 'Session deleted.' : (action === 'restore' ? 'Session restored.' : 'Session archived.'), 'success');
+      await loadState();
+    } catch (error) {
+      BA.toast(error.message, 'error');
+    } finally {
+      setBusy(els.lifecycleConfirm, false);
+      state.lifecycleTarget = null;
+      state.lifecycleAction = '';
+    }
   }
 
   function branchOptions(branches, defaultBranch) {
@@ -162,7 +245,7 @@
 
   async function loadState() {
     try {
-      var data = await BA.api(root.dataset.stateUrl);
+      var data = await BA.api(root.dataset.stateUrl + (state.archivedMode ? '?archived=1' : ''));
       state.github = data.github;
       state.projects = data.projects || [];
       state.sessions = data.sessions || [];
@@ -332,6 +415,11 @@
   }
 
   els.attach.addEventListener('click', function () { els.fileInput.click(); });
+  els.archivedToggle.addEventListener('click', function () { state.archivedMode = !state.archivedMode; loadState(); });
+  els.lifecycleCancel.addEventListener('click', function () { els.lifecycleDialog.close(); });
+  els.lifecycleConfirm.addEventListener('click', applyLifecycle);
+  els.lifecycleDialog.addEventListener('click', function (event) { if (event.target === els.lifecycleDialog) els.lifecycleDialog.close(); });
+  document.addEventListener('click', function (event) { if (!event.target.closest('.ba-session-menu-wrap')) closeSessionMenus(); });
   els.start.addEventListener('click', startSession);
   els.goal.addEventListener('keydown', function (event) { if ((event.metaKey || event.ctrlKey) && event.key === 'Enter') startSession(); });
   els.addRepo.addEventListener('click', openRepositoryDialog);
@@ -352,18 +440,25 @@
   els.saveProject.addEventListener('click', saveProject);
   els.dialog.addEventListener('click', function (event) { if (event.target === els.dialog) closeRepositoryDialog(); });
   els.dialog.addEventListener('close', function () { repoBasePicker.close(); });
-  els.disconnect.addEventListener('click', async function () {
-    if (!window.confirm('Disconnect GitHub from the Background Agent?')) return;
+  els.disconnect.addEventListener('click', function () { els.disconnectDialog.showModal(); });
+  els.disconnectCancel.addEventListener('click', function () { els.disconnectDialog.close(); });
+  els.disconnectDialog.addEventListener('click', function (event) { if (event.target === els.disconnectDialog) els.disconnectDialog.close(); });
+  els.disconnectConfirm.addEventListener('click', async function () {
+    setBusy(els.disconnectConfirm, true);
     try {
       await BA.json(root.dataset.disconnectUrl, {});
       state.github = { connected: false };
       state.projects = [];
       state.sessions = [];
+      els.disconnectDialog.close();
       applyGithub(state.github);
       renderProjects();
       renderSessions();
+      BA.toast('GitHub disconnected.', 'success');
     } catch (error) {
       BA.toast(error.message, 'error');
+    } finally {
+      setBusy(els.disconnectConfirm, false);
     }
   });
 
