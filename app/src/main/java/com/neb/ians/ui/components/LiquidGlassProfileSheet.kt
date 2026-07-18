@@ -1,7 +1,6 @@
 package com.neb.ians.ui.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -35,8 +34,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
@@ -66,7 +63,7 @@ fun LiquidGlassProfileSheet(
     ModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = sheetState,
-        containerColor = Color.Transparent,
+        containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
         scrimColor = Color.Black.copy(alpha = if (isDark) 0.54f else 0.32f),
         shape = shape,
         dragHandle = null
@@ -74,27 +71,6 @@ fun LiquidGlassProfileSheet(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .shadow(
-                    elevation = 28.dp,
-                    shape = shape,
-                    ambientColor = Color.Black.copy(alpha = 0.22f),
-                    spotColor = Color.Black.copy(alpha = 0.28f)
-                )
-                .clip(shape)
-                .background(
-                    Brush.verticalGradient(
-                        colors = listOf(
-                            MaterialTheme.colorScheme.surfaceContainerLowest.copy(alpha = if (isDark) 0.96f else 0.90f),
-                            MaterialTheme.colorScheme.surfaceContainer.copy(alpha = if (isDark) 0.94f else 0.84f),
-                            MaterialTheme.colorScheme.surfaceContainerHigh.copy(alpha = if (isDark) 0.92f else 0.78f)
-                        )
-                    )
-                )
-                .border(
-                    width = 1.dp,
-                    color = Color.White.copy(alpha = if (isDark) 0.12f else 0.62f),
-                    shape = shape
-                )
                 .navigationBarsPadding()
                 .padding(start = 16.dp, top = 10.dp, end = 16.dp, bottom = 18.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp)
@@ -111,12 +87,7 @@ fun LiquidGlassProfileSheet(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(24.dp))
-                    .background(MaterialTheme.colorScheme.surface.copy(alpha = if (isDark) 0.38f else 0.52f))
-                    .border(
-                        1.dp,
-                        MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f),
-                        RoundedCornerShape(24.dp)
-                    )
+                    .background(MaterialTheme.colorScheme.surfaceContainerLow)
                     .clickable(onClick = onProfileClick)
                     .padding(16.dp),
                 verticalAlignment = Alignment.CenterVertically,
@@ -148,7 +119,7 @@ fun LiquidGlassProfileSheet(
                 Box(
                     modifier = Modifier
                         .size(38.dp)
-                        .background(MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.72f), CircleShape),
+                        .background(MaterialTheme.colorScheme.primaryContainer, CircleShape),
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
@@ -182,12 +153,7 @@ fun LiquidGlassProfileSheet(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(24.dp))
-                    .background(MaterialTheme.colorScheme.surface.copy(alpha = if (isDark) 0.32f else 0.44f))
-                    .border(
-                        1.dp,
-                        MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.42f),
-                        RoundedCornerShape(24.dp)
-                    )
+                    .background(MaterialTheme.colorScheme.surfaceContainerLow)
                     .padding(vertical = 6.dp)
             ) {
                 ProfileGlassRow(Icons.Outlined.Newspaper, "Blog", onBlogClick)
@@ -219,7 +185,7 @@ private fun ProfileGlassAction(
         modifier = modifier
             .height(64.dp)
             .clip(RoundedCornerShape(20.dp))
-            .background(MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.56f))
+            .background(MaterialTheme.colorScheme.secondaryContainer)
             .clickable(onClick = onClick)
             .padding(horizontal = 14.dp),
         verticalAlignment = Alignment.CenterVertically,

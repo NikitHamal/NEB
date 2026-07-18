@@ -407,12 +407,7 @@ fun NEBiansNavHost(
                     },
                     onSearchClick = { navController.navigate(Screen.Search.route) },
                     onViewAllClick = { navController.navigate(Screen.Library.createRoute()) },
-                    onSubjectClick = { subject ->
-                        navController.navigate(Screen.Library.createRoute(subject))
-                    },
                     onForumClick = { navController.navigate(Screen.Forum.route) },
-                    onStudyLabClick = { navController.navigate(Screen.StudyLab.route) },
-                    onNebyAiClick = { navController.navigate(Screen.NebyAi.route) },
                     onNewsClick = { navController.navigate(Screen.News.route) },
                     onUploadClick = { navController.navigate(Screen.Upload.route) },
                     onNewsItemClick = { slug -> navController.navigate(Screen.NewsDetail.createRoute(slug)) },

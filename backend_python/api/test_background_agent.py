@@ -6,11 +6,14 @@ import zipfile
 from pathlib import Path
 from unittest import mock
 
-from django.contrib.auth import get_user_model
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import Client, SimpleTestCase, TestCase, override_settings
 from django.urls import reverse
 
+from api.background_agent.attachments import qwen_files_for_iteration, prompt_attachment_block, save_uploads
+from api.background_agent.context import COMPACTION_SYSTEM_PROMPT, SUMMARY_STRUCTURE, compact_if_needed
 from api.background_agent.crypto import decrypt_secret, encrypt_secret
+from api.background_agent.events import add_message
 from api.background_agent.runner import BackgroundAgentRunner, parse_model_response
 from api.background_agent.workspace import GitWorkspace, ToolExecutor, WorkspaceError, build_branch_name
 from api.models import (
@@ -18,8 +21,29 @@ from api.models import (
     BackgroundAgentProject,
     BackgroundAgentSession,
     BotConfig,
+    User,
 )
+from api.security import hash_password
 from api.utils import now_ms, uuid_str
+from web.background_agent_auth import SESSION_KEY
+
+
+def create_api_user(username, *, is_admin=True):
+    return User.objects.create(
+        id=uuid_str(),
+        username=username,
+        email=f'{username}@example.com',
+        display_name=username.replace('-', ' ').title(),
+        password_hash=hash_password('secret-password'),
+        is_admin=is_admin,
+        created_at=now_ms(),
+    )
+
+
+def login_background_admin(client, user):
+    session = client.session
+    session[SESSION_KEY] = str(user.id)
+    session.save()
 
 
 class BackgroundAgentProtocolTests(SimpleTestCase):
@@ -35,6 +59,14 @@ class BackgroundAgentProtocolTests(SimpleTestCase):
         self.assertEqual(parsed.thought, 'inspect')
         self.assertEqual(parsed.actions[0]['tool'], 'list_files')
         self.assertEqual(parsed.summary, 's')
+
+    def test_model_json_protocol_repairs_nested_json_and_trailing_commas(self):
+        parsed = parse_model_response(
+            'analysis first {"thought":"edit","actions":[{"tool":"write_file","arguments":{"path":"a.json","content":"{\\"ok\\": true}"},}],"summary":"next",}'
+        )
+        self.assertEqual(parsed.thought, 'edit')
+        self.assertEqual(parsed.actions[0]['arguments']['path'], 'a.json')
+        self.assertEqual(parsed.actions[0]['arguments']['content'], '{"ok": true}')
 
     def test_non_json_provider_output_is_not_executed(self):
         parsed = parse_model_response('I changed everything successfully.')
@@ -57,8 +89,7 @@ class BackgroundAgentWorkspaceTests(TestCase):
             BACKGROUND_AGENT_ALLOW_LOCAL_EXECUTION=False,
         )
         self.settings_override.enable()
-        User = get_user_model()
-        self.admin = User.objects.create_user(username='agent-admin', password='secret', is_staff=True)
+        self.admin = create_api_user('agent-admin')
         self.credential = BackgroundAgentCredential.objects.create(
             admin_user=self.admin,
             encrypted_access_token=encrypt_secret('token'),
@@ -195,6 +226,76 @@ new file mode 100644
             executor.apply_patch(escape_patch)
 
 
+class BackgroundAgentContextAndAttachmentTests(TestCase):
+    def setUp(self):
+        self.temp_dir = tempfile.mkdtemp(prefix='background-agent-context-')
+        self.settings_override = override_settings(
+            BACKGROUND_AGENT_ROOT=Path(self.temp_dir),
+            BACKGROUND_AGENT_CONTEXT_WINDOW_TOKENS=16000,
+            BACKGROUND_AGENT_CONTEXT_COMPACTION_THRESHOLD=0.50,
+            BACKGROUND_AGENT_MAX_ATTACHMENTS=5,
+        )
+        self.settings_override.enable()
+        self.admin = create_api_user('context-admin')
+        credential = BackgroundAgentCredential.objects.create(
+            admin_user=self.admin,
+            encrypted_access_token=encrypt_secret('token'),
+            created_at=now_ms(),
+            updated_at=now_ms(),
+        )
+        project = BackgroundAgentProject.objects.create(
+            id=uuid_str(),
+            admin_user=self.admin,
+            credential=credential,
+            repo_full_name='example/context',
+            clone_url='https://github.com/example/context.git',
+            default_branch='main',
+            created_at=now_ms(),
+            updated_at=now_ms(),
+        )
+        self.session = BackgroundAgentSession.objects.create(
+            id=uuid_str(),
+            project=project,
+            admin_user=self.admin,
+            goal='Use context and files',
+            source_branch='main',
+            context_window_tokens=16000,
+            created_at=now_ms(),
+            updated_at=now_ms(),
+        )
+
+    def tearDown(self):
+        self.settings_override.disable()
+        shutil.rmtree(self.temp_dir, ignore_errors=True)
+
+    def test_attachments_are_persisted_exposed_to_prompt_and_sent_once(self):
+        message = add_message(self.session, 'user', 'Inspect this specification')
+        rows = save_uploads(self.session, message, [
+            SimpleUploadedFile('requirements.md', b'# Requirements\nBuild the viewer.\n', content_type='text/markdown'),
+            SimpleUploadedFile('reference.png', b'\x89PNG\r\n\x1a\nnot-a-real-image', content_type='image/png'),
+        ])
+        self.assertEqual(len(rows), 2)
+        block = prompt_attachment_block(message)
+        self.assertIn('requirements.md', block)
+        self.assertIn('Build the viewer.', block)
+        paths, pending = qwen_files_for_iteration(self.session)
+        self.assertEqual(len(paths), 1)
+        self.assertEqual([row.file_name for row in pending], ['reference.png'])
+
+    def test_context_compacts_at_threshold_with_exact_system_prompt(self):
+        for index in range(10):
+            add_message(self.session, 'user' if index % 2 == 0 else 'assistant', f'message-{index}\n' + ('x' * 5000))
+        compact_call = mock.Mock(return_value=SUMMARY_STRUCTURE + '\n- preserved state')
+        snapshot = compact_if_needed(self.session, 'fixed task prompt', compact_call)
+        self.session.refresh_from_db()
+        self.assertEqual(compact_call.call_count, 1)
+        self.assertEqual(compact_call.call_args.args[0], COMPACTION_SYSTEM_PROMPT)
+        self.assertIn('<conversation-history>', compact_call.call_args.args[1])
+        self.assertEqual(self.session.context_compactions, 1)
+        self.assertIn('# Goal', self.session.context_summary)
+        self.assertLess(snapshot.estimated_tokens, snapshot.threshold_tokens)
+
+
 class BackgroundAgentRunnerIntegrationTests(TestCase):
     def setUp(self):
         self.temp_dir = tempfile.mkdtemp(prefix='background-agent-runner-')
@@ -202,6 +303,7 @@ class BackgroundAgentRunnerIntegrationTests(TestCase):
             BACKGROUND_AGENT_ROOT=Path(self.temp_dir) / 'agent-data',
             BACKGROUND_AGENT_EXECUTION_BACKEND='local',
             BACKGROUND_AGENT_ALLOW_LOCAL_EXECUTION=False,
+            BACKGROUND_AGENT_PROVIDER_ATTEMPTS=1,
         )
         self.settings_override.enable()
         source = Path(self.temp_dir) / 'source'
@@ -215,8 +317,7 @@ class BackgroundAgentRunnerIntegrationTests(TestCase):
         self.remote = Path(self.temp_dir) / 'remote.git'
         subprocess.run(['git', 'clone', '--bare', str(source), str(self.remote)], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
-        User = get_user_model()
-        admin = User.objects.create_user(username='runner-admin', password='secret', is_staff=True)
+        admin = create_api_user('runner-admin')
         credential = BackgroundAgentCredential.objects.create(
             admin_user=admin,
             encrypted_access_token=encrypt_secret('token'),
@@ -235,11 +336,11 @@ class BackgroundAgentRunnerIntegrationTests(TestCase):
             updated_at=now_ms(),
         )
         provider = BotConfig.objects.create(
-            name='Runner Provider',
+            name='Qwen 3.7 Plus',
             enabled=True,
             bot_username='runner-background-agent-provider',
-            provider='custom',
-            model='runner-test-model',
+            provider='qwen',
+            model='qwen3.7-plus',
         )
         self.session = BackgroundAgentSession.objects.create(
             id=uuid_str(),
@@ -253,14 +354,15 @@ class BackgroundAgentRunnerIntegrationTests(TestCase):
             created_at=now_ms(),
             updated_at=now_ms(),
         )
+        add_message(self.session, 'user', self.session.goal)
 
     def tearDown(self):
         self.settings_override.disable()
         shutil.rmtree(self.temp_dir, ignore_errors=True)
 
-    @mock.patch('api.background_agent.runner.call_ai_api')
-    def test_runner_clones_branches_edits_and_completes_durably(self, call_ai):
-        call_ai.side_effect = [
+    @mock.patch('api.background_agent.runner.qwen_proxy.call_qwen')
+    def test_runner_clones_branches_edits_and_completes_durably(self, call_qwen):
+        call_qwen.side_effect = [
             json.dumps({
                 'thought': 'Create the requested module.',
                 'actions': [{
@@ -285,15 +387,19 @@ class BackgroundAgentRunnerIntegrationTests(TestCase):
         self.assertIn('health.py', json.loads(self.session.changed_files))
         self.assertIn('health.py', self.session.final_diff)
         self.assertEqual(self.session.artifacts.count(), 2)
-        self.assertEqual(call_ai.call_count, 2)
+        self.assertEqual(call_qwen.call_count, 2)
+        for invocation in call_qwen.call_args_list:
+            self.assertEqual(invocation.kwargs['model'], 'qwen3.7-plus')
 
 
 class BackgroundAgentAdminViewTests(TestCase):
     def setUp(self):
-        User = get_user_model()
-        self.admin = User.objects.create_user(username='admin', password='secret', is_staff=True)
-        self.other_admin = User.objects.create_user(username='other', password='secret', is_staff=True)
-        self.member = User.objects.create_user(username='member', password='secret', is_staff=False)
+        self.temp_dir = tempfile.mkdtemp(prefix='background-agent-view-')
+        self.settings_override = override_settings(BACKGROUND_AGENT_ROOT=Path(self.temp_dir))
+        self.settings_override.enable()
+        self.admin = create_api_user('admin')
+        self.other_admin = create_api_user('other')
+        self.member = create_api_user('member', is_admin=False)
         self.credential = BackgroundAgentCredential.objects.create(
             admin_user=self.admin,
             encrypted_access_token=encrypt_secret('token'),
@@ -313,44 +419,89 @@ class BackgroundAgentAdminViewTests(TestCase):
             updated_at=now_ms(),
         )
         self.provider = BotConfig.objects.create(
-            name='Test Provider',
+            name='Qwen 3.7 Plus',
             enabled=True,
             bot_username='test-background-agent-provider',
-            provider='custom',
-            model='test-model',
+            provider='qwen',
+            model='qwen3.7-plus',
         )
 
-    def test_page_is_staff_only(self):
+    def tearDown(self):
+        self.settings_override.disable()
+        shutil.rmtree(self.temp_dir, ignore_errors=True)
+
+    def test_page_is_platform_admin_only(self):
         url = reverse('web:background_agent')
         self.assertEqual(Client().get(url).status_code, 302)
         member_client = Client()
-        member_client.force_login(self.member)
+        login_background_admin(member_client, self.member)
         self.assertEqual(member_client.get(url).status_code, 302)
         admin_client = Client()
-        admin_client.force_login(self.admin)
+        login_background_admin(admin_client, self.admin)
         self.assertEqual(admin_client.get(url).status_code, 200)
 
-    def test_admin_can_queue_session_and_other_admin_cannot_read_it(self):
+
+    @override_settings(GITHUB_CLIENT_ID='test-github-client', GITHUB_CLIENT_SECRET='test-secret')
+    @mock.patch('web.views_auth.store_background_agent_github', return_value=('octocat', None))
+    def test_github_oauth_state_is_bound_to_the_signed_in_admin_session(self, exchange):
         client = Client()
-        client.force_login(self.admin)
+        login_background_admin(client, self.admin)
+        connect = client.get(reverse('web:background_agent_github_connect'))
+        self.assertEqual(connect.status_code, 302)
+        state = client.session.get('background_agent_github_oauth_state')
+        self.assertTrue(state and state.startswith('bg::'))
+
+        callback = client.get(reverse('web:github_callback'), {'state': state, 'code': 'oauth-code'})
+        self.assertEqual(callback.status_code, 302)
+        exchange.assert_called_once()
+        self.assertEqual(exchange.call_args.args[0], self.admin)
+        self.assertEqual(exchange.call_args.kwargs['code'], 'oauth-code')
+
+        replay = client.get(reverse('web:github_callback'), {'state': state, 'code': 'oauth-code'})
+        self.assertEqual(replay.status_code, 403)
+
+    def test_admin_can_queue_session_with_attachment_and_other_admin_cannot_read_it(self):
+        client = Client()
+        login_background_admin(client, self.admin)
         response = client.post(
             reverse('web:background_agent_create_session'),
-            data=json.dumps({
+            data={
                 'projectId': self.project.id,
                 'goal': 'Add a complete production-ready health check endpoint and tests.',
                 'sourceBranch': 'main',
-                'providerId': self.provider.id,
-                'maxIterations': 20,
-            }),
-            content_type='application/json',
+                'files': SimpleUploadedFile('brief.md', b'# Brief\nUse Django.\n', content_type='text/markdown'),
+            },
         )
         self.assertEqual(response.status_code, 201, response.content)
         session_id = response.json()['session']['id']
         session = BackgroundAgentSession.objects.get(pk=session_id)
         self.assertEqual(session.status, 'queued')
+        self.assertEqual(session.bot_config, self.provider)
         self.assertEqual(session.messages.filter(role='user').count(), 1)
+        self.assertEqual(session.attachments.count(), 1)
+
+        files_response = client.get(reverse('web:background_agent_session_files', args=[session_id]))
+        self.assertEqual(files_response.status_code, 200)
+        self.assertEqual(files_response.json()['files'], [])
+
+        attachment = session.attachments.get()
+        file_response = client.get(
+            reverse('web:background_agent_session_file', args=[session_id]),
+            {'attachment': attachment.id},
+        )
+        self.assertEqual(file_response.status_code, 200)
+        self.assertEqual(file_response.json()['file']['name'], 'brief.md')
+        self.assertIn('Use Django.', file_response.json()['file']['content'])
+
+        preview_response = client.get(
+            reverse('web:background_agent_session_preview', args=[session_id]),
+            {'attachment': attachment.id},
+        )
+        self.assertEqual(preview_response.status_code, 200)
+        self.assertTrue(preview_response['Content-Type'].startswith('text/plain'))
+        self.assertIn('sandbox', preview_response['Content-Security-Policy'])
 
         other = Client()
-        other.force_login(self.other_admin)
+        login_background_admin(other, self.other_admin)
         detail = reverse('web:background_agent_session_detail', args=[session_id])
         self.assertEqual(other.get(detail).status_code, 404)

@@ -81,7 +81,7 @@ class Migration(migrations.Migration):
                 ('started_at', models.BigIntegerField(default=0)),
                 ('created_at', models.BigIntegerField(default=0)),
                 ('updated_at', models.BigIntegerField(default=0)),
-                ('project', models.ForeignKey(on_delete=models.deletion.CASCADE, related_name='sessions', to='coding_agent.codingagentproject')),
+                ('project', models.ForeignKey(on_delete=models.deletion.CASCADE, related_name='sessions', to='api.codingagentproject')),
                 ('assigned_to', models.ForeignKey(blank=True, null=True, on_delete=models.deletion.SET_NULL, related_name='assigned_coding_sessions', to='api.user')),
             ],
             options={
@@ -119,7 +119,7 @@ class Migration(migrations.Migration):
                 ('iteration', models.PositiveIntegerField(default=0)),
                 ('sequence', models.PositiveIntegerField(default=0)),
                 ('created_at', models.BigIntegerField(default=0)),
-                ('session', models.ForeignKey(on_delete=models.deletion.CASCADE, related_name='messages', to='coding_agent.codingagentsession')),
+                ('session', models.ForeignKey(on_delete=models.deletion.CASCADE, related_name='messages', to='api.codingagentsession')),
             ],
             options={
                 'db_table': 'coding_agent_messages',
@@ -151,7 +151,7 @@ class Migration(migrations.Migration):
                 ('error_text', models.TextField(blank=True, default='')),
                 ('created_at', models.BigIntegerField(default=0)),
                 ('finished_at', models.BigIntegerField(default=0)),
-                ('session', models.ForeignKey(on_delete=models.deletion.CASCADE, related_name='tool_calls', to='coding_agent.codingagentsession')),
+                ('session', models.ForeignKey(on_delete=models.deletion.CASCADE, related_name='tool_calls', to='api.codingagentsession')),
             ],
             options={
                 'db_table': 'coding_agent_tool_calls',
@@ -180,7 +180,7 @@ class Migration(migrations.Migration):
                 ('commit_sha', models.CharField(blank=True, default='', max_length=64)),
                 ('tool_call_id', models.CharField(blank=True, default='', max_length=36)),
                 ('created_at', models.BigIntegerField(default=0)),
-                ('session', models.ForeignKey(on_delete=models.deletion.CASCADE, related_name='file_changes', to='coding_agent.codingagentsession')),
+                ('session', models.ForeignKey(on_delete=models.deletion.CASCADE, related_name='file_changes', to='api.codingagentsession')),
             ],
             options={
                 'db_table': 'coding_agent_file_changes',
@@ -207,7 +207,7 @@ class Migration(migrations.Migration):
                 ('detail', models.TextField(blank=True, default='')),
                 ('payload_json', models.TextField(blank=True, default='')),
                 ('created_at', models.BigIntegerField(default=0)),
-                ('session', models.ForeignKey(on_delete=models.deletion.CASCADE, related_name='events', to='coding_agent.codingagentsession')),
+                ('session', models.ForeignKey(on_delete=models.deletion.CASCADE, related_name='events', to='api.codingagentsession')),
             ],
             options={
                 'db_table': 'coding_agent_events',

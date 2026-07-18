@@ -20,6 +20,7 @@ from api.models import BackgroundAgentCredential
 from api.utils import now_ms
 
 STATE_PREFIX = 'bg::'
+SESSION_STATE_KEY = 'background_agent_github_oauth_state'
 SCOPES = 'repo workflow read:org user:email'
 
 

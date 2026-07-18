@@ -335,17 +335,21 @@ private fun VideoYouTubeLayout(
 
         item(key = "video_author") {
             HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
+            val uploadUsername = resource.uploadedByUsername.ifBlank { resource.authorName.orEmpty() }
+            val authorLabel = uploadUsername.ifBlank { resource.authorName ?: "NEBians Team" }
+            val isSelf = uploadUsername.isNotBlank() && uploadUsername.equals(uiState.currentUsername, ignoreCase = true)
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .then(
+                        if (uploadUsername.isNotBlank())
+                            Modifier.clickable { onUserProfileClick(uploadUsername) }
+                        else Modifier
+                    )
                     .padding(horizontal = 16.dp, vertical = 12.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                val uploadUsername = resource.uploadedByUsername.ifBlank { resource.authorName.orEmpty() }
-                val authorLabel = uploadUsername.ifBlank { resource.authorName ?: "NEBians Team" }
-                val isSelf = uploadUsername.isNotBlank() && uploadUsername.equals(uiState.currentUsername, ignoreCase = true)
-
                 NebAvatar(
                     name = authorLabel.ifEmpty { "N" },
                     photoUrl = uiState.authorPhotoUrl,

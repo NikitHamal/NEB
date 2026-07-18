@@ -1,409 +1,203 @@
 (function () {
   'use strict';
+  var BA = window.BA;
+  var root = BA.qs('#background-agent-session');
+  if (!root) return;
 
-  const app = document.getElementById('background-agent-session');
-  if (!app) return;
-
-  const SESSION_ID = app.dataset.sessionId;
-  const urls = {
-    detail: app.dataset.detailUrl,
-    events: app.dataset.eventsUrl,
-    message: app.dataset.messageUrl,
-    control: app.dataset.controlUrl,
-    action: app.dataset.actionUrl,
-    dashboard: app.dataset.dashboardUrl,
-    loginUrl: app.dataset.loginUrl || '/backgroundagent/login',
+  var state = { session: null, lastEvent: 0, messages: new Map(), files: [], activeFile: '', poll: null, detailTimer: null, diff: '' };
+  var els = {
+    title: BA.qs('#bs-title'), status: BA.qs('#bs-status-badge'), repoShort: BA.qs('#bs-repo-short'), branchShort: BA.qs('#bs-branch-short'),
+    progressLabel: BA.qs('#bs-progress-label'), progressValue: BA.qs('#bs-progress-value'), progressBar: BA.qs('#bs-progress-bar'), updated: BA.qs('#bs-updated-label'),
+    iteration: BA.qs('#bs-iteration-label'), contextBar: BA.qs('#bs-context-bar'), contextValue: BA.qs('#bs-context-value'), contextMeter: BA.qs('.ba-context-meter'),
+    conversation: BA.qs('#bs-conversation'), pause: BA.qs('#bs-pause'), resume: BA.qs('#bs-resume'), stop: BA.qs('#bs-stop'), refresh: BA.qs('#bs-refresh'),
+    followup: BA.qs('#bs-followup'), send: BA.qs('#bs-send'), attach: BA.qs('#bs-attach'), fileInput: BA.qs('#bs-file-input'), attachmentList: BA.qs('#bs-attachment-list'), followupWrap: BA.qs('#bs-followup-wrap'),
+    fileCount: BA.qs('#bs-file-count'), diffSummary: BA.qs('#bs-diff-summary'), stackedDiff: BA.qs('#bs-stacked-diff'), copyDiff: BA.qs('#bs-copy-diff'),
+    fileList: BA.qs('#bs-file-list'), fileSearch: BA.qs('#bs-file-search'), refreshFiles: BA.qs('#bs-refresh-files'), viewerIcon: BA.qs('#bs-viewer-icon'), viewerName: BA.qs('#bs-viewer-name'), viewerMeta: BA.qs('#bs-viewer-meta'), viewerContent: BA.qs('#bs-viewer-content'),
+    downloads: BA.qs('#bs-download-actions'), push: BA.qs('#bs-push'), openPr: BA.qs('#bs-open-pr'), actions: BA.qs('#bs-action-history'), tests: BA.qs('#bs-test-summary')
   };
+  var attachments = BA.createAttachmentController({ input: els.fileInput, list: els.attachmentList, dropZone: els.followupWrap });
 
-  // Defensive helpers: a missing element must never crash the whole session.
-  const $ = (id) => document.getElementById(id);
-  const on = (el, evt, fn) => { if (el) el.addEventListener(evt, fn); };
-  const setHTML = (el, html) => { if (el) el.innerHTML = html; };
-  const setText = (el, text) => { if (el) el.textContent = text; };
-  const setHidden = (el, hidden) => { if (el) el.hidden = !!hidden; };
-
-  const els = {
-    statusBadge: $('bs-status-badge'),
-    statusIcon: $('bs-status-icon'),
-    detailRepo: $('bs-detail-repo'),
-    detailBranch: $('bs-detail-branch'),
-    detailTitle: $('bs-detail-title'),
-    progressLabel: $('bs-progress-label'),
-    progressValue: $('bs-progress-value'),
-    progressBar: $('bs-progress-bar'),
-    providerLabel: $('bs-provider-label'),
-    iterationLabel: $('bs-iteration-label'),
-    updatedLabel: $('bs-updated-label'),
-    pause: $('bs-pause'),
-    resume: $('bs-resume'),
-    stop: $('bs-stop'),
-    refresh: $('bs-refresh'),
-    conversation: $('bs-conversation'),
-    followup: $('bs-followup'),
-    sendFollowup: $('bs-send-followup'),
-    fileCount: $('bs-file-count'),
-    changedFiles: $('bs-changed-files'),
-    diff: $('bs-diff'),
-    copyDiff: $('bs-copy-diff'),
-    downloadActions: $('bs-download-actions'),
-    push: $('bs-push'),
-    openPr: $('bs-open-pr'),
-    actionHistory: $('bs-action-history'),
-    toastRegion: $('bs-toast-region'),
-  };
-
-  const TOOL_ICON = {
-    read_file: 'description', write_file: 'edit_note', edit_file: 'edit', multi_edit: 'edit_note',
-    delete_file: 'delete', copy_file: 'content_copy', move_file: 'drive_file_move',
-    create_directory: 'create_new_folder', list_files: 'folder_open', search_text: 'search',
-    apply_patch: 'difference', run_command: 'terminal',
-    git_status: 'task', git_diff: 'difference', git_log: 'history', git_stage: 'add_circle',
-    git_commit: 'commit', git_push: 'cloud_upload', git_pull: 'cloud_download', git_restore: 'undo',
-  };
-
-  const model = {
-    detail: null,
-    lastEventId: 0,
-    polling: false,
-    loadingDetail: false,
-    pollTimer: null,
-    stickToBottom: true,
-    renderedSignature: '',
-    terminalStatusSeen: false,
-  };
-
-  function escapeHtml(value) {
-    return String(value == null ? '' : value)
-      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+  function terminal(status) { return ['completed', 'failed', 'cancelled'].includes(status); }
+  function nearBottom() { return els.conversation.scrollHeight - els.conversation.scrollTop - els.conversation.clientHeight < 120; }
+  function scrollBottom(force) { if (force || nearBottom()) requestAnimationFrame(function () { els.conversation.scrollTop = els.conversation.scrollHeight; }); }
+  function statusLabel(value) { return String(value || 'queued').replace(/_/g, ' '); }
+  function setButtonBusy(button, busy) {
+    if (busy) { button.dataset.content = button.innerHTML; button.disabled = true; button.innerHTML = '<span class="ba-spinner"></span>'; }
+    else { button.disabled = false; if (button.dataset.content) button.innerHTML = button.dataset.content; }
   }
-
-  function toast(message, type) {
-    if (!els.toastRegion) return;
-    const node = document.createElement('div');
-    node.className = 'ba-toast' + (type === 'error' ? ' error' : '');
-    node.textContent = message;
-    els.toastRegion.appendChild(node);
-    setTimeout(() => node.remove(), 4200);
+  function updateSession(session) {
+    var previousStatus = state.session && state.session.status;
+    state.session = Object.assign({}, state.session || {}, session || {});
+    var current = state.session;
+    els.title.textContent = current.title || current.goal || 'Background task';
+    els.status.className = 'ba-status-badge ' + current.status; els.status.textContent = statusLabel(current.status);
+    els.repoShort.textContent = current.repoFullName || ''; els.branchShort.textContent = current.workBranch || current.sourceBranch || '';
+    els.progressLabel.textContent = current.progressLabel || statusLabel(current.status);
+    els.progressValue.textContent = Number(current.progress || 0) + '%'; els.progressBar.style.width = Number(current.progress || 0) + '%';
+    els.updated.textContent = BA.timeAgo(current.updatedAt || current.createdAt);
+    els.iteration.innerHTML = '<span class="material-symbols-outlined">repeat</span>Iteration ' + Number(current.iteration || 0);
+    var context = current.context || {}; var percent = Number(context.percent || 0);
+    els.contextBar.style.width = Math.min(100, percent) + '%'; els.contextValue.textContent = percent + '%';
+    els.contextMeter.classList.toggle('warning', percent >= 65 && percent < 80); els.contextMeter.classList.toggle('danger', percent >= 80);
+    els.contextMeter.title = 'Estimated context: ' + Number(context.estimatedTokens || 0).toLocaleString() + ' / ' + Number(context.windowTokens || 0).toLocaleString() + ' tokens · ' + Number(context.compactions || 0) + ' compactions';
+    var active = ['queued', 'preparing', 'running'].includes(current.status);
+    els.pause.hidden = !active; els.resume.hidden = !['paused', 'waiting', 'failed', 'completed'].includes(current.status); els.stop.disabled = terminal(current.status);
+    if (current.testSummary) els.tests.textContent = current.testSummary;
+    if (current.diff !== undefined && current.diff !== state.diff) { state.diff = current.diff || ''; renderDiff(); }
+    if (current.changedFiles) els.fileCount.textContent = current.changedFiles.length;
+    if (current.artifacts) renderArtifacts(current.artifacts);
+    if (current.actions) renderActions(current.actions);
+    if (current.summary && current.status === 'completed') renderSummary(current.summary);
+    if (previousStatus !== current.status && current.status === 'completed') { loadDetail(); loadFiles(); }
   }
-
-  function getCookie(name) {
-    const cookies = document.cookie ? document.cookie.split(';') : [];
-    for (const rawCookie of cookies) {
-      const cookie = rawCookie.trim();
-      if (cookie.startsWith(`${name}=`)) return decodeURIComponent(cookie.slice(name.length + 1));
+  function renderSummary(summary) {
+    var existing = BA.qs('[data-final-summary]', els.conversation);
+    if (!existing) { existing = document.createElement('div'); existing.className = 'ba-summary-card'; existing.dataset.finalSummary = 'true'; existing.innerHTML = '<strong>Task completed</strong><p></p>'; els.conversation.appendChild(existing); }
+    existing.querySelector('p').textContent = summary;
+  }
+  function messageNode(message) {
+    if (message.role === 'tool') {
+      var wrapper = document.createElement('div'); wrapper.className = 'ba-message tool';
+      var detail = document.createElement('details'); detail.className = 'ba-tool-event ' + (message.metadata?.ok === false ? 'error' : 'ok');
+      var summary = document.createElement('summary'); summary.innerHTML = '<span class="material-symbols-outlined">terminal</span><span class="ba-tool-label"></span><span class="ba-tool-state">' + (message.metadata?.ok === false ? 'Failed' : 'Done') + '</span>';
+      summary.querySelector('.ba-tool-label').textContent = message.label || message.metadata?.tool || 'Tool result';
+      var pre = document.createElement('pre');
+      try { pre.textContent = JSON.stringify(JSON.parse(message.content), null, 2); } catch (error) { pre.textContent = message.content; }
+      detail.append(summary, pre); wrapper.appendChild(detail); return wrapper;
     }
-    return '';
-  }
-
-  async function api(url, options) {
-    const opts = Object.assign({ credentials: 'same-origin' }, options || {});
-    opts.headers = Object.assign({ 'Accept': 'application/json' }, opts.headers || {});
-    if (opts.body && typeof opts.body !== 'string') {
-      opts.headers['Content-Type'] = 'application/json';
-      opts.body = JSON.stringify(opts.body);
+    var node = document.createElement('article'); node.className = 'ba-message ' + message.role;
+    var avatar = document.createElement('div'); avatar.className = 'ba-message-avatar'; avatar.innerHTML = '<span class="material-symbols-outlined">' + (message.role === 'user' ? 'person' : 'smart_toy') + '</span>';
+    var body = document.createElement('div'); body.className = 'ba-message-body';
+    var head = document.createElement('div'); head.className = 'ba-message-head'; head.innerHTML = '<strong></strong><time></time>'; head.querySelector('strong').textContent = message.role === 'user' ? 'You' : 'Background Agent'; head.querySelector('time').textContent = BA.timeAgo(message.createdAt);
+    var content = document.createElement('div'); content.className = 'ba-message-content'; content.innerHTML = BA.renderMarkdown(message.content || '');
+    body.append(head, content);
+    if (message.attachments && message.attachments.length) {
+      var list = document.createElement('div'); list.className = 'ba-message-attachments';
+      message.attachments.forEach(function (attachment) {
+        var button = document.createElement('button'); button.type = 'button'; button.className = 'ba-message-attachment';
+        button.innerHTML = '<span class="material-symbols-outlined">' + BA.fileIcon(attachment.name, attachment.kind) + '</span><div><strong></strong><small></small></div>';
+        button.querySelector('strong').textContent = attachment.name; button.querySelector('small').textContent = BA.formatBytes(attachment.sizeBytes);
+        button.addEventListener('click', function () { openReviewTab('files'); loadAttachment(attachment.id); }); list.appendChild(button);
+      });
+      body.appendChild(list);
     }
-    if (opts.method && opts.method !== 'GET') opts.headers['X-CSRFToken'] = getCookie('csrftoken');
-    const response = await fetch(url, opts);
-    let data;
-    try { data = await response.json(); } catch (_) { data = { ok: false, error: 'Server returned an invalid response.' }; }
-    if (response.status === 401 || data.authRequired) {
-      const next = encodeURIComponent(window.location.pathname + window.location.search);
-      window.location.href = urls.loginUrl + '?next=' + next;
-      throw new Error('Session expired. Redirecting to sign in…');
+    node.append(avatar, body); return node;
+  }
+  function addMessage(message, initial) {
+    if (!message || state.messages.has(String(message.id))) return;
+    state.messages.set(String(message.id), message); var stick = initial || nearBottom(); els.conversation.appendChild(messageNode(message)); scrollBottom(stick);
+  }
+  function addEvent(event) {
+    if (!event || Number(event.id || 0) <= state.lastEvent) return;
+    state.lastEvent = Math.max(state.lastEvent, Number(event.id || 0));
+    if (event.type === 'message.created' && event.payload?.message) { addMessage(event.payload.message, false); return; }
+    if (['model.requested', 'model.retrying', 'model.format_retry', 'context.compacting', 'context.compacted', 'workspace.ready', 'session.paused', 'session.resumed', 'session.waiting', 'session.failed', 'session.cancelled'].includes(event.type)) {
+      var node = document.createElement('div'); node.className = 'ba-system-event'; node.textContent = event.message || statusLabel(event.type); els.conversation.appendChild(node); scrollBottom(false);
     }
-    if (!response.ok || data.ok === false) throw new Error(data.error || `Request failed (${response.status})`);
-    return data;
-  }
-
-  function formatTime(ms) {
-    if (!ms) return '—';
-    const date = new Date(Number(ms));
-    const diff = Math.max(0, Date.now() - date.getTime());
-    if (diff < 60000) return 'just now';
-    if (diff < 3600000) return `${Math.floor(diff / 60000)}m ago`;
-    if (diff < 86400000) return `${Math.floor(diff / 3600000)}h ago`;
-    return date.toLocaleString([], { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
-  }
-
-  function statusLabel(status) {
-    return ({ queued: 'Queued', preparing: 'Preparing', running: 'Running', paused: 'Paused', waiting: 'Waiting', completed: 'Completed', failed: 'Failed', cancelled: 'Cancelled' })[status] || status;
-  }
-
-  function statusIconName(status) {
-    return ({ queued: 'schedule', preparing: 'sync', running: 'smart_toy', paused: 'pause_circle', waiting: 'help', completed: 'check_circle', failed: 'error', cancelled: 'cancel' })[status] || 'pending';
-  }
-
-  // ---- smart auto-scroll ----
-  function nearBottom() {
-    const el = els.conversation;
-    if (!el) return true;
-    return el.scrollHeight - el.scrollTop - el.clientHeight < 90;
-  }
-  on(els.conversation, 'scroll', () => { model.stickToBottom = nearBottom(); });
-
-  function scrollToBottom() {
-    const el = els.conversation;
-    if (!el) return;
-    el.scrollTop = el.scrollHeight;
-    model.stickToBottom = true;
-  }
-
-  // ---- loading ----
-  async function loadDetail(quiet) {
-    if (model.loadingDetail) return;
-    model.loadingDetail = true;
-    try {
-      const data = await api(urls.detail);
-      model.detail = data.session;
-      model.lastEventId = Math.max(0, ...(model.detail.events || []).map(e => Number(e.id || 0)));
-      model.renderedSignature = '';
-      render();
-    } catch (error) {
-      if (!quiet) toast(error.message, 'error');
-    } finally {
-      model.loadingDetail = false;
+    if (event.type === 'tool.executed' || event.type === 'tool.failed') {
+      var tool = event.payload?.tool || '';
+      if (['write_file', 'edit_file', 'multi_edit', 'apply_patch', 'delete_file', 'copy_file', 'move_file', 'git_restore'].includes(tool)) scheduleDetailRefresh();
     }
+    if (event.type === 'session.completed') scheduleDetailRefresh(true);
   }
-
-  async function pollEvents() {
-    if (!model.detail || model.polling || model.loadingDetail) return;
-    model.polling = true;
-    try {
-      const data = await api(`${urls.events}?after=${model.lastEventId}`);
-      if (!model.detail) return;
-      const summary = Object.assign({}, data.session || {});
-      delete summary.goal;
-      model.detail = Object.assign({}, model.detail, summary);
-      model.detail.actions = data.actions || model.detail.actions || [];
-      model.detail.artifacts = data.artifacts || model.detail.artifacts || {};
-      const knownEvents = new Set((model.detail.events || []).map(e => Number(e.id)));
-      const knownMessages = new Set((model.detail.messages || []).map(m => String(m.id)));
-      let needsFull = false;
-      let becameTerminal = false;
-      for (const event of (data.events || [])) {
-        const id = Number(event.id || 0);
-        model.lastEventId = Math.max(model.lastEventId, id);
-        if (!knownEvents.has(id)) {
-          (model.detail.events = model.detail.events || []).push(event);
-          knownEvents.add(id);
-        }
-        const message = event.payload && event.payload.message;
-        if (message && !knownMessages.has(String(message.id))) {
-          (model.detail.messages = model.detail.messages || []).push(message);
-          knownMessages.add(String(message.id));
-        }
-        if (event.type === 'session.completed' || event.type === 'artifacts.rebuilt') needsFull = true;
-        if (['session.completed', 'session.failed', 'session.cancelled'].includes(event.type)) becameTerminal = true;
-      }
-      model.detail.events = (model.detail.events || []).slice(-600);
-      model.detail.messages = (model.detail.messages || []).slice(-400);
-      if (needsFull) { await loadDetail(true); }
-      else render();
-      if (becameTerminal && !model.terminalStatusSeen) {
-        model.terminalStatusSeen = true;
-        model.stickToBottom = true;
-        render();
-      }
-    } catch (_) { /* transient; retried next interval */ }
-    finally { model.polling = false; }
+  function renderDiff() {
+    var files = BA.splitDiff(state.diff); els.stackedDiff.innerHTML = '';
+    els.fileCount.textContent = files.length; els.diffSummary.textContent = files.length ? files.length + ' changed file' + (files.length === 1 ? '' : 's') : 'No changes yet';
+    if (!files.length) { els.stackedDiff.innerHTML = '<div class="ba-empty-view"><span class="material-symbols-outlined">difference</span><p>Changes will appear here as the agent edits the workspace.</p></div>'; return; }
+    files.forEach(function (file) {
+      var card = document.createElement('article'); card.className = 'ba-diff-file';
+      var header = document.createElement('header'); header.innerHTML = '<strong></strong><span class="ba-diff-stats"><i class="ba-diff-add"></i><i class="ba-diff-del"></i></span>'; header.querySelector('strong').textContent = file.path; header.querySelector('.ba-diff-add').textContent = '+' + file.added; header.querySelector('.ba-diff-del').textContent = '-' + file.removed;
+      var lines = document.createElement('div'); lines.className = 'ba-diff-lines'; var number = 0;
+      file.text.split('\n').forEach(function (line) {
+        var row = document.createElement('div'); var type = 'meta';
+        if (line.startsWith('+') && !line.startsWith('+++')) type = 'added'; else if (line.startsWith('-') && !line.startsWith('---')) type = 'removed'; else if (line.startsWith('@@')) type = 'hunk'; else if (!line.startsWith('diff ') && !line.startsWith('index ') && !line.startsWith('---') && !line.startsWith('+++')) type = '';
+        row.className = 'ba-diff-line ' + type; if (!['meta', 'hunk'].includes(type)) number += 1;
+        var num = document.createElement('span'); num.className = 'num'; num.textContent = ['meta', 'hunk'].includes(type) ? '' : number;
+        var code = document.createElement('span'); code.className = 'code'; code.textContent = line || ' '; row.append(num, code); lines.appendChild(row);
+      });
+      card.append(header, lines); els.stackedDiff.appendChild(card);
+    });
   }
-
-  // ---- rendering ----
-  function render() {
-    const session = model.detail;
-    if (!session) return;
-
-    if (els.statusBadge) { els.statusBadge.className = `ba-status-badge ${escapeHtml(session.status)}`; els.statusBadge.textContent = statusLabel(session.status); }
-    if (els.statusIcon) { els.statusIcon.className = `ba-status-icon ${escapeHtml(session.status)}`; els.statusIcon.innerHTML = `<span class="material-symbols-outlined">${statusIconName(session.status)}</span>`; }
-    setText(els.detailRepo, session.repoFullName || '');
-    setText(els.detailBranch, session.workBranch || session.sourceBranch || '');
-    setText(els.progressLabel, session.progressLabel || statusLabel(session.status));
-    setText(els.progressValue, `${session.progress || 0}%`);
-    if (els.progressBar) els.progressBar.style.width = `${session.progress || 0}%`;
-    setText(els.providerLabel, session.provider ? `${session.provider.provider}/${session.provider.model}` : '');
-    setText(els.iterationLabel, `Iteration ${session.iteration || 0}`);
-    setText(els.updatedLabel, `Updated ${formatTime(session.updatedAt || session.createdAt)}`);
-
-    const active = ['queued', 'preparing', 'running'].includes(session.status);
-    setHidden(els.pause, !active);
-    setHidden(els.resume, !['paused', 'waiting', 'failed', 'completed'].includes(session.status));
-    if (els.stop) els.stop.disabled = ['completed', 'cancelled'].includes(session.status);
-
-    renderConversation(session);
-    renderFiles(session.changedFiles || []);
-    setText(els.diff, session.diff || 'No diff available yet. It appears when the agent finishes or rebuilds artifacts.');
-    renderDelivery(session);
-
-    // Stop polling once the session has settled into a terminal state.
-    if (['completed', 'failed', 'cancelled'].includes(session.status)) {
-      if (model.pollTimer) { clearInterval(model.pollTimer); model.pollTimer = null; }
-    }
+  function renderArtifacts(artifacts) {
+    els.downloads.innerHTML = '';
+    [['changes_zip', 'Download ZIP'], ['patch', 'Download patch']].forEach(function (item) {
+      var artifact = artifacts[item[0]]; if (!artifact) return;
+      var link = document.createElement('a'); link.href = artifact.downloadUrl; link.textContent = item[1] + ' · ' + BA.formatBytes(artifact.sizeBytes); els.downloads.appendChild(link);
+    });
+    if (!els.downloads.children.length) els.downloads.textContent = 'Available when changes are ready';
   }
-
-  function renderConversation(session) {
-    if (!els.conversation) return;
-    const messages = session.messages || [];
-    // Signature so we skip no-op re-renders (preserves the user's scroll position).
-    const signature = messages.map(m => `${m.id}:${m.createdAt}`).join('|');
-    if (signature === model.renderedSignature) return;
-    const firstRender = !model.renderedSignature;
-    model.renderedSignature = signature;
-
-    if (!messages.length) {
-      els.conversation.innerHTML = '<div class="ba-empty-small">The agent activity stream will appear here.</div>';
-      return;
-    }
-    const rows = messages
-      .slice()
-      .sort((a, b) => Number(a.createdAt || 0) - Number(b.createdAt || 0));
-    const html = rows.map(message =>
-      message.role === 'tool' ? renderToolRow(message) : renderMessage(message)
-    ).join('');
-    const wasNear = firstRender || model.stickToBottom;
-    const prevScroll = els.conversation.scrollTop;
-    els.conversation.innerHTML = html;
-    if (wasNear) scrollToBottom();
-    else els.conversation.scrollTop = prevScroll;
+  function renderActions(actions) {
+    els.actions.innerHTML = '';
+    (actions || []).forEach(function (action) { var row = document.createElement('div'); row.className = 'ba-action-row'; row.textContent = action.action.replace('_', ' ') + ' · ' + action.status + (action.error ? ' · ' + action.error : ''); els.actions.appendChild(row); });
   }
-
-  function renderMessage(message) {
-    const role = message.role || 'assistant';
-    const icon = role === 'user' ? 'person' : role === 'system' ? 'settings' : 'smart_toy';
-    let content = String(message.content || '');
-    if (role !== 'tool' && content.length > 20000) content = content.slice(0, 20000) + '\n…';
-    return `<article class="ba-message ${escapeHtml(role)}">
-      <div class="ba-message-avatar"><span class="material-symbols-outlined">${icon}</span></div>
-      <div>
-        <div class="ba-message-head"><strong>${escapeHtml(role === 'assistant' ? 'Agent' : role)}</strong><time>${escapeHtml(formatTime(message.createdAt))}</time></div>
-        <div class="ba-message-body">${escapeHtml(content)}</div>
-      </div>
-    </article>`;
+  function openReviewTab(name) {
+    BA.qsa('[data-review-tab]').forEach(function (button) { button.classList.toggle('active', button.dataset.reviewTab === name); });
+    BA.qsa('.ba-review-panel').forEach(function (panel) { panel.classList.toggle('active', panel.id === 'bs-panel-' + name); });
+    if (name === 'files' && !state.files.length) loadFiles();
   }
-
-  function renderToolRow(message) {
-    const meta = message.metadata || {};
-    const label = message.label || meta.label || (meta.tool ? meta.tool.replace(/_/g, ' ') : 'Tool');
-    const ok = meta.ok !== false;
-    const icon = ok ? (TOOL_ICON[meta.tool] || 'bolt') : 'error';
-    let body = '';
-    try {
-      const obj = JSON.parse(message.content || '{}');
-      if (obj.error) body = String(obj.error);
-      else if (obj.result != null) body = typeof obj.result === 'string' ? obj.result : JSON.stringify(obj.result, null, 2);
-      else body = JSON.stringify(obj, null, 2);
-    } catch (_) { body = String(message.content || ''); }
-    if (body.length > 8000) body = body.slice(0, 8000) + '\n…';
-    const bodyClass = ok ? '' : ' ba-tool-error';
-    const id = 'tr-' + String(message.id).replace(/[^a-z0-9]/gi, '');
-    return `<article class="ba-tool-row ${ok ? 'ok' : 'failed'}" id="${id}">
-      <div class="ba-tool-icon"><span class="material-symbols-outlined">${icon}</span></div>
-      <div class="ba-tool-main">
-        <div class="ba-tool-line" data-toggle="${id}">
-          <span class="ba-tool-label">${escapeHtml(label)}</span>
-          <span class="ba-tool-toggle">${ok ? '' : 'failed'}<span class="material-symbols-outlined">expand_more</span></span>
-        </div>
-        <pre class="ba-tool-result${bodyClass}">${escapeHtml(body)}</pre>
-      </div>
-    </article>`;
+  async function loadFiles() {
+    try { var data = await BA.api(root.dataset.filesUrl); state.files = data.files || []; renderFiles(); }
+    catch (error) { els.fileList.innerHTML = '<div class="ba-empty-state"><p>' + BA.escapeHtml(error.message) + '</p></div>'; }
   }
-
-  function renderFiles(files) {
-    setText(els.fileCount, String(files.length));
-    setHTML(els.changedFiles, files.length ? files.map(path => `<div class="ba-file-row"><span class="material-symbols-outlined">description</span><span>${escapeHtml(path)}</span></div>`).join('') : '<div class="ba-empty-small">No changed files recorded yet.</div>');
+  function renderFiles() {
+    var query = els.fileSearch.value.trim().toLowerCase(); var files = state.files.filter(function (file) { return !query || file.path.toLowerCase().includes(query); });
+    els.fileList.innerHTML = '';
+    if (!files.length) { els.fileList.innerHTML = '<div class="ba-empty-state"><p>No files found.</p></div>'; return; }
+    files.forEach(function (file) {
+      var button = document.createElement('button'); button.type = 'button'; button.className = 'ba-file-row' + (state.activeFile === file.path ? ' active' : '');
+      button.innerHTML = '<span class="material-symbols-outlined">' + BA.fileIcon(file.name, file.mode) + '</span><span></span>' + (file.changed ? '<i title="Changed"></i>' : ''); button.children[1].textContent = file.path;
+      button.addEventListener('click', function () { loadWorkspaceFile(file.path); }); els.fileList.appendChild(button);
+    });
   }
-
-  function renderDelivery(session) {
-    const artifacts = session.artifacts || {};
-    const buttons = [];
-    if (artifacts.changes_zip) buttons.push(`<a class="ba-btn ba-btn-primary" href="${escapeHtml(artifacts.changes_zip.downloadUrl)}"><span class="material-symbols-outlined">folder_zip</span>ZIP</a>`);
-    if (artifacts.patch) buttons.push(`<a class="ba-btn ba-btn-ghost" href="${escapeHtml(artifacts.patch.downloadUrl)}"><span class="material-symbols-outlined">difference</span>Patch</a>`);
-    if (!buttons.length) buttons.push('<button class="ba-btn ba-btn-ghost" type="button" data-rebuild-artifacts><span class="material-symbols-outlined">refresh</span>Build artifacts</button>');
-    setHTML(els.downloadActions, buttons.join(''));
-    const hasWorkspace = !!session.workBranch;
-    const running = ['queued', 'preparing', 'running'].includes(session.status);
-    if (els.push) els.push.disabled = !hasWorkspace || running;
-    if (els.openPr) els.openPr.disabled = !hasWorkspace || running;
-    const actions = session.actions || [];
-    setHTML(els.actionHistory, actions.length ? actions.map(action => {
-      const link = action.result && action.result.url ? `<a href="${escapeHtml(action.result.url)}" target="_blank" rel="noopener">Open on GitHub</a>` : '';
-      return `<div class="ba-action-row"><span><strong>${escapeHtml(action.action.replace('_', ' '))}</strong> · ${escapeHtml(action.status)}${action.error ? ` · ${escapeHtml(action.error)}` : ''}</span>${link}</div>`;
-    }).join('') : '');
+  async function loadWorkspaceFile(path) {
+    state.activeFile = path; renderFiles(); await loadFilePayload(root.dataset.fileUrl + '?path=' + encodeURIComponent(path));
   }
-
-  // ---- actions ----
-  async function control(command) {
-    try {
-      await api(urls.control, { method: 'POST', body: { command } });
-      toast(`${command.charAt(0).toUpperCase() + command.slice(1)} requested.`);
-      await loadDetail(true);
-    } catch (error) { toast(error.message, 'error'); }
+  async function loadAttachment(id) { state.activeFile = ''; renderFiles(); await loadFilePayload(root.dataset.fileUrl + '?attachment=' + encodeURIComponent(id)); }
+  async function loadFilePayload(url) {
+    els.viewerContent.innerHTML = '<div class="ba-empty-view"><span class="ba-spinner"></span><p>Loading preview…</p></div>';
+    try { var data = await BA.api(url); renderViewer(data.file); }
+    catch (error) { els.viewerContent.innerHTML = '<div class="ba-empty-view"><span class="material-symbols-outlined">error</span><p>' + BA.escapeHtml(error.message) + '</p></div>'; }
   }
-
+  function renderViewer(file) {
+    els.viewerName.textContent = file.name || file.path; els.viewerMeta.textContent = BA.formatBytes(file.sizeBytes); els.viewerIcon.textContent = BA.fileIcon(file.name, file.mode); els.viewerContent.innerHTML = '';
+    if (file.mode === 'markdown') { var md = document.createElement('article'); md.className = 'ba-markdown-view'; md.innerHTML = BA.renderMarkdown(file.content || ''); els.viewerContent.appendChild(md); }
+    else if (file.mode === 'text') { var pre = document.createElement('pre'); pre.className = 'ba-code-view'; pre.textContent = file.content || ''; els.viewerContent.appendChild(pre); }
+    else if (file.mode === 'image') { var imageWrap = document.createElement('div'); imageWrap.className = 'ba-image-view'; var img = document.createElement('img'); img.src = file.previewUrl; img.alt = file.name; imageWrap.appendChild(img); els.viewerContent.appendChild(imageWrap); }
+    else if (file.mode === 'pdf') { var frame = document.createElement('iframe'); frame.className = 'ba-pdf-view'; frame.src = file.previewUrl; frame.title = file.name; els.viewerContent.appendChild(frame); }
+    else if (file.mode === 'audio') { var audioWrap = document.createElement('div'); audioWrap.className = 'ba-media-view'; var audio = document.createElement('audio'); audio.controls = true; audio.preload = 'metadata'; audio.src = file.previewUrl; audioWrap.appendChild(audio); els.viewerContent.appendChild(audioWrap); }
+    else if (file.mode === 'video') { var videoWrap = document.createElement('div'); videoWrap.className = 'ba-media-view'; var video = document.createElement('video'); video.controls = true; video.preload = 'metadata'; video.src = file.previewUrl; videoWrap.appendChild(video); els.viewerContent.appendChild(videoWrap); }
+    else { var binary = document.createElement('div'); binary.className = 'ba-binary-view'; binary.innerHTML = '<span class="material-symbols-outlined">draft</span><p>This file type cannot be rendered in the browser.</p><a target="_blank" rel="noopener">Open file</a>'; binary.querySelector('a').href = file.previewUrl; els.viewerContent.appendChild(binary); }
+    if (file.truncated) { var note = document.createElement('div'); note.className = 'ba-truncated-note'; note.textContent = 'Preview truncated for performance.'; els.viewerContent.appendChild(note); }
+  }
   async function sendFollowup() {
-    const content = els.followup ? els.followup.value.trim() : '';
-    if (!content) return;
-    if (els.sendFollowup) els.sendFollowup.disabled = true;
+    var content = els.followup.value.trim(); var files = attachments.files(); if (!content && !files.length) return;
+    var form = new FormData(); form.append('content', content); form.append('resume', 'true'); files.forEach(function (file) { form.append('files', file, file.name); }); setButtonBusy(els.send, true);
+    try { var data = await BA.api(root.dataset.messageUrl, { method: 'POST', body: form }); addMessage(data.message, false); els.followup.value = ''; attachments.clear(); await pollEvents(); }
+    catch (error) { BA.toast(error.message, 'error'); } finally { setButtonBusy(els.send, false); }
+  }
+  async function control(command) { try { var data = await BA.json(root.dataset.controlUrl, { command: command }); updateSession(data.session); } catch (error) { BA.toast(error.message, 'error'); } }
+  async function action(name, button) { setButtonBusy(button, true); try { await BA.json(root.dataset.actionUrl, { action: name }); BA.toast(name === 'open_pr' ? 'Pull request queued.' : 'Action queued.', 'success'); await pollEvents(); } catch (error) { BA.toast(error.message, 'error'); } finally { setButtonBusy(button, false); } }
+  function scheduleDetailRefresh(immediate) { clearTimeout(state.detailTimer); state.detailTimer = setTimeout(function () { loadDetail(); loadFiles(); }, immediate ? 50 : 700); }
+  async function loadDetail() {
     try {
-      await api(urls.message, { method: 'POST', body: { content, resume: true } });
-      if (els.followup) els.followup.value = '';
-      model.terminalStatusSeen = false; // a resume may restart the loop
-      model.stickToBottom = true;
-      await loadDetail(true);
-      startPolling();
-      toast('Guidance sent to the agent.');
-    } catch (error) { toast(error.message, 'error'); }
-    finally { if (els.sendFollowup) els.sendFollowup.disabled = false; }
+      var data = await BA.api(root.dataset.detailUrl); var session = data.session;
+      updateSession(session); (session.messages || []).forEach(function (message) { addMessage(message, true); });
+      (session.events || []).forEach(addEvent); state.diff = session.diff || ''; renderDiff(); renderArtifacts(session.artifacts || {}); renderActions(session.actions || []);
+      if (session.summary && session.status === 'completed') renderSummary(session.summary); scrollBottom(true);
+    } catch (error) { BA.toast(error.message, 'error'); }
   }
-
-  async function queueAction(action, payload) {
+  async function pollEvents() {
     try {
-      await api(urls.action, { method: 'POST', body: { action, payload: payload || {} } });
-      toast(`${action.replace('_', ' ')} queued.`);
-      await loadDetail(true);
-    } catch (error) { toast(error.message, 'error'); }
+      var data = await BA.api(root.dataset.eventsUrl + '?after=' + state.lastEvent); updateSession(data.session); (data.events || []).forEach(addEvent); renderArtifacts(data.artifacts || {}); renderActions(data.actions || []);
+    } catch (error) { if (error.status === 401 || error.status === 403) clearInterval(state.poll); }
   }
 
-  function activateTab(name) {
-    document.querySelectorAll('.ba-tab').forEach(tab => tab.classList.toggle('active', tab.dataset.tab === name));
-    document.querySelectorAll('.ba-tab-panel').forEach(panel => panel.classList.toggle('active', panel.id === `bs-tab-${name}`));
-  }
+  BA.qsa('[data-review-tab]').forEach(function (button) { button.addEventListener('click', function () { openReviewTab(button.dataset.reviewTab); }); });
+  els.pause.addEventListener('click', function () { control('pause'); }); els.resume.addEventListener('click', function () { control('resume'); }); els.stop.addEventListener('click', function () { if (window.confirm('Stop this task?')) control('stop'); });
+  els.refresh.addEventListener('click', function () { loadDetail(); loadFiles(); }); els.attach.addEventListener('click', function () { els.fileInput.click(); }); els.send.addEventListener('click', sendFollowup);
+  els.followup.addEventListener('keydown', function (event) { if ((event.metaKey || event.ctrlKey) && event.key === 'Enter') { event.preventDefault(); sendFollowup(); } });
+  els.copyDiff.addEventListener('click', async function () { try { await navigator.clipboard.writeText(state.diff || ''); BA.toast('Diff copied.', 'success'); } catch (error) { BA.toast('Could not copy the diff.', 'error'); } });
+  els.refreshFiles.addEventListener('click', loadFiles); els.fileSearch.addEventListener('input', renderFiles); els.push.addEventListener('click', function () { action('push', els.push); }); els.openPr.addEventListener('click', function () { action('open_pr', els.openPr); });
 
-  function startPolling() {
-    if (model.pollTimer) clearInterval(model.pollTimer);
-    model.pollTimer = setInterval(() => {
-      if (!document.hidden && model.detail && !['completed', 'failed', 'cancelled'].includes(model.detail.status)) pollEvents();
-    }, 2500);
-  }
-
-  // ---- events (each guarded so one missing node never breaks the page) ----
-  on(els.pause, 'click', () => control('pause'));
-  on(els.resume, 'click', () => control('resume'));
-  on(els.stop, 'click', () => { if (confirm('Stop this session? The task branch and workspace will be preserved.')) control('stop'); });
-  on(els.refresh, 'click', () => loadDetail(false));
-  on(els.sendFollowup, 'click', sendFollowup);
-  on(els.followup, 'keydown', event => { if ((event.metaKey || event.ctrlKey) && event.key === 'Enter') sendFollowup(); });
-  on(els.copyDiff, 'click', async () => { try { await navigator.clipboard.writeText((model.detail && model.detail.diff) || ''); toast('Diff copied.'); } catch (_) { toast('Could not copy the diff.', 'error'); } });
-  on(els.push, 'click', () => queueAction('push'));
-  on(els.openPr, 'click', () => queueAction('open_pr'));
-  on(els.downloadActions, 'click', event => { if (event.target.closest('[data-rebuild-artifacts]')) queueAction('artifacts'); });
-  document.querySelectorAll('.ba-tab').forEach(tab => tab.addEventListener('click', () => activateTab(tab.dataset.tab)));
-  // Toggle tool result expansion (event delegation for dynamically rendered rows).
-  on(els.conversation, 'click', event => {
-    const line = event.target.closest('[data-toggle]');
-    if (line) {
-      const target = document.getElementById(line.dataset.toggle);
-      if (target) target.classList.toggle('open');
-    }
-  });
-  document.addEventListener('visibilitychange', () => { if (!document.hidden && model.detail) loadDetail(true); });
-
-  // ---- boot ----
-  loadDetail().then(() => {
-    model.stickToBottom = true;
-    if (model.detail) {
-      scrollToBottom();
-      if (!['completed', 'failed', 'cancelled'].includes(model.detail.status)) startPolling();
-    }
-  });
+  loadDetail().then(loadFiles); state.poll = setInterval(pollEvents, 2500); setInterval(function () { if (!document.hidden) loadDetail(); }, 15000);
 })();

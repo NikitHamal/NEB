@@ -1,6 +1,13 @@
 """Views Auth extracted from views.py."""
 from .view_helpers import *  # noqa: F401,F403
 from django.http import HttpResponseRedirect
+from api.background_agent.oauth import (
+    SESSION_STATE_KEY as BACKGROUND_AGENT_OAUTH_STATE_KEY,
+    STATE_PREFIX as BACKGROUND_AGENT_STATE_PREFIX,
+    exchange_and_store as store_background_agent_github,
+    parse_state as parse_background_agent_state,
+)
+from .background_agent_auth import SESSION_KEY as BACKGROUND_AGENT_ADMIN_SESSION_KEY
 
 
 class DeepLinkRedirect(HttpResponseRedirect):
@@ -261,6 +268,33 @@ def github_login(request):
 def github_callback(request):
     """Handle GitHub OAuth callback — exchange code for token, fetch user, create/login."""
     state = request.GET.get('state', '')
+    if state.startswith(BACKGROUND_AGENT_STATE_PREFIX):
+        import secrets
+        background_admin_id = parse_background_agent_state(state)
+        expected_state = request.session.pop(BACKGROUND_AGENT_OAUTH_STATE_KEY, '')
+        signed_in_admin_id = request.session.get(BACKGROUND_AGENT_ADMIN_SESSION_KEY)
+        if (
+            not background_admin_id
+            or not expected_state
+            or not secrets.compare_digest(str(state), str(expected_state))
+            or str(signed_in_admin_id or '') != str(background_admin_id)
+        ):
+            return HttpResponse('Invalid or expired background-agent OAuth state.', status=403)
+        code = request.GET.get('code')
+        if not code:
+            messages.error(request, 'GitHub authorization was cancelled.')
+            return redirect('web:background_agent')
+        try:
+            admin_user = User.objects.get(pk=background_admin_id, is_admin=True, is_locked=False, is_bot=False)
+        except User.DoesNotExist:
+            return HttpResponse('Invalid background-agent administrator.', status=403)
+        redirect_uri = _https_redirect_uri(request, '/auth/github/callback/')
+        github_login, error = store_background_agent_github(admin_user, code=code, redirect_uri=redirect_uri)
+        if error:
+            messages.error(request, error)
+        else:
+            messages.success(request, f'GitHub connected as {github_login}.')
+        return redirect('web:background_agent')
     is_mobile = state == 'mobile_github'
     next_url = None
     if state and state.startswith('next:'):
