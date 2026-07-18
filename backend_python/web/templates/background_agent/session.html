@@ -14,8 +14,9 @@
      data-files-url="{% url 'web:background_agent_session_files' session_id %}"
      data-file-url="{% url 'web:background_agent_session_file' session_id %}"
      data-control-url="{% url 'web:background_agent_session_control' session_id %}"
-     data-action-url="{% url 'web:background_agent_session_action' session_id %}"
-     data-lifecycle-url="{% url 'web:background_agent_session_lifecycle' session_id %}"
+      data-action-url="{% url 'web:background_agent_session_action' session_id %}"
+      data-lifecycle-url="{% url 'web:background_agent_session_lifecycle' session_id %}"
+      data-export-url="{% url 'web:background_agent_session_export' session_id %}"
      data-dashboard-url="{% url 'web:background_agent' %}">
 
   <header class="ba-session-commandbar">
@@ -28,7 +29,7 @@
       <button id="bs-resume" class="ba-button ba-button-secondary" type="button" hidden><span class="material-symbols-outlined">play_arrow</span>Resume</button>
       <button id="bs-stop" class="ba-icon-button ba-danger-button" type="button" title="Stop task" aria-label="Stop task"><span class="material-symbols-outlined">stop_circle</span></button>
       <button id="bs-refresh" class="ba-icon-button" type="button" title="Refresh" aria-label="Refresh"><span class="material-symbols-outlined">refresh</span></button>
-      <div class="ba-session-command-menu-wrap"><button id="bs-more" class="ba-icon-button" type="button" title="Session actions" aria-label="Session actions" aria-haspopup="menu" aria-expanded="false"><span class="material-symbols-outlined">more_vert</span></button><div id="bs-more-menu" class="ba-session-command-menu" role="menu" hidden><button type="button" data-session-action="archive"><span class="material-symbols-outlined">archive</span>Archive session</button><button type="button" data-session-action="delete" class="danger"><span class="material-symbols-outlined">delete</span>Delete permanently</button></div></div>
+      <div class="ba-session-command-menu-wrap"><button id="bs-more" class="ba-icon-button" type="button" title="Session actions" aria-label="Session actions" aria-haspopup="menu" aria-expanded="false"><span class="material-symbols-outlined">more_vert</span></button><div id="bs-more-menu" class="ba-session-command-menu" role="menu" hidden><button type="button" data-session-action="archive"><span class="material-symbols-outlined">archive</span>Archive session</button><hr class="ba-menu-divider"><button type="button" id="bs-export"><span class="material-symbols-outlined">download</span>Export as JSON</button><button type="button" data-session-action="delete" class="danger"><span class="material-symbols-outlined">delete</span>Delete permanently</button></div></div>
     </div>
   </header>
 

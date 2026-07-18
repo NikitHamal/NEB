@@ -153,3 +153,4 @@
 .ba-session-command-menu button.danger { color: var(--ba-danger); }
 .ba-session-command-menu .material-symbols-outlined { font-size: 18px; }
 .ba-session-command-menu button:disabled { opacity: .42; cursor: not-allowed; background: transparent; }
+.ba-session-command-menu hr.ba-menu-divider { margin: 4px 0; border: 0; border-top: 1px solid var(--ba-border); }

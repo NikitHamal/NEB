@@ -243,7 +243,7 @@
 
   BA.qsa('[data-review-tab]').forEach(function (button) { button.addEventListener('click', function () { openReviewTab(button.dataset.reviewTab); }); });
   els.more.addEventListener('click', function (event) { event.stopPropagation(); var opening = els.moreMenu.hidden; els.moreMenu.hidden = !opening; els.more.setAttribute('aria-expanded', opening ? 'true' : 'false'); });
-  els.moreMenu.addEventListener('click', function (event) { var button = event.target.closest('[data-session-action]'); if (!button) return; els.moreMenu.hidden = true; els.more.setAttribute('aria-expanded', 'false'); openLifecycleDialog(button.dataset.sessionAction); });
+  els.moreMenu.addEventListener('click', function (event) { var exportBtn = event.target.closest('#bs-export'); if (exportBtn) { els.moreMenu.hidden = true; els.more.setAttribute('aria-expanded', 'false'); window.open(root.dataset.exportUrl, '_blank'); return; } var button = event.target.closest('[data-session-action]'); if (!button) return; els.moreMenu.hidden = true; els.more.setAttribute('aria-expanded', 'false'); openLifecycleDialog(button.dataset.sessionAction); });
   document.addEventListener('click', function (event) { if (!event.target.closest('.ba-session-command-menu-wrap')) { els.moreMenu.hidden = true; els.more.setAttribute('aria-expanded', 'false'); } });
   els.lifecycleCancel.addEventListener('click', function () { els.lifecycleDialog.close(); });
   els.lifecycleConfirm.addEventListener('click', applyLifecycle);
