@@ -241,7 +241,12 @@ def background_agent_state(request):
     admin = _admin(request)
     credential = _credential(request)
     projects = BackgroundAgentProject.objects.filter(admin_user=admin).order_by('-updated_at')[:100]
-    sessions = BackgroundAgentSession.objects.filter(admin_user=admin).select_related('project', 'bot_config').order_by('-created_at')[:100]
+    sessions_query = BackgroundAgentSession.objects.filter(admin_user=admin).select_related('project', 'bot_config')
+    if request.GET.get('archived') == '1':
+        sessions_query = sessions_query.filter(archived_at__gt=0)
+    else:
+        sessions_query = sessions_query.filter(archived_at=0)
+    sessions = sessions_query.order_by('-updated_at')[:100]
     provider = _qwen_provider()
     worker_cutoff = now_ms() - 30000
     workers = list(BackgroundAgentWorker.objects.filter(

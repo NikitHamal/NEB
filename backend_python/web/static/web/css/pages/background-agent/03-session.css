@@ -145,3 +145,11 @@
   .ba-delivery-actions-grid article { grid-template-columns: 28px minmax(0, 1fr); }
   .ba-delivery-actions-grid article > :last-child { grid-column: 2; justify-self: start; }
 }
+
+.ba-session-command-menu-wrap { position: relative; }
+.ba-session-command-menu { position: absolute; z-index: 40; top: calc(100% + 6px); right: 0; width: 200px; padding: 6px; border: 1px solid var(--ba-border); border-radius: var(--md-radius-md); background: var(--ba-panel); box-shadow: var(--ba-shadow-lg); }
+.ba-session-command-menu button { width: 100%; min-height: 40px; display: flex; align-items: center; gap: 9px; padding: 8px 10px; border: 0; border-radius: 8px; background: transparent; color: var(--ba-text); font: inherit; font-size: 11px; text-align: left; cursor: pointer; }
+.ba-session-command-menu button:hover, .ba-session-command-menu button:focus-visible { background: var(--ba-panel-hover); outline: none; }
+.ba-session-command-menu button.danger { color: var(--ba-danger); }
+.ba-session-command-menu .material-symbols-outlined { font-size: 18px; }
+.ba-session-command-menu button:disabled { opacity: .42; cursor: not-allowed; background: transparent; }

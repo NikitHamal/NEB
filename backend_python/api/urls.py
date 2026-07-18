@@ -121,6 +121,8 @@ urlpatterns = [
     # Consica app AI bridge (non-guessable path, key-authenticated)
     path('consica-bridge/', include('api.consica_bridge_urls')),
 
+    path('background-agent/mobile/', include('api.background_agent.mobile_urls')),
+
     # Admin API
     path('', include('api.admin_urls')),
 ]

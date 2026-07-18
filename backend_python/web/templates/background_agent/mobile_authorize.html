@@ -1,0 +1,31 @@
+{% extends 'background_agent/base.html' %}
+
+{% block title %}Authorize Zeus{% endblock %}
+
+{% block content %}
+<section class="ba-device-auth-page">
+  <div class="ba-device-auth-card">
+    <div class="ba-device-auth-icon"><span class="material-symbols-outlined">smartphone</span></div>
+    {% if approved %}
+      <span class="ba-eyebrow">Device connected</span>
+      <h1>Zeus is ready</h1>
+      <p>Return to Zeus. The app will finish authorization automatically and keep this device signed in.</p>
+      <a class="ba-button ba-button-primary" href="{% url 'web:background_agent' %}">Back to Background Agent</a>
+    {% else %}
+      <span class="ba-eyebrow">Secure device authorization</span>
+      <h1>Connect Zeus</h1>
+      <p>Confirm the code displayed in Zeus. Only approve a device you control.</p>
+      {% if error %}<div class="ba-device-auth-error"><span class="material-symbols-outlined">error</span>{{ error }}</div>{% endif %}
+      <form method="post" class="ba-device-auth-form">
+        {% csrf_token %}
+        <label for="device-code">Authorization code</label>
+        <input id="device-code" name="code" value="{{ code }}" maxlength="12" autocomplete="one-time-code" spellcheck="false" placeholder="ABCD-EFGH" required>
+        {% if pairing %}
+          <div class="ba-device-summary"><span class="material-symbols-outlined">phone_android</span><div><strong>{{ pairing.device_name }}</strong><span>Requested access to your background-agent workspace</span></div></div>
+        {% endif %}
+        <button class="ba-button ba-button-primary" type="submit"><span class="material-symbols-outlined">verified_user</span>Authorize device</button>
+      </form>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

@@ -80,6 +80,8 @@ def serialize_session_summary(session):
         'startedAt': session.started_at,
         'updatedAt': session.updated_at,
         'completedAt': session.completed_at,
+        'archived': bool(session.archived_at),
+        'archivedAt': session.archived_at,
     }
 
 

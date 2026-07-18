@@ -3,6 +3,8 @@ from django.views.generic import RedirectView
 from . import views
 from . import views_admin_chat
 from . import views_background_agent as ba_views
+from . import views_background_agent_lifecycle as ba_lifecycle_views
+from . import views_background_agent_mobile as ba_mobile_views
 
 app_name = 'web'
 
@@ -239,6 +241,7 @@ path('ajax/study-space/<str:space_id>/summary/', views.ajax_space_generate_summa
     path('backgroundagent/session/<str:session_id>/', ba_views.background_agent_session_page, name='background_agent_session_page'),
     path('backgroundagent/github/connect/', ba_views.background_agent_github_connect, name='background_agent_github_connect'),
     path('backgroundagent/github/disconnect/', ba_views.background_agent_github_disconnect, name='background_agent_github_disconnect'),
+    path('backgroundagent/mobile/authorize/', ba_mobile_views.background_agent_mobile_authorize, name='background_agent_mobile_authorize'),
     path('backgroundagent/api/state/', ba_views.background_agent_state, name='background_agent_state'),
     path('backgroundagent/api/repositories/', ba_views.background_agent_repositories, name='background_agent_repositories'),
     path('backgroundagent/api/branches/', ba_views.background_agent_branches, name='background_agent_branches'),
@@ -252,5 +255,6 @@ path('ajax/study-space/<str:space_id>/summary/', views.ajax_space_generate_summa
     path('backgroundagent/api/sessions/<str:session_id>/preview/', ba_views.background_agent_session_preview, name='background_agent_session_preview'),
     path('backgroundagent/api/sessions/<str:session_id>/control/', ba_views.background_agent_session_control, name='background_agent_session_control'),
     path('backgroundagent/api/sessions/<str:session_id>/actions/', ba_views.background_agent_session_action, name='background_agent_session_action'),
+    path('backgroundagent/api/sessions/<str:session_id>/lifecycle/', ba_lifecycle_views.background_agent_session_lifecycle, name='background_agent_session_lifecycle'),
     path('backgroundagent/api/sessions/<str:session_id>/artifacts/<str:kind>/', ba_views.background_agent_download_artifact, name='background_agent_download_artifact'),
 ]

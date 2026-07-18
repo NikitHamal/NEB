@@ -1752,6 +1752,7 @@ class BackgroundAgentSession(models.Model):
     started_at = models.BigIntegerField(default=0)
     updated_at = models.BigIntegerField(default=0)
     completed_at = models.BigIntegerField(default=0)
+    archived_at = models.BigIntegerField(default=0, db_index=True)
 
     class Meta:
         db_table = 'background_agent_sessions'
@@ -1901,5 +1902,51 @@ class BackgroundAgentWorker(models.Model):
         ordering = ['worker_id']
         indexes = [
             models.Index(fields=['status', '-last_heartbeat_at'], name='bg_worker_status_heartbeat_idx'),
+        ]
+
+
+
+class BackgroundAgentDevicePairing(models.Model):
+    STATUS_CHOICES = [
+        ('pending', 'Pending'), ('approved', 'Approved'),
+        ('consumed', 'Consumed'), ('expired', 'Expired'), ('denied', 'Denied'),
+    ]
+    id = models.CharField(max_length=36, primary_key=True)
+    device_code_hash = models.CharField(max_length=64, unique=True)
+    user_code = models.CharField(max_length=12, unique=True, db_index=True)
+    device_name = models.CharField(max_length=120, blank=True, default='Zeus')
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending', db_index=True)
+    admin_user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name='background_agent_pairings', db_constraint=False)
+    created_at = models.BigIntegerField(default=0)
+    expires_at = models.BigIntegerField(db_index=True, default=0)
+    approved_at = models.BigIntegerField(default=0)
+    consumed_at = models.BigIntegerField(default=0)
+    last_polled_at = models.BigIntegerField(default=0)
+    poll_count = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        db_table = 'background_agent_device_pairings'
+        ordering = ['-created_at']
+        indexes = [
+            models.Index(fields=['status', 'expires_at'], name='bg_pair_status_expiry_idx'),
+        ]
+
+
+class BackgroundAgentDeviceToken(models.Model):
+    id = models.CharField(max_length=36, primary_key=True)
+    admin_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='background_agent_device_tokens', db_constraint=False)
+    token_hash = models.CharField(max_length=64, unique=True, db_index=True)
+    device_name = models.CharField(max_length=120, blank=True, default='Zeus')
+    scopes = models.CharField(max_length=255, default='agent:read,agent:write,repo:read,artifact:read')
+    created_at = models.BigIntegerField(default=0)
+    last_used_at = models.BigIntegerField(default=0)
+    expires_at = models.BigIntegerField(default=0, db_index=True)
+    revoked_at = models.BigIntegerField(default=0, db_index=True)
+
+    class Meta:
+        db_table = 'background_agent_device_tokens'
+        ordering = ['-last_used_at', '-created_at']
+        indexes = [
+            models.Index(fields=['admin_user', '-last_used_at'], name='bg_device_admin_used_idx'),
         ]
 
