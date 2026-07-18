@@ -7,7 +7,10 @@ from api.models import BackgroundAgentEvent, BackgroundAgentMessage
 from api.utils import now_ms, uuid_str
 
 
-def _bounded_json(value, max_chars=60000):
+_METADATA_LIMIT = 500_000
+
+
+def _bounded_json(value, max_chars=_METADATA_LIMIT):
     encoded = json.dumps(value or {}, ensure_ascii=False)
     if len(encoded) <= max_chars:
         return encoded
@@ -27,6 +30,23 @@ def emit(session, event_type: str, message: str = '', payload: dict | None = Non
         created_at=now_ms(),
     )
     return event
+
+
+def store_prompt(session, prompt: str, iteration: int):
+    """Store the full prompt sent to the model as a system message for later export/debug."""
+    now = now_ms()
+    row = BackgroundAgentMessage.objects.create(
+        id=uuid_str(),
+        session=session,
+        role='system',
+        content=prompt,
+        metadata=json.dumps({
+            'kind': 'model_prompt',
+            'iteration': iteration,
+        }, ensure_ascii=False),
+        created_at=now,
+    )
+    return row
 
 
 def add_message(session, role: str, content: str, metadata: dict | None = None):

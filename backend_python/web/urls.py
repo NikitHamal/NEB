@@ -256,5 +256,6 @@ path('ajax/study-space/<str:space_id>/summary/', views.ajax_space_generate_summa
     path('backgroundagent/api/sessions/<str:session_id>/control/', ba_views.background_agent_session_control, name='background_agent_session_control'),
     path('backgroundagent/api/sessions/<str:session_id>/actions/', ba_views.background_agent_session_action, name='background_agent_session_action'),
     path('backgroundagent/api/sessions/<str:session_id>/lifecycle/', ba_lifecycle_views.background_agent_session_lifecycle, name='background_agent_session_lifecycle'),
+    path('backgroundagent/api/sessions/<str:session_id>/export/', ba_views.background_agent_session_export, name='background_agent_session_export'),
     path('backgroundagent/api/sessions/<str:session_id>/artifacts/<str:kind>/', ba_views.background_agent_download_artifact, name='background_agent_download_artifact'),
 ]
