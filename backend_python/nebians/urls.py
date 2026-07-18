@@ -14,4 +14,5 @@ urlpatterns = [
     path('admin-django/', admin.site.urls),
     path('api/', include('api.urls')),
     path('', include('web.urls')),
+    # Old coding agent app removed — replaced by web:background_agent* views
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
