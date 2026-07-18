@@ -196,25 +196,63 @@ class ResourceDownloadManager @Inject constructor(
     }
 
     private fun loadIndex(): List<DownloadedResource> = runCatching {
-        if (!indexFile.exists()) return@runCatching emptyList()
-        val array = JSONArray(indexFile.readText())
-        buildList {
-            for (i in 0 until array.length()) {
-                val o = array.getJSONObject(i)
-                val item = DownloadedResource(
-                    resourceId = o.getString("resourceId"),
-                    title = o.optString("title"),
-                    type = o.optString("type"),
-                    fileUrl = o.optString("fileUrl"),
-                    localPath = o.getString("localPath"),
-                    mimeType = o.optString("mimeType"),
-                    sizeBytes = o.optLong("sizeBytes"),
-                    downloadedAt = o.optLong("downloadedAt"),
-                    thumbnailUrl = o.optString("thumbnailUrl")
-                )
-                if (File(item.localPath).exists()) add(item)
+        val indexed = if (indexFile.exists()) {
+            val array = JSONArray(indexFile.readText())
+            buildList {
+                for (i in 0 until array.length()) {
+                    val o = array.getJSONObject(i)
+                    val item = DownloadedResource(
+                        resourceId = o.getString("resourceId"),
+                        title = o.optString("title"),
+                        type = o.optString("type"),
+                        fileUrl = o.optString("fileUrl"),
+                        localPath = o.getString("localPath"),
+                        mimeType = o.optString("mimeType"),
+                        sizeBytes = o.optLong("sizeBytes"),
+                        downloadedAt = o.optLong("downloadedAt"),
+                        thumbnailUrl = o.optString("thumbnailUrl")
+                    )
+                    if (File(item.localPath).exists()) add(item)
+                }
             }
-        }.sortedByDescending { it.downloadedAt }
+        } else emptyList()
+        val indexedIds = indexed.map { it.resourceId }.toSet()
+        val orphanFiles = resourceDir.listFiles()
+            ?.filter { it.isFile && it.extension.matches(Regex("pdf|mp4|mp3|m4a|ogg|wav")) && !it.name.endsWith(".part") }
+            ?.mapNotNull { file ->
+                val id = file.nameWithoutExtension.substringBeforeLast('.')
+                if (id in indexedIds) return@mapNotNull null
+                DownloadedResource(
+                    resourceId = id,
+                    title = id,
+                    type = if (file.extension == "pdf") "PDF" else if (file.extension in listOf("mp4", "webm")) "Video" else "Audio",
+                    fileUrl = "",
+                    localPath = file.absolutePath,
+                    mimeType = if (file.extension == "pdf") "application/pdf" else "",
+                    sizeBytes = file.length(),
+                    downloadedAt = file.lastModified(),
+                    thumbnailUrl = ""
+                )
+            } ?: emptyList()
+        val legacyDir = File(context.filesDir, "resources")
+        val legacyFiles = legacyDir.listFiles()
+            ?.filter { it.isFile && it.name.endsWith(".pdf", true) }
+            ?.mapNotNull { file ->
+                val id = file.nameWithoutExtension
+                if (id in indexedIds) return@mapNotNull null
+                DownloadedResource(
+                    resourceId = id,
+                    title = id,
+                    type = "PDF",
+                    fileUrl = "",
+                    localPath = file.absolutePath,
+                    mimeType = "application/pdf",
+                    sizeBytes = file.length(),
+                    downloadedAt = file.lastModified(),
+                    thumbnailUrl = ""
+                )
+            } ?: emptyList()
+        (indexed + orphanFiles + legacyFiles).sortedByDescending { it.downloadedAt }
     }.getOrDefault(emptyList())
 
     private fun persistIndex(items: List<DownloadedResource>) {

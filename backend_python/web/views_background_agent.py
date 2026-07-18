@@ -1,10 +1,3 @@
-"""Web/API surface for the standalone Background Agent.
-
-The Background Agent is its own product (outside the Django admin panel). Admins
-authenticate with their platform account (api.User) through
-``web.background_agent_auth``; the signed-in admin is on ``request.bg_admin``.
-GitHub OAuth credentials are bound to that account and reused across devices.
-"""
 from __future__ import annotations
 
 import json
@@ -16,12 +9,14 @@ from django.contrib import messages
 from django.http import FileResponse, Http404, JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
+from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_GET, require_POST
 
+from api.background_agent.attachments import save_uploads
 from api.background_agent.crypto import decrypt_secret
 from api.background_agent.events import add_message, emit
 from api.background_agent.github import GitHubClient, GitHubError
-from api.background_agent.oauth import build_authorize_url, make_state
+from api.background_agent.oauth import SESSION_STATE_KEY, build_authorize_url, make_state
 from api.models import (
     BackgroundAgentAction,
     BackgroundAgentArtifact,
@@ -33,6 +28,21 @@ from api.models import (
     BotConfig,
 )
 from api.utils import now_ms, uuid_str
+from .background_agent_file_views import (
+    background_agent_session_file,
+    background_agent_session_files,
+    background_agent_session_preview,
+)
+from .background_agent_serializers import (
+    serialize_action as _serialize_action,
+    serialize_artifacts as _serialize_artifacts,
+    serialize_event as _serialize_event,
+    serialize_message as _serialize_message,
+    serialize_project as _serialize_project,
+    serialize_repo as _serialize_repo,
+    serialize_session_detail as _serialize_session_detail,
+    serialize_session_summary as _serialize_session_summary,
+)
 from .background_agent_auth import (
     authenticate_bg_admin,
     get_bg_admin,
@@ -56,6 +66,19 @@ def _json_error(message, status=400):
     return JsonResponse({'ok': False, 'error': str(message)}, status=status)
 
 
+def _request_payload(request):
+    content_type = (request.content_type or '').lower()
+    if 'application/json' in content_type:
+        return _json_body(request)
+    return request.POST.dict()
+
+
+def _qwen_provider():
+    return BotConfig.objects.filter(
+        enabled=True, provider='qwen', model__iexact='qwen3.7-plus',
+    ).first()
+
+
 def _admin(request):
     """The signed-in platform admin (api.User). Caller has already authorized."""
     return get_bg_admin(request)
@@ -63,7 +86,7 @@ def _admin(request):
 
 def _credential(request, required=False):
     admin = _admin(request)
-    credential = BackgroundAgentCredential.objects.filter(admin_user=admin, revoked_at=0).first()
+    credential = BackgroundAgentCredential.objects.filter(admin_user=admin).first()
     if required and (not credential or not credential.is_connected):
         raise GitHubError('Connect a GitHub account first')
     return credential
@@ -113,9 +136,6 @@ def _base_context(request, **extra):
     return ctx
 
 
-# ─────────────────────────────────────────────────────────────────────────────
-# Auth (login / logout)
-# ─────────────────────────────────────────────────────────────────────────────
 
 def background_agent_login(request):
     """Standalone sign-in: username OR email + password, platform admins only."""
@@ -149,24 +169,21 @@ def background_agent_logout(request):
     return redirect('web:background_agent_login')
 
 
-# ─────────────────────────────────────────────────────────────────────────────
-# Pages
-# ─────────────────────────────────────────────────────────────────────────────
 
+@never_cache
 @require_GET
 def background_agent_page(request):
     redirect_response = require_bg_admin(request)
     if redirect_response:
         return redirect_response
     credential = _credential(request)
-    providers = BotConfig.objects.filter(enabled=True).order_by('name', 'id')
     return render(request, 'background_agent/dashboard.html', _base_context(request,
         github_connected=bool(credential and credential.is_connected),
         github_login=credential.github_login if credential else '',
-        providers=providers,
     ))
 
 
+@never_cache
 @require_GET
 def background_agent_session_page(request, session_id):
     """Dedicated, full-screen session view (separate from the dashboard)."""
@@ -175,18 +192,13 @@ def background_agent_session_page(request, session_id):
         return redirect_response
     session = _session_for_admin(request, session_id)
     credential = _credential(request)
-    providers = BotConfig.objects.filter(enabled=True).order_by('name', 'id')
     return render(request, 'background_agent/session.html', _base_context(request,
         session_id=str(session.id),
         session_title=session.title or (session.goal[:80] + '…' if len(session.goal) > 80 else session.goal),
         github_connected=bool(credential and credential.is_connected),
-        providers=providers,
     ))
 
 
-# ─────────────────────────────────────────────────────────────────────────────
-# GitHub OAuth (connect via the shared /auth/github/callback/ redirect URI)
-# ─────────────────────────────────────────────────────────────────────────────
 
 @require_GET
 def background_agent_github_connect(request):
@@ -198,6 +210,8 @@ def background_agent_github_connect(request):
         return redirect('web:background_agent')
     admin = _admin(request)
     state = make_state(admin.id)
+    request.session[SESSION_STATE_KEY] = state
+    request.session.modified = True
     # Reuse the main app's registered callback URL — single redirect URI.
     redirect_uri = _absolute_https_uri(request, 'web:github_callback')
     return redirect(build_authorize_url(state=state, redirect_uri=redirect_uri))
@@ -217,10 +231,8 @@ def background_agent_github_disconnect(request):
     return JsonResponse({'ok': True})
 
 
-# ─────────────────────────────────────────────────────────────────────────────
-# API: state, repositories, branches, projects, sessions
-# ─────────────────────────────────────────────────────────────────────────────
 
+@never_cache
 @require_GET
 def background_agent_state(request):
     guard = require_bg_admin_json(request)
@@ -230,7 +242,7 @@ def background_agent_state(request):
     credential = _credential(request)
     projects = BackgroundAgentProject.objects.filter(admin_user=admin).order_by('-updated_at')[:100]
     sessions = BackgroundAgentSession.objects.filter(admin_user=admin).select_related('project', 'bot_config').order_by('-created_at')[:100]
-    providers = BotConfig.objects.filter(enabled=True).order_by('name', 'id')
+    provider = _qwen_provider()
     worker_cutoff = now_ms() - 30000
     workers = list(BackgroundAgentWorker.objects.filter(
         last_heartbeat_at__gte=worker_cutoff,
@@ -246,13 +258,12 @@ def background_agent_state(request):
         },
         'projects': [_serialize_project(p) for p in projects],
         'sessions': [_serialize_session_summary(s) for s in sessions],
-        'providers': [{
-            'id': p.id,
-            'name': p.name,
-            'provider': p.provider,
-            'model': p.model,
-            'label': f'{p.name} · {p.provider}/{p.model}',
-        } for p in providers],
+        'model': {
+            'provider': 'qwen',
+            'model': 'qwen3.7-plus',
+            'label': 'Qwen 3.7 Plus',
+            'configured': bool(provider),
+        },
         'worker': {
             'online': len(workers),
             'healthy': bool(workers),
@@ -356,18 +367,15 @@ def background_agent_create_session(request):
     if guard:
         return guard[1]
     try:
-        payload = _json_body(request)
+        payload = _request_payload(request)
         project = _project_for_admin(request, payload.get('projectId'))
         goal = (payload.get('goal') or '').strip()
         if len(goal) < 10:
             return _json_error('Describe the coding task in at least 10 characters')
         source_branch = (payload.get('sourceBranch') or project.preferred_base_branch or project.default_branch).strip()
-        provider_id = payload.get('providerId')
-        provider = BotConfig.objects.filter(pk=provider_id, enabled=True).first() if provider_id else BotConfig.objects.filter(enabled=True).first()
+        provider = _qwen_provider()
         if not provider:
-            return _json_error('No enabled AI provider is configured', 409)
-        # No iteration cap — the agent works until completion, needs_input, or
-        # an admin pause/stop. max_iterations stays 0 (unlimited).
+            return _json_error('Enable a Qwen provider configuration before starting a task', 409)
         title = (payload.get('title') or goal.splitlines()[0])[:255]
         now = now_ms()
         session = BackgroundAgentSession.objects.create(
@@ -382,14 +390,17 @@ def background_agent_create_session(request):
             progress=0,
             progress_label='Queued for worker',
             max_iterations=0,
+            context_window_tokens=int(getattr(settings, 'BACKGROUND_AGENT_CONTEXT_WINDOW_TOKENS', 131072)),
             created_at=now,
             updated_at=now,
         )
-        add_message(session, 'user', goal, {'kind': 'initial_goal'})
+        message = add_message(session, 'user', goal, {'kind': 'initial_goal'})
+        attachments = save_uploads(session, message, request.FILES.getlist('files'))
         emit(session, 'session.queued', 'Task queued for the background worker', {
             'repository': project.repo_full_name,
             'sourceBranch': source_branch,
-            'provider': f'{provider.provider}/{provider.model}',
+            'provider': 'qwen/qwen3.7-plus',
+            'attachmentCount': len(attachments),
         })
         return JsonResponse({'ok': True, 'session': _serialize_session_detail(session)}, status=201)
     except (ValueError, Http404) as exc:
@@ -424,7 +435,7 @@ def background_agent_session_events(request, session_id):
     ]
     messages_by_id = {
         str(message.id): _serialize_message(message)
-        for message in session.messages.filter(id__in=message_ids)
+        for message in session.messages.filter(id__in=message_ids).prefetch_related('attachments')
     }
     for item in serialized_events:
         message_id = item['payload'].get('messageId')
@@ -446,14 +457,17 @@ def background_agent_session_message(request, session_id):
         return guard[1]
     session = _session_for_admin(request, session_id)
     try:
-        payload = _json_body(request)
+        payload = _request_payload(request)
         content = (payload.get('content') or '').strip()
-        if not content:
-            return _json_error('Message cannot be empty')
+        uploads = request.FILES.getlist('files')
+        if not content and not uploads:
+            return _json_error('Add a message or attachment')
         if len(content) > 50000:
             return _json_error('Message is too long')
-        message = add_message(session, 'user', content, {'kind': 'followup'})
-        if session.status in ('paused', 'waiting', 'failed', 'completed') and payload.get('resume', True):
+        message_content = content or 'Review the attached files as additional task context.'
+        message = add_message(session, 'user', message_content, {'kind': 'followup'})
+        attachments = save_uploads(session, message, uploads)
+        if session.status in ('paused', 'waiting', 'failed', 'completed') and str(payload.get('resume', 'true')).lower() != 'false':
             session.status = 'queued'
             session.control_state = ''
             session.completed_at = 0
@@ -462,7 +476,12 @@ def background_agent_session_message(request, session_id):
             session.updated_at = now_ms()
             session.save(update_fields=['status', 'control_state', 'completed_at', 'last_error', 'progress_label', 'updated_at'])
             emit(session, 'session.resumed', 'Session resumed with new guidance')
-        return JsonResponse({'ok': True, 'message': _serialize_message(message), 'status': session.status})
+        return JsonResponse({
+            'ok': True,
+            'message': _serialize_message(message),
+            'attachmentCount': len(attachments),
+            'status': session.status,
+        })
     except ValueError as exc:
         return _json_error(exc)
 
@@ -570,153 +589,3 @@ def background_agent_download_artifact(request, session_id, kind):
     return FileResponse(path.open('rb'), as_attachment=True, filename=artifact.file_name, content_type=content_type)
 
 
-# ─────────────────────────────────────────────────────────────────────────────
-# Serializers
-# ─────────────────────────────────────────────────────────────────────────────
-
-def _serialize_repo(repo):
-    permissions = repo.get('permissions') or {}
-    owner = repo.get('owner') or {}
-    return {
-        'id': repo.get('id'),
-        'fullName': repo.get('full_name') or '',
-        'name': repo.get('name') or '',
-        'owner': owner.get('login') or '',
-        'private': bool(repo.get('private')),
-        'archived': bool(repo.get('archived')),
-        'defaultBranch': repo.get('default_branch') or 'main',
-        'description': repo.get('description') or '',
-        'htmlUrl': repo.get('html_url') or '',
-        'updatedAt': repo.get('updated_at') or '',
-        'canPush': bool(permissions.get('push') or permissions.get('maintain') or permissions.get('admin')),
-    }
-
-
-def _serialize_project(project):
-    return {
-        'id': str(project.id),
-        'repoFullName': project.repo_full_name,
-        'repoHtmlUrl': project.repo_html_url,
-        'defaultBranch': project.default_branch,
-        'preferredBaseBranch': project.preferred_base_branch or project.default_branch,
-        'private': project.is_private,
-        'status': project.status,
-        'lastSyncedAt': project.last_synced_at,
-        'lastError': project.last_error,
-        'createdAt': project.created_at,
-        'updatedAt': project.updated_at,
-    }
-
-
-def _serialize_session_summary(session):
-    return {
-        'id': str(session.id),
-        'projectId': str(session.project_id),
-        'repoFullName': session.project.repo_full_name,
-        'title': session.title,
-        'goal': session.goal[:2000],
-        'sourceBranch': session.source_branch,
-        'workBranch': session.work_branch,
-        'status': session.status,
-        'progress': session.progress,
-        'progressLabel': session.progress_label,
-        'iteration': session.iteration,
-        'maxIterations': session.max_iterations,
-        'provider': ({
-            'id': session.bot_config_id,
-            'name': session.bot_config.name,
-            'provider': session.bot_config.provider,
-            'model': session.bot_config.model,
-        } if session.bot_config else None),
-        'summary': session.summary,
-        'lastError': session.last_error,
-        'createdAt': session.created_at,
-        'startedAt': session.started_at,
-        'updatedAt': session.updated_at,
-        'completedAt': session.completed_at,
-    }
-
-
-def _serialize_session_detail(session):
-    data = _serialize_session_summary(session)
-    try:
-        changed_files = json.loads(session.changed_files or '[]')
-    except (TypeError, json.JSONDecodeError):
-        changed_files = []
-    message_count = session.messages.count()
-    messages_qs = list(session.messages.order_by('-created_at')[:250])
-    messages_qs.reverse()
-    events_qs = session.events.order_by('-id')[:200]
-    actions_qs = session.actions.order_by('-created_at')[:50]
-    artifacts = _serialize_artifacts(session)
-    data.update({
-        'baseSha': session.base_sha,
-        'goal': session.goal,
-        'headSha': session.head_sha,
-        'changedFiles': changed_files,
-        'diff': session.final_diff,
-        'testSummary': session.test_summary,
-        'messages': [_serialize_message(m) for m in messages_qs],
-        'messageCount': message_count,
-        'messagesTruncated': message_count > len(messages_qs),
-        'events': [_serialize_event(e) for e in reversed(list(events_qs))],
-        'actions': [_serialize_action(a) for a in actions_qs],
-        'artifacts': artifacts,
-    })
-    return data
-
-
-def _serialize_artifacts(session):
-    return {a.kind: {
-        'kind': a.kind,
-        'fileName': a.file_name,
-        'sizeBytes': a.size_bytes,
-        'sha256': a.sha256,
-        'downloadUrl': reverse('web:background_agent_download_artifact', args=[session.id, a.kind]),
-    } for a in session.artifacts.all()}
-
-
-def _serialize_message(message):
-    try:
-        metadata = json.loads(message.metadata or '{}')
-    except (TypeError, json.JSONDecodeError):
-        metadata = {}
-    return {
-        'id': str(message.id),
-        'role': message.role,
-        'content': message.content,
-        'label': metadata.get('label') or '',
-        'metadata': metadata,
-        'createdAt': message.created_at,
-    }
-
-
-def _serialize_event(event):
-    try:
-        payload = json.loads(event.payload or '{}')
-    except (TypeError, json.JSONDecodeError):
-        payload = {}
-    return {
-        'id': event.id,
-        'type': event.event_type,
-        'message': event.message,
-        'payload': payload,
-        'createdAt': event.created_at,
-    }
-
-
-def _serialize_action(action):
-    try:
-        result = json.loads(action.result or '{}')
-    except (TypeError, json.JSONDecodeError):
-        result = {}
-    return {
-        'id': str(action.id),
-        'action': action.action,
-        'status': action.status,
-        'result': result,
-        'error': action.error,
-        'createdAt': action.created_at,
-        'startedAt': action.started_at,
-        'completedAt': action.completed_at,
-    }

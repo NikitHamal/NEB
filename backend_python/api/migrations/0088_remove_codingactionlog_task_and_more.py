@@ -11,26 +11,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='codingactionlog',
-            name='task',
-        ),
-        migrations.RemoveField(
-            model_name='codingproject',
-            name='owner',
-        ),
-        migrations.RemoveField(
-            model_name='codingtask',
-            name='project',
-        ),
-        migrations.RemoveField(
-            model_name='codingtask',
-            name='created_by',
-        ),
-        migrations.RemoveField(
-            model_name='codingtaskmessage',
-            name='task',
-        ),
         migrations.RenameIndex(
             model_name='postview',
             new_name='post_views_post_id_b3b1a3_idx',
@@ -55,17 +35,5 @@ class Migration(migrations.Migration):
             model_name='postview',
             name='user',
             field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='post_views', to='api.user'),
-        ),
-        migrations.DeleteModel(
-            name='CodingActionLog',
-        ),
-        migrations.DeleteModel(
-            name='CodingProject',
-        ),
-        migrations.DeleteModel(
-            name='CodingTask',
-        ),
-        migrations.DeleteModel(
-            name='CodingTaskMessage',
         ),
     ]

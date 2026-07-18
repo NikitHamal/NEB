@@ -1,6 +1,7 @@
 """Iterative coding-agent harness for providers without native tool calls."""
 from __future__ import annotations
 
+import ast
 import json
 import logging
 import re
@@ -10,11 +11,13 @@ from dataclasses import dataclass
 
 from django.conf import settings
 
+from api.background_agent.attachments import mark_qwen_files_sent, qwen_files_for_iteration
+from api.background_agent.context import build_snapshot, compact_if_needed
 from api.background_agent.events import add_message, emit
 from api.background_agent.labels import tool_label
 from api.background_agent.workspace import GitWorkspace, ToolExecutor, WorkspaceError
-from api.models import BackgroundAgentSession, BotConfig
-from api.neby import call_ai_api
+from api.models import BackgroundAgentSession
+from api import qwen_proxy
 from api.utils import now_ms
 
 logger = logging.getLogger(__name__)
@@ -68,7 +71,8 @@ Rules:
 - run_command takes an argv array only — no shell operators, pipes, redirection or substitution.
 - Run relevant tests, linters, type checks or builds before declaring completion. Do not fabricate results; when a command fails, inspect and fix it, or report the exact limitation.
 - There is no iteration budget. Work iteratively until the goal is truly complete, then set "final". If you genuinely need a decision from the operator, set "needs_input": true with no actions.
-- If the user interrupts with a follow-up, treat the newest user message as a higher-priority refinement unless it conflicts with safety.
+- If the user interrupts with a follow-up, treat the newest user message as a higher-priority refinement unless it conflicts with repository security.
+- You are running through Qwen 3.7 Plus. Use the supplied attachments and anchored context as authoritative inputs.
 '''.strip()
 
 
@@ -132,9 +136,13 @@ class BackgroundAgentRunner:
             self.session.refresh_from_db(fields=['control_state', 'status', 'iteration'])
             iteration = self.session.iteration + 1
             prompt = self._build_prompt(iteration)
+            file_paths, qwen_attachments = qwen_files_for_iteration(self.session)
             self._heartbeat(progress=min(92, 12 + iteration * 2), label=f'Agent iteration {iteration}')
-            emit(self.session, 'model.requested', f'Calling AI provider for iteration {iteration}')
-            raw = self._call_provider(prompt)
+            emit(self.session, 'model.requested', f'Calling Qwen 3.7 Plus for iteration {iteration}', {
+                'model': 'qwen3.7-plus', 'attachmentCount': len(file_paths),
+            })
+            raw = self._call_provider(prompt, file_paths=file_paths)
+            mark_qwen_files_sent(qwen_attachments, iteration)
             parsed = parse_model_response(raw)
             format_retries = max(0, min(int(getattr(settings, 'BACKGROUND_AGENT_FORMAT_RETRIES', 1)), 3))
             for retry_index in range(format_retries):
@@ -217,24 +225,24 @@ PRIOR OUTPUT
             encoded = encoded[:120000] + '\n[tool result truncated in conversation log]'
         return encoded
 
-    def _call_provider(self, prompt: str) -> str:
-        config = self.session.bot_config or BotConfig.objects.filter(enabled=True).first()
-        if not config:
-            raise WorkspaceError('No enabled AI bot/provider configuration is available')
-        original_max = config.response_max_length
-        config.response_max_length = max(
-            int(original_max or 0),
-            int(getattr(settings, 'BACKGROUND_AGENT_MODEL_MAX_TOKENS', 6000)),
-        )
+    def _call_provider(self, prompt: str, *, system_prompt: str = SYSTEM_PROMPT, file_paths=None, max_tokens=None) -> str:
+        model = 'qwen3.7-plus'
+        output_tokens = int(max_tokens or getattr(settings, 'BACKGROUND_AGENT_MODEL_MAX_TOKENS', 6000))
         attempts = max(1, min(int(getattr(settings, 'BACKGROUND_AGENT_PROVIDER_ATTEMPTS', 3)), 6))
         last_error = None
         for attempt in range(1, attempts + 1):
             self._check_control()
             try:
-                response = call_ai_api(SYSTEM_PROMPT, prompt, config=config)
+                response = qwen_proxy.call_qwen(
+                    system_prompt=system_prompt,
+                    user_message=prompt,
+                    model=model,
+                    max_tokens=output_tokens,
+                    file_paths=file_paths or None,
+                )
                 if response:
                     return str(response)
-                raise WorkspaceError(f'AI provider {config.provider}/{config.model} returned an empty response')
+                raise WorkspaceError(f'Qwen {model} returned an empty response')
             except (AgentPaused, AgentStopped):
                 raise
             except Exception as exc:
@@ -242,48 +250,32 @@ PRIOR OUTPUT
                 if attempt >= attempts:
                     break
                 delay = min(30, 2 ** attempt)
-                emit(self.session, 'model.retrying', f'Provider attempt {attempt} failed; retrying in {delay}s', {
-                    'provider': config.provider, 'model': config.model,
+                emit(self.session, 'model.retrying', f'Qwen attempt {attempt} failed; retrying in {delay}s', {
+                    'provider': 'qwen', 'model': model,
                     'error': str(exc)[:1000], 'attempt': attempt,
                 })
                 for _ in range(delay):
                     time.sleep(1)
                     self._check_control()
         raise WorkspaceError(
-            f'AI provider {config.provider}/{config.model} failed after {attempts} attempt(s): {last_error}'
+            f'Qwen {model} failed after {attempts} attempt(s): {last_error}'
         ) from last_error
 
-    def _build_prompt(self, iteration: int) -> str:
-        state = {}
-        try:
-            state = json.loads(self.session.agent_state or '{}')
-        except (TypeError, json.JSONDecodeError):
-            state = {}
-        messages = list(self.session.messages.order_by('-created_at')[:20])
-        messages.reverse()
-        transcript = []
-        total = 0
-        for message in messages:
-            content = message.content
-            if len(content) > 12000:
-                content = content[:12000] + '\n[message truncated]'
-            row = f'{message.role.upper()}: {content}'
-            total += len(row)
-            if total > 60000:
-                break
-            transcript.append(row)
-        tree = ''
-        if iteration == 1:
-            tree_result = self.tools.list_files('.', depth=3, limit=600)
-            tree = '\n'.join(tree_result['entries'])
-        status = self.workspace.status()
-        return f'''
-TASK
+    def _compact_call(self, system_prompt: str, prompt: str) -> str:
+        return self._call_provider(
+            prompt,
+            system_prompt=system_prompt,
+            max_tokens=int(getattr(settings, 'BACKGROUND_AGENT_COMPACTION_MAX_TOKENS', 5000)),
+        )
+
+    def _fixed_prompt(self, iteration: int, state: dict, tree: str, status: str) -> str:
+        return f"""TASK
 Repository: {self.session.project.repo_full_name}
 Source branch (read-only base): {self.session.source_branch}
 Task branch: {self.session.work_branch}
 Goal: {self.session.goal}
-Iteration: {iteration} (no cap — keep going until the goal is complete)
+Iteration: {iteration} (no cap - keep going until the goal is complete)
+Model: Qwen 3.7 Plus
 
 DURABLE STATE
 {json.dumps(state, ensure_ascii=False)}
@@ -292,13 +284,36 @@ CURRENT GIT STATUS
 {status or '(clean)'}
 
 INITIAL REPOSITORY MAP
-{tree or '(already supplied or request list_files for a focused path)'}
+{tree or '(already supplied or request list_files for a focused path)'}"""
 
-RECENT CONVERSATION AND TOOL RESULTS
-{chr(10).join(transcript) or '(none)'}
+    def _build_prompt(self, iteration: int) -> str:
+        try:
+            state = json.loads(self.session.agent_state or '{}')
+        except (TypeError, json.JSONDecodeError):
+            state = {}
+        tree = ''
+        if iteration == 1:
+            tree_result = self.tools.list_files('.', depth=3, limit=600)
+            tree = '\n'.join(tree_result['entries'])
+        status = self.workspace.status()
+        fixed = self._fixed_prompt(iteration, state, tree, status)
+        compact_if_needed(self.session, fixed, self._compact_call)
+        snapshot = build_snapshot(self.session, fixed)
+        self.session.context_tokens_estimate = snapshot.estimated_tokens
+        self.session.context_window_tokens = snapshot.window_tokens
+        self.session.save(update_fields=['context_tokens_estimate', 'context_window_tokens'])
+        threshold_percent = round(snapshot.threshold_tokens * 100 / snapshot.window_tokens)
+        return f"""{fixed}
+
+ANCHORED CONTEXT AND RECENT CONVERSATION
+{snapshot.transcript or '(none)'}
+
+CONTEXT ACCOUNTING
+Estimated input: {snapshot.estimated_tokens} / {snapshot.window_tokens} tokens ({snapshot.percent}%).
+Automatic anchored compaction runs at {threshold_percent}%.
 
 Decide the next smallest set of high-value actions. Prefer edit_file/multi_edit over apply_patch. Return exactly one JSON object matching the required schema.
-'''.strip()
+""".strip()
 
     def _complete(self, final: str):
         self._check_control()
@@ -390,23 +405,63 @@ Decide the next smallest set of high-value actions. Prefer edit_file/multi_edit 
         self.session.save(update_fields=fields)
 
 
+def _balanced_json_candidates(text: str):
+    for start, char in enumerate(text):
+        if char != '{':
+            continue
+        depth = 0
+        quoted = False
+        escaped = False
+        for index in range(start, len(text)):
+            current = text[index]
+            if quoted:
+                if escaped:
+                    escaped = False
+                elif current == '\\':
+                    escaped = True
+                elif current == '"':
+                    quoted = False
+                continue
+            if current == '"':
+                quoted = True
+            elif current == '{':
+                depth += 1
+            elif current == '}':
+                depth -= 1
+                if depth == 0:
+                    yield text[start:index + 1]
+                    break
+
+
+def _decode_protocol_object(candidate: str):
+    variants = [candidate, re.sub(r',\s*([}\]])', r'\1', candidate)]
+    for variant in variants:
+        try:
+            value = json.loads(variant)
+        except json.JSONDecodeError:
+            try:
+                value = ast.literal_eval(variant)
+            except (ValueError, SyntaxError):
+                continue
+        if isinstance(value, dict):
+            return value
+    return None
+
+
 def parse_model_response(raw: str) -> ParsedResponse:
     text = (raw or '').strip()
     candidates = [text]
-    fenced = re.findall(r'```(?:json)?\s*(\{.*?\})\s*```', text, flags=re.I | re.S)
-    candidates.extend(fenced)
-    first, last = text.find('{'), text.rfind('}')
-    if first >= 0 and last > first:
-        candidates.append(text[first:last + 1])
+    candidates.extend(re.findall(r'```(?:json)?\s*(\{.*?\})\s*```', text, flags=re.I | re.S))
+    candidates.extend(_balanced_json_candidates(text))
     payload = None
+    seen = set()
     for candidate in candidates:
-        try:
-            obj = json.loads(candidate)
-            if isinstance(obj, dict):
-                payload = obj
-                break
-        except json.JSONDecodeError:
+        if candidate in seen:
             continue
+        seen.add(candidate)
+        payload = _decode_protocol_object(candidate)
+        if payload is not None:
+            break
     if payload is None:
         return ParsedResponse(
             thought=text[:12000],
@@ -418,7 +473,15 @@ def parse_model_response(raw: str) -> ParsedResponse:
     actions = payload.get('actions')
     if not isinstance(actions, list):
         actions = []
-    normalized = [a for a in actions if isinstance(a, dict) and isinstance(a.get('tool'), str)]
+    normalized = []
+    for action in actions:
+        if not isinstance(action, dict) or not isinstance(action.get('tool'), str):
+            continue
+        arguments = action.get('arguments')
+        normalized.append({
+            'tool': action['tool'].strip(),
+            'arguments': arguments if isinstance(arguments, dict) else {},
+        })
     return ParsedResponse(
         thought=str(payload.get('thought') or '')[:20000],
         actions=normalized[:_MAX_ACTIONS_PER_TURN],

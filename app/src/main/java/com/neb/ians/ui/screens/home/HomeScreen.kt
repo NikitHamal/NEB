@@ -44,10 +44,7 @@ fun HomeScreen(
     onResourceClick: (String) -> Unit,
     onSearchClick: () -> Unit,
     onViewAllClick: () -> Unit,
-    onSubjectClick: (String) -> Unit = {},
     onForumClick: () -> Unit = {},
-    onStudyLabClick: () -> Unit = {},
-    onNebyAiClick: () -> Unit = {},
     onNewsClick: () -> Unit = {},
     onUploadClick: () -> Unit = {},
     onNewsItemClick: (String) -> Unit = {},
@@ -114,36 +111,6 @@ fun HomeScreen(
                         verticalArrangement = Arrangement.spacedBy(18.dp)
                     ) {
                         item(key = "top_spacing") { Spacer(Modifier.height(2.dp)) }
-
-                        item(key = "welcome") {
-                            HomeWelcomePanel(
-                                userName = uiState.userName,
-                                onSearchClick = onSearchClick,
-                                onStudyLabClick = onStudyLabClick
-                            )
-                        }
-
-                        item(key = "quick_actions") {
-                            HomeQuickActions(
-                                onStudyLabClick = onStudyLabClick,
-                                onNebyAiClick = onNebyAiClick,
-                                onForumClick = onForumClick,
-                                onUploadClick = onUploadClick
-                            )
-                        }
-
-                        item(key = "subjects_title") {
-                            HomeSectionTitle(
-                                title = "Browse by subject",
-                                subtitle = "Jump directly into the topics you need"
-                            )
-                        }
-                        item(key = "subjects") {
-                            HomeSubjectStrip(
-                                subjects = HomeUiState.SUBJECTS,
-                                onSubjectClick = onSubjectClick
-                            )
-                        }
 
                         if (uiState.error != null) {
                             item(key = "partial_error") {

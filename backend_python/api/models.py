@@ -1735,6 +1735,12 @@ class BackgroundAgentSession(models.Model):
     max_iterations = models.PositiveIntegerField(default=30)
     workspace_path = models.TextField(blank=True, default='')
     agent_state = models.TextField(blank=True, default='{}')
+    context_summary = models.TextField(blank=True, default='')
+    context_tokens_estimate = models.PositiveIntegerField(default=0)
+    context_window_tokens = models.PositiveIntegerField(default=131072)
+    context_compactions = models.PositiveIntegerField(default=0)
+    context_compacted_at = models.BigIntegerField(default=0)
+    last_compaction_at = models.BigIntegerField(default=0)
     summary = models.TextField(blank=True, default='')
     final_diff = models.TextField(blank=True, default='')
     changed_files = models.TextField(blank=True, default='[]')
@@ -1773,6 +1779,34 @@ class BackgroundAgentMessage(models.Model):
         ordering = ['created_at']
         indexes = [
             models.Index(fields=['session', 'created_at'], name='bg_message_session_created_idx'),
+        ]
+
+
+class BackgroundAgentAttachment(models.Model):
+    KIND_CHOICES = [
+        ('text', 'Text'), ('image', 'Image'), ('pdf', 'PDF'),
+        ('document', 'Document'), ('audio', 'Audio'), ('video', 'Video'),
+    ]
+    id = models.CharField(max_length=36, primary_key=True)
+    session = models.ForeignKey(BackgroundAgentSession, on_delete=models.CASCADE, related_name='attachments')
+    message = models.ForeignKey(BackgroundAgentMessage, on_delete=models.CASCADE, related_name='attachments')
+    file_name = models.CharField(max_length=255)
+    stored_name = models.CharField(max_length=255)
+    file_path = models.TextField()
+    content_type = models.CharField(max_length=160, blank=True, default='application/octet-stream')
+    extension = models.CharField(max_length=24, blank=True, default='')
+    kind = models.CharField(max_length=20, choices=KIND_CHOICES, default='document', db_index=True)
+    size_bytes = models.BigIntegerField(default=0)
+    sha256 = models.CharField(max_length=64, blank=True, default='')
+    sent_iteration = models.PositiveIntegerField(default=0)
+    created_at = models.BigIntegerField(default=0)
+
+    class Meta:
+        db_table = 'background_agent_attachments'
+        ordering = ['created_at']
+        indexes = [
+            models.Index(fields=['session', 'created_at'], name='bg_attach_session_created_idx'),
+            models.Index(fields=['message', 'created_at'], name='bg_attach_message_created_idx'),
         ]
 
 

@@ -30,13 +30,15 @@ def emit(session, event_type: str, message: str = '', payload: dict | None = Non
 
 
 def add_message(session, role: str, content: str, metadata: dict | None = None):
+    latest = session.messages.order_by('-created_at').values_list('created_at', flat=True).first() or 0
+    created_at = max(now_ms(), latest + 1)
     row = BackgroundAgentMessage.objects.create(
         id=uuid_str(),
         session=session,
         role=role,
         content=content,
         metadata=json.dumps(metadata or {}, ensure_ascii=False),
-        created_at=now_ms(),
+        created_at=created_at,
     )
     emit(session, 'message.created', payload={'messageId': row.id, 'role': role})
     return row
