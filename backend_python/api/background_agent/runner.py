@@ -13,7 +13,7 @@ from django.conf import settings
 
 from api.background_agent.attachments import mark_qwen_files_sent, qwen_files_for_iteration
 from api.background_agent.context import build_snapshot, compact_if_needed
-from api.background_agent.events import add_message, emit
+from api.background_agent.events import add_message, emit, store_prompt
 from api.background_agent.labels import tool_label
 from api.background_agent.workspace import GitWorkspace, ToolExecutor, WorkspaceError
 from api.models import BackgroundAgentSession
@@ -138,16 +138,22 @@ class BackgroundAgentRunner:
             prompt = self._build_prompt(iteration)
             file_paths, qwen_attachments = qwen_files_for_iteration(self.session)
             self._heartbeat(progress=min(92, 12 + iteration * 2), label=f'Agent iteration {iteration}')
+
+            # Log full prompt for export/debug
+            store_prompt(self.session, prompt, iteration)
+
             emit(self.session, 'model.requested', f'Calling Qwen 3.7 Plus for iteration {iteration}', {
                 'model': 'qwen3.7-plus', 'attachmentCount': len(file_paths),
             })
             raw = self._call_provider(prompt, file_paths=file_paths)
             mark_qwen_files_sent(qwen_attachments, iteration)
             parsed = parse_model_response(raw)
-            format_retries = max(0, min(int(getattr(settings, 'BACKGROUND_AGENT_FORMAT_RETRIES', 1)), 3))
-            for retry_index in range(format_retries):
+            format_retries_allowed = max(0, min(int(getattr(settings, 'BACKGROUND_AGENT_FORMAT_RETRIES', 1)), 3))
+            format_retries_used = 0
+            for retry_index in range(format_retries_allowed):
                 if parsed.summary != 'Provider returned non-JSON output; waiting for administrator guidance.':
                     break
+                format_retries_used += 1
                 emit(self.session, 'model.format_retry', 'Provider output was not valid JSON; requesting a schema repair', {
                     'iteration': iteration, 'retry': retry_index + 1,
                 })
@@ -165,9 +171,11 @@ PRIOR OUTPUT
                 parsed = parse_model_response(raw)
             add_message(self.session, 'assistant', parsed.thought or parsed.final or 'Agent response received', {
                 'iteration': iteration,
-                'raw': raw[:30000],
+                'raw': raw[:500000],
                 'summary': parsed.summary,
                 'needsInput': parsed.needs_input,
+                'filePaths': file_paths or [],
+                'formatRetries': format_retries_used,
             })
             self.session.iteration = iteration
             self.session.agent_state = json.dumps({
@@ -205,6 +213,7 @@ PRIOR OUTPUT
                 'tool': tool_name,
                 'label': label,
                 'ok': ok,
+                'args': arguments,
             })
             emit(
                 self.session,
@@ -221,8 +230,8 @@ PRIOR OUTPUT
             encoded = json.dumps(result, ensure_ascii=False)
         except (TypeError, ValueError):
             encoded = str(result)
-        if len(encoded) > 120000:
-            encoded = encoded[:120000] + '\n[tool result truncated in conversation log]'
+        if len(encoded) > 500000:
+            encoded = encoded[:500000] + '\n[tool result truncated in conversation log]'
         return encoded
 
     def _call_provider(self, prompt: str, *, system_prompt: str = SYSTEM_PROMPT, file_paths=None, max_tokens=None) -> str:
