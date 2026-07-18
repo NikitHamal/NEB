@@ -47,7 +47,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.neb.ians.data.api.ApiResource
-import com.neb.ians.util.getSubjectColor
+import com.neb.ians.ui.components.WebResourceCard
 
 @Composable
 internal fun HomeWelcomePanel(
@@ -311,88 +311,12 @@ internal fun HomeResourceCarousel(
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         items(resources.take(8), key = { it.id }) { resource ->
-            HomeResourceCard(resource = resource, onClick = { onResourceClick(resource.id) })
-        }
-    }
-}
-
-@Composable
-private fun HomeResourceCard(resource: ApiResource, onClick: () -> Unit) {
-    val subject = resource.subject.substringBefore(",").trim().ifBlank { "General" }
-    val subjectColor = Color(getSubjectColor(subject))
-    val shape = RoundedCornerShape(24.dp)
-    Column(
-        modifier = Modifier
-            .width(248.dp)
-            .clip(shape)
-            .background(MaterialTheme.colorScheme.surfaceContainerLow)
-            .border(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.42f), shape)
-            .clickable(onClick = onClick)
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .aspectRatio(16f / 9f)
-                .background(
-                    Brush.linearGradient(
-                        listOf(subjectColor.copy(alpha = 0.22f), MaterialTheme.colorScheme.surfaceContainerHigh)
-                    )
-                )
-        ) {
-            if (resource.thumbnailUrl.isNotBlank()) {
-                AsyncImage(
-                    model = resource.thumbnailUrl,
-                    contentDescription = resource.title,
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier.fillMaxSize()
-                )
-            }
-            Text(
-                text = subject,
-                style = MaterialTheme.typography.labelSmall,
-                fontWeight = FontWeight.Bold,
-                color = subjectColor,
-                modifier = Modifier
-                    .align(Alignment.TopStart)
-                    .padding(10.dp)
-                    .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.88f), RoundedCornerShape(999.dp))
-                    .padding(horizontal = 10.dp, vertical = 6.dp)
+            WebResourceCard(
+                resource = resource,
+                onClick = { onResourceClick(resource.id) },
+                minWidth = 248.dp,
+                shape = RoundedCornerShape(24.dp)
             )
-        }
-        Column(
-            modifier = Modifier.padding(14.dp),
-            verticalArrangement = Arrangement.spacedBy(7.dp)
-        ) {
-            Text(
-                text = resource.title,
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onSurface,
-                minLines = 2,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis
-            )
-            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                Text(
-                    text = resource.type.ifBlank { "Resource" }.replaceFirstChar { it.uppercase() },
-                    style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.weight(1f)
-                )
-                Icon(
-                    imageVector = Icons.Outlined.Visibility,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.size(15.dp)
-                )
-                Text(
-                    text = resource.viewCount.toString(),
-                    style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            }
         }
     }
 }
