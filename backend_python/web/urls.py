@@ -232,7 +232,6 @@ path('ajax/study-space/<str:space_id>/summary/', views.ajax_space_generate_summa
     path('ajax/study-space/quiz/<str:quiz_id>/', views.ajax_space_quiz_detail, name='ajax_space_quiz_detail'),
     path('ajax/study-space/quiz/<str:quiz_id>/submit/', views.ajax_space_quiz_submit, name='ajax_space_quiz_submit'),
     path('ajax/study-space/flashcard/<str:card_id>/review/', views.ajax_space_flashcard_review, name='ajax_space_flashcard_review'),
-
     # Background Agent (standalone, not admin-panel)
     path('backgroundagent/login/', ba_views.background_agent_login, name='background_agent_login'),
     path('backgroundagent/logout/', ba_views.background_agent_logout, name='background_agent_logout'),

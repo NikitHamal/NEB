@@ -463,6 +463,10 @@
     var id = t.dataset.sessionId || t.dataset.projectId;
     ev.preventDefault();
     switch (action) {
+      case 'pause-session': controlSession(id, 'pause'); break;
+      case 'resume-session': controlSession(id, 'resume'); break;
+      case 'stop-session': controlSession(id, 'stop'); break;
+      case 'refresh-project': refreshProject(id); break;
       case 'push-branch':
         showToast('Pushing branch...', 'info');
         apiPost('/backgroundagent/ajax/sessions/' + id + '/push/').then(function (r) {
@@ -480,6 +484,102 @@
     }
   }
 
+  function controlSession(sessionId, action) {
+    apiPost('/backgroundagent/ajax/sessions/' + sessionId + '/control/', { action: action })
+      .then(function (r) {
+        if (!r.ok) { showToast(r.data.error || 'Control failed', 'error'); return; }
+        showToast('Session ' + action + 'd', 'success');
+      });
+  }
+
+  function refreshProject(projectId) {
+    apiPost('/backgroundagent/ajax/projects/' + projectId + '/refresh/')
+      .then(function (r) {
+        if (!r.ok) { showToast(r.data.error || 'Refresh failed', 'error'); return; }
+        showToast('Repo refreshed', 'success');
+      });
+  }
+
+  if (window.AGENT_GH_CONNECTED) {
+    loadRepos('');
+    var search = document.getElementById('agent_repo_search');
+    var refresh = document.getElementById('agent_repo_refresh');
+    if (search) search.addEventListener('input', debounce(function () { loadRepos(search.value.trim()); }, 250));
+    if (refresh) refresh.addEventListener('click', function () { loadRepos(search ? search.value.trim() : '', true); });
+  }
+
+  var projectNewBtn = document.getElementById('agent_project_create_btn');
+  if (projectNewBtn) {
+    projectNewBtn.addEventListener('click', function (ev) {
+      ev.preventDefault();
+      createProject();
+    });
+  }
+
+  function debounce(fn, wait) {
+    var t = null;
+    return function () { var args = arguments, self = this; clearTimeout(t); t = setTimeout(function () { fn.apply(self, args); }, wait); };
+  }
+
+  function loadRepos(query, refresh) {
+    var root = document.getElementById('agent_repo_results');
+    if (!root) return;
+    root.dataset.loading = 'true';
+    var qs = '?q=' + encodeURIComponent(query || '');
+    if (refresh) qs += '&refresh=1';
+    fetch('/backgroundagent/ajax/github/repos/' + qs, { credentials: 'same-origin' })
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        root.dataset.loading = 'false';
+        root.innerHTML = '';
+        if (!data.repos || !data.repos.length) {
+          root.innerHTML = '<div class="file-tree-loading">No repositories found matching query.</div>';
+          return;
+        }
+        for (var i = 0; i < data.repos.length; i++) {
+          (function (repo) {
+            var row = el('div', { class: 'file-tree-item', style: 'padding:8px; border-bottom:1px solid #232328;', 'data-full-name': repo.full_name }, [
+              el('span', { class: 'material-symbols-outlined' }, ['code']),
+              el('span', { style: 'font-weight:600; color:#fff;' }, [repo.full_name])
+            ]);
+            row.addEventListener('click', function () {
+              var sel = root.querySelector('.file-tree-item.selected');
+              if (sel) sel.style.background = 'transparent';
+              row.style.background = '#252530';
+              if (projectNewBtn) projectNewBtn.disabled = false;
+              projectNewBtn.dataset.fullName = repo.full_name;
+            });
+            root.appendChild(row);
+          })(data.repos[i]);
+        }
+      })
+      .catch(function (e) {
+        root.dataset.loading = 'false';
+        root.innerHTML = '<div class="file-tree-loading">Error fetching repos: ' + e + '</div>';
+      });
+  }
+
+  function createProject() {
+    var btn = document.getElementById('agent_project_create_btn');
+    if (!btn || !btn.dataset.fullName) return;
+    var provider = document.getElementById('agent_project_provider').value;
+    var model = document.getElementById('agent_project_model').value.trim();
+    btn.disabled = true;
+    btn.innerHTML = 'Connecting...';
+    apiPost('/backgroundagent/ajax/projects/create/', {
+      repo_full_name: btn.dataset.fullName,
+      provider: provider, model: model,
+    }).then(function (r) {
+      if (!r.ok) {
+        btn.disabled = false;
+        btn.innerHTML = 'Connect Repository';
+        showToast(r.data.error || 'Connection failed', 'error');
+        return;
+      }
+      showToast('Repo connected', 'success');
+      window.location.href = '/backgroundagent/projects/' + r.data.project_id + '/';
+    });
+  }
   function handleSubmit(ev) {
     if (ev.target.id === 'agent_chat_form') {
       ev.preventDefault();
