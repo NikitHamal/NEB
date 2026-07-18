@@ -48,6 +48,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.neb.ians.data.api.ApiResource
 import com.neb.ians.ui.components.WebResourceCard
+import com.neb.ians.util.getSubjectColor
 
 @Composable
 internal fun HomeWelcomePanel(
