@@ -428,12 +428,16 @@ def sessions(request):
         session = BackgroundAgentSession.objects.create(
             id=uuid_str(), project=project, admin_user=admin, bot_config=provider,
             title=(payload.get('title') or goal.splitlines()[0])[:255], goal=goal,
-            source_branch=source_branch, status='queued', progress_label='Queued for worker',
+            source_branch=source_branch, status='paused',
             context_window_tokens=int(getattr(settings, 'BACKGROUND_AGENT_CONTEXT_WINDOW_TOKENS', 131072)),
             created_at=now, updated_at=now,
         )
         message = add_message(session, 'user', goal, {'kind': 'initial_goal', 'source': 'zeus'})
         attachments = save_uploads(session, message, request.FILES.getlist('files'))
+        session.status = 'queued'
+        session.progress_label = 'Queued for worker'
+        session.updated_at = now
+        session.save(update_fields=['status', 'progress_label', 'updated_at'])
         emit(session, 'session.queued', 'Task queued from Zeus', {'repository': project.repo_full_name, 'sourceBranch': source_branch, 'attachmentCount': len(attachments)})
         return _json({'ok': True, 'session': _session_data(session, request, detail=True)}, status=201)
     except (ValueError, Http404) as exc:

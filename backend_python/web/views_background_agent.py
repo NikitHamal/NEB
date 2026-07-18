@@ -573,6 +573,85 @@ def background_agent_session_action(request, session_id):
 
 
 @require_GET
+def background_agent_session_export(request, session_id):
+    """Export the entire session as a downloadable JSON file for debugging."""
+    redirect_response = require_bg_admin(request)
+    if redirect_response:
+        raise Http404
+    session = _session_for_admin(request, session_id)
+    messages = list(session.messages.prefetch_related('attachments').order_by('created_at'))
+    events = list(session.events.order_by('id'))
+    try:
+        changed_files = json.loads(session.changed_files or '[]')
+    except (TypeError, json.JSONDecodeError):
+        changed_files = []
+    export = {
+        'session': {
+            'id': str(session.id),
+            'project': session.project.repo_full_name,
+            'title': session.title,
+            'goal': session.goal,
+            'sourceBranch': session.source_branch,
+            'workBranch': session.work_branch,
+            'baseSha': session.base_sha,
+            'headSha': session.head_sha,
+            'status': session.status,
+            'iteration': session.iteration,
+            'maxIterations': session.max_iterations,
+            'summary': session.summary,
+            'finalDiff': session.final_diff,
+            'changedFiles': changed_files,
+            'testSummary': session.test_summary,
+            'lastError': session.last_error,
+            'agentState': session.agent_state,
+            'contextCompactions': session.context_compactions,
+            'createdAt': session.created_at,
+            'startedAt': session.started_at,
+            'updatedAt': session.updated_at,
+            'completedAt': session.completed_at,
+            'archivedAt': session.archived_at,
+        },
+        'messages': [
+            {
+                'id': str(m.id),
+                'role': m.role,
+                'content': m.content,
+                'metadata': json.loads(m.metadata or '{}'),
+                'attachments': [
+                    {
+                        'id': str(a.id),
+                        'fileName': a.file_name,
+                        'storedName': a.stored_name,
+                        'kind': a.kind,
+                        'contentType': a.content_type,
+                        'sizeBytes': a.size_bytes,
+                        'sentIteration': a.sent_iteration,
+                        'createdAt': a.created_at,
+                    }
+                    for a in m.attachments.all().order_by('created_at')
+                ],
+                'createdAt': m.created_at,
+            }
+            for m in messages
+        ],
+        'events': [
+            {
+                'id': e.id,
+                'type': e.event_type,
+                'message': e.message,
+                'payload': json.loads(e.payload or '{}'),
+                'createdAt': e.created_at,
+            }
+            for e in events
+        ],
+        'exportedAt': now_ms(),
+    }
+    response = JsonResponse(export, json_dumps_params={'ensure_ascii': False, 'indent': 2})
+    response['Content-Disposition'] = f'attachment; filename="bg-agent-session-{session.id[:12]}.json"'
+    return response
+
+
+@require_GET
 def background_agent_download_artifact(request, session_id, kind):
     redirect_response = require_bg_admin(request)
     if redirect_response:
