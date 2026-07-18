@@ -1,0 +1,27 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Background Coding Agent | Tembo AI{% endblock %}</title>
+  <link rel="icon" type="image/svg+xml" href="{% static 'web/img/favicon.svg' %}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0..1,0">
+  <link rel="stylesheet" href="{% static 'web/css/coding-agent.css' %}">
+  {% block extra_css %}{% endblock %}
+</head>
+<body data-theme="dark">
+  <div id="agent_toast_root"></div>
+  <div id="agent_modal_root"></div>
+
+  {% block content %}{% endblock %}
+
+  <script nonce="{{ csp_nonce }}">
+    window.CSRF_TOKEN = '{{ csrf_token }}';
+  </script>
+  <script nonce="{{ csp_nonce }}" src="{% static 'web/js/coding-agent.js' %}"></script>
+  {% block extra_js %}{% endblock %}
+</body>
+</html>
