@@ -641,7 +641,6 @@ fun ForumPostDetailScreen(
     }
 }
 
-@Composable
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun PostContentSection(
