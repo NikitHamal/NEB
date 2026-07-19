@@ -39,9 +39,15 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import com.neb.ians.data.news.NewsAnnouncement
 import com.neb.ians.data.news.NewsComment
 import com.neb.ians.data.news.toSafeColor
+import com.neb.ians.ui.components.CommentCard
+import com.neb.ians.ui.components.CommentSortPillsRow
+import com.neb.ians.ui.components.ConfirmDeleteDialog
 import com.neb.ians.ui.components.ErrorCard
 import com.neb.ians.ui.components.NebCommentComposerBar
 import com.neb.ians.ui.components.MarkdownText
@@ -49,8 +55,8 @@ import com.neb.ians.ui.components.WebCardShape
 import com.neb.ians.ui.components.WebPillShape
 import com.neb.ians.ui.screens.home.NewsCategoryBadge
 import com.neb.ians.ui.screens.home.newsIcon
-import com.neb.ians.util.formatTimeAgo
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NewsDetailScreen(
     slug: String,
@@ -62,6 +68,9 @@ fun NewsDetailScreen(
     val context = LocalContext.current
     val uriHandler = LocalUriHandler.current
     var showMoreMenu by remember { mutableStateOf(false) }
+    var activeThreadParentId by remember { mutableStateOf<String?>(null) }
+    var activeThreadTargetId by remember { mutableStateOf<String?>(null) }
+    var deletingCommentId by remember { mutableStateOf<String?>(null) }
     val snackbarHostState = remember { SnackbarHostState() }
 
     LaunchedEffect(uiState.snackbarMessage) {
@@ -208,9 +217,21 @@ fun NewsDetailScreen(
                     }
 
                     Spacer(modifier = Modifier.height(28.dp))
-                    BlogCommentsSection(
-                        comments = uiState.comments,
-                        isLoading = uiState.commentsLoading,
+                    NewsCommentsSection(
+                        uiState = uiState,
+                        onLikeClick = viewModel::toggleCommentLike,
+                        onSortSelect = viewModel::setCommentSort,
+                        onReplyClick = { comment ->
+                            activeThreadParentId = comment.id
+                            activeThreadTargetId = comment.id
+                            val tag = "@${comment.authorName} "
+                            if (!uiState.threadDraft.startsWith(tag)) {
+                                viewModel.onThreadDraftChange(tag + uiState.threadDraft.removePrefix(tag))
+                            }
+                        },
+                        onOpenThread = { comment -> activeThreadParentId = comment.id },
+                        onDeleteClick = { comment -> deletingCommentId = comment.id },
+                        onLinkClick = { url -> safeOpenUri(uriHandler, context, url) },
                         modifier = Modifier.padding(horizontal = 16.dp)
                     )
 
@@ -235,37 +256,246 @@ fun NewsDetailScreen(
             }
         }
     }
+
+    // ----- Comment thread bottom sheet (same system as the forum post viewer) -----
+    activeThreadParentId?.let { parentId ->
+        val parent = uiState.comments.firstOrNull { it.id == parentId }
+        if (parent != null) {
+            val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+            val threadReplies = uiState.childrenOf(parentId)
+            val replyTarget = activeThreadTargetId?.let { targetId ->
+                uiState.comments.firstOrNull { it.id == targetId }
+            }
+
+            ModalBottomSheet(
+                onDismissRequest = {
+                    activeThreadParentId = null
+                    activeThreadTargetId = null
+                },
+                sheetState = sheetState,
+                containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight(0.85f)
+                        .padding(bottom = 16.dp)
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp, vertical = 12.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = "@${parent.authorName}",
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.onSurface,
+                            modifier = Modifier.weight(1f)
+                        )
+                        if (threadReplies.isNotEmpty()) {
+                            Surface(
+                                shape = WebPillShape,
+                                color = MaterialTheme.colorScheme.primaryContainer,
+                                modifier = Modifier.padding(end = 12.dp)
+                            ) {
+                                Text(
+                                    text = "${threadReplies.size} ${if (threadReplies.size == 1) "reply" else "replies"}",
+                                    style = MaterialTheme.typography.labelMedium,
+                                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                                    fontWeight = FontWeight.SemiBold,
+                                    modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp)
+                                )
+                            }
+                        }
+                        IconButton(onClick = {
+                            activeThreadParentId = null
+                            activeThreadTargetId = null
+                        }) {
+                            Icon(Icons.Default.Close, contentDescription = "Close")
+                        }
+                    }
+
+                    HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+
+                    LazyColumn(
+                        modifier = Modifier
+                            .weight(1f)
+                            .fillMaxWidth(),
+                        contentPadding = androidx.compose.foundation.layout.PaddingValues(16.dp)
+                    ) {
+                        item(key = "parent_${parent.id}") {
+                            CommentCard(
+                                reply = parent.toApiReply(),
+                                isOwn = parent.isOwner,
+                                onThumbsUpClick = { viewModel.toggleCommentLike(parent.id) },
+                                onReplyClick = {
+                                    activeThreadTargetId = parent.id
+                                    val tag = "@${parent.authorName} "
+                                    if (!uiState.threadDraft.startsWith(tag)) {
+                                        viewModel.onThreadDraftChange(tag + uiState.threadDraft.removePrefix(tag))
+                                    }
+                                },
+                                onDeleteClick = if (parent.isOwner) ({ deletingCommentId = parent.id }) else null,
+                                onProfileClick = {},
+                                onAuthorLongPress = {},
+                                onLinkClick = { url -> safeOpenUri(uriHandler, context, url) }
+                            )
+                            Spacer(modifier = Modifier.height(16.dp))
+                            HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
+                            Spacer(modifier = Modifier.height(16.dp))
+                        }
+
+                        if (threadReplies.isEmpty()) {
+                            item(key = "empty_thread") {
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(vertical = 32.dp),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Text(
+                                        text = "No replies yet in this thread.",
+                                        style = MaterialTheme.typography.bodyMedium,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                                    )
+                                }
+                            }
+                        } else {
+                            items(threadReplies, key = { it.id }) { child ->
+                                Column(modifier = Modifier.padding(bottom = 12.dp)) {
+                                    val parentOfChild = uiState.comments.firstOrNull { it.id == child.parentCommentId }
+                                    val replyingTo = if (child.parentCommentId != parentId) {
+                                        parentOfChild?.authorName
+                                    } else null
+
+                                    CommentCard(
+                                        reply = child.toApiReply(),
+                                        isOwn = child.isOwner,
+                                        onThumbsUpClick = { viewModel.toggleCommentLike(child.id) },
+                                        onReplyClick = {
+                                            activeThreadTargetId = child.id
+                                            val tag = "@${child.authorName} "
+                                            if (!uiState.threadDraft.startsWith(tag)) {
+                                                viewModel.onThreadDraftChange(tag + uiState.threadDraft.removePrefix(tag))
+                                            }
+                                        },
+                                        onDeleteClick = if (child.isOwner) ({ deletingCommentId = child.id }) else null,
+                                        onProfileClick = {},
+                                        onAuthorLongPress = {},
+                                        onLinkClick = { url -> safeOpenUri(uriHandler, context, url) },
+                                        replyingToUsername = replyingTo,
+                                        quotedContent = parentOfChild?.text
+                                    )
+                                }
+                            }
+                        }
+                    }
+
+                    HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+                    NebCommentComposerBar(
+                        value = uiState.threadDraft,
+                        onValueChange = viewModel::onThreadDraftChange,
+                        placeholder = if (replyTarget != null) "Reply to @${replyTarget.authorName}..." else "Write a reply...",
+                        enabled = !uiState.isPostingComment,
+                        canSend = uiState.threadDraft.isNotBlank() && !uiState.isPostingComment,
+                        posting = uiState.isPostingComment,
+                        onSend = {
+                            val targetId = activeThreadTargetId ?: parentId
+                            viewModel.postThreadReply(targetId) {
+                                activeThreadTargetId = null
+                            }
+                        }
+                    ) {
+                        replyTarget?.let { target ->
+                            if (target.id != parentId) {
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(bottom = 8.dp)
+                                        .background(
+                                            color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
+                                            shape = androidx.compose.foundation.shape.RoundedCornerShape(8.dp)
+                                        )
+                                        .padding(horizontal = 12.dp, vertical = 6.dp),
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Default.Close,
+                                        contentDescription = "Clear reply target",
+                                        modifier = Modifier
+                                            .size(16.dp)
+                                            .clickable { activeThreadTargetId = null },
+                                        tint = MaterialTheme.colorScheme.onSurfaceVariant
+                                    )
+                                    Spacer(modifier = Modifier.width(8.dp))
+                                    Text(
+                                        text = "Replying to @${target.authorName}",
+                                        style = MaterialTheme.typography.labelSmall,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } else {
+            // Parent comment vanished (e.g. deleted): close the sheet.
+            SideEffect {
+                activeThreadParentId = null
+                activeThreadTargetId = null
+            }
+        }
+    }
+
+    deletingCommentId?.let { commentId ->
+        ConfirmDeleteDialog(
+            message = "Delete this comment? This cannot be undone.",
+            onDismiss = { deletingCommentId = null },
+            onConfirm = {
+                deletingCommentId = null
+                viewModel.deleteComment(commentId)
+            }
+        )
+    }
 }
 
 
+/**
+ * Standard comment section — identical system to the forum post viewer:
+ * header count, Oldest/Newest/Top sort pills, CommentCard list with
+ * like / reply / replies-bar that opens the thread bottom sheet.
+ */
 @Composable
-private fun BlogCommentsSection(
-    comments: List<NewsComment>,
-    isLoading: Boolean,
+private fun NewsCommentsSection(
+    uiState: NewsDetailUiState,
+    onLikeClick: (String) -> Unit,
+    onSortSelect: (String) -> Unit,
+    onReplyClick: (NewsComment) -> Unit,
+    onOpenThread: (NewsComment) -> Unit,
+    onDeleteClick: (NewsComment) -> Unit,
+    onLinkClick: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier.fillMaxWidth()) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Text(
-                text = "Comments",
-                style = MaterialTheme.typography.titleLarge,
-                fontWeight = FontWeight.Bold
-            )
-            Spacer(Modifier.width(8.dp))
-            Surface(
-                shape = WebPillShape,
-                color = MaterialTheme.colorScheme.surfaceContainerHigh
-            ) {
-                Text(
-                    text = comments.size.toString(),
-                    style = MaterialTheme.typography.labelMedium,
-                    modifier = Modifier.padding(horizontal = 9.dp, vertical = 4.dp)
-                )
-            }
-        }
+        Text(
+            text = "${uiState.comments.size} ${if (uiState.comments.size == 1) "Comment" else "Comments"}",
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.SemiBold,
+            color = MaterialTheme.colorScheme.onSurface
+        )
+        Spacer(Modifier.height(10.dp))
+        CommentSortPillsRow(
+            currentSort = uiState.commentSort,
+            onSelect = onSortSelect
+        )
         Spacer(Modifier.height(12.dp))
         when {
-            isLoading -> {
+            uiState.commentsLoading && uiState.comments.isEmpty() -> {
                 repeat(2) {
                     Surface(
                         modifier = Modifier
@@ -289,7 +519,7 @@ private fun BlogCommentsSection(
                     }
                 }
             }
-            comments.isEmpty() -> {
+            uiState.comments.isEmpty() -> {
                 Surface(
                     modifier = Modifier.fillMaxWidth(),
                     shape = WebCardShape,
@@ -311,64 +541,21 @@ private fun BlogCommentsSection(
                     }
                 }
             }
-            else -> comments.forEach { comment ->
-                BlogCommentCard(comment = comment)
-                Spacer(Modifier.height(10.dp))
-            }
-        }
-    }
-}
-
-@Composable
-private fun BlogCommentCard(comment: NewsComment) {
-    Surface(
-        modifier = Modifier.fillMaxWidth(),
-        shape = WebCardShape,
-        color = MaterialTheme.colorScheme.surfaceContainerLowest,
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
-    ) {
-        Row(
-            modifier = Modifier.padding(14.dp),
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
-            verticalAlignment = Alignment.Top
-        ) {
-            if (comment.authorPhoto.isNotBlank()) {
-                AsyncImage(
-                    model = comment.authorPhoto,
-                    contentDescription = comment.authorName,
-                    modifier = Modifier
-                        .size(38.dp)
-                        .clip(androidx.compose.foundation.shape.CircleShape),
-                    contentScale = ContentScale.Crop
+            else -> uiState.topLevelComments.forEach { comment ->
+                val children = uiState.childrenOf(comment.id)
+                CommentCard(
+                    reply = comment.toApiReply(),
+                    isOwn = comment.isOwner,
+                    onThumbsUpClick = { onLikeClick(comment.id) },
+                    onReplyClick = { onReplyClick(comment) },
+                    onDeleteClick = if (comment.isOwner) ({ onDeleteClick(comment) }) else null,
+                    onProfileClick = {},
+                    onAuthorLongPress = {},
+                    onLinkClick = onLinkClick,
+                    children = children.map { it.toApiReply() },
+                    onRepliesBarClick = if (children.isNotEmpty()) ({ onOpenThread(comment) }) else null
                 )
-            } else {
-                Surface(
-                    modifier = Modifier.size(38.dp),
-                    shape = androidx.compose.foundation.shape.CircleShape,
-                    color = MaterialTheme.colorScheme.primaryContainer
-                ) {
-                    Box(contentAlignment = Alignment.Center) {
-                        Text(
-                            comment.authorInitials.take(2),
-                            style = MaterialTheme.typography.labelMedium,
-                            fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.colorScheme.onPrimaryContainer
-                        )
-                    }
-                }
-            }
-            Column(Modifier.weight(1f)) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text(comment.authorName, style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.SemiBold)
-                    Spacer(Modifier.width(8.dp))
-                    Text(
-                        formatTimeAgo(comment.createdAt),
-                        style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-                Spacer(Modifier.height(5.dp))
-                Text(comment.text, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurface)
+                Spacer(Modifier.height(10.dp))
             }
         }
     }

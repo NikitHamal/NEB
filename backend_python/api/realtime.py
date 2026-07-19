@@ -108,6 +108,15 @@ def broadcast_resource_like_changed(resource_id: str, like_count: int):
     })
 
 
+def broadcast_resource_comment_like_changed(resource_id: str, comment_id: str, like_count: int, is_liked_by_viewer_hint: Optional[bool] = None, user_id: Optional[str] = None):
+    """Comment-level like events stay on their own event name + comment scope,
+    so listening clients never mistake a comment count for the resource count."""
+    payload = {'resource_id': resource_id, 'comment_id': comment_id, 'like_count': like_count}
+    _send(GRP_RESOURCE_FMT.format(resource_id=resource_id), 'resource_comment.like_changed', payload)
+    if is_liked_by_viewer_hint is not None and user_id:
+        _send(GRP_USER_FMT.format(user_id=user_id), 'resource_comment.like_changed', {**payload, 'isLiked': is_liked_by_viewer_hint})
+
+
 def broadcast_resource_comment_created(resource_id: str, comment_data: Dict[str, Any]):
     _send(GRP_RESOURCE_FMT.format(resource_id=resource_id), 'resource.comment_created', comment_data)
 

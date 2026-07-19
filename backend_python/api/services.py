@@ -476,9 +476,12 @@ def toggle_resource_comment_like(user, comment_id):
         _notif.notify_resource_comment_liked(user.id, comment_id)
     else:
         _notif.notify_resource_comment_unliked(user.id, comment_id)
-    # Comment-level like broadcasts go to the resource channel because the
-    # client renders comments inline under the resource view.
-    _rt.broadcast_resource_like_changed(comment.resource_id, current_count)
+    # Comment-level like events broadcast on their own comment-scoped event;
+    # the resource-level like_changed keeps carrying only resource counts.
+    _rt.broadcast_resource_comment_like_changed(
+        comment.resource_id, comment_id, current_count,
+        is_liked_by_viewer_hint=is_liked, user_id=str(user.id),
+    )
     return {'likeCount': current_count, 'isLiked': is_liked}
 
 
