@@ -333,6 +333,20 @@ class ForumRepository @Inject constructor(
         return try {
             val token = getBearerToken() ?: return Result.failure(IllegalStateException("Not authenticated"))
             val response = apiService.toggleLikeReply(token, replyId)
+            // Persist the server's like state into every cached reply list so a
+            // cache re-read never flips a fresh like back to unliked.
+            appCache.postReplies.keys.toList().forEach { postId ->
+                val replies = appCache.postReplies[postId].orEmpty()
+                if (replies.any { it.id == replyId }) {
+                    val updated = replies.map { reply ->
+                        if (reply.id == replyId) {
+                            reply.copy(thumbsUpCount = response.thumbsUpCount, isThumbedUp = response.isThumbedUp)
+                        } else reply
+                    }
+                    appCache.postReplies[postId] = updated
+                    offlineCacheStore.write(repliesCacheKey(postId), ApiPaginatedReplies(replies = updated, totalCount = updated.size))
+                }
+            }
             Result.success(response)
         } catch (e: Exception) {
             Result.failure(e)

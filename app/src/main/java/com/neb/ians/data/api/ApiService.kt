@@ -1275,6 +1275,18 @@ interface ApiService {
         @Body request: com.neb.ians.data.news.NewsCommentRequest
     ): com.neb.ians.data.news.NewsCommentResponse
 
+    @POST("ajax/like/blog-comment/{commentId}/")
+    suspend fun toggleBlogCommentLike(
+        @Header("Authorization") bearerToken: String,
+        @Path("commentId") commentId: String
+    ): com.neb.ians.data.news.NewsCommentLikeResponse
+
+    @DELETE("ajax/blog-comment/{commentId}/delete/")
+    suspend fun deleteBlogComment(
+        @Header("Authorization") bearerToken: String,
+        @Path("commentId") commentId: String
+    )
+
     // --- Result Checker (same endpoint as the live website) ---
     @POST("ajax/results/check/")
     suspend fun checkResult(

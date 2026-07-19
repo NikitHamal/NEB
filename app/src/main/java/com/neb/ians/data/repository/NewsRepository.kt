@@ -7,6 +7,7 @@ import com.neb.ians.data.news.NewsAnnouncement
 import com.neb.ians.data.news.NewsCategories
 import com.neb.ians.data.news.NewsDetail
 import com.neb.ians.data.news.NewsComment
+import com.neb.ians.data.news.NewsCommentLikeResponse
 import com.neb.ians.data.news.NewsCommentRequest
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
@@ -61,17 +62,38 @@ class NewsRepository @Inject constructor(
             }
         }
 
-    suspend fun postComment(slug: String, text: String): Result<NewsComment> =
+    suspend fun postComment(slug: String, text: String, parentCommentId: String? = null): Result<NewsComment> =
         withContext(Dispatchers.IO) {
             runCatching {
                 val token = SecurePrefs.getAuthToken(context)?.takeIf { it.isNotBlank() }
                     ?: error("Please sign in to comment")
                 val response = apiService.createNewsComment(
                     "Bearer $token",
-                    NewsCommentRequest(slug = slug, text = text)
+                    NewsCommentRequest(slug = slug, text = text, parentCommentId = parentCommentId)
                 )
                 if (!response.ok) error(response.error ?: "Couldn't post comment")
                 response.comment ?: error("Comment was not returned")
+            }
+        }
+
+    suspend fun toggleCommentLike(commentId: String): Result<NewsCommentLikeResponse> =
+        withContext(Dispatchers.IO) {
+            runCatching {
+                val token = SecurePrefs.getAuthToken(context)?.takeIf { it.isNotBlank() }
+                    ?: error("Please sign in to like comments")
+                val response = apiService.toggleBlogCommentLike("Bearer $token", commentId)
+                if (response.error != null) error(response.error)
+                response
+            }
+        }
+
+    suspend fun deleteComment(commentId: String): Result<Unit> =
+        withContext(Dispatchers.IO) {
+            runCatching {
+                val token = SecurePrefs.getAuthToken(context)?.takeIf { it.isNotBlank() }
+                    ?: error("Please sign in to delete comments")
+                apiService.deleteBlogComment("Bearer $token", commentId)
+                Unit
             }
         }
 

@@ -1,11 +1,14 @@
 package com.neb.ians.ui.components
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTransformGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
@@ -13,12 +16,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -31,14 +32,49 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import coil.compose.AsyncImage
 
+/**
+ * Fullscreen zoomable viewer for a single image.
+ * Delegates to the multi-image viewer so every fullscreen viewer in the app
+ * behaves exactly the same.
+ */
 @Composable
 fun ZoomableImageDialog(
     imageUrl: String,
     contentDescription: String? = null,
     onDismiss: () -> Unit
 ) {
-    var scale by remember(imageUrl) { mutableFloatStateOf(1f) }
-    var offset by remember(imageUrl) { mutableStateOf(Offset.Zero) }
+    ZoomableImageDialog(
+        imageUrls = listOf(imageUrl),
+        initialIndex = 0,
+        contentDescription = contentDescription,
+        onDismiss = onDismiss
+    )
+}
+
+/**
+ * Fullscreen zoomable image viewer with swipe-to-change support.
+ *
+ * Users can pinch-to-zoom and pan each image. When there are multiple images,
+ * swiping horizontally moves between them (swiping is temporarily disabled
+ * while an image is zoomed in so the pan gesture doesn't fight the pager).
+ */
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun ZoomableImageDialog(
+    imageUrls: List<String>,
+    initialIndex: Int = 0,
+    contentDescription: String? = null,
+    onDismiss: () -> Unit
+) {
+    if (imageUrls.isEmpty()) return
+    val pagerState = rememberPagerState(
+        initialPage = initialIndex.coerceIn(0, imageUrls.size - 1),
+        pageCount = { imageUrls.size }
+    )
+    // Zoom state kept per page so every image keeps its own pinch/pan.
+    val zoomScales = remember { mutableStateMapOf<Int, Float>() }
+    val zoomOffsets = remember { mutableStateMapOf<Int, Offset>() }
+    val currentPageScale = zoomScales[pagerState.currentPage] ?: 1f
 
     Dialog(
         onDismissRequest = onDismiss,
@@ -49,25 +85,40 @@ fun ZoomableImageDialog(
                 .fillMaxSize()
                 .background(Color.Black.copy(alpha = 0.94f))
         ) {
-            AsyncImage(
-                model = resolveZoomableImageUrl(imageUrl),
-                contentDescription = contentDescription,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .pointerInput(imageUrl) {
-                        detectTransformGestures { _, pan, zoom, _ ->
-                            scale = (scale * zoom).coerceIn(1f, 5f)
-                            offset = if (scale <= 1.01f) Offset.Zero else offset + pan
-                        }
-                    }
-                    .graphicsLayer(
-                        scaleX = scale,
-                        scaleY = scale,
-                        translationX = offset.x,
-                        translationY = offset.y
-                    ),
-                contentScale = ContentScale.Fit
-            )
+            HorizontalPager(
+                state = pagerState,
+                modifier = Modifier.fillMaxSize(),
+                // While zoomed in, horizontal drags belong to the pan gesture.
+                userScrollEnabled = currentPageScale <= 1.05f
+            ) { page ->
+                val scale = zoomScales[page] ?: 1f
+                val offset = zoomOffsets[page] ?: Offset.Zero
+                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    AsyncImage(
+                        model = resolveZoomableImageUrl(imageUrls[page]),
+                        contentDescription = contentDescription ?: "Image ${page + 1} of ${imageUrls.size}",
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .pointerInput(page) {
+                                detectTransformGestures { _, pan, zoom, _ ->
+                                    val newScale = ((zoomScales[page] ?: 1f) * zoom).coerceIn(1f, 5f)
+                                    zoomScales[page] = newScale
+                                    zoomOffsets[page] =
+                                        if (newScale <= 1.01f) Offset.Zero
+                                        else (zoomOffsets[page] ?: Offset.Zero) + pan
+                                }
+                            }
+                            .graphicsLayer(
+                                scaleX = scale,
+                                scaleY = scale,
+                                translationX = offset.x,
+                                translationY = offset.y
+                            ),
+                        contentScale = ContentScale.Fit
+                    )
+                }
+            }
+
             Surface(
                 modifier = Modifier
                     .align(Alignment.TopEnd)
@@ -81,6 +132,23 @@ fun ZoomableImageDialog(
                     Icon(Icons.Filled.Close, contentDescription = "Close")
                 }
             }
+
+            if (imageUrls.size > 1) {
+                Surface(
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                        .padding(bottom = 26.dp),
+                    shape = CircleShape,
+                    color = Color.White.copy(alpha = 0.88f),
+                    contentColor = Color.Black
+                ) {
+                    Text(
+                        text = "${pagerState.currentPage + 1} / ${imageUrls.size}",
+                        modifier = Modifier.padding(horizontal = 14.dp, vertical = 6.dp),
+                        style = MaterialTheme.typography.labelMedium
+                    )
+                }
+            }
         }
     }
 }
@@ -91,7 +159,7 @@ fun resolveZoomableImageUrl(url: String): String {
     } else {
         "https://nebians.consica.com.np${if (url.startsWith("/")) "" else "/"}$url"
     }
-    
+
     // Upgrade Google profile pictures to original resolution (s0)
     if (cleanUrl.contains("googleusercontent.com")) {
         val suffixRegex = "(=s\\d+(-[c])?)$".toRegex()
@@ -102,7 +170,7 @@ fun resolveZoomableImageUrl(url: String): String {
         if (pathRegex.containsMatchIn(cleanUrl)) {
             return cleanUrl.replace(pathRegex, "/s0/")
         }
-    } 
+    }
     // Upgrade GitHub profile pictures to high resolution (s=512)
     else if (cleanUrl.contains("avatars.githubusercontent.com")) {
         return if (cleanUrl.contains("?")) {
@@ -115,6 +183,6 @@ fun resolveZoomableImageUrl(url: String): String {
             "$cleanUrl?s=512"
         }
     }
-    
+
     return cleanUrl
 }

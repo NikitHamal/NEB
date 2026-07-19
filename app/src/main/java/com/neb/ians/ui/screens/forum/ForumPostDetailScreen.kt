@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,6 +24,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -48,12 +51,14 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
@@ -93,6 +98,7 @@ import com.neb.ians.ui.components.sharePost
 import com.neb.ians.ui.components.MentionsVisualTransformation
 import com.neb.ians.ui.components.MentionSuggestions
 import com.neb.ians.ui.components.CommentCard
+import com.neb.ians.ui.components.CommentSortPillsRow
 import com.neb.ians.ui.components.NebCommentComposerBar
 import com.neb.ians.ui.theme.getSubjectTheme
 import com.neb.ians.util.formatTimeAgo
@@ -124,7 +130,8 @@ fun ForumPostDetailScreen(
     // Bottom sheet state for thread
     var activeThreadParent by remember { mutableStateOf<ApiReply?>(null) }
     var activeThreadTargetReply by remember { mutableStateOf<ApiReply?>(null) }
-    var zoomImageUrl by remember { mutableStateOf<String?>(null) }
+    var zoomImageUrls by remember { mutableStateOf<List<String>?>(null) }
+    var zoomImageIndex by remember { mutableIntStateOf(0) }
 
     // Dialog state
     var reportTarget by remember { mutableStateOf<Pair<String, String>?>(null) } // type to id
@@ -256,7 +263,10 @@ fun ForumPostDetailScreen(
                             onProfileClick = onProfileClick,
                             onAuthorLongPress = { popoverUsername = post.authorName },
                             onLinkClick = openLink,
-                            onImageClick = { url -> zoomImageUrl = url }
+                            onImageClick = { urls, index ->
+                                zoomImageUrls = urls
+                                zoomImageIndex = index
+                            }
                         )
                     }
 
@@ -281,12 +291,11 @@ fun ForumPostDetailScreen(
                             )
                         }
                         Spacer(modifier = Modifier.height(10.dp))
-                        // Reply sort pills: Oldest / Newest / Top
-                        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                            ReplySortPill("Oldest", "oldest", uiState.replySort, viewModel::setReplySort)
-                            ReplySortPill("Newest", "newest", uiState.replySort, viewModel::setReplySort)
-                            ReplySortPill("Top", "top", uiState.replySort, viewModel::setReplySort)
-                        }
+                        // Reply sort pills: Oldest / Newest / Top (shared component used everywhere)
+                        CommentSortPillsRow(
+                            currentSort = uiState.replySort,
+                            onSelect = viewModel::setReplySort
+                        )
                         Spacer(modifier = Modifier.height(12.dp))
                     }
 
@@ -405,11 +414,12 @@ fun ForumPostDetailScreen(
     }
 
     // ----- Thread Bottom Sheet -----
-    zoomImageUrl?.let { url ->
+    zoomImageUrls?.let { urls ->
         ZoomableImageDialog(
-            imageUrl = url,
+            imageUrls = urls,
+            initialIndex = zoomImageIndex,
             contentDescription = "Post image",
-            onDismiss = { zoomImageUrl = null }
+            onDismiss = { zoomImageUrls = null }
         )
     }
 
@@ -632,30 +642,6 @@ fun ForumPostDetailScreen(
 }
 
 @Composable
-private fun ReplySortPill(
-    label: String,
-    value: String,
-    currentSort: String,
-    onSelect: (String) -> Unit
-) {
-    val selected = currentSort == value
-    Surface(
-        shape = WebPillShape,
-        color = if (selected) MaterialTheme.colorScheme.secondaryContainer
-        else MaterialTheme.colorScheme.surfaceContainerLow,
-        modifier = Modifier.clip(WebPillShape).clickable { onSelect(value) }
-    ) {
-        Text(
-            text = label,
-            modifier = Modifier.padding(horizontal = 14.dp, vertical = 6.dp),
-            style = MaterialTheme.typography.labelMedium,
-            fontWeight = if (selected) FontWeight.SemiBold else FontWeight.Medium,
-            color = if (selected) MaterialTheme.colorScheme.onSecondaryContainer
-            else MaterialTheme.colorScheme.onSurfaceVariant
-        )
-    }
-}
-
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun PostContentSection(
@@ -675,7 +661,7 @@ private fun PostContentSection(
     onProfileClick: (String) -> Unit,
     onAuthorLongPress: () -> Unit,
     onLinkClick: (String) -> Unit,
-    onImageClick: (String) -> Unit
+    onImageClick: (imageUrls: List<String>, index: Int) -> Unit
 ) {
     val category = post.category.ifBlank { "General" }
     val categoryTheme = getSubjectTheme(category)
@@ -787,20 +773,79 @@ private fun PostContentSection(
             onLinkClick = onLinkClick
         )
 
-        // ----- Full-width images -----
+        // ----- Attached images: horizontal carousel (swipe), tap opens fullscreen -----
         if (post.images.isNotEmpty()) {
             Spacer(modifier = Modifier.height(12.dp))
-            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                post.images.sortedBy { it.order }.forEach { image ->
-                    AsyncImage(
-                        model = resolveMediaUrl(image.imageUrl),
-                        contentDescription = null,
+            val imageUrls = remember(post.images) {
+                post.images.sortedBy { it.order }.mapNotNull { resolveMediaUrl(it.imageUrl) }
+            }
+            if (imageUrls.size == 1) {
+                AsyncImage(
+                    model = imageUrls.first(),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(12.dp))
+                        .clickable { onImageClick(imageUrls, 0) },
+                    contentScale = ContentScale.FillWidth
+                )
+            } else {
+                val pagerState = rememberPagerState(pageCount = { imageUrls.size })
+                Column {
+                    Box(
                         modifier = Modifier
                             .fillMaxWidth()
+                            .aspectRatio(4f / 3f)
                             .clip(RoundedCornerShape(12.dp))
-                            .clickable { resolveMediaUrl(image.imageUrl)?.let(onImageClick) },
-                        contentScale = ContentScale.FillWidth
-                    )
+                            .background(MaterialTheme.colorScheme.surfaceVariant)
+                    ) {
+                        HorizontalPager(
+                            state = pagerState,
+                            modifier = Modifier.fillMaxSize()
+                        ) { page ->
+                            AsyncImage(
+                                model = imageUrls[page],
+                                contentDescription = "Image ${page + 1} of ${imageUrls.size}",
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .clickable { onImageClick(imageUrls, page) },
+                                contentScale = ContentScale.Crop
+                            )
+                        }
+                        Surface(
+                            modifier = Modifier
+                                .align(Alignment.TopEnd)
+                                .padding(10.dp),
+                            shape = CircleShape,
+                            color = Color.Black.copy(alpha = 0.45f)
+                        ) {
+                            Text(
+                                text = "${pagerState.currentPage + 1}/${imageUrls.size}",
+                                modifier = Modifier.padding(horizontal = 8.dp, vertical = 3.dp),
+                                style = MaterialTheme.typography.labelSmall,
+                                color = Color.White
+                            )
+                        }
+                    }
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        repeat(imageUrls.size) { index ->
+                            val active = pagerState.currentPage == index
+                            Box(
+                                modifier = Modifier
+                                    .padding(horizontal = 3.dp)
+                                    .size(if (active) 7.dp else 6.dp)
+                                    .clip(CircleShape)
+                                    .background(
+                                        if (active) MaterialTheme.colorScheme.primary
+                                        else MaterialTheme.colorScheme.outlineVariant
+                                    )
+                            )
+                        }
+                    }
                 }
             }
         }

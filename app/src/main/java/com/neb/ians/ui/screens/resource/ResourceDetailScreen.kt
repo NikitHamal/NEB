@@ -21,6 +21,7 @@ import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -54,6 +55,8 @@ import coil.compose.AsyncImage
 import com.neb.ians.data.api.ApiResource
 import com.neb.ians.data.api.ApiResourceComment
 import com.neb.ians.ui.components.CommentCard
+import com.neb.ians.ui.components.CommentSortPillsRow
+import com.neb.ians.ui.components.ConfirmDeleteDialog
 import com.neb.ians.ui.components.ExpandableText
 import com.neb.ians.ui.components.NebAvatar
 import com.neb.ians.ui.components.NebCommentComposerBar
@@ -65,6 +68,7 @@ import com.neb.ians.util.formatTimeAgo
 import kotlinx.coroutines.delay
 import kotlin.math.abs
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ResourceDetailScreen(
     onNavigateBack: () -> Unit,
@@ -81,6 +85,9 @@ fun ResourceDetailScreen(
     val snackbarHostState = remember { SnackbarHostState() }
     var zoomImageUrl by remember { mutableStateOf<String?>(null) }
     var isFullscreen by remember { mutableStateOf(false) }
+    var activeThreadParentId by remember { mutableStateOf<String?>(null) }
+    var activeThreadTargetId by remember { mutableStateOf<String?>(null) }
+    var deletingCommentId by remember { mutableStateOf<String?>(null) }
 
     fun openExternal(url: String) {
         if (url.isBlank()) return
@@ -207,6 +214,21 @@ fun ResourceDetailScreen(
                         val subject = resource.subject.split(",").firstOrNull()?.trim().orEmpty().ifBlank { "General" }
                         val subjectColor = Color(com.neb.ians.util.getSubjectColor(subject))
 
+                        val onCommentReplyClick: (ApiResourceComment) -> Unit = { comment ->
+                            activeThreadParentId = comment.id
+                            activeThreadTargetId = comment.id
+                            val tag = "@${comment.userName} "
+                            if (!uiState.threadDraft.startsWith(tag)) {
+                                viewModel.onThreadDraftChange(tag + uiState.threadDraft.removePrefix(tag))
+                            }
+                        }
+                        val onOpenCommentThread: (ApiResourceComment) -> Unit = { comment ->
+                            activeThreadParentId = comment.id
+                        }
+                        val onCommentDeleteClick: (ApiResourceComment) -> Unit = { comment ->
+                            deletingCommentId = comment.id
+                        }
+
                         if (mediaType == ResourceMediaType.Video) {
                             VideoYouTubeLayout(
                                 resource = resource,
@@ -217,6 +239,9 @@ fun ResourceDetailScreen(
                                 onFullscreenClick = ::enterFullscreen,
                                 onMinimizeVideo = onMinimizeVideo,
                                 onUserProfileClick = onUserProfileClick,
+                                onCommentReplyClick = onCommentReplyClick,
+                                onOpenCommentThread = onOpenCommentThread,
+                                onCommentDeleteClick = onCommentDeleteClick,
                                 onRelatedResourceClick = onRelatedResourceClick,
                                 share = ::share,
                                 openExternal = ::openExternal,
@@ -232,6 +257,9 @@ fun ResourceDetailScreen(
                                 mediaViewModel = mediaViewModel,
                                 onOpenPdf = onOpenPdf,
                                 onUserProfileClick = onUserProfileClick,
+                                onCommentReplyClick = onCommentReplyClick,
+                                onOpenCommentThread = onOpenCommentThread,
+                                onCommentDeleteClick = onCommentDeleteClick,
                                 share = ::share,
                                 openExternal = ::openExternal,
                                 padding = padding,
@@ -262,6 +290,215 @@ fun ResourceDetailScreen(
                 onDismiss = { zoomImageUrl = null }
             )
         }
+
+        // ----- Comment thread bottom sheet (same system as the forum post viewer) -----
+        activeThreadParentId?.let { parentId ->
+            val parent = uiState.comments.firstOrNull { it.id == parentId }
+            if (parent != null) {
+                val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+                val threadReplies = uiState.childrenOf(parentId)
+                val replyTarget = activeThreadTargetId?.let { targetId ->
+                    uiState.comments.firstOrNull { it.id == targetId }
+                }
+
+                ModalBottomSheet(
+                    onDismissRequest = {
+                        activeThreadParentId = null
+                        activeThreadTargetId = null
+                    },
+                    sheetState = sheetState,
+                    containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .fillMaxHeight(0.85f)
+                            .padding(bottom = 16.dp)
+                    ) {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp, vertical = 12.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = "@${parent.userName}",
+                                style = MaterialTheme.typography.titleMedium,
+                                fontWeight = FontWeight.Bold,
+                                color = MaterialTheme.colorScheme.onSurface,
+                                modifier = Modifier.weight(1f)
+                            )
+                            if (threadReplies.isNotEmpty()) {
+                                Surface(
+                                    shape = RoundedCornerShape(12.dp),
+                                    color = MaterialTheme.colorScheme.primaryContainer,
+                                    modifier = Modifier.padding(end = 12.dp)
+                                ) {
+                                    Text(
+                                        text = "${threadReplies.size} ${if (threadReplies.size == 1) "reply" else "replies"}",
+                                        style = MaterialTheme.typography.labelMedium,
+                                        color = MaterialTheme.colorScheme.onPrimaryContainer,
+                                        fontWeight = FontWeight.SemiBold,
+                                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp)
+                                    )
+                                }
+                            }
+                            IconButton(onClick = {
+                                activeThreadParentId = null
+                                activeThreadTargetId = null
+                            }) {
+                                Icon(Icons.Default.Close, contentDescription = "Close")
+                            }
+                        }
+
+                        HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+
+                        LazyColumn(
+                            modifier = Modifier
+                                .weight(1f)
+                                .fillMaxWidth(),
+                            contentPadding = PaddingValues(16.dp)
+                        ) {
+                            item(key = "parent_${parent.id}") {
+                                CommentCard(
+                                    reply = parent.toApiReply(),
+                                    isOwn = parent.userId == uiState.currentUserId,
+                                    onThumbsUpClick = { viewModel.toggleCommentLike(parent.id) },
+                                    onReplyClick = {
+                                        activeThreadTargetId = parent.id
+                                        val tag = "@${parent.userName} "
+                                        if (!uiState.threadDraft.startsWith(tag)) {
+                                            viewModel.onThreadDraftChange(tag + uiState.threadDraft.removePrefix(tag))
+                                        }
+                                    },
+                                    onDeleteClick = if (parent.userId == uiState.currentUserId) ({ deletingCommentId = parent.id }) else null,
+                                    onProfileClick = { userName -> onUserProfileClick(userName) },
+                                    onAuthorLongPress = {},
+                                    onLinkClick = { url -> openExternal(url) }
+                                )
+                                Spacer(modifier = Modifier.height(16.dp))
+                                HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
+                                Spacer(modifier = Modifier.height(16.dp))
+                            }
+
+                            if (threadReplies.isEmpty()) {
+                                item(key = "empty_thread") {
+                                    Box(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(vertical = 32.dp),
+                                        contentAlignment = Alignment.Center
+                                    ) {
+                                        Text(
+                                            text = "No replies yet in this thread.",
+                                            style = MaterialTheme.typography.bodyMedium,
+                                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                                        )
+                                    }
+                                }
+                            } else {
+                                items(threadReplies, key = { it.id }) { child ->
+                                    Column(modifier = Modifier.padding(bottom = 12.dp)) {
+                                        val parentOfChild = uiState.comments.firstOrNull { it.id == child.parentCommentId }
+                                        val replyingTo = if (child.parentCommentId != parentId) {
+                                            parentOfChild?.userName
+                                        } else null
+
+                                        CommentCard(
+                                            reply = child.toApiReply(),
+                                            isOwn = child.userId == uiState.currentUserId,
+                                            onThumbsUpClick = { viewModel.toggleCommentLike(child.id) },
+                                            onReplyClick = {
+                                                activeThreadTargetId = child.id
+                                                val tag = "@${child.userName} "
+                                                if (!uiState.threadDraft.startsWith(tag)) {
+                                                    viewModel.onThreadDraftChange(tag + uiState.threadDraft.removePrefix(tag))
+                                                }
+                                            },
+                                            onDeleteClick = if (child.userId == uiState.currentUserId) ({ deletingCommentId = child.id }) else null,
+                                            onProfileClick = { userName -> onUserProfileClick(userName) },
+                                            onAuthorLongPress = {},
+                                            onLinkClick = { url -> openExternal(url) },
+                                            replyingToUsername = replyingTo,
+                                            quotedContent = parentOfChild?.content
+                                        )
+                                    }
+                                }
+                            }
+                        }
+
+                        if (uiState.isAuthenticated) {
+                            HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+                            NebCommentComposerBar(
+                                value = uiState.threadDraft,
+                                onValueChange = viewModel::onThreadDraftChange,
+                                placeholder = if (replyTarget != null) "Reply to @${replyTarget.userName}..." else "Write a reply...",
+                                enabled = !uiState.isPostingComment,
+                                canSend = uiState.threadDraft.isNotBlank() && !uiState.isPostingComment,
+                                posting = uiState.isPostingComment,
+                                sendContentDescription = "Post reply",
+                                onSend = {
+                                    val targetId = activeThreadTargetId ?: parentId
+                                    viewModel.postThreadReply(targetId) {
+                                        activeThreadTargetId = null
+                                    }
+                                }
+                            ) {
+                                replyTarget?.let { target ->
+                                    if (target.id != parentId) {
+                                        Row(
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .padding(bottom = 8.dp)
+                                                .background(
+                                                    color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
+                                                    shape = RoundedCornerShape(8.dp)
+                                                )
+                                                .padding(horizontal = 12.dp, vertical = 6.dp),
+                                            verticalAlignment = Alignment.CenterVertically
+                                        ) {
+                                            Icon(
+                                                imageVector = Icons.Default.Close,
+                                                contentDescription = "Clear reply target",
+                                                modifier = Modifier
+                                                    .size(16.dp)
+                                                    .clickable { activeThreadTargetId = null },
+                                                tint = MaterialTheme.colorScheme.onSurfaceVariant
+                                            )
+                                            Spacer(modifier = Modifier.width(8.dp))
+                                            Text(
+                                                text = "Replying to @${target.userName}",
+                                                style = MaterialTheme.typography.labelSmall,
+                                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                                maxLines = 1,
+                                                overflow = TextOverflow.Ellipsis
+                                            )
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                // Parent comment vanished (e.g. deleted): close the sheet.
+                SideEffect {
+                    activeThreadParentId = null
+                    activeThreadTargetId = null
+                }
+            }
+        }
+
+        deletingCommentId?.let { commentId ->
+            ConfirmDeleteDialog(
+                message = "Delete this comment? This cannot be undone.",
+                onDismiss = { deletingCommentId = null },
+                onConfirm = {
+                    deletingCommentId = null
+                    viewModel.deleteComment(commentId)
+                }
+            )
+        }
     }
 }
 
@@ -275,6 +512,9 @@ private fun VideoYouTubeLayout(
     onFullscreenClick: () -> Unit,
     onMinimizeVideo: () -> Unit,
     onUserProfileClick: (String) -> Unit,
+    onCommentReplyClick: (ApiResourceComment) -> Unit,
+    onOpenCommentThread: (ApiResourceComment) -> Unit,
+    onCommentDeleteClick: (ApiResourceComment) -> Unit,
     onRelatedResourceClick: (String) -> Unit,
     share: (String, String) -> Unit,
     openExternal: (String) -> Unit,
@@ -469,22 +709,23 @@ private fun VideoYouTubeLayout(
             )
         }
 
-        when {
-            uiState.commentsLoading -> item(key = "comments_loading") { ResourceCommentsLoading() }
-            uiState.comments.isEmpty() -> item(key = "comments_empty") { ResourceEmptyComments() }
-            else -> items(uiState.comments, key = { it.id }) { comment ->
-                CommentCard(
-                    reply = comment.toApiReply(),
-                    isOwn = comment.userId == uiState.currentUserId,
-                    onThumbsUpClick = { viewModel.toggleCommentLike(comment.id) },
-                    onProfileClick = { userName -> onUserProfileClick(userName) },
-                    onAuthorLongPress = {},
-                    onLinkClick = {},
-                    onDeleteClick = if (comment.userId == uiState.currentUserId) { { viewModel.deleteComment(comment.id) } } else null,
-                    modifier = Modifier.padding(horizontal = 16.dp)
-                )
-            }
+        item(key = "comments_sort") {
+            CommentSortPillsRow(
+                currentSort = uiState.commentSort,
+                onSelect = viewModel::setCommentSort,
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 12.dp)
+            )
         }
+
+        resourceCommentListItems(
+            uiState = uiState,
+            viewModel = viewModel,
+            onUserProfileClick = onUserProfileClick,
+            onReplyClick = onCommentReplyClick,
+            onOpenThread = onOpenCommentThread,
+            onDeleteClick = onCommentDeleteClick,
+            itemModifier = Modifier.padding(horizontal = 16.dp)
+        )
     }
 }
 
@@ -498,6 +739,9 @@ private fun NonVideoLayout(
     mediaViewModel: MediaPlayerViewModel,
     onOpenPdf: (resourceId: String, fileUrl: String, title: String) -> Unit,
     onUserProfileClick: (String) -> Unit,
+    onCommentReplyClick: (ApiResourceComment) -> Unit,
+    onOpenCommentThread: (ApiResourceComment) -> Unit,
+    onCommentDeleteClick: (ApiResourceComment) -> Unit,
     share: (String, String) -> Unit,
     openExternal: (String) -> Unit,
     padding: PaddingValues,
@@ -566,20 +810,59 @@ private fun NonVideoLayout(
             )
         }
 
-        when {
-            uiState.commentsLoading -> item(key = "comments_loading") { ResourceCommentsLoading() }
-            uiState.comments.isEmpty() -> item(key = "comments_empty") { ResourceEmptyComments() }
-            else -> items(uiState.comments, key = { it.id }) { comment ->
-                CommentCard(
-                    reply = comment.toApiReply(),
-                    isOwn = comment.userId == uiState.currentUserId,
-                    onThumbsUpClick = { viewModel.toggleCommentLike(comment.id) },
-                    onProfileClick = { userName -> onUserProfileClick(userName) },
-                    onAuthorLongPress = {},
-                    onLinkClick = {},
-                    onDeleteClick = if (comment.userId == uiState.currentUserId) { { viewModel.deleteComment(comment.id) } } else null,
-                )
-            }
+        item(key = "comments_sort") {
+            CommentSortPillsRow(
+                currentSort = uiState.commentSort,
+                onSelect = viewModel::setCommentSort,
+                modifier = Modifier.padding(bottom = 12.dp)
+            )
+        }
+
+        resourceCommentListItems(
+            uiState = uiState,
+            viewModel = viewModel,
+            onUserProfileClick = onUserProfileClick,
+            onReplyClick = onCommentReplyClick,
+            onOpenThread = onOpenCommentThread,
+            onDeleteClick = onCommentDeleteClick
+        )
+    }
+}
+
+/**
+ * The one standard comment list used by both resource layouts — identical
+ * system to the forum post viewer: top-level comments only, CommentCard with
+ * like / reply / replies-bar that opens the thread bottom sheet.
+ */
+private fun LazyListScope.resourceCommentListItems(
+    uiState: ResourceDetailUiState,
+    viewModel: ResourceDetailViewModel,
+    onUserProfileClick: (String) -> Unit,
+    onReplyClick: (ApiResourceComment) -> Unit,
+    onOpenThread: (ApiResourceComment) -> Unit,
+    onDeleteClick: (ApiResourceComment) -> Unit,
+    itemModifier: Modifier = Modifier
+) {
+    when {
+        uiState.commentsLoading && uiState.comments.isEmpty() ->
+            item(key = "comments_loading") { ResourceCommentsLoading() }
+        uiState.comments.isEmpty() ->
+            item(key = "comments_empty") { ResourceEmptyComments() }
+        else -> items(uiState.topLevelComments, key = { it.id }) { comment ->
+            val children = uiState.childrenOf(comment.id)
+            CommentCard(
+                reply = comment.toApiReply(),
+                isOwn = comment.userId == uiState.currentUserId,
+                onThumbsUpClick = { viewModel.toggleCommentLike(comment.id) },
+                onReplyClick = { onReplyClick(comment) },
+                onDeleteClick = if (comment.userId == uiState.currentUserId) ({ onDeleteClick(comment) }) else null,
+                onProfileClick = { userName -> onUserProfileClick(userName) },
+                onAuthorLongPress = {},
+                onLinkClick = {},
+                children = children.map { it.toApiReply() },
+                onRepliesBarClick = if (children.isNotEmpty()) ({ onOpenThread(comment) }) else null,
+                modifier = itemModifier.padding(bottom = 10.dp)
+            )
         }
     }
 }
