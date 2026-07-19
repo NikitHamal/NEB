@@ -1518,15 +1518,36 @@ class BlogComment(models.Model):
     id = models.CharField(max_length=36, primary_key=True)
     announcement = models.ForeignKey(Announcement, on_delete=models.CASCADE, related_name='comments')
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='blog_comments')
+    parent_comment = models.ForeignKey(
+        'self', on_delete=models.CASCADE,
+        null=True, blank=True, related_name='children'
+    )
     text = models.TextField()
+    like_count = models.PositiveIntegerField(default=0)
+    reply_count = models.PositiveIntegerField(default=0)
+    is_edited = models.BooleanField(default=False)
+    edited_at = models.BigIntegerField(default=0)
     created_at = models.BigIntegerField(default=0)
 
     class Meta:
         db_table = 'blog_comments'
         ordering = ['created_at']
+        indexes = [
+            models.Index(fields=['announcement_id', 'created_at']),
+            models.Index(fields=['parent_comment_id', 'created_at']),
+        ]
 
     def __str__(self):
         return f"Comment by {self.author_id} on {self.announcement_id}"
+
+
+class BlogCommentLike(models.Model):
+    comment = models.ForeignKey(BlogComment, on_delete=models.CASCADE, related_name='likes')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='blog_comment_likes')
+
+    class Meta:
+        db_table = 'blog_comment_likes'
+        unique_together = ('comment', 'user')
 
 
 class AccountDeletionRequest(models.Model):

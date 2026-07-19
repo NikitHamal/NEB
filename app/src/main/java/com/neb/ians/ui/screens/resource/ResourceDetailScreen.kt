@@ -52,6 +52,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.media3.common.Player
 import coil.compose.AsyncImage
 import com.neb.ians.data.api.ApiResource
+import com.neb.ians.data.api.ApiResourceComment
+import com.neb.ians.ui.components.CommentCard
 import com.neb.ians.ui.components.ExpandableText
 import com.neb.ians.ui.components.NebAvatar
 import com.neb.ians.ui.components.NebCommentComposerBar
@@ -471,12 +473,14 @@ private fun VideoYouTubeLayout(
             uiState.commentsLoading -> item(key = "comments_loading") { ResourceCommentsLoading() }
             uiState.comments.isEmpty() -> item(key = "comments_empty") { ResourceEmptyComments() }
             else -> items(uiState.comments, key = { it.id }) { comment ->
-                ResourceCommentItem(
-                    comment = comment,
-                    canDelete = comment.userId == uiState.currentUserId,
-                    onDelete = { viewModel.deleteComment(comment.id) },
+                CommentCard(
+                    reply = comment.toApiReply(),
+                    isOwn = comment.userId == uiState.currentUserId,
                     onThumbsUpClick = { viewModel.toggleCommentLike(comment.id) },
-                    onAuthorClick = { userName -> onUserProfileClick(userName) },
+                    onProfileClick = { userName -> onUserProfileClick(userName) },
+                    onAuthorLongPress = {},
+                    onLinkClick = {},
+                    onDeleteClick = if (comment.userId == uiState.currentUserId) { { viewModel.deleteComment(comment.id) } } else null,
                     modifier = Modifier.padding(horizontal = 16.dp)
                 )
             }
@@ -566,12 +570,14 @@ private fun NonVideoLayout(
             uiState.commentsLoading -> item(key = "comments_loading") { ResourceCommentsLoading() }
             uiState.comments.isEmpty() -> item(key = "comments_empty") { ResourceEmptyComments() }
             else -> items(uiState.comments, key = { it.id }) { comment ->
-                ResourceCommentItem(
-                    comment = comment,
-                    canDelete = comment.userId == uiState.currentUserId,
-                    onDelete = { viewModel.deleteComment(comment.id) },
+                CommentCard(
+                    reply = comment.toApiReply(),
+                    isOwn = comment.userId == uiState.currentUserId,
                     onThumbsUpClick = { viewModel.toggleCommentLike(comment.id) },
-                    onAuthorClick = { userName -> onUserProfileClick(userName) }
+                    onProfileClick = { userName -> onUserProfileClick(userName) },
+                    onAuthorLongPress = {},
+                    onLinkClick = {},
+                    onDeleteClick = if (comment.userId == uiState.currentUserId) { { viewModel.deleteComment(comment.id) } } else null,
                 )
             }
         }
