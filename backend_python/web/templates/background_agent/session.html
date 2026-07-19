@@ -29,7 +29,7 @@
       <button id="bs-resume" class="ba-button ba-button-secondary" type="button" hidden><span class="material-symbols-outlined">play_arrow</span>Resume</button>
       <button id="bs-stop" class="ba-icon-button ba-danger-button" type="button" title="Stop task" aria-label="Stop task"><span class="material-symbols-outlined">stop_circle</span></button>
       <button id="bs-refresh" class="ba-icon-button" type="button" title="Refresh" aria-label="Refresh"><span class="material-symbols-outlined">refresh</span></button>
-      <div class="ba-session-command-menu-wrap"><button id="bs-more" class="ba-icon-button" type="button" title="Session actions" aria-label="Session actions" aria-haspopup="menu" aria-expanded="false"><span class="material-symbols-outlined">more_vert</span></button><div id="bs-more-menu" class="ba-session-command-menu" role="menu" hidden><button type="button" data-session-action="archive"><span class="material-symbols-outlined">archive</span>Archive session</button><hr class="ba-menu-divider"><button type="button" id="bs-export"><span class="material-symbols-outlined">download</span>Export as JSON</button><button type="button" data-session-action="delete" class="danger"><span class="material-symbols-outlined">delete</span>Delete permanently</button></div></div>
+      <div class="ba-session-command-menu-wrap"><button id="bs-more" class="ba-icon-button" type="button" title="Session actions" aria-label="Session actions" aria-haspopup="menu" aria-expanded="false"><span class="material-symbols-outlined">more_vert</span></button><div id="bs-more-menu" class="ba-session-command-menu" role="menu" hidden><button type="button" data-session-action="archive"><span class="material-symbols-outlined">archive</span>Archive session</button><hr class="ba-menu-divider"><button type="button" id="bs-compact"><span class="material-symbols-outlined">compress</span>Compact context</button><button type="button" id="bs-export"><span class="material-symbols-outlined">download</span>Export as JSON</button><button type="button" data-session-action="delete" class="danger"><span class="material-symbols-outlined">delete</span>Delete permanently</button></div></div>
     </div>
   </header>
 
@@ -45,11 +45,16 @@
         </div>
       </div>
 
+      <details id="bs-plan" class="ba-plan" hidden open>
+        <summary><span class="material-symbols-outlined">checklist</span><span class="ba-plan-title">Plan</span><span id="bs-plan-count" class="ba-plan-count"></span><span class="material-symbols-outlined ba-plan-chevron">expand_more</span></summary>
+        <ul id="bs-plan-list" class="ba-plan-list"></ul>
+      </details>
+
       <div id="bs-conversation" class="ba-conversation" aria-live="polite"></div>
 
       <div class="ba-followup-wrap" id="bs-followup-wrap">
         <div id="bs-attachment-list" class="ba-attachment-list" hidden></div>
-        <textarea id="bs-followup" rows="2" maxlength="50000" placeholder="Give feedback, add context, or attach a reference…"></textarea>
+        <textarea id="bs-followup" rows="2" maxlength="50000" placeholder="Guide the agent, attach a reference, or type /compact to summarize context"></textarea>
         <input id="bs-file-input" type="file" multiple hidden accept="image/*,audio/*,video/*,.pdf,.txt,.md,.markdown,.json,.jsonl,.yaml,.yml,.csv,.tsv,.doc,.docx,.py,.js,.jsx,.ts,.tsx,.html,.css,.java,.kt,.go,.rs,.c,.cpp,.h,.hpp,.xml,.toml,.ini,.log,.sql,.sh,.ps1">
         <div class="ba-followup-toolbar">
           <button id="bs-attach" class="ba-tool-button" type="button"><span class="material-symbols-outlined">attach_file</span></button>

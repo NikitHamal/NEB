@@ -455,6 +455,39 @@ def background_agent_session_events(request, session_id):
     })
 
 
+def _request_compaction(session):
+    """The /compact command: force the anchored compaction at the next agent iteration."""
+    now = now_ms()
+    session.compact_requested_at = now
+    session.updated_at = now
+    update = ['compact_requested_at', 'updated_at']
+    queued = False
+    if session.status in ('paused', 'waiting'):
+        session.status = 'queued'
+        session.control_state = ''
+        session.progress_label = 'Queued for context compaction'
+        update += ['status', 'control_state', 'progress_label']
+        queued = True
+    session.save(update_fields=update)
+    message = add_message(session, 'user', '/compact', {'kind': 'command', 'command': 'compact'})
+    if queued:
+        emit(session, 'session.resumed', 'Session queued for manual context compaction')
+    active = session.status in ('queued', 'preparing', 'running')
+    note = ('Older context will be summarized at the start of the next agent iteration.'
+            if active else 'Compaction will run when the session next resumes.')
+    emit(session, 'context.compact_requested', 'Manual context compaction requested', {
+        'queued': queued, 'status': session.status,
+    })
+    return JsonResponse({
+        'ok': True,
+        'message': _serialize_message(message),
+        'command': 'compact',
+        'queued': queued,
+        'note': note,
+        'status': session.status,
+    })
+
+
 @require_POST
 def background_agent_session_message(request, session_id):
     guard = require_bg_admin_json(request)
@@ -469,6 +502,8 @@ def background_agent_session_message(request, session_id):
             return _json_error('Add a message or attachment')
         if len(content) > 50000:
             return _json_error('Message is too long')
+        if content.lower() == '/compact' or content.lower().startswith('/compact '):
+            return _request_compaction(session)
         message_content = content or 'Review the attached files as additional task context.'
         message = add_message(session, 'user', message_content, {'kind': 'followup'})
         attachments = save_uploads(session, message, uploads)
