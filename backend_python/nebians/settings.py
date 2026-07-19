@@ -285,6 +285,20 @@ GOOGLE_CLIENT_SECRET = os.environ.get('GOOGLE_CLIENT_SECRET', '')
 GITHUB_CLIENT_ID = os.environ.get('GITHUB_CLIENT_ID', '')
 GITHUB_CLIENT_SECRET = os.environ.get('GITHUB_CLIENT_SECRET', '')
 BACKGROUND_AGENT_PUBLIC_URL = os.environ.get('BACKGROUND_AGENT_PUBLIC_URL', '').rstrip('/')
+
+# Server-wide fallback keys for official LLM providers (lowest priority —
+# user BYOK rows and admin bot configs override these). Drop a free key from
+# the Agnes console here to give every NEBian Agnes out of the box.
+LLM_PROVIDER_KEYS = {
+    'agnes': os.environ.get('AGNES_API_KEY', ''),
+    'openai': os.environ.get('OPENAI_API_KEY', ''),
+    'anthropic': os.environ.get('ANTHROPIC_API_KEY', ''),
+    'gemini': os.environ.get('GEMINI_API_KEY', ''),
+    'deepseek': os.environ.get('DEEPSEEK_API_KEY', ''),
+}
+
+# LLM call time budget for background-agent official providers (seconds).
+BACKGROUND_AGENT_PROVIDER_TIMEOUT = int(os.environ.get('BACKGROUND_AGENT_PROVIDER_TIMEOUT', '300'))
 FIREBASE_API_KEY = os.environ.get('FIREBASE_API_KEY', '')
 FIREBASE_AUTH_DOMAIN = os.environ.get('FIREBASE_AUTH_DOMAIN', '')
 FIREBASE_PROJECT_ID = os.environ.get('FIREBASE_PROJECT_ID', '')

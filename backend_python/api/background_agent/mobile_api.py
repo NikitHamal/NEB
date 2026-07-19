@@ -33,6 +33,8 @@ from api.models import (
     BotConfig,
 )
 from api.utils import now_ms, uuid_str
+from api.llm.credentials import catalog_for_user
+from api.llm.runtime import selection_payload
 
 
 def _json(payload, status=200):
@@ -236,6 +238,24 @@ def _request_compaction(session, source):
     })
 
 
+def _llm_data(session):
+    """Lightweight LLM selection summary for session payloads (no DB hits)."""
+    slug = (getattr(session, 'llm_provider', '') or '').strip().lower()
+    model = (getattr(session, 'llm_model', '') or '').strip()
+    if not slug:
+        return {'provider': 'qwen', 'model': 'qwen3.7-plus', 'label': 'Qwen 3.7 Plus (default)', 'official': False}
+    from api.llm.registry import preset as _preset
+    p = _preset(slug)
+    if p:
+        label = p.label
+        if model and model.lower() not in p.label.lower():
+            label = f'{p.label} · {model}'
+        return {'provider': slug, 'model': model or p.default_model, 'label': label, 'official': p.official}
+    if slug == 'custom':
+        return {'provider': 'custom', 'model': model, 'label': (f'Custom · {model}' if model else 'Custom provider'), 'official': True}
+    return {'provider': slug, 'model': model, 'label': (f'{slug} · {model}' if model else slug), 'official': False}
+
+
 def _session_data(session, request=None, detail=False):
     window = session.context_window_tokens or 131072
     data = {
@@ -271,6 +291,7 @@ def _session_data(session, request=None, detail=False):
             'percent': min(100, round((session.context_tokens_estimate * 100) / max(1, window))),
             'compactions': session.context_compactions,
         },
+        'llm': _llm_data(session),
     }
     if detail:
         try:
@@ -386,6 +407,7 @@ def state(request):
         'sessions': [_session_data(item) for item in sessions],
         'worker': {'online': workers.count(), 'healthy': workers.exists()},
         'model': {'provider': 'qwen', 'model': 'qwen3.7-plus', 'label': 'Qwen 3.7 Plus', 'configured': bool(provider)},
+        'llm': catalog_for_user(admin),
     })
 
 
@@ -489,14 +511,28 @@ def sessions(request):
         if len(goal) < 10:
             return _error('Describe the coding task in at least 10 characters')
         provider = _provider()
-        if not provider:
-            return _error('Qwen 3.7 Plus is not configured', 409, 'model_unavailable')
+        selection = selection_payload(
+            payload.get('llmProvider') or '', payload.get('llmModel') or '',
+            (payload.get('llmProviderId') or ''),
+        )
+        # A selection is only honored when it can actually be served right now
+        # (key present); otherwise the session uses the shared default path.
+        if selection['llm_provider']:
+            from api.llm.credentials import resolve as _llm_resolve
+            resolved = _llm_resolve(admin, selection['llm_provider'], model=selection['llm_model'],
+                                    user_provider_id=selection['llm_provider_id'])
+            if resolved is None:
+                return _error('Selected provider is not available (missing API key?). Add a key in Providers first.', 409, 'llm_unavailable')
+        elif not provider:
+            return _error('No model is configured right now. Add a provider or ask the admin to share one.', 409, 'model_unavailable')
         source_branch = (payload.get('sourceBranch') or project.preferred_base_branch or project.default_branch).strip()
         now = now_ms()
         session = BackgroundAgentSession.objects.create(
             id=uuid_str(), project=project, admin_user=admin, bot_config=provider,
             title=(payload.get('title') or goal.splitlines()[0])[:255], goal=goal,
             source_branch=source_branch, status='paused',
+            llm_provider=selection['llm_provider'], llm_model=selection['llm_model'],
+            llm_provider_id=selection['llm_provider_id'],
             context_window_tokens=int(getattr(settings, 'BACKGROUND_AGENT_CONTEXT_WINDOW_TOKENS', 131072)),
             created_at=now, updated_at=now,
         )

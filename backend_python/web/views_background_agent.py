@@ -177,9 +177,13 @@ def background_agent_page(request):
     if redirect_response:
         return redirect_response
     credential = _credential(request)
+    from api.llm.credentials import catalog_for_user as _llm_catalog
+    import json as _json_mod
+    llm_catalog = _json_mod.dumps(_llm_catalog(_admin(request)))
     return render(request, 'background_agent/dashboard.html', _base_context(request,
         github_connected=bool(credential and credential.is_connected),
         github_login=credential.github_login if credential else '',
+        llm_catalog_json=llm_catalog,
     ))
 
 
@@ -379,8 +383,19 @@ def background_agent_create_session(request):
             return _json_error('Describe the coding task in at least 10 characters')
         source_branch = (payload.get('sourceBranch') or project.preferred_base_branch or project.default_branch).strip()
         provider = _qwen_provider()
-        if not provider:
-            return _json_error('Enable a Qwen provider configuration before starting a task', 409)
+        from api.llm.runtime import selection_payload as _selection
+        selection = _selection(
+            payload.get('llmProvider') or '', payload.get('llmModel') or '',
+            (payload.get('llmProviderId') or ''),
+        )
+        if selection['llm_provider']:
+            from api.llm.credentials import resolve as _llm_resolve
+            resolved = _llm_resolve(_admin(request), selection['llm_provider'], model=selection['llm_model'],
+                                    user_provider_id=selection['llm_provider_id'])
+            if resolved is None:
+                return _json_error('Selected provider is not available (missing API key?)', 409)
+        elif not provider:
+            return _json_error('Enable a Qwen provider configuration or pick an official API provider', 409)
         title = (payload.get('title') or goal.splitlines()[0])[:255]
         now = now_ms()
         session = BackgroundAgentSession.objects.create(
@@ -393,6 +408,9 @@ def background_agent_create_session(request):
             source_branch=source_branch,
             status='queued',
             progress=0,
+            llm_provider=selection['llm_provider'],
+            llm_model=selection['llm_model'],
+            llm_provider_id=selection['llm_provider_id'],
             progress_label='Queued for worker',
             max_iterations=0,
             context_window_tokens=int(getattr(settings, 'BACKGROUND_AGENT_CONTEXT_WINDOW_TOKENS', 131072)),

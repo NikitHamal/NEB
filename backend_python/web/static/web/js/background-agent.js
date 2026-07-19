@@ -5,7 +5,7 @@
   var root = BA.qs('#background-agent-app');
   if (!root) return;
 
-  var state = { github: null, projects: [], sessions: [], model: null, selectedProject: '', repositories: [], selectedRepo: null, archivedMode: false, lifecycleTarget: null, lifecycleAction: '' };
+  var state = { github: null, projects: [], sessions: [], model: null, selectedProject: '', repositories: [], selectedRepo: null, archivedMode: false, lifecycleTarget: null, lifecycleAction: '', llmSelection: { provider: '', model: '', providerId: '' } };
   var els = {
     connect: BA.qs('#ba-connect-panel'), workspace: BA.qs('#ba-connected-workspace'), githubCard: BA.qs('#ba-github-connected'),
     githubLogin: BA.qs('#ba-github-login'), disconnect: BA.qs('#ba-disconnect'), addRepo: BA.qs('#ba-open-repo-dialog'),
@@ -28,6 +28,74 @@
     minWidth: 300,
     onChange: function (value) { if (value && value !== state.selectedProject) selectProject(value); }
   });
+
+  // ----- LLM model picker (official APIs + community models + custom BYOK) -----
+  var modelPicker = BA.createPicker({
+    root: BA.qs('#ba-model-picker'),
+    minWidth: 340,
+    onChange: function (value) {
+      var parts = String(value || '').split('|');
+      state.llmSelection = {
+        provider: parts[0] || '',
+        model: parts[1] || '',
+        providerId: parts[2] || ''
+      };
+    }
+  });
+
+  function buildModelOptions() {
+    var node = BA.qs('#ba-llm-catalog');
+    var catalog = null;
+    try { catalog = node ? JSON.parse(node.textContent || '{}') : null; } catch (e) { catalog = null; }
+    var options = [];
+    if (catalog) {
+      (catalog.community || []).forEach(function (p) {
+        if (!p.selectableForAgent || !p.available) return;
+        (p.models || []).forEach(function (m, idx) {
+          options.push({
+            value: 'qwen|' + m.id + '|',
+            label: m.label || m.id,
+            hint: 'NEBians community web model' + (idx === 0 ? ' (default)' : '')
+          });
+        });
+        if (!(p.models || []).length) {
+          options.push({ value: 'qwen|' + (p.defaultModel || 'qwen3.7-plus') + '|', label: p.label + ' (default)', hint: 'NEBians community web model' });
+        }
+      });
+      (catalog.official || []).forEach(function (p) {
+        (p.models || []).forEach(function (m) {
+          var note = p.freeNote ? ' — ' + p.freeNote : '';
+          options.push({
+            value: p.slug + '|' + m.id + '|',
+            label: p.label + ' · ' + (m.label || m.id),
+            hint: (p.available ? (m.note || 'Official API') : 'Add your API key in Zeus → Providers to enable') + note
+          });
+        });
+      });
+      (catalog.custom || []).forEach(function (c) {
+        (c.models || []).forEach(function (m) {
+          options.push({
+            value: 'custom|' + m.id + '|' + c.id,
+            label: c.label + ' · ' + (m.label || m.id),
+            hint: 'Your custom provider'
+          });
+        });
+      });
+    }
+    if (!options.length) {
+      options.push({ value: '|', label: 'Default model (Qwen 3.7 Plus)', hint: '' });
+    }
+    // Default selection: prefer the catalog's default, else the first option.
+    var initial = options[0].value;
+    if (catalog && catalog.defaultSelection && catalog.defaultSelection.slug === 'qwen') {
+      var qDefault = 'qwen|' + (catalog.defaultSelection.model || 'qwen3.7-plus') + '|';
+      if (options.some(function (o) { return o.value === qDefault; })) initial = qDefault;
+    }
+    modelPicker.setOptions(options, initial);
+    var parts = String(initial).split('|');
+    state.llmSelection = { provider: parts[0], model: parts[1] || '', providerId: parts[2] || '' };
+  }
+  buildModelOptions();
   var branchPicker = BA.createPicker({ root: els.branchPicker, minWidth: 320, maxHeight: 410 });
   var repoBasePicker = BA.createPicker({ root: els.repoBasePicker, minWidth: 420, maxHeight: 410 });
   var attachments = BA.createAttachmentController({ input: els.fileInput, list: els.attachmentList, dropZone: els.composer });
@@ -306,6 +374,11 @@
     form.append('projectId', projectId);
     form.append('sourceBranch', sourceBranch);
     form.append('goal', goal);
+    if (state.llmSelection && state.llmSelection.provider) {
+      form.append('llmProvider', state.llmSelection.provider);
+      form.append('llmModel', state.llmSelection.model || '');
+      form.append('llmProviderId', state.llmSelection.providerId || '');
+    }
     attachments.files().forEach(function (file) { form.append('files', file, file.name); });
     setBusy(els.start, true);
     try {
