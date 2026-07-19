@@ -95,11 +95,16 @@ def news_list(request):
     ))
 
 
+
+
+
 def news_detail(request, slug):
     try:
         a = Announcement.objects.select_related('author').get(slug=slug, status='published')
     except Announcement.DoesNotExist:
         raise Http404('Announcement not found')
+
+    user_id = _get_user_id(request)
 
     view_key = f'ann_viewed_{a.id}'
     if not request.session.get(view_key):
@@ -108,7 +113,9 @@ def news_detail(request, slug):
         a.view_count += 1
 
     item = _serialize_announcement(a, include_content=True)
-    item['comments'] = _serialize_comments(a)
+
+    # Serialize blog comments in forum–reply format
+    top_level_replies, children_map, all_usernames = _serialize_blog_comments(a, user_id)
 
     related = Announcement.objects.filter(
         status='published', category=a.category
@@ -118,19 +125,56 @@ def news_detail(request, slug):
     return render(request, 'web/news_detail.html', _ctx(request,
         announcement=item,
         related=related_items,
+        top_level_replies=top_level_replies,
+        children_map=children_map,
+        all_usernames=all_usernames,
+        comment_target_type='blog_comment',
     ))
 
 
-def _serialize_comments(announcement):
+def _serialize_blog_comments(announcement, user_id=None):
     qs = BlogComment.objects.filter(announcement=announcement).select_related('author').order_by('created_at')
-    return [{
-        'id': c.id,
-        'author_name': c.author.display_name or c.author.username,
-        'author_initials': (c.author.display_name or c.author.username)[:2].upper(),
-        'text': c.text,
-        'created_at': c.created_at,
-        'author_photo': c.author.photo_url or '',
-    } for c in qs]
+    comments_list = list(qs)
+    liked_ids = set()
+    bookmarked_ids = set()
+    if user_id and comments_list:
+        liked_ids = set(BlogCommentLike.objects.filter(
+            comment_id__in=[c.id for c in comments_list], user_id=user_id
+        ).values_list('comment_id', flat=True))
+        bookmarked_ids = set(Bookmark.objects.filter(
+            user_id=user_id, target_type='blog_comment',
+            target_id__in=[c.id for c in comments_list]
+        ).values_list('target_id', flat=True))
+    result = []
+    for c in comments_list:
+        parent_id = c.parent_comment_id or ''
+        result.append({
+            'id': c.id,
+            'authorId': c.author_id,
+            'authorName': c.author.username,
+            'authorPhotoUrl': c.author.photo_url or '',
+            'authorBadgeInfo': _user_badge_info(c.author),
+            'parentReplyId': parent_id,
+            'parentCommentId': parent_id,
+            'content': c.text,
+            'thumbsUpCount': c.like_count,
+            'childCount': c.reply_count,
+            'isEdited': c.is_edited,
+            'createdAt': c.created_at,
+            'isThumbedUp': c.id in liked_ids,
+            'isBookmarked': c.id in bookmarked_ids,
+            'isOwner': bool(user_id and str(user_id) == str(c.author_id)),
+            'isFollowed': False,
+            'childAuthors': [],
+        })
+    top_level = [r for r in result if not r['parentReplyId']]
+    children_map = {}
+    for r in result:
+        pid = r['parentReplyId']
+        if pid:
+            children_map.setdefault(pid, []).append(r)
+    all_usernames = list(set(r['authorName'] for r in result if r['authorName']))
+    return top_level, children_map, all_usernames
 
 
 @require_GET
@@ -153,6 +197,7 @@ def ajax_blog_comment(request):
         payload = request.POST
     slug = str(payload.get('slug', '')).strip()
     text = str(payload.get('text', '')).strip()
+    parent_comment_id = payload.get('parentCommentId') or None
     if not slug or not text:
         return JsonResponse({'ok': False, 'error': 'Missing slug or text'}, status=400)
     if len(text) > 4000:
@@ -164,23 +209,12 @@ def ajax_blog_comment(request):
         return JsonResponse({'ok': False, 'error': 'Announcement not found'}, status=404)
     except User.DoesNotExist:
         return JsonResponse({'ok': False, 'error': 'User not found'}, status=401)
-    comment = BlogComment.objects.create(
-        id=uuid_str(),
-        announcement=announcement,
-        author=user,
-        text=text,
-        created_at=now_ms(),
-    )
+    comment = services.create_blog_comment(user, slug, text, parent_comment_id)
+    if not comment:
+        return JsonResponse({'ok': False, 'error': 'Failed to create comment'}, status=500)
     return JsonResponse({
         'ok': True,
-        'comment': {
-            'id': comment.id,
-            'author_name': user.display_name or user.username,
-            'author_initials': (user.display_name or user.username)[:2].upper(),
-            'author_photo': user.photo_url or '',
-            'text': comment.text,
-            'created_at': comment.created_at,
-        },
+        'comment': comment,
     })
 
 

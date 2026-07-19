@@ -560,6 +560,68 @@ def _serialize_resource_comment(comment):
     }
 
 
+# ── Blog Comment Services ──
+
+def toggle_blog_comment_like(user, comment_id):
+    with transaction.atomic():
+        try:
+            comment = BlogComment.objects.select_for_update().get(pk=comment_id)
+        except BlogComment.DoesNotExist:
+            raise
+        like, created = BlogCommentLike.objects.get_or_create(comment=comment, user=user)
+        if created:
+            BlogComment.objects.filter(pk=comment_id).update(like_count=F('like_count') + 1)
+            is_liked = True
+            current_count = comment.like_count + 1
+        else:
+            like.delete()
+            BlogComment.objects.filter(pk=comment_id, like_count__gt=0).update(like_count=F('like_count') - 1)
+            is_liked = False
+            current_count = max(comment.like_count - 1, 0)
+    return {'likeCount': current_count, 'isLiked': is_liked}
+
+def create_blog_comment(user, slug, content, parent_comment_id=None):
+    try:
+        announcement = Announcement.objects.get(slug=slug, status='published')
+    except Announcement.DoesNotExist:
+        return None
+    content = content.strip()
+    if not content:
+        return None
+    now = now_ms()
+    with transaction.atomic():
+        comment = BlogComment.objects.create(
+            id=uuid_str(),
+            announcement=announcement,
+            parent_comment_id=parent_comment_id,
+            author=user,
+            text=content,
+            like_count=0,
+            reply_count=0,
+            created_at=now,
+        )
+        if parent_comment_id:
+            BlogComment.objects.filter(pk=parent_comment_id).update(reply_count=F('reply_count') + 1)
+    return {'id': comment.id}
+
+def delete_blog_comment(user, comment_id, is_admin=False):
+    try:
+        comment = BlogComment.objects.get(pk=comment_id)
+    except BlogComment.DoesNotExist:
+        return False
+    if not is_admin and comment.author_id != str(user.id):
+        return False
+    parent_id = comment.parent_comment_id
+    with transaction.atomic():
+        BlogComment.objects.filter(parent_comment_id=comment_id).delete()
+        comment.delete()
+    if parent_id:
+        BlogComment.objects.filter(pk=parent_id, reply_count__gt=0).update(
+            reply_count=F('reply_count') - 1
+        )
+    return True
+
+
 def delete_user_account(user_id, completed_by=None):
     try:
         user = User.objects.get(id=user_id)
@@ -593,6 +655,8 @@ def delete_user_account(user_id, completed_by=None):
         ResourceLike.objects.filter(user=user).delete()
         ResourceCommentLike.objects.filter(user=user).delete()
         ResourceComment.objects.filter(user=user).delete()
+        BlogCommentLike.objects.filter(user=user).delete()
+        BlogComment.objects.filter(author=user).delete()
         Reply.objects.filter(user=user).delete()
         EditHistory.objects.filter(edited_by=user).delete()
         UserPhoto.objects.filter(user=user).delete()

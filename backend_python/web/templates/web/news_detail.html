@@ -228,32 +228,18 @@
       <h2 class="md-title-medium" style="font-weight:600">Comments</h2>
 
       {% if user.is_authenticated %}
-      <form class="comment-input-row" id="comment-form" data-slug="{{ announcement.slug }}">
-        {% csrf_token %}
+      <div class="comment-input-row" id="comment-form" data-slug="{{ announcement.slug }}">
         <textarea id="comment-input" placeholder="Write a comment..." rows="2"></textarea>
-        <button type="submit" class="md-btn md-btn-filled" style="align-self:flex-end;white-space:nowrap">Post</button>
-      </form>
+        <button type="submit" class="md-btn md-btn-filled" id="comment-submit-btn" style="align-self:flex-end;white-space:nowrap">Post</button>
+      </div>
       {% else %}
       <p style="color:var(--md-on-surface-variant);margin-bottom:16px">
         <a href="{% url 'web:login' %}" style="color:var(--md-primary)">Sign in</a> to leave a comment.
       </p>
       {% endif %}
 
-      <div id="comments-list">
-        {% for comment in announcement.comments %}
-        <div class="comment-item">
-          <div class="comment-avatar">{{ comment.author_initials|default:"?" }}</div>
-          <div class="comment-body">
-            <div>
-              <span class="comment-author">{{ comment.author_name }}</span>
-              <span class="comment-time">&middot; {{ comment.created_at|time_ago }}</span>
-            </div>
-            <div class="comment-text">{{ comment.text }}</div>
-          </div>
-        </div>
-        {% empty %}
-        <p style="color:var(--md-on-surface-variant)" id="no-comments-msg">No comments yet. Be the first to share your thoughts!</p>
-        {% endfor %}
+      <div id="comment-list">
+        {% include "web/_comment_cards.html" %}
       </div>
     </div>
   </article>
@@ -303,6 +289,9 @@
 {% block extra_js %}
 <script nonce="{{ csp_nonce }}">
 (function() {
+  var IS_AUTH = {{ user.is_authenticated|yesno:"true,false" }};
+  var SLUG = '{{ announcement.slug }}';
+
   var content = document.getElementById('news-content');
   if (content) {
     var raw = content.textContent.trim();
@@ -360,48 +349,132 @@
     }
   });
 
-  // Comment form
-  var commentForm = document.getElementById('comment-form');
-  if (commentForm) {
-    commentForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-      var input = document.getElementById('comment-input');
-      var text = input.value.trim();
-      if (!text) return;
-      var csrf = commentForm.querySelector('[name=csrfmiddlewaretoken]').value;
-      var slug = commentForm.dataset.slug;
-      fetch('/ajax/news/comment/', {
+  // Top-level comment form
+  document.getElementById('comment-submit-btn')?.addEventListener('click', function() {
+    if (!IS_AUTH) { window.location.href = '{% url "web:login" %}'; return; }
+    var input = document.getElementById('comment-input');
+    var text = input.value.trim();
+    if (!text) return;
+    var btn = this;
+    btn.disabled = true;
+    fetch('/ajax/news/comment/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
+      credentials: 'same-origin',
+      body: JSON.stringify({ slug: SLUG, text: text })
+    }).then(function(r) { return r.json(); }).then(function(data) {
+      if (data.ok) {
+        input.value = '';
+        showSnackbar('Comment posted!');
+        window.location.reload();
+      } else {
+        showSnackbar(data.error || 'Could not post comment');
+      }
+    }).catch(function() { showSnackbar('Network error'); })
+    .finally(function() { btn.disabled = false; });
+  });
+
+  // Comment card handlers
+  registerActions({
+    'share-news': function() { shareNews(); },
+    'toggle-comment-like': function(btn) {
+      if (!IS_AUTH) { window.location.href = '{% url "web:login" %}'; return; }
+      var commentId = btn.dataset.commentId;
+      var countEl = document.getElementById('comment-like-count-' + commentId);
+      fetch('/ajax/like/blog-comment/' + commentId + '/', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'X-CSRFToken': csrf },
-        body: 'slug=' + encodeURIComponent(slug) + '&text=' + encodeURIComponent(text)
+        headers: {'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN},
+        credentials: 'same-origin'
       }).then(function(r) { return r.json(); }).then(function(data) {
-        if (data.ok) {
-          input.value = '';
-          var list = document.getElementById('comments-list');
-          document.getElementById('no-comments-msg')?.remove();
-          var div = document.createElement('div');
-          div.className = 'comment-item';
-          div.innerHTML = '<div class="comment-avatar">' + (data.author_initials || '?') + '</div><div class="comment-body"><div><span class="comment-author">' + escapeHtml(data.author_name) + '</span><span class="comment-time"> &middot; just now</span></div><div class="comment-text">' + escapeHtml(text) + '</div></div>';
-          list.prepend(div);
-          showSnackbar('Comment posted!');
+        if (data.error) { showSnackbar(data.error); return; }
+        if (countEl) countEl.textContent = data.likeCount;
+        if (data.isLiked) btn.classList.add('liked'); else btn.classList.remove('liked');
+      }).catch(function() { showSnackbar('Something went wrong'); });
+    },
+    'toggle-bookmark': function(btn) {
+      if (!IS_AUTH) { window.location.href = '{% url "web:login" %}'; return; }
+      fetch('/ajax/bookmark/toggle/', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN},
+        credentials: 'same-origin',
+        body: JSON.stringify({target_type: btn.dataset.targetType, target_id: btn.dataset.targetId})
+      }).then(function(r) { return r.json(); }).then(function(data) {
+        if (data.error) { showSnackbar(data.error); return; }
+        var icon = btn.querySelector('.material-symbols-outlined');
+        if (data.isBookmarked) {
+          btn.classList.add('bookmarked');
+          if (icon) icon.style.fontVariationSettings = "'FILL' 1";
+          showSnackbar('Bookmarked');
         } else {
-          showSnackbar(data.error || 'Could not post comment');
+          btn.classList.remove('bookmarked');
+          if (icon) icon.style.fontVariationSettings = "";
+          showSnackbar('Removed bookmark');
         }
-      }).catch(function() { showSnackbar('Network error'); });
-    });
-  }
+      }).catch(function() { showSnackbar('Something went wrong'); });
+    },
+    'share-comment': function(btn) {
+      var url = window.location.href.split('?')[0];
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(url).then(function() { showSnackbar('Link copied'); }).catch(function() {});
+      }
+    },
+    'comment-like': function(btn) { /* legacy */ },
+    'delete-comment': function(btn) {
+      if (!confirm('Delete this comment?')) return;
+      fetch('/ajax/blog-comment/' + btn.dataset.commentId + '/delete/', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN},
+        credentials: 'same-origin'
+      }).then(function(r) { return r.json(); }).then(function(data) {
+        if (data.error) { showSnackbar(data.error); return; }
+        var card = document.getElementById('comment-card-' + btn.dataset.commentId);
+        if (card) card.remove();
+        showSnackbar('Comment deleted');
+      }).catch(function() { showSnackbar('Something went wrong'); });
+    },
+    'reply-to-comment': function(btn) {
+      if (!IS_AUTH) { window.location.href = '{% url "web:login" %}'; return; }
+      var commentId = btn.dataset.commentId;
+      var authorName = btn.dataset.authorName;
+      var parentCard = document.getElementById('comment-card-' + commentId);
+      if (!parentCard) return;
+      var existing = parentCard.querySelector('.rd-inline-reply-box');
+      if (existing) { existing.remove(); return; }
+      var box = document.createElement('div');
+      box.className = 'rd-inline-reply-box';
+      box.style.cssText = 'display:flex;align-items:center;gap:8px;margin-top:8px;';
+      box.innerHTML = '<div class="reply-input-wrapper" style="flex:1;"><textarea placeholder="Reply to ' + escapeHtml(authorName) + '..." rows="1"></textarea><button class="reply-send-btn" disabled><span class="material-symbols-outlined">arrow_upward</span></button></div><button class="md-btn md-btn-text rd-cancel-reply-btn" style="min-height:32px;height:32px;font-size:.75rem;padding:0 8px;align-self:flex-end;">Cancel</button>';
+      var actionRow = parentCard.querySelector('.fp-reply-actions');
+      if (actionRow) actionRow.after(box); else parentCard.appendChild(box);
+      var ta = box.querySelector('textarea');
+      ta.focus();
+      var sendBtn = box.querySelector('.reply-send-btn');
+      function sendReply() {
+        var content = ta.value.trim(); if (!content) return;
+        sendBtn.disabled = true;
+        fetch('/ajax/news/comment/', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN},
+          credentials: 'same-origin',
+          body: JSON.stringify({ slug: SLUG, text: content, parentCommentId: commentId })
+        }).then(function(r) { return r.json(); }).then(function(data) {
+          if (data.ok) { ta.value = ''; showSnackbar('Reply posted!'); window.location.reload(); }
+          else { showSnackbar(data.error || 'Could not reply'); }
+        }).catch(function() { showSnackbar('Network error'); })
+        .finally(function() { sendBtn.disabled = !ta.value.trim(); });
+      }
+      ta.addEventListener('input', function() { sendBtn.disabled = !ta.value.trim(); });
+      sendBtn.addEventListener('click', sendReply);
+      box.querySelector('.rd-cancel-reply-btn').addEventListener('click', function() { box.remove(); });
+    },
+    'edit-comment': function() { showSnackbar('Edit coming soon'); }
+  });
 
   function escapeHtml(str) {
     var div = document.createElement('div');
     div.appendChild(document.createTextNode(str));
     return div.innerHTML;
   }
-
-  registerActions({
-    'share-news': function(el, e) {
-      shareNews();
-    }
-  });
 })();
 </script>
 {% endblock %}

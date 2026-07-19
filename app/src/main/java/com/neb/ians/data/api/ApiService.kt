@@ -786,6 +786,27 @@ data class ApiResourceComment(
     val parentCommentId: String? get() = parentCommentIdSnake ?: parentCommentIdCamel
     val isEdited: Boolean? get() = isEditedSnake ?: isEditedCamel
     val createdAt: Long get() = createdAtSnake ?: createdAtCamel ?: 0L
+
+    fun toApiReply(): ApiReply = ApiReply(
+        id = id,
+        postId = resourceId,
+        content = content,
+        authorName = userName,
+        authorId = userId,
+        authorPhotoUrl = userPhotoUrl,
+        authorBadgeInfo = authorBadgeInfo,
+        thumbsUpCount = likeCount,
+        replyCount = replyCount,
+        isThumbedUp = isLiked ?: false,
+        isBookmarked = false,
+        isEdited = isEdited,
+        isArchived = false,
+        parentReplyId = parentCommentId,
+        createdAt = createdAt,
+        updatedAt = null,
+        postTitle = "",
+        authorIsBot = false,
+    )
 }
 
 @Serializable

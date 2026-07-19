@@ -263,110 +263,8 @@
     Comments <span class="count">({{ comment_count }})</span>
   </div>
 
-  <!-- Comment list -->
   <div id="comment-list">
-    {% if top_level_comments %}
-      {% for c in top_level_comments %}
-      <div class="rd-comment" id="comment-{{ c.id }}">
-        <div class="rd-comment-header">
-          <div class="rd-comment-avatar">
-            {% if c.authorPhoto %}
-              <img src="{{ c.authorPhoto }}" alt="" data-fallback="flex">
-              <span class="rd-comment-avatar-letter" style="display:none;">{{ c.authorName|truncate_chars:1|default:"?" }}</span>
-            {% else %}
-              <span class="rd-comment-avatar-letter">{{ c.authorName|truncate_chars:1|default:"?" }}</span>
-            {% endif %}
-          </div>
-          <div class="rd-comment-meta">
-            <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
-              <a href="{% url 'web:profile' username=c.authorName %}" class="rd-comment-author">{{ c.authorName }}</a>
-              {% if c.isEdited %}<span style="font-size:.6875rem;color:var(--md-on-surface-variant);">· edited</span>{% endif %}
-            </div>
-            <div class="rd-comment-time">{{ c.createdAt|time_ago }}</div>
-          </div>
-        </div>
-        <div class="rd-comment-body">{{ c.content|mention_links }}</div>
-        <div class="rd-comment-actions">
-          <button data-action="toggle-comment-like" data-comment-id="{{ c.id }}" class="rd-comment-action {% if c.isLiked %}liked{% endif %}" id="comment-like-btn-{{ c.id }}">
-            <span class="material-symbols-outlined">thumb_up</span>
-            <span id="comment-like-count-{{ c.id }}">{{ c.likeCount }}</span>
-          </button>
-          {% if is_authenticated %}
-          <button class="rd-comment-action" data-action="show-reply-box" data-comment-id="{{ c.id }}" data-author-name="{{ c.authorName|escapejs }}">
-            <span class="material-symbols-outlined">reply</span> Reply
-          </button>
-          {% endif %}
-          {% if c.isOwner or is_authenticated and user.is_admin %}
-          <span class="rd-comment-action-spacer"></span>
-          <button class="rd-comment-action rd-comment-delete" data-action="delete-comment" data-comment-id="{{ c.id }}">
-            <span class="material-symbols-outlined">delete</span>
-          </button>
-          {% endif %}
-        </div>
-
-        <!-- Inline reply box (hidden by default) -->
-        <div id="reply-box-{{ c.id }}" style="display:none;margin-top:10px;align-items:center;gap:8px;">
-          <div class="reply-input-wrapper" style="flex:1;">
-            <textarea id="reply-input-{{ c.id }}" placeholder="Reply to {{ c.authorName }}..." rows="1"></textarea>
-            <button class="reply-send-btn" id="reply-submit-{{ c.id }}" data-action="submit-reply" data-comment-id="{{ c.id }}" disabled>
-              <span class="material-symbols-outlined">arrow_upward</span>
-            </button>
-          </div>
-          <button class="md-btn md-btn-text" data-action="hide-reply-box" data-comment-id="{{ c.id }}" style="min-height:32px;height:32px;font-size:.75rem;padding:0 8px;margin-bottom:2px;align-self:flex-end;">Cancel</button>
-        </div>
-
-        <!-- Nested replies -->
-        {% with children=children_map|dict_get:c.id %}
-        {% if children %}
-        <div class="rd-nested" style="margin-top:10px;">
-          {% for child in children %}
-          <div class="rd-comment" id="comment-{{ child.id }}" style="margin-bottom:8px;">
-            <div class="rd-comment-header">
-              <div class="rd-comment-avatar" style="width:28px;height:28px;">
-                {% if child.authorPhoto %}
-                  <img src="{{ child.authorPhoto }}" alt="" data-fallback="flex">
-                  <span class="rd-comment-avatar-letter" style="display:none;font-size:.6rem;">{{ child.authorName|truncate_chars:1|default:"?" }}</span>
-                {% else %}
-                  <span class="rd-comment-avatar-letter" style="font-size:.6rem;">{{ child.authorName|truncate_chars:1|default:"?" }}</span>
-                {% endif %}
-              </div>
-              <div class="rd-comment-meta">
-                <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
-                  <a href="{% url 'web:profile' username=child.authorName %}" class="rd-comment-author" style="font-size:.75rem;">{{ child.authorName }}</a>
-                  <span style="font-size:.6875rem;color:var(--md-on-surface-variant);">
-                    <span class="material-symbols-outlined" style="font-size:12px;vertical-align:middle;">reply</span>
-                    {{ c.authorName }}
-                  </span>
-                </div>
-                <div class="rd-comment-time">{{ child.createdAt|time_ago }}</div>
-              </div>
-            </div>
-            <div class="rd-comment-body" style="font-size:.8125rem;">{{ child.content|mention_links }}</div>
-            <div class="rd-comment-actions">
-              <button data-action="toggle-comment-like" data-comment-id="{{ child.id }}" class="rd-comment-action {% if child.isLiked %}liked{% endif %}" id="comment-like-btn-{{ child.id }}">
-                <span class="material-symbols-outlined">thumb_up</span>
-                <span id="comment-like-count-{{ child.id }}">{{ child.likeCount }}</span>
-              </button>
-              {% if child.isOwner or is_authenticated and user.is_admin %}
-              <span class="rd-comment-action-spacer"></span>
-              <button class="rd-comment-action rd-comment-delete" data-action="delete-comment" data-comment-id="{{ child.id }}">
-                <span class="material-symbols-outlined">delete</span>
-              </button>
-              {% endif %}
-            </div>
-          </div>
-          {% endfor %}
-        </div>
-        {% endif %}
-        {% endwith %}
-      </div>
-      {% endfor %}
-    {% else %}
-    <div class="rd-empty-comments" id="empty-comments" style="margin-bottom: 24px;">
-      <span class="material-symbols-outlined">chat_bubble_outline</span>
-      <p>No comments yet. Be the first to share your thoughts!</p>
-    </div>
-    {% endif %}
+    {% include "web/_comment_cards.html" %}
   </div>
 
   {% if is_authenticated %}
@@ -440,7 +338,6 @@
 var RESOURCE_ID = '{{ resource.id|default:"" }}';
 var IS_AUTH = {{ is_authenticated|yesno:"true,false" }};
 
-/* ── Like resource ── */
 function toggleResourceLike(id) {
   if (!IS_AUTH) { window.location.href = '{% url "web:login" %}'; return; }
   var btn = document.getElementById('resource-like-btn');
@@ -464,8 +361,7 @@ function toggleResourceLike(id) {
   .finally(function() { btn.disabled = false; });
 }
 
-/* ── Like comment ── */
-function toggleCommentLike(commentId) {
+function toggleResourceCommentLike(commentId) {
   if (!IS_AUTH) { window.location.href = '{% url "web:login" %}'; return; }
   var btn = document.getElementById('comment-like-btn-' + commentId);
   var countEl = document.getElementById('comment-like-count-' + commentId);
@@ -487,8 +383,7 @@ function toggleCommentLike(commentId) {
   .finally(function() { btn.disabled = false; });
 }
 
-/* ── Submit top-level comment ── */
-function submitComment() {
+function submitResourceComment() {
   if (!IS_AUTH) { window.location.href = '{% url "web:login" %}'; return; }
   var input = document.getElementById('comment-input');
   var btn = document.getElementById('comment-submit-btn');
@@ -511,42 +406,7 @@ function submitComment() {
   });
 }
 
-/* ── Reply to comment ── */
-function showReplyBox(commentId, authorName) {
-  var box = document.getElementById('reply-box-' + commentId);
-  if (box) { box.style.display = 'block'; box.querySelector('textarea').focus(); }
-}
-function hideReplyBox(commentId) {
-  var box = document.getElementById('reply-box-' + commentId);
-  if (box) { box.style.display = 'none'; box.querySelector('textarea').value = ''; }
-}
-function submitReply(parentCommentId) {
-  if (!IS_AUTH) { window.location.href = '{% url "web:login" %}'; return; }
-  var input = document.getElementById('reply-input-' + parentCommentId);
-  var content = input.value.trim();
-  if (!content) { showSnackbar('Please write something'); return; }
-  input.disabled = true;
-  var btn = document.getElementById('reply-submit-' + parentCommentId);
-  if (btn) btn.disabled = true;
-  fetch('/ajax/resource-comment/' + RESOURCE_ID + '/', {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN},
-    credentials: 'same-origin',
-    body: JSON.stringify({content: content, parentCommentId: parentCommentId})
-  }).then(function(r) { return r.json(); }).then(function(data) {
-    if (data.error) { showSnackbar(data.error); return; }
-    input.value = '';
-    showSnackbar('Reply posted!');
-    window.location.reload();
-  }).catch(function() { showSnackbar('Something went wrong'); })
-  .finally(function() {
-    input.disabled = false;
-    if (btn) btn.disabled = !input.value.trim();
-  });
-}
-
-/* ── Delete comment ── */
-function deleteComment(commentId) {
+function deleteResourceComment(commentId) {
   if (!confirm('Delete this comment?')) return;
   fetch('/ajax/resource-comment/' + commentId + '/delete/', {
     method: 'POST',
@@ -554,7 +414,7 @@ function deleteComment(commentId) {
     credentials: 'same-origin'
   }).then(function(r) { return r.json(); }).then(function(data) {
     if (data.error) { showSnackbar(data.error); return; }
-    var card = document.getElementById('comment-' + commentId);
+    var card = document.getElementById('comment-card-' + commentId);
     if (card) card.remove();
     showSnackbar('Comment deleted');
     var titleEl = document.querySelector('.rd-section-title .count');
@@ -565,31 +425,7 @@ function deleteComment(commentId) {
   }).catch(function() { showSnackbar('Something went wrong'); });
 }
 
-/* ── Bookmark ── */
-function toggleBookmark(type, targetId, btn) {
-  if (!IS_AUTH) { window.location.href = '{% url "web:login" %}'; return; }
-  fetch('/ajax/bookmark/toggle/', {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN},
-    credentials: 'same-origin',
-    body: JSON.stringify({target_type: type, target_id: targetId})
-  }).then(function(r) { return r.json(); }).then(function(data) {
-    if (data.error) { showSnackbar(data.error); return; }
-    var icon = btn.querySelector('.material-symbols-outlined');
-    if (data.isBookmarked) {
-      btn.classList.add('bookmarked');
-      if (icon) icon.style.fontVariationSettings = "'FILL' 1";
-      showSnackbar('Bookmarked');
-    } else {
-      btn.classList.remove('bookmarked');
-      if (icon) icon.style.fontVariationSettings = "";
-      showSnackbar('Removed bookmark');
-    }
-  }).catch(function() { showSnackbar('Something went wrong'); });
-}
-
-/* ── Share ── */
-function shareResource() {
+function shareResourcePage() {
   var url = window.location.href;
   if (navigator.share) {
     navigator.share({title: '{{ resource.title|escapejs }}', url: url}).catch(function(){});
@@ -604,14 +440,78 @@ function shareResource() {
 
 registerActions({
   'toggle-resource-like': function(btn) { toggleResourceLike(btn.dataset.resourceId); },
-  'toggle-bookmark': function(btn) { toggleBookmark(btn.dataset.targetType, btn.dataset.targetId, btn); },
-  'share-resource': function() { shareResource(); },
-  'submit-comment': function() { submitComment(); },
-  'toggle-comment-like': function(btn) { toggleCommentLike(btn.dataset.commentId); },
-  'show-reply-box': function(btn) { showReplyBox(btn.dataset.commentId, btn.dataset.authorName); },
-  'delete-comment': function(btn) { deleteComment(btn.dataset.commentId); },
-  'submit-reply': function(btn) { submitReply(btn.dataset.commentId); },
-  'hide-reply-box': function(btn) { hideReplyBox(btn.dataset.commentId); },
+  'toggle-bookmark': function(btn) {
+    if (!IS_AUTH) { window.location.href = '{% url "web:login" %}'; return; }
+    fetch('/ajax/bookmark/toggle/', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN},
+      credentials: 'same-origin',
+      body: JSON.stringify({target_type: btn.dataset.targetType, target_id: btn.dataset.targetId})
+    }).then(function(r) { return r.json(); }).then(function(data) {
+      if (data.error) { showSnackbar(data.error); return; }
+      var icon = btn.querySelector('.material-symbols-outlined');
+      if (data.isBookmarked) {
+        btn.classList.add('bookmarked');
+        if (icon) icon.style.fontVariationSettings = "'FILL' 1";
+        showSnackbar('Bookmarked');
+      } else {
+        btn.classList.remove('bookmarked');
+        if (icon) icon.style.fontVariationSettings = "";
+        showSnackbar('Removed bookmark');
+      }
+    }).catch(function() { showSnackbar('Something went wrong'); });
+  },
+  'share-resource': function() { shareResourcePage(); },
+  'submit-comment': function() { submitResourceComment(); },
+  'toggle-comment-like': function(btn) { toggleResourceCommentLike(btn.dataset.commentId); },
+  'delete-comment': function(btn) { deleteResourceComment(btn.dataset.commentId); },
+  'share-comment': function(btn) {
+    var url = window.location.href.split('?')[0];
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(url).then(function() { showSnackbar('Link copied'); }).catch(function() {});
+    }
+  },
+  'reply-to-comment': function(btn) {
+    if (!IS_AUTH) { window.location.href = '{% url "web:login" %}'; return; }
+    var commentId = btn.dataset.commentId;
+    var authorName = btn.dataset.authorName;
+    var parentCard = document.getElementById('comment-card-' + commentId);
+    if (!parentCard) return;
+    var existing = parentCard.querySelector('.rd-inline-reply-box');
+    if (existing) { existing.remove(); return; }
+    var box = document.createElement('div');
+    box.className = 'rd-inline-reply-box';
+    box.style.cssText = 'display:flex;align-items:center;gap:8px;margin-top:8px;';
+    box.innerHTML = '<div class="reply-input-wrapper" style="flex:1;"><textarea placeholder="Reply to ' + escapeHtml(authorName) + '..." rows="1"></textarea><button class="reply-send-btn" disabled><span class="material-symbols-outlined">arrow_upward</span></button></div><button class="md-btn md-btn-text rd-cancel-reply-btn" style="min-height:32px;height:32px;font-size:.75rem;padding:0 8px;align-self:flex-end;">Cancel</button>';
+    var actionRow = parentCard.querySelector('.fp-reply-actions');
+    if (actionRow) {
+      actionRow.after(box);
+    } else {
+      parentCard.appendChild(box);
+    }
+    var ta = box.querySelector('textarea');
+    ta.focus();
+    var sendBtn = box.querySelector('.reply-send-btn');
+    ta.addEventListener('input', function() { sendBtn.disabled = !ta.value.trim(); });
+    sendBtn.addEventListener('click', function() {
+      var content = ta.value.trim(); if (!content) return;
+      sendBtn.disabled = true;
+      fetch('/ajax/resource-comment/' + RESOURCE_ID + '/', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN},
+        credentials: 'same-origin',
+        body: JSON.stringify({content: content, parentCommentId: commentId})
+      }).then(function(r) { return r.json(); }).then(function(data) {
+        if (data.error) { showSnackbar(data.error); return; }
+        ta.value = '';
+        showSnackbar('Reply posted!');
+        window.location.reload();
+      }).catch(function() { showSnackbar('Network error'); })
+      .finally(function() { sendBtn.disabled = !ta.value.trim(); });
+    });
+    box.querySelector('.rd-cancel-reply-btn').addEventListener('click', function() { box.remove(); });
+  },
+  'edit-comment': function(btn) { showSnackbar('Edit coming soon'); },
   'focus-border': function(el) { el.style.borderColor = 'var(--md-primary)'; },
   'blur-border': function(el) { el.style.borderColor = 'var(--md-outline-variant)'; }
 });
