@@ -8,10 +8,11 @@ from django.http import Http404, JsonResponse
 from django.shortcuts import render, redirect
 from django.views.decorators.http import require_GET, require_POST
 
-from api.models import Announcement, BlogComment, User
+from api import services
+from api.models import Announcement, BlogComment, BlogCommentLike, Bookmark, User
 from api.utils import now_ms, uuid_str
 
-from .view_helpers import _ctx, _get_user_id
+from .view_helpers import _ctx, _get_user_id, _user_badge_info
 
 
 CATEGORY_META = {
@@ -132,41 +133,55 @@ def news_detail(request, slug):
     ))
 
 
+def _blog_comment_dict(c, user_id, liked_ids, bookmarked_ids):
+    """One comment in the exact forum-reply shape, plus legacy keys kept so
+    older Android builds (author_name/text fields) keep rendering."""
+    parent_id = c.parent_comment_id or ''
+    return {
+        'id': c.id,
+        'authorId': c.author_id,
+        'authorName': c.author.username,
+        'authorPhotoUrl': c.author.photo_url or '',
+        'authorBadgeInfo': _user_badge_info(c.author),
+        'parentReplyId': parent_id,
+        'parentCommentId': parent_id,
+        'content': c.text,
+        'thumbsUpCount': c.like_count,
+        'childCount': c.reply_count,
+        'isEdited': c.is_edited,
+        'createdAt': c.created_at,
+        'isThumbedUp': c.id in liked_ids,
+        'isBookmarked': c.id in bookmarked_ids,
+        'isOwner': bool(user_id and str(user_id) == str(c.author_id)),
+        'isFollowed': False,
+        'childAuthors': [],
+        # Legacy durability for older app builds.
+        'author_name': c.author.username,
+        'author_initials': (c.author.username or 'N')[:2].upper(),
+        'author_photo': c.author.photo_url or '',
+        'text': c.text,
+        'created_at': c.created_at,
+    }
+
+
+def _blog_comment_liked_bookmarked_ids(comments_list, user_id):
+    if not (user_id and comments_list):
+        return set(), set()
+    liked_ids = set(BlogCommentLike.objects.filter(
+        comment_id__in=[c.id for c in comments_list], user_id=user_id
+    ).values_list('comment_id', flat=True))
+    bookmarked_ids = set(Bookmark.objects.filter(
+        user_id=user_id, target_type='blog_comment',
+        target_id__in=[c.id for c in comments_list]
+    ).values_list('target_id', flat=True))
+    return liked_ids, bookmarked_ids
+
+
 def _serialize_blog_comments(announcement, user_id=None):
     qs = BlogComment.objects.filter(announcement=announcement).select_related('author').order_by('created_at')
     comments_list = list(qs)
-    liked_ids = set()
-    bookmarked_ids = set()
-    if user_id and comments_list:
-        liked_ids = set(BlogCommentLike.objects.filter(
-            comment_id__in=[c.id for c in comments_list], user_id=user_id
-        ).values_list('comment_id', flat=True))
-        bookmarked_ids = set(Bookmark.objects.filter(
-            user_id=user_id, target_type='blog_comment',
-            target_id__in=[c.id for c in comments_list]
-        ).values_list('target_id', flat=True))
-    result = []
-    for c in comments_list:
-        parent_id = c.parent_comment_id or ''
-        result.append({
-            'id': c.id,
-            'authorId': c.author_id,
-            'authorName': c.author.username,
-            'authorPhotoUrl': c.author.photo_url or '',
-            'authorBadgeInfo': _user_badge_info(c.author),
-            'parentReplyId': parent_id,
-            'parentCommentId': parent_id,
-            'content': c.text,
-            'thumbsUpCount': c.like_count,
-            'childCount': c.reply_count,
-            'isEdited': c.is_edited,
-            'createdAt': c.created_at,
-            'isThumbedUp': c.id in liked_ids,
-            'isBookmarked': c.id in bookmarked_ids,
-            'isOwner': bool(user_id and str(user_id) == str(c.author_id)),
-            'isFollowed': False,
-            'childAuthors': [],
-        })
+    liked_ids, bookmarked_ids = _blog_comment_liked_bookmarked_ids(comments_list, user_id)
+    result = [_blog_comment_dict(c, user_id, liked_ids, bookmarked_ids) for c in comments_list]
     top_level = [r for r in result if not r['parentReplyId']]
     children_map = {}
     for r in result:
@@ -183,7 +198,13 @@ def ajax_blog_comments(request, slug):
         announcement = Announcement.objects.get(slug=slug, status='published')
     except Announcement.DoesNotExist:
         return JsonResponse({'ok': False, 'error': 'Announcement not found'}, status=404)
-    return JsonResponse({'ok': True, 'comments': _serialize_comments(announcement)})
+    user_id = _get_user_id(request)
+    comments_list = list(
+        BlogComment.objects.filter(announcement=announcement).select_related('author').order_by('created_at')
+    )
+    liked_ids, bookmarked_ids = _blog_comment_liked_bookmarked_ids(comments_list, user_id)
+    payload = [_blog_comment_dict(c, user_id, liked_ids, bookmarked_ids) for c in comments_list]
+    return JsonResponse({'ok': True, 'comments': payload})
 
 
 @require_POST
@@ -209,9 +230,14 @@ def ajax_blog_comment(request):
         return JsonResponse({'ok': False, 'error': 'Announcement not found'}, status=404)
     except User.DoesNotExist:
         return JsonResponse({'ok': False, 'error': 'User not found'}, status=401)
-    comment = services.create_blog_comment(user, slug, text, parent_comment_id)
-    if not comment:
+    created = services.create_blog_comment(user, slug, text, parent_comment_id)
+    if not created:
         return JsonResponse({'ok': False, 'error': 'Failed to create comment'}, status=500)
+    try:
+        fresh = BlogComment.objects.select_related('author').get(pk=created['id'])
+        comment = _blog_comment_dict(fresh, user_id, set(), set())
+    except BlogComment.DoesNotExist:
+        comment = created
     return JsonResponse({
         'ok': True,
         'comment': comment,

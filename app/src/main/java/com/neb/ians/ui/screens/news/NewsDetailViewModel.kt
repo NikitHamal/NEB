@@ -22,10 +22,46 @@ data class NewsDetailUiState(
     val error: String? = null,
     val comments: List<NewsComment> = emptyList(),
     val commentsLoading: Boolean = true,
+    val commentSort: String = "oldest",
     val commentDraft: String = "",
+    val threadDraft: String = "",
     val isPostingComment: Boolean = false,
     val snackbarMessage: String? = null
-)
+) {
+    /** Top-level comments in the selected sort order (same rule as forum replies). */
+    val topLevelComments: List<NewsComment>
+        get() {
+            val topLevel = comments.filter { it.parentCommentId.isBlank() }
+            return when (commentSort) {
+                "newest" -> topLevel.sortedByDescending { it.createdAt }
+                "top" -> topLevel.sortedWith(
+                    compareByDescending<NewsComment> { it.thumbsUpCount }.thenBy { it.createdAt }
+                )
+                else -> topLevel.sortedBy { it.createdAt }
+            }
+        }
+
+    /** Children and deeper descendants of a comment, oldest first (same rule as the forum thread sheet). */
+    fun childrenOf(commentId: String): List<NewsComment> {
+        val result = mutableListOf<NewsComment>()
+        val descendants = mutableSetOf<String>()
+        var addedAny: Boolean
+        do {
+            addedAny = false
+            for (c in comments) {
+                val parentId = c.parentCommentId
+                if (parentId.isNotBlank() && !descendants.contains(c.id)) {
+                    if (parentId == commentId || descendants.contains(parentId)) {
+                        descendants.add(c.id)
+                        result.add(c)
+                        addedAny = true
+                    }
+                }
+            }
+        } while (addedAny)
+        return result.sortedBy { it.createdAt }
+    }
+}
 
 @HiltViewModel
 class NewsDetailViewModel @Inject constructor(
@@ -36,12 +72,24 @@ class NewsDetailViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(NewsDetailUiState(slug = slug))
     val uiState: StateFlow<NewsDetailUiState> = _uiState.asStateFlow()
 
+    // One in-flight like per comment: rapid taps are ignored instead of
+    // stacking server toggles that flip the liked state back and forth.
+    private val processingCommentLikes = mutableSetOf<String>()
+
     init { load() }
 
     fun retry() = load(forceRefresh = true)
 
     fun onCommentDraftChange(value: String) {
         _uiState.update { it.copy(commentDraft = value.take(4000)) }
+    }
+
+    fun onThreadDraftChange(value: String) {
+        _uiState.update { it.copy(threadDraft = value.take(4000)) }
+    }
+
+    fun setCommentSort(sort: String) {
+        _uiState.update { it.copy(commentSort = sort) }
     }
 
     fun postComment() {
@@ -64,6 +112,96 @@ class NewsDetailViewModel @Inject constructor(
                         it.copy(
                             isPostingComment = false,
                             snackbarMessage = error.message ?: "Couldn't post comment"
+                        )
+                    }
+                }
+        }
+    }
+
+    /** Thread composer: posts a reply under the given parent comment. */
+    fun postThreadReply(parentCommentId: String, onSuccess: () -> Unit = {}) {
+        val text = _uiState.value.threadDraft.trim()
+        if (text.isBlank() || _uiState.value.isPostingComment) return
+        viewModelScope.launch {
+            _uiState.update { it.copy(isPostingComment = true) }
+            newsRepository.postComment(slug, text, parentCommentId)
+                .onSuccess { comment ->
+                    _uiState.update { state ->
+                        val bumped = state.comments.map { existing ->
+                            if (existing.id == parentCommentId) {
+                                existing.copy(childCount = existing.childCount + 1)
+                            } else existing
+                        }
+                        state.copy(
+                            comments = bumped.filterNot { current -> current.id == comment.id } + comment,
+                            threadDraft = "",
+                            isPostingComment = false
+                        )
+                    }
+                    onSuccess()
+                }
+                .onFailure { error ->
+                    _uiState.update {
+                        it.copy(
+                            isPostingComment = false,
+                            snackbarMessage = error.message ?: "Couldn't post reply"
+                        )
+                    }
+                }
+        }
+    }
+
+    fun toggleCommentLike(commentId: String) {
+        if (processingCommentLikes.contains(commentId)) return
+        val comment = _uiState.value.comments.firstOrNull { it.id == commentId } ?: return
+        val wasLiked = comment.isThumbedUp
+        val nextLiked = !wasLiked
+        val nextCount = (comment.thumbsUpCount + if (nextLiked) 1 else -1).coerceAtLeast(0)
+        processingCommentLikes.add(commentId)
+        _uiState.update { state ->
+            state.copy(comments = state.comments.map {
+                if (it.id == commentId) it.copy(isThumbedUp = nextLiked, thumbsUpCount = nextCount) else it
+            })
+        }
+        viewModelScope.launch {
+            newsRepository.toggleCommentLike(commentId)
+                .onSuccess { resp ->
+                    // Reconcile with the server's truth (state + count).
+                    _uiState.update { state ->
+                        state.copy(comments = state.comments.map {
+                            if (it.id == commentId) {
+                                it.copy(
+                                    isThumbedUp = resp.resolvedIsLiked,
+                                    thumbsUpCount = resp.resolvedLikeCount
+                                )
+                            } else it
+                        })
+                    }
+                }
+                .onFailure { error ->
+                    _uiState.update { state ->
+                        state.copy(
+                            comments = state.comments.map { if (it.id == commentId) comment else it },
+                            snackbarMessage = error.message ?: "Couldn't update like"
+                        )
+                    }
+                }
+            processingCommentLikes.remove(commentId)
+        }
+    }
+
+    fun deleteComment(commentId: String) {
+        val current = _uiState.value.comments
+        _uiState.update { state ->
+            state.copy(comments = state.comments.filterNot { it.id == commentId })
+        }
+        viewModelScope.launch {
+            newsRepository.deleteComment(commentId)
+                .onFailure { error ->
+                    _uiState.update {
+                        it.copy(
+                            comments = current,
+                            snackbarMessage = error.message ?: "Couldn't delete comment"
                         )
                     }
                 }

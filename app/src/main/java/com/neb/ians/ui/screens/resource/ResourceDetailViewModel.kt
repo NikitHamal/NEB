@@ -32,13 +32,49 @@ data class ResourceDetailUiState(
     val authorPhotoUrl: String? = null,
     val comments: List<ApiResourceComment> = emptyList(),
     val commentsLoading: Boolean = false,
+    val commentSort: String = "oldest",
     val suggestedVideos: List<ApiResource> = emptyList(),
     val commentDraft: String = "",
+    val threadDraft: String = "",
     val isPostingComment: Boolean = false,
     val downloadProgress: Int? = null,
     val isDownloaded: Boolean = false,
     val snackbarMessage: String? = null
-)
+) {
+    /** Top-level comments in the selected sort order. */
+    val topLevelComments: List<ApiResourceComment>
+        get() {
+            val topLevel = comments.filter { it.parentCommentId.isNullOrBlank() }
+            return when (commentSort) {
+                "newest" -> topLevel.sortedByDescending { it.createdAt }
+                "top" -> topLevel.sortedWith(
+                    compareByDescending<ApiResourceComment> { it.likeCount }.thenBy { it.createdAt }
+                )
+                else -> topLevel.sortedBy { it.createdAt }
+            }
+        }
+
+    /** Children and descendants of a given comment, oldest first. */
+    fun childrenOf(commentId: String): List<ApiResourceComment> {
+        val result = mutableListOf<ApiResourceComment>()
+        val descendants = mutableSetOf<String>()
+        var addedAny: Boolean
+        do {
+            addedAny = false
+            for (c in comments) {
+                val parentId = c.parentCommentId
+                if (!parentId.isNullOrBlank() && !descendants.contains(c.id)) {
+                    if (parentId == commentId || descendants.contains(parentId)) {
+                        descendants.add(c.id)
+                        result.add(c)
+                        addedAny = true
+                    }
+                }
+            }
+        } while (addedAny)
+        return result.sortedBy { it.createdAt }
+    }
+}
 
 @HiltViewModel
 class ResourceDetailViewModel @Inject constructor(
@@ -271,6 +307,14 @@ class ResourceDetailViewModel @Inject constructor(
         _uiState.update { it.copy(commentDraft = text) }
     }
 
+    fun onThreadDraftChange(text: String) {
+        _uiState.update { it.copy(threadDraft = text) }
+    }
+
+    fun setCommentSort(sort: String) {
+        _uiState.update { it.copy(commentSort = sort) }
+    }
+
     fun postComment() {
         val draft = _uiState.value.commentDraft.trim()
         if (draft.isEmpty() || _uiState.value.isPostingComment) return
@@ -303,6 +347,46 @@ class ResourceDetailViewModel @Inject constructor(
         }
     }
 
+    /** Thread composer: posts a reply under the given parent comment. */
+    fun postThreadReply(parentCommentId: String, onSuccess: () -> Unit = {}) {
+        val draft = _uiState.value.threadDraft.trim()
+        if (draft.isEmpty() || _uiState.value.isPostingComment) return
+        if (!_uiState.value.isAuthenticated) {
+            _uiState.update { it.copy(snackbarMessage = "Please sign in to comment") }
+            return
+        }
+        _uiState.update { it.copy(isPostingComment = true) }
+        viewModelScope.launch {
+            resourceRepository.createComment(resourceId, draft, parentCommentId)
+                .onSuccess { comment ->
+                    _uiState.update { state ->
+                        val bumped = state.comments.map { existing ->
+                            if (existing.id == parentCommentId) {
+                                val next = existing.replyCount + 1
+                                existing.copy(replyCountSnake = next, replyCountCamel = next)
+                            } else existing
+                        }
+                        val currentResource = state.resource
+                        state.copy(
+                            comments = bumped.filterNot { it.id == comment.id } + comment,
+                            threadDraft = "",
+                            isPostingComment = false,
+                            resource = currentResource?.copy(commentCount = currentResource.commentCount + 1)
+                        )
+                    }
+                    onSuccess()
+                }
+                .onFailure { e ->
+                    _uiState.update {
+                        it.copy(
+                            isPostingComment = false,
+                            snackbarMessage = ApiErrorMapper.mapException(e)
+                        )
+                    }
+                }
+        }
+    }
+
     fun deleteComment(commentId: String) {
         val current = _uiState.value.comments
         _uiState.update { state ->
@@ -318,15 +402,19 @@ class ResourceDetailViewModel @Inject constructor(
         }
     }
 
+    // One in-flight like per comment: rapid taps are ignored instead of
+    // stacking toggles that flip the server state back and forth.
+    private val processingCommentLikes = mutableSetOf<String>()
+
     fun toggleCommentLike(commentId: String) {
-        viewModelScope.launch {
-            val comments = _uiState.value.comments
-            val comment = comments.firstOrNull { it.id == commentId } ?: return@launch
-            val wasLiked = comment.isLiked == true
-            val nextLiked = !wasLiked
-            val nextCount = (comment.likeCount + if (nextLiked) 1 else -1).coerceAtLeast(0)
-            
-            val optimistic = comments.map {
+        if (processingCommentLikes.contains(commentId)) return
+        val comment = _uiState.value.comments.firstOrNull { it.id == commentId } ?: return
+        val wasLiked = comment.isLiked == true
+        val nextLiked = !wasLiked
+        val nextCount = (comment.likeCount + if (nextLiked) 1 else -1).coerceAtLeast(0)
+        processingCommentLikes.add(commentId)
+        _uiState.update { state ->
+            state.copy(comments = state.comments.map {
                 if (it.id == commentId) {
                     it.copy(
                         isLikedSnake = nextLiked,
@@ -335,13 +423,34 @@ class ResourceDetailViewModel @Inject constructor(
                         likeCountCamel = nextCount
                     )
                 } else it
-            }
-            _uiState.update { it.copy(comments = optimistic) }
-            
+            })
+        }
+        viewModelScope.launch {
             resourceRepository.toggleCommentLike(resourceId, commentId)
-                .onFailure { e ->
-                    _uiState.update { it.copy(comments = comments, snackbarMessage = ApiErrorMapper.mapException(e)) }
+                .onSuccess { resp ->
+                    // Reconcile with the server's truth (state + count).
+                    _uiState.update { state ->
+                        state.copy(comments = state.comments.map {
+                            if (it.id == commentId) {
+                                it.copy(
+                                    isLikedSnake = resp.isLiked,
+                                    isLikedCamel = resp.isLiked,
+                                    likeCountSnake = resp.likeCount,
+                                    likeCountCamel = resp.likeCount
+                                )
+                            } else it
+                        })
+                    }
                 }
+                .onFailure { e ->
+                    _uiState.update { state ->
+                        state.copy(
+                            comments = state.comments.map { if (it.id == commentId) comment else it },
+                            snackbarMessage = ApiErrorMapper.mapException(e)
+                        )
+                    }
+                }
+            processingCommentLikes.remove(commentId)
         }
     }
 

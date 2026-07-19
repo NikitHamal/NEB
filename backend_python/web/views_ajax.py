@@ -1,4 +1,6 @@
 """Views Ajax extracted from views.py."""
+from django.views.decorators.http import require_http_methods
+
 from .view_helpers import *  # noqa: F401,F403
 from api.view_helpers import _can_view_locked_profile
 from api.security import POST_IMAGE_MAX_COUNT
@@ -145,7 +147,9 @@ def ajax_like_blog_comment(request, comment_id):
         return JsonResponse({'error': 'Comment not found'}, status=404)
     return JsonResponse(result)
 
-@require_POST
+# The NEBians Android app deletes comments with an HTTP DELETE request while
+# the website uses POST, so both verbs must be accepted here.
+@require_http_methods(["POST", "DELETE"])
 def ajax_delete_blog_comment(request, comment_id):
     user_id = _get_user_id(request)
     if not user_id:
