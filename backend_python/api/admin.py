@@ -4,7 +4,7 @@ Accessible at /admin-django/ after creating a superuser. The public custom admin
 """
 from django.contrib import admin
 from .models import User, Resource, Post, Reply, PostLike, ReplyLike, FCMToken, UserPhoto, Follow, EditHistory, Report, BotConfig, TakedownRequest, SyllabusContent
-from .models import ResourceComment, ResourceLike, ResourceCommentLike, BlogComment, BlogCommentLike
+from .models import ResourceComment, ResourceLike, ResourceCommentLike, BlogComment, BlogCommentLike, UserLLMProvider
 
 
 @admin.register(User)
@@ -82,7 +82,15 @@ class ReportAdmin(admin.ModelAdmin):
 
 @admin.register(BotConfig)
 class BotConfigAdmin(admin.ModelAdmin):
-    list_display = ['id', 'enabled', 'bot_username', 'model', 'updated_at']
+    list_display = ['id', 'enabled', 'bot_username', 'provider', 'model', 'updated_at']
+
+
+@admin.register(UserLLMProvider)
+class UserLLMProviderAdmin(admin.ModelAdmin):
+    list_display = ['id', 'user', 'provider', 'name', 'api_format', 'enabled', 'updated_at']
+    list_filter = ['provider', 'enabled']
+    search_fields = ['user__username', 'name', 'default_model']
+    readonly_fields = ['api_key']  # encrypted BYOK secret — never edit raw
 
 
 @admin.register(ResourceComment)

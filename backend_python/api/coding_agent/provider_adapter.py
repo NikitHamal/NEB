@@ -79,7 +79,7 @@ def _safe_json_chat(api_url: str, api_key: str, model: str, messages: List[Dict[
 
 def _call_qwen(messages: List[Dict[str, str]], model: str, max_tokens: int, timeout: int) -> ProviderCompletion:
     from api import qwen_proxy
-    from .neby import call_ai_api
+    from api.neby import call_ai_api
     from api.models import BotConfig
 
     cfg = BotConfig.objects.filter(provider='qwen').first()

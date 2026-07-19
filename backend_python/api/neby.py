@@ -175,6 +175,8 @@ def call_ai_api(system_prompt, user_message, config=None):
       - 'egov'      → eGov Chat AI (Philippines), via egov_proxy.simple_chat
       - 'inception' → Inception Labs (Mercury 2 diffusion LLM)
       - 'custom'    → any OpenAI-compatible /chat/completions endpoint
+      - 'agnes' / 'openai' / 'anthropic' / 'gemini' / 'deepseek'
+                    → official APIs via the shared api.llm client
     Returns response text or None.
     """
     if config is None:
@@ -183,6 +185,31 @@ def call_ai_api(system_prompt, user_message, config=None):
             return None
     provider = (config.provider or 'qwen').strip().lower()
     max_tokens = config.response_max_length or 500
+
+    # Official API providers share one client; BotConfig carries the key,
+    # base URL override and chosen model — the same registry Zeus sessions use.
+    if provider in ('agnes', 'openai', 'anthropic', 'gemini', 'deepseek'):
+        from api.llm import registry, client
+        preset = registry.preset(provider)
+        try:
+            result = client.chat(
+                format=preset.format if preset else registry.FORMAT_OPENAI,
+                base_url=(config.api_url or '').strip() or (preset.base_url if preset else ''),
+                api_key=config.api_key or '',
+                model=(config.model or '').strip() or (preset.default_model if preset else ''),
+                messages=(
+                    ([{'role': 'system', 'content': system_prompt}] if system_prompt and system_prompt.strip() else [])
+                    + [{'role': 'user', 'content': user_message}]
+                ),
+                max_tokens=max_tokens,
+                timeout=120,
+                temperature=0.7,
+                provider=provider,
+            )
+            return result.text
+        except client.LLMError as e:
+            logger.error('neby: %s call failed: %s', provider, e)
+            return None
 
     if provider == 'ai4bharat':
         from . import ai4bharat_proxy

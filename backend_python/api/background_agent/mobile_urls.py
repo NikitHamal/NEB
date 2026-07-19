@@ -1,6 +1,7 @@
 from django.urls import path
 
 from api.background_agent import mobile_api
+from api.background_agent import mobile_llm
 
 urlpatterns = [
     path('pair/start/', mobile_api.pair_start, name='bg_mobile_pair_start'),
@@ -20,4 +21,8 @@ urlpatterns = [
     path('sessions/<str:session_id>/actions/', mobile_api.session_action, name='bg_mobile_session_action'),
     path('sessions/<str:session_id>/lifecycle/', mobile_api.session_lifecycle, name='bg_mobile_session_lifecycle'),
     path('sessions/<str:session_id>/artifacts/<str:kind>/', mobile_api.artifact, name='bg_mobile_artifact'),
+    path('llm/catalog/', mobile_llm.llm_catalog, name='bg_mobile_llm_catalog'),
+    path('llm/providers/', mobile_llm.llm_providers, name='bg_mobile_llm_providers'),
+    path('llm/providers/<str:provider_id>/', mobile_llm.llm_provider_detail, name='bg_mobile_llm_provider_detail'),
+    path('llm/test/', mobile_llm.llm_test, name='bg_mobile_llm_test'),
 ]

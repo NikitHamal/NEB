@@ -18,6 +18,8 @@ from api.background_agent.labels import tool_label
 from api.background_agent.workspace import GitWorkspace, ToolExecutor, WorkspaceError
 from api.models import BackgroundAgentSession
 from api import qwen_proxy
+from api.llm.client import LLMError
+from api.llm.runtime import call_session_provider, resolve_session_provider
 from api.utils import now_ms
 
 logger = logging.getLogger(__name__)
@@ -106,6 +108,11 @@ class BackgroundAgentRunner:
         self.session = session
         self.workspace = GitWorkspace(session.project, session)
         self.tools = ToolExecutor(self.workspace)
+        # Official-API provider resolution (None = legacy Qwen web path).
+        # Lazy: resolved on the first provider call so keys saved after a
+        # session was queued still apply.
+        self._llm_resolved = None
+        self._llm_resolved_once = False
         # Deferred-commit bookkeeping: the model's git_commit calls are staged
         # and their messages queued here; one consolidated commit materializes
         # on git_push / completion.
@@ -164,8 +171,12 @@ class BackgroundAgentRunner:
             # Log full prompt for export/debug
             store_prompt(self.session, prompt, iteration)
 
-            emit(self.session, 'model.requested', f'Calling Qwen 3.7 Plus for iteration {iteration}', {
-                'model': 'qwen3.7-plus', 'attachmentCount': len(file_paths),
+            call_label = self._llm_label()
+            resolved_now = self._llm_selection()
+            emit(self.session, 'model.requested', f'Calling {call_label} for iteration {iteration}', {
+                'model': resolved_now.model if resolved_now is not None else self._community_model(),
+                'provider': self.session.llm_provider or 'qwen',
+                'attachmentCount': len(file_paths),
             })
             model_started = time.monotonic()
             raw = self._call_provider(prompt, file_paths=file_paths)
@@ -405,8 +416,132 @@ PRIOR OUTPUT
             encoded = encoded[:500000] + '\n[tool result truncated in conversation log]'
         return encoded
 
+    def _llm_selection(self):
+        """Resolve the session's LLM once per run. Returns None for the
+        legacy community model path, or an api.llm ResolvedProvider."""
+        if not self._llm_resolved_once:
+            self._llm_resolved = resolve_session_provider(self.session)
+            self._llm_resolved_once = True
+            slug = (self.session.llm_provider or '').strip().lower()
+            if slug and self._llm_resolved is None:
+                from api.llm.registry import is_official_slug
+                if is_official_slug(slug) or slug == 'custom':
+                    # The picker selected an official provider that can no
+                    # longer be served (key removed/disabled). Fall back to
+                    # the shared default transparently instead of failing.
+                    emit(self.session, 'model.fallback', 'Selected model is unavailable; using the default Qwen 3.7 Plus instead', {
+                        'requestedProvider': self.session.llm_provider,
+                        'requestedModel': self.session.llm_model,
+                    })
+        return self._llm_resolved
+
+    def _community_model(self) -> str:
+        """Selected community (Qwen web) model, when the picker chose one."""
+        slug = (self.session.llm_provider or '').strip().lower()
+        model = (self.session.llm_model or '').strip()
+        return model if slug == 'qwen' and model else 'qwen3.7-plus'
+
+    def _llm_label(self) -> str:
+        resolved = self._llm_selection()
+        if resolved is not None:
+            return f'{resolved.label} · {resolved.model}'
+        community = self._community_model()
+        return 'Qwen 3.7 Plus' if community == 'qwen3.7-plus' else f'Qwen ({community})'
+
     def _call_provider(self, prompt: str, *, system_prompt: str = SYSTEM_PROMPT, file_paths=None, max_tokens=None) -> str:
-        model = 'qwen3.7-plus'
+        resolved = self._llm_selection()
+        if resolved is not None:
+            return self._call_official_provider(
+                resolved, prompt, system_prompt=system_prompt, file_paths=file_paths, max_tokens=max_tokens,
+            )
+        return self._call_qwen_legacy(prompt, system_prompt=system_prompt, file_paths=file_paths, max_tokens=max_tokens)
+
+    def _call_official_provider(self, resolved, prompt: str, *, system_prompt: str, file_paths=None, max_tokens=None) -> str:
+        """Official API providers (Agnes, OpenAI, Claude, Gemini, DeepSeek,
+        custom BYOK) — real request formats, real auth, no scraping.
+
+        File attachments cannot be uploaded through these endpoints, so new
+        upload contents are inlined into the prompt (Qwen keeps its native
+        upload path on the legacy branch)."""
+        model = resolved.model
+        label = resolved.label
+        output_tokens = int(max_tokens or getattr(settings, 'BACKGROUND_AGENT_MODEL_MAX_TOKENS', 6000))
+        output_tokens = min(output_tokens, resolved.max_output_tokens or output_tokens)
+        attempts = max(1, min(int(getattr(settings, 'BACKGROUND_AGENT_PROVIDER_ATTEMPTS', 3)), 6))
+        inline_files = self._attachments_inline_text(file_paths) if file_paths else ''
+        if inline_files:
+            prompt = prompt + '\n\n' + inline_files
+        last_error = None
+        for attempt in range(1, attempts + 1):
+            self._check_control()
+            try:
+                result = call_session_provider(
+                    self.session, resolved,
+                    system_prompt=system_prompt, user_prompt=prompt,
+                    max_tokens=output_tokens,
+                    timeout=int(getattr(settings, 'BACKGROUND_AGENT_PROVIDER_TIMEOUT', 300)),
+                )
+                if result and result.text:
+                    return result.text
+                raise WorkspaceError(f'{label} {model} returned an empty response')
+            except (AgentPaused, AgentStopped):
+                raise
+            except LLMError as exc:
+                last_error = exc
+                if attempt >= attempts or not exc.retryable:
+                    break
+                delay = min(30, 2 ** attempt)
+                emit(self.session, 'model.retrying', f'{label} attempt {attempt} failed; retrying in {delay}s', {
+                    'provider': resolved.slug, 'model': model,
+                    'error': str(exc)[:1000], 'attempt': attempt,
+                })
+                for _ in range(delay):
+                    time.sleep(1)
+                    self._check_control()
+            except Exception as exc:
+                last_error = exc
+                if attempt >= attempts:
+                    break
+                delay = min(30, 2 ** attempt)
+                emit(self.session, 'model.retrying', f'{label} attempt {attempt} failed; retrying in {delay}s', {
+                    'provider': resolved.slug, 'model': model,
+                    'error': str(exc)[:1000], 'attempt': attempt,
+                })
+                for _ in range(delay):
+                    time.sleep(1)
+                    self._check_control()
+        raise WorkspaceError(
+            f'{label} {model} failed after {attempts} attempt(s): {last_error}'
+        ) from last_error
+
+    @staticmethod
+    def _attachments_inline_text(file_paths, per_file_cap=12000, total_cap=60000) -> str:
+        """Render newly uploaded files as fenced prompt text for providers
+        without native upload. Returns '' when nothing readable is attached."""
+        from pathlib import Path
+        chunks = []
+        total = 0
+        for raw in file_paths or []:
+            try:
+                path = Path(str(raw))
+                text = path.read_text(encoding='utf-8', errors='replace')
+            except Exception:
+                continue
+            snippet = text[:per_file_cap]
+            if len(text) > per_file_cap:
+                snippet += f'\n[... truncated {len(text) - per_file_cap} chars ...]'
+            block = f'═══ Attached file: {path.name} ═══\n{snippet}'
+            if total + len(block) > total_cap:
+                chunks.append('[... remaining attachments omitted this iteration ...]')
+                break
+            chunks.append(block)
+            total += len(block)
+        if not chunks:
+            return ''
+        return 'ATTACHED FILES (inline — this provider has no file upload)\n' + '\n\n'.join(chunks)
+
+    def _call_qwen_legacy(self, prompt: str, *, system_prompt: str = SYSTEM_PROMPT, file_paths=None, max_tokens=None) -> str:
+        model = self._community_model()
         output_tokens = int(max_tokens or getattr(settings, 'BACKGROUND_AGENT_MODEL_MAX_TOKENS', 6000))
         attempts = max(1, min(int(getattr(settings, 'BACKGROUND_AGENT_PROVIDER_ATTEMPTS', 3)), 6))
         last_error = None

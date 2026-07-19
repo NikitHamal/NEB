@@ -79,6 +79,13 @@
           <option value="deepai"    {% if config.provider == 'deepai' %}selected{% endif %}>DeepAI (deepai.org)</option>
           <option value="inception" {% if config.provider == 'inception' %}selected{% endif %}>Inception Labs (Mercury 2)</option>
           <option value="custom"    {% if config.provider == 'custom' %}selected{% endif %}>Custom (any OpenAI-compatible endpoint)</option>
+          <optgroup label="Official APIs (real API formats, BYOK or shared key)">
+            <option value="agnes"     {% if config.provider == 'agnes' %}selected{% endif %}>Agnes 2.0 Flash (Sapiens AI — currently free)</option>
+            <option value="openai"    {% if config.provider == 'openai' %}selected{% endif %}>OpenAI (ChatGPT official API)</option>
+            <option value="anthropic" {% if config.provider == 'anthropic' %}selected{% endif %}>Anthropic (Claude official API)</option>
+            <option value="gemini"    {% if config.provider == 'gemini' %}selected{% endif %}>Google Gemini (official API)</option>
+            <option value="deepseek"  {% if config.provider == 'deepseek' %}selected{% endif %}>DeepSeek (official API)</option>
+          </optgroup>
         </select>
         <p style="font-size:0.75rem;color:var(--md-on-surface-variant);margin:4px 0 0;" id="id_provider_help">
           Choose which AI backend powers the Neby bot. You can switch at any time.
@@ -179,7 +186,71 @@
   ];
   let QWEN_MODELS = QWEN_FALLBACK;
 
+  const OFFICIAL_NOTE = 'Called through the official API format (api.llm). Paste your own key, or leave the key row empty to fall back to a server key if the admin set one.';
   const PROVIDER_CONFIG = {
+    agnes: {
+      urlLabel: 'Base URL',
+      urlHelp: 'Agnes AI API base (leave default). ' + OFFICIAL_NOTE,
+      urlDefault: 'https://apihub.agnes-ai.com/v1',
+      modelControl: 'select',
+      modelHelp: 'Agnes is free during launch — great default for everyone.',
+      options: [
+        { value: 'agnes-2.0-flash', label: 'Agnes 2.0 Flash (512K ctx, free)' },
+      ],
+    },
+    openai: {
+      urlLabel: 'Base URL',
+      urlHelp: 'OpenAI API base (leave default). ' + OFFICIAL_NOTE,
+      urlDefault: 'https://api.openai.com/v1',
+      modelControl: 'select',
+      modelHelp: 'Pick an OpenAI model.',
+      options: [
+        { value: 'gpt-5.4-mini',  label: 'GPT-5.4 Mini (fast, cheap — default)' },
+        { value: 'gpt-5.4-nano',  label: 'GPT-5.4 Nano (cheapest)' },
+        { value: 'gpt-5.5',       label: 'GPT-5.5 (previous flagship)' },
+        { value: 'gpt-5.6-terra', label: 'GPT-5.6 Terra (balanced newest)' },
+        { value: 'gpt-5.6-sol',   label: 'GPT-5.6 Sol (strongest reasoning)' },
+        { value: 'gpt-5.6-luna',  label: 'GPT-5.6 Luna (budget newest)' },
+        { value: 'gpt-5.2-pro',   label: 'GPT-5.2 Pro (max accuracy, slow)' },
+      ],
+    },
+    anthropic: {
+      urlLabel: 'Base URL',
+      urlHelp: 'Anthropic API base (leave default). ' + OFFICIAL_NOTE,
+      urlDefault: 'https://api.anthropic.com',
+      modelControl: 'select',
+      modelHelp: 'Pick a Claude model.',
+      options: [
+        { value: 'claude-sonnet-5',  label: 'Claude Sonnet 5 (default)' },
+        { value: 'claude-opus-4-8',  label: 'Claude Opus 4.8 (agentic coding)' },
+        { value: 'claude-haiku-4-5', label: 'Claude Haiku 4.5 (fastest)' },
+        { value: 'claude-fable-5',   label: 'Claude Fable 5 (long agents)' },
+      ],
+    },
+    gemini: {
+      urlLabel: 'Base URL',
+      urlHelp: 'Google AI Studio Gemini API base (leave default). ' + OFFICIAL_NOTE,
+      urlDefault: 'https://generativelanguage.googleapis.com/v1beta',
+      modelControl: 'select',
+      modelHelp: 'Pick a Gemini model.',
+      options: [
+        { value: 'gemini-3.5-flash',       label: 'Gemini 3.5 Flash (default)' },
+        { value: 'gemini-3-flash-preview', label: 'Gemini 3 Flash (preview)' },
+        { value: 'gemini-2.5-flash',       label: 'Gemini 2.5 Flash (stable)' },
+        { value: 'gemini-2.5-pro',         label: 'Gemini 2.5 Pro (stable)' },
+      ],
+    },
+    deepseek: {
+      urlLabel: 'Base URL',
+      urlHelp: 'DeepSeek API base (leave default). ' + OFFICIAL_NOTE,
+      urlDefault: 'https://api.deepseek.com/v1',
+      modelControl: 'select',
+      modelHelp: 'Pick a DeepSeek model.',
+      options: [
+        { value: 'deepseek-chat',     label: 'DeepSeek Chat / V3 (default)' },
+        { value: 'deepseek-reasoner', label: 'DeepSeek Reasoner / R1' },
+      ],
+    },
     qwen: {
       urlLabel: 'API URL',
       urlHelp: 'Qwen endpoint (leave default).',
