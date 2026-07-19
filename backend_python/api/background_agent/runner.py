@@ -12,7 +12,7 @@ from dataclasses import dataclass
 from django.conf import settings
 
 from api.background_agent.attachments import mark_qwen_files_sent, qwen_files_for_iteration
-from api.background_agent.context import build_snapshot, compact_if_needed
+from api.background_agent.context import build_snapshot, compact_if_needed, compact_now
 from api.background_agent.events import add_message, emit, store_prompt
 from api.background_agent.labels import tool_label
 from api.background_agent.workspace import GitWorkspace, ToolExecutor, WorkspaceError
@@ -45,14 +45,13 @@ Response schema:
     {"tool": "move_file", "arguments": {"source": "a", "destination": "b"}},
     {"tool": "create_directory", "arguments": {"path": "lib/util"}},
     {"tool": "run_command", "arguments": {"argv": ["python", "-m", "pytest"], "cwd": ".", "timeout": 300}},
+    {"tool": "update_plan", "arguments": {"todos": [{"content": "single concrete step", "status": "pending|in_progress|completed"}], "explanation": "optional note for the operator"}},
     {"tool": "git_status", "arguments": {}},
     {"tool": "git_diff", "arguments": {}},
     {"tool": "git_log", "arguments": {"limit": 20}},
-    {"tool": "git_stage", "arguments": {"paths": ["src/app.py"]}},
-    {"tool": "git_commit", "arguments": {"message": "concise conventional message"}},
-    {"tool": "git_push", "arguments": {"branch": "nebians-agent/..."}},
     {"tool": "git_pull", "arguments": {}},
-    {"tool": "git_restore", "arguments": {"paths": ["src/app.py"], "staged": false}}
+    {"tool": "git_restore", "arguments": {"paths": ["src/app.py"], "staged": false}},
+    {"tool": "git_push", "arguments": {"branch": "nebians-agent/..."}}
   ],
   "final": "set ONLY when the goal is genuinely complete; summarize the implementation and validation",
   "needs_input": false,
@@ -73,6 +72,15 @@ Rules:
 - There is no iteration budget. Work iteratively until the goal is truly complete, then set "final". If you genuinely need a decision from the operator, set "needs_input": true with no actions.
 - If the user interrupts with a follow-up, treat the newest user message as a higher-priority refinement unless it conflicts with repository security.
 - You are running through Qwen 3.7 Plus. Use the supplied attachments and anchored context as authoritative inputs.
+
+Planning (update_plan):
+- For any goal that needs more than ~3 steps, call update_plan as your FIRST action with the full step list, then keep it live: exactly one item marked "in_progress", items flipped to "completed" as soon as they are done, and an updated update_plan call whenever the plan changes.
+- Every plan item must be "completed" before you set "final".
+
+Git policy:
+- Never call git_commit or git_stage. The server stages all changes and records your commit messages, then creates ONE single consolidated commit automatically when you call git_push (or when the task completes). Multiple commits per task are not allowed.
+- Call git_push exactly ONCE per task, only when the work is finished and validated. If you set "final" in the same response, place git_push in actions AND still set "final" — both are honored.
+- If you catch yourself repeating the same analysis or the same action sequence without new information, stop: either change your approach materially or set needs_input so the operator can unblock you.
 '''.strip()
 
 
@@ -98,6 +106,20 @@ class BackgroundAgentRunner:
         self.session = session
         self.workspace = GitWorkspace(session.project, session)
         self.tools = ToolExecutor(self.workspace)
+        # Deferred-commit bookkeeping: the model's git_commit calls are staged
+        # and their messages queued here; one consolidated commit materializes
+        # on git_push / completion.
+        self._pending_commit_messages: list[str] = []
+        # Anti-loop guard: count consecutive identical reasoning blocks.
+        self._last_signature = ''
+        self._signature_repeats = 0
+        try:
+            restored = json.loads(session.agent_state or '{}')
+            pending = restored.get('pendingCommits')
+            if isinstance(pending, list):
+                self._pending_commit_messages = [str(item)[:200] for item in pending if item][-12:]
+        except (TypeError, json.JSONDecodeError):
+            pass
 
     def run(self):
         try:
@@ -133,7 +155,7 @@ class BackgroundAgentRunner:
         # input, is paused/stopped, or hits an unrecoverable error.
         while True:
             self._check_control()
-            self.session.refresh_from_db(fields=['control_state', 'status', 'iteration'])
+            self.session.refresh_from_db(fields=['control_state', 'status', 'iteration', 'compact_requested_at'])
             iteration = self.session.iteration + 1
             prompt = self._build_prompt(iteration)
             file_paths, qwen_attachments = qwen_files_for_iteration(self.session)
@@ -145,6 +167,7 @@ class BackgroundAgentRunner:
             emit(self.session, 'model.requested', f'Calling Qwen 3.7 Plus for iteration {iteration}', {
                 'model': 'qwen3.7-plus', 'attachmentCount': len(file_paths),
             })
+            model_started = time.monotonic()
             raw = self._call_provider(prompt, file_paths=file_paths)
             mark_qwen_files_sent(qwen_attachments, iteration)
             parsed = parse_model_response(raw)
@@ -169,43 +192,90 @@ PRIOR OUTPUT
 '''
                 raw = self._call_provider(repair_prompt)
                 parsed = parse_model_response(raw)
-            add_message(self.session, 'assistant', parsed.thought or parsed.final or 'Agent response received', {
-                'iteration': iteration,
-                'raw': raw[:500000],
-                'summary': parsed.summary,
-                'needsInput': parsed.needs_input,
-                'filePaths': file_paths or [],
-                'formatRetries': format_retries_used,
-            })
+            duration_ms = int((time.monotonic() - model_started) * 1000)
+            self._record_messages(parsed, iteration, raw, file_paths, format_retries_used, duration_ms)
+
+            # Anti-loop guard: an identical reasoning block three iterations in
+            # a row means the agent is stuck re-answering the same prompt.
+            signature = re.sub(r'\s+', ' ', (parsed.thought or '').strip().lower())[:1500]
+            if signature and signature == self._last_signature:
+                self._signature_repeats += 1
+            elif signature:
+                self._signature_repeats = 0
+                self._last_signature = signature
+
             self.session.iteration = iteration
             self.session.agent_state = json.dumps({
                 'summary': parsed.summary,
                 'lastThought': parsed.thought,
                 'lastIteration': iteration,
+                'pendingCommits': self._pending_commit_messages[-12:],
             }, ensure_ascii=False)
             self.session.updated_at = now_ms()
             self.session.save(update_fields=['iteration', 'agent_state', 'updated_at'])
 
             if parsed.actions:
                 self._run_actions(parsed.actions[:_MAX_ACTIONS_PER_TURN], iteration)
-                continue
 
+            # A response may carry BOTH actions and "final" (e.g. "commit, push,
+            # done") — always honor final after the actions instead of looping.
             if parsed.final:
                 self._complete(parsed.final)
                 return
 
+            if self._signature_repeats >= 3:
+                self._set_status('waiting', self.session.progress, 'Paused — repeated reasoning detected')
+                emit(
+                    self.session,
+                    'session.waiting',
+                    'The agent repeated the same reasoning several times without new information. '
+                    'Send a clarifying message (or /compact) to unblock it.',
+                )
+                return
+
+            if parsed.actions:
+                continue
+
             self._set_status('waiting', self.session.progress, 'Waiting for clarification')
             emit(self.session, 'session.waiting', parsed.thought or 'The agent needs additional direction')
             return
+
+    def _record_messages(self, parsed: ParsedResponse, iteration: int, raw: str, file_paths, format_retries_used: int, duration_ms: int):
+        """Store the model turn: reasoning as a collapsible thought, the answer separately."""
+        base = {
+            'iteration': iteration,
+            'raw': raw[:500000],
+            'summary': parsed.summary,
+            'needsInput': parsed.needs_input,
+            'filePaths': file_paths or [],
+            'formatRetries': format_retries_used,
+            'durationMs': duration_ms,
+        }
+        if parsed.thought:
+            add_message(self.session, 'assistant', parsed.thought, {**base, 'kind': 'thought'})
+            if parsed.final:
+                add_message(self.session, 'assistant', parsed.final, {'iteration': iteration, 'kind': 'final'})
+        elif parsed.final:
+            add_message(self.session, 'assistant', parsed.final, {**base, 'kind': 'final'})
+        else:
+            add_message(self.session, 'assistant', 'Agent response received', {**base, 'kind': 'assistant'})
 
     def _run_actions(self, actions, iteration):
         for index, action in enumerate(actions, 1):
             self._check_control()
             tool_name = (action.get('tool') or 'unknown').strip()
             arguments = action.get('arguments') or {}
-            result = self.tools.execute(action)
+            if tool_name == 'git_commit':
+                # Consolidation policy: never create individual commits mid-task.
+                result = self._defer_commit(arguments.get('message'))
+            elif tool_name == 'git_push':
+                result = self._push_once(arguments)
+            elif tool_name == 'update_plan':
+                result = self._update_plan(arguments)
+            else:
+                result = self.tools.execute(action)
             ok = bool(result.get('ok', False))
-            label = tool_label(tool_name, arguments, ok=ok)
+            label = result.pop('label', None) or tool_label(tool_name, arguments, ok=ok)
             compact = self._compact_result(result)
             add_message(self.session, 'tool', compact, {
                 'iteration': iteration,
@@ -222,6 +292,107 @@ PRIOR OUTPUT
                 {'iteration': iteration, 'index': index, 'tool': tool_name, 'label': label, 'ok': ok,
                  'error': result.get('error', '')[:1000]},
             )
+
+    # ------------------------------------------------------------------
+    # Deferred-commit policy: exactly ONE consolidated commit per task.
+    # ------------------------------------------------------------------
+
+    def _worktree_dirty(self) -> bool:
+        return bool(self.workspace.git('status', '--short').get('stdout', '').strip())
+
+    def _defer_commit(self, message):
+        text = (message or '').strip()
+        if text and text not in self._pending_commit_messages:
+            self._pending_commit_messages.append(text[:200])
+        dirty = self._worktree_dirty()
+        if dirty:
+            self.workspace.stage()
+        return {
+            'ok': True,
+            'tool': 'git_commit',
+            'label': f'Staged · {(text or "changes")[:56]} (auto-commit at delivery)',
+            'result': {
+                'deferred': True,
+                'staged': dirty,
+                'pendingCommits': len(self._pending_commit_messages),
+                'note': 'Commits are consolidated: a single commit is created automatically when you git_push and at task completion. Keep working; do not commit again.',
+            },
+        }
+
+    def _push_once(self, arguments):
+        sha = self._materialize_commit()
+        branch = (arguments or {}).get('branch') or ''
+        result = self.tools.execute({'tool': 'git_push', 'arguments': {'branch': branch}})
+        if sha and result.get('ok'):
+            inner = result.setdefault('result', {})
+            if isinstance(inner, dict):
+                inner['commit'] = sha
+        return result
+
+    def _materialize_commit(self) -> str:
+        """Create the single consolidated commit from queued messages, if dirty."""
+        if not self._worktree_dirty():
+            self._pending_commit_messages.clear()
+            return ''
+        subject = (
+            self._pending_commit_messages[0]
+            if self._pending_commit_messages
+            else (self.session.title or self.session.goal or 'Background agent changes')
+        ).strip()[:180]
+        extras = [item for item in self._pending_commit_messages[1:5] if item and item != subject]
+        message = subject if not extras else subject + '\n\n' + '\n'.join(f'- {item}' for item in extras)
+        self._pending_commit_messages.clear()
+        try:
+            sha = self.workspace.commit(message)
+        except WorkspaceError as exc:
+            emit(self.session, 'git.commit_failed', str(exc)[:400])
+            return ''
+        if sha:
+            emit(self.session, 'git.committed', f'Created one consolidated commit {sha[:10]}', {'sha': sha, 'message': message[:400]})
+        return sha
+
+    # ------------------------------------------------------------------
+    # Live task planning.
+    # ------------------------------------------------------------------
+
+    _TODO_STATUSES = ('pending', 'in_progress', 'completed')
+
+    def _update_plan(self, arguments):
+        raw_todos = (arguments or {}).get('todos')
+        if not isinstance(raw_todos, list):
+            return {'ok': False, 'tool': 'update_plan', 'error': 'update_plan requires a "todos" array'}
+        todos = []
+        for item in raw_todos[:24]:
+            if not isinstance(item, dict):
+                continue
+            content = str(item.get('content') or '').strip()[:220]
+            if not content:
+                continue
+            status = str(item.get('status') or 'pending').strip().lower()
+            if status not in self._TODO_STATUSES:
+                status = 'pending'
+            todos.append({'content': content, 'status': status})
+        if not todos:
+            return {'ok': False, 'tool': 'update_plan', 'error': 'The todos array was empty after normalization'}
+        done = sum(1 for item in todos if item['status'] == 'completed')
+        self.session.todos_json = json.dumps(todos, ensure_ascii=False)
+        self.session.updated_at = now_ms()
+        self.session.save(update_fields=['todos_json', 'updated_at'])
+        explanation = str((arguments or {}).get('explanation') or '').strip()[:400]
+        emit(self.session, 'plan.updated', f'Plan updated — {done} of {len(todos)} done', {
+            'todos': todos, 'completed': done, 'total': len(todos), 'explanation': explanation,
+        })
+        if done == len(todos):
+            hint = 'Every plan item is complete. Validate the work, call git_push once to deliver, then set "final".'
+        else:
+            next_step = next((item['content'] for item in todos if item['status'] != 'completed'), '')
+            hint = f'Continue with: {next_step}' if next_step else ''
+        return {
+            'ok': True,
+            'tool': 'update_plan',
+            'label': f'Plan · {done}/{len(todos)} done',
+            'result': {'todos': todos, 'completed': done, 'total': len(todos), 'hint': hint},
+        }
 
     @staticmethod
     def _compact_result(result):
@@ -300,12 +471,27 @@ INITIAL REPOSITORY MAP
             state = json.loads(self.session.agent_state or '{}')
         except (TypeError, json.JSONDecodeError):
             state = {}
+        try:
+            state['todos'] = json.loads(self.session.todos_json or '[]')
+        except (TypeError, json.JSONDecodeError):
+            state['todos'] = []
         tree = ''
         if iteration == 1:
             tree_result = self.tools.list_files('.', depth=3, limit=600)
             tree = '\n'.join(tree_result['entries'])
         status = self.workspace.status()
         fixed = self._fixed_prompt(iteration, state, tree, status)
+        if self.session.compact_requested_at:
+            # Operator typed /compact — run the anchored compaction immediately,
+            # regardless of the automatic threshold.
+            compact_now(self.session, fixed, self._compact_call, manual=True)
+            self.session.compact_requested_at = 0
+            self.session.save(update_fields=['compact_requested_at'])
+            try:
+                state = json.loads(self.session.agent_state or '{}')
+                state['todos'] = json.loads(self.session.todos_json or '[]')
+            except (TypeError, json.JSONDecodeError):
+                pass
         compact_if_needed(self.session, fixed, self._compact_call)
         snapshot = build_snapshot(self.session, fixed)
         self.session.context_tokens_estimate = snapshot.estimated_tokens
@@ -327,6 +513,9 @@ Decide the next smallest set of high-value actions. Prefer edit_file/multi_edit 
     def _complete(self, final: str):
         self._check_control()
         self._heartbeat(95, 'Building diff and downloadable artifacts')
+        # Guarantee a single recorded commit exists even when the model never
+        # pushed (e.g. local-only delivery via patch/ZIP artifacts).
+        self._materialize_commit()
         diff = self.workspace.diff(max_chars=1_000_000)
         changed = self.workspace.changed_files()
         artifacts = self.workspace.build_artifacts()

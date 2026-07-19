@@ -105,19 +105,8 @@ def _split_for_compaction(rows: list[BackgroundAgentMessage], keep_tokens: int) 
     return rows[:split_index], rows[split_index:]
 
 
-def compact_if_needed(session: BackgroundAgentSession, fixed_prompt: str, compact_call) -> ContextSnapshot:
-    snapshot = build_snapshot(session, fixed_prompt)
-    session.context_tokens_estimate = snapshot.estimated_tokens
-    session.context_window_tokens = snapshot.window_tokens
-    session.save(update_fields=['context_tokens_estimate', 'context_window_tokens'])
-    if snapshot.estimated_tokens < snapshot.threshold_tokens:
-        return snapshot
-
-    rows = recent_rows(session)
-    old_rows, _ = _split_for_compaction(rows, max(6000, int(snapshot.window_tokens * 0.18)))
-    if not old_rows:
-        return snapshot
-
+def _run_compaction(session: BackgroundAgentSession, fixed_prompt: str, compact_call, old_rows, *, manual: bool) -> bool:
+    """Summarize old rows into the anchored summary. Returns True when it ran."""
     history = '\n\n'.join(_format_message(row, per_message_chars=30000) for row in old_rows)
     previous = session.context_summary or '(none)'
     prompt = f"""Update the anchored coding-session summary using the exact headings below.
@@ -133,15 +122,18 @@ Do not add headings, preambles, conclusions, or markdown fences outside this str
 {history}
 </conversation-history>
 """
-    emit(session, 'context.compacting', 'Context reached the compaction threshold', {
+    snapshot = build_snapshot(session, fixed_prompt)
+    emit(session, 'context.compacting', 'Manual compaction requested (/compact)' if manual else 'Context reached the compaction threshold', {
         'estimatedTokens': snapshot.estimated_tokens,
         'windowTokens': snapshot.window_tokens,
         'thresholdPercent': round(context_threshold() * 100),
         'messages': len(old_rows),
+        'manual': manual,
     })
     summary = (compact_call(COMPACTION_SYSTEM_PROMPT, prompt) or '').strip()
     if not summary:
-        return snapshot
+        emit(session, 'context.compact_failed', 'The summarizer returned an empty response; context was left unchanged', {'manual': manual})
+        return False
     session.context_summary = summary[:120000]
     session.context_compacted_at = old_rows[-1].created_at
     session.context_compactions += 1
@@ -149,10 +141,43 @@ Do not add headings, preambles, conclusions, or markdown fences outside this str
     session.save(update_fields=[
         'context_summary', 'context_compacted_at', 'context_compactions', 'last_compaction_at',
     ])
-    emit(session, 'context.compacted', 'Older context was compacted into an anchored summary', {
+    emit(session, 'context.compacted', 'Older context was compacted into an anchored summary' + (' (manual)' if manual else ''), {
         'compactions': session.context_compactions,
         'compactedThrough': session.context_compacted_at,
+        'manual': manual,
     })
+    snapshot = build_snapshot(session, fixed_prompt)
+    session.context_tokens_estimate = snapshot.estimated_tokens
+    session.context_window_tokens = snapshot.window_tokens
+    session.save(update_fields=['context_tokens_estimate', 'context_window_tokens'])
+    return True
+
+
+def compact_now(session: BackgroundAgentSession, fixed_prompt: str, compact_call, *, manual: bool = True) -> bool:
+    """Force an anchored compaction right now (the /compact command), ignoring the threshold."""
+    snapshot = build_snapshot(session, fixed_prompt)
+    rows = recent_rows(session)
+    old_rows, _ = _split_for_compaction(rows, max(6000, int(snapshot.window_tokens * 0.18)))
+    if len(old_rows) < 2:
+        emit(session, 'context.compact_skipped', 'Not enough accumulated history to compact yet', {'manual': manual, 'messages': len(rows)})
+        return False
+    return _run_compaction(session, fixed_prompt, compact_call, old_rows, manual=manual)
+
+
+def compact_if_needed(session: BackgroundAgentSession, fixed_prompt: str, compact_call) -> ContextSnapshot:
+    snapshot = build_snapshot(session, fixed_prompt)
+    session.context_tokens_estimate = snapshot.estimated_tokens
+    session.context_window_tokens = snapshot.window_tokens
+    session.save(update_fields=['context_tokens_estimate', 'context_window_tokens'])
+    if snapshot.estimated_tokens < snapshot.threshold_tokens:
+        return snapshot
+
+    rows = recent_rows(session)
+    old_rows, _ = _split_for_compaction(rows, max(6000, int(snapshot.window_tokens * 0.18)))
+    if not old_rows:
+        return snapshot
+
+    _run_compaction(session, fixed_prompt, compact_call, old_rows, manual=False)
     snapshot = build_snapshot(session, fixed_prompt)
     session.context_tokens_estimate = snapshot.estimated_tokens
     session.context_window_tokens = snapshot.window_tokens

@@ -46,6 +46,20 @@ def serialize_project(project):
     }
 
 
+def serialize_todos(session):
+    try:
+        todos = json.loads(getattr(session, 'todos_json', '') or '[]')
+    except (TypeError, json.JSONDecodeError):
+        return []
+    if not isinstance(todos, list):
+        return []
+    clean = []
+    for item in todos[:24]:
+        if isinstance(item, dict) and item.get('content'):
+            clean.append({'content': str(item['content'])[:220], 'status': str(item.get('status') or 'pending')})
+    return clean
+
+
 def serialize_session_summary(session):
     window = session.context_window_tokens or 131072
     return {
@@ -54,6 +68,7 @@ def serialize_session_summary(session):
         'repoFullName': session.project.repo_full_name,
         'title': session.title,
         'goal': session.goal[:2000],
+        'todos': serialize_todos(session),
         'sourceBranch': session.source_branch,
         'workBranch': session.work_branch,
         'status': session.status,

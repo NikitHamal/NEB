@@ -11,6 +11,7 @@ urlpatterns = [
     path('repositories/', mobile_api.repositories, name='bg_mobile_repositories'),
     path('branches/', mobile_api.branches, name='bg_mobile_branches'),
     path('projects/', mobile_api.projects, name='bg_mobile_projects'),
+    path('projects/<str:project_id>/settings/', mobile_api.project_settings, name='bg_mobile_project_settings'),
     path('sessions/', mobile_api.sessions, name='bg_mobile_sessions'),
     path('sessions/<str:session_id>/', mobile_api.session_detail, name='bg_mobile_session_detail'),
     path('sessions/<str:session_id>/events/', mobile_api.session_events, name='bg_mobile_session_events'),

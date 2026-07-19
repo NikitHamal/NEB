@@ -48,6 +48,7 @@ def tool_label(tool: str, arguments: dict | None = None, *, ok: bool = True) -> 
         'git_stage': lambda: f'Stage {_join_paths(a.get("paths"))}',
         'git_commit': lambda: f'Commit · {_short(a.get("message"), 56)}',
         'git_push': lambda: f'Push {_short(a.get("branch") or "HEAD")}',
+        'update_plan': lambda: f'Plan · {len(a.get("todos") or [])} steps',
         'git_pull': lambda: 'Pull',
         'git_restore': lambda: f'Restore {_join_paths(a.get("paths"))}',
     }
@@ -82,4 +83,5 @@ TOOL_VERBS = {
     'git_push': 'Push',
     'git_pull': 'Pull',
     'git_restore': 'Restore',
+    'update_plan': 'Plan',
 }

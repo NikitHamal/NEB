@@ -136,6 +136,40 @@ class GitHubClient:
         })
         return data[0] if isinstance(data, list) and data else None
 
+    # ---- GitHub Actions (used by CI auto-fix) ------------------------------
+
+    def list_workflow_runs(self, full_name: str, *, status_filter: str = 'failure', per_page: int = 5) -> list[dict]:
+        _validate_full_name(full_name)
+        data, _ = self._request('GET', f'/repos/{full_name}/actions/runs', params={
+            'status': status_filter,
+            'per_page': max(1, min(per_page, 30)),
+        })
+        if isinstance(data, dict):
+            return data.get('workflow_runs') or []
+        return []
+
+    def list_run_jobs(self, full_name: str, run_id: int, *, per_page: int = 50) -> list[dict]:
+        _validate_full_name(full_name)
+        data, _ = self._request('GET', f'/repos/{full_name}/actions/runs/{int(run_id)}/jobs', params={
+            'per_page': max(1, min(per_page, 100)),
+        })
+        if isinstance(data, dict):
+            return data.get('jobs') or []
+        return []
+
+    def get_job_log_text(self, full_name: str, job_id: int) -> str:
+        """Plain-text log of one job. GitHub answers with a 302 to a signed
+        URL — requests follows it and we return the raw log body."""
+        _validate_full_name(full_name)
+        response = self.session.get(
+            f'{self.base_url}/repos/{full_name}/actions/jobs/{int(job_id)}/logs',
+            timeout=60,
+            allow_redirects=True,
+        )
+        if response.status_code >= 400:
+            raise GitHubError(f'GitHub API {response.status_code}: unable to fetch job logs')
+        return response.text or ''
+
 
 def _validate_full_name(value: str) -> None:
     parts = (value or '').split('/')

@@ -116,6 +116,7 @@ def _project_data(project):
         'preferredBaseBranch': project.preferred_base_branch or project.default_branch,
         'private': project.is_private,
         'status': project.status,
+        'autofixEnabled': bool(getattr(project, 'autofix_enabled', True)),
         'lastSyncedAt': project.last_synced_at,
         'lastError': project.last_error,
         'createdAt': project.created_at,
@@ -188,12 +189,60 @@ def _artifact_data(session, request):
     return values
 
 
+def _todos_data(session):
+    try:
+        todos = json.loads(getattr(session, 'todos_json', '') or '[]')
+    except (TypeError, json.JSONDecodeError):
+        return []
+    if not isinstance(todos, list):
+        return []
+    clean = []
+    for item in todos[:24]:
+        if isinstance(item, dict) and item.get('content'):
+            clean.append({'content': str(item['content'])[:220], 'status': str(item.get('status') or 'pending')})
+    return clean
+
+
+def _request_compaction(session, source):
+    """Handle the /compact command from Zeus: run the anchored compaction at the next iteration."""
+    now = now_ms()
+    session.compact_requested_at = now
+    session.updated_at = now
+    update = ['compact_requested_at', 'updated_at']
+    queued = False
+    if session.status in ('paused', 'waiting'):
+        session.status = 'queued'
+        session.control_state = ''
+        session.progress_label = 'Queued for context compaction'
+        update += ['status', 'control_state', 'progress_label']
+        queued = True
+    session.save(update_fields=update)
+    message = add_message(session, 'user', '/compact', {'kind': 'command', 'command': 'compact', 'source': source})
+    if queued:
+        emit(session, 'session.resumed', 'Session queued for manual context compaction')
+    active = session.status in ('queued', 'preparing', 'running')
+    note = ('Older context will be summarized at the start of the next agent iteration.'
+            if active else 'Compaction will run when the session next resumes.')
+    emit(session, 'context.compact_requested', 'Manual context compaction requested', {
+        'queued': queued, 'status': session.status, 'source': source,
+    })
+    return _json({
+        'ok': True,
+        'message': _message_data(message),
+        'command': 'compact',
+        'queued': queued,
+        'note': note,
+        'status': session.status,
+    })
+
+
 def _session_data(session, request=None, detail=False):
     window = session.context_window_tokens or 131072
     data = {
         'id': str(session.id),
         'projectId': str(session.project_id),
         'repoFullName': session.project.repo_full_name,
+        'todos': _todos_data(session),
         'repoHtmlUrl': session.project.repo_html_url,
         'cloneUrl': session.project.clone_url,
         'title': session.title,
@@ -403,6 +452,25 @@ def projects(request):
 
 
 @csrf_exempt
+@require_POST
+@require_device
+def project_settings(request, project_id):
+    """Per-project automation settings. Currently: the CI auto-fix toggle."""
+    admin = _admin(request)
+    project = BackgroundAgentProject.objects.filter(admin_user=admin, pk=project_id).first()
+    if not project:
+        return _error('Project not found', 404, 'not_found')
+    try:
+        payload = json_body(request)
+        project.autofix_enabled = bool(payload.get('autofixEnabled', True))
+        project.updated_at = now_ms()
+        project.save(update_fields=['autofix_enabled', 'updated_at'])
+        return _json({'ok': True, 'project': _project_data(project)})
+    except ValueError as exc:
+        return _error(exc, 400)
+
+
+@csrf_exempt
 @require_http_methods(['GET', 'POST'])
 @require_device
 def sessions(request):
@@ -475,6 +543,8 @@ def session_message(request, session_id):
         uploads = request.FILES.getlist('files')
         if not content and not uploads:
             return _error('Add a message or attachment')
+        if content.lower() == '/compact' or content.lower().startswith('/compact '):
+            return _request_compaction(session, source='zeus')
         message = add_message(session, 'user', content or 'Review the attached files as additional task context.', {'kind': 'followup', 'source': 'zeus'})
         saved = save_uploads(session, message, uploads)
         if session.status in ('paused', 'waiting', 'failed', 'completed'):

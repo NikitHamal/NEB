@@ -1710,6 +1710,10 @@ class BackgroundAgentProject(models.Model):
     default_branch = models.CharField(max_length=255, default='main')
     preferred_base_branch = models.CharField(max_length=255, blank=True, default='')
     is_private = models.BooleanField(default=False)
+    autofix_enabled = models.BooleanField(
+        default=True,
+        help_text='When a GitHub Actions run fails for this repo, queue an agent session with the failing job log.',
+    )
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='new', db_index=True)
     mirror_path = models.TextField(blank=True, default='')
     last_synced_at = models.BigIntegerField(default=0)
@@ -1726,6 +1730,36 @@ class BackgroundAgentProject(models.Model):
         indexes = [
             models.Index(fields=['admin_user', '-updated_at'], name='bg_project_admin_updated_idx'),
             models.Index(fields=['status', '-updated_at'], name='bg_project_status_updated_idx'),
+        ]
+
+
+class BackgroundAgentAutofixRun(models.Model):
+    """Records a CI-failure-triggered auto-fix session for a project.
+
+    Guards double work: one session per failing workflow run, and one per
+    head SHA (a run re-triggered on the same commit is not fixed twice).
+    """
+    id = models.CharField(max_length=36, primary_key=True)
+    project = models.ForeignKey(BackgroundAgentProject, on_delete=models.CASCADE, related_name='autofix_runs')
+    run_id = models.BigIntegerField(default=0)
+    head_sha = models.CharField(max_length=64, blank=True, default='')
+    branch = models.CharField(max_length=255, blank=True, default='')
+    workflow_name = models.CharField(max_length=255, blank=True, default='')
+    session = models.ForeignKey(
+        'BackgroundAgentSession', on_delete=models.SET_NULL,
+        null=True, blank=True, related_name='autofix_origin'
+    )
+    created_at = models.BigIntegerField(default=0)
+
+    class Meta:
+        db_table = 'background_agent_autofix_runs'
+        ordering = ['-created_at']
+        constraints = [
+            models.UniqueConstraint(fields=['project', 'run_id'], name='uniq_bg_autofix_project_run'),
+        ]
+        indexes = [
+            models.Index(fields=['project', '-created_at'], name='bg_autofix_project_created_idx'),
+            models.Index(fields=['project', 'head_sha'], name='bg_autofix_project_sha_idx'),
         ]
 
 
@@ -1762,6 +1796,10 @@ class BackgroundAgentSession(models.Model):
     context_compactions = models.PositiveIntegerField(default=0)
     context_compacted_at = models.BigIntegerField(default=0)
     last_compaction_at = models.BigIntegerField(default=0)
+    # Operator-requested manual compaction (/compact) — consumed by the runner.
+    compact_requested_at = models.BigIntegerField(default=0)
+    # Live task-plan checklist the agent maintains via the update_plan tool.
+    todos_json = models.TextField(blank=True, default='[]')
     summary = models.TextField(blank=True, default='')
     final_diff = models.TextField(blank=True, default='')
     changed_files = models.TextField(blank=True, default='[]')

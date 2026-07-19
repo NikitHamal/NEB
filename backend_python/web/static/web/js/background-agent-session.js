@@ -11,6 +11,7 @@
     iteration: BA.qs('#bs-iteration-label'), contextBar: BA.qs('#bs-context-bar'), contextValue: BA.qs('#bs-context-value'), contextMeter: BA.qs('.ba-context-meter'),
     conversation: BA.qs('#bs-conversation'), pause: BA.qs('#bs-pause'), resume: BA.qs('#bs-resume'), stop: BA.qs('#bs-stop'), refresh: BA.qs('#bs-refresh'),
     followup: BA.qs('#bs-followup'), send: BA.qs('#bs-send'), attach: BA.qs('#bs-attach'), fileInput: BA.qs('#bs-file-input'), attachmentList: BA.qs('#bs-attachment-list'), followupWrap: BA.qs('#bs-followup-wrap'),
+    plan: BA.qs('#bs-plan'), planList: BA.qs('#bs-plan-list'), planCount: BA.qs('#bs-plan-count'), compact: BA.qs('#bs-compact'),
     fileCount: BA.qs('#bs-file-count'), diffSummary: BA.qs('#bs-diff-summary'), stackedDiff: BA.qs('#bs-stacked-diff'), copyDiff: BA.qs('#bs-copy-diff'),
     fileList: BA.qs('#bs-file-list'), fileSearch: BA.qs('#bs-file-search'), refreshFiles: BA.qs('#bs-refresh-files'), viewerIcon: BA.qs('#bs-viewer-icon'), viewerName: BA.qs('#bs-viewer-name'), viewerMeta: BA.qs('#bs-viewer-meta'), viewerContent: BA.qs('#bs-viewer-content'),
     downloads: BA.qs('#bs-download-actions'), push: BA.qs('#bs-push'), openPr: BA.qs('#bs-open-pr'), actions: BA.qs('#bs-action-history'), tests: BA.qs('#bs-test-summary'),
@@ -49,6 +50,7 @@
     if (current.changedFiles) els.fileCount.textContent = current.changedFiles.length;
     if (current.artifacts) renderArtifacts(current.artifacts);
     if (current.actions) renderActions(current.actions);
+    if (current.todos) renderPlan(current.todos);
     if (current.summary && current.status === 'completed') renderSummary(current.summary);
     if (previousStatus !== current.status && current.status === 'completed') { loadDetail(); loadFiles(); }
     var lifecycleArchive = BA.qs('[data-session-action="archive"], [data-session-action="restore"]', els.moreMenu);
@@ -69,7 +71,52 @@
     if (!existing) { existing = document.createElement('div'); existing.className = 'ba-summary-card'; existing.dataset.finalSummary = 'true'; existing.innerHTML = '<strong>Task completed</strong><p></p>'; els.conversation.appendChild(existing); }
     existing.querySelector('p').textContent = summary;
   }
+  function renderPlan(todos) {
+    if (!els.plan) return;
+    var clean = (todos || []).filter(function (todo) { return todo && todo.content; });
+    els.plan.hidden = !clean.length;
+    els.planList.innerHTML = '';
+    if (!clean.length) return;
+    var done = clean.filter(function (todo) { return todo.status === 'completed'; }).length;
+    els.planCount.textContent = done + '/' + clean.length;
+    clean.forEach(function (todo) {
+      var li = document.createElement('li');
+      li.className = 'ba-plan-item ' + (todo.status || 'pending');
+      var icon = todo.status === 'completed' ? 'check_circle' : (todo.status === 'in_progress' ? 'play_circle' : 'radio_button_unchecked');
+      li.innerHTML = '<span class="material-symbols-outlined">' + icon + '</span><span></span>';
+      li.children[1].textContent = todo.content;
+      els.planList.appendChild(li);
+    });
+  }
+  function thoughtNode(message) {
+    var meta = message.metadata || {};
+    var wrapper = document.createElement('div'); wrapper.className = 'ba-thought-wrap';
+    var detail = document.createElement('details'); detail.className = 'ba-thought';
+    var ms = Number(meta.durationMs || 0);
+    var secs = ms > 0 ? Math.max(1, Math.round(ms / 1000)) : 0;
+    var label = 'Thought for ' + (secs ? secs + ' second' + (secs === 1 ? '' : 's') : 'a moment');
+    var summary = document.createElement('summary');
+    summary.innerHTML = '<span class="material-symbols-outlined">psychology</span><span></span><span class="material-symbols-outlined ba-thought-chevron">chevron_right</span>';
+    summary.children[1].textContent = label;
+    var body = document.createElement('div'); body.className = 'ba-thought-body';
+    body.innerHTML = BA.renderMarkdown(message.content || '');
+    detail.append(summary, body); wrapper.appendChild(detail); return wrapper;
+  }
+  function commandNode(message) {
+    var node = document.createElement('div'); node.className = 'ba-command-event';
+    node.innerHTML = '<span class="material-symbols-outlined">terminal</span><span></span>';
+    var note = message.metadata && message.metadata.command === 'compact'
+      ? ' — context compaction will run at the start of the next iteration' : '';
+    node.children[1].textContent = (message.content || 'Command') + note;
+    return node;
+  }
   function messageNode(message) {
+    if (message.role === 'assistant' && message.metadata && message.metadata.kind === 'thought') {
+      return thoughtNode(message);
+    }
+    if (message.role === 'user' && message.metadata && message.metadata.kind === 'command') {
+      return commandNode(message);
+    }
     if (message.role === 'tool') {
       var wrapper = document.createElement('div'); wrapper.className = 'ba-message tool';
       var detail = document.createElement('details'); detail.className = 'ba-tool-event ' + (message.metadata?.ok === false ? 'error' : 'ok');
@@ -105,13 +152,14 @@
     if (!event || Number(event.id || 0) <= state.lastEvent) return;
     state.lastEvent = Math.max(state.lastEvent, Number(event.id || 0));
     if (event.type === 'message.created' && event.payload?.message) { addMessage(event.payload.message, false); return; }
-    if (['model.requested', 'model.retrying', 'model.format_retry', 'context.compacting', 'context.compacted', 'workspace.ready', 'session.paused', 'session.resumed', 'session.waiting', 'session.failed', 'session.cancelled'].includes(event.type)) {
+    if (['model.requested', 'model.retrying', 'model.format_retry', 'context.compacting', 'context.compacted', 'context.compact_requested', 'context.compact_skipped', 'context.compact_failed', 'git.committed', 'workspace.ready', 'session.paused', 'session.resumed', 'session.waiting', 'session.failed', 'session.cancelled'].includes(event.type)) {
       var node = document.createElement('div'); node.className = 'ba-system-event'; node.textContent = event.message || statusLabel(event.type); els.conversation.appendChild(node); scrollBottom(false);
     }
     if (event.type === 'tool.executed' || event.type === 'tool.failed') {
       var tool = event.payload?.tool || '';
       if (['write_file', 'edit_file', 'multi_edit', 'apply_patch', 'delete_file', 'copy_file', 'move_file', 'git_restore'].includes(tool)) scheduleDetailRefresh();
     }
+    if (event.type === 'plan.updated' && event.payload && Array.isArray(event.payload.todos)) renderPlan(event.payload.todos);
     if (event.type === 'session.completed') scheduleDetailRefresh(true);
   }
   function renderDiff() {
@@ -221,8 +269,21 @@
   async function sendFollowup() {
     var content = els.followup.value.trim(); var files = attachments.files(); if (!content && !files.length) return;
     var form = new FormData(); form.append('content', content); form.append('resume', 'true'); files.forEach(function (file) { form.append('files', file, file.name); }); setButtonBusy(els.send, true);
-    try { var data = await BA.api(root.dataset.messageUrl, { method: 'POST', body: form }); addMessage(data.message, false); els.followup.value = ''; attachments.clear(); await pollEvents(); }
+    try {
+      var data = await BA.api(root.dataset.messageUrl, { method: 'POST', body: form });
+      addMessage(data.message, false); els.followup.value = ''; attachments.clear();
+      if (data.command === 'compact' && data.note) BA.toast(data.note, 'success');
+      await pollEvents();
+    }
     catch (error) { BA.toast(error.message, 'error'); } finally { setButtonBusy(els.send, false); }
+  }
+  async function requestCompact() {
+    try {
+      var data = await BA.json(root.dataset.messageUrl, { content: '/compact' });
+      if (data.message) addMessage(data.message, false);
+      BA.toast(data.note || 'Context compaction requested.', 'success');
+      await pollEvents();
+    } catch (error) { BA.toast(error.message, 'error'); }
   }
   async function control(command) { try { var data = await BA.json(root.dataset.controlUrl, { command: command }); updateSession(data.session); } catch (error) { BA.toast(error.message, 'error'); } }
   async function action(name, button) { setButtonBusy(button, true); try { await BA.json(root.dataset.actionUrl, { action: name }); BA.toast(name === 'open_pr' ? 'Pull request queued.' : 'Action queued.', 'success'); await pollEvents(); } catch (error) { BA.toast(error.message, 'error'); } finally { setButtonBusy(button, false); } }
@@ -243,7 +304,7 @@
 
   BA.qsa('[data-review-tab]').forEach(function (button) { button.addEventListener('click', function () { openReviewTab(button.dataset.reviewTab); }); });
   els.more.addEventListener('click', function (event) { event.stopPropagation(); var opening = els.moreMenu.hidden; els.moreMenu.hidden = !opening; els.more.setAttribute('aria-expanded', opening ? 'true' : 'false'); });
-  els.moreMenu.addEventListener('click', function (event) { var exportBtn = event.target.closest('#bs-export'); if (exportBtn) { els.moreMenu.hidden = true; els.more.setAttribute('aria-expanded', 'false'); window.open(root.dataset.exportUrl, '_blank'); return; } var button = event.target.closest('[data-session-action]'); if (!button) return; els.moreMenu.hidden = true; els.more.setAttribute('aria-expanded', 'false'); openLifecycleDialog(button.dataset.sessionAction); });
+  els.moreMenu.addEventListener('click', function (event) { var exportBtn = event.target.closest('#bs-export'); if (exportBtn) { els.moreMenu.hidden = true; els.more.setAttribute('aria-expanded', 'false'); window.open(root.dataset.exportUrl, '_blank'); return; } var compactBtn = event.target.closest('#bs-compact'); if (compactBtn) { els.moreMenu.hidden = true; els.more.setAttribute('aria-expanded', 'false'); requestCompact(); return; } var button = event.target.closest('[data-session-action]'); if (!button) return; els.moreMenu.hidden = true; els.more.setAttribute('aria-expanded', 'false'); openLifecycleDialog(button.dataset.sessionAction); });
   document.addEventListener('click', function (event) { if (!event.target.closest('.ba-session-command-menu-wrap')) { els.moreMenu.hidden = true; els.more.setAttribute('aria-expanded', 'false'); } });
   els.lifecycleCancel.addEventListener('click', function () { els.lifecycleDialog.close(); });
   els.lifecycleConfirm.addEventListener('click', applyLifecycle);
