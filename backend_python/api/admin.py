@@ -4,7 +4,7 @@ Accessible at /admin-django/ after creating a superuser. The public custom admin
 """
 from django.contrib import admin
 from .models import User, Resource, Post, Reply, PostLike, ReplyLike, FCMToken, UserPhoto, Follow, EditHistory, Report, BotConfig, TakedownRequest, SyllabusContent
-from .models import ResourceComment, ResourceLike, ResourceCommentLike
+from .models import ResourceComment, ResourceLike, ResourceCommentLike, BlogComment, BlogCommentLike
 
 
 @admin.register(User)
@@ -111,6 +111,19 @@ class TakedownRequestAdmin(admin.ModelAdmin):
     search_fields = ['name', 'email', 'organization', 'infringing_url', 'proof_of_ownership']
     list_filter = ['status']
     raw_id_fields = ['resolved_by']
+
+
+@admin.register(BlogComment)
+class BlogCommentAdmin(admin.ModelAdmin):
+    list_display = ['author', 'announcement', 'text', 'like_count', 'reply_count', 'created_at']
+    search_fields = ['author__username', 'text']
+    list_filter = ['created_at']
+
+
+@admin.register(BlogCommentLike)
+class BlogCommentLikeAdmin(admin.ModelAdmin):
+    list_display = ['user', 'comment']
+    search_fields = ['user__username']
 
 
 @admin.register(SyllabusContent)

@@ -1,0 +1,178 @@
+{% load web_extras %}
+{% if top_level_replies %}
+<div style="display:flex;flex-direction:column;gap:10px;">
+  {% for reply in top_level_replies %}
+  <div class="fp-reply" id="comment-card-{{ reply.id }}">
+    <div class="fp-reply-header">
+      <div class="fp-reply-avatar">
+        {% if reply.authorPhotoUrl %}
+          <img src="{{ reply.authorPhotoUrl }}" alt="" data-fallback="flex">
+          <span class="fp-reply-avatar-letter" style="display:none;">{{ reply.authorName|truncate_chars:1|default:"?" }}</span>
+        {% else %}
+          <span class="fp-reply-avatar-letter">{{ reply.authorName|truncate_chars:1|default:"?" }}</span>
+        {% endif %}
+      </div>
+      <div class="fp-reply-meta">
+        <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+          <a href="{% url 'web:profile' username=reply.authorName %}" class="fp-reply-author">{{ reply.authorName }}</a>
+          {% if reply.authorBadgeInfo %}
+          <span class="role-badge role-badge-{{ reply.authorBadgeInfo.type }}" title="{{ reply.authorBadgeInfo.label }}"><span class="material-symbols-outlined">{{ reply.authorBadgeInfo.icon }}</span></span>
+          {% endif %}
+          {% if reply.isEdited %}<span style="font-size:.6875rem;color:var(--md-on-surface-variant);">&#183; edited</span>{% endif %}
+          {% if is_authenticated and reply.authorId and reply.authorId != user.id %}
+            <button class="follow-btn-inline {% if reply.isFollowed %}following{% else %}not-following{% endif %}" data-user-id="{{ reply.authorId }}" data-action="toggle-follow" data-user-id="{{ reply.authorId }}">{% if reply.isFollowed %}Following{% else %}Follow{% endif %}</button>
+          {% endif %}
+        </div>
+        <div class="fp-reply-time">{{ reply.createdAt|time_ago }}</div>
+      </div>
+      <div class="more-menu-wrapper">
+        <button class="more-btn" style="margin-left:auto;align-self:flex-start;" data-action="toggle-more-menu" data-menu-id="comment-menu-{{ reply.id }}" aria-label="More options"><span class="material-symbols-outlined">more_vert</span></button>
+        <div class="more-menu" id="comment-menu-{{ reply.id }}" style="display:none;" data-action="stop-propagation">
+          {% if is_authenticated %}
+          <button class="more-menu-item" data-action="toggle-bookmark" data-target-type="{{ comment_target_type }}" data-target-id="{{ reply.id }}">
+            <span class="material-symbols-outlined" id="bookmark-icon-comment-{{ reply.id }}"{% if reply.isBookmarked %} style="font-variation-settings:'FILL' 1"{% endif %}>bookmark</span>
+            <span id="bookmark-label-comment-{{ reply.id }}">{% if reply.isBookmarked %}Remove{% else %}Bookmark{% endif %}</span>
+          </button>
+          {% endif %}
+          <button class="more-menu-item" data-action="share-comment" data-comment-id="{{ reply.id }}">
+            <span class="material-symbols-outlined">share</span> Share
+          </button>
+          {% if is_authenticated and reply.authorId and reply.authorId != user.id %}
+          <button class="more-menu-item" data-action="report-content" data-target-type="{{ comment_target_type }}" data-target-id="{{ reply.id }}">
+            <span class="material-symbols-outlined">flag</span> Report
+          </button>
+          {% endif %}
+          {% if is_authenticated and reply.authorId == user.id %}
+          <div class="more-menu-divider"></div>
+          <button class="more-menu-item" data-action="edit-comment" data-comment-id="{{ reply.id }}">
+            <span class="material-symbols-outlined">edit</span> Edit
+          </button>
+          <button class="more-menu-item danger" data-action="delete-comment" data-comment-id="{{ reply.id }}">
+            <span class="material-symbols-outlined">delete</span> Delete
+          </button>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    <div class="fp-reply-body" id="comment-content-{{ reply.id }}">{{ reply.content|mention_links }}</div>
+    <div class="fp-reply-actions">
+      <button data-action="toggle-comment-like" data-comment-id="{{ reply.id }}" class="fp-reply-action {% if reply.isThumbedUp %}liked{% endif %}" id="comment-like-btn-{{ reply.id }}">
+        <span class="material-symbols-outlined">thumb_up</span>
+        <span id="comment-like-count-{{ reply.id }}">{{ reply.thumbsUpCount }}</span>
+      </button>
+      {% if is_authenticated %}
+      <button class="fp-reply-action" data-action="reply-to-comment" data-comment-id="{{ reply.id }}" data-author-name="{{ reply.authorName|escapejs }}">
+        <span class="material-symbols-outlined">reply</span> Reply
+      </button>
+      <span class="fp-action-spacer"></span>
+      <button class="fp-reply-action {% if reply.isBookmarked %}bookmark-active{% endif %}" data-action="toggle-bookmark" data-target-type="{{ comment_target_type }}" data-target-id="{{ reply.id }}" id="comment-bookmark-btn-{{ reply.id }}">
+        <span class="material-symbols-outlined">bookmark</span>
+      </button>
+      <button class="fp-reply-action" data-action="share-comment" data-comment-id="{{ reply.id }}">
+        <span class="material-symbols-outlined">share</span>
+      </button>
+      {% endif %}
+    </div>
+
+    {% with children=children_map|dict_get:reply.id %}
+    {% if children %}
+    <div class="fp-comment-children" id="comment-children-{{ reply.id }}" style="margin-left:20px;padding-left:12px;border-left:2px solid var(--md-outline-variant);margin-top:8px;">
+      {% for child in children %}
+      <div class="fp-reply" id="comment-card-{{ child.id }}" style="margin-bottom:6px;">
+        <div class="fp-reply-header">
+          <div class="fp-reply-avatar" style="width:28px;height:28px;">
+            {% if child.authorPhotoUrl %}
+              <img src="{{ child.authorPhotoUrl }}" alt="" data-fallback="flex" style="width:28px;height:28px;">
+              <span class="fp-reply-avatar-letter" style="display:none;font-size:.6rem;">{{ child.authorName|truncate_chars:1|default:"?" }}</span>
+            {% else %}
+              <span class="fp-reply-avatar-letter" style="font-size:.6rem;">{{ child.authorName|truncate_chars:1|default:"?" }}</span>
+            {% endif %}
+          </div>
+          <div class="fp-reply-meta">
+            <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+              <a href="{% url 'web:profile' username=child.authorName %}" class="fp-reply-author" style="font-size:.75rem;">{{ child.authorName }}</a>
+              {% if child.authorBadgeInfo %}
+              <span class="role-badge role-badge-{{ child.authorBadgeInfo.type }}" style="transform:scale(.8);" title="{{ child.authorBadgeInfo.label }}"><span class="material-symbols-outlined">{{ child.authorBadgeInfo.icon }}</span></span>
+              {% endif %}
+              {% if child.isEdited %}<span style="font-size:.6875rem;color:var(--md-on-surface-variant);">&#183; edited</span>{% endif %}
+            </div>
+            <div class="fp-reply-time">{{ child.createdAt|time_ago }}</div>
+          </div>
+          <div class="more-menu-wrapper">
+            <button class="more-btn" style="margin-left:auto;align-self:flex-start;" data-action="toggle-more-menu" data-menu-id="comment-menu-{{ child.id }}" aria-label="More options"><span class="material-symbols-outlined">more_vert</span></button>
+            <div class="more-menu" id="comment-menu-{{ child.id }}" style="display:none;" data-action="stop-propagation">
+              {% if is_authenticated %}
+              <button class="more-menu-item" data-action="toggle-bookmark" data-target-type="{{ comment_target_type }}" data-target-id="{{ child.id }}">
+                <span class="material-symbols-outlined" id="bookmark-icon-comment-{{ child.id }}"{% if child.isBookmarked %} style="font-variation-settings:'FILL' 1"{% endif %}>bookmark</span>
+                <span id="bookmark-label-comment-{{ child.id }}">{% if child.isBookmarked %}Remove{% else %}Bookmark{% endif %}</span>
+              </button>
+              {% endif %}
+              <button class="more-menu-item" data-action="share-comment" data-comment-id="{{ child.id }}">
+                <span class="material-symbols-outlined">share</span> Share
+              </button>
+              {% if is_authenticated and child.authorId and child.authorId != user.id %}
+              <button class="more-menu-item" data-action="report-content" data-target-type="{{ comment_target_type }}" data-target-id="{{ child.id }}">
+                <span class="material-symbols-outlined">flag</span> Report
+              </button>
+              {% endif %}
+              {% if is_authenticated and child.authorId == user.id %}
+              <div class="more-menu-divider"></div>
+              <button class="more-menu-item" data-action="edit-comment" data-comment-id="{{ child.id }}">
+                <span class="material-symbols-outlined">edit</span> Edit
+              </button>
+              <button class="more-menu-item danger" data-action="delete-comment" data-comment-id="{{ child.id }}">
+                <span class="material-symbols-outlined">delete</span> Delete
+              </button>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        <div class="fp-reply-body" style="font-size:.8125rem;" id="comment-content-{{ child.id }}">{{ child.content|mention_links }}</div>
+        <div class="fp-reply-actions">
+          <button data-action="toggle-comment-like" data-comment-id="{{ child.id }}" class="fp-reply-action {% if child.isThumbedUp %}liked{% endif %}" id="comment-like-btn-{{ child.id }}">
+            <span class="material-symbols-outlined">thumb_up</span>
+            <span id="comment-like-count-{{ child.id }}">{{ child.thumbsUpCount }}</span>
+          </button>
+          {% if is_authenticated %}
+          <span class="fp-action-spacer"></span>
+          <button class="fp-reply-action {% if child.isBookmarked %}bookmark-active{% endif %}" data-action="toggle-bookmark" data-target-type="{{ comment_target_type }}" data-target-id="{{ child.id }}" id="comment-bookmark-btn-{{ child.id }}">
+            <span class="material-symbols-outlined">bookmark</span>
+          </button>
+          <button class="fp-reply-action" data-action="share-comment" data-comment-id="{{ child.id }}">
+            <span class="material-symbols-outlined">share</span>
+          </button>
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+
+    {% if reply.childCount > 0 and not children_map|dict_get:reply.id %}
+    <button class="fp-thread-indicator" data-action="toggle-thread" data-comment-id="{{ reply.id }}">
+      <div class="fp-thread-avatars">
+        {% for author in reply.childAuthors %}
+        <div class="fp-thread-avatar">
+          {% if author.photoUrl %}
+            <img src="{{ author.photoUrl }}" alt="" data-fallback="flex">
+            <span class="fp-thread-avatar-letter" style="display:none;">{{ author.username|truncate_chars:1|default:"?" }}</span>
+          {% else %}
+            <span class="fp-thread-avatar-letter">{{ author.username|truncate_chars:1|default:"?" }}</span>
+          {% endif %}
+        </div>
+        {% endfor %}
+      </div>
+      <span class="fp-thread-label">{% if reply.childCount > 9 %}9+{% else %}{{ reply.childCount }}{% endif %} repl{{ reply.childCount|pluralize:"y,ies" }}</span>
+      <span class="material-symbols-outlined" style="font-size:16px;margin-left:auto;">forum</span>
+    </button>
+    {% endif %}
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<div class="fp-empty">
+  <span class="material-symbols-outlined">chat_bubble_outline</span>
+  <p>No comments yet. Be the first!</p>
+</div>
+{% endif %}

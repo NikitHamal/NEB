@@ -681,41 +681,55 @@ def reader(request, resource_id):
             user_id=user_id, target_type='resource', target_id=resource_id
         ).exists()
 
-    # Load comments
+    # Load comments — serialize in forum-reply-compatible format
     comments_qs = ResourceComment.objects.select_related('user').filter(
         resource_id=resource_id
     ).order_by('created_at')
     comments_list = list(comments_qs)
     liked_comment_ids = set()
+    bookmarked_comment_ids = set()
     if user_id and comments_list:
         liked_comment_ids = set(ResourceCommentLike.objects.filter(
             comment_id__in=[c.id for c in comments_list], user_id=user_id
         ).values_list('comment_id', flat=True))
+        bookmarked_comment_ids = set(Bookmark.objects.filter(
+            user_id=user_id, target_type='resource_comment',
+            target_id__in=[c.id for c in comments_list]
+        ).values_list('target_id', flat=True))
     all_comments = []
     for c in comments_list:
+        parent_id = c.parent_comment_id or ''
         c_data = {
             'id': c.id,
-            'resourceId': c.resource_id,
             'authorId': c.user_id,
             'authorName': c.user.username if c.user else '',
-            'authorPhoto': c.user.photo_url if c.user else '',
-            'parentCommentId': c.parent_comment_id or '',
+            'authorPhotoUrl': c.user.photo_url if c.user else '',
+            'authorBadgeInfo': _user_badge_info(c.user) if c.user else None,
+            'parentReplyId': parent_id,
+            'parentCommentId': parent_id,
             'content': c.content,
-            'likeCount': c.like_count,
-            'replyCount': c.reply_count,
+            'thumbsUpCount': c.like_count,
+            'childCount': c.reply_count,
             'isEdited': c.is_edited,
             'createdAt': c.created_at,
-            'isLiked': c.id in liked_comment_ids,
-            'isOwner': (user_id and user_id == c.user_id),
+            'isThumbedUp': c.id in liked_comment_ids,
+            'isBookmarked': c.id in bookmarked_comment_ids,
+            'isOwner': bool(user_id and user_id == c.user_id),
+            'isFollowed': False,
+            'childAuthors': [],
         }
         all_comments.append(c_data)
 
     # Build tree: top-level and children
-    top_level_comments = [c for c in all_comments if not c['parentCommentId']]
+    top_level_replies = [c for c in all_comments if not c['parentReplyId']]
     children_map = {}
     for c in all_comments:
-        if c['parentCommentId']:
-            children_map.setdefault(c['parentCommentId'], []).append(c)
+        pid = c['parentReplyId']
+        if pid:
+            children_map.setdefault(pid, []).append(c)
+
+    # Collect usernames for @mention rendering
+    all_usernames = list(set(c['authorName'] for c in all_comments if c['authorName']))
 
     # Related resources (same subject, excluding this one)
     related = Resource.objects.filter(
@@ -744,9 +758,10 @@ def reader(request, resource_id):
         is_liked=is_liked,
         is_bookmarked=is_bookmarked,
         can_edit=can_edit,
-        comments=all_comments,
-        top_level_comments=top_level_comments,
+        top_level_replies=top_level_replies,
         children_map=children_map,
+        all_usernames=all_usernames,
+        comment_target_type='resource_comment',
         comment_count=resource_obj.comment_count,
         related_resources=related_resources,
         group_resources=group_resources,

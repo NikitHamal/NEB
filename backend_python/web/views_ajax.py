@@ -131,6 +131,36 @@ def ajax_delete_resource_comment(request, comment_id):
     return JsonResponse({'error': 'Permission denied or comment not found'}, status=403)
 
 @require_POST
+def ajax_like_blog_comment(request, comment_id):
+    user_id = _get_user_id(request)
+    if not user_id:
+        return JsonResponse({'error': 'Please log in again.'}, status=401)
+    try:
+        user = User.objects.get(pk=user_id)
+    except User.DoesNotExist:
+        return JsonResponse({'error': 'Please log in again.'}, status=401)
+    try:
+        result = services.toggle_blog_comment_like(user, comment_id)
+    except BlogComment.DoesNotExist:
+        return JsonResponse({'error': 'Comment not found'}, status=404)
+    return JsonResponse(result)
+
+@require_POST
+def ajax_delete_blog_comment(request, comment_id):
+    user_id = _get_user_id(request)
+    if not user_id:
+        return JsonResponse({'error': 'Please log in again.'}, status=401)
+    try:
+        user = User.objects.get(pk=user_id)
+    except User.DoesNotExist:
+        return JsonResponse({'error': 'Please log in again.'}, status=401)
+    is_admin = bool(user.is_admin)
+    ok = services.delete_blog_comment(user, comment_id, is_admin=is_admin)
+    if ok:
+        return JsonResponse({'success': True})
+    return JsonResponse({'error': 'Permission denied or comment not found'}, status=403)
+
+@require_POST
 def ajax_create_post(request):
     user_id = _get_user_id(request)
     if not user_id:
