@@ -752,6 +752,13 @@ class BotConfig(models.Model):
         ('deepai', 'DeepAI (deepai.org)'),
         ('inception', 'Inception Labs (Mercury 2)'),
         ('custom', 'Custom OpenAI-compatible endpoint'),
+        # Official API providers (handled through api.llm — real API formats,
+        # not the web scrapers above).
+        ('agnes', 'Agnes 2.0 Flash (Sapiens AI — official API, currently free)'),
+        ('openai', 'OpenAI (ChatGPT official API)'),
+        ('anthropic', 'Anthropic (Claude official API)'),
+        ('gemini', 'Google Gemini (official API)'),
+        ('deepseek', 'DeepSeek (official API)'),
     ]
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100, default='Neby', help_text='Display name shown in the admin panel.')
@@ -1800,6 +1807,13 @@ class BackgroundAgentSession(models.Model):
     compact_requested_at = models.BigIntegerField(default=0)
     # Live task-plan checklist the agent maintains via the update_plan tool.
     todos_json = models.TextField(blank=True, default='[]')
+    # LLM selection for this session. Empty llm_provider = legacy default
+    # (the shared Qwen web bot). Official presets ('agnes', 'openai',
+    # 'anthropic', 'gemini', 'deepseek') resolve per the api.llm registry;
+    # 'custom' + llm_provider_id refers to the user's own BYOK provider row.
+    llm_provider = models.CharField(max_length=40, blank=True, default='')
+    llm_model = models.CharField(max_length=200, blank=True, default='')
+    llm_provider_id = models.CharField(max_length=36, blank=True, default='')
     summary = models.TextField(blank=True, default='')
     final_diff = models.TextField(blank=True, default='')
     changed_files = models.TextField(blank=True, default='[]')
@@ -2008,4 +2022,50 @@ class BackgroundAgentDeviceToken(models.Model):
         indexes = [
             models.Index(fields=['admin_user', '-last_used_at'], name='bg_device_admin_used_idx'),
         ]
+
+
+class UserLLMProvider(models.Model):
+    """A user's personal LLM connection (BYOK).
+
+    Two shapes:
+      * `provider = 'custom'` — fully user-defined endpoint: any name, base
+        URL, API format and model list. Works for OpenRouter, Groq, Together,
+        Ollama (OpenAI-compatible), LM Studio, vLLM, company gateways, ...
+      * `provider = <preset slug>` ('agnes', 'openai', 'anthropic', 'gemini',
+        'deepseek') — the user's own key for a known official provider, which
+        overrides admin-shared and server-env credentials for that user.
+
+    Keys are AES-GCM encrypted at rest (api.llm.crypto) and never leave the
+    server — browsers/apps only ever see masked versions.
+    """
+    FORMAT_CHOICES = [
+        ('openai', 'OpenAI-compatible (chat completions)'),
+        ('anthropic', 'Anthropic Messages API'),
+        ('gemini', 'Google Gemini API'),
+    ]
+
+    id = models.CharField(max_length=36, primary_key=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='llm_providers')
+    name = models.CharField(max_length=100, blank=True, default='')
+    provider = models.CharField(max_length=40, db_index=True)
+    api_format = models.CharField(max_length=20, choices=FORMAT_CHOICES, default='openai')
+    base_url = models.TextField(blank=True, default='')
+    api_key = models.TextField(blank=True, default='')
+    models_json = models.TextField(blank=True, default='[]')
+    default_model = models.CharField(max_length=200, blank=True, default='')
+    context_window = models.PositiveIntegerField(default=131072)
+    max_output_tokens = models.PositiveIntegerField(default=4096)
+    enabled = models.BooleanField(default=True, db_index=True)
+    created_at = models.BigIntegerField(default=0)
+    updated_at = models.BigIntegerField(default=0)
+
+    class Meta:
+        db_table = 'user_llm_providers'
+        ordering = ['-updated_at']
+        indexes = [
+            models.Index(fields=['user', 'provider', 'enabled'], name='llmprov_user_slug_idx'),
+        ]
+
+    def __str__(self):
+        return f"{self.name or self.provider} ({self.user_id})"
 
