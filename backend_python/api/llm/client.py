@@ -46,6 +46,7 @@ class ChatResult:
     duration_ms: int
     input_tokens: int = 0
     output_tokens: int = 0
+    reasoning: str = ''  # upstream chain-of-thought, when the API exposes it
     raw: dict = field(default_factory=dict)
 
 
@@ -116,7 +117,8 @@ def _openai_chat(*, base_url: str, api_key: str, model: str, messages: List[Dict
     if isinstance(data.get('error'), dict) and data['error']:
         raise LLMError(f"{provider}: {data['error'].get('message') or data['error']}", provider=provider)
     try:
-        content = data['choices'][0]['message'].get('content')
+        message = data['choices'][0]['message']
+        content = message.get('content')
     except (KeyError, IndexError, TypeError, AttributeError):
         raise LLMError(f'{provider}: unexpected response shape: {str(data)[:300]}', provider=provider)
     if isinstance(content, list):  # content-parts style
@@ -124,12 +126,19 @@ def _openai_chat(*, base_url: str, api_key: str, model: str, messages: List[Dict
     text = (content or '').strip()
     if not text:
         raise LLMError(f'{provider}: empty completion', provider=provider)
+    # OpenAI-compatible reasoning channels (DeepSeek, Agnes, Qwen-API, etc.).
+    reasoning = message.get('reasoning_content') or message.get('reasoning') or ''
+    if isinstance(reasoning, list):
+        reasoning = ''.join(
+            p.get('text', '') if isinstance(p, dict) else str(p) for p in reasoning
+        )
     usage = data.get('usage') or {}
     return ChatResult(
         text=text, model=data.get('model') or model, provider=provider,
         duration_ms=int((time.time() - t0) * 1000),
         input_tokens=int(usage.get('prompt_tokens') or 0),
         output_tokens=int(usage.get('completion_tokens') or 0),
+        reasoning=str(reasoning or '').strip(),
         raw=data,
     )
 
@@ -168,12 +177,18 @@ def _anthropic_chat(*, base_url: str, api_key: str, model: str, messages: List[D
     text = ''.join(p.get('text', '') for p in parts if isinstance(p, dict) and p.get('type') == 'text').strip()
     if not text:
         raise LLMError(f'{provider}: empty completion', provider=provider)
+    # Anthropic extended-thinking blocks, when present.
+    reasoning = '\n\n'.join(
+        (p.get('thinking') or p.get('text') or '').strip()
+        for p in parts if isinstance(p, dict) and p.get('type') == 'thinking'
+    ).strip()
     usage = data.get('usage') or {}
     return ChatResult(
         text=text, model=data.get('model') or model, provider=provider,
         duration_ms=int((time.time() - t0) * 1000),
         input_tokens=int(usage.get('input_tokens') or 0),
         output_tokens=int(usage.get('output_tokens') or 0),
+        reasoning=reasoning,
         raw=data,
     )
 
@@ -250,7 +265,7 @@ def chat(*, format: str, base_url: str, api_key: str, model: str,
 
 
 def quick_test(*, format: str, base_url: str, api_key: str, model: str,
-               provider: str = '', timeout: int = 45) -> ChatResult:
+               provider: str = '', timeout: int = 30) -> ChatResult:
     """Minimal round-trip used by 'Test connection' buttons everywhere."""
     return chat(
         format=format, base_url=base_url, api_key=api_key, model=model,
