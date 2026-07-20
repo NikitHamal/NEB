@@ -270,6 +270,33 @@ cp /home/consicac/nebians_api/web/static/web/css/material3.css /home/consicac/ne
 - Do NOT delete hashed files (e.g., `app.7d01927028c0.css`) from `public/static/` — they are part of the WhiteNoise manifest
 - Do NOT change `STATIC_ROOT` — it must stay as `BASE_DIR / 'staticfiles'`
 
+### CRITICAL: Background Agent Worker Must Restart After Deploy
+Model resolution (LLM provider switching, BYOK keys, custom providers) lives in the **worker process**, not the LSAPI web process. After deploying new backend code:
+
+```bash
+# Restart both the web process AND the worker
+source /home/consicac/virtualenv/nebians_api/3.13/bin/activate
+cd /home/consicac/nebians_api
+
+# Kill old workers
+pkill -f run_background_agent_worker 2>/dev/null
+pkill -f run_autofix_watch 2>/dev/null
+
+# Start fresh
+nohup python manage.py run_background_agent_worker >> logs/worker.log 2>&1 & disown
+nohup python manage.py run_autofix_watch >> logs/autofix.log 2>&1 & disown
+
+# Restart LSAPI web process
+rm -rf tmp/* && touch tmp/restart.txt
+```
+
+**If the website is restarted but the worker isn't, the old worker keeps falling back to Qwen 3.7 Plus** — model picks from the UI "don't work" because the old worker's LLM resolution code is stale. **Always restart both.**
+
+Verify with:
+```bash
+ps aux | grep -E 'run_background_agent_worker|run_autofix_watch' | grep -v grep
+```
+
 ---
 
 ## Web Backend — Architecture
