@@ -5,6 +5,7 @@ from . import views_admin_chat
 from . import views_background_agent as ba_views
 from . import views_background_agent_lifecycle as ba_lifecycle_views
 from . import views_background_agent_mobile as ba_mobile_views
+from . import views_llm as ba_llm_views
 
 app_name = 'web'
 
@@ -258,6 +259,9 @@ path('ajax/study-space/<str:space_id>/summary/', views.ajax_space_generate_summa
     path('backgroundagent/api/sessions/<str:session_id>/control/', ba_views.background_agent_session_control, name='background_agent_session_control'),
     path('backgroundagent/api/sessions/<str:session_id>/actions/', ba_views.background_agent_session_action, name='background_agent_session_action'),
     path('backgroundagent/api/sessions/<str:session_id>/lifecycle/', ba_lifecycle_views.background_agent_session_lifecycle, name='background_agent_session_lifecycle'),
+    path('backgroundagent/api/llm/providers/', ba_llm_views.background_agent_llm_providers, name='background_agent_llm_providers'),
+    path('backgroundagent/api/llm/providers/<str:provider_id>/', ba_llm_views.background_agent_llm_provider_detail, name='background_agent_llm_provider_detail'),
+    path('backgroundagent/api/llm/test/', ba_llm_views.background_agent_llm_test, name='background_agent_llm_test'),
     path('backgroundagent/api/sessions/<str:session_id>/export/', ba_views.background_agent_session_export, name='background_agent_session_export'),
     path('backgroundagent/api/sessions/<str:session_id>/artifacts/<str:kind>/', ba_views.background_agent_download_artifact, name='background_agent_download_artifact'),
 ]

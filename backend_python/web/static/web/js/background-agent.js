@@ -43,10 +43,16 @@
     }
   });
 
-  function buildModelOptions() {
+  function buildModelOptions(catalogOverride) {
     var node = BA.qs('#ba-llm-catalog');
-    var catalog = null;
-    try { catalog = node ? JSON.parse(node.textContent || '{}') : null; } catch (e) { catalog = null; }
+    var catalog = catalogOverride || null;
+    if (!catalog) {
+      try { catalog = node ? JSON.parse(node.textContent || '{}') : null; } catch (e) { catalog = null; }
+    }
+    var previous = null;
+    if (state.llmSelection.provider) {
+      previous = state.llmSelection.provider + '|' + (state.llmSelection.model || '') + '|' + (state.llmSelection.providerId || '');
+    }
     var options = [];
     if (catalog) {
       (catalog.community || []).forEach(function (p) {
@@ -68,7 +74,7 @@
           options.push({
             value: p.slug + '|' + m.id + '|',
             label: p.label + ' · ' + (m.label || m.id),
-            hint: (p.available ? (m.note || 'Official API') : 'Add your API key in Zeus → Providers to enable') + note
+            hint: (p.available ? (m.note || 'Official API') : 'Add your API key in the provider settings (gear) to enable') + note
           });
         });
       });
@@ -85,17 +91,25 @@
     if (!options.length) {
       options.push({ value: '|', label: 'Default model (Qwen 3.7 Plus)', hint: '' });
     }
-    // Default selection: prefer the catalog's default, else the first option.
+    // Default selection: keep the current pick when possible, else prefer
+    // the catalog's default, else the first option.
     var initial = options[0].value;
     if (catalog && catalog.defaultSelection && catalog.defaultSelection.slug === 'qwen') {
       var qDefault = 'qwen|' + (catalog.defaultSelection.model || 'qwen3.7-plus') + '|';
       if (options.some(function (o) { return o.value === qDefault; })) initial = qDefault;
     }
+    if (previous && options.some(function (o) { return o.value === previous; })) initial = previous;
     modelPicker.setOptions(options, initial);
     var parts = String(initial).split('|');
     state.llmSelection = { provider: parts[0], model: parts[1] || '', providerId: parts[2] || '' };
   }
   buildModelOptions();
+
+  // The provider-settings dialog pushes a fresh catalog here after keys are
+  // added/removed so availability updates without a reload.
+  document.addEventListener('ba:llm-catalog-changed', function (event) {
+    buildModelOptions(event.detail && event.detail.catalog);
+  });
   var branchPicker = BA.createPicker({ root: els.branchPicker, minWidth: 320, maxHeight: 410 });
   var repoBasePicker = BA.createPicker({ root: els.repoBasePicker, minWidth: 420, maxHeight: 410 });
   var attachments = BA.createAttachmentController({ input: els.fileInput, list: els.attachmentList, dropZone: els.composer });
