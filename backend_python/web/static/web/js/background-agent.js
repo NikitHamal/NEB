@@ -30,19 +30,10 @@
   });
 
   // ----- LLM model picker: Tembo-style two-pane provider/model menu -------
-  function syncTopbarModel(label) {
-    var badge = BA.qs('#ba-topbar-model');
-    var text = BA.qs('#ba-topbar-model-text');
-    if (!badge || !text || !label) return;
-    text.textContent = label;
-    badge.title = label;
-  }
-
   var modelMenu = BA.createModelMenu({
     root: BA.qs('#ba-model-picker'),
     onChange: function (sel) {
       state.llmSelection = { provider: sel.provider || '', model: sel.model || '', providerId: sel.providerId || '' };
-      syncTopbarModel(sel.label);
     },
     onAddKey: function (meta) {
       document.dispatchEvent(new CustomEvent('ba:llm-open-settings', { detail: meta || {} }));
@@ -72,7 +63,6 @@
       modelMenu.setCatalog(catalog, initialSelection(catalog));
     }
     state.llmSelection = modelMenu.value();
-    syncTopbarModel(modelMenu.label());
   }
   buildModelOptions();
 
