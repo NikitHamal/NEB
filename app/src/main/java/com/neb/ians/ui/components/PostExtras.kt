@@ -224,7 +224,17 @@ fun ForumPostCard(
 ) {
     val category = post.category.ifBlank { "General" }
     val categoryTheme = getSubjectTheme(category)
-    val preview = remember(post.content) { markdownToPlainPreview(post.content) }
+    // Card preview carries real markdown formatting (bold/italic/code,
+    // colored links, highlighted mentions) instead of plain stripped text.
+    val primary = MaterialTheme.colorScheme.primary
+    val codeBg = MaterialTheme.colorScheme.surfaceContainerHigh
+    val anonAccent = MaterialTheme.colorScheme.errorContainer
+    val anonOnAccent = MaterialTheme.colorScheme.onErrorContainer
+    val bodyColor = MaterialTheme.colorScheme.onSurfaceVariant
+    val preview = remember(post.content) { markdownToInlinePreview(post.content) }
+    val previewAnnotated = remember(preview, bodyColor, primary, codeBg, anonAccent, anonOnAccent) {
+        buildInlineAnnotatedString(preview, bodyColor, primary, codeBg, anonAccent, anonOnAccent)
+    }
     val bookmarked = post.isBookmarked == true
     var zoomImageUrl by remember { mutableStateOf<String?>(null) }
 
@@ -356,7 +366,7 @@ fun ForumPostCard(
             if (preview.isNotBlank()) {
                 Spacer(modifier = Modifier.height(6.dp))
                 Text(
-                    text = preview,
+                    text = previewAnnotated,
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     maxLines = 4,

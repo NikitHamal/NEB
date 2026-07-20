@@ -287,20 +287,56 @@ class NewsRepository @Inject constructor(
         return Html.fromHtml(stripped, Html.FROM_HTML_MODE_LEGACY).toString().trim()
     }
 
+    /**
+     * Convert the article HTML into real markdown so the reader renders rich
+     * formatting (headings, bold/italic/code/strike, blockquotes, lists,
+     * clickable links) instead of a flat text dump. Relative link URLs are
+     * absolutized against the site origin.
+     */
     private fun String.cleanArticleContent(): String {
         if (isBlank()) return ""
         return replace(Regex("<script[\\s\\S]*?</script>", RegexOption.IGNORE_CASE), "")
             .replace(Regex("<style[\\s\\S]*?</style>", RegexOption.IGNORE_CASE), "")
+            // Inline formatting first (before generic tag stripping).
+            .replace(Regex("<(b|strong)[^>]*>([\\s\\S]*?)</\\1>", RegexOption.IGNORE_CASE), "**$2**")
+            .replace(Regex("<(i|em)[^>]*>([\\s\\S]*?)</\\1>", RegexOption.IGNORE_CASE), "*$2*")
+            .replace(Regex("<(s|del|strike)[^>]*>([\\s\\S]*?)</\\1>", RegexOption.IGNORE_CASE), "~~$2~~")
+            .replace(Regex("<code[^>]*>([\\s\\S]*?)</code>", RegexOption.IGNORE_CASE), "`$1`")
+            .replace(Regex("<a[^>]*href=[\"']([^\"']+)[\"'][^>]*>([\\s\\S]*?)</a>", RegexOption.IGNORE_CASE)) { m ->
+                val href = absolutizeUrl(m.groups[1]?.value.orEmpty())
+                val label = m.groups[2]?.value.orEmpty()
+                    .replace(Regex("<[^>]+>"), "").trim()
+                    .ifBlank { href }
+                "[$label]($href)"
+            }
+            .replace(Regex("<img[^>]*alt=[\"']([^\"']*)[\"'][^>]*>", RegexOption.IGNORE_CASE), " $1 ")
+            .replace(Regex("<img[^>]*>", RegexOption.IGNORE_CASE), " ")
+            // Block structure → markdown blocks.
             .replace(Regex("<br\\s*/?>", RegexOption.IGNORE_CASE), "\n")
-            .replace(Regex("</(p|div|h1|h2|h3|li|ul|ol|blockquote)>", RegexOption.IGNORE_CASE), "\n")
+            .replace(Regex("</(p|div|h1|h2|h3|h4|li|ul|ol|blockquote|pre)>", RegexOption.IGNORE_CASE), "\n")
+            .replace(Regex("<h1[^>]*>", RegexOption.IGNORE_CASE), "\n# ")
+            .replace(Regex("<h2[^>]*>", RegexOption.IGNORE_CASE), "\n## ")
+            .replace(Regex("<h3[^>]*>", RegexOption.IGNORE_CASE), "\n### ")
+            .replace(Regex("<h4[^>]*>", RegexOption.IGNORE_CASE), "\n### ")
             .replace(Regex("<li[^>]*>", RegexOption.IGNORE_CASE), "- ")
-            .replace(Regex("<h1[^>]*>", RegexOption.IGNORE_CASE), "# ")
-            .replace(Regex("<h2[^>]*>", RegexOption.IGNORE_CASE), "## ")
-            .replace(Regex("<h3[^>]*>", RegexOption.IGNORE_CASE), "### ")
+            .replace(Regex("<blockquote[^>]*>", RegexOption.IGNORE_CASE), "\n> ")
             .replace(Regex("<[^>]+>"), "")
             .let { Html.fromHtml(it, Html.FROM_HTML_MODE_LEGACY).toString() }
+            .replace(Regex("[ \\t]+\\n"), "\n")
             .replace(Regex("\\n{3,}"), "\n\n")
             .trim()
+    }
+
+    private fun absolutizeUrl(raw: String): String {
+        val value = raw.trim()
+        if (value.isBlank()) return value
+        return when {
+            value.startsWith("http://") || value.startsWith("https://") -> value
+            value.startsWith("//") -> "https:$value"
+            value.startsWith("/") -> "https://nebians.consica.com.np$value"
+            value.startsWith("mailto:") || value.startsWith("tel:") -> value
+            else -> "https://nebians.consica.com.np/$value"
+        }
     }
 
     private fun String.absoluteMediaUrl(): String {

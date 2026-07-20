@@ -1032,7 +1032,13 @@ def upload_resource(request):
                 errors.append(' '.join(messages_list))
 
         safe_thumbnail_url = ''
-        if thumbnail_url:
+        thumbnail_file = request.FILES.get('thumbnail')
+        if thumbnail_file:
+            try:
+                safe_thumbnail_url = save_resource_thumbnail_upload(request, thumbnail_file)
+            except Exception as exc:
+                errors.append(' '.join(getattr(exc, 'messages', [str(exc)])))
+        elif thumbnail_url:
             try:
                 safe_thumbnail_url = validate_resource_file_url(thumbnail_url)
             except Exception:
@@ -1120,6 +1126,12 @@ def upload_resource(request):
                 )
                 resource.save()
                 created_resources.append(resource)
+
+            # Videos without an explicit cover get one auto-extracted from the
+            # footage (best-effort ffmpeg; silently skipped when unavailable).
+            for created in created_resources:
+                if not created.thumbnail_url:
+                    maybe_autoset_video_thumbnail(created, request)
 
             cache.delete_many(['home_resources', 'library_all_resources', 'library_filter_options', 'distinct_subjects'])
             if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
@@ -1268,8 +1280,14 @@ def edit_resource(request, resource_id):
             except Exception:
                 pass
 
+        thumbnail_file = request.FILES.get('thumbnail')
         thumbnail_url = request.POST.get('thumbnail_url', '').strip()
-        if thumbnail_url:
+        if thumbnail_file:
+            try:
+                resource_obj.thumbnail_url = save_resource_thumbnail_upload(request, thumbnail_file)
+            except Exception:
+                pass
+        elif thumbnail_url:
             try:
                 resource_obj.thumbnail_url = validate_resource_file_url(thumbnail_url)
             except Exception:
@@ -1279,6 +1297,8 @@ def edit_resource(request, resource_id):
 
         resource_obj.approval_status = 'pending'
         resource_obj.save()
+        if not resource_obj.thumbnail_url:
+            maybe_autoset_video_thumbnail(resource_obj, request)
         cache.delete_many(['home_resources', 'library_all_resources', 'library_filter_options', 'distinct_subjects'])
         if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
             return JsonResponse({'status': 'success', 'redirect': reverse('web:reader', kwargs={'resource_id': resource_id})})

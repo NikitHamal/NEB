@@ -206,8 +206,21 @@
       </div>
 
       <div class="upload-field">
+        <label class="md-label" for="thumbnail">Thumbnail Image</label>
+        {% if resource.thumbnail_url %}
+        <div style="margin-bottom:8px;display:flex;align-items:center;gap:10px;">
+          <img src="{{ resource.thumbnail_url }}" alt="Current cover" style="width:64px;height:40px;object-fit:cover;border-radius:8px;border:1px solid var(--md-outline-variant);">
+          <span class="md-body-small" style="color:var(--md-on-surface-variant)">Current cover — upload a new image to replace it</span>
+        </div>
+        {% endif %}
+        <input class="md-input" type="file" id="thumbnail" name="thumbnail" accept="image/jpeg,image/png,image/webp,image/gif" style="height:auto;padding:10px;">
+        <div class="upload-hint">JPG/PNG/WEBP/GIF, max 10 MB. Videos without a cover get one auto-captured from the footage.</div>
+      </div>
+
+      <div class="upload-field">
         <label class="md-label" for="thumbnail_url">Thumbnail URL</label>
         <input class="md-input" type="url" id="thumbnail_url" name="thumbnail_url" value="{{ resource.thumbnail_url|default:'' }}" placeholder="https://... (optional cover image)">
+        <div class="upload-hint">Only used when no thumbnail file is uploaded above. Clear it to remove the cover.</div>
       </div>
     </div>
 

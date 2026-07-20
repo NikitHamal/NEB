@@ -26,6 +26,7 @@ from api.security import (
     get_user_by_auth_token, hash_auth_token, issue_auth_token, revoke_auth_token,
     save_profile_image_upload, save_post_image_upload, validate_profile_photo_url,
     validate_resource_file_url, validate_and_save_resource_file,
+    save_resource_thumbnail_upload, maybe_autoset_video_thumbnail,
 )
 from api.authentication import verify_google_token
 from api.utils import now_ms, uuid_str

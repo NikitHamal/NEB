@@ -206,8 +206,15 @@
       </div>
 
       <div class="upload-field">
+        <label class="md-label" for="thumbnail">Thumbnail Image</label>
+        <input class="md-input" type="file" id="thumbnail" name="thumbnail" accept="image/jpeg,image/png,image/webp,image/gif" style="height:auto;padding:10px;">
+        <div class="upload-hint">Upload a cover image (JPG/PNG/WEBP/GIF, max 10 MB). Videos without a cover get one auto-captured from the footage.</div>
+      </div>
+
+      <div class="upload-field">
         <label class="md-label" for="thumbnail_url">Thumbnail URL</label>
         <input class="md-input" type="url" id="thumbnail_url" name="thumbnail_url" value="{{ form_data.thumbnail_url|default:'' }}" placeholder="https://... (optional cover image)">
+        <div class="upload-hint">Only used when no thumbnail file is uploaded above.</div>
       </div>
     </div>
 

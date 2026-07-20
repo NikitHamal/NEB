@@ -28,10 +28,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.outlined.Image
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -53,11 +55,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.neb.ians.ui.components.NebCard
@@ -564,7 +568,8 @@ fun FilesStep(
     viewModel: UploadViewModel,
     onPickFiles: () -> Unit,
     onRemoveFile: (Int) -> Unit,
-    onClearFiles: () -> Unit
+    onClearFiles: () -> Unit,
+    onPickThumbnail: () -> Unit
 ) {
     StepCard {
         StepTitle(
@@ -579,14 +584,15 @@ fun FilesStep(
             onRemoveFile = onRemoveFile,
             onClearFiles = onClearFiles
         )
-        LinkAlternativeFields(uiState = uiState, viewModel = viewModel)
+        LinkAlternativeFields(uiState = uiState, viewModel = viewModel, onPickThumbnail = onPickThumbnail)
     }
 }
 
 @Composable
 private fun LinkAlternativeFields(
     uiState: UploadFormState,
-    viewModel: UploadViewModel
+    viewModel: UploadViewModel,
+    onPickThumbnail: () -> Unit
 ) {
     val enabled = uiState.selectedFiles.isEmpty()
     Row(
@@ -621,6 +627,83 @@ private fun LinkAlternativeFields(
             { Text("Remove selected files to use a link instead", maxLines = 1) }
         } else null
     )
+    // ----- Cover image: manual upload wins; videos auto-capture a frame -----
+    Surface(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(12.dp))
+            .clickable(onClick = onPickThumbnail),
+        shape = RoundedCornerShape(12.dp),
+        color = MaterialTheme.colorScheme.surfaceContainerLow,
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
+    ) {
+        Row(
+            modifier = Modifier.padding(10.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(10.dp)
+        ) {
+            if (uiState.thumbnailUri != null) {
+                AsyncImage(
+                    model = uiState.thumbnailUri,
+                    contentDescription = "Cover image",
+                    modifier = Modifier
+                        .size(44.dp)
+                        .clip(RoundedCornerShape(8.dp)),
+                    contentScale = ContentScale.Crop
+                )
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        "Cover image selected",
+                        style = MaterialTheme.typography.labelLarge,
+                        fontWeight = FontWeight.SemiBold,
+                        maxLines = 1
+                    )
+                    Text(
+                        "Tap to change",
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        maxLines = 1
+                    )
+                }
+                androidx.compose.material3.IconButton(onClick = { viewModel.setThumbnail(null) }) {
+                    Icon(
+                        Icons.Filled.Close,
+                        contentDescription = "Remove cover image",
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+            } else {
+                Icon(
+                    Icons.Outlined.Image,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.size(22.dp)
+                )
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        "Upload cover image (optional)",
+                        style = MaterialTheme.typography.labelLarge,
+                        fontWeight = FontWeight.SemiBold,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                    Text(
+                        if (viewModel.hasAutoCoverCandidate()) "Leave empty — we'll capture one from your video"
+                        else "JPG, PNG, WEBP or GIF, up to 10 MB",
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        maxLines = 2
+                    )
+                }
+                Icon(
+                    Icons.Filled.ChevronRight,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+        }
+    }
+
     OutlinedTextField(
         value = uiState.thumbnailUrl,
         onValueChange = viewModel::updateThumbnailUrl,
@@ -633,7 +716,8 @@ private fun LinkAlternativeFields(
             )
         },
         modifier = Modifier.fillMaxWidth(),
-        singleLine = true
+        singleLine = true,
+        supportingText = { Text("Only used when no cover image is uploaded above", maxLines = 1) }
     )
 }
 

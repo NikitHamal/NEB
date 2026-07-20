@@ -88,3 +88,8 @@ firebase-service-account.json
 backend_python/scratch/
 
 .freebuff
+
+tmp_*.pem
+*.pem
+tmp_*.pem
+*.pem
