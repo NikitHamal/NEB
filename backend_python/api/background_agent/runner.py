@@ -436,10 +436,17 @@ PRIOR OUTPUT
         return self._llm_resolved
 
     def _community_model(self) -> str:
-        """Selected community (Qwen web) model, when the picker chose one."""
+        """Selected community (Qwen web) model, else the live default from
+        chat.qwen.ai's catalog (falls back to qwen3.7-plus offline)."""
         slug = (self.session.llm_provider or '').strip().lower()
         model = (self.session.llm_model or '').strip()
-        return model if slug == 'qwen' and model else 'qwen3.7-plus'
+        if slug == 'qwen' and model:
+            return model
+        try:
+            from api.qwen_utils.models import get_default_model
+            return get_default_model() or 'qwen3.7-plus'
+        except Exception:
+            return 'qwen3.7-plus'
 
     def _llm_label(self) -> str:
         resolved = self._llm_selection()
