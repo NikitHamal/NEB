@@ -177,19 +177,31 @@
 .ba-mm-trigger[aria-expanded="true"] { border-color: var(--ba-accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--ba-accent) 12%, transparent); }
 .ba-mm-trigger:disabled { opacity: .55; cursor: not-allowed; }
 .ba-mm-trigger-label { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: left; }
-.ba-mm-chevron { color: var(--ba-faint); font-size: 18px; }
+.ba-mm-chevron { color: var(--ba-faint); font-size: 18px; transition: transform var(--md-transition); }
 
+/* Click-catcher behind the open popover: outside clicks close the menu instead
+   of landing on composer controls underneath it. */
+.ba-mm-backdrop { position: fixed; inset: 0; z-index: 240; background: transparent; }
+
+/* Popover is portaled to <body> and positioned via JS (fixed coords, opens
+   above the trigger, Tembo-style) so composer overflow/stacking can't clip it. */
 .ba-mm-popover {
-  position: absolute;
-  top: calc(100% + 8px);
-  left: 0;
+  position: fixed;
   width: min(560px, calc(100vw - 32px));
+  max-height: min(470px, 62vh);
+  display: flex;
+  flex-direction: column;
   background: var(--ba-panel-strong);
   border: 1px solid var(--ba-border);
   border-radius: 16px;
   box-shadow: var(--ba-shadow-lg);
-  z-index: 60;
+  z-index: 250;
   overflow: hidden;
+  animation: ba-mm-in var(--md-transition);
+}
+@keyframes ba-mm-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 .ba-mm-search {
   display: flex;
@@ -209,13 +221,12 @@
 }
 .ba-mm-search input::placeholder { color: var(--ba-faint); }
 
-.ba-mm-panes { display: flex; }
+.ba-mm-panes { display: flex; flex: 1; min-height: 0; }
 .ba-mm-providers {
   width: 208px;
   flex-shrink: 0;
   border-right: 1px solid var(--ba-border);
   padding: 6px;
-  max-height: 330px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -224,7 +235,6 @@
 .ba-mm-models {
   flex: 1;
   padding: 6px;
-  max-height: 330px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -283,8 +293,7 @@
 
 @media (max-width: 700px) {
   .ba-model-menu { width: 100%; }
-  .ba-mm-popover { width: calc(100vw - 32px); }
-  .ba-mm-panes { flex-direction: column; max-height: 60vh; overflow-y: auto; }
+  .ba-mm-panes { flex-direction: column; overflow-y: auto; }
   .ba-mm-providers { width: 100%; border-right: 0; border-bottom: 1px solid var(--ba-border); max-height: 180px; }
   .ba-mm-models { max-height: 280px; }
 }

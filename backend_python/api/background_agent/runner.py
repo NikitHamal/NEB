@@ -113,6 +113,8 @@ class BackgroundAgentRunner:
         # session was queued still apply.
         self._llm_resolved = None
         self._llm_resolved_once = False
+        self._call_announced = False
+        self._pending_reasoning = ''
         # Deferred-commit bookkeeping: the model's git_commit calls are staged
         # and their messages queued here; one consolidated commit materializes
         # on git_push / completion.
@@ -173,15 +175,19 @@ class BackgroundAgentRunner:
 
             call_label = self._llm_label()
             resolved_now = self._llm_selection()
-            emit(self.session, 'model.requested', f'Calling {call_label} for iteration {iteration}', {
-                'model': resolved_now.model if resolved_now is not None else self._community_model(),
-                'provider': self.session.llm_provider or 'qwen',
-                'attachmentCount': len(file_paths),
-            })
+            # Announce the model ONCE per run — a per-iteration "Calling X for
+            # iteration N" line is pure noise in the conversation timeline.
+            if not self._call_announced:
+                self._call_announced = True
+                emit(self.session, 'model.started', f'Running with {call_label}', {
+                    'model': resolved_now.model if resolved_now is not None else self._community_model(),
+                    'provider': self.session.llm_provider or 'qwen',
+                    'attachmentCount': len(file_paths),
+                })
             model_started = time.monotonic()
             raw = self._call_provider(prompt, file_paths=file_paths)
             mark_qwen_files_sent(qwen_attachments, iteration)
-            parsed = parse_model_response(raw)
+            parsed = parse_model_response(raw, extra_thought=self._pending_reasoning)
             format_retries_allowed = max(0, min(int(getattr(settings, 'BACKGROUND_AGENT_FORMAT_RETRIES', 1)), 3))
             format_retries_used = 0
             for retry_index in range(format_retries_allowed):
@@ -202,7 +208,7 @@ PRIOR OUTPUT
 {raw[:12000]}
 '''
                 raw = self._call_provider(repair_prompt)
-                parsed = parse_model_response(raw)
+                parsed = parse_model_response(raw, extra_thought=self._pending_reasoning)
             duration_ms = int((time.monotonic() - model_started) * 1000)
             self._record_messages(parsed, iteration, raw, file_paths, format_retries_used, duration_ms)
 
@@ -480,6 +486,7 @@ PRIOR OUTPUT
     def _call_provider(self, prompt: str, *, system_prompt: str = None, file_paths=None, max_tokens=None) -> str:
         if system_prompt is None:
             system_prompt = self._system_prompt_for_run()
+        self._pending_reasoning = ''
         resolved = self._llm_selection()
         if resolved is not None:
             return self._call_official_provider(
@@ -513,6 +520,7 @@ PRIOR OUTPUT
                     timeout=int(getattr(settings, 'BACKGROUND_AGENT_PROVIDER_TIMEOUT', 300)),
                 )
                 if result and result.text:
+                    self._pending_reasoning = (getattr(result, 'reasoning', '') or '').strip()
                     return result.text
                 raise WorkspaceError(f'{label} {model} returned an empty response')
             except (AgentPaused, AgentStopped):
@@ -812,8 +820,26 @@ def _decode_protocol_object(candidate: str):
     return None
 
 
-def parse_model_response(raw: str) -> ParsedResponse:
+_THINK_BLOCK_RE = re.compile(r'<\s*think\s*>(.*?)<\s*/\s*think\s*>', re.I | re.S)
+
+
+def parse_model_response(raw: str, extra_thought: str = '') -> ParsedResponse:
+    """Parse the model turn into (thought, actions, final...). Reasoning is a
+    first-class, separately rendered thing: the protocol `thought` field,
+    upstream `reasoning_content` (passed via extra_thought), and any inline
+    <think>…</think> blocks all funnel into ParsedResponse.thought, while the
+    JSON protocol payload is extracted from think-stripped text."""
     text = (raw or '').strip()
+    think_bits = [bit.strip() for bit in _THINK_BLOCK_RE.findall(text) if bit and bit.strip()]
+    if think_bits:
+        text = _THINK_BLOCK_RE.sub('\n', text).strip()
+    upstream = ' · '.join(bit for bit in [extra_thought.strip() if extra_thought else ''] if bit)
+    prefix = '\n\n'.join(part for part in [upstream, '\n\n'.join(think_bits)] if part).strip()
+
+    def _thought(value: str, limit: int) -> str:
+        combined = '\n\n'.join(part for part in [prefix, (value or '').strip()] if part).strip()
+        return combined[:limit]
+
     candidates = [text]
     candidates.extend(re.findall(r'```(?:json)?\s*(\{.*?\})\s*```', text, flags=re.I | re.S))
     candidates.extend(_balanced_json_candidates(text))
@@ -828,7 +854,7 @@ def parse_model_response(raw: str) -> ParsedResponse:
             break
     if payload is None:
         return ParsedResponse(
-            thought=text[:12000],
+            thought=_thought(text, 12000),
             actions=[],
             final='',
             needs_input=True,
@@ -847,7 +873,7 @@ def parse_model_response(raw: str) -> ParsedResponse:
             'arguments': arguments if isinstance(arguments, dict) else {},
         })
     return ParsedResponse(
-        thought=str(payload.get('thought') or '')[:20000],
+        thought=_thought(str(payload.get('thought') or ''), 20000),
         actions=normalized[:_MAX_ACTIONS_PER_TURN],
         final=str(payload.get('final') or '')[:30000],
         needs_input=bool(payload.get('needs_input', False)),

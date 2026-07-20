@@ -127,6 +127,14 @@
 .ba-session-card p { margin: 0; color: var(--ba-muted); font-size: 11px; line-height: 1.5; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .ba-session-card-meta { display: flex; align-items: center; gap: 12px; color: var(--ba-faint); font-size: 10px; min-width: 0; }
 .ba-session-card-meta span { min-width: 0; max-width: 36%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ba-session-card-meta .model {
+  color: var(--ba-accent);
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--ba-accent-soft);
+  max-width: 30%;
+}
 .ba-session-card-side { display: flex; align-items: center; gap: 12px; }
 .ba-session-progress { width: 88px; height: 4px; border-radius: var(--md-radius-full); background: var(--ba-border); overflow: hidden; }
 .ba-session-progress span { display: block; height: 100%; border-radius: inherit; background: var(--ba-accent); }
