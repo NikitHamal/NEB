@@ -12,6 +12,20 @@ from api.background_agent.workspace import GitWorkspace
 logger = logging.getLogger(__name__)
 
 
+def _session_provider(session):
+    """Provider block for session payloads — reflects the actual pick
+    (Agnes/OpenAI/custom/qwen variants), not a hardcoded Qwen."""
+    from api.llm.runtime import describe_session_llm
+    llm = describe_session_llm(session)
+    return {
+        'id': session.bot_config_id,
+        'name': llm['label'],
+        'provider': llm['provider'],
+        'model': llm['model'],
+        'official': llm['official'],
+    }
+
+
 def serialize_repo(repo):
     permissions = repo.get('permissions') or {}
     owner = repo.get('owner') or {}
@@ -76,12 +90,7 @@ def serialize_session_summary(session):
         'progressLabel': session.progress_label,
         'iteration': session.iteration,
         'maxIterations': session.max_iterations,
-        'provider': {
-            'id': session.bot_config_id,
-            'name': 'Qwen 3.7 Plus',
-            'provider': 'qwen',
-            'model': 'qwen3.7-plus',
-        },
+        'provider': _session_provider(session),
         'context': {
             'estimatedTokens': session.context_tokens_estimate,
             'windowTokens': window,
