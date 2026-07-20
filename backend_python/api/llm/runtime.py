@@ -68,3 +68,104 @@ def selection_payload(slug: str, model: str, user_provider_id: str = '') -> dict
         'llm_model': model,
         'llm_provider_id': user_provider_id if slug == 'custom' else '',
     }
+
+
+# ---------------------------------------------------------------------------
+# Display helpers — one source of truth for "which model is this session using"
+# so the topbar, serializers, mobile API and runner never disagree.
+# ---------------------------------------------------------------------------
+
+from .registry import preset as _preset  # noqa: E402
+
+
+def model_display_label(slug: str, model: str = '') -> str:
+    """Pretty label for a (slug, model) pair — 'Agnes · agnes-2.0-flash',
+    'Qwen3.8-Max-Preview', etc. Community slugs use live upstream names when
+    the 5-minute cached catalog has them."""
+    slug = (slug or '').strip().lower()
+    model = (model or '').strip()
+    if not slug or slug == 'qwen':
+        if not model or model == 'qwen3.7-plus':
+            return 'Qwen 3.7 Plus'
+        name = ''
+        try:
+            from api.qwen_utils.models import fetch_models
+            for m in fetch_models() or []:
+                if (m.get('id') or '').lower() == model.lower():
+                    name = m.get('name') or ''
+                    break
+        except Exception:
+            name = ''
+        return name or f'Qwen ({model})'
+    p = _preset(slug)
+    if p:
+        label = p.label
+        if model and model.lower() not in p.label.lower():
+            label = f'{p.label} · {model}'
+        return label
+    if slug == 'custom':
+        return f'Custom · {model}' if model else 'Custom provider'
+    return f'{slug} · {model}' if model else slug
+
+
+def describe_session_llm(session) -> dict:
+    """Lightweight LLM summary for a session (no DB hits)."""
+    slug = (getattr(session, 'llm_provider', '') or '').strip().lower()
+    model = (getattr(session, 'llm_model', '') or '').strip()
+    if not slug:
+        return {'provider': 'qwen', 'model': 'qwen3.7-plus',
+                'label': 'Qwen 3.7 Plus (default)', 'official': False}
+    p = _preset(slug)
+    return {
+        'provider': slug,
+        'model': model or (p.default_model if p else ''),
+        'label': model_display_label(slug, model) if p or slug == 'custom'
+                 else (f'{slug} · {model}' if model else slug),
+        'official': bool(p and p.official) or slug == 'custom',
+    }
+
+
+def default_llm_label(user) -> str:
+    """Label for what a *new* session would use if the user picks nothing —
+    the qwen bot's model (live default), else the first available official
+    provider, else the plain Qwen fallback."""
+    from .credentials import default_selection  # lazy: avoids import cycle
+    try:
+        sel = default_selection(user)
+    except Exception:
+        return 'Qwen 3.7 Plus'
+    return model_display_label(sel.get('slug') or 'qwen', sel.get('model') or '')
+
+
+def default_model_state(user, provider=None) -> dict:
+    """`model` summary for the dashboard/mobile state endpoints: what a
+    session gets when the picker is left on 'server default'.
+    Live/community-aware (never pinned to a specific Qwen version) and
+    `configured` reflects *any* usable backend (qwen bot, legacy provider
+    object, or a resolvable official preset)."""
+    from .credentials import default_selection, resolve as _resolve
+    from .registry import OFFICIAL_PRESETS
+    try:
+        sel = default_selection(user)
+        slug = sel.get('slug') or 'qwen'
+        model = sel.get('model') or ''
+        label = model_display_label(slug, model)
+    except Exception:
+        slug, model, label = 'qwen', 'qwen3.7-plus', 'Qwen 3.7 Plus'
+    try:
+        label = default_llm_label(user) or label
+    except Exception:
+        pass
+    configured = bool(provider)
+    if not configured:
+        try:
+            from api.models import BotConfig  # lazy: Django apps must be ready
+            configured = BotConfig.objects.filter(enabled=True, provider='qwen').exists()
+        except Exception:
+            configured = False
+    if not configured:
+        try:
+            configured = any(_resolve(user, p.slug) for p in OFFICIAL_PRESETS)
+        except Exception:
+            configured = False
+    return {'provider': slug, 'model': model or 'qwen3.7-plus', 'label': label, 'configured': configured}

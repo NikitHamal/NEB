@@ -79,6 +79,21 @@ def _qwen_provider():
     ).first()
 
 
+def _any_qwen_bot():
+    return BotConfig.objects.filter(enabled=True, provider='qwen').first()
+
+
+def _default_model_state(admin, provider):
+    """The `model` summary for the state endpoint: what a session gets when
+    the picker is left on 'server default'. Delegates to the shared runtime
+    helper (live/community-aware, never hardcoded to a specific Qwen version)."""
+    try:
+        from api.llm.runtime import default_model_state
+        return default_model_state(admin, provider or _any_qwen_bot())
+    except Exception:
+        return {'provider': 'qwen', 'model': 'qwen3.7-plus', 'label': 'Qwen 3.7 Plus', 'configured': bool(provider)}
+
+
 def _admin(request):
     """The signed-in platform admin (api.User). Caller has already authorized."""
     return get_bg_admin(request)
@@ -131,9 +146,20 @@ def _base_context(request, **extra):
             'display_name': admin.display_name or admin.username,
             'photo_url': admin.photo_url or '',
         } if admin else None,
+        'topbar_model_label': _safe_topbar_model_label(admin),
     }
     ctx.update(extra)
     return ctx
+
+
+def _safe_topbar_model_label(admin):
+    """What the topbar badge shows: the model a fresh session would launch
+    with (live-community-default aware). Never raises, never hardcoded."""
+    from api.llm.runtime import default_llm_label
+    try:
+        return default_llm_label(admin) or 'Qwen 3.7 Plus'
+    except Exception:
+        return 'Qwen 3.7 Plus'
 
 
 
@@ -196,10 +222,16 @@ def background_agent_session_page(request, session_id):
         return redirect_response
     session = _session_for_admin(request, session_id)
     credential = _credential(request)
+    try:
+        from api.llm.runtime import describe_session_llm
+        session_llm_label = describe_session_llm(session).get('label') or 'Qwen 3.7 Plus'
+    except Exception:
+        session_llm_label = 'Qwen 3.7 Plus'
     return render(request, 'background_agent/session.html', _base_context(request,
         session_id=str(session.id),
         session_title=session.title or (session.goal[:80] + '…' if len(session.goal) > 80 else session.goal),
         github_connected=bool(credential and credential.is_connected),
+        session_llm_label=session_llm_label,
     ))
 
 
@@ -267,12 +299,7 @@ def background_agent_state(request):
         },
         'projects': [_serialize_project(p) for p in projects],
         'sessions': [_serialize_session_summary(s) for s in sessions],
-        'model': {
-            'provider': 'qwen',
-            'model': 'qwen3.7-plus',
-            'label': 'Qwen 3.7 Plus',
-            'configured': bool(provider),
-        },
+        'model': _default_model_state(admin, provider),
         'worker': {
             'online': len(workers),
             'healthy': bool(workers),
@@ -419,10 +446,13 @@ def background_agent_create_session(request):
         )
         message = add_message(session, 'user', goal, {'kind': 'initial_goal'})
         attachments = save_uploads(session, message, request.FILES.getlist('files'))
+        from api.llm.runtime import describe_session_llm as _describe_llm
+        _llm = _describe_llm(session)
         emit(session, 'session.queued', 'Task queued for the background worker', {
             'repository': project.repo_full_name,
             'sourceBranch': source_branch,
-            'provider': 'qwen/qwen3.7-plus',
+            'provider': f"{_llm['provider']}/{_llm['model']}",
+            'providerLabel': _llm['label'],
             'attachmentCount': len(attachments),
         })
         return JsonResponse({'ok': True, 'session': _serialize_session_detail(session)}, status=201)

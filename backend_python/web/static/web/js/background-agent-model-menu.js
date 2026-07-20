@@ -326,6 +326,7 @@
       value: function () {
         return { provider: selection.provider, model: selection.model, providerId: selection.providerId };
       },
+      label: function () { return computeLabel().short; },
       setCatalog: function (nextCatalog, sel) {
         catalog = nextCatalog || catalog;
         providers = normalize(catalog);

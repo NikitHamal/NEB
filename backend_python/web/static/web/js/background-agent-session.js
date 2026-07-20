@@ -39,6 +39,8 @@
     els.progressValue.textContent = Number(current.progress || 0) + '%'; els.progressBar.style.width = Number(current.progress || 0) + '%';
     els.updated.textContent = BA.timeAgo(current.updatedAt || current.createdAt);
     els.iteration.innerHTML = '<span class="material-symbols-outlined">repeat</span>Iteration ' + Number(current.iteration || 0);
+    var modelLabel = BA.qs('#bs-model-label');
+    if (modelLabel && current.provider && current.provider.name) modelLabel.textContent = current.provider.name;
     var context = current.context || {}; var percent = Number(context.percent || 0);
     els.contextBar.style.width = Math.min(100, percent) + '%'; els.contextValue.textContent = percent + '%';
     els.contextMeter.classList.toggle('warning', percent >= 65 && percent < 80); els.contextMeter.classList.toggle('danger', percent >= 80);

@@ -128,7 +128,8 @@ fun ForumPostDetailScreen(
     var isRefreshing by remember { mutableStateOf(false) }
 
     // Bottom sheet state for thread
-    var activeThreadParent by remember { mutableStateOf<ApiReply?>(null) }
+    // Id-based so the sheet always renders from live state (likes/bookmarks recompose).
+    var activeThreadParentId by remember { mutableStateOf<String?>(null) }
     var activeThreadTargetReply by remember { mutableStateOf<ApiReply?>(null) }
     var zoomImageUrls by remember { mutableStateOf<List<String>?>(null) }
     var zoomImageIndex by remember { mutableIntStateOf(0) }
@@ -323,7 +324,7 @@ fun ForumPostDetailScreen(
                             isOwn = uiState.currentUserId != null && reply.authorId == uiState.currentUserId,
                             onThumbsUpClick = { viewModel.toggleReplyThumbsUp(reply.id) },
                             onReplyClick = {
-                                activeThreadParent = reply
+                                activeThreadParentId = reply.id
                                 activeThreadTargetReply = reply
                                 val tag = "@${reply.authorName} "
                                 viewModel.onThreadReplyChange(
@@ -342,7 +343,7 @@ fun ForumPostDetailScreen(
                             onAuthorLongPress = { popoverUsername = reply.authorName },
                             onLinkClick = openLink,
                             children = children,
-                            onRepliesBarClick = { activeThreadParent = reply }
+                            onRepliesBarClick = { activeThreadParentId = reply.id }
                         )
                         Spacer(modifier = Modifier.height(10.dp))
                     }
@@ -423,13 +424,24 @@ fun ForumPostDetailScreen(
         )
     }
 
-    activeThreadParent?.let { parent ->
+    activeThreadParentId?.let { parentId ->
+        // Resolve from live state (not a cached snapshot) so like/bookmark toggles
+        // recompose the parent card inside the thread sheet.
+        val parent = uiState.replies.firstOrNull { it.id == parentId }
+        if (parent == null) {
+            // Parent reply was deleted while the sheet was open — close the sheet.
+            LaunchedEffect(parentId) {
+                activeThreadParentId = null
+                activeThreadTargetReply = null
+            }
+            return@let
+        }
         val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
         val threadReplies = uiState.childrenOf(parent.id)
 
         ModalBottomSheet(
             onDismissRequest = {
-                activeThreadParent = null
+                activeThreadParentId = null
                 activeThreadTargetReply = null
             },
             sheetState = sheetState,
@@ -472,7 +484,7 @@ fun ForumPostDetailScreen(
                         }
                     }
 
-                    IconButton(onClick = { activeThreadParent = null }) {
+                    IconButton(onClick = { activeThreadParentId = null }) {
                         Icon(Icons.Default.Close, contentDescription = "Close")
                     }
                 }

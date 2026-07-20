@@ -429,10 +429,17 @@ PRIOR OUTPUT
                     # The picker selected an official provider that can no
                     # longer be served (key removed/disabled). Fall back to
                     # the shared default transparently instead of failing.
-                    emit(self.session, 'model.fallback', 'Selected model is unavailable; using the default Qwen 3.7 Plus instead', {
+                    emit(self.session, 'model.fallback', f'Selected model is unavailable; using the default {self._llm_label_community_fallback()} instead', {
                         'requestedProvider': self.session.llm_provider,
                         'requestedModel': self.session.llm_model,
                     })
+
+    def _llm_label_community_fallback(self) -> str:
+        try:
+            from api.llm.runtime import model_display_label
+            return model_display_label('qwen', self._community_model())
+        except Exception:
+            return 'Qwen 3.7 Plus'
         return self._llm_resolved
 
     def _community_model(self) -> str:
@@ -452,10 +459,27 @@ PRIOR OUTPUT
         resolved = self._llm_selection()
         if resolved is not None:
             return f'{resolved.label} · {resolved.model}'
-        community = self._community_model()
-        return 'Qwen 3.7 Plus' if community == 'qwen3.7-plus' else f'Qwen ({community})'
+        try:
+            from api.llm.runtime import model_display_label
+            return model_display_label('qwen', self._community_model())
+        except Exception:
+            community = self._community_model()
+            return 'Qwen 3.7 Plus' if community == 'qwen3.7-plus' else f'Qwen ({community})'
 
-    def _call_provider(self, prompt: str, *, system_prompt: str = SYSTEM_PROMPT, file_paths=None, max_tokens=None) -> str:
+    def _system_prompt_for_run(self) -> str:
+        """SYSTEM_PROMPT with the identity line pointed at the model actually
+        serving this run (Agnes/OpenAI/custom/community), never hardcoded."""
+        try:
+            return SYSTEM_PROMPT.replace(
+                'You are running through Qwen 3.7 Plus.',
+                f'You are running through {self._llm_label()}.',
+            )
+        except Exception:
+            return SYSTEM_PROMPT
+
+    def _call_provider(self, prompt: str, *, system_prompt: str = None, file_paths=None, max_tokens=None) -> str:
+        if system_prompt is None:
+            system_prompt = self._system_prompt_for_run()
         resolved = self._llm_selection()
         if resolved is not None:
             return self._call_official_provider(
@@ -597,7 +621,7 @@ Source branch (read-only base): {self.session.source_branch}
 Task branch: {self.session.work_branch}
 Goal: {self.session.goal}
 Iteration: {iteration} (no cap - keep going until the goal is complete)
-Model: Qwen 3.7 Plus
+Model: {self._llm_label()}
 
 DURABLE STATE
 {json.dumps(state, ensure_ascii=False)}

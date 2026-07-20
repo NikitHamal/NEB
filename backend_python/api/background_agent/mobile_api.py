@@ -240,20 +240,8 @@ def _request_compaction(session, source):
 
 def _llm_data(session):
     """Lightweight LLM selection summary for session payloads (no DB hits)."""
-    slug = (getattr(session, 'llm_provider', '') or '').strip().lower()
-    model = (getattr(session, 'llm_model', '') or '').strip()
-    if not slug:
-        return {'provider': 'qwen', 'model': 'qwen3.7-plus', 'label': 'Qwen 3.7 Plus (default)', 'official': False}
-    from api.llm.registry import preset as _preset
-    p = _preset(slug)
-    if p:
-        label = p.label
-        if model and model.lower() not in p.label.lower():
-            label = f'{p.label} · {model}'
-        return {'provider': slug, 'model': model or p.default_model, 'label': label, 'official': p.official}
-    if slug == 'custom':
-        return {'provider': 'custom', 'model': model, 'label': (f'Custom · {model}' if model else 'Custom provider'), 'official': True}
-    return {'provider': slug, 'model': model, 'label': (f'{slug} · {model}' if model else slug), 'official': False}
+    from api.llm.runtime import describe_session_llm
+    return describe_session_llm(session)
 
 
 def _session_data(session, request=None, detail=False):
@@ -401,12 +389,17 @@ def state(request):
     cutoff = now_ms() - 30_000
     workers = BackgroundAgentWorker.objects.filter(last_heartbeat_at__gte=cutoff, status__in=('starting', 'idle', 'busy'))
     provider = _provider()
+    try:
+        from api.llm.runtime import default_model_state
+        model_state = default_model_state(admin, provider)
+    except Exception:
+        model_state = {'provider': 'qwen', 'model': 'qwen3.7-plus', 'label': 'Qwen 3.7 Plus', 'configured': bool(provider)}
     return _json({
         'ok': True,
         'projects': [_project_data(item) for item in projects],
         'sessions': [_session_data(item) for item in sessions],
         'worker': {'online': workers.count(), 'healthy': workers.exists()},
-        'model': {'provider': 'qwen', 'model': 'qwen3.7-plus', 'label': 'Qwen 3.7 Plus', 'configured': bool(provider)},
+        'model': model_state,
         'llm': catalog_for_user(admin),
     })
 
