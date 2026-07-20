@@ -492,3 +492,166 @@ def verify_internal_admin_signature(value: str, max_age: int = 60) -> bool:
         return TimestampSigner(salt=ADMIN_API_SALT).unsign(value, max_age=max_age) == 'admin-api'
     except (BadSignature, SignatureExpired):
         return False
+
+# ---------------------------------------------------------------------------
+# Forum media uploads (videos / audio / generic attachments on posts+replies)
+# ---------------------------------------------------------------------------
+
+FORUM_MEDIA_MAX_VIDEO_BYTES = 150 * 1024 * 1024  # 150 MB
+FORUM_MEDIA_MAX_AUDIO_BYTES = 40 * 1024 * 1024   # 40 MB
+FORUM_MEDIA_MAX_FILE_BYTES = 30 * 1024 * 1024    # 30 MB
+FORUM_MEDIA_MAX_ABS_BYTES = FORUM_MEDIA_MAX_VIDEO_BYTES
+
+# ext -> (kind, mime). Executable/scriptable types (svg, html, js…) are
+# intentionally absent — attachments are never inline-executed markup.
+FORUM_MEDIA_TYPES = {
+    '.mp4': ('video', 'video/mp4'), '.m4v': ('video', 'video/mp4'),
+    '.webm': ('video', 'video/webm'), '.mov': ('video', 'video/quicktime'),
+    '.mp3': ('audio', 'audio/mpeg'), '.m4a': ('audio', 'audio/mp4'),
+    '.aac': ('audio', 'audio/aac'), '.ogg': ('audio', 'audio/ogg'),
+    '.opus': ('audio', 'audio/ogg'), '.wav': ('audio', 'audio/wav'),
+    '.flac': ('audio', 'audio/flac'),
+    '.pdf': ('file', 'application/pdf'), '.txt': ('file', 'text/plain'),
+    '.md': ('file', 'text/markdown'), '.csv': ('file', 'text/csv'),
+    '.json': ('file', 'application/json'),
+    '.doc': ('file', 'application/msword'),
+    '.docx': ('file', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'),
+    '.ppt': ('file', 'application/vnd.ms-powerpoint'),
+    '.pptx': ('file', 'application/vnd.openxmlformats-officedocument.presentationml.presentation'),
+    '.xls': ('file', 'application/vnd.ms-excel'),
+    '.xlsx': ('file', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'),
+    '.zip': ('file', 'application/zip'),
+}
+
+_FORUM_MEDIA_MAGIC = (
+    (b'%PDF', ('file', 'application/pdf')),
+    (b'PK\x03\x04', ('file', 'application/zip')),
+    (b'OggS', ('audio', 'audio/ogg')),
+    (b'fLaC', ('audio', 'audio/flac')),
+    (b'RIFF', ('audio', 'audio/wav')),
+    (b'ID3', ('audio', 'audio/mpeg')),
+    (b'\xff\xfb', ('audio', 'audio/mpeg')),
+    (b'\xff\xf3', ('audio', 'audio/mpeg')),
+    (b'\xff\xf2', ('audio', 'audio/mpeg')),
+    (b'\x1a\x45\xdf\xa3', ('video', 'video/webm')),
+)
+
+
+def _sniff_forum_media_kind(data: bytes):
+    """Light magic-byte validation; returns (kind, mime) or None."""
+    head = data[:16]
+    if b'ftyp' in data[4:12]:
+        return ('video', 'video/mp4')
+    for magic, hit in _FORUM_MEDIA_MAGIC:
+        if head.startswith(magic):
+            return hit
+    return None
+
+
+def save_forum_media_upload(request, file_obj) -> dict:
+    """Validate + store one forum attachment. Returns a descriptor dict the
+    client echoes back inside the post/reply `attachments` payload:
+    {url, kind, name, size, mime}. Raises ValidationError on bad input."""
+    if not file_obj:
+        raise ValidationError('File is required')
+
+    size = int(getattr(file_obj, 'size', 0) or 0)
+    if size <= 0:
+        raise ValidationError('File is empty')
+    if size > FORUM_MEDIA_MAX_ABS_BYTES:
+        raise ValidationError('File is too large. Maximum size is 150 MB.')
+
+    original_name = get_valid_filename(getattr(file_obj, 'name', 'attachment'))[:120] or 'attachment'
+    ext = os.path.splitext(original_name)[1].lower()
+    kind_mime = FORUM_MEDIA_TYPES.get(ext)
+    if kind_mime is None:
+        raise ValidationError(
+            'Unsupported file type. Videos (mp4/webm/mov), audio (mp3/m4a/ogg/wav/flac) '
+            'or documents (pdf/office/txt/zip) only.'
+        )
+    kind, mime = kind_mime
+
+    per_kind_limit = {
+        'video': FORUM_MEDIA_MAX_VIDEO_BYTES,
+        'audio': FORUM_MEDIA_MAX_AUDIO_BYTES,
+        'file': FORUM_MEDIA_MAX_FILE_BYTES,
+    }[kind]
+    if size > per_kind_limit:
+        raise ValidationError(
+            {'video': 'Videos are limited to 150 MB.',
+             'audio': 'Audio files are limited to 40 MB.',
+             'file': 'Attachments are limited to 30 MB.'}[kind]
+        )
+
+    file_obj.seek(0)
+    data = file_obj.read(per_kind_limit + 1)
+    if len(data) > per_kind_limit:
+        raise ValidationError('File is too large.')
+
+    # Magic-byte check for binary formats; text formats pass through.
+    if ext in ('.mp4', '.m4v', '.webm', '.mov', '.mp3', '.m4a', '.aac', '.ogg', '.opus',
+               '.wav', '.flac', '.pdf', '.zip', '.doc', '.docx', '.ppt', '.pptx', '.xls', '.xlsx'):
+        sniffed = _sniff_forum_media_kind(data)
+        if sniffed is None:
+            raise ValidationError('File content does not match its extension.')
+        sniffed_kind, sniffed_mime = sniffed
+        # Office files are zips; allow zip detection for office extensions.
+        office_exts = ('.docx', '.pptx', '.xlsx')
+        if not (sniffed_kind == kind or (ext in office_exts and sniffed_mime == 'application/zip')
+                or (ext == '.m4a' and sniffed_kind == 'video')):
+            raise ValidationError('File content does not match its extension.')
+        if ext not in office_exts:
+            mime = sniffed_mime
+
+    import secrets as _secrets
+    subdir = {'video': 'videos', 'audio': 'audios', 'file': 'files'}[kind]
+    filename = f"forum_{_secrets.token_urlsafe(12)}{ext}"
+    path = default_storage.save(os.path.join('forum_media', subdir, filename), ContentFile(data))
+    return {
+        'url': request.build_absolute_uri(settings.MEDIA_URL + path),
+        'kind': kind,
+        'name': original_name,
+        'size': len(data),
+        'mime': mime,
+    }
+
+
+FORUM_ATTACHMENTS_MAX_COUNT = 4
+FORUM_ATTACHMENTS_MAX_VIDEO = 1
+
+
+def validate_forum_attachments(raw) -> list:
+    """Validate client-supplied attachment descriptors. Urls must point at
+    this site's own MEDIA_URL (uploaded via /api/forum/uploads/). Raises
+    ValidationError; returns a cleaned list of dicts."""
+    if raw in (None, ''):
+        return []
+    if not isinstance(raw, list):
+        raise ValidationError('attachments must be a list')
+    cleaned = []
+    for item in raw[:FORUM_ATTACHMENTS_MAX_COUNT + 1]:  # +1 so we can error precisely
+        if not isinstance(item, dict):
+            raise ValidationError('Each attachment must be an object')
+        url = str(item.get('url') or '').strip()
+        kind = str(item.get('kind') or '').strip().lower()
+        if kind not in ('video', 'audio', 'file'):
+            raise ValidationError('Invalid attachment kind')
+        parsed = urlparse(url)
+        media_prefix = settings.MEDIA_URL or '/media/'
+        path = parsed.path or url
+        if parsed.scheme and parsed.scheme not in ('http', 'https'):
+            raise ValidationError('Invalid attachment url')
+        if media_prefix not in path:
+            raise ValidationError('Attachments must be uploaded through the forum upload endpoint first')
+        name = str(item.get('name') or '')[:255]
+        mime_type = str(item.get('mime') or item.get('mime_type') or '')[:120]
+        try:
+            size_bytes = max(0, int(item.get('size') or item.get('size_bytes') or 0))
+        except (TypeError, ValueError):
+            size_bytes = 0
+        cleaned.append({'url': url, 'kind': kind, 'name': name, 'mime_type': mime_type, 'size_bytes': size_bytes})
+    if len(cleaned) > FORUM_ATTACHMENTS_MAX_COUNT:
+        raise ValidationError(f'Maximum {FORUM_ATTACHMENTS_MAX_COUNT} attachments')
+    if sum(1 for a in cleaned if a['kind'] == 'video') > FORUM_ATTACHMENTS_MAX_VIDEO:
+        raise ValidationError('Maximum 1 video per post or reply')
+    return cleaned

@@ -17,6 +17,13 @@
 .cp-mention-item-letter{font-size:.7rem;font-weight:700;color:var(--md-on-primary)}
 .cp-mention-item-name{font-size:.8125rem;font-weight:500;color:var(--md-on-surface);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .cp-mention-item-username{font-size:.6875rem;color:var(--md-on-surface-variant)}
+.cp-anon-toggle{display:inline-flex;align-items:center;gap:8px;cursor:pointer;user-select:none;margin-right:auto}
+.cp-anon-toggle input{position:absolute;opacity:0;width:0;height:0}
+.cp-anon-track{width:40px;height:22px;border-radius:11px;background:var(--md-surface-container-highest,#e0e0e0);position:relative;transition:background .15s;flex-shrink:0}
+.cp-anon-thumb{position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:left .15s}
+.cp-anon-toggle input:checked + .cp-anon-track{background:var(--md-primary)}
+.cp-anon-toggle input:checked + .cp-anon-track .cp-anon-thumb{left:21px}
+.cp-anon-label{font-size:.8125rem;font-weight:500;color:var(--md-on-surface)}
 </style>
 {% endblock %}
 
@@ -91,11 +98,19 @@
             <span class="material-symbols-outlined">poll</span>
             Poll
           </button>
+          <button type="button" class="cp-attach-btn" data-action="attach-media" title="Add video, audio or file">
+            <span class="material-symbols-outlined">attach_file</span>
+            Media
+          </button>
           <span class="cp-char-count" id="cp-char-count">0 / 20,000</span>
         </div>
       </div>
       <input type="file" id="cp-file-input" accept="image/jpeg,image/png,image/webp,image/gif" style="display:none">
+      <input type="file" id="cp-media-input" multiple style="display:none"
+             accept="video/mp4,video/webm,video/quicktime,audio/mpeg,audio/mp4,audio/aac,audio/ogg,audio/opus,audio/wav,audio/flac,.m4v,.mov,.m4a,.pdf,.txt,.md,.csv,.json,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.zip">
     </div>
+
+    <div class="cp-media-list" id="cp-media-list" style="display:none"></div>
 
     <div class="cp-images" id="cp-images" style="display:none">
       <div class="cp-images-grid" id="cp-images-grid"></div>
@@ -212,6 +227,12 @@
     </div>
 
     <div class="cp-actions">
+      <label class="cp-anon-toggle" id="cp-anon-toggle" title="Your name and profile stay hidden. Other Nebians will see 'Anonymous Nebian'.">
+        <input type="checkbox" id="cp-anonymous">
+        <span class="cp-anon-track"><span class="cp-anon-thumb"></span></span>
+        <span class="material-symbols-outlined" style="font-size:18px">visibility_off</span>
+        <span class="cp-anon-label">Post anonymously</span>
+      </label>
       <button type="button" class="cp-submit" id="cp-submit">
         <span class="material-symbols-outlined">send</span>
         Post Discussion
@@ -308,6 +329,8 @@
   var MAX_TOTAL_SIZE = 30 * 1024 * 1024;
   var MAX_CONTENT = 20000;
   var pendingImages = [];
+  var pendingAttachments = [];
+  var MAX_ATTACHMENTS = 4;
   var pollVisible = false;
   var submitting = false;
 
@@ -324,6 +347,7 @@
   var errorDiv = document.getElementById('cp-error');
   var submitBtn = document.getElementById('cp-submit');
   var fileInput = document.getElementById('cp-file-input');
+  var mediaInput = document.getElementById('cp-media-input');
   var imagesContainer = document.getElementById('cp-images');
   var imagesGrid = document.getElementById('cp-images-grid');
   var pollSection = document.getElementById('cp-poll-section');
@@ -592,6 +616,133 @@
       return;
     }
     fileInput.click();
+  });
+
+  document.querySelector('[data-action="attach-media"]').addEventListener('click', function() {
+    if (pendingAttachments.length >= MAX_ATTACHMENTS) {
+      showError('Maximum ' + MAX_ATTACHMENTS + ' attachments per post');
+      return;
+    }
+    mediaInput.click();
+  });
+
+  var MEDIA_LIMITS = { video: 150 * 1024 * 1024, audio: 40 * 1024 * 1024, file: 30 * 1024 * 1024 };
+
+  function guessMediaKind(file) {
+    var ext = (file.name.split('.').pop() || '').toLowerCase();
+    if (['mp4', 'm4v', 'webm', 'mov'].indexOf(ext) >= 0) return 'video';
+    if (['mp3', 'm4a', 'aac', 'ogg', 'opus', 'wav', 'flac'].indexOf(ext) >= 0) return 'audio';
+    return 'file';
+  }
+
+  function mediaKindIcon(kind) {
+    return kind === 'video' ? 'videocam' : (kind === 'audio' ? 'music_note' : 'description');
+  }
+
+  function formatBytes(n) {
+    if (!n) return '';
+    if (n < 1024) return n + ' B';
+    if (n < 1024 * 1024) return (n / 1024).toFixed(1) + ' KB';
+    if (n < 1024 * 1024 * 1024) return (n / 1024 / 1024).toFixed(1) + ' MB';
+    return (n / 1024 / 1024 / 1024).toFixed(2) + ' GB';
+  }
+
+  function renderMediaList() {
+    var list = document.getElementById('cp-media-list');
+    if (pendingAttachments.length === 0) { list.style.display = 'none'; list.innerHTML = ''; return; }
+    list.style.display = '';
+    list.innerHTML = '';
+    pendingAttachments.forEach(function(att, idx) {
+      var item = document.createElement('div');
+      item.className = 'cp-media-item';
+      var meta = att.uploading ? 'Uploading…' : (att.kind.charAt(0).toUpperCase() + att.kind.slice(1) + (att.size ? ' • ' + formatBytes(att.size) : ''));
+      item.innerHTML =
+        '<div class="cp-media-item-icon"><span class="material-symbols-outlined" style="font-size:18px">' + mediaKindIcon(att.kind) + '</span></div>' +
+        '<div class="cp-media-item-info">' +
+          '<div class="cp-media-item-name"></div>' +
+          '<div class="cp-media-item-meta">' + meta + '</div>' +
+          (att.uploading ? '<div class="cp-media-item-progress"><div class="cp-media-item-progress-fill"></div></div>' : '') +
+        '</div>' +
+        '<button type="button" class="cp-media-item-remove" title="Remove"><span class="material-symbols-outlined" style="font-size:18px">close</span></button>';
+      item.querySelector('.cp-media-item-name').textContent = att.name;
+      item.querySelector('.cp-media-item-remove').addEventListener('click', function() {
+        pendingAttachments.splice(idx, 1);
+        renderMediaList();
+      });
+      list.appendChild(item);
+    });
+  }
+
+  function setMediaProgress(att, pct) {
+    var list = document.getElementById('cp-media-list');
+    var idx = pendingAttachments.indexOf(att);
+    if (idx < 0) return;
+    var fill = list.children[idx] && list.children[idx].querySelector('.cp-media-item-progress-fill');
+    if (fill) fill.style.width = pct + '%';
+  }
+
+  function uploadMediaFile(file) {
+    var kind = guessMediaKind(file);
+    if (file.size > MEDIA_LIMITS[kind]) {
+      showError(kind === 'video' ? 'Videos are limited to 150 MB' : (kind === 'audio' ? 'Audio files are limited to 40 MB' : 'Attachments are limited to 30 MB'));
+      return;
+    }
+    if (kind === 'video' && pendingAttachments.some(function(a) { return a.kind === 'video'; })) {
+      showError('Maximum 1 video per post');
+      return;
+    }
+    var att = { name: file.name, kind: kind, size: file.size, uploading: true, url: '', mime: '' };
+    pendingAttachments.push(att);
+    renderMediaList();
+    var formData = new FormData();
+    formData.append('file', file);
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/api/forum/uploads/');
+    xhr.upload.onprogress = function(e) {
+      if (e.lengthComputable) setMediaProgress(att, Math.round(e.loaded / e.total * 100));
+    };
+    xhr.onload = function() {
+      att.uploading = false;
+      if (xhr.status === 201) {
+        try {
+          var data = JSON.parse(xhr.responseText);
+          if (data.ok && data.attachment) {
+            att.url = data.attachment.url;
+            att.kind = data.attachment.kind || att.kind;
+            att.name = data.attachment.name || att.name;
+            att.size = data.attachment.size || att.size;
+            att.mime = data.attachment.mime || '';
+            hideError();
+            renderMediaList();
+            return;
+          }
+        } catch (e) {}
+      }
+      pendingAttachments.splice(pendingAttachments.indexOf(att), 1);
+      renderMediaList();
+      try {
+        var err = JSON.parse(xhr.responseText);
+        showError(err.error || ('Failed to upload ' + file.name));
+      } catch (e) {
+        showError('Failed to upload ' + file.name);
+      }
+    };
+    xhr.onerror = function() {
+      att.uploading = false;
+      pendingAttachments.splice(pendingAttachments.indexOf(att), 1);
+      renderMediaList();
+      showError('Network error uploading ' + file.name);
+    };
+    xhr.send(formData);
+  }
+
+  mediaInput.addEventListener('change', function() {
+    var files = Array.prototype.slice.call(mediaInput.files || []);
+    mediaInput.value = '';
+    files.forEach(function(file) {
+      if (pendingAttachments.length >= MAX_ATTACHMENTS) { showError('Maximum ' + MAX_ATTACHMENTS + ' attachments per post'); return; }
+      uploadMediaFile(file);
+    });
   });
 
   document.querySelector('[data-action="toggle-poll"]').addEventListener('click', function() {
@@ -1049,6 +1200,7 @@
     if (!content) { showError('Please enter some content'); editorBody.focus(); return; }
     if (!category) { showError('Please select a category'); return; }
     if (content.length > MAX_CONTENT) { showError('Content is too long (max 20,000 characters)'); return; }
+    if (pendingAttachments.some(function(a) { return a.uploading; })) { showError('Please wait for attachments to finish uploading'); return; }
 
     for (var ci = 0; ci < pendingImages.length; ci++) {
       if (!pendingImages[ci].compressed && !pendingImages[ci].file) {
@@ -1140,7 +1292,11 @@
         content: content,
         category: category,
         images: imageUrls,
-        poll: pollData
+        poll: pollData,
+        isAnonymous: document.getElementById('cp-anonymous').checked,
+        attachments: pendingAttachments.filter(function(a) { return !a.uploading && a.url; }).map(function(a) {
+          return { url: a.url, kind: a.kind, name: a.name, size: a.size, mime: a.mime };
+        })
       }));
     });
   });

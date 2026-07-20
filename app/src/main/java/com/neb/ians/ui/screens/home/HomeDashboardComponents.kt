@@ -27,7 +27,10 @@ import androidx.compose.material.icons.filled.Forum
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.SmartToy
 import androidx.compose.material.icons.filled.Upload
+import androidx.compose.material.icons.outlined.ChatBubbleOutline
+import androidx.compose.material.icons.outlined.ThumbUp
 import androidx.compose.material.icons.outlined.Visibility
+import androidx.compose.material.icons.outlined.VisibilityOff
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -46,7 +49,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.neb.ians.data.api.ApiPost
 import com.neb.ians.data.api.ApiResource
+import com.neb.ians.data.api.ApiSuggestedItem
 import com.neb.ians.ui.components.WebResourceCard
 import com.neb.ians.util.getSubjectColor
 
@@ -319,6 +324,134 @@ internal fun HomeResourceCarousel(
                 shape = RoundedCornerShape(24.dp)
             )
         }
+    }
+}
+
+/**
+ * "Suggested for you" — mixed deck of resource + discussion cards picked by
+ * the server-side feed engine. Guaranteed non-empty while any content exists.
+ */
+@Composable
+internal fun HomeSuggestedDeck(
+    items: List<ApiSuggestedItem>,
+    onResourceClick: (String) -> Unit,
+    onPostClick: (String) -> Unit
+) {
+    LazyRow(
+        contentPadding = PaddingValues(horizontal = 16.dp),
+        horizontalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        items(
+            items.take(14),
+            key = { item -> item.type + "_" + (item.post?.id ?: item.resource?.id ?: "") }
+        ) { item ->
+            when {
+                item.type == "resource" && item.resource != null -> WebResourceCard(
+                    resource = item.resource,
+                    onClick = { onResourceClick(item.resource.id) },
+                    minWidth = 248.dp,
+                    shape = RoundedCornerShape(24.dp)
+                )
+                item.type == "post" && item.post != null -> SuggestedPostCard(
+                    post = item.post,
+                    onClick = { onPostClick(item.post.id) }
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun SuggestedPostCard(post: ApiPost, onClick: () -> Unit) {
+    Surface(
+        onClick = onClick,
+        shape = RoundedCornerShape(24.dp),
+        color = MaterialTheme.colorScheme.surfaceContainerLowest,
+        tonalElevation = 1.dp,
+        modifier = Modifier.width(248.dp)
+    ) {
+        Column(
+            modifier = Modifier.padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp)
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Surface(
+                    shape = RoundedCornerShape(999.dp),
+                    color = MaterialTheme.colorScheme.secondaryContainer
+                ) {
+                    Text(
+                        text = post.category,
+                        style = MaterialTheme.typography.labelSmall,
+                        fontWeight = FontWeight.SemiBold,
+                        color = MaterialTheme.colorScheme.onSecondaryContainer,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp)
+                    )
+                }
+                Icon(
+                    imageVector = Icons.Filled.Forum,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.size(18.dp)
+                )
+            }
+            Text(
+                text = post.title,
+                style = MaterialTheme.typography.titleSmall,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onSurface,
+                maxLines = 3,
+                overflow = TextOverflow.Ellipsis
+            )
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(5.dp)
+            ) {
+                if (post.isAnonymous) {
+                    Icon(
+                        imageVector = Icons.Outlined.VisibilityOff,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.size(13.dp)
+                    )
+                }
+                Text(
+                    text = if (post.isAnonymous) "Anonymous Nebian" else post.authorName,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(14.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                SuggestedStat(icon = { Icon(Icons.Outlined.ThumbUp, null, tint = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.size(14.dp)) }, value = post.thumbsUpCount.toString())
+                SuggestedStat(icon = { Icon(Icons.Outlined.ChatBubbleOutline, null, tint = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.size(14.dp)) }, value = post.replyCount.toString())
+                SuggestedStat(icon = { Icon(Icons.Outlined.Visibility, null, tint = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.size(14.dp)) }, value = post.viewCount.toString())
+            }
+        }
+    }
+}
+
+@Composable
+private fun SuggestedStat(icon: @Composable () -> Unit, value: String) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(4.dp)
+    ) {
+        icon()
+        Text(
+            text = value,
+            style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
     }
 }
 

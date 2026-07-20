@@ -18,6 +18,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.Reply
 import androidx.compose.material.icons.outlined.ChatBubbleOutline
+import androidx.compose.material.icons.outlined.VisibilityOff
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -67,7 +68,8 @@ fun CommentCard(
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 Box(
-                    modifier = Modifier.combinedClickable(
+                    modifier = if (reply.isAnonymous) Modifier
+                    else Modifier.combinedClickable(
                         onClick = { onProfileClick(reply.authorName) },
                         onLongClick = onAuthorLongPress
                     )
@@ -101,11 +103,23 @@ fun CommentCard(
                             overflow = TextOverflow.Ellipsis,
                             modifier = Modifier
                                 .weight(1f, fill = false)
-                                .combinedClickable(
-                                    onClick = { onProfileClick(reply.authorName) },
-                                    onLongClick = onAuthorLongPress
+                                .then(
+                                    if (reply.isAnonymous) Modifier
+                                    else Modifier.combinedClickable(
+                                        onClick = { onProfileClick(reply.authorName) },
+                                        onLongClick = onAuthorLongPress
+                                    )
                                 )
                         )
+                        if (reply.isAnonymous) {
+                            Spacer(modifier = Modifier.width(4.dp))
+                            Icon(
+                                imageVector = Icons.Outlined.VisibilityOff,
+                                contentDescription = "Anonymous",
+                                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                                modifier = Modifier.size(13.dp)
+                            )
+                        }
                         reply.authorBadgeInfo?.let { badge ->
                             Spacer(modifier = Modifier.width(5.dp))
                             NebBadge(badge)
@@ -212,6 +226,11 @@ fun CommentCard(
                 onMentionClick = onProfileClick,
                 onLinkClick = onLinkClick
             )
+
+            if (reply.attachments.isNotEmpty()) {
+                Spacer(modifier = Modifier.height(8.dp))
+                ForumMediaAttachments(reply.attachments)
+            }
 
             Spacer(modifier = Modifier.height(8.dp))
 

@@ -28,13 +28,17 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.outlined.Reply
 import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.BookmarkBorder
+import androidx.compose.material.icons.outlined.AttachFile
 import androidx.compose.material.icons.outlined.ChatBubbleOutline
 import androidx.compose.material.icons.outlined.Share
+import androidx.compose.material.icons.outlined.VisibilityOff
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -45,6 +49,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -99,6 +104,8 @@ import com.neb.ians.ui.components.MentionsVisualTransformation
 import com.neb.ians.ui.components.MentionSuggestions
 import com.neb.ians.ui.components.CommentCard
 import com.neb.ians.ui.components.CommentSortPillsRow
+import com.neb.ians.ui.components.ForumAttachmentChip
+import com.neb.ians.ui.components.ForumMediaAttachments
 import com.neb.ians.ui.components.NebCommentComposerBar
 import com.neb.ians.ui.theme.getSubjectTheme
 import com.neb.ians.util.formatTimeAgo
@@ -119,6 +126,12 @@ fun ForumPostDetailScreen(
     val threadReplyText by viewModel.threadReplyText.collectAsStateWithLifecycle()
     val threadMentionSuggestions by viewModel.threadMentionSuggestions.collectAsStateWithLifecycle()
     val isSubmittingReply by viewModel.isSubmittingReply.collectAsStateWithLifecycle()
+    val composerMediaAttachments by viewModel.mediaAttachments.collectAsStateWithLifecycle()
+    val composerAnonymous by viewModel.composerAnonymous.collectAsStateWithLifecycle()
+
+    val composerMediaPicker = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.OpenMultipleDocuments()
+    ) { uris -> if (!uris.isNullOrEmpty()) viewModel.addMediaAttachments(uris) }
 
     val context = LocalContext.current
     val snackbarHostState = remember { SnackbarHostState() }
@@ -189,6 +202,16 @@ fun ForumPostDetailScreen(
                         )
                     }
                 ) {
+                    ReplyComposerMediaSection(
+                        attachments = composerMediaAttachments,
+                        isAnonymous = composerAnonymous,
+                        enabled = !isSubmittingReply,
+                        onAttachClick = {
+                            composerMediaPicker.launch(arrayOf("video/*", "audio/*", "application/*", "text/*"))
+                        },
+                        onRemoveAttachment = viewModel::removeMediaAttachment,
+                        onAnonymousChange = viewModel::setComposerAnonymous
+                    )
                     if (mainMentionSuggestions.isNotEmpty()) {
                         MentionSuggestions(
                             users = mainMentionSuggestions,
@@ -225,7 +248,7 @@ fun ForumPostDetailScreen(
             }
             else -> {
                 val post = uiState.post!!
-                val isOwnPost = uiState.currentUserId != null && post.authorId == uiState.currentUserId
+                val isOwnPost = post.isOwner || (uiState.currentUserId != null && post.authorId == uiState.currentUserId)
                 val topLevel = uiState.topLevelReplies
 
                 PullToRefreshBox(
@@ -321,7 +344,7 @@ fun ForumPostDetailScreen(
                         val children = uiState.childrenOf(reply.id)
                         CommentCard(
                             reply = reply,
-                            isOwn = uiState.currentUserId != null && reply.authorId == uiState.currentUserId,
+                            isOwn = reply.isOwner || (uiState.currentUserId != null && reply.authorId == uiState.currentUserId),
                             onThumbsUpClick = { viewModel.toggleReplyThumbsUp(reply.id) },
                             onReplyClick = {
                                 activeThreadParentId = reply.id
@@ -500,7 +523,7 @@ fun ForumPostDetailScreen(
                     item(key = "parent_${parent.id}") {
                         CommentCard(
                             reply = parent,
-                            isOwn = uiState.currentUserId != null && parent.authorId == uiState.currentUserId,
+                            isOwn = parent.isOwner || (uiState.currentUserId != null && parent.authorId == uiState.currentUserId),
                             onThumbsUpClick = { viewModel.toggleReplyThumbsUp(parent.id) },
                              onReplyClick = {
                                  activeThreadTargetReply = parent
@@ -555,7 +578,7 @@ fun ForumPostDetailScreen(
 
                                 CommentCard(
                                     reply = child,
-                                    isOwn = uiState.currentUserId != null && child.authorId == uiState.currentUserId,
+                                    isOwn = child.isOwner || (uiState.currentUserId != null && child.authorId == uiState.currentUserId),
                                     onThumbsUpClick = { viewModel.toggleReplyThumbsUp(child.id) },
                                      onReplyClick = {
                                          activeThreadTargetReply = child
@@ -608,6 +631,16 @@ fun ForumPostDetailScreen(
                             )
                         }
                     ) {
+                        ReplyComposerMediaSection(
+                            attachments = composerMediaAttachments,
+                            isAnonymous = composerAnonymous,
+                            enabled = !isSubmittingReply,
+                            onAttachClick = {
+                                composerMediaPicker.launch(arrayOf("video/*", "audio/*", "application/*", "text/*"))
+                            },
+                            onRemoveAttachment = viewModel::removeMediaAttachment,
+                            onAnonymousChange = viewModel::setComposerAnonymous
+                        )
                         if (threadMentionSuggestions.isNotEmpty()) {
                             MentionSuggestions(
                                 users = threadMentionSuggestions,
@@ -861,6 +894,15 @@ private fun PostContentSection(
             }
         }
 
+        // ----- Media attachments (video / audio / files) -----
+        if (post.attachments.isNotEmpty()) {
+            Spacer(modifier = Modifier.height(12.dp))
+            ForumMediaAttachments(
+                attachments = post.attachments,
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
+
         // ----- Poll -----
         poll?.let {
             Spacer(modifier = Modifier.height(12.dp))
@@ -914,3 +956,77 @@ private fun PostContentSection(
 }
 
 
+/**
+ * Compact attach + anonymous options row shared by the post-detail inline
+ * composers (main bottom bar and thread reply bar): a media attach button,
+ * an anonymous toggle, and the staged attachment chips.
+ */
+@Composable
+private fun ReplyComposerMediaSection(
+    attachments: List<PendingForumAttachment>,
+    isAnonymous: Boolean,
+    enabled: Boolean,
+    onAttachClick: () -> Unit,
+    onRemoveAttachment: (String) -> Unit,
+    onAnonymousChange: (Boolean) -> Unit
+) {
+    Column(modifier = Modifier.fillMaxWidth()) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .clip(RoundedCornerShape(10.dp))
+                    .clickable(enabled = enabled, onClick = onAttachClick)
+                    .padding(horizontal = 8.dp, vertical = 6.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Outlined.AttachFile,
+                    contentDescription = null,
+                    modifier = Modifier.size(16.dp),
+                    tint = MaterialTheme.colorScheme.primary
+                )
+                Spacer(modifier = Modifier.width(4.dp))
+                Text(
+                    text = "Attach",
+                    style = MaterialTheme.typography.labelMedium,
+                    fontWeight = FontWeight.SemiBold,
+                    color = MaterialTheme.colorScheme.primary
+                )
+            }
+            Spacer(modifier = Modifier.weight(1f))
+            Icon(
+                imageVector = Icons.Outlined.VisibilityOff,
+                contentDescription = null,
+                modifier = Modifier.size(14.dp),
+                tint = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            Spacer(modifier = Modifier.width(4.dp))
+            Text(
+                text = "Anonymous",
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            Switch(
+                checked = isAnonymous,
+                onCheckedChange = onAnonymousChange,
+                enabled = enabled
+            )
+        }
+        if (attachments.isNotEmpty()) {
+            Spacer(modifier = Modifier.height(4.dp))
+            attachments.forEach { attachment ->
+                ForumAttachmentChip(
+                    attachment = attachment,
+                    onRemove = { onRemoveAttachment(attachment.localId) },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 2.dp)
+                )
+            }
+            Spacer(modifier = Modifier.height(4.dp))
+        }
+    }
+}

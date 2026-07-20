@@ -321,6 +321,7 @@ class Post(models.Model):
     is_edited = models.BooleanField(default=False)
     edited_at = models.BigIntegerField(default=0)
     is_archived = models.BooleanField(default=False)
+    is_anonymous = models.BooleanField(default=False)
     created_at = models.BigIntegerField()
 
     class Meta:
@@ -356,8 +357,36 @@ class PostImage(models.Model):
         ]
 
 
+class PostMedia(models.Model):
+    """Attachments on posts and replies: videos, audio files and generic files.
+    Images keep using PostImage (the 3-image gallery); PostMedia covers
+    everything richer while keeping one serializer shape for all clients."""
+    KIND_CHOICES = (
+        ('video', 'Video'),
+        ('audio', 'Audio'),
+        ('file', 'File'),
+    )
+    id = models.CharField(max_length=36, primary_key=True)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='media', null=True, blank=True)
+    reply = models.ForeignKey('Reply', on_delete=models.CASCADE, related_name='media', null=True, blank=True)
+    kind = models.CharField(max_length=10, choices=KIND_CHOICES, default='file')
+    url = models.TextField()
+    name = models.CharField(max_length=255, blank=True, default='')
+    mime_type = models.CharField(max_length=120, blank=True, default='')
+    size_bytes = models.BigIntegerField(default=0)
+    order = models.PositiveSmallIntegerField(default=0)
+    created_at = models.BigIntegerField()
+
+    class Meta:
+        db_table = 'post_media'
+        ordering = ['order', 'created_at']
+        indexes = [
+            models.Index(fields=['post_id', 'order']),
+            models.Index(fields=['reply_id', 'order']),
+        ]
+
+
 class Poll(models.Model):
-    """Poll attached to a post."""
     DURATION_CHOICES = [
         (0, 'No expiry'),
         (3600000, '1 hour'),
@@ -449,6 +478,7 @@ class Reply(models.Model):
     is_edited = models.BooleanField(default=False)
     edited_at = models.BigIntegerField(default=0)
     is_archived = models.BooleanField(default=False)
+    is_anonymous = models.BooleanField(default=False)
     created_at = models.BigIntegerField()
 
     class Meta:
@@ -670,6 +700,7 @@ class Notification(models.Model):
     id = models.CharField(max_length=36, primary_key=True)
     recipient = models.ForeignKey(User, on_delete=models.CASCADE, related_name='notifications')
     actor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='notifications_sent', null=True, blank=True)
+    actor_anonymous = models.BooleanField(default=False)
     verb = models.CharField(max_length=30, choices=VERB_CHOICES)
     target_type = models.CharField(max_length=20, choices=TARGET_TYPES)
     target_id = models.CharField(max_length=36)

@@ -113,6 +113,9 @@
     return node;
   }
   function messageNode(message) {
+    if (message.role === 'system') {
+      return null;
+    }
     if (message.role === 'assistant' && message.metadata && message.metadata.kind === 'thought') {
       return thoughtNode(message);
     }
@@ -148,7 +151,10 @@
   }
   function addMessage(message, initial) {
     if (!message || state.messages.has(String(message.id))) return;
-    state.messages.set(String(message.id), message); var stick = initial || nearBottom(); els.conversation.appendChild(messageNode(message)); scrollBottom(stick);
+    state.messages.set(String(message.id), message);
+    var node = messageNode(message);
+    if (!node) return;
+    var stick = initial || nearBottom(); els.conversation.appendChild(node); scrollBottom(stick);
   }
   function addEvent(event) {
     if (!event || Number(event.id || 0) <= state.lastEvent) return;
@@ -218,7 +224,7 @@
   }
   async function loadAttachment(id) { state.activeFile = ''; renderFiles(); await loadFilePayload(root.dataset.fileUrl + '?attachment=' + encodeURIComponent(id)); }
   async function loadFilePayload(url) {
-    els.viewerContent.innerHTML = '<div class="ba-empty-view"><span class="ba-spinner"></span><p>Loading preview…</p></div>';
+    els.viewerContent.innerHTML = '<div class="ba-empty-view"><span class="ba-spinner"></span><p>Loading preview\u2026</p></div>';
     try { var data = await BA.api(url); renderViewer(data.file); }
     catch (error) { els.viewerContent.innerHTML = '<div class="ba-empty-view"><span class="material-symbols-outlined">error</span><p>' + BA.escapeHtml(error.message) + '</p></div>'; }
   }

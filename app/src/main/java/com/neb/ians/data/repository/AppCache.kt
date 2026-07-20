@@ -5,6 +5,7 @@ import com.neb.ians.data.api.ApiResourceComment
 import com.neb.ians.data.api.ApiPost
 import com.neb.ians.data.api.ApiReply
 import com.neb.ians.data.api.ApiNotification
+import com.neb.ians.data.api.ApiSuggestedItem
 import com.neb.ians.data.api.UserProfileResponse
 import com.neb.ians.data.news.NewsAnnouncement
 import javax.inject.Inject
@@ -17,6 +18,7 @@ class AppCache @Inject constructor() {
     var popularResources: List<ApiResource> = emptyList()
     var recentPosts: List<ApiPost> = emptyList()
     var latestNews: List<NewsAnnouncement> = emptyList()
+    var suggestedItems: List<ApiSuggestedItem> = emptyList()
     
     // Library Screen Cache
     var libraryResources: List<ApiResource> = emptyList()

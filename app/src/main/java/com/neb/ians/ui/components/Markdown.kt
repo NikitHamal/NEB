@@ -276,24 +276,6 @@ fun markdownToPlainPreview(markdown: String): String {
         .trim()
 }
 
-/** Find @all mentions in plain text and build an AnnotatedString with error highlight. */
-private fun highlightAllMentions(text: String, errorBg: Color, errorFg: Color): AnnotatedString {
-    val pattern = Regex("@[Aa][Ll][Ll]")
-    return buildAnnotatedString {
-        var cursor = 0
-        pattern.findAll(text).forEach { match ->
-            if (match.range.first > cursor) {
-                append(text.substring(cursor, match.range.first))
-            }
-            pushStyle(SpanStyle(background = errorBg, color = errorFg, fontWeight = FontWeight.Bold))
-            append("@all")
-            pop()
-            cursor = match.range.last + 1
-        }
-        if (cursor < text.length) append(text.substring(cursor))
-    }
-}
-
 @Composable
 fun ExpandableMarkdownText(
     markdown: String,
@@ -317,20 +299,34 @@ fun ExpandableMarkdownText(
                 onLinkClick = onLinkClick
             )
         } else {
-            val plainText = remember(markdown) { markdownToPlainPreview(markdown) }
+            // Collapsed preview stays fully formatted: block structure is
+            // flattened but inline markdown (bold, italic, code, strike,
+            // colored/links and highlighted @mentions) keeps rendering, so
+            // the preview never looks like raw unprocessed text.
+            val flatText = remember(markdown) { markdownToInlinePreview(markdown) }
+            val primary = MaterialTheme.colorScheme.primary
+            val codeBg = MaterialTheme.colorScheme.surfaceContainerHigh
             val errorBg = MaterialTheme.colorScheme.errorContainer
             val errorFg = MaterialTheme.colorScheme.onErrorContainer
-            val annotated = remember(plainText, errorBg, errorFg) {
-                highlightAllMentions(plainText, errorBg, errorFg)
+            val annotated = remember(flatText, color, primary, codeBg, errorBg, errorFg) {
+                buildInlineAnnotatedString(flatText, color, primary, codeBg, errorBg, errorFg)
             }
-            Text(
+            ClickableText(
                 text = annotated,
-                style = style,
-                color = color,
+                style = style.copy(color = color),
                 maxLines = minimizedMaxLines,
                 overflow = TextOverflow.Ellipsis,
                 onTextLayout = { textLayoutResult ->
                     hasOverflow = textLayoutResult.hasVisualOverflow
+                },
+                onClick = { offset ->
+                    annotated.getStringAnnotations("mention", offset, offset).firstOrNull()?.let {
+                        onMentionClick(it.item)
+                        return@ClickableText
+                    }
+                    annotated.getStringAnnotations("url", offset, offset).firstOrNull()?.let {
+                        onLinkClick(it.item)
+                    }
                 }
             )
         }
@@ -348,4 +344,21 @@ fun ExpandableMarkdownText(
             )
         }
     }
+}
+
+/**
+ * Flatten markdown blocks into a single flow of text for collapsed previews,
+ * keeping inline markers so [buildInlineAnnotatedString] can still style
+ * bold/italic/code/links/mentions. Block markers become readable bullets.
+ */
+private fun markdownToInlinePreview(markdown: String): String {
+    if (markdown.isBlank()) return ""
+    return parseMarkdownBlocks(markdown).joinToString("\n") { block ->
+        when (block) {
+            is MdBlock.Heading -> block.text
+            is MdBlock.Quote -> block.text
+            is MdBlock.ListItem -> (if (block.ordered) "${block.number}. " else "• ") + block.text
+            is MdBlock.Paragraph -> block.text
+        }
+    }.replace(Regex("!\\[[^]]*]\\([^)]*\\)"), "").trim()
 }

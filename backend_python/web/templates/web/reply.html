@@ -20,12 +20,26 @@
   {% endif %}
 
   <div class="md-card p-3">
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
       {% csrf_token %}
       <div class="form-group">
         <label class="md-label" for="content">Your Reply</label>
         <textarea id="content" name="content" class="md-textarea" placeholder="Write your reply..." rows="6" required></textarea>
       </div>
+      <div class="form-group">
+        <label class="md-label" for="attachment_files">Attachments <span style="color:var(--md-on-surface-variant);font-weight:400">(optional — up to 4)</span></label>
+        <input type="file" id="attachment_files" name="attachment_files" multiple class="md-textarea" style="padding:10px;height:auto;"
+               accept="video/mp4,video/webm,video/quicktime,audio/mpeg,audio/mp4,audio/aac,audio/ogg,audio/opus,audio/wav,audio/flac,.m4v,.mov,.m4a,.pdf,.txt,.md,.csv,.json,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.zip">
+        <div class="md-label-medium" style="color:var(--md-on-surface-variant);margin-top:6px;">
+          Video up to 150 MB (max 1), audio up to 40 MB, other files up to 30 MB.
+        </div>
+      </div>
+      <label style="display:flex;align-items:center;gap:8px;cursor:pointer;margin-bottom:16px;user-select:none;"
+             title="Your name and profile stay hidden. Other Nebians will see 'Anonymous Nebian'.">
+        <input type="checkbox" name="anonymous" value="1">
+        <span class="material-symbols-outlined" style="font-size:18px">visibility_off</span>
+        <span class="md-label-large">Reply anonymously</span>
+      </label>
       <div class="form-actions">
         <button type="submit" class="md-btn md-btn-filled">
           <span class="material-symbols-outlined" style="font-size:18px">send</span>
