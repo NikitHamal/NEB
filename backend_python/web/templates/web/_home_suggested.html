@@ -1,0 +1,75 @@
+{% load web_extras %}
+{% if suggested_items %}
+<div class="section">
+  <div class="section-header">
+    <h2>Suggested for you</h2>
+    <a href="{% url 'web:library' %}">Explore all</a>
+  </div>
+  <div class="hscroll">
+    {% for item in suggested_items %}
+      {% if item.type == 'resource' %}
+      {% with r=item.resource %}
+      <a href="{% url 'web:reader' resource_id=r.id %}"
+        class="resource-card subject-{{ r.subject|split:','|first|subject_slug }}">
+        <div class="resource-card-art">
+          {% if r.thumbnail_url %}
+          <img src="{{ r.thumbnail_url }}" alt="{{ r.title }}" class="resource-card-art-img" loading="lazy">
+          {% else %}
+          <svg viewBox="0 0 300 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="300" height="120" fill="var(--art-c1)" />
+            <path d="M0,120 L0,70 Q40,20 100,55 Q160,90 220,45 Q270,10 300,50 L300,120Z" fill="var(--art-c2)"
+              opacity="0.5" />
+            <path d="M0,120 L0,85 Q60,40 130,70 Q200,100 260,60 L300,75 L300,120Z" fill="var(--art-c3)"
+              opacity="0.35" />
+            <path d="M0,120 L0,95 Q80,65 160,85 Q240,105 300,80 L300,120Z" fill="var(--art-c4)" opacity="0.2" />
+          </svg>
+          {% endif %}
+          <span class="resource-card-type-pill">{{ r.type }}</span>
+          <span class="resource-card-art-icon material-symbols-outlined">{{ r.subject|split:','|first|subject_icon }}</span>
+        </div>
+        <div class="resource-card-info">
+          <div class="resource-card-subject-chip">
+            {% with subjs=r.subject|split:"," %}
+            {{ subjs|first }}
+            {% if subjs|length > 1 %}
+            +{{ subjs|length|add:"-1" }} more
+            {% endif %}
+            {% endwith %}
+          </div>
+          <div class="resource-card-title">{{ r.title }}</div>
+          <div class="resource-card-meta">
+            {{ r.grade_level }} &middot; {{ r.type }}{% if r.file_size %} &middot; {{ r.file_size|file_size_human }}{% endif %}
+          </div>
+          <div class="resource-card-stats">
+            <span class="material-symbols-outlined">visibility</span> {{ r.view_count|short_number }} &middot; {{ r.added_at|time_ago }}
+          </div>
+        </div>
+      </a>
+      {% endwith %}
+      {% else %}
+      {% with p=item.post %}
+      <a href="{% url 'web:forum_post' post_id=p.id %}" class="suggest-post-card">
+        <div class="suggest-post-head">
+          <span class="suggest-post-cat">{{ p.category }}</span>
+          <span class="material-symbols-outlined">forum</span>
+        </div>
+        <div class="suggest-post-title">{{ p.title }}</div>
+        <div class="suggest-post-author">
+          {% if p.isAnonymous %}
+          <span class="material-symbols-outlined">visibility_off</span> Anonymous Nebian
+          {% else %}
+          {{ p.authorName }}
+          {% endif %}
+        </div>
+        <div class="suggest-post-stats">
+          <span><span class="material-symbols-outlined">thumb_up</span> {{ p.thumbsUpCount|short_number }}</span>
+          <span><span class="material-symbols-outlined">chat_bubble_outline</span> {{ p.replyCount }}</span>
+          <span><span class="material-symbols-outlined">visibility</span> {{ p.viewCount|short_number }}</span>
+        </div>
+      </a>
+      {% endwith %}
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+{% endif %}

@@ -1,0 +1,34 @@
+{% comment %}Renders forum media attachments. Expects `attachments` in context:
+list of dicts with kind (video|audio|file), url, name, sizeBytes/size_bytes.{% endcomment %}
+{% if attachments %}
+<div class="fm-list" data-action-stop>
+  {% for att in attachments %}
+    {% if att.kind == 'video' %}
+    <div class="fm-video-wrap">
+      <video class="fm-video" controls preload="metadata" playsinline src="{{ att.url }}"></video>
+    </div>
+    {% elif att.kind == 'audio' %}
+    <div class="fm-audio" data-fm-audio>
+      <button type="button" class="fm-audio-btn" data-action="fm-audio-toggle" aria-label="Play audio">
+        <span class="material-symbols-outlined">play_arrow</span>
+      </button>
+      <div class="fm-audio-info">
+        <div class="fm-audio-name" title="{{ att.name }}">{{ att.name|default:"Audio track" }}</div>
+        <div class="fm-audio-progress" data-action="fm-audio-seek"><div class="fm-audio-progress-fill"></div></div>
+      </div>
+      <span class="fm-audio-time">0:00</span>
+      <audio preload="metadata" src="{{ att.url }}"></audio>
+    </div>
+    {% else %}
+    <a class="fm-file" href="{{ att.url }}" target="_blank" rel="noopener">
+      <span class="fm-file-icon"><span class="material-symbols-outlined">description</span></span>
+      <span class="fm-file-info">
+        <span class="fm-file-name">{{ att.name|default:"Attachment" }}</span>
+        <span class="fm-file-meta">{% if att.sizeBytes %}{{ att.sizeBytes|filesizeformat }}{% elif att.size_bytes %}{{ att.size_bytes|filesizeformat }}{% else %}File{% endif %}</span>
+      </span>
+      <span class="material-symbols-outlined fm-file-dl">download</span>
+    </a>
+    {% endif %}
+  {% endfor %}
+</div>
+{% endif %}

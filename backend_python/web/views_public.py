@@ -136,6 +136,23 @@ def home(request):
     else:
         trending_resources = sorted(resources, key=lambda r: r.get('view_count', 0), reverse=True)[:5]
     trending_posts = all_posts[:3]
+
+    # "Suggested for you" — intelligent mixed rail (resources + discussions).
+    # The deck is guaranteed non-empty whenever the platform has content.
+    suggested_items = []
+    try:
+        from api.views_feed import build_suggested_deck
+        deck, _suggest_note = build_suggested_deck(user_profile, limit=10)
+        deck_posts = [obj for kind, obj in deck if kind == 'post']
+        deck_resources = [obj for kind, obj in deck if kind == 'resource']
+        posts_by_id = {p['id']: p for p in _serialize_posts(deck_posts, user_id)} if deck_posts else {}
+        resources_by_id = {r['id']: r for r in _serialize_resources(deck_resources)} if deck_resources else {}
+        for kind, obj in deck:
+            card = posts_by_id.get(obj.id) if kind == 'post' else resources_by_id.get(obj.id)
+            if card:
+                suggested_items.append({'type': kind, ('post' if kind == 'post' else 'resource'): card})
+    except Exception:
+        suggested_items = []
     subjects = []
     seen = set()
     for r in resources:
@@ -166,6 +183,7 @@ def home(request):
     return render(request, 'web/home.html', _ctx(request,
         trending_resources=trending_resources,
         trending_posts=trending_posts,
+        suggested_items=suggested_items,
         subjects=subjects[:12],
         latest_news=latest_news,
         home_stats=home_stats,

@@ -46,7 +46,8 @@ class ForumRepository @Inject constructor(
     private val authRepository: AuthRepository,
     private val offlineCacheStore: OfflineCacheStore,
     private val networkMonitor: NetworkMonitor,
-    private val appCache: AppCache
+    private val appCache: AppCache,
+    private val cacheBus: CacheBus
 ) {
     private val _cachedPosts = MutableStateFlow<List<ApiPost>>(emptyList())
     val cachedPosts: Flow<List<ApiPost>> = _cachedPosts.asStateFlow()
@@ -117,6 +118,7 @@ class ForumRepository @Inject constructor(
             val response = apiService.getPosts(bearerToken = token, category = category, page = page, sort = sort, search = search)
             offlineCacheStore.write(cacheKey, response)
             offlineCacheStore.trim(maxCacheAgeMs)
+            cacheBus.publish(cacheKey)
             Result.success(applyPostsResponse(response, currentPage))
         } catch (e: Exception) {
             cachedPostsResult(cacheKey, currentPage) ?: Result.failure(e)
@@ -136,7 +138,13 @@ class ForumRepository @Inject constructor(
         }
 
         if (!forceRefresh) {
-            peekPost(postId)?.let { return Result.success(it) }
+            peekPost(postId)?.let { peeked ->
+                // Even for an in-memory hit, silently revalidate in the
+                // background so edits by others surface without a manual
+                // refresh (the CacheBus signal notifies open screens).
+                refreshPostInBackground(postId, cacheKey)
+                return Result.success(peeked)
+            }
         }
 
         val cached = offlineCacheStore.read<ApiPost>(cacheKey)
@@ -149,6 +157,7 @@ class ForumRepository @Inject constructor(
                         val post = apiService.getPost(token, postId)
                         appCache.postDetails[postId] = post
                         offlineCacheStore.write(cacheKey, post)
+                        cacheBus.publish(cacheKey)
                     } catch (_: Exception) {}
                 }
             }
@@ -161,6 +170,7 @@ class ForumRepository @Inject constructor(
             val post = apiService.getPost(token, postId)
             appCache.postDetails[postId] = post
             offlineCacheStore.write(cacheKey, post)
+            cacheBus.publish(cacheKey)
             Result.success(post)
         } catch (e: Exception) {
             val fallback = offlineCacheStore.read<ApiPost>(cacheKey)
@@ -170,6 +180,19 @@ class ForumRepository @Inject constructor(
             } else {
                 Result.failure(e)
             }
+        }
+    }
+
+    private fun refreshPostInBackground(postId: String, cacheKey: String = postCacheKey(postId)) {
+        if (!networkMonitor.isOnline()) return
+        bgScope.launch {
+            try {
+                val token = getBearerToken()
+                val post = apiService.getPost(token, postId)
+                appCache.postDetails[postId] = post
+                offlineCacheStore.write(cacheKey, post)
+                cacheBus.publish(cacheKey)
+            } catch (_: Exception) {}
         }
     }
 
@@ -198,22 +221,16 @@ class ForumRepository @Inject constructor(
         }
 
         if (!forceRefresh) {
-            appCache.postReplies[postId]?.let { return Result.success(it) }
+            appCache.postReplies[postId]?.let { peeked ->
+                refreshRepliesInBackground(postId, cacheKey)
+                return Result.success(peeked)
+            }
         }
 
         val cached = offlineCacheStore.read<ApiPaginatedReplies>(cacheKey)
         if (cached != null && !forceRefresh) {
             appCache.postReplies[postId] = cached.replies
-            if (networkMonitor.isOnline()) {
-                bgScope.launch {
-                    try {
-                        val token = getBearerToken()
-                        val response = apiService.getReplies(token, postId)
-                        appCache.postReplies[postId] = response.replies
-                        offlineCacheStore.write(cacheKey, response)
-                    } catch (_: Exception) {}
-                }
-            }
+            refreshRepliesInBackground(postId, cacheKey)
             return Result.success(cached.replies)
         }
 
@@ -223,6 +240,7 @@ class ForumRepository @Inject constructor(
             val response = apiService.getReplies(token, postId)
             appCache.postReplies[postId] = response.replies
             offlineCacheStore.write(cacheKey, response)
+            cacheBus.publish(cacheKey)
             Result.success(response.replies)
         } catch (e: Exception) {
             val fallback = offlineCacheStore.read<ApiPaginatedReplies>(cacheKey)
@@ -235,11 +253,19 @@ class ForumRepository @Inject constructor(
         }
     }
 
-    suspend fun createPost(title: String, content: String, category: String): Result<ApiPost> {
+    suspend fun createPost(
+        title: String,
+        content: String,
+        category: String,
+        isAnonymous: Boolean = false,
+        attachments: List<com.neb.ians.data.api.ApiMediaAttachmentInput> = emptyList()
+    ): Result<ApiPost> {
         return try {
             val token = getBearerToken() ?: return Result.failure(IllegalStateException("Not authenticated"))
-            val post = apiService.createPost(token, PostCreateRequest(title, content, category))
+            val post = apiService.createPost(token, PostCreateRequest(title, content, category, isAnonymous = isAnonymous, attachments = attachments))
             appCache.postDetails[post.id] = post
+            offlineCacheStore.write(postCacheKey(post.id), post)
+            cacheBus.publish(postCacheKey(post.id))
             Result.success(post)
         } catch (e: Exception) {
             Result.failure(e)
@@ -251,7 +277,23 @@ class ForumRepository @Inject constructor(
             val token = getBearerToken() ?: return Result.failure(IllegalStateException("Not authenticated"))
             val post = apiService.createPostWeb(token, request)
             appCache.postDetails[post.id] = post
+            offlineCacheStore.write(postCacheKey(post.id), post)
+            cacheBus.publish(postCacheKey(post.id))
             Result.success(post)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun uploadForumMedia(part: MultipartBody.Part): Result<com.neb.ians.data.api.ApiMediaAttachmentInput> {
+        return try {
+            val token = getBearerToken() ?: return Result.failure(IllegalStateException("Not authenticated"))
+            val response = apiService.uploadForumMedia(token, part)
+            val attachment = response.attachment
+            when {
+                response.ok && attachment != null && attachment.url.isNotBlank() -> Result.success(attachment)
+                else -> Result.failure(IllegalStateException(response.error ?: "Upload failed"))
+            }
         } catch (e: Exception) {
             Result.failure(e)
         }
@@ -280,21 +322,42 @@ class ForumRepository @Inject constructor(
             val post = apiService.updatePost(token, postId, PostUpdateRequest(title, content, category, imageUrls))
             appCache.postDetails[post.id] = post
             offlineCacheStore.write(postCacheKey(post.id), post)
+            cacheBus.publish(postCacheKey(post.id))
             Result.success(post)
         } catch (e: Exception) {
             Result.failure(e)
         }
     }
 
-    suspend fun createReply(postId: String, content: String, parentReplyId: String? = null): Result<ApiReply> {
+    private fun refreshRepliesInBackground(postId: String, cacheKey: String = repliesCacheKey(postId)) {
+        if (!networkMonitor.isOnline()) return
+        bgScope.launch {
+            try {
+                val token = getBearerToken()
+                val response = apiService.getReplies(token, postId)
+                appCache.postReplies[postId] = response.replies
+                offlineCacheStore.write(cacheKey, response)
+                cacheBus.publish(cacheKey)
+            } catch (_: Exception) {}
+        }
+    }
+
+    suspend fun createReply(
+        postId: String,
+        content: String,
+        parentReplyId: String? = null,
+        isAnonymous: Boolean = false,
+        attachments: List<com.neb.ians.data.api.ApiMediaAttachmentInput> = emptyList()
+    ): Result<ApiReply> {
         return try {
             val token = getBearerToken() ?: return Result.failure(IllegalStateException("Not authenticated"))
-            val reply = apiService.createReply(token, postId, ReplyCreateRequest(content, parentReplyId))
+            val reply = apiService.createReply(token, postId, ReplyCreateRequest(content, parentReplyId, isAnonymous, attachments))
             val current = appCache.postReplies[postId].orEmpty()
             if (current.none { it.id == reply.id }) {
                 val updated = current + reply
                 appCache.postReplies[postId] = updated
                 offlineCacheStore.write(repliesCacheKey(postId), ApiPaginatedReplies(replies = updated, totalCount = updated.size))
+                cacheBus.publish(repliesCacheKey(postId))
             }
             Result.success(reply)
         } catch (e: Exception) {
@@ -310,6 +373,7 @@ class ForumRepository @Inject constructor(
             val updated = appCache.postReplies[postId].orEmpty().map { if (it.id == replyId) reply else it }
             appCache.postReplies[postId] = updated
             offlineCacheStore.write(repliesCacheKey(postId), ApiPaginatedReplies(replies = updated, totalCount = updated.size))
+            cacheBus.publish(repliesCacheKey(postId))
             Result.success(reply)
         } catch (e: Exception) {
             Result.failure(e)
@@ -321,7 +385,12 @@ class ForumRepository @Inject constructor(
             val token = getBearerToken() ?: return Result.failure(IllegalStateException("Not authenticated"))
             val response = apiService.toggleLikePost(token, postId)
             appCache.postDetails[postId]?.let { post ->
-                appCache.postDetails[postId] = post.copy(thumbsUpCount = response.thumbsUpCount, isThumbedUp = response.isThumbedUp)
+                val updated = post.copy(thumbsUpCount = response.thumbsUpCount, isThumbedUp = response.isThumbedUp)
+                appCache.postDetails[postId] = updated
+                // Persist into the offline cache too so a cache re-read (e.g.
+                // after a CacheBus signal) never flips a fresh like back.
+                offlineCacheStore.write(postCacheKey(postId), updated)
+                cacheBus.publish(postCacheKey(postId))
             }
             Result.success(response)
         } catch (e: Exception) {
@@ -345,6 +414,7 @@ class ForumRepository @Inject constructor(
                     }
                     appCache.postReplies[postId] = updated
                     offlineCacheStore.write(repliesCacheKey(postId), ApiPaginatedReplies(replies = updated, totalCount = updated.size))
+                    cacheBus.publish(repliesCacheKey(postId))
                 }
             }
             Result.success(response)

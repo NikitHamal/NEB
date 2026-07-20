@@ -65,11 +65,15 @@
       </div>
       <div class="fp-meta">
         <div class="fp-meta-top">
+          {% if post.isAnonymous %}
+          <span class="author fp-author-anon"><span class="material-symbols-outlined" style="font-size:14px;vertical-align:-2px;margin-right:2px;">visibility_off</span>Anonymous Nebian</span>
+          {% else %}
           <a href="{% url 'web:profile' username=post.authorName %}" class="author">{{ post.authorName }}</a>
+          {% endif %}
           {% if post.authorBadgeInfo %}
           <span class="role-badge role-badge-{{ post.authorBadgeInfo.type }}" title="{{ post.authorBadgeInfo.label }}"><span class="material-symbols-outlined">{{ post.authorBadgeInfo.icon }}</span></span>
           {% endif %}
-          {% if is_authenticated and not is_owner %}
+          {% if is_authenticated and not is_owner and not post.isAnonymous %}
             <button class="follow-btn-inline {% if is_following %}following{% else %}not-following{% endif %}" id="followBtn" data-action="toggle-follow-post">{% if is_following %}Following{% else %}Follow{% endif %}</button>
           {% endif %}
           <a href="{% url 'web:forum' %}?category={{ post.category }}" class="fp-category">{{ post.category }}</a>
@@ -136,6 +140,8 @@
       {% endif %}
     </div>
     {% endif %}
+
+    {% with attachments=post.attachments %}{% include "web/_forum_attachments.html" %}{% endwith %}
 
 {% if post.poll %}
      <div class="fp-poll {% if post.poll.pollType == 'mcq' %}fp-poll-mcq{% endif %}" id="poll-{{ post.poll.id }}" data-poll-id="{{ post.poll.id }}" data-user-vote="{{ post.poll.userVote|default:'' }}" data-poll-type="{{ post.poll.pollType }}" data-allow-multiple="{{ post.poll.allowMultiple|default:'false' }}">
@@ -248,7 +254,20 @@
           <span class="material-symbols-outlined">arrow_upward</span>
         </button>
       </div>
+      <div class="fp-compose-tools">
+        <button type="button" class="fp-compose-tool" data-action="reply-attach-media" data-compose-key="main" title="Add video, audio or file">
+          <span class="material-symbols-outlined">attach_file</span> Attach
+        </button>
+        <label class="fp-compose-anon" title="Your name and profile stay hidden. Other Nebians will see 'Anonymous Nebian'.">
+          <input type="checkbox" id="mainReplyAnon">
+          <span class="material-symbols-outlined">visibility_off</span>
+          <span>Reply anonymously</span>
+        </label>
+      </div>
+      <div class="cp-media-list" id="replyMediaList-main" style="display:none"></div>
     </form>
+    <input type="file" id="replyMediaInput" multiple style="display:none"
+           accept="video/mp4,video/webm,video/quicktime,audio/mpeg,audio/mp4,audio/aac,audio/ogg,audio/opus,audio/wav,audio/flac,.m4v,.mov,.m4a,.pdf,.txt,.md,.csv,.json,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.zip">
   </div>
   {% else %}
   <div class="fp-login-prompt">
@@ -315,6 +334,17 @@
         <span class="material-symbols-outlined">arrow_upward</span>
       </button>
     </div>
+    <div class="fp-compose-tools">
+      <button type="button" class="fp-compose-tool" data-action="reply-attach-media" data-compose-key="sidebar" title="Add video, audio or file">
+        <span class="material-symbols-outlined">attach_file</span> Attach
+      </button>
+      <label class="fp-compose-anon" title="Your name and profile stay hidden. Other Nebians will see 'Anonymous Nebian'.">
+        <input type="checkbox" id="threadSidebarAnon">
+        <span class="material-symbols-outlined">visibility_off</span>
+        <span>Anonymous</span>
+      </label>
+    </div>
+    <div class="cp-media-list" id="replyMediaList-sidebar" style="display:none"></div>
   </div>
 </div>
 
@@ -340,6 +370,17 @@
         <span class="material-symbols-outlined">arrow_upward</span>
       </button>
     </div>
+    <div class="fp-compose-tools">
+      <button type="button" class="fp-compose-tool" data-action="reply-attach-media" data-compose-key="sheet" title="Add video, audio or file">
+        <span class="material-symbols-outlined">attach_file</span> Attach
+      </button>
+      <label class="fp-compose-anon" title="Your name and profile stay hidden. Other Nebians will see 'Anonymous Nebian'.">
+        <input type="checkbox" id="threadSheetAnon">
+        <span class="material-symbols-outlined">visibility_off</span>
+        <span>Anonymous</span>
+      </label>
+    </div>
+    <div class="cp-media-list" id="replyMediaList-sheet" style="display:none"></div>
   </div>
 </div>
 
@@ -560,16 +601,161 @@ async function confirmDelete() {
   } catch(e) { showSnackbar('Error deleting.'); }
 }
 
+/* ---------- Reply composer: media attachments + anonymous ---------- */
+var replyComposeState = { main: [], sidebar: [], sheet: [] };
+var REPLY_MEDIA_MAX = 4;
+var REPLY_MEDIA_LIMITS = { video: 150 * 1024 * 1024, audio: 40 * 1024 * 1024, file: 30 * 1024 * 1024 };
+
+function guessReplyMediaKind(file) {
+  var ext = (file.name.split('.').pop() || '').toLowerCase();
+  if (['mp4', 'm4v', 'webm', 'mov'].indexOf(ext) >= 0) return 'video';
+  if (['mp3', 'm4a', 'aac', 'ogg', 'opus', 'wav', 'flac'].indexOf(ext) >= 0) return 'audio';
+  return 'file';
+}
+
+function replyMediaIcon(kind) { return kind === 'video' ? 'videocam' : (kind === 'audio' ? 'music_note' : 'description'); }
+
+function fmtBytes(n) {
+  if (!n) return '';
+  if (n < 1024) return n + ' B';
+  if (n < 1048576) return (n / 1024).toFixed(1) + ' KB';
+  if (n < 1073741824) return (n / 1048576).toFixed(1) + ' MB';
+  return (n / 1073741824).toFixed(2) + ' GB';
+}
+
+function renderReplyMediaList(key) {
+  var list = document.getElementById('replyMediaList-' + key);
+  if (!list) return;
+  var atts = replyComposeState[key];
+  if (!atts.length) { list.style.display = 'none'; list.innerHTML = ''; return; }
+  list.style.display = '';
+  list.innerHTML = '';
+  atts.forEach(function(att, idx) {
+    var item = document.createElement('div');
+    item.className = 'cp-media-item';
+    var meta = att.uploading ? 'Uploading\u2026' : (att.kind.charAt(0).toUpperCase() + att.kind.slice(1) + (att.size ? ' \u2022 ' + fmtBytes(att.size) : ''));
+    item.innerHTML =
+      '<div class="cp-media-item-icon"><span class="material-symbols-outlined" style="font-size:18px">' + replyMediaIcon(att.kind) + '</span></div>' +
+      '<div class="cp-media-item-info">' +
+        '<div class="cp-media-item-name"></div>' +
+        '<div class="cp-media-item-meta">' + meta + '</div>' +
+        (att.uploading ? '<div class="cp-media-item-progress"><div class="cp-media-item-progress-fill"></div></div>' : '') +
+      '</div>' +
+      '<button type="button" class="cp-media-item-remove" title="Remove"><span class="material-symbols-outlined" style="font-size:18px">close</span></button>';
+    item.querySelector('.cp-media-item-name').textContent = att.name;
+    item.querySelector('.cp-media-item-remove').addEventListener('click', function() {
+      atts.splice(idx, 1);
+      renderReplyMediaList(key);
+    });
+    list.appendChild(item);
+  });
+}
+
+function setReplyMediaProgress(key, att, pct) {
+  var list = document.getElementById('replyMediaList-' + key);
+  if (!list) return;
+  var idx = replyComposeState[key].indexOf(att);
+  var fill = idx >= 0 && list.children[idx] && list.children[idx].querySelector('.cp-media-item-progress-fill');
+  if (fill) fill.style.width = pct + '%';
+}
+
+function uploadReplyMedia(key, file) {
+  var atts = replyComposeState[key];
+  var kind = guessReplyMediaKind(file);
+  if (file.size > REPLY_MEDIA_LIMITS[kind]) {
+    showSnackbar(kind === 'video' ? 'Videos are limited to 150 MB' : (kind === 'audio' ? 'Audio is limited to 40 MB' : 'Attachments are limited to 30 MB'));
+    return;
+  }
+  if (kind === 'video' && atts.some(function(a) { return a.kind === 'video'; })) {
+    showSnackbar('Maximum 1 video per reply');
+    return;
+  }
+  var att = { name: file.name, kind: kind, size: file.size, uploading: true, url: '', mime: '' };
+  atts.push(att);
+  renderReplyMediaList(key);
+  var formData = new FormData();
+  formData.append('file', file);
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', '/api/forum/uploads/');
+  xhr.upload.onprogress = function(e) {
+    if (e.lengthComputable) setReplyMediaProgress(key, att, Math.round(e.loaded / e.total * 100));
+  };
+  xhr.onload = function() {
+    att.uploading = false;
+    if (xhr.status === 201) {
+      try {
+        var d = JSON.parse(xhr.responseText);
+        if (d.ok && d.attachment) {
+          att.url = d.attachment.url;
+          att.kind = d.attachment.kind || att.kind;
+          att.name = d.attachment.name || att.name;
+          att.size = d.attachment.size || att.size;
+          att.mime = d.attachment.mime || '';
+          renderReplyMediaList(key);
+          return;
+        }
+      } catch (e) {}
+    }
+    atts.splice(atts.indexOf(att), 1);
+    renderReplyMediaList(key);
+    try {
+      var err = JSON.parse(xhr.responseText);
+      showSnackbar(err.error || ('Failed to upload ' + file.name));
+    } catch (e) { showSnackbar('Failed to upload ' + file.name); }
+  };
+  xhr.onerror = function() {
+    att.uploading = false;
+    atts.splice(atts.indexOf(att), 1);
+    renderReplyMediaList(key);
+    showSnackbar('Network error uploading ' + file.name);
+  };
+  xhr.send(formData);
+}
+
+function collectReplyAttachments(key) {
+  return replyComposeState[key]
+    .filter(function(a) { return !a.uploading && a.url; })
+    .map(function(a) { return { url: a.url, kind: a.kind, name: a.name, size: a.size, mime: a.mime }; });
+}
+
+function replyComposeBusy(key) {
+  return replyComposeState[key].some(function(a) { return a.uploading; });
+}
+
+function clearReplyCompose(key) {
+  replyComposeState[key] = [];
+  renderReplyMediaList(key);
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  var mediaInput = document.getElementById('replyMediaInput');
+  if (!mediaInput) return;
+  mediaInput.addEventListener('change', function() {
+    var key = mediaInput.dataset.composeKey || 'main';
+    var files = Array.prototype.slice.call(mediaInput.files || []);
+    mediaInput.value = '';
+    files.forEach(function(f) {
+      if (replyComposeState[key].length >= REPLY_MEDIA_MAX) { showSnackbar('Maximum ' + REPLY_MEDIA_MAX + ' attachments per reply'); return; }
+      uploadReplyMedia(key, f);
+    });
+  });
+});
+
 async function submitMainReply(e) {
   e.preventDefault();
   const content = document.getElementById('mainReplyContent').value.trim();
   if (!content) { showSnackbar('Content is required.'); return; }
+  if (replyComposeBusy('main')) { showSnackbar('Please wait for attachments to finish uploading.'); return; }
   const submitBtn = (e && e.target) ? e.target.querySelector('.reply-send-btn') : null;
   if (submitBtn) submitBtn.disabled = true;
   try {
     const r = await fetch('/ajax/reply/' + POST_ID + '/', {
       method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
-      credentials: 'same-origin', body: JSON.stringify({ content })
+      credentials: 'same-origin', body: JSON.stringify({
+        content: content,
+        isAnonymous: !!(document.getElementById('mainReplyAnon') && document.getElementById('mainReplyAnon').checked),
+        attachments: collectReplyAttachments('main')
+      })
     });
     const d = await r.json();
     if (d && d.id) {
@@ -597,6 +783,7 @@ async function submitMainReply(e) {
         location.reload();
       }
       document.getElementById('mainReplyContent').value = '';
+      clearReplyCompose('main');
     }
     else { showSnackbar(d.error || 'Failed to submit reply.'); }
   } catch(e) { showSnackbar('Error submitting reply.'); }
@@ -635,7 +822,7 @@ function openThread(replyId) {
 let pendingThreadReplyContent = null;
 
 function openThreadReply(parentId, authorName) {
-  pendingThreadReplyContent = '@' + authorName + ' ';
+  pendingThreadReplyContent = (authorName && authorName !== 'Anonymous Nebian') ? '@' + authorName + ' ' : '';
   activeParentReplyId = parentId;
   openThread(parentId);
 }
@@ -778,16 +965,17 @@ async function loadThreadReplies(replyId) {
 }
 
 function renderThreadParent(parent) {
+  const parentAnon = !parent.authorId;
   const avatarHtml = parent.authorPhotoUrl
     ? '<img src="' + escapeHtml(parent.authorPhotoUrl) + '" alt="" data-fallback="flex"><span class="fp-reply-avatar-letter" style="display:none;">' + escapeHtml(parent.authorName ? parent.authorName.charAt(0) : '?') + '</span>'
     : '<span class="fp-reply-avatar-letter">' + escapeHtml(parent.authorName ? parent.authorName.charAt(0) : '?') + '</span>';
   const likedClass = parent.isThumbedUp ? 'liked' : '';
   const likedFill = parent.isThumbedUp ? " style=\"font-variation-settings:'FILL' 1\"" : '';
   const likeIcon = 'thumb_up';
-  const ownerBtns = (IS_AUTH && parent.authorId === USER_ID)
+  const ownerBtns = (IS_AUTH && (parent.isOwner || parent.authorId === USER_ID))
     ? '<span class="fp-reply-owner"><button class="fp-owner-btn" data-action="edit-reply" data-reply-id="' + escapeHtml(parent.id) + '"><span class="material-symbols-outlined" style="font-size:12px;">edit</span></button><button class="fp-owner-btn danger" data-action="delete-reply" data-reply-id="' + escapeHtml(parent.id) + '"><span class="material-symbols-outlined" style="font-size:12px;">delete</span></button></span>'
     : '';
-  const followBtn = (IS_AUTH && parent.authorId !== USER_ID)
+  const followBtn = (IS_AUTH && !parentAnon && parent.authorId !== USER_ID)
     ? '<button class="follow-btn-inline ' + (parent.authorFollowed ? 'following' : 'not-following') + '" data-user-id="' + parent.authorId + '" data-action="toggle-follow">' + (parent.authorFollowed ? 'Following' : 'Follow') + '</button>'
     : '';
   const mentionContent = renderMentions(parent.content || '');
@@ -797,7 +985,9 @@ function renderThreadParent(parent) {
       '<div class="fp-reply-avatar">' + avatarHtml + '</div>' +
       '<div class="fp-reply-meta">' +
         '<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">' +
-          '<a href="/profile/' + encodeURIComponent(parent.authorName || '') + '/" class="fp-reply-author">' + escapeHtml(parent.authorName || 'Unknown') + '</a>' +
+          (parentAnon
+            ? '<span class="fp-reply-author fp-author-anon"><span class="material-symbols-outlined" style="font-size:13px;vertical-align:-2px;">visibility_off</span> ' + escapeHtml(parent.authorName || 'Anonymous Nebian') + '</span>'
+            : '<a href="/profile/' + encodeURIComponent(parent.authorName || '') + '/" class="fp-reply-author">' + escapeHtml(parent.authorName || 'Unknown') + '</a>') +
           (parent.authorBadgeInfo ? '<span class="role-badge role-badge-' + escapeHtml(parent.authorBadgeInfo.type) + '" title="' + escapeHtml(parent.authorBadgeInfo.label) + '"><span class="material-symbols-outlined">' + escapeHtml(parent.authorBadgeInfo.icon) + '</span></span>' : '') +
           followBtn + ownerBtns +
         '</div>' +
@@ -805,6 +995,7 @@ function renderThreadParent(parent) {
       '</div>' +
     '</div>' +
     '<div class="fp-reply-body">' + mentionContent + '</div>' +
+    renderAttachmentsHtml(parent.attachments) +
     '<div class="fp-thread-parent-actions">' +
       '<button data-action="toggle-reply-like" data-reply-id="' + escapeHtml(parent.id) + '" class="fp-reply-action ' + likedClass + '" id="reply-like-btn-' + escapeHtml(parent.id) + '">' +
         '<span class="material-symbols-outlined"' + likedFill + '>' + likeIcon + '</span>' +
@@ -838,20 +1029,45 @@ function renderThreadReplies(replies, parentInfo, depth) {
   return html;
 }
 
+function renderAttachmentsHtml(list) {
+  if (!list || !list.length) return '';
+  let html = '<div class="fm-list" data-action-stop>';
+  list.forEach(function(att) {
+    const url = escapeHtml(att.url || '');
+    const name = escapeHtml(att.name || 'Attachment');
+    if (att.kind === 'video') {
+      html += '<div class="fm-video-wrap"><video class="fm-video" controls preload="metadata" playsinline src="' + url + '"></video></div>';
+    } else if (att.kind === 'audio') {
+      html += '<div class="fm-audio" data-fm-audio>' +
+        '<button type="button" class="fm-audio-btn" data-action="fm-audio-toggle"><span class="material-symbols-outlined">play_arrow</span></button>' +
+        '<div class="fm-audio-info"><div class="fm-audio-name">' + name + '</div>' +
+        '<div class="fm-audio-progress" data-action="fm-audio-seek"><div class="fm-audio-progress-fill"></div></div></div>' +
+        '<span class="fm-audio-time">0:00</span><audio preload="metadata" src="' + url + '"></audio></div>';
+    } else {
+      html += '<a class="fm-file" href="' + url + '" target="_blank" rel="noopener">' +
+        '<span class="fm-file-icon"><span class="material-symbols-outlined">description</span></span>' +
+        '<span class="fm-file-info"><span class="fm-file-name">' + name + '</span><span class="fm-file-meta">File</span></span>' +
+        '<span class="material-symbols-outlined fm-file-dl">download</span></a>';
+    }
+  });
+  return html + '</div>';
+}
+
 function renderThreadReply(reply, parentInfo, depth) {
+  const isAnon = !reply.authorId;
   const avatarHtml = reply.authorPhotoUrl
     ? '<img src="' + escapeHtml(reply.authorPhotoUrl) + '" alt="" data-fallback="flex"><span class="fp-reply-avatar-letter" style="display:none;">' + escapeHtml(reply.authorName.charAt(0)) + '</span>'
     : '<span class="fp-reply-avatar-letter">' + escapeHtml(reply.authorName.charAt(0)) + '</span>';
   const likedClass = reply.isThumbedUp ? 'liked' : '';
   const likedFill = reply.isThumbedUp ? " style=\"font-variation-settings:'FILL' 1\"" : '';
   const likeIcon = 'thumb_up';
-  const ownerBtns = (IS_AUTH && reply.authorId === USER_ID)
+  const ownerBtns = (IS_AUTH && (reply.isOwner || reply.authorId === USER_ID))
     ? '<span class="fp-reply-owner"><button class="fp-owner-btn" data-action="edit-reply" data-reply-id="' + escapeHtml(reply.id) + '"><span class="material-symbols-outlined" style="font-size:12px;">edit</span></button><button class="fp-owner-btn danger" data-action="delete-reply" data-reply-id="' + escapeHtml(reply.id) + '"><span class="material-symbols-outlined" style="font-size:12px;">delete</span></button></span>'
     : '';
-  const followBtn = (IS_AUTH && reply.authorId !== USER_ID)
+  const followBtn = (IS_AUTH && !isAnon && reply.authorId !== USER_ID)
     ? '<button class="follow-btn-inline ' + (reply.isFollowed ? 'following' : 'not-following') + '" data-user-id="' + reply.authorId + '" data-action="toggle-follow">' + (reply.isFollowed ? 'Following' : 'Follow') + '</button>'
     : '';
-  const replyBtn = IS_AUTH
+  const replyBtn = (IS_AUTH && !isAnon)
     ? '<button class="fp-reply-action" data-action="reply-to-author" data-author="' + escapeHtml(reply.authorName) + '" data-reply-id="' + escapeHtml(reply.id) + '"><span class="material-symbols-outlined">reply</span> Reply</button>'
     : '';
 
@@ -875,7 +1091,9 @@ function renderThreadReply(reply, parentInfo, depth) {
       '<div class="fp-reply-avatar">' + avatarHtml + '</div>' +
       '<div class="fp-reply-meta">' +
         '<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">' +
-          '<a href="/profile/' + encodeURIComponent(reply.authorName) + '/" class="fp-reply-author">' + escapeHtml(reply.authorName) + '</a>' +
+          (isAnon
+            ? '<span class="fp-reply-author fp-author-anon"><span class="material-symbols-outlined" style="font-size:13px;vertical-align:-2px;">visibility_off</span> ' + escapeHtml(reply.authorName) + '</span>'
+            : '<a href="/profile/' + encodeURIComponent(reply.authorName) + '/" class="fp-reply-author">' + escapeHtml(reply.authorName) + '</a>') +
           (reply.authorBadgeInfo ? '<span class="role-badge role-badge-' + escapeHtml(reply.authorBadgeInfo.type) + '" title="' + escapeHtml(reply.authorBadgeInfo.label) + '"><span class="material-symbols-outlined">' + escapeHtml(reply.authorBadgeInfo.icon) + '</span></span>' : '') +
           followBtn + ownerBtns +
         '</div>' +
@@ -884,6 +1102,7 @@ function renderThreadReply(reply, parentInfo, depth) {
     '</div>' +
     replyingLine +
     '<div class="fp-reply-body">' + mentionContent + '</div>' +
+    renderAttachmentsHtml(reply.attachments) +
     '<div class="fp-reply-actions">' +
       '<button data-action="toggle-reply-like" data-reply-id="' + reply.id + '" class="fp-reply-action ' + likedClass + '" id="reply-like-btn-' + reply.id + '">' +
         '<span class="material-symbols-outlined"' + likedFill + '>' + likeIcon + '</span>' +
@@ -939,25 +1158,34 @@ function handleThreadReplyKey(e) {
 
 async function submitThreadReply() {
   if (!activeThreadId) return;
+  const composeKey = isMobile() ? 'sheet' : 'sidebar';
   const textareaId = isMobile() ? 'threadSheetTextarea' : 'threadSidebarTextarea';
   const textarea = document.getElementById(textareaId);
   if (!textarea) return;
   const content = textarea.value.trim();
   if (!content) { showSnackbar('Content is required.'); return; }
+  if (replyComposeBusy(composeKey)) { showSnackbar('Please wait for attachments to finish uploading.'); return; }
   const submitId = isMobile() ? 'threadSheetSubmit' : 'threadSidebarSubmit';
   const submitBtn = document.getElementById(submitId);
   if (submitBtn) submitBtn.disabled = true;
   const parentId = activeParentReplyId || activeThreadId;
+  const anonBox = document.getElementById(isMobile() ? 'threadSheetAnon' : 'threadSidebarAnon');
   try {
     const r = await fetch('/ajax/reply/' + POST_ID + '/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
       credentials: 'same-origin',
-      body: JSON.stringify({ content: content, parentReplyId: parentId })
+      body: JSON.stringify({
+        content: content,
+        parentReplyId: parentId,
+        isAnonymous: !!(anonBox && anonBox.checked),
+        attachments: collectReplyAttachments(composeKey)
+      })
     });
     const d = await r.json();
     if (d && d.id) {
       textarea.value = '';
+      clearReplyCompose(composeKey);
       activeParentReplyId = activeThreadId;
       const replyingToId = isMobile() ? 'threadSheetReplyingTo' : 'threadSidebarReplyingTo';
       const replyingToEl = document.getElementById(replyingToId);
@@ -1541,6 +1769,12 @@ registerActions({
   'select-mention-item': function(el) { selectMentionItem(parseInt(el.dataset.index)); },
   'hover-mention-item': function(el) { mentionSelectedIndex = parseInt(el.dataset.index); highlightMentionItem(); },
   'vote-poll': function(el) { votePoll(el); },
+  'reply-attach-media': function(el) {
+    var key = el.dataset.composeKey || 'main';
+    if (replyComposeState[key].length >= REPLY_MEDIA_MAX) { showSnackbar('Maximum ' + REPLY_MEDIA_MAX + ' attachments per reply'); return; }
+    var input = document.getElementById('replyMediaInput');
+    if (input) { input.dataset.composeKey = key; input.click(); }
+  },
   'open-image-lightbox': function(el) { openImageLightbox(el.dataset.src || el.src); }
 });
 

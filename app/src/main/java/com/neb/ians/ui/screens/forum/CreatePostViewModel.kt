@@ -5,6 +5,7 @@ import android.net.Uri
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.neb.ians.data.api.ApiMediaAttachmentInput
 import com.neb.ians.data.api.ApiPollCreate
 import com.neb.ians.data.api.ApiPollOptionCreate
 import com.neb.ians.data.api.ApiUserSearchResult
@@ -55,6 +56,8 @@ data class CreatePostUiState(
     val images: List<Uri> = emptyList(),
     val existingImages: List<ExistingPostImageDraft> = emptyList(),
     val removedExistingImageIds: Set<String> = emptySet(),
+    val mediaAttachments: List<PendingForumAttachment> = emptyList(),
+    val isAnonymous: Boolean = false,
     val isSubmitting: Boolean = false,
     val isLoadingPost: Boolean = false,
     val isEditMode: Boolean = false,
@@ -103,6 +106,7 @@ data class CreatePostUiState(
 @HiltViewModel
 class CreatePostViewModel @Inject constructor(
     private val forumRepository: ForumRepository,
+    private val mediaUploadHelper: ForumMediaUploadHelper,
     @ApplicationContext private val appContext: Context
 ) : ViewModel() {
 
@@ -252,6 +256,64 @@ class CreatePostViewModel @Inject constructor(
         }
     }
 
+    // ----- Media attachments (video / audio / files) -----
+
+    fun setAnonymous(anonymous: Boolean) {
+        if (_uiState.value.isEditMode) return // anonymity is immutable after create
+        _uiState.update { it.copy(isAnonymous = anonymous) }
+    }
+
+    fun addMediaAttachments(uris: List<Uri>) {
+        uris.forEach { uri -> addMediaAttachment(uri) }
+    }
+
+    fun addMediaAttachment(uri: Uri?) {
+        if (uri == null) return
+        val state = _uiState.value
+        if (state.mediaAttachments.size >= ForumMediaUploadHelper.MAX_ATTACHMENTS) {
+            _uiState.update { it.copy(error = "Maximum ${ForumMediaUploadHelper.MAX_ATTACHMENTS} attachments") }
+            return
+        }
+        val kind = mediaUploadHelper.guessKind(uri)
+        if (kind == "video" && state.mediaAttachments.any { it.kind == "video" }) {
+            _uiState.update { it.copy(error = "Maximum 1 video per post") }
+            return
+        }
+        val size = mediaUploadHelper.sizeOf(uri)
+        if (size > ForumMediaUploadHelper.limitFor(kind)) {
+            _uiState.update { it.copy(error = ForumMediaUploadHelper.limitLabel(kind)) }
+            return
+        }
+        val pending = PendingForumAttachment(
+            name = mediaUploadHelper.displayName(uri),
+            kind = kind,
+            sizeBytes = size,
+            uri = uri
+        )
+        _uiState.update { it.copy(mediaAttachments = it.mediaAttachments + pending, error = null) }
+        viewModelScope.launch {
+            val result = mediaUploadHelper.upload(uri, kind, pending.name)
+            _uiState.update { current ->
+                current.copy(mediaAttachments = current.mediaAttachments.map { att ->
+                    if (att.localId != pending.localId) att
+                    else result.fold(
+                        onSuccess = { descriptor -> att.copy(uploading = false, uploaded = descriptor) },
+                        onFailure = { e -> att.copy(uploading = false, error = e.message ?: "Upload failed") }
+                    )
+                })
+            }
+            result.exceptionOrNull()?.let { e ->
+                _uiState.update { it.copy(error = e.message ?: "Couldn't upload ${pending.name}") }
+            }
+        }
+    }
+
+    fun removeMediaAttachment(localId: String) {
+        _uiState.update { current ->
+            current.copy(mediaAttachments = current.mediaAttachments.filterNot { it.localId == localId })
+        }
+    }
+
     // ----- Poll builder -----
 
     fun togglePoll(enabled: Boolean) {
@@ -322,6 +384,12 @@ class CreatePostViewModel @Inject constructor(
             _uiState.update { it.copy(error = "Choose a category") }
             return
         }
+        if (state.mediaAttachments.any { it.uploading }) {
+            _uiState.update { it.copy(error = "Wait for attachments to finish uploading") }
+            return
+        }
+        val attachments: List<ApiMediaAttachmentInput> = state.mediaAttachments
+            .mapNotNull { it.uploaded }
 
         var pollCreate: ApiPollCreate? = null
         if (!state.isEditMode && state.pollEnabled) {
@@ -382,14 +450,16 @@ class CreatePostViewModel @Inject constructor(
                         imageUrls = imageUrls
                     )
                 }
-            } else if (pollCreate != null || imageUrls.isNotEmpty()) {
+            } else if (pollCreate != null || imageUrls.isNotEmpty() || attachments.isNotEmpty() || state.isAnonymous) {
                 forumRepository.createPostWeb(
                     WebPostCreateRequest(
                         title = title,
                         content = content,
                         category = category,
                         images = imageUrls,
-                        poll = pollCreate
+                        poll = pollCreate,
+                        isAnonymous = state.isAnonymous,
+                        attachments = attachments
                     )
                 )
             } else {

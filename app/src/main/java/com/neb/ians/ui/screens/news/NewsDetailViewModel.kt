@@ -5,11 +5,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.neb.ians.data.news.NewsComment
 import com.neb.ians.data.news.NewsDetail
+import com.neb.ians.data.repository.CacheBus
 import com.neb.ians.data.repository.NewsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.net.URLDecoder
@@ -66,7 +69,8 @@ data class NewsDetailUiState(
 @HiltViewModel
 class NewsDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val newsRepository: NewsRepository
+    private val newsRepository: NewsRepository,
+    private val cacheBus: CacheBus
 ) : ViewModel() {
     private val slug: String = savedStateHandle.get<String>("slug")?.let { URLDecoder.decode(it, "UTF-8") }.orEmpty()
     private val _uiState = MutableStateFlow(NewsDetailUiState(slug = slug))
@@ -76,7 +80,32 @@ class NewsDetailViewModel @Inject constructor(
     // stacking server toggles that flip the liked state back and forth.
     private val processingCommentLikes = mutableSetOf<String>()
 
-    init { load() }
+    init {
+        load()
+        collectCacheSignals()
+    }
+
+    /** Cache-first with silent background updates: when the repository's SWR
+     * refresh lands fresher detail/comments, re-read them (cache-only). */
+    @OptIn(FlowPreview::class)
+    private fun collectCacheSignals() {
+        viewModelScope.launch {
+            cacheBus.signals
+                .debounce(400)
+                .collect { key ->
+                    when (key) {
+                        CacheBus.PREFIX_NEWS_DETAIL + slug ->
+                            newsRepository.getAnnouncementDetail(slug, cacheOnly = true).onSuccess { detail ->
+                                _uiState.update { it.copy(detail = detail, isLoading = false, error = null) }
+                            }
+                        CacheBus.PREFIX_NEWS_COMMENTS + slug ->
+                            newsRepository.getComments(slug, cacheOnly = true).onSuccess { comments ->
+                                _uiState.update { it.copy(comments = comments, commentsLoading = false) }
+                            }
+                    }
+                }
+        }
+    }
 
     fun retry() = load(forceRefresh = true)
 

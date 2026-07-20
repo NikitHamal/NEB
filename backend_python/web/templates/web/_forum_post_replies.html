@@ -14,11 +14,15 @@
       </div>
       <div class="fp-reply-meta">
         <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+          {% if reply.isAnonymous %}
+          <span class="fp-reply-author fp-author-anon"><span class="material-symbols-outlined" style="font-size:13px;vertical-align:-2px;">visibility_off</span> Anonymous Nebian</span>
+          {% else %}
           <a href="{% url 'web:profile' username=reply.authorName %}" class="fp-reply-author">{{ reply.authorName }}</a>
+          {% endif %}
           {% if reply.authorBadgeInfo %}
           <span class="role-badge role-badge-{{ reply.authorBadgeInfo.type }}" title="{{ reply.authorBadgeInfo.label }}"><span class="material-symbols-outlined">{{ reply.authorBadgeInfo.icon }}</span></span>
           {% endif %}
-          {% if is_authenticated and reply.authorId != user.id %}
+          {% if is_authenticated and reply.authorId and reply.authorId != user.id %}
             <button class="follow-btn-inline {% if reply.isFollowed %}following{% else %}not-following{% endif %}" data-user-id="{{ reply.authorId }}" data-action="toggle-follow" data-user-id="{{ reply.authorId }}">{% if reply.isFollowed %}Following{% else %}Follow{% endif %}</button>
           {% endif %}
         </div>
@@ -36,12 +40,12 @@
           <button class="more-menu-item" data-action="share-reply" data-reply-id="{{ reply.id }}">
             <span class="material-symbols-outlined">share</span> Share
           </button>
-          {% if is_authenticated and reply.authorId != user.id %}
+          {% if is_authenticated and not reply.isOwner %}
           <button class="more-menu-item" data-action="report-content" data-target-type="reply" data-target-id="{{ reply.id }}">
             <span class="material-symbols-outlined">flag</span> Report
           </button>
           {% endif %}
-          {% if is_authenticated and reply.authorId == user.id %}
+          {% if is_authenticated and reply.isOwner %}
           <div class="more-menu-divider"></div>
           <button class="more-menu-item" data-action="start-edit-reply" data-reply-id="{{ reply.id }}">
             <span class="material-symbols-outlined">edit</span> Edit
@@ -57,6 +61,7 @@
       </div>
     </div>
     <div class="fp-reply-body" id="reply-content-{{ reply.id }}">{{ reply.content|mention_links:all_usernames }}</div>
+    {% with attachments=reply.attachments %}{% include "web/_forum_attachments.html" %}{% endwith %}
     <div class="fp-reply-actions">
       <button data-action="toggle-reply-like" data-reply-id="{{ reply.id }}" class="fp-reply-action {% if reply.isThumbedUp %}liked{% endif %}" id="reply-like-btn-{{ reply.id }}">
         <span class="material-symbols-outlined">thumb_up</span>

@@ -1,5 +1,6 @@
 package com.neb.ians.ui.screens.forum
 
+import android.net.Uri
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -26,13 +27,16 @@ data class ReplyUiState(
     val isSubmitting: Boolean = false,
     val postTitle: String = "",
     val error: String? = null,
+    val mediaAttachments: List<PendingForumAttachment> = emptyList(),
+    val isAnonymous: Boolean = false,
     val mentionSuggestions: List<ApiUserSearchResult> = emptyList()
 )
 
 @HiltViewModel
 class ReplyViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val forumRepository: ForumRepository
+    private val forumRepository: ForumRepository,
+    private val mediaUploadHelper: ForumMediaUploadHelper
 ) : ViewModel() {
 
     private val postId: String = savedStateHandle.get<String>("postId") ?: ""
@@ -90,16 +94,81 @@ class ReplyViewModel @Inject constructor(
         }
     }
 
+    // ----- Media attachments (video / audio / files) -----
+
+    fun setAnonymous(anonymous: Boolean) {
+        _uiState.update { it.copy(isAnonymous = anonymous) }
+    }
+
+    fun addMediaAttachments(uris: List<Uri>) {
+        uris.forEach { uri -> addMediaAttachment(uri) }
+    }
+
+    fun addMediaAttachment(uri: Uri?) {
+        if (uri == null) return
+        val state = _uiState.value
+        if (state.mediaAttachments.size >= ForumMediaUploadHelper.MAX_ATTACHMENTS) {
+            _uiState.update { it.copy(error = "Maximum ${ForumMediaUploadHelper.MAX_ATTACHMENTS} attachments") }
+            return
+        }
+        val kind = mediaUploadHelper.guessKind(uri)
+        if (kind == "video" && state.mediaAttachments.any { it.kind == "video" }) {
+            _uiState.update { it.copy(error = "Maximum 1 video per reply") }
+            return
+        }
+        val size = mediaUploadHelper.sizeOf(uri)
+        if (size > ForumMediaUploadHelper.limitFor(kind)) {
+            _uiState.update { it.copy(error = ForumMediaUploadHelper.limitLabel(kind)) }
+            return
+        }
+        val pending = PendingForumAttachment(
+            name = mediaUploadHelper.displayName(uri),
+            kind = kind,
+            sizeBytes = size,
+            uri = uri
+        )
+        _uiState.update { it.copy(mediaAttachments = it.mediaAttachments + pending, error = null) }
+        viewModelScope.launch {
+            val result = mediaUploadHelper.upload(uri, kind, pending.name)
+            _uiState.update { current ->
+                current.copy(mediaAttachments = current.mediaAttachments.map { att ->
+                    if (att.localId != pending.localId) att
+                    else result.fold(
+                        onSuccess = { descriptor -> att.copy(uploading = false, uploaded = descriptor) },
+                        onFailure = { e -> att.copy(uploading = false, error = e.message ?: "Upload failed") }
+                    )
+                })
+            }
+            result.exceptionOrNull()?.let { e ->
+                _uiState.update { it.copy(error = e.message ?: "Couldn't upload ${pending.name}") }
+            }
+        }
+    }
+
+    fun removeMediaAttachment(localId: String) {
+        _uiState.update { current ->
+            current.copy(mediaAttachments = current.mediaAttachments.filterNot { it.localId == localId })
+        }
+    }
+
     fun submitReply(onSuccess: () -> Unit) {
-        val content = _uiState.value.content.text.trim()
+        val state = _uiState.value
+        val content = state.content.text.trim()
         if (content.isBlank()) return
+        if (state.mediaAttachments.any { it.uploading }) {
+            _uiState.update { it.copy(error = "Wait for attachments to finish uploading") }
+            return
+        }
+        val attachments = state.mediaAttachments.mapNotNull { it.uploaded }
 
         viewModelScope.launch {
             _uiState.update { it.copy(isSubmitting = true, error = null) }
             forumRepository.createReply(
                 postId = postId,
                 content = content,
-                parentReplyId = replyToId
+                parentReplyId = replyToId,
+                isAnonymous = state.isAnonymous,
+                attachments = attachments
             ).onSuccess {
                 _uiState.update { it.copy(isSubmitting = false) }
                 onSuccess()

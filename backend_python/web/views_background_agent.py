@@ -146,9 +146,21 @@ def _base_context(request, **extra):
             'display_name': admin.display_name or admin.username,
             'photo_url': admin.photo_url or '',
         } if admin else None,
+        'topbar_model_label': _safe_topbar_model_label(admin),
     }
     ctx.update(extra)
     return ctx
+
+
+def _safe_topbar_model_label(admin):
+    """What the topbar badge shows: the model a fresh session would launch
+    with (live-community-default aware). Never raises, never hardcoded."""
+    from api.llm.runtime import default_llm_label
+    try:
+        return default_llm_label(admin) or 'Qwen 3.7 Plus'
+    except Exception:
+        return 'Qwen 3.7 Plus'
+
 
 
 def background_agent_login(request):

@@ -42,7 +42,7 @@
             <span class="material-symbols-outlined">flag</span> Report
           </button>
           {% endif %}
-          {% if is_authenticated and reply.authorId == user.id %}
+          {% if is_authenticated and reply.isOwner or is_authenticated and reply.authorId == user.id %}
           <div class="more-menu-divider"></div>
           <button class="more-menu-item" data-action="edit-comment" data-comment-id="{{ reply.id }}">
             <span class="material-symbols-outlined">edit</span> Edit
@@ -115,7 +115,7 @@
                 <span class="material-symbols-outlined">flag</span> Report
               </button>
               {% endif %}
-              {% if is_authenticated and child.authorId == user.id %}
+              {% if is_authenticated and child.isOwner or is_authenticated and child.authorId == user.id %}
               <div class="more-menu-divider"></div>
               <button class="more-menu-item" data-action="edit-comment" data-comment-id="{{ child.id }}">
                 <span class="material-symbols-outlined">edit</span> Edit

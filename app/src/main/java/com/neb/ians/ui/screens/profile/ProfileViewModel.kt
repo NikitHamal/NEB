@@ -14,6 +14,8 @@ import com.neb.ians.data.api.UserProfileResponse
 import com.neb.ians.data.api.ApiErrorMapper
 import com.neb.ians.data.repository.AuthRepository
 import com.neb.ians.data.repository.AppCache
+import com.neb.ians.data.repository.CacheBus
+import com.neb.ians.data.repository.OfflineCacheStore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -21,12 +23,29 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import kotlinx.serialization.Serializable
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import javax.inject.Inject
 
 private const val POSTS_PAGE_SIZE = 10
+
+/** Persistent, per-user profile snapshot: survives process death so the
+ * profile screen renders instantly (and fully offline), then refreshes in
+ * the background (stale-while-revalidate). */
+@Serializable
+data class ProfileSnapshot(
+    val profile: UserProfileResponse,
+    val isFollowing: Boolean = false,
+    val isRequested: Boolean = false,
+    val followerCount: Int = 0,
+    val repliesCount: Int = 0,
+    val resourcesCount: Int = 0,
+    val posts: List<ApiPost> = emptyList(),
+    val replies: List<ApiReply> = emptyList(),
+    val resources: List<ApiResource> = emptyList()
+)
 
 data class ProfileUiState(
     val profile: UserProfileResponse? = null,
@@ -79,13 +98,18 @@ data class ProfileUiState(
 class ProfileViewModel @Inject constructor(
     private val apiService: ApiService,
     private val authRepository: AuthRepository,
-    private val appCache: AppCache
+    private val appCache: AppCache,
+    private val offlineCacheStore: OfflineCacheStore,
+    private val cacheBus: CacheBus
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(ProfileUiState())
     val uiState: StateFlow<ProfileUiState> = _uiState.asStateFlow()
 
     private var currentUsername: String = ""
+
+    private fun profileCacheKey(username: String): String =
+        CacheBus.PREFIX_PROFILE + username.lowercase()
 
     fun loadProfile(username: String): Job {
         val cachedUser = if (appCache.lastProfileUsername == username) appCache.lastProfile else null
@@ -109,6 +133,37 @@ class ProfileViewModel @Inject constructor(
                 )
             } else {
                 _uiState.value = ProfileUiState(isLoading = true)
+                // Stale-while-revalidate: hydrate from the persistent
+                // snapshot (works offline too) before the network fetch.
+                val snapshot = offlineCacheStore.read<ProfileSnapshot>(profileCacheKey(username))
+                if (snapshot != null) {
+                    _uiState.value = ProfileUiState(
+                        profile = snapshot.profile,
+                        isLoading = false,
+                        isFollowing = snapshot.isFollowing,
+                        isRequested = snapshot.isRequested,
+                        followerCount = snapshot.followerCount,
+                        repliesCount = maxOf(snapshot.repliesCount, snapshot.replies.size),
+                        resourcesCount = maxOf(snapshot.resourcesCount, snapshot.resources.size),
+                        posts = snapshot.posts,
+                        replies = snapshot.replies,
+                        resources = snapshot.resources,
+                        postsLoaded = snapshot.posts.isNotEmpty(),
+                        repliesLoaded = snapshot.replies.isNotEmpty(),
+                        resourcesLoaded = snapshot.resources.isNotEmpty()
+                    )
+                    // Mirror into the in-memory cache so subsequent opens are instant.
+                    appCache.lastProfileUsername = username
+                    appCache.lastProfile = snapshot.profile
+                    appCache.lastProfileIsFollowing = snapshot.isFollowing
+                    appCache.lastProfileIsRequested = snapshot.isRequested
+                    appCache.lastProfileFollowerCount = snapshot.followerCount
+                    appCache.lastProfileRepliesCount = snapshot.repliesCount
+                    appCache.lastProfileResourcesCount = snapshot.resourcesCount
+                    appCache.lastProfilePosts = snapshot.posts
+                    appCache.lastProfileReplies = snapshot.replies
+                    appCache.lastProfileResources = snapshot.resources
+                }
             }
             try {
                 val token = authRepository.getBearerToken()
@@ -171,6 +226,24 @@ class ProfileViewModel @Inject constructor(
             appCache.lastProfilePosts = state.posts
             appCache.lastProfileReplies = state.replies
             appCache.lastProfileResources = state.resources
+            // Persist the same snapshot to the offline cache so the profile
+            // survives process death and is readable while offline.
+            val key = profileCacheKey(currentUsername)
+            val snapshot = ProfileSnapshot(
+                profile = profile,
+                isFollowing = state.isFollowing,
+                isRequested = state.isRequested,
+                followerCount = state.followerCount,
+                repliesCount = state.repliesCount,
+                resourcesCount = state.resourcesCount,
+                posts = state.posts,
+                replies = state.replies,
+                resources = state.resources
+            )
+            viewModelScope.launch {
+                offlineCacheStore.write(key, snapshot)
+                cacheBus.publish(key)
+            }
         }
     }
 

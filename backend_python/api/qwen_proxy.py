@@ -709,6 +709,19 @@ def create_chat(session, model=None, _pool_session=None):
         return None
 
 
+def _model_thinking_required(model_id):
+    if not model_id:
+        return False
+    try:
+        from .qwen_utils.models import fetch_models
+        for m in fetch_models():
+            if m.get('id') == model_id and m.get('capabilities', {}).get('thinking'):
+                return True
+    except Exception:
+        pass
+    return False
+
+
 def send_message(session, chat_id, message, model=None, parent_id=None,
                  max_tokens=500, uploaded_files=None, system_prompt=None,
                  _pool_session=None):
@@ -721,7 +734,8 @@ def send_message(session, chat_id, message, model=None, parent_id=None,
         full_prompt = message
     msg_id = str(uuid.uuid4())
     from .qwen_utils.message_builder import build_msg_payload, build_feature_config
-    feature_config = build_feature_config(thinking_enabled=False)
+    thinking_enabled = _model_thinking_required(model)
+    feature_config = build_feature_config(thinking_enabled=thinking_enabled)
     payload = build_msg_payload(
         chat_id=chat_id,
         model=model,

@@ -1,7 +1,49 @@
 """Views Forum extracted from views.py."""
+import json as _json
 import time
 from .view_helpers import *  # noqa: F401,F403
 from api import services
+from api.security import save_forum_media_upload, validate_forum_attachments
+
+
+def _truthy(value) -> bool:
+    return str(value or '').strip().lower() in ('1', 'true', 'on', 'yes')
+
+
+def _collect_web_attachments(request):
+    """Gather forum attachments from a classic multipart form post.
+
+    Two sources are supported:
+      * ``attachment_files`` — one or more files uploaded straight with the
+        form (each is stored immediately via the forum media storage rules),
+      * ``attachments`` — a JSON list of descriptors previously uploaded via
+        the ajax upload endpoint.
+    Per-file problems are skipped rather than failing the whole post; at most
+    4 attachments / 1 video are kept.
+    """
+    collected = []
+    for f in request.FILES.getlist('attachment_files')[:4]:
+        try:
+            desc = save_forum_media_upload(request, f)
+        except ValidationError:
+            continue
+        collected.append({
+            'url': desc.get('url', ''),
+            'kind': desc.get('kind', 'file'),
+            'name': desc.get('name', ''),
+            'mime_type': desc.get('mime', ''),
+            'size_bytes': desc.get('size', 0),
+        })
+    raw = request.POST.get('attachments', '').strip()
+    if raw:
+        try:
+            parsed = _json.loads(raw)
+            collected.extend(validate_forum_attachments(parsed))
+        except (ValueError, TypeError, ValidationError):
+            pass
+    videos = [a for a in collected if a.get('kind') == 'video']
+    others = [a for a in collected if a.get('kind') != 'video']
+    return (videos[:1] + others)[:4]
 
 def forum(request):
     import math
@@ -322,8 +364,11 @@ def create_post(request):
                 'duration_ms': int(request.POST.get('poll_duration', '0') or '0'),
                 'options': poll_options,
             }
+        is_anonymous = _truthy(request.POST.get('anonymous'))
+        attachments = _collect_web_attachments(request)
         if title and content and category:
-            result = services.create_post(user, title, content, category, image_urls=image_urls, poll_data=poll_data)
+            result = services.create_post(user, title, content, category, image_urls=image_urls, poll_data=poll_data,
+                                          is_anonymous=is_anonymous, attachments=attachments)
             if result and result.get('id'):
                 _clear_page_cache()
                 return redirect('web:forum_post', post_id=result['id'])
@@ -348,8 +393,11 @@ def reply_post(request, post_id):
     if request.method == 'POST':
         content = request.POST.get('content', '').strip()
         parent_reply_id = request.POST.get('parent_reply_id', '') or None
+        is_anonymous = _truthy(request.POST.get('anonymous'))
+        attachments = _collect_web_attachments(request)
         if content:
-            services.create_reply(user, post_id, content, parent_reply_id)
+            services.create_reply(user, post_id, content, parent_reply_id,
+                                  is_anonymous=is_anonymous, attachments=attachments)
             _clear_page_cache()
             return redirect('web:forum_post', post_id=post_id)
     return render(request, 'web/reply.html', _ctx(request, post=post, post_id=post_id))

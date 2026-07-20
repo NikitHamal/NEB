@@ -1,9 +1,60 @@
 """Views Forum extracted from views.py."""
 from .view_helpers import *  # noqa: F401,F403
-from .models import PostImage, Poll, PollOption, PollVote
+from .models import PostImage, PostMedia, Poll, PollOption, PollVote
 from . import notifications as _notif
-from .security import save_post_image_upload, POST_IMAGE_MAX_COUNT
+from .security import (
+    save_post_image_upload, save_forum_media_upload, validate_forum_attachments,
+    POST_IMAGE_MAX_COUNT,
+)
 from . import services
+
+
+def _client_wants_anonymous(request) -> bool:
+    """isAnonymous / is_anonymous from either JSON body or multipart form."""
+    value = request.data.get('isAnonymous', request.data.get('is_anonymous', False))
+    if isinstance(value, str):
+        return value.strip().lower() in ('1', 'true', 'yes', 'on')
+    return bool(value)
+
+
+def _attach_forum_media(target, attachments, now):
+    """persist validated attachment descriptors as PostMedia rows."""
+    kind_attr = 'post' if isinstance(target, Post) else 'reply'
+    for order, item in enumerate(attachments):
+        PostMedia.objects.create(
+            id=str(uuid.uuid4()),
+            kind=item['kind'], url=item['url'], name=item['name'],
+            mime_type=item['mime_type'], size_bytes=item['size_bytes'],
+            order=order, created_at=now,
+            **{kind_attr: target},
+        )
+
+
+def _parse_attachments_or_error(request):
+    """Returns (attachments, error_response)."""
+    try:
+        return validate_forum_attachments(request.data.get('attachments')), None
+    except ValidationError as exc:
+        messages = exc.messages if hasattr(exc, 'messages') else [str(exc)]
+        return None, Response({'error': messages[0] if messages else 'Invalid attachments'}, status=400)
+
+
+@api_view(['POST'])
+@throttle_classes([UploadRateThrottle])
+def forum_media_upload(request):
+    """POST /api/forum/uploads/ — one video/audio/file, returns the descriptor
+    the client echoes back inside the post/reply `attachments` payload."""
+    user, err = _require_verified_user(request)
+    if err:
+        return err
+    file_obj = request.FILES.get('file')
+    try:
+        descriptor = save_forum_media_upload(request, file_obj)
+    except ValidationError as exc:
+        messages = exc.messages if hasattr(exc, 'messages') else [str(exc)]
+        return Response({'error': messages[0] if messages else 'Invalid file'}, status=400)
+    return Response({'ok': True, 'attachment': descriptor}, status=201)
+
 
 @api_view(['POST'])
 @throttle_classes([WriteActionRateThrottle])
@@ -26,6 +77,10 @@ def posts_create(request):
     if err:
         return err
 
+    attachments, error_response = _parse_attachments_or_error(request)
+    if error_response:
+        return error_response
+
     now = _now_ms()
     post = Post.objects.create(
         id=str(uuid.uuid4()),
@@ -35,8 +90,11 @@ def posts_create(request):
         category=category,
         thumbs_up_count=0,
         reply_count=0,
+        is_anonymous=_client_wants_anonymous(request),
         created_at=now,
     )
+    if attachments:
+        _attach_forum_media(post, attachments, now)
 
     logger.info("posts_create: created post %s by user %s", post.id, user.username)
     _counters.increment_user_post_count(user.id)
@@ -132,6 +190,13 @@ def post_detail(request, post_id):
                     PostImage.objects.create(
                         id=str(uuid.uuid4()), post=post, image_url=url, order=order, created_at=now
                     )
+        if 'attachments' in data:
+            cleaned_attachments, error_response = _parse_attachments_or_error(request)
+            if error_response:
+                return error_response
+            PostMedia.objects.filter(post=post).delete()
+            if cleaned_attachments:
+                _attach_forum_media(post, cleaned_attachments, now)
         post.is_edited = True
         post.edited_at = now
         post.save()
@@ -211,6 +276,11 @@ def replies_create(request, post_id):
     if parent_reply_id and not Reply.objects.filter(pk=parent_reply_id, post_id=post_id).exists():
         return Response({'error': 'Invalid parent reply'}, status=400)
 
+    attachments, error_response = _parse_attachments_or_error(request)
+    if error_response:
+        return error_response
+    anonymous = _client_wants_anonymous(request)
+
     now = _now_ms()
     with transaction.atomic():
         reply = Reply.objects.create(
@@ -220,17 +290,20 @@ def replies_create(request, post_id):
             user=user,
             content=content,
             thumbs_up_count=0,
+            is_anonymous=anonymous,
             created_at=now,
         )
         Post.objects.filter(pk=post.pk).update(reply_count=F('reply_count') + 1)
         if parent_reply_id:
             Reply.objects.filter(pk=parent_reply_id).update(reply_count=F('reply_count') + 1)
+        if attachments:
+            _attach_forum_media(reply, attachments, now)
 
     logger.info("replies_create: created reply on post %s by user %s", post_id, user.username)
     _counters.increment_user_reply_count(user.id)
-    _notif.notify_new_reply(user.id, post_id, reply.id)
+    _notif.notify_new_reply(user.id, post_id, reply.id, anonymous_actor=anonymous)
     if parent_reply_id:
-        _notif.notify_reply_to_reply(user.id, parent_reply_id, post_id, reply.id)
+        _notif.notify_reply_to_reply(user.id, parent_reply_id, post_id, reply.id, anonymous_actor=anonymous)
     _notif.send_mention_all_if_eligible(user, content, 'reply', reply.id)
     _rt.broadcast_reply_created(post_id, ReplySerializer(reply, context={'request': request}).data)
     return Response(ReplySerializer(reply, context={'request': request}).data, status=201)
@@ -415,10 +488,19 @@ def posts_endpoint(request):
             'options': [opt.strip() for opt in options],
         }
 
-    result = services.create_post(user, title, content, category, image_urls=image_urls, poll_data=poll_data)
+    attachments, error_response = _parse_attachments_or_error(request)
+    if error_response:
+        return error_response
+
+    result = services.create_post(
+        user, title, content, category,
+        image_urls=image_urls, poll_data=poll_data,
+        is_anonymous=_client_wants_anonymous(request), attachments=attachments,
+    )
     if result:
         logger.info("posts_endpoint: created post %s by user %s", result['id'], user.username)
-        return Response(result, status=201)
+        post = Post.objects.select_related('user').get(pk=result['id'])
+        return Response(PostSerializer(post, context={'request': request}).data, status=201)
     return Response({'error': 'Failed to create post'}, status=400)
 
 @api_view(['GET', 'POST'])
@@ -453,6 +535,11 @@ def replies_endpoint(request, post_id):
     if parent_reply_id and not Reply.objects.filter(pk=parent_reply_id, post_id=post_id).exists():
         return Response({'error': 'Invalid parent reply'}, status=400)
 
+    attachments, error_response = _parse_attachments_or_error(request)
+    if error_response:
+        return error_response
+    anonymous = _client_wants_anonymous(request)
+
     now = _now_ms()
     with transaction.atomic():
         reply = Reply.objects.create(
@@ -462,17 +549,20 @@ def replies_endpoint(request, post_id):
             user=user,
             content=content,
             thumbs_up_count=0,
+            is_anonymous=anonymous,
             created_at=now,
         )
         Post.objects.filter(pk=post.pk).update(reply_count=F('reply_count') + 1)
         if parent_reply_id:
             Reply.objects.filter(pk=parent_reply_id).update(reply_count=F('reply_count') + 1)
+        if attachments:
+            _attach_forum_media(reply, attachments, now)
 
     logger.info("replies_endpoint: created reply on post %s by user %s", post_id, user.username)
     _counters.increment_user_reply_count(user.id)
-    _notif.notify_new_reply(user.id, post_id, reply.id)
+    _notif.notify_new_reply(user.id, post_id, reply.id, anonymous_actor=anonymous)
     if parent_reply_id:
-        _notif.notify_reply_to_reply(user.id, parent_reply_id, post_id, reply.id)
+        _notif.notify_reply_to_reply(user.id, parent_reply_id, post_id, reply.id, anonymous_actor=anonymous)
     try:
         from .neby import enqueue_if_reply_mention
         enqueue_if_reply_mention(reply)

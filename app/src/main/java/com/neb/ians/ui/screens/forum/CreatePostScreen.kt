@@ -27,8 +27,10 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.outlined.AddPhotoAlternate
+import androidx.compose.material.icons.outlined.AttachFile
 import androidx.compose.material.icons.outlined.CheckCircle
 import androidx.compose.material.icons.outlined.Poll
+import androidx.compose.material.icons.outlined.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenuItem
@@ -85,6 +87,10 @@ fun CreatePostScreen(
     val imagePicker = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
     ) { uri -> viewModel.addImage(uri) }
+
+    val mediaPicker = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.OpenMultipleDocuments()
+    ) { uris -> if (!uris.isNullOrEmpty()) viewModel.addMediaAttachments(uris) }
 
     LaunchedEffect(postId) {
         if (postId != null) viewModel.loadForEdit(postId)
@@ -343,6 +349,99 @@ fun CreatePostScreen(
                 }
             }
 
+            // ----- Media attachments (video / audio / files) -----
+            if (!isEditing) {
+                Surface(
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(12.dp),
+                    color = MaterialTheme.colorScheme.surfaceContainerLow,
+                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
+                ) {
+                    Column(modifier = Modifier.padding(12.dp)) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clip(RoundedCornerShape(8.dp))
+                                .clickable(enabled = !uiState.isSubmitting) {
+                                    mediaPicker.launch(arrayOf("video/*", "audio/*", "application/*", "text/*"))
+                                }
+                                .padding(vertical = 4.dp)
+                        ) {
+                            Icon(
+                                imageVector = Icons.Outlined.AttachFile,
+                                contentDescription = null,
+                                modifier = Modifier.size(18.dp),
+                                tint = MaterialTheme.colorScheme.primary
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Column {
+                                Text(
+                                    text = "Attach video, audio or files",
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    fontWeight = FontWeight.SemiBold
+                                )
+                                Text(
+                                    text = "Up to ${ForumMediaUploadHelper.MAX_ATTACHMENTS} files · video 150 MB · audio 40 MB · files 30 MB",
+                                    style = MaterialTheme.typography.labelSmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            }
+                        }
+                        if (uiState.mediaAttachments.isNotEmpty()) {
+                            Spacer(modifier = Modifier.height(10.dp))
+                            uiState.mediaAttachments.forEach { attachment ->
+                                ForumAttachmentChip(
+                                    attachment = attachment,
+                                    onRemove = { viewModel.removeMediaAttachment(attachment.localId) },
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(vertical = 3.dp)
+                                )
+                            }
+                        }
+                    }
+                }
+
+                // ----- Anonymous mode -----
+                Surface(
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(12.dp),
+                    color = MaterialTheme.colorScheme.surfaceContainerLow,
+                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.VisibilityOff,
+                            contentDescription = null,
+                            modifier = Modifier.size(18.dp),
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Column(modifier = Modifier.weight(1f)) {
+                            Text(
+                                text = "Post anonymously",
+                                style = MaterialTheme.typography.bodyMedium,
+                                fontWeight = FontWeight.SemiBold
+                            )
+                            Text(
+                                text = "Your name and profile stay hidden — Nebians see 'Anonymous Nebian'",
+                                style = MaterialTheme.typography.labelSmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
+                        Switch(
+                            checked = uiState.isAnonymous,
+                            onCheckedChange = viewModel::setAnonymous,
+                            enabled = !uiState.isSubmitting
+                        )
+                    }
+                }
+            }
+
             // ----- Poll builder -----
             if (!isEditing) {
                 Surface(
@@ -534,6 +633,7 @@ fun CreatePostScreen(
                 shape = RoundedCornerShape(50),
                 enabled = uiState.title.isNotBlank() && uiState.content.text.isNotBlank() &&
                     (!uiState.isCustomCategory || uiState.customCategory.isNotBlank()) &&
+                    uiState.mediaAttachments.none { it.uploading } &&
                     !uiState.isSubmitting && !uiState.isLoadingPost
             ) {
                 if (uiState.isSubmitting) {

@@ -19,11 +19,15 @@
       </div>
       <div class="post-card-meta">
         <div class="post-card-meta-top" style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+          {% if post.isAnonymous %}
+          <span class="fp-author-anon" style="font-weight:700;"><span class="material-symbols-outlined" style="font-size:14px;vertical-align:-2px;">visibility_off</span> Anonymous Nebian</span>
+          {% else %}
           <a href="{% url 'web:profile' username=post.authorName %}" style="font-weight:700;cursor:pointer;text-decoration:none;color:inherit;">{{ post.authorName }}</a>
+          {% endif %}
           {% if post.authorBadgeInfo %}
           <span class="role-badge role-badge-{{ post.authorBadgeInfo.type }}" title="{{ post.authorBadgeInfo.label }}"><span class="material-symbols-outlined">{{ post.authorBadgeInfo.icon }}</span></span>
           {% endif %}
-          {% if is_authenticated and post.authorId != user.id %}
+          {% if is_authenticated and post.authorId and post.authorId != user.id %}
           <button class="follow-btn-small {% if post.isFollowingAuthor %}following{% else %}not-following{% endif %}" data-action="toggle-follow" data-user-id="{{ post.authorId }}">{% if post.isFollowingAuthor %}Following{% else %}Follow{% endif %}</button>
           {% endif %}
         </div>
@@ -47,12 +51,12 @@
           <button class="more-menu-item" data-action="share-post-url" data-path="{% url 'web:forum_post' post_id=post.id %}">
             <span class="material-symbols-outlined">share</span> Share
           </button>
-          {% if is_authenticated and post.authorId != user.id %}
+          {% if is_authenticated and not post.isOwner %}
           <button class="more-menu-item" data-action="report-content" data-target-type="post" data-target-id="{{ post.id }}">
             <span class="material-symbols-outlined">flag</span> Report
           </button>
           {% endif %}
-          {% if is_authenticated and post.authorId == user.id %}
+          {% if is_authenticated and post.isOwner %}
           <div class="more-menu-divider"></div>
           <button class="more-menu-item" data-action="edit-post-card" data-post-id="{{ post.id }}" data-post-url="{% url 'web:forum_post' post_id=post.id %}">
             <span class="material-symbols-outlined">edit</span> Edit post
@@ -84,6 +88,7 @@
       {% if post.poll.pollType == 'mcq' %}MCQ{% else %}Poll{% endif %}
     </div>
     {% endif %}
+    {% with attachments=post.attachments %}{% include "web/_forum_attachments.html" %}{% endwith %}
     <div class="post-card-actions">
       <button type="button" data-action="toggle-forum-post-like" data-post-id="{{ post.id }}" class="{% if post.isThumbedUp %}liked{% endif %}" id="forum-post-like-btn-{{ post.id }}">
         <span class="material-symbols-outlined">thumb_up</span>

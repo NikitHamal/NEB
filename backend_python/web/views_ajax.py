@@ -3,7 +3,23 @@ from django.views.decorators.http import require_http_methods
 
 from .view_helpers import *  # noqa: F401,F403
 from api.view_helpers import _can_view_locked_profile
-from api.security import POST_IMAGE_MAX_COUNT
+from api.security import POST_IMAGE_MAX_COUNT, validate_forum_attachments
+from django.core.exceptions import ValidationError
+
+
+def _parse_web_attachments(data):
+    """Validate the optional `attachments` list from an ajax JSON payload.
+
+    Attachments must have been uploaded beforehand via the forum media upload
+    endpoint (validation enforces that urls point at our own MEDIA_URL).
+    Returns (attachments, error_message); exactly one of the two is set.
+    """
+    try:
+        return validate_forum_attachments(data.get('attachments')), None
+    except ValidationError as exc:
+        message = exc.messages[0] if getattr(exc, 'messages', None) else str(exc)
+        return None, message
+
 
 @require_POST
 def ajax_like_post(request, post_id):
@@ -59,7 +75,14 @@ def ajax_create_reply(request, post_id):
         return JsonResponse({'error': 'Content must be 10000 characters or fewer'}, status=400)
     if parent_id and not Reply.objects.filter(pk=parent_id, post_id=post_id).exists():
         return JsonResponse({'error': 'Invalid parent reply'}, status=400)
-    result = services.create_reply(user, post_id, content, parent_id)
+    is_anonymous = bool(data.get('isAnonymous') or data.get('is_anonymous'))
+    attachments, attach_error = _parse_web_attachments(data)
+    if attach_error:
+        return JsonResponse({'error': attach_error}, status=400)
+    if not attachments and not content:
+        return JsonResponse({'error': 'Content required'}, status=400)
+    result = services.create_reply(user, post_id, content, parent_id,
+                                   is_anonymous=is_anonymous, attachments=attachments)
     if result:
         _clear_page_cache()
         return JsonResponse(result, status=201)
@@ -207,7 +230,12 @@ def ajax_create_post(request):
                 return JsonResponse({'error': 'Poll options cannot be empty'}, status=400)
             if len(opt_text) > 200:
                 return JsonResponse({'error': 'Poll option must be 200 characters or fewer'}, status=400)
-    result = services.create_post(user, title, content, category, image_urls=image_urls, poll_data=poll_data)
+    is_anonymous = bool(data.get('isAnonymous') or data.get('is_anonymous'))
+    attachments, attach_error = _parse_web_attachments(data)
+    if attach_error:
+        return JsonResponse({'error': attach_error}, status=400)
+    result = services.create_post(user, title, content, category, image_urls=image_urls, poll_data=poll_data,
+                                  is_anonymous=is_anonymous, attachments=attachments)
     if result:
         _clear_page_cache()
         return JsonResponse(result, status=201)

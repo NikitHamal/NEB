@@ -1,23 +1,28 @@
 package com.neb.ians.ui.screens.forum
 
+import android.net.Uri
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.neb.ians.data.api.ApiErrorMapper
+import com.neb.ians.data.api.ApiMediaAttachmentInput
 import com.neb.ians.data.api.ApiPost
 import com.neb.ians.data.api.ApiReply
 import com.neb.ians.data.api.ApiUserSearchResult
 import com.neb.ians.data.realtime.RealtimeClient
 import com.neb.ians.data.repository.AuthRepository
+import com.neb.ians.data.repository.CacheBus
 import com.neb.ians.data.repository.ForumRepository
 import com.neb.ians.ui.components.PollUi
 import com.neb.ians.ui.components.toPollUi
 import com.neb.ians.ui.components.applyMention
 import com.neb.ians.ui.components.mentionQueryAt
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -80,7 +85,9 @@ class PostDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val forumRepository: ForumRepository,
     private val authRepository: AuthRepository,
-    private val realtimeClient: RealtimeClient
+    private val realtimeClient: RealtimeClient,
+    private val cacheBus: CacheBus,
+    private val mediaUploadHelper: ForumMediaUploadHelper
 ) : ViewModel() {
 
     private val postId: String = savedStateHandle.get<String>("postId") ?: ""
@@ -118,6 +125,32 @@ class PostDetailViewModel @Inject constructor(
                     handleRealtimeEvent(event.event, event.data)
                 }
             }
+        }
+        collectCacheSignals()
+    }
+
+    /**
+     * Cache-first with silent background updates: when the repository's SWR
+     * refresh (or anyone's realtime write) lands fresher post/reply data in
+     * the offline cache, this flow re-reads it without user interaction.
+     */
+    @OptIn(FlowPreview::class)
+    private fun collectCacheSignals() {
+        viewModelScope.launch {
+            cacheBus.signals
+                .debounce(400)
+                .collect { key ->
+                    when (key) {
+                        CacheBus.PREFIX_POST + postId ->
+                            forumRepository.getPost(postId, cacheOnly = true).onSuccess { post ->
+                                _state.update { it.copy(post = post, poll = post.poll?.toPollUi()) }
+                            }
+                        CacheBus.PREFIX_POST_REPLIES + postId ->
+                            forumRepository.getReplies(postId, cacheOnly = true).onSuccess { replies ->
+                                _state.update { it.copy(replies = replies, isLoading = false) }
+                            }
+                    }
+                }
         }
     }
 
@@ -455,6 +488,69 @@ class PostDetailViewModel @Inject constructor(
     private val _isSubmittingReply = MutableStateFlow(false)
     val isSubmittingReply: StateFlow<Boolean> = _isSubmittingReply.asStateFlow()
 
+    // ----- Inline composer media attachments + anonymous mode -----
+    // Shared by the main bottom-bar composer and the thread-reply composers:
+    // only one of them is actively used at a time on this screen.
+
+    private val _mediaAttachments = MutableStateFlow<List<PendingForumAttachment>>(emptyList())
+    val mediaAttachments: StateFlow<List<PendingForumAttachment>> = _mediaAttachments.asStateFlow()
+
+    private val _composerAnonymous = MutableStateFlow(false)
+    val composerAnonymous: StateFlow<Boolean> = _composerAnonymous.asStateFlow()
+
+    fun setComposerAnonymous(anonymous: Boolean) {
+        _composerAnonymous.value = anonymous
+    }
+
+    fun addMediaAttachments(uris: List<Uri>) {
+        uris.forEach { uri -> addMediaAttachment(uri) }
+    }
+
+    fun addMediaAttachment(uri: Uri?) {
+        if (uri == null) return
+        val current = _mediaAttachments.value
+        if (current.size >= ForumMediaUploadHelper.MAX_ATTACHMENTS) {
+            _state.update { it.copy(snackbarMessage = "Maximum ${ForumMediaUploadHelper.MAX_ATTACHMENTS} attachments") }
+            return
+        }
+        val kind = mediaUploadHelper.guessKind(uri)
+        if (kind == "video" && current.any { it.kind == "video" }) {
+            _state.update { it.copy(snackbarMessage = "Maximum 1 video per reply") }
+            return
+        }
+        val size = mediaUploadHelper.sizeOf(uri)
+        if (size > ForumMediaUploadHelper.limitFor(kind)) {
+            _state.update { it.copy(snackbarMessage = ForumMediaUploadHelper.limitLabel(kind)) }
+            return
+        }
+        val pending = PendingForumAttachment(
+            name = mediaUploadHelper.displayName(uri),
+            kind = kind,
+            sizeBytes = size,
+            uri = uri
+        )
+        _mediaAttachments.update { it + pending }
+        viewModelScope.launch {
+            val result = mediaUploadHelper.upload(uri, kind, pending.name)
+            _mediaAttachments.update { attachments ->
+                attachments.map { att ->
+                    if (att.localId != pending.localId) att
+                    else result.fold(
+                        onSuccess = { descriptor -> att.copy(uploading = false, uploaded = descriptor) },
+                        onFailure = { e -> att.copy(uploading = false, error = e.message ?: "Upload failed") }
+                    )
+                }
+            }
+            result.exceptionOrNull()?.let { e ->
+                _state.update { it.copy(snackbarMessage = e.message ?: "Couldn't upload ${pending.name}") }
+            }
+        }
+    }
+
+    fun removeMediaAttachment(localId: String) {
+        _mediaAttachments.update { attachments -> attachments.filterNot { it.localId == localId } }
+    }
+
     fun onMainReplyChange(value: TextFieldValue) {
         if (value.text.length > 10000) return
         _mainReplyText.value = value
@@ -519,14 +615,24 @@ class PostDetailViewModel @Inject constructor(
         onSuccess: () -> Unit
     ) {
         if (content.isBlank() || _isSubmittingReply.value) return
+        val staged = _mediaAttachments.value
+        if (staged.any { it.uploading }) {
+            _state.update { it.copy(snackbarMessage = "Wait for attachments to finish uploading") }
+            return
+        }
+        val attachments: List<ApiMediaAttachmentInput> = staged.mapNotNull { it.uploaded }
+        val isAnonymous = _composerAnonymous.value
         viewModelScope.launch {
             _isSubmittingReply.value = true
             forumRepository.createReply(
                 postId = postId,
                 content = content,
-                parentReplyId = parentReplyId
+                parentReplyId = parentReplyId,
+                isAnonymous = isAnonymous,
+                attachments = attachments
             ).onSuccess { reply ->
                 _isSubmittingReply.value = false
+                _mediaAttachments.value = emptyList()
                 if (parentReplyId.isNullOrBlank()) {
                     _mainReplyText.value = TextFieldValue("")
                 } else {

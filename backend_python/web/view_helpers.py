@@ -19,7 +19,7 @@ from . import curriculum
 from django.core.paginator import Paginator
 from django.utils.html import escape
 
-from api.models import User, Resource, ResourceRequest, ResourceRequestUpvote, Post, PostLike, PostImage, Poll, PollOption, PollVote, Reply, ReplyLike, Follow, UserPhoto, EditHistory, Bookmark, Notification, Report, BotConfig, TakedownRequest, BlogComment, BlogCommentLike
+from api.models import User, Resource, ResourceRequest, ResourceRequestUpvote, Post, PostLike, PostImage, PostMedia, Poll, PollOption, PollVote, Reply, ReplyLike, Follow, UserPhoto, EditHistory, Bookmark, Notification, Report, BotConfig, TakedownRequest, BlogComment, BlogCommentLike
 from api.models import ResourceLike, ResourceComment, ResourceCommentLike
 from api.serializers import UserSerializer, ResourceSerializer, PostSerializer, ReplySerializer
 from api.security import (
@@ -401,6 +401,12 @@ def _serialize_posts(posts_qs, user_id=None):
     all_images = {}
     for img in PostImage.objects.filter(post_id__in=post_ids).order_by('order', 'created_at'):
         all_images.setdefault(img.post_id, []).append({'id': img.id, 'imageUrl': img.image_url, 'order': img.order})
+    all_media = {}
+    for m in PostMedia.objects.filter(post_id__in=post_ids).order_by('order', 'created_at'):
+        all_media.setdefault(m.post_id, []).append({
+            'id': m.id, 'kind': m.kind, 'url': m.url, 'name': m.name,
+            'mimeType': m.mime_type, 'sizeBytes': m.size_bytes, 'order': m.order,
+        })
     all_polls = {}
     polls = list(Poll.objects.filter(post_id__in=post_ids))
     user_votes_by_poll = {}
@@ -420,21 +426,27 @@ def _serialize_posts(posts_qs, user_id=None):
         }
     result = []
     for p in posts:
+        anon = bool(getattr(p, 'is_anonymous', False))
         result.append({
             'id': p.id, 'title': p.title, 'content': p.content, 'category': p.category,
-            'authorName': p.user.username, 'authorPhotoUrl': p.user.photo_url,
-            'authorBadgeInfo': _user_badge_info(p.user),
-            'authorAchievements': _user_achievement_badges(p.user),
-            'authorIsBot': p.user.is_bot,
-            'authorId': p.user_id, 'thumbsUpCount': p.thumbs_up_count, 'thumbs_up_count': p.thumbs_up_count,
+            'authorName': 'Anonymous Nebian' if anon else p.user.username,
+            'authorPhotoUrl': '' if anon else p.user.photo_url,
+            'authorBadgeInfo': None if anon else _user_badge_info(p.user),
+            'authorAchievements': [] if anon else _user_achievement_badges(p.user),
+            'authorIsBot': False if anon else p.user.is_bot,
+            'authorId': '' if anon else p.user_id,
+            'isOwner': bool(user_id and p.user_id == user_id),
+            'isAnonymous': anon,
+            'thumbsUpCount': p.thumbs_up_count, 'thumbs_up_count': p.thumbs_up_count,
             'replyCount': p.reply_count, 'reply_count': p.reply_count,
             'viewCount': p.view_count, 'view_count': p.view_count,
             'createdAt': p.created_at, 'updatedAt': p.edited_at or p.created_at,
             'isEdited': p.is_edited, 'editedAt': p.edited_at, 'isArchived': p.is_archived,
             'isThumbedUp': p.id in liked_ids,
-            'isFollowingAuthor': p.user_id in followed_author_ids,
+            'isFollowingAuthor': False if anon else p.user_id in followed_author_ids,
             'isBookmarked': p.id in bookmarked_ids,
             'images': all_images.get(p.id, []),
+            'attachments': all_media.get(p.id, []),
             'poll': all_polls.get(p.id),
         })
     return result
@@ -456,20 +468,31 @@ def _serialize_post(p, user_id=None, _liked_ids=None, _followed_ids=None, _bookm
             is_bookmarked = p.id in _bookmarked_ids
         else:
             is_bookmarked = Bookmark.objects.filter(user_id=user_id, target_type='post', target_id=p.id).exists()
+    anon = bool(getattr(p, 'is_anonymous', False))
+    media = [{
+        'id': m.id, 'kind': m.kind, 'url': m.url, 'name': m.name,
+        'mimeType': m.mime_type, 'sizeBytes': m.size_bytes, 'order': m.order,
+    } for m in PostMedia.objects.filter(post_id=p.id).order_by('order', 'created_at')]
     return {
         'id': p.id, 'title': p.title, 'content': p.content, 'category': p.category,
-        'authorName': p.user.username, 'authorPhotoUrl': p.user.photo_url,
-        'authorBadgeInfo': _user_badge_info(p.user),
-        'authorAchievements': _user_achievement_badges(p.user),
-        'authorIsBot': p.user.is_bot,
-        'authorId': p.user_id, 'thumbsUpCount': p.thumbs_up_count, 'thumbs_up_count': p.thumbs_up_count,
+        'authorName': 'Anonymous Nebian' if anon else p.user.username,
+        'authorPhotoUrl': '' if anon else p.user.photo_url,
+        'authorBadgeInfo': None if anon else _user_badge_info(p.user),
+        'authorAchievements': [] if anon else _user_achievement_badges(p.user),
+        'authorIsBot': False if anon else p.user.is_bot,
+        'authorId': '' if anon else p.user_id,
+        'isOwner': bool(user_id and p.user_id == user_id),
+        'isAnonymous': anon,
+        'thumbsUpCount': p.thumbs_up_count, 'thumbs_up_count': p.thumbs_up_count,
         'replyCount': p.reply_count, 'reply_count': p.reply_count,
         'viewCount': p.view_count, 'view_count': p.view_count,
         'createdAt': p.created_at, 'updatedAt': p.edited_at or p.created_at,
         'isEdited': p.is_edited, 'editedAt': p.edited_at, 'isArchived': p.is_archived,
-        'isThumbedUp': is_thumbed_up, 'isFollowingAuthor': is_following_author,
+        'isThumbedUp': is_thumbed_up,
+        'isFollowingAuthor': False if anon else is_following_author,
         'isBookmarked': is_bookmarked,
         'images': _serialize_post_images(p.id),
+        'attachments': media,
         'poll': _serialize_post_poll(p.id, user_id),
     }
 
@@ -491,6 +514,13 @@ def _serialize_replies(replies_qs, user_id=None):
             user_id=user_id, target_type='reply',
             target_id__in=[r.id for r in replies]
         ).values_list('target_id', flat=True))
+    all_media = {}
+    reply_ids = [r.id for r in replies]
+    for m in PostMedia.objects.filter(reply_id__in=reply_ids).order_by('order', 'created_at'):
+        all_media.setdefault(m.reply_id, []).append({
+            'id': m.id, 'kind': m.kind, 'url': m.url, 'name': m.name,
+            'mimeType': m.mime_type, 'sizeBytes': m.size_bytes, 'order': m.order,
+        })
     child_reply_ids = {}
     for r in replies:
         if r.parent_reply_id:
@@ -520,20 +550,27 @@ def _serialize_replies(replies_qs, user_id=None):
             all_descendants.append(c)
             stack.extend(child_reply_ids.get(c.id, []))
         for c in all_descendants[:3]:
-            if c.user_id not in seen:
-                seen.add(c.user_id)
+            c_anon = bool(getattr(c, 'is_anonymous', False))
+            key = ('anon',) if c_anon else c.user_id
+            if key not in seen:
+                seen.add(key)
                 child_authors.append({
-                    'id': c.user_id,
-                    'username': c.user.username,
-                    'photoUrl': c.user.photo_url,
+                    'id': '' if c_anon else c.user_id,
+                    'username': 'Anonymous Nebian' if c_anon else c.user.username,
+                    'photoUrl': '' if c_anon else c.user.photo_url,
                 })
+        anon = bool(getattr(r, 'is_anonymous', False))
         result.append({
             'id': r.id, 'postId': r.post_id, 'postTitle': r.post.title if r.post else '', 'parentReplyId': r.parent_reply_id,
-            'content': r.content, 'authorName': r.user.username,
-            'authorPhotoUrl': r.user.photo_url, 'authorId': r.user_id,
-            'authorBadgeInfo': _user_badge_info(r.user),
-            'authorAchievements': _user_achievement_badges(r.user),
-            'authorIsBot': r.user.is_bot,
+            'content': r.content,
+            'authorName': 'Anonymous Nebian' if anon else r.user.username,
+            'authorPhotoUrl': '' if anon else r.user.photo_url,
+            'authorId': '' if anon else r.user_id,
+            'authorBadgeInfo': None if anon else _user_badge_info(r.user),
+            'authorAchievements': [] if anon else _user_achievement_badges(r.user),
+            'authorIsBot': False if anon else r.user.is_bot,
+            'isOwner': bool(user_id and r.user_id == user_id),
+            'isAnonymous': anon,
             'thumbsUpCount': r.thumbs_up_count, 'childCount': total_descendants.get(r.id, len(children)),
             'viewCount': r.view_count,
             'childAuthors': child_authors,
@@ -541,8 +578,9 @@ def _serialize_replies(replies_qs, user_id=None):
             'isEdited': r.is_edited, 'editedAt': r.edited_at,
             'isArchived': r.is_archived,
             'isThumbedUp': r.id in liked_ids,
-            'isFollowed': r.user_id in followed_author_ids,
+            'isFollowed': False if anon else r.user_id in followed_author_ids,
             'isBookmarked': r.id in bookmarked_ids,
+            'attachments': all_media.get(r.id, []),
         })
     return result
 
@@ -558,19 +596,29 @@ def _serialize_reply(r, user_id=None, _liked_ids=None, _bookmarked_ids=None):
             is_bookmarked = r.id in _bookmarked_ids
         else:
             is_bookmarked = Bookmark.objects.filter(user_id=user_id, target_type='reply', target_id=r.id).exists()
+    anon = bool(getattr(r, 'is_anonymous', False))
+    media = [{
+        'id': m.id, 'kind': m.kind, 'url': m.url, 'name': m.name,
+        'mimeType': m.mime_type, 'sizeBytes': m.size_bytes, 'order': m.order,
+    } for m in r.media.all()]
     return {
         'id': r.id, 'postId': r.post_id, 'parentReplyId': r.parent_reply_id,
-        'content': r.content, 'authorName': r.user.username,
-        'authorPhotoUrl': r.user.photo_url, 'authorId': r.user_id,
-        'authorBadgeInfo': _user_badge_info(r.user),
-        'authorAchievements': _user_achievement_badges(r.user),
-        'authorIsBot': r.user.is_bot,
+        'content': r.content,
+        'authorName': 'Anonymous Nebian' if anon else r.user.username,
+        'authorPhotoUrl': '' if anon else r.user.photo_url,
+        'authorId': '' if anon else r.user_id,
+        'authorBadgeInfo': None if anon else _user_badge_info(r.user),
+        'authorAchievements': [] if anon else _user_achievement_badges(r.user),
+        'authorIsBot': False if anon else r.user.is_bot,
+        'isOwner': bool(user_id and r.user_id == user_id),
+        'isAnonymous': anon,
         'thumbsUpCount': r.thumbs_up_count, 'childCount': r.reply_count,
         'viewCount': r.view_count,
         'createdAt': r.created_at,
         'isEdited': r.is_edited, 'editedAt': r.edited_at, 'isArchived': r.is_archived,
         'isThumbedUp': is_thumbed_up,
         'isBookmarked': is_bookmarked,
+        'attachments': media,
     }
 
 def _get_user_id(request):

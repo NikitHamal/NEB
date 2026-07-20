@@ -10,29 +10,51 @@ import com.neb.ians.data.news.NewsComment
 import com.neb.ians.data.news.NewsCommentLikeResponse
 import com.neb.ians.data.news.NewsCommentRequest
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
+/**
+ * News/announcements feed. Stale-while-revalidate: cached pages render
+ * instantly (even past their TTL, e.g. offline), a background fetch
+ * refreshes them, and the [CacheBus] notifies open screens so the UI
+ * updates silently without a manual pull-to-refresh.
+ */
 @Singleton
 class NewsRepository @Inject constructor(
     private val apiService: ApiService,
+    private val cacheBus: CacheBus,
     @ApplicationContext private val context: Context
 ) {
     private data class CacheEntry(val createdAtMs: Long, val items: List<NewsAnnouncement>)
     private data class DetailCacheEntry(val createdAtMs: Long, val item: NewsDetail)
 
+    private val bgScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
     private val cache = mutableMapOf<String, CacheEntry>()
     private val detailCache = mutableMapOf<String, DetailCacheEntry>()
+    private val commentsCache = mutableMapOf<String, List<NewsComment>>()
     private val ttlMs = 2 * 60 * 1000L
 
-    suspend fun getAnnouncements(category: String? = null, forceRefresh: Boolean = false): Result<List<NewsAnnouncement>> =
+    private fun listKey(category: String?): String = CacheBus.PREFIX_NEWS_LIST + category.orEmpty()
+    private fun detailKey(slug: String): String = CacheBus.PREFIX_NEWS_DETAIL + slug
+    private fun commentsKey(slug: String): String = CacheBus.PREFIX_NEWS_COMMENTS + slug
+
+    suspend fun getAnnouncements(category: String? = null, forceRefresh: Boolean = false, cacheOnly: Boolean = false): Result<List<NewsAnnouncement>> =
         withContext(Dispatchers.IO) {
             runCatching {
                 val key = category.orEmpty()
                 val now = System.currentTimeMillis()
-                cache[key]?.takeIf { !forceRefresh && now - it.createdAtMs < ttlMs }?.let { return@runCatching it.items }
+                val cached = cache[key]
+                if (cached != null && !forceRefresh) {
+                    if (now - cached.createdAtMs < ttlMs) return@runCatching cached.items
+                    // Stale: serve now, revalidate in the background.
+                    if (!cacheOnly) refreshListInBackground(category)
+                    return@runCatching cached.items
+                }
 
                 val html = apiService.getNewsPage(category).string()
                 val parsed = parseNewsList(html)
@@ -41,11 +63,30 @@ class NewsRepository @Inject constructor(
             }
         }
 
-    suspend fun getAnnouncementDetail(slug: String, forceRefresh: Boolean = false): Result<NewsDetail> =
+    private fun refreshListInBackground(category: String?) {
+        val key = category.orEmpty()
+        bgScope.launch {
+            try {
+                val html = apiService.getNewsPage(category).string()
+                val parsed = parseNewsList(html)
+                if (parsed.isNotEmpty() || cache[key] == null) {
+                    cache[key] = CacheEntry(System.currentTimeMillis(), parsed)
+                    cacheBus.publish(listKey(category))
+                }
+            } catch (_: Exception) {}
+        }
+    }
+
+    suspend fun getAnnouncementDetail(slug: String, forceRefresh: Boolean = false, cacheOnly: Boolean = false): Result<NewsDetail> =
         withContext(Dispatchers.IO) {
             runCatching {
                 val now = System.currentTimeMillis()
-                detailCache[slug]?.takeIf { !forceRefresh && now - it.createdAtMs < ttlMs }?.let { return@runCatching it.item }
+                val cached = detailCache[slug]
+                if (cached != null && !forceRefresh) {
+                    if (now - cached.createdAtMs < ttlMs) return@runCatching cached.item
+                    if (!cacheOnly) refreshDetailInBackground(slug)
+                    return@runCatching cached.item
+                }
                 val html = apiService.getNewsDetailPage(slug).string()
                 val parsed = parseNewsDetail(slug, html)
                 detailCache[slug] = DetailCacheEntry(now, parsed)
@@ -53,14 +94,43 @@ class NewsRepository @Inject constructor(
             }
         }
 
-    suspend fun getComments(slug: String): Result<List<NewsComment>> =
+    private fun refreshDetailInBackground(slug: String) {
+        bgScope.launch {
+            try {
+                val html = apiService.getNewsDetailPage(slug).string()
+                val parsed = parseNewsDetail(slug, html)
+                detailCache[slug] = DetailCacheEntry(System.currentTimeMillis(), parsed)
+                cacheBus.publish(detailKey(slug))
+            } catch (_: Exception) {}
+        }
+    }
+
+    suspend fun getComments(slug: String, cacheOnly: Boolean = false): Result<List<NewsComment>> =
         withContext(Dispatchers.IO) {
             runCatching {
+                val cached = commentsCache[slug]
+                if (cached != null) {
+                    if (!cacheOnly) refreshCommentsInBackground(slug)
+                    return@runCatching cached
+                }
                 val response = apiService.getNewsComments(slug)
                 if (!response.ok) error(response.error ?: "Couldn't load comments")
+                commentsCache[slug] = response.comments
                 response.comments
             }
         }
+
+    private fun refreshCommentsInBackground(slug: String) {
+        bgScope.launch {
+            try {
+                val response = apiService.getNewsComments(slug)
+                if (response.ok) {
+                    commentsCache[slug] = response.comments
+                    cacheBus.publish(commentsKey(slug))
+                }
+            } catch (_: Exception) {}
+        }
+    }
 
     suspend fun postComment(slug: String, text: String, parentCommentId: String? = null): Result<NewsComment> =
         withContext(Dispatchers.IO) {
@@ -72,7 +142,13 @@ class NewsRepository @Inject constructor(
                     NewsCommentRequest(slug = slug, text = text, parentCommentId = parentCommentId)
                 )
                 if (!response.ok) error(response.error ?: "Couldn't post comment")
-                response.comment ?: error("Comment was not returned")
+                val comment = response.comment ?: error("Comment was not returned")
+                val current = commentsCache[slug].orEmpty()
+                if (current.none { it.id == comment.id }) {
+                    commentsCache[slug] = current + comment
+                    cacheBus.publish(commentsKey(slug))
+                }
+                comment
             }
         }
 
@@ -93,6 +169,11 @@ class NewsRepository @Inject constructor(
                 val token = SecurePrefs.getAuthToken(context)?.takeIf { it.isNotBlank() }
                     ?: error("Please sign in to delete comments")
                 apiService.deleteBlogComment("Bearer $token", commentId)
+                val touched = commentsCache.filterValues { comments -> comments.any { it.id == commentId } }.keys.toList()
+                touched.forEach { slug ->
+                    commentsCache[slug] = commentsCache[slug].orEmpty().filterNot { it.id == commentId }
+                    cacheBus.publish(commentsKey(slug))
+                }
                 Unit
             }
         }

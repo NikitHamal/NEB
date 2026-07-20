@@ -12,3 +12,4 @@ from .views_forum import *  # noqa: F401,F403
 from .views_misc import *  # noqa: F401,F403
 
 __all__ = [name for name in globals() if not name.startswith("_")]
+from .views_feed import *  # noqa: F401,F403
