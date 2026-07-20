@@ -42,6 +42,7 @@ from .security import (
     validate_profile_photo_url, save_profile_image_upload,
     validate_external_https_url,
     validate_and_save_resource_file, validate_resource_file_url,
+    save_resource_thumbnail_upload, maybe_autoset_video_thumbnail,
 )
 from .email_utils import send_verification_email
 from .throttles import (
