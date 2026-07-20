@@ -154,7 +154,7 @@
     if (!event || Number(event.id || 0) <= state.lastEvent) return;
     state.lastEvent = Math.max(state.lastEvent, Number(event.id || 0));
     if (event.type === 'message.created' && event.payload?.message) { addMessage(event.payload.message, false); return; }
-    if (['model.requested', 'model.retrying', 'model.format_retry', 'context.compacting', 'context.compacted', 'context.compact_requested', 'context.compact_skipped', 'context.compact_failed', 'git.committed', 'workspace.ready', 'session.paused', 'session.resumed', 'session.waiting', 'session.failed', 'session.cancelled'].includes(event.type)) {
+    if (['model.started', 'model.retrying', 'model.format_retry', 'model.fallback', 'context.compacting', 'context.compacted', 'context.compact_requested', 'context.compact_skipped', 'context.compact_failed', 'git.committed', 'workspace.ready', 'session.paused', 'session.resumed', 'session.waiting', 'session.failed', 'session.cancelled'].includes(event.type)) {
       var node = document.createElement('div'); node.className = 'ba-system-event'; node.textContent = event.message || statusLabel(event.type); els.conversation.appendChild(node); scrollBottom(false);
     }
     if (event.type === 'tool.executed' || event.type === 'tool.failed') {

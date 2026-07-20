@@ -36,8 +36,21 @@ LOG_TAIL_CHARS = 6000
 DAILY_LIMIT = 3
 
 # Matches the provider resolution the mobile API uses for user-created tasks.
+# Any enabled qwen bot counts (bot_config is nullable and only feeds the
+# legacy default) — never pinned to one hardcoded model id, and BYOK-only
+# setups still count as a usable backend via default_model_state().
 def _provider() -> BotConfig | None:
-    return BotConfig.objects.filter(enabled=True, provider='qwen', model__iexact='qwen3.7-plus').first()
+    return BotConfig.objects.filter(enabled=True, provider='qwen').first()
+
+
+def _backend_usable(admin) -> bool:
+    """True when *some* LLM backend can serve an autofix session (qwen bot,
+    legacy provider row, or a resolvable official/BYOK preset)."""
+    try:
+        from api.llm.runtime import default_model_state
+        return bool(default_model_state(admin).get('configured'))
+    except Exception:
+        return _provider() is not None
 
 
 def scan_failed_runs(max_sessions: int = 3) -> int:
@@ -105,8 +118,8 @@ def _scan_project(project) -> int:
     except ValueError:
         return 0
     provider = _provider()
-    if provider is None:
-        logger.warning('autofix: no qwen provider configured; skipping %s', project.repo_full_name)
+    if not _backend_usable(project.admin_user):
+        logger.warning('autofix: no usable LLM backend; skipping %s', project.repo_full_name)
         return 0
 
     client = GitHubClient(token)

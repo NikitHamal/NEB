@@ -83,6 +83,7 @@
       '<button type="button" class="ba-mm-trigger" aria-haspopup="listbox" aria-expanded="false">' +
       '<span class="ba-mono ba-mono-default"></span><span class="ba-mm-trigger-label">Select a model</span>' +
       '<span class="material-symbols-outlined ba-mm-chevron">expand_more</span></button>' +
+      '<div class="ba-mm-backdrop" hidden></div>' +
       '<div class="ba-mm-popover" hidden>' +
       '<div class="ba-mm-search"><span class="material-symbols-outlined">search</span>' +
       '<input type="text" placeholder="Search models…" autocomplete="off" spellcheck="false"></div>' +
@@ -94,36 +95,79 @@
     var trigger = root.querySelector('.ba-mm-trigger');
     var triggerLabel = root.querySelector('.ba-mm-trigger-label');
     var triggerMono = root.querySelector('.ba-mono');
+    var backdrop = root.querySelector('.ba-mm-backdrop');
     var popover = root.querySelector('.ba-mm-popover');
     var searchInput = root.querySelector('.ba-mm-search input');
     var providersPane = root.querySelector('.ba-mm-providers');
     var modelsPane = root.querySelector('.ba-mm-models');
 
     function isOpen() { return !popover.hidden; }
+
+    /* The popover is portaled to <body> and anchored with fixed coordinates:
+       the composer boxes (overflow:hidden, sticky stacking) would otherwise
+       clip a downward menu — this always opens cleanly above the trigger. */
+    function placePopover() {
+      if (popover.hidden) return;
+      var rect = trigger.getBoundingClientRect();
+      var vw = window.innerWidth;
+      var vh = window.innerHeight;
+      var gap = 8;
+      var width = Math.min(560, vw - 32);
+      var left = Math.max(16, Math.min(rect.left, vw - width - 16));
+      var maxHeight = Math.max(220, Math.min(470, rect.top - gap - 16));
+      var dropUp = rect.top - gap - 16 >= 220 || rect.top > vh - rect.bottom;
+      popover.style.width = width + 'px';
+      popover.style.left = left + 'px';
+      popover.style.right = 'auto';
+      popover.style.maxHeight = maxHeight + 'px';
+      if (dropUp) {
+        popover.style.bottom = (vh - rect.top + gap) + 'px';
+        popover.style.top = 'auto';
+      } else {
+        popover.style.top = (rect.bottom + gap) + 'px';
+        popover.style.bottom = 'auto';
+        popover.style.maxHeight = Math.max(200, Math.min(470, vh - rect.bottom - gap - 16)) + 'px';
+      }
+    }
+
     function open() {
       if (disabled || !providers.length) return;
       query = '';
       searchInput.value = '';
+      if (backdrop.parentNode !== document.body) document.body.appendChild(backdrop); // fixed layers escape composer clipping/stacking
+      if (popover.parentNode !== document.body) document.body.appendChild(popover);
+      backdrop.hidden = false;
       popover.hidden = false;
       trigger.setAttribute('aria-expanded', 'true');
+      trigger.querySelector('.ba-mm-chevron').style.transform = 'rotate(180deg)';
       ensureActiveProvider();
       render();
+      placePopover();
+      window.addEventListener('resize', placePopover);
+      window.addEventListener('scroll', placePopover, true);
       setTimeout(function () { searchInput.focus(); }, 0);
     }
     function close() {
       if (popover.hidden) return;
       popover.hidden = true;
+      backdrop.hidden = true;
       trigger.setAttribute('aria-expanded', 'false');
+      trigger.querySelector('.ba-mm-chevron').style.transform = '';
+      window.removeEventListener('resize', placePopover);
+      window.removeEventListener('scroll', placePopover, true);
     }
     function toggle() { isOpen() ? close() : open(); }
 
     document.addEventListener('click', function (event) {
-      if (isOpen() && !root.contains(event.target)) close();
+      // The popover is portaled to <body>, so an in-popover click is not
+      // inside `root` anymore — guard it explicitly.
+      if (isOpen() && !root.contains(event.target) && !popover.contains(event.target)) close();
     });
     document.addEventListener('keydown', function (event) {
       if (event.key === 'Escape' && isOpen()) close();
     });
     trigger.addEventListener('click', function (event) { event.stopPropagation(); toggle(); });
+    backdrop.addEventListener('click', function (event) { event.stopPropagation(); close(); });
     if (config.onSettings) {
       root.querySelector('.ba-mm-settings').addEventListener('click', function (event) {
         event.stopPropagation();
