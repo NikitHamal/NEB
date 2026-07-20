@@ -15,6 +15,9 @@
      data-lifecycle-url-template="{% url 'web:background_agent_session_lifecycle' '__SESSION__' %}"
      data-disconnect-url="{% url 'web:background_agent_github_disconnect' %}"
      data-connect-url="{% url 'web:background_agent_github_connect' %}"
+     data-llm-providers-url="{% url 'web:background_agent_llm_providers' %}"
+     data-llm-detail-template="{% url 'web:background_agent_llm_provider_detail' '__ID__' %}"
+     data-llm-test-url="{% url 'web:background_agent_llm_test' %}"
      data-initial-connected="{{ github_connected|yesno:'true,false' }}">
 
   <aside class="ba-sidebar">
@@ -70,6 +73,7 @@
           <div id="ba-project-picker" class="ba-picker-field ba-picker-wide" data-label="Repository" data-placeholder="Select a repository" data-icon="folder_open" data-search-placeholder="Search projects"></div>
           <div id="ba-branch-picker" class="ba-picker-field" data-label="Base branch" data-placeholder="Select a branch" data-icon="account_tree" data-search-placeholder="Search branches"></div>
           <div id="ba-model-picker" class="ba-picker-field" data-label="Model" data-placeholder="Select a model" data-icon="smart_toy" data-search-placeholder="Search models"></div>
+          <button id="ba-open-providers" class="ba-icon-button ba-llm-settings-button" type="button" title="AI provider settings" aria-label="AI provider settings"><span class="material-symbols-outlined">tune</span></button>
           <script nonce="{{ csp_nonce }}" type="application/json" id="ba-llm-catalog">{{ llm_catalog_json|safe }}</script>
           <button id="ba-start" class="ba-button ba-button-primary ba-start-button" type="button"><span>Start task</span><span class="material-symbols-outlined">arrow_forward</span></button>
         </div>
@@ -138,10 +142,46 @@
       </div>
     </div>
   </dialog>
+
+  <dialog id="ba-providers-dialog" class="ba-dialog ba-providers-dialog" aria-labelledby="ba-providers-title">
+    <div class="ba-dialog-shell">
+      <header class="ba-dialog-header">
+        <div class="ba-dialog-title-group">
+          <div class="ba-dialog-icon"><span class="material-symbols-outlined">tune</span></div>
+          <div><span class="ba-eyebrow">Model providers</span><h2 id="ba-providers-title">AI providers</h2></div>
+        </div>
+        <button id="ba-providers-close" class="ba-icon-button" type="button" aria-label="Close provider settings"><span class="material-symbols-outlined">close</span></button>
+      </header>
+
+      <div id="ba-providers-list-view" class="ba-dialog-view">
+        <div id="ba-providers-loading" class="ba-providers-note" hidden>Loading providers…</div>
+        <div id="ba-providers-list" class="ba-providers-list"></div>
+        <p class="ba-providers-footnote">Keys are stored encrypted (AES-GCM) and only ever shown masked. Community Qwen keeps working with no key at all.</p>
+      </div>
+
+      <div id="ba-provider-editor-view" class="ba-dialog-view" hidden>
+        <button id="ba-provider-back" class="ba-text-button" type="button"><span class="material-symbols-outlined">arrow_back</span><span>All providers</span></button>
+        <div id="ba-provider-editor"></div>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog id="ba-provider-delete-dialog" class="ba-dialog ba-confirm-dialog" aria-labelledby="ba-provider-delete-title">
+    <div class="ba-dialog-shell ba-confirm-shell">
+      <div class="ba-confirm-icon ba-confirm-icon-danger"><span class="material-symbols-outlined">delete</span></div>
+      <h2 id="ba-provider-delete-title">Remove provider?</h2>
+      <p id="ba-provider-delete-copy"></p>
+      <div class="ba-dialog-actions">
+        <button id="ba-provider-delete-cancel" class="ba-button ba-button-secondary" type="button">Cancel</button>
+        <button id="ba-provider-delete-confirm" class="ba-button ba-button-danger" type="button">Remove</button>
+      </div>
+    </div>
+  </dialog>
 </div>
 {% endblock %}
 
 {% block extra_js %}
 <script nonce="{{ csp_nonce }}" src="{% static 'web/js/background-agent-picker.js' %}"></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/background-agent-llm.js' %}"></script>
 <script nonce="{{ csp_nonce }}" src="{% static 'web/js/background-agent.js' %}"></script>
 {% endblock %}

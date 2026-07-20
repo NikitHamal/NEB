@@ -643,7 +643,6 @@ fun ForumPostDetailScreen(
 
 @Composable
 @OptIn(ExperimentalFoundationApi::class)
-@Composable
 private fun PostContentSection(
     post: ApiPost,
     poll: com.neb.ians.ui.components.PollUi?,
