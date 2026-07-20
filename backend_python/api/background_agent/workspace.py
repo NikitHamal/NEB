@@ -521,6 +521,9 @@ class ToolExecutor:
         'python', 'python3', 'pytest', 'node', 'npm', 'npx', 'pnpm', 'yarn',
         'java', 'javac', 'gradle', 'mvn', 'go', 'cargo', 'rustc', 'make', 'cmake',
         'php', 'composer', 'ruby', 'bundle',
+        'grep', 'rg', 'find', 'sort', 'wc', 'head', 'tail', 'diff', 'cat', 'cut',
+        'uniq', 'tee', 'echo', 'printf', 'env', 'which', 'dirname', 'basename',
+        'mkdir', 'cp', 'mv', 'ln',
     }
 
     def __init__(self, workspace: GitWorkspace):
@@ -542,6 +545,7 @@ class ToolExecutor:
             'move_file': self.move_file,
             'create_directory': self.create_directory,
             'run_command': self.run_command,
+            'web_extractor': self.web_extractor,
             'git_status': self.git_status,
             'git_diff': self.git_diff,
             'git_log': self.git_log,
@@ -985,6 +989,14 @@ class ToolExecutor:
         result = self._run_local(argv, command_cwd, timeout)
         result.update({'argv': argv, 'cwd': cwd, 'backend': 'local'})
         return result
+
+    def web_extractor(self, url='', **kwargs):
+        return {
+            'url': url,
+            'available': False,
+            'error': 'Web extraction is not available in this environment. '
+                     'Use search_text, grep, or read_file on locally available files instead.',
+        }
 
     def _run_local(self, argv, cwd, timeout):
         def limits():

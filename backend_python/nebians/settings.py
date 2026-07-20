@@ -299,6 +299,7 @@ LLM_PROVIDER_KEYS = {
 
 # LLM call time budget for background-agent official providers (seconds).
 BACKGROUND_AGENT_PROVIDER_TIMEOUT = int(os.environ.get('BACKGROUND_AGENT_PROVIDER_TIMEOUT', '300'))
+BACKGROUND_AGENT_ALLOW_LOCAL_EXECUTION = os.environ.get('BACKGROUND_AGENT_ALLOW_LOCAL_EXECUTION', 'True').lower() in ('1', 'true', 'yes')
 FIREBASE_API_KEY = os.environ.get('FIREBASE_API_KEY', '')
 FIREBASE_AUTH_DOMAIN = os.environ.get('FIREBASE_AUTH_DOMAIN', '')
 FIREBASE_PROJECT_ID = os.environ.get('FIREBASE_PROJECT_ID', '')
