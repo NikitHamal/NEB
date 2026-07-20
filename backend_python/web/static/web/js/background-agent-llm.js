@@ -25,7 +25,7 @@
     deleteCancel: BA.qs('#ba-provider-delete-cancel'),
     deleteConfirm: BA.qs('#ba-provider-delete-confirm')
   };
-  if (!els.open || !els.dialog || !els.list) return;
+  if (!els.dialog || !els.list) return;
 
   var catalog = null;
   var providers = [];
@@ -50,6 +50,23 @@
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(fields || {})
     });
+  }
+
+  // Test calls must never strand the button: server caps at 30s, we abort at 45s.
+  function postJson(url, payload, timeoutMs) {
+    var controller = new AbortController();
+    var timer = setTimeout(function () { controller.abort(); }, timeoutMs || 45000);
+    return BA.api(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload || {}),
+      signal: controller.signal
+    }).finally(function () { clearTimeout(timer); });
+  }
+
+  function testErrorMessage(error) {
+    if (error && error.name === 'AbortError') return 'Timed out after 45s — the provider is slow or unreachable.';
+    return (error && error.message) || 'request failed';
   }
 
   function setBusy(button, busy) {
@@ -104,12 +121,22 @@
     return head;
   }
 
+  function monoFor(slug) {
+    var map = { agnes: 'Ag', openai: 'OA', anthropic: 'An', gemini: 'Gm', deepseek: 'DS', qwen: 'Qw' };
+    return map[slug] || 'Cu';
+  }
+  function slugClass(slug) {
+    return ['agnes', 'openai', 'anthropic', 'gemini', 'deepseek', 'qwen'].includes(slug) ? slug : 'custom';
+  }
+
   function presetRow(preset, row) {
     var node = document.createElement('div');
     node.className = 'ba-provider-row';
+    var dotClass = row ? 'ok' : (preset.keySource ? '' : 'warn');
     node.innerHTML =
-      '<div class="ba-provider-row-icon"><span class="material-symbols-outlined">key</span></div>' +
-      '<div class="ba-provider-row-body"><strong></strong><small></small></div>';
+      '<div class="ba-provider-row-icon"><span class="ba-mono ba-mono-' + slugClass(preset.slug) + '"></span></div>' +
+      '<div class="ba-provider-row-body"><strong></strong><small><span class="ba-status-dot ' + dotClass + '"></span><span class="ba-status-text"></span></small></div>';
+    node.querySelector('.ba-mono').textContent = monoFor(preset.slug);
     var label = node.querySelector('strong');
     label.textContent = preset.label;
     if (preset.freeNote) {
@@ -118,16 +145,16 @@
       chip.textContent = preset.freeNote;
       label.appendChild(chip);
     }
-    var status = node.querySelector('small');
+    var statusText = node.querySelector('.ba-status-text');
     if (row) {
-      status.textContent = row.keyMasked ? ('Your key ' + row.keyMasked) : 'Your key saved';
+      statusText.textContent = row.keyMasked ? ('Your key ' + row.keyMasked) : 'Your key saved';
     } else if (preset.keySource === 'env') {
-      status.textContent = 'Using server key';
+      statusText.textContent = 'Using server key';
     } else if (preset.keySource === 'bot') {
-      status.textContent = 'Using shared workspace key';
+      statusText.textContent = 'Using shared workspace key';
     } else {
-      status.textContent = 'Not connected';
-      status.classList.add('ba-provider-off');
+      statusText.textContent = 'Not connected — add your API key';
+      statusText.classList.add('ba-provider-off');
     }
     var actions = document.createElement('div');
     actions.className = 'ba-provider-row-actions';
@@ -143,13 +170,14 @@
 
   function customRow(row) {
     var node = document.createElement('div');
-    node.className = 'ba-provider-row';
+    node.className = 'ba-provider-row' + (row.enabled ? '' : ' ba-provider-row-disabled');
     node.innerHTML =
-      '<div class="ba-provider-row-icon"><span class="material-symbols-outlined">settings_input_component</span></div>' +
+      '<div class="ba-provider-row-icon"><span class="ba-mono ba-mono-custom"></span></div>' +
       '<div class="ba-provider-row-body"><strong></strong><small></small></div>';
+    node.querySelector('.ba-mono').textContent = (row.name || 'Cu').slice(0, 2);
     node.querySelector('strong').textContent = row.name || 'Custom provider';
     var meta = [row.baseUrl, row.models.length + ' model' + (row.models.length === 1 ? '' : 's'), row.keyMasked].filter(Boolean);
-    node.querySelector('small').textContent = meta.join(' · ');
+    node.querySelector('small').textContent = (row.enabled ? '' : 'Paused · ') + meta.join(' · ');
     var actions = document.createElement('div');
     actions.className = 'ba-provider-row-actions';
 
@@ -305,10 +333,10 @@
           if (key) payload.apiKey = key;
           if (urlInput.value.trim()) payload.baseUrl = urlInput.value.trim();
         }
-        var data = await BA.json(testUrl, payload);
+        var data = await postJson(testUrl, payload);
         showTestResult(resultLine, 'Connected to ' + (data.model || 'provider') + ' in ' + (data.latencyMs || '?') + ' ms.', true);
       } catch (error) {
-        showTestResult(resultLine, 'Test failed: ' + (error.message || 'request failed'), false);
+        showTestResult(resultLine, 'Test failed: ' + testErrorMessage(error), false);
       } finally {
         setBusy(testButton, false);
         refreshTestState();
@@ -428,10 +456,10 @@
       setBusy(testButton, true);
       resultLine.hidden = true;
       try {
-        var data = await BA.json(testUrl, payload);
+        var data = await postJson(testUrl, payload);
         showTestResult(resultLine, 'Connected to ' + (data.model || 'provider') + ' in ' + (data.latencyMs || '?') + ' ms.', true);
       } catch (error) {
-        showTestResult(resultLine, 'Test failed: ' + (error.message || 'request failed'), false);
+        showTestResult(resultLine, 'Test failed: ' + testErrorMessage(error), false);
       } finally {
         setBusy(testButton, false);
       }
@@ -518,12 +546,43 @@
 
   // --------------------------------------------------------------- wiring ---
 
-  els.open.addEventListener('click', function () {
+  if (els.open) {
+    els.open.addEventListener('click', function () {
+      showList();
+      els.dialog.showModal();
+      refresh();
+    });
+  }
+  // The settings gear lives inside the model menu (rendered after this file
+  // loads) — delegate so we always catch it.
+  document.addEventListener('click', function (event) {
+    var btn = event.target.closest && event.target.closest('.ba-mm-settings');
+    if (btn) {
+      showList();
+      els.dialog.showModal();
+      refresh();
+    }
+  });
+  els.close.addEventListener('click', function () { els.dialog.close(); });
+  els.back.addEventListener('click', function () { showList(); });
+
+  // "Add key" from the model picker — jump straight into that provider's editor.
+  var pendingFocusSlug = null;
+  document.addEventListener('ba:llm-open-settings', function (event) {
+    var slug = event.detail && event.detail.slug;
+    pendingFocusSlug = slug || null;
     showList();
     els.dialog.showModal();
     refresh();
   });
-  els.close.addEventListener('click', function () { els.dialog.close(); });
-  els.back.addEventListener('click', function () { showList(); });
+  var originalRenderList = renderList;
+  renderList = function () {
+    originalRenderList();
+    if (pendingFocusSlug && catalog) {
+      var preset = ((catalog.official) || []).find(function (p) { return p.slug === pendingFocusSlug; });
+      if (preset) openPresetEditor(preset, rowForPreset(preset.slug));
+      pendingFocusSlug = null;
+    }
+  };
   if (catalog) renderList();
 })();

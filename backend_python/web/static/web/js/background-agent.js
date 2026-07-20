@@ -29,79 +29,40 @@
     onChange: function (value) { if (value && value !== state.selectedProject) selectProject(value); }
   });
 
-  // ----- LLM model picker (official APIs + community models + custom BYOK) -----
-  var modelPicker = BA.createPicker({
+  // ----- LLM model picker: Tembo-style two-pane provider/model menu -------
+  var modelMenu = BA.createModelMenu({
     root: BA.qs('#ba-model-picker'),
-    minWidth: 340,
-    onChange: function (value) {
-      var parts = String(value || '').split('|');
-      state.llmSelection = {
-        provider: parts[0] || '',
-        model: parts[1] || '',
-        providerId: parts[2] || ''
-      };
+    onChange: function (sel) {
+      state.llmSelection = { provider: sel.provider || '', model: sel.model || '', providerId: sel.providerId || '' };
+    },
+    onAddKey: function (meta) {
+      document.dispatchEvent(new CustomEvent('ba:llm-open-settings', { detail: meta || {} }));
+    },
+    onSettings: function () {
+      document.dispatchEvent(new CustomEvent('ba:llm-open-settings', { detail: {} }));
     }
   });
 
+  function initialSelection(catalog) {
+    var community = (catalog.community || []).find(function (p) { return p.selectableForAgent && p.available; });
+    if (community) return { provider: '', model: '', providerId: '' };
+    var official = (catalog.official || []).find(function (p) { return p.available; });
+    if (official) return { provider: official.slug, model: official.defaultModel || '', providerId: '' };
+    return { provider: '', model: '', providerId: '' };
+  }
+
   function buildModelOptions(catalogOverride) {
-    var node = BA.qs('#ba-llm-catalog');
-    var catalog = catalogOverride || null;
+    var catalog = catalogOverride;
     if (!catalog) {
-      try { catalog = node ? JSON.parse(node.textContent || '{}') : null; } catch (e) { catalog = null; }
+      try { catalog = JSON.parse((BA.qs('#ba-llm-catalog') || {}).textContent || 'null'); } catch (e) { catalog = null; }
     }
-    var previous = null;
-    if (state.llmSelection.provider) {
-      previous = state.llmSelection.provider + '|' + (state.llmSelection.model || '') + '|' + (state.llmSelection.providerId || '');
+    if (!catalog || !modelMenu) return;
+    if (modelMenu.value().provider) {
+      modelMenu.setCatalog(catalog, modelMenu.value());
+    } else {
+      modelMenu.setCatalog(catalog, initialSelection(catalog));
     }
-    var options = [];
-    if (catalog) {
-      (catalog.community || []).forEach(function (p) {
-        if (!p.selectableForAgent || !p.available) return;
-        (p.models || []).forEach(function (m, idx) {
-          options.push({
-            value: 'qwen|' + m.id + '|',
-            label: m.label || m.id,
-            hint: 'NEBians community web model' + (idx === 0 ? ' (default)' : '')
-          });
-        });
-        if (!(p.models || []).length) {
-          options.push({ value: 'qwen|' + (p.defaultModel || 'qwen3.7-plus') + '|', label: p.label + ' (default)', hint: 'NEBians community web model' });
-        }
-      });
-      (catalog.official || []).forEach(function (p) {
-        (p.models || []).forEach(function (m) {
-          var note = p.freeNote ? ' — ' + p.freeNote : '';
-          options.push({
-            value: p.slug + '|' + m.id + '|',
-            label: p.label + ' · ' + (m.label || m.id),
-            hint: (p.available ? (m.note || 'Official API') : 'Add your API key in the provider settings (gear) to enable') + note
-          });
-        });
-      });
-      (catalog.custom || []).forEach(function (c) {
-        (c.models || []).forEach(function (m) {
-          options.push({
-            value: 'custom|' + m.id + '|' + c.id,
-            label: c.label + ' · ' + (m.label || m.id),
-            hint: 'Your custom provider'
-          });
-        });
-      });
-    }
-    if (!options.length) {
-      options.push({ value: '|', label: 'Default model (Qwen 3.7 Plus)', hint: '' });
-    }
-    // Default selection: keep the current pick when possible, else prefer
-    // the catalog's default, else the first option.
-    var initial = options[0].value;
-    if (catalog && catalog.defaultSelection && catalog.defaultSelection.slug === 'qwen') {
-      var qDefault = 'qwen|' + (catalog.defaultSelection.model || 'qwen3.7-plus') + '|';
-      if (options.some(function (o) { return o.value === qDefault; })) initial = qDefault;
-    }
-    if (previous && options.some(function (o) { return o.value === previous; })) initial = previous;
-    modelPicker.setOptions(options, initial);
-    var parts = String(initial).split('|');
-    state.llmSelection = { provider: parts[0], model: parts[1] || '', providerId: parts[2] || '' };
+    state.llmSelection = modelMenu.value();
   }
   buildModelOptions();
 

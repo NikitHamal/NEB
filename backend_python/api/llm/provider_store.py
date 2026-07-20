@@ -208,7 +208,9 @@ def run_test(user, payload: dict):
             return err('A model id is required for the test'), 400
 
     try:
-        result = quick_test(format=fmt, base_url=base_url, api_key=api_key, model=model, provider=label)
+        # 30s cap on the wire — the UI mirrors this with a ~45s abort guard,
+        # so a slow provider can never strand the "Test connection" button.
+        result = quick_test(format=fmt, base_url=base_url, api_key=api_key, model=model, provider=label, timeout=30)
         return {
             'ok': True,
             'latencyMs': result.duration_ms,

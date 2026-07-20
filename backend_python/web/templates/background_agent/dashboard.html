@@ -72,8 +72,7 @@
         <div class="ba-composer-footer">
           <div id="ba-project-picker" class="ba-picker-field ba-picker-wide" data-label="Repository" data-placeholder="Select a repository" data-icon="folder_open" data-search-placeholder="Search projects"></div>
           <div id="ba-branch-picker" class="ba-picker-field" data-label="Base branch" data-placeholder="Select a branch" data-icon="account_tree" data-search-placeholder="Search branches"></div>
-          <div id="ba-model-picker" class="ba-picker-field" data-label="Model" data-placeholder="Select a model" data-icon="smart_toy" data-search-placeholder="Search models"></div>
-          <button id="ba-open-providers" class="ba-icon-button ba-llm-settings-button" type="button" title="AI provider settings" aria-label="AI provider settings"><span class="material-symbols-outlined">tune</span></button>
+          <div id="ba-model-picker" class="ba-picker-field"></div>
           <script nonce="{{ csp_nonce }}" type="application/json" id="ba-llm-catalog">{{ llm_catalog_json|safe }}</script>
           <button id="ba-start" class="ba-button ba-button-primary ba-start-button" type="button"><span>Start task</span><span class="material-symbols-outlined">arrow_forward</span></button>
         </div>
@@ -182,6 +181,7 @@
 
 {% block extra_js %}
 <script nonce="{{ csp_nonce }}" src="{% static 'web/js/background-agent-picker.js' %}"></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/background-agent-model-menu.js' %}"></script>
 <script nonce="{{ csp_nonce }}" src="{% static 'web/js/background-agent-llm.js' %}"></script>
 <script nonce="{{ csp_nonce }}" src="{% static 'web/js/background-agent.js' %}"></script>
 {% endblock %}

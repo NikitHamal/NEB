@@ -60,8 +60,21 @@ def _env_key(slug: str) -> str:
     return ''
 
 
+def _real_user(user):
+    """Normalize to a persisted platform user.
+
+    Background-agent admins (mobile + website) are plain ``api.User`` model
+    instances — NOT Django auth users, so they have no ``is_authenticated``
+    attribute. Gate on ``pk`` instead. (Previously the is_authenticated check
+    silently dropped every BYOK row and sessions fell back to Qwen.)"""
+    if user is None or not getattr(user, 'pk', None):
+        return None
+    return user
+
+
 def _user_row(user, slug: str):
-    if not user or not getattr(user, 'is_authenticated', False):
+    user = _real_user(user)
+    if user is None:
         return None
     from api.models import UserLLMProvider
     return UserLLMProvider.objects.filter(
@@ -80,7 +93,8 @@ def resolve(user, slug: str, model: str = '', user_provider_id: str = '') -> Opt
 
     # --- User-defined custom endpoint -------------------------------------
     if slug == 'custom':
-        if not (user and getattr(user, 'is_authenticated', False) and user_provider_id):
+        user = _real_user(user)
+        if user is None or not user_provider_id:
             return None
         row = UserLLMProvider.objects.filter(
             pk=user_provider_id, user=user, provider='custom', enabled=True
@@ -167,10 +181,44 @@ def _row_models(row) -> List[str]:
 
 
 def user_custom_provider(user, provider_id: str):
-    if not (user and getattr(user, 'is_authenticated', False)):
+    user = _real_user(user)
+    if user is None:
         return None
     from api.models import UserLLMProvider
     return UserLLMProvider.objects.filter(pk=provider_id, user=user, provider='custom', enabled=True).first()
+
+
+def _qwen_live_models(bots=None):
+    """Merge the live catalog from chat.qwen.ai (via the existing 5-minute
+    cached fetcher). Returns (models, default_id). Never raises — fails soft
+    so the picker always renders, worst case with the static preset list.
+
+    Custom BotConfig model slugs are excluded from auth requirements anyway;
+    every fetched model id is a first-class upstream id the runner can pass
+    to the Qwen web session directly."""
+    try:
+        from api.qwen_utils.models import fetch_models as _fetch
+        raw = _fetch() or []
+    except Exception:
+        return [], None
+    models = []
+    default_id = None
+    for m in raw:
+        if not m.get('is_active', True):
+            continue
+        mid = (m.get('id') or '').strip()
+        if not mid:
+            continue
+        caps = m.get('capabilities') or {}
+        note = ' · '.join(bit for bit, on in (
+            ('thinking', caps.get('thinking')),
+            ('vision', caps.get('vision')),
+            ('search', caps.get('search')),
+        ) if on)
+        models.append({'id': mid, 'label': m.get('name') or mid, 'note': note})
+        if default_id is None and caps.get('document') and caps.get('vision'):
+            default_id = mid
+    return models, default_id
 
 
 def catalog_for_user(user) -> dict:
@@ -181,7 +229,7 @@ def catalog_for_user(user) -> dict:
 
     byok_rows = {}
     custom_rows = []
-    if user and getattr(user, 'is_authenticated', False):
+    if _real_user(user) is not None:
         for row in UserLLMProvider.objects.filter(user=user, enabled=True).order_by('-updated_at'):
             if row.provider == 'custom':
                 custom_rows.append(row)
@@ -226,6 +274,14 @@ def catalog_for_user(user) -> dict:
                     'label': bot.display_name or bot.name or bot.model,
                     'note': '',
                 })
+        live_default = None
+        if p.slug == 'qwen':
+            # Live model catalog from chat.qwen.ai (5-min cached upstream),
+            # so new drops like the Qwen 3.8 Max preview appear automatically.
+            live, live_default = _qwen_live_models(bots)
+            for m in live:
+                if all(x['id'].lower() != m['id'].lower() for x in models):
+                    models.append(m)
         community.append({
             'slug': p.slug,
             'label': p.label,
@@ -242,7 +298,8 @@ def catalog_for_user(user) -> dict:
             'keySource': 'scraper' if bots else '',
             'keyMasked': '',
             'byokProviderId': '',
-            'defaultModel': bots[0].model if bots and bots[0].model else p.default_model,
+            'defaultModel': (bots[0].model if bots and bots[0].model else
+                             (live_default or p.default_model)),
             'models': models,
         })
 
@@ -275,13 +332,19 @@ def default_selection(user) -> dict:
     """What an agent session gets when the user picks nothing: the legacy
     Qwen bot if configured, else the first available official provider."""
     from api.models import BotConfig
+    live_default = None
+    try:
+        from api.qwen_utils.models import get_default_model
+        live_default = get_default_model()
+    except Exception:
+        pass
     qwen = BotConfig.objects.filter(enabled=True, provider='qwen').order_by('id').first()
     if qwen:
-        return {'kind': 'community', 'slug': 'qwen', 'model': qwen.model or 'qwen3.7-plus'}
+        return {'kind': 'community', 'slug': 'qwen', 'model': qwen.model or live_default or 'qwen3.7-plus'}
     for p in OFFICIAL_PRESETS:
         if resolve(user, p.slug):
             return {'kind': 'official', 'slug': p.slug, 'model': ''}
-    return {'kind': 'community', 'slug': 'qwen', 'model': 'qwen3.7-plus'}
+    return {'kind': 'community', 'slug': 'qwen', 'model': live_default or 'qwen3.7-plus'}
 
 
 def _masked_row_key(row) -> str:
