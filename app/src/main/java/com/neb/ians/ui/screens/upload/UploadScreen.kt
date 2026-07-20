@@ -103,6 +103,12 @@ fun UploadScreen(
         }
     }
 
+    val thumbnailPicker = rememberLauncherForActivityResult(
+        ActivityResultContracts.GetContent()
+    ) { uri: Uri? ->
+        if (uri != null) viewModel.setThumbnail(uri)
+    }
+
     if (uiState.submitSuccess) {
         UploadSuccessScreen(
             onUploadAnother = { viewModel.resetSuccess(); currentStep = 0 },
@@ -200,7 +206,8 @@ fun UploadScreen(
                             viewModel = viewModel,
                             onPickFiles = { filePicker.launch("*/*") },
                             onRemoveFile = viewModel::removeFileAt,
-                            onClearFiles = viewModel::clearFiles
+                            onClearFiles = viewModel::clearFiles,
+                            onPickThumbnail = { thumbnailPicker.launch("image/*") }
                         )
                         UploadStep.Details -> DetailsStep(
                             uiState = uiState,

@@ -119,20 +119,21 @@ fun NewsDetailScreen(
             }
         },
         bottomBar = {
-            if (uiState.detail != null) {
+            if (uiState.detail != null && !uiState.isLoading) {
                 NebCommentComposerBar(
                     value = uiState.commentDraft,
                     onValueChange = viewModel::onCommentDraftChange,
-                    placeholder = "Join the discussion",
-                    enabled = !uiState.isPostingComment,
-                    canSend = uiState.commentDraft.isNotBlank(),
+                    placeholder = if (uiState.isAuthenticated) "Join the discussion" else "Sign in to comment",
+                    enabled = uiState.isAuthenticated && !uiState.isPostingComment,
+                    canSend = uiState.isAuthenticated && uiState.commentDraft.isNotBlank() && !uiState.isPostingComment,
                     posting = uiState.isPostingComment,
+                    sendContentDescription = "Post comment",
                     onSend = viewModel::postComment
                 )
             }
         },
         snackbarHost = { SnackbarHost(snackbarHostState) },
-        containerColor = MaterialTheme.colorScheme.surface
+        containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
     ) { innerPadding ->
         when {
             uiState.isLoading -> {

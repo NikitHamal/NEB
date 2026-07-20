@@ -574,13 +574,23 @@ def resource_upload(request):
             messages_list = getattr(exc, 'messages', [str(exc)])
             return Response({'error': ' '.join(messages_list)}, status=400)
 
-    thumbnail_url = data.get('thumbnail_url', '').strip()
-    if thumbnail_url:
+    # Cover image: explicit upload wins, then a pasted URL; videos without a
+    # cover get one auto-extracted from the footage (best-effort ffmpeg).
+    thumbnail_url = ''
+    thumbnail_file = request.FILES.get('thumbnail')
+    if thumbnail_file:
         try:
-            thumbnail_url = validate_resource_file_url(thumbnail_url)
-        except Exception as exc:
-            messages_list = getattr(exc, 'messages', [str(exc)])
-            return Response({'error': ' '.join(messages_list)}, status=400)
+            thumbnail_url = save_resource_thumbnail_upload(request, thumbnail_file)
+        except ValidationError as exc:
+            return Response({'error': ' '.join(getattr(exc, 'messages', [str(exc)]))}, status=400)
+    else:
+        thumbnail_url = data.get('thumbnail_url', '').strip()
+        if thumbnail_url:
+            try:
+                thumbnail_url = validate_resource_file_url(thumbnail_url)
+            except Exception as exc:
+                messages_list = getattr(exc, 'messages', [str(exc)])
+                return Response({'error': ' '.join(messages_list)}, status=400)
 
     resource = Resource(
         id=str(uuid.uuid4()),
@@ -610,6 +620,8 @@ def resource_upload(request):
         approval_status='pending',
     )
     resource.save()
+    if not resource.thumbnail_url:
+        maybe_autoset_video_thumbnail(resource, request)
     cache.delete_many(['home_resources', 'library_all_resources'])
     return Response(ResourceSerializer(resource).data, status=201)
 
@@ -650,13 +662,23 @@ def resource_upload_anonymous(request):
             messages_list = getattr(exc, 'messages', [str(exc)])
             return Response({'error': ' '.join(messages_list)}, status=400)
 
-    thumbnail_url = data.get('thumbnail_url', '').strip()
-    if thumbnail_url:
+    # Cover image: explicit upload wins, then a pasted URL; videos without a
+    # cover get one auto-extracted from the footage (best-effort ffmpeg).
+    thumbnail_url = ''
+    thumbnail_file = request.FILES.get('thumbnail')
+    if thumbnail_file:
         try:
-            thumbnail_url = validate_resource_file_url(thumbnail_url)
-        except Exception as exc:
-            messages_list = getattr(exc, 'messages', [str(exc)])
-            return Response({'error': ' '.join(messages_list)}, status=400)
+            thumbnail_url = save_resource_thumbnail_upload(request, thumbnail_file)
+        except ValidationError as exc:
+            return Response({'error': ' '.join(getattr(exc, 'messages', [str(exc)]))}, status=400)
+    else:
+        thumbnail_url = data.get('thumbnail_url', '').strip()
+        if thumbnail_url:
+            try:
+                thumbnail_url = validate_resource_file_url(thumbnail_url)
+            except Exception as exc:
+                messages_list = getattr(exc, 'messages', [str(exc)])
+                return Response({'error': ' '.join(messages_list)}, status=400)
 
     requester_name = data.get('requester_name', '').strip()[:100]
     resource = Resource(
@@ -686,6 +708,8 @@ pradesh=data.get('pradesh', '').strip(),
         source_url=data.get('source_url', '').strip(),
     )
     resource.save()
+    if not resource.thumbnail_url:
+        maybe_autoset_video_thumbnail(resource, request)
     cache.delete_many(['home_resources', 'library_all_resources'])
     return Response(ResourceSerializer(resource).data, status=201)
 

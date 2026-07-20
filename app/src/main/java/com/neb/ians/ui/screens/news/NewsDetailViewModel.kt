@@ -23,6 +23,7 @@ data class NewsDetailUiState(
     val detail: NewsDetail? = null,
     val isLoading: Boolean = true,
     val error: String? = null,
+    val isAuthenticated: Boolean = false,
     val comments: List<NewsComment> = emptyList(),
     val commentsLoading: Boolean = true,
     val commentSort: String = "oldest",
@@ -70,7 +71,8 @@ data class NewsDetailUiState(
 class NewsDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val newsRepository: NewsRepository,
-    private val cacheBus: CacheBus
+    private val cacheBus: CacheBus,
+    private val authRepository: com.neb.ians.data.repository.AuthRepository
 ) : ViewModel() {
     private val slug: String = savedStateHandle.get<String>("slug")?.let { URLDecoder.decode(it, "UTF-8") }.orEmpty()
     private val _uiState = MutableStateFlow(NewsDetailUiState(slug = slug))
@@ -81,6 +83,10 @@ class NewsDetailViewModel @Inject constructor(
     private val processingCommentLikes = mutableSetOf<String>()
 
     init {
+        viewModelScope.launch {
+            val token = authRepository.getBearerToken()
+            _uiState.update { it.copy(isAuthenticated = token != null) }
+        }
         load()
         collectCacheSignals()
     }

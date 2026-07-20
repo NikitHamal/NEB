@@ -351,7 +351,7 @@ fun ExpandableMarkdownText(
  * keeping inline markers so [buildInlineAnnotatedString] can still style
  * bold/italic/code/links/mentions. Block markers become readable bullets.
  */
-private fun markdownToInlinePreview(markdown: String): String {
+fun markdownToInlinePreview(markdown: String): String {
     if (markdown.isBlank()) return ""
     return parseMarkdownBlocks(markdown).joinToString("\n") { block ->
         when (block) {

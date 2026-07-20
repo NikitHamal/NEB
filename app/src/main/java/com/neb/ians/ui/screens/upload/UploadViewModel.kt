@@ -41,6 +41,7 @@ data class UploadFormState(
     val tags: String = "",
     val fileUrl: String = "",
     val thumbnailUrl: String = "",
+    val thumbnailUri: Uri? = null,
     val authorName: String = "",
     val sourceLabel: String = "",
     val sourceUrl: String = "",
@@ -70,6 +71,11 @@ class UploadViewModel @Inject constructor(
     val uiState: StateFlow<UploadFormState> = _uiState.asStateFlow()
 
     companion object {
+        val VIDEO_EXTENSIONS = setOf("mp4", "mkv", "mov", "webm", "avi", "m4v", "3gp", "wmv", "flv")
+
+        fun isVideoFileName(name: String): Boolean =
+            name.substringAfterLast('.', "").lowercase() in VIDEO_EXTENSIONS
+
         val SUBJECTS = listOf(
             "Accountancy", "Biology", "Chemistry", "Computer Science", "Economics",
             "English", "Exam Tips", "Mathematics", "Microbiology", "Nepali",
@@ -164,6 +170,19 @@ class UploadViewModel @Inject constructor(
         _uiState.update { it.copy(thumbnailUrl = thumbnailUrl) }
     }
 
+    /** Manually picked cover image (overrides the auto video frame). */
+    fun setThumbnail(uri: Uri?) {
+        _uiState.update { it.copy(thumbnailUri = uri) }
+    }
+
+    /** Videos get a cover frame captured automatically — used for UI hints. */
+    fun hasAutoCoverCandidate(): Boolean {
+        val state = _uiState.value
+        return state.thumbnailUri == null &&
+            state.thumbnailUrl.isBlank() &&
+            state.selectedFiles.any { isVideoFileName(it.name) }
+    }
+
     fun updateAuthorName(authorName: String) {
         _uiState.update { it.copy(authorName = authorName) }
     }
@@ -227,7 +246,7 @@ class UploadViewModel @Inject constructor(
                 if (files.isNotEmpty()) {
                     uploadMultipleFiles(context, bearerToken, files, state)
                 } else {
-                    uploadWithUrl(bearerToken, state)
+                    uploadWithUrl(context, bearerToken, state)
                 }
             } catch (e: Exception) {
                 _uiState.update { it.copy(isSubmitting = false, submitError = ApiErrorMapper.mapException(e)) }
@@ -247,9 +266,19 @@ class UploadViewModel @Inject constructor(
             val requestBody = file.asRequestBody(contentTypeFromName(file.name))
             val multipartPart = MultipartBody.Part.createFormData("file", file.name, requestBody)
 
+            // Cover image: manual pick wins; videos get an auto frame when the
+            // user supplied neither an upload nor a URL.
+            val thumbnailPart = when {
+                state.thumbnailUri != null -> buildThumbnailPart(context, state.thumbnailUri, "cover")
+                state.thumbnailUrl.isBlank() && isVideoFileName(selectedFile.name) ->
+                    videoFrameThumbnailPart(context, selectedFile.uri, selectedFile.name)
+                else -> null
+            }
+
             val response = apiService.uploadResource(
                 bearerToken = bearerToken,
                 file = multipartPart,
+                thumbnail = thumbnailPart,
                 title = state.title.toRequestBody(TEXT_PLAIN),
                 subject = state.subject.toRequestBody(TEXT_PLAIN),
                 description = (state.description.takeIf { it.isNotBlank() } ?: "").toRequestBody(TEXT_PLAIN),
@@ -280,10 +309,16 @@ class UploadViewModel @Inject constructor(
         _uiState.update { it.copy(isSubmitting = false, submitSuccess = true) }
     }
 
-    private suspend fun uploadWithUrl(bearerToken: String, state: UploadFormState) {
+    private suspend fun uploadWithUrl(
+        context: Context,
+        bearerToken: String,
+        state: UploadFormState
+    ) {
+        val thumbnailPart = state.thumbnailUri?.let { buildThumbnailPart(context, it, "cover") }
         val response = apiService.uploadResource(
             bearerToken = bearerToken,
             file = null,
+            thumbnail = thumbnailPart,
             title = state.title.toRequestBody(TEXT_PLAIN),
             subject = state.subject.toRequestBody(TEXT_PLAIN),
             description = (state.description.takeIf { it.isNotBlank() } ?: "").toRequestBody(TEXT_PLAIN),
@@ -323,6 +358,68 @@ class UploadViewModel @Inject constructor(
             }
             tempFile
         } catch (e: Exception) {
+            null
+        }
+    }
+
+    /** Build the "thumbnail" multipart part from a user-picked cover image. */
+    private fun buildThumbnailPart(context: Context, uri: Uri, baseName: String): MultipartBody.Part? {
+        return try {
+            val bytes = context.contentResolver.openInputStream(uri)?.use { it.readBytes() } ?: return null
+            if (bytes.isEmpty() || bytes.size > 10L * 1024 * 1024) return null
+            val mime = context.contentResolver.getType(uri) ?: "image/jpeg"
+            val ext = when (mime) {
+                "image/png" -> "png"
+                "image/webp" -> "webp"
+                "image/gif" -> "gif"
+                else -> "jpg"
+            }
+            MultipartBody.Part.createFormData("thumbnail", "$baseName.$ext", bytes.toRequestBody(mime.toMediaTypeOrNull()))
+        } catch (_: Exception) {
+            null
+        }
+    }
+
+    /** Capture a frame (~1s in, fallback first frame) from a picked video as
+     * the resource cover. Returns null on any failure — never blocks upload. */
+    private fun videoFrameThumbnailPart(context: Context, videoUri: Uri, baseName: String): MultipartBody.Part? {
+        return try {
+            val retriever = android.media.MediaMetadataRetriever()
+            val rawBitmap = try {
+                retriever.setDataSource(context, videoUri)
+                retriever.getFrameAtTime(1_000_000L, android.media.MediaMetadataRetriever.OPTION_CLOSEST_SYNC)
+                    ?: retriever.frameAtTime
+                        ?: retriever.getFrameAtTime(0L, android.media.MediaMetadataRetriever.OPTION_CLOSEST_SYNC)
+            } catch (_: Exception) {
+                null
+            } finally {
+                try { retriever.release() } catch (_: Exception) {}
+            } ?: return null
+            var bitmap: android.graphics.Bitmap = rawBitmap
+            // Keep covers small — 1280px on the long edge is plenty for cards.
+            val maxDim = 1280
+            if (maxOf(bitmap.width, bitmap.height) > maxDim) {
+                val scale = maxDim.toFloat() / maxOf(bitmap.width, bitmap.height)
+                val scaled = android.graphics.Bitmap.createScaledBitmap(
+                    bitmap,
+                    (bitmap.width * scale).toInt().coerceAtLeast(1),
+                    (bitmap.height * scale).toInt().coerceAtLeast(1),
+                    true
+                )
+                if (scaled != bitmap) bitmap.recycle()
+                bitmap = scaled
+            }
+            val out = java.io.ByteArrayOutputStream()
+            bitmap.compress(android.graphics.Bitmap.CompressFormat.JPEG, 88, out)
+            bitmap.recycle()
+            val bytes = out.toByteArray()
+            if (bytes.isEmpty()) return null
+            MultipartBody.Part.createFormData(
+                "thumbnail",
+                "${baseName.substringBeforeLast('.')}_cover.jpg",
+                bytes.toRequestBody("image/jpeg".toMediaTypeOrNull())
+            )
+        } catch (_: Exception) {
             null
         }
     }

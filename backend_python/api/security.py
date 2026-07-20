@@ -655,3 +655,150 @@ def validate_forum_attachments(raw) -> list:
     if sum(1 for a in cleaned if a['kind'] == 'video') > FORUM_ATTACHMENTS_MAX_VIDEO:
         raise ValidationError('Maximum 1 video per post or reply')
     return cleaned
+
+
+# ---------------------------------------------------------------------------
+# Resource thumbnails: explicit cover upload + automatic video frame capture
+# ---------------------------------------------------------------------------
+
+RESOURCE_THUMBNAIL_MAX_BYTES = 10 * 1024 * 1024  # 10 MB
+RESOURCE_THUMBNAIL_ALLOWED_FORMATS = {'JPEG', 'PNG', 'WEBP', 'GIF'}
+VIDEO_EXTENSIONS = {'.mp4', '.mkv', '.avi', '.mov', '.webm', '.wmv', '.flv', '.3gp', '.m4v'}
+
+
+def save_resource_thumbnail_upload(request, file_obj):
+    """Validate, re-encode and store an uploaded resource cover image.
+
+    Returns the absolute thumbnail URL. Raises ValidationError on bad input.
+    """
+    if not file_obj:
+        raise ValidationError('Thumbnail image is required')
+    if getattr(file_obj, 'size', 0) > RESOURCE_THUMBNAIL_MAX_BYTES:
+        raise ValidationError('Thumbnail is too large. Maximum size is 10 MB.')
+    data = file_obj.read(RESOURCE_THUMBNAIL_MAX_BYTES + 1)
+    if len(data) > RESOURCE_THUMBNAIL_MAX_BYTES:
+        raise ValidationError('Thumbnail is too large. Maximum size is 10 MB.')
+    try:
+        image = Image.open(BytesIO(data))
+        image.verify()
+        image = Image.open(BytesIO(data))
+    except (UnidentifiedImageError, OSError, ValueError):
+        raise ValidationError('Thumbnail must be a JPG, PNG, WEBP, or GIF image.')
+
+    image_format = (image.format or '').upper()
+    if image_format not in RESOURCE_THUMBNAIL_ALLOWED_FORMATS:
+        raise ValidationError('Thumbnail must be a JPG, PNG, WEBP, or GIF image.')
+
+    max_dim = 1280
+    if image.width > max_dim or image.height > max_dim:
+        image.thumbnail((max_dim, max_dim), Image.LANCZOS)
+
+    output = BytesIO()
+    if image_format == 'PNG':
+        safe_ext = '.png'
+        if image.mode not in ('RGB', 'RGBA'):
+            image = image.convert('RGBA')
+        image.save(output, format='PNG', optimize=True)
+    elif image_format == 'WEBP':
+        safe_ext = '.webp'
+        if image.mode not in ('RGB', 'RGBA'):
+            image = image.convert('RGBA')
+        image.save(output, format='WEBP', quality=88, method=6)
+    elif image_format == 'GIF':
+        safe_ext = '.gif'
+        image.save(output, format='GIF', optimize=True)
+    else:
+        safe_ext = '.jpg'
+        if image.mode != 'RGB':
+            image = image.convert('RGB')
+        image.save(output, format='JPEG', quality=88, optimize=True)
+
+    filename = f"res_{secrets.token_urlsafe(12)}{safe_ext}"
+    path = default_storage.save(os.path.join('resource_thumbnails', filename), ContentFile(output.getvalue()))
+    return request.build_absolute_uri(settings.MEDIA_URL + path)
+
+
+def is_video_file_path(path) -> bool:
+    return os.path.splitext(str(path or ''))[1].lower() in VIDEO_EXTENSIONS
+
+
+def extract_video_thumbnail_frame(video_storage_path):
+    """Extract a cover frame from a stored video with ffmpeg.
+
+    Returns the storage-relative thumbnail path, or None on any failure
+    (missing ffmpeg, non-local storage, unreadable/short video). Purely
+    best-effort; never raises.
+    """
+    import shutil
+    import subprocess
+    import tempfile
+
+    ffmpeg = shutil.which('ffmpeg')
+    if not ffmpeg or not video_storage_path:
+        return None
+    try:
+        video_abs = default_storage.path(str(video_storage_path))
+    except Exception:
+        return None
+    if not os.path.exists(video_abs):
+        return None
+
+    tmp_fd, tmp_out = tempfile.mkstemp(suffix='.jpg')
+    os.close(tmp_fd)
+
+    def _run(seek_seconds):
+        cmd = [
+            ffmpeg, '-hide_banner', '-loglevel', 'error', '-y',
+            '-ss', str(seek_seconds), '-i', video_abs,
+            '-frames:v', '1', '-vf', "scale='min(640,iw)':-2",
+            '-q:v', '4', tmp_out,
+        ]
+        try:
+            subprocess.run(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+                           timeout=30, check=False)
+        except Exception:
+            return False
+        return os.path.exists(tmp_out) and os.path.getsize(tmp_out) > 0
+
+    try:
+        if not _run(1) and not _run(0):
+            return None
+        with open(tmp_out, 'rb') as fh:
+            data = fh.read()
+        filename = f"video_{secrets.token_urlsafe(12)}.jpg"
+        return default_storage.save(os.path.join('resource_thumbnails', filename), ContentFile(data))
+    except Exception:
+        return None
+    finally:
+        try:
+            os.unlink(tmp_out)
+        except OSError:
+            pass
+
+
+def maybe_autoset_video_thumbnail(resource, request=None):
+    """Auto-assign a cover frame for a stored video that has no thumbnail.
+
+    Sets ``resource.thumbnail_url`` (absolute URL) and saves when extraction
+    succeeds. Returns the URL that was set, or '' when nothing changed.
+    Never raises — upload flows must not fail because of ffmpeg.
+    """
+    try:
+        if getattr(resource, 'thumbnail_url', ''):
+            return ''
+        file_path = str(getattr(resource, 'file', '') or '')
+        if not is_video_file_path(file_path):
+            return ''
+        thumb_rel = extract_video_thumbnail_frame(file_path)
+        if not thumb_rel:
+            return ''
+        if request is not None:
+            url = request.build_absolute_uri(settings.MEDIA_URL + thumb_rel)
+        else:
+            base = getattr(settings, 'SITE_URL', 'https://nebians.consica.com.np').rstrip('/')
+            url = base + settings.MEDIA_URL + thumb_rel
+        resource.thumbnail_url = url
+        resource.save(update_fields=['thumbnail_url'])
+        return url
+    except Exception:
+        return ''

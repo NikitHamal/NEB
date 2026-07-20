@@ -1103,6 +1103,7 @@ interface ApiService {
     suspend fun uploadResource(
         @Header("Authorization") bearerToken: String,
         @Part file: okhttp3.MultipartBody.Part?,
+        @Part thumbnail: okhttp3.MultipartBody.Part?,
         @Part("title") title: okhttp3.RequestBody,
         @Part("subject") subject: okhttp3.RequestBody,
         @Part("description") description: okhttp3.RequestBody?,
