@@ -61,7 +61,7 @@ def get_notification_url(n, actor_name=None):
 
 
 def _create_notification(*, recipient_id, actor_id, verb, target_type, target_id,
-                         reference_type='', reference_id='', message=''):
+                         reference_type='', reference_id='', message='', anonymous_actor=False):
     """
     Core notification creation. Handles deduplication and counter updates.
     Returns the created Notification, or None if skipped (self-notification, bot recipient, or duplicate).
@@ -89,6 +89,7 @@ def _create_notification(*, recipient_id, actor_id, verb, target_type, target_id
         id=uuid_str(),
         recipient_id=recipient_id,
         actor_id=actor_id,
+        actor_anonymous=bool(anonymous_actor),
         verb=verb,
         target_type=target_type,
         target_id=target_id,
@@ -110,13 +111,18 @@ def _create_notification(*, recipient_id, actor_id, verb, target_type, target_id
             actor_photo_url = actor.photo_url or ''
         except User.DoesNotExist:
             pass
+    if anonymous_actor:
+        # Never reveal the actor anywhere for anonymous actions.
+        actor_name = 'Someone'
+        actor_photo_url = ''
 
     url = get_notification_url(notification, actor_name=actor_name)
 
     _rt.broadcast_notification(recipient_id, {
         'id': notification.id,
         'verb': verb,
-        'actor_id': actor_id,
+        'actor_id': None if anonymous_actor else actor_id,
+        'actor_anonymous': bool(anonymous_actor),
         'actor_name': actor_name,
         'actor_photo_url': actor_photo_url,
         'target_type': target_type,
@@ -291,7 +297,7 @@ def notify_reply_unliked(actor_id, reply_id):
     )
 
 
-def notify_new_reply(actor_id, post_id, reply_id):
+def notify_new_reply(actor_id, post_id, reply_id, anonymous_actor=False):
     """
     Called when someone replies to a post.
     Notifies the post author (verb='reply').
@@ -308,10 +314,11 @@ def notify_new_reply(actor_id, post_id, reply_id):
         target_id=post_id,
         reference_type='reply',
         reference_id=reply_id,
+        anonymous_actor=anonymous_actor,
     )
 
 
-def notify_reply_to_reply(actor_id, parent_reply_id, post_id, reply_id):
+def notify_reply_to_reply(actor_id, parent_reply_id, post_id, reply_id, anonymous_actor=False):
     """
     Called when someone replies to a reply (nested reply).
     Notifies the parent reply author (verb='reply_reply').
@@ -330,6 +337,7 @@ def notify_reply_to_reply(actor_id, parent_reply_id, post_id, reply_id):
         target_id=parent_reply_id,
         reference_type='post',
         reference_id=post_id,
+        anonymous_actor=anonymous_actor,
     )
 
 

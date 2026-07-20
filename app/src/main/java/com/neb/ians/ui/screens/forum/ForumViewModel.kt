@@ -6,12 +6,15 @@ import com.neb.ians.data.api.ApiPost
 import com.neb.ians.data.api.ApiErrorMapper
 import com.neb.ians.data.realtime.RealtimeClient
 import com.neb.ians.data.repository.AuthRepository
+import com.neb.ians.data.repository.CacheBus
 import com.neb.ians.data.repository.ForumRepository
 import com.neb.ians.data.repository.AppCache
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
@@ -65,7 +68,8 @@ class ForumViewModel @Inject constructor(
     private val forumRepository: ForumRepository,
     private val authRepository: AuthRepository,
     private val realtimeClient: RealtimeClient,
-    private val appCache: AppCache
+    private val appCache: AppCache,
+    private val cacheBus: CacheBus
 ) : ViewModel() {
 
     private val _forumState = MutableStateFlow(
@@ -101,6 +105,42 @@ class ForumViewModel @Inject constructor(
             realtimeClient.events.collect { event ->
                 if (event.channel == "forum.public") handleRealtimeEvent(event.event, event.data)
             }
+        }
+        collectCacheSignals()
+    }
+
+    /**
+     * Stale-while-revalidate glue: a background refresh that wrote a fresher
+     * page into the offline cache re-flows onto the screen without a manual
+     * refresh. Own writes (likes/bookmarks) are applied directly too.
+     */
+    @OptIn(FlowPreview::class)
+    private fun collectCacheSignals() {
+        viewModelScope.launch {
+            cacheBus.signals
+                .debounce(400)
+                .collect { key ->
+                    if (!key.startsWith(CacheBus.PREFIX_POSTS_LIST)) return@collect
+                    val state = _forumState.value
+                    // Only page-1 slices feed this screen; other pages merge on scroll.
+                    forumRepository.getPosts(
+                        category = state.selectedCategory,
+                        page = 1,
+                        sort = state.sort,
+                        search = state.searchQuery,
+                        cacheOnly = true
+                    ).onSuccess { cached ->
+                        val isDefaultQuery = state.selectedCategory == null && state.searchQuery.isBlank() && state.sort == "hot"
+                        _forumState.update { current ->
+                            val extras = if (current.page > 1) current.posts.filter { p -> cached.posts.none { it.id == p.id } } else emptyList()
+                            current.copy(posts = cached.posts + extras, hasMore = cached.hasMore)
+                        }
+                        if (isDefaultQuery && _forumState.value.page <= 1) {
+                            appCache.forumPosts = cached.posts
+                            appCache.forumHasMore = cached.hasMore
+                        }
+                    }
+                }
         }
     }
 

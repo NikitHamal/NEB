@@ -122,29 +122,44 @@ fun HomeScreen(
                             }
                         }
 
-                        item(key = "fresh_title") {
+                        item(key = "suggested_title") {
                             HomeSectionTitle(
-                                title = "Fresh for you",
-                                subtitle = "Recently added learning material",
-                                actionLabel = "Library",
+                                title = "Suggested for you",
+                                subtitle = "Picked for you from resources and discussions",
+                                actionLabel = "Explore",
                                 onActionClick = onViewAllClick
                             )
                         }
-                        if (uiState.recentResources.isEmpty()) {
-                            item(key = "fresh_empty") {
-                                WebEmptyState(
-                                    title = "New resources are on the way",
-                                    message = "Browse the library or pull down to check again.",
-                                    icon = painterResource(id = R.drawable.ic_document),
-                                    modifier = Modifier.padding(horizontal = 16.dp)
-                                )
+                        when {
+                            uiState.suggestedItems.isNotEmpty() -> {
+                                item(key = "suggested_deck") {
+                                    HomeSuggestedDeck(
+                                        items = uiState.suggestedItems,
+                                        onResourceClick = onResourceClick,
+                                        onPostClick = onPostClick
+                                    )
+                                }
                             }
-                        } else {
-                            item(key = "fresh_resources") {
-                                HomeResourceCarousel(
-                                    resources = uiState.recentResources,
-                                    onResourceClick = onResourceClick
-                                )
+                            uiState.recentResources.isNotEmpty() -> {
+                                // Fallback while the suggestion engine has no
+                                // cached deck yet (first ever launch / offline)
+                                // — the rail is never empty when content exists.
+                                item(key = "suggested_fallback") {
+                                    HomeResourceCarousel(
+                                        resources = (uiState.recentResources + uiState.popularResources).distinctBy { it.id },
+                                        onResourceClick = onResourceClick
+                                    )
+                                }
+                            }
+                            else -> {
+                                item(key = "suggested_empty") {
+                                    WebEmptyState(
+                                        title = "New content is on the way",
+                                        message = "Browse the library or pull down to check again.",
+                                        icon = painterResource(id = R.drawable.ic_document),
+                                        modifier = Modifier.padding(horizontal = 16.dp)
+                                    )
+                                }
                             }
                         }
 
@@ -200,7 +215,7 @@ fun HomeScreen(
                             ) { post ->
                                 ForumPostCard(
                                     post = post,
-                                    isOwnPost = uiState.currentUserId != null && post.authorId == uiState.currentUserId,
+                                    isOwnPost = post.isOwner || (uiState.currentUserId != null && post.authorId == uiState.currentUserId),
                                     onClick = { onPostClick(post.id) },
                                     onLikeClick = { viewModel.toggleThumbsUp(post.id) },
                                     onBookmarkClick = { viewModel.toggleBookmark(post.id) },

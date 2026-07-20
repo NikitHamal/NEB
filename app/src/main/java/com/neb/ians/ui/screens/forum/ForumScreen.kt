@@ -253,7 +253,7 @@ fun ForumScreen(
                         items(uiState.posts, key = { it.id }) { post ->
                             ForumPostCard(
                                 post = post,
-                                isOwnPost = uiState.currentUserId != null && post.authorId == uiState.currentUserId,
+                                isOwnPost = post.isOwner || (uiState.currentUserId != null && post.authorId == uiState.currentUserId),
                                 onClick = { onPostClick(post.id) },
                                 onLikeClick = { viewModel.toggleThumbsUp(post.id) },
                                 onBookmarkClick = { viewModel.toggleBookmark(post.id) },

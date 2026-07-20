@@ -2,7 +2,7 @@
 DRF serializers for all NEBians API resources.
 """
 from rest_framework import serializers
-from .models import User, Resource, ResourceLike, ResourceRequest, ResourceRequestUpvote, Post, PostImage, Poll, PollOption, PollVote, Reply, FCMToken, UserPhoto, Follow, EditHistory, Report, Bookmark, Notification
+from .models import User, Resource, ResourceLike, ResourceRequest, ResourceRequestUpvote, Post, PostImage, PostMedia, Poll, PollOption, PollVote, Reply, FCMToken, UserPhoto, Follow, EditHistory, Report, Bookmark, Notification
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -257,10 +257,20 @@ class PollSerializer(serializers.ModelSerializer):
         return str(votes[0])
 
 
+class PostMediaSerializer(serializers.ModelSerializer):
+    mimeType = serializers.CharField(source='mime_type', read_only=True)
+    sizeBytes = serializers.IntegerField(source='size_bytes', read_only=True)
+    createdAt = serializers.IntegerField(source='created_at', read_only=True)
+
+    class Meta:
+        model = PostMedia
+        fields = ['id', 'kind', 'url', 'name', 'mimeType', 'sizeBytes', 'order', 'createdAt']
+
+
 class PostSerializer(serializers.ModelSerializer):
     authorName = serializers.SerializerMethodField()
     authorPhotoUrl = serializers.SerializerMethodField()
-    authorId = serializers.CharField(source='user_id', read_only=True)
+    authorId = serializers.SerializerMethodField()
     authorIsBot = serializers.SerializerMethodField()
     thumbsUpCount = serializers.IntegerField(source='thumbs_up_count', read_only=True)
     replyCount = serializers.IntegerField(source='reply_count', read_only=True)
@@ -269,10 +279,13 @@ class PostSerializer(serializers.ModelSerializer):
     updatedAt = serializers.SerializerMethodField()
     isEdited = serializers.BooleanField(source='is_edited', read_only=True)
     isArchived = serializers.BooleanField(source='is_archived', read_only=True)
+    isAnonymous = serializers.BooleanField(source='is_anonymous', read_only=True)
+    isOwner = serializers.SerializerMethodField()
     isThumbedUp = serializers.SerializerMethodField()
     isBookmarked = serializers.SerializerMethodField()
     authorBadgeInfo = serializers.SerializerMethodField()
     images = PostImageSerializer(many=True, read_only=True)
+    attachments = PostMediaSerializer(source='media', many=True, read_only=True)
     poll = PollSerializer(read_only=True)
 
     class Meta:
@@ -281,10 +294,18 @@ class PostSerializer(serializers.ModelSerializer):
             'id', 'title', 'content', 'category',
             'authorName', 'authorPhotoUrl', 'authorId', 'authorIsBot', 'authorBadgeInfo',
             'thumbsUpCount', 'replyCount', 'viewCount', 'createdAt', 'updatedAt',
-            'isEdited', 'isArchived', 'isThumbedUp', 'isBookmarked', 'images', 'poll'
+            'isEdited', 'isArchived', 'isAnonymous', 'isOwner',
+            'isThumbedUp', 'isBookmarked', 'images', 'attachments', 'poll'
         ]
 
+    def get_isOwner(self, obj):
+        request = self.context.get('request')
+        user = getattr(request, 'user', None) if request else None
+        return bool(user is not None and isinstance(user, User) and str(user.id) == str(obj.user_id))
+
     def get_authorBadgeInfo(self, obj):
+        if obj.is_anonymous:
+            return None
         from .badges import user_badge_info
         try:
             return user_badge_info(obj.user)
@@ -306,19 +327,29 @@ class PostSerializer(serializers.ModelSerializer):
         except Exception:
             return False
 
+    def get_authorId(self, obj):
+        # Anonymous content never leaks the real author id to clients.
+        return '' if obj.is_anonymous else str(obj.user_id)
+
     def get_authorName(self, obj):
+        if obj.is_anonymous:
+            return 'Anonymous Nebian'
         try:
             return obj.user.username
         except Exception:
             return 'Guest'
 
     def get_authorPhotoUrl(self, obj):
+        if obj.is_anonymous:
+            return ''
         try:
             return obj.user.photo_url
         except Exception:
             return None
 
     def get_authorIsBot(self, obj):
+        if obj.is_anonymous:
+            return False
         try:
             return obj.user.is_bot
         except Exception:
@@ -343,7 +374,7 @@ class PostSerializer(serializers.ModelSerializer):
 class ReplySerializer(serializers.ModelSerializer):
     authorName = serializers.SerializerMethodField()
     authorPhotoUrl = serializers.SerializerMethodField()
-    authorId = serializers.CharField(source='user_id', read_only=True)
+    authorId = serializers.SerializerMethodField()
     authorIsBot = serializers.SerializerMethodField()
     postId = serializers.CharField(source='post_id', read_only=True)
     parentReplyId = serializers.CharField(source='parent_reply_id', read_only=True, allow_null=True)
@@ -354,9 +385,12 @@ class ReplySerializer(serializers.ModelSerializer):
     isEdited = serializers.BooleanField(source='is_edited', read_only=True)
     editedAt = serializers.IntegerField(source='edited_at', read_only=True)
     isArchived = serializers.BooleanField(source='is_archived', read_only=True)
+    isAnonymous = serializers.BooleanField(source='is_anonymous', read_only=True)
+    isOwner = serializers.SerializerMethodField()
     isThumbedUp = serializers.SerializerMethodField()
     isBookmarked = serializers.SerializerMethodField()
     authorBadgeInfo = serializers.SerializerMethodField()
+    attachments = PostMediaSerializer(source='media', many=True, read_only=True)
 
     class Meta:
         model = Reply
@@ -364,10 +398,17 @@ class ReplySerializer(serializers.ModelSerializer):
             'id', 'postId', 'parentReplyId', 'content',
             'authorName', 'authorPhotoUrl', 'authorId', 'authorIsBot', 'authorBadgeInfo',
             'thumbsUpCount', 'childCount', 'viewCount', 'createdAt', 'isEdited', 'editedAt',
-            'isArchived', 'isThumbedUp', 'isBookmarked'
+            'isArchived', 'isAnonymous', 'isOwner', 'isThumbedUp', 'isBookmarked', 'attachments'
         ]
 
+    def get_isOwner(self, obj):
+        request = self.context.get('request')
+        user = getattr(request, 'user', None) if request else None
+        return bool(user is not None and isinstance(user, User) and str(user.id) == str(obj.user_id))
+
     def get_authorBadgeInfo(self, obj):
+        if obj.is_anonymous:
+            return None
         from .badges import user_badge_info
         try:
             return user_badge_info(obj.user)
@@ -389,19 +430,28 @@ class ReplySerializer(serializers.ModelSerializer):
         except Exception:
             return False
 
+    def get_authorId(self, obj):
+        return '' if obj.is_anonymous else str(obj.user_id)
+
     def get_authorName(self, obj):
+        if obj.is_anonymous:
+            return 'Anonymous Nebian'
         try:
             return obj.user.username
         except Exception:
             return 'Guest'
 
     def get_authorPhotoUrl(self, obj):
+        if obj.is_anonymous:
+            return ''
         try:
             return obj.user.photo_url
         except Exception:
             return None
 
     def get_authorIsBot(self, obj):
+        if obj.is_anonymous:
+            return False
         try:
             return obj.user.is_bot
         except Exception:
@@ -597,7 +647,8 @@ class ReportSerializer(serializers.ModelSerializer):
 class NotificationSerializer(serializers.ModelSerializer):
     actorName = serializers.SerializerMethodField()
     actorPhotoUrl = serializers.SerializerMethodField()
-    actorId = serializers.CharField(source='actor_id', read_only=True, allow_null=True)
+    actorId = serializers.SerializerMethodField()
+    actorAnonymous = serializers.BooleanField(source='actor_anonymous', read_only=True)
     targetType = serializers.CharField(source='target_type', read_only=True)
     targetId = serializers.CharField(source='target_id', read_only=True)
     referenceType = serializers.CharField(source='reference_type', read_only=True, allow_null=True)
@@ -608,13 +659,22 @@ class NotificationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Notification
         fields = [
-            'id', 'actorId', 'actorName', 'actorPhotoUrl',
+            'id', 'actorId', 'actorName', 'actorPhotoUrl', 'actorAnonymous',
             'verb', 'targetType', 'targetId', 'referenceType', 'referenceId',
             'message', 'isRead', 'createdAt',
         ]
 
+    def get_actorId(self, obj):
+        if obj.actor_anonymous:
+            return None
+        return str(obj.actor_id) if obj.actor_id else None
+
     def get_actorName(self, obj):
+        if obj.actor_anonymous:
+            return 'Someone'
         return obj.actor.username if obj.actor else None
 
     def get_actorPhotoUrl(self, obj):
+        if obj.actor_anonymous:
+            return None
         return obj.actor.photo_url if obj.actor else None

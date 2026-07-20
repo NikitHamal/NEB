@@ -74,7 +74,11 @@ urlpatterns = [
     path('posts/<str:post_id>/like/', views.post_like, name='post-like'),
 
     path('posts/<str:post_id>/images/', views.post_images, name='post-images'),
+    path('forum/uploads/', views.forum_media_upload, name='forum-media-upload'),
     path('polls/<str:poll_id>/vote/', views.poll_vote, name='poll-vote'),
+
+    # Intelligent mixed feed — never-empty suggestions (posts + resources)
+    path('feed/suggested/', views.feed_suggested, name='feed-suggested'),
 
     # Replies — GET list + POST create handled by replies_endpoint dispatcher
     path('posts/<str:post_id>/replies/', views.replies_endpoint, name='replies'),

@@ -34,7 +34,8 @@ class ResourceRepository @Inject constructor(
     private val authRepository: AuthRepository,
     private val offlineCacheStore: OfflineCacheStore,
     private val networkMonitor: NetworkMonitor,
-    private val appCache: AppCache
+    private val appCache: AppCache,
+    private val cacheBus: CacheBus
 ) {
     private val _cachedResources = MutableStateFlow<List<ApiResource>>(emptyList())
     val cachedResources: Flow<List<ApiResource>> = _cachedResources.asStateFlow()
@@ -107,6 +108,7 @@ class ResourceRepository @Inject constructor(
             val response = apiService.getResources(token, subject, grade, type, sort, page, pageSize = 50)
             offlineCacheStore.write(cacheKey, response)
             offlineCacheStore.trim(maxCacheAgeMs)
+            cacheBus.publish(cacheKey)
             Result.success(applyResourcesResponse(response, currentPage, append))
         } catch (e: Exception) {
             cachedResourcesResult(cacheKey, currentPage, append) ?: Result.failure(e)
@@ -125,21 +127,15 @@ class ResourceRepository @Inject constructor(
             return Result.failure(OfflineException())
         }
 
-        peekResource(resourceId)?.let { return Result.success(it) }
+        peekResource(resourceId)?.let { peeked ->
+            refreshResourceInBackground(resourceId, cacheKey)
+            return Result.success(peeked)
+        }
 
         val cached = offlineCacheStore.read<ApiResource>(cacheKey)
         if (cached != null && !forceRefresh) {
             appCache.resourceDetails[resourceId] = cached
-            if (networkMonitor.isOnline()) {
-                bgScope.launch {
-                    try {
-                        val token = getBearerToken()
-                        val resource = apiService.getResource(token, resourceId)
-                        appCache.resourceDetails[resourceId] = resource
-                        offlineCacheStore.write(cacheKey, resource)
-                    } catch (_: Exception) {}
-                }
-            }
+            refreshResourceInBackground(resourceId, cacheKey)
             return Result.success(cached)
         }
 
@@ -149,6 +145,7 @@ class ResourceRepository @Inject constructor(
             val resource = apiService.getResource(token, resourceId)
             appCache.resourceDetails[resourceId] = resource
             offlineCacheStore.write(cacheKey, resource)
+            cacheBus.publish(cacheKey)
             Result.success(resource)
         } catch (e: Exception) {
             val fallback = offlineCacheStore.read<ApiResource>(cacheKey)
@@ -161,12 +158,28 @@ class ResourceRepository @Inject constructor(
         }
     }
 
+    private fun refreshResourceInBackground(resourceId: String, cacheKey: String = resourceCacheKey(resourceId)) {
+        if (!networkMonitor.isOnline()) return
+        bgScope.launch {
+            try {
+                val token = getBearerToken()
+                val resource = apiService.getResource(token, resourceId)
+                appCache.resourceDetails[resourceId] = resource
+                offlineCacheStore.write(cacheKey, resource)
+                cacheBus.publish(cacheKey)
+            } catch (_: Exception) {}
+        }
+    }
+
     suspend fun toggleLike(resourceId: String): Result<ResourceLikeResponse> {
         return try {
             val token = getBearerToken() ?: return Result.failure(IllegalStateException("Not authenticated"))
             val response = apiService.toggleLikeResource(token, resourceId)
             appCache.resourceDetails[resourceId]?.let { resource ->
-                appCache.resourceDetails[resourceId] = resource.copy(likeCount = response.likeCount, isLiked = response.isLiked)
+                val updated = resource.copy(likeCount = response.likeCount, isLiked = response.isLiked)
+                appCache.resourceDetails[resourceId] = updated
+                offlineCacheStore.write(resourceCacheKey(resourceId), updated)
+                cacheBus.publish(resourceCacheKey(resourceId))
             }
             Result.success(response)
         } catch (e: Exception) {
@@ -212,21 +225,15 @@ class ResourceRepository @Inject constructor(
             return Result.failure(OfflineException())
         }
 
-        appCache.resourceComments[resourceId]?.let { return Result.success(it) }
+        appCache.resourceComments[resourceId]?.let { peeked ->
+            refreshCommentsInBackground(resourceId, cacheKey)
+            return Result.success(peeked)
+        }
 
         val cached = offlineCacheStore.read<ApiResourceCommentsResponse>(cacheKey)
         if (cached != null && !forceRefresh) {
             appCache.resourceComments[resourceId] = cached.comments
-            if (networkMonitor.isOnline()) {
-                bgScope.launch {
-                    try {
-                        val token = getBearerToken()
-                        val response = apiService.getResourceComments(token, resourceId)
-                        appCache.resourceComments[resourceId] = response.comments
-                        offlineCacheStore.write(cacheKey, response)
-                    } catch (_: Exception) {}
-                }
-            }
+            refreshCommentsInBackground(resourceId, cacheKey)
             return Result.success(cached.comments)
         }
 
@@ -236,6 +243,7 @@ class ResourceRepository @Inject constructor(
             val response = apiService.getResourceComments(token, resourceId)
             appCache.resourceComments[resourceId] = response.comments
             offlineCacheStore.write(cacheKey, response)
+            cacheBus.publish(cacheKey)
             Result.success(response.comments)
         } catch (e: Exception) {
             val fallback = offlineCacheStore.read<ApiResourceCommentsResponse>(cacheKey)
@@ -245,6 +253,19 @@ class ResourceRepository @Inject constructor(
             } else {
                 Result.failure(e)
             }
+        }
+    }
+
+    private fun refreshCommentsInBackground(resourceId: String, cacheKey: String = commentsCacheKey(resourceId)) {
+        if (!networkMonitor.isOnline()) return
+        bgScope.launch {
+            try {
+                val token = getBearerToken()
+                val response = apiService.getResourceComments(token, resourceId)
+                appCache.resourceComments[resourceId] = response.comments
+                offlineCacheStore.write(cacheKey, response)
+                cacheBus.publish(cacheKey)
+            } catch (_: Exception) {}
         }
     }
 
@@ -261,6 +282,7 @@ class ResourceRepository @Inject constructor(
             val updated = appCache.resourceComments[resourceId].orEmpty() + comment
             appCache.resourceComments[resourceId] = updated
             offlineCacheStore.write(commentsCacheKey(resourceId), ApiResourceCommentsResponse(updated))
+            cacheBus.publish(commentsCacheKey(resourceId))
             Result.success(comment)
         } catch (e: Exception) {
             Result.failure(e)
@@ -274,6 +296,7 @@ class ResourceRepository @Inject constructor(
             val updated = appCache.resourceComments[resourceId].orEmpty().filterNot { it.id == commentId }
             appCache.resourceComments[resourceId] = updated
             offlineCacheStore.write(commentsCacheKey(resourceId), ApiResourceCommentsResponse(updated))
+            cacheBus.publish(commentsCacheKey(resourceId))
             Result.success(Unit)
         } catch (e: Exception) {
             Result.failure(e)
@@ -297,6 +320,7 @@ class ResourceRepository @Inject constructor(
             }
             appCache.resourceComments[resourceId] = updatedList
             offlineCacheStore.write(commentsCacheKey(resourceId), ApiResourceCommentsResponse(updatedList))
+            cacheBus.publish(commentsCacheKey(resourceId))
             Result.success(response)
         } catch (e: Exception) {
             Result.failure(e)

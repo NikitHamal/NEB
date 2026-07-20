@@ -47,6 +47,7 @@ import androidx.compose.material.icons.outlined.FormatListNumbered
 import androidx.compose.material.icons.outlined.FormatQuote
 import androidx.compose.material.icons.outlined.HowToVote
 import androidx.compose.material.icons.outlined.Lightbulb
+import androidx.compose.material.icons.outlined.VisibilityOff
 import androidx.compose.material.icons.outlined.Functions
 import androidx.compose.material.icons.outlined.Link
 import androidx.compose.material.icons.outlined.Poll
@@ -239,7 +240,8 @@ fun ForumPostCard(
                 horizontalArrangement = Arrangement.spacedBy(10.dp)
             ) {
                 Box(
-                    modifier = Modifier.combinedClickable(
+                    modifier = if (post.isAnonymous) Modifier
+                    else Modifier.combinedClickable(
                         onClick = onAuthorClick,
                         onLongClick = onAuthorLongPress
                     )
@@ -267,11 +269,23 @@ fun ForumPostCard(
                             overflow = TextOverflow.Ellipsis,
                             modifier = Modifier
                                 .weight(1f, fill = false)
-                                .combinedClickable(
-                                    onClick = onAuthorClick,
-                                    onLongClick = onAuthorLongPress
+                                .then(
+                                    if (post.isAnonymous) Modifier
+                                    else Modifier.combinedClickable(
+                                        onClick = onAuthorClick,
+                                        onLongClick = onAuthorLongPress
+                                    )
                                 )
                         )
+                        if (post.isAnonymous) {
+                            Spacer(modifier = Modifier.width(4.dp))
+                            Icon(
+                                imageVector = Icons.Outlined.VisibilityOff,
+                                contentDescription = "Anonymous",
+                                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                                modifier = Modifier.size(14.dp)
+                            )
+                        }
                         post.authorBadgeInfo?.let { badge ->
                             Spacer(modifier = Modifier.width(5.dp))
                             NebBadge(badge)
@@ -381,6 +395,12 @@ fun ForumPostCard(
             post.poll?.let { poll ->
                 Spacer(modifier = Modifier.height(10.dp))
                 PollBadge(isMcq = poll.pollType == "mcq")
+            }
+
+            // ----- Media attachment badges (video/audio/files) -----
+            if (post.attachments.isNotEmpty()) {
+                Spacer(modifier = Modifier.height(10.dp))
+                ForumMediaBadges(post.attachments)
             }
 
             Spacer(modifier = Modifier.height(12.dp))

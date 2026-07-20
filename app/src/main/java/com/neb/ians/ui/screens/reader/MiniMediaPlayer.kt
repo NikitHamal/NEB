@@ -21,7 +21,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Fullscreen
 import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.outlined.AudioFile
@@ -140,20 +139,6 @@ fun MiniMediaPlayer(
                         contentDescription = null,
                         tint = accent,
                         modifier = Modifier.size(30.dp)
-                    )
-                }
-                IconButton(
-                    onClick = onExpand,
-                    modifier = Modifier
-                        .align(Alignment.BottomEnd)
-                        .size(36.dp)
-                        .background(Color.Black.copy(alpha = 0.46f), CircleShape)
-                ) {
-                    Icon(
-                        imageVector = Icons.Filled.Fullscreen,
-                        contentDescription = "Maximize player",
-                        tint = Color.White,
-                        modifier = Modifier.size(19.dp)
                     )
                 }
             }

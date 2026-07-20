@@ -78,7 +78,7 @@ def toggle_reply_like(user, reply_id):
     return {'thumbsUpCount': current_count, 'isThumbedUp': is_thumbed_up}
 
 
-def create_reply(user, post_id, content, parent_reply_id=None):
+def create_reply(user, post_id, content, parent_reply_id=None, is_anonymous=False, attachments=None):
     if not getattr(user, 'email_verified', False):
         return None
     try:
@@ -101,15 +101,25 @@ def create_reply(user, post_id, content, parent_reply_id=None):
             content=content,
             thumbs_up_count=0,
             reply_count=0,
+            is_anonymous=bool(is_anonymous),
             created_at=now,
         )
         Post.objects.filter(pk=post.pk).update(reply_count=F('reply_count') + 1)
         if parent_reply_id:
             Reply.objects.filter(pk=parent_reply_id).update(reply_count=F('reply_count') + 1)
+        if attachments:
+            from .models import PostMedia
+            for order, item in enumerate(attachments):
+                PostMedia.objects.create(
+                    id=uuid_str(), reply=reply,
+                    kind=item['kind'], url=item['url'], name=item['name'],
+                    mime_type=item['mime_type'], size_bytes=item['size_bytes'],
+                    order=order, created_at=now,
+                )
     _counters.increment_user_reply_count(user.id)
-    _notif.notify_new_reply(user.id, post_id, reply.id)
+    _notif.notify_new_reply(user.id, post_id, reply.id, anonymous_actor=is_anonymous)
     if parent_reply_id:
-        _notif.notify_reply_to_reply(user.id, parent_reply_id, post_id, reply.id)
+        _notif.notify_reply_to_reply(user.id, parent_reply_id, post_id, reply.id, anonymous_actor=is_anonymous)
     _neby.enqueue_if_reply_mention(reply)
     _notif.send_mention_all_if_eligible(user, content, 'reply', reply.id)
     from .serializers import ReplySerializer
@@ -118,7 +128,8 @@ def create_reply(user, post_id, content, parent_reply_id=None):
     return reply_data
 
 
-def create_post(user, title, content, category, image_urls=None, poll_data=None):
+def create_post(user, title, content, category, image_urls=None, poll_data=None,
+                is_anonymous=False, attachments=None):
     if not getattr(user, 'email_verified', False):
         return None
     title = title.strip()
@@ -135,6 +146,7 @@ def create_post(user, title, content, category, image_urls=None, poll_data=None)
         category=category,
         thumbs_up_count=0,
         reply_count=0,
+        is_anonymous=bool(is_anonymous),
         created_at=now,
     )
     if image_urls:
@@ -145,6 +157,15 @@ def create_post(user, title, content, category, image_urls=None, poll_data=None)
                 image_url=url,
                 order=i,
                 created_at=now,
+            )
+    if attachments:
+        from .models import PostMedia
+        for order, item in enumerate(attachments):
+            PostMedia.objects.create(
+                id=uuid_str(), post=post,
+                kind=item['kind'], url=item['url'], name=item['name'],
+                mime_type=item['mime_type'], size_bytes=item['size_bytes'],
+                order=order, created_at=now,
             )
     if poll_data:
         poll = Poll.objects.create(

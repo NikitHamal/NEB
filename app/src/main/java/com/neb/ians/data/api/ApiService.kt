@@ -97,7 +97,9 @@ data class PostCreateRequest(
     val content: String,
     val category: String,
     @SerialName("image_urls") val imageUrls: List<String> = emptyList(),
-    val poll: ApiPollCreate? = null
+    val poll: ApiPollCreate? = null,
+    val isAnonymous: Boolean = false,
+    val attachments: List<ApiMediaAttachmentInput> = emptyList()
 )
 
 @Serializable
@@ -124,7 +126,38 @@ data class WebPostCreateRequest(
     val content: String,
     val category: String,
     val images: List<String> = emptyList(),
-    val poll: ApiPollCreate? = null
+    val poll: ApiPollCreate? = null,
+    val isAnonymous: Boolean = false,
+    val attachments: List<ApiMediaAttachmentInput> = emptyList()
+)
+
+/** Client → server forum media descriptor (echoed back from /api/forum/uploads/). */
+@Serializable
+data class ApiMediaAttachmentInput(
+    val url: String,
+    val kind: String, // video | audio | file
+    val name: String = "",
+    val mime: String = "",
+    val size: Long = 0
+)
+
+/** Server → client forum media attachment on posts/replies. */
+@Serializable
+data class ApiMediaAttachment(
+    val id: String = "",
+    val kind: String = "file", // video | audio | file
+    val url: String = "",
+    val name: String = "",
+    @SerialName("mimeType") val mimeType: String = "",
+    @SerialName("sizeBytes") val sizeBytes: Long = 0,
+    val order: Int = 0
+)
+
+@Serializable
+data class ForumMediaUploadResponse(
+    val ok: Boolean = false,
+    val attachment: ApiMediaAttachmentInput? = null,
+    val error: String? = null
 )
 
 @Serializable
@@ -172,7 +205,9 @@ data class PostUpdateRequest(
 @Serializable
 data class ReplyCreateRequest(
     val content: String,
-    @SerialName("parentReplyId") val parentReplyId: String? = null
+    @SerialName("parentReplyId") val parentReplyId: String? = null,
+    val isAnonymous: Boolean = false,
+    val attachments: List<ApiMediaAttachmentInput> = emptyList()
 )
 
 @Serializable
@@ -395,9 +430,12 @@ data class ApiPost(
     @SerialName("isFollowingAuthor") val isFollowingAuthor: Boolean? = null,
     @SerialName("isEdited") val isEdited: Boolean? = null,
     @SerialName("isArchived") val isArchived: Boolean? = null,
+    @SerialName("isOwner") val isOwner: Boolean = false,
+    @SerialName("isAnonymous") val isAnonymous: Boolean = false,
     @SerialName("createdAt") val createdAt: Long,
     @SerialName("updatedAt") val updatedAt: Long? = null,
     val images: List<ApiPostImage> = emptyList(),
+    val attachments: List<ApiMediaAttachment> = emptyList(),
     val poll: ApiPoll? = null
 )
 
@@ -473,8 +511,11 @@ data class ApiReply(
     @SerialName("isBookmarked") val isBookmarked: Boolean? = null,
     @SerialName("isEdited") val isEdited: Boolean? = null,
     @SerialName("isArchived") val isArchived: Boolean? = null,
+    @SerialName("isOwner") val isOwner: Boolean = false,
+    @SerialName("isAnonymous") val isAnonymous: Boolean = false,
     @SerialName("createdAt") val createdAt: Long,
-    @SerialName("editedAt") val updatedAt: Long? = null
+    @SerialName("editedAt") val updatedAt: Long? = null,
+    val attachments: List<ApiMediaAttachment> = emptyList()
 )
 
 @Serializable
@@ -858,6 +899,23 @@ data class ApiPaginatedReplies(
     val previous: String? = null
 )
 
+/** GET /api/feed/suggested/ — intelligent mixed deck (never empty when content exists). */
+@Serializable
+data class ApiSuggestedFeedResponse(
+    val ok: Boolean = false,
+    val items: List<ApiSuggestedItem> = emptyList(),
+    val count: Int = 0,
+    val note: String = "",
+    @SerialName("generatedAt") val generatedAt: Long = 0
+)
+
+@Serializable
+data class ApiSuggestedItem(
+    val type: String = "", // "post" | "resource"
+    val post: ApiPost? = null,
+    val resource: ApiResource? = null
+)
+
 @Serializable
 data class AccountDeletionSubmitRequest(
     val reason: String
@@ -1153,6 +1211,12 @@ interface ApiService {
     ): PdfAssistantResponse
 
     // --- Posts ---
+    @GET("api/feed/suggested/")
+    suspend fun getSuggestedFeed(
+        @Header("Authorization") bearerToken: String?,
+        @Query("limit") limit: Int = 18
+    ): ApiSuggestedFeedResponse
+
     @GET("api/posts/")
     suspend fun getPosts(
         @Header("Authorization") bearerToken: String?,
@@ -1174,6 +1238,13 @@ interface ApiService {
     suspend fun viewPost(
         @Path("postId") postId: String
     )
+
+    @Multipart
+    @POST("api/forum/uploads/")
+    suspend fun uploadForumMedia(
+        @Header("Authorization") bearerToken: String,
+        @Part file: okhttp3.MultipartBody.Part
+    ): ForumMediaUploadResponse
 
     @POST("api/posts/")
     suspend fun createPost(

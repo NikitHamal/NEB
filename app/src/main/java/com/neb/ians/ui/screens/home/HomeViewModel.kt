@@ -5,9 +5,12 @@ import androidx.lifecycle.viewModelScope
 import com.neb.ians.data.api.ApiResource
 import com.neb.ians.data.api.ApiPost
 import com.neb.ians.data.api.ApiErrorMapper
+import com.neb.ians.data.api.ApiSuggestedItem
 import com.neb.ians.data.news.NewsAnnouncement
 import com.neb.ians.data.realtime.RealtimeClient
 import com.neb.ians.data.repository.AuthRepository
+import com.neb.ians.data.repository.CacheBus
+import com.neb.ians.data.repository.FeedRepository
 import com.neb.ians.data.repository.ForumRepository
 import com.neb.ians.data.repository.SettingsRepository
 import com.neb.ians.data.repository.AppCache
@@ -16,6 +19,7 @@ import com.neb.ians.data.repository.ResourceRepository
 import com.neb.ians.data.repository.ResourcesResult
 import com.neb.ians.data.repository.ForumPostsResult
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.Job
@@ -33,7 +37,8 @@ private data class HomeLoadResults(
     val resources: Result<ResourcesResult>,
     val popular: Result<ResourcesResult>,
     val posts: Result<ForumPostsResult>,
-    val news: List<NewsAnnouncement>
+    val news: List<NewsAnnouncement>,
+    val suggested: Result<List<ApiSuggestedItem>>
 )
 
 data class HomeUiState(
@@ -44,6 +49,7 @@ data class HomeUiState(
     val popularResources: List<ApiResource> = emptyList(),
     val recentPosts: List<ApiPost> = emptyList(),
     val latestNews: List<NewsAnnouncement> = emptyList(),
+    val suggestedItems: List<ApiSuggestedItem> = emptyList(),
     val isLoading: Boolean = true,
     val error: String? = null
 ) {
@@ -62,16 +68,19 @@ class HomeViewModel @Inject constructor(
     private val forumRepository: ForumRepository,
     private val resourceRepository: ResourceRepository,
     private val newsRepository: NewsRepository,
+    private val feedRepository: FeedRepository,
     private val realtimeClient: RealtimeClient,
-    private val appCache: AppCache
+    private val appCache: AppCache,
+    private val cacheBus: CacheBus
 ) : ViewModel() {
 
-    private val _isLoading = MutableStateFlow(appCache.recentResources.isEmpty() && appCache.recentPosts.isEmpty())
+    private val _isLoading = MutableStateFlow(appCache.recentResources.isEmpty() && appCache.recentPosts.isEmpty() && appCache.suggestedItems.isEmpty())
     private val _error = MutableStateFlow<String?>(null)
     private val _recentResources = MutableStateFlow<List<ApiResource>>(appCache.recentResources)
     private val _popularResources = MutableStateFlow<List<ApiResource>>(appCache.popularResources)
     private val _recentPosts = MutableStateFlow<List<ApiPost>>(appCache.recentPosts)
     private val _latestNews = MutableStateFlow<List<NewsAnnouncement>>(appCache.latestNews)
+    private val _suggestedItems = MutableStateFlow<List<ApiSuggestedItem>>(appCache.suggestedItems)
     private val processingPostLikes = mutableSetOf<String>()
     private val processingBookmarks = mutableSetOf<String>()
     private val processingDeletions = mutableSetOf<String>()
@@ -93,6 +102,47 @@ class HomeViewModel @Inject constructor(
                         handlePostCreated(event.data)
                 }
             }
+        }
+        collectCacheSignals()
+    }
+
+    /**
+     * Stale-while-revalidate glue: when a repository background-refresh writes
+     * fresher data into the offline cache, quietly re-read it and update the
+     * UI — no manual pull-to-refresh needed.
+     */
+    @OptIn(FlowPreview::class)
+    private fun collectCacheSignals() {
+        viewModelScope.launch {
+            cacheBus.signals
+                .debounce(400)
+                .collect { key ->
+                    when {
+                        key.startsWith(CacheBus.PREFIX_SUGGESTED) ->
+                            feedRepository.getSuggestedFeed(cacheOnly = true).onSuccess { items ->
+                                appCache.suggestedItems = items
+                                _suggestedItems.value = items
+                            }
+                        key.startsWith(CacheBus.PREFIX_RESOURCES) -> {
+                            resourceRepository.getResources(sort = "newest", page = 1, cacheOnly = true)
+                                .onSuccess { result ->
+                                    appCache.recentResources = result.resources
+                                    _recentResources.value = result.resources
+                                }
+                            resourceRepository.getResources(sort = "trending", page = 1, cacheOnly = true)
+                                .onSuccess { result ->
+                                    appCache.popularResources = result.resources
+                                    _popularResources.value = result.resources
+                                }
+                        }
+                        key.startsWith(CacheBus.PREFIX_POSTS_LIST) ->
+                            forumRepository.getPosts(page = 1, cacheOnly = true)
+                                .onSuccess { result ->
+                                    appCache.recentPosts = result.posts
+                                    _recentPosts.value = result.posts
+                                }
+                    }
+                }
         }
     }
 
@@ -151,7 +201,12 @@ class HomeViewModel @Inject constructor(
                         appCache.recentPosts = result.posts
                         _recentPosts.value = result.posts
                     }
-                if (_recentResources.value.isNotEmpty() || _recentPosts.value.isNotEmpty()) {
+                feedRepository.getSuggestedFeed(cacheOnly = true)
+                    .onSuccess { items ->
+                        appCache.suggestedItems = items
+                        _suggestedItems.value = items
+                    }
+                if (_recentResources.value.isNotEmpty() || _recentPosts.value.isNotEmpty() || _suggestedItems.value.isNotEmpty()) {
                     _isLoading.value = false
                 }
             }
@@ -167,7 +222,8 @@ class HomeViewModel @Inject constructor(
                     val popular = async { resourceRepository.getResources(sort = "trending", page = 1, forceRefresh = forceRefresh) }
                     val posts = async { forumRepository.getPosts(page = 1, forceRefresh = forceRefresh) }
                     val news = async { newsRepository.getAnnouncements().getOrDefault(appCache.latestNews) }
-                    HomeLoadResults(resources.await(), popular.await(), posts.await(), news.await())
+                    val suggested = async { feedRepository.getSuggestedFeed(forceRefresh = forceRefresh) }
+                    HomeLoadResults(resources.await(), popular.await(), posts.await(), news.await(), suggested.await())
                 }
 
                 val resources = results.resources.getOrNull()?.resources ?: appCache.recentResources
@@ -184,6 +240,11 @@ class HomeViewModel @Inject constructor(
                 appCache.popularResources = popular
                 appCache.recentPosts = posts
                 appCache.latestNews = news
+
+                results.suggested.onSuccess { items ->
+                    appCache.suggestedItems = items
+                    _suggestedItems.value = items
+                }
 
                 val firstFailure = listOf(
                     results.resources.exceptionOrNull(),
@@ -302,6 +363,7 @@ class HomeViewModel @Inject constructor(
         _popularResources,
         _recentPosts,
         _latestNews,
+        _suggestedItems,
         combine(_isLoading, _error) { isLoading, error -> Pair(isLoading, error) }
     ) { values ->
         val user = values[0] as Triple<String, String?, String?>
@@ -309,7 +371,8 @@ class HomeViewModel @Inject constructor(
         @Suppress("UNCHECKED_CAST") val popularResources = values[2] as List<ApiResource>
         @Suppress("UNCHECKED_CAST") val recentPosts = values[3] as List<ApiPost>
         @Suppress("UNCHECKED_CAST") val latestNews = values[4] as List<NewsAnnouncement>
-        @Suppress("UNCHECKED_CAST") val loadingError = values[5] as Pair<Boolean, String?>
+        @Suppress("UNCHECKED_CAST") val suggestedItems = values[5] as List<ApiSuggestedItem>
+        @Suppress("UNCHECKED_CAST") val loadingError = values[6] as Pair<Boolean, String?>
         HomeUiState(
             userName = user.first,
             userPhotoUrl = user.second,
@@ -318,6 +381,7 @@ class HomeViewModel @Inject constructor(
             popularResources = popularResources,
             recentPosts = recentPosts,
             latestNews = latestNews,
+            suggestedItems = suggestedItems,
             isLoading = loadingError.first,
             error = loadingError.second
         )
