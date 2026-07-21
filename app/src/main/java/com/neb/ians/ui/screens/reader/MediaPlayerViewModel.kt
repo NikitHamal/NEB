@@ -87,7 +87,10 @@ class MediaPlayerViewModel @Inject constructor(
         if (resourceId.isBlank()) return
         if (activeResourceId == resourceId && _uiState.value.resource != null) return
         savePosition()
-        releasePlayer()
+        // Stop, don't release — the ExoPlayer instance must outlive resource
+        // swaps or the Compose stage ends up bound to a released player
+        // (black video-on-first-play until a fullscreen rebind).
+        stopPlayerForLoad()
         loadJob?.cancel()
         activeResourceId = resourceId
         _uiState.value = MediaPlayerUiState(isLoading = true)
@@ -160,19 +163,19 @@ class MediaPlayerViewModel @Inject constructor(
         initPlayer(playableUri)
     }
 
-    private fun initPlayer(fileUrl: String) {
+    /**
+     * The player instance must be STABLE for the lifetime of this VM: the
+     * Compose stage captures `getPlayer()` in a binding that only rebinding
+     * can refresh — and rebinding loses races against state-flow updates. The
+     * old code released and recreated the ExoPlayer on every setResource, so
+     * the stage could be left bound to a released instance: audio ticks from
+     * the fresh player while the dead player's surface stays black until a
+     * fullscreen round-trip rebinds. One instance, swapped media items only.
+     */
+    private fun ensurePlayer(): ExoPlayer {
+        player?.let { return it }
         val exoPlayer = ExoPlayer.Builder(application).build()
         player = exoPlayer
-
-        exoPlayer.setMediaItem(MediaItem.fromUri(fileUrl))
-        exoPlayer.setPlaybackSpeed(_uiState.value.speed)
-        exoPlayer.prepare()
-
-        val resume = _uiState.value.resumePositionMs
-        if (resume > RESUME_MIN_MS) {
-            exoPlayer.seekTo(resume)
-        }
-
         exoPlayer.addListener(object : Player.Listener {
             override fun onPlaybackStateChanged(state: Int) {
                 _uiState.update {
@@ -202,6 +205,21 @@ class MediaPlayerViewModel @Inject constructor(
                 if (isPlaying) startTick() else stopTick()
             }
         })
+        return exoPlayer
+    }
+
+    private fun initPlayer(fileUrl: String) {
+        val exoPlayer = ensurePlayer()
+        exoPlayer.stop()
+        exoPlayer.clearMediaItems()
+        exoPlayer.setMediaItem(MediaItem.fromUri(fileUrl))
+        exoPlayer.setPlaybackSpeed(_uiState.value.speed)
+        exoPlayer.prepare()
+
+        val resume = _uiState.value.resumePositionMs
+        if (resume > RESUME_MIN_MS) {
+            exoPlayer.seekTo(resume)
+        }
 
         exoPlayer.playWhenReady = false
     }
@@ -382,6 +400,16 @@ class MediaPlayerViewModel @Inject constructor(
         activeResourceId = ""
         releasePlayer()
         _uiState.value = MediaPlayerUiState(isLoading = false)
+    }
+
+    /** Halt playback for a resource swap while keeping the instance alive. */
+    private fun stopPlayerForLoad() {
+        stopTick()
+        player?.let {
+            it.playWhenReady = false
+            it.stop()
+            it.clearMediaItems()
+        }
     }
 
     private fun releasePlayer() {
