@@ -230,10 +230,11 @@ private fun EmbeddedVideoStage(
     val minimizeThreshold = with(LocalDensity.current) { 48.dp.toPx() }
     val minimizeDragState = rememberDraggableState { delta -> minimizeDragY += delta }
 
-    // PlayerView owns the whole SurfaceView lifecycle (attach, first frame,
-    // resize, z-order, handoff to/from fullscreen) — hand-rolled surface
-    // rebinding used to leave the shared player pointed at a dead holder and
-    // the stage played black until a fullscreen round-trip re-attached it.
+    // The TextureView-backed NebPlayerView renders continuously (no surface
+    // first-frame race), and MediaPlayerViewModel now keeps ONE stable
+    // ExoPlayer instance — swapping media items instead of recreating players
+    // — so this binding can never be left pointing at a released player
+    // (which was the black-stage-until-fullscreen failure).
 
     LaunchedEffect(showControls, isPlaying) {
         if (showControls && isPlaying) {
