@@ -98,11 +98,12 @@ class UploadViewModel @Inject constructor(
     }
 
     /** Prefill the wizard with everything the existing resource stores. */
-    fun loadEditResource(resourceId: String = editResourceId ?: return) {
+    fun loadEditResource(resourceId: String? = editResourceId) {
+        val id = resourceId ?: return
         viewModelScope.launch {
             _uiState.update { it.copy(isEditMode = true, editLoading = true, editLoadError = null) }
             val username = try { authRepository.currentUsernameHandleFlow.first() } catch (_: Exception) { "" }
-            resourceRepository.getResource(resourceId)
+            resourceRepository.getResource(id)
                 .onSuccess { resource ->
                     val owner = resource.uploadedByUsername.isNotBlank() &&
                         username.isNotBlank() &&

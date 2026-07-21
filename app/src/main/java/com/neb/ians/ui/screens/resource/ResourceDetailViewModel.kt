@@ -348,6 +348,11 @@ class ResourceDetailViewModel @Inject constructor(
         stageCommentUpload(pending)
     }
 
+    /** Surface a transient snackbar message (used by the voice-note recorder error path). */
+    fun showSnackbar(message: String) {
+        _uiState.update { it.copy(snackbarMessage = message) }
+    }
+
     /** Stage a finished voice-note recording as an audio attachment on the comment composer. */
     fun addCommentVoiceNote(file: File, durationMs: Long) {
         val current = _commentAttachments.value
