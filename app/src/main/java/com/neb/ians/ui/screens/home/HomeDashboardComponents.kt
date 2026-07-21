@@ -1,5 +1,6 @@
 package com.neb.ians.ui.screens.home
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -26,11 +27,14 @@ import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Forum
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.SmartToy
+import androidx.compose.material.icons.filled.ThumbUp
 import androidx.compose.material.icons.filled.Upload
 import androidx.compose.material.icons.outlined.ChatBubbleOutline
+import androidx.compose.material.icons.outlined.MusicNote
+import androidx.compose.material.icons.outlined.Poll
 import androidx.compose.material.icons.outlined.ThumbUp
-import androidx.compose.material.icons.outlined.Visibility
-import androidx.compose.material.icons.outlined.VisibilityOff
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -52,7 +56,13 @@ import coil.compose.AsyncImage
 import com.neb.ians.data.api.ApiPost
 import com.neb.ians.data.api.ApiResource
 import com.neb.ians.data.api.ApiSuggestedItem
+import com.neb.ians.ui.components.ResourceArt
+import com.neb.ians.ui.components.WebPillShape
 import com.neb.ians.ui.components.WebResourceCard
+import com.neb.ians.ui.components.compactCount
+import com.neb.ians.ui.components.resolveMediaUrl
+import com.neb.ians.ui.theme.getSubjectTheme
+import com.neb.ians.util.formatTimeAgo
 import com.neb.ians.util.getSubjectColor
 
 @Composable
@@ -330,12 +340,15 @@ internal fun HomeResourceCarousel(
 /**
  * "Suggested for you" — mixed deck of resource + discussion cards picked by
  * the server-side feed engine. Guaranteed non-empty while any content exists.
+ * Discussion cards mirror the resource card's exact dimensions (110.dp media
+ * area + identical content rows) so every card in the rail is the same height.
  */
 @Composable
 internal fun HomeSuggestedDeck(
     items: List<ApiSuggestedItem>,
     onResourceClick: (String) -> Unit,
-    onPostClick: (String) -> Unit
+    onPostClick: (String) -> Unit,
+    onLikeClick: (String) -> Unit = {}
 ) {
     LazyRow(
         contentPadding = PaddingValues(horizontal = 16.dp),
@@ -354,104 +367,237 @@ internal fun HomeSuggestedDeck(
                 )
                 item.type == "post" && item.post != null -> SuggestedPostCard(
                     post = item.post,
-                    onClick = { onPostClick(item.post.id) }
+                    onClick = { onPostClick(item.post.id) },
+                    onLikeClick = { onLikeClick(item.post.id) }
                 )
             }
         }
     }
 }
 
+/**
+ * Full discussion card for the suggested rail: media cover (photo / video /
+ * audio / poll / discussion art), floating like chip with liked/unliked state,
+ * category pill, two-line title, author and reply·view stats — the same
+ * building blocks and exact heights as [WebResourceCard].
+ */
 @Composable
-private fun SuggestedPostCard(post: ApiPost, onClick: () -> Unit) {
-    Surface(
-        onClick = onClick,
-        shape = RoundedCornerShape(24.dp),
-        color = MaterialTheme.colorScheme.surfaceContainerLowest,
-        tonalElevation = 1.dp,
-        modifier = Modifier.width(248.dp)
+private fun SuggestedPostCard(
+    post: ApiPost,
+    onClick: () -> Unit,
+    onLikeClick: () -> Unit
+) {
+    val category = post.category.ifBlank { "General" }
+    val categoryTheme = getSubjectTheme(category)
+    val firstImage = remember(post.images) {
+        post.images.minByOrNull { it.order }?.imageUrl?.let { resolveMediaUrl(it) }
+    }
+    val firstVideo = remember(post.attachments) { post.attachments.firstOrNull { it.kind == "video" } }
+    val firstAudio = remember(post.attachments) { post.attachments.firstOrNull { it.kind == "audio" } }
+    val hasPoll = post.poll != null
+    val mediaLabel = when {
+        firstVideo != null -> "VIDEO"
+        firstAudio != null -> "AUDIO"
+        hasPoll -> "POLL"
+        post.images.size > 1 -> "${post.images.size} PHOTOS"
+        else -> "POST"
+    }
+    val liked = post.isThumbedUp
+    val shape = RoundedCornerShape(24.dp)
+
+    Card(
+        modifier = Modifier
+            .width(248.dp)
+            .clip(shape)
+            .clickable(onClick = onClick),
+        shape = shape,
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest),
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
     ) {
-        Column(
-            modifier = Modifier.padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(10.dp)
+        // ----- Media cover (110.dp — same as WebResourceCard) -----
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(110.dp)
         ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Surface(
-                    shape = RoundedCornerShape(999.dp),
-                    color = MaterialTheme.colorScheme.secondaryContainer
-                ) {
-                    Text(
-                        text = post.category,
-                        style = MaterialTheme.typography.labelSmall,
-                        fontWeight = FontWeight.SemiBold,
-                        color = MaterialTheme.colorScheme.onSecondaryContainer,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp)
-                    )
-                }
-                Icon(
-                    imageVector = Icons.Filled.Forum,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.size(18.dp)
+            if (firstImage != null) {
+                AsyncImage(
+                    model = firstImage,
+                    contentDescription = post.title,
+                    modifier = Modifier.fillMaxSize(),
+                    contentScale = ContentScale.Crop
+                )
+            } else {
+                ResourceArt(
+                    primary = categoryTheme.color,
+                    container = categoryTheme.container,
+                    modifier = Modifier.fillMaxSize()
                 )
             }
-            Text(
-                text = post.title,
-                style = MaterialTheme.typography.titleSmall,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onSurface,
-                maxLines = 3,
-                overflow = TextOverflow.Ellipsis
-            )
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(5.dp)
+
+            // Center media affordance (mirror of the resource video overlay)
+            val centerIcon = when {
+                firstVideo != null -> Icons.Filled.PlayArrow
+                firstAudio != null -> Icons.Outlined.MusicNote
+                hasPoll -> Icons.Outlined.Poll
+                else -> null
+            }
+            if (centerIcon != null) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color.Black.copy(alpha = if (firstVideo != null) 0.22f else 0.08f)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Surface(
+                        shape = CircleShape,
+                        color = Color.White.copy(alpha = 0.9f),
+                        shadowElevation = 4.dp
+                    ) {
+                        Box(
+                            modifier = Modifier.size(40.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Icon(
+                                imageVector = centerIcon,
+                                contentDescription = null,
+                                modifier = Modifier.size(if (firstVideo != null) 28.dp else 20.dp),
+                                tint = Color.Black
+                            )
+                        }
+                    }
+                }
+            }
+
+            // Top-start media-type pill (mirrors the resource TYPE pill)
+            Surface(
+                modifier = Modifier
+                    .align(Alignment.TopStart)
+                    .padding(10.dp),
+                shape = WebPillShape,
+                color = MaterialTheme.colorScheme.surfaceContainerLowest.copy(alpha = 0.92f)
             ) {
-                if (post.isAnonymous) {
+                Text(
+                    text = mediaLabel,
+                    modifier = Modifier.padding(horizontal = 9.dp, vertical = 4.dp),
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    fontWeight = FontWeight.Bold,
+                    maxLines = 1
+                )
+            }
+
+            // Top-end floating like chip with liked/unliked state
+            Surface(
+                onClick = onLikeClick,
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .padding(10.dp),
+                shape = WebPillShape,
+                color = MaterialTheme.colorScheme.surfaceContainerLowest.copy(alpha = 0.92f)
+            ) {
+                Row(
+                    modifier = Modifier.padding(horizontal = 9.dp, vertical = 4.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
                     Icon(
-                        imageVector = Icons.Outlined.VisibilityOff,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier.size(13.dp)
+                        imageVector = if (liked) Icons.Filled.ThumbUp else Icons.Outlined.ThumbUp,
+                        contentDescription = if (liked) "Unlike" else "Like",
+                        modifier = Modifier.size(13.dp),
+                        tint = if (liked) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    Text(
+                        text = compactCount(post.thumbsUpCount),
+                        style = MaterialTheme.typography.labelSmall,
+                        fontWeight = FontWeight.Bold,
+                        color = if (liked) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
+            }
+
+            // Bottom-end category disc (mirrors the resource subject disc)
+            Surface(
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(10.dp)
+                    .size(28.dp),
+                shape = CircleShape,
+                color = categoryTheme.color,
+                shadowElevation = 2.dp
+            ) {
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.Forum,
+                        contentDescription = null,
+                        modifier = Modifier.size(14.dp),
+                        tint = Color.White
+                    )
+                }
+            }
+        }
+
+        // ----- Content rows (same heights/spacing as WebResourceCard) -----
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(12.dp)
+        ) {
+            Surface(
+                shape = WebPillShape,
+                color = categoryTheme.container
+            ) {
                 Text(
-                    text = if (post.isAnonymous) "Anonymous Nebian" else post.authorName,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    text = category.uppercase(),
+                    modifier = Modifier.padding(horizontal = 9.dp, vertical = 3.dp),
+                    style = MaterialTheme.typography.labelSmall,
+                    fontWeight = FontWeight.Bold,
+                    color = categoryTheme.onContainer,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
             }
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = post.title,
+                style = MaterialTheme.typography.bodyMedium,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onSurface,
+                minLines = 2,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = (if (post.isAnonymous) "Anonymous Nebian" else post.authorName) +
+                    " · " + formatTimeAgo(post.createdAt),
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+            Spacer(modifier = Modifier.height(6.dp))
             Row(
-                horizontalArrangement = Arrangement.spacedBy(14.dp),
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(4.dp)
             ) {
-                SuggestedStat(icon = { Icon(Icons.Outlined.ThumbUp, null, tint = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.size(14.dp)) }, value = post.thumbsUpCount.toString())
-                SuggestedStat(icon = { Icon(Icons.Outlined.ChatBubbleOutline, null, tint = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.size(14.dp)) }, value = post.replyCount.toString())
-                SuggestedStat(icon = { Icon(Icons.Outlined.Visibility, null, tint = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.size(14.dp)) }, value = post.viewCount.toString())
+                Icon(
+                    imageVector = Icons.Outlined.ChatBubbleOutline,
+                    contentDescription = null,
+                    modifier = Modifier.size(14.dp),
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Text(
+                    text = "${post.replyCount} · ${compactCount(post.viewCount)} views",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    maxLines = 1
+                )
             }
         }
-    }
-}
-
-@Composable
-private fun SuggestedStat(icon: @Composable () -> Unit, value: String) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(4.dp)
-    ) {
-        icon()
-        Text(
-            text = value,
-            style = MaterialTheme.typography.labelSmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
     }
 }
 
