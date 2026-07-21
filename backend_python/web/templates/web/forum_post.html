@@ -624,10 +624,13 @@ function renderReplyMediaList(key) {
   list.innerHTML = '';
   atts.forEach(function(att, idx) {
     var item = document.createElement('div');
-    item.className = 'cp-media-item';
+    item.className = 'cp-media-item' + (att.kind === 'audio' ? ' cp-media-audio' : '');
     var meta = att.uploading ? 'Uploading\u2026' : (att.kind.charAt(0).toUpperCase() + att.kind.slice(1) + (att.size ? ' \u2022 ' + fmtBytes(att.size) : ''));
+    var iconCell = att.kind === 'audio'
+      ? '<button type="button" class="cp-media-item-icon cp-audio-play" title="Play / pause"><span class="material-symbols-outlined" style="font-size:18px">play_arrow</span></button>'
+      : '<div class="cp-media-item-icon"><span class="material-symbols-outlined" style="font-size:18px">' + replyMediaIcon(att.kind) + '</span></div>';
     item.innerHTML =
-      '<div class="cp-media-item-icon"><span class="material-symbols-outlined" style="font-size:18px">' + replyMediaIcon(att.kind) + '</span></div>' +
+      iconCell +
       '<div class="cp-media-item-info">' +
         '<div class="cp-media-item-name"></div>' +
         '<div class="cp-media-item-meta">' + meta + '</div>' +
@@ -635,7 +638,16 @@ function renderReplyMediaList(key) {
       '</div>' +
       '<button type="button" class="cp-media-item-remove" title="Remove"><span class="material-symbols-outlined" style="font-size:18px">close</span></button>';
     item.querySelector('.cp-media-item-name').textContent = att.name;
+    var playBtn = item.querySelector('.cp-audio-play');
+    if (playBtn) {
+      playBtn.addEventListener('click', function() {
+        if (att.uploading) return;
+        if (window.NebSiteAudio) NebSiteAudio.toggle(playBtn, att.previewUrl || att.url);
+      });
+    }
     item.querySelector('.cp-media-item-remove').addEventListener('click', function() {
+      if (playBtn && window.NebSiteAudio) NebSiteAudio.stop();
+      if (att.previewUrl) { try { URL.revokeObjectURL(att.previewUrl); } catch (e) {} }
       atts.splice(idx, 1);
       renderReplyMediaList(key);
     });
@@ -662,7 +674,8 @@ function uploadReplyMedia(key, file, kindHint) {
     showSnackbar('Maximum 1 video per reply');
     return;
   }
-  var att = { name: file.name, kind: kind, size: file.size, uploading: true, url: '', mime: '' };
+  var att = { name: file.name, kind: kind, size: file.size, uploading: true, url: '', mime: '',
+              previewUrl: kind === 'audio' ? URL.createObjectURL(file) : '' };
   atts.push(att);
   renderReplyMediaList(key);
   var formData = new FormData();

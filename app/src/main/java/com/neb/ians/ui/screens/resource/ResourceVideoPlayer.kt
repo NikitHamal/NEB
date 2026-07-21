@@ -40,11 +40,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.media3.ui.AspectRatioFrameLayout
-import androidx.media3.ui.PlayerView
+import com.neb.ians.ui.components.NebPlayerView
 import com.neb.ians.ui.screens.reader.MediaPlayerViewModel
 import kotlinx.coroutines.delay
 
@@ -293,16 +291,11 @@ private fun EmbeddedVideoStage(
                 }
             )
     ) {
-        AndroidView(
-            factory = { ctx ->
-                PlayerView(ctx).apply {
-                    useController = false
-                    resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FIT
-                    setShutterBackgroundColor(android.graphics.Color.TRANSPARENT)
-                    this.player = player
-                }
-            },
-            update = { pv -> pv.player = player },
+        // Shared TextureView-backed surface — first frame always renders
+        // (the old default-SurfaceView PlayerView raced the decoder and
+        // stayed black until a new surface appeared, e.g. fullscreen).
+        NebPlayerView(
+            player = player,
             modifier = Modifier
                 .fillMaxSize()
                 .align(Alignment.Center)

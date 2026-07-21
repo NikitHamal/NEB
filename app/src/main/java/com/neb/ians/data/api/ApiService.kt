@@ -1268,7 +1268,8 @@ interface ApiService {
     @POST("api/forum/uploads/")
     suspend fun uploadForumMedia(
         @Header("Authorization") bearerToken: String,
-        @Part file: okhttp3.MultipartBody.Part
+        @Part file: okhttp3.MultipartBody.Part,
+        @Part("kind_hint") kindHint: okhttp3.RequestBody? = null
     ): ForumMediaUploadResponse
 
     @POST("api/posts/")

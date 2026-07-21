@@ -8,27 +8,29 @@ import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.Stop
+import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
@@ -42,6 +44,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -210,84 +215,180 @@ fun rememberVoiceNoteRecorder(
     return recorder
 }
 
-/** Live recording strip rendered inside the comment bar while recording. */
+/**
+ * Live recording strip rendered inside the comment bar while recording.
+ * Modern take: glowing pulsing record dot with an expanding halo, a
+ * spring-animated gradient waveform that breathes with the mic amplitude,
+ * and proper iconography — pause/resume, a STOP square (finish & stage) and
+ * a trash DELETE — all on tinted control discs.
+ */
 @Composable
 fun VoiceRecordingStrip(
     recorder: VoiceNoteRecorder,
     modifier: Modifier = Modifier
 ) {
-    val pulse by rememberInfiniteTransition(label = "rec-pulse").animateFloat(
-        initialValue = 0.45f,
-        targetValue = 1f,
-        animationSpec = infiniteRepeatable(tween(700), RepeatMode.Reverse),
-        label = "rec-pulse-alpha"
+    val infinite = rememberInfiniteTransition(label = "rec")
+    val haloScale by infinite.animateFloat(
+        initialValue = 1f,
+        targetValue = 1.9f,
+        animationSpec = infiniteRepeatable(tween(950), RepeatMode.Restart),
+        label = "rec-halo-scale"
     )
+    val haloAlpha by infinite.animateFloat(
+        initialValue = 0.45f,
+        targetValue = 0f,
+        animationSpec = infiniteRepeatable(tween(950), RepeatMode.Restart),
+        label = "rec-halo-alpha"
+    )
+    val error = MaterialTheme.colorScheme.error
+    val primary = MaterialTheme.colorScheme.primary
+
     Row(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(6.dp)
+        horizontalArrangement = Arrangement.spacedBy(7.dp)
     ) {
-        // Pulsing record dot
+        // Record dot with an expanding halo (frozen while paused)
         Box(
-            modifier = Modifier
-                .width(10.dp)
-                .height(10.dp)
-                .clip(CircleShape)
-                .background(MaterialTheme.colorScheme.error.copy(alpha = if (recorder.isPaused) 0.4f else pulse))
-        )
+            modifier = Modifier.width(18.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            if (!recorder.isPaused) {
+                Box(
+                    modifier = Modifier
+                        .width(10.dp)
+                        .height(10.dp)
+                        .graphicsLayer {
+                            scaleX = haloScale
+                            scaleY = haloScale
+                        }
+                        .clip(CircleShape)
+                        .background(error.copy(alpha = haloAlpha))
+                )
+            }
+            Box(
+                modifier = Modifier
+                    .width(9.dp)
+                    .height(9.dp)
+                    .clip(CircleShape)
+                    .background(if (recorder.isPaused) error.copy(alpha = 0.45f) else error)
+            )
+        }
         Text(
             text = formatVoiceTime(recorder.elapsedMs),
             style = MaterialTheme.typography.bodyMedium,
             fontFamily = FontFamily.Monospace,
-            fontWeight = FontWeight.SemiBold,
-            color = MaterialTheme.colorScheme.error,
+            fontWeight = FontWeight.Bold,
+            color = error,
             fontSize = 13.sp
         )
-        // Live waveform bars driven by microphone amplitude
+        // Live waveform: springy per-bar height animation, error→primary gradient
         Row(
             modifier = Modifier.weight(1f),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(2.dp)
         ) {
-            recorder.amplitudes.forEach { amp ->
+            recorder.amplitudes.forEachIndexed { index, amp ->
+                val barHeight by animateFloatAsState(
+                    targetValue = 3f + amp * 21f,
+                    animationSpec = spring(
+                        dampingRatio = Spring.DampingRatioNoBouncy,
+                        stiffness = Spring.StiffnessMediumLow
+                    ),
+                    label = "rec-bar-$index"
+                )
+                val hot = amp > 0.14f && !recorder.isPaused
                 Box(
                     modifier = Modifier
                         .weight(1f)
-                        .height((4 + amp * 22).dp)
-                        .clip(RoundedCornerShape(2.dp))
+                        .height(barHeight.dp)
+                        .clip(RoundedCornerShape(3.dp))
                         .background(
-                            if (amp > 0.12f) MaterialTheme.colorScheme.primary
-                            else MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.35f)
+                            Brush.verticalGradient(
+                                if (hot) listOf(primary, error)
+                                else listOf(
+                                    MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.30f),
+                                    MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.14f)
+                                )
+                            )
                         )
                 )
             }
         }
-        // Pause / resume
-        IconButton(onClick = recorder::togglePause, modifier = Modifier.width(34.dp).height(34.dp)) {
+        // Pause / resume — neutral disc
+        VoiceRecControlButton(
+            onClick = recorder::togglePause,
+            container = MaterialTheme.colorScheme.surfaceContainerHigh,
+            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+            contentDescription = if (recorder.isPaused) "Resume recording" else "Pause recording"
+        ) {
             Icon(
                 imageVector = if (recorder.isPaused) Icons.Filled.PlayArrow else Icons.Filled.Pause,
-                contentDescription = if (recorder.isPaused) "Resume recording" else "Pause recording",
-                tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.width(18.dp).height(18.dp)
+                contentDescription = null,
+                tint = it,
+                modifier = Modifier.width(16.dp).height(16.dp)
             )
         }
-        // Discard
-        IconButton(onClick = recorder::cancel, modifier = Modifier.width(34.dp).height(34.dp)) {
+        // Stop (finish & stage) — primary disc, square icon
+        VoiceRecControlButton(
+            onClick = recorder::stop,
+            container = primary,
+            tint = MaterialTheme.colorScheme.onPrimary,
+            contentDescription = "Stop and add voice note"
+        ) {
             Icon(
-                imageVector = Icons.Filled.Close,
-                contentDescription = "Delete recording",
-                tint = MaterialTheme.colorScheme.error,
-                modifier = Modifier.width(18.dp).height(18.dp)
+                imageVector = Icons.Filled.Stop,
+                contentDescription = null,
+                tint = it,
+                modifier = Modifier.width(15.dp).height(15.dp)
             )
         }
-        // Finish + stage
-        IconButton(onClick = recorder::stop, modifier = Modifier.width(34.dp).height(34.dp)) {
+        // Delete (discard) — errorContainer disc, trash icon
+        VoiceRecControlButton(
+            onClick = recorder::cancel,
+            container = MaterialTheme.colorScheme.errorContainer,
+            tint = MaterialTheme.colorScheme.onErrorContainer,
+            contentDescription = "Delete recording"
+        ) {
             Icon(
-                imageVector = Icons.Filled.Check,
-                contentDescription = "Finish recording",
-                tint = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.width(18.dp).height(18.dp)
+                imageVector = Icons.Outlined.Delete,
+                contentDescription = null,
+                tint = it,
+                modifier = Modifier.width(16.dp).height(16.dp)
             )
+        }
+    }
+}
+
+/** Small circular icon button used by the in-bar recording strip. */
+@Composable
+private fun VoiceRecControlButton(
+    onClick: () -> Unit,
+    container: Color,
+    tint: Color,
+    contentDescription: String,
+    icon: @Composable (Color) -> Unit
+) {
+    Surface(
+        onClick = onClick,
+        shape = CircleShape,
+        color = container,
+        modifier = Modifier.width(30.dp).height(30.dp)
+    ) {
+        Box(contentAlignment = Alignment.Center) {
+            // Accessible label without duplicating visually
+            Box(
+                modifier = Modifier
+                    .width(1.dp)
+                    .height(1.dp)
+            ) {
+                Text(
+                    contentDescription,
+                    fontSize = 1.sp,
+                    color = Color.Transparent
+                )
+            }
+            icon(tint)
         }
     }
 }

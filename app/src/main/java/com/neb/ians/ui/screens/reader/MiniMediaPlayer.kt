@@ -43,7 +43,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.AndroidView
+import com.neb.ians.ui.components.NebPlayerView
 import com.neb.ians.util.getSubjectColor
 import kotlin.math.abs
 
@@ -125,16 +125,10 @@ fun MiniMediaPlayer(
                 contentAlignment = Alignment.Center
             ) {
                 if (uiState.isVideo) {
-                    AndroidView(
-                        factory = { context ->
-                            androidx.media3.ui.PlayerView(context).apply {
-                                useController = false
-                                resizeMode = androidx.media3.ui.AspectRatioFrameLayout.RESIZE_MODE_FIT
-                                setShutterBackgroundColor(android.graphics.Color.TRANSPARENT)
-                                player = viewModel.getPlayer()
-                            }
-                        },
-                        update = { pv -> pv.player = viewModel.getPlayer() },
+                    // Shared TextureView-backed surface (no more SurfaceView
+                    // first-frame race = black stage on first play).
+                    NebPlayerView(
+                        player = viewModel.getPlayer(),
                         modifier = Modifier
                             .fillMaxHeight()
                             .aspectRatio(16f / 9f)

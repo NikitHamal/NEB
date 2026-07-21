@@ -27,7 +27,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -285,10 +287,14 @@ class ForumRepository @Inject constructor(
         }
     }
 
-    suspend fun uploadForumMedia(part: MultipartBody.Part): Result<com.neb.ians.data.api.ApiMediaAttachmentInput> {
+    suspend fun uploadForumMedia(
+        part: MultipartBody.Part,
+        kindHint: String? = null
+    ): Result<com.neb.ians.data.api.ApiMediaAttachmentInput> {
         return try {
             val token = getBearerToken() ?: return Result.failure(IllegalStateException("Not authenticated"))
-            val response = apiService.uploadForumMedia(token, part)
+            val hintBody = kindHint?.toRequestBody("text/plain".toMediaType())
+            val response = apiService.uploadForumMedia(token, part, hintBody)
             val attachment = response.attachment
             when {
                 response.ok && attachment != null && attachment.url.isNotBlank() -> Result.success(attachment)
