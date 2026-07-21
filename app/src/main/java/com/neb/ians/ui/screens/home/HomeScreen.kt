@@ -125,7 +125,6 @@ fun HomeScreen(
                         item(key = "suggested_title") {
                             HomeSectionTitle(
                                 title = "Suggested for you",
-                                subtitle = "Picked for you from resources and discussions",
                                 actionLabel = "Explore",
                                 onActionClick = onViewAllClick
                             )
@@ -136,7 +135,8 @@ fun HomeScreen(
                                     HomeSuggestedDeck(
                                         items = uiState.suggestedItems,
                                         onResourceClick = onResourceClick,
-                                        onPostClick = onPostClick
+                                        onPostClick = onPostClick,
+                                        onLikeClick = { viewModel.toggleThumbsUp(it) }
                                     )
                                 }
                             }
@@ -167,7 +167,6 @@ fun HomeScreen(
                             item(key = "trending_title") {
                                 HomeSectionTitle(
                                     title = "Trending now",
-                                    subtitle = "What NEBians learners are opening most",
                                     actionLabel = "View all",
                                     onActionClick = onViewAllClick
                                 )
@@ -193,7 +192,6 @@ fun HomeScreen(
                         item(key = "discussion_title") {
                             HomeSectionTitle(
                                 title = "Trending discussions",
-                                subtitle = "Questions and answers from the community",
                                 actionLabel = "Forum",
                                 onActionClick = onForumClick
                             )

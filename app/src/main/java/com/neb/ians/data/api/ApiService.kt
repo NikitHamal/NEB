@@ -1862,17 +1862,6 @@ interface ApiService {
                     }
                     chain.proceed(request.build())
                 }
-                .addInterceptor { chain ->
-                    val response = chain.proceed(chain.request())
-                    if (response.code == 401) {
-                        val hadToken = tokenProvider?.invoke() != null
-                        if (hadToken) {
-                            SecurePrefs.clearAuthToken(context)
-                            AuthExpiryBus.events.tryEmit(Unit)
-                        }
-                    }
-                    response
-                }
                 .connectTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
                 .readTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
                 .writeTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
