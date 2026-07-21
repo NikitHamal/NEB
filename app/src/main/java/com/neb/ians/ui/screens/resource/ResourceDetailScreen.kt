@@ -50,7 +50,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.viewinterop.AndroidView
+import com.neb.ians.ui.components.NebPlayerView
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import com.neb.ians.ui.components.ReportDialog
@@ -1102,16 +1102,10 @@ private fun FullscreenVideoOverlay(
             },
         contentAlignment = Alignment.Center
     ) {
-        AndroidView(
-            factory = { ctx ->
-                androidx.media3.ui.PlayerView(ctx).apply {
-                    useController = false
-                    resizeMode = androidx.media3.ui.AspectRatioFrameLayout.RESIZE_MODE_FIT
-                    setShutterBackgroundColor(android.graphics.Color.TRANSPARENT)
-                    this.player = player
-                }
-            },
-            update = { pv -> pv.player = player },
+        // Shared TextureView-backed surface — fixes the black-stage-on-first-
+        // play race that going fullscreen used to mask.
+        NebPlayerView(
+            player = player,
             modifier = Modifier.fillMaxSize().align(Alignment.Center)
         )
 

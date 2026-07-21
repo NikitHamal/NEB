@@ -60,6 +60,15 @@ import androidx.compose.ui.unit.dp
 import com.neb.ians.data.api.ApiPost
 import com.neb.ians.data.api.ApiResource
 import com.neb.ians.data.api.ApiSuggestedItem
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.spring
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.size
+import androidx.compose.ui.graphics.graphicsLayer
+import coil.compose.AsyncImage
+import com.neb.ians.ui.components.MarkdownInlineText
+import com.neb.ians.ui.components.resolveMediaUrl
 import com.neb.ians.ui.components.WebPillShape
 import com.neb.ians.ui.components.WebResourceCard
 import com.neb.ians.ui.components.compactCount
@@ -449,11 +458,20 @@ private fun SuggestedPostCard(
                     }
                 }
                 Spacer(modifier = Modifier.weight(1f))
-                // Like pill with liked/unliked state
+                // Like pill: unmistakable liked/unliked state + springy pop
+                // on toggle (the VM updates optimistically, so this plays instantly).
+                val likePop by animateFloatAsState(
+                    targetValue = if (liked) 1.25f else 1f,
+                    animationSpec = spring(
+                        dampingRatio = Spring.DampingRatioMediumBouncy,
+                        stiffness = Spring.StiffnessMedium
+                    ),
+                    label = "suggested-like-pop"
+                )
                 Surface(
                     onClick = onLikeClick,
                     shape = WebPillShape,
-                    color = if (liked) categoryTheme.container
+                    color = if (liked) MaterialTheme.colorScheme.primary
                     else MaterialTheme.colorScheme.surfaceContainerLow,
                     border = if (liked) null
                     else BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.6f))
@@ -466,40 +484,74 @@ private fun SuggestedPostCard(
                         Icon(
                             imageVector = if (liked) Icons.Filled.ThumbUp else Icons.Outlined.ThumbUp,
                             contentDescription = if (liked) "Unlike" else "Like",
-                            modifier = Modifier.size(13.dp),
-                            tint = if (liked) categoryTheme.onContainer else MaterialTheme.colorScheme.onSurfaceVariant
+                            modifier = Modifier
+                                .size(13.dp)
+                                .graphicsLayer {
+                                    scaleX = likePop
+                                    scaleY = likePop
+                                },
+                            tint = if (liked) MaterialTheme.colorScheme.onPrimary
+                            else MaterialTheme.colorScheme.onSurfaceVariant
                         )
                         Text(
                             text = compactCount(post.thumbsUpCount),
                             style = MaterialTheme.typography.labelSmall,
                             fontWeight = FontWeight.Bold,
-                            color = if (liked) categoryTheme.onContainer else MaterialTheme.colorScheme.onSurfaceVariant
+                            color = if (liked) MaterialTheme.colorScheme.onPrimary
+                            else MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
                 }
             }
             Spacer(modifier = Modifier.height(10.dp))
 
-            // ----- Title -----
-            Text(
-                text = post.title,
-                style = MaterialTheme.typography.bodyMedium,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onSurface,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis
-            )
+            // ----- Title (+ tiny cover thumb when the post has photos) -----
+            val firstImage = remember(post.images) {
+                post.images.minByOrNull { it.order }?.imageUrl?.let { resolveMediaUrl(it) }
+            }
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.Top
+            ) {
+                Text(
+                    text = post.title,
+                    style = MaterialTheme.typography.bodyMedium,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.weight(1f)
+                )
+                if (firstImage != null) {
+                    Spacer(modifier = Modifier.width(8.dp))
+                    AsyncImage(
+                        model = firstImage,
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .size(44.dp)
+                            .clip(RoundedCornerShape(10.dp))
+                            .border(
+                                1.dp,
+                                MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.6f),
+                                RoundedCornerShape(10.dp)
+                            )
+                    )
+                }
+            }
             Spacer(modifier = Modifier.height(4.dp))
 
-            // ----- Excerpt (the "post body" feel the resource card lacks) -----
-            Text(
-                text = excerpt,
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                minLines = 2,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis
-            )
+            // ----- Excerpt with real inline markdown (bold/italic/code/links) -----
+            Box(modifier = Modifier
+                .fillMaxWidth()
+                .heightIn(min = 30.dp)) {
+                MarkdownInlineText(
+                    markdown = excerpt,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    maxLines = 2
+                )
+            }
             Spacer(modifier = Modifier.height(10.dp))
 
             // ----- Media-kind indicator pills -----

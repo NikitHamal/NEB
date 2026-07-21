@@ -2,7 +2,6 @@ package com.neb.ians.ui.components
 
 import android.content.Intent
 import android.net.Uri
-import android.view.SurfaceView
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -26,7 +25,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.filled.Fullscreen
-import androidx.compose.material.icons.filled.FullscreenExit
 import androidx.compose.material.icons.filled.InsertDriveFile
 import androidx.compose.material.icons.filled.MusicNote
 import androidx.compose.material.icons.filled.Pause
@@ -57,9 +55,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.AndroidView
-import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.DialogProperties
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.common.VideoSize
@@ -163,10 +158,6 @@ fun ForumVideoPlayer(attachment: ApiMediaAttachment, modifier: Modifier = Modifi
     var fullscreen by remember { mutableStateOf(false) }
     // Real aspect ratio of the stream (16:9 until the decoder reports size).
     var videoAspectRatio by remember { mutableStateOf(16f / 9f) }
-    // Keep a handle on the inline surface so it can be re-attached after the
-    // fullscreen dialog (its own surface) tears down — otherwise the player
-    // keeps rendering into the dead dialog surface and the inline view goes black.
-    var inlineSurface by remember { mutableStateOf<SurfaceView?>(null) }
 
     DisposableEffect(player) {
         val listener = object : Player.Listener {
@@ -185,17 +176,9 @@ fun ForumVideoPlayer(attachment: ApiMediaAttachment, modifier: Modifier = Modifi
         player.addListener(listener)
         onDispose { player.removeListener(listener) }
     }
-    DisposableEffect(player, inlineSurface) {
-        onDispose { inlineSurface?.let { player.clearVideoSurfaceView(it) } }
-    }
     PlayerPositionPoller(player, isPlaying) { pos, dur ->
         if (!dragging) positionMs = pos
         durationMs = dur
-    }
-
-    // Back from fullscreen: the dialog's surface is gone — re-bind the inline one.
-    LaunchedEffect(fullscreen) {
-        if (!fullscreen) inlineSurface?.let { player.setVideoSurfaceView(it) }
     }
 
     // Collapse controls while playing after a few idle seconds.
@@ -232,13 +215,11 @@ fun ForumVideoPlayer(attachment: ApiMediaAttachment, modifier: Modifier = Modifi
                     if (!controlsVisible && !isPlaying) controlsVisible = true
                 }
         ) {
-            AndroidView(
-                factory = { ctx ->
-                    SurfaceView(ctx).also {
-                        inlineSurface = it
-                        player.setVideoSurfaceView(it)
-                    }
-                },
+            // Shared TextureView-backed surface: the first frame always
+            // renders inline (SurfaceView raced the decoder and stayed black
+            // until fullscreen forced a fresh surface).
+            NebPlayerView(
+                player = player,
                 modifier = Modifier.fillMaxSize()
             )
 
@@ -331,80 +312,12 @@ fun ForumVideoPlayer(attachment: ApiMediaAttachment, modifier: Modifier = Modifi
     }
 
     if (fullscreen) {
-        ForumVideoFullscreenDialog(
+        // Same control set as the resource viewer's fullscreen player.
+        FullscreenVideoDialog(
             player = player,
-            isPlaying = isPlaying,
-            videoAspectRatio = videoAspectRatio,
+            title = attachment.name.ifBlank { "Video" },
             onDismiss = { fullscreen = false }
         )
-    }
-}
-
-@Composable
-private fun ForumVideoFullscreenDialog(
-    player: ExoPlayer,
-    isPlaying: Boolean,
-    videoAspectRatio: Float,
-    onDismiss: () -> Unit
-) {
-    Dialog(
-        onDismissRequest = onDismiss,
-        properties = DialogProperties(usePlatformDefaultWidth = false, decorFitsSystemWindows = false)
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color.Black)
-        ) {
-            AndroidView(
-                factory = { ctx ->
-                    SurfaceView(ctx).also { player.setVideoSurfaceView(it) }
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .aspectRatio(videoAspectRatio.coerceIn(0.4f, 2.6f))
-                    .align(Alignment.Center)
-            )
-            Surface(
-                onClick = onDismiss,
-                shape = CircleShape,
-                color = Color.Black.copy(alpha = 0.6f),
-                modifier = Modifier
-                    .align(Alignment.TopEnd)
-                    .padding(18.dp)
-                    .size(44.dp)
-            ) {
-                Box(contentAlignment = Alignment.Center) {
-                    Icon(
-                        imageVector = Icons.Filled.FullscreenExit,
-                        contentDescription = "Exit fullscreen",
-                        tint = Color.White
-                    )
-                }
-            }
-            if (!isPlaying) {
-                Surface(
-                    onClick = {
-                        ForumMediaSession.requestFocus(player)
-                        player.play()
-                    },
-                    shape = CircleShape,
-                    color = Color.Black.copy(alpha = 0.6f),
-                    modifier = Modifier
-                        .align(Alignment.Center)
-                        .size(64.dp)
-                ) {
-                    Box(contentAlignment = Alignment.Center) {
-                        Icon(
-                            imageVector = Icons.Filled.PlayArrow,
-                            contentDescription = "Play",
-                            tint = Color.White,
-                            modifier = Modifier.size(34.dp)
-                        )
-                    }
-                }
-            }
-        }
     }
 }
 

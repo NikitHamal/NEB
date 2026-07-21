@@ -570,7 +570,8 @@ class PostDetailViewModel @Inject constructor(
             name = name,
             kind = "audio",
             sizeBytes = file.length(),
-            uri = uri
+            uri = uri,
+            durationMs = durationMs
         )
         _mediaAttachments.update { it + pending }
         viewModelScope.launch {
