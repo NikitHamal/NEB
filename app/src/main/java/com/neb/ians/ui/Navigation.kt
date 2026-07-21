@@ -66,7 +66,6 @@ import com.neb.ians.ui.screens.resource.ResourceRequestsScreen
 import com.neb.ians.ui.screens.analytics.AnalyticsScreen
 import com.neb.ians.ui.screens.bookmarks.BookmarksScreen
 import com.neb.ians.ui.screens.downloads.DownloadsScreen
-import com.neb.ians.ui.screens.upload.EditResourceScreen
 import com.neb.ians.ui.screens.upload.UploadScreen
 import com.neb.ians.ui.screens.ai.NebyAiScreen
 import com.neb.ians.ui.screens.study.StudyLabScreen
@@ -717,11 +716,11 @@ fun NEBiansNavHost(
             composable(
                 route = Screen.EditResource.route,
                 arguments = listOf(navArgument("resourceId") { type = NavType.StringType })
-            ) { backStackEntry ->
-                val resourceId = backStackEntry.arguments?.getString("resourceId") ?: return@composable
-                EditResourceScreen(
-                    resourceId = resourceId,
-                    onNavigateBack = { navController.popBackStack() }
+            ) {
+                // Editing reuses the very upload wizard (PATCH mode via SavedStateHandle resourceId).
+                UploadScreen(
+                    onNavigateBack = { navController.popBackStack() },
+                    onUploadSuccess = { navController.popBackStack() }
                 )
             }
             composable(

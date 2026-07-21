@@ -54,7 +54,8 @@
         </div>
       </div>
     </div>
-    <div class="fp-reply-body" id="comment-content-{{ reply.id }}">{{ reply.content|mention_links }}</div>
+    {% if reply.content %}<div class="fp-reply-body" id="comment-content-{{ reply.id }}">{{ reply.content|mention_links }}</div>{% endif %}
+    {% with attachments=reply.attachments %}{% include "web/_forum_attachments.html" %}{% endwith %}
     <div class="fp-reply-actions">
       <button data-action="toggle-comment-like" data-comment-id="{{ reply.id }}" class="fp-reply-action {% if reply.isThumbedUp %}liked{% endif %}" id="comment-like-btn-{{ reply.id }}">
         <span class="material-symbols-outlined">thumb_up</span>
@@ -127,7 +128,8 @@
             </div>
           </div>
         </div>
-        <div class="fp-reply-body" style="font-size:.8125rem;" id="comment-content-{{ child.id }}">{{ child.content|mention_links }}</div>
+        {% if child.content %}<div class="fp-reply-body" style="font-size:.8125rem;" id="comment-content-{{ child.id }}">{{ child.content|mention_links }}</div>{% endif %}
+        {% with attachments=child.attachments %}{% include "web/_forum_attachments.html" %}{% endwith %}
         <div class="fp-reply-actions">
           <button data-action="toggle-comment-like" data-comment-id="{{ child.id }}" class="fp-reply-action {% if child.isThumbedUp %}liked{% endif %}" id="comment-like-btn-{{ child.id }}">
             <span class="material-symbols-outlined">thumb_up</span>

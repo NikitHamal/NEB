@@ -49,6 +49,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -109,7 +110,7 @@ fun UploadScreen(
         if (uri != null) viewModel.setThumbnail(uri)
     }
 
-    if (uiState.submitSuccess) {
+    if (uiState.submitSuccess && !uiState.isEditMode) {
         UploadSuccessScreen(
             onUploadAnother = { viewModel.resetSuccess(); currentStep = 0 },
             onBrowseLibrary = onUploadSuccess
@@ -117,12 +118,61 @@ fun UploadScreen(
         return
     }
 
+    // Edit mode: saved → straight back to the detail screen (it refreshes from cache).
+    LaunchedEffect(uiState.editSuccess) {
+        if (uiState.editSuccess) onUploadSuccess()
+    }
+
+    // Edit mode gates: loading the resource, wrong owner, load failure.
+    if (uiState.isEditMode) {
+        when {
+            uiState.editLoading -> {
+                EditGateScaffold(title = "Edit Resource", onNavigateBack = onNavigateBack) {
+                    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                        CircularProgressIndicator()
+                    }
+                }
+                return
+            }
+            uiState.notAllowed -> {
+                EditGateScaffold(title = "Edit Resource", onNavigateBack = onNavigateBack) {
+                    Box(Modifier.fillMaxSize().padding(24.dp), contentAlignment = Alignment.Center) {
+                        Text(
+                            "Only the uploader can edit this resource.",
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                    }
+                }
+                return
+            }
+            uiState.editLoadError != null -> {
+                EditGateScaffold(title = "Edit Resource", onNavigateBack = onNavigateBack) {
+                    Column(
+                        Modifier.fillMaxSize().padding(24.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        Text(
+                            uiState.editLoadError ?: "Couldn't load the resource",
+                            color = MaterialTheme.colorScheme.error,
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                        Spacer(Modifier.height(12.dp))
+                        OutlinedButton(onClick = { viewModel.loadEditResource() }) { Text("Retry") }
+                    }
+                }
+                return
+            }
+        }
+    }
+
     val steps = UploadStep.entries
     val step = steps[currentStep]
     val isLastStep = currentStep == steps.lastIndex
     val canGoNext = when (step) {
         UploadStep.Basics -> uiState.title.isNotBlank() && uiState.subject.isNotBlank()
-        UploadStep.Files -> uiState.selectedFiles.isNotEmpty() || uiState.fileUrl.isNotBlank()
+        UploadStep.Files -> uiState.isEditMode || uiState.selectedFiles.isNotEmpty() || uiState.fileUrl.isNotBlank()
         else -> true
     }
 
@@ -132,7 +182,7 @@ fun UploadScreen(
             CenterAlignedTopAppBar(
                 title = {
                     Text(
-                        text = "New Resource",
+                        text = if (uiState.isEditMode) "Edit Resource" else "New Resource",
                         style = MaterialTheme.typography.titleLarge,
                         fontWeight = FontWeight.Bold,
                         maxLines = 1,
@@ -163,6 +213,8 @@ fun UploadScreen(
                 isSubmitting = uiState.isSubmitting,
                 uploadProgress = uiState.uploadProgress,
                 fileCount = uiState.selectedFiles.size,
+                submitLabel = if (uiState.isEditMode) "Save changes" else "Submit",
+                submittingLabel = if (uiState.isEditMode) "Saving..." else "Uploading...",
                 onBack = { if (currentStep > 0) currentStep-- },
                 onNext = { if (currentStep < steps.lastIndex) currentStep++ },
                 onSubmit = { viewModel.submit(context) }
@@ -319,6 +371,44 @@ private fun StepIndicator(
     }
 }
 
+/** Minimal scaffold for the edit-mode gates (loading / wrong owner / load error). */
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun EditGateScaffold(
+    title: String,
+    onNavigateBack: () -> Unit,
+    content: @Composable () -> Unit
+) {
+    Scaffold(
+        topBar = {
+            CenterAlignedTopAppBar(
+                title = {
+                    Text(
+                        text = title,
+                        style = MaterialTheme.typography.titleLarge,
+                        fontWeight = FontWeight.Bold,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                },
+                navigationIcon = {
+                    IconButton(onClick = onNavigateBack) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "Back"
+                        )
+                    }
+                },
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.surface
+                )
+            )
+        }
+    ) { padding ->
+        Box(Modifier.fillMaxSize().padding(padding)) { content() }
+    }
+}
+
 @Composable
 private fun WizardBottomBar(
     step: UploadStep,
@@ -329,6 +419,8 @@ private fun WizardBottomBar(
     isSubmitting: Boolean,
     uploadProgress: Float,
     fileCount: Int,
+    submitLabel: String = "Submit",
+    submittingLabel: String = "Uploading...",
     onBack: () -> Unit,
     onNext: () -> Unit,
     onSubmit: () -> Unit
@@ -384,7 +476,7 @@ private fun WizardBottomBar(
                         Text(
                             text = if (fileCount > 1)
                                 "${((uploadProgress * fileCount).toInt() + 1)}/$fileCount"
-                            else "Uploading...",
+                            else submittingLabel,
                             maxLines = 1,
                             fontWeight = FontWeight.SemiBold
                         )
@@ -395,7 +487,7 @@ private fun WizardBottomBar(
                             modifier = Modifier.size(18.dp)
                         )
                         Spacer(modifier = Modifier.width(8.dp))
-                        Text("Submit", maxLines = 1, fontWeight = FontWeight.SemiBold)
+                        Text(submitLabel, maxLines = 1, fontWeight = FontWeight.SemiBold)
                     }
                 }
             } else {

@@ -248,21 +248,18 @@
   <div class="fp-compose">
     <div class="fp-compose-title">Add a Reply</div>
     <form id="mainReplyForm" data-action="submit-main-reply">
-      <div class="reply-input-wrapper">
-        <textarea name="content" id="mainReplyContent" placeholder="Write your reply..." required></textarea>
+      <div class="reply-input-wrapper" id="mainReplyWrapper">
+        <button type="button" class="fp-inline-tool" data-action="reply-attach-media" data-compose-key="main" title="Add video, audio or file">
+          <span class="material-symbols-outlined">add</span>
+        </button>
+        <label class="fp-inline-anon" data-anon-toggle title="Your name and profile stay hidden. Other Nebians will see 'Anonymous Nebian'.">
+          <input type="checkbox" id="mainReplyAnon">
+          <span class="material-symbols-outlined">visibility_off</span>
+        </label>
+        <textarea name="content" id="mainReplyContent" placeholder="Write your reply..."></textarea>
         <button type="submit" class="reply-send-btn" id="mainReplySubmit" disabled>
           <span class="material-symbols-outlined">arrow_upward</span>
         </button>
-      </div>
-      <div class="fp-compose-tools">
-        <button type="button" class="fp-compose-tool" data-action="reply-attach-media" data-compose-key="main" title="Add video, audio or file">
-          <span class="material-symbols-outlined">attach_file</span> Attach
-        </button>
-        <label class="fp-compose-anon" title="Your name and profile stay hidden. Other Nebians will see 'Anonymous Nebian'.">
-          <input type="checkbox" id="mainReplyAnon">
-          <span class="material-symbols-outlined">visibility_off</span>
-          <span>Reply anonymously</span>
-        </label>
       </div>
       <div class="cp-media-list" id="replyMediaList-main" style="display:none"></div>
     </form>
@@ -328,21 +325,18 @@
       <span class="fp-replying-to-bar-text"></span>
       <span class="material-symbols-outlined fp-replying-to-bar-close" data-action="cancel-thread-reply-target">close</span>
     </button>
-    <div class="reply-input-wrapper">
+    <div class="reply-input-wrapper" id="threadSidebarWrapper">
+      <button type="button" class="fp-inline-tool" data-action="reply-attach-media" data-compose-key="sidebar" title="Add video, audio or file">
+        <span class="material-symbols-outlined">add</span>
+      </button>
+      <label class="fp-inline-anon" data-anon-toggle title="Your name and profile stay hidden. Other Nebians will see 'Anonymous Nebian'.">
+        <input type="checkbox" id="threadSidebarAnon">
+        <span class="material-symbols-outlined">visibility_off</span>
+      </label>
       <textarea id="threadSidebarTextarea" placeholder="Write a reply..." data-keydown-action="handle-thread-reply-key"></textarea>
       <button class="reply-send-btn" id="threadSidebarSubmit" data-action="submit-thread-reply" disabled>
         <span class="material-symbols-outlined">arrow_upward</span>
       </button>
-    </div>
-    <div class="fp-compose-tools">
-      <button type="button" class="fp-compose-tool" data-action="reply-attach-media" data-compose-key="sidebar" title="Add video, audio or file">
-        <span class="material-symbols-outlined">attach_file</span> Attach
-      </button>
-      <label class="fp-compose-anon" title="Your name and profile stay hidden. Other Nebians will see 'Anonymous Nebian'.">
-        <input type="checkbox" id="threadSidebarAnon">
-        <span class="material-symbols-outlined">visibility_off</span>
-        <span>Anonymous</span>
-      </label>
     </div>
     <div class="cp-media-list" id="replyMediaList-sidebar" style="display:none"></div>
   </div>
@@ -364,21 +358,18 @@
       <span class="fp-replying-to-bar-text"></span>
       <span class="material-symbols-outlined fp-replying-to-bar-close" data-action="cancel-thread-reply-target">close</span>
     </button>
-    <div class="reply-input-wrapper">
+    <div class="reply-input-wrapper" id="threadSheetWrapper">
+      <button type="button" class="fp-inline-tool" data-action="reply-attach-media" data-compose-key="sheet" title="Add video, audio or file">
+        <span class="material-symbols-outlined">add</span>
+      </button>
+      <label class="fp-inline-anon" data-anon-toggle title="Your name and profile stay hidden. Other Nebians will see 'Anonymous Nebian'.">
+        <input type="checkbox" id="threadSheetAnon">
+        <span class="material-symbols-outlined">visibility_off</span>
+      </label>
       <textarea id="threadSheetTextarea" placeholder="Write a reply..." data-keydown-action="handle-thread-reply-key"></textarea>
       <button class="reply-send-btn" id="threadSheetSubmit" data-action="submit-thread-reply" disabled>
         <span class="material-symbols-outlined">arrow_upward</span>
       </button>
-    </div>
-    <div class="fp-compose-tools">
-      <button type="button" class="fp-compose-tool" data-action="reply-attach-media" data-compose-key="sheet" title="Add video, audio or file">
-        <span class="material-symbols-outlined">attach_file</span> Attach
-      </button>
-      <label class="fp-compose-anon" title="Your name and profile stay hidden. Other Nebians will see 'Anonymous Nebian'.">
-        <input type="checkbox" id="threadSheetAnon">
-        <span class="material-symbols-outlined">visibility_off</span>
-        <span>Anonymous</span>
-      </label>
     </div>
     <div class="cp-media-list" id="replyMediaList-sheet" style="display:none"></div>
   </div>
@@ -393,6 +384,7 @@
 <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" nonce="{{ csp_nonce }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/mhchem.min.js" nonce="{{ csp_nonce }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" nonce="{{ csp_nonce }}"></script>
+<script src="{% static 'web/js/composer_voice.js' %}" nonce="{{ csp_nonce }}"></script>
 <script nonce="{{ csp_nonce }}">
 const POST_ID = '{{ post.id }}';
 const POST_AUTHOR_ID = '{{ post_author_id }}';
@@ -659,9 +651,9 @@ function setReplyMediaProgress(key, att, pct) {
   if (fill) fill.style.width = pct + '%';
 }
 
-function uploadReplyMedia(key, file) {
+function uploadReplyMedia(key, file, kindHint) {
   var atts = replyComposeState[key];
-  var kind = guessReplyMediaKind(file);
+  var kind = kindHint === 'audio' ? 'audio' : guessReplyMediaKind(file);
   if (file.size > REPLY_MEDIA_LIMITS[kind]) {
     showSnackbar(kind === 'video' ? 'Videos are limited to 150 MB' : (kind === 'audio' ? 'Audio is limited to 40 MB' : 'Attachments are limited to 30 MB'));
     return;
@@ -675,6 +667,7 @@ function uploadReplyMedia(key, file) {
   renderReplyMediaList(key);
   var formData = new FormData();
   formData.append('file', file);
+  if (kindHint) formData.append('kind_hint', kindHint);
   var xhr = new XMLHttpRequest();
   xhr.open('POST', '/api/forum/uploads/');
   xhr.upload.onprogress = function(e) {
@@ -725,7 +718,59 @@ function replyComposeBusy(key) {
 function clearReplyCompose(key) {
   replyComposeState[key] = [];
   renderReplyMediaList(key);
+  refreshReplySendBtn(key);
 }
+
+/* ---- Send-disabled state that understands staged attachments + voice mode ---- */
+var REPLY_WRAPPER_IDS = { main: 'mainReplyWrapper', sidebar: 'threadSidebarWrapper', sheet: 'threadSheetWrapper' };
+
+function replyTextareaFor(key) {
+  var id = key === 'main' ? 'mainReplyContent' : (key === 'sidebar' ? 'threadSidebarTextarea' : 'threadSheetTextarea');
+  return document.getElementById(id);
+}
+
+function refreshReplySendBtn(key) {
+  var wrapper = document.getElementById(REPLY_WRAPPER_IDS[key]);
+  if (!wrapper) return;
+  if (wrapper.__voice) { wrapper.__voice.refresh(); return; }
+  var btn = wrapper.querySelector('.reply-send-btn');
+  var ta = replyTextareaFor(key);
+  var hasText = !!(ta && ta.value.trim());
+  var hasMedia = collectReplyAttachments(key).length > 0;
+  if (btn) btn.disabled = !(hasText || hasMedia);
+}
+
+function initReplyVoiceComposer(key) {
+  if (!window.NebVoiceComposer) return;
+  var wrapper = document.getElementById(REPLY_WRAPPER_IDS[key]);
+  if (!wrapper) return;
+  NebVoiceComposer.attach(wrapper, {
+    hasAttachments: function() { return collectReplyAttachments(key).length > 0; },
+    onFile: function(file) {
+      uploadReplyMedia(key, file, 'audio');
+    },
+    onError: function(message) { showSnackbar(message); }
+  });
+}
+
+// Keep the mic/send morph in sync as attachments come and go.
+var _origRenderReplyMediaList = renderReplyMediaList;
+renderReplyMediaList = function(key) {
+  _origRenderReplyMediaList(key);
+  refreshReplySendBtn(key);
+};
+
+document.addEventListener('DOMContentLoaded', function() {
+  ['main', 'sidebar', 'sheet'].forEach(initReplyVoiceComposer);
+  ['main', 'sidebar', 'sheet'].forEach(refreshReplySendBtn);
+  // Anonymous toggle styling inside the bar stroke
+  document.querySelectorAll('[data-anon-toggle] input[type="checkbox"]').forEach(function(box) {
+    box.addEventListener('change', function() {
+      var label = box.closest('.fp-inline-anon');
+      if (label) label.classList.toggle('anon-on', box.checked);
+    });
+  });
+});
 
 document.addEventListener('DOMContentLoaded', function() {
   var mediaInput = document.getElementById('replyMediaInput');
@@ -744,8 +789,8 @@ document.addEventListener('DOMContentLoaded', function() {
 async function submitMainReply(e) {
   e.preventDefault();
   const content = document.getElementById('mainReplyContent').value.trim();
-  if (!content) { showSnackbar('Content is required.'); return; }
   if (replyComposeBusy('main')) { showSnackbar('Please wait for attachments to finish uploading.'); return; }
+  if (!content && !collectReplyAttachments('main').length) { showSnackbar('Write something or add a voice note first.'); return; }
   const submitBtn = (e && e.target) ? e.target.querySelector('.reply-send-btn') : null;
   if (submitBtn) submitBtn.disabled = true;
   try {
@@ -788,9 +833,7 @@ async function submitMainReply(e) {
     else { showSnackbar(d.error || 'Failed to submit reply.'); }
   } catch(e) { showSnackbar('Error submitting reply.'); }
   finally {
-    if (submitBtn) {
-      submitBtn.disabled = !document.getElementById('mainReplyContent').value.trim();
-    }
+    refreshReplySendBtn('main');
   }
 }
 
@@ -846,9 +889,7 @@ function focusThreadCompose(authorName, replyId, content) {
     textarea.value = '@' + authorName + ' ';
     textarea.focus();
     textarea.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    const submitId = isMobile() ? 'threadSheetSubmit' : 'threadSidebarSubmit';
-    const submitBtn = document.getElementById(submitId);
-    if (submitBtn) submitBtn.disabled = false;
+    refreshReplySendBtn(isMobile() ? 'sheet' : 'sidebar');
   }
 }
 
@@ -952,9 +993,7 @@ async function loadThreadReplies(replyId) {
       if (textarea) {
         textarea.value = pendingThreadReplyContent;
         textarea.focus();
-        const submitId = isMobile() ? 'threadSheetSubmit' : 'threadSidebarSubmit';
-        const submitBtn = document.getElementById(submitId);
-        if (submitBtn) submitBtn.disabled = !textarea.value.trim();
+        refreshReplySendBtn(isMobile() ? 'sheet' : 'sidebar');
       }
       pendingThreadReplyContent = null;
     }
@@ -1163,8 +1202,8 @@ async function submitThreadReply() {
   const textarea = document.getElementById(textareaId);
   if (!textarea) return;
   const content = textarea.value.trim();
-  if (!content) { showSnackbar('Content is required.'); return; }
   if (replyComposeBusy(composeKey)) { showSnackbar('Please wait for attachments to finish uploading.'); return; }
+  if (!content && !collectReplyAttachments(composeKey).length) { showSnackbar('Write something or add a voice note first.'); return; }
   const submitId = isMobile() ? 'threadSheetSubmit' : 'threadSidebarSubmit';
   const submitBtn = document.getElementById(submitId);
   if (submitBtn) submitBtn.disabled = true;
@@ -1198,9 +1237,7 @@ async function submitThreadReply() {
   } catch(e) {
     showSnackbar('Error submitting reply.');
   } finally {
-    if (submitBtn) {
-      submitBtn.disabled = !textarea.value.trim();
-    }
+    refreshReplySendBtn(composeKey);
   }
 }
 

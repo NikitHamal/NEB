@@ -826,7 +826,8 @@ data class ApiResourceComment(
     @SerialName("isEdited") val isEditedCamel: Boolean? = null,
     @SerialName("created_at") val createdAtSnake: Long? = null,
     @SerialName("createdAt") val createdAtCamel: Long? = null,
-    @SerialName("authorBadgeInfo") val authorBadgeInfo: ApiBadgeInfo? = null
+    @SerialName("authorBadgeInfo") val authorBadgeInfo: ApiBadgeInfo? = null,
+    val attachments: List<ApiMediaAttachment> = emptyList()
 ) {
     val resourceId: String get() = resourceIdSnake ?: resourceIdCamel ?: ""
     val userId: String get() = userIdSnake ?: userIdCamel ?: ""
@@ -858,13 +859,15 @@ data class ApiResourceComment(
         updatedAt = null,
         postTitle = "",
         authorIsBot = false,
+        attachments = attachments,
     )
 }
 
 @Serializable
 data class ApiResourceCommentCreateRequest(
     val content: String,
-    @SerialName("parent_comment_id") val parentCommentId: String? = null
+    @SerialName("parent_comment_id") val parentCommentId: String? = null,
+    val attachments: List<ApiMediaAttachmentInput> = emptyList()
 )
 
 @Serializable

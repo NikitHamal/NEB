@@ -6,10 +6,15 @@ import androidx.lifecycle.viewModelScope
 import com.neb.ians.data.api.ApiErrorMapper
 import com.neb.ians.data.api.ApiResource
 import com.neb.ians.data.api.ApiResourceComment
+import android.net.Uri
 import com.neb.ians.data.repository.AuthRepository
 import com.neb.ians.data.repository.ResourceRepository
+import com.neb.ians.ui.components.formatVoiceTime
+import com.neb.ians.ui.screens.forum.ForumMediaUploadHelper
+import com.neb.ians.ui.screens.forum.PendingForumAttachment
 import com.neb.ians.util.ResourceDownloadManager
 import dagger.hilt.android.lifecycle.HiltViewModel
+import java.io.File
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -83,7 +88,8 @@ class ResourceDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val resourceRepository: ResourceRepository,
     private val authRepository: AuthRepository,
-    private val downloadManager: ResourceDownloadManager
+    private val downloadManager: ResourceDownloadManager,
+    private val mediaUploadHelper: ForumMediaUploadHelper
 ) : ViewModel() {
 
     private val resourceId: String = savedStateHandle.get<String>("resourceId") ?: ""
@@ -306,6 +312,81 @@ class ResourceDetailViewModel @Inject constructor(
         }
     }
 
+    // ----- Composer media attachments (shared by the main bar and the thread sheet) -----
+
+    private val _commentAttachments = MutableStateFlow<List<PendingForumAttachment>>(emptyList())
+    val commentAttachments: StateFlow<List<PendingForumAttachment>> = _commentAttachments.asStateFlow()
+
+    fun addCommentAttachments(uris: List<Uri>) {
+        uris.forEach { uri -> addCommentAttachment(uri) }
+    }
+
+    fun addCommentAttachment(uri: Uri?) {
+        if (uri == null) return
+        val current = _commentAttachments.value
+        if (current.size >= ForumMediaUploadHelper.MAX_ATTACHMENTS) {
+            _uiState.update { it.copy(snackbarMessage = "Maximum ${ForumMediaUploadHelper.MAX_ATTACHMENTS} attachments") }
+            return
+        }
+        val kind = mediaUploadHelper.guessKind(uri)
+        if (kind == "video" && current.any { it.kind == "video" }) {
+            _uiState.update { it.copy(snackbarMessage = "Maximum 1 video per comment") }
+            return
+        }
+        val size = mediaUploadHelper.sizeOf(uri)
+        if (size > ForumMediaUploadHelper.limitFor(kind)) {
+            _uiState.update { it.copy(snackbarMessage = ForumMediaUploadHelper.limitLabel(kind)) }
+            return
+        }
+        val pending = PendingForumAttachment(
+            name = mediaUploadHelper.displayName(uri),
+            kind = kind,
+            sizeBytes = size,
+            uri = uri
+        )
+        _commentAttachments.update { it + pending }
+        stageCommentUpload(pending)
+    }
+
+    /** Stage a finished voice-note recording as an audio attachment on the comment composer. */
+    fun addCommentVoiceNote(file: File, durationMs: Long) {
+        val current = _commentAttachments.value
+        if (current.size >= ForumMediaUploadHelper.MAX_ATTACHMENTS) {
+            _uiState.update { it.copy(snackbarMessage = "Maximum ${ForumMediaUploadHelper.MAX_ATTACHMENTS} attachments") }
+            return
+        }
+        val pending = PendingForumAttachment(
+            name = "Voice note (${formatVoiceTime(durationMs)})",
+            kind = "audio",
+            sizeBytes = file.length(),
+            uri = Uri.fromFile(file)
+        )
+        _commentAttachments.update { it + pending }
+        stageCommentUpload(pending)
+    }
+
+    private fun stageCommentUpload(pending: PendingForumAttachment) {
+        viewModelScope.launch {
+            val result = mediaUploadHelper.upload(pending.uri, pending.kind, pending.name)
+            _commentAttachments.update { attachments ->
+                attachments.map { att ->
+                    if (att.localId != pending.localId) att
+                    else result.fold(
+                        onSuccess = { descriptor -> att.copy(uploading = false, uploaded = descriptor) },
+                        onFailure = { e -> att.copy(uploading = false, error = e.message ?: "Upload failed") }
+                    )
+                }
+            }
+            result.exceptionOrNull()?.let { e ->
+                _uiState.update { it.copy(snackbarMessage = e.message ?: "Couldn't upload ${pending.name}") }
+            }
+        }
+    }
+
+    fun removeCommentAttachment(localId: String) {
+        _commentAttachments.update { attachments -> attachments.filterNot { it.localId == localId } }
+    }
+
     fun onCommentDraftChange(text: String) {
         _uiState.update { it.copy(commentDraft = text) }
     }
@@ -320,15 +401,22 @@ class ResourceDetailViewModel @Inject constructor(
 
     fun postComment() {
         val draft = _uiState.value.commentDraft.trim()
-        if (draft.isEmpty() || _uiState.value.isPostingComment) return
+        val staged = _commentAttachments.value
+        if ((draft.isEmpty() && staged.isEmpty()) || _uiState.value.isPostingComment) return
         if (!_uiState.value.isAuthenticated) {
             _uiState.update { it.copy(snackbarMessage = "Please sign in to comment") }
             return
         }
+        if (staged.any { it.uploading }) {
+            _uiState.update { it.copy(snackbarMessage = "Wait for attachments to finish uploading") }
+            return
+        }
+        val attachments = staged.mapNotNull { it.uploaded }
         _uiState.update { it.copy(isPostingComment = true) }
         viewModelScope.launch {
-            resourceRepository.createComment(resourceId, draft)
+            resourceRepository.createComment(resourceId, draft, attachments = attachments)
                 .onSuccess { comment ->
+                    _commentAttachments.value = emptyList()
                     _uiState.update { state ->
                         val currentResource = state.resource
                         state.copy(
@@ -353,15 +441,22 @@ class ResourceDetailViewModel @Inject constructor(
     /** Thread composer: posts a reply under the given parent comment. */
     fun postThreadReply(parentCommentId: String, onSuccess: () -> Unit = {}) {
         val draft = _uiState.value.threadDraft.trim()
-        if (draft.isEmpty() || _uiState.value.isPostingComment) return
+        val staged = _commentAttachments.value
+        if ((draft.isEmpty() && staged.isEmpty()) || _uiState.value.isPostingComment) return
         if (!_uiState.value.isAuthenticated) {
             _uiState.update { it.copy(snackbarMessage = "Please sign in to comment") }
             return
         }
+        if (staged.any { it.uploading }) {
+            _uiState.update { it.copy(snackbarMessage = "Wait for attachments to finish uploading") }
+            return
+        }
+        val attachments = staged.mapNotNull { it.uploaded }
         _uiState.update { it.copy(isPostingComment = true) }
         viewModelScope.launch {
-            resourceRepository.createComment(resourceId, draft, parentCommentId)
+            resourceRepository.createComment(resourceId, draft, parentCommentId, attachments)
                 .onSuccess { comment ->
+                    _commentAttachments.value = emptyList()
                     _uiState.update { state ->
                         val bumped = state.comments.map { existing ->
                             if (existing.id == parentCommentId) {

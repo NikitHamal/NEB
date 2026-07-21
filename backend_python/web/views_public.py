@@ -700,6 +700,7 @@ def reader(request, resource_id):
         ).exists()
 
     # Load comments — serialize in forum-reply-compatible format
+    from api.models import ResourceCommentMedia
     comments_qs = ResourceComment.objects.select_related('user').filter(
         resource_id=resource_id
     ).order_by('created_at')
@@ -714,6 +715,21 @@ def reader(request, resource_id):
             user_id=user_id, target_type='resource_comment',
             target_id__in=[c.id for c in comments_list]
         ).values_list('target_id', flat=True))
+    # Attachments (voice notes / media) for all comments in one query
+    comment_media_map = {}
+    if comments_list:
+        for media in ResourceCommentMedia.objects.filter(
+            comment_id__in=[c.id for c in comments_list]
+        ).order_by('order', 'created_at'):
+            comment_media_map.setdefault(media.comment_id, []).append({
+                'id': media.id,
+                'kind': media.kind,
+                'url': media.url,
+                'name': media.name,
+                'mimeType': media.mime_type,
+                'sizeBytes': media.size_bytes,
+                'order': media.order,
+            })
     all_comments = []
     for c in comments_list:
         parent_id = c.parent_comment_id or ''
@@ -735,6 +751,7 @@ def reader(request, resource_id):
             'isOwner': bool(user_id and user_id == c.user_id),
             'isFollowed': False,
             'childAuthors': [],
+            'attachments': comment_media_map.get(c.id, []),
         }
         all_comments.append(c_data)
 

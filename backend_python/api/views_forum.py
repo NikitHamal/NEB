@@ -266,8 +266,6 @@ def replies_create(request, post_id):
 
     content = request.data.get('content', '').strip()
     parent_reply_id = request.data.get('parentReplyId', None)
-    if not content:
-        return Response({'error': 'Content is required'}, status=400)
 
     err = _validate_text_length(content, MAX_REPLY_CONTENT_LENGTH, 'Content')
     if err:
@@ -279,6 +277,9 @@ def replies_create(request, post_id):
     attachments, error_response = _parse_attachments_or_error(request)
     if error_response:
         return error_response
+    # Voice notes / attachments can be the entire reply.
+    if not content and not attachments:
+        return Response({'error': 'Content is required'}, status=400)
     anonymous = _client_wants_anonymous(request)
 
     now = _now_ms()
@@ -525,8 +526,6 @@ def replies_endpoint(request, post_id):
 
     content = request.data.get('content', '').strip()
     parent_reply_id = request.data.get('parentReplyId', None)
-    if not content:
-        return Response({'error': 'Content is required'}, status=400)
 
     err = _validate_text_length(content, MAX_REPLY_CONTENT_LENGTH, 'Content')
     if err:
@@ -538,6 +537,9 @@ def replies_endpoint(request, post_id):
     attachments, error_response = _parse_attachments_or_error(request)
     if error_response:
         return error_response
+    # Voice notes / attachments can be the entire reply.
+    if not content and not attachments:
+        return Response({'error': 'Content is required'}, status=400)
     anonymous = _client_wants_anonymous(request)
 
     now = _now_ms()

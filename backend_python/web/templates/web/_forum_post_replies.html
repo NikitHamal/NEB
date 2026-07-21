@@ -60,7 +60,7 @@
         </div>
       </div>
     </div>
-    <div class="fp-reply-body" id="reply-content-{{ reply.id }}">{{ reply.content|mention_links:all_usernames }}</div>
+    {% if reply.content %}<div class="fp-reply-body" id="reply-content-{{ reply.id }}">{{ reply.content|mention_links:all_usernames }}</div>{% endif %}
     {% with attachments=reply.attachments %}{% include "web/_forum_attachments.html" %}{% endwith %}
     <div class="fp-reply-actions">
       <button data-action="toggle-reply-like" data-reply-id="{{ reply.id }}" class="fp-reply-action {% if reply.isThumbedUp %}liked{% endif %}" id="reply-like-btn-{{ reply.id }}">

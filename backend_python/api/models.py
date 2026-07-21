@@ -751,6 +751,33 @@ class ResourceComment(models.Model):
         return f"Comment by {self.user_id} on resource {self.resource_id}"
 
 
+class ResourceCommentMedia(models.Model):
+    """Attachments (voice notes, audio, video, files) on resource comments —
+    mirrors PostMedia for forum posts/replies so every comment bar can carry
+    recorded voice or picked media."""
+    KIND_CHOICES = (
+        ('video', 'Video'),
+        ('audio', 'Audio'),
+        ('file', 'File'),
+    )
+    id = models.CharField(max_length=36, primary_key=True)
+    comment = models.ForeignKey(ResourceComment, on_delete=models.CASCADE, related_name='media')
+    kind = models.CharField(max_length=10, choices=KIND_CHOICES, default='file')
+    url = models.TextField()
+    name = models.CharField(max_length=255, blank=True, default='')
+    mime_type = models.CharField(max_length=120, blank=True, default='')
+    size_bytes = models.BigIntegerField(default=0)
+    order = models.PositiveSmallIntegerField(default=0)
+    created_at = models.BigIntegerField()
+
+    class Meta:
+        db_table = 'resource_comment_media'
+        ordering = ['order', 'created_at']
+        indexes = [
+            models.Index(fields=['comment_id', 'order']),
+        ]
+
+
 class ResourceLike(models.Model):
     """Tracks which users liked which resources."""
     resource = models.ForeignKey(Resource, on_delete=models.CASCADE, related_name='likes')
@@ -1577,6 +1604,33 @@ class BlogComment(models.Model):
 
     def __str__(self):
         return f"Comment by {self.author_id} on {self.announcement_id}"
+
+
+class BlogCommentMedia(models.Model):
+    """Attachments (voice notes, audio, video, files) on blog/news comments —
+    mirrors PostMedia/ResourceCommentMedia so every comment bar can carry
+    recorded voice or picked media."""
+    KIND_CHOICES = (
+        ('video', 'Video'),
+        ('audio', 'Audio'),
+        ('file', 'File'),
+    )
+    id = models.CharField(max_length=36, primary_key=True)
+    comment = models.ForeignKey(BlogComment, on_delete=models.CASCADE, related_name='media')
+    kind = models.CharField(max_length=10, choices=KIND_CHOICES, default='file')
+    url = models.TextField()
+    name = models.CharField(max_length=255, blank=True, default='')
+    mime_type = models.CharField(max_length=120, blank=True, default='')
+    size_bytes = models.BigIntegerField(default=0)
+    order = models.PositiveSmallIntegerField(default=0)
+    created_at = models.BigIntegerField()
+
+    class Meta:
+        db_table = 'blog_comment_media'
+        ordering = ['order', 'created_at']
+        indexes = [
+            models.Index(fields=['comment_id', 'order']),
+        ]
 
 
 class BlogCommentLike(models.Model):

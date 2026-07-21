@@ -270,12 +270,18 @@
   {% if is_authenticated %}
   <div class="rd-compose" id="comment-compose" style="margin-top: 16px;">
     <div class="rd-compose-header">Add a comment</div>
-    <div class="reply-input-wrapper">
+    <div class="reply-input-wrapper" id="rdCommentWrapper">
+      <button type="button" class="fp-inline-tool" id="rdCommentAttachBtn" title="Add video, audio or file">
+        <span class="material-symbols-outlined">add</span>
+      </button>
       <textarea id="comment-input" placeholder="Share your thoughts about this resource..." rows="3"></textarea>
       <button class="reply-send-btn" id="comment-submit-btn" data-action="submit-comment" disabled>
         <span class="material-symbols-outlined">arrow_upward</span>
       </button>
     </div>
+    <div class="cp-media-list" id="rdCommentMediaList" style="display:none"></div>
+    <input type="file" id="rdCommentMediaInput" multiple style="display:none"
+           accept="video/mp4,video/webm,video/quicktime,audio/mpeg,audio/mp4,audio/aac,audio/ogg,audio/opus,audio/wav,audio/flac,.m4v,.mov,.m4a,.pdf,.txt,.md,.csv,.json,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.zip">
   </div>
   {% else %}
   <div class="rd-login-prompt" style="margin-top: 16px;">
@@ -334,9 +340,174 @@
 
 {% block extra_js %}
 <script src="{% static 'web/js/media-player.js' %}" nonce="{{ csp_nonce }}"></script>
+<script src="{% static 'web/js/composer_voice.js' %}" nonce="{{ csp_nonce }}"></script>
 <script nonce="{{ csp_nonce }}">
 var RESOURCE_ID = '{{ resource.id|default:"" }}';
 var IS_AUTH = {{ is_authenticated|yesno:"true,false" }};
+
+/* ---------- Comment composer: media attachments + voice notes ---------- */
+var rdCommentMediaState = [];
+var RD_MEDIA_LIMITS = { video: 150 * 1024 * 1024, audio: 40 * 1024 * 1024, file: 30 * 1024 * 1024 };
+
+function guessRdMediaKind(file) {
+  var ext = (file.name.split('.').pop() || '').toLowerCase();
+  if (['mp4', 'm4v', 'webm', 'mov'].indexOf(ext) >= 0) return 'video';
+  if (['mp3', 'm4a', 'aac', 'ogg', 'opus', 'wav', 'flac'].indexOf(ext) >= 0) return 'audio';
+  return 'file';
+}
+
+function rdMediaIcon(kind) { return kind === 'video' ? 'videocam' : (kind === 'audio' ? 'music_note' : 'description'); }
+
+function fmtRdBytes(n) {
+  if (!n) return '';
+  if (n < 1024) return n + ' B';
+  if (n < 1048576) return (n / 1024).toFixed(1) + ' KB';
+  if (n < 1073741824) return (n / 1048576).toFixed(1) + ' MB';
+  return (n / 1073741824).toFixed(2) + ' GB';
+}
+
+function renderRdCommentMediaList() {
+  var list = document.getElementById('rdCommentMediaList');
+  if (!list) return;
+  if (!rdCommentMediaState.length) { list.style.display = 'none'; list.innerHTML = ''; refreshRdCommentSendBtn(); return; }
+  list.style.display = '';
+  list.innerHTML = '';
+  rdCommentMediaState.forEach(function(att, idx) {
+    var item = document.createElement('div');
+    item.className = 'cp-media-item';
+    var meta = att.uploading ? 'Uploading\u2026' : (att.kind.charAt(0).toUpperCase() + att.kind.slice(1) + (att.size ? ' \u2022 ' + fmtRdBytes(att.size) : ''));
+    item.innerHTML =
+      '<div class="cp-media-item-icon"><span class="material-symbols-outlined" style="font-size:18px">' + rdMediaIcon(att.kind) + '</span></div>' +
+      '<div class="cp-media-item-info">' +
+        '<div class="cp-media-item-name"></div>' +
+        '<div class="cp-media-item-meta">' + meta + '</div>' +
+        (att.uploading ? '<div class="cp-media-item-progress"><div class="cp-media-item-progress-fill"></div></div>' : '') +
+      '</div>' +
+      '<button type="button" class="cp-media-item-remove" title="Remove"><span class="material-symbols-outlined" style="font-size:18px">close</span></button>';
+    item.querySelector('.cp-media-item-name').textContent = att.name;
+    item.querySelector('.cp-media-item-remove').addEventListener('click', function() {
+      rdCommentMediaState.splice(idx, 1);
+      renderRdCommentMediaList();
+    });
+    list.appendChild(item);
+  });
+  refreshRdCommentSendBtn();
+}
+
+function setRdMediaProgress(att, pct) {
+  var list = document.getElementById('rdCommentMediaList');
+  if (!list) return;
+  var idx = rdCommentMediaState.indexOf(att);
+  var fill = idx >= 0 && list.children[idx] && list.children[idx].querySelector('.cp-media-item-progress-fill');
+  if (fill) fill.style.width = pct + '%';
+}
+
+function uploadRdCommentMedia(file, kindHint) {
+  var kind = kindHint === 'audio' ? 'audio' : guessRdMediaKind(file);
+  if (file.size > RD_MEDIA_LIMITS[kind]) {
+    showSnackbar(kind === 'video' ? 'Videos are limited to 150 MB' : (kind === 'audio' ? 'Audio is limited to 40 MB' : 'Attachments are limited to 30 MB'));
+    return;
+  }
+  if (kind === 'video' && rdCommentMediaState.some(function(a) { return a.kind === 'video'; })) {
+    showSnackbar('Maximum 1 video per comment');
+    return;
+  }
+  var att = { name: file.name, kind: kind, size: file.size, uploading: true, url: '', mime: '' };
+  rdCommentMediaState.push(att);
+  renderRdCommentMediaList();
+  var formData = new FormData();
+  formData.append('file', file);
+  if (kindHint) formData.append('kind_hint', kindHint);
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', '/api/forum/uploads/');
+  xhr.upload.onprogress = function(e) {
+    if (e.lengthComputable) setRdMediaProgress(att, Math.round(e.loaded / e.total * 100));
+  };
+  xhr.onload = function() {
+    att.uploading = false;
+    if (xhr.status === 201) {
+      try {
+        var d = JSON.parse(xhr.responseText);
+        if (d.ok && d.attachment) {
+          att.url = d.attachment.url;
+          att.kind = d.attachment.kind || att.kind;
+          att.name = d.attachment.name || att.name;
+          att.size = d.attachment.size || att.size;
+          att.mime = d.attachment.mime || '';
+          renderRdCommentMediaList();
+          return;
+        }
+      } catch (e) {}
+    }
+    rdCommentMediaState.splice(rdCommentMediaState.indexOf(att), 1);
+    renderRdCommentMediaList();
+    try {
+      var err = JSON.parse(xhr.responseText);
+      showSnackbar(err.error || ('Failed to upload ' + file.name));
+    } catch (e) { showSnackbar('Failed to upload ' + file.name); }
+  };
+  xhr.onerror = function() {
+    att.uploading = false;
+    rdCommentMediaState.splice(rdCommentMediaState.indexOf(att), 1);
+    renderRdCommentMediaList();
+    showSnackbar('Network error uploading ' + file.name);
+  };
+  xhr.send(formData);
+}
+
+function collectRdCommentAttachments() {
+  return rdCommentMediaState
+    .filter(function(a) { return !a.uploading && a.url; })
+    .map(function(a) { return { url: a.url, kind: a.kind, name: a.name, size: a.size, mime: a.mime }; });
+}
+
+function rdCommentMediaBusy() {
+  return rdCommentMediaState.some(function(a) { return a.uploading; });
+}
+
+function refreshRdCommentSendBtn() {
+  var wrapper = document.getElementById('rdCommentWrapper');
+  if (!wrapper) return;
+  if (wrapper.__voice) { wrapper.__voice.refresh(); return; }
+  var btn = document.getElementById('comment-submit-btn');
+  var input = document.getElementById('comment-input');
+  var hasText = !!(input && input.value.trim());
+  var hasMedia = collectRdCommentAttachments().length > 0;
+  if (btn) btn.disabled = !(hasText || hasMedia);
+}
+
+function clearRdCommentCompose() {
+  rdCommentMediaState = [];
+  renderRdCommentMediaList();
+  refreshRdCommentSendBtn();
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  var attachBtn = document.getElementById('rdCommentAttachBtn');
+  var mediaInput = document.getElementById('rdCommentMediaInput');
+  if (attachBtn && mediaInput) {
+    attachBtn.addEventListener('click', function() { mediaInput.click(); });
+    mediaInput.addEventListener('change', function() {
+      var files = Array.prototype.slice.call(mediaInput.files || []);
+      mediaInput.value = '';
+      files.forEach(function(f) {
+        if (rdCommentMediaState.length >= 4) { showSnackbar('Maximum 4 attachments per comment'); return; }
+        uploadRdCommentMedia(f);
+      });
+    });
+  }
+  if (window.NebVoiceComposer) {
+    var wrapper = document.getElementById('rdCommentWrapper');
+    if (wrapper) {
+      NebVoiceComposer.attach(wrapper, {
+        hasAttachments: function() { return collectRdCommentAttachments().length > 0; },
+        onFile: function(file) { uploadRdCommentMedia(file, 'audio'); },
+        onError: function(message) { showSnackbar(message); }
+      });
+    }
+  }
+  refreshRdCommentSendBtn();
+});
 
 function toggleResourceLike(id) {
   if (!IS_AUTH) { window.location.href = '{% url "web:login" %}'; return; }
@@ -388,21 +559,24 @@ function submitResourceComment() {
   var input = document.getElementById('comment-input');
   var btn = document.getElementById('comment-submit-btn');
   var content = input.value.trim();
-  if (!content) { showSnackbar('Please write something'); return; }
+  if (rdCommentMediaBusy()) { showSnackbar('Please wait for attachments to finish uploading.'); return; }
+  var attachments = collectRdCommentAttachments();
+  if (!content && !attachments.length) { showSnackbar('Write something or add a voice note first'); return; }
   if (btn) btn.disabled = true;
   fetch('/ajax/resource-comment/' + RESOURCE_ID + '/', {
     method: 'POST',
     headers: {'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN},
     credentials: 'same-origin',
-    body: JSON.stringify({content: content})
+    body: JSON.stringify({content: content, attachments: attachments})
   }).then(function(r) { return r.json(); }).then(function(data) {
     if (data.error) { showSnackbar(data.error); return; }
     input.value = '';
+    clearRdCommentCompose();
     showSnackbar('Comment posted!');
     window.location.reload();
   }).catch(function() { showSnackbar('Something went wrong'); })
   .finally(function() {
-    if (btn) btn.disabled = !input.value.trim();
+    refreshRdCommentSendBtn();
   });
 }
 
@@ -492,24 +666,118 @@ registerActions({
     var ta = box.querySelector('textarea');
     ta.focus();
     var sendBtn = box.querySelector('.reply-send-btn');
-    ta.addEventListener('input', function() { sendBtn.disabled = !ta.value.trim(); });
+    var wrapper = box.querySelector('.reply-input-wrapper');
+    // Voice notes inline: staged voice chip lives just under the box.
+    var inlineVoice = { att: null };
+    var chipRow = document.createElement('div');
+    chipRow.className = 'cp-media-list';
+    chipRow.style.display = 'none';
+    box.after(chipRow);
+
+    function renderInlineVoiceChip() {
+      if (!inlineVoice.att) { chipRow.style.display = 'none'; chipRow.innerHTML = ''; }
+      else {
+        chipRow.style.display = '';
+        chipRow.innerHTML = '';
+        var att = inlineVoice.att;
+        var item = document.createElement('div');
+        item.className = 'cp-media-item';
+        item.innerHTML =
+          '<div class="cp-media-item-icon"><span class="material-symbols-outlined" style="font-size:18px">music_note</span></div>' +
+          '<div class="cp-media-item-info">' +
+            '<div class="cp-media-item-name"></div>' +
+            '<div class="cp-media-item-meta">' + (att.uploading ? 'Uploading\u2026' : 'Voice note') + '</div>' +
+          '</div>' +
+          '<button type="button" class="cp-media-item-remove" title="Remove"><span class="material-symbols-outlined" style="font-size:18px">close</span></button>';
+        item.querySelector('.cp-media-item-name').textContent = att.name;
+        item.querySelector('.cp-media-item-remove').addEventListener('click', function() {
+          inlineVoice.att = null;
+          renderInlineVoiceChip();
+        });
+        chipRow.appendChild(item);
+      }
+      if (wrapper.__voice) wrapper.__voice.refresh();
+      else sendBtn.disabled = !ta.value.trim();
+    }
+
+    function uploadInlineVoice(file) {
+      var att = { name: file.name, kind: 'audio', size: file.size, uploading: true, url: '', mime: '' };
+      inlineVoice.att = att;
+      renderInlineVoiceChip();
+      var formData = new FormData();
+      formData.append('file', file);
+      formData.append('kind_hint', 'audio');
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', '/api/forum/uploads/');
+      xhr.onload = function() {
+        att.uploading = false;
+        if (xhr.status === 201) {
+          try {
+            var d = JSON.parse(xhr.responseText);
+            if (d.ok && d.attachment) {
+              att.url = d.attachment.url;
+              att.kind = d.attachment.kind || 'audio';
+              att.name = d.attachment.name || att.name;
+              att.size = d.attachment.size || att.size;
+              att.mime = d.attachment.mime || '';
+              renderInlineVoiceChip();
+              return;
+            }
+          } catch (e) {}
+        }
+        inlineVoice.att = null;
+        renderInlineVoiceChip();
+        try { showSnackbar(JSON.parse(xhr.responseText).error || 'Failed to upload voice note'); }
+        catch (e) { showSnackbar('Failed to upload voice note'); }
+      };
+      xhr.onerror = function() {
+        inlineVoice.att = null;
+        renderInlineVoiceChip();
+        showSnackbar('Network error uploading voice note');
+      };
+      xhr.send(formData);
+    }
+
+    if (window.NebVoiceComposer) {
+      NebVoiceComposer.attach(wrapper, {
+        hasAttachments: function() { return !!(inlineVoice.att && !inlineVoice.att.uploading && inlineVoice.att.url); },
+        onFile: function(file) { uploadInlineVoice(file); },
+        onError: function(message) { showSnackbar(message); }
+      });
+    }
+    ta.addEventListener('input', function() {
+      if (wrapper.__voice) wrapper.__voice.refresh();
+      else sendBtn.disabled = !ta.value.trim();
+    });
     sendBtn.addEventListener('click', function() {
-      var content = ta.value.trim(); if (!content) return;
+      var content = ta.value.trim();
+      var voiceAtt = (inlineVoice.att && !inlineVoice.att.uploading && inlineVoice.att.url) ? inlineVoice.att : null;
+      if (inlineVoice.att && inlineVoice.att.uploading) { showSnackbar('Please wait for the voice note to finish uploading.'); return; }
+      if (!content && !voiceAtt) return;
       sendBtn.disabled = true;
       fetch('/ajax/resource-comment/' + RESOURCE_ID + '/', {
         method: 'POST',
         headers: {'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN},
         credentials: 'same-origin',
-        body: JSON.stringify({content: content, parentCommentId: commentId})
+        body: JSON.stringify({
+          content: content,
+          parentCommentId: commentId,
+          attachments: voiceAtt ? [{ url: voiceAtt.url, kind: voiceAtt.kind, name: voiceAtt.name, size: voiceAtt.size, mime: voiceAtt.mime }] : []
+        })
       }).then(function(r) { return r.json(); }).then(function(data) {
         if (data.error) { showSnackbar(data.error); return; }
         ta.value = '';
+        inlineVoice.att = null;
+        renderInlineVoiceChip();
         showSnackbar('Reply posted!');
         window.location.reload();
       }).catch(function() { showSnackbar('Network error'); })
-      .finally(function() { sendBtn.disabled = !ta.value.trim(); });
+      .finally(function() {
+        if (wrapper.__voice) wrapper.__voice.refresh();
+        else sendBtn.disabled = !ta.value.trim();
+      });
     });
-    box.querySelector('.rd-cancel-reply-btn').addEventListener('click', function() { box.remove(); });
+    box.querySelector('.rd-cancel-reply-btn').addEventListener('click', function() { chipRow.remove(); box.remove(); });
   },
   'edit-comment': function(btn) { showSnackbar('Edit coming soon'); },
   'focus-border': function(el) { el.style.borderColor = 'var(--md-primary)'; },

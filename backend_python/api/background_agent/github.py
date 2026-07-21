@@ -138,12 +138,15 @@ class GitHubClient:
 
     # ---- GitHub Actions (used by CI auto-fix) ------------------------------
 
-    def list_workflow_runs(self, full_name: str, *, status_filter: str = 'failure', per_page: int = 5) -> list[dict]:
+    def list_workflow_runs(self, full_name: str, *, status_filter: str = 'failure', per_page: int = 5, branch: str = '') -> list[dict]:
         _validate_full_name(full_name)
-        data, _ = self._request('GET', f'/repos/{full_name}/actions/runs', params={
+        params = {
             'status': status_filter,
             'per_page': max(1, min(per_page, 30)),
-        })
+        }
+        if branch:
+            params['branch'] = branch
+        data, _ = self._request('GET', f'/repos/{full_name}/actions/runs', params=params)
         if isinstance(data, dict):
             return data.get('workflow_runs') or []
         return []

@@ -1,5 +1,6 @@
 """Views Resources extracted from views.py."""
 from .view_helpers import *  # noqa: F401,F403
+from .security import validate_forum_attachments
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
@@ -523,6 +524,9 @@ def _resource_comment_payload(comment, viewer=None, liked_comment_ids=None):
         'created_at': comment.created_at,
         'createdAt': comment.created_at,
         'authorBadgeInfo': author_badge,
+        'attachments': services._serialize_media_payload(
+            comment.media.all() if hasattr(comment, 'media') else []
+        ),
     }
 
 
@@ -552,7 +556,7 @@ def resource_comments(request, resource_id):
     from api.models import ResourceComment, ResourceCommentLike
     if request.method == 'GET':
         viewer = _get_user_from_request(request)
-        comments = list(ResourceComment.objects.filter(resource_id=resource_id).select_related('user').order_by('created_at'))
+        comments = list(ResourceComment.objects.filter(resource_id=resource_id).select_related('user').prefetch_related('media').order_by('created_at'))
         liked_comment_ids = set()
         if viewer and comments:
             liked_comment_ids = set(
@@ -568,12 +572,18 @@ def resource_comments(request, resource_id):
         return err
     content = (request.data.get('content') or '').strip()
     parent_id = request.data.get('parent_comment_id') or request.data.get('parentCommentId')
-    if not content:
+    try:
+        attachments = validate_forum_attachments(request.data.get('attachments'))
+    except ValidationError as exc:
+        messages = exc.messages if hasattr(exc, 'messages') else [str(exc)]
+        return Response({'error': messages[0] if messages else 'Invalid attachments'}, status=400)
+    # Voice notes / attachments can be the entire comment.
+    if not content and not attachments:
         return Response({'error': 'Content required'}, status=400)
-    result = services.create_resource_comment(user, resource_id, content, parent_id)
+    result = services.create_resource_comment(user, resource_id, content, parent_id, attachments=attachments)
     if not result:
         return Response({'error': 'Failed to create comment'}, status=400)
-    comment = ResourceComment.objects.select_related('user').get(pk=result['id'])
+    comment = ResourceComment.objects.select_related('user').prefetch_related('media').get(pk=result['id'])
     return Response(_resource_comment_payload(comment, user), status=201)
 
 

@@ -1,6 +1,5 @@
 package com.neb.ians.ui.screens.resource
 
-import android.view.SurfaceView
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -36,7 +35,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.IntOffset
@@ -44,9 +42,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.media3.ui.AspectRatioFrameLayout
+import androidx.media3.ui.PlayerView
 import com.neb.ians.ui.screens.reader.MediaPlayerViewModel
 import kotlinx.coroutines.delay
 
@@ -234,42 +232,10 @@ private fun EmbeddedVideoStage(
     val minimizeThreshold = with(LocalDensity.current) { 48.dp.toPx() }
     val minimizeDragState = rememberDraggableState { delta -> minimizeDragY += delta }
 
-    // Real stream aspect (16:9 until the decoder reports size) — the stage
-    // frame stays 16:9 and the surface letterboxes inside it.
-    var videoAspectRatio by remember { mutableFloatStateOf(16f / 9f) }
-    // Handle on the stage surface: the ViewModel's player is shared with the
-    // fullscreen screen and mini player, so the output surface must be
-    // re-attached on resume and released on dispose — otherwise the player
-    // keeps a dead surface and plays to a black view (progress still moves).
-    var stageSurface by remember { mutableStateOf<SurfaceView?>(null) }
-
-    DisposableEffect(player) {
-        if (player == null) return@DisposableEffect onDispose {}
-        val listener = object : androidx.media3.common.Player.Listener {
-            override fun onVideoSizeChanged(videoSize: androidx.media3.common.VideoSize) {
-                if (videoSize.width > 0 && videoSize.height > 0) {
-                    videoAspectRatio =
-                        (videoSize.width.toFloat() / videoSize.height.toFloat()) * videoSize.pixelWidthHeightRatio
-                }
-            }
-        }
-        player.addListener(listener)
-        onDispose { player.removeListener(listener) }
-    }
-
-    val surfaceLifecycleOwner = LocalLifecycleOwner.current
-    DisposableEffect(surfaceLifecycleOwner, player, stageSurface) {
-        val observer = LifecycleEventObserver { _, event ->
-            if (event == Lifecycle.Event.ON_RESUME) {
-                stageSurface?.let { sv -> player?.setVideoSurfaceView(sv) }
-            }
-        }
-        surfaceLifecycleOwner.lifecycle.addObserver(observer)
-        onDispose {
-            surfaceLifecycleOwner.lifecycle.removeObserver(observer)
-            stageSurface?.let { sv -> player?.clearVideoSurfaceView(sv) }
-        }
-    }
+    // PlayerView owns the whole SurfaceView lifecycle (attach, first frame,
+    // resize, z-order, handoff to/from fullscreen) — hand-rolled surface
+    // rebinding used to leave the shared player pointed at a dead holder and
+    // the stage played black until a fullscreen round-trip re-attached it.
 
     LaunchedEffect(showControls, isPlaying) {
         if (showControls && isPlaying) {
@@ -329,18 +295,17 @@ private fun EmbeddedVideoStage(
     ) {
         AndroidView(
             factory = { ctx ->
-                SurfaceView(ctx).also { sv ->
-                    stageSurface = sv
-                    player?.setVideoSurfaceView(sv)
+                PlayerView(ctx).apply {
+                    useController = false
+                    resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FIT
+                    setShutterBackgroundColor(android.graphics.Color.TRANSPARENT)
+                    this.player = player
                 }
             },
-            update = { sv ->
-                stageSurface = sv
-                player?.setVideoSurfaceView(sv)
-            },
+            update = { pv -> pv.player = player },
             modifier = Modifier
+                .fillMaxSize()
                 .align(Alignment.Center)
-                .aspectRatio(videoAspectRatio.coerceIn(0.4f, 2.6f))
         )
 
         if (isBuffering) {

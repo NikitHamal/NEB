@@ -86,7 +86,7 @@ def create_reply(user, post_id, content, parent_reply_id=None, is_anonymous=Fals
     except Post.DoesNotExist:
         return None
     content = content.strip()
-    if not content:
+    if not content and not attachments:
         return None
     if parent_reply_id and not Reply.objects.filter(pk=parent_reply_id, post_id=post_id).exists():
         # Invalid parent reply (missing or belongs to another post)
@@ -506,13 +506,13 @@ def toggle_resource_comment_like(user, comment_id):
     return {'likeCount': current_count, 'isLiked': is_liked}
 
 
-def create_resource_comment(user, resource_id, content, parent_comment_id=None):
+def create_resource_comment(user, resource_id, content, parent_comment_id=None, attachments=None):
     try:
         resource = Resource.objects.get(pk=resource_id)
     except Resource.DoesNotExist:
         return None
     content = content.strip()
-    if not content:
+    if not content and not attachments:
         return None
     now = now_ms()
     with transaction.atomic():
@@ -529,6 +529,15 @@ def create_resource_comment(user, resource_id, content, parent_comment_id=None):
         Resource.objects.filter(pk=resource_id).update(comment_count=F('comment_count') + 1)
         if parent_comment_id:
             ResourceComment.objects.filter(pk=parent_comment_id).update(reply_count=F('reply_count') + 1)
+        if attachments:
+            from .models import ResourceCommentMedia
+            for order, item in enumerate(attachments):
+                ResourceCommentMedia.objects.create(
+                    id=uuid_str(), comment=comment,
+                    kind=item['kind'], url=item['url'], name=item['name'],
+                    mime_type=item['mime_type'], size_bytes=item['size_bytes'],
+                    order=order, created_at=now,
+                )
     _counters.increment_user_reply_count(user.id)
     if parent_comment_id:
         _notif.notify_resource_comment_reply(user.id, parent_comment_id, resource_id, comment.id)
@@ -567,8 +576,24 @@ def delete_resource_comment(user, comment_id, is_admin=False):
     return True
 
 
+def _serialize_media_payload(media_iterable):
+    """PostMedia/ResourceCommentMedia rows → camelCase attachment dicts,
+    same shape as PostMediaSerializer."""
+    return [{
+        'id': m.id,
+        'kind': m.kind,
+        'url': m.url,
+        'name': m.name,
+        'mimeType': m.mime_type,
+        'sizeBytes': m.size_bytes,
+        'order': m.order,
+        'createdAt': m.created_at,
+    } for m in media_iterable]
+
+
 def _serialize_resource_comment(comment):
     """Serialize a ResourceComment to a dict for JSON responses."""
+    media = comment.media.all() if hasattr(comment, 'media') else []
     return {
         'id': comment.id,
         'resourceId': comment.resource_id,
@@ -581,6 +606,7 @@ def _serialize_resource_comment(comment):
         'replyCount': comment.reply_count,
         'isEdited': comment.is_edited,
         'createdAt': comment.created_at,
+        'attachments': _serialize_media_payload(media),
     }
 
 
@@ -604,13 +630,13 @@ def toggle_blog_comment_like(user, comment_id):
             current_count = max(comment.like_count - 1, 0)
     return {'likeCount': current_count, 'isLiked': is_liked}
 
-def create_blog_comment(user, slug, content, parent_comment_id=None):
+def create_blog_comment(user, slug, content, parent_comment_id=None, attachments=None):
     try:
         announcement = Announcement.objects.get(slug=slug, status='published')
     except Announcement.DoesNotExist:
         return None
     content = content.strip()
-    if not content:
+    if not content and not attachments:
         return None
     now = now_ms()
     with transaction.atomic():
@@ -626,6 +652,7 @@ def create_blog_comment(user, slug, content, parent_comment_id=None):
         )
         if parent_comment_id:
             BlogComment.objects.filter(pk=parent_comment_id).update(reply_count=F('reply_count') + 1)
+        _attach_forum_media(comment, attachments or [], 'blog_comment', now)
     return {'id': comment.id}
 
 def delete_blog_comment(user, comment_id, is_admin=False):
