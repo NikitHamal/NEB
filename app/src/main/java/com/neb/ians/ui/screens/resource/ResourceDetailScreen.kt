@@ -30,6 +30,7 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.outlined.BookmarkBorder
 import androidx.compose.material.icons.outlined.ThumbUp
 import androidx.compose.material3.*
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -209,6 +210,8 @@ fun ResourceDetailScreen(
                     }
 
                     else -> {
+                        @Suppress("UNUSED_EXPRESSION")
+                        Unit
                         val resource = uiState.resource!!
                         val mediaType = detectResourceMedia(resource.fileUrl, resource.type)
                         val subject = resource.subject.split(",").firstOrNull()?.trim().orEmpty().ifBlank { "General" }
@@ -229,6 +232,11 @@ fun ResourceDetailScreen(
                             deletingCommentId = comment.id
                         }
 
+                        PullToRefreshBox(
+                            isRefreshing = uiState.isRefreshing,
+                            onRefresh = { viewModel.load(forceRefresh = true) },
+                            modifier = Modifier.fillMaxSize()
+                        ) {
                         if (mediaType == ResourceMediaType.Video) {
                             VideoYouTubeLayout(
                                 resource = resource,
@@ -265,6 +273,7 @@ fun ResourceDetailScreen(
                                 padding = padding,
                                 onZoomImage = { zoomImageUrl = it }
                             )
+                        }
                         }
                     }
                 }
@@ -342,6 +351,13 @@ fun ResourceDetailScreen(
                                         modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp)
                                     )
                                 }
+                            }
+                            IconButton(onClick = { viewModel.load(forceRefresh = true) }) {
+                                Icon(
+                                    Icons.Filled.Refresh,
+                                    contentDescription = "Refresh thread",
+                                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
                             }
                             IconButton(onClick = {
                                 activeThreadParentId = null

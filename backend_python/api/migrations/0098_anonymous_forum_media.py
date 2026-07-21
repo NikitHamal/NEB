@@ -7,7 +7,7 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('api', '0097_llm_provider_switching'),
+        ('api', '0098_alter_userllmprovider_user'),
     ]
 
     operations = [

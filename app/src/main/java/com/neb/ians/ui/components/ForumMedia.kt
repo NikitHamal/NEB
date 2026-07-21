@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -61,6 +62,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
+import androidx.media3.common.VideoSize
 import androidx.media3.exoplayer.ExoPlayer
 import com.neb.ians.data.api.ApiMediaAttachment
 import com.neb.ians.ui.screens.forum.PendingForumAttachment
@@ -159,6 +161,12 @@ fun ForumVideoPlayer(attachment: ApiMediaAttachment, modifier: Modifier = Modifi
     var dragPosition by remember { mutableLongStateOf(0L) }
     var controlsVisible by remember { mutableStateOf(true) }
     var fullscreen by remember { mutableStateOf(false) }
+    // Real aspect ratio of the stream (16:9 until the decoder reports size).
+    var videoAspectRatio by remember { mutableStateOf(16f / 9f) }
+    // Keep a handle on the inline surface so it can be re-attached after the
+    // fullscreen dialog (its own surface) tears down — otherwise the player
+    // keeps rendering into the dead dialog surface and the inline view goes black.
+    var inlineSurface by remember { mutableStateOf<SurfaceView?>(null) }
 
     DisposableEffect(player) {
         val listener = object : Player.Listener {
@@ -166,13 +174,28 @@ fun ForumVideoPlayer(attachment: ApiMediaAttachment, modifier: Modifier = Modifi
                 isPlaying = playing
                 if (playing) ForumMediaSession.requestFocus(player)
             }
+
+            override fun onVideoSizeChanged(videoSize: VideoSize) {
+                if (videoSize.width > 0 && videoSize.height > 0) {
+                    videoAspectRatio =
+                        (videoSize.width.toFloat() / videoSize.height.toFloat()) * videoSize.pixelWidthHeightRatio
+                }
+            }
         }
         player.addListener(listener)
         onDispose { player.removeListener(listener) }
     }
+    DisposableEffect(player, inlineSurface) {
+        onDispose { inlineSurface?.let { player.clearVideoSurfaceView(it) } }
+    }
     PlayerPositionPoller(player, isPlaying) { pos, dur ->
         if (!dragging) positionMs = pos
         durationMs = dur
+    }
+
+    // Back from fullscreen: the dialog's surface is gone — re-bind the inline one.
+    LaunchedEffect(fullscreen) {
+        if (!fullscreen) inlineSurface?.let { player.setVideoSurfaceView(it) }
     }
 
     // Collapse controls while playing after a few idle seconds.
@@ -185,6 +208,7 @@ fun ForumVideoPlayer(attachment: ApiMediaAttachment, modifier: Modifier = Modifi
 
     val safeDuration = if (durationMs > 0) durationMs else 1L
     val shownPosition = if (dragging) dragPosition else positionMs
+    val stageRatio = videoAspectRatio.coerceIn(0.5f, 2.39f)
 
     Surface(
         modifier = modifier.fillMaxWidth(),
@@ -192,9 +216,14 @@ fun ForumVideoPlayer(attachment: ApiMediaAttachment, modifier: Modifier = Modifi
         color = Color.Black
     ) {
         Box(
+            modifier = Modifier.fillMaxWidth(),
+            contentAlignment = Alignment.Center
+        ) {
+        Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .aspectRatio(16f / 9f)
+                .heightIn(max = 420.dp)
+                .aspectRatio(stageRatio)
                 .clickable(
                     interactionSource = remember { MutableInteractionSource() },
                     indication = null
@@ -205,7 +234,10 @@ fun ForumVideoPlayer(attachment: ApiMediaAttachment, modifier: Modifier = Modifi
         ) {
             AndroidView(
                 factory = { ctx ->
-                    SurfaceView(ctx).also { player.setVideoSurfaceView(it) }
+                    SurfaceView(ctx).also {
+                        inlineSurface = it
+                        player.setVideoSurfaceView(it)
+                    }
                 },
                 modifier = Modifier.fillMaxSize()
             )
@@ -295,12 +327,14 @@ fun ForumVideoPlayer(attachment: ApiMediaAttachment, modifier: Modifier = Modifi
                 }
             }
         }
+        }
     }
 
     if (fullscreen) {
         ForumVideoFullscreenDialog(
             player = player,
             isPlaying = isPlaying,
+            videoAspectRatio = videoAspectRatio,
             onDismiss = { fullscreen = false }
         )
     }
@@ -310,6 +344,7 @@ fun ForumVideoPlayer(attachment: ApiMediaAttachment, modifier: Modifier = Modifi
 private fun ForumVideoFullscreenDialog(
     player: ExoPlayer,
     isPlaying: Boolean,
+    videoAspectRatio: Float,
     onDismiss: () -> Unit
 ) {
     Dialog(
@@ -327,7 +362,7 @@ private fun ForumVideoFullscreenDialog(
                 },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .aspectRatio(16f / 9f)
+                    .aspectRatio(videoAspectRatio.coerceIn(0.4f, 2.6f))
                     .align(Alignment.Center)
             )
             Surface(

@@ -268,36 +268,42 @@ class HomeViewModel @Inject constructor(
 
     fun toggleThumbsUp(postId: String) {
         if (processingPostLikes.contains(postId)) return
-        val current = _recentPosts.value.firstOrNull { it.id == postId } ?: return
+        // The like chip lives on both the discussions list and the
+        // "Suggested for you" deck — resolve the post from either.
+        val current = _recentPosts.value.firstOrNull { it.id == postId }
+            ?: _suggestedItems.value.firstOrNull { it.post?.id == postId }?.post
+            ?: return
         processingPostLikes.add(postId)
         val optimistic = current.copy(
             isThumbedUp = !current.isThumbedUp,
             thumbsUpCount = (current.thumbsUpCount + if (current.isThumbedUp) -1 else 1).coerceAtLeast(0)
         )
-        _recentPosts.update { posts ->
-            val updated = posts.map { if (it.id == postId) optimistic else it }
-            appCache.recentPosts = updated
-            updated
-        }
+        updatePostEverywhere(optimistic)
         viewModelScope.launch {
             forumRepository.toggleLikePost(postId)
                 .onSuccess { response ->
-                    _recentPosts.update { posts ->
-                        val updated = posts.map { post ->
-                            if (post.id == postId) post.copy(thumbsUpCount = response.thumbsUpCount, isThumbedUp = response.isThumbedUp) else post
-                        }
-                        appCache.recentPosts = updated
-                        updated
-                    }
+                    updatePostEverywhere(
+                        current.copy(thumbsUpCount = response.thumbsUpCount, isThumbedUp = response.isThumbedUp)
+                    )
                 }
-                .onFailure {
-                    _recentPosts.update { posts ->
-                        val updated = posts.map { if (it.id == postId) current else it }
-                        appCache.recentPosts = updated
-                        updated
-                    }
-                }
+                .onFailure { updatePostEverywhere(current) }
             processingPostLikes.remove(postId)
+        }
+    }
+
+    /** Apply a post update to the discussions list AND the suggested deck (+ caches). */
+    private fun updatePostEverywhere(updatedPost: ApiPost) {
+        _recentPosts.update { posts ->
+            val updated = posts.map { if (it.id == updatedPost.id) updatedPost else it }
+            appCache.recentPosts = updated
+            updated
+        }
+        _suggestedItems.update { items ->
+            val updated = items.map { item ->
+                if (item.post?.id == updatedPost.id) item.copy(post = updatedPost) else item
+            }
+            appCache.suggestedItems = updated
+            updated
         }
     }
 

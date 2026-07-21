@@ -22,6 +22,8 @@ import javax.inject.Inject
 data class ResourceDetailUiState(
     val resource: ApiResource? = null,
     val isLoading: Boolean = true,
+    /** True while a swipe-to-refresh reload runs with content already on screen. */
+    val isRefreshing: Boolean = false,
     val error: String? = null,
     val isLiked: Boolean = false,
     val likeCount: Int = 0,
@@ -150,7 +152,7 @@ class ResourceDetailViewModel @Inject constructor(
             val userId = authRepository.currentUserIdFlow.first()
             val usernameHandle = authRepository.currentUsernameHandleFlow.first()
             val hasResource = _uiState.value.resource != null
-            _uiState.update { it.copy(isAuthenticated = token != null, currentUserId = userId, currentUsername = usernameHandle, isLoading = !hasResource, error = null) }
+            _uiState.update { it.copy(isAuthenticated = token != null, currentUserId = userId, currentUsername = usernameHandle, isLoading = !hasResource, isRefreshing = hasResource && forceRefresh, error = null) }
 
             resourceRepository.getResource(resourceId, forceRefresh = forceRefresh)
                 .onSuccess { resource ->
@@ -161,6 +163,7 @@ class ResourceDetailViewModel @Inject constructor(
                             isLiked = resource.isLiked ?: false,
                             likeCount = resource.likeCount,
                             isBookmarked = resource.isBookmarked ?: false,
+                            isRefreshing = false,
                             error = null
                         )
                     }
@@ -176,8 +179,8 @@ class ResourceDetailViewModel @Inject constructor(
                 .onFailure { e ->
                     val message = ApiErrorMapper.mapException(e)
                     _uiState.update {
-                        if (it.resource == null) it.copy(isLoading = false, error = message)
-                        else it.copy(isLoading = false, snackbarMessage = message)
+                        if (it.resource == null) it.copy(isLoading = false, isRefreshing = false, error = message)
+                        else it.copy(isLoading = false, isRefreshing = false, snackbarMessage = message)
                     }
                 }
             loadComments(forceRefresh = forceRefresh)

@@ -56,7 +56,6 @@ fun HomeNewsSection(
     Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(10.dp)) {
         HomeSectionTitle(
             title = "News & updates",
-            subtitle = "Important notices and stories from NEBians",
             actionLabel = "View all",
             onActionClick = onViewAllClick
         )

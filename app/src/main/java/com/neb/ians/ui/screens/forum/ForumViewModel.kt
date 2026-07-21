@@ -257,7 +257,11 @@ class ForumViewModel @Inject constructor(
                     it.copy(
                         isLoading = false,
                         isLoadingMore = false,
-                        error = if (it.posts.isEmpty()) ApiErrorMapper.mapException(e) else null
+                        error = if (it.posts.isEmpty()) ApiErrorMapper.mapException(e) else null,
+                        // Surfacing this matters for sort/filter switches: without it a
+                        // failed "New/Top/Discussed" fetch silently left the old list up.
+                        snackbarMessage = if (it.posts.isEmpty()) it.snackbarMessage
+                        else "Couldn't refresh — showing cached posts"
                     )
                 }
             }

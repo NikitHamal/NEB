@@ -38,7 +38,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.neb.ians.data.api.AuthExpiryBus
 import com.neb.ians.data.repository.AuthRepository
 import com.neb.ians.data.repository.AuthState
 import com.neb.ians.util.DeepLinkBus
@@ -208,12 +207,6 @@ fun NEBiansNavHost(
                 }
             }
             else -> {}
-        }
-    }
-
-    LaunchedEffect(Unit) {
-        AuthExpiryBus.events.collect {
-            settingsViewModel.logout()
         }
     }
 

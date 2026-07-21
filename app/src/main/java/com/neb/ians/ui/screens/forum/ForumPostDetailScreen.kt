@@ -5,6 +5,7 @@ import android.net.Uri
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
@@ -35,7 +36,9 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.outlined.Reply
 import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.BookmarkBorder
-import androidx.compose.material.icons.outlined.AttachFile
+import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material.icons.outlined.ChatBubbleOutline
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.outlined.VisibilityOff
@@ -49,7 +52,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -193,6 +195,19 @@ fun ForumPostDetailScreen(
                     posting = isSubmittingReply,
                     textFieldModifier = Modifier.focusRequester(mainFocusRequester),
                     visualTransformation = MentionsVisualTransformation(MaterialTheme.colorScheme.primary),
+                    leadingContent = {
+                        ComposerAttachButton(
+                            enabled = !isSubmittingReply,
+                            onClick = {
+                                composerMediaPicker.launch(arrayOf("video/*", "audio/*", "application/*", "text/*"))
+                            }
+                        )
+                        ComposerAnonymousButton(
+                            isAnonymous = composerAnonymous,
+                            enabled = !isSubmittingReply,
+                            onToggle = viewModel::setComposerAnonymous
+                        )
+                    },
                     onSend = {
                         keyboardController?.hide()
                         viewModel.submitReply(
@@ -202,15 +217,9 @@ fun ForumPostDetailScreen(
                         )
                     }
                 ) {
-                    ReplyComposerMediaSection(
+                    ReplyComposerAttachmentChips(
                         attachments = composerMediaAttachments,
-                        isAnonymous = composerAnonymous,
-                        enabled = !isSubmittingReply,
-                        onAttachClick = {
-                            composerMediaPicker.launch(arrayOf("video/*", "audio/*", "application/*", "text/*"))
-                        },
-                        onRemoveAttachment = viewModel::removeMediaAttachment,
-                        onAnonymousChange = viewModel::setComposerAnonymous
+                        onRemoveAttachment = viewModel::removeMediaAttachment
                     )
                     if (mainMentionSuggestions.isNotEmpty()) {
                         MentionSuggestions(
@@ -507,6 +516,13 @@ fun ForumPostDetailScreen(
                         }
                     }
 
+                    IconButton(onClick = { viewModel.refresh() }) {
+                        Icon(
+                            Icons.Filled.Refresh,
+                            contentDescription = "Refresh thread",
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
                     IconButton(onClick = { activeThreadParentId = null }) {
                         Icon(Icons.Default.Close, contentDescription = "Close")
                     }
@@ -620,6 +636,19 @@ fun ForumPostDetailScreen(
                         canSend = threadReplyText.text.isNotBlank() && !isSubmittingReply,
                         posting = isSubmittingReply,
                         visualTransformation = MentionsVisualTransformation(MaterialTheme.colorScheme.primary),
+                        leadingContent = {
+                            ComposerAttachButton(
+                                enabled = !isSubmittingReply,
+                                onClick = {
+                                    composerMediaPicker.launch(arrayOf("video/*", "audio/*", "application/*", "text/*"))
+                                }
+                            )
+                            ComposerAnonymousButton(
+                                isAnonymous = composerAnonymous,
+                                enabled = !isSubmittingReply,
+                                onToggle = viewModel::setComposerAnonymous
+                            )
+                        },
                         onSend = {
                             val targetId = activeThreadTargetReply?.id ?: parent.id
                             viewModel.submitReply(
@@ -631,15 +660,9 @@ fun ForumPostDetailScreen(
                             )
                         }
                     ) {
-                        ReplyComposerMediaSection(
+                        ReplyComposerAttachmentChips(
                             attachments = composerMediaAttachments,
-                            isAnonymous = composerAnonymous,
-                            enabled = !isSubmittingReply,
-                            onAttachClick = {
-                                composerMediaPicker.launch(arrayOf("video/*", "audio/*", "application/*", "text/*"))
-                            },
-                            onRemoveAttachment = viewModel::removeMediaAttachment,
-                            onAnonymousChange = viewModel::setComposerAnonymous
+                            onRemoveAttachment = viewModel::removeMediaAttachment
                         )
                         if (threadMentionSuggestions.isNotEmpty()) {
                             MentionSuggestions(
@@ -957,76 +980,87 @@ private fun PostContentSection(
 
 
 /**
- * Compact attach + anonymous options row shared by the post-detail inline
- * composers (main bottom bar and thread reply bar): a media attach button,
- * an anonymous toggle, and the staged attachment chips.
+ * Composer leading icon: a round "+" at the left corner of the comment bar
+ * that opens the video/audio/file picker (attachments complement the text).
  */
 @Composable
-private fun ReplyComposerMediaSection(
-    attachments: List<PendingForumAttachment>,
+private fun ComposerAttachButton(enabled: Boolean, onClick: () -> Unit) {
+    IconButton(
+        onClick = onClick,
+        enabled = enabled,
+        modifier = Modifier.size(38.dp)
+    ) {
+        Icon(
+            imageVector = Icons.Filled.Add,
+            contentDescription = "Attach media",
+            tint = if (enabled) MaterialTheme.colorScheme.primary
+            else MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f)
+        )
+    }
+}
+
+/**
+ * Incognito-style anonymous toggle sitting next to the attach icon inside the
+ * comment bar — filled disc + tinted icon when anonymous posting is on,
+ * outlined icon when off.
+ */
+@Composable
+private fun ComposerAnonymousButton(
     isAnonymous: Boolean,
     enabled: Boolean,
-    onAttachClick: () -> Unit,
-    onRemoveAttachment: (String) -> Unit,
-    onAnonymousChange: (Boolean) -> Unit
+    onToggle: (Boolean) -> Unit
 ) {
-    Column(modifier = Modifier.fillMaxWidth()) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.fillMaxWidth()
+    IconButton(
+        onClick = { onToggle(!isAnonymous) },
+        enabled = enabled,
+        modifier = Modifier.size(38.dp)
+    ) {
+        Box(
+            modifier = Modifier
+                .size(30.dp)
+                .background(
+                    if (isAnonymous) MaterialTheme.colorScheme.primary else Color.Transparent,
+                    CircleShape
+                )
+                .border(
+                    1.dp,
+                    if (isAnonymous) Color.Transparent else MaterialTheme.colorScheme.outlineVariant,
+                    CircleShape
+                ),
+            contentAlignment = Alignment.Center
         ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .clip(RoundedCornerShape(10.dp))
-                    .clickable(enabled = enabled, onClick = onAttachClick)
-                    .padding(horizontal = 8.dp, vertical = 6.dp)
-            ) {
-                Icon(
-                    imageVector = Icons.Outlined.AttachFile,
-                    contentDescription = null,
-                    modifier = Modifier.size(16.dp),
-                    tint = MaterialTheme.colorScheme.primary
-                )
-                Spacer(modifier = Modifier.width(4.dp))
-                Text(
-                    text = "Attach",
-                    style = MaterialTheme.typography.labelMedium,
-                    fontWeight = FontWeight.SemiBold,
-                    color = MaterialTheme.colorScheme.primary
-                )
-            }
-            Spacer(modifier = Modifier.weight(1f))
             Icon(
-                imageVector = Icons.Outlined.VisibilityOff,
-                contentDescription = null,
-                modifier = Modifier.size(14.dp),
-                tint = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-            Spacer(modifier = Modifier.width(4.dp))
-            Text(
-                text = "Anonymous",
-                style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-            Switch(
-                checked = isAnonymous,
-                onCheckedChange = onAnonymousChange,
-                enabled = enabled
+                imageVector = if (isAnonymous) Icons.Filled.VisibilityOff else Icons.Outlined.VisibilityOff,
+                contentDescription = if (isAnonymous) "Anonymous mode on" else "Anonymous mode off",
+                tint = when {
+                    isAnonymous -> MaterialTheme.colorScheme.onPrimary
+                    enabled -> MaterialTheme.colorScheme.onSurfaceVariant
+                    else -> MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f)
+                },
+                modifier = Modifier.size(17.dp)
             )
         }
-        if (attachments.isNotEmpty()) {
-            Spacer(modifier = Modifier.height(4.dp))
-            attachments.forEach { attachment ->
-                ForumAttachmentChip(
-                    attachment = attachment,
-                    onRemove = { onRemoveAttachment(attachment.localId) },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 2.dp)
-                )
-            }
-            Spacer(modifier = Modifier.height(4.dp))
+    }
+}
+
+/** Pending attachment chips shown above the composer input once media is staged. */
+@Composable
+private fun ReplyComposerAttachmentChips(
+    attachments: List<PendingForumAttachment>,
+    onRemoveAttachment: (String) -> Unit
+) {
+    if (attachments.isEmpty()) return
+    Column(modifier = Modifier
+        .fillMaxWidth()
+        .padding(bottom = 4.dp)) {
+        attachments.forEach { attachment ->
+            ForumAttachmentChip(
+                attachment = attachment,
+                onRemove = { onRemoveAttachment(attachment.localId) },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 2.dp)
+            )
         }
     }
 }

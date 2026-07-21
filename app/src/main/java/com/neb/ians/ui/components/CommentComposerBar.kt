@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
@@ -44,6 +45,7 @@ fun NebCommentComposerBar(
     sendContentDescription: String = "Send",
     sendIcon: ImageVector = Icons.Filled.ArrowUpward,
     textFieldModifier: Modifier = Modifier,
+    leadingContent: (@Composable RowScope.() -> Unit)? = null,
     extraContent: @Composable () -> Unit = {}
 ) {
     NebCommentComposerBarFrame(
@@ -54,6 +56,7 @@ fun NebCommentComposerBar(
         onSend = onSend,
         sendContentDescription = sendContentDescription,
         sendIcon = sendIcon,
+        leadingContent = leadingContent,
         extraContent = extraContent
     ) { fieldModifier: Modifier ->
         OutlinedTextField(
@@ -84,6 +87,7 @@ fun NebCommentComposerBar(
     sendIcon: ImageVector = Icons.Filled.ArrowUpward,
     textFieldModifier: Modifier = Modifier,
     visualTransformation: VisualTransformation = VisualTransformation.None,
+    leadingContent: (@Composable RowScope.() -> Unit)? = null,
     extraContent: @Composable () -> Unit = {}
 ) {
     NebCommentComposerBarFrame(
@@ -94,6 +98,7 @@ fun NebCommentComposerBar(
         onSend = onSend,
         sendContentDescription = sendContentDescription,
         sendIcon = sendIcon,
+        leadingContent = leadingContent,
         extraContent = extraContent
     ) { fieldModifier: Modifier ->
         OutlinedTextField(
@@ -120,6 +125,7 @@ private fun NebCommentComposerBarFrame(
     onSend: () -> Unit,
     sendContentDescription: String,
     sendIcon: ImageVector,
+    leadingContent: (@Composable RowScope.() -> Unit)?,
     extraContent: @Composable () -> Unit,
     textField: @Composable (Modifier) -> Unit
 ) {
@@ -145,6 +151,10 @@ private fun NebCommentComposerBarFrame(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Start
             ) {
+                if (leadingContent != null) {
+                    leadingContent()
+                    Spacer(modifier = Modifier.width(6.dp))
+                }
                 textField(Modifier.weight(1f))
                 Spacer(modifier = Modifier.width(8.dp))
                 IconButton(
