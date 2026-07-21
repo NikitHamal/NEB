@@ -66,6 +66,7 @@ import com.neb.ians.ui.screens.resource.ResourceRequestsScreen
 import com.neb.ians.ui.screens.analytics.AnalyticsScreen
 import com.neb.ians.ui.screens.bookmarks.BookmarksScreen
 import com.neb.ians.ui.screens.downloads.DownloadsScreen
+import com.neb.ians.ui.screens.upload.EditResourceScreen
 import com.neb.ians.ui.screens.upload.UploadScreen
 import com.neb.ians.ui.screens.ai.NebyAiScreen
 import com.neb.ians.ui.screens.study.StudyLabScreen
@@ -136,6 +137,9 @@ sealed class Screen(val route: String) {
     }
     data object ResourceDetail : Screen("resource/{resourceId}") {
         fun createRoute(resourceId: String) = "resource/$resourceId"
+    }
+    data object EditResource : Screen("resource/{resourceId}/edit") {
+        fun createRoute(resourceId: String) = "resource/$resourceId/edit"
     }
     data object ResourceRequests : Screen("resource/requests")
     data object ForumPostDetail : Screen("forum/post/{postId}") {
@@ -699,11 +703,24 @@ fun NEBiansNavHost(
                         showMiniPlayer = true
                         navController.popBackStack()
                     },
+                    onEditResource = { id ->
+                        navController.navigate(Screen.EditResource.createRoute(id))
+                    },
                     mediaViewModel = mediaPlayerViewModel
                 )
             }
             composable(Screen.ResourceRequests.route) {
                 ResourceRequestsScreen(
+                    onNavigateBack = { navController.popBackStack() }
+                )
+            }
+            composable(
+                route = Screen.EditResource.route,
+                arguments = listOf(navArgument("resourceId") { type = NavType.StringType })
+            ) { backStackEntry ->
+                val resourceId = backStackEntry.arguments?.getString("resourceId") ?: return@composable
+                EditResourceScreen(
+                    resourceId = resourceId,
                     onNavigateBack = { navController.popBackStack() }
                 )
             }
