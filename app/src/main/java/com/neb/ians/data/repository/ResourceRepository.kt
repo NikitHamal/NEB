@@ -10,6 +10,9 @@ import com.neb.ians.data.api.BookmarkToggleRequest
 import com.neb.ians.data.api.OfflineException
 import com.neb.ians.data.api.ResourceLikeResponse
 import com.neb.ians.data.api.ApiResourceCommentLikeResponse
+import com.neb.ians.data.api.ReportRequest
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import com.neb.ians.data.network.NetworkMonitor
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -346,6 +349,48 @@ class ResourceRepository @Inject constructor(
 
     private fun resourcesCacheKey(subject: String?, grade: String?, type: String?, sort: String?, page: Int): String {
         return listOf("resources", subject.orEmpty(), grade.orEmpty(), type.orEmpty(), sort.orEmpty(), page.toString()).joinToString("|")
+    }
+
+    /**
+     * Owner edit — mirrors everything the upload flow can set (metadata, link,
+     * file replacement, cover upload/URL/clear). The server resets approval to
+     * pending, so the fresh copy goes straight into every cache layer.
+     */
+    suspend fun updateResource(
+        resourceId: String,
+        fields: Map<String, RequestBody>,
+        filePart: MultipartBody.Part? = null,
+        thumbnailPart: MultipartBody.Part? = null
+    ): Result<ApiResource> {
+        return try {
+            val token = getBearerToken() ?: return Result.failure(IllegalStateException("Not authenticated"))
+            val updated = apiService.updateResource(token, resourceId, filePart, thumbnailPart, fields)
+            appCache.resourceDetails[resourceId] = updated
+            offlineCacheStore.write(resourceCacheKey(resourceId), updated)
+            cacheBus.publish(resourceCacheKey(resourceId))
+            Result.success(updated)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun reportResource(resourceId: String, reason: String, description: String?): Result<Unit> {
+        return try {
+            val token = getBearerToken() ?: return Result.failure(IllegalStateException("Not authenticated"))
+            apiService.createReport(
+                token,
+                ReportRequest(
+                    targetType = "resource",
+                    targetId = resourceId,
+                    reason = reason,
+                    description = description?.takeIf { it.isNotBlank() },
+                    contextPath = "resource/$resourceId"
+                )
+            )
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
     }
 
     private fun resourceCacheKey(resourceId: String): String = "resource|$resourceId"

@@ -48,6 +48,9 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import com.neb.ians.ui.components.ReportDialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -77,6 +80,7 @@ fun ResourceDetailScreen(
     onUserProfileClick: (String) -> Unit = {},
     onRelatedResourceClick: (String) -> Unit = {},
     onMinimizeVideo: () -> Unit = {},
+    onEditResource: (String) -> Unit = {},
     mediaViewModel: MediaPlayerViewModel = hiltViewModel(),
     viewModel: ResourceDetailViewModel = hiltViewModel()
 ) {
@@ -88,6 +92,17 @@ fun ResourceDetailScreen(
     var isFullscreen by remember { mutableStateOf(false) }
     var activeThreadParentId by remember { mutableStateOf<String?>(null) }
     var activeThreadTargetId by remember { mutableStateOf<String?>(null) }
+    var showResourceReportDialog by remember { mutableStateOf(false) }
+
+    // Pick up fresh data after the owner editor (or any writer) returns.
+    val resumeLifecycleOwner = LocalLifecycleOwner.current
+    DisposableEffect(resumeLifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_RESUME) viewModel.load()
+        }
+        resumeLifecycleOwner.lifecycle.addObserver(observer)
+        onDispose { resumeLifecycleOwner.lifecycle.removeObserver(observer) }
+    }
     var deletingCommentId by remember { mutableStateOf<String?>(null) }
 
     fun openExternal(url: String) {
@@ -171,10 +186,41 @@ fun ResourceDetailScreen(
         Scaffold(
             topBar = {
                 if (!isFullscreen) {
+                    val isOwner = uiState.resource?.uploadedByUsername?.isNotBlank() == true &&
+                        uiState.currentUsername.isNotBlank() &&
+                        uiState.resource!!.uploadedByUsername.equals(uiState.currentUsername, ignoreCase = true)
                     NebTopBar(
                         showBrand = false,
                         title = if (uiState.resource != null && detectResourceMedia(uiState.resource!!.fileUrl, uiState.resource!!.type) == ResourceMediaType.Video) "Video" else "Resource",
-                        onBack = onNavigateBack
+                        onBack = onNavigateBack,
+                        actions = {
+                            var menuOpen by remember { mutableStateOf(false) }
+                            Box {
+                                IconButton(onClick = { menuOpen = true }) {
+                                    Icon(Icons.Filled.MoreVert, contentDescription = "Options", tint = MaterialTheme.colorScheme.onSurface)
+                                }
+                                DropdownMenu(expanded = menuOpen, onDismissRequest = { menuOpen = false }) {
+                                    if (isOwner) {
+                                        DropdownMenuItem(
+                                            text = { Text("Edit resource") },
+                                            leadingIcon = { Icon(Icons.Filled.Edit, contentDescription = null) },
+                                            onClick = {
+                                                menuOpen = false
+                                                uiState.resource?.let { onEditResource(it.id) }
+                                            }
+                                        )
+                                    }
+                                    DropdownMenuItem(
+                                        text = { Text("Report") },
+                                        leadingIcon = { Icon(Icons.Filled.Flag, contentDescription = null) },
+                                        onClick = {
+                                            menuOpen = false
+                                            showResourceReportDialog = true
+                                        }
+                                    )
+                                }
+                            }
+                        }
                     )
                 }
             },
@@ -297,6 +343,16 @@ fun ResourceDetailScreen(
                 imageUrl = url,
                 contentDescription = uiState.resource?.title,
                 onDismiss = { zoomImageUrl = null }
+            )
+        }
+
+        if (showResourceReportDialog) {
+            ReportDialog(
+                onDismiss = { showResourceReportDialog = false },
+                onSubmit = { reason, description ->
+                    viewModel.reportResource(reason, description)
+                    showResourceReportDialog = false
+                }
             )
         }
 
