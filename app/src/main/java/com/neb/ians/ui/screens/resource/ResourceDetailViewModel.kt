@@ -457,6 +457,16 @@ class ResourceDetailViewModel @Inject constructor(
         }
     }
 
+    fun reportResource(reason: String, description: String) {
+        viewModelScope.launch {
+            resourceRepository.reportResource(resourceId, reason, description.ifBlank { null })
+                .onSuccess { _uiState.update { it.copy(snackbarMessage = "Report submitted — thank you") } }
+                .onFailure {
+                    _uiState.update { it.copy(snackbarMessage = "Couldn't submit the report") }
+                }
+        }
+    }
+
     fun consumeSnackbar() {
         _uiState.update { it.copy(snackbarMessage = null) }
     }

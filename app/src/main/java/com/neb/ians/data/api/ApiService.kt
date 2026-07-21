@@ -389,6 +389,16 @@ data class ApiResource(
     val subject: String,
     @SerialName("grade_level") val gradeLevel: String,
     val type: String,
+    @SerialName("exam_type") val examType: String = "",
+    @SerialName("faculty") val faculty: String = "",
+    @SerialName("program") val program: String = "",
+    @SerialName("year") val year: String = "",
+    @SerialName("school") val school: String = "",
+    @SerialName("pradesh") val pradesh: String = "",
+    @SerialName("district") val district: String = "",
+    @SerialName("tags") val tags: String = "",
+    @SerialName("approval_status") val approvalStatusSnake: String? = null,
+    @SerialName("approvalStatus") val approvalStatusCamel: String? = null,
     @SerialName("file_url") val fileUrl: String = "",
     @SerialName("thumbnail_url") val thumbnailUrl: String = "",
     @SerialName("file_size") val fileSize: Long = 0,
@@ -408,6 +418,7 @@ data class ApiResource(
     @SerialName("is_bookmarked") val isBookmarked: Boolean? = null
 ) {
     val uploadedByUsername: String get() = uploadedByUsernameSnake ?: uploadedByUsernameCamel ?: authorUsernameSnake ?: authorUsernameCamel ?: ""
+    val approvalStatus: String? get() = approvalStatusSnake ?: approvalStatusCamel
 }
 
 @Serializable
@@ -1135,6 +1146,16 @@ interface ApiService {
         @Query("page") page: Int? = null,
         @Query("page_size") pageSize: Int? = null
     ): ApiPaginatedResources
+
+    @Multipart
+    @PATCH("api/resources/{resourceId}/")
+    suspend fun updateResource(
+        @Header("Authorization") bearerToken: String,
+        @Path("resourceId") resourceId: String,
+        @Part file: okhttp3.MultipartBody.Part?,
+        @Part thumbnail: okhttp3.MultipartBody.Part?,
+        @PartMap fields: Map<String, okhttp3.RequestBody>
+    ): ApiResource
 
     @GET("api/resources/{resourceId}/")
     suspend fun getResource(

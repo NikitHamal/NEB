@@ -386,16 +386,101 @@ def syllabus_subject_detail(request, grade_slug, subject_slug):
         'total_count': total_count,
     })
 
-@api_view(['GET'])
+@api_view(['GET', 'PUT', 'PATCH'])
 @permission_classes([AllowAny])
 def resource_detail(request, resource_id):
-    """GET /api/resources/<resourceId> — get a single resource."""
+    """GET /api/resources/<resourceId> — get a single resource.
+
+    PUT/PATCH — the uploader edits their own resource (mirrors the website
+    edit_resource page): metadata, link, file replacement and cover
+    (upload/URL/clear). Edits go back through review (approval resets to
+    pending) and video covers are auto-captured when cleared.
+    """
     try:
         resource = Resource.objects.select_related('uploaded_by').get(pk=resource_id)
     except Resource.DoesNotExist:
         return Response({'error': 'Resource not found'}, status=404)
-    if resource.approval_status != 'approved':
+
+    if request.method == 'GET':
+        if resource.approval_status == 'approved':
+            return Response(ResourceSerializer(resource, context={'request': request}).data)
+        # Owners can still open their own pending/rejected resource (edit flow).
+        viewer = _get_user_from_request(request)
+        if viewer is not None and resource.uploaded_by_id == viewer.id:
+            return Response(ResourceSerializer(resource, context={'request': request}).data)
         return Response({'error': 'Resource not found'}, status=404)
+
+    # ----- owner edit -----
+    user, err = _require_user(request)
+    if err:
+        return err
+    if not user.email_verified:
+        return Response({'error': 'Please verify your email first'}, status=403)
+    if resource.uploaded_by_id != user.id:
+        return Response({'error': 'You can only edit your own resources'}, status=403)
+
+    data = request.data
+
+    def _s(key):
+        val = data.get(key)
+        return val.strip() if isinstance(val, str) else ''
+
+    if 'title' in data:
+        if not _s('title'):
+            return Response({'error': 'title cannot be empty'}, status=400)
+        resource.title = _s('title')
+    if 'subject' in data:
+        if not _s('subject'):
+            return Response({'error': 'subject cannot be empty'}, status=400)
+        resource.subject = _s('subject')
+
+    for field in ('description', 'grade_level', 'faculty', 'program', 'year',
+                  'exam_type', 'pradesh', 'district', 'school', 'tags',
+                  'author_name', 'source_label', 'source_url'):
+        if field in data:
+            setattr(resource, field, _s(field))
+
+    if 'type' in data and _s('type'):
+        resource.type = _s('type')
+
+    uploaded_file = request.FILES.get('file')
+    if uploaded_file:
+        path, size, err_resp = validate_and_save_resource_file(request, uploaded_file)
+        if err_resp:
+            return Response(err_resp, status=400)
+        if path:
+            resource.file = path
+            resource.file_url = request.build_absolute_uri(settings.MEDIA_URL + path)
+            resource.file_size = size
+    elif 'file_url' in data and _s('file_url'):
+        try:
+            resource.file_url = validate_resource_file_url(_s('file_url'))
+        except Exception as exc:
+            messages_list = getattr(exc, 'messages', [str(exc)])
+            return Response({'error': ' '.join(messages_list)}, status=400)
+
+    thumbnail_file = request.FILES.get('thumbnail')
+    if thumbnail_file:
+        try:
+            resource.thumbnail_url = save_resource_thumbnail_upload(request, thumbnail_file)
+        except ValidationError as exc:
+            return Response({'error': ' '.join(getattr(exc, 'messages', [str(exc)]))}, status=400)
+    elif 'thumbnail_url' in data:
+        thumb = _s('thumbnail_url')
+        if thumb:
+            try:
+                resource.thumbnail_url = validate_resource_file_url(thumb)
+            except Exception as exc:
+                messages_list = getattr(exc, 'messages', [str(exc)])
+                return Response({'error': ' '.join(messages_list)}, status=400)
+        else:
+            resource.thumbnail_url = ''
+
+    resource.approval_status = 'pending'
+    resource.save()
+    if not resource.thumbnail_url:
+        maybe_autoset_video_thumbnail(resource, request)
+    cache.delete_many(['home_resources', 'library_all_resources', 'library_filter_options', 'distinct_subjects'])
     return Response(ResourceSerializer(resource, context={'request': request}).data)
 
 
