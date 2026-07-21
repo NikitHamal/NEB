@@ -123,9 +123,9 @@ def _scan_project(project) -> int:
         return 0
 
     client = GitHubClient(token)
-    branch_filter = project.preferred_base_branch or project.default_branch or ''
+    ignore_branch = (project.preferred_base_branch or project.default_branch or '').strip().lower()
     try:
-        runs = client.list_workflow_runs(project.repo_full_name, status_filter='failure', per_page=5, branch=branch_filter)
+        runs = client.list_workflow_runs(project.repo_full_name, status_filter='failure', per_page=10)
     except GitHubError as exc:
         logger.info('autofix: workflow runs unavailable for %s: %s', project.repo_full_name, exc)
         return 0
@@ -137,7 +137,10 @@ def _scan_project(project) -> int:
     for run in runs:
         run_id = int(run.get('id') or 0)
         head_sha = (run.get('head_sha') or '').strip()
+        branch = (run.get('head_branch') or '').strip().lower()
         if not run_id:
+            continue
+        if branch == ignore_branch:
             continue
         if BackgroundAgentAutofixRun.objects.filter(project=project, run_id=run_id).exists():
             continue
