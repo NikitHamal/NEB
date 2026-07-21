@@ -362,3 +362,48 @@ fun markdownToInlinePreview(markdown: String): String {
         }
     }.replace(Regex("!\\[[^]]*]\\([^)]*\\)"), "").trim()
 }
+
+/**
+ * Compact single-flow inline markdown for cards (suggested feed, lists):
+ * bold/italic/inline-code/strikethrough/links/@mentions rendered inline like
+ * the full [MarkdownText], but collapsed to one ellipsizable Text with
+ * newlines folded — perfect for 2-line excerpts.
+ */
+@Composable
+fun MarkdownInlineText(
+    markdown: String,
+    style: TextStyle,
+    color: Color,
+    modifier: Modifier = Modifier,
+    maxLines: Int = Int.MAX_VALUE,
+    onMentionClick: (String) -> Unit = {},
+    onLinkClick: (String) -> Unit = {}
+) {
+    val primary = MaterialTheme.colorScheme.primary
+    val codeBg = MaterialTheme.colorScheme.surfaceContainerHigh
+    val errorBg = MaterialTheme.colorScheme.errorContainer
+    val errorFg = MaterialTheme.colorScheme.onErrorContainer
+    val flattened = remember(markdown) {
+        markdown.replace(Regex("\\s*\n+\\s*"), " ").trim()
+    }
+    if (flattened.isEmpty()) return
+    val annotated = remember(flattened, color, primary, codeBg, errorBg, errorFg) {
+        buildInlineAnnotatedString(flattened, color, primary, codeBg, errorBg, errorFg)
+    }
+    ClickableText(
+        text = annotated,
+        modifier = modifier,
+        style = style.copy(color = color),
+        overflow = TextOverflow.Ellipsis,
+        maxLines = maxLines,
+        onClick = { offset ->
+            annotated.getStringAnnotations("mention", offset, offset).firstOrNull()?.let {
+                onMentionClick(it.item)
+                return@ClickableText
+            }
+            annotated.getStringAnnotations("url", offset, offset).firstOrNull()?.let {
+                onLinkClick(it.item)
+            }
+        }
+    )
+}

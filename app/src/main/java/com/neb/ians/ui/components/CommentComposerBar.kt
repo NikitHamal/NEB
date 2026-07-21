@@ -348,13 +348,21 @@ fun ComposerAttachmentChips(
         .fillMaxWidth()
         .padding(bottom = 4.dp)) {
         attachments.forEach { attachment ->
-            ForumAttachmentChip(
-                attachment = attachment,
-                onRemove = { onRemoveAttachment(attachment.localId) },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 2.dp)
-            )
+            if (attachment.kind == "audio") {
+                // Voice notes: playable preview (play/pause + waveform + times)
+                PendingVoiceNoteChip(
+                    attachment = attachment,
+                    onRemove = onRemoveAttachment
+                )
+            } else {
+                ForumAttachmentChip(
+                    attachment = attachment,
+                    onRemove = { onRemoveAttachment(attachment.localId) },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 2.dp)
+                )
+            }
         }
     }
 }

@@ -299,5 +299,66 @@
     return inst;
   }
 
+  /* ------------------------------------------------------------------
+   * NebSiteAudio — one-at-a-time preview playback for STAGED audio chips
+   * (voice notes right after recording, or picked audio files), before the
+   * comment is posted. Posted comments use their own fm-audio players.
+   * ------------------------------------------------------------------ */
+  var _curAudio = null, _curBtn = null;
+
+  function flipIcon(btn, playing) {
+    if (!btn) return;
+    var s = btn.querySelector('.material-symbols-outlined');
+    if (s) s.textContent = playing ? 'pause' : 'play_arrow';
+    btn.classList.toggle('playing', playing);
+  }
+
+  function stopSiteAudio() {
+    if (_curAudio) {
+      try { _curAudio.pause(); } catch (e) {}
+    }
+    flipIcon(_curBtn, false);
+    _curAudio = null;
+    _curBtn = null;
+  }
+
+  function toggleSiteAudio(btn, src) {
+    if (!btn || !src) return;
+    if (_curBtn === btn && _curAudio) {
+      if (_curAudio.paused) {
+        var rp = _curAudio.play();
+        if (rp && rp.catch) rp.catch(function () { flipIcon(btn, false); });
+        flipIcon(btn, true);
+      } else {
+        _curAudio.pause();
+        flipIcon(btn, false);
+      }
+      return;
+    }
+    stopSiteAudio();
+    var audio;
+    try { audio = new Audio(src); } catch (e) { return; }
+    _curAudio = audio;
+    _curBtn = btn;
+    audio.addEventListener('ended', function () {
+      flipIcon(btn, false);
+      if (_curBtn === btn) { _curAudio = null; _curBtn = null; }
+    });
+    audio.addEventListener('error', function () {
+      flipIcon(btn, false);
+      if (_curBtn === btn) { _curAudio = null; _curBtn = null; }
+      if (typeof showSnackbar === 'function') showSnackbar('Could not play this audio.');
+    });
+    var p = audio.play();
+    if (p && p.catch) {
+      p.catch(function () {
+        flipIcon(btn, false);
+        if (_curBtn === btn) { _curAudio = null; _curBtn = null; }
+      });
+    }
+    flipIcon(btn, true);
+  }
+
+  window.NebSiteAudio = { toggle: toggleSiteAudio, stop: stopSiteAudio };
   window.NebVoiceComposer = { attach: attach, supported: supported };
 })();

@@ -24,7 +24,8 @@ data class PendingForumAttachment(
     val uri: Uri,
     val uploading: Boolean = true,
     val uploaded: ApiMediaAttachmentInput? = null,
-    val error: String? = null
+    val error: String? = null,
+    val durationMs: Long = 0      // voice notes: recorded length for the preview chip
 )
 
 /**
@@ -91,6 +92,29 @@ class ForumMediaUploadHelper @Inject constructor(
         return 0L
     }
 
+    /**
+     * Multipart filename the server sees. Composer display names like
+     * "Voice note (0:07)" carry no extension — and the server classes
+     * attachments BY extension, so an extensionless name was a guaranteed
+     * HTTP 400. Fall back to the picked file's real extension, then to a
+     * kind-appropriate default.
+     */
+    private fun uploadFileName(name: String, uri: Uri, kind: String): String {
+        val trimmed = name.trim().ifBlank { "attachment" }
+        if (trimmed.substringAfterLast('.', "").length != trimmed.length) {
+            // Has a dot-suffix — trust it (picked files keep real names).
+            if (trimmed.substringAfterLast('.').length in 2..5) return trimmed
+        }
+        val ext = displayName(uri).substringAfterLast('.', "").lowercase()
+            .takeIf { it.length in 2..5 }
+            ?: when (kind) {
+                "video" -> "mp4"
+                "audio" -> "m4a"
+                else -> "bin"
+            }
+        return "$trimmed.$ext"
+    }
+
     /** Uploads one file; the returned descriptor goes into the create payload. */
     suspend fun upload(uri: Uri, kind: String, name: String): Result<ApiMediaAttachmentInput> {
         val bytes = withContext(Dispatchers.IO) {
@@ -106,14 +130,17 @@ class ForumMediaUploadHelper @Inject constructor(
 
         val mime = (appContext.contentResolver.getType(uri) ?: when (kind) {
             "video" -> "video/mp4"
-            "audio" -> "audio/mpeg"
+            "audio" -> "audio/mp4"
             else -> "application/octet-stream"
         })
         val part = MultipartBody.Part.createFormData(
             "file",
-            name,
+            uploadFileName(name, uri, kind),
             bytes.toRequestBody(mime.toMediaType())
         )
-        return forumRepository.uploadForumMedia(part)
+        // Audio note recordings live in mp4/m4a/webm containers — tell the
+        // server to keep them classed as audio (it preserves the audio mime).
+        val kindHint = if (kind == "audio") "audio" else null
+        return forumRepository.uploadForumMedia(part, kindHint)
     }
 }

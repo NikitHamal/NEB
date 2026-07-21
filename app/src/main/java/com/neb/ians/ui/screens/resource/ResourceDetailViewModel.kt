@@ -364,7 +364,8 @@ class ResourceDetailViewModel @Inject constructor(
             name = "Voice note (${formatVoiceTime(durationMs)})",
             kind = "audio",
             sizeBytes = file.length(),
-            uri = Uri.fromFile(file)
+            uri = Uri.fromFile(file),
+            durationMs = durationMs
         )
         _commentAttachments.update { it + pending }
         stageCommentUpload(pending)

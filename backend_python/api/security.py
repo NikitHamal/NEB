@@ -564,12 +564,6 @@ def save_forum_media_upload(request, file_obj) -> dict:
     original_name = get_valid_filename(getattr(file_obj, 'name', 'attachment'))[:120] or 'attachment'
     ext = os.path.splitext(original_name)[1].lower()
     kind_mime = FORUM_MEDIA_TYPES.get(ext)
-    if kind_mime is None:
-        raise ValidationError(
-            'Unsupported file type. Videos (mp4/webm/mov), audio (mp3/m4a/ogg/wav/flac) '
-            'or documents (pdf/office/txt/zip) only.'
-        )
-    kind, mime = kind_mime
 
     # Voice-note hint: browser/app recorders produce audio-only webm/mp4
     # containers that extension-based mapping would class as video. An explicit
@@ -579,6 +573,28 @@ def save_forum_media_upload(request, file_obj) -> dict:
         kind_hint = str(request.data.get('kind_hint', '') or '').strip().lower()
     except Exception:
         kind_hint = ''
+
+    if kind_mime is None and kind_hint == 'audio' and ext == '':
+        # Extensionless multipart filename (a recording staged under a display
+        # name like "Voice note (0:07)"): class purely by magic bytes. Only
+        # reached with an explicit audio hint — everything else still 400s.
+        file_obj.seek(0)
+        sniffed0 = _sniff_forum_media_kind(file_obj.read(64))
+        file_obj.seek(0)
+        if sniffed0 is not None:
+            s0_kind, s0_mime = sniffed0
+            if s0_kind == 'audio':
+                kind_mime = ('audio', s0_mime)
+            elif s0_mime == 'video/webm':
+                kind_mime, ext = ('audio', 'audio/webm'), '.webm'
+            elif s0_mime == 'video/mp4':
+                kind_mime, ext = ('audio', 'audio/mp4'), '.m4a'
+    if kind_mime is None:
+        raise ValidationError(
+            'Unsupported file type. Videos (mp4/webm/mov), audio (mp3/m4a/ogg/wav/flac) '
+            'or documents (pdf/office/txt/zip) only.'
+        )
+    kind, mime = kind_mime
     if kind_hint == 'audio' and ext in ('.webm', '.mp4', '.m4v'):
         kind = 'audio'
         mime = 'audio/webm' if ext == '.webm' else 'audio/mp4'
