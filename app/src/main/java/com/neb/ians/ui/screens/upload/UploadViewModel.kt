@@ -3,20 +3,24 @@ package com.neb.ians.ui.screens.upload
 import android.content.Context
 import android.net.Uri
 import android.provider.OpenableColumns
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.neb.ians.data.api.ApiResourceUploadResponse
 import com.neb.ians.data.api.ApiService
 import com.neb.ians.data.repository.AuthRepository
+import com.neb.ians.data.repository.ResourceRepository
 import com.neb.ians.data.api.ApiErrorMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
@@ -52,7 +56,21 @@ data class UploadFormState(
     val isSubmitting: Boolean = false,
     val uploadProgress: Float = 0f,
     val submitError: String? = null,
-    val submitSuccess: Boolean = false
+    val submitSuccess: Boolean = false,
+    // ----- Edit mode (same wizard, PATCH instead of POST) -----
+    val isEditMode: Boolean = false,
+    val editLoading: Boolean = false,
+    val editLoadError: String? = null,
+    /** True when the signed-in user is not the uploader (edit is owner-only). */
+    val notAllowed: Boolean = false,
+    val editSuccess: Boolean = false,
+    val approvalStatus: String? = null,
+    /** Display label for the file/link currently stored on the server. */
+    val currentFileLabel: String = "",
+    /** Only sent when the user actually edits the link (blank never destroys an upload). */
+    val fileUrlDirty: Boolean = false,
+    /** Cover changes only PATCH when the user touched the URL or picked a new image. */
+    val thumbnailDirty: Boolean = false
 )
 
 data class SelectedFile(
@@ -63,12 +81,72 @@ data class SelectedFile(
 
 @HiltViewModel
 class UploadViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     private val apiService: ApiService,
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
+    private val resourceRepository: ResourceRepository
 ) : ViewModel() {
+
+    /** Present when the wizard was opened as an edit (owner editing own resource). */
+    private val editResourceId: String? = savedStateHandle.get<String>("resourceId")?.takeIf { it.isNotBlank() }
 
     private val _uiState = MutableStateFlow(UploadFormState())
     val uiState: StateFlow<UploadFormState> = _uiState.asStateFlow()
+
+    init {
+        editResourceId?.let { loadEditResource(it) }
+    }
+
+    /** Prefill the wizard with everything the existing resource stores. */
+    fun loadEditResource(resourceId: String = editResourceId ?: return) {
+        viewModelScope.launch {
+            _uiState.update { it.copy(isEditMode = true, editLoading = true, editLoadError = null) }
+            val username = try { authRepository.currentUsernameHandleFlow.first() } catch (_: Exception) { "" }
+            resourceRepository.getResource(resourceId)
+                .onSuccess { resource ->
+                    val owner = resource.uploadedByUsername.isNotBlank() &&
+                        username.isNotBlank() &&
+                        resource.uploadedByUsername.equals(username, ignoreCase = true)
+                    if (!owner) {
+                        _uiState.update { it.copy(editLoading = false, notAllowed = true) }
+                        return@onSuccess
+                    }
+                    _uiState.update {
+                        it.copy(
+                            editLoading = false,
+                            approvalStatus = resource.approvalStatus,
+                            currentFileLabel = resource.fileUrl.substringAfterLast('/')
+                                .ifBlank { resource.type.ifBlank { "Link" } },
+                            title = resource.title,
+                            subject = resource.subject,
+                            description = resource.description,
+                            gradeLevel = resource.gradeLevel,
+                            type = resource.type.ifBlank { "PDF" },
+                            examType = resource.examType,
+                            faculty = resource.faculty,
+                            program = resource.program,
+                            year = resource.year,
+                            school = resource.school,
+                            pradesh = resource.pradesh,
+                            district = resource.district,
+                            tags = resource.tags,
+                            fileUrl = resource.fileUrl,
+                            thumbnailUrl = resource.thumbnailUrl,
+                            authorName = resource.authorName ?: "",
+                            sourceLabel = resource.sourceLabel ?: "",
+                            sourceUrl = resource.sourceUrl ?: "",
+                            fileUrlDirty = false,
+                            thumbnailDirty = false
+                        )
+                    }
+                }
+                .onFailure { e ->
+                    _uiState.update {
+                        it.copy(editLoading = false, editLoadError = ApiErrorMapper.mapException(e))
+                    }
+                }
+        }
+    }
 
     companion object {
         val VIDEO_EXTENSIONS = setOf("mp4", "mkv", "mov", "webm", "avi", "m4v", "3gp", "wmv", "flv")
@@ -159,7 +237,7 @@ class UploadViewModel @Inject constructor(
     }
 
     fun updateFileUrl(fileUrl: String) {
-        _uiState.update { it.copy(fileUrl = fileUrl, fileError = null) }
+        _uiState.update { it.copy(fileUrl = fileUrl, fileError = null, fileUrlDirty = it.isEditMode || it.fileUrlDirty) }
     }
 
     fun setFileError(message: String?) {
@@ -167,12 +245,12 @@ class UploadViewModel @Inject constructor(
     }
 
     fun updateThumbnailUrl(thumbnailUrl: String) {
-        _uiState.update { it.copy(thumbnailUrl = thumbnailUrl) }
+        _uiState.update { it.copy(thumbnailUrl = thumbnailUrl, thumbnailDirty = it.isEditMode || it.thumbnailDirty) }
     }
 
     /** Manually picked cover image (overrides the auto video frame). */
     fun setThumbnail(uri: Uri?) {
-        _uiState.update { it.copy(thumbnailUri = uri) }
+        _uiState.update { it.copy(thumbnailUri = uri, thumbnailDirty = it.isEditMode || it.thumbnailDirty) }
     }
 
     /** Videos get a cover frame captured automatically — used for UI hints. */
@@ -196,6 +274,12 @@ class UploadViewModel @Inject constructor(
     }
 
     fun addFiles(files: List<SelectedFile>) {
+        // Edit mode replaces the single stored file — only the first pick counts.
+        if (_uiState.value.isEditMode) {
+            val replacement = files.firstOrNull() ?: return
+            _uiState.update { it.copy(selectedFiles = listOf(replacement), fileError = null) }
+            return
+        }
         val current = _uiState.value.selectedFiles
         val newFiles = files.filterNot { f -> current.any { it.name == f.name && it.size == f.size } }
         if (current.size + newFiles.size > MAX_FILES) return
@@ -225,11 +309,17 @@ class UploadViewModel @Inject constructor(
             _uiState.update { it.copy(subjectError = "Subject is required") }
             hasError = true
         }
-        if (state.selectedFiles.isEmpty() && state.fileUrl.isBlank()) {
+        // Edit mode keeps the stored file unless a replacement/link is provided.
+        if (!state.isEditMode && state.selectedFiles.isEmpty() && state.fileUrl.isBlank()) {
             _uiState.update { it.copy(fileError = "Please upload a file or provide a file URL") }
             hasError = true
         }
         if (hasError) return
+
+        if (state.isEditMode) {
+            submitEdit(context, state)
+            return
+        }
 
         _uiState.update { it.copy(isSubmitting = true, submitError = null, uploadProgress = 0f) }
 
@@ -250,6 +340,65 @@ class UploadViewModel @Inject constructor(
                 }
             } catch (e: Exception) {
                 _uiState.update { it.copy(isSubmitting = false, submitError = ApiErrorMapper.mapException(e)) }
+            }
+        }
+    }
+
+    /** Edit mode submit — one multipart PATCH covering everything the wizard can set. */
+    private fun submitEdit(context: Context, state: UploadFormState) {
+        val resourceId = editResourceId ?: return
+        _uiState.update { it.copy(isSubmitting = true, submitError = null, uploadProgress = 0f) }
+        viewModelScope.launch {
+            try {
+                val fields = linkedMapOf<String, RequestBody>(
+                    "title" to state.title.toRequestBody(TEXT_PLAIN),
+                    "subject" to state.subject.toRequestBody(TEXT_PLAIN),
+                    "description" to state.description.toRequestBody(TEXT_PLAIN),
+                    "grade_level" to state.gradeLevel.toRequestBody(TEXT_PLAIN),
+                    "type" to state.type.ifBlank { "PDF" }.toRequestBody(TEXT_PLAIN),
+                    "exam_type" to state.examType.toRequestBody(TEXT_PLAIN),
+                    "faculty" to state.faculty.toRequestBody(TEXT_PLAIN),
+                    "program" to state.program.toRequestBody(TEXT_PLAIN),
+                    "year" to state.year.toRequestBody(TEXT_PLAIN),
+                    "school" to state.school.toRequestBody(TEXT_PLAIN),
+                    "pradesh" to state.pradesh.toRequestBody(TEXT_PLAIN),
+                    "district" to state.district.toRequestBody(TEXT_PLAIN),
+                    "tags" to state.tags.toRequestBody(TEXT_PLAIN),
+                    "author_name" to state.authorName.toRequestBody(TEXT_PLAIN),
+                    "source_label" to state.sourceLabel.toRequestBody(TEXT_PLAIN),
+                    "source_url" to state.sourceUrl.toRequestBody(TEXT_PLAIN)
+                )
+                // Link: only PATCH when edited — a blank untouched field must never wipe an upload.
+                if (state.fileUrlDirty) fields["file_url"] = state.fileUrl.toRequestBody(TEXT_PLAIN)
+                // Cover: manual upload wins; then a fresh URL; a cleared URL removes the cover.
+                if (state.thumbnailDirty) fields["thumbnail_url"] = state.thumbnailUrl.toRequestBody(TEXT_PLAIN)
+
+                val replacement = state.selectedFiles.firstOrNull()
+                val filePart = replacement?.let { selected ->
+                    val file = uriToFile(context, selected.uri, selected.name)
+                        ?: throw IllegalStateException("Couldn't read the selected file")
+                    MultipartBody.Part.createFormData("file", file.name, file.asRequestBody(contentTypeFromName(file.name)))
+                }
+                val thumbnailPart = state.thumbnailUri?.let { uri ->
+                    buildThumbnailPart(context, uri, "cover")
+                }
+
+                resourceRepository.updateResource(
+                    resourceId = resourceId,
+                    fields = fields,
+                    filePart = filePart,
+                    thumbnailPart = thumbnailPart
+                ).onSuccess {
+                    _uiState.update { it.copy(isSubmitting = false, uploadProgress = 1f, editSuccess = true) }
+                }.onFailure { e ->
+                    _uiState.update {
+                        it.copy(isSubmitting = false, submitError = ApiErrorMapper.mapException(e))
+                    }
+                }
+            } catch (e: Exception) {
+                _uiState.update {
+                    it.copy(isSubmitting = false, submitError = ApiErrorMapper.mapException(e))
+                }
             }
         }
     }

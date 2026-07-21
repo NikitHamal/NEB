@@ -17,8 +17,10 @@ import com.neb.ians.data.repository.ForumRepository
 import com.neb.ians.ui.components.PollUi
 import com.neb.ians.ui.components.toPollUi
 import com.neb.ians.ui.components.applyMention
+import com.neb.ians.ui.components.formatVoiceTime
 import com.neb.ians.ui.components.mentionQueryAt
 import dagger.hilt.android.lifecycle.HiltViewModel
+import java.io.File
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -502,6 +504,10 @@ class PostDetailViewModel @Inject constructor(
         _composerAnonymous.value = anonymous
     }
 
+    fun showSnackbar(message: String) {
+        _state.update { it.copy(snackbarMessage = message) }
+    }
+
     fun addMediaAttachments(uris: List<Uri>) {
         uris.forEach { uri -> addMediaAttachment(uri) }
     }
@@ -549,6 +555,39 @@ class PostDetailViewModel @Inject constructor(
 
     fun removeMediaAttachment(localId: String) {
         _mediaAttachments.update { attachments -> attachments.filterNot { it.localId == localId } }
+    }
+
+    /** Stage a finished voice-note recording as an audio attachment on the reply composer. */
+    fun addVoiceNote(file: File, durationMs: Long) {
+        val current = _mediaAttachments.value
+        if (current.size >= ForumMediaUploadHelper.MAX_ATTACHMENTS) {
+            _state.update { it.copy(snackbarMessage = "Maximum ${ForumMediaUploadHelper.MAX_ATTACHMENTS} attachments") }
+            return
+        }
+        val uri = Uri.fromFile(file)
+        val name = "Voice note (${formatVoiceTime(durationMs)})"
+        val pending = PendingForumAttachment(
+            name = name,
+            kind = "audio",
+            sizeBytes = file.length(),
+            uri = uri
+        )
+        _mediaAttachments.update { it + pending }
+        viewModelScope.launch {
+            val result = mediaUploadHelper.upload(uri, "audio", name)
+            _mediaAttachments.update { attachments ->
+                attachments.map { att ->
+                    if (att.localId != pending.localId) att
+                    else result.fold(
+                        onSuccess = { descriptor -> att.copy(uploading = false, uploaded = descriptor) },
+                        onFailure = { e -> att.copy(uploading = false, error = e.message ?: "Upload failed") }
+                    )
+                }
+            }
+            result.exceptionOrNull()?.let { e ->
+                _state.update { it.copy(snackbarMessage = e.message ?: "Couldn't upload voice note") }
+            }
+        }
     }
 
     fun onMainReplyChange(value: TextFieldValue) {
@@ -614,8 +653,8 @@ class PostDetailViewModel @Inject constructor(
         parentReplyId: String?,
         onSuccess: () -> Unit
     ) {
-        if (content.isBlank() || _isSubmittingReply.value) return
         val staged = _mediaAttachments.value
+        if ((content.isBlank() && staged.isEmpty()) || _isSubmittingReply.value) return
         if (staged.any { it.uploading }) {
             _state.update { it.copy(snackbarMessage = "Wait for attachments to finish uploading") }
             return
@@ -626,7 +665,7 @@ class PostDetailViewModel @Inject constructor(
             _isSubmittingReply.value = true
             forumRepository.createReply(
                 postId = postId,
-                content = content,
+                content = content.trim(),
                 parentReplyId = parentReplyId,
                 isAnonymous = isAnonymous,
                 attachments = attachments

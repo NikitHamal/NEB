@@ -32,8 +32,10 @@ import androidx.compose.material.icons.filled.ThumbUp
 import androidx.compose.material.icons.filled.Upload
 import androidx.compose.material.icons.outlined.ChatBubbleOutline
 import androidx.compose.material.icons.outlined.MusicNote
+import androidx.compose.material.icons.outlined.PhotoLibrary
 import androidx.compose.material.icons.outlined.Poll
 import androidx.compose.material.icons.outlined.ThumbUp
+import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -54,15 +56,12 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
 import com.neb.ians.data.api.ApiPost
 import com.neb.ians.data.api.ApiResource
 import com.neb.ians.data.api.ApiSuggestedItem
-import com.neb.ians.ui.components.ResourceArt
 import com.neb.ians.ui.components.WebPillShape
 import com.neb.ians.ui.components.WebResourceCard
 import com.neb.ians.ui.components.compactCount
-import com.neb.ians.ui.components.resolveMediaUrl
 import com.neb.ians.ui.theme.getSubjectTheme
 import com.neb.ians.util.formatTimeAgo
 import com.neb.ians.util.getSubjectColor
@@ -378,10 +377,12 @@ internal fun HomeSuggestedDeck(
 }
 
 /**
- * Full discussion card for the suggested rail: media cover (photo / video /
- * audio / poll / discussion art), floating like chip with liked/unliked state,
- * category pill, two-line title, author and reply·view stats — the same
- * building blocks and exact heights as [WebResourceCard].
+ * Discussion card for the suggested rail: a *distinct forum-post layout* — no
+ * cover/banner art — while keeping the exact same outer size as the resource
+ * cards in the row (248.dp wide, same total height as [WebResourceCard]'s
+ * 110.dp cover + content rows). Shows category + like state up top, a bold
+ * title, a content excerpt, media-kind indicator pills (video / audio / poll /
+ * photos), and the author · replies · views footer of a forum post.
  */
 @Composable
 private fun SuggestedPostCard(
@@ -391,188 +392,140 @@ private fun SuggestedPostCard(
 ) {
     val category = post.category.ifBlank { "General" }
     val categoryTheme = getSubjectTheme(category)
-    val firstImage = remember(post.images) {
-        post.images.minByOrNull { it.order }?.imageUrl?.let { resolveMediaUrl(it) }
-    }
     val firstVideo = remember(post.attachments) { post.attachments.firstOrNull { it.kind == "video" } }
     val firstAudio = remember(post.attachments) { post.attachments.firstOrNull { it.kind == "audio" } }
     val hasPoll = post.poll != null
-    val mediaLabel = when {
-        firstVideo != null -> "VIDEO"
-        firstAudio != null -> "AUDIO"
-        hasPoll -> "POLL"
-        post.images.size > 1 -> "${post.images.size} PHOTOS"
-        else -> "POST"
-    }
     val liked = post.isThumbedUp
     val shape = RoundedCornerShape(24.dp)
+    val excerpt = remember(post.content) { post.content.replace('\n', ' ').trim() }
 
     Card(
         modifier = Modifier
             .width(248.dp)
+            // Mirrors the exact 110.dp-cover + content-rows total of WebResourceCard.
+            .height(247.dp)
             .clip(shape)
             .clickable(onClick = onClick),
         shape = shape,
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest),
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
     ) {
-        // ----- Media cover (110.dp — same as WebResourceCard) -----
-        Box(
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .height(110.dp)
+                .fillMaxSize()
+                .padding(12.dp)
         ) {
-            if (firstImage != null) {
-                AsyncImage(
-                    model = firstImage,
-                    contentDescription = post.title,
-                    modifier = Modifier.fillMaxSize(),
-                    contentScale = ContentScale.Crop
-                )
-            } else {
-                ResourceArt(
-                    primary = categoryTheme.color,
-                    container = categoryTheme.container,
-                    modifier = Modifier.fillMaxSize()
-                )
-            }
-
-            // Center media affordance (mirror of the resource video overlay)
-            val centerIcon = when {
-                firstVideo != null -> Icons.Filled.PlayArrow
-                firstAudio != null -> Icons.Outlined.MusicNote
-                hasPoll -> Icons.Outlined.Poll
-                else -> null
-            }
-            if (centerIcon != null) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(Color.Black.copy(alpha = if (firstVideo != null) 0.22f else 0.08f)),
-                    contentAlignment = Alignment.Center
+            // ----- Header: category pill + like pill (forum-post style, no cover) -----
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(6.dp)
+            ) {
+                Surface(
+                    shape = WebPillShape,
+                    color = categoryTheme.container
                 ) {
-                    Surface(
-                        shape = CircleShape,
-                        color = Color.White.copy(alpha = 0.9f),
-                        shadowElevation = 4.dp
+                    Row(
+                        modifier = Modifier.padding(horizontal = 9.dp, vertical = 3.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
-                        Box(
-                            modifier = Modifier.size(40.dp),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Icon(
-                                imageVector = centerIcon,
-                                contentDescription = null,
-                                modifier = Modifier.size(if (firstVideo != null) 28.dp else 20.dp),
-                                tint = Color.Black
-                            )
-                        }
+                        Icon(
+                            imageVector = Icons.Filled.Forum,
+                            contentDescription = null,
+                            modifier = Modifier.size(11.dp),
+                            tint = categoryTheme.onContainer
+                        )
+                        Text(
+                            text = category.uppercase(),
+                            style = MaterialTheme.typography.labelSmall,
+                            fontWeight = FontWeight.Bold,
+                            color = categoryTheme.onContainer,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                            modifier = Modifier.width(max = 120.dp)
+                        )
+                    }
+                }
+                Spacer(modifier = Modifier.weight(1f))
+                // Like pill with liked/unliked state
+                Surface(
+                    onClick = onLikeClick,
+                    shape = WebPillShape,
+                    color = if (liked) categoryTheme.container
+                    else MaterialTheme.colorScheme.surfaceContainerLow,
+                    border = if (liked) null
+                    else BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.6f))
+                ) {
+                    Row(
+                        modifier = Modifier.padding(horizontal = 9.dp, vertical = 4.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(4.dp)
+                    ) {
+                        Icon(
+                            imageVector = if (liked) Icons.Filled.ThumbUp else Icons.Outlined.ThumbUp,
+                            contentDescription = if (liked) "Unlike" else "Like",
+                            modifier = Modifier.size(13.dp),
+                            tint = if (liked) categoryTheme.onContainer else MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                        Text(
+                            text = compactCount(post.thumbsUpCount),
+                            style = MaterialTheme.typography.labelSmall,
+                            fontWeight = FontWeight.Bold,
+                            color = if (liked) categoryTheme.onContainer else MaterialTheme.colorScheme.onSurfaceVariant
+                        )
                     }
                 }
             }
+            Spacer(modifier = Modifier.height(10.dp))
 
-            // Top-start media-type pill (mirrors the resource TYPE pill)
-            Surface(
-                modifier = Modifier
-                    .align(Alignment.TopStart)
-                    .padding(10.dp),
-                shape = WebPillShape,
-                color = MaterialTheme.colorScheme.surfaceContainerLowest.copy(alpha = 0.92f)
-            ) {
-                Text(
-                    text = mediaLabel,
-                    modifier = Modifier.padding(horizontal = 9.dp, vertical = 4.dp),
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    fontWeight = FontWeight.Bold,
-                    maxLines = 1
-                )
-            }
-
-            // Top-end floating like chip with liked/unliked state
-            Surface(
-                onClick = onLikeClick,
-                modifier = Modifier
-                    .align(Alignment.TopEnd)
-                    .padding(10.dp),
-                shape = WebPillShape,
-                color = MaterialTheme.colorScheme.surfaceContainerLowest.copy(alpha = 0.92f)
-            ) {
-                Row(
-                    modifier = Modifier.padding(horizontal = 9.dp, vertical = 4.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(4.dp)
-                ) {
-                    Icon(
-                        imageVector = if (liked) Icons.Filled.ThumbUp else Icons.Outlined.ThumbUp,
-                        contentDescription = if (liked) "Unlike" else "Like",
-                        modifier = Modifier.size(13.dp),
-                        tint = if (liked) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                    Text(
-                        text = compactCount(post.thumbsUpCount),
-                        style = MaterialTheme.typography.labelSmall,
-                        fontWeight = FontWeight.Bold,
-                        color = if (liked) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-            }
-
-            // Bottom-end category disc (mirrors the resource subject disc)
-            Surface(
-                modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .padding(10.dp)
-                    .size(28.dp),
-                shape = CircleShape,
-                color = categoryTheme.color,
-                shadowElevation = 2.dp
-            ) {
-                Box(
-                    contentAlignment = Alignment.Center,
-                    modifier = Modifier.fillMaxSize()
-                ) {
-                    Icon(
-                        imageVector = Icons.Filled.Forum,
-                        contentDescription = null,
-                        modifier = Modifier.size(14.dp),
-                        tint = Color.White
-                    )
-                }
-            }
-        }
-
-        // ----- Content rows (same heights/spacing as WebResourceCard) -----
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(12.dp)
-        ) {
-            Surface(
-                shape = WebPillShape,
-                color = categoryTheme.container
-            ) {
-                Text(
-                    text = category.uppercase(),
-                    modifier = Modifier.padding(horizontal = 9.dp, vertical = 3.dp),
-                    style = MaterialTheme.typography.labelSmall,
-                    fontWeight = FontWeight.Bold,
-                    color = categoryTheme.onContainer,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
-            }
-            Spacer(modifier = Modifier.height(8.dp))
+            // ----- Title -----
             Text(
                 text = post.title,
                 style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onSurface,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+
+            // ----- Excerpt (the "post body" feel the resource card lacks) -----
+            Text(
+                text = excerpt,
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 minLines = 2,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis
             )
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(10.dp))
+
+            // ----- Media-kind indicator pills -----
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(5.dp)
+            ) {
+                if (firstVideo != null) {
+                    PostKindPill(icon = Icons.Filled.PlayArrow, label = "VIDEO")
+                }
+                if (firstAudio != null) {
+                    PostKindPill(icon = Icons.Outlined.MusicNote, label = "AUDIO")
+                }
+                if (hasPoll) {
+                    PostKindPill(icon = Icons.Outlined.Poll, label = "POLL")
+                }
+                if (post.images.isNotEmpty()) {
+                    PostKindPill(
+                        icon = Icons.Outlined.PhotoLibrary,
+                        label = if (post.images.size > 1) "${post.images.size} PHOTOS" else "PHOTO"
+                    )
+                }
+            }
+            Spacer(modifier = Modifier.weight(1f))
+
+            // ----- Footer: author · time, replies · views -----
             Text(
                 text = (if (post.isAnonymous) "Anonymous Nebian" else post.authorName) +
                     " · " + formatTimeAgo(post.createdAt),
@@ -581,7 +534,7 @@ private fun SuggestedPostCard(
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
-            Spacer(modifier = Modifier.height(6.dp))
+            Spacer(modifier = Modifier.height(5.dp))
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(4.dp)
@@ -593,12 +546,55 @@ private fun SuggestedPostCard(
                     tint = MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 Text(
-                    text = "${post.replyCount} · ${compactCount(post.viewCount)} views",
+                    text = "${post.replyCount}",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    maxLines = 1
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Icon(
+                    imageVector = Icons.Outlined.Visibility,
+                    contentDescription = null,
+                    modifier = Modifier.size(14.dp),
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Text(
+                    text = "${compactCount(post.viewCount)} views",
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     maxLines = 1
                 )
             }
+        }
+    }
+}
+
+/** Small tinted pill marking a media kind attached to a forum post. */
+@Composable
+private fun PostKindPill(icon: ImageVector, label: String) {
+    Surface(
+        shape = WebPillShape,
+        color = MaterialTheme.colorScheme.surfaceContainerLow,
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.55f))
+    ) {
+        Row(
+            modifier = Modifier.padding(horizontal = 7.dp, vertical = 3.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(3.dp)
+        ) {
+            Icon(
+                imageVector = icon,
+                contentDescription = null,
+                modifier = Modifier.size(11.dp),
+                tint = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            Text(
+                text = label,
+                style = MaterialTheme.typography.labelSmall,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                maxLines = 1
+            )
         }
     }
 }

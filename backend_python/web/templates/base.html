@@ -318,6 +318,10 @@
       var el = e.target;
       if (el.tagName === 'TEXTAREA' && el.closest('.reply-input-wrapper')) {
         var wrapper = el.closest('.reply-input-wrapper');
+        if (wrapper.dataset.voiceInit) {
+          if (wrapper.__voice) wrapper.__voice.refresh();
+          return;
+        }
         var btn = wrapper.querySelector('.reply-send-btn');
         if (btn) {
           btn.disabled = !el.value.trim();
