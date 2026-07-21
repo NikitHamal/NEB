@@ -1,6 +1,5 @@
 package com.neb.ians.ui.screens.reader
 
-import android.view.SurfaceView
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -127,8 +126,15 @@ fun MiniMediaPlayer(
             ) {
                 if (uiState.isVideo) {
                     AndroidView(
-                        factory = { context -> SurfaceView(context) },
-                        update = { surface -> viewModel.getPlayer()?.setVideoSurfaceView(surface) },
+                        factory = { context ->
+                            androidx.media3.ui.PlayerView(context).apply {
+                                useController = false
+                                resizeMode = androidx.media3.ui.AspectRatioFrameLayout.RESIZE_MODE_FIT
+                                setShutterBackgroundColor(android.graphics.Color.TRANSPARENT)
+                                player = viewModel.getPlayer()
+                            }
+                        },
+                        update = { pv -> pv.player = viewModel.getPlayer() },
                         modifier = Modifier
                             .fillMaxHeight()
                             .aspectRatio(16f / 9f)

@@ -571,6 +571,18 @@ def save_forum_media_upload(request, file_obj) -> dict:
         )
     kind, mime = kind_mime
 
+    # Voice-note hint: browser/app recorders produce audio-only webm/mp4
+    # containers that extension-based mapping would class as video. An explicit
+    # kind_hint=audio field reclasses them (sniff check below still validates).
+    kind_hint = ''
+    try:
+        kind_hint = str(request.data.get('kind_hint', '') or '').strip().lower()
+    except Exception:
+        kind_hint = ''
+    if kind_hint == 'audio' and ext in ('.webm', '.mp4', '.m4v'):
+        kind = 'audio'
+        mime = 'audio/webm' if ext == '.webm' else 'audio/mp4'
+
     per_kind_limit = {
         'video': FORUM_MEDIA_MAX_VIDEO_BYTES,
         'audio': FORUM_MEDIA_MAX_AUDIO_BYTES,
@@ -597,10 +609,12 @@ def save_forum_media_upload(request, file_obj) -> dict:
         sniffed_kind, sniffed_mime = sniffed
         # Office files are zips; allow zip detection for office extensions.
         office_exts = ('.docx', '.pptx', '.xlsx')
+        hinted_audio = kind_hint == 'audio' and kind == 'audio'
         if not (sniffed_kind == kind or (ext in office_exts and sniffed_mime == 'application/zip')
-                or (ext == '.m4a' and sniffed_kind == 'video')):
+                or (ext == '.m4a' and sniffed_kind == 'video')
+                or (hinted_audio and sniffed_mime in ('video/webm', 'video/mp4'))):
             raise ValidationError('File content does not match its extension.')
-        if ext not in office_exts:
+        if ext not in office_exts and not hinted_audio:
             mime = sniffed_mime
 
     import secrets as _secrets

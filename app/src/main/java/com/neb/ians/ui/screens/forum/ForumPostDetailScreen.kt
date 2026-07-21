@@ -106,9 +106,13 @@ import com.neb.ians.ui.components.MentionsVisualTransformation
 import com.neb.ians.ui.components.MentionSuggestions
 import com.neb.ians.ui.components.CommentCard
 import com.neb.ians.ui.components.CommentSortPillsRow
+import com.neb.ians.ui.components.ComposerAnonymousButton
+import com.neb.ians.ui.components.ComposerAttachButton
+import com.neb.ians.ui.components.ComposerAttachmentChips
 import com.neb.ians.ui.components.ForumAttachmentChip
 import com.neb.ians.ui.components.ForumMediaAttachments
 import com.neb.ians.ui.components.NebCommentComposerBar
+import com.neb.ians.ui.components.rememberVoiceNoteRecorder
 import com.neb.ians.ui.theme.getSubjectTheme
 import com.neb.ians.util.formatTimeAgo
 
@@ -134,6 +138,11 @@ fun ForumPostDetailScreen(
     val composerMediaPicker = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.OpenMultipleDocuments()
     ) { uris -> if (!uris.isNullOrEmpty()) viewModel.addMediaAttachments(uris) }
+
+    val voiceNote = rememberVoiceNoteRecorder(
+        onVoiceNote = { file, durationMs -> viewModel.addVoiceNote(file, durationMs) },
+        onError = viewModel::showSnackbar
+    )
 
     val context = LocalContext.current
     val snackbarHostState = remember { SnackbarHostState() }
@@ -191,8 +200,9 @@ fun ForumPostDetailScreen(
                     onValueChange = viewModel::onMainReplyChange,
                     placeholder = "Write a comment...",
                     enabled = !isSubmittingReply,
-                    canSend = mainReplyText.text.isNotBlank() && !isSubmittingReply,
+                    canSend = (mainReplyText.text.isNotBlank() || composerMediaAttachments.isNotEmpty()) && !isSubmittingReply,
                     posting = isSubmittingReply,
+                    voiceNote = voiceNote,
                     textFieldModifier = Modifier.focusRequester(mainFocusRequester),
                     visualTransformation = MentionsVisualTransformation(MaterialTheme.colorScheme.primary),
                     leadingContent = {
@@ -217,7 +227,7 @@ fun ForumPostDetailScreen(
                         )
                     }
                 ) {
-                    ReplyComposerAttachmentChips(
+                    ComposerAttachmentChips(
                         attachments = composerMediaAttachments,
                         onRemoveAttachment = viewModel::removeMediaAttachment
                     )
@@ -633,8 +643,9 @@ fun ForumPostDetailScreen(
                         onValueChange = viewModel::onThreadReplyChange,
                         placeholder = if (activeThreadTargetReply != null) "Reply to @${activeThreadTargetReply?.authorName}..." else "Write a reply...",
                         enabled = !isSubmittingReply,
-                        canSend = threadReplyText.text.isNotBlank() && !isSubmittingReply,
+                        canSend = (threadReplyText.text.isNotBlank() || composerMediaAttachments.isNotEmpty()) && !isSubmittingReply,
                         posting = isSubmittingReply,
+                        voiceNote = voiceNote,
                         visualTransformation = MentionsVisualTransformation(MaterialTheme.colorScheme.primary),
                         leadingContent = {
                             ComposerAttachButton(
@@ -660,7 +671,7 @@ fun ForumPostDetailScreen(
                             )
                         }
                     ) {
-                        ReplyComposerAttachmentChips(
+                        ComposerAttachmentChips(
                             attachments = composerMediaAttachments,
                             onRemoveAttachment = viewModel::removeMediaAttachment
                         )
@@ -979,88 +990,4 @@ private fun PostContentSection(
 }
 
 
-/**
- * Composer leading icon: a round "+" at the left corner of the comment bar
- * that opens the video/audio/file picker (attachments complement the text).
- */
-@Composable
-private fun ComposerAttachButton(enabled: Boolean, onClick: () -> Unit) {
-    IconButton(
-        onClick = onClick,
-        enabled = enabled,
-        modifier = Modifier.size(38.dp)
-    ) {
-        Icon(
-            imageVector = Icons.Filled.Add,
-            contentDescription = "Attach media",
-            tint = if (enabled) MaterialTheme.colorScheme.primary
-            else MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f)
-        )
-    }
-}
 
-/**
- * Incognito-style anonymous toggle sitting next to the attach icon inside the
- * comment bar — filled disc + tinted icon when anonymous posting is on,
- * outlined icon when off.
- */
-@Composable
-private fun ComposerAnonymousButton(
-    isAnonymous: Boolean,
-    enabled: Boolean,
-    onToggle: (Boolean) -> Unit
-) {
-    IconButton(
-        onClick = { onToggle(!isAnonymous) },
-        enabled = enabled,
-        modifier = Modifier.size(38.dp)
-    ) {
-        Box(
-            modifier = Modifier
-                .size(30.dp)
-                .background(
-                    if (isAnonymous) MaterialTheme.colorScheme.primary else Color.Transparent,
-                    CircleShape
-                )
-                .border(
-                    1.dp,
-                    if (isAnonymous) Color.Transparent else MaterialTheme.colorScheme.outlineVariant,
-                    CircleShape
-                ),
-            contentAlignment = Alignment.Center
-        ) {
-            Icon(
-                imageVector = if (isAnonymous) Icons.Filled.VisibilityOff else Icons.Outlined.VisibilityOff,
-                contentDescription = if (isAnonymous) "Anonymous mode on" else "Anonymous mode off",
-                tint = when {
-                    isAnonymous -> MaterialTheme.colorScheme.onPrimary
-                    enabled -> MaterialTheme.colorScheme.onSurfaceVariant
-                    else -> MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f)
-                },
-                modifier = Modifier.size(17.dp)
-            )
-        }
-    }
-}
-
-/** Pending attachment chips shown above the composer input once media is staged. */
-@Composable
-private fun ReplyComposerAttachmentChips(
-    attachments: List<PendingForumAttachment>,
-    onRemoveAttachment: (String) -> Unit
-) {
-    if (attachments.isEmpty()) return
-    Column(modifier = Modifier
-        .fillMaxWidth()
-        .padding(bottom = 4.dp)) {
-        attachments.forEach { attachment ->
-            ForumAttachmentChip(
-                attachment = attachment,
-                onRemove = { onRemoveAttachment(attachment.localId) },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 2.dp)
-            )
-        }
-    }
-}

@@ -9,6 +9,9 @@
     <!-- Notification permission (Android 13+) -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
+    <!-- Voice-note recording for comment composers -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
     <!-- Boot receiver for scheduling -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 

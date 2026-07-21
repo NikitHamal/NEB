@@ -33,6 +33,7 @@ import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.outlined.Description
 import androidx.compose.material.icons.outlined.Image
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -575,8 +576,12 @@ fun FilesStep(
         StepTitle(
             number = 2,
             title = "Files",
-            subtitle = "Upload or paste a link"
+            subtitle = if (uiState.isEditMode) "Replace the file or change the link"
+            else "Upload or paste a link"
         )
+        if (uiState.isEditMode) {
+            EditCurrentFileBanner(uiState)
+        }
         FileDropzone(
             selectedFiles = uiState.selectedFiles,
             fileError = uiState.fileError,
@@ -585,6 +590,46 @@ fun FilesStep(
             onClearFiles = onClearFiles
         )
         LinkAlternativeFields(uiState = uiState, viewModel = viewModel, onPickThumbnail = onPickThumbnail)
+    }
+}
+
+/** Shown in edit mode: what is stored today and how replacing works. */
+@Composable
+private fun EditCurrentFileBanner(uiState: UploadFormState) {
+    Surface(
+        shape = RoundedCornerShape(12.dp),
+        color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.45f),
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.25f))
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 12.dp, vertical = 10.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(10.dp)
+        ) {
+            Icon(
+                Icons.Outlined.Description,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.size(20.dp)
+            )
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = "Current: ${uiState.currentFileLabel}",
+                    style = MaterialTheme.typography.labelLarge,
+                    fontWeight = FontWeight.SemiBold,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+                Text(
+                    text = "Keep it as-is, pick a replacement file below, or change the link. A blank link never deletes your file.",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    maxLines = 3
+                )
+            }
+        }
     }
 }
 
@@ -832,9 +877,16 @@ fun ReviewStep(
             ReviewRow(label = "Grade", value = uiState.gradeLevel.ifBlank { "—" }, onEdit = { onEdit(0) })
             ReviewRow(
                 label = "Files",
-                value = if (uiState.selectedFiles.isNotEmpty())
-                    "${uiState.selectedFiles.size} file${if (uiState.selectedFiles.size == 1) "" else "s"}"
-                else uiState.fileUrl.ifBlank { "—" },
+                value = when {
+                    uiState.isEditMode && uiState.selectedFiles.isNotEmpty() ->
+                        "Replace with ${uiState.selectedFiles.first().name}"
+                    uiState.isEditMode && uiState.fileUrlDirty && uiState.fileUrl.isNotBlank() ->
+                        "New link: ${uiState.fileUrl}"
+                    uiState.isEditMode -> "Keep current (${uiState.currentFileLabel})"
+                    uiState.selectedFiles.isNotEmpty() ->
+                        "${uiState.selectedFiles.size} file${if (uiState.selectedFiles.size == 1) "" else "s"}"
+                    else -> uiState.fileUrl.ifBlank { "—" }
+                },
                 onEdit = { onEdit(1) }
             )
             ReviewRow(label = "Description", value = uiState.description.ifBlank { "—" }, onEdit = { onEdit(2) })
@@ -858,10 +910,12 @@ fun ReviewStep(
                     modifier = Modifier.size(20.dp)
                 )
                 Text(
-                    text = "Your upload will be reviewed before being published.",
+                    text = if (uiState.isEditMode)
+                        "Saving changes sends this resource back to review. It reappears publicly once re-approved."
+                    else "Your upload will be reviewed before being published.",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
-                    maxLines = 2,
+                    maxLines = 3,
                     overflow = TextOverflow.Ellipsis,
                     modifier = Modifier.weight(1f)
                 )

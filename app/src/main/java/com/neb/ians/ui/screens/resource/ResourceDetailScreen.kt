@@ -7,6 +7,8 @@ import android.view.View
 import android.view.WindowInsets
 import android.view.WindowInsetsController
 import androidx.activity.compose.BackHandler
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -61,11 +63,14 @@ import com.neb.ians.data.api.ApiResource
 import com.neb.ians.data.api.ApiResourceComment
 import com.neb.ians.ui.components.CommentCard
 import com.neb.ians.ui.components.CommentSortPillsRow
+import com.neb.ians.ui.components.ComposerAttachButton
+import com.neb.ians.ui.components.ComposerAttachmentChips
 import com.neb.ians.ui.components.ConfirmDeleteDialog
 import com.neb.ians.ui.components.ExpandableText
 import com.neb.ians.ui.components.NebAvatar
 import com.neb.ians.ui.components.NebCommentComposerBar
 import com.neb.ians.ui.components.NebTopBar
+import com.neb.ians.ui.components.rememberVoiceNoteRecorder
 import com.neb.ians.ui.components.ZoomableImageDialog
 import com.neb.ians.ui.screens.reader.MediaPlayerUiState
 import com.neb.ians.ui.screens.reader.MediaPlayerViewModel
@@ -94,6 +99,16 @@ fun ResourceDetailScreen(
     var activeThreadParentId by remember { mutableStateOf<String?>(null) }
     var activeThreadTargetId by remember { mutableStateOf<String?>(null) }
     var showResourceReportDialog by remember { mutableStateOf(false) }
+
+    // Composer attachments (files + voice notes) shared by the main bar and the thread sheet.
+    val commentAttachments by viewModel.commentAttachments.collectAsStateWithLifecycle()
+    val commentMediaPicker = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.OpenMultipleDocuments()
+    ) { uris -> if (!uris.isNullOrEmpty()) viewModel.addCommentAttachments(uris) }
+    val voiceNote = rememberVoiceNoteRecorder(
+        onVoiceNote = { file, durationMs -> viewModel.addCommentVoiceNote(file, durationMs) },
+        onError = { message -> viewModel.showSnackbar(message) }
+    )
 
     // Pick up fresh data after the owner editor (or any writer) returns.
     val resumeLifecycleOwner = LocalLifecycleOwner.current
@@ -232,11 +247,27 @@ fun ResourceDetailScreen(
                         onValueChange = viewModel::onCommentDraftChange,
                         placeholder = if (uiState.isAuthenticated) "Write a comment..." else "Sign in to comment",
                         enabled = uiState.isAuthenticated && !uiState.isPostingComment,
-                        canSend = uiState.isAuthenticated && uiState.commentDraft.isNotBlank() && !uiState.isPostingComment,
+                        canSend = uiState.isAuthenticated && (uiState.commentDraft.isNotBlank() || commentAttachments.isNotEmpty()) && !uiState.isPostingComment,
                         posting = uiState.isPostingComment,
                         sendContentDescription = "Post comment",
+                        voiceNote = if (uiState.isAuthenticated) voiceNote else null,
+                        leadingContent = if (uiState.isAuthenticated) {
+                            {
+                                ComposerAttachButton(
+                                    enabled = !uiState.isPostingComment,
+                                    onClick = {
+                                        commentMediaPicker.launch(arrayOf("video/*", "audio/*", "application/*", "text/*", "image/*"))
+                                    }
+                                )
+                            }
+                        } else null,
                         onSend = viewModel::postComment
-                    )
+                    ) {
+                        ComposerAttachmentChips(
+                            attachments = commentAttachments,
+                            onRemoveAttachment = viewModel::removeCommentAttachment
+                        )
+                    }
                 }
             },
             snackbarHost = { if (!isFullscreen) SnackbarHost(snackbarHostState) },
@@ -507,9 +538,18 @@ fun ResourceDetailScreen(
                                 onValueChange = viewModel::onThreadDraftChange,
                                 placeholder = if (replyTarget != null) "Reply to @${replyTarget.userName}..." else "Write a reply...",
                                 enabled = !uiState.isPostingComment,
-                                canSend = uiState.threadDraft.isNotBlank() && !uiState.isPostingComment,
+                                canSend = (uiState.threadDraft.isNotBlank() || commentAttachments.isNotEmpty()) && !uiState.isPostingComment,
                                 posting = uiState.isPostingComment,
                                 sendContentDescription = "Post reply",
+                                voiceNote = voiceNote,
+                                leadingContent = {
+                                    ComposerAttachButton(
+                                        enabled = !uiState.isPostingComment,
+                                        onClick = {
+                                            commentMediaPicker.launch(arrayOf("video/*", "audio/*", "application/*", "text/*", "image/*"))
+                                        }
+                                    )
+                                },
                                 onSend = {
                                     val targetId = activeThreadTargetId ?: parentId
                                     viewModel.postThreadReply(targetId) {
@@ -517,6 +557,10 @@ fun ResourceDetailScreen(
                                     }
                                 }
                             ) {
+                                ComposerAttachmentChips(
+                                    attachments = commentAttachments,
+                                    onRemoveAttachment = viewModel::removeCommentAttachment
+                                )
                                 replyTarget?.let { target ->
                                     if (target.id != parentId) {
                                         Row(
@@ -1059,9 +1103,16 @@ private fun FullscreenVideoOverlay(
         contentAlignment = Alignment.Center
     ) {
         AndroidView(
-            factory = { ctx -> android.view.SurfaceView(ctx) },
-            update = { sv -> player?.setVideoSurfaceView(sv) },
-            modifier = Modifier.aspectRatio(aspectRatio).align(Alignment.Center)
+            factory = { ctx ->
+                androidx.media3.ui.PlayerView(ctx).apply {
+                    useController = false
+                    resizeMode = androidx.media3.ui.AspectRatioFrameLayout.RESIZE_MODE_FIT
+                    setShutterBackgroundColor(android.graphics.Color.TRANSPARENT)
+                    this.player = player
+                }
+            },
+            update = { pv -> pv.player = player },
+            modifier = Modifier.fillMaxSize().align(Alignment.Center)
         )
 
         if (uiState.isBuffering) {

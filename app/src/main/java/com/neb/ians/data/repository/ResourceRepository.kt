@@ -275,12 +275,14 @@ class ResourceRepository @Inject constructor(
     suspend fun createComment(
         resourceId: String,
         content: String,
-        parentCommentId: String? = null
+        parentCommentId: String? = null,
+        attachments: List<com.neb.ians.data.api.ApiMediaAttachmentInput> = emptyList()
     ): Result<ApiResourceComment> {
         return try {
             val token = getBearerToken() ?: return Result.failure(IllegalStateException("Not authenticated"))
             val comment = apiService.createResourceComment(
-                token, resourceId, ApiResourceCommentCreateRequest(content, parentCommentId)
+                token, resourceId,
+                ApiResourceCommentCreateRequest(content, parentCommentId, attachments)
             )
             val updated = appCache.resourceComments[resourceId].orEmpty() + comment
             appCache.resourceComments[resourceId] = updated

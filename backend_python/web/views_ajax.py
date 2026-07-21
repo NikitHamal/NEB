@@ -69,8 +69,6 @@ def ajax_create_reply(request, post_id):
         parent_id = data.get('parentReplyId')
     except json.JSONDecodeError:
         return JsonResponse({'error': 'Invalid request'}, status=400)
-    if not content:
-        return JsonResponse({'error': 'Content required'}, status=400)
     if len(content) > 10000:
         return JsonResponse({'error': 'Content must be 10000 characters or fewer'}, status=400)
     if parent_id and not Reply.objects.filter(pk=parent_id, post_id=post_id).exists():
@@ -79,6 +77,7 @@ def ajax_create_reply(request, post_id):
     attachments, attach_error = _parse_web_attachments(data)
     if attach_error:
         return JsonResponse({'error': attach_error}, status=400)
+    # Voice notes / attachments can be the entire reply.
     if not attachments and not content:
         return JsonResponse({'error': 'Content required'}, status=400)
     result = services.create_reply(user, post_id, content, parent_id,
@@ -133,9 +132,13 @@ def ajax_resource_comment(request, resource_id):
         parent_id = data.get('parentCommentId')
     except json.JSONDecodeError:
         return JsonResponse({'error': 'Invalid request'}, status=400)
-    if not content:
+    attachments, attach_error = _parse_web_attachments(data)
+    if attach_error:
+        return JsonResponse({'error': attach_error}, status=400)
+    # Voice notes / attachments can be the entire comment.
+    if not attachments and not content:
         return JsonResponse({'error': 'Content required'}, status=400)
-    result = services.create_resource_comment(user, resource_id, content, parent_id)
+    result = services.create_resource_comment(user, resource_id, content, parent_id, attachments=attachments)
     if result:
         return JsonResponse(result, status=201)
     return JsonResponse({'error': 'Failed'}, status=500)
