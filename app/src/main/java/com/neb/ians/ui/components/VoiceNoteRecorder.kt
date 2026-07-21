@@ -84,17 +84,18 @@ class VoiceNoteRecorder internal constructor(
     fun start() {
         if (isRecording) return
         val file = File(context.cacheDir, "voice_${System.currentTimeMillis()}.m4a")
-        try {
-            val rec = if (Build.VERSION.SDK_INT >= 31) MediaRecorder(context) else @Suppress("DEPRECATION") MediaRecorder()
-            rec.setAudioSource(MediaRecorder.AudioSource.MIC)
-            rec.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
-            rec.setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
-            rec.setAudioChannels(1)
-            rec.setAudioSamplingRate(44100)
-            rec.setAudioEncodingBitRate(96000)
-            rec.setOutputFile(file.absolutePath)
-            rec.prepare()
-            rec.start()
+        val rec = try {
+            val r = if (Build.VERSION.SDK_INT >= 31) MediaRecorder(context) else @Suppress("DEPRECATION") MediaRecorder()
+            r.setAudioSource(MediaRecorder.AudioSource.MIC)
+            r.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
+            r.setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
+            r.setAudioChannels(1)
+            r.setAudioSamplingRate(44100)
+            r.setAudioEncodingBitRate(96000)
+            r.setOutputFile(file.absolutePath)
+            r.prepare()
+            r.start()
+            r
         } catch (e: Exception) {
             file.delete()
             onError("Couldn't start recording")
